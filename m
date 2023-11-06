@@ -2,87 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C16E7E1B8B
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 08:54:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 301D87E1B91
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 08:57:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4283110E274;
-	Mon,  6 Nov 2023 07:54:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE4CC10E277;
+	Mon,  6 Nov 2023 07:57:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF6BF10E274
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 07:54:26 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi
- [91.158.149.209])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 67CC3583;
- Mon,  6 Nov 2023 08:54:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1699257245;
- bh=AWiS/+jyJMw7C0hLOtwr+kKJPUeb1haOClFxpULuZmQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=bRNag+XLKR94Pj/WFtofhAXLUJHlB2O/+yrJ6QbX7x5cwiseopn8n2tGmpv3VwOZm
- x/UFvnQ6lhi6XmhAGoiNgKYCU3yUT3P0xQX5TaLVmKQhcF+rn2qEdVRPiZ23c1Pagr
- jFgEfyEYQxD84TboUBKY+Mvsqg1wXCge3Xa//rag=
-Message-ID: <c0c735f7-e00a-4574-9edc-07bc83012070@ideasonboard.com>
-Date: Mon, 6 Nov 2023 09:54:20 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/10] drm/tidss: Use PM autosuspend
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20231101-tidss-probe-v1-0-45149e0f9415@ideasonboard.com>
- <20231101-tidss-probe-v1-2-45149e0f9415@ideasonboard.com>
- <20231101135406.GR12764@pendragon.ideasonboard.com>
- <7395880d-36ba-471c-ba7c-745a0ec8e5de@ideasonboard.com>
- <20231105225330.GA15635@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20231105225330.GA15635@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
+ [IPv6:2607:f8b0:4864:20::b33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D39810E282;
+ Mon,  6 Nov 2023 07:57:13 +0000 (UTC)
+Received: by mail-yb1-xb33.google.com with SMTP id
+ 3f1490d57ef6-d9fdc712b8fso863198276.1; 
+ Sun, 05 Nov 2023 23:57:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1699257432; x=1699862232; darn=lists.freedesktop.org;
+ h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=A7KBI+A2N1jv19VQNdDId6WktaJuia3gLngVJR+3nUQ=;
+ b=QhifzaINxyzOhDn+S3a9cYIqH4VEo1ME6xzTVFWuJKFr0wvKAIzTMkWCzkoseFEkhV
+ 6HiCxMbbPxsMfzmHHwxwjHXW6XjI4lvXADblEW912bdakWJ6TJVGfQGrtdYb2QPnrkDe
+ ww/EN7e7V9Z7dz3JLtCURGzX490rfS1Qfxonh+mI7r09k3BoWzClIQBFg8N3eN9dTcGd
+ NfYWMT/fQxAyzxXNtyXLOkhAsSEt1dAvSgE73lDBgwWSrzEEWlAdv60ZdRii+0lAZLOS
+ 971Fuw2GA2i7+RnC5M/TIPqIYCNdJe9oAWcYoGT+xm00MyKKLgyIU/Zm6jnTgMg6YGXY
+ MIIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699257432; x=1699862232;
+ h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=A7KBI+A2N1jv19VQNdDId6WktaJuia3gLngVJR+3nUQ=;
+ b=fnZxnbkMLgTYTZel4U9/oKdkR+NDaXItxipbT5iTqT/SPpViz6HZpBu8wmpnO3tnNF
+ uiYTOH26YxlQEaL6NjThc/CKziGXMmX10rQDghdBz3LJdUuwljWYNZiGdwWSneJAFXKR
+ mmgzAOR3lG0+WBF3++VDA4SqU+8YtWtghkZ5MHkZ5JRq+UD6/T07+5fDtR5g2XRGpbS7
+ 1nOAUWJzO8Plpx8kT8kkJW5MWb6r2FVO0Fv+tr3/xEGzJd56PZfUnHKwG3Uu+iQf3vlr
+ 9E/US+w2l7F/lvzFH2ibKiY8EthCnevJPBuHDDY8Z6KbnDBTe8Z8//DiLmhqNSHsD44Z
+ ywxA==
+X-Gm-Message-State: AOJu0YwtVxOsf0h4M5j4ZrOPc6PcWhDqagDScurdTKozCKWq1XFlOl/C
+ CqMbeAml5M/8aThsZqbcf0DB5YhN56Qe4Ijz
+X-Google-Smtp-Source: AGHT+IHQAbjy+71/LNZ7oTXDZgesG4L77tHpgZG2o1r2sjlmhlOy3ALVC1AMd07raHwS5CnzOYdP2g==
+X-Received: by 2002:a25:1189:0:b0:da6:e755:b530 with SMTP id
+ 131-20020a251189000000b00da6e755b530mr4234420ybr.6.1699257432105; 
+ Sun, 05 Nov 2023 23:57:12 -0800 (PST)
+Received: from smtpclient.apple (zz20184013906F627101.userreverse.dion.ne.jp.
+ [111.98.113.1]) by smtp.gmail.com with ESMTPSA id
+ t8-20020a056a00138800b0068be4ce33easm5242979pfg.96.2023.11.05.23.57.10
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 05 Nov 2023 23:57:11 -0800 (PST)
+From: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>
+Message-Id: <7BE47209-2D0C-4E21-8CFB-418D5FA4759C@gmail.com>
+Content-Type: multipart/alternative;
+ boundary="Apple-Mail=_DDED267B-D370-4067-8D3C-231BCBAE388A"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
+Subject: Re: [PATCH 3/6] drm/amdgpu: Flush VM updates for split bindings
+ eagerly.
+Date: Mon, 6 Nov 2023 16:56:57 +0900
+In-Reply-To: <ffafa427-e755-4f86-8aab-8e69ef63325a@amd.com>
+To: =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20231031134059.171277-1-ishitatsuyuki@gmail.com>
+ <20231031134059.171277-4-ishitatsuyuki@gmail.com>
+ <30bcd9b7-903d-435e-9318-346777a3fd55@amd.com>
+ <CAP+8YyFEKDGPCvA-puUBHNXcrEX4rXOJz=WkBpJyJrmqZ=rtMA@mail.gmail.com>
+ <ffafa427-e755-4f86-8aab-8e69ef63325a@amd.com>
+X-Mailer: Apple Mail (2.3774.200.91.1.1)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,121 +77,961 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Sakari Ailus <sakari.ailus@iki.fi>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Jyri Sarha <jyri.sarha@iki.fi>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/11/2023 00:53, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> CC'ing Sakari for his expertise on runtime PM (I think he will soon
-> start wishing he would be ignorant in this area).
-> 
-> On Thu, Nov 02, 2023 at 08:34:45AM +0200, Tomi Valkeinen wrote:
->> On 01/11/2023 15:54, Laurent Pinchart wrote:
->>> On Wed, Nov 01, 2023 at 11:17:39AM +0200, Tomi Valkeinen wrote:
->>>> Use runtime PM autosuspend feature, with 1s timeout, to avoid
->>>> unnecessary suspend-resume cycles when, e.g. the userspace temporarily
->>>> turns off the crtcs when configuring the outputs.
->>>>
->>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>> ---
->>>>    drivers/gpu/drm/tidss/tidss_drv.c | 8 +++++++-
->>>>    1 file changed, 7 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
->>>> index f403db11b846..64914331715a 100644
->>>> --- a/drivers/gpu/drm/tidss/tidss_drv.c
->>>> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
->>>> @@ -43,7 +43,9 @@ void tidss_runtime_put(struct tidss_device *tidss)
->>>>    
->>>>    	dev_dbg(tidss->dev, "%s\n", __func__);
->>>>    
->>>> -	r = pm_runtime_put_sync(tidss->dev);
->>>> +	pm_runtime_mark_last_busy(tidss->dev);
->>>> +
->>>> +	r = pm_runtime_put_autosuspend(tidss->dev);
->>>>    	WARN_ON(r < 0);
->>>>    }
->>>>    
->>>> @@ -144,6 +146,9 @@ static int tidss_probe(struct platform_device *pdev)
->>>>    
->>>>    	pm_runtime_enable(dev);
->>>>    
->>>> +	pm_runtime_set_autosuspend_delay(dev, 1000);
->>>> +	pm_runtime_use_autosuspend(dev);
->>>> +
->>>>    #ifndef CONFIG_PM
->>>>    	/* If we don't have PM, we need to call resume manually */
->>>>    	dispc_runtime_resume(tidss->dispc);
->>>
->>> By the way, there's a way to handle this without any ifdef:
->>>
->>> 	dispc_runtime_resume(tidss->dispc);
->>>
->>> 	pm_runtime_set_active(dev);
->>> 	pm_runtime_get_noresume(dev);
->>> 	pm_runtime_enable(dev);
->>> 	pm_runtime_set_autosuspend_delay(dev, 1000);
->>> 	pm_runtime_use_autosuspend(dev);
->>
->> I'm not sure I follow what you are trying to do here. The call to
->> dispc_runtime_resume() would crash if we have PM, as the HW would not be
->> enabled at that point.
-> 
-> Isn't dispc_runtime_resume() meant to enable the hardware ?
-> 
-> The idea is to enable the hardware, then enable runtime PM, and tell the
-> runtime PM framework that the device is enabled. If CONFIG_PM is not
-> set, the RPM calls will be no-ops, and the device will stay enable. If
-> CONFIG_PM is set, the device will be enabled, and will get disabled at
-> end of probe by a call to pm_runtime_put_autosuspend().
 
-(The text below is more about the end result of this series, rather than 
-this specific patch):
+--Apple-Mail=_DDED267B-D370-4067-8D3C-231BCBAE388A
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-Hmm, no, I don't think that's how it works. My understanding is this:
 
-There are multiple parts "enabling the hardware", and I think they 
-usually need to be done in this order: 1) enabling the parent devices, 
-2) system level HW module enable (this is possibly really part of the 
-1), 3) clk/regulator/register setup.
+> On Oct 31, 2023, at 23:07, Christian K=C3=B6nig =
+<christian.koenig@amd.com> wrote:
+>=20
+> Am 31.10.23 um 14:59 schrieb Bas Nieuwenhuizen:
+>>=20
+>>=20
+>> On Tue, Oct 31, 2023 at 2:57=E2=80=AFPM Christian K=C3=B6nig =
+<christian.koenig@amd.com <mailto:christian.koenig@amd.com>> wrote:
+>>> Am 31.10.23 um 14:40 schrieb Tatsuyuki Ishi:
+>>> > The current amdgpu_gem_va_update_vm only tries to perform updates =
+for the
+>>> > BO specified in the GEM ioctl; however, when a binding is split, =
+the
+>>> > adjacent bindings also need to be updated. Such updates currently =
+ends up
+>>> > getting deferred until next submission which causes stalls.
+>>>=20
+>>> Yeah, that is a necessity. The hardware simply doesn't support what =
+you=20
+>>> try to do here in all cases.
+>>=20
+>> What can the hardware not do here? Is this just needing to wait for =
+TLB flushes before we can free pagetables, can we just delay that?
+>=20
+> On some hardware generations (especially Navi1x, but also everything =
+older than Polaris) you can't invalidate the TLB while it is in use.
+>=20
+> For Polaris and older it just means that you don't have a guarantee =
+that the shader can't access the memory any more. So delaying the free =
+operation helps here.
+>=20
+> But for Navi1x it's a workaround for a hardware bug. If you try to =
+invalidate the TLB while it is in use you can potentially triggering =
+memory accesses to random addresses.
+>=20
+> That's why we still delay TLB invalidation's to the next CS and use a =
+new VMID for each submission instead of invalidating the old one.
 
-3) is handled by the driver, but 1) and 2) are handled via the runtime 
-PM framework. Calling dispc_runtime_resume() as the first thing could 
-mean that DSS's parents are not enabled or that the DSS HW module is not 
-enabled at the system control level.
+Thanks for the information. I looked into the VMID allocation logic and =
+I see that if concurrent_flush is false, then we defer any flush (or =
+VMID reuse that requires a flush) until that VMID is idle.
 
-That's why I first call pm_runtime_set_active(), which should handle 1) 
-and 2).
+What patch #3 ends up doing is just performing the PT update right away. =
+Any required TLB update is deferred by amdgpu_vm_update_range through =
+the increment of tlb_seq, and amdgpu_vmid.c is responsible for doing the =
+actual TLB flush in a manner that does not trigger the bug.
 
-The only thing dispc_runtime_resume() does wrt. enabling the hardware is 
-enabling the fclk. It does a lot more, but all the rest is just 
-configuring the hardware to settings that we always want to use (e.g. 
-fifo management).
+Can you confirm that this would be fine for the current hardware?
 
-Now, if the bootloader had enabled the display, and the driver did:
+Tatsuyuki.
 
-- pm_runtime_enable()
-- pm_runtime_get()
-- dispc_reset()
+>=20
+> I'm currently working on changing that for Navi2x and newer (maybe =
+Vega as well), but this is something you can really only do on some hw =
+generations after validating that it works.
+>=20
+> Regards,
+> Christian.=20
+>=20
+>> =20
+>>>=20
+>>> So this approach won't work in general.
+>>>=20
+>>> Regards,
+>>> Christian.
+>>>=20
+>>> >
+>>> > Introduce a new state "dirty", shared between per-VM BOs and =
+traditional
+>>> > BOs, containing all BOs that have pending updates in `invalids`.
+>>> > amdgpu_gem_va_update_vm will now simply flush any pending updates =
+for BOs
+>>> > in the dirty state.
+>>> >
+>>> > Signed-off-by: Tatsuyuki Ishi <ishitatsuyuki@gmail.com =
+<mailto:ishitatsuyuki@gmail.com>>
+>>> > ---
+>>> >   drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c | 18 ++++---
+>>> >   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c  | 66 =
+++++++++++++++++++-------
+>>> >   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h  |  3 ++
+>>> >   3 files changed, 63 insertions(+), 24 deletions(-)
+>>> >
+>>> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c =
+b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+>>> > index a1b15d0d6c48..01d3a97248b0 100644
+>>> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+>>> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+>>> > @@ -604,10 +604,9 @@ int amdgpu_gem_metadata_ioctl(struct =
+drm_device *dev, void *data,
+>>> >    * vital here, so they are not reported back to userspace.
+>>> >    */
+>>> >   static void amdgpu_gem_va_update_vm(struct amdgpu_device *adev,
+>>> > -                                 struct amdgpu_vm *vm,
+>>> > -                                 struct amdgpu_bo_va *bo_va,
+>>> > -                                 uint32_t operation)
+>>> > +                                 struct amdgpu_vm *vm)
+>>> >   {
+>>> > +     struct amdgpu_bo_va *bo_va;
+>>> >       int r;
+>>> >  =20
+>>> >       if (!amdgpu_vm_ready(vm))
+>>> > @@ -617,12 +616,18 @@ static void amdgpu_gem_va_update_vm(struct =
+amdgpu_device *adev,
+>>> >       if (r)
+>>> >               goto error;
+>>> >  =20
+>>> > -     if (operation =3D=3D AMDGPU_VA_OP_MAP ||
+>>> > -         operation =3D=3D AMDGPU_VA_OP_REPLACE) {
+>>> > +     spin_lock(&vm->status_lock);
+>>> > +     while (!list_empty(&vm->dirty)) {
+>>> > +             bo_va =3D list_first_entry(&vm->dirty, struct =
+amdgpu_bo_va,
+>>> > +                                      base.vm_status);
+>>> > +             spin_unlock(&vm->status_lock);
+>>> > +
+>>> >               r =3D amdgpu_vm_bo_update(adev, bo_va, false);
+>>> >               if (r)
+>>> >                       goto error;
+>>> > +             spin_lock(&vm->status_lock);
+>>> >       }
+>>> > +     spin_unlock(&vm->status_lock);
+>>> >  =20
+>>> >       r =3D amdgpu_vm_update_pdes(adev, vm, false);
+>>> >  =20
+>>> > @@ -792,8 +797,7 @@ int amdgpu_gem_va_ioctl(struct drm_device =
+*dev, void *data,
+>>> >               break;
+>>> >       }
+>>> >       if (!r && !(args->flags & AMDGPU_VM_DELAY_UPDATE) && =
+!amdgpu_vm_debug)
+>>> > -             amdgpu_gem_va_update_vm(adev, &fpriv->vm, bo_va,
+>>> > -                                     args->operation);
+>>> > +             amdgpu_gem_va_update_vm(adev, &fpriv->vm);
+>>> >  =20
+>>> >   error:
+>>> >       drm_exec_fini(&exec);
+>>> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c =
+b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>>> > index dd6f72e2a1d6..01d31891cd05 100644
+>>> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>>> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+>>> > @@ -191,6 +191,21 @@ static void amdgpu_vm_bo_set_evicted(struct =
+amdgpu_vm_bo_base *vm_bo, bool evict
+>>> >       spin_unlock(&vm_bo->vm->status_lock);
+>>> >   }
+>>> >  =20
+>>> > +/**
+>>> > + * amdgpu_vm_bo_dirty - vm_bo is dirty
+>>> > + *
+>>> > + * @vm_bo: vm_bo which is dirty
+>>> > + *
+>>> > + * State for normal and per VM BOs that are not moved, but have =
+new entries in
+>>> > + * bo_va->invalids.
+>>> > + */
+>>> > +static void amdgpu_vm_bo_dirty(struct amdgpu_vm_bo_base *vm_bo)
+>>> > +{
+>>> > +     spin_lock(&vm_bo->vm->status_lock);
+>>> > +     list_move(&vm_bo->vm_status, &vm_bo->vm->dirty);
+>>> > +     spin_unlock(&vm_bo->vm->status_lock);
+>>> > +}
+>>> > +
+>>> >   /**
+>>> >    * amdgpu_vm_bo_moved - vm_bo is moved
+>>> >    *
+>>> > @@ -1042,6 +1057,9 @@ void amdgpu_vm_get_memory(struct amdgpu_vm =
+*vm,
+>>> >       list_for_each_entry_safe(bo_va, tmp, &vm->evicted, =
+base.eviction_status)
+>>> >               amdgpu_vm_bo_get_memory(bo_va, stats);
+>>> >  =20
+>>> > +     list_for_each_entry_safe(bo_va, tmp, &vm->dirty, =
+base.vm_status)
+>>> > +             amdgpu_vm_bo_get_memory(bo_va, stats);
+>>> > +
+>>> >       list_for_each_entry_safe(bo_va, tmp, &vm->relocated, =
+base.vm_status)
+>>> >               amdgpu_vm_bo_get_memory(bo_va, stats);
+>>> >  =20
+>>> > @@ -1411,6 +1429,17 @@ int amdgpu_vm_handle_moved(struct =
+amdgpu_device *adev,
+>>> >                       dma_resv_unlock(resv);
+>>> >               spin_lock(&vm->status_lock);
+>>> >       }
+>>> > +
+>>> > +     while (!list_empty(&vm->dirty)) {
+>>> > +             bo_va =3D list_first_entry(&vm->dirty, struct =
+amdgpu_bo_va,
+>>> > +                                      base.vm_status);
+>>> > +             spin_unlock(&vm->status_lock);
+>>> > +
+>>> > +             r =3D amdgpu_vm_bo_update(adev, bo_va, false);
+>>> > +             if (r)
+>>> > +                     return r;
+>>> > +             spin_lock(&vm->status_lock);
+>>> > +     }
+>>> >       spin_unlock(&vm->status_lock);
+>>> >  =20
+>>> >       return 0;
+>>> > @@ -1476,19 +1505,16 @@ static void amdgpu_vm_bo_insert_map(struct =
+amdgpu_device *adev,
+>>> >                                   struct amdgpu_bo_va_mapping =
+*mapping)
+>>> >   {
+>>> >       struct amdgpu_vm *vm =3D bo_va->base.vm;
+>>> > -     struct amdgpu_bo *bo =3D bo_va->base.bo <http://base.bo/>;
+>>> >  =20
+>>> >       mapping->bo_va =3D bo_va;
+>>> >       list_add(&mapping->list, &bo_va->invalids);
+>>> >       amdgpu_vm_it_insert(mapping, &vm->va);
+>>> > +     if (!bo_va->base.moved)
+>>> > +             amdgpu_vm_bo_dirty(&bo_va->base);
+>>> >  =20
+>>> >       if (mapping->flags & AMDGPU_PTE_PRT)
+>>> >               amdgpu_vm_prt_get(adev);
+>>> >  =20
+>>> > -     if (bo && bo->tbo.base.resv =3D=3D =
+vm->root.bo->tbo.base.resv &&
+>>> > -         !bo_va->base.moved) {
+>>> > -             amdgpu_vm_bo_moved(&bo_va->base);
+>>> > -     }
+>>> >       trace_amdgpu_vm_bo_map(bo_va, mapping);
+>>> >   }
+>>> >  =20
+>>> > @@ -1725,6 +1751,8 @@ int amdgpu_vm_bo_clear_mappings(struct =
+amdgpu_device *adev,
+>>> >                       before->flags =3D tmp->flags;
+>>> >                       before->bo_va =3D tmp->bo_va;
+>>> >                       list_add(&before->list, =
+&tmp->bo_va->invalids);
+>>> > +                     if (!tmp->bo_va->base.moved)
+>>> > +                             =
+amdgpu_vm_bo_dirty(&tmp->bo_va->base);
+>>> >               }
+>>> >  =20
+>>> >               /* Remember mapping split at the end */
+>>> > @@ -1736,6 +1764,8 @@ int amdgpu_vm_bo_clear_mappings(struct =
+amdgpu_device *adev,
+>>> >                       after->flags =3D tmp->flags;
+>>> >                       after->bo_va =3D tmp->bo_va;
+>>> >                       list_add(&after->list, =
+&tmp->bo_va->invalids);
+>>> > +                     if (!tmp->bo_va->base.moved)
+>>> > +                             =
+amdgpu_vm_bo_dirty(&tmp->bo_va->base);
+>>> >               }
+>>> >  =20
+>>> >               list_del(&tmp->list);
+>>> > @@ -1761,30 +1791,18 @@ int amdgpu_vm_bo_clear_mappings(struct =
+amdgpu_device *adev,
+>>> >  =20
+>>> >       /* Insert partial mapping before the range */
+>>> >       if (!list_empty(&before->list)) {
+>>> > -             struct amdgpu_bo *bo =3D before->bo_va->base.bo =
+<http://base.bo/>;
+>>> > -
+>>> >               amdgpu_vm_it_insert(before, &vm->va);
+>>> >               if (before->flags & AMDGPU_PTE_PRT)
+>>> >                       amdgpu_vm_prt_get(adev);
+>>> > -
+>>> > -             if (bo && bo->tbo.base.resv =3D=3D =
+vm->root.bo->tbo.base.resv &&
+>>> > -                 !before->bo_va->base.moved)
+>>> > -                     amdgpu_vm_bo_moved(&before->bo_va->base);
+>>> >       } else {
+>>> >               kfree(before);
+>>> >       }
+>>> >  =20
+>>> >       /* Insert partial mapping after the range */
+>>> >       if (!list_empty(&after->list)) {
+>>> > -             struct amdgpu_bo *bo =3D after->bo_va->base.bo =
+<http://base.bo/>;
+>>> > -
+>>> >               amdgpu_vm_it_insert(after, &vm->va);
+>>> >               if (after->flags & AMDGPU_PTE_PRT)
+>>> >                       amdgpu_vm_prt_get(adev);
+>>> > -
+>>> > -             if (bo && bo->tbo.base.resv =3D=3D =
+vm->root.bo->tbo.base.resv &&
+>>> > -                 !after->bo_va->base.moved)
+>>> > -                     amdgpu_vm_bo_moved(&after->bo_va->base);
+>>> >       } else {
+>>> >               kfree(after);
+>>> >       }
+>>> > @@ -2136,6 +2154,7 @@ int amdgpu_vm_init(struct amdgpu_device =
+*adev, struct amdgpu_vm *vm, int32_t xcp
+>>> >       INIT_LIST_HEAD(&vm->evicted);
+>>> >       INIT_LIST_HEAD(&vm->relocated);
+>>> >       INIT_LIST_HEAD(&vm->moved);
+>>> > +     INIT_LIST_HEAD(&vm->dirty);
+>>> >       INIT_LIST_HEAD(&vm->idle);
+>>> >       INIT_LIST_HEAD(&vm->invalidated);
+>>> >       spin_lock_init(&vm->status_lock);
+>>> > @@ -2648,11 +2667,13 @@ void amdgpu_debugfs_vm_bo_info(struct =
+amdgpu_vm *vm, struct seq_file *m)
+>>> >   {
+>>> >       struct amdgpu_bo_va *bo_va, *tmp;
+>>> >       u64 total_idle =3D 0;
+>>> > +     u64 total_dirty =3D 0;
+>>> >       u64 total_relocated =3D 0;
+>>> >       u64 total_moved =3D 0;
+>>> >       u64 total_invalidated =3D 0;
+>>> >       u64 total_done =3D 0;
+>>> >       unsigned int total_idle_objs =3D 0;
+>>> > +     unsigned int total_dirty_objs =3D 0;
+>>> >       unsigned int total_relocated_objs =3D 0;
+>>> >       unsigned int total_moved_objs =3D 0;
+>>> >       unsigned int total_invalidated_objs =3D 0;
+>>> > @@ -2669,6 +2690,15 @@ void amdgpu_debugfs_vm_bo_info(struct =
+amdgpu_vm *vm, struct seq_file *m)
+>>> >       total_idle_objs =3D id;
+>>> >       id =3D 0;
+>>> >  =20
+>>> > +     seq_puts(m, "\tDirty BOs:\n");
+>>> > +     list_for_each_entry_safe(bo_va, tmp, &vm->dirty, =
+base.vm_status) {
+>>> > +             if (!bo_va->base.bo <http://base.bo/>)
+>>> > +                     continue;
+>>> > +             total_dirty +=3D amdgpu_bo_print_info(id++, =
+bo_va->base.bo <http://base.bo/>, m);
+>>> > +     }
+>>> > +     total_dirty_objs =3D id;
+>>> > +     id =3D 0;
+>>> > +
+>>> >       seq_puts(m, "\tRelocated BOs:\n");
+>>> >       list_for_each_entry_safe(bo_va, tmp, &vm->relocated, =
+base.vm_status) {
+>>> >               if (!bo_va->base.bo <http://base.bo/>)
+>>> > @@ -2707,6 +2737,8 @@ void amdgpu_debugfs_vm_bo_info(struct =
+amdgpu_vm *vm, struct seq_file *m)
+>>> >  =20
+>>> >       seq_printf(m, "\tTotal idle size:        =
+%12lld\tobjs:\t%d\n", total_idle,
+>>> >                  total_idle_objs);
+>>> > +     seq_printf(m, "\tTotal dirty size:       =
+%12lld\tobjs:\t%d\n", total_dirty,
+>>> > +                total_dirty_objs);
+>>> >       seq_printf(m, "\tTotal relocated size:   =
+%12lld\tobjs:\t%d\n", total_relocated,
+>>> >                  total_relocated_objs);
+>>> >       seq_printf(m, "\tTotal moved size:       =
+%12lld\tobjs:\t%d\n", total_moved,
+>>> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h =
+b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+>>> > index d9ab97eabda9..f91d4fcf80b8 100644
+>>> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+>>> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+>>> > @@ -276,6 +276,9 @@ struct amdgpu_vm {
+>>> >       /* per VM BOs moved, but not yet updated in the PT */
+>>> >       struct list_head        moved;
+>>> >  =20
+>>> > +     /* normal and per VM BOs that are not moved, but have new PT =
+entries */
+>>> > +     struct list_head        dirty;
+>>> > +
+>>> >       /* All BOs of this VM not currently in the state machine */
+>>> >       struct list_head        idle;
+>>> >  =20
+>>>=20
+>=20
 
-it would cause dispc_runtime_resume() to be called before the reset. 
-This would mean that the dispc_runtime_resume() would be changing 
-settings that must not be changed while streaming is enabled.
 
-We could do a DSS reset always as the first thing in 
-dispc_runtime_resume() (after enabling the fclk), but that feels a bit 
-pointless as after the first reset the DSS is in a known state.
+--Apple-Mail=_DDED267B-D370-4067-8D3C-231BCBAE388A
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
 
-Also, if we don't do a reset at probe time, there are things we need to 
-take care of: at least we need to mask the IRQs (presuming we register 
-the DSS interrupt at probe time). But generally speaking, I feel a bit 
-uncomfortable leaving an IP possibly running in an unknown state after 
-probe. I'd much rather just reset it at probe.
+<html><head><meta http-equiv=3D"content-type" content=3D"text/html; =
+charset=3Dutf-8"></head><body style=3D"overflow-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: =
+after-white-space;"><br><div><blockquote type=3D"cite"><div>On Oct 31, =
+2023, at 23:07, Christian K=C3=B6nig &lt;christian.koenig@amd.com&gt; =
+wrote:</div><br class=3D"Apple-interchange-newline"><div>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+ =20
+  <div>
+    Am 31.10.23 um 14:59 schrieb Bas Nieuwenhuizen:<br>
+    <blockquote type=3D"cite" =
+cite=3D"mid:CAP+8YyFEKDGPCvA-puUBHNXcrEX4rXOJz=3DWkBpJyJrmqZ=3DrtMA@mail.g=
+mail.com">
+     =20
+      <div dir=3D"ltr">
+        <div dir=3D"ltr"><br>
+        </div>
+        <br>
+        <div class=3D"gmail_quote">
+          <div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 31, 2023 at
+            2:57=E2=80=AFPM Christian K=C3=B6nig &lt;<a =
+href=3D"mailto:christian.koenig@amd.com" moz-do-not-send=3D"true" =
+class=3D"moz-txt-link-freetext">christian.koenig@amd.com</a>&gt;
+            wrote:<br>
+          </div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Am
+            31.10.23 um 14:40 schrieb Tatsuyuki Ishi:<br>
+            &gt; The current amdgpu_gem_va_update_vm only tries to
+            perform updates for the<br>
+            &gt; BO specified in the GEM ioctl; however, when a binding
+            is split, the<br>
+            &gt; adjacent bindings also need to be updated. Such updates
+            currently ends up<br>
+            &gt; getting deferred until next submission which causes
+            stalls.<br>
+            <br>
+            Yeah, that is a necessity. The hardware simply doesn't
+            support what you <br>
+            try to do here in all cases.<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>What can the hardware not do here? Is this just needing
+            to wait for TLB flushes before we can free pagetables, can
+            we just delay that?</div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    On some hardware generations (especially Navi1x, but also everything
+    older than Polaris) you can't invalidate the TLB while it is in =
+use.<br>
+    <br>
+    For Polaris and older it just means that you don't have a guarantee
+    that the shader can't access the memory any more. So delaying the
+    free operation helps here.<br>
+    <br>
+    But for Navi1x it's a workaround for a hardware bug. If you try to
+    invalidate the TLB while it is in use you can potentially triggering
+    memory accesses to random addresses.<br>
+    <br>
+    That's why we still delay TLB invalidation's to the next CS and use
+    a new VMID for each submission instead of invalidating the old =
+one.<br></div></div></blockquote><div><br></div><div>Thanks for the =
+information. I looked into the VMID allocation logic and I see that if =
+concurrent_flush is false, then we defer any flush (or VMID reuse that =
+requires a flush) until that VMID is idle.</div><div><br></div><div>What =
+patch #3 ends up doing is just performing the PT update right away. Any =
+required TLB update is deferred by amdgpu_vm_update_range through the =
+increment of tlb_seq, and amdgpu_vmid.c is responsible for doing the =
+actual TLB flush in a manner that does not trigger the =
+bug.</div><div><br></div><div>Can you confirm that this would be fine =
+for the current =
+hardware?</div><div><br></div><div>Tatsuyuki.</div><br><blockquote =
+type=3D"cite"><div><div>
+    <br>
+    I'm currently working on changing that for Navi2x and newer (maybe
+    Vega as well), but this is something you can really only do on some
+    hw generations after validating that it works.<br>
+    <br>
+    Regards,<br>
+    Christian. <br>
+    <br>
+    <blockquote type=3D"cite" =
+cite=3D"mid:CAP+8YyFEKDGPCvA-puUBHNXcrEX4rXOJz=3DWkBpJyJrmqZ=3DrtMA@mail.g=
+mail.com">
+      <div dir=3D"ltr">
+        <div class=3D"gmail_quote">
+          <div>&nbsp;<br>
+          </div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+            <br>
+            So this approach won't work in general.<br>
+            <br>
+            Regards,<br>
+            Christian.<br>
+            <br>
+            &gt;<br>
+            &gt; Introduce a new state "dirty", shared between per-VM
+            BOs and traditional<br>
+            &gt; BOs, containing all BOs that have pending updates in
+            `invalids`.<br>
+            &gt; amdgpu_gem_va_update_vm will now simply flush any
+            pending updates for BOs<br>
+            &gt; in the dirty state.<br>
+            &gt;<br>
+            &gt; Signed-off-by: Tatsuyuki Ishi &lt;<a =
+href=3D"mailto:ishitatsuyuki@gmail.com" target=3D"_blank" =
+moz-do-not-send=3D"true" =
+class=3D"moz-txt-link-freetext">ishitatsuyuki@gmail.com</a>&gt;<br>
+            &gt; ---<br>
+            &gt;&nbsp; &nbsp;drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c | =
+18 ++++---<br>
+            &gt;&nbsp; =
+&nbsp;drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c&nbsp; | 66
+            ++++++++++++++++++-------<br>
+            &gt;&nbsp; =
+&nbsp;drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h&nbsp; |&nbsp; 3 ++<br>
+            &gt;&nbsp; &nbsp;3 files changed, 63 insertions(+), 24 =
+deletions(-)<br>
+            &gt;<br>
+            &gt; diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+            b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c<br>
+            &gt; index a1b15d0d6c48..01d3a97248b0 100644<br>
+            &gt; --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c<br>
+            &gt; +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c<br>
+            &gt; @@ -604,10 +604,9 @@ int
+            amdgpu_gem_metadata_ioctl(struct drm_device *dev, void
+            *data,<br>
+            &gt;&nbsp; &nbsp; * vital here, so they are not reported =
+back to
+            userspace.<br>
+            &gt;&nbsp; &nbsp; */<br>
+            &gt;&nbsp; &nbsp;static void amdgpu_gem_va_update_vm(struct
+            amdgpu_device *adev,<br>
+            &gt; -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;struct amdgpu_vm *vm,<br>
+            &gt; -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;struct amdgpu_bo_va
+            *bo_va,<br>
+            &gt; -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;uint32_t operation)<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;struct amdgpu_vm *vm)<br>
+            &gt;&nbsp; &nbsp;{<br>
+            &gt; +&nbsp; &nbsp; &nbsp;struct amdgpu_bo_va *bo_va;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;int r;<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;if (!amdgpu_vm_ready(vm))<br>
+            &gt; @@ -617,12 +616,18 @@ static void
+            amdgpu_gem_va_update_vm(struct amdgpu_device *adev,<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;if (r)<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;goto error;<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt; -&nbsp; &nbsp; &nbsp;if (operation =3D=3D =
+AMDGPU_VA_OP_MAP ||<br>
+            &gt; -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;operation =3D=3D =
+AMDGPU_VA_OP_REPLACE) {<br>
+            &gt; +&nbsp; &nbsp; =
+&nbsp;spin_lock(&amp;vm-&gt;status_lock);<br>
+            &gt; +&nbsp; &nbsp; &nbsp;while =
+(!list_empty(&amp;vm-&gt;dirty)) {<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;bo_va =
+=3D
+            list_first_entry(&amp;vm-&gt;dirty, struct amdgpu_bo_va,<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; base.vm_status);<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;spin_unlock(&amp;vm-&gt;status_lock);<br>
+            &gt; +<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;r =
+=3D amdgpu_vm_bo_update(adev, bo_va,
+            false);<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;if (r)<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp;goto error;<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;spin_lock(&amp;vm-&gt;status_lock);<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;}<br>
+            &gt; +&nbsp; &nbsp; =
+&nbsp;spin_unlock(&amp;vm-&gt;status_lock);<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;r =3D =
+amdgpu_vm_update_pdes(adev, vm, false);<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt; @@ -792,8 +797,7 @@ int amdgpu_gem_va_ioctl(struct
+            drm_device *dev, void *data,<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;break;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;}<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;if (!r &amp;&amp; =
+!(args-&gt;flags &amp;
+            AMDGPU_VM_DELAY_UPDATE) &amp;&amp; !amdgpu_vm_debug)<br>
+            &gt; -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;amdgpu_gem_va_update_vm(adev,
+            &amp;fpriv-&gt;vm, bo_va,<br>
+            &gt; -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;
+            &nbsp;args-&gt;operation);<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;amdgpu_gem_va_update_vm(adev,
+            &amp;fpriv-&gt;vm);<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt;&nbsp; &nbsp;error:<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;drm_exec_fini(&amp;exec);<br>
+            &gt; diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+            b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c<br>
+            &gt; index dd6f72e2a1d6..01d31891cd05 100644<br>
+            &gt; --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c<br>
+            &gt; +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c<br>
+            &gt; @@ -191,6 +191,21 @@ static void
+            amdgpu_vm_bo_set_evicted(struct amdgpu_vm_bo_base *vm_bo,
+            bool evict<br>
+            &gt;&nbsp; &nbsp; &nbsp; =
+&nbsp;spin_unlock(&amp;vm_bo-&gt;vm-&gt;status_lock);<br>
+            &gt;&nbsp; &nbsp;}<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt; +/**<br>
+            &gt; + * amdgpu_vm_bo_dirty - vm_bo is dirty<br>
+            &gt; + *<br>
+            &gt; + * @vm_bo: vm_bo which is dirty<br>
+            &gt; + *<br>
+            &gt; + * State for normal and per VM BOs that are not moved,
+            but have new entries in<br>
+            &gt; + * bo_va-&gt;invalids.<br>
+            &gt; + */<br>
+            &gt; +static void amdgpu_vm_bo_dirty(struct
+            amdgpu_vm_bo_base *vm_bo)<br>
+            &gt; +{<br>
+            &gt; +&nbsp; &nbsp; =
+&nbsp;spin_lock(&amp;vm_bo-&gt;vm-&gt;status_lock);<br>
+            &gt; +&nbsp; &nbsp; =
+&nbsp;list_move(&amp;vm_bo-&gt;vm_status,
+            &amp;vm_bo-&gt;vm-&gt;dirty);<br>
+            &gt; +&nbsp; &nbsp; =
+&nbsp;spin_unlock(&amp;vm_bo-&gt;vm-&gt;status_lock);<br>
+            &gt; +}<br>
+            &gt; +<br>
+            &gt;&nbsp; &nbsp;/**<br>
+            &gt;&nbsp; &nbsp; * amdgpu_vm_bo_moved - vm_bo is moved<br>
+            &gt;&nbsp; &nbsp; *<br>
+            &gt; @@ -1042,6 +1057,9 @@ void amdgpu_vm_get_memory(struct
+            amdgpu_vm *vm,<br>
+            &gt;&nbsp; &nbsp; &nbsp; =
+&nbsp;list_for_each_entry_safe(bo_va, tmp,
+            &amp;vm-&gt;evicted, base.eviction_status)<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;amdgpu_vm_bo_get_memory(bo_va, stats);<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt; +&nbsp; &nbsp; &nbsp;list_for_each_entry_safe(bo_va, =
+tmp,
+            &amp;vm-&gt;dirty, base.vm_status)<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;amdgpu_vm_bo_get_memory(bo_va, stats);<br>
+            &gt; +<br>
+            &gt;&nbsp; &nbsp; &nbsp; =
+&nbsp;list_for_each_entry_safe(bo_va, tmp,
+            &amp;vm-&gt;relocated, base.vm_status)<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;amdgpu_vm_bo_get_memory(bo_va, stats);<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt; @@ -1411,6 +1429,17 @@ int
+            amdgpu_vm_handle_moved(struct amdgpu_device *adev,<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp;dma_resv_unlock(resv);<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;spin_lock(&amp;vm-&gt;status_lock);<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;}<br>
+            &gt; +<br>
+            &gt; +&nbsp; &nbsp; &nbsp;while =
+(!list_empty(&amp;vm-&gt;dirty)) {<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;bo_va =
+=3D
+            list_first_entry(&amp;vm-&gt;dirty, struct amdgpu_bo_va,<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; base.vm_status);<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;spin_unlock(&amp;vm-&gt;status_lock);<br>
+            &gt; +<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;r =3D =
+amdgpu_vm_bo_update(adev, bo_va,
+            false);<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if =
+(r)<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp;return r;<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;spin_lock(&amp;vm-&gt;status_lock);<br>
+            &gt; +&nbsp; &nbsp; &nbsp;}<br>
+            &gt;&nbsp; &nbsp; &nbsp; =
+&nbsp;spin_unlock(&amp;vm-&gt;status_lock);<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;return 0;<br>
+            &gt; @@ -1476,19 +1505,16 @@ static void
+            amdgpu_vm_bo_insert_map(struct amdgpu_device *adev,<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;struct
+            amdgpu_bo_va_mapping *mapping)<br>
+            &gt;&nbsp; &nbsp;{<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;struct amdgpu_vm *vm =3D =
+bo_va-&gt;base.vm;<br>
+            &gt; -&nbsp; &nbsp; &nbsp;struct amdgpu_bo *bo =3D =
+bo_va-&gt;<a href=3D"http://base.bo/" rel=3D"noreferrer" target=3D"_blank"=
+ moz-do-not-send=3D"true">base.bo</a>;<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;mapping-&gt;bo_va =3D =
+bo_va;<br>
+            &gt;&nbsp; &nbsp; &nbsp; =
+&nbsp;list_add(&amp;mapping-&gt;list,
+            &amp;bo_va-&gt;invalids);<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;amdgpu_vm_it_insert(mapping, =
+&amp;vm-&gt;va);<br>
+            &gt; +&nbsp; &nbsp; &nbsp;if (!bo_va-&gt;base.moved)<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;amdgpu_vm_bo_dirty(&amp;bo_va-&gt;base);<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;if (mapping-&gt;flags &amp; =
+AMDGPU_PTE_PRT)<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;amdgpu_vm_prt_get(adev);<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt; -&nbsp; &nbsp; &nbsp;if (bo &amp;&amp; =
+bo-&gt;tbo.base.resv =3D=3D
+            vm-&gt;root.bo-&gt;tbo.base.resv &amp;&amp;<br>
+            &gt; -&nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;!bo_va-&gt;base.moved) {<br>
+            &gt; -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;amdgpu_vm_bo_moved(&amp;bo_va-&gt;base);<br>
+            &gt; -&nbsp; &nbsp; &nbsp;}<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;trace_amdgpu_vm_bo_map(bo_va, =
+mapping);<br>
+            &gt;&nbsp; &nbsp;}<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt; @@ -1725,6 +1751,8 @@ int
+            amdgpu_vm_bo_clear_mappings(struct amdgpu_device *adev,<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp;before-&gt;flags =3D tmp-&gt;flags;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp;before-&gt;bo_va =3D tmp-&gt;bo_va;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp;list_add(&amp;before-&gt;list,
+            &amp;tmp-&gt;bo_va-&gt;invalids);<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp;if
+            (!tmp-&gt;bo_va-&gt;base.moved)<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp;amdgpu_vm_bo_dirty(&amp;tmp-&gt;bo_va-&gt;base);<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;}<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;/* Remember mapping split at the end */<br>
+            &gt; @@ -1736,6 +1764,8 @@ int
+            amdgpu_vm_bo_clear_mappings(struct amdgpu_device *adev,<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp;after-&gt;flags =3D tmp-&gt;flags;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp;after-&gt;bo_va =3D tmp-&gt;bo_va;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp;list_add(&amp;after-&gt;list,
+            &amp;tmp-&gt;bo_va-&gt;invalids);<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp;if
+            (!tmp-&gt;bo_va-&gt;base.moved)<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp;amdgpu_vm_bo_dirty(&amp;tmp-&gt;bo_va-&gt;base);<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;}<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;list_del(&amp;tmp-&gt;list);<br>
+            &gt; @@ -1761,30 +1791,18 @@ int
+            amdgpu_vm_bo_clear_mappings(struct amdgpu_device *adev,<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;/* Insert partial mapping =
+before the range */<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;if =
+(!list_empty(&amp;before-&gt;list)) {<br>
+            &gt; -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;struct =
+amdgpu_bo *bo =3D
+            before-&gt;bo_va-&gt;<a href=3D"http://base.bo/" =
+rel=3D"noreferrer" target=3D"_blank" =
+moz-do-not-send=3D"true">base.bo</a>;<br>
+            &gt; -<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;amdgpu_vm_it_insert(before,
+            &amp;vm-&gt;va);<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;if (before-&gt;flags &amp;
+            AMDGPU_PTE_PRT)<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp;amdgpu_vm_prt_get(adev);<br>
+            &gt; -<br>
+            &gt; -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if (bo =
+&amp;&amp; bo-&gt;tbo.base.resv =3D=3D
+            vm-&gt;root.bo-&gt;tbo.base.resv &amp;&amp;<br>
+            &gt; -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp;!before-&gt;bo_va-&gt;base.moved)<br>
+            &gt; -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp;
+            =
+&nbsp;amdgpu_vm_bo_moved(&amp;before-&gt;bo_va-&gt;base);<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;} else {<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;kfree(before);<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;}<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;/* Insert partial mapping =
+after the range */<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;if =
+(!list_empty(&amp;after-&gt;list)) {<br>
+            &gt; -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;struct =
+amdgpu_bo *bo =3D
+            after-&gt;bo_va-&gt;<a href=3D"http://base.bo/" =
+rel=3D"noreferrer" target=3D"_blank" =
+moz-do-not-send=3D"true">base.bo</a>;<br>
+            &gt; -<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;amdgpu_vm_it_insert(after,
+            &amp;vm-&gt;va);<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;if (after-&gt;flags &amp; AMDGPU_PTE_PRT)<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp;amdgpu_vm_prt_get(adev);<br>
+            &gt; -<br>
+            &gt; -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if (bo =
+&amp;&amp; bo-&gt;tbo.base.resv =3D=3D
+            vm-&gt;root.bo-&gt;tbo.base.resv &amp;&amp;<br>
+            &gt; -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp;!after-&gt;bo_va-&gt;base.moved)<br>
+            &gt; -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp;
+            &nbsp;amdgpu_vm_bo_moved(&amp;after-&gt;bo_va-&gt;base);<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;} else {<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;kfree(after);<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;}<br>
+            &gt; @@ -2136,6 +2154,7 @@ int amdgpu_vm_init(struct
+            amdgpu_device *adev, struct amdgpu_vm *vm, int32_t xcp<br>
+            &gt;&nbsp; &nbsp; &nbsp; =
+&nbsp;INIT_LIST_HEAD(&amp;vm-&gt;evicted);<br>
+            &gt;&nbsp; &nbsp; &nbsp; =
+&nbsp;INIT_LIST_HEAD(&amp;vm-&gt;relocated);<br>
+            &gt;&nbsp; &nbsp; &nbsp; =
+&nbsp;INIT_LIST_HEAD(&amp;vm-&gt;moved);<br>
+            &gt; +&nbsp; &nbsp; =
+&nbsp;INIT_LIST_HEAD(&amp;vm-&gt;dirty);<br>
+            &gt;&nbsp; &nbsp; &nbsp; =
+&nbsp;INIT_LIST_HEAD(&amp;vm-&gt;idle);<br>
+            &gt;&nbsp; &nbsp; &nbsp; =
+&nbsp;INIT_LIST_HEAD(&amp;vm-&gt;invalidated);<br>
+            &gt;&nbsp; &nbsp; &nbsp; =
+&nbsp;spin_lock_init(&amp;vm-&gt;status_lock);<br>
+            &gt; @@ -2648,11 +2667,13 @@ void
+            amdgpu_debugfs_vm_bo_info(struct amdgpu_vm *vm, struct
+            seq_file *m)<br>
+            &gt;&nbsp; &nbsp;{<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;struct amdgpu_bo_va *bo_va, =
+*tmp;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;u64 total_idle =3D 0;<br>
+            &gt; +&nbsp; &nbsp; &nbsp;u64 total_dirty =3D 0;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;u64 total_relocated =3D =
+0;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;u64 total_moved =3D 0;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;u64 total_invalidated =3D =
+0;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;u64 total_done =3D 0;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;unsigned int total_idle_objs =
+=3D 0;<br>
+            &gt; +&nbsp; &nbsp; &nbsp;unsigned int total_dirty_objs =3D =
+0;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;unsigned int =
+total_relocated_objs =3D 0;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;unsigned int total_moved_objs =
+=3D 0;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;unsigned int =
+total_invalidated_objs =3D 0;<br>
+            &gt; @@ -2669,6 +2690,15 @@ void
+            amdgpu_debugfs_vm_bo_info(struct amdgpu_vm *vm, struct
+            seq_file *m)<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;total_idle_objs =3D id;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;id =3D 0;<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt; +&nbsp; &nbsp; &nbsp;seq_puts(m, "\tDirty BOs:\n");<br>
+            &gt; +&nbsp; &nbsp; &nbsp;list_for_each_entry_safe(bo_va, =
+tmp,
+            &amp;vm-&gt;dirty, base.vm_status) {<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if =
+(!bo_va-&gt;<a href=3D"http://base.bo/" rel=3D"noreferrer" =
+target=3D"_blank" moz-do-not-send=3D"true">base.bo</a>)<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp;continue;<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;total_dirty +=3D amdgpu_bo_print_info(id++,
+            bo_va-&gt;<a href=3D"http://base.bo/" rel=3D"noreferrer" =
+target=3D"_blank" moz-do-not-send=3D"true">base.bo</a>, m);<br>
+            &gt; +&nbsp; &nbsp; &nbsp;}<br>
+            &gt; +&nbsp; &nbsp; &nbsp;total_dirty_objs =3D id;<br>
+            &gt; +&nbsp; &nbsp; &nbsp;id =3D 0;<br>
+            &gt; +<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;seq_puts(m, "\tRelocated =
+BOs:\n");<br>
+            &gt;&nbsp; &nbsp; &nbsp; =
+&nbsp;list_for_each_entry_safe(bo_va, tmp,
+            &amp;vm-&gt;relocated, base.vm_status) {<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;if (!bo_va-&gt;<a href=3D"http://base.bo/" rel=3D"noreferrer" =
+target=3D"_blank" moz-do-not-send=3D"true">base.bo</a>)<br>
+            &gt; @@ -2707,6 +2737,8 @@ void
+            amdgpu_debugfs_vm_bo_info(struct amdgpu_vm *vm, struct
+            seq_file *m)<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;seq_printf(m, "\tTotal idle =
+size:&nbsp; &nbsp; &nbsp; &nbsp;
+            %12lld\tobjs:\t%d\n", total_idle,<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; total_idle_objs);<br>
+            &gt; +&nbsp; &nbsp; &nbsp;seq_printf(m, "\tTotal dirty =
+size:&nbsp; &nbsp; &nbsp;
+            &nbsp;%12lld\tobjs:\t%d\n", total_dirty,<br>
+            &gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; total_dirty_objs);<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;seq_printf(m, "\tTotal =
+relocated size:&nbsp;
+            &nbsp;%12lld\tobjs:\t%d\n", total_relocated,<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; total_relocated_objs);<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;seq_printf(m, "\tTotal moved =
+size:&nbsp; &nbsp; &nbsp;
+            &nbsp;%12lld\tobjs:\t%d\n", total_moved,<br>
+            &gt; diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
+            b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h<br>
+            &gt; index d9ab97eabda9..f91d4fcf80b8 100644<br>
+            &gt; --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h<br>
+            &gt; +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h<br>
+            &gt; @@ -276,6 +276,9 @@ struct amdgpu_vm {<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;/* per VM BOs moved, but not =
+yet updated in the
+            PT */<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;struct list_head&nbsp; &nbsp; =
+&nbsp; &nbsp; moved;<br>
+            &gt;&nbsp; &nbsp;<br>
+            &gt; +&nbsp; &nbsp; &nbsp;/* normal and per VM BOs that are =
+not moved, but
+            have new PT entries */<br>
+            &gt; +&nbsp; &nbsp; &nbsp;struct list_head&nbsp; &nbsp; =
+&nbsp; &nbsp; dirty;<br>
+            &gt; +<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;/* All BOs of this VM not =
+currently in the state
+            machine */<br>
+            &gt;&nbsp; &nbsp; &nbsp; &nbsp;struct list_head&nbsp; &nbsp; =
+&nbsp; &nbsp; idle;<br>
+            &gt;&nbsp; &nbsp;<br>
+            <br>
+          </blockquote>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+  </div>
 
-  Tomi
+</div></blockquote></div><br></body></html>=
 
+--Apple-Mail=_DDED267B-D370-4067-8D3C-231BCBAE388A--
