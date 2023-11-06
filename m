@@ -1,48 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9D727E250B
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 14:27:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A2B97E2566
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 14:31:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0F1610E31B;
-	Mon,  6 Nov 2023 13:27:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 342DC10E315;
+	Mon,  6 Nov 2023 13:31:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7556610E319;
- Mon,  6 Nov 2023 13:27:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id E3D7AB80F63;
- Mon,  6 Nov 2023 13:27:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5A15C433C7;
- Mon,  6 Nov 2023 13:27:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699277253;
- bh=Vu0muShwvRqsL9wegAEVP9IkcMiLR8CQSs1+kTxcN+8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qfV5+5U4Hh2ssX+TWR27iwjuE/QZJ4Us4gyBB7P9vLLarquCMpYRWglUwbS3anF9j
- kav90yc4qloC2+jbLCkirbaXrWfvZRrDuYq2DEYMdaRdqP7H1x83gv8VfqZfOYGYQ3
- hN7jHdt7M8B/X2vo+xykObTazi9yoxwYzNn7ihlu4d10vyUSLpOy8T6HMn+vPUGJ97
- kK42Q/4n0GFy9lnyAuEtO4wp4RCSWGXGuyX+wRPfGEeo9FpV433cRO45As+WDbeaMX
- iGvqz2iF0AwE6eZ7WqPXMVY8sp8+NvskFSGAGgT46vnKr+TbsYP3NZZkS22TIYX47h
- X2MMMLrFhwSwQ==
-Date: Mon, 6 Nov 2023 14:27:30 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: "Manna, Animesh" <animesh.manna@intel.com>
-Subject: Re: [PATCH v7 1/6] drm/panelreplay: dpcd register definition for
- panelreplay
-Message-ID: <elcebygxs432bcj7oez7ndlfvb3lru7m7yznyqp2ei4ocjkvxp@23lf2rh45fmt>
-References: <20231011110936.1851563-1-animesh.manna@intel.com>
- <20231011110936.1851563-2-animesh.manna@intel.com>
- <87jzqz194w.fsf@intel.com>
- <BL1PR11MB5979BF8B55E730D76DD29345F9AAA@BL1PR11MB5979.namprd11.prod.outlook.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E384C10E315
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 13:31:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=aC6+4w1Q6ice1++6GMv5WaahyDe2LHnMhdKW4ELi6D0=; b=NEMX3HKD08zSpgHu8vvLLQbX2c
+ ucSjte5Nb5VFyZAYsMw6K4bOrWsiW/AYAAzj2xS+aUTmZyOrW6hb39gqY8T7zh43Ib9EMH3KsQ5sn
+ sgHlFt2lFVLLzJjhQPBXyHklhEx4pXk5lGXX/iXP/OA5G7/+5tWba1JW9OjMqzZXSptebEVXnrxo0
+ JHBLqZgpmHKx2GJ5U2geSe2tn+1YHKMGFpoMwLZcsixDR8Zdfyv6hboOS1nJ2He/ELIH9Eq4APnNB
+ HNtLBMywbajQNlyE4txtfC/K5EK4Wld4Nd+6Ap67MJohv8jaqOYZjPlaQJwf5mqJa5uts2vEpniHV
+ 5t/wZtHw==;
+Received: from [177.34.168.16] (helo=[192.168.0.8])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1qzzhF-00HZvq-4W; Mon, 06 Nov 2023 14:31:17 +0100
+Message-ID: <47de1adc-b079-6f11-bd4c-ce9ee7702c7e@igalia.com>
+Date: Mon, 6 Nov 2023 10:31:10 -0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="mowf5xwkcgpkc23e"
-Content-Disposition: inline
-In-Reply-To: <BL1PR11MB5979BF8B55E730D76DD29345F9AAA@BL1PR11MB5979.namprd11.prod.outlook.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v3 0/2] drm/v3d: Expose GPU usage stats
+To: Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
+ Chema Casanova <jmcasanova@igalia.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Rob Clark <robdclark@gmail.com>
+References: <20230905213416.1290219-1-mcanal@igalia.com>
+Content-Language: en-US
+From: Maira Canal <mcanal@igalia.com>
+In-Reply-To: <20230905213416.1290219-1-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,66 +58,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Nikula, Jani" <jani.nikula@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, "Hogander,
- Jouni" <jouni.hogander@intel.com>, "Murthy, Arun R" <arun.r.murthy@intel.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---mowf5xwkcgpkc23e
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I've just applied this patchset to drm-misc/drm-misc-next.
 
-On Mon, Nov 06, 2023 at 01:01:19PM +0000, Manna, Animesh wrote:
->=20
->=20
-> > -----Original Message-----
-> > From: Nikula, Jani <jani.nikula@intel.com>
-> > Sent: Friday, November 3, 2023 2:55 PM
-> > To: Manna, Animesh <animesh.manna@intel.com>; intel-
-> > gfx@lists.freedesktop.org; Maxime Ripard <mripard@kernel.org>; Thomas
-> > Zimmermann <tzimmermann@suse.de>; Maarten Lankhorst
-> > <maarten.lankhorst@linux.intel.com>
-> > Cc: dri-devel@lists.freedesktop.org; Manna, Animesh
-> > <animesh.manna@intel.com>; Hogander, Jouni
-> > <jouni.hogander@intel.com>; Murthy, Arun R <arun.r.murthy@intel.com>
-> > Subject: Re: [PATCH v7 1/6] drm/panelreplay: dpcd register definition f=
-or
-> > panelreplay
-> >=20
-> > On Wed, 11 Oct 2023, Animesh Manna <animesh.manna@intel.com> wrote:
-> > > Add DPCD register definition for discovering, enabling and checking
-> > > status of panel replay of the sink.
-> > >
-> > > Cc: Jouni H=F6gander <jouni.hogander@intel.com>
-> > > Cc: Arun R Murthy <arun.r.murthy@intel.com>
-> > > Cc: Jani Nikula <jani.nikula@intel.com>
-> > > Reviewed-by: Arun R Murthy <arun.r.murthy@intel.com>
-> > > Signed-off-by: Animesh Manna <animesh.manna@intel.com>
-> >=20
-> > Maarten, Maxime, Thomas -
-> >=20
-> > Ack for merging this via drm-intel-next?
->=20
-> Ping!
+Thanks Melissa and Chema for reviewing it!
 
-Ack
+Best Regards,
+- Maíra
 
-Maxime
-
---mowf5xwkcgpkc23e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZUjpwgAKCRDj7w1vZxhR
-xTFwAQD3Pk8HTgJrz0YAsbzsQD8R1JJymcwV9KvzYnYGcV963AEAnA69tsX2Z0N9
-cmT12vHmLGqDCqVuN3iITJGpIaV4vwQ=
-=EHzr
------END PGP SIGNATURE-----
-
---mowf5xwkcgpkc23e--
+On 9/5/23 18:06, Maíra Canal wrote:
+> This patchset exposes GPU usages stats both globally and per-file
+> descriptor.
+> 
+> The first patch exposes the accumulated amount of active time per client
+> through the fdinfo infrastructure. The amount of active time is exposed
+> for each V3D queue. Moreover, it exposes the number of jobs submitted to
+> each queue.
+> 
+> The second patch exposes the accumulated amount of active time for each
+> V3D queue, independent of the client. This data is exposed through the
+> sysfs interface.
+> 
+> With these patches, it is possible to calculate the GPU usage percentage
+> per queue globally and per-file descriptor.
+> 
+> * Example fdinfo output:
+> 
+> $ cat /proc/1140/fdinfo/4
+> pos:    0
+> flags:  02400002
+> mnt_id: 24
+> ino:    209
+> drm-driver:     v3d
+> drm-client-id:  44
+> drm-engine-bin:         1661076898 ns
+> v3d-jobs-bin:   19576 jobs
+> drm-engine-render:      31469427170 ns
+> v3d-jobs-render:        19575 jobs
+> drm-engine-tfu:         5002964 ns
+> v3d-jobs-tfu:   13 jobs
+> drm-engine-csd:         188038329691 ns
+> v3d-jobs-csd:   250393 jobs
+> drm-engine-cache_clean:         27736024038 ns
+> v3d-jobs-cache_clean:   250392 job
+> 
+> * Example gputop output:
+> 
+> DRM minor 128
+>   PID         bin               render               tfu                csd            cache_clean     NAME
+> 1140 |▎                ||██▋               ||                 ||█████████████▍   ||█▋               | computecloth
+> 1158 |▍                ||████████▉         ||                 ||                 ||                 | gears
+> 1002 |▏                ||█▎                ||                 ||                 ||                 | chromium-browse
+> 
+> Best Regards,
+> - Maíra
+> 
+> ---
+> 
+> v1 -> v2: https://lore.kernel.org/dri-devel/20230727142929.1275149-1-mcanal@igalia.com/T/
+> 
+> * Use sysfs to expose global GPU stats (Tvrtko Ursulin)
+> 
+> v2 -> v3: https://lore.kernel.org/dri-devel/20230807211849.49867-1-mcanal@igalia.com/T/
+> 
+> * Document the expected behavior in case of a GPU reset (Melissa Wen)
+> * Add a brief description about the sysfs outputs (Melissa Wen)
+> * Instead of having multiple sysfs files, use only one sysfs file,
+>    called gpu_stats, with all the information (Chema Casanova)
+> * Add the number of jobs submitted in the global GPU stats (Chema Casanova)
+> * Now, the number of jobs submitted is only incremented if the job was
+>    completed
+> 
+> Maíra Canal (2):
+>    drm/v3d: Implement show_fdinfo() callback for GPU usage stats
+>    drm/v3d: Expose the total GPU usage stats on sysfs
+> 
+>   drivers/gpu/drm/v3d/Makefile    |  3 +-
+>   drivers/gpu/drm/v3d/v3d_drv.c   | 45 ++++++++++++++++++++-
+>   drivers/gpu/drm/v3d/v3d_drv.h   | 31 +++++++++++++++
+>   drivers/gpu/drm/v3d/v3d_gem.c   |  7 +++-
+>   drivers/gpu/drm/v3d/v3d_irq.c   | 49 +++++++++++++++++++++++
+>   drivers/gpu/drm/v3d/v3d_sched.c | 33 ++++++++++++++++
+>   drivers/gpu/drm/v3d/v3d_sysfs.c | 69 +++++++++++++++++++++++++++++++++
+>   7 files changed, 234 insertions(+), 3 deletions(-)
+>   create mode 100644 drivers/gpu/drm/v3d/v3d_sysfs.c
+> 
+> --
+> 2.41.0
+> 
