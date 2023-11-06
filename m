@@ -1,53 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8407A7E31B3
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 00:55:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9D37E31BF
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 00:59:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22ABB10E465;
-	Mon,  6 Nov 2023 23:55:49 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04F7F10E465
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 23:55:47 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 82551B81258;
- Mon,  6 Nov 2023 23:55:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEEBDC433C7;
- Mon,  6 Nov 2023 23:55:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699314944;
- bh=CBVsDjLpDh3DqO53Z7jB5PodqXv0dqoRE1VTibicHDk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=tHDu7NE3mpkr1DOFckfUWx88lr1g8NMqtWJ6eVQjt6YtxEJtB3MzRhMAqpHUCOOnu
- HERcGnFrYBktSD8DKkbyE8ek8H9VHw/wEzhcjIKOE9tdi5RIBdczye7+hnXGI4KJKu
- S0rpAERxYf/jKoXVcPPVq6PuYBkI20g7/zRTur41oqPVeJXe+V/38zMNofUypZYzSp
- O3mGYMyQzkQzdasVHQ+sN5vodbH7gZFWgfyYemzHaE/bdy2CusoZbtwSH6Pqk3dywZ
- jimVApXC5UDwmcNUMEwKAOS0k67+Rh55jzHYDZxhXJeV0Yn4t1vShofBTTCgeHKn43
- cIasqiU647M3A==
-Message-ID: <93eb6a2b-a991-40ca-8f26-f520c986729a@kernel.org>
-Date: Mon, 6 Nov 2023 16:55:43 -0700
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0ACCA10E467;
+	Mon,  6 Nov 2023 23:59:10 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BF1910E467;
+ Mon,  6 Nov 2023 23:59:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699315147; x=1730851147;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=MkGJuJFzqp9cn+Qvq7QjbV+10djutu3OuaiUQJDq68E=;
+ b=kx6xVhsE5Ztjy0OCSR0M5ubGGk9okaHYFJh1aC3TYRPnnBQBXfi/823N
+ Hgj03+/rud0gJNHmCLdKuVrckfZeqWlPwMNnm/B6TuHDXA87KOucpPbhS
+ RTTZMvGRcpsR+UG1QNk/Zhs9NcJ7sOmOHrSOuqpeZcSg/Kdoia8zZ3PZ4
+ 2bHh9+Fexml/Wg0KEfL7K7yEP+zurQKKWFAE1LZVXYTgq/mx3MfIwk8PG
+ kDIQwJ8rmh1qDJkNeVY/D2W0SP8+vovspfjxN1kbAzls2BrnLBilmUNjY
+ r2hhvOtGYqMPpLv9tKyoO5nNJsLnCsG3bCFmeEEUeGSsBJiUgq0PetfOl A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="455871436"
+X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; d="scan'208";a="455871436"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2023 15:59:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
+   d="scan'208";a="3789317"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by fmviesa002.fm.intel.com with ESMTP; 06 Nov 2023 15:59:06 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH 0/2] Selftest for FAST_REQUEST feature
+Date: Mon,  6 Nov 2023 15:59:26 -0800
+Message-ID: <20231106235929.454983-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 10/12] tcp: RX path for devmem TCP
-Content-Language: en-US
-To: Stanislav Fomichev <sdf@google.com>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-11-almasrymina@google.com>
- <ZUk0FGuJ28s1d9OX@google.com>
- <CAHS8izNFv7r6vqYR_TYqcCuDO61F+nnNMhsSu=DrYWSr3sVgrA@mail.gmail.com>
- <CAF=yD-+MFpO5Hdqn+Q9X54SBpgcBeJvKTRD53X2oM4s8uVqnAQ@mail.gmail.com>
- <ZUlp8XutSAScKs_0@google.com>
- <CAF=yD-JZ88j+44MYgX-=oYJngz4Z0zw6Y0V3nHXisZJtNu7q6A@mail.gmail.com>
- <CAKH8qBueYgpxQTvTwngOs6RNjy9yvLF92s1p5nFrobw_UprNMQ@mail.gmail.com>
-From: David Ahern <dsahern@kernel.org>
-In-Reply-To: <CAKH8qBueYgpxQTvTwngOs6RNjy9yvLF92s1p5nFrobw_UprNMQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,33 +56,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Mina Almasry <almasrymina@google.com>, Jeroen de Borst <jeroendb@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- linux-media@vger.kernel.org, linux-arch@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
- Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/6/23 4:32 PM, Stanislav Fomichev wrote:
->> The concise notification API returns tokens as a range for
->> compression, encoding as two 32-bit unsigned integers start + length.
->> It allows for even further batching by returning multiple such ranges
->> in a single call.
-> 
-> Tangential: should tokens be u64? Otherwise we can't have more than
-> 4gb unacknowledged. Or that's a reasonable constraint?
-> 
+From: John Harrison <John.C.Harrison@Intel.com>
 
-Was thinking the same and with bits reserved for a dmabuf id to allow
-multiple dmabufs in a single rx queue (future extension, but build the
-capability in now). e.g., something like a 37b offset (128GB dmabuf
-size), 19b length (large GRO), 8b dmabuf id (lots of dmabufs to a queue).
+Add a selftest to verify that the FAST_REQUEST mechanism (getting
+errors back from fire-and-forget H2G commands) is functional.
+
+Also fix up a potential false positive in the GuC hang selftest.
+
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+
+
+John Harrison (2):
+  drm/i915/guc: Fix for potential false positives in GuC hang selftest
+  drm/i915/guc: Add a selftest for FAST_REQUEST errors
+
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   4 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |   9 ++
+ drivers/gpu/drm/i915/gt/uc/selftest_guc.c     | 122 ++++++++++++++++++
+ .../drm/i915/gt/uc/selftest_guc_hangcheck.c   |   2 +-
+ 4 files changed, 136 insertions(+), 1 deletion(-)
+
+-- 
+2.41.0
+
