@@ -1,65 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8570F7E2ECF
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 22:18:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2A27E2EE1
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 22:20:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3176210E42A;
-	Mon,  6 Nov 2023 21:18:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B02B910E436;
+	Mon,  6 Nov 2023 21:20:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com
- [IPv6:2607:f8b0:4864:20::649])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AAB210E42A
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 21:18:01 +0000 (UTC)
-Received: by mail-pl1-x649.google.com with SMTP id
- d9443c01a7336-1cc5ef7e815so33338245ad.3
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 13:18:01 -0800 (PST)
+Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
+ [IPv6:2607:f8b0:4864:20::c32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C5C710E436;
+ Mon,  6 Nov 2023 21:20:08 +0000 (UTC)
+Received: by mail-oo1-xc32.google.com with SMTP id
+ 006d021491bc7-582050ce2d8so819816eaf.0; 
+ Mon, 06 Nov 2023 13:20:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1699305480; x=1699910280;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:from:subject:message-id:references
- :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
- :reply-to; bh=Q+e/wl/IpkV0o6PDo9Tkqa7B1djQqq2R6AetcJyqBsw=;
- b=czp82iVAqtdd2RT3krmv8/s6rYQKVSd7/bD2QOfXuXEzQ4h2uSSqv54IYFYttzz4ph
- wnf6tYWeUeYy4NgO6WApg+sqdO0wP8aB+SvrCQzjvCwrh/0C6TW9+CAbKjDoEZGpXuiS
- jTLw5tqpW//BIWswQTU4XEAa0VAYTE+6dTL5PL9Id7PbZTd2nl5flYki6+atIjj5meeE
- 0TXpeNkEaGDGgcf+MJuY1SoV00TDaFIuF3jutKISgX2skuotsYN9dLKi3ue6AgUyVATX
- 2pG2x/E/c4/Ga+7OkEBdyXQ+AfQECLXOXlnHvO9ZNbugWZDKdHKhXuGxkvqASz8h3P/d
- OdBA==
+ d=gmail.com; s=20230601; t=1699305607; x=1699910407; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1fyk105fO9nPx1K8RQh7z3r5ykWh5/CrtqeSXyVa34c=;
+ b=HE7iYAtSDgKg4l4CWcWcumSQG9a21pWzw+EC6ZA+1tOjjgK08AcO2V4/Iwmgkmw7ct
+ UmfcP0gEylosJu/w7hiXRtE4zhDecysB5F2BMe1q1s06vzSkjKWgbG3hBTZUR4425FSO
+ m+r+x25BwoiWiDEPN6iG+2xxJ+GLqj4t63uiQzK1EoQj4mUsnBvcPb8eFrQoEC5BsYEA
+ XtxoMgcMxHVTGEk+WSDocOIwtYDafmReMES8U5/+sAuPa6PfHwl52etypXaQXAC9+wn+
+ FlCmPgX7Rskg5eHqGtZJ0/LmOVRJ9W3eejHPV1nGOLaAj6lwQQ8FjA1aciY2Jpi3nbUC
+ rxNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699305480; x=1699910280;
- h=content-transfer-encoding:cc:to:from:subject:message-id:references
- :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Q+e/wl/IpkV0o6PDo9Tkqa7B1djQqq2R6AetcJyqBsw=;
- b=DdtgJEWgwAY13sUYszrLe3gZge+S7nNqcDehJSavnUnStcjJd+JmWUGljBkzOIirDe
- OkkUPBdZc9MIS1Vg7eo042pu6JGcCPPa3qgjiZgr3dTfoJ2a+12ghfc8Ocw+LYXysQig
- 0Q/PnoZhejXR6UC+ZUCAUOoT6RLkzJXRXq5vneFCsEgHMzyGXSFbXpgjLiBnCbovz7CG
- 3EXflwFJznseShg+Mmrk8oXFrQ+oHwH6vOphcmgDaV1CMy3RgxJx+ktEjxBPXuBG2D5L
- KTCcCWv6CWF6Qd8J2Tc/cwcFfgMZBwD01YA65x9jsma+v1lxFV2HuXWjAx2n+UQ/pTcH
- Hojg==
-X-Gm-Message-State: AOJu0Yzzh9ACzLCY5ouWSPSvsySWOP4lzRH+7HA5AVJuKAdlEpZ3bg39
- JUvHWqXmy+oAvRoP/rqaa2v6BLk=
-X-Google-Smtp-Source: AGHT+IFyUJONzj4do13pt+qQjhpP+paqIv/cmkYUyDep9IE9Z/JO/7Oa2cHBSiwtEe3VWLUwCJQwRDY=
-X-Received: from sdf.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5935])
- (user=sdf job=sendgmr) by 2002:a17:902:f809:b0:1cc:2a6f:ab91 with SMTP id
- ix9-20020a170902f80900b001cc2a6fab91mr467862plb.0.1699305480560; Mon, 06 Nov
- 2023 13:18:00 -0800 (PST)
-Date: Mon, 6 Nov 2023 13:17:59 -0800
-In-Reply-To: <CAHS8izNFv7r6vqYR_TYqcCuDO61F+nnNMhsSu=DrYWSr3sVgrA@mail.gmail.com>
-Mime-Version: 1.0
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-11-almasrymina@google.com>
- <ZUk0FGuJ28s1d9OX@google.com>
- <CAHS8izNFv7r6vqYR_TYqcCuDO61F+nnNMhsSu=DrYWSr3sVgrA@mail.gmail.com>
-Message-ID: <ZUlYB99GK1Q8is-I@google.com>
-Subject: Re: [RFC PATCH v3 10/12] tcp: RX path for devmem TCP
-From: Stanislav Fomichev <sdf@google.com>
-To: Mina Almasry <almasrymina@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+ d=1e100.net; s=20230601; t=1699305607; x=1699910407;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1fyk105fO9nPx1K8RQh7z3r5ykWh5/CrtqeSXyVa34c=;
+ b=Mvr+p+5Fbe6ssz1y5x7tniscjb6XaUoLP5q7/eDmHlCLYEC48aXsGd5Hh6kMmXUPnx
+ 0REpD23OYsSVb59K/sq6lR53QLA+IEK/dxKr64jsJn9+ztIxwwHTTZJSW2hHNrg4PuZI
+ 9Q3FTsi5uzeVH9gQiqqGhK0yl0rSxPU7tYBBtZ0F+npxp4DLA7T3S5UED7S2XoGK72ms
+ qWvuSZwwBYQE35ewXObt7AeZp0QdzItV/swRtlDOgIXV3YljO2ukS2w5C+VUuhAfdNdA
+ 1nBPBgXqKjxqgDrOltjbSqgF0TckTzcZi1H/joaBab/ZUm53Ul9sm7AXcTepTSQWDq2k
+ lbeg==
+X-Gm-Message-State: AOJu0YzFprqSdxYqweWebfF37WZd8fJLkXqusYpXv++kDfHKzCMBo7q6
+ MMU3Jy5rlK6AFb6EjqnoxTI=
+X-Google-Smtp-Source: AGHT+IH4VDf8xNiyaOS4OHF/NY+0agil1P2kuT4qJkDyOIVe9taGaS0U+sjLOgwU7KXVIGo4aSi+fQ==
+X-Received: by 2002:a05:6358:f201:b0:169:4a72:2b84 with SMTP id
+ jj1-20020a056358f20100b001694a722b84mr41339730rwb.1.1699305607292; 
+ Mon, 06 Nov 2023 13:20:07 -0800 (PST)
+Received: from [192.168.0.152] ([103.75.161.210])
+ by smtp.gmail.com with ESMTPSA id
+ y188-20020a6364c5000000b005b92ba3938dsm190941pgb.77.2023.11.06.13.20.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Nov 2023 13:20:06 -0800 (PST)
+Message-ID: <3b92b89b-ca72-4012-b4f2-0b19e4ba9153@gmail.com>
+Date: Tue, 7 Nov 2023 02:49:56 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drivers: gpu: Fix warning using plain integer as NULL
+Content-Language: en-US
+To: Alex Deucher <alexdeucher@gmail.com>
+References: <20231103155013.332367-1-singhabhinav9051571833@gmail.com>
+ <CADnq5_OkWD3YmCKgXbtk=Gnba3AgAiAWp2z_nzHQvRfEOsdXVg@mail.gmail.com>
+From: Abhinav Singh <singhabhinav9051571833@gmail.com>
+In-Reply-To: <CADnq5_OkWD3YmCKgXbtk=Gnba3AgAiAWp2z_nzHQvRfEOsdXVg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,151 +76,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
- Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/06, Mina Almasry wrote:
-> On Mon, Nov 6, 2023 at 10:44=E2=80=AFAM Stanislav Fomichev <sdf@google.co=
-m> wrote:
-> >
-> > On 11/05, Mina Almasry wrote:
-> > > In tcp_recvmsg_locked(), detect if the skb being received by the user
-> > > is a devmem skb. In this case - if the user provided the MSG_SOCK_DEV=
-MEM
-> > > flag - pass it to tcp_recvmsg_devmem() for custom handling.
-> > >
-> > > tcp_recvmsg_devmem() copies any data in the skb header to the linear
-> > > buffer, and returns a cmsg to the user indicating the number of bytes
-> > > returned in the linear buffer.
-> > >
-> > > tcp_recvmsg_devmem() then loops over the unaccessible devmem skb frag=
-s,
-> > > and returns to the user a cmsg_devmem indicating the location of the
-> > > data in the dmabuf device memory. cmsg_devmem contains this informati=
-on:
-> > >
-> > > 1. the offset into the dmabuf where the payload starts. 'frag_offset'=
-.
-> > > 2. the size of the frag. 'frag_size'.
-> > > 3. an opaque token 'frag_token' to return to the kernel when the buff=
-er
-> > > is to be released.
-> > >
-> > > The pages awaiting freeing are stored in the newly added
-> > > sk->sk_user_pages, and each page passed to userspace is get_page()'d.
-> > > This reference is dropped once the userspace indicates that it is
-> > > done reading this page.  All pages are released when the socket is
-> > > destroyed.
-> > >
-> > > Signed-off-by: Willem de Bruijn <willemb@google.com>
-> > > Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> > > Signed-off-by: Mina Almasry <almasrymina@google.com>
-> > >
-> > > ---
-> > >
-> > > RFC v3:
-> > > - Fixed issue with put_cmsg() failing silently.
-> > >
-> > > ---
-> > >  include/linux/socket.h            |   1 +
-> > >  include/net/page_pool/helpers.h   |   9 ++
-> > >  include/net/sock.h                |   2 +
-> > >  include/uapi/asm-generic/socket.h |   5 +
-> > >  include/uapi/linux/uio.h          |   6 +
-> > >  net/ipv4/tcp.c                    | 189 ++++++++++++++++++++++++++++=
-+-
-> > >  net/ipv4/tcp_ipv4.c               |   7 ++
-> > >  7 files changed, 214 insertions(+), 5 deletions(-)
-> > >
-> > > diff --git a/include/linux/socket.h b/include/linux/socket.h
-> > > index cfcb7e2c3813..fe2b9e2081bb 100644
-> > > --- a/include/linux/socket.h
-> > > +++ b/include/linux/socket.h
-> > > @@ -326,6 +326,7 @@ struct ucred {
-> > >                                         * plain text and require encr=
-yption
-> > >                                         */
-> > >
-> > > +#define MSG_SOCK_DEVMEM 0x2000000    /* Receive devmem skbs as cmsg =
-*/
-> >
-> > Sharing the feedback that I've been providing internally on the public =
-list:
-> >
->=20
-> There may have been a miscommunication. I don't recall hearing this
-> specific feedback from you, at least in the last few months. Sorry if
-> it seemed like I'm ignoring feedback :)
-
-No worries, there was a thread long time ago about this whole token
-interface and whether it should support out-of-order refills, etc.
-
-> > IMHO, we need a better UAPI to receive the tokens and give them back to
-> > the kernel. CMSG + setsockopt(SO_DEVMEM_DONTNEED) get the job done,
-> > but look dated and hacky :-(
-> >
-> > We should either do some kind of user/kernel shared memory queue to
-> > receive/return the tokens (similar to what Jonathan was doing in his
-> > proposal?)
->=20
-> I'll take a look at Jonathan's proposal, sorry, I'm not immediately
-> familiar but I wanted to respond :-) But is the suggestion here to
-> build a new kernel-user communication channel primitive for the
-> purpose of passing the information in the devmem cmsg? IMHO that seems
-> like an overkill. Why add 100-200 lines of code to the kernel to add
-> something that can already be done with existing primitives? I don't
-> see anything concretely wrong with cmsg & setsockopt approach, and if
-> we switch to something I'd prefer to switch to an existing primitive
-> for simplicity?
->=20
-> The only other existing primitive to pass data outside of the linear
-> buffer is the MSG_ERRQUEUE that is used for zerocopy. Is that
-> preferred? Any other suggestions or existing primitives I'm not aware
-> of?
-
-I guess I'm just wondering whether other people have any suggestions
-here. Not sure Jonathan's way was better, but we fundamentally
-have two queues between the kernel and the userspace:
-- userspace receiving tokens (recvmsg + magical flag)
-- userspace refilling tokens (setsockopt + magical flag)
-
-So having some kind of shared memory producer-consumer queue feels natural.
-And using 'classic' socket api here feels like a stretch, idk.
-
-But maybe I'm overthinking and overcomplicating :-)
-
-> > or bite the bullet and switch to io_uring.
-> >
->=20
-> IMO io_uring & socket support are orthogonal, and one doesn't preclude
-> the other. As you know we like to use sockets and I believe there are
-> issues with io_uring adoption at Google that I'm not familiar with
-> (and could be wrong). I'm interested in exploring io_uring support as
-> a follow up but I think David Wei will be interested in io_uring
-> support as well anyway.
-
-Ack, might be one more reason on our side to adopt iouring :-p
-
-> > I was also suggesting to do it via netlink initially, but it's probably
-> > a bit slow for these purpose, idk.
->=20
-> Yeah, I hear netlink is reserved for control paths and is
-> inappropriate for data path, but I'll let folks correct me if wrong.
->=20
-> --=20
-> Thanks,
-> Mina
+On 11/7/23 00:25, Alex Deucher wrote:
+> Applied.  This matches what we already do in the other clear state headers.
+> 
+> Alex
+> 
+> On Fri, Nov 3, 2023 at 12:00 PM Abhinav Singh
+> <singhabhinav9051571833@gmail.com> wrote:
+>>
+>> sparse static analysis tools generate a warning with this message
+>> "Using plain integer as NULL pointer". In this case this warning is
+>> being shown because we are trying to intialize a pointer to NULL using
+>> integer value 0.
+>>
+>> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
+>> ---
+>>   drivers/gpu/drm/radeon/clearstate_evergreen.h | 8 ++++----
+>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/radeon/clearstate_evergreen.h b/drivers/gpu/drm/radeon/clearstate_evergreen.h
+>> index 63a1ffbb3ced..3b645558f133 100644
+>> --- a/drivers/gpu/drm/radeon/clearstate_evergreen.h
+>> +++ b/drivers/gpu/drm/radeon/clearstate_evergreen.h
+>> @@ -1049,7 +1049,7 @@ static const struct cs_extent_def SECT_CONTEXT_defs[] =
+>>       {SECT_CONTEXT_def_5, 0x0000a29e, 5 },
+>>       {SECT_CONTEXT_def_6, 0x0000a2a5, 56 },
+>>       {SECT_CONTEXT_def_7, 0x0000a2de, 290 },
+>> -    { 0, 0, 0 }
+>> +    { NULL, 0, 0 }
+>>   };
+>>   static const u32 SECT_CLEAR_def_1[] =
+>>   {
+>> @@ -1060,7 +1060,7 @@ static const u32 SECT_CLEAR_def_1[] =
+>>   static const struct cs_extent_def SECT_CLEAR_defs[] =
+>>   {
+>>       {SECT_CLEAR_def_1, 0x0000ffc0, 3 },
+>> -    { 0, 0, 0 }
+>> +    { NULL, 0, 0 }
+>>   };
+>>   static const u32 SECT_CTRLCONST_def_1[] =
+>>   {
+>> @@ -1070,11 +1070,11 @@ static const u32 SECT_CTRLCONST_def_1[] =
+>>   static const struct cs_extent_def SECT_CTRLCONST_defs[] =
+>>   {
+>>       {SECT_CTRLCONST_def_1, 0x0000f3fc, 2 },
+>> -    { 0, 0, 0 }
+>> +    { NULL, 0, 0 }
+>>   };
+>>   static const struct cs_section_def evergreen_cs_data[] = {
+>>       { SECT_CONTEXT_defs, SECT_CONTEXT },
+>>       { SECT_CLEAR_defs, SECT_CLEAR },
+>>       { SECT_CTRLCONST_defs, SECT_CTRLCONST },
+>> -    { 0, SECT_NONE }
+>> +    { NULL, SECT_NONE }
+>>   };
+>> --
+>> 2.39.2
+>>
+Hi Alex, thanks for looking into this. By applied you mean this patch is 
+accepted and it has been merged?
