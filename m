@@ -1,63 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E3387E27D7
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 15:57:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 508E57E2842
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 16:11:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABEC810E340;
-	Mon,  6 Nov 2023 14:57:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BABDF10E342;
+	Mon,  6 Nov 2023 15:11:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AD1910E340;
- Mon,  6 Nov 2023 14:57:45 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id
- 4fb4d7f45d1cf-544455a4b56so3516749a12.1; 
- Mon, 06 Nov 2023 06:57:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699282664; x=1699887464; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ehVrC+1P8e5AEmYrp4ZCeRLJM0fpVHdaJr9KAfopYRg=;
- b=B/LzDqY8OTT47fSVrExD54MR1as60CM1oDLdOL+bSnTrUKSeFfgiJl3ZpzKpG/iSsH
- zkMIQypRCtfYglLZmGUKZAPO0uxBWYhIMDFJZjygF13XADwbuJ60gUsHcrGccT9FJs+2
- i7fyOsO5VBNc3/6h4Zc1pSdqDmwpv4mxW1AzGY/TObNtw4Bs6nZ2BqwjAURfnG6JKM5d
- Jdzj5r23u+mwdVv2pDQGYTfpYRn9n0a9OffKAxUSl3jD/J8tmhWsqf3k10RfBHqVX3D+
- tTxAnAw76R31hncl8qA6V46yd2bG2TCcaacVAh/v6PwIisSfogI+FKTCQbWL3m1ne12P
- Uo5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699282664; x=1699887464;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ehVrC+1P8e5AEmYrp4ZCeRLJM0fpVHdaJr9KAfopYRg=;
- b=iv1ZMIaT5ID3soskROheNmF5vUcCet273+iQFBUhB3Q5M5vh0A0pQdDTMCfig6fL9J
- BWZ5CksPObpO7kOzEd1pPirV3z84M8Oulk8cfjxToyiCh2nHoXByjg1A4GVtyf4afYSa
- +QiFgSs8aN4cooM4yIR8OcPWwi0/zrjMGiCMLrI29W26SzzvGMWkFAvfBB6bjRuefgSz
- uiCcoAmiOAXxzWYpmtEn9aWcJ9RBgjLh5Ca+OX7fPPIeMqRWQIj1430SOmVLpt60KpLX
- 3ZFTIuhPVyGvkPSPoH7FAXUH1JIGJkXuclUVmuX3p5agx7FHmCQ+mAPW55GujPlhhfjc
- ab8g==
-X-Gm-Message-State: AOJu0YzeRfiQTFhEuzI8uVbIiDQqj2e2gicJ+DJZgGQ+QyQWbpIjULV6
- 002dSkLZuE1+z3QRouqsobpDOVH2MgG8MysjOSc=
-X-Google-Smtp-Source: AGHT+IFyTv/H4PrYKF0fWcdKoQ6kH+86VkYrm/Xp8DktmWlwAYZry8O4lIUBodarPv3n9W8TJWHIIA+ILxbIR7lSfAk=
-X-Received: by 2002:a05:6402:299:b0:53f:731a:e513 with SMTP id
- l25-20020a056402029900b0053f731ae513mr22341941edv.25.1699282663498; Mon, 06
- Nov 2023 06:57:43 -0800 (PST)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on20624.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe5b::624])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76B6910E342;
+ Mon,  6 Nov 2023 15:11:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oP2YNizelZJ+LiRx+8IQVKXJYYR91xviS5jeCecbTlDO4A3b11zAW4rH74jke6nRkcYyPCKZv/H5lGCSF565RLjJcMWZdH75FPpTgI+mskEySGnrtwdtFtdY09rLQlWukRn75uEgNbzo9n6Ed4dublc3A+2rm5G0+Rr0wxWKUdEalB5TTjn4/4CwXG5lUkdh9HGXFQ1Iv7cJR36JMkqzNhCT1u+85uchaolCSBiRp8H7ng7DxUCiVrcL8QsRmBfxiautDl0XJ8xB6o7NHZTWhn1ilqUJGlD3M6fJWwzJnU5MqsCb1NIjaS9zlBd8jG/Vy26p0UnuvbnjjkvQPmLaFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PfugNjzrQwtVNFpaL8Gj/PyJzuCk7erxt/dxy5n3tL8=;
+ b=Z5gXvFLhg0aeSHKxCtva1HKjFADtC5nk+M6FPWnWcYo2FCFetkjkbsWmxp05ph7tCqtXxmbgWZPHFRSsD7Acc279wyIh6J/tq1fkXuu1bAbUnkGgIBSWSPpAAGvdP+L/+i9GTeM8VIeKFh4vmD+CUTQA/T2xvCk//ZV7adnqx2T0vBsPv9AK99KW+EXfGhsQqoovIokLwgYbIKZhKMxGVG92LDhADjnOtSLYsDDhnrVbTwEk4JOWC+eIQPPaj0BqTsTFkDBnGp75G2X4iOw62L25yyR0wE2/cymoqAgQyZIDF1js/13XlRLZUrqN400sFtj2AVcUoD9tJ3Efh5iqFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PfugNjzrQwtVNFpaL8Gj/PyJzuCk7erxt/dxy5n3tL8=;
+ b=jGRo0a67AfVe9UQlyf48DoJBr99TMeVdwHpZUMhmT2uGR2C3VKl+wcM/+KtWyRFt3Ak+aUhLx6wr5wR5HpaPULh2T2JZzoGd9my7/M0CLCyCtAjS3sU4HnIF9kUgwRH7r3jrycIdt87EBOSnAb2/B36BgoAvA6KTn+e4t8D77Jk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by SN7PR12MB6839.namprd12.prod.outlook.com (2603:10b6:806:265::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Mon, 6 Nov
+ 2023 15:10:55 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::ca80:8f1c:c11:ded3%6]) with mapi id 15.20.6954.027; Mon, 6 Nov 2023
+ 15:10:55 +0000
+Content-Type: multipart/alternative;
+ boundary="------------2P0mETAKNouDVomsGMRe5bZP"
+Message-ID: <6d3c48f6-a92d-49b3-b836-ee1bc95b56bf@amd.com>
+Date: Mon, 6 Nov 2023 16:10:50 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH drm-misc-next v8 09/12] drm/gpuvm: reference count
+ drm_gpuvm structures
+Content-Language: en-US
+To: Danilo Krummrich <dakr@redhat.com>
+References: <20231101233113.8059-1-dakr@redhat.com>
+ <20231101233113.8059-10-dakr@redhat.com>
+ <be93d9ef-3d3e-4262-a280-d2922b983ca1@amd.com> <ZUTyGTxcH7WlHKsv@pollux>
+ <a2e13a27-d2e5-4ae3-9c11-c18b425b69cc@amd.com>
+ <b533af44-0404-49c9-9879-3414d0964acc@redhat.com>
+ <51dea5f3-a18b-4797-b4fa-87da7db4624a@amd.com> <ZUjZFFtLM435tTxJ@pollux>
+ <8e87d962-c80c-40d9-94d7-58b6cd9dd794@amd.com> <ZUj0DdYZUgjhcvf5@pollux>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <ZUj0DdYZUgjhcvf5@pollux>
+X-ClientProxiedBy: FR3P281CA0100.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a1::18) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-References: <CAGWvnynOWoKT1EWkL8ELfRVxSUjm-hBQnnjb-w2Gq-tmOFm0Hg@mail.gmail.com>
- <1807db8f-2ba6-0838-1d4c-39ff4cb7a34d@linux.intel.com>
- <uqzfduftpqlq35pdndovsqtmksjpxr5ei2utz45lwjhnsgchxh@grbzyctiig7w>
- <bd34dffe-86ba-bf1a-b12f-33611da0a7ca@linux.intel.com>
- <5lfrhdpkwhpgzipgngojs3tyqfqbesifzu5nf4l5q3nhfdhcf2@25nmiq7tfrew>
-In-Reply-To: <5lfrhdpkwhpgzipgngojs3tyqfqbesifzu5nf4l5q3nhfdhcf2@25nmiq7tfrew>
-From: David Edelsohn <dje.gcc@gmail.com>
-Date: Mon, 6 Nov 2023 09:57:32 -0500
-Message-ID: <CAGWvnykNuRg=ryONaSg5-dbP-gngGeOb3Nq1Vfq56M824E3Xdg@mail.gmail.com>
-Subject: Re: [PULL] drm-misc-next
-To: Maxime Ripard <mripard@kernel.org>
-Content-Type: multipart/alternative; boundary="00000000000087e66206097d1308"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SN7PR12MB6839:EE_
+X-MS-Office365-Filtering-Correlation-Id: 38618e3a-c4c6-4391-0839-08dbdeda9312
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: P9vqz1L9eTfSx1HhCtwjXXxcrkVEVc2pkI6ERSiDmkHU6LEXIOGztJLOsF4/N7KRoDUHtBBq04V5JNoS48rTEHU3vMTAGg2tXLJQyDd8z2kcKr9Iutdt7a4nLKfwbzlllYWecXjBpXZ+YypmrMr0/AeNqJ0tfxuPWBHMWij3Y/4QJ0PHc1AKTQe7cHBqRWkeC3gNzaNMATjCweanJYIiHRoHv9c4Z67I6OKfKisRG60T5VZGm3JKtkGSlWNN9cENfM9uEDtyiIr8T57vv+bWMerYadMxext/N9bio4bACtquYrufzWB4MBdnK/JDRiKgDqV3uv2WBkDH/86OMKxtzIDtUxfG8UfmKZzHxnOb2YXmp2IRg/PVq6T8h1kKEIj68joKtdNhcT0n4YCdiy9QcrqUtgifanl0nHRvTRlHN9BYA1yAmCfB8Xj3rSdOxVexBPmE20EmP1EvW6BWB0BeDjJh+4N3pf97frLKJKaBVZDqSB+q/64HDFz1qTGELl9GpcW7aDMAYj1LoJgiRyy/CrEybthKpd9VfSmK6p2ZiVT4AU4fhlBd1hW0btZ2a51SEs4ADnxOizyjPTlGvM1CLzCBXWmagIcZ+G7ErI+3Sk4Dy+0uWIm/FGE0MU8CMkWuikrrmUlYqeNwdW+AfpHF1Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(366004)(396003)(346002)(39860400002)(376002)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(36756003)(316002)(66574015)(4326008)(8936002)(8676002)(83380400001)(26005)(66476007)(66946007)(6916009)(66556008)(5660300002)(41300700001)(478600001)(6486002)(6512007)(6666004)(6506007)(33964004)(7416002)(2616005)(31686004)(2906002)(31696002)(86362001)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NW9aQ2NuUnhxeVNCVDIxeVdEbGlGaDg2bG5BVnNDVitoZFRPRmIyRTAralpR?=
+ =?utf-8?B?ajBwcVNSSHpyMXBycXRxMWl1NWp1dlBKemNiVDZtRngxMkdzTUVzbXo5TnB3?=
+ =?utf-8?B?VFE5Z0IxRDhyWGpwQ0FPZHpHRlJoYU9pZWhhdUhWVGJqZTJsMkQzbHBVOWp6?=
+ =?utf-8?B?QXVaRzR2L1hMUmF2QTAwV2Uvcyt1TVhZQW91UXZrOTVyeTdrRER4eGZXUjVy?=
+ =?utf-8?B?TXpkWlovWHlOeHQ0STJxUCtTUnZtTTJKZ2VNbWVwUnlUcStickR0RGFDd01W?=
+ =?utf-8?B?NHlNRUl3TExvRUd4QkNJZnpTeUtLTUROMTdTZVJicUZRNEJKMElKS215VzFj?=
+ =?utf-8?B?V3NZMDBIR0tJdWdZV0F1cHNKckdBLzJIK1d5VmRTZ21pRnNkYllwTU1GVnFz?=
+ =?utf-8?B?ak1lRE9GUDA2cjhqaVpqQ1Y3SURqdGF3MXNwa1p6QzVKdTZ6ZnA5V1pQTUkw?=
+ =?utf-8?B?Y2pBdmxDMTdidXA2eldTdHlPb0s3SUZEejIrWEQzNTExRS9nV2tPdjR3ckF6?=
+ =?utf-8?B?OSt2dGtwc3hmSEhuWGNlclo0RWpUV1NMZmJOdE5ML2EwbXY2Y3I5WVNPUWVi?=
+ =?utf-8?B?a1JjUXFtR1R6cmRpQTIyUVNkc1BtVEh0TVg3SVBZY0dVeEZ5WWQ0UnpYOThp?=
+ =?utf-8?B?SlBtMGN0MnF2YlBKa283ZjUyVVJEV1o4NFE2eEczUWkzQWR2OTBFTEU5SHFG?=
+ =?utf-8?B?SG96QXBaS1pkZGc0NHdOZ3ZCQ1NSQ0YxS0U5VHpEL0U1cmFjS0RPek05K0NS?=
+ =?utf-8?B?OU5CdzFWRXNnZU9NdTJUNDY0c0Q5S1lFV2VzZGsyMi9FYnBXL21rOXdjRFEz?=
+ =?utf-8?B?R2pSSVlsWVluYllPTEVGNWlJMUMwU1h3a1FjcDNRV1lhWjhtRSs4dGJEK1VV?=
+ =?utf-8?B?UUtsNnBNeDg2TVJOWmVUOVQ3WE5tREhISjc5MUtpTUg1T0NPRzY5eDlidnJS?=
+ =?utf-8?B?QVZjbVFaSHpuVWhIMDRRYUJLVmc4Z3N5NlJCRnROV0xEUjlIVGZkaGp2OTF2?=
+ =?utf-8?B?ak44U1NFcWhaVTJ5MG5ZQlpQZlpvdDAxMmp3bVdLbjNvUGdBbVJHMU9wdTNi?=
+ =?utf-8?B?NWRKUklWQktYbTdxc1JieDZYSnJ3dHd4bXR6LzRQcm5uRytWdGdlaUdqY1BX?=
+ =?utf-8?B?bW5Zc0FHY2pNQTJwaFhiVjBLUXMvSFJ4NFVHUUhyUEgxbEZFclpLNjBTTHFF?=
+ =?utf-8?B?L3JIZUhoSWhOTEVhb1orMXlzdDBsTHhwWXUvdmJYSkh2U3UzQnhFRjdpVWlK?=
+ =?utf-8?B?OW9STjJwckhkMElZeGYrWHJQWDIrckp2VHFhVzJUVStTZ0JWRFRRVStKYmZq?=
+ =?utf-8?B?WEpTRzlNcnBxaURubDlqWHYwcWRlWlJ4ZUJEdHlDV3ByU0xYMEZUbjJ0RDhY?=
+ =?utf-8?B?Y0xrL29XaXR3VnYxcGFOcnpUQXUvZkFsd0I5UEtCYlJnT2JQQU95dFRUMEgx?=
+ =?utf-8?B?MVRhay9VQ3FnbjROMjFHdFBsRlZuYVFWV0xOa3d3TmZ1c0JDYm1idG5JaG0v?=
+ =?utf-8?B?Zm90bjZwRDNJT1g5ZUk0REhUaVJkWTlvOW1oZUZtSXg4c3pKakx3Q3RJeThB?=
+ =?utf-8?B?dnBlRm1PMFJQT3RMY25meXFabzBsZmxTYjhsWGNmejNUemd2T1VXMzgvKzRv?=
+ =?utf-8?B?S1ZvelpMbGtSTkZaMmhjTWIxRFFZSHFHeEhQRklBV3lhbE04MWUxdEFrNlVV?=
+ =?utf-8?B?ZEJBMnVzN1pMT0swUFBMNEJPdkV4MU5rM3pSZi83M3ZMRk5DZXVwektGNWk3?=
+ =?utf-8?B?RktzaDJlSkRJSTRVYzRkOGl5eDROYXRlalhqY3N6b3cwbVlyeUhKcmlWWU1m?=
+ =?utf-8?B?UGswWDNuR2E0SDllOXk3NWxwcndMcU9PWENrdUZwOVpCTm9ZQU5JTUU2YkVh?=
+ =?utf-8?B?RnVoT0tySGlxam5pM3g4aWlvWDdVUG1LMHNjWjZFV2M5TEgxVTIyQmlFNE9r?=
+ =?utf-8?B?V3cyalh2Tnd1NFRiTU9HRko3MVZTNGtoZUUwQjluemFUVld6M1FWd0hKYVBQ?=
+ =?utf-8?B?MUlseVYvVTZ6cE9BNFlSSDZGeGp4QW1vT2xJQjVkelBmaGNkcHJzdUR0NmRN?=
+ =?utf-8?B?ektsODJwbThoNW5VU2FDVkxRSUpla2xSNXU5UnlxL0tSOU5KUGgvZW5KYUZI?=
+ =?utf-8?Q?tx48=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 38618e3a-c4c6-4391-0839-08dbdeda9312
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2023 15:10:55.6146 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fw2eOVx/+yk6Q3eZoq9Vo4/NPR/OOpVj+4JU9xCukRwzD5/xJd70BeG8D2nsMrWf
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6839
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,206 +131,306 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- dim-tools@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ faith@gfxstrand.net, boris.brezillon@collabora.com, donald.robson@imgtec.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000087e66206097d1308
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--------------2P0mETAKNouDVomsGMRe5bZP
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 6, 2023 at 5:55=E2=80=AFAM Maxime Ripard <mripard@kernel.org> w=
-rote:
+Am 06.11.23 um 15:11 schrieb Danilo Krummrich:
+> On Mon, Nov 06, 2023 at 02:05:13PM +0100, Christian König wrote:
+>> Am 06.11.23 um 13:16 schrieb Danilo Krummrich:
+>>> [SNIP]
+>>> This reference count just prevents that the VM is freed as long as other
+>>> ressources are attached to it that carry a VM pointer, such as mappings and
+>>> VM_BOs. The motivation for that are VM_BOs. For mappings it's indeed a bit
+>>> paranoid, but it doesn't hurt either and keeps it consistant.
+>> Ah! Yeah, we have similar semantics in amdgpu as well.
+>>
+>> But we keep the reference to the root GEM object and not the VM.
+>>
+>> Ok, that makes much more sense then keeping one reference for each mapping.
+>>
+>>>> Because of this the mapping should *never* have a reference to the VM, but
+>>>> rather the VM destroys all mapping when it is destroyed itself.
+>>>>
+>>>>> Hence, If the VM is still alive at a point where you don't expect it to
+>>>>> be, then it's
+>>>>> simply a driver bug.
+>>>> Driver bugs is just what I try to prevent here. When individual mappings
+>>>> keep the VM structure alive then drivers are responsible to clean them up,
+>>>> if the VM cleans up after itself then we don't need to worry about it in the
+>>>> driver.
+>>> Drivers are *always* responsible for that. This has nothing to do with whether
+>>> the VM is reference counted or not. GPUVM can't clean up mappings after itself.
+>> Why not?
+> I feel like we're talking past each other here, at least to some extend.
+> However, I can't yet see where exactly the misunderstanding resides.
 
-> On Mon, Nov 06, 2023 at 11:37:34AM +0100, Thomas Hellstr=C3=B6m wrote:
-> > On 11/6/23 11:20, Maxime Ripard wrote:
-> > > On Mon, Nov 06, 2023 at 11:01:51AM +0100, Thomas Hellstr=C3=B6m wrote=
-:
-> > > > Hi, David.
-> > > >
-> > > > On 11/3/23 17:37, David Edelsohn wrote:
-> > > > > Dual-license drm_gpuvm to GPL-2.0 OR MIT.
-> > > > > diff --git a/drivers/gpu/drm/drm_gpuvm.c
-> b/drivers/gpu/drm/drm_gpuvm.c
-> > > > > index 02ce6baacdad..08c088319652 100644 ---
-> > > > > a/drivers/gpu/drm/drm_gpuvm.c <
-> https://cgit.freedesktop.org/drm/drm-misc/tree/drivers/gpu/drm/drm_gpuvm.=
-c?id=3D6f2eeef4a0aa9791bbba9d353641a6e067bb86c1
-> >
-> > > > > +++ b/drivers/gpu/drm/drm_gpuvm.c <
-> https://cgit.freedesktop.org/drm/drm-misc/tree/drivers/gpu/drm/drm_gpuvm.=
-c?id=3Df7749a549b4f4db0c02e6b3d3800ea400dd76c12
-> >
-> > > > > @@ -1,4 +1,4 @@
-> > > > > -// SPDX-License-Identifier: GPL-2.0-only
-> > > > > +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> > > > > /*
-> > > > > * Copyright (c) 2022 Red Hat.
-> > > > > *
-> > > > > The above SPDX License Identifier change is incorrect and no long=
-er
-> > > > > valid. The change misunderstood the syntax of SPDX license
-> identifiers
-> > > > > and boolean operations. GPL-2.0-only is the name of the license
-> and means
-> > > > > GPL 2.0 only, as opposed to GPL 2.0 or later. The "only" does not
-> > > > > refer to restrictions on other licenses in the identifier and
-> should not
-> > > > > have been
-> > > > > removed. The hyphens designated that the name was a single unit.
-> > > > > The SPDX License Identifier boolean operators, such as OR, are a
-> > > > > separate layer
-> > > > > of syntax.
-> > > > > The SPDX License Identifier should be
-> > > > > GPL-2.0-only OR MIT
-> > > > > Thanks, David
-> > > > The author has acked the change / relicensing, which is also
-> described in
-> > > > the commit title so could you please elaborate why you think it is
-> not
-> > > > valid?
-> > > I think their point isn't so much about the license itself but rather
-> > > the SPDX syntax to express it.
-> > >
-> > > Maxime
-> >
-> > Hm. There are a pretty large number of these in drm with the same synta=
-x:
-> >
-> > SPDX-License-Identifier: GPL-2.0 OR MIT
-> >
-> > So I read it as whe shouldn't have change "Licence A" to "Licence B OR
-> > C" but instead should have changed it to "Licence A OR C", hence the
-> > *change* (rather than the syntax) would no longer be valid.
-> >
-> > Perhaps I have had too little coffee this morning.
-> >
-> > I'd appreciate if David could clarify.
++1
+
+>> At least in amdgpu we have it exactly like that. E.g. the higher level can
+>> cleanup the BO_VM structure at any time possible, even when there are
+>> mappings.
+> What do you mean with "cleanup the VM_BO structue" exactly?
 >
-> Either way, one of the issue is that GPL-2.0 was deprecated in favour of
-> GPL-2.0-only
+> The VM_BO structure keeps track of all the mappings mapped in the VM_BO's VM
+> being backed by the VM_BO's GEM object. And the GEM objects keeps a list of
+> the corresponding VM_BOs.
 >
-> https://spdx.org/licenses/GPL-2.0.html
->
-> So you effectively changed the preferred syntax to the deprecated one in
-> the process of adding the new license.
->
-> I think that's what David was saying, but there might be something else :=
-)
->
+> Hence, as long as there are mappings that this VM_BO keeps track of, this VM_BO
+> should stay alive.
 
-Yes, that is what I was trying to express.
+No, exactly the other way around. When the VM_BO structure is destroyed 
+the mappings are destroyed with them.
 
-And thanks for posting the patch to correct the name of the identifier.
-I'm not requesting that all uses of the deprecated identifier be changed in
-the Linux kernel, but it would be good to not regress.
+Otherwise you would need to destroy each individual mapping separately 
+before teardown which is quite inefficient.
 
-Thanks, David
+>> The VM then keeps track which areas still need to be invalidated
+>> in the physical representation of the page tables.
+> And the VM does that through its tree of mappings (struct drm_gpuva). Hence, if
+> the VM would just remove those structures on cleanup by itself, you'd loose the
+> ability of cleaning up the page tables. Unless, you track this separately, which
+> would make the whole tracking of GPUVM itself kinda pointless.
 
---00000000000087e66206097d1308
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+But how do you then keep track of areas which are freed and needs to be 
+updated so that nobody can access the underlying memory any more?
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, Nov 6, 2023 at 5:55=E2=80=AFAM Ma=
-xime Ripard &lt;<a href=3D"mailto:mripard@kernel.org">mripard@kernel.org</a=
->&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">On Mon, Nov 06, 2023 at 11:37:34AM +0100, Thomas He=
-llstr=C3=B6m wrote:<br>
-&gt; On 11/6/23 11:20, Maxime Ripard wrote:<br>
-&gt; &gt; On Mon, Nov 06, 2023 at 11:01:51AM +0100, Thomas Hellstr=C3=B6m w=
-rote:<br>
-&gt; &gt; &gt; Hi, David.<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; On 11/3/23 17:37, David Edelsohn wrote:<br>
-&gt; &gt; &gt; &gt; Dual-license drm_gpuvm to GPL-2.0 OR MIT.<br>
-&gt; &gt; &gt; &gt; diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/=
-drm/drm_gpuvm.c<br>
-&gt; &gt; &gt; &gt; index 02ce6baacdad..08c088319652 100644 ---<br>
-&gt; &gt; &gt; &gt; a/drivers/gpu/drm/drm_gpuvm.c &lt;<a href=3D"https://cg=
-it.freedesktop.org/drm/drm-misc/tree/drivers/gpu/drm/drm_gpuvm.c?id=3D6f2ee=
-ef4a0aa9791bbba9d353641a6e067bb86c1" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://cgit.freedesktop.org/drm/drm-misc/tree/drivers/gpu/drm/drm_gpuvm.c?i=
-d=3D6f2eeef4a0aa9791bbba9d353641a6e067bb86c1</a>&gt;<br>
-&gt; &gt; &gt; &gt; +++ b/drivers/gpu/drm/drm_gpuvm.c &lt;<a href=3D"https:=
-//cgit.freedesktop.org/drm/drm-misc/tree/drivers/gpu/drm/drm_gpuvm.c?id=3Df=
-7749a549b4f4db0c02e6b3d3800ea400dd76c12" rel=3D"noreferrer" target=3D"_blan=
-k">https://cgit.freedesktop.org/drm/drm-misc/tree/drivers/gpu/drm/drm_gpuvm=
-.c?id=3Df7749a549b4f4db0c02e6b3d3800ea400dd76c12</a>&gt;<br>
-&gt; &gt; &gt; &gt; @@ -1,4 +1,4 @@<br>
-&gt; &gt; &gt; &gt; -// SPDX-License-Identifier: GPL-2.0-only<br>
-&gt; &gt; &gt; &gt; +// SPDX-License-Identifier: GPL-2.0 OR MIT<br>
-&gt; &gt; &gt; &gt; /*<br>
-&gt; &gt; &gt; &gt; * Copyright (c) 2022 Red Hat.<br>
-&gt; &gt; &gt; &gt; *<br>
-&gt; &gt; &gt; &gt; The above SPDX License Identifier change is incorrect a=
-nd no longer<br>
-&gt; &gt; &gt; &gt; valid. The change misunderstood the syntax of SPDX lice=
-nse identifiers<br>
-&gt; &gt; &gt; &gt; and boolean operations. GPL-2.0-only is the name of the=
- license and means<br>
-&gt; &gt; &gt; &gt; GPL 2.0 only, as opposed to GPL 2.0 or later. The &quot=
-;only&quot; does not<br>
-&gt; &gt; &gt; &gt; refer to restrictions on other licenses in the identifi=
-er and should not<br>
-&gt; &gt; &gt; &gt; have been<br>
-&gt; &gt; &gt; &gt; removed. The hyphens designated that the name was a sin=
-gle unit.<br>
-&gt; &gt; &gt; &gt; The SPDX License Identifier boolean operators, such as =
-OR, are a<br>
-&gt; &gt; &gt; &gt; separate layer<br>
-&gt; &gt; &gt; &gt; of syntax.<br>
-&gt; &gt; &gt; &gt; The SPDX License Identifier should be<br>
-&gt; &gt; &gt; &gt; GPL-2.0-only OR MIT<br>
-&gt; &gt; &gt; &gt; Thanks, David<br>
-&gt; &gt; &gt; The author has acked the change / relicensing, which is also=
- described in<br>
-&gt; &gt; &gt; the commit title so could you please elaborate why you think=
- it is not<br>
-&gt; &gt; &gt; valid?<br>
-&gt; &gt; I think their point isn&#39;t so much about the license itself bu=
-t rather<br>
-&gt; &gt; the SPDX syntax to express it.<br>
-&gt; &gt; <br>
-&gt; &gt; Maxime<br>
-&gt; <br>
-&gt; Hm. There are a pretty large number of these in drm with the same synt=
-ax:<br>
-&gt; <br>
-&gt; SPDX-License-Identifier: GPL-2.0 OR MIT<br>
-&gt; <br>
-&gt; So I read it as whe shouldn&#39;t have change &quot;Licence A&quot; to=
- &quot;Licence B OR<br>
-&gt; C&quot; but instead should have changed it to &quot;Licence A OR C&quo=
-t;, hence the<br>
-&gt; *change* (rather than the syntax) would no longer be valid.<br>
-&gt; <br>
-&gt; Perhaps I have had too little coffee this morning.<br>
-&gt; <br>
-&gt; I&#39;d appreciate if David could clarify.<br>
-<br>
-Either way, one of the issue is that GPL-2.0 was deprecated in favour of<br=
->
-GPL-2.0-only<br>
-<br>
-<a href=3D"https://spdx.org/licenses/GPL-2.0.html" rel=3D"noreferrer" targe=
-t=3D"_blank">https://spdx.org/licenses/GPL-2.0.html</a><br>
-<br>
-So you effectively changed the preferred syntax to the deprecated one in<br=
->
-the process of adding the new license.<br>
-<br>
-I think that&#39;s what David was saying, but there might be something else=
- :)<br></blockquote><div><br></div><div>Yes, that is what I was trying to e=
-xpress.</div><div><br></div><div>And thanks for posting the patch to correc=
-t the name of the identifier.=C2=A0 I&#39;m not requesting that all uses of=
- the deprecated identifier be changed in the Linux kernel, but it would be =
-good to not regress.</div><div><br></div><div>Thanks, David</div><div>=C2=
-=A0</div></div></div>
+>> I would expect that the generalized GPU VM handling would need something
+>> similar. If we leave that to the driver then each driver would have to
+>> implement that stuff on it's own again.
+> Similar to what? What exactly do you think can be generalized here?
 
---00000000000087e66206097d1308--
+Similar to how amdgpu works.
+
+ From what I can see you are basically re-inventing everything we 
+already have in there and asking the same questions we stumbled over 
+years ago.
+
+>>> If the driver left mappings, GPUVM would just leak them without reference count.
+>>> It doesn't know about the drivers surrounding structures, nor does it know about
+>>> attached ressources such as PT(E)s.
+>> What are we talking with the word "mapping"? The BO_VM structure? Or each
+>> individual mapping?
+> An individual mapping represented by struct drm_gpuva.
+
+Yeah than that certainly doesn't work. See below.
+
+>> E.g. what we need to prevent is that VM structure (or the root GEM object)
+>> is released while VM_BOs are still around. That's what I totally agree on.
+>>
+>> But each individual mapping is a different story. Userspace can create so
+>> many of them that we probably could even overrun a 32bit counter quite
+>> easily.
+> REFCOUNT_MAX is specified as 0x7fff_ffff. I agree there can be a lot of
+> mappings, but (including the VM_BO references) more than 2.147.483.647 per VM?
+
+IIRC on amdgpu we can create something like 100k mappings per second and 
+each takes ~64 bytes.
+
+So you just need 128GiB of memory and approx 20 seconds to let the 
+kernel run into a refcount overrun.
+
+The worst I've seen in a real world game was around 19k mappings, but 
+that doesn't mean that this here can't be exploited.
+
+What can be done is to keep one reference per VM_BO structure, but I 
+think per mapping is rather unrealistic.
+
+Regards,
+Christian.
+
+
+
+--------------2P0mETAKNouDVomsGMRe5bZP
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    Am 06.11.23 um 15:11 schrieb Danilo Krummrich:<br>
+    <blockquote type="cite" cite="mid:ZUj0DdYZUgjhcvf5@pollux">
+      <pre class="moz-quote-pre" wrap="">On Mon, Nov 06, 2023 at 02:05:13PM +0100, Christian König wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Am 06.11.23 um 13:16 schrieb Danilo Krummrich:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">[SNIP]
+This reference count just prevents that the VM is freed as long as other
+ressources are attached to it that carry a VM pointer, such as mappings and
+VM_BOs. The motivation for that are VM_BOs. For mappings it's indeed a bit
+paranoid, but it doesn't hurt either and keeps it consistant.
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+Ah! Yeah, we have similar semantics in amdgpu as well.
+
+But we keep the reference to the root GEM object and not the VM.
+
+Ok, that makes much more sense then keeping one reference for each mapping.
+
+</pre>
+        <blockquote type="cite">
+          <blockquote type="cite">
+            <pre class="moz-quote-pre" wrap="">Because of this the mapping should *never* have a reference to the VM, but
+rather the VM destroys all mapping when it is destroyed itself.
+
+</pre>
+            <blockquote type="cite">
+              <pre class="moz-quote-pre" wrap="">Hence, If the VM is still alive at a point where you don't expect it to
+be, then it's
+simply a driver bug.
+</pre>
+            </blockquote>
+            <pre class="moz-quote-pre" wrap="">Driver bugs is just what I try to prevent here. When individual mappings
+keep the VM structure alive then drivers are responsible to clean them up,
+if the VM cleans up after itself then we don't need to worry about it in the
+driver.
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">Drivers are *always* responsible for that. This has nothing to do with whether
+the VM is reference counted or not. GPUVM can't clean up mappings after itself.
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+Why not?
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+I feel like we're talking past each other here, at least to some extend.
+However, I can't yet see where exactly the misunderstanding resides.</pre>
+    </blockquote>
+    <br>
+    +1<br>
+    <br>
+    <span style="white-space: pre-wrap">
+</span>
+    <blockquote type="cite" cite="mid:ZUj0DdYZUgjhcvf5@pollux">
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">At least in amdgpu we have it exactly like that. E.g. the higher level can
+cleanup the BO_VM structure at any time possible, even when there are
+mappings.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+What do you mean with &quot;cleanup the VM_BO structue&quot; exactly?
+
+The VM_BO structure keeps track of all the mappings mapped in the VM_BO's VM
+being backed by the VM_BO's GEM object. And the GEM objects keeps a list of
+the corresponding VM_BOs.
+
+Hence, as long as there are mappings that this VM_BO keeps track of, this VM_BO
+should stay alive.</pre>
+    </blockquote>
+    <br>
+    No, exactly the other way around. When the VM_BO structure is
+    destroyed the mappings are destroyed with them.<br>
+    <br>
+    Otherwise you would need to destroy each individual mapping
+    separately before teardown which is quite inefficient.<br>
+    <br>
+    <span style="white-space: pre-wrap">
+</span>
+    <blockquote type="cite" cite="mid:ZUj0DdYZUgjhcvf5@pollux">
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">The VM then keeps track which areas still need to be invalidated
+in the physical representation of the page tables.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+And the VM does that through its tree of mappings (struct drm_gpuva). Hence, if
+the VM would just remove those structures on cleanup by itself, you'd loose the
+ability of cleaning up the page tables. Unless, you track this separately, which
+would make the whole tracking of GPUVM itself kinda pointless.</pre>
+    </blockquote>
+    <br>
+    But how do you then keep track of areas which are freed and needs to
+    be updated so that nobody can access the underlying memory any more?<br>
+    <br>
+    <span style="white-space: pre-wrap">
+</span>
+    <blockquote type="cite" cite="mid:ZUj0DdYZUgjhcvf5@pollux">
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">I would expect that the generalized GPU VM handling would need something
+similar. If we leave that to the driver then each driver would have to
+implement that stuff on it's own again.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Similar to what? What exactly do you think can be generalized here?</pre>
+    </blockquote>
+    <br>
+    Similar to how amdgpu works.<br>
+    <br>
+    From what I can see you are basically re-inventing everything we
+    already have in there and asking the same questions we stumbled over
+    years ago.<br>
+    <br>
+    <span style="white-space: pre-wrap">
+</span>
+    <blockquote type="cite" cite="mid:ZUj0DdYZUgjhcvf5@pollux">
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">If the driver left mappings, GPUVM would just leak them without reference count.
+It doesn't know about the drivers surrounding structures, nor does it know about
+attached ressources such as PT(E)s.
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+What are we talking with the word &quot;mapping&quot;? The BO_VM structure? Or each
+individual mapping?
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+An individual mapping represented by struct drm_gpuva.</pre>
+    </blockquote>
+    <br>
+    Yeah than that certainly doesn't work. See below.<br>
+    <br>
+    <span style="white-space: pre-wrap">
+</span>
+    <blockquote type="cite" cite="mid:ZUj0DdYZUgjhcvf5@pollux">
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">E.g. what we need to prevent is that VM structure (or the root GEM object)
+is released while VM_BOs are still around. That's what I totally agree on.
+
+But each individual mapping is a different story. Userspace can create so
+many of them that we probably could even overrun a 32bit counter quite
+easily.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+REFCOUNT_MAX is specified as 0x7fff_ffff. I agree there can be a lot of
+mappings, but (including the VM_BO references) more than 2.147.483.647 per VM?</pre>
+    </blockquote>
+    <br>
+    IIRC on amdgpu we can create something like 100k mappings per second
+    and each takes ~64 bytes.<br>
+    <br>
+    So you just need 128GiB of memory and approx 20 seconds to let the
+    kernel run into a refcount overrun.<br>
+    <br>
+    The worst I've seen in a real world game was around 19k mappings,
+    but that doesn't mean that this here can't be exploited.<br>
+    <br>
+    What can be done is to keep one reference per VM_BO structure, but I
+    think per mapping is rather unrealistic.<br>
+    <br>
+    Regards,<br>
+    Christian.<br>
+    <br>
+    <br>
+    <br>
+  </body>
+</html>
+
+--------------2P0mETAKNouDVomsGMRe5bZP--
