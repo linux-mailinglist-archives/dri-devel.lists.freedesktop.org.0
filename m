@@ -2,85 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 147C97E2A21
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 17:43:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2AEE7E2A33
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 17:46:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAEDD10E354;
-	Mon,  6 Nov 2023 16:43:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B41F610E359;
+	Mon,  6 Nov 2023 16:46:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E5A710E354
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 16:43:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1699288983;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=demYFbT8NdCvlVcXbfq0xkIzU4JrzURf1aMU2MsFGP8=;
- b=N1Lzti0qvocj1MKpaYEdlJHzRopjXU3D9Ypbs3vp2kDjLwxVM7cmeIcvg4RzReXddZncM3
- W4EE08cRQdeZvs2YH4J+edn3xyLTYLZqBDE0DcfdEx/q2vYGPe63Rsok6z4ZmuwYNw1EB/
- 74RlIsdOpaAoKQd8hWkog3kcyGW191M=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-571-6c-ABQGbNySOarfLpjGuVg-1; Mon, 06 Nov 2023 11:43:01 -0500
-X-MC-Unique: 6c-ABQGbNySOarfLpjGuVg-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-9bf1047cb28so335869566b.2
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 08:43:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699288980; x=1699893780;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=demYFbT8NdCvlVcXbfq0xkIzU4JrzURf1aMU2MsFGP8=;
- b=Y0vmWQ01FzpNmjzRHgASQRiI/tFPa5jURy+EnY6JQ1Euzx2ZLFYfxpE48EV46Euw2J
- bq9gjltxgBNNjKZ8AaIVGoyiDD4IUql0Vjpw5f+uPf96lKKFQIESOHNZDAAjDI0iqQQQ
- xxMtpkPVeei/ET1Nv5V3z4z0Cfy7mf2rIfXKxqMFCa7wftwmhhpFi2oI7Shyl38qOOl4
- /QfooXosT/S5kS947bcMgfgjr1vYpgx5M3mUW5pFnB2uK8UhTnI3eGaBqzi5H7vBswQH
- mkWpTUZItnRUmKrV2gUbS6xHrgfvN48J/hC8SpjBkvfH/JKtVNbbKmI4ljru2wf+ukLe
- AmYg==
-X-Gm-Message-State: AOJu0YwiA2W0mP5l2wu3jdqMcGnGAqAYxoWuRhXxHRQkCUfB0A3n0vJN
- r8BAxuM82coCT8UD+esaoyOJPLmz/HCMxmHzOdNAjU4XjktP+OFM+h/+VQLYTbEJoiVzmKwHe9T
- SPB0Gx3gXO4LJKKeKJDvNHCcN9DAv
-X-Received: by 2002:a17:907:928e:b0:9bd:fc4b:6c9b with SMTP id
- bw14-20020a170907928e00b009bdfc4b6c9bmr13504478ejc.36.1699288980027; 
- Mon, 06 Nov 2023 08:43:00 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGVPJsYG3aMdFI5JpPur2FeiziwRgTsK4RlEloHYDldOEJVfngzX+4WALEbu2FkUVLxIU9I7g==
-X-Received: by 2002:a17:907:928e:b0:9bd:fc4b:6c9b with SMTP id
- bw14-20020a170907928e00b009bdfc4b6c9bmr13504461ejc.36.1699288979682; 
- Mon, 06 Nov 2023 08:42:59 -0800 (PST)
-Received: from pollux ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- t16-20020a17090616d000b009ce03057c48sm16987ejd.214.2023.11.06.08.42.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Nov 2023 08:42:59 -0800 (PST)
-Date: Mon, 6 Nov 2023 17:42:56 +0100
-From: Danilo Krummrich <dakr@redhat.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH drm-misc-next v8 09/12] drm/gpuvm: reference count
- drm_gpuvm structures
-Message-ID: <ZUkXkJ+zT7OFGosC@pollux>
-References: <20231101233113.8059-10-dakr@redhat.com>
- <be93d9ef-3d3e-4262-a280-d2922b983ca1@amd.com>
- <ZUTyGTxcH7WlHKsv@pollux>
- <a2e13a27-d2e5-4ae3-9c11-c18b425b69cc@amd.com>
- <b533af44-0404-49c9-9879-3414d0964acc@redhat.com>
- <51dea5f3-a18b-4797-b4fa-87da7db4624a@amd.com>
- <ZUjZFFtLM435tTxJ@pollux>
- <8e87d962-c80c-40d9-94d7-58b6cd9dd794@amd.com>
- <ZUj0DdYZUgjhcvf5@pollux>
- <6d3c48f6-a92d-49b3-b836-ee1bc95b56bf@amd.com>
-MIME-Version: 1.0
-In-Reply-To: <6d3c48f6-a92d-49b3-b836-ee1bc95b56bf@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2047.outbound.protection.outlook.com [40.107.220.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C52310E359;
+ Mon,  6 Nov 2023 16:46:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BeoJ9olzQlbhAsrMagcxyjFfD1LGLLomDxHRD51B3dYwHh08Nz2mmt0GKI6CZ0avc1H9+bHb7ihsfTLKHO0dKngzOA9ZRcHPCsr9JZlRqeIvz/gqZNQc3wk79MJVkgzd8tvYrRcAzxomQq6RXn4QYnTm1qrsi9nWIiXfNfFsRy+xljUBTQLZhm+kOnRNru0r1WhKq8UpHnnBEQhbssM9fcDfYVIXe67STBRuu0Ou61YYi87jo/6zjEYxqIObgbuY/JEfcFnvsbXSZ8e47UG2QaRQJqAmm+VLdRO+/PAVemuv6Wi5FMNpEWq9JZ2v08TYbvGxqMTdpu++qEspKSxP9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4k4WZ/A1TYfkk0m2CIMNmMpw7PJw5qnrqUp5yr5hdsc=;
+ b=XtfKtxPfe32qvCPXBnjhAwyQx+Ne0bTOyn6MLe9xl5vLQoQ7yB2BjJPqYKOgr+tWygSm80CklyMjtCpewd91OK2YFzsQTfNOT7uj8HlWOPfXlAcvuZ4c/nUQmUya3ZiPdzXEUr3Qq2hvuhTzN9aSZPHvPmp2KRDCPD8jgMIWAQqOM9RGNHRJqbNUd3LiN17QPsjtDO3g2VSAyW2TQH3m4Qs4q5K0RF0fpK1AcA54DZK+mvA7EdP+HQQ7yscCb75X3V9KoRHFxUM4Iuev3Hq2jECZij62qN6TcuuWlbLPD0g9IttMgiXnYhb+EaTPeeWFBkVFP8MJQ3IANZjz+RDPSA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4k4WZ/A1TYfkk0m2CIMNmMpw7PJw5qnrqUp5yr5hdsc=;
+ b=q31wrKnkD52mi6aRK6Izo3oPtqi5B+I2d30izX3sArhGuZ1Jbwgh88kcv/3eS5vBJcPXxTCH6hUlLmlMIXzwR093KFemxec5C/7Xlf5VN5e/zVOWwijPZTpI/rSkNAiQKbDnPFsGzLR30eHnAc6drX65LJcwluO9YJamRQsTHyg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by CO6PR12MB5459.namprd12.prod.outlook.com (2603:10b6:303:13b::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Mon, 6 Nov
+ 2023 16:46:14 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::83d7:9c4f:4d9b:1f2a]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::83d7:9c4f:4d9b:1f2a%5]) with mapi id 15.20.6954.027; Mon, 6 Nov 2023
+ 16:46:14 +0000
+Message-ID: <00e4bd57-bcf4-4fb0-805a-61fbf6ef2587@amd.com>
+Date: Mon, 6 Nov 2023 10:46:08 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/9] PCI: Drop pci_is_thunderbolt_attached()
+Content-Language: en-US
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+References: <20231103190758.82911-1-mario.limonciello@amd.com>
+ <20231103190758.82911-4-mario.limonciello@amd.com>
+ <4747b7b8-ea48-4117-f746-a18dae97bc2@linux.intel.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <4747b7b8-ea48-4117-f746-a18dae97bc2@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN7PR04CA0041.namprd04.prod.outlook.com
+ (2603:10b6:806:120::16) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|CO6PR12MB5459:EE_
+X-MS-Office365-Filtering-Correlation-Id: f2fd8018-7f26-4b4f-4f23-08dbdee7e35f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CIeJEUaF7oSw8wrZDbdwbfM+FCJGvNUjm8ILjIFpNikla2R4QWbsA6fBiH4HmjRFoxr+1BQmZpfpKb9VuAqXEs2T9+kbVIzZxUEztrPllOn/FSU9ENC/Z4Iw2tBesacL1axybu0VQL7Xp8iiqUPrKXWTLLXJJVj0LXheMRFcOOgp+3IGhIsGzPovBUpcHUr4AIOuEf/E17mbM0KEtv5KZRYyDTTdvKNkMbUOBFufzlZRL5MdTCcGd/dXI70SdZCpUJxklC2r6qjC8Bw6m3+djEvwYCKKiAL+kmecT6hz8NdI5PVAHQ1E9YzQC8PUyZTJMPCMIUX4RkM1W5fatEEiRS9TM8flUArKSC2DgLM/q8TCCDP+3pPp+/seBNTWEk4PhfpXoZ4JVsfWyf5deCBgjadchXSY6d4OAO++INcQ1RsD1JzlD+D3FZsR+gK9uxuYgnhJ59bt3d3stl7MUd/6P+CQElo282MbZcR22Rx1d44flPtqbn4a3ZuctghRHGmI0H1iZD6lLdrXnhTeccSYcQguC46hqbrIVVTxoIJOIq3EeUK4UohIi3FXHa4sc97WHlJpmk29YSBa/duJb2IOQC6ynMPrsQqJTohglMssHlIUUY0yfgD+4hbSxa3t5eMm
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(136003)(376002)(366004)(346002)(39860400002)(230922051799003)(1800799009)(64100799003)(451199024)(186009)(86362001)(38100700002)(7416002)(5660300002)(41300700001)(2906002)(31696002)(36756003)(478600001)(83380400001)(31686004)(53546011)(6512007)(66946007)(26005)(2616005)(66556008)(316002)(6916009)(54906003)(66476007)(966005)(6486002)(44832011)(6666004)(6506007)(4326008)(8936002)(8676002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aHYyUDJ5MDRuTGgxOVA0TFFZSitMb05ua0pPVFpKbFhJbnY3d0hUeFNPb1FJ?=
+ =?utf-8?B?NXNpYkVFZDVGbGx6S1JML3V1Sk1FY1BRTi9DdUl1clNYeHY2QUwwenhQL0po?=
+ =?utf-8?B?UjlDdUlPZ3FDUU4yRit5RW9XY3ZFb0hsMGhaYW9vWWh0WUwxV24zSmQ4T2wy?=
+ =?utf-8?B?aG5MZ0syNVVvdWxoaFFCclFhQjZha09iZFg4cENwMytDbFJiNWpLbU1lMU1W?=
+ =?utf-8?B?U3dLaGZSSzVTQXptMHh2RjhSeTJSTnc1V21GVzBNVkc5WW1PbG9yTHFRbXRC?=
+ =?utf-8?B?eGgzd3pXTUs3TXM4ZGFQVjQ4UUFQRmxqdTg5SG5xcytVMmh5aXdsWFNVMG4v?=
+ =?utf-8?B?blhCaSs0a1A4bG1aVU5mSXRzMlplOUZxNFZFMWJXdWh3QXJIRFdRc1lIck1w?=
+ =?utf-8?B?MGVpalJpa09aK3g3VWZybS81Nkt4aXhqM0ZtcXZmenl0QVoxbklSc3hIemNo?=
+ =?utf-8?B?K21WSStQUm50Ykp1TExDdG9FUExUMitjZERkQ2RGU3oySXN1Z3pPU3Z5TkEw?=
+ =?utf-8?B?SVFzSjB6bGt1YmFoc25qZytiTkJXcm5MYmFkRDRqd1l1bS9LOWhVMnFyS0d1?=
+ =?utf-8?B?MEtnRnJTL1U3cFJKaThER1NHSzBnVzJSMTlPa3h3NFV0RkEzd2VQVWkvUjA4?=
+ =?utf-8?B?WXgrcXdxVWE3dkZjRjB0bzdjSmpYTDFYdnZJVFNxL2VZZ21YL241SStNYThu?=
+ =?utf-8?B?dUxpZnJVbGJpVkd0NWtxbFpUeGE4WjVLTGVIWTU2ZWVIQ2pPUUp2VXp5RzIy?=
+ =?utf-8?B?NUNyQXdMcXdha3VZTmVxT1VpMEUvZWdiRDBxVUtFOWVuODlhT1R4ZWg5aFAz?=
+ =?utf-8?B?VU81WHQvaEhlV2ZhYzBGZW1Vb2V0Vy82dHpLMVlkK21KQmpTVW1udzErTjc0?=
+ =?utf-8?B?S1pQU2JPc3d1bXE1aXJNcHhPa1BLVzNxdWNJQ3B2cGhxS1k4TDhuM1c1dW02?=
+ =?utf-8?B?MzdpdXlPRFhKYm8ySHVjc0RJQ0NxZ1NmOVdMS01YRHAvN2VYbmVXNnVyY3JY?=
+ =?utf-8?B?WTNwTkRsaS85cGVaRldlZENiYk1xamV4Y2JOQkwxaDIwck4xK05LQ0NRa3pH?=
+ =?utf-8?B?TTVEdkJZV2lCVmdXb054dEFZU3I5aktIS3BZUEFPSVg5U1NGNkpnVGxWeGYz?=
+ =?utf-8?B?b25JcnlBK1I5THF2SkhTYVgwY0ZId3JGOWErSEpaWjM4emQ5RVp4bDJHMzhj?=
+ =?utf-8?B?YjlNc29zUTBCSW5JUk5TTnY3c3IxRnN2ZVJPSFdTUmVEeEVFdklueHhaYWhN?=
+ =?utf-8?B?TzBwL0ptN2pPSkVESW5kMHVWT2I4UE5pMk5rejVjbFdNd1FJRVYrMWhsZ2Rz?=
+ =?utf-8?B?RHJsaVQxckQ4b2V3Wk8wZ2RGRG9DM1AxS2tDTUFYbGExdmx3K3VvOG0reDRt?=
+ =?utf-8?B?ZW0wN2ZmQkk3a0NLbk5yaHNtVjRuTTViN0pTOVhYc2NsVk0zWWJvanMwVlBB?=
+ =?utf-8?B?MENnZDBuekF6dFMrTXZlRE1RMVJmaW1ET0M2aUVpWUtmRkJqbStQWktKQ0ln?=
+ =?utf-8?B?Ry9NeWQ2Q1luRGQzYW85TWFSMEpvd3BPM2RsRy9pdldJL3BwbzFsK3NtaGxD?=
+ =?utf-8?B?R2p1VVFpYmY2bm56d1ZOYXFxbk5vVzA5bXAvVlNFWmdTNTVkaSthNWdsNnFW?=
+ =?utf-8?B?cU9PdmgyZktsTnkxVUlGOU9rTTdGeUVDb2JTbEYxUmpIRTg5Rm44RUNnZW1z?=
+ =?utf-8?B?UGtJVFdRVXBTVTJqV1F4QUFGanhtcHdTTVVWUGJiajNyR0F4VTV3elJzRDRa?=
+ =?utf-8?B?cjNxTGxkdTY5ajJ4UDFnZlNnUWpzN3RNQnBmNnRWYjQ2SzZmbkN1WkZKRGNp?=
+ =?utf-8?B?RHBwRTFreFFnV2NkYUFuN0xxU2lmWGFUNmNRdnJoT2wvQTVYRVdiNksyYlpy?=
+ =?utf-8?B?ckQ4L0owTnJ5TzN6RzdPaGVRVm0yd2EyYnZkTDVZZjBENWR1S2ZjWkZoRzFw?=
+ =?utf-8?B?REF5K1E4L01vWGNJQ29ST2tmVG1aMXlYZkU0V2xuMm50d2xRdXVIamFLUGZU?=
+ =?utf-8?B?QWNTYWMxQ29GTklQa2QrazE0NXNpSVNvTkwwTnZUam93VTdkN2ZtOGFJdE5W?=
+ =?utf-8?B?VnRZZWJaZllOdnlnTUR2NHIzWHFKWjgyQjZtZEIyUFlCNjVuWkh2UzlvalRE?=
+ =?utf-8?Q?Fe33DM1ogHIVEDSu1gHXxcyfe?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2fd8018-7f26-4b4f-4f23-08dbdee7e35f
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2023 16:46:14.2846 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: l8ScKQKnTLwrn/ojGvrLtj7ItMW6VOssrrPvrwUKJuoVWTknF3jUHrwUMBvskyGOFpW5NKvchYGMePXFNy+hEQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5459
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,182 +125,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- sarah.walker@imgtec.com, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- faith@gfxstrand.net, boris.brezillon@collabora.com, donald.robson@imgtec.com
+Cc: "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
+ Karol Herbst <kherbst@redhat.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>,
+ "open list:X86 PLATFORM DRIVERS" <platform-driver-x86@vger.kernel.org>,
+ Andreas Noever <andreas.noever@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:ACPI" <linux-acpi@vger.kernel.org>,
+ Danilo Krummrich <dakr@redhat.com>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Michael Jamet <michael.jamet@intel.com>, Mark Gross <markgross@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, open list <linux-kernel@vger.kernel.org>,
+ Yehezkel Bernat <YehezkelShB@gmail.com>,
+ =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Maciej W . Rozycki" <macro@orcam.me.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 06, 2023 at 04:10:50PM +0100, Christian König wrote:
-> Am 06.11.23 um 15:11 schrieb Danilo Krummrich:
-> > On Mon, Nov 06, 2023 at 02:05:13PM +0100, Christian König wrote:
-> > > Am 06.11.23 um 13:16 schrieb Danilo Krummrich:
-> > > > [SNIP]
-> > > > This reference count just prevents that the VM is freed as long as other
-> > > > ressources are attached to it that carry a VM pointer, such as mappings and
-> > > > VM_BOs. The motivation for that are VM_BOs. For mappings it's indeed a bit
-> > > > paranoid, but it doesn't hurt either and keeps it consistant.
-> > > Ah! Yeah, we have similar semantics in amdgpu as well.
-> > > 
-> > > But we keep the reference to the root GEM object and not the VM.
-> > > 
-> > > Ok, that makes much more sense then keeping one reference for each mapping.
-> > > 
-> > > > > Because of this the mapping should *never* have a reference to the VM, but
-> > > > > rather the VM destroys all mapping when it is destroyed itself.
-> > > > > 
-> > > > > > Hence, If the VM is still alive at a point where you don't expect it to
-> > > > > > be, then it's
-> > > > > > simply a driver bug.
-> > > > > Driver bugs is just what I try to prevent here. When individual mappings
-> > > > > keep the VM structure alive then drivers are responsible to clean them up,
-> > > > > if the VM cleans up after itself then we don't need to worry about it in the
-> > > > > driver.
-> > > > Drivers are *always* responsible for that. This has nothing to do with whether
-> > > > the VM is reference counted or not. GPUVM can't clean up mappings after itself.
-> > > Why not?
-> > I feel like we're talking past each other here, at least to some extend.
-> > However, I can't yet see where exactly the misunderstanding resides.
+On 11/6/2023 06:33, Ilpo JÃ¤rvinen wrote:
+> On Fri, 3 Nov 2023, Mario Limonciello wrote:
 > 
-> +1
+>> All callers have switched to dev_is_removable() for detecting
+>> hotpluggable PCIe devices.
+>>
+>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>> ---
+>>   include/linux/pci.h | 22 ----------------------
+>>   1 file changed, 22 deletions(-)
+>>
+>> diff --git a/include/linux/pci.h b/include/linux/pci.h
+>> index b56417276042..530b0a360514 100644
+>> --- a/include/linux/pci.h
+>> +++ b/include/linux/pci.h
+>> @@ -2616,28 +2616,6 @@ static inline bool pci_ari_enabled(struct pci_bus *bus)
+>>   	return bus->self && bus->self->ari_enabled;
+>>   }
+>>   
+>> -/**
+>> - * pci_is_thunderbolt_attached - whether device is on a Thunderbolt daisy chain
+>> - * @pdev: PCI device to check
+>> - *
+>> - * Walk upwards from @pdev and check for each encountered bridge if it's part
+>> - * of a Thunderbolt controller.  Reaching the host bridge means @pdev is not
+>> - * Thunderbolt-attached.  (But rather soldered to the mainboard usually.)
+>> - */
+>> -static inline bool pci_is_thunderbolt_attached(struct pci_dev *pdev)
+>> -{
+>> -	struct pci_dev *parent = pdev;
+>> -
+>> -	if (pdev->is_thunderbolt)
+>> -		return true;
+>> -
+>> -	while ((parent = pci_upstream_bridge(parent)))
+>> -		if (parent->is_thunderbolt)
+>> -			return true;
+>> -
+>> -	return false;
+>> -}
+>> -
+>>   #if defined(CONFIG_PCIEPORTBUS) || defined(CONFIG_EEH)
+>>   void pci_uevent_ers(struct pci_dev *pdev, enum  pci_ers_result err_type);
+>>   #endif
+>>
 > 
-> > > At least in amdgpu we have it exactly like that. E.g. the higher level can
-> > > cleanup the BO_VM structure at any time possible, even when there are
-> > > mappings.
-> > What do you mean with "cleanup the VM_BO structue" exactly?
-> > 
-> > The VM_BO structure keeps track of all the mappings mapped in the VM_BO's VM
-> > being backed by the VM_BO's GEM object. And the GEM objects keeps a list of
-> > the corresponding VM_BOs.
-> > 
-> > Hence, as long as there are mappings that this VM_BO keeps track of, this VM_BO
-> > should stay alive.
-> 
-> No, exactly the other way around. When the VM_BO structure is destroyed the
-> mappings are destroyed with them.
-
-This seems to be the same misunderstanding as with the VM reference count.
-
-It seems to me that you want to say that for amdgpu it seems to be a use-case
-to get rid of all mappings backed by a given BO and mapped in a given VM, hence
-a VM_BO. You can do that. Thers's even a helper for that in GPUVM.
-
-But also in this case you first need to get rid of all mappings before you
-*free* the VM_BO - GPUVM ensures that.
-
-> 
-> Otherwise you would need to destroy each individual mapping separately
-> before teardown which is quite inefficient.
-
-Not sure what you mean, but I don't see a difference between walking all VM_BOs
-and removing their mappings and walking the VM's tree of mappings and removing
-each of them. Comes down to the same effort in the end. But surely can go both
-ways if you know all the existing VM_BOs.
-
-> 
-> > > The VM then keeps track which areas still need to be invalidated
-> > > in the physical representation of the page tables.
-> > And the VM does that through its tree of mappings (struct drm_gpuva). Hence, if
-> > the VM would just remove those structures on cleanup by itself, you'd loose the
-> > ability of cleaning up the page tables. Unless, you track this separately, which
-> > would make the whole tracking of GPUVM itself kinda pointless.
-> 
-> But how do you then keep track of areas which are freed and needs to be
-> updated so that nobody can access the underlying memory any more?
-
-"areas which are freed", what do refer to? What do yo mean with that?
-
-Do you mean areas of the VA space not containing mappings? Why would I need to
-track them explicitly? When the mapping is removed the corresponding page tables
-/ page table entries are gone as well, hence no subsequent access to the
-underlaying memory would be possible.
-
-> 
-> > > I would expect that the generalized GPU VM handling would need something
-> > > similar. If we leave that to the driver then each driver would have to
-> > > implement that stuff on it's own again.
-> > Similar to what? What exactly do you think can be generalized here?
-> 
-> Similar to how amdgpu works.
-
-I don't think it's quite fair to just throw the "look at what amdgpu does"
-argument at me. What am I supposed to do? Read and understand *every* detail of
-*every* driver?
-
-Did you read through the GPUVM code? That's a honest question and I'm asking it
-because I feel like you're picking up some details from commit messages and
-start questioning them (and that's perfectly fine and absolutely welcome).
-
-But if the answers don't satisfy you or do not lead to a better understanding it
-just seems you ask others to check out amdgpu rather than taking the time to go
-though the proposed code yourself making suggestions to improve it or explicitly
-point out the changes you require.
-
-> 
-> From what I can see you are basically re-inventing everything we already
-> have in there and asking the same questions we stumbled over years ago.
-
-I did not ask any questions in the first place. I came up with something that
-Nouveau, Xe, Panthor, PowerVR, etc. required and that works for them.
-
-They also all provided a lot of ideas and contributed code through the review
-process.
-
-Of course, I want this to work for amdgpu as well. So, if you think we're
-missing something fundamential or if you see something that simply doesn't work
-for other drivers, like amdgpu, please educate us. I'm surely willing to learn
-and, if required, change the code.
-
-But please don't just tell me I would re-invent amdgpu and assume that I know
-all the details of this driver. None of that is reasonable.
-
-> 
-> > > > If the driver left mappings, GPUVM would just leak them without reference count.
-> > > > It doesn't know about the drivers surrounding structures, nor does it know about
-> > > > attached ressources such as PT(E)s.
-> > > What are we talking with the word "mapping"? The BO_VM structure? Or each
-> > > individual mapping?
-> > An individual mapping represented by struct drm_gpuva.
-> 
-> Yeah than that certainly doesn't work. See below.
-> 
-> > > E.g. what we need to prevent is that VM structure (or the root GEM object)
-> > > is released while VM_BOs are still around. That's what I totally agree on.
-> > > 
-> > > But each individual mapping is a different story. Userspace can create so
-> > > many of them that we probably could even overrun a 32bit counter quite
-> > > easily.
-> > REFCOUNT_MAX is specified as 0x7fff_ffff. I agree there can be a lot of
-> > mappings, but (including the VM_BO references) more than 2.147.483.647 per VM?
-> 
-> IIRC on amdgpu we can create something like 100k mappings per second and
-> each takes ~64 bytes.
-> 
-> So you just need 128GiB of memory and approx 20 seconds to let the kernel
-> run into a refcount overrun.
-
-100.000 * 20 = 2.000.000
-
-That's pretty far from REFCOUNT_MAX with 2.147.483.647. So, it's more like
-20.000s if we can keep the pace and have enough memory. Also, it's not only the
-mapping structures itself, it's also page tables, userspace structures, etc.
-
-Again, is the number of ~2.15 Billion mappings something we really need to worry
-about?
-
-I'm still not convinced about that. But I think we can also just cap GPUVM at,
-let's say, 1 Billion mappings?
-
-> 
-> The worst I've seen in a real world game was around 19k mappings, but that
-> doesn't mean that this here can't be exploited.
-> 
-> What can be done is to keep one reference per VM_BO structure, but I think
-> per mapping is rather unrealistic.
-> 
-> Regards,
-> Christian.
-> 
+> I don't think all callers have been removed. Ah, lkp has caught the same
+> problem.
 > 
 
+As I mentioned in the cover letter this series is done on 6.6 + a patch 
+going into 6.7-rc1.  The LKP report will drop off when I rebase the 
+series on 6.7-rc1.
+
+As it's not yet in Linus' tree here is that patch so you can see it:
+
+https://gitlab.freedesktop.org/agd5f/linux/-/commit/7b1c6263eaf4fd64ffe1cafdc504a42ee4bfbb33
