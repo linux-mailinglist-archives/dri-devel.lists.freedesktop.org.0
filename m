@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC727E2F9E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 23:12:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 810927E2FA3
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 23:13:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9E2210E448;
-	Mon,  6 Nov 2023 22:12:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5F7F10E279;
+	Mon,  6 Nov 2023 22:13:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com
- [IPv6:2607:f8b0:4864:20::1129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDC7510E44D
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 22:11:59 +0000 (UTC)
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-5a7d9d357faso58239557b3.0
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 14:11:59 -0800 (PST)
+Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
+ [IPv6:2607:f8b0:4864:20::1131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96C3E10E279
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 22:13:56 +0000 (UTC)
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-5afbdbf3a19so58650917b3.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 14:13:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1699308719; x=1699913519; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1699308836; x=1699913636; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=TGM/lCcxyrtlyI0/1HNh1y04S/ydjRYuctHpQFy0HgE=;
- b=b9reIAJFMzZ2yGo43J0bdC1x9EpePaztqILKe3Gs3DJDYNNNV21JG4zlr24FaBzHiT
- Rjse1pyvBvx9zt4wbSA09GkCRmKX7D0I4ymIfU+hzCqK5E4jjfEHJuZrt/cfm5zThfrm
- Y8jWbiCxxmH09DBHgt8SpEWfjh/SDlhCMpHvO1fXjNb9Rl45cCz2miza+T1QmfQX7NcY
- zaok6Ror1jKG3ufMoPn6QuTVSSJesunDHtpzZVZr9JFoz0atu+3IAZBAWDykoaZjTGQ9
- cg8Ya4QFx8lyZ/oMIwag15YWKPU0ltZX+3gvASW3pHLlR3bUKSXOmts3BzX/ao+6QOLW
- gPSg==
+ bh=uUpUpyCuMj5XPYdHc/EmQkzHInZezJx7st9D4tF+occ=;
+ b=xybjpcuYsgDsQlHO5gYyqv4ypUMmBi4Z0pYix7fQhv5+BxjBitdGSedvccbwJU4tAh
+ FbH83TnUOT3o4ocG0Qo5b7J0yGL1EObk1owpvsf5D4AFcFDD2sL1SEAUW4qQ8KxAOd+R
+ rRy2JqBTFQNEguDkk3g4ErePbf+4mFBVO6TWtf2Raf/8sDmaqd+CV8bQSkb7lzlzxdkb
+ E6z+LgKUqbp82rFe7dsYl4bl+K6YIJNW1MVjbQaS2yRWTTo/HAKgs7F5/+/qZvmV0LHJ
+ NMOsVRwMZ4LOAXhsnE/9NtkjjkJTuVCp/kVu0GQu21SFmjUb4INX3IiA92DEbw5KlQYG
+ pdig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699308719; x=1699913519;
+ d=1e100.net; s=20230601; t=1699308836; x=1699913636;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=TGM/lCcxyrtlyI0/1HNh1y04S/ydjRYuctHpQFy0HgE=;
- b=PqwUacvNBAdYoi+aCw1Xc1IcQBn4vTKsKZ72LOH3F67SJcD0g3S1e9eCgND/CO7wq1
- 470g9l9VpkzfwvaBCDCDIUmnclLG+lmc3xehsQOpRXiCG+XPLGhHncAbxrO0b0vhQ51R
- LlBh9P8rFIhgk8+BK6eHQICfN3yBa3G14kOE5TPApsygHtc9tTIV6mJlhwR8dCFfuL0e
- McA9pp8W0htRcuV4fSVeoKoimfvB3DTdzC/ZHwIkqPU1ET1uHzsORzXQeptBWl1xQFca
- 0DS9ZkV5KfbQnu0eskV6vWTNudGkCslFHnGMbTneAc6TmcCOMFHDiUs7pw5UXWVQ4gVy
- VJ9A==
-X-Gm-Message-State: AOJu0YxtIWBiTMyvLjdWfe/qCbZsKRhyP4JKpiu7J/nIsUrAgibdY8DL
- IgGehsMqywo/pxABB7eXPQkopjXDGFjO/5UvL6v/kw==
-X-Google-Smtp-Source: AGHT+IH4OKDEo0z40E9ned6EK3zJyr56Otbk/sjKYRo1vUt/B3CisEMRaJv/JlQGTxVvoMPU5l/04Q9U9RkfcQ4U0Ds=
-X-Received: by 2002:a81:990d:0:b0:5af:196c:dfcc with SMTP id
- q13-20020a81990d000000b005af196cdfccmr10650083ywg.8.1699308718929; Mon, 06
- Nov 2023 14:11:58 -0800 (PST)
+ bh=uUpUpyCuMj5XPYdHc/EmQkzHInZezJx7st9D4tF+occ=;
+ b=gYKFnQ829dj+k5u5VERn+vBwZphedfsnY83XB7Ir2DUvgllAW4C9dAD5YqoYmp8yqx
+ 76F8BW0DGhSwGDfZkq2lKM8lCZZgHlDk3cpSGqimDln0BrfYydRL54gBm248nreXrMZk
+ PH9RfmHoFC+m3FTpdWrz3XA6JdmE1ajYQ2ONdYWAwedICJSISYPyBTxm9VE8N8P7R/Mc
+ h3h2LC0rHVEZZjCSetVsbHUeN0QfOuFGyI0c534NCYmzTLOtDzhFenz9+wSiiVfvaKvj
+ 6+Pad4wcfE7zpPARCz8YfUVYtyK1vCOl1VE2bnNb2bd0lOUA5tBochdYMvoABFgFblEL
+ 3Abg==
+X-Gm-Message-State: AOJu0YwW2sS85JLRZSOvU9AeLp8GwWWhXPG0Alv6slK6Spt7Z1PCh0AF
+ WZ8rjeFCCBKWk2qMRejsYo7M1LIEU+cpr8BALNEcKt8HYGtaM2xq8y8=
+X-Google-Smtp-Source: AGHT+IGPRtzS//FmK2dd7WNojwmlg0EaE4cvip0q4wSgdkOGB7hCwyKiis6HciBftK5gJ0ee+0kaXvnE9UP/Or0XSK0=
+X-Received: by 2002:a81:4849:0:b0:5b3:5732:bc59 with SMTP id
+ v70-20020a814849000000b005b35732bc59mr12363679ywa.18.1699308835691; Mon, 06
+ Nov 2023 14:13:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20231009171139.2691218-1-dmitry.baryshkov@linaro.org>
- <e4c94f9d-773a-e894-d655-41afeb01dae1@quicinc.com>
-In-Reply-To: <e4c94f9d-773a-e894-d655-41afeb01dae1@quicinc.com>
+References: <20231106202718.2770821-1-hsinyi@chromium.org>
+ <20231106202718.2770821-2-hsinyi@chromium.org>
+In-Reply-To: <20231106202718.2770821-2-hsinyi@chromium.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 7 Nov 2023 00:11:47 +0200
-Message-ID: <CAA8EJprpBy6UhtScRkFS24TgKevBOb9nVBFCqPhEof=-k58Mwg@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: correct clk bit for WB2 block
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Date: Tue, 7 Nov 2023 00:13:44 +0200
+Message-ID: <CAA8EJppmW-D+OAMC0VwNCFz9rEcgN5DxSpiTAwHqkt4AF5o50Q@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] drm/panel-edp: drm/panel-edp: Add several generic
+ edp panels
+To: Hsin-Yi Wang <hsinyi@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,77 +68,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
- Sean Paul <sean@poorly.run>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 6 Nov 2023 at 20:39, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+On Mon, 6 Nov 2023 at 22:27, Hsin-Yi Wang <hsinyi@chromium.org> wrote:
 >
-> Sorry for the delay in getting back on this. There was quite a bit of
-> history digging I had to do myself to give a certain response.
->
->
-> On 10/9/2023 10:11 AM, Dmitry Baryshkov wrote:
-> > On sc7280 there are two clk bits for WB2: control and status. While
-> > programming the VBIF params of WB, the driver should be toggling the
-> > former bit, while the sc7280_mdp struct lists the latter one.
-> >
->
-> No, this is not correct. Both are control bits. But for the context of
-> where this is being used today, that is setting the VBIF OT limit, we
-> should be using the VBIF_CLI one. So the below change itself is correct
-> but not the commit text.
+> Add a few generic edp panels used by mt8186 chromebooks.
+> Besides, modify the following panel:
+> - AUO 0x235c B116XTN02 renamed to B116XTN02.3.
+> - AUO 0x405c B116XAK01 adjust the timing of auo_b116xak01. According
+> to the datasheet: T3=200, T12=500, T7_max = 50.
 
-Maybe you can update dt bindings for the SDE driver? Because they
-clearly speak about the control and status bits.
+Generally speaking, these two chunks can go into a separate patch,
+which has Fixes tag and cc:stable to get it backported to earlier
+kernels.
 
 >
-> We need to make the same change on sm8250 WB2 as well as this register
-> is present there too. In fact, anything >=msm8994 for setting VBIF OT
-> for WB2 we should be using VBIF_CLI bits of register MDP_CLK_CTRL2
-> (offset 0x2bc).
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> v2->v3: fix title
+> ---
+>  drivers/gpu/drm/panel/panel-edp.c | 57 +++++++++++++++++++++++++++++--
+>  1 file changed, 55 insertions(+), 2 deletions(-)
 >
-> For anything >=sm8550, we need to use WB_2_CLK_CTRL present within the
-> WB block and not the one in the top.
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+> index 9dce4c702414..599a949d74d1 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -973,6 +973,8 @@ static const struct panel_desc auo_b116xak01 = {
+>         },
+>         .delay = {
+>                 .hpd_absent = 200,
+> +               .unprepare = 500,
+> +               .enable = 50,
+>         },
+>  };
 >
-> Hence for this change, we can do below:
+> @@ -1830,6 +1832,12 @@ static const struct panel_delay delay_200_500_e50 = {
+>         .enable = 50,
+>  };
 >
-> -> update the commit text to indicate both are control bits but for the
-> vbif ot context we should using the corrected one
-> -> if you can also add sm8250 in the same change i can ack it and pick it up
+> +static const struct panel_delay delay_200_500_e80 = {
+> +       .hpd_absent = 200,
+> +       .unprepare = 500,
+> +       .enable = 80,
+> +};
+> +
+>  static const struct panel_delay delay_200_500_e80_d50 = {
+>         .hpd_absent = 200,
+>         .unprepare = 500,
+> @@ -1849,6 +1857,19 @@ static const struct panel_delay delay_200_500_e200 = {
+>         .enable = 200,
+>  };
 >
-> Have you re-validated WB with this change? If not, let me know I shall
-> while picking this up for -fixes.
-
-No, I haven't validated this on sc7280. I'll try this on sm8250 and
-then I'll send v2.
-
+> +static const struct panel_delay delay_200_500_e200_d10 = {
+> +       .hpd_absent = 200,
+> +       .unprepare = 500,
+> +       .enable = 200,
+> +       .disable = 10,
+> +};
+> +
+> +static const struct panel_delay delay_200_150_e200 = {
+> +       .hpd_absent = 200,
+> +       .unprepare = 150,
+> +       .enable = 200,
+> +};
+> +
+>  #define EDP_PANEL_ENTRY(vend_chr_0, vend_chr_1, vend_chr_2, product_id, _delay, _name) \
+>  { \
+>         .name = _name, \
+> @@ -1869,37 +1890,69 @@ static const struct edp_panel_entry edp_panels[] = {
+>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x145c, &delay_200_500_e50, "B116XAB01.4"),
+>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x1e9b, &delay_200_500_e50, "B133UAN02.1"),
+>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x1ea5, &delay_200_500_e50, "B116XAK01.6"),
+> -       EDP_PANEL_ENTRY('A', 'U', 'O', 0x235c, &delay_200_500_e50, "B116XTN02"),
+> -       EDP_PANEL_ENTRY('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B116XAK01"),
+> +       EDP_PANEL_ENTRY('A', 'U', 'O', 0x208d, &delay_200_500_e50, "B140HTN02.1"),
+> +       EDP_PANEL_ENTRY('A', 'U', 'O', 0x235c, &delay_200_500_e50, "B116XTN02.3"),
+> +       EDP_PANEL_ENTRY('A', 'U', 'O', 0x239b, &delay_200_500_e50, "B116XAN06.1"),
+> +       EDP_PANEL_ENTRY('A', 'U', 'O', 0x255c, &delay_200_500_e50, "B116XTN02.5"),
+> +       EDP_PANEL_ENTRY('A', 'U', 'O', 0x403d, &delay_200_500_e50, "B140HAN04.0"),
+> +       EDP_PANEL_ENTRY('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B116XAK01.0"),
+>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x582d, &delay_200_500_e50, "B133UAN01.0"),
+>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x615c, &delay_200_500_e50, "B116XAN06.1"),
+> +       EDP_PANEL_ENTRY('A', 'U', 'O', 0x635c, &delay_200_500_e50, "B116XAN06.3"),
+> +       EDP_PANEL_ENTRY('A', 'U', 'O', 0x639c, &delay_200_500_e50, "B140HAK02.7"),
+>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x8594, &delay_200_500_e50, "B133UAN01.0"),
+> +       EDP_PANEL_ENTRY('A', 'U', 'O', 0xf390, &delay_200_500_e50, "B140XTN07.7"),
 >
-> > Correct that to ensure proper programming sequence for WB2 on sc7280.
-> >
-> > Fixes: 3ce166380567 ("drm/msm/dpu: add writeback support for sc7280")
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> > index 3b5061c4402a..9195cb996f44 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> > @@ -25,7 +25,7 @@ static const struct dpu_mdp_cfg sc7280_mdp = {
-> >               [DPU_CLK_CTRL_DMA0] = { .reg_off = 0x2ac, .bit_off = 8 },
-> >               [DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8 },
-> >               [DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2c4, .bit_off = 8 },
-> > -             [DPU_CLK_CTRL_WB2] = { .reg_off = 0x3b8, .bit_off = 24 },
-> > +             [DPU_CLK_CTRL_WB2] = { .reg_off = 0x2bc, .bit_off = 16 },
-> >       },
-> >   };
-> >
-
+> +       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0715, &delay_200_150_e200, "NT116WHM-N21"),
+> +       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0731, &delay_200_500_e80, "NT116WHM-N42"),
+> +       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0741, &delay_200_500_e200, "NT116WHM-N44"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0786, &delay_200_500_p2e80, "NV116WHM-T01"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x07d1, &boe_nv133fhm_n61.delay, "NV133FHM-N61"),
+> +       EDP_PANEL_ENTRY('B', 'O', 'E', 0x07f6, &delay_200_500_e200, "NT140FHM-N44"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x082d, &boe_nv133fhm_n61.delay, "NV133FHM-N62"),
+> +       EDP_PANEL_ENTRY('B', 'O', 'E', 0x08b2, &delay_200_500_e200, "NT140WHM-N49"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x09c3, &delay_200_500_e50, "NT116WHM-N21,836X2"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x094b, &delay_200_500_e50, "NT116WHM-N21"),
+> +       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0951, &delay_200_500_e80, "NV116WHM-N47"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x095f, &delay_200_500_e50, "NE135FBM-N41 v8.1"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0979, &delay_200_500_e50, "NV116WHM-N49 V8.0"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x098d, &boe_nv110wtm_n61.delay, "NV110WTM-N61"),
+> +       EDP_PANEL_ENTRY('B', 'O', 'E', 0x09ae, &delay_200_500_e200, "NT140FHM-N45"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x09dd, &delay_200_500_e50, "NT116WHM-N21"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a5d, &delay_200_500_e50, "NV116WHM-N45"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ac5, &delay_200_500_e50, "NV116WHM-N4C"),
+> +       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b43, &delay_200_500_e200, "NV140FHM-T09"),
+> +       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b56, &delay_200_500_e80, "NT140FHM-N47"),
+> +       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0c20, &delay_200_500_e80, "NT140FHM-N47"),
+>
+> +       EDP_PANEL_ENTRY('C', 'M', 'N', 0x1132, &delay_200_500_e80_d50, "N116BGE-EA2"),
+> +       EDP_PANEL_ENTRY('C', 'M', 'N', 0x1138, &innolux_n116bca_ea1.delay, "N116BCA-EA1-RC4"),
+>         EDP_PANEL_ENTRY('C', 'M', 'N', 0x1139, &delay_200_500_e80_d50, "N116BGE-EA2"),
+> +       EDP_PANEL_ENTRY('C', 'M', 'N', 0x1145, &delay_200_500_e80_d50, "N116BCN-EB1"),
+>         EDP_PANEL_ENTRY('C', 'M', 'N', 0x114c, &innolux_n116bca_ea1.delay, "N116BCA-EA1"),
+>         EDP_PANEL_ENTRY('C', 'M', 'N', 0x1152, &delay_200_500_e80_d50, "N116BCN-EA1"),
+>         EDP_PANEL_ENTRY('C', 'M', 'N', 0x1153, &delay_200_500_e80_d50, "N116BGE-EA2"),
+>         EDP_PANEL_ENTRY('C', 'M', 'N', 0x1154, &delay_200_500_e80_d50, "N116BCA-EA2"),
+> +       EDP_PANEL_ENTRY('C', 'M', 'N', 0x1157, &delay_200_500_e80_d50, "N116BGE-EA2"),
+> +       EDP_PANEL_ENTRY('C', 'M', 'N', 0x115b, &delay_200_500_e80_d50, "N116BCN-EB1"),
+>         EDP_PANEL_ENTRY('C', 'M', 'N', 0x1247, &delay_200_500_e80_d50, "N120ACA-EA1"),
+> +       EDP_PANEL_ENTRY('C', 'M', 'N', 0x142b, &delay_200_500_e80_d50, "N140HCA-EAC"),
+> +       EDP_PANEL_ENTRY('C', 'M', 'N', 0x144f, &delay_200_500_e80_d50, "N140HGA-EA1"),
+> +       EDP_PANEL_ENTRY('C', 'M', 'N', 0x1468, &delay_200_500_e80, "N140HGA-EA1"),
+> +       EDP_PANEL_ENTRY('C', 'M', 'N', 0x14e5, &delay_200_500_e80_d50, "N140HGA-EA1"),
+>         EDP_PANEL_ENTRY('C', 'M', 'N', 0x14d4, &delay_200_500_e80_d50, "N140HCA-EAC"),
+> +       EDP_PANEL_ENTRY('C', 'M', 'N', 0x14d6, &delay_200_500_e80_d50, "N140BGA-EA4"),
+> +
+> +       EDP_PANEL_ENTRY('H', 'K', 'C', 0x2d5c, &delay_200_500_e200, "MB116AN01-2"),
+>
+> +       EDP_PANEL_ENTRY('I', 'V', 'O', 0x048e, &delay_200_500_e200_d10, "M116NWR6 R5"),
+>         EDP_PANEL_ENTRY('I', 'V', 'O', 0x057d, &delay_200_500_e200, "R140NWF5 RH"),
+>         EDP_PANEL_ENTRY('I', 'V', 'O', 0x854a, &delay_200_500_p2e100, "M133NW4J"),
+>         EDP_PANEL_ENTRY('I', 'V', 'O', 0x854b, &delay_200_500_p2e100, "R133NW4K-R0"),
+> +       EDP_PANEL_ENTRY('I', 'V', 'O', 0x8c4d, &delay_200_150_e200, "R140NWFM R1"),
+>
+>         EDP_PANEL_ENTRY('K', 'D', 'B', 0x0624, &kingdisplay_kd116n21_30nv_a010.delay, "116N21-30NV-A010"),
+> +       EDP_PANEL_ENTRY('K', 'D', 'C', 0x0809, &delay_200_500_e50, "KD116N2930A15"),
+>         EDP_PANEL_ENTRY('K', 'D', 'B', 0x1120, &delay_200_500_e80_d50, "116N29-30NK-C007"),
+>
+>         EDP_PANEL_ENTRY('S', 'H', 'P', 0x1511, &delay_200_500_e50, "LQ140M1JW48"),
+> --
+> 2.42.0.869.gea05f2083d-goog
+>
 
 
 -- 
