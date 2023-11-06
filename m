@@ -2,63 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 457287E2CD4
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 20:29:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6297E2CE8
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 20:34:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEBCD10E3DD;
-	Mon,  6 Nov 2023 19:29:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3F3A10E3EA;
+	Mon,  6 Nov 2023 19:34:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com
- [IPv6:2607:f8b0:4864:20::e2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0728110E3DD
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 19:29:48 +0000 (UTC)
-Received: by mail-vs1-xe2f.google.com with SMTP id
- ada2fe7eead31-45f0e332d6bso838187137.2
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 11:29:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1699298987; x=1699903787;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=G7Si+k3SGcxGf6sJGMI/kj5eJZ6V+SjfPyFVm8vGoBA=;
- b=UMKptct2jbuqU0WMvl0decOOrhlWiuU+ZBq6+HOrJSJId91tLr9EAktaaIjBnEtAiC
- SmOq9QGNg8sOfHpW9hvH/10GQl+TYkcT1c5TMwfMMZcLVripVrcGQ/oU/j/G4QQUNubi
- 9eIuV9VFfyn63mM5Cz+isW+hd1FwAlni2hl3Cw9hQznOW3Swn6NeQwmvUvjebF5DLoK3
- WUCOLDZOjZbX5kx3gk/f5t3aAjb8/3H/AhrI3+ged0rZzR3hYN1lwEnn+DaCgxZFhSkQ
- +tggaIQgL7fe3Viv0ope/7yLgQKCu+8fZYgDdUWB6Xy9bGxUamgVjPt9B4HU9JOSK3I1
- yPew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699298987; x=1699903787;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=G7Si+k3SGcxGf6sJGMI/kj5eJZ6V+SjfPyFVm8vGoBA=;
- b=aBudmU7m4XeDujBa+TSrHKFgU87bhuEtmXDqFjjrfwkEIzcQxoRsL9Aph6vsOBqDsQ
- i8ox6Ry0ViNqN9YV8sLxgvAJiCBrS+1vXJ3tZ53wjd6X4HL0hd1vJuJpn5mkDIsL+w+h
- Y+7r+sYaqVUBFjbnEbqVAuSxxEiQrLGinLa4gyA64EGDUOmynhAoxr3Ztu1IiTz0ujoO
- i42+uEOKZpZjDl6VFALbWKKDTi/YCoJMwiT1QDe5rQqH/jP+lC6RFrcP4ukBWKxgPFC4
- JkTPceA0einaty8c6avdoz1Eva1lLmnBXsKS7JwZ/zUbavUVW6VrYPBFdBw/PxfYPE1Y
- enDA==
-X-Gm-Message-State: AOJu0Yx+zvJVWO9oQJ/Mw/0VsdC34nzN1HGgw8SdFn1IOhBdoGoaV28w
- p+EXQQVjyZhyB4tqhFAd9S8wmhkd46Seqb89vQ2Ut5wOQAXMJiPobwQTog==
-X-Google-Smtp-Source: AGHT+IG22F7RZ7INsRT61We/dhQuubrTDUtrXNKt9IRXUitWz7JbG7ca/qoY3u3vM4us0jqLVC7nFfmA8VO3BFOqiRY=
-X-Received: by 2002:a67:a247:0:b0:45d:9083:f877 with SMTP id
- t7-20020a67a247000000b0045d9083f877mr7751422vsh.5.1699298986878; Mon, 06 Nov
- 2023 11:29:46 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 999C510E3E9;
+ Mon,  6 Nov 2023 19:34:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=OVVOlTIarNX7e6zMEZmJVvGlQRSRufjZRH7oNdzWmmc=; b=rxr8KNHd9z1rYs+McTOREX3GMf
+ HgdNuuqUWPJJHqLjOY3iwLLEYBvzU884vwlb9KnaTUcR7efnIvMEpJ/s3jzmJDxcSvyQg/OiweAcH
+ 14yYVjkhY9sMAXV2wDT+X9CD6SIBqSUxodMUZbTND3Q5s2BUvMHXADvouaSNvhGgo1IL1uIB2ulWO
+ gaPuzZMKRiVonqN6JVCqfHezELz/ZXpiAT1XJv5HBlxhVBA+RCJbrT27M+cn0OYopxnKWl7tVR9Ml
+ LaxBjtovuDZZaM5CIWDmGJ215LKc+GQyRGm8NvN+uzKSha9tiPsuAD/m7YqQ0vkstnP0JZ6tVLYAD
+ iM2ByOzg==;
+Received: from [102.213.205.115] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1r05MQ-0008JT-Fb; Mon, 06 Nov 2023 20:34:10 +0100
+Date: Mon, 6 Nov 2023 18:33:54 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Subject: Re: [PATCH v4 00/32] drm/amd/display: add AMD driver-specific
+ properties for color mgmt
+Message-ID: <20231106193354.ce4vi4p6zgol5f4y@mail.igalia.com>
+References: <20231005171527.203657-1-mwen@igalia.com>
+ <20231006092825.GB400742@toolbox>
 MIME-Version: 1.0
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-11-almasrymina@google.com>
- <ZUk0FGuJ28s1d9OX@google.com>
-In-Reply-To: <ZUk0FGuJ28s1d9OX@google.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Mon, 6 Nov 2023 11:29:33 -0800
-Message-ID: <CAHS8izNFv7r6vqYR_TYqcCuDO61F+nnNMhsSu=DrYWSr3sVgrA@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 10/12] tcp: RX path for devmem TCP
-To: Stanislav Fomichev <sdf@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231006092825.GB400742@toolbox>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,129 +53,255 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
- Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
+ Shashank Sharma <Shashank.Sharma@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Hung <alex.hung@amd.com>, kernel-dev@igalia.com, sunpeng.li@amd.com,
+ mripard@kernel.org, sungjoon.kim@amd.com,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, Xinhui.Pan@amd.com,
+ Xaver Hugl <xaver.hugl@gmail.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, tzimmermann@suse.de,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 6, 2023 at 10:44=E2=80=AFAM Stanislav Fomichev <sdf@google.com>=
- wrote:
->
-> On 11/05, Mina Almasry wrote:
-> > In tcp_recvmsg_locked(), detect if the skb being received by the user
-> > is a devmem skb. In this case - if the user provided the MSG_SOCK_DEVME=
-M
-> > flag - pass it to tcp_recvmsg_devmem() for custom handling.
-> >
-> > tcp_recvmsg_devmem() copies any data in the skb header to the linear
-> > buffer, and returns a cmsg to the user indicating the number of bytes
-> > returned in the linear buffer.
-> >
-> > tcp_recvmsg_devmem() then loops over the unaccessible devmem skb frags,
-> > and returns to the user a cmsg_devmem indicating the location of the
-> > data in the dmabuf device memory. cmsg_devmem contains this information=
-:
-> >
-> > 1. the offset into the dmabuf where the payload starts. 'frag_offset'.
-> > 2. the size of the frag. 'frag_size'.
-> > 3. an opaque token 'frag_token' to return to the kernel when the buffer
-> > is to be released.
-> >
-> > The pages awaiting freeing are stored in the newly added
-> > sk->sk_user_pages, and each page passed to userspace is get_page()'d.
-> > This reference is dropped once the userspace indicates that it is
-> > done reading this page.  All pages are released when the socket is
-> > destroyed.
-> >
-> > Signed-off-by: Willem de Bruijn <willemb@google.com>
-> > Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> > Signed-off-by: Mina Almasry <almasrymina@google.com>
-> >
-> > ---
-> >
-> > RFC v3:
-> > - Fixed issue with put_cmsg() failing silently.
-> >
-> > ---
-> >  include/linux/socket.h            |   1 +
-> >  include/net/page_pool/helpers.h   |   9 ++
-> >  include/net/sock.h                |   2 +
-> >  include/uapi/asm-generic/socket.h |   5 +
-> >  include/uapi/linux/uio.h          |   6 +
-> >  net/ipv4/tcp.c                    | 189 +++++++++++++++++++++++++++++-
-> >  net/ipv4/tcp_ipv4.c               |   7 ++
-> >  7 files changed, 214 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/include/linux/socket.h b/include/linux/socket.h
-> > index cfcb7e2c3813..fe2b9e2081bb 100644
-> > --- a/include/linux/socket.h
-> > +++ b/include/linux/socket.h
-> > @@ -326,6 +326,7 @@ struct ucred {
-> >                                         * plain text and require encryp=
-tion
-> >                                         */
-> >
-> > +#define MSG_SOCK_DEVMEM 0x2000000    /* Receive devmem skbs as cmsg */
->
-> Sharing the feedback that I've been providing internally on the public li=
-st:
->
+On 10/06, Sebastian Wick wrote:
+> On Thu, Oct 05, 2023 at 04:14:55PM -0100, Melissa Wen wrote:
+> > Hello,
+> > 
+> > Just another iteration for AMD driver-specific color properties.
+> > Basically, addressing comments from the previous version.
+> > 
+> > Recap: this series extends the current KMS color management API with AMD
+> > driver-specific properties to enhance the color management support on
+> > AMD Steam Deck. The key additions to the color pipeline include:
+> 
+> Did you talk with the maintainers about this already? The last few times
+> driver specific properties, and even kind of generic plane properties
+> with a fixed position in the pipeline were proposed they were all
+> NAKed. Just putting them behind a define doesn't sound great and I don't
+> think there is any precedence for allowing this in. This is basically
+> just more burden for upstream without any benefits for upstream.
 
-There may have been a miscommunication. I don't recall hearing this
-specific feedback from you, at least in the last few months. Sorry if
-it seemed like I'm ignoring feedback :)
+Hi Sebastian,
 
-> IMHO, we need a better UAPI to receive the tokens and give them back to
-> the kernel. CMSG + setsockopt(SO_DEVMEM_DONTNEED) get the job done,
-> but look dated and hacky :-(
->
-> We should either do some kind of user/kernel shared memory queue to
-> receive/return the tokens (similar to what Jonathan was doing in his
-> proposal?)
+Sorry for delaying. I believe it was already answered during the XDC KMS
+color workshop, but: yes, I've talked with them and they are fine with
+the cflags approach. Remember that we are not using here kconfig anymore.
+The driver-specific properties (creation and attachment) are guarded by
+cflags, not a kernel building option. We changed to cflags after Harry's
+suggestion in the first version.
 
-I'll take a look at Jonathan's proposal, sorry, I'm not immediately
-familiar but I wanted to respond :-) But is the suggestion here to
-build a new kernel-user communication channel primitive for the
-purpose of passing the information in the devmem cmsg? IMHO that seems
-like an overkill. Why add 100-200 lines of code to the kernel to add
-something that can already be done with existing primitives? I don't
-see anything concretely wrong with cmsg & setsockopt approach, and if
-we switch to something I'd prefer to switch to an existing primitive
-for simplicity?
+I think the main point for upstream it now is that we can actually
+exercise the plane color properties and all machinery around new color
+elements (as 3D LUT) with a userspace that cares about it (Gamescope).
+Worth mentioning that I removed CRTC shaper/3D LUT support from previous
+version, because, even with the internal implementation, we don't have
+how to exercise these CRTC properties right now.
 
-The only other existing primitive to pass data outside of the linear
-buffer is the MSG_ERRQUEUE that is used for zerocopy. Is that
-preferred? Any other suggestions or existing primitives I'm not aware
-of?
+Finally, the main goal is ofc attaching it to the generic API from
+Harry's series. We are all in the same page about it.
 
-> or bite the bullet and switch to io_uring.
->
+BR,
 
-IMO io_uring & socket support are orthogonal, and one doesn't preclude
-the other. As you know we like to use sockets and I believe there are
-issues with io_uring adoption at Google that I'm not familiar with
-(and could be wrong). I'm interested in exploring io_uring support as
-a follow up but I think David Wei will be interested in io_uring
-support as well anyway.
+Melissa
 
-> I was also suggesting to do it via netlink initially, but it's probably
-> a bit slow for these purpose, idk.
-
-Yeah, I hear netlink is reserved for control paths and is
-inappropriate for data path, but I'll let folks correct me if wrong.
-
---=20
-Thanks,
-Mina
+> 
+> Maybe you can separate the uAPI changes from the internal improvements
+> to land at least parts of this faster.
+> 
+> > - plane degamma LUT and pre-defined TF;
+> > - plane HDR multiplier;
+> > - plane CTM 3x4;
+> > - plane shaper LUT and pre-defined TF;
+> > - plane 3D LUT;
+> > - plane blend LUT and pre-defined TF;
+> > - CRTC gamma pre-defined TF;
+> > 
+> > You can find the AMD HW color capabilities documented here:
+> > https://dri.freedesktop.org/docs/drm/gpu/amdgpu/display/display-manager.html#color-management-properties
+> > 
+> > The userspace case is Gamescope[1], the compositor for SteamOS.
+> > Gamescope has already adopted AMD driver-specific properties to
+> > implement comprehensive color management support, including gamut
+> > mapping, HDR rendering, SDR on HDR, HDR on SDR. Using these features in
+> > the SteamOS 3.5[2] users can expect a significantly enhanced visual
+> > experience. 
+> > 
+> > You can find a brief overview of the Steam Deck color pipeline here:
+> > https://github.com/ValveSoftware/gamescope/blob/master/src/docs/Steam%20Deck%20Display%20Pipeline.png
+> > 
+> > Changes from:
+> > 
+> > [RFC] https://lore.kernel.org/dri-devel/20230423141051.702990-1-mwen@igalia.com
+> > - Remove KConfig and guard properties with `AMD_PRIVATE_COLOR`;
+> > - Remove properties for post-blending/CRTC shaper TF+LUT and 3D LUT;
+> > - Use color caps to improve the support of pre-defined curve;
+> > 
+> > [v1] https://lore.kernel.org/dri-devel/20230523221520.3115570-1-mwen@igalia.com
+> > - Replace DRM_ by AMDGPU_ prefix for transfer function (TF) enum; 
+> > - Explicitly define EOTFs and inverse EOTFs and set props accordingly;
+> > - Document pre-defined transfer functions;
+> > - Remove HLG transfer function from supported TFs;
+> > - Remove misleading comments;
+> > - Remove post-blending shaper TF+LUT and 3D LUT support;
+> > - Move driver-specific property operations from amdgpu_display.c to
+> >   amdgpu_dm_color.c;
+> > - Reset planes if any color props change;
+> > - Add plane CTM 3x4 support;
+> > - Removed two DC fixes already applied upstream;
+> > 
+> > [v2] https://lore.kernel.org/dri-devel/20230810160314.48225-1-mwen@igalia.com
+> > - Many documentation fixes: BT.709 OETF, description of sRGB and pure
+> >   power functions, TF+1D LUT behavior;
+> > - Rename CTM2 to CTM 3x4 and fix misleading comment about DC gamut remap;
+> > - Squash `Linear` and `Unity` TF in `Identity`;
+> > - Remove the `MPC gamut remap` patch already applied upstream[3];
+> > - Remove outdated delta segmentation fix;
+> > - Nits/small fixes;
+> > 
+> > [v3] https://lore.kernel.org/amd-gfx/20230925194932.1329483-1-mwen@igalia.com
+> > - Add table to describe value range in linear and non-linear forms
+> > - Comment the PQ TF need after HDR multiplier
+> > - Advertise the 3D LUT size as the size of a single-dimension (read-only)
+> > - remove function to check expected size from 3DLUT caps
+> > - cleanup comments
+> > 
+> > It's worth noting that driver-specific properties are guarded by
+> > `AMD_PRIVATE_COLOR`. So, finally, this is the color management API when
+> > driver-specific properties are enabled:
+> > 
+> > +----------------------+
+> > |   PLANE              |
+> > |                      |
+> > |  +----------------+  |
+> > |  | AMD Degamma    |  |
+> > |  |                |  |
+> > |  | EOTF | 1D LUT  |  |
+> > |  +--------+-------+  |
+> > |           |          |
+> > |  +--------v-------+  |
+> > |  |    AMD HDR     |  |
+> > |  |    Multiply    |  |
+> > |  +--------+-------+  |
+> > |           |          |
+> > |  +--------v-------+  |
+> > |  |  AMD CTM (3x4) |  |
+> > |  +--------+-------+  |
+> > |           |          |
+> > |  +--------v-------+  |
+> > |  | AMD Shaper     |  |
+> > |  |                |  |
+> > |  | inv_EOTF |     |  |
+> > |  | Custom 1D LUT  |  |
+> > |  +--------+-------+  |
+> > |           |          |
+> > |  +--------v-------+  |
+> > |  |   AMD 3D LUT   |  |
+> > |  |   17^3/12-bit  |  |
+> > |  +--------+-------+  |
+> > |           |          |
+> > |  +--------v-------+  |
+> > |  | AMD Blend      |  |
+> > |  |                |  |
+> > |  | EOTF | 1D LUT  |  |
+> > |  +--------+-------+  |
+> > |           |          |
+> > ++----------v---------++
+> > ||      Blending      ||
+> > ++----------+---------++
+> > |    CRTC   |          |
+> > |           |          |
+> > |   +-------v-------+  |
+> > |   | DRM Degamma   |  |
+> > |   |               |  |
+> > |   | Custom 1D LUT |  |
+> > |   +-------+-------+  |
+> > |           |          |
+> > |   +-------v-------+  |
+> > |   | DRM CTM (3x3) |  |
+> > |   +-------+-------+  |
+> > |           |          |
+> > |   +-------v-------+  |
+> > |   | DRM Gamma     |  |
+> > |   |               |  |
+> > |   | Custom 1D LUT |  |
+> > |   +---------------+  |
+> > |   | *AMD Gamma    |  |
+> > |   |   inv_EOTF    |  |
+> > |   +---------------+  |
+> > |                      |
+> > +----------------------+
+> > 
+> > Please, let us know your thoughts.
+> > 
+> > Best Regards,
+> > 
+> > Melissa Wen
+> > 
+> > [1] https://github.com/ValveSoftware/gamescope
+> > [2] https://store.steampowered.com/news/app/1675200/view/3686804163591367815
+> > [3] https://lore.kernel.org/dri-devel/20230721132431.692158-1-mwen@igalia.com
+> > 
+> > Joshua Ashton (14):
+> >   drm/amd/display: add plane degamma TF driver-specific property
+> >   drm/amd/display: add plane HDR multiplier driver-specific property
+> >   drm/amd/display: add plane blend LUT and TF driver-specific properties
+> >   drm/amd/display: add CRTC gamma TF support
+> >   drm/amd/display: set sdr_ref_white_level to 80 for out_transfer_func
+> >   drm/amd/display: mark plane as needing reset if color props change
+> >   drm/amd/display: add plane degamma TF and LUT support
+> >   drm/amd/display: add dc_fixpt_from_s3132 helper
+> >   drm/amd/display: add HDR multiplier support
+> >   drm/amd/display: handle empty LUTs in __set_input_tf
+> >   drm/amd/display: add plane blend LUT and TF support
+> >   drm/amd/display: allow newer DC hardware to use degamma ROM for PQ/HLG
+> >   drm/amd/display: copy 3D LUT settings from crtc state to stream_update
+> >   drm/amd/display: Add 3x4 CTM support for plane CTM
+> > 
+> > Melissa Wen (18):
+> >   drm/drm_mode_object: increase max objects to accommodate new color
+> >     props
+> >   drm/drm_property: make replace_property_blob_from_id a DRM helper
+> >   drm/drm_plane: track color mgmt changes per plane
+> >   drm/amd/display: add driver-specific property for plane degamma LUT
+> >   drm/amd/display: explicitly define EOTF and inverse EOTF
+> >   drm/amd/display: document AMDGPU pre-defined transfer functions
+> >   drm/amd/display: add plane 3D LUT driver-specific properties
+> >   drm/amd/display: add plane shaper LUT and TF driver-specific
+> >     properties
+> >   drm/amd/display: add CRTC gamma TF driver-specific property
+> >   drm/amd/display: add comments to describe DM crtc color mgmt behavior
+> >   drm/amd/display: encapsulate atomic regamma operation
+> >   drm/amd/display: decouple steps for mapping CRTC degamma to DC plane
+> >   drm/amd/display: reject atomic commit if setting both plane and CRTC
+> >     degamma
+> >   drm/amd/display: add plane shaper LUT support
+> >   drm/amd/display: add plane shaper TF support
+> >   drm/amd/display: add plane 3D LUT support
+> >   drm/amd/display: add plane CTM driver-specific property
+> >   drm/amd/display: add plane CTM support
+> > 
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  90 ++
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  34 +-
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 108 +++
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 821 ++++++++++++++++--
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    |  72 ++
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 224 ++++-
+> >  .../gpu/drm/amd/display/include/fixed31_32.h  |  12 +
+> >  drivers/gpu/drm/arm/malidp_crtc.c             |   2 +-
+> >  drivers/gpu/drm/drm_atomic.c                  |   1 +
+> >  drivers/gpu/drm/drm_atomic_state_helper.c     |   1 +
+> >  drivers/gpu/drm/drm_atomic_uapi.c             |  43 +-
+> >  drivers/gpu/drm/drm_property.c                |  49 ++
+> >  include/drm/drm_mode_object.h                 |   2 +-
+> >  include/drm/drm_plane.h                       |   7 +
+> >  include/drm/drm_property.h                    |   6 +
+> >  include/uapi/drm/drm_mode.h                   |   8 +
+> >  16 files changed, 1371 insertions(+), 109 deletions(-)
+> > 
+> > -- 
+> > 2.40.1
+> > 
+> 
