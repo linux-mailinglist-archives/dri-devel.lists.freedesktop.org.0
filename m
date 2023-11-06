@@ -1,79 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F01E7E1EC5
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 11:46:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C3D7E1ECF
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 11:47:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDBE110E2C4;
-	Mon,  6 Nov 2023 10:46:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 198A910E2C5;
+	Mon,  6 Nov 2023 10:47:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4C2210E2C5
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 10:46:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1699267583;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UBBHGlGug2sDaMRAASVGz4oXj62d4vp0Qb3y5VCW+Oc=;
- b=cjG5pFGRpxQSGtjByndtMZ7O8Nc7B1pI3ejrSMnnDBxnPhKKUweNRdEoJhhTXw1XDrEBPI
- TW6WpN4uK1dXzKfLDTGW50pi78V/CDskdv3wqo8uOnotbkD9MoqdW6mvuWpZvU9YozASLn
- WWbqIwRju+iY+RCNNG2hq1QoGOmfIyc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-443-pqIAzPzLN9mxQVMPTr2tAQ-1; Mon, 06 Nov 2023 05:46:11 -0500
-X-MC-Unique: pqIAzPzLN9mxQVMPTr2tAQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-32fa41d0564so2236758f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 02:46:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699267570; x=1699872370;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UBBHGlGug2sDaMRAASVGz4oXj62d4vp0Qb3y5VCW+Oc=;
- b=URzBESCaEapyeeIxxA2UIHcbsRFYtMqWe3yQ96WvssfpK+o7gPHPfpfHKzPmtggqzW
- uq2brXOz7P+LGETy5WvvoWTG4IIUw7/+U8gAlgDqAI+q0n+cZLA5lUpKbfoAumLu2hxl
- SWlUU+/WkP5gfeJahBaSGOcAuH/38KUZtyNYjo3r3tGfvXx2f8Hz2MjVmp19TVQCV1Nw
- 1ra8QxKzT8h6z3cJ15eThWYmnIrplakDiQ6wxKup7ptc8zCjKxlr3doVlt2unDl1C/gC
- TEKM1Q+OjECNgeU26HgXcm41GB9JoLPDLbi/wapRy++xHrEPwFAPufbDMj4VEKoV11kT
- 2EUg==
-X-Gm-Message-State: AOJu0YwyKucJd+y4amMKJVLYdrVMRQ6YqhCt68eeQaHAYVkDYunseDg1
- PrtLSlqzXrHjdHIlCg+5yo6wKhzhJhav6MNf5oiwxWL3nL0ZYoIg10NIdbyAn4b27HKpIVWcF2T
- rVQ9xVJXr6d3i53NKl+Zwh3AvcFH5
-X-Received: by 2002:a5d:6d87:0:b0:32f:908e:c7e0 with SMTP id
- l7-20020a5d6d87000000b0032f908ec7e0mr17559314wrs.28.1699267570466; 
- Mon, 06 Nov 2023 02:46:10 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEw0KbgCDEwB5tVpLvVGERVzNbBBFGIocZLxK974H+Lu925obU4SRUVDW8ECTLCXhMFU5ORqw==
-X-Received: by 2002:a5d:6d87:0:b0:32f:908e:c7e0 with SMTP id
- l7-20020a5d6d87000000b0032f908ec7e0mr17559295wrs.28.1699267570128; 
- Mon, 06 Nov 2023 02:46:10 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- o17-20020adfcf11000000b0032da319a27asm9148638wrj.9.2023.11.06.02.46.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Nov 2023 02:46:09 -0800 (PST)
-Message-ID: <f19a2cb4-57b6-427c-b69c-47a848420530@redhat.com>
-Date: Mon, 6 Nov 2023 11:46:08 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4970210E2C5;
+ Mon,  6 Nov 2023 10:47:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699267673; x=1730803673;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=dKW8PaAHjNzNyVkXbIS6kFEOOI8lq0P+E4kM8wme78M=;
+ b=cNf1DREyxpF3IaH53wCfw3JTKxd5yQIBX0tHC+qQ/ol158vmqjMpvBBE
+ LIBvoM6dM7H5GE/aHZmbRmuLrzhBboCUVHdMF29VbHBeYytqhbS3DW9to
+ 7iuei/xddIm5gODjcCUltAxlCixFwVQ3LY7cIBfFS/QYoZSWIrmSex2vt
+ 3lyfA3Gss6zqMqb3i/8SdF3A8ynGhkYUY743+M5NWENvHTsK9VKZkksEo
+ 3qh4JutrC8DZ8zGh3VjZt2CIuqtv3xirV61WkP44gzLBif6BJTZY0veaD
+ JYrQ9+qYc1KG6rzdeN6Ok+kJsf+8Fr6oUqx3oA/Y6HMBbgdVuiEyb2/F1 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="455733772"
+X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; d="scan'208";a="455733772"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2023 02:47:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="755815817"
+X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; d="scan'208";a="755815817"
+Received: from lapeders-mobl1.ger.corp.intel.com (HELO [10.249.254.193])
+ ([10.249.254.193])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2023 02:47:49 -0800
+Message-ID: <0c904271-7be1-834d-2e20-163187e5c05e@linux.intel.com>
+Date: Mon, 6 Nov 2023 11:47:47 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/mgag200: Flush the cache to improve latency
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- airlied@redhat.com, daniel@ffwll.ch
-References: <20231019135655.313759-1-jfalempe@redhat.com>
- <660c0260-0e22-4e9c-ab13-157adaa0b14d@suse.de>
- <74b367bd-ac80-478b-8f82-e98cb6e40475@redhat.com>
-In-Reply-To: <74b367bd-ac80-478b-8f82-e98cb6e40475@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PULL] drm-misc-next
 Content-Language: en-US
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+References: <CAGWvnynOWoKT1EWkL8ELfRVxSUjm-hBQnnjb-w2Gq-tmOFm0Hg@mail.gmail.com>
+ <1807db8f-2ba6-0838-1d4c-39ff4cb7a34d@linux.intel.com>
+ <uqzfduftpqlq35pdndovsqtmksjpxr5ei2utz45lwjhnsgchxh@grbzyctiig7w>
+ <bd34dffe-86ba-bf1a-b12f-33611da0a7ca@linux.intel.com>
+In-Reply-To: <bd34dffe-86ba-bf1a-b12f-33611da0a7ca@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,135 +64,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ David Edelsohn <dje.gcc@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/10/2023 10:30, Jocelyn Falempe wrote:
-> On 20/10/2023 14:06, Thomas Zimmermann wrote:
->> (cc'ing lkml for feedback)
->>
->> Hi Jocelyn
->>
->> Am 19.10.23 um 15:55 schrieb Jocelyn Falempe:
->>> We found a regression in v5.10 on real-time server, using the
->>> rt-kernel and the mgag200 driver. It's some really specialized
->>> workload, with <10us latency expectation on isolated core.
->>> After the v5.10, the real time tasks missed their <10us latency
->>> when something prints on the screen (fbcon or printk)
->>
->> I'd like to hear the opinion of the RT-devs on this patch. Because 
->> AFAIK we never did such a workaround in other drivers. And AFAIK 
->> printk is a PITA anyway.
-> 
-> Most other drivers uses DMA, which means this workaround can't apply to 
-> them.
-> 
->>
->> IMHO if that RT system cannot handle differences in framebuffer 
->> caching, it's under-powered. It's just a matter of time until 
->> something else changes and the problem returns. And (honest question) 
->> as it's an x86-64, how do they handle System Management Mode?
-> 
-> I think it's not a big news, that the Matrox G200 from 1999 is 
-> under-powered.
-> I was also a bit surprised that flushing the cache would have such 
-> effect on latency. The tests we are doing can run 24h with the 
-> workaround, without any interrupt taking more than 10us. Without the 
-> workaround, every ~30s the interrupt failed its 10us target.
-> 
->>
+
+On 11/6/23 11:37, Thomas Hellström wrote:
+> Hi,
+>
+> On 11/6/23 11:20, Maxime Ripard wrote:
+>> On Mon, Nov 06, 2023 at 11:01:51AM +0100, Thomas Hellström wrote:
+>>> Hi, David.
 >>>
->>> The regression has been bisected to 2 commits:
->>> 0b34d58b6c32 ("drm/mgag200: Enable caching for SHMEM pages")
->>> 4862ffaec523 ("drm/mgag200: Move vmap out of commit tail")
->>>
->>> The first one changed the system memory framebuffer from Write-Combine
->>> to the default caching.
->>> Before the second commit, the mgag200 driver used to unmap the
->>> framebuffer after each frame, which implicitly does a cache flush.
->>> Both regressions are fixed by the following patch, which forces a
->>> cache flush after each frame, reverting to almost v5.9 behavior.
+>>> On 11/3/23 17:37, David Edelsohn wrote:
+>>>> Dual-license drm_gpuvm to GPL-2.0 OR MIT.
+>>>> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+>>>> index 02ce6baacdad..08c088319652 100644 ---
+>>>> a/drivers/gpu/drm/drm_gpuvm.c 
+>>>> <https://cgit.freedesktop.org/drm/drm-misc/tree/drivers/gpu/drm/drm_gpuvm.c?id=6f2eeef4a0aa9791bbba9d353641a6e067bb86c1>
+>>>> +++ b/drivers/gpu/drm/drm_gpuvm.c 
+>>>> <https://cgit.freedesktop.org/drm/drm-misc/tree/drivers/gpu/drm/drm_gpuvm.c?id=f7749a549b4f4db0c02e6b3d3800ea400dd76c12>
+>>>> @@ -1,4 +1,4 @@
+>>>> -// SPDX-License-Identifier: GPL-2.0-only
+>>>> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+>>>> /*
+>>>> * Copyright (c) 2022 Red Hat.
+>>>> *
+>>>> The above SPDX License Identifier change is incorrect and no longer
+>>>> valid. The change misunderstood the syntax of SPDX license identifiers
+>>>> and boolean operations. GPL-2.0-only is the name of the license and 
+>>>> means
+>>>> GPL 2.0 only, as opposed to GPL 2.0 or later. The "only" does not
+>>>> refer to restrictions on other licenses in the identifier and 
+>>>> should not
+>>>> have been
+>>>> removed. The hyphens designated that the name was a single unit.
+>>>> The SPDX License Identifier boolean operators, such as OR, are a
+>>>> separate layer
+>>>> of syntax.
+>>>> The SPDX License Identifier should be
+>>>> GPL-2.0-only OR MIT
+>>>> Thanks, David
+>>> The author has acked the change / relicensing, which is also 
+>>> described in
+>>> the commit title so could you please elaborate why you think it is not
+>>> valid?
+>> I think their point isn't so much about the license itself but rather
+>> the SPDX syntax to express it.
 >>
->> With that second commit, we essentially never unmap an active 
->> framebuffer console. But with commit
->>
->> 359c6649cd9a ("drm/gem: Implement shadow-plane {begin, end}_fb_access 
->> with vmap")
->>
->> we now again unmap the console framebuffer after the pageflip happened.
->>
->> So how does the latest kernel behave wrt to the problem?
-> 
-> The regression was found when upgrading the server from v5.4 to v5.14, 
-> so we didn't test with later kernels.
-> We will test with v6.3 (which should have 359c6649cd9a ) and see what it 
-> gives.
+>> Maxime
+>
+> Hm. There are a pretty large number of these in drm with the same syntax:
+>
+> SPDX-License-Identifier: GPL-2.0 OR MIT
+>
+> So I read it as whe shouldn't have change "Licence A" to "Licence B OR 
+> C" but instead should have changed it to "Licence A OR C", hence the 
+> *change* (rather than the syntax) would no longer be valid.
+>
+> Perhaps I have had too little coffee this morning.
+>
+Ah, so a quick read-up on SPDX identifiers helped. "GPL-2.0" is 
+deprecated and should not be used in new licensing. I'll put together a 
+patch to fix that up.
 
-I don't have a clear explanation, but testing with v6.3, and forcing the 
-Write Combine, doesn't fix the latency issue. So forcing the cache flush 
-is still needed.
+/Thomas
 
-Also, on some systems, they use "isolated cpu" to handle RT task, but 
-with a standard kernel (so without the CONFIG_PREEMPT_RT).
-So I'm wondering if we can use a kernel module parameter for this,
-so that users that wants to achieve low latency, can opt-in ?
-
-something like mgag200.force_cache_flush=1 or mgag200.low_latency=1 ?
-
-Best regards,
-
--- 
-
-Jocelyn
-
->>
->>> This is necessary only if you have strong realtime constraints, so I
->>> put the cache flush under the CONFIG_PREEMPT_RT config flag.
->>> Also clflush is only availabe on x86, (and this issue has only been
->>> reproduced on x86_64) so it's also under the CONFIG_X86 config flag.
->>>
->>> Fixes: 0b34d58b6c32 ("drm/mgag200: Enable caching for SHMEM pages")
->>> Fixes: 4862ffaec523 ("drm/mgag200: Move vmap out of commit tail")
->>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->>> ---
->>>   drivers/gpu/drm/mgag200/mgag200_mode.c | 5 +++++
->>>   1 file changed, 5 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c 
->>> b/drivers/gpu/drm/mgag200/mgag200_mode.c
->>> index af3ce5a6a636..11660cd29cea 100644
->>> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
->>> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
->>> @@ -13,6 +13,7 @@
->>>   #include <drm/drm_atomic.h>
->>>   #include <drm/drm_atomic_helper.h>
->>> +#include <drm/drm_cache.h>
->>>   #include <drm/drm_damage_helper.h>
->>>   #include <drm/drm_format_helper.h>
->>>   #include <drm/drm_fourcc.h>
->>> @@ -436,6 +437,10 @@ static void mgag200_handle_damage(struct 
->>> mga_device *mdev, const struct iosys_ma
->>>       iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], 
->>> fb->format, clip));
->>>       drm_fb_memcpy(&dst, fb->pitches, vmap, fb, clip);
->>> +    /* On RT systems, flushing the cache reduces the latency for 
->>> other RT tasks */
->>> +#if defined(CONFIG_X86) && defined(CONFIG_PREEMPT_RT)
->>> +    drm_clflush_virt_range(vmap, fb->height * fb->pitches[0]);
->>> +#endif
->>
->> Your second commit is part of a larger patchset that updates several 
->> drivers. They might all be affected. So if anything, the patch should 
->> go here before the unmap call:
->>
->> https://elixir.bootlin.com/linux/v6.5/source/drivers/gpu/drm/drm_gem_atomic_helper.c#L377
->>
-> The regression was found only with G200 currently, so I don't want to 
-> apply it blindly on other drivers.
-> 
-> Thanks for your help,
-> 
-> Best regards,
-> 
 
