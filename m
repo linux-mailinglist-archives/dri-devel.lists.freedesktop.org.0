@@ -1,52 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E6CC7E2269
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 13:54:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C25CA7E21EC
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Nov 2023 13:41:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1CCD10E2FC;
-	Mon,  6 Nov 2023 12:54:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 067C410E2EC;
+	Mon,  6 Nov 2023 12:41:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 963 seconds by postgrey-1.36 at gabe;
- Mon, 06 Nov 2023 12:54:07 UTC
-Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com
- (mailrelay5-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:404::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9E5710E2FC
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 12:54:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=ycGE/iiF6naL2xL+fBBE0XZ1/cqgYsFMAA6Zd70Z1Jw=;
- b=vH0RQZrM7dNH2YoCChVMLaE/dsodYd4JiNpusQKHpaBW6JvYamB0+7MjZ79+L9EAsPzpz/3kRcE5V
- MU4ZtPdhrs5EzGmZsKpEsBxhhMVhPUXprBBUNy+id59z5Ta+vvN4Ky+oxE4I/mQX3t7e6oW+GJnePU
- KPp02ls3Yxg9o4MZFS8zvDadV11Hn/OCskuoJfqPqnuNVOswrhKX6ERDvtA1pAyUt8zatmRRS1jqUn
- uH1QhkPTs+3O2zX4qUCyZViauaS5O+RX8/A/rD/9hkHz9ANrqT/yDrJdfrY+Gx807b8OygHBLqBovC
- z06mvg2o1PTiihrhntQexMiVVf2R/kg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=ycGE/iiF6naL2xL+fBBE0XZ1/cqgYsFMAA6Zd70Z1Jw=;
- b=1VXLx7xnbBAvswLF+WCHpEVP3EylBfIQQbC2ezJfpjo1RVM2giMnZHZcZL4BjEV832K4nAvP2FcSY
- Wh9x88vAw==
-X-HalOne-ID: 5177d4a4-7ca1-11ee-b013-a71ee59276a3
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay5 (Halon) with ESMTPSA
- id 5177d4a4-7ca1-11ee-b013-a71ee59276a3;
- Mon, 06 Nov 2023 12:38:01 +0000 (UTC)
-Date: Mon, 6 Nov 2023 13:38:00 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Aradhya Bhatia <a-bhatia1@ti.com>
-Subject: Re: [PATCH] drm/bridge: tc358767: Support input format negotiation
- hook
-Message-ID: <20231106123800.GC47195@ravnborg.org>
-References: <20231030192846.27934-1-a-bhatia1@ti.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCD7710E2EC
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 12:41:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699274469; x=1730810469;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=LSeBMi1V5puJ4kjop/zQQ27d7ayO2crDSP5WRSkd8n0=;
+ b=J8nOFzK3Gx66euvzUF96CMWC0LuTlXDGGK97+BZrQwK07BHrDVc+qMVJ
+ jblJ35OKzrUHMPypf4duosM/JmwLP6Mv+X70m/aEzsvU9D8a3MzrhJkpi
+ HoqyymiihmzRiXRGidtDLzfP6ix0VreL2kgnIxV3QkWXiyJtAWM78W28A
+ ED2/uEXWLd1EnlSNzcyk4r8quQzfx/2LS92tfKUjtM0zmHnaljwx+DcUs
+ B/91lomrI/DZuD/wTPxUH8igvI3vmkLSFkeTXXaPvIE1d/FLbFf5z50w6
+ R1u8Dl0KqYNjCliGdlKXSwXzmMo/eD+dtP7ijh7ZuKwrWgdhDmt16BwPf Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="389075516"
+X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; d="scan'208";a="389075516"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2023 04:41:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
+   d="scan'208";a="3435306"
+Received: from ajayshan-mobl.ger.corp.intel.com (HELO [10.213.234.152])
+ ([10.213.234.152])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2023 04:41:08 -0800
+Message-ID: <42646224-60e4-4ac1-b554-730b66fb2704@linux.intel.com>
+Date: Mon, 6 Nov 2023 12:41:07 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231030192846.27934-1-a-bhatia1@ti.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/5] Some drm scheduler internal renames
+Content-Language: en-US
+To: Luben Tuikov <ltuikov89@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20231102105538.391648-1-tvrtko.ursulin@linux.intel.com>
+ <88bd3e1d-db66-40de-b06f-adcaefacccf3@gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <88bd3e1d-db66-40de-b06f-adcaefacccf3@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,86 +62,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>, Jan Kiszka <jan.kiszka@siemens.com>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Francesco Dolcini <francesco@dolcini.it>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Tomi Valkeinen <tomba@kernel.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Jyri Sarha <jyri.sarha@iki.fi>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Aradhya,
 
-On Tue, Oct 31, 2023 at 12:58:46AM +0530, Aradhya Bhatia wrote:
-> With new connector model, tc358767 will not create the connector, when
-> DRM_BRIDGE_ATTACH_NO_CONNECTOR is set and display-controller driver will
-> rely on format negotiation to setup the encoder format.
+On 05/11/2023 01:51, Luben Tuikov wrote:
+> On 2023-11-02 06:55, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> I found some of the naming a bit incosistent and unclear so just a small
+>> attempt to clarify and tidy some of them. See what people think if my first
+>> stab improves things or not.
+>>
+>> Cc: Luben Tuikov <luben.tuikov@amd.com>
+>> Cc: Matthew Brost <matthew.brost@intel.com>
+>>
+>> Tvrtko Ursulin (5):
+>>    drm/sched: Rename drm_sched_get_cleanup_job to be more descriptive
+>>    drm/sched: Move free worker re-queuing out of the if block
+>>    drm/sched: Rename drm_sched_free_job_queue to be more descriptive
+>>    drm/sched: Rename drm_sched_run_job_queue_if_ready and clarify
+>>      kerneldoc
+>>    drm/sched: Drop suffix from drm_sched_wakeup_if_can_queue
+>>
+>>   drivers/gpu/drm/scheduler/sched_entity.c |  4 +-
+>>   drivers/gpu/drm/scheduler/sched_main.c   | 53 ++++++++++++------------
+>>   include/drm/gpu_scheduler.h              |  2 +-
+>>   3 files changed, 29 insertions(+), 30 deletions(-)
+>>
 > 
-> Add the missing input-format negotiation hook in the
-> drm_bridge_funcs to complete DRM_BRIDGE_ATTACH_NO_CONNECTOR support.
+> Series is,
 > 
-> Input format is selected to MEDIA_BUS_FMT_RGB888_1X24 as default, as is
-> the case with older model.
+> Reviewed-by: Luben Tuikov <ltuikov89@gmail.com>
 > 
-> Reported-by: Jan Kiszka <jan.kiszka@siemens.com>
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> ---
-> 
-> Notes:
-> 
->   * Since I do not have hardware with me, this was just build tested. I would
->     appreciate it if someone could test and review it, especically somebody, who
->     uses the bridge for DPI/DSI to eDP format conversion.
-> 
->   * The Toshiba TC358767 bridge is not enabled in arm64 defconfig by default,
->     when it should be. Hence, I sent a quick patch[0] earlier.
-> 
-> [0]: https://lore.kernel.org/all/20231030152834.18450-1-a-bhatia1@ti.com/
-> 
->  drivers/gpu/drm/bridge/tc358767.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-> index ef2e373606ba..0affcefdeb1c 100644
-> --- a/drivers/gpu/drm/bridge/tc358767.c
-> +++ b/drivers/gpu/drm/bridge/tc358767.c
-> @@ -1751,6 +1751,30 @@ tc_dpi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
->  	return input_fmts;
->  }
->  
-> +static u32 *
-> +tc_edp_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> +				 struct drm_bridge_state *bridge_state,
-> +				 struct drm_crtc_state *crtc_state,
-> +				 struct drm_connector_state *conn_state,
-> +				 u32 output_fmt,
-> +				 unsigned int *num_input_fmts)
-> +{
-> +	u32 *input_fmts;
-> +
-> +	*num_input_fmts = 0;
-> +
-> +	input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
-> +			     GFP_KERNEL);
-> +	if (!input_fmts)
-> +		return NULL;
-> +
-> +	/* This is the DSI/DPI-end bus format */
-> +	input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-> +	*num_input_fmts = 1;
-> +
-> +	return input_fmts;
-> +}
+> and pushed to drm-misc-next.
 
-You could benefit from using the helper:
-drm_atomic_helper_bridge_propagate_bus_fmt()
+Oh thanks, I definitely did not expect that to happen so quickly, 
+especially since it conflicts with your fix for RR and there are some 
+other opens. But it is fine, all that can be worked on top.
 
-	Sam
+Regards,
+
+Tvrtko
