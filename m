@@ -1,44 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DA3B7E31A4
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 00:49:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B8C7E31A3
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 00:49:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66B3910E45E;
-	Mon,  6 Nov 2023 23:49:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 814DF10E111;
+	Mon,  6 Nov 2023 23:49:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACE9510E45E
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7204E10E111
  for <dri-devel@lists.freedesktop.org>; Mon,  6 Nov 2023 23:49:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1699314560;
- bh=rYAdo0ov1Zq7KX7kvEwHz2ttY2nsC4oA64OM1EgReU8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=s5jOrjvOo1vP4H6oyg42GsVc6AONirHLyH75ciKjXBucdXNRW3RBDCGOO9Xs8sELf
- r7JriuGIvZ4InCMLuIOUburkChvf/376fi+wSct7FcxCo3YQgybmZcfO8rZj56R65i
- GAxHrF8j3pTwG5ant87hgU+ZcML/lIpJ5CFUE4yEHd58N7fE574E3XkrNI5RREzWNc
- lkH54fzO+6QSte6/QHrYojGTvDZCm6pgEpEM363UTRvgWEi8t2jAavSCjU/NIcfvFY
- xHE39MBp4i63tQSVI9QSmk+/3RNmI+m37m7K5fmBIK9IrSs4Fclnw/sUaIzkknqpCO
- XjskS8JGSBdzA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4SPSk71G2cz4wnv;
- Tue,  7 Nov 2023 10:49:19 +1100 (AEDT)
-Date: Tue, 7 Nov 2023 10:49:17 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@redhat.com>
-Subject: Re: linux-next: manual merge of the amdgpu tree with Linus' tree
-Message-ID: <20231107104917.09180c14@canb.auug.org.au>
-In-Reply-To: <20231106094855.38376d52@canb.auug.org.au>
-References: <20231106094855.38376d52@canb.auug.org.au>
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 8B2A6CE0E57;
+ Mon,  6 Nov 2023 23:49:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E181EC433C8;
+ Mon,  6 Nov 2023 23:49:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1699314562;
+ bh=vxZh7uQV/qwyCfhEVz7KfEgklD4PUHvJkzFT4Xt+7Io=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=TFosqqH0vuGDxkFCsh+y8Th4LUHgwk30AfF75ljEHSTXLtMUk2YpH/GAXfDeG1cB3
+ EzzTqqwD10r+HNVDCDGMl/N9V+DlnnlaMlnsdhCSKRXW7kiDd6ZX/CfRV6Cct4HtiQ
+ wzhiUJixHByChVm0W6BzlMoNriYyTYKbS8P7oxUmWSqfycy8waSYkgLZ8G7l6DcUb9
+ yRu6v2+nPnJJ/LEhXXMhAppXHfuR2Ot211vqmVt2x0dQ0FQD/LjomoseKxhd4IkmfI
+ nO3xKT4vKQZHAedO3bH2w68OluwUQn9mgzPzFUjOGKBQBQdEfJLpsI+oxYPSbYpJ42
+ d4M9M97iHVSYw==
+Message-ID: <583db67b-96c6-4e17-bea0-b5a14799db4a@kernel.org>
+Date: Mon, 6 Nov 2023 16:49:20 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/1G+SLmpH=k.wj.RskGDCp/c";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 06/12] memory-provider: dmabuf devmem memory
+ provider
+Content-Language: en-US
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20231106024413.2801438-1-almasrymina@google.com>
+ <20231106024413.2801438-7-almasrymina@google.com>
+From: David Ahern <dsahern@kernel.org>
+In-Reply-To: <20231106024413.2801438-7-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,94 +56,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sui Jingfeng <suijingfeng@loongson.cn>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>
+Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>, Jeroen de Borst <jeroendb@google.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Willem de Bruijn <willemb@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Eric Dumazet <edumazet@google.com>, Shakeel Butt <shakeelb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Shuah Khan <shuah@kernel.org>, "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/1G+SLmpH=k.wj.RskGDCp/c
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 11/5/23 7:44 PM, Mina Almasry wrote:
+> diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
+> index 78cbb040af94..b93243c2a640 100644
+> --- a/include/net/page_pool/helpers.h
+> +++ b/include/net/page_pool/helpers.h
+> @@ -111,6 +112,45 @@ page_pool_iov_binding(const struct page_pool_iov *ppiov)
+>  	return page_pool_iov_owner(ppiov)->binding;
+>  }
+>  
+> +static inline int page_pool_iov_refcount(const struct page_pool_iov *ppiov)
+> +{
+> +	return refcount_read(&ppiov->refcount);
+> +}
+> +
+> +static inline void page_pool_iov_get_many(struct page_pool_iov *ppiov,
+> +					  unsigned int count)
+> +{
+> +	refcount_add(count, &ppiov->refcount);
+> +}
+> +
+> +void __page_pool_iov_free(struct page_pool_iov *ppiov);
+> +
+> +static inline void page_pool_iov_put_many(struct page_pool_iov *ppiov,
+> +					  unsigned int count)
+> +{
+> +	if (!refcount_sub_and_test(count, &ppiov->refcount))
+> +		return;
+> +
+> +	__page_pool_iov_free(ppiov);
+> +}
+> +
+> +/* page pool mm helpers */
+> +
+> +static inline bool page_is_page_pool_iov(const struct page *page)
+> +{
+> +	return (unsigned long)page & PP_DEVMEM;
 
-Hi all,
+This is another one where the code can be more generic to not force a
+lot changes later.  e.g., PP_CUSTOM or PP_NO_PAGE. Then io_uring use
+case with host memory can leverage the iov pool in a similar manner.
 
-On Mon, 6 Nov 2023 09:48:55 +1100 Stephen Rothwell <sfr@canb.auug.org.au> w=
-rote:
->=20
-> Today's linux-next merge of the amdgpu tree got a conflict in:
->=20
->   drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c
->=20
-> between commit:
->=20
->   18bf400530ca ("drm/amdgpu: Use pci_get_base_class() to reduce duplicate=
-d code")
->=20
-> from Linus' tree and commit:
->=20
->   432e664e7c98 ("drm/amdgpu: don't use ATRM for external devices")
->=20
-> from the amdgpu tree.
->=20
-> I fixed it up (see below) and can carry the fix as necessary. This
-> is now fixed as far as linux-next is concerned, but any non trivial
-> conflicts should be mentioned to your upstream maintainer when your tree
-> is submitted for merging.  You may also want to consider cooperating
-> with the maintainer of the conflicting tree to minimise any particularly
-> complex conflicts.
->=20
-> --=20
-> Cheers,
-> Stephen Rothwell
->=20
-> diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c
-> index 5bbb23e102ba,f3a09ecb7699..000000000000
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_bios.c
-> @@@ -286,12 -287,12 +287,16 @@@ static bool amdgpu_atrm_get_bios(struc
->   	/* ATRM is for the discrete card only */
->   	if (adev->flags & AMD_IS_APU)
->   		return false;
-> +=20
-> + 	/* ATRM is for on-platform devices only */
-> + 	if (dev_is_removable(&adev->pdev->dev))
-> + 		return false;
->  =20
->  -	while ((pdev =3D pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, pdev)) !=3D=
- NULL) {
->  +	while ((pdev =3D pci_get_base_class(PCI_BASE_CLASS_DISPLAY, pdev))) {
->  +		if ((pdev->class !=3D PCI_CLASS_DISPLAY_VGA << 8) &&
->  +		    (pdev->class !=3D PCI_CLASS_DISPLAY_OTHER << 8))
->  +			continue;
->  +
->   		dhandle =3D ACPI_HANDLE(&pdev->dev);
->   		if (!dhandle)
->   			continue;
+That does mean skb->devmem needs to be a flag on the page pool and not
+just assume iov == device memory.
 
-This is now a conflict between the drm tree and Linus' tree.
 
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/1G+SLmpH=k.wj.RskGDCp/c
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmVJe30ACgkQAVBC80lX
-0Gz0/Qf9HdnhwPZJVImw9UpPkqdiuBu7It6p1hHeGHWR/SLvSiDQAr4Rm4+JrzJ9
-kjqHdpR2UTjfpr79YSbXYNbllHswM5p+tJObOgTHN9+N4hJfP+EQJj16F3fV5kAN
-F7hC7E+FWKkFb6FOJjwvH3RAY/uJkNOV1gKDFSeF+EiJsvdJZfk8GonlzzADrguS
-bOdK791c4y4fKNp7BGmmtuicru8+xkPPCOHc0EW0STIfGEfUvLYyhGZy0i2KQ57g
-u9nsHOd/1tBuPghQTRjkvM9Fh0hxCwQOJt/vAEGK6zhPam1ZrynfNg/Kx/ebC8ep
-js6X/j44GcnHrdC7Yxvvw1zGv+wlAQ==
-=ixwX
------END PGP SIGNATURE-----
-
---Sig_/1G+SLmpH=k.wj.RskGDCp/c--
