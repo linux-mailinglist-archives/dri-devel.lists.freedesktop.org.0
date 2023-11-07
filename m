@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78A377E3CB1
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:18:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF397E3CB2
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:18:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2979610E513;
-	Tue,  7 Nov 2023 12:18:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA3510E515;
+	Tue,  7 Nov 2023 12:18:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C62E010E512;
- Tue,  7 Nov 2023 12:18:44 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5CEE10E513
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 12:18:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 6C172B811E3;
+ by ams.source.kernel.org (Postfix) with ESMTP id 68B90B8169F;
+ Tue,  7 Nov 2023 12:18:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F227C433C7;
  Tue,  7 Nov 2023 12:18:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62E0EC433CD;
- Tue,  7 Nov 2023 12:18:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699359522;
- bh=K00oG+mshpE8EEFrRm7wy4yL4nRymkM8Tj1UMnSaxh4=;
+ s=k20201202; t=1699359524;
+ bh=j262a8SBggxH4AQAbFWHF8huUGHPQSeahScaURHpQWM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Z+lYj8yydZc91JXyru7G/ld+P/+leD0UKRE3nrRNKj91S4AKf8kylopPAjC9Wn41t
- xxclX5E8J/7WEPfjq9FndTzItAeLUwTwkuM+BwOnup1o8SI1STMqCdpJDpdMcLfFJd
- maCBUgmYJuJEp1HHDGR46BIYrrLrkmDTmv1H43IvwE7/03ERKDHzWT3oxeNnGfHEEA
- yOHhYy4mE+Qf06Sq0emFYEE5HKuoEFdalvPkM7FgaX+Atf9zCSi29qj1xPe2Jl6EsZ
- 5eBGQ4hnSU6Zq0yfyHC1TEMQYI5iCTQSv5FgA8Wlbv8CalrAbo5khwK//paf53elfV
- i3uO1xuY5OwxQ==
+ b=Vxp4EQ8rQ4TnmtEgr89dwKitWkdx8EX9fv7GCfQ0A/kLvy9MwUvtWb4a5JYuV/6lZ
+ l24hz7p+e0z1BzbNuicO7HYbO/jTSe1tUYq0QOQ+u+easED6L/WU8bUUXmrpoSMFtV
+ goRIN1zR8SwTbOMOCULLQNOIXe4rcqbkGIjzTLW9vr4bY9hc5RBj7AyuNbW7utCqf7
+ gtAf0Vxggji8PZK5QL+5nRmSGwkiMI5L2Q0STO+Cy4v6rjztUWam3rNeI94a+ao+NR
+ mxP8+ScD/pu4Ql0HIAlY5Ahn1lmP4HdT2gyruGG/A4jmPS0l1L5Skt+9PB6E6H+Ty9
+ E+ubctoMc/Q6A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 02/40] drm/amdkfd: ratelimited SQ interrupt
- messages
-Date: Tue,  7 Nov 2023 07:16:04 -0500
-Message-ID: <20231107121837.3759358-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 03/40] drm/komeda: drop all currently held locks
+ if deadlock happens
+Date: Tue,  7 Nov 2023 07:16:05 -0500
+Message-ID: <20231107121837.3759358-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231107121837.3759358-1-sashal@kernel.org>
 References: <20231107121837.3759358-1-sashal@kernel.org>
@@ -54,124 +55,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Philip Yang <philip.yang@amd.com>,
- Felix.Kuehling@amd.com, Xinhui.Pan@amd.com,
- Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, "baozhu.liu" <lucas.liu@siengine.com>,
+ mripard@kernel.org, dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ "menghui . huang" <menghui.huang@siengine.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
+From: "baozhu.liu" <lucas.liu@siengine.com>
 
-[ Upstream commit 37fb87910724f21a1f27a75743d4f9accdee77fb ]
+[ Upstream commit 19ecbe8325a2a7ffda5ff4790955b84eaccba49f ]
 
-No functional change. Use ratelimited version of pr_ to avoid
-overflowing of dmesg buffer
+If komeda_pipeline_unbound_components() returns -EDEADLK,
+it means that a deadlock happened in the locking context.
+Currently, komeda is not dealing with the deadlock properly,producing the
+following output when CONFIG_DEBUG_WW_MUTEX_SLOWPATH is enabled:
 
-Signed-off-by: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
-Reviewed-by: Philip Yang <philip.yang@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+ ------------[ cut here ]------------
+[   26.103984] WARNING: CPU: 2 PID: 345 at drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:1248
+	       komeda_release_unclaimed_resources+0x13c/0x170
+[   26.117453] Modules linked in:
+[   26.120511] CPU: 2 PID: 345 Comm: composer@2.1-se Kdump: loaded Tainted: G   W  5.10.110-SE-SDK1.8-dirty #16
+[   26.131374] Hardware name: Siengine Se1000 Evaluation board (DT)
+[   26.137379] pstate: 20400009 (nzCv daif +PAN -UAO -TCO BTYPE=--)
+[   26.143385] pc : komeda_release_unclaimed_resources+0x13c/0x170
+[   26.149301] lr : komeda_release_unclaimed_resources+0xbc/0x170
+[   26.155130] sp : ffff800017b8b8d0
+[   26.158442] pmr_save: 000000e0
+[   26.161493] x29: ffff800017b8b8d0 x28: ffff000cf2f96200
+[   26.166805] x27: ffff000c8f5a8800 x26: 0000000000000000
+[   26.172116] x25: 0000000000000038 x24: ffff8000116a0140
+[   26.177428] x23: 0000000000000038 x22: ffff000cf2f96200
+[   26.182739] x21: ffff000cfc300300 x20: ffff000c8ab77080
+[   26.188051] x19: 0000000000000003 x18: 0000000000000000
+[   26.193362] x17: 0000000000000000 x16: 0000000000000000
+[   26.198672] x15: b400e638f738ba38 x14: 0000000000000000
+[   26.203983] x13: 0000000106400a00 x12: 0000000000000000
+[   26.209294] x11: 0000000000000000 x10: 0000000000000000
+[   26.214604] x9 : ffff800012f80000 x8 : ffff000ca3308000
+[   26.219915] x7 : 0000000ff3000000 x6 : ffff80001084034c
+[   26.225226] x5 : ffff800017b8bc40 x4 : 000000000000000f
+[   26.230536] x3 : ffff000ca3308000 x2 : 0000000000000000
+[   26.235847] x1 : 0000000000000000 x0 : ffffffffffffffdd
+[   26.241158] Call trace:
+[   26.243604] komeda_release_unclaimed_resources+0x13c/0x170
+[   26.249175] komeda_crtc_atomic_check+0x68/0xf0
+[   26.253706] drm_atomic_helper_check_planes+0x138/0x1f4
+[   26.258929] komeda_kms_check+0x284/0x36c
+[   26.262939] drm_atomic_check_only+0x40c/0x714
+[   26.267381] drm_atomic_nonblocking_commit+0x1c/0x60
+[   26.272344] drm_mode_atomic_ioctl+0xa3c/0xb8c
+[   26.276787] drm_ioctl_kernel+0xc4/0x120
+[   26.280708] drm_ioctl+0x268/0x534
+[   26.284109] __arm64_sys_ioctl+0xa8/0xf0
+[   26.288030] el0_svc_common.constprop.0+0x80/0x240
+[   26.292817] do_el0_svc+0x24/0x90
+[   26.296132] el0_svc+0x20/0x30
+[   26.299185] el0_sync_handler+0xe8/0xf0
+[   26.303018] el0_sync+0x1a4/0x1c0
+[   26.306330] irq event stamp: 0
+[   26.309384] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+[   26.315650] hardirqs last disabled at (0): [<ffff800010056d34>] copy_process+0x5d0/0x183c
+[   26.323825] softirqs last  enabled at (0): [<ffff800010056d34>] copy_process+0x5d0/0x183c
+[   26.331997] softirqs last disabled at (0): [<0000000000000000>] 0x0
+[   26.338261] ---[ end trace 20ae984fa860184a ]---
+[   26.343021] ------------[ cut here ]------------
+[   26.347646] WARNING: CPU: 3 PID: 345 at drivers/gpu/drm/drm_modeset_lock.c:228 drm_modeset_drop_locks+0x84/0x90
+[   26.357727] Modules linked in:
+[   26.360783] CPU: 3 PID: 345 Comm: composer@2.1-se Kdump: loaded Tainted: G   W  5.10.110-SE-SDK1.8-dirty #16
+[   26.371645] Hardware name: Siengine Se1000 Evaluation board (DT)
+[   26.377647] pstate: 20400009 (nzCv daif +PAN -UAO -TCO BTYPE=--)
+[   26.383649] pc : drm_modeset_drop_locks+0x84/0x90
+[   26.388351] lr : drm_mode_atomic_ioctl+0x860/0xb8c
+[   26.393137] sp : ffff800017b8bb10
+[   26.396447] pmr_save: 000000e0
+[   26.399497] x29: ffff800017b8bb10 x28: 0000000000000001
+[   26.404807] x27: 0000000000000038 x26: 0000000000000002
+[   26.410115] x25: ffff000cecbefa00 x24: ffff000cf2f96200
+[   26.415423] x23: 0000000000000001 x22: 0000000000000018
+[   26.420731] x21: 0000000000000001 x20: ffff800017b8bc10
+[   26.426039] x19: 0000000000000000 x18: 0000000000000000
+[   26.431347] x17: 0000000002e8bf2c x16: 0000000002e94c6b
+[   26.436655] x15: 0000000002ea48b9 x14: ffff8000121f0300
+[   26.441963] x13: 0000000002ee2ca8 x12: ffff80001129cae0
+[   26.447272] x11: ffff800012435000 x10: ffff000ed46b5e88
+[   26.452580] x9 : ffff000c9935e600 x8 : 0000000000000000
+[   26.457888] x7 : 000000008020001e x6 : 000000008020001f
+[   26.463196] x5 : ffff80001085fbe0 x4 : fffffe0033a59f20
+[   26.468504] x3 : 000000008020001e x2 : 0000000000000000
+[   26.473813] x1 : 0000000000000000 x0 : ffff000c8f596090
+[   26.479122] Call trace:
+[   26.481566] drm_modeset_drop_locks+0x84/0x90
+[   26.485918] drm_mode_atomic_ioctl+0x860/0xb8c
+[   26.490359] drm_ioctl_kernel+0xc4/0x120
+[   26.494278] drm_ioctl+0x268/0x534
+[   26.497677] __arm64_sys_ioctl+0xa8/0xf0
+[   26.501598] el0_svc_common.constprop.0+0x80/0x240
+[   26.506384] do_el0_svc+0x24/0x90
+[   26.509697] el0_svc+0x20/0x30
+[   26.512748] el0_sync_handler+0xe8/0xf0
+[   26.516580] el0_sync+0x1a4/0x1c0
+[   26.519891] irq event stamp: 0
+[   26.522943] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+[   26.529207] hardirqs last disabled at (0): [<ffff800010056d34>] copy_process+0x5d0/0x183c
+[   26.537379] softirqs last  enabled at (0): [<ffff800010056d34>] copy_process+0x5d0/0x183c
+[   26.545550] softirqs last disabled at (0): [<0000000000000000>] 0x0
+[   26.551812] ---[ end trace 20ae984fa860184b ]---
+
+According to the call trace information,it can be located to be
+WARN_ON(IS_ERR(c_st)) in the komeda_pipeline_unbound_components function;
+Then follow the function.
+komeda_pipeline_unbound_components
+-> komeda_component_get_state_and_set_user
+  -> komeda_pipeline_get_state_and_set_crtc
+    -> komeda_pipeline_get_state
+      ->drm_atomic_get_private_obj_state
+        -> drm_atomic_get_private_obj_state
+          -> drm_modeset_lock
+
+komeda_pipeline_unbound_components
+-> komeda_component_get_state_and_set_user
+  -> komeda_component_get_state
+    -> drm_atomic_get_private_obj_state
+     -> drm_modeset_lock
+
+ret = drm_modeset_lock(&obj->lock, state->acquire_ctx); if (ret)
+	return ERR_PTR(ret);
+Here it return -EDEADLK.
+
+deal with the deadlock as suggested by [1], using the
+function drm_modeset_backoff().
+[1] https://docs.kernel.org/gpu/drm-kms.html?highlight=kms#kms-locking
+
+Therefore, handling this problem can be solved
+by adding return -EDEADLK back to the drm_modeset_backoff processing flow
+in the drm_mode_atomic_ioctl function.
+
+Signed-off-by: baozhu.liu <lucas.liu@siengine.com>
+Signed-off-by: menghui.huang <menghui.huang@siengine.com>
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230804013117.6870-1-menghui.huang@siengine.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_int_process_v10.c | 6 +++---
- drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c | 6 +++---
- drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c  | 6 +++---
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ .../gpu/drm/arm/display/komeda/komeda_pipeline_state.c   | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v10.c b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v10.c
-index c7991e07b6be5..a7697ec8188e0 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v10.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v10.c
-@@ -268,7 +268,7 @@ static void event_interrupt_wq_v10(struct kfd_node *dev,
- 						SQ_INTERRUPT_WORD_WAVE_CTXID1, ENCODING);
- 			switch (encoding) {
- 			case SQ_INTERRUPT_WORD_ENCODING_AUTO:
--				pr_debug(
-+				pr_debug_ratelimited(
- 					"sq_intr: auto, se %d, ttrace %d, wlt %d, ttrac_buf0_full %d, ttrac_buf1_full %d, ttrace_utc_err %d\n",
- 					REG_GET_FIELD(context_id1, SQ_INTERRUPT_WORD_AUTO_CTXID1,
- 							SE_ID),
-@@ -284,7 +284,7 @@ static void event_interrupt_wq_v10(struct kfd_node *dev,
- 							THREAD_TRACE_UTC_ERROR));
- 				break;
- 			case SQ_INTERRUPT_WORD_ENCODING_INST:
--				pr_debug("sq_intr: inst, se %d, data 0x%x, sa %d, priv %d, wave_id %d, simd_id %d, wgp_id %d\n",
-+				pr_debug_ratelimited("sq_intr: inst, se %d, data 0x%x, sa %d, priv %d, wave_id %d, simd_id %d, wgp_id %d\n",
- 					REG_GET_FIELD(context_id1, SQ_INTERRUPT_WORD_WAVE_CTXID1,
- 							SE_ID),
- 					REG_GET_FIELD(context_id0, SQ_INTERRUPT_WORD_WAVE_CTXID0,
-@@ -310,7 +310,7 @@ static void event_interrupt_wq_v10(struct kfd_node *dev,
- 			case SQ_INTERRUPT_WORD_ENCODING_ERROR:
- 				sq_intr_err_type = REG_GET_FIELD(context_id0, KFD_CTXID0,
- 								ERR_TYPE);
--				pr_warn("sq_intr: error, se %d, data 0x%x, sa %d, priv %d, wave_id %d, simd_id %d, wgp_id %d, err_type %d\n",
-+				pr_warn_ratelimited("sq_intr: error, se %d, data 0x%x, sa %d, priv %d, wave_id %d, simd_id %d, wgp_id %d, err_type %d\n",
- 					REG_GET_FIELD(context_id1, SQ_INTERRUPT_WORD_WAVE_CTXID1,
- 							SE_ID),
- 					REG_GET_FIELD(context_id0, SQ_INTERRUPT_WORD_WAVE_CTXID0,
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c
-index f933bd231fb9c..2a65792fd1162 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v11.c
-@@ -150,7 +150,7 @@ enum SQ_INTERRUPT_ERROR_TYPE {
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
+index 4618687a8f4d6..f3e744172673c 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
+@@ -1223,7 +1223,7 @@ int komeda_build_display_data_flow(struct komeda_crtc *kcrtc,
+ 	return 0;
+ }
  
- static void print_sq_intr_info_auto(uint32_t context_id0, uint32_t context_id1)
+-static void
++static int
+ komeda_pipeline_unbound_components(struct komeda_pipeline *pipe,
+ 				   struct komeda_pipeline_state *new)
  {
--	pr_debug(
-+	pr_debug_ratelimited(
- 		"sq_intr: auto, ttrace %d, wlt %d, ttrace_buf_full %d, reg_tms %d, cmd_tms %d, host_cmd_ovf %d, host_reg_ovf %d, immed_ovf %d, ttrace_utc_err %d\n",
- 		REG_GET_FIELD(context_id0, SQ_INTERRUPT_WORD_AUTO_CTXID0, THREAD_TRACE),
- 		REG_GET_FIELD(context_id0, SQ_INTERRUPT_WORD_AUTO_CTXID0, WLT),
-@@ -165,7 +165,7 @@ static void print_sq_intr_info_auto(uint32_t context_id0, uint32_t context_id1)
+@@ -1243,8 +1243,12 @@ komeda_pipeline_unbound_components(struct komeda_pipeline *pipe,
+ 		c = komeda_pipeline_get_component(pipe, id);
+ 		c_st = komeda_component_get_state_and_set_user(c,
+ 				drm_st, NULL, new->crtc);
++		if (PTR_ERR(c_st) == -EDEADLK)
++			return -EDEADLK;
+ 		WARN_ON(IS_ERR(c_st));
+ 	}
++
++	return 0;
+ }
  
- static void print_sq_intr_info_inst(uint32_t context_id0, uint32_t context_id1)
- {
--	pr_debug(
-+	pr_debug_ratelimited(
- 		"sq_intr: inst, data 0x%08x, sh %d, priv %d, wave_id %d, simd_id %d, wgp_id %d\n",
- 		REG_GET_FIELD(context_id0, SQ_INTERRUPT_WORD_WAVE_CTXID0, DATA),
- 		REG_GET_FIELD(context_id0, SQ_INTERRUPT_WORD_WAVE_CTXID0, SH_ID),
-@@ -177,7 +177,7 @@ static void print_sq_intr_info_inst(uint32_t context_id0, uint32_t context_id1)
+ /* release unclaimed pipeline resource */
+@@ -1266,9 +1270,8 @@ int komeda_release_unclaimed_resources(struct komeda_pipeline *pipe,
+ 	if (WARN_ON(IS_ERR_OR_NULL(st)))
+ 		return -EINVAL;
  
- static void print_sq_intr_info_error(uint32_t context_id0, uint32_t context_id1)
- {
--	pr_warn(
-+	pr_warn_ratelimited(
- 		"sq_intr: error, detail 0x%08x, type %d, sh %d, priv %d, wave_id %d, simd_id %d, wgp_id %d\n",
- 		REG_GET_FIELD(context_id0, SQ_INTERRUPT_WORD_ERROR_CTXID0, DETAIL),
- 		REG_GET_FIELD(context_id0, SQ_INTERRUPT_WORD_ERROR_CTXID0, TYPE),
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c
-index 830396b1c3b14..27cdaea405017 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_int_process_v9.c
-@@ -333,7 +333,7 @@ static void event_interrupt_wq_v9(struct kfd_node *dev,
- 			encoding = REG_GET_FIELD(context_id0, SQ_INTERRUPT_WORD_WAVE_CTXID, ENCODING);
- 			switch (encoding) {
- 			case SQ_INTERRUPT_WORD_ENCODING_AUTO:
--				pr_debug(
-+				pr_debug_ratelimited(
- 					"sq_intr: auto, se %d, ttrace %d, wlt %d, ttrac_buf_full %d, reg_tms %d, cmd_tms %d, host_cmd_ovf %d, host_reg_ovf %d, immed_ovf %d, ttrace_utc_err %d\n",
- 					REG_GET_FIELD(context_id0, SQ_INTERRUPT_WORD_AUTO_CTXID, SE_ID),
- 					REG_GET_FIELD(context_id0, SQ_INTERRUPT_WORD_AUTO_CTXID, THREAD_TRACE),
-@@ -347,7 +347,7 @@ static void event_interrupt_wq_v9(struct kfd_node *dev,
- 					REG_GET_FIELD(context_id0, SQ_INTERRUPT_WORD_AUTO_CTXID, THREAD_TRACE_UTC_ERROR));
- 				break;
- 			case SQ_INTERRUPT_WORD_ENCODING_INST:
--				pr_debug("sq_intr: inst, se %d, data 0x%x, sh %d, priv %d, wave_id %d, simd_id %d, cu_id %d, intr_data 0x%x\n",
-+				pr_debug_ratelimited("sq_intr: inst, se %d, data 0x%x, sh %d, priv %d, wave_id %d, simd_id %d, cu_id %d, intr_data 0x%x\n",
- 					REG_GET_FIELD(context_id0, SQ_INTERRUPT_WORD_WAVE_CTXID, SE_ID),
- 					REG_GET_FIELD(context_id0, SQ_INTERRUPT_WORD_WAVE_CTXID, DATA),
- 					REG_GET_FIELD(context_id0, SQ_INTERRUPT_WORD_WAVE_CTXID, SH_ID),
-@@ -366,7 +366,7 @@ static void event_interrupt_wq_v9(struct kfd_node *dev,
- 				break;
- 			case SQ_INTERRUPT_WORD_ENCODING_ERROR:
- 				sq_intr_err = REG_GET_FIELD(sq_int_data, KFD_SQ_INT_DATA, ERR_TYPE);
--				pr_warn("sq_intr: error, se %d, data 0x%x, sh %d, priv %d, wave_id %d, simd_id %d, cu_id %d, err_type %d\n",
-+				pr_warn_ratelimited("sq_intr: error, se %d, data 0x%x, sh %d, priv %d, wave_id %d, simd_id %d, cu_id %d, err_type %d\n",
- 					REG_GET_FIELD(context_id0, SQ_INTERRUPT_WORD_WAVE_CTXID, SE_ID),
- 					REG_GET_FIELD(context_id0, SQ_INTERRUPT_WORD_WAVE_CTXID, DATA),
- 					REG_GET_FIELD(context_id0, SQ_INTERRUPT_WORD_WAVE_CTXID, SH_ID),
+-	komeda_pipeline_unbound_components(pipe, st);
++	return komeda_pipeline_unbound_components(pipe, st);
+ 
+-	return 0;
+ }
+ 
+ /* Since standalone disabled components must be disabled separately and in the
 -- 
 2.42.0
 
