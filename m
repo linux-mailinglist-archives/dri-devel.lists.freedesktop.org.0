@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B7DB7E3D1E
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:26:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 517177E3D23
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:26:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC1F910E572;
-	Tue,  7 Nov 2023 12:26:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FF3410E577;
+	Tue,  7 Nov 2023 12:26:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63D3E10E572;
- Tue,  7 Nov 2023 12:26:00 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE17A10E574;
+ Tue,  7 Nov 2023 12:26:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id AEEA4CE0F18;
- Tue,  7 Nov 2023 12:25:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83F92C433C8;
- Tue,  7 Nov 2023 12:25:56 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 7A982B81699;
+ Tue,  7 Nov 2023 12:26:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2C62C433C7;
+ Tue,  7 Nov 2023 12:26:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699359957;
- bh=PyFXYpX2zLR2YsKBJ7JFgKhW9RuKAu9Bi5tS47RTO/Y=;
+ s=k20201202; t=1699359962;
+ bh=4G7EAZAAidgtiyUkzXmyQeqklRSU79wU+E9AFml2NO4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UYOysrx8gDa3WQRTiE3BUy9XPVDd8SOEZAMyUA6uYILWOp6DCEc3ArNO/gsnjk20S
- HZ1iqafrbFksKxr5khwt1uLvvTupnsw0Wsh9jqh9ILF4tNhXlYXeYVT9uj+36/8/j/
- +cYoZoXk7m/YN2Wma/yj+XgKumJkhvD4Hvgiru4Xjw1Cd9OGtcnOfT9xnnVZVJyTk/
- iglYC4EGwv113eBDz1du0XfySgwMfcj7Bm86xhSOldIgDaSgHOHIge8sC2Atbq9pEC
- IF4wF/zj1DHmPkkqFXIJDnrVeJ3gcTT6klAmcFgHNcQqyg8engRl7n4Gkqu9pRJTIk
- Ar2xligR5wqfA==
+ b=uVtlAR5HZfSlRQ7MDMOuWEH5QnhT+pNsOhkJeETXOGHWvnO5LOG0ACtCAyZMkarIB
+ r/Kbgxru6oGiZIJOrivD+RYSbHrfPavCbC4x7V/UjemK97nd1BQ4HU78IERC7F6yu2
+ E/bbH/GoaqEu8PHpaSDWg4yGZ1vgkzFgJDZNr7nhprwXUZPd/UfN3sLRqsUBBK8Snf
+ OayQodLQbeER6tV0IVzVYCevSG4Kjdeq2qqcFyqimmbd4TdncHBaHUcpEPE/l/Nb9c
+ 1TyRkZEP76AaXsG8opEkPSNjSCEEy+BQ9f71U4HIl90iCfbd3xSW7xIhwSgb+OcgcM
+ D9mzFb2UQ591A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.5 21/37] drm/amd: Fix UBSAN
- array-index-out-of-bounds for Polaris and Tonga
-Date: Tue,  7 Nov 2023 07:21:32 -0500
-Message-ID: <20231107122407.3760584-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.5 22/37] drm/amdgpu: Fix potential null pointer
+ derefernce
+Date: Tue,  7 Nov 2023 07:21:33 -0500
+Message-ID: <20231107122407.3760584-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231107122407.3760584-1-sashal@kernel.org>
 References: <20231107122407.3760584-1-sashal@kernel.org>
@@ -55,87 +55,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, sunran001@208suo.com,
+Cc: Sasha Levin <sashal@kernel.org>, Tao Zhou <tao.zhou1@amd.com>,
+ andrealmeid@igalia.com, shashank.sharma@amd.com,
  dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, Mario Limonciello <mario.limonciello@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, evan.quan@amd.com,
- christian.koenig@amd.com
+ amd-gfx@lists.freedesktop.org, lijo.lazar@amd.com, le.ma@amd.com,
+ "Stanley.Yang" <Stanley.Yang@amd.com>, mario.limonciello@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, srinivasan.shanmugam@amd.com,
+ candice.li@amd.com, christian.koenig@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+From: "Stanley.Yang" <Stanley.Yang@amd.com>
 
-[ Upstream commit 0f0e59075b5c22f1e871fbd508d6e4f495048356 ]
+[ Upstream commit 80285ae1ec8717b597b20de38866c29d84d321a1 ]
 
-For pptable structs that use flexible array sizes, use flexible arrays.
+The amdgpu_ras_get_context may return NULL if device
+not support ras feature, so add check before using.
 
-Link: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2036742
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Stanley.Yang <Stanley.Yang@amd.com>
+Reviewed-by: Tao Zhou <tao.zhou1@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/pm/powerplay/hwmgr/pptable_v1_0.h    | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/pptable_v1_0.h b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/pptable_v1_0.h
-index 41444e27bfc0c..e0e40b054c08b 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/pptable_v1_0.h
-+++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/pptable_v1_0.h
-@@ -164,7 +164,7 @@ typedef struct _ATOM_Tonga_State {
- typedef struct _ATOM_Tonga_State_Array {
- 	UCHAR ucRevId;
- 	UCHAR ucNumEntries;		/* Number of entries. */
--	ATOM_Tonga_State entries[1];	/* Dynamically allocate entries. */
-+	ATOM_Tonga_State entries[];	/* Dynamically allocate entries. */
- } ATOM_Tonga_State_Array;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index 8940ee73f2dfe..ecc61a6d13e13 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -5399,7 +5399,8 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
+ 	 * Flush RAM to disk so that after reboot
+ 	 * the user can read log and see why the system rebooted.
+ 	 */
+-	if (need_emergency_restart && amdgpu_ras_get_context(adev)->reboot) {
++	if (need_emergency_restart && amdgpu_ras_get_context(adev) &&
++		amdgpu_ras_get_context(adev)->reboot) {
+ 		DRM_WARN("Emergency reboot.");
  
- typedef struct _ATOM_Tonga_MCLK_Dependency_Record {
-@@ -210,7 +210,7 @@ typedef struct _ATOM_Polaris_SCLK_Dependency_Record {
- typedef struct _ATOM_Polaris_SCLK_Dependency_Table {
- 	UCHAR ucRevId;
- 	UCHAR ucNumEntries;							/* Number of entries. */
--	ATOM_Polaris_SCLK_Dependency_Record entries[1];				 /* Dynamically allocate entries. */
-+	ATOM_Polaris_SCLK_Dependency_Record entries[];				 /* Dynamically allocate entries. */
- } ATOM_Polaris_SCLK_Dependency_Table;
- 
- typedef struct _ATOM_Tonga_PCIE_Record {
-@@ -222,7 +222,7 @@ typedef struct _ATOM_Tonga_PCIE_Record {
- typedef struct _ATOM_Tonga_PCIE_Table {
- 	UCHAR ucRevId;
- 	UCHAR ucNumEntries; 										/* Number of entries. */
--	ATOM_Tonga_PCIE_Record entries[1];							/* Dynamically allocate entries. */
-+	ATOM_Tonga_PCIE_Record entries[];							/* Dynamically allocate entries. */
- } ATOM_Tonga_PCIE_Table;
- 
- typedef struct _ATOM_Polaris10_PCIE_Record {
-@@ -235,7 +235,7 @@ typedef struct _ATOM_Polaris10_PCIE_Record {
- typedef struct _ATOM_Polaris10_PCIE_Table {
- 	UCHAR ucRevId;
- 	UCHAR ucNumEntries;                                         /* Number of entries. */
--	ATOM_Polaris10_PCIE_Record entries[1];                      /* Dynamically allocate entries. */
-+	ATOM_Polaris10_PCIE_Record entries[];                      /* Dynamically allocate entries. */
- } ATOM_Polaris10_PCIE_Table;
- 
- 
-@@ -252,7 +252,7 @@ typedef struct _ATOM_Tonga_MM_Dependency_Record {
- typedef struct _ATOM_Tonga_MM_Dependency_Table {
- 	UCHAR ucRevId;
- 	UCHAR ucNumEntries; 										/* Number of entries. */
--	ATOM_Tonga_MM_Dependency_Record entries[1]; 			   /* Dynamically allocate entries. */
-+	ATOM_Tonga_MM_Dependency_Record entries[]; 			   /* Dynamically allocate entries. */
- } ATOM_Tonga_MM_Dependency_Table;
- 
- typedef struct _ATOM_Tonga_Voltage_Lookup_Record {
-@@ -265,7 +265,7 @@ typedef struct _ATOM_Tonga_Voltage_Lookup_Record {
- typedef struct _ATOM_Tonga_Voltage_Lookup_Table {
- 	UCHAR ucRevId;
- 	UCHAR ucNumEntries; 										/* Number of entries. */
--	ATOM_Tonga_Voltage_Lookup_Record entries[1];				/* Dynamically allocate entries. */
-+	ATOM_Tonga_Voltage_Lookup_Record entries[];				/* Dynamically allocate entries. */
- } ATOM_Tonga_Voltage_Lookup_Table;
- 
- typedef struct _ATOM_Tonga_Fan_Table {
+ 		ksys_sync_helper();
 -- 
 2.42.0
 
