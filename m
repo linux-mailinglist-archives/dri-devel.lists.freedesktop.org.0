@@ -2,48 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A2F07E36BC
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 09:36:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0221E7E36C2
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 09:37:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 160FF10E4CB;
-	Tue,  7 Nov 2023 08:36:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 292C110E4CD;
+	Tue,  7 Nov 2023 08:37:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 394 seconds by postgrey-1.36 at gabe;
- Tue, 07 Nov 2023 08:35:57 UTC
-Received: from 8.mo583.mail-out.ovh.net (8.mo583.mail-out.ovh.net
- [178.32.116.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6721310E4CD
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 08:35:57 +0000 (UTC)
-Received: from director9.ghost.mail-out.ovh.net (unknown [10.108.20.200])
- by mo583.mail-out.ovh.net (Postfix) with ESMTP id 3216E2A991
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 08:29:20 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-btv5j (unknown [10.110.115.220])
- by director9.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 6EF6D1FDDC;
- Tue,  7 Nov 2023 08:29:18 +0000 (UTC)
-Received: from foxhound.fi ([37.59.142.105])
- by ghost-submission-6684bf9d7b-btv5j with ESMTPSA
- id I8daFV71SWUqAQAAWJgi0A
- (envelope-from <jose.pekkarinen@foxhound.fi>); Tue, 07 Nov 2023 08:29:18 +0000
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G0063a9f607e-0194-493b-a956-73c3cacca2fa,
- 990ED9DB402E285008FC912DE57946D84A8BC800)
- smtp.auth=jose.pekkarinen@foxhound.fi
-X-OVh-ClientIp: 213.216.211.70
-From: =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>
-To: evan.quan@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, skhan@linuxfoundation.org
-Subject: [PATCH] drm/amd/pm: clean up redundant comparisons with 0
-Date: Tue,  7 Nov 2023 10:29:09 +0200
-Message-Id: <20231107082910.92508-1-jose.pekkarinen@foxhound.fi>
-X-Mailer: git-send-email 2.39.2
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
+ [81.169.146.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BADF10E4CF
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 08:37:17 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1699346215; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=eGd6C/hj4YT811t2TQkv3EZ9dMQK1sMajvhgVSs1Jiy+KQXVyrd6jI/sKF9GgcnaY2
+ /pfyF9TPPjEoq/llAJY18XMmrCBColowrMQzkEJr4Tw0v7TtUg2bUpEtPQCAWIX376Z6
+ 5dcG7ncFrPIfgfvlkBsjBGF7XAohKiWEwfqIiku1Uom2vOOoJtxvKwByK2p/PNOk1Vkm
+ m0ocE8ArtgzTVHVnMxOFjq/mo87QTpjxsv+t3kzLUyVtdASA60qg2k77r6ZOQr11krR1
+ GroL3455bhJb5AbwxqjBkZMtzlqWVuS0M7J2AzgqGIAGOTYQxZC2EE+E9e9xHO40gcLX
+ MxPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1699346215;
+ s=strato-dkim-0002; d=strato.com;
+ h=In-Reply-To:References:Cc:To:From:Subject:Date:Message-ID:Cc:Date:
+ From:Subject:Sender;
+ bh=/yTWXyUwphUHVWA8POMnJ2lhlu4tJMAoRMEae1MuHgg=;
+ b=ts7rLXfeObIwW1Ts6ODlT/qXFJy1FvTmEiGcoLHOUWx5mE5XUM4eJnrUzt8z4wiNGC
+ vdIUNdSVgig22sECRUfqgby2kkYMo4zLqtTCYaunwa7SbhfHSl56eN2YU/4UcUXAuMX+
+ Od+Kqn5sra34SBx/1jEi8CAFovJq3P73g+HiBXs+Qybn/8mlPCC8uDcPP+TrMZgbpWBf
+ X5OA8oEj4gvFZz3yRxeY649kRxxqXQZvw9B0XX4Yn/qtZ8w5tgi5XIwFUoskPcIDvlxX
+ /IJtVeYQ9Lq3O8qfYLOTm3cpSbpf31eBBpOwqRUzTtt49JQDNi/wLr5NUeFJIX2sXMwq
+ intw==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1699346215;
+ s=strato-dkim-0002; d=xenosoft.de;
+ h=In-Reply-To:References:Cc:To:From:Subject:Date:Message-ID:Cc:Date:
+ From:Subject:Sender;
+ bh=/yTWXyUwphUHVWA8POMnJ2lhlu4tJMAoRMEae1MuHgg=;
+ b=cgxvWzSUmopRe20J6qWL9wbOvL5189L2Uh5hdCn4BqNxoi5BPuBmr9TxQ0TmkF7eFl
+ kG3ZIchjkHcYfK+SIJDZL38v5vxNwmMVaqNmaBa4K3aiB1G5tSnR1jjRQhQ2PoarJ8VR
+ DAvSbAKWbeZxrGXCrMNYaK5nCFvu9OfRrSJRMngX4R/5UEYviSKFCIbyUTkO9fxtcts4
+ g+NxEu9n3c8gTfGtmFVTwxg0/EASZfU3NBbPGZDktRna1hM+uOtRIUFzYjqz9HysrAAW
+ dGXLXw7EKCjnpFmZTqplIPKJNYZt0XvqLkvMQAsdTxgpdZvQxy9/5PzFNIrk2ejfUmiY
+ klqQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1699346215;
+ s=strato-dkim-0003; d=xenosoft.de;
+ h=In-Reply-To:References:Cc:To:From:Subject:Date:Message-ID:Cc:Date:
+ From:Subject:Sender;
+ bh=/yTWXyUwphUHVWA8POMnJ2lhlu4tJMAoRMEae1MuHgg=;
+ b=yQz1d1ZEYB3ykKjgCFGA53xQoPxQMZkyYSED0fB8r1BU9FX1Q23n4Y41R5PRcB46nk
+ 4eahEG0qym5HI8dysJAw==
+X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHfJ+Dkjp5DdBfi4XXBswJY1yyhzarNQiH/eoGCtrCBurDxRVOQ=="
+Received: from [IPV6:2a02:8109:8984:5d00:1c81:233f:a78d:3268]
+ by smtp.strato.de (RZmta 49.9.1 AUTH) with ESMTPSA id m61756zA78aty6v
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Tue, 7 Nov 2023 09:36:55 +0100 (CET)
+Message-ID: <0d89bcd0-9b68-4c0a-acd8-2c7532e62f6d@xenosoft.de>
+Date: Tue, 7 Nov 2023 09:36:54 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: Fbdev issue after the drm updates 'drm-next-2023-10-31-1'
+Content-Language: de-DE
+From: Christian Zigotzky <chzigotzky@xenosoft.de>
+To: Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>, airlied@gmail.com
+References: <a1d9e09b-f533-5e2c-7a13-af96647e1a71@embeddedor.com>
+ <10D1983F-33EF-46C3-976E-463D1CB5A6E9@xenosoft.de>
+ <9bb5fcbd-daf5-1669-b3e7-b8624b3c36f9@xenosoft.de>
+ <c47fba21-3ae9-4021-9f4a-09c2670ebdbc@xenosoft.de>
+In-Reply-To: <c47fba21-3ae9-4021-9f4a-09c2670ebdbc@xenosoft.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 17681132139527513793
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedrudduhedguddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpeflohhsrocurfgvkhhkrghrihhnvghnuceojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqnecuggftrfgrthhtvghrnhepfedtleeuteeitedvtedtteeuieevudejfeffvdetfeekleehhfelleefteetjeejnecukfhppeduvdejrddtrddtrddupddvudefrddvudeirddvuddurdejtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehkeefpdhmohguvgepshhmthhpohhuth
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,49 +88,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, jdelvare@suse.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
- dri-devel@lists.freedesktop.org, linux@roeck-us.net,
- linux-kernel-mentees@lists.linux.dev
+Cc: Darren Stevens <darren@stevens-zone.net>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ "R.T.Dickinson" <rtd2@xtra.co.nz>, mad skateman <madskateman@gmail.com>,
+ Christian Zigotzky <info@xenosoft.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a couple of function return checks of functions that return
-unsigned values, and local variables to hold them are also unsigned, so
-checking if they are negative will always return false. This patch will
-remove them, as well as the never reached code.
+Hello,
 
-drivers/gpu/drm/amd/pm/amdgpu_pm.c:2801:5-8: WARNING: Unsigned expression compared with zero: val < 0
-drivers/gpu/drm/amd/pm/amdgpu_pm.c:2814:5-8: WARNING: Unsigned expression compared with zero: val < 0
+I have found out that fbdev no longer works with virtio-gpu-pci and 
+virtio-vga. It is not a problem with the penguin logos.
 
-Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
----
- drivers/gpu/drm/amd/pm/amdgpu_pm.c | 4 ----
- 1 file changed, 4 deletions(-)
+Could you please check fbdev in QEMU virtual machines with 
+virtio-gpu-pci and virtio-vga graphics?
 
-diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-index 8bb2da13826f..e7bb1d324084 100644
---- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-@@ -2798,8 +2798,6 @@ static ssize_t amdgpu_hwmon_show_power_avg(struct device *dev,
- 	unsigned int val;
- 
- 	val = amdgpu_hwmon_get_power(dev, AMDGPU_PP_SENSOR_GPU_AVG_POWER);
--	if (val < 0)
--		return val;
- 
- 	return sysfs_emit(buf, "%u\n", val);
- }
-@@ -2811,8 +2809,6 @@ static ssize_t amdgpu_hwmon_show_power_input(struct device *dev,
- 	unsigned int val;
- 
- 	val = amdgpu_hwmon_get_power(dev, AMDGPU_PP_SENSOR_GPU_INPUT_POWER);
--	if (val < 0)
--		return val;
- 
- 	return sysfs_emit(buf, "%u\n", val);
- }
--- 
-2.39.2
+Many thanks in advance,
+
+Christian
+
+
+On 02 November 2023 at 03:45 pm, Christian Zigotzky wrote:
+> Hello,
+>
+> There is a fbdev issue with the virtio-gpu-pci and virtio-vga. (The 
+> penguins are not displayed at boot time)
+>
+> Error message:  [    0.889302] virtio-pci 0000:00:02.0: [drm] *ERROR* 
+> fbdev: Failed to setup generic emulation (ret=-2)
+>
+> The kernel 6.6 final doesn't have this issue.
+>
+> Please check the fbdev changes in the drm updates 
+> 'drm-next-2023-10-31-1'.
+>
+> Thanks,
+> Christian
 
