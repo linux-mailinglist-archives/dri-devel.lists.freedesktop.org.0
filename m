@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFCBC7E3CDB
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:20:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F49F7E3CDD
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:21:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D53D810E54F;
-	Tue,  7 Nov 2023 12:20:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEF9D10E551;
+	Tue,  7 Nov 2023 12:21:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A624C10E544;
- Tue,  7 Nov 2023 12:20:54 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6EB610E550;
+ Tue,  7 Nov 2023 12:21:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 5E714CE0B89;
- Tue,  7 Nov 2023 12:20:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89BB1C433A9;
- Tue,  7 Nov 2023 12:20:49 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 3DB09B81699;
+ Tue,  7 Nov 2023 12:21:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C78E0C433CA;
+ Tue,  7 Nov 2023 12:21:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699359651;
- bh=U26ojbD/mMlea1MeMtdzH3rYWzwZKQuOCheBVyrCXgw=;
+ s=k20201202; t=1699359663;
+ bh=eSCGuipfHNJLKaUuUCMJK5i63OALU3Me+eTeOK9bGss=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jT57ftPOlJhBeG5DAaeobiyV2nsCorDjAY2Mrpa1zSfNN7H6Hf4K/O0qfB+r+93HC
- 8RdjX4y/F9g6KvzO7AlWg/rykGkAYrAVdzOsJ5ahCtK40hJCsy2kTj/BWJvKUxAt4t
- C3jZXGN5a2vL7Vy3O9AhDLam7hPrq/ZU1PP2Qsuof3J7oMc8G1wmKnXB1ueTg8YarM
- ZMXxQ6TVvXU41bFIXENw3/5kg1y9uLsxnbFt1/7xUCuQO7sd6GZueJ+BUmj/6A9CFD
- XtJhhu7CQAQCYF932zo0tSNwo/2pfUvpQGrTLqrig7X/T6V22RmSWrFPAlbfErIkK/
- o38y0CX4u1l+Q==
+ b=Vlrc74DAygIq17HdpfDEnCNo3aHhWukkg3Nfa7PINu/IA4cNQ5b0y427WlPZR4ZNq
+ nRVi9AHb9r+P3eE0fCvKRsqJHhiNHQ/QbzmOgxysKFKRjVl0nDtjaF25M+wYiwBzE+
+ 6v5R2vaoAzuFg4fnyLRTqdVKkoeiWEnBWclWUWsNvnkF5TMLT0IskDck9GgtR55rpQ
+ 7RHX70+Fsb9gQxy98I17cTjRZ6lATU6PHr1bXzBq7yS7plHy8fDywXYhtpvNLPpO2F
+ 7ptQRTaa/osfATVep+R7Rvy4ty3y6jUnzTu+RH7gMmyadS6NhAtfIBs/NdgIPvt20M
+ 8ulwDpVJHz6DA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 30/40] drm/amdgpu: Fix a null pointer access when
- the smc_rreg pointer is NULL
-Date: Tue,  7 Nov 2023 07:16:32 -0500
-Message-ID: <20231107121837.3759358-30-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 31/40] drm/amd: Disable PP_PCIE_DPM_MASK when
+ dynamic speed switching not supported
+Date: Tue,  7 Nov 2023 07:16:33 -0500
+Message-ID: <20231107121837.3759358-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231107121837.3759358-1-sashal@kernel.org>
 References: <20231107121837.3759358-1-sashal@kernel.org>
@@ -55,111 +54,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, tom.stdenis@amd.com,
- srinivasan.shanmugam@amd.com, keescook@chromium.org, shashank.sharma@amd.com,
- Xinhui.Pan@amd.com, Qu Huang <qu.huang@linux.dev>,
- amd-gfx@lists.freedesktop.org, victorchengchi.lu@amd.com, le.ma@amd.com,
- linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, andrealmeid@igalia.com,
+Cc: lijo.lazar@amd.com, dri-devel@lists.freedesktop.org,
+ Mario Limonciello <mario.limonciello@amd.com>, srinivasan.shanmugam@amd.com,
+ coelacanth_dream@protonmail.com, Sasha Levin <sashal@kernel.org>,
+ mumei6102@gmail.com, guchun.chen@amd.com, shashank.sharma@amd.com,
+ amd-gfx@lists.freedesktop.org, bokun.zhang@amd.com, andrealmeid@igalia.com,
+ Lyndon.Li@amd.com, le.ma@amd.com, sunran001@208suo.com, evan.quan@amd.com,
+ yifan1.zhang@amd.com, kevinyang.wang@amd.com, drv@mailo.com,
+ Xinhui.Pan@amd.com, tzimmermann@suse.de,
+ Alex Deucher <alexander.deucher@amd.com>, candice.li@amd.com,
  christian.koenig@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Qu Huang <qu.huang@linux.dev>
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-[ Upstream commit 5104fdf50d326db2c1a994f8b35dcd46e63ae4ad ]
+[ Upstream commit fbf1035b033a51eee48d5f42e781b02fff272ca0 ]
 
-In certain types of chips, such as VEGA20, reading the amdgpu_regs_smc file could result in an abnormal null pointer access when the smc_rreg pointer is NULL. Below are the steps to reproduce this issue and the corresponding exception log:
+Rather than individual ASICs checking for the quirk, set the quirk at the
+driver level.
 
-1. Navigate to the directory: /sys/kernel/debug/dri/0
-2. Execute command: cat amdgpu_regs_smc
-3. Exception Log::
-[4005007.702554] BUG: kernel NULL pointer dereference, address: 0000000000000000
-[4005007.702562] #PF: supervisor instruction fetch in kernel mode
-[4005007.702567] #PF: error_code(0x0010) - not-present page
-[4005007.702570] PGD 0 P4D 0
-[4005007.702576] Oops: 0010 [#1] SMP NOPTI
-[4005007.702581] CPU: 4 PID: 62563 Comm: cat Tainted: G           OE     5.15.0-43-generic #46-Ubunt       u
-[4005007.702590] RIP: 0010:0x0
-[4005007.702598] Code: Unable to access opcode bytes at RIP 0xffffffffffffffd6.
-[4005007.702600] RSP: 0018:ffffa82b46d27da0 EFLAGS: 00010206
-[4005007.702605] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffa82b46d27e68
-[4005007.702609] RDX: 0000000000000001 RSI: 0000000000000000 RDI: ffff9940656e0000
-[4005007.702612] RBP: ffffa82b46d27dd8 R08: 0000000000000000 R09: ffff994060c07980
-[4005007.702615] R10: 0000000000020000 R11: 0000000000000000 R12: 00007f5e06753000
-[4005007.702618] R13: ffff9940656e0000 R14: ffffa82b46d27e68 R15: 00007f5e06753000
-[4005007.702622] FS:  00007f5e0755b740(0000) GS:ffff99479d300000(0000) knlGS:0000000000000000
-[4005007.702626] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[4005007.702629] CR2: ffffffffffffffd6 CR3: 00000003253fc000 CR4: 00000000003506e0
-[4005007.702633] Call Trace:
-[4005007.702636]  <TASK>
-[4005007.702640]  amdgpu_debugfs_regs_smc_read+0xb0/0x120 [amdgpu]
-[4005007.703002]  full_proxy_read+0x5c/0x80
-[4005007.703011]  vfs_read+0x9f/0x1a0
-[4005007.703019]  ksys_read+0x67/0xe0
-[4005007.703023]  __x64_sys_read+0x19/0x20
-[4005007.703028]  do_syscall_64+0x5c/0xc0
-[4005007.703034]  ? do_user_addr_fault+0x1e3/0x670
-[4005007.703040]  ? exit_to_user_mode_prepare+0x37/0xb0
-[4005007.703047]  ? irqentry_exit_to_user_mode+0x9/0x20
-[4005007.703052]  ? irqentry_exit+0x19/0x30
-[4005007.703057]  ? exc_page_fault+0x89/0x160
-[4005007.703062]  ? asm_exc_page_fault+0x8/0x30
-[4005007.703068]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-[4005007.703075] RIP: 0033:0x7f5e07672992
-[4005007.703079] Code: c0 e9 b2 fe ff ff 50 48 8d 3d fa b2 0c 00 e8 c5 1d 02 00 0f 1f 44 00 00 f3 0f        1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 0f 05 <48> 3d 00 f0 ff ff 77 56 c3 0f 1f 44 00 00 48 83 e       c 28 48 89 54 24
-[4005007.703083] RSP: 002b:00007ffe03097898 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
-[4005007.703088] RAX: ffffffffffffffda RBX: 0000000000020000 RCX: 00007f5e07672992
-[4005007.703091] RDX: 0000000000020000 RSI: 00007f5e06753000 RDI: 0000000000000003
-[4005007.703094] RBP: 00007f5e06753000 R08: 00007f5e06752010 R09: 00007f5e06752010
-[4005007.703096] R10: 0000000000000022 R11: 0000000000000246 R12: 0000000000022000
-[4005007.703099] R13: 0000000000000003 R14: 0000000000020000 R15: 0000000000020000
-[4005007.703105]  </TASK>
-[4005007.703107] Modules linked in: nf_tables libcrc32c nfnetlink algif_hash af_alg binfmt_misc nls_       iso8859_1 ipmi_ssif ast intel_rapl_msr intel_rapl_common drm_vram_helper drm_ttm_helper amd64_edac t       tm edac_mce_amd kvm_amd ccp mac_hid k10temp kvm acpi_ipmi ipmi_si rapl sch_fq_codel ipmi_devintf ipm       i_msghandler msr parport_pc ppdev lp parport mtd pstore_blk efi_pstore ramoops pstore_zone reed_solo       mon ip_tables x_tables autofs4 ib_uverbs ib_core amdgpu(OE) amddrm_ttm_helper(OE) amdttm(OE) iommu_v       2 amd_sched(OE) amdkcl(OE) drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops cec rc_core        drm igb ahci xhci_pci libahci i2c_piix4 i2c_algo_bit xhci_pci_renesas dca
-[4005007.703184] CR2: 0000000000000000
-[4005007.703188] ---[ end trace ac65a538d240da39 ]---
-[4005007.800865] RIP: 0010:0x0
-[4005007.800871] Code: Unable to access opcode bytes at RIP 0xffffffffffffffd6.
-[4005007.800874] RSP: 0018:ffffa82b46d27da0 EFLAGS: 00010206
-[4005007.800878] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffa82b46d27e68
-[4005007.800881] RDX: 0000000000000001 RSI: 0000000000000000 RDI: ffff9940656e0000
-[4005007.800883] RBP: ffffa82b46d27dd8 R08: 0000000000000000 R09: ffff994060c07980
-[4005007.800886] R10: 0000000000020000 R11: 0000000000000000 R12: 00007f5e06753000
-[4005007.800888] R13: ffff9940656e0000 R14: ffffa82b46d27e68 R15: 00007f5e06753000
-[4005007.800891] FS:  00007f5e0755b740(0000) GS:ffff99479d300000(0000) knlGS:0000000000000000
-[4005007.800895] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[4005007.800898] CR2: ffffffffffffffd6 CR3: 00000003253fc000 CR4: 00000000003506e0
-
-Signed-off-by: Qu Huang <qu.huang@linux.dev>
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c              | 2 ++
+ drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c     | 4 +---
+ drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c | 2 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c          | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-index a4faea4fa0b59..05405da51e7a2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-@@ -748,6 +748,9 @@ static ssize_t amdgpu_debugfs_regs_smc_read(struct file *f, char __user *buf,
- 	ssize_t result = 0;
- 	int r;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index 69f72bca229c9..b9fd755419fb4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -2103,6 +2103,8 @@ static int amdgpu_device_ip_early_init(struct amdgpu_device *adev)
+ 		adev->pm.pp_feature &= ~PP_GFXOFF_MASK;
+ 	if (amdgpu_sriov_vf(adev) && adev->asic_type == CHIP_SIENNA_CICHLID)
+ 		adev->pm.pp_feature &= ~PP_OVERDRIVE_MASK;
++	if (!amdgpu_device_pcie_dynamic_switching_supported())
++		adev->pm.pp_feature &= ~PP_PCIE_DPM_MASK;
  
-+	if (!adev->smc_rreg)
-+		return -EPERM;
-+
- 	if (size & 0x3 || *pos & 0x3)
- 		return -EINVAL;
+ 	total = true;
+ 	for (i = 0; i < adev->num_ip_blocks; i++) {
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
+index 5a2371484a58c..11372fcc59c8f 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
++++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c
+@@ -1823,9 +1823,7 @@ static void smu7_init_dpm_defaults(struct pp_hwmgr *hwmgr)
  
-@@ -804,6 +807,9 @@ static ssize_t amdgpu_debugfs_regs_smc_write(struct file *f, const char __user *
- 	ssize_t result = 0;
- 	int r;
+ 	data->mclk_dpm_key_disabled = hwmgr->feature_mask & PP_MCLK_DPM_MASK ? false : true;
+ 	data->sclk_dpm_key_disabled = hwmgr->feature_mask & PP_SCLK_DPM_MASK ? false : true;
+-	data->pcie_dpm_key_disabled =
+-		!amdgpu_device_pcie_dynamic_switching_supported() ||
+-		!(hwmgr->feature_mask & PP_PCIE_DPM_MASK);
++	data->pcie_dpm_key_disabled = !(hwmgr->feature_mask & PP_PCIE_DPM_MASK);
+ 	/* need to set voltage control types before EVV patching */
+ 	data->voltage_control = SMU7_VOLTAGE_CONTROL_NONE;
+ 	data->vddci_control = SMU7_VOLTAGE_CONTROL_NONE;
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
+index 0cc5d9769d382..a7f4f82d23b4b 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
+@@ -2108,7 +2108,7 @@ static int sienna_cichlid_update_pcie_parameters(struct smu_context *smu,
+ 	min_lane_width = min_lane_width > max_lane_width ?
+ 			 max_lane_width : min_lane_width;
  
-+	if (!adev->smc_wreg)
-+		return -EPERM;
-+
- 	if (size & 0x3 || *pos & 0x3)
- 		return -EINVAL;
+-	if (!amdgpu_device_pcie_dynamic_switching_supported()) {
++	if (!(smu->adev->pm.pp_feature & PP_PCIE_DPM_MASK)) {
+ 		pcie_table->pcie_gen[0] = max_gen_speed;
+ 		pcie_table->pcie_lane[0] = max_lane_width;
+ 	} else {
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
+index a280c1ed007f6..4aeb84572e5b8 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
+@@ -2430,7 +2430,7 @@ int smu_v13_0_update_pcie_parameters(struct smu_context *smu,
+ 	uint32_t smu_pcie_arg;
+ 	int ret, i;
+ 
+-	if (!amdgpu_device_pcie_dynamic_switching_supported()) {
++	if (!(smu->adev->pm.pp_feature & PP_PCIE_DPM_MASK)) {
+ 		if (pcie_table->pcie_gen[num_of_levels - 1] < pcie_gen_cap)
+ 			pcie_gen_cap = pcie_table->pcie_gen[num_of_levels - 1];
  
 -- 
 2.42.0
