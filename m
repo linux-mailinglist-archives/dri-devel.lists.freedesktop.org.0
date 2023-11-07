@@ -1,63 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B957E4AAF
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 22:28:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9387E4621
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 17:35:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EC9810E6B8;
-	Tue,  7 Nov 2023 21:28:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C20E10E61D;
+	Tue,  7 Nov 2023 16:35:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDB7C10E6B8
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 21:28:40 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id
- 3f1490d57ef6-d9abc069c8bso5568552276.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 13:28:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ncf.edu; s=google; t=1699392520; x=1699997320; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=5GrfKC2IvsZBEgQFQYe2RhJApLNUugeSPWTjf04uUac=;
- b=jW0dtq3xrp3B9qkZxYmlxqJs9D/XZR11aOSwhJ1DDQS7kcEFBJ8NOwodxFRmma11X5
- g17EmP+5mmzam3ZM5HPmpPMt6fSvV9x42UsgbTXw7vodEQ0r3dO6xn57GWOgRdyAsOaK
- nrdTghv0yOgY+XRh+hTtN494sr51VOgGCPRL97gNRRSeKU6lbWaTzGdTkm9oT0CNNItQ
- 5LOT8J3gCejZIaw4omTU/YntQ9sFipelUg2ix6aRL6+PvN9lCqqdTKJ6X7BQMP5boquB
- wgit4DQarRpdF9XcQgq6pvAg1I6G2dRd1bzBk+kbkKdKb+Bm080k5fQzmzi+uMoLeX/i
- ee8g==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46DDD10E61D
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 16:35:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1699374939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tiblu4ip97uUBovXyyp2LXTdUMhVr/Onp/Dhl6Jr+ik=;
+ b=M/a1Z4nDRFy9hf0qUNSJYU8gXqCUGYMZEREvCGzTO2QSnXDrGNoAEZdj2dVVpOsR3qtbRG
+ SGP6dEbD8uBriyy8tI9Xxf1RulA4iXULRgdM+ENBPviIrP9yKxcJM8SnWXt2XIxcwZYOku
+ yHF7FTRpYC84zzfsFd1QaqMrH0DOT7A=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-587-sa51dTJkPLiYqXMF10XXXw-1; Tue, 07 Nov 2023 11:35:28 -0500
+X-MC-Unique: sa51dTJkPLiYqXMF10XXXw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ 4fb4d7f45d1cf-53e3bfec5bdso4421276a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 08:35:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699392520; x=1699997320;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5GrfKC2IvsZBEgQFQYe2RhJApLNUugeSPWTjf04uUac=;
- b=rjv31hRcxnvz9pv1L8MWMpvNOgg5Qgxx5zJUlvTkt2OULL+hU90s/86KON7x3Xy6EU
- HZMryW+o432pb54SL7ICmjT833eMqFPd0l1v1WbhrUx5c79MwqhzvUroueg/P+gwcjTU
- MzawKsxCRFVw0/Fibb1v9XmKw3MphT3AzDes/JHtaeXE/eEDzWgJY8r7Rs+9uwSHcM7K
- 05g9IB5Wk0JPzdy9V8H1Jry5Ea8dzCKIYE1ot/Hlvn6ccUwm2y1b3OeestbQlDjEg0Ok
- fBL8WUTX/5oGCSIdstKuCU5ZXQ9M5Hv4RKBNVbBCCw/s4A98xNXgvQG4JArTVxthE9Lp
- v1ZQ==
-X-Gm-Message-State: AOJu0Yz3QaMK9+Eg1R9eSV3ppYmWejR9BdU4+rz8J+YMZ2fL6bfKLWjW
- +RTHt/7uYeF2gRIyB9hL3dY1OA==
-X-Google-Smtp-Source: AGHT+IEVGxWjSPfH29B0f+BhNDDfe9GVs/2MnfzycBPjOvD0xg9LpfAOaj+zUSsjtvyDbSoQfjhDcg==
-X-Received: by 2002:a25:97c8:0:b0:d9a:6b46:f49d with SMTP id
- j8-20020a2597c8000000b00d9a6b46f49dmr9749055ybo.59.1699392519826; 
- Tue, 07 Nov 2023 13:28:39 -0800 (PST)
-Received: from Lux.hsd1.fl.comcast.net ([2601:580:8201:d0::4174])
+ d=1e100.net; s=20230601; t=1699374927; x=1699979727;
+ h=content-transfer-encoding:in-reply-to:organization:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tiblu4ip97uUBovXyyp2LXTdUMhVr/Onp/Dhl6Jr+ik=;
+ b=BZ2ns7c2dSOewkblvIF4yABhl4s579nCpogifeclJNTTSUb0x3BtaiyW41tICNsI7g
+ ZSs19ERUPooREVRvv3tGB0JYOLhxVgLuuCBE9IbV+3KgOlrzbLcgAGh3fVDzN0MBTW1Y
+ Vvy/6qjqhomhik8RemOv2gGMWNFhErEOAiXn93P4vbOOYv6NrJL2U7ZHWcbWahgQZ9RI
+ jgzsRyHS7uI3tfHlnqS+pS0FOlvgbMD4ax09RCFM1uTliWZ1Wwwg744Bp1Wxjg8mmcAk
+ wynCmO3YrN5HoqszQN9bx3peJm1j5GjkGTTDcPPcYPWsGN89V1zqYeY5E/Kg3pfadADe
+ BF8Q==
+X-Gm-Message-State: AOJu0YxS0XdFKjp5hxmVXSuqerYLCEyW3JOCDdYpFX3x6UUtA08D9XX4
+ oT7F38us/uyWZlBoSbVQrMDoeGfucWGZEsKE1JyebLdc6iJLTtof0lHumJtPnL4sFz5WrYkbMsP
+ 5sGe7ciLwvYSx3VVlLclEEofkQ2Rp
+X-Received: by 2002:a17:907:7291:b0:9b2:cf77:a105 with SMTP id
+ dt17-20020a170907729100b009b2cf77a105mr15589053ejc.15.1699374926951; 
+ Tue, 07 Nov 2023 08:35:26 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH8JsrYEEW27MiEbhdjSSOwrNJh24aPmwE/kn5KJu4CIuZCg740CWk0jYDGQcM1hSN32EW/rQ==
+X-Received: by 2002:a17:907:7291:b0:9b2:cf77:a105 with SMTP id
+ dt17-20020a170907729100b009b2cf77a105mr15589046ejc.15.1699374926647; 
+ Tue, 07 Nov 2023 08:35:26 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
  by smtp.gmail.com with ESMTPSA id
- j186-20020a25d2c3000000b00da06575fbc8sm5657649ybg.2.2023.11.07.13.28.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Nov 2023 13:28:39 -0800 (PST)
-From: Hunter Chasens <hunter.chasens18@ncf.edu>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3] drm: amd: Resolve Sphinx unexpected indentation warning
-Date: Tue,  7 Nov 2023 11:28:30 -0500
-Message-ID: <20231107162830.36856-1-hunter.chasens18@ncf.edu>
-X-Mailer: git-send-email 2.42.0
+ p9-20020a1709066a8900b009d23e00a90esm1216102ejr.24.2023.11.07.08.35.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Nov 2023 08:35:26 -0800 (PST)
+Message-ID: <a7ea2ea5-3014-4de1-a93c-5b667fd0246b@redhat.com>
+Date: Tue, 7 Nov 2023 17:35:24 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nouveau/gsp/r535: uninitialized variable in
+ r535_gsp_acpi_mux_id()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+References: <1d864f6e-43e9-43d8-9d90-30e76c9c843b@moroto.mountain>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <1d864f6e-43e9-43d8-9d90-30e76c9c843b@moroto.mountain>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,47 +88,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Hunter Chasens <hunter.chasens18@ncf.edu>, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Resolves Sphinx unexpected indentation warning when compiling
-documentation (e.g. `make htmldocs`). Replaces tabs with spaces and adds
-a literal block to keep vertical formatting of the
-example power state list.
+On 11/7/23 16:18, Dan Carpenter wrote:
+> The if we hit the "continue" statement on the first iteration through
+> the loop then "handle_mux" needs to be set to NULL so we continue
+> looping.
+> 
+> Fixes: 176fdcbddfd2 ("drm/nouveau/gsp/r535: add support for booting GSP-RM")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-Signed-off-by: Hunter Chasens <hunter.chasens18@ncf.edu>
----
- drivers/gpu/drm/amd/pm/amdgpu_pm.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+Good catch!
 
-diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-index 517b9fb4624c..576202bf64f3 100644
---- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-@@ -989,12 +989,13 @@ static ssize_t amdgpu_get_pp_features(struct device *dev,
-  * Reading back the files will show you the available power levels within
-  * the power state and the clock information for those levels. If deep sleep is
-  * applied to a clock, the level will be denoted by a special level 'S:'
-- * E.g.,
-- *	S: 19Mhz *
-- *	0: 615Mhz
-- *	1: 800Mhz
-- *	2: 888Mhz
-- *	3: 1000Mhz
-+ * E.g., ::
-+ *
-+ *  S: 19Mhz *
-+ *  0: 615Mhz
-+ *  1: 800Mhz
-+ *  2: 888Mhz
-+ *  3: 1000Mhz
-  *
-  *
-  * To manually adjust these states, first select manual using
--- 
-2.42.0
+Reviewed-by: Danilo Krummrich <dakr@redhat.com>
+
+@Dave: Can't pick this patch up myself, since this should probably go into
+drm/topic/nvidia-gsp.
+
+> ---
+>   drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+> index e31f9641114b..afa8e7377a76 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+> @@ -1159,7 +1159,7 @@ static void
+>   r535_gsp_acpi_mux_id(acpi_handle handle, u32 id, MUX_METHOD_DATA_ELEMENT *mode,
+>   						 MUX_METHOD_DATA_ELEMENT *part)
+>   {
+> -	acpi_handle iter = NULL, handle_mux;
+> +	acpi_handle iter = NULL, handle_mux = NULL;
+>   	acpi_status status;
+>   	unsigned long long value;
+>   
 
