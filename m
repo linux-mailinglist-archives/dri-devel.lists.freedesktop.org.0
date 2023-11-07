@@ -1,68 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D8DA7E3236
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 01:25:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E469E7E3258
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 01:44:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C21710E495;
-	Tue,  7 Nov 2023 00:25:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46C4210E49A;
+	Tue,  7 Nov 2023 00:44:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 389AF10E495;
- Tue,  7 Nov 2023 00:25:14 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id
- d9443c01a7336-1cc30bf9e22so40492065ad.1; 
- Mon, 06 Nov 2023 16:25:14 -0800 (PST)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9246F10E48B
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 00:44:27 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id
+ 38308e7fff4ca-2c503da4fd6so68459931fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 16:44:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699316714; x=1699921514; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=KvNevDILmrFumM2oQIUBMvMXYtsYvLzdrTujg9hVkHI=;
- b=miBkMjSDa+KJpdbHLW5RXIoBdprMRRqM+HJZaU3zMqfqvyoKGVcLfUtdl1LX0Wnwwy
- /kpYdpv1wrsmwGrd5x8x/2fsupgJTYRlMajpZBW8MuAPHU61em0XZMYi+KpvtlOORheK
- jb6R33X745Ldj+a5r3bkdZjW5qbxUZMrm4x5BXKw7DFeF/S0qllAXOByvnslOcQ6lR+s
- r4yYMVRqxUYdTu8Z475fmsabFmupStl/HHg54wiRexFEONDNNi7OH2aof3ysdJy8CQKB
- agOl+93JID7LS+Xxgy+F85FlMX0MolYRmOWY9bl8BdURlwX8Upa06A4ophPPaV6B/2nx
- TWUA==
+ d=linaro.org; s=google; t=1699317866; x=1699922666; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=l4sQQn36L2+/zoCkGPO8pkAoerlaydAQhrz7oIT51ro=;
+ b=Jqr5p7xwFH7Z2SkAoXmRbrio2XXj2C73uIY0IiMHjjG6iLbn5HMi3Eanwn3TR2J6u0
+ DA9DHXtCaXEK8iFsa4Dl0M3JC2yosZIyQfTWAPNTU469Gv1MAJ6cEhyTzbbzN3tGANHZ
+ roGeHF4jKPr0CKy4Bco8aEIWlDjdsTJ5YbUzqk6Wt/80m17ucyQr85iYkweYlOIzlv+T
+ w6Ye62zMeBm7TxQlFUvIlTI/Re0hrBTVE86tVOrpbCrQjb71GznyEdrd3SLcNTqHaQyU
+ QL6xYPwUA6/771g2NdRbdUJQZ9z05OqtiQwcE1SNlMntMOj0tSv7OkHsHZXgrVdUGQU7
+ xECw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699316714; x=1699921514;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KvNevDILmrFumM2oQIUBMvMXYtsYvLzdrTujg9hVkHI=;
- b=WqFcEeYnMLdvCgiDnpjx1ee8V55a4hwHnNjMveP6c2oyeiOpQ+5rPvmCafghrT6kc0
- KWG2SwCXwlBNNZx/sNFPEar5r3IqTR+4aUY0VawvvE13Oy5XZ953OcOs6sjqYhqTM4IH
- V/68P7SChq0MZqVKMR28O82paYVRgGLVPOMhdRISVhkbLgpLjtSkznb0FW1gTYWyxqHT
- 4pZZCePMFpR6chELAC44YUDbC3QFz7Q85+VXS3aIlzAnw8iUjE+9WnziNEOrec+b8Lso
- Uo7YWME4qErCs0EAy6GWyg9rP7LEc/e/HD99XM/ojQy2dNPr/RsVlICHD8ciD8lAFM1f
- kB6g==
-X-Gm-Message-State: AOJu0YwvyEeLXSUvTBudeUsKVnfQjhnMI+SOSwUVmcWIHirZgwm8EG8C
- TpFntI3QTOdYNUt2mLnt3cw=
-X-Google-Smtp-Source: AGHT+IFpEJjW+6bQ6vlcdu8jbIyxxRW7ZMOKGK03NP4M1Mz4NcROaycZ11XDShYh+2rBgXl2g25WXw==
-X-Received: by 2002:a17:902:e551:b0:1cc:51ee:5faf with SMTP id
- n17-20020a170902e55100b001cc51ee5fafmr1650822plf.7.1699316713622; 
- Mon, 06 Nov 2023 16:25:13 -0800 (PST)
-Received: from debian.me ([103.131.18.64]) by smtp.gmail.com with ESMTPSA id
- d7-20020a170902654700b001bb1f0605b2sm6573600pln.214.2023.11.06.16.25.12
+ d=1e100.net; s=20230601; t=1699317866; x=1699922666;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=l4sQQn36L2+/zoCkGPO8pkAoerlaydAQhrz7oIT51ro=;
+ b=mZdFYmtTNA196PDEtO2m5ISq0giheBfpm0GJ4zLl2xFlpIh12SrF+o557LVVBhpQwr
+ xF3fyyXHHQSVM31dAwveqZeG9lxi7ypSK7vT3RtG7Rx9+zXMaziQdXG2g/6DoH2ykOut
+ JqR1ct2KyKBA46W/sUMiLR8ysAZwT4Or6X5UOFWVCqhi3H1hnEBS8O1zVui8SlGQDmsQ
+ a53j9T9gvdmMZi/klaJ+ZS9G/yH/lv3nVRO01Np/8ru1RU6MKS0pT/bqlY/7ig2MyHly
+ SZarAQ683ZynHaLhR2hqi0Tt18jlWxDvy+TwXk/f+usetAktMoednWYb3x8vCPaM4lte
+ XdXA==
+X-Gm-Message-State: AOJu0YxDzhN+p9mPVNRUd2onZVUqytjfMLNgdQyDpuN+Q55ZwZK11wPn
+ TwJYNHwE5B4ZR/XP9piwRpqKFA==
+X-Google-Smtp-Source: AGHT+IGq/gbVJACFjo+UjFOrO/9DZFv8U31OsE7j5XrfgMAni1X9Tg3EXzFgOQQAbQtrdqyqkHPeyA==
+X-Received: by 2002:ac2:57c4:0:b0:4fd:c715:5667 with SMTP id
+ k4-20020ac257c4000000b004fdc7155667mr20544414lfo.20.1699317865656; 
+ Mon, 06 Nov 2023 16:44:25 -0800 (PST)
+Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a0db:1f00::8a5]) by smtp.gmail.com with ESMTPSA id
+ m15-20020a05651202ef00b0050567a8b36esm142974lfq.251.2023.11.06.16.44.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Nov 2023 16:25:13 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
- id 63C18817FA85; Tue,  7 Nov 2023 07:25:00 +0700 (WIB)
-Date: Tue, 7 Nov 2023 07:24:58 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Hunter Chasens <hunter.chasens18@ncf.edu>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] drm: amd: Resolve Sphinx unexpected indentation warning
-Message-ID: <ZUmD2u7qZS9XWRRz@debian.me>
-References: <20231106201739.29507-1-hunter.chasens18@ncf.edu>
+ Mon, 06 Nov 2023 16:44:25 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+Subject: [PATCH] drm/msm/dp: call dp_display_get_next_bridge() during probe
+Date: Tue,  7 Nov 2023 02:43:33 +0200
+Message-ID: <20231107004424.2112698-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="/im2KQQsxOjeQDIO"
-Content-Disposition: inline
-In-Reply-To: <20231106201739.29507-1-hunter.chasens18@ncf.edu>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,65 +73,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lijo Lazar <lijo.lazar@amd.com>,
- Linux Documentation <linux-doc@vger.kernel.org>, Xinhui.Pan@amd.com,
- Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The funcion dp_display_get_next_bridge() can return -EPROBE_DEFER if the
+next bridge is not (yet) available. However returning -EPROBE_DEFER from
+msm_dp_modeset_init() is not ideal. This leads to -EPROBE return from
+component_bind, which can easily result in -EPROBE_DEFR loops.
 
---/im2KQQsxOjeQDIO
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
 
-On Mon, Nov 06, 2023 at 03:17:39PM -0500, Hunter Chasens wrote:
-> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/=
-amdgpu_pm.c
-> index 517b9fb4624c..81b8ceb26890 100644
-> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> @@ -989,12 +989,13 @@ static ssize_t amdgpu_get_pp_features(struct device=
- *dev,
->   * Reading back the files will show you the available power levels within
->   * the power state and the clock information for those levels. If deep s=
-leep is
->   * applied to a clock, the level will be denoted by a special level 'S:'
-> - * E.g.,
-> - *	S: 19Mhz *
-> - *	0: 615Mhz
-> - *	1: 800Mhz
-> - *	2: 888Mhz
-> - *	3: 1000Mhz
-> + * E.g.::
-> + *
-> + *  S: 19Mhz *
-> + *  0: 615Mhz
-> + *  1: 800Mhz
-> + *  2: 888Mhz
-> + *  3: 1000Mhz
->   *
->   *
->   * To manually adjust these states, first select manual using
+Dependencies: https://patchwork.freedesktop.org/series/120375/
 
-LGTM, thanks!
+---
+ drivers/gpu/drm/msm/dp/dp_display.c | 36 +++++++++++++++++------------
+ 1 file changed, 21 insertions(+), 15 deletions(-)
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index d542db37763a..ddb3c84f39a2 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -1197,15 +1197,27 @@ static const struct msm_dp_desc *dp_display_get_desc(struct platform_device *pde
+ 	return NULL;
+ }
+ 
+-static int dp_auxbus_done_probe(struct drm_dp_aux *aux)
++static int dp_display_get_next_bridge(struct msm_dp *dp);
++
++static int dp_display_probe_tail(struct device *dev)
+ {
+-	int rc;
++	struct msm_dp *dp = dev_get_drvdata(dev);
++	int ret;
+ 
+-	rc = component_add(aux->dev, &dp_display_comp_ops);
+-	if (rc)
+-		DRM_ERROR("eDP component add failed, rc=%d\n", rc);
++	ret = dp_display_get_next_bridge(dp);
++	if (ret)
++		return ret;
+ 
+-	return rc;
++	ret = component_add(dev, &dp_display_comp_ops);
++	if (ret)
++		DRM_ERROR("component add failed, rc=%d\n", ret);
++
++	return ret;
++}
++
++static int dp_auxbus_done_probe(struct drm_dp_aux *aux)
++{
++	return dp_display_probe_tail(aux->dev);
+ }
+ 
+ static int dp_display_probe(struct platform_device *pdev)
+@@ -1280,11 +1292,9 @@ static int dp_display_probe(struct platform_device *pdev)
+ 			goto err;
+ 		}
+ 	} else {
+-		rc = component_add(&pdev->dev, &dp_display_comp_ops);
+-		if (rc) {
+-			DRM_ERROR("component add failed, rc=%d\n", rc);
++		rc = dp_display_probe_tail(&pdev->dev);
++		if (rc)
+ 			goto err;
+-		}
+ 	}
+ 
+ 	return rc;
+@@ -1415,7 +1425,7 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
+ 	 * For DisplayPort interfaces external bridges are optional, so
+ 	 * silently ignore an error if one is not present (-ENODEV).
+ 	 */
+-	rc = devm_dp_parser_find_next_bridge(dp->drm_dev->dev, dp_priv->parser);
++	rc = devm_dp_parser_find_next_bridge(&dp->pdev->dev, dp_priv->parser);
+ 	if (!dp->is_edp && rc == -ENODEV)
+ 		return 0;
+ 
+@@ -1435,10 +1445,6 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
+ 
+ 	dp_priv = container_of(dp_display, struct dp_display_private, dp_display);
+ 
+-	ret = dp_display_get_next_bridge(dp_display);
+-	if (ret)
+-		return ret;
+-
+ 	ret = dp_bridge_init(dp_display, dev, encoder);
+ 	if (ret) {
+ 		DRM_DEV_ERROR(dev->dev,
+-- 
+2.42.0
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---/im2KQQsxOjeQDIO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZUmDrQAKCRD2uYlJVVFO
-o3+ZAQDfjlESW3+XuDhrOEojS9fqik7nCHXgYFOPvulyC48CzwEAmlHOs12KiwgZ
-BP9nE37zIUNmEkWjNU+PCfws51OmbgE=
-=JkyO
------END PGP SIGNATURE-----
-
---/im2KQQsxOjeQDIO--
