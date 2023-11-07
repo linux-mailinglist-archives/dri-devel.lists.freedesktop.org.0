@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB4DC7E4BF6
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 23:42:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6463B7E4BFC
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 23:45:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BA5310E15D;
-	Tue,  7 Nov 2023 22:42:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FC9F10E153;
+	Tue,  7 Nov 2023 22:45:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87B9910E153
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 22:42:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA21010E15A
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 22:45:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1699396946;
+ s=mimecast20190719; t=1699397128;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r770s0hBc6xCr5UVaIfcftOeFRT3y4sOGAcYqvavaPk=;
- b=HiVHJFE76ihcU1cTGZ0vH74nAfWxALevCI+0kVqYib+FrjiTHusYZMUe/x/ypB5OFpFT19
- XsTIBRrQnL0g0ZV17FGdxv/w7lYUVWh+MTf+S0xnlpqdnUUkqErtP+4MlaOkImhjauCzhh
- kEsmvdSswvvk9oFQq43/sO9ruteCkKU=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6iKh9csB9alchwNpZOODVIQFvUx0Qrq82u3XPPQK6oc=;
+ b=KIvBAU8tSQSCwqg0YiysyH5WcLU0q1NqZeRufdQ7en5y8BVY0kc5EOZ2Qftr7MpsvOofJN
+ InFgWnFqZQMhBSqQYkKMeks34zLWEmprv/Ghcjql5IlGZRdIb29gZjhRx9KPfZdbqbeUnP
+ Bi5MBwP0IdqvAWiYAsJFcn6C7fFevh0=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-367-jrVW2ru8NUC7pqyBN9m1BA-1; Tue, 07 Nov 2023 17:42:23 -0500
-X-MC-Unique: jrVW2ru8NUC7pqyBN9m1BA-1
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-66fbd02d104so76028056d6.1
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 14:42:23 -0800 (PST)
+ us-mta-421-LOwzIAgAPgO7HUkUoVpayQ-1; Tue, 07 Nov 2023 17:45:26 -0500
+X-MC-Unique: LOwzIAgAPgO7HUkUoVpayQ-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-7788fa5f1b0so723701485a.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 14:45:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699396943; x=1700001743;
+ d=1e100.net; s=20230601; t=1699397126; x=1700001926;
  h=mime-version:user-agent:content-transfer-encoding:organization
  :references:in-reply-to:date:cc:to:from:subject:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Mqgw3uLwveCoRC2zmBdDO5ikMedbOwVFuuUu40kuhSM=;
- b=H3Xm0mUUVibvJHcvIUf9bJ2227flyfjfPppBIRv3FnO9vSIDIQiOMD5OQy0UszKXNn
- beq3yN13uZ6JPgMnEdVW25rSGx2ai6sQ2dpC/4/rGFXQPazxW5bnKdHj8Kg8iFjPXHTo
- b96UnmUg2SGq63yZ8eDy6pXUfsvDu0eAwAtnuH7xWAHV83LkHaSzKtkvsXCVQNFWv5HZ
- KgMV+NC9XlBDJGDgnEPvJCeVOrEiKP+JVg7PWIeYPx2YSID/EpPHA1l8OJUfSO6syrAh
- BXHUavsvPAwSGLCY7RFp7QyqLyBHh0HbNcZtiU4jTqQa5q3e64Tc/18XdYjLEqWSPZrp
- XypQ==
-X-Gm-Message-State: AOJu0Yw+iW2dnEGXseC03GZKIjxhlPaUdSPIt812pitvG1MeG/OtV4Gk
- 6NdnmrXp7MQm/S0ncg3TaK3sDUghCzWgYkCHnh5gBfrwpNA+3PFJ/xb3z+E5bdvxN3q7KB4loRX
- 5fQa1+EaEE3SWhq2nW7DuDe3W5JF8
-X-Received: by 2002:a05:6214:225:b0:66c:fc97:fbcf with SMTP id
- j5-20020a056214022500b0066cfc97fbcfmr105120qvt.48.1699396943039; 
- Tue, 07 Nov 2023 14:42:23 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG+tFOklUe/kinxjKffnyZqvMEtEWSrDQmRsr0HtVAiPmhBe4RUK7MVdJtO0WpZR2f3mXx41g==
-X-Received: by 2002:a05:6214:225:b0:66c:fc97:fbcf with SMTP id
- j5-20020a056214022500b0066cfc97fbcfmr105105qvt.48.1699396942725; 
- Tue, 07 Nov 2023 14:42:22 -0800 (PST)
+ bh=BkG3U5juIJKNauzZgFT2hs63Pyxgqumx0bBfuuTOQq0=;
+ b=qSrWQZlPwdsNeQtRxydZoSITypcEx/UHlt4HAgwLPbf1QB0xB6HZ5IsQcJ3JpcYi+k
+ xO4jT33IOpMgqA7uEKiOCx+7AJtDpfHT5Ni0amfOfjRMdvP9A2tyY25eKslVG5lap/NX
+ TsHY/N0hlNJPEfiV2i1nvud57XTy11e2U1BEMWlpckjpaKRST1ZTHmJsP40v1CgB9ZUJ
+ xKW8diBlMYqqNmRW1XAKUwxVBO8RtCPbAHunzS+5WU1b6Pvzeh7x4M8nMMvHl4ZIhCFc
+ nw/0W+IvscWXSISOEG5Fkrc2w7+gV9P8/jjVM0ug0963bgbOlJfX/tj8Xb9MrjDxTbhh
+ u4SQ==
+X-Gm-Message-State: AOJu0YwVA5hjSk0Bn68RNMPF1YLxxV5/J6hyRoNoiGOpApm9jbn7OQ2g
+ ATXAQgkLuHuKpI8Smdxir8ir4ti7Wq0HvQKqYZ89ExnYZ98FjwX4h93S5g/0LiKbmW8YRyddF85
+ Hf/oXHE0cMU4QAycIGtdcwXBCV1gN
+X-Received: by 2002:a05:620a:2ae2:b0:77a:1476:fb6d with SMTP id
+ bn34-20020a05620a2ae200b0077a1476fb6dmr33779431qkb.41.1699397126283; 
+ Tue, 07 Nov 2023 14:45:26 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF+nggIsfxTxG2AlIA6wdCoiNkHNEoidVexg9BlhA+X4ykwMzaXdrdtLNGQEGjVrRXMt/aZHw==
+X-Received: by 2002:a05:620a:2ae2:b0:77a:1476:fb6d with SMTP id
+ bn34-20020a05620a2ae200b0077a1476fb6dmr33779409qkb.41.1699397125974; 
+ Tue, 07 Nov 2023 14:45:25 -0800 (PST)
 Received: from ?IPv6:2600:4040:5c6c:a300::feb? ([2600:4040:5c6c:a300::feb])
  by smtp.gmail.com with ESMTPSA id
- i2-20020a056214020200b0067101efa98asm366731qvt.69.2023.11.07.14.42.21
+ l18-20020a37f512000000b00774830b40d4sm370851qkk.47.2023.11.07.14.45.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Nov 2023 14:42:22 -0800 (PST)
-Message-ID: <2e5b2f878ddc0051a8fef21528705a9ec994c57a.camel@redhat.com>
-Subject: Re: [PATCH v4 09/30] drm/dp: Add helpers to calculate the link BW
+ Tue, 07 Nov 2023 14:45:25 -0800 (PST)
+Message-ID: <f0f4f8c69d2a794f71cc75092db7eaa5e2465fb8.camel@redhat.com>
+Subject: Re: [PATCH v5 09/30] drm/dp: Add helpers to calculate the link BW
  overhead
 From: Lyude Paul <lyude@redhat.com>
 To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org
-Date: Tue, 07 Nov 2023 17:42:21 -0500
-In-Reply-To: <20231030155843.2251023-10-imre.deak@intel.com>
-References: <20231030155843.2251023-1-imre.deak@intel.com>
- <20231030155843.2251023-10-imre.deak@intel.com>
+Date: Tue, 07 Nov 2023 17:45:24 -0500
+In-Reply-To: <20231107001505.3370108-1-imre.deak@intel.com>
+References: <20231030155843.2251023-10-imre.deak@intel.com>
+ <20231107001505.3370108-1-imre.deak@intel.com>
 Organization: Red Hat Inc.
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
 MIME-Version: 1.0
@@ -87,13 +87,14 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>
+ dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>,
+ Maxime Ripard <mripard@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-On Mon, 2023-10-30 at 17:58 +0200, Imre Deak wrote:
+On Tue, 2023-11-07 at 02:14 +0200, Imre Deak wrote:
 > Add helpers drivers can use to calculate the BW allocation overhead -
 > due to SSC, FEC, DSC and data alignment on symbol cycles - and the
 > channel coding efficiency - due to the 8b/10b, 128b/132b encoding. On
@@ -109,11 +110,12 @@ On Mon, 2023-10-30 at 17:58 +0200, Imre Deak wrote:
 >=20
 > ratio for a given link and pixel stream and with that the
 >=20
-> mtp_count =3D CEIL(64 * m / n)
+> slots_per_mtp =3D CEIL(64 * m / n)
 >=20
-> allocated MTPs for the stream in a link frame and
+> allocated slots per MTP for the stream in a link frame and with
+> that the
 >=20
-> pbn =3D CEIL(64 * dm_mst_get_pbn_divider() * m / n)
+> pbn =3D slots_per_mtp * drm_mst_get_pbn_divider()
 >=20
 > allocated PBNs for the stream on the MST link path.
 >=20
@@ -130,12 +132,16 @@ On Mon, 2023-10-30 at 17:58 +0200, Imre Deak wrote:
 >   with the formula to calculate the total FEC overhead. (Ville)
 > v4:
 > - Rename DRM_DP_OVERHEAD_SSC to DRM_DP_OVERHEAD_SSC_REF_CLK. (Ville)
+> v5:
+> - Clarify in the commit log what MTP means.
+> - Simplify the commit log's formula to calculate PBN.
 >=20
 > Cc: Lyude Paul <lyude@redhat.com>
 > Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 > Cc: kernel test robot <lkp@intel.com>
 > Cc: dri-devel@lists.freedesktop.org
 > Reviewed-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com> (v2)
+> Acked-by: Maxime Ripard <mripard@kernel.org>
 > Signed-off-by: Imre Deak <imre.deak@intel.com>
 > ---
 >  drivers/gpu/drm/display/drm_dp_helper.c       | 132 ++++++++++++++++++
