@@ -1,54 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 826A97E43AF
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 16:42:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF86B7E45EE
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 17:24:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E5B010E14E;
-	Tue,  7 Nov 2023 15:42:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD20610E611;
+	Tue,  7 Nov 2023 16:24:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 97395 seconds by postgrey-1.36 at gabe;
- Tue, 07 Nov 2023 15:42:21 UTC
-Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com
- (mailrelay1-1.pub.mailoutpod2-cph3.one.com [46.30.211.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7CC610E14E
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 15:42:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=r4pS3nzg1xHsTPROp8NMUMZcT6aPPgnVU+KRkpioBHA=;
- b=gjsapIyc2vwjxnaisvqK9yQebWHeP7F/rxPVU/9qvnVqohA3dIo2HPJ72ldLQQ1nUS8gCOv4jzuSo
- B9+7A5BI3UYe23FGkZbn4NqMTpPLQb0t94Z4K5zgYYipdhkJARHTWiHivdV2TZWOXmU54JiMNdwpCX
- QsaO39o1dExXbjsB5LlxPYlFU5rjD9JOR2kTDVw1zi42hXYQWEbJIcmkYi/+BKY9ahfFowZ/OvBlZG
- EyYVFsbLxlZLeZB2HLJBilE2grCc7mgwPBhHVx9ScabZ6ZbP+rAEmDZ8lvQt7TiY+AMYDhbjodtOxt
- HYyFP7cbjbZiVQjXFZl08ITh+VCMjnQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=r4pS3nzg1xHsTPROp8NMUMZcT6aPPgnVU+KRkpioBHA=;
- b=AqDvLY68qSvpYK0M6v2AFgdtAJSxj+atFt3Pbp78PJGiSuGbTqa+15txBENi21GWvuCMEC4LDLWTu
- SEss8K9BQ==
-X-HalOne-ID: 15d52a21-7d84-11ee-8d75-2b733b0ff8f0
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay1 (Halon) with ESMTPSA
- id 15d52a21-7d84-11ee-8d75-2b733b0ff8f0;
- Tue, 07 Nov 2023 15:41:16 +0000 (UTC)
-Date: Tue, 7 Nov 2023 16:41:15 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Aradhya Bhatia <a-bhatia1@ti.com>
-Subject: Re: [PATCH] drm/bridge: tc358767: Support input format negotiation
- hook
-Message-ID: <20231107154115.GA100782@ravnborg.org>
-References: <20231030192846.27934-1-a-bhatia1@ti.com>
- <20231106123800.GC47195@ravnborg.org>
- <7ddf0edb-2925-4b7c-ad07-27c030dd0232@ti.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DB6110E611;
+ Tue,  7 Nov 2023 16:24:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699374250; x=1730910250;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=lfYBtwpGnYqFTHraBV3veQq67A3UWZf4Fhz9bkojw3Y=;
+ b=WRxPyg35Boe9154l8HKO1APtmrYSDwSEgMzmni06zVO6Zh8gnKT43BEN
+ MprZ83gVu/SEkWuhwzfswXyLWg1Ku7Rwz6HnMJmBBw0RdiFe/zDHeBimG
+ uc75ETOUPb/9sA6Jx2M7AYu6nuLjXnimvIoROKbKKnJ71lwmvSS5pX0Zh
+ qLLi3Xbm/1elmwVSADPQpYD6E/TCFhZbp/znF2l7iI3oJ+M+FQem/rg+T
+ XQHzlxbIBD8FhHjGkHSZ4XdoOLoY/eIeMic3854v/s3P8p8bXr8fp8ON4
+ VIPoahmV2yY2zdSeWcKToeyh2EpxFPisHXpi4cP/GJkDAgr+L7Is1Blwi Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="388418067"
+X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; d="scan'208";a="388418067"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Nov 2023 08:24:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="756243152"
+X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; d="scan'208";a="756243152"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga007.jf.intel.com with SMTP; 07 Nov 2023 08:24:05 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 07 Nov 2023 18:24:04 +0200
+Date: Tue, 7 Nov 2023 18:24:04 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Imre Deak <imre.deak@intel.com>
+Subject: Re: [PATCH v4 09/30] drm/dp: Add helpers to calculate the link BW
+ overhead
+Message-ID: <ZUpkpH-nddJQt_OR@intel.com>
+References: <20231030155843.2251023-1-imre.deak@intel.com>
+ <20231030155843.2251023-10-imre.deak@intel.com>
+ <ZUlbR4FGcRPuXXfM@intel.com>
+ <ZUloiFDQkl+om9wX@ideak-desk.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <7ddf0edb-2925-4b7c-ad07-27c030dd0232@ti.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZUloiFDQkl+om9wX@ideak-desk.fi.intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,128 +64,295 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jayesh Choudhary <j-choudhary@ti.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jan Kiszka <jan.kiszka@siemens.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Maxime Ripard <mripard@kernel.org>, Tomi Valkeinen <tomba@kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Francesco Dolcini <francesco@dolcini.it>
+Cc: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ intel-gfx@lists.freedesktop.org, kernel test robot <lkp@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Aradhya,
-
-On Tue, Nov 07, 2023 at 01:17:03AM +0530, Aradhya Bhatia wrote:
-> Hi Sam,
-> 
-> Thank you for the suggestion!
-> 
-> On 06-Nov-23 18:08, Sam Ravnborg wrote:
-> > Hi Aradhya,
+On Tue, Nov 07, 2023 at 12:28:24AM +0200, Imre Deak wrote:
+> On Mon, Nov 06, 2023 at 11:31:51PM +0200, Ville Syrjälä wrote:
+> > On Mon, Oct 30, 2023 at 05:58:22PM +0200, Imre Deak wrote:
+> > > Add helpers drivers can use to calculate the BW allocation overhead -
+> > > due to SSC, FEC, DSC and data alignment on symbol cycles - and the
+> > > channel coding efficiency - due to the 8b/10b, 128b/132b encoding. On
+> > > 128b/132b links the FEC overhead is part of the coding efficiency, so
+> > > not accounted for in the BW allocation overhead.
+> > > 
+> > > The drivers can use these functions to calculate a ratio, controlling
+> > > the stream symbol insertion rate of the source device in each SST TU
+> > > or MST MTP frame. Drivers can calculate this
+> > > 
+> > > m/n = (pixel_data_rate * drm_dp_bw_overhead()) /
+> > >       (link_data_rate * drm_dp_bw_channel_coding_efficiency())
+> > > 
+> > > ratio for a given link and pixel stream and with that the
+> > > 
+> > > mtp_count = CEIL(64 * m / n)
+> > > 
+> > > allocated MTPs for the stream in a link frame and
+> > > 
+> > > pbn = CEIL(64 * dm_mst_get_pbn_divider() * m / n)
+> > > 
+> > > allocated PBNs for the stream on the MST link path.
+> > > 
+> > > Take drm_dp_bw_overhead() into use in drm_dp_calc_pbn_mode(), for
+> > > drivers calculating the PBN value directly.
+> > > 
+> > > v2:
+> > > - Add dockbook description to drm_dp_bw_channel_coding_efficiency().
+> > >   (LKP).
+> > > - Clarify the way m/n ratio is calculated in the commit log.
+> > > v3:
+> > > - Fix compile breakage for !CONFIG_BACKLIGHT_CLASS_DEVICE. (LKP)
+> > > - Account for FEC_PM overhead (+ 0.0015625 %), add comment
+> > >   with the formula to calculate the total FEC overhead. (Ville)
+> > > v4:
+> > > - Rename DRM_DP_OVERHEAD_SSC to DRM_DP_OVERHEAD_SSC_REF_CLK. (Ville)
+> > > 
+> > > Cc: Lyude Paul <lyude@redhat.com>
+> > > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > > Cc: kernel test robot <lkp@intel.com>
+> > > Cc: dri-devel@lists.freedesktop.org
+> > > Reviewed-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com> (v2)
+> > > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/display/drm_dp_helper.c       | 132 ++++++++++++++++++
+> > >  drivers/gpu/drm/display/drm_dp_mst_topology.c |  23 ++-
+> > >  include/drm/display/drm_dp_helper.h           |  11 ++
+> > >  3 files changed, 160 insertions(+), 6 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> > > index e5d7970a9ddd0..72ba9ae89f862 100644
+> > > --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> > > +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> > > @@ -3900,3 +3900,135 @@ int drm_panel_dp_aux_backlight(struct drm_panel *panel, struct drm_dp_aux *aux)
+> > >  EXPORT_SYMBOL(drm_panel_dp_aux_backlight);
+> > >  
+> > >  #endif
+> > > +
+> > > +/* See DP Standard v2.1 2.6.4.4.1.1, 2.8.4.4, 2.8.7 */
+> > > +static int drm_dp_link_symbol_cycles(int lane_count, int pixels, int bpp_x16,
+> > > +				     int symbol_size, bool is_mst)
+> > > +{
+> > > +	int cycles = DIV_ROUND_UP(pixels * bpp_x16, 16 * symbol_size * lane_count);
+> > > +	int align = is_mst ? 4 / lane_count : 1;
+> > > +
+> > > +	return ALIGN(cycles, align);
+> > > +}
+> > > +
+> > > +static int drm_dp_link_dsc_symbol_cycles(int lane_count, int pixels, int slice_count,
+> > > +					 int bpp_x16, int symbol_size, bool is_mst)
+> > > +{
+> > > +	int slice_pixels = DIV_ROUND_UP(pixels, slice_count);
+> > > +	int slice_data_cycles = drm_dp_link_symbol_cycles(lane_count, slice_pixels,
+> > > +							  bpp_x16, symbol_size, is_mst);
+> > > +	int slice_eoc_cycles = is_mst ? 4 / lane_count : 1;
+> > > +
+> > > +	return slice_count * (slice_data_cycles + slice_eoc_cycles);
+> > > +}
+> > > +
+> > > +/**
+> > > + * drm_dp_bw_overhead - Calculate the BW overhead of a DP link stream
+> > > + * @lane_count: DP link lane count
+> > > + * @hactive: pixel count of the active period in one scanline of the stream
+> > > + * @dsc_slice_count: DSC slice count if @flags/DRM_DP_LINK_BW_OVERHEAD_DSC is set
+> > > + * @bpp_x16: bits per pixel in .4 binary fixed point
+> > > + * @flags: DRM_DP_OVERHEAD_x flags
+> > > + *
+> > > + * Calculate the BW allocation overhead of a DP link stream, depending
+> > > + * on the link's
+> > > + * - @lane_count
+> > > + * - SST/MST mode (@flags / %DRM_DP_OVERHEAD_MST)
+> > > + * - symbol size (@flags / %DRM_DP_OVERHEAD_UHBR)
+> > > + * - FEC mode (@flags / %DRM_DP_OVERHEAD_FEC)
+> > > + * - SSC/REF_CLK mode (@flags / %DRM_DP_OVERHEAD_SSC_REF_CLK)
+> > > + * as well as the stream's
+> > > + * - @hactive timing
+> > > + * - @bpp_x16 color depth
+> > > + * - compression mode (@flags / %DRM_DP_OVERHEAD_DSC).
+> > > + * Note that this overhead doesn't account for the 8b/10b, 128b/132b
+> > > + * channel coding efficiency, for that see
+> > > + * @drm_dp_link_bw_channel_coding_efficiency().
+> > > + *
+> > > + * Returns the overhead as 100% + overhead% in 1ppm units.
+> > > + */
+> > > +int drm_dp_bw_overhead(int lane_count, int hactive,
+> > > +		       int dsc_slice_count,
+> > > +		       int bpp_x16, unsigned long flags)
+> > > +{
+> > > +	int symbol_size = flags & DRM_DP_BW_OVERHEAD_UHBR ? 32 : 8;
+> > > +	bool is_mst = flags & DRM_DP_BW_OVERHEAD_MST;
+> > > +	u32 overhead = 1000000;
+> > > +	int symbol_cycles;
+> > > +
+> > > +	/*
+> > > +	 * DP Standard v2.1 2.6.4.1
+> > > +	 * SSC downspread and ref clock variation margin:
+> > > +	 *   5300ppm + 300ppm ~ 0.6%
+> > > +	 */
+> > > +	if (flags & DRM_DP_BW_OVERHEAD_SSC_REF_CLK)
+> > > +		overhead += 6000;
+> > > +
+> > > +	/*
+> > > +	 * DP Standard v2.1 2.6.4.1.1, 3.5.1.5.4:
+> > > +	 * FEC symbol insertions for 8b/10b channel coding:
+> > > +	 * After each 250 data symbols on 2-4 lanes:
+> > > +	 *   250 LL + 5 FEC_PARITY_PH + 1 CD_ADJ   (256 byte FEC block)
+> > > +	 * After each 2 x 250 data symbols on 1 lane:
+> > > +	 *   2 * 250 LL + 11 FEC_PARITY_PH + 1 CD_ADJ (512 byte FEC block)
+> > > +	 * After 256 (2-4 lanes) or 128 (1 lane) FEC blocks:
+> > > +	 *   256 * 256 bytes + 1 FEC_PM
+> > > +	 * or
+> > > +	 *   128 * 512 bytes + 1 FEC_PM
+> > > +	 * (256 * 6 + 1) / (256 * 250) = 2.4015625 %
+> > > +	 */
+> > > +	if (flags & DRM_DP_BW_OVERHEAD_FEC)
+> > > +		overhead += 24016;
 > > 
-> > On Tue, Oct 31, 2023 at 12:58:46AM +0530, Aradhya Bhatia wrote:
-> >> With new connector model, tc358767 will not create the connector, when
-> >> DRM_BRIDGE_ATTACH_NO_CONNECTOR is set and display-controller driver will
-> >> rely on format negotiation to setup the encoder format.
-> >>
-> >> Add the missing input-format negotiation hook in the
-> >> drm_bridge_funcs to complete DRM_BRIDGE_ATTACH_NO_CONNECTOR support.
-> >>
-> >> Input format is selected to MEDIA_BUS_FMT_RGB888_1X24 as default, as is
-> >> the case with older model.
-> >>
-> >> Reported-by: Jan Kiszka <jan.kiszka@siemens.com>
-> >> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> >> ---
-> >>
-> >> Notes:
-> >>
-> >>   * Since I do not have hardware with me, this was just build tested. I would
-> >>     appreciate it if someone could test and review it, especically somebody, who
-> >>     uses the bridge for DPI/DSI to eDP format conversion.
-> >>
-> >>   * The Toshiba TC358767 bridge is not enabled in arm64 defconfig by default,
-> >>     when it should be. Hence, I sent a quick patch[0] earlier.
-> >>
-> >> [0]: https://lore.kernel.org/all/20231030152834.18450-1-a-bhatia1@ti.com/
-> >>
-> >>  drivers/gpu/drm/bridge/tc358767.c | 25 +++++++++++++++++++++++++
-> >>  1 file changed, 25 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-> >> index ef2e373606ba..0affcefdeb1c 100644
-> >> --- a/drivers/gpu/drm/bridge/tc358767.c
-> >> +++ b/drivers/gpu/drm/bridge/tc358767.c
-> >> @@ -1751,6 +1751,30 @@ tc_dpi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> >>  	return input_fmts;
-> >>  }
-> >>  
-> >> +static u32 *
-> >> +tc_edp_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> >> +				 struct drm_bridge_state *bridge_state,
-> >> +				 struct drm_crtc_state *crtc_state,
-> >> +				 struct drm_connector_state *conn_state,
-> >> +				 u32 output_fmt,
-> >> +				 unsigned int *num_input_fmts)
-> >> +{
-> >> +	u32 *input_fmts;
-> >> +
-> >> +	*num_input_fmts = 0;
-> >> +
-> >> +	input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
-> >> +			     GFP_KERNEL);
-> >> +	if (!input_fmts)
-> >> +		return NULL;
-> >> +
-> >> +	/* This is the DSI/DPI-end bus format */
-> >> +	input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-> >> +	*num_input_fmts = 1;
-> >> +
-> >> +	return input_fmts;
-> >> +}
+> > Hmm. Shouldn't we be multiplying the overheads, not add them up?
+> > Though I suppose in this case the error won't be huge.
+> 
+> Yes logically these should be multiplied. I added them here, because
+> that's what the spec does with explicitly mentioning the 3% total
+> overhead.
+>
+> I presume it's a simplification, maybe because the 0.6%
+> SSC+REF_CLK overhead is already a rounded-up value, the exact one being
+> only 0.53% for SSC and 0.03% for REF_CLK.
+
+Yeah, they also didn't bother multiplying those two together
+and just added them together. But for the rest they rather just
+give rough estimates instead of exact numbers.
+
+However
+ ((256*256+1)/(256*250))*1.0053 = ~1.02944
+vs.
+ 1.0+0.006+0.024016 = 1.030016
+so yeah, it does look like we should be safe with just
+adding them up (and the rough 3% total the spec mentions
+would also be safe).
+
+> 
+> > > +
+> > > +	/*
+> > > +	 * DP Standard v2.1 2.7.9, 5.9.7
+> > > +	 * The FEC overhead for UHBR is accounted for in its 96.71% channel
+> > > +	 * coding efficiency.
+> > > +	 */
+> > > +	WARN_ON((flags & DRM_DP_BW_OVERHEAD_UHBR) &&
+> > > +		(flags & DRM_DP_BW_OVERHEAD_FEC));
+> > > +
+> > > +	if (flags & DRM_DP_BW_OVERHEAD_DSC)
+> > > +		symbol_cycles = drm_dp_link_dsc_symbol_cycles(lane_count, hactive,
+> > > +							      dsc_slice_count,
+> > > +							      bpp_x16, symbol_size,
+> > > +							      is_mst);
+> > > +	else
+> > > +		symbol_cycles = drm_dp_link_symbol_cycles(lane_count, hactive,
+> > > +							  bpp_x16, symbol_size,
+> > > +							  is_mst);
+> > > +
+> > > +	return DIV_ROUND_UP_ULL(mul_u32_u32(symbol_cycles * symbol_size * lane_count,
+> > > +					    overhead * 16),
+> > > +				hactive * bpp_x16);
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_bw_overhead);
+> > > +
+> > > +/**
+> > > + * drm_dp_bw_channel_coding_efficiency - Get a DP link's channel coding efficiency
+> > > + * @is_uhbr: Whether the link has a 128b/132b channel coding
+> > > + *
+> > > + * Return the channel coding efficiency of the given DP link type, which is
+> > > + * either 8b/10b or 128b/132b (aka UHBR). The corresponding overhead includes
+> > > + * the 8b -> 10b, 128b -> 132b pixel data to link symbol conversion overhead
+> > > + * and for 128b/132b any link or PHY level control symbol insertion overhead
+> > > + * (LLCP, FEC, PHY sync, see DP Standard v2.1 3.5.2.18). For 8b/10b the
+> > > + * corresponding FEC overhead is BW allocation specific, included in the value
+> > > + * returned by drm_dp_bw_overhead().
+> > > + *
+> > > + * Returns the efficiency in the 100%/coding-overhead% ratio in
+> > > + * 1ppm units.
+> > > + */
+> > > +int drm_dp_bw_channel_coding_efficiency(bool is_uhbr)
+> > > +{
+> > > +	if (is_uhbr)
+> > > +		return 967100;
+> > > +	else
+> > > +		/*
+> > > +		 * Note that on 8b/10b MST the efficiency is only
+> > > +		 * 78.75% due to the 1 out of 64 MTPH packet overhead,
+> > > +		 * not accounted for here.
+> > > +		 */
+> > > +		return 800000;
+> > > +}
+> > > +EXPORT_SYMBOL(drm_dp_bw_channel_coding_efficiency);
+> > > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > index cc0a8fe84d290..4d72c9a32026e 100644
+> > > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > @@ -4726,17 +4726,28 @@ EXPORT_SYMBOL(drm_dp_check_act_status);
+> > >  int drm_dp_calc_pbn_mode(int clock, int bpp)
+> > >  {
+> > >  	/*
+> > > -	 * margin 5300ppm + 300ppm ~ 0.6% as per spec, factor is 1.006
+> > >  	 * The unit of 54/64Mbytes/sec is an arbitrary unit chosen based on
+> > >  	 * common multiplier to render an integer PBN for all link rate/lane
+> > >  	 * counts combinations
+> > >  	 * calculate
+> > > -	 * peak_kbps *= (1006/1000)
+> > > -	 * peak_kbps *= (64/54)
+> > > -	 * peak_kbps *= 8    convert to bytes
+> > > +	 * peak_kbps = clock * bpp / 16
+> > > +	 * peak_kbps *= SSC overhead / 1000000
+> > > +	 * peak_kbps /= 8    convert to Kbytes
+> > > +	 * peak_kBps *= (64/54) / 1000    convert to PBN
+> > >  	 */
+> > > -	return DIV_ROUND_UP_ULL(mul_u32_u32(clock * bpp, 64 * 1006 >> 4),
+> > > -				1000 * 8 * 54 * 1000);
+> > > +	/*
+> > > +	 * TODO: Use the actual link and mode parameters to calculate
+> > > +	 * the overhead. For now it's assumed that these are
+> > > +	 * 4 link lanes, 4096 hactive pixels, which don't add any
+> > > +	 * significant data padding overhead and that there is no DSC
+> > > +	 * or FEC overhead.
+> > > +	 */
+> > > +	int overhead = drm_dp_bw_overhead(4, 4096, 0, bpp,
+> > > +					  DRM_DP_BW_OVERHEAD_MST |
+> > > +					  DRM_DP_BW_OVERHEAD_SSC_REF_CLK);
+> > > +
+> > > +	return DIV64_U64_ROUND_UP(mul_u32_u32(clock * bpp, 64 * overhead >> 4),
+> > > +				  1000000ULL * 8 * 54 * 1000);
+> > >  }
+> > >  EXPORT_SYMBOL(drm_dp_calc_pbn_mode);
+> > >  
+> > > diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> > > index da94932f4262b..caee29d28463c 100644
+> > > --- a/include/drm/display/drm_dp_helper.h
+> > > +++ b/include/drm/display/drm_dp_helper.h
+> > > @@ -788,4 +788,15 @@ bool drm_dp_downstream_rgb_to_ycbcr_conversion(const u8 dpcd[DP_RECEIVER_CAP_SIZ
+> > >  					       const u8 port_cap[4], u8 color_spc);
+> > >  int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc);
+> > >  
+> > > +#define DRM_DP_BW_OVERHEAD_MST		BIT(0)
+> > > +#define DRM_DP_BW_OVERHEAD_UHBR		BIT(1)
+> > > +#define DRM_DP_BW_OVERHEAD_SSC_REF_CLK	BIT(2)
+> > > +#define DRM_DP_BW_OVERHEAD_FEC		BIT(3)
+> > > +#define DRM_DP_BW_OVERHEAD_DSC		BIT(4)
+> > > +
+> > > +int drm_dp_bw_overhead(int lane_count, int hactive,
+> > > +		       int dsc_slice_count,
+> > > +		       int bpp_x16, unsigned long flags);
+> > > +int drm_dp_bw_channel_coding_efficiency(bool is_uhbr);
+> > > +
+> > >  #endif /* _DRM_DP_HELPER_H_ */
+> > > -- 
+> > > 2.39.2
 > > 
-> > You could benefit from using the helper:
-> > drm_atomic_helper_bridge_propagate_bus_fmt()
-> 
-> You are right!
-> 
-> Upon taking a second look, I realize that the bridge chain works with
-> MEDIA_BUS_FMT_FIXED bus format, when tc358767 is being used in DPI/DSI
-> to eDP mode (because the panel-bridge does not have a get_output_bus_fmt
-> hook, and uses the same helper for its get_input_bus_fmt hook). My patch
-> creates a deviation from that, by forcing MEDIA_BUS_FMT_RGB888_1X24 even
-> when eDP is involved.
-> 
-> Using the helper here, will certainly address this deviation.
-> 
-> However, for the DPI/DSI to DP mode, MEDIA_BUS_FMT_RGB888_1X24 bus
-> format is required, and *just* using the helper as its get_input_bus_fmt
-> hook, might not be enough.
-> 
-> Since tc358767 is the last bridge in DPI/DSI to DP mode, the
-> output_fmt parameter get defaulted to MEDIA_BUS_FMT_FIXED too, as there
-> is no get_output_bus_fmt hook present in the driver. If we simply us
-> the helper here, the input_fmt will also get set to MEDIA_BUS_FMT_FIXED.
-> This too is an unwanted deviation.
-> 
-> It seems like the right way to address both the cases, would be by
-> adding the get_output_bus_fmt hook that sets output_fmt to
-> MEDIA_BUS_FMT_RGB888_1X24, as well as using the helper as the
-> get_input_bus_fmt hook.
-> 
-> If this seems good to you too, I will send a new version of Tomi's
-> series[0] which incorporates this patch.
+> > -- 
+> > Ville Syrjälä
+> > Intel
 
-I never managed to fully wrap my head around the bus fmt negotiation,
-and as I am trying to recover from a flu this is not the time to try.
-Your explanations sounds like you have grasped it so I suggest to move
-ahead.
-
-	Sam
+-- 
+Ville Syrjälä
+Intel
