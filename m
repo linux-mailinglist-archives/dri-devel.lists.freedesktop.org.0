@@ -1,74 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306257E4ABD
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 22:33:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AECD7E4B2C
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 22:52:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC3710E6BC;
-	Tue,  7 Nov 2023 21:32:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4CCD10E031;
+	Tue,  7 Nov 2023 21:52:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76A9E10E6BD
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 21:32:54 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id
- 38308e7fff4ca-2c50305c5c4so88961681fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 13:32:54 -0800 (PST)
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EDDC10E031
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 21:52:35 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id
+ 46e09a7af769-6d2de704f53so3951271a34.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 13:52:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1699392772; x=1699997572; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cKkRos3AxLhlHLKkODxjEWuIyo1+V0s7ezJV36Xh+VA=;
- b=Cu1EiyITRZGEqKxbBFL8iEerMiSZNAg+pPXauGWDcvxcF6RYH9JAo+xBlKRu5ajudo
- nlZVZHUsP8mFqBLXR5VLhWF89gjN01PB0wRnGXmCdEqgfOcYLqpMSTSInVrMVDFZcTTN
- XJstl3Ajb/aRpxZ8fp7oa0Hy9JZVyUm7X62Rizcr3EBwhor7xqZLAbSWz00ij4A1+qZv
- ZdBlN4xLNy1le9RHuSS9WqdYIWLn3nRI1wDujsvYUfBPNxzD7HSR/CdyUUEtJBVt8jaI
- wRZfJjpQ5hui+Ky8AamNAqGUkorTmj8Q1APg7ZQrR8AtLv4BPxT02hqsv5hdHnDP/hPC
- 2Mng==
+ d=chromium.org; s=google; t=1699393954; x=1699998754;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hr6OJPuRPVCp0RXxF4a/PiIEDPuvoDXkbrySHNg/Fqs=;
+ b=kXkXQ6Vy3LlNQpImlBpNK/cDK9OsviFcOqXqss72x78nNCoJ/+yyY0rHxDTlpNbqVo
+ 8jUrRt6wlKaWbLkInYBLGM6aVXYWqrldUtHx8cvQQfX46HyWGMs9Epvj049FxpWWtNjC
+ fqqCA0T8/Zhb3D01qNf/VkseA4UG5ojBY6RIU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699392772; x=1699997572;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cKkRos3AxLhlHLKkODxjEWuIyo1+V0s7ezJV36Xh+VA=;
- b=FyqXluhc034/Sr7aQyeCHyeVm21uS80MR/MUBldB2yjwmWs67KHWDV3QSMuAH7LBYT
- Cgc6SJCrgMgrzIwIfWaVUJq+jRt//UgpU82C3Svh3aY8gZn09e8lkyEqwFxMCTtw5pfp
- k0PS2sW+8V28+J6LCIcDrCmOGtuZ0Uehz3GByUus6r8uym934UjLf87mcAdPbxN8mrmT
- tdnFqODt3jo8nxwNDzSn6KfQ1/HvaG95/dxNkXdjTyzTKqDZYVt3GqyheKO9UV9kv/Sf
- DF1GRzVXfs8EI1wgzBVthP/5uzafmOgnh76UyNN+q6mYZe8AX6PsIY2crV9motLW2qVY
- Tiww==
-X-Gm-Message-State: AOJu0YztlUilM1eU1V2Jr3EZg/aq6E6RA473u9bOtqb7ewMbIx24hug3
- vC5B7Q+F0Ntk7K4VMn94OoS3Bw==
-X-Google-Smtp-Source: AGHT+IGwYIGt9B8zSOa/PbmGSb6wiXglnteks8C5u7N6FQhpALXFUimVeS/glybjViPVk1eEEX9IQw==
-X-Received: by 2002:a05:651c:1065:b0:2c5:25f3:8e1c with SMTP id
- y5-20020a05651c106500b002c525f38e1cmr146186ljm.21.1699392772585; 
- Tue, 07 Nov 2023 13:32:52 -0800 (PST)
-Received: from [172.30.205.109] (UNUSED.212-182-62-129.lubman.net.pl.
- [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
- t4-20020a05651c148400b002b6daa3fa2csm1607587lje.69.2023.11.07.13.32.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Nov 2023 13:32:52 -0800 (PST)
-Message-ID: <45fa235c-c09b-4ded-abc8-ac1d9835890d@linaro.org>
-Date: Tue, 7 Nov 2023 22:32:50 +0100
+ d=1e100.net; s=20230601; t=1699393954; x=1699998754;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=hr6OJPuRPVCp0RXxF4a/PiIEDPuvoDXkbrySHNg/Fqs=;
+ b=ud8iLKdeC6gkp7valIOtde096N+xNROtahS/6NOpiQscLWxolEElO+bNJZhlqI6b0W
+ 2W5GgSsOEecrTrRTBqlQE414O4ICv51ILTQRVmY1LtVeNA6kKiuxCIMeuhNyy8F3LdoX
+ tMx5c8V1SZ7aQGr7MOMvlkP446ZefAbaxRXNVqs5bsJcyJTjWK16ytG+3C0Gj6zozRD1
+ FVLnh3q81QhhNd2EJOsFceVTdEPte1iHjHp9wwnQhFa6YpFVImsZJwq0Lemkp7MJLXhL
+ cByTqOkMqM+eXvqpfl50TZFCZAKGw/TFg0Q+nhEwbXOqh5aTZDbNB10NdnCI3GWJ1x3l
+ bd0g==
+X-Gm-Message-State: AOJu0YxeNdl97LfPE/nSK0pZLwGmz0noxCsA2Wg1FJAO99I+LidIE8Sr
+ Mm7HUnfevvO2jumLUH5O2y/KsGXYkRDwPwI4dvEGRw==
+X-Google-Smtp-Source: AGHT+IHWdfR3bifkBdaoItNqZgulqc9J+gktiX1J+gjiJGeRkyvmNQ2VXl6l87uKMgSgtxr3xR3fX2EtFYyzpaToq3g=
+X-Received: by 2002:a9d:7e91:0:b0:6d2:e1fd:9f5e with SMTP id
+ m17-20020a9d7e91000000b006d2e1fd9f5emr127321otp.6.1699393954786; Tue, 07 Nov
+ 2023 13:52:34 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/6] dt-bindings: display/msm: Add reg bus and rotator
- interconnects
-Content-Language: en-US
-To: neil.armstrong@linaro.org, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230928113535.1217613-1-dmitry.baryshkov@linaro.org>
- <20230928113535.1217613-3-dmitry.baryshkov@linaro.org>
- <aaacd997-4b85-4086-982a-c992ad52831a@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <aaacd997-4b85-4086-982a-c992ad52831a@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20231107204611.3082200-1-hsinyi@chromium.org>
+ <20231107204611.3082200-4-hsinyi@chromium.org>
+ <2023110739-parmesan-exposure-8225@gregkh>
+In-Reply-To: <2023110739-parmesan-exposure-8225@gregkh>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Tue, 7 Nov 2023 13:52:08 -0800
+Message-ID: <CAJMQK-g-hSN_dY5EjhuvAU4sAL0dMR7s=3murQm8E_GubS1+pw@mail.gmail.com>
+Subject: Re: [PATCH v6 3/5] drm/panel-edp: drm/panel-edp: Add several generic
+ edp panels
+To: Greg KH <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,65 +69,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Douglas Anderson <dianders@chromium.org>, Maxime Ripard <mripard@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, stable@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Nov 7, 2023 at 12:57=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
+> On Tue, Nov 07, 2023 at 12:41:53PM -0800, Hsin-Yi Wang wrote:
+> > Add a few generic edp panels used by mt8186 chromebooks.
+> >
+> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> > ---
+> > no change.
+> > ---
+> >  drivers/gpu/drm/panel/panel-edp.c | 51 +++++++++++++++++++++++++++++++
+> >  1 file changed, 51 insertions(+)
+>
+> <formletter>
+>
+> This is not the correct way to submit patches for inclusion in the
+> stable kernel tree.  Please read:
+>     https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.ht=
+ml
+> for how to do this properly.
+>
+Sorry for confusion, only patch 1 & 2 need to be picked to stable. 3~5 don'=
+t.
 
-
-On 11/6/23 16:45, Neil Armstrong wrote:
-> Hi,
-> 
-> On 28/09/2023 13:35, Dmitry Baryshkov wrote:
->> From: Konrad Dybcio <konrad.dybcio@linaro.org>
->>
->> Apart from the already handled data bus (MAS_MDP_Pn<->DDR), there are
->> other connection paths:
->> - a path that connects rotator block to the DDR.
->> - a path that needs to be handled to ensure MDSS register access
->>    functions properly, namely the "reg bus", a.k.a the CPU-MDSS CFG
->>    interconnect.
->>
->> Describe these paths bindings to allow using them in device trees and in
->> the driver
->>
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   Documentation/devicetree/bindings/display/msm/mdss-common.yaml | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/display/msm/mdss-common.yaml b/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
->> index f69196e4cc76..6b4ce08a60dc 100644
->> --- a/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
->> +++ b/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
->> @@ -66,12 +66,14 @@ properties:
->>       items:
->>         - description: Interconnect path from mdp0 (or a single mdp) port to the data bus
->>         - description: Interconnect path from mdp1 port to the data bus
->> +      - description: Interconnect path from CPU to the reg bus
->>     interconnect-names:
->>       minItems: 1
->>       items:
->>         - const: mdp0-mem
->>         - const: mdp1-mem
->> +      - const: cpu-cfg
->>     resets:
->>       items:
-> 
-> This is not enough, on sm8450 this still appears with patch applied:
-> arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: display-subsystem@ae00000: interconnects: [[182, 14, 0, 30, 3, 0], [182, 14, 0, 30, 3, 0], [53, 2, 3, 183, 14, 3]] is too long
->          from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8450-mdss.yaml#
-> arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: display-subsystem@ae00000: interconnect-names: ['mdp0-mem', 'mdp1-mem', 'cpu-cfg'] is too long
->          from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8450-mdss.yaml#
-I assume this is with the path actually added in the dt, and
-not just with this patch applied?
-
-I guess increasing the numbers from the getgo would probably
-be good idea too :)
-
-Konrad
+> </formletter>
