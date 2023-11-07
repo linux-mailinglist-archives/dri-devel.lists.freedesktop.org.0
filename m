@@ -1,62 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AECD7E4B2C
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 22:52:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E137E4B30
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 22:55:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4CCD10E031;
-	Tue,  7 Nov 2023 21:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A7FF10E0B1;
+	Tue,  7 Nov 2023 21:55:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EDDC10E031
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 21:52:35 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- 46e09a7af769-6d2de704f53so3951271a34.2
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 13:52:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1699393954; x=1699998754;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hr6OJPuRPVCp0RXxF4a/PiIEDPuvoDXkbrySHNg/Fqs=;
- b=kXkXQ6Vy3LlNQpImlBpNK/cDK9OsviFcOqXqss72x78nNCoJ/+yyY0rHxDTlpNbqVo
- 8jUrRt6wlKaWbLkInYBLGM6aVXYWqrldUtHx8cvQQfX46HyWGMs9Epvj049FxpWWtNjC
- fqqCA0T8/Zhb3D01qNf/VkseA4UG5ojBY6RIU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699393954; x=1699998754;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hr6OJPuRPVCp0RXxF4a/PiIEDPuvoDXkbrySHNg/Fqs=;
- b=ud8iLKdeC6gkp7valIOtde096N+xNROtahS/6NOpiQscLWxolEElO+bNJZhlqI6b0W
- 2W5GgSsOEecrTrRTBqlQE414O4ICv51ILTQRVmY1LtVeNA6kKiuxCIMeuhNyy8F3LdoX
- tMx5c8V1SZ7aQGr7MOMvlkP446ZefAbaxRXNVqs5bsJcyJTjWK16ytG+3C0Gj6zozRD1
- FVLnh3q81QhhNd2EJOsFceVTdEPte1iHjHp9wwnQhFa6YpFVImsZJwq0Lemkp7MJLXhL
- cByTqOkMqM+eXvqpfl50TZFCZAKGw/TFg0Q+nhEwbXOqh5aTZDbNB10NdnCI3GWJ1x3l
- bd0g==
-X-Gm-Message-State: AOJu0YxeNdl97LfPE/nSK0pZLwGmz0noxCsA2Wg1FJAO99I+LidIE8Sr
- Mm7HUnfevvO2jumLUH5O2y/KsGXYkRDwPwI4dvEGRw==
-X-Google-Smtp-Source: AGHT+IHWdfR3bifkBdaoItNqZgulqc9J+gktiX1J+gjiJGeRkyvmNQ2VXl6l87uKMgSgtxr3xR3fX2EtFYyzpaToq3g=
-X-Received: by 2002:a9d:7e91:0:b0:6d2:e1fd:9f5e with SMTP id
- m17-20020a9d7e91000000b006d2e1fd9f5emr127321otp.6.1699393954786; Tue, 07 Nov
- 2023 13:52:34 -0800 (PST)
+Received: from smtp.gentoo.org (mail.gentoo.org
+ [IPv6:2001:470:ea4a:1:5054:ff:fec7:86e4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4954E10E0B1
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 21:55:50 +0000 (UTC)
+From: Sam James <sam@gentoo.org>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: [PATCH] drm: i915: Adapt to -Walloc-size
+Date: Tue,  7 Nov 2023 21:55:33 +0000
+Message-ID: <20231107215538.1891359-1-sam@gentoo.org>
+X-Mailer: git-send-email 2.42.1
 MIME-Version: 1.0
-References: <20231107204611.3082200-1-hsinyi@chromium.org>
- <20231107204611.3082200-4-hsinyi@chromium.org>
- <2023110739-parmesan-exposure-8225@gregkh>
-In-Reply-To: <2023110739-parmesan-exposure-8225@gregkh>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Tue, 7 Nov 2023 13:52:08 -0800
-Message-ID: <CAJMQK-g-hSN_dY5EjhuvAU4sAL0dMR7s=3murQm8E_GubS1+pw@mail.gmail.com>
-Subject: Re: [PATCH v6 3/5] drm/panel-edp: drm/panel-edp: Add several generic
- edp panels
-To: Greg KH <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,38 +39,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Douglas Anderson <dianders@chromium.org>, Maxime Ripard <mripard@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, stable@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Sam James <sam@gentoo.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 7, 2023 at 12:57=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
->
-> On Tue, Nov 07, 2023 at 12:41:53PM -0800, Hsin-Yi Wang wrote:
-> > Add a few generic edp panels used by mt8186 chromebooks.
-> >
-> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> > ---
-> > no change.
-> > ---
-> >  drivers/gpu/drm/panel/panel-edp.c | 51 +++++++++++++++++++++++++++++++
-> >  1 file changed, 51 insertions(+)
->
-> <formletter>
->
-> This is not the correct way to submit patches for inclusion in the
-> stable kernel tree.  Please read:
->     https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.ht=
-ml
-> for how to do this properly.
->
-Sorry for confusion, only patch 1 & 2 need to be picked to stable. 3~5 don'=
-t.
+GCC 14 introduces a new -Walloc-size included in -Wextra which errors out
+like:
+```
+drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c: In function ‘eb_copy_relocations’:
+drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:1681:24: error: allocation of insufficient size ‘1’ for type ‘struct drm_i915_gem_relocation_entry’ with size ‘32’ [-Werror=alloc-size]
+ 1681 |                 relocs = kvmalloc_array(size, 1, GFP_KERNEL);
+      |                        ^
 
-> </formletter>
+```
+
+So, just swap the number of members and size arguments to match the prototype, as
+we're initialising 1 element of size `size`. GCC then sees we're not
+doing anything wrong.
+
+Signed-off-by: Sam James <sam@gentoo.org>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index 683fd8d3151c..45b9d9e34b8b 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -1678,7 +1678,7 @@ static int eb_copy_relocations(const struct i915_execbuffer *eb)
+ 		urelocs = u64_to_user_ptr(eb->exec[i].relocs_ptr);
+ 		size = nreloc * sizeof(*relocs);
+ 
+-		relocs = kvmalloc_array(size, 1, GFP_KERNEL);
++		relocs = kvmalloc_array(1, size, GFP_KERNEL);
+ 		if (!relocs) {
+ 			err = -ENOMEM;
+ 			goto err;
+-- 
+2.42.1
+
