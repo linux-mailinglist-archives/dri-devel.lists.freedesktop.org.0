@@ -2,48 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07DED7E4361
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 16:26:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D9A7E49EB
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 21:34:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09F2110E60C;
-	Tue,  7 Nov 2023 15:26:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0084A10E083;
+	Tue,  7 Nov 2023 20:34:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFA1510E60B;
- Tue,  7 Nov 2023 15:26:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id CB9CDCE0F14;
- Tue,  7 Nov 2023 15:26:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E20CC433C7;
- Tue,  7 Nov 2023 15:26:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1699370798;
- bh=ljmnGxLYReiQWa6Iv86aTfS9zhxAvbUWtes+QtFunpE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=m63ny3zpg+SV/+cDpDbbJmMFdZ0EBKySKBGuQAqjxFNkqQGhaOdWSgvY56ZF7FxX5
- kuHXtm0T3Wc4V1mbYpuqOn+x5n3xTZQtKiq/5u5bnCpOOZcQDSk8kE5CciAZ88Uh9/
- aPKVARvlyxzu/U+Qj2T7+Sxos5JQIV3/OL2G8F1g=
-Date: Tue, 7 Nov 2023 16:26:34 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [RFC PATCH 03/10] drm/mipi-dsi: add API for manual control over
- the DSI link power state
-Message-ID: <2023110704-deem-jigsaw-0bbf@gregkh>
-References: <20231016165355.1327217-4-dmitry.baryshkov@linaro.org>
- <7e4ak4e77fp5dat2aopyq3g4wnqu3tt7di7ytdr3dvgjviyhrd@vqiqx6iso6vg>
- <CAA8EJpp48AdJmx_U=bEJZUWZgOiT1Ctz6Lpe9QwjLXkMQvsw5w@mail.gmail.com>
- <uj6rtlionmacnwlqxy6ejt5iaczgbbe5z54ipte5ffbixcx3p4@pps7fcr3uqhf>
- <1696f131-83fb-4d0c-b4d7-0bdb61e4ae65@linaro.org>
- <mxtb6vymowutj7whbrygwlcupbdnfqxjralc3nwwapsbvrcmbm@sewxtdslfoen>
- <CAA8EJpozZkEswnioKjRCqBg4fcjVHFwGivoFNTNHVwyocKprQw@mail.gmail.com>
- <2z3yvvtd6ttsd7qw43sl5svtfijxevdr6omxxmws64k6l5qv55@5nnh2b32h2ep>
- <2023110704-playback-grit-7a27@gregkh>
- <hkzoi4sazufi5xdgr6hacuzk72cnbtmm6dwm2bzfgwh5yij6wj@2g4eb6ea4dgd>
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com
+ [IPv6:2607:f8b0:4864:20::112a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB76510E083
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 20:34:37 +0000 (UTC)
+Received: by mail-yw1-x112a.google.com with SMTP id
+ 00721157ae682-5b383b4184fso73983247b3.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 12:34:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ncf.edu; s=google; t=1699389277; x=1699994077; darn=lists.freedesktop.org;
+ h=mime-version:references:in-reply-to:organization:message-id:date
+ :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=aWp5Pb+/LdzWJWf4DW8IBglT8Le0ScvSI5TXWdEwNqg=;
+ b=kK/hXGQAh11NQaWmOuhjBxukdTPFjC1ldfNoeM+w8ezefQjFKVkZGp290rcFpdrubW
+ okH1u4Dcc0MGb/ykKTt1mg8WNac3u03MboGxfUe+l/VFBE/3ePBuV6etHmnWa//lgxyD
+ iMBBiQQWvGUAZePwpWI6bcvaOOb0KNCqRyADkGA+oidZiAIpSfp9kL127A69DKs0RrVj
+ bcMZKTz587kVvcztZWwdjN5Tng8qFCh1+tzwN36jDCSxvCwKry04SdhyfhCmmDSsRtP4
+ qeAXpsEIdbjIzPlj3rRxkompZUHjB0Bzjo1zISRsfl3JqdyjVN96pTq+5sW7SM7+dTT2
+ Q4Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699389277; x=1699994077;
+ h=mime-version:references:in-reply-to:organization:message-id:date
+ :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aWp5Pb+/LdzWJWf4DW8IBglT8Le0ScvSI5TXWdEwNqg=;
+ b=Jl/aM/LzIMwQI00F0EmdYtqwT2U4kyl9Rt5wcgeC/hHDnQXKPcziaDu4kCHXn1uVtM
+ 2mfHHXzy1czf3Ht43uz5wZBfEdCHHQF0zeqoooMFmD+7rId+ALG4zL8KB9SjloC5wFne
+ E9lwJQuS5kpni4bTV4h4KyABt2BXdBHwN6Pgwb+crtrSNfb7Yytils02R/oLMUJlR1Qq
+ O/o4z7WCjVzv1lx3kDOX9i3JIRXcw8GRdJI6LPa3YqQJMH3+PYCBBqE/NIb6IgFLD0uZ
+ QiP5uN+RhewSaCewsUVDj8PrpWS4p3q9nV85PaNWL/coEJ5q07G9e8QNB5hMJIEPaAhV
+ 2D6g==
+X-Gm-Message-State: AOJu0YzSbUEzY/9DxPwDFgBOgTdS+0dqyn7oC8dpWJWtQaCqryIntYpi
+ rD8xHCVXwrKcfHvwTNcTBABDkg==
+X-Google-Smtp-Source: AGHT+IFCLuTnYPZoOwFZ96oW9PizZC3cqb+219coA5tTSa7FD5yZSWjW9IZIkFPmXv9f3dw6ESaCng==
+X-Received: by 2002:a0d:cb16:0:b0:5a7:c6bd:7ac0 with SMTP id
+ n22-20020a0dcb16000000b005a7c6bd7ac0mr14965043ywd.13.1699389276735; 
+ Tue, 07 Nov 2023 12:34:36 -0800 (PST)
+Received: from lux.localnet ([2601:580:8201:d0::4174])
+ by smtp.gmail.com with ESMTPSA id
+ u82-20020a816055000000b0059c0629d59csm6051836ywb.115.2023.11.07.12.34.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Nov 2023 12:34:36 -0800 (PST)
+From: Hunter Chasens <hunter.chasens18@ncf.edu>
+To: linux-kernel@vger.kernel.org, "Lazar, Lijo" <lijo.lazar@amd.com>
+Subject: Re: [PATCH v2] drm: amd: Resolve Sphinx unexpected indentation warning
+Date: Tue, 07 Nov 2023 10:34:35 -0500
+Message-ID: <22087039.EfDdHjke4D@lux>
+Organization: New College of Florida
+In-Reply-To: <6bd4f6d9-07c9-9ac1-2f3f-bb083b9c8085@amd.com>
+References: <20231106201739.29507-1-hunter.chasens18@ncf.edu>
+ <6bd4f6d9-07c9-9ac1-2f3f-bb083b9c8085@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <hkzoi4sazufi5xdgr6hacuzk72cnbtmm6dwm2bzfgwh5yij6wj@2g4eb6ea4dgd>
+Content-Type: multipart/signed; boundary="nextPart7603761.EvYhyI6sBW";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,60 +74,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Marijn Suijten <marijn.suijten@somainline.org>, Marek Vasut <marex@denx.de>,
- Robert Foss <rfoss@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Jonas Karlman <jonas@kwiboo.se>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Neil Armstrong <neil.armstrong@linaro.org>,
- Douglas Anderson <dianders@chromium.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: linux-doc@vger.kernel.org, Xinhui.Pan@amd.com,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 07, 2023 at 01:18:14PM +0100, Maxime Ripard wrote:
-> On Tue, Nov 07, 2023 at 12:22:21PM +0100, Greg Kroah-Hartman wrote:
-> > On Tue, Nov 07, 2023 at 11:57:49AM +0100, Maxime Ripard wrote:
-> > > +GKH
+--nextPart7603761.EvYhyI6sBW
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
+From: Hunter Chasens <hunter.chasens18@ncf.edu>
+To: linux-kernel@vger.kernel.org, "Lazar, Lijo" <lijo.lazar@amd.com>
+Date: Tue, 07 Nov 2023 10:34:35 -0500
+Message-ID: <22087039.EfDdHjke4D@lux>
+Organization: New College of Florida
+In-Reply-To: <6bd4f6d9-07c9-9ac1-2f3f-bb083b9c8085@amd.com>
+MIME-Version: 1.0
+
+On Monday, November 6, 2023 11:45:24 PM EST Lazar, Lijo wrote:
+> On 11/7/2023 1:47 AM, Hunter Chasens wrote:
+> > Resolves Sphinx unexpected indentation warning when compiling
+> > documentation (e.g. `make htmldocs`). Replaces tabs with spaces and
+> > adds
+> > a literal block to keep vertical formatting of the
+> > example power state list.
 > > 
-> > Why?  I don't see a question for me here, sorry.
+> > Signed-off-by: Hunter Chasens <hunter.chasens18@ncf.edu>
+> > ---
+> > 
+> >   drivers/gpu/drm/amd/pm/amdgpu_pm.c | 13 +++++++------
+> >   1 file changed, 7 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > b/drivers/gpu/drm/amd/pm/amdgpu_pm.c index 517b9fb4624c..81b8ceb26890
+> > 100644
+> > --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > @@ -989,12 +989,13 @@ static ssize_t amdgpu_get_pp_features(struct
+> > device *dev,> 
+> >    * Reading back the files will show you the available power levels
+> >    within
+> >    * the power state and the clock information for those levels. If
+> >    deep sleep is * applied to a clock, the level will be denoted by a
+> >    special level 'S:'> 
+> > - * E.g.,
+> > - *	S: 19Mhz *
+> > - *	0: 615Mhz
+> > - *	1: 800Mhz
+> > - *	2: 888Mhz
+> > - *	3: 1000Mhz
 > 
-> I guess the question is: we have a bus with various power states
-> (powered off, low power, high speed)
-
-Great, have fun!  And is this per-device or per-bus-instance?
-
-> low power is typically used to send commands to a device, high speed to
-> transmit pixels, but still allows to send commands.
+> > + * E.g.::
+> This will be like E.g.: Could you keep it like E.g.,<space>:: so that ::
+> is taken out?
 > 
-> Depending on the devices, there's different requirements about the state
-> devices expect the bus to be in to send commands. Some will need to send
-> all the commands in the low power state, some don't care, etc. See
-> the mail I was replying too for more details.
+> Thanks,
+> Lijo
 > 
-> We've tried so far to model that in KMS itself, so the framework the
-> drivers would register too, but we're kind of reaching the limits of
-> what we can do there. It also feels to me that "the driver can't access
-> its device" is more of a problem for the bus to solve rather than the
-> framework.
+> > + *
+> > + *  S: 19Mhz *
+> > + *  0: 615Mhz
+> > + *  1: 800Mhz
+> > + *  2: 888Mhz
+> > + *  3: 1000Mhz
+> > 
+> >    *
+> >    *
+> >    * To manually adjust these states, first select manual using
 
-This is up to the specific bus to resolve, there's nothing special
-needed in the driver core for it, right?
+No problem. I'll send a v3 out in a bit.
 
-> Do you agree? Are you aware of any other bus in Linux with similar
-> requirements we could look at? Or any suggestion on how to solve it?
+--nextPart7603761.EvYhyI6sBW
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
-There might be others, yes, look at how the dynamic power management
-works for different devices on most busses, that might help you out
-here.
+-----BEGIN PGP SIGNATURE-----
 
-good luck!
+iQEzBAABCAAdFiEEFaTi3I3XEd+IzfdZZz/o+CKADX8FAmVKWQsACgkQZz/o+CKA
+DX8MxQf+OReDu+tIzKqafU63tL2/DgaIr4JodkrKVsbt+QyEfbmSWS9mwP5KsOgf
+3Rzv37K/A2OTkRbuWMKE1k+ZJHp/2qrZUJIzZHEE/P9g/LV91biimlgXl9/OI2cp
+nAKt6aPapq6ZqyZrVt+5kmIGgUc+7p71dMJ8H89BLTTx29/mOziAHEV38FdWbQO7
+OEYDa4c1ugKbxqsnU3ni18PFdMxapGIT6mmr4P7GtD+ikCqireQ1zY+VkeefDOu7
+uppL3QTO+AXMNkwhiR6NbaLYyX98pcg6d7Gq3LeGf9CShx+Pz6c28aIiF4KcSk4W
+JBL1EslGewkEHY9C3LlIuow9Pkg30Q==
+=sA05
+-----END PGP SIGNATURE-----
 
-greg k-h
+--nextPart7603761.EvYhyI6sBW--
+
+
+
