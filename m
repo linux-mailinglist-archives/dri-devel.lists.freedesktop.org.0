@@ -1,73 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69FBA7E4969
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 20:53:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC1637E4983
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 21:01:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9564C10E688;
-	Tue,  7 Nov 2023 19:53:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FEAD10E68A;
+	Tue,  7 Nov 2023 20:01:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com
- [IPv6:2607:f8b0:4864:20::e2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27E5C10E688
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 19:53:37 +0000 (UTC)
-Received: by mail-vs1-xe2b.google.com with SMTP id
- ada2fe7eead31-45da75867d3so1054463137.2
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 11:53:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1699386816; x=1699991616;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tnuTqDfsVwYZum4mgCN3P8a9mRjXV0bf7p3FmGowjyI=;
- b=drMOXqI9/J993iUNRMneSuU4weWkfJU8IoArH4K8rbMWySLvF1+XDEtxgJkJrX+KQa
- xAUh4bhcDyfdMYR+Iz0YdtyCg1LtSNqMAgXp6qt7aX/2RDybAOxdlMh+BjjDlockLTmK
- QNUGsxb1YeZwJN6QHdDJ6DMhlr9bC8PIQ9e6b5zHb1OjiciuyE6LZ0s/Kbn0ugut4VYU
- yEJyqi1bx2G7o8W5+9rZpuLcX41ZDBQaojRtCFMchosvgVwHqAov1YwBrYKqoKf+aNr3
- xbEoxYBvhW3TIIKGWpB6saP7fqZe/1MnjQUkAvZNz/vxHd7n3sfrk6S3ntwi8y+NJ0L5
- JSSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699386816; x=1699991616;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tnuTqDfsVwYZum4mgCN3P8a9mRjXV0bf7p3FmGowjyI=;
- b=PMPWrVIg0Vb6sgn3gVwR+fpl++KsUNs+xzA+I14Z6xzRpVJeE36HDMuFZhgSzlMQoV
- OxmrPDZzOWcWvYasUQn327WxYV7vVPL+gbJf5I/0JNy4yFoPcJGzVTBEk1WPkWaGV1T4
- wquDB6BUxdxuyPioYgb2fmQY10zZU7bAuQ/TZBfcqfgSuk8zgvaH2iO/gQgYi2GVI44V
- DBghUv27nFcQNaXoGTGwAAWJGHDYwTe0SHXwxVwVlbpUNoYb4Ke/tP2+iXx8HAwLYVRu
- 8p+ZNGFmeMZoTVwcz6L/z1cjJ4cbxLUmwShH4Tkcptgoj1nhlT0MGqWgCxMDtv0YVEPU
- WBsA==
-X-Gm-Message-State: AOJu0YyAQ/Fa95zjHBSNZ69U5ISb35qbwr95TkzT+90wo0qyWAxQvYyR
- RiwRrWK17eMAJ7BRADHloMOCQRar5vngE/THGubdsw==
-X-Google-Smtp-Source: AGHT+IFRfpykRqgBWNCOXyp4/VIT9n7OcqngEslUuXORQ+jDqZ50qQ8GNzo4lC3gCBtUGRfNYYENwfnNi6aElAPXvi8=
-X-Received: by 2002:a05:6102:475a:b0:45d:86d0:27 with SMTP id
- ej26-20020a056102475a00b0045d86d00027mr11736495vsb.33.1699386816008; Tue, 07
- Nov 2023 11:53:36 -0800 (PST)
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15BA510E68A
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 20:01:39 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r0SGV-0008C6-Vx; Tue, 07 Nov 2023 21:01:36 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r0SGU-007MtR-VY; Tue, 07 Nov 2023 21:01:34 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r0SGU-00En5h-M9; Tue, 07 Nov 2023 21:01:34 +0100
+Date: Tue, 7 Nov 2023 21:01:34 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH 02/22] fb: atmel_lcdfb: Stop using platform_driver_probe()
+Message-ID: <20231107200134.jsowrcruisrtnspw@pengutronix.de>
+References: <20231107091740.3924258-1-u.kleine-koenig@pengutronix.de>
+ <20231107091740.3924258-3-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-References: <ZUk03DhWxV-bOFJL@google.com>
- <19129763-6f74-4b04-8a5f-441255b76d34@kernel.org>
- <CAHS8izMrnVUfbbS=OcJ6JT9SZRRfZ2MC7UnggthpZT=zf2BGLA@mail.gmail.com>
- <ZUlhu4hlTaqR3CTh@google.com>
- <CAHS8izMaAhoae5ChnzO4gny1cYYnqV1cB8MC2cAF3eoyt+Sf4A@mail.gmail.com>
- <ZUlvzm24SA3YjirV@google.com>
- <CAHS8izMQ5Um_ScY0VgAjaEaT-hRh4tFoTgc6Xr9Tj5rEj0fijA@mail.gmail.com>
- <CAKH8qBsbh8qYxNHZ6111RQFFpNWbWZtg0LDXkn15xcsbAq4R6w@mail.gmail.com>
- <CAF=yD-+BuKXoVL8UF+No1s0TsHSzBTz7UrB1Djt_BrM74uLLcg@mail.gmail.com>
- <CAHS8izNxKHhW5uCqmfau6n3c18=hE3RXzA+ng5LEGiKj12nGcg@mail.gmail.com>
- <ZUmNk98LyO_Ntcy7@google.com>
-In-Reply-To: <ZUmNk98LyO_Ntcy7@google.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 7 Nov 2023 11:53:22 -0800
-Message-ID: <CAHS8izNTDsHTahkd17zQVQnjzniZAk-dKNs-Mq0E4shdrXOJbg@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 09/12] net: add support for skbs with unreadable
- frags
-To: Stanislav Fomichev <sdf@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="sjmfdg57sgsypwrr"
+Content-Disposition: inline
+In-Reply-To: <20231107091740.3924258-3-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,73 +55,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
- Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, kernel@pengutronix.de,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 6, 2023 at 5:06=E2=80=AFPM Stanislav Fomichev <sdf@google.com> =
-wrote:
-[..]
-> > > > And the socket has to know this association; otherwise those tokens
-> > > > are useless since they don't carry anything to identify the dmabuf.
-> > > >
-> > > > I think my other issue with MSG_SOCK_DEVMEM being on recvmsg is tha=
-t
-> > > > it somehow implies that I have an option of passing or not passing =
-it
-> > > > for an individual system call.
-> >
-> > You do have the option of passing it or not passing it per system
-> > call. The MSG_SOCK_DEVMEM says the application is willing to receive
-> > devmem cmsgs - that's all. The application doesn't get to decide
-> > whether it's actually going to receive a devmem cmsg or not, because
-> > that's dictated by the type of skb that is present in the receive
-> > queue, and not up to the application. I should explain this in the
-> > commit message...
->
-> What would be the case of passing it or not passing it? Some fallback to
-> the host memory after flow steering update? Yeah, would be useful to
-> document those constrains. I'd lean on starting stricter and relaxing
-> those conditions if we find the use-cases.
->
 
-MSG_SOCK_DEVMEM (or its replacement SOCK_DEVMEM or SO_SOCK_DEVMEM),
-just says that the application is able to receive devmem cmsgs and
-will parse them. The use case for not setting that flag is existing
-applications that are not aware of devmem cmsgs. I don't want those
-applications to think they're receiving data in the linear buffer only
-to find out that the data is in devmem and they ignored the devmem
-cmsg.
+--sjmfdg57sgsypwrr
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So, what happens:
+On Tue, Nov 07, 2023 at 10:17:43AM +0100, Uwe Kleine-K=F6nig wrote:
+> On today's platforms the benefit of platform_driver_probe() isn't that
+> relevant any more. It allows to drop some code after booting (or module
+> loading) for .probe() and discard the .remove() function completely if
+> the driver is built-in. This typically saves a few 100k.
+>=20
+> The downside of platform_driver_probe() is that the driver cannot be
+> bound and unbound at runtime which is ancient and also slightly
+> complicates testing. There are also thoughts to deprecate
+> platform_driver_probe() because it adds some complexity in the driver
+> core for little gain. Also many drivers don't use it correctly. This
+> driver for example misses to mark the driver struct with __refdata which
+> is needed to suppress a (W=3D1) modpost warning:
+>=20
+> 	WARNING: modpost: drivers/video/fbdev/atmel_lcdfb: section mismatch in r=
+eference: atmel_lcdfb_driver+0x4 (section: .data) -> atmel_lcdfb_remove (se=
+ction: .exit.text)
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> ---
+>  drivers/video/fbdev/atmel_lcdfb.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/video/fbdev/atmel_lcdfb.c b/drivers/video/fbdev/atme=
+l_lcdfb.c
+> index a908db233409..b218731ef732 100644
+> --- a/drivers/video/fbdev/atmel_lcdfb.c
+> +++ b/drivers/video/fbdev/atmel_lcdfb.c
+> @@ -1017,7 +1017,7 @@ static int atmel_lcdfb_of_init(struct atmel_lcdfb_i=
+nfo *sinfo)
+>  	return ret;
+>  }
+> =20
+> -static int __init atmel_lcdfb_probe(struct platform_device *pdev)
+> +static int atmel_lcdfb_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev =3D &pdev->dev;
+>  	struct fb_info *info;
+> @@ -1223,7 +1223,7 @@ static int __init atmel_lcdfb_probe(struct platform=
+_device *pdev)
+>  	return ret;
+>  }
+> =20
+> -static int __exit atmel_lcdfb_remove(struct platform_device *pdev)
+> +static int atmel_lcdfb_remove(struct platform_device *pdev)
+>  {
+>  	struct device *dev =3D &pdev->dev;
+>  	struct fb_info *info =3D dev_get_drvdata(dev);
+> @@ -1301,7 +1301,8 @@ static int atmel_lcdfb_resume(struct platform_devic=
+e *pdev)
+>  #endif
+> =20
+>  static struct platform_driver atmel_lcdfb_driver =3D {
+> -	.remove		=3D __exit_p(atmel_lcdfb_remove),
+> +	.probe		=3D atmel_lcdfb_probe,
+> +	.remove		=3D atmel_lcdfb_remove,
+>  	.suspend	=3D atmel_lcdfb_suspend,
+>  	.resume		=3D atmel_lcdfb_resume,
+>  	.driver		=3D {
+> @@ -1310,7 +1311,7 @@ static struct platform_driver atmel_lcdfb_driver =
+=3D {
+>  	},
+>  };
+> =20
+> -module_platform_driver_probe(atmel_lcdfb_driver, atmel_lcdfb_probe);
+> +module_platform_driver(atmel_lcdfb_driver, );
 
-- MSG_SOCK_DEVMEM provided and next skb in the queue is devmem:
-application receives cmsgs.
-- MSG_SOCK_DEVMEM provided and next skb in the queue is non-devmem:
-application receives in the linear buffer.
-- MSG_SOCK_DEVMEM not provided and net skb is devmem: application
-receives EFAULT.
-- MSG_SOCK_DEVMEM not provided and next skb is non-devmem: application
-receives in the linear buffer.
+Argh, the , must be removed. I had this in my working copy but forgot to
+squash it into this commit. Sorry!
 
-My bad on not including some docs about this. The next version should
-have the commit message beefed up to explain all this, or a docs
-patch.
+Can you squash in the following please?:
 
+diff --git a/drivers/video/fbdev/atmel_lcdfb.c b/drivers/video/fbdev/atmel_=
+lcdfb.c
+index 0531d6f6dcc5..88c75ae7d315 100644
+--- a/drivers/video/fbdev/atmel_lcdfb.c
++++ b/drivers/video/fbdev/atmel_lcdfb.c
+@@ -1308,8 +1308,7 @@ static struct platform_driver atmel_lcdfb_driver =3D {
+ 		.of_match_table	=3D atmel_lcdfb_dt_ids,
+ 	},
+ };
+-
+-module_platform_driver(atmel_lcdfb_driver, );
++module_platform_driver(atmel_lcdfb_driver);
+=20
+ MODULE_DESCRIPTION("AT91 LCD Controller framebuffer driver");
+ MODULE_AUTHOR("Nicolas Ferre <nicolas.ferre@atmel.com>");
+
+Best regards
+Uwe
 
 --=20
-Thanks,
-Mina
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--sjmfdg57sgsypwrr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVKl50ACgkQj4D7WH0S
+/k79igf+NcsaKUuX+n6J099hutP7e/6l1H4tbP734q1G0NfcM88RoImECYSikOS7
+kjD3nZNRkIZZI4wvwUHVDVWeG53uzR9j1/M92J2iPBbeixxiF7oJvpoDtySYTMxm
+J4KbgDb1F1cNXXfG5DhDv+Av7db0QVX1nWr8ClrN8OpXPg7RRLbDeve0DyVVNThx
+Wq/JyMW+UeucJCf+j/b9YS1+8F+cDCztNwmcQYxycRCKplItqkjnUyfHGFZYZzUg
+cN/S3Km57tPKwxKHxpKaVPIF9hFGFkZKKNTJaXA0PDPyxwGpFj/vATYlNNovFYhL
+X/hoC1DjhyzoIS6OBmwOsD9YX8AALg==
+=NGWh
+-----END PGP SIGNATURE-----
+
+--sjmfdg57sgsypwrr--
