@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45E97E3D9E
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:29:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 510307E3D9F
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:29:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B5E910E5AB;
-	Tue,  7 Nov 2023 12:29:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F6CF10E5AC;
+	Tue,  7 Nov 2023 12:29:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEDB610E5A3;
- Tue,  7 Nov 2023 12:29:47 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A3D610E5AC;
+ Tue,  7 Nov 2023 12:29:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 73701B8165B;
- Tue,  7 Nov 2023 12:29:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FDF6C433C7;
- Tue,  7 Nov 2023 12:29:44 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9C00D611FB;
+ Tue,  7 Nov 2023 12:29:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 299C4C433C7;
+ Tue,  7 Nov 2023 12:29:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699360185;
- bh=RQBd2PXDrZbS8s6bkX523kM3pf4EKY4c7HeXttE7ZVE=;
+ s=k20201202; t=1699360193;
+ bh=TopocSPAbf/BcmnmzvBXwJfFDgTQn2jt4LUo57c7e3k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=g7T7YBNjDZk1h8TW22AXdNGP/pZMC6FSTVVcQCOF9jpWgWVrZM0BF3brL656CEwdu
- DpUzbXWK47TixMZI+2jbSM9cvmi6rTKvF5v2rN+AWzfxt80AybXBkmCVERrffecVEj
- WvF9i42YC3thMZKG/+uFu6lmW7ZuFi2qol2vvwsnJqqKqPPKqPdS/IGzW4ulf40fTQ
- WrY9+YrMTy80XIwY+aNcJcnEDduWPMxJrLPXmQLBTfeK9IZDMLLqjqY4OPkVcPGYUz
- GoAURA1UKFPV+Bxk2Dd/imziaw6WHA6ncyfEgX9BfXMLJMisezrlBOi9wmGq0RP/2h
- eEcGXZV8tpaQw==
+ b=cLAlNoDSj0G0Z5kht+Y1Rcxf+ssuAQeBfQBkGs6F9lGsEAYnW5F0eh3wqOfeB69cN
+ Q/iX/nEz0C/KJRucoN/SY75e+VgNYQnyX+VTAcexagWyus+9afVJOTqzDIE8Bf9SX6
+ e65mryoDClDNzlxpSUa4vap85eDm/XmPU/9/ddMiO55tNEOuIcvOFkM3filQyii8xr
+ hJGy2wcmIUyBJthvdkApTF568vIwEFLe5eYoY8wJDngCLRHtnBKvdsmfuDm/B/idum
+ B2mR2YxNuVFRNrQN+HeuMhsx2IOIkq3LUMv/IeTCJJqXoZA+0u+VyKNJws7lbkzh+f
+ Jlp3mQ4R6dekQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 02/20] drm/amdkfd: Fix a race condition of vram
- buffer unref in svm code
-Date: Tue,  7 Nov 2023 07:28:56 -0500
-Message-ID: <20231107122940.3762228-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 03/20] drm/amd/display: use full update for clip
+ size increase of large plane source
+Date: Tue,  7 Nov 2023 07:28:57 -0500
+Message-ID: <20231107122940.3762228-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231107122940.3762228-1-sashal@kernel.org>
 References: <20231107122940.3762228-1-sashal@kernel.org>
@@ -55,54 +54,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Philip Yang <Philip.Yang@amd.com>,
- Xiaogang Chen <xiaogang.chen@amd.com>, Jesse Zhang <Jesse.Zhang@amd.com>,
- Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Felix.Kuehling@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ Qingqing.Zhuo@amd.com, Xinhui.Pan@amd.com, Wenjing Liu <wenjing.liu@amd.com>,
+ samson.tam@amd.com, chiawen.huang@amd.com,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, alvin.lee2@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, Jun Lei <jun.lei@amd.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xiaogang Chen <xiaogang.chen@amd.com>
+From: Wenjing Liu <wenjing.liu@amd.com>
 
-[ Upstream commit 709c348261618da7ed89d6c303e2ceb9e453ba74 ]
+[ Upstream commit 05b78277ef0efc1deebc8a22384fffec29a3676e ]
 
-prange->svm_bo unref can happen in both mmu callback and a callback after
-migrate to system ram. Both are async call in different tasks. Sync svm_bo
-unref operation to avoid random "use-after-free".
+[why]
+Clip size increase will increase viewport, which could cause us to
+switch  to MPC combine.
+If we skip full update, we are not able to change to MPC combine in
+fast update. This will cause corruption showing on the video plane.
 
-Signed-off-by: Xiaogang Chen <xiaogang.chen@amd.com>
-Reviewed-by: Philip Yang <Philip.Yang@amd.com>
-Reviewed-by: Jesse Zhang <Jesse.Zhang@amd.com>
-Tested-by: Jesse Zhang <Jesse.Zhang@amd.com>
+[how]
+treat clip size increase of a surface larger than 5k as a full update.
+
+Reviewed-by: Jun Lei <jun.lei@amd.com>
+Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Signed-off-by: Wenjing Liu <wenjing.liu@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 12 ++++++++++--
+ drivers/gpu/drm/amd/display/dc/dc.h      |  5 +++++
+ 2 files changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-index 22a70aaccf13c..b7d32a5062b6c 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-@@ -550,8 +550,15 @@ svm_range_vram_node_new(struct amdgpu_device *adev, struct svm_range *prange,
- 
- void svm_range_vram_node_free(struct svm_range *prange)
- {
--	svm_range_bo_unref(prange->svm_bo);
--	prange->ttm_res = NULL;
-+	/* serialize prange->svm_bo unref */
-+	mutex_lock(&prange->lock);
-+	/* prange->svm_bo has not been unref */
-+	if (prange->ttm_res) {
-+		prange->ttm_res = NULL;
-+		mutex_unlock(&prange->lock);
-+		svm_range_bo_unref(prange->svm_bo);
-+	} else
-+		mutex_unlock(&prange->lock);
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index ffe7479a047d8..3919e75fec16d 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -886,7 +886,8 @@ static bool dc_construct(struct dc *dc,
+ 	/* set i2c speed if not done by the respective dcnxxx__resource.c */
+ 	if (dc->caps.i2c_speed_in_khz_hdcp == 0)
+ 		dc->caps.i2c_speed_in_khz_hdcp = dc->caps.i2c_speed_in_khz;
+-
++	if (dc->caps.max_optimizable_video_width == 0)
++		dc->caps.max_optimizable_video_width = 5120;
+ 	dc->clk_mgr = dc_clk_mgr_create(dc->ctx, dc->res_pool->pp_smu, dc->res_pool->dccg);
+ 	if (!dc->clk_mgr)
+ 		goto fail;
+@@ -2053,6 +2054,7 @@ static enum surface_update_type get_plane_info_update_type(const struct dc_surfa
  }
  
- struct amdgpu_device *
+ static enum surface_update_type get_scaling_info_update_type(
++		const struct dc *dc,
+ 		const struct dc_surface_update *u)
+ {
+ 	union surface_update_flags *update_flags = &u->surface->update_flags;
+@@ -2087,6 +2089,12 @@ static enum surface_update_type get_scaling_info_update_type(
+ 			update_flags->bits.clock_change = 1;
+ 	}
+ 
++	if (u->scaling_info->src_rect.width > dc->caps.max_optimizable_video_width &&
++		(u->scaling_info->clip_rect.width > u->surface->clip_rect.width ||
++		 u->scaling_info->clip_rect.height > u->surface->clip_rect.height))
++		 /* Changing clip size of a large surface may result in MPC slice count change */
++		update_flags->bits.bandwidth_change = 1;
++
+ 	if (u->scaling_info->src_rect.x != u->surface->src_rect.x
+ 			|| u->scaling_info->src_rect.y != u->surface->src_rect.y
+ 			|| u->scaling_info->clip_rect.x != u->surface->clip_rect.x
+@@ -2124,7 +2132,7 @@ static enum surface_update_type det_surface_update(const struct dc *dc,
+ 	type = get_plane_info_update_type(u);
+ 	elevate_update_type(&overall_type, type);
+ 
+-	type = get_scaling_info_update_type(u);
++	type = get_scaling_info_update_type(dc, u);
+ 	elevate_update_type(&overall_type, type);
+ 
+ 	if (u->flip_addr)
+diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+index e0f58fab5e8ed..09a8726c26399 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc.h
++++ b/drivers/gpu/drm/amd/display/dc/dc.h
+@@ -164,6 +164,11 @@ struct dc_caps {
+ 	uint32_t dmdata_alloc_size;
+ 	unsigned int max_cursor_size;
+ 	unsigned int max_video_width;
++	/*
++	 * max video plane width that can be safely assumed to be always
++	 * supported by single DPP pipe.
++	 */
++	unsigned int max_optimizable_video_width;
+ 	unsigned int min_horizontal_blanking_period;
+ 	int linear_pitch_alignment;
+ 	bool dcc_const_color;
 -- 
 2.42.0
 
