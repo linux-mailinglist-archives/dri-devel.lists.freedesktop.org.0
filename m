@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B1B07E3CBC
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:19:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A74447E3CBE
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:19:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9272D10E526;
-	Tue,  7 Nov 2023 12:19:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D467C10E520;
+	Tue,  7 Nov 2023 12:19:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75B8110E526;
- Tue,  7 Nov 2023 12:19:38 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B78410E527;
+ Tue,  7 Nov 2023 12:19:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 8A54FCE0E05;
- Tue,  7 Nov 2023 12:19:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ECB1C433C9;
- Tue,  7 Nov 2023 12:19:34 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id B1E0861005;
+ Tue,  7 Nov 2023 12:19:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55B36C433D9;
+ Tue,  7 Nov 2023 12:19:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699359575;
- bh=pHZF4xAPU87lfR/eyN0VX1XeTc37LcaLDLgqJaK+C+Q=;
+ s=k20201202; t=1699359580;
+ bh=Q6YYRvqRyl++sOeRzoU6OTGe8lg1e6BT3F7TEeVdgxQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FqFT6Pyt8o0y/vIjqBqVh6iKby4WiLnALDSYWhykGnZGH6qpGPN75G78SNvClrwOk
- 7t9UnV37/g1NAxqh3GziZgwGyZdd5+wYYKxtT+9X72jS4bmNzCAwOyJXEw640sqm0d
- 40a15SAaJgoKc6WU/ewaFcfZqI6jLMIULP5iyc6u8AE9RoC3jmfOPV6b2QRRckOt6V
- RYbg2GvNjNKKm0T1dh9l+3fnJZs5WaSRn2NnkbXqEWO0hTbKwfKcDcDDh0C9em37ki
- NFnhG4hrTqk6NL9aJtRXr1MtG5Ycl1pr4NazKJUYu5UWQMAcREDBEpyDTHFkYq//D+
- Sg1bn6w3SG0Ew==
+ b=Nd/Pk/F0YLDc0RBg2YWCH2ICD9kWUdyGb7Qygs5RIoDggA08chcfbqeheeeQXjHVv
+ k6Tjcrk3ADvRh6aapm0nGw2LCWT/9kjmzReKjjOVVdqcpzHhg4qIExYOQ/5EQ9cRaU
+ zEZN9hdyyUZlfUMnCWnBNuR/pbWclypqnn02vjjV9p/QD1/0p0WAtzXSXghC+uMvdm
+ ENlBJVwVijKJMO3be/jjoU3EQu0ISJA7AMSdWC2EA4Hozli0PI/rtpUoro/PwMz2pg
+ C2n9GuAicqRIIPf/3u0ovnza5c1F9ArRdEBI2AJ25+SajmhZ7gft7Oln3rlBzuV0Yl
+ 5xsPZI27TbgXw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 10/40] drm/amdkfd: Fix a race condition of vram
- buffer unref in svm code
-Date: Tue,  7 Nov 2023 07:16:12 -0500
-Message-ID: <20231107121837.3759358-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 11/40] drm/amdgpu: update retry times for psp vmbx
+ wait
+Date: Tue,  7 Nov 2023 07:16:13 -0500
+Message-ID: <20231107121837.3759358-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231107121837.3759358-1-sashal@kernel.org>
 References: <20231107121837.3759358-1-sashal@kernel.org>
@@ -54,54 +54,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Philip Yang <Philip.Yang@amd.com>,
- Xiaogang Chen <xiaogang.chen@amd.com>, Jesse Zhang <Jesse.Zhang@amd.com>,
- Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Felix.Kuehling@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tao Zhou <tao.zhou1@amd.com>, asad.kamal@amd.com, lijo.lazar@amd.com,
+ YiPeng.Chai@amd.com, mario.limonciello@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, candice.li@amd.com,
+ christian.koenig@amd.com, Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xiaogang Chen <xiaogang.chen@amd.com>
+From: Tao Zhou <tao.zhou1@amd.com>
 
-[ Upstream commit 709c348261618da7ed89d6c303e2ceb9e453ba74 ]
+[ Upstream commit fc598890715669ff794b253fdf387cd02b9396f8 ]
 
-prange->svm_bo unref can happen in both mmu callback and a callback after
-migrate to system ram. Both are async call in different tasks. Sync svm_bo
-unref operation to avoid random "use-after-free".
+Increase the retry loops and replace the constant number with macro.
 
-Signed-off-by: Xiaogang Chen <xiaogang.chen@amd.com>
-Reviewed-by: Philip Yang <Philip.Yang@amd.com>
-Reviewed-by: Jesse Zhang <Jesse.Zhang@amd.com>
-Tested-by: Jesse Zhang <Jesse.Zhang@amd.com>
+Signed-off-by: Tao Zhou <tao.zhou1@amd.com>
+Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/psp_v13_0.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-index bb16b795d1bc2..175090be3760c 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-@@ -628,8 +628,15 @@ svm_range_vram_node_new(struct kfd_node *node, struct svm_range *prange,
+diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v13_0.c b/drivers/gpu/drm/amd/amdgpu/psp_v13_0.c
+index 469eed084976c..52d80f286b3dd 100644
+--- a/drivers/gpu/drm/amd/amdgpu/psp_v13_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/psp_v13_0.c
+@@ -59,6 +59,9 @@ MODULE_FIRMWARE("amdgpu/psp_14_0_0_ta.bin");
+ /* Read USB-PD from LFB */
+ #define GFX_CMD_USB_PD_USE_LFB 0x480
  
- void svm_range_vram_node_free(struct svm_range *prange)
- {
--	svm_range_bo_unref(prange->svm_bo);
--	prange->ttm_res = NULL;
-+	/* serialize prange->svm_bo unref */
-+	mutex_lock(&prange->lock);
-+	/* prange->svm_bo has not been unref */
-+	if (prange->ttm_res) {
-+		prange->ttm_res = NULL;
-+		mutex_unlock(&prange->lock);
-+		svm_range_bo_unref(prange->svm_bo);
-+	} else
-+		mutex_unlock(&prange->lock);
- }
++/* Retry times for vmbx ready wait */
++#define PSP_VMBX_POLLING_LIMIT 20000
++
+ /* VBIOS gfl defines */
+ #define MBOX_READY_MASK 0x80000000
+ #define MBOX_STATUS_MASK 0x0000FFFF
+@@ -138,7 +141,7 @@ static int psp_v13_0_wait_for_vmbx_ready(struct psp_context *psp)
+ 	struct amdgpu_device *adev = psp->adev;
+ 	int retry_loop, ret;
  
- struct kfd_node *
+-	for (retry_loop = 0; retry_loop < 70; retry_loop++) {
++	for (retry_loop = 0; retry_loop < PSP_VMBX_POLLING_LIMIT; retry_loop++) {
+ 		/* Wait for bootloader to signify that is
+ 		   ready having bit 31 of C2PMSG_33 set to 1 */
+ 		ret = psp_wait_for(
 -- 
 2.42.0
 
