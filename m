@@ -1,110 +1,115 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318B07E4163
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 15:03:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E44217E418D
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 15:08:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A316610E5F7;
-	Tue,  7 Nov 2023 14:03:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74F8C10E5FB;
+	Tue,  7 Nov 2023 14:08:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 332 seconds by postgrey-1.36 at gabe;
- Tue, 07 Nov 2023 14:03:14 UTC
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E777E10E5FA
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 14:03:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1699365793; x=1699970593; i=deller@gmx.de;
- bh=p0n3xVOp9BeJAf/wjJtPJiFlqD7fJ/EeIppkkT97BkY=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
- In-Reply-To;
- b=CnZ0yLaC9EflX0H9iPBc7rGcX+qRzHen9UeTAheVDzaB3xOHzYssxqY15t07hsFv
- AH9QlGKWCc9BQ+zjSjpzvp6gsa5wnrHNXoH2///0fK3us827jdVLWqEWN0C/7Zznw
- IVzfHF4JPRNPPRnNXZEcB7xiwwqDVzbZTPUmg0TT8MQray8SKb4Ku6bQAtbxEHAfh
- ymE8vqvgjjoy+0kfAf+Hbhd9HeI3cTd5kJ+an4CPytqBD7xUu/XqQEp7yczmd49zs
- cRsgA6QKQR4bXcU98qdlXMby6O7AyKnHSI+pxDOScqfntdYeuWDc3KylRqD4x1oAo
- RyZ2Joa2kvIcGUhTdg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.157.202]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N7zFj-1rV0Qt2ENv-0154EG; Tue, 07
- Nov 2023 14:57:28 +0100
-Message-ID: <d23a19eb-6f13-407c-a09e-ce55fb903171@gmx.de>
-Date: Tue, 7 Nov 2023 14:57:27 +0100
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
+ [IPv6:2607:f8b0:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58A5010E5FB;
+ Tue,  7 Nov 2023 14:08:46 +0000 (UTC)
+Received: by mail-oi1-x22e.google.com with SMTP id
+ 5614622812f47-3b2f2b9a176so3595289b6e.0; 
+ Tue, 07 Nov 2023 06:08:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1699366125; x=1699970925; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=7E017EjOFXuP36pk8gKau3KQ8toNm0LyBtFmQTDZXes=;
+ b=Ic2uxL91W/13vx4vExe7m4ITqXttte5lnPCSSi/m5QAeaPt4koQJTP0QbKU2CEF9cF
+ cJE6Ncs7NsnRoRzKZ9NGKNKZSWsNjyLqyWq6Wui9fectSmOSNhwPaZtd46Kp7D5E6gXy
+ x6pdZETSvOE+V+C50cTLs4QBCQ6DmJjQlW1Hqi3TdVzxnS0FCd2gmsp4u1sMYNakBl/c
+ 5K9l431iZOc3PC8A61M1Og5U3joYV3+zyBCJF19pm4V0usfeS2OqWFO+6N5lkbP4yaCC
+ 7xlwIlP4Mj+92/OzxEywPu7V2p7TbNjpLbt3cY8bT3nTtas6gPMlVU4wNPe6EOP5N408
+ TC0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699366125; x=1699970925;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7E017EjOFXuP36pk8gKau3KQ8toNm0LyBtFmQTDZXes=;
+ b=DCy6LLRMm9Tfa5wpr+NdcAbt6McskwmwwvsD0NpJtBI3uIFWeVe4kk6ytcCwKiF5yA
+ xVOO/AYGFlwoeAex2g/VZNBdhORJa+DVIwApr/8WTNkr+JrmyOGfaOXszUGca7aGbcqj
+ NnrDQoPvFzaxXWrNFD/CThtNeiqyxvz8YCwvpQIOdp7qga/wsF0G1BtsMsJ8nwikRZzm
+ 4a3gDUXa56NXIToHXBkAadR9pxrHoOkwifzeF4usarXBih2xuBMFMLV3TA288AKiHLYH
+ a85jdNQP2tINJXf4KW+88ypGiDyo4VIIsXURCPV7hlNQtJ3EtOQY2xjqVJGPtP0RreqY
+ cJgQ==
+X-Gm-Message-State: AOJu0Yy5CHRRtpMOu5L6h2Ja5Tt473U8v6AFp0gBBwT0LwxRihWHW/OQ
+ ZWZs+kH2PXlWThR0aYP1nt0=
+X-Google-Smtp-Source: AGHT+IEv7qhraNCOHtaK5eQQRgR4wQeeTOv9HlDWpb8HARhYjVV4ooQ+6ZyIWGbKsX9A29dvpCkWkg==
+X-Received: by 2002:a05:6808:4189:b0:3a7:6d4a:fd78 with SMTP id
+ dj9-20020a056808418900b003a76d4afd78mr30432411oib.24.1699366125410; 
+ Tue, 07 Nov 2023 06:08:45 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ o15-20020a81de4f000000b0059f766f9750sm5537468ywl.124.2023.11.07.06.08.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Nov 2023 06:08:44 -0800 (PST)
+Message-ID: <98e8490e-6608-47a8-890c-f1fe894dac7f@roeck-us.net>
+Date: Tue, 7 Nov 2023 06:08:42 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/22] fb: handle remove callbacks in .exit.text and
- convert to .remove_new
+Subject: Re: [PATCH] drm/amd/pm: clean up redundant comparisons with 0
 Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-References: <20231107091740.3924258-1-u.kleine-koenig@pengutronix.de>
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20231107091740.3924258-1-u.kleine-koenig@pengutronix.de>
+To: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
+ evan.quan@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, skhan@linuxfoundation.org
+References: <20231107082910.92508-1-jose.pekkarinen@foxhound.fi>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20231107082910.92508-1-jose.pekkarinen@foxhound.fi>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:JN2iC4gf0zkfiA/NEAWl8Kgbg7aqYMvjyof2nBrypp5HNWUqwwd
- 2wNodxKU5c+r4FJhlxXAKBRq+r88f+ToXEDZ9lhHZnxaqU3aozBM42jE3V/SgO3Y9UYydGI
- FDr5foFxzcTGBmpzPYe3ugd8bkHxJqDIKcMHBCzMe6jFiHp1nLr8eV8i7CeScUaLoN78L+N
- tMKvFNQd+GxYKk+TPbHMA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:M9wm9ngG1D0=;aN8CIoRGRk678OPg6B4TG1jn5Yb
- e7Tp4YUy1Z8G0M8WLI3HN3f7BnBMJo2mu6PKg6jD3NEjgUqrZQVONobA1ACF5reoQH10n7CHX
- l2n7phlI3bhK3rvT5UBSMeG5ltVAJgyQ6//63dDESyalAt3J/lCc15oyfNMsTeYt/EJDW5eAI
- iXc11sT9IPQi39DoHZjqy1Z8SqYsLIobAtlPDOF6jmMJlP3S3gzOPUbfTH7bizg2eUs3soj7p
- S1oc4bwtXjLzWwjqWRraz3/FTUPXgS7Vhb2AvYM4mv1WGagjwXg1zKWKgHbu9kPL6yUvqsUVJ
- 23E9Tfd2q1ZKUE7Lrs1v6gm+Z0G/MvxxVMTEGrE+rLUSdXtjw9+7euC/N6YC93rwvKQxMqEFR
- 7dnnkhwbLP+y3rId9w1mlmqiWFY5V6oHe6rmRDrp+cl9hxOjX+skAyuHnIjxrsyyJWDKkog2x
- xKVZm/7qVb5uvgl5bLh0NWjIkxvw4LAQGMbcsQ+Fna+H79Nwj5/DMZz2837e0+KBbrfxMHxil
- A2DX/Fg3PQ+tNqPZYU7JH5863OGtl6UlnkYHYClchu0gsTQGIwTSlq7ygHbAvfWJtu88ChhFu
- kiIVB1ZhiBSA3E0MNpquK2iexnzWZ2kVS3tBvWZZhLnKVWI45/CD66u6GdoOqSVKtWNh2LwGw
- 3S2viiE8St65Tn/lDcnONQJV4Qd17s6THZRJrEmmuS96Et+2+foM1F+m92dB6+uX0s/EuV7MR
- qXgS2FIl3aZZU6SAZeDTSU4zMLYKmq+Is53IarhfSrY77KLPHhmq8mqrH64XsnMEE9IdYCTPv
- KuhJsR/HGVY4AFj+NdS7X4ftcvYrEw3YPTTr7/9tEoR4zSRn53Pir4NbqYe3EmL/6t0PbiU6N
- OV8ug8cUhifmJl6tcOujGyWb4MzZu6PjW0lmG/x4gBbcHirRZF5SEkbFYuAeNpxY+/G8OsYWO
- uk1LAkajiz9h+Ry0fE07CT5GzVE=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,63 +122,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Stephen Kitt <steve@sk2.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, dri-devel@lists.freedesktop.org,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, kernel@pengutronix.de,
- Atul Raut <rauji.raut@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Daniel Thompson <daniel.thompson@linaro.org>, linux-omap@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
+Cc: linux-hwmon@vger.kernel.org, jdelvare@suse.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel-mentees@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/7/23 10:17, Uwe Kleine-K=C3=B6nig wrote:
-> there are currently several platform drivers that have their .remove
-> callback defined in .exit.text. While this works fine, it comes with a
-> few downsides: Since commit f177cd0c15fc ("modpost: Don't let "driver"s
-> reference .exit.*") it triggers a modpost warning unless the driver
-> struct is marked with __refdata. None of the drivers in
-> drivers/video/fbdev get that right (which is understandable the warning
-> was added only recently). While it would be possible to add that marker,
-> that's also a bit ugly as this bypasses all other section checks that
-> modpost does. Having the remove callback in .exit.text also means that
-> the corresponding devices cannot be unbound at runtime which is
-> sometimes usefull for debugging purposes.
->
-> To fix the modpost warning I picked the progressive option and moved the
-> .remove() callbacks (and for two drivers also .probe()) into .text (i.e.
-> the default code section) and dropped .suppress_bind_attrs =3D true (whi=
-ch
-> is implicitly set for drivers using platform_driver_probe()).  Note even
-> though these patches fix a warning, it currently only happens with W=3D1=
-,
-> so this isn't urgent and there is no need to apply these before v6.7.
-> The next merge window is fine (although I wouldn't object an earlier
-> application of course :-) The alternative is to add the __refdata
-> marker, ideally with a comment describing the need. (See e.g. commit
-> 141626dbc2e6 ("rtc: sh: Mark driver struct with __refdata to prevent
-> section mismatch warning") .)
->
-> As a follow-up I converted the affected drivers to .remove_new(). There
-> was already a series doing this for the other drivers in
-> drivers/video/fb, but my coccinelle script missed these drivers as it
-> didn't handle
->
-> 	.remove =3D __exit_p(removefunc),
->
-> . See commit 5c5a7680e67b ("platform: Provide a remove callback that
-> returns no value") for an extended explanation and the eventual goal. I
-> considered creating a second series for this conversion, but as the
-> patches conflict I put all patches in a single series to make it easier
-> to apply it.
+On 11/7/23 00:29, José Pekkarinen wrote:
+> There is a couple of function return checks of functions that return
+> unsigned values, and local variables to hold them are also unsigned, so
+> checking if they are negative will always return false. This patch will
+> remove them, as well as the never reached code.
+> 
+> drivers/gpu/drm/amd/pm/amdgpu_pm.c:2801:5-8: WARNING: Unsigned expression compared with zero: val < 0
+> drivers/gpu/drm/amd/pm/amdgpu_pm.c:2814:5-8: WARNING: Unsigned expression compared with zero: val < 0
+> 
+> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
+> ---
+>   drivers/gpu/drm/amd/pm/amdgpu_pm.c | 4 ----
+>   1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> index 8bb2da13826f..e7bb1d324084 100644
+> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> @@ -2798,8 +2798,6 @@ static ssize_t amdgpu_hwmon_show_power_avg(struct device *dev,
+>   	unsigned int val;
+>   
+>   	val = amdgpu_hwmon_get_power(dev, AMDGPU_PP_SENSOR_GPU_AVG_POWER);
+> -	if (val < 0)
+> -		return val;
+>   
 
-Thanks Uwe!
+This is reporting errors returned from amdgpu_hwmon_get_power() as large integers.
 
-I've applied the series as-is to the fbdev for-next git tree.
-The patches look ok, and if they survive the next few days they will go
-upstream soon.
+Guenter
 
-Helge
+>   	return sysfs_emit(buf, "%u\n", val);
+>   }
+> @@ -2811,8 +2809,6 @@ static ssize_t amdgpu_hwmon_show_power_input(struct device *dev,
+>   	unsigned int val;
+>   
+>   	val = amdgpu_hwmon_get_power(dev, AMDGPU_PP_SENSOR_GPU_INPUT_POWER);
+> -	if (val < 0)
+> -		return val;
+>   
+>   	return sysfs_emit(buf, "%u\n", val);
+>   }
+
