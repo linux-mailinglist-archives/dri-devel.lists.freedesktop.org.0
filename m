@@ -1,70 +1,152 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 487327E37F8
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 10:38:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49EF77E3803
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 10:43:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7C0F10E4F8;
-	Tue,  7 Nov 2023 09:38:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF81D10E4FD;
+	Tue,  7 Nov 2023 09:43:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA7A210E4F8;
- Tue,  7 Nov 2023 09:38:48 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-50797cf5b69so7132156e87.2; 
- Tue, 07 Nov 2023 01:38:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699349927; x=1699954727; darn=lists.freedesktop.org;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=/K5pzRlXXfbxcPSGLE7pYoCCDi3B1t3FvoM1zXHkgvs=;
- b=ADoniatHUQ5V5ooWQwL6Xves4zjGhcgyu4FieX+asvzNe73ERZgRNNRSt3uDibJy3x
- r9RZV1AfyAx+RGZdrxv8ylztPYZ8JKLaSBm8gqy6lcWu+Yl95gyjW05SXRKMCZdija3B
- UV0f7kFv//70C3GiIsCmnom4+ZghAQ1W9KYjlH7XS0yLEsM13vB1TakjyMWsqXauJ5F8
- Fngk/19kjFRo3MlDKWPqZ165K8QTWqFrWjY1G2YHOeXZg28j993kw6EtOt5kp+0iyrhP
- WKrAdG+/MerYbe0zTyLAS32aFK9+YwBI6QEJq1Kkyay3Zjj+Y5/8OJcvF3C1i6hKv5JL
- SK6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699349927; x=1699954727;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/K5pzRlXXfbxcPSGLE7pYoCCDi3B1t3FvoM1zXHkgvs=;
- b=L/vXvEjHApPL7blx5IJYXOlLizDv7ujGXy4+vkhBmU9LfQXeyfm0Zh1DaP39KzhYRp
- Y6wo0whe2YjR3BnCsftQAjRX8yXtqnGKrbwJBsBX3Y/DpH8ekHAt/9PbV8cgVgYXwjo5
- 7ZuHluRw6x/Rv8we4e87fkdfzymVkiD0tLBzcAXchgU7CkwKiW4Y0PprdHsTf4WQRwQC
- TMOK0yCl5DWVBk2MeKyhSyhjzUZfUPwG0G3NxtMETeLApxfYsK7w/mRW3e0XRYSq/sCE
- 7Me/DZGIVwQMVOm9jrXkQ891BghpvkRJbIcihu7J4JoFIKM939vggTbwlm03mu9oYW82
- Nj4g==
-X-Gm-Message-State: AOJu0YzfH0i3+u0FOAuHp6YYBr9z1y3Tcjf47PX10yyHyvvWNHMxnLBF
- n6To+lzaqtS2HpskFc9Dv9o=
-X-Google-Smtp-Source: AGHT+IEVT+8JyEu5tzOyNGy/iRUnwSr4K3ZwvadGXKlCGggVTSqxPoz46KPdyrVBiLZbbj5azoxlrw==
-X-Received: by 2002:a05:6512:483:b0:509:4709:2104 with SMTP id
- v3-20020a056512048300b0050947092104mr11469181lfq.67.1699349926253; 
- Tue, 07 Nov 2023 01:38:46 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- u10-20020ac248aa000000b004fe1f1c0ee4sm292300lfg.82.2023.11.07.01.38.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Nov 2023 01:38:45 -0800 (PST)
-Date: Tue, 7 Nov 2023 11:38:32 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [RFC PATCH 01/10] drm/doc/rfc: Describe why prescriptive color
- pipeline is needed
-Message-ID: <20231107113832.79f38104@eldfell>
-In-Reply-To: <62d31e98-39e6-4c57-9495-d2cf169a6ab4@amd.com>
-References: <20230908150235.75918-1-harry.wentland@amd.com>
- <20230908150235.75918-2-harry.wentland@amd.com>
- <20230913142902.31a51b46@eldfell>
- <04754060-8f1c-4bf1-91bb-2e0305339b1c@amd.com>
- <20231020131752.488932a0@eldfell>
- <62d31e98-39e6-4c57-9495-d2cf169a6ab4@amd.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A012710E4FD
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 09:43:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699350205; x=1730886205;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=JatNkRCmbda0BCtOfhG8gzA4lTV1B3PgKZduElp/Rmc=;
+ b=jnfXhkUJfen3uwATp1hzKI1yYHKiJoDQNaoN6HcTxobktukExmbihAX0
+ fTwo30djOsKsmEah/STJuRQxpyYgraHnBqGuUMiOHqppN1lgdVQhgM5xp
+ EhQW/Lp751RwHLF0XnKXyIHPkkMX+D3jRKuAbEAP4z/6mabEkIG+Hir2V
+ shPXKG4QUO402pQt+wH0zvrSrPD6txb+yt2Q2Hn2OLl+lrYvQJN6srtDH
+ NpXkfuvw0dMeHbhMjoM2S2VDTz3taYwftD5m+LdQXCjpgFGLSUJA6NmOu
+ q8jf7uVdamur8opRAicvxM44z5ZCZJ3AhrImKDwOOB3hQ4iZe0sEu0eAc g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="368805756"
+X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; d="scan'208";a="368805756"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Nov 2023 01:43:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="797623099"
+X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; d="scan'208";a="797623099"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 07 Nov 2023 01:43:24 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Tue, 7 Nov 2023 01:43:23 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Tue, 7 Nov 2023 01:43:23 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Tue, 7 Nov 2023 01:43:23 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jMArxnotcDGGtPtmjTAeOo5Ass/Ion8jwVmURFwKZWbCvM2u6afN97CgF7eHoMAFyXmlCq+djq7shmyUaeU8FjvKzJ0ZUxkaTuvDpnIow3SpSHG/MkgaX1b4JqA7HLW7BB/2hX0BYUKBXZy1tOA2gK/DM7WzbSHY0s6c4BL4YqbrhJbVLSJM+2d3km9SgU+aJChwBnKdo9P98WQkXBiqqIH7fDQS7Di4Ob9vYez1CuxEOzgwzfliwRAUCcIWrgtp6Oa72C8cncvvWp5JhVZ/O2anjKvQllY7Uo7ezCaGAttN06bLw1ET9BJn5BiRwYJpfP9aGfJdyABKrw3TRjGmDg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UQXfaImjTAay7MUerMtmRFTM/vX08/oLJ2afefQN9kk=;
+ b=GJM05ocfePhXh4bbyQTlWalW3t3RNBu7N/h0owWiFnUTwl3B+xk6nqOXF2MXc9o4otcQ6mFiqBeqeldzKn8rWh6clVoejSB8PRh8xS+ee/XoQ/zmsFTAn5iUw1T7AXV+sBBxUlzMlbeZwtpi2pWhhaCQohyq/QuMH+WO3Zea3he/VkECGZIlrwWGULym0CpOhXQnU9CWpwziWVnZjcVtwe4Q8nwt+Z0STfbZb/jEtsSt4J0PH3OOac9iWb8jflYuHtTP92oqW2nDO55BeYOOd6tx/QvwhcnnxajhwTBPl7iMaU/zcPeA1QdjNbQ/vnapMkJM0W14mFlsnZG2a6ANfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB4243.namprd11.prod.outlook.com (2603:10b6:a03:1c8::16)
+ by LV3PR11MB8579.namprd11.prod.outlook.com (2603:10b6:408:1b6::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Tue, 7 Nov
+ 2023 09:43:22 +0000
+Received: from BY5PR11MB4243.namprd11.prod.outlook.com
+ ([fe80::7a89:778e:98ee:7cf7]) by BY5PR11MB4243.namprd11.prod.outlook.com
+ ([fe80::7a89:778e:98ee:7cf7%6]) with mapi id 15.20.6954.028; Tue, 7 Nov 2023
+ 09:43:22 +0000
+Message-ID: <26151ebd-ef87-49e6-a1c0-a7952c303971@intel.com>
+Date: Tue, 7 Nov 2023 10:43:18 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/4] drm/ttm/tests: Add tests for ttm_resource and
+ ttm_sys_man
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <cover.1697445193.git.karolina.stolarek@intel.com>
+ <eee845622930bbd02ded1b9c39531bfb86af690e.1697445193.git.karolina.stolarek@intel.com>
+ <727ee5c8-f6ed-416c-8561-1c2eb43a7192@amd.com>
+Content-Language: en-US
+From: Karolina Stolarek <karolina.stolarek@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <727ee5c8-f6ed-416c-8561-1c2eb43a7192@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: WA2P291CA0014.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1e::25) To BY5PR11MB4243.namprd11.prod.outlook.com
+ (2603:10b6:a03:1c8::16)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Uv0QocgLWCu0nkO01tulCoz";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4243:EE_|LV3PR11MB8579:EE_
+X-MS-Office365-Filtering-Correlation-Id: 824eac72-6c08-4007-e74f-08dbdf75fac0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /U9tKM/whq+CU4GkdlpU8N5loVfGya6uWpmVdxDNs8Vjpo7YSseP0x09csUudrZFphb4By5R0QDOUdTu3j7uPyrI/jRBlc4OuHBL1KCsgVWm5RbaGDN1pzFXpmOavdGCnfcs7oHVQOmFXrnvq5OJ7R5qtRfxAwb+n919JEzSjlu8HkWjHxbaaYQGsFB6qhpnenSWP2x8xW+INfwXrP8+v3wLuijuGkTCcf2xN7veOZCWx5GyAjvBBOjd2vB8yYs6A3ENPmWimB+gBj3RQpyvhc2DzdumMjGGnek03KiAVAVPoz9FE+VAJ/pjvVdIiz+OlBrMGSVADOUXxGw7J801bMmE6iKHpL/GF/fJnhdQrGfoyOGNKyC/93iLl6s+HsFLHN12jBFc0Xywr42KmZcOtP7RIVaJQnB/xEzsX8pajKnv0qAOe/xE5gb83nAVadJLyZGEte5P7VXHBrmWp+nmg7OGoVRYK8+JzcDHA+Oc11pILxW28wDpA0jMpmM7Rwy2tTVnDNCMI1RfoWnmh/4Uki4amx1EJA01444AcK33Dhr4b3qsU1Gyg97RWJHivJjNxBmIlXguzyA627ZcIK2FqfZdxv9/iS8tzeBxgijCcj9ycftnsgLF2VzXMag1NQIWaEFHZujkoOSr9ilfmCPvBA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB4243.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(39860400002)(396003)(376002)(346002)(136003)(230922051799003)(64100799003)(1800799009)(451199024)(186009)(2906002)(38100700002)(31686004)(4326008)(8676002)(8936002)(41300700001)(5660300002)(86362001)(82960400001)(31696002)(44832011)(6512007)(2616005)(6916009)(316002)(66476007)(66556008)(66946007)(53546011)(36916002)(6506007)(6666004)(26005)(6486002)(478600001)(36756003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VWdaS2tDdWsxYUg4L0JKdWNaNzFja21LdEkyYkUyWTdnUXJ2M0FSUU9JNUFN?=
+ =?utf-8?B?d0dzUEc0cDQ4cHhKUllvTEUySzlXZWNqUVB6QWN0UEtRZWQzcjZNcmJGWXh0?=
+ =?utf-8?B?OFkrRXVNSS9oOGo3SmlPNndBVEJJREMzMTk5VDdpeTQzRFRKVEtCWGxzZE1E?=
+ =?utf-8?B?OFN1VGliUzdWWVRpSDRqR2RmWjc2d094Sjdoa1FsT285VDdxVXc3WmZDa3Uv?=
+ =?utf-8?B?VEQ1eFhRYk42SzRnbU9mbUZOZjdBV2svTFhIdnk1RXBKTkFiVHhhT3RTZ05G?=
+ =?utf-8?B?Q0tKUHZWaHpvVTNEL3VocFduUHA2YkNNQk9rY0RQb3puYXpCZTBDcE9xS1d1?=
+ =?utf-8?B?WmREaUtHUW5zeWxQL0NGbVNaNVIxZ3NONDJXc053ZzAycGV5RFJHNGZ2T1I0?=
+ =?utf-8?B?K3NVTUJ3NWVLZ0NQZTRKU3Qxa2x0cEh1Zm1JRUJyYm44dTB2ZXZGL1Y4L21M?=
+ =?utf-8?B?NFBVdmFiVXFLWllCaTJhaFJrSzliSnJmOXk1aEp0S3dFTll6MXdGMU01clFC?=
+ =?utf-8?B?UlY2cHgwRjVwRkZ1WTBUeDIrTjNkTVlrQWJGeFFySW11Qzg0TS9hbm8yODMz?=
+ =?utf-8?B?R0tRbVhCTTZzT1VxR0Q0ejFjdS9nT3dNc0JEL1E3WEFJMFdyQm1KSnFsT3B6?=
+ =?utf-8?B?UzNyTVFReVlHcXYxQXJOZ1pmV2lkUXFzVGVZdWZvbXF3L0Z0SHgwWEpEWVRp?=
+ =?utf-8?B?S0N1bjRqN0tmRGtTclVIUFQxYzVZNDZOb1J4VWd2RXloRGxYVlZKcThTWmox?=
+ =?utf-8?B?OGN3STFhektKclpzaWhFYkM2ZWVxU2RnY0ZPMWx3MjVoeUY4KzI4V2JacHJN?=
+ =?utf-8?B?ZzVGQkcyK25Cc0ZZcWtLQjJiZXVHUU1adnBXWXhxcWQwY1d6RWFkS2ttTkJM?=
+ =?utf-8?B?WDJNakpyWjIvaEVobGtWY1ZZMGFxYXdHemwzcGRsa2pFMU1jY3pLVGQvZGJn?=
+ =?utf-8?B?Rm5RblJXMDYrN0V4VjdrRG9YRDYwSWhWQWU1L3cyOUZYYTZZWTF1Z0xDS3dD?=
+ =?utf-8?B?N0V3LzNhQWhvajlSSEE1QXNhRzkrNG56a0JZN0NyeFI0Y0psdXk0RUFiRTJv?=
+ =?utf-8?B?VWtsbzV3T2xQNGtzaUxUbUo0cnkrT0NJc3ZIVXVTb1poYlVnM0tRMmJoaU9E?=
+ =?utf-8?B?Q203U2RiOFRndFprOWFEcHllWVBjY3ZZYTdiTHJDYVZnSSs1Ris3Q0hSVDZ1?=
+ =?utf-8?B?OHJEUlROdXM5RkZETk5PM1h1RmJLY1dVOWJ6SDRXb293anZpL0RsMDR5QVFI?=
+ =?utf-8?B?UDI3RTVXSHhZVVlTRWNCL3FxYi9vazJzRHpxS0dOOU5ob0ZYUERSdjB4TDRq?=
+ =?utf-8?B?cW9WZCtLalNTMjc2MmtTK1NoZk12dUlmdWVsU3dLdUVUcXB1ZXQ5QWgrUmY0?=
+ =?utf-8?B?VXFjbThtNnRsSmNhV2lRVnJacUtRTTNHRDFhTGQvTEN4NmdySGtucktwT25H?=
+ =?utf-8?B?TVFRdkdSbWtjU2N2T1EvK2xHUTFaMXlXQXZGdnR4ZXhlempJYytRMGlLT1NE?=
+ =?utf-8?B?d0NQbFVsR3JYMWNUdzBqTXRPZjF2Zk1zM0FqV1M3Tjl3VkVOYWZTeFczRUQ4?=
+ =?utf-8?B?L3FkTCs0ckE0S2dWd3dySnBqaTZZbnBKSG1vSEpjV0wvL1RuNVVnanZiS0NQ?=
+ =?utf-8?B?ektkUDJIcVY3U0pKRy9zOUZIY1pwbDRDZ3BVd2ZSZWNUaW11aUQxTzZzWk1k?=
+ =?utf-8?B?aGp6SUoyN1VYbGJvRHZtU1BCWVgwbU9Qa0RMUXVvNEp6OTNLcUpMSkRTTWVY?=
+ =?utf-8?B?aEdkQ1U2WXFEeUtzcmtmQUp1Zm1oS0k3TllGbmo1aERIQytLa1YwTk1EajVa?=
+ =?utf-8?B?TnNFa2ZJMFI1Tmw5cjJaVE4rRDRZYVh6R2VzUWpka3hMMFFpUC9iMldtcjAz?=
+ =?utf-8?B?ekFBazAvTHJBNk9ncGJLQWhFbllwR0ZCbEtrNzYrVDBURXlHampiUE0xdzNo?=
+ =?utf-8?B?ZXpCRDNYSzFZQnprRWN3NXpYaDlzOGo2ZEVrMS9jSWo1YUhxUlQzRkRaakVX?=
+ =?utf-8?B?Y2x6b3ViektublRiRjBVd1Urd1A1RVhJVFVISGZLT1Y2VlZZam5neUZTYk92?=
+ =?utf-8?B?d3M1UUE4MnlqcURRNEg4WUdMSXVHZk9NOWRDQkFpcWdhTVd1ZFRYSTRHdmNv?=
+ =?utf-8?B?OWFZUkhPV2psRHI5aExOT1V2QTJMdllsQUNudWJNR0ZEMUpIaWplZHpaM1dF?=
+ =?utf-8?B?b2c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 824eac72-6c08-4007-e74f-08dbdf75fac0
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4243.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2023 09:43:21.8378 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9NK2pE75EMfTbxGU1pOVIbJ0BKDNI28U3e4HkHviD/jOJkznM5Zyt5OTcyNwZjBKi7LWSTw3/ULllolz6wdbIT3A2iklLE0N2F2QImRyd3k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8579
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,187 +159,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shashank Sharma <shashank.sharma@amd.com>,
- Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
- Xaver Hugl <xaver.hugl@gmail.com>, Melissa Wen <mwen@igalia.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <mdaenzer@redhat.com>,
- Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
- Victoria Brekenfeld <victoria@system76.com>, Aleix Pol <aleixpol@kde.org>,
- Naseer Ahmed <quic_naseer@quicinc.com>, wayland-devel@lists.freedesktop.org,
- Christopher Braga <quic_cbraga@quicinc.com>,
- Uma Shankar <uma.shankar@intel.com>, Joshua Ashton <joshua@froggi.es>
+Cc: Amaranath Somalapuram <Amaranath.Somalapuram@amd.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Uv0QocgLWCu0nkO01tulCoz
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 7.11.2023 10:34, Christian König wrote:
+> Am 16.10.23 um 10:52 schrieb Karolina Stolarek:
+>> diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c 
+>> b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+>> index 81661d8827aa..c605f010ea08 100644
+>> --- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+>> +++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+>> @@ -29,19 +29,42 @@ struct ttm_buffer_object *ttm_bo_kunit_init(struct 
+>> kunit *test,
+>>                           struct ttm_test_devices *devs,
+>>                           size_t size)
+>>   {
+>> -    struct drm_gem_object gem_obj = { .size = size };
+>> +    struct drm_gem_object gem_obj = { };
+>>       struct ttm_buffer_object *bo;
+>> +    int err;
+>>       bo = kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
+>>       KUNIT_ASSERT_NOT_NULL(test, bo);
+>>       bo->base = gem_obj;
+>> +    err = drm_gem_object_init(devs->drm, &bo->base, size);
+>> +    KUNIT_ASSERT_EQ(test, err, 0);
+>> +
+>>       bo->bdev = devs->ttm_dev;
+>> +    kref_init(&bo->kref);
+>>       return bo;
+>>   }
+>>   EXPORT_SYMBOL_GPL(ttm_bo_kunit_init);
+>> +struct ttm_place *ttm_place_kunit_init(struct kunit *test,
+>> +                       uint32_t mem_type, uint32_t flags,
+>> +                       size_t size)
+>> +{
+>> +    struct ttm_place *place;
+>> +
+>> +    place = kunit_kzalloc(test, sizeof(*place), GFP_KERNEL);
+>> +    KUNIT_ASSERT_NOT_NULL(test, place);
+>> +
+>> +    place->mem_type = mem_type;
+>> +    place->flags = flags;
+>> +    place->fpfn = size >> PAGE_SHIFT;
+>> +    place->lpfn = place->fpfn + (size >> PAGE_SHIFT);
+> 
+> What should that be good for here? Just to test fpfn and lpfn 
+> functionality?
+> 
+> If yes then I think that would be better in the test case and not the 
+> helper.
 
-On Mon, 6 Nov 2023 11:24:50 -0500
-Harry Wentland <harry.wentland@amd.com> wrote:
+OK, I'll move it to the test. And yes, that was my intention.
 
-> On 2023-10-20 06:17, Pekka Paalanen wrote:
-> > On Thu, 19 Oct 2023 10:56:29 -0400
-> > Harry Wentland <harry.wentland@amd.com> wrote:
-> >  =20
-> >> On 2023-09-13 07:29, Pekka Paalanen wrote: =20
-> >>> On Fri, 8 Sep 2023 11:02:26 -0400
-> >>> Harry Wentland <harry.wentland@amd.com> wrote:
-> >>>    =20
-> >>>> Signed-off-by: Harry Wentland <harry.wentland@amd.com> =20
-> >=20
-> > ...
-> >  =20
-> >>>> +COLOR_PIPELINE Plane Property
-> >>>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-> >>>> +
-> >>>> +Because we don't have existing KMS color properties in the pre-blen=
-ding
-> >>>> +portion of display pipelines (i.e. on drm_planes) we are introducing
-> >>>> +color pipelines here first. Eventually we'll want to use the same
-> >>>> +concept for the post-blending portion, i.e. drm_crtcs.   =20
-> >>>
-> >>> This paragraph might fit better in a cover letter.
-> >>>    =20
-> >>>> +
-> >>>> +Color Pipelines are created by a driver and advertised via a new
-> >>>> +COLOR_PIPELINE enum property on each plane. Values of the property
-> >>>> +always include '0', which is the default and means all color proces=
-sing
-> >>>> +is disabled. Additional values will be the object IDs of the first
-> >>>> +drm_colorop in a pipeline. A driver can create and advertise none, =
-one,
-> >>>> +or more possible color pipelines. A DRM client will select a color
-> >>>> +pipeline by setting the COLOR PIPELINE to the respective value.
-> >>>> +
-> >>>> +In the case where drivers have custom support for pre-blending color
-> >>>> +processing those drivers shall reject atomic commits that are tryin=
-g to
-> >>>> +set both the custom color properties, as well as the COLOR_PIPELINE=
-   =20
-> >>>
-> >>> s/set/use/ because one of them could be carried-over state from
-> >>> previous commits while not literally set in this one.
-> >>>    =20
-> >>>> +property.
-> >>>> +
-> >>>> +An example of a COLOR_PIPELINE property on a plane might look like =
-this::
-> >>>> +
-> >>>> +    Plane 10
-> >>>> +    =E2=94=9C=E2=94=80 "type": immutable enum {Overlay, Primary, Cu=
-rsor} =3D Primary
-> >>>> +    =E2=94=9C=E2=94=80 =E2=80=A6
-> >>>> +    =E2=94=94=E2=94=80 "color_pipeline": enum {0, 42, 52} =3D 0   =
-=20
-> >>>
-> >>> Enum values are string names. I presume the intention here is that the
-> >>> strings will never need to be parsed, and the uint64_t is always equal
-> >>> to the string representation, right?
-> >>>
-> >>> That needs a statement here. It differs from all previous uses of
-> >>> enums, and e.g. requires a little bit of new API in libweston's
-> >>> DRM-backend to handle since it has its own enums referring to the
-> >>> string names that get mapped to the uint64_t per owning KMS object.
-> >>>    =20
-> >>
-> >> I'm currently putting the DRM object ID in the "value" and use the
-> >> "name" as a descriptive name. =20
-> >=20
-> > Would that string name be UAPI? I mean, if userspace hardcodes and
-> > looks for that name, will that keep working? If it's descriptive then I
-> > would assume not, but for every enum existing so far the string name is
-> > UAPI.
-> >  =20
->=20
-> Yes, it's UAPI, as that's how userspace will set the property. The value
-> is still important to be able to find out which is the first colorop in
-> the pipeline.
+> Apart from that looks good of hand.
 
-Userspace will hardcode string names, look up the KMS uint64_t
-corresponding to it, and then use the uint64_t to program KMS.
+Thanks for taking a look!
 
-But for color pipeline objects, the initial idea was that we expect
-userspace to look through all available pipelines and see if any of
-them can express what userspace wants. This does not need the string
-name to be UAPI per se.
-
-Of course, it is easier if userspace can be hardcoded for a specific
-color pipeline, so all that matching and searching is avoided, but as a
-driver developer, do you want that?
-
-Or maybe the practical end result is the same regardless, because if a
-driver removes a pipeline on specific hardware and userspace cannot
-find another, that would be a kernel regression anyway.
-
-Then again, if userspace doesn't do the matching and searching, it'll
-likely struggle to work on different hardware. Driver developers would
-get requests to expose this and that specific pipeline. Is that an ok
-prospect?
-
-
-Thanks,
-pq
-
-
-> >>> struct drm_mode_property_enum {
-> >>> 	__u64 value;
-> >>> 	char name[DRM_PROP_NAME_LEN];
-> >>> };   =20
-> >>
-> >> This works well in IGT and gives us a nice descriptive name for
-> >> debugging, but I could consider changing this if it'd simplify
-> >> people's lives. =20
-> >=20
-> > It's nice if we can have a description string for each pipeline, but
-> > according to KMS UAPI conventions so far, userspace would look for the
-> > string name. I'm worried that could backfire to the kernel.
-> >=20
-> > Or, maybe we do want to make the string UAPI and accept that some
-> > userspace might look for it rather than an arrangement of colorops?
-> >=20
-> > Matching colorop sequences is "hard". A developer looking at pipelines,
-> > picking one, and hardcoding its name as a preferred choice would be too
-> > easy. "Works for my cards." IOW, if there is a useful looking string
-> > name, we can be sure that someone will depend on it.
-> >=20
-> >=20
-> > Thanks,
-> > pq
-> >  =20
-> >>>> +References
-> >>>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>>> +
-> >>>> +1. https://lore.kernel.org/dri-devel/QMers3awXvNCQlyhWdTtsPwkp5ie9b=
-ze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn4=
-88=3D@emersion.fr/
-> >>>> \ No newline at end of file   =20
-> >>>    =20
-> >> =20
-> >  =20
->=20
-
-
---Sig_/Uv0QocgLWCu0nkO01tulCoz
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVKBZgACgkQI1/ltBGq
-qqfc6w/7BWstLssPr487G2RX+U3QHqeJq7Wvqrl0Dinay06MTxk72Cz+ARDlhfrz
-mUq1x1sK5+SHMe23hGavQ+KwRImQ7BRVNgKcjwieFt1EGA4W2mCUle1L86yjZkAb
-1/ZEJMXzwT6j1fAIZlUcl+tg3iBlchiRqzzMIgA8a9wPsV+K5RvMHh8nJu6BXttw
-3zEFyYpM0KLt8jzxC5cjhkiGNH7Of15fyMiQU4B2yPh3F/Sa5D1iQNXYH6ZF8aXa
-zdStQuX8NV1vYDdcGLT610V40mA5VBoSx/XMhgD214UMxCqR38CUBkH/zYg1yDll
-/HcaMrwVjWJRoPyEP0aPaaZcejfV8Qq3+UEwiNJ4SC2UNuhjEtTzDe+9VOXtHyqV
-znf7WgosObeX2xb93P4aO3OZP1oiTPLzhanpkbOv/2o9aSSIOoH66UMMJV0zKjcU
-30/xhuuP6ORhC6ryTSXFrifNstziOjXswTfr74tsgrCTC70MC61ED8u448YnL+RE
-B8r39MPhAufa9PqU7ulJlL48LknD3vFWzU7Pbj4xIlRKQgVyBc3mfx+rbiZzHht1
-UPkslyezTs+dqGdkrKp5ILg0jJfSvKIXgwy5uanuRxZBAW60xDBrTXNU32FPfjqx
-I9wSesKmSQ0qQliVqR6FdIApCLahyePFUwxFH7EQOyGxf/jEKnE=
-=ctCd
------END PGP SIGNATURE-----
-
---Sig_/Uv0QocgLWCu0nkO01tulCoz--
+All the best,
+Karolina
