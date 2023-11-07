@@ -2,137 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8FC7E48AD
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 19:49:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C05F7E3CAF
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:18:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 882EA10E657;
-	Tue,  7 Nov 2023 18:49:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4B1210E510;
+	Tue,  7 Nov 2023 12:18:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDF1A10E63C;
- Tue,  7 Nov 2023 18:49:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699382967; x=1730918967;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=gGB/OCfcuranbB+FQI77DMT7oLy55xe3vnVo5GX7dlU=;
- b=mffBEZns0bQLnksVCYi33ZFsRiCETdjHU+oAkIc/+u+etvwq+t6+YeTF
- bvxfuVwVxtIP7H0vfvsDeX+SRdHMdIrHMEuMQGxxz+stmJm+e/YQLxkQQ
- VgwMGwroLAtF1WPtkWOlVskH0vNMx3c8ohFeQct9XQK0rudFSA0IgvEwj
- IdoIO3nCE4uFvL8ASUrj5YY4OnKLEKJB+lsuBvjbalZTsuRhPvQZ+NU9B
- dmxYnB0JvbRZUStP4VRcMe9Csp8e4EqjKGErXZU3A3wkb4Kjhbx9gr35n
- VvRaGJdRWS4QDNfJ5zmZxje/DTzu0T7K/bmrMice9wX5CHncX+kNLdOzJ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="453897595"
-X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; d="scan'208";a="453897595"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Nov 2023 10:49:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="853468360"
-X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; d="scan'208";a="853468360"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by FMSMGA003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 07 Nov 2023 10:49:25 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Tue, 7 Nov 2023 10:49:24 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Tue, 7 Nov 2023 10:49:24 -0800
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.41) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Tue, 7 Nov 2023 10:49:21 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bdJkKFWWvdBBy9gGGfsIKlq6/48lx8dhQ/CfgizqOQmSFfH5SkNSIPlihIAYZ44iq7kMtrzH0q9ICc3X5E65BouMNmf8RyI/oWKqqUJQPF+CofxTE9RWhjr4/EwcpnNcV1QIQVS+vTmxe1204cNdmkHH8Ej1v0KNK3fg1Z24CiBXiTuz7SXVe3gTbDffmdJlheeDhW1vGZYMNpQxz0Vu7mjpQKU9FbnPffe2bKf9slq+HT5UFJn21Nlty3DHK67U5qw/v71LJF6nxH85hbxBAQovjn1puzo8sEa5jF3wl/xkH7rEkwLfMEEOzkGv/rMSeJs7CkyBrtTYheb/xuPbHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PBuFGu5OicblmBjF9Fp8Jojt7Z0CSPEEZFVakwHTFpU=;
- b=cVMJYSK7KwngtrWxql9+Hzx2nSkET/TSlPMazYKqkR78T/oYgHf0/KMduwvHTb/sKQj5rE7qGor/vJzQf720BSBM5HpiJqQSjepHCEj04fRPWYrciDqomVBUv8xtKsRiOsFxcRar0IkzigGHrOgmebv40GrS1nMnJZZm4KrEvBZRNQ6KUl+j0EJJ6wLd9zlhsp/LOe/Q916T3CR2wG+tt4taBo6ZbOmOQsXRGemjFxfvFdzKtuEbINBh9+1T7m5dkJ9Kw/W01PAqYt7WTGRIedPEvQfziE0vx0kbv8M4hVC9FpwdUVyE55CUfdDK6H7Z+j85on2kCsTr0CbxrGJTEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by DM6PR11MB4563.namprd11.prod.outlook.com (2603:10b6:5:28e::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.29; Tue, 7 Nov
- 2023 18:49:18 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::3f66:aa7d:51d5:777]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::3f66:aa7d:51d5:777%7]) with mapi id 15.20.6954.028; Tue, 7 Nov 2023
- 18:49:17 +0000
-Date: Tue, 7 Nov 2023 11:48:32 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Luben Tuikov <ltuikov89@gmail.com>
-Subject: Re: [PATCH] drm/sched: Don't disturb the entity when in RR-mode
- scheduling
-Message-ID: <ZUokEKnPbLAAkCct@DUT025-TGLU.fm.intel.com>
-References: <bb7c307e-271c-4f4c-bdbc-7078972ba515@linux.intel.com>
- <20231107041020.10035-2-ltuikov89@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20231107041020.10035-2-ltuikov89@gmail.com>
-X-ClientProxiedBy: SJ0P220CA0019.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:41b::35) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B871010E510
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 12:18:42 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1DF35611F2;
+ Tue,  7 Nov 2023 12:18:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80386C433C9;
+ Tue,  7 Nov 2023 12:18:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1699359520;
+ bh=J/3qE52m5ujbae28UchBTLeMF8Q1rkfOwnOuwnq8srQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=gxKBsRl+/NZ+K7/Kqc7YByqBmL2Hyt87DsGKv2+Oqm/U2/eNblfhsVpwopKj8Zr5T
+ w3LzY4PGWlvVf5q3NYyjVj/lYNiYdGRABFi0EqBPtO61AJXdDbtw1oQpLTUvgmddRR
+ Dy9baE6yG1JKc4HpMLFhSdMRloIlWtzn+d9XG/fbA1Mfxy37ooAbGcgsw9xX0Voje7
+ 38YHFlfmr5kg31R5ge45cIQAl0WgfU2bfYQ90XpVgU+D5W7zX63JmM0JFpVyf3Rssn
+ TYOQ0FPM86xMycXD5E6vvr6/9CcpHvSdYn/2G1+re8ITofEy2GX5KVyt/1p7TcW//+
+ hpeC2+JFk8yTg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.6 01/40] drm/gma500: Fix call trace when
+ psb_gem_mm_init() fails
+Date: Tue,  7 Nov 2023 07:16:03 -0500
+Message-ID: <20231107121837.3759358-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DM6PR11MB4563:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9398f8d1-f857-447c-08d5-08dbdfc23ed7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SdD1kgipRAXb+HGxJvFEv8g6kbTObA1udfWB7Y29k3lBrm0Bw02+NCUF4K1hHevoQCtGNaCPX/3k7zJnSgmkeIAZNVu6ZzWVi0u8c0bQLNyawJ0oekxRZjEG4q8qEug5/i5M1UnQEanr184V062ewCvLtHhY1YXYHoDm9w1Tbz4Yzop+fboe8OspXytEq/Gt4CyYwmREH1G/GsKM+rpvzxRHmPZWBRPEzTJNBnEp+qw/R7vsrzjQwYIs5KsC23Wl5VfXcZvVSj4fRJmO8lMeS8ctXsA0qRWkmgn4cayFmgegMJGMauxnLdff6TuGts4o3qROCzUKistTomjyxaNf5jsNy2ieTzp0mVzjwk0QggK5Ia8t3v/qKhaNgu2TOtVfpmOv9k7xCbLwy3jbIsgmQ78Gkf6Dn3VICfUSOGXphDVjJnxKhJQi1rY2HwKB+Vj3ofxJWgGHaCrGrZ0WFBsxpi4jdtMc5pO4Gv+2HV5HbP8aXix58qxU6ZJUB4eJqsjoUvk3osr/dTxQXLwaEoEU6QZLQdapB7uW2Kz/IhRjBxGCHDgOcHPKT+C/dSwFDP8X
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(396003)(39860400002)(376002)(346002)(136003)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(83380400001)(6666004)(8676002)(4326008)(8936002)(6506007)(66946007)(6486002)(38100700002)(6916009)(66476007)(316002)(66556008)(478600001)(26005)(2906002)(86362001)(5660300002)(7416002)(41300700001)(44832011)(6512007)(82960400001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aB15BnQd8j/y2ml+lqplgzMsTnWduWZIJf0BsChvzjhskBjbMRj3FziaAOyX?=
- =?us-ascii?Q?jLcUwzLziOzPZlMOlp88eeT8q8/mKoGfkGy3dWazsO23BX8GaufFqAfabet/?=
- =?us-ascii?Q?TCL1Jf2Wo0QAI8dOv4Cz9FdjmvPyT0IsfftA+DBm/vUJ84mRK9eS0erS3web?=
- =?us-ascii?Q?0F3xuAqiK0BPw/8t0PKShkx9UvFGsHDiVXrWg9GM727XHGv5CX87s/kBLXji?=
- =?us-ascii?Q?bX40pgRfQiUFxRW8YSIMX8lSutE+aTfk9H0wePKLUUItrozE5RQNUsVSZT1F?=
- =?us-ascii?Q?Cl4oKtRYOcgwHFMGp42USFLFBhc62/A1WicndU0LgGOhKrI3kou0sbqBvdJr?=
- =?us-ascii?Q?5L1uhAZQsQMRnWxpDrXzbtf7Pj2PZIYV0zyAiudO+JRXcJw1f1kDBJJIMbHW?=
- =?us-ascii?Q?5xQ9oITuofl5W6WdlNOqPwvUciRYzQPVUztdtiqN4/4alJFeQa+Wma0Aw2qT?=
- =?us-ascii?Q?ByLOx3OtwhmPNLaof5sWzFOVhyk9P694LFG3bTRFUpVBQklzKRckKxSopxuC?=
- =?us-ascii?Q?aSIFxBAOtoQjigvRICGPxGQZ+RGfjWDvhHdh8ptOadz1ZGkmnmymdFwmoWi5?=
- =?us-ascii?Q?UVb0qnmLOFihvzV2QszyMk7UPMMwtxirnoNe4Pi0ZzaRfNNaT0Rrb2BD01cJ?=
- =?us-ascii?Q?08TNmKYmzYa2Qmy1UE8OgHKE+syZnxxDUu3QHl6tjAyfLaovk3LqQeqTA4XJ?=
- =?us-ascii?Q?ESGMHVjcICj7U4/ZJ1WhDJVVGKfweOFrHA+rBx6KCfpLgxRMC0NkEbLONvux?=
- =?us-ascii?Q?KeO7k7nnQ/M1LmjBDx3qQvBGJp+3UuN9A/tA1XhoMX2stq+R15f2NjZFlTNT?=
- =?us-ascii?Q?H6MnsmO6wMyRqZ6jDD7YH1DFVXfbEgELtaWMYfBpcP3C745n/ydalzVSW5LR?=
- =?us-ascii?Q?PRHdjPPrOAs1TKQUPdG+KoEOiPwN5YJYOC8VhnUekiFmtlutp4C3Gi2GNAna?=
- =?us-ascii?Q?49wCnHmEBLZ6hRJrqzFU8insldldym2mQriY4U545q2WZlDSX5glRrExDTEI?=
- =?us-ascii?Q?ekh7KTI6cZno7UPr0E+F0a3EJxKy7I6WYWJiHf3ZlKQPxVaHwVLd3dg099Jy?=
- =?us-ascii?Q?TgmUZg4a1uDYjSGUN6R+G/M+y+HZX36aLDgQcEcjtvOK4NkPFYxck6UKYgWK?=
- =?us-ascii?Q?ZOtkYsd3mHFDPKq3Tk/rxTYjUA6EshqPCSBPATRNG3WkwnVgeqYUdow4sDPG?=
- =?us-ascii?Q?AGi80C/uv5oS/Tu3/cBkJPxyUs6CGz6MsBdeUHP2tAPRcOUv0YE0/B4bWNdc?=
- =?us-ascii?Q?mH7V2Z2Bc5w2t6G92hcv5yz+kgAJImqiR+OvfEONljp+eoFno7iBvWEQDHTE?=
- =?us-ascii?Q?YBGEyHpeuZJ8pcCgAU1YIAShg5bAXLCj9zc85+RvouPapb1vNuHJw7XUAWTu?=
- =?us-ascii?Q?1IOf5JfOi6Hvb1QRol5Cp95zNRIIEOFCuzE64A9/byoIoVA6t0iKrsnhcWIG?=
- =?us-ascii?Q?eeQb2pKY9n6oDtfrrUojJBRvYB+n6EpUL0vKBIXtYZI8dQfmywf9wUfutvLk?=
- =?us-ascii?Q?lfpHgD17TT0xCTP6wHI/XY3+nfTNU6oaSoxPtkhJjKbE77hf93U223KjzTIJ?=
- =?us-ascii?Q?A/nR2O866FUenvi2mTZC8uPf5FD/NrqnmeVSvHP0JpmGnzMDpRhohA3sk7M2?=
- =?us-ascii?Q?sg=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9398f8d1-f857-447c-08d5-08dbdfc23ed7
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2023 18:49:17.6252 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B9USqg37JJZSAtBMhmZ9giPGGQNVaQZD/uxdP3sKX/FIqoFkwsHb/aIGvLUjRuypAesbcIZnznOjHqmwDsjd5g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4563
-X-OriginatorOrg: intel.com
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.6
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,91 +53,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, tvrtko.ursulin@linux.intel.com,
- sarah.walker@imgtec.com, ltuikov@yahoo.com, ketil.johnsen@arm.com,
- lina@asahilina.net, mcanal@igalia.com, Liviu.Dudau@arm.com,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- boris.brezillon@collabora.com, dakr@redhat.com, donald.robson@imgtec.com,
- christian.koenig@amd.com, faith.ekstrand@collabora.com
+Cc: Sasha Levin <sashal@kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>,
+ dri-devel@lists.freedesktop.org, mripard@kernel.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 06, 2023 at 11:10:21PM -0500, Luben Tuikov wrote:
-> Don't call drm_sched_select_entity() in drm_sched_run_job_queue().  In fact,
-> rename __drm_sched_run_job_queue() to just drm_sched_run_job_queue(), and let
-> it do just that, schedule the work item for execution.
-> 
-> The problem is that drm_sched_run_job_queue() calls drm_sched_select_entity()
-> to determine if the scheduler has an entity ready in one of its run-queues,
-> and in the case of the Round-Robin (RR) scheduling, the function
-> drm_sched_rq_select_entity_rr() does just that, selects the _next_ entity
-> which is ready, sets up the run-queue and completion and returns that
-> entity. The FIFO scheduling algorithm is unaffected.
-> 
-> Now, since drm_sched_run_job_work() also calls drm_sched_select_entity(), then
-> in the case of RR scheduling, that would result in drm_sched_select_entity()
-> having been called twice, which may result in skipping a ready entity if more
-> than one entity is ready. This commit fixes this by eliminating the call to
-> drm_sched_select_entity() from drm_sched_run_job_queue(), and leaves it only
-> in drm_sched_run_job_work().
-> 
-> v2: Rebased on top of Tvrtko's renames series of patches. (Luben)
->     Add fixes-tag. (Tvrtko)
-> 
-> Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
-> Fixes: f7fe64ad0f22ff ("drm/sched: Split free_job into own work item")
+From: Sui Jingfeng <suijingfeng@loongson.cn>
 
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+[ Upstream commit da596080b2b400c50fe9f8f237bcaf09fed06af8 ]
 
-> ---
->  drivers/gpu/drm/scheduler/sched_main.c | 16 +++-------------
->  1 file changed, 3 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 27843e37d9b769..cd0dc3f81d05f0 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -256,10 +256,10 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
->  }
->  
->  /**
-> - * __drm_sched_run_job_queue - enqueue run-job work
-> + * drm_sched_run_job_queue - enqueue run-job work
->   * @sched: scheduler instance
->   */
-> -static void __drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
-> +static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
->  {
->  	if (!READ_ONCE(sched->pause_submit))
->  		queue_work(sched->submit_wq, &sched->work_run_job);
-> @@ -928,7 +928,7 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched)
->  void drm_sched_wakeup(struct drm_gpu_scheduler *sched)
->  {
->  	if (drm_sched_can_queue(sched))
-> -		__drm_sched_run_job_queue(sched);
-> +		drm_sched_run_job_queue(sched);
->  }
->  
->  /**
-> @@ -1040,16 +1040,6 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
->  }
->  EXPORT_SYMBOL(drm_sched_pick_best);
->  
-> -/**
-> - * drm_sched_run_job_queue - enqueue run-job work if there are ready entities
-> - * @sched: scheduler instance
-> - */
-> -static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
-> -{
-> -	if (drm_sched_select_entity(sched))
-> -		__drm_sched_run_job_queue(sched);
-> -}
-> -
->  /**
->   * drm_sched_free_job_work - worker to call free_job
->   *
-> 
-> base-commit: 27d9620e9a9a6bc27a646b464b85860d91e21af3
-> -- 
-> 2.42.1
-> 
+Because the gma_irq_install() is call after psb_gem_mm_init() function,
+when psb_gem_mm_init() fails, the interrupt line haven't been allocated.
+Yet the gma_irq_uninstall() is called in the psb_driver_unload() function
+without checking if checking the irq is registered or not.
+
+The calltrace is appended as following:
+
+[   20.539253] ioremap memtype_reserve failed -16
+[   20.543895] gma500 0000:00:02.0: Failure to map stolen base.
+[   20.565049] ------------[ cut here ]------------
+[   20.565066] Trying to free already-free IRQ 16
+[   20.565087] WARNING: CPU: 1 PID: 381 at kernel/irq/manage.c:1893 free_irq+0x209/0x370
+[   20.565316] CPU: 1 PID: 381 Comm: systemd-udevd Tainted: G         C         6.5.0-rc1+ #368
+[   20.565329] Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M./IMB-140D Plus, BIOS P1.10 11/18/2013
+[   20.565338] RIP: 0010:free_irq+0x209/0x370
+[   20.565357] Code: 41 5d 41 5e 41 5f 5d 31 d2 89 d1 89 d6 89 d7 41 89 d1 c3 cc cc cc cc 8b 75 d0 48 c7 c7 e0 77 12 9f 4c 89 4d c8 e8 57 fe f4 ff <0f> 0b 48 8b 75 c8 4c 89 f7 e8 29 f3 f1 00 49 8b 47 40 48 8b 40 78
+[   20.565369] RSP: 0018:ffffae3b40733808 EFLAGS: 00010046
+[   20.565382] RAX: 0000000000000000 RBX: ffff9f8082bfe000 RCX: 0000000000000000
+[   20.565390] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+[   20.565397] RBP: ffffae3b40733840 R08: 0000000000000000 R09: 0000000000000000
+[   20.565405] R10: 0000000000000000 R11: 0000000000000000 R12: ffff9f80871c3100
+[   20.565413] R13: ffff9f80835d3360 R14: ffff9f80835d32a4 R15: ffff9f80835d3200
+[   20.565424] FS:  00007f13d36458c0(0000) GS:ffff9f8138880000(0000) knlGS:0000000000000000
+[   20.565434] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   20.565441] CR2: 00007f0d046f3f20 CR3: 0000000006c8c000 CR4: 00000000000006e0
+[   20.565450] Call Trace:
+[   20.565458]  <TASK>
+[   20.565470]  ? show_regs+0x72/0x90
+[   20.565488]  ? free_irq+0x209/0x370
+[   20.565504]  ? __warn+0x8d/0x160
+[   20.565520]  ? free_irq+0x209/0x370
+[   20.565536]  ? report_bug+0x1bb/0x1d0
+[   20.565555]  ? handle_bug+0x46/0x90
+[   20.565572]  ? exc_invalid_op+0x19/0x80
+[   20.565587]  ? asm_exc_invalid_op+0x1b/0x20
+[   20.565607]  ? free_irq+0x209/0x370
+[   20.565625]  ? free_irq+0x209/0x370
+[   20.565644]  gma_irq_uninstall+0x15b/0x1e0 [gma500_gfx]
+[   20.565728]  psb_driver_unload+0x27/0x190 [gma500_gfx]
+[   20.565800]  psb_pci_probe+0x5d2/0x790 [gma500_gfx]
+[   20.565873]  local_pci_probe+0x48/0xb0
+[   20.565892]  pci_device_probe+0xc8/0x280
+[   20.565912]  really_probe+0x1d2/0x440
+[   20.565929]  __driver_probe_device+0x8a/0x190
+[   20.565944]  driver_probe_device+0x23/0xd0
+[   20.565957]  __driver_attach+0x10f/0x220
+[   20.565971]  ? __pfx___driver_attach+0x10/0x10
+[   20.565984]  bus_for_each_dev+0x7a/0xe0
+[   20.566002]  driver_attach+0x1e/0x30
+[   20.566014]  bus_add_driver+0x127/0x240
+[   20.566029]  driver_register+0x64/0x140
+[   20.566043]  ? __pfx_psb_init+0x10/0x10 [gma500_gfx]
+[   20.566111]  __pci_register_driver+0x68/0x80
+[   20.566128]  psb_init+0x2c/0xff0 [gma500_gfx]
+[   20.566194]  do_one_initcall+0x46/0x330
+[   20.566214]  ? kmalloc_trace+0x2a/0xb0
+[   20.566233]  do_init_module+0x6a/0x270
+[   20.566250]  load_module+0x207f/0x23a0
+[   20.566278]  init_module_from_file+0x9c/0xf0
+[   20.566293]  ? init_module_from_file+0x9c/0xf0
+[   20.566315]  idempotent_init_module+0x184/0x240
+[   20.566335]  __x64_sys_finit_module+0x64/0xd0
+[   20.566352]  do_syscall_64+0x59/0x90
+[   20.566366]  ? ksys_mmap_pgoff+0x123/0x270
+[   20.566378]  ? __secure_computing+0x9b/0x110
+[   20.566392]  ? exit_to_user_mode_prepare+0x39/0x190
+[   20.566406]  ? syscall_exit_to_user_mode+0x2a/0x50
+[   20.566420]  ? do_syscall_64+0x69/0x90
+[   20.566433]  ? do_syscall_64+0x69/0x90
+[   20.566445]  ? do_syscall_64+0x69/0x90
+[   20.566458]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8
+[   20.566472] RIP: 0033:0x7f13d351ea3d
+[   20.566485] Code: 5b 41 5c c3 66 0f 1f 84 00 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d c3 a3 0f 00 f7 d8 64 89 01 48
+[   20.566496] RSP: 002b:00007ffe566c1fd8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+[   20.566510] RAX: ffffffffffffffda RBX: 000055e66806eec0 RCX: 00007f13d351ea3d
+[   20.566519] RDX: 0000000000000000 RSI: 00007f13d36d9441 RDI: 0000000000000010
+[   20.566527] RBP: 0000000000020000 R08: 0000000000000000 R09: 0000000000000002
+[   20.566535] R10: 0000000000000010 R11: 0000000000000246 R12: 00007f13d36d9441
+[   20.566543] R13: 000055e6681108c0 R14: 000055e66805ba70 R15: 000055e66819a9c0
+[   20.566559]  </TASK>
+[   20.566566] ---[ end trace 0000000000000000 ]---
+
+Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230727185855.713318-1-suijingfeng@loongson.cn
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/gma500/psb_drv.h | 1 +
+ drivers/gpu/drm/gma500/psb_irq.c | 5 +++++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
+index f7f709df99b49..70d9adafa2333 100644
+--- a/drivers/gpu/drm/gma500/psb_drv.h
++++ b/drivers/gpu/drm/gma500/psb_drv.h
+@@ -424,6 +424,7 @@ struct drm_psb_private {
+ 	uint32_t pipestat[PSB_NUM_PIPE];
+ 
+ 	spinlock_t irqmask_lock;
++	bool irq_enabled;
+ 
+ 	/* Power */
+ 	bool pm_initialized;
+diff --git a/drivers/gpu/drm/gma500/psb_irq.c b/drivers/gpu/drm/gma500/psb_irq.c
+index 343c51250207d..7bbb79b0497d8 100644
+--- a/drivers/gpu/drm/gma500/psb_irq.c
++++ b/drivers/gpu/drm/gma500/psb_irq.c
+@@ -327,6 +327,8 @@ int gma_irq_install(struct drm_device *dev)
+ 
+ 	gma_irq_postinstall(dev);
+ 
++	dev_priv->irq_enabled = true;
++
+ 	return 0;
+ }
+ 
+@@ -337,6 +339,9 @@ void gma_irq_uninstall(struct drm_device *dev)
+ 	unsigned long irqflags;
+ 	unsigned int i;
+ 
++	if (!dev_priv->irq_enabled)
++		return;
++
+ 	spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
+ 
+ 	if (dev_priv->ops->hotplug_enable)
+-- 
+2.42.0
+
