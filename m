@@ -2,42 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B4C27E3DBB
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:30:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD24A7E3DBD
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:30:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDCDB10E5BD;
-	Tue,  7 Nov 2023 12:30:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D902210E5BC;
+	Tue,  7 Nov 2023 12:30:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E546910E5BC;
- Tue,  7 Nov 2023 12:30:32 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2642C10E5BD
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 12:30:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 3BF46CE0EE4;
- Tue,  7 Nov 2023 12:30:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38D64C433C8;
- Tue,  7 Nov 2023 12:30:29 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9ACAA61202;
+ Tue,  7 Nov 2023 12:30:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E474EC433BD;
+ Tue,  7 Nov 2023 12:30:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699360230;
- bh=il0AiPPbAIBL0vfiS/CCkdxk9nh3/ViTZzuK06f5fdk=;
+ s=k20201202; t=1699360232;
+ bh=uBZzQhHpQ7Rp989QrnAGxubC9P67wgEuGilulEME41E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XB2nFnvWqf6CcI2ZBfoMObWj8IS1FAI/XPPU8P3HE0VVAPeUbll1EQMRYR4VpffSI
- Gue+FF7K+iNWGf4wdtuuWuE4dgOIJVdEdQhGj+XAfcRMcUAdZHsdnqkSIWfVfM60Wk
- WlN/rDagva659XPDxQpd+Jv4Zk+x9dxOYhOj9XcoeiI5/12dFsCJCSyGmxZqkY4mOA
- ybQe00A74IMdPIqLu0BFAZG3RkB081UfOcHRJBgozq3at4R4Rzn51yjTScQ3qVCvON
- TOVuIfBx/7rqOcZ8PnRTFras3t3NhuNT+iKEmY0SWxdJ8F8iTmbAZkql9op4NY0hEi
- GUxLiQiB3nQyw==
+ b=Za5UgisG4K2VgRSphwbxhLZ4XtTXp87W+zvlOs3tKyTnpaW7w8U90bQ7FTS3PN5AW
+ uDnr1CeVUssPjrQMmsOTRqGe0/KKowkjdwFV4lIHa1NayV6Z2NTVqHu2kCvNSHlBdq
+ 2n9TrC0R01AsDL31nNEvZSBvdXVXeI5O2d2YZEIOHa45OK4EZeXLwvWwNIqnNCa5vK
+ UBjlhBnL6RCj8UJ87GUh2S+7Vucd9+pblvFCqle/bb6BgiB0pOBIOTYA5oWaieaLSS
+ 2ifZLbGjuJIJT72muedDWpHHymDjlHz0V4czNc0rK8O/W9gKQYYIo71ksHnO4TCYMg
+ o0i9kyKiWzZdg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 15/20] drm/amdgpu/vkms: fix a possible null
- pointer dereference
-Date: Tue,  7 Nov 2023 07:29:09 -0500
-Message-ID: <20231107122940.3762228-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 16/20] drm/panel: st7703: Pick different reset
+ sequence
+Date: Tue,  7 Nov 2023 07:29:10 -0500
+Message-ID: <20231107122940.3762228-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231107122940.3762228-1-sashal@kernel.org>
 References: <20231107122940.3762228-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.15.137
@@ -54,42 +56,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, guchun.chen@amd.com, Xinhui.Pan@amd.com,
- Ma Ke <make_ruc2021@163.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, neil.armstrong@linaro.org,
+ Samuel Holland <samuel@sholland.org>,
+ =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ Frank Oltmanns <frank@oltmanns.dev>, mripard@kernel.org,
+ Ondrej Jirman <megi@xff.cz>, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ma Ke <make_ruc2021@163.com>
+From: Ondrej Jirman <megi@xff.cz>
 
-[ Upstream commit cd90511557fdfb394bb4ac4c3b539b007383914c ]
+[ Upstream commit d12d635bb03c7cb4830acb641eb176ee9ff2aa89 ]
 
-In amdgpu_vkms_conn_get_modes(), the return value of drm_cvt_mode()
-is assigned to mode, which will lead to a NULL pointer dereference
-on failure of drm_cvt_mode(). Add a check to avoid null pointer
-dereference.
+Switching to a different reset sequence, enabling IOVCC before enabling
+VCC.
 
-Signed-off-by: Ma Ke <make_ruc2021@163.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+There also needs to be a delay after enabling the supplies and before
+deasserting the reset. The datasheet specifies 1ms after the supplies
+reach the required voltage. Use 10-20ms to also give the power supplies
+some time to reach the required voltage, too.
+
+This fixes intermittent panel initialization failures and screen
+corruption during resume from sleep on panel xingbangda,xbd599 (e.g.
+used in PinePhone).
+
+Signed-off-by: Ondrej Jirman <megi@xff.cz>
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+Reported-by: Samuel Holland <samuel@sholland.org>
+Reviewed-by: Guido Günther <agx@sigxcpu.org>
+Tested-by: Guido Günther <agx@sigxcpu.org>
+Signed-off-by: Guido Günther <agx@sigxcpu.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230211171748.36692-2-frank@oltmanns.dev
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c | 25 ++++++++++---------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-index 4e8274de8fc0c..083f9c637a82e 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-@@ -238,6 +238,8 @@ static int amdgpu_vkms_conn_get_modes(struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+index a2c303e5732c0..f50cc70e6337c 100644
+--- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
++++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+@@ -428,29 +428,30 @@ static int st7703_prepare(struct drm_panel *panel)
+ 		return 0;
  
- 	for (i = 0; i < ARRAY_SIZE(common_modes); i++) {
- 		mode = drm_cvt_mode(dev, common_modes[i].w, common_modes[i].h, 60, false, false, false);
-+		if (!mode)
-+			continue;
- 		drm_mode_probed_add(connector, mode);
+ 	dev_dbg(ctx->dev, "Resetting the panel\n");
+-	ret = regulator_enable(ctx->vcc);
++	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
++
++	ret = regulator_enable(ctx->iovcc);
+ 	if (ret < 0) {
+-		dev_err(ctx->dev, "Failed to enable vcc supply: %d\n", ret);
++		dev_err(ctx->dev, "Failed to enable iovcc supply: %d\n", ret);
+ 		return ret;
+ 	}
+-	ret = regulator_enable(ctx->iovcc);
++
++	ret = regulator_enable(ctx->vcc);
+ 	if (ret < 0) {
+-		dev_err(ctx->dev, "Failed to enable iovcc supply: %d\n", ret);
+-		goto disable_vcc;
++		dev_err(ctx->dev, "Failed to enable vcc supply: %d\n", ret);
++		regulator_disable(ctx->iovcc);
++		return ret;
  	}
  
+-	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+-	usleep_range(20, 40);
++	/* Give power supplies time to stabilize before deasserting reset. */
++	usleep_range(10000, 20000);
++
+ 	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
+-	msleep(20);
++	usleep_range(15000, 20000);
+ 
+ 	ctx->prepared = true;
+ 
+ 	return 0;
+-
+-disable_vcc:
+-	regulator_disable(ctx->vcc);
+-	return ret;
+ }
+ 
+ static int st7703_get_modes(struct drm_panel *panel,
 -- 
 2.42.0
 
