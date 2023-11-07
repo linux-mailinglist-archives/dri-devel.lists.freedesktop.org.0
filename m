@@ -2,54 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DAD07E368C
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 09:18:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F887E3807
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 10:44:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E3B110E4CC;
-	Tue,  7 Nov 2023 08:18:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E416B10E4FF;
+	Tue,  7 Nov 2023 09:44:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BBB410E4CB
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 08:18:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699345106; x=1730881106;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=Mz+Ys8rk8++gARgzlF3f7ui8yBdoD2m6kjQgKYjw3wo=;
- b=EXiUJST2WCJhtNi87mlJYClInCa0ByKb6ds29aGUMvWyqPg/sBscb1UB
- 6u+9i+SMWupEgaNvHh36/4X9IE0MCqHMdsqwPaUJBl1JwTDh8GEuvBNz3
- nqEEXPeZdPVBVC/4Kdiki4/qtRfda5cEfXZ1iDzWg6ymzCO4UFrR2m5N4
- uWBB8D4yuvRspe6ATrXb40L7KYVDJm/pABLssvIrK5gGvGb66GG2NHjgK
- DHbOsl9CRf+6Gvhy+tFt0Ym/u/PXQd6zlIFS9ZkyIQxLF1WQX0OqbVHZ/
- CY6GBRgVDH/B0qhwbfQ6sCmIWgM5nZr24hRo1CDgguXDJwhlsSz4vyUjc Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="420564125"
-X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; d="scan'208";a="420564125"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Nov 2023 00:18:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="936073155"
-X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; d="scan'208";a="936073155"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.217.160.78])
- ([10.217.160.78])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Nov 2023 00:18:24 -0800
-Message-ID: <fffcf3a1-128b-41e4-a3e1-8aac3ae88b9a@linux.intel.com>
-Date: Tue, 7 Nov 2023 09:18:22 +0100
+X-Greylist: delayed 4203 seconds by postgrey-1.36 at gabe;
+ Tue, 07 Nov 2023 09:44:16 UTC
+Received: from 7.mo550.mail-out.ovh.net (7.mo550.mail-out.ovh.net
+ [87.98.158.110])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AECDC10E4FF
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 09:44:16 +0000 (UTC)
+Received: from director11.ghost.mail-out.ovh.net (unknown [10.109.156.77])
+ by mo550.mail-out.ovh.net (Postfix) with ESMTP id 39E6D2A357
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 08:28:51 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-s8vqx (unknown [10.110.208.218])
+ by director11.ghost.mail-out.ovh.net (Postfix) with ESMTPS id A83E51FDFD;
+ Tue,  7 Nov 2023 08:28:48 +0000 (UTC)
+Received: from foxhound.fi ([37.59.142.95])
+ by ghost-submission-6684bf9d7b-s8vqx with ESMTPSA
+ id jQj6KkD1SWWnLwAA4IXPKg
+ (envelope-from <jose.pekkarinen@foxhound.fi>); Tue, 07 Nov 2023 08:28:48 +0000
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G001000307f4-4e36-45cc-84f3-1e15167bd51f,
+ 990ED9DB402E285008FC912DE57946D84A8BC800)
+ smtp.auth=jose.pekkarinen@foxhound.fi
+X-OVh-ClientIp: 213.216.211.70
+From: =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ skhan@linuxfoundation.org
+Subject: [PATCH] drm/amd/display: clean up redundant conversions to bool
+Date: Tue,  7 Nov 2023 10:28:38 +0200
+Message-Id: <20231107082839.92061-1-jose.pekkarinen@foxhound.fi>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Fix compilation with CONFIG_PM=n
-To: dri-devel@lists.freedesktop.org
-References: <20231106130827.1600948-1-jacek.lawrynowicz@linux.intel.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20231106130827.1600948-1-jacek.lawrynowicz@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 17672687891539732161
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedrudduhedguddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpeflohhsrocurfgvkhhkrghrihhnvghnuceojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqnecuggftrfgrthhtvghrnhepfedtleeuteeitedvtedtteeuieevudejfeffvdetfeekleehhfelleefteetjeejnecukfhppeduvdejrddtrddtrddupddvudefrddvudeirddvuddurdejtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdpoffvtefjohhsthepmhhoheehtddpmhhouggvpehsmhhtphhouhht
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,39 +57,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
+ amd-gfx@lists.freedesktop.org, Bhawanpreet.Lakha@amd.com,
+ linux-kernel-mentees@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-next
+This patch will address the following couple of warnings retrieved by
+using coccinelle, where there is an explicit conversion to bool that
+are redundant.
 
-On 06.11.2023 14:08, Jacek Lawrynowicz wrote:
-> Use pm_runtime_status_suspended() instead of dev->power.runtime_status
-> field that is not available without PM.
-> 
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> ---
->  drivers/accel/ivpu/ivpu_ipc.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
-> index a5fb2e5e824b7..88453762c9d53 100644
-> --- a/drivers/accel/ivpu/ivpu_ipc.c
-> +++ b/drivers/accel/ivpu/ivpu_ipc.c
-> @@ -6,6 +6,7 @@
->  #include <linux/genalloc.h>
->  #include <linux/highmem.h>
->  #include <linux/kthread.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/wait.h>
->  
->  #include "ivpu_drv.h"
-> @@ -315,8 +316,7 @@ int ivpu_ipc_send_receive_active(struct ivpu_device *vdev, struct vpu_jsm_msg *r
->  	struct vpu_jsm_msg hb_resp;
->  	int ret, hb_ret;
->  
-> -	drm_WARN_ON(&vdev->drm,
-> -		    vdev->drm.dev->power.runtime_status == RPM_SUSPENDED);
-> +	drm_WARN_ON(&vdev->drm, pm_runtime_status_suspended(vdev->drm.dev));
->  
->  	ret = ivpu_ipc_send_receive_internal(vdev, req, expected_resp, resp, channel, timeout_ms);
->  	if (ret != -ETIMEDOUT)
+drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c:94:102-107: WARNING: conversion to bool not needed here
+drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c:102:72-77: WARNING: conversion to bool not needed here
+
+Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c
+index 32d3086c4cb7..5ce542b1f860 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c
+@@ -91,7 +91,7 @@ bool amdgpu_dm_setup_replay(struct dc_link *link, struct amdgpu_dm_connector *ac
+ 	pr_config.replay_supported = true;
+ 	pr_config.replay_power_opt_supported = 0;
+ 	pr_config.replay_enable_option |= pr_enable_option_static_screen;
+-	pr_config.replay_timing_sync_supported = aconnector->max_vfreq >= 2 * aconnector->min_vfreq ? true : false;
++	pr_config.replay_timing_sync_supported = aconnector->max_vfreq >= 2 * aconnector->min_vfreq;
+ 
+ 	if (!pr_config.replay_timing_sync_supported)
+ 		pr_config.replay_enable_option &= ~pr_enable_option_general_ui;
+@@ -99,7 +99,7 @@ bool amdgpu_dm_setup_replay(struct dc_link *link, struct amdgpu_dm_connector *ac
+ 	debug_flags = (union replay_debug_flags *)&pr_config.debug_flags;
+ 	debug_flags->u32All = 0;
+ 	debug_flags->bitfields.visual_confirm =
+-		link->ctx->dc->debug.visual_confirm == VISUAL_CONFIRM_REPLAY ? true : false;
++		link->ctx->dc->debug.visual_confirm == VISUAL_CONFIRM_REPLAY;
+ 
+ 	link->replay_settings.replay_feature_enabled = true;
+ 
+-- 
+2.39.2
+
