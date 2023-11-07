@@ -2,70 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC007E4A6E
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 22:18:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1A027E4A79
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 22:19:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B633710E2D7;
-	Tue,  7 Nov 2023 21:17:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3BF410E37E;
+	Tue,  7 Nov 2023 21:19:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9A7C10E013
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 21:17:57 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id
- 4fb4d7f45d1cf-54366bb1c02so717a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 13:17:57 -0800 (PST)
+Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com
+ [IPv6:2607:f8b0:4864:20::e36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCFE510E013
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 21:19:47 +0000 (UTC)
+Received: by mail-vs1-xe36.google.com with SMTP id
+ ada2fe7eead31-45d8c405696so1306578137.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 13:19:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1699391876; x=1699996676;
+ d=google.com; s=20230601; t=1699391987; x=1699996787;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=T2QCCZhbNaMLPXpYCBN6556bTQl/R/gNcXFBlSEHr6s=;
- b=B43ZGeF/pexSTWVrpj8SprirbrI4hbS2Jg8f7xWXxg9Yq/vSY+0RJYfl/cQxAf3+vC
- onvhx8jbjXJalG7sdBLh8JdSvDoaTffeJqDvAwN8W+D5WCKS972zgkVpoFidKGupAmsD
- R5biD158Vv0Jr5W9mezXMdU8yabLHotGDfy+6p7vS0qzIpw0MANJW0pjevKI+NDpAkYd
- m82wmIfbLxU/kfNcgmu7YiEmQAZRt8YtIYM/4vc0lADwTgBQydz4KF2uLKAGvXs/y4RV
- qyHWWRR5XlKjIzr2aNyu4KlDvW3C+Do8mjSFe057ewUQ5hjGLWVAbFgSPFE44MW18CeO
- MSXQ==
+ bh=H6vtB6oGNeNraeO1yfc6WDVHQCGu06A7XkYHqu97D2c=;
+ b=sTDAe/P+tOPAFRdbUVR39my/S2WlCLVsjkgbbKH+QV8+Uddwi3XyeXcw/5xLmK9Rf6
+ 4NJ2zm38YywnfcXtWt9Ck98Dtcr935ucpXwq+2ap5oHO8FKZw5ROIiUE3xZSpghKg1Br
+ C/kWLQsEfmwNf5lKhXVWuupu5h38R53G1DpOL7in3xGj5ER1i/QY390LqoMrIBYrENzw
+ pzUeqzAIdIySQEjV9tOMz1/mTh/8CwrhV6JhLwCBRRCYxbhYQ63/WLWyb4z4h654pedV
+ OckgrOhFnowqwjVoLciubJwjmhAMJcNlF8ICxqHr7JSLoGYjlv/YsOrrDdrdKEM/2bkb
+ ghyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699391876; x=1699996676;
+ d=1e100.net; s=20230601; t=1699391987; x=1699996787;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=T2QCCZhbNaMLPXpYCBN6556bTQl/R/gNcXFBlSEHr6s=;
- b=nVyUDJ1uVpRfbTf/8Qxs8vrlMPlMbwlxfQJhqbuc63Jji1xqMrb2uK1+46nhM4JsO5
- E0OARI5fbNqK+kcbiYHON9LTQcHFYdRaxFaTMi4KMQKWGKAFHb0AHw9NZSvxaHMMAxah
- Pl9rceudZJYUhzk1skCSizRdS2dcajPmqg1YnMUDPh3fCHAc75tnMzrdT0ToCWg1BEZd
- SAc0DY50NktZvrVWWXIhO45sKX7VLipTe/4eZO/t3LBkEqxs//nODdE4VAcuvs8fxCWl
- 0chgQh31gviSo01jL95OD441LhNyJWFlS/Iuna0Ge0Ks08x+T3CPXae1wBppLSBW/gVD
- TZ3w==
-X-Gm-Message-State: AOJu0YxApJT/n4OCqmJuFkTjs9s6O/fZqz1jkIpLH9iH81lob5R9s+w5
- Q8nlJXpSlte/HeCZcRVjWa8NHeG9QXtyO8CQeQD7+g==
-X-Google-Smtp-Source: AGHT+IE2BJYg2o+RWiBo7zUK8rUJLrxbtosbDGcrLcTm47eDVBdJN7KV0TjFmGvpMtQ446xGBJBrXEpJoAJUwEcp3Q0=
-X-Received: by 2002:a05:6402:e84:b0:544:e249:be8f with SMTP id
- h4-20020a0564020e8400b00544e249be8fmr179390eda.1.1699391875922; Tue, 07 Nov
- 2023 13:17:55 -0800 (PST)
+ bh=H6vtB6oGNeNraeO1yfc6WDVHQCGu06A7XkYHqu97D2c=;
+ b=pOr4AeS8bmjOoJtxjhHwgHQaUdYwQ37AaEJGyus4MOERq5ehRwtqLptIBs8SpjCGyT
+ uDxfk1aznxDdTypSqeHpFAIdnjrhz3gWqBspanBGZaqRxfpk+7SJdPlG25Ym0twrIDFp
+ JhhC8+NUXg+WicMH1g4RTu7Uz3KqSuk6WMpNELITZypkBKdNf/y1ED9KYAgB9ew136gK
+ cdFb2F89ZcJRmoHXuzw4xwkGB6A7to7GB/c654yV6GT+ADJPb80lOFdT6CHdq8Kbz21J
+ E02d7R3hAgnZbVGC1aTxJ44r7rZYshlsUQcWg7tcXT6SiTXKpNd9uwbz7MuINOgH6soe
+ srpw==
+X-Gm-Message-State: AOJu0YzA5qhs2NUbyItCD8q/Yb+sHiEA5WLmLzBpb2iIgp/zTE9M56vs
+ fXEN9CfH9u1w+qSDlIghMOiVkP9QQ4Vod4WLxB/9IA==
+X-Google-Smtp-Source: AGHT+IGP/CXPxw/3EMz20UnoxCfjtef8X0h1zK6Yh6FlZoE34oBHf9lsr5FmmVHSCxlfjvy68G8o2l++xlKxI0QUgP0=
+X-Received: by 2002:a05:6102:4712:b0:45d:91b3:74b7 with SMTP id
+ ei18-20020a056102471200b0045d91b374b7mr12087084vsb.27.1699391986590; Tue, 07
+ Nov 2023 13:19:46 -0800 (PST)
 MIME-Version: 1.0
-References: <CAHS8izMrnVUfbbS=OcJ6JT9SZRRfZ2MC7UnggthpZT=zf2BGLA@mail.gmail.com>
- <ZUlhu4hlTaqR3CTh@google.com>
- <CAHS8izMaAhoae5ChnzO4gny1cYYnqV1cB8MC2cAF3eoyt+Sf4A@mail.gmail.com>
- <ZUlvzm24SA3YjirV@google.com>
- <CAHS8izMQ5Um_ScY0VgAjaEaT-hRh4tFoTgc6Xr9Tj5rEj0fijA@mail.gmail.com>
- <CAKH8qBsbh8qYxNHZ6111RQFFpNWbWZtg0LDXkn15xcsbAq4R6w@mail.gmail.com>
- <CAF=yD-+BuKXoVL8UF+No1s0TsHSzBTz7UrB1Djt_BrM74uLLcg@mail.gmail.com>
- <CAHS8izNxKHhW5uCqmfau6n3c18=hE3RXzA+ng5LEGiKj12nGcg@mail.gmail.com>
- <ZUmNk98LyO_Ntcy7@google.com>
- <CAHS8izNTDsHTahkd17zQVQnjzniZAk-dKNs-Mq0E4shdrXOJbg@mail.gmail.com>
- <ZUqms8QzQpfPQWyy@google.com>
-In-Reply-To: <ZUqms8QzQpfPQWyy@google.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Tue, 7 Nov 2023 22:17:42 +0100
-Message-ID: <CANn89iJNR8bYYBO92=f5_2hFoTK8+giH11o-7NHURoahwvV11w@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 09/12] net: add support for skbs with unreadable
- frags
-To: Stanislav Fomichev <sdf@google.com>
+References: <20231106024413.2801438-1-almasrymina@google.com>
+ <20231106024413.2801438-9-almasrymina@google.com>
+ <7e851882-9a85-3672-c3d5-73b47599873c@huawei.com>
+In-Reply-To: <7e851882-9a85-3672-c3d5-73b47599873c@huawei.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 7 Nov 2023 13:19:32 -0800
+Message-ID: <CAHS8izPGa99LyEc=AeqNaK8X68b7dovxCHOLbR=hnbaybN_zgQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 08/12] net: support non paged skb frags
+To: Yunsheng Lin <linyunsheng@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,15 +71,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
+Cc: dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
  linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Mina Almasry <almasrymina@google.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-arch@vger.kernel.org,
  Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
  Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
  Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- linux-arch@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, linaro-mm-sig@lists.linaro.org,
- Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
  netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
  Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
  "David S. Miller" <davem@davemloft.net>,
@@ -97,24 +87,141 @@ Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 7, 2023 at 10:05=E2=80=AFPM Stanislav Fomichev <sdf@google.com>=
- wrote:
-
+On Tue, Nov 7, 2023 at 1:00=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei.com=
+> wrote:
 >
-> I don't understand. We require an elaborate setup to receive devmem cmsgs=
-,
-> why would some random application receive those?
+> On 2023/11/6 10:44, Mina Almasry wrote:
+> > Make skb_frag_page() fail in the case where the frag is not backed
+> > by a page, and fix its relevent callers to handle this case.
+> >
+> > Correctly handle skb_frag refcounting in the page_pool_iovs case.
+> >
+> > Signed-off-by: Mina Almasry <almasrymina@google.com>
+> >
+>
+> ...
+>
+> >  /**
+> >   * skb_frag_page - retrieve the page referred to by a paged fragment
+> >   * @frag: the paged fragment
+> >   *
+> > - * Returns the &struct page associated with @frag.
+> > + * Returns the &struct page associated with @frag. Returns NULL if thi=
+s frag
+> > + * has no associated page.
+> >   */
+> >  static inline struct page *skb_frag_page(const skb_frag_t *frag)
+> >  {
+> > -     return frag->bv_page;
+> > +     if (!page_is_page_pool_iov(frag->bv_page))
+> > +             return frag->bv_page;
+> > +
+> > +     return NULL;
+>
+> It seems most of callers don't expect NULL returning for skb_frag_page(),
+> and this patch only changes a few relevant callers to handle the NULL cas=
+e.
+>
 
+Yes, I did not change code that I guessed was not likely to be
+affected or enable the devmem TCP case. Here is my breakdown:
 
-A TCP socket can receive 'valid TCP packets' from many different sources,
-especially with BPF hooks...
+=E2=9E=9C  cos-kernel git:(tcpdevmem) =E2=9C=97 ack -i "skb_frag_page\("
+--ignore-dir=3Ddrivers -t cc -l
+net/core/dev.c
+net/core/datagram.c
+net/core/xdp.c
+net/core/skbuff.c
+net/core/filter.c
+net/core/gro.c
+net/appletalk/ddp.c
+net/wireless/util.c
+net/tls/tls_device.c
+net/tls/tls_device_fallback.c
+net/ipv4/tcp.c
+net/ipv4/tcp_output.c
+net/bpf/test_run.c
+include/linux/skbuff.h
 
-Think of a bonding setup, packets being mirrored by some switches or
-even from tc.
+I'm ignoring ank skb_frag_page() calls in drivers because drivers need
+to add support for devmem TCP, and handle these calls at time of
+adding support, I think that's reasonable.
 
-Better double check than be sorry.
+net/core/dev.c:
+I think I missed ilegal_highdma()
 
-We have not added a 5th component in the 4-tuple lookups, being "is
-this socket a devmem one".
+net/core/datagram.c:
+__skb_datagram_iter() protected by not_readable(skb) check.
 
-A mix of regular/devmem skb is supported.
+net/core/skbuff.c:
+protected by not_readable(skb) check.
+
+net/core/filter.c:
+bpf_xdp_frags_shrink_tail seems like xdp specific, not sure it's relevant h=
+ere.
+
+net/core/gro.c:
+skb_gro_reset_offset: protected by NULL check
+
+net/ipv4/tcp.c:
+tcp_zerocopy_receive protected by NULL check.
+
+net/ipv4/tcp_output.c:
+tcp_clone_payload: handles NULL return fine.
+
+net/bpf/test_run.c:
+seems xdp specific and not sure if it can run into devmem issues.
+
+include/linux/skbuff.h:
+I think the multiple calls here are being handled correctly, but let
+me know if not.
+
+All the calls in these files, I think, are code paths not possible to
+hit devmem TCP with the current support, I think:
+net/core/xdp.c
+net/appletalk/ddp.c
+net/wireless/util.c
+net/tls/tls_device.c
+net/tls/tls_device_fallback.c
+
+All in all I think maybe all in all I missed illegal_highdma(). I'll
+fix it in the next iteration.
+
+> It may make more sense to add a new helper to do the above checking, and
+> add a warning in skb_frag_page() to catch any missing NULL checking for
+> skb_frag_page() caller, something like below?
+>
+>  static inline struct page *skb_frag_page(const skb_frag_t *frag)
+>  {
+> -       return frag->bv_page;
+> +       struct page *page =3D frag->bv_page;
+> +
+> +       BUG_ON(page_is_page_pool_iov(page));
+> +
+> +       return page;
+> +}
+> +
+> +static inline struct page *skb_frag_readable_page(const skb_frag_t *frag=
+)
+> +{
+> +       struct page *page =3D frag->bv_page;
+> +
+> +       if (!page_is_page_pool_iov(page))
+> +               return page;
+> +
+> +       return NULL;
+>  }
+>
+>
+
+My personal immediate reaction is that this may just introduce code
+churn without significant benefit. If an unsuspecting caller call
+skb_frag_page() on devmem frag and doesn't correctly handle NULL
+return, it will crash or error out anyway, and likely in some obvious
+way, so maybe the BUG_ON() isn't so useful that it's worth changing
+all the call sites. But if there is consensus on adding a change like
+you propose, I have no problem adding it.
+
+--=20
+Thanks,
+Mina
