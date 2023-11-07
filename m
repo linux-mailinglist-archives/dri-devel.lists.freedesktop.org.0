@@ -1,73 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73DBE7E320A
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 01:11:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D72D77E3212
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 01:15:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B55D510E47B;
-	Tue,  7 Nov 2023 00:11:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FA9210E47C;
+	Tue,  7 Nov 2023 00:14:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF59F10E47B
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 00:11:30 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id
- d9443c01a7336-1cc394f4cdfso34825445ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 16:11:30 -0800 (PST)
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com
+ [IPv6:2607:f8b0:4864:20::114a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2D8D10E47C
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 00:14:57 +0000 (UTC)
+Received: by mail-yw1-x114a.google.com with SMTP id
+ 00721157ae682-5a839b31a0dso103325387b3.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 16:14:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699315890; x=1699920690; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=u7B09rSr5GJkw/0dQmc8mF4yG+hQAobhEyf39vTwquM=;
- b=Ez9/u1Sj9he2eidSyza90VESRuI0qIAqz50/ybhtft0WpPb7wSGaAaiOMR35YcaJxh
- 12iYFPUJP+zo+1pHezrjKyTUZYa9dDbacLM9S7ruE+kZHnyRi+m/D/yJQ0KbnZtheSg2
- tDr/NT+eLVkUohxo7kE+1x/d6sMijAbtmJnioGcCb6heDdo9sD4t61TOvZsi5p1p2+2Y
- A2ZtAQUBuOhKQjcs5FdigClKFYMhWdReeY4c2B/OhqpO5z9JjkFJ0H/KDz21yzbWGQfU
- 6R2HxWXo1YvzG9zdXWMhqBpx4ECRDnwfkMlmpmf1XM5c0E3/TxYGKgNz5Wqzm7f37rAE
- aAiw==
+ d=google.com; s=20230601; t=1699316097; x=1699920897;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:from:subject:message-id:references
+ :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=NJOStCOVHOX8afjyhZUr3wHzG9caGrOyErBNJl+fQsE=;
+ b=Fwfur7IHUjikCTlXy2eGby/PjlhhXl/9KuPv5ZdAsnRo+GPBaVX2Vznz/J9J+JR8s+
+ S8dGStiwwJrViYcVAyyPvVS3AhSDKd3MwiOvSsPC6CaNmGRBNP9qV6WiTUeDmauCyqNg
+ Aw7nSoacoKyLKL2T7CGhjHu+jotyM11+dc9pBoh4Bfeq7IlA16VXgvWNNqyFKw7cgw7k
+ U4xSsTb5L7HVYQT4/C5GNLjWO//BWCPYghN3yqN2Cc6YfXSKI1c4QehIIx4XE3sUFFAa
+ dRLOk3XPjZTSt6/bGnoePfemMHEfr7QJ4CSQOvgW5rWgirsnA2K7PFR6I41jgALXjlhR
+ VdSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699315890; x=1699920690;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=u7B09rSr5GJkw/0dQmc8mF4yG+hQAobhEyf39vTwquM=;
- b=i23a6Cc4NoAp/uwjPu3NYOv5km3R1nS9dExw59kYFmfTsEB4BD/nKBE+AZRyQUWfXX
- XzVSNlncVYSNENZYrl2flBXTplc3J7mF3SWcSY8lwz7Y8ZCCSOiPX9uFFFjJnEeUAmPk
- QabHOg0nGMfeEyHmiQJhleTjcN2fieW27IhMAqTTzYYxY8C7CuGlKv7F1woD7ARgSvHB
- vd7OJF3yXTAa3GJqI3x/ULICjmIrTVW/cokk6DRelogY+4JPmYQrmK6kS1auEB1kcEBV
- 5ms6+YJ6Ir4iWXQEwVW6EkjwTAVgo5xdjuP93kPdmr+8KSS8lBcdj9Z0a76UAgHxc1lu
- cDrA==
-X-Gm-Message-State: AOJu0Yxvxjn5unqCsI7uMIvaiMhwSElTdmTrFdLK97fJJCk/njH40MtD
- qbGsgKwQ5G8pPlejzWOTbYM=
-X-Google-Smtp-Source: AGHT+IGrJMlHOCbcpWm2X90lUXcYyOPz2Ac8+C5VB8yvaTcCqw7r5AWnImvajZcO6HTUrg73F2RBiA==
-X-Received: by 2002:a17:902:f28b:b0:1ca:8169:e853 with SMTP id
- k11-20020a170902f28b00b001ca8169e853mr21625676plc.4.1699315890325; 
- Mon, 06 Nov 2023 16:11:30 -0800 (PST)
-Received: from [192.168.0.106] ([103.131.18.64])
- by smtp.gmail.com with ESMTPSA id
- h3-20020a170902704300b001c613091aeasm6349072plt.297.2023.11.06.16.11.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Nov 2023 16:11:29 -0800 (PST)
-Message-ID: <ccf8c3df-ba3c-4546-88fb-dfd78ea974eb@gmail.com>
-Date: Tue, 7 Nov 2023 07:11:26 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] docs: gpu: rfc: i915_scheduler.rst remove unused
- directives for namespacing
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@intel.com>,
- Hunter Chasens <hunter.chasens18@ncf.edu>
-References: <20231104134708.69432-1-hunter.chasens18@ncf.edu>
- <ZUhvj2uj_PvaDxIM@debian.me> <8734xj18ck.fsf@intel.com>
- <CAFJe6O1oJnQvLVSJZP6MMXULGrX=a3SEO1X5b4xff06WhqLw_g@mail.gmail.com>
- <87edh2zn2y.fsf@intel.com>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <87edh2zn2y.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ d=1e100.net; s=20230601; t=1699316097; x=1699920897;
+ h=content-transfer-encoding:cc:to:from:subject:message-id:references
+ :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=NJOStCOVHOX8afjyhZUr3wHzG9caGrOyErBNJl+fQsE=;
+ b=B2hzR4kIhBrVSlyWLLS/vPxG6Wiyh50QD+XPGET2DXMdSAA2YlcOUbCq4OvDFy84qn
+ UsMoGs3mzlY5jz/KukSWHIl9REcIBt79y53MwXGG3+tsjtBL9yeIv/0oPRVP7U/dnJFu
+ n6OchUar7kBWj/+kc9g6LsFhEiqKSGhnobTH/TWfWKbyZ4naazF01G8xotrJksVHStzZ
+ 1AbYfgjd7bXyscw4kql6m4e+iJsbCQZd0s9iwXPHwLpIJ0exQAYm1qz0iXhWiBbfG2jG
+ CZ+aL4w5Rm9AiwIVRU3S4S7VTsuAyxLVrxhj/XPM71VVflAPww91rJvqgtzGsPNqFOhL
+ Socw==
+X-Gm-Message-State: AOJu0YycONMx0jZqB9bkXfh4nTejolve2nfZ4gTrv8aWwGRoEuHL5XEt
+ OK34AiYl4vqZJBnFnHcVHoOZYYs=
+X-Google-Smtp-Source: AGHT+IHee5oEAGC8m+DVisVJTqhCxMx4WoxETbeYezr61DtzdGwZMzI7W/00cgynnvTwgZdWg/F4Ggw=
+X-Received: from sdf.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5935])
+ (user=sdf job=sendgmr) by 2002:a25:d785:0:b0:da0:5af7:d51a with SMTP id
+ o127-20020a25d785000000b00da05af7d51amr642776ybg.0.1699316097113; Mon, 06 Nov
+ 2023 16:14:57 -0800 (PST)
+Date: Mon, 6 Nov 2023 16:14:55 -0800
+In-Reply-To: <CAF=yD-+BuKXoVL8UF+No1s0TsHSzBTz7UrB1Djt_BrM74uLLcg@mail.gmail.com>
+Mime-Version: 1.0
+References: <20231106024413.2801438-10-almasrymina@google.com>
+ <ZUk03DhWxV-bOFJL@google.com>
+ <19129763-6f74-4b04-8a5f-441255b76d34@kernel.org>
+ <CAHS8izMrnVUfbbS=OcJ6JT9SZRRfZ2MC7UnggthpZT=zf2BGLA@mail.gmail.com>
+ <ZUlhu4hlTaqR3CTh@google.com>
+ <CAHS8izMaAhoae5ChnzO4gny1cYYnqV1cB8MC2cAF3eoyt+Sf4A@mail.gmail.com>
+ <ZUlvzm24SA3YjirV@google.com>
+ <CAHS8izMQ5Um_ScY0VgAjaEaT-hRh4tFoTgc6Xr9Tj5rEj0fijA@mail.gmail.com>
+ <CAKH8qBsbh8qYxNHZ6111RQFFpNWbWZtg0LDXkn15xcsbAq4R6w@mail.gmail.com>
+ <CAF=yD-+BuKXoVL8UF+No1s0TsHSzBTz7UrB1Djt_BrM74uLLcg@mail.gmail.com>
+Message-ID: <ZUmBf7E8ZoTQwThL@google.com>
+Subject: Re: [RFC PATCH v3 09/12] net: add support for skbs with unreadable
+ frags
+From: Stanislav Fomichev <sdf@google.com>
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,64 +79,258 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, corbet@lwn.net,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, mripard@kernel.org,
- Luca Coelho <luciano.coelho@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
+ Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Mina Almasry <almasrymina@google.com>, Jeroen de Borst <jeroendb@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ linux-media@vger.kernel.org, linux-arch@vger.kernel.org,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
+ Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
+ David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/11/2023 02:41, Jani Nikula wrote:
-> On Mon, 06 Nov 2023, Hunter Chasens <hunter.chasens18@ncf.edu> wrote:
->> When running `make htmldocs` the following warnings are given.
->>
->> ```
->> Documentation/gpu/rfc/i915_scheduler.rst:138: WARNING:
->> Unknown directive type "c:namespace-push".
->>
->> .. c:namespace-push:: rfc
->> Documentation/gpu/rfc/i915_scheduler.rst:143: WARNING:
->> Unknown directive type "c:namespace-pop".
->>
->> .. c:namespace-pop::
->> ```
->>
->> The kernel test robot also reported it here.
->> Link: https://lore.kernel.org/all/202311061623.86pTQrie-lkp@intel.com/
->>
->> Last year Maryam Tahhan <mtahhan@redhat.com> from Redhat noticed something
->> similar. "The missing support of c:namespace-push:: and c:namespace-pop::
->> directives by helper scripts for kernel documentation prevents using the
->> ``c:function::`` directive with proper namespacing." From the context, it
->> sounds like this was brought about from a Sphinx update.
->>
->> Link: https://lore.kernel.org/all/20221123092321.88558-3-mtahhan@redhat.com/
->>
->> When compiled the `.. kernel-doc::` literal gives it the same formatting with
->> or without the namespace directives present. Due to the above information I
->> think it safe to remove these, as they don't seem to do anything but
->> throw warnings.
-> 
-> Not so fast!
-> 
-> Looks like this is because namespacing was introduced in Sphinx 3.1
-> [1]. With earlier Sphinx, you get a warning about the namespace
-> directives.
-> 
-> However, with newer Sphinx, you get the warning mentioned in commit
-> f6757dfcfde7 ("drm/doc: fix duplicate declaration warning") if you
-> remove the namespace directives:
-> 
-> linux/Documentation/gpu/driver-uapi.rst:2279: WARNING: Duplicate C declaration, also defined at rfc/i915_scheduler:3.
-> Declaration is '.. c:struct:: i915_context_engines_parallel_submit'.
-> 
-> It would be short-sighted to just remove the directives. Sooner or later
-> we're gong to bump the (IMO extremely conservative) minimum version
-> requirement.
-> 
+On 11/06, Willem de Bruijn wrote:
+> On Mon, Nov 6, 2023 at 3:55=E2=80=AFPM Stanislav Fomichev <sdf@google.com=
+> wrote:
+> >
+> > On Mon, Nov 6, 2023 at 3:27=E2=80=AFPM Mina Almasry <almasrymina@google=
+.com> wrote:
+> > >
+> > > On Mon, Nov 6, 2023 at 2:59=E2=80=AFPM Stanislav Fomichev <sdf@google=
+.com> wrote:
+> > > >
+> > > > On 11/06, Mina Almasry wrote:
+> > > > > On Mon, Nov 6, 2023 at 1:59=E2=80=AFPM Stanislav Fomichev <sdf@go=
+ogle.com> wrote:
+> > > > > >
+> > > > > > On 11/06, Mina Almasry wrote:
+> > > > > > > On Mon, Nov 6, 2023 at 11:34=E2=80=AFAM David Ahern <dsahern@=
+kernel.org> wrote:
+> > > > > > > >
+> > > > > > > > On 11/6/23 11:47 AM, Stanislav Fomichev wrote:
+> > > > > > > > > On 11/05, Mina Almasry wrote:
+> > > > > > > > >> For device memory TCP, we expect the skb headers to be a=
+vailable in host
+> > > > > > > > >> memory for access, and we expect the skb frags to be in =
+device memory
+> > > > > > > > >> and unaccessible to the host. We expect there to be no m=
+ixing and
+> > > > > > > > >> matching of device memory frags (unaccessible) with host=
+ memory frags
+> > > > > > > > >> (accessible) in the same skb.
+> > > > > > > > >>
+> > > > > > > > >> Add a skb->devmem flag which indicates whether the frags=
+ in this skb
+> > > > > > > > >> are device memory frags or not.
+> > > > > > > > >>
+> > > > > > > > >> __skb_fill_page_desc() now checks frags added to skbs fo=
+r page_pool_iovs,
+> > > > > > > > >> and marks the skb as skb->devmem accordingly.
+> > > > > > > > >>
+> > > > > > > > >> Add checks through the network stack to avoid accessing =
+the frags of
+> > > > > > > > >> devmem skbs and avoid coalescing devmem skbs with non de=
+vmem skbs.
+> > > > > > > > >>
+> > > > > > > > >> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> > > > > > > > >> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> > > > > > > > >> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> > > > > > > > >>
+> > > > > > > > >> ---
+> > > > > > > > >>  include/linux/skbuff.h | 14 +++++++-
+> > > > > > > > >>  include/net/tcp.h      |  5 +--
+> > > > > > > > >>  net/core/datagram.c    |  6 ++++
+> > > > > > > > >>  net/core/gro.c         |  5 ++-
+> > > > > > > > >>  net/core/skbuff.c      | 77 +++++++++++++++++++++++++++=
++++++++++------
+> > > > > > > > >>  net/ipv4/tcp.c         |  6 ++++
+> > > > > > > > >>  net/ipv4/tcp_input.c   | 13 +++++--
+> > > > > > > > >>  net/ipv4/tcp_output.c  |  5 ++-
+> > > > > > > > >>  net/packet/af_packet.c |  4 +--
+> > > > > > > > >>  9 files changed, 115 insertions(+), 20 deletions(-)
+> > > > > > > > >>
+> > > > > > > > >> diff --git a/include/linux/skbuff.h b/include/linux/skbu=
+ff.h
+> > > > > > > > >> index 1fae276c1353..8fb468ff8115 100644
+> > > > > > > > >> --- a/include/linux/skbuff.h
+> > > > > > > > >> +++ b/include/linux/skbuff.h
+> > > > > > > > >> @@ -805,6 +805,8 @@ typedef unsigned char *sk_buff_data_=
+t;
+> > > > > > > > >>   *  @csum_level: indicates the number of consecutive ch=
+ecksums found in
+> > > > > > > > >>   *          the packet minus one that have been verifie=
+d as
+> > > > > > > > >>   *          CHECKSUM_UNNECESSARY (max 3)
+> > > > > > > > >> + *  @devmem: indicates that all the fragments in this s=
+kb are backed by
+> > > > > > > > >> + *          device memory.
+> > > > > > > > >>   *  @dst_pending_confirm: need to confirm neighbour
+> > > > > > > > >>   *  @decrypted: Decrypted SKB
+> > > > > > > > >>   *  @slow_gro: state present at GRO time, slower prepar=
+e step required
+> > > > > > > > >> @@ -991,7 +993,7 @@ struct sk_buff {
+> > > > > > > > >>  #if IS_ENABLED(CONFIG_IP_SCTP)
+> > > > > > > > >>      __u8                    csum_not_inet:1;
+> > > > > > > > >>  #endif
+> > > > > > > > >> -
+> > > > > > > > >> +    __u8                    devmem:1;
+> > > > > > > > >>  #if defined(CONFIG_NET_SCHED) || defined(CONFIG_NET_XGR=
+ESS)
+> > > > > > > > >>      __u16                   tc_index;       /* traffic =
+control index */
+> > > > > > > > >>  #endif
+> > > > > > > > >> @@ -1766,6 +1768,12 @@ static inline void skb_zcopy_down=
+grade_managed(struct sk_buff *skb)
+> > > > > > > > >>              __skb_zcopy_downgrade_managed(skb);
+> > > > > > > > >>  }
+> > > > > > > > >>
+> > > > > > > > >> +/* Return true if frags in this skb are not readable by=
+ the host. */
+> > > > > > > > >> +static inline bool skb_frags_not_readable(const struct =
+sk_buff *skb)
+> > > > > > > > >> +{
+> > > > > > > > >> +    return skb->devmem;
+> > > > > > > > >
+> > > > > > > > > bikeshedding: should we also rename 'devmem' sk_buff flag=
+ to 'not_readable'?
+> > > > > > > > > It better communicates the fact that the stack shouldn't =
+dereference the
+> > > > > > > > > frags (because it has 'devmem' fragments or for some othe=
+r potential
+> > > > > > > > > future reason).
+> > > > > > > >
+> > > > > > > > +1.
+> > > > > > > >
+> > > > > > > > Also, the flag on the skb is an optimization - a high level=
+ signal that
+> > > > > > > > one or more frags is in unreadable memory. There is no requ=
+irement that
+> > > > > > > > all of the frags are in the same memory type.
+> > > > > >
+> > > > > > David: maybe there should be such a requirement (that they all =
+are
+> > > > > > unreadable)? Might be easier to support initially; we can relax=
+ later
+> > > > > > on.
+> > > > > >
+> > > > >
+> > > > > Currently devmem =3D=3D not_readable, and the restriction is that=
+ all the
+> > > > > frags in the same skb must be either all readable or all unreadab=
+le
+> > > > > (all devmem or all non-devmem).
+> > > > >
+> > > > > > > The flag indicates that the skb contains all devmem dma-buf m=
+emory
+> > > > > > > specifically, not generic 'not_readable' frags as the comment=
+ says:
+> > > > > > >
+> > > > > > > + *     @devmem: indicates that all the fragments in this skb=
+ are backed by
+> > > > > > > + *             device memory.
+> > > > > > >
+> > > > > > > The reason it's not a generic 'not_readable' flag is because =
+handing
+> > > > > > > off a generic not_readable skb to the userspace is semantical=
+ly not
+> > > > > > > what we're doing. recvmsg() is augmented in this patch series=
+ to
+> > > > > > > return a devmem skb to the user via a cmsg_devmem struct whic=
+h refers
+> > > > > > > specifically to the memory in the dma-buf. recvmsg() in this =
+patch
+> > > > > > > series is not augmented to give any 'not_readable' skb to the
+> > > > > > > userspace.
+> > > > > > >
+> > > > > > > IMHO skb->devmem + an skb_frags_not_readable() as implemented=
+ is
+> > > > > > > correct. If a new type of unreadable skbs are introduced to t=
+he stack,
+> > > > > > > I imagine the stack would implement:
+> > > > > > >
+> > > > > > > 1. new header flag: skb->newmem
+> > > > > > > 2.
+> > > > > > >
+> > > > > > > static inline bool skb_frags_not_readable(const struct skb_bu=
+ff *skb)
+> > > > > > > {
+> > > > > > >     return skb->devmem || skb->newmem;
+> > > > > > > }
+> > > > > > >
+> > > > > > > 3. tcp_recvmsg_devmem() would handle skb->devmem skbs is in t=
+his patch
+> > > > > > > series, but tcp_recvmsg_newmem() would handle skb->newmem skb=
+s.
+> > > > > >
+> > > > > > You copy it to the userspace in a special way because your frag=
+s
+> > > > > > are page_is_page_pool_iov(). I agree with David, the skb bit is
+> > > > > > just and optimization.
+> > > > > >
+> > > > > > For most of the core stack, it doesn't matter why your skb is n=
+ot
+> > > > > > readable. For a few places where it matters (recvmsg?), you can
+> > > > > > double-check your frags (all or some) with page_is_page_pool_io=
+v.
+> > > > > >
+> > > > >
+> > > > > I see, we can do that then. I.e. make the header flag 'not_readab=
+le'
+> > > > > and check the frags to decide to delegate to tcp_recvmsg_devmem()=
+ or
+> > > > > something else. We can even assume not_readable =3D=3D devmem bec=
+ause
+> > > > > currently devmem is the only type of unreadable frag currently.
+> > > > >
+> > > > > > Unrelated: we probably need socket to dmabuf association as wel=
+l (via
+> > > > > > netlink or something).
+> > > > >
+> > > > > Not sure this is possible. The dma-buf is bound to the rx-queue, =
+and
+> > > > > any packets that land on that rx-queue are bound to that dma-buf,
+> > > > > regardless of which socket that packet belongs to. So the associa=
+tion
+> > > > > IMO must be rx-queue to dma-buf, not socket to dma-buf.
+> > > >
+> > > > But there is still always 1 dmabuf to 1 socket association (on rx),=
+ right?
+> > > > Because otherwise, there is no way currently to tell, at recvmsg, w=
+hich
+> > > > dmabuf the received token belongs to.
+> > > >
+> > >
+> > > Yes, but this 1 dma-buf to 1 socket association happens because the
+> > > user binds the dma-buf to an rx-queue and configures flow steering of
+> > > the socket to that rx-queue.
+> >
+> > It's still fixed and won't change during the socket lifetime, right?
+> > And the socket has to know this association; otherwise those tokens
+> > are useless since they don't carry anything to identify the dmabuf.
+> >
+> > I think my other issue with MSG_SOCK_DEVMEM being on recvmsg is that
+> > it somehow implies that I have an option of passing or not passing it
+> > for an individual system call.
+> > If we know that we're going to use dmabuf with the socket, maybe we
+> > should move this flag to the socket() syscall?
+> >
+> > fd =3D socket(AF_INET6, SOCK_STREAM, SOCK_DEVMEM);
+> >
+> > ?
+>=20
+> I think it should then be a setsockopt called before any data is
+> exchanged, with no change of modifying mode later. We generally use
+> setsockopts for the mode of a socket. This use of the protocol field
+> in socket() for setting a mode would be novel. Also, it might miss
+> passively opened connections, or be overly restrictive: one approach
+> for all accepted child sockets.
 
-OK, thanks for explanation!
-
--- 
-An old man doll... just what I always wanted! - Clara
-
+I was thinking this is similar to SOCK_CLOEXEC or SOCK_NONBLOCK? There
+are plenty of bits we can grab. But setsockopt works as well!
