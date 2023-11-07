@@ -1,56 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E8A57E34F6
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 06:45:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B285F7E3503
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 07:03:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42F5810E4B7;
-	Tue,  7 Nov 2023 05:45:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11D3C10E4A8;
+	Tue,  7 Nov 2023 06:03:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 158CD10E4B4;
- Tue,  7 Nov 2023 05:45:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699335936; x=1730871936;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ulbDZvz1gkMd0q7p/mpQrgQlpVcd7at70sX5zqHvqBA=;
- b=cOlG4fpzk8v8Pl7mZVg8wylLQ/j/812fOWoxVRdbxqg7LxLAlXmtUINp
- oiFIsEdWRn29gEdHheS/CwK4bal9oDxJex9OpOAU/99sFe1K+F4G2zJTD
- 7vVZkofr3DgEWSu5MRMlAn0MnpL5sjjWpX7AIEKVrbGm2DPAyT8vhAYRm
- JJZfbRoxfERICeCWIUWhppZghwEao9dKSMXUi8ub/WJWdO7cgTvjwUVcP
- +S6KuZ1htemBG5NV/6F9ND5Tf8c1TEepC0Spw+W8FDx4qIS+cQu9tJfxP
- UC2ddEDHNlv1M1TSTTdcyC6WrA6/ybTup8v+s37AQ402ARaJ2VR1LsjBC g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="386609232"
-X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; d="scan'208";a="386609232"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2023 21:45:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="886176112"
-X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; d="scan'208";a="886176112"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orsmga004.jf.intel.com with ESMTP; 06 Nov 2023 21:45:27 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1001)
- id 6642D3CC; Tue,  7 Nov 2023 07:45:26 +0200 (EET)
-Date: Tue, 7 Nov 2023 07:45:26 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Subject: Re: [PATCH v2 8/9] PCI: Exclude PCIe ports used for tunneling in
- pcie_bandwidth_available()
-Message-ID: <20231107054526.GT17433@black.fi.intel.com>
-References: <20231103190758.82911-1-mario.limonciello@amd.com>
- <20231103190758.82911-9-mario.limonciello@amd.com>
- <20231106181022.GA18564@wunner.de>
- <712ebb25-3fc0-49b5-96a1-a13c3c4c4921@amd.com>
- <20231106185652.GA3360@wunner.de>
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FA6910E4A8;
+ Tue,  7 Nov 2023 06:03:53 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id
+ 41be03b00d2f7-55b5a37acb6so497041a12.0; 
+ Mon, 06 Nov 2023 22:03:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1699337033; x=1699941833; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=lKFEEOwu+JwvBa63rAI+zxMPRAeyFot/drhB3OU5pF8=;
+ b=ie8ew4LsN+ypok8ozXSlovg3ysD64hkWKfZb4cKvi/GE67E15xUfuyRVR2tq9gCxZy
+ QKIm+Zw3sXc0Qnbq2ScDnR2aaR7mXMfdznLtqgt+QlVY9rZdhdCQ9jJZ8HlyOmYSMfaB
+ aiaM0heeJ8b3mAizJ9PmlkuQDYcn+O6wNh5329fj/gbg12vk6VvW2iDRQZkd0MhkGQR7
+ B+HrhoPfPRF43bTfmi+OWyMK1IKEu2UB3xSn/K7jA0G2x+Vc9+kOb8rEXXs/gZRRjWpp
+ ZRvdHulYYs8taTnH4+7gD4wEEebJm/pOHdJLLn2EaFCAWwYOyoxavOdVwb9WW40Xegb9
+ o94Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699337033; x=1699941833;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=lKFEEOwu+JwvBa63rAI+zxMPRAeyFot/drhB3OU5pF8=;
+ b=Uga0ykPmWPHc5nqW2yLLG83SS5lQqCK6kA68HA4tpOvhVUlFcgn8ofOJsHhqhU9IMb
+ BCpbzjnVX5XkZJOuB3zQTmNrk5103/K2EGbsn2qweCqjdiOwL/oIcvZbkZiyYYbaBvp2
+ tP2+y+GlahEFnptoaCauEDlztV3aD2WgPfAmM7+ZlNsVQAvqbOTlsCRpRDdPQIEpgojl
+ mknhXMLogDUFwa40YSV4MzpqgpzdY42oVyYbSYimRSFK6C4gaNOD7ZMq9sKAy2oAOdRC
+ dDQLMbsIycOUIJ3BFGuUV+CM+YOQmu0BmkjXCfT1874qjwuLHlx8DKCxhgLPdxEU6+vW
+ OdDg==
+X-Gm-Message-State: AOJu0YwqH948xEf7IHaTOqO5pjqATI+tO6BMY+ppozrDG5R98vElsBjV
+ K2tpNVKF6IabtV9i+kzcq+irAaQa5kYEY9Xw
+X-Google-Smtp-Source: AGHT+IEYjDnHlZaeLjHfEXLGnwRtpD+SbIvNxQUtdUAz9T0ERhq0lqVvZiRjtyeTQBeHaCk0XeNZnw==
+X-Received: by 2002:a17:903:32d2:b0:1cc:32c6:e5fa with SMTP id
+ i18-20020a17090332d200b001cc32c6e5famr28596508plr.6.1699337032527; 
+ Mon, 06 Nov 2023 22:03:52 -0800 (PST)
+Received: from [192.168.0.152] ([103.75.161.209])
+ by smtp.gmail.com with ESMTPSA id
+ g9-20020a170902c38900b001c726147a45sm6840474plg.190.2023.11.06.22.03.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Nov 2023 22:03:52 -0800 (PST)
+Message-ID: <d252d281-96a5-404c-a6a2-fbaa65bea28a@gmail.com>
+Date: Tue, 7 Nov 2023 11:33:41 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231106185652.GA3360@wunner.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drivers: gpu: Fix warning using plain integer as NULL
+Content-Language: en-US
+To: Alex Deucher <alexdeucher@gmail.com>
+References: <20231103155013.332367-1-singhabhinav9051571833@gmail.com>
+ <CADnq5_OkWD3YmCKgXbtk=Gnba3AgAiAWp2z_nzHQvRfEOsdXVg@mail.gmail.com>
+ <3b92b89b-ca72-4012-b4f2-0b19e4ba9153@gmail.com>
+ <CADnq5_PXRN+PL4wp+sWOXs2L5nQiRmfrw4065R1TE4YKw-ZeUA@mail.gmail.com>
+From: Abhinav Singh <singhabhinav9051571833@gmail.com>
+In-Reply-To: <CADnq5_PXRN+PL4wp+sWOXs2L5nQiRmfrw4065R1TE4YKw-ZeUA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,62 +78,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
- Karol Herbst <kherbst@redhat.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>,
- "open list:X86 PLATFORM DRIVERS" <platform-driver-x86@vger.kernel.org>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Andreas Noever <andreas.noever@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:ACPI" <linux-acpi@vger.kernel.org>,
- Danilo Krummrich <dakr@redhat.com>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Michael Jamet <michael.jamet@intel.com>, Mark Gross <markgross@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, open list <linux-kernel@vger.kernel.org>,
- Yehezkel Bernat <YehezkelShB@gmail.com>,
- Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- "Maciej W . Rozycki" <macro@orcam.me.uk>
+Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Mon, Nov 06, 2023 at 07:56:52PM +0100, Lukas Wunner wrote:
-> On Mon, Nov 06, 2023 at 12:44:25PM -0600, Mario Limonciello wrote:
-> > Tangentially related; the link speed is currently symmetric but there are
-> > two sysfs files.  Mika left a comment in drivers/thunderbolt/switch.c it may
-> > be asymmetric in the future. So we may need to keep that in mind on any
-> > design that builds on top of them.
+On 11/7/23 03:07, Alex Deucher wrote:
+> On Mon, Nov 6, 2023 at 4:20 PM Abhinav Singh
+> <singhabhinav9051571833@gmail.com> wrote:
+>>
+>> On 11/7/23 00:25, Alex Deucher wrote:
+>>> Applied.  This matches what we already do in the other clear state headers.
+>>>
+>>> Alex
+>>>
+>>> On Fri, Nov 3, 2023 at 12:00 PM Abhinav Singh
+>>> <singhabhinav9051571833@gmail.com> wrote:
+>>>>
+>>>> sparse static analysis tools generate a warning with this message
+>>>> "Using plain integer as NULL pointer". In this case this warning is
+>>>> being shown because we are trying to intialize a pointer to NULL using
+>>>> integer value 0.
+>>>>
+>>>> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
+>>>> ---
+>>>>    drivers/gpu/drm/radeon/clearstate_evergreen.h | 8 ++++----
+>>>>    1 file changed, 4 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/radeon/clearstate_evergreen.h b/drivers/gpu/drm/radeon/clearstate_evergreen.h
+>>>> index 63a1ffbb3ced..3b645558f133 100644
+>>>> --- a/drivers/gpu/drm/radeon/clearstate_evergreen.h
+>>>> +++ b/drivers/gpu/drm/radeon/clearstate_evergreen.h
+>>>> @@ -1049,7 +1049,7 @@ static const struct cs_extent_def SECT_CONTEXT_defs[] =
+>>>>        {SECT_CONTEXT_def_5, 0x0000a29e, 5 },
+>>>>        {SECT_CONTEXT_def_6, 0x0000a2a5, 56 },
+>>>>        {SECT_CONTEXT_def_7, 0x0000a2de, 290 },
+>>>> -    { 0, 0, 0 }
+>>>> +    { NULL, 0, 0 }
+>>>>    };
+>>>>    static const u32 SECT_CLEAR_def_1[] =
+>>>>    {
+>>>> @@ -1060,7 +1060,7 @@ static const u32 SECT_CLEAR_def_1[] =
+>>>>    static const struct cs_extent_def SECT_CLEAR_defs[] =
+>>>>    {
+>>>>        {SECT_CLEAR_def_1, 0x0000ffc0, 3 },
+>>>> -    { 0, 0, 0 }
+>>>> +    { NULL, 0, 0 }
+>>>>    };
+>>>>    static const u32 SECT_CTRLCONST_def_1[] =
+>>>>    {
+>>>> @@ -1070,11 +1070,11 @@ static const u32 SECT_CTRLCONST_def_1[] =
+>>>>    static const struct cs_extent_def SECT_CTRLCONST_defs[] =
+>>>>    {
+>>>>        {SECT_CTRLCONST_def_1, 0x0000f3fc, 2 },
+>>>> -    { 0, 0, 0 }
+>>>> +    { NULL, 0, 0 }
+>>>>    };
+>>>>    static const struct cs_section_def evergreen_cs_data[] = {
+>>>>        { SECT_CONTEXT_defs, SECT_CONTEXT },
+>>>>        { SECT_CLEAR_defs, SECT_CLEAR },
+>>>>        { SECT_CTRLCONST_defs, SECT_CTRLCONST },
+>>>> -    { 0, SECT_NONE }
+>>>> +    { NULL, SECT_NONE }
+>>>>    };
+>>>> --
+>>>> 2.39.2
+>>>>
+>> Hi Alex, thanks for looking into this. By applied you mean this patch is
+>> accepted and it has been merged?
 > 
-> Aren't asymmetric Thunderbolt speeds just a DisplayPort thing?
-
-No, they affect the whole fabric. We have the initial code for
-asymmetric switching in v6.7-rc1.
-
-> > As 'thunderbolt' can be a module or built in, we need to bring code into PCI
-> > core so that it works in early boot before it loads.
+> Yes.  Once it makes it through our CI system, it will show up in my
+> drm-next tree.
 > 
-> tb_switch_get_generation() is small enough that it could be moved to the
-> PCI core.  I doubt that we need to make thunderbolt built-in only
-> or move a large amount of code to the PCI core.
-
-If at all possible I would like to avoid this and littering PCI side
-with non-PCI stuff. There could be other similar "mediums" in the future
-where you can transfer packets of "native" protocols such as PCIe so
-instead of making it Thunderbolt/USB4 specific it should be generic
-enough to support future extensions.
-
-In case of Thunderbolt/USB4 there is no real way to figure out how much
-bandwidth each PCIe tunnel gets (it is kind of bulk traffic that gets
-what is left from isochronous protocols) so I would not even try that
-and instead use the real PCIe links in pcie_bandwidth_available() and
-skip all the "virtual" ones.
+> Alex
+Okay, this is my first patch to get into kernel :)
+Thank you once again for your time with this patch and accepting it.
