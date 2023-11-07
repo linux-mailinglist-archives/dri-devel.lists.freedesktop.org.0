@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEC127E326B
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 01:59:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69ABE7E3277
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 02:06:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EF4310E49B;
-	Tue,  7 Nov 2023 00:59:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 908AE10E49C;
+	Tue,  7 Nov 2023 01:06:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com
- [IPv6:2607:f8b0:4864:20::b4a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98E0A10E49B
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 00:59:51 +0000 (UTC)
-Received: by mail-yb1-xb4a.google.com with SMTP id
- 3f1490d57ef6-da2b87dd614so6496742276.2
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 16:59:51 -0800 (PST)
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com
+ [IPv6:2607:f8b0:4864:20::b49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF76810E49C
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 01:06:29 +0000 (UTC)
+Received: by mail-yb1-xb49.google.com with SMTP id
+ 3f1490d57ef6-da1aa98ec19so6218897276.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 17:06:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1699318791; x=1699923591;
+ d=google.com; s=20230601; t=1699319189; x=1699923989;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:from:subject:message-id:references
  :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
- :reply-to; bh=RZq0cHGbwdf8rCqfne97OVdbRaVIcE6Mnc7us/EVmVk=;
- b=YYIOT7BGJqFZ2Cf1UvSBOHQKq3yzoTcUraSKcnPzZSw+AFyMHwhd3tFmw4DQ+19z+t
- du0s6M6lc/VcvO13DAkq0opXmCpC66C4q1coFVr5+MA8ZUvrEoc8DiXaijyQzgSO7F8S
- BOKc4oRwT/2molAYcg0shweADcKugEj2/32gEU3LBFR7UeRFHO60JYjsn/RGi1S6wUmP
- gfrAtrc5vuFI6Df3vHk5D3BiWy5Y9lDL9tvKS8TZ3iDR3frNjj9O8bzBL+FPYqhdntcH
- Cu+P5nc0elcYwf5WZFjufrnFM+pWXkZpI9UEAcEqZhyxVM5z9R7gFwx3P3gA4uG2iHVe
- 1pMA==
+ :reply-to; bh=Ohxi5+Y03NUxyd7Z+WD2LsK2yf5hWz3IWyTmbwaWelU=;
+ b=MqLYVfvle0kpRhshnQ1lBPO+92oDbh81J7vib/Z1YeSkgYeJ5QJVrasj1Vcs349YL5
+ lE1MJaEM/16SjOgNShHDiC+QlG2KMAODXkbYKN6mmYymRxl68T/YJw+zbpIq96/FQHvF
+ qCcTyMQdbc9kaXCQ3u91Y7XLN2hE+U9nXfwHdm4ios5Guw0ElTXmu5M2h7FXDrerLuN+
+ sM+WcmnYpeibPvy3kI7LKBpB9v3KpBBaAX7pPvJ3GBucnIs6V1mdSFZ2uN0597+wqfEl
+ hP1+Ma1lbrXsmSC8UAXLFwPX2UV/NLpzNbHByBUm3/a1nAwQYESd38uctcvfNsZIpDJ5
+ MysA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699318791; x=1699923591;
+ d=1e100.net; s=20230601; t=1699319189; x=1699923989;
  h=content-transfer-encoding:cc:to:from:subject:message-id:references
  :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=RZq0cHGbwdf8rCqfne97OVdbRaVIcE6Mnc7us/EVmVk=;
- b=JZkoiV9nlg1GPike/snvHWoCIjSqew3ocYn2/5dHVQ/cQCWJcH+8niV8afNquCX+xO
- byf1k6Oh0igDdr+XyXqt4D6mCb75FAliqZcy6GrVay61jF+P3Kk8w2Zr6oY3PfCAcbpM
- T5IovgFnS0kgIMHwknSi1FA4Jo2FauxQBb5RLboAM57Kxn4rtY6Y41SZ+fvi+vs3Z9/V
- 3JBr/Z5pQH3LI1MU1+FVRDLX1b7wkwIDFNKxHXv5zHOqwkr4t5VC0bxz+S0opeFr2Uhq
- So2tn5x16+ndfUQ/dFx9Usv65NE24kr27WnTvtV9AuPdwHHo1SEZ034M/ljxkAHnuj3l
- pfzg==
-X-Gm-Message-State: AOJu0YwSsNC/vq83WbiHgpRjXOCNQPRdcmW8U2kKbmO8PkZN0JzhjnFU
- Sp1HocneLbXPsEx3J8uFMudK2KA=
-X-Google-Smtp-Source: AGHT+IHuen4u0ItSSrCJw8SOFK44gqEr5RTLeMcW7sFtezbGV+wdpAVS+dKsyIjzjG0vGnh0CeV67fw=
+ bh=Ohxi5+Y03NUxyd7Z+WD2LsK2yf5hWz3IWyTmbwaWelU=;
+ b=Hd3t1/Ybk0GEsBF1iH2R59HFCFfhUPduqkv3C+3P7oxCFZO6Hdb/FMkbdy4gwLIGto
+ NrTNH6eg31QpOkAx8DArEEuyR3tZoBncheF8zfUZlbAJRPJzZ7JdSnZZFxrVyx3TzYR0
+ MM5vaXNcy44EhPE1JCT2m+N7jBqW0EU0smxrZVETxqnLlUMx02Yqo3PTTZUDSGm0VSD9
+ 4ugMHL1nBpBG50U4uvogHKcYLNVfcunWZ0J9QS+l5Sbdy3esg9N2Loiae/eNyKvs98jC
+ g8GBvdcDX/UERZyx1Z0IiAeUQn3y0VeoMIQHqp+QE8LMnrfm2rHNotGYRgriKAQ+u8I9
+ rjXQ==
+X-Gm-Message-State: AOJu0YwF91tm9fMFb4szdju+Z3o71tdhZNcn0sTuf9Fjt43HRr8dzIE6
+ iPSGNYva+iv+dEZvrIIGrcO/qvM=
+X-Google-Smtp-Source: AGHT+IHuQTOjvZnlRHNnD2CvocinTRlTmqL5PQwl1eaZKT6yHcPv7t7NpUobWTImvAwkWaOkXlZ+pP4=
 X-Received: from sdf.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5935])
- (user=sdf job=sendgmr) by 2002:a25:add5:0:b0:d9a:4f4c:961b with SMTP id
- d21-20020a25add5000000b00d9a4f4c961bmr566975ybe.1.1699318790828; Mon, 06 Nov
- 2023 16:59:50 -0800 (PST)
-Date: Mon, 6 Nov 2023 16:59:49 -0800
-In-Reply-To: <ZUmBf7E8ZoTQwThL@google.com>
+ (user=sdf job=sendgmr) by 2002:a25:68cc:0:b0:da0:622b:553b with SMTP id
+ d195-20020a2568cc000000b00da0622b553bmr541284ybc.12.1699319188777; Mon, 06
+ Nov 2023 17:06:28 -0800 (PST)
+Date: Mon, 6 Nov 2023 17:06:27 -0800
+In-Reply-To: <CAHS8izNxKHhW5uCqmfau6n3c18=hE3RXzA+ng5LEGiKj12nGcg@mail.gmail.com>
 Mime-Version: 1.0
 References: <ZUk03DhWxV-bOFJL@google.com>
  <19129763-6f74-4b04-8a5f-441255b76d34@kernel.org>
@@ -59,12 +59,12 @@ References: <ZUk03DhWxV-bOFJL@google.com>
  <CAHS8izMQ5Um_ScY0VgAjaEaT-hRh4tFoTgc6Xr9Tj5rEj0fijA@mail.gmail.com>
  <CAKH8qBsbh8qYxNHZ6111RQFFpNWbWZtg0LDXkn15xcsbAq4R6w@mail.gmail.com>
  <CAF=yD-+BuKXoVL8UF+No1s0TsHSzBTz7UrB1Djt_BrM74uLLcg@mail.gmail.com>
- <ZUmBf7E8ZoTQwThL@google.com>
-Message-ID: <ZUmMBZpLPQkRS9bg@google.com>
+ <CAHS8izNxKHhW5uCqmfau6n3c18=hE3RXzA+ng5LEGiKj12nGcg@mail.gmail.com>
+Message-ID: <ZUmNk98LyO_Ntcy7@google.com>
 Subject: Re: [RFC PATCH v3 09/12] net: add support for skbs with unreadable
  frags
 From: Stanislav Fomichev <sdf@google.com>
-To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Mina Almasry <almasrymina@google.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,9 +82,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
  Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
  Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Mina Almasry <almasrymina@google.com>, Jeroen de Borst <jeroendb@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- linux-media@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
  Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
  linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
  Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
@@ -96,8 +96,10 @@ Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/06, Stanislav Fomichev wrote:
-> On 11/06, Willem de Bruijn wrote:
+On 11/06, Mina Almasry wrote:
+> On Mon, Nov 6, 2023 at 4:08=E2=80=AFPM Willem de Bruijn
+> <willemdebruijn.kernel@gmail.com> wrote:
+> >
 > > On Mon, Nov 6, 2023 at 3:55=E2=80=AFPM Stanislav Fomichev <sdf@google.c=
 om> wrote:
 > > >
@@ -318,19 +320,49 @@ of
 > > > > the socket to that rx-queue.
 > > >
 > > > It's still fixed and won't change during the socket lifetime, right?
+>=20
+> Technically, no.
+>=20
+> The user is free to modify or delete flow steering rules outside of
+> the lifetime of the socket. Technically it's possible for the user to
+> reconfigure flow steering while the socket is simultaneously
+> receiving, and the result will be packets switching
+>  from devmem to non-devmem. For a reasonably correctly configured
+> application the application would probably want to steer 1 flow to 1
+> dma-buf and never change it, but this is not something we enforce, but
+> rather the user orchestrates. In theory someone can find a use case
+> for configuring and unconfigure flow steering during a connection.
+
+If we do want to support this flexible configuration then we also
+should export some dmabuf id along with the token?
+=20
 > > > And the socket has to know this association; otherwise those tokens
 > > > are useless since they don't carry anything to identify the dmabuf.
 > > >
 > > > I think my other issue with MSG_SOCK_DEVMEM being on recvmsg is that
 > > > it somehow implies that I have an option of passing or not passing it
 > > > for an individual system call.
+>=20
+> You do have the option of passing it or not passing it per system
+> call. The MSG_SOCK_DEVMEM says the application is willing to receive
+> devmem cmsgs - that's all. The application doesn't get to decide
+> whether it's actually going to receive a devmem cmsg or not, because
+> that's dictated by the type of skb that is present in the receive
+> queue, and not up to the application. I should explain this in the
+> commit message...
+
+What would be the case of passing it or not passing it? Some fallback to
+the host memory after flow steering update? Yeah, would be useful to
+document those constrains. I'd lean on starting stricter and relaxing
+those conditions if we find the use-cases.
+
 > > > If we know that we're going to use dmabuf with the socket, maybe we
 > > > should move this flag to the socket() syscall?
 > > >
 > > > fd =3D socket(AF_INET6, SOCK_STREAM, SOCK_DEVMEM);
 > > >
 > > > ?
-> >=20
+> >
 > > I think it should then be a setsockopt called before any data is
 > > exchanged, with no change of modifying mode later. We generally use
 > > setsockopts for the mode of a socket. This use of the protocol field
@@ -338,25 +370,8 @@ of
 > > passively opened connections, or be overly restrictive: one approach
 > > for all accepted child sockets.
 >=20
-> I was thinking this is similar to SOCK_CLOEXEC or SOCK_NONBLOCK? There
-> are plenty of bits we can grab. But setsockopt works as well!
+> We can definitely move SOCK_DEVMEM to a setsockopt(). Seems more than
+> reasonable.
 
-To follow up: if we have this flag on a socket, not on a per-message
-basis, can we also use recvmsg for the recycling part maybe?
-
-while (true) {
-	memset(msg, 0, ...);
-
-	/* receive the tokens */
-	ret =3D recvmsg(fd, &msg, 0);
-
-	/* recycle the tokens from the above recvmsg() */
-	ret =3D recvmsg(fd, &msg, MSG_RECYCLE);
-}
-
-recvmsg + MSG_RECYCLE can parse the same format that regular recvmsg
-exports (SO_DEVMEM_OFFSET) and we can also add extra cmsg option
-to recycle a range.
-
-Will this be more straightforward than a setsockopt(SO_DEVMEM_DONTNEED)?
-Or is it more confusing?
+SG, added another suggestion for SO_DEVMEM_DONTNEED on another thread
+with Willem. LMK what you think.
