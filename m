@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 784167E3D06
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:25:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FE127E3D08
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:25:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4B1E10E55F;
-	Tue,  7 Nov 2023 12:25:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7DD910E562;
+	Tue,  7 Nov 2023 12:25:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E5EA10E55F;
- Tue,  7 Nov 2023 12:25:08 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D31AB10E562;
+ Tue,  7 Nov 2023 12:25:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 30AC5B8168C;
- Tue,  7 Nov 2023 12:25:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E7B3C433C9;
- Tue,  7 Nov 2023 12:25:04 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 383A5CE0F15;
+ Tue,  7 Nov 2023 12:25:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E7BBC433C7;
+ Tue,  7 Nov 2023 12:25:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699359906;
- bh=wH/Olkb/S96csUlOkSkdKDGcYNnJ9Oeo8bBkQ7+Z+mU=;
+ s=k20201202; t=1699359908;
+ bh=Lj88U1SPOqCViOGx6/79GRnr+Zs7V2e0o7KdzccDOqA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=f8S5R6Y9hyRafCHNx9USOlRDw5CGVNk6/hJLd4MPXXg/hGaAjZK7hYxn/l7uUgGDF
- KBM1ybc3hRhHC8HoU3WnBiPuXUcHY7Y0LQ4gY/ivIcY3Nplk1jVVd8/Y/4fqLAJn1Z
- rWxdUdzhg2BGVPlMpqkd0f6P9zT2XgLNsUEU9WZx+RcxpIY6jRnMPvIkcvemSFWrXi
- madHWhpqJkcYN/RBuR7hvnVbvNpJNQBH/2neRNK57qJEn1qDoaf5zlfAfmFu6+1dFS
- 1BnCDp7UceOYuWQjcK2rXZeiiBPlibLeeK3lGOpr/vhLHzOCPCG2xgV+Xvc8nOx0t9
- Jr5TqfAGSmx0w==
+ b=X9ornXobvTP9N3kMPQoJO4PYABVfFXUW2IND1zLdI7aT0mgWWq1YSl1nTXWnQt8Ww
+ t+SbaxfTykSXhurf+SZir/NxQWWnE3IM40G8Yh51TeuVQk+O4RT7xuc65j204fFZf4
+ MZNn0BBn+NhN9QaQ8KVzuiuatvttQfzZ9TN3GxC34DP2FSD6f0BN+rI5NXhHBJbNr0
+ JUboxh3qTmkqV77CK1xG7G2+G+O7nmcx41Gynxw0DeXQFDFCZeNl80LtogUbKNisFo
+ cw26UZ6zu0UmYjJBnqeLtenrqNvIzd5Lc+rgTT5U4YJYziE9YnaT0myKJg0KHNmG9x
+ Eu+Wla7iZukTQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.5 09/37] drm/amdgpu: not to save bo in the case of
- RAS err_event_athub
-Date: Tue,  7 Nov 2023 07:21:20 -0500
-Message-ID: <20231107122407.3760584-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.5 10/37] drm/amdkfd: Fix a race condition of vram
+ buffer unref in svm code
+Date: Tue,  7 Nov 2023 07:21:21 -0500
+Message-ID: <20231107122407.3760584-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231107122407.3760584-1-sashal@kernel.org>
 References: <20231107122407.3760584-1-sashal@kernel.org>
@@ -54,54 +54,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Hongkun.Zhang@amd.com, tao.zhou1@amd.com,
- srinivasan.shanmugam@amd.com, dri-devel@lists.freedesktop.org,
- Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org, lijo.lazar@amd.com,
- gpiccoli@igalia.com, mario.limonciello@amd.com,
- Alex Deucher <alexander.deucher@amd.com>,
- "David \(Ming Qiang\) Wu" <David.Wu3@amd.com>, James.Zhu@amd.com,
- Leo Liu <leo.liu@amd.com>, christian.koenig@amd.com,
- saleemkhan.jamadar@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, Philip Yang <Philip.Yang@amd.com>,
+ Xiaogang Chen <xiaogang.chen@amd.com>, Jesse Zhang <Jesse.Zhang@amd.com>,
+ Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Felix.Kuehling@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "David (Ming Qiang) Wu" <David.Wu3@amd.com>
+From: Xiaogang Chen <xiaogang.chen@amd.com>
 
-[ Upstream commit fa1f1cc09d588a90c8ce3f507c47df257461d148 ]
+[ Upstream commit 709c348261618da7ed89d6c303e2ceb9e453ba74 ]
 
-err_event_athub will corrupt VCPU buffer and not good to
-be restored in amdgpu_vcn_resume() and in this case
-the VCPU buffer needs to be cleared for VCN firmware to
-work properly.
+prange->svm_bo unref can happen in both mmu callback and a callback after
+migrate to system ram. Both are async call in different tasks. Sync svm_bo
+unref operation to avoid random "use-after-free".
 
-Acked-by: Leo Liu <leo.liu@amd.com>
-Signed-off-by: David (Ming Qiang) Wu <David.Wu3@amd.com>
+Signed-off-by: Xiaogang Chen <xiaogang.chen@amd.com>
+Reviewed-by: Philip Yang <Philip.Yang@amd.com>
+Reviewed-by: Jesse Zhang <Jesse.Zhang@amd.com>
+Tested-by: Jesse Zhang <Jesse.Zhang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
-index ae455aab5d29d..7e54abca45206 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
-@@ -292,8 +292,15 @@ int amdgpu_vcn_suspend(struct amdgpu_device *adev)
- 	void *ptr;
- 	int i, idx;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+index 5ff1a5a89d968..ed365f8ebf53f 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+@@ -617,8 +617,15 @@ svm_range_vram_node_new(struct kfd_node *node, struct svm_range *prange,
  
-+	bool in_ras_intr = amdgpu_ras_intr_triggered();
-+
- 	cancel_delayed_work_sync(&adev->vcn.idle_work);
+ void svm_range_vram_node_free(struct svm_range *prange)
+ {
+-	svm_range_bo_unref(prange->svm_bo);
+-	prange->ttm_res = NULL;
++	/* serialize prange->svm_bo unref */
++	mutex_lock(&prange->lock);
++	/* prange->svm_bo has not been unref */
++	if (prange->ttm_res) {
++		prange->ttm_res = NULL;
++		mutex_unlock(&prange->lock);
++		svm_range_bo_unref(prange->svm_bo);
++	} else
++		mutex_unlock(&prange->lock);
+ }
  
-+	/* err_event_athub will corrupt VCPU buffer, so we need to
-+	 * restore fw data and clear buffer in amdgpu_vcn_resume() */
-+	if (in_ras_intr)
-+		return 0;
-+
- 	for (i = 0; i < adev->vcn.num_vcn_inst; ++i) {
- 		if (adev->vcn.harvest_config & (1 << i))
- 			continue;
+ struct kfd_node *
 -- 
 2.42.0
 
