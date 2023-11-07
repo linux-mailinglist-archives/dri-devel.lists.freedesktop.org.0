@@ -2,90 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833A07E4960
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 20:46:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69FBA7E4969
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 20:53:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 203EE10E678;
-	Tue,  7 Nov 2023 19:46:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9564C10E688;
+	Tue,  7 Nov 2023 19:53:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1nam02on2082.outbound.protection.outlook.com [40.107.96.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12B7210E677;
- Tue,  7 Nov 2023 19:46:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d9F98C3Ue+qU4UguMNx7PHQ5cAqurPWnziShB4oX35akT9r//t6BygY06f5FSWLjGQU5RM631ilxokaNBESiMct/O9rcFXRcMVo04yXVIArFeREpD2iEdZIgFBFEWZnXHix0HcSqM8eD42nR+tAFSC4++47pBduwofsaTV0Mi6e8u10plet1d8VDQIylIXcnxYl/JrVR3zjdDVjfVQt8e3ywbsV9OrNmDjPtZng6wNwurK7QtmgkCcbRAT79n6Z3uHTYC8miWBlClxpizf32Si0+q26GeXqJo+chad3v01PuJrKOPYfnM4GRkYL+3RgcMtwnzLY0HktHm8d4nhD/Zw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1r1PVucqcx0QUGyoKMucUNHCEa3dMtKZnhBgywt1c2o=;
- b=Lnt2uc/cYXlbC6cYS+jfVkkeGkNtgYUoGjspgFDjF3czqFSyKnF/CT/iqao6V40N4hES1FbNH9hqBjuxLLZ3nGDogmkHMrVvnrg7uHNyM1n8yUxgqpDLW1J6uxWFPrNVFwpRch37h1sHnIGtC2aH1jGuBEStKHzGDgWXH/oopxhWnFRL9ASh5FMaizqKfpFy53C/fYyd974YZpFJeLvXsifT+GzyPafxxEx09e1mWpA0Zp6gum3Qbd0egVCoNiPXvHM4q+6dcNm7bwF5rs+zMIOlo2i176aeDOzw7I48Z6Ti/ne/+uQP92UGfrnUPKH4gXreqBnXFrfzE6DVzmLG/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1r1PVucqcx0QUGyoKMucUNHCEa3dMtKZnhBgywt1c2o=;
- b=QL4hrbbgUmJETkJpxRybKOjDQ+7dd45tdSUAsBq1YYBVuonP29HEFW20fR7HKOgDzsY+94rntv1nK6Ca5dHl4SRMlL85KRPv9eYxthG95B9ZULEsc1zWtrhL8Zhe7EbEYo3l8xoIR/AUbSipWfsZbTlKkmxVfETDC1UXLOGdrPU=
-Received: from CY8P222CA0015.NAMP222.PROD.OUTLOOK.COM (2603:10b6:930:6b::25)
- by DM4PR12MB8572.namprd12.prod.outlook.com (2603:10b6:8:17d::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.29; Tue, 7 Nov
- 2023 19:46:21 +0000
-Received: from CY4PEPF0000EDD0.namprd03.prod.outlook.com
- (2603:10b6:930:6b:cafe::c2) by CY8P222CA0015.outlook.office365.com
- (2603:10b6:930:6b::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28 via Frontend
- Transport; Tue, 7 Nov 2023 19:46:21 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000EDD0.mail.protection.outlook.com (10.167.241.204) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6977.16 via Frontend Transport; Tue, 7 Nov 2023 19:46:21 +0000
-Received: from rajneesh-desk.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Tue, 7 Nov
- 2023 13:46:16 -0600
-From: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
-To: <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH] drm/ttm: Schedule delayed_delete worker closer
-Date: Tue, 7 Nov 2023 14:45:54 -0500
-Message-ID: <20231107194554.945018-1-rajneesh.bhardwaj@amd.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com
+ [IPv6:2607:f8b0:4864:20::e2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27E5C10E688
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 19:53:37 +0000 (UTC)
+Received: by mail-vs1-xe2b.google.com with SMTP id
+ ada2fe7eead31-45da75867d3so1054463137.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 11:53:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1699386816; x=1699991616;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tnuTqDfsVwYZum4mgCN3P8a9mRjXV0bf7p3FmGowjyI=;
+ b=drMOXqI9/J993iUNRMneSuU4weWkfJU8IoArH4K8rbMWySLvF1+XDEtxgJkJrX+KQa
+ xAUh4bhcDyfdMYR+Iz0YdtyCg1LtSNqMAgXp6qt7aX/2RDybAOxdlMh+BjjDlockLTmK
+ QNUGsxb1YeZwJN6QHdDJ6DMhlr9bC8PIQ9e6b5zHb1OjiciuyE6LZ0s/Kbn0ugut4VYU
+ yEJyqi1bx2G7o8W5+9rZpuLcX41ZDBQaojRtCFMchosvgVwHqAov1YwBrYKqoKf+aNr3
+ xbEoxYBvhW3TIIKGWpB6saP7fqZe/1MnjQUkAvZNz/vxHd7n3sfrk6S3ntwi8y+NJ0L5
+ JSSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699386816; x=1699991616;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tnuTqDfsVwYZum4mgCN3P8a9mRjXV0bf7p3FmGowjyI=;
+ b=PMPWrVIg0Vb6sgn3gVwR+fpl++KsUNs+xzA+I14Z6xzRpVJeE36HDMuFZhgSzlMQoV
+ OxmrPDZzOWcWvYasUQn327WxYV7vVPL+gbJf5I/0JNy4yFoPcJGzVTBEk1WPkWaGV1T4
+ wquDB6BUxdxuyPioYgb2fmQY10zZU7bAuQ/TZBfcqfgSuk8zgvaH2iO/gQgYi2GVI44V
+ DBghUv27nFcQNaXoGTGwAAWJGHDYwTe0SHXwxVwVlbpUNoYb4Ke/tP2+iXx8HAwLYVRu
+ 8p+ZNGFmeMZoTVwcz6L/z1cjJ4cbxLUmwShH4Tkcptgoj1nhlT0MGqWgCxMDtv0YVEPU
+ WBsA==
+X-Gm-Message-State: AOJu0YyAQ/Fa95zjHBSNZ69U5ISb35qbwr95TkzT+90wo0qyWAxQvYyR
+ RiwRrWK17eMAJ7BRADHloMOCQRar5vngE/THGubdsw==
+X-Google-Smtp-Source: AGHT+IFRfpykRqgBWNCOXyp4/VIT9n7OcqngEslUuXORQ+jDqZ50qQ8GNzo4lC3gCBtUGRfNYYENwfnNi6aElAPXvi8=
+X-Received: by 2002:a05:6102:475a:b0:45d:86d0:27 with SMTP id
+ ej26-20020a056102475a00b0045d86d00027mr11736495vsb.33.1699386816008; Tue, 07
+ Nov 2023 11:53:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD0:EE_|DM4PR12MB8572:EE_
-X-MS-Office365-Filtering-Correlation-Id: c61b91e8-eacf-4258-0974-08dbdfca3792
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: llITVD1kZU9fvOrwQ3K5dqsBDDPHAuXzGpy5j9CAEY2FA+JWVg1oyzYtOvBMBOjdJFC1MqveHwzAAJsliLdj/DLP1rgrUD+/koFSSknEDpEJb99eRmhbMxvfcvKcyhklEVSE6ZFU3sVlmXRJSlA8gGUwR7Hrd6z60cF26EuCo/5WVpXMYdOi8xQGughZhcrd0Mh5eT7fbBx2BuKs8PagcECa0mqwQwpyShf/UfiZBlyQLHomoyzhKHot6YwMgKuIaSePxnGbRzCd8m7URdgtYgdJCbJC3H0wsGSfOGAAU5O/sbvyJ7ALTblm5dahdWqAkCp8mvYlcSLx9FZoIc8KZcFJQ1p1nuun16bDBSvpXcnPvELmzg0NaYsodJZkvWL1lxUBz9u/ldKbSqaZeNz9tZMEWOHMI428pt5bmyd9CuOz7CYdu/wiJUcl+al8VxleD/mxqB7nOAAcda8vkAufvUDI9ohRFag7Vd1XhoSTieLSlEDfKZe+oP94y1czuZU+uxLpCT6Wdc3rVLx7mBKWvRDlYvqQ2MAlJtVq93Ee4l4Xhe4dlyER7nO5a0/wXURBITx/xM31ycPSubBNJaFXIu/VarY5q7rmiMM6WTGGMhUU3HmloPVmBYCHbkz1iKperALpYxPFquVdFEXsh8ZHGxe6wq59TG1KsCTqSso0j6Ep3xUNFJUcOURN/Fm0VY6w/ydaHNcXc/sRlVPlAf3b7MH9TpjLdkCscKHGyPj7vF/uXbpwkJJO5m/scD8es7MZcokRGFLu/vI5bOJgAGGVuQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(396003)(136003)(376002)(39860400002)(346002)(230922051799003)(451199024)(64100799003)(186009)(82310400011)(1800799009)(40470700004)(36840700001)(46966006)(47076005)(450100002)(8936002)(4326008)(40460700003)(8676002)(70206006)(316002)(70586007)(54906003)(6916009)(41300700001)(2906002)(86362001)(44832011)(5660300002)(426003)(81166007)(83380400001)(336012)(356005)(2616005)(16526019)(26005)(1076003)(82740400003)(36860700001)(40480700001)(36756003)(478600001)(7696005)(6666004)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2023 19:46:21.0668 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c61b91e8-eacf-4258-0974-08dbdfca3792
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EDD0.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8572
+References: <ZUk03DhWxV-bOFJL@google.com>
+ <19129763-6f74-4b04-8a5f-441255b76d34@kernel.org>
+ <CAHS8izMrnVUfbbS=OcJ6JT9SZRRfZ2MC7UnggthpZT=zf2BGLA@mail.gmail.com>
+ <ZUlhu4hlTaqR3CTh@google.com>
+ <CAHS8izMaAhoae5ChnzO4gny1cYYnqV1cB8MC2cAF3eoyt+Sf4A@mail.gmail.com>
+ <ZUlvzm24SA3YjirV@google.com>
+ <CAHS8izMQ5Um_ScY0VgAjaEaT-hRh4tFoTgc6Xr9Tj5rEj0fijA@mail.gmail.com>
+ <CAKH8qBsbh8qYxNHZ6111RQFFpNWbWZtg0LDXkn15xcsbAq4R6w@mail.gmail.com>
+ <CAF=yD-+BuKXoVL8UF+No1s0TsHSzBTz7UrB1Djt_BrM74uLLcg@mail.gmail.com>
+ <CAHS8izNxKHhW5uCqmfau6n3c18=hE3RXzA+ng5LEGiKj12nGcg@mail.gmail.com>
+ <ZUmNk98LyO_Ntcy7@google.com>
+In-Reply-To: <ZUmNk98LyO_Ntcy7@google.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 7 Nov 2023 11:53:22 -0800
+Message-ID: <CAHS8izNTDsHTahkd17zQVQnjzniZAk-dKNs-Mq0E4shdrXOJbg@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 09/12] net: add support for skbs with unreadable
+ frags
+To: Stanislav Fomichev <sdf@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,61 +80,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, felix.kuehling@amd.com, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
+ Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
+ Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
+ David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When a TTM BO is getting freed, to optimize the clearing operation on
-the workqueue, schedule it closer to a NUMA node where the memory was
-allocated. This avoids the cases where the ttm_bo_delayed_delete gets
-scheduled on the CPU cores that are across interconnect boundaries such
-as xGMI, PCIe etc.
+On Mon, Nov 6, 2023 at 5:06=E2=80=AFPM Stanislav Fomichev <sdf@google.com> =
+wrote:
+[..]
+> > > > And the socket has to know this association; otherwise those tokens
+> > > > are useless since they don't carry anything to identify the dmabuf.
+> > > >
+> > > > I think my other issue with MSG_SOCK_DEVMEM being on recvmsg is tha=
+t
+> > > > it somehow implies that I have an option of passing or not passing =
+it
+> > > > for an individual system call.
+> >
+> > You do have the option of passing it or not passing it per system
+> > call. The MSG_SOCK_DEVMEM says the application is willing to receive
+> > devmem cmsgs - that's all. The application doesn't get to decide
+> > whether it's actually going to receive a devmem cmsg or not, because
+> > that's dictated by the type of skb that is present in the receive
+> > queue, and not up to the application. I should explain this in the
+> > commit message...
+>
+> What would be the case of passing it or not passing it? Some fallback to
+> the host memory after flow steering update? Yeah, would be useful to
+> document those constrains. I'd lean on starting stricter and relaxing
+> those conditions if we find the use-cases.
+>
 
-This change helps USWC GTT allocations on NUMA systems (dGPU) and AMD
-APU platforms such as GFXIP9.4.3.
+MSG_SOCK_DEVMEM (or its replacement SOCK_DEVMEM or SO_SOCK_DEVMEM),
+just says that the application is able to receive devmem cmsgs and
+will parse them. The use case for not setting that flag is existing
+applications that are not aware of devmem cmsgs. I don't want those
+applications to think they're receiving data in the linear buffer only
+to find out that the data is in devmem and they ignored the devmem
+cmsg.
 
-Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
----
- drivers/gpu/drm/ttm/ttm_bo.c     | 10 +++++++++-
- drivers/gpu/drm/ttm/ttm_device.c |  3 ++-
- 2 files changed, 11 insertions(+), 2 deletions(-)
+So, what happens:
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 5757b9415e37..0d608441a112 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -370,7 +370,15 @@ static void ttm_bo_release(struct kref *kref)
- 			spin_unlock(&bo->bdev->lru_lock);
- 
- 			INIT_WORK(&bo->delayed_delete, ttm_bo_delayed_delete);
--			queue_work(bdev->wq, &bo->delayed_delete);
-+			/* Schedule the worker on the closest NUMA node, if no
-+			 * CPUs are available, this falls back to any CPU core
-+			 * available system wide. This helps avoid the
-+			 * bottleneck to clear memory in cases where the worker
-+			 * is scheduled on a CPU which is remote to the node
-+			 * where the memory is getting freed.
-+			 */
-+
-+			queue_work_node(bdev->pool.nid, bdev->wq, &bo->delayed_delete);
- 			return;
- 		}
- 
-diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-index 43e27ab77f95..72b81a2ee6c7 100644
---- a/drivers/gpu/drm/ttm/ttm_device.c
-+++ b/drivers/gpu/drm/ttm/ttm_device.c
-@@ -213,7 +213,8 @@ int ttm_device_init(struct ttm_device *bdev, struct ttm_device_funcs *funcs,
- 	bdev->funcs = funcs;
- 
- 	ttm_sys_man_init(bdev);
--	ttm_pool_init(&bdev->pool, dev, NUMA_NO_NODE, use_dma_alloc, use_dma32);
-+
-+	ttm_pool_init(&bdev->pool, dev, dev_to_node(dev), use_dma_alloc, use_dma32);
- 
- 	bdev->vma_manager = vma_manager;
- 	spin_lock_init(&bdev->lru_lock);
--- 
-2.34.1
+- MSG_SOCK_DEVMEM provided and next skb in the queue is devmem:
+application receives cmsgs.
+- MSG_SOCK_DEVMEM provided and next skb in the queue is non-devmem:
+application receives in the linear buffer.
+- MSG_SOCK_DEVMEM not provided and net skb is devmem: application
+receives EFAULT.
+- MSG_SOCK_DEVMEM not provided and next skb is non-devmem: application
+receives in the linear buffer.
 
+My bad on not including some docs about this. The next version should
+have the commit message beefed up to explain all this, or a docs
+patch.
+
+
+--=20
+Thanks,
+Mina
