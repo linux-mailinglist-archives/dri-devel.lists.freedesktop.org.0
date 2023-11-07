@@ -1,63 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AE987E4B86
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 23:11:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB2E7E4BA6
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 23:23:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38B1810E6C4;
-	Tue,  7 Nov 2023 22:11:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 365BC10E0D8;
+	Tue,  7 Nov 2023 22:23:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com
- [IPv6:2607:f8b0:4864:20::e2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B23E510E6C4
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 22:11:07 +0000 (UTC)
-Received: by mail-vs1-xe2f.google.com with SMTP id
- ada2fe7eead31-45da062101bso1791376137.2
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 14:11:07 -0800 (PST)
+Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com
+ [IPv6:2607:f8b0:4864:20::649])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63CC310E0B8
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 22:23:22 +0000 (UTC)
+Received: by mail-pl1-x649.google.com with SMTP id
+ d9443c01a7336-1cc2efd22ccso55040665ad.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 14:23:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1699395067; x=1699999867;
+ d=google.com; s=20230601; t=1699395802; x=1700000602;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GbbSAsuabIr4BwrZEqK8c8XYZufkR++Mr7B/MiPJA0o=;
- b=YEh5THVB15i7yDIRff3OrCXdMxfdrHS8/C07RjkKyy3ir3GrPUifyZy6k0eyXVrnN8
- QekjwvI0B6a9SJPTB3Ob8mNNQYBDGcb9jadfKx/xf9scDg7gPA/1BQJIsq0Z1AY6uDII
- qqYOGUkZ2HLXm1ZNQA4x5O1BEc/zyyi+UR3XT8bjDwZyG85C8whfwn5QssT8ap7qRNSz
- ut15BuGF2iaLbe9Z7VMyFVFqz4yb5fm2sGZAqrMxL5uye9FCa5MOCinYWotexriZub+K
- 8/DEUHAtM9koNuMx+B6zFoqF246ckDsFDNafE5Snqlt8x5fh0Mg4vesvEz1FBNcqFVis
- dYLg==
+ h=content-transfer-encoding:cc:to:from:subject:message-id:references
+ :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=0Pmozh0ybI7SbfNg64kEULMiwr3zKJkFxXH8jQ6gCVM=;
+ b=DafWbwLUF9bAsfjFO1oXSx+PplfkYS3hXzcJo+JH/RQbhJCPFEwFnncXuVwHKkt4mO
+ 3oOUnjTM3j+p0xnWTn1KGeuHFfAeN/XgP+Er0gK6avYhZaWt0xgVQMoR6C4g9DO5FoxZ
+ DBnTvUl46HPRR/vRZ+fsY8XFByEUeXkimD19rjlalGxTxmzTDVzq/5vY0tHAS9x2F2Bj
+ ZXXfSFccAUp9pu6AghRHsFf56wFanN1V6AhLBNJRzX8aozoClsaNdMLc8TJH6OKw80gE
+ cuBx5Xg3cRu8su742Mm8iheJUuwURvYied3dbTitpOlcbImaWPhooufPIEyXrvi3AVDD
+ rsAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699395067; x=1699999867;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GbbSAsuabIr4BwrZEqK8c8XYZufkR++Mr7B/MiPJA0o=;
- b=ShGzo9RFVAW69LmTcyTAjMlHlp9kv1j4z9vavTIvgw8VxNkMm7ss9zVYjXTm2pX9Ue
- R+T3pBS54VmemwapFt6R6haAgoYZaJPlzBsCmhaIxdO+Ip46fAoUfAeXurFcgHzFHGmL
- GlXSNPEbMxL733lECfxQ0HYgYxZNolTAX9oYA+lEyZoDGvGfMv/jYaSEl87YvqgHto9K
- AMXJTKiMJF1NpMJPVj0kDx2WqJqbN7GaNAifT1YgXeacVC30LrvXQi6fCjaYTuUCwToP
- O1cqyiNlyz1VD6FcMt6PVvpqrIo5MwHEhQueOOj1EQ8DPKGXD7WuvLUZf8mScjQm5O5h
- 5m7w==
-X-Gm-Message-State: AOJu0YzzaFTpCIQWI5YPyTYmOVRiBzoC3sagmBFCaNLSC/Id3EZV3q7t
- s1wnhkHnHQwczoDjonBEZnSnK4K2Tl9nGJfGC6LQzQ==
-X-Google-Smtp-Source: AGHT+IGk2R54zWB6aRa4RbSeBT9Z8J5T4TXiyB4Vle9bwzR5GqISmJH2OZCPqY1SUXwwMEpn8Stt8en869yrOvH8V6Y=
-X-Received: by 2002:a05:6102:474b:b0:45f:4e55:9c4b with SMTP id
- ej11-20020a056102474b00b0045f4e559c4bmr5313415vsb.31.1699395066619; Tue, 07
- Nov 2023 14:11:06 -0800 (PST)
-MIME-Version: 1.0
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-6-almasrymina@google.com>
- <3b0d612c-e33b-48aa-a861-fbb042572fc9@kernel.org>
-In-Reply-To: <3b0d612c-e33b-48aa-a861-fbb042572fc9@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 7 Nov 2023 14:10:52 -0800
-Message-ID: <CAHS8izOHYx+oYnzksUDrK1S0+6CdMJmirApntP5W862yFumezw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 05/12] netdev: netdevice devmem allocator
-To: David Ahern <dsahern@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+ d=1e100.net; s=20230601; t=1699395802; x=1700000602;
+ h=content-transfer-encoding:cc:to:from:subject:message-id:references
+ :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=0Pmozh0ybI7SbfNg64kEULMiwr3zKJkFxXH8jQ6gCVM=;
+ b=W27LwjQl0niiHIVxme0NZsi3jZK9fcx4T1J1f7Z2a1wlVEnxWna+fdFYp4omY5Vn3/
+ x1H6XvnBIQUGt0404C9JDxuLvgMuAzL3QQtuMJ9MHSSj4VuLvRZkXye8GcBSzAF0L7Od
+ l5oLzeISPnxMQ6phyHNfKowVaVoy5ap1G7FnQMiSK32apigdB6tN3Z8eMAphuQ0MzNVi
+ 8hjN7vEM/VDrswBfk2gREi+zvjkma9k/LHitRkiqrl7KI6I3FvWds1asoGYa6Vko+rMe
+ ek78tE3K7KTfir8wMW84LZQBTUU4ENzIGOmOX+P+7xBshKqbTJ5w7xyNl53o7qutJ3+t
+ 4J7g==
+X-Gm-Message-State: AOJu0YxSTFkObZDfqe6P8jc5KIsJO0q9zUqRvMY+RBPae6//IHWIu7Hh
+ L9VglEomC4/35JO443OTb9jVcY0=
+X-Google-Smtp-Source: AGHT+IH1xKdg+nrZdYHc/L2SejfqkQOSdqRffH8LAz7J5HMiZt1d8BbpMO2b6yTqmZzIZmhgTiZbQUk=
+X-Received: from sdf.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5935])
+ (user=sdf job=sendgmr) by 2002:a17:903:3244:b0:1cc:bb7f:bd60 with SMTP id
+ ji4-20020a170903324400b001ccbb7fbd60mr6825plb.6.1699395801930; Tue, 07 Nov
+ 2023 14:23:21 -0800 (PST)
+Date: Tue, 7 Nov 2023 14:23:20 -0800
+In-Reply-To: <CANn89iJNR8bYYBO92=f5_2hFoTK8+giH11o-7NHURoahwvV11w@mail.gmail.com>
+Mime-Version: 1.0
+References: <CAHS8izMaAhoae5ChnzO4gny1cYYnqV1cB8MC2cAF3eoyt+Sf4A@mail.gmail.com>
+ <ZUlvzm24SA3YjirV@google.com>
+ <CAHS8izMQ5Um_ScY0VgAjaEaT-hRh4tFoTgc6Xr9Tj5rEj0fijA@mail.gmail.com>
+ <CAKH8qBsbh8qYxNHZ6111RQFFpNWbWZtg0LDXkn15xcsbAq4R6w@mail.gmail.com>
+ <CAF=yD-+BuKXoVL8UF+No1s0TsHSzBTz7UrB1Djt_BrM74uLLcg@mail.gmail.com>
+ <CAHS8izNxKHhW5uCqmfau6n3c18=hE3RXzA+ng5LEGiKj12nGcg@mail.gmail.com>
+ <ZUmNk98LyO_Ntcy7@google.com>
+ <CAHS8izNTDsHTahkd17zQVQnjzniZAk-dKNs-Mq0E4shdrXOJbg@mail.gmail.com>
+ <ZUqms8QzQpfPQWyy@google.com>
+ <CANn89iJNR8bYYBO92=f5_2hFoTK8+giH11o-7NHURoahwvV11w@mail.gmail.com>
+Message-ID: <ZUq42Po1Pn-9QxrM@google.com>
+Subject: Re: [RFC PATCH v3 09/12] net: add support for skbs with unreadable
+ frags
+From: Stanislav Fomichev <sdf@google.com>
+To: Eric Dumazet <edumazet@google.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,78 +80,55 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Mina Almasry <almasrymina@google.com>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
  Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
  Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
- Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
+ linux-arch@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, linaro-mm-sig@lists.linaro.org,
+ Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>,
+ netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
  Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
  "David S. Miller" <davem@davemloft.net>,
  Praveen Kaligineedi <pkaligineedi@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 6, 2023 at 3:44=E2=80=AFPM David Ahern <dsahern@kernel.org> wro=
-te:
->
-> On 11/5/23 7:44 PM, Mina Almasry wrote:
-> > diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-> > index eeeda849115c..1c351c138a5b 100644
-> > --- a/include/linux/netdevice.h
-> > +++ b/include/linux/netdevice.h
-> > @@ -843,6 +843,9 @@ struct netdev_dmabuf_binding {
-> >  };
-> >
-> >  #ifdef CONFIG_DMA_SHARED_BUFFER
-> > +struct page_pool_iov *
-> > +netdev_alloc_devmem(struct netdev_dmabuf_binding *binding);
-> > +void netdev_free_devmem(struct page_pool_iov *ppiov);
->
-> netdev_{alloc,free}_dmabuf?
->
-
-Can do.
-
-> I say that because a dmabuf can be host memory, at least I am not aware
-> of a restriction that a dmabuf is device memory.
->
-
-In my limited experience dma-buf is generally device memory, and
-that's really its use case. CONFIG_UDMABUF is a driver that mocks
-dma-buf with a memfd which I think is used for testing. But I can do
-the rename, it's more clear anyway, I think.
-
-On Mon, Nov 6, 2023 at 11:45=E2=80=AFPM Yunsheng Lin <linyunsheng@huawei.co=
+On 11/07, Eric Dumazet wrote:
+> On Tue, Nov 7, 2023 at 10:05=E2=80=AFPM Stanislav Fomichev <sdf@google.co=
 m> wrote:
->
-> On 2023/11/6 10:44, Mina Almasry wrote:
-> > +
-> > +void netdev_free_devmem(struct page_pool_iov *ppiov)
-> > +{
-> > +     struct netdev_dmabuf_binding *binding =3D page_pool_iov_binding(p=
-piov);
-> > +
-> > +     refcount_set(&ppiov->refcount, 1);
-> > +
-> > +     if (gen_pool_has_addr(binding->chunk_pool,
-> > +                           page_pool_iov_dma_addr(ppiov), PAGE_SIZE))
->
-> When gen_pool_has_addr() returns false, does it mean something has gone
-> really wrong here?
->
+>=20
+> >
+> > I don't understand. We require an elaborate setup to receive devmem cms=
+gs,
+> > why would some random application receive those?
+>=20
+>=20
+> A TCP socket can receive 'valid TCP packets' from many different sources,
+> especially with BPF hooks...
+>=20
+> Think of a bonding setup, packets being mirrored by some switches or
+> even from tc.
+>=20
+> Better double check than be sorry.
+>=20
+> We have not added a 5th component in the 4-tuple lookups, being "is
+> this socket a devmem one".
+>=20
+> A mix of regular/devmem skb is supported.
 
-Yes, good eye. gen_pool_has_addr() should never return false, but then
-again, gen_pool_free()  BUG_ON()s if it doesn't find the address,
-which is an extremely severe reaction to what can be a minor bug in
-the accounting. I prefer to leak rather than crash the machine. It's a
-bit of defensive programming that is normally frowned upon, but I feel
-like in this case it's maybe warranted due to the very severe reaction
-(BUG_ON).
+Can we mark a socket as devmem-only? Do we have any use-case for those
+hybrid setups? Or, let me put it that way: do we expect API callers
+to handle both linear and non-linear cases correctly?
+As a consumer of the previous versions of these apis internally,
+I find all those corner cases confusing :-( Hence trying to understand
+whether we can make it a bit more rigid and properly defined upstream.
 
---=20
-Thanks,
-Mina
+But going back to that MSG_SOCK_DEVMEM flag. If the application is
+supposed to handle both linear and devmem chucks, why do we need
+this extra MSG_SOCK_DEVMEM opt-in to signal that it's able to process
+it? From Mina's reply, it seemed like MSG_SOCK_DEVMEM is there to
+protect random applications that get misrouted devmem skb. I don't
+see how returning EFAULT helps in that case.
