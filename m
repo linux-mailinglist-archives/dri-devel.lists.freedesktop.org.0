@@ -2,39 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAEA67E3D55
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:27:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4BD7E3D56
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:27:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA50310E586;
-	Tue,  7 Nov 2023 12:27:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97B2F10E588;
+	Tue,  7 Nov 2023 12:27:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC65C10E586
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 12:27:50 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AD9E10E586
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 12:27:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 76BA6B81699;
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0166B611C2;
+ Tue,  7 Nov 2023 12:27:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5740DC433CB;
  Tue,  7 Nov 2023 12:27:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94C01C433C8;
- Tue,  7 Nov 2023 12:27:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699360068;
- bh=gyO7pKhpw7VjRi5Sk9hIVCjSM/9Okm+Q2b7CXRwXlOY=;
- h=From:To:Cc:Subject:Date:From;
- b=m4ZZH6SlDHRN4FTEFUZIUWDzAFpgh6ChB+Da1r4h8qTo8XSm/3/p/ozciJLYMYqZA
- YNEMVtDZgRpn+6DYgH/TxT2EfIdz1D2FI/3gnxWeYPTKkky484/pt8U37IRBxLOLHZ
- Wng7wdJnca62eAdLssGpgm6XhUXRKGBU1rub7G7PIy7E9lvjBNaXLjoq/rsdUDeylW
- v+btpGsuD3j8cvIFCa6a/R3LJLTQZj2IhZJCQffyuUWyPmaWVpRsYQcwBgcE2h1vHO
- 0V9ekAGXTzozh6zTcqNF+jJUU0ugfqCdqh0lH7GSF79jiz10LWqpXW9qTJkgGHON6s
- 0EzR6lhbWjhwA==
+ s=k20201202; t=1699360070;
+ bh=wtPuCirPCwlkOkkKp7DO+VejojY2Gc2O8EZm7AjJt24=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=iQOoP3TrP0KfK42v8aH/WNiBw9ZuihfjyKo/RWfFhZFx+jgkISTZilBRR8lMUUXYM
+ x3NXqo2+ak6tDxeb+uHV2BhUri7+RyoxMOEurDOHopaWhfpPMZbydES2uO5oaHXT96
+ 582qApsHrpluvZHHuPt2kOEV546al3vgL8oIPIXtBqZt9LJMXjLJeGukMW0ciXlIPe
+ JgKYHQooxcAwH9pcaqSWfXAebvj5U1/7yVqXEInn0qGvFHel1QbfMnzZ3t6r9HR4Pm
+ sPfcBkol9jXfVo+t/DFgLMXfX7DBhBUUoe768JNp9oPITwg8zppLeT0+QCaCHUeQVj
+ t5vX5CUa0el7w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 01/25] drm/gma500: Fix call trace when
- psb_gem_mm_init() fails
-Date: Tue,  7 Nov 2023 07:26:40 -0500
-Message-ID: <20231107122745.3761613-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 02/25] drm/komeda: drop all currently held locks
+ if deadlock happens
+Date: Tue,  7 Nov 2023 07:26:41 -0500
+Message-ID: <20231107122745.3761613-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231107122745.3761613-1-sashal@kernel.org>
+References: <20231107122745.3761613-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -52,141 +54,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>,
- dri-devel@lists.freedesktop.org, mripard@kernel.org, tzimmermann@suse.de
+Cc: Sasha Levin <sashal@kernel.org>, "baozhu.liu" <lucas.liu@siengine.com>,
+ mripard@kernel.org, dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ "menghui . huang" <menghui.huang@siengine.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sui Jingfeng <suijingfeng@loongson.cn>
+From: "baozhu.liu" <lucas.liu@siengine.com>
 
-[ Upstream commit da596080b2b400c50fe9f8f237bcaf09fed06af8 ]
+[ Upstream commit 19ecbe8325a2a7ffda5ff4790955b84eaccba49f ]
 
-Because the gma_irq_install() is call after psb_gem_mm_init() function,
-when psb_gem_mm_init() fails, the interrupt line haven't been allocated.
-Yet the gma_irq_uninstall() is called in the psb_driver_unload() function
-without checking if checking the irq is registered or not.
+If komeda_pipeline_unbound_components() returns -EDEADLK,
+it means that a deadlock happened in the locking context.
+Currently, komeda is not dealing with the deadlock properly,producing the
+following output when CONFIG_DEBUG_WW_MUTEX_SLOWPATH is enabled:
 
-The calltrace is appended as following:
+ ------------[ cut here ]------------
+[   26.103984] WARNING: CPU: 2 PID: 345 at drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:1248
+	       komeda_release_unclaimed_resources+0x13c/0x170
+[   26.117453] Modules linked in:
+[   26.120511] CPU: 2 PID: 345 Comm: composer@2.1-se Kdump: loaded Tainted: G   W  5.10.110-SE-SDK1.8-dirty #16
+[   26.131374] Hardware name: Siengine Se1000 Evaluation board (DT)
+[   26.137379] pstate: 20400009 (nzCv daif +PAN -UAO -TCO BTYPE=--)
+[   26.143385] pc : komeda_release_unclaimed_resources+0x13c/0x170
+[   26.149301] lr : komeda_release_unclaimed_resources+0xbc/0x170
+[   26.155130] sp : ffff800017b8b8d0
+[   26.158442] pmr_save: 000000e0
+[   26.161493] x29: ffff800017b8b8d0 x28: ffff000cf2f96200
+[   26.166805] x27: ffff000c8f5a8800 x26: 0000000000000000
+[   26.172116] x25: 0000000000000038 x24: ffff8000116a0140
+[   26.177428] x23: 0000000000000038 x22: ffff000cf2f96200
+[   26.182739] x21: ffff000cfc300300 x20: ffff000c8ab77080
+[   26.188051] x19: 0000000000000003 x18: 0000000000000000
+[   26.193362] x17: 0000000000000000 x16: 0000000000000000
+[   26.198672] x15: b400e638f738ba38 x14: 0000000000000000
+[   26.203983] x13: 0000000106400a00 x12: 0000000000000000
+[   26.209294] x11: 0000000000000000 x10: 0000000000000000
+[   26.214604] x9 : ffff800012f80000 x8 : ffff000ca3308000
+[   26.219915] x7 : 0000000ff3000000 x6 : ffff80001084034c
+[   26.225226] x5 : ffff800017b8bc40 x4 : 000000000000000f
+[   26.230536] x3 : ffff000ca3308000 x2 : 0000000000000000
+[   26.235847] x1 : 0000000000000000 x0 : ffffffffffffffdd
+[   26.241158] Call trace:
+[   26.243604] komeda_release_unclaimed_resources+0x13c/0x170
+[   26.249175] komeda_crtc_atomic_check+0x68/0xf0
+[   26.253706] drm_atomic_helper_check_planes+0x138/0x1f4
+[   26.258929] komeda_kms_check+0x284/0x36c
+[   26.262939] drm_atomic_check_only+0x40c/0x714
+[   26.267381] drm_atomic_nonblocking_commit+0x1c/0x60
+[   26.272344] drm_mode_atomic_ioctl+0xa3c/0xb8c
+[   26.276787] drm_ioctl_kernel+0xc4/0x120
+[   26.280708] drm_ioctl+0x268/0x534
+[   26.284109] __arm64_sys_ioctl+0xa8/0xf0
+[   26.288030] el0_svc_common.constprop.0+0x80/0x240
+[   26.292817] do_el0_svc+0x24/0x90
+[   26.296132] el0_svc+0x20/0x30
+[   26.299185] el0_sync_handler+0xe8/0xf0
+[   26.303018] el0_sync+0x1a4/0x1c0
+[   26.306330] irq event stamp: 0
+[   26.309384] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+[   26.315650] hardirqs last disabled at (0): [<ffff800010056d34>] copy_process+0x5d0/0x183c
+[   26.323825] softirqs last  enabled at (0): [<ffff800010056d34>] copy_process+0x5d0/0x183c
+[   26.331997] softirqs last disabled at (0): [<0000000000000000>] 0x0
+[   26.338261] ---[ end trace 20ae984fa860184a ]---
+[   26.343021] ------------[ cut here ]------------
+[   26.347646] WARNING: CPU: 3 PID: 345 at drivers/gpu/drm/drm_modeset_lock.c:228 drm_modeset_drop_locks+0x84/0x90
+[   26.357727] Modules linked in:
+[   26.360783] CPU: 3 PID: 345 Comm: composer@2.1-se Kdump: loaded Tainted: G   W  5.10.110-SE-SDK1.8-dirty #16
+[   26.371645] Hardware name: Siengine Se1000 Evaluation board (DT)
+[   26.377647] pstate: 20400009 (nzCv daif +PAN -UAO -TCO BTYPE=--)
+[   26.383649] pc : drm_modeset_drop_locks+0x84/0x90
+[   26.388351] lr : drm_mode_atomic_ioctl+0x860/0xb8c
+[   26.393137] sp : ffff800017b8bb10
+[   26.396447] pmr_save: 000000e0
+[   26.399497] x29: ffff800017b8bb10 x28: 0000000000000001
+[   26.404807] x27: 0000000000000038 x26: 0000000000000002
+[   26.410115] x25: ffff000cecbefa00 x24: ffff000cf2f96200
+[   26.415423] x23: 0000000000000001 x22: 0000000000000018
+[   26.420731] x21: 0000000000000001 x20: ffff800017b8bc10
+[   26.426039] x19: 0000000000000000 x18: 0000000000000000
+[   26.431347] x17: 0000000002e8bf2c x16: 0000000002e94c6b
+[   26.436655] x15: 0000000002ea48b9 x14: ffff8000121f0300
+[   26.441963] x13: 0000000002ee2ca8 x12: ffff80001129cae0
+[   26.447272] x11: ffff800012435000 x10: ffff000ed46b5e88
+[   26.452580] x9 : ffff000c9935e600 x8 : 0000000000000000
+[   26.457888] x7 : 000000008020001e x6 : 000000008020001f
+[   26.463196] x5 : ffff80001085fbe0 x4 : fffffe0033a59f20
+[   26.468504] x3 : 000000008020001e x2 : 0000000000000000
+[   26.473813] x1 : 0000000000000000 x0 : ffff000c8f596090
+[   26.479122] Call trace:
+[   26.481566] drm_modeset_drop_locks+0x84/0x90
+[   26.485918] drm_mode_atomic_ioctl+0x860/0xb8c
+[   26.490359] drm_ioctl_kernel+0xc4/0x120
+[   26.494278] drm_ioctl+0x268/0x534
+[   26.497677] __arm64_sys_ioctl+0xa8/0xf0
+[   26.501598] el0_svc_common.constprop.0+0x80/0x240
+[   26.506384] do_el0_svc+0x24/0x90
+[   26.509697] el0_svc+0x20/0x30
+[   26.512748] el0_sync_handler+0xe8/0xf0
+[   26.516580] el0_sync+0x1a4/0x1c0
+[   26.519891] irq event stamp: 0
+[   26.522943] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+[   26.529207] hardirqs last disabled at (0): [<ffff800010056d34>] copy_process+0x5d0/0x183c
+[   26.537379] softirqs last  enabled at (0): [<ffff800010056d34>] copy_process+0x5d0/0x183c
+[   26.545550] softirqs last disabled at (0): [<0000000000000000>] 0x0
+[   26.551812] ---[ end trace 20ae984fa860184b ]---
 
-[   20.539253] ioremap memtype_reserve failed -16
-[   20.543895] gma500 0000:00:02.0: Failure to map stolen base.
-[   20.565049] ------------[ cut here ]------------
-[   20.565066] Trying to free already-free IRQ 16
-[   20.565087] WARNING: CPU: 1 PID: 381 at kernel/irq/manage.c:1893 free_irq+0x209/0x370
-[   20.565316] CPU: 1 PID: 381 Comm: systemd-udevd Tainted: G         C         6.5.0-rc1+ #368
-[   20.565329] Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M./IMB-140D Plus, BIOS P1.10 11/18/2013
-[   20.565338] RIP: 0010:free_irq+0x209/0x370
-[   20.565357] Code: 41 5d 41 5e 41 5f 5d 31 d2 89 d1 89 d6 89 d7 41 89 d1 c3 cc cc cc cc 8b 75 d0 48 c7 c7 e0 77 12 9f 4c 89 4d c8 e8 57 fe f4 ff <0f> 0b 48 8b 75 c8 4c 89 f7 e8 29 f3 f1 00 49 8b 47 40 48 8b 40 78
-[   20.565369] RSP: 0018:ffffae3b40733808 EFLAGS: 00010046
-[   20.565382] RAX: 0000000000000000 RBX: ffff9f8082bfe000 RCX: 0000000000000000
-[   20.565390] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-[   20.565397] RBP: ffffae3b40733840 R08: 0000000000000000 R09: 0000000000000000
-[   20.565405] R10: 0000000000000000 R11: 0000000000000000 R12: ffff9f80871c3100
-[   20.565413] R13: ffff9f80835d3360 R14: ffff9f80835d32a4 R15: ffff9f80835d3200
-[   20.565424] FS:  00007f13d36458c0(0000) GS:ffff9f8138880000(0000) knlGS:0000000000000000
-[   20.565434] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   20.565441] CR2: 00007f0d046f3f20 CR3: 0000000006c8c000 CR4: 00000000000006e0
-[   20.565450] Call Trace:
-[   20.565458]  <TASK>
-[   20.565470]  ? show_regs+0x72/0x90
-[   20.565488]  ? free_irq+0x209/0x370
-[   20.565504]  ? __warn+0x8d/0x160
-[   20.565520]  ? free_irq+0x209/0x370
-[   20.565536]  ? report_bug+0x1bb/0x1d0
-[   20.565555]  ? handle_bug+0x46/0x90
-[   20.565572]  ? exc_invalid_op+0x19/0x80
-[   20.565587]  ? asm_exc_invalid_op+0x1b/0x20
-[   20.565607]  ? free_irq+0x209/0x370
-[   20.565625]  ? free_irq+0x209/0x370
-[   20.565644]  gma_irq_uninstall+0x15b/0x1e0 [gma500_gfx]
-[   20.565728]  psb_driver_unload+0x27/0x190 [gma500_gfx]
-[   20.565800]  psb_pci_probe+0x5d2/0x790 [gma500_gfx]
-[   20.565873]  local_pci_probe+0x48/0xb0
-[   20.565892]  pci_device_probe+0xc8/0x280
-[   20.565912]  really_probe+0x1d2/0x440
-[   20.565929]  __driver_probe_device+0x8a/0x190
-[   20.565944]  driver_probe_device+0x23/0xd0
-[   20.565957]  __driver_attach+0x10f/0x220
-[   20.565971]  ? __pfx___driver_attach+0x10/0x10
-[   20.565984]  bus_for_each_dev+0x7a/0xe0
-[   20.566002]  driver_attach+0x1e/0x30
-[   20.566014]  bus_add_driver+0x127/0x240
-[   20.566029]  driver_register+0x64/0x140
-[   20.566043]  ? __pfx_psb_init+0x10/0x10 [gma500_gfx]
-[   20.566111]  __pci_register_driver+0x68/0x80
-[   20.566128]  psb_init+0x2c/0xff0 [gma500_gfx]
-[   20.566194]  do_one_initcall+0x46/0x330
-[   20.566214]  ? kmalloc_trace+0x2a/0xb0
-[   20.566233]  do_init_module+0x6a/0x270
-[   20.566250]  load_module+0x207f/0x23a0
-[   20.566278]  init_module_from_file+0x9c/0xf0
-[   20.566293]  ? init_module_from_file+0x9c/0xf0
-[   20.566315]  idempotent_init_module+0x184/0x240
-[   20.566335]  __x64_sys_finit_module+0x64/0xd0
-[   20.566352]  do_syscall_64+0x59/0x90
-[   20.566366]  ? ksys_mmap_pgoff+0x123/0x270
-[   20.566378]  ? __secure_computing+0x9b/0x110
-[   20.566392]  ? exit_to_user_mode_prepare+0x39/0x190
-[   20.566406]  ? syscall_exit_to_user_mode+0x2a/0x50
-[   20.566420]  ? do_syscall_64+0x69/0x90
-[   20.566433]  ? do_syscall_64+0x69/0x90
-[   20.566445]  ? do_syscall_64+0x69/0x90
-[   20.566458]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8
-[   20.566472] RIP: 0033:0x7f13d351ea3d
-[   20.566485] Code: 5b 41 5c c3 66 0f 1f 84 00 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d c3 a3 0f 00 f7 d8 64 89 01 48
-[   20.566496] RSP: 002b:00007ffe566c1fd8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
-[   20.566510] RAX: ffffffffffffffda RBX: 000055e66806eec0 RCX: 00007f13d351ea3d
-[   20.566519] RDX: 0000000000000000 RSI: 00007f13d36d9441 RDI: 0000000000000010
-[   20.566527] RBP: 0000000000020000 R08: 0000000000000000 R09: 0000000000000002
-[   20.566535] R10: 0000000000000010 R11: 0000000000000246 R12: 00007f13d36d9441
-[   20.566543] R13: 000055e6681108c0 R14: 000055e66805ba70 R15: 000055e66819a9c0
-[   20.566559]  </TASK>
-[   20.566566] ---[ end trace 0000000000000000 ]---
+According to the call trace information,it can be located to be
+WARN_ON(IS_ERR(c_st)) in the komeda_pipeline_unbound_components function;
+Then follow the function.
+komeda_pipeline_unbound_components
+-> komeda_component_get_state_and_set_user
+  -> komeda_pipeline_get_state_and_set_crtc
+    -> komeda_pipeline_get_state
+      ->drm_atomic_get_private_obj_state
+        -> drm_atomic_get_private_obj_state
+          -> drm_modeset_lock
 
-Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230727185855.713318-1-suijingfeng@loongson.cn
+komeda_pipeline_unbound_components
+-> komeda_component_get_state_and_set_user
+  -> komeda_component_get_state
+    -> drm_atomic_get_private_obj_state
+     -> drm_modeset_lock
+
+ret = drm_modeset_lock(&obj->lock, state->acquire_ctx); if (ret)
+	return ERR_PTR(ret);
+Here it return -EDEADLK.
+
+deal with the deadlock as suggested by [1], using the
+function drm_modeset_backoff().
+[1] https://docs.kernel.org/gpu/drm-kms.html?highlight=kms#kms-locking
+
+Therefore, handling this problem can be solved
+by adding return -EDEADLK back to the drm_modeset_backoff processing flow
+in the drm_mode_atomic_ioctl function.
+
+Signed-off-by: baozhu.liu <lucas.liu@siengine.com>
+Signed-off-by: menghui.huang <menghui.huang@siengine.com>
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230804013117.6870-1-menghui.huang@siengine.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/gma500/psb_drv.h | 1 +
- drivers/gpu/drm/gma500/psb_irq.c | 5 +++++
- 2 files changed, 6 insertions(+)
+ .../gpu/drm/arm/display/komeda/komeda_pipeline_state.c   | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
-index ae544b69fc475..52f9ed3c24b8e 100644
---- a/drivers/gpu/drm/gma500/psb_drv.h
-+++ b/drivers/gpu/drm/gma500/psb_drv.h
-@@ -426,6 +426,7 @@ struct drm_psb_private {
- 	uint32_t pipestat[PSB_NUM_PIPE];
- 
- 	spinlock_t irqmask_lock;
-+	bool irq_enabled;
- 
- 	/* Power */
- 	bool pm_initialized;
-diff --git a/drivers/gpu/drm/gma500/psb_irq.c b/drivers/gpu/drm/gma500/psb_irq.c
-index d421031462df6..ab2d49dab35a0 100644
---- a/drivers/gpu/drm/gma500/psb_irq.c
-+++ b/drivers/gpu/drm/gma500/psb_irq.c
-@@ -338,6 +338,8 @@ int gma_irq_install(struct drm_device *dev)
- 
- 	gma_irq_postinstall(dev);
- 
-+	dev_priv->irq_enabled = true;
-+
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
+index 3276a3e82c628..916f2c36bf2f7 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c
+@@ -1223,7 +1223,7 @@ int komeda_build_display_data_flow(struct komeda_crtc *kcrtc,
  	return 0;
  }
  
-@@ -348,6 +350,9 @@ void gma_irq_uninstall(struct drm_device *dev)
- 	unsigned long irqflags;
- 	unsigned int i;
- 
-+	if (!dev_priv->irq_enabled)
-+		return;
+-static void
++static int
+ komeda_pipeline_unbound_components(struct komeda_pipeline *pipe,
+ 				   struct komeda_pipeline_state *new)
+ {
+@@ -1243,8 +1243,12 @@ komeda_pipeline_unbound_components(struct komeda_pipeline *pipe,
+ 		c = komeda_pipeline_get_component(pipe, id);
+ 		c_st = komeda_component_get_state_and_set_user(c,
+ 				drm_st, NULL, new->crtc);
++		if (PTR_ERR(c_st) == -EDEADLK)
++			return -EDEADLK;
+ 		WARN_ON(IS_ERR(c_st));
+ 	}
 +
- 	spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
++	return 0;
+ }
  
- 	if (dev_priv->ops->hotplug_enable)
+ /* release unclaimed pipeline resource */
+@@ -1266,9 +1270,8 @@ int komeda_release_unclaimed_resources(struct komeda_pipeline *pipe,
+ 	if (WARN_ON(IS_ERR_OR_NULL(st)))
+ 		return -EINVAL;
+ 
+-	komeda_pipeline_unbound_components(pipe, st);
++	return komeda_pipeline_unbound_components(pipe, st);
+ 
+-	return 0;
+ }
+ 
+ /* Since standalone disabled components must be disabled separately and in the
 -- 
 2.42.0
 
