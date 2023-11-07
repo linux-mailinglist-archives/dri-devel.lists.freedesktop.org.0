@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EFDC7E3E36
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:35:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 796937E3E38
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:35:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30E7710E5E9;
-	Tue,  7 Nov 2023 12:35:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 849B110E5EC;
+	Tue,  7 Nov 2023 12:35:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62FC310E5E8
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 12:35:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7ED410E5E9
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 12:35:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699360521; x=1730896521;
+ t=1699360522; x=1730896522;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=IEc2ODk/4eKfsWixkRSwyEMAlRdXNx/cwCIYAX7khbg=;
- b=MaJmJarF+BcNSTHNqQxUfX+xe2bo624G7lM0+hNJ6eXlp7EbWlu5UZtQ
- 6Bu3cFt455BXA4QtQhuH2wc1bK+xIbotIL9sQw1M1E708beBwv1vZoKnM
- f3HgCP3ds/fnjekiKr9Fr447Q0GWw08L9vYZnNP2gzMRqoxNa93bZxm2+
- lRKQ2zIql4Vw4PgFH72EZg7rhYLKrLO4UTn1fbyEgHjPEKfiqB/Nh+82G
- O+VVn83As4l+LZ20eUWkEfBnqDjk8JFBdEwtcgVZ0WoFFbGnUEfk8yOFT
- dz7qrh+4pJ6/S7WAbEw1SyJ01KXATHuHtYHDUwdn2YL+I5/pHz8c7DGTC A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="393396723"
-X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; d="scan'208";a="393396723"
+ bh=LMUSd+ALF8RPeYYmPxlWUzBE0FWaB+nhoxhtkpVag2g=;
+ b=iOu9b7bi06Sw+U2fAbQh3mZ6C1j8GIT3OX6I/2mPmBD2ElTaxRZ+XEC3
+ g7+CdJ56EDilDaszA0v1zZNRrfLE/FA0meBLZ22eQiT6WB72PgMDzcrZv
+ kNnBzkpd8g6os4ESVYgoFnR50AxhZ97d/hieMkmNojXryMvZa5QzjYAS7
+ js9GLKVZEH9+euPVgTzUuiQoyRZ7U5cf8USLIiuUbDl6hwPYD7miVV286
+ jfJVSJs5jL6OolYJqk/fWGoGGX6gLp1GTR9a8S1EQAvoIX2i/G3qiXQHH
+ t2mk04Uwz6MMP7DP58DOypmB9HYzs6+IT+MS62t1unzwQoH71tBYZFMo/ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="393396732"
+X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; d="scan'208";a="393396732"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Nov 2023 04:35:21 -0800
+ 07 Nov 2023 04:35:22 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; 
-   d="scan'208";a="3979138"
+   d="scan'208";a="3979142"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Nov 2023 04:35:19 -0800
+ 07 Nov 2023 04:35:21 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/5] accel/ivpu: Do not use irqsave in ivpu_ipc_dispatch
-Date: Tue,  7 Nov 2023 13:35:11 +0100
-Message-ID: <20231107123514.2218850-3-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 3/5] accel/ivpu: Do not use cons->aborted for job_done_thread
+Date: Tue,  7 Nov 2023 13:35:12 +0100
+Message-ID: <20231107123514.2218850-4-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231107123514.2218850-1-jacek.lawrynowicz@linux.intel.com>
 References: <20231107123514.2218850-1-jacek.lawrynowicz@linux.intel.com>
@@ -64,41 +64,77 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 
-ivpu_ipc_dispatch is always called with irqs disabled. Add lockdep
-assertion and remove unneeded _irqsave/_irqrestore.
+This allow to simplify ivpu_ipc_receive() as now we do not have
+to process all messages in aborted state - they will be freed in
+ivpu_ipc_consumer_del().
 
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_ipc.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/accel/ivpu/ivpu_ipc.c | 18 +++++++++---------
+ drivers/accel/ivpu/ivpu_job.c |  1 -
+ 2 files changed, 9 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
-index 31ae0e71a8a3..781c7e40505a 100644
+index 781c7e40505a..1dd4413dc88f 100644
 --- a/drivers/accel/ivpu/ivpu_ipc.c
 +++ b/drivers/accel/ivpu/ivpu_ipc.c
-@@ -367,9 +367,9 @@ ivpu_ipc_dispatch(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
- {
- 	struct ivpu_ipc_info *ipc = vdev->ipc;
- 	struct ivpu_ipc_rx_msg *rx_msg;
--	unsigned long flags;
+@@ -238,17 +238,16 @@ int ivpu_ipc_receive(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
+ 		return -ETIMEDOUT;
  
- 	lockdep_assert_held(&ipc->cons_list_lock);
-+	lockdep_assert_irqs_disabled();
- 
- 	rx_msg = kzalloc(sizeof(*rx_msg), GFP_ATOMIC);
+ 	spin_lock_irq(&cons->rx_lock);
++	if (cons->aborted) {
++		spin_unlock_irq(&cons->rx_lock);
++		return -ECANCELED;
++	}
+ 	rx_msg = list_first_entry_or_null(&cons->rx_msg_list, struct ivpu_ipc_rx_msg, link);
  	if (!rx_msg) {
-@@ -382,9 +382,9 @@ ivpu_ipc_dispatch(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
- 	rx_msg->ipc_hdr = ipc_hdr;
- 	rx_msg->jsm_msg = jsm_msg;
+ 		spin_unlock_irq(&cons->rx_lock);
+ 		return -EAGAIN;
+ 	}
+ 	list_del(&rx_msg->link);
+-	if (cons->aborted) {
+-		spin_unlock_irq(&cons->rx_lock);
+-		ret = -ECANCELED;
+-		goto out;
+-	}
+ 	spin_unlock_irq(&cons->rx_lock);
  
--	spin_lock_irqsave(&cons->rx_lock, flags);
-+	spin_lock(&cons->rx_lock);
- 	list_add_tail(&rx_msg->link, &cons->rx_msg_list);
--	spin_unlock_irqrestore(&cons->rx_lock, flags);
-+	spin_unlock(&cons->rx_lock);
+ 	if (ipc_buf)
+@@ -266,7 +265,6 @@ int ivpu_ipc_receive(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
+ 	}
  
- 	wake_up(&cons->rx_msg_wq);
- }
+ 	ivpu_ipc_rx_mark_free(vdev, rx_msg->ipc_hdr, rx_msg->jsm_msg);
+-out:
+ 	atomic_dec(&ipc->rx_msg_count);
+ 	kfree(rx_msg);
+ 
+@@ -528,9 +526,11 @@ void ivpu_ipc_disable(struct ivpu_device *vdev)
+ 
+ 	spin_lock_irqsave(&ipc->cons_list_lock, flags);
+ 	list_for_each_entry_safe(cons, c, &ipc->cons_list, link) {
+-		spin_lock(&cons->rx_lock);
+-		cons->aborted = true;
+-		spin_unlock(&cons->rx_lock);
++		if (cons->channel != VPU_IPC_CHAN_JOB_RET) {
++			spin_lock(&cons->rx_lock);
++			cons->aborted = true;
++			spin_unlock(&cons->rx_lock);
++		}
+ 		wake_up(&cons->rx_msg_wq);
+ 	}
+ 	spin_unlock_irqrestore(&ipc->cons_list_lock, flags);
+diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+index 02acd8dba02a..77b1b8abadd6 100644
+--- a/drivers/accel/ivpu/ivpu_job.c
++++ b/drivers/accel/ivpu/ivpu_job.c
+@@ -578,7 +578,6 @@ static int ivpu_job_done_thread(void *arg)
+ 	ivpu_ipc_consumer_add(vdev, &cons, VPU_IPC_CHAN_JOB_RET);
+ 
+ 	while (!kthread_should_stop()) {
+-		cons.aborted = false;
+ 		timeout = ivpu_tdr_timeout_ms ? ivpu_tdr_timeout_ms : vdev->timeout.tdr;
+ 		jobs_submitted = !xa_empty(&vdev->submitted_jobs_xa);
+ 		ret = ivpu_ipc_receive(vdev, &cons, NULL, &jsm_msg, timeout);
 -- 
 2.42.0
 
