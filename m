@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4F97E3CD3
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:20:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20CDA7E3CD4
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:20:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D37D10E53A;
-	Tue,  7 Nov 2023 12:20:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4950310E53D;
+	Tue,  7 Nov 2023 12:20:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C67F10E535
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 12:20:39 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 001E110E55F;
+ Tue,  7 Nov 2023 12:20:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 1CBE5B816AA;
- Tue,  7 Nov 2023 12:20:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4658FC433B8;
- Tue,  7 Nov 2023 12:20:36 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id C99C5CE0F14;
+ Tue,  7 Nov 2023 12:20:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5BB1C433CB;
+ Tue,  7 Nov 2023 12:20:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699359637;
- bh=vcudCxkeKP3irK7esjxaNBHnutlGTbUPlugACaavDUw=;
+ s=k20201202; t=1699359639;
+ bh=epV+MnKVaBHRdg9RgBdQpC5Q5g1JWLFq4Ftpd7OcFdA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=u7l0xkzpafUIEzJtwFOxnEYdchLxPMrObpNJ6LpeL3N9s3A7zTufdJO59ZC1dOzDu
- BC44Jcxra1D8qz3y/+9xdA6ZqPRkLjnCKUlO9rZTn6kjF/OhZpHkOtEVD56uNSegj8
- cR0Wd67SnCWCuU2LXFWmo2EiSOR9m3dhHAc5u8zNGyht7oJrwnf20vi+S7RzPtzNtB
- dw1Brw3xpd0XseNinRZfVpIh3eUkUh68CPV2ODLWaYDMkg89S7DHiGG8oHc7SVWD6+
- 8d0GAA8+ZQCjaCGzb3bbgH5ftZUGn0+h1NaISZXSk4h7SwoZJYgqOPzAU80hdKJPGR
- pxc3GdVUWKKKA==
+ b=IlkbXGjaq9E927BZkWY5FQ/T5QnVl19pwe7IBBpZFRnSCZODDAw579dmVZQHko6d0
+ K1gOWsr/HszcSi8An89lzzcNsS2NBGpZmOAYTcScr0br99qj7VnOCzDvdO6II5i3Hq
+ F7p1Wyoc0Pvd37nEe5TnqNJF8W9i3G6DwJHwhpDgEa26WGvdMAwKNkBkyieheoeIaX
+ z9JPv3ND6rxqi3HiymSBdWQ5cBTlbhMbv18wiOvdSIbWrnzef1xEr71Fk0drkkUrYa
+ 3mo8aa+iMXL8oh7/yq1GlDIpz6FQWTi5zqSGJRu+Sb0b1XfXSVEaJyqQz5t9960isR
+ Q3D3fOhVwtZhw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 25/40] drm/panel/panel-tpo-tpg110: fix a possible
- null pointer dereference
-Date: Tue,  7 Nov 2023 07:16:27 -0500
-Message-ID: <20231107121837.3759358-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 26/40] drm/radeon: fix a possible null pointer
+ dereference
+Date: Tue,  7 Nov 2023 07:16:28 -0500
+Message-ID: <20231107121837.3759358-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231107121837.3759358-1-sashal@kernel.org>
 References: <20231107121837.3759358-1-sashal@kernel.org>
@@ -54,43 +55,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Ma Ke <make_ruc2021@163.com>, mripard@kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de
+Cc: Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com,
+ Ma Ke <make_ruc2021@163.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ma Ke <make_ruc2021@163.com>
 
-[ Upstream commit f22def5970c423ea7f87d5247bd0ef91416b0658 ]
+[ Upstream commit 2c1fe3c480f9e1deefd50d4b18be4a046011ee1f ]
 
-In tpg110_get_modes(), the return value of drm_mode_duplicate() is
-assigned to mode, which will lead to a NULL pointer dereference on
-failure of drm_mode_duplicate(). Add a check to avoid npd.
+In radeon_tv_get_modes(), the return value of drm_cvt_mode()
+is assigned to mode, which will lead to a NULL pointer
+dereference on failure of drm_cvt_mode(). Add a check to
+avoid null point dereference.
 
 Signed-off-by: Ma Ke <make_ruc2021@163.com>
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Link: https://lore.kernel.org/r/20231009090446.4043798-1-make_ruc2021@163.com
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20231009090446.4043798-1-make_ruc2021@163.com
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/panel/panel-tpo-tpg110.c | 2 ++
+ drivers/gpu/drm/radeon/radeon_connectors.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-tpo-tpg110.c b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-index 845304435e235..f6a212e542cb9 100644
---- a/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-+++ b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-@@ -379,6 +379,8 @@ static int tpg110_get_modes(struct drm_panel *panel,
- 	connector->display_info.bus_flags = tpg->panel_mode->bus_flags;
- 
- 	mode = drm_mode_duplicate(connector->dev, &tpg->panel_mode->mode);
-+	if (!mode)
-+		return -ENOMEM;
- 	drm_mode_set_name(mode);
- 	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
- 
+diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
+index d2f02c3dfce29..b84b58926106a 100644
+--- a/drivers/gpu/drm/radeon/radeon_connectors.c
++++ b/drivers/gpu/drm/radeon/radeon_connectors.c
+@@ -1119,6 +1119,8 @@ static int radeon_tv_get_modes(struct drm_connector *connector)
+ 	else {
+ 		/* only 800x600 is supported right now on pre-avivo chips */
+ 		tv_mode = drm_cvt_mode(dev, 800, 600, 60, false, false, false);
++		if (!tv_mode)
++			return 0;
+ 		tv_mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+ 		drm_mode_probed_add(connector, tv_mode);
+ 	}
 -- 
 2.42.0
 
