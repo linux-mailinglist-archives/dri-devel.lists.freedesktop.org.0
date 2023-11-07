@@ -2,81 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 032B57E47A1
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 18:54:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9DED7E47A4
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 18:56:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A6DE10E635;
-	Tue,  7 Nov 2023 17:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0ECD10E636;
+	Tue,  7 Nov 2023 17:56:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9299B10E635
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 17:54:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1699379633;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jGpL9NuEv6Ciw+zA4Ck7tukYdeQ54xRJGOuRiC3a+2o=;
- b=LyyDKcj2DYMlk6m8do+I9fIKmizTtc3WlYFyTWbpAQIk2YFVzvdlNpXLemQTQl2PdibPZz
- amBggpu3U+u7dIvB/152ESyRujaK4igV6RLxzHWAQ37g+3/Zf4j0g5qrYYUE0ju0/mpJqL
- xHrAvwocUBRrJ9bAvjpjAM12a2buB7Q=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-251-qMR_don9OwGSTVcrEIgidA-1; Tue, 07 Nov 2023 12:53:48 -0500
-X-MC-Unique: qMR_don9OwGSTVcrEIgidA-1
-Received: by mail-ed1-f70.google.com with SMTP id
- 4fb4d7f45d1cf-543f45ab457so4199089a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 09:53:47 -0800 (PST)
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3299F10E636
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 17:56:23 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id
+ 4fb4d7f45d1cf-5435336ab0bso10331726a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 09:56:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1699379781; x=1699984581;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8StncZh/iw8rVTbFpbMeIoiTuJSwCnvKTl9QP94ClOw=;
+ b=KEzitH3ZpA4XiDHpENtB6kjo30R16Yv0GtN356h/7FdbRl6X+WD9ReMSfGuRL5ILSz
+ G3NNVrApiOFqhS670waK0l9TzIekm8PoAV10Taiq11BaH5M1ybzbyndxbieIjGSYyaYf
+ CI+9hRgAI8JrnmfC3FxtI3ako4mG3euAI2pSo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699379627; x=1699984427;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jGpL9NuEv6Ciw+zA4Ck7tukYdeQ54xRJGOuRiC3a+2o=;
- b=t70Md5v8S3hICmBkXCcsNNGZK+fVoTH0MgbiTC9DSW/oiPPJYLL++h0cfSo1YDetXi
- 8J9VJuh1PibsBhgS4zQwoL9vSx/FvYyUbYGCRQEgkgDBOo2pJ+VxyuvTENW54RHwXcrC
- DvrVtkJSf8l/iaHTggUcxc2PBVQl909RviGS/JRJEqqXboHkHJfkv56ecyXCzgsP8H21
- JfqW4xm3JuZwngp0rCLHjMI4XTtOP91KXZY2ct29VGYpVpi3w2VHc+y4Y2hC3Jxg0N1S
- IhRbNhMDVevjVwts8JCZANvefjFcfNmQfORGsdAz5UdgHNgLS4Zt46zaeNX9CXKBT/Rg
- HDeA==
-X-Gm-Message-State: AOJu0Yy//ESdJJeZlD4Wt+35DVhZWbKgvBh02xeA1IYWieIapq8zet7/
- YF4+Bel0prLQ9EYpnKyQH8wzvNZ2v4n1pUb3qzEi+YISMPXIwCptwbysZokkZlNOF+v9DT/nznW
- 0o4c4zfEWDVcTN1U+d26WnFfh9oAZ
-X-Received: by 2002:a17:906:730c:b0:9be:3c7e:7f38 with SMTP id
- di12-20020a170906730c00b009be3c7e7f38mr17886907ejc.10.1699379626850; 
- Tue, 07 Nov 2023 09:53:46 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEuR3jCJ3lqgCr0hx0UTTJXLmRrXvqpbTQxvwLhIwrrbH950/Y9hi2jZCX17YLb2W57B0mmNA==
-X-Received: by 2002:a17:906:730c:b0:9be:3c7e:7f38 with SMTP id
- di12-20020a170906730c00b009be3c7e7f38mr17886889ejc.10.1699379626497; 
- Tue, 07 Nov 2023 09:53:46 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- j11-20020a170906410b00b00992f2befcbcsm1280911ejk.180.2023.11.07.09.53.45
+ d=1e100.net; s=20230601; t=1699379781; x=1699984581;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8StncZh/iw8rVTbFpbMeIoiTuJSwCnvKTl9QP94ClOw=;
+ b=dwh1wfD7kmAkYY5e3pmV2SflNxP+U3ZWqWisxJuUpnNP8Im8iSLQ+HtUeLu8BEab1s
+ /wVIPNeAr+pM5Xs2PNrqupt1+k7qMjpbelFTsZn2bPS0VGlHcumUKAZTuRrcuz//Aoiv
+ 7xhUvtFytOqPcQ92fw/F6x0e3+hz1nTzz5mwwgG5i+GvbL85ZeJ8BvGeJ5OjPjwkZpPR
+ 8trpQ6B/BYiaNpRDrbJxRS4Mp9iXbaoom2mwe8jmHNdTt6JDfQrV5zMIvvlMiejhNkt3
+ 8Mxgfbiwjj6fMHHXi1skn4fZidJA64y7Zjaqu5lUq9yFGyhpwmDsRdVasFLR/wgaQT2k
+ Jr5w==
+X-Gm-Message-State: AOJu0YyTFLA+gJdZyFlIl1Ra/PksR6IhQeIcn/Kv2ZxZtTn+VLN0eYHi
+ hR9uag6BQ8GEyc/xV6pYZxEfZow2w5Jb1ymtPXa7GhDi
+X-Google-Smtp-Source: AGHT+IEv9R73V1Trv+q/B46mX2iq4EwJwYGwj2/NFJvjVWXt0kAEKmDBxLMAlZwnGDPiocGg5zSc+w==
+X-Received: by 2002:aa7:c2cb:0:b0:53d:fe98:fd48 with SMTP id
+ m11-20020aa7c2cb000000b0053dfe98fd48mr26364198edp.3.1699379780910; 
+ Tue, 07 Nov 2023 09:56:20 -0800 (PST)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com.
+ [209.85.208.48]) by smtp.gmail.com with ESMTPSA id
+ t26-20020a056402241a00b00543597cd190sm5618289eda.47.2023.11.07.09.56.20
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Nov 2023 09:53:46 -0800 (PST)
-Message-ID: <08dd5af8-a631-49d4-b0bd-13500d55198b@redhat.com>
-Date: Tue, 7 Nov 2023 18:53:44 +0100
+ Tue, 07 Nov 2023 09:56:20 -0800 (PST)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-53eeb28e8e5so319a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 09:56:20 -0800 (PST)
+X-Received: by 2002:a50:d68b:0:b0:543:fb17:1a8 with SMTP id
+ r11-20020a50d68b000000b00543fb1701a8mr120839edi.3.1699379780027; Tue, 07 Nov
+ 2023 09:56:20 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Don't disturb the entity when in RR-mode
- scheduling
-To: Luben Tuikov <ltuikov89@gmail.com>, tvrtko.ursulin@linux.intel.com
-References: <bb7c307e-271c-4f4c-bdbc-7078972ba515@linux.intel.com>
- <20231107041020.10035-2-ltuikov89@gmail.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20231107041020.10035-2-ltuikov89@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20231107000023.2928195-1-hsinyi@chromium.org>
+ <20231107000023.2928195-2-hsinyi@chromium.org>
+In-Reply-To: <20231107000023.2928195-2-hsinyi@chromium.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 7 Nov 2023 09:56:03 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XdVnFqbF9UZ-W1OWMVWSxk=CxP9WAb3q4rT7S+ryxXWA@mail.gmail.com>
+Message-ID: <CAD=FV=XdVnFqbF9UZ-W1OWMVWSxk=CxP9WAb3q4rT7S+ryxXWA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/4] drm/panel-edp: drm/panel-edp: Fix AUO B116XTN02,
+ B116XAK01 name and timing
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,89 +81,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, robdclark@chromium.org, sarah.walker@imgtec.com,
- ltuikov@yahoo.com, ketil.johnsen@arm.com, lina@asahilina.net,
- mcanal@igalia.com, Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, boris.brezillon@collabora.com,
- donald.robson@imgtec.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, stable@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/7/23 05:10, Luben Tuikov wrote:
-> Don't call drm_sched_select_entity() in drm_sched_run_job_queue().  In fact,
-> rename __drm_sched_run_job_queue() to just drm_sched_run_job_queue(), and let
-> it do just that, schedule the work item for execution.
-> 
-> The problem is that drm_sched_run_job_queue() calls drm_sched_select_entity()
-> to determine if the scheduler has an entity ready in one of its run-queues,
-> and in the case of the Round-Robin (RR) scheduling, the function
-> drm_sched_rq_select_entity_rr() does just that, selects the _next_ entity
-> which is ready, sets up the run-queue and completion and returns that
-> entity. The FIFO scheduling algorithm is unaffected.
-> 
-> Now, since drm_sched_run_job_work() also calls drm_sched_select_entity(), then
-> in the case of RR scheduling, that would result in drm_sched_select_entity()
-> having been called twice, which may result in skipping a ready entity if more
-> than one entity is ready. This commit fixes this by eliminating the call to
-> drm_sched_select_entity() from drm_sched_run_job_queue(), and leaves it only
-> in drm_sched_run_job_work().
-> 
-> v2: Rebased on top of Tvrtko's renames series of patches. (Luben)
->      Add fixes-tag. (Tvrtko)
-> 
-> Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
-> Fixes: f7fe64ad0f22ff ("drm/sched: Split free_job into own work item")
+Hi,
 
-Reviewed-by: Danilo Krummrich <dakr@redhat.com>
-
+On Mon, Nov 6, 2023 at 4:00=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org> w=
+rote:
+>
+> According to decoding edid and datahseet:
+> - Rename AUO 0x235c B116XTN02 to B116XTN02.3
+> - Rename AUO 0x405c B116XAK01 to B116XAK01.0 and adjust the timing of
+> auo_b116xak01: T3=3D200, T12=3D500, T7_max =3D 50.
+>
+> Fixes: 3db2420422a5 ("drm/panel-edp: Add AUO B116XTN02, BOE NT116WHM-N21,=
+836X2, NV116WHM-N49 V8.0")
+> Fixes: da458286a5e2 ("drm/panel: Add support for AUO B116XAK01 panel")
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
 > ---
->   drivers/gpu/drm/scheduler/sched_main.c | 16 +++-------------
->   1 file changed, 3 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 27843e37d9b769..cd0dc3f81d05f0 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -256,10 +256,10 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
->   }
->   
->   /**
-> - * __drm_sched_run_job_queue - enqueue run-job work
-> + * drm_sched_run_job_queue - enqueue run-job work
->    * @sched: scheduler instance
->    */
-> -static void __drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
-> +static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
->   {
->   	if (!READ_ONCE(sched->pause_submit))
->   		queue_work(sched->submit_wq, &sched->work_run_job);
-> @@ -928,7 +928,7 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched)
->   void drm_sched_wakeup(struct drm_gpu_scheduler *sched)
->   {
->   	if (drm_sched_can_queue(sched))
-> -		__drm_sched_run_job_queue(sched);
-> +		drm_sched_run_job_queue(sched);
->   }
->   
->   /**
-> @@ -1040,16 +1040,6 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
->   }
->   EXPORT_SYMBOL(drm_sched_pick_best);
->   
-> -/**
-> - * drm_sched_run_job_queue - enqueue run-job work if there are ready entities
-> - * @sched: scheduler instance
-> - */
-> -static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
-> -{
-> -	if (drm_sched_select_entity(sched))
-> -		__drm_sched_run_job_queue(sched);
-> -}
-> -
->   /**
->    * drm_sched_free_job_work - worker to call free_job
->    *
-> 
-> base-commit: 27d9620e9a9a6bc27a646b464b85860d91e21af3
+> v4->v5: separate fixes patch.
+> ---
+>  drivers/gpu/drm/panel/panel-edp.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 
+I hate to be a hassle since I don't think this will have any
+meaningful impact on anyone, but given that it's now split out as a
+fix it should probably be split into two separate patches (one for
+each fix). That will save time for anyone dealing with the stable
+channel.
+
+-Doug
