@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8578B7E3D7A
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:28:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 409237E3D7E
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:29:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60A7F10E59E;
-	Tue,  7 Nov 2023 12:28:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27D5D10E59F;
+	Tue,  7 Nov 2023 12:28:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8012910E59C;
- Tue,  7 Nov 2023 12:28:53 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C80C10E59C
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 12:28:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id CD112CE0F4C;
+ by dfw.source.kernel.org (Postfix) with ESMTP id E03176117F;
+ Tue,  7 Nov 2023 12:28:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3B90C433C9;
  Tue,  7 Nov 2023 12:28:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 735C0C433C7;
- Tue,  7 Nov 2023 12:28:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699360131;
- bh=X226EpgIEneFaPqtTSC31tllmiqpBdJiVVgarJUWHJk=;
+ s=k20201202; t=1699360133;
+ bh=SVFAmaxVAKpmkmwbZ/KzKgNcJKhakvwFy9xtqRoAh1w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KnkB1pXWG88IPvIXW6XtKDeavM7h3IJQO8bX1lhpp2bmVmr2+ECe2vG7aCTyRJbPh
- L7GQqbrYqO6ffCbwlrhYmmW33nkklz/cfRbzawBhJmdK+0LJaHR+FIRX6z7F+BVZG9
- x6eXICGURKy5YNZC5Gk4fxGibs+oB/K7jNE9t5ODUwo4qD/P3S4fEvLRgQYjv0VoNt
- yXoku3ehWu7jVgKo5NzsQyisaYxjYAbNuI7goh2h0RS3laS8uYFvPhzFfcyUus5iHQ
- t4zYJmhQGv8c38f3PTooMl0v/P6KHSTJoJggY/g/q2NoEBzA74sjd12W8z7PkD98B3
- r9DxAMtT16u1A==
+ b=SSQpal/Y2pFBBJmkfv89pOXkGiArRyiCw7Csrhf9sGT7fzWcfuqnmSLuRCp4PEIt/
+ j8Iwm94Jp+g816Z5aMnbWPbZ5iNutSbsk+oGqaZOAkXDg5ueVskqbAgpumnd/rR4M7
+ fBpNmELmsL5kX7uANwWJrEbVUx91u3KGX/TZg2TIJwvlz3wi+x6tPZ6zgETRWL9x/o
+ ETyQDhbhzPCBuf7Nd7bROBrwemUnTMZynbJMSNPoc4+2uqm3igx2JEUouBdcpmX5Az
+ KKo31UMT6IowJw6ycZXwVLC3n2fmgno1QJfLPtWnaxSUGBGF+j8y45HCJP1YdAVZtt
+ 1TcbFGdQTYmSw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 16/25] drm/amdgpu: Fix potential null pointer
- derefernce
-Date: Tue,  7 Nov 2023 07:26:55 -0500
-Message-ID: <20231107122745.3761613-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 17/25] drm/panel: fix a possible null pointer
+ dereference
+Date: Tue,  7 Nov 2023 07:26:56 -0500
+Message-ID: <20231107122745.3761613-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231107122745.3761613-1-sashal@kernel.org>
 References: <20231107122745.3761613-1-sashal@kernel.org>
@@ -55,45 +55,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Tao Zhou <tao.zhou1@amd.com>,
- andrealmeid@igalia.com, shashank.sharma@amd.com,
- dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, lijo.lazar@amd.com, le.ma@amd.com,
- "Stanley.Yang" <Stanley.Yang@amd.com>, mario.limonciello@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, srinivasan.shanmugam@amd.com,
- candice.li@amd.com, christian.koenig@amd.com, Hawking.Zhang@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Ma Ke <make_ruc2021@163.com>, mripard@kernel.org,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Stanley.Yang" <Stanley.Yang@amd.com>
+From: Ma Ke <make_ruc2021@163.com>
 
-[ Upstream commit 80285ae1ec8717b597b20de38866c29d84d321a1 ]
+[ Upstream commit 924e5814d1f84e6fa5cb19c6eceb69f066225229 ]
 
-The amdgpu_ras_get_context may return NULL if device
-not support ras feature, so add check before using.
+In versatile_panel_get_modes(), the return value of drm_mode_duplicate()
+is assigned to mode, which will lead to a NULL pointer dereference
+on failure of drm_mode_duplicate(). Add a check to avoid npd.
 
-Signed-off-by: Stanley.Yang <Stanley.Yang@amd.com>
-Reviewed-by: Tao Zhou <tao.zhou1@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Ma Ke <make_ruc2021@163.com>
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Link: https://lore.kernel.org/r/20231007033105.3997998-1-make_ruc2021@163.com
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20231007033105.3997998-1-make_ruc2021@163.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panel/panel-arm-versatile.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 92fa2faf63e41..dc61cc1659326 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -5330,7 +5330,8 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
- 	 * Flush RAM to disk so that after reboot
- 	 * the user can read log and see why the system rebooted.
- 	 */
--	if (need_emergency_restart && amdgpu_ras_get_context(adev)->reboot) {
-+	if (need_emergency_restart && amdgpu_ras_get_context(adev) &&
-+		amdgpu_ras_get_context(adev)->reboot) {
- 		DRM_WARN("Emergency reboot.");
+diff --git a/drivers/gpu/drm/panel/panel-arm-versatile.c b/drivers/gpu/drm/panel/panel-arm-versatile.c
+index abb0788843c60..503ecea72c5ea 100644
+--- a/drivers/gpu/drm/panel/panel-arm-versatile.c
++++ b/drivers/gpu/drm/panel/panel-arm-versatile.c
+@@ -267,6 +267,8 @@ static int versatile_panel_get_modes(struct drm_panel *panel,
+ 	connector->display_info.bus_flags = vpanel->panel_type->bus_flags;
  
- 		ksys_sync_helper();
+ 	mode = drm_mode_duplicate(connector->dev, &vpanel->panel_type->mode);
++	if (!mode)
++		return -ENOMEM;
+ 	drm_mode_set_name(mode);
+ 	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+ 
 -- 
 2.42.0
 
