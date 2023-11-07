@@ -2,59 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67C387E379E
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 10:21:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EF437E375C
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 10:19:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D78B10E4F5;
-	Tue,  7 Nov 2023 09:20:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4864B10E080;
+	Tue,  7 Nov 2023 09:19:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6B9A10E4E6
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 09:20:32 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1r0IG5-0000UA-11; Tue, 07 Nov 2023 10:20:29 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1r0IG4-007Fmv-Jv; Tue, 07 Nov 2023 10:20:28 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1r0IG4-00ENXX-Ap; Tue, 07 Nov 2023 10:20:28 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Helge Deller <deller@gmx.de>
-Subject: [PATCH 22/22] fb: omapfb/tpd12s015: Convert to platform remove
- callback returning void
-Date: Tue,  7 Nov 2023 10:18:03 +0100
-Message-ID: <20231107091740.3924258-23-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
-In-Reply-To: <20231107091740.3924258-1-u.kleine-koenig@pengutronix.de>
-References: <20231107091740.3924258-1-u.kleine-koenig@pengutronix.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6607B10E080
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 09:19:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4A83C61171;
+ Tue,  7 Nov 2023 09:19:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CE03C433C8;
+ Tue,  7 Nov 2023 09:19:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1699348767;
+ bh=VDrXsVNkm+N8iNlJC3ZwEH4c+vJY+PF2deM4StXlHO8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NYHtnTJnvG6VbnZXS27Xlyz8fAbAUOKKK+C0hD/yaEtP3hsK1Ft/lHn10pWx8x1ar
+ lvK7xSDqD7EuZfakWhLeb+ssDHh2t/ywB0jfMWGhw0gQ7PD0kmMLqM52eTbYssUDAU
+ 0b+6+E6otlZyPvBUDvMpMsvMC80povFl+2nQNBvX7nCWH+5ucojPZNMfaeK1Z076i8
+ Mk3Y3AaVvEcXbmZ1safxJou7RShM8a6rP+ur+hRMrkOU4u4ojoBlei0eTHmSOB9+eG
+ PxF2bIabLg/DSeV0GPKgiGapHIOaZLvAViYf+VDWadCax+CBHM6PCRQZyguJRXGzRG
+ b8tJ6WJhB2NUA==
+Date: Tue, 7 Nov 2023 10:19:24 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v2 6/6] drm/vs: Add hdmi driver
+Message-ID: <rx7oxrxs6dgwdkdu4l7y74yek4656jejixzccryml6jl6t5elp@jvk7agdcljwg>
+References: <20231025103957.3776-1-keith.zhao@starfivetech.com>
+ <20231025103957.3776-7-keith.zhao@starfivetech.com>
+ <70805ff2-56a8-45e1-a31c-ffb0e84749e5@linaro.org>
+ <3twc4zoohon7uujypgjtlnryfmebx4osvpykagnwr5nemmqz2w@w4vw55uswebh>
+ <CAA8EJppxQ7J8DEDFsWzPL8bDpNW-KY0nhUA++zDBRpMCpP-bkA@mail.gmail.com>
+ <344veqjvvwlo7vls2kdlgjggf77of2ijxwc2hmk7tarm75ugcs@bmozk23uqxqr>
+ <CAA8EJpomaDoJVkq+_NhcxqOs6X-dFd=Vo9Wtqnp8egNaWzDH2Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2012;
- i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=BM9a+fM/lixBZNZcPucnNQynZ8Q+QQTeD5OtUZMImzI=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlSgDN9zJoIuTQBAlJR80+NdgrWU0RdnoAvpfN/
- BirwLi0XzyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZUoAzQAKCRCPgPtYfRL+
- TjZJB/sFG958INcVgLN+iQWd8qLHyGNDuKX2o6SoomEPqoVKsDrvtTQpEweM6IACZxTzX1DzlHQ
- xWhmA9O9x0p8FcZNIwr8Pvy7jaa+SrryEX41d/S5kC8PMC3HjZOVlYadp6qtlFhZTpNSJi+0vJA
- gUPDEd6eejT4to7I2V21TVpAL+985U0CSjjNnbpFoNYMAUkwafOLVTayKkhfhO9uJTuX4VooJX5
- ObntA0+XNv7fFxsVjsEsUcLHBrfvsx9hHRQZSjdLknhKKNLOBu5fQBH8Y65J3MwmpKq3D70RQ+z
- sgXh+u3HFD3tcUPAWrOtY5vPbonu4oCjrKZit4r26lcPMdgt
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="sx3kokd2nvv34uc7"
+Content-Disposition: inline
+In-Reply-To: <CAA8EJpomaDoJVkq+_NhcxqOs6X-dFd=Vo9Wtqnp8egNaWzDH2Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,60 +57,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
- kernel@pengutronix.de, dri-devel@lists.freedesktop.org
+Cc: Emil Renner Berthing <kernel@esmil.dk>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-riscv@lists.infradead.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ Shengyang Chen <shengyang.chen@starfivetech.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Albert Ou <aou@eecs.berkeley.edu>, Jagan Teki <jagan@edgeble.ai>,
+ linaro-mm-sig@lists.linaro.org, Rob Herring <robh+dt@kernel.org>,
+ Chris Morgan <macromorgan@hotmail.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Keith Zhao <keith.zhao@starfivetech.com>,
+ Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
+ christian.koenig@amd.com, Jack Zhu <jack.zhu@starfivetech.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Changhuang Liang <changhuang.liang@starfivetech.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is ignored (apart
-from emitting a warning) and this typically results in resource leaks.
 
-To improve here there is a quest to make the remove callback return
-void. In the first step of this quest all drivers are converted to
-.remove_new(), which already returns void. Eventually after all drivers
-are converted, .remove_new() will be renamed to .remove().
+--sx3kokd2nvv34uc7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+Hi,
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- .../video/fbdev/omap2/omapfb/displays/encoder-tpd12s015.c   | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+On Sun, Oct 29, 2023 at 06:52:24PM +0200, Dmitry Baryshkov wrote:
+> On Thu, 26 Oct 2023 at 14:53, Maxime Ripard <mripard@kernel.org> wrote:
+> >
+> > On Thu, Oct 26, 2023 at 11:57:22AM +0300, Dmitry Baryshkov wrote:
+> > > On Thu, 26 Oct 2023 at 11:07, Maxime Ripard <mripard@kernel.org> wrot=
+e:
+> > > >
+> > > > On Thu, Oct 26, 2023 at 01:23:53AM +0300, Dmitry Baryshkov wrote:
+> > > > > > +static int starfive_hdmi_register(struct drm_device *drm, stru=
+ct starfive_hdmi *hdmi)
+> > > > > > +{
+> > > > > > +   struct drm_encoder *encoder =3D &hdmi->encoder;
+> > > > > > +   struct device *dev =3D hdmi->dev;
+> > > > > > +
+> > > > > > +   encoder->possible_crtcs =3D drm_of_find_possible_crtcs(drm,=
+ dev->of_node);
+> > > > > > +
+> > > > > > +   /*
+> > > > > > +    * If we failed to find the CRTC(s) which this encoder is
+> > > > > > +    * supposed to be connected to, it's because the CRTC has
+> > > > > > +    * not been registered yet.  Defer probing, and hope that
+> > > > > > +    * the required CRTC is added later.
+> > > > > > +    */
+> > > > > > +   if (encoder->possible_crtcs =3D=3D 0)
+> > > > > > +           return -EPROBE_DEFER;
+> > > > > > +
+> > > > > > +   drm_encoder_helper_add(encoder, &starfive_hdmi_encoder_help=
+er_funcs);
+> > > > > > +
+> > > > > > +   hdmi->connector.polled =3D DRM_CONNECTOR_POLL_HPD;
+> > > > > > +
+> > > > > > +   drm_connector_helper_add(&hdmi->connector,
+> > > > > > +                            &starfive_hdmi_connector_helper_fu=
+ncs);
+> > > > > > +   drmm_connector_init(drm, &hdmi->connector,
+> > > > > > +                       &starfive_hdmi_connector_funcs,
+> > > > > > +                       DRM_MODE_CONNECTOR_HDMIA,
+> > > > >
+> > > > > On an embedded device one can not be so sure. There can be MHL or=
+ HDMI
+> > > > > Alternative Mode. Usually we use drm_bridge here and drm_bridge_c=
+onnector.
+> > > >
+> > > > On an HDMI driver, it's far from being a requirement, especially gi=
+ven
+> > > > the limitations bridges have.
+> > >
+> > > It's a blessing that things like MHL / HDMI-in-USB-C / HDMI-to-MyDP
+> > > are not widely used in the wild and are mostly non-existing except
+> > > several phones that preate wide DP usage.
+> >
+> > And those can be supported without relying on bridges.
+>=20
+> Yes, they likely can, in the way that nouveau handles I2C TV encoders.
+> But I don't think this can scale. We can have different devices
+> attached to the DSI, LVDS, HDMI and even DP image sources. I don't see
+> a scalable solution for either of them. E.g. by switching drm/msm to
+> use panel bridges for DSI panels we were able to significantly unify
+> and simplify code paths.
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/displays/encoder-tpd12s015.c b/drivers/video/fbdev/omap2/omapfb/displays/encoder-tpd12s015.c
-index 0bdedc0f6527..eb3926d0361b 100644
---- a/drivers/video/fbdev/omap2/omapfb/displays/encoder-tpd12s015.c
-+++ b/drivers/video/fbdev/omap2/omapfb/displays/encoder-tpd12s015.c
-@@ -283,7 +283,7 @@ static int tpd_probe(struct platform_device *pdev)
- 	return r;
- }
- 
--static int tpd_remove(struct platform_device *pdev)
-+static void tpd_remove(struct platform_device *pdev)
- {
- 	struct panel_drv_data *ddata = platform_get_drvdata(pdev);
- 	struct omap_dss_device *dssdev = &ddata->dssdev;
-@@ -300,8 +300,6 @@ static int tpd_remove(struct platform_device *pdev)
- 		tpd_disconnect(dssdev, dssdev->dst);
- 
- 	omap_dss_put_device(in);
--
--	return 0;
- }
- 
- static const struct of_device_id tpd_of_match[] = {
-@@ -313,7 +311,7 @@ MODULE_DEVICE_TABLE(of, tpd_of_match);
- 
- static struct platform_driver tpd_driver = {
- 	.probe	= tpd_probe,
--	.remove	= tpd_remove,
-+	.remove_new = tpd_remove,
- 	.driver	= {
- 		.name	= "tpd12s015",
- 		.of_match_table = tpd_of_match,
--- 
-2.42.0
+I'm glad it worked fine for drm/msm, but what I don't really like is the
+current dogma that *everything* should be a bridge, and that's just a
+poor guideline.
 
+> > > Using drm_connector directly prevents one from handling possible
+> > > modifications on the board level. For example, with the DRM connector
+> > > in place, handling a separate HPD GPIO will result in code duplication
+> > > from the hdmi-connector driver. Handling any other variations in the
+> > > board design (which are pretty common in the embedded world) will also
+> > > require changing the driver itself. drm_bridge / drm_bridge_connector
+> > > save us from those issues.
+> >
+> > And we have other solutions there too. Like, EDIDs are pretty much in
+> > the same spot with a lot of device variations, but it also works without
+> > a common driver. I'd really wish we were having less bridges and more
+> > helpers, but here we are.
+> >
+> > > BTW: what are the limitations of the drm_bridge wrt. HDMI output? I'm
+> > > asking because we heavily depend on the bridge infrastructure for HDMI
+> > > output. Maybe we are missing something there, which went unnoticed to
+> > > me and my colleagues.
+> >
+> > A bridge cannot extend the connector state or use properties, for
+> > example. It works for basic stuff but falls apart as soon as you're
+> > trying to do something slightly advanced.
+>=20
+> Ack. I agree, we didn't have a necessity to implement properties up to
+> now. But that sounds like an interesting topic for DSI-to-HDMI bridges
+> and HDCP support. I'll need to check if any of the RB3/RB5/Dragonboard
+> bridges are programmed with the HDCP keys.
+
+Aside from HDCP, the current color management work will also require to
+expose properties on the connectors.
+
+Maxime
+
+--sx3kokd2nvv34uc7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZUoBHAAKCRDj7w1vZxhR
+xWiBAP4sevvTIl4u+we2L7l/PqToVfQ/nXueZ0RTUgw/AJ/I1wEA+wM7mB5NCTiB
+uAat91IEFc4bWWOTLkkDTh9pBOjkfwg=
+=28g0
+-----END PGP SIGNATURE-----
+
+--sx3kokd2nvv34uc7--
