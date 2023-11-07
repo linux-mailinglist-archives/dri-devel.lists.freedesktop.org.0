@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D8DB7E3D12
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:25:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C87717E3D14
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:25:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFEEF10E569;
-	Tue,  7 Nov 2023 12:25:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E330610E56B;
+	Tue,  7 Nov 2023 12:25:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5C9010E56A
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 12:25:40 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7523E10E56B
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 12:25:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6C0EA611E7;
+ by sin.source.kernel.org (Postfix) with ESMTP id 91432CE0F1F;
+ Tue,  7 Nov 2023 12:25:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DC76C433CA;
  Tue,  7 Nov 2023 12:25:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF0C3C433C7;
- Tue,  7 Nov 2023 12:25:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699359940;
- bh=EAin0Iz7HjJBvD7enrdAOQwKVvCQ/htBJNRVoA2Zma4=;
+ s=k20201202; t=1699359941;
+ bh=eQZAiB8Mo/dLCEBnU+KlwvGcDAnNQIkoGJ//bbUgXE8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GbSGjZTManrSpHu5JeDX18TLi5XVFREhl60RKnwjfwJI6fj2QJhhKMWt9tvaDFyp5
- slRMiWpCibNGx0Ah6QwBelPrOcSz/f2EZnPAWrVN9vZv98hdbnZUEqvpsdrA6cP/ZE
- ikTvRL6XFnCasbVRDH6xujaKNDWNcsnGom5BUQ14Atigazvrr/62pnPjXeG3+5Hl0T
- EGkmEsBZiVCtPi+64g6zk9yd0TCQJcSYKuIkj1/LGk2AtSzgjXSZXtDzd+nc8yuLZd
- rdUvfQtuwl/GWUY6vBCivZBj8mR2RPoLu2kq/b8uLxWwD0Mc1vdATkG3ahpp7qAMIH
- y8FQtOb14A2FQ==
+ b=HtQrhWzeToQvlq/jP2IyqheJG5O3Vzg2C/1u8th3p16tEQ8ay48M0xJC7LcVfRJyv
+ yRxCFNig76AhylWj4mZsLl+V2HixGAXR/kVxXLzC/GBW4pZts1eBYpkauWXhCwsCsR
+ FOgMgjZJfo1nNa6WXhD3gNyQ4amaYR+9qqHMC9lBys1sM3ik5HU87k7yQWB8w7I3cu
+ qAk60enPfDk1L3LC+XewKNZF7W1ac8nMKzN7t+NpxUN5HLPgbf6CX9PuKsmDoIZhVO
+ kZcbD1AVZJhJRoGaakW+Xle/7Xk6xFGoYichGOMpZVhcezSeNN96F0abqRj6nATZ4Z
+ uIYNPD0r1FODg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.5 16/37] drm_lease.c: copy user-array safely
-Date: Tue,  7 Nov 2023 07:21:27 -0500
-Message-ID: <20231107122407.3760584-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.5 17/37] drm: vmwgfx_surface.c: copy user-array
+ safely
+Date: Tue,  7 Nov 2023 07:21:28 -0500
+Message-ID: <20231107122407.3760584-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231107122407.3760584-1-sashal@kernel.org>
 References: <20231107122407.3760584-1-sashal@kernel.org>
@@ -62,7 +63,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Philipp Stanner <pstanner@redhat.com>
 
-[ Upstream commit f37d63e219c39199a59b8b8a211412ff27192830 ]
+[ Upstream commit 06ab64a0d836ac430c5f94669710a78aa43942cb ]
 
 Currently, there is no overflow-check with memdup_user().
 
@@ -74,27 +75,28 @@ Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 Reviewed-by: Zack Rusin <zackr@vmware.com>
 Signed-off-by: Dave Airlie <airlied@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230920123612.16914-6-pstanner@redhat.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20230920123612.16914-7-pstanner@redhat.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_lease.c | 4 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-index 150fe15550680..94375c6a54256 100644
---- a/drivers/gpu/drm/drm_lease.c
-+++ b/drivers/gpu/drm/drm_lease.c
-@@ -510,8 +510,8 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 	/* Handle leased objects, if any */
- 	idr_init(&leases);
- 	if (object_count != 0) {
--		object_ids = memdup_user(u64_to_user_ptr(cl->object_ids),
--					 array_size(object_count, sizeof(__u32)));
-+		object_ids = memdup_array_user(u64_to_user_ptr(cl->object_ids),
-+					       object_count, sizeof(__u32));
- 		if (IS_ERR(object_ids)) {
- 			ret = PTR_ERR(object_ids);
- 			idr_destroy(&leases);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+index 3829be282ff00..17463aeeef28f 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+@@ -774,9 +774,9 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
+ 	       sizeof(metadata->mip_levels));
+ 	metadata->num_sizes = num_sizes;
+ 	metadata->sizes =
+-		memdup_user((struct drm_vmw_size __user *)(unsigned long)
++		memdup_array_user((struct drm_vmw_size __user *)(unsigned long)
+ 			    req->size_addr,
+-			    sizeof(*metadata->sizes) * metadata->num_sizes);
++			    metadata->num_sizes, sizeof(*metadata->sizes));
+ 	if (IS_ERR(metadata->sizes)) {
+ 		ret = PTR_ERR(metadata->sizes);
+ 		goto out_no_sizes;
 -- 
 2.42.0
 
