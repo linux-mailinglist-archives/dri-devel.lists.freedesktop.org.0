@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A74447E3CBE
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:19:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5755E7E3CC1
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:20:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D467C10E520;
-	Tue,  7 Nov 2023 12:19:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80A2B10E52A;
+	Tue,  7 Nov 2023 12:20:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B78410E527;
- Tue,  7 Nov 2023 12:19:41 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44DB810E529;
+ Tue,  7 Nov 2023 12:19:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B1E0861005;
- Tue,  7 Nov 2023 12:19:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55B36C433D9;
- Tue,  7 Nov 2023 12:19:38 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id A0657B8167C;
+ Tue,  7 Nov 2023 12:19:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 175EFC433CC;
+ Tue,  7 Nov 2023 12:19:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699359580;
- bh=Q6YYRvqRyl++sOeRzoU6OTGe8lg1e6BT3F7TEeVdgxQ=;
+ s=k20201202; t=1699359596;
+ bh=nZpbJc7CpNf0MiUR83XGJ7ciqjPHjD9fgAqcAgc/Zag=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Nd/Pk/F0YLDc0RBg2YWCH2ICD9kWUdyGb7Qygs5RIoDggA08chcfbqeheeeQXjHVv
- k6Tjcrk3ADvRh6aapm0nGw2LCWT/9kjmzReKjjOVVdqcpzHhg4qIExYOQ/5EQ9cRaU
- zEZN9hdyyUZlfUMnCWnBNuR/pbWclypqnn02vjjV9p/QD1/0p0WAtzXSXghC+uMvdm
- ENlBJVwVijKJMO3be/jjoU3EQu0ISJA7AMSdWC2EA4Hozli0PI/rtpUoro/PwMz2pg
- C2n9GuAicqRIIPf/3u0ovnza5c1F9ArRdEBI2AJ25+SajmhZ7gft7Oln3rlBzuV0Yl
- 5xsPZI27TbgXw==
+ b=eMj1Qb+9tsr3hrazfznEDzmDrniL9ilcBjRiE+YisYObrkER8mH2VgJDvbQDn0yXo
+ UdwENjrGLITYdmWN447Sq/2Lg7I38kYERrsJlbkOELjCVQx1Iup8VmAZlczFhbtRrH
+ oSuskTKiOGFgKkWyWmHimArKV5JPwBRXaKjYXDSDhCsEyFMZBuPhysOua3JWWx4PsX
+ Sae9WhvyiwzflWOl0DfklviB4RVCD5ZqdqH75B0ohv+jlYysEymHEHUShdCkCXMq6k
+ ZukvWmyVgtsmXX+8gDwGjXC6Lk8c94MLX6faGhGquq67amW2LY8bb7JQ2fDFjS+LVe
+ bat1EQSjC3AKg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 11/40] drm/amdgpu: update retry times for psp vmbx
- wait
-Date: Tue,  7 Nov 2023 07:16:13 -0500
-Message-ID: <20231107121837.3759358-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 12/40] drm/amd: Update `update_pcie_parameters`
+ functions to use uint8_t arguments
+Date: Tue,  7 Nov 2023 07:16:14 -0500
+Message-ID: <20231107121837.3759358-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231107121837.3759358-1-sashal@kernel.org>
 References: <20231107121837.3759358-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6
@@ -54,52 +55,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Tao Zhou <tao.zhou1@amd.com>, asad.kamal@amd.com, lijo.lazar@amd.com,
- YiPeng.Chai@amd.com, mario.limonciello@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, candice.li@amd.com,
- christian.koenig@amd.com, Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: lijo.lazar@amd.com, dri-devel@lists.freedesktop.org, Jun.Ma2@amd.com,
+ Mario Limonciello <mario.limonciello@amd.com>, coelacanth_dream@protonmail.com,
+ Sasha Levin <sashal@kernel.org>, mumei6102@gmail.com, guchun.chen@amd.com,
+ amd-gfx@lists.freedesktop.org, Lyndon.Li@amd.com, kenneth.feng@amd.com,
+ Kun.Liu2@amd.com, Tim.Huang@amd.com, bokun.zhang@amd.com, le.ma@amd.com,
+ sunran001@208suo.com, evan.quan@amd.com, yifan1.zhang@amd.com,
+ kevinyang.wang@amd.com, Xinhui.Pan@amd.com, baomingtong001@208suo.com,
+ Alex Deucher <alexander.deucher@amd.com>, Lang.Yu@amd.com,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tao Zhou <tao.zhou1@amd.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-[ Upstream commit fc598890715669ff794b253fdf387cd02b9396f8 ]
+[ Upstream commit 7752ccf85b929a22e658ec145283e8f31232f4bb ]
 
-Increase the retry loops and replace the constant number with macro.
+The matching values for `pcie_gen_cap` and `pcie_width_cap` when
+fetched from powerplay tables are 1 byte, so narrow the arguments
+to match to ensure min() and max() comparisons without casts.
 
-Signed-off-by: Tao Zhou <tao.zhou1@amd.com>
-Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Acked-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/psp_v13_0.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c               | 2 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h           | 2 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h            | 4 ++--
+ drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c         | 4 ++--
+ drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c | 8 ++++----
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c          | 4 ++--
+ 6 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v13_0.c b/drivers/gpu/drm/amd/amdgpu/psp_v13_0.c
-index 469eed084976c..52d80f286b3dd 100644
---- a/drivers/gpu/drm/amd/amdgpu/psp_v13_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/psp_v13_0.c
-@@ -59,6 +59,9 @@ MODULE_FIRMWARE("amdgpu/psp_14_0_0_ta.bin");
- /* Read USB-PD from LFB */
- #define GFX_CMD_USB_PD_USE_LFB 0x480
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+index f005a90c35af4..b47fd42414f46 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c
+@@ -1232,7 +1232,7 @@ static int smu_smc_hw_setup(struct smu_context *smu)
+ {
+ 	struct smu_feature *feature = &smu->smu_feature;
+ 	struct amdgpu_device *adev = smu->adev;
+-	uint32_t pcie_gen = 0, pcie_width = 0;
++	uint8_t pcie_gen = 0, pcie_width = 0;
+ 	uint64_t features_supported;
+ 	int ret = 0;
  
-+/* Retry times for vmbx ready wait */
-+#define PSP_VMBX_POLLING_LIMIT 20000
-+
- /* VBIOS gfl defines */
- #define MBOX_READY_MASK 0x80000000
- #define MBOX_STATUS_MASK 0x0000FFFF
-@@ -138,7 +141,7 @@ static int psp_v13_0_wait_for_vmbx_ready(struct psp_context *psp)
- 	struct amdgpu_device *adev = psp->adev;
- 	int retry_loop, ret;
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h b/drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h
+index 5a52098bcf166..72ed836328966 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h
++++ b/drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h
+@@ -844,7 +844,7 @@ struct pptable_funcs {
+ 	 * &pcie_gen_cap: Maximum allowed PCIe generation.
+ 	 * &pcie_width_cap: Maximum allowed PCIe width.
+ 	 */
+-	int (*update_pcie_parameters)(struct smu_context *smu, uint32_t pcie_gen_cap, uint32_t pcie_width_cap);
++	int (*update_pcie_parameters)(struct smu_context *smu, uint8_t pcie_gen_cap, uint8_t pcie_width_cap);
  
--	for (retry_loop = 0; retry_loop < 70; retry_loop++) {
-+	for (retry_loop = 0; retry_loop < PSP_VMBX_POLLING_LIMIT; retry_loop++) {
- 		/* Wait for bootloader to signify that is
- 		   ready having bit 31 of C2PMSG_33 set to 1 */
- 		ret = psp_wait_for(
+ 	/**
+ 	 * @i2c_init: Initialize i2c.
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h
+index 355c156d871af..cc02f979e9e98 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h
++++ b/drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h
+@@ -296,8 +296,8 @@ int smu_v13_0_get_pptable_from_firmware(struct smu_context *smu,
+ 					uint32_t pptable_id);
+ 
+ int smu_v13_0_update_pcie_parameters(struct smu_context *smu,
+-				     uint32_t pcie_gen_cap,
+-				     uint32_t pcie_width_cap);
++				     uint8_t pcie_gen_cap,
++				     uint8_t pcie_width_cap);
+ 
+ #endif
+ #endif
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
+index 18487ae10bcff..c564f6e191f84 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c
+@@ -2376,8 +2376,8 @@ static int navi10_get_power_limit(struct smu_context *smu,
+ }
+ 
+ static int navi10_update_pcie_parameters(struct smu_context *smu,
+-				     uint32_t pcie_gen_cap,
+-				     uint32_t pcie_width_cap)
++					 uint8_t pcie_gen_cap,
++					 uint8_t pcie_width_cap)
+ {
+ 	struct smu_11_0_dpm_context *dpm_context = smu->smu_dpm.dpm_context;
+ 	PPTable_t *pptable = smu->smu_table.driver_pptable;
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
+index da2860da60188..0cc5d9769d382 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
+@@ -2085,14 +2085,14 @@ static int sienna_cichlid_display_disable_memory_clock_switch(struct smu_context
+ #define MAX(a, b)	((a) > (b) ? (a) : (b))
+ 
+ static int sienna_cichlid_update_pcie_parameters(struct smu_context *smu,
+-					 uint32_t pcie_gen_cap,
+-					 uint32_t pcie_width_cap)
++						 uint8_t pcie_gen_cap,
++						 uint8_t pcie_width_cap)
+ {
+ 	struct smu_11_0_dpm_context *dpm_context = smu->smu_dpm.dpm_context;
+ 	struct smu_11_0_pcie_table *pcie_table = &dpm_context->dpm_tables.pcie_table;
+ 	uint8_t *table_member1, *table_member2;
+-	uint32_t min_gen_speed, max_gen_speed;
+-	uint32_t min_lane_width, max_lane_width;
++	uint8_t min_gen_speed, max_gen_speed;
++	uint8_t min_lane_width, max_lane_width;
+ 	uint32_t smu_pcie_arg;
+ 	int ret, i;
+ 
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
+index 0232adb95df3a..a280c1ed007f6 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
+@@ -2420,8 +2420,8 @@ int smu_v13_0_mode1_reset(struct smu_context *smu)
+ }
+ 
+ int smu_v13_0_update_pcie_parameters(struct smu_context *smu,
+-				     uint32_t pcie_gen_cap,
+-				     uint32_t pcie_width_cap)
++				     uint8_t pcie_gen_cap,
++				     uint8_t pcie_width_cap)
+ {
+ 	struct smu_13_0_dpm_context *dpm_context = smu->smu_dpm.dpm_context;
+ 	struct smu_13_0_pcie_table *pcie_table =
 -- 
 2.42.0
 
