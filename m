@@ -2,68 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70F2D7E4757
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 18:44:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 032B57E47A1
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 18:54:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E7D110E634;
-	Tue,  7 Nov 2023 17:44:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A6DE10E635;
+	Tue,  7 Nov 2023 17:54:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com
- [IPv6:2607:f8b0:4864:20::114a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB44B10E634
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 17:44:50 +0000 (UTC)
-Received: by mail-yw1-x114a.google.com with SMTP id
- 00721157ae682-5a7cf717bacso81257747b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 09:44:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1699379090; x=1699983890;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=UdTuJbMPNA9mg1FxCGi+kg3boA7o2BN4MhcyDntGV5Q=;
- b=cawiEUwPEAqbL8tIVKlWL1RXEMDd8/DLDTzVCf5VfRCFhhn+JO8vCKrdVvb35n/rdz
- lVfP8h/i+29IHYX4rrtdHBEyMaOELju6G2cAIn1fPNSCBGyDJkLfO36leDoZq5tUs1if
- ty6wOMrGj76YKJkwOMXi8pYQCmqsVW0w9IUajAVGY37E0qRy9570+Zc2Rn9LUP0hGrYW
- t3D22GEdkiBeLELlE4rz+2p+Iz092PY/z6DOIY25jmrMkLJ0+H/KezrSCQZKyi4tjvOo
- V3smmCdqwn0nC0qu8MhEtbCmloTz3rqewvVHH0L7yZkbEab5fNOs1CsL4cqZ0Fd/w+LU
- nBcw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9299B10E635
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 17:54:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1699379633;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jGpL9NuEv6Ciw+zA4Ck7tukYdeQ54xRJGOuRiC3a+2o=;
+ b=LyyDKcj2DYMlk6m8do+I9fIKmizTtc3WlYFyTWbpAQIk2YFVzvdlNpXLemQTQl2PdibPZz
+ amBggpu3U+u7dIvB/152ESyRujaK4igV6RLxzHWAQ37g+3/Zf4j0g5qrYYUE0ju0/mpJqL
+ xHrAvwocUBRrJ9bAvjpjAM12a2buB7Q=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-251-qMR_don9OwGSTVcrEIgidA-1; Tue, 07 Nov 2023 12:53:48 -0500
+X-MC-Unique: qMR_don9OwGSTVcrEIgidA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ 4fb4d7f45d1cf-543f45ab457so4199089a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 09:53:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699379090; x=1699983890;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UdTuJbMPNA9mg1FxCGi+kg3boA7o2BN4MhcyDntGV5Q=;
- b=RqcCK5sKBZ4EtAGW0966A7g5fpbkIwEBjqr+kAMX46K6iqtmodnwzPwc6d65QXw0MG
- pRaxJyFy6WWm7Mf/ybhtEGku2xxytOR+g7ZDWJ/IjRAHI5UTkGtyfJNnG2zEjSM8lf2s
- neUpRBt65pnPSUeHJ5g77ykaz4VFTc2y4nC/3mZGpwR5SWQCohK2evUXM8hqzvUgZNZr
- dCFV3mt54eg2hCzY3LTx7cdSxDxczFRmMFKxDo25eEmLo1BKVARPC7fBn0f/LXvt20jO
- ER8jmq0fRCOWbr7JLW/ZKx6ny3yPyVsbOyaz1IAuPLuGhkC4qLi+ms+O4w4jacL4msUt
- 7+Lw==
-X-Gm-Message-State: AOJu0YxMl24lPQRk2Ne0oMTsPx1NQjCNgBBSbH1bUJqFeNp13++HaK1A
- 4VMVogVEVUclU71cFaVnXQv4kjk=
-X-Google-Smtp-Source: AGHT+IEdiK1WEoh2+6U+bQH9Li0JSDfO/xDBtSZs6coo4v7ue+AtpEROBdggpJnmwjryu7dXhenhMCA=
-X-Received: from sdf.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5935])
- (user=sdf job=sendgmr) by 2002:a25:8689:0:b0:d9a:3bee:255c with SMTP id
- z9-20020a258689000000b00d9a3bee255cmr578349ybk.7.1699379089844; Tue, 07 Nov
- 2023 09:44:49 -0800 (PST)
-Date: Tue, 7 Nov 2023 09:44:47 -0800
-In-Reply-To: <CAF=yD-+tZ7xaU0rKWBuVbfdVWptj88Z=Xf4Mqx+zaC-gZ1U1mw@mail.gmail.com>
-Mime-Version: 1.0
-References: <CAHS8izMrnVUfbbS=OcJ6JT9SZRRfZ2MC7UnggthpZT=zf2BGLA@mail.gmail.com>
- <ZUlhu4hlTaqR3CTh@google.com>
- <CAHS8izMaAhoae5ChnzO4gny1cYYnqV1cB8MC2cAF3eoyt+Sf4A@mail.gmail.com>
- <ZUlvzm24SA3YjirV@google.com>
- <CAHS8izMQ5Um_ScY0VgAjaEaT-hRh4tFoTgc6Xr9Tj5rEj0fijA@mail.gmail.com>
- <CAKH8qBsbh8qYxNHZ6111RQFFpNWbWZtg0LDXkn15xcsbAq4R6w@mail.gmail.com>
- <CAF=yD-+BuKXoVL8UF+No1s0TsHSzBTz7UrB1Djt_BrM74uLLcg@mail.gmail.com>
- <ZUmBf7E8ZoTQwThL@google.com> <ZUmMBZpLPQkRS9bg@google.com>
- <CAF=yD-+tZ7xaU0rKWBuVbfdVWptj88Z=Xf4Mqx+zaC-gZ1U1mw@mail.gmail.com>
-Message-ID: <ZUp3j2TLNKhPYwch@google.com>
-Subject: Re: [RFC PATCH v3 09/12] net: add support for skbs with unreadable
- frags
-From: Stanislav Fomichev <sdf@google.com>
-To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Content-Type: text/plain; charset="utf-8"
+ d=1e100.net; s=20230601; t=1699379627; x=1699984427;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jGpL9NuEv6Ciw+zA4Ck7tukYdeQ54xRJGOuRiC3a+2o=;
+ b=t70Md5v8S3hICmBkXCcsNNGZK+fVoTH0MgbiTC9DSW/oiPPJYLL++h0cfSo1YDetXi
+ 8J9VJuh1PibsBhgS4zQwoL9vSx/FvYyUbYGCRQEgkgDBOo2pJ+VxyuvTENW54RHwXcrC
+ DvrVtkJSf8l/iaHTggUcxc2PBVQl909RviGS/JRJEqqXboHkHJfkv56ecyXCzgsP8H21
+ JfqW4xm3JuZwngp0rCLHjMI4XTtOP91KXZY2ct29VGYpVpi3w2VHc+y4Y2hC3Jxg0N1S
+ IhRbNhMDVevjVwts8JCZANvefjFcfNmQfORGsdAz5UdgHNgLS4Zt46zaeNX9CXKBT/Rg
+ HDeA==
+X-Gm-Message-State: AOJu0Yy//ESdJJeZlD4Wt+35DVhZWbKgvBh02xeA1IYWieIapq8zet7/
+ YF4+Bel0prLQ9EYpnKyQH8wzvNZ2v4n1pUb3qzEi+YISMPXIwCptwbysZokkZlNOF+v9DT/nznW
+ 0o4c4zfEWDVcTN1U+d26WnFfh9oAZ
+X-Received: by 2002:a17:906:730c:b0:9be:3c7e:7f38 with SMTP id
+ di12-20020a170906730c00b009be3c7e7f38mr17886907ejc.10.1699379626850; 
+ Tue, 07 Nov 2023 09:53:46 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEuR3jCJ3lqgCr0hx0UTTJXLmRrXvqpbTQxvwLhIwrrbH950/Y9hi2jZCX17YLb2W57B0mmNA==
+X-Received: by 2002:a17:906:730c:b0:9be:3c7e:7f38 with SMTP id
+ di12-20020a170906730c00b009be3c7e7f38mr17886889ejc.10.1699379626497; 
+ Tue, 07 Nov 2023 09:53:46 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ j11-20020a170906410b00b00992f2befcbcsm1280911ejk.180.2023.11.07.09.53.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Nov 2023 09:53:46 -0800 (PST)
+Message-ID: <08dd5af8-a631-49d4-b0bd-13500d55198b@redhat.com>
+Date: Tue, 7 Nov 2023 18:53:44 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched: Don't disturb the entity when in RR-mode
+ scheduling
+To: Luben Tuikov <ltuikov89@gmail.com>, tvrtko.ursulin@linux.intel.com
+References: <bb7c307e-271c-4f4c-bdbc-7078972ba515@linux.intel.com>
+ <20231107041020.10035-2-ltuikov89@gmail.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20231107041020.10035-2-ltuikov89@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,91 +89,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Mina Almasry <almasrymina@google.com>, Jeroen de Borst <jeroendb@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- linux-media@vger.kernel.org, linux-arch@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
- Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: matthew.brost@intel.com, robdclark@chromium.org, sarah.walker@imgtec.com,
+ ltuikov@yahoo.com, ketil.johnsen@arm.com, lina@asahilina.net,
+ mcanal@igalia.com, Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, boris.brezillon@collabora.com,
+ donald.robson@imgtec.com, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/06, Willem de Bruijn wrote:
-> > > > > I think my other issue with MSG_SOCK_DEVMEM being on recvmsg is that
-> > > > > it somehow implies that I have an option of passing or not passing it
-> > > > > for an individual system call.
-> > > > > If we know that we're going to use dmabuf with the socket, maybe we
-> > > > > should move this flag to the socket() syscall?
-> > > > >
-> > > > > fd = socket(AF_INET6, SOCK_STREAM, SOCK_DEVMEM);
-> > > > >
-> > > > > ?
-> > > >
-> > > > I think it should then be a setsockopt called before any data is
-> > > > exchanged, with no change of modifying mode later. We generally use
-> > > > setsockopts for the mode of a socket. This use of the protocol field
-> > > > in socket() for setting a mode would be novel. Also, it might miss
-> > > > passively opened connections, or be overly restrictive: one approach
-> > > > for all accepted child sockets.
-> > >
-> > > I was thinking this is similar to SOCK_CLOEXEC or SOCK_NONBLOCK? There
-> > > are plenty of bits we can grab. But setsockopt works as well!
-> >
-> > To follow up: if we have this flag on a socket, not on a per-message
-> > basis, can we also use recvmsg for the recycling part maybe?
-> >
-> > while (true) {
-> >         memset(msg, 0, ...);
-> >
-> >         /* receive the tokens */
-> >         ret = recvmsg(fd, &msg, 0);
-> >
-> >         /* recycle the tokens from the above recvmsg() */
-> >         ret = recvmsg(fd, &msg, MSG_RECYCLE);
-> > }
-> >
-> > recvmsg + MSG_RECYCLE can parse the same format that regular recvmsg
-> > exports (SO_DEVMEM_OFFSET) and we can also add extra cmsg option
-> > to recycle a range.
-> >
-> > Will this be more straightforward than a setsockopt(SO_DEVMEM_DONTNEED)?
-> > Or is it more confusing?
+On 11/7/23 05:10, Luben Tuikov wrote:
+> Don't call drm_sched_select_entity() in drm_sched_run_job_queue().  In fact,
+> rename __drm_sched_run_job_queue() to just drm_sched_run_job_queue(), and let
+> it do just that, schedule the work item for execution.
 > 
-> It would have to be sendmsg, as recvmsg is a copy_to_user operation.
->
->
-> I am not aware of any precedent in multiplexing the data stream and a
-> control operation stream in this manner. It would also require adding
-> a branch in the sendmsg hot path.
-
-Is it too much plumbing to copy_from_user msg_control deep in recvmsg
-stack where we need it? Mixing in sendmsg is indeed ugly :-(
-
-Regarding hot patch: aren't we already doing copy_to_user for the tokens in
-this hot path, so having one extra condition shouldn't hurt too much?
-
-> The memory is associated with the socket, freed when the socket is
-> closed as well as on SO_DEVMEM_DONTNEED. Fundamentally it is a socket
-> state operation, for which setsockopt is the socket interface.
+> The problem is that drm_sched_run_job_queue() calls drm_sched_select_entity()
+> to determine if the scheduler has an entity ready in one of its run-queues,
+> and in the case of the Round-Robin (RR) scheduling, the function
+> drm_sched_rq_select_entity_rr() does just that, selects the _next_ entity
+> which is ready, sets up the run-queue and completion and returns that
+> entity. The FIFO scheduling algorithm is unaffected.
 > 
-> Is your request purely a dislike, or is there some technical concern
-> with BPF and setsockopt?
+> Now, since drm_sched_run_job_work() also calls drm_sched_select_entity(), then
+> in the case of RR scheduling, that would result in drm_sched_select_entity()
+> having been called twice, which may result in skipping a ready entity if more
+> than one entity is ready. This commit fixes this by eliminating the call to
+> drm_sched_select_entity() from drm_sched_run_job_queue(), and leaves it only
+> in drm_sched_run_job_work().
+> 
+> v2: Rebased on top of Tvrtko's renames series of patches. (Luben)
+>      Add fixes-tag. (Tvrtko)
+> 
+> Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
+> Fixes: f7fe64ad0f22ff ("drm/sched: Split free_job into own work item")
 
-It's mostly because I've been bitten too much by custom socket options that
-are not really on/off/update-value operations:
+Reviewed-by: Danilo Krummrich <dakr@redhat.com>
 
-29ebbba7d461 - bpf: Don't EFAULT for {g,s}setsockopt with wrong optlen
-00e74ae08638 - bpf: Don't EFAULT for getsockopt with optval=NULL
-9cacf81f8161 - bpf: Remove extra lock_sock for TCP_ZEROCOPY_RECEIVE
-d8fe449a9c51 - bpf: Don't return EINVAL from {get,set}sockopt when optlen > PAGE_SIZE
+> ---
+>   drivers/gpu/drm/scheduler/sched_main.c | 16 +++-------------
+>   1 file changed, 3 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 27843e37d9b769..cd0dc3f81d05f0 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -256,10 +256,10 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
+>   }
+>   
+>   /**
+> - * __drm_sched_run_job_queue - enqueue run-job work
+> + * drm_sched_run_job_queue - enqueue run-job work
+>    * @sched: scheduler instance
+>    */
+> -static void __drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
+> +static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
+>   {
+>   	if (!READ_ONCE(sched->pause_submit))
+>   		queue_work(sched->submit_wq, &sched->work_run_job);
+> @@ -928,7 +928,7 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched)
+>   void drm_sched_wakeup(struct drm_gpu_scheduler *sched)
+>   {
+>   	if (drm_sched_can_queue(sched))
+> -		__drm_sched_run_job_queue(sched);
+> +		drm_sched_run_job_queue(sched);
+>   }
+>   
+>   /**
+> @@ -1040,16 +1040,6 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
+>   }
+>   EXPORT_SYMBOL(drm_sched_pick_best);
+>   
+> -/**
+> - * drm_sched_run_job_queue - enqueue run-job work if there are ready entities
+> - * @sched: scheduler instance
+> - */
+> -static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
+> -{
+> -	if (drm_sched_select_entity(sched))
+> -		__drm_sched_run_job_queue(sched);
+> -}
+> -
+>   /**
+>    * drm_sched_free_job_work - worker to call free_job
+>    *
+> 
+> base-commit: 27d9620e9a9a6bc27a646b464b85860d91e21af3
 
-I do agree that this particular case of SO_DEVMEM_DONTNEED seems ok, but
-things tend to evolve and change.
