@@ -2,65 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82F417E346C
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 05:10:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05BC87E3492
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 05:41:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 496E510E127;
-	Tue,  7 Nov 2023 04:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CDE810E4A9;
+	Tue,  7 Nov 2023 04:41:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
- [IPv6:2607:f8b0:4864:20::72b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C160A10E122;
- Tue,  7 Nov 2023 04:10:41 +0000 (UTC)
-Received: by mail-qk1-x72b.google.com with SMTP id
- af79cd13be357-77896da2118so335037685a.1; 
- Mon, 06 Nov 2023 20:10:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699330241; x=1699935041; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/P0OY5KjRlEetyyFk6tsKAYYf0m6UzdxSS8Il0/u778=;
- b=Ui45bxUoV8CiEDt/8dDof4kYbNXbMPh0aSa/oopia2K/ne+rQaDZls95ZMlWV/Rf9L
- P+A6PvTmidO30Q5nugX0p1HUleVuELiNmjBD/hV0X+8PPhoDBgxX12CLvZgnhutJjknA
- NW0FFtXHwMhvO4dEpqp6+NBwCQ9hKQzYWSA91XggXMh6mdmMEl2GA7YoS2Ffonpj3tXM
- xyyYvL+RauYGTxVDlaQnCjb6qMJYgZkAfvdVET7wywJhsaGA0f6osDvR2AObN6q2uu7H
- NZ0CIFexMp5l0eIIA83/V8kVwOpuWNJjqPUO0b/gdcfmThdK8o81LHQtJGeuN+7jcmzw
- +92g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699330241; x=1699935041;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/P0OY5KjRlEetyyFk6tsKAYYf0m6UzdxSS8Il0/u778=;
- b=WY5dIZ5ZnBz+RT7pl/2y9xRkZmQDC5daEotyRR//uZ/OyHSfDDW11cxCNzohWXEF1u
- NQoVquorpC8Ip2SLmeZV3xJxjXeEtVMItAbpeKkz3qUu2wc+K8KrOceBKSXymdYYdm8G
- RswcHM6RmpIFmVD5E2lZIlX82eKw3VTHQbiSIl3sYArGPXseviWF1I09lSSTEoarRyal
- Gx+CcpYqME3QkVZCN0q4Tp7r1c2dEnMUng9B+HZquwkkKhT4XmrX/ADDmfIc2ePkD6PW
- sjvahW7VcTQClcZ6be2SyeQyzdFmkWePWQynFPozUamErZHDfR1f+7mHC24zVbq8b2eM
- o2Qw==
-X-Gm-Message-State: AOJu0YzvutqCvOcwrCz6vb7dX/WhNf/m5/X8i3cS25T6X9KzhAisb7yn
- iQONCeQ671k9UZ+ZLViGhGE=
-X-Google-Smtp-Source: AGHT+IFF1aM/gP/lwR4UnFzRbBg9tI4+DsBbngTPDSWOnkwh56NW0zfN2lbglD69bDalu4ruPlSTTg==
-X-Received: by 2002:a05:620a:10a7:b0:778:8f98:96a with SMTP id
- h7-20020a05620a10a700b007788f98096amr30535470qkk.21.1699330240752; 
- Mon, 06 Nov 2023 20:10:40 -0800 (PST)
-Received: from localhost.localdomain ([74.15.198.235])
- by smtp.gmail.com with ESMTPSA id
- x1-20020a05620a0b4100b0076d6a08ac98sm3888003qkg.76.2023.11.06.20.10.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Nov 2023 20:10:40 -0800 (PST)
-From: Luben Tuikov <ltuikov89@gmail.com>
-To: tvrtko.ursulin@linux.intel.com
-Subject: [PATCH] drm/sched: Don't disturb the entity when in RR-mode scheduling
-Date: Mon,  6 Nov 2023 23:10:21 -0500
-Message-ID: <20231107041020.10035-2-ltuikov89@gmail.com>
-X-Mailer: git-send-email 2.42.1
-In-Reply-To: <bb7c307e-271c-4f4c-bdbc-7078972ba515@linux.intel.com>
-References: <bb7c307e-271c-4f4c-bdbc-7078972ba515@linux.intel.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 739BE10E4A9
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 04:41:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699332081; x=1730868081;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=bXV69DM5TVXRswvmT9mbk5ng8CYNmjBatfhjCKuhupU=;
+ b=T3UcmJiPoQHQAl5buxKIuYA4Mp0WP+2Liw5zOOis0LgInRLFlOE8OXUm
+ QMh/5imdydH+7anC0TNjE0Kc9u8Jcii1cLI5JJxMyAtmqky+tcwqQ4zSi
+ /p+IHxvgGbRUvY7LgQHT4Uue6/VrUQQVuaM04SdKQzfHo/iQLP3taqf0H
+ qaLjrlAiil291f27hESF3AdNvjV1B3jXtO2NbteLbvUCSjFUC3jlUss1j
+ x4GH1zIs45fuFiB/y7+4h1IdlEVMBf1qV9xRHfdGDBX3EDDkY/y2J52Ci
+ 9ygOS6ovJREYBhMzoVSROfzX5QJaSP1Om1hDuKBVQgMNFF/oiSD9e5lob Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="389236401"
+X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; d="scan'208";a="389236401"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2023 20:41:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="832945509"
+X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; d="scan'208";a="832945509"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+ by fmsmga004.fm.intel.com with ESMTP; 06 Nov 2023 20:41:17 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1r0Dtr-0006vs-0v;
+ Tue, 07 Nov 2023 04:41:15 +0000
+Date: Tue, 7 Nov 2023 12:40:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 1/3] mm/gup: Introduce pin_user_pages_fd() for pinning
+ shmem/hugetlbfs file pages (v2)
+Message-ID: <202311071223.ZeoRZg33-lkp@intel.com>
+References: <20231106061541.507116-2-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231106061541.507116-2-vivek.kasireddy@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,87 +61,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, robdclark@chromium.org, sarah.walker@imgtec.com,
- ltuikov@yahoo.com, Luben Tuikov <ltuikov89@gmail.com>, ketil.johnsen@arm.com,
- lina@asahilina.net, mcanal@igalia.com, Liviu.Dudau@arm.com,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- boris.brezillon@collabora.com, dakr@redhat.com, donald.robson@imgtec.com,
- christian.koenig@amd.com, faith.ekstrand@collabora.com
+Cc: Dongwon Kim <dongwon.kim@intel.com>, David Hildenbrand <david@redhat.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, llvm@lists.linux.dev,
+ Hugh Dickins <hughd@google.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Peter Xu <peterx@redhat.com>, Junxiao Chang <junxiao.chang@intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ oe-kbuild-all@lists.linux.dev, Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Don't call drm_sched_select_entity() in drm_sched_run_job_queue().  In fact,
-rename __drm_sched_run_job_queue() to just drm_sched_run_job_queue(), and let
-it do just that, schedule the work item for execution.
+Hi Vivek,
 
-The problem is that drm_sched_run_job_queue() calls drm_sched_select_entity()
-to determine if the scheduler has an entity ready in one of its run-queues,
-and in the case of the Round-Robin (RR) scheduling, the function
-drm_sched_rq_select_entity_rr() does just that, selects the _next_ entity
-which is ready, sets up the run-queue and completion and returns that
-entity. The FIFO scheduling algorithm is unaffected.
+kernel test robot noticed the following build errors:
 
-Now, since drm_sched_run_job_work() also calls drm_sched_select_entity(), then
-in the case of RR scheduling, that would result in drm_sched_select_entity()
-having been called twice, which may result in skipping a ready entity if more
-than one entity is ready. This commit fixes this by eliminating the call to
-drm_sched_select_entity() from drm_sched_run_job_queue(), and leaves it only
-in drm_sched_run_job_work().
+[auto build test ERROR on akpm-mm/mm-everything]
 
-v2: Rebased on top of Tvrtko's renames series of patches. (Luben)
-    Add fixes-tag. (Tvrtko)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vivek-Kasireddy/mm-gup-Introduce-pin_user_pages_fd-for-pinning-shmem-hugetlbfs-file-pages-v2/20231106-141954
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231106061541.507116-2-vivek.kasireddy%40intel.com
+patch subject: [PATCH v2 1/3] mm/gup: Introduce pin_user_pages_fd() for pinning shmem/hugetlbfs file pages (v2)
+config: mips-maltaup_defconfig (https://download.01.org/0day-ci/archive/20231107/202311071223.ZeoRZg33-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311071223.ZeoRZg33-lkp@intel.com/reproduce)
 
-Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
-Fixes: f7fe64ad0f22ff ("drm/sched: Split free_job into own work item")
----
- drivers/gpu/drm/scheduler/sched_main.c | 16 +++-------------
- 1 file changed, 3 insertions(+), 13 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311071223.ZeoRZg33-lkp@intel.com/
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 27843e37d9b769..cd0dc3f81d05f0 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -256,10 +256,10 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
- }
- 
- /**
-- * __drm_sched_run_job_queue - enqueue run-job work
-+ * drm_sched_run_job_queue - enqueue run-job work
-  * @sched: scheduler instance
-  */
--static void __drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
-+static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
- {
- 	if (!READ_ONCE(sched->pause_submit))
- 		queue_work(sched->submit_wq, &sched->work_run_job);
-@@ -928,7 +928,7 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched)
- void drm_sched_wakeup(struct drm_gpu_scheduler *sched)
- {
- 	if (drm_sched_can_queue(sched))
--		__drm_sched_run_job_queue(sched);
-+		drm_sched_run_job_queue(sched);
- }
- 
- /**
-@@ -1040,16 +1040,6 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
- }
- EXPORT_SYMBOL(drm_sched_pick_best);
- 
--/**
-- * drm_sched_run_job_queue - enqueue run-job work if there are ready entities
-- * @sched: scheduler instance
-- */
--static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
--{
--	if (drm_sched_select_entity(sched))
--		__drm_sched_run_job_queue(sched);
--}
--
- /**
-  * drm_sched_free_job_work - worker to call free_job
-  *
+All errors (new ones prefixed by >>):
 
-base-commit: 27d9620e9a9a6bc27a646b464b85860d91e21af3
+>> mm/gup.c:3419:9: error: call to undeclared function 'hugetlb_add_to_page_cache'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3419 |                 err = hugetlb_add_to_page_cache(folio, file->f_mapping, idx);
+         |                       ^
+   1 error generated.
+
+
+vim +/hugetlb_add_to_page_cache +3419 mm/gup.c
+
+  3403	
+  3404	static struct page *alloc_file_page(struct file *file, pgoff_t idx)
+  3405	{
+  3406		struct page *page = ERR_PTR(-ENOMEM);
+  3407		struct folio *folio;
+  3408		int err;
+  3409	
+  3410		if (shmem_file(file))
+  3411			return shmem_read_mapping_page(file->f_mapping, idx);
+  3412	
+  3413		folio = alloc_hugetlb_folio_nodemask(hstate_file(file),
+  3414						     NUMA_NO_NODE,
+  3415						     NULL,
+  3416						     GFP_USER);
+  3417		if (folio && folio_try_get(folio)) {
+  3418			page = &folio->page;
+> 3419			err = hugetlb_add_to_page_cache(folio, file->f_mapping, idx);
+  3420			if (err) {
+  3421				folio_put(folio);
+  3422				free_huge_folio(folio);
+  3423				page = ERR_PTR(err);
+  3424			}
+  3425		}
+  3426	
+  3427		return page;
+  3428	}
+  3429	
+
 -- 
-2.42.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
