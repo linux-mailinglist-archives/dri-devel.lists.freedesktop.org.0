@@ -1,64 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD597E32B7
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 02:53:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D1A97E32B9
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 02:56:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 853DD10E06A;
-	Tue,  7 Nov 2023 01:53:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64A8B10E105;
+	Tue,  7 Nov 2023 01:56:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65E9210E06A
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 01:53:26 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id
- ffacd0b85a97d-32fd7fc9f19so770330f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 17:53:26 -0800 (PST)
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
+ [IPv6:2607:f8b0:4864:20::1130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42BBA10E105
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 01:56:04 +0000 (UTC)
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-5a84204e7aeso60670857b3.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 17:56:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1699322005; x=1699926805; darn=lists.freedesktop.org; 
- h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oDNpb1kX9Q5D1FTRF5Xg6UxOao23a7KP3eBk4wJ9fv4=;
- b=Uj1SyrnwWBqU5hQZMAwpmlhZ53XYX4tmLHzvESBIhp5iBXNFsK66T+OwErnoqUnK3V
- S7iFjm/jkIHIbbNL/rAhpD49O3AhGLCvncfAnYc+CHQ7nzK0S+90/zHv+JD6ZyatHj3q
- cu98Ip4wyaYboD6mvJ82Jsq8sAl3EHU7ZKQQvj5n9a088pDbDydnqOg+Hp/J0ZyghIUO
- gwAEHXACbRX7BTmd2Qf08ghdIWD7/BaFVR4OVd1KafEQtMFO/6qCMIMPyfHNcE9tnYz2
- 10GkcKIRduJagkV9vlBNz+eRDRjJWHx82t8j3V8qKmRSTdnLwM654hSQusPjczHz6PKO
- 1ofA==
+ d=linaro.org; s=google; t=1699322163; x=1699926963; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=qRdFl5udOcDDgpUUHFmtzTJy5y7ihwibQnaHgGQmu7k=;
+ b=OfDkS1Ho9PH0GNUDy9h78W9zLWCOYAhE6BjdJsSsJsz8DUVfAa5Fqngz5C8v+VU/1S
+ HL8S3FGdpB8xCBCkww8HM3i/eCbSUmSOIp8ugQwnORycxDRnT/bSYQ7/MQoAqduDhUKl
+ HjEhuIqSctLwyvsVxd1UTW2FH4E5qqjwpO27YYk954sx4y7fbRdzVqRs0qkGKpELY0pq
+ cUjKZ2XjUwydDz3eFp6ni+bQqylXsyn9Dx2xQwF/ao5z8/ogqsTX8qbW9GgIoeU3vytY
+ +G8r385tIrQCaOOQyPkGhuWA4gVzOjSC0jCk6eaGMRZ06J7QmdS7ZW6WEh0htFOrrona
+ /5SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699322005; x=1699926805;
- h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oDNpb1kX9Q5D1FTRF5Xg6UxOao23a7KP3eBk4wJ9fv4=;
- b=SARJWv30rhCfwKUPvMCTDywZkoBsvkDI0VHj/bl5YkA7N7lsyv+Yz62pjsMi1s3Ndp
- TyltZFsVv7yuW6fi5qxV37yfsSHuLWe8t2r+nsSfomDgzosd1ipdwrtTTI6Af4WSoJnF
- HyQu3YIjCDWagWLgFR7OhWMmvtpIpZhfl5qe9yAu5lBeJ28+Qf7ETED9VS1erasx3ngz
- kl1CaG/22k+ToxykW//hdGhKLLW7CU38YF9fLVH/wADXiOJA1nW9ppC/CJ6x4A2oYcfP
- aod5C3134OdeTse2sYlvEpg3aNhQFQyZ7bW5ws9BY6cx2Yc2sIcSNZqiH7oViaYMw3be
- 8zcQ==
-X-Gm-Message-State: AOJu0YwSquMMbieDc8pnzf56FX3iBzAa3XSi1Ko1PKUziiEIOJmeR1TK
- AFD/sPZUx9PQW83iZPBB2pB37tytGIDACnvLpAemEQ==
-X-Google-Smtp-Source: AGHT+IEM+oaPsXFESuwpC47oh5KHNo2DmwnXhFlm/3Jzp+lMFGg9MQQnBMCTZm9rBIk+q5DkFx3lPg==
-X-Received: by 2002:a5d:5381:0:b0:32d:aff1:58e6 with SMTP id
- d1-20020a5d5381000000b0032daff158e6mr21539634wrv.54.1699322004492; 
- Mon, 06 Nov 2023 17:53:24 -0800 (PST)
-Received: from ubuntu.huaqin.com ([63.221.192.42])
- by smtp.gmail.com with ESMTPSA id
- f9-20020a0560001b0900b0032db430fb9bsm940046wrz.68.2023.11.06.17.53.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Nov 2023 17:53:23 -0800 (PST)
-From: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
-To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, sam@ravnborg.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com
-Subject: [PATCH v2] drm/panel: starry-2081101qfh032011-53g: Fine tune the
- panel power sequence
-Date: Tue,  7 Nov 2023 09:53:14 +0800
-Message-Id: <20231107015314.714-1-xiazhengqiao@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.17.1
+ d=1e100.net; s=20230601; t=1699322163; x=1699926963;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qRdFl5udOcDDgpUUHFmtzTJy5y7ihwibQnaHgGQmu7k=;
+ b=Q2i6B3lIQkzK2hC3NC3iRBD5UHdsfW88DiEiHGs9AplwK0o5W8vsstlB/nGku14gV4
+ iZ1VH9plcwogv4/YP5dVJ0f0s8gKIFTRYH8KV8SXmiG64++j4bYoYmHvBN2SnTyIQ3R5
+ cDWQg1dUM4dp7JhfdYemY7JY/gKm7IhuyuPkIjUj7Mx/CnqRlaZqpL8s0dMY7iSLYobq
+ isC8ETtq8MhSQzNTxzH0zVJYQV1sguhRAhUIiBQ0bG1vnGfco9xhAitdPvKrdFsalww2
+ GX+DiCVC1BKS0CivtZzVZY1BpiPbxvHKhPelaj2hQhXZsRHtKp+XMpX/zVbAL6oXwaSj
+ pITQ==
+X-Gm-Message-State: AOJu0Ywklj4a8JPO9VRWjTiWCCAqkPKoz01CtOZ/O99cP2H8VWzGyaPX
+ H5L/fgp1Lnalh0WWtucSo9Kmo9kojsEx08x0zpLO/w==
+X-Google-Smtp-Source: AGHT+IFtN3nj1SFB8choYmUK6+L0wPLOEXRz8UqI3Ocfv/fDkJmkQoE2qADkYCuPiioo32CihjU/UeJ2DjK7I3fYw4E=
+X-Received: by 2002:a81:9a54:0:b0:5a7:fa8b:3fa6 with SMTP id
+ r81-20020a819a54000000b005a7fa8b3fa6mr12601421ywg.9.1699322163303; Mon, 06
+ Nov 2023 17:56:03 -0800 (PST)
+MIME-Version: 1.0
+References: <1696632910-21942-1-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1696632910-21942-1-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 7 Nov 2023 03:55:51 +0200
+Message-ID: <CAA8EJpoFRp+7GyO=F3Ar21tfG5Yt0cL6zkAquqg7D1XXQjp50Q@mail.gmail.com>
+Subject: Re: [PATCH v7 0/7] incorporate pm runtime framework and eDP clean up
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,35 +66,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>,
- xuxinxiong@huaqin.corp-partner.google.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For the "starry, 2081101qfh032011-53g" panel, it is stipulated in the
-panel spec that MIPI needs to keep the LP11 state before the
-lcm_reset pin is pulled high.
+On Sat, 7 Oct 2023 at 01:55, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>
+> The purpose of this patch series is to incorporate pm runtime framework
+> into MSM eDP/DP driver so that eDP panel can be detected by DRM eDP panel
+> driver during system probe time. During incorporating procedure, original
+> customized pm realted fucntions, such as dp_pm_prepare(), dp_pm_suspend(),
+> dp_pm_resume() and dp_pm_prepare(), are removed and replaced with functions
+> provided by pm runtiem framework such as pm_runtime_force_suspend() and
+> pm_runtime_force_resume(). In addition, both eDP aux-bus and irq handler
+> are bound at system probe time too.
 
-Fixes: 6069b66cd962 ("drm/panel: support for STARRY 2081101QFH032011-53G MIPI-DSI panel")
-Signed-off-by: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
----
- drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index 4f370bc6dca8..4ed8c2e28d37 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -1765,6 +1765,7 @@ static const struct panel_desc starry_qfh032011_53g_desc = {
- 	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
- 		      MIPI_DSI_MODE_LPM,
- 	.init_cmds = starry_qfh032011_53g_init_cmd,
-+	.lp11_before_reset = true,
- };
- 
- static const struct drm_display_mode starry_himax83102_j02_default_mode = {
+With this patchset in place I can crash the board using the following
+sequence (SM8350-HDK):
+
+- plug the USBC DP dongle
+- run modetest at any mode, don't press Enter yet
+- unplug the dongle
+- press Enter to stop modetest
+
+=> the board resets to Sahara.
+
+Please ping me if you need any additional information from my side.
+
 -- 
-2.17.1
-
+With best wishes
+Dmitry
