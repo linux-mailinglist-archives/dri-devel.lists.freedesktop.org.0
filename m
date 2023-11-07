@@ -1,65 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3D827E3230
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 01:24:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D8DA7E3236
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 01:25:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D83E10E463;
-	Tue,  7 Nov 2023 00:24:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C21710E495;
+	Tue,  7 Nov 2023 00:25:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com
- [IPv6:2607:f8b0:4864:20::936])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 695A410E463
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 00:24:04 +0000 (UTC)
-Received: by mail-ua1-x936.google.com with SMTP id
- a1e0cc1a2514c-7ba9bd62fdfso1566753241.3
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 16:24:04 -0800 (PST)
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 389AF10E495;
+ Tue,  7 Nov 2023 00:25:14 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id
+ d9443c01a7336-1cc30bf9e22so40492065ad.1; 
+ Mon, 06 Nov 2023 16:25:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1699316643; x=1699921443;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VpkgociZWtNmHNqup8fc4OP6m9kvy0WIbsUu3JqjrFo=;
- b=J7jdQMFVmrr8Ni/O6IZpiYaU3JJKjQ/GZbFHKizu5SVuhvzTwMGBslFkpaEoyoaXm1
- a3vjjTf8M8JabGtYG1tk7bNk7gcoHtc6TYNFxWSWkF/Xp8kZfDakMGXD1IGLjbLuWDZN
- iIgpdde+Eh6HsCNDXuwLDkzuGjvZnPzrZ8D3rkaBPt3satV55/U+Pkpzd7Oc86YCq4u1
- eYi8yLyw0Me/rzDo76KLw3IzVQwa0YcrpDDZBxaj+HPc6APWB4CUALDCxjsieEZyIFi7
- iL8EIl3SLzIaBkxw85KofxUTIIampZ8ornlQds1G+00xYpD3y6Tjtq/ABSGKR6qGf14w
- ruug==
+ d=gmail.com; s=20230601; t=1699316714; x=1699921514; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=KvNevDILmrFumM2oQIUBMvMXYtsYvLzdrTujg9hVkHI=;
+ b=miBkMjSDa+KJpdbHLW5RXIoBdprMRRqM+HJZaU3zMqfqvyoKGVcLfUtdl1LX0Wnwwy
+ /kpYdpv1wrsmwGrd5x8x/2fsupgJTYRlMajpZBW8MuAPHU61em0XZMYi+KpvtlOORheK
+ jb6R33X745Ldj+a5r3bkdZjW5qbxUZMrm4x5BXKw7DFeF/S0qllAXOByvnslOcQ6lR+s
+ r4yYMVRqxUYdTu8Z475fmsabFmupStl/HHg54wiRexFEONDNNi7OH2aof3ysdJy8CQKB
+ agOl+93JID7LS+Xxgy+F85FlMX0MolYRmOWY9bl8BdURlwX8Upa06A4ophPPaV6B/2nx
+ TWUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699316643; x=1699921443;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VpkgociZWtNmHNqup8fc4OP6m9kvy0WIbsUu3JqjrFo=;
- b=QCIRYhpFDNHtL0urcsVyZTuM5sqTNpE3XM+ACWxLbNTKxaZ9VegQa0YhNG7FJLZBia
- KXxYVln1C3EbffsMqcBP0En/P+Xz6tBh0WoEE78SiRZPXBF+h81RQe7WmYOUPUzjxvHC
- uQG0xA4qLCj0bx8pL09GjX4YJhraLPq4W7KnMvWcJMl11zY1aic8qxsf6GTmSBJnt4pP
- 9gun46790mC4Z9SEpuTSBcGAJMGWKjQcLDM33qBOTG+/EWAH7c1D9uLRLOywPZCzyHLH
- CGmT1Ejol4s09n07d4cfDoLSAazhqcg+EJ7FsG2quUsBIOaiOPMzfsaGRzcAgtW6/oN0
- F2xg==
-X-Gm-Message-State: AOJu0Yw462OsVZulYUByxbMghi4QrNjgQzryXpeOeBKX/x2QoXP3LLwY
- N3gzCl/AODVSGbGPYrF/BrGp9AmPg8YC7hDrhqguWw==
-X-Google-Smtp-Source: AGHT+IETMKyQIhhyycP7VfpcyOAP+36Ndh1eORahNjRPB1IML5/P0pzLe4lyVRhYqpQBeNyazLdIIUZ8jHzBSAAkKuo=
-X-Received: by 2002:a05:6102:2049:b0:45f:642e:41c with SMTP id
- q9-20020a056102204900b0045f642e041cmr2136927vsr.13.1699316643304; Mon, 06 Nov
- 2023 16:24:03 -0800 (PST)
+ d=1e100.net; s=20230601; t=1699316714; x=1699921514;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KvNevDILmrFumM2oQIUBMvMXYtsYvLzdrTujg9hVkHI=;
+ b=WqFcEeYnMLdvCgiDnpjx1ee8V55a4hwHnNjMveP6c2oyeiOpQ+5rPvmCafghrT6kc0
+ KWG2SwCXwlBNNZx/sNFPEar5r3IqTR+4aUY0VawvvE13Oy5XZ953OcOs6sjqYhqTM4IH
+ V/68P7SChq0MZqVKMR28O82paYVRgGLVPOMhdRISVhkbLgpLjtSkznb0FW1gTYWyxqHT
+ 4pZZCePMFpR6chELAC44YUDbC3QFz7Q85+VXS3aIlzAnw8iUjE+9WnziNEOrec+b8Lso
+ Uo7YWME4qErCs0EAy6GWyg9rP7LEc/e/HD99XM/ojQy2dNPr/RsVlICHD8ciD8lAFM1f
+ kB6g==
+X-Gm-Message-State: AOJu0YwvyEeLXSUvTBudeUsKVnfQjhnMI+SOSwUVmcWIHirZgwm8EG8C
+ TpFntI3QTOdYNUt2mLnt3cw=
+X-Google-Smtp-Source: AGHT+IFpEJjW+6bQ6vlcdu8jbIyxxRW7ZMOKGK03NP4M1Mz4NcROaycZ11XDShYh+2rBgXl2g25WXw==
+X-Received: by 2002:a17:902:e551:b0:1cc:51ee:5faf with SMTP id
+ n17-20020a170902e55100b001cc51ee5fafmr1650822plf.7.1699316713622; 
+ Mon, 06 Nov 2023 16:25:13 -0800 (PST)
+Received: from debian.me ([103.131.18.64]) by smtp.gmail.com with ESMTPSA id
+ d7-20020a170902654700b001bb1f0605b2sm6573600pln.214.2023.11.06.16.25.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Nov 2023 16:25:13 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+ id 63C18817FA85; Tue,  7 Nov 2023 07:25:00 +0700 (WIB)
+Date: Tue, 7 Nov 2023 07:24:58 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Hunter Chasens <hunter.chasens18@ncf.edu>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] drm: amd: Resolve Sphinx unexpected indentation warning
+Message-ID: <ZUmD2u7qZS9XWRRz@debian.me>
+References: <20231106201739.29507-1-hunter.chasens18@ncf.edu>
 MIME-Version: 1.0
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-10-almasrymina@google.com>
- <fa44c3d1-92b9-4686-ab3b-4fcda257aafd@kernel.org>
-In-Reply-To: <fa44c3d1-92b9-4686-ab3b-4fcda257aafd@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Mon, 6 Nov 2023 16:23:52 -0800
-Message-ID: <CAHS8izPW++mf1rq2XdezvXJpxhc6Ey1-_2nbpEymm5KThV18yw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 09/12] net: add support for skbs with unreadable
- frags
-To: David Ahern <dsahern@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="/im2KQQsxOjeQDIO"
+Content-Disposition: inline
+In-Reply-To: <20231106201739.29507-1-hunter.chasens18@ncf.edu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,103 +75,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
- Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Lijo Lazar <lijo.lazar@amd.com>,
+ Linux Documentation <linux-doc@vger.kernel.org>, Xinhui.Pan@amd.com,
+ Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 6, 2023 at 4:16=E2=80=AFPM David Ahern <dsahern@kernel.org> wro=
-te:
->
-> On 11/5/23 7:44 PM, Mina Almasry wrote:
-> > diff --git a/net/core/datagram.c b/net/core/datagram.c
-> > index 176eb5834746..cdd4fb129968 100644
-> > --- a/net/core/datagram.c
-> > +++ b/net/core/datagram.c
-> > @@ -425,6 +425,9 @@ static int __skb_datagram_iter(const struct sk_buff=
- *skb, int offset,
-> >                       return 0;
-> >       }
-> >
-> > +     if (skb_frags_not_readable(skb))
-> > +             goto short_copy;
-> > +
-> >       /* Copy paged appendix. Hmm... why does this look so complicated?=
- */
-> >       for (i =3D 0; i < skb_shinfo(skb)->nr_frags; i++) {
-> >               int end;
-> > @@ -616,6 +619,9 @@ int __zerocopy_sg_from_iter(struct msghdr *msg, str=
-uct sock *sk,
-> >  {
-> >       int frag;
-> >
-> > +     if (skb_frags_not_readable(skb))
-> > +             return -EFAULT;
->
-> This check ....
-> > +
-> >       if (msg && msg->msg_ubuf && msg->sg_from_iter)
-> >               return msg->sg_from_iter(sk, skb, from, length);
->
->
-> ... should go here. That allows custome sg_from_iter to have access to
-> the skb. What matters is not expecting struct page (e.g., refcounting);
-> if the custom iter does not do that then all is well. io_uring's iter
-> does not look at the pages, so all good.
->
-> >
-> > diff --git a/net/core/gro.c b/net/core/gro.c
-> > index 42d7f6755f32..56046d65386a 100644
-> > --- a/net/core/gro.c
-> > +++ b/net/core/gro.c
-> > @@ -390,6 +390,9 @@ static void gro_pull_from_frag0(struct sk_buff *skb=
-, int grow)
-> >  {
-> >       struct skb_shared_info *pinfo =3D skb_shinfo(skb);
-> >
-> > +     if (WARN_ON_ONCE(skb_frags_not_readable(skb)))
-> > +             return;
-> > +
-> >       BUG_ON(skb->end - skb->tail < grow);
-> >
-> >       memcpy(skb_tail_pointer(skb), NAPI_GRO_CB(skb)->frag0, grow);
-> > @@ -411,7 +414,7 @@ static void gro_try_pull_from_frag0(struct sk_buff =
-*skb)
-> >  {
-> >       int grow =3D skb_gro_offset(skb) - skb_headlen(skb);
-> >
-> > -     if (grow > 0)
-> > +     if (grow > 0 && !skb_frags_not_readable(skb))
-> >               gro_pull_from_frag0(skb, grow);
-> >  }
-> >
-> > diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-> > index 13eca4fd25e1..f01673ed2eff 100644
-> > --- a/net/core/skbuff.c
-> > +++ b/net/core/skbuff.c
-> > @@ -1230,6 +1230,14 @@ void skb_dump(const char *level, const struct sk=
-_buff *skb, bool full_pkt)
-> >               struct page *p;
-> >               u8 *vaddr;
-> >
-> > +             if (skb_frag_is_page_pool_iov(frag)) {
->
-> Why skb_frag_is_page_pool_iov here vs skb_frags_not_readable?
 
-Seems like a silly choice on my end. I should probably check
-skb_frags_not_readable() and not kmap any frags in that case. Will do.
+--/im2KQQsxOjeQDIO
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Nov 06, 2023 at 03:17:39PM -0500, Hunter Chasens wrote:
+> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/=
+amdgpu_pm.c
+> index 517b9fb4624c..81b8ceb26890 100644
+> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> @@ -989,12 +989,13 @@ static ssize_t amdgpu_get_pp_features(struct device=
+ *dev,
+>   * Reading back the files will show you the available power levels within
+>   * the power state and the clock information for those levels. If deep s=
+leep is
+>   * applied to a clock, the level will be denoted by a special level 'S:'
+> - * E.g.,
+> - *	S: 19Mhz *
+> - *	0: 615Mhz
+> - *	1: 800Mhz
+> - *	2: 888Mhz
+> - *	3: 1000Mhz
+> + * E.g.::
+> + *
+> + *  S: 19Mhz *
+> + *  0: 615Mhz
+> + *  1: 800Mhz
+> + *  2: 888Mhz
+> + *  3: 1000Mhz
+>   *
+>   *
+>   * To manually adjust these states, first select manual using
+
+LGTM, thanks!
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 --=20
-Thanks,
-Mina
+An old man doll... just what I always wanted! - Clara
+
+--/im2KQQsxOjeQDIO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZUmDrQAKCRD2uYlJVVFO
+o3+ZAQDfjlESW3+XuDhrOEojS9fqik7nCHXgYFOPvulyC48CzwEAmlHOs12KiwgZ
+BP9nE37zIUNmEkWjNU+PCfws51OmbgE=
+=JkyO
+-----END PGP SIGNATURE-----
+
+--/im2KQQsxOjeQDIO--
