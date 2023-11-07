@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 709F47E3CD1
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:20:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F4F97E3CD3
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 13:20:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5862810E552;
-	Tue,  7 Nov 2023 12:20:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D37D10E53A;
+	Tue,  7 Nov 2023 12:20:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7569310E535
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 12:20:38 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C67F10E535
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 12:20:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 2CFDDB816A9;
- Tue,  7 Nov 2023 12:20:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94CAEC433C8;
- Tue,  7 Nov 2023 12:20:34 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 1CBE5B816AA;
+ Tue,  7 Nov 2023 12:20:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4658FC433B8;
+ Tue,  7 Nov 2023 12:20:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699359635;
- bh=SVFAmaxVAKpmkmwbZ/KzKgNcJKhakvwFy9xtqRoAh1w=;
+ s=k20201202; t=1699359637;
+ bh=vcudCxkeKP3irK7esjxaNBHnutlGTbUPlugACaavDUw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RujQmPNO1/nyo8GxE1flxy9hUZfXJ90Dw8LixGYp6EBjtDa8TjAk9zfADUtaMsnll
- q1H1Sz4e1f8Itgbt5ABYdpIs3bpvsypGUxWHtDxa7fxm3S+YJmQoLEGMh/TAQRgYx1
- 2B46HrS4lAlikjfdSkUDY1Wn+YmPsRTQ0IlSo2N116RBxlO0rAulVA57JdfTFYlIaU
- TyPsLPGYmHaRKpGUuFX1qSt7ZxBEtyRTD3jnPpu5k+Y0IjNVbOap4Y6MTQtvsF/RBa
- O9hCw3vGvhPjYRJU6l10X+D2lQXzsi+BdvAeDlfwExhzJgk+Y0SffCGkIJj2WGvf2O
- KjkwulcfHZRVA==
+ b=u7l0xkzpafUIEzJtwFOxnEYdchLxPMrObpNJ6LpeL3N9s3A7zTufdJO59ZC1dOzDu
+ BC44Jcxra1D8qz3y/+9xdA6ZqPRkLjnCKUlO9rZTn6kjF/OhZpHkOtEVD56uNSegj8
+ cR0Wd67SnCWCuU2LXFWmo2EiSOR9m3dhHAc5u8zNGyht7oJrwnf20vi+S7RzPtzNtB
+ dw1Brw3xpd0XseNinRZfVpIh3eUkUh68CPV2ODLWaYDMkg89S7DHiGG8oHc7SVWD6+
+ 8d0GAA8+ZQCjaCGzb3bbgH5ftZUGn0+h1NaISZXSk4h7SwoZJYgqOPzAU80hdKJPGR
+ pxc3GdVUWKKKA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 24/40] drm/panel: fix a possible null pointer
- dereference
-Date: Tue,  7 Nov 2023 07:16:26 -0500
-Message-ID: <20231107121837.3759358-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 25/40] drm/panel/panel-tpo-tpg110: fix a possible
+ null pointer dereference
+Date: Tue,  7 Nov 2023 07:16:27 -0500
+Message-ID: <20231107121837.3759358-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231107121837.3759358-1-sashal@kernel.org>
 References: <20231107121837.3759358-1-sashal@kernel.org>
@@ -63,30 +62,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ma Ke <make_ruc2021@163.com>
 
-[ Upstream commit 924e5814d1f84e6fa5cb19c6eceb69f066225229 ]
+[ Upstream commit f22def5970c423ea7f87d5247bd0ef91416b0658 ]
 
-In versatile_panel_get_modes(), the return value of drm_mode_duplicate()
-is assigned to mode, which will lead to a NULL pointer dereference
-on failure of drm_mode_duplicate(). Add a check to avoid npd.
+In tpg110_get_modes(), the return value of drm_mode_duplicate() is
+assigned to mode, which will lead to a NULL pointer dereference on
+failure of drm_mode_duplicate(). Add a check to avoid npd.
 
 Signed-off-by: Ma Ke <make_ruc2021@163.com>
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Link: https://lore.kernel.org/r/20231007033105.3997998-1-make_ruc2021@163.com
+Link: https://lore.kernel.org/r/20231009090446.4043798-1-make_ruc2021@163.com
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20231007033105.3997998-1-make_ruc2021@163.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20231009090446.4043798-1-make_ruc2021@163.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/panel/panel-arm-versatile.c | 2 ++
+ drivers/gpu/drm/panel/panel-tpo-tpg110.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-arm-versatile.c b/drivers/gpu/drm/panel/panel-arm-versatile.c
-index abb0788843c60..503ecea72c5ea 100644
---- a/drivers/gpu/drm/panel/panel-arm-versatile.c
-+++ b/drivers/gpu/drm/panel/panel-arm-versatile.c
-@@ -267,6 +267,8 @@ static int versatile_panel_get_modes(struct drm_panel *panel,
- 	connector->display_info.bus_flags = vpanel->panel_type->bus_flags;
+diff --git a/drivers/gpu/drm/panel/panel-tpo-tpg110.c b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
+index 845304435e235..f6a212e542cb9 100644
+--- a/drivers/gpu/drm/panel/panel-tpo-tpg110.c
++++ b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
+@@ -379,6 +379,8 @@ static int tpg110_get_modes(struct drm_panel *panel,
+ 	connector->display_info.bus_flags = tpg->panel_mode->bus_flags;
  
- 	mode = drm_mode_duplicate(connector->dev, &vpanel->panel_type->mode);
+ 	mode = drm_mode_duplicate(connector->dev, &tpg->panel_mode->mode);
 +	if (!mode)
 +		return -ENOMEM;
  	drm_mode_set_name(mode);
