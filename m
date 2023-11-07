@@ -1,69 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 516147E32E1
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 03:24:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E34FE7E3327
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Nov 2023 03:42:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D713F10E4A1;
-	Tue,  7 Nov 2023 02:24:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 774E08825B;
+	Tue,  7 Nov 2023 02:42:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com
- [IPv6:2607:f8b0:4864:20::932])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4011B10E4A1
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 02:24:06 +0000 (UTC)
-Received: by mail-ua1-x932.google.com with SMTP id
- a1e0cc1a2514c-7b625ed7208so1738392241.1
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 18:24:06 -0800 (PST)
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
+ [IPv6:2607:f8b0:4864:20::729])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F16B10E4A3
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Nov 2023 02:42:27 +0000 (UTC)
+Received: by mail-qk1-x729.google.com with SMTP id
+ af79cd13be357-7789577b53fso339657385a.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Nov 2023 18:42:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699323845; x=1699928645; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Q8/hIJ+hXi3TTC8/M5hN/3Tp+g8W2vvsh36FqMl8LBI=;
- b=S0mPNmZ6dt2EhWEScKbYDTlxcuUzvbfBW5xinyYkwIqcBRlSsHNJROV7P4sqI7Pwe6
- aUPWTDDbhBAkUARprW8vNPpPcdyQ0gvtjYlUw+J24Zv6IZ/E0TM/w+qODF70dJ6N7GWX
- AKvENDW+W5sEKLZ1PmaZEJAs4PD4MDKIIJzkFtgGY/dydL0ownajIyHnTNKnS3CS3mI/
- GjNaAfWHkqhmkf/3FuqNNQia7Bmh0fONqxGQ+SdiKL/MjF1h9QpjxzKOqTo7HGfv3Ehr
- PiCW5UrQfB71YCmDVYT9YRHfR8ni5rDKyRwBUFlaLayprBdZu06NMP0fckg24xD/NX4/
- 4SEQ==
+ d=gmail.com; s=20230601; t=1699324946; x=1699929746; darn=lists.freedesktop.org;
+ h=in-reply-to:autocrypt:from:references:cc:to:content-language
+ :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=AMGiNg8zB4ue1FwO75XIRwxe78xeaVWHCD1Ot4u8i34=;
+ b=DcbwZJRUzNaZ+7VoquH7Y/g1qyiX6NvmF9VMzVuiBxLk7drxuUfhFLre4uCzUESG/g
+ 7eRCaFpBUxS+J7kF883XxguyJQvund/B6k3024iEH3EdHwWly66KA1jTK5YdyziF0HkZ
+ Wtq185pjPLzK1PEK574WKvH/m0O0UZlx1HRXAMh8OOG8waVE3y/lVWpii4JS7EyX1QHS
+ DoOf5b8rBnDpKx0ETyJ2m+2Pd2DMYgmHehCAk4VbKKAa9ExnCvcAxxJkaaBXkrYS71H2
+ FujIrc0uTYsEr1hmYtmAcTw4LLlRnJnvSgnK/9IIxQlND2J81nXOpA/9aYM5/xKGo2I+
+ cwmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699323845; x=1699928645;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Q8/hIJ+hXi3TTC8/M5hN/3Tp+g8W2vvsh36FqMl8LBI=;
- b=PnPiwIV+/TExI5cbpsiBK+OTpeSXx94pPdQu4cBpnf2o31joTWL0ea9xu8IS9ARfEl
- 1u+B9F6es4Z5giO2KLN6S/q5ak5tDn4B7Y7diVxWyqsozxuoYi3o+TPUKI3x8FpqeqnY
- xfbPYpGifCm29YeYmTCW7v8WBiQ/YZHiaBKmd3OoHkVCdc1mRx01ZAlvpoSZ3/mEX44l
- u1caI7CijqQZPGfRyPfMYbaiRKlYv8o+VTeqgY5pgcmg8frUBBhcF/bRKzEtNcFDQ6Uk
- fi9C8IWNhRhZsdDvHm4P/cx51/XnBFdgRH7SD2jFqefuO4V3760cic5vQQvPlKkMivwt
- 5kIg==
-X-Gm-Message-State: AOJu0YxhtL72Aa4nmG9H57iQIxyiojD75nOn8PSfQFbjhmsQvy9D/8nc
- yfR4FdvAkgzcR15FXHSRzOTylhKT+bbN2i64McM=
-X-Google-Smtp-Source: AGHT+IFMLt/VUG6TU/4hOSl6RqKh7SB0dwBaFHv9+9I37C28wvAczM3wwtVldLZdBo8d+kzaH5f944U0PquGa1Yz4yU=
-X-Received: by 2002:a67:e10a:0:b0:45e:9611:7b71 with SMTP id
- d10-20020a67e10a000000b0045e96117b71mr6126361vsl.27.1699323845025; Mon, 06
- Nov 2023 18:24:05 -0800 (PST)
+ d=1e100.net; s=20230601; t=1699324946; x=1699929746;
+ h=in-reply-to:autocrypt:from:references:cc:to:content-language
+ :subject:user-agent:mime-version:date:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=AMGiNg8zB4ue1FwO75XIRwxe78xeaVWHCD1Ot4u8i34=;
+ b=w4tpHy7xYbMoY8Uz/UgYZoGIDMarTlHaX617T2m/a62mOYckIHr2XPmImeRuKlnXrh
+ EdlY73QPHMCHVhRjO6ZFUfvZz+HC5Hg1/d5BL0HY2gHVP8w9HUufYDoBVW24dEXJtrHV
+ kj9Lz0OE7558kkLvRj/ULXQ1ZV8E8JfVJXCGL9iMGn6dszovWfn+gTDDtmHh6hCO/v9n
+ c+YMnYZtwTLfxAC7o2+SLZDtYiLDJyYqNqUXb0UHzAfjNR/lxaiuCZZHnyUo9FvEpZBi
+ 7A9DI+b3Sd7PCCbBqruo8Joq+cpujcoYpUlK59TQfyaamjFG0ixuBN8f1JY2+0B+E9Zb
+ 2qvA==
+X-Gm-Message-State: AOJu0YwArL8lxFTkBwlY6sMXn+NrmHTDWE0/b1HfFjQEZ8tCKUDtXq+h
+ hBZnCcdo0V0doexqBU3R1Sw=
+X-Google-Smtp-Source: AGHT+IE6Y66LEM6tgVZc8BsIvNkQtPA59MovyG/uNSYqAO6gIFgFMPdOXIFZSl/quSYmDU3m3VoKZA==
+X-Received: by 2002:a05:620a:2456:b0:774:1e07:ea0d with SMTP id
+ h22-20020a05620a245600b007741e07ea0dmr37895842qkn.44.1699324946279; 
+ Mon, 06 Nov 2023 18:42:26 -0800 (PST)
+Received: from [192.168.2.14] ([74.15.198.235])
+ by smtp.gmail.com with ESMTPSA id
+ n4-20020a05620a222400b0075ca4cd03d4sm3834658qkh.64.2023.11.06.18.42.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Nov 2023 18:42:25 -0800 (PST)
+Message-ID: <b558db16-dbc5-43af-b59f-9dd8e7b35e2c@gmail.com>
+Date: Mon, 6 Nov 2023 21:42:16 -0500
 MIME-Version: 1.0
-References: <ZUk03DhWxV-bOFJL@google.com>
- <19129763-6f74-4b04-8a5f-441255b76d34@kernel.org>
- <CAHS8izMrnVUfbbS=OcJ6JT9SZRRfZ2MC7UnggthpZT=zf2BGLA@mail.gmail.com>
- <ZUlhu4hlTaqR3CTh@google.com>
- <CAHS8izMaAhoae5ChnzO4gny1cYYnqV1cB8MC2cAF3eoyt+Sf4A@mail.gmail.com>
- <ZUlvzm24SA3YjirV@google.com>
- <CAHS8izMQ5Um_ScY0VgAjaEaT-hRh4tFoTgc6Xr9Tj5rEj0fijA@mail.gmail.com>
- <CAKH8qBsbh8qYxNHZ6111RQFFpNWbWZtg0LDXkn15xcsbAq4R6w@mail.gmail.com>
- <CAF=yD-+BuKXoVL8UF+No1s0TsHSzBTz7UrB1Djt_BrM74uLLcg@mail.gmail.com>
- <ZUmBf7E8ZoTQwThL@google.com> <ZUmMBZpLPQkRS9bg@google.com>
-In-Reply-To: <ZUmMBZpLPQkRS9bg@google.com>
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Date: Mon, 6 Nov 2023 20:23:28 -0600
-Message-ID: <CAF=yD-+tZ7xaU0rKWBuVbfdVWptj88Z=Xf4Mqx+zaC-gZ1U1mw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 09/12] net: add support for skbs with unreadable
- frags
-To: Stanislav Fomichev <sdf@google.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
+ Thunderbird/115.4.1
+Subject: Re: [PATCH 0/5] Some drm scheduler internal renames
+Content-Language: en-CA, en-US
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+References: <20231102105538.391648-1-tvrtko.ursulin@linux.intel.com>
+ <88bd3e1d-db66-40de-b06f-adcaefacccf3@gmail.com>
+ <42646224-60e4-4ac1-b554-730b66fb2704@linux.intel.com>
+From: Luben Tuikov <ltuikov89@gmail.com>
+Autocrypt: addr=ltuikov89@gmail.com; keydata=
+ xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
+ Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
+ eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
+ AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
+ JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
+ cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
+ 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
+ aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
+In-Reply-To: <42646224-60e4-4ac1-b554-730b66fb2704@linux.intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------ZAa15zsxDvLmODjj0kJWy0Rt"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,72 +89,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Mina Almasry <almasrymina@google.com>, Jeroen de Borst <jeroendb@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- linux-media@vger.kernel.org, linux-arch@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
- Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > > > I think my other issue with MSG_SOCK_DEVMEM being on recvmsg is that
-> > > > it somehow implies that I have an option of passing or not passing it
-> > > > for an individual system call.
-> > > > If we know that we're going to use dmabuf with the socket, maybe we
-> > > > should move this flag to the socket() syscall?
-> > > >
-> > > > fd = socket(AF_INET6, SOCK_STREAM, SOCK_DEVMEM);
-> > > >
-> > > > ?
-> > >
-> > > I think it should then be a setsockopt called before any data is
-> > > exchanged, with no change of modifying mode later. We generally use
-> > > setsockopts for the mode of a socket. This use of the protocol field
-> > > in socket() for setting a mode would be novel. Also, it might miss
-> > > passively opened connections, or be overly restrictive: one approach
-> > > for all accepted child sockets.
-> >
-> > I was thinking this is similar to SOCK_CLOEXEC or SOCK_NONBLOCK? There
-> > are plenty of bits we can grab. But setsockopt works as well!
->
-> To follow up: if we have this flag on a socket, not on a per-message
-> basis, can we also use recvmsg for the recycling part maybe?
->
-> while (true) {
->         memset(msg, 0, ...);
->
->         /* receive the tokens */
->         ret = recvmsg(fd, &msg, 0);
->
->         /* recycle the tokens from the above recvmsg() */
->         ret = recvmsg(fd, &msg, MSG_RECYCLE);
-> }
->
-> recvmsg + MSG_RECYCLE can parse the same format that regular recvmsg
-> exports (SO_DEVMEM_OFFSET) and we can also add extra cmsg option
-> to recycle a range.
->
-> Will this be more straightforward than a setsockopt(SO_DEVMEM_DONTNEED)?
-> Or is it more confusing?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------ZAa15zsxDvLmODjj0kJWy0Rt
+Content-Type: multipart/mixed; boundary="------------sBKGPbifJnGZ1LUPXDOddIGJ";
+ protected-headers="v1"
+From: Luben Tuikov <ltuikov89@gmail.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Message-ID: <b558db16-dbc5-43af-b59f-9dd8e7b35e2c@gmail.com>
+Subject: Re: [PATCH 0/5] Some drm scheduler internal renames
+References: <20231102105538.391648-1-tvrtko.ursulin@linux.intel.com>
+ <88bd3e1d-db66-40de-b06f-adcaefacccf3@gmail.com>
+ <42646224-60e4-4ac1-b554-730b66fb2704@linux.intel.com>
+In-Reply-To: <42646224-60e4-4ac1-b554-730b66fb2704@linux.intel.com>
 
-It would have to be sendmsg, as recvmsg is a copy_to_user operation.
+--------------sBKGPbifJnGZ1LUPXDOddIGJ
+Content-Type: multipart/mixed; boundary="------------2OyatOUsTwlmutNLE7lEGP15"
 
-I am not aware of any precedent in multiplexing the data stream and a
-control operation stream in this manner. It would also require adding
-a branch in the sendmsg hot path.
+--------------2OyatOUsTwlmutNLE7lEGP15
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The memory is associated with the socket, freed when the socket is
-closed as well as on SO_DEVMEM_DONTNEED. Fundamentally it is a socket
-state operation, for which setsockopt is the socket interface.
+On 2023-11-06 07:41, Tvrtko Ursulin wrote:
+>=20
+> On 05/11/2023 01:51, Luben Tuikov wrote:
+>> On 2023-11-02 06:55, Tvrtko Ursulin wrote:
+>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>
+>>> I found some of the naming a bit incosistent and unclear so just a sm=
+all
+>>> attempt to clarify and tidy some of them. See what people think if my=
+ first
+>>> stab improves things or not.
+>>>
+>>> Cc: Luben Tuikov <luben.tuikov@amd.com>
+>>> Cc: Matthew Brost <matthew.brost@intel.com>
+>>>
+>>> Tvrtko Ursulin (5):
+>>>    drm/sched: Rename drm_sched_get_cleanup_job to be more descriptive=
 
-Is your request purely a dislike, or is there some technical concern
-with BPF and setsockopt?
+>>>    drm/sched: Move free worker re-queuing out of the if block
+>>>    drm/sched: Rename drm_sched_free_job_queue to be more descriptive
+>>>    drm/sched: Rename drm_sched_run_job_queue_if_ready and clarify
+>>>      kerneldoc
+>>>    drm/sched: Drop suffix from drm_sched_wakeup_if_can_queue
+>>>
+>>>   drivers/gpu/drm/scheduler/sched_entity.c |  4 +-
+>>>   drivers/gpu/drm/scheduler/sched_main.c   | 53 ++++++++++++---------=
+---
+>>>   include/drm/gpu_scheduler.h              |  2 +-
+>>>   3 files changed, 29 insertions(+), 30 deletions(-)
+>>>
+>>
+>> Series is,
+>>
+>> Reviewed-by: Luben Tuikov <ltuikov89@gmail.com>
+>>
+>> and pushed to drm-misc-next.
+>=20
+> Oh thanks, I definitely did not expect that to happen so quickly,=20
+> especially since it conflicts with your fix for RR and there are some=20
+> other opens. But it is fine, all that can be worked on top.
+
+Yeah, it does conflict, and it does make some changes obsolete,
+but your series was fine and an improvement, so might as well push it.
+
+I'll rebase my patch on top of yours.
+--=20
+Regards,
+Luben
+
+--------------2OyatOUsTwlmutNLE7lEGP15
+Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
+PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
+QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
+BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
+MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
+bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
+9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
+OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
+z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
+=3DqCaZ
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------2OyatOUsTwlmutNLE7lEGP15--
+
+--------------sBKGPbifJnGZ1LUPXDOddIGJ--
+
+--------------ZAa15zsxDvLmODjj0kJWy0Rt
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZUmkCAUDAAAAAAAKCRBMFUeUMaM0rxg/
+AQCnLE/Ca68qxgqv7BGrMS1gqIwMhjxH5wxje9DSNNKCsAEAnJQ7TGZ/RzJHfot7XGDmzm5o4OeJ
+cgRRXpEkgKQrHw8=
+=+Lp9
+-----END PGP SIGNATURE-----
+
+--------------ZAa15zsxDvLmODjj0kJWy0Rt--
