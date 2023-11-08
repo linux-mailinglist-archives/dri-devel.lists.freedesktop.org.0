@@ -1,91 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A99C7E53F4
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 11:45:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 027B77E548F
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 11:56:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF5E810E547;
-	Wed,  8 Nov 2023 10:45:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 780F110E081;
+	Wed,  8 Nov 2023 10:56:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5535810E711
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 10:45:00 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- 5b1f17b1804b1-408382da7f0so49686065e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Nov 2023 02:45:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1699440299; x=1700045099; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YQ+G5s8RPHyPJsrBFGNZYZXOAO3f3klrHmjNTSjaK6I=;
- b=uJw965xpnC1kme4eTVJ8gnzKbI0H1ZWKP0MNe3IIjkzWPHltRJ7ts4adLvpAm9kD5y
- vCvpCXElmXpHqq3E1KHUNxCbxPXllvDecQ0Xq4krKjLnDGDXz5GlUlKs48H3ycUb9j0/
- mLs2zyT9hKg6pIutkk5uq2CtAw849/5d3YUWlMc5W7eG8MP42nCY7+Z44JDgdTLzXvIe
- DHxkpipLapYIwBPulw1qegHYjlltpgYPU9BGxUUH40b8Zop4XfIHPl6lWsY6FhFivzQN
- jS8P47Y0gsP2aWNn0MBswUmICdhSYPE7DrAqo7dlMpmN9PyPjecC0VsRBpSkUDG2dXiS
- DZlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699440299; x=1700045099;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YQ+G5s8RPHyPJsrBFGNZYZXOAO3f3klrHmjNTSjaK6I=;
- b=a1zKX2LmO7Gc1PPfcghGvks6nOVgeekKEiOEpobWnzcMo50UOP8sYHfrxrF37AD06s
- uMG8Fd4g7bJieTnakR9LeX1+CgEKo9EnDkW2DY/408bZ1ikQNaAUjnLYMWId1KYn82kG
- WFEYjEoCFiWiffdhYq/OoVtUP1A9aioHnn0qq7D5jn7/96QIrRstezvN+zBnPybChghg
- CLfLU2sAWlsTxWRpWOi5eaQ2OT/NkgoZtvOvhYWcfRTr2eFKy6wFY6y1P53OTyYpINDC
- 3lggUSppCF4QWGv8Q/qHSZx090p41hFTl+b5kTXU4NiHQNbIqb1K5GgWavcXdzHKf1Gi
- waDw==
-X-Gm-Message-State: AOJu0YyzBzlRNZv7isyxPV6tryaP10NFhS8ReM/CWtnebTN6g6w/JUc5
- sololyuJlXRrLnsyhUqGvD6Q/A==
-X-Google-Smtp-Source: AGHT+IFp84xxfo5QRAF0wCrKdORFx4iJmSqJoRpd/lOk7txHM8S/A55ohRCToPiG6pukjYjCgaIN3w==
-X-Received: by 2002:a05:600c:3b15:b0:405:95ae:4a94 with SMTP id
- m21-20020a05600c3b1500b0040595ae4a94mr1341542wms.5.1699440298865; 
- Wed, 08 Nov 2023 02:44:58 -0800 (PST)
-Received: from krzk-bin.. ([178.197.218.126]) by smtp.gmail.com with ESMTPSA id
- fj12-20020a05600c0c8c00b004094c5d92bdsm19377377wmb.31.2023.11.08.02.44.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Nov 2023 02:44:58 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Andi Shyti <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Lee Jones <lee@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>, Tomasz Figa <tomasz.figa@gmail.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaehoon Chung <jh80.chung@samsung.com>,
- Sam Protsenko <semen.protsenko@linaro.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: [PATCH 17/17] arm64: dts: exynosautov9: add specific compatibles to
- several blocks
-Date: Wed,  8 Nov 2023 11:43:43 +0100
-Message-Id: <20231108104343.24192-18-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
-References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0216E10E081
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 10:56:15 +0000 (UTC)
+Received: from dggpemm500005.china.huawei.com (unknown [172.30.72.53])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4SQMSz45TJzfb2h;
+ Wed,  8 Nov 2023 18:56:03 +0800 (CST)
+Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
+ (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Wed, 8 Nov
+ 2023 18:56:12 +0800
+Subject: Re: [RFC PATCH v3 07/12] page-pool: device memory support
+To: Mina Almasry <almasrymina@google.com>
+References: <20231106024413.2801438-1-almasrymina@google.com>
+ <20231106024413.2801438-8-almasrymina@google.com>
+ <4a0e9d53-324d-e19b-2a30-ba86f9e5569e@huawei.com>
+ <CAHS8izNbw7vAGo2euQGA+TF9CgQ8zwrDqTVGsOSxh22_uo0R1w@mail.gmail.com>
+From: Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <d4309392-711a-75b0-7bf0-9e7de8fd527e@huawei.com>
+Date: Wed, 8 Nov 2023 18:56:11 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
+In-Reply-To: <CAHS8izNbw7vAGo2euQGA+TF9CgQ8zwrDqTVGsOSxh22_uo0R1w@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.69.30.204]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,50 +51,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
+ linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-arch@vger.kernel.org,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
+ netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ExynosAutov9 reuses several devices from older designs, thus historically
-we kept the old (block's) compatible only.  This works fine and there is
-no bug here, however guidelines expressed in
-Documentation/devicetree/bindings/writing-bindings.rst state that:
-1. Compatibles should be specific.
-2. We should add new compatibles in case of bugs or features.
+On 2023/11/8 5:56, Mina Almasry wrote:
+> On Tue, Nov 7, 2023 at 12:00 AM Yunsheng Lin <linyunsheng@huawei.com> wrote:
+>>
+>> On 2023/11/6 10:44, Mina Almasry wrote:
+>>> Overload the LSB of struct page* to indicate that it's a page_pool_iov.
+>>>
+>>> Refactor mm calls on struct page* into helpers, and add page_pool_iov
+>>> handling on those helpers. Modify callers of these mm APIs with calls to
+>>> these helpers instead.
+>>>
+>>> In areas where struct page* is dereferenced, add a check for special
+>>> handling of page_pool_iov.
+>>>
+>>> Signed-off-by: Mina Almasry <almasrymina@google.com>
+>>>
+>>> ---
+>>>  include/net/page_pool/helpers.h | 74 ++++++++++++++++++++++++++++++++-
+>>>  net/core/page_pool.c            | 63 ++++++++++++++++++++--------
+>>>  2 files changed, 118 insertions(+), 19 deletions(-)
+>>>
+>>> diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
+>>> index b93243c2a640..08f1a2cc70d2 100644
+>>> --- a/include/net/page_pool/helpers.h
+>>> +++ b/include/net/page_pool/helpers.h
+>>> @@ -151,6 +151,64 @@ static inline struct page_pool_iov *page_to_page_pool_iov(struct page *page)
+>>>       return NULL;
+>>>  }
+>>>
+>>> +static inline int page_pool_page_ref_count(struct page *page)
+>>> +{
+>>> +     if (page_is_page_pool_iov(page))
+>>> +             return page_pool_iov_refcount(page_to_page_pool_iov(page));
+>>
+>> We have added a lot of 'if' for the devmem case, it would be better to
+>> make it more generic so that we can have more unified metadata handling
+>> for normal page and devmem. If we add another memory type here, do we
+>> need another 'if' here?
+> 
+> Maybe, not sure. I'm guessing new memory types will either be pages or
+> iovs, so maybe no new if statements needed.
+> 
+>> That is part of the reason I suggested using a more unified metadata for
+>> all the types of memory chunks used by page_pool.
+> 
+> I think your suggestion was to use struct pages for devmem. That was
+> thoroughly considered and intensely argued about in the initial
+> conversations regarding devmem and the initial RFC, and from the
+> conclusions there it's extremely clear to me that devmem struct pages
+> are categorically a no-go.
 
-Add compatibles specific to ExynosAutov9 in front of all old-SoC-like
-compatibles.  This will also help reviews of new code using existing
-DTS as template.  No functional impact on Linux drivers behavior.
+Not exactly, I was wondering if adding a more abstract structure specificly
+for page pool makes any sense, and each mem type can add its own specific
+fields, net stack only see and handle the common fields so that it does not
+care about specific mem type, and each provider only see the and handle the
+specific fields belonging to it most of the time.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- arch/arm64/boot/dts/exynos/exynosautov9.dtsi | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Ideally something like beleow:
 
-diff --git a/arch/arm64/boot/dts/exynos/exynosautov9.dtsi b/arch/arm64/boot/dts/exynos/exynosautov9.dtsi
-index b228cd7e351e..417aa56a81f6 100644
---- a/arch/arm64/boot/dts/exynos/exynosautov9.dtsi
-+++ b/arch/arm64/boot/dts/exynos/exynosautov9.dtsi
-@@ -166,7 +166,8 @@ soc: soc@0 {
- 		ranges = <0x0 0x0 0x0 0x20000000>;
- 
- 		chipid@10000000 {
--			compatible = "samsung,exynos850-chipid";
-+			compatible = "samsung,exynosautov9-chipid",
-+				     "samsung,exynos850-chipid";
- 			reg = <0x10000000 0x24>;
- 		};
- 
-@@ -349,7 +350,8 @@ pinctrl_peric1: pinctrl@10830000 {
- 		};
- 
- 		pmu_system_controller: system-controller@10460000 {
--			compatible = "samsung,exynos7-pmu", "syscon";
-+			compatible = "samsung,exynosautov9-pmu",
-+				     "samsung,exynos7-pmu", "syscon";
- 			reg = <0x10460000 0x10000>;
- 
- 			reboot: syscon-reboot {
--- 
-2.34.1
+struct netmem {
+	/* common fields */
+	refcount_t refcount;
+	struct page_pool *pp;
+	......
 
+	union {
+		struct devmem{
+			struct dmabuf_genpool_chunk_owner *owner;
+		};
+
+		struct other_mem{
+			...
+			...
+		};
+	};
+};
+
+But untill we completely decouple the 'struct page' from the net stack,
+the above seems undoable in the near term.
+But we might be able to do something as folio is doing now, mm subsystem
+is still seeing 'struct folio/page', but other subsystem like slab is using
+'struct slab', and there is still some common fields shared between
+'struct folio' and 'struct slab'.
+
+As the netmem patchset, is devmem able to reuse the below 'struct netmem'
+and rename it to 'struct page_pool_iov'? So that 'struct page' for normal
+memory and 'struct page_pool_iov' for devmem share the common fields used
+by page pool and net stack? And we might be able to reuse the 'flags',
+'_pp_mapping_pad' and '_mapcount' for specific mem provider, which is enough
+for the devmem only requiring a single pointer to point to it's
+owner?
+
+https://lkml.kernel.org/netdev/20230105214631.3939268-2-willy@infradead.org/
+
++/**
++ * struct netmem - A memory allocation from a &struct page_pool.
++ * @flags: The same as the page flags.  Do not use directly.
++ * @pp_magic: Magic value to avoid recycling non page_pool allocated pages.
++ * @pp: The page pool this netmem was allocated from.
++ * @dma_addr: Call netmem_get_dma_addr() to read this value.
++ * @dma_addr_upper: Might need to be 64-bit on 32-bit architectures.
++ * @pp_frag_count: For frag page support, not supported in 32-bit
++ *   architectures with 64-bit DMA.
++ * @_mapcount: Do not access this member directly.
++ * @_refcount: Do not access this member directly.  Read it using
++ *   netmem_ref_count() and manipulate it with netmem_get() and netmem_put().
++ *
++ * This struct overlays struct page for now.  Do not modify without a
++ * good understanding of the issues.
++ */
++struct netmem {
++	unsigned long flags;
++	unsigned long pp_magic;
++	struct page_pool *pp;
++	/* private: no need to document this padding */
++	unsigned long _pp_mapping_pad;	/* aliases with folio->mapping */
++	/* public: */
++	unsigned long dma_addr;
++	union {
++		unsigned long dma_addr_upper;
++		atomic_long_t pp_frag_count;
++	};
++	atomic_t _mapcount;
++	atomic_t _refcount;
++};
+
+If we do that, it seems we might be able to allow net stack and page pool to see
+the metadata for devmem chunk as 'struct page', and may be able to aovid most of
+the 'if' checking in net stack and page pool?
+
+> 
+> --
+> Thanks,
+> Mina
+> 
+> .
+> 
