@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E27C57E53BF
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 11:44:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C99D7E53C4
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 11:44:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF0D410E084;
-	Wed,  8 Nov 2023 10:44:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CC0410E4E4;
+	Wed,  8 Nov 2023 10:44:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73B5D10E4F9
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 10:44:19 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-40859c466efso48582395e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Nov 2023 02:44:19 -0800 (PST)
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81EC310E4F9
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 10:44:23 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id
+ 38308e7fff4ca-2c501bd6ff1so94533601fa.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Nov 2023 02:44:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1699440258; x=1700045058; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1699440262; x=1700045062; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=TGrUPXldQQyi7i1y6HTuSgGxtg81Z3Wiq2G+ebaMhpQ=;
- b=AC9m5xxL+SXhWXoWZNn6MHZ+F6ffbeR8XLml1n7dLCiQvtSbT0oNVPvFCenP/TtWaM
- FkjFE/j6cY8QN/wvITvFT5jTTsBTumyMqJdzaWWocssRy4zrGaPK+GePSa+cS4lRXUcF
- nzfuCJdAoir5FRbejixrUgKn36FjBVLRGMspbDYwYIL72OPtf4i63FM/BFTDfRxsBscK
- u0WoQynWCPAJ+rIFbnlnizEhCpqB/4/a8SHRUHVfhahvio2MwWm92L9ukudAFcsoAISu
- yrLhEBb5jLOYyLnP+6Li+WylZYqrL8JQDL4bLmgrV/PIiSx6A1lDZOIfRlyDZLGu1iUn
- 8hKw==
+ bh=932+POzuiCpVd1FMO8emES7304xq1CZHsFhbsNym7D8=;
+ b=N/9XkL3nAYzwF25x9JPKRbo1I9XXIUsD+S3zBQkR0S+guB65WPZ6b1l3OJ5y2rwC5/
+ 4FkoLMfZgOdpm8VfTy+ZietskJtwtZBQxheV/byUL+Sie670vMOBT3iPANZGp/w7S3GL
+ KC09fhx9mGZj9doccBn565c79Z6elw5TgiYRA0i2LhZGcGkVj2iyJUa7J4e1gSnSC5EP
+ ZI23f5FX8Af+m/Ob/SwNw/C+POTnly53rZ7KoeqVpnPpqDVvzyi4ztfrzomdwUt6DXm3
+ AwaM6/wfwFv8JgCHu6mqn05S2egAr8KkAX6oNuTDO3l0cvAC3ySEjVSU3vMz+cIFsJIq
+ MSQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699440258; x=1700045058;
+ d=1e100.net; s=20230601; t=1699440262; x=1700045062;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TGrUPXldQQyi7i1y6HTuSgGxtg81Z3Wiq2G+ebaMhpQ=;
- b=ay8zjekwy5HN9WdysgATlx6tsMI5BCl1prqxUh89AH4sOCpOSx1mmdLTsH2dRedtk5
- L8MVDjNKypFiWob4JDKudqQch1UAtruv9H2+0yS/BhP7eAqPeqSAhXqxRvjEeuy+ROL2
- LYoiPgv0dSxSDACpBOzYUcmh+3mkSmu+7Hcnq2chfG2LIYQjpeZnYNFVMOauXpwrL9Vc
- eXb7YISCYo1hBJxuQ5j20yo8Q0oYW7gYZWVROfObJpSL89z3kxYpEmValoKiRn7TqE/h
- w5UmOAEtd3Q8NgB8DRwp0+SPqm7YAtqGZKS3Nwcg61w0n++ag/SjyPqE8OR9sHDnlHXV
- 8P+w==
-X-Gm-Message-State: AOJu0YysDCCcqlUVP7EWOZrUSV1BpucZPU+vhIKF946tlK8jqLqR7XA4
- BqPjxgXKdgn2/XG7V6BB0zPKRw==
-X-Google-Smtp-Source: AGHT+IGzkWzdSSfC10gvMcrdr+HWpovdFD2tWKhVyooAAzLg7iLljfH0hHjLNTv+Bpu3NP726JCxaA==
-X-Received: by 2002:a05:600c:3553:b0:406:c6de:2bea with SMTP id
- i19-20020a05600c355300b00406c6de2beamr1367091wmq.17.1699440257975; 
- Wed, 08 Nov 2023 02:44:17 -0800 (PST)
+ bh=932+POzuiCpVd1FMO8emES7304xq1CZHsFhbsNym7D8=;
+ b=J7XPMC3FbfZq7QlMr+01s0AEHO+HEMdFX4pIIPMy7ezke6UpzafTWaafkqPEpv2KjC
+ Gmnru6650tXI6wWTst3bB+Bz+3hcIzGE+CPn+dHhENvRxqW493JcZNNkse474ZU19W9v
+ Cy+H/TouPatSqehLWCKLj0SEVLMtvMJrtZTtB5fPR7q06sqjtGbml0TXZqBhP/HhwSbp
+ nNZbkZAk8Gep2zZ2EVtsnV8cVkAu90avjHTJYDOG6az0Tyx3sklsyEXU+cTSfakc8p9K
+ mMBGu0/0w+jHPYbtLwBYjv46fNwUWZoKaLZb3+emVp+H4FsOR2vy9CaYh6ws6N6/71gs
+ rtnw==
+X-Gm-Message-State: AOJu0YxuHbgvRKbTRXAK79zh2vZ/uu5pjf3U/v/PcQtirBXHI8GuO7MN
+ od3rkCYn/e/Zrxjr62+vPrclYA==
+X-Google-Smtp-Source: AGHT+IGCpSGI0CR0667rdoPAw+/9BwGIOQ5vf5WLNiqXBsw+h3xPKE36aRvV/bSi7NnLY3zOJHYzOg==
+X-Received: by 2002:a05:651c:504:b0:2c5:14e3:f1b8 with SMTP id
+ o4-20020a05651c050400b002c514e3f1b8mr1507701ljp.7.1699440261813; 
+ Wed, 08 Nov 2023 02:44:21 -0800 (PST)
 Received: from krzk-bin.. ([178.197.218.126]) by smtp.gmail.com with ESMTPSA id
- fj12-20020a05600c0c8c00b004094c5d92bdsm19377377wmb.31.2023.11.08.02.44.14
+ fj12-20020a05600c0c8c00b004094c5d92bdsm19377377wmb.31.2023.11.08.02.44.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Nov 2023 02:44:17 -0800 (PST)
+ Wed, 08 Nov 2023 02:44:21 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -77,10 +77,10 @@ To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
  linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
  alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: [PATCH 06/17] dt-bindings: rtc: s3c-rtc: add specific compatibles for
- existing SoC
-Date: Wed,  8 Nov 2023 11:43:32 +0100
-Message-Id: <20231108104343.24192-7-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 07/17] dt-bindings: serial: samsung: add specific compatibles
+ for existing SoC
+Date: Wed,  8 Nov 2023 11:43:33 +0100
+Message-Id: <20231108104343.24192-8-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
 References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
@@ -112,6 +112,9 @@ Documentation/devicetree/bindings/writing-bindings.rst state that:
 Add compatibles specific to each SoC in front of all old-SoC-like
 compatibles.
 
+Re-shuffle also the entries in compatibles, so the one-compatible-enum
+is the first.
+
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 ---
@@ -119,25 +122,41 @@ Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 I propose to take the patch through Samsung SoC (me). See cover letter
 for explanation.
 ---
- Documentation/devicetree/bindings/rtc/s3c-rtc.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../devicetree/bindings/serial/samsung_uart.yaml   | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/rtc/s3c-rtc.yaml b/Documentation/devicetree/bindings/rtc/s3c-rtc.yaml
-index d51b236939bf..bf4e11d6dffb 100644
---- a/Documentation/devicetree/bindings/rtc/s3c-rtc.yaml
-+++ b/Documentation/devicetree/bindings/rtc/s3c-rtc.yaml
-@@ -17,6 +17,11 @@ properties:
-           - samsung,s3c2416-rtc
-           - samsung,s3c2443-rtc
-           - samsung,s3c6410-rtc
+diff --git a/Documentation/devicetree/bindings/serial/samsung_uart.yaml b/Documentation/devicetree/bindings/serial/samsung_uart.yaml
+index ac60ab1e35e3..0d0215b23ab7 100644
+--- a/Documentation/devicetree/bindings/serial/samsung_uart.yaml
++++ b/Documentation/devicetree/bindings/serial/samsung_uart.yaml
+@@ -18,9 +18,6 @@ description: |+
+ properties:
+   compatible:
+     oneOf:
+-      - items:
+-          - const: samsung,exynosautov9-uart
+-          - const: samsung,exynos850-uart
+       - enum:
+           - apple,s5l-uart
+           - axis,artpec8-uart
+@@ -29,6 +26,17 @@ properties:
+           - samsung,exynos4210-uart
+           - samsung,exynos5433-uart
+           - samsung,exynos850-uart
 +      - items:
 +          - enum:
-+              - samsung,exynos7-rtc
-+              - samsung,exynos850-rtc
-+          - const: samsung,s3c6410-rtc
-       - const: samsung,exynos3250-rtc
-         deprecated: true
++              - samsung,exynos7-uart
++          - const: samsung,exynos4210-uart
++      - items:
++          - enum:
++              - samsung,exynos7885-uart
++          - const: samsung,exynos5433-uart
++      - items:
++          - const: samsung,exynosautov9-uart
++          - const: samsung,exynos850-uart
  
+   reg:
+     maxItems: 1
 -- 
 2.34.1
 
