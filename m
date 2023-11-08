@@ -1,63 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223947E4F2A
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 03:52:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 013187E4F73
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 04:28:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED9B910E36B;
-	Wed,  8 Nov 2023 02:52:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3AB110E6F8;
+	Wed,  8 Nov 2023 03:28:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D45F710E6F8
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 02:52:27 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id DC6BAB81A8F
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 02:52:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 316C0C433C7
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 02:52:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699411945;
- bh=nc57CPCPeivqPzU7jPLtJAMiVDSdp0ukbOz7hMGShOA=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=VJv+PL7wrraXqRvpzcRCCzOiL/gCWoQdb+dQ5xuLUfiGkjW2QbN8//lQdpAXUnHVv
- 3Xo+23yLzvcjrtp6khKp8TpolvcltSSDdUrlr09xbO2quMzFV+47slOObiVq+nb2jX
- uTr89lgDn6X9G2oNIntP2RVtug6sPkgfrFTppeZ1TssAjPMNIK7q9hQ2mOi6tUrLfB
- rJncbTKRI4f334oVDDb3kmZQ8B2T6Fh+qiJbt7vuygUJDep/FEbeU7mvOAU6REWgdy
- Lm4/GWz5RpG0dwSh2w0DaFLaaexyIKn40CIBzFpBdmKlkQZ3ORjn5fK/Yo3+JCrCct
- xPyvC8tV7cpTQ==
-Received: by mail-ej1-f54.google.com with SMTP id
- a640c23a62f3a-9df8d0c556eso476026066b.2
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 18:52:25 -0800 (PST)
-X-Gm-Message-State: AOJu0Yyt081uZPPxEUywxPLudOvp0XOUxtnsVfx8zDmokxmvF7D4eDcE
- pgENi9Oe3skm4K5Q5xIVJhNXx58UC6x838LT5tQ=
-X-Google-Smtp-Source: AGHT+IFH7iRDeO3r4jRwu31hr2IEdrhyxeaRRvpPfVWnsfKkEAFR2uj846oUsiA4T9CdK93TBux3+tdBgNSux7gOwdU=
-X-Received: by 2002:a17:906:7955:b0:9bf:d70b:986a with SMTP id
- l21-20020a170906795500b009bfd70b986amr367323ejo.13.1699411943570; Tue, 07 Nov
- 2023 18:52:23 -0800 (PST)
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
+ [IPv6:2607:f8b0:4864:20::72c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1909F10E369;
+ Wed,  8 Nov 2023 03:28:36 +0000 (UTC)
+Received: by mail-qk1-x72c.google.com with SMTP id
+ af79cd13be357-777745f1541so453063085a.0; 
+ Tue, 07 Nov 2023 19:28:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1699414115; x=1700018915; darn=lists.freedesktop.org;
+ h=in-reply-to:autocrypt:from:references:cc:to:content-language
+ :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=hhDgUr0rU5mZRf9jreUMZWAzGSayLhVYle46Qmy8nhE=;
+ b=J5wfVJTkNXbFDdQVCQMsTCphzk26rr2uHeymaIdvisiVaMQnikNBPQI0f9ECwH5geY
+ NThDMsSvJBxxB0isDhNr7U5kXzTvrW5fNzmPPmlVzRLQIFxxAoeCz5SojICxudj2ilSs
+ TTE3HHfUrIfV+xgcKR1zTt4JmoVwBgwsulgbNOTZ24SH5KaW+nnJf5s/sSVxCgxNWaac
+ UGlgN7+ZK/Q6h2ZI/lHkf26sb/Upx4d+oWjKAJP9lBTHRgFcEXSYnsBW36DCi4FM3df+
+ 6NlYy7vQjzeC8Vli/RD1rqpMNS1g1Q9t9FDn8ACGpALYhyr+CTBYxOFaYRQjMwZtdjlq
+ 4VOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699414115; x=1700018915;
+ h=in-reply-to:autocrypt:from:references:cc:to:content-language
+ :subject:user-agent:mime-version:date:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=hhDgUr0rU5mZRf9jreUMZWAzGSayLhVYle46Qmy8nhE=;
+ b=K3CRhWzzq9Mg0qZQ8Ae5ywrso0SJKLZD00aYuh9bPb/sCnxLxiv7COvGVJvkySRnOG
+ G94BmkBiWonpNSbSFSWhuKYHpBhMx+msZF7A537SMd9wcKt90cHRLb2HiHKWj09JV1RE
+ jnIFdcoS1xiw9zdEt3KbK3KLikTlowKz+BDL9uMnqwCeCRXdwmsyBqdF/wlevb7/YgQa
+ Te+2bGAj/BItbaLIVCheGDZkNVzSHtRAxXAvuUYL7AAnG+z+s4OFabqbPKJGmVzha8JY
+ mCl2hyv8c42r6CSYGtp3yTTIK6gGZCV/lpti+R6Pv2qouC6Y7CHK2Nk7fvy6piYUWX+I
+ NnVQ==
+X-Gm-Message-State: AOJu0YzcQjNAkEq67Bh8+B6BzrAcVFbc7H+eaXdpdZx74cL7Wl9yNfAy
+ oGfvJPexDNbCdLpKZzaMT3Q=
+X-Google-Smtp-Source: AGHT+IEam4wjWprneVY14YYI+fg4TBXKF2xpLKQp09zLgFHHV+QW3KmakWk+RSWxD1bJF/MtTM1eWg==
+X-Received: by 2002:ac8:5a44:0:b0:41e:3e18:e094 with SMTP id
+ o4-20020ac85a44000000b0041e3e18e094mr1183580qta.26.1699414114960; 
+ Tue, 07 Nov 2023 19:28:34 -0800 (PST)
+Received: from [192.168.2.14] ([74.15.198.235])
+ by smtp.gmail.com with ESMTPSA id
+ k20-20020ac84794000000b004179e79069asm403216qtq.21.2023.11.07.19.28.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Nov 2023 19:28:34 -0800 (PST)
+Message-ID: <64aec3c6-7df4-4d11-a9b8-b4f718d50a43@gmail.com>
+Date: Tue, 7 Nov 2023 22:28:25 -0500
 MIME-Version: 1.0
-References: <31ed0db1-9398-4c46-a391-fc644ec49268@ristioja.ee>
- <CAAhV-H4MekBgYZ1nJ-M7bnpo3bczOMcTanij18ACCALz2svjQQ@mail.gmail.com>
- <ZUSJDG82vzbuyFEY@P70.localdomain>
- <CAAhV-H6GyOnTOm6b8Xp=ySctyE-T905WKDUS2AZuqnEyzM7ZEg@mail.gmail.com>
- <ZUWtTuIcMwwCWg7z@P70.localdomain>
- <CAAhV-H7wnjac1Znr2yh8S2bGwuxF1RRGp=cn9oracrWm6y5VVQ@mail.gmail.com>
- <51add74a-1d1a-493d-bb50-fccdad11b22c@ristioja.ee>
- <CAAhV-H7nhkvLoDMwQDwNEhykZANGMq-Qrzip48qYzgQs1fNUgA@mail.gmail.com>
- <be82874b-d41b-4547-9ab5-dac9a5ddfeaf@ristioja.ee>
- <CAAhV-H6zjW3XzDWP1_Hu-owBPLyJVB-_V3z9bMtOgubp1p5kZA@mail.gmail.com>
- <ZUlNbpo_l8JYDdlu@P70.localdomain>
-In-Reply-To: <ZUlNbpo_l8JYDdlu@P70.localdomain>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Wed, 8 Nov 2023 10:52:12 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4hkx0BJ-Y6rNCNgDw_yr4S7uDcTV_249EK-4AbqU5BDg@mail.gmail.com>
-Message-ID: <CAAhV-H4hkx0BJ-Y6rNCNgDw_yr4S7uDcTV_249EK-4AbqU5BDg@mail.gmail.com>
-Subject: Re: Blank screen on boot of Linux 6.5 and later on Lenovo ThinkPad
- L570
-To: Evan Preston <x.arch@epreston.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
+ Thunderbird/115.4.1
+Subject: Re: [PATCH] drm/sched: Don't disturb the entity when in RR-mode
+ scheduling
+Content-Language: en-CA, en-US
+To: Matthew Brost <matthew.brost@intel.com>
+References: <bb7c307e-271c-4f4c-bdbc-7078972ba515@linux.intel.com>
+ <20231107041020.10035-2-ltuikov89@gmail.com>
+ <ZUokEKnPbLAAkCct@DUT025-TGLU.fm.intel.com>
+From: Luben Tuikov <ltuikov89@gmail.com>
+Autocrypt: addr=ltuikov89@gmail.com; keydata=
+ xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
+ Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
+ eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
+ AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
+ JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
+ cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
+ 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
+ aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
+In-Reply-To: <ZUokEKnPbLAAkCct@DUT025-TGLU.fm.intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------oZeOpSZh3hOLLEQ13dmdBstt"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,487 +89,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Thorsten Leemhuis <regressions@leemhuis.info>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jaak Ristioja <jaak@ristioja.ee>,
- Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: robdclark@chromium.org, tvrtko.ursulin@linux.intel.com,
+ sarah.walker@imgtec.com, ltuikov@yahoo.com, ketil.johnsen@arm.com,
+ lina@asahilina.net, mcanal@igalia.com, Liviu.Dudau@arm.com,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ boris.brezillon@collabora.com, dakr@redhat.com, donald.robson@imgtec.com,
+ christian.koenig@amd.com, faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Thorsten and Jaak,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------oZeOpSZh3hOLLEQ13dmdBstt
+Content-Type: multipart/mixed; boundary="------------IihkTqJDkUpRHZTrVDwN1EKK";
+ protected-headers="v1"
+From: Luben Tuikov <ltuikov89@gmail.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: tvrtko.ursulin@linux.intel.com, Liviu.Dudau@arm.com,
+ boris.brezillon@collabora.com, christian.koenig@amd.com, dakr@redhat.com,
+ donald.robson@imgtec.com, dri-devel@lists.freedesktop.org,
+ faith.ekstrand@collabora.com, intel-xe@lists.freedesktop.org,
+ ketil.johnsen@arm.com, lina@asahilina.net, ltuikov@yahoo.com,
+ mcanal@igalia.com, robdclark@chromium.org, sarah.walker@imgtec.com
+Message-ID: <64aec3c6-7df4-4d11-a9b8-b4f718d50a43@gmail.com>
+Subject: Re: [PATCH] drm/sched: Don't disturb the entity when in RR-mode
+ scheduling
+References: <bb7c307e-271c-4f4c-bdbc-7078972ba515@linux.intel.com>
+ <20231107041020.10035-2-ltuikov89@gmail.com>
+ <ZUokEKnPbLAAkCct@DUT025-TGLU.fm.intel.com>
+In-Reply-To: <ZUokEKnPbLAAkCct@DUT025-TGLU.fm.intel.com>
 
-On Tue, Nov 7, 2023 at 4:32=E2=80=AFAM Evan Preston <x.arch@epreston.net> w=
-rote:
->
-> Hi Huacai,
->
-> On 2023-11-06 Mon 10:22pm, Huacai Chen wrote:
-> > On Mon, Nov 6, 2023 at 9:49=E2=80=AFPM Jaak Ristioja <jaak@ristioja.ee>=
- wrote:
-> > >
-> > > On 06.11.23 04:15, Huacai Chen wrote:
-> > > > Hi, Jaak and Evan,
-> > > >
-> > > > On Mon, Nov 6, 2023 at 12:28=E2=80=AFAM Jaak Ristioja <jaak@ristioj=
-a.ee> wrote:
-> > > >>
-> > > >> On 05.11.23 14:40, Huacai Chen wrote:
-> > > >>> Hi, Evan,
-> > > >>>
-> > > >>> On Sat, Nov 4, 2023 at 10:50=E2=80=AFAM Evan Preston <x.arch@epre=
-ston.net> wrote:
-> > > >>>>
-> > > >>>> Hi Huacai,
-> > > >>>>
-> > > >>>> On 2023-11-03 Fri 02:36pm, Huacai Chen wrote:
-> > > >>>>> Hi, Evan,
-> > > >>>>>
-> > > >>>>> On Fri, Nov 3, 2023 at 1:54=E2=80=AFPM Evan Preston <x.arch@epr=
-eston.net> wrote:
-> > > >>>>>>
-> > > >>>>>> Hi Huacai,
-> > > >>>>>>
-> > > >>>>>> On 2023-11-02 Thu 08:38pm, Huacai Chen wrote:
-> > > >>>>>>> Hi, Jaak,
-> > > >>>>>>>
-> > > >>>>>>> On Wed, Nov 1, 2023 at 7:52=E2=80=AFPM Jaak Ristioja <jaak@ri=
-stioja.ee> wrote:
-> > > >>>>>>>>
-> > > >>>>>>>> On 31.10.23 14:17, Huacai Chen wrote:
-> > > >>>>>>>>> Hi, Jaak and Evan,
-> > > >>>>>>>>>
-> > > >>>>>>>>> On Sun, Oct 29, 2023 at 9:42=E2=80=AFAM Huacai Chen <chenhu=
-acai@kernel.org> wrote:
-> > > >>>>>>>>>>
-> > > >>>>>>>>>> On Sat, Oct 28, 2023 at 7:06=E2=80=AFPM Jaak Ristioja <jaa=
-k@ristioja.ee> wrote:
-> > > >>>>>>>>>>>
-> > > >>>>>>>>>>> On 26.10.23 03:58, Huacai Chen wrote:
-> > > >>>>>>>>>>>> Hi, Jaak,
-> > > >>>>>>>>>>>>
-> > > >>>>>>>>>>>> On Thu, Oct 26, 2023 at 2:49=E2=80=AFAM Jaak Ristioja <j=
-aak@ristioja.ee> wrote:
-> > > >>>>>>>>>>>>>
-> > > >>>>>>>>>>>>> On 25.10.23 16:23, Huacai Chen wrote:
-> > > >>>>>>>>>>>>>> On Wed, Oct 25, 2023 at 6:08=E2=80=AFPM Thorsten Leemh=
-uis
-> > > >>>>>>>>>>>>>> <regressions@leemhuis.info> wrote:
-> > > >>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>> Javier, Dave, Sima,
-> > > >>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>> On 23.10.23 00:54, Evan Preston wrote:
-> > > >>>>>>>>>>>>>>>> On 2023-10-20 Fri 05:48pm, Huacai Chen wrote:
-> > > >>>>>>>>>>>>>>>>> On Fri, Oct 20, 2023 at 5:35=E2=80=AFPM Linux regre=
-ssion tracking (Thorsten
-> > > >>>>>>>>>>>>>>>>> Leemhuis) <regressions@leemhuis.info> wrote:
-> > > >>>>>>>>>>>>>>>>>> On 09.10.23 10:54, Huacai Chen wrote:
-> > > >>>>>>>>>>>>>>>>>>> On Mon, Oct 9, 2023 at 4:45=E2=80=AFPM Bagas Sanj=
-aya <bagasdotme@gmail.com> wrote:
-> > > >>>>>>>>>>>>>>>>>>>> On Mon, Oct 09, 2023 at 09:27:02AM +0800, Huacai=
- Chen wrote:
-> > > >>>>>>>>>>>>>>>>>>>>> On Tue, Sep 26, 2023 at 10:31=E2=80=AFPM Huacai=
- Chen <chenhuacai@kernel.org> wrote:
-> > > >>>>>>>>>>>>>>>>>>>>>> On Tue, Sep 26, 2023 at 7:15=E2=80=AFPM Linux =
-regression tracking (Thorsten
-> > > >>>>>>>>>>>>>>>>>>>>>> Leemhuis) <regressions@leemhuis.info> wrote:
-> > > >>>>>>>>>>>>>>>>>>>>>>> On 13.09.23 14:02, Jaak Ristioja wrote:
-> > > >>>>>>>>>>>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>>>>>>>>>>> Upgrading to Linux 6.5 on a Lenovo ThinkPad =
-L570 (Integrated Intel HD
-> > > >>>>>>>>>>>>>>>>>>>>>>>> Graphics 620 (rev 02), Intel(R) Core(TM) i7-=
-7500U) results in a blank
-> > > >>>>>>>>>>>>>>>>>>>>>>>> screen after boot until the display manager =
-starts... if it does start
-> > > >>>>>>>>>>>>>>>>>>>>>>>> at all. Using the nomodeset kernel parameter=
- seems to be a workaround.
-> > > >>>>>>>>>>>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>>>>>>>>>>> I've bisected this to commit 60aebc9559492ce=
-a6a9625f514a8041717e3a2e4
-> > > >>>>>>>>>>>>>>>>>>>>>>>> ("drivers/firmware: Move sysfb_init() from d=
-evice_initcall to
-> > > >>>>>>>>>>>>>>>>>>>>>>>> subsys_initcall_sync").
-> > > >>>>>>>>>>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>>>>>>>> As confirmed by Jaak, disabling DRM_SIMPLEDRM m=
-akes things work fine
-> > > >>>>>>>>>>>>>>>>>>>>> again. So I guess the reason:
-> > > >>>>>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>>>>> Well, this to me still looks a lot (please correct=
- me if I'm wrong) like
-> > > >>>>>>>>>>>>>>>>>> regression that should be fixed, as DRM_SIMPLEDRM =
-was enabled beforehand
-> > > >>>>>>>>>>>>>>>>>> if I understood things correctly. Or is there a pr=
-oper fix for this
-> > > >>>>>>>>>>>>>>>>>> already in the works and I just missed this? Or is=
- there some good
-> > > >>>>>>>>>>>>>>>>>> reason why this won't/can't be fixed?
-> > > >>>>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>>>> DRM_SIMPLEDRM was enabled but it didn't work at all=
- because there was
-> > > >>>>>>>>>>>>>>>>> no corresponding platform device. Now DRM_SIMPLEDRM=
- works but it has a
-> > > >>>>>>>>>>>>>>>>> blank screen. Of course it is valuable to investiga=
-te further about
-> > > >>>>>>>>>>>>>>>>> DRM_SIMPLEDRM on Jaak's machine, but that needs Jaa=
-k's effort because
-> > > >>>>>>>>>>>>>>>>> I don't have a same machine.
-> > > >>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>> Side note: Huacai, have you tried working with Jaak t=
-o get down to the
-> > > >>>>>>>>>>>>>>> real problem? Evan, might you be able to help out her=
-e?
-> > > >>>>>>>>>>>>>> No, Jaak has no response after he 'fixed' his problem =
-by disabling SIMPLEDRM.
-> > > >>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>
-> > > >>>>>>>>>>>>> I'm sorry, what was it exactly you want me to do? Pleas=
-e be mindful that
-> > > >>>>>>>>>>>>> I'm not familiar with the internals of the Linux kernel=
- and DRI, and it
-> > > >>>>>>>>>>>>> might sometimes take weeks before I have time to work a=
-nd respond on this.
-> > > >>>>>>>>>>>> It doesn't matter. I hope you can do some experiments to=
- investigate
-> > > >>>>>>>>>>>> deeper. The first experiment you can do is enabling SIMP=
-LEFB (i.e.
-> > > >>>>>>>>>>>> CONFIG_FB_SIMPLE) instead of SIMPLEDRM (CONFIG_DRM_SIMPL=
-EDRM) to see
-> > > >>>>>>>>>>>> whether there is also a blank screen. If no blank screen=
-, that
-> > > >>>>>>>>>>>> probably means SIMPLEDRM has a bug, if still blank scree=
-n, that means
-> > > >>>>>>>>>>>> the firmware may pass wrong screen information.
-> > > >>>>>>>>>>>
-> > > >>>>>>>>>>> Testing with 6.5.9 I get a blank screen with CONFIG_DRM_S=
-IMPLEDRM=3Dy and
-> > > >>>>>>>>>>> get no blank screen with CONFIG_FB_SIMPLE=3Dy and CONFIG_=
-DRM_SIMPLEDRM unset.
-> > > >>>>>>>>>> CONFIG_FB_SIMPLE and  CONFIG_DRM_SIMPLEDRM use the same de=
-vice created
-> > > >>>>>>>>>> by sysfb_init(). Since FB_SIMPLE works fine, I think the r=
-eal problem
-> > > >>>>>>>>>> is that DRM_SIMPLEDRM has a bug. The next step is to enabl=
-e
-> > > >>>>>>>>>> CONFIG_DRM_SIMPLEDRM and trace its initialization. In deta=
-il, adding
-> > > >>>>>>>>>> some printk() in simpledrm_probe() and its sub-routines to=
- see where
-> > > >>>>>>>>>> the driver fails. The output of these printk() can be seen=
- by the
-> > > >>>>>>>>>> 'dmesg' command after boot.
-> > > >>>>>>>>> I need your help. I tried with my laptop (ThinkPad E490, In=
-tel Core
-> > > >>>>>>>>> i3-8145U, UHD Graphics 620) but I can't reproduce your prob=
-lem. So
-> > > >>>>>>>>> please patch your 6.5.x kernel with this temporary patch [1=
-], then
-> > > >>>>>>>>> build a "bad kernel" with SIMPLEDRM enabled. And after boot=
-ing your
-> > > >>>>>>>>> machine with this "bad kernel", please give me the dmesg ou=
-tput. Thank
-> > > >>>>>>>>> you very much.
-> > > >>>>>>>>>
-> > > >>>>>>>>> [1] http://ddns.miaomiaomiao.top:9000/download/kernel/patch=
--6.5.9
-> > > >>>>>>>>
-> > > >>>>>>>> I'm unable to download it. Can you please send it by e-mail?
-> > > >>>>>>> I'm sorry, please download from attachment.
-> > > >>>>>>
-> > > >>>>>> When applying this patch the first hunk (drivers/firmware/sysf=
-b.c) fails for
-> > > >>>>>> me with 6.5.9.  Attempting to load the 6.5.9 kernel without th=
-is patch
-> > > >>>>>> produces no dmesg output on my machine.
-> > > >>>>> You copy-paste the patch? If you download it directly it can be
-> > > >>>>> applied successfully, I think.
-> > > >>>>
-> > > >>>> The patch downloaded from your URL applies successfully.  Howeve=
-r, I still
-> > > >>>> see no dmesg output using the patched 6.5.9 kernel.  'journalctl=
- -k -b all'
-> > > >>>> shows no dmesg output from any 6.5.x boots, only from 6.4.12 boo=
-ts.
-> > > >>> Thank you for your testing. Since you cannot boot to GUI successf=
-ully
-> > > >>> as Jaak, you may have some troubles with getting the dmesg output=
-. But
-> > > >>> you can try to use "systemd.unit=3Dmulti-user.target" boot parame=
-ters.
-> > > >>> In this way you may boot to the login: prompt and then you can ge=
-t
-> > > >>> dmesg output. Or if you still fail, you may use 'jornalctl -k -b =
--1'
-> > > >>> to get the previous dmesg output with 6.4.12.
-> > > >>>
-> > > >>> Hi, Jaak,
-> > > >>>
-> > > >>> Have you tested? I think you can successfully get a dmesg output =
-with my patch.
-> > > >>
-> > > >> Yes, just tested it, here I think are the relevant parts from a dm=
-esg
-> > > >> produced with CONFIG_DRM_SIMPLEDRM and the patch provided by Huaca=
-i:
-> > > >>
-> > > >> ...
-> > > >> [    2.909625] sysfb 1
-> > > >> [    2.909627] sysfb 2
-> > > >> ...
-> > > >> [    2.951477] ACPI: bus type drm_connector registered
-> > > >> [    2.952096] i915 0000:00:02.0: [drm] VT-d active for gfx access
-> > > >> [    2.952105] resource: resource sanity check: requesting [mem
-> > > >> 0x00000000e0000000-0x00000000efffffff], which spans more than BOOT=
-FB
-> > > >> [mem 0xe0000000-0xe012bfff]
-> > > >> [    2.952111] caller i915_ggtt_init_hw+0x88/0x120 mapping multipl=
-e BARs
-> > > >> [    2.952138] i915 0000:00:02.0: [drm] Using Transparent Hugepage=
-s
-> > > >> [    2.953204] Loading firmware: i915/kbl_dmc_ver1_04.bin
-> > > >> [    2.953485] i915 0000:00:02.0: [drm] Finished loading DMC firmw=
-are
-> > > >> i915/kbl_dmc_ver1_04.bin (v1.4)
-> > > >> ...
-> > > >> [    4.142075] [drm] Initialized i915 1.6.0 20201103 for 0000:00:0=
-2.0 on
-> > > >> minor 0
-> > > >> [    4.144269] ACPI: video: Video Device [GFX0] (multi-head: yes  =
-rom:
-> > > >> no  post: no)
-> > > >> [    4.144414] input: Video Bus as
-> > > >> /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/LNXVIDEO:00/input/inpu=
-t4
-> > > >> [    4.144580] [drm] Initialized vgem 1.0.0 20120112 for vgem on m=
-inor 1
-> > > >> [    4.144590] usbcore: registered new interface driver udl
-> > > >> [    4.144603] T: probe 1
-> > > >> [    4.144605] T: create 1
-> > > >> [    4.144610] T: create 2
-> > > >> [    4.144611] T: create 3a-1
-> > > >> [    4.144613] T: create 3a-2
-> > > >> [    4.144614] T: create 3a-3
-> > > >> [    4.144616] T: create 3a-4
-> > > >> [    4.144618] T: create 4
-> > > >> [    4.144619] T: create 5
-> > > >> [    4.144621] simple-framebuffer simple-framebuffer.0: [drm] disp=
-lay
-> > > >> mode=3D{"": 60 18432 640 640 640 640 480 480 480 480 0x40 0x0}
-> > > >> [    4.144628] simple-framebuffer simple-framebuffer.0: [drm]
-> > > >> framebuffer format=3DXR24 little-endian (0x34325258), size=3D640x4=
-80,
-> > > >> stride=3D2560 byte
-> > > >> [    4.144633] T: create 6b-1
-> > > >> [    4.144635] T: create 6b-2
-> > > >> [    4.144637] simple-framebuffer simple-framebuffer.0: [drm] usin=
-g I/O
-> > > >> memory framebuffer at [mem 0xe0000000-0xe012bfff flags 0x200]
-> > > >> [    4.144643] T: create 6b-3
-> > > >> [    4.144660] T: create 6b-4
-> > > >> [    4.144662] T: create 7
-> > > >> [    4.144673] T: create 8
-> > > >> [    4.144676] T: create 9
-> > > >> [    4.144678] T: create 10
-> > > >> [    4.144681] T: create 11
-> > > >> [    4.144685] T: create 12
-> > > >> [    4.144689] T: probe 2
-> > > >> [    4.144728] [drm] Initialized simpledrm 1.0.0 20200625 for
-> > > >> simple-framebuffer.0 on minor 2
-> > > >> [    4.144732] T: probe 3
-> > > >> [    4.145905] Console: switching to colour frame buffer device 80=
-x30
-> > > >> [    4.150437] simple-framebuffer simple-framebuffer.0: [drm] fb0:
-> > > >> simpledrmdrmfb frame buffer device
-> > > >> [    4.150766] T: probe 4
-> > > >> [    4.151218] loop: module loaded
-> > > >> [    4.154434] i915 0000:00:02.0: [drm] fb1: i915drmfb frame buffe=
-r device
-> > > >> ...
-> > > >> [   44.630789] simple-framebuffer simple-framebuffer.0: swiotlb bu=
-ffer
-> > > >> is full (sz: 1310720 bytes), total 32768 (slots), used 0 (slots)
-> > > >> ...
-> > > >>
-> > > >> The last message might be due to the display manager starting up.
-> > > >>
-> > > >> Hope it helps.
-> > > > Thank you for your testing. Jaak's problem seems related to the
-> > > > initialization order, you can try to modify drivers/gpu/drm/Makefil=
-e,
-> > > > move
-> > > >
-> > > > obj-y                  +=3D tiny/
-> > > >
-> > > > to between these two lines
-> > > >
-> > > > obj-$(CONFIG_DRM_SCHED) +=3D scheduler/
-> > > > obj-$(CONFIG_DRM_RADEON)+=3D radeon/
-> > > >
-> > > > then build a new 6.5.x kernel to see whether your problem is resolv=
-ed.
-> > >
-> > > Yes, this seems to have resolved it.
-> > Hi, Jaak,
-> >
-> > Thank you very much, and I hope this also solves Evan's problem.
->
-> I still get a blank screen if I modify drivers/gpu/drm/Makefile to move t=
-he
-> order of 'tiny'.
->
-> >
-> > Hi, Javier,
-> >
-> > I think I have mostly found the root cause. DRM_SIMPLEDRM has no bugs,
-> > Jaak's problem is due to the initialization order of drivers, and this
-> > order depends on the Makefile.
-> >
-> > FB_SIMPLE is before native DRM drivers (e.g. i915, radeon, amdgpu, and
-> > so on), but DRM_SIMPLEDRM is after them. Thus, if Jaak uses FB_SIMPLE,
-> > I915 will takeover FB_SIMPLE, then no problem; and if Jaak uses
-> > DRM_SIMPLEDRM, DRM_SIMPLEDRM will try to takeover I915, but fails to
-> > work.
-> >
-> > So, when I move the "tiny" directory before i915, the problem is
-> > solved. But the new problem is: is it acceptable to solve this problem
-> > by adjusting Makefile?
-> >
-> > Huacai
-I have propose a patch to fix this problem:
-https://lore.kernel.org/dri-devel/20231108024613.2898921-1-chenhuacai@loong=
-son.cn/T/#u
+--------------IihkTqJDkUpRHZTrVDwN1EKK
+Content-Type: multipart/mixed; boundary="------------ztivjG1qWbr81sPaO0geveaH"
 
-Huacai
+--------------ztivjG1qWbr81sPaO0geveaH
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> >
-> > >
-> > > Jaak
-> > >
-> > > >
-> > > > Evan's problem seems a little strange, could you please give me you=
-r
-> > > > config files of both 6.4.12 and 6.5.x? And you can also try the abo=
-ve
-> > > > method to see if anything changes.
->
-> I'll send you my config files.
->
-> > > >
-> > > > Huacai
-> > > >
-> > > >>
-> > > >> J
-> > > >>
-> > > >>>
-> > > >>>>
-> > > >>>> Evan
-> > > >>>>
-> > > >>>>>
-> > > >>>>> Huacai
-> > > >>>>>
-> > > >>>>>>
-> > > >>>>>> Evan
-> > > >>>>>>
-> > > >>>>>>>
-> > > >>>>>>> Huacai
-> > > >>>>>>>
-> > > >>>>>>>>
-> > > >>>>>>>> Jaak
-> > > >>>>>>>>
-> > > >>>>>>>>>
-> > > >>>>>>>>>
-> > > >>>>>>>>> Huacai
-> > > >>>>>>>>>
-> > > >>>>>>>>>>
-> > > >>>>>>>>>> Huacai
-> > > >>>>>>>>>>
-> > > >>>>>>>>>>>
-> > > >>>>>>>>>>> Jaak
-> > > >>>>>>>>>>>
-> > > >>>>>>>>>>>>
-> > > >>>>>>>>>>>> Huacai
-> > > >>>>>>>>>>>>
-> > > >>>>>>>>>>>>>
-> > > >>>>>>>>>>>>> Jaak
-> > > >>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>> But I write this mail for a different reason:
-> > > >>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>>> I am having the same issue on a Lenovo Thinkpad P70 =
-(Intel
-> > > >>>>>>>>>>>>>>>> Corporation HD Graphics 530 (rev 06), Intel(R) Core(=
-TM) i7-6700HQ).
-> > > >>>>>>>>>>>>>>>> Upgrading from Linux 6.4.12 to 6.5 and later results=
- in only a blank
-> > > >>>>>>>>>>>>>>>> screen after boot and a rapidly flashing device-acce=
-ss-status
-> > > >>>>>>>>>>>>>>>> indicator.
-> > > >>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>> This additional report makes me wonder if we should r=
-evert the culprit
-> > > >>>>>>>>>>>>>>> (60aebc9559492c ("drivers/firmware: Move sysfb_init()=
- from
-> > > >>>>>>>>>>>>>>> device_initcall to subsys_initcall_sync") [v6.5-rc1])=
-. But I guess that
-> > > >>>>>>>>>>>>>>> might lead to regressions for some users? But the pat=
-ch description says
-> > > >>>>>>>>>>>>>>> that this is not a common configuration, so can we ma=
-ybe get away with that?
-> > > >>>>>>>>>>>>>>      From my point of view, this is not a regression, =
-60aebc9559492c
-> > > >>>>>>>>>>>>>> doesn't cause a problem, but exposes a problem. So we =
-need to fix the
-> > > >>>>>>>>>>>>>> real problem (SIMPLEDRM has a blank screen on some con=
-ditions). This
-> > > >>>>>>>>>>>>>> needs Jaak or Evan's help.
-> > > >>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>> Huacai
-> > > >>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>> Ciao, Thorsten (wearing his 'the Linux kernel's regre=
-ssion tracker' hat)
-> > > >>>>>>>>>>>>>>> --
-> > > >>>>>>>>>>>>>>> Everything you wanna know about Linux kernel regressi=
-on tracking:
-> > > >>>>>>>>>>>>>>> https://linux-regtracking.leemhuis.info/about/#tldr
-> > > >>>>>>>>>>>>>>> If I did something stupid, please tell me, as explain=
-ed on that page.
-> > > >>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>>>>>>>> When SIMPLEDRM takes over the framebuffer, the =
-screen is blank (don't
-> > > >>>>>>>>>>>>>>>>>>>>> know why). And before 60aebc9559492cea6a9625f (=
-"drivers/firmware: Move
-> > > >>>>>>>>>>>>>>>>>>>>> sysfb_init() from device_initcall to subsys_ini=
-tcall_sync") there is
-> > > >>>>>>>>>>>>>>>>>>>>> no platform device created for SIMPLEDRM at ear=
-ly stage, so it seems
-> > > >>>>>>>>>>>>>>>>>>>>> also "no problem".
-> > > >>>>>>>>>>>>>>>>>>>> I don't understand above. You mean that after th=
-at commit the platform
-> > > >>>>>>>>>>>>>>>>>>>> device is also none, right?
-> > > >>>>>>>>>>>>>>>>>>> No. The SIMPLEDRM driver needs a platform device =
-to work, and that
-> > > >>>>>>>>>>>>>>>>>>> commit makes the platform device created earlier.=
- So, before that
-> > > >>>>>>>>>>>>>>>>>>> commit, SIMPLEDRM doesn't work, but the screen is=
-n't blank; after that
-> > > >>>>>>>>>>>>>>>>>>> commit, SIMPLEDRM works, but the screen is blank.
-> > > >>>>>>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>>>>>> Huacai
-> > > >>>>>>>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>>>>>>> Confused...
-> > > >>>>>>>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>>>>>>> --
-> > > >>>>>>>>>>>>>>>>>>>> An old man doll... just what I always wanted! - =
-Clara
-> > > >>>>>>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>>>>
-> > > >>>>>>>>>>>>>
-> > > >>>>>>>>>>>
-> > > >>>>>>>>
-> > > >>>>>>
-> > > >>>>>>
-> > > >>
-> > >
+On 2023-11-07 06:48, Matthew Brost wrote:
+> On Mon, Nov 06, 2023 at 11:10:21PM -0500, Luben Tuikov wrote:
+>> Don't call drm_sched_select_entity() in drm_sched_run_job_queue().  In=
+ fact,
+>> rename __drm_sched_run_job_queue() to just drm_sched_run_job_queue(), =
+and let
+>> it do just that, schedule the work item for execution.
+>>
+>> The problem is that drm_sched_run_job_queue() calls drm_sched_select_e=
+ntity()
+>> to determine if the scheduler has an entity ready in one of its run-qu=
+eues,
+>> and in the case of the Round-Robin (RR) scheduling, the function
+>> drm_sched_rq_select_entity_rr() does just that, selects the _next_ ent=
+ity
+>> which is ready, sets up the run-queue and completion and returns that
+>> entity. The FIFO scheduling algorithm is unaffected.
+>>
+>> Now, since drm_sched_run_job_work() also calls drm_sched_select_entity=
+(), then
+>> in the case of RR scheduling, that would result in drm_sched_select_en=
+tity()
+>> having been called twice, which may result in skipping a ready entity =
+if more
+>> than one entity is ready. This commit fixes this by eliminating the ca=
+ll to
+>> drm_sched_select_entity() from drm_sched_run_job_queue(), and leaves i=
+t only
+>> in drm_sched_run_job_work().
+>>
+>> v2: Rebased on top of Tvrtko's renames series of patches. (Luben)
+>>     Add fixes-tag. (Tvrtko)
+>>
+>> Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
+>> Fixes: f7fe64ad0f22ff ("drm/sched: Split free_job into own work item")=
+
+>=20
+> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+
+Thank you, sir!
+--=20
+Regards,
+Luben
+
+--------------ztivjG1qWbr81sPaO0geveaH
+Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
+PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
+QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
+BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
+MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
+bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
+9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
+OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
+z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
+=3DqCaZ
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------ztivjG1qWbr81sPaO0geveaH--
+
+--------------IihkTqJDkUpRHZTrVDwN1EKK--
+
+--------------oZeOpSZh3hOLLEQ13dmdBstt
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZUsAWQUDAAAAAAAKCRBMFUeUMaM0r7V1
+AQCVc9vXOQOHPMwabC7F41NCzU8R0LQwrRTQwnnhjQFfWwD/e25l2uACseWrwwqtTDgVxmM8CWSE
+qHSKfPU8vWTiog8=
+=mHWb
+-----END PGP SIGNATURE-----
+
+--------------oZeOpSZh3hOLLEQ13dmdBstt--
