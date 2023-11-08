@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C7D57E53CE
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 11:44:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C967E53D2
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 11:44:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD19610E4FE;
-	Wed,  8 Nov 2023 10:44:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D05F510E52F;
+	Wed,  8 Nov 2023 10:44:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E2BB10E4FE
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 10:44:30 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-40839652b97so49777635e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Nov 2023 02:44:30 -0800 (PST)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5248D10E52F
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 10:44:34 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-40839652b97so49778055e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Nov 2023 02:44:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1699440269; x=1700045069; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1699440273; x=1700045073; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KctpUSdWE/54mxPRyNTPmujVIdTxIZHiWXcrFdF3THY=;
- b=AwBvhPnxDMq5suVIldx7vguWyu9J4jK3IolFaNL8JOtqdMRqE8LXG7Z/I9rcQufU9n
- a17Diot1MwDEnHhM3wz0FLrpeMVQhkZpoYaoIlIJJUE1VbganiXBZahP3o9WAEpzuHIv
- 5rwn7G8Ht2Yw030rL71TYmBIxu9ikzxqGhZpMFyBgafSfe9OaWFs3HeK/y9V0gdRnFQq
- mcSteiRs9pm6lhN7l5eeNMPNeJ6eQGKsRZwOYI2hRqMZI8FU9ZqfqQRZgm+FHcFYiWAH
- DWSJcq6Z7VzfVOlS6/ncK68usLW8MMYga1eVBNZ6IkMSpesVC1aDWDiOE8H/RlAbgMbO
- R//g==
+ bh=tkEvXWcKUOWY7MDhsApmZqSz9A9BrLzom2ZllyUYJqs=;
+ b=QQEkMFcNq7SXBS1SQHc5IqnFVNtAZxTbsTMxKZCMchkbrRmiBHOy2j1sLtpuF2Dxso
+ Lj4l5vQNKEe3SD1mTUmGHIlUahkE+BMgXAPgYCIYqFglfSfrqSgHgnp/hbCJDf3m3B6t
+ K8P4VyyExVbw5lVVRnEAf6lD0ExJLGGu/B8DOkprXwV3jMiuaC//fsrgGeyFDFfBiYxS
+ 1OuEnWezwlDYFvrRnXP+J699vic+I2+TjhgcshizNStNUZvoopyD1pELOMp7Wxu8Ymsm
+ MMVfblKAZLEmRqEw5rjQIzXJTzr2Yj8/wsMMgtG78ssDuL1Lde186/c4bkf+ZjcKgQMw
+ 3exA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699440269; x=1700045069;
+ d=1e100.net; s=20230601; t=1699440273; x=1700045073;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KctpUSdWE/54mxPRyNTPmujVIdTxIZHiWXcrFdF3THY=;
- b=GVdLgW6oZwv4leXZypwsltLI+UDoWldmrhyV1UT4fcdnN/eIMBSz822PAdrFX0Skky
- JkwMbCuIb7mNNLj49Pb8Syeh8mhTSREfhQMxuazWrMMtWUteAseCgKK6PfvtMgmqGYNb
- 3lGY69/Ve8lH22sghRJP/yY2o3Ujj9t0j+sWcJnSMqUNbHDFXRE73F9wZQa3za7lMBga
- n8YRkJfz3GtgEFTwk9mGwRq5BuNYv38IIVsnKkxk+8pw26U3W8Da0mQqn+q73haGGA5d
- 1xmrlmXjtdcwu31taUr2sJjZC7INmzP/0wC8qJhnzR3qmT8lWXvvFQBNTMwFOEDDE/PM
- PEhQ==
-X-Gm-Message-State: AOJu0YzsY6bTs0eIm7YEfqMHE/9QwDVCr9FgXIxm8kM4oC8mZjXHbzwt
- cUpbRzCIFKPl69fMMzTfi5a8Jg==
-X-Google-Smtp-Source: AGHT+IHzwZ3ZbfxwsqY/KR9bhuCoW2rtwV2Pv+17xFR8bqeY33bUZ7438zeD8MQhwfV4phLl2aoutg==
-X-Received: by 2002:a05:600c:1c82:b0:406:53aa:7a5f with SMTP id
- k2-20020a05600c1c8200b0040653aa7a5fmr1423336wms.10.1699440269098; 
- Wed, 08 Nov 2023 02:44:29 -0800 (PST)
+ bh=tkEvXWcKUOWY7MDhsApmZqSz9A9BrLzom2ZllyUYJqs=;
+ b=jd1r9WO5KKG/Y6yT2MMY9AMY1xnSSYrLToQlU42Roy+pQ4Qq8hPYK76/CaDy1kOqvj
+ 7o6ueHEz3joCN1IxoaU+Mm4GwKGZrb4Bu+cnk1yj3l49dUQoiSEPtI2ELK9WDNyTcJUZ
+ L5AlkzJMi/5MqdnzmYccG+OajS4dtcCcOd9BCb7hSitD7MKOGsLmJWDkumUTyCPISJXo
+ /TGiKIw3PmZNwHSC5JxpAXllrH61YOfi8XlAa3xTa+w5XNCAMgXdmj5HsWRJqEg76CK8
+ t30JZzZ5o4dtwmaeyR8wT+ce0juyRVyRfCK9N/BxRVgwbsh60vjqqDLAFj5VqpRfuT3G
+ qUig==
+X-Gm-Message-State: AOJu0Yz68Mzb6/m6jGw7SiwwxJFHAs1PjslhvJV1IJMu3IY19PzFilyR
+ R2Lmo5ZHLs/bbapTC5v+YIIh4w==
+X-Google-Smtp-Source: AGHT+IGkZ0Z/MGipPYgtciee5bgssBjyKrV3vFjgQq9aKLpthGkLg1gMgK3YX3rqUB7np5d3fs06BQ==
+X-Received: by 2002:a05:600c:4fcd:b0:407:8e85:89ad with SMTP id
+ o13-20020a05600c4fcd00b004078e8589admr1286513wmq.14.1699440272758; 
+ Wed, 08 Nov 2023 02:44:32 -0800 (PST)
 Received: from krzk-bin.. ([178.197.218.126]) by smtp.gmail.com with ESMTPSA id
- fj12-20020a05600c0c8c00b004094c5d92bdsm19377377wmb.31.2023.11.08.02.44.25
+ fj12-20020a05600c0c8c00b004094c5d92bdsm19377377wmb.31.2023.11.08.02.44.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Nov 2023 02:44:28 -0800 (PST)
+ Wed, 08 Nov 2023 02:44:32 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -77,10 +77,10 @@ To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
  linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
  alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: [PATCH 09/17] dt-bindings: gpu: arm,
- mali-midgard: add specific compatibles for existing Exynos SoC
-Date: Wed,  8 Nov 2023 11:43:35 +0100
-Message-Id: <20231108104343.24192-10-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 10/17] dt-bindings: iio: samsung,
+ exynos-adc: add specific compatibles for existing SoC
+Date: Wed,  8 Nov 2023 11:43:36 +0100
+Message-Id: <20231108104343.24192-11-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
 References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
@@ -119,25 +119,49 @@ Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 I propose to take the patch through Samsung SoC (me). See cover letter
 for explanation.
 ---
- Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../bindings/iio/adc/samsung,exynos-adc.yaml  | 29 +++++++++++--------
+ 1 file changed, 17 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
-index ca02baba5526..0801da33a385 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
-@@ -40,6 +40,11 @@ properties:
-               - rockchip,rk3288-mali
-               - samsung,exynos5433-mali
-           - const: arm,mali-t760
+diff --git a/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.yaml b/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.yaml
+index 582d0a03b814..4e40f6bed5db 100644
+--- a/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.yaml
+@@ -11,18 +11,23 @@ maintainers:
+ 
+ properties:
+   compatible:
+-    enum:
+-      - samsung,exynos-adc-v1                 # Exynos5250
+-      - samsung,exynos-adc-v2
+-      - samsung,exynos3250-adc
+-      - samsung,exynos4212-adc                # Exynos4212 and Exynos4412
+-      - samsung,exynos7-adc
+-      - samsung,s3c2410-adc
+-      - samsung,s3c2416-adc
+-      - samsung,s3c2440-adc
+-      - samsung,s3c2443-adc
+-      - samsung,s3c6410-adc
+-      - samsung,s5pv210-adc
++    oneOf:
++      - enum:
++          - samsung,exynos-adc-v1                 # Exynos5250
++          - samsung,exynos-adc-v2
++          - samsung,exynos3250-adc
++          - samsung,exynos4212-adc                # Exynos4212 and Exynos4412
++          - samsung,exynos7-adc
++          - samsung,s3c2410-adc
++          - samsung,s3c2416-adc
++          - samsung,s3c2440-adc
++          - samsung,s3c2443-adc
++          - samsung,s3c6410-adc
++          - samsung,s5pv210-adc
 +      - items:
 +          - enum:
-+              - samsung,exynos7-mali
-+          - const: samsung,exynos5433-mali
-+          - const: arm,mali-t760
-       - items:
-           - enum:
-               - rockchip,rk3399-mali
++              - samsung,exynos5433-adc
++          - const: samsung,exynos7-adc
+ 
+   reg:
+     maxItems: 1
 -- 
 2.34.1
 
