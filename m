@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD117E5778
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 14:03:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A8A47E5785
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 14:03:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9C4410E747;
-	Wed,  8 Nov 2023 13:03:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FF4E10E748;
+	Wed,  8 Nov 2023 13:03:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BBFA10E750
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 13:03:14 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C632B10E74B
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 13:03:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 10F00B81C66;
- Wed,  8 Nov 2023 13:03:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBA9AC433C9;
- Wed,  8 Nov 2023 13:02:58 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 4AD94CE109D;
+ Wed,  8 Nov 2023 13:03:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC83DC433C7;
+ Wed,  8 Nov 2023 13:03:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699448592;
- bh=8u/is9yGIjCKvKH616JPDZxQp4kevRf+hbF66shzciw=;
+ s=k20201202; t=1699448606;
+ bh=XewRPhT99Y03FufuA1LV3jWgAM7RX4SOby0kMRaZJ00=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rEbp+ATJ8TL9tb/LlyZhDPrzGSoac6GqEtllIoknZuh3HS0PBjJ7Uq/p/fm1nXndd
- 5z95k+15Z7EVhKI2k5WFN6+zT6Dcx9LlXxtd8jGTglWA4ZtuBnSsS18mrcef8iCZsu
- ZdGdKwnX74k42PjMs3bX54mFIVVH+UaUx6HnTk2bpX6YvZuyIqNVw1i69bKcDM+kx8
- 0QhbxPOnkVCFn+1IoJLaaDxqLtMx+o9VlbUNRag9/FUeK+64zJfYk6BL3buGhjE4FE
- mVN9tNfFpgp0GOm3gK9WgCB6E7ONWa5a1WiaxBVRuDniK5TMae0M2X3SRFJE7qtIKk
- B7Fo7+w6HCt9A==
+ b=F6AhSnx+JWlw/8aCyGuswz0ZSYRQQSqJRkHGnHr5S62t5ovgeEl+lS12mVwd0pI3v
+ Y+zAfCc5Nwlj0WYsOzdr9Eq32HI2RaGNa5FoSbN540gr3uvPV1TZcTv+GlOu0j4OlX
+ qQTuDh0rNCJDIvSp4M8ZAM1Uva7F1HAj0lc/VmGLlwkw4IOfnudYpGOw5ziVke/2C2
+ EkqHoTH8HohJ7VesdbcjVmGBhmSwgBIKuUYp0yqIOB51SEVlTxt8dhwKGCxaiCszkk
+ BDDHzx12psT4hLvJdj1i+E8GUr/I3O6cE0KFRK815kGRZDuoEtduHrZrokFoYKTJqo
+ JHKLDDVnaInUA==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
  Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH 17/22] powerpc: ps3: move udbg_shutdown_ps3gelic prototype
-Date: Wed,  8 Nov 2023 13:58:38 +0100
-Message-Id: <20231108125843.3806765-18-arnd@kernel.org>
+Subject: [PATCH 18/22] powerpc: pasemi: mark pas_shutdown() static
+Date: Wed,  8 Nov 2023 13:58:39 +0100
+Message-Id: <20231108125843.3806765-19-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231108125843.3806765-1-arnd@kernel.org>
 References: <20231108125843.3806765-1-arnd@kernel.org>
@@ -94,64 +94,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-Allmodconfig kernels produce a missing-prototypes warning:
+Allmodconfig builds show a warning about one function that is accidentally
+marked global:
 
-arch/powerpc/platforms/ps3/gelic_udbg.c:239:6: error: no previous prototype for 'udbg_shutdown_ps3gelic' [-Werror=missing-prototypes]
+arch/powerpc/platforms/pasemi/setup.c:67:6: error: no previous prototype for 'pas_shutdown' [-Werror=missing-prototypes]
 
-Move the declaration from a local header to asm/ps3.h where it can be
-seen from both the caller and the definition.
-
+Fixes: 656fdf3ad8e0 ("powerpc/pasemi: Add Nemo board device init code.")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/powerpc/include/asm/ps3.h               | 6 ++++++
- arch/powerpc/platforms/ps3/gelic_udbg.c      | 1 +
- drivers/net/ethernet/toshiba/ps3_gelic_net.h | 6 ------
- 3 files changed, 7 insertions(+), 6 deletions(-)
+ arch/powerpc/platforms/pasemi/setup.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/powerpc/include/asm/ps3.h b/arch/powerpc/include/asm/ps3.h
-index a5f36546a052..d13d8fdc3411 100644
---- a/arch/powerpc/include/asm/ps3.h
-+++ b/arch/powerpc/include/asm/ps3.h
-@@ -514,4 +514,10 @@ u64 ps3_get_spe_id(void *arg);
- 
- void ps3_early_mm_init(void);
- 
-+#ifdef CONFIG_PPC_EARLY_DEBUG_PS3GELIC
-+void udbg_shutdown_ps3gelic(void);
-+#else
-+static inline void udbg_shutdown_ps3gelic(void) {}
-+#endif
-+
- #endif
-diff --git a/arch/powerpc/platforms/ps3/gelic_udbg.c b/arch/powerpc/platforms/ps3/gelic_udbg.c
-index 6b298010fd84..a5202c18c236 100644
---- a/arch/powerpc/platforms/ps3/gelic_udbg.c
-+++ b/arch/powerpc/platforms/ps3/gelic_udbg.c
-@@ -14,6 +14,7 @@
- #include <linux/ip.h>
- #include <linux/udp.h>
- 
-+#include <asm/ps3.h>
- #include <asm/io.h>
- #include <asm/udbg.h>
- #include <asm/lv1call.h>
-diff --git a/drivers/net/ethernet/toshiba/ps3_gelic_net.h b/drivers/net/ethernet/toshiba/ps3_gelic_net.h
-index 0d98defb011e..0ec7412febc7 100644
---- a/drivers/net/ethernet/toshiba/ps3_gelic_net.h
-+++ b/drivers/net/ethernet/toshiba/ps3_gelic_net.h
-@@ -346,12 +346,6 @@ static inline void *port_priv(struct gelic_port *port)
- 	return port->priv;
+diff --git a/arch/powerpc/platforms/pasemi/setup.c b/arch/powerpc/platforms/pasemi/setup.c
+index ef985ba2bf21..0761d98e5be3 100644
+--- a/arch/powerpc/platforms/pasemi/setup.c
++++ b/arch/powerpc/platforms/pasemi/setup.c
+@@ -64,7 +64,7 @@ static void __noreturn pas_restart(char *cmd)
  }
  
--#ifdef CONFIG_PPC_EARLY_DEBUG_PS3GELIC
--void udbg_shutdown_ps3gelic(void);
--#else
--static inline void udbg_shutdown_ps3gelic(void) {}
--#endif
--
- int gelic_card_set_irq_mask(struct gelic_card *card, u64 mask);
- /* shared netdev ops */
- void gelic_card_up(struct gelic_card *card);
+ #ifdef CONFIG_PPC_PASEMI_NEMO
+-void pas_shutdown(void)
++static void pas_shutdown(void)
+ {
+ 	/* Set the PLD bit that makes the SB600 think the power button is being pressed */
+ 	void __iomem *pld_map = ioremap(0xf5000000,4096);
 -- 
 2.39.2
 
