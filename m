@@ -2,65 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED78D7E5FBD
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 22:11:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 106A57E5FEB
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 22:24:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0900710E85C;
-	Wed,  8 Nov 2023 21:11:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37BE110E1A4;
+	Wed,  8 Nov 2023 21:24:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
- [209.85.167.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39A5610E85C
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 21:10:38 +0000 (UTC)
-Received: by mail-oi1-f169.google.com with SMTP id
- 5614622812f47-3b2ea7cc821so83295b6e.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Nov 2023 13:10:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699477837; x=1700082637;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bav5/FGayyEQonBNC4kdS6ICDtnFE4p01QngumR4dg4=;
- b=SO9de9FGMvN/dBqn3FIQlbdrEOqV2W4EmSNGHjn49GOuHgt6oliXfzkE6A6tuWbVvO
- 8yVcjYry6rRK6rw/3BVcyhRGmGkcuQx5lDKFOzAz29btCJMOjtSjNWxskXr/n0+6ytbl
- pO1HLbrPbIyPi9dg2Oj1MXrY/zE1i8p4jt9fL/Ww68pLDW0bSscmOF5OXSzUu0jAP2EG
- oBs/N4qHbuROpPP43v8Dd7KeCnJOTBXTC9++GPMqpFC1qU2TCeV4xyyxHw2jOs630FSc
- qF27QFOjlR5IWdrdP3j5n+IT/evPqydsGjUjztJbLfODnnXzlcyVabvqHogOqNqzVCQd
- hajA==
-X-Gm-Message-State: AOJu0Yzm5uNyT5VHTfLgxcVDk15F/+cgZdPHHxUf2OhiF/wg/vxgHYuB
- pwvJN29UoikfZwmZOt+pr+Ia6Wi4UIOXyA==
-X-Google-Smtp-Source: AGHT+IEue5g5O3yxejP8FvyBGqrOl8tfafWFIw0m+6B0VYfWQipVhTwi9hyIw04NTEy9E0e6YcVP4Q==
-X-Received: by 2002:a05:6808:1a18:b0:3ae:16b6:6346 with SMTP id
- bk24-20020a0568081a1800b003ae16b66346mr3904140oib.7.1699477837180; 
- Wed, 08 Nov 2023 13:10:37 -0800 (PST)
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com.
- [209.85.210.47]) by smtp.gmail.com with ESMTPSA id
- 14-20020aca0f0e000000b003b2f3fb081csm2019204oip.51.2023.11.08.13.10.36
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Nov 2023 13:10:36 -0800 (PST)
-Received: by mail-ot1-f47.google.com with SMTP id
- 46e09a7af769-6cd09f51fe0so56804a34.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Nov 2023 13:10:36 -0800 (PST)
-X-Received: by 2002:a0d:f3c2:0:b0:59b:54b5:7d66 with SMTP id
- c185-20020a0df3c2000000b0059b54b57d66mr2960037ywf.34.1699477816210; Wed, 08
- Nov 2023 13:10:16 -0800 (PST)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4A6A10E1A4
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 21:24:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1699478650; x=1700083450; i=deller@gmx.de;
+ bh=8Z5rOdhJ+964nxGc4A1TZZpBIfOPY/3aNR720qqmPvI=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+ In-Reply-To;
+ b=ahg/Ph+Tz1pJsdC3xoWLa5BFQ6e3SsfyUNoPw3YRT/Ia4HqGiIheMTPB3P0Jftu3
+ OwcsrBo0Bd1Awv+rfRNRc9Xa8rsozpqp53LMecbS7sKVrigjqTDyHq28VWbB74D5z
+ ANR1W2zJdymTXNcv5Ln8orerFhV59RAm2AC8Q5DXK0ZzhZmTFLIb86HvgV8hXyt9f
+ GpGNzzpbmmOY8DmlACxBVWpdPyBNPyCoMBYzsD3IluAmS4k51wZwn8lopdn3SVg1x
+ FK7DqKgKNOf/rSm9MXqjj/wjsqO8+neBvSYWXvfvi6Che3e1/Vy85j6H5eu5xoMdv
+ RQwpf/wnxibiicfZew==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.158.7]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mw9Q6-1rJKJy0wK4-00s6EW; Wed, 08
+ Nov 2023 22:24:10 +0100
+Message-ID: <24c4cc36-d14b-40cc-ad8d-dea029cf1845@gmx.de>
+Date: Wed, 8 Nov 2023 22:24:09 +0100
 MIME-Version: 1.0
-References: <20231108125843.3806765-1-arnd@kernel.org>
- <20231108125843.3806765-11-arnd@kernel.org>
- <CAMuHMdXgdn_cMq0YeqPu3sUeM5cEYbCoodxu8XwCGiRJ-vFsyw@mail.gmail.com>
- <e7753f82-c3de-48fc-955d-59773222aaa9@app.fastmail.com>
-In-Reply-To: <e7753f82-c3de-48fc-955d-59773222aaa9@app.fastmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 8 Nov 2023 22:10:03 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV7VfiSA9+wSJYYQkBN2=4E9HsFJRV6j8ffioe0=MFd8A@mail.gmail.com>
-Message-ID: <CAMuHMdV7VfiSA9+wSJYYQkBN2=4E9HsFJRV6j8ffioe0=MFd8A@mail.gmail.com>
-Subject: Re: [PATCH 10/22] microblaze: include linux/cpu.h for trap_init()
- prototype
-To: Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/22] fb: atmel_lcdfb: Stop using platform_driver_probe()
+Content-Language: en-US
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nathan Chancellor <nathan@kernel.org>
+References: <20231107091740.3924258-1-u.kleine-koenig@pengutronix.de>
+ <20231107091740.3924258-3-u.kleine-koenig@pengutronix.de>
+ <20231108184805.GA1579138@dev-arch.thelio-3990X>
+ <20231108210018.ayo5b3afggmt6wfc@pengutronix.de>
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20231108210018.ayo5b3afggmt6wfc@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:p41QMsghAkhOnmy/DMjWgtNmHWlN2HYxytf+BkZ7Ex3DEaU34p1
+ ytD/AU5IKBPFYt/V98Non/34Xf3av0Ky45UVGgVyFjjSJxcW2xvfrOOaqmUzVivGmhOAjrI
+ jFMsYzTJloxfXz1eqxDotKcOK7hOrX6fsfUecgHrXCxqA8UhoRWE3O6XKPCzDa4lHofgkJd
+ oMlvyu7HxO1lbP7mQdfKg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:5GbnGJEf6cM=;H8zPtOjzOmo1j2eJ3F+3dggmIrm
+ sNisWPpIsaHp82XtKGrapd5ZIs7yi6661c1y8Zcj4zu6KSYjRd3FYZkiGGfzsYKJpINkfUHxF
+ ZeQjirVabSoyI7MdFEZP59WUw3SFSBoRAR4QZXdANNU+LcDuaPumYAoz5if62mQ97tGS6QNTk
+ uccpIMarNZPxNPbWQSpY3vbhSlzqxVArAx2ZsfByAfRqGa2bCVNM+P8gPaJ81Xpi3kBDPYmpo
+ Cc+kFIH5hovgbX8njGkInp/P91O4RhYEXZXTWNaeKXQk1xyTvNM9exRSthEzgud2NpJD3HIKk
+ YO0yl47tUnLndg+bRqi8AQVf+O/qtH5NdH50s/jMAWj1BoPEdtVLuxTVdvlkiO2B3OKKGyagO
+ UFVfLLdVkxD3QP/eMNIZmOn1O3IUTETIITU9bDZulEOgp4qwdGZEGeq8Bdsmjrs8tiw5G3VaP
+ L9f/JSeqx1OLWvAFJgCU5zrT2ZELm+TTjphzH5ecfpmm3gFd2uxySpHA/z3Dzlr8TNoV5tn4R
+ J8kzecmvmDVBNY8H0ef6PRJSoMn441jFmobOL017gvFULJ/9ZMXgVy60GIikRQkuBzIRiTJDE
+ FbjD4UHsm7LTYioxla2jAdq9PKv1pl9o9H+uokKN+YoHCrH4y3v+8YO2xPyVqlCnbvi/vFxa2
+ 0SIQCA2O7TGN2tjV03AT3qrMP6nH7QUIWvbaItXzstwc7XgXLCG2SL0kGC2gmSaMO88SXlTmB
+ +LJISottxb438HDnHHrdJAWkP47rxn8LTKl8mhyGV8P/PFoZoPTZvAAFyrSiV3LVdGdIGG+N6
+ xVWyA/fU4P3lvCt+gp5iZV8sM244wYvdnHzmoU66/dGq9rZZELK0qJZ9FSmkgr1h0xYEe3Ahx
+ JNbOcVaNw0ysAbGomASt2rpCSwxGSZLgqpxzN/1FkVGeakAs6GB//ccqdVaOaZTls0aLue9IB
+ 9XE7+w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,126 +118,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Juri Lelli <juri.lelli@redhat.com>,
- linux-fbdev@vger.kernel.org, x86@kernel.org, loongarch@lists.linux.dev,
- linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
- guoren <guoren@kernel.org>,
- Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
- Helge Deller <deller@gmx.de>, sparclinux@vger.kernel.org,
- linux-riscv@lists.infradead.org, Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Will Deacon <will@kernel.org>, Greg Ungerer <gerg@linux-m68k.org>,
- Nicolas Schier <nicolas@fjasle.eu>, linux-s390@vger.kernel.org,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Michael Ellerman <mpe@ellerman.id.au>, Masahiro Yamada <masahiroy@kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Ard Biesheuvel <ardb@kernel.org>,
- "linux-bcachefs@vger.kernel.org" <linux-bcachefs@vger.kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Vineet Gupta <vgupta@kernel.org>,
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Matt Turner <mattst88@gmail.com>,
- linux-snps-arc@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org,
- Heiko Carstens <hca@linux.ibm.com>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- linuxppc-dev@lists.ozlabs.org, Steven Rostedt <rostedt@goodmis.org>,
- Nathan Chancellor <nathan@kernel.org>, linux-m68k@lists.linux-m68k.org,
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
- Nicholas Piggin <npiggin@gmail.com>, Andy Lutomirski <luto@kernel.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Arnd Bergmann <arnd@kernel.org>, Michal Simek <monstr@monstr.eu>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- Timur Tabi <timur@kernel.org>, Geoff Levand <geoff@infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Kent Overstreet <kent.overstreet@linux.dev>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Dinh Nguyen <dinguyen@kernel.org>, linux-usb@vger.kernel.org,
- Palmer Dabbelt <palmer@dabbelt.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- linux-alpha@vger.kernel.org, linux-mtd@lists.infradead.org,
- Andrew Morton <akpm@linux-foundation.org>,
- David Woodhouse <dwmw2@infradead.org>,
- "David S . Miller" <davem@davemloft.net>,
- Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: linux-fbdev@vger.kernel.org,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, llvm@lists.linux.dev,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, dri-devel@lists.freedesktop.org,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arnd,
-
-On Wed, Nov 8, 2023 at 10:07=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
-:
-> On Wed, Nov 8, 2023, at 21:42, Geert Uytterhoeven wrote:
-> > On Wed, Nov 8, 2023 at 2:01=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> =
-wrote:
-> >> From: Arnd Bergmann <arnd@arndb.de>
-> >>
-> >> Microblaze runs into a single -Wmissing-prototypes warning when that i=
-s
-> >> enabled:
-> >>
-> >> arch/microblaze/kernel/traps.c:21:6: warning: no previous prototype fo=
-r 'trap_init' [-Wmissing-prototypes]
-> >>
-> >> Include the right header to avoid this.
-> >>
-> >> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> >
-> > Thanks for your patch!
-> >
-> >>  arch/alpha/kernel/traps.c      | 1 +
-> >>  arch/csky/include/asm/traps.h  | 2 --
-> >>  arch/csky/kernel/traps.c       | 1 +
-> >>  arch/m68k/coldfire/vectors.c   | 3 +--
-> >>  arch/m68k/coldfire/vectors.h   | 3 ---
-> >
-> > Ah, so this is where the m68k changes listed in the cover letter are
-> > hiding ;-)
-> >
-> >>  arch/microblaze/kernel/traps.c | 1 +
-> >>  arch/sparc/kernel/traps_32.c   | 1 +
-> >>  arch/sparc/kernel/traps_64.c   | 1 +
-> >>  arch/x86/include/asm/traps.h   | 1 -
-> >>  arch/x86/kernel/traps.c        | 1 +
-> >>  10 files changed, 7 insertions(+), 8 deletions(-)
-> >>  delete mode 100644 arch/m68k/coldfire/vectors.h
-> >
-> > Obviously the non-microblaze changes should be spun off in separate
-> > patches.
+On 11/8/23 22:00, Uwe Kleine-K=C3=B6nig wrote:
+> On Wed, Nov 08, 2023 at 11:48:05AM -0700, Nathan Chancellor wrote:
+>> diff --git a/drivers/video/fbdev/atmel_lcdfb.c b/drivers/video/fbdev/at=
+mel_lcdfb.c
+>> index 88c75ae7d315..9e391e5eaf9d 100644
+>> --- a/drivers/video/fbdev/atmel_lcdfb.c
+>> +++ b/drivers/video/fbdev/atmel_lcdfb.c
+>> @@ -220,7 +220,7 @@ static inline void atmel_lcdfb_power_control(struct=
+ atmel_lcdfb_info *sinfo, int
+>>   	}
+>>   }
+>>
+>> -static const struct fb_fix_screeninfo atmel_lcdfb_fix __initconst =3D =
+{
+>> +static const struct fb_fix_screeninfo atmel_lcdfb_fix =3D {
+>>   	.type		=3D FB_TYPE_PACKED_PIXELS,
+>>   	.visual		=3D FB_VISUAL_TRUECOLOR,
+>>   	.xpanstep	=3D 0,
 >
-> I messed up one of my rebases here and accidentally sent
-> the wrong changelog text. My intention was to have the
-> combined patch but with this text:
+> I wonder if this was broken already before my patch. atmel_lcdfb_probe()
+> does
 >
->     arch: include linux/cpu.h for trap_init() prototype
+> 	info->fix =3D atmel_lcdfb_fix;
 >
->     some architectures run into a -Wmissing-prototypes warning
->     for trap_init()
->
->     arch/microblaze/kernel/traps.c:21:6: warning: no previous prototype f=
-or 'trap_init' [-Wmissing-prototypes]
->
->     Include the right header to avoid this consistently, removing
->     the extra declarations on m68k and x86 that were added as local
->     workarounds already.
->
->     Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> and unless I miss something (this is well possible) that is used e.g. in
+> atmel_lcdfb_set_par() -> atmel_lcdfb_update_dma(). So atmel_lcdfb_fix
+> should better not live in .init memory?! Someone with more knowledge
+> about fbdev might want to take a look and decide if this justifies a
+> separate fix that should then be backported to stable, too?!
 
-That makes sense, although it's hard to combine this with "my preference
-would be for the patches to make it through the respective subsystem
-maintainer trees"...
+I don't think a backport this is necessary.
+The "__initconst" atmel_lcdfb_fix struct was only copied in the
+"__init" atmel_lcdfb_probe() function.
+So, both were dropped at the same time in older kernels.
 
-Gr{oetje,eeting}s,
+Since your patch dropped the "__init" from atmel_lcdfb_probe(),
+the __initconst from atmel_lcdfb_fix has to be removed too.
 
-                        Geert
+So, I believe folding in Nathan's patch is OK and we don't need
+a seperate (or backport) patch.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Helge
