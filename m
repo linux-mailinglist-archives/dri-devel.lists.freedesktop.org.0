@@ -1,49 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A34327E5F90
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 22:01:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E15367E5FA0
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 22:07:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72C5F10E84C;
-	Wed,  8 Nov 2023 21:00:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F253E10E85F;
+	Wed,  8 Nov 2023 21:07:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE56C10E84C
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 21:00:33 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1r0peu-0003B3-BA; Wed, 08 Nov 2023 22:00:20 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1r0pet-007cR6-12; Wed, 08 Nov 2023 22:00:19 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1r0pes-00FSwl-Ni; Wed, 08 Nov 2023 22:00:18 +0100
-Date: Wed, 8 Nov 2023 22:00:18 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH 02/22] fb: atmel_lcdfb: Stop using platform_driver_probe()
-Message-ID: <20231108210018.ayo5b3afggmt6wfc@pengutronix.de>
-References: <20231107091740.3924258-1-u.kleine-koenig@pengutronix.de>
- <20231107091740.3924258-3-u.kleine-koenig@pengutronix.de>
- <20231108184805.GA1579138@dev-arch.thelio-3990X>
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
+ [209.85.219.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DE0910E85B
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 21:07:06 +0000 (UTC)
+Received: by mail-yb1-f171.google.com with SMTP id
+ 3f1490d57ef6-d9a6399cf78so206632276.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Nov 2023 13:07:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699477625; x=1700082425;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sL/n+QudcGCkNuxCd3XtrLBrT7hbO9/4Gzcez5s8RY8=;
+ b=gef/QNnmC4RP7PFQpYA0YSpeKQJCL7Nc7n7F9O/VOk1UB5VUB8NS4s5CqlhStQJ5JE
+ MAqsNJja3gJUJ8WxtXNbqAcF0UKnYqyTt72ON9GJ1tU7xbT5ITLxJEWhwWkt1TSx2gRa
+ mpfwoLxzjzSq+E0mQoYistFBCYlZ3jxibc03Crt0wmiZKUVt7CvUJj0VCcshURJ/XFyN
+ Ed9RdT/6BuE7MzlO+TtHZ2c75fpDAewaNn+1U9g9SvkX184u6Om6zr1Og201vFTcvFYl
+ uXT4Y4GnQ88PSy8NL16a8sFLIpoSNvKK/Vc/c/kJQIimivDHSm/NXxd93gv8mnPjmbIh
+ +0wQ==
+X-Gm-Message-State: AOJu0Yy7/bdp/eCFsnwbPcXPveLPYdQowEWzdjbSHHn9cx1Lveumxmvp
+ w89CjxI2FMOqTVCZkkiuMYqp78bGUHjUBA==
+X-Google-Smtp-Source: AGHT+IHpoZbkVjicQZdYMDrZchazQjtdzHBIMXfxPAEu09v42VmkMmYGUNVSIGR/cPDGJZr/WfZEMA==
+X-Received: by 2002:a25:2501:0:b0:da0:3ec1:f3f with SMTP id
+ l1-20020a252501000000b00da03ec10f3fmr2204017ybl.3.1699477625039; 
+ Wed, 08 Nov 2023 13:07:05 -0800 (PST)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com.
+ [209.85.128.175]) by smtp.gmail.com with ESMTPSA id
+ b141-20020a253493000000b00da02a2ef6afsm6933314yba.30.2023.11.08.13.07.04
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Nov 2023 13:07:04 -0800 (PST)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-5a8628e54d4so2056117b3.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Nov 2023 13:07:04 -0800 (PST)
+X-Received: by 2002:a81:4954:0:b0:5a7:b914:34c1 with SMTP id
+ w81-20020a814954000000b005a7b91434c1mr5194330ywa.18.1699477624084; Wed, 08
+ Nov 2023 13:07:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="7uvy3c4ehr5gy3xk"
-Content-Disposition: inline
-In-Reply-To: <20231108184805.GA1579138@dev-arch.thelio-3990X>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20231107091740.3924258-1-u.kleine-koenig@pengutronix.de>
+ <20231107091740.3924258-2-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20231107091740.3924258-2-u.kleine-koenig@pengutronix.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 8 Nov 2023 22:06:49 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVaaH_ZJT+jAyxZxnVYT3L=b4B-LEMTP4PqQH2TE0nH6g@mail.gmail.com>
+Message-ID: <CAMuHMdVaaH_ZJT+jAyxZxnVYT3L=b4B-LEMTP4PqQH2TE0nH6g@mail.gmail.com>
+Subject: Re: [PATCH 01/22] fb: amifb: Stop using platform_driver_probe()
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,85 +70,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Helge Deller <deller@gmx.de>, llvm@lists.linux.dev,
- Nicolas Ferre <nicolas.ferre@microchip.com>, dri-devel@lists.freedesktop.org,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org, kernel@pengutronix.de,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ linux-m68k <linux-m68k@lists.linux-m68k.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Atul Raut <rauji.raut@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Uwe,
 
---7uvy3c4ehr5gy3xk
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Nov 7, 2023 at 10:20=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
+> On today's platforms the benefit of platform_driver_probe() isn't that
+> relevant any more. It allows to drop some code after booting (or module
+> loading) for .probe() and discard the .remove() function completely if
+> the driver is built-in. This typically saves a few 100k.
 
-Hello,
+Which is a lot on platforms with only a few MiBs of RAM...
 
-On Wed, Nov 08, 2023 at 11:48:05AM -0700, Nathan Chancellor wrote:
-> diff --git a/drivers/video/fbdev/atmel_lcdfb.c b/drivers/video/fbdev/atme=
-l_lcdfb.c
-> index 88c75ae7d315..9e391e5eaf9d 100644
-> --- a/drivers/video/fbdev/atmel_lcdfb.c
-> +++ b/drivers/video/fbdev/atmel_lcdfb.c
-> @@ -220,7 +220,7 @@ static inline void atmel_lcdfb_power_control(struct a=
-tmel_lcdfb_info *sinfo, int
->  	}
->  }
-> =20
-> -static const struct fb_fix_screeninfo atmel_lcdfb_fix __initconst =3D {
-> +static const struct fb_fix_screeninfo atmel_lcdfb_fix =3D {
->  	.type		=3D FB_TYPE_PACKED_PIXELS,
->  	.visual		=3D FB_VISUAL_TRUECOLOR,
->  	.xpanstep	=3D 0,
+> The downside of platform_driver_probe() is that the driver cannot be
+> bound and unbound at runtime which is ancient and also slightly
+> complicates testing. There are also thoughts to deprecate
+> platform_driver_probe() because it adds some complexity in the driver
+> core for little gain. Also many drivers don't use it correctly. This
+> driver for example misses to mark the driver struct with __refdata which
+> is needed to suppress a (W=3D1) modpost warning:
+>
+>         WARNING: modpost: drivers/video/fbdev/amifb: section mismatch in =
+reference: amifb_driver+0x4 (section: .data) -> amifb_remove (section: .exi=
+t.text)
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-I wonder if this was broken already before my patch. atmel_lcdfb_probe()
-does
+Thanks for your patch!
 
-	info->fix =3D atmel_lcdfb_fix;
-=09
-and unless I miss something (this is well possible) that is used e.g. in
-atmel_lcdfb_set_par() -> atmel_lcdfb_update_dma(). So atmel_lcdfb_fix
-should better not live in .init memory?! Someone with more knowledge
-about fbdev might want to take a look and decide if this justifies a
-separate fix that should then be backported to stable, too?!
+> --- a/drivers/video/fbdev/amifb.c
+> +++ b/drivers/video/fbdev/amifb.c
+> @@ -3530,7 +3530,7 @@ static inline void chipfree(void)
+>          * Initialisation
+>          */
+>
+> -static int __init amifb_probe(struct platform_device *pdev)
+> +static int amifb_probe(struct platform_device *pdev)
 
-> @@ -841,7 +841,7 @@ static void atmel_lcdfb_task(struct work_struct *work)
->  	atmel_lcdfb_reset(sinfo);
->  }
-> =20
-> -static int __init atmel_lcdfb_init_fbinfo(struct atmel_lcdfb_info *sinfo)
-> +static int atmel_lcdfb_init_fbinfo(struct atmel_lcdfb_info *sinfo)
->  {
->  	struct fb_info *info =3D sinfo->info;
->  	int ret =3D 0;
+noreply@ellerman.id.au reported the following build failure for
+e.g. m68k-defconfig in next-20231108:
 
-This is only a problem since my patch.
+WARNING: modpost: vmlinux: section mismatch in reference:
+amifb_probe+0x15c (section: .text) -> ami_modedb (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference:
+amifb_probe+0x17a (section: .text) -> amifb_hfmin (section:
+.init.data)
+WARNING: modpost: vmlinux: section mismatch in reference:
+amifb_probe+0x188 (section: .text) -> amifb_hfmax (section:
+.init.data)
+WARNING: modpost: vmlinux: section mismatch in reference:
+amifb_probe+0x190 (section: .text) -> amifb_vfmin (section:
+.init.data)
+WARNING: modpost: vmlinux: section mismatch in reference:
+amifb_probe+0x198 (section: .text) -> amifb_vfmax (section:
+.init.data)
+WARNING: modpost: vmlinux: section mismatch in reference:
+amifb_probe+0x1ba (section: .text) -> ami_modedb (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference:
+amifb_probe+0x1c4 (section: .text) -> ami_modedb (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference:
+amifb_probe+0x1ca (section: .text) -> mode_option (section:
+.init.data)
+WARNING: modpost: vmlinux: section mismatch in reference:
+amifb_probe+0x1ee (section: .text) -> ami_modedb (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference:
+amifb_probe+0x398 (section: .text) -> amifb_hfmin (section:
+.init.data)
+WARNING: modpost: vmlinux: section mismatch in reference:
+amifb_probe+0x39e (section: .text) -> amifb_hfmax (section:
+.init.data)
+WARNING: modpost: vmlinux: section mismatch in reference:
+amifb_probe+0x3a4 (section: .text) -> amifb_vfmin (section:
+.init.data)
+WARNING: modpost: vmlinux: section mismatch in reference:
+amifb_probe+0x3aa (section: .text) -> amifb_vfmax (section:
+.init.data)
+WARNING: modpost: vmlinux: section mismatch in reference:
+amifb_probe+0x3f0 (section: .text) -> mode_option (section:
+.init.data)
+ERROR: modpost: Section mismatches detected.
 
-Thanks for your report and patch.
+Gr{oetje,eeting}s,
 
-Best regards
-Uwe
+                        Geert
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
---7uvy3c4ehr5gy3xk
-Content-Type: application/pgp-signature; name="signature.asc"
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVL9uEACgkQj4D7WH0S
-/k6QTwgAs3hz+9I2oyuLS4W5VyOEl5j+eqdh9r/RyhxT6WsofBp25JPOJRzS0m8D
-/SIJjXGkYYbF93ME9qUnoU1dtI8O76SUHGEIuRDR8Rnc9LqEmdOQTcxVo5scJ5Sp
-aWmp6gMksOi4j83xA+mejp/pi8APLuyAJtARNxF9D7r7tg4ivzHKynfD3IsPM3Zx
-+qr2IW6loeSW8fn8BO2bw84+50RDYFH78QwBbSLZw+Fr4zZOlTWfaR2V+mJahzRV
-6CQl+gMvIiz+Nn26tlfBVoNP+G+5uhdkjb1hjhK8vAlGxLEvMxEGbI7xJ+gX2bnD
-xJMQJKwYCc6r5vJvKXa73T3bGu2YTQ==
-=9Asl
------END PGP SIGNATURE-----
-
---7uvy3c4ehr5gy3xk--
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
