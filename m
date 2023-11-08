@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 106A57E5FEB
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 22:24:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBBC97E5FFF
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 22:32:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37BE110E1A4;
-	Wed,  8 Nov 2023 21:24:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9041810E85D;
+	Wed,  8 Nov 2023 21:32:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4A6A10E1A4
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 21:24:17 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF57C10E85D
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 21:32:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1699478650; x=1700083450; i=deller@gmx.de;
- bh=8Z5rOdhJ+964nxGc4A1TZZpBIfOPY/3aNR720qqmPvI=;
+ t=1699479140; x=1700083940; i=deller@gmx.de;
+ bh=8g+qouQ6w/MrUtcGiBFXPZfAqztZdYaKnGgwJmYaLA0=;
  h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
  In-Reply-To;
- b=ahg/Ph+Tz1pJsdC3xoWLa5BFQ6e3SsfyUNoPw3YRT/Ia4HqGiIheMTPB3P0Jftu3
- OwcsrBo0Bd1Awv+rfRNRc9Xa8rsozpqp53LMecbS7sKVrigjqTDyHq28VWbB74D5z
- ANR1W2zJdymTXNcv5Ln8orerFhV59RAm2AC8Q5DXK0ZzhZmTFLIb86HvgV8hXyt9f
- GpGNzzpbmmOY8DmlACxBVWpdPyBNPyCoMBYzsD3IluAmS4k51wZwn8lopdn3SVg1x
- FK7DqKgKNOf/rSm9MXqjj/wjsqO8+neBvSYWXvfvi6Che3e1/Vy85j6H5eu5xoMdv
- RQwpf/wnxibiicfZew==
+ b=QFJGB/yfZbeiiXhtVUUxpHEOsY3f3awz38L9PBpRUaegM1TNFi8IXg7J2zpLLAHh
+ XvwOl2s2LgAHkwYy+sitXriXNZW0bOdJO1xr25kG6JmjyhX4SYCXJSNVQV7AYaEF6
+ T7EkAxteGFivxzVkDSSwiq23E5Ibuo3IRZEZ2sYuJc4jA/gceHGSzms0X17gY2dqg
+ EVA/PWmikY2dJazuIRWAFIRZZ169NLYLO2/VBIBtcrBDmANptOSqMfEsZvsiBu8o3
+ a+YMaPHOssPzAwgv9Sp2RDA0qkuAlccuJJGbgK3JooSkONzlY4KImMQP40aRo1KLV
+ pK2L/Q1c+1ExeH3ABw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.158.7]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mw9Q6-1rJKJy0wK4-00s6EW; Wed, 08
- Nov 2023 22:24:10 +0100
-Message-ID: <24c4cc36-d14b-40cc-ad8d-dea029cf1845@gmx.de>
-Date: Wed, 8 Nov 2023 22:24:09 +0100
+Received: from [192.168.20.60] ([94.134.158.7]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mnps0-1rkHvC1j8U-00pPTc; Wed, 08
+ Nov 2023 22:32:20 +0100
+Message-ID: <9559f1d6-f68e-4c14-83b0-e5a545039124@gmx.de>
+Date: Wed, 8 Nov 2023 22:32:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/22] fb: atmel_lcdfb: Stop using platform_driver_probe()
+Subject: Re: [PATCH 01/22] fb: amifb: Stop using platform_driver_probe()
 Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Nathan Chancellor <nathan@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 References: <20231107091740.3924258-1-u.kleine-koenig@pengutronix.de>
- <20231107091740.3924258-3-u.kleine-koenig@pengutronix.de>
- <20231108184805.GA1579138@dev-arch.thelio-3990X>
- <20231108210018.ayo5b3afggmt6wfc@pengutronix.de>
+ <20231107091740.3924258-2-u.kleine-koenig@pengutronix.de>
+ <CAMuHMdVaaH_ZJT+jAyxZxnVYT3L=b4B-LEMTP4PqQH2TE0nH6g@mail.gmail.com>
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
  xsFNBF3Ia3MBEAD3nmWzMgQByYAWnb9cNqspnkb2GLVKzhoH2QD4eRpyDLA/3smlClbeKkWT
@@ -83,29 +82,29 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20231108210018.ayo5b3afggmt6wfc@pengutronix.de>
+In-Reply-To: <CAMuHMdVaaH_ZJT+jAyxZxnVYT3L=b4B-LEMTP4PqQH2TE0nH6g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:p41QMsghAkhOnmy/DMjWgtNmHWlN2HYxytf+BkZ7Ex3DEaU34p1
- ytD/AU5IKBPFYt/V98Non/34Xf3av0Ky45UVGgVyFjjSJxcW2xvfrOOaqmUzVivGmhOAjrI
- jFMsYzTJloxfXz1eqxDotKcOK7hOrX6fsfUecgHrXCxqA8UhoRWE3O6XKPCzDa4lHofgkJd
- oMlvyu7HxO1lbP7mQdfKg==
+X-Provags-ID: V03:K1:ZbIvSrd0pdT70WD9GOHvzGIp93gRRjj75pcMgtABFgJVzjsv6gL
+ bhdCH8KkYV232JKGEnXrs6ALutGI2xGbaGH9oD3lnQUrUNdH3PQXCzpF/WjAJe7ISc8lquX
+ 51Gc5WoVS66SNnLx6lk6h61rLSO1F1b7vFK+s5Ar6KTZAdUkFPkEMCxhjy0abyWRAlaOAbx
+ ODbLsbnm/3u6e6o3MaZPA==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:5GbnGJEf6cM=;H8zPtOjzOmo1j2eJ3F+3dggmIrm
- sNisWPpIsaHp82XtKGrapd5ZIs7yi6661c1y8Zcj4zu6KSYjRd3FYZkiGGfzsYKJpINkfUHxF
- ZeQjirVabSoyI7MdFEZP59WUw3SFSBoRAR4QZXdANNU+LcDuaPumYAoz5if62mQ97tGS6QNTk
- uccpIMarNZPxNPbWQSpY3vbhSlzqxVArAx2ZsfByAfRqGa2bCVNM+P8gPaJ81Xpi3kBDPYmpo
- Cc+kFIH5hovgbX8njGkInp/P91O4RhYEXZXTWNaeKXQk1xyTvNM9exRSthEzgud2NpJD3HIKk
- YO0yl47tUnLndg+bRqi8AQVf+O/qtH5NdH50s/jMAWj1BoPEdtVLuxTVdvlkiO2B3OKKGyagO
- UFVfLLdVkxD3QP/eMNIZmOn1O3IUTETIITU9bDZulEOgp4qwdGZEGeq8Bdsmjrs8tiw5G3VaP
- L9f/JSeqx1OLWvAFJgCU5zrT2ZELm+TTjphzH5ecfpmm3gFd2uxySpHA/z3Dzlr8TNoV5tn4R
- J8kzecmvmDVBNY8H0ef6PRJSoMn441jFmobOL017gvFULJ/9ZMXgVy60GIikRQkuBzIRiTJDE
- FbjD4UHsm7LTYioxla2jAdq9PKv1pl9o9H+uokKN+YoHCrH4y3v+8YO2xPyVqlCnbvi/vFxa2
- 0SIQCA2O7TGN2tjV03AT3qrMP6nH7QUIWvbaItXzstwc7XgXLCG2SL0kGC2gmSaMO88SXlTmB
- +LJISottxb438HDnHHrdJAWkP47rxn8LTKl8mhyGV8P/PFoZoPTZvAAFyrSiV3LVdGdIGG+N6
- xVWyA/fU4P3lvCt+gp5iZV8sM244wYvdnHzmoU66/dGq9rZZELK0qJZ9FSmkgr1h0xYEe3Ahx
- JNbOcVaNw0ysAbGomASt2rpCSwxGSZLgqpxzN/1FkVGeakAs6GB//ccqdVaOaZTls0aLue9IB
- 9XE7+w==
+UI-OutboundReport: notjunk:1;M01:P0:BF/XgaNSlho=;XJszsbgLwvkw4EQZcuzXjSWxibQ
+ HjCAncSL6OAdMpqmua+3dhwmNGC4E52BKI2bnoTnWBTXgrvgtMzs/LeNDS91REIdsivhAZlsX
+ MQWFBcwX8PDBxZ6tmIF6CQ003MW8IYnFKbsQixfrWWEzoggY5dyNUY8PLOqFqIJUkhDXOd1Dl
+ WzM2gL4jM7hWGOov2Szg++bifABnbjzI9u4D/XO9vamlTxmhfYHwPBL4kR1YoO5CF4Y50eZAw
+ 8FFilCwjAZ+ZpoyGnoNTjxW5+MBBgJqDzUiuJOZJqXsvp7hJnI//fTTiv9QXB4yv8g5MvQzLe
+ GZUhIgncZeq6YzrnlLwDXicFJ5fpKzDOQmOAw9vOmKmx7n8W/6LkOHmc06hZDKUrJ9g3M61aD
+ IoPiSZp3T5HH8jXqwGKQDSovZTpeooPAaz5qccag8GWNOu+htW6pI/CGl1uyuSTLsLmXd1Eji
+ aLzxjHooltYFCmRdJivxXMERyOo41Jws7vC74BdzXoiYE5YniP9gnU8r006DbgHEloRZJk2ow
+ 2y9VcPya6iIKj0VC18SYF/DIMktMJjuWdFnbrcsok2/EE9/H+wsxOyeZkauZ1B2SdiiouCWXx
+ 3vm162VMzBtdoJeUm5uYhAsaGC52pNic8bh75oWPv9kA0j2zID/S6WpqHFhaZImnZDu1j8ORd
+ ViejXq30zDrX8nSbT5OaaM3WA1PxwOoelKvri+D/ylOpMJNUjxvAFW/wOsMPRC+iNDeu4UI5g
+ ugvgQAnwON5M1qlPbgZz1MJ35iCIySAfDpsp8m3RBYAMJdwCjmplm4WMuDaw4Wht7F4NWZg+Q
+ JRGSfoq0OGZ0G1bnmBmkNAPCqu+/fKEmqxdMrehy9JrXb/iUooxvRZUMm50l8Ter8LFu0ndN3
+ 1MQLXTlI41gWuXpUGIZrZghdsSPyhGKgOnk+QgLfgLZVSQSqKH4p0z0Svo/RGcKg/wR4U8t2s
+ fmYA2g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,53 +117,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, llvm@lists.linux.dev,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, dri-devel@lists.freedesktop.org,
- Nicolas Ferre <nicolas.ferre@microchip.com>, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, linux-m68k <linux-m68k@lists.linux-m68k.org>,
+ kernel@pengutronix.de, Atul Raut <rauji.raut@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/8/23 22:00, Uwe Kleine-K=C3=B6nig wrote:
-> On Wed, Nov 08, 2023 at 11:48:05AM -0700, Nathan Chancellor wrote:
->> diff --git a/drivers/video/fbdev/atmel_lcdfb.c b/drivers/video/fbdev/at=
-mel_lcdfb.c
->> index 88c75ae7d315..9e391e5eaf9d 100644
->> --- a/drivers/video/fbdev/atmel_lcdfb.c
->> +++ b/drivers/video/fbdev/atmel_lcdfb.c
->> @@ -220,7 +220,7 @@ static inline void atmel_lcdfb_power_control(struct=
- atmel_lcdfb_info *sinfo, int
->>   	}
->>   }
->>
->> -static const struct fb_fix_screeninfo atmel_lcdfb_fix __initconst =3D =
-{
->> +static const struct fb_fix_screeninfo atmel_lcdfb_fix =3D {
->>   	.type		=3D FB_TYPE_PACKED_PIXELS,
->>   	.visual		=3D FB_VISUAL_TRUECOLOR,
->>   	.xpanstep	=3D 0,
+On 11/8/23 22:06, Geert Uytterhoeven wrote:
+> On Tue, Nov 7, 2023 at 10:20=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+> <u.kleine-koenig@pengutronix.de> wrote:
+>> On today's platforms the benefit of platform_driver_probe() isn't that
+>> relevant any more. It allows to drop some code after booting (or module
+>> loading) for .probe() and discard the .remove() function completely if
+>> the driver is built-in. This typically saves a few 100k.
 >
-> I wonder if this was broken already before my patch. atmel_lcdfb_probe()
-> does
->
-> 	info->fix =3D atmel_lcdfb_fix;
->
-> and unless I miss something (this is well possible) that is used e.g. in
-> atmel_lcdfb_set_par() -> atmel_lcdfb_update_dma(). So atmel_lcdfb_fix
-> should better not live in .init memory?! Someone with more knowledge
-> about fbdev might want to take a look and decide if this justifies a
-> separate fix that should then be backported to stable, too?!
+> Which is a lot on platforms with only a few MiBs of RAM...
 
-I don't think a backport this is necessary.
-The "__initconst" atmel_lcdfb_fix struct was only copied in the
-"__init" atmel_lcdfb_probe() function.
-So, both were dropped at the same time in older kernels.
-
-Since your patch dropped the "__init" from atmel_lcdfb_probe(),
-the __initconst from atmel_lcdfb_fix has to be removed too.
-
-So, I believe folding in Nathan's patch is OK and we don't need
-a seperate (or backport) patch.
+True.
+Given the warnings below, what is your suggestion?
+Better to drop the amifb patch ?
 
 Helge
+...
+> WARNING: modpost: vmlinux: section mismatch in reference:
+> amifb_probe+0x15c (section: .text) -> ami_modedb (section: .init.data)
+> ...
+
