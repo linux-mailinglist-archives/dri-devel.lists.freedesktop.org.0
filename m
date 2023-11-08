@@ -2,57 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B520E7E567E
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 13:45:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D74647E56AC
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 13:59:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7172810E72D;
-	Wed,  8 Nov 2023 12:45:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE2AC10E734;
+	Wed,  8 Nov 2023 12:59:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B82410E72D
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 12:45:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1699447526; x=1730983526;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=mp0cZhN3AA8YDI2rLb/AqW/Ftccy17dW1aTL8NsNu+0=;
- b=oRu+wqkgoNsI0LhGhYE6gkfx23YDjMoDeUlnLhOgGYO53c6GwaUJBc6Y
- Q7gwV5XwXCaUcQ9Z9wyhkAzuOLQAPvsfphQvQipnGCrbZ6BROJCFrE1h0
- qY/q1zcLNv5akvSiXqUDqEub70dxUWBDdBnIxwMzhhrI8miR5Z0oLQHhC
- X0VXOgRxC8TPl2+7YR7A1G67Ib9mHpJZ9Z61JOTSfNUgFgQl40Bjuvy+i
- 0afb1gt4kD40mG9Uk1elL2jf5hOlaPpreAW+gC8NcTDYyPh14DAq99687
- ciVk+2H/PqD9k667vWBjGaQzVbESNf1SrwftZmJW3LaPnthj2lE+JUdhB g==;
-X-IronPort-AV: E=Sophos;i="6.03,286,1694728800"; d="scan'208";a="33875585"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 08 Nov 2023 13:45:23 +0100
-Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.18])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 69BB028007F;
- Wed,  8 Nov 2023 13:45:19 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Aradhya Bhatia <a-bhatia1@ti.com>, Jan Kiszka <jan.kiszka@siemens.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 0/2] drm/bridge: tc358767: Fix
- DRM_BRIDGE_ATTACH_NO_CONNECTOR case
-Date: Wed, 08 Nov 2023 13:45:20 +0100
-Message-ID: <3537389.iIbC2pHGDl@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20231108-tc358767-v2-0-25c5f70a2159@ideasonboard.com>
-References: <20231108-tc358767-v2-0-25c5f70a2159@ideasonboard.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2EB610E734
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 12:59:11 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 74CD6CE10CA;
+ Wed,  8 Nov 2023 12:59:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 397CEC433C7;
+ Wed,  8 Nov 2023 12:58:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1699448345;
+ bh=mCKY7B1NUlBI0NuotW3ba1ch9AEY8/W0fCgPLr2mO8c=;
+ h=From:To:Cc:Subject:Date:From;
+ b=hdJmX6TfcykocaTr5OrRW3LbdILEh0itmqr9P21mwGlg6MNeeNmqG3lC80LfvXy6g
+ VtUPAhXRHS6nGjOfsUwjv4hGM05Gke0gSh30zzdYv1zPY1K/pw/ewTT8Yp/pFtHxgA
+ CqlBBLPXwAyP7VR93PLJDWmmif9jbReJ7JLAXEI1K/cSXYfGNGTUY0jhDW7DQKkLkv
+ 3fLnVWbGfEdWbODApTbzfegitWoXOm7yzXOFjF2nGEbrSRbNtAzwlzPk6EFXSXbWOk
+ /dWaNDETcJ9PdXN+Cgh02YBuiyQScJCQc1vmxaWB0AVd7HB7HFVPq6/I5aemCJlBbV
+ L+fUTsc/kSZfw==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Subject: [PATCH 00/22] -Wmissing-prototype warning fixes
+Date: Wed,  8 Nov 2023 13:58:21 +0100
+Message-Id: <20231108125843.3806765-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,61 +50,244 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Mark Rutland <mark.rutland@arm.com>, Juri Lelli <juri.lelli@redhat.com>,
+ linux-fbdev@vger.kernel.org, x86@kernel.org, loongarch@lists.linux.dev,
+ linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
+ netdev@vger.kernel.org, Guo Ren <guoren@kernel.org>,
+ Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, Will Deacon <will@kernel.org>,
+ Greg Ungerer <gerg@linux-m68k.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ linux-s390@vger.kernel.org, Vincent Guittot <vincent.guittot@linaro.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, Helge Deller <deller@gmx.de>,
+ Huacai Chen <chenhuacai@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Ard Biesheuvel <ardb@kernel.org>, linux-bcachefs@vger.kernel.org,
+ Ingo Molnar <mingo@redhat.com>, Vineet Gupta <vgupta@kernel.org>,
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Matt Turner <mattst88@gmail.com>,
+ linux-snps-arc@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
+ Heiko Carstens <hca@linux.ibm.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ linuxppc-dev@lists.ozlabs.org, Nicholas Piggin <npiggin@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, linux-m68k@lists.linux-m68k.org,
+ linux-csky@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+ Andy Lutomirski <luto@kernel.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ Timur Tabi <timur@kernel.org>, Geoff Levand <geoff@infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Kent Overstreet <kent.overstreet@linux.dev>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-mips@vger.kernel.org,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ Dinh Nguyen <dinguyen@kernel.org>, linux-usb@vger.kernel.org,
+ Palmer Dabbelt <palmer@dabbelt.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ linux-alpha@vger.kernel.org, linux-mtd@lists.infradead.org,
+ David Woodhouse <dwmw2@infradead.org>, "David S. Miller" <davem@davemloft.net>,
+ Al Viro <viro@zeniv.linux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+From: Arnd Bergmann <arnd@arndb.de>
 
-Am Mittwoch, 8. November 2023, 12:27:21 CET schrieb Tomi Valkeinen:
-> These two patches are needed to make tc358767 work in the
-> DRM_BRIDGE_ATTACH_NO_CONNECTOR case, at least when using a DP connector.
->=20
-> I have tested this with TI AM654 EVM with a tc358767 add-on card
-> connected to a DP monitor.
+I slightly dropped the ball on this since last sending the series in
+August, but a number of warning fixes have made it into the kernel in
+the meantime, both from my earlier submission and from architecture
+maintainers.
 
-Just a question regarding the usage of this DSI-DP bridge.
-What is the state of the DSI lanes after the DSI host has been initialized,=
-=20
-but before calling atomic_pre_enable? AFAIK this bridge requires LP-11 on D=
-SI=20
-at any time for accessing the AUX channel.
+I have none patches that remain from the previous submission, with
+two of them reworked according to comments. The additional patches
+are from more testing across architectures and configurations that
+I had previously missed.
 
-Best regards,
-Alexander
+At least one patch is for a newly added warning in recent kernels.
 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
-> Changes in v2:
-> - Update the format negotiation patch as discussed in
-> https://lore.kernel.org/all/7ddf0edb-2925-4b7c-ad07-27c030dd0232@ti.com/ -
-> Link to v1:
-> https://lore.kernel.org/r/20231031-tc358767-v1-0-392081ad9f4b@ideasonboar=
-d.
-> com
->=20
-> ---
-> Aradhya Bhatia (1):
->       drm/bridge: tc358767: Add format negotiation hooks for DPI/DSI to
-> (e)DP
->=20
-> Tomi Valkeinen (1):
->       drm/bridge: tc358767: Fix link properties discovery
->=20
->  drivers/gpu/drm/bridge/tc358767.c | 32 ++++++++++++++++++++++++++++++++
->  1 file changed, 32 insertions(+)
-> ---
-> base-commit: 9d7c8c066916f231ca0ed4e4fce6c4b58ca3e451
-> change-id: 20231031-tc358767-58e3ebdf95f0
->=20
-> Best regards,
+Regarding the regressions in terms of added warnings, there are
+now only five architectures left that add warnings (alpha, mips,
+nios2, sh and sparc) rather than 15, so I think we can apply
+the Kbuild change directly and have the architecture maintainers
+take care of the warnings just like the others did already.
 
+As before, my preference would be for the patches to make it
+through the respective subsystem maintainer trees, though I
+can apply the architecture specific ones to the asm-generic
+tree as well.
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+Sorry for posting these during the merge window, I wanted to
+get them out before LPC so we can have them in linux-next
+as early as possible.
 
+    Arnd
+
+Link: https://lore.kernel.org/lkml/20230810141947.1236730-1-arnd@kernel.org/
+
+Arnd Bergmann (22):
+  [RESEND^2] ida: make 'ida_dump' static
+  [RESEND^2] jffs2: mark __jffs2_dbg_superblock_counts() static
+  [RESEND] kprobes: unify kprobes_exceptions_nofify() prototypes
+  [RESEND] time: make sysfs_get_uname() function visible in header
+  [RESEND] parport: gsc: mark init function static
+  [RESEND] stackleak: add declarations for global functions
+  [RESEND] sched: fair: move unused stub functions to header
+  [v2] arch: consolidate arch_irq_work_raise prototypes
+  [v2] arch: fix asm-offsets.c building with -Wmissing-prototypes
+  microblaze: include linux/cpu.h for trap_init() prototype
+  x86: sta2x11: include header for sta2x11_get_instance() prototype
+  csky: fix arch_jump_label_transform_static override
+  arch: add do_page_fault prototypes
+  arch: add missing prepare_ftrace_return() prototypes
+  arch: vdso: consolidate gettime prototypes
+  bcachefs: mark bch2_target_to_text_sb() static
+  powerpc: ps3: move udbg_shutdown_ps3gelic prototype
+  powerpc: pasemi: mark pas_shutdown() static
+  powerpc: powermac: mark smp_psurge_{give,take}_timebase static
+  usb: fsl-mph-dr-of: mark fsl_usb2_mpc5121_init() static
+  fbdev/fsl-diu-fb: mark wr_reg_wa() static
+  Makefile.extrawarn: turn on missing-prototypes globally
+
+ arch/alpha/include/asm/mmu_context.h         |  2 ++
+ arch/alpha/kernel/asm-offsets.c              |  2 +-
+ arch/alpha/kernel/traps.c                    |  1 +
+ arch/arc/include/asm/kprobes.h               |  3 ---
+ arch/arm/include/asm/irq_work.h              |  2 --
+ arch/arm/include/asm/kprobes.h               |  2 --
+ arch/arm/include/asm/vdso.h                  |  5 ----
+ arch/arm/vdso/vgettimeofday.c                |  1 +
+ arch/arm64/include/asm/irq_work.h            |  2 --
+ arch/arm64/include/asm/kprobes.h             |  2 --
+ arch/arm64/kernel/vdso32/vgettimeofday.c     |  1 +
+ arch/csky/include/asm/ftrace.h               |  4 +++
+ arch/csky/include/asm/irq_work.h             |  2 +-
+ arch/csky/include/asm/jump_label.h           |  5 ++++
+ arch/csky/include/asm/traps.h                |  2 +-
+ arch/csky/kernel/traps.c                     |  1 +
+ arch/csky/kernel/vdso/vgettimeofday.c        | 11 +--------
+ arch/loongarch/kernel/asm-offsets.c          | 26 ++++++++++----------
+ arch/loongarch/vdso/vgettimeofday.c          |  7 +-----
+ arch/m68k/coldfire/vectors.c                 |  3 +--
+ arch/m68k/coldfire/vectors.h                 |  3 ---
+ arch/microblaze/include/asm/ftrace.h         |  1 +
+ arch/microblaze/kernel/traps.c               |  1 +
+ arch/mips/include/asm/ftrace.h               |  4 +++
+ arch/mips/include/asm/kprobes.h              |  2 --
+ arch/mips/include/asm/traps.h                |  3 +++
+ arch/mips/vdso/vgettimeofday.c               |  1 +
+ arch/nios2/include/asm/traps.h               |  2 ++
+ arch/powerpc/include/asm/irq_work.h          |  1 -
+ arch/powerpc/include/asm/kprobes.h           |  2 --
+ arch/powerpc/include/asm/ps3.h               |  6 +++++
+ arch/powerpc/platforms/pasemi/setup.c        |  2 +-
+ arch/powerpc/platforms/powermac/smp.c        |  4 +--
+ arch/powerpc/platforms/ps3/gelic_udbg.c      |  1 +
+ arch/riscv/include/asm/irq_work.h            |  2 +-
+ arch/riscv/kernel/vdso/vgettimeofday.c       |  7 +-----
+ arch/s390/include/asm/irq_work.h             |  2 --
+ arch/s390/include/asm/kprobes.h              |  2 --
+ arch/sh/include/asm/kprobes.h                |  2 --
+ arch/sh/include/asm/traps_32.h               |  3 +++
+ arch/sparc/include/asm/kprobes.h             |  2 --
+ arch/sparc/kernel/asm-offsets.c              |  6 ++---
+ arch/sparc/kernel/traps_32.c                 |  1 +
+ arch/sparc/kernel/traps_64.c                 |  1 +
+ arch/x86/entry/vdso/vclock_gettime.c         | 10 +-------
+ arch/x86/include/asm/irq_work.h              |  1 -
+ arch/x86/include/asm/kprobes.h               |  2 --
+ arch/x86/include/asm/traps.h                 |  1 -
+ arch/x86/include/asm/vdso/gettimeofday.h     |  2 --
+ arch/x86/kernel/traps.c                      |  1 +
+ arch/x86/pci/sta2x11-fixup.c                 |  1 +
+ arch/x86/um/vdso/um_vdso.c                   |  1 +
+ drivers/net/ethernet/toshiba/ps3_gelic_net.h |  6 -----
+ drivers/parport/parport_gsc.c                |  2 +-
+ drivers/usb/host/fsl-mph-dr-of.c             |  2 +-
+ drivers/video/fbdev/fsl-diu-fb.c             |  2 +-
+ fs/bcachefs/disk_groups.c                    |  2 +-
+ fs/jffs2/debug.c                             |  2 +-
+ include/linux/irq_work.h                     |  3 +++
+ include/linux/kprobes.h                      |  4 +++
+ include/linux/stackleak.h                    |  6 +++++
+ include/vdso/gettime.h                       | 23 +++++++++++++++++
+ kernel/sched/fair.c                          | 13 ----------
+ kernel/sched/sched.h                         | 11 +++++++++
+ kernel/time/tick-internal.h                  |  3 ++-
+ lib/test_ida.c                               |  2 +-
+ scripts/Makefile.extrawarn                   |  4 +--
+ 67 files changed, 127 insertions(+), 122 deletions(-)
+ delete mode 100644 arch/m68k/coldfire/vectors.h
+ create mode 100644 include/vdso/gettime.h
+
+-- 
+2.39.2
+Cc: Matt Turner <mattst88@gmail.com>
+Cc: Vineet Gupta <vgupta@kernel.org>
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Guo Ren <guoren@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: Greg Ungerer <gerg@linux-m68k.org>
+Cc: Michal Simek <monstr@monstr.eu>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: Dinh Nguyen <dinguyen@kernel.org>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Geoff Levand <geoff@infradead.org>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Heiko Carstens <hca@linux.ibm.com>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: x86@kernel.org
+Cc: Helge Deller <deller@gmx.de>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Timur Tabi <timur@kernel.org>
+Cc: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: David Woodhouse <dwmw2@infradead.org>
+Cc: "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>
+Cc: Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: Juri Lelli <juri.lelli@redhat.com>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Nicolas Schier <nicolas@fjasle.eu>
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
+Cc: linux-alpha@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-snps-arc@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-trace-kernel@vger.kernel.org
+Cc: linux-csky@vger.kernel.org
+Cc: loongarch@lists.linux.dev
+Cc: linux-m68k@lists.linux-m68k.org
+Cc: linux-mips@vger.kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-riscv@lists.infradead.org
+Cc: linux-s390@vger.kernel.org
+Cc: linux-sh@vger.kernel.org
+Cc: sparclinux@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Cc: linux-parisc@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-bcachefs@vger.kernel.org
+Cc: linux-mtd@lists.infradead.org
+Cc: linux-kbuild@vger.kernel.org
 
