@@ -2,44 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0EFF7E57BA
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 14:05:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C027E57BE
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 14:06:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E528210E74E;
-	Wed,  8 Nov 2023 13:05:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC61D10E750;
+	Wed,  8 Nov 2023 13:06:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FE6510E74E
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 13:05:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=huUjePIdE7+jopVnr7p4qD4S3goUHOxn+ZsTIkksxvo=; b=lCZ+pdvE7PmyHXN7wsVZiEbpht
- P32JiH1AZt3KuYCTem8gF38EGeYO2bUznfPX6x17Ng1EOVwQbSQ+OpF5WslnFgzT+lVCiVkeuhPK4
- 454eSAnq7nlZrwLSbb97c8syrJrxmQDzVuSNUCPtdASen1kUz2wQrHwIijwZng/n6XiN7GZ40655b
- j2Ee3HzSpzqsfssFpFAmI6KcO2umiHYJFD1bNehlGypC74hYDkUEl+8XJnjt07soaSGZyLaF9xIIZ
- 5ts6F8/2wy58cHOWUKcPKjJ40znAon5jWWYVM1LDX6/s5Aaynrw65DmiWOEUszhM5jKZK1IF++oEr
- g59PTbrQ==;
-Received: from [102.213.205.115] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1r0iFJ-000pqB-SK; Wed, 08 Nov 2023 14:05:26 +0100
-Date: Wed, 8 Nov 2023 12:05:21 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH] MAINTAINERS: Add Maira to V3D maintainers
-Message-ID: <20231108130333.azkvg5yqhdt45af3@mail.igalia.com>
-References: <20231106134201.725805-1-mcanal@igalia.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5830A10E750
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 13:06:47 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi
+ [91.158.149.209])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 70C98836;
+ Wed,  8 Nov 2023 14:06:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1699448784;
+ bh=YEjqE9tsszYXx18rnhj04XlCaipKaJceZ5Pzn7627W8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=O54Po5/5R4ZGR4hbv04GnJ/Yq5tMrCy1j+Q7P8WTz+ot8gUdb0b9HC7w/phbcV3cJ
+ ZmEtTKiphSk8q9degipPVZ8UvHSxnHdVPmKj+7k/VcqrAIJMRKLy2/41STpgLWabva
+ ce5WuSRdEYPhm2EOxiIUZlh05qy8VFtSPvvm4Qug=
+Message-ID: <5afdf107-9063-4eec-a88c-0ca3e722e0bc@ideasonboard.com>
+Date: Wed, 8 Nov 2023 15:06:41 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231106134201.725805-1-mcanal@igalia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] drm/bridge: tc358767: Fix
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR case
+Content-Language: en-US
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Aradhya Bhatia <a-bhatia1@ti.com>, Jan Kiszka <jan.kiszka@siemens.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+References: <20231108-tc358767-v2-0-25c5f70a2159@ideasonboard.com>
+ <3537389.iIbC2pHGDl@steina-w>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <3537389.iIbC2pHGDl@steina-w>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,36 +102,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-dev@igalia.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
- Iago Toral <itoral@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/06, Maíra Canal wrote:
-> I've been contributing to V3D with improvements, reviews, testing and
-> debugging. Therefore, add myself as a co-maintainer of the V3D driver.
+On 08/11/2023 14:45, Alexander Stein wrote:
+> Hi Tomi,
 > 
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> Am Mittwoch, 8. November 2023, 12:27:21 CET schrieb Tomi Valkeinen:
+>> These two patches are needed to make tc358767 work in the
+>> DRM_BRIDGE_ATTACH_NO_CONNECTOR case, at least when using a DP connector.
+>>
+>> I have tested this with TI AM654 EVM with a tc358767 add-on card
+>> connected to a DP monitor.
+> 
+> Just a question regarding the usage of this DSI-DP bridge.
+> What is the state of the DSI lanes after the DSI host has been initialized,
+> but before calling atomic_pre_enable? AFAIK this bridge requires LP-11 on DSI
+> at any time for accessing the AUX channel.
 
-Acked-by: Melissa Wen <mwen@igalia.com>
+Good question. I don't know, as we use it in DPI mode (DPI-DP bridge). I 
+guess the DSI state is undefined, as it might well be that the DSI host 
+driver's (pre-)enable is the place where the DSI is powered up and 
+initialized.
 
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
+So you think in DSI mode this might fail, as AUX (possibly) won't work 
+when calling tc_get_edid()? We could add a check there, and skip the 
+tc_get_display_props() if in DSI mode. But tc_get_edid() surely won't 
+work then.
+
+It would be good if someone with a board where tc358767 is used in DSI 
+mode could test this. But, of course, it'll only be testing that 
+particular DSI host behavior...
+
+  Tomi
+
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f13e476ed803..3213563756cb 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7108,6 +7108,7 @@ F:	drivers/gpu/drm/omapdrm/
->  DRM DRIVERS FOR V3D
->  M:	Emma Anholt <emma@anholt.net>
->  M:	Melissa Wen <mwen@igalia.com>
-> +M:	Maíra Canal <mcanal@igalia.com>
->  S:	Supported
->  T:	git git://anongit.freedesktop.org/drm/drm-misc
->  F:	Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
-> --
-> 2.41.0
+> Best regards,
+> Alexander
 > 
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>> Changes in v2:
+>> - Update the format negotiation patch as discussed in
+>> https://lore.kernel.org/all/7ddf0edb-2925-4b7c-ad07-27c030dd0232@ti.com/ -
+>> Link to v1:
+>> https://lore.kernel.org/r/20231031-tc358767-v1-0-392081ad9f4b@ideasonboard.
+>> com
+>>
+>> ---
+>> Aradhya Bhatia (1):
+>>        drm/bridge: tc358767: Add format negotiation hooks for DPI/DSI to
+>> (e)DP
+>>
+>> Tomi Valkeinen (1):
+>>        drm/bridge: tc358767: Fix link properties discovery
+>>
+>>   drivers/gpu/drm/bridge/tc358767.c | 32 ++++++++++++++++++++++++++++++++
+>>   1 file changed, 32 insertions(+)
+>> ---
+>> base-commit: 9d7c8c066916f231ca0ed4e4fce6c4b58ca3e451
+>> change-id: 20231031-tc358767-58e3ebdf95f0
+>>
+>> Best regards,
+> 
+> 
+
