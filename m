@@ -1,48 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4EF37E5089
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 07:54:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A6ED7E50BE
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 08:00:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DF0210E04B;
-	Wed,  8 Nov 2023 06:54:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC60010E072;
+	Wed,  8 Nov 2023 07:00:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 9.mo576.mail-out.ovh.net (9.mo576.mail-out.ovh.net
- [46.105.56.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF06910E04B
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 06:54:50 +0000 (UTC)
-Received: from director11.ghost.mail-out.ovh.net (unknown [10.108.20.172])
- by mo576.mail-out.ovh.net (Postfix) with ESMTP id 409752DDD6
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 06:54:48 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-mcdch (unknown [10.110.208.112])
- by director11.ghost.mail-out.ovh.net (Postfix) with ESMTPS id DDD3C1FDFD;
- Wed,  8 Nov 2023 06:54:45 +0000 (UTC)
-Received: from foxhound.fi ([37.59.142.105])
- by ghost-submission-6684bf9d7b-mcdch with ESMTPSA
- id 6yACMbUwS2WPBwsA+VWt7Q
- (envelope-from <jose.pekkarinen@foxhound.fi>); Wed, 08 Nov 2023 06:54:45 +0000
+X-Greylist: delayed 41109 seconds by postgrey-1.36 at gabe;
+ Wed, 08 Nov 2023 07:00:26 UTC
+Received: from 5.mo561.mail-out.ovh.net (5.mo561.mail-out.ovh.net
+ [87.98.178.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 322E710E072
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 07:00:26 +0000 (UTC)
+Received: from director6.ghost.mail-out.ovh.net (unknown [10.108.20.113])
+ by mo561.mail-out.ovh.net (Postfix) with ESMTP id 1F664257E7
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 06:55:20 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-lv8ff (unknown [10.110.208.62])
+ by director6.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 15B4C1FE12;
+ Wed,  8 Nov 2023 06:55:17 +0000 (UTC)
+Received: from foxhound.fi ([37.59.142.109])
+ by ghost-submission-6684bf9d7b-lv8ff with ESMTPSA
+ id uGgwOtUwS2X3fAAAN287Lg
+ (envelope-from <jose.pekkarinen@foxhound.fi>); Wed, 08 Nov 2023 06:55:17 +0000
 Authentication-Results: garm.ovh; auth=pass
- (GARM-105G0062025b92b-b4e0-4a0d-8579-cd97c65636dc,
+ (GARM-109S003812ecbba-255d-4a16-800e-086f660595b3,
  CA30051851D9204B2894E18F048F6C805596AA31)
  smtp.auth=jose.pekkarinen@foxhound.fi
 X-OVh-ClientIp: 87.94.109.40
 From: =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>
-To: evan.quan@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, skhan@linuxfoundation.org
-Subject: [PATCH] drm/amd/pm: replace 1-element arrays with flexible-array
- members
-Date: Wed,  8 Nov 2023 08:54:35 +0200
-Message-Id: <20231108065436.13969-1-jose.pekkarinen@foxhound.fi>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ skhan@linuxfoundation.org
+Subject: [PATCH] drm/amdgpu: remove unused MES_LOG_BUFFER struct
+Date: Wed,  8 Nov 2023 08:55:12 +0200
+Message-Id: <20231108065512.14087-1-jose.pekkarinen@foxhound.fi>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 3510274434799740609
+X-Ovh-Tracer-Id: 3519281634429019841
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedruddukedgleelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpedtudethfeghfegfffhtdeuhedukeduudeuieeiteegkedtudegvdektefftedvffenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeduvdejrddtrddtrddupdekjedrleegrddutdelrdegtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehjeeipdhmohguvgepshhmthhpohhuth
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedruddukedgleelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpedtudethfeghfegfffhtdeuhedukeduudeuieeiteegkedtudegvdektefftedvffenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeduvdejrddtrddtrddupdekjedrleegrddutdelrdegtddpfeejrdehledrudegvddruddtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehiedupdhmohguvgepshhmthhpohhuth
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,35 +56,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+Cc: Jack.Xiao@amd.com, jonathan.kim@amd.com, felix.kuehling@amd.com,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
  =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
- amd-gfx@lists.freedesktop.org, linux-kernel-mentees@lists.linux.dev
+ dri-devel@lists.freedesktop.org, linux-kernel-mentees@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The following case seems to be safe to be replaced with a flexible array
-to clean up the added coccinelle warning. This patch will just do it.
+The mention struct seems not to be used along the driver, and is also
+triggering a warning to migrate to flexible array. This patch will
+remove the full structure and get rid of the warning.
 
-drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h:76:38-63: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/gpu/drm/amd/include/mes_v11_api_def.h:192:27-34: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
 
 Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
 ---
- drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/include/mes_v11_api_def.h | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h b/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
-index c7b61222d258..1ce4087005f0 100644
---- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
-+++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
-@@ -73,7 +73,7 @@ struct smu8_register_index_data_pair {
- 
- struct smu8_ih_meta_data {
- 	uint32_t command;
--	struct smu8_register_index_data_pair register_index_value_pair[1];
-+	struct smu8_register_index_data_pair register_index_value_pair[];
+diff --git a/drivers/gpu/drm/amd/include/mes_v11_api_def.h b/drivers/gpu/drm/amd/include/mes_v11_api_def.h
+index b1db2b190187..e032ee262fa9 100644
+--- a/drivers/gpu/drm/amd/include/mes_v11_api_def.h
++++ b/drivers/gpu/drm/amd/include/mes_v11_api_def.h
+@@ -187,11 +187,6 @@ struct MES_LOG_ENTRY_DATA {
+ 	};
  };
  
- struct smu8_smumgr {
+-struct MES_LOG_BUFFER {
+-	struct MES_LOG_ENTRY_HEADER	header;
+-	struct MES_LOG_ENTRY_DATA	entries[1];
+-};
+-
+ enum MES_SWIP_TO_HWIP_DEF {
+ 	MES_MAX_HWIP_SEGMENT = 8,
+ };
 -- 
 2.39.2
 
