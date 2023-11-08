@@ -2,71 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59237E5331
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 11:16:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 639047E5399
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 11:44:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7FA610E4F3;
-	Wed,  8 Nov 2023 10:16:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 375E610E08A;
+	Wed,  8 Nov 2023 10:43:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A78E10E066;
- Wed,  8 Nov 2023 10:16:16 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-5094cb3a036so8542378e87.2; 
- Wed, 08 Nov 2023 02:16:16 -0800 (PST)
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 904A110E4E4
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 10:43:56 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ 5b1f17b1804b1-40906fc54fdso51381295e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Nov 2023 02:43:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699438574; x=1700043374; darn=lists.freedesktop.org;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=Mew7HLJV6bxxISerUbjxXiqgzi3Kwtc+0JQK/sXHoQQ=;
- b=bHUjtVDzB3vpv1MVR+zq9ptecBsw4Z7OvXnxuMVQ06RHDd5Tjvq4KOl6dRJGi9/waq
- THIXZoJguWTEAdEbtcHqz0Ef2JWY0hiXjEI/b5voVRDBKyOWR+flRg7PyUvfnYLhtoVM
- yPFT0fHr1L/RWjXHRJaXL6ah3+ePSXy7E+X8i7PiBxuEWmoP93x9xzVqW9y47oESthxj
- 3XKmJWj7TADSjj7WmikXaC5CC+ThaiRaVO1NpBM5CWsEcWWQ9ea3MTrBr52g1rBbtuMa
- N4LP7t9io0rt2n0XDymQAX87f73zyb9bQLBX5opEFq2ZUcScTN5W69Fpg6+rELuiC2a3
- nxOQ==
+ d=linaro.org; s=google; t=1699440235; x=1700045035; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=VTczEAqOVbvVARsgwQf+QqYx6Pwq1efdiOYWiIKMhjk=;
+ b=u/pAFmW9A2XqJQg0spfngTCX+aSGjNWkICx0Y9xYh8xAX3P5KlUWT1wHCOwRHiUJiI
+ RBc49d0nPFhR0Hae3V6Svxl2Ru24AVlWp69fRqPKF9dIVpgYyLMEUgxvvSU3G4Wre+tC
+ KUwhDsU/6V9oMBmDJFXLqdIewBPEQxgQLr7s1svGFoepScMui6inuuUWC0TOtI3hCu3z
+ mCfFJ4azj8EH2bOlHNPkMAjziXsGJ6jyJctUgwdApgXmh6KnSQMOlgvfGTsRd2Ft+cdA
+ h6uJ5ZDcllGvGFYL87MaDJVi3OGNTweGCBVSvDALTuNtmAwUX4Kg5IaxbBKXBeApyIFI
+ UDoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699438574; x=1700043374;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Mew7HLJV6bxxISerUbjxXiqgzi3Kwtc+0JQK/sXHoQQ=;
- b=L77x+zAWH8mbcHTM3jJK+8aUJlsfzTR70ESomYvrZSCkMBkwdwl2gYNxCMVNAMUcsM
- Qx4K5eJ0IedRA42hKVeZe+BYcIP+sFST811yvMXYgb1iHmzj5+WT5fGR+REbiw6W6LqW
- ML+hwy+xkHBUH/dTmMqQQ+dX4Ly7kwzkBPYZaQZe2UWBt69Em+XRsCyz3IGmTUooyZa1
- Wd2xHeyV/3mQK67xBbKVV5cDvu6vhRstFvb9u0yEhLfwc1gtU57XBi/CLTjt5OERpwp/
- G5XDrfpKFT9tBANaZNgK39J+C0vfhnCTDdxsI4C12PMVm2l8k+I5rJ136qzmLDMa9wxb
- wwZg==
-X-Gm-Message-State: AOJu0Yw3VFCEjdNf9AXGX+Fka+1aMmR5tiUXYAPoxbP7cvtNxf4zIxyk
- yLhtjLgZzz2gMifJ2E2cUSM=
-X-Google-Smtp-Source: AGHT+IGy+JYLCBrI7or7HO8pxgQV/q3q+WFWHRlKgQcmGLzbYORCkTAZh+vwEPuigX2vFOg0Okei7Q==
-X-Received: by 2002:a05:6512:3d8f:b0:507:96e5:2ff4 with SMTP id
- k15-20020a0565123d8f00b0050796e52ff4mr1121219lfv.52.1699438574020; 
- Wed, 08 Nov 2023 02:16:14 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- w17-20020a0565120b1100b00502e01d1383sm625747lfu.27.2023.11.08.02.16.13
+ d=1e100.net; s=20230601; t=1699440235; x=1700045035;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VTczEAqOVbvVARsgwQf+QqYx6Pwq1efdiOYWiIKMhjk=;
+ b=I5kUqxmzrpCzJ1yrQORtJ2tbAaxUF4/pcZIlbShbLfI7m3/fMP3KtN0bSaIapDfgzs
+ +/StZoA5ynVt08hbOegta4coFznwSt8Sn+NVYtHm98AQUkx1pcGM1TNwCCD2ebzJj7wM
+ 1f8mPPb1G10GoZfra+n84ZCDY6TRFx9BPdB6XWYkilIprrOtYyPGjR2XNMJI7AuIciHV
+ vxfEB1gR6ujf7kSRuHXZyxE08rInVTvV14GoRlRBI2DVh/avogtbbGPfNxMX5ZmPkOSW
+ Am90R5+4QyI98pKmeP0ENd3snRtWbsxNSF9PO97DlIwXEBp9wvwmRnnc+GQj9sLsHPGz
+ k4vw==
+X-Gm-Message-State: AOJu0YzqIo9JdUBoQ2Z2X3uxc63AjIVd2D3fhrttpIeUaPEbuMAEf2mC
+ Q6lYdpkToOpuEbGUOYywcRKzvQ==
+X-Google-Smtp-Source: AGHT+IHiDWmBeuBOZUqxDCJkN9irswNWvo/qNXRb1omqiS2LAbu6ncxcqqv9pqzxYLbz6uacwStwug==
+X-Received: by 2002:a05:600c:5113:b0:405:336b:8307 with SMTP id
+ o19-20020a05600c511300b00405336b8307mr1360908wms.7.1699440234966; 
+ Wed, 08 Nov 2023 02:43:54 -0800 (PST)
+Received: from krzk-bin.. ([178.197.218.126]) by smtp.gmail.com with ESMTPSA id
+ fj12-20020a05600c0c8c00b004094c5d92bdsm19377377wmb.31.2023.11.08.02.43.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Nov 2023 02:16:13 -0800 (PST)
-Date: Wed, 8 Nov 2023 12:16:01 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [RFC PATCH 01/10] drm/doc/rfc: Describe why prescriptive color
- pipeline is needed
-Message-ID: <20231108121601.163e58db@eldfell>
-In-Reply-To: <f013a0b7-eed9-4b2b-a6d0-4678c46bef84@amd.com>
-References: <20230908150235.75918-1-harry.wentland@amd.com>
- <20230908150235.75918-2-harry.wentland@amd.com>
- <20231010161322.topz6zfealkxtwjj@mail.igalia.com>
- <c80abc42-3197-4476-b33d-88c795b2e55c@amd.com>
- <20231020133658.4cff9f42@eldfell>
- <bc7aa628-4d9b-4141-a001-535e67d173dd@amd.com>
- <20231107115543.7fa6e5f2@eldfell>
- <f013a0b7-eed9-4b2b-a6d0-4678c46bef84@amd.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+ Wed, 08 Nov 2023 02:43:54 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, Lee Jones <lee@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Tomasz Figa <tomasz.figa@gmail.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaehoon Chung <jh80.chung@samsung.com>,
+ Sam Protsenko <semen.protsenko@linaro.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: [PATCH 00/17] dt-bindings: samsung: add specific compatibles for
+ existing SoC
+Date: Wed,  8 Nov 2023 11:43:26 +0100
+Message-Id: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/lMEpIpIFUuShctifGdMPV2c";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,205 +95,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Shashank Sharma <shashank.sharma@amd.com>, Xaver Hugl <xaver.hugl@gmail.com>,
- dri-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
- Melissa Wen <mwen@igalia.com>, Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <mdaenzer@redhat.com>,
- Victoria Brekenfeld <victoria@system76.com>, Aleix Pol <aleixpol@kde.org>,
- Naseer Ahmed <quic_naseer@quicinc.com>,
- Christopher Braga <quic_cbraga@quicinc.com>, Joshua Ashton <joshua@froggi.es>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/lMEpIpIFUuShctifGdMPV2c
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Tue, 7 Nov 2023 11:58:26 -0500
-Harry Wentland <harry.wentland@amd.com> wrote:
+Merging
+=======
+I propose to take entire patchset through my tree (Samsung SoC), because:
+1. Next cycle two new SoCs will be coming (Google GS101 and ExynosAutov920), so
+   they will touch the same lines in some of the DT bindings (not all, though).
+   It is reasonable for me to take the bindings for the new SoCs, to have clean
+   `make dtbs_check` on the new DTS.
+2. Having it together helps me to have clean `make dtbs_check` within my tree
+   on the existing DTS.
+3. No drivers are affected by this change.
+4. I plan to do the same for Tesla FSD and Exynos ARM32 SoCs, thus expect
+   follow up patchsets.
 
-> On 2023-11-07 04:55, Pekka Paalanen wrote:
-> > On Mon, 6 Nov 2023 11:19:27 -0500
-> > Harry Wentland <harry.wentland@amd.com> wrote:
-> >  =20
-> >> On 2023-10-20 06:36, Pekka Paalanen wrote: =20
-> >>> On Thu, 19 Oct 2023 10:56:40 -0400
-> >>> Harry Wentland <harry.wentland@amd.com> wrote:
-> >>>    =20
-> >>>> On 2023-10-10 12:13, Melissa Wen wrote:   =20
-> >>>>> O 09/08, Harry Wentland wrote:     =20
-> >>>>>> Signed-off-by: Harry Wentland <harry.wentland@amd.com>   =20
-> >>>
-> >>> ...
-> >>>    =20
-> >>>>> Also, with this new plane API in place, I understand that we will
-> >>>>> already need think on how to deal with the mixing between old drm c=
-olor
-> >>>>> properties (color encoding and color range) and these new way of se=
-tting
-> >>>>> plane color properties. IIUC, Pekka asked a related question about =
-it
-> >>>>> when talking about CRTC automatic RGB->YUV (?)=20
-> >>>>>      =20
-> >>>>
-> >>>> We'll still need to confirm whether we'll want to deprecate these
-> >>>> existing properties. If we do that we'd want a client prop. Things
-> >>>> should still work without deprecating them, if drivers just pick up
-> >>>> after the initial encoding and range CSC.
-> >>>>
-> >>>> But realistically it might be better to deprecate them and turn them
-> >>>> into explicit colorops.   =20
-> >>>
-> >>> The existing properties would need to be explicitly reflected in the
-> >>> new pipelines anyway, otherwise there would always be doubt at which
-> >>> point of a pipeline the old properties apply, and they might even
-> >>> need to change positions between pipelines.
-> >>>
-> >>> I think it is simply easier to just hide all old color related
-> >>> properties when userspace sets the client-cap to enable pipelines. The
-> >>> problem is to make sure to hide all old properties on all drivers that
-> >>> support the client-cap.
-> >>>
-> >>> As a pipeline must be complete (describe everything that happens to
-> >>> pixel values), it's going to be a flag day per driver.
-> >>>
-> >>> Btw. the plane FB YUV->RGB conversion needs a colorop in every pipeli=
-ne
-> >>> as well. Maybe it's purely informative and non-configurable, keyed by
-> >>> FB pixel format, but still.
-> >>>
-> >>> We also need a colorop to represent sample filtering, e.g. bilinear,
-> >>> like I think Sebastian may have mentioned in the past. Everything
-> >>> before the sample filter happens "per tap" as Joshua Ashton put it, a=
-nd
-> >>> everything after it happens on the sample that was computed as a
-> >>> weighted average of the filter tap inputs (texels).
-> >>>
-> >>> There could be colorops other than sample filtering that operate on
-> >>> more than one sample at a time, like blur or sharpness. There could
-> >>> even be colorops that change the image size like adding padding that
-> >>> the following colorop hardware requires, and then yet another colorop
-> >>> that clips that padding away. For an example, see
-> >>> https://lists.freedesktop.org/archives/dri-devel/2023-October/427015.=
-html
-> >>>
-> >>> If that padding and its color can affect the pipeline results of the
-> >>> pixels near the padding (e.g. some convolution is applied with them,
-> >>> which may be the reason why padding is necessary to begin with), then
-> >>> it would be best to model it.
-> >>>    =20
-> >>
-> >> I hear you but I'm also somewhat shying away from defining this at thi=
-s point. =20
-> >=20
-> > Would you define them before the new UAPI is released though?
-> >=20
-> > I agree there is no need to have them in this patch series, but I think
-> > we'd hit the below problems if the UAPI is released without them.
-> >  =20
-> >> There are already too many things that need to happen and I will focus=
- on the
-> >> actual color blocks (LUTs, matrices) first. We'll always be able to ad=
-d a new
-> >> (read-only) colorop type to define scaling and tap behavior at any poi=
-nt and
-> >> a client is free to ignore a color pipeline if it doesn't find any tap=
-/scale
-> >> info in it. =20
-> >=20
-> > How would userspace know to look for tap/scale info, if there is no
-> > upstream definition even on paper?
-> >  =20
->=20
-> So far OSes did not care about this. Whether that's good or bad is
-> something everyone can answer for themselves.
->=20
-> If you write a compositor and really need this you can just ignore
-> color pipelines that don't have this, i.e., you'll probably want
-> to wait with implementing color pipeline support until you have what
-> you need from DRM/KMS.
->=20
-> This is not to say I don't want to have support for Weston. But I'm
-> wondering if we place too much importance on getting every little
-> thing figured out whereas we could be making forward progress and
-> address more aspects of a color pipeline in the future. There is a
-> reason gamescope has made a huge difference in driving the color
-> management work forward.
->=20
-> > And the opposite case, if someone writes userspace without tap/scale
-> > colorops, and then drivers add those, and there is no pipeline without
-> > them, because they always exist. Would that userspace disregard all
-> > those pipelines because it does not understand tap/scale colorops,
-> > leaving no usable pipelines? Would that not be kernel regressing
-> > userspace?
-> >  =20
->=20
-> The simple solution is to leave previously advertised pipelines
-> untouched and add a new version that does include scaling information.
->=20
-> > If the kernel keeps on exposing pipelines without the colorops, it
-> > fails the basic promise of the whole design: that all pixel value
-> > affecting operations are at least listed if not controllable.
-> >=20
-> > How will we avoid painting ourselves in a corner?
-> >=20
-> > Maybe we need a colorop for "here be dragons" documented as having
-> > unknown and unreliable effects, until driver authors are sure that
-> > everything has been modelled in the pipeline and there are no unknowns?
-> > Or a flag on the pipelines, if we can have that. Then we can at least
-> > tell when the pipeline does not fulfil the basic promise.
-> >  =20
->=20
-> The will always be dragons at some level.
+If folks agree, please kindly Ack the patches.
 
-Do I understand right that the goal of fully understood color pipelines
-is a lost cause?
+Description
+===========
+Samsung Exynos SoCs reuse several devices from older designs, thus historically
+we kept the old (block's) compatible only.  This works fine and there is no bug
+here, however guidelines expressed in
+Documentation/devicetree/bindings/writing-bindings.rst state that:
+1. Compatibles should be specific.
+2. We should add new compatibles in case of bugs or features.
 
-That every pipeline might always have something unknown and there is no
-way for userspace to know if it does? Maybe because driver developers
-don't know either?
+Add compatibles specific to each SoC in front of all old-SoC-like compatibles.
+This will also help reviews of new code using existing DTS as template.  No
+functional impact on Linux drivers behavior.
 
-By something unknown I refer to anything outside of basic precision
-issues. Doing interpolation or mixing of inputs on the wrong side of a
-known non-linear colorop, for example.
+Future
+======
+If reasonable, I will do similar work for Tesla FSD and ARMv7/ARM32 Exynos
+bindings and DTS.
 
-An incremental UAPI development approach is fine by me, meaning that
-pipelines might not be complete at first, but I believe that requires
-telling userspace whether the driver developers consider the pipeline
-complete (no undescribed operations that would significantly change
-results from the expected results given the UAPI exposed pipeline).
+Best regards,
+Krzysztof
 
-The prime example of what I would like to know is that if a FB
-contains PQ-encoded image and I use a color pipeline to scale that
-image up, will the interpolation happen before or after the non-linear
-colorop that decodes PQ. That is a significant difference as pointed
-out by Joshua.
+Krzysztof Kozlowski (17):
+  dt-bindings: hwinfo: samsung,exynos-chipid: add specific compatibles
+    for existing SoC
+  dt-bindings: i2c: exynos5: add specific compatibles for existing SoC
+  dt-bindings: i2c: samsung,s3c2410-i2c: add specific compatibles for
+    existing SoC
+  dt-bindings: mmc: samsung,exynos-dw-mshc: add specific compatibles for
+    existing SoC
+  dt-bindings: pinctrl: samsung: add specific compatibles for existing
+    SoC
+  dt-bindings: rtc: s3c-rtc: add specific compatibles for existing SoC
+  dt-bindings: serial: samsung: add specific compatibles for existing
+    SoC
+  dt-bindings: samsung: exynos-pmu: add specific compatibles for
+    existing SoC
+  dt-bindings: gpu: arm,mali-midgard: add specific compatibles for
+    existing Exynos SoC
+  dt-bindings: iio: samsung,exynos-adc: add specific compatibles for
+    existing SoC
+  ASoC: dt-bindings: samsung-i2s: add specific compatibles for existing
+    SoC
+  dt-bindings: pwm: samsung: add specific compatibles for existing SoC
+  arm64: dts: exynos5433: add specific compatibles to several blocks
+  arm64: dts: exynos7: add specific compatibles to several blocks
+  arm64: dts: exynos7885: add specific compatibles to several blocks
+  arm64: dts: exynos850: add specific compatibles to several blocks
+  arm64: dts: exynosautov9: add specific compatibles to several blocks
 
+ .../bindings/gpu/arm,mali-midgard.yaml        |  5 ++
+ .../hwinfo/samsung,exynos-chipid.yaml         | 17 +++++-
+ .../devicetree/bindings/i2c/i2c-exynos5.yaml  | 10 +++-
+ .../bindings/i2c/samsung,s3c2410-i2c.yaml     | 22 ++++---
+ .../bindings/iio/adc/samsung,exynos-adc.yaml  | 29 +++++----
+ .../mfd/samsung,exynos5433-lpass.yaml         |  2 +-
+ .../bindings/mmc/samsung,exynos-dw-mshc.yaml  | 25 +++++---
+ .../samsung,pinctrl-wakeup-interrupt.yaml     | 24 +++++---
+ .../bindings/pinctrl/samsung,pinctrl.yaml     |  3 +-
+ .../devicetree/bindings/pwm/pwm-samsung.yaml  |  2 +
+ .../devicetree/bindings/rtc/s3c-rtc.yaml      |  5 ++
+ .../bindings/serial/samsung_uart.yaml         | 14 ++++-
+ .../bindings/soc/samsung/exynos-pmu.yaml      |  6 ++
+ .../bindings/soc/samsung/exynos-usi.yaml      |  2 +-
+ .../bindings/sound/samsung-i2s.yaml           | 19 +++---
+ arch/arm64/boot/dts/exynos/exynos5433.dtsi    | 60 ++++++++++++-------
+ arch/arm64/boot/dts/exynos/exynos7.dtsi       | 18 +++---
+ arch/arm64/boot/dts/exynos/exynos7885.dtsi    | 45 +++++++++-----
+ arch/arm64/boot/dts/exynos/exynos850.dtsi     | 34 ++++++-----
+ arch/arm64/boot/dts/exynos/exynosautov9.dtsi  |  6 +-
+ 20 files changed, 233 insertions(+), 115 deletions(-)
 
-Thanks,
-pq
+-- 
+2.34.1
 
---Sig_/lMEpIpIFUuShctifGdMPV2c
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVLX+EACgkQI1/ltBGq
-qqcBtQ//R+q02drC1YblB4awwZYbA8xpJtyx0CI046qS8Fo7mQ5erJB2CR5HYrmW
-Xq/p555sAgWu42UQzx9eKabPM456Ya4d/5wMTMuBDGw6/I+ctdSLeO1Dm9iwLGZd
-50tJCOlPHMwyYvNj9xccLGyTKyE/N1dS6qm/TQBQGTzv1GcQKtTU1KM2wwkL149n
-iMS1xlZhqaxoVQcodsPzPV77S3Np2aRh+DojSddo3xiXom0G2ERa0fr/3t91/0G+
-npSxaY8G157mdLzm5GMipXz9Qn1up4vIg8eqZQZrf+N1wePRU/GSKf0gR653Utj2
-3Sb7Vg2PFu5x2kbNKHF+ZlRiYBwt92lsRg7oc6VWxK89NnRv3htH8NqSIghjhJ9+
-3yaZIgVyLzhuzFqltDBoEA2SFnEhgOk+FIeXTykFLs1o2nkWXk0vYXljqvFsO6S+
-gSPS52VlYIySvCBFM3GazNWEI+vedS06zf+HnbksSPh9fK9huN1/8pdwSS0OBx0w
-JxG6bZaXsZJJ2QhWz1mB3YKgmHOTkeTOWFzz9oUzx319M/+v4nNpJlAdeQpCBjZM
-Qqv5lmoC+byDvhUnZAUr60msD0S1IgT7zGA1L3ZllCqaO+eCK2RHN8q5SYzeaBqf
-vBgIHmSUp/21WumH+0Bi5f/A3QrW48uOSrGeBSKEfYmOEa+XFtw=
-=ct/U
------END PGP SIGNATURE-----
-
---Sig_/lMEpIpIFUuShctifGdMPV2c--
