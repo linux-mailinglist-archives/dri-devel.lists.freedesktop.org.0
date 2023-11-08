@@ -2,60 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80E9D7E4FAE
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 05:16:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6AC7E4FFD
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 06:23:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 613F710E374;
-	Wed,  8 Nov 2023 04:16:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9740C10E034;
+	Wed,  8 Nov 2023 05:23:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3C7510E374
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 04:16:32 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id
- 4fb4d7f45d1cf-53de8fc1ad8so10836995a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 20:16:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699416991; x=1700021791; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Y/F3YLB8Ab2Lca3ggdA+C4E9/O+Kp/oWXjmVuCqcwOo=;
- b=gYjkygYexn66F3M/uaPur9KdNIxG89hWrg/sBZL4nkXUt4meEtZCtn9QysafjzYp79
- q5CMI8p8mLh5gJifHZcmQH9aOOIsR2rE1RIaHGDoxreVAJ/Ut9BZQ/8wXxkuRyBF4dnr
- MyLruROL0VeNrjq9XjOWiM6YgedBVwdc6qoZ/MonF3c7jrL97HmBfHrC2eczi6q2XOcM
- lHJXI9yfQg8cwME7chFIcyEReQuIqZ1+n/60A7onVJo86tsKZ280w3TOeBSwfdJ7pSF6
- P7GolWlKfENhX6hJd71NVn2Rbm2OhdfL50fmv+mL/4vGDU+8u3rsK5DEAU1iZ5UZKZPb
- vKaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699416991; x=1700021791;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Y/F3YLB8Ab2Lca3ggdA+C4E9/O+Kp/oWXjmVuCqcwOo=;
- b=JW9gs/MbRF6r3453vEaqjIoNnVEaxJGIvJUxMm63hhC/BXns6cPrD2M4CvTZcRbXqQ
- IFNyKeYKgtHAE9NFo8rPaBiE/9Ub3RdJps10k3KsdRbVE/UxlyELzWItbS6JZYPWi+4x
- qhDaHzwYuooDyeg9W1x9dEfdkSkf4gatbjOUMGteWbduWqZ6BN5y3CEkN3cuU7rf6LLO
- TOxMJyjMJ76sYHYbj+2WBk47eyEVDDEoYnImaPt9/4P7UIg/5vyw4jFWqUVTFT2iuQ3D
- P6/IMqnioRlO7gyGsIJCwaud0y5pjmV0umeOVDDYVF081pl7HPC0W6UbwOODsgIW7sUZ
- 5cWA==
-X-Gm-Message-State: AOJu0YzjJ7HrXz3XbCEQyIOZWPdycJZdQX6k15AghGklC9cc4zv92X7E
- uifneTEA4ed7T6aLObT7hH/XcNl3tTlfKAplttw=
-X-Google-Smtp-Source: AGHT+IER0mAxps22TfwIJ0i8G70IHWQd6LE8yscAiSiXBE3yX9/490crGqmm21FSu2w73gtbTJITf93hqgzClugyPIk=
-X-Received: by 2002:a50:9f82:0:b0:540:54ef:43fd with SMTP id
- c2-20020a509f82000000b0054054ef43fdmr552444edf.34.1699416990791; Tue, 07 Nov
- 2023 20:16:30 -0800 (PST)
+Received: from purple.birch.relay.mailchannels.net
+ (purple.birch.relay.mailchannels.net [23.83.209.150])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBDB810E034
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 05:23:14 +0000 (UTC)
+X-Sender-Id: hostpapa|x-authuser|x.reply@epreston.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+ by relay.mailchannels.net (Postfix) with ESMTP id 33DBEC13C0;
+ Wed,  8 Nov 2023 05:23:14 +0000 (UTC)
+Received: from s147.servername.online (unknown [127.0.0.6])
+ (Authenticated sender: hostpapa)
+ by relay.mailchannels.net (Postfix) with ESMTPA id 02C70C140F;
+ Wed,  8 Nov 2023 05:23:12 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1699420993; a=rsa-sha256;
+ cv=none;
+ b=VvsSPmnIic4clobvZBUp/mYdN7hBg4U5rJJ7Dn7hKgjNt70+EmG+nBlXYu6gnRqQHwMsue
+ tzwC1mZ1aZrVxjt4C4YMOTBYXffa5Jeg5WiH+gOY5LQcB7Z7yZlXkRua/tVpS+kX0IhzaO
+ WkvSWafSLo8OIZRG6NhXCbVplFvj8eDUFwB4Nq1zLX5oWQarH9j+ibnS20AVxIjzv14Eaz
+ FGIZoqpSgDjn0ASGmGmgT/OdRT6aMQXgA+w7O5FSoJcPhs0rT26/4OZGAJRoTTHUURcQSx
+ pyVgeTGPtGOnfuSl+dfoRryfSPO6D5kHCQQ17ZcxP8tcY91fg5VUs31TMv3iMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net; s=arc-2022; t=1699420993;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:dkim-signature;
+ bh=yWYZn03K0ypTuPktOXkOsEdKXZPUsCXhWsa2XXUQspk=;
+ b=6wEzByTdhwOCDeXwM0X4b4M7nccP8HKRN7VJiXzrOb+mzm5QLPdyR50Ux7NqCsEWh1yj9p
+ VPSjBDgG5P7RDRU/VbeSjdOaDa6g4Nll87YRmSKhfpXItUfEIP4Sg51/L3DvsMEaK8JK9M
+ rX0K+YmnrfpT++nSXckirT56RO1IgmJn0k9o6p+ZISiUlvOz5dIspsFwSuEA1FUE+JR++6
+ u4Fy/gVM7dg1/7AazbQBE04ODNiR03vI0Yu6duMnDC/+WB5dyGyXwnp3V+RtgWsjbNPa8J
+ NcUJaJt/fQy83LqESh//smdtQWfAZzOR60Rj6z0mry4s9P09jhnf+kaxedcdQQ==
+ARC-Authentication-Results: i=1; rspamd-6f98f74948-v699j;
+ auth=pass smtp.auth=hostpapa smtp.mailfrom=x.arch@epreston.net
+X-Sender-Id: hostpapa|x-authuser|x.reply@epreston.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: hostpapa|x-authuser|x.reply@epreston.net
+X-MailChannels-Auth-Id: hostpapa
+X-Whistle-Towering: 7f537eb47d364ffb_1699420993577_3551812287
+X-MC-Loop-Signature: 1699420993577:644350144
+X-MC-Ingress-Time: 1699420993577
+Received: from s147.servername.online (s147.servername.online [204.44.192.62])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384)
+ by 100.101.67.122 (trex/6.9.2); Wed, 08 Nov 2023 05:23:13 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=epreston.net; s=default; h=In-Reply-To:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=yWYZn03K0ypTuPktOXkOsEdKXZPUsCXhWsa2XXUQspk=; b=OAcwtOhS/WdpUIXw2tj5uru1NA
+ L5R+I369rnQz1u9SsHuAM8px37AdO9quPlqAkx9M9b1bK0ce6IoA9vOx5klcUZLR65Bv3lS64O0GV
+ Ulvo6Y3EFaOCT09SKKHhHejFjmHhN3c+IK6+0vI2oEFOKrV9NUZ1sUKtzVWMB2uulKUATTAYE0NjN
+ Ld/ZgwVy87cGRHyUR+n4YlahrdsTAFLqCGyXHqudgWwgjVTkDwRil52U5OemgbtkFv66iDhgpTh3d
+ vp6vl4YzDgQjtP0Hfj8A5tKesjFY7SJTE3L34jpT9sd21O6/uewGVdXKDLkUc5QzeNXo1I07dGGZl
+ tNej1SNw==;
+Received: from [50.35.115.28] (port=36688 helo=P70.localdomain)
+ by s147.servername.online with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+ (envelope-from <x.arch@epreston.net>) id 1r0b1w-008Rl3-25;
+ Tue, 07 Nov 2023 21:23:11 -0800
+Date: Tue, 7 Nov 2023 21:23:07 -0800
+From: Evan Preston <x.arch@epreston.net>
+To: Evan Preston <x.arch@epreston.net>
+Subject: Re: Blank screen on boot of Linux 6.5 and later on Lenovo ThinkPad
+ L570
+Message-ID: <ZUsbO7syWsbiCcdo@P70.localdomain>
+References: <CAAhV-H6GyOnTOm6b8Xp=ySctyE-T905WKDUS2AZuqnEyzM7ZEg@mail.gmail.com>
+ <ZUWtTuIcMwwCWg7z@P70.localdomain>
+ <CAAhV-H7wnjac1Znr2yh8S2bGwuxF1RRGp=cn9oracrWm6y5VVQ@mail.gmail.com>
+ <51add74a-1d1a-493d-bb50-fccdad11b22c@ristioja.ee>
+ <CAAhV-H7nhkvLoDMwQDwNEhykZANGMq-Qrzip48qYzgQs1fNUgA@mail.gmail.com>
+ <be82874b-d41b-4547-9ab5-dac9a5ddfeaf@ristioja.ee>
+ <CAAhV-H6zjW3XzDWP1_Hu-owBPLyJVB-_V3z9bMtOgubp1p5kZA@mail.gmail.com>
+ <ZUlNbpo_l8JYDdlu@P70.localdomain>
+ <CAAhV-H5vSJ+KXw3SPAsx=EEpdLhXh06kC3sj6jMrK_XUmXe8LA@mail.gmail.com>
+ <ZUnNi3q3yB3zZfTl@P70.localdomain>
 MIME-Version: 1.0
-References: <20231102165640.3307820-18-u.kleine-koenig@pengutronix.de>
- <20231102165640.3307820-26-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20231102165640.3307820-26-u.kleine-koenig@pengutronix.de>
-From: Inki Dae <daeinki@gmail.com>
-Date: Wed, 8 Nov 2023 13:16:18 +0900
-Message-ID: <CAAQKjZOnVSaO6QHpSo_i=WgTaawTq0UFtzwTw8kQ5iHN4qiAtQ@mail.gmail.com>
-Subject: Re: [PATCH v3 08/16] drm/exynos: Convert to platform remove callback
- returning void
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Content-Type: multipart/alternative; boundary="0000000000000fbc5206099c5a25"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZUnNi3q3yB3zZfTl@P70.localdomain>
+X-AuthUser: x.reply@epreston.net
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,1144 +103,395 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, kernel@pengutronix.de,
- Jingoo Han <jingoohan1@gmail.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Alim Akhtar <alim.akhtar@samsung.com>, linux-arm-kernel@lists.infradead.org
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Thorsten Leemhuis <regressions@leemhuis.info>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jaak Ristioja <jaak@ristioja.ee>,
+ Bagas Sanjaya <bagasdotme@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000000fbc5206099c5a25
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 2023-11-06 Mon 09:39pm, Evan Preston wrote:
+> Hi Huacai,
+> 
+> On 2023-11-07 Tue 09:49am, Huacai Chen wrote:
+> > Hi, Evan,
+> > 
+> > On Tue, Nov 7, 2023 at 4:32 AM Evan Preston <x.arch@epreston.net> wrote:
+> > >
+> > > Hi Huacai,
+> > >
+> > > On 2023-11-06 Mon 10:22pm, Huacai Chen wrote:
+> > > > On Mon, Nov 6, 2023 at 9:49 PM Jaak Ristioja <jaak@ristioja.ee> wrote:
+> > > > >
+> > > > > On 06.11.23 04:15, Huacai Chen wrote:
+> > > > > > Hi, Jaak and Evan,
+> > > > > >
+> > > > > > On Mon, Nov 6, 2023 at 12:28 AM Jaak Ristioja <jaak@ristioja.ee> wrote:
+> > > > > >>
+> > > > > >> On 05.11.23 14:40, Huacai Chen wrote:
+> > > > > >>> Hi, Evan,
+> > > > > >>>
+> > > > > >>> On Sat, Nov 4, 2023 at 10:50 AM Evan Preston <x.arch@epreston.net> wrote:
+> > > > > >>>>
+> > > > > >>>> Hi Huacai,
+> > > > > >>>>
+> > > > > >>>> On 2023-11-03 Fri 02:36pm, Huacai Chen wrote:
+> > > > > >>>>> Hi, Evan,
+> > > > > >>>>>
+> > > > > >>>>> On Fri, Nov 3, 2023 at 1:54 PM Evan Preston <x.arch@epreston.net> wrote:
+> > > > > >>>>>>
+> > > > > >>>>>> Hi Huacai,
+> > > > > >>>>>>
+> > > > > >>>>>> On 2023-11-02 Thu 08:38pm, Huacai Chen wrote:
+> > > > > >>>>>>> Hi, Jaak,
+> > > > > >>>>>>>
+> > > > > >>>>>>> On Wed, Nov 1, 2023 at 7:52 PM Jaak Ristioja <jaak@ristioja.ee> wrote:
+> > > > > >>>>>>>>
+> > > > > >>>>>>>> On 31.10.23 14:17, Huacai Chen wrote:
+> > > > > >>>>>>>>> Hi, Jaak and Evan,
+> > > > > >>>>>>>>>
+> > > > > >>>>>>>>> On Sun, Oct 29, 2023 at 9:42 AM Huacai Chen <chenhuacai@kernel.org> wrote:
+> > > > > >>>>>>>>>>
+> > > > > >>>>>>>>>> On Sat, Oct 28, 2023 at 7:06 PM Jaak Ristioja <jaak@ristioja.ee> wrote:
+> > > > > >>>>>>>>>>>
+> > > > > >>>>>>>>>>> On 26.10.23 03:58, Huacai Chen wrote:
+> > > > > >>>>>>>>>>>> Hi, Jaak,
+> > > > > >>>>>>>>>>>>
+> > > > > >>>>>>>>>>>> On Thu, Oct 26, 2023 at 2:49 AM Jaak Ristioja <jaak@ristioja.ee> wrote:
+> > > > > >>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>> On 25.10.23 16:23, Huacai Chen wrote:
+> > > > > >>>>>>>>>>>>>> On Wed, Oct 25, 2023 at 6:08 PM Thorsten Leemhuis
+> > > > > >>>>>>>>>>>>>> <regressions@leemhuis.info> wrote:
+> > > > > >>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>> Javier, Dave, Sima,
+> > > > > >>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>> On 23.10.23 00:54, Evan Preston wrote:
+> > > > > >>>>>>>>>>>>>>>> On 2023-10-20 Fri 05:48pm, Huacai Chen wrote:
+> > > > > >>>>>>>>>>>>>>>>> On Fri, Oct 20, 2023 at 5:35 PM Linux regression tracking (Thorsten
+> > > > > >>>>>>>>>>>>>>>>> Leemhuis) <regressions@leemhuis.info> wrote:
+> > > > > >>>>>>>>>>>>>>>>>> On 09.10.23 10:54, Huacai Chen wrote:
+> > > > > >>>>>>>>>>>>>>>>>>> On Mon, Oct 9, 2023 at 4:45 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+> > > > > >>>>>>>>>>>>>>>>>>>> On Mon, Oct 09, 2023 at 09:27:02AM +0800, Huacai Chen wrote:
+> > > > > >>>>>>>>>>>>>>>>>>>>> On Tue, Sep 26, 2023 at 10:31 PM Huacai Chen <chenhuacai@kernel.org> wrote:
+> > > > > >>>>>>>>>>>>>>>>>>>>>> On Tue, Sep 26, 2023 at 7:15 PM Linux regression tracking (Thorsten
+> > > > > >>>>>>>>>>>>>>>>>>>>>> Leemhuis) <regressions@leemhuis.info> wrote:
+> > > > > >>>>>>>>>>>>>>>>>>>>>>> On 13.09.23 14:02, Jaak Ristioja wrote:
+> > > > > >>>>>>>>>>>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>>>>>>>>>>> Upgrading to Linux 6.5 on a Lenovo ThinkPad L570 (Integrated Intel HD
+> > > > > >>>>>>>>>>>>>>>>>>>>>>>> Graphics 620 (rev 02), Intel(R) Core(TM) i7-7500U) results in a blank
+> > > > > >>>>>>>>>>>>>>>>>>>>>>>> screen after boot until the display manager starts... if it does start
+> > > > > >>>>>>>>>>>>>>>>>>>>>>>> at all. Using the nomodeset kernel parameter seems to be a workaround.
+> > > > > >>>>>>>>>>>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>>>>>>>>>>> I've bisected this to commit 60aebc9559492cea6a9625f514a8041717e3a2e4
+> > > > > >>>>>>>>>>>>>>>>>>>>>>>> ("drivers/firmware: Move sysfb_init() from device_initcall to
+> > > > > >>>>>>>>>>>>>>>>>>>>>>>> subsys_initcall_sync").
+> > > > > >>>>>>>>>>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>>>>>>>> As confirmed by Jaak, disabling DRM_SIMPLEDRM makes things work fine
+> > > > > >>>>>>>>>>>>>>>>>>>>> again. So I guess the reason:
+> > > > > >>>>>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>>>>> Well, this to me still looks a lot (please correct me if I'm wrong) like
+> > > > > >>>>>>>>>>>>>>>>>> regression that should be fixed, as DRM_SIMPLEDRM was enabled beforehand
+> > > > > >>>>>>>>>>>>>>>>>> if I understood things correctly. Or is there a proper fix for this
+> > > > > >>>>>>>>>>>>>>>>>> already in the works and I just missed this? Or is there some good
+> > > > > >>>>>>>>>>>>>>>>>> reason why this won't/can't be fixed?
+> > > > > >>>>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>>>> DRM_SIMPLEDRM was enabled but it didn't work at all because there was
+> > > > > >>>>>>>>>>>>>>>>> no corresponding platform device. Now DRM_SIMPLEDRM works but it has a
+> > > > > >>>>>>>>>>>>>>>>> blank screen. Of course it is valuable to investigate further about
+> > > > > >>>>>>>>>>>>>>>>> DRM_SIMPLEDRM on Jaak's machine, but that needs Jaak's effort because
+> > > > > >>>>>>>>>>>>>>>>> I don't have a same machine.
+> > > > > >>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>> Side note: Huacai, have you tried working with Jaak to get down to the
+> > > > > >>>>>>>>>>>>>>> real problem? Evan, might you be able to help out here?
+> > > > > >>>>>>>>>>>>>> No, Jaak has no response after he 'fixed' his problem by disabling SIMPLEDRM.
+> > > > > >>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>> I'm sorry, what was it exactly you want me to do? Please be mindful that
+> > > > > >>>>>>>>>>>>> I'm not familiar with the internals of the Linux kernel and DRI, and it
+> > > > > >>>>>>>>>>>>> might sometimes take weeks before I have time to work and respond on this.
+> > > > > >>>>>>>>>>>> It doesn't matter. I hope you can do some experiments to investigate
+> > > > > >>>>>>>>>>>> deeper. The first experiment you can do is enabling SIMPLEFB (i.e.
+> > > > > >>>>>>>>>>>> CONFIG_FB_SIMPLE) instead of SIMPLEDRM (CONFIG_DRM_SIMPLEDRM) to see
+> > > > > >>>>>>>>>>>> whether there is also a blank screen. If no blank screen, that
+> > > > > >>>>>>>>>>>> probably means SIMPLEDRM has a bug, if still blank screen, that means
+> > > > > >>>>>>>>>>>> the firmware may pass wrong screen information.
+> > > > > >>>>>>>>>>>
+> > > > > >>>>>>>>>>> Testing with 6.5.9 I get a blank screen with CONFIG_DRM_SIMPLEDRM=y and
+> > > > > >>>>>>>>>>> get no blank screen with CONFIG_FB_SIMPLE=y and CONFIG_DRM_SIMPLEDRM unset.
+> > > > > >>>>>>>>>> CONFIG_FB_SIMPLE and  CONFIG_DRM_SIMPLEDRM use the same device created
+> > > > > >>>>>>>>>> by sysfb_init(). Since FB_SIMPLE works fine, I think the real problem
+> > > > > >>>>>>>>>> is that DRM_SIMPLEDRM has a bug. The next step is to enable
+> > > > > >>>>>>>>>> CONFIG_DRM_SIMPLEDRM and trace its initialization. In detail, adding
+> > > > > >>>>>>>>>> some printk() in simpledrm_probe() and its sub-routines to see where
+> > > > > >>>>>>>>>> the driver fails. The output of these printk() can be seen by the
+> > > > > >>>>>>>>>> 'dmesg' command after boot.
+> > > > > >>>>>>>>> I need your help. I tried with my laptop (ThinkPad E490, Intel Core
+> > > > > >>>>>>>>> i3-8145U, UHD Graphics 620) but I can't reproduce your problem. So
+> > > > > >>>>>>>>> please patch your 6.5.x kernel with this temporary patch [1], then
+> > > > > >>>>>>>>> build a "bad kernel" with SIMPLEDRM enabled. And after booting your
+> > > > > >>>>>>>>> machine with this "bad kernel", please give me the dmesg output. Thank
+> > > > > >>>>>>>>> you very much.
+> > > > > >>>>>>>>>
+> > > > > >>>>>>>>> [1] http://ddns.miaomiaomiao.top:9000/download/kernel/patch-6.5.9
+> > > > > >>>>>>>>
+> > > > > >>>>>>>> I'm unable to download it. Can you please send it by e-mail?
+> > > > > >>>>>>> I'm sorry, please download from attachment.
+> > > > > >>>>>>
+> > > > > >>>>>> When applying this patch the first hunk (drivers/firmware/sysfb.c) fails for
+> > > > > >>>>>> me with 6.5.9.  Attempting to load the 6.5.9 kernel without this patch
+> > > > > >>>>>> produces no dmesg output on my machine.
+> > > > > >>>>> You copy-paste the patch? If you download it directly it can be
+> > > > > >>>>> applied successfully, I think.
+> > > > > >>>>
+> > > > > >>>> The patch downloaded from your URL applies successfully.  However, I still
+> > > > > >>>> see no dmesg output using the patched 6.5.9 kernel.  'journalctl -k -b all'
+> > > > > >>>> shows no dmesg output from any 6.5.x boots, only from 6.4.12 boots.
+> > > > > >>> Thank you for your testing. Since you cannot boot to GUI successfully
+> > > > > >>> as Jaak, you may have some troubles with getting the dmesg output. But
+> > > > > >>> you can try to use "systemd.unit=multi-user.target" boot parameters.
+> > > > > >>> In this way you may boot to the login: prompt and then you can get
+> > > > > >>> dmesg output. Or if you still fail, you may use 'jornalctl -k -b -1'
+> > > > > >>> to get the previous dmesg output with 6.4.12.
+> > > > > >>>
+> > > > > >>> Hi, Jaak,
+> > > > > >>>
+> > > > > >>> Have you tested? I think you can successfully get a dmesg output with my patch.
+> > > > > >>
+> > > > > >> Yes, just tested it, here I think are the relevant parts from a dmesg
+> > > > > >> produced with CONFIG_DRM_SIMPLEDRM and the patch provided by Huacai:
+> > > > > >>
+> > > > > >> ...
+> > > > > >> [    2.909625] sysfb 1
+> > > > > >> [    2.909627] sysfb 2
+> > > > > >> ...
+> > > > > >> [    2.951477] ACPI: bus type drm_connector registered
+> > > > > >> [    2.952096] i915 0000:00:02.0: [drm] VT-d active for gfx access
+> > > > > >> [    2.952105] resource: resource sanity check: requesting [mem
+> > > > > >> 0x00000000e0000000-0x00000000efffffff], which spans more than BOOTFB
+> > > > > >> [mem 0xe0000000-0xe012bfff]
+> > > > > >> [    2.952111] caller i915_ggtt_init_hw+0x88/0x120 mapping multiple BARs
+> > > > > >> [    2.952138] i915 0000:00:02.0: [drm] Using Transparent Hugepages
+> > > > > >> [    2.953204] Loading firmware: i915/kbl_dmc_ver1_04.bin
+> > > > > >> [    2.953485] i915 0000:00:02.0: [drm] Finished loading DMC firmware
+> > > > > >> i915/kbl_dmc_ver1_04.bin (v1.4)
+> > > > > >> ...
+> > > > > >> [    4.142075] [drm] Initialized i915 1.6.0 20201103 for 0000:00:02.0 on
+> > > > > >> minor 0
+> > > > > >> [    4.144269] ACPI: video: Video Device [GFX0] (multi-head: yes  rom:
+> > > > > >> no  post: no)
+> > > > > >> [    4.144414] input: Video Bus as
+> > > > > >> /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/LNXVIDEO:00/input/input4
+> > > > > >> [    4.144580] [drm] Initialized vgem 1.0.0 20120112 for vgem on minor 1
+> > > > > >> [    4.144590] usbcore: registered new interface driver udl
+> > > > > >> [    4.144603] T: probe 1
+> > > > > >> [    4.144605] T: create 1
+> > > > > >> [    4.144610] T: create 2
+> > > > > >> [    4.144611] T: create 3a-1
+> > > > > >> [    4.144613] T: create 3a-2
+> > > > > >> [    4.144614] T: create 3a-3
+> > > > > >> [    4.144616] T: create 3a-4
+> > > > > >> [    4.144618] T: create 4
+> > > > > >> [    4.144619] T: create 5
+> > > > > >> [    4.144621] simple-framebuffer simple-framebuffer.0: [drm] display
+> > > > > >> mode={"": 60 18432 640 640 640 640 480 480 480 480 0x40 0x0}
+> > > > > >> [    4.144628] simple-framebuffer simple-framebuffer.0: [drm]
+> > > > > >> framebuffer format=XR24 little-endian (0x34325258), size=640x480,
+> > > > > >> stride=2560 byte
+> > > > > >> [    4.144633] T: create 6b-1
+> > > > > >> [    4.144635] T: create 6b-2
+> > > > > >> [    4.144637] simple-framebuffer simple-framebuffer.0: [drm] using I/O
+> > > > > >> memory framebuffer at [mem 0xe0000000-0xe012bfff flags 0x200]
+> > > > > >> [    4.144643] T: create 6b-3
+> > > > > >> [    4.144660] T: create 6b-4
+> > > > > >> [    4.144662] T: create 7
+> > > > > >> [    4.144673] T: create 8
+> > > > > >> [    4.144676] T: create 9
+> > > > > >> [    4.144678] T: create 10
+> > > > > >> [    4.144681] T: create 11
+> > > > > >> [    4.144685] T: create 12
+> > > > > >> [    4.144689] T: probe 2
+> > > > > >> [    4.144728] [drm] Initialized simpledrm 1.0.0 20200625 for
+> > > > > >> simple-framebuffer.0 on minor 2
+> > > > > >> [    4.144732] T: probe 3
+> > > > > >> [    4.145905] Console: switching to colour frame buffer device 80x30
+> > > > > >> [    4.150437] simple-framebuffer simple-framebuffer.0: [drm] fb0:
+> > > > > >> simpledrmdrmfb frame buffer device
+> > > > > >> [    4.150766] T: probe 4
+> > > > > >> [    4.151218] loop: module loaded
+> > > > > >> [    4.154434] i915 0000:00:02.0: [drm] fb1: i915drmfb frame buffer device
+> > > > > >> ...
+> > > > > >> [   44.630789] simple-framebuffer simple-framebuffer.0: swiotlb buffer
+> > > > > >> is full (sz: 1310720 bytes), total 32768 (slots), used 0 (slots)
+> > > > > >> ...
+> > > > > >>
+> > > > > >> The last message might be due to the display manager starting up.
+> > > > > >>
+> > > > > >> Hope it helps.
+> > > > > > Thank you for your testing. Jaak's problem seems related to the
+> > > > > > initialization order, you can try to modify drivers/gpu/drm/Makefile,
+> > > > > > move
+> > > > > >
+> > > > > > obj-y                  += tiny/
+> > > > > >
+> > > > > > to between these two lines
+> > > > > >
+> > > > > > obj-$(CONFIG_DRM_SCHED) += scheduler/
+> > > > > > obj-$(CONFIG_DRM_RADEON)+= radeon/
+> > > > > >
+> > > > > > then build a new 6.5.x kernel to see whether your problem is resolved.
+> > > > >
+> > > > > Yes, this seems to have resolved it.
+> > > > Hi, Jaak,
+> > > >
+> > > > Thank you very much, and I hope this also solves Evan's problem.
+> > >
+> > > I still get a blank screen if I modify drivers/gpu/drm/Makefile to move the
+> > > order of 'tiny'.
+> > You probably encounter another problem which has no relationship with
+> > 60aebc9559492cea6a9625f514a804 ("drivers/firmware: Move sysfb_init()
+> > from device_initcall to subsys_initcall_sync"). You can revert it to
+> > test 6.5.x again.
+> 
+> You are right.  I reverted "drivers/firmware: Move sysfb_init() from 
+> device_initcall to subsys_initcall_sync" on 6.5.9 and still get a blank 
+> screen immediately after boot loader entry selection.
+> 
+> Evan
+> 
 
-Hi,
+Just to close the loop on my issue: after a BIOS update I can boot 6.5.x 
+successfully.
 
-Sorry for late. There was a merge conflict so I fixed it manually and
-merged. And seems your patch description is duplicated so dropped
-duplicated one.
+Evan
 
-Thanks,
-Inki Dae
-
-2023=EB=85=84 11=EC=9B=94 3=EC=9D=BC (=EA=B8=88) =EC=98=A4=EC=A0=84 1:57, U=
-we Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>=EB=8B=98=EC=9D=B4
-=EC=9E=91=EC=84=B1:
-
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is ignored (apart
-> from emitting a warning) and this typically results in resource leaks.
->
-> To improve here there is a quest to make the remove callback return
-> void. In the first step of this quest all drivers are converted to
-> .remove_new(), which already returns void. Eventually after all drivers
-> are converted, .remove_new() will be renamed to .remove().
->
-> Trivially convert the exynos drivers from always returning zero in the
-> remove callback to the void returning variant.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
->
-> drivers/gpu/drm/exynos/exynos_mixer.c :: Convert to platform remove
-> callback returning void
->
-> The .remove() callback for a platform driver returns an int which makes
-> many driver authors wrongly assume it's possible to do error handling by
-> returning an error code. However the value returned is ignored (apart
-> from emitting a warning) and this typically results in resource leaks.
->
-> To improve here there is a quest to make the remove callback return
-> void. In the first step of this quest all drivers are converted to
-> .remove_new(), which already returns void. Eventually after all drivers
-> are converted, .remove_new() will be renamed to .remove().
->
-> Trivially convert this driver from always returning zero in the remove
-> callback to the void returning variant.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
->  drivers/gpu/drm/exynos/exynos5433_drm_decon.c | 6 ++----
->  drivers/gpu/drm/exynos/exynos7_drm_decon.c    | 6 ++----
->  drivers/gpu/drm/exynos/exynos_dp.c            | 6 ++----
->  drivers/gpu/drm/exynos/exynos_drm_drv.c       | 5 ++---
->  drivers/gpu/drm/exynos/exynos_drm_fimc.c      | 6 ++----
->  drivers/gpu/drm/exynos/exynos_drm_fimd.c      | 6 ++----
->  drivers/gpu/drm/exynos/exynos_drm_g2d.c       | 6 ++----
->  drivers/gpu/drm/exynos/exynos_drm_gsc.c       | 6 ++----
->  drivers/gpu/drm/exynos/exynos_drm_mic.c       | 6 ++----
->  drivers/gpu/drm/exynos/exynos_drm_rotator.c   | 6 ++----
->  drivers/gpu/drm/exynos/exynos_drm_scaler.c    | 6 ++----
->  drivers/gpu/drm/exynos/exynos_drm_vidi.c      | 6 ++----
->  drivers/gpu/drm/exynos/exynos_hdmi.c          | 6 ++----
->  drivers/gpu/drm/exynos/exynos_mixer.c         | 6 ++----
->  14 files changed, 28 insertions(+), 55 deletions(-)
->
-> diff --git a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
-> b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
-> index 4d986077738b..776f2f0b602d 100644
-> --- a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
-> +++ b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
-> @@ -862,18 +862,16 @@ static int exynos5433_decon_probe(struct
-> platform_device *pdev)
->         return ret;
->  }
->
-> -static int exynos5433_decon_remove(struct platform_device *pdev)
-> +static void exynos5433_decon_remove(struct platform_device *pdev)
->  {
->         pm_runtime_disable(&pdev->dev);
->
->         component_del(&pdev->dev, &decon_component_ops);
-> -
-> -       return 0;
->  }
->
->  struct platform_driver exynos5433_decon_driver =3D {
->         .probe          =3D exynos5433_decon_probe,
-> -       .remove         =3D exynos5433_decon_remove,
-> +       .remove_new     =3D exynos5433_decon_remove,
->         .driver         =3D {
->                 .name   =3D "exynos5433-decon",
->                 .pm     =3D pm_ptr(&exynos5433_decon_pm_ops),
-> diff --git a/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-> b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-> index 0156a5e94435..0d185c0564b9 100644
-> --- a/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-> +++ b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
-> @@ -765,7 +765,7 @@ static int decon_probe(struct platform_device *pdev)
->         return ret;
->  }
->
-> -static int decon_remove(struct platform_device *pdev)
-> +static void decon_remove(struct platform_device *pdev)
->  {
->         struct decon_context *ctx =3D dev_get_drvdata(&pdev->dev);
->
-> @@ -774,8 +774,6 @@ static int decon_remove(struct platform_device *pdev)
->         iounmap(ctx->regs);
->
->         component_del(&pdev->dev, &decon_component_ops);
-> -
-> -       return 0;
->  }
->
->  static int exynos7_decon_suspend(struct device *dev)
-> @@ -840,7 +838,7 @@ static DEFINE_RUNTIME_DEV_PM_OPS(exynos7_decon_pm_ops=
-,
-> exynos7_decon_suspend,
->
->  struct platform_driver decon_driver =3D {
->         .probe          =3D decon_probe,
-> -       .remove         =3D decon_remove,
-> +       .remove_new     =3D decon_remove,
->         .driver         =3D {
->                 .name   =3D "exynos-decon",
->                 .pm     =3D pm_ptr(&exynos7_decon_pm_ops),
-> diff --git a/drivers/gpu/drm/exynos/exynos_dp.c
-> b/drivers/gpu/drm/exynos/exynos_dp.c
-> index 3404ec1367fb..ca31bad6c576 100644
-> --- a/drivers/gpu/drm/exynos/exynos_dp.c
-> +++ b/drivers/gpu/drm/exynos/exynos_dp.c
-> @@ -250,14 +250,12 @@ static int exynos_dp_probe(struct platform_device
-> *pdev)
->         return component_add(&pdev->dev, &exynos_dp_ops);
->  }
->
-> -static int exynos_dp_remove(struct platform_device *pdev)
-> +static void exynos_dp_remove(struct platform_device *pdev)
->  {
->         struct exynos_dp_device *dp =3D platform_get_drvdata(pdev);
->
->         component_del(&pdev->dev, &exynos_dp_ops);
->         analogix_dp_remove(dp->adp);
-> -
-> -       return 0;
->  }
->
->  static int exynos_dp_suspend(struct device *dev)
-> @@ -285,7 +283,7 @@ MODULE_DEVICE_TABLE(of, exynos_dp_match);
->
->  struct platform_driver dp_driver =3D {
->         .probe          =3D exynos_dp_probe,
-> -       .remove         =3D exynos_dp_remove,
-> +       .remove_new     =3D exynos_dp_remove,
->         .driver         =3D {
->                 .name   =3D "exynos-dp",
->                 .owner  =3D THIS_MODULE,
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> index 8399256cb5c9..a6bff29fc254 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-> @@ -344,15 +344,14 @@ static int exynos_drm_platform_probe(struct
-> platform_device *pdev)
->                                                match);
->  }
->
-> -static int exynos_drm_platform_remove(struct platform_device *pdev)
-> +static void exynos_drm_platform_remove(struct platform_device *pdev)
->  {
->         component_master_del(&pdev->dev, &exynos_drm_ops);
-> -       return 0;
->  }
->
->  static struct platform_driver exynos_drm_platform_driver =3D {
->         .probe  =3D exynos_drm_platform_probe,
-> -       .remove =3D exynos_drm_platform_remove,
-> +       .remove_new =3D exynos_drm_platform_remove,
->         .driver =3D {
->                 .name   =3D "exynos-drm",
->                 .pm     =3D &exynos_drm_pm_ops,
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimc.c
-> b/drivers/gpu/drm/exynos/exynos_drm_fimc.c
-> index 8de2714599fc..e81a576de398 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_fimc.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_fimc.c
-> @@ -1367,7 +1367,7 @@ static int fimc_probe(struct platform_device *pdev)
->         return ret;
->  }
->
-> -static int fimc_remove(struct platform_device *pdev)
-> +static void fimc_remove(struct platform_device *pdev)
->  {
->         struct device *dev =3D &pdev->dev;
->         struct fimc_context *ctx =3D get_fimc_context(dev);
-> @@ -1377,8 +1377,6 @@ static int fimc_remove(struct platform_device *pdev=
-)
->         pm_runtime_disable(dev);
->
->         fimc_put_clocks(ctx);
-> -
-> -       return 0;
->  }
->
->  static int fimc_runtime_suspend(struct device *dev)
-> @@ -1410,7 +1408,7 @@ MODULE_DEVICE_TABLE(of, fimc_of_match);
->
->  struct platform_driver fimc_driver =3D {
->         .probe          =3D fimc_probe,
-> -       .remove         =3D fimc_remove,
-> +       .remove_new     =3D fimc_remove,
->         .driver         =3D {
->                 .of_match_table =3D fimc_of_match,
->                 .name   =3D "exynos-drm-fimc",
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-> b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-> index 8dde7b1e9b35..a9f1c5c05894 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
-> @@ -1277,13 +1277,11 @@ static int fimd_probe(struct platform_device *pde=
-v)
->         return ret;
->  }
->
-> -static int fimd_remove(struct platform_device *pdev)
-> +static void fimd_remove(struct platform_device *pdev)
->  {
->         pm_runtime_disable(&pdev->dev);
->
->         component_del(&pdev->dev, &fimd_component_ops);
-> -
-> -       return 0;
->  }
->
->  static int exynos_fimd_suspend(struct device *dev)
-> @@ -1325,7 +1323,7 @@ static DEFINE_RUNTIME_DEV_PM_OPS(exynos_fimd_pm_ops=
-,
-> exynos_fimd_suspend,
->
->  struct platform_driver fimd_driver =3D {
->         .probe          =3D fimd_probe,
-> -       .remove         =3D fimd_remove,
-> +       .remove_new     =3D fimd_remove,
->         .driver         =3D {
->                 .name   =3D "exynos4-fb",
->                 .owner  =3D THIS_MODULE,
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-> b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-> index 414e585ec7dd..f3138423612e 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-> @@ -1530,7 +1530,7 @@ static int g2d_probe(struct platform_device *pdev)
->         return ret;
->  }
->
-> -static int g2d_remove(struct platform_device *pdev)
-> +static void g2d_remove(struct platform_device *pdev)
->  {
->         struct g2d_data *g2d =3D platform_get_drvdata(pdev);
->
-> @@ -1545,8 +1545,6 @@ static int g2d_remove(struct platform_device *pdev)
->         g2d_fini_cmdlist(g2d);
->         destroy_workqueue(g2d->g2d_workq);
->         kmem_cache_destroy(g2d->runqueue_slab);
-> -
-> -       return 0;
->  }
->
->  static int g2d_suspend(struct device *dev)
-> @@ -1609,7 +1607,7 @@ MODULE_DEVICE_TABLE(of, exynos_g2d_match);
->
->  struct platform_driver g2d_driver =3D {
->         .probe          =3D g2d_probe,
-> -       .remove         =3D g2d_remove,
-> +       .remove_new     =3D g2d_remove,
->         .driver         =3D {
->                 .name   =3D "exynos-drm-g2d",
->                 .owner  =3D THIS_MODULE,
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-> b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-> index 34cdabc30b4f..6776d3e037c9 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
-> @@ -1308,15 +1308,13 @@ static int gsc_probe(struct platform_device *pdev=
-)
->         return ret;
->  }
->
-> -static int gsc_remove(struct platform_device *pdev)
-> +static void gsc_remove(struct platform_device *pdev)
->  {
->         struct device *dev =3D &pdev->dev;
->
->         component_del(dev, &gsc_component_ops);
->         pm_runtime_dont_use_autosuspend(dev);
->         pm_runtime_disable(dev);
-> -
-> -       return 0;
->  }
->
->  static int __maybe_unused gsc_runtime_suspend(struct device *dev)
-> @@ -1421,7 +1419,7 @@ MODULE_DEVICE_TABLE(of, exynos_drm_gsc_of_match);
->
->  struct platform_driver gsc_driver =3D {
->         .probe          =3D gsc_probe,
-> -       .remove         =3D gsc_remove,
-> +       .remove_new     =3D gsc_remove,
->         .driver         =3D {
->                 .name   =3D "exynos-drm-gsc",
->                 .owner  =3D THIS_MODULE,
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_mic.c
-> b/drivers/gpu/drm/exynos/exynos_drm_mic.c
-> index 17bab5b1663f..e2920960180f 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_mic.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_mic.c
-> @@ -442,7 +442,7 @@ static int exynos_mic_probe(struct platform_device
-> *pdev)
->         return ret;
->  }
->
-> -static int exynos_mic_remove(struct platform_device *pdev)
-> +static void exynos_mic_remove(struct platform_device *pdev)
->  {
->         struct exynos_mic *mic =3D platform_get_drvdata(pdev);
->
-> @@ -450,8 +450,6 @@ static int exynos_mic_remove(struct platform_device
-> *pdev)
->         pm_runtime_disable(&pdev->dev);
->
->         drm_bridge_remove(&mic->bridge);
-> -
-> -       return 0;
->  }
->
->  static const struct of_device_id exynos_mic_of_match[] =3D {
-> @@ -462,7 +460,7 @@ MODULE_DEVICE_TABLE(of, exynos_mic_of_match);
->
->  struct platform_driver mic_driver =3D {
->         .probe          =3D exynos_mic_probe,
-> -       .remove         =3D exynos_mic_remove,
-> +       .remove_new     =3D exynos_mic_remove,
->         .driver         =3D {
->                 .name   =3D "exynos-mic",
->                 .pm     =3D pm_ptr(&exynos_mic_pm_ops),
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_rotator.c
-> b/drivers/gpu/drm/exynos/exynos_drm_rotator.c
-> index ffb327c5139e..5f7516655b08 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_rotator.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_rotator.c
-> @@ -329,15 +329,13 @@ static int rotator_probe(struct platform_device
-> *pdev)
->         return ret;
->  }
->
-> -static int rotator_remove(struct platform_device *pdev)
-> +static void rotator_remove(struct platform_device *pdev)
->  {
->         struct device *dev =3D &pdev->dev;
->
->         component_del(dev, &rotator_component_ops);
->         pm_runtime_dont_use_autosuspend(dev);
->         pm_runtime_disable(dev);
-> -
-> -       return 0;
->  }
->
->  static int rotator_runtime_suspend(struct device *dev)
-> @@ -453,7 +451,7 @@ static DEFINE_RUNTIME_DEV_PM_OPS(rotator_pm_ops,
-> rotator_runtime_suspend,
->
->  struct platform_driver rotator_driver =3D {
->         .probe          =3D rotator_probe,
-> -       .remove         =3D rotator_remove,
-> +       .remove_new     =3D rotator_remove,
->         .driver         =3D {
->                 .name   =3D "exynos-rotator",
->                 .owner  =3D THIS_MODULE,
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_scaler.c
-> b/drivers/gpu/drm/exynos/exynos_drm_scaler.c
-> index f2b8b09a6b4e..392f721f13ab 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_scaler.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_scaler.c
-> @@ -539,15 +539,13 @@ static int scaler_probe(struct platform_device *pde=
-v)
->         return ret;
->  }
->
-> -static int scaler_remove(struct platform_device *pdev)
-> +static void scaler_remove(struct platform_device *pdev)
->  {
->         struct device *dev =3D &pdev->dev;
->
->         component_del(dev, &scaler_component_ops);
->         pm_runtime_dont_use_autosuspend(dev);
->         pm_runtime_disable(dev);
-> -
-> -       return 0;
->  }
->
->  static int clk_disable_unprepare_wrapper(struct clk *clk)
-> @@ -721,7 +719,7 @@ MODULE_DEVICE_TABLE(of, exynos_scaler_match);
->
->  struct platform_driver scaler_driver =3D {
->         .probe          =3D scaler_probe,
-> -       .remove         =3D scaler_remove,
-> +       .remove_new     =3D scaler_remove,
->         .driver         =3D {
->                 .name   =3D "exynos-scaler",
->                 .owner  =3D THIS_MODULE,
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-> b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-> index f5e1adfcaa51..00382f28748a 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-> @@ -462,7 +462,7 @@ static int vidi_probe(struct platform_device *pdev)
->         return component_add(dev, &vidi_component_ops);
->  }
->
-> -static int vidi_remove(struct platform_device *pdev)
-> +static void vidi_remove(struct platform_device *pdev)
->  {
->         struct vidi_context *ctx =3D platform_get_drvdata(pdev);
->
-> @@ -472,13 +472,11 @@ static int vidi_remove(struct platform_device *pdev=
-)
->         }
->
->         component_del(&pdev->dev, &vidi_component_ops);
-> -
-> -       return 0;
->  }
->
->  struct platform_driver vidi_driver =3D {
->         .probe          =3D vidi_probe,
-> -       .remove         =3D vidi_remove,
-> +       .remove_new     =3D vidi_remove,
->         .driver         =3D {
->                 .name   =3D "exynos-drm-vidi",
->                 .owner  =3D THIS_MODULE,
-> diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c
-> b/drivers/gpu/drm/exynos/exynos_hdmi.c
-> index f3aaa4ea3e68..6dfc8411ef84 100644
-> --- a/drivers/gpu/drm/exynos/exynos_hdmi.c
-> +++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
-> @@ -2067,7 +2067,7 @@ static int hdmi_probe(struct platform_device *pdev)
->         return ret;
->  }
->
-> -static int hdmi_remove(struct platform_device *pdev)
-> +static void hdmi_remove(struct platform_device *pdev)
->  {
->         struct hdmi_context *hdata =3D platform_get_drvdata(pdev);
->
-> @@ -2090,8 +2090,6 @@ static int hdmi_remove(struct platform_device *pdev=
-)
->         put_device(&hdata->ddc_adpt->dev);
->
->         mutex_destroy(&hdata->mutex);
-> -
-> -       return 0;
->  }
->
->  static int __maybe_unused exynos_hdmi_suspend(struct device *dev)
-> @@ -2123,7 +2121,7 @@ static const struct dev_pm_ops exynos_hdmi_pm_ops =
-=3D {
->
->  struct platform_driver hdmi_driver =3D {
->         .probe          =3D hdmi_probe,
-> -       .remove         =3D hdmi_remove,
-> +       .remove_new     =3D hdmi_remove,
->         .driver         =3D {
->                 .name   =3D "exynos-hdmi",
->                 .owner  =3D THIS_MODULE,
-> diff --git a/drivers/gpu/drm/exynos/exynos_mixer.c
-> b/drivers/gpu/drm/exynos/exynos_mixer.c
-> index b302392ff0d7..6822333fd0e6 100644
-> --- a/drivers/gpu/drm/exynos/exynos_mixer.c
-> +++ b/drivers/gpu/drm/exynos/exynos_mixer.c
-> @@ -1258,13 +1258,11 @@ static int mixer_probe(struct platform_device
-> *pdev)
->         return ret;
->  }
->
-> -static int mixer_remove(struct platform_device *pdev)
-> +static void mixer_remove(struct platform_device *pdev)
->  {
->         pm_runtime_disable(&pdev->dev);
->
->         component_del(&pdev->dev, &mixer_component_ops);
-> -
-> -       return 0;
->  }
->
->  static int __maybe_unused exynos_mixer_suspend(struct device *dev)
-> @@ -1338,5 +1336,5 @@ struct platform_driver mixer_driver =3D {
->                 .of_match_table =3D mixer_match_types,
->         },
->         .probe =3D mixer_probe,
-> -       .remove =3D mixer_remove,
-> +       .remove_new =3D mixer_remove,
->  };
-> --
-> 2.42.0
->
->
-
---0000000000000fbc5206099c5a25
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div>Hi,</div><div dir=3D"auto"><br></div><div dir=3D"aut=
-o">Sorry for late. There was a merge conflict so I fixed it manually and me=
-rged. And seems your patch description is duplicated so dropped duplicated =
-one.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks,</div><div d=
-ir=3D"auto">Inki Dae<br><br><div class=3D"gmail_quote" dir=3D"auto"><div di=
-r=3D"ltr" class=3D"gmail_attr">2023=EB=85=84 11=EC=9B=94 3=EC=9D=BC (=EA=B8=
-=88) =EC=98=A4=EC=A0=84 1:57, Uwe Kleine-K=C3=B6nig &lt;<a href=3D"mailto:u=
-.kleine-koenig@pengutronix.de">u.kleine-koenig@pengutronix.de</a>&gt;=EB=8B=
-=98=EC=9D=B4 =EC=9E=91=EC=84=B1:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Th=
-e .remove() callback for a platform driver returns an int which makes<br>
-many driver authors wrongly assume it&#39;s possible to do error handling b=
-y<br>
-returning an error code. However the value returned is ignored (apart<br>
-from emitting a warning) and this typically results in resource leaks.<br>
-<br>
-To improve here there is a quest to make the remove callback return<br>
-void. In the first step of this quest all drivers are converted to<br>
-.remove_new(), which already returns void. Eventually after all drivers<br>
-are converted, .remove_new() will be renamed to .remove().<br>
-<br>
-Trivially convert the exynos drivers from always returning zero in the<br>
-remove callback to the void returning variant.<br>
-<br>
-Signed-off-by: Uwe Kleine-K=C3=B6nig &lt;<a href=3D"mailto:u.kleine-koenig@=
-pengutronix.de" target=3D"_blank" rel=3D"noreferrer">u.kleine-koenig@pengut=
-ronix.de</a>&gt;<br>
-<br>
-drivers/gpu/drm/exynos/exynos_mixer.c :: Convert to platform remove callbac=
-k returning void<br>
-<br>
-The .remove() callback for a platform driver returns an int which makes<br>
-many driver authors wrongly assume it&#39;s possible to do error handling b=
-y<br>
-returning an error code. However the value returned is ignored (apart<br>
-from emitting a warning) and this typically results in resource leaks.<br>
-<br>
-To improve here there is a quest to make the remove callback return<br>
-void. In the first step of this quest all drivers are converted to<br>
-.remove_new(), which already returns void. Eventually after all drivers<br>
-are converted, .remove_new() will be renamed to .remove().<br>
-<br>
-Trivially convert this driver from always returning zero in the remove<br>
-callback to the void returning variant.<br>
-<br>
-Signed-off-by: Uwe Kleine-K=C3=B6nig &lt;<a href=3D"mailto:u.kleine-koenig@=
-pengutronix.de" target=3D"_blank" rel=3D"noreferrer">u.kleine-koenig@pengut=
-ronix.de</a>&gt;<br>
----<br>
-=C2=A0drivers/gpu/drm/exynos/exynos5433_drm_decon.c | 6 ++----<br>
-=C2=A0drivers/gpu/drm/exynos/exynos7_drm_decon.c=C2=A0 =C2=A0 | 6 ++----<br=
->
-=C2=A0drivers/gpu/drm/exynos/exynos_dp.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | 6 ++----<br>
-=C2=A0drivers/gpu/drm/exynos/exynos_drm_drv.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 5=
- ++---<br>
-=C2=A0drivers/gpu/drm/exynos/exynos_drm_fimc.c=C2=A0 =C2=A0 =C2=A0 | 6 ++--=
---<br>
-=C2=A0drivers/gpu/drm/exynos/exynos_drm_fimd.c=C2=A0 =C2=A0 =C2=A0 | 6 ++--=
---<br>
-=C2=A0drivers/gpu/drm/exynos/exynos_drm_g2d.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 6=
- ++----<br>
-=C2=A0drivers/gpu/drm/exynos/exynos_drm_gsc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 6=
- ++----<br>
-=C2=A0drivers/gpu/drm/exynos/exynos_drm_mic.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 6=
- ++----<br>
-=C2=A0drivers/gpu/drm/exynos/exynos_drm_rotator.c=C2=A0 =C2=A0| 6 ++----<br=
->
-=C2=A0drivers/gpu/drm/exynos/exynos_drm_scaler.c=C2=A0 =C2=A0 | 6 ++----<br=
->
-=C2=A0drivers/gpu/drm/exynos/exynos_drm_vidi.c=C2=A0 =C2=A0 =C2=A0 | 6 ++--=
---<br>
-=C2=A0drivers/gpu/drm/exynos/exynos_hdmi.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 6 ++----<br>
-=C2=A0drivers/gpu/drm/exynos/exynos_mixer.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0| 6 ++----<br>
-=C2=A014 files changed, 28 insertions(+), 55 deletions(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c b/drivers/gpu/dr=
-m/exynos/exynos5433_drm_decon.c<br>
-index 4d986077738b..776f2f0b602d 100644<br>
---- a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c<br>
-+++ b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c<br>
-@@ -862,18 +862,16 @@ static int exynos5433_decon_probe(struct platform_dev=
-ice *pdev)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
-=C2=A0}<br>
-<br>
--static int exynos5433_decon_remove(struct platform_device *pdev)<br>
-+static void exynos5433_decon_remove(struct platform_device *pdev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_disable(&amp;pdev-&gt;dev);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(&amp;pdev-&gt;dev, &amp;decon_com=
-ponent_ops);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-=C2=A0struct platform_driver exynos5433_decon_driver =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D ex=
-ynos5433_decon_probe,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D ex=
-ynos5433_decon_remove,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D exynos5433_d=
-econ_remove,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
-=3D &quot;exynos5433-decon&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .pm=C2=A0 =C2=A0 =
-=C2=A0=3D pm_ptr(&amp;exynos5433_decon_pm_ops),<br>
-diff --git a/drivers/gpu/drm/exynos/exynos7_drm_decon.c b/drivers/gpu/drm/e=
-xynos/exynos7_drm_decon.c<br>
-index 0156a5e94435..0d185c0564b9 100644<br>
---- a/drivers/gpu/drm/exynos/exynos7_drm_decon.c<br>
-+++ b/drivers/gpu/drm/exynos/exynos7_drm_decon.c<br>
-@@ -765,7 +765,7 @@ static int decon_probe(struct platform_device *pdev)<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
-=C2=A0}<br>
-<br>
--static int decon_remove(struct platform_device *pdev)<br>
-+static void decon_remove(struct platform_device *pdev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct decon_context *ctx =3D dev_get_drvdata(&=
-amp;pdev-&gt;dev);<br>
-<br>
-@@ -774,8 +774,6 @@ static int decon_remove(struct platform_device *pdev)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 iounmap(ctx-&gt;regs);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(&amp;pdev-&gt;dev, &amp;decon_com=
-ponent_ops);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static int exynos7_decon_suspend(struct device *dev)<br>
-@@ -840,7 +838,7 @@ static DEFINE_RUNTIME_DEV_PM_OPS(exynos7_decon_pm_ops, =
-exynos7_decon_suspend,<br>
-<br>
-=C2=A0struct platform_driver decon_driver =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D de=
-con_probe,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D de=
-con_remove,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D decon_remove=
-,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
-=3D &quot;exynos-decon&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .pm=C2=A0 =C2=A0 =
-=C2=A0=3D pm_ptr(&amp;exynos7_decon_pm_ops),<br>
-diff --git a/drivers/gpu/drm/exynos/exynos_dp.c b/drivers/gpu/drm/exynos/ex=
-ynos_dp.c<br>
-index 3404ec1367fb..ca31bad6c576 100644<br>
---- a/drivers/gpu/drm/exynos/exynos_dp.c<br>
-+++ b/drivers/gpu/drm/exynos/exynos_dp.c<br>
-@@ -250,14 +250,12 @@ static int exynos_dp_probe(struct platform_device *pd=
-ev)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return component_add(&amp;pdev-&gt;dev, &amp;ex=
-ynos_dp_ops);<br>
-=C2=A0}<br>
-<br>
--static int exynos_dp_remove(struct platform_device *pdev)<br>
-+static void exynos_dp_remove(struct platform_device *pdev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct exynos_dp_device *dp =3D platform_get_dr=
-vdata(pdev);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(&amp;pdev-&gt;dev, &amp;exynos_dp=
-_ops);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 analogix_dp_remove(dp-&gt;adp);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static int exynos_dp_suspend(struct device *dev)<br>
-@@ -285,7 +283,7 @@ MODULE_DEVICE_TABLE(of, exynos_dp_match);<br>
-<br>
-=C2=A0struct platform_driver dp_driver =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D ex=
-ynos_dp_probe,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D ex=
-ynos_dp_remove,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D exynos_dp_re=
-move,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
-=3D &quot;exynos-dp&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .owner=C2=A0 =3D TH=
-IS_MODULE,<br>
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/exyn=
-os/exynos_drm_drv.c<br>
-index 8399256cb5c9..a6bff29fc254 100644<br>
---- a/drivers/gpu/drm/exynos/exynos_drm_drv.c<br>
-+++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c<br>
-@@ -344,15 +344,14 @@ static int exynos_drm_platform_probe(struct platform_=
-device *pdev)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0match);<br>
-=C2=A0}<br>
-<br>
--static int exynos_drm_platform_remove(struct platform_device *pdev)<br>
-+static void exynos_drm_platform_remove(struct platform_device *pdev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_master_del(&amp;pdev-&gt;dev, &amp;ex=
-ynos_drm_ops);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static struct platform_driver exynos_drm_platform_driver =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =3D exynos_drm_platform_probe,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove =3D exynos_drm_platform_remove,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new =3D exynos_drm_platform_remove,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
-=3D &quot;exynos-drm&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .pm=C2=A0 =C2=A0 =
-=C2=A0=3D &amp;exynos_drm_pm_ops,<br>
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimc.c b/drivers/gpu/drm/exy=
-nos/exynos_drm_fimc.c<br>
-index 8de2714599fc..e81a576de398 100644<br>
---- a/drivers/gpu/drm/exynos/exynos_drm_fimc.c<br>
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fimc.c<br>
-@@ -1367,7 +1367,7 @@ static int fimc_probe(struct platform_device *pdev)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
-=C2=A0}<br>
-<br>
--static int fimc_remove(struct platform_device *pdev)<br>
-+static void fimc_remove(struct platform_device *pdev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct device *dev =3D &amp;pdev-&gt;dev;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct fimc_context *ctx =3D get_fimc_context(d=
-ev);<br>
-@@ -1377,8 +1377,6 @@ static int fimc_remove(struct platform_device *pdev)<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_disable(dev);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fimc_put_clocks(ctx);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static int fimc_runtime_suspend(struct device *dev)<br>
-@@ -1410,7 +1408,7 @@ MODULE_DEVICE_TABLE(of, fimc_of_match);<br>
-<br>
-=C2=A0struct platform_driver fimc_driver =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D fi=
-mc_probe,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D fi=
-mc_remove,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D fimc_remove,=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .of_match_table =3D=
- fimc_of_match,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
-=3D &quot;exynos-drm-fimc&quot;,<br>
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c b/drivers/gpu/drm/exy=
-nos/exynos_drm_fimd.c<br>
-index 8dde7b1e9b35..a9f1c5c05894 100644<br>
---- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c<br>
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c<br>
-@@ -1277,13 +1277,11 @@ static int fimd_probe(struct platform_device *pdev)=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
-=C2=A0}<br>
-<br>
--static int fimd_remove(struct platform_device *pdev)<br>
-+static void fimd_remove(struct platform_device *pdev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_disable(&amp;pdev-&gt;dev);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(&amp;pdev-&gt;dev, &amp;fimd_comp=
-onent_ops);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static int exynos_fimd_suspend(struct device *dev)<br>
-@@ -1325,7 +1323,7 @@ static DEFINE_RUNTIME_DEV_PM_OPS(exynos_fimd_pm_ops, =
-exynos_fimd_suspend,<br>
-<br>
-=C2=A0struct platform_driver fimd_driver =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D fi=
-md_probe,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D fi=
-md_remove,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D fimd_remove,=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
-=3D &quot;exynos4-fb&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .owner=C2=A0 =3D TH=
-IS_MODULE,<br>
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c b/drivers/gpu/drm/exyn=
-os/exynos_drm_g2d.c<br>
-index 414e585ec7dd..f3138423612e 100644<br>
---- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c<br>
-+++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c<br>
-@@ -1530,7 +1530,7 @@ static int g2d_probe(struct platform_device *pdev)<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
-=C2=A0}<br>
-<br>
--static int g2d_remove(struct platform_device *pdev)<br>
-+static void g2d_remove(struct platform_device *pdev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct g2d_data *g2d =3D platform_get_drvdata(p=
-dev);<br>
-<br>
-@@ -1545,8 +1545,6 @@ static int g2d_remove(struct platform_device *pdev)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 g2d_fini_cmdlist(g2d);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 destroy_workqueue(g2d-&gt;g2d_workq);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 kmem_cache_destroy(g2d-&gt;runqueue_slab);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static int g2d_suspend(struct device *dev)<br>
-@@ -1609,7 +1607,7 @@ MODULE_DEVICE_TABLE(of, exynos_g2d_match);<br>
-<br>
-=C2=A0struct platform_driver g2d_driver =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D g2=
-d_probe,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D g2=
-d_remove,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D g2d_remove,<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
-=3D &quot;exynos-drm-g2d&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .owner=C2=A0 =3D TH=
-IS_MODULE,<br>
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_gsc.c b/drivers/gpu/drm/exyn=
-os/exynos_drm_gsc.c<br>
-index 34cdabc30b4f..6776d3e037c9 100644<br>
---- a/drivers/gpu/drm/exynos/exynos_drm_gsc.c<br>
-+++ b/drivers/gpu/drm/exynos/exynos_drm_gsc.c<br>
-@@ -1308,15 +1308,13 @@ static int gsc_probe(struct platform_device *pdev)<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
-=C2=A0}<br>
-<br>
--static int gsc_remove(struct platform_device *pdev)<br>
-+static void gsc_remove(struct platform_device *pdev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct device *dev =3D &amp;pdev-&gt;dev;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(dev, &amp;gsc_component_ops);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_dont_use_autosuspend(dev);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_disable(dev);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static int __maybe_unused gsc_runtime_suspend(struct device *dev)<br>
-@@ -1421,7 +1419,7 @@ MODULE_DEVICE_TABLE(of, exynos_drm_gsc_of_match);<br>
-<br>
-=C2=A0struct platform_driver gsc_driver =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D gs=
-c_probe,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D gs=
-c_remove,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D gsc_remove,<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
-=3D &quot;exynos-drm-gsc&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .owner=C2=A0 =3D TH=
-IS_MODULE,<br>
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_mic.c b/drivers/gpu/drm/exyn=
-os/exynos_drm_mic.c<br>
-index 17bab5b1663f..e2920960180f 100644<br>
---- a/drivers/gpu/drm/exynos/exynos_drm_mic.c<br>
-+++ b/drivers/gpu/drm/exynos/exynos_drm_mic.c<br>
-@@ -442,7 +442,7 @@ static int exynos_mic_probe(struct platform_device *pde=
-v)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
-=C2=A0}<br>
-<br>
--static int exynos_mic_remove(struct platform_device *pdev)<br>
-+static void exynos_mic_remove(struct platform_device *pdev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct exynos_mic *mic =3D platform_get_drvdata=
-(pdev);<br>
-<br>
-@@ -450,8 +450,6 @@ static int exynos_mic_remove(struct platform_device *pd=
-ev)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_disable(&amp;pdev-&gt;dev);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_bridge_remove(&amp;mic-&gt;bridge);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static const struct of_device_id exynos_mic_of_match[] =3D {<br>
-@@ -462,7 +460,7 @@ MODULE_DEVICE_TABLE(of, exynos_mic_of_match);<br>
-<br>
-=C2=A0struct platform_driver mic_driver =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D ex=
-ynos_mic_probe,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D ex=
-ynos_mic_remove,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D exynos_mic_r=
-emove,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
-=3D &quot;exynos-mic&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .pm=C2=A0 =C2=A0 =
-=C2=A0=3D pm_ptr(&amp;exynos_mic_pm_ops),<br>
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_rotator.c b/drivers/gpu/drm/=
-exynos/exynos_drm_rotator.c<br>
-index ffb327c5139e..5f7516655b08 100644<br>
---- a/drivers/gpu/drm/exynos/exynos_drm_rotator.c<br>
-+++ b/drivers/gpu/drm/exynos/exynos_drm_rotator.c<br>
-@@ -329,15 +329,13 @@ static int rotator_probe(struct platform_device *pdev=
-)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
-=C2=A0}<br>
-<br>
--static int rotator_remove(struct platform_device *pdev)<br>
-+static void rotator_remove(struct platform_device *pdev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct device *dev =3D &amp;pdev-&gt;dev;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(dev, &amp;rotator_component_ops);=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_dont_use_autosuspend(dev);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_disable(dev);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static int rotator_runtime_suspend(struct device *dev)<br>
-@@ -453,7 +451,7 @@ static DEFINE_RUNTIME_DEV_PM_OPS(rotator_pm_ops, rotato=
-r_runtime_suspend,<br>
-<br>
-=C2=A0struct platform_driver rotator_driver =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D ro=
-tator_probe,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D ro=
-tator_remove,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D rotator_remo=
-ve,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
-=3D &quot;exynos-rotator&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .owner=C2=A0 =3D TH=
-IS_MODULE,<br>
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_scaler.c b/drivers/gpu/drm/e=
-xynos/exynos_drm_scaler.c<br>
-index f2b8b09a6b4e..392f721f13ab 100644<br>
---- a/drivers/gpu/drm/exynos/exynos_drm_scaler.c<br>
-+++ b/drivers/gpu/drm/exynos/exynos_drm_scaler.c<br>
-@@ -539,15 +539,13 @@ static int scaler_probe(struct platform_device *pdev)=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
-=C2=A0}<br>
-<br>
--static int scaler_remove(struct platform_device *pdev)<br>
-+static void scaler_remove(struct platform_device *pdev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct device *dev =3D &amp;pdev-&gt;dev;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(dev, &amp;scaler_component_ops);<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_dont_use_autosuspend(dev);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_disable(dev);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static int clk_disable_unprepare_wrapper(struct clk *clk)<br>
-@@ -721,7 +719,7 @@ MODULE_DEVICE_TABLE(of, exynos_scaler_match);<br>
-<br>
-=C2=A0struct platform_driver scaler_driver =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D sc=
-aler_probe,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D sc=
-aler_remove,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D scaler_remov=
-e,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
-=3D &quot;exynos-scaler&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .owner=C2=A0 =3D TH=
-IS_MODULE,<br>
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/exy=
-nos/exynos_drm_vidi.c<br>
-index f5e1adfcaa51..00382f28748a 100644<br>
---- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c<br>
-+++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c<br>
-@@ -462,7 +462,7 @@ static int vidi_probe(struct platform_device *pdev)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return component_add(dev, &amp;vidi_component_o=
-ps);<br>
-=C2=A0}<br>
-<br>
--static int vidi_remove(struct platform_device *pdev)<br>
-+static void vidi_remove(struct platform_device *pdev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct vidi_context *ctx =3D platform_get_drvda=
-ta(pdev);<br>
-<br>
-@@ -472,13 +472,11 @@ static int vidi_remove(struct platform_device *pdev)<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(&amp;pdev-&gt;dev, &amp;vidi_comp=
-onent_ops);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-=C2=A0struct platform_driver vidi_driver =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D vi=
-di_probe,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D vi=
-di_remove,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D vidi_remove,=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
-=3D &quot;exynos-drm-vidi&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .owner=C2=A0 =3D TH=
-IS_MODULE,<br>
-diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/=
-exynos_hdmi.c<br>
-index f3aaa4ea3e68..6dfc8411ef84 100644<br>
---- a/drivers/gpu/drm/exynos/exynos_hdmi.c<br>
-+++ b/drivers/gpu/drm/exynos/exynos_hdmi.c<br>
-@@ -2067,7 +2067,7 @@ static int hdmi_probe(struct platform_device *pdev)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
-=C2=A0}<br>
-<br>
--static int hdmi_remove(struct platform_device *pdev)<br>
-+static void hdmi_remove(struct platform_device *pdev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct hdmi_context *hdata =3D platform_get_drv=
-data(pdev);<br>
-<br>
-@@ -2090,8 +2090,6 @@ static int hdmi_remove(struct platform_device *pdev)<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 put_device(&amp;hdata-&gt;ddc_adpt-&gt;dev);<br=
->
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 mutex_destroy(&amp;hdata-&gt;mutex);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static int __maybe_unused exynos_hdmi_suspend(struct device *dev)<br>
-@@ -2123,7 +2121,7 @@ static const struct dev_pm_ops exynos_hdmi_pm_ops =3D=
- {<br>
-<br>
-=C2=A0struct platform_driver hdmi_driver =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D hd=
-mi_probe,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D hd=
-mi_remove,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D hdmi_remove,=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
-=3D &quot;exynos-hdmi&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .owner=C2=A0 =3D TH=
-IS_MODULE,<br>
-diff --git a/drivers/gpu/drm/exynos/exynos_mixer.c b/drivers/gpu/drm/exynos=
-/exynos_mixer.c<br>
-index b302392ff0d7..6822333fd0e6 100644<br>
---- a/drivers/gpu/drm/exynos/exynos_mixer.c<br>
-+++ b/drivers/gpu/drm/exynos/exynos_mixer.c<br>
-@@ -1258,13 +1258,11 @@ static int mixer_probe(struct platform_device *pdev=
-)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
-=C2=A0}<br>
-<br>
--static int mixer_remove(struct platform_device *pdev)<br>
-+static void mixer_remove(struct platform_device *pdev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_disable(&amp;pdev-&gt;dev);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(&amp;pdev-&gt;dev, &amp;mixer_com=
-ponent_ops);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static int __maybe_unused exynos_mixer_suspend(struct device *dev)<br=
->
-@@ -1338,5 +1336,5 @@ struct platform_driver mixer_driver =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .of_match_table =3D=
- mixer_match_types,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 },<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe =3D mixer_probe,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove =3D mixer_remove,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new =3D mixer_remove,<br>
-=C2=A0};<br>
--- <br>
-2.42.0<br>
-<br>
-</blockquote></div></div></div>
-
---0000000000000fbc5206099c5a25--
+> > 
+> > Huacai
+> > 
+> > >
+> > > >
+> > > > Hi, Javier,
+> > > >
+> > > > I think I have mostly found the root cause. DRM_SIMPLEDRM has no bugs,
+> > > > Jaak's problem is due to the initialization order of drivers, and this
+> > > > order depends on the Makefile.
+> > > >
+> > > > FB_SIMPLE is before native DRM drivers (e.g. i915, radeon, amdgpu, and
+> > > > so on), but DRM_SIMPLEDRM is after them. Thus, if Jaak uses FB_SIMPLE,
+> > > > I915 will takeover FB_SIMPLE, then no problem; and if Jaak uses
+> > > > DRM_SIMPLEDRM, DRM_SIMPLEDRM will try to takeover I915, but fails to
+> > > > work.
+> > > >
+> > > > So, when I move the "tiny" directory before i915, the problem is
+> > > > solved. But the new problem is: is it acceptable to solve this problem
+> > > > by adjusting Makefile?
+> > > >
+> > > > Huacai
+> > > >
+> > > > >
+> > > > > Jaak
+> > > > >
+> > > > > >
+> > > > > > Evan's problem seems a little strange, could you please give me your
+> > > > > > config files of both 6.4.12 and 6.5.x? And you can also try the above
+> > > > > > method to see if anything changes.
+> > >
+> > > I'll send you my config files.
+> > >
+> > > > > >
+> > > > > > Huacai
+> > > > > >
+> > > > > >>
+> > > > > >> J
+> > > > > >>
+> > > > > >>>
+> > > > > >>>>
+> > > > > >>>> Evan
+> > > > > >>>>
+> > > > > >>>>>
+> > > > > >>>>> Huacai
+> > > > > >>>>>
+> > > > > >>>>>>
+> > > > > >>>>>> Evan
+> > > > > >>>>>>
+> > > > > >>>>>>>
+> > > > > >>>>>>> Huacai
+> > > > > >>>>>>>
+> > > > > >>>>>>>>
+> > > > > >>>>>>>> Jaak
+> > > > > >>>>>>>>
+> > > > > >>>>>>>>>
+> > > > > >>>>>>>>>
+> > > > > >>>>>>>>> Huacai
+> > > > > >>>>>>>>>
+> > > > > >>>>>>>>>>
+> > > > > >>>>>>>>>> Huacai
+> > > > > >>>>>>>>>>
+> > > > > >>>>>>>>>>>
+> > > > > >>>>>>>>>>> Jaak
+> > > > > >>>>>>>>>>>
+> > > > > >>>>>>>>>>>>
+> > > > > >>>>>>>>>>>> Huacai
+> > > > > >>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>> Jaak
+> > > > > >>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>> But I write this mail for a different reason:
+> > > > > >>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>>> I am having the same issue on a Lenovo Thinkpad P70 (Intel
+> > > > > >>>>>>>>>>>>>>>> Corporation HD Graphics 530 (rev 06), Intel(R) Core(TM) i7-6700HQ).
+> > > > > >>>>>>>>>>>>>>>> Upgrading from Linux 6.4.12 to 6.5 and later results in only a blank
+> > > > > >>>>>>>>>>>>>>>> screen after boot and a rapidly flashing device-access-status
+> > > > > >>>>>>>>>>>>>>>> indicator.
+> > > > > >>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>> This additional report makes me wonder if we should revert the culprit
+> > > > > >>>>>>>>>>>>>>> (60aebc9559492c ("drivers/firmware: Move sysfb_init() from
+> > > > > >>>>>>>>>>>>>>> device_initcall to subsys_initcall_sync") [v6.5-rc1]). But I guess that
+> > > > > >>>>>>>>>>>>>>> might lead to regressions for some users? But the patch description says
+> > > > > >>>>>>>>>>>>>>> that this is not a common configuration, so can we maybe get away with that?
+> > > > > >>>>>>>>>>>>>>      From my point of view, this is not a regression, 60aebc9559492c
+> > > > > >>>>>>>>>>>>>> doesn't cause a problem, but exposes a problem. So we need to fix the
+> > > > > >>>>>>>>>>>>>> real problem (SIMPLEDRM has a blank screen on some conditions). This
+> > > > > >>>>>>>>>>>>>> needs Jaak or Evan's help.
+> > > > > >>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>> Huacai
+> > > > > >>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+> > > > > >>>>>>>>>>>>>>> --
+> > > > > >>>>>>>>>>>>>>> Everything you wanna know about Linux kernel regression tracking:
+> > > > > >>>>>>>>>>>>>>> https://linux-regtracking.leemhuis.info/about/#tldr
+> > > > > >>>>>>>>>>>>>>> If I did something stupid, please tell me, as explained on that page.
+> > > > > >>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>>>>>>>> When SIMPLEDRM takes over the framebuffer, the screen is blank (don't
+> > > > > >>>>>>>>>>>>>>>>>>>>> know why). And before 60aebc9559492cea6a9625f ("drivers/firmware: Move
+> > > > > >>>>>>>>>>>>>>>>>>>>> sysfb_init() from device_initcall to subsys_initcall_sync") there is
+> > > > > >>>>>>>>>>>>>>>>>>>>> no platform device created for SIMPLEDRM at early stage, so it seems
+> > > > > >>>>>>>>>>>>>>>>>>>>> also "no problem".
+> > > > > >>>>>>>>>>>>>>>>>>>> I don't understand above. You mean that after that commit the platform
+> > > > > >>>>>>>>>>>>>>>>>>>> device is also none, right?
+> > > > > >>>>>>>>>>>>>>>>>>> No. The SIMPLEDRM driver needs a platform device to work, and that
+> > > > > >>>>>>>>>>>>>>>>>>> commit makes the platform device created earlier. So, before that
+> > > > > >>>>>>>>>>>>>>>>>>> commit, SIMPLEDRM doesn't work, but the screen isn't blank; after that
+> > > > > >>>>>>>>>>>>>>>>>>> commit, SIMPLEDRM works, but the screen is blank.
+> > > > > >>>>>>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>>>>>> Huacai
+> > > > > >>>>>>>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>>>>>>> Confused...
+> > > > > >>>>>>>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>>>>>>> --
+> > > > > >>>>>>>>>>>>>>>>>>>> An old man doll... just what I always wanted! - Clara
+> > > > > >>>>>>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>>>
+> > > > > >>>>>>>>>>>
+> > > > > >>>>>>>>
+> > > > > >>>>>>
+> > > > > >>>>>>
+> > > > > >>
+> > > > >
