@@ -1,51 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C747E5233
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 09:52:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F0897E513B
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 08:40:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E692710E15B;
-	Wed,  8 Nov 2023 08:52:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2E5A10E70E;
+	Wed,  8 Nov 2023 07:40:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 7017 seconds by postgrey-1.36 at gabe;
- Wed, 08 Nov 2023 08:52:47 UTC
-Received: from 11.mo582.mail-out.ovh.net (11.mo582.mail-out.ovh.net
- [188.165.38.119])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF3CA10E15B
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 08:52:47 +0000 (UTC)
-Received: from director6.ghost.mail-out.ovh.net (unknown [10.109.156.34])
- by mo582.mail-out.ovh.net (Postfix) with ESMTP id D6663288D9
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 07:36:15 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-k8mr2 (unknown [10.110.103.34])
- by director6.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 1CE1B1FE9A;
- Wed,  8 Nov 2023 07:36:15 +0000 (UTC)
-Received: from RCM-web9.webmail.mail.ovh.net ([151.80.29.21])
- by ghost-submission-6684bf9d7b-k8mr2 with ESMTPSA
- id t3ULBm86S2VjUxQAdDy9bg
- (envelope-from <jose.pekkarinen@foxhound.fi>); Wed, 08 Nov 2023 07:36:15 +0000
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CAAC10E70C
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 07:40:27 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id
+ 4fb4d7f45d1cf-53dd752685fso10956266a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 23:40:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1699429225; x=1700034025; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=wqb/Bv6eFY0SfyqqO+nQ1BCDEH1GYhSIKxO8FXfbD68=;
+ b=TA/rsNXCy/Brug1GgDUtsUKv87fiaMJHs9YyXmWQMESMiBveD6CkWll1Hv9ilkmlcd
+ HnKYOO1L0LCYPhpUG9K5Saq0iBUlh5On1QLWcbDEMrf8gQlulHZiRDIcosvip7R7/bd6
+ /UZGEsHrRbbUK4J1/NwwejaWx9u6t2mEdOrT/KOTZeRu8lfrGh5fegOZ+PrWqFwLPbMN
+ 5R7rcF4bkMxe00IoafyENGIh88pAsdRW+WcDGVvIQuiFD6jgsdPArZJeHL8RRd22/fEJ
+ gfMAfvRdo5c4w2rOvszmZx90lRTSZjxfcwIqk8wl3iBFDVuTJNFpyg0zRVUnGDfSkd9o
+ Dn7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699429225; x=1700034025;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wqb/Bv6eFY0SfyqqO+nQ1BCDEH1GYhSIKxO8FXfbD68=;
+ b=HnhHa7pGqOvDGzvDZas47oRgTeRuoaQKO9AGbxX2Ao0gkEOFsbTeS4CNEWd/gSmv6l
+ Hp16xTuZ8MwPYdTPFfcukrIdKs1S9uGh3IBj5oOfR+4sLUrAmCHpNHvDWdPuVatPEzwf
+ 2fFK2D1GeWQh292fHlvOtT5RcxEgIFfuME5ocUVxXzsGD3IIkRh/lYZiWxHecLeCtrBC
+ ii514/lpMR008wUd/NpyM3+pZd2sO3yBigMS7URahasJaFaQ8viKZOhDMoErQgD5pTMg
+ OqvMTUmNpwJHSyvZz+eSe6Nh1P2KLusOZbhwFUAeMnIp9qgPba96QzxbamrO5ewjGT6h
+ TjDg==
+X-Gm-Message-State: AOJu0YxTks7xxLCmvi07qbeCHLd/xwmDoUsf/4kOHbEnSq52ajadn9ao
+ VCFTt4o6a65/ELqrN9b9B53Crw==
+X-Google-Smtp-Source: AGHT+IGgCTJibXogk7f/4/pdPf+5XlJkJU4UH+dwwDJR8NpmONM63voWpi/OW1oA26bDGwpm+aZ6MQ==
+X-Received: by 2002:a17:907:720c:b0:9e2:92b5:f234 with SMTP id
+ dr12-20020a170907720c00b009e292b5f234mr729929ejc.39.1699429225572; 
+ Tue, 07 Nov 2023 23:40:25 -0800 (PST)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ a27-20020a1709063a5b00b009c6a4a5ac80sm586737ejf.169.2023.11.07.23.40.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Nov 2023 23:40:24 -0800 (PST)
+Date: Wed, 8 Nov 2023 10:40:21 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Karol Herbst <kherbst@redhat.com>, Danilo Krummrich <me@dakr.org>
+Subject: [PATCH] nouveau/gsp/r535: Fix a NULL vs error pointer bug
+Message-ID: <f71996d9-d1cb-45ea-a4b2-2dfc21312d8c@kili.mountain>
 MIME-Version: 1.0
-Date: Wed, 08 Nov 2023 09:36:14 +0200
-From: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
-To: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Subject: Re: [PATCH] drm/amd/display: remove duplicated argument
-In-Reply-To: <d56cd927-49fc-cb4e-8abd-abc539e4d276@amd.com>
-References: <20231029093926.137766-1-jose.pekkarinen@foxhound.fi>
- <d56cd927-49fc-cb4e-8abd-abc539e4d276@amd.com>
-User-Agent: Roundcube Webmail/1.4.15
-Message-ID: <e095fae915d44ccc186d5e5ee74ec119@foxhound.fi>
-X-Sender: jose.pekkarinen@foxhound.fi
-Organization: Foxhound Ltd.
-X-Originating-IP: 185.220.101.156
-X-Webmail-UserID: jose.pekkarinen@foxhound.fi
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 4210584177794590374
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedruddukedguddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeggfffhvfevufgjfhgfkfigohhitgfgsehtkehjtddtreejnecuhfhrohhmpeflohhsrocurfgvkhhkrghrihhnvghnuceojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqnecuggftrfgrthhtvghrnhepkefhgeduudefgedvleegtddvffeghedvtdekveekjeevvdegiedtfeelhedtiedtnecukfhppeduvdejrddtrddtrddupddukeehrddvvddtrddutddurdduheeipdduhedurdektddrvdelrddvudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehkedvpdhmohguvgepshhmthhpohhuth
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,60 +69,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunran001@208suo.com, sunpeng.li@amd.com, qingqing.zhuo@amd.com,
- Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Zhongwei.Zhang@amd.com, alex.hung@amd.com,
- Yao.Wang1@amd.com, dri-devel@lists.freedesktop.org, skhan@linuxfoundation.org,
- alexander.deucher@amd.com, Jun.Lei@amd.com, christian.koenig@amd.com,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: nouveau@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-10-30 15:54, Aurabindo Pillai wrote:
-> On 10/29/2023 5:39 AM, José Pekkarinen wrote:
->> Spotted by coccicheck, there is a redundant check for
->> v->SourcePixelFormat[k] != dm_444_16. This patch will
->> remove it. The corresponding output follows.
->> 
->> drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c:5130:86-122: 
->> duplicated argument to && or ||
->> 
->> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
->> ---
->>   drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c | 2 
->> +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->> 
->> diff --git 
->> a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c 
->> b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
->> index ad741a723c0e..3686f1e7de3a 100644
->> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
->> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
->> @@ -5128,7 +5128,7 @@ void 
->> dml30_ModeSupportAndSystemConfigurationFull(struct display_mode_lib 
->> *mode_l
->>   			ViewportExceedsSurface = true;
->>     		if (v->SourcePixelFormat[k] != dm_444_64 && 
->> v->SourcePixelFormat[k] != dm_444_32 && v->SourcePixelFormat[k] != 
->> dm_444_16
->> -				&& v->SourcePixelFormat[k] != dm_444_16 && 
->> v->SourcePixelFormat[k] != dm_444_8 && v->SourcePixelFormat[k] != 
->> dm_rgbe) {
->> +				&& v->SourcePixelFormat[k] != dm_444_8 && v->SourcePixelFormat[k] 
->> != dm_rgbe) {
->>   			if (v->ViewportWidthChroma[k] > v->SurfaceWidthC[k] || 
->> v->ViewportHeightChroma[k] > v->SurfaceHeightC[k]) {
->>   				ViewportExceedsSurface = true;
->>   			}
-> 
-> Thanks for catching.
-> 
-> Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+The r535_gsp_cmdq_get() function returns error pointers but this code
+checks for NULL.  Also we need to propagate the error pointer back to
+the callers in r535_gsp_rpc_get().  Returning NULL will lead to a NULL
+pointer dereference.
 
-     Sorry to bring this up, I just wanted to check whether this
-has been applied in the following pulls or not.
+Fixes: 176fdcbddfd2 ("drm/nouveau/gsp/r535: add support for booting GSP-RM")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-     Thanks!
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+index e31f9641114b..f8409e2f9fef 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+@@ -689,8 +689,8 @@ r535_gsp_rpc_get(struct nvkm_gsp *gsp, u32 fn, u32 argc)
+ 	struct nvfw_gsp_rpc *rpc;
+ 
+ 	rpc = r535_gsp_cmdq_get(gsp, ALIGN(sizeof(*rpc) + argc, sizeof(u64)));
+-	if (!rpc)
+-		return NULL;
++	if (IS_ERR(rpc))
++		return ERR_CAST(rpc);
+ 
+ 	rpc->header_version = 0x03000000;
+ 	rpc->signature = ('C' << 24) | ('P' << 16) | ('R' << 8) | 'V';
+-- 
+2.39.2
 
-     José.
