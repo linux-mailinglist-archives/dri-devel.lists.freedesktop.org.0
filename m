@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A58C7E5794
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 14:04:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1C927E57A0
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 14:04:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAF3110E74C;
-	Wed,  8 Nov 2023 13:03:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F64610E74D;
+	Wed,  8 Nov 2023 13:04:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98E3D10E74B
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 13:03:56 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F33C10E74D
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 13:04:09 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 0587EB81C6B;
- Wed,  8 Nov 2023 13:03:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D62C9C433B6;
- Wed,  8 Nov 2023 13:03:40 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 93B61615E7;
+ Wed,  8 Nov 2023 13:04:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D51A7C4339A;
+ Wed,  8 Nov 2023 13:03:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699448634;
- bh=f7fNKO5gnWJA/d4ZFMRTEakv5+W/QOqilqMHW6JFmn4=;
+ s=k20201202; t=1699448648;
+ bh=Nx8Vn2zgScg8dIFdjbuCnuMwcXn8NC4yH/1zIRuXFKU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DBJ5jR4CXtPbJPYGq5r5xOFK0mCJWbOQOLyr3aUZajjqm4iLO0JsvUKUO0uN+hUJe
- Msij0+2zs+jlyWA/41ZMIpSg/OOLqS9wyqGkpDKqxxZeodHNCH+//AzBMyQlzRQ4K3
- 7vkTtk3yfTrs5D2GEKfRiTYosKYtejRV4Z5eqoQ2wuHtMIflJUm0yDGmV6pBS19TOS
- 2Ez2H9AYDV2mhlQ/YZ2KYGXkuQQZFFbFW2mzc4LfBS4S4LMUXzPxTWZ+3A/rp0/+V5
- eF8Sn8vPAZf/juaHTFs3VeqE1LtKB2kpkk8oTSn5Tr/GceC5v9b2j4wWO5bmgoEaVk
- 3OcTg1l38QHTg==
+ b=jM23eUv5FMlKZU6BTGV1ePPaE3RTcAWRXDzcXAcjOqA/ZqCE81ar4bVn2a2r75AKm
+ jflHQH/BYiBETTY3g9IoyJRr+2hYEdyLCZV96oyvyWq2ogp98/QmGboBx7Dt00jY3G
+ T2yyCpZ97F+U44qiklj3/qmthIoQi+rfc2I6iwn29l6Yx1Aa4hEPyXCWRNDvKN7BVm
+ RRHAmCXQIZv6jYLGfTgwkeOX1UsnUHrOOm9LQLQaG/WsU1PiIR54QxRx9rzy3qyX5I
+ LvmxOxUIQrgDSPyInQ9FstpMGLBcD5o3qVnRy4F0RrfTjaf20bD3r98NBPFpzpVdby
+ bdKtp2p5lyJ8Q==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
  Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH 20/22] usb: fsl-mph-dr-of: mark fsl_usb2_mpc5121_init() static
-Date: Wed,  8 Nov 2023 13:58:41 +0100
-Message-Id: <20231108125843.3806765-21-arnd@kernel.org>
+Subject: [PATCH 21/22] fbdev/fsl-diu-fb: mark wr_reg_wa() static
+Date: Wed,  8 Nov 2023 13:58:42 +0100
+Message-Id: <20231108125843.3806765-22-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231108125843.3806765-1-arnd@kernel.org>
 References: <20231108125843.3806765-1-arnd@kernel.org>
@@ -93,29 +94,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-This function is only called locally and should always have been static:
+wr_reg_wa() is not an appropriate name for a global function, and doesn't need
+to be global anyway, so mark it static and avoid the warning:
 
-drivers/usb/host/fsl-mph-dr-of.c:291:5: error: no previous prototype for 'fsl_usb2_mpc5121_init' [-Werror=missing-prototypes]
+drivers/video/fbdev/fsl-diu-fb.c:493:6: error: no previous prototype for 'wr_reg_wa' [-Werror=missing-prototypes]
 
-Fixes: 230f7ede6c2f ("USB: add USB EHCI support for MPC5121 SoC")
+Fixes: 0d9dab39fbbe ("powerpc/5121: fsl-diu-fb: fix issue with re-enabling DIU area descriptor")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/usb/host/fsl-mph-dr-of.c | 2 +-
+ drivers/video/fbdev/fsl-diu-fb.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/fsl-mph-dr-of.c b/drivers/usb/host/fsl-mph-dr-of.c
-index 8508d37a2aff..6cdc3d805c32 100644
---- a/drivers/usb/host/fsl-mph-dr-of.c
-+++ b/drivers/usb/host/fsl-mph-dr-of.c
-@@ -288,7 +288,7 @@ static void fsl_usb2_mph_dr_of_remove(struct platform_device *ofdev)
- #define PHYCTRL_LSFE		(1 << 1)	/* Line State Filter Enable */
- #define PHYCTRL_PXE		(1 << 0)	/* PHY oscillator enable */
- 
--int fsl_usb2_mpc5121_init(struct platform_device *pdev)
-+static int fsl_usb2_mpc5121_init(struct platform_device *pdev)
+diff --git a/drivers/video/fbdev/fsl-diu-fb.c b/drivers/video/fbdev/fsl-diu-fb.c
+index 7fbd9f069ac2..0bced82fa494 100644
+--- a/drivers/video/fbdev/fsl-diu-fb.c
++++ b/drivers/video/fbdev/fsl-diu-fb.c
+@@ -490,7 +490,7 @@ static enum fsl_diu_monitor_port fsl_diu_name_to_port(const char *s)
+  * Workaround for failed writing desc register of planes.
+  * Needed with MPC5121 DIU rev 2.0 silicon.
+  */
+-void wr_reg_wa(u32 *reg, u32 val)
++static void wr_reg_wa(u32 *reg, u32 val)
  {
- 	struct fsl_usb2_platform_data *pdata = dev_get_platdata(&pdev->dev);
- 	struct clk *clk;
+ 	do {
+ 		out_be32(reg, val);
 -- 
 2.39.2
 
