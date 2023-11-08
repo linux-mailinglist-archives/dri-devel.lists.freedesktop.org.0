@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EEDA7E60FD
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 00:21:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D587E6134
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 00:50:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF8710E88A;
-	Wed,  8 Nov 2023 23:21:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D285910E19B;
+	Wed,  8 Nov 2023 23:49:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB8D010E8A3
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 23:20:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 0D67FB81EB2;
- Wed,  8 Nov 2023 23:20:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FB6AC433C8;
- Wed,  8 Nov 2023 23:20:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699485626;
- bh=PYJW4QGKn9tJvNiaagWV7uxmfj3dj1vHSKjkB8gGQNU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=BzFtaBogfySwWTla2NJeVqR4PuaYoyopTLM2Vi9KPqLDdx3zZhWzGVJP/DnI0doAr
- DCysq9OUVMln4AwlnrEJVkGy7f+Qm12tVyciJjWeul+4uzovgGCKk2sMAtDMAjSHQk
- VewIlU9Taz4GP2QauTMdLCa7SvSTilwhfOh7tff1Ga+FrRKGb/HdT6qnkIpQd6cOAM
- O/27XvUeKFXk5bmEslLGwZ3jtw7QVPeQvIoDsIh/p8JjCWRipxoFk8lN/qC5a7ewR/
- H/tawx3cjSx2H40w4euTMdD4AcO2ZafY4Qwdj7yo9jdfRTzsx4bJpJ6lI9DE3yX0ny
- IuIsDgsRCUzJQ==
-Date: Thu, 9 Nov 2023 08:20:09 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH 03/22] [RESEND] kprobes: unify
- kprobes_exceptions_nofify() prototypes
-Message-Id: <20231109082009.a34621399a98181ee6cde60b@kernel.org>
-In-Reply-To: <20231108125843.3806765-4-arnd@kernel.org>
-References: <20231108125843.3806765-1-arnd@kernel.org>
- <20231108125843.3806765-4-arnd@kernel.org>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82FEC10E19B
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 23:49:55 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (unknown [217.70.183.193])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id E555EC0401
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 23:39:02 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1BEB6240002;
+ Wed,  8 Nov 2023 23:38:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1699486737;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZWGdlfzeQ997IaAZInKpU2sKbuC+Orz4F3vDh0PjvMg=;
+ b=N5+lAS1QuxDD2SdkvbVdLw6qWEExpftDZPduFcY4jvX3tX20kCAWoNxKTCbZRtf9w+ouLF
+ l4fKQQcmYAJfL8NzZdxIG/Zw2NQvea1Blg8JDbZhLzGFqwUFZSMLAZQbKEtgh+f0oxmK4T
+ EpVXWt1UurkD/XfaaScPMdGHnbdIhAsxc8NUUIWyZcFHTWS+vs9cASEwT34LE+hQQNy3eN
+ 0IDd6wLXmMcmnxq54uddsLKPdwBZzrwtOTy4lTn/ffsBGYKNJFjj8vvBRXDFioGx8SKIzF
+ K8zpiBozZs5QOnMp5PMhArdwmbRirW7GuvBX/PaIdsbwc92dALc61l+dNbST7Q==
+Date: Thu, 9 Nov 2023 00:38:54 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 06/17] dt-bindings: rtc: s3c-rtc: add specific
+ compatibles for existing SoC
+Message-ID: <202311082338542f79f576@mail.local>
+References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
+ <20231108104343.24192-7-krzysztof.kozlowski@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231108104343.24192-7-krzysztof.kozlowski@linaro.org>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,220 +53,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Juri Lelli <juri.lelli@redhat.com>,
- linux-fbdev@vger.kernel.org, x86@kernel.org, loongarch@lists.linux.dev,
- linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, netdev@vger.kernel.org,
- Guo Ren <guoren@kernel.org>,
- Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
- Helge Deller <deller@gmx.de>, sparclinux@vger.kernel.org,
- linux-riscv@lists.infradead.org, Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Nicolas Schier <nicolas@fjasle.eu>, linux-s390@vger.kernel.org,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Michael Ellerman <mpe@ellerman.id.au>, Masahiro Yamada <masahiroy@kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Greg Ungerer <gerg@linux-m68k.org>, linux-bcachefs@vger.kernel.org,
- Ingo Molnar <mingo@redhat.com>, Vineet Gupta <vgupta@kernel.org>,
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Matt Turner <mattst88@gmail.com>,
- linux-snps-arc@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
- linux-kbuild@vger.kernel.org, Heiko Carstens <hca@linux.ibm.com>,
- Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>,
- linuxppc-dev@lists.ozlabs.org, Steven Rostedt <rostedt@goodmis.org>,
- Nathan Chancellor <nathan@kernel.org>, linux-m68k@lists.linux-m68k.org,
- linux-csky@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
- Andy Lutomirski <luto@kernel.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Michal Simek <monstr@monstr.eu>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
- Timur Tabi <timur@kernel.org>, Geoff Levand <geoff@infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Kent Overstreet <kent.overstreet@linux.dev>,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Dinh Nguyen <dinguyen@kernel.org>, linux-usb@vger.kernel.org,
- Palmer Dabbelt <palmer@dabbelt.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- linux-alpha@vger.kernel.org, linux-mtd@lists.infradead.org,
- Andrew Morton <akpm@linux-foundation.org>,
- David Woodhouse <dwmw2@infradead.org>, "David S. Miller" <davem@davemloft.net>,
- Al Viro <viro@zeniv.linux.org.uk>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>,
+ linux-pwm@vger.kernel.org, linux-iio@vger.kernel.org,
+ Tomasz Figa <tomasz.figa@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-i2c@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Jiri Slaby <jirislaby@kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>, linux-rtc@vger.kernel.org,
+ Lee Jones <lee@kernel.org>, Jaehoon Chung <jh80.chung@samsung.com>,
+ linux-samsung-soc@vger.kernel.org, linux-serial@vger.kernel.org,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ alsa-devel@alsa-project.org, Maxime Ripard <mripard@kernel.org>,
+ linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-sound@vger.kernel.org, Sam Protsenko <semen.protsenko@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, Alessandro Zummo <a.zummo@towertech.it>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mmc@vger.kernel.org,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed,  8 Nov 2023 13:58:24 +0100
-Arnd Bergmann <arnd@kernel.org> wrote:
-
-> From: Arnd Bergmann <arnd@arndb.de>
+On 08/11/2023 11:43:32+0100, Krzysztof Kozlowski wrote:
+> Samsung Exynos SoC reuses several devices from older designs, thus
+> historically we kept the old (block's) compatible only.  This works fine
+> and there is no bug here, however guidelines expressed in
+> Documentation/devicetree/bindings/writing-bindings.rst state that:
+> 1. Compatibles should be specific.
+> 2. We should add new compatibles in case of bugs or features.
 > 
-> Most architectures that support kprobes declare this function in their
-> own asm/kprobes.h header and provide an override, but some are missing
-> the prototype, which causes a warning for the __weak stub implementation:
+> Add compatibles specific to each SoC in front of all old-SoC-like
+> compatibles.
 > 
-> kernel/kprobes.c:1865:12: error: no previous prototype for 'kprobe_exceptions_notify' [-Werror=missing-prototypes]
->  1865 | int __weak kprobe_exceptions_notify(struct notifier_block *self,
-> 
-> Move the prototype into linux/kprobes.h so it is visible to all
-> the definitions.
-
-Thanks, let me pick this to linux-trace tree.
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
 > 
-> Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  arch/arc/include/asm/kprobes.h     | 3 ---
->  arch/arm/include/asm/kprobes.h     | 2 --
->  arch/arm64/include/asm/kprobes.h   | 2 --
->  arch/mips/include/asm/kprobes.h    | 2 --
->  arch/powerpc/include/asm/kprobes.h | 2 --
->  arch/s390/include/asm/kprobes.h    | 2 --
->  arch/sh/include/asm/kprobes.h      | 2 --
->  arch/sparc/include/asm/kprobes.h   | 2 --
->  arch/x86/include/asm/kprobes.h     | 2 --
->  include/linux/kprobes.h            | 4 ++++
->  10 files changed, 4 insertions(+), 19 deletions(-)
 > 
-> diff --git a/arch/arc/include/asm/kprobes.h b/arch/arc/include/asm/kprobes.h
-> index de1566e32cb8..68e8301c0df2 100644
-> --- a/arch/arc/include/asm/kprobes.h
-> +++ b/arch/arc/include/asm/kprobes.h
-> @@ -32,9 +32,6 @@ struct kprobe;
+> I propose to take the patch through Samsung SoC (me). See cover letter
+> for explanation.
+> ---
+>  Documentation/devicetree/bindings/rtc/s3c-rtc.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/rtc/s3c-rtc.yaml b/Documentation/devicetree/bindings/rtc/s3c-rtc.yaml
+> index d51b236939bf..bf4e11d6dffb 100644
+> --- a/Documentation/devicetree/bindings/rtc/s3c-rtc.yaml
+> +++ b/Documentation/devicetree/bindings/rtc/s3c-rtc.yaml
+> @@ -17,6 +17,11 @@ properties:
+>            - samsung,s3c2416-rtc
+>            - samsung,s3c2443-rtc
+>            - samsung,s3c6410-rtc
+> +      - items:
+> +          - enum:
+> +              - samsung,exynos7-rtc
+> +              - samsung,exynos850-rtc
+> +          - const: samsung,s3c6410-rtc
+>        - const: samsung,exynos3250-rtc
+>          deprecated: true
 >  
->  void arch_remove_kprobe(struct kprobe *p);
->  
-> -int kprobe_exceptions_notify(struct notifier_block *self,
-> -			     unsigned long val, void *data);
-> -
->  struct prev_kprobe {
->  	struct kprobe *kp;
->  	unsigned long status;
-> diff --git a/arch/arm/include/asm/kprobes.h b/arch/arm/include/asm/kprobes.h
-> index e26a278d301a..5b8dbf1b0be4 100644
-> --- a/arch/arm/include/asm/kprobes.h
-> +++ b/arch/arm/include/asm/kprobes.h
-> @@ -40,8 +40,6 @@ struct kprobe_ctlblk {
->  
->  void arch_remove_kprobe(struct kprobe *);
->  int kprobe_fault_handler(struct pt_regs *regs, unsigned int fsr);
-> -int kprobe_exceptions_notify(struct notifier_block *self,
-> -			     unsigned long val, void *data);
->  
->  /* optinsn template addresses */
->  extern __visible kprobe_opcode_t optprobe_template_entry[];
-> diff --git a/arch/arm64/include/asm/kprobes.h b/arch/arm64/include/asm/kprobes.h
-> index 05cd82eeca13..be7a3680dadf 100644
-> --- a/arch/arm64/include/asm/kprobes.h
-> +++ b/arch/arm64/include/asm/kprobes.h
-> @@ -37,8 +37,6 @@ struct kprobe_ctlblk {
->  
->  void arch_remove_kprobe(struct kprobe *);
->  int kprobe_fault_handler(struct pt_regs *regs, unsigned int fsr);
-> -int kprobe_exceptions_notify(struct notifier_block *self,
-> -			     unsigned long val, void *data);
->  void __kretprobe_trampoline(void);
->  void __kprobes *trampoline_probe_handler(struct pt_regs *regs);
->  
-> diff --git a/arch/mips/include/asm/kprobes.h b/arch/mips/include/asm/kprobes.h
-> index 68b1e5d458cf..bc27d99c9436 100644
-> --- a/arch/mips/include/asm/kprobes.h
-> +++ b/arch/mips/include/asm/kprobes.h
-> @@ -71,8 +71,6 @@ struct kprobe_ctlblk {
->  	struct prev_kprobe prev_kprobe;
->  };
->  
-> -extern int kprobe_exceptions_notify(struct notifier_block *self,
-> -				    unsigned long val, void *data);
->  
->  #endif /* CONFIG_KPROBES */
->  #endif /* _ASM_KPROBES_H */
-> diff --git a/arch/powerpc/include/asm/kprobes.h b/arch/powerpc/include/asm/kprobes.h
-> index c8e4b4fd4e33..4525a9c68260 100644
-> --- a/arch/powerpc/include/asm/kprobes.h
-> +++ b/arch/powerpc/include/asm/kprobes.h
-> @@ -84,8 +84,6 @@ struct arch_optimized_insn {
->  	kprobe_opcode_t *insn;
->  };
->  
-> -extern int kprobe_exceptions_notify(struct notifier_block *self,
-> -					unsigned long val, void *data);
->  extern int kprobe_fault_handler(struct pt_regs *regs, int trapnr);
->  extern int kprobe_handler(struct pt_regs *regs);
->  extern int kprobe_post_handler(struct pt_regs *regs);
-> diff --git a/arch/s390/include/asm/kprobes.h b/arch/s390/include/asm/kprobes.h
-> index 21b9e5290c04..01f1682a73b7 100644
-> --- a/arch/s390/include/asm/kprobes.h
-> +++ b/arch/s390/include/asm/kprobes.h
-> @@ -73,8 +73,6 @@ struct kprobe_ctlblk {
->  void arch_remove_kprobe(struct kprobe *p);
->  
->  int kprobe_fault_handler(struct pt_regs *regs, int trapnr);
-> -int kprobe_exceptions_notify(struct notifier_block *self,
-> -	unsigned long val, void *data);
->  
->  #define flush_insn_slot(p)	do { } while (0)
->  
-> diff --git a/arch/sh/include/asm/kprobes.h b/arch/sh/include/asm/kprobes.h
-> index eeba83e0a7d2..65d4c3316a5b 100644
-> --- a/arch/sh/include/asm/kprobes.h
-> +++ b/arch/sh/include/asm/kprobes.h
-> @@ -46,8 +46,6 @@ struct kprobe_ctlblk {
->  };
->  
->  extern int kprobe_fault_handler(struct pt_regs *regs, int trapnr);
-> -extern int kprobe_exceptions_notify(struct notifier_block *self,
-> -				    unsigned long val, void *data);
->  extern int kprobe_handle_illslot(unsigned long pc);
->  #else
->  
-> diff --git a/arch/sparc/include/asm/kprobes.h b/arch/sparc/include/asm/kprobes.h
-> index 06c2bc767ef7..aec742cd898f 100644
-> --- a/arch/sparc/include/asm/kprobes.h
-> +++ b/arch/sparc/include/asm/kprobes.h
-> @@ -47,8 +47,6 @@ struct kprobe_ctlblk {
->  	struct prev_kprobe prev_kprobe;
->  };
->  
-> -int kprobe_exceptions_notify(struct notifier_block *self,
-> -			     unsigned long val, void *data);
->  int kprobe_fault_handler(struct pt_regs *regs, int trapnr);
->  asmlinkage void __kprobes kprobe_trap(unsigned long trap_level,
->  				      struct pt_regs *regs);
-> diff --git a/arch/x86/include/asm/kprobes.h b/arch/x86/include/asm/kprobes.h
-> index a2e9317aad49..5939694dfb28 100644
-> --- a/arch/x86/include/asm/kprobes.h
-> +++ b/arch/x86/include/asm/kprobes.h
-> @@ -113,8 +113,6 @@ struct kprobe_ctlblk {
->  };
->  
->  extern int kprobe_fault_handler(struct pt_regs *regs, int trapnr);
-> -extern int kprobe_exceptions_notify(struct notifier_block *self,
-> -				    unsigned long val, void *data);
->  extern int kprobe_int3_handler(struct pt_regs *regs);
->  
->  #else
-> diff --git a/include/linux/kprobes.h b/include/linux/kprobes.h
-> index 365eb092e9c4..ab1da3142b06 100644
-> --- a/include/linux/kprobes.h
-> +++ b/include/linux/kprobes.h
-> @@ -445,6 +445,10 @@ int kprobe_get_kallsym(unsigned int symnum, unsigned long *value, char *type,
->  
->  int arch_kprobe_get_kallsym(unsigned int *symnum, unsigned long *value,
->  			    char *type, char *sym);
-> +
-> +int kprobe_exceptions_notify(struct notifier_block *self,
-> +			     unsigned long val, void *data);
-> +
->  #else /* !CONFIG_KPROBES: */
->  
->  static inline int kprobe_fault_handler(struct pt_regs *regs, int trapnr)
 > -- 
-> 2.39.2
+> 2.34.1
 > 
-
+> 
 
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
