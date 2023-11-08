@@ -1,73 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339367E5A26
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 16:36:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D1377E5A29
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 16:36:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56BCF10E169;
-	Wed,  8 Nov 2023 15:36:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59EC910E79F;
+	Wed,  8 Nov 2023 15:36:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B10D810E79F
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 15:36:05 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-4083f613272so59686955e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Nov 2023 07:36:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699457764; x=1700062564; darn=lists.freedesktop.org;
- h=content-transfer-encoding:content-language:in-reply-to:mime-version
- :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LPt/CJC1g4tSFhf5KGS0Ry+DiQk0RfMMoZGIrEp0lNY=;
- b=GfV8RdYpM946UX96mOm9ZplGVaChsjWQEDaNg1Nj85bcIsjp20Wmeq+1yVDZ5CwDYf
- 9S4bPdXwNMWyfz/f4vX0mAAhh7F8wBxykEzShEawMCBGgQZEl49l+75kCb4ZLNsR7317
- 7k6rYUrHKz8WnR4nNkhYR99CmluPGuIPz8DlrXeLiU40ROcLyv3s85YD8i+Ci/lK9njW
- MXvnhfSqkddtlrs+AhfpPk/+t2mra3YHSmGJ6jLJYDb+eUJ2AlCQRKhE1FF+S4pPlpFf
- WjGxkrM1+MuyvM3f6oK4Y9ydAiN/SxhgPX0uUyjPgDnKYtzYFS1eR7b1GM/nWGFxRHsb
- qzFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699457764; x=1700062564;
- h=content-transfer-encoding:content-language:in-reply-to:mime-version
- :user-agent:date:message-id:from:references:cc:to:subject
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LPt/CJC1g4tSFhf5KGS0Ry+DiQk0RfMMoZGIrEp0lNY=;
- b=GovEtdelLve24ebVN/b0DL0U7cVLQXhIx4nJdAuSQ8f/iW9ELHHNR3EygzmjL6hsGX
- wkAfLFKPlE2l24jnKvn7ZSPYkoVJslGySvqlC2OalNX26f3HECxzsdWxu6MYmmhYcEgZ
- FNX0JUqTJgDQWyO4lcdpAVR2ZzLjsNTldnrN7jTHWtJ9GUpWUg/5LZk0yWSQSfL55axK
- qE+3rBSeXRh7c3JSI+gc30rgma2rSu1DOSPwtPMzH3st1trWV+yGGhIk2UdlJWXdq4sf
- MLYCCEParwBNOLkEYLHvXkMnAQNN2vqE6fDGZgT9X7gNm/iMHfR22Rs9bJYYA2ip0oOD
- Qr+A==
-X-Gm-Message-State: AOJu0YzrggNm2lHAfm+RuNcXivX9ciIptAfcKzlkSMO2m+Ulto7oIClz
- 7+oR6o1qsfiZj2G73kyQSxo=
-X-Google-Smtp-Source: AGHT+IF6+XqFcBsSe+xR2tBlGaQkYvldRjjMgYC5UQUH7LHHSh48/KBJVp9rOPyfhw3iYoFPLS35kA==
-X-Received: by 2002:a05:600c:1c92:b0:405:1bbd:aa9c with SMTP id
- k18-20020a05600c1c9200b004051bbdaa9cmr2058164wms.34.1699457763824; 
- Wed, 08 Nov 2023 07:36:03 -0800 (PST)
-Received: from [192.168.1.122]
- (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
- by smtp.gmail.com with ESMTPSA id
- v6-20020a05600c444600b0040651505684sm19790325wmn.29.2023.11.08.07.36.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Nov 2023 07:36:03 -0800 (PST)
-Subject: Re: [RFC PATCH v3 10/12] tcp: RX path for devmem TCP
-To: Stanislav Fomichev <sdf@google.com>, Mina Almasry <almasrymina@google.com>
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-11-almasrymina@google.com>
- <ZUk0FGuJ28s1d9OX@google.com>
- <CAHS8izNFv7r6vqYR_TYqcCuDO61F+nnNMhsSu=DrYWSr3sVgrA@mail.gmail.com>
- <ZUlYB99GK1Q8is-I@google.com>
-From: Edward Cree <ecree.xilinx@gmail.com>
-Message-ID: <08a6e65a-92fb-4a94-2627-6c03e65f2509@gmail.com>
-Date: Wed, 8 Nov 2023 15:36:01 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <ZUlYB99GK1Q8is-I@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 085A710E79F
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 15:36:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 49ECA615F7;
+ Wed,  8 Nov 2023 15:36:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D095C433C9;
+ Wed,  8 Nov 2023 15:36:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1699457785;
+ bh=ZNwyEHHUEwE32sPJEr2cy/zvLd4Oa0Y44mvEx4uVdC0=;
+ h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+ b=N+C+Mm9DOvW41xQlHZ2TVmIysLX42LJ/xl/PTNFiruH2Wu4ATYa4k2Jmpv/MAIV0f
+ JANa/WnumUmKQNSBxLJwIR9sUeFXiRNwMFy/HhmYIK1TQmfxq4MgfutVxD/BrUNpF2
+ gdMutlmGlJ5GqOQ4+Hw72DgbNIdVOTpzsJ/k3wv9PeGVJSsfK9EeHuUEKr6yLBthag
+ TARWGt52CUMc2URaFLJV1QXt8K3WE59YxhNHBAAE6F9EKHGmDggCNU0n9C6bb5PrWY
+ Y0COjbc32pM1Stb6a/svq9+UnG+z+49ttg52dv9b22VQijktsXe7br3iblISUX57po
+ 53QHjv6k/7OcA==
+Message-ID: <3fb0760a9066c33947b64ec415d9baea.mripard@kernel.org>
+Date: Wed, 08 Nov 2023 15:36:22 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Hsin-Yi Wang" <hsinyi@chromium.org>
+Subject: Re: [PATCH v6 3/5] drm/panel-edp: drm/panel-edp: Add several
+ generic edp panels
+In-Reply-To: <20231107204611.3082200-4-hsinyi@chromium.org>
+References: <20231107204611.3082200-4-hsinyi@chromium.org>
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,40 +49,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
- Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Thomas
+ Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, Douglas
+ Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Jessica Zhang <quic_jesszhan@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/11/2023 21:17, Stanislav Fomichev wrote:
-> I guess I'm just wondering whether other people have any suggestions
-> here. Not sure Jonathan's way was better, but we fundamentally
-> have two queues between the kernel and the userspace:
-> - userspace receiving tokens (recvmsg + magical flag)
-> - userspace refilling tokens (setsockopt + magical flag)
+On Tue, 7 Nov 2023 12:41:53 -0800, Hsin-Yi Wang wrote:
+> Add a few generic edp panels used by mt8186 chromebooks.
 > 
-> So having some kind of shared memory producer-consumer queue feels natural.
-> And using 'classic' socket api here feels like a stretch, idk.
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-Do 'refilled tokens' (returned memory areas) get used for anything other
- than subsequent RX?  If not then surely the way to return a memory area
- in an io_uring idiom is just to post a new read sqe ('RX descriptor')
- pointing into it, rather than explicitly returning it with setsockopt.
-(Being async means you can post lots of these, unlike recvmsg(), so you
- don't need any kernel management to keep the RX queue filled; it can
- just be all handled by the userland thus simplifying APIs overall.)
-Or I'm misunderstanding something?
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
--e
+Thanks!
+Maxime
