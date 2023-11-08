@@ -1,68 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 013187E4F73
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 04:28:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEEEE7E4F74
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 04:29:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3AB110E6F8;
-	Wed,  8 Nov 2023 03:28:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE58110E369;
+	Wed,  8 Nov 2023 03:29:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
- [IPv6:2607:f8b0:4864:20::72c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1909F10E369;
- Wed,  8 Nov 2023 03:28:36 +0000 (UTC)
-Received: by mail-qk1-x72c.google.com with SMTP id
- af79cd13be357-777745f1541so453063085a.0; 
- Tue, 07 Nov 2023 19:28:36 -0800 (PST)
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
+ [IPv6:2607:f8b0:4864:20::82e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B29710E369;
+ Wed,  8 Nov 2023 03:29:08 +0000 (UTC)
+Received: by mail-qt1-x82e.google.com with SMTP id
+ d75a77b69052e-41b7fd8f458so40970731cf.0; 
+ Tue, 07 Nov 2023 19:29:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699414115; x=1700018915; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1699414147; x=1700018947; darn=lists.freedesktop.org;
  h=in-reply-to:autocrypt:from:references:cc:to:content-language
  :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
  :date:message-id:reply-to;
- bh=hhDgUr0rU5mZRf9jreUMZWAzGSayLhVYle46Qmy8nhE=;
- b=J5wfVJTkNXbFDdQVCQMsTCphzk26rr2uHeymaIdvisiVaMQnikNBPQI0f9ECwH5geY
- NThDMsSvJBxxB0isDhNr7U5kXzTvrW5fNzmPPmlVzRLQIFxxAoeCz5SojICxudj2ilSs
- TTE3HHfUrIfV+xgcKR1zTt4JmoVwBgwsulgbNOTZ24SH5KaW+nnJf5s/sSVxCgxNWaac
- UGlgN7+ZK/Q6h2ZI/lHkf26sb/Upx4d+oWjKAJP9lBTHRgFcEXSYnsBW36DCi4FM3df+
- 6NlYy7vQjzeC8Vli/RD1rqpMNS1g1Q9t9FDn8ACGpALYhyr+CTBYxOFaYRQjMwZtdjlq
- 4VOw==
+ bh=XW/jUlD1zX6gloR+bzYXvVutHolbgNsUyPOlFkVtHCM=;
+ b=gW3mSidXnuNABmgEl7+hUoHxWlJCWmqbgk8I2tUkVj8C5czK8xprJBbQsXVCH8+DNF
+ 7mcShWHxeG/gbhfKeZjUHx0u2s1Wj2KpQ+aaa1V6qxImyCmg4FT7s9lcnFfRpSNEjyT8
+ gFtbvXE/muDpDLLQSEpyoAIY6c/3C85pBavT7we7P1WWdJvSk9TXEaX1+sPGIkXzEZuX
+ LtErQ6CLloX8TDPG9vIANVGf7wmZeRzDbm7D7JH4FEiOYX/xu1yW/tRpijd+6dTkWC/Q
+ SFYhEOzwp+LnXd5e3EkDXzAJUfnpV/R/B8rQ7IMLUrUTdqTmP416MZr4DqkI75+D832j
+ CUyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699414115; x=1700018915;
+ d=1e100.net; s=20230601; t=1699414147; x=1700018947;
  h=in-reply-to:autocrypt:from:references:cc:to:content-language
  :subject:user-agent:mime-version:date:message-id:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=hhDgUr0rU5mZRf9jreUMZWAzGSayLhVYle46Qmy8nhE=;
- b=K3CRhWzzq9Mg0qZQ8Ae5ywrso0SJKLZD00aYuh9bPb/sCnxLxiv7COvGVJvkySRnOG
- G94BmkBiWonpNSbSFSWhuKYHpBhMx+msZF7A537SMd9wcKt90cHRLb2HiHKWj09JV1RE
- jnIFdcoS1xiw9zdEt3KbK3KLikTlowKz+BDL9uMnqwCeCRXdwmsyBqdF/wlevb7/YgQa
- Te+2bGAj/BItbaLIVCheGDZkNVzSHtRAxXAvuUYL7AAnG+z+s4OFabqbPKJGmVzha8JY
- mCl2hyv8c42r6CSYGtp3yTTIK6gGZCV/lpti+R6Pv2qouC6Y7CHK2Nk7fvy6piYUWX+I
- NnVQ==
-X-Gm-Message-State: AOJu0YzcQjNAkEq67Bh8+B6BzrAcVFbc7H+eaXdpdZx74cL7Wl9yNfAy
- oGfvJPexDNbCdLpKZzaMT3Q=
-X-Google-Smtp-Source: AGHT+IEam4wjWprneVY14YYI+fg4TBXKF2xpLKQp09zLgFHHV+QW3KmakWk+RSWxD1bJF/MtTM1eWg==
-X-Received: by 2002:ac8:5a44:0:b0:41e:3e18:e094 with SMTP id
- o4-20020ac85a44000000b0041e3e18e094mr1183580qta.26.1699414114960; 
- Tue, 07 Nov 2023 19:28:34 -0800 (PST)
+ bh=XW/jUlD1zX6gloR+bzYXvVutHolbgNsUyPOlFkVtHCM=;
+ b=m7XgrTIm9n1ADlqoBnVINwIBk3wQ7FdwRdZkuZnwsoild48slkUjFELzMlZvf2dYJ9
+ TZ0OO7foVdyWEpEVAaxobwnXsTD2Ge+NFZCNOqzCSiuca4hRGUUaoNrSr9gxsYy58dAj
+ rGW3O5WJi/tEhZ6wC6exXasJLrTLCQimsyQ3UHRN7ULIdE7G54c+NhsHz16U10bfQPp5
+ OU60m4M0e3Au+9ArvW6xFrygdxEt9fsouB7CwevCdcnI29+cQjDcNjIO5/lww0tmfyX2
+ aNDDEJE43NZ63h7aSfDDNgEiv6caaug7fwOrOyJpkCJE43AeZPlrjiDVUZNWqYR47tpL
+ PfSw==
+X-Gm-Message-State: AOJu0YzYDTUTQlBau6N6JgnOKtLhLsIkziJcSvQ4stkJ95VOzG8Yv3gZ
+ Uol0egi1mL+djpt5A3HZmSo=
+X-Google-Smtp-Source: AGHT+IGCLygGa6hLQLlhKPnUFZh67VulRA5BuHSEucl7fYxdffwqBnLrf4rUO8ojgzuI/NlZCVT6Aw==
+X-Received: by 2002:a05:622a:148c:b0:417:b45b:84c7 with SMTP id
+ t12-20020a05622a148c00b00417b45b84c7mr888443qtx.19.1699414147223; 
+ Tue, 07 Nov 2023 19:29:07 -0800 (PST)
 Received: from [192.168.2.14] ([74.15.198.235])
  by smtp.gmail.com with ESMTPSA id
- k20-20020ac84794000000b004179e79069asm403216qtq.21.2023.11.07.19.28.33
+ k20-20020ac84794000000b004179e79069asm403216qtq.21.2023.11.07.19.29.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Nov 2023 19:28:34 -0800 (PST)
-Message-ID: <64aec3c6-7df4-4d11-a9b8-b4f718d50a43@gmail.com>
-Date: Tue, 7 Nov 2023 22:28:25 -0500
+ Tue, 07 Nov 2023 19:29:06 -0800 (PST)
+Message-ID: <ccda3219-c8f7-40a1-81f2-18a24d80e283@gmail.com>
+Date: Tue, 7 Nov 2023 22:29:05 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
  Thunderbird/115.4.1
 Subject: Re: [PATCH] drm/sched: Don't disturb the entity when in RR-mode
  scheduling
 Content-Language: en-CA, en-US
-To: Matthew Brost <matthew.brost@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>, tvrtko.ursulin@linux.intel.com
 References: <bb7c307e-271c-4f4c-bdbc-7078972ba515@linux.intel.com>
  <20231107041020.10035-2-ltuikov89@gmail.com>
- <ZUokEKnPbLAAkCct@DUT025-TGLU.fm.intel.com>
+ <08dd5af8-a631-49d4-b0bd-13500d55198b@redhat.com>
 From: Luben Tuikov <ltuikov89@gmail.com>
 Autocrypt: addr=ltuikov89@gmail.com; keydata=
  xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
@@ -73,10 +73,10 @@ Autocrypt: addr=ltuikov89@gmail.com; keydata=
  cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
  10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
  aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
-In-Reply-To: <ZUokEKnPbLAAkCct@DUT025-TGLU.fm.intel.com>
+In-Reply-To: <08dd5af8-a631-49d4-b0bd-13500d55198b@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------oZeOpSZh3hOLLEQ13dmdBstt"
+ boundary="------------gpqj6vvroOtk9Ax0C8JXAFpE"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,44 +89,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, tvrtko.ursulin@linux.intel.com,
- sarah.walker@imgtec.com, ltuikov@yahoo.com, ketil.johnsen@arm.com,
- lina@asahilina.net, mcanal@igalia.com, Liviu.Dudau@arm.com,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- boris.brezillon@collabora.com, dakr@redhat.com, donald.robson@imgtec.com,
- christian.koenig@amd.com, faith.ekstrand@collabora.com
+Cc: matthew.brost@intel.com, robdclark@chromium.org, sarah.walker@imgtec.com,
+ ltuikov@yahoo.com, ketil.johnsen@arm.com, lina@asahilina.net,
+ mcanal@igalia.com, Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, boris.brezillon@collabora.com,
+ donald.robson@imgtec.com, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------oZeOpSZh3hOLLEQ13dmdBstt
-Content-Type: multipart/mixed; boundary="------------IihkTqJDkUpRHZTrVDwN1EKK";
+--------------gpqj6vvroOtk9Ax0C8JXAFpE
+Content-Type: multipart/mixed; boundary="------------gfAWvpNcQCpremkS11JbT90n";
  protected-headers="v1"
 From: Luben Tuikov <ltuikov89@gmail.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: tvrtko.ursulin@linux.intel.com, Liviu.Dudau@arm.com,
- boris.brezillon@collabora.com, christian.koenig@amd.com, dakr@redhat.com,
- donald.robson@imgtec.com, dri-devel@lists.freedesktop.org,
- faith.ekstrand@collabora.com, intel-xe@lists.freedesktop.org,
- ketil.johnsen@arm.com, lina@asahilina.net, ltuikov@yahoo.com,
- mcanal@igalia.com, robdclark@chromium.org, sarah.walker@imgtec.com
-Message-ID: <64aec3c6-7df4-4d11-a9b8-b4f718d50a43@gmail.com>
+To: Danilo Krummrich <dakr@redhat.com>, tvrtko.ursulin@linux.intel.com
+Cc: Liviu.Dudau@arm.com, boris.brezillon@collabora.com,
+ christian.koenig@amd.com, donald.robson@imgtec.com,
+ dri-devel@lists.freedesktop.org, faith.ekstrand@collabora.com,
+ intel-xe@lists.freedesktop.org, ketil.johnsen@arm.com, lina@asahilina.net,
+ ltuikov@yahoo.com, matthew.brost@intel.com, mcanal@igalia.com,
+ robdclark@chromium.org, sarah.walker@imgtec.com
+Message-ID: <ccda3219-c8f7-40a1-81f2-18a24d80e283@gmail.com>
 Subject: Re: [PATCH] drm/sched: Don't disturb the entity when in RR-mode
  scheduling
 References: <bb7c307e-271c-4f4c-bdbc-7078972ba515@linux.intel.com>
  <20231107041020.10035-2-ltuikov89@gmail.com>
- <ZUokEKnPbLAAkCct@DUT025-TGLU.fm.intel.com>
-In-Reply-To: <ZUokEKnPbLAAkCct@DUT025-TGLU.fm.intel.com>
+ <08dd5af8-a631-49d4-b0bd-13500d55198b@redhat.com>
+In-Reply-To: <08dd5af8-a631-49d4-b0bd-13500d55198b@redhat.com>
 
---------------IihkTqJDkUpRHZTrVDwN1EKK
-Content-Type: multipart/mixed; boundary="------------ztivjG1qWbr81sPaO0geveaH"
+--------------gfAWvpNcQCpremkS11JbT90n
+Content-Type: multipart/mixed; boundary="------------o43KAhIi8nsvUwj9SbbzBQFO"
 
---------------ztivjG1qWbr81sPaO0geveaH
+--------------o43KAhIi8nsvUwj9SbbzBQFO
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 2023-11-07 06:48, Matthew Brost wrote:
-> On Mon, Nov 06, 2023 at 11:10:21PM -0500, Luben Tuikov wrote:
+On 2023-11-07 12:53, Danilo Krummrich wrote:
+> On 11/7/23 05:10, Luben Tuikov wrote:
 >> Don't call drm_sched_select_entity() in drm_sched_run_job_queue().  In=
  fact,
 >> rename __drm_sched_run_job_queue() to just drm_sched_run_job_queue(), =
@@ -156,20 +156,20 @@ t only
 >> in drm_sched_run_job_work().
 >>
 >> v2: Rebased on top of Tvrtko's renames series of patches. (Luben)
->>     Add fixes-tag. (Tvrtko)
+>>      Add fixes-tag. (Tvrtko)
 >>
 >> Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
 >> Fixes: f7fe64ad0f22ff ("drm/sched: Split free_job into own work item")=
 
 >=20
-> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> Reviewed-by: Danilo Krummrich <dakr@redhat.com>
 
 Thank you, sir!
 --=20
 Regards,
 Luben
 
---------------ztivjG1qWbr81sPaO0geveaH
+--------------o43KAhIi8nsvUwj9SbbzBQFO
 Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
 Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
 Content-Description: OpenPGP public key
@@ -189,21 +189,21 @@ z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
 =3DqCaZ
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------ztivjG1qWbr81sPaO0geveaH--
+--------------o43KAhIi8nsvUwj9SbbzBQFO--
 
---------------IihkTqJDkUpRHZTrVDwN1EKK--
+--------------gfAWvpNcQCpremkS11JbT90n--
 
---------------oZeOpSZh3hOLLEQ13dmdBstt
+--------------gpqj6vvroOtk9Ax0C8JXAFpE
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZUsAWQUDAAAAAAAKCRBMFUeUMaM0r7V1
-AQCVc9vXOQOHPMwabC7F41NCzU8R0LQwrRTQwnnhjQFfWwD/e25l2uACseWrwwqtTDgVxmM8CWSE
-qHSKfPU8vWTiog8=
-=mHWb
+wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZUsAggUDAAAAAAAKCRBMFUeUMaM0rzNX
+AQD/OF1ASvTKga9KcfKDeaT3WNA/hyydDWyyowK6f3LVeAEArsfsFB1+fLNyh24XSq/RZoc/grp1
+a4L0V0U5fRjbHw8=
+=a/aL
 -----END PGP SIGNATURE-----
 
---------------oZeOpSZh3hOLLEQ13dmdBstt--
+--------------gpqj6vvroOtk9Ax0C8JXAFpE--
