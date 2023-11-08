@@ -2,57 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DCFE7E5D86
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 19:56:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F0A17E5DC4
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 20:01:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F16B10E18F;
-	Wed,  8 Nov 2023 18:56:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35F8E10E81C;
+	Wed,  8 Nov 2023 19:00:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com
- [209.85.160.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56CC010E18F
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 18:56:33 +0000 (UTC)
-Received: by mail-oa1-f45.google.com with SMTP id
- 586e51a60fabf-1ea98ad294cso3123529fac.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Nov 2023 10:56:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699469792; x=1700074592;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
+ [IPv6:2001:4860:4864:20::33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6706710E827;
+ Wed,  8 Nov 2023 19:00:32 +0000 (UTC)
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-1ef36a04931so4162127fac.2; 
+ Wed, 08 Nov 2023 11:00:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1699470031; x=1700074831; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=C0s3leUhfdCXtqd2GQERP13Q2t1M8oOeLUmcRLyKV8Y=;
- b=sNsQkElQSJN5jDHMAoMNBykPPYMrycAczYRLzzRSotAfn49Y1s4VQJOtJaMx9q2OyE
- 2BD9OQL4sgiXNje9U51Ss1EvcjYIuIT83qgxRkyIlDctI3XatlQdjIqRSXFL9NVWRPhp
- xEBHjjrfOug68PegpH8dzyHvn62Lf4CMyjU7EF1UbQAFWDABy2ISw/zfrgYTDBtppvVg
- 8PzCQssPz5zFQTWLtkjG0VdOf8ZrRUoamw041hBWhkLLU1bbXcAUjiFOGb5MZxzZUXKL
- zQ+qL4qzG1M98AawyThkoMQhCq2E9htu4rnWQTK8LpX1FLTGaYBm7/w4JdXuANKhLvVv
- n6dg==
-X-Gm-Message-State: AOJu0YypyLqCJvR9JpYOxHUrQxEJBrXub3KLTBxURHze3Nj/S6jHe7ZW
- VNB5TvPUUvrjRcmxbKo17A==
-X-Google-Smtp-Source: AGHT+IE0mbiHvR9GjYeolkzHi9SUwOP9v8XsmJuVs9xWh9Zkn8dD1A7MBvs46KqOAxR54Xhtj5FP+A==
-X-Received: by 2002:a05:6870:fe91:b0:1e9:af81:54c2 with SMTP id
- qm17-20020a056870fe9100b001e9af8154c2mr2838245oab.45.1699469792539; 
- Wed, 08 Nov 2023 10:56:32 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- ef4-20020a0568701a8400b001efb3910402sm408267oab.0.2023.11.08.10.56.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Nov 2023 10:56:31 -0800 (PST)
-Received: (nullmailer pid 2748787 invoked by uid 1000);
- Wed, 08 Nov 2023 18:56:30 -0000
-Date: Wed, 8 Nov 2023 12:56:30 -0600
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 01/17] dt-bindings: hwinfo: samsung,exynos-chipid: add
- specific compatibles for existing SoC
-Message-ID: <169946978921.2748598.1967407376619995212.robh@kernel.org>
-References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
- <20231108104343.24192-2-krzysztof.kozlowski@linaro.org>
+ bh=otxnVkd8YgWVTzG3H7cvr+93qyokKFzdStJbXRE7UUc=;
+ b=IfOxWUJAPjvX0Hp1jtRJQNEa2l+sDjS65S7p67ujgAB+VpW6J5LPZL/Ddy2SovRvC0
+ zf83P1B9MQTRw3ioh/MfLXvkZPIFNqvDZWYhAIjfbFCPV0ebIJ7ImhCA41VK3lIPt7tZ
+ ln9YLoaGBlQljX3nGNVjgQ8rtCR3UkuWVHKOP2fD7mryK8MHJ0bbcyLYLS113mcvRn6Y
+ SS1GQ5PcGfnOVJVLS4vYZ5kTsJwvV/J1hSV4mX+kOBLUq7Vxjxl8Y+JDnfzdRmvnCbLY
+ qaWywVurvFnEf4utpMtjsXcpgBXUjT6CCHDv1Ot/JmMo4gK75x5tEH9dD56J23Wdjgrk
+ x30w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699470031; x=1700074831;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=otxnVkd8YgWVTzG3H7cvr+93qyokKFzdStJbXRE7UUc=;
+ b=F+cqD+uVahEub/8j3r3C7Ib47pGnRKth/iH5cPSZ8nOXYdi31C4DQsL3ngHJXKku6l
+ C1jYf+x0Uu0d95hIuk6ZhIQUhfqVtMuFYtfBswn4UWKE6hGyGSgLTghl2sxrynxkZ4ti
+ rLWChTgXeVqmIMb5A/jlQ9kixiWLVJPL7F+OkW+lqLmnttuU69+ywO33XJij4i9TOsyE
+ 4W2bZU5gke0oVRu5Y/ujT26+mRekmJt6CF5wM8evMPuLixylFkoSikAYKJYKLNiex8gl
+ ikGYRgtdm0N0/junz6QFBXcm/kcEaIbLlje+ysuhZrO9S9ZXHsCrVWkO6/u0ZHJvoZHB
+ ORwA==
+X-Gm-Message-State: AOJu0Yx059FSBFwSYt+cv/MJ5dJoRd5Cvd7IgeR48PvMs7ewWcl15MZ0
+ DkUb3JbZvCx0CMdz0fLysnH9E96n7wBekhyDyyM=
+X-Google-Smtp-Source: AGHT+IHvpi3a4SBVR+ik6OpPcUARXpDbAmpBYewfy5UA+w+qqJFFTZ6OeD4JVSJcj/4uYdeGrClnwBQQdXADX431yUk=
+X-Received: by 2002:a05:6870:470b:b0:1e9:d158:2465 with SMTP id
+ b11-20020a056870470b00b001e9d1582465mr3028814oaq.17.1699470031642; Wed, 08
+ Nov 2023 11:00:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231108104343.24192-2-krzysztof.kozlowski@linaro.org>
+References: <20231029093926.137766-1-jose.pekkarinen@foxhound.fi>
+ <d56cd927-49fc-cb4e-8abd-abc539e4d276@amd.com>
+ <e095fae915d44ccc186d5e5ee74ec119@foxhound.fi>
+In-Reply-To: <e095fae915d44ccc186d5e5ee74ec119@foxhound.fi>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 8 Nov 2023 14:00:19 -0500
+Message-ID: <CADnq5_NjUnC_nsaDCgma8u=eBKv4qMb1L214QEY9S75tA=2vTA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: remove duplicated argument
+To: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,51 +70,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>, linux-pwm@vger.kernel.org,
- linux-iio@vger.kernel.org, Alexandre Belloni <alexandre.belloni@bootlin.com>,
- dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-i2c@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jiri Slaby <jirislaby@kernel.org>, linux-rtc@vger.kernel.org,
- Lee Jones <lee@kernel.org>, Jaehoon Chung <jh80.chung@samsung.com>,
- linux-samsung-soc@vger.kernel.org, linux-serial@vger.kernel.org,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Alim Akhtar <alim.akhtar@samsung.com>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
- alsa-devel@alsa-project.org, Maxime Ripard <mripard@kernel.org>,
- Tomasz Figa <tomasz.figa@gmail.com>, linux-gpio@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
- Sam Protsenko <semen.protsenko@linaro.org>,
- linux-arm-kernel@lists.infradead.org, Alessandro Zummo <a.zummo@towertech.it>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Cameron <jic23@kernel.org>
+Cc: sunpeng.li@amd.com, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
+ Zhongwei.Zhang@amd.com, alex.hung@amd.com,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, dri-devel@lists.freedesktop.org,
+ sunran001@208suo.com, skhan@linuxfoundation.org, alexander.deucher@amd.com,
+ Jun.Lei@amd.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ Yao.Wang1@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Applied.  Thanks!
 
-On Wed, 08 Nov 2023 11:43:27 +0100, Krzysztof Kozlowski wrote:
-> Samsung Exynos SoC reuses several devices from older designs, thus
-> historically we kept the old (block's) compatible only.  This works fine
-> and there is no bug here, however guidelines expressed in
-> Documentation/devicetree/bindings/writing-bindings.rst state that:
-> 1. Compatibles should be specific.
-> 2. We should add new compatibles in case of bugs or features.
-> 
-> Add compatibles specific to each SoC in front of all old-SoC-like
-> compatibles.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> I propose to take the patch through Samsung SoC (me). See cover letter
-> for explanation.
-> ---
->  .../bindings/hwinfo/samsung,exynos-chipid.yaml  | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
-> 
-
-Acked-by: Rob Herring <robh@kernel.org>
-
+On Wed, Nov 8, 2023 at 3:52=E2=80=AFAM Jos=C3=A9 Pekkarinen
+<jose.pekkarinen@foxhound.fi> wrote:
+>
+> On 2023-10-30 15:54, Aurabindo Pillai wrote:
+> > On 10/29/2023 5:39 AM, Jos=C3=A9 Pekkarinen wrote:
+> >> Spotted by coccicheck, there is a redundant check for
+> >> v->SourcePixelFormat[k] !=3D dm_444_16. This patch will
+> >> remove it. The corresponding output follows.
+> >>
+> >> drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c:5130:86=
+-122:
+> >> duplicated argument to && or ||
+> >>
+> >> Signed-off-by: Jos=C3=A9 Pekkarinen <jose.pekkarinen@foxhound.fi>
+> >> ---
+> >>   drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c | 2
+> >> +-
+> >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git
+> >> a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
+> >> b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
+> >> index ad741a723c0e..3686f1e7de3a 100644
+> >> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
+> >> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
+> >> @@ -5128,7 +5128,7 @@ void
+> >> dml30_ModeSupportAndSystemConfigurationFull(struct display_mode_lib
+> >> *mode_l
+> >>                      ViewportExceedsSurface =3D true;
+> >>              if (v->SourcePixelFormat[k] !=3D dm_444_64 &&
+> >> v->SourcePixelFormat[k] !=3D dm_444_32 && v->SourcePixelFormat[k] !=3D
+> >> dm_444_16
+> >> -                            && v->SourcePixelFormat[k] !=3D dm_444_16=
+ &&
+> >> v->SourcePixelFormat[k] !=3D dm_444_8 && v->SourcePixelFormat[k] !=3D
+> >> dm_rgbe) {
+> >> +                            && v->SourcePixelFormat[k] !=3D dm_444_8 =
+&& v->SourcePixelFormat[k]
+> >> !=3D dm_rgbe) {
+> >>                      if (v->ViewportWidthChroma[k] > v->SurfaceWidthC[=
+k] ||
+> >> v->ViewportHeightChroma[k] > v->SurfaceHeightC[k]) {
+> >>                              ViewportExceedsSurface =3D true;
+> >>                      }
+> >
+> > Thanks for catching.
+> >
+> > Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+>
+>      Sorry to bring this up, I just wanted to check whether this
+> has been applied in the following pulls or not.
+>
+>      Thanks!
+>
+>      Jos=C3=A9.
