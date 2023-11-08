@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E11A7E572C
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 14:01:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C087E5738
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 14:02:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4921B10E743;
-	Wed,  8 Nov 2023 13:01:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13F7410E744;
+	Wed,  8 Nov 2023 13:02:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C52F10E743
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 13:01:50 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29FB410E744
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 13:02:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 42B5CB81C5E;
- Wed,  8 Nov 2023 13:01:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E3EAC433C8;
- Wed,  8 Nov 2023 13:01:33 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2C74B615BB;
+ Wed,  8 Nov 2023 13:02:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E8D6C433AD;
+ Wed,  8 Nov 2023 13:01:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699448507;
- bh=e+QnAKFOR6wNf8AU7caaDk1G44zPUvTIPn9eqgvKtVI=;
+ s=k20201202; t=1699448521;
+ bh=P3J0BM+Ztj1RDywy9VBJzXOtZYn62giSRkEPqVP9Q5s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kO32INjV4cycAjhgsoiS/RTxNc9orDpYCk0+4tO1+Gt7qOwlHokDC691On3AEseRz
- yvvl3zTgVmsU4g0YVZaPw04fP+l56az3y5afylAuLQHL9pIQUNqDJKA/O5oXB2GOE9
- kpTcKOXyRU8YRPtt7PmtoecXVPG0n6OLKr1MBZnj5Lgdm9FThiDsgfc7354TFlTL23
- x4CyaJL3qAHmnf7+elMxEoKG20yxElbtDB+BUoKG6yoDK+xe+uwUqwQsziTDjj5y4A
- IK/HwA9zBREWFPvH+XiApEACEGXb9lNAvDnPf1BVZeZvwi5m/tlIWU87hjbxo2nAjR
- LT7tJIi+z+jFg==
+ b=burlYIIjmswCo6kZvxA/AuJo2RuSbSUh4JxXaXm/BrFLoO6sD0WbSTWokcncffA5Y
+ wo67CWy7N7wOACKbAjL4Sl4DOEFPrDKMgY2Vmh/5oPq1FFSPn3MesPrDFyK3fFfF+h
+ dk6lEsIi5AaEvBWjsExxnfkOCp+Y/j0YDMjCGWeZk4t0/cvy4o2fX7tRgRNSb6Qelx
+ p79OIkjot7Y52dQukaAiknMAc45DLBU2iLS+jxn81hgrHM+MMiDtBc6mW7+a/wwob/
+ jEghvumy9S0waHmg1Pwvnhj3TUenjvtSujPtQ86XOHtjGfPo5Pk2jGRwf2OtkS3O5k
+ /rNYAvRDuqPvA==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
  Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH 11/22] x86: sta2x11: include header for sta2x11_get_instance()
- prototype
-Date: Wed,  8 Nov 2023 13:58:32 +0100
-Message-Id: <20231108125843.3806765-12-arnd@kernel.org>
+Subject: [PATCH 12/22] csky: fix arch_jump_label_transform_static override
+Date: Wed,  8 Nov 2023 13:58:33 +0100
+Message-Id: <20231108125843.3806765-13-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231108125843.3806765-1-arnd@kernel.org>
 References: <20231108125843.3806765-1-arnd@kernel.org>
@@ -94,31 +93,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-sta2x11_get_instance() is a global function declared in asm/sta2x11.h,
-but this header is not included before the definition, causing a warning:
+The arch_jump_label_transform_static() function in csky was originally meant to
+override the generic __weak function, but that got changed to an #ifndef check.
 
-arch/x86/pci/sta2x11-fixup.c:95:26: error: no previous prototype for 'sta2x11_get_instance' [-Werror=missing-prototypes]
+This showed up as a missing-prototype warning:
+arch/csky/kernel/jump_label.c:43:6: error: no previous prototype for 'arch_jump_label_transform_static' [-Werror=missing-prototypes]
 
-Add the missing #include.
+Change the method to use the new method of having a #define and a prototype
+for the global function.
 
-Fixes: 83125a3a189e ("x86, platform: Initial support for sta2x11 I/O hub")
+Fixes: 7e6b9db27de9 ("jump_label: make initial NOP patching the special case")
+Fixes: 4e8bb4ba5a55 ("csky: Add jump-label implementation")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/x86/pci/sta2x11-fixup.c | 1 +
- 1 file changed, 1 insertion(+)
+ arch/csky/include/asm/jump_label.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/arch/x86/pci/sta2x11-fixup.c b/arch/x86/pci/sta2x11-fixup.c
-index 7368afc03998..8c8ddc4dcc08 100644
---- a/arch/x86/pci/sta2x11-fixup.c
-+++ b/arch/x86/pci/sta2x11-fixup.c
-@@ -14,6 +14,7 @@
- #include <linux/dma-map-ops.h>
- #include <linux/swiotlb.h>
- #include <asm/iommu.h>
-+#include <asm/sta2x11.h>
+diff --git a/arch/csky/include/asm/jump_label.h b/arch/csky/include/asm/jump_label.h
+index d488ba6084bc..98a3f4b168bd 100644
+--- a/arch/csky/include/asm/jump_label.h
++++ b/arch/csky/include/asm/jump_label.h
+@@ -43,5 +43,10 @@ static __always_inline bool arch_static_branch_jump(struct static_key *key,
+ 	return true;
+ }
  
- #define STA2X11_SWIOTLB_SIZE (4*1024*1024)
- 
++enum jump_label_type;
++void arch_jump_label_transform_static(struct jump_entry *entry,
++				      enum jump_label_type type);
++#define arch_jump_label_transform_static arch_jump_label_transform_static
++
+ #endif  /* __ASSEMBLY__ */
+ #endif	/* __ASM_CSKY_JUMP_LABEL_H */
 -- 
 2.39.2
 
