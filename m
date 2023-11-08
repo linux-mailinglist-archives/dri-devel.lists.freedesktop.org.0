@@ -1,61 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0A17E5DC4
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 20:01:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F197E5E1D
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 20:04:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35F8E10E81C;
-	Wed,  8 Nov 2023 19:00:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3569510E81F;
+	Wed,  8 Nov 2023 19:04:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
- [IPv6:2001:4860:4864:20::33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6706710E827;
- Wed,  8 Nov 2023 19:00:32 +0000 (UTC)
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-1ef36a04931so4162127fac.2; 
- Wed, 08 Nov 2023 11:00:32 -0800 (PST)
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
+ [IPv6:2001:4860:4864:20::31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56E5B10E821;
+ Wed,  8 Nov 2023 19:04:15 +0000 (UTC)
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-1f00b95dc43so4272941fac.3; 
+ Wed, 08 Nov 2023 11:04:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699470031; x=1700074831; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1699470254; x=1700075054; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=otxnVkd8YgWVTzG3H7cvr+93qyokKFzdStJbXRE7UUc=;
- b=IfOxWUJAPjvX0Hp1jtRJQNEa2l+sDjS65S7p67ujgAB+VpW6J5LPZL/Ddy2SovRvC0
- zf83P1B9MQTRw3ioh/MfLXvkZPIFNqvDZWYhAIjfbFCPV0ebIJ7ImhCA41VK3lIPt7tZ
- ln9YLoaGBlQljX3nGNVjgQ8rtCR3UkuWVHKOP2fD7mryK8MHJ0bbcyLYLS113mcvRn6Y
- SS1GQ5PcGfnOVJVLS4vYZ5kTsJwvV/J1hSV4mX+kOBLUq7Vxjxl8Y+JDnfzdRmvnCbLY
- qaWywVurvFnEf4utpMtjsXcpgBXUjT6CCHDv1Ot/JmMo4gK75x5tEH9dD56J23Wdjgrk
- x30w==
+ bh=PIAfp4n5FTAxG5B/n8MBsaBM3cT8s3lVCrtfOSkbjqw=;
+ b=njmhSleLqVaHJsWSvHkxzjrctoMFRNjNqrwEM/QFEUl9D1Mqn0fEcdvfIxJK3rO6fj
+ sNywdhRlvtYu/sxGFoWCKjSK44wBcDDGo76aXOQvgM663K5y1VGesrlmRMI42ba2wlgJ
+ 9EKi9ulYeyKst0l6HrFmtyZRbUWoC/FSmDjPni/T+0TMme2Vy9ueqAZM9jx95HUjWg7y
+ bMpKdoV5FannPwYP2JtQK6CuO/FI1d+5ztXS4QfnTf5m6TVPo0irdPI6ogIy7Yk/OKBu
+ w6Ar7kh52UPsFrSBIOhqV9ECpdPOGw5ouzbuGc+qB4CkgkyzSy3BofaXJNu6zGjQHys6
+ RlCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699470031; x=1700074831;
+ d=1e100.net; s=20230601; t=1699470254; x=1700075054;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=otxnVkd8YgWVTzG3H7cvr+93qyokKFzdStJbXRE7UUc=;
- b=F+cqD+uVahEub/8j3r3C7Ib47pGnRKth/iH5cPSZ8nOXYdi31C4DQsL3ngHJXKku6l
- C1jYf+x0Uu0d95hIuk6ZhIQUhfqVtMuFYtfBswn4UWKE6hGyGSgLTghl2sxrynxkZ4ti
- rLWChTgXeVqmIMb5A/jlQ9kixiWLVJPL7F+OkW+lqLmnttuU69+ywO33XJij4i9TOsyE
- 4W2bZU5gke0oVRu5Y/ujT26+mRekmJt6CF5wM8evMPuLixylFkoSikAYKJYKLNiex8gl
- ikGYRgtdm0N0/junz6QFBXcm/kcEaIbLlje+ysuhZrO9S9ZXHsCrVWkO6/u0ZHJvoZHB
- ORwA==
-X-Gm-Message-State: AOJu0Yx059FSBFwSYt+cv/MJ5dJoRd5Cvd7IgeR48PvMs7ewWcl15MZ0
- DkUb3JbZvCx0CMdz0fLysnH9E96n7wBekhyDyyM=
-X-Google-Smtp-Source: AGHT+IHvpi3a4SBVR+ik6OpPcUARXpDbAmpBYewfy5UA+w+qqJFFTZ6OeD4JVSJcj/4uYdeGrClnwBQQdXADX431yUk=
-X-Received: by 2002:a05:6870:470b:b0:1e9:d158:2465 with SMTP id
- b11-20020a056870470b00b001e9d1582465mr3028814oaq.17.1699470031642; Wed, 08
- Nov 2023 11:00:31 -0800 (PST)
+ bh=PIAfp4n5FTAxG5B/n8MBsaBM3cT8s3lVCrtfOSkbjqw=;
+ b=As10YWQ6THfJVMZkM86SFGRRSU9yLLvhV7kzbRhLGegBSC7kdq48LVFJ8kUrjpB/X7
+ 1uZ1TCwPgePrMrDP+fdBnrBvAIingVsxcI8sQjVqV0F1A3cr9X9kxPtHoxLeo+erQdxp
+ nnDlYOFBOqaSPLIZ2s6r7CZ4aekF8Q9eRX/EDSdZfVBFD7oRrs13J6xSH/komLniTmrX
+ qdVJ9IXmiyubsZ3y6FxJBHg3xf0/iC0qYY2dxarDjHMgZom+yF8BRqpqvUOICaOd4+rf
+ TBu4LTGdhvcOS8VtyrTzp+TFAvuZqxuhygTv5MzrRjwekHiP6wdBASXHmYjWm2IfgekI
+ gKMg==
+X-Gm-Message-State: AOJu0YyxmswNV2TRm3cWsnsW+mgxulh8UxC0kSTewAQcwKRJ1mygTl3U
+ cT4qRMoeeZfuclkSmBkZ2y12V/Qu9mE+mElvw0hSzNpt
+X-Google-Smtp-Source: AGHT+IFMQHWb9vtoHBrkxGDELJboskZE0aJf095yx+v+npphVWFwsJlmyOfvUZWdSPLGSEwyBKaIWu1ACGNqXJ8U2Oo=
+X-Received: by 2002:a05:6870:9551:b0:1ea:7bd1:c495 with SMTP id
+ v17-20020a056870955100b001ea7bd1c495mr2449172oal.27.1699470254574; Wed, 08
+ Nov 2023 11:04:14 -0800 (PST)
 MIME-Version: 1.0
-References: <20231029093926.137766-1-jose.pekkarinen@foxhound.fi>
- <d56cd927-49fc-cb4e-8abd-abc539e4d276@amd.com>
- <e095fae915d44ccc186d5e5ee74ec119@foxhound.fi>
-In-Reply-To: <e095fae915d44ccc186d5e5ee74ec119@foxhound.fi>
+References: <20231107162830.36856-1-hunter.chasens18@ncf.edu>
+ <2853fe7e-7d39-9b32-87b2-93845f16ae51@amd.com>
+In-Reply-To: <2853fe7e-7d39-9b32-87b2-93845f16ae51@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 8 Nov 2023 14:00:19 -0500
-Message-ID: <CADnq5_NjUnC_nsaDCgma8u=eBKv4qMb1L214QEY9S75tA=2vTA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: remove duplicated argument
-To: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
+Date: Wed, 8 Nov 2023 14:04:03 -0500
+Message-ID: <CADnq5_O4AXB_x8uv1bx0XZHt+mqxtKdaH0XAFFouuJ0X_QCNhA@mail.gmail.com>
+Subject: Re: [PATCH v3] drm: amd: Resolve Sphinx unexpected indentation warning
+To: "Lazar, Lijo" <lijo.lazar@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,71 +69,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunpeng.li@amd.com, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- Zhongwei.Zhang@amd.com, alex.hung@amd.com,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, dri-devel@lists.freedesktop.org,
- sunran001@208suo.com, skhan@linuxfoundation.org, alexander.deucher@amd.com,
- Jun.Lei@amd.com, linux-kernel-mentees@lists.linuxfoundation.org,
- Yao.Wang1@amd.com
+Cc: linux-doc@vger.kernel.org, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Hunter Chasens <hunter.chasens18@ncf.edu>, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Wed, Nov 8, 2023 at 3:52=E2=80=AFAM Jos=C3=A9 Pekkarinen
-<jose.pekkarinen@foxhound.fi> wrote:
+On Tue, Nov 7, 2023 at 11:17=E2=80=AFPM Lazar, Lijo <lijo.lazar@amd.com> wr=
+ote:
 >
-> On 2023-10-30 15:54, Aurabindo Pillai wrote:
-> > On 10/29/2023 5:39 AM, Jos=C3=A9 Pekkarinen wrote:
-> >> Spotted by coccicheck, there is a redundant check for
-> >> v->SourcePixelFormat[k] !=3D dm_444_16. This patch will
-> >> remove it. The corresponding output follows.
-> >>
-> >> drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c:5130:86=
--122:
-> >> duplicated argument to && or ||
-> >>
-> >> Signed-off-by: Jos=C3=A9 Pekkarinen <jose.pekkarinen@foxhound.fi>
-> >> ---
-> >>   drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c | 2
-> >> +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git
-> >> a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-> >> b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-> >> index ad741a723c0e..3686f1e7de3a 100644
-> >> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-> >> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-> >> @@ -5128,7 +5128,7 @@ void
-> >> dml30_ModeSupportAndSystemConfigurationFull(struct display_mode_lib
-> >> *mode_l
-> >>                      ViewportExceedsSurface =3D true;
-> >>              if (v->SourcePixelFormat[k] !=3D dm_444_64 &&
-> >> v->SourcePixelFormat[k] !=3D dm_444_32 && v->SourcePixelFormat[k] !=3D
-> >> dm_444_16
-> >> -                            && v->SourcePixelFormat[k] !=3D dm_444_16=
- &&
-> >> v->SourcePixelFormat[k] !=3D dm_444_8 && v->SourcePixelFormat[k] !=3D
-> >> dm_rgbe) {
-> >> +                            && v->SourcePixelFormat[k] !=3D dm_444_8 =
-&& v->SourcePixelFormat[k]
-> >> !=3D dm_rgbe) {
-> >>                      if (v->ViewportWidthChroma[k] > v->SurfaceWidthC[=
-k] ||
-> >> v->ViewportHeightChroma[k] > v->SurfaceHeightC[k]) {
-> >>                              ViewportExceedsSurface =3D true;
-> >>                      }
+>
+>
+> On 11/7/2023 9:58 PM, Hunter Chasens wrote:
+> > Resolves Sphinx unexpected indentation warning when compiling
+> > documentation (e.g. `make htmldocs`). Replaces tabs with spaces and add=
+s
+> > a literal block to keep vertical formatting of the
+> > example power state list.
 > >
-> > Thanks for catching.
+> > Signed-off-by: Hunter Chasens <hunter.chasens18@ncf.edu>
+>
+> Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+>
+> Thanks,
+> Lijo
+>
+> > ---
+> >   drivers/gpu/drm/amd/pm/amdgpu_pm.c | 13 +++++++------
+> >   1 file changed, 7 insertions(+), 6 deletions(-)
 > >
-> > Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
->
->      Sorry to bring this up, I just wanted to check whether this
-> has been applied in the following pulls or not.
->
->      Thanks!
->
->      Jos=C3=A9.
+> > diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/p=
+m/amdgpu_pm.c
+> > index 517b9fb4624c..576202bf64f3 100644
+> > --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > @@ -989,12 +989,13 @@ static ssize_t amdgpu_get_pp_features(struct devi=
+ce *dev,
+> >    * Reading back the files will show you the available power levels wi=
+thin
+> >    * the power state and the clock information for those levels. If dee=
+p sleep is
+> >    * applied to a clock, the level will be denoted by a special level '=
+S:'
+> > - * E.g.,
+> > - *   S: 19Mhz *
+> > - *   0: 615Mhz
+> > - *   1: 800Mhz
+> > - *   2: 888Mhz
+> > - *   3: 1000Mhz
+> > + * E.g., ::
+> > + *
+> > + *  S: 19Mhz *
+> > + *  0: 615Mhz
+> > + *  1: 800Mhz
+> > + *  2: 888Mhz
+> > + *  3: 1000Mhz
+> >    *
+> >    *
+> >    * To manually adjust these states, first select manual using
