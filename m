@@ -2,117 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38B037E4F9D
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 05:08:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E9D7E4FAE
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 05:16:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D06810E375;
-	Wed,  8 Nov 2023 04:08:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 613F710E374;
+	Wed,  8 Nov 2023 04:16:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on20629.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe5a::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BAA010E375;
- Wed,  8 Nov 2023 04:08:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=neyhdcWQe4waLab/G4sIU5ZDwvQYdwJuOyyZOQnNyHp/cH+9sYqrvvLSRJQVRG6/E3OCWCs95RRdy+bnZeoHM1DCAEWlxoTsZEI8fbX2lddb1m7Xqt7fekM0s3B/m/R/c3g3H8ZKSfDCtJF/7rICEu3IC1RzKO2b113n9Y0DQ5vpgNghodDPP+AHlbpME4UD/bDSW67I+ge7f3LsTMhN4w6tPWplesVZUiAom/TjYnmdNheE+/clCb7uU8X+Nmnuzh6U1pm3lv83ev2pRI9/L4iRQSOH+qbROgu8ETGFwPvn74klVlAWYA03fmDXb1yj2woORhBTJXNLxqFzhsdyCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fzXBUWkaRKrybs/a1L6ShWowUektlt1gg7GCMQM5IqA=;
- b=YkUS+2y43MSnS2d8tcIVsr0wwK4RWz/h6igaRqPWo0Wqq2g9cQCI+hPiFDfxIqFahJSal86kF/LClNUTc6bLOnfQrKzqKu8UaSlSuvrQ1j4Ip+p3VZHvFAhn9otCkS18CpvzZbUm6BEtWSk5Qo5l8ij8vJYic0dQLNJRg2CWFnzrcXgigQhDkoo5jmAQmPl+j9daq3wMCa5IBIGilDRcgAR0lQGO7siztUcJ4FOEDqjxqtA8DRxp9afWj26pi+tCycQJ49muODcXOd0FexWrJ31Kf14aRpKbf6oKQTiN1Crc0Awywajpq+qztGVw63R88zZePRehBTDagHsKUTFe0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fzXBUWkaRKrybs/a1L6ShWowUektlt1gg7GCMQM5IqA=;
- b=UgUqtGK8WPcB8uYnZR7Pn63w4ztbtT+3eU5/Wn06fguEegVTXjvI4eqRPtVodciE53ukGt5Yn1PqEFsQblLtcGUZUDvlPbu3ULwo4M18pe+RoJj4LNvzYPAublOn/d48pktCWRnm6XHQJiISHJzFVoKl7HQHZSpvpPpS5/cHE2Y=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BYAPR12MB4614.namprd12.prod.outlook.com (2603:10b6:a03:a6::22)
- by BL1PR12MB5946.namprd12.prod.outlook.com (2603:10b6:208:399::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Wed, 8 Nov
- 2023 04:08:00 +0000
-Received: from BYAPR12MB4614.namprd12.prod.outlook.com
- ([fe80::ce36:81fc:9c50:c892]) by BYAPR12MB4614.namprd12.prod.outlook.com
- ([fe80::ce36:81fc:9c50:c892%6]) with mapi id 15.20.6954.028; Wed, 8 Nov 2023
- 04:07:59 +0000
-Message-ID: <2853fe7e-7d39-9b32-87b2-93845f16ae51@amd.com>
-Date: Wed, 8 Nov 2023 09:37:48 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v3] drm: amd: Resolve Sphinx unexpected indentation warning
-Content-Language: en-US
-To: Hunter Chasens <hunter.chasens18@ncf.edu>, linux-kernel@vger.kernel.org
-References: <20231107162830.36856-1-hunter.chasens18@ncf.edu>
-From: "Lazar, Lijo" <lijo.lazar@amd.com>
-In-Reply-To: <20231107162830.36856-1-hunter.chasens18@ncf.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0029.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:25::34) To BYAPR12MB4614.namprd12.prod.outlook.com
- (2603:10b6:a03:a6::22)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3C7510E374
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 04:16:32 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id
+ 4fb4d7f45d1cf-53de8fc1ad8so10836995a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 20:16:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1699416991; x=1700021791; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y/F3YLB8Ab2Lca3ggdA+C4E9/O+Kp/oWXjmVuCqcwOo=;
+ b=gYjkygYexn66F3M/uaPur9KdNIxG89hWrg/sBZL4nkXUt4meEtZCtn9QysafjzYp79
+ q5CMI8p8mLh5gJifHZcmQH9aOOIsR2rE1RIaHGDoxreVAJ/Ut9BZQ/8wXxkuRyBF4dnr
+ MyLruROL0VeNrjq9XjOWiM6YgedBVwdc6qoZ/MonF3c7jrL97HmBfHrC2eczi6q2XOcM
+ lHJXI9yfQg8cwME7chFIcyEReQuIqZ1+n/60A7onVJo86tsKZ280w3TOeBSwfdJ7pSF6
+ P7GolWlKfENhX6hJd71NVn2Rbm2OhdfL50fmv+mL/4vGDU+8u3rsK5DEAU1iZ5UZKZPb
+ vKaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699416991; x=1700021791;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Y/F3YLB8Ab2Lca3ggdA+C4E9/O+Kp/oWXjmVuCqcwOo=;
+ b=JW9gs/MbRF6r3453vEaqjIoNnVEaxJGIvJUxMm63hhC/BXns6cPrD2M4CvTZcRbXqQ
+ IFNyKeYKgtHAE9NFo8rPaBiE/9Ub3RdJps10k3KsdRbVE/UxlyELzWItbS6JZYPWi+4x
+ qhDaHzwYuooDyeg9W1x9dEfdkSkf4gatbjOUMGteWbduWqZ6BN5y3CEkN3cuU7rf6LLO
+ TOxMJyjMJ76sYHYbj+2WBk47eyEVDDEoYnImaPt9/4P7UIg/5vyw4jFWqUVTFT2iuQ3D
+ P6/IMqnioRlO7gyGsIJCwaud0y5pjmV0umeOVDDYVF081pl7HPC0W6UbwOODsgIW7sUZ
+ 5cWA==
+X-Gm-Message-State: AOJu0YzjJ7HrXz3XbCEQyIOZWPdycJZdQX6k15AghGklC9cc4zv92X7E
+ uifneTEA4ed7T6aLObT7hH/XcNl3tTlfKAplttw=
+X-Google-Smtp-Source: AGHT+IER0mAxps22TfwIJ0i8G70IHWQd6LE8yscAiSiXBE3yX9/490crGqmm21FSu2w73gtbTJITf93hqgzClugyPIk=
+X-Received: by 2002:a50:9f82:0:b0:540:54ef:43fd with SMTP id
+ c2-20020a509f82000000b0054054ef43fdmr552444edf.34.1699416990791; Tue, 07 Nov
+ 2023 20:16:30 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB4614:EE_|BL1PR12MB5946:EE_
-X-MS-Office365-Filtering-Correlation-Id: e9f157c9-b9d3-4abe-63e2-08dbe0104a76
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +jTS520tdq4G03LBhseTLU+Ped6Z0ogoQIwR0gnQw8jtEWOxM5EOOOz7PIV7ESnb5o604SVl13d317mcDqSB+G4ivaEA43ADCwTB0Zi4oUvNEBXMGsRAh+O2zXVCeAxtTVl9kgM3otDVKuhnNA5Wq7fYPwTr1LuegQb1fed4UPrVRJjZl8zuHi2e0BbXVaA+nMsIL73xkRdxyS5wXrIu+T/JInzg46GgzJbEPX8BQEPnXg+OXGftUUcMwzyhV11oxKWN6wRt6cDZO36POk7ZTKq6j5WHZ40lw1lwqICJLewJLj/6q9wS8j8ggwcWtNxZxq3zLD5/3kj4ILuP/nhwcw7NnIuY6k97bYFoqnEdkBdiWBDqPnzkzqj2GLtIZqFoDVuK+lxYOznWLrDwEoNDDd8ub8mDlChuCEegmjfyTa8q/AhkZB+8xHR6/EY+8EfnR8GXWIql0IP1Q4ssj+M2DGWgBxJFQWHKWCpjFKDOnyu6tDJ0digWP+N4YzFwbYMQZLS9uFoXk3uMokgP7vQ7+NBv+Wl3bAWo/jD+FShkoygmHQpJUABdCJKbf9He+G0gjtM9ieI55Lgnp8SkzTn775qNHX7Ei+AXm2KiAWocMYiVibv0QLNoILeJkp8d/Z6fymCUgUzaPirNERd7JbPCZrLq+lt8Pf2mxZvOFG3B/HQbr5hPxN3yRoBjd1pIOkcF
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB4614.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(39860400002)(346002)(396003)(366004)(376002)(230922051799003)(230173577357003)(230273577357003)(64100799003)(186009)(451199024)(1800799009)(2616005)(6666004)(53546011)(6486002)(6512007)(478600001)(6506007)(83380400001)(26005)(66556008)(5660300002)(41300700001)(2906002)(66476007)(4326008)(8936002)(66946007)(316002)(8676002)(36756003)(38100700002)(86362001)(31696002)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K2NCVERiNTFFSkZ5ODNINzA4Q2FuVWpIbHNmb09kb2JkcXhDelEyclBWSXMz?=
- =?utf-8?B?SmRYWE9RWWVnSEJNbmRmaHVSanZFSVBZQm13eVBQQ1cyOEw2MGx4TXpySWhv?=
- =?utf-8?B?ZW5BQkFNa3hMVkhNUnF0b1l4Z0hBT0RjNS9OMjNnUWZEMVMreFhOWFNiUkh6?=
- =?utf-8?B?RHpMWGVXd0h4YlR1QVRMNEt5dEJzMGI5M2VabVpteFVGNjY5Z2pSNW92MFFS?=
- =?utf-8?B?bVNaa2VsNlZZY3hSMVVNbjQxMFpreUZoSEJwR2haSllKUFF2cm9tRzE1Qm5L?=
- =?utf-8?B?QmhRZDU5LytaL0dmd3ExYmU0c0JGRGg1WGJJT0ZvVnZTNzBrL0VFTUd4RHQ5?=
- =?utf-8?B?cFkwemg0RFJvbzh1bkFZb05RYVIzZEVqWUlNS2FTS1BwSWRCM2ZxbEpyVStN?=
- =?utf-8?B?RHdSOXppeGRZMnZxNkgvaGZ6OXFzN0Nxdk4zWGFZcjNUN09qNnUyQ3pnZFA2?=
- =?utf-8?B?WngvTmFWVnVMa1hOd1dYVEpCZVNIZ0V3MVFDa0ZSRG9SV2o1Wi9GeGFnNXBq?=
- =?utf-8?B?YW03SGV5Vnp4Uk8wcWk3emg0ZmhRdlBmR3ltcGtLc1liNWlVYmpHYUJMaFRy?=
- =?utf-8?B?S3RwektQdHlIRlhmUEhWdzdxS2xXOW5xb00zQlhjcmNzdUU4YmJ2TGszdGR2?=
- =?utf-8?B?RWZTRkd2SzlBelpJbzA3azV6TDRJdUtndVorRktneWFYSW1ySjB4NWlzYXl6?=
- =?utf-8?B?S01lMXpxZWZhUFgvL0ZDdUNNOVlXeWZONC82RXQvOGE0Z0dxSEhKWVZFdlNO?=
- =?utf-8?B?SG9UN0JkekJvZXgzZHFhWG9UVWt2K2w3cmlYdWFwS0ZSS0xDSkprc3JBRWky?=
- =?utf-8?B?bUoyOTdZTWNoMURpMVBVblhBK3IxMDNtbndhUkMrUDBoczN5NGZPL29kWHhQ?=
- =?utf-8?B?TXpoNStaVEo4eVptUStDRVNCUmZ3SWxRbGYwbkVZQnMvLytSaERrVHZmZ2tR?=
- =?utf-8?B?SGNqV0Z6bFRKeDd0aU5NeHRLNEZNcUNLTUY5UHlXZVp2WlZPZkhKb0lSNGRm?=
- =?utf-8?B?YVpPQWdYNW80VVBpWHd2cFcyMGFoMmo5cGZ0Mm1YaHloTU1jSitZZ1RSVTE3?=
- =?utf-8?B?NEdRU252eUZoaG1tWnYrMDVXNHY3WUc5Q3pJMjhBUDZuMlBjSTJkajh5bE1C?=
- =?utf-8?B?N0tzUUlvZjJzS0o3UGdYWEJXUHVVUnZTUkc4Uk14QjlTOUY3SUR5OTFDMzJC?=
- =?utf-8?B?TEJQd3dEWDhhN0taNm0xdER2RzJUOFNOSGVoRDFKK3FKYngwVDBmZ3g0OEtS?=
- =?utf-8?B?Z1A0SjVMVG9vUHk3b0RkT0JqMHd6TkwxYmtmbG1HSVhyRjFTSHR4V0tBYVZS?=
- =?utf-8?B?YTZSYnRScGlLdElJSU15SU9Uck5uL3ppdlBXWUNuTDgrS0pPWGhVcmwwSitx?=
- =?utf-8?B?cmp2dmc1bkhJdVptdFNIY2VudnB0a0dZNXprR2hERFZPaWdVMHl6ZXFVVU9l?=
- =?utf-8?B?TGxucEM2VDZDMG54Q0VjbVI5RW5HNFE5bVNZL2dKR1F4RHp2ZVNndm1hV0hv?=
- =?utf-8?B?VklkV0N3cUNMODVMZ3Z0V2h2VkJRYTRIM1A5N1B1WndxM1A2dmtpRlduUHl1?=
- =?utf-8?B?R0Rvd1RUL1lRWmhRUXlYUzlEU205YkViYzRjVy95b3VBRkVjdmdjRVdJR0RM?=
- =?utf-8?B?eHFNcHJJZ1h2U01leTRDNEtqRkNCMWRpTW9qcVBGcTd3YU1JQW9IS0o3UXVV?=
- =?utf-8?B?UXcyYW9HL1FaTXEvUFp6TlZORmJibmtnc1BGOEZWMlJBRTAwU1MrbjJZYm1U?=
- =?utf-8?B?MDlxN2JvcFNwblJtQ0lZOG1HNHNmQmhCaHVkcjFlTVVBYk5GamNKVHRoVEhq?=
- =?utf-8?B?aXFFR3lON2Q0ZFBmcWovWVhJUVYxYWk3UFhDSWNHWVA0QWhKQjEzNEdzbEFW?=
- =?utf-8?B?aW5mdkMzSG5mUWdJTXNGeXdPckdFWGF0ZFc4azRVSkpUa00xbDhQUXpyR0pZ?=
- =?utf-8?B?Ti9HV0h3TkF3cklnODlmenh3aFRNOGlyYyszNzVYYXVPMzloU1dua2ZEZHdY?=
- =?utf-8?B?VUJQY3FETTJuNGxKZzV0eWxhWTE1d015bzZTanVPNnRRcFR4U1NYU2Y5K2Fq?=
- =?utf-8?B?cklVNmpweVdjMldMN2o3L2drZXI1N0hEQk1hK0N3OE5nN0x2NGZwb0grdUVt?=
- =?utf-8?Q?+wrpxf99cdVP7r3Ze4j+DH19K?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9f157c9-b9d3-4abe-63e2-08dbe0104a76
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB4614.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2023 04:07:59.0789 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i77XvliEf0grcHJT6kWRMxKEqvv3pMY+aOczmLopHzD/orjjrNLoHztwvCSiRIsV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5946
+References: <20231102165640.3307820-18-u.kleine-koenig@pengutronix.de>
+ <20231102165640.3307820-26-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20231102165640.3307820-26-u.kleine-koenig@pengutronix.de>
+From: Inki Dae <daeinki@gmail.com>
+Date: Wed, 8 Nov 2023 13:16:18 +0900
+Message-ID: <CAAQKjZOnVSaO6QHpSo_i=WgTaawTq0UFtzwTw8kQ5iHN4qiAtQ@mail.gmail.com>
+Subject: Re: [PATCH v3 08/16] drm/exynos: Convert to platform remove callback
+ returning void
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Content-Type: multipart/alternative; boundary="0000000000000fbc5206099c5a25"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,52 +68,1144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, Xinhui.Pan@amd.com,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: linux-samsung-soc@vger.kernel.org, kernel@pengutronix.de,
+ Jingoo Han <jingoohan1@gmail.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--0000000000000fbc5206099c5a25
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
-On 11/7/2023 9:58 PM, Hunter Chasens wrote:
-> Resolves Sphinx unexpected indentation warning when compiling
-> documentation (e.g. `make htmldocs`). Replaces tabs with spaces and adds
-> a literal block to keep vertical formatting of the
-> example power state list.
-> 
-> Signed-off-by: Hunter Chasens <hunter.chasens18@ncf.edu>
-
-Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
+Sorry for late. There was a merge conflict so I fixed it manually and
+merged. And seems your patch description is duplicated so dropped
+duplicated one.
 
 Thanks,
-Lijo
+Inki Dae
 
+2023=EB=85=84 11=EC=9B=94 3=EC=9D=BC (=EA=B8=88) =EC=98=A4=EC=A0=84 1:57, U=
+we Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>=EB=8B=98=EC=9D=B4
+=EC=9E=91=EC=84=B1:
+
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is ignored (apart
+> from emitting a warning) and this typically results in resource leaks.
+>
+> To improve here there is a quest to make the remove callback return
+> void. In the first step of this quest all drivers are converted to
+> .remove_new(), which already returns void. Eventually after all drivers
+> are converted, .remove_new() will be renamed to .remove().
+>
+> Trivially convert the exynos drivers from always returning zero in the
+> remove callback to the void returning variant.
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+>
+> drivers/gpu/drm/exynos/exynos_mixer.c :: Convert to platform remove
+> callback returning void
+>
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is ignored (apart
+> from emitting a warning) and this typically results in resource leaks.
+>
+> To improve here there is a quest to make the remove callback return
+> void. In the first step of this quest all drivers are converted to
+> .remove_new(), which already returns void. Eventually after all drivers
+> are converted, .remove_new() will be renamed to .remove().
+>
+> Trivially convert this driver from always returning zero in the remove
+> callback to the void returning variant.
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 > ---
->   drivers/gpu/drm/amd/pm/amdgpu_pm.c | 13 +++++++------
->   1 file changed, 7 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> index 517b9fb4624c..576202bf64f3 100644
-> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> @@ -989,12 +989,13 @@ static ssize_t amdgpu_get_pp_features(struct device *dev,
->    * Reading back the files will show you the available power levels within
->    * the power state and the clock information for those levels. If deep sleep is
->    * applied to a clock, the level will be denoted by a special level 'S:'
-> - * E.g.,
-> - *	S: 19Mhz *
-> - *	0: 615Mhz
-> - *	1: 800Mhz
-> - *	2: 888Mhz
-> - *	3: 1000Mhz
-> + * E.g., ::
-> + *
-> + *  S: 19Mhz *
-> + *  0: 615Mhz
-> + *  1: 800Mhz
-> + *  2: 888Mhz
-> + *  3: 1000Mhz
->    *
->    *
->    * To manually adjust these states, first select manual using
+>  drivers/gpu/drm/exynos/exynos5433_drm_decon.c | 6 ++----
+>  drivers/gpu/drm/exynos/exynos7_drm_decon.c    | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_dp.c            | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_drm_drv.c       | 5 ++---
+>  drivers/gpu/drm/exynos/exynos_drm_fimc.c      | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_drm_fimd.c      | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_drm_g2d.c       | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_drm_gsc.c       | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_drm_mic.c       | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_drm_rotator.c   | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_drm_scaler.c    | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_drm_vidi.c      | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_hdmi.c          | 6 ++----
+>  drivers/gpu/drm/exynos/exynos_mixer.c         | 6 ++----
+>  14 files changed, 28 insertions(+), 55 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
+> b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
+> index 4d986077738b..776f2f0b602d 100644
+> --- a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
+> +++ b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c
+> @@ -862,18 +862,16 @@ static int exynos5433_decon_probe(struct
+> platform_device *pdev)
+>         return ret;
+>  }
+>
+> -static int exynos5433_decon_remove(struct platform_device *pdev)
+> +static void exynos5433_decon_remove(struct platform_device *pdev)
+>  {
+>         pm_runtime_disable(&pdev->dev);
+>
+>         component_del(&pdev->dev, &decon_component_ops);
+> -
+> -       return 0;
+>  }
+>
+>  struct platform_driver exynos5433_decon_driver =3D {
+>         .probe          =3D exynos5433_decon_probe,
+> -       .remove         =3D exynos5433_decon_remove,
+> +       .remove_new     =3D exynos5433_decon_remove,
+>         .driver         =3D {
+>                 .name   =3D "exynos5433-decon",
+>                 .pm     =3D pm_ptr(&exynos5433_decon_pm_ops),
+> diff --git a/drivers/gpu/drm/exynos/exynos7_drm_decon.c
+> b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
+> index 0156a5e94435..0d185c0564b9 100644
+> --- a/drivers/gpu/drm/exynos/exynos7_drm_decon.c
+> +++ b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
+> @@ -765,7 +765,7 @@ static int decon_probe(struct platform_device *pdev)
+>         return ret;
+>  }
+>
+> -static int decon_remove(struct platform_device *pdev)
+> +static void decon_remove(struct platform_device *pdev)
+>  {
+>         struct decon_context *ctx =3D dev_get_drvdata(&pdev->dev);
+>
+> @@ -774,8 +774,6 @@ static int decon_remove(struct platform_device *pdev)
+>         iounmap(ctx->regs);
+>
+>         component_del(&pdev->dev, &decon_component_ops);
+> -
+> -       return 0;
+>  }
+>
+>  static int exynos7_decon_suspend(struct device *dev)
+> @@ -840,7 +838,7 @@ static DEFINE_RUNTIME_DEV_PM_OPS(exynos7_decon_pm_ops=
+,
+> exynos7_decon_suspend,
+>
+>  struct platform_driver decon_driver =3D {
+>         .probe          =3D decon_probe,
+> -       .remove         =3D decon_remove,
+> +       .remove_new     =3D decon_remove,
+>         .driver         =3D {
+>                 .name   =3D "exynos-decon",
+>                 .pm     =3D pm_ptr(&exynos7_decon_pm_ops),
+> diff --git a/drivers/gpu/drm/exynos/exynos_dp.c
+> b/drivers/gpu/drm/exynos/exynos_dp.c
+> index 3404ec1367fb..ca31bad6c576 100644
+> --- a/drivers/gpu/drm/exynos/exynos_dp.c
+> +++ b/drivers/gpu/drm/exynos/exynos_dp.c
+> @@ -250,14 +250,12 @@ static int exynos_dp_probe(struct platform_device
+> *pdev)
+>         return component_add(&pdev->dev, &exynos_dp_ops);
+>  }
+>
+> -static int exynos_dp_remove(struct platform_device *pdev)
+> +static void exynos_dp_remove(struct platform_device *pdev)
+>  {
+>         struct exynos_dp_device *dp =3D platform_get_drvdata(pdev);
+>
+>         component_del(&pdev->dev, &exynos_dp_ops);
+>         analogix_dp_remove(dp->adp);
+> -
+> -       return 0;
+>  }
+>
+>  static int exynos_dp_suspend(struct device *dev)
+> @@ -285,7 +283,7 @@ MODULE_DEVICE_TABLE(of, exynos_dp_match);
+>
+>  struct platform_driver dp_driver =3D {
+>         .probe          =3D exynos_dp_probe,
+> -       .remove         =3D exynos_dp_remove,
+> +       .remove_new     =3D exynos_dp_remove,
+>         .driver         =3D {
+>                 .name   =3D "exynos-dp",
+>                 .owner  =3D THIS_MODULE,
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c
+> b/drivers/gpu/drm/exynos/exynos_drm_drv.c
+> index 8399256cb5c9..a6bff29fc254 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
+> @@ -344,15 +344,14 @@ static int exynos_drm_platform_probe(struct
+> platform_device *pdev)
+>                                                match);
+>  }
+>
+> -static int exynos_drm_platform_remove(struct platform_device *pdev)
+> +static void exynos_drm_platform_remove(struct platform_device *pdev)
+>  {
+>         component_master_del(&pdev->dev, &exynos_drm_ops);
+> -       return 0;
+>  }
+>
+>  static struct platform_driver exynos_drm_platform_driver =3D {
+>         .probe  =3D exynos_drm_platform_probe,
+> -       .remove =3D exynos_drm_platform_remove,
+> +       .remove_new =3D exynos_drm_platform_remove,
+>         .driver =3D {
+>                 .name   =3D "exynos-drm",
+>                 .pm     =3D &exynos_drm_pm_ops,
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimc.c
+> b/drivers/gpu/drm/exynos/exynos_drm_fimc.c
+> index 8de2714599fc..e81a576de398 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_fimc.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_fimc.c
+> @@ -1367,7 +1367,7 @@ static int fimc_probe(struct platform_device *pdev)
+>         return ret;
+>  }
+>
+> -static int fimc_remove(struct platform_device *pdev)
+> +static void fimc_remove(struct platform_device *pdev)
+>  {
+>         struct device *dev =3D &pdev->dev;
+>         struct fimc_context *ctx =3D get_fimc_context(dev);
+> @@ -1377,8 +1377,6 @@ static int fimc_remove(struct platform_device *pdev=
+)
+>         pm_runtime_disable(dev);
+>
+>         fimc_put_clocks(ctx);
+> -
+> -       return 0;
+>  }
+>
+>  static int fimc_runtime_suspend(struct device *dev)
+> @@ -1410,7 +1408,7 @@ MODULE_DEVICE_TABLE(of, fimc_of_match);
+>
+>  struct platform_driver fimc_driver =3D {
+>         .probe          =3D fimc_probe,
+> -       .remove         =3D fimc_remove,
+> +       .remove_new     =3D fimc_remove,
+>         .driver         =3D {
+>                 .of_match_table =3D fimc_of_match,
+>                 .name   =3D "exynos-drm-fimc",
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+> b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+> index 8dde7b1e9b35..a9f1c5c05894 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+> @@ -1277,13 +1277,11 @@ static int fimd_probe(struct platform_device *pde=
+v)
+>         return ret;
+>  }
+>
+> -static int fimd_remove(struct platform_device *pdev)
+> +static void fimd_remove(struct platform_device *pdev)
+>  {
+>         pm_runtime_disable(&pdev->dev);
+>
+>         component_del(&pdev->dev, &fimd_component_ops);
+> -
+> -       return 0;
+>  }
+>
+>  static int exynos_fimd_suspend(struct device *dev)
+> @@ -1325,7 +1323,7 @@ static DEFINE_RUNTIME_DEV_PM_OPS(exynos_fimd_pm_ops=
+,
+> exynos_fimd_suspend,
+>
+>  struct platform_driver fimd_driver =3D {
+>         .probe          =3D fimd_probe,
+> -       .remove         =3D fimd_remove,
+> +       .remove_new     =3D fimd_remove,
+>         .driver         =3D {
+>                 .name   =3D "exynos4-fb",
+>                 .owner  =3D THIS_MODULE,
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+> b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+> index 414e585ec7dd..f3138423612e 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+> @@ -1530,7 +1530,7 @@ static int g2d_probe(struct platform_device *pdev)
+>         return ret;
+>  }
+>
+> -static int g2d_remove(struct platform_device *pdev)
+> +static void g2d_remove(struct platform_device *pdev)
+>  {
+>         struct g2d_data *g2d =3D platform_get_drvdata(pdev);
+>
+> @@ -1545,8 +1545,6 @@ static int g2d_remove(struct platform_device *pdev)
+>         g2d_fini_cmdlist(g2d);
+>         destroy_workqueue(g2d->g2d_workq);
+>         kmem_cache_destroy(g2d->runqueue_slab);
+> -
+> -       return 0;
+>  }
+>
+>  static int g2d_suspend(struct device *dev)
+> @@ -1609,7 +1607,7 @@ MODULE_DEVICE_TABLE(of, exynos_g2d_match);
+>
+>  struct platform_driver g2d_driver =3D {
+>         .probe          =3D g2d_probe,
+> -       .remove         =3D g2d_remove,
+> +       .remove_new     =3D g2d_remove,
+>         .driver         =3D {
+>                 .name   =3D "exynos-drm-g2d",
+>                 .owner  =3D THIS_MODULE,
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+> b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+> index 34cdabc30b4f..6776d3e037c9 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_gsc.c
+> @@ -1308,15 +1308,13 @@ static int gsc_probe(struct platform_device *pdev=
+)
+>         return ret;
+>  }
+>
+> -static int gsc_remove(struct platform_device *pdev)
+> +static void gsc_remove(struct platform_device *pdev)
+>  {
+>         struct device *dev =3D &pdev->dev;
+>
+>         component_del(dev, &gsc_component_ops);
+>         pm_runtime_dont_use_autosuspend(dev);
+>         pm_runtime_disable(dev);
+> -
+> -       return 0;
+>  }
+>
+>  static int __maybe_unused gsc_runtime_suspend(struct device *dev)
+> @@ -1421,7 +1419,7 @@ MODULE_DEVICE_TABLE(of, exynos_drm_gsc_of_match);
+>
+>  struct platform_driver gsc_driver =3D {
+>         .probe          =3D gsc_probe,
+> -       .remove         =3D gsc_remove,
+> +       .remove_new     =3D gsc_remove,
+>         .driver         =3D {
+>                 .name   =3D "exynos-drm-gsc",
+>                 .owner  =3D THIS_MODULE,
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_mic.c
+> b/drivers/gpu/drm/exynos/exynos_drm_mic.c
+> index 17bab5b1663f..e2920960180f 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_mic.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_mic.c
+> @@ -442,7 +442,7 @@ static int exynos_mic_probe(struct platform_device
+> *pdev)
+>         return ret;
+>  }
+>
+> -static int exynos_mic_remove(struct platform_device *pdev)
+> +static void exynos_mic_remove(struct platform_device *pdev)
+>  {
+>         struct exynos_mic *mic =3D platform_get_drvdata(pdev);
+>
+> @@ -450,8 +450,6 @@ static int exynos_mic_remove(struct platform_device
+> *pdev)
+>         pm_runtime_disable(&pdev->dev);
+>
+>         drm_bridge_remove(&mic->bridge);
+> -
+> -       return 0;
+>  }
+>
+>  static const struct of_device_id exynos_mic_of_match[] =3D {
+> @@ -462,7 +460,7 @@ MODULE_DEVICE_TABLE(of, exynos_mic_of_match);
+>
+>  struct platform_driver mic_driver =3D {
+>         .probe          =3D exynos_mic_probe,
+> -       .remove         =3D exynos_mic_remove,
+> +       .remove_new     =3D exynos_mic_remove,
+>         .driver         =3D {
+>                 .name   =3D "exynos-mic",
+>                 .pm     =3D pm_ptr(&exynos_mic_pm_ops),
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_rotator.c
+> b/drivers/gpu/drm/exynos/exynos_drm_rotator.c
+> index ffb327c5139e..5f7516655b08 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_rotator.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_rotator.c
+> @@ -329,15 +329,13 @@ static int rotator_probe(struct platform_device
+> *pdev)
+>         return ret;
+>  }
+>
+> -static int rotator_remove(struct platform_device *pdev)
+> +static void rotator_remove(struct platform_device *pdev)
+>  {
+>         struct device *dev =3D &pdev->dev;
+>
+>         component_del(dev, &rotator_component_ops);
+>         pm_runtime_dont_use_autosuspend(dev);
+>         pm_runtime_disable(dev);
+> -
+> -       return 0;
+>  }
+>
+>  static int rotator_runtime_suspend(struct device *dev)
+> @@ -453,7 +451,7 @@ static DEFINE_RUNTIME_DEV_PM_OPS(rotator_pm_ops,
+> rotator_runtime_suspend,
+>
+>  struct platform_driver rotator_driver =3D {
+>         .probe          =3D rotator_probe,
+> -       .remove         =3D rotator_remove,
+> +       .remove_new     =3D rotator_remove,
+>         .driver         =3D {
+>                 .name   =3D "exynos-rotator",
+>                 .owner  =3D THIS_MODULE,
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_scaler.c
+> b/drivers/gpu/drm/exynos/exynos_drm_scaler.c
+> index f2b8b09a6b4e..392f721f13ab 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_scaler.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_scaler.c
+> @@ -539,15 +539,13 @@ static int scaler_probe(struct platform_device *pde=
+v)
+>         return ret;
+>  }
+>
+> -static int scaler_remove(struct platform_device *pdev)
+> +static void scaler_remove(struct platform_device *pdev)
+>  {
+>         struct device *dev =3D &pdev->dev;
+>
+>         component_del(dev, &scaler_component_ops);
+>         pm_runtime_dont_use_autosuspend(dev);
+>         pm_runtime_disable(dev);
+> -
+> -       return 0;
+>  }
+>
+>  static int clk_disable_unprepare_wrapper(struct clk *clk)
+> @@ -721,7 +719,7 @@ MODULE_DEVICE_TABLE(of, exynos_scaler_match);
+>
+>  struct platform_driver scaler_driver =3D {
+>         .probe          =3D scaler_probe,
+> -       .remove         =3D scaler_remove,
+> +       .remove_new     =3D scaler_remove,
+>         .driver         =3D {
+>                 .name   =3D "exynos-scaler",
+>                 .owner  =3D THIS_MODULE,
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+> b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+> index f5e1adfcaa51..00382f28748a 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+> @@ -462,7 +462,7 @@ static int vidi_probe(struct platform_device *pdev)
+>         return component_add(dev, &vidi_component_ops);
+>  }
+>
+> -static int vidi_remove(struct platform_device *pdev)
+> +static void vidi_remove(struct platform_device *pdev)
+>  {
+>         struct vidi_context *ctx =3D platform_get_drvdata(pdev);
+>
+> @@ -472,13 +472,11 @@ static int vidi_remove(struct platform_device *pdev=
+)
+>         }
+>
+>         component_del(&pdev->dev, &vidi_component_ops);
+> -
+> -       return 0;
+>  }
+>
+>  struct platform_driver vidi_driver =3D {
+>         .probe          =3D vidi_probe,
+> -       .remove         =3D vidi_remove,
+> +       .remove_new     =3D vidi_remove,
+>         .driver         =3D {
+>                 .name   =3D "exynos-drm-vidi",
+>                 .owner  =3D THIS_MODULE,
+> diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c
+> b/drivers/gpu/drm/exynos/exynos_hdmi.c
+> index f3aaa4ea3e68..6dfc8411ef84 100644
+> --- a/drivers/gpu/drm/exynos/exynos_hdmi.c
+> +++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+> @@ -2067,7 +2067,7 @@ static int hdmi_probe(struct platform_device *pdev)
+>         return ret;
+>  }
+>
+> -static int hdmi_remove(struct platform_device *pdev)
+> +static void hdmi_remove(struct platform_device *pdev)
+>  {
+>         struct hdmi_context *hdata =3D platform_get_drvdata(pdev);
+>
+> @@ -2090,8 +2090,6 @@ static int hdmi_remove(struct platform_device *pdev=
+)
+>         put_device(&hdata->ddc_adpt->dev);
+>
+>         mutex_destroy(&hdata->mutex);
+> -
+> -       return 0;
+>  }
+>
+>  static int __maybe_unused exynos_hdmi_suspend(struct device *dev)
+> @@ -2123,7 +2121,7 @@ static const struct dev_pm_ops exynos_hdmi_pm_ops =
+=3D {
+>
+>  struct platform_driver hdmi_driver =3D {
+>         .probe          =3D hdmi_probe,
+> -       .remove         =3D hdmi_remove,
+> +       .remove_new     =3D hdmi_remove,
+>         .driver         =3D {
+>                 .name   =3D "exynos-hdmi",
+>                 .owner  =3D THIS_MODULE,
+> diff --git a/drivers/gpu/drm/exynos/exynos_mixer.c
+> b/drivers/gpu/drm/exynos/exynos_mixer.c
+> index b302392ff0d7..6822333fd0e6 100644
+> --- a/drivers/gpu/drm/exynos/exynos_mixer.c
+> +++ b/drivers/gpu/drm/exynos/exynos_mixer.c
+> @@ -1258,13 +1258,11 @@ static int mixer_probe(struct platform_device
+> *pdev)
+>         return ret;
+>  }
+>
+> -static int mixer_remove(struct platform_device *pdev)
+> +static void mixer_remove(struct platform_device *pdev)
+>  {
+>         pm_runtime_disable(&pdev->dev);
+>
+>         component_del(&pdev->dev, &mixer_component_ops);
+> -
+> -       return 0;
+>  }
+>
+>  static int __maybe_unused exynos_mixer_suspend(struct device *dev)
+> @@ -1338,5 +1336,5 @@ struct platform_driver mixer_driver =3D {
+>                 .of_match_table =3D mixer_match_types,
+>         },
+>         .probe =3D mixer_probe,
+> -       .remove =3D mixer_remove,
+> +       .remove_new =3D mixer_remove,
+>  };
+> --
+> 2.42.0
+>
+>
+
+--0000000000000fbc5206099c5a25
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div>Hi,</div><div dir=3D"auto"><br></div><div dir=3D"aut=
+o">Sorry for late. There was a merge conflict so I fixed it manually and me=
+rged. And seems your patch description is duplicated so dropped duplicated =
+one.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks,</div><div d=
+ir=3D"auto">Inki Dae<br><br><div class=3D"gmail_quote" dir=3D"auto"><div di=
+r=3D"ltr" class=3D"gmail_attr">2023=EB=85=84 11=EC=9B=94 3=EC=9D=BC (=EA=B8=
+=88) =EC=98=A4=EC=A0=84 1:57, Uwe Kleine-K=C3=B6nig &lt;<a href=3D"mailto:u=
+.kleine-koenig@pengutronix.de">u.kleine-koenig@pengutronix.de</a>&gt;=EB=8B=
+=98=EC=9D=B4 =EC=9E=91=EC=84=B1:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Th=
+e .remove() callback for a platform driver returns an int which makes<br>
+many driver authors wrongly assume it&#39;s possible to do error handling b=
+y<br>
+returning an error code. However the value returned is ignored (apart<br>
+from emitting a warning) and this typically results in resource leaks.<br>
+<br>
+To improve here there is a quest to make the remove callback return<br>
+void. In the first step of this quest all drivers are converted to<br>
+.remove_new(), which already returns void. Eventually after all drivers<br>
+are converted, .remove_new() will be renamed to .remove().<br>
+<br>
+Trivially convert the exynos drivers from always returning zero in the<br>
+remove callback to the void returning variant.<br>
+<br>
+Signed-off-by: Uwe Kleine-K=C3=B6nig &lt;<a href=3D"mailto:u.kleine-koenig@=
+pengutronix.de" target=3D"_blank" rel=3D"noreferrer">u.kleine-koenig@pengut=
+ronix.de</a>&gt;<br>
+<br>
+drivers/gpu/drm/exynos/exynos_mixer.c :: Convert to platform remove callbac=
+k returning void<br>
+<br>
+The .remove() callback for a platform driver returns an int which makes<br>
+many driver authors wrongly assume it&#39;s possible to do error handling b=
+y<br>
+returning an error code. However the value returned is ignored (apart<br>
+from emitting a warning) and this typically results in resource leaks.<br>
+<br>
+To improve here there is a quest to make the remove callback return<br>
+void. In the first step of this quest all drivers are converted to<br>
+.remove_new(), which already returns void. Eventually after all drivers<br>
+are converted, .remove_new() will be renamed to .remove().<br>
+<br>
+Trivially convert this driver from always returning zero in the remove<br>
+callback to the void returning variant.<br>
+<br>
+Signed-off-by: Uwe Kleine-K=C3=B6nig &lt;<a href=3D"mailto:u.kleine-koenig@=
+pengutronix.de" target=3D"_blank" rel=3D"noreferrer">u.kleine-koenig@pengut=
+ronix.de</a>&gt;<br>
+---<br>
+=C2=A0drivers/gpu/drm/exynos/exynos5433_drm_decon.c | 6 ++----<br>
+=C2=A0drivers/gpu/drm/exynos/exynos7_drm_decon.c=C2=A0 =C2=A0 | 6 ++----<br=
+>
+=C2=A0drivers/gpu/drm/exynos/exynos_dp.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 | 6 ++----<br>
+=C2=A0drivers/gpu/drm/exynos/exynos_drm_drv.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 5=
+ ++---<br>
+=C2=A0drivers/gpu/drm/exynos/exynos_drm_fimc.c=C2=A0 =C2=A0 =C2=A0 | 6 ++--=
+--<br>
+=C2=A0drivers/gpu/drm/exynos/exynos_drm_fimd.c=C2=A0 =C2=A0 =C2=A0 | 6 ++--=
+--<br>
+=C2=A0drivers/gpu/drm/exynos/exynos_drm_g2d.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 6=
+ ++----<br>
+=C2=A0drivers/gpu/drm/exynos/exynos_drm_gsc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 6=
+ ++----<br>
+=C2=A0drivers/gpu/drm/exynos/exynos_drm_mic.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 6=
+ ++----<br>
+=C2=A0drivers/gpu/drm/exynos/exynos_drm_rotator.c=C2=A0 =C2=A0| 6 ++----<br=
+>
+=C2=A0drivers/gpu/drm/exynos/exynos_drm_scaler.c=C2=A0 =C2=A0 | 6 ++----<br=
+>
+=C2=A0drivers/gpu/drm/exynos/exynos_drm_vidi.c=C2=A0 =C2=A0 =C2=A0 | 6 ++--=
+--<br>
+=C2=A0drivers/gpu/drm/exynos/exynos_hdmi.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 6 ++----<br>
+=C2=A0drivers/gpu/drm/exynos/exynos_mixer.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0| 6 ++----<br>
+=C2=A014 files changed, 28 insertions(+), 55 deletions(-)<br>
+<br>
+diff --git a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c b/drivers/gpu/dr=
+m/exynos/exynos5433_drm_decon.c<br>
+index 4d986077738b..776f2f0b602d 100644<br>
+--- a/drivers/gpu/drm/exynos/exynos5433_drm_decon.c<br>
++++ b/drivers/gpu/drm/exynos/exynos5433_drm_decon.c<br>
+@@ -862,18 +862,16 @@ static int exynos5433_decon_probe(struct platform_dev=
+ice *pdev)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+=C2=A0}<br>
+<br>
+-static int exynos5433_decon_remove(struct platform_device *pdev)<br>
++static void exynos5433_decon_remove(struct platform_device *pdev)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_disable(&amp;pdev-&gt;dev);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(&amp;pdev-&gt;dev, &amp;decon_com=
+ponent_ops);<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+=C2=A0}<br>
+<br>
+=C2=A0struct platform_driver exynos5433_decon_driver =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D ex=
+ynos5433_decon_probe,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D ex=
+ynos5433_decon_remove,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D exynos5433_d=
+econ_remove,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
+=3D &quot;exynos5433-decon&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .pm=C2=A0 =C2=A0 =
+=C2=A0=3D pm_ptr(&amp;exynos5433_decon_pm_ops),<br>
+diff --git a/drivers/gpu/drm/exynos/exynos7_drm_decon.c b/drivers/gpu/drm/e=
+xynos/exynos7_drm_decon.c<br>
+index 0156a5e94435..0d185c0564b9 100644<br>
+--- a/drivers/gpu/drm/exynos/exynos7_drm_decon.c<br>
++++ b/drivers/gpu/drm/exynos/exynos7_drm_decon.c<br>
+@@ -765,7 +765,7 @@ static int decon_probe(struct platform_device *pdev)<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+=C2=A0}<br>
+<br>
+-static int decon_remove(struct platform_device *pdev)<br>
++static void decon_remove(struct platform_device *pdev)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct decon_context *ctx =3D dev_get_drvdata(&=
+amp;pdev-&gt;dev);<br>
+<br>
+@@ -774,8 +774,6 @@ static int decon_remove(struct platform_device *pdev)<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 iounmap(ctx-&gt;regs);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(&amp;pdev-&gt;dev, &amp;decon_com=
+ponent_ops);<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static int exynos7_decon_suspend(struct device *dev)<br>
+@@ -840,7 +838,7 @@ static DEFINE_RUNTIME_DEV_PM_OPS(exynos7_decon_pm_ops, =
+exynos7_decon_suspend,<br>
+<br>
+=C2=A0struct platform_driver decon_driver =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D de=
+con_probe,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D de=
+con_remove,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D decon_remove=
+,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
+=3D &quot;exynos-decon&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .pm=C2=A0 =C2=A0 =
+=C2=A0=3D pm_ptr(&amp;exynos7_decon_pm_ops),<br>
+diff --git a/drivers/gpu/drm/exynos/exynos_dp.c b/drivers/gpu/drm/exynos/ex=
+ynos_dp.c<br>
+index 3404ec1367fb..ca31bad6c576 100644<br>
+--- a/drivers/gpu/drm/exynos/exynos_dp.c<br>
++++ b/drivers/gpu/drm/exynos/exynos_dp.c<br>
+@@ -250,14 +250,12 @@ static int exynos_dp_probe(struct platform_device *pd=
+ev)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return component_add(&amp;pdev-&gt;dev, &amp;ex=
+ynos_dp_ops);<br>
+=C2=A0}<br>
+<br>
+-static int exynos_dp_remove(struct platform_device *pdev)<br>
++static void exynos_dp_remove(struct platform_device *pdev)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct exynos_dp_device *dp =3D platform_get_dr=
+vdata(pdev);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(&amp;pdev-&gt;dev, &amp;exynos_dp=
+_ops);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 analogix_dp_remove(dp-&gt;adp);<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static int exynos_dp_suspend(struct device *dev)<br>
+@@ -285,7 +283,7 @@ MODULE_DEVICE_TABLE(of, exynos_dp_match);<br>
+<br>
+=C2=A0struct platform_driver dp_driver =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D ex=
+ynos_dp_probe,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D ex=
+ynos_dp_remove,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D exynos_dp_re=
+move,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
+=3D &quot;exynos-dp&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .owner=C2=A0 =3D TH=
+IS_MODULE,<br>
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/exyn=
+os/exynos_drm_drv.c<br>
+index 8399256cb5c9..a6bff29fc254 100644<br>
+--- a/drivers/gpu/drm/exynos/exynos_drm_drv.c<br>
++++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c<br>
+@@ -344,15 +344,14 @@ static int exynos_drm_platform_probe(struct platform_=
+device *pdev)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0match);<br>
+=C2=A0}<br>
+<br>
+-static int exynos_drm_platform_remove(struct platform_device *pdev)<br>
++static void exynos_drm_platform_remove(struct platform_device *pdev)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_master_del(&amp;pdev-&gt;dev, &amp;ex=
+ynos_drm_ops);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static struct platform_driver exynos_drm_platform_driver =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =3D exynos_drm_platform_probe,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove =3D exynos_drm_platform_remove,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new =3D exynos_drm_platform_remove,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
+=3D &quot;exynos-drm&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .pm=C2=A0 =C2=A0 =
+=C2=A0=3D &amp;exynos_drm_pm_ops,<br>
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimc.c b/drivers/gpu/drm/exy=
+nos/exynos_drm_fimc.c<br>
+index 8de2714599fc..e81a576de398 100644<br>
+--- a/drivers/gpu/drm/exynos/exynos_drm_fimc.c<br>
++++ b/drivers/gpu/drm/exynos/exynos_drm_fimc.c<br>
+@@ -1367,7 +1367,7 @@ static int fimc_probe(struct platform_device *pdev)<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+=C2=A0}<br>
+<br>
+-static int fimc_remove(struct platform_device *pdev)<br>
++static void fimc_remove(struct platform_device *pdev)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct device *dev =3D &amp;pdev-&gt;dev;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct fimc_context *ctx =3D get_fimc_context(d=
+ev);<br>
+@@ -1377,8 +1377,6 @@ static int fimc_remove(struct platform_device *pdev)<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_disable(dev);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fimc_put_clocks(ctx);<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static int fimc_runtime_suspend(struct device *dev)<br>
+@@ -1410,7 +1408,7 @@ MODULE_DEVICE_TABLE(of, fimc_of_match);<br>
+<br>
+=C2=A0struct platform_driver fimc_driver =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D fi=
+mc_probe,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D fi=
+mc_remove,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D fimc_remove,=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .of_match_table =3D=
+ fimc_of_match,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
+=3D &quot;exynos-drm-fimc&quot;,<br>
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c b/drivers/gpu/drm/exy=
+nos/exynos_drm_fimd.c<br>
+index 8dde7b1e9b35..a9f1c5c05894 100644<br>
+--- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c<br>
++++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c<br>
+@@ -1277,13 +1277,11 @@ static int fimd_probe(struct platform_device *pdev)=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+=C2=A0}<br>
+<br>
+-static int fimd_remove(struct platform_device *pdev)<br>
++static void fimd_remove(struct platform_device *pdev)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_disable(&amp;pdev-&gt;dev);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(&amp;pdev-&gt;dev, &amp;fimd_comp=
+onent_ops);<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static int exynos_fimd_suspend(struct device *dev)<br>
+@@ -1325,7 +1323,7 @@ static DEFINE_RUNTIME_DEV_PM_OPS(exynos_fimd_pm_ops, =
+exynos_fimd_suspend,<br>
+<br>
+=C2=A0struct platform_driver fimd_driver =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D fi=
+md_probe,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D fi=
+md_remove,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D fimd_remove,=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
+=3D &quot;exynos4-fb&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .owner=C2=A0 =3D TH=
+IS_MODULE,<br>
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c b/drivers/gpu/drm/exyn=
+os/exynos_drm_g2d.c<br>
+index 414e585ec7dd..f3138423612e 100644<br>
+--- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c<br>
++++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c<br>
+@@ -1530,7 +1530,7 @@ static int g2d_probe(struct platform_device *pdev)<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+=C2=A0}<br>
+<br>
+-static int g2d_remove(struct platform_device *pdev)<br>
++static void g2d_remove(struct platform_device *pdev)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct g2d_data *g2d =3D platform_get_drvdata(p=
+dev);<br>
+<br>
+@@ -1545,8 +1545,6 @@ static int g2d_remove(struct platform_device *pdev)<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g2d_fini_cmdlist(g2d);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 destroy_workqueue(g2d-&gt;g2d_workq);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 kmem_cache_destroy(g2d-&gt;runqueue_slab);<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static int g2d_suspend(struct device *dev)<br>
+@@ -1609,7 +1607,7 @@ MODULE_DEVICE_TABLE(of, exynos_g2d_match);<br>
+<br>
+=C2=A0struct platform_driver g2d_driver =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D g2=
+d_probe,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D g2=
+d_remove,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D g2d_remove,<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
+=3D &quot;exynos-drm-g2d&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .owner=C2=A0 =3D TH=
+IS_MODULE,<br>
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_gsc.c b/drivers/gpu/drm/exyn=
+os/exynos_drm_gsc.c<br>
+index 34cdabc30b4f..6776d3e037c9 100644<br>
+--- a/drivers/gpu/drm/exynos/exynos_drm_gsc.c<br>
++++ b/drivers/gpu/drm/exynos/exynos_drm_gsc.c<br>
+@@ -1308,15 +1308,13 @@ static int gsc_probe(struct platform_device *pdev)<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+=C2=A0}<br>
+<br>
+-static int gsc_remove(struct platform_device *pdev)<br>
++static void gsc_remove(struct platform_device *pdev)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct device *dev =3D &amp;pdev-&gt;dev;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(dev, &amp;gsc_component_ops);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_dont_use_autosuspend(dev);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_disable(dev);<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static int __maybe_unused gsc_runtime_suspend(struct device *dev)<br>
+@@ -1421,7 +1419,7 @@ MODULE_DEVICE_TABLE(of, exynos_drm_gsc_of_match);<br>
+<br>
+=C2=A0struct platform_driver gsc_driver =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D gs=
+c_probe,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D gs=
+c_remove,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D gsc_remove,<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
+=3D &quot;exynos-drm-gsc&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .owner=C2=A0 =3D TH=
+IS_MODULE,<br>
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_mic.c b/drivers/gpu/drm/exyn=
+os/exynos_drm_mic.c<br>
+index 17bab5b1663f..e2920960180f 100644<br>
+--- a/drivers/gpu/drm/exynos/exynos_drm_mic.c<br>
++++ b/drivers/gpu/drm/exynos/exynos_drm_mic.c<br>
+@@ -442,7 +442,7 @@ static int exynos_mic_probe(struct platform_device *pde=
+v)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+=C2=A0}<br>
+<br>
+-static int exynos_mic_remove(struct platform_device *pdev)<br>
++static void exynos_mic_remove(struct platform_device *pdev)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct exynos_mic *mic =3D platform_get_drvdata=
+(pdev);<br>
+<br>
+@@ -450,8 +450,6 @@ static int exynos_mic_remove(struct platform_device *pd=
+ev)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_disable(&amp;pdev-&gt;dev);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 drm_bridge_remove(&amp;mic-&gt;bridge);<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static const struct of_device_id exynos_mic_of_match[] =3D {<br>
+@@ -462,7 +460,7 @@ MODULE_DEVICE_TABLE(of, exynos_mic_of_match);<br>
+<br>
+=C2=A0struct platform_driver mic_driver =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D ex=
+ynos_mic_probe,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D ex=
+ynos_mic_remove,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D exynos_mic_r=
+emove,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
+=3D &quot;exynos-mic&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .pm=C2=A0 =C2=A0 =
+=C2=A0=3D pm_ptr(&amp;exynos_mic_pm_ops),<br>
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_rotator.c b/drivers/gpu/drm/=
+exynos/exynos_drm_rotator.c<br>
+index ffb327c5139e..5f7516655b08 100644<br>
+--- a/drivers/gpu/drm/exynos/exynos_drm_rotator.c<br>
++++ b/drivers/gpu/drm/exynos/exynos_drm_rotator.c<br>
+@@ -329,15 +329,13 @@ static int rotator_probe(struct platform_device *pdev=
+)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+=C2=A0}<br>
+<br>
+-static int rotator_remove(struct platform_device *pdev)<br>
++static void rotator_remove(struct platform_device *pdev)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct device *dev =3D &amp;pdev-&gt;dev;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(dev, &amp;rotator_component_ops);=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_dont_use_autosuspend(dev);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_disable(dev);<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static int rotator_runtime_suspend(struct device *dev)<br>
+@@ -453,7 +451,7 @@ static DEFINE_RUNTIME_DEV_PM_OPS(rotator_pm_ops, rotato=
+r_runtime_suspend,<br>
+<br>
+=C2=A0struct platform_driver rotator_driver =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D ro=
+tator_probe,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D ro=
+tator_remove,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D rotator_remo=
+ve,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
+=3D &quot;exynos-rotator&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .owner=C2=A0 =3D TH=
+IS_MODULE,<br>
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_scaler.c b/drivers/gpu/drm/e=
+xynos/exynos_drm_scaler.c<br>
+index f2b8b09a6b4e..392f721f13ab 100644<br>
+--- a/drivers/gpu/drm/exynos/exynos_drm_scaler.c<br>
++++ b/drivers/gpu/drm/exynos/exynos_drm_scaler.c<br>
+@@ -539,15 +539,13 @@ static int scaler_probe(struct platform_device *pdev)=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+=C2=A0}<br>
+<br>
+-static int scaler_remove(struct platform_device *pdev)<br>
++static void scaler_remove(struct platform_device *pdev)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct device *dev =3D &amp;pdev-&gt;dev;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(dev, &amp;scaler_component_ops);<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_dont_use_autosuspend(dev);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_disable(dev);<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static int clk_disable_unprepare_wrapper(struct clk *clk)<br>
+@@ -721,7 +719,7 @@ MODULE_DEVICE_TABLE(of, exynos_scaler_match);<br>
+<br>
+=C2=A0struct platform_driver scaler_driver =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D sc=
+aler_probe,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D sc=
+aler_remove,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D scaler_remov=
+e,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
+=3D &quot;exynos-scaler&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .owner=C2=A0 =3D TH=
+IS_MODULE,<br>
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/exy=
+nos/exynos_drm_vidi.c<br>
+index f5e1adfcaa51..00382f28748a 100644<br>
+--- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c<br>
++++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c<br>
+@@ -462,7 +462,7 @@ static int vidi_probe(struct platform_device *pdev)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return component_add(dev, &amp;vidi_component_o=
+ps);<br>
+=C2=A0}<br>
+<br>
+-static int vidi_remove(struct platform_device *pdev)<br>
++static void vidi_remove(struct platform_device *pdev)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct vidi_context *ctx =3D platform_get_drvda=
+ta(pdev);<br>
+<br>
+@@ -472,13 +472,11 @@ static int vidi_remove(struct platform_device *pdev)<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(&amp;pdev-&gt;dev, &amp;vidi_comp=
+onent_ops);<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+=C2=A0}<br>
+<br>
+=C2=A0struct platform_driver vidi_driver =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D vi=
+di_probe,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D vi=
+di_remove,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D vidi_remove,=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
+=3D &quot;exynos-drm-vidi&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .owner=C2=A0 =3D TH=
+IS_MODULE,<br>
+diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/=
+exynos_hdmi.c<br>
+index f3aaa4ea3e68..6dfc8411ef84 100644<br>
+--- a/drivers/gpu/drm/exynos/exynos_hdmi.c<br>
++++ b/drivers/gpu/drm/exynos/exynos_hdmi.c<br>
+@@ -2067,7 +2067,7 @@ static int hdmi_probe(struct platform_device *pdev)<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+=C2=A0}<br>
+<br>
+-static int hdmi_remove(struct platform_device *pdev)<br>
++static void hdmi_remove(struct platform_device *pdev)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct hdmi_context *hdata =3D platform_get_drv=
+data(pdev);<br>
+<br>
+@@ -2090,8 +2090,6 @@ static int hdmi_remove(struct platform_device *pdev)<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 put_device(&amp;hdata-&gt;ddc_adpt-&gt;dev);<br=
+>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mutex_destroy(&amp;hdata-&gt;mutex);<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static int __maybe_unused exynos_hdmi_suspend(struct device *dev)<br>
+@@ -2123,7 +2121,7 @@ static const struct dev_pm_ops exynos_hdmi_pm_ops =3D=
+ {<br>
+<br>
+=C2=A0struct platform_driver hdmi_driver =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D hd=
+mi_probe,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D hd=
+mi_remove,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new=C2=A0 =C2=A0 =C2=A0=3D hdmi_remove,=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .driver=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D {<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .name=C2=A0 =C2=A0=
+=3D &quot;exynos-hdmi&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .owner=C2=A0 =3D TH=
+IS_MODULE,<br>
+diff --git a/drivers/gpu/drm/exynos/exynos_mixer.c b/drivers/gpu/drm/exynos=
+/exynos_mixer.c<br>
+index b302392ff0d7..6822333fd0e6 100644<br>
+--- a/drivers/gpu/drm/exynos/exynos_mixer.c<br>
++++ b/drivers/gpu/drm/exynos/exynos_mixer.c<br>
+@@ -1258,13 +1258,11 @@ static int mixer_probe(struct platform_device *pdev=
+)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
+=C2=A0}<br>
+<br>
+-static int mixer_remove(struct platform_device *pdev)<br>
++static void mixer_remove(struct platform_device *pdev)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pm_runtime_disable(&amp;pdev-&gt;dev);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 component_del(&amp;pdev-&gt;dev, &amp;mixer_com=
+ponent_ops);<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static int __maybe_unused exynos_mixer_suspend(struct device *dev)<br=
+>
+@@ -1338,5 +1336,5 @@ struct platform_driver mixer_driver =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 .of_match_table =3D=
+ mixer_match_types,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 },<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .probe =3D mixer_probe,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove =3D mixer_remove,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.remove_new =3D mixer_remove,<br>
+=C2=A0};<br>
+-- <br>
+2.42.0<br>
+<br>
+</blockquote></div></div></div>
+
+--0000000000000fbc5206099c5a25--
