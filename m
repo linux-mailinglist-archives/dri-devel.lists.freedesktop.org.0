@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 060DE7E5A1F
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 16:35:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D35F7E5A22
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 16:36:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3449D10E168;
-	Wed,  8 Nov 2023 15:35:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B06A10E79E;
+	Wed,  8 Nov 2023 15:36:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A56010E168
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 15:35:49 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9F7510E169
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 15:36:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 2531CCE10DA;
- Wed,  8 Nov 2023 15:35:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2072FC433C8;
- Wed,  8 Nov 2023 15:35:44 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 3B9E6CE10DA;
+ Wed,  8 Nov 2023 15:36:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B143C433C8;
+ Wed,  8 Nov 2023 15:35:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699457745;
- bh=IgF6+bXpdf75WXeAvSDDhYfuqLKw54SZ5acCbfcmfCM=;
+ s=k20201202; t=1699457759;
+ bh=eE6mOmTr1rj6VsFKkbtQZvA22hyfF/rlsdneGdInYVg=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=ARShJAydwt6xGIMUHXoxDBU8oryuoqHXFOpcQQ+d6cLMDU6EO46fqFyeQ7KsP0K4l
- q+CM7FpfXEnnbhVVjBVjiKtoyxzB+daPnZPVAjRAKAIGjCrEhKFTwPi2ueWf5tWo6g
- dRzVSUVYl18keZDoeuT35fzRactdWJDiDuxTezN93qDJoJx60XLoGTiQuIJNnbAN3S
- 3Z/9CM7IfAaI95wSbzJLiwbMav40wi0PRuKVCqXX79mL3YO3v5N/v9ogEvh1uI050t
- cb6P/uqg/ZBClDcMKzizo23lyL1zRhLfFuCZffLl1qLIh/0/rIH1IaRpTm8xcHlbcb
- /hRAJ/91WuEcA==
-Message-ID: <302dfeb3069105f55d516d5b474cae18.mripard@kernel.org>
-Date: Wed, 08 Nov 2023 15:35:42 +0000
+ b=TnawTsGuBBEORxekcBAmA+jjMHWmLN4XWGen0+F+lzTD0iGo8W2tgn4kqlkbO0UPU
+ Yg5DELitXP/3jDF2mJBGoSiOS+uDJJ6MRAC3grJh8N/HyMs6+aDCC42QtUZtNOSeKc
+ DkwygnSAdlfY5aLlamsBqwT2SPz3jalWB08GEuc7MBWDALw4d7xI8QyGAIXKbVKi4R
+ DmQMKcX1uzaTaNg3f8ZUDVJdY7QS2U0GY4ts8ARpJWQFXOuLbRyWyqkR8IVsQHP0ZK
+ l0Wk5oV/4lTqqS8eH1WQd8jRknt1kFge8eGRwNuaMi5JTuZXo/js4EFeJMASXzdhxD
+ wXx1PNMofiEKQ==
+Message-ID: <1b02163780ccd7a4ce1357ab9810bb26.mripard@kernel.org>
+Date: Wed, 08 Nov 2023 15:35:56 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Hsin-Yi Wang" <hsinyi@chromium.org>
-Subject: Re: [PATCH v6 1/5] drm/panel-edp: drm/panel-edp: Fix AUO B116XAK01
- name and timing
-In-Reply-To: <20231107204611.3082200-2-hsinyi@chromium.org>
-References: <20231107204611.3082200-2-hsinyi@chromium.org>
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v6 2/5] drm/panel-edp: drm/panel-edp: Fix AUO B116XTN02
+ name
+In-Reply-To: <20231107204611.3082200-3-hsinyi@chromium.org>
+References: <20231107204611.3082200-3-hsinyi@chromium.org>
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,13 +57,14 @@ Cc: Maxime Ripard <mripard@kernel.org>, Neil
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 7 Nov 2023 12:41:51 -0800, Hsin-Yi Wang wrote:
-> Rename AUO 0x405c B116XAK01 to B116XAK01.0 and adjust the timing of
-> auo_b116xak01: T3=200, T12=500, T7_max = 50 according to decoding edid
-> and datasheet.
-> 
-> Fixes: da458286a5e2 ("drm/panel: Add support for AUO B116XAK01 panel")
-> 
+On Tue, 7 Nov 2023 12:41:52 -0800, Hsin-Yi Wang wrote:
+> Rename AUO 0x235c B116XTN02 to B116XTN02.3 according to decoding edid.
+>=20
+> Fixes: 3db2420422a5 ("drm/panel-edp: Add AUO B116XTN02, BOE NT116WHM-N21,=
+836X2, NV116WHM-N49 V8.0")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+>=20
 > [ ... ]
 
 Acked-by: Maxime Ripard <mripard@kernel.org>
