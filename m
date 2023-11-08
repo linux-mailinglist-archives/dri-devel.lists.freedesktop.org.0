@@ -1,80 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D88F7E4DDF
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 01:13:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F23ED7E4E37
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 01:41:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84A9110E6F0;
-	Wed,  8 Nov 2023 00:13:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B0F110E305;
+	Wed,  8 Nov 2023 00:41:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 400BE10E6EE
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 00:13:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 347A810E305
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 00:41:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1699402430;
+ s=mimecast20190719; t=1699404079;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tNRycYwtQ73dbg7Nl1iVq4veb5xrBk1nNGjWOXZsWLY=;
- b=gQYaXZtQol45ZejGIWrh4LuIRrmHh588AGC5ncsJJQM3DwzKLAJEfrR3tQY1Y1nlVJF/LF
- lsMV1muUPhXMs7sHwmYUebyuc08TU/ymaD7B6wxiy5KjUjeIRDL7AqBIn+x4ycg/xRZ6sV
- 17LNWzjH4dl0zqhKuLXFaE78PjsHnEo=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ULxckgGYYImBGgSsj6S7x6ndPnlaJduz5EJX6IrAtLk=;
+ b=fpav8E4n+PevmRYug/WqGTzaw7YpnP2bdhxVXffZzU6i4QrrFinLL5nii74qI6NpVE+6cV
+ uyFd5yw2dNCQE/Jp7MuRsYqxxNQyYPcDbnGOXOz8lOk6UqTDRUDms2rW+MhotR/INCjdbz
+ b8AR9v2FIZlTSwYWnCMn+J7geN6EV7k=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-663-IdJZ96PJMNGdH46ghd_dww-1; Tue, 07 Nov 2023 19:13:47 -0500
-X-MC-Unique: IdJZ96PJMNGdH46ghd_dww-1
-Received: by mail-ed1-f70.google.com with SMTP id
- 4fb4d7f45d1cf-54001189946so4816897a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 16:13:47 -0800 (PST)
+ us-mta-83-qmAu_WWzOxGVeOuW2S7-Ng-1; Tue, 07 Nov 2023 19:41:18 -0500
+X-MC-Unique: qmAu_WWzOxGVeOuW2S7-Ng-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-9e27cc6dbedso90193366b.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Nov 2023 16:41:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699402426; x=1700007226;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tNRycYwtQ73dbg7Nl1iVq4veb5xrBk1nNGjWOXZsWLY=;
- b=nvGXtmo4qb54VMipevxxZgfB52DMghnBXzyb0EtkHX2Cf7sMHNdV5bb/qxRwlLIrDQ
- xZibd/Sq/IXgtpl79QE4KIIF2j2BwVVEPDi+jlYfBdxRJiInWZJGRG5qpi1VPJ0XqDjp
- z1TVjEiudwyEUcYcimBed1BRhRz8Lc2zJj8YZ5eZcQnsGtn5FgDigO16z9DuFomDEk+E
- 5zI2H+vePxaVo0J9Y5VjcQu0NqU5lmVA789PQSiLYikkxXkSU6QNTQumtux3bETjv5GN
- yasD31lMeMWg31lQ9pX4/WAJ3mRDPIw4p0KC8pjPsdqoMO0Y6Q+p1w7tb9uQJjKdMpli
- Mb7Q==
-X-Gm-Message-State: AOJu0Yx6k/cBoE9wh2Z0sMm1exhKXsDGNeZjEdGIB8VG/ksoQPXFULo1
- zFv6FxaVkM+ZNRRbBPkeVYIKjdp49BjcllLfYrOzm9rIKNpqtppMZf/Fj+fZem6U4Z1i8tU8EhB
- GWVICk057bLdX7qqdulAR706pFgPI
-X-Received: by 2002:a50:8712:0:b0:53e:fdeb:13c7 with SMTP id
- i18-20020a508712000000b0053efdeb13c7mr166662edb.21.1699402426328; 
- Tue, 07 Nov 2023 16:13:46 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHexHxYkSeyrxAeaQ7bR2hxCfKuz9NxcgaJjWqCItDIrFGbLYogTuXTSe7qWhgQSZu3dUMZkw==
-X-Received: by 2002:a50:8712:0:b0:53e:fdeb:13c7 with SMTP id
- i18-20020a508712000000b0053efdeb13c7mr166654edb.21.1699402426151; 
- Tue, 07 Nov 2023 16:13:46 -0800 (PST)
-Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
+ d=1e100.net; s=20230601; t=1699404077; x=1700008877;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ULxckgGYYImBGgSsj6S7x6ndPnlaJduz5EJX6IrAtLk=;
+ b=Y8Ue+YyJbwHOo07WU00yz+272R4mbDisf9vJyCUSnoyMeQTEaNzFSCxr2ZgKp0Rb41
+ hCQYjo8vrT7LMQ/NoxoNEkCFJkEYqFK/lrJe5N1tXQOmM36jdJqACW2i7KkJK68xQMUB
+ cF4m0VN9AML+/Qda2x1RndUBhfDrxUC2yhco2QKtLWnmO8212IJ05ePExm+yCPrUY1iP
+ As6vaM0IkFm8a18YzGp+sbvnyH8etdqzZStLC7kn6Cwti0AOFKY/cdbi9kKfZ58s1cyB
+ wJqLgUX/7XOD7+aim8ZjNpsHowb/e+MYo027CFQH6ZytKcK7UHWVJV0DQA1z8FSmyRRF
+ nCTw==
+X-Gm-Message-State: AOJu0Ywg7XFSsc0WRPPYAyqXM6CUQ37lJ+2+UgYFcYBCLhCqLDYsjTr5
+ LNfKDYIvITvvvP9OxT7jy8b7qCpL/7OIVI62Y/qf6hPXwnmF4IMsaByoT58FbSljx2g4U8w9iiA
+ hGzVx8g8HG3rA+nAnfP0gb7ZlN6Bv
+X-Received: by 2002:a17:906:4fd5:b0:9c6:19ea:cdd6 with SMTP id
+ i21-20020a1709064fd500b009c619eacdd6mr223142ejw.50.1699404077096; 
+ Tue, 07 Nov 2023 16:41:17 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGeIke/9qVB1P0AK+TqehFPvCXSh1gC9WGNqeD7FlKtCj3gjO4A3yYfrm1wFeukEIK860aTMg==
+X-Received: by 2002:a17:906:4fd5:b0:9c6:19ea:cdd6 with SMTP id
+ i21-20020a1709064fd500b009c619eacdd6mr223126ejw.50.1699404076682; 
+ Tue, 07 Nov 2023 16:41:16 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
  by smtp.gmail.com with ESMTPSA id
- cf27-20020a0564020b9b00b005435faef9cfsm5922750edb.52.2023.11.07.16.13.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Nov 2023 16:13:45 -0800 (PST)
-From: Danilo Krummrich <dakr@redhat.com>
-To: airlied@gmail.com, daniel@ffwll.ch, matthew.brost@intel.com,
- thomas.hellstrom@linux.intel.com, sarah.walker@imgtec.com,
- donald.robson@imgtec.com, boris.brezillon@collabora.com,
- christian.koenig@amd.com, faith@gfxstrand.net
-Subject: [PATCH drm-misc-next v9 12/12] drm/nouveau: use GPUVM common
- infrastructure
-Date: Wed,  8 Nov 2023 01:12:42 +0100
-Message-ID: <20231108001259.15123-13-dakr@redhat.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231108001259.15123-1-dakr@redhat.com>
-References: <20231108001259.15123-1-dakr@redhat.com>
+ o14-20020a1709062e8e00b00997cce73cc7sm200762eji.29.2023.11.07.16.41.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Nov 2023 16:41:16 -0800 (PST)
+Message-ID: <70fb8d33-6b39-433f-8fa3-76883001ed68@redhat.com>
+Date: Wed, 8 Nov 2023 01:41:15 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched: Don't disturb the entity when in RR-mode
+ scheduling
+To: Luben Tuikov <ltuikov89@gmail.com>, tvrtko.ursulin@linux.intel.com
+References: <bb7c307e-271c-4f4c-bdbc-7078972ba515@linux.intel.com>
+ <20231107041020.10035-2-ltuikov89@gmail.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20231107041020.10035-2-ltuikov89@gmail.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,431 +89,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>
+Cc: matthew.brost@intel.com, robdclark@chromium.org, sarah.walker@imgtec.com,
+ ltuikov@yahoo.com, ketil.johnsen@arm.com, lina@asahilina.net,
+ mcanal@igalia.com, Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, boris.brezillon@collabora.com,
+ donald.robson@imgtec.com, christian.koenig@amd.com,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-GPUVM provides common infrastructure to track external and evicted GEM
-objects as well as locking and validation helpers.
+On 11/7/23 05:10, Luben Tuikov wrote:
+> Don't call drm_sched_select_entity() in drm_sched_run_job_queue().  In fact,
+> rename __drm_sched_run_job_queue() to just drm_sched_run_job_queue(), and let
+> it do just that, schedule the work item for execution.
+> 
+> The problem is that drm_sched_run_job_queue() calls drm_sched_select_entity()
+> to determine if the scheduler has an entity ready in one of its run-queues,
+> and in the case of the Round-Robin (RR) scheduling, the function
+> drm_sched_rq_select_entity_rr() does just that, selects the _next_ entity
+> which is ready, sets up the run-queue and completion and returns that
+> entity. The FIFO scheduling algorithm is unaffected.
+> 
+> Now, since drm_sched_run_job_work() also calls drm_sched_select_entity(), then
+> in the case of RR scheduling, that would result in drm_sched_select_entity()
+> having been called twice, which may result in skipping a ready entity if more
+> than one entity is ready. This commit fixes this by eliminating the call to
+> drm_sched_select_entity() from drm_sched_run_job_queue(), and leaves it only
+> in drm_sched_run_job_work().
+> 
+> v2: Rebased on top of Tvrtko's renames series of patches. (Luben)
+>      Add fixes-tag. (Tvrtko)
+> 
+> Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
+> Fixes: f7fe64ad0f22ff ("drm/sched: Split free_job into own work item")
+> ---
+>   drivers/gpu/drm/scheduler/sched_main.c | 16 +++-------------
+>   1 file changed, 3 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 27843e37d9b769..cd0dc3f81d05f0 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -256,10 +256,10 @@ drm_sched_rq_select_entity_fifo(struct drm_sched_rq *rq)
+>   }
+>   
+>   /**
+> - * __drm_sched_run_job_queue - enqueue run-job work
+> + * drm_sched_run_job_queue - enqueue run-job work
+>    * @sched: scheduler instance
+>    */
+> -static void __drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
+> +static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
+>   {
+>   	if (!READ_ONCE(sched->pause_submit))
+>   		queue_work(sched->submit_wq, &sched->work_run_job);
+> @@ -928,7 +928,7 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched)
+>   void drm_sched_wakeup(struct drm_gpu_scheduler *sched)
+>   {
+>   	if (drm_sched_can_queue(sched))
+> -		__drm_sched_run_job_queue(sched);
+> +		drm_sched_run_job_queue(sched);
+>   }
+>   
+>   /**
+> @@ -1040,16 +1040,6 @@ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
+>   }
+>   EXPORT_SYMBOL(drm_sched_pick_best);
+>   
+> -/**
+> - * drm_sched_run_job_queue - enqueue run-job work if there are ready entities
+> - * @sched: scheduler instance
+> - */
+> -static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
+> -{
+> -	if (drm_sched_select_entity(sched))
 
-Especially external and evicted object tracking is a huge improvement
-compared to the current brute force approach of iterating all mappings
-in order to lock and validate the GPUVM's GEM objects. Hence, make us of
-it.
+Hm, now that I rebase my patch to implement dynamic job-flow control I recognize that
+we probably need the peek semantics here. If we do not select an entity here, we also
+do not check whether the corresponding job fits on the ring.
 
-Reviewed-by: Dave Airlie <airlied@redhat.com>
-Signed-off-by: Danilo Krummrich <dakr@redhat.com>
----
- drivers/gpu/drm/nouveau/nouveau_bo.c    |  4 +-
- drivers/gpu/drm/nouveau/nouveau_exec.c  | 57 ++++----------
- drivers/gpu/drm/nouveau/nouveau_exec.h  |  4 -
- drivers/gpu/drm/nouveau/nouveau_sched.c |  9 ++-
- drivers/gpu/drm/nouveau/nouveau_sched.h |  7 +-
- drivers/gpu/drm/nouveau/nouveau_uvmm.c  | 99 ++++++++++++++++---------
- 6 files changed, 90 insertions(+), 90 deletions(-)
+Alternatively, we simply can't do this check in drm_sched_wakeup(). The consequence would
+be that we don't detect that we need to wait for credits to free up before the run work is
+already executing and the run work selects an entity.
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index 7afad86da64b..b7dda486a7ea 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -1061,17 +1061,18 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
- {
- 	struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
- 	struct nouveau_bo *nvbo = nouveau_bo(bo);
-+	struct drm_gem_object *obj = &bo->base;
- 	struct ttm_resource *old_reg = bo->resource;
- 	struct nouveau_drm_tile *new_tile = NULL;
- 	int ret = 0;
- 
--
- 	if (new_reg->mem_type == TTM_PL_TT) {
- 		ret = nouveau_ttm_tt_bind(bo->bdev, bo->ttm, new_reg);
- 		if (ret)
- 			return ret;
- 	}
- 
-+	drm_gpuvm_bo_gem_evict(obj, evict);
- 	nouveau_bo_move_ntfy(bo, new_reg);
- 	ret = ttm_bo_wait_ctx(bo, ctx);
- 	if (ret)
-@@ -1136,6 +1137,7 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
- out_ntfy:
- 	if (ret) {
- 		nouveau_bo_move_ntfy(bo, bo->resource);
-+		drm_gpuvm_bo_gem_evict(obj, !evict);
- 	}
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/nouveau/nouveau_exec.c b/drivers/gpu/drm/nouveau/nouveau_exec.c
-index bf6c12f4342a..9d9835fb5970 100644
---- a/drivers/gpu/drm/nouveau/nouveau_exec.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_exec.c
-@@ -1,7 +1,5 @@
- // SPDX-License-Identifier: MIT
- 
--#include <drm/drm_exec.h>
--
- #include "nouveau_drv.h"
- #include "nouveau_gem.h"
- #include "nouveau_mem.h"
-@@ -86,14 +84,12 @@
-  */
- 
- static int
--nouveau_exec_job_submit(struct nouveau_job *job)
-+nouveau_exec_job_submit(struct nouveau_job *job,
-+			struct drm_gpuvm_exec *vme)
- {
- 	struct nouveau_exec_job *exec_job = to_nouveau_exec_job(job);
- 	struct nouveau_cli *cli = job->cli;
- 	struct nouveau_uvmm *uvmm = nouveau_cli_uvmm(cli);
--	struct drm_exec *exec = &job->exec;
--	struct drm_gem_object *obj;
--	unsigned long index;
- 	int ret;
- 
- 	/* Create a new fence, but do not emit yet. */
-@@ -102,52 +98,29 @@ nouveau_exec_job_submit(struct nouveau_job *job)
- 		return ret;
- 
- 	nouveau_uvmm_lock(uvmm);
--	drm_exec_init(exec, DRM_EXEC_INTERRUPTIBLE_WAIT |
--			    DRM_EXEC_IGNORE_DUPLICATES);
--	drm_exec_until_all_locked(exec) {
--		struct drm_gpuva *va;
--
--		drm_gpuvm_for_each_va(va, &uvmm->base) {
--			if (unlikely(va == &uvmm->base.kernel_alloc_node))
--				continue;
--
--			ret = drm_exec_prepare_obj(exec, va->gem.obj, 1);
--			drm_exec_retry_on_contention(exec);
--			if (ret)
--				goto err_uvmm_unlock;
--		}
-+	ret = drm_gpuvm_exec_lock(vme);
-+	if (ret) {
-+		nouveau_uvmm_unlock(uvmm);
-+		return ret;
- 	}
- 	nouveau_uvmm_unlock(uvmm);
- 
--	drm_exec_for_each_locked_object(exec, index, obj) {
--		struct nouveau_bo *nvbo = nouveau_gem_object(obj);
--
--		ret = nouveau_bo_validate(nvbo, true, false);
--		if (ret)
--			goto err_exec_fini;
-+	ret = drm_gpuvm_exec_validate(vme);
-+	if (ret) {
-+		drm_gpuvm_exec_unlock(vme);
-+		return ret;
- 	}
- 
- 	return 0;
--
--err_uvmm_unlock:
--	nouveau_uvmm_unlock(uvmm);
--err_exec_fini:
--	drm_exec_fini(exec);
--	return ret;
--
- }
- 
- static void
--nouveau_exec_job_armed_submit(struct nouveau_job *job)
-+nouveau_exec_job_armed_submit(struct nouveau_job *job,
-+			      struct drm_gpuvm_exec *vme)
- {
--	struct drm_exec *exec = &job->exec;
--	struct drm_gem_object *obj;
--	unsigned long index;
--
--	drm_exec_for_each_locked_object(exec, index, obj)
--		dma_resv_add_fence(obj->resv, job->done_fence, job->resv_usage);
--
--	drm_exec_fini(exec);
-+	drm_gpuvm_exec_resv_add_fence(vme, job->done_fence,
-+				      job->resv_usage, job->resv_usage);
-+	drm_gpuvm_exec_unlock(vme);
- }
- 
- static struct dma_fence *
-diff --git a/drivers/gpu/drm/nouveau/nouveau_exec.h b/drivers/gpu/drm/nouveau/nouveau_exec.h
-index 778cacd90f65..b815de2428f3 100644
---- a/drivers/gpu/drm/nouveau/nouveau_exec.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_exec.h
-@@ -3,16 +3,12 @@
- #ifndef __NOUVEAU_EXEC_H__
- #define __NOUVEAU_EXEC_H__
- 
--#include <drm/drm_exec.h>
--
- #include "nouveau_drv.h"
- #include "nouveau_sched.h"
- 
- struct nouveau_exec_job_args {
- 	struct drm_file *file_priv;
- 	struct nouveau_sched_entity *sched_entity;
--
--	struct drm_exec exec;
- 	struct nouveau_channel *chan;
- 
- 	struct {
-diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
-index 7e64b5ef90fb..0416fd6b6a40 100644
---- a/drivers/gpu/drm/nouveau/nouveau_sched.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
-@@ -263,6 +263,11 @@ nouveau_job_submit(struct nouveau_job *job)
- {
- 	struct nouveau_sched_entity *entity = to_nouveau_sched_entity(job->base.entity);
- 	struct dma_fence *done_fence = NULL;
-+	struct drm_gpuvm_exec vm_exec = {
-+		.vm = &nouveau_cli_uvmm(job->cli)->base,
-+		.flags = DRM_EXEC_IGNORE_DUPLICATES,
-+		.num_fences = 1,
-+	};
- 	int ret;
- 
- 	ret = nouveau_job_add_deps(job);
-@@ -282,7 +287,7 @@ nouveau_job_submit(struct nouveau_job *job)
- 	 * successfully.
- 	 */
- 	if (job->ops->submit) {
--		ret = job->ops->submit(job);
-+		ret = job->ops->submit(job, &vm_exec);
- 		if (ret)
- 			goto err_cleanup;
- 	}
-@@ -315,7 +320,7 @@ nouveau_job_submit(struct nouveau_job *job)
- 	set_bit(DRM_SCHED_FENCE_DONT_PIPELINE, &job->done_fence->flags);
- 
- 	if (job->ops->armed_submit)
--		job->ops->armed_submit(job);
-+		job->ops->armed_submit(job, &vm_exec);
- 
- 	nouveau_job_fence_attach(job);
- 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.h b/drivers/gpu/drm/nouveau/nouveau_sched.h
-index 27ac19792597..0f87697dbc9e 100644
---- a/drivers/gpu/drm/nouveau/nouveau_sched.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_sched.h
-@@ -5,7 +5,7 @@
- 
- #include <linux/types.h>
- 
--#include <drm/drm_exec.h>
-+#include <drm/drm_gpuvm.h>
- #include <drm/gpu_scheduler.h>
- 
- #include "nouveau_drv.h"
-@@ -54,7 +54,6 @@ struct nouveau_job {
- 	struct drm_file *file_priv;
- 	struct nouveau_cli *cli;
- 
--	struct drm_exec exec;
- 	enum dma_resv_usage resv_usage;
- 	struct dma_fence *done_fence;
- 
-@@ -76,8 +75,8 @@ struct nouveau_job {
- 		/* If .submit() returns without any error, it is guaranteed that
- 		 * armed_submit() is called.
- 		 */
--		int (*submit)(struct nouveau_job *);
--		void (*armed_submit)(struct nouveau_job *);
-+		int (*submit)(struct nouveau_job *, struct drm_gpuvm_exec *);
-+		void (*armed_submit)(struct nouveau_job *, struct drm_gpuvm_exec *);
- 		struct dma_fence *(*run)(struct nouveau_job *);
- 		void (*free)(struct nouveau_job *);
- 		enum drm_gpu_sched_stat (*timeout)(struct nouveau_job *);
-diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-index eda7bb8624f1..2bb72fff06e0 100644
---- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-@@ -438,8 +438,9 @@ nouveau_uvma_region_complete(struct nouveau_uvma_region *reg)
- static void
- op_map_prepare_unwind(struct nouveau_uvma *uvma)
- {
-+	struct drm_gpuva *va = &uvma->va;
- 	nouveau_uvma_gem_put(uvma);
--	drm_gpuva_remove(&uvma->va);
-+	drm_gpuva_remove(va);
- 	nouveau_uvma_free(uvma);
- }
- 
-@@ -468,6 +469,7 @@ nouveau_uvmm_sm_prepare_unwind(struct nouveau_uvmm *uvmm,
- 			break;
- 		case DRM_GPUVA_OP_REMAP: {
- 			struct drm_gpuva_op_remap *r = &op->remap;
-+			struct drm_gpuva *va = r->unmap->va;
- 
- 			if (r->next)
- 				op_map_prepare_unwind(new->next);
-@@ -475,7 +477,7 @@ nouveau_uvmm_sm_prepare_unwind(struct nouveau_uvmm *uvmm,
- 			if (r->prev)
- 				op_map_prepare_unwind(new->prev);
- 
--			op_unmap_prepare_unwind(r->unmap->va);
-+			op_unmap_prepare_unwind(va);
- 			break;
- 		}
- 		case DRM_GPUVA_OP_UNMAP:
-@@ -634,6 +636,7 @@ nouveau_uvmm_sm_prepare(struct nouveau_uvmm *uvmm,
- 					goto unwind;
- 				}
- 			}
-+
- 			break;
- 		}
- 		case DRM_GPUVA_OP_REMAP: {
-@@ -1135,12 +1138,44 @@ bind_link_gpuvas(struct bind_job_op *bop)
- }
- 
- static int
--nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
-+bind_lock_extra(struct drm_gpuvm_exec *vme)
-+{
-+	struct nouveau_uvmm_bind_job *bind_job = vme->extra.priv;
-+	struct drm_exec *exec = &vme->exec;
-+	struct bind_job_op *op;
-+	int ret;
-+
-+	list_for_each_op(op, &bind_job->ops) {
-+		struct drm_gpuva_op *va_op;
-+
-+		if (IS_ERR_OR_NULL(op->ops))
-+			continue;
-+
-+		drm_gpuva_for_each_op(va_op, op->ops) {
-+			struct drm_gem_object *obj = op_gem_obj(va_op);
-+
-+			if (unlikely(!obj))
-+				continue;
-+
-+			if (va_op->op != DRM_GPUVA_OP_UNMAP)
-+				continue;
-+
-+			ret = drm_exec_prepare_obj(exec, obj, vme->num_fences);
-+			if (ret)
-+				return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int
-+nouveau_uvmm_bind_job_submit(struct nouveau_job *job,
-+			     struct drm_gpuvm_exec *vme)
- {
- 	struct nouveau_uvmm *uvmm = nouveau_cli_uvmm(job->cli);
- 	struct nouveau_uvmm_bind_job *bind_job = to_uvmm_bind_job(job);
- 	struct nouveau_sched_entity *entity = job->entity;
--	struct drm_exec *exec = &job->exec;
- 	struct bind_job_op *op;
- 	int ret;
- 
-@@ -1157,6 +1192,8 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
- 			dma_resv_unlock(obj->resv);
- 			if (IS_ERR(op->vm_bo))
- 				return PTR_ERR(op->vm_bo);
-+
-+			drm_gpuvm_bo_extobj_add(op->vm_bo);
- 		}
- 
- 		ret = bind_validate_op(job, op);
-@@ -1179,6 +1216,7 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
- 	 * unwind all GPU VA space changes on failure.
- 	 */
- 	nouveau_uvmm_lock(uvmm);
-+
- 	list_for_each_op(op, &bind_job->ops) {
- 		switch (op->op) {
- 		case OP_MAP_SPARSE:
-@@ -1290,30 +1328,12 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
- 		}
- 	}
- 
--	drm_exec_init(exec, DRM_EXEC_INTERRUPTIBLE_WAIT |
--			    DRM_EXEC_IGNORE_DUPLICATES);
--	drm_exec_until_all_locked(exec) {
--		list_for_each_op(op, &bind_job->ops) {
--			struct drm_gpuva_op *va_op;
-+	vme->extra.fn = bind_lock_extra;
-+	vme->extra.priv = bind_job;
- 
--			if (IS_ERR_OR_NULL(op->ops))
--				continue;
--
--			drm_gpuva_for_each_op(va_op, op->ops) {
--				struct drm_gem_object *obj = op_gem_obj(va_op);
--
--				if (unlikely(!obj))
--					continue;
--
--				ret = drm_exec_prepare_obj(exec, obj, 1);
--				drm_exec_retry_on_contention(exec);
--				if (ret) {
--					op = list_last_op(&bind_job->ops);
--					goto unwind;
--				}
--			}
--		}
--	}
-+	ret = drm_gpuvm_exec_lock(vme);
-+	if (ret)
-+		goto unwind_continue;
- 
- 	list_for_each_op(op, &bind_job->ops) {
- 		struct drm_gpuva_op *va_op;
-@@ -1413,21 +1433,17 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
- 	}
- 
- 	nouveau_uvmm_unlock(uvmm);
--	drm_exec_fini(exec);
-+	drm_gpuvm_exec_unlock(vme);
- 	return ret;
- }
- 
- static void
--nouveau_uvmm_bind_job_armed_submit(struct nouveau_job *job)
-+nouveau_uvmm_bind_job_armed_submit(struct nouveau_job *job,
-+				   struct drm_gpuvm_exec *vme)
- {
--	struct drm_exec *exec = &job->exec;
--	struct drm_gem_object *obj;
--	unsigned long index;
--
--	drm_exec_for_each_locked_object(exec, index, obj)
--		dma_resv_add_fence(obj->resv, job->done_fence, job->resv_usage);
--
--	drm_exec_fini(exec);
-+	drm_gpuvm_exec_resv_add_fence(vme, job->done_fence,
-+				      job->resv_usage, job->resv_usage);
-+	drm_gpuvm_exec_unlock(vme);
- }
- 
- static struct dma_fence *
-@@ -1815,8 +1831,17 @@ nouveau_uvmm_free(struct drm_gpuvm *gpuvm)
- 	kfree(uvmm);
- }
- 
-+static int
-+nouveau_uvmm_bo_validate(struct drm_gpuvm_bo *vm_bo, struct drm_exec *exec)
-+{
-+	struct nouveau_bo *nvbo = nouveau_gem_object(vm_bo->obj);
-+
-+	return nouveau_bo_validate(nvbo, true, false);
-+}
-+
- static const struct drm_gpuvm_ops gpuvm_ops = {
- 	.vm_free = nouveau_uvmm_free,
-+	.vm_bo_validate = nouveau_uvmm_bo_validate,
- };
- 
- int
--- 
-2.41.0
+- Danilo
+
+> -		__drm_sched_run_job_queue(sched);
+> -}
+> -
+>   /**
+>    * drm_sched_free_job_work - worker to call free_job
+>    *
+> 
+> base-commit: 27d9620e9a9a6bc27a646b464b85860d91e21af3
 
