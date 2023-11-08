@@ -1,44 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A018A7E556F
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 12:26:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A4EE7E557A
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 12:27:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4387610E549;
-	Wed,  8 Nov 2023 11:25:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14CAE10E54B;
+	Wed,  8 Nov 2023 11:27:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DD0610E549
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 11:25:55 +0000 (UTC)
-Received: from dggpemm500005.china.huawei.com (unknown [172.30.72.53])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4SQN3h1ypLzrTq2;
- Wed,  8 Nov 2023 19:22:40 +0800 (CST)
-Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
- (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Wed, 8 Nov
- 2023 19:25:17 +0800
-Subject: Re: [RFC PATCH v3 08/12] net: support non paged skb frags
-To: Mina Almasry <almasrymina@google.com>
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-9-almasrymina@google.com>
- <7e851882-9a85-3672-c3d5-73b47599873c@huawei.com>
- <CAHS8izPGa99LyEc=AeqNaK8X68b7dovxCHOLbR=hnbaybN_zgQ@mail.gmail.com>
-From: Yunsheng Lin <linyunsheng@huawei.com>
-Message-ID: <e9c9b58d-4b78-fe2d-4511-b0ffa744a994@huawei.com>
-Date: Wed, 8 Nov 2023 19:25:16 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40E0F10E54B
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 11:27:46 +0000 (UTC)
+Received: from [127.0.1.1] (91-158-149-209.elisa-laajakaista.fi
+ [91.158.149.209])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DFF9F836;
+ Wed,  8 Nov 2023 12:27:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1699442842;
+ bh=WLlM2Gj86xmd+GbYCmiHz2C8v5cjM4EtVETq+IRWFE4=;
+ h=From:Subject:Date:To:Cc:From;
+ b=GtbD2JcVPHpKp8Nqv4Q6YWAZDmbsvIKiOEOXQgncVrf8MjzwySxBtHhjTP43+Lzq0
+ c0SgYsYQU1l35qf0frUjjUot2angs1u6/tEoylfcBohpBIVRg8uRKQtdyqlV/2J0RG
+ R5Njy8kHcg9hrRZ8swU8r3LivKMPMAyVHJeFRVRQ=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v2 0/2] drm/bridge: tc358767: Fix
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR case
+Date: Wed, 08 Nov 2023 13:27:21 +0200
+Message-Id: <20231108-tc358767-v2-0-25c5f70a2159@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHS8izPGa99LyEc=AeqNaK8X68b7dovxCHOLbR=hnbaybN_zgQ@mail.gmail.com>
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.69.30.204]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500005.china.huawei.com (7.185.36.74)
-X-CFilter-Loop: Reflected
+X-B4-Tracking: v=1; b=H4sIAJlwS2UC/23MOw7CMBBF0a1EU2PkDyEOFftAKfwZkymIIzuyQ
+ JH3jklNeZ+ezg4ZE2GGW7dDwkKZ4tJCnjpws1meyMi3BsmlElwJtjnV6+E6sF6jQuvD2AcO7b4
+ mDPQ+qMfUeqa8xfQ55CJ+6x+kCMaZGiXXwvgxXOydPJocFxtN8mcXXzDVWr87KBjSpwAAAA==
+To: Aradhya Bhatia <a-bhatia1@ti.com>, Jan Kiszka <jan.kiszka@siemens.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Sam Ravnborg <sam@ravnborg.org>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1014;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=WLlM2Gj86xmd+GbYCmiHz2C8v5cjM4EtVETq+IRWFE4=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlS3Cp2Psvm6UdFUslz/VwjM/5Qnlofze9iahHy
+ 7TC9kVOLU6JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZUtwqQAKCRD6PaqMvJYe
+ 9Z71D/4toHZpwhIU6URTpk+gga4lT90VInuN3gvBPsILkCv8luuQXZ26db8MlBK4eG8Ri2U49Kf
+ ktAOJI3dQbwV7crCUYxeu6IQojal5Uk060zBdKpb3en4455xIDwqzLvo+UON1y39ujtLyyADlxd
+ hyxwy2wFfd37gNvSN8WHe8sMKif8Oxhal1ZH0CPRVzStvgjem4MOkj1vLqD3kLAyBdMaylhS9yT
+ L5QoYofwghvD3XwRyuytKvmjjGlpiprD+RuWHdr4fugru4X8qR/zNlMRwYugnhCZqUkhRUClXHx
+ 0y0ALiKIydEixfaqZ40ZZiWc6JDmdtb7Pbow7Q/KOSJGs/wf94s4gdbMqo+Cah3oKffgV4vbmuc
+ SpZnAxdFpujmoZn6wHi3frbAkai5JgI3pUdKnl8K0GucYhZj4J5EyU01PsKIfF9JvzItxE1/Wgn
+ XJ8cK13UsH6x+Hzl69AAoqpuK1R8c3nque/v0/8tingC5ENfR1tX2Od9pOkTkah6tQ1Blbdunfc
+ RRjw7HL7MnGPQSNUS4P/33u6CDwEV6Kp4Jvwf2/cdq91S9lyXGC1pSHmZ1PODiZ2N4LAt09zISM
+ GpfEtamA7nt3QfDByszNphKMprYfYJz8N29WYGQMc60AhtxAkz/qGs+lrAbHYES1+X7kEfhmyRG
+ cxgU1MJFtgyRc5w==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,46 +74,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
- linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-arch@vger.kernel.org,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
- netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023/11/8 5:19, Mina Almasry wrote:
->>
->>
-> 
-> My personal immediate reaction is that this may just introduce code
-> churn without significant benefit. If an unsuspecting caller call
-> skb_frag_page() on devmem frag and doesn't correctly handle NULL
-> return, it will crash or error out anyway, and likely in some obvious
-> way, so maybe the BUG_ON() isn't so useful that it's worth changing
+These two patches are needed to make tc358767 work in the
+DRM_BRIDGE_ATTACH_NO_CONNECTOR case, at least when using a DP connector.
 
-If it will always crash or error out, then I agree that BUG_ON() is
-unnecessary.
+I have tested this with TI AM654 EVM with a tc358767 add-on card
+connected to a DP monitor.
 
-> all the call sites. But if there is consensus on adding a change like
-> you propose, I have no problem adding it.
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+Changes in v2:
+- Update the format negotiation patch as discussed in https://lore.kernel.org/all/7ddf0edb-2925-4b7c-ad07-27c030dd0232@ti.com/
+- Link to v1: https://lore.kernel.org/r/20231031-tc358767-v1-0-392081ad9f4b@ideasonboard.com
 
-One obvious benefit I forget to mention is that, it provides a better
-semantic that if a caller need to do the return checking:
-1. For the old helper, the semantic is not to do the checking if the caller
-   has ensure that it has passed a readable frag to skb_frag_page(), which
-   avoid adding some overhead for non-devmen supported drivers.
-2. For the new helper, the semantic is to do the checking and we may provide
-   a compiler '__must_check' function-attribute to ensure the caller to do
-   the checking.
+---
+Aradhya Bhatia (1):
+      drm/bridge: tc358767: Add format negotiation hooks for DPI/DSI to (e)DP
 
+Tomi Valkeinen (1):
+      drm/bridge: tc358767: Fix link properties discovery
 
-> 
+ drivers/gpu/drm/bridge/tc358767.c | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+---
+base-commit: 9d7c8c066916f231ca0ed4e4fce6c4b58ca3e451
+change-id: 20231031-tc358767-58e3ebdf95f0
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
