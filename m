@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 285847E5971
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 15:46:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD8B7E5973
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 15:46:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9D0110E78D;
-	Wed,  8 Nov 2023 14:46:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7234310E78E;
+	Wed,  8 Nov 2023 14:46:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16CD610E78D
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 14:46:05 +0000 (UTC)
-Received: by mail-oi1-f200.google.com with SMTP id
- 5614622812f47-3b3edaef525so10091558b6e.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Nov 2023 06:46:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699454764; x=1700059564;
- h=to:from:subject:message-id:in-reply-to:date:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eyg+x1sdBdUCTK9dEOdpm/i8Z98iZDIp/TYoaCFtNfI=;
- b=HbQFljvpAcoKYlLiLHb2KV7g2ZhlSRL5BZszMj9vDqEeaDbD0gB+XriMNyeN2A/5Ul
- 14qbf/drhqVbIkOOOPlBGl+DMClQ6jHIPXjqcMfQ/sSE50p1jPiR8bopCAR+FJ7bN80U
- v4f9gWm2ma98BYodgJ55bkYo2q5HCM2h5umMz3I1YeAyu4tt7q5vNp4jF681XAQzJYC9
- J+ST1qRRk/aezR/TIykZU6WDbE1Jn1OtC8Mk/I16rtjdwYlDmslJzmxeKf5fieeVr/xV
- brNtkhCWMeN45zt/DJBlRE1Svv+Sr30zhSUPYo5hGDNgqWkmsw/WNdTPp9aMleJ55Zum
- 80Fg==
-X-Gm-Message-State: AOJu0Yxa9rpPtym4reuveXN1/sx/PcOPMApiF7jP71etm5WqX4xwAci7
- 6lIC+1EawpjsU3TaceeIGJ1dXHmFvtHydkWQriOfZ42cemDZ
-X-Google-Smtp-Source: AGHT+IHYVbPqVKNGXu+BvwkE/pRq1+khXE9q8J8tLhTwkKxlwRoFhUls2Br/4J25UUlY0OHXWCPFT/tsDkP8SnIUAsiU7jVq8Mz6
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 565AF10E78E
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 14:46:45 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 6E4FFCE100F
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 14:46:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB7F5C433CA
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 14:46:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1699454802;
+ bh=ftbvV4bw4hg6PZIt+37fY8xjNWQpXdeki0QzQPnGqHc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=hqT/3OUvZUxmY3zU8zNb2cAcCRomxULleME2gYMNCTqcLgZNsc2ziQzfqvtGQn12v
+ HypyI+VXxRI2adUhILfPsKOREf3Ml0k9oKzLKLfVfFLC5iy+oPLrXFZxk5XZ/1UqHz
+ Vb54JzqcCkqR0VAsBgM+ij/znL1wiRZUcC9C4w5S0+6mr/6iBcud+WW4R7PZ1cX8F0
+ tNV25kcWuZO0BuZbSAjOk4X6QuuoVTVQtVOaVw693zFlB9Fz1/4EwTKMUFi5AW2jnj
+ N3fzCgILj87LgBpP1TrQrCTmPyHMZYy9neB+Wocam0zNIQkcz0sJ5fymARgR+wrBmd
+ kIyINc4G3JStw==
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-9c41e95efcbso1048452366b.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Nov 2023 06:46:42 -0800 (PST)
+X-Gm-Message-State: AOJu0YxIaxlJL0HJXSN66ggALOi5f6ALosHvWr+EAcX2W5/nmGg3pmkj
+ Q85pdQeM9/j/5zyNNhJkkzwlTUqTBfG36Tn+Wpg=
+X-Google-Smtp-Source: AGHT+IEzBXZM9VPuZhNQkUuqVe/tJD1jYSO+MYcxH2uv+GndLhMX4wwR7upS73a+oZV/qISb1q6+TNlCDEEUrDUgirM=
+X-Received: by 2002:a17:907:3d9e:b0:9bf:d70b:9873 with SMTP id
+ he30-20020a1709073d9e00b009bfd70b9873mr1723236ejc.39.1699454801198; Wed, 08
+ Nov 2023 06:46:41 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:138d:b0:3a7:86b2:1950 with SMTP id
- c13-20020a056808138d00b003a786b21950mr789798oiw.0.1699454764313; Wed, 08 Nov
- 2023 06:46:04 -0800 (PST)
-Date: Wed, 08 Nov 2023 06:46:04 -0800
-In-Reply-To: <0000000000002a4da90603a5cbbf@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000089f4110609a525b2@google.com>
-Subject: Re: [syzbot] [dri?] kernel BUG in vmf_insert_pfn_prot (2)
-From: syzbot <syzbot+398e17b61dab22cc56bc@syzkaller.appspotmail.com>
-To: airlied@gmail.com, airlied@linux.ie, christian.koenig@amd.com, 
- daniel.vetter@ffwll.ch, daniel.vetter@intel.com, daniel@ffwll.ch, 
- dri-devel@lists.freedesktop.org, hdanton@sina.com, 
- linaro-mm-sig-bounces@lists.linaro.org, linaro-mm-sig@lists.linaro.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
+References: <20231108024613.2898921-1-chenhuacai@loongson.cn>
+ <f461f122-d3e4-4ffb-a252-543f9b6e4e5a@suse.de>
+ <CAFOAJEfDZGRY42SRGF64cFbN1e8sBhYsQw_uou8hxTYfyxkhdw@mail.gmail.com>
+In-Reply-To: <CAFOAJEfDZGRY42SRGF64cFbN1e8sBhYsQw_uou8hxTYfyxkhdw@mail.gmail.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Wed, 8 Nov 2023 22:46:29 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H65OZfZg2jXR+mUWe9gcSZrgoiEJDGU5qaAOyD2by_L5A@mail.gmail.com>
+Message-ID: <CAAhV-H65OZfZg2jXR+mUWe9gcSZrgoiEJDGU5qaAOyD2by_L5A@mail.gmail.com>
+Subject: Re: [PATCH] drm/Makefile: Move tiny drivers before native drivers
+To: Javier Martinez Canillas <javierm@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,28 +62,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jaak Ristioja <jaak@ristioja.ee>, Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-syzbot has bisected this issue to:
+Hi, Javier,
 
-commit 45d9c8dde4cd8589f9180309ec60f0da2ce486e4
-Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Thu Aug 12 13:14:12 2021 +0000
+On Wed, Nov 8, 2023 at 4:24=E2=80=AFPM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+>
+> Hello,
+>
+> On Wed, Nov 8, 2023 at 9:14=E2=80=AFAM Thomas Zimmermann <tzimmermann@sus=
+e.de> wrote:
+> >
+> > Hi,
+> >
+>
+> [...]
+>
+> >
+> > Relying on linking order is just as unreliable. The usual workaround is
+> > to build native drivers as modules. But first, please investigate where
+> > the current code fails.
+> >
+>
+> I fully agree with Thomas here. This is just papering over the issue.
+>
+> I'll read the lengthy thread now to see if I can better understand
+> what's going on here.
+Thank you very much.
 
-    drm/vgem: use shmem helpers
+Huacai
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=126094df680000
-start commit:   d2f51b3516da Merge tag 'rtc-6.7' of git://git.kernel.org/p..
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=116094df680000
-console output: https://syzkaller.appspot.com/x/log.txt?x=166094df680000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=1ffa1cec3b40f3ce
-dashboard link: https://syzkaller.appspot.com/bug?extid=398e17b61dab22cc56bc
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16344918e80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=156bb2c0e80000
-
-Reported-by: syzbot+398e17b61dab22cc56bc@syzkaller.appspotmail.com
-Fixes: 45d9c8dde4cd ("drm/vgem: use shmem helpers")
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+> --
+> Best regards,
+>
+> Javier Martinez Canillas
+> Core Platforms
+> Red Hat
+>
