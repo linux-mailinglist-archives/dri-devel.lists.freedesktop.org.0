@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6ED7E50BE
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 08:00:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6187E50C0
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 08:02:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC60010E072;
-	Wed,  8 Nov 2023 07:00:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9B8C10E095;
+	Wed,  8 Nov 2023 07:02:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 41109 seconds by postgrey-1.36 at gabe;
- Wed, 08 Nov 2023 07:00:26 UTC
-Received: from 5.mo561.mail-out.ovh.net (5.mo561.mail-out.ovh.net
- [87.98.178.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 322E710E072
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 07:00:26 +0000 (UTC)
-Received: from director6.ghost.mail-out.ovh.net (unknown [10.108.20.113])
- by mo561.mail-out.ovh.net (Postfix) with ESMTP id 1F664257E7
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 06:55:20 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-lv8ff (unknown [10.110.208.62])
- by director6.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 15B4C1FE12;
- Wed,  8 Nov 2023 06:55:17 +0000 (UTC)
-Received: from foxhound.fi ([37.59.142.109])
- by ghost-submission-6684bf9d7b-lv8ff with ESMTPSA
- id uGgwOtUwS2X3fAAAN287Lg
- (envelope-from <jose.pekkarinen@foxhound.fi>); Wed, 08 Nov 2023 06:55:17 +0000
+X-Greylist: delayed 443 seconds by postgrey-1.36 at gabe;
+ Wed, 08 Nov 2023 07:02:44 UTC
+Received: from 19.mo582.mail-out.ovh.net (19.mo582.mail-out.ovh.net
+ [188.165.56.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F302910E095
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 07:02:44 +0000 (UTC)
+Received: from director4.ghost.mail-out.ovh.net (unknown [10.109.138.120])
+ by mo582.mail-out.ovh.net (Postfix) with ESMTP id 3958C287FA
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Nov 2023 06:55:49 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-v2f9h (unknown [10.110.208.162])
+ by director4.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 0DFBC1FD69;
+ Wed,  8 Nov 2023 06:55:45 +0000 (UTC)
+Received: from foxhound.fi ([37.59.142.96])
+ by ghost-submission-6684bf9d7b-v2f9h with ESMTPSA
+ id V/SvOPEwS2WlSQsAsZoO1Q
+ (envelope-from <jose.pekkarinen@foxhound.fi>); Wed, 08 Nov 2023 06:55:45 +0000
 Authentication-Results: garm.ovh; auth=pass
- (GARM-109S003812ecbba-255d-4a16-800e-086f660595b3,
+ (GARM-96R001fd1c432e-144d-4186-b8a9-dc0114c8abac,
  CA30051851D9204B2894E18F048F6C805596AA31)
  smtp.auth=jose.pekkarinen@foxhound.fi
 X-OVh-ClientIp: 87.94.109.40
 From: =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- skhan@linuxfoundation.org
-Subject: [PATCH] drm/amdgpu: remove unused MES_LOG_BUFFER struct
-Date: Wed,  8 Nov 2023 08:55:12 +0200
-Message-Id: <20231108065512.14087-1-jose.pekkarinen@foxhound.fi>
+To: evan.quan@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, skhan@linuxfoundation.org
+Subject: [PATCH] drm/amd/pm: replace 1-element arrays with flexible-array
+ members
+Date: Wed,  8 Nov 2023 08:55:39 +0200
+Message-Id: <20231108065539.14223-1-jose.pekkarinen@foxhound.fi>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 3519281634429019841
+X-Ovh-Tracer-Id: 3527725884123096769
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedruddukedgleelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpedtudethfeghfegfffhtdeuhedukeduudeuieeiteegkedtudegvdektefftedvffenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeduvdejrddtrddtrddupdekjedrleegrddutdelrdegtddpfeejrdehledrudegvddruddtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehiedupdhmohguvgepshhmthhpohhuth
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedruddukedguddttdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpeflohhsrocurfgvkhhkrghrihhnvghnuceojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqnecuggftrfgrthhtvghrnheptddutefhgefhgeffhfdtueehudekudduueeiieetgeektddugedvkeetffetvdffnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpkeejrdelgedruddtledrgedtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehkedvpdhmohguvgepshhmthhpohhuth
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,40 +57,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jack.Xiao@amd.com, jonathan.kim@amd.com, felix.kuehling@amd.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+Cc: lijo.lazar@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org,
  =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
- dri-devel@lists.freedesktop.org, linux-kernel-mentees@lists.linux.dev
+ dri-devel@lists.freedesktop.org, sunran001@208suo.com, colin.i.king@gmail.com,
+ linux-kernel-mentees@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mention struct seems not to be used along the driver, and is also
-triggering a warning to migrate to flexible array. This patch will
-remove the full structure and get rid of the warning.
+While the structures affected seems to be unused along the driver the
+following patch will care of replacing their members to flexible array,
+removing the following warnings:
 
-drivers/gpu/drm/amd/include/mes_v11_api_def.h:192:27-34: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/gpu/drm/amd/pm/powerplay/inc/hwmgr.h:169:47-54: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/gpu/drm/amd/pm/powerplay/inc/hwmgr.h:174:47-54: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/gpu/drm/amd/pm/powerplay/inc/hwmgr.h:179:48-55: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/gpu/drm/amd/pm/powerplay/inc/hwmgr.h:184:47-54: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+drivers/gpu/drm/amd/pm/powerplay/inc/hwmgr.h:518:32-39: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
 
 Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
 ---
- drivers/gpu/drm/amd/include/mes_v11_api_def.h | 5 -----
- 1 file changed, 5 deletions(-)
+ drivers/gpu/drm/amd/pm/powerplay/inc/hwmgr.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/include/mes_v11_api_def.h b/drivers/gpu/drm/amd/include/mes_v11_api_def.h
-index b1db2b190187..e032ee262fa9 100644
---- a/drivers/gpu/drm/amd/include/mes_v11_api_def.h
-+++ b/drivers/gpu/drm/amd/include/mes_v11_api_def.h
-@@ -187,11 +187,6 @@ struct MES_LOG_ENTRY_DATA {
- 	};
+diff --git a/drivers/gpu/drm/amd/pm/powerplay/inc/hwmgr.h b/drivers/gpu/drm/amd/pm/powerplay/inc/hwmgr.h
+index 81650727a5de..082d0bb79277 100644
+--- a/drivers/gpu/drm/amd/pm/powerplay/inc/hwmgr.h
++++ b/drivers/gpu/drm/amd/pm/powerplay/inc/hwmgr.h
+@@ -166,22 +166,22 @@ struct phm_phase_shedding_limits_table {
+ 
+ struct phm_vceclock_voltage_dependency_table {
+ 	uint8_t count;                                    /* Number of entries. */
+-	struct phm_vceclock_voltage_dependency_record entries[1]; /* Dynamically allocate count entries. */
++	struct phm_vceclock_voltage_dependency_record entries[]; /* Dynamically allocate count entries. */
  };
  
--struct MES_LOG_BUFFER {
--	struct MES_LOG_ENTRY_HEADER	header;
--	struct MES_LOG_ENTRY_DATA	entries[1];
--};
--
- enum MES_SWIP_TO_HWIP_DEF {
- 	MES_MAX_HWIP_SEGMENT = 8,
+ struct phm_uvdclock_voltage_dependency_table {
+ 	uint8_t count;                                    /* Number of entries. */
+-	struct phm_uvdclock_voltage_dependency_record entries[1]; /* Dynamically allocate count entries. */
++	struct phm_uvdclock_voltage_dependency_record entries[]; /* Dynamically allocate count entries. */
  };
+ 
+ struct phm_samuclock_voltage_dependency_table {
+ 	uint8_t count;                                    /* Number of entries. */
+-	struct phm_samuclock_voltage_dependency_record entries[1]; /* Dynamically allocate count entries. */
++	struct phm_samuclock_voltage_dependency_record entries[]; /* Dynamically allocate count entries. */
+ };
+ 
+ struct phm_acpclock_voltage_dependency_table {
+ 	uint32_t count;                                    /* Number of entries. */
+-	struct phm_acpclock_voltage_dependency_record entries[1]; /* Dynamically allocate count entries. */
++	struct phm_acpclock_voltage_dependency_record entries[]; /* Dynamically allocate count entries. */
+ };
+ 
+ struct phm_vce_clock_voltage_dependency_table {
 -- 
 2.39.2
 
