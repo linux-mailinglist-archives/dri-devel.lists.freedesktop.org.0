@@ -1,119 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A767E5C67
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 18:28:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1068A7E5CE9
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Nov 2023 19:10:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 089AA10E17D;
-	Wed,  8 Nov 2023 17:28:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0760510E802;
+	Wed,  8 Nov 2023 18:10:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B69A410E17D;
- Wed,  8 Nov 2023 17:28:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lvsOLa6BMEoEw+J673r/BEp4zzZFZhG8iBpKQ7ht8jn3wahej5b7NIlT/8RgAXt2iTCM3P+og6myJhdWpCWX2f/a+p79jiAQY9QPPd/p+pj0Cv2c4w6ZQVBo5hPu2cg7faDusTK5ctnwKZ565F0zMJ6O1mz+hIF25LrNbsGwk8i3gdLUExI70GbbcjFVW6l9bJmXVmOfZ/gIuw3Q8ng8aKrN42PBhc34zzW3FFE83euozuHWUBqi1KpUN3eAo9Rr8fP0bEymQEtOcmanw+dvsK4JCCJlG1JNmUsTdwA71uOxwqRw9+nC9O0x6QmN9eo6aj/WX8MabTjfKYteRbtGBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mUbG5eSolG5p+urEW1raH5X/25qxP8YoAfJnUGC+htA=;
- b=fX0CNVGX+qYLRLpj3q2/ZZSIUGEdDpIovJNhjKH8R8nSxSfzjJx5hxhLyaRh3oF0xOYys7S4iWivXDOjeqgs4vscAndiDDrxNSAZYj2fwOsR93CON+pqsWwNnq8ho0mEhSsulp8Z8ZCiPRLq1bMNgn2T1v0/e68sVEuNYH6RvZrJClENcoA4XiSWcBD+i7lQHfhUMsJWLOna0YRwQxQVLEimCsBgDKxzcRUZ9r0rloMrPOBEattmtXzG/v1Vk3mFBLxJcx1/dKqayzpuM3uOCByyo+wPvm/p5aFPvgfl21XGJttbk6rChF921Js+sEVwEJCZ7F/w0Mit95ENwFk9tQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mUbG5eSolG5p+urEW1raH5X/25qxP8YoAfJnUGC+htA=;
- b=F+apE8TVpW3KF6jjZsvAwvNW6Wdwwy4XwP/nztAYNL8mxYXTqnJdLTdgr6lcHe/a5iRBTGeD11h4RQt1+UGYpwqQBj5JngSqeVqifw2kJIfOIEZiP82CiC+an5bdgwNHTs2CIQfVuDU8oN4stJC+DVo2D6aPTj1bXVrb2Hz0H6c=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS7PR12MB5933.namprd12.prod.outlook.com (2603:10b6:8:7c::14) by
- PH7PR12MB6563.namprd12.prod.outlook.com (2603:10b6:510:211::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Wed, 8 Nov
- 2023 17:28:36 +0000
-Received: from DS7PR12MB5933.namprd12.prod.outlook.com
- ([fe80::d257:cea8:6e29:e0a3]) by DS7PR12MB5933.namprd12.prod.outlook.com
- ([fe80::d257:cea8:6e29:e0a3%5]) with mapi id 15.20.6954.027; Wed, 8 Nov 2023
- 17:28:36 +0000
-Message-ID: <cbc4b3c0-4648-798b-80e9-3850273637a9@amd.com>
-Date: Wed, 8 Nov 2023 12:28:33 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [Patch v2] drm/ttm: Schedule delayed_delete worker closer
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org
-References: <20231108125824.995445-1-rajneesh.bhardwaj@amd.com>
- <86152ebb-96eb-43a1-b244-052c42ef1024@amd.com>
-From: "Bhardwaj, Rajneesh" <rajneesh.bhardwaj@amd.com>
-In-Reply-To: <86152ebb-96eb-43a1-b244-052c42ef1024@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQZPR01CA0154.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:8c::13) To DS7PR12MB5933.namprd12.prod.outlook.com
- (2603:10b6:8:7c::14)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C634610E185;
+ Wed,  8 Nov 2023 18:10:40 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3A8E15Y8005641; Wed, 8 Nov 2023 18:10:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=2dDaqrLyD6bgBMl0XHyCu6Dr2G0wgU+OOOC2HymfpiQ=;
+ b=eIzoqse1eFYoOEi+9rIM1h3RevrobYkdQCJBXrF9Cx9QXtyVI01+Zjbg10r3di43HBIu
+ GG0bnnqJmZHJe87u9LEb+oZI40gfvGG4f/gylyEP98bxX2dW0UOG48SS5CGf9FRUwcFE
+ y0XP84rLYEuQUve1Idh+2tHp/wpAlHxc8T06MoQE7NbbWE8EuxtdMULUf/fp6ThIWY9F
+ l56y/mqtkDCoL/aqbPAfZ8ukXnLuHTmwNkMLm0OnavGsm5BTQAxdzUZnYn4kwWWZ8CWM
+ bD5AoGy8MXb4kRGK4Zbj73aJXUCzVEjiq1go4cWQaT35XdLNVv0vAOOA7rqLeqH9v8je UQ== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u7w7rag6k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Nov 2023 18:10:35 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3A8IAXpF023228
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 8 Nov 2023 18:10:33 GMT
+Received: from [10.71.110.181] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 8 Nov
+ 2023 10:10:32 -0800
+Message-ID: <b708df07-6812-df43-1313-cf6f1289fd47@quicinc.com>
+Date: Wed, 8 Nov 2023 10:10:32 -0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB5933:EE_|PH7PR12MB6563:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8113abac-1071-4b8e-1557-08dbe08023cc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QhHZRC2HEjgxkAHuqW+fZrSiGaRxArWGmvrakVz4UPTvjzJP5N/J7peEaLSWza2Vuf1UkSldNGUMkvH06Ytw9IkUg6DCBtklE33jMUeKpNlclncFJ2vN+xTILUzRdgff376XSrjetzMkU9MuW15iCQyRdkiux0hIUcy0HiZtyaMboB5SuS16Ij9rHI8q0mON2yLZN3QB22/AlGQ3OEV1GZ6493n9N9EG9mZEVjyCaoyVKqyoghKGTi6Fq876L3m75tHQ/IciANvkBTK/Z5lCXbDR5fcrFyIbjeybcF1V7C9tY1dfwEvUbcypawr1ZLbq3RxHO6Sj9sibDk2zilF1lQFzoxFHCdAyjZu5RP68ZzSSi0J8LAfzKifBaIKOi2NjwTPbW2G14gx5K6kmfd6k85bu4jRVXV3fupLglZr09uPEz3/k4DiXZzs6AG1D1WAzLg/utlnE/Oo/07ePFFLa3tbt5sBAPbly6XnRjENr7Hunbq3vNb0rRxaEBf1GLPxHn8tzg+MrXnI0ZUFrA8+o5T6ykNmVmFCQzHbYrBZ6zKaNCPU6HjrUq5qOB0FLB+HKMkPMEzjH69B0b7G+nGf/Q7veD23Z3wjnPxN4uAAFWVvGNMTgPK3Tuhhrsd4kSWZuxX/0P3mTRtbkdgKAg4CObw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS7PR12MB5933.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376002)(346002)(39860400002)(396003)(136003)(366004)(230922051799003)(451199024)(186009)(64100799003)(1800799009)(2616005)(66946007)(83380400001)(26005)(66574015)(6506007)(478600001)(6666004)(6486002)(66556008)(53546011)(6512007)(2906002)(41300700001)(8676002)(4326008)(450100002)(8936002)(316002)(36756003)(38100700002)(5660300002)(31696002)(86362001)(66476007)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ejZ3Nmg3T1d2ZnRqOTdIY21CdzRrOXROTGh6QWF6UXJzbCtOWE4yRDFDV2No?=
- =?utf-8?B?UHp6SkJuVWQ1QmhBRVVlVVBuNDltcmF3Z0c1ZlZPRGc3SUlLdE1MUm9FMnc5?=
- =?utf-8?B?dEc4SVVycDFZL0J6TmVMREVyeXFxQlY1eENwVkUvbVBWVU03ZnM4WG1sMGFG?=
- =?utf-8?B?NVlYdUduSEtLYzA3SjVybHJJODFGYURjWWFjNkErNW9wYW1wN0xLSHZ0d1Fi?=
- =?utf-8?B?Y0lPeUhxZVVRNHRuSWNnZHJYYWtDMDFtejZjam9QckZKYjJmemJvWFNGaVBG?=
- =?utf-8?B?NjdsWFNFVjB1WTQyamtxUHlSZ0pncVZPNGxreUp3cGN5MDQ3Y1ovTlQrVnB2?=
- =?utf-8?B?emtrUzJMV0drSlEzc3RRMVJGSFdEQTM5dUpybk1QQ1h4T052eitHT283YURu?=
- =?utf-8?B?T3M1UVZVME4wSldVOE9wVUt1OTRPUGx2a1NlTVlkamZHRnVwcWRNeUJMdk5D?=
- =?utf-8?B?SkxzZHNxb01uNStYT2oyRmNkK1ZuYlZMN1ZwQ2ZVeGNIMDhITGR1dDNkM2d3?=
- =?utf-8?B?SkZYN25Pa1pHUXNlajBDMm56UW5MZ3lYMEFqcWtmZDN2RnRJQko0cFd4MzE5?=
- =?utf-8?B?QlN1YVRRSUFxUTl3YXFXZlZtbC80c1M5Vm9jWEk1eXZzeG5NK3ZlNDliaEJn?=
- =?utf-8?B?dnNEWlFKdGR4cDlNZVFkdmwyT0pDU3RrSFRoelFHaCtVOUVWVlVwQTZmbTVI?=
- =?utf-8?B?aW9jUW10VmFDV2w4R0g4WjFYT2NGcWtxVXFQU29zZWk5WWZuNlRPZUhUT1Fp?=
- =?utf-8?B?M3ppZ3BpNkllbDB3RXBCZ1RSdE5hRjNmbUhXYUxhdENUdk00MXJJc3c2c2Fm?=
- =?utf-8?B?czJzamhFK01JTlB4WE1XeHZGbnVzTUtTcmFwa29SRUxjUS82YXJ0OVJ1OG1l?=
- =?utf-8?B?endvTjU0cWt3N25HOVZHWTREVCtGdlhoRlR4Q2huNkUvWDFZanV0QXNoM1RG?=
- =?utf-8?B?R3hWMzBLdHg4cGlISUJITkhOb3p0Wllud3pVRW1xR3EzcDJ2NGd6eWVySHQ2?=
- =?utf-8?B?UldJeUx2VjFXckY1eUdvNmtXRHVjOHVzWVRtWEVOQ05SS3EyQWl3QjNsSEJL?=
- =?utf-8?B?eWpIS3dlenRnUUxKU25OWVVILzNPYVc2c1RLTjdTc1U2M3JwWGMvZjVtRkk2?=
- =?utf-8?B?OUtrUXk4b2duSldUNU40T3c0NDgvem02SWg3VnNEbzFNQXZ3N0czZzE0VC90?=
- =?utf-8?B?dkg3WkJQdEJkbVY4Zkt4bFdHVjJTbHhFZUQ2Y2JZaTdMWFNDbFNEdmJqRkhJ?=
- =?utf-8?B?VHVuaFBXcE16L1VHSVJiRy9xYWZtSkxMZDhaVEttVVlUcnpTZENNeE93aUps?=
- =?utf-8?B?QnFKN3UveURRZEZWMHIyWm1wL3lWcGlVUWZrWlhsU2J3VklCWlJleVIwaCtM?=
- =?utf-8?B?SFBMQzQva3RRSzJVVWlvSDdoaHhReVpDUlp4cWM4OTNQRFJCTGkyU1QzcWpV?=
- =?utf-8?B?QzB1L25xVmZ0QWJ2YnhLcCs1aTFEMHgwNWdzWXZoN2dDVWpJZnk4S29yclgz?=
- =?utf-8?B?U01UOXQ0QnR6bTVZeno1MUJidnE2ZEZNZ0N3WWxPN3ZYdGVVb3JZMUJ5SCtL?=
- =?utf-8?B?VFFpeStRTmpZZEJzNHVjUTEvYVU2Y3NJYURiNXFFTkRDVm40alhWQ0JwVXFP?=
- =?utf-8?B?aTd2TE9IUC9BTWI3U21tY3RRZHlxTFl6QUQ5RDBKYVJpZTdpSVo2S0VDKzZl?=
- =?utf-8?B?L0FPNjNmOUxNcEVxakUwcFU4clEydVMwZkhKVnMzVlN1R0FuaitBL3JCdUVO?=
- =?utf-8?B?RzB5dGp3STZkVVIzL0RrdDhsNnBDU1crOG9ZYkdCcVNnM2RkV1NETndoamVh?=
- =?utf-8?B?TjFqWEcxVm5ZdW1aLzFkMVdWbVFlTDdzblNFMDViN1E4UE83UjNHTUdzQ2w1?=
- =?utf-8?B?NmxlRHVrczdBcHM1THQxVHZZSDFRSmZuOWF1M3BtK1YyaFpiRmFuR3RRSk03?=
- =?utf-8?B?UXlsc2p4ZWxLUjZYbHNFV2JmUEM1NkY1Zm5nMTRjdlRsaktpbFBmZVkrMnpS?=
- =?utf-8?B?RWs4TzJ5Mk9BeEsxaGdhQVhVZzdxSEhyTEhkRGZKL0Y0eEZDdWo3WExSa1BL?=
- =?utf-8?B?aVEzZmo4ZFJ0QTNEV2hma1pxNFBRZlRQR1NIMXZieTUvOUJybGdPNUV0Sm4r?=
- =?utf-8?Q?XAO5DsBB8E6Eo4BA/XBVOaq8C?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8113abac-1071-4b8e-1557-08dbe08023cc
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB5933.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2023 17:28:36.7108 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uNQGWH2/CFkMsSHEBkIyBL+Ca1NcXPYmmvDgoP8yi1cSa9is+PjvGZIIJZeLaPDHqGjoftD4Lz1pAyo3VMTBqA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6563
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v7 0/7] incorporate pm runtime framework and eDP clean up
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <1696632910-21942-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAA8EJpoFRp+7GyO=F3Ar21tfG5Yt0cL6zkAquqg7D1XXQjp50Q@mail.gmail.com>
+ <55a4f98e-2772-e4fd-ae8a-132f92582c78@quicinc.com>
+ <CAA8EJpo9CFf-Z3eiuKPvwf-y6eGkSibro-q-=SBxKK_L-zFOBA@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAA8EJpo9CFf-Z3eiuKPvwf-y6eGkSibro-q-=SBxKK_L-zFOBA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: Am_BIKSb7zh0kfSKvK4xO3IHTv373wpf
+X-Proofpoint-ORIG-GUID: Am_BIKSb7zh0kfSKvK4xO3IHTv373wpf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-08_07,2023-11-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ lowpriorityscore=0 phishscore=0 malwarescore=0 spamscore=0 impostorscore=0
+ mlxscore=0 mlxlogscore=625 priorityscore=1501 suspectscore=0 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311080149
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,84 +85,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, felix.kuehling@amd.com,
- dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 11/8/2023 9:49 AM, Christian König wrote:
-> Am 08.11.23 um 13:58 schrieb Rajneesh Bhardwaj:
->> Try to allocate system memory on the NUMA node the device is closest to
->> and try to run delayed_delete workers on a CPU of this node as well.
+On 11/7/2023 1:23 PM, Dmitry Baryshkov wrote:
+> On Tue, 7 Nov 2023 at 23:01, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
 >>
->> To optimize the memory clearing operation when a TTM BO gets freed by
->> the delayed_delete worker, scheduling it closer to a NUMA node where the
->> memory was initially allocated helps avoid the cases where the worker
->> gets randomly scheduled on the CPU cores that are across interconnect
->> boundaries such as xGMI, PCIe etc.
+>> On 11/6/2023 5:55 PM, Dmitry Baryshkov wrote:
+>>> On Sat, 7 Oct 2023 at 01:55, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>>>> The purpose of this patch series is to incorporate pm runtime framework
+>>>> into MSM eDP/DP driver so that eDP panel can be detected by DRM eDP panel
+>>>> driver during system probe time. During incorporating procedure, original
+>>>> customized pm realted fucntions, such as dp_pm_prepare(), dp_pm_suspend(),
+>>>> dp_pm_resume() and dp_pm_prepare(), are removed and replaced with functions
+>>>> provided by pm runtiem framework such as pm_runtime_force_suspend() and
+>>>> pm_runtime_force_resume(). In addition, both eDP aux-bus and irq handler
+>>>> are bound at system probe time too.
+>>> With this patchset in place I can crash the board using the following
+>>> sequence (SM8350-HDK):
+>>>
+>>> - plug the USBC DP dongle
+>>> - run modetest at any mode, don't press Enter yet
+>>> - unplug the dongle
+>>> - press Enter to stop modetest
+>>>
+>>> => the board resets to Sahara.
+>>>
+>>> Please ping me if you need any additional information from my side.
+>> questiosn,
 >>
->> This change helps USWC GTT allocations on NUMA systems (dGPU) and AMD
->> APU platforms such as GFXIP9.4.3.
->>
->> Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
->> Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+>> 1) which dongle are you used?
+> I have used several Dell and Hama USB-C dongles.
 >
-> Reviewed-by: Christian König <christian.koenig@amd.com>
+>> 2) what code branch shoud I used to duplicate this problem.
+> I have pushed my kernel tree to
+> git.codelinaro.org/dmitry.baryshkov/linux.git, branch test-dp-rpm
+> I had several UCSI patches on top, but they should not be relevant.
+git.codelinaro.org/dmitry.baryshkov/linux.git, branch test-dp-rpm <== I 
+synced out his branch and it is still work at my chromebook Kodiak DUT.
 >
-> Going to push this to drm-misc-next.
-
-Thanks Christian, there is a new regression reported and I am checking 
-on that. Please don't submit it yet.
-
-
->
-> Thanks,
-> Christian.
->
->> ---
+>> I can not duplicate  system crash problem at my setup kodiak (SM7325)
+>> chrome book with my PM runtime patch series.
 >>
->> Changes in v2:
->>   - Absorbed the feedback provided by Christian in the commit message 
->> and
->>     the comment.
+>> my code base is Linux 6.6-rc2 + pm runtime patch series (7 patches)
 >>
->>   drivers/gpu/drm/ttm/ttm_bo.c     | 8 +++++++-
->>   drivers/gpu/drm/ttm/ttm_device.c | 3 ++-
->>   2 files changed, 9 insertions(+), 2 deletions(-)
+>> I did:
 >>
->> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
->> index 5757b9415e37..6f28a77a565b 100644
->> --- a/drivers/gpu/drm/ttm/ttm_bo.c
->> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
->> @@ -370,7 +370,13 @@ static void ttm_bo_release(struct kref *kref)
->>               spin_unlock(&bo->bdev->lru_lock);
->>                 INIT_WORK(&bo->delayed_delete, ttm_bo_delayed_delete);
->> -            queue_work(bdev->wq, &bo->delayed_delete);
->> +
->> +            /* Schedule the worker on the closest NUMA node. This
->> +             * improves performance since system memory might be
->> +             * cleared on free and that is best done on a CPU core
->> +             * close to it.
->> +             */
->> +            queue_work_node(bdev->pool.nid, bdev->wq, 
->> &bo->delayed_delete);
->>               return;
->>           }
->>   diff --git a/drivers/gpu/drm/ttm/ttm_device.c 
->> b/drivers/gpu/drm/ttm/ttm_device.c
->> index 43e27ab77f95..72b81a2ee6c7 100644
->> --- a/drivers/gpu/drm/ttm/ttm_device.c
->> +++ b/drivers/gpu/drm/ttm/ttm_device.c
->> @@ -213,7 +213,8 @@ int ttm_device_init(struct ttm_device *bdev, 
->> struct ttm_device_funcs *funcs,
->>       bdev->funcs = funcs;
->>         ttm_sys_man_init(bdev);
->> -    ttm_pool_init(&bdev->pool, dev, NUMA_NO_NODE, use_dma_alloc, 
->> use_dma32);
->> +
->> +    ttm_pool_init(&bdev->pool, dev, dev_to_node(dev), use_dma_alloc, 
->> use_dma32);
->>         bdev->vma_manager = vma_manager;
->>       spin_lock_init(&bdev->lru_lock);
+>> 1) plugin either apple dongle (DP-to-HDMI) + 1080p display or DP typeC
+>> cable directly to 1080p display
+>>
+>> 2)  stop ui
+>>
+>> 3) /usr/bin/modetest -M msm -s 34:1920x1080 (see test pattern show at
+>> display)
+>>
+>> 4) unplug apple dongle or DP typeC cable
+>>
+>> 5) hit enter key
+>>
+>> 6) start ui
+>>
+>> 7) display back to login page of chrome book
+>>
+>>
 >
