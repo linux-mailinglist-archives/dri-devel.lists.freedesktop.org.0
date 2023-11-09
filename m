@@ -1,77 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB0987E7031
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 18:26:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 589C27E7063
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 18:35:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D3EA10E8EC;
-	Thu,  9 Nov 2023 17:26:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D40110E8EE;
+	Thu,  9 Nov 2023 17:35:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E316010E8EC
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 17:25:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1699550721;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LQsLMrBO0s8gsbhcurrkAKTlTUKc8bmHZW0Ex5lVbpk=;
- b=O/99XKW6UPPlRJFdA39uAFOLDNoDPnIKUn5IKpRZsYFFnuhGUkOgg0PDA4bOmhZ2tcK+pT
- B/KBBktJSscaKARbSyvq9LmIjXa7Lm71TDWXFbblZVmQVeHJfeLp7Lavc9HORjO7X832fX
- Um3ujoLyXPYOpDxzOpEW1wkuXaxgcl4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-224-UnsYbZebMImWqtwpdM67Dw-1; Thu, 09 Nov 2023 12:25:19 -0500
-X-MC-Unique: UnsYbZebMImWqtwpdM67Dw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-32d9751ca2cso564904f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 09:25:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699550718; x=1700155518;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LQsLMrBO0s8gsbhcurrkAKTlTUKc8bmHZW0Ex5lVbpk=;
- b=vsC/wzAnwkbk0qv2gB13Ijp4xKh5cJVW4d3QGEhXwnb+gq04zamgIHnrAczKAwfWle
- 4U/ThYfGXGCcS5kiy9MGZmNrx/SVoVYNtkyQS+NGCVCFuh4dyQyRAX8y+x38zRMY3nOm
- aBMkUvOP6zuPGZRJESsFsyUIZfDUWGc7VXE/9Mk1SxeT0uTuJoKpsY8lheF/4u/tZ41I
- MkAexsbvkHrB0mkCnalFXiO6oC1j0JpBuYuZ4NloyTfdBWwWiwvvcvflGMn7Gs3SHcW2
- FqpPjiun1TGFHfTQV90qZtK8tfAgJQIt8q/GJuO/eamEmuyWYMwUznxa8LLCFoxrpKkL
- 4LNA==
-X-Gm-Message-State: AOJu0YyQTmeOyo+1CBbz3l63CpgJZ26tFz1m/A2nX/aOBdan9QU+Qjjh
- nwVTnE6NXX7R//Tedz1N9MqNAG8sifu7bfFSooftDXDzd7onIl6io/D90Qbqjx1w9fkkUE6mM3Z
- hO6s2v9vwuTdvXS46TsJuKVmkKyRL
-X-Received: by 2002:a05:6000:1cb:b0:32f:7963:8493 with SMTP id
- t11-20020a05600001cb00b0032f79638493mr4461558wrx.37.1699550718114; 
- Thu, 09 Nov 2023 09:25:18 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGD/Ij413ZeKujXk6kJlWHHEPZiWIxqmSIPmvd4/ZL4FLHzk3PoQZkslp1/W1fbI9IJfywcfQ==
-X-Received: by 2002:a05:6000:1cb:b0:32f:7963:8493 with SMTP id
- t11-20020a05600001cb00b0032f79638493mr4461536wrx.37.1699550717778; 
- Thu, 09 Nov 2023 09:25:17 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- k8-20020a5d6e88000000b0032db430fb9bsm121425wrz.68.2023.11.09.09.25.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Nov 2023 09:25:17 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 6/6] drm/todo: Add entry about implementing buffer age for
- damage tracking
-Date: Thu,  9 Nov 2023 18:24:40 +0100
-Message-ID: <20231109172449.1599262-7-javierm@redhat.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231109172449.1599262-1-javierm@redhat.com>
-References: <20231109172449.1599262-1-javierm@redhat.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 424F310E0E4
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 17:34:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 97066B81E6A;
+ Thu,  9 Nov 2023 17:34:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 446C9C433C8;
+ Thu,  9 Nov 2023 17:34:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1699551297;
+ bh=veQWpyDM4onYmh1xiPJAD0ivfDvih3X2s70cbv5GcvM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=R2MS1QwT+Zqp6WDAybXlZ7u9BeEQIBbtcbs+uG5F7GbZzNgzyp1cxENY4a0RMc2Ba
+ fDX8qxTGvQlIfsGKUPHTUJtT9aPtABpmcFhgCDWzbn6C5sL3phfs+4YMu0/yOrFP0y
+ QeL3+/YjuSrTDGgD/tqUQOk4JuxOvpJ5sT848d+a1mOsbCzrq3mrXCzI7qqm+jCbXc
+ 8YibFddiyPWDzcM+Jb87cj8Pfeo6YfEDvtPGoiE1QLmgn2VaCIlIWuyvAk9AvsisKb
+ BK13LmhwP0amZ6L/zg/VSUp9SxuMYEJQV1R8pwwIgQYL5+2i1Ckv5vi4ipdjLrgM2U
+ x0sIK1xls0s0w==
+Date: Thu, 9 Nov 2023 17:34:50 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v8 02/12] dt-bindings: soc: amlogic, meson-gx-hhi-sysctrl:
+ add example covering meson-axg-hhi-sysctrl
+Message-ID: <20231109-dictator-hedging-94b0dec505b5@spud>
+References: <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-0-81e4aeeda193@linaro.org>
+ <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-2-81e4aeeda193@linaro.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="sZblbYTITPv0dWts"
+Content-Disposition: inline
+In-Reply-To: <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-2-81e4aeeda193@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,61 +53,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- Bilal Elmoussaoui <belmouss@redhat.com>, linux-doc@vger.kernel.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Sima Vetter <daniel.vetter@ffwll.ch>, Erico Nunes <nunes.erico@gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Rob Herring <robh+dt@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
+ Nicolas Belin <nbelin@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, only damage tracking for frame damage is supported. If a driver
-needs to do buffer damage (e.g: the framebuffer attached to plane's state
-has changed since the last page-flip), the damage helpers just fallback to
-a full plane update.
 
-Add en entry in the TODO about implementing buffer age or any other damage
-accumulation algorithm for buffer damage handling.
+--sZblbYTITPv0dWts
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Suggested-by: Simon Ser <contact@emersion.fr>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+On Thu, Nov 09, 2023 at 10:00:03AM +0100, Neil Armstrong wrote:
+> Add a thirst example covering the meson-axg-hhi-sysctrl variant and more
 
- Documentation/gpu/todo.rst | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+What on earth is a thirst example? Some sort of "hysterical raisins"
+type of thing?
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 03fe5d1247be..adaa154210a0 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -765,6 +765,26 @@ Contact: Hans de Goede
- 
- Level: Advanced
- 
-+Buffer age or other damage accumulation algorithm for buffer damage handling
-+============================================================================
-+
-+Drivers that do per-buffer uploads, need a buffer damage handling (rather than
-+frame damage like drivers that do per-plane or per-CRTC uploads), but there is
-+no support to get the buffer age or any other damage accumulation algorithm.
-+
-+For this reason, the damage helpers just fallback to a full plane update if the
-+framebuffer attached to a plane has changed since the last page-flip.
-+
-+This should be improved to get damage tracking properly working on drivers that
-+do per-buffer uploads.
-+
-+More information about damage tracking and references to learning materials in
-+`Damage Tracking Properties <https://docs.kernel.org/gpu/drm-kms.html#damage-tracking-properties>`_
-+
-+Contact: Javier Martinez Canillas <javierm@redhat.com>
-+
-+Level: Advanced
-+
- Outside DRM
- ===========
- 
--- 
-2.41.0
+My confusion about that word aside,
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
+Cheers,
+Conor.
+
+> importantly the phy subnode.
+>=20
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  .../soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml  | 41 ++++++++++++++++=
+++++++
+>  1 file changed, 41 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/soc/amlogic/amlogic,meson-=
+gx-hhi-sysctrl.yaml b/Documentation/devicetree/bindings/soc/amlogic/amlogic=
+,meson-gx-hhi-sysctrl.yaml
+> index 16977e4e4357..2edf4ccea845 100644
+> --- a/Documentation/devicetree/bindings/soc/amlogic/amlogic,meson-gx-hhi-=
+sysctrl.yaml
+> +++ b/Documentation/devicetree/bindings/soc/amlogic/amlogic,meson-gx-hhi-=
+sysctrl.yaml
+> @@ -158,3 +158,44 @@ examples:
+>              };
+>          };
+>      };
+> +
+> +    bus@ff63c000 {
+> +        compatible =3D "simple-bus";
+> +        reg =3D <0xff63c000 0x1c00>;
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <1>;
+> +        ranges =3D <0x0 0xff63c000 0x1c00>;
+> +
+> +        system-controller@0 {
+> +            compatible =3D "amlogic,meson-axg-hhi-sysctrl", "simple-mfd"=
+, "syscon";
+> +            reg =3D <0 0x400>;
+> +
+> +            clock-controller {
+> +                compatible =3D "amlogic,axg-clkc";
+> +                #clock-cells =3D <1>;
+> +                clocks =3D <&xtal>;
+> +                clock-names =3D "xtal";
+> +            };
+> +
+> +            power-controller {
+> +                compatible =3D "amlogic,meson-axg-pwrc";
+> +                #power-domain-cells =3D <1>;
+> +                amlogic,ao-sysctrl =3D <&sysctrl_AO>;
+> +
+> +                resets =3D <&reset_viu>,
+> +                         <&reset_venc>,
+> +                         <&reset_vcbus>,
+> +                         <&reset_vencl>,
+> +                         <&reset_vid_lock>;
+> +                reset-names =3D "viu", "venc", "vcbus", "vencl", "vid_lo=
+ck";
+> +                clocks =3D <&clk_vpu>, <&clk_vapb>;
+> +                clock-names =3D "vpu", "vapb";
+> +            };
+> +
+> +            phy {
+> +                compatible =3D "amlogic,axg-mipi-pcie-analog-phy";
+> +                #phy-cells =3D <0>;
+> +                status =3D "disabled";
+> +            };
+> +        };
+> +    };
+>=20
+> --=20
+> 2.34.1
+>=20
+
+--sZblbYTITPv0dWts
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZU0YOgAKCRB4tDGHoIJi
+0uT6AP0d47elZ0SGrlap1u+Eghh/HJKast4ARo3Asny2i7xKDQEAuoscsk9XDXKL
+6UJ5EqFhBaW1Jp3Azcaxaou/fLGf4AQ=
+=dC1C
+-----END PGP SIGNATURE-----
+
+--sZblbYTITPv0dWts--
