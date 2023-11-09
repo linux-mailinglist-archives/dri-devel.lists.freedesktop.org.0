@@ -1,67 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 229277E6E4F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 17:11:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFC37E66BE
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 10:29:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E4A910E8E1;
-	Thu,  9 Nov 2023 16:10:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 385E110E20E;
+	Thu,  9 Nov 2023 09:29:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 422E910E20E
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 09:26:46 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-50943ccbbaeso870081e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 01:26:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1699522004; x=1700126804; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=OtUS9KOQgir7QLPY56WWpZ4C4Ru6cfGdt3ZmbrwNufE=;
- b=AdqFnLkMzRCellkTBWPZi+p1mAfIxGNrV91Gw5T/UVNtkOQe4e/OvpgNwC2eB0IllX
- dMr6D3U/gsHzZJ+thYWxXRE63vJgf3TZT5YLsp6qUZho4JVg58HsOrYR9JnhKlyz7ZPN
- ZCcuVthYch8UtQiXh2vjgJlU8ys6rAS4LREfnzRgUVpNkijLwfRxtFyVEZ2JeVyGZ2wk
- rx+t1LFY/NMeYJ+WhgHuVWc94sHbVZnoOmCOA88tsa8L/x6Aw6kRMv62Dpqmb0pujW2/
- PDCApYiG8GnkIWLTCGKcTTN+6xVR3YZJZ3S5OvxL+Xypk7fZHc0YVbKwVXiDQhphsauZ
- VmPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699522004; x=1700126804;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OtUS9KOQgir7QLPY56WWpZ4C4Ru6cfGdt3ZmbrwNufE=;
- b=JlJvI8wBKALLkYxffv7/HybQ8LKIFmInoihny0xUNIfUwcEzF+9wWgUh6KUnD3ZPIV
- /uPnKVjF7PG4OFc2iqV88ZxTQluwO5cm1akEVmLGKvRhChWunXRnaA/lpTpLZuVBh04V
- ZQvfe24lGuR8LpmF00Q2c83UDyxiskQkmx8f9Y3XTEhdWsl5qaBadf5QLjRTvA1/acfr
- 92jjQTOnhHtb0v8zU2/7OODrwaSeQ1MQ9A2B23m44GCf1FOi5T1WDBWxwiRdqsS07NaH
- A7r3vtTA9OwdH4lr/wKi50zhEOlQKax87XE3+U3SSNJzf5vUfVRNc2HOApN2y/CFUHLY
- 99IQ==
-X-Gm-Message-State: AOJu0YzR7JJ3MKVEkOVnhnfVp/d2ZueUPHwXp7RYUiOm/Jngf5UXv8hr
- AC/q6YjpLaZz3Z9mYmLVNofABQ==
-X-Google-Smtp-Source: AGHT+IHJK/nj9TdR5GrGrqyyLWh21pYlSsJPVw10oqT7SrcDHd5Pm4lDsK8bIAFZ9V6f2Wd1q8NV6w==
-X-Received: by 2002:ac2:4305:0:b0:503:17fd:76bb with SMTP id
- l5-20020ac24305000000b0050317fd76bbmr967348lfh.39.1699522004253; 
- Thu, 09 Nov 2023 01:26:44 -0800 (PST)
-Received: from xu.huaqin.com ([63.221.192.42])
- by smtp.gmail.com with ESMTPSA id
- x14-20020adff0ce000000b0032fb17c65desm6949575wro.19.2023.11.09.01.26.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Nov 2023 01:26:43 -0800 (PST)
-From: Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>
-To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
- dianders@google.com, hsinyi@google.com
-Subject: [PATCH] drm/panel: auo,
- b101uan08.3: Fine tune the panel power sequence
-Date: Thu,  9 Nov 2023 17:26:34 +0800
-Message-Id: <20231109092634.1694066-1-xuxinxiong@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.39.2
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9FDC10E20E
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 09:29:07 +0000 (UTC)
+Received: from dggpemm500005.china.huawei.com (unknown [172.30.72.57])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4SQxQS1bmVz1P86p;
+ Thu,  9 Nov 2023 17:25:52 +0800 (CST)
+Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
+ (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Thu, 9 Nov
+ 2023 17:29:01 +0800
+Subject: Re: [RFC PATCH v3 04/12] netdev: support binding dma-buf to netdevice
+To: Mina Almasry <almasrymina@google.com>
+References: <20231106024413.2801438-1-almasrymina@google.com>
+ <20231106024413.2801438-5-almasrymina@google.com>
+ <1fee982f-1e96-4ae8-ede0-7e57bf84c5f7@huawei.com>
+ <CAHS8izPV3isMWyjFnr7bJDDPANg-zm_M=UbHyuhYWv1Viy7fRw@mail.gmail.com>
+ <c1b689bd-a05b-85e9-0ce4-7264c818c2dc@huawei.com>
+ <CAHS8izMXkaGE_jqYJJk9KpfxWEYDu95XAJNqajws57QWV2yRJQ@mail.gmail.com>
+From: Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <80b4022f-45d1-03e9-56e1-e797c0107786@huawei.com>
+Date: Thu, 9 Nov 2023 17:29:01 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
+In-Reply-To: <CAHS8izMXkaGE_jqYJJk9KpfxWEYDu95XAJNqajws57QWV2yRJQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 09 Nov 2023 16:09:48 +0000
+X-Originating-IP: [10.69.30.204]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,35 +53,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>
+Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
+ Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
+ Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
+ David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For "auo,b101uan08.3" this panel, it is stipulated in the panel spec that
-MIPI needs to keep the LP11 state before the lcm_reset pin is pulled high.
+On 2023/11/9 10:22, Mina Almasry wrote:
+> On Tue, Nov 7, 2023 at 7:40 PM Yunsheng Lin <linyunsheng@huawei.com> wrote:
+>>
+>> On 2023/11/8 5:59, Mina Almasry wrote:
+>>> On Mon, Nov 6, 2023 at 11:46 PM Yunsheng Lin <linyunsheng@huawei.com> wrote:
+>>>>
+>>>> On 2023/11/6 10:44, Mina Almasry wrote:
+>>>>> +
+>>>>> +void __netdev_devmem_binding_free(struct netdev_dmabuf_binding *binding)
+>>>>> +{
+>>>>> +     size_t size, avail;
+>>>>> +
+>>>>> +     gen_pool_for_each_chunk(binding->chunk_pool,
+>>>>> +                             netdev_devmem_free_chunk_owner, NULL);
+>>>>> +
+>>>>> +     size = gen_pool_size(binding->chunk_pool);
+>>>>> +     avail = gen_pool_avail(binding->chunk_pool);
+>>>>> +
+>>>>> +     if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
+>>>>> +               size, avail))
+>>>>> +             gen_pool_destroy(binding->chunk_pool);
+>>>>
+>>>>
+>>>> Is there any other place calling the gen_pool_destroy() when the above
+>>>> warning is triggered? Do we have a leaking for binding->chunk_pool?
+>>>>
+>>>
+>>> gen_pool_destroy BUG_ON() if it's not empty at the time of destroying.
+>>> Technically that should never happen, because
+>>> __netdev_devmem_binding_free() should only be called when the refcount
+>>> hits 0, so all the chunks have been freed back to the gen_pool. But,
+>>> just in case, I don't want to crash the server just because I'm
+>>> leaking a chunk... this is a bit of defensive programming that is
+>>> typically frowned upon, but the behavior of gen_pool is so severe I
+>>> think the WARN() + check is warranted here.
+>>
+>> It seems it is pretty normal for the above to happen nowadays because of
+>> retransmits timeouts, NAPI defer schemes mentioned below:
+>>
+>> https://lkml.kernel.org/netdev/168269854650.2191653.8465259808498269815.stgit@firesoul/
+>>
+>> And currently page pool core handles that by using a workqueue.
+> 
+> Forgive me but I'm not understanding the concern here.
+> 
+> __netdev_devmem_binding_free() is called when binding->ref hits 0.
+> 
+> binding->ref is incremented when an iov slice of the dma-buf is
+> allocated, and decremented when an iov is freed. So,
+> __netdev_devmem_binding_free() can't really be called unless all the
+> iovs have been freed, and gen_pool_size() == gen_pool_avail(),
+> regardless of what's happening on the page_pool side of things, right?
 
-BUG=b:309908277
-TEST=emerge-kukui chromeos-kernel-5_10
+I seems to misunderstand it. In that case, it seems to be about
+defensive programming like other checking.
 
-Signed-off-by: Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>
----
- drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 1 +
- 1 file changed, 1 insertion(+)
+By looking at it more closely, it seems napi_frag_unref() call
+page_pool_page_put_many() directly， which means devmem seems to
+be bypassing the napi_safe optimization.
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index 9323e7b9e384..a287be1aaf70 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -1709,6 +1709,7 @@ static const struct panel_desc auo_b101uan08_3_desc = {
- 	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
- 		      MIPI_DSI_MODE_LPM,
- 	.init_cmds = auo_b101uan08_3_init_cmd,
-+	.lp11_before_reset = true,
- };
- 
- static const struct drm_display_mode boe_tv105wum_nw0_default_mode = {
--- 
-2.39.2
+Can napi_frag_unref() reuse napi_pp_put_page() in order to reuse
+the napi_safe optimization?
 
+> 
