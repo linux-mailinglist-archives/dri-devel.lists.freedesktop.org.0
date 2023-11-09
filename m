@@ -1,154 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB7C7E6966
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 12:18:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AEAB7E6A5F
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 13:14:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BFA210E203;
-	Thu,  9 Nov 2023 11:18:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2123210E04F;
+	Thu,  9 Nov 2023 12:14:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 936E410E203
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 11:18:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699528698; x=1731064698;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=3vNuJIkswCqcCJi3AeFmiPVB0KUU6rxcZ26a89VifrY=;
- b=BEoDC0RDE5+GowuoXULH4XbKxgPusYfiJ3HCLUGnp+GCYbHsFVCFMX3F
- EK9oad9aXF/bvwDnDS6MfouZD2Mm2+Sg9RT9DeA3yy5hjpWJCwvpSc4CU
- v6evBF4xPm9NwcVNaVKmu4tSvoLxEMW8ZfMPkDkt1VVOsBmjKt+vJfoTX
- r3027aBXS3hB0grZE7E7smaVoYxR1AoWB8wB0LZ3I7ghraBjA6N753ukT
- s1ybBUkirkfIDpWFynrlvJa+t4jhZ7aZ0Htd5W4xcWJiYPWbhS8xUQTtT
- nBfu86jvJ5EjU3Ci/23HAd6GSUoVKl4wDsN6r8NMgu0CIxVdrdArRCcqh Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="454268911"
-X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; d="scan'208";a="454268911"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Nov 2023 03:18:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="907099462"
-X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; d="scan'208";a="907099462"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by fmsmga001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 09 Nov 2023 03:18:17 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Thu, 9 Nov 2023 03:18:16 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Thu, 9 Nov 2023 03:18:16 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Thu, 9 Nov 2023 03:18:16 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Thu, 9 Nov 2023 03:18:16 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V+T7bGyfHpPWRpv/Zz7EPvAMWjfaHuYW0/F9T37qPw8OSEW/ioAF0vWD1Az0ZDN12UaetE3G63jZiAmkburxvRH9DyQOF7eMdiUeB5iod2d7SkVQ7ERkvI5ebAT/pXu7hoWkIylG1n2gNguUT+44DVErCe+lrsenwAiuKVO/USM16TG5IeoQE2C0rOGbwJYs+cN6uA2XTIwfVMYxT6IORYz9KrrzEyiHLLikLKnFFPYuPyD0fMF6kVm1Orqkc4D+MkRwB98rT3p1SxXkjVZTB+CBsT4uDSkKcsFOKv2UKbVMB+JE9zuQZHiOKZRp9nSph+aQt3MzldI0jdY4uucEbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7X/AXRwvY+Qj6WHRWezncko/OJqFC0OG456ZChX/5M4=;
- b=nm+C0Sep9V5ZqKyl88jge8RpiohMjE47c+sk2YuSgYilgcfDmJQHeRJnglbhebOAdZFO8gSFmB5f/sJrBSwzzte07R2OHHC96gSLyX4DLZZwnkQdrONJl7eGO6s9PfxU42g8bnPSZntHzYtPP1IwuTETqz9YZGCNsoVT55FgOsqKjyyLxOxbf9U9b8QopeWHxuBwtiEZi9NPJ42QD8ld029sToK7b5dTlscnlP1JLl8iqVtK1Q5vdt2mCtSAjOH3MRqS3dzHfcMRHto4DYxWSmwWImE7SVdMqcT9xrHtbsVUtApPIk6GVmdBzSdX1GNPKA06G+/cePP7bWgS7F4wLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4243.namprd11.prod.outlook.com (2603:10b6:a03:1c8::16)
- by PH0PR11MB5578.namprd11.prod.outlook.com (2603:10b6:510:e7::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Thu, 9 Nov
- 2023 11:18:14 +0000
-Received: from BY5PR11MB4243.namprd11.prod.outlook.com
- ([fe80::5fe4:5d4e:d75f:23eb]) by BY5PR11MB4243.namprd11.prod.outlook.com
- ([fe80::5fe4:5d4e:d75f:23eb%6]) with mapi id 15.20.6977.018; Thu, 9 Nov 2023
- 11:18:14 +0000
-Message-ID: <7b2df780-78c1-4577-8b8b-2a5273b9e53e@intel.com>
-Date: Thu, 9 Nov 2023 12:18:09 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/8] Improve test coverage of TTM
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-References: <cover.1699445194.git.karolina.stolarek@intel.com>
- <cb14b615-a53e-4f0e-83e5-48cf57e17717@amd.com>
-From: Karolina Stolarek <karolina.stolarek@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <cb14b615-a53e-4f0e-83e5-48cf57e17717@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: WA1P291CA0024.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:19::18) To BY5PR11MB4243.namprd11.prod.outlook.com
- (2603:10b6:a03:1c8::16)
+Received: from 10.mo550.mail-out.ovh.net (10.mo550.mail-out.ovh.net
+ [178.32.96.102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0576010E0EB
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 12:14:02 +0000 (UTC)
+Received: from director4.ghost.mail-out.ovh.net (unknown [10.108.20.85])
+ by mo550.mail-out.ovh.net (Postfix) with ESMTP id 7038F241EF
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 11:54:09 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-mtzwj (unknown [10.110.115.240])
+ by director4.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 85C921FE5E;
+ Thu,  9 Nov 2023 11:54:08 +0000 (UTC)
+Received: from RCM-web7.webmail.mail.ovh.net ([151.80.29.19])
+ by ghost-submission-6684bf9d7b-mtzwj with ESMTPSA
+ id RRNyHmDITGUefgQAf8sC0A
+ (envelope-from <jose.pekkarinen@foxhound.fi>); Thu, 09 Nov 2023 11:54:08 +0000
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4243:EE_|PH0PR11MB5578:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9ee97653-332a-4a19-3db8-08dbe1159022
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yIXB4ZrMVZ8SCt2ZKYYlGWJhH01B73SKK4NIyjvJQvU17afCpes3qS+4P8PcTPKe8vm58RrjYmjhP8E/xSR2m9CLDell7OqMIEh5A+qWpxGlfMyTJy6bbKVO4jqimqsVcIH5RpaO6O37hZ4S0yOM3HP2GnqVXuHSvmTmAwy5js2uGrM/xp8P4rmeJlDiqXrC9n84sEOPEAM/ZiOyOmn0d3LyD4RmdH45Tt3tdWfUW4lN2q31WSlqyzuT5RV3Wnw1iNiNS2ccKNXztODfVkRneHkEPo36LG7YL+3jqvln9tJTQn9jvfiaIatN1gi1i+dOjywBQp5w3IHN+bzTusd/yfw4TaYpnpIcBt7mZTT0cn8ERuNIY3IwtuN+HYTA6pRzQyoNLoxIUQWgUERVmVzf4DJrOUxQEPXqS5D+ZCY8NPXA2bhfAQD5SF9Cv06TZMlMBykJJIWkhlpkfYmFCi2O/pnP+kMiB8c2MxbA5QlC25o5R1JR74RR//+crgPl0AN3VaEn5CWbeZQsn12nNOP9dt7EpqqCy4bacHigupzxD27E27jn8BnqW5Ej08HrTJK0Olr9zf6TB8ln2mreopQHWeXOBxVOF8L/EUeR94MEATmdGKLkDYfd+IvBuwmZH2PBaorwvi5CKmK1j0ObEax1/A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4243.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(39860400002)(136003)(396003)(376002)(366004)(230922051799003)(451199024)(64100799003)(186009)(1800799009)(2906002)(36916002)(6666004)(2616005)(6512007)(6506007)(4744005)(6486002)(478600001)(66574015)(83380400001)(66946007)(26005)(66556008)(66476007)(5660300002)(54906003)(6916009)(8676002)(4326008)(44832011)(316002)(8936002)(41300700001)(36756003)(38100700002)(82960400001)(31696002)(86362001)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?emRKUGhYZDlwc1VhSXJmZGpna3RkelMwZnBPajZkeXN4dEh2ZzFBYU9Bc0tu?=
- =?utf-8?B?elRVak82TUM1MWRxdWlNcXU2QlR2M0hmdlFhT0hrWEtSK2l1T2Z1VEtDNEh4?=
- =?utf-8?B?ZFArM1JxNWxXdmxqTnJ0Vzh4SENEUlpJcnNJb1ZkQ2xheTdOS3pDTkxYRUdv?=
- =?utf-8?B?cjM1bHlDRmZMV29rUEFZcXM5bWUrTWlwdVNLL3RoSFd4K2tGTzFNbXJrcWFJ?=
- =?utf-8?B?cDRCeWFITUVFUklobzB1ZHhGK3lGMFhYYjd0M05Fb09iVFdzOGNJeDdlaCts?=
- =?utf-8?B?djNUU0dla2RUWHhFSWREZ1Y2bDQyT2JpOEFldjZMdEtNUFo4dVZLZ2dNK2Jm?=
- =?utf-8?B?SlFWZnMwQ085cCtHVkhDaTJMbnZKNnIxSDg4b3JRYW1OWEtVSkFYUklGRERY?=
- =?utf-8?B?ajhIU1g2bldORnVlQldQU09idmNHM2RhaWVvWTh5bVhoWGNaSWFUZkxOQ3Mr?=
- =?utf-8?B?dkRJSTBkTnk3RWpVUHhybkVBTTN6TFBwanJhdTdqTkphMldEUFhtZXRPL3BR?=
- =?utf-8?B?cWtyRDk0bUtkZXFXRGVaWjE1eVAzUDVqUkVURGhqTW5aSXZDZTdyNElMTXFs?=
- =?utf-8?B?UGVRUGZGOFJ0bmh6cWZ4dDBBekplc0laYzBzYklDT2ZQNVpIVG5RU2Z4bjla?=
- =?utf-8?B?K3pMSlZxczAveTR3Z1huS05MZ1daZlQ2VTRpdnRFQ2c3NHpQRHdHY014MkhO?=
- =?utf-8?B?d1ZlcWhsRlhudnAvd2k2ODA2eEl1UjZERVJMdmp6MS9tcXVPbnV4a05pMVEr?=
- =?utf-8?B?MWZRSHU3MWJ4Mko1eEJncTRob1hncFAyUUk0LzY1OXZWdXVRQ1dnQmxicHNC?=
- =?utf-8?B?NWZ6d3ppWVhVY2E5WVlpV2h6WnhSK2dlQi9rQUM3NE9ybnpBa3RSOWZJMDdR?=
- =?utf-8?B?TlFLKzRyRUJhY0RCRld3Ny8vY2U1cS9MRGVnMnZqeXBiaStlWlpkTkdDVk5T?=
- =?utf-8?B?emt3VXA0S3FCYmtiU0h2c2xFb2hnUUpjeU4xcTdUZVFkdXlCSEdMNzZsSlMx?=
- =?utf-8?B?M3dSamUyRC84UUhVN0dRYW9EUWVqL1JUSk5lbTR3VVRQdjNDbFk1ZmpSbFpW?=
- =?utf-8?B?Y2JiLzRLTFRQNGljdXo4eHBQT21kMHdtb1l1TGZCN1ZaMWVtdlozUjh5VDZB?=
- =?utf-8?B?NzMxd2JCQjVIRlowaDQ1dnh4aFVoS3FKUHdJQjdIQTV1YmxVTUFhVSt0eWdy?=
- =?utf-8?B?MFZvMTA1djZTbkN6Si9ZVlVmSk1WblBXR01pS2VTalZQMlNkc0tiU1kwZ0Ex?=
- =?utf-8?B?ZDFxY24xelVIK3d0em1LRkFKcTVIMFh6SXY5TWFzc0FabXZJdDU0RFFNNTI2?=
- =?utf-8?B?dWdmSHRyb1gzYmc1K0JKaE92U3Npdjg3NE94TFFmVHAxcUFkc010cFVHMnJB?=
- =?utf-8?B?RGVvMEdqYTJ5cFJ6RW5OQTFnc2RmanlldkRjazRJTkVrbzdjbStvNXUyQUhO?=
- =?utf-8?B?WXR3cjJta0V1TFpUS3E3akw3TnRPYjdNbVJvQ2ZuYTVReGJsZVF2QkZlbkZD?=
- =?utf-8?B?TG14QUtIL1B2RXljcUR3MWkvWTFPU0s3MWJFYWg2dUtzajdBaVUvR21NUkUv?=
- =?utf-8?B?M04vTElNNThkTUIzUHhpWW1HbDk5Zit3TjFQZmRuL2cwMXVXaVg0bGhmVHkr?=
- =?utf-8?B?SjltTHdteHk3aWFmMWhFMTNadTQ4NnNBZjA4enVqWkJyNXFMd1ZERC9EWFNL?=
- =?utf-8?B?Y0I0RnVJVVM5S20rV1Z1Q3RlTVNtcWd2czRrUzNzUkt0dTRqWWo0b3NqcFVN?=
- =?utf-8?B?aERsRGhhK1BpbTBrNkdlbWoxZFRqUDFQMFdMZTV3NDc1WmRCYjh1TVJ4Wkl1?=
- =?utf-8?B?MEFTZFdiaDg0QndiQTN4SXl6czdlUExFcVBDSWZQcGhjWHJJS0RZN3ZkM3BM?=
- =?utf-8?B?c0lRaVU0REQvRjZzY21pWGVYZkp5OER6TDNwbHVoVENwQU85MXRvWjM5cUJl?=
- =?utf-8?B?b0ZjOWtRb3NkdkNzMmNPcC9udEdRalR0ZDVnV0RFYldpcGd3UWhURUNTSXBB?=
- =?utf-8?B?c0RJZUYvV0cvckhTdVVGRTFTcEdoWlNFekQxM2RLdURYeFI4WGNFeEIzZkZH?=
- =?utf-8?B?SDA1MVZwejNmZW1xQTUrTk4rZHVpNEZUU2ZEbVF5VlhIM1gwSW5IZHE1TDFH?=
- =?utf-8?B?OTh4U1JYaytIc1FsZWd0U3JHN0tzTjlJNzVCZTlIQzExSWdXYkhBSnFiNjA2?=
- =?utf-8?B?NGc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ee97653-332a-4a19-3db8-08dbe1159022
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4243.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2023 11:18:13.7865 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: O40LfV1jrEmi4ShiqtqB1EEAbasgEMEWqR1RXc08awm2CV4KmB07b5iC9J6qcEeqE7+kMQAxF/NMcnQ6yPMAOcXLQLPXwroWSWSefWZ7FzA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5578
-X-OriginatorOrg: intel.com
+Date: Thu, 09 Nov 2023 13:54:07 +0200
+From: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
+To: Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] drm/amd/pm: replace 1-element arrays with flexible-array
+ members
+In-Reply-To: <2023110916-tinfoil-concur-77d8@gregkh>
+References: <20231108065436.13969-1-jose.pekkarinen@foxhound.fi>
+ <2023110835-magnolia-prune-02d0@gregkh>
+ <1b20f2e4ddc0b0e94aa9a1f9c76ff75c@foxhound.fi>
+ <2023110916-tinfoil-concur-77d8@gregkh>
+User-Agent: Roundcube Webmail/1.4.15
+Message-ID: <ee757d648a601ba3530e0eeb1c5d178e@foxhound.fi>
+X-Sender: jose.pekkarinen@foxhound.fi
+Organization: Foxhound Ltd.
+X-Originating-IP: 109.70.100.69
+X-Webmail-UserID: jose.pekkarinen@foxhound.fi
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 14438821884044027585
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedruddvuddgfedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggffhffvvefujghffgfkgihoihgtgfesthekjhdttderjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpeehieduleeufeeggfeuhefgueekjeegtdehudefvdduteefudevkeelfeduheejtdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeduvdejrddtrddtrddupddutdelrdejtddruddttddrieelpdduhedurdektddrvdelrdduleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehhedtpdhmohguvgepshhmthhpohhuth
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,25 +59,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Somalapuram,
- Amaranath" <Amaranath.Somalapuram@amd.com>, dri-devel@lists.freedesktop.org,
- Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ skhan@linuxfoundation.org, alexander.deucher@amd.com, evan.quan@amd.com,
+ christian.koenig@amd.com, linux-kernel-mentees@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2023-11-09 11:06, Greg KH wrote:
+> On Thu, Nov 09, 2023 at 10:43:50AM +0200, José Pekkarinen wrote:
+>> On 2023-11-08 09:29, Greg KH wrote:
+>> > On Wed, Nov 08, 2023 at 08:54:35AM +0200, José Pekkarinen wrote:
+>> > > The following case seems to be safe to be replaced with a flexible
+>> > > array
+>> > > to clean up the added coccinelle warning. This patch will just do it.
+>> > >
+>> > > drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h:76:38-63:
+>> > > WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+>> > >
+>> > > Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
+>> > > ---
+>> > >  drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h | 2 +-
+>> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+>> > >
+>> > > diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
+>> > > b/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
+>> > > index c7b61222d258..1ce4087005f0 100644
+>> > > --- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
+>> > > +++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
+>> > > @@ -73,7 +73,7 @@ struct smu8_register_index_data_pair {
+>> > >
+>> > >  struct smu8_ih_meta_data {
+>> > >  	uint32_t command;
+>> > > -	struct smu8_register_index_data_pair register_index_value_pair[1];
+>> > > +	struct smu8_register_index_data_pair register_index_value_pair[];
+>> >
+>> > Did you just change this structure size without any need to change any
+>> > code as well?  How was this tested?
+>> 
+>>     I didn't find any use of that struct member, if I missed
+>> something here, please let me know and I'll happily address any
+>> needed further work.
+> 
+> I don't think this is even a variable array.  It's just a one element
+> one, which is fine, don't be confused by the coccinelle "warning" here,
+> it's fired many false-positives and you need to verify this properly
+> with the driver authors first before changing anything.
 
-On 8.11.2023 16:01, Christian König wrote:> Well, you have a tendency to 
-keep us busy :)
+      My apologies to you, and anybody that feels the same, it is not my
+intention to bother with mistaken patches, I just assume that this patch
+or any other from me, will go to review process, where it should be fine
+if the patch is right, wrong, need further work, or further testing 
+either
+from my side or anybody else, and at the end of the day I need to do
+patches if I want to find my mentorship patches, and graduate.
 
-...:)
+> In short, you just changed the size of this structure, are you _sure_
+> you can do that?  And yes, it doesn't look like this field is used, but
+> the structure is, so be careful.
 
-I'll try to get other folks to take a look at this. It's a lot of code
-to review
+     I don't know, let check it out together and see where this goes.
 
-> Please keep Amar looped in those patches. I will try to review them when 
-> I have time, but he can give you at least some tested-by tags on AMD hw.
-
-Will do
-
-Many thanks,
-Karolina
+     José.
