@@ -2,79 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 899E07E6937
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 12:09:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A0037E6956
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 12:12:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EE4310E201;
-	Thu,  9 Nov 2023 11:09:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EEC810E8A8;
+	Thu,  9 Nov 2023 11:12:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A166410E201
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 11:09:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1699528183;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RrVJojTh870FEFQi+UJHXxqfpd2wklAEL3lneX1SbN0=;
- b=abm8cLJLmpZy5Towjg2OJT0hj2qA7YR5JZ/LnuTeMzNRbWYnmOFHKvpAxCWwA1qS4+eyz0
- ddefDlIXdkQq1GZF+an3UHrPS48FGLhBqbQi9bmu7fF19IcZC3Z3EfqJqCzFczsfTDH92b
- 15Pv1HSoSWpNNJvLzFNU/lX4arf3IJc=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-593-9WlNKpwVPd2olVgMxXo2-A-1; Thu, 09 Nov 2023 06:09:42 -0500
-X-MC-Unique: 9WlNKpwVPd2olVgMxXo2-A-1
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-41eb42115e9so2209031cf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 03:09:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699528182; x=1700132982;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Ezu0iXe5WM3zfDfpiwhiAtccNmWTLMMx0akG9lcRF/g=;
- b=ecobKVCAPH3N0e1KwIu9wzObTKSi8PXQmUaK1S5hkNuzLUxMlTVmoY0xD5XwrWaDZS
- kiyKPLIyHOHafdQKw3afbEh1gdkGkqPbSnDgVMBZqUmx7oespWaXigXSeQBlwOL4O4eF
- xYKpRwyzkOzpki9cGJaj+If4Wcuq8zihWiBB32rw7NkGfMFYSYJVLagkE+q3tQmZEbkC
- NkxAgp54S1ywVixwyRibKAHlYZ2i7lM7ht7xyblaC4YlEOcOl09W19i/Cq9r/wPv8HPS
- emkxNQbt54J/RYdh47Nh+h1PylA6U2+u8w/r+Vjm0hiRfMkZGzMqsX0kNORCldKQmEE8
- mwNA==
-X-Gm-Message-State: AOJu0YyvYIwMyoDj+CMCOMtmYD0O6lnAkXWq3vUG5m5OzbWoDVB+JI2m
- M2RHD0IKf4Yn1GKtt9IsdKos9v89VI5DMf+SAebCgeOqLQmQZsomRoOrxMhWSKN6bEsx2aThRgh
- 4wfjpY+mWZAVIb6xy/bqFcvZ1GdNP
-X-Received: by 2002:a05:622a:2b46:b0:41c:d433:6c86 with SMTP id
- hb6-20020a05622a2b4600b0041cd4336c86mr5854596qtb.4.1699528182033; 
- Thu, 09 Nov 2023 03:09:42 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEEczlBkEToxT5HA1bWloT/vSc9WPJn4E7V19w/sRlEABI2nrBuMePu+oCzKYFBd5r1xDIeGg==
-X-Received: by 2002:a05:622a:2b46:b0:41c:d433:6c86 with SMTP id
- hb6-20020a05622a2b4600b0041cd4336c86mr5854566qtb.4.1699528181732; 
- Thu, 09 Nov 2023 03:09:41 -0800 (PST)
-Received: from gerbillo.redhat.com (146-241-228-197.dyn.eolo.it.
- [146.241.228.197]) by smtp.gmail.com with ESMTPSA id
- n5-20020ac86745000000b0041977932fc6sm1828045qtp.18.2023.11.09.03.09.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Nov 2023 03:09:41 -0800 (PST)
-Message-ID: <fdf6b2e9c5a734b1a03336f7d5bcfd06bdef47c5.camel@redhat.com>
-Subject: Re: [RFC PATCH v3 02/12] net: page_pool: create hooks for custom
- page providers
-From: Paolo Abeni <pabeni@redhat.com>
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Date: Thu, 09 Nov 2023 12:09:37 +0100
-In-Reply-To: <20231106024413.2801438-3-almasrymina@google.com>
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-3-almasrymina@google.com>
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE66A10E8AA;
+ Thu,  9 Nov 2023 11:12:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699528360; x=1731064360;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=2cMk8afTZ0xpcpYsxBrVnE5QK3wysPs4tqRdgoKLhzg=;
+ b=nho9Jgyvw9kYQF8LcSyYpgLpA4JDPJ9NTUHoRfJ4KpLH63+hrI09YbEV
+ v4oguR+tZ4oCFkJJWdr5/IoeCTCyfokOfxbbJRe5oNuIAtPP6kMAEz6zH
+ 8R6dEM89Qc8J2gEKb/RUvVvYYeQN4W/iY83/KyIhu/vRSQVPJTDSzFAD8
+ NHQQMwYQRAA1dsIBCl6gNevruMJF+Oa8TPupa/riZ35rc8oxZfhlhTvyj
+ m4oVK1V+Q/MIL4n5tWu9nRHB69f2oMf0ptqX9532tlMzSAVqqL0SDYjaz
+ GR/2m782eh1iuyGX7TtDWnH5DR+jKVshXWmDGkiZK3Xs7FfRBjQDwCG7s w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="380357063"
+X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; d="scan'208";a="380357063"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2023 03:12:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; d="scan'208";a="11116551"
+Received: from kchurina-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.53.220])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2023 03:12:36 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Sam James <sam@gentoo.org>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH] drm: i915: Adapt to -Walloc-size
+In-Reply-To: <87jzqsy3sp.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231107215538.1891359-1-sam@gentoo.org>
+ <87jzqsy3sp.fsf@intel.com>
+Date: Thu, 09 Nov 2023 13:12:33 +0200
+Message-ID: <87zfznw57i.fsf@intel.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,69 +63,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Eric Dumazet <edumazet@google.com>,
- Shakeel Butt <shakeelb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Shuah Khan <shuah@kernel.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: Sam James <sam@gentoo.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 2023-11-05 at 18:44 -0800, Mina Almasry wrote:
-> diff --git a/include/net/page_pool/types.h b/include/net/page_pool/types.=
-h
-> index 6fc5134095ed..d4bea053bb7e 100644
-> --- a/include/net/page_pool/types.h
-> +++ b/include/net/page_pool/types.h
-> @@ -60,6 +60,8 @@ struct page_pool_params {
->  =09int=09=09nid;
->  =09struct device=09*dev;
->  =09struct napi_struct *napi;
-> +=09u8=09=09memory_provider;
-> +=09void            *mp_priv;
+On Wed, 08 Nov 2023, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> On Tue, 07 Nov 2023, Sam James <sam@gentoo.org> wrote:
+>> GCC 14 introduces a new -Walloc-size included in -Wextra which errors out
+>> like:
+>> ```
+>> drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c: In function =E2=80=98eb_=
+copy_relocations=E2=80=99:
+>> drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:1681:24: error: allocatio=
+n of insufficient size =E2=80=981=E2=80=99 for type =E2=80=98struct drm_i91=
+5_gem_relocation_entry=E2=80=99 with size =E2=80=9832=E2=80=99 [-Werror=3Da=
+lloc-size]
+>>  1681 |                 relocs =3D kvmalloc_array(size, 1, GFP_KERNEL);
+>>       |                        ^
+>>
+>> ```
+>>
+>> So, just swap the number of members and size arguments to match the prot=
+otype, as
+>> we're initialising 1 element of size `size`. GCC then sees we're not
+>> doing anything wrong.
+>>
+>> Signed-off-by: Sam James <sam@gentoo.org>
+>
+> The short answer,
+>
+> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-Minor nit: swapping the above 2 fields should make the struct smaller.
+And pushed to drm-intel-gt-next, thanks for the patch.
 
->  =09enum dma_data_direction dma_dir;
->  =09unsigned int=09max_len;
->  =09unsigned int=09offset;
-> @@ -118,6 +120,19 @@ struct page_pool_stats {
->  };
->  #endif
-> =20
-> +struct mem_provider;
-> +
-> +enum pp_memory_provider_type {
-> +=09__PP_MP_NONE, /* Use system allocator directly */
-> +};
-> +
-> +struct pp_memory_provider_ops {
-> +=09int (*init)(struct page_pool *pool);
-> +=09void (*destroy)(struct page_pool *pool);
-> +=09struct page *(*alloc_pages)(struct page_pool *pool, gfp_t gfp);
-> +=09bool (*release_page)(struct page_pool *pool, struct page *page);
-> +};
-> +
->  struct page_pool {
->  =09struct page_pool_params p;
-> =20
-> @@ -165,6 +180,9 @@ struct page_pool {
->  =09 */
->  =09struct ptr_ring ring;
-> =20
-> +=09const struct pp_memory_provider_ops *mp_ops;
-> +=09void *mp_priv;
+BR,
+Jani.
 
-Why the mp_ops are not part of page_pool_params? why mp_priv is
-duplicated here?
+>
+> but please read on.
+>
+>> ---
+>>  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gp=
+u/drm/i915/gem/i915_gem_execbuffer.c
+>> index 683fd8d3151c..45b9d9e34b8b 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>> @@ -1678,7 +1678,7 @@ static int eb_copy_relocations(const struct i915_e=
+xecbuffer *eb)
+>>  		urelocs =3D u64_to_user_ptr(eb->exec[i].relocs_ptr);
+>>  		size =3D nreloc * sizeof(*relocs);
+>>=20=20
+>> -		relocs =3D kvmalloc_array(size, 1, GFP_KERNEL);
+>> +		relocs =3D kvmalloc_array(1, size, GFP_KERNEL);
+>
+> Based on the patch context, we should really be calling:
+>
+> 	kvmalloc_array(nreloc, sizeof(*relocs), GFP_KERNEL);
+>
+> and we'd get mul overflow checks too.
+>
+> However, the code below also needs size, unless it's refactored to
+> operate on multiples of sizeof(*relocs) and it all gets a bit annoying.
+>
+> Maybe there's a better way, but for the short term the patch at hand is
+> no worse than what we currently have, and it'll silence the warning, so
+> let's go with this.
+>
+>
+>>  		if (!relocs) {
+>>  			err =3D -ENOMEM;
+>>  			goto err;
 
-Cheers,
-
-Paolo
-
+--=20
+Jani Nikula, Intel
