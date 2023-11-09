@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123887E660A
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 10:01:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB9777E6607
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 10:01:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BE3910E1E7;
-	Thu,  9 Nov 2023 09:01:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C980610E1F1;
+	Thu,  9 Nov 2023 09:01:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46EBF10E1F2
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 09:00:26 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-50970c2115eso736902e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 01:00:26 -0800 (PST)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06FD010E1E8
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 09:00:27 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id
+ 2adb3069b0e04-507a62d4788so797627e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 01:00:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1699520425; x=1700125225; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1699520426; x=1700125226; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=CvmOEb1ckbbB9zBBB0o82fMDjd1uz7C5pNwKHHdJSYY=;
- b=tt7lIfR6YVc188E8gJB1yR5gSyegVr8FKx46AR1LaNNlKcOPqXXdbAf3syMdJZ44mC
- UmDkMJkbE7of7//RiDnzoU1vhOLZAC9xBFEbmQo/E9/qX+QMlGiVS/NHv90CEx0XDEbx
- KMgjHtGuTDHdrkSNCqXRnpRRIMHeMdIULOwbU8/6sgMjYK7ZtkyRrT8OIn0VcdPtHvMI
- 69j7Bo0YluvjRYHz7tMh9MC8DttDg0kBXysk5+x3P9y5Dn+noJKyJAjFlwJE1wSGt37M
- huSbQ3G0Ho/sOaCovV5hKk3cD0YvJ9e22aKmMDWZ9B3qcp+49TMQxcjxKGfEkD+pfo2H
- XR/Q==
+ :reply-to; bh=fuSB6hXQgNnhjhBZYMiuriEMaNCWnOiIqJ/w1UyCkVs=;
+ b=efTwWrWdbHbCcmX8IyA5fzVlEaBXdLmBu1+Pzz5pqycxLxaxHEcC1xqNDxdOnuIWdj
+ 3fme0uDKTkAwDSZTrPmTtIPa413yuxS+E6ErHhyrYbK0Q4zfdhbihgfurEBR1dOkRqPl
+ doZOBl6dBhiGo3B+OTdyCt/MsT0LNV8IE4VRdQd8A8U38xrB1vC5imZnZjFb4eSkPSv8
+ D+VE29OL5HwrShr5eXtHNYnnobdC8nw7f6vC2qNc897UWbYjWQvx2iSiC1D9CoKW5AhG
+ lC7gFaRAtqteExu9JtGJmHByclUvSqAQ8QpXSdHR8OWavC8iqgcDa2C/B5ivcu+XUQEQ
+ uBGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699520425; x=1700125225;
+ d=1e100.net; s=20230601; t=1699520426; x=1700125226;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CvmOEb1ckbbB9zBBB0o82fMDjd1uz7C5pNwKHHdJSYY=;
- b=ASyijaJqSMqGHy9OFFA8BkUefH3yJqM8RCA1XWBaq0QKq9sS+tTSmM6QLk7mCLvuEE
- eQ0EHJ7zla/VGKAhXxV+ZChNj17JMEn3skqhAZlPuzXxhBhFItEXdGA3cO5eoPbtgDWU
- TU8wYAJnGNdhECSpJJmRNQLDt58alxxcmwVlwA563soh7P3M1JVDwQfy+yqQGZ6IghNf
- L/VvoTGPjtHv/j/ob/2oUBqIdsw0+2e7aX/VpobYJej0n/nFqgQ+IktGQIbmENGk/qg8
- d8T0eshGCiRpzGtrVv79xCjtM6WZJKnc/SAEtPeiun+xxqMqPNSpQLzNYwXInSJgRO9v
- J1/g==
-X-Gm-Message-State: AOJu0YxjrzrFqttZzeNFjyTq6RZuLyV8pI0T2KisoTTT0b6tTvko8hvM
- EK+CKPjEoMc9KeLnYItt/OUMeskeDVrnFSSUkLOQEehX
-X-Google-Smtp-Source: AGHT+IGXqF7rsRdCM+jnVRiAOt/RFNLh/BPKYViJgYib8D+5TeLhy81KbMIITHU+3iLnWSKCwHBgfg==
-X-Received: by 2002:a19:7908:0:b0:509:4b04:6331 with SMTP id
- u8-20020a197908000000b005094b046331mr865761lfc.55.1699520424824; 
- Thu, 09 Nov 2023 01:00:24 -0800 (PST)
+ bh=fuSB6hXQgNnhjhBZYMiuriEMaNCWnOiIqJ/w1UyCkVs=;
+ b=KMNKhNy05BswLOjNJgvkQPLJPTMPbIqD0ism+M8TleIYsAmtCpz0fUwWOCcwqLd6h5
+ K6pzDe9c9D0GE+0Mt92C7vMTC9uVzPzcdiVHuMcmtn7Jkef0ESYiVooxHPSZ7PKG+P4h
+ 4luvFJDmqgvtyQaQn3upMK/vFbeKy05X1amNk1UjB1sG++ErtuHLoEZ3nFeRgyLpY9mR
+ wbqFgGupJ5aNqwtwbgqBrjy1r4E6Sg2YjQR3byALY45JJsyzJVosQN4FpnBFxpiRyxOV
+ 852VJg2ACXklzlJzeeWbuQGxvEz8W6qM86SrmK2uEYwYe/nxlni5ras/qAw0QcfMCwet
+ To8g==
+X-Gm-Message-State: AOJu0YyVcQ3g5vFivW1rJNUX2+zjhwDYeuUAbLvEub8dzm9qqqACYe6t
+ NgsGgtir8caorEavgXITTK3Yzw==
+X-Google-Smtp-Source: AGHT+IFp6a7B+08Qs7kzVjwz5xE/v2ASX3jMKbrYx5nFLBXZBjgW+CvtIZunwhDWGP4a8erXu/q34g==
+X-Received: by 2002:a05:6512:911:b0:507:f0f2:57bd with SMTP id
+ e17-20020a056512091100b00507f0f257bdmr755918lft.66.1699520426132; 
+ Thu, 09 Nov 2023 01:00:26 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- ay36-20020a05600c1e2400b0040472ad9a3dsm1428484wmb.14.2023.11.09.01.00.23
+ ay36-20020a05600c1e2400b0040472ad9a3dsm1428484wmb.14.2023.11.09.01.00.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Nov 2023 01:00:24 -0800 (PST)
+ Thu, 09 Nov 2023 01:00:25 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Thu, 09 Nov 2023 10:00:10 +0100
-Subject: [PATCH v8 09/12] drm/meson: gate px_clk when setting rate
+Date: Thu, 09 Nov 2023 10:00:11 +0100
+Subject: [PATCH v8 10/12] arm64: meson: g12-common: add the MIPI DSI nodes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-9-81e4aeeda193@linaro.org>
+Message-Id: <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-10-81e4aeeda193@linaro.org>
 References: <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-0-81e4aeeda193@linaro.org>
 In-Reply-To: <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-0-81e4aeeda193@linaro.org>
 To: Jerome Brunet <jbrunet@baylibre.com>, 
@@ -69,20 +69,20 @@ To: Jerome Brunet <jbrunet@baylibre.com>,
  Jagan Teki <jagan@amarulasolutions.com>, 
  Nicolas Belin <nbelin@baylibre.com>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1213;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3028;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=6wj78w5SzMRVYfTnHYpi/keB3/pw6jAwnhprIG9LUDw=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlTJ+Z5DW4LqZNMoa3WMtTQHFwXqgZtKvOnapnqjBc
- XjY70PqJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZUyfmQAKCRB33NvayMhJ0b8BD/
- 4qh7M6HzQXLHJtRURxnlOaG9F4oa8yHB8C3zne8wFXHXAzpEyuOgUsfQbYZdJ/W6aLUUqtjz2U69ln
- Y/l2+MK15fZaKRgdI7irQPXCvywUoXrilkjUAMJs/tRxO22tPDTfZz85GYpP5+cZps9ktRitls6wYq
- 7JpWIRjMgijfbYm+J9YYYgTkjuqdyrm04HY2Kq5X8JURjowxDXuuZZ+OsPOfZVKgimlwLg9dGJhSbG
- 7n29v/jdbcNnP9CK797lllMU9n9ynTMVXfGx8x0rXniM+qEjosu9w/TGJLy1TfcuY54BzVSQ/amfP6
- 1pzZa/mqNKpGUmD4ehEkFAQ5RaUEtuPGvK3mrT2p2PW5PM2VPjYXVI3bUpOfDh5RbeWKK1Y7s4KK02
- 03UXzUWRmzXoiUj9wN+MM99wBbF+BYndZvG7mWID3eD2Nlozxn8IqsFdFCPaNNLpQk6wmujhMtAvEK
- dHpHXrGJFfU9Pkrdasyt6L3mJu8elLjk7U9OrLJn8eHpFiTMcWpeexwqh4Scs3e3xpK5vCoC2nWQz/
- ZJqyJowaiDk04eQVFscV8y16xXAOt1Qz4RpalktRwQvCXfxHehWn6gLxNLzfhuAFtzcJWCrsd1Ag8b
- IAbS1A23BtxkuI3+WDf6pelXXBZwIqo3bvutoZVwON8abaKmoZIId0hHg3LA==
+ bh=xeZV8gmIC9/2/oObVVqqYZ0sOhta5dqkacXris9lM8k=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlTJ+ZCu6htgUtFxFaXFAKQp1sZxpR7+IzNQz6TU6c
+ bVMpqCaJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZUyfmQAKCRB33NvayMhJ0dbQD/
+ 9jQPYUo+YgcSZCmVFq6YmWrr0+Kkyas8OumKOcdeD3c0ym2NBiqCdKuAzkZ2V4+n2xhsTtSetTgXVs
+ N67M8YGG8ZLEeTFicfNF1EcFgZeleWg8hoDnLQkSt4XUkTwREnBcFFy3QhCFhJDDU//OvvrA3CK9hC
+ UHlbtR3s3qrRhPfgSpiLgvOLt/bnZIXlbe8OEfnjt4/FjgFIcZFjf+Li5y7Js2GG4GP0Y48uivqyKY
+ V7vMXV+wFLbXkzHbn2lhoAhc2Xc23wIDPa3fL+VEp9fIFMwOt3dXeiFx+gmWmPB49Q7NCHxSUopXVo
+ 1+qpWPC3AfaWIEorcrnTiTu4fn32pxFQQNDozadRAb90jELPM7bwMKdJAc6WWKHt6fmR6j2cQAE351
+ 43dhzroLc9BQGz8wWt1kiKy8tKnmP3/zbTHFBdOi0gftwtDiqNKCYcSrbHupbSLDXttpUqHUd97LwS
+ oE0nugHWLLZmqLAIhJJmce+XXrdupLYJrxduf/d/BPFYYoN85gPc7hB3ZDvXCWT9nYpIXzrQQ3G6Lf
+ Tk+w5oteJ9HgbzOBX0eIGC1J9UpqjsDo/YVBgSqS99JYkRpTVp0htzv65jnKRB0Guy/Npmtxq6PGxV
+ hUnf45HtzEj9BKucV52ykAekSH5w3RPphPUDNEsHfhyz8/dzMTzj4KRaykUA==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,41 +104,112 @@ Cc: devicetree@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Disable the px_clk when setting the rate to recover a fully
-configured and correctly reset VCLK clock tree after the rate
-is set.
+Add the MIPI DSI Analog & Digital PHY nodes and the DSI control
+nodes with proper port endpoint to the VPU.
 
-Fixes: 77d9e1e6b846 ("drm/meson: add support for MIPI-DSI transceiver")
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- drivers/gpu/drm/meson/meson_dw_mipi_dsi.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi | 70 +++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
 
-diff --git a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-index e5fe4e994f43..72abe2057ec3 100644
---- a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-+++ b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-@@ -95,6 +95,7 @@ static int dw_mipi_dsi_phy_init(void *priv_data)
- 		return ret;
- 	}
- 
-+	clk_disable_unprepare(mipi_dsi->px_clk);
- 	ret = clk_set_rate(mipi_dsi->px_clk, mipi_dsi->mode->clock * 1000);
- 
- 	if (ret) {
-@@ -103,6 +104,12 @@ static int dw_mipi_dsi_phy_init(void *priv_data)
- 		return ret;
- 	}
- 
-+	ret = clk_prepare_enable(mipi_dsi->px_clk);
-+	if (ret) {
-+		dev_err(mipi_dsi->dev, "Failed to enable DSI Pixel clock (ret %d)\n", ret);
-+		return ret;
-+	}
+diff --git a/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi b/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi
+index ff68b911b729..7300408262d5 100644
+--- a/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi
++++ b/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi
+@@ -1663,9 +1663,28 @@ pwrc: power-controller {
+ 								       <250000000>,
+ 								       <0>; /* Do Nothing */
+ 					};
 +
- 	switch (mipi_dsi->dsi_device->format) {
- 	case MIPI_DSI_FMT_RGB888:
- 		dpi_data_format = DPI_COLOR_24BIT;
++					mipi_analog_dphy: phy {
++						compatible = "amlogic,g12a-mipi-dphy-analog";
++						#phy-cells = <0>;
++						status = "disabled";
++					};
+ 				};
+ 			};
+ 
++			mipi_dphy: phy@44000 {
++				compatible = "amlogic,axg-mipi-dphy";
++				reg = <0x0 0x44000 0x0 0x2000>;
++				clocks = <&clkc CLKID_MIPI_DSI_PHY>;
++				clock-names = "pclk";
++				resets = <&reset RESET_MIPI_DSI_PHY>;
++				reset-names = "phy";
++				phys = <&mipi_analog_dphy>;
++				phy-names = "analog";
++				#phy-cells = <0>;
++				status = "disabled";
++			};
++
+ 			usb3_pcie_phy: phy@46000 {
+ 				compatible = "amlogic,g12a-usb3-pcie-phy";
+ 				reg = <0x0 0x46000 0x0 0x2000>;
+@@ -2152,6 +2171,15 @@ hdmi_tx_out: endpoint {
+ 					remote-endpoint = <&hdmi_tx_in>;
+ 				};
+ 			};
++
++			/* DPI output port */
++			dpi_port: port@2 {
++				reg = <2>;
++
++				dpi_out: endpoint {
++					remote-endpoint = <&mipi_dsi_in>;
++				};
++			};
+ 		};
+ 
+ 		gic: interrupt-controller@ffc01000 {
+@@ -2189,6 +2217,48 @@ gpio_intc: interrupt-controller@f080 {
+ 				amlogic,channel-interrupts = <64 65 66 67 68 69 70 71>;
+ 			};
+ 
++			mipi_dsi: dsi@7000 {
++				compatible = "amlogic,meson-g12a-dw-mipi-dsi";
++				reg = <0x0 0x7000 0x0 0x1000>;
++				resets = <&reset RESET_MIPI_DSI_HOST>;
++				reset-names = "top";
++				clocks = <&clkc CLKID_MIPI_DSI_HOST>,
++					 <&clkc CLKID_MIPI_DSI_PXCLK>,
++					 <&clkc CLKID_CTS_ENCL>;
++				clock-names = "pclk", "bit", "px";
++				phys = <&mipi_dphy>;
++				phy-names = "dphy";
++				#address-cells = <1>;
++				#size-cells = <0>;
++				status = "disabled";
++
++				assigned-clocks = <&clkc CLKID_MIPI_DSI_PXCLK_SEL>,
++					 <&clkc CLKID_CTS_ENCL_SEL>,
++					 <&clkc CLKID_VCLK2_SEL>;
++				assigned-clock-parents = <&clkc CLKID_GP0_PLL>,
++					 <&clkc CLKID_VCLK2_DIV1>,
++					 <&clkc CLKID_GP0_PLL>;
++
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					/* VPU VENC Input */
++					mipi_dsi_venc_port: port@0 {
++						reg = <0>;
++
++						mipi_dsi_in: endpoint {
++							remote-endpoint = <&dpi_out>;
++						};
++					};
++
++					/* DSI Output */
++					mipi_dsi_panel_port: port@1 {
++						reg = <1>;
++					};
++				};
++			};
++
+ 			watchdog: watchdog@f0d0 {
+ 				compatible = "amlogic,meson-gxbb-wdt";
+ 				reg = <0x0 0xf0d0 0x0 0x10>;
 
 -- 
 2.34.1
