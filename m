@@ -2,46 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A914D7E70CD
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 18:51:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4376C7E70D2
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 18:51:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C87810E490;
-	Thu,  9 Nov 2023 17:51:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C67F510E8F3;
+	Thu,  9 Nov 2023 17:51:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10F7910E490
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 17:51:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 8834AB82173;
- Thu,  9 Nov 2023 17:50:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A0B4C433C7;
- Thu,  9 Nov 2023 17:50:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699552257;
- bh=GB1syrHkrGKsmiS0BjcotABnBGuB2ElN3V85GZw/kAw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ToCXT+f0/7z3BZkle4LwTFuKxK3lAXNYtMhvN8zhbG2gkF7h4SBB/igmwG0P+Zvo2
- NmuS/Eg86zaZ6ucHSUi94mNjOVQMxv6vRV7mSbR5Nu2xBvVt+kOOadEY1MeJi2R5eX
- gm/vUCHta0V+Aw72M3C1IBCFGONx0v4m5jQ9enBcpbJJu7jdsg0lKCj1pkr1bIN56H
- XlOOpDuFV4fAm1/T95n+hJTQNX4BnHUyad1pDELC+KMD+BzhteYuURCIzoLPGIax5q
- 24ToC2MuXIi88cVPWmXu7EuLB2aftW1hVxXBE5zrsHGWQoYmx0ds30NK2pSkEsnp1Z
- O5bKwljiIwPLw==
-Date: Thu, 9 Nov 2023 17:50:51 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v8 03/12] dt-bindings: phy:
- amlogic,meson-axg-mipi-pcie-analog: drop text about parent syscon and drop
- example
-Message-ID: <20231109-unsalted-daredevil-4052fa57fd2c@spud>
-References: <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-0-81e4aeeda193@linaro.org>
- <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-3-81e4aeeda193@linaro.org>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4356B10E8EB;
+ Thu,  9 Nov 2023 17:51:28 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3A9CrtUk014394; Thu, 9 Nov 2023 17:51:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=VGrocBjpfB4eUDrm+j3cr9UddNm0arMjWqZFjcDlqE0=;
+ b=Plv3zypUMJ0ik5hxoYdBeX+TqjqV0JltbInzHs9c2TxXHGt6YP+HTwxDFWiJ/4121xAT
+ Z23GVeOiN2YbHBtZNsyxe5oo/EmbYgIgumE2vbB/vTubrbYsqFm0cxci01xCvQQrtOvX
+ wosDkQD7wllLyPZsznr8UQwv6Bd1FDiZu8Imx44sMKxug99HFDgjm33kzlSDQWby33xv
+ b/KONQI37Jefa7Swoc8pLfCc9EMDs8yg5q7AhAxUd/EHNdSXHa4rgh/6KQvRe7l70AGm
+ 7MEadHYyxtChNr5rtYK0v5tHN/QrC9d/KDEqAosNOL7H4BbADmVyQY6qPnvqAUvKpI/F dA== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u8w0ns54u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 09 Nov 2023 17:51:21 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3A9HpKHh023297
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 9 Nov 2023 17:51:20 GMT
+Received: from [10.110.84.171] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Thu, 9 Nov
+ 2023 09:51:18 -0800
+Message-ID: <748da144-af4c-5a2a-e82b-3a870995cbce@quicinc.com>
+Date: Thu, 9 Nov 2023 09:51:18 -0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="E5Nn4IFoyvxjicc1"
-Content-Disposition: inline
-In-Reply-To: <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-3-81e4aeeda193@linaro.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v7 0/7] incorporate pm runtime framework and eDP clean up
+Content-Language: en-US
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+References: <1696632910-21942-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAA8EJpoFRp+7GyO=F3Ar21tfG5Yt0cL6zkAquqg7D1XXQjp50Q@mail.gmail.com>
+ <55a4f98e-2772-e4fd-ae8a-132f92582c78@quicinc.com>
+ <CAA8EJpo9CFf-Z3eiuKPvwf-y6eGkSibro-q-=SBxKK_L-zFOBA@mail.gmail.com>
+ <b708df07-6812-df43-1313-cf6f1289fd47@quicinc.com>
+ <d597554a-ad3a-0af1-e21b-3001c80f6d30@quicinc.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <d597554a-ad3a-0af1-e21b-3001c80f6d30@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: XsUPbI8h8-aczDOJ5vFlGcvNkQm4TTAs
+X-Proofpoint-ORIG-GUID: XsUPbI8h8-aczDOJ5vFlGcvNkQm4TTAs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-09_14,2023-11-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ lowpriorityscore=0 malwarescore=0 bulkscore=0 phishscore=0 spamscore=0
+ adultscore=0 impostorscore=0 mlxlogscore=674 priorityscore=1501
+ suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311090134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,93 +88,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Kevin Hilman <khilman@baylibre.com>,
- Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Rob Herring <robh+dt@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
- Nicolas Belin <nbelin@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ linux-kernel@vger.kernel.org, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---E5Nn4IFoyvxjicc1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 11/8/2023 10:27 AM, Abhinav Kumar wrote:
+>
+>
+> On 11/8/2023 10:10 AM, Kuogee Hsieh wrote:
+>>
+>> On 11/7/2023 1:23 PM, Dmitry Baryshkov wrote:
+>>> On Tue, 7 Nov 2023 at 23:01, Kuogee Hsieh <quic_khsieh@quicinc.com> 
+>>> wrote:
+>>>>
+>>>> On 11/6/2023 5:55 PM, Dmitry Baryshkov wrote:
+>>>>> On Sat, 7 Oct 2023 at 01:55, Kuogee Hsieh 
+>>>>> <quic_khsieh@quicinc.com> wrote:
+>>>>>> The purpose of this patch series is to incorporate pm runtime 
+>>>>>> framework
+>>>>>> into MSM eDP/DP driver so that eDP panel can be detected by DRM 
+>>>>>> eDP panel
+>>>>>> driver during system probe time. During incorporating procedure, 
+>>>>>> original
+>>>>>> customized pm realted fucntions, such as dp_pm_prepare(), 
+>>>>>> dp_pm_suspend(),
+>>>>>> dp_pm_resume() and dp_pm_prepare(), are removed and replaced with 
+>>>>>> functions
+>>>>>> provided by pm runtiem framework such as 
+>>>>>> pm_runtime_force_suspend() and
+>>>>>> pm_runtime_force_resume(). In addition, both eDP aux-bus and irq 
+>>>>>> handler
+>>>>>> are bound at system probe time too.
+>>>>> With this patchset in place I can crash the board using the following
+>>>>> sequence (SM8350-HDK):
+>>>>>
+>>>>> - plug the USBC DP dongle
+>>>>> - run modetest at any mode, don't press Enter yet
+>>>>> - unplug the dongle
+>>>>> - press Enter to stop modetest
+>>>>>
+>>>>> => the board resets to Sahara.
+>>>>>
+>>>>> Please ping me if you need any additional information from my side.
+>>>> questiosn,
+>>>>
+>>>> 1) which dongle are you used?
+>>> I have used several Dell and Hama USB-C dongles.
+>>>
+>>>> 2) what code branch shoud I used to duplicate this problem.
+>>> I have pushed my kernel tree to
+>>> git.codelinaro.org/dmitry.baryshkov/linux.git, branch test-dp-rpm
+>>> I had several UCSI patches on top, but they should not be relevant.
+>> git.codelinaro.org/dmitry.baryshkov/linux.git, branch test-dp-rpm <== 
+>> I synced out his branch and it is still work at my chromebook Kodiak 
+>> DUT.
+>>>
+>
+> Perhaps the gap in test results with the same tree is due to internal 
+> hpd vs hpd pin. We need to try this on a device which does not use 
+> internal hpd.
 
-On Thu, Nov 09, 2023 at 10:00:04AM +0100, Neil Armstrong wrote:
-> Since this bindings is referred from amlogic,meson-gx-hhi-sysctrl.yaml, d=
-rop the now
-> useless description about the parent node and also drop the unnecessary e=
-xample.
->=20
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Hi Dmitry,
 
-Cheers,
-COnor.
+I have two more questions,
 
-> ---
->  .../phy/amlogic,meson-axg-mipi-pcie-analog.yaml         | 17 -----------=
-------
->  1 file changed, 17 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/phy/amlogic,meson-axg-mipi=
--pcie-analog.yaml b/Documentation/devicetree/bindings/phy/amlogic,meson-axg=
--mipi-pcie-analog.yaml
-> index 009a39808318..70def36e5688 100644
-> --- a/Documentation/devicetree/bindings/phy/amlogic,meson-axg-mipi-pcie-a=
-nalog.yaml
-> +++ b/Documentation/devicetree/bindings/phy/amlogic,meson-axg-mipi-pcie-a=
-nalog.yaml
-> @@ -9,16 +9,6 @@ title: Amlogic AXG shared MIPI/PCIE analog PHY
->  maintainers:
->    - Remi Pommarel <repk@triplefau.lt>
-> =20
-> -description: |+
-> -  The Everything-Else Power Domains node should be the child of a syscon
-> -  node with the required property:
-> -
-> -  - compatible: Should be the following:
-> -                "amlogic,meson-gx-hhi-sysctrl", "simple-mfd", "syscon"
-> -
-> -  Refer to the bindings described in
-> -  Documentation/devicetree/bindings/mfd/syscon.yaml
-> -
->  properties:
->    compatible:
->      const: amlogic,axg-mipi-pcie-analog-phy
-> @@ -31,10 +21,3 @@ required:
->    - "#phy-cells"
-> =20
->  additionalProperties: false
-> -
-> -examples:
-> -  - |
-> -    mpphy: phy {
-> -          compatible =3D "amlogic,axg-mipi-pcie-analog-phy";
-> -          #phy-cells =3D <0>;
-> -    };
->=20
-> --=20
-> 2.34.1
->=20
+1) are you see test pattern shows at external DP when you run modetest?
+2) is *.kcrash file created under /var/spool/crash/ when system crashed. 
+If it is, can you share it?
 
---E5Nn4IFoyvxjicc1
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZU0b+wAKCRB4tDGHoIJi
-0llMAQDSiyi01Tk6EfsjuzI7TW2RZ9q3lS642vkuNdyv7Vl74QEAi50xLev+LeZV
-0XXHkOzNdlCx7iH9hujdrheVevi6VwY=
-=NFGG
------END PGP SIGNATURE-----
-
---E5Nn4IFoyvxjicc1--
+>
+>>>> I can not duplicate  system crash problem at my setup kodiak (SM7325)
+>>>> chrome book with my PM runtime patch series.
+>>>>
+>>>> my code base is Linux 6.6-rc2 + pm runtime patch series (7 patches)
+>>>>
+>>>> I did:
+>>>>
+>>>> 1) plugin either apple dongle (DP-to-HDMI) + 1080p display or DP typeC
+>>>> cable directly to 1080p display
+>>>>
+>>>> 2)  stop ui
+>>>>
+>>>> 3) /usr/bin/modetest -M msm -s 34:1920x1080 (see test pattern show at
+>>>> display)
+>>>>
+>>>> 4) unplug apple dongle or DP typeC cable
+>>>>
+>>>> 5) hit enter key
+>>>>
+>>>> 6) start ui
+>>>>
+>>>> 7) display back to login page of chrome book
+>>>>
+>>>>
+>>>
