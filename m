@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 141877E6479
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 08:39:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8370D7E647C
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 08:39:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51BC310E1CE;
-	Thu,  9 Nov 2023 07:39:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 919B110E1D0;
+	Thu,  9 Nov 2023 07:39:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BD7510E1C8
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 07:38:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6327810E1CA
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 07:38:52 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-149-209.elisa-laajakaista.fi
  [91.158.149.209])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C4D1DAF2;
- Thu,  9 Nov 2023 08:38:27 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A50561BB1;
+ Thu,  9 Nov 2023 08:38:28 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1699515508;
- bh=DctFIvkDoFEqJ33Z6ruCYMdZFJxb/7pQYzOou//Ap3I=;
+ s=mail; t=1699515509;
+ bh=bQWW0pZKCuRvL4IYy0nb/sJkN3i+ZB5gIxx8kN/IznA=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Dc9GjD7/juHAmMUUFhiwOgCXA4OXdrRrZ1hX8ejF44mMI0MHKeBCDabyy6gpnwGsv
- zV7+IhxWEZhz/maI/drQJZZAYppVK+28umotd42BzVPPnqHeFwOLd7o8gFcHVnViF8
- w0XlrVI7Beh8FITWRxveF3I6mOEOHc2W6Mt6WLbc=
+ b=l0LuD9VGb7eGrWm9XEivrXjRtUJffMyYuUz8AQ6e05CYLu00NmxUHnvlSb+FQgE+y
+ zsRrT1lF6oCv6DOcX/wzDPsJ4CED71YeadhcEuDEd0bPG2ZFIljZSqKT3LjR9ohx/J
+ ins6WciQkLFs+8jHswhDa6gmUT0DT23Oyp+fHJWE=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Thu, 09 Nov 2023 09:38:02 +0200
-Subject: [PATCH v2 09/11] drm/tidss: IRQ code cleanup
+Date: Thu, 09 Nov 2023 09:38:03 +0200
+Subject: [PATCH v2 10/11] drm/tidss: Fix atomic_flush check
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231109-tidss-probe-v2-9-ac91b5ea35c0@ideasonboard.com>
+Message-Id: <20231109-tidss-probe-v2-10-ac91b5ea35c0@ideasonboard.com>
 References: <20231109-tidss-probe-v2-0-ac91b5ea35c0@ideasonboard.com>
 In-Reply-To: <20231109-tidss-probe-v2-0-ac91b5ea35c0@ideasonboard.com>
 To: Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>, 
@@ -39,21 +39,21 @@ To: Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3782;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1862;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=DctFIvkDoFEqJ33Z6ruCYMdZFJxb/7pQYzOou//Ap3I=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlTIyA/Ed2GdhSjNB0TdLDAtTBLS3T3owhC5Feg
- AjEZ5prDE+JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZUyMgAAKCRD6PaqMvJYe
- 9bfXEACOcy1uY/FsnMlL7FZbPFWduaeQxZS35htX2N1qTBrmP6urK9VYAyugcSbuDvezOUMkNi5
- dYnMaRD08OrqD6HlQLiDVOjP+DWiS0DN2JNnXctyXKrl/ozrbnPLGqdwEQcjSDYkusWqyaYP/Kk
- QUfzxb1KDStz9dlgI7nBBOlQY7mS0jJymZc4JlZw4IF+ZSBGvGA5xVgWUn2vb85mm/6sOCcDizn
- ysgYo6Bl4YwOH1LQrCIMOvtLdx2EgfpkDmkig9QteDP6r3UXwQUV3iG+X0w46kcf7wvgDYdpHhH
- 6k6dHcVk/BWSbWCY1k3Hy4rXRWmch85qQTnY12w4aGi5j2BfBZeAcZ3nVuRNeN026GQfvIXDh5y
- 0zu5lkUlg0aiH6EsXU6UQmJG/IATb/8r8gSV50VWUon+GOwDdHI6OcGGYKlUHFcWBrpOdGaeSpb
- orpwMgoAbzYT2gvSPS1UAtlg/bs6gq6YjyA3x1mm19wy1ux4yY7q53P+Oz9UAfqTYpGQYofn/cG
- XLy5u+yMAiKmIJFSpMaliWPdcRnbmCynwcIZulo8IHMq80pkSWPuR6H8O5LxTzU0OZNHUYsYHbw
- dvHXWuOL6B+qzOYSNEVWI9SBF4a9icPSWQ1ooKTbt7XF+5RuxOkymCUhRONJCwetNsRm/IUYAxC
- BxCTt++Vmnonh2w==
+ bh=bQWW0pZKCuRvL4IYy0nb/sJkN3i+ZB5gIxx8kN/IznA=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlTIyAJ1HO4rcoZbtH19be+oc3Ci8occSFZkPT1
+ 5g9ExgrbdSJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZUyMgAAKCRD6PaqMvJYe
+ 9aK4D/9TZFHEorS4CIO2opcLsKveOvHzSNF7GVjMUdyC2+VwtHV9aOK9w/GH+Fg1ulHRhV0who3
+ wzU5oEyy03kPxpgx+6ZqG4/GOCOGCSzZecZsxxWInNhKE+PwhwUuZgZFRWf+TDN4buVb8uuzKkL
+ HPYOUwzGzLeOK4L+6cA9nyCg7xSJf9XpEchNWbPk63ZXTdld0G72d51K6OYL5Awu8L0D0ALwrHo
+ yHYyiv2lqSkY/jtElucHxmYqocQS2rhJ6mSCyJXOrPQkpqYyI/Jg3EtV51w7QjE+c7M3ANBdAk4
+ CBxPZSYB3fwR3lHjYU2XFxF64H+lR+hW9gZq/+49RHo5c3yUNwKjl+reS1jp7BZk3XHm1H7IXiv
+ Sda2sKpeDnduAIjtJLmyxo9ouB7VY4l3G8A/ZJad3w20DhrO0E2by5+fcCg0Q0LImTPkLK/ZbT/
+ hFX6yIQmJE8pAFyJcRnUalWwQ6NfPuGBu5bqlGfjkNoosx76nfD3/2VKn9ehFwaBf2EUhu1Nhaa
+ UAG0If8UvUjSSfwm/YphrmKHrUfK+r24knzPvZ/zloNF7FT77oElqqi5vHopO55ysk5lhlqaOnw
+ a87SxnFzLV1lkW8zg5/rsp7EMO4W0RgTS5bypPky4PnIwafKPwUCqSRhhVdwJ9yMjNEH5i6B9Xm
+ dLMJIvlAcjXrK8w==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,134 +68,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Francesco Dolcini <francesco@dolcini.it>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
+Cc: Francesco Dolcini <francesco@dolcini.it>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The IRQ setup code is overly complex. All we really need to do is
-initialize the related fields in struct tidss_device, and request the
-IRQ.
+tidss_crtc_atomic_flush() checks if the crtc is enabled, and if not,
+returns immediately as there's no reason to do any register changes.
 
-We can drop all the HW accesses, as they are pointless: the driver will
-set the IRQs correctly when it needs any of the IRQs, and at probe time
-we have done a reset, so we know that all the IRQs are masked by default
-in the hardware.
+However, the code checks for 'crtc->state->enable', which does not
+reflect the actual HW state. We should instead look at the
+'crtc->state->active' flag.
 
-Thus we can combine the tidss_irq_preinstall() and
-tidss_irq_postinstall() into the tidss_irq_install() function, drop the
-HW accesses, and drop the use of spinlock, as this is done at init time
-and there can be no races.
+This causes the tidss_crtc_atomic_flush() to proceed with the flush even
+if the active state is false, which then causes us to hit the
+WARN_ON(!crtc->state->event) check.
 
-We can also drop the HW access from the tidss_irq_uninstall(), as the
-driver will anyway disable and suspend the hardware at remove time.
+Fix this by checking the active flag, and while at it, fix the related
+debug print which had "active" and "needs modeset" wrong way.
 
+Cc: stable@vger.kernel.org
+Fixes: 32a1795f57ee ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/tidss/tidss_drv.c |  2 ++
- drivers/gpu/drm/tidss/tidss_irq.c | 54 ++++++---------------------------------
- 2 files changed, 10 insertions(+), 46 deletions(-)
+ drivers/gpu/drm/tidss/tidss_crtc.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-index f51c87e26e10..490d15ed2216 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.c
-+++ b/drivers/gpu/drm/tidss/tidss_drv.c
-@@ -138,6 +138,8 @@ static int tidss_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, tidss);
- 
-+	spin_lock_init(&tidss->wait_lock);
-+
- 	ret = dispc_init(tidss);
- 	if (ret) {
- 		dev_err(dev, "failed to initialize dispc: %d\n", ret);
-diff --git a/drivers/gpu/drm/tidss/tidss_irq.c b/drivers/gpu/drm/tidss/tidss_irq.c
-index 0c681c7600bc..604334ef526a 100644
---- a/drivers/gpu/drm/tidss/tidss_irq.c
-+++ b/drivers/gpu/drm/tidss/tidss_irq.c
-@@ -93,33 +93,21 @@ void tidss_irq_resume(struct tidss_device *tidss)
- 	spin_unlock_irqrestore(&tidss->wait_lock, flags);
- }
- 
--static void tidss_irq_preinstall(struct drm_device *ddev)
--{
--	struct tidss_device *tidss = to_tidss(ddev);
--
--	spin_lock_init(&tidss->wait_lock);
--
--	tidss_runtime_get(tidss);
--
--	dispc_set_irqenable(tidss->dispc, 0);
--	dispc_read_and_clear_irqstatus(tidss->dispc);
--
--	tidss_runtime_put(tidss);
--}
--
--static void tidss_irq_postinstall(struct drm_device *ddev)
-+int tidss_irq_install(struct drm_device *ddev, unsigned int irq)
- {
+diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
+index 5e5e466f35d1..7c78c074e3a2 100644
+--- a/drivers/gpu/drm/tidss/tidss_crtc.c
++++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+@@ -169,13 +169,13 @@ static void tidss_crtc_atomic_flush(struct drm_crtc *crtc,
  	struct tidss_device *tidss = to_tidss(ddev);
--	unsigned long flags;
--	unsigned int i;
-+	int ret;
+ 	unsigned long flags;
  
--	tidss_runtime_get(tidss);
-+	if (irq == IRQ_NOTCONNECTED)
-+		return -ENOTCONN;
+-	dev_dbg(ddev->dev,
+-		"%s: %s enabled %d, needs modeset %d, event %p\n", __func__,
+-		crtc->name, drm_atomic_crtc_needs_modeset(crtc->state),
+-		crtc->state->enable, crtc->state->event);
++	dev_dbg(ddev->dev, "%s: %s is %sactive, %s modeset, event %p\n",
++		__func__, crtc->name, crtc->state->active ? "" : "not ",
++		drm_atomic_crtc_needs_modeset(crtc->state) ? "needs" : "doesn't need",
++		crtc->state->event);
  
--	spin_lock_irqsave(&tidss->wait_lock, flags);
-+	ret = request_irq(irq, tidss_irq_handler, 0, ddev->driver->name, ddev);
-+	if (ret)
-+		return ret;
+ 	/* There is nothing to do if CRTC is not going to be enabled. */
+-	if (!crtc->state->enable)
++	if (!crtc->state->active)
+ 		return;
  
- 	tidss->irq_mask = DSS_IRQ_DEVICE_OCP_ERR;
- 
--	for (i = 0; i < tidss->num_crtcs; ++i) {
-+	for (unsigned int i = 0; i < tidss->num_crtcs; ++i) {
- 		struct tidss_crtc *tcrtc = to_tidss_crtc(tidss->crtcs[i]);
- 
- 		tidss->irq_mask |= DSS_IRQ_VP_SYNC_LOST(tcrtc->hw_videoport);
-@@ -127,28 +115,6 @@ static void tidss_irq_postinstall(struct drm_device *ddev)
- 		tidss->irq_mask |= DSS_IRQ_VP_FRAME_DONE(tcrtc->hw_videoport);
- 	}
- 
--	tidss_irq_update(tidss);
--
--	spin_unlock_irqrestore(&tidss->wait_lock, flags);
--
--	tidss_runtime_put(tidss);
--}
--
--int tidss_irq_install(struct drm_device *ddev, unsigned int irq)
--{
--	int ret;
--
--	if (irq == IRQ_NOTCONNECTED)
--		return -ENOTCONN;
--
--	tidss_irq_preinstall(ddev);
--
--	ret = request_irq(irq, tidss_irq_handler, 0, ddev->driver->name, ddev);
--	if (ret)
--		return ret;
--
--	tidss_irq_postinstall(ddev);
--
- 	return 0;
- }
- 
-@@ -156,9 +122,5 @@ void tidss_irq_uninstall(struct drm_device *ddev)
- {
- 	struct tidss_device *tidss = to_tidss(ddev);
- 
--	tidss_runtime_get(tidss);
--	dispc_set_irqenable(tidss->dispc, 0);
--	tidss_runtime_put(tidss);
--
- 	free_irq(tidss->irq, ddev);
- }
+ 	/*
 
 -- 
 2.34.1
