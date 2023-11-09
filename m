@@ -2,44 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2662E7E7119
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 19:04:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 984EF7E711E
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 19:05:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C79910E0F2;
-	Thu,  9 Nov 2023 18:04:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6795110E0F9;
+	Thu,  9 Nov 2023 18:05:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55F6010E0E9
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 18:04:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9839B609D1;
- Thu,  9 Nov 2023 18:04:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9222C433C8;
- Thu,  9 Nov 2023 18:04:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699553080;
- bh=Z9CrFEFmEnOL/3Q5XW+qZ/CdeY8ktvSVkXjM1v0v9Bk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GVkWWZLA7o6syfN/8ixVI8y7Kdr61lfB5UBV5DieWn5k8XcuuWkgPoxb3EdxBWnDP
- DfI6QayvLB5LE3pbUCN79+3wROAQQ3mEo3tjiBMDAgoWvrKzNTnNXATQM1SKhGLdYd
- UfsTP3tfcL9x7DB4q2zaAHlAcAx0pLoeelZd7uFt0XTtiU/Y5mWg8NdbEb++epj1XT
- 9u/1OVbyyPtXYFlftLsmDkuGEf0poTDvOU4QmBe+4k4d/g40Ejn6n2kflZkWzK1LCI
- cIGkoTTZr7D7XB6WsRiR+5of7ldK4F6ZdYNsclZyoN9QxOM9qcexPEYaJtIlL8Gk2K
- eE/N+uPZoigng==
-Date: Thu, 9 Nov 2023 18:04:34 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v8 04/12] dt-bindings: phy:
- amlogic,g12a-mipi-dphy-analog: drop unneeded reg property and example
-Message-ID: <20231109-sterility-unsoiled-e43771c61894@spud>
-References: <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-0-81e4aeeda193@linaro.org>
- <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-4-81e4aeeda193@linaro.org>
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E09A10E0F9;
+ Thu,  9 Nov 2023 18:05:35 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id
+ d2e1a72fcca58-6b7f0170d7bso1217969b3a.2; 
+ Thu, 09 Nov 2023 10:05:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1699553135; x=1700157935; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=fBmuvcNq/HL/4uuuxt5Bl834w8qMdTUve8ra3EWo+14=;
+ b=ccyHRfKGl/2tEukLWzY3O7VtJOPe0+XubQeW4QklzwkLJRWqMwnLGRuyv2VyoLx7PU
+ 5ZFuDh+R9wJS4rtSnaTZmsLvzFK/ZZCSxKVr3X8tR6pn8O5sBZRUnJb1f05H98f7Dml4
+ FNHLDiBEsiV15euXa09t503c/Ae+3m4Bf+/soJAdCm4yj0diOuUPRfOs0VDpzBB6hPfy
+ N2rzaUGDqcOSQgAyrbxyH2NbThTSVQuUyKuY0MlBzBv4P5dR8m+Ukta0x8OMke1WGoTI
+ Z3+aJxBH18wCLn4fBtUrX9oHKnqoaC8hgp423ak1OPzFiRnvGixEMsRKE4sF/wxZoYww
+ G08Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699553135; x=1700157935;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fBmuvcNq/HL/4uuuxt5Bl834w8qMdTUve8ra3EWo+14=;
+ b=pfzKOsgF+te4mfNWqbm1GmCyx0+NZyVK9bPN2ly4J/YMKGk8aNPtolG5C33q3fAH8W
+ pNn310iWdRfFhnEniplg9LhtETpYAVT/PjyOzSQB1k9r9iduxvQaMReenfnoRxJMYUvG
+ 0x4/SJwQOaN04FQwL1wMwaP/NrSjc7+9+2nNNpgPbilcZSaQU7uIuAy6VJkTC9O61Ndk
+ Duyn+vfqLQBrkShqPQtblFGQFGraTmpjSbYKBpAoakLvVO2ohr6YH1ZB77kQcwMMZOSE
+ 0S4snkWJSNyZwqhbL9PMlY+QvweO1OZWzJne6EQAOa5C/Tikqg78YgtWEjf+8v1sf+l9
+ mKag==
+X-Gm-Message-State: AOJu0YxiXhJ0elpNEE7yXH85Z5SFODIqKQ20Ge5wthIm/T48bljX9HBl
+ AvhICuIepCU7oZs6gEZ/W+yG18tMSK0=
+X-Google-Smtp-Source: AGHT+IH6HZ63j3z4hnX4ukKs2vnCjJsrXU1fnvPvWQdZOdW8UREYq1y1qKBrpCe4oxFk38H2Hv2ssA==
+X-Received: by 2002:a05:6a21:7786:b0:181:731:89b7 with SMTP id
+ bd6-20020a056a21778600b00181073189b7mr7210352pzc.41.1699553134864; 
+ Thu, 09 Nov 2023 10:05:34 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:c99d:e08e:5968:1b85])
+ by smtp.gmail.com with ESMTPSA id
+ t12-20020a65554c000000b00578b8fab907sm4509390pgr.73.2023.11.09.10.05.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Nov 2023 10:05:33 -0800 (PST)
+Date: Thu, 9 Nov 2023 10:05:31 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Allen Ballway <ballway@chromium.org>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/quirk: Add quirk for devices with
+ incorrect PWM frequency
+Message-ID: <ZU0fa6fvT4ZWTNXr@google.com>
+References: <20231017175728.1.Ibc6408a8ff1f334974104c5bcc25f2f35a57f36e@changeid>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tjSRnZL12xJ4z8LE"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-4-81e4aeeda193@linaro.org>
+In-Reply-To: <20231017175728.1.Ibc6408a8ff1f334974104c5bcc25f2f35a57f36e@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,91 +73,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Kevin Hilman <khilman@baylibre.com>,
- Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Rob Herring <robh+dt@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
- Nicolas Belin <nbelin@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Allen,
 
---tjSRnZL12xJ4z8LE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Nov 09, 2023 at 10:00:05AM +0100, Neil Armstrong wrote:
-> Now this bindings is referred from amlogic,meson-gx-hhi-sysctrl.yaml and =
-is
-> documented as a subnode of a simple-mfd, drop the invalid reg property.
-
-I'd expect a note here tbh about how removing reg & relying on being a
-subnode of the simple-mfd is safe to do. It looks like your driver
-was added at the same time as this binding & it was always documented as
-being a child of the simple-mfd system controller, so I'd kinda expect
-to see a Fixes tag on this patch..
-
-Am I missing something?
-
->=20
-> Also drop the unnecessary example, the top level bindings example should
-> be enough.
->=20
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+On Tue, Oct 17, 2023 at 06:01:39PM +0000, Allen Ballway wrote:
+> Cyernet T10C has a bad default PWM frequency causing the display to
+> strobe when the brightness is less than 100%. Create a new quirk to use
+> the value from the BIOS rather than the default register value.
+> 
+> Signed-off-by: Allen Ballway <ballway@chromium.org>
+> 
 > ---
->  .../bindings/phy/amlogic,g12a-mipi-dphy-analog.yaml          | 12 ------=
-------
->  1 file changed, 12 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/phy/amlogic,g12a-mipi-dphy=
--analog.yaml b/Documentation/devicetree/bindings/phy/amlogic,g12a-mipi-dphy=
--analog.yaml
-> index c8c83acfb871..81c2654b7e57 100644
-> --- a/Documentation/devicetree/bindings/phy/amlogic,g12a-mipi-dphy-analog=
-=2Eyaml
-> +++ b/Documentation/devicetree/bindings/phy/amlogic,g12a-mipi-dphy-analog=
-=2Eyaml
-> @@ -16,20 +16,8 @@ properties:
->    "#phy-cells":
->      const: 0
-> =20
-> -  reg:
-> -    maxItems: 1
-> -
->  required:
->    - compatible
-> -  - reg
->    - "#phy-cells"
-> =20
->  additionalProperties: false
-> -
-> -examples:
-> -  - |
-> -    phy@0 {
-> -          compatible =3D "amlogic,g12a-mipi-dphy-analog";
-> -          reg =3D <0x0 0xc>;
-> -          #phy-cells =3D <0>;
-> -    };
->=20
-> --=20
-> 2.34.1
->=20
+> 
+>  .../gpu/drm/i915/display/intel_backlight.c    |  3 ++-
+>  drivers/gpu/drm/i915/display/intel_quirks.c   | 26 +++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_quirks.h   |  1 +
+>  3 files changed, 29 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu/drm/i915/display/intel_backlight.c
+> index 2e8f17c045222..c4dcfece9deca 100644
+> --- a/drivers/gpu/drm/i915/display/intel_backlight.c
+> +++ b/drivers/gpu/drm/i915/display/intel_backlight.c
+> @@ -1388,7 +1388,8 @@ static int vlv_setup_backlight(struct intel_connector *connector, enum pipe pipe
+>  	ctl = intel_de_read(i915, VLV_BLC_PWM_CTL(pipe));
+>  	panel->backlight.pwm_level_max = ctl >> 16;
+> 
+> -	if (!panel->backlight.pwm_level_max)
+> +	if (!panel->backlight.pwm_level_max ||
+> +	    intel_has_quirk(i915, QUIRK_IGNORE_DEFAULT_PWM_FREQUENCY))
+>  		panel->backlight.pwm_level_max = get_backlight_max_vbt(connector);
 
---tjSRnZL12xJ4z8LE
-Content-Type: application/pgp-signature; name="signature.asc"
+I think it would be better if we did:
 
------BEGIN PGP SIGNATURE-----
+	if (!intel_has_quirk(i915, QUIRK_IGNORE_DEFAULT_PWM_FREQUENCY)) {
+		ctl = intel_de_read(i915, VLV_BLC_PWM_CTL(pipe));
+		panel->backlight.pwm_level_max = ctl >> 16;
+	} else {
+		panel->backlight.pwm_level_max = 0;
+	}
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZU0fMgAKCRB4tDGHoIJi
-0iggAQCV2/5BcIW31u6mySyU3aLEob1O1ciipaTd/rc/GvNlSAEAoFfFfmam/hxu
-pqXvBa9dJuXqDDyhraCQHOmyFKSHugs=
-=tBb3
------END PGP SIGNATURE-----
+	if (!panel->backlight.pwm_level_max)
+		panel->backlight.pwm_level_max = get_backlight_max_vbt(connector);
 
---tjSRnZL12xJ4z8LE--
+The "else" branch can potentially be omitted if we know that backlight
+member is initialized to 0 (I suspect it is).
+
+> 
+>  	if (!panel->backlight.pwm_level_max)
+> diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c b/drivers/gpu/drm/i915/display/intel_quirks.c
+> index a280448df771a..ff6cb499428ce 100644
+> --- a/drivers/gpu/drm/i915/display/intel_quirks.c
+> +++ b/drivers/gpu/drm/i915/display/intel_quirks.c
+> @@ -65,6 +65,12 @@ static void quirk_no_pps_backlight_power_hook(struct drm_i915_private *i915)
+>  	drm_info(&i915->drm, "Applying no pps backlight power quirk\n");
+>  }
+> 
+> +static void quirk_ignore_default_pwm_frequency(struct drm_i915_private *i915)
+> +{
+> +	intel_set_quirk(i915, QUIRK_IGNORE_DEFAULT_PWM_FREQUENCY);
+> +	drm_info(&i915->drm, "Applying ignore default pwm frequency quirk");
+> +}
+> +
+>  struct intel_quirk {
+>  	int device;
+>  	int subsystem_vendor;
+> @@ -90,6 +96,12 @@ static int intel_dmi_no_pps_backlight(const struct dmi_system_id *id)
+>  	return 1;
+>  }
+> 
+> +static int intel_dmi_ignore_default_pwm_frequency(const struct dmi_system_id *id)
+> +{
+> +	DRM_INFO("Default PWM frequency is incorrect and is overridden on %s\n", id->ident);
+> +	return 1;
+> +}
+> +
+>  static const struct intel_dmi_quirk intel_dmi_quirks[] = {
+>  	{
+>  		.dmi_id_list = &(const struct dmi_system_id[]) {
+> @@ -136,6 +148,20 @@ static const struct intel_dmi_quirk intel_dmi_quirks[] = {
+>  		},
+>  		.hook = quirk_no_pps_backlight_power_hook,
+>  	},
+> +	{
+> +		.dmi_id_list = &(const struct dmi_system_id[]) {
+> +			{
+> +				.callback = intel_dmi_ignore_default_pwm_frequency,
+> +				.ident = "Cybernet T10C Tablet",
+> +				.matches = {DMI_EXACT_MATCH(DMI_BOARD_VENDOR,
+> +							    "Cybernet Manufacturing Inc."),
+> +					    DMI_EXACT_MATCH(DMI_BOARD_NAME, "T10C Tablet"),
+> +				},
+> +			},
+> +			{ }
+> +		},
+> +		.hook = quirk_ignore_default_pwm_frequency,
+> +	},
+>  };
+> 
+>  static struct intel_quirk intel_quirks[] = {
+> diff --git a/drivers/gpu/drm/i915/display/intel_quirks.h b/drivers/gpu/drm/i915/display/intel_quirks.h
+> index 10a4d163149fd..70589505e5a0e 100644
+> --- a/drivers/gpu/drm/i915/display/intel_quirks.h
+> +++ b/drivers/gpu/drm/i915/display/intel_quirks.h
+> @@ -17,6 +17,7 @@ enum intel_quirk_id {
+>  	QUIRK_INVERT_BRIGHTNESS,
+>  	QUIRK_LVDS_SSC_DISABLE,
+>  	QUIRK_NO_PPS_BACKLIGHT_POWER_HOOK,
+> +	QUIRK_IGNORE_DEFAULT_PWM_FREQUENCY
+
+You want a trailing comma here.
+
+>  };
+> 
+>  void intel_init_quirks(struct drm_i915_private *i915);
+> --
+> 2.42.0.655.g421f12c284-goog
+> 
+
+Thanks.
+
+-- 
+Dmitry
