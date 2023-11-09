@@ -1,69 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 305C17E7028
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 18:26:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C5377E7032
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 18:26:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A63110E8E9;
-	Thu,  9 Nov 2023 17:26:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31A3D10E8ED;
+	Thu,  9 Nov 2023 17:26:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7AE410E8E9
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB3D310E8EB
  for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 17:25:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1699550717;
+ s=mimecast20190719; t=1699550719;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7sDHSqMuo7yUORgn5WByoTm7yhsDzWS7QFyd4p9GXpM=;
- b=Azbi/CywvQpVvHBsBe2SZ4W97QOqHRiL2MMgAzKXDqgxHedN0GpPgPmFVs0fri4wMEjP8N
- DnrMvUHVS4Vk4eK9BwoAsLGO7selwgRUK1/hiERX0TuA/vsy3wHnuxOGr6Qo35t5FVUDjm
- 08StyYWn8cv+nXRxirXgz1isBIAMWFc=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=I7tI1v3g4YDcTR34UtN17p6cKRPxCtoGaa2HZ2e5M58=;
+ b=K6yNWICu+VYxlr9m34aYFnIVbiFnfIqKj8Yj2E9RJQfdZkdygJOfqW046JiNGjjvj9U+yv
+ LH2+ZFLlzdGCj7s+Hao+Jhx4wtBIzrNhCD4ch/4Vm6hEUH7bUu8L9mwS7WiLwsbSTqNfyC
+ a/7Lg0KhyrAgJ5JQdRKfV+qrXR0oczQ=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-377-8bAlGuU-NDqei1OZqp8qfA-1; Thu, 09 Nov 2023 12:25:15 -0500
-X-MC-Unique: 8bAlGuU-NDqei1OZqp8qfA-1
-Received: by mail-lf1-f70.google.com with SMTP id
- 2adb3069b0e04-507b9078aaaso1101067e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 09:25:15 -0800 (PST)
+ us-mta-365-BTSWnejWPTmOOpuZc2w2Yw-1; Thu, 09 Nov 2023 12:25:18 -0500
+X-MC-Unique: BTSWnejWPTmOOpuZc2w2Yw-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ 38308e7fff4ca-2c53ea92642so10912641fa.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 09:25:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699550714; x=1700155514;
+ d=1e100.net; s=20230601; t=1699550716; x=1700155516;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7sDHSqMuo7yUORgn5WByoTm7yhsDzWS7QFyd4p9GXpM=;
- b=LJuzEK/Lxf3Ce7bNB0P9V+OeXkfls82277LnKHXkTzfz8f9j7+oCZEmNP7IDar0mbm
- fXtzN1Kp7qkpcaYerXq3t6brnmh5rxnHvW5jzIgVzyHbAjPuXk+kfAk05ujUvkDJiBiM
- lq+e4LoBrU+o/XjZmKFYbLUGAWDkbJOD39TGKTXZQ1ph+v8U9rNJMkBUTtV3bgCqXEj0
- 6zpASad7rhecB8skHbUdTx+uI3ORPg2doLlAQ9tTEqM4g/IHMb7rukVoOOqKF1cZcl38
- adTjZozEjpLWc5tpQHyGF+ftdrff2vzSQHnHBS97e0vXQGTxMzAIdfjEnDssytdTm1Ry
- lEZg==
-X-Gm-Message-State: AOJu0YzK9FRlZRrS8lmuWs+3vWqFQM1lHWjQ6J3gyU+3MOAzxlePwvI9
- YREqxb6VooW5sA/hNXLMg3iX/h0iwcszhmIeAKBe+kFvZ2A53R2MzZIB6kEY5A8a8s1DDY+94pn
- 1I0PKwfqeHSMDZM73vwjoNCfxnIZ9
-X-Received: by 2002:ac2:5e9e:0:b0:507:a6a5:a87b with SMTP id
- b30-20020ac25e9e000000b00507a6a5a87bmr1916878lfq.51.1699550714257; 
- Thu, 09 Nov 2023 09:25:14 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEJVNz0Dz1HSXbQ0UB49yuozjenPpk3U6wkuD6qjSBnU9rrxSOmkfygjO1wSFqzgZsRaJXpyw==
-X-Received: by 2002:ac2:5e9e:0:b0:507:a6a5:a87b with SMTP id
- b30-20020ac25e9e000000b00507a6a5a87bmr1916854lfq.51.1699550714038; 
- Thu, 09 Nov 2023 09:25:14 -0800 (PST)
+ bh=I7tI1v3g4YDcTR34UtN17p6cKRPxCtoGaa2HZ2e5M58=;
+ b=PhSRVdVtzGrE6jRnzyXVDX2FPI7HHwKmsR6jzMm7F0619mtGVF8oWJGuPTNihcyFmV
+ eVorhfJAJTEYwXjkmfwAhv0pRH4NWzU24mKirgScSZlSEjy6G1sa3b/jGVYfWPkoye9p
+ JFXVzV3Q1X74ED6VQETGihyX0Vs5IJFvNFR+MJVj7x7n+b5NjGIgDd6agSi9f8QQicQv
+ uocnQZFQRfpwlhclqQDkgUMPS0rgzul0jRzVUOgGPuBbBpMXYiXac+X04sduvmxYvf3v
+ mNObMtZ5BiGJK7RHn4/iGEG4YLKx3PaY6njda0lxKeBXm+RYnlvD3dREz/iKUL3lkUZQ
+ 4FSQ==
+X-Gm-Message-State: AOJu0YwADDycM81lLTW/c6qL7w01GpuhJAYKHOVLVEpu7M3YB8RCoJX1
+ L0PsvtBYcWAf6lE3rqwlbXFCCgBHqaQXqDOF4Tr+OOPBIeZHAhrQ6L7CaKJXItJ1UKzmeCMzpxA
+ aJcQwRkag0f5sbzAVP6cJ5lT34tls
+X-Received: by 2002:ac2:549c:0:b0:500:b2f6:592 with SMTP id
+ t28-20020ac2549c000000b00500b2f60592mr1983261lfk.50.1699550716517; 
+ Thu, 09 Nov 2023 09:25:16 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGse4RCF/67oKfST0CFHyjm+cpu2Cvl4v5lpvsxPTmc5ZS8cA1s3XNc9fBMoe6L+fz5hMsbpg==
+X-Received: by 2002:ac2:549c:0:b0:500:b2f6:592 with SMTP id
+ t28-20020ac2549c000000b00500b2f60592mr1983244lfk.50.1699550716301; 
+ Thu, 09 Nov 2023 09:25:16 -0800 (PST)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- c1-20020adfed81000000b0032fab28e9c9sm119847wro.73.2023.11.09.09.25.13
+ n8-20020a5d6608000000b0032da75af3easm119414wru.80.2023.11.09.09.25.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Nov 2023 09:25:13 -0800 (PST)
+ Thu, 09 Nov 2023 09:25:15 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 4/6] drm/vmwgfx: Use
- drm_atomic_helper_buffer_damage_iter_init() for buffer damage
-Date: Thu,  9 Nov 2023 18:24:38 +0100
-Message-ID: <20231109172449.1599262-5-javierm@redhat.com>
+Subject: [PATCH 5/6] drm/plane: Extend damage tracking kernel-doc
+Date: Thu,  9 Nov 2023 18:24:39 +0100
+Message-ID: <20231109172449.1599262-6-javierm@redhat.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231109172449.1599262-1-javierm@redhat.com>
 References: <20231109172449.1599262-1-javierm@redhat.com>
@@ -88,36 +87,87 @@ Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Bilal Elmoussaoui <belmouss@redhat.com>,
  Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>,
- VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
- dri-devel@lists.freedesktop.org, Sima Vetter <daniel.vetter@ffwll.ch>,
- Erico Nunes <nunes.erico@gmail.com>
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Sima Vetter <daniel.vetter@ffwll.ch>, Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver does per-buffer uploads. It needs to use the damage helper that
-handles buffer damages, rather than the helper that handles frame damages.
+The "Damage Tracking Properties" section in the documentation doesn't have
+info about the two type of damage handling: frame damage vs buffer damage.
 
-Suggested-by: Sima Vetter <daniel.vetter@ffwll.ch>
+Add that to the section, mention the different helpers that should be used
+by drivers depending on the damage handling type used and refer to sites
+that have more content about damage types and damage tracking in general.
+
+Suggested-by: Simon Ser <contact@emersion.fr>
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
 
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_damage_helper.c | 10 ++++++----
+ drivers/gpu/drm/drm_plane.c         | 22 +++++++++++++++++++---
+ 2 files changed, 25 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index 1489ad73c103..91cda125784e 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -2912,7 +2912,7 @@ int vmw_du_helper_plane_update(struct vmw_du_update_plane *update)
- 	 * Iterate in advance to check if really need plane update and find the
- 	 * number of clips that actually are in plane src for fifo allocation.
- 	 */
--	drm_atomic_helper_damage_iter_init(&iter, old_state, state);
-+	drm_atomic_helper_buffer_damage_iter_init(&iter, old_state, state);
- 	drm_atomic_for_each_plane_damage(&iter, &clip)
- 		num_hits++;
+diff --git a/drivers/gpu/drm/drm_damage_helper.c b/drivers/gpu/drm/drm_damage_helper.c
+index b72062c9d31c..ac9986da7d7c 100644
+--- a/drivers/gpu/drm/drm_damage_helper.c
++++ b/drivers/gpu/drm/drm_damage_helper.c
+@@ -367,8 +367,9 @@ static bool __drm_atomic_helper_damage_merged(const struct drm_plane_state *old_
+  * This function merges any valid plane damage clips into one rectangle and
+  * returns it in @rect.
+  *
+- * For details see: drm_atomic_helper_damage_iter_init() and
+- * drm_atomic_helper_damage_iter_next().
++ * For details see: drm_atomic_helper_damage_iter_init(),
++ * drm_atomic_helper_damage_iter_next() and
++ * `Damage Tracking Properties`_.
+  *
+  * Note that this helper is for drivers that do per-plane uploads and expect
+  * to handle frame damages. Drivers that do per-buffer uploads instead should
+@@ -400,8 +401,9 @@ EXPORT_SYMBOL(drm_atomic_helper_damage_merged);
+  * full plane update should happen. It also ensure helper iterator will return
+  * &drm_plane_state.src as damage.
+  *
+- * For details see: drm_atomic_helper_buffer_damage_iter_init() and
+- * drm_atomic_helper_damage_iter_next().
++ * For details see: drm_atomic_helper_buffer_damage_iter_init(),
++ * drm_atomic_helper_damage_iter_next() and
++ * `Damage Tracking Properties`_.
+  *
+  * Returns:
+  * True if there is valid buffer damage otherwise false.
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index 24e7998d1731..f137a99b3435 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -1439,9 +1439,25 @@ int drm_mode_page_flip_ioctl(struct drm_device *dev,
+  *
+  * Drivers that are interested in damage interface for plane should enable
+  * FB_DAMAGE_CLIPS property by calling drm_plane_enable_fb_damage_clips().
+- * Drivers implementing damage can use drm_atomic_helper_damage_iter_init() and
+- * drm_atomic_helper_damage_iter_next() helper iterator function to get damage
+- * rectangles clipped to &drm_plane_state.src.
++ *
++ * Note that there are two types of damage handling: frame damage and buffer
++ * damage. The drivers implementing a per-plane or per-CRTC upload target and
++ * need to handle frame damage can use drm_atomic_helper_damage_iter_init(),
++ * but drivers implementing a per-buffer upload target and need to handle buffer
++ * damage should use drm_atomic_helper_buffer_damage_iter_init() helper instead.
++ *
++ * Once the iterator has been initialized by the damage helpers mentioned above,
++ * the drm_atomic_helper_damage_iter_next() helper iterator function can be used
++ * to get damage rectangles clipped to &drm_plane_state.src.
++ *
++ * The type of damage handling implemented depends on the driver's upload target
++ * but notice that when using swap buffers, the returned damage rectangle is the
++ * &drm_plane_state.src, since a full plane update should happen. There is no
++ * buffer age support or similar damage accumulation algorithm implemented yet.
++ *
++ * For more information about the two type of damage, see:
++ *     https://registry.khronos.org/EGL/extensions/KHR/EGL_KHR_swap_buffers_with_damage.txt
++ *     https://emersion.fr/blog/2019/intro-to-damage-tracking/
+  */
  
+ /**
 -- 
 2.41.0
 
