@@ -1,48 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8CC7E6C68
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 15:27:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC617E6CA2
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 15:48:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 568DB10E218;
-	Thu,  9 Nov 2023 14:27:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64A3A10E8C1;
+	Thu,  9 Nov 2023 14:47:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9178310E218
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 14:27:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ps5jy95FKn5zhfX2cWWoeVLPnNfxcc4g07BTW6Er8i0=; b=XI8p8iFAmRCXyrsDbfskgnxQsn
- J7Q5y/nrs87M0a3pSjHk9SON8+Rb8DXhQe2Ig8cAcKLU1d0oxz/0rYVj6ENY/sLXMX5afZI0/OZTX
- HqWcNVBy8xJdooAVEN3hT6W3kobbbPX/3hbuHs388QVh6gX3R/Jb5Yhs5NhsjAxDVBkKGGQ4C0nOw
- V/qYaoDzjhVvn7tuCH8Z5M3lAGPp0G0kZgqgEsmHh8IGCH7qkD/TegSI7L1InT3FGPlSbBxBFU0t5
- 0x8umsdQrQlf2Di2k5KcvuDv1VpHUEyMj1ANwggk1LW5PEPiih7A4hFrL/S0gm+SK/aQ3Vw8/o98o
- LIr1/iEw==;
-Received: from [177.34.168.16] (helo=[192.168.0.8])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1r160A-001Gav-2B; Thu, 09 Nov 2023 15:27:22 +0100
-Message-ID: <7b8e23bb-60ac-0de5-265e-d6e9294a8435@igalia.com>
-Date: Thu, 9 Nov 2023 11:27:15 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90CF910E8BA;
+ Thu,  9 Nov 2023 14:47:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699541273; x=1731077273;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=pMCoir8lhajIvq9ksZxeg9xETGP9/e+PhBR2qqVkxjs=;
+ b=EW3OYeVsQel+gIXUQ4o/gF8sj8TKJg0wG3dBYtr8PLxOMLI40yONMtqg
+ D4DnsMK+gTHuJGKTzYa1as4aSDEjyBahhxxJlQ2DY7/zSyyh4jYY1pIeJ
+ aFG4W6PCV23EB1S+ss+O0FOlt/z3oz10il1UC81jFkx2CGxK33Bs1Rgt7
+ NTT4f3ipSqCqSar1WTMs/s6o884XJNzecrrGyBGrXZPu9/qL17r1hpxAD
+ f6t2OKPSmSmIXCKzKJ9uhFQFUfzCrwz0pMWBvkScjL7D9Q3KNEJOastww
+ Qf128kV25xvlj2kIo/Q20zL0oRmGx/YqQJO1zFyyCrQywks7NT/YfxAfr A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="11544207"
+X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; d="scan'208";a="11544207"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2023 06:47:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
+   d="scan'208";a="4732983"
+Received: from aheinala-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.251.217.174])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2023 06:47:48 -0800
+Date: Thu, 9 Nov 2023 15:47:45 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Subject: Re: [PATCH v2] drm/i915/vma: Fix potential UAF on multi-tile platforms
+Message-ID: <ZUzxEQF-PDspWWbS@ashyti-mobl2.lan>
+References: <20231108162905.77602-2-janusz.krzysztofik@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] MAINTAINERS: Add Maira to V3D maintainers
-Content-Language: en-US
-To: Melissa Wen <mwen@igalia.com>
-References: <20231106134201.725805-1-mcanal@igalia.com>
- <20231108130333.azkvg5yqhdt45af3@mail.igalia.com>
-From: Maira Canal <mcanal@igalia.com>
-In-Reply-To: <20231108130333.azkvg5yqhdt45af3@mail.igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231108162905.77602-2-janusz.krzysztofik@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,43 +58,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-dev@igalia.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
- Iago Toral <itoral@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/8/23 10:05, Melissa Wen wrote:
-> On 11/06, Maíra Canal wrote:
->> I've been contributing to V3D with improvements, reviews, testing and
->> debugging. Therefore, add myself as a co-maintainer of the V3D driver.
->>
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+Hi Janusz,
+
+On Wed, Nov 08, 2023 at 05:29:06PM +0100, Janusz Krzysztofik wrote:
+> Object debugging tools were sporadically reporting illegal attempts to
+> free a still active i915 VMA object from when parking a GPU tile believed
+> to be idle.
 > 
-> Acked-by: Melissa Wen <mwen@igalia.com>
+> [161.359441] ODEBUG: free active (active state 0) object: ffff88811643b958 object type: i915_active hint: __i915_vma_active+0x0/0x50 [i915]
+> [161.360082] WARNING: CPU: 5 PID: 276 at lib/debugobjects.c:514 debug_print_object+0x80/0xb0
+> ...
+> [161.360304] CPU: 5 PID: 276 Comm: kworker/5:2 Not tainted 6.5.0-rc1-CI_DRM_13375-g003f860e5577+ #1
+> [161.360314] Hardware name: Intel Corporation Rocket Lake Client Platform/RocketLake S UDIMM 6L RVP, BIOS RKLSFWI1.R00.3173.A03.2204210138 04/21/2022
+> [161.360322] Workqueue: i915-unordered __intel_wakeref_put_work [i915]
+> [161.360592] RIP: 0010:debug_print_object+0x80/0xb0
+> ...
+> [161.361347] debug_object_free+0xeb/0x110
+> [161.361362] i915_active_fini+0x14/0x130 [i915]
+> [161.361866] release_references+0xfe/0x1f0 [i915]
+> [161.362543] i915_vma_parked+0x1db/0x380 [i915]
+> [161.363129] __gt_park+0x121/0x230 [i915]
+> [161.363515] ____intel_wakeref_put_last+0x1f/0x70 [i915]
 > 
+> That has been tracked down to be happening when another thread was
+> deactivating the VMA inside __active_retire() helper, after the VMA's
+> active counter was already decremented to 0, but before deactivation of
+> the VMA's object was reported to the object debugging tools.  Root cause
+> has been identified as premature release of last wakeref for the GPU tile
+> to which the active VMA belonged.
+> 
+> In case of single-tile platforms, an engine associated with a request that
+> uses the VMA is usually keeping the tile's wakeref long enough for that
+> VMA to be deactivated on time, before it is going to be freed on last put
+> of that wakeref.  However, on multi-tile platforms, a request may use a
+> VMA from a tile other than the one that hosts the request's engine, then,
+> not protected with the engine's wakeref.
+> 
+> Get an extra wakeref for the VMA's tile when activating it, and put that
+> wakeref only after the VMA is deactivated.  However, exclude GGTT from
+> that processing path, otherwise the GPU never goes idle.  Since
+> __i915_vma_retire() may be called from atomic contexts, use async variant
+> of wakeref put.
+> 
+> CI reports indicate that single-tile platforms also suffer sporadically
+> from the same race, however, unlike in case of multi-tile, exact scenario
+> when that happens hasn't been discovered yet.  Then, while I submit this
+> patch as fix for multi-tile cases, and in hope it also addresses single-
+> tile, I'm not able to blame any particular commit for that issue.
+> However, I'm going to ask i915 maintainers to include this fix, if
+> accepted, in the current rc cycle (6.7-rc) as important for the first
+> supported multi-tile platform -- Meteor Lake.
+> 
+> v2: Get the wakeref before vm mutex to avoid circular locking dependency,
+>   - drop questionable Fixes: tag.
+> 
+> Closes: https://gitlab.freedesktop.org/drm/intel/issues/8875
+> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
 
-Applied to drm-misc/drm-misc-next!
+Can it be:
 
-Best Regards,
-- Maíra
+Fixes: 12c255b5dad1 ("drm/i915: Provide an i915_active.acquire callback")
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: <stable@vger.kernel.org> # v5.4+
 
->> ---
->>   MAINTAINERS | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index f13e476ed803..3213563756cb 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -7108,6 +7108,7 @@ F:	drivers/gpu/drm/omapdrm/
->>   DRM DRIVERS FOR V3D
->>   M:	Emma Anholt <emma@anholt.net>
->>   M:	Melissa Wen <mwen@igalia.com>
->> +M:	Maíra Canal <mcanal@igalia.com>
->>   S:	Supported
->>   T:	git git://anongit.freedesktop.org/drm/drm-misc
->>   F:	Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
->> --
->> 2.41.0
->>
+It's not exactly the one fix we need for as this patch is fixing
+something on its own but not explicitely stated (maybe it was a
+precautionary measure).
+
+But if the fix has to be applied, it has to date back to that
+period, I guess.
+
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+
+Andi
