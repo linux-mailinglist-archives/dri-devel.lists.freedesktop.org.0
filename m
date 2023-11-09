@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8370D7E647C
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 08:39:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E4E97E647B
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 08:39:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 919B110E1D0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6279B10E1CF;
 	Thu,  9 Nov 2023 07:39:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6327810E1CA
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 07:38:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4099D10E1C5
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 07:38:53 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-149-209.elisa-laajakaista.fi
  [91.158.149.209])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A50561BB1;
- Thu,  9 Nov 2023 08:38:28 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 919B28CD;
+ Thu,  9 Nov 2023 08:38:29 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1699515509;
- bh=bQWW0pZKCuRvL4IYy0nb/sJkN3i+ZB5gIxx8kN/IznA=;
+ s=mail; t=1699515510;
+ bh=+jaNPtduetcEvhSP7u6BC4egR5EmPv/b6uS08H/KztU=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=l0LuD9VGb7eGrWm9XEivrXjRtUJffMyYuUz8AQ6e05CYLu00NmxUHnvlSb+FQgE+y
- zsRrT1lF6oCv6DOcX/wzDPsJ4CED71YeadhcEuDEd0bPG2ZFIljZSqKT3LjR9ohx/J
- ins6WciQkLFs+8jHswhDa6gmUT0DT23Oyp+fHJWE=
+ b=AsVZ7pcctQSiPyOw0SEvmSJkLI4kp0LZnRuQsCOhHeDnWLar5vqsjrMgqtxLgy2LD
+ syDzZ+6TmaE5dPeJO7ySe96MzYnj3jvUkXjCNBMF36+mLChbrxs5g1JwXaTGFHcgeV
+ gESZKz351l0kxkuKKADDHd9QT9h30hwJ2Uxqu7cg=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Thu, 09 Nov 2023 09:38:03 +0200
-Subject: [PATCH v2 10/11] drm/tidss: Fix atomic_flush check
+Date: Thu, 09 Nov 2023 09:38:04 +0200
+Subject: [PATCH v2 11/11] drm/tidss: Use DRM_PLANE_COMMIT_ACTIVE_ONLY
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231109-tidss-probe-v2-10-ac91b5ea35c0@ideasonboard.com>
+Message-Id: <20231109-tidss-probe-v2-11-ac91b5ea35c0@ideasonboard.com>
 References: <20231109-tidss-probe-v2-0-ac91b5ea35c0@ideasonboard.com>
 In-Reply-To: <20231109-tidss-probe-v2-0-ac91b5ea35c0@ideasonboard.com>
 To: Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>, 
@@ -39,21 +39,21 @@ To: Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1862;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2310;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=bQWW0pZKCuRvL4IYy0nb/sJkN3i+ZB5gIxx8kN/IznA=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlTIyAJ1HO4rcoZbtH19be+oc3Ci8occSFZkPT1
- 5g9ExgrbdSJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZUyMgAAKCRD6PaqMvJYe
- 9aK4D/9TZFHEorS4CIO2opcLsKveOvHzSNF7GVjMUdyC2+VwtHV9aOK9w/GH+Fg1ulHRhV0who3
- wzU5oEyy03kPxpgx+6ZqG4/GOCOGCSzZecZsxxWInNhKE+PwhwUuZgZFRWf+TDN4buVb8uuzKkL
- HPYOUwzGzLeOK4L+6cA9nyCg7xSJf9XpEchNWbPk63ZXTdld0G72d51K6OYL5Awu8L0D0ALwrHo
- yHYyiv2lqSkY/jtElucHxmYqocQS2rhJ6mSCyJXOrPQkpqYyI/Jg3EtV51w7QjE+c7M3ANBdAk4
- CBxPZSYB3fwR3lHjYU2XFxF64H+lR+hW9gZq/+49RHo5c3yUNwKjl+reS1jp7BZk3XHm1H7IXiv
- Sda2sKpeDnduAIjtJLmyxo9ouB7VY4l3G8A/ZJad3w20DhrO0E2by5+fcCg0Q0LImTPkLK/ZbT/
- hFX6yIQmJE8pAFyJcRnUalWwQ6NfPuGBu5bqlGfjkNoosx76nfD3/2VKn9ehFwaBf2EUhu1Nhaa
- UAG0If8UvUjSSfwm/YphrmKHrUfK+r24knzPvZ/zloNF7FT77oElqqi5vHopO55ysk5lhlqaOnw
- a87SxnFzLV1lkW8zg5/rsp7EMO4W0RgTS5bypPky4PnIwafKPwUCqSRhhVdwJ9yMjNEH5i6B9Xm
- dLMJIvlAcjXrK8w==
+ bh=+jaNPtduetcEvhSP7u6BC4egR5EmPv/b6uS08H/KztU=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlTIyBOL8n/raVGNTFxAt6t4oVrY3lRU98v9mD6
+ wDphIwh4YWJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZUyMgQAKCRD6PaqMvJYe
+ 9XUvD/9JzEs7/j+qn0lz37oFW98QMakrkW9ly9/P/8fIlKNfmLjm6XaxkaldaDArWfd3nPy2bjK
+ Td/Xz2a0t3opx9NcyDkuyaBYrkOkGsmY6XnB/Ik8hrE8On5C4V9OC/aXY30Ly0NZzgCom2NhV4C
+ lR1JDRV7oJvzOe2GQ5Zr6z9UqnkLH0q+mHMVmXJ/o9D+nA9MlPpCYmgNKHQJFsfrLuQdGOaszvT
+ YyQL3q78Ro+5OavI892p7olYrAd2/LmFkRstTzf8l3CGPb1VZFzFM4sHH3NoHycsGPA1Lbvje9u
+ 8/ISjpjSmNzihCIbJrnzVgW/Sl5jyRN1sovgwE1bbBrOtfyxFejfhWwHNSSa3IRfaU2B4qIKDeh
+ E6lwQe0Ws33WsXhDQJvJ2BQFYIzfyNu5ND5R3UvMCOlStvlTcy/1KuynTrbZeDfznLoAfqMHRYC
+ a5NCD6b+df4PoownUg+NQteSkWko6Y3DghpRGfwHClpm3b5qqeNSl/0Xqa1kMRzUoSDif4Alfx3
+ xJDqMnt6cZZ13aPChj/deHRL3KpVDLqNfqWF3sA1HqViwjXG52KOI4/cxgZ6fdbzoYOHbwciHVu
+ kMKfsNCtGlEOiCg3TkrbeRib6hvqC+gSApbfKGpMoM979GQIv2a2qQaM9tU0dmrXSV/wdDYiJPQ
+ zj8HTwyz3y48EGA==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,57 +68,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Francesco Dolcini <francesco@dolcini.it>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Francesco Dolcini <francesco@dolcini.it>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tidss_crtc_atomic_flush() checks if the crtc is enabled, and if not,
-returns immediately as there's no reason to do any register changes.
+At the moment the driver does not use DRM_PLANE_COMMIT_ACTIVE_ONLY, but
+still checks for crtc->state->active in tidss_crtc_atomic_flush(), and
+skips the flush if the crtc is not active.
 
-However, the code checks for 'crtc->state->enable', which does not
-reflect the actual HW state. We should instead look at the
-'crtc->state->active' flag.
+The exact reason why DRM_PLANE_COMMIT_ACTIVE_ONLY is not used has been
+lost in history. DRM_PLANE_COMMIT_ACTIVE_ONLY does also affect the plane
+updates, and I think the issue was related to multi-display systems and
+moving planes between the displays. However, it is possible the issue
+was only present on the older DSS hardware, handled by the omapdrm
+driver (on which the tidss driver is loosely based).
 
-This causes the tidss_crtc_atomic_flush() to proceed with the flush even
-if the active state is false, which then causes us to hit the
-WARN_ON(!crtc->state->event) check.
+Reviewing the code related to DRM_PLANE_COMMIT_ACTIVE_ONLY does not show
+any issues, and testing on J7 EVM with two displays works fine.
 
-Fix this by checking the active flag, and while at it, fix the related
-debug print which had "active" and "needs modeset" wrong way.
+Change the driver to use DRM_PLANE_COMMIT_ACTIVE_ONLY.
 
-Cc: stable@vger.kernel.org
-Fixes: 32a1795f57ee ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/tidss/tidss_crtc.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/tidss/tidss_crtc.c | 4 ----
+ drivers/gpu/drm/tidss/tidss_kms.c  | 2 +-
+ 2 files changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
-index 5e5e466f35d1..7c78c074e3a2 100644
+index 7c78c074e3a2..5f838980c7a1 100644
 --- a/drivers/gpu/drm/tidss/tidss_crtc.c
 +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
-@@ -169,13 +169,13 @@ static void tidss_crtc_atomic_flush(struct drm_crtc *crtc,
- 	struct tidss_device *tidss = to_tidss(ddev);
- 	unsigned long flags;
+@@ -174,10 +174,6 @@ static void tidss_crtc_atomic_flush(struct drm_crtc *crtc,
+ 		drm_atomic_crtc_needs_modeset(crtc->state) ? "needs" : "doesn't need",
+ 		crtc->state->event);
  
--	dev_dbg(ddev->dev,
--		"%s: %s enabled %d, needs modeset %d, event %p\n", __func__,
--		crtc->name, drm_atomic_crtc_needs_modeset(crtc->state),
--		crtc->state->enable, crtc->state->event);
-+	dev_dbg(ddev->dev, "%s: %s is %sactive, %s modeset, event %p\n",
-+		__func__, crtc->name, crtc->state->active ? "" : "not ",
-+		drm_atomic_crtc_needs_modeset(crtc->state) ? "needs" : "doesn't need",
-+		crtc->state->event);
- 
- 	/* There is nothing to do if CRTC is not going to be enabled. */
--	if (!crtc->state->enable)
-+	if (!crtc->state->active)
- 		return;
- 
+-	/* There is nothing to do if CRTC is not going to be enabled. */
+-	if (!crtc->state->active)
+-		return;
+-
  	/*
+ 	 * Flush CRTC changes with go bit only if new modeset is not
+ 	 * coming, so CRTC is enabled trough out the commit.
+diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
+index d096d8d2bc8f..a0e494c806a9 100644
+--- a/drivers/gpu/drm/tidss/tidss_kms.c
++++ b/drivers/gpu/drm/tidss/tidss_kms.c
+@@ -29,7 +29,7 @@ static void tidss_atomic_commit_tail(struct drm_atomic_state *old_state)
+ 	tidss_runtime_get(tidss);
+ 
+ 	drm_atomic_helper_commit_modeset_disables(ddev, old_state);
+-	drm_atomic_helper_commit_planes(ddev, old_state, 0);
++	drm_atomic_helper_commit_planes(ddev, old_state, DRM_PLANE_COMMIT_ACTIVE_ONLY);
+ 	drm_atomic_helper_commit_modeset_enables(ddev, old_state);
+ 
+ 	drm_atomic_helper_commit_hw_done(old_state);
 
 -- 
 2.34.1
