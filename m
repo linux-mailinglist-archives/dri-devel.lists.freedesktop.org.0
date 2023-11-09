@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB9777E6607
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 10:01:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A341A7E660D
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 10:01:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C980610E1F1;
-	Thu,  9 Nov 2023 09:01:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6E1910E1F4;
+	Thu,  9 Nov 2023 09:01:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06FD010E1E8
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 09:00:27 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-507a62d4788so797627e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 01:00:27 -0800 (PST)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07AE010E1EF
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 09:00:29 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-40859dee28cso4058895e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 01:00:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1699520426; x=1700125226; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1699520427; x=1700125227; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=fuSB6hXQgNnhjhBZYMiuriEMaNCWnOiIqJ/w1UyCkVs=;
- b=efTwWrWdbHbCcmX8IyA5fzVlEaBXdLmBu1+Pzz5pqycxLxaxHEcC1xqNDxdOnuIWdj
- 3fme0uDKTkAwDSZTrPmTtIPa413yuxS+E6ErHhyrYbK0Q4zfdhbihgfurEBR1dOkRqPl
- doZOBl6dBhiGo3B+OTdyCt/MsT0LNV8IE4VRdQd8A8U38xrB1vC5imZnZjFb4eSkPSv8
- D+VE29OL5HwrShr5eXtHNYnnobdC8nw7f6vC2qNc897UWbYjWQvx2iSiC1D9CoKW5AhG
- lC7gFaRAtqteExu9JtGJmHByclUvSqAQ8QpXSdHR8OWavC8iqgcDa2C/B5ivcu+XUQEQ
- uBGA==
+ :reply-to; bh=8oTd5W7j5AQVAM1KswlxlUS9UNv/MwhkvP27dPDkrG0=;
+ b=VOe27c5fu9aVcdA8ku3Txl2WcOEO7bUSdGfyaJheSwRoxS/J8rBSRfSL8pvWEBiUog
+ riK2suOvsD5WzQXw7gVfHNMly2wpBzlnEnieQ2AIWSGFDPbFGKprTLdWmEveTfAQSgTT
+ U/6U1PeyAdXMioVYepPFksa0UlTHBOt/R5siwpCaVsvyiVqA+UQ+09n0qJ3jJIb/gWFI
+ rMGCUYG1TUJeNpUWdqWEr9ak6hjxu2tDepKNtKZZs3Y/Y0bUuP26vfpnpargOmHl9CS+
+ w7CTbFrDoCYA1h8CAAqkLgwx28v6YFxjSLsv9o/SUp2qHlC4S9RYEi52wbfzjO/tttl+
+ /N4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699520426; x=1700125226;
+ d=1e100.net; s=20230601; t=1699520427; x=1700125227;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fuSB6hXQgNnhjhBZYMiuriEMaNCWnOiIqJ/w1UyCkVs=;
- b=KMNKhNy05BswLOjNJgvkQPLJPTMPbIqD0ism+M8TleIYsAmtCpz0fUwWOCcwqLd6h5
- K6pzDe9c9D0GE+0Mt92C7vMTC9uVzPzcdiVHuMcmtn7Jkef0ESYiVooxHPSZ7PKG+P4h
- 4luvFJDmqgvtyQaQn3upMK/vFbeKy05X1amNk1UjB1sG++ErtuHLoEZ3nFeRgyLpY9mR
- wbqFgGupJ5aNqwtwbgqBrjy1r4E6Sg2YjQR3byALY45JJsyzJVosQN4FpnBFxpiRyxOV
- 852VJg2ACXklzlJzeeWbuQGxvEz8W6qM86SrmK2uEYwYe/nxlni5ras/qAw0QcfMCwet
- To8g==
-X-Gm-Message-State: AOJu0YyVcQ3g5vFivW1rJNUX2+zjhwDYeuUAbLvEub8dzm9qqqACYe6t
- NgsGgtir8caorEavgXITTK3Yzw==
-X-Google-Smtp-Source: AGHT+IFp6a7B+08Qs7kzVjwz5xE/v2ASX3jMKbrYx5nFLBXZBjgW+CvtIZunwhDWGP4a8erXu/q34g==
-X-Received: by 2002:a05:6512:911:b0:507:f0f2:57bd with SMTP id
- e17-20020a056512091100b00507f0f257bdmr755918lft.66.1699520426132; 
- Thu, 09 Nov 2023 01:00:26 -0800 (PST)
+ bh=8oTd5W7j5AQVAM1KswlxlUS9UNv/MwhkvP27dPDkrG0=;
+ b=Fnb7RY0ViSoDjnsGWS9E3MCKgays89Qj30So1yCBnoDz4dgkB4+SHRUZH48+aA6jSh
+ mfIKZEz1FeeAYvRZmg85arIEhM8Kquj/9gefTj39YqPgyy88xDH/1w3ErZCAzuNQshOc
+ LF1FxrUMBb06TpHcUsz0m3tdD8F8knCVIVSGx1eUZNuTycYEU3IXidzFEv/lG/tsWQ8M
+ MOb/UAiiX5UpUckb9D+7zDcPzlzS5UqqeYL7I7v+0p+Gs9X9nCPSLvKJIpbBOW/rQM0Y
+ NlISzTDTDo864/el6lZ5h1NTwlgvNzG7rX7MwzrN8eVcCq9VyRKyKx+NQWTQowE9aH/6
+ GS/Q==
+X-Gm-Message-State: AOJu0YyDGrDAAyQA/4fv/mJn5NnptmaAoGgQXqWkoPaXy2Nin/8OO0tC
+ b2Hhv3eZ8kO0fmGCktHrQHVJZQ==
+X-Google-Smtp-Source: AGHT+IF0xP5+yIkmAq8ahEhbWDMWN7ty20hNDaDH1WsPO+9Kqo9njJ70NzUsnTYmAyzud0azPDvLIA==
+X-Received: by 2002:a05:600c:20d:b0:409:5a92:471d with SMTP id
+ 13-20020a05600c020d00b004095a92471dmr4161479wmi.22.1699520427462; 
+ Thu, 09 Nov 2023 01:00:27 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- ay36-20020a05600c1e2400b0040472ad9a3dsm1428484wmb.14.2023.11.09.01.00.24
+ ay36-20020a05600c1e2400b0040472ad9a3dsm1428484wmb.14.2023.11.09.01.00.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Nov 2023 01:00:25 -0800 (PST)
+ Thu, 09 Nov 2023 01:00:27 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Thu, 09 Nov 2023 10:00:11 +0100
-Subject: [PATCH v8 10/12] arm64: meson: g12-common: add the MIPI DSI nodes
+Date: Thu, 09 Nov 2023 10:00:12 +0100
+Subject: [PATCH v8 11/12] DONOTMERGE: arm64: meson: khadas-vim3l: add DSI panel
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-10-81e4aeeda193@linaro.org>
+Message-Id: <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-11-81e4aeeda193@linaro.org>
 References: <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-0-81e4aeeda193@linaro.org>
 In-Reply-To: <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-0-81e4aeeda193@linaro.org>
 To: Jerome Brunet <jbrunet@baylibre.com>, 
@@ -69,20 +69,20 @@ To: Jerome Brunet <jbrunet@baylibre.com>,
  Jagan Teki <jagan@amarulasolutions.com>, 
  Nicolas Belin <nbelin@baylibre.com>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3028;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3778;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=xeZV8gmIC9/2/oObVVqqYZ0sOhta5dqkacXris9lM8k=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlTJ+ZCu6htgUtFxFaXFAKQp1sZxpR7+IzNQz6TU6c
- bVMpqCaJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZUyfmQAKCRB33NvayMhJ0dbQD/
- 9jQPYUo+YgcSZCmVFq6YmWrr0+Kkyas8OumKOcdeD3c0ym2NBiqCdKuAzkZ2V4+n2xhsTtSetTgXVs
- N67M8YGG8ZLEeTFicfNF1EcFgZeleWg8hoDnLQkSt4XUkTwREnBcFFy3QhCFhJDDU//OvvrA3CK9hC
- UHlbtR3s3qrRhPfgSpiLgvOLt/bnZIXlbe8OEfnjt4/FjgFIcZFjf+Li5y7Js2GG4GP0Y48uivqyKY
- V7vMXV+wFLbXkzHbn2lhoAhc2Xc23wIDPa3fL+VEp9fIFMwOt3dXeiFx+gmWmPB49Q7NCHxSUopXVo
- 1+qpWPC3AfaWIEorcrnTiTu4fn32pxFQQNDozadRAb90jELPM7bwMKdJAc6WWKHt6fmR6j2cQAE351
- 43dhzroLc9BQGz8wWt1kiKy8tKnmP3/zbTHFBdOi0gftwtDiqNKCYcSrbHupbSLDXttpUqHUd97LwS
- oE0nugHWLLZmqLAIhJJmce+XXrdupLYJrxduf/d/BPFYYoN85gPc7hB3ZDvXCWT9nYpIXzrQQ3G6Lf
- Tk+w5oteJ9HgbzOBX0eIGC1J9UpqjsDo/YVBgSqS99JYkRpTVp0htzv65jnKRB0Guy/Npmtxq6PGxV
- hUnf45HtzEj9BKucV52ykAekSH5w3RPphPUDNEsHfhyz8/dzMTzj4KRaykUA==
+ bh=vVnkVglKsbgZynNLE29purYGyqaY5Zp+VaoRvt80IUM=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlTJ+atadrtQqL4L7bB5Ny34nlZBRjSTy5m64HnPV1
+ 2cDnMoyJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZUyfmgAKCRB33NvayMhJ0ZYID/
+ 0eddIXO0SwB4RK3/Cc9ULGqKnboAc6ffNSD+5548GcNIdakSOsb3os2/ZEKvQh7PxtccTpwHIPGQ/j
+ EXHxheqM0yVmy6KZrdMAZZB8Ft5zZNQsmQg87c90fOFq9fy64awo4odlqLjDD+5IugUEAC4CEK9GiG
+ R0hRAMYyHqHAI594nr5JKhdhHb4eRwWcClo16qPyXbM1F0fXLe6wMisVCnsr3vqo2/lQF8AsTPP8Za
+ ihbIw2DIhcSCwb47rFElxlCVA3vhvqQaocMge7Ydq4WWYSC/OgsFigYS4OQoipLc+EghxZ38T+TM0u
+ jEEijZZiARf0EaFfFEvQsJQDct7hvlfoszKwC9hW7MAafHjulVEa/sfdeKrVoIob1Exb2eoz2ML+XC
+ eZFSZ0OdFk+xAfXYFIx/oMGnDwQw8dHgoJ29JF0JuQjcRwt4ZzPa4a1Dgf5hhbR39rn39nIWkfNp2f
+ lcPDKqdgl1Kpq1d4/2GMHwC50rpTlwypKgkYjE0e08ILe1gDtYQ/yj00mtc0MtymMAUsK1hfAwDjCH
+ PZnujc0b/kUgxVIvSaR3DWrvYD6dlzlCV5kaz7GTHWnm/V5iXfNV7QVPyi4Sao1V1B9B89+4qsOPXM
+ Gs+HVyWQIQLzkmGHZZGzabIZomGa23pp4TnzjYlZwIdA0bVQuusP0KHpVXdg==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,112 +104,141 @@ Cc: devicetree@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the MIPI DSI Analog & Digital PHY nodes and the DSI control
-nodes with proper port endpoint to the VPU.
+This add nodes to support the Khadas TS050 panel on the
+Khadas VIM3 & VIM3L boards.
 
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi | 70 +++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
+ .../boot/dts/amlogic/meson-g12b-khadas-vim3.dtsi   |  2 +-
+ arch/arm64/boot/dts/amlogic/meson-khadas-vim3.dtsi | 74 ++++++++++++++++++++++
+ .../boot/dts/amlogic/meson-sm1-khadas-vim3l.dts    |  2 +-
+ 3 files changed, 76 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi b/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi
-index ff68b911b729..7300408262d5 100644
---- a/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi
-+++ b/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi
-@@ -1663,9 +1663,28 @@ pwrc: power-controller {
- 								       <250000000>,
- 								       <0>; /* Do Nothing */
- 					};
-+
-+					mipi_analog_dphy: phy {
-+						compatible = "amlogic,g12a-mipi-dphy-analog";
-+						#phy-cells = <0>;
-+						status = "disabled";
-+					};
- 				};
- 			};
+diff --git a/arch/arm64/boot/dts/amlogic/meson-g12b-khadas-vim3.dtsi b/arch/arm64/boot/dts/amlogic/meson-g12b-khadas-vim3.dtsi
+index 16dd409051b4..81c3057143b4 100644
+--- a/arch/arm64/boot/dts/amlogic/meson-g12b-khadas-vim3.dtsi
++++ b/arch/arm64/boot/dts/amlogic/meson-g12b-khadas-vim3.dtsi
+@@ -98,7 +98,7 @@ &pwm_ab {
+ };
  
-+			mipi_dphy: phy@44000 {
-+				compatible = "amlogic,axg-mipi-dphy";
-+				reg = <0x0 0x44000 0x0 0x2000>;
-+				clocks = <&clkc CLKID_MIPI_DSI_PHY>;
-+				clock-names = "pclk";
-+				resets = <&reset RESET_MIPI_DSI_PHY>;
-+				reset-names = "phy";
-+				phys = <&mipi_analog_dphy>;
-+				phy-names = "analog";
-+				#phy-cells = <0>;
-+				status = "disabled";
-+			};
-+
- 			usb3_pcie_phy: phy@46000 {
- 				compatible = "amlogic,g12a-usb3-pcie-phy";
- 				reg = <0x0 0x46000 0x0 0x2000>;
-@@ -2152,6 +2171,15 @@ hdmi_tx_out: endpoint {
- 					remote-endpoint = <&hdmi_tx_in>;
- 				};
- 			};
-+
-+			/* DPI output port */
-+			dpi_port: port@2 {
-+				reg = <2>;
-+
-+				dpi_out: endpoint {
-+					remote-endpoint = <&mipi_dsi_in>;
-+				};
-+			};
+ &pwm_AO_cd {
+-	pinctrl-0 = <&pwm_ao_d_e_pins>;
++	pinctrl-0 = <&pwm_ao_c_6_pins>, <&pwm_ao_d_e_pins>;
+ 	pinctrl-names = "default";
+ 	clocks = <&xtal>;
+ 	clock-names = "clkin1";
+diff --git a/arch/arm64/boot/dts/amlogic/meson-khadas-vim3.dtsi b/arch/arm64/boot/dts/amlogic/meson-khadas-vim3.dtsi
+index 514a6dd4b124..aafc37863f2e 100644
+--- a/arch/arm64/boot/dts/amlogic/meson-khadas-vim3.dtsi
++++ b/arch/arm64/boot/dts/amlogic/meson-khadas-vim3.dtsi
+@@ -40,6 +40,14 @@ button-function {
  		};
+ 	};
  
- 		gic: interrupt-controller@ffc01000 {
-@@ -2189,6 +2217,48 @@ gpio_intc: interrupt-controller@f080 {
- 				amlogic,channel-interrupts = <64 65 66 67 68 69 70 71>;
- 			};
++	panel_backlight: backlight {
++		compatible = "pwm-backlight";
++		pwms = <&pwm_AO_cd 0 25000 0>;
++		brightness-levels = <0 255>;
++		num-interpolated-steps = <255>;
++		default-brightness-level = <200>;
++	};
++
+ 	leds {
+ 		compatible = "gpio-leds";
  
-+			mipi_dsi: dsi@7000 {
-+				compatible = "amlogic,meson-g12a-dw-mipi-dsi";
-+				reg = <0x0 0x7000 0x0 0x1000>;
-+				resets = <&reset RESET_MIPI_DSI_HOST>;
-+				reset-names = "top";
-+				clocks = <&clkc CLKID_MIPI_DSI_HOST>,
-+					 <&clkc CLKID_MIPI_DSI_PXCLK>,
-+					 <&clkc CLKID_CTS_ENCL>;
-+				clock-names = "pclk", "bit", "px";
-+				phys = <&mipi_dphy>;
-+				phy-names = "dphy";
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				status = "disabled";
+@@ -358,6 +366,23 @@ rtc: rtc@51 {
+ 	};
+ };
+ 
++&i2c3 {
++	status = "okay";
++	pinctrl-0 = <&i2c3_sda_a_pins>, <&i2c3_sck_a_pins>;
++	pinctrl-names = "default";
 +
-+				assigned-clocks = <&clkc CLKID_MIPI_DSI_PXCLK_SEL>,
-+					 <&clkc CLKID_CTS_ENCL_SEL>,
-+					 <&clkc CLKID_VCLK2_SEL>;
-+				assigned-clock-parents = <&clkc CLKID_GP0_PLL>,
-+					 <&clkc CLKID_VCLK2_DIV1>,
-+					 <&clkc CLKID_GP0_PLL>;
++	touch-controller@38 {
++		compatible = "edt,edt-ft5206";
++		reg = <0x38>;
++		interrupt-parent = <&gpio_intc>;
++		interrupts = <66 IRQ_TYPE_EDGE_FALLING>; /* GPIOA_5 */
++		reset-gpios = <&gpio_expander 6 GPIO_ACTIVE_LOW>;
++		touchscreen-size-x = <1080>;
++		touchscreen-size-y = <1920>;
++		status = "okay";
++	};
++};
 +
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
+ &ir {
+ 	status = "okay";
+ 	pinctrl-0 = <&remote_input_ao_pins>;
+@@ -365,6 +390,55 @@ &ir {
+ 	linux,rc-map-name = "rc-khadas";
+ };
+ 
++&mipi_dsi {
++	status = "okay";
 +
-+					/* VPU VENC Input */
-+					mipi_dsi_venc_port: port@0 {
-+						reg = <0>;
++	assigned-clocks = <&clkc CLKID_GP0_PLL>,
++			  <&clkc CLKID_MIPI_DSI_PXCLK_SEL>,
++			  <&clkc CLKID_MIPI_DSI_PXCLK>,
++			  <&clkc CLKID_CTS_ENCL_SEL>,
++			  <&clkc CLKID_VCLK2_SEL>;
++	assigned-clock-parents = <0>,
++				 <&clkc CLKID_GP0_PLL>,
++				 <0>,
++				 <&clkc CLKID_VCLK2_DIV1>,
++				 <&clkc CLKID_GP0_PLL>;
++	assigned-clock-rates = <960000000>,
++			       <0>,
++			       <960000000>,
++			       <0>,
++			       <0>;
 +
-+						mipi_dsi_in: endpoint {
-+							remote-endpoint = <&dpi_out>;
-+						};
-+					};
++	panel@0 {
++		compatible = "khadas,ts050";
++		reset-gpios = <&gpio_expander 0 GPIO_ACTIVE_LOW>;
++		enable-gpios = <&gpio_expander 1 GPIO_ACTIVE_HIGH>;
++		power-supply = <&vcc_3v3>;
++		backlight = <&panel_backlight>;
++		reg = <0>;
 +
-+					/* DSI Output */
-+					mipi_dsi_panel_port: port@1 {
-+						reg = <1>;
-+					};
-+				};
++		port {
++			mipi_in_panel: endpoint {
++				remote-endpoint = <&mipi_out_panel>;
 +			};
++		};
++	};
++};
 +
- 			watchdog: watchdog@f0d0 {
- 				compatible = "amlogic,meson-gxbb-wdt";
- 				reg = <0x0 0xf0d0 0x0 0x10>;
++&mipi_analog_dphy {
++	status = "okay";
++};
++
++&mipi_dphy {
++	status = "okay";
++};
++
++&mipi_dsi_panel_port {
++	mipi_out_panel: endpoint {
++		remote-endpoint = <&mipi_in_panel>;
++	};
++};
++
+ &pcie {
+ 	reset-gpios = <&gpio GPIOA_8 GPIO_ACTIVE_LOW>;
+ };
+diff --git a/arch/arm64/boot/dts/amlogic/meson-sm1-khadas-vim3l.dts b/arch/arm64/boot/dts/amlogic/meson-sm1-khadas-vim3l.dts
+index 9c0b544e2209..cb52a55ab70a 100644
+--- a/arch/arm64/boot/dts/amlogic/meson-sm1-khadas-vim3l.dts
++++ b/arch/arm64/boot/dts/amlogic/meson-sm1-khadas-vim3l.dts
+@@ -76,7 +76,7 @@ &cpu3 {
+ };
+ 
+ &pwm_AO_cd {
+-	pinctrl-0 = <&pwm_ao_d_e_pins>;
++	pinctrl-0 = <&pwm_ao_c_6_pins>, <&pwm_ao_d_e_pins>;
+ 	pinctrl-names = "default";
+ 	clocks = <&xtal>;
+ 	clock-names = "clkin1";
 
 -- 
 2.34.1
