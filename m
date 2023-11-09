@@ -1,55 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545A67E682E
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 11:32:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A22857E6E4D
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 17:09:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE8410E8A4;
-	Thu,  9 Nov 2023 10:32:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97E3F89A88;
+	Thu,  9 Nov 2023 16:09:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5795210E8A4
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 10:32:41 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1r12Kx-0000sw-OX; Thu, 09 Nov 2023 11:32:35 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1r12Kw-007krC-OJ; Thu, 09 Nov 2023 11:32:34 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1r12Kw-00Fs38-Eu; Thu, 09 Nov 2023 11:32:34 +0100
-Date: Thu, 9 Nov 2023 11:32:34 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH 02/22] fb: atmel_lcdfb: Stop using platform_driver_probe()
-Message-ID: <20231109103234.rknpmepbhpukwbtd@pengutronix.de>
-References: <20231107091740.3924258-1-u.kleine-koenig@pengutronix.de>
- <20231107091740.3924258-3-u.kleine-koenig@pengutronix.de>
- <20231108184805.GA1579138@dev-arch.thelio-3990X>
- <20231108210018.ayo5b3afggmt6wfc@pengutronix.de>
- <24c4cc36-d14b-40cc-ad8d-dea029cf1845@gmx.de>
- <20231108215220.3iw5sydxad32gufj@pengutronix.de>
- <656080fb-7d10-47ec-bdeb-a099ceee99bf@gmx.de>
- <20231109062459.5hk7vb54t4iy5kp6@pengutronix.de>
- <57de52b3-201b-4599-83ba-b0a7cc8db350@gmx.de>
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E67DD10E082
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 10:47:24 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-40839652b97so4524625e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 02:47:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1699526843; x=1700131643; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=OtUS9KOQgir7QLPY56WWpZ4C4Ru6cfGdt3ZmbrwNufE=;
+ b=s04nlgkd4gDB9kIgfpWWIeFFE5j1UxPfr9QG6Sz0cBfFVGJnsguBQPF+LXkAoA599e
+ jDzPvBamq3VcejnvkWec0DcGVaKKgTq2RQOkxmp17Cb+VAimpr8o8wpDrw0Wx/ri8pP6
+ Pep6icm/X7bphb3dyJUIiX5rShUuoI6D8M4Xg02JCuSKZntLxECTvSxScx4YxG6NUvcJ
+ LDEZsSXTvZOJFMZS3G7mFIsoKyXE+lhctmJ+/ICl5QyLIEY0nkTY3pHF8sQtyUS004ws
+ KfAieW24DzAhPBh1Ybc3sGwpa6YKX5EQNM6eM+kHMRccPFGqXJtSnGSh5Yno4QV3am/b
+ d4MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699526843; x=1700131643;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OtUS9KOQgir7QLPY56WWpZ4C4Ru6cfGdt3ZmbrwNufE=;
+ b=Qf3cdljxvhyV+W9CV/rgjPFgmky2JyJXF25okaMFpafj5lgMsNm0MpKcC5WcU2PSNL
+ dsAUkbfzVHh0U50aAsW3Lip2HCbMrhehXvQji9ZtH71chTG6kuU3BBIQ6jlMGSKzu4ME
+ qLewQ7J//EZaUQvSCVv49j/3NbBHl9C2XIhiz5AA37LAe5z62eSe2E0CA+uzt0teiCuc
+ st2vJ6sjpy7+/nS7UFGRjbE/MsCs+XvvhP/wJ0Sxtji4D8P2+gMeECPBv2TCI0cj0fxA
+ 7oGFLqT+jY6EGiCBFo91GWRUzvrIcN/bcd5G2zJ1uQyVhbU+eR8JiUhTo9BAnJL1lutu
+ rV+Q==
+X-Gm-Message-State: AOJu0YwA0L/DytX4zXEQcfWeWJXl4cqpmWi7dNRIaO1PTYta40pzTXVR
+ uoqTfOgo2kq9ccWtltHftNyqJA==
+X-Google-Smtp-Source: AGHT+IEUQ+pvpvGxswh65KLLAMCjD9WolAOjkh6BWjTWehA+OZ/WzUvaXt0ISyfbK47vPdD6ubxSRA==
+X-Received: by 2002:a05:600c:2046:b0:405:75f0:fd31 with SMTP id
+ p6-20020a05600c204600b0040575f0fd31mr4137119wmg.31.1699526843218; 
+ Thu, 09 Nov 2023 02:47:23 -0800 (PST)
+Received: from xu.huaqin.com ([63.221.192.42])
+ by smtp.gmail.com with ESMTPSA id
+ m39-20020a05600c3b2700b00405bbfd5d16sm1709037wms.7.2023.11.09.02.47.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Nov 2023 02:47:22 -0800 (PST)
+From: Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>
+To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
+ dianders@google.com, hsinyi@google.com
+Subject: [PATCH] drm/panel: auo,
+ b101uan08.3: Fine tune the panel power sequence
+Date: Thu,  9 Nov 2023 18:46:50 +0800
+Message-Id: <20231109104650.1852828-1-xuxinxiong@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="wf3egznunlkkf5m2"
-Content-Disposition: inline
-In-Reply-To: <57de52b3-201b-4599-83ba-b0a7cc8db350@gmx.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 09 Nov 2023 16:09:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,84 +74,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, llvm@lists.linux.dev,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- dri-devel@lists.freedesktop.org, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Nathan Chancellor <nathan@kernel.org>, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org,
- Nicolas Ferre <nicolas.ferre@microchip.com>
+Cc: xiazhengqiao@huaqin.corp-partner.google.com, devicetree@vger.kernel.org,
+ Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ zhouruihai@huaqin.corp-partner.google.com,
+ yangcong@huaqin.corp-partner.google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+For "auo,b101uan08.3" this panel, it is stipulated in the panel spec that
+MIPI needs to keep the LP11 state before the lcm_reset pin is pulled high.
 
---wf3egznunlkkf5m2
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+BUG=b:309908277
+TEST=emerge-kukui chromeos-kernel-5_10
 
-Hello Helge,
+Signed-off-by: Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>
+---
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-On Thu, Nov 09, 2023 at 10:55:41AM +0100, Helge Deller wrote:
-> On 11/9/23 07:24, Uwe Kleine-K=F6nig wrote:
-> > Hello,
-> >=20
-> > On Wed, Nov 08, 2023 at 10:57:00PM +0100, Helge Deller wrote:
-> > > On 11/8/23 22:52, Uwe Kleine-K=F6nig wrote:
-> > > > But info and so info->fix live longer than the probe function, don't
-> > > > they?
-> > >=20
-> > > Yes, they do.
-> > > But AFAICS info->fix contains a *copy* of the initial atmel_lcdfb_fix=
- struct
-> > > (and not a pointer to it). So that should be ok.
-> >=20
-> > If you say so that's good. I grepped a bit around and didn't find a
-> > place where a copy is made. But that's probably me and I'll consider the
-> > case closed.
->=20
-> It's not directly obvious, but the copy happens in the line you pointed
-> out previously.
->=20
-> In include/linux/fb.h:
->=20
-> struct fb_info {
-> ...
->         struct fb_var_screeninfo var;   /* Current var */
->         struct fb_fix_screeninfo fix;   /* Current fix */
->=20
-> so, "fb_info.fix" is a struct, and not a pointer.
->=20
-> In drivers/video/fbdev/atmel_lcdfb.c:
-> static int atmel_lcdfb_probe(struct platform_device *pdev)
-> {
-> ...
->         info->fix =3D atmel_lcdfb_fix;  //  (line 1065)
->=20
-> this becomes effectively a:
-> 	memcpy(&info->fix, &atmel_lcdfb_fix, sizeof(struct fb_fix_screeninfo));
+diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+index 9323e7b9e384..a287be1aaf70 100644
+--- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
++++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+@@ -1709,6 +1709,7 @@ static const struct panel_desc auo_b101uan08_3_desc = {
+ 	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
+ 		      MIPI_DSI_MODE_LPM,
+ 	.init_cmds = auo_b101uan08_3_init_cmd,
++	.lp11_before_reset = true,
+ };
+ 
+ static const struct drm_display_mode boe_tv105wum_nw0_default_mode = {
+-- 
+2.39.2
 
-Ah right. Thanks for that hint. I didn't spot this and grepped for
-memcpy and memdup.
-
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---wf3egznunlkkf5m2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVMtUEACgkQj4D7WH0S
-/k45ewf+J2jgFy/NvgT6l7mXVl3BEWScvV8ubxVEjQCY6zI70o8IwWNTMEmy+omu
-7GKpwQmBs/rhqVu4h8BWwrSwo2uc/ImVUxyd6HJdPSeI/WCnjwKYjLMIP5gurZWP
-8qiA6lLFVWm9iDYQIbYFNUDN0UJGT3/bmKggHmqS0jlads15d8HrmE1Oyi2Detdf
-MhOOpSXsfrQE84VMOL+fTw3wM40YwWFz9hDjyNKXRk0T341RQc+fhQNVDlWTVL+D
-s8DOV1ror6AQ4xPs1l2s4vYPDC3mQ+MFx26/Ael9YTo9P2j7LNn7+Kbx0PNSrxOx
-xGjic2PgrU7FSAUel5PDERXITTruzw==
-=jg83
------END PGP SIGNATURE-----
-
---wf3egznunlkkf5m2--
