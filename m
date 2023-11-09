@@ -2,65 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 984EF7E711E
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 19:05:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 778467E712C
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 19:06:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6795110E0F9;
-	Thu,  9 Nov 2023 18:05:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56C5F10E21F;
+	Thu,  9 Nov 2023 18:06:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
- [IPv6:2607:f8b0:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E09A10E0F9;
- Thu,  9 Nov 2023 18:05:35 +0000 (UTC)
-Received: by mail-pf1-x434.google.com with SMTP id
- d2e1a72fcca58-6b7f0170d7bso1217969b3a.2; 
- Thu, 09 Nov 2023 10:05:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699553135; x=1700157935; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=fBmuvcNq/HL/4uuuxt5Bl834w8qMdTUve8ra3EWo+14=;
- b=ccyHRfKGl/2tEukLWzY3O7VtJOPe0+XubQeW4QklzwkLJRWqMwnLGRuyv2VyoLx7PU
- 5ZFuDh+R9wJS4rtSnaTZmsLvzFK/ZZCSxKVr3X8tR6pn8O5sBZRUnJb1f05H98f7Dml4
- FNHLDiBEsiV15euXa09t503c/Ae+3m4Bf+/soJAdCm4yj0diOuUPRfOs0VDpzBB6hPfy
- N2rzaUGDqcOSQgAyrbxyH2NbThTSVQuUyKuY0MlBzBv4P5dR8m+Ukta0x8OMke1WGoTI
- Z3+aJxBH18wCLn4fBtUrX9oHKnqoaC8hgp423ak1OPzFiRnvGixEMsRKE4sF/wxZoYww
- G08Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699553135; x=1700157935;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fBmuvcNq/HL/4uuuxt5Bl834w8qMdTUve8ra3EWo+14=;
- b=pfzKOsgF+te4mfNWqbm1GmCyx0+NZyVK9bPN2ly4J/YMKGk8aNPtolG5C33q3fAH8W
- pNn310iWdRfFhnEniplg9LhtETpYAVT/PjyOzSQB1k9r9iduxvQaMReenfnoRxJMYUvG
- 0x4/SJwQOaN04FQwL1wMwaP/NrSjc7+9+2nNNpgPbilcZSaQU7uIuAy6VJkTC9O61Ndk
- Duyn+vfqLQBrkShqPQtblFGQFGraTmpjSbYKBpAoakLvVO2ohr6YH1ZB77kQcwMMZOSE
- 0S4snkWJSNyZwqhbL9PMlY+QvweO1OZWzJne6EQAOa5C/Tikqg78YgtWEjf+8v1sf+l9
- mKag==
-X-Gm-Message-State: AOJu0YxiXhJ0elpNEE7yXH85Z5SFODIqKQ20Ge5wthIm/T48bljX9HBl
- AvhICuIepCU7oZs6gEZ/W+yG18tMSK0=
-X-Google-Smtp-Source: AGHT+IH6HZ63j3z4hnX4ukKs2vnCjJsrXU1fnvPvWQdZOdW8UREYq1y1qKBrpCe4oxFk38H2Hv2ssA==
-X-Received: by 2002:a05:6a21:7786:b0:181:731:89b7 with SMTP id
- bd6-20020a056a21778600b00181073189b7mr7210352pzc.41.1699553134864; 
- Thu, 09 Nov 2023 10:05:34 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:c99d:e08e:5968:1b85])
- by smtp.gmail.com with ESMTPSA id
- t12-20020a65554c000000b00578b8fab907sm4509390pgr.73.2023.11.09.10.05.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Nov 2023 10:05:33 -0800 (PST)
-Date: Thu, 9 Nov 2023 10:05:31 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Allen Ballway <ballway@chromium.org>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/quirk: Add quirk for devices with
- incorrect PWM frequency
-Message-ID: <ZU0fa6fvT4ZWTNXr@google.com>
-References: <20231017175728.1.Ibc6408a8ff1f334974104c5bcc25f2f35a57f36e@changeid>
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A956210E110
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 18:06:06 +0000 (UTC)
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+ by mailout2.samsung.com (KnoxPortal) with ESMTP id
+ 20231109180604epoutp0203d5183f1c25af849c509750f8f2a288~WBpkvgpMu0327303273epoutp02F;
+ Thu,  9 Nov 2023 18:06:04 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
+ 20231109180604epoutp0203d5183f1c25af849c509750f8f2a288~WBpkvgpMu0327303273epoutp02F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1699553164;
+ bh=+s1GQ6cxkAoMLjQHQuQK7i4/jrzq4jIiFYnAJpIQAEg=;
+ h=From:To:In-Reply-To:Subject:Date:References:From;
+ b=fZJV8SvM9AfYAMlrJAfY9poiOHXvmFKyFZdqqynP0HbcsJUE0WsGeEHJmrPBoEOyv
+ uOxFNNfpAPIaMnLjFlEZEzqtGgOwfkouJWYMZ6t/3eX/dS9Q3bYz/lFUO2FueC3+D9
+ Pr5T+j3Roa4XMe6ST/Zt60H6RGOgnO3fH8pZCDpw=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+ epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+ 20231109180603epcas5p3e7b62e16ea0b7ef816115bef9ceda331~WBpkQ5v2s2548325483epcas5p33;
+ Thu,  9 Nov 2023 18:06:03 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.180]) by
+ epsnrtp3.localdomain (Postfix) with ESMTP id 4SR8yf2CFmz4x9Pp; Thu,  9 Nov
+ 2023 18:06:02 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+ epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 76.D0.09634.A8F1D456; Fri, 10 Nov 2023 03:06:02 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+ 20231109180601epcas5p35d2a5cf24cd906dede19c27213ad49df~WBpiOm5-92217322173epcas5p3w;
+ Thu,  9 Nov 2023 18:06:01 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20231109180601epsmtrp1783e1075e75b37e27b73c9f8317adad1~WBpiKb3q02657326573epsmtrp1R;
+ Thu,  9 Nov 2023 18:06:01 +0000 (GMT)
+X-AuditID: b6c32a49-eebff700000025a2-47-654d1f8aa957
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 8F.16.18939.98F1D456; Fri, 10 Nov 2023 03:06:01 +0900 (KST)
+Received: from INBRO000447 (unknown [107.122.12.5]) by epsmtip2.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20231109180556epsmtip22b32d0e0ae0460b24729fae93c0cf165~WBpdFE6PW2620526205epsmtip2P;
+ Thu,  9 Nov 2023 18:05:56 +0000 (GMT)
+From: "Alim Akhtar" <alim.akhtar@samsung.com>
+To: "'Krzysztof Kozlowski'" <krzysztof.kozlowski@linaro.org>, "'David
+ Airlie'" <airlied@gmail.com>, "'Daniel Vetter'" <daniel@ffwll.ch>, "'Maarten
+ Lankhorst'" <maarten.lankhorst@linux.intel.com>, "'Maxime Ripard'"
+ <mripard@kernel.org>, "'Thomas Zimmermann'" <tzimmermann@suse.de>, "'Rob
+ Herring'" <robh+dt@kernel.org>, "'Krzysztof Kozlowski'"
+ <krzysztof.kozlowski+dt@linaro.org>, "'Conor Dooley'" <conor+dt@kernel.org>,
+ "'Andi Shyti'" <andi.shyti@kernel.org>, "'Jonathan Cameron'"
+ <jic23@kernel.org>, "'Lars-Peter Clausen'" <lars@metafoo.de>, "'Lee Jones'"
+ <lee@kernel.org>, "'Ulf Hansson'" <ulf.hansson@linaro.org>, "'Tomasz	Figa'"
+ <tomasz.figa@gmail.com>, "'Sylwester Nawrocki'" <s.nawrocki@samsung.com>,
+ "'Linus Walleij'" <linus.walleij@linaro.org>, "'Thierry Reding'"
+ <thierry.reding@gmail.com>, =?utf-8?Q?'Uwe_Kleine-K=C3=B6nig'?=
+ <u.kleine-koenig@pengutronix.de>, "'Alessandro Zummo'"
+ <a.zummo@towertech.it>, "'Alexandre Belloni'"
+ <alexandre.belloni@bootlin.com>, "'Greg Kroah-Hartman'"
+ <gregkh@linuxfoundation.org>, "'Jiri Slaby'" <jirislaby@kernel.org>, "'Liam
+ Girdwood'" <lgirdwood@gmail.com>, "'Mark Brown'" <broonie@kernel.org>,
+ "'Jaehoon	Chung'" <jh80.chung@samsung.com>, "'Sam Protsenko'"
+ <semen.protsenko@linaro.org>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
+ <linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+ <linux-mmc@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
+ <linux-serial@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+ <linux-sound@vger.kernel.org>
+In-Reply-To: <20231108104343.24192-3-krzysztof.kozlowski@linaro.org>
+Subject: RE: [PATCH 02/17] dt-bindings: i2c: exynos5: add specific
+ compatibles for existing SoC
+Date: Thu, 9 Nov 2023 23:35:54 +0530
+Message-ID: <02bb01da1337$65caf5e0$3160e1a0$@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231017175728.1.Ibc6408a8ff1f334974104c5bcc25f2f35a57f36e@changeid>
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQGWJB6kbFUwx2+cGuz2YrV1SxstmQJIJYa1AlRjzhGw1UCPMA==
+Content-Language: en-us
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Te1BUZRSf7+59LBR0A8IvKqRNxyB5rAF920CIMnZDZXAifNC0rHBdGGDZ
+ 2QU0bUaDXBDkFaK08lAhkBXCeA2gZK085DEo8YqEeBYQCAkKrsDQLtfM/37nd37n+51zvjl8
+ ntk8ZcUPlUWxCpkkXEAa49W3bbfYJ27cyzpdbCdRQWcPhe70XcFQ/Gwhhbo7tRgaepwAUObI
+ OIlK6jswtFadzkN5DR0E6n48R6K4/DIS/fZURaDhWA2GZnPeRCmTIzxUP11FoYKMPALVqC7j
+ aLE7AUPnVoowVD7WS6CKvBWAElYfAZTbMIujrrpsEjWspQI0OKgBqOlaN4my7v6Eofb8ZArl
+ /HWOhy4/rMKR6kwhgU7XN1Do9kw8gSZS9BJdXS6ONHX69ypn0gl0Pz0DoObS/dttmesLsSST
+ W3KCqV+8hDO16kGKKdecIZmB3pt6vmUfcyunhGKGkpoxpqLgJFMwoyWY1FUnJqVSA5iKthPM
+ hVwdxiyUW/vSh8LcQlhJMKuwYWVBkcGhMqm7YPen4p1iF1cnob1QhD4Q2MgkEay7wGuPr/2u
+ 0HD9ggU2MZLwaD3lK1EqBY4fuSkio6NYm5BIZZS7gJUHh8ud5Q5KSYQyWiZ1kLFRHwqdnLa5
+ 6IWBYSE/XsXl7cJjJcN14BTocUwERnxIO8PspV95BmxG3wAwfvVgIjDW43kA+79vJJ4Ha2PZ
+ ehV/vSKxVczxtQA+Sh3BuWASwLa8JsLwFEnbw5p8FWlIWNA3TGDXrVHckDCiveC9+AuYAZvT
+ EvhgMXOdx+lN8On12HXehBbB2sVvAIdfhS3fja9rePR7sPDyNI/r2wbq/iwkDB1Z0Dtg59dy
+ TrIBTjU2UAZfSNcbwybN1Wd6L5g6EYdz2Bz+3VxJcdgKTqWqKG4yBl5ZseLoEPigqAxw2AP+
+ 3J2NGyQ82haW1TlyVqYweXkc4ypNYILKjFNvhnGzPc+M3oDpSUkEhxmo7j1PcavqBHBgQUOk
+ ARv1C0OqXxhS/cI06v+dLwFcA15n5coIKat0kQtl7NHnvx0UGVEO1o/P7pMaMDj8j4MWYHyg
+ BZDPE1iY3HPew5qZBEu+PM4qIsWK6HBWqQUu+s2n86xeC4rUX68sSix0Fjk5u7q6OovedxUK
+ NphMn84JNqOlkig2jGXlrOK/OoxvZHUKK7dLCqtZ9txYkexV6dns/0oiyusv3Oph6p9Gfrsj
+ AHylzJpW89/W7VNNWor8wo5o/QuWRyytbx/yptzzmzZjbwVu6yhlPvPuO5zsQHi8e2zLWOp2
+ 44NVk3eWPKMHU45X96uWNvsHaItNi3U7ha0WRTHmoR6i0iwscyumC6fF2JPdUr8vGjzNE3xq
+ BlZ0qPDzAd6B0rujAZbv3G9esmybOB84d81vqqk1xLo79KFiO1q07/Gu/qNm7rB0mbLOOCqW
+ xv8wvNHYZ28feTjIT7Kp9eLH9mcaW6pvunf5FTcKe+fP9jxxG2UtQn8PSkt46cguxYGY5iG7
+ PJHPyV/297wc3JHrK8CVIRKhHU+hlPwL3AsNxgUFAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTVwCGd+43TbrdVRx3VAoWYgARZHPZcS5qJj/uD5lTpia6BSrcFLYC
+ zW1hU2MGVcvHHB9DhpZRZDTFlapQKF+hG5ZqVRwDrTAURJyABoLbgGYorKM0W/j35H2f8+ac
+ 5FCo6DYeSKVlqDk+Q6aQEgKspVsavKkgOJ7bbLgqgYb+eyS8MfgDAvNmjCR09dsRODqfD2D5
+ 2BMCmm29CPS0lKKw2tGLQ9f8cwKerL1CwN9eaHH4SGNC4EzVOlj0dAyFtikrCQ1l1Ths09Zg
+ 0O3KR+DZxToEWn4fwGFT9SKA+UtzAOodMxi82/E9AR2eYgBHRkwAXq93EfDcrz8h8HbtNySs
+ mjiLwpo/rRjUFhhxeNrmIGH3dB4OJ4uWlYUOPQZNHct7zdOlOHxQWgag89LBnRFsw6yGYPXm
+ 46zNfQFj23UjJGsxFRDs8EDncn5zL/tzlZlkR792ImyT4SvWMG3H2eKlzWxRswmwTT3H2Qr9
+ AsLOWiQf0YcE76dwirRsjo/ZniRIdTnNpPJM2JePut0gB4wGFQKKYugtTOGtxEIgoER0K2C+
+ 7bCDQuC3nIuZwcYS0sdrmB//mSR90gRgRlobcW9B0JuYtlot4WV/ekjI9Azv8Um/AMbqOIV6
+ Cz86junLq0C8vIZOZKw2D+ZljA5jXjRoVnIhvZVpd58CPn6duXn+yYqD0huZ8aHx/9lYM4X6
+ bhTCLIwbce8L/OkPmP5cpU8JYJ5dc5AlQKRbtaRbtaRbtaRbdeQCwExgLadUpcvTk5Wx0SpZ
+ uiorQx6dnJluASsfLnJfGzBeWYq2A4QCdsBQqNRf2LdlNycSpsiOHuP4zEQ+S8Gp7EBMYdIA
+ YaiiIEVEy2Vq7nOOU3L8fy1C+QXmIAcElYt/bAiJUKvj+LmiXj7s5Xv40fMhor/eUu+4u35o
+ f9/a/R++M9DUbHotTS5+80bOrbmu+ofXxCec8Gpv+7bWoIqYNn1NzB6jIbSk585T/4/nB69H
+ fvd8QnLATSTNPJ4wiDURe8vkLYFpc+aL998+UnIp1PxGud/LhNKEIa2e8hw5/HdU9cWN8Zcr
+ 1y/yFsnWispRYb0rPnXXofHs4vCp3V3OT3Z8au16BW0tD351XWdAruLhu8nYg8oWIrdxw0Ld
+ 44xnJwcC9JrMscSwfbHbEsLR7jue05LAnSd25ZwLj2qIrovabuatks77kwfPJGU5Lld9kW3O
+ x2c/Cxo+fC8u65jNI8VUqbLYSJRXyf4FqdWDf98DAAA=
+X-CMS-MailID: 20231109180601epcas5p35d2a5cf24cd906dede19c27213ad49df
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231108104407epcas5p4c52f140b035727b6110ff7d3c0f81bc0
+References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
+ <CGME20231108104407epcas5p4c52f140b035727b6110ff7d3c0f81bc0@epcas5p4.samsung.com>
+ <20231108104343.24192-3-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,128 +150,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Allen,
 
-On Tue, Oct 17, 2023 at 06:01:39PM +0000, Allen Ballway wrote:
-> Cyernet T10C has a bad default PWM frequency causing the display to
-> strobe when the brightness is less than 100%. Create a new quirk to use
-> the value from the BIOS rather than the default register value.
-> 
-> Signed-off-by: Allen Ballway <ballway@chromium.org>
-> 
-> ---
-> 
->  .../gpu/drm/i915/display/intel_backlight.c    |  3 ++-
->  drivers/gpu/drm/i915/display/intel_quirks.c   | 26 +++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_quirks.h   |  1 +
->  3 files changed, 29 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu/drm/i915/display/intel_backlight.c
-> index 2e8f17c045222..c4dcfece9deca 100644
-> --- a/drivers/gpu/drm/i915/display/intel_backlight.c
-> +++ b/drivers/gpu/drm/i915/display/intel_backlight.c
-> @@ -1388,7 +1388,8 @@ static int vlv_setup_backlight(struct intel_connector *connector, enum pipe pipe
->  	ctl = intel_de_read(i915, VLV_BLC_PWM_CTL(pipe));
->  	panel->backlight.pwm_level_max = ctl >> 16;
-> 
-> -	if (!panel->backlight.pwm_level_max)
-> +	if (!panel->backlight.pwm_level_max ||
-> +	    intel_has_quirk(i915, QUIRK_IGNORE_DEFAULT_PWM_FREQUENCY))
->  		panel->backlight.pwm_level_max = get_backlight_max_vbt(connector);
 
-I think it would be better if we did:
-
-	if (!intel_has_quirk(i915, QUIRK_IGNORE_DEFAULT_PWM_FREQUENCY)) {
-		ctl = intel_de_read(i915, VLV_BLC_PWM_CTL(pipe));
-		panel->backlight.pwm_level_max = ctl >> 16;
-	} else {
-		panel->backlight.pwm_level_max = 0;
-	}
-
-	if (!panel->backlight.pwm_level_max)
-		panel->backlight.pwm_level_max = get_backlight_max_vbt(connector);
-
-The "else" branch can potentially be omitted if we know that backlight
-member is initialized to 0 (I suspect it is).
-
-> 
->  	if (!panel->backlight.pwm_level_max)
-> diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c b/drivers/gpu/drm/i915/display/intel_quirks.c
-> index a280448df771a..ff6cb499428ce 100644
-> --- a/drivers/gpu/drm/i915/display/intel_quirks.c
-> +++ b/drivers/gpu/drm/i915/display/intel_quirks.c
-> @@ -65,6 +65,12 @@ static void quirk_no_pps_backlight_power_hook(struct drm_i915_private *i915)
->  	drm_info(&i915->drm, "Applying no pps backlight power quirk\n");
->  }
-> 
-> +static void quirk_ignore_default_pwm_frequency(struct drm_i915_private *i915)
-> +{
-> +	intel_set_quirk(i915, QUIRK_IGNORE_DEFAULT_PWM_FREQUENCY);
-> +	drm_info(&i915->drm, "Applying ignore default pwm frequency quirk");
-> +}
-> +
->  struct intel_quirk {
->  	int device;
->  	int subsystem_vendor;
-> @@ -90,6 +96,12 @@ static int intel_dmi_no_pps_backlight(const struct dmi_system_id *id)
->  	return 1;
->  }
-> 
-> +static int intel_dmi_ignore_default_pwm_frequency(const struct dmi_system_id *id)
-> +{
-> +	DRM_INFO("Default PWM frequency is incorrect and is overridden on %s\n", id->ident);
-> +	return 1;
-> +}
-> +
->  static const struct intel_dmi_quirk intel_dmi_quirks[] = {
->  	{
->  		.dmi_id_list = &(const struct dmi_system_id[]) {
-> @@ -136,6 +148,20 @@ static const struct intel_dmi_quirk intel_dmi_quirks[] = {
->  		},
->  		.hook = quirk_no_pps_backlight_power_hook,
->  	},
-> +	{
-> +		.dmi_id_list = &(const struct dmi_system_id[]) {
-> +			{
-> +				.callback = intel_dmi_ignore_default_pwm_frequency,
-> +				.ident = "Cybernet T10C Tablet",
-> +				.matches = {DMI_EXACT_MATCH(DMI_BOARD_VENDOR,
-> +							    "Cybernet Manufacturing Inc."),
-> +					    DMI_EXACT_MATCH(DMI_BOARD_NAME, "T10C Tablet"),
-> +				},
-> +			},
-> +			{ }
-> +		},
-> +		.hook = quirk_ignore_default_pwm_frequency,
-> +	},
->  };
-> 
->  static struct intel_quirk intel_quirks[] = {
-> diff --git a/drivers/gpu/drm/i915/display/intel_quirks.h b/drivers/gpu/drm/i915/display/intel_quirks.h
-> index 10a4d163149fd..70589505e5a0e 100644
-> --- a/drivers/gpu/drm/i915/display/intel_quirks.h
-> +++ b/drivers/gpu/drm/i915/display/intel_quirks.h
-> @@ -17,6 +17,7 @@ enum intel_quirk_id {
->  	QUIRK_INVERT_BRIGHTNESS,
->  	QUIRK_LVDS_SSC_DISABLE,
->  	QUIRK_NO_PPS_BACKLIGHT_POWER_HOOK,
-> +	QUIRK_IGNORE_DEFAULT_PWM_FREQUENCY
-
-You want a trailing comma here.
-
->  };
-> 
->  void intel_init_quirks(struct drm_i915_private *i915);
-> --
-> 2.42.0.655.g421f12c284-goog
-> 
-
-Thanks.
-
--- 
-Dmitry
+> -----Original Message-----
+> From: Krzysztof Kozlowski <krzysztof.kozlowski=40linaro.org>
+> Sent: Wednesday, November 8, 2023 4:13 PM
+> To: David Airlie <airlied=40gmail.com>; Daniel Vetter <daniel=40ffwll.ch>=
+;
+> Maarten Lankhorst <maarten.lankhorst=40linux.intel.com>; Maxime Ripard
+> <mripard=40kernel.org>; Thomas Zimmermann <tzimmermann=40suse.de>;
+> Rob Herring <robh+dt=40kernel.org>; Krzysztof Kozlowski
+> <krzysztof.kozlowski+dt=40linaro.org>; Conor Dooley
+> <conor+dt=40kernel.org>; Alim Akhtar <alim.akhtar=40samsung.com>; Andi
+> Shyti <andi.shyti=40kernel.org>; Jonathan Cameron <jic23=40kernel.org>; L=
+ars-
+> Peter Clausen <lars=40metafoo.de>; Lee Jones <lee=40kernel.org>; Ulf
+> Hansson <ulf.hansson=40linaro.org>; Tomasz Figa <tomasz.figa=40gmail.com>=
+;
+> Sylwester Nawrocki <s.nawrocki=40samsung.com>; Linus Walleij
+> <linus.walleij=40linaro.org>; Thierry Reding <thierry.reding=40gmail.com>=
+; Uwe
+> Kleine-K=C3=B6nig=20<u.kleine-koenig=40pengutronix.de>;=20Alessandro=20Zu=
+mmo=0D=0A>=20<a.zummo=40towertech.it>;=20Alexandre=20Belloni=0D=0A>=20<alex=
+andre.belloni=40bootlin.com>;=20Greg=20Kroah-Hartman=0D=0A>=20<gregkh=40lin=
+uxfoundation.org>;=20Jiri=20Slaby=20<jirislaby=40kernel.org>;=20Liam=0D=0A>=
+=20Girdwood=20<lgirdwood=40gmail.com>;=20Mark=20Brown=20<broonie=40kernel.o=
+rg>;=0D=0A>=20Jaehoon=20Chung=20<jh80.chung=40samsung.com>;=20Sam=20Protsen=
+ko=0D=0A>=20<semen.protsenko=40linaro.org>;=20dri-devel=40lists.freedesktop=
+.org;=0D=0A>=20devicetree=40vger.kernel.org;=20linux-kernel=40vger.kernel.o=
+rg;=20linux-arm-=0D=0A>=20kernel=40lists.infradead.org;=20linux-samsung-soc=
+=40vger.kernel.org;=20linux-=0D=0A>=20i2c=40vger.kernel.org;=20linux-iio=40=
+vger.kernel.org;=20linux-mmc=40vger.kernel.org;=0D=0A>=20linux-gpio=40vger.=
+kernel.org;=20linux-pwm=40vger.kernel.org;=20linux-=0D=0A>=20rtc=40vger.ker=
+nel.org;=20linux-serial=40vger.kernel.org;=20alsa-devel=40alsa-=0D=0A>=20pr=
+oject.org;=20linux-sound=40vger.kernel.org=0D=0A>=20Cc:=20Krzysztof=20Kozlo=
+wski=20<krzysztof.kozlowski=40linaro.org>=0D=0A>=20Subject:=20=5BPATCH=2002=
+/17=5D=20dt-bindings:=20i2c:=20exynos5:=20add=20specific=20compatibles=20fo=
+r=0D=0A>=20existing=20SoC=0D=0A>=20=0D=0A>=20Samsung=20Exynos=20SoC=20reuse=
+s=20several=20devices=20from=20older=20designs,=20thus=0D=0A>=20historicall=
+y=20we=20kept=20the=20old=20(block's)=20compatible=20only.=20=20This=20work=
+s=20fine=20and=0D=0A>=20there=20is=20no=20bug=20here,=20however=20guideline=
+s=20expressed=20in=0D=0A>=20Documentation/devicetree/bindings/writing-bindi=
+ngs.rst=20state=20that:=0D=0A>=201.=20Compatibles=20should=20be=20specific.=
+=0D=0A>=202.=20We=20should=20add=20new=20compatibles=20in=20case=20of=20bug=
+s=20or=20features.=0D=0A>=20=0D=0A>=20Add=20compatibles=20specific=20to=20e=
+ach=20SoC=20in=20front=20of=20all=20old-SoC-like=20compatibles.=0D=0A>=20=
+=0D=0A>=20Signed-off-by:=20Krzysztof=20Kozlowski=20<krzysztof.kozlowski=40l=
+inaro.org>=0D=0A>=20=0D=0A>=20---=0D=0A>=20=0D=0A>=20I=20propose=20to=20tak=
+e=20the=20patch=20through=20Samsung=20SoC=20(me).=20See=20cover=20letter=20=
+for=0D=0A>=20explanation.=0D=0A>=20---=0D=0A>=20=20Documentation/devicetree=
+/bindings/i2c/i2c-exynos5.yaml=20=7C=2010=20+++++++++-=0D=0A>=20=20.../devi=
+cetree/bindings/soc/samsung/exynos-usi.yaml=20=20=20=20=7C=20=202=20+-=0D=
+=0A>=20=202=20files=20changed,=2010=20insertions(+),=202=20deletions(-)=0D=
+=0A>=20=0D=0A>=20diff=20--git=20a/Documentation/devicetree/bindings/i2c/i2c=
+-exynos5.yaml=0D=0A>=20b/Documentation/devicetree/bindings/i2c/i2c-exynos5.=
+yaml=0D=0A>=20index=203e52a0db6c41..c1f5d2cb7709=20100644=0D=0A>=20---=20a/=
+Documentation/devicetree/bindings/i2c/i2c-exynos5.yaml=0D=0A>=20+++=20b/Doc=
+umentation/devicetree/bindings/i2c/i2c-exynos5.yaml=0D=0A>=20=40=40=20-25,7=
+=20+25,15=20=40=40=20properties:=0D=0A>=20=20=20=20=20=20=20=20=20=20=20=20=
+-=20samsung,exynos5250-hsi2c=20=20=20=20=23=20Exynos5250=20and=20Exynos5420=
+=0D=0A>=20=20=20=20=20=20=20=20=20=20=20=20-=20samsung,exynos5260-hsi2c=20=
+=20=20=20=23=20Exynos5260=0D=0A>=20=20=20=20=20=20=20=20=20=20=20=20-=20sam=
+sung,exynos7-hsi2c=20=20=20=20=20=20=20=23=20Exynos7=0D=0A>=20-=20=20=20=20=
+=20=20=20=20=20=20-=20samsung,exynosautov9-hsi2c=20=20=23=20ExynosAutoV9=20=
+and=20Exynos850=0D=0A>=20+=20=20=20=20=20=20=20=20=20=20-=20samsung,exynosa=
+utov9-hsi2c=0D=0A>=20+=20=20=20=20=20=20-=20items:=0D=0A>=20+=20=20=20=20=
+=20=20=20=20=20=20-=20enum:=0D=0A>=20+=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20-=20samsung,exynos5433-hsi2c=0D=0A>=20+=20=20=20=20=20=20=20=20=20=20=
+-=20const:=20samsung,exynos7-hsi2c=0D=0A>=20+=20=20=20=20=20=20-=20items:=
+=0D=0A>=20+=20=20=20=20=20=20=20=20=20=20-=20enum:=0D=0A>=20+=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20-=20samsung,exynos850-hsi2c=0D=0ADoes=20this=
+=20need=20an=20entry=20in=20allOf:?=20to=20indicate=20exynos850=20also=20ha=
+s=202=20clocks?=0D=0A=0D=0A>=20+=20=20=20=20=20=20=20=20=20=20-=20const:=20=
+samsung,exynosautov9-hsi2c=0D=0A>=20=20=20=20=20=20=20=20-=20const:=20samsu=
+ng,exynos5-hsi2c=20=20=20=20=23=20Exynos5250=20and=20Exynos5420=0D=0A>=20=
+=20=20=20=20=20=20=20=20=20deprecated:=20true=0D=0A>=20=0D=0A>=20diff=20--g=
+it=20a/Documentation/devicetree/bindings/soc/samsung/exynos-=0D=0A>=20usi.y=
+aml=20b/Documentation/devicetree/bindings/soc/samsung/exynos-=0D=0A>=20usi.=
+yaml=0D=0A>=20index=20a6836904a4f8..5b7ab69546c4=20100644=0D=0A>=20---=20a/=
+Documentation/devicetree/bindings/soc/samsung/exynos-usi.yaml=0D=0A>=20+++=
+=20b/Documentation/devicetree/bindings/soc/samsung/exynos-usi.yaml=0D=0A>=
+=20=40=40=20-155,7=20+155,7=20=40=40=20examples:=0D=0A>=20=20=20=20=20=20=
+=20=20=20=20=7D;=0D=0A>=20=0D=0A>=20=20=20=20=20=20=20=20=20=20hsi2c_0:=20i=
+2c=4013820000=20=7B=0D=0A>=20-=20=20=20=20=20=20=20=20=20=20=20=20compatibl=
+e=20=3D=20=22samsung,exynosautov9-hsi2c=22;=0D=0A>=20+=20=20=20=20=20=20=20=
+=20=20=20=20=20compatible=20=3D=20=22samsung,exynos850-hsi2c=22,=0D=0A>=20+=
+=20=22samsung,exynosautov9-hsi2c=22;=0D=0A>=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20reg=20=3D=20<0x13820000=200xc0>;=0D=0A>=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20interrupts=20=3D=20<GIC_SPI=20227=20IRQ_TYPE_LEVEL_HIGH>;=
+=0D=0A>=20=20=20=20=20=20=20=20=20=20=20=20=20=20=23address-cells=20=3D=20<=
+1>;=0D=0A>=20--=0D=0A>=202.34.1=0D=0A=0D=0A=0D=0A
