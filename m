@@ -2,70 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE2FC7E624A
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 03:39:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 593927E6292
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 04:20:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 264B110E1AF;
-	Thu,  9 Nov 2023 02:39:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 568DA10E0C0;
+	Thu,  9 Nov 2023 03:20:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x929.google.com (mail-ua1-x929.google.com
- [IPv6:2607:f8b0:4864:20::929])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFCD810E0C0
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 02:39:23 +0000 (UTC)
-Received: by mail-ua1-x929.google.com with SMTP id
- a1e0cc1a2514c-7ba0d338367so151425241.2
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Nov 2023 18:39:23 -0800 (PST)
+Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com
+ [IPv6:2607:f8b0:4864:20::92b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C67BC10E1B4
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 03:20:38 +0000 (UTC)
+Received: by mail-ua1-x92b.google.com with SMTP id
+ a1e0cc1a2514c-7ba0c234135so116110241.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Nov 2023 19:20:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1699497563; x=1700102363;
+ d=google.com; s=20230601; t=1699500037; x=1700104837;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IoDAF1C1HAcA+PpMvkLLmDwQmtJn4XmvLM4Nw3eJF8Y=;
- b=BIBFEegjt1JTITykjygwhjZRCOoxk/ofQdX82RlvCSD9KCFRdSWYlo2H75IEaCUU6m
- dvBpnLBMcn5mynuE73/f6E5sOEaCIolzNwV0GGD6sAPlJMqfUSOHA4X/hv56tU75hhmg
- DA4nGRxR+Y+orP3noJbruHqENIGpLx0TvujBED3ouxlaZ0WlvbZeISKzAHNCsv+f9yuS
- 8aRTa2oFL9QPgZHQO2GQdF1O1Qb8Rb6r+C1vLiN/nDDMlON3XcE6Cu427vLEJn1A0MLh
- fpiU953ibCvDvUMrlLIJt3WOYIw82e1hygtC/yE1yCRtFklPk6bmsReJR/UXzuEn9+KW
- EviQ==
+ bh=Iq3WEnd44vE8jgZXHpA4QQ1qmbAmdjZD/UBm9ibEcLQ=;
+ b=gI/HO6SC2wb66eF+mYvTeKDR6kKwsghs7kjsOd3PXuIfkvtPqG/2X69i8PePDlAICH
+ dRztUJohmrC4tFoZ7Pb75CxqJIHc6oqHl6FD0zqw9SvGtIoTY/eQx31mWuuHlGV1sPjm
+ rjPPNLP7Wjfo02So+z8W8FRIzgaTj757V7UtXV5roBcoxNZS1W3zWPNyCFXvX03YeaT1
+ vAcDYhojRmLDI1RvTIJfj0cxGiy0jisRtiF8Iwi7vwVPUgLxTd18NjSylJ/oFqgv2Bbn
+ qUyjpZqdslxiUaeQg3ojCt57XHPwGPohJjeG1Z7fN7TYB8/iFK5HwttSSovbGWcGFaXf
+ rLjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699497563; x=1700102363;
+ d=1e100.net; s=20230601; t=1699500037; x=1700104837;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IoDAF1C1HAcA+PpMvkLLmDwQmtJn4XmvLM4Nw3eJF8Y=;
- b=usfwie9bLPYwVqmtm8RugmxHXMeISp/Mhs/ScbWh12o44JACcrnA+PX/WWVHXdcWyk
- h1Wp80xmLj8u9FO1smJD4NS4/g5AbZZcAMTzCgevq+Uw4LVh82eHJX9AIso9BKcWBrTA
- BVqgFXl2mQFY74u3ZlC3y4kQfTNrMD57NogwaDhvd0keESsQdmfnfhL+DYDUztNYA2GP
- zlscUO18RKWYgRpqVzddTAyzc+hiJ4kSbbNvac4gxNyh+Z31EcJYjE/LWWiEOsRPD9Es
- p1EXD6Rj+hIXcKuy8dXkuTdttCAD6ov6BB3nOKF2JbJ8lvbSkFic+Ua0HX5sGF4n+/oE
- cekQ==
-X-Gm-Message-State: AOJu0YwjlR7kEAV8hyRruaV5jzqrRY5m2RoShdpkhISNxt2gemIk3RB4
- sYiS46lEL0PzQQXaj5hrzxF1Wn0rNSq5HerftZGAag==
-X-Google-Smtp-Source: AGHT+IFFkRJvUoPlQ13R7albFmtMDS+H8AANP9cOujoPlk+sG7EujjfJVZajEWG/Gx1UcPEbXMz+/ayvbG3vg4TKYIA=
-X-Received: by 2002:a67:b201:0:b0:45d:873e:c795 with SMTP id
- b1-20020a67b201000000b0045d873ec795mr3756190vsf.10.1699497562743; Wed, 08 Nov
- 2023 18:39:22 -0800 (PST)
+ bh=Iq3WEnd44vE8jgZXHpA4QQ1qmbAmdjZD/UBm9ibEcLQ=;
+ b=NuOX/9PXlEaCmlF050t1QHVk9KsY/H8KcB02vebezCec2yJq98s7yFxilfzaXi25oD
+ D4lhwJnRs7UAAf5Ug8pN77fZcTvAqKM46A/xEHx/0Fi6H5muH4nELWT5ofMPFypDvpWz
+ wI/7bu5idHqpYlTytfkQJqOgK0QOZrtLq0EODIOpJ8KyoDhZNtEw31K0kJF4SlRnpdaP
+ XMQenxlYirAgtRBjdfdtn4dhm+cNtt24k+RtTsxmTgYOr6uOio+UuIy0f1+zJwIWR4Fu
+ S7/zawOgdh5pw6Ju+BEIpqLHtyMLPjtLZ3Ky7Cqyi8jK6ABQWNZUS9ZVcB1FRMHYqEZF
+ 0nYg==
+X-Gm-Message-State: AOJu0YwgWt8C/zxJ7tZ1srXBwGWgqqPNShJXfksKwrobi8SVdbxUEzQN
+ Y3TD2V1XPaspT5b6qzF2Yn4P2edbjx4YPTtt9rTGxA==
+X-Google-Smtp-Source: AGHT+IEuh5NgxjrKua8SvctN+++crxKQK/Bd5CzKUuAJSFOtKWUj/OMgQExzWsLLGvFYvuGXIORZ65hgBJVAlS0Att4=
+X-Received: by 2002:a05:6102:3d8c:b0:45f:1bed:cec9 with SMTP id
+ h12-20020a0561023d8c00b0045f1bedcec9mr3696662vsv.34.1699500037125; Wed, 08
+ Nov 2023 19:20:37 -0800 (PST)
 MIME-Version: 1.0
 References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-11-almasrymina@google.com>
- <ZUk0FGuJ28s1d9OX@google.com>
- <CAHS8izNFv7r6vqYR_TYqcCuDO61F+nnNMhsSu=DrYWSr3sVgrA@mail.gmail.com>
- <CAF=yD-+MFpO5Hdqn+Q9X54SBpgcBeJvKTRD53X2oM4s8uVqnAQ@mail.gmail.com>
- <ZUlp8XutSAScKs_0@google.com>
- <CAF=yD-JZ88j+44MYgX-=oYJngz4Z0zw6Y0V3nHXisZJtNu7q6A@mail.gmail.com>
- <CAKH8qBueYgpxQTvTwngOs6RNjy9yvLF92s1p5nFrobw_UprNMQ@mail.gmail.com>
- <93eb6a2b-a991-40ca-8f26-f520c986729a@kernel.org>
- <CAF=yD-Ln4v8orUne8E7D2_eHu39PWPCrMR3Qtuh312pCu=erng@mail.gmail.com>
- <CAHS8izOU06ceKyc5oVZhdCKJqmeRdcRyJBFpjGe=u2yh=V52dQ@mail.gmail.com>
- <7ce2d027-1e02-4a63-afb7-7304fbfbdf90@kernel.org>
-In-Reply-To: <7ce2d027-1e02-4a63-afb7-7304fbfbdf90@kernel.org>
+ <20231106024413.2801438-8-almasrymina@google.com>
+ <4a0e9d53-324d-e19b-2a30-ba86f9e5569e@huawei.com>
+ <CAHS8izNbw7vAGo2euQGA+TF9CgQ8zwrDqTVGsOSxh22_uo0R1w@mail.gmail.com>
+ <d4309392-711a-75b0-7bf0-9e7de8fd527e@huawei.com>
+In-Reply-To: <d4309392-711a-75b0-7bf0-9e7de8fd527e@huawei.com>
 From: Mina Almasry <almasrymina@google.com>
-Date: Wed, 8 Nov 2023 18:39:11 -0800
-Message-ID: <CAHS8izM_qrEs37F=kPzT_kmqCBV_wSiTf72PtHfJYxks9R9--Q@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 10/12] tcp: RX path for devmem TCP
-To: David Ahern <dsahern@kernel.org>
+Date: Wed, 8 Nov 2023 19:20:21 -0800
+Message-ID: <CAHS8izM1P6d8jgyWE9wFJUJah2YFsjHP2uikDwA0vR=3QA+BXQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 07/12] page-pool: device memory support
+To: Yunsheng Lin <linyunsheng@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,8 +73,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, Stanislav Fomichev <sdf@google.com>,
+Cc: dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
  linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
  Sumit Semwal <sumit.semwal@linaro.org>, linux-arch@vger.kernel.org,
  Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
@@ -89,7 +81,7 @@ Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
  Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
  Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
  linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
- Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
+ netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
  Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
  "David S. Miller" <davem@davemloft.net>,
  Praveen Kaligineedi <pkaligineedi@google.com>,
@@ -97,108 +89,212 @@ Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 7, 2023 at 4:01=E2=80=AFPM David Ahern <dsahern@kernel.org> wro=
-te:
->
-> On 11/7/23 4:55 PM, Mina Almasry wrote:
-> > On Mon, Nov 6, 2023 at 4:03=E2=80=AFPM Willem de Bruijn
-> > <willemdebruijn.kernel@gmail.com> wrote:
-> >>
-> >> On Mon, Nov 6, 2023 at 3:55=E2=80=AFPM David Ahern <dsahern@kernel.org=
+On Wed, Nov 8, 2023 at 2:56=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei.com=
 > wrote:
-> >>>
-> >>> On 11/6/23 4:32 PM, Stanislav Fomichev wrote:
-> >>>>> The concise notification API returns tokens as a range for
-> >>>>> compression, encoding as two 32-bit unsigned integers start + lengt=
-h.
-> >>>>> It allows for even further batching by returning multiple such rang=
-es
-> >>>>> in a single call.
-> >>>>
-> >>>> Tangential: should tokens be u64? Otherwise we can't have more than
-> >>>> 4gb unacknowledged. Or that's a reasonable constraint?
-> >>>>
-> >>>
-> >>> Was thinking the same and with bits reserved for a dmabuf id to allow
-> >>> multiple dmabufs in a single rx queue (future extension, but build th=
-e
-> >>> capability in now). e.g., something like a 37b offset (128GB dmabuf
-> >>> size), 19b length (large GRO), 8b dmabuf id (lots of dmabufs to a que=
-ue).
+>
+> On 2023/11/8 5:56, Mina Almasry wrote:
+> > On Tue, Nov 7, 2023 at 12:00=E2=80=AFAM Yunsheng Lin <linyunsheng@huawe=
+i.com> wrote:
 > >>
-> >> Agreed. Converting to 64b now sounds like a good forward looking revis=
-ion.
+> >> On 2023/11/6 10:44, Mina Almasry wrote:
+> >>> Overload the LSB of struct page* to indicate that it's a page_pool_io=
+v.
+> >>>
+> >>> Refactor mm calls on struct page* into helpers, and add page_pool_iov
+> >>> handling on those helpers. Modify callers of these mm APIs with calls=
+ to
+> >>> these helpers instead.
+> >>>
+> >>> In areas where struct page* is dereferenced, add a check for special
+> >>> handling of page_pool_iov.
+> >>>
+> >>> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> >>>
+> >>> ---
+> >>>  include/net/page_pool/helpers.h | 74 +++++++++++++++++++++++++++++++=
++-
+> >>>  net/core/page_pool.c            | 63 ++++++++++++++++++++--------
+> >>>  2 files changed, 118 insertions(+), 19 deletions(-)
+> >>>
+> >>> diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/=
+helpers.h
+> >>> index b93243c2a640..08f1a2cc70d2 100644
+> >>> --- a/include/net/page_pool/helpers.h
+> >>> +++ b/include/net/page_pool/helpers.h
+> >>> @@ -151,6 +151,64 @@ static inline struct page_pool_iov *page_to_page=
+_pool_iov(struct page *page)
+> >>>       return NULL;
+> >>>  }
+> >>>
+> >>> +static inline int page_pool_page_ref_count(struct page *page)
+> >>> +{
+> >>> +     if (page_is_page_pool_iov(page))
+> >>> +             return page_pool_iov_refcount(page_to_page_pool_iov(pag=
+e));
+> >>
+> >> We have added a lot of 'if' for the devmem case, it would be better to
+> >> make it more generic so that we can have more unified metadata handlin=
+g
+> >> for normal page and devmem. If we add another memory type here, do we
+> >> need another 'if' here?
 > >
-> > The concept of IDing a dma-buf came up in a couple of different
-> > contexts. First, in the context of us giving the dma-buf ID to the
-> > user on recvmsg() to tell the user the data is in this specific
-> > dma-buf. The second context is here, to bind dma-bufs with multiple
-> > user-visible IDs to an rx queue.
+> > Maybe, not sure. I'm guessing new memory types will either be pages or
+> > iovs, so maybe no new if statements needed.
 > >
-> > My issue here is that I don't see anything in the struct dma_buf that
-> > can practically serve as an ID:
+> >> That is part of the reason I suggested using a more unified metadata f=
+or
+> >> all the types of memory chunks used by page_pool.
 > >
-> > https://elixir.bootlin.com/linux/v6.6-rc7/source/include/linux/dma-buf.=
-h#L302
+> > I think your suggestion was to use struct pages for devmem. That was
+> > thoroughly considered and intensely argued about in the initial
+> > conversations regarding devmem and the initial RFC, and from the
+> > conclusions there it's extremely clear to me that devmem struct pages
+> > are categorically a no-go.
+>
+> Not exactly, I was wondering if adding a more abstract structure specific=
+ly
+> for page pool makes any sense, and each mem type can add its own specific
+> fields, net stack only see and handle the common fields so that it does n=
+ot
+> care about specific mem type, and each provider only see the and handle t=
+he
+> specific fields belonging to it most of the time.
+>
+> Ideally something like beleow:
+>
+> struct netmem {
+>         /* common fields */
+>         refcount_t refcount;
+>         struct page_pool *pp;
+>         ......
+>
+>         union {
+>                 struct devmem{
+>                         struct dmabuf_genpool_chunk_owner *owner;
+>                 };
+>
+>                 struct other_mem{
+>                         ...
+>                         ...
+>                 };
+>         };
+> };
+>
+> But untill we completely decouple the 'struct page' from the net stack,
+> the above seems undoable in the near term.
+
+Agreed everything above is undoable.
+
+> But we might be able to do something as folio is doing now, mm subsystem
+> is still seeing 'struct folio/page', but other subsystem like slab is usi=
+ng
+> 'struct slab', and there is still some common fields shared between
+> 'struct folio' and 'struct slab'.
+>
+
+In my eyes this is almost exactly what I suggested in RFC v1 and got
+immediately nacked with no room to negotiate. What we did for v1 is to
+allocate struct pages for dma-buf to make dma-bufs look like struct
+page to mm subsystem. Almost exactly what you're describing above.
+It's a no-go. I don't think renaming struct page to netmem is going to
+move the needle (it also re-introduces code-churn). What I feel like I
+learnt is that dma-bufs are not struct pages and can't be made to look
+like one, I think.
+
+> As the netmem patchset, is devmem able to reuse the below 'struct netmem'
+> and rename it to 'struct page_pool_iov'?
+
+I don't think so. For the reasons above, but also practically it
+immediately falls apart. Consider this field in netmem:
+
++ * @flags: The same as the page flags.  Do not use directly.
+
+dma-buf don't have or support page-flags, and making dma-buf looks
+like they support page flags or any page-like features (other than
+dma_addr) seems extremely unacceptable to mm folks.
+
+> So that 'struct page' for normal
+> memory and 'struct page_pool_iov' for devmem share the common fields used
+> by page pool and net stack?
+
+Are you suggesting that we'd cast a netmem* to a page* and call core
+mm APIs on it? It's basically what was happening with RFC v1, where
+things that are not struct pages were made to look like struct pages.
+
+Also, there isn't much upside for what you're suggesting, I think. For
+example I can align the refcount variable in struct page_pool_iov with
+the refcount in struct page so that this works:
+
+put_page((struct page*)ppiov);
+
+but it's a disaster. Because put_page() will call __put_page() if the
+page is freed, and __put_page() will try to return the page to the
+buddy allocator!
+
+>  And we might be able to reuse the 'flags',
+> '_pp_mapping_pad' and '_mapcount' for specific mem provider, which is eno=
+ugh
+> for the devmem only requiring a single pointer to point to it's
+> owner?
+>
+
+All the above seems quite similar to RFC v1 again, using netmem
+instead of struct page. In RFC v1 we re-used zone_device_data() for
+the dma-buf owner equivalent.
+
+> https://lkml.kernel.org/netdev/20230105214631.3939268-2-willy@infradead.o=
+rg/
+>
+> +/**
+> + * struct netmem - A memory allocation from a &struct page_pool.
+> + * @flags: The same as the page flags.  Do not use directly.
+> + * @pp_magic: Magic value to avoid recycling non page_pool allocated pag=
+es.
+> + * @pp: The page pool this netmem was allocated from.
+> + * @dma_addr: Call netmem_get_dma_addr() to read this value.
+> + * @dma_addr_upper: Might need to be 64-bit on 32-bit architectures.
+> + * @pp_frag_count: For frag page support, not supported in 32-bit
+> + *   architectures with 64-bit DMA.
+> + * @_mapcount: Do not access this member directly.
+> + * @_refcount: Do not access this member directly.  Read it using
+> + *   netmem_ref_count() and manipulate it with netmem_get() and netmem_p=
+ut().
+> + *
+> + * This struct overlays struct page for now.  Do not modify without a
+> + * good understanding of the issues.
+> + */
+> +struct netmem {
+> +       unsigned long flags;
+> +       unsigned long pp_magic;
+> +       struct page_pool *pp;
+> +       /* private: no need to document this padding */
+> +       unsigned long _pp_mapping_pad;  /* aliases with folio->mapping */
+> +       /* public: */
+> +       unsigned long dma_addr;
+> +       union {
+> +               unsigned long dma_addr_upper;
+> +               atomic_long_t pp_frag_count;
+> +       };
+> +       atomic_t _mapcount;
+> +       atomic_t _refcount;
+> +};
+>
+> If we do that, it seems we might be able to allow net stack and page pool=
+ to see
+> the metadata for devmem chunk as 'struct page', and may be able to aovid =
+most of
+> the 'if' checking in net stack and page pool?
+>
 > >
-> > Actually, from the userspace, only the name of the dma-buf seems
-> > queryable. That's only unique if the user sets it as such. The dmabuf
-> > FD can't serve as an ID. For our use case we need to support 1 process
-> > doing the dma-buf bind via netlink, sharing the dma-buf FD to another
-> > process, and that process receives the data.  In this case the FDs
-> > shown by the 2 processes may be different. Converting to 64b is a
-> > trivial change I can make now, but I'm not sure how to ID these
-> > dma-bufs. Suggestions welcome. I'm not sure the dma-buf guys will
-> > allow adding a new ID + APIs to query said dma-buf ID.
+> > --
+> > Thanks,
+> > Mina
 > >
->
-> The API can be unique to this usage: e.g., add a dmabuf id to the
-> netlink API. Userspace manages the ids (tells the kernel what value to
-> use with an instance), the kernel validates no 2 dmabufs have the same
-> id and then returns the value here.
->
->
-
-Seems reasonable, will do.
-
-On Wed, Nov 8, 2023 at 7:36=E2=80=AFAM Edward Cree <ecree.xilinx@gmail.com>=
- wrote:
->
-> On 06/11/2023 21:17, Stanislav Fomichev wrote:
-> > I guess I'm just wondering whether other people have any suggestions
-> > here. Not sure Jonathan's way was better, but we fundamentally
-> > have two queues between the kernel and the userspace:
-> > - userspace receiving tokens (recvmsg + magical flag)
-> > - userspace refilling tokens (setsockopt + magical flag)
+> > .
 > >
-> > So having some kind of shared memory producer-consumer queue feels natu=
-ral.
-> > And using 'classic' socket api here feels like a stretch, idk.
->
-> Do 'refilled tokens' (returned memory areas) get used for anything other
->  than subsequent RX?
-
-Hi Ed!
-
-Not really, it's only the subsequent RX.
-
->  If not then surely the way to return a memory area
->  in an io_uring idiom is just to post a new read sqe ('RX descriptor')
->  pointing into it, rather than explicitly returning it with setsockopt.
-
-We're interested in using this with regular TCP sockets, not
-necessarily io_uring. The io_uring interface to devmem TCP may very
-well use what you suggest and can drop the setsockopt.
 
 
-> (Being async means you can post lots of these, unlike recvmsg(), so you
->  don't need any kernel management to keep the RX queue filled; it can
->  just be all handled by the userland thus simplifying APIs overall.)
-> Or I'm misunderstanding something?
->
-> -e
 
-
---
+--=20
 Thanks,
 Mina
