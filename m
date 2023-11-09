@@ -1,61 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E4E97E647B
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 08:39:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 224BC7E6499
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 08:46:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6279B10E1CF;
-	Thu,  9 Nov 2023 07:39:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 489FC10E1C9;
+	Thu,  9 Nov 2023 07:46:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4099D10E1C5
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 07:38:53 +0000 (UTC)
-Received: from [127.0.1.1] (91-158-149-209.elisa-laajakaista.fi
- [91.158.149.209])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 919B28CD;
- Thu,  9 Nov 2023 08:38:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1699515510;
- bh=+jaNPtduetcEvhSP7u6BC4egR5EmPv/b6uS08H/KztU=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=AsVZ7pcctQSiPyOw0SEvmSJkLI4kp0LZnRuQsCOhHeDnWLar5vqsjrMgqtxLgy2LD
- syDzZ+6TmaE5dPeJO7ySe96MzYnj3jvUkXjCNBMF36+mLChbrxs5g1JwXaTGFHcgeV
- gESZKz351l0kxkuKKADDHd9QT9h30hwJ2Uxqu7cg=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Thu, 09 Nov 2023 09:38:04 +0200
-Subject: [PATCH v2 11/11] drm/tidss: Use DRM_PLANE_COMMIT_ACTIVE_ONLY
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86EA710E1C9
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 07:45:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1699515957; x=1699775157;
+ bh=DdVm0IYAnpXIL8InOfPloMQ7jl511aw+QxHWadkrvrE=;
+ h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=lrFTuGTZ5pqI24/zzYbOBUTPfOrgtvzTsTFbaoESLvU6R0q4mBdvjputmHQ1W6WIW
+ HIUm1LIbsVnh1UpFnHrIUvo/avAfcKan+MOzljA2j03Tc1zTLvbNIxe2Zn2QPEUCFq
+ PAa0Ml4CP/EDANBXwGlpptdSfPhjaD7x/iyL1Mo559tGfepjewaTHaeeHsbNXDdNm6
+ 1CUuEowCEGW5O2Q+0BYytqQCRo88UqGAnbulM7xpU9ZI27hnN0h4efuSSkIJXxdIc3
+ PnmjR5U/IcgcnPiWbGfV27LNjAuOIxzG5vHDG6cO6uEHJWwgdmb1W2O0bDzFT38JMP
+ /q2QPEQzNHkOw==
+Date: Thu, 09 Nov 2023 07:45:52 +0000
+To: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [RFC PATCH 1/2] dma-buf/dma-heap: export dma_heap_add and
+ dma_heap_get_drvdata
+Message-ID: <20231109074545.148149-1-contact@emersion.fr>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231109-tidss-probe-v2-11-ac91b5ea35c0@ideasonboard.com>
-References: <20231109-tidss-probe-v2-0-ac91b5ea35c0@ideasonboard.com>
-In-Reply-To: <20231109-tidss-probe-v2-0-ac91b5ea35c0@ideasonboard.com>
-To: Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>, 
- Jyri Sarha <jyri.sarha@iki.fi>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2310;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=+jaNPtduetcEvhSP7u6BC4egR5EmPv/b6uS08H/KztU=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlTIyBOL8n/raVGNTFxAt6t4oVrY3lRU98v9mD6
- wDphIwh4YWJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZUyMgQAKCRD6PaqMvJYe
- 9XUvD/9JzEs7/j+qn0lz37oFW98QMakrkW9ly9/P/8fIlKNfmLjm6XaxkaldaDArWfd3nPy2bjK
- Td/Xz2a0t3opx9NcyDkuyaBYrkOkGsmY6XnB/Ik8hrE8On5C4V9OC/aXY30Ly0NZzgCom2NhV4C
- lR1JDRV7oJvzOe2GQ5Zr6z9UqnkLH0q+mHMVmXJ/o9D+nA9MlPpCYmgNKHQJFsfrLuQdGOaszvT
- YyQL3q78Ro+5OavI892p7olYrAd2/LmFkRstTzf8l3CGPb1VZFzFM4sHH3NoHycsGPA1Lbvje9u
- 8/ISjpjSmNzihCIbJrnzVgW/Sl5jyRN1sovgwE1bbBrOtfyxFejfhWwHNSSa3IRfaU2B4qIKDeh
- E6lwQe0Ws33WsXhDQJvJ2BQFYIzfyNu5ND5R3UvMCOlStvlTcy/1KuynTrbZeDfznLoAfqMHRYC
- a5NCD6b+df4PoownUg+NQteSkWko6Y3DghpRGfwHClpm3b5qqeNSl/0Xqa1kMRzUoSDif4Alfx3
- xJDqMnt6cZZ13aPChj/deHRL3KpVDLqNfqWF3sA1HqViwjXG52KOI4/cxgZ6fdbzoYOHbwciHVu
- kMKfsNCtGlEOiCg3TkrbeRib6hvqC+gSApbfKGpMoM979GQIv2a2qQaM9tU0dmrXSV/wdDYiJPQ
- zj8HTwyz3y48EGA==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,64 +45,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Francesco Dolcini <francesco@dolcini.it>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: John Stultz <jstultz@google.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, "T.J. Mercier" <tjmercier@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-At the moment the driver does not use DRM_PLANE_COMMIT_ACTIVE_ONLY, but
-still checks for crtc->state->active in tidss_crtc_atomic_flush(), and
-skips the flush if the crtc is not active.
+This is necessary to create DMA heaps in other modules
+(e.g. graphics drivers).
 
-The exact reason why DRM_PLANE_COMMIT_ACTIVE_ONLY is not used has been
-lost in history. DRM_PLANE_COMMIT_ACTIVE_ONLY does also affect the plane
-updates, and I think the issue was related to multi-display systems and
-moving planes between the displays. However, it is possible the issue
-was only present on the older DSS hardware, handled by the omapdrm
-driver (on which the tidss driver is loosely based).
-
-Reviewing the code related to DRM_PLANE_COMMIT_ACTIVE_ONLY does not show
-any issues, and testing on J7 EVM with two displays works fine.
-
-Change the driver to use DRM_PLANE_COMMIT_ACTIVE_ONLY.
-
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: Brian Starkey <Brian.Starkey@arm.com>
+Cc: John Stultz <jstultz@google.com>
+Cc: "T.J. Mercier" <tjmercier@google.com>
 ---
- drivers/gpu/drm/tidss/tidss_crtc.c | 4 ----
- drivers/gpu/drm/tidss/tidss_kms.c  | 2 +-
- 2 files changed, 1 insertion(+), 5 deletions(-)
+ drivers/dma-buf/dma-heap.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
-index 7c78c074e3a2..5f838980c7a1 100644
---- a/drivers/gpu/drm/tidss/tidss_crtc.c
-+++ b/drivers/gpu/drm/tidss/tidss_crtc.c
-@@ -174,10 +174,6 @@ static void tidss_crtc_atomic_flush(struct drm_crtc *crtc,
- 		drm_atomic_crtc_needs_modeset(crtc->state) ? "needs" : "doesn't need",
- 		crtc->state->event);
- 
--	/* There is nothing to do if CRTC is not going to be enabled. */
--	if (!crtc->state->active)
--		return;
--
- 	/*
- 	 * Flush CRTC changes with go bit only if new modeset is not
- 	 * coming, so CRTC is enabled trough out the commit.
-diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-index d096d8d2bc8f..a0e494c806a9 100644
---- a/drivers/gpu/drm/tidss/tidss_kms.c
-+++ b/drivers/gpu/drm/tidss/tidss_kms.c
-@@ -29,7 +29,7 @@ static void tidss_atomic_commit_tail(struct drm_atomic_state *old_state)
- 	tidss_runtime_get(tidss);
- 
- 	drm_atomic_helper_commit_modeset_disables(ddev, old_state);
--	drm_atomic_helper_commit_planes(ddev, old_state, 0);
-+	drm_atomic_helper_commit_planes(ddev, old_state, DRM_PLANE_COMMIT_ACTIVE_ONLY);
- 	drm_atomic_helper_commit_modeset_enables(ddev, old_state);
- 
- 	drm_atomic_helper_commit_hw_done(old_state);
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index 84ae708fafe7..51cd58b775d8 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -203,6 +203,7 @@ void *dma_heap_get_drvdata(struct dma_heap *heap)
+ {
+ =09return heap->priv;
+ }
++EXPORT_SYMBOL_GPL(dma_heap_get_drvdata);
+=20
+ /**
+  * dma_heap_get_name() - get heap name
+@@ -300,6 +301,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_exp=
+ort_info *exp_info)
+ =09kfree(heap);
+ =09return err_ret;
+ }
++EXPORT_SYMBOL_GPL(dma_heap_add);
+=20
+ static char *dma_heap_devnode(const struct device *dev, umode_t *mode)
+ {
+--=20
+2.42.0
 
--- 
-2.34.1
 
