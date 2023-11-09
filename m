@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D13A7E6478
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 08:39:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8DB17E647D
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 08:39:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3877A10E1CB;
-	Thu,  9 Nov 2023 07:39:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FA6210E1CA;
+	Thu,  9 Nov 2023 07:39:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B576510E1C4
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 07:38:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 947F310E1C6
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 07:38:50 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-149-209.elisa-laajakaista.fi
  [91.158.149.209])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0D9631B87;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E774E1BA7;
  Thu,  9 Nov 2023 08:38:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1699515506;
- bh=tErP6ntTDdC0gabpvQZT2twhldOSaERfSjPvzlINOYg=;
+ s=mail; t=1699515507;
+ bh=VyQFOHUX27qoYp+sEZHLrOOnAGthD9ucCI4/pfyGBgw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=kR7DvnBnuKYV6zUJN5kbkxd2PFfd4UnaU7zGCrcxZBRaCg7KC648DlNBkSvzqoz3y
- FOxBwhff6kCosGe2U5jZ5RCcY158Yk3tZxNcKjH0s1cCQUNyiJzBP53pKSO46Wlp6R
- wJaujOJ4U6gdcu/vUBhvdNrmX+82QinExMBCKIXc=
+ b=BwTNgUW6HHSjGvrI/xQoVOgNcJJSymBeJ1IwQYT3VnMqE3zMJ28jh6WegKgj48+q0
+ bA8KGaYB2vUFhpfeBfBiaPrXrjZOuarBHjnkS/PCzE9OO5Pq4CBJW9QvmuOowoJncY
+ FhE6xEDT05EBQTT4BnjG0rXjPtkeiEXAlg1ev4Vg=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Thu, 09 Nov 2023 09:38:00 +0200
-Subject: [PATCH v2 07/11] drm/tidss: Add simple K2G manual reset
+Date: Thu, 09 Nov 2023 09:38:01 +0200
+Subject: [PATCH v2 08/11] drm/tidss: Fix dss reset
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231109-tidss-probe-v2-7-ac91b5ea35c0@ideasonboard.com>
+Message-Id: <20231109-tidss-probe-v2-8-ac91b5ea35c0@ideasonboard.com>
 References: <20231109-tidss-probe-v2-0-ac91b5ea35c0@ideasonboard.com>
 In-Reply-To: <20231109-tidss-probe-v2-0-ac91b5ea35c0@ideasonboard.com>
 To: Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>, 
@@ -39,21 +39,21 @@ To: Aradhya Bhatia <a-bhatia1@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1452;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2802;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=tErP6ntTDdC0gabpvQZT2twhldOSaERfSjPvzlINOYg=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlTIx/4yyEc0vlhu0LY6PKDBh3YAinZZWmPblHD
- ALXeO8ROGWJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZUyMfwAKCRD6PaqMvJYe
- 9f/lD/46bgpdv2S8ITGIdgfaPkwqsjWoOoC0LAxXSonc5kSzdeRIvr9b3YSLkZGj3SwbZ7M0oa+
- oHtFqztyD/dYGNcQxIdq47NawuCcZjIC0Oxg9owTgfdSPLvJX5sMC/UolVmF9KroPSo/BO9Fh1i
- E4REh0S0d1gvKwRL7Bt9CG4QYvzS/biPAml1S62EUDUalTWU3y1WYGrUbgjdps/HdGpjFHdPIv9
- eWv+etZe9dRkUDBVkx5pLkgT6tEp6X95wurcYPfticPLbvTc70CYepSF2yAgpOH3XgBEy7h7aNh
- 3Sk7ZDOsVoYavoI04mQdKguVSdvLFm2fXlpVsq5IMtwy/exdpZLVGFtIxKlJezYv1WHlQvdwKoL
- vLYHMfz5RIJWuv0ebSZ2vGmG7rRUXcG+jFilL2P3HVN5PRYtT47fzeWMeeRgv9mOJAAMJTFjuKE
- ViCUFvElQyiaaTC35VSQclLM/dvv5mLF9QftiYqbOopX00vWwa/HPCVurQ+rDtAdWcL3N2/M1h3
- +GbWNqcX9MhFm9JTN632CxUZ2GDxTyRCrgziQK5QCMhMMwWiuLvQPXlxBP/25daaG7JAtUpZvVG
- fbEOnJEc7sCWzqk0qGutAEGJD1SSW4Takmxye3xd2rlq/iwp0eI9v60xmiwTn9P4I9KoKIUQwC1
- K44aOqsEWDdAF8A==
+ bh=VyQFOHUX27qoYp+sEZHLrOOnAGthD9ucCI4/pfyGBgw=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlTIyA7lAsXjoKndhmceZLoKWYp42ow/HZpdLXl
+ v4dYGJXejyJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZUyMgAAKCRD6PaqMvJYe
+ 9VK0EACmedDicf6gu2jeCVhtFxLC9E7UeAPCWk8iDpU8txnM2UKnf/2Go7QKMtArXh7urR+JczJ
+ lPIcEj+cKoKoelW+JOkyhfKtMHFknHr+0G+yMV9G0aVG6CPrN8jXKnUyUr9Rf6j0LJGYM3svaxw
+ gUTPMrQXlwjH510BZra9/VwGvOdYT6DZK1eBfqQwVufSrIAw//M8JDnXhuBNgLNxOIoMO//SbUH
+ 0zQwWL7Au8mypN65+rf9hoZuvJs2D6T2nenjZ/lQ26eJcvIsWefgzWjJKq3HJUdRWdHzriIlkQD
+ Pr4MiGGXTvMlZxmXWP/jK3sHUpFm7+IjeI40nVdZ1Jg+PrzlrhrX0TfzMJpAj3XvGg3yKfeAPFE
+ mMHfvUwDI3UL8MxSdwtjgMSd3GjFAQX2Oe9NHY0RDAiQL/SeryP9GxHM+/+VZzcV/a5u3aschyA
+ 645hz2iFhRKX+lom9GWv5ZVe2zHl5WBI/aw0ExkpSriVkiX+usBZzBDuSlcT3GsSC8Rh2cVKQDR
+ TK6F5pv3ddLcvg2zoqHdiLxnovgQavANTbXML4TIpZ35iqGA0MZ/iE2XGJxWcsRsd/QuFw67m0y
+ OLfH9hQuOOxpWdB1EMpiarxQ3CWJxY/lJKuRx2KIrYVxqGzXY1ZJvv2PqoPMDW/vEspDmy843wJ
+ 8nEq+2DvwXOJN5Q==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,49 +75,97 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-K2G display controller does not support soft reset, but we can do the
-most important steps manually: mask the IRQs and disable the VPs.
+The probe function calls dispc_softreset() before runtime PM is enabled
+and without enabling any of the DSS clocks. This happens to work by
+luck, and we need to make sure the DSS HW is active and the fclk is
+enabled.
 
+To fix the above, add a new function, dispc_init_hw(), which does:
+
+- pm_runtime_set_active()
+- clk_prepare_enable(fclk)
+- dispc_softreset().
+
+This ensures that the reset can be successfully accomplished.
+
+Note that we use pm_runtime_set_active(), not the normal
+pm_runtime_get(). The reason for this is that at this point we haven't
+enabled the runtime PM yet and also we don't want the normal resume
+callback to be called: the dispc resume callback does some initial HW
+setup, and it expects that the HW was off (no video ports are
+streaming). If the bootloader has enabled the DSS and has set up a
+boot time splash-screen, the DSS would be enabled and streaming which
+might lead to issues with the normal resume callback.
+
+Fixes: c9b2d923befd ("drm/tidss: Soft Reset DISPC on startup")
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/tidss/tidss_dispc.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/tidss/tidss_dispc.c | 45 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 44 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-index c82fd5bc9be4..a5c0b72596e8 100644
+index a5c0b72596e8..8d6ac618c539 100644
 --- a/drivers/gpu/drm/tidss/tidss_dispc.c
 +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-@@ -2702,14 +2702,28 @@ static void dispc_init_errata(struct dispc_device *dispc)
- 	}
+@@ -2738,6 +2738,49 @@ static int dispc_softreset(struct dispc_device *dispc)
+ 	return 0;
  }
  
-+/*
-+ * K2G display controller does not support soft reset, so we do a basic manual
-+ * reset here: make sure the IRQs are masked and VPs are disabled.
-+ */
-+static void dispc_softreset_k2g(struct dispc_device *dispc)
++static int dispc_init_hw(struct dispc_device *dispc)
 +{
-+	dispc_set_irqenable(dispc, 0);
-+	dispc_read_and_clear_irqstatus(dispc);
++	struct device *dev = dispc->dev;
++	int ret;
 +
-+	for (unsigned int vp_idx = 0; vp_idx < dispc->feat->num_vps; ++vp_idx)
-+		VP_REG_FLD_MOD(dispc, vp_idx, DISPC_VP_CONTROL, 0, 0, 0);
++	ret = pm_runtime_set_active(dev);
++	if (ret) {
++		dev_err(dev, "Failed to set DSS PM to active\n");
++		return ret;
++	}
++
++	ret = clk_prepare_enable(dispc->fclk);
++	if (ret) {
++		dev_err(dev, "Failed to enable DSS fclk\n");
++		goto err_runtime_suspend;
++	}
++
++	ret = dispc_softreset(dispc);
++	if (ret)
++		goto err_clk_disable;
++
++	clk_disable_unprepare(dispc->fclk);
++	ret = pm_runtime_set_suspended(dev);
++	if (ret) {
++		dev_err(dev, "Failed to set DSS PM to suspended\n");
++		return ret;
++	}
++
++	return 0;
++
++err_clk_disable:
++	clk_disable_unprepare(dispc->fclk);
++
++err_runtime_suspend:
++	ret = pm_runtime_set_suspended(dev);
++	if (ret) {
++		dev_err(dev, "Failed to set DSS PM to suspended\n");
++		return ret;
++	}
++
++	return ret;
 +}
 +
- static int dispc_softreset(struct dispc_device *dispc)
+ int dispc_init(struct tidss_device *tidss)
  {
- 	u32 val;
- 	int ret;
+ 	struct device *dev = tidss->dev;
+@@ -2847,7 +2890,7 @@ int dispc_init(struct tidss_device *tidss)
+ 	of_property_read_u32(dispc->dev->of_node, "max-memory-bandwidth",
+ 			     &dispc->memory_bandwidth_limit);
  
--	/* K2G display controller does not support soft reset */
--	if (dispc->feat->subrev == DISPC_K2G)
-+	if (dispc->feat->subrev == DISPC_K2G) {
-+		dispc_softreset_k2g(dispc);
- 		return 0;
-+	}
+-	r = dispc_softreset(dispc);
++	r = dispc_init_hw(dispc);
+ 	if (r)
+ 		return r;
  
- 	/* Soft reset */
- 	REG_FLD_MOD(dispc, DSS_SYSCONFIG, 1, 1, 1);
 
 -- 
 2.34.1
