@@ -2,48 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A827E6AC3
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 13:44:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A88C7E6AF9
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 14:07:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1975910E0E5;
-	Thu,  9 Nov 2023 12:44:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79CC710E20A;
+	Thu,  9 Nov 2023 13:07:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10FD510E0E5;
- Thu,  9 Nov 2023 12:44:40 +0000 (UTC)
-Received: from [100.116.205.35] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: koike)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 20D4B66074AC;
- Thu,  9 Nov 2023 12:44:35 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1699533878;
- bh=8aZTpXv059m0WrMHiogmcRnmZfrI6GVeXOICP1uiu9E=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=VEvXfsptEeNlxrznjcN6qd8PPpdRNEa00wrYBn2Ei0vnA45ZKukRVQyOIsj0PNr4R
- yEZn5dWdD5Icfv7MxAnVeMlj9VQ2Sq6th9wSLHsEsmwcVM85lt9mdc774buWEHmzHa
- IZ4VosGckt6ADyTgdqq5pJWOlxP+GJvrfTstxlYQ8rSjoTdLk13MUOQ5ZrbcWrbrEV
- meI0y9vPbTVqjPfz4W9QTPmYkx72h/2a9SSI4ArRDz5nBU2dda63hC06933VRQzw4s
- O8GvtdTbpnKpiXOYAhym8YLmoSceiUEXmHR4xMYiWniGUguHr87ej0sC+g2tcgdXWi
- nk6pDvp8uXG+w==
-Message-ID: <5c803b76-9baf-4328-9b64-7c7277fe987e@collabora.com>
-Date: Thu, 9 Nov 2023 09:44:29 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0053B897FD;
+ Thu,  9 Nov 2023 13:07:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699535251; x=1731071251;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=MV/LBNRocjn0Ihe7CbSO7WVNI/djzRaXdqZKrienFTs=;
+ b=Jf2Id6wJrupoyaN1VAJg4hdpyJ6Gmn8aAQ0cYX017U+dRnDxesFll17B
+ ODJLMOXosg0FyMrKO0PWJpGVq/tbeSoUdxyFLyjMcOzjlUOmDBpEYQyfF
+ wc1y2NH20Xko05lM0Jq/tlONnx1HuVYhUK0wNCOmrP1h94nD5SfJaXlbt
+ 7PN4Dv3FNSkY+jlWECLAQ04FJN3VB/6anXxujFFP0Rxej+Mwz1CgYc4I+
+ 1IAojzi7Z4NPFCUkI/bAeudXsr+mccrL4m4ZdNQsVmdj1dtIfADAMEnqA
+ jXhbroxbvmNBqR//oDiJ3pQFhAqvcvHMoWjTBNQ1C3IZNQEX6ae7+QXA2 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="3008554"
+X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
+   d="scan'208";a="3008554"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2023 05:07:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="798314514"
+X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; d="scan'208";a="798314514"
+Received: from unknown (HELO localhost) ([10.237.66.162])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2023 05:07:27 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Animesh Manna <animesh.manna@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v9 1/6] drm/panelreplay: dpcd register definition for
+ panelreplay
+In-Reply-To: <20231108072303.3414118-2-animesh.manna@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231108072303.3414118-1-animesh.manna@intel.com>
+ <20231108072303.3414118-2-animesh.manna@intel.com>
+Date: Thu, 09 Nov 2023 15:07:24 +0200
+Message-ID: <87wmurvzw3.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] drm/ci: Add support for SM8250 Gitlab Runner
-Content-Language: en-US
-To: Jessica Zhang <quic_jesszhan@quicinc.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20231010-rb5-runner-v1-0-aba1fcc6e3aa@quicinc.com>
- <0b0b1065-06e8-44ea-a4a1-395980afac5a@collabora.com>
- <f97c86a6-34d3-45e1-8673-8a3f02f88392@quicinc.com>
- <aa112fd1-478a-43b2-8e8f-cef72c930bb2@quicinc.com>
-From: Helen Koike <helen.koike@collabora.com>
-In-Reply-To: <aa112fd1-478a-43b2-8e8f-cef72c930bb2@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,127 +62,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, freedreno@lists.freedesktop.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Jouni =?utf-8?Q?H=C3=B6gander?= <jouni.hogander@intel.com>,
+ Animesh Manna <animesh.manna@intel.com>,
+ Arun R Murthy <arun.r.murthy@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 08 Nov 2023, Animesh Manna <animesh.manna@intel.com> wrote:
+> Add DPCD register definition for discovering, enabling and
+> checking status of panel replay of the sink.
+>
+> Cc: Jouni H=C3=B6gander <jouni.hogander@intel.com>
+> Cc: Arun R Murthy <arun.r.murthy@intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Reviewed-by: Arun R Murthy <arun.r.murthy@intel.com>
+> Signed-off-by: Animesh Manna <animesh.manna@intel.com>
 
+You got the ack, please keep track of it.
 
-On 07/11/2023 21:10, Jessica Zhang wrote:
-> 
-> 
-> On 11/6/2023 9:35 AM, Jessica Zhang wrote:
->>
->>
->> On 11/4/2023 6:02 AM, Helen Koike wrote:
->>> Hi Jessica,
->>>
->>> On 10/10/2023 19:25, Jessica Zhang wrote:
->>>> Recently, we've registered a Gitlab runner for a Qualcomm RB5 device 
->>>> that will be
->>>> hosted and maintained in Qualcomm labs.
->>>>
->>>> This series will add a corresponding CI job for testing SM8250 
->>>> devices and add the
->>>> skip/fails/flakes list. We were able to complete a successful run 
->>>> [1] with these
->>>> changes.
->>>>
->>>> For now, we will keep the job as manual trigger only and drop that 
->>>> rule later
->>>> after we stabilize the tests.
->>>>
->>>> [1] https://gitlab.freedesktop.org/drm/msm/-/jobs/50092719
->>>>
->>>> ---
->>>
->>> Thank you for you patchset.
->>>
->>> I'm getting the following error:
->>>
->>> "serial.serialutil.SerialException: [Errno 2] could not open port 
->>> /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'"
->>>
->>> https://gitlab.freedesktop.org/helen.fornazier/linux/-/jobs/51193215#L146
->>>
->>> I'm wondering if I'm missing some configuration.
->>>
->>> I tested on top of drm-misc-next.
->>
->> Hi Helen,
->>
->> Sorry for the inconvenience, but I had to temporarily take down the 
->> runner last Friday to physically move the setup (as part of a 
->> reorganization of our lab here).
->>
->> I'll update this thread as soon as the runner is back up -- the move 
->> will be complete by the end of this week.
-> The RB5 runner is back up -- please let me know if you run into any 
-> issues with it.
+https://lore.kernel.org/r/elcebygxs432bcj7oez7ndlfvb3lru7m7yznyqp2ei4ocjkvx=
+p@23lf2rh45fmt
 
-It worked now, I runned on drm-tip-next, I got several UnexpectedPass, 
-except for kms_color@ctm-green-to-red,Fail, could you check if those are 
-flakes or things got fixed and we can remove them from -fails.txt?
+> ---
+>  include/drm/display/drm_dp.h | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+>
+> diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+> index e69cece404b3..fc42b622ef32 100644
+> --- a/include/drm/display/drm_dp.h
+> +++ b/include/drm/display/drm_dp.h
+> @@ -543,6 +543,10 @@
+>  /* DFP Capability Extension */
+>  #define DP_DFP_CAPABILITY_EXTENSION_SUPPORT	0x0a3	/* 2.0 */
+>=20=20
+> +#define DP_PANEL_REPLAY_CAP                 0x0b0  /* DP 2.0 */
+> +# define DP_PANEL_REPLAY_SUPPORT            (1 << 0)
+> +# define DP_PANEL_REPLAY_SU_SUPPORT         (1 << 1)
+> +
+>  /* Link Configuration */
+>  #define	DP_LINK_BW_SET		            0x100
+>  # define DP_LINK_RATE_TABLE		    0x00    /* eDP 1.4 */
+> @@ -716,6 +720,13 @@
+>  #define DP_BRANCH_DEVICE_CTRL		    0x1a1
+>  # define DP_BRANCH_DEVICE_IRQ_HPD	    (1 << 0)
+>=20=20
+> +#define PANEL_REPLAY_CONFIG                             0x1b0  /* DP 2.0=
+ */
+> +# define DP_PANEL_REPLAY_ENABLE                         (1 << 0)
+> +# define DP_PANEL_REPLAY_UNRECOVERABLE_ERROR_EN         (1 << 3)
+> +# define DP_PANEL_REPLAY_RFB_STORAGE_ERROR_EN           (1 << 4)
+> +# define DP_PANEL_REPLAY_ACTIVE_FRAME_CRC_ERROR_EN      (1 << 5)
+> +# define DP_PANEL_REPLAY_SU_ENABLE                      (1 << 6)
+> +
+>  #define DP_PAYLOAD_ALLOCATE_SET		    0x1c0
+>  #define DP_PAYLOAD_ALLOCATE_START_TIME_SLOT 0x1c1
+>  #define DP_PAYLOAD_ALLOCATE_TIME_SLOT_COUNT 0x1c2
+> @@ -1105,6 +1116,18 @@
+>  #define DP_LANE_ALIGN_STATUS_UPDATED_ESI       0x200e /* status same as =
+0x204 */
+>  #define DP_SINK_STATUS_ESI                     0x200f /* status same as =
+0x205 */
+>=20=20
+> +#define DP_PANEL_REPLAY_ERROR_STATUS                   0x2020  /* DP 2.1=
+*/
+> +# define DP_PANEL_REPLAY_LINK_CRC_ERROR                (1 << 0)
+> +# define DP_PANEL_REPLAY_RFB_STORAGE_ERROR             (1 << 1)
+> +# define DP_PANEL_REPLAY_VSC_SDP_UNCORRECTABLE_ERROR   (1 << 2)
+> +
+> +#define DP_SINK_DEVICE_PR_AND_FRAME_LOCK_STATUS        0x2022  /* DP 2.1=
+ */
+> +# define DP_SINK_DEVICE_PANEL_REPLAY_STATUS_MASK       (7 << 0)
+> +# define DP_SINK_FRAME_LOCKED_SHIFT                    3
+> +# define DP_SINK_FRAME_LOCKED_MASK                     (3 << 3)
+> +# define DP_SINK_FRAME_LOCKED_STATUS_VALID_SHIFT       5
+> +# define DP_SINK_FRAME_LOCKED_STATUS_VALID_MASK        (1 << 5)
+> +
+>  /* Extended Receiver Capability: See DP_DPCD_REV for definitions */
+>  #define DP_DP13_DPCD_REV                    0x2200
 
-https://gitlab.freedesktop.org/helen.fornazier/linux/-/jobs/51385345#L23356
-
-
-Thanks!
-
-Regards,
-Helen
-
-> 
-> Thanks,
-> 
-> Jessica Zhang
-> 
->>
->>>
->>> Also, I'd like to add in the docs an entry about the devices we have, 
->>> which tag they need, which dts they correspond to, which farm they 
->>> are located, who to contact if there is any problem and maybe some 
->>> comment about the device (how it is hooked up, the logs comes from 
->>> uart or ssh, does it use fastboot, etc) if you find it useful.
->>> Would you mind adding an entry in the docs with this information for 
->>> the sm8250? (Than I'll add the info of the other devices after yours).
->>
->> Sure, sounds good.
->>
->>>
->>>
->>>> Jessica Zhang (3):
->>>>        drm/ci: Add SM8250 job to CI
->>>
->>> I would also move this patch to last, so we don't have a commit where 
->>> things shouldn't work properly.
->>> Or maybe squash them all.
->>
->> Acked -- I'll move this patch to the end.
->>
->> Thanks,
->>
->> Jessica Zhang
->>
->>>
->>> Regards,
->>> Helen
->>>
->>>>        drm/ci: enable CONFIG_INTERCONNECT_QCOM_SM8250 for arm64 config
->>>>        drm/ci: Add skips, fails and flakes for SM8250
->>>>
->>>>   drivers/gpu/drm/ci/arm64.config                 |  1 +
->>>>   drivers/gpu/drm/ci/build.sh                     |  1 +
->>>>   drivers/gpu/drm/ci/test.yml                     | 15 +++++++++++++
->>>>   drivers/gpu/drm/ci/xfails/msm-sm8250-fails.txt  | 29 
->>>> +++++++++++++++++++++++++
->>>>   drivers/gpu/drm/ci/xfails/msm-sm8250-flakes.txt |  3 +++
->>>>   drivers/gpu/drm/ci/xfails/msm-sm8250-skips.txt  |  8 +++++++
->>>>   6 files changed, 57 insertions(+)
->>>> ---
->>>> base-commit: dcd88f8c63341ed11a8c5019408f62202cd9d1f2
->>>> change-id: 20230919-rb5-runner-77ec32bd61e7
->>>>
->>>> Best regards,
+--=20
+Jani Nikula, Intel
