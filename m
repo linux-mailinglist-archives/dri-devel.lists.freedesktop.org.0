@@ -1,143 +1,90 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 778467E712C
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 19:06:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A717E7196
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 19:34:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56C5F10E21F;
-	Thu,  9 Nov 2023 18:06:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F35B10E0EC;
+	Thu,  9 Nov 2023 18:34:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A956210E110
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 18:06:06 +0000 (UTC)
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20231109180604epoutp0203d5183f1c25af849c509750f8f2a288~WBpkvgpMu0327303273epoutp02F;
- Thu,  9 Nov 2023 18:06:04 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20231109180604epoutp0203d5183f1c25af849c509750f8f2a288~WBpkvgpMu0327303273epoutp02F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1699553164;
- bh=+s1GQ6cxkAoMLjQHQuQK7i4/jrzq4jIiFYnAJpIQAEg=;
- h=From:To:In-Reply-To:Subject:Date:References:From;
- b=fZJV8SvM9AfYAMlrJAfY9poiOHXvmFKyFZdqqynP0HbcsJUE0WsGeEHJmrPBoEOyv
- uOxFNNfpAPIaMnLjFlEZEzqtGgOwfkouJWYMZ6t/3eX/dS9Q3bYz/lFUO2FueC3+D9
- Pr5T+j3Roa4XMe6ST/Zt60H6RGOgnO3fH8pZCDpw=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTP id
- 20231109180603epcas5p3e7b62e16ea0b7ef816115bef9ceda331~WBpkQ5v2s2548325483epcas5p33;
- Thu,  9 Nov 2023 18:06:03 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.180]) by
- epsnrtp3.localdomain (Postfix) with ESMTP id 4SR8yf2CFmz4x9Pp; Thu,  9 Nov
- 2023 18:06:02 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
- epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 76.D0.09634.A8F1D456; Fri, 10 Nov 2023 03:06:02 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
- 20231109180601epcas5p35d2a5cf24cd906dede19c27213ad49df~WBpiOm5-92217322173epcas5p3w;
- Thu,  9 Nov 2023 18:06:01 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20231109180601epsmtrp1783e1075e75b37e27b73c9f8317adad1~WBpiKb3q02657326573epsmtrp1R;
- Thu,  9 Nov 2023 18:06:01 +0000 (GMT)
-X-AuditID: b6c32a49-eebff700000025a2-47-654d1f8aa957
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
- 8F.16.18939.98F1D456; Fri, 10 Nov 2023 03:06:01 +0900 (KST)
-Received: from INBRO000447 (unknown [107.122.12.5]) by epsmtip2.samsung.com
- (KnoxPortal) with ESMTPA id
- 20231109180556epsmtip22b32d0e0ae0460b24729fae93c0cf165~WBpdFE6PW2620526205epsmtip2P;
- Thu,  9 Nov 2023 18:05:56 +0000 (GMT)
-From: "Alim Akhtar" <alim.akhtar@samsung.com>
-To: "'Krzysztof Kozlowski'" <krzysztof.kozlowski@linaro.org>, "'David
- Airlie'" <airlied@gmail.com>, "'Daniel Vetter'" <daniel@ffwll.ch>, "'Maarten
- Lankhorst'" <maarten.lankhorst@linux.intel.com>, "'Maxime Ripard'"
- <mripard@kernel.org>, "'Thomas Zimmermann'" <tzimmermann@suse.de>, "'Rob
- Herring'" <robh+dt@kernel.org>, "'Krzysztof Kozlowski'"
- <krzysztof.kozlowski+dt@linaro.org>, "'Conor Dooley'" <conor+dt@kernel.org>,
- "'Andi Shyti'" <andi.shyti@kernel.org>, "'Jonathan Cameron'"
- <jic23@kernel.org>, "'Lars-Peter Clausen'" <lars@metafoo.de>, "'Lee Jones'"
- <lee@kernel.org>, "'Ulf Hansson'" <ulf.hansson@linaro.org>, "'Tomasz	Figa'"
- <tomasz.figa@gmail.com>, "'Sylwester Nawrocki'" <s.nawrocki@samsung.com>,
- "'Linus Walleij'" <linus.walleij@linaro.org>, "'Thierry Reding'"
- <thierry.reding@gmail.com>, =?utf-8?Q?'Uwe_Kleine-K=C3=B6nig'?=
- <u.kleine-koenig@pengutronix.de>, "'Alessandro Zummo'"
- <a.zummo@towertech.it>, "'Alexandre Belloni'"
- <alexandre.belloni@bootlin.com>, "'Greg Kroah-Hartman'"
- <gregkh@linuxfoundation.org>, "'Jiri Slaby'" <jirislaby@kernel.org>, "'Liam
- Girdwood'" <lgirdwood@gmail.com>, "'Mark Brown'" <broonie@kernel.org>,
- "'Jaehoon	Chung'" <jh80.chung@samsung.com>, "'Sam Protsenko'"
- <semen.protsenko@linaro.org>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
- <linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
- <linux-mmc@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
- <linux-serial@vger.kernel.org>, <alsa-devel@alsa-project.org>,
- <linux-sound@vger.kernel.org>
-In-Reply-To: <20231108104343.24192-3-krzysztof.kozlowski@linaro.org>
-Subject: RE: [PATCH 02/17] dt-bindings: i2c: exynos5: add specific
- compatibles for existing SoC
-Date: Thu, 9 Nov 2023 23:35:54 +0530
-Message-ID: <02bb01da1337$65caf5e0$3160e1a0$@samsung.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E998E10E0EC
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 18:34:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1699554890;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HXjSy5YA5D8YncNtofbDL87rfXXmUD1aZWvjINGfVIE=;
+ b=CxVdb91oYIgILMgcAJbl9OnHC5wdFjxIX9k2mrI0OxQACDUCKACqG6zkxqqLrfNzrpofeb
+ gJqyN4qNEigy9NgMwxe49hGM2up2CNZLxyIkRcPkSUuy1UARlTdAwnZ0m40SKrSP6mEi7h
+ virglcvJuqzBf5hna2IoNIyEZdbF5Ek=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-403-HPf4hDZXOmywQI2ymX_law-1; Thu, 09 Nov 2023 13:34:48 -0500
+X-MC-Unique: HPf4hDZXOmywQI2ymX_law-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-32fd5f7b674so568272f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 10:34:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699554887; x=1700159687;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=HXjSy5YA5D8YncNtofbDL87rfXXmUD1aZWvjINGfVIE=;
+ b=T4nnWJonmLImvtmtBype2p/Cy4tWi7R5BLVXrTSYO+mamxCBSZb4/e6f6UCYT0Zb/4
+ 08P8HzCSoWqGs6Ci5FSypbLq8cZwxsN+Wfi+1jQx+k81UEeUiaLkSxHgD3ZXLvzr391V
+ nq8RZeJoYNNPVfPhHtBRUeg/c21GIF1eQXaSUfH1HXOHGn1rKGn8A8KiLjMsyqwqAbvT
+ 6PrWKe8i7+eNiLrVlZgG4c+KVV3xr9JDaLfCAEipJxFYmmy/VgLmikMFmzaJMf7I70s8
+ gleGJBng3RGs0mxKpy6fwe/1WoZ8mbZ0f/rM+MPGte+/HQ0+Qkwf3UuctmPJ2vBtfwdG
+ TjKQ==
+X-Gm-Message-State: AOJu0YyY98K/3lhqvmDtu09XY92eXpfXlzYO1s39OwVhdwZG0QhMGxB8
+ zaV4jo1+duz8z9/zCksubQrUH5tCDp7bHqDjQMgk8cBozLgGMTGqV9egx3/AWiacmixvoy1CyPc
+ oCPTUsIy7zpq+p0zfXbAZDo7zZ+6z
+X-Received: by 2002:a5d:5504:0:b0:32f:b1ea:db78 with SMTP id
+ b4-20020a5d5504000000b0032fb1eadb78mr4844253wrv.59.1699554887535; 
+ Thu, 09 Nov 2023 10:34:47 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHZe8hfJ4Prnto9BFitiesz+qXT9MkRCFMEQZ5Ti4xGYe7R9GwbGcG2vTv7B7AR26dmUADt2Q==
+X-Received: by 2002:a5d:5504:0:b0:32f:b1ea:db78 with SMTP id
+ b4-20020a5d5504000000b0032fb1eadb78mr4844226wrv.59.1699554887146; 
+ Thu, 09 Nov 2023 10:34:47 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ o13-20020a5d670d000000b0032d8354fb43sm239003wru.76.2023.11.09.10.34.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Nov 2023 10:34:46 -0800 (PST)
+Message-ID: <4532d9d5-4c5a-4639-8136-d3ba9995d7b6@redhat.com>
+Date: Thu, 9 Nov 2023 19:34:45 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQGWJB6kbFUwx2+cGuz2YrV1SxstmQJIJYa1AlRjzhGw1UCPMA==
-Content-Language: en-us
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Te1BUZRSf7+59LBR0A8IvKqRNxyB5rAF920CIMnZDZXAifNC0rHBdGGDZ
- 2QU0bUaDXBDkFaK08lAhkBXCeA2gZK085DEo8YqEeBYQCAkKrsDQLtfM/37nd37n+51zvjl8
- ntk8ZcUPlUWxCpkkXEAa49W3bbfYJ27cyzpdbCdRQWcPhe70XcFQ/Gwhhbo7tRgaepwAUObI
- OIlK6jswtFadzkN5DR0E6n48R6K4/DIS/fZURaDhWA2GZnPeRCmTIzxUP11FoYKMPALVqC7j
- aLE7AUPnVoowVD7WS6CKvBWAElYfAZTbMIujrrpsEjWspQI0OKgBqOlaN4my7v6Eofb8ZArl
- /HWOhy4/rMKR6kwhgU7XN1Do9kw8gSZS9BJdXS6ONHX69ypn0gl0Pz0DoObS/dttmesLsSST
- W3KCqV+8hDO16kGKKdecIZmB3pt6vmUfcyunhGKGkpoxpqLgJFMwoyWY1FUnJqVSA5iKthPM
- hVwdxiyUW/vSh8LcQlhJMKuwYWVBkcGhMqm7YPen4p1iF1cnob1QhD4Q2MgkEay7wGuPr/2u
- 0HD9ggU2MZLwaD3lK1EqBY4fuSkio6NYm5BIZZS7gJUHh8ud5Q5KSYQyWiZ1kLFRHwqdnLa5
- 6IWBYSE/XsXl7cJjJcN14BTocUwERnxIO8PspV95BmxG3wAwfvVgIjDW43kA+79vJJ4Ha2PZ
- ehV/vSKxVczxtQA+Sh3BuWASwLa8JsLwFEnbw5p8FWlIWNA3TGDXrVHckDCiveC9+AuYAZvT
- EvhgMXOdx+lN8On12HXehBbB2sVvAIdfhS3fja9rePR7sPDyNI/r2wbq/iwkDB1Z0Dtg59dy
- TrIBTjU2UAZfSNcbwybN1Wd6L5g6EYdz2Bz+3VxJcdgKTqWqKG4yBl5ZseLoEPigqAxw2AP+
- 3J2NGyQ82haW1TlyVqYweXkc4ypNYILKjFNvhnGzPc+M3oDpSUkEhxmo7j1PcavqBHBgQUOk
- ARv1C0OqXxhS/cI06v+dLwFcA15n5coIKat0kQtl7NHnvx0UGVEO1o/P7pMaMDj8j4MWYHyg
- BZDPE1iY3HPew5qZBEu+PM4qIsWK6HBWqQUu+s2n86xeC4rUX68sSix0Fjk5u7q6OovedxUK
- NphMn84JNqOlkig2jGXlrOK/OoxvZHUKK7dLCqtZ9txYkexV6dns/0oiyusv3Oph6p9Gfrsj
- AHylzJpW89/W7VNNWor8wo5o/QuWRyytbx/yptzzmzZjbwVu6yhlPvPuO5zsQHi8e2zLWOp2
- 44NVk3eWPKMHU45X96uWNvsHaItNi3U7ha0WRTHmoR6i0iwscyumC6fF2JPdUr8vGjzNE3xq
- BlZ0qPDzAd6B0rujAZbv3G9esmybOB84d81vqqk1xLo79KFiO1q07/Gu/qNm7rB0mbLOOCqW
- xv8wvNHYZ28feTjIT7Kp9eLH9mcaW6pvunf5FTcKe+fP9jxxG2UtQn8PSkt46cguxYGY5iG7
- PJHPyV/297wc3JHrK8CVIRKhHU+hlPwL3AsNxgUFAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTVwCGd+43TbrdVRx3VAoWYgARZHPZcS5qJj/uD5lTpia6BSrcFLYC
- zW1hU2MGVcvHHB9DhpZRZDTFlapQKF+hG5ZqVRwDrTAURJyABoLbgGYorKM0W/j35H2f8+ac
- 5FCo6DYeSKVlqDk+Q6aQEgKspVsavKkgOJ7bbLgqgYb+eyS8MfgDAvNmjCR09dsRODqfD2D5
- 2BMCmm29CPS0lKKw2tGLQ9f8cwKerL1CwN9eaHH4SGNC4EzVOlj0dAyFtikrCQ1l1Ths09Zg
- 0O3KR+DZxToEWn4fwGFT9SKA+UtzAOodMxi82/E9AR2eYgBHRkwAXq93EfDcrz8h8HbtNySs
- mjiLwpo/rRjUFhhxeNrmIGH3dB4OJ4uWlYUOPQZNHct7zdOlOHxQWgag89LBnRFsw6yGYPXm
- 46zNfQFj23UjJGsxFRDs8EDncn5zL/tzlZlkR792ImyT4SvWMG3H2eKlzWxRswmwTT3H2Qr9
- AsLOWiQf0YcE76dwirRsjo/ZniRIdTnNpPJM2JePut0gB4wGFQKKYugtTOGtxEIgoER0K2C+
- 7bCDQuC3nIuZwcYS0sdrmB//mSR90gRgRlobcW9B0JuYtlot4WV/ekjI9Azv8Um/AMbqOIV6
- Cz86junLq0C8vIZOZKw2D+ZljA5jXjRoVnIhvZVpd58CPn6duXn+yYqD0huZ8aHx/9lYM4X6
- bhTCLIwbce8L/OkPmP5cpU8JYJ5dc5AlQKRbtaRbtaRbtaRbdeQCwExgLadUpcvTk5Wx0SpZ
- uiorQx6dnJluASsfLnJfGzBeWYq2A4QCdsBQqNRf2LdlNycSpsiOHuP4zEQ+S8Gp7EBMYdIA
- YaiiIEVEy2Vq7nOOU3L8fy1C+QXmIAcElYt/bAiJUKvj+LmiXj7s5Xv40fMhor/eUu+4u35o
- f9/a/R++M9DUbHotTS5+80bOrbmu+ofXxCec8Gpv+7bWoIqYNn1NzB6jIbSk585T/4/nB69H
- fvd8QnLATSTNPJ4wiDURe8vkLYFpc+aL998+UnIp1PxGud/LhNKEIa2e8hw5/HdU9cWN8Zcr
- 1y/yFsnWispRYb0rPnXXofHs4vCp3V3OT3Z8au16BW0tD351XWdAruLhu8nYg8oWIrdxw0Ld
- 44xnJwcC9JrMscSwfbHbEsLR7jue05LAnSd25ZwLj2qIrovabuatks77kwfPJGU5Lld9kW3O
- x2c/Cxo+fC8u65jNI8VUqbLYSJRXyf4FqdWDf98DAAA=
-X-CMS-MailID: 20231109180601epcas5p35d2a5cf24cd906dede19c27213ad49df
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20231108104407epcas5p4c52f140b035727b6110ff7d3c0f81bc0
-References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
- <CGME20231108104407epcas5p4c52f140b035727b6110ff7d3c0f81bc0@epcas5p4.samsung.com>
- <20231108104343.24192-3-krzysztof.kozlowski@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH drm-misc-next v8 09/12] drm/gpuvm: reference count
+ drm_gpuvm structures
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+References: <20231101233113.8059-10-dakr@redhat.com>
+ <be93d9ef-3d3e-4262-a280-d2922b983ca1@amd.com> <ZUTyGTxcH7WlHKsv@pollux>
+ <a2e13a27-d2e5-4ae3-9c11-c18b425b69cc@amd.com>
+ <b533af44-0404-49c9-9879-3414d0964acc@redhat.com>
+ <51dea5f3-a18b-4797-b4fa-87da7db4624a@amd.com> <ZUjZFFtLM435tTxJ@pollux>
+ <8e87d962-c80c-40d9-94d7-58b6cd9dd794@amd.com> <ZUj0DdYZUgjhcvf5@pollux>
+ <6d3c48f6-a92d-49b3-b836-ee1bc95b56bf@amd.com> <ZUkXkJ+zT7OFGosC@pollux>
+ <44bc28c7-05f4-4419-5183-453c4951aac0@linux.intel.com>
+ <6c536c94-7072-403c-9c63-d932252fd66b@amd.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <6c536c94-7072-403c-9c63-d932252fd66b@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,96 +97,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: matthew.brost@intel.com, sarah.walker@imgtec.com,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, faith@gfxstrand.net,
+ boris.brezillon@collabora.com, donald.robson@imgtec.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 11/9/23 17:03, Christian König wrote:
+> Am 09.11.23 um 16:50 schrieb Thomas Hellström:
+>> [SNIP]
+>>>>
+>> Did we get any resolution on this?
+>>
+>> FWIW, my take on this is that it would be possible to get GPUVM to work both with and without internal refcounting; If with, the driver needs a vm close to resolve cyclic references, if without that's not necessary. If GPUVM is allowed to refcount in mappings and vm_bos, that comes with a slight performance drop but as Danilo pointed out, the VM lifetime problem iterating over a vm_bo's mapping becomes much easier and the code thus becomes easier to maintain moving forward. That convinced me it's a good thing.
+> 
+> I strongly believe you guys stumbled over one of the core problems with the VM here and I think that reference counting is the right answer to solving this.
+> 
+> The big question is that what is reference counted and in which direction does the dependency points, e.g. we have here VM, BO, BO_VM and Mapping objects.
+> 
+> Those patches here suggest a counted Mapping -> VM reference and I'm pretty sure that this isn't a good idea. What we should rather really have is a BO -> VM or BO_VM ->VM reference. In other words that each BO which is part of the VM keeps a reference to the VM.
 
+We have both. Please see the subsequent patch introducing VM_BO structures for that.
 
-> -----Original Message-----
-> From: Krzysztof Kozlowski <krzysztof.kozlowski=40linaro.org>
-> Sent: Wednesday, November 8, 2023 4:13 PM
-> To: David Airlie <airlied=40gmail.com>; Daniel Vetter <daniel=40ffwll.ch>=
-;
-> Maarten Lankhorst <maarten.lankhorst=40linux.intel.com>; Maxime Ripard
-> <mripard=40kernel.org>; Thomas Zimmermann <tzimmermann=40suse.de>;
-> Rob Herring <robh+dt=40kernel.org>; Krzysztof Kozlowski
-> <krzysztof.kozlowski+dt=40linaro.org>; Conor Dooley
-> <conor+dt=40kernel.org>; Alim Akhtar <alim.akhtar=40samsung.com>; Andi
-> Shyti <andi.shyti=40kernel.org>; Jonathan Cameron <jic23=40kernel.org>; L=
-ars-
-> Peter Clausen <lars=40metafoo.de>; Lee Jones <lee=40kernel.org>; Ulf
-> Hansson <ulf.hansson=40linaro.org>; Tomasz Figa <tomasz.figa=40gmail.com>=
-;
-> Sylwester Nawrocki <s.nawrocki=40samsung.com>; Linus Walleij
-> <linus.walleij=40linaro.org>; Thierry Reding <thierry.reding=40gmail.com>=
-; Uwe
-> Kleine-K=C3=B6nig=20<u.kleine-koenig=40pengutronix.de>;=20Alessandro=20Zu=
-mmo=0D=0A>=20<a.zummo=40towertech.it>;=20Alexandre=20Belloni=0D=0A>=20<alex=
-andre.belloni=40bootlin.com>;=20Greg=20Kroah-Hartman=0D=0A>=20<gregkh=40lin=
-uxfoundation.org>;=20Jiri=20Slaby=20<jirislaby=40kernel.org>;=20Liam=0D=0A>=
-=20Girdwood=20<lgirdwood=40gmail.com>;=20Mark=20Brown=20<broonie=40kernel.o=
-rg>;=0D=0A>=20Jaehoon=20Chung=20<jh80.chung=40samsung.com>;=20Sam=20Protsen=
-ko=0D=0A>=20<semen.protsenko=40linaro.org>;=20dri-devel=40lists.freedesktop=
-.org;=0D=0A>=20devicetree=40vger.kernel.org;=20linux-kernel=40vger.kernel.o=
-rg;=20linux-arm-=0D=0A>=20kernel=40lists.infradead.org;=20linux-samsung-soc=
-=40vger.kernel.org;=20linux-=0D=0A>=20i2c=40vger.kernel.org;=20linux-iio=40=
-vger.kernel.org;=20linux-mmc=40vger.kernel.org;=0D=0A>=20linux-gpio=40vger.=
-kernel.org;=20linux-pwm=40vger.kernel.org;=20linux-=0D=0A>=20rtc=40vger.ker=
-nel.org;=20linux-serial=40vger.kernel.org;=20alsa-devel=40alsa-=0D=0A>=20pr=
-oject.org;=20linux-sound=40vger.kernel.org=0D=0A>=20Cc:=20Krzysztof=20Kozlo=
-wski=20<krzysztof.kozlowski=40linaro.org>=0D=0A>=20Subject:=20=5BPATCH=2002=
-/17=5D=20dt-bindings:=20i2c:=20exynos5:=20add=20specific=20compatibles=20fo=
-r=0D=0A>=20existing=20SoC=0D=0A>=20=0D=0A>=20Samsung=20Exynos=20SoC=20reuse=
-s=20several=20devices=20from=20older=20designs,=20thus=0D=0A>=20historicall=
-y=20we=20kept=20the=20old=20(block's)=20compatible=20only.=20=20This=20work=
-s=20fine=20and=0D=0A>=20there=20is=20no=20bug=20here,=20however=20guideline=
-s=20expressed=20in=0D=0A>=20Documentation/devicetree/bindings/writing-bindi=
-ngs.rst=20state=20that:=0D=0A>=201.=20Compatibles=20should=20be=20specific.=
-=0D=0A>=202.=20We=20should=20add=20new=20compatibles=20in=20case=20of=20bug=
-s=20or=20features.=0D=0A>=20=0D=0A>=20Add=20compatibles=20specific=20to=20e=
-ach=20SoC=20in=20front=20of=20all=20old-SoC-like=20compatibles.=0D=0A>=20=
-=0D=0A>=20Signed-off-by:=20Krzysztof=20Kozlowski=20<krzysztof.kozlowski=40l=
-inaro.org>=0D=0A>=20=0D=0A>=20---=0D=0A>=20=0D=0A>=20I=20propose=20to=20tak=
-e=20the=20patch=20through=20Samsung=20SoC=20(me).=20See=20cover=20letter=20=
-for=0D=0A>=20explanation.=0D=0A>=20---=0D=0A>=20=20Documentation/devicetree=
-/bindings/i2c/i2c-exynos5.yaml=20=7C=2010=20+++++++++-=0D=0A>=20=20.../devi=
-cetree/bindings/soc/samsung/exynos-usi.yaml=20=20=20=20=7C=20=202=20+-=0D=
-=0A>=20=202=20files=20changed,=2010=20insertions(+),=202=20deletions(-)=0D=
-=0A>=20=0D=0A>=20diff=20--git=20a/Documentation/devicetree/bindings/i2c/i2c=
--exynos5.yaml=0D=0A>=20b/Documentation/devicetree/bindings/i2c/i2c-exynos5.=
-yaml=0D=0A>=20index=203e52a0db6c41..c1f5d2cb7709=20100644=0D=0A>=20---=20a/=
-Documentation/devicetree/bindings/i2c/i2c-exynos5.yaml=0D=0A>=20+++=20b/Doc=
-umentation/devicetree/bindings/i2c/i2c-exynos5.yaml=0D=0A>=20=40=40=20-25,7=
-=20+25,15=20=40=40=20properties:=0D=0A>=20=20=20=20=20=20=20=20=20=20=20=20=
--=20samsung,exynos5250-hsi2c=20=20=20=20=23=20Exynos5250=20and=20Exynos5420=
-=0D=0A>=20=20=20=20=20=20=20=20=20=20=20=20-=20samsung,exynos5260-hsi2c=20=
-=20=20=20=23=20Exynos5260=0D=0A>=20=20=20=20=20=20=20=20=20=20=20=20-=20sam=
-sung,exynos7-hsi2c=20=20=20=20=20=20=20=23=20Exynos7=0D=0A>=20-=20=20=20=20=
-=20=20=20=20=20=20-=20samsung,exynosautov9-hsi2c=20=20=23=20ExynosAutoV9=20=
-and=20Exynos850=0D=0A>=20+=20=20=20=20=20=20=20=20=20=20-=20samsung,exynosa=
-utov9-hsi2c=0D=0A>=20+=20=20=20=20=20=20-=20items:=0D=0A>=20+=20=20=20=20=
-=20=20=20=20=20=20-=20enum:=0D=0A>=20+=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20-=20samsung,exynos5433-hsi2c=0D=0A>=20+=20=20=20=20=20=20=20=20=20=20=
--=20const:=20samsung,exynos7-hsi2c=0D=0A>=20+=20=20=20=20=20=20-=20items:=
-=0D=0A>=20+=20=20=20=20=20=20=20=20=20=20-=20enum:=0D=0A>=20+=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20-=20samsung,exynos850-hsi2c=0D=0ADoes=20this=
-=20need=20an=20entry=20in=20allOf:?=20to=20indicate=20exynos850=20also=20ha=
-s=202=20clocks?=0D=0A=0D=0A>=20+=20=20=20=20=20=20=20=20=20=20-=20const:=20=
-samsung,exynosautov9-hsi2c=0D=0A>=20=20=20=20=20=20=20=20-=20const:=20samsu=
-ng,exynos5-hsi2c=20=20=20=20=23=20Exynos5250=20and=20Exynos5420=0D=0A>=20=
-=20=20=20=20=20=20=20=20=20deprecated:=20true=0D=0A>=20=0D=0A>=20diff=20--g=
-it=20a/Documentation/devicetree/bindings/soc/samsung/exynos-=0D=0A>=20usi.y=
-aml=20b/Documentation/devicetree/bindings/soc/samsung/exynos-=0D=0A>=20usi.=
-yaml=0D=0A>=20index=20a6836904a4f8..5b7ab69546c4=20100644=0D=0A>=20---=20a/=
-Documentation/devicetree/bindings/soc/samsung/exynos-usi.yaml=0D=0A>=20+++=
-=20b/Documentation/devicetree/bindings/soc/samsung/exynos-usi.yaml=0D=0A>=
-=20=40=40=20-155,7=20+155,7=20=40=40=20examples:=0D=0A>=20=20=20=20=20=20=
-=20=20=20=20=7D;=0D=0A>=20=0D=0A>=20=20=20=20=20=20=20=20=20=20hsi2c_0:=20i=
-2c=4013820000=20=7B=0D=0A>=20-=20=20=20=20=20=20=20=20=20=20=20=20compatibl=
-e=20=3D=20=22samsung,exynosautov9-hsi2c=22;=0D=0A>=20+=20=20=20=20=20=20=20=
-=20=20=20=20=20compatible=20=3D=20=22samsung,exynos850-hsi2c=22,=0D=0A>=20+=
-=20=22samsung,exynosautov9-hsi2c=22;=0D=0A>=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20reg=20=3D=20<0x13820000=200xc0>;=0D=0A>=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20interrupts=20=3D=20<GIC_SPI=20227=20IRQ_TYPE_LEVEL_HIGH>;=
-=0D=0A>=20=20=20=20=20=20=20=20=20=20=20=20=20=20=23address-cells=20=3D=20<=
-1>;=0D=0A>=20--=0D=0A>=202.34.1=0D=0A=0D=0A=0D=0A
+As I explained, mappings (struct drm_gpuva) keep a pointer to their VM they're mapped
+in and besides that it doesn't make sense to free a VM that still contains mappings,
+the reference count ensures that. This simply ensures memory safety.
+
+> 
+> BTW: At least in amdgpu we can have BOs which (temporary) doesn't have any mappings, but are still considered part of the VM.
+
+That should be possible.
+
+> 
+>>
+>> Another issue Christian brought up is that something intended to be embeddable (a base class) shouldn't really have its own refcount. I think that's a valid point. If you at some point need to derive from multiple such structs each having its own refcount, things will start to get weird. One way to resolve that would be to have the driver's subclass provide get() and put() ops, and export a destructor for the base-class, rather than to have the base-class provide the refcount and a destructor  ops.
+
+GPUVM simply follows the same pattern we have with drm_gem_objects. And I think it makes
+sense. Why would we want to embed two struct drm_gpuvm in a single driver structure?
+
+> 
+> Well, I have never seen stuff like that in the kernel. Might be that this works, but I would rather not try if avoidable.
+> 
+>>
+>> That would also make it possible for the driver to decide the context for the put() call: If the driver needs to be able to call put() from irq / atomic context but the base-class'es destructor doesn't allow atomic context, the driver can push freeing out to a work item if needed.
+>>
+>> Finally, the refcount overflow Christian pointed out. Limiting the number of mapping sounds like a reasonable remedy to me.
+> 
+> Well that depends, I would rather avoid having a dependency for mappings.
+> 
+> Taking the CPU VM handling as example as far as I know vm_area_structs doesn't grab a reference to their mm_struct either. Instead they get automatically destroyed when the mm_struct is destroyed.
+
+Certainly, that would be possible. However, thinking about it, this might call for
+huge trouble.
+
+First of all, we'd still need to reference count a GPUVM and take a reference for each
+VM_BO, as we do already. Now instead of simply increasing the reference count for each
+mapping as well, we'd need a *mandatory* driver callback that is called when the GPUVM
+reference count drops to zero. Maybe something like vm_destroy().
+
+The reason is that GPUVM can't just remove all mappings from the tree nor can it free them
+by itself, since drivers might use them for tracking their allocated page tables and/or
+other stuff.
+
+Now, let's think about the scope this callback might be called from. When a VM_BO is destroyed
+the driver might hold a couple of locks (for Xe it would be the VM's shared dma-resv lock and
+potentially the corresponding object's dma-resv lock if they're not the same already). If
+destroying this VM_BO leads to the VM being destroyed, the drivers vm_destroy() callback would
+be called with those locks being held as well.
+
+I feel like doing this finally opens the doors of the locking hell entirely. I think we should
+really avoid that.
+
+> 
+> Which makes sense in that case because when the mm_struct is gone the vm_area_struct doesn't make sense any more either.
+> 
+> What we clearly need is a reference to prevent the VM or at least the shared resv to go away to early.
+
+Yeah, that was a good hint and we've covered that.
+
+> 
+> Regards,
+> Christian.
+> 
+>>
+>> But I think all of this is fixable as follow-ups if needed, unless I'm missing something crucial.
+
+Fully agree, I think at this point we should go ahead and land this series.
+
+>>
+>> Just my 2 cents.
+>>
+>> /Thomas
+>>
+>>
+> 
+
