@@ -1,65 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999D27E72F6
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 21:36:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 539A57E73C8
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 22:40:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FFE010E90B;
-	Thu,  9 Nov 2023 20:36:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E65F510E924;
+	Thu,  9 Nov 2023 21:40:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9F010E90B
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 20:35:54 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id
- 3f1490d57ef6-da41e70e334so1379201276.3
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 12:35:54 -0800 (PST)
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com
+ [IPv6:2607:f8b0:4864:20::f33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D0F010E921
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 21:40:34 +0000 (UTC)
+Received: by mail-qv1-xf33.google.com with SMTP id
+ 6a1803df08f44-67131800219so8692196d6.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 13:40:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1699562153; x=1700166953; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=5oZmXInrzdGzWD7f4M1kpaUKNSP65Mx0CXqNe5IV7Pc=;
- b=ZCUW/ZacGw5PT6R9IThwNH9MDpAv6Z+krE4kQWDDiyqUosamYA5l5qq50MRHKBZbBD
- qJBWtFcFgAN8MDvhkzguk+4Wb54yHMh808kyW/Pjkxjw0vOqopXYfgApukbYTz+6uICU
- MLcmb+lAYS3XJcyOJ9jxi4l57OQFDiSyr+tJ1tkjUqJJb9uWtJ+/+gDCYVjRGZOEHd5X
- 5n3HGFPm5WUaWekpeokKWAzHh5za7pLB1JU1IlbmG6R1GlTWifJPwzNRxqFOSKQRsH7l
- TxMsicTzF8KGCxcUo/qQzftJptH1KFOg1DK+4GL9FC8e/QeP0UpS8GZW1cw4DYmdWDTT
- BLBg==
+ d=gmail.com; s=20230601; t=1699566033; x=1700170833; darn=lists.freedesktop.org;
+ h=in-reply-to:autocrypt:from:references:cc:to:content-language
+ :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=dqZ8eGZ8Pp8FeE7q6r74GQLeHAO1e/AKYL8uZYPenT8=;
+ b=aVMwdTio5CH5Ah46rZMKA3KW9HEit7HCtM8DBACHx8Q9JtpjBPwoKEcNAfpegLe2Ly
+ soOW7KdfTbdGjaiA4GmdcD5My25A3AggOiqNrJLZ8OPKvHnihQpKSSJaGEnM3LKntymD
+ oWR+trmnj9M6iFVEQP+G0YRXLG0ylesNZp6Lh3yMP1nGuZEo+u0QX2p2PfvwUZjHV+R7
+ 0AFWgn1rowfLr0HVaX7M1M9ejswVKXJor53WUJs3SSA162cCPuqCaqGR6DQmKfCrXjFB
+ LYxvm1qjaskPxLSgzsIGhPK/BWKd1rhkwdd3CmhJA6gB8Ll6XasQzDASAIVntZeXU/Yf
+ Ac4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699562153; x=1700166953;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5oZmXInrzdGzWD7f4M1kpaUKNSP65Mx0CXqNe5IV7Pc=;
- b=R3vyJwpcxAy+QndvNFvsVDDDRppWXZgWI1O+i2s4ClHqyrAG9U1ThtOnBnrc+6lcIF
- xkkIipneA5JnTrp/3UE1C1CPZwzx+g10H3UqHEEWVWIrPWq3w9i/8VmvyrqYWUMzlkjb
- qS9YsnXmMc17cRcgw8ClRQFCvZcg+FekNhs5nWBJyfUTmFLFP3mQrkTax/hryFx0E/ax
- 8B+BvyzTrwcnJpO8sjSWLP7A/OAFK52dw7WEveySHr+jRtKkGAIN54cPnsPLMUvMnCOY
- vkBNkLEvaWlpreQPuu1EADBSzvVaU0lCPExa3s+DC/Zq9rGDAtd9reCYMqroBQQ8RT27
- 4Rbg==
-X-Gm-Message-State: AOJu0YxETFWssq8sIku+vlWhAQ4Z0F+ERQ8EacIQh4HJuyQew8aIn76A
- vOyYod+qodwMXFVEDKZiO9Zn9X3fMdK6vIcohS7gUg==
-X-Google-Smtp-Source: AGHT+IEfI4SV96c7xYyRllAmVp2MeceQwUYUvbneQR8XxoK0jOqTT/Sia80rFO0jgZvmNOshJlS2DpAFLu2D8cdIuZk=
-X-Received: by 2002:a25:774f:0:b0:dae:1c87:79c0 with SMTP id
- s76-20020a25774f000000b00dae1c8779c0mr5916705ybc.19.1699562153154; Thu, 09
- Nov 2023 12:35:53 -0800 (PST)
+ d=1e100.net; s=20230601; t=1699566033; x=1700170833;
+ h=in-reply-to:autocrypt:from:references:cc:to:content-language
+ :subject:user-agent:mime-version:date:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=dqZ8eGZ8Pp8FeE7q6r74GQLeHAO1e/AKYL8uZYPenT8=;
+ b=ckiomAGFMkexPIK0t91DwG7T2K60Rfheb5Enz7wh53VfjbYMksIKKHX9dX2aZ9l3Dm
+ KYZygMmMUQRsC8cGua/VS4eumUaPSxnxcekl0TzVjzPWNRvbQ0zeE8+ImYEeh7Pxy38Q
+ jzLSpjq5AReHPX5haLf59kzoWICkSjHirzkgKymVn3tLO2Rt5T7s9ZVMlejQovZlGwBh
+ KIZjFzKODVoigmVvkg2BlrBxQNhR82RO6VD651pxf8RR5X3CZpUgIsxSXMebYiDlD6KW
+ smv/E4B5gN3fMFAm7vuVo/bnqI9Pr57tNUHLA26ZbRkgqz+3Mjo9gg8jJyvx9Muh24BW
+ seWQ==
+X-Gm-Message-State: AOJu0Yz4gZu0P8prd2NU3lgx4fzh9SQhhTTASgagHd25G63tYSDioTd7
+ DT4q31KBV+TFuVf2OfrhzI8=
+X-Google-Smtp-Source: AGHT+IH3YltxlweWDrZvXZm8ZC5Jic0g3A91lLs5H9oZ86bc9SWw0LcBSTx5Cag+vFjgRJk08vHEOQ==
+X-Received: by 2002:a05:6214:490:b0:66d:182a:c083 with SMTP id
+ pt16-20020a056214049000b0066d182ac083mr7899275qvb.9.1699566033249; 
+ Thu, 09 Nov 2023 13:40:33 -0800 (PST)
+Received: from [192.168.2.14] ([76.65.20.140])
+ by smtp.gmail.com with ESMTPSA id
+ q10-20020a0cfa0a000000b0065d05c8bb5dsm2392508qvn.64.2023.11.09.13.40.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Nov 2023 13:40:32 -0800 (PST)
+Message-ID: <01603866-26bd-4020-8999-948718b75ad2@gmail.com>
+Date: Thu, 9 Nov 2023 16:40:23 -0500
 MIME-Version: 1.0
-References: <1696632910-21942-1-git-send-email-quic_khsieh@quicinc.com>
- <CAA8EJpoFRp+7GyO=F3Ar21tfG5Yt0cL6zkAquqg7D1XXQjp50Q@mail.gmail.com>
- <55a4f98e-2772-e4fd-ae8a-132f92582c78@quicinc.com>
- <CAA8EJpo9CFf-Z3eiuKPvwf-y6eGkSibro-q-=SBxKK_L-zFOBA@mail.gmail.com>
- <b708df07-6812-df43-1313-cf6f1289fd47@quicinc.com>
- <d597554a-ad3a-0af1-e21b-3001c80f6d30@quicinc.com>
- <748da144-af4c-5a2a-e82b-3a870995cbce@quicinc.com>
-In-Reply-To: <748da144-af4c-5a2a-e82b-3a870995cbce@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 9 Nov 2023 22:35:41 +0200
-Message-ID: <CAA8EJppsyS_BTWwtVdX-B3V=O7nSWsadW4G6o-nshUNo-Z71rQ@mail.gmail.com>
-Subject: Re: [PATCH v7 0/7] incorporate pm runtime framework and eDP clean up
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
+ Thunderbird/115.4.2
+Subject: Re: [PATCH] drm/sched: fix potential page fault in
+ drm_sched_job_init()
+Content-Language: en-CA, en-US
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+ christian.koenig@amd.com
+References: <20231108022716.15250-1-dakr@redhat.com>
+ <fff7a8db-be77-4c5e-a4dd-82b254adbb78@gmail.com>
+ <242188d1-2232-4e37-8ad7-f2cdebacddd9@redhat.com>
+ <c2c4a1e3-9a8c-4922-aecc-8894d13a8054@redhat.com>
+From: Luben Tuikov <ltuikov89@gmail.com>
+Autocrypt: addr=ltuikov89@gmail.com; keydata=
+ xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
+ Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
+ eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
+ AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
+ JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
+ cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
+ 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
+ aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
+In-Reply-To: <c2c4a1e3-9a8c-4922-aecc-8894d13a8054@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------7B0Iy6KD7AleabuDKfTGjEH1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,151 +91,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, linux-kernel@vger.kernel.org,
- andersson@kernel.org, freedreno@lists.freedesktop.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Kuogee,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------7B0Iy6KD7AleabuDKfTGjEH1
+Content-Type: multipart/mixed; boundary="------------0qlI3FtQGuUpqb5S8L603S6K";
+ protected-headers="v1"
+From: Luben Tuikov <ltuikov89@gmail.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+ christian.koenig@amd.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <01603866-26bd-4020-8999-948718b75ad2@gmail.com>
+Subject: Re: [PATCH] drm/sched: fix potential page fault in
+ drm_sched_job_init()
+References: <20231108022716.15250-1-dakr@redhat.com>
+ <fff7a8db-be77-4c5e-a4dd-82b254adbb78@gmail.com>
+ <242188d1-2232-4e37-8ad7-f2cdebacddd9@redhat.com>
+ <c2c4a1e3-9a8c-4922-aecc-8894d13a8054@redhat.com>
+In-Reply-To: <c2c4a1e3-9a8c-4922-aecc-8894d13a8054@redhat.com>
 
+--------------0qlI3FtQGuUpqb5S8L603S6K
+Content-Type: multipart/mixed; boundary="------------DpMs4nwdBTrqFWkcSPu520Ma"
 
-On Thu, 9 Nov 2023 at 19:51, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
->
->
-> On 11/8/2023 10:27 AM, Abhinav Kumar wrote:
-> >
-> >
-> > On 11/8/2023 10:10 AM, Kuogee Hsieh wrote:
-> >>
-> >> On 11/7/2023 1:23 PM, Dmitry Baryshkov wrote:
-> >>> On Tue, 7 Nov 2023 at 23:01, Kuogee Hsieh <quic_khsieh@quicinc.com>
-> >>> wrote:
-> >>>>
-> >>>> On 11/6/2023 5:55 PM, Dmitry Baryshkov wrote:
-> >>>>> On Sat, 7 Oct 2023 at 01:55, Kuogee Hsieh
-> >>>>> <quic_khsieh@quicinc.com> wrote:
-> >>>>>> The purpose of this patch series is to incorporate pm runtime
-> >>>>>> framework
-> >>>>>> into MSM eDP/DP driver so that eDP panel can be detected by DRM
-> >>>>>> eDP panel
-> >>>>>> driver during system probe time. During incorporating procedure,
-> >>>>>> original
-> >>>>>> customized pm realted fucntions, such as dp_pm_prepare(),
-> >>>>>> dp_pm_suspend(),
-> >>>>>> dp_pm_resume() and dp_pm_prepare(), are removed and replaced with
-> >>>>>> functions
-> >>>>>> provided by pm runtiem framework such as
-> >>>>>> pm_runtime_force_suspend() and
-> >>>>>> pm_runtime_force_resume(). In addition, both eDP aux-bus and irq
-> >>>>>> handler
-> >>>>>> are bound at system probe time too.
-> >>>>> With this patchset in place I can crash the board using the following
-> >>>>> sequence (SM8350-HDK):
-> >>>>>
-> >>>>> - plug the USBC DP dongle
-> >>>>> - run modetest at any mode, don't press Enter yet
-> >>>>> - unplug the dongle
-> >>>>> - press Enter to stop modetest
-> >>>>>
-> >>>>> => the board resets to Sahara.
-> >>>>>
-> >>>>> Please ping me if you need any additional information from my side.
-> >>>> questiosn,
-> >>>>
-> >>>> 1) which dongle are you used?
-> >>> I have used several Dell and Hama USB-C dongles.
-> >>>
-> >>>> 2) what code branch shoud I used to duplicate this problem.
-> >>> I have pushed my kernel tree to
-> >>> git.codelinaro.org/dmitry.baryshkov/linux.git, branch test-dp-rpm
-> >>> I had several UCSI patches on top, but they should not be relevant.
-> >> git.codelinaro.org/dmitry.baryshkov/linux.git, branch test-dp-rpm <==
-> >> I synced out his branch and it is still work at my chromebook Kodiak
-> >> DUT.
-> >>>
-> >
-> > Perhaps the gap in test results with the same tree is due to internal
-> > hpd vs hpd pin. We need to try this on a device which does not use
-> > internal hpd.
->
->
-> Hi Dmitry,
+--------------DpMs4nwdBTrqFWkcSPu520Ma
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-First of all, I was able to reproduce the issue without this patch
-series. Kuogee, I must ask your pardon, it is not a regression and it
-is not caused by this series.
-So, we have a bug, but not a regression.
+On 2023-11-09 14:55, Danilo Krummrich wrote:
+> On 11/9/23 01:09, Danilo Krummrich wrote:
+>> On 11/8/23 06:46, Luben Tuikov wrote:
+>>> Hi,
+>>>
+>>> Could you please use my gmail address, the one one I'm responding fro=
+m--I don't want
+>>> to miss any DRM scheduler patches. BTW, the luben.tuikov@amd.com emai=
+l should bounce
+>>> as undeliverable.
+>>>
+>>> On 2023-11-07 21:26, Danilo Krummrich wrote:
+>>>> Commit 56e449603f0a ("drm/sched: Convert the GPU scheduler to variab=
+le
+>>>> number of run-queues") introduces drm_err() in drm_sched_job_init(),=
+ in
+>>>> order to indicate that the given entity has no runq, however at this=
 
-Second, a stable reproducer:
+>>>> time job->sched is not yet set, likely to be NULL initialized, and h=
+ence
+>>>> shouldn't be used.
+>>>>
+>>>> Replace the corresponding drm_err() call with pr_err() to avoid a
+>>>> potential page fault.
+>>>>
+>>>> While at it, extend the documentation of drm_sched_job_init() to
+>>>> indicate that job->sched is not a valid pointer until
+>>>> drm_sched_job_arm() has been called.
+>>>>
+>>>> Fixes: 56e449603f0a ("drm/sched: Convert the GPU scheduler to variab=
+le number of run-queues")
+>>>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+>>>> ---
+>>>> =C2=A0 drivers/gpu/drm/scheduler/sched_main.c | 5 ++++-
+>>>> =C2=A0 1 file changed, 4 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/dr=
+m/scheduler/sched_main.c
+>>>> index 27843e37d9b7..dd28389f0ddd 100644
+>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>>> @@ -680,6 +680,9 @@ EXPORT_SYMBOL(drm_sched_resubmit_jobs);
+>>>> =C2=A0=C2=A0 * This function returns -ENOENT in this case (which pro=
+bably should be -EIO as
+>>>> =C2=A0=C2=A0 * a more meanigful return value).
+>>>> =C2=A0=C2=A0 *
+>>>> + * Note that job->sched is not a valid pointer until drm_sched_job_=
+arm() has
+>>>> + * been called.
+>>>> + *
+>>>
+>>> Good catch!
+>>>
+>>> Did you actually get this to page-fault and have a kernel log?
+>>
+>> No, I just found it because I was about to make the same mistake.
+>>
+>>>
+>>> I'm asking because we see it correctly set in this kernel log coming =
+from AMD,
+>>
+>> I think that's because amdgpu just sets job->sched to *some* scheduler=
+ instance after
+>> job allocation [1].
+>>
+>> [1] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/amd=
+/amdgpu/amdgpu_job.c#L108
+>>
+>>>
+>>> [=C2=A0=C2=A0 11.886024] amdgpu 0000:0a:00.0: [drm] *ERROR* drm_sched=
+_job_init: entity has no rq!
+>>>
+>>> in this email,
+>>> https://lore.kernel.org/r/CADnq5_PS64jYS_Y3kGW27m-kuWP+FQFiaVcOaZiB=3D=
+JLSgPnXBQ@mail.gmail.com
+>>>
+>>>> =C2=A0=C2=A0 * Returns 0 for success, negative error code otherwise.=
 
-When you unplug and re-plug the dongle, switch the orientation of the dongle.
-This way the system crashes in 100% of cases.
+>>>> =C2=A0=C2=A0 */
+>>>> =C2=A0 int drm_sched_job_init(struct drm_sched_job *job,
+>>>> @@ -691,7 +694,7 @@ int drm_sched_job_init(struct drm_sched_job *job=
+,
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * or wo=
+rse--a blank screen--leave a trail in the
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * logs,=
+ so this can be debugged easier.
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_err(job->sched, "%s:=
+ entity has no rq!\n", __func__);
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pr_err("%s: entity has n=
+o rq!\n", __func__);
+>>>
+>>> Is it feasible to do something like the following?
+>>>
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_err(job->sched ? job->=
+sched->dev : NULL, "%s: entity has no rq!\n", __func__);
+>>
+>> I don't think that's a good idea. Although I'd assume that every drive=
+r zero-initializes its job
+>> structures, I can't see a rule enforcing that. Hence, job->sched can b=
+e a random value until
+>> drm_sched_job_arm() is called.
+>>
+>> However, I notice there are quite a view more fields of struct drm_sch=
+ed_job that are never
+>> initialized, hence there are either a couple more potential bugs or mi=
+ssing documentation that
+>> drivers *must* ensure that a job is zero-initialized.
+>=20
+> Any opinions on that? Otherwise I'd probably go ahead and send a fix fo=
+r the other bugs too.
 
-Here are the last messages that I see on my console:
+Send the patches.
 
-trying to open device 'tilcdc'...failed
-trying to open device 'msm'...done
-setting mode 3840x2160-30.00Hz on connectors 34, crtc 84
-failed to set gamma: Function not implemented
-[   25.504828] [drm:dpu_encoder_phys_vid_wait_for_commit_done:487]
-[dpu error]vblank timeout
-[   25.515024] [drm:dpu_kms_wait_for_commit_done:494] [dpu error]wait
-for commit done returned -110
-[   25.621146] [drm:dpu_encoder_frame_done_timeout:2342] [dpu
-error]enc33 frame done timeout
-Format: Log Type - Time(microsec) - Message - Optional Info
-Log Type: B - Since Boot(Power On Reset),  D - Delta,  S - Statistic
-S - QC_IMAGE_VERSION_STRING=BOOT.MXF.1.0-00848-LAHAINA-1
+Will those patches also add pr_fmt() for DRM?
 
+I'm asking because you said you'll add pr_fmt() in a "separate" patch, an=
+d I thought it was
+okay being self-contained in your patch as per the version I sent.
+--=20
+Regards,
+Luben
 
->
-> I have two more questions,
->
-> 1) are you see test pattern shows at external DP when you run modetest?
+--------------DpMs4nwdBTrqFWkcSPu520Ma
+Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-Yes, I see the pattern
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-> 2) is *.kcrash file created under /var/spool/crash/ when system crashed.
-> If it is, can you share it?
+xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
+PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
+QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
+BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
+MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
+bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
+9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
+OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
+z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
+=3DqCaZ
+-----END PGP PUBLIC KEY BLOCK-----
 
-There is no kcrash, as there is no kernel crash. The system reboots to
-the download mode.
+--------------DpMs4nwdBTrqFWkcSPu520Ma--
 
->
-> Thanks,
->
-> >
-> >>>> I can not duplicate  system crash problem at my setup kodiak (SM7325)
-> >>>> chrome book with my PM runtime patch series.
-> >>>>
-> >>>> my code base is Linux 6.6-rc2 + pm runtime patch series (7 patches)
-> >>>>
-> >>>> I did:
-> >>>>
-> >>>> 1) plugin either apple dongle (DP-to-HDMI) + 1080p display or DP typeC
-> >>>> cable directly to 1080p display
-> >>>>
-> >>>> 2)  stop ui
-> >>>>
-> >>>> 3) /usr/bin/modetest -M msm -s 34:1920x1080 (see test pattern show at
-> >>>> display)
-> >>>>
-> >>>> 4) unplug apple dongle or DP typeC cable
-> >>>>
-> >>>> 5) hit enter key
-> >>>>
-> >>>> 6) start ui
-> >>>>
-> >>>> 7) display back to login page of chrome book
-> >>>>
-> >>>>
-> >>>
+--------------0qlI3FtQGuUpqb5S8L603S6K--
 
+--------------7B0Iy6KD7AleabuDKfTGjEH1
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
--- 
-With best wishes
-Dmitry
+wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZU1RyAUDAAAAAAAKCRBMFUeUMaM0r0k0
+AQCcGTC4Vtvvhndwb05I5fLaVFY8QhEF4q+QFKqYtPEnSQD/VdiCb8GF5hopoeUPvfqlpAgXWubG
+7blef35iOQWiPgM=
+=ovIz
+-----END PGP SIGNATURE-----
+
+--------------7B0Iy6KD7AleabuDKfTGjEH1--
