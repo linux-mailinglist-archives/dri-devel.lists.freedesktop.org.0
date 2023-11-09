@@ -1,81 +1,143 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4376C7E70D2
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 18:51:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 725227E70E2
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Nov 2023 18:52:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C67F510E8F3;
-	Thu,  9 Nov 2023 17:51:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7953B10E8EB;
+	Thu,  9 Nov 2023 17:52:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4356B10E8EB;
- Thu,  9 Nov 2023 17:51:28 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3A9CrtUk014394; Thu, 9 Nov 2023 17:51:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=VGrocBjpfB4eUDrm+j3cr9UddNm0arMjWqZFjcDlqE0=;
- b=Plv3zypUMJ0ik5hxoYdBeX+TqjqV0JltbInzHs9c2TxXHGt6YP+HTwxDFWiJ/4121xAT
- Z23GVeOiN2YbHBtZNsyxe5oo/EmbYgIgumE2vbB/vTubrbYsqFm0cxci01xCvQQrtOvX
- wosDkQD7wllLyPZsznr8UQwv6Bd1FDiZu8Imx44sMKxug99HFDgjm33kzlSDQWby33xv
- b/KONQI37Jefa7Swoc8pLfCc9EMDs8yg5q7AhAxUd/EHNdSXHa4rgh/6KQvRe7l70AGm
- 7MEadHYyxtChNr5rtYK0v5tHN/QrC9d/KDEqAosNOL7H4BbADmVyQY6qPnvqAUvKpI/F dA== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u8w0ns54u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Nov 2023 17:51:21 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3A9HpKHh023297
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 9 Nov 2023 17:51:20 GMT
-Received: from [10.110.84.171] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Thu, 9 Nov
- 2023 09:51:18 -0800
-Message-ID: <748da144-af4c-5a2a-e82b-3a870995cbce@quicinc.com>
-Date: Thu, 9 Nov 2023 09:51:18 -0800
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 174CB10E8EB
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Nov 2023 17:52:27 +0000 (UTC)
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20231109175224epoutp0346aeaa927f8395919c5b0afe62126022~WBdpSexJ53065630656epoutp03p;
+ Thu,  9 Nov 2023 17:52:24 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20231109175224epoutp0346aeaa927f8395919c5b0afe62126022~WBdpSexJ53065630656epoutp03p
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1699552344;
+ bh=Jr4GkdM+Bcpg8gm8bIo+jzqmZO8HZv8wA9+FSyovLkU=;
+ h=From:To:In-Reply-To:Subject:Date:References:From;
+ b=rNWcCyRvqCsbNNbtJS8hnVFqLX0X+mdOAyIcmVoeUTU3fYTHs8YjgZK2PcXNdyKXF
+ jqYNeO2M/J0VLmO2D90WVk7ibI/miK9MBdzDUCjVsI167qKtzC1kZ8QB7vuwYEt+et
+ fQcL/enqMIjsZgZFpaR9hSWAM6pWB/KrY+5QRnXg=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+ 20231109175223epcas5p289edecb303291727ca24d9369ec4f1df~WBdoJqbIn2986229862epcas5p2K;
+ Thu,  9 Nov 2023 17:52:23 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.177]) by
+ epsnrtp1.localdomain (Postfix) with ESMTP id 4SR8fs58yRz4x9Pr; Thu,  9 Nov
+ 2023 17:52:21 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+ epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ B7.62.09672.55C1D456; Fri, 10 Nov 2023 02:52:21 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20231109175220epcas5p418e9ad19525bcc38a27890fb6ff869d1~WBdl4qPQd0671006710epcas5p4u;
+ Thu,  9 Nov 2023 17:52:20 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20231109175220epsmtrp1ac258fa50bc37d72285b233cfbdc3f02~WBdl1B-eQ1825218252epsmtrp13;
+ Thu,  9 Nov 2023 17:52:20 +0000 (GMT)
+X-AuditID: b6c32a4b-60bfd700000025c8-16-654d1c553d5c
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ AA.E8.07368.45C1D456; Fri, 10 Nov 2023 02:52:20 +0900 (KST)
+Received: from INBRO000447 (unknown [107.122.12.5]) by epsmtip1.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20231109175215epsmtip186a8ffcbe4dc89c370df647558f4d401~WBdgrX6BO0328003280epsmtip1x;
+ Thu,  9 Nov 2023 17:52:15 +0000 (GMT)
+From: "Alim Akhtar" <alim.akhtar@samsung.com>
+To: "'Krzysztof Kozlowski'" <krzysztof.kozlowski@linaro.org>, "'David
+ Airlie'" <airlied@gmail.com>, "'Daniel Vetter'" <daniel@ffwll.ch>, "'Maarten
+ Lankhorst'" <maarten.lankhorst@linux.intel.com>, "'Maxime Ripard'"
+ <mripard@kernel.org>, "'Thomas Zimmermann'" <tzimmermann@suse.de>, "'Rob
+ Herring'" <robh+dt@kernel.org>, "'Krzysztof Kozlowski'"
+ <krzysztof.kozlowski+dt@linaro.org>, "'Conor Dooley'" <conor+dt@kernel.org>,
+ "'Andi Shyti'" <andi.shyti@kernel.org>, "'Jonathan Cameron'"
+ <jic23@kernel.org>, "'Lars-Peter Clausen'" <lars@metafoo.de>, "'Lee Jones'"
+ <lee@kernel.org>, "'Ulf Hansson'" <ulf.hansson@linaro.org>, "'Tomasz	Figa'"
+ <tomasz.figa@gmail.com>, "'Sylwester Nawrocki'" <s.nawrocki@samsung.com>,
+ "'Linus Walleij'" <linus.walleij@linaro.org>, "'Thierry Reding'"
+ <thierry.reding@gmail.com>, =?utf-8?Q?'Uwe_Kleine-K=C3=B6nig'?=
+ <u.kleine-koenig@pengutronix.de>, "'Alessandro Zummo'"
+ <a.zummo@towertech.it>, "'Alexandre Belloni'"
+ <alexandre.belloni@bootlin.com>, "'Greg Kroah-Hartman'"
+ <gregkh@linuxfoundation.org>, "'Jiri Slaby'" <jirislaby@kernel.org>, "'Liam
+ Girdwood'" <lgirdwood@gmail.com>, "'Mark Brown'" <broonie@kernel.org>,
+ "'Jaehoon	Chung'" <jh80.chung@samsung.com>, "'Sam Protsenko'"
+ <semen.protsenko@linaro.org>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
+ <linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+ <linux-mmc@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
+ <linux-serial@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+ <linux-sound@vger.kernel.org>
+In-Reply-To: <20231108104343.24192-2-krzysztof.kozlowski@linaro.org>
+Subject: RE: [PATCH 01/17] dt-bindings: hwinfo: samsung,exynos-chipid: add
+ specific compatibles for existing SoC
+Date: Thu, 9 Nov 2023 23:22:14 +0530
+Message-ID: <029f01da1335$7c8ed1e0$75ac75a0$@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v7 0/7] incorporate pm runtime framework and eDP clean up
-Content-Language: en-US
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>
-References: <1696632910-21942-1-git-send-email-quic_khsieh@quicinc.com>
- <CAA8EJpoFRp+7GyO=F3Ar21tfG5Yt0cL6zkAquqg7D1XXQjp50Q@mail.gmail.com>
- <55a4f98e-2772-e4fd-ae8a-132f92582c78@quicinc.com>
- <CAA8EJpo9CFf-Z3eiuKPvwf-y6eGkSibro-q-=SBxKK_L-zFOBA@mail.gmail.com>
- <b708df07-6812-df43-1313-cf6f1289fd47@quicinc.com>
- <d597554a-ad3a-0af1-e21b-3001c80f6d30@quicinc.com>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <d597554a-ad3a-0af1-e21b-3001c80f6d30@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: XsUPbI8h8-aczDOJ5vFlGcvNkQm4TTAs
-X-Proofpoint-ORIG-GUID: XsUPbI8h8-aczDOJ5vFlGcvNkQm4TTAs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-09_14,2023-11-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- lowpriorityscore=0 malwarescore=0 bulkscore=0 phishscore=0 spamscore=0
- adultscore=0 impostorscore=0 mlxlogscore=674 priorityscore=1501
- suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311090134
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQGWJB6kbFUwx2+cGuz2YrV1SxstmQMHgSm7AhTeUd+w0T+DcA==
+Content-Language: en-us
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf0xTVxTHc1/fawtZzbOweVeN65rhRIO2UvDi1DnF+aK44Y9l0ZlA076A
+ obRNW/wx4yQKBTSCpSLKLCAldak4FFA7tMiQX8KCgAUdrEMRf1QUfyHaSWEtDzf++55zPuec
+ e87N4bL4wxwBd7tKT2tVMqWIHYhfvBb6edh3s9bT4rE+ESrt6OKg5lslGMoYsnKQs6MOQ32v
+ MwHKuzvARmWONgyNXzSyUFF9G4Gcr5+x0QFLORvd/sdAoDv7bRgaMs9C2Y/uspBj8AIHlZqK
+ CGQ3nMLRiDMTQ0dHT2Oo4l43gSqLRgHK9A4DVFg/hKOb1SfZqH48ByCXywZQ4xknGx2/UYOh
+ PyyHOcj84CgLnXpxAUeGLCuB0h31HHTtSQaBHmb7EE91IY5s1b56VU+MBOo1mgBqOvv9ilDq
+ 3Kv9bKqwbA/lGCnGqd8KXByqwpbFpv7qvuLzX99AXTWXcai+Q00YVVm6jyp9UkdQOV4xlV1l
+ A1Rl6x4qv9CDUa8qZseSW5OWJtIyBa0V0iq5WrFdlbBMtG5T3Kq4iEixJEwShRaLhCpZMr1M
+ FB0TG/b1dqVvwSLhDpkyxeeKlel0ooXLl2rVKXpamKjW6ZeJaI1CqZFqFuhkyboUVcICFa1f
+ IhGLF0X4wPikxJq8YVzTPHeXcawNSwXP5hwEAVxISuEJ49/4QRDI5ZOXAeyqcgHGeAmgPdeD
+ McYIgI1v2on3KWXeWjYTcACY3VOO+QN88hGAOVaJX7PJMGi3GCagYPIyD9682o/7AwFkNMw9
+ 18ry6yBSC7vHz05UxcnPYJX5PMeveWQU/H3wDcHo6fD6iYGJXBY5H1pPDbKYVwih5751ggkm
+ V8KXA4cJhpkB3Q31HIZxBMKxtkk+Gtpb3ZMTBMHHTVWTjAC6cww+zfVpCpaMChh3Inx6uhww
+ +ktY6zyJ+xEWGQrLqxcynabBw+8GMCaTBzMNfIYOgQeGunBGz4TGQ4cmm1Kw7653crkdAPY+
+ 8BJHgLBgypAFU4YsmDJMwf+diwFuAx/TGl1yAq2L0ISr6J3//bdcnVwBJs5v3jo76L/zfEEd
+ wLigDkAuSxTMa5fG0HyeQrb7R1qrjtOmKGldHYjwbd7IEnwoV/vuV6WPk0ijxNLIyEhpVHik
+ RDSDN5huVvDJBJmeTqJpDa19n4dxAwSp2Ax5Ki+1KLDBciSWGvIMG9tDT3rOuJIso+mGwbz2
+ +Xszcjvb3bdMl+6UevOzA7y7b7jH82Ni+udmbU5etbJn4+pfeqavF7W8fdA6bW93vOmNrGUX
+ yp018+GVDSHieyFLcoM2Z17u32Zt/mDHi29KxsLnCLfVao/lr1Bu2RJCyxuIICz2/rmtaxXv
+ LJ90fssLnhYV737n/nRH2rGdxGPpD3/uNXdtth5YdEk7Imj4dbWzd5XK9FGUK2uFvHj8QnjA
+ 4oXHkySvZm9cI/mJLzv/tLJFm9YoWY9/tbtfuu/5F4q05Wx7y9o1JeKQdcWm2zWVi2pqKu6Z
+ 3yYrOxXdDT8HNio3dfGJDBGuS5RJ5rG0Otm/Uxm8vQcFAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrAKsWRmVeSWpSXmKPExsWy7bCSnG6IjG+qwZy7WhZLLl5ltzhxfRGT
+ Rfu7ZewWVy4eYrK4/7WD0WLqwydsFmv2nmOy+L9tIrPF/CPnWC2ufH3PZtG8eD2bxY1fbawW
+ D5pWMVm8mytj0ffiIbPF3tdb2S2WTJ7ParGjbSGLxbcrHUwWU/4sZ7LY9Pgaq8Xm+X8YLTr+
+ fmG0mHfkHYvF5V1z2CyO/O9ntLh7dxWjxbHVV9gsZpzfx2RxZnEvu8XcZ1OYLRZ+3Mpi0da5
+ jNWide8RdovDb9pZLZ73AZX83DWPxWLVLqB5W95MZLW4PXEyo8XxteEOmh4bPjexecxbU+2x
+ 99sCFo+ds+6ye2xa1cnmcefaHqD4yUCP/XPXsHvc7z7O5LF5Sb3HkjeHWD36/xp49G1Zxeix
+ +XS1x/R5P5k8Pm+SCxCI4rJJSc3JLEst0rdL4MpY+G0HY0G/XMXTGYINjM2SXYycHBICJhJr
+ /h5g62Lk4hAS2M0oMenLCTaIhLTE9Y0T2CFsYYmV/56D2UICzxgl9u8Fs9kEdCV2LG4DqxcR
+ uMkrcfqOP8Sgs4wSzS2rWUESnAIuEpM2nGYGsYUFCiQ2LfgP1sAioCKxZe5GsEG8ApYSB19/
+ Z4WwBSVOznzCAmIzC2hLPL35FM5etvA1M8RBChI/ny5jhVjsJPHpSS8rRI24xMujR9gnMArN
+ QjJqFpJRs5CMmoWkZQEjyypGydSC4tz03GTDAsO81HK94sTc4tK8dL3k/NxNjOBEp6Wxg/He
+ /H96hxiZOBgPMUpwMCuJ8F4w8UkV4k1JrKxKLcqPLyrNSS0+xCjNwaIkzms4Y3aKkEB6Yklq
+ dmpqQWoRTJaJg1OqgelYhI6zuqa1m9j/6Sr/DqpxseqWhLh90nZ+vTP0mYH4Z7nJ1fHhpY33
+ o/Tq0vaX/qx6+O7vG4WSJw6900qmebEdqD3j8KI/+a8rx14JEd3W2Fvy9S1LfjvKvlpSHfP1
+ plyaMENM3YIT628zcefxmVYcaStnWrtO2GDiJ7XINiEh74ANnoz2Mb7yPScLd8inlZ+6EHOw
+ +sWG/k9FiUbG1fVfOKc5icQo9V++82WTxNWV2c13P6q1CKj3dKziU1kzoTBOZ+XilbH31CSV
+ QyycuqWn2DPNbz50M+TK3XmVl01uybJuDl6tttt344v26c5d587G9a2ff//h7sI3Ly7nvvh5
+ e/HlXXotz385/1r2TImlOCPRUIu5qDgRAD2dvGXjAwAA
+X-CMS-MailID: 20231109175220epcas5p418e9ad19525bcc38a27890fb6ff869d1
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231108104402epcas5p433b83d080a784bae895d74091df15a25
+References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
+ <CGME20231108104402epcas5p433b83d080a784bae895d74091df15a25@epcas5p4.samsung.com>
+ <20231108104343.24192-2-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,105 +150,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- linux-kernel@vger.kernel.org, andersson@kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 11/8/2023 10:27 AM, Abhinav Kumar wrote:
->
->
-> On 11/8/2023 10:10 AM, Kuogee Hsieh wrote:
->>
->> On 11/7/2023 1:23 PM, Dmitry Baryshkov wrote:
->>> On Tue, 7 Nov 2023 at 23:01, Kuogee Hsieh <quic_khsieh@quicinc.com> 
->>> wrote:
->>>>
->>>> On 11/6/2023 5:55 PM, Dmitry Baryshkov wrote:
->>>>> On Sat, 7 Oct 2023 at 01:55, Kuogee Hsieh 
->>>>> <quic_khsieh@quicinc.com> wrote:
->>>>>> The purpose of this patch series is to incorporate pm runtime 
->>>>>> framework
->>>>>> into MSM eDP/DP driver so that eDP panel can be detected by DRM 
->>>>>> eDP panel
->>>>>> driver during system probe time. During incorporating procedure, 
->>>>>> original
->>>>>> customized pm realted fucntions, such as dp_pm_prepare(), 
->>>>>> dp_pm_suspend(),
->>>>>> dp_pm_resume() and dp_pm_prepare(), are removed and replaced with 
->>>>>> functions
->>>>>> provided by pm runtiem framework such as 
->>>>>> pm_runtime_force_suspend() and
->>>>>> pm_runtime_force_resume(). In addition, both eDP aux-bus and irq 
->>>>>> handler
->>>>>> are bound at system probe time too.
->>>>> With this patchset in place I can crash the board using the following
->>>>> sequence (SM8350-HDK):
->>>>>
->>>>> - plug the USBC DP dongle
->>>>> - run modetest at any mode, don't press Enter yet
->>>>> - unplug the dongle
->>>>> - press Enter to stop modetest
->>>>>
->>>>> => the board resets to Sahara.
->>>>>
->>>>> Please ping me if you need any additional information from my side.
->>>> questiosn,
->>>>
->>>> 1) which dongle are you used?
->>> I have used several Dell and Hama USB-C dongles.
->>>
->>>> 2) what code branch shoud I used to duplicate this problem.
->>> I have pushed my kernel tree to
->>> git.codelinaro.org/dmitry.baryshkov/linux.git, branch test-dp-rpm
->>> I had several UCSI patches on top, but they should not be relevant.
->> git.codelinaro.org/dmitry.baryshkov/linux.git, branch test-dp-rpm <== 
->> I synced out his branch and it is still work at my chromebook Kodiak 
->> DUT.
->>>
->
-> Perhaps the gap in test results with the same tree is due to internal 
-> hpd vs hpd pin. We need to try this on a device which does not use 
-> internal hpd.
 
-
-Hi Dmitry,
-
-I have two more questions,
-
-1) are you see test pattern shows at external DP when you run modetest?
-2) is *.kcrash file created under /var/spool/crash/ when system crashed. 
-If it is, can you share it?
-
-Thanks,
-
->
->>>> I can not duplicate  system crash problem at my setup kodiak (SM7325)
->>>> chrome book with my PM runtime patch series.
->>>>
->>>> my code base is Linux 6.6-rc2 + pm runtime patch series (7 patches)
->>>>
->>>> I did:
->>>>
->>>> 1) plugin either apple dongle (DP-to-HDMI) + 1080p display or DP typeC
->>>> cable directly to 1080p display
->>>>
->>>> 2)  stop ui
->>>>
->>>> 3) /usr/bin/modetest -M msm -s 34:1920x1080 (see test pattern show at
->>>> display)
->>>>
->>>> 4) unplug apple dongle or DP typeC cable
->>>>
->>>> 5) hit enter key
->>>>
->>>> 6) start ui
->>>>
->>>> 7) display back to login page of chrome book
->>>>
->>>>
->>>
+> -----Original Message-----
+> From: Krzysztof Kozlowski <krzysztof.kozlowski=40linaro.org>
+> Sent: Wednesday, November 8, 2023 4:13 PM
+> To: David Airlie <airlied=40gmail.com>; Daniel Vetter <daniel=40ffwll.ch>=
+;
+> Maarten Lankhorst <maarten.lankhorst=40linux.intel.com>; Maxime Ripard
+> <mripard=40kernel.org>; Thomas Zimmermann <tzimmermann=40suse.de>;
+> Rob Herring <robh+dt=40kernel.org>; Krzysztof Kozlowski
+> <krzysztof.kozlowski+dt=40linaro.org>; Conor Dooley
+> <conor+dt=40kernel.org>; Alim Akhtar <alim.akhtar=40samsung.com>; Andi
+> Shyti <andi.shyti=40kernel.org>; Jonathan Cameron <jic23=40kernel.org>; L=
+ars-
+> Peter Clausen <lars=40metafoo.de>; Lee Jones <lee=40kernel.org>; Ulf
+> Hansson <ulf.hansson=40linaro.org>; Tomasz Figa <tomasz.figa=40gmail.com>=
+;
+> Sylwester Nawrocki <s.nawrocki=40samsung.com>; Linus Walleij
+> <linus.walleij=40linaro.org>; Thierry Reding <thierry.reding=40gmail.com>=
+; Uwe
+> Kleine-K=C3=B6nig=20<u.kleine-koenig=40pengutronix.de>;=20Alessandro=20Zu=
+mmo=0D=0A>=20<a.zummo=40towertech.it>;=20Alexandre=20Belloni=0D=0A>=20<alex=
+andre.belloni=40bootlin.com>;=20Greg=20Kroah-Hartman=0D=0A>=20<gregkh=40lin=
+uxfoundation.org>;=20Jiri=20Slaby=20<jirislaby=40kernel.org>;=20Liam=0D=0A>=
+=20Girdwood=20<lgirdwood=40gmail.com>;=20Mark=20Brown=20<broonie=40kernel.o=
+rg>;=0D=0A>=20Jaehoon=20Chung=20<jh80.chung=40samsung.com>;=20Sam=20Protsen=
+ko=0D=0A>=20<semen.protsenko=40linaro.org>;=20dri-devel=40lists.freedesktop=
+.org;=0D=0A>=20devicetree=40vger.kernel.org;=20linux-kernel=40vger.kernel.o=
+rg;=20linux-arm-=0D=0A>=20kernel=40lists.infradead.org;=20linux-samsung-soc=
+=40vger.kernel.org;=20linux-=0D=0A>=20i2c=40vger.kernel.org;=20linux-iio=40=
+vger.kernel.org;=20linux-mmc=40vger.kernel.org;=0D=0A>=20linux-gpio=40vger.=
+kernel.org;=20linux-pwm=40vger.kernel.org;=20linux-=0D=0A>=20rtc=40vger.ker=
+nel.org;=20linux-serial=40vger.kernel.org;=20alsa-devel=40alsa-=0D=0A>=20pr=
+oject.org;=20linux-sound=40vger.kernel.org=0D=0A>=20Cc:=20Krzysztof=20Kozlo=
+wski=20<krzysztof.kozlowski=40linaro.org>=0D=0A>=20Subject:=20=5BPATCH=2001=
+/17=5D=20dt-bindings:=20hwinfo:=20samsung,exynos-chipid:=20add=0D=0A>=20spe=
+cific=20compatibles=20for=20existing=20SoC=0D=0A>=20=0D=0A>=20Samsung=20Exy=
+nos=20SoC=20reuses=20several=20devices=20from=20older=20designs,=20thus=0D=
+=0A>=20historically=20we=20kept=20the=20old=20(block's)=20compatible=20only=
+.=20=20This=20works=20fine=20and=0D=0A>=20there=20is=20no=20bug=20here,=20h=
+owever=20guidelines=20expressed=20in=0D=0A>=20Documentation/devicetree/bind=
+ings/writing-bindings.rst=20state=20that:=0D=0A>=201.=20Compatibles=20shoul=
+d=20be=20specific.=0D=0A>=202.=20We=20should=20add=20new=20compatibles=20in=
+=20case=20of=20bugs=20or=20features.=0D=0A>=20=0D=0A>=20Add=20compatibles=
+=20specific=20to=20each=20SoC=20in=20front=20of=20all=20old-SoC-like=20comp=
+atibles.=0D=0A>=20=0D=0A>=20Signed-off-by:=20Krzysztof=20Kozlowski=20<krzys=
+ztof.kozlowski=40linaro.org>=0D=0A>=20=0D=0AReviewed-by:=20Alim=20Akhtar=20=
+<alim.akhtar=40samsung.com>=0D=0A=0D=0A>=20---=0D=0A>=20=0D=0A>=20I=20propo=
+se=20to=20take=20the=20patch=20through=20Samsung=20SoC=20(me).=20See=20cove=
+r=20letter=20for=0D=0A>=20explanation.=0D=0A>=20---=0D=0A>=20=20.../binding=
+s/hwinfo/samsung,exynos-chipid.yaml=20=20=7C=2017=20++++++++++++++---=0D=0A=
+>=20=201=20file=20changed,=2014=20insertions(+),=203=20deletions(-)=0D=0A>=
+=20=0D=0A>=20diff=20--git=20a/Documentation/devicetree/bindings/hwinfo/sams=
+ung,exynos-=0D=0A>=20chipid.yaml=0D=0A>=20b/Documentation/devicetree/bindin=
+gs/hwinfo/samsung,exynos-chipid.yaml=0D=0A>=20index=2095cbdcb56efe..45f3d46=
+8db7c=20100644=0D=0A>=20---=20a/Documentation/devicetree/bindings/hwinfo/sa=
+msung,exynos-=0D=0A>=20chipid.yaml=0D=0A>=20+++=20b/Documentation/devicetre=
+e/bindings/hwinfo/samsung,exynos-=0D=0A>=20chipid.yam=0D=0A>=20+++=20l=0D=
+=0A>=20=40=40=20-11,9=20+11,20=20=40=40=20maintainers:=0D=0A>=20=0D=0A>=20=
+=20properties:=0D=0A>=20=20=20=20compatible:=0D=0A>=20-=20=20=20=20enum:=0D=
+=0A>=20-=20=20=20=20=20=20-=20samsung,exynos4210-chipid=0D=0A>=20-=20=20=20=
+=20=20=20-=20samsung,exynos850-chipid=0D=0A>=20+=20=20=20=20oneOf:=0D=0A>=
+=20+=20=20=20=20=20=20-=20enum:=0D=0A>=20+=20=20=20=20=20=20=20=20=20=20-=
+=20samsung,exynos4210-chipid=0D=0A>=20+=20=20=20=20=20=20=20=20=20=20-=20sa=
+msung,exynos850-chipid=0D=0A>=20+=20=20=20=20=20=20-=20items:=0D=0A>=20+=20=
+=20=20=20=20=20=20=20=20=20-=20enum:=0D=0A>=20+=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20-=20samsung,exynos5433-chipid=0D=0A>=20+=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20-=20samsung,exynos7-chipid=0D=0A>=20+=20=20=20=20=
+=20=20=20=20=20=20-=20const:=20samsung,exynos4210-chipid=0D=0A>=20+=20=20=
+=20=20=20=20-=20items:=0D=0A>=20+=20=20=20=20=20=20=20=20=20=20-=20enum:=0D=
+=0A>=20+=20=20=20=20=20=20=20=20=20=20=20=20=20=20-=20samsung,exynos7885-ch=
+ipid=0D=0A>=20+=20=20=20=20=20=20=20=20=20=20=20=20=20=20-=20samsung,exynos=
+autov9-chipid=0D=0A>=20+=20=20=20=20=20=20=20=20=20=20-=20const:=20samsung,=
+exynos850-chipid=0D=0A>=20=0D=0A>=20=20=20=20reg:=0D=0A>=20=20=20=20=20=20m=
+axItems:=201=0D=0A>=20--=0D=0A>=202.34.1=0D=0A=0D=0A=0D=0A
