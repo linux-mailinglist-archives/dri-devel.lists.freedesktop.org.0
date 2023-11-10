@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CDFF7E7C66
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 14:12:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C70817E7C6A
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 14:12:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5654910E036;
-	Fri, 10 Nov 2023 13:12:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5DA210E038;
+	Fri, 10 Nov 2023 13:12:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61CB910E036
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 13:12:02 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id
- a640c23a62f3a-9c53e8b7cf4so336110366b.1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 05:12:02 -0800 (PST)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2EC510E043
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 13:12:54 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id
+ 4fb4d7f45d1cf-53f9af41444so3486097a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 05:12:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1699621921; x=1700226721; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1699621973; x=1700226773; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=oOOIgBuLD76SRMXtscbLmnBWjjTZy61Y8xnxf0Pthzg=;
- b=haWNhEDsPwTy+Eo9l5zvNYdlkGN6fhcCzxli1wkD6S3V9junNFhTuLpDpWCU1JDst8
- MwcgfPIlscBKZn2HJqYk5zOVvO46safF0qCD4hoMo43GFT6uzpzJf9H4kRTdFRhtPy7N
- +j+mhkZb9xgrq1b2t4amKruhfgJw2Cg+CD7Z8a46fwIPKGBqaPiEwDIQp7GRx6dngn0M
- g4DmVDF4loCUcz8vnuHXiWIEHJax34NcQ8wKvllx8UBKcutIK2D/6x6IGbpJ9oo/dJFE
- PwdFpTuIDsAidoqERRMZYG+LGJXm/rDTSEuR0xGQmfdKAPlMBibS9Sz/Mn7DZ+oOHb4f
- LUOA==
+ bh=6isbZ9uLtfZ8lUq1v9mDUjAKFznjzf9WjfJ4yDiUmqU=;
+ b=j5oZRZihnFHF19i5RX9mzJq8zJaA9T34n2P22yUTtBlwkTapoaclF5weECDz8B3CCM
+ gm4jlW45WTqj0gZ+xAZ25K5+xtMqVhDKFry3K2dCWRsEA0eTDa+irVscTheGfpnEQwI7
+ kaESzXYAXBEC0UzHFn77SLp/a/Ro+cxpEOpo+uopPLs1ogakquxkO+A9ncWMbAaMo8OY
+ Z+ayKhjwYJAVKIkSICR3vd+Uj2j2fmT9GpMErkBno4U2cf/rmjZYEuqLoa9sHqYL850E
+ 3n5o7/wmfJAQwnVLIJ0mE5WdhPaRPdSrLxrCp4qXDLwddeVDHATvSJ+gf45/nZXYRi4h
+ +SyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699621921; x=1700226721;
+ d=1e100.net; s=20230601; t=1699621973; x=1700226773;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oOOIgBuLD76SRMXtscbLmnBWjjTZy61Y8xnxf0Pthzg=;
- b=RUq/nNgdn/r6b/3hfF+Gy3GbKflbcBxTj7JXENQHzJRoIOq9j2j6NAuO9b4MJVXweV
- HMH6dMHWJ5FwfzDzhNCCEYaHBV7wTgwb3UnI4AvfZxDQkdCgc5VrMO3SnCvEwK/IGMG5
- zWiARLHKM0MHgfIBwfvxkCUZUZ/IGb19ljnqCAIm+ZlJyp3ieoLaj+KUkKNfATIMNd0W
- 5Md3jRzV6GQvGGr0rxc1H5w7eHzIzJFWdxXFqNBXkV3PCVA061V4PL6ntiExiVXAB/30
- QwOpTlgrwvskaSEXtnLC7AQXDQ9nunHeFrLOgbPseRFbOPsTKubWCbIcT1GupKwiByJu
- a+xg==
-X-Gm-Message-State: AOJu0YzAeqqtf20MRIno9DYZHmMTvUhwg0l3fvBlql3yi+4IILmon9m8
- mSdLuw0vWkk9JN5IINdoOV045w==
-X-Google-Smtp-Source: AGHT+IEEIi+ieS8L2KzBKeL0uO7ZQVAsj01ruKfHUinIc9RCASRJCRjWriWUSNdeLpp2AWnOGM6TWQ==
-X-Received: by 2002:a17:907:3e81:b0:9c3:1d7e:f5b5 with SMTP id
- hs1-20020a1709073e8100b009c31d7ef5b5mr6652693ejc.20.1699621920783; 
- Fri, 10 Nov 2023 05:12:00 -0800 (PST)
+ bh=6isbZ9uLtfZ8lUq1v9mDUjAKFznjzf9WjfJ4yDiUmqU=;
+ b=QQSDN/eBjZ48sqOftc5VfP704OF9PdMbcXsGfXpY8mEG8rDAQ19lC1sIfe8IbMq3/N
+ C3NREQxFZEF69gX8bY4V+q00XOjMco82zgfPM2FgujZhKCyHrl1DnK+OpqkRkuJtgoKx
+ AGI6vOdh+Xl9WlDOlsGU+Xtm7jYHGRAW452ebtVKhW4hXi8Qzn5CzPyXgoucxd3wRGOx
+ dc3yvVNSoU8L7liI5CsxnzeCAJJ+njRqyGro7olQdq1ljyyWRbVsDCtDF4yGoCkiNxqm
+ rn16mLqk0h5mavPLP8V7TNv4Rr4gI42WJVaHTQVPhG4EDXXbAxCTg+49bAP0PsV+KSDu
+ bc7Q==
+X-Gm-Message-State: AOJu0YxDl5K4lyW1T9sqhk1Vc05pwtOrJ5ZKhnmbzf57MO5E0IoaS4GU
+ 6YXYdjIB3VNyLJpPpAeWQzRe9w==
+X-Google-Smtp-Source: AGHT+IEt2Z20CLasgfjy8piP5p7z8ht3ceHn+xxKIK+JakEK6gmyJ0AHVbbJcPPUqVPzXZgvm5W4uA==
+X-Received: by 2002:a17:907:7f28:b0:9bd:e017:370e with SMTP id
+ qf40-20020a1709077f2800b009bde017370emr7276341ejc.54.1699621972924; 
+ Fri, 10 Nov 2023 05:12:52 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.126])
  by smtp.gmail.com with ESMTPSA id
- n22-20020a170906841600b009b27d4153c0sm3938708ejx.178.2023.11.10.05.11.59
+ n22-20020a170906841600b009b27d4153c0sm3938708ejx.178.2023.11.10.05.12.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Nov 2023 05:12:00 -0800 (PST)
-Message-ID: <c012c0b3-d6ca-4291-aa0c-05a192f30dcb@linaro.org>
-Date: Fri, 10 Nov 2023 14:11:58 +0100
+ Fri, 10 Nov 2023 05:12:52 -0800 (PST)
+Message-ID: <9b108026-0550-4b74-b87f-87f737b5d1d2@linaro.org>
+Date: Fri, 10 Nov 2023 14:12:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 1/4] dt-bindings: display: panel: Update NewVision
- NV3051D compatibles
+Subject: Re: [PATCH V2 3/4] dt-bindings: arm: rockchip: Add Powkiddy RK2023
 Content-Language: en-US
 To: Chris Morgan <macroalpha82@gmail.com>, linux-rockchip@lists.infradead.org
 References: <20231109215007.66826-1-macroalpha82@gmail.com>
- <20231109215007.66826-2-macroalpha82@gmail.com>
+ <20231109215007.66826-4-macroalpha82@gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -106,7 +105,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231109215007.66826-2-macroalpha82@gmail.com>
+In-Reply-To: <20231109215007.66826-4-macroalpha82@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -131,26 +130,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 09/11/2023 22:50, Chris Morgan wrote:
 > From: Chris Morgan <macromorgan@hotmail.com>
 > 
-> Update the NewVision NV3051D compatible strings by adding a new panel,
-> the powkiddy,rk2023-panel, and removing another entry, the
-> anbernic,rg353v-panel. The rg353v-panel is exactly identical to the
-> rg353p-panel and is not currently in use by any existing device tree.
-> The rk2023-panel is similar to the rg353p-panel but has slightly
-> different timings.
+> The Powkiddy RK2023 is a handheld gaming device made by Powkiddy and
+> powered by the Rockchip RK3566 SoC. Group the Powkiddy RK3566 based
+> devices together as they are both extremely similar.
 > 
-> I originally wrote the driver checking for the newvision,nv3051d
-> compatible string which worked fine when there was only 1 panel type.
-> When I added support for the 351v-panel I *should* have changed how the
-> compatible string was handled, but instead I simply added a check in the
-> probe function to look for the secondary string of
-> "anbernic,rg351v-panel". Now that I am adding the 3rd panel type of
-> "powkiddy,rk2023-panel" I am correcting the driver to do it the right
-> way by checking for the specific compatibles.
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> ---
 
-I don't understand how any of this driver behavior is a reason to drop
-rg353v. You wrote two paragraphs to justify this removal, but I feel the
-only reason is that rg353v is just not needed, because it is duplicating
-rg353p? Is this right? You actually did not write it explicitly...
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
