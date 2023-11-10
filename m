@@ -1,44 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A0F7E7BB0
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 12:08:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3B97E7BB9
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 12:15:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2161910E933;
-	Fri, 10 Nov 2023 11:08:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C940D10E955;
+	Fri, 10 Nov 2023 11:15:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15D2110E933
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 11:08:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1699614504; x=1699873704;
- bh=ZbNbOL4GuBzgOf8vArIuHjqLWMOQxywLjXgsKNLV2fQ=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=gYdayvI6iArW2Lc1vzpmdebzgxly+TeDHpsM5s3j3EXJYiWS2q14zMM+C7NlCEJ2s
- JXMSIPqlUzkybjzdo52lpCOIEF/S/obeGJkUr3xxAkxWMjFI6HWsu/1TH/FGr1sthg
- mzPHSSkz7ow/D9WQdP3fU5fhkDHv9J8j0e75NsyRziUBBUxvduUnxZzkrsxfAIfVwU
- YWGbD1qWaThVvZrr1Wqq2D3C3ncsYnmZLu12sdOSFWknb8fe9YBNL6jV4EsLUHmcbm
- YiAL3XBBqvcdxKKlFgmTrxX7OIpY3qiWH11ADMWob5un561F8UHLGRBOFiekaTaBCa
- YHBrWmg453Vlg==
-Date: Fri, 10 Nov 2023 11:08:06 +0000
-To: Maxime Ripard <mripard@kernel.org>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [RFC PATCH 2/2] vc4: introduce DMA-BUF heap
-Message-ID: <oTp8iN2ODz4pEo4WpvMQ5HWhBfoPYzA4aGKhe04iKaGNo7dn1G3Uw04Nsw6ZKlflcboqsp_gPb-V6mqGCLwT-V68O6JzBYbua56bLq0H51s=@emersion.fr>
-In-Reply-To: <hqeyywu2pnava4hdgmjnsktsdkblia4mllrtffl5skocqm7kkx@eqtiltsn44ts>
-References: <20231109074545.148149-1-contact@emersion.fr>
- <20231109074545.148149-2-contact@emersion.fr>
- <tmsf75w3iskpvx2dxgzpk4vn7g6jpfdgdq2qv3nl5i4ocawzz4@ihcwmnq5gval>
- <bEg7cd-LFy1CzhAIao2Dt0cNFUFEb6D1ZhZN1Rec3w151EjXWpaXsOAs2MmvEPMxQjVhuE0k3qvuryxN6hJp5tJCU1b7EqSKHdTXte-UvmQ=@emersion.fr>
- <hqeyywu2pnava4hdgmjnsktsdkblia4mllrtffl5skocqm7kkx@eqtiltsn44ts>
-Feedback-ID: 1358184:user:proton
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ECCC10E932
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 11:15:43 +0000 (UTC)
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 9BF1A66073EB;
+ Fri, 10 Nov 2023 11:15:40 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1699614941;
+ bh=IX+JT55IYP1u5VMEzIBMbRyK6BoNMKTFRZG8ZICiNpA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Nl1qwv/ExujGVRXi4s+XEQXd+vR1UNkr9UD1QSUFwFY7sbhDYRnmCdB7A+2yO9ar3
+ LTJfddwSoKWvGrI/54va3pfmN3G4jeH41dGnaJIT+b2JU0V/cay5bNiU23ySm8ecMI
+ iw1rMZMh7oidN2xpmemNKnZhg8U4+ZNDbU2Q+cqGWmrTHZHBbSLjbr8MP2NV2ahuZo
+ BgW4pVR/9FnnBS/3Lql2Mp2fXvqLFq+Z2MfiPP67djbsgPR2Oa0H2BE3F9iD0Yx5c8
+ LAuAbGWDtYL88bXyts34wJyXjyqkMj+R09jYk0AAbk5ILd/3YmMt90GMNccDe99QP7
+ R8Aizc3dMReQA==
+Date: Fri, 10 Nov 2023 12:15:37 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v18 18/26] drm/shmem-helper: Change sgt allocation policy
+Message-ID: <20231110121537.6f37c5a0@collabora.com>
+In-Reply-To: <20231029230205.93277-19-dmitry.osipenko@collabora.com>
+References: <20231029230205.93277-1-dmitry.osipenko@collabora.com>
+ <20231029230205.93277-19-dmitry.osipenko@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,90 +53,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- =?utf-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Iago Toral Quiroga <itoral@igalia.com>, dri-devel@lists.freedesktop.org,
- Erico Nunes <nunes.erico@gmail.com>
+Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
+ virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, November 9th, 2023 at 20:09, Maxime Ripard <mripard@kernel.org=
-> wrote:
+On Mon, 30 Oct 2023 02:01:57 +0300
+Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-> On Thu, Nov 09, 2023 at 03:31:44PM +0000, Simon Ser wrote:
-> > > > - What would be a good name for the heap? "vc4" is maybe a bit naiv=
-e and
-> > > > not precise enough. Something with "cma"? Do we need to plan a nami=
-ng
-> > > > scheme to accomodate for multiple vc4 devices?
-> > >=20
-> > > That's a general issue though that happens with pretty much all devic=
-es
-> > > with a separate node for modesetting and rendering, so I don't think
-> > > addressing it only for vc4 make sense, we should make it generic.
-> > >=20
-> > > So maybe something like "scanout"?
-> > >=20
-> > > One thing we need to consider too is that the Pi5 will have multiple
-> > > display nodes (4(?) iirc) with different capabilities, vc4 being only
-> > > one of them. This will impact that solution too.
-> >=20
-> > I'm not sure trying to find a unique generic name for all split render/=
-display
-> > SoC is a good idea:
-> >=20
-> > - For the purposes of replacing DRM dumb buffers usage from v3d, we don=
-'t
-> >   actually need a generic name, it's perfectly fine to hardcode a name =
-here
-> >   since vc4 is pretty much hardcoded there already.
->=20
-> Right. I'm wondering how that will work with drivers like panfrost or
-> powervr that will need to interact with different display drivers. We
-> will have the same issue for those, but we won't be able to hardcode the
-> driver name.
+> In a preparation to addition of drm-shmem memory shrinker support, change
+> the SGT allocation policy in this way:
+> 
+> 1. SGT can be allocated only if shmem pages are pinned at the
+> time of allocation, otherwise allocation fails.
+> 
+> 2. Drivers must ensure that pages are pinned during the time of SGT usage
+> and should get new SGT if pages were unpinned.
 
-We will be able to hardcode the driver name. In fact, the driver name is
-already hardcoded in kmsro today (Mesa creates one kmsro .so per supported
-display driver in /usr/lib/dri).
+In general, I would discourage drivers from caching the sgt returned by
+drm_gem_shmem_get_pages_sgt[_locked](), since the GEM SHMEM layer does
+the caching already, so calling drm_gem_shmem_get_pages_sgt_locked()
+should be pretty cheap. What this implies is that any portion of the
+code using an sgt returned by drm_gem_shmem_get_pages_sgt_locked() must
+be surrounded by get/pin_pages()/put/unpin_pages() calls unless the
+pages are known to be pinned for the whole BO lifetime. And of course,
+as soon as an MMU mapping is created, and even if the sgt is no longer
+accessed, the pages must remain pinned until the MMU mapping is torn
+down.
 
-It's just a matter of passing through the actual display device to panfrost=
- in
-Mesa and adding a very simple mapping of driver name -> heap name.
+> 
+> This new policy is required by the shrinker because it will move pages
+> to/from SWAP unless pages are pinned, invalidating SGT pointer once pages
+> are relocated.
+> 
+> Previous patches prepared drivers to the new policy.
+> 
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
-> Similarly, if you have multiple display drivers, what "scanout-capable"
-> will mean might differ from one device to the other. Some have
-> constraints on the memory they can access for example, so you cannot
-> just assume that a scanout-capable buffer allocated by vc4 might not be
-> scanout-capable for one of the RP1 DSI device.
->=20
-> > - As you said, "scanout" may be ill-defined depending on the system. Wh=
-at if
-> >   a PCIe or USB device is plugged in? What if vkms is loaded? What if t=
-here are
-> >   multiple platform display devices? What does "scanout" mean then?
-> > - A generic solution to advertise what DMA heaps a DRM display device i=
-s
-> >   compatible with is probably better addressed by populating sysfs with=
- new
-> >   files.
->=20
-> That would be a good idea indeed
->=20
-> >   We've talked with Sima at XDC about adding a symlink pointing to the
-> >   DMA heap and extra metadata files describing priorities and such.
-> >   However we don't actually need that part for the purposes of v3d --
-> >   I think I'd rather defer that until more DMA heaps are plumbed
-> >   across the DRM drivers.
->=20
-> Honestly, I don't think we can afford to only consider vc4/v3d here. The
-> issue you described seem to affect any SoC with a split scanout/GPU,
-> which is pretty much all of them? And if they are all affected, we
-> should design something that fixes it once and for all.
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-We don't need any sysfs stuff to fix the primary node and DRM dumb buffer
-issues in Mesa's kmsro/renderonly. The sysfs stuff is only required for a f=
-ully
-generic buffer placement constraint/compatibility uAPI. Which would be supe=
-r
-useful in compositors, but let's do one step at a time.
+> ---
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 51 +++++++++++++-------------
+>  1 file changed, 26 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index f371ebc6f85c..1420d2166b76 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -133,6 +133,14 @@ drm_gem_shmem_free_pages(struct drm_gem_shmem_object *shmem)
+>  {
+>  	struct drm_gem_object *obj = &shmem->base;
+>  
+> +	if (shmem->sgt) {
+> +		dma_unmap_sgtable(obj->dev->dev, shmem->sgt,
+> +				  DMA_BIDIRECTIONAL, 0);
+> +		sg_free_table(shmem->sgt);
+> +		kfree(shmem->sgt);
+> +		shmem->sgt = NULL;
+> +	}
+> +
+>  #ifdef CONFIG_X86
+>  	if (shmem->map_wc)
+>  		set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
+> @@ -155,23 +163,12 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>  {
+>  	struct drm_gem_object *obj = &shmem->base;
+>  
+> -	if (obj->import_attach) {
+> +	if (obj->import_attach)
+>  		drm_prime_gem_destroy(obj, shmem->sgt);
+> -	} else {
+> -		drm_WARN_ON(obj->dev, refcount_read(&shmem->vmap_use_count));
+> -
+> -		if (shmem->sgt) {
+> -			dma_unmap_sgtable(obj->dev->dev, shmem->sgt,
+> -					  DMA_BIDIRECTIONAL, 0);
+> -			sg_free_table(shmem->sgt);
+> -			kfree(shmem->sgt);
+> -		}
+> -		if (shmem->pages)
+> -			drm_gem_shmem_put_pages_locked(shmem);
+>  
+> -		drm_WARN_ON(obj->dev, refcount_read(&shmem->pages_use_count));
+> -		drm_WARN_ON(obj->dev, refcount_read(&shmem->pages_pin_count));
+> -	}
+> +	drm_WARN_ON(obj->dev, refcount_read(&shmem->vmap_use_count));
+> +	drm_WARN_ON(obj->dev, refcount_read(&shmem->pages_use_count));
+> +	drm_WARN_ON(obj->dev, refcount_read(&shmem->pages_pin_count));
+>  
+>  	drm_gem_object_release(obj);
+>  	kfree(shmem);
+> @@ -705,6 +702,9 @@ struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem)
+>  
+>  	drm_WARN_ON(obj->dev, obj->import_attach);
+>  
+> +	if (drm_WARN_ON(obj->dev, !shmem->pages))
+> +		return ERR_PTR(-ENOMEM);
+> +
+>  	return drm_prime_pages_to_sg(obj->dev, shmem->pages, obj->size >> PAGE_SHIFT);
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_get_sg_table);
+> @@ -720,15 +720,10 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
+>  
+>  	drm_WARN_ON(obj->dev, obj->import_attach);
+>  
+> -	ret = drm_gem_shmem_get_pages_locked(shmem);
+> -	if (ret)
+> -		return ERR_PTR(ret);
+> -
+>  	sgt = drm_gem_shmem_get_sg_table(shmem);
+> -	if (IS_ERR(sgt)) {
+> -		ret = PTR_ERR(sgt);
+> -		goto err_put_pages;
+> -	}
+> +	if (IS_ERR(sgt))
+> +		return sgt;
+> +
+>  	/* Map the pages for use by the h/w. */
+>  	ret = dma_map_sgtable(obj->dev->dev, sgt, DMA_BIDIRECTIONAL, 0);
+>  	if (ret)
+> @@ -741,8 +736,6 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
+>  err_free_sgt:
+>  	sg_free_table(sgt);
+>  	kfree(sgt);
+> -err_put_pages:
+> -	drm_gem_shmem_put_pages_locked(shmem);
+>  	return ERR_PTR(ret);
+>  }
+>  
+> @@ -759,6 +752,14 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
+>   * and difference between dma-buf imported and natively allocated objects.
+>   * drm_gem_shmem_get_sg_table() should not be directly called by drivers.
+>   *
+> + * Drivers should adhere to these SGT usage rules:
+> + *
+> + * 1. SGT should be allocated only if shmem pages are pinned at the
+> + *    time of allocation, otherwise allocation will fail.
+> + *
+> + * 2. Drivers should ensure that pages are pinned during the time of
+> + *    SGT usage and should get new SGT if pages were unpinned.
+> + *
+>   * Returns:
+>   * A pointer to the scatter/gather table of pinned pages or errno on failure.
+>   */
+
