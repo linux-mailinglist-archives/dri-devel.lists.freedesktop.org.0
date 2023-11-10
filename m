@@ -1,71 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 312237E75CF
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 01:18:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B2B7E75D8
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 01:18:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DC6A10E23B;
-	Fri, 10 Nov 2023 00:18:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC53D10E23C;
+	Fri, 10 Nov 2023 00:18:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3173110E23B
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 00:18:00 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id
- 4fb4d7f45d1cf-54553e4888bso2158048a12.2
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 16:18:00 -0800 (PST)
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08C8E10E23C
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 00:18:32 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id
+ 4fb4d7f45d1cf-53e70b0a218so2423862a12.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 16:18:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1699575476; x=1700180276;
+ d=chromium.org; s=google; t=1699575508; x=1700180308;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=86AHDKme0oU/mK4LbTg0+f9o2KRKUMP2vouZ/vFV6kM=;
- b=OKYGLrZR3v6shfKFWBfVpVqEZFUDYlidNTvKSPqw0KU8tGmHkqq82/lBs4W/3FBxDS
- HfB9c2LVWETRugMirxAtVnBwL1jjWF7cxWBa6HeS/1r9jGV/Y7o/dlBTfQ9isXzHgF4g
- IxSjoHQkGl5UQfVa0vtq6iIqnmp5NdDHdoP0I=
+ bh=n+QzYnLmP4o/hoHhC9dU8TbOe24+y8dJpH5rWAXxVBA=;
+ b=G7L0O706FpdbJBMnS4XY4Yd8eI5HnDSq6IViIbPtAWNAwUOlIToY0kdWnRcoFCUQEw
+ b0jT4FTIBDlCE+wQ8ZWom5RnXHg69cjqU5oiQqy1Xh2Hb+3MaO9FdwpDM9NjxB+acBsp
+ zi6+Thp7AMX2deVh83rv4s2yvEcOp0F6/3HXU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699575476; x=1700180276;
+ d=1e100.net; s=20230601; t=1699575508; x=1700180308;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=86AHDKme0oU/mK4LbTg0+f9o2KRKUMP2vouZ/vFV6kM=;
- b=WEKJZbqDhm4k9s7Cmm+L2+QEydJa1chqGtaDZeOGFcb6vOJHjyEJnh7KNyWBviL8wn
- hw0uAguYr1gdH3FH4nOyrSih1ox2huB70heHSVZW5usOO4vhcmvkRg3NFcRVWP6qW/Yh
- iUQ1bPNFskmMzXI3u72qSxI8OVHP7JoFqC6knKXlZ07U+t98bt8LvP20jeF2NEKP5Pmw
- RuUo3UZqCPFUMCeHJ7dLN7qD4muEEDLy3k7Fhx6h9K/a9nlWofjXMTkHYdD7f9xwA3sq
- +gFEN2oI9OM4HpBTA4XTxVNgwtt0BRja/AgUDWQyFJjjC6YGQFhdChgtVwVLPmvyPRpT
- WsNQ==
-X-Gm-Message-State: AOJu0YyBmSNJjpCAuKN6oLF3nTcEe61E1iEkKrwLuCqVJbVbEhBnr7SY
- ArVKVwVZvYQlotA6jBv+CPuGGVJ3IfQaLQBavcpeNw==
-X-Google-Smtp-Source: AGHT+IFMc62S+E25z6fA6ANqwr0Ddl9KMK2EKC62c0DiRUyn2ET35S3IFhZMDPpPciQbpj4rjazUuA==
-X-Received: by 2002:a17:907:7207:b0:9ae:6da8:1819 with SMTP id
- dr7-20020a170907720700b009ae6da81819mr6162977ejc.48.1699575476002; 
- Thu, 09 Nov 2023 16:17:56 -0800 (PST)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com.
- [209.85.128.41]) by smtp.gmail.com with ESMTPSA id
- q11-20020a17090622cb00b0098e78ff1a87sm3185471eja.120.2023.11.09.16.17.54
+ bh=n+QzYnLmP4o/hoHhC9dU8TbOe24+y8dJpH5rWAXxVBA=;
+ b=Jzh7Im5mvGTe0YrLNLcg35U8bf8s219oCkH/hcNOhxVQBbkwNG5iqnRbAZuskL0DG1
+ esLWnpsQaiaci0tUAYVVRqluDhUuXaY9/wrlHO+FLIimJU5CCAf71cWPscoyGEtTr04R
+ awvNNahFbiFiWmFrBLqpXtE5bTGFyurBhrLVFyBb/6LCN2tgKppPhv3Vt44k6JmLWbx4
+ cDh8NL33nV/QpL1bZOOCOVuRxl+h2qbRTRY6wab0HGYXVh/yqjYlRD2stYJ5oVByGHgL
+ rgi7mhxZ6gy3o2iSaMd0AgqVzmqYZHVuUIJ+zbkGQvNRpJjX1/iy2ueAI9p4RN2mzgdz
+ 6LAg==
+X-Gm-Message-State: AOJu0YzC4ETmLtI//DY1xm4Zj/CStBIkAFQpuifPNlyto2gVrdBnXrHM
+ cjMHeK90KrakiaCVwTZpPEbooBFmE4aZZgMXjdsbFg==
+X-Google-Smtp-Source: AGHT+IF0B/qixRK6odFBJFK1BSuijFKTvgkJ85X7tgq2gwBvaVapmLboDRf96nbGo4falBSF94mAhg==
+X-Received: by 2002:a50:a401:0:b0:541:2476:d23e with SMTP id
+ u1-20020a50a401000000b005412476d23emr5922119edb.28.1699575508081; 
+ Thu, 09 Nov 2023 16:18:28 -0800 (PST)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com.
+ [209.85.128.51]) by smtp.gmail.com with ESMTPSA id
+ s20-20020a508d14000000b0054556014150sm447726eds.77.2023.11.09.16.18.27
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Nov 2023 16:17:55 -0800 (PST)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-4078fe6a063so115335e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 16:17:54 -0800 (PST)
-X-Received: by 2002:a05:600c:2195:b0:404:74f8:f47c with SMTP id
- e21-20020a05600c219500b0040474f8f47cmr277112wme.5.1699575474598; Thu, 09 Nov
- 2023 16:17:54 -0800 (PST)
+ Thu, 09 Nov 2023 16:18:27 -0800 (PST)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-40a426872c6so65965e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 16:18:27 -0800 (PST)
+X-Received: by 2002:a05:600c:34cd:b0:408:2b:5956 with SMTP id
+ d13-20020a05600c34cd00b00408002b5956mr277928wmq.6.1699575507115; Thu, 09 Nov
+ 2023 16:18:27 -0800 (PST)
 MIME-Version: 1.0
 References: <20231107204611.3082200-1-hsinyi@chromium.org>
- <20231107204611.3082200-2-hsinyi@chromium.org>
-In-Reply-To: <20231107204611.3082200-2-hsinyi@chromium.org>
+ <20231107204611.3082200-3-hsinyi@chromium.org>
+In-Reply-To: <20231107204611.3082200-3-hsinyi@chromium.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 9 Nov 2023 16:17:39 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UDWNhuBPBUWJNa9E7njYwxJ=zsGqMb=u5CkDGs5UkHzw@mail.gmail.com>
-Message-ID: <CAD=FV=UDWNhuBPBUWJNa9E7njYwxJ=zsGqMb=u5CkDGs5UkHzw@mail.gmail.com>
-Subject: Re: [PATCH v6 1/5] drm/panel-edp: drm/panel-edp: Fix AUO B116XAK01
- name and timing
+Date: Thu, 9 Nov 2023 16:18:15 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=U0GCcNj+9spKsjk0H2O_u5HP-u-E+QcP0UDTvcHrWy3A@mail.gmail.com>
+Message-ID: <CAD=FV=U0GCcNj+9spKsjk0H2O_u5HP-u-E+QcP0UDTvcHrWy3A@mail.gmail.com>
+Subject: Re: [PATCH v6 2/5] drm/panel-edp: drm/panel-edp: Fix AUO B116XTN02
+ name
 To: Hsin-Yi Wang <hsinyi@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -94,24 +94,21 @@ Hi,
 On Tue, Nov 7, 2023 at 12:46=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org> =
 wrote:
 >
-> Rename AUO 0x405c B116XAK01 to B116XAK01.0 and adjust the timing of
-> auo_b116xak01: T3=3D200, T12=3D500, T7_max =3D 50 according to decoding e=
-did
-> and datasheet.
+> Rename AUO 0x235c B116XTN02 to B116XTN02.3 according to decoding edid.
 >
-> Fixes: da458286a5e2 ("drm/panel: Add support for AUO B116XAK01 panel")
+> Fixes: 3db2420422a5 ("drm/panel-edp: Add AUO B116XTN02, BOE NT116WHM-N21,=
+836X2, NV116WHM-N49 V8.0")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 > Reviewed-by: Douglas Anderson <dianders@chromium.org>
 > ---
 > v5->v6: split to 2 patches.
 > ---
->  drivers/gpu/drm/panel/panel-edp.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/panel/panel-edp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Even though this is a fix, it's not super urgent since it'll cause
+Even though this is a fix, it's not super urgent and since it'll cause
 conflicts with other changes, so pushed to drm-misc-next rather than
 drm-misc-fixes.
 
-fc6e76792965 drm/panel-edp: drm/panel-edp: Fix AUO B116XAK01 name and timin=
-g
+962845c090c4 drm/panel-edp: drm/panel-edp: Fix AUO B116XTN02 name
