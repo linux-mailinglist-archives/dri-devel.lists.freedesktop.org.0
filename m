@@ -1,82 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88CA77E7CC9
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 14:58:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 907147E7CCD
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 15:01:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB27F10E033;
-	Fri, 10 Nov 2023 13:58:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 238AE10E042;
+	Fri, 10 Nov 2023 14:01:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
- [IPv6:2607:f8b0:4864:20::b2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E65B410E033
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 13:58:33 +0000 (UTC)
-Received: by mail-yb1-xb2c.google.com with SMTP id
- 3f1490d57ef6-d9fe0a598d8so2139958276.2
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 05:58:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699624713; x=1700229513; darn=lists.freedesktop.org;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=qHtbkIeMAuxXUUe5yXc1tzVXWgiafriV4Ezpi0SsKGo=;
- b=FKQrI5LiiIsaHSFCd+RZp+gz6RJ+lfD+GL/4xrSnerojBYKeh4UK5JdWIFspQois1y
- QW4kv2eDC3dqKA9aPbsGx3mwCHtoIwTkRxMMdF8R6UkPHcI0E0jOZQCLIT+uTZmPB8Ys
- tjdNR0PR3dcKuDUN/g4HOD5BNsuzwTI4DpVazzS+V+ShO6lCS7tQ6AtsN5m2GPLXQdcz
- 1honN1J4GQG4gHENGYpgLvY22RNVquk3QZNi9fKr3mUKl9Le1l3nqKwQZaQT+wpnw+Rj
- vS/iOZgGBGaoHO1jY1qd6+c6swrnhOiXV0SMmqFtkA17Yf6JFoT9/XR9ZJjGwB9zWrpO
- zcVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699624713; x=1700229513;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=qHtbkIeMAuxXUUe5yXc1tzVXWgiafriV4Ezpi0SsKGo=;
- b=DmLx49kTGmhn17F7kMJjEJRI1StQdfgXH1OULxsTkaSvPrYPWeDebFNI+9ckKyS0i1
- jyc+aWWF7gc606rWj10F3ob8JWjmP5zwGDMYSxlLxaRSjwrPGV1/OOc7nRfxkcQa3q2Z
- j8yCWmgVbLX9SQXY0Dpftuant2nlkxTW43kMj9wCI42MENM72f9OuxgNRSoZrAw46dP1
- 7OZHn6TNQdfpV7nV8508wrnAmAu0sa3h7FAaW2g1Vn1QB26EBxW/oKI5erh2a8sYoEat
- EHB7VZbP1C6IjKQyOj2RLj5C9CADdaYIL3lr7/9hcsqmuN4luNvR4YEgaOGhE0j66eSg
- jLLQ==
-X-Gm-Message-State: AOJu0YyJYjP6Wb7glBpjB2wdQaJf5CifAE6/OyYieaXxWdk+391qVg7l
- eAA4y0AdaIyzRmdEzjqG5vQ=
-X-Google-Smtp-Source: AGHT+IGl0cc/goGjY9h56nKB44BcNPcbqUiiIGnxl4N1jrwUMgZpXBcVHNtbAdQPzY5BtbuMsJO3bA==
-X-Received: by 2002:a25:abcc:0:b0:da0:411b:ef19 with SMTP id
- v70-20020a25abcc000000b00da0411bef19mr8401615ybi.1.1699624712843; 
- Fri, 10 Nov 2023 05:58:32 -0800 (PST)
-Received: from [192.168.2.14] ([76.65.20.140])
- by smtp.gmail.com with ESMTPSA id
- c10-20020a05621401ea00b0066d04196c3dsm2922069qvu.49.2023.11.10.05.58.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Nov 2023 05:58:32 -0800 (PST)
-Message-ID: <3ac22429-24d3-4e51-be45-9f0404440bd3@gmail.com>
-Date: Fri, 10 Nov 2023 08:58:23 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7C0810E042
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 14:01:45 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 8EAEFB82367;
+ Fri, 10 Nov 2023 14:01:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94332C433C8;
+ Fri, 10 Nov 2023 14:01:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1699624902;
+ bh=YTP1qlLsC/25Ajc10uwAB3APlp6AT6lDwuME2who/B8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QL3+F1WCEGhNCfJUjgN7DThQ12sRgvduKa1ogoJzD35SzvRxehcRjTNCQmX5StvT5
+ LC/622tzYu5UEnFz85ZoCFuMndvL/yy6A7nQbp1Iyk6KuG5gwANZYe6/Ij6hW7ObQq
+ caI7ndFxLrUzIzSHXHNaPmOIGmyAfk4iKCD2+QTjLcyhZPDjmnPpqZ3MFLay1g11ud
+ A5sLUl0mSKRCfIO+s4LkSpPlsuP5laSFeinnePIefggFgosGxdkDi/4vfUHi6sltOd
+ U61nPv5a8qZMTpx7sUNNtVDytt9mGnTwkpQJmpXlGQY5F5g0V3eVMSA8MVxYzAVPo+
+ xmjPeW1znl4Jw==
+Date: Fri, 10 Nov 2023 15:01:40 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [RFC PATCH 2/2] vc4: introduce DMA-BUF heap
+Message-ID: <nptkmf2w6j7ro74ihthpvkrmc7r2bqm7zljiv2ajpqx565f5ty@o46mdlhzasvu>
+References: <20231109074545.148149-1-contact@emersion.fr>
+ <20231109074545.148149-2-contact@emersion.fr>
+ <tmsf75w3iskpvx2dxgzpk4vn7g6jpfdgdq2qv3nl5i4ocawzz4@ihcwmnq5gval>
+ <CAPY8ntC=qa-ajgSxeqrP5DVW4cEVZd+ik84ag5sN0RJvKLokqA@mail.gmail.com>
+ <ph4ssz5r3afaovoviavkkemfxqyttqucnzl6nnrbyi3tejxfsf@22dyuwq3uyot>
+ <x547FihqvjPqU5HRTVPzPb6Gsx8_I4z8LHxxhyiBjTi6fCNHYGKvgfAdQQJlXfcCfbf9rKKK7Tlj4vkZcey0PVaJfgwbEGgPaJIPJfMuou0=@emersion.fr>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
- Thunderbird/115.4.2
-Subject: Re: [PATCH] drm/sched: Define pr_fmt() for DRM using pr_*()
-Content-Language: en-CA, en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>, Danilo Krummrich <dakr@redhat.com>
-References: <20231110002659.113208-2-ltuikov89@gmail.com>
- <878r75wzm9.fsf@intel.com>
-From: Luben Tuikov <ltuikov89@gmail.com>
-Autocrypt: addr=ltuikov89@gmail.com; keydata=
- xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
- Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
- eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
- AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
- JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
- cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
- 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
- aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
-In-Reply-To: <878r75wzm9.fsf@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------fnvOZr0e1V0RVM7BiYAvL3gC"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="jxfjvg4e5arhfp7h"
+Content-Disposition: inline
+In-Reply-To: <x547FihqvjPqU5HRTVPzPb6Gsx8_I4z8LHxxhyiBjTi6fCNHYGKvgfAdQQJlXfcCfbf9rKKK7Tlj4vkZcey0PVaJfgwbEGgPaJIPJfMuou0=@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,135 +56,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org, Iago Toral Quiroga <itoral@igalia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------fnvOZr0e1V0RVM7BiYAvL3gC
-Content-Type: multipart/mixed; boundary="------------KIWHYiZ5AytCq7jksfNtmnat";
- protected-headers="v1"
-From: Luben Tuikov <ltuikov89@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>, Danilo Krummrich <dakr@redhat.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Message-ID: <3ac22429-24d3-4e51-be45-9f0404440bd3@gmail.com>
-Subject: Re: [PATCH] drm/sched: Define pr_fmt() for DRM using pr_*()
-References: <20231110002659.113208-2-ltuikov89@gmail.com>
- <878r75wzm9.fsf@intel.com>
-In-Reply-To: <878r75wzm9.fsf@intel.com>
 
---------------KIWHYiZ5AytCq7jksfNtmnat
-Content-Type: multipart/mixed; boundary="------------lPbbpKfwgIj5bKy3N8qOmRuX"
-
---------------lPbbpKfwgIj5bKy3N8qOmRuX
-Content-Type: text/plain; charset=UTF-8
+--jxfjvg4e5arhfp7h
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 2023-11-10 07:40, Jani Nikula wrote:
-> On Thu, 09 Nov 2023, Luben Tuikov <ltuikov89@gmail.com> wrote:
->> Define pr_fmt() as "[drm] " for DRM code using pr_*() facilities, espe=
-cially
->> when no devices are available. This makes it easier to browse kernel l=
-ogs.
+On Fri, Nov 10, 2023 at 11:21:15AM +0000, Simon Ser wrote:
+> On Thursday, November 9th, 2023 at 20:17, Maxime Ripard <mripard@kernel.o=
+rg> wrote:
 >=20
-> Please do not merge patches before people have actually had a chance to=
-
-> look at them. This was merged *way* too quickly.
-
-Agreed.
-
+> > > Can we add another function pointer to the struct drm_driver (or
+> > > similar) to do the allocation, and move the actual dmabuf handling
+> > > code into the core?
+> >=20
+> > Yeah, I agree here, it just seems easier to provide a global hook and a
+> > somewhat sane default to cover all drivers in one go (potentially with
+> > additional restrictions, like only for modeset-only drivers or
+> > something).
 >=20
-> This does not do what you think it does, and it's not robust enough.
->=20
-> The drm_print.[ch] facilities use very few pr_*() calls directly. The
-> users of pr_*() calls do not necessarily include <drm/drm_print.h> at
-> all, and really don't have to.
->=20
-> Even the ones that do include it, usually have <linux/...> includes
-> first, and <drm/...> includes next. Notably, <linux/kernel.h> includes
-> <linux/printk.h>.
->=20
-> And, of course, <linux/printk.h> defines pr_fmt() itself if not already=
+> First off not all drivers are using the GEM DMA helpers (e.g. vc4 with
+> !vc5 does not).
 
-> defined.
->=20
->> Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
->> ---
->>  include/drm/drm_print.h | 14 ++++++++++++++
->>  1 file changed, 14 insertions(+)
->>
->> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
->> index a93a387f8a1a15..e8fe60d0eb8783 100644
->> --- a/include/drm/drm_print.h
->> +++ b/include/drm/drm_print.h
->> @@ -26,6 +26,20 @@
->>  #ifndef DRM_PRINT_H_
->>  #define DRM_PRINT_H_
->> =20
->> +/* Define this before including linux/printk.h, so that the format
->> + * string in pr_*() macros is correctly set for DRM. If a file wants
->> + * to define this to something else, it should do so before including=
+Right. vc4 pre-RPi4 is the exception though, so it's kind of what I
+meant by providing sane defaults: the vast majority of drivers are using
+GEM DMA helpers, and we should totally let drivers override that if
+relevant.
 
->> + * this header file.
->=20
-> The only way this would work is by including <drm/drm_print.h> as the
-> very first header, and that's fragile at best.
->=20
->> + *
->> + * It is encouraged code using pr_err() to prefix their format with
->> + * the string "*ERROR* ", to make it easier to scan kernel logs. For
->> + * instance,
->> + *   pr_err("*ERROR* <the rest of your format string here>", args).
->=20
-> No, it's encouraged not to use pr_*() at all, and prefer drm device
-> based logging, or device based logging.
->=20
-> I'd rather this whole thing was just reverted.
+Basically, we already have 2.5 citizen classes, I'd really like to avoid
+having 3 officially, even more so if it's not super difficult to do.
 
-Agreed.
+> The heap code in this patch only works with drivers leveraging GEM DMA
+> helpers.
 
-Do I have your R-B for a revert?
---=20
-Regards,
-Luben
+We could add a new hook to drm_driver to allocate heaps, link to a
+default implementation in DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(), and
+then use that new hook in your new heap. It would already cover 40
+drivers at the moment, instead of just one, with all of them (but
+atmel-hlcdc maybe?) being in the same situation than RPi4-vc4 is.
 
---------------lPbbpKfwgIj5bKy3N8qOmRuX
-Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+> Then maybe it's somewhat simple to cover typical display devices found
+> on split render/display SoCs, however for the rest it's going to be much
+> more complicated. For x86 typically there are multiple buffer placements
+> supported by the GPU and we need to have one heap per possible placement.
+> And then figuring out all of the rules, priority and compatibility stuff
+> is a whole other task in and of itself.
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+But x86 typically doesn't have a split render/display setup, right?
 
-xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
-PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
-QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
-BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
-MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
-bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
-9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
-OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
-z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
-=3DqCaZ
------END PGP PUBLIC KEY BLOCK-----
+Maxime
 
---------------lPbbpKfwgIj5bKy3N8qOmRuX--
-
---------------KIWHYiZ5AytCq7jksfNtmnat--
-
---------------fnvOZr0e1V0RVM7BiYAvL3gC
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+--jxfjvg4e5arhfp7h
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZU42/wUDAAAAAAAKCRBMFUeUMaM0r5Si
-AQDaVUM6ZghHQlBHKqA2OTsx5zc7VJwLAqUUR4SUQk/JIAD9E1QKHAl6m63oVxjm1WFAgvAfs2lA
-idlB42hBdlcUkQA=
-=qd7f
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZU43xAAKCRDj7w1vZxhR
+xT8NAQDjPnXhc+LzrfM6w+yeQfl7Kp+TafafuwnEmW5bC8Op7AEA5lIhQkL9WqPx
+TPrL4NJA/MPRtt/f3tcb3OnHdWaZwQU=
+=oG1R
 -----END PGP SIGNATURE-----
 
---------------fnvOZr0e1V0RVM7BiYAvL3gC--
+--jxfjvg4e5arhfp7h--
