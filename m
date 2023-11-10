@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810747E8674
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 00:19:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAFD77E867A
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 00:19:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B24EE10E2C2;
-	Fri, 10 Nov 2023 23:19:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0135410E2C3;
+	Fri, 10 Nov 2023 23:19:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org
  [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C2C410E2C2
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 23:19:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F53510E2C3
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 23:19:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B24A1CE12C9;
- Fri, 10 Nov 2023 23:19:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15F09C433C7;
- Fri, 10 Nov 2023 23:19:08 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 62F99CE1299;
+ Fri, 10 Nov 2023 23:19:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79674C433C8;
+ Fri, 10 Nov 2023 23:19:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699658349;
- bh=Dd3jebo4AS2ZWH3RN1miW12tLJYVseY43ijk1beJi20=;
+ s=k20201202; t=1699658361;
+ bh=1I7t6Ai+hRiLbbZt727Rjf2UhRX77+78thKzDhoeWNo=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=H9fRqmR1U2biaQbf9D263gpWDTf7YUhWXczhracH0Gqee0CmKA+qgzlo4rVot0AT4
- VvRnNAMYi7xL/S717i4c4IPxlDQ27Xxz57zXWvgzpQbfb74hpSm4wp2JFMaRxkOJzB
- fj+czz+E8Oyt4aBl87v8bnmzxlr/c0CbeoIEEYUAueWdb4mk+2NjoQkZEjcjQBwozh
- 9LfL+qJ3dyIPJ7NWqMHfS+YwblGi8nruc0OQAmVHTOTE14qsTB3BQT468KtuRrzLAb
- UoScOA5QJtOXbeetxc/ztCQwsddpviKocGz4LIRvi4ARQsbMSMxQImFnyt701L9Nqf
- m1tE/OsABgSxA==
-Date: Fri, 10 Nov 2023 15:19:07 -0800
+ b=O87Imx2q0q+m9Txp/BMMtKPySHNAC/fXEp5NddB1B31ZjSiC47SpaEs6eJBarHKXm
+ +Erk7Qmwa9yVFKKwvAYiGm5AWGK5QVV9b33ahB3sp2SIc6T2CW+FOMDLZq8nL5UCqL
+ TtRaBspceqey9QIfFnaplznB+rFQXDfxqixws23mVhSOk/JejjtM/hFqCymVDQ52n7
+ tkXcanIIYj9S5W1AQ0IR8GD/uNZMowbqeS9hpF9JS8WIJR9L0qjPwiVrM+/FWRCsTz
+ LWLgjQbjT2MJdhifaDNGqktUUGdKgMvYBKr3eMlvijg9am5zIQ3eX6QWTgNboVneoe
+ 5FQBROhSnrQRw==
+Date: Fri, 10 Nov 2023 15:19:19 -0800
 From: Jakub Kicinski <kuba@kernel.org>
 To: Mina Almasry <almasrymina@google.com>
-Subject: Re: [RFC PATCH v3 02/12] net: page_pool: create hooks for custom
- page providers
-Message-ID: <20231110151907.023c61cd@kernel.org>
-In-Reply-To: <20231106024413.2801438-3-almasrymina@google.com>
+Subject: Re: [RFC PATCH v3 10/12] tcp: RX path for devmem TCP
+Message-ID: <20231110151919.4789d54b@kernel.org>
+In-Reply-To: <20231106024413.2801438-11-almasrymina@google.com>
 References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-3-almasrymina@google.com>
+ <20231106024413.2801438-11-almasrymina@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -52,43 +51,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
+ Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ linux-media@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, linaro-mm-sig@lists.linaro.org,
+ Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>,
  netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
  Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linaro-mm-sig@lists.linaro.org, Eric Dumazet <edumazet@google.com>,
- Shakeel Butt <shakeelb@google.com>, linux-kselftest@vger.kernel.org,
- Praveen Kaligineedi <pkaligineedi@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Shuah Khan <shuah@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- linux-media@vger.kernel.org
+ "David S. Miller" <davem@davemloft.net>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun,  5 Nov 2023 18:44:01 -0800 Mina Almasry wrote:
-> diff --git a/include/net/page_pool/types.h b/include/net/page_pool/types.h
-> index 6fc5134095ed..d4bea053bb7e 100644
-> --- a/include/net/page_pool/types.h
-> +++ b/include/net/page_pool/types.h
-> @@ -60,6 +60,8 @@ struct page_pool_params {
->  	int		nid;
->  	struct device	*dev;
->  	struct napi_struct *napi;
-> +	u8		memory_provider;
-> +	void            *mp_priv;
->  	enum dma_data_direction dma_dir;
->  	unsigned int	max_len;
->  	unsigned int	offset;
+On Sun,  5 Nov 2023 18:44:09 -0800 Mina Almasry wrote:
+> +		if (!skb_frags_not_readable(skb)) {
 
-you should rebase on top of net-next
-
-More importantly I was expecting those fields to be gone from params.
-The fact that the page pool is configured to a specific provider
-should be fully transparent to the driver, driver should just tell
-the core what queue its creating the pool from and if there's a dmabuf
-bound for that queue - out pops a pp backed by the dmabuf.
-
-My RFC had the page pool params fields here as a hack.
+nit: maybe call the helper skb_frags_readable() and flip
+     the polarity, avoid double negatives.
