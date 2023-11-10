@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2EDE7E7CCE
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 15:03:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37FFF7E7CD4
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 15:07:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3691710E03F;
-	Fri, 10 Nov 2023 14:03:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFB3210E04D;
+	Fri, 10 Nov 2023 14:07:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4795A10E03F
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 14:03:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id C117210E04D
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 14:07:16 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2379112FC;
- Fri, 10 Nov 2023 06:04:36 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1C42C12FC;
+ Fri, 10 Nov 2023 06:08:01 -0800 (PST)
 Received: from [10.57.36.221] (unknown [10.57.36.221])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 22FEA3F7C5;
- Fri, 10 Nov 2023 06:03:48 -0800 (PST)
-Message-ID: <e2d278b6-2247-4b1c-b464-8b5903851f9a@arm.com>
-Date: Fri, 10 Nov 2023 14:03:47 +0000
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D2B083F7C5;
+ Fri, 10 Nov 2023 06:07:13 -0800 (PST)
+Message-ID: <aefbde74-d34b-452d-b6a1-7417bc30dea4@arm.com>
+Date: Fri, 10 Nov 2023 14:07:12 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/6] drm/panfrost: Perform hard reset to recover GPU if
- soft reset fails
+Subject: Re: [PATCH v3 3/6] drm/panfrost: Implement ability to turn on/off GPU
+ clocks in suspend
+Content-Language: en-GB
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  boris.brezillon@collabora.com
 References: <20231109102543.42971-1-angelogioacchino.delregno@collabora.com>
- <20231109102543.42971-2-angelogioacchino.delregno@collabora.com>
-Content-Language: en-GB
+ <20231109102543.42971-4-angelogioacchino.delregno@collabora.com>
 From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20231109102543.42971-2-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20231109102543.42971-4-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -51,63 +51,145 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 09/11/2023 10:25, AngeloGioacchino Del Regno wrote:
-> Even though soft reset should ideally never fail, during development of
-> some power management features I managed to get some bits wrong: this
-> resulted in GPU soft reset failures, where the GPU was never able to
-> recover, not even after suspend/resume cycles, meaning that the only
-> way to get functionality back was to reboot the machine.
+> Currently, the GPU is being internally powered off for runtime suspend
+> and turned back on for runtime resume through commands sent to it, but
+> note that the GPU doesn't need to be clocked during the poweroff state,
+> hence it is possible to save some power on selected platforms.
 > 
-> Perform a hard reset after a soft reset failure to be able to recover
-> the GPU during runtime (so, without any machine reboot).
+> Add suspend and resume handlers for full system sleep and then add
+> a new panfrost_gpu_pm enumeration and a pm_features variable in the
+> panfrost_compatible structure: BIT(GPU_PM_CLK_DIS) will be used to
+> enable this power saving technique only on SoCs that are able to
+> safely use it.
+> 
+> Note that this was implemented only for the system sleep case and not
+> for runtime PM because testing on one of my MediaTek platforms showed
+> issues when turning on and off clocks aggressively (in PM runtime)
+> resulting in a full system lockup.
+> 
+> Doing this only for full system sleep never showed issues during my
+> testing by suspending and resuming the system continuously for more
+> than 100 cycles.
 > 
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 Reviewed-by: Steven Price <steven.price@arm.com>
 
 > ---
->  drivers/gpu/drm/panfrost/panfrost_gpu.c  | 13 ++++++++++---
->  drivers/gpu/drm/panfrost/panfrost_regs.h |  1 +
->  2 files changed, 11 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/panfrost/panfrost_device.c | 61 ++++++++++++++++++++--
+>  drivers/gpu/drm/panfrost/panfrost_device.h | 11 ++++
+>  2 files changed, 68 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> index f0be7e19b13e..ae3f7d97bb47 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> @@ -60,14 +60,21 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev)
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> index 28f7046e1b1a..b4ddbc3b8069 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> @@ -403,7 +403,7 @@ void panfrost_device_reset(struct panfrost_device *pfdev)
+>  	panfrost_job_enable_interrupts(pfdev);
+>  }
 >  
->  	gpu_write(pfdev, GPU_INT_MASK, 0);
->  	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_RESET_COMPLETED);
-> -	gpu_write(pfdev, GPU_CMD, GPU_CMD_SOFT_RESET);
+> -static int panfrost_device_resume(struct device *dev)
+> +static int panfrost_device_runtime_resume(struct device *dev)
+>  {
+>  	struct panfrost_device *pfdev = dev_get_drvdata(dev);
 >  
-> +	gpu_write(pfdev, GPU_CMD, GPU_CMD_SOFT_RESET);
->  	ret = readl_relaxed_poll_timeout(pfdev->iomem + GPU_INT_RAWSTAT,
->  		val, val & GPU_IRQ_RESET_COMPLETED, 100, 10000);
+> @@ -413,7 +413,7 @@ static int panfrost_device_resume(struct device *dev)
+>  	return 0;
+>  }
 >  
->  	if (ret) {
-> -		dev_err(pfdev->dev, "gpu soft reset timed out\n");
-> -		return ret;
-> +		dev_err(pfdev->dev, "gpu soft reset timed out, attempting hard reset\n");
+> -static int panfrost_device_suspend(struct device *dev)
+> +static int panfrost_device_runtime_suspend(struct device *dev)
+>  {
+>  	struct panfrost_device *pfdev = dev_get_drvdata(dev);
+>  
+> @@ -426,5 +426,58 @@ static int panfrost_device_suspend(struct device *dev)
+>  	return 0;
+>  }
+>  
+> -EXPORT_GPL_RUNTIME_DEV_PM_OPS(panfrost_pm_ops, panfrost_device_suspend,
+> -			      panfrost_device_resume, NULL);
+> +static int panfrost_device_resume(struct device *dev)
+> +{
+> +	struct panfrost_device *pfdev = dev_get_drvdata(dev);
+> +	int ret;
 > +
-> +		gpu_write(pfdev, GPU_CMD, GPU_CMD_HARD_RESET);
-> +		ret = readl_relaxed_poll_timeout(pfdev->iomem + GPU_INT_RAWSTAT, val,
-> +						 val & GPU_IRQ_RESET_COMPLETED, 100, 10000);
-> +		if (ret) {
-> +			dev_err(pfdev->dev, "gpu hard reset timed out\n");
+> +	if (pfdev->comp->pm_features & BIT(GPU_PM_CLK_DIS)) {
+> +		ret = clk_enable(pfdev->clock);
+> +		if (ret)
 > +			return ret;
+> +
+> +		if (pfdev->bus_clock) {
+> +			ret = clk_enable(pfdev->bus_clock);
+> +			if (ret)
+> +				goto err_bus_clk;
 > +		}
->  	}
+> +	}
+> +
+> +	ret = pm_runtime_force_resume(dev);
+> +	if (ret)
+> +		goto err_resume;
+> +
+> +	return 0;
+> +
+> +err_resume:
+> +	if (pfdev->comp->pm_features & BIT(GPU_PM_CLK_DIS) && pfdev->bus_clock)
+> +		clk_disable(pfdev->bus_clock);
+> +err_bus_clk:
+> +	if (pfdev->comp->pm_features & BIT(GPU_PM_CLK_DIS))
+> +		clk_disable(pfdev->clock);
+> +	return ret;
+> +}
+> +
+> +static int panfrost_device_suspend(struct device *dev)
+> +{
+> +	struct panfrost_device *pfdev = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret = pm_runtime_force_suspend(dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (pfdev->comp->pm_features & BIT(GPU_PM_CLK_DIS)) {
+> +		if (pfdev->bus_clock)
+> +			clk_disable(pfdev->bus_clock);
+> +
+> +		clk_disable(pfdev->clock);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +EXPORT_GPL_DEV_PM_OPS(panfrost_pm_ops) = {
+> +	RUNTIME_PM_OPS(panfrost_device_runtime_suspend, panfrost_device_runtime_resume, NULL)
+> +	SYSTEM_SLEEP_PM_OPS(panfrost_device_suspend, panfrost_device_resume)
+> +};
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> index 1ef38f60d5dc..d7f179eb8ea3 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> @@ -25,6 +25,14 @@ struct panfrost_perfcnt;
+>  #define NUM_JOB_SLOTS 3
+>  #define MAX_PM_DOMAINS 5
 >  
->  	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> index 55ec807550b3..c25743b05c55 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_regs.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> @@ -44,6 +44,7 @@
->  	 GPU_IRQ_MULTIPLE_FAULT)
->  #define GPU_CMD				0x30
->  #define   GPU_CMD_SOFT_RESET		0x01
-> +#define   GPU_CMD_HARD_RESET		0x02
->  #define   GPU_CMD_PERFCNT_CLEAR		0x03
->  #define   GPU_CMD_PERFCNT_SAMPLE	0x04
->  #define   GPU_CMD_CYCLE_COUNT_START	0x05
+> +/**
+> + * enum panfrost_gpu_pm - Supported kernel power management features
+> + * @GPU_PM_CLK_DIS:  Allow disabling clocks during system suspend
+> + */
+> +enum panfrost_gpu_pm {
+> +	GPU_PM_CLK_DIS,
+> +};
+> +
+>  struct panfrost_features {
+>  	u16 id;
+>  	u16 revision;
+> @@ -75,6 +83,9 @@ struct panfrost_compatible {
+>  
+>  	/* Vendor implementation quirks callback */
+>  	void (*vendor_quirk)(struct panfrost_device *pfdev);
+> +
+> +	/* Allowed PM features */
+> +	u8 pm_features;
+>  };
+>  
+>  struct panfrost_device {
 
