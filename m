@@ -2,43 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2D57E7CED
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 15:18:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4B87E7CF2
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 15:23:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20CC810E07C;
-	Fri, 10 Nov 2023 14:18:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9335310E085;
+	Fri, 10 Nov 2023 14:23:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6622310E07C
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 14:18:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id AEDF8B822B9;
- Fri, 10 Nov 2023 14:18:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0A8FC433C8;
- Fri, 10 Nov 2023 14:18:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699625923;
- bh=A04DKyynpbL+kyv3aLhCQb9LEAuygJfW0BtVcdATL/o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=H8Ua5o9JO8S5fXlam/8qnw1Z3zdivcVH/ca6Eg+Hl8RI85VDFwDDO39HaHX+IOYht
- 5deWrPbW5gjwnh2qCdiD9/7gVyOtvG8+BqVwFKdp0H+iIDEsA29p2mow+oGxZpeSF5
- bWW5g08wbOJN/nHlLg6PVYOV+xLWZO9TNc2LiZfiPemjwXKCHCt8mpsFLFcfrC2sSW
- FlyRwVNJRIyk+JTU2ZIOHiEBhuzeD1i7lepIzhPyhrcTepXIwi603szei2FQdEAxfP
- 4FSSNzOIt5QmtFQQlBKiuDnu+QI27ZENyCsebl32ghd62AzuV5Ijr2SlUgMcvnjyKQ
- oz/9v99wPgscw==
-Date: Fri, 10 Nov 2023 15:18:40 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dipam Turkar <dipamt1729@gmail.com>
-Subject: Re: [PATCH] drm/tests: Add KUnit tests for
- drm_mode_create_dvi_i_properties()
-Message-ID: <f2nkuewkbcgbqjfklpqf74lgiwnidcyr3bgr42neq3xnrvawcp@g4iketyic4q4>
-References: <20231110110323.381215-1-dipamt1729@gmail.com>
+Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60A7710E085
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 14:23:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1699626199; x=1699885399;
+ bh=5gvwXhCcyrP2rBSoShDiTirDIW3VWnV2N1VejxWRZn4=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=dDa0X1QpCnwmYuZX6bW0g5vZ6xECidhgOvAtr+g0+DU5RAbdgkby8Fhsm9moWF2rQ
+ gTzaBfcLsPfc10WHSx/T0DqINTQ7OKe5p98geFSL81TMm45P4elx+v9iaBtxTL/r9v
+ VCuRYgt4wwup9QkVvSyKI9W6EwoOfZdh0rouqNJBIt9naUmRn3HHrfj2bm5h2++lom
+ 49mfM/qeyuflqZh3DSLA6JfxkorPQ9QFtQFAocbnTKQHDbIz+DHZREGXlqD7pIj56P
+ GAQWN0Q970vVgND6TyVenvGQprPlQqV8idLIJCaISnhBsb2VzeQGxgIe3NbUDx5yZz
+ Q6oi/fBmVHb/A==
+Date: Fri, 10 Nov 2023 14:23:16 +0000
+To: Maxime Ripard <mripard@kernel.org>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [RFC PATCH 2/2] vc4: introduce DMA-BUF heap
+Message-ID: <gQR1IvZQuSocyjbMBXHrYbnNCMHNXwjmItCrmRgRVjG5xF2qFuD1WWB60aik8UNHJpNkPfTweafYINmniOywJpGPqFOSNvdwTemWPBUifeY=@emersion.fr>
+In-Reply-To: <nptkmf2w6j7ro74ihthpvkrmc7r2bqm7zljiv2ajpqx565f5ty@o46mdlhzasvu>
+References: <20231109074545.148149-1-contact@emersion.fr>
+ <20231109074545.148149-2-contact@emersion.fr>
+ <tmsf75w3iskpvx2dxgzpk4vn7g6jpfdgdq2qv3nl5i4ocawzz4@ihcwmnq5gval>
+ <CAPY8ntC=qa-ajgSxeqrP5DVW4cEVZd+ik84ag5sN0RJvKLokqA@mail.gmail.com>
+ <ph4ssz5r3afaovoviavkkemfxqyttqucnzl6nnrbyi3tejxfsf@22dyuwq3uyot>
+ <x547FihqvjPqU5HRTVPzPb6Gsx8_I4z8LHxxhyiBjTi6fCNHYGKvgfAdQQJlXfcCfbf9rKKK7Tlj4vkZcey0PVaJfgwbEGgPaJIPJfMuou0=@emersion.fr>
+ <nptkmf2w6j7ro74ihthpvkrmc7r2bqm7zljiv2ajpqx565f5ty@o46mdlhzasvu>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="6jjzec3bttiztr4j"
-Content-Disposition: inline
-In-Reply-To: <20231110110323.381215-1-dipamt1729@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,102 +53,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, javierm@redhat.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, mairacanal@riseup.net, arthurgrillo@riseup.net
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org, Iago Toral Quiroga <itoral@igalia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Friday, November 10th, 2023 at 15:01, Maxime Ripard <mripard@kernel.org>=
+ wrote:
 
---6jjzec3bttiztr4j
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Fri, Nov 10, 2023 at 04:33:23PM +0530, Dipam Turkar wrote:
-> Introduce unit tests for the drm_mode_create_dvi_i_properties() function =
-to ensure
-> the proper creation of DVI-I specific connector properties.
+> On Fri, Nov 10, 2023 at 11:21:15AM +0000, Simon Ser wrote:
 >=20
-> Signed-off-by: Dipam Turkar <dipamt1729@gmail.com>
-> ---
->  drivers/gpu/drm/tests/drm_connector_test.c | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
+> > On Thursday, November 9th, 2023 at 20:17, Maxime Ripard mripard@kernel.=
+org wrote:
+> >=20
+> > > > Can we add another function pointer to the struct drm_driver (or
+> > > > similar) to do the allocation, and move the actual dmabuf handling
+> > > > code into the core?
+> > >=20
+> > > Yeah, I agree here, it just seems easier to provide a global hook and=
+ a
+> > > somewhat sane default to cover all drivers in one go (potentially wit=
+h
+> > > additional restrictions, like only for modeset-only drivers or
+> > > something).
+> >=20
+> > First off not all drivers are using the GEM DMA helpers (e.g. vc4 with
+> > !vc5 does not).
 >=20
-> diff --git a/drivers/gpu/drm/tests/drm_connector_test.c b/drivers/gpu/drm=
-/tests/drm_connector_test.c
-> index c66aa2dc8d9d..aad63839b5e5 100644
-> --- a/drivers/gpu/drm/tests/drm_connector_test.c
-> +++ b/drivers/gpu/drm/tests/drm_connector_test.c
-> @@ -4,6 +4,9 @@
->   */
-> =20
->  #include <drm/drm_connector.h>
-> +#include <drm/drm_device.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_kunit_helpers.h>
-> =20
->  #include <kunit/test.h>
-> =20
-> @@ -58,10 +61,27 @@ static void drm_test_get_tv_mode_from_name_truncated(=
-struct kunit *test)
->  	KUNIT_EXPECT_LT(test, ret, 0);
->  };
-> =20
-> +static void drm_test_mode_create_dvi_i_properties(struct kunit *test)
+> Right. vc4 pre-RPi4 is the exception though, so it's kind of what I
+> meant by providing sane defaults: the vast majority of drivers are using
+> GEM DMA helpers, and we should totally let drivers override that if
+> relevant.
+>=20
+> Basically, we already have 2.5 citizen classes, I'd really like to avoid
+> having 3 officially, even more so if it's not super difficult to do.
+>=20
+> > The heap code in this patch only works with drivers leveraging GEM DMA
+> > helpers.
+>=20
+> We could add a new hook to drm_driver to allocate heaps, link to a
+> default implementation in DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(), and
+> then use that new hook in your new heap. It would already cover 40
+> drivers at the moment, instead of just one, with all of them (but
+> atmel-hlcdc maybe?) being in the same situation than RPi4-vc4 is.
 
-You should document what this test is checking.
+As said in another e-mail, I really think the consequences of DMA heaps
+need to be thought out on a per-driver basis. Moreover this approach
+makes core DRM go in the wrong direction, deeper in midlayer territory.
 
-Probably something like:
+> > Then maybe it's somewhat simple to cover typical display devices found
+> > on split render/display SoCs, however for the rest it's going to be muc=
+h
+> > more complicated. For x86 typically there are multiple buffer placement=
+s
+> > supported by the GPU and we need to have one heap per possible placemen=
+t.
+> > And then figuring out all of the rules, priority and compatibility stuf=
+f
+> > is a whole other task in and of itself.
+>=20
+> But x86 typically doesn't have a split render/display setup, right?
 
-/*
- * Test that drm_mode_create_dvi_i_properties() succeeds and have
- * created the DVI-I subconnector and select subconectors properties.
- */
+So you're saying we should fix everything at once, but why is x86 not
+part of "everything" then? x86 also has issues regarding buffer
+placement. You're saying you don't want to fragment the ecosystem, but
+it seems like there would still be "fragmentation" between split
+render/display SoCs and the rest?
 
-> +{
-> +	struct drm_device *drm;
-> +	struct device *dev;
-> +
-> +	dev =3D drm_kunit_helper_alloc_device(test);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-> +
-> +	drm =3D __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0,=
- DRIVER_MODESET);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
-> +
-> +	KUNIT_EXPECT_EQ(test, drm_mode_create_dvi_i_properties(drm), 0);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm->mode_config.dvi_i_select_subcon=
-nector_property);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm->mode_config.dvi_i_subconnector_=
-property);
-
-These two should be expectations, not assertions.
-
->  static struct kunit_case drm_get_tv_mode_from_name_tests[] =3D {
->  	KUNIT_CASE_PARAM(drm_test_get_tv_mode_from_name_valid,
->  			 drm_get_tv_mode_from_name_valid_gen_params),
->  	KUNIT_CASE(drm_test_get_tv_mode_from_name_truncated),
-> +	KUNIT_CASE(drm_test_mode_create_dvi_i_properties),
-
-This test suite is meant to test drm_get_tv_mode_from_name. Please
-create a new test suite for the function you're testing.
-
-We should also add a few more tests, like calling it twice will still
-return 0 on the second attempt for example.
-
-Maxime
-
---6jjzec3bttiztr4j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZU47wAAKCRDj7w1vZxhR
-xS5qAP9BvwybHTDWHWNUcwVoUMfCC0PAmQuRLkn3bi03ygAHBQD/XTK4qbfNQnz5
-BWH74qOeF3uqLI2fCQl0NzXqeqddsgE=
-=q5ln
------END PGP SIGNATURE-----
-
---6jjzec3bttiztr4j--
+I'm having a hard time understanding your goals here.
