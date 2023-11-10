@@ -1,47 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A817E7B64
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 11:30:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 444FD7E7B6B
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 11:39:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C88210E982;
-	Fri, 10 Nov 2023 10:30:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60A9D10E983;
+	Fri, 10 Nov 2023 10:39:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E301C10E982
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 10:30:12 +0000 (UTC)
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 87A2B66073F9;
- Fri, 10 Nov 2023 10:30:10 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1699612211;
- bh=fmIgRldcPaxkMOahz2iminQvGRgsI7UzfHVaQEb2Rgc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=SpZSbskcGN1cd5a251hFAMouFuhn7IptHfS0olNAx8thCCPaIGZS3DMtl9V7YgXY1
- xnaI8XSzmJYUPHxXpk7KndsvqGItJXCrH/p/CikmqWVWWwAGUIWr9cr/Ahyy/iJ2H2
- wiZrQNz68fn0djNX1yEgCPbhEe7tvS4vSU+dWlk3w2IknFoPLQTzNBFZfx4YolDO4e
- +Gxy6EDyD6ngJtsMPNAX4o76Qm/5gYTrrGxVntuxT9v17SC/zpJ5XJI6TEMtr0X2id
- /Tj9PLwq574xIw7+8YqWtJm19cfQDF5cv2WHozf1uyccvoR0RQuS4kbCjEMBP284M1
- 1v3KUHfjuBuow==
-Date: Fri, 10 Nov 2023 11:30:07 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v18 14/26] drm/lima: Explicitly get and put drm-shmem pages
-Message-ID: <20231110113007.600e72c1@collabora.com>
-In-Reply-To: <20231029230205.93277-15-dmitry.osipenko@collabora.com>
-References: <20231029230205.93277-1-dmitry.osipenko@collabora.com>
- <20231029230205.93277-15-dmitry.osipenko@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 765EA10E983
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 10:39:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1699612775; x=1699871975;
+ bh=zRwWsMDd5Kf2yQpedEA3Ka2dLpgNvYvwuOL0uYq4mxY=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=ktdtSKOA9fil4F06AF8zSWq3uMPFOkrgZZS6atSxG4D6py1timaFJz9vuwidShDJf
+ V2RIS55K9uRYUGW+4sHxFX3FGI3PF0YEihYKn+pDU+b8CIaK2JujJxhx0/jILFCkXp
+ QNshvnRllSNMTK6TxC0l4H+Nv2RvnI5qaEFMkBHwoLEdK3A7yuxpSOM0l3iSt19iVJ
+ KYqxD1MIJAE/KasNMSmL3VXPEAW7nQv5zp58jNLVF0/eXgkWKYIDTbo3BLXWfTU/0b
+ 5uXlUc4LuM+nOgHRNCJN7w/KrC6Gaare/kFQOEczKwMhvJEXHiZXC+PdT04ytZNcAL
+ uPLKuIMxg400Q==
+Date: Fri, 10 Nov 2023 10:39:17 +0000
+To: Javier Martinez Canillas <javierm@redhat.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH 6/6] drm/todo: Add entry about implementing buffer age for
+ damage tracking
+Message-ID: <Qk7PzUNb_mQOUoclJb_UZkCxPr6GpbX-DftrnR9OKDwSfdDHuwhUnOXbqKU-M_v6q1YgEphShJYnc9o-LW7pN6bMOiNbpcVBsrDvUofFs_M=@emersion.fr>
+In-Reply-To: <20231109172449.1599262-7-javierm@redhat.com>
+References: <20231109172449.1599262-1-javierm@redhat.com>
+ <20231109172449.1599262-7-javierm@redhat.com>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,128 +49,13 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ Sima Vetter <daniel.vetter@ffwll.ch>, Bilal Elmoussaoui <belmouss@redhat.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 Oct 2023 02:01:53 +0300
-Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
-
-> To simplify the drm-shmem refcnt handling, we're moving away from
-> the implicit get_pages() that is used by get_pages_sgt(). From now on
-> drivers will have to pin pages while they use sgt. Lima driver doesn't
-> have shrinker, hence pages are pinned and sgt is valid as long as pages'
-> use-count > 0.
-> 
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  drivers/gpu/drm/lima/lima_gem.c | 18 ++++++++++++++++--
->  drivers/gpu/drm/lima/lima_gem.h |  1 +
->  2 files changed, 17 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
-> index 988e74f67465..d255f5775dac 100644
-> --- a/drivers/gpu/drm/lima/lima_gem.c
-> +++ b/drivers/gpu/drm/lima/lima_gem.c
-> @@ -46,6 +46,7 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm *vm)
->  			return -ENOMEM;
->  		}
->  
-> +		bo->put_pages = true;
->  		bo->base.pages = pages;
->  		refcount_set(&bo->base.pages_use_count, 1);
->  
-> @@ -115,6 +116,7 @@ int lima_gem_create_handle(struct drm_device *dev, struct drm_file *file,
->  		return PTR_ERR(shmem);
->  
->  	obj = &shmem->base;
-> +	bo = to_lima_bo(obj);
->  
->  	/* Mali Utgard GPU can only support 32bit address space */
->  	mask = mapping_gfp_mask(obj->filp->f_mapping);
-> @@ -123,13 +125,19 @@ int lima_gem_create_handle(struct drm_device *dev, struct drm_file *file,
->  	mapping_set_gfp_mask(obj->filp->f_mapping, mask);
->  
->  	if (is_heap) {
-> -		bo = to_lima_bo(obj);
->  		err = lima_heap_alloc(bo, NULL);
->  		if (err)
->  			goto out;
->  	} else {
-> -		struct sg_table *sgt = drm_gem_shmem_get_pages_sgt(shmem);
-> +		struct sg_table *sgt;
-> +
-> +		err = drm_gem_shmem_get_pages(shmem);
-> +		if (err)
-> +			goto out;
-> +
-> +		bo->put_pages = true;
->  
-> +		sgt = drm_gem_shmem_get_pages_sgt(shmem);
->  		if (IS_ERR(sgt)) {
->  			err = PTR_ERR(sgt);
->  			goto out;
-
-Pretty sure we don't need this put_pages flag. We can either check
-ba->base.base.pages or refcount_read(&bo->base.pages_use_count). Or,
-even better, if it's just used in the error path of the same function,
-simply have a dedicated error path for that case:
-
-	drm_gem_object_put(obj);
-	return 0;
-
-err_put_pages:
-	if (!is_heap)
-		drm_gem_shmem_put_pages(shmem);
-
-err_put_bo:
-	drm_gem_object_put(obj);
-	return err;
-}
-
-> @@ -139,6 +147,9 @@ int lima_gem_create_handle(struct drm_device *dev, struct drm_file *file,
->  	err = drm_gem_handle_create(file, obj, handle);
->  
->  out:
-> +	if (err && bo->put_pages)
-> +		drm_gem_shmem_put_pages(shmem);
-> +
->  	/* drop reference from allocate - handle holds it now */
->  	drm_gem_object_put(obj);
->  
-> @@ -152,6 +163,9 @@ static void lima_gem_free_object(struct drm_gem_object *obj)
->  	if (!list_empty(&bo->va))
->  		dev_err(obj->dev->dev, "lima gem free bo still has va\n");
->  
-> +	if (bo->put_pages)
-> +		drm_gem_shmem_put_pages(&bo->base);
-
-This one can be replaced by
-
-	if (!is_heap || bo->base.base.pages)
-		drm_gem_shmem_put_pages(&bo->base);
-
-> +
->  	drm_gem_shmem_free(&bo->base);
->  }
->  
-> diff --git a/drivers/gpu/drm/lima/lima_gem.h b/drivers/gpu/drm/lima/lima_gem.h
-> index ccea06142f4b..dc5a6d465c80 100644
-> --- a/drivers/gpu/drm/lima/lima_gem.h
-> +++ b/drivers/gpu/drm/lima/lima_gem.h
-> @@ -16,6 +16,7 @@ struct lima_bo {
->  	struct list_head va;
->  
->  	size_t heap_size;
-> +	bool put_pages;
->  };
->  
->  static inline struct lima_bo *
-
+Reviewed-by: Simon Ser <contact@emersion.fr>
