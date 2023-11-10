@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F3B97E7BB9
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 12:15:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E5937E7BC4
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 12:20:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C940D10E955;
-	Fri, 10 Nov 2023 11:15:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F60E10E932;
+	Fri, 10 Nov 2023 11:20:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ECCC10E932
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 11:15:43 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2204C10E932;
+ Fri, 10 Nov 2023 11:20:04 +0000 (UTC)
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 9BF1A66073EB;
- Fri, 10 Nov 2023 11:15:40 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id CAD5466071D4;
+ Fri, 10 Nov 2023 11:20:01 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1699614941;
- bh=IX+JT55IYP1u5VMEzIBMbRyK6BoNMKTFRZG8ZICiNpA=;
+ s=mail; t=1699615202;
+ bh=g9TyoOYvkxRuOxwkgEkdZD2BKRl3kf4lLjfgbCUhWc8=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Nl1qwv/ExujGVRXi4s+XEQXd+vR1UNkr9UD1QSUFwFY7sbhDYRnmCdB7A+2yO9ar3
- LTJfddwSoKWvGrI/54va3pfmN3G4jeH41dGnaJIT+b2JU0V/cay5bNiU23ySm8ecMI
- iw1rMZMh7oidN2xpmemNKnZhg8U4+ZNDbU2Q+cqGWmrTHZHBbSLjbr8MP2NV2ahuZo
- BgW4pVR/9FnnBS/3Lql2Mp2fXvqLFq+Z2MfiPP67djbsgPR2Oa0H2BE3F9iD0Yx5c8
- LAuAbGWDtYL88bXyts34wJyXjyqkMj+R09jYk0AAbk5ILd/3YmMt90GMNccDe99QP7
- R8Aizc3dMReQA==
-Date: Fri, 10 Nov 2023 12:15:37 +0100
+ b=GzDjgmK9aPYDeZzee4qKNzG9AjxX6gPG8FQGY/9vJ607I1iQrmt4wBHStGxQLVsx7
+ GumM5B1c9B3UXihIb222uqyDOvIoEaufq6TuM8JGHxO4tPKjuGhgQkGJwFvfkuVznw
+ Xo9vFH5FhFPHQ0fmpKmaspbT0ihIiodVS/a1j3m/MAriRraGk7ehyHy6iONWbQhCM2
+ 1BeeHwXYmFTfQXQo+fY2d2sY8rKKMLO6+Th99VipiGLARpAkZ29krcJDoJh3S2R2Ni
+ vtvpFnH/hqTT6GCCe4I+lkzb7iIVRVS1kDSUn2ZWNMx6+L3QiKsWQlrBnU4rkvuHve
+ I2oq0ccAVeaPA==
+Date: Fri, 10 Nov 2023 12:19:58 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v18 18/26] drm/shmem-helper: Change sgt allocation policy
-Message-ID: <20231110121537.6f37c5a0@collabora.com>
-In-Reply-To: <20231029230205.93277-19-dmitry.osipenko@collabora.com>
-References: <20231029230205.93277-1-dmitry.osipenko@collabora.com>
- <20231029230205.93277-19-dmitry.osipenko@collabora.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-misc-next v9 02/12] drm/gpuvm: don't always WARN in
+ drm_gpuvm_check_overflow()
+Message-ID: <20231110121958.59f9d330@collabora.com>
+In-Reply-To: <20231108001259.15123-3-dakr@redhat.com>
+References: <20231108001259.15123-1-dakr@redhat.com>
+ <20231108001259.15123-3-dakr@redhat.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,153 +55,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
+ sarah.walker@imgtec.com, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ faith@gfxstrand.net, donald.robson@imgtec.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 Oct 2023 02:01:57 +0300
-Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+On Wed,  8 Nov 2023 01:12:32 +0100
+Danilo Krummrich <dakr@redhat.com> wrote:
 
-> In a preparation to addition of drm-shmem memory shrinker support, change
-> the SGT allocation policy in this way:
-> 
-> 1. SGT can be allocated only if shmem pages are pinned at the
-> time of allocation, otherwise allocation fails.
-> 
-> 2. Drivers must ensure that pages are pinned during the time of SGT usage
-> and should get new SGT if pages were unpinned.
-
-In general, I would discourage drivers from caching the sgt returned by
-drm_gem_shmem_get_pages_sgt[_locked](), since the GEM SHMEM layer does
-the caching already, so calling drm_gem_shmem_get_pages_sgt_locked()
-should be pretty cheap. What this implies is that any portion of the
-code using an sgt returned by drm_gem_shmem_get_pages_sgt_locked() must
-be surrounded by get/pin_pages()/put/unpin_pages() calls unless the
-pages are known to be pinned for the whole BO lifetime. And of course,
-as soon as an MMU mapping is created, and even if the sgt is no longer
-accessed, the pages must remain pinned until the MMU mapping is torn
-down.
-
-> 
-> This new policy is required by the shrinker because it will move pages
-> to/from SWAP unless pages are pinned, invalidating SGT pointer once pages
-> are relocated.
-> 
-> Previous patches prepared drivers to the new policy.
-> 
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Don't always WARN in drm_gpuvm_check_overflow() and separate it into a
+> drm_gpuvm_check_overflow() and a dedicated
+> drm_gpuvm_warn_check_overflow() variant.
+>=20
+> This avoids printing warnings due to invalid userspace requests.
+>=20
+> Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
 > ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 51 +++++++++++++-------------
->  1 file changed, 26 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index f371ebc6f85c..1420d2166b76 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -133,6 +133,14 @@ drm_gem_shmem_free_pages(struct drm_gem_shmem_object *shmem)
+>  drivers/gpu/drm/drm_gpuvm.c | 20 +++++++++++++-------
+>  1 file changed, 13 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+> index d7367a202fee..445767f8fbc4 100644
+> --- a/drivers/gpu/drm/drm_gpuvm.c
+> +++ b/drivers/gpu/drm/drm_gpuvm.c
+> @@ -614,12 +614,18 @@ static int __drm_gpuva_insert(struct drm_gpuvm *gpu=
+vm,
+>  static void __drm_gpuva_remove(struct drm_gpuva *va);
+> =20
+>  static bool
+> -drm_gpuvm_check_overflow(struct drm_gpuvm *gpuvm, u64 addr, u64 range)
+> +drm_gpuvm_check_overflow(u64 addr, u64 range)
 >  {
->  	struct drm_gem_object *obj = &shmem->base;
->  
-> +	if (shmem->sgt) {
-> +		dma_unmap_sgtable(obj->dev->dev, shmem->sgt,
-> +				  DMA_BIDIRECTIONAL, 0);
-> +		sg_free_table(shmem->sgt);
-> +		kfree(shmem->sgt);
-> +		shmem->sgt = NULL;
-> +	}
+>  	u64 end;
+> =20
+> -	return drm_WARN(gpuvm->drm, check_add_overflow(addr, range, &end),
+> -			"GPUVA address limited to %zu bytes.\n", sizeof(end));
+> +	return check_add_overflow(addr, range, &end);
+> +}
 > +
->  #ifdef CONFIG_X86
->  	if (shmem->map_wc)
->  		set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
-> @@ -155,23 +163,12 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+> +static bool
+> +drm_gpuvm_warn_check_overflow(struct drm_gpuvm *gpuvm, u64 addr, u64 ran=
+ge)
+> +{
+> +	return drm_WARN(gpuvm->drm, drm_gpuvm_check_overflow(addr, range),
+> +			"GPUVA address limited to %zu bytes.\n", sizeof(addr));
+>  }
+> =20
+>  static bool
+> @@ -647,7 +653,7 @@ static bool
+>  drm_gpuvm_range_valid(struct drm_gpuvm *gpuvm,
+>  		      u64 addr, u64 range)
 >  {
->  	struct drm_gem_object *obj = &shmem->base;
->  
-> -	if (obj->import_attach) {
-> +	if (obj->import_attach)
->  		drm_prime_gem_destroy(obj, shmem->sgt);
-> -	} else {
-> -		drm_WARN_ON(obj->dev, refcount_read(&shmem->vmap_use_count));
-> -
-> -		if (shmem->sgt) {
-> -			dma_unmap_sgtable(obj->dev->dev, shmem->sgt,
-> -					  DMA_BIDIRECTIONAL, 0);
-> -			sg_free_table(shmem->sgt);
-> -			kfree(shmem->sgt);
-> -		}
-> -		if (shmem->pages)
-> -			drm_gem_shmem_put_pages_locked(shmem);
->  
-> -		drm_WARN_ON(obj->dev, refcount_read(&shmem->pages_use_count));
-> -		drm_WARN_ON(obj->dev, refcount_read(&shmem->pages_pin_count));
-> -	}
-> +	drm_WARN_ON(obj->dev, refcount_read(&shmem->vmap_use_count));
-> +	drm_WARN_ON(obj->dev, refcount_read(&shmem->pages_use_count));
-> +	drm_WARN_ON(obj->dev, refcount_read(&shmem->pages_pin_count));
->  
->  	drm_gem_object_release(obj);
->  	kfree(shmem);
-> @@ -705,6 +702,9 @@ struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem)
->  
->  	drm_WARN_ON(obj->dev, obj->import_attach);
->  
-> +	if (drm_WARN_ON(obj->dev, !shmem->pages))
-> +		return ERR_PTR(-ENOMEM);
-> +
->  	return drm_prime_pages_to_sg(obj->dev, shmem->pages, obj->size >> PAGE_SHIFT);
+> -	return !drm_gpuvm_check_overflow(gpuvm, addr, range) &&
+> +	return !drm_gpuvm_check_overflow(addr, range) &&
+>  	       drm_gpuvm_in_mm_range(gpuvm, addr, range) &&
+>  	       !drm_gpuvm_in_kernel_node(gpuvm, addr, range);
 >  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_get_sg_table);
-> @@ -720,15 +720,10 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
->  
->  	drm_WARN_ON(obj->dev, obj->import_attach);
->  
-> -	ret = drm_gem_shmem_get_pages_locked(shmem);
-> -	if (ret)
-> -		return ERR_PTR(ret);
-> -
->  	sgt = drm_gem_shmem_get_sg_table(shmem);
-> -	if (IS_ERR(sgt)) {
-> -		ret = PTR_ERR(sgt);
-> -		goto err_put_pages;
-> -	}
-> +	if (IS_ERR(sgt))
-> +		return sgt;
-> +
->  	/* Map the pages for use by the h/w. */
->  	ret = dma_map_sgtable(obj->dev->dev, sgt, DMA_BIDIRECTIONAL, 0);
->  	if (ret)
-> @@ -741,8 +736,6 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
->  err_free_sgt:
->  	sg_free_table(sgt);
->  	kfree(sgt);
-> -err_put_pages:
-> -	drm_gem_shmem_put_pages_locked(shmem);
->  	return ERR_PTR(ret);
+> @@ -682,7 +688,7 @@ drm_gpuvm_init(struct drm_gpuvm *gpuvm, const char *n=
+ame,
+>  	gpuvm->ops =3D ops;
+>  	gpuvm->drm =3D drm;
+> =20
+> -	drm_gpuvm_check_overflow(gpuvm, start_offset, range);
+> +	drm_gpuvm_warn_check_overflow(gpuvm, start_offset, range);
+>  	gpuvm->mm_start =3D start_offset;
+>  	gpuvm->mm_range =3D range;
+> =20
+> @@ -691,8 +697,8 @@ drm_gpuvm_init(struct drm_gpuvm *gpuvm, const char *n=
+ame,
+>  		gpuvm->kernel_alloc_node.va.addr =3D reserve_offset;
+>  		gpuvm->kernel_alloc_node.va.range =3D reserve_range;
+> =20
+> -		if (likely(!drm_gpuvm_check_overflow(gpuvm, reserve_offset,
+> -						     reserve_range)))
+> +		if (likely(!drm_gpuvm_warn_check_overflow(gpuvm, reserve_offset,
+> +							  reserve_range)))
+>  			__drm_gpuva_insert(gpuvm, &gpuvm->kernel_alloc_node);
+>  	}
 >  }
->  
-> @@ -759,6 +752,14 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
->   * and difference between dma-buf imported and natively allocated objects.
->   * drm_gem_shmem_get_sg_table() should not be directly called by drivers.
->   *
-> + * Drivers should adhere to these SGT usage rules:
-> + *
-> + * 1. SGT should be allocated only if shmem pages are pinned at the
-> + *    time of allocation, otherwise allocation will fail.
-> + *
-> + * 2. Drivers should ensure that pages are pinned during the time of
-> + *    SGT usage and should get new SGT if pages were unpinned.
-> + *
->   * Returns:
->   * A pointer to the scatter/gather table of pinned pages or errno on failure.
->   */
 
