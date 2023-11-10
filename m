@@ -1,66 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943797E8373
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 21:08:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 056327E8383
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 21:12:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC21A10E25C;
-	Fri, 10 Nov 2023 20:08:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E408610E23D;
+	Fri, 10 Nov 2023 20:12:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com
- [IPv6:2607:f8b0:4864:20::b49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9C4110E247
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 20:08:47 +0000 (UTC)
-Received: by mail-yb1-xb49.google.com with SMTP id
- 3f1490d57ef6-daa2684f67eso1952211276.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 12:08:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1699646927; x=1700251727;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=IAkJ89LUqtxG0K+MSJnco+XQD27u+TKLaVoOcPh4bOc=;
- b=EL6Qpr9y33R3ArrggROnIHaKG/JUQatULnKQ2yvNLwocjjt3z+VTUnPS2qCJN4haSY
- gU3bB9pwyxl1O8VSswZkffyNGo6vA33nM0iRTik4A3MpuNU6QPxYyP1N51easiblsm2W
- J5nW5OMbAE67ZkjhtvPrKoS92SfuDHizVr72YOem+VGneDlokEjNF6dESG/aqIKZRCyP
- 0xiPP+fNvPc3JeR/ZhxvecVyLDs/ee3U6/rTlmdFVR2kaxyWzeUiBKbjC9E6solan7+n
- U+aItmJ+r2pSm2mk6gAv+eiuUbzWSddDBc77nI/xFEut9/uPRzApWPpiBaaI2iKwCvS4
- vYaw==
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
+ [209.85.210.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A00110E23D
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 20:12:27 +0000 (UTC)
+Received: by mail-ot1-f44.google.com with SMTP id
+ 46e09a7af769-6ce2b6cb933so1297044a34.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 12:12:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699646927; x=1700251727;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IAkJ89LUqtxG0K+MSJnco+XQD27u+TKLaVoOcPh4bOc=;
- b=hAmRJZy38txXyfx/dxBMp0JMExyRaQJ4TQ+j0ESzQeiqeam125IxrKDwXahaVlvKGk
- p0QPdS665UF28FgPHM+QJbq2dyoeal+QlwJBXKUsvmt7ln7R5Pv4T8+wTP4DaUkONmkE
- rl9A9mDKHI21s2DosawksBaPXv40CB81+EXe836TA+uZhcb5qRUn+BHIdHCGr/eIfEK9
- 29E5KiZzto4RPw0y+AbWIsxGCKkjO4swsPV7BZJmcNqvKHWV/d5TJ086NajZwl9p8k8P
- NHYA7G9gXQoS3bM0Wio4DxIZkvNnhbJkeD1ASyaYQynR+BgDta2Z08x4HU9ZaqMoUAHJ
- tcuw==
-X-Gm-Message-State: AOJu0YylHgqZ7NNuIafKpCf9oDpjDM2f/zqFsXTqQNwE9aWnfEzc0dUc
- ThfVC1D5wopcoRAsx6ppg7GbrcMJIhIx/w==
-X-Google-Smtp-Source: AGHT+IG2qICxw/Ih6W1d00Yw7wl6gZh00iMH2vxhyvW4HtVTUR9T6SIeeV3AzuFmY7j3gx/bERyrecNPMvP5+g==
-X-Received: from slicestar.c.googlers.com
- ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a05:6902:18d:b0:d89:42d7:e72d with SMTP
- id t13-20020a056902018d00b00d8942d7e72dmr141489ybh.3.1699646927074; Fri, 10
- Nov 2023 12:08:47 -0800 (PST)
-Date: Sat, 11 Nov 2023 04:08:28 +0800
-In-Reply-To: <20231110200830.1832556-1-davidgow@google.com>
-Mime-Version: 1.0
-References: <20231110200830.1832556-1-davidgow@google.com>
-X-Mailer: git-send-email 2.42.0.869.gea05f2083d-goog
-Message-ID: <20231110200830.1832556-3-davidgow@google.com>
-Subject: [PATCH 3/3] drm/vc4: tests: Use KUNIT_DEFINE_ACTION_WRAPPER
-From: David Gow <davidgow@google.com>
-To: Nathan Chancellor <nathan@kernel.org>, Kees Cook <keescook@chromium.org>, 
- Brendan Higgins <brendan.higgins@linux.dev>, Rae Moar <rmoar@google.com>,
- dlatypov@google.com, 
- Maxime Ripard <mripard@kernel.org>, Arthur Grillo <arthurgrillo@riseup.net>, 
- Shuah Khan <skhan@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+ d=1e100.net; s=20230601; t=1699647146; x=1700251946;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aYPa4O78Tl9tcmK397HC2WttsKjZOddgN547MJ4MmL0=;
+ b=Zr4SXUyP6g3tKZvWhbJR006kX7u9egfg9y30YfAk7xOvcQnGGa5eDJFrj7ntth9Toy
+ sUPFEfKLIMnX4cjfKg9dTA3SZjP1naffgx7+OduLsZxJaUs7BU+6pwnseyB4HVWl5/cX
+ NOlH1UFvA7LPiRMEuFj0cipcefwDVZqY3JidyzxaKMCiOMUcULkwMtqii0qz30Nr1+3i
+ YS6drolczllrtJyb5Llx4gF4DyL2TJQtVNG7UFWxPn3jCGCI3tjQefhkemmRu1y6ExTq
+ Ey/NHdrfBTDG4yRZ0SOXCwZYYzqc+OIVAZIyDbANm86N9yZQpKdbS1BqR1+DUcm4c53v
+ xdpA==
+X-Gm-Message-State: AOJu0Yw+Uk4yNh3PDp0PJMDOt3yUTriTtoFEmuByjXZKKJR20/8lf0rw
+ cU++fWDj73RPyfOuAv3h3A==
+X-Google-Smtp-Source: AGHT+IGGXIL2O/re8npp6ti2/LlN+F5Sn3lm88DX439xHtC4GKBD8xBJhNWXN6GHMCBpDIWH4xG5Rw==
+X-Received: by 2002:a05:6870:2dc6:b0:1c8:c27f:7d9b with SMTP id
+ op6-20020a0568702dc600b001c8c27f7d9bmr282410oab.27.1699647146338; 
+ Fri, 10 Nov 2023 12:12:26 -0800 (PST)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ y22-20020a056870725600b001ea4324364csm52458oaf.12.2023.11.10.12.12.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Nov 2023 12:12:25 -0800 (PST)
+Received: (nullmailer pid 351692 invoked by uid 1000);
+ Fri, 10 Nov 2023 20:12:23 -0000
+Date: Fri, 10 Nov 2023 14:12:23 -0600
+From: Rob Herring <robh@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v8 02/12] dt-bindings: soc: amlogic, meson-gx-hhi-sysctrl:
+ add example covering meson-axg-hhi-sysctrl
+Message-ID: <20231110201223.GA347493-robh@kernel.org>
+References: <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-0-81e4aeeda193@linaro.org>
+ <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-2-81e4aeeda193@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-2-81e4aeeda193@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,61 +65,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kselftest@vger.kernel.org, David Gow <davidgow@google.com>,
- Emma Anholt <emma@anholt.net>, Benjamin Berg <benjamin.berg@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
- Richard Fitzgerald <rf@opensource.cirrus.com>, linux-hardening@vger.kernel.org,
- Sami Tolvanen <samitolvanen@google.com>, kunit-dev@googlegroups.com
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
+ Nicolas Belin <nbelin@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to pass functions to kunit_add_action(), they need to be of the
-kunit_action_t type. While casting the function pointer can work, it
-will break control-flow integrity.
+On Thu, Nov 09, 2023 at 10:00:03AM +0100, Neil Armstrong wrote:
+> Add a thirst example covering the meson-axg-hhi-sysctrl variant and more
+> importantly the phy subnode.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  .../soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml  | 41 ++++++++++++++++++++++
+>  1 file changed, 41 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml b/Documentation/devicetree/bindings/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml
+> index 16977e4e4357..2edf4ccea845 100644
+> --- a/Documentation/devicetree/bindings/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml
+> +++ b/Documentation/devicetree/bindings/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml
+> @@ -158,3 +158,44 @@ examples:
+>              };
+>          };
+>      };
+> +
 
-vc4_mock already defines such a wrapper for drm_dev_unregister(), but it
-involves less boilerplate to use the new macro, so replace the manual
-implementation.
+New example should be separate starting with a '-|'.
 
-Signed-off-by: David Gow <davidgow@google.com>
----
+> +    bus@ff63c000 {
+> +        compatible = "simple-bus";
+> +        reg = <0xff63c000 0x1c00>;
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +        ranges = <0x0 0xff63c000 0x1c00>;
 
-This patch should be a no-op, just moving to use a standard macro to
-implement these wrappers rather than hand-coding them.
+Why do you need all this? 1 cell is the default for examples.
 
-Let me know if you'd prefer to take these in separately via the drm
-trees, or if you're okay with having this whole series go via
-kselftest/kunit.
+> +
+> +        system-controller@0 {
+> +            compatible = "amlogic,meson-axg-hhi-sysctrl", "simple-mfd", "syscon";
+> +            reg = <0 0x400>;
+> +
+> +            clock-controller {
+> +                compatible = "amlogic,axg-clkc";
+> +                #clock-cells = <1>;
+> +                clocks = <&xtal>;
+> +                clock-names = "xtal";
+> +            };
+> +
+> +            power-controller {
+> +                compatible = "amlogic,meson-axg-pwrc";
+> +                #power-domain-cells = <1>;
+> +                amlogic,ao-sysctrl = <&sysctrl_AO>;
+> +
+> +                resets = <&reset_viu>,
+> +                         <&reset_venc>,
+> +                         <&reset_vcbus>,
+> +                         <&reset_vencl>,
+> +                         <&reset_vid_lock>;
+> +                reset-names = "viu", "venc", "vcbus", "vencl", "vid_lock";
+> +                clocks = <&clk_vpu>, <&clk_vapb>;
+> +                clock-names = "vpu", "vapb";
+> +            };
+> +
+> +            phy {
+> +                compatible = "amlogic,axg-mipi-pcie-analog-phy";
+> +                #phy-cells = <0>;
+> +                status = "disabled";
 
-Cheers,
--- David
+Examples should not be disabled.
 
----
- drivers/gpu/drm/vc4/tests/vc4_mock.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/vc4/tests/vc4_mock.c b/drivers/gpu/drm/vc4/tests/vc4_mock.c
-index 63ca46f4cb35..becb3dbaa548 100644
---- a/drivers/gpu/drm/vc4/tests/vc4_mock.c
-+++ b/drivers/gpu/drm/vc4/tests/vc4_mock.c
-@@ -153,12 +153,9 @@ static int __build_mock(struct kunit *test, struct drm_device *drm,
- 	return 0;
- }
- 
--static void kunit_action_drm_dev_unregister(void *ptr)
--{
--	struct drm_device *drm = ptr;
--
--	drm_dev_unregister(drm);
--}
-+KUNIT_DEFINE_ACTION_WRAPPER(kunit_action_drm_dev_unregister,
-+			    drm_dev_unregister,
-+			    struct drm_device *);
- 
- static struct vc4_dev *__mock_device(struct kunit *test, bool is_vc5)
- {
--- 
-2.42.0.869.gea05f2083d-goog
-
+> +            };
+> +        };
+> +    };
+> 
+> -- 
+> 2.34.1
+> 
