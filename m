@@ -2,48 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 907147E7CCD
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 15:01:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2EDE7E7CCE
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 15:03:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 238AE10E042;
-	Fri, 10 Nov 2023 14:01:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3691710E03F;
+	Fri, 10 Nov 2023 14:03:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7C0810E042
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 14:01:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 8EAEFB82367;
- Fri, 10 Nov 2023 14:01:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94332C433C8;
- Fri, 10 Nov 2023 14:01:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699624902;
- bh=YTP1qlLsC/25Ajc10uwAB3APlp6AT6lDwuME2who/B8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QL3+F1WCEGhNCfJUjgN7DThQ12sRgvduKa1ogoJzD35SzvRxehcRjTNCQmX5StvT5
- LC/622tzYu5UEnFz85ZoCFuMndvL/yy6A7nQbp1Iyk6KuG5gwANZYe6/Ij6hW7ObQq
- caI7ndFxLrUzIzSHXHNaPmOIGmyAfk4iKCD2+QTjLcyhZPDjmnPpqZ3MFLay1g11ud
- A5sLUl0mSKRCfIO+s4LkSpPlsuP5laSFeinnePIefggFgosGxdkDi/4vfUHi6sltOd
- U61nPv5a8qZMTpx7sUNNtVDytt9mGnTwkpQJmpXlGQY5F5g0V3eVMSA8MVxYzAVPo+
- xmjPeW1znl4Jw==
-Date: Fri, 10 Nov 2023 15:01:40 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [RFC PATCH 2/2] vc4: introduce DMA-BUF heap
-Message-ID: <nptkmf2w6j7ro74ihthpvkrmc7r2bqm7zljiv2ajpqx565f5ty@o46mdlhzasvu>
-References: <20231109074545.148149-1-contact@emersion.fr>
- <20231109074545.148149-2-contact@emersion.fr>
- <tmsf75w3iskpvx2dxgzpk4vn7g6jpfdgdq2qv3nl5i4ocawzz4@ihcwmnq5gval>
- <CAPY8ntC=qa-ajgSxeqrP5DVW4cEVZd+ik84ag5sN0RJvKLokqA@mail.gmail.com>
- <ph4ssz5r3afaovoviavkkemfxqyttqucnzl6nnrbyi3tejxfsf@22dyuwq3uyot>
- <x547FihqvjPqU5HRTVPzPb6Gsx8_I4z8LHxxhyiBjTi6fCNHYGKvgfAdQQJlXfcCfbf9rKKK7Tlj4vkZcey0PVaJfgwbEGgPaJIPJfMuou0=@emersion.fr>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4795A10E03F
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 14:03:52 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2379112FC;
+ Fri, 10 Nov 2023 06:04:36 -0800 (PST)
+Received: from [10.57.36.221] (unknown [10.57.36.221])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 22FEA3F7C5;
+ Fri, 10 Nov 2023 06:03:48 -0800 (PST)
+Message-ID: <e2d278b6-2247-4b1c-b464-8b5903851f9a@arm.com>
+Date: Fri, 10 Nov 2023 14:03:47 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="jxfjvg4e5arhfp7h"
-Content-Disposition: inline
-In-Reply-To: <x547FihqvjPqU5HRTVPzPb6Gsx8_I4z8LHxxhyiBjTi6fCNHYGKvgfAdQQJlXfcCfbf9rKKK7Tlj4vkZcey0PVaJfgwbEGgPaJIPJfMuou0=@emersion.fr>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/6] drm/panfrost: Perform hard reset to recover GPU if
+ soft reset fails
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ boris.brezillon@collabora.com
+References: <20231109102543.42971-1-angelogioacchino.delregno@collabora.com>
+ <20231109102543.42971-2-angelogioacchino.delregno@collabora.com>
+Content-Language: en-GB
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20231109102543.42971-2-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,72 +45,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org, Iago Toral Quiroga <itoral@igalia.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Erico Nunes <nunes.erico@gmail.com>
+Cc: tzimmermann@suse.de, linux-kernel@vger.kernel.org, mripard@kernel.org,
+ dri-devel@lists.freedesktop.org, wenst@chromium.org, kernel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 09/11/2023 10:25, AngeloGioacchino Del Regno wrote:
+> Even though soft reset should ideally never fail, during development of
+> some power management features I managed to get some bits wrong: this
+> resulted in GPU soft reset failures, where the GPU was never able to
+> recover, not even after suspend/resume cycles, meaning that the only
+> way to get functionality back was to reboot the machine.
+> 
+> Perform a hard reset after a soft reset failure to be able to recover
+> the GPU during runtime (so, without any machine reboot).
+> 
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
---jxfjvg4e5arhfp7h
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-On Fri, Nov 10, 2023 at 11:21:15AM +0000, Simon Ser wrote:
-> On Thursday, November 9th, 2023 at 20:17, Maxime Ripard <mripard@kernel.o=
-rg> wrote:
->=20
-> > > Can we add another function pointer to the struct drm_driver (or
-> > > similar) to do the allocation, and move the actual dmabuf handling
-> > > code into the core?
-> >=20
-> > Yeah, I agree here, it just seems easier to provide a global hook and a
-> > somewhat sane default to cover all drivers in one go (potentially with
-> > additional restrictions, like only for modeset-only drivers or
-> > something).
->=20
-> First off not all drivers are using the GEM DMA helpers (e.g. vc4 with
-> !vc5 does not).
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_gpu.c  | 13 ++++++++++---
+>  drivers/gpu/drm/panfrost/panfrost_regs.h |  1 +
+>  2 files changed, 11 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> index f0be7e19b13e..ae3f7d97bb47 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> @@ -60,14 +60,21 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev)
+>  
+>  	gpu_write(pfdev, GPU_INT_MASK, 0);
+>  	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_RESET_COMPLETED);
+> -	gpu_write(pfdev, GPU_CMD, GPU_CMD_SOFT_RESET);
+>  
+> +	gpu_write(pfdev, GPU_CMD, GPU_CMD_SOFT_RESET);
+>  	ret = readl_relaxed_poll_timeout(pfdev->iomem + GPU_INT_RAWSTAT,
+>  		val, val & GPU_IRQ_RESET_COMPLETED, 100, 10000);
+>  
+>  	if (ret) {
+> -		dev_err(pfdev->dev, "gpu soft reset timed out\n");
+> -		return ret;
+> +		dev_err(pfdev->dev, "gpu soft reset timed out, attempting hard reset\n");
+> +
+> +		gpu_write(pfdev, GPU_CMD, GPU_CMD_HARD_RESET);
+> +		ret = readl_relaxed_poll_timeout(pfdev->iomem + GPU_INT_RAWSTAT, val,
+> +						 val & GPU_IRQ_RESET_COMPLETED, 100, 10000);
+> +		if (ret) {
+> +			dev_err(pfdev->dev, "gpu hard reset timed out\n");
+> +			return ret;
+> +		}
+>  	}
+>  
+>  	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
+> index 55ec807550b3..c25743b05c55 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_regs.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
+> @@ -44,6 +44,7 @@
+>  	 GPU_IRQ_MULTIPLE_FAULT)
+>  #define GPU_CMD				0x30
+>  #define   GPU_CMD_SOFT_RESET		0x01
+> +#define   GPU_CMD_HARD_RESET		0x02
+>  #define   GPU_CMD_PERFCNT_CLEAR		0x03
+>  #define   GPU_CMD_PERFCNT_SAMPLE	0x04
+>  #define   GPU_CMD_CYCLE_COUNT_START	0x05
 
-Right. vc4 pre-RPi4 is the exception though, so it's kind of what I
-meant by providing sane defaults: the vast majority of drivers are using
-GEM DMA helpers, and we should totally let drivers override that if
-relevant.
-
-Basically, we already have 2.5 citizen classes, I'd really like to avoid
-having 3 officially, even more so if it's not super difficult to do.
-
-> The heap code in this patch only works with drivers leveraging GEM DMA
-> helpers.
-
-We could add a new hook to drm_driver to allocate heaps, link to a
-default implementation in DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(), and
-then use that new hook in your new heap. It would already cover 40
-drivers at the moment, instead of just one, with all of them (but
-atmel-hlcdc maybe?) being in the same situation than RPi4-vc4 is.
-
-> Then maybe it's somewhat simple to cover typical display devices found
-> on split render/display SoCs, however for the rest it's going to be much
-> more complicated. For x86 typically there are multiple buffer placements
-> supported by the GPU and we need to have one heap per possible placement.
-> And then figuring out all of the rules, priority and compatibility stuff
-> is a whole other task in and of itself.
-
-But x86 typically doesn't have a split render/display setup, right?
-
-Maxime
-
---jxfjvg4e5arhfp7h
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZU43xAAKCRDj7w1vZxhR
-xT8NAQDjPnXhc+LzrfM6w+yeQfl7Kp+TafafuwnEmW5bC8Op7AEA5lIhQkL9WqPx
-TPrL4NJA/MPRtt/f3tcb3OnHdWaZwQU=
-=oG1R
------END PGP SIGNATURE-----
-
---jxfjvg4e5arhfp7h--
