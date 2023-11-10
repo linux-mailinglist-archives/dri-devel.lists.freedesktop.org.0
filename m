@@ -1,50 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF96D7E8668
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 00:17:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79A947E866E
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 00:17:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE7610E2C1;
-	Fri, 10 Nov 2023 23:17:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A626210E2BC;
+	Fri, 10 Nov 2023 23:17:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07CC810E2BC
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 23:17:15 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3152F10E2BC
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 23:17:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 09ED8CE1299;
- Fri, 10 Nov 2023 23:17:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22B48C433C7;
- Fri, 10 Nov 2023 23:17:11 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 48731CE12C9;
+ Fri, 10 Nov 2023 23:17:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E505C433C8;
+ Fri, 10 Nov 2023 23:17:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699658232;
- bh=DgVOmmZyh3PXIlWFtVjMUaKArXLuCBtm1eqxE6u0RQs=;
+ s=k20201202; t=1699658240;
+ bh=FcD/HWbd4EsU6HwpXVqt2njpk4bjOQ41rYghofjuGtU=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=IgPe1WP3NH7aJqiPGbFf01nnZ3S9WWaPDdxWlqeYzs9iaDXsoDvv2dqwKir3GxS/8
- ovIfqe7IwZnmwI9MvJbsCTwHRj4470U3s09zOeVzdZc/YZ2sZAar9hq9ndnbCwoiF8
- KPicEYVkTbWf2SWOfHTrvLpJWh7+lddI4LXveik/S0m5YQEgD8OwusdxvhMnijrwp3
- QbeMiiInT7XxDlesibExVQDmqs0ZhzwtrM7mq3HcqWj+OtiNDqLoDWk/RiwPdsfMrP
- +fEJD6tHAp1grxD54ay+pE7B6chuXtshliijsxPD1JgQiX16WMoSN6FtvZ78OGNuwC
- //C01sLxUSBsQ==
-Date: Fri, 10 Nov 2023 15:17:10 -0800
+ b=R181imvsgeKraRpbX9LkEIoxIiXfD6RhL6ZMTrJ5qPQ4EWf2gQhl/rnePu/vqnEmq
+ rF+PDNN0NgZelMtS+uZyDu3jn8OSEtb9Ob03BXtf7JZO9682gNg+jtzHkdXfTpt/Sh
+ qPTLdIvKuBRcahsXUkYUepEY1uC36Y6RYoTBR3YzcsPgJNjjrCpyqAfEyqeLwUoJ//
+ 7coMFzfantRo2Zk4eHk5iun30IzxMou3p8lYb0H0R0SRsUIo+RyaysSGcRXCP4i517
+ cpABJ1jfppUbUcxAFgOhCJKHTHlelNaMdEuDf3mqDkMfYtUKuGF+bQdRcTiljdUJBF
+ 4j7erT8zDOuKw==
+Date: Fri, 10 Nov 2023 15:17:18 -0800
 From: Jakub Kicinski <kuba@kernel.org>
-To: Stanislav Fomichev <sdf@google.com>
-Subject: Re: [RFC PATCH v3 09/12] net: add support for skbs with unreadable
- frags
-Message-ID: <20231110151710.2ceded75@kernel.org>
-In-Reply-To: <ZUq42Po1Pn-9QxrM@google.com>
-References: <CAHS8izMaAhoae5ChnzO4gny1cYYnqV1cB8MC2cAF3eoyt+Sf4A@mail.gmail.com>
- <ZUlvzm24SA3YjirV@google.com>
- <CAHS8izMQ5Um_ScY0VgAjaEaT-hRh4tFoTgc6Xr9Tj5rEj0fijA@mail.gmail.com>
- <CAKH8qBsbh8qYxNHZ6111RQFFpNWbWZtg0LDXkn15xcsbAq4R6w@mail.gmail.com>
- <CAF=yD-+BuKXoVL8UF+No1s0TsHSzBTz7UrB1Djt_BrM74uLLcg@mail.gmail.com>
- <CAHS8izNxKHhW5uCqmfau6n3c18=hE3RXzA+ng5LEGiKj12nGcg@mail.gmail.com>
- <ZUmNk98LyO_Ntcy7@google.com>
- <CAHS8izNTDsHTahkd17zQVQnjzniZAk-dKNs-Mq0E4shdrXOJbg@mail.gmail.com>
- <ZUqms8QzQpfPQWyy@google.com>
- <CANn89iJNR8bYYBO92=f5_2hFoTK8+giH11o-7NHURoahwvV11w@mail.gmail.com>
- <ZUq42Po1Pn-9QxrM@google.com>
+To: Mina Almasry <almasrymina@google.com>
+Subject: Re: [RFC PATCH v3 12/12] selftests: add ncdevmem, netcat for devmem
+ TCP
+Message-ID: <20231110151718.3460e59e@kernel.org>
+In-Reply-To: <20231106024413.2801438-13-almasrymina@google.com>
+References: <20231106024413.2801438-1-almasrymina@google.com>
+ <20231106024413.2801438-13-almasrymina@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -60,16 +52,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
+Cc: dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
+ Stanislav Fomichev <sdf@google.com>, linux-kselftest@vger.kernel.org,
  Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Mina Almasry <almasrymina@google.com>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
  Jeroen de Borst <jeroendb@google.com>, Paolo Abeni <pabeni@redhat.com>,
- linux-media@vger.kernel.org, linux-arch@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
- Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
+ linux-media@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, linaro-mm-sig@lists.linaro.org,
+ Shakeel Butt <shakeelb@google.com>, netdev@vger.kernel.org,
  David Ahern <dsahern@kernel.org>,
  Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
  "David S. Miller" <davem@davemloft.net>,
@@ -78,17 +68,8 @@ Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 7 Nov 2023 14:23:20 -0800 Stanislav Fomichev wrote:
-> Can we mark a socket as devmem-only? Do we have any use-case for those
-> hybrid setups? Or, let me put it that way: do we expect API callers
-> to handle both linear and non-linear cases correctly?
-> As a consumer of the previous versions of these apis internally,
-> I find all those corner cases confusing :-( Hence trying to understand
-> whether we can make it a bit more rigid and properly defined upstream.
+On Sun,  5 Nov 2023 18:44:11 -0800 Mina Almasry wrote:
+> +	if (ynl_subscribe(*ys, "mgmt"))
+> +		goto err_close;
 
-FWIW I'd also prefer to allow mixing. "Some NICs" can decide HDS
-very flexibly, incl. landing full jumbo frames into the "headers".
-
-There's no sender API today to signal how to mark the data for
-selective landing,  but if Mina already has the rx side written 
-to allow that...
+Why? :)
