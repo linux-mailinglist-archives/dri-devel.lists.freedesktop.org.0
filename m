@@ -1,65 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 745837E7D83
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 16:48:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 977227E7D87
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 16:56:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2825B10E102;
-	Fri, 10 Nov 2023 15:48:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B548810E114;
+	Fri, 10 Nov 2023 15:56:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4713410E10B
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 15:48:23 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id
- a640c23a62f3a-9bf60bba6f8so23936266b.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 07:48:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1699631301; x=1700236101; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=CI5Q80f0+mJvRAGYNfWp4nOFRei4TQKSseQr/K+0bts=;
- b=XQFfXsjsw6ZTbjwvkLPfqJ/SnFJ5D4gycJKonRQxdB8r1xLe4ewneGTX9sMvj1/FJF
- vNGgLt5lle+Hnif65CHywXx2D7eDwY/VbrKp82QktpvAQ77+lJeXSn9Ld0YgaYLnjcAi
- JGhXmFVt7ANOV58c04D0v9DTKlrdX65VMpHqQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699631301; x=1700236101;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CI5Q80f0+mJvRAGYNfWp4nOFRei4TQKSseQr/K+0bts=;
- b=KwLrwWk0+/heYYhJyaZFXbrLh9azsnhlf7MXUe9sdlPnKcEo1+YLiiyJO6z4AIxQ7P
- V5rrXvLjLlaS5X96bc7NeuXpujJ4BrjvRJNtR4bdYHTvbKHH06agKuzwpIS6e3O2fbTa
- TR55UPX005t4mxczg2yUV8Vh0v6QZVsouliXujzSLcI8usl/BuuyQlj9Jx7FKzUkIzTi
- 9QMZ7VXHa21HfDY4RxhfIU4tsUrCdjQ7VJWtrOV0ev4ZoOFa/BedSkwM78UFYXHPiLoo
- cw0l58e9WYTnbQZzPkBHsODL3SHnhAkdQJugAWJnwIpCUzc892VZoA58b9zb5ZSbrKzQ
- X3kQ==
-X-Gm-Message-State: AOJu0Yz4TWabeBWD/JsgYVMwGf/zMyZ8EijtTF6Fvk1PWE/zl44AiRED
- Eus0BUKII67IqajtjIP8R21wng==
-X-Google-Smtp-Source: AGHT+IG6AGJU5P9Tg4qhFld8R5T6UgxQf9Fe4D//7dVc6eBB2U2DFPrq+mzEniltkhcKA86I00k/qQ==
-X-Received: by 2002:a17:906:6a0e:b0:9cb:b737:e469 with SMTP id
- qw14-20020a1709066a0e00b009cbb737e469mr6745638ejc.4.1699631301212; 
- Fri, 10 Nov 2023 07:48:21 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- fb6-20020a1709073a0600b009e5e1710ae7sm1305854ejc.191.2023.11.10.07.48.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Nov 2023 07:48:20 -0800 (PST)
-Date: Fri, 10 Nov 2023 16:48:18 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PULL] drm-intel-next-fixes
-Message-ID: <ZU5QwmPKF7pelDVF@phenom.ffwll.local>
-References: <878r78xrxd.fsf@intel.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31B5910E114;
+ Fri, 10 Nov 2023 15:56:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=PXwXN5tEaR5kdeL10MocxWEaauKlj7fnNpl4PFnuxYM=; b=d1kbIHQgk3i7aNFylGG3Bb2XtI
+ AmBsCJCFTGSWWS+JpsukzdbLm80G/eW43IctFGZ3y0SxuGQ8tCPMJRv7eX1YGTX41ouUDPVFXcAu3
+ 1DFFveqrJUD4hJ3RvcPkZsDrS6AnufUvcRR3IVFkHsEkojSPGtHIaPxT71zkPHGz0BEufb3OTZdic
+ avFBnBOGyB0mAucQCN1fyneCryJ0HF7BJCk5L8PMN6OUD69/VkrgFXtc+b9HMddus1BMbRPVCMFy3
+ 2kJwmjzSf6zPgzzfVlsu1MqH9KtMlTDyVMcxMBSrusmxxHVnDLb2cmgdFVnbKzZPN9ZT46epEcgNY
+ PZi+w30g==;
+Received: from pool-96-246-156-208.nycmny.fios.verizon.net ([96.246.156.208]
+ helo=X1.myfiosgateway.com) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1r1TrU-001hA7-V0; Fri, 10 Nov 2023 16:56:01 +0100
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amd: Document device reset methods
+Date: Fri, 10 Nov 2023 10:55:48 -0500
+Message-ID: <20231110155548.20599-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.42.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <878r78xrxd.fsf@intel.com>
-X-Operating-System: Linux phenom 6.5.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,97 +51,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: alexander.deucher@amd.com, ray.huang@amd.com,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ christian.koenig@amd.com, kernel-dev@igalia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 08, 2023 at 04:04:14PM +0200, Jani Nikula wrote:
-> 
-> Hi Dave & Daniel -
-> 
-> I see Dave already sent the pull request for v6.7-rc1 fixes, but here's
-> some more.
-> 
-> drm-intel-next-fixes-2023-11-08:
-> drm/i915 fixes for v6.7-rc1:
-> - Fix null dereference when perf interface is not available
-> - Fix a -Wstringop-overflow warning
-> - Fix a -Wformat-truncation warning in intel_tc_port_init
-> - Flush WC GGTT only on required platforms
-> - Fix MTL HBR3 rate support on C10 phy and eDP
-> - Fix MTL notify_guc for multi-GT
-> - Bump GLK CDCLK frequency when driving multiple pipes
-> - Fix potential spectre vulnerability
-> 
-> BR,
-> Jani.
-> 
-> The following changes since commit 5258dfd4a6adb5f45f046b0dd2e73c680f880d9d:
-> 
->   usb: typec: altmodes/displayport: fixup drm internal api change vs new user. (2023-10-27 07:55:41 +1000)
-> 
-> are available in the Git repository at:
-> 
->   git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-2023-11-08
+Document what each amdgpu driver reset method does.
 
-Pulled into drm-next, thanks.
--Sima
+Signed-off-by: Andr√© Almeida <andrealmeid@igalia.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-> 
-> for you to fetch changes up to 9506fba463fcbdf8c8b7af3ec9ee34360df843fe:
-> 
->   drm/i915/tc: Fix -Wformat-truncation in intel_tc_port_init (2023-11-06 14:42:58 +0200)
-> 
-> ----------------------------------------------------------------
-> drm/i915 fixes for v6.7-rc1:
-> - Fix null dereference when perf interface is not available
-> - Fix a -Wstringop-overflow warning
-> - Fix a -Wformat-truncation warning in intel_tc_port_init
-> - Flush WC GGTT only on required platforms
-> - Fix MTL HBR3 rate support on C10 phy and eDP
-> - Fix MTL notify_guc for multi-GT
-> - Bump GLK CDCLK frequency when driving multiple pipes
-> - Fix potential spectre vulnerability
-> 
-> ----------------------------------------------------------------
-> Arnd Bergmann (1):
->       drm/i915/mtl: avoid stringop-overflow warning
-> 
-> Chaitanya Kumar Borah (1):
->       drm/i915/mtl: Support HBR3 rate with C10 phy and eDP in MTL
-> 
-> Harshit Mogalapalli (1):
->       i915/perf: Fix NULL deref bugs with drm_dbg() calls
-> 
-> Kunwu Chan (1):
->       drm/i915: Fix potential spectre vulnerability
-> 
-> Nirmoy Das (3):
->       drm/i915: Flush WC GGTT only on required platforms
->       drm/i915/mtl: Apply notify_guc to all GTs
->       drm/i915/tc: Fix -Wformat-truncation in intel_tc_port_init
-> 
-> Ville Syrj‰l‰ (1):
->       drm/i915: Bump GLK CDCLK frequency when driving multiple pipes
-> 
->  drivers/gpu/drm/i915/display/intel_cdclk.c  | 12 ++++++++++
->  drivers/gpu/drm/i915/display/intel_dp.c     |  2 +-
->  drivers/gpu/drm/i915/display/intel_tc.c     | 11 ++++++---
->  drivers/gpu/drm/i915/gem/i915_gem_context.c |  1 +
->  drivers/gpu/drm/i915/gt/intel_ggtt.c        | 35 ++++++++++++++++++++---------
->  drivers/gpu/drm/i915/gt/intel_rc6.c         | 16 ++++++++-----
->  drivers/gpu/drm/i915/i915_debugfs_params.c  |  9 +++++---
->  drivers/gpu/drm/i915/i915_perf.c            | 15 +++----------
->  8 files changed, 65 insertions(+), 36 deletions(-)
-> 
-> -- 
-> Jani Nikula, Intel
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+index a79d53bdbe13..500f86c79eb7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -504,6 +504,26 @@ struct amdgpu_allowed_register_entry {
+ 	bool grbm_indexed;
+ };
+ 
++/**
++ * enum amd_reset_method - Methods for resetting AMD GPU devices
++ *
++ * @AMD_RESET_METHOD_NONE: The device will not be reset.
++ * @AMD_RESET_LEGACY: Method reserved for SI/CIK asics.
++ * @AMD_RESET_MODE0: High level PCIe reset.
++ * @AMD_RESET_MODE1: Resets each IP block (SDMA, GFX, VCN, etc.) individually.
++ *                   Suitable only for some discrete GPUs.
++ * @AMD_RESET_MODE2: Resets only the GFX block. Useful for APUs, giving that
++ *                   the rest of IP blocks and SMU is shared with the CPU.
++ * @AMD_RESET_BACO: BACO (Bus Alive, Chip Off) method powers off and on the card
++ *                  but without powering off the PCI bus. Suitable only for
++ *                  discrete GPUs.
++ * @AMD_RESET_PCI: Does a full bus reset, including powering on and off the
++ *                 card.
++ *
++ * Methods available for AMD GPU driver for resetting the device. Not all
++ * methods are suitable for every device. User can overwrite the method using
++ * module parameter `reset_method`.
++ */
+ enum amd_reset_method {
+ 	AMD_RESET_METHOD_NONE = -1,
+ 	AMD_RESET_METHOD_LEGACY = 0,
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.42.1
+
