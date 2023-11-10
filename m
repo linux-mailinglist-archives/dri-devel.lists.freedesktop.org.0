@@ -1,51 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F627E85CA
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 23:35:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E40F7E85E2
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 23:53:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6810510E2A2;
-	Fri, 10 Nov 2023 22:35:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09A6010E2A7;
+	Fri, 10 Nov 2023 22:53:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A357D10E2A2;
- Fri, 10 Nov 2023 22:35:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699655740; x=1731191740;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=Klh4h1xcyRnH17nCmMFHY0B9BwdSFW05Trom1eslzyg=;
- b=TLR13meyZSR1WCCyBrvmc9IcqvK7/+t1jQHuRXgb5rH9kLeS318XF82P
- r+9ArazCBWTqkMG/j0AYBQehdk445skRuklp7diP6QWlT6V3ThsDOkynf
- 5xYYtrqBpi6ePq0xWHtRSmZ0y99lFEQ/BX9Eqhla1mtaruLz00LJqeiK5
- Tn7qzc0Taj7k/BWrPHrZ5gICGw20m0/6MAbVbHya9IZUg+pJ/2JVXHfhz
- eFWKmWeCDYsk9JCJ/wk7T+2ExStnuamZx81f3VxzF/bOiFIsDbzWTPGMb
- dRQJpAAT6yRznMdWX2fDv6gqeH1DsQwmqtAi120wVQoTEaQ7Ek3WO9Piw Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="369570981"
-X-IronPort-AV: E=Sophos;i="6.03,293,1694761200"; d="scan'208";a="369570981"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2023 14:35:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="763844164"
-X-IronPort-AV: E=Sophos;i="6.03,293,1694761200"; d="scan'208";a="763844164"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 10 Nov 2023 14:35:37 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1r1a6B-0009zA-1f;
- Fri, 10 Nov 2023 22:35:35 +0000
-Date: Sat, 11 Nov 2023 06:35:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Subject: [drm-intel:drm-intel-gt-next 6/6]
- drivers/gpu/drm/i915/i915_drm_client.c:92:9: sparse: sparse: incompatible
- types in comparison expression (different address spaces):
-Message-ID: <202311110610.h0m6ydI5-lkp@intel.com>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACFCD10E2A4;
+ Fri, 10 Nov 2023 22:53:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=tOYDo1cN44RiDSLhxs/Illj/iOMmKhabusTff9O6hu0=; b=v71dnxDYZHCZAkGzhtHw4hR1y6
+ a8dMFJswTCTC5/DAovSq9dmPAJ0JabpQZLRHRmFhIftoCZBuQvsPUmbrqlQsg4mhxDVe8js0KQiPL
+ CTB/0jhgj8xqMqAWzYScg38eGDA/A1fuQajZ5VQFDhh4pEHKRfbyZLyv6qwZG7J4aNRa/YRtS9rQK
+ f2+IelZQwXFWHV9LZXgY1+upS4Gg4+0snZLevvaR7VmCqa4pWktkkiCUNhGDEcyh6Ka9EKA9G5HYD
+ MwSDwPq5xhNEADoxPkUFTsbaNJeuxjbGeUIbnZtkReqIoixjBJWgfqgnC+Gr0sgtVM0tGx3JFjt0X
+ 6VLdZXnA==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+ by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1r1aNf-009aVR-2f; Fri, 10 Nov 2023 22:53:39 +0000
+Message-ID: <3027ec81-304a-4501-808f-67596e61fb9f@infradead.org>
+Date: Fri, 10 Nov 2023 14:53:39 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amd: Document device reset methods
+Content-Language: en-US
+To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20231110155548.20599-1-andrealmeid@igalia.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20231110155548.20599-1-andrealmeid@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,74 +52,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
+Cc: alexander.deucher@amd.com, ray.huang@amd.com, christian.koenig@amd.com,
+ kernel-dev@igalia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm-intel drm-intel-gt-next
-head:   968853033d8aa4dbb80fbafa6f5d9b6a0ea21272
-commit: 968853033d8aa4dbb80fbafa6f5d9b6a0ea21272 [6/6] drm/i915: Implement fdinfo memory stats printing
-config: x86_64-randconfig-122-20231111 (https://download.01.org/0day-ci/archive/20231111/202311110610.h0m6ydI5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110610.h0m6ydI5-lkp@intel.com/reproduce)
+Hi--
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311110610.h0m6ydI5-lkp@intel.com/
+On 11/10/23 07:55, André Almeida wrote:
+> Document what each amdgpu driver reset method does.
+> 
+> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> index a79d53bdbe13..500f86c79eb7 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -504,6 +504,26 @@ struct amdgpu_allowed_register_entry {
+>  	bool grbm_indexed;
+>  };
+>  
+> +/**
+> + * enum amd_reset_method - Methods for resetting AMD GPU devices
+> + *
+> + * @AMD_RESET_METHOD_NONE: The device will not be reset.
+> + * @AMD_RESET_LEGACY: Method reserved for SI/CIK asics.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/i915_drm_client.c:92:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
->> drivers/gpu/drm/i915/i915_drm_client.c:92:9: sparse:    struct list_head [noderef] __rcu *
->> drivers/gpu/drm/i915/i915_drm_client.c:92:9: sparse:    struct list_head *
->> drivers/gpu/drm/i915/i915_drm_client.c:92:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
->> drivers/gpu/drm/i915/i915_drm_client.c:92:9: sparse:    struct list_head [noderef] __rcu *
->> drivers/gpu/drm/i915/i915_drm_client.c:92:9: sparse:    struct list_head *
+                                                    ASICs.
 
-vim +92 drivers/gpu/drm/i915/i915_drm_client.c
+> + * @AMD_RESET_MODE0: High level PCIe reset.
+> + * @AMD_RESET_MODE1: Resets each IP block (SDMA, GFX, VCN, etc.) individually.
+> + *                   Suitable only for some discrete GPUs.
+> + * @AMD_RESET_MODE2: Resets only the GFX block. Useful for APUs, giving that
+> + *                   the rest of IP blocks and SMU is shared with the CPU.
+> + * @AMD_RESET_BACO: BACO (Bus Alive, Chip Off) method powers off and on the card
+> + *                  but without powering off the PCI bus. Suitable only for
+> + *                  discrete GPUs.
+> + * @AMD_RESET_PCI: Does a full bus reset, including powering on and off the
+> + *                 card.
+> + *
+> + * Methods available for AMD GPU driver for resetting the device. Not all
+> + * methods are suitable for every device. User can overwrite the method using
 
-    72	
-    73	static void show_meminfo(struct drm_printer *p, struct drm_file *file)
-    74	{
-    75		struct drm_memory_stats stats[INTEL_REGION_UNKNOWN] = {};
-    76		struct drm_i915_file_private *fpriv = file->driver_priv;
-    77		struct i915_drm_client *client = fpriv->client;
-    78		struct drm_i915_private *i915 = fpriv->i915;
-    79		struct drm_i915_gem_object *obj;
-    80		struct intel_memory_region *mr;
-    81		struct list_head *pos;
-    82		unsigned int id;
-    83	
-    84		/* Public objects. */
-    85		spin_lock(&file->table_lock);
-    86		idr_for_each_entry(&file->object_idr, obj, id)
-    87			obj_meminfo(obj, stats);
-    88		spin_unlock(&file->table_lock);
-    89	
-    90		/* Internal objects. */
-    91		rcu_read_lock();
-  > 92		list_for_each_rcu(pos, &client->objects_list) {
-    93			obj = i915_gem_object_get_rcu(list_entry(pos, typeof(*obj),
-    94								 client_link));
-    95			if (!obj)
-    96				continue;
-    97			obj_meminfo(obj, stats);
-    98			i915_gem_object_put(obj);
-    99		}
-   100		rcu_read_unlock();
-   101	
-   102		for_each_memory_region(mr, i915, id)
-   103			drm_print_memory_stats(p,
-   104					       &stats[id],
-   105					       DRM_GEM_OBJECT_RESIDENT |
-   106					       DRM_GEM_OBJECT_PURGEABLE,
-   107					       mr->uabi_name);
-   108	}
-   109	
+s/overwrite/override/
+would make more sense to me.
+
+Otherwise looks good. Thanks.
+
+> + * module parameter `reset_method`.
+> + */
+>  enum amd_reset_method {
+>  	AMD_RESET_METHOD_NONE = -1,
+>  	AMD_RESET_METHOD_LEGACY = 0,
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Randy
