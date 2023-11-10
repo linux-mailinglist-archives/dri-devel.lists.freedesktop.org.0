@@ -2,47 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFCD77E7B32
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 11:16:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC7FD7E7C37
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 13:39:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C98B10E964;
-	Fri, 10 Nov 2023 10:16:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9A7C10E9A9;
+	Fri, 10 Nov 2023 12:39:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C33E10E964
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 10:16:07 +0000 (UTC)
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id A8B3E66073FE;
- Fri, 10 Nov 2023 10:16:04 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1699611365;
- bh=bhKTkPpbRe4c7/93JBUfBNKrd7X4LpGsLretpqpBw30=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=fpe/8ClVsoQUU2PiDztG/jFexCdkqB1LrlzjG4YGx/gyBm3Rkj7AayOFFB1QoAB9t
- afAaqsuQISlGYEJtoRrDr+SShX1QVBswhmmFmDk562JdUn4ZEBILCVApST6BgmMHN4
- xeJzhqqF5Z/LKLCmidHC8AMJVxf5ZC3TxrwmijMC4Wgz2fsonru2uYBQVaLGjV/02Y
- qFt0L7mPVYDxSKqdKJm963/4BCo2xbKROTSHDFYRVwVxQjuofHWkTjwi4UKtg4Ym9Y
- wiDLK+bij25avAC4Sk86JdawidztntTjx9jYmSYAIk+lJSvHyxVKfaC73ejZK07WIh
- HdNV1UrIcK4cA==
-Date: Fri, 10 Nov 2023 11:16:01 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v18 11/26] drm/shmem-helper: Prepare
- drm_gem_shmem_free() to shrinker addition
-Message-ID: <20231110111601.5d6bd1ab@collabora.com>
-In-Reply-To: <20231029230205.93277-12-dmitry.osipenko@collabora.com>
-References: <20231029230205.93277-1-dmitry.osipenko@collabora.com>
- <20231029230205.93277-12-dmitry.osipenko@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 90A4710E97F
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 10:17:12 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6DC7712FC;
+ Fri, 10 Nov 2023 02:17:56 -0800 (PST)
+Received: from [192.168.4.21] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2EC783F6C4;
+ Fri, 10 Nov 2023 02:16:58 -0800 (PST)
+Message-ID: <8288a2e5-afa3-462a-9470-0b010e4bc5bc@arm.com>
+Date: Fri, 10 Nov 2023 10:16:46 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 15/22] arch: vdso: consolidate gettime prototypes
+To: Arnd Bergmann <arnd@kernel.org>, Andrew Morton
+ <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+References: <20231108125843.3806765-1-arnd@kernel.org>
+ <20231108125843.3806765-16-arnd@kernel.org>
+Content-Language: en-US
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+In-Reply-To: <20231108125843.3806765-16-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Fri, 10 Nov 2023 12:39:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,104 +46,344 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, Juri Lelli <juri.lelli@redhat.com>,
+ linux-fbdev@vger.kernel.org, x86@kernel.org, loongarch@lists.linux.dev,
+ linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
+ netdev@vger.kernel.org, Guo Ren <guoren@kernel.org>,
+ Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Will Deacon <will@kernel.org>, Greg Ungerer <gerg@linux-m68k.org>,
+ Nicolas Schier <nicolas@fjasle.eu>, linux-s390@vger.kernel.org,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, Helge Deller <deller@gmx.de>,
+ Huacai Chen <chenhuacai@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Ard Biesheuvel <ardb@kernel.org>, linux-bcachefs@vger.kernel.org,
+ Ingo Molnar <mingo@redhat.com>, Vineet Gupta <vgupta@kernel.org>,
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Matt Turner <mattst88@gmail.com>,
+ linux-snps-arc@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
+ Heiko Carstens <hca@linux.ibm.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ linuxppc-dev@lists.ozlabs.org, Nicholas Piggin <npiggin@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, linux-m68k@lists.linux-m68k.org,
+ linux-csky@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+ Andy Lutomirski <luto@kernel.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ Timur Tabi <timur@kernel.org>, Geoff Levand <geoff@infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Kent Overstreet <kent.overstreet@linux.dev>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-mips@vger.kernel.org,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ Dinh Nguyen <dinguyen@kernel.org>, linux-usb@vger.kernel.org,
+ Palmer Dabbelt <palmer@dabbelt.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ linux-alpha@vger.kernel.org, linux-mtd@lists.infradead.org,
+ David Woodhouse <dwmw2@infradead.org>, "David S. Miller" <davem@davemloft.net>,
+ Al Viro <viro@zeniv.linux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 Oct 2023 02:01:50 +0300
-Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+Hi Arnd,
 
-> Prepare drm_gem_shmem_free() to addition of memory shrinker support
-> to drm-shmem by adding and using variant of put_pages() that doesn't
-> touch reservation lock. Reservation shouldn't be touched because lockdep
-> will trigger a bogus warning about locking contention with fs_reclaim
-> code paths that can't happen during the time when GEM is freed and
-> lockdep doesn't know about that.
+On 11/8/23 12:58, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> The VDSO functions are defined as globals in the kernel sources but intended
+> to be called from userspace, so there is no need to declare them in a kernel
+> side header.
+> 
+> Without a prototype, this now causes warnings such as
+> 
+> arch/mips/vdso/vgettimeofday.c:14:5: error: no previous prototype for '__vdso_clock_gettime' [-Werror=missing-prototypes]
+> arch/mips/vdso/vgettimeofday.c:28:5: error: no previous prototype for '__vdso_gettimeofday' [-Werror=missing-prototypes]
+> arch/mips/vdso/vgettimeofday.c:36:5: error: no previous prototype for '__vdso_clock_getres' [-Werror=missing-prototypes]
+> arch/mips/vdso/vgettimeofday.c:42:5: error: no previous prototype for '__vdso_clock_gettime64' [-Werror=missing-prototypes]
+> arch/sparc/vdso/vclock_gettime.c:254:1: error: no previous prototype for '__vdso_clock_gettime' [-Werror=missing-prototypes]
+> arch/sparc/vdso/vclock_gettime.c:282:1: error: no previous prototype for '__vdso_clock_gettime_stick' [-Werror=missing-prototypes]
+> arch/sparc/vdso/vclock_gettime.c:307:1: error: no previous prototype for '__vdso_gettimeofday' [-Werror=missing-prototypes]
+> arch/sparc/vdso/vclock_gettime.c:343:1: error: no previous prototype for '__vdso_gettimeofday_stick' [-Werror=missing-prototypes]
+> 
+> Most architectures have already added workarounds for these by adding
+> declarations somewhere, but since these are all compatible, we should
+> really just have one copy, with an #ifdef check for the 32-bit vs
+> 64-bit variant and use that everywhere.
+> 
+
+I agree, it is a good idea to have a single header for this purpose.
+
+> Unfortunately, the sparc version is currently incompatible since
+> that never added support for __vdso_clock_gettime64() in 32-bit
+> userland. For the moment, I'm leaving this one out, as I can't
+> easily test it and it requires a larger rework.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+
+Reviewed-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+
 > ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 35 +++++++++++++-------------
->  1 file changed, 18 insertions(+), 17 deletions(-)
+>  arch/arm/include/asm/vdso.h              |  5 -----
+>  arch/arm/vdso/vgettimeofday.c            |  1 +
+>  arch/arm64/kernel/vdso32/vgettimeofday.c |  1 +
+>  arch/csky/kernel/vdso/vgettimeofday.c    | 11 +----------
+>  arch/loongarch/vdso/vgettimeofday.c      |  7 +------
+>  arch/mips/vdso/vgettimeofday.c           |  1 +
+>  arch/riscv/kernel/vdso/vgettimeofday.c   |  7 +------
+>  arch/x86/entry/vdso/vclock_gettime.c     | 10 +---------
+>  arch/x86/include/asm/vdso/gettimeofday.h |  2 --
+>  arch/x86/um/vdso/um_vdso.c               |  1 +
+>  include/vdso/gettime.h                   | 23 +++++++++++++++++++++++
+>  11 files changed, 31 insertions(+), 38 deletions(-)
+>  create mode 100644 include/vdso/gettime.h
 > 
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index 08b5a57c59d8..24ff2b99e75b 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -128,6 +128,22 @@ struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
+> diff --git a/arch/arm/include/asm/vdso.h b/arch/arm/include/asm/vdso.h
+> index 422c3afa806a..5b85889f82ee 100644
+> --- a/arch/arm/include/asm/vdso.h
+> +++ b/arch/arm/include/asm/vdso.h
+> @@ -24,11 +24,6 @@ static inline void arm_install_vdso(struct mm_struct *mm, unsigned long addr)
 >  
-> +static void
-> +drm_gem_shmem_free_pages(struct drm_gem_shmem_object *shmem)
-> +{
-> +	struct drm_gem_object *obj = &shmem->base;
+>  #endif /* CONFIG_VDSO */
+>  
+> -int __vdso_clock_gettime(clockid_t clock, struct old_timespec32 *ts);
+> -int __vdso_clock_gettime64(clockid_t clock, struct __kernel_timespec *ts);
+> -int __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz);
+> -int __vdso_clock_getres(clockid_t clock_id, struct old_timespec32 *res);
+> -
+>  #endif /* __ASSEMBLY__ */
+>  
+>  #endif /* __KERNEL__ */
+> diff --git a/arch/arm/vdso/vgettimeofday.c b/arch/arm/vdso/vgettimeofday.c
+> index a003beacac76..3554aa35f1ba 100644
+> --- a/arch/arm/vdso/vgettimeofday.c
+> +++ b/arch/arm/vdso/vgettimeofday.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/types.h>
+>  #include <asm/vdso.h>
+>  #include <asm/unwind.h>
+> +#include <vdso/gettime.h>
+>  
+>  int __vdso_clock_gettime(clockid_t clock,
+>  			 struct old_timespec32 *ts)
+> diff --git a/arch/arm64/kernel/vdso32/vgettimeofday.c b/arch/arm64/kernel/vdso32/vgettimeofday.c
+> index 5acff29c5991..e23c7f4ef26b 100644
+> --- a/arch/arm64/kernel/vdso32/vgettimeofday.c
+> +++ b/arch/arm64/kernel/vdso32/vgettimeofday.c
+> @@ -5,6 +5,7 @@
+>   * Copyright (C) 2018 ARM Limited
+>   *
+>   */
+> +#include <vdso/gettime.h>
+>  
+>  int __vdso_clock_gettime(clockid_t clock,
+>  			 struct old_timespec32 *ts)
+> diff --git a/arch/csky/kernel/vdso/vgettimeofday.c b/arch/csky/kernel/vdso/vgettimeofday.c
+> index c4831145eed5..55af30e83752 100644
+> --- a/arch/csky/kernel/vdso/vgettimeofday.c
+> +++ b/arch/csky/kernel/vdso/vgettimeofday.c
+> @@ -2,36 +2,27 @@
+>  
+>  #include <linux/time.h>
+>  #include <linux/types.h>
+> +#include <vdso/gettime.h>
+>  
+>  extern
+> -int __vdso_clock_gettime(clockid_t clock,
+> -			 struct old_timespec32 *ts);
+>  int __vdso_clock_gettime(clockid_t clock,
+>  			 struct old_timespec32 *ts)
+>  {
+>  	return __cvdso_clock_gettime32(clock, ts);
+>  }
+>  
+> -int __vdso_clock_gettime64(clockid_t clock,
+> -			   struct __kernel_timespec *ts);
+>  int __vdso_clock_gettime64(clockid_t clock,
+>  			   struct __kernel_timespec *ts)
+>  {
+>  	return __cvdso_clock_gettime(clock, ts);
+>  }
+>  
+> -extern
+> -int __vdso_gettimeofday(struct __kernel_old_timeval *tv,
+> -			struct timezone *tz);
+>  int __vdso_gettimeofday(struct __kernel_old_timeval *tv,
+>  			struct timezone *tz)
+>  {
+>  	return __cvdso_gettimeofday(tv, tz);
+>  }
+>  
+> -extern
+> -int __vdso_clock_getres(clockid_t clock_id,
+> -			struct old_timespec32 *res);
+>  int __vdso_clock_getres(clockid_t clock_id,
+>  			struct old_timespec32 *res)
+>  {
+> diff --git a/arch/loongarch/vdso/vgettimeofday.c b/arch/loongarch/vdso/vgettimeofday.c
+> index 8f22863bd7ea..0885c1f3a89d 100644
+> --- a/arch/loongarch/vdso/vgettimeofday.c
+> +++ b/arch/loongarch/vdso/vgettimeofday.c
+> @@ -5,23 +5,18 @@
+>   * Copyright (C) 2020-2022 Loongson Technology Corporation Limited
+>   */
+>  #include <linux/types.h>
+> +#include <vdso/gettime.h>
+>  
+> -extern
+> -int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts);
+>  int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts)
+>  {
+>  	return __cvdso_clock_gettime(clock, ts);
+>  }
+>  
+> -extern
+> -int __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz);
+>  int __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz)
+>  {
+>  	return __cvdso_gettimeofday(tv, tz);
+>  }
+>  
+> -extern
+> -int __vdso_clock_getres(clockid_t clock_id, struct __kernel_timespec *res);
+>  int __vdso_clock_getres(clockid_t clock_id, struct __kernel_timespec *res)
+>  {
+>  	return __cvdso_clock_getres(clock_id, res);
+> diff --git a/arch/mips/vdso/vgettimeofday.c b/arch/mips/vdso/vgettimeofday.c
+> index 6b83b6376a4b..604afea3f336 100644
+> --- a/arch/mips/vdso/vgettimeofday.c
+> +++ b/arch/mips/vdso/vgettimeofday.c
+> @@ -9,6 +9,7 @@
+>   */
+>  #include <linux/time.h>
+>  #include <linux/types.h>
+> +#include <vdso/gettime.h>
+>  
+>  #if _MIPS_SIM != _MIPS_SIM_ABI64
+>  int __vdso_clock_gettime(clockid_t clock,
+> diff --git a/arch/riscv/kernel/vdso/vgettimeofday.c b/arch/riscv/kernel/vdso/vgettimeofday.c
+> index cc0d80699c31..b35057802584 100644
+> --- a/arch/riscv/kernel/vdso/vgettimeofday.c
+> +++ b/arch/riscv/kernel/vdso/vgettimeofday.c
+> @@ -8,23 +8,18 @@
+>  
+>  #include <linux/time.h>
+>  #include <linux/types.h>
+> +#include <vdso/gettime.h>
+>  
+> -extern
+> -int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts);
+>  int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts)
+>  {
+>  	return __cvdso_clock_gettime(clock, ts);
+>  }
+>  
+> -extern
+> -int __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz);
+>  int __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz)
+>  {
+>  	return __cvdso_gettimeofday(tv, tz);
+>  }
+>  
+> -extern
+> -int __vdso_clock_getres(clockid_t clock_id, struct __kernel_timespec *res);
+>  int __vdso_clock_getres(clockid_t clock_id, struct __kernel_timespec *res)
+>  {
+>  	return __cvdso_clock_getres(clock_id, res);
+> diff --git a/arch/x86/entry/vdso/vclock_gettime.c b/arch/x86/entry/vdso/vclock_gettime.c
+> index 7d70935b6758..0debc194bd78 100644
+> --- a/arch/x86/entry/vdso/vclock_gettime.c
+> +++ b/arch/x86/entry/vdso/vclock_gettime.c
+> @@ -11,12 +11,10 @@
+>  #include <linux/time.h>
+>  #include <linux/kernel.h>
+>  #include <linux/types.h>
+> +#include <vdso/gettime.h>
+>  
+>  #include "../../../../lib/vdso/gettimeofday.c"
+>  
+> -extern int __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz);
+> -extern __kernel_old_time_t __vdso_time(__kernel_old_time_t *t);
+> -
+>  int __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz)
+>  {
+>  	return __cvdso_gettimeofday(tv, tz);
+> @@ -35,9 +33,6 @@ __kernel_old_time_t time(__kernel_old_time_t *t)	__attribute__((weak, alias("__v
+>  
+>  #if defined(CONFIG_X86_64) && !defined(BUILD_VDSO32_64)
+>  /* both 64-bit and x32 use these */
+> -extern int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts);
+> -extern int __vdso_clock_getres(clockid_t clock, struct __kernel_timespec *res);
+> -
+>  int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts)
+>  {
+>  	return __cvdso_clock_gettime(clock, ts);
+> @@ -56,9 +51,6 @@ int clock_getres(clockid_t, struct __kernel_timespec *)
+>  
+>  #else
+>  /* i386 only */
+> -extern int __vdso_clock_gettime(clockid_t clock, struct old_timespec32 *ts);
+> -extern int __vdso_clock_getres(clockid_t clock, struct old_timespec32 *res);
+> -
+>  int __vdso_clock_gettime(clockid_t clock, struct old_timespec32 *ts)
+>  {
+>  	return __cvdso_clock_gettime32(clock, ts);
+> diff --git a/arch/x86/include/asm/vdso/gettimeofday.h b/arch/x86/include/asm/vdso/gettimeofday.h
+> index c81858d903dc..a46edb0e0cf7 100644
+> --- a/arch/x86/include/asm/vdso/gettimeofday.h
+> +++ b/arch/x86/include/asm/vdso/gettimeofday.h
+> @@ -337,8 +337,6 @@ u64 vdso_calc_delta(u64 cycles, u64 last, u64 mask, u32 mult)
+>  }
+>  #define vdso_calc_delta vdso_calc_delta
+>  
+> -int __vdso_clock_gettime64(clockid_t clock, struct __kernel_timespec *ts);
+> -
+>  #endif /* !__ASSEMBLY__ */
+>  
+>  #endif /* __ASM_VDSO_GETTIMEOFDAY_H */
+> diff --git a/arch/x86/um/vdso/um_vdso.c b/arch/x86/um/vdso/um_vdso.c
+> index ff0f3b4b6c45..63768dd347ce 100644
+> --- a/arch/x86/um/vdso/um_vdso.c
+> +++ b/arch/x86/um/vdso/um_vdso.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/time.h>
+>  #include <linux/getcpu.h>
+>  #include <asm/unistd.h>
+> +#include <vdso/gettime.h>
+>  
+>  int __vdso_clock_gettime(clockid_t clock, struct __kernel_old_timespec *ts)
+>  {
+> diff --git a/include/vdso/gettime.h b/include/vdso/gettime.h
+> new file mode 100644
+> index 000000000000..c50d152e7b3e
+> --- /dev/null
+> +++ b/include/vdso/gettime.h
+> @@ -0,0 +1,23 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _VDSO_GETTIME_H
+> +#define _VDSO_GETTIME_H
 > +
-> +#ifdef CONFIG_X86
-> +	if (shmem->map_wc)
-> +		set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
+> +#include <linux/types.h>
+> +
+> +struct __kernel_timespec;
+> +struct timezone;
+> +
+> +#if !defined(CONFIG_64BIT) || defined(BUILD_VDSO32_64)
+> +struct old_timespec32;
+> +int __vdso_clock_getres(clockid_t clock, struct old_timespec32 *res);
+> +int __vdso_clock_gettime(clockid_t clock, struct old_timespec32 *ts);
+> +#else
+> +int __vdso_clock_getres(clockid_t clock, struct __kernel_timespec *res);
+> +int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts);
 > +#endif
 > +
-> +	drm_gem_put_pages(obj, shmem->pages,
-> +			  shmem->pages_mark_dirty_on_put,
-> +			  shmem->pages_mark_accessed_on_put);
-> +	shmem->pages = NULL;
-> +}
+> +__kernel_old_time_t __vdso_time(__kernel_old_time_t *t);
+> +int __vdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz);
+> +int __vdso_clock_gettime64(clockid_t clock, struct __kernel_timespec *ts);
 > +
->  /**
->   * drm_gem_shmem_free - Free resources associated with a shmem GEM object
->   * @shmem: shmem GEM object to free
-> @@ -142,8 +158,6 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
->  	if (obj->import_attach) {
->  		drm_prime_gem_destroy(obj, shmem->sgt);
->  	} else {
-> -		dma_resv_lock(shmem->base.resv, NULL);
-> -
->  		drm_WARN_ON(obj->dev, refcount_read(&shmem->vmap_use_count));
->  
->  		if (shmem->sgt) {
-> @@ -157,8 +171,6 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
->  
+> +#endif
 
-If you drop the dma_resv_lock/unlock(), you should also replace the
-drm_gem_shmem_put_pages_locked() by a drm_gem_shmem_free_pages() in this
-commit.
-
->  		drm_WARN_ON(obj->dev, refcount_read(&shmem->pages_use_count));
->  		drm_WARN_ON(obj->dev, refcount_read(&shmem->pages_pin_count));
-> -
-> -		dma_resv_unlock(shmem->base.resv);
->  	}
->  
->  	drm_gem_object_release(obj);
-> @@ -208,21 +220,10 @@ static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
->   */
->  void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
->  {
-> -	struct drm_gem_object *obj = &shmem->base;
-> -
->  	dma_resv_assert_held(shmem->base.resv);
->  
-> -	if (refcount_dec_and_test(&shmem->pages_use_count)) {
-> -#ifdef CONFIG_X86
-> -		if (shmem->map_wc)
-> -			set_pages_array_wb(shmem->pages, obj->size >> PAGE_SHIFT);
-> -#endif
-> -
-> -		drm_gem_put_pages(obj, shmem->pages,
-> -				  shmem->pages_mark_dirty_on_put,
-> -				  shmem->pages_mark_accessed_on_put);
-> -		shmem->pages = NULL;
-> -	}
-> +	if (refcount_dec_and_test(&shmem->pages_use_count))
-> +		drm_gem_shmem_free_pages(shmem);
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_put_pages_locked);
->  
-
+-- 
+Regards,
+Vincenzo
