@@ -1,48 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBF77E7C05
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 12:57:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B847E7C10
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 13:11:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F2E710E0E6;
-	Fri, 10 Nov 2023 11:57:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A10210E99D;
+	Fri, 10 Nov 2023 12:11:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73C6B10E0E6
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 11:57:19 +0000 (UTC)
-Received: from [100.107.97.3] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 4221E66073D6;
- Fri, 10 Nov 2023 11:57:17 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1699617438;
- bh=yxdMDAZYCs0R8XzpVH/gErPFhSqVtu/4cjaOro2h2b4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=WO3nx56UqM87HIFLLfwM2R/w0GJjvdvHpUw6z00XcHu2y+woW1xgDbCtxrNmbLnbJ
- etYOhBicHSRnRFOrs2OtpBKDwUUt9BfIC3SdbIFpOsOY4xeruQuEjin51sL+msfcei
- YBN3so3JS8iJzJFVY+/AApKOYN90tP2IjNQqKDQEWW2QDN9BMANB9IYjCTtcRL3pnd
- WoI/wxS/kE1UcePbmj8LvrfvAQRYxzvvExRX/UMuIATNSVY5Ros/TWFcBGBnIfYLWD
- JqSK3iHF+sNyUgbFzfiPuY4mwZYYtZjL7xfp6qqLvVs3XA4C6in3jGgh9NvlYbCwze
- jbVQZPB/+a2jg==
-Message-ID: <b56b155c-25c0-4958-9f59-20669ee2ea01@collabora.com>
-Date: Fri, 10 Nov 2023 12:57:17 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D1B310E99D
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 12:11:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1699618265;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7fCuXz89goAk8Vt7qNUZu+b7kKfusXy0WvYDR11XmRk=;
+ b=BtDnA1vfr4LpOiKWP73xgnG7lO91XjkBAmLrqZ6j1LzTc8tJxFLXw2jH8cvbBTAB6v2LLa
+ 3ocIG6gE59g4ng4AA+QZN+NDaI/LowhE2yRgD6OqBvSQeymmtwckfAOOh9tIyW8dA8+nOD
+ KNesiZCjGKI7XB9lQY+QdhZgIuvFG/c=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-259-YQzG5Z7jORmWthh1KE_Ldg-1; Fri, 10 Nov 2023 07:11:03 -0500
+X-MC-Unique: YQzG5Z7jORmWthh1KE_Ldg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-408534c3ec7so12671695e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 04:11:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699618262; x=1700223062;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7fCuXz89goAk8Vt7qNUZu+b7kKfusXy0WvYDR11XmRk=;
+ b=NeQElncWnnkuHzRtcDh4Ca57zYfT+YL4f0ZBOjSQZPQ8I7qa7vnyj9kFmErCw1/s01
+ /wmBLtzzkpgnwo4wQMyRjnrYe3ynm8/2NnBVUXfrICsdoaoV3sZQT5RMmYQdK6WWo2aa
+ 91UHFT8pdaV6ZmTNQH647cEiGOWI716vfPw/ADVONkAzYlsTQDdATbGHJ8aNoToqHjb/
+ eMHmKDvm2jPS1RIy5l8jA8l5ccoXImPTGs+tEAwiRo8iS4dzUxLtmYt7kNzOzwKlw2Ra
+ oPEa1PdpHTn4sEFBUlV08NOt5TN4aYac/twlrYIvtdn0bNjNfpngP46BU4KA3YPFjdSX
+ N5nQ==
+X-Gm-Message-State: AOJu0Yyld7qgtDWhAUjVDrv7XLTRJvZV7LURiS+5mtZ4TmmTZkiWonFq
+ uComPksK5H2g8dM/utzhSWkb+5mrMIfardetpEYjy3lTWc5+6rzAGUEgV+Fgkci/LTLJiLFL0+5
+ pEau47QVJW+8lKu3hpMlfgXExaY5/QUqZ/NO3
+X-Received: by 2002:a05:600c:190d:b0:408:4d0e:68b2 with SMTP id
+ j13-20020a05600c190d00b004084d0e68b2mr6677896wmq.36.1699618262548; 
+ Fri, 10 Nov 2023 04:11:02 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHnQ+ojOf2ajiSmBmN3mG/STAgZbDHejKyB0rLbX5CDgW3NWQYnPG6aNRfVTdkRaPHIh/mwvQ==
+X-Received: by 2002:a05:600c:190d:b0:408:4d0e:68b2 with SMTP id
+ j13-20020a05600c190d00b004084d0e68b2mr6677880wmq.36.1699618262272; 
+ Fri, 10 Nov 2023 04:11:02 -0800 (PST)
+Received: from localhost ([90.167.86.3]) by smtp.gmail.com with ESMTPSA id
+ j10-20020a05600c300a00b0040773c69fc0sm4867955wmh.11.2023.11.10.04.11.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Nov 2023 04:11:02 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
+ <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] vgacon: drop IA64 reference in VGA_CONSOLE dependency list
+In-Reply-To: <20231110114400.30882-1-lukas.bulwahn@gmail.com>
+References: <20231110114400.30882-1-lukas.bulwahn@gmail.com>
+Date: Fri, 10 Nov 2023 13:11:00 +0100
+Message-ID: <87v8a9ajvv.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] drm/mediatek: Fix access violation in
- mtk_drm_crtc_dma_dev_get
-Content-Language: en-US
-To: Stuart Lee <stuart.lee@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-References: <20231110012914.14884-1-stuart.lee@mediatek.com>
- <20231110012914.14884-2-stuart.lee@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20231110012914.14884-2-stuart.lee@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,29 +81,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "Nancy . Lin" <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
- Macpaul Lin <macpaul.lin@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Lancelot Wu <lancelot.wu@mediatek.com>, stable@vger.kernel.org,
- Shawn Sung <shawn.sung@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 10/11/23 02:29, Stuart Lee ha scritto:
-> Add error handling to check NULL input in
-> mtk_drm_crtc_dma_dev_get function.
-> 
-> While display path is not configured correctly, none of crtc is
-> established. So the caller of mtk_drm_crtc_dma_dev_get may pass
-> input parameter *crtc as NULL, Which may cause coredump when
-> we try to get the container of NULL pointer.
-> 
-> Fixes: cb1d6bcca542 ("drm/mediatek: Add dma dev get function")
-> Signed-off-by: Stuart Lee <stuart.lee@mediatek.com>
-> Cc: stable@vger.kernel.org
+Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
 
-Reviewed-by: AngeloGioacchino DEl Regno <angelogioacchino.delregno@collabora.com>
+> Commit e9e3300b6e77 ("vgacon: rework Kconfig dependencies") turns the
+> dependencies into a positive list of supported architectures, which
+> includes the IA64 architecture, but in the meantime, this architecture is
+> removed in commit cf8e8658100d ("arch: Remove Itanium (IA-64)
+> architecture").
+>
+> Drop the reference to IA64 architecture in the dependency list of the
+> VGA_CONSOLE config definition.
+>
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
 
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
