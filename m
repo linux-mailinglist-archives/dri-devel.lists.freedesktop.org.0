@@ -2,64 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 887817E83D3
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 21:33:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D807E8401
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 21:38:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E57810E27D;
-	Fri, 10 Nov 2023 20:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCD0B10E26C;
+	Fri, 10 Nov 2023 20:38:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1371B10E283
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 20:33:22 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- 5b1f17b1804b1-408423fc784so901075e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 12:33:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1699648400; x=1700253200; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=SvutThoqvV4TleTUlCPRNFmrX/Q0+5pWjICaVQchlnA=;
- b=kU6T0uHhvbGQSVJw8RnYNWY2Ojc8AhKONHyjAKJprLb0QorJVPIduO22bfo8j8/kqT
- Uw0K7Vwocrd6uD2IfkLqs490thGEBObTAvedm69g9G1WZ7biwhBNwVMteZM6n2/J9r02
- ywrFFLkPdQc9RKC7PF2yp4U9H1wyH4hN+Z50Y=
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com
+ [209.85.160.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FC2A10E26C
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 20:38:15 +0000 (UTC)
+Received: by mail-oa1-f49.google.com with SMTP id
+ 586e51a60fabf-1f0820b7657so1279973fac.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 12:38:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699648400; x=1700253200;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SvutThoqvV4TleTUlCPRNFmrX/Q0+5pWjICaVQchlnA=;
- b=RZ73iweZ0Flz43iyUKq8AWzoAbFm2aIZGJv7Pd8VXxQxiXrHKJP3UmflSyW+jKJGok
- Dyy0PGlMndGtGq/GEEX06JrObB/QbH6tK9dMxP3ErEGp/lHcTlyRC4VF4feOR3DgGyyW
- fYcNqbWiOl+MSaQJmz783kTG+oAetMoCUz4bdBjQxLiaZTd1EzyhTFWdmVtBautf4Wgj
- Y/LAwWfmlbIN+eiJe13hzoSSyzCsYPJKCrVwNWfZXB8Vojb+wcTsy4bLgFYEzjUvxbsb
- bAHBpWBHOId9IS66ZDQ5N20Yl5gCI1raDLh04Q/bojC/9fpHNuSWTgYqWu6fGn2r9TjE
- ENPA==
-X-Gm-Message-State: AOJu0Yxkz3nfieiAqOI/gs+eGWoCCGIDB86nG6jjpvVSayR5RSdlUOdn
- qj/uRKkhCkL7tA4zLEQGYN43aA==
-X-Google-Smtp-Source: AGHT+IHGra3txHPPfAdROu4Lt9CUbtXRyD/TATZzjHL2i9EY+1c9lycrZYMvL/QkdP9jFE1M5MNEZg==
-X-Received: by 2002:a05:600c:1d24:b0:404:7606:a871 with SMTP id
- l36-20020a05600c1d2400b004047606a871mr288738wms.2.1699648400289; 
- Fri, 10 Nov 2023 12:33:20 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- h11-20020a05600c314b00b00407460234f9sm351675wmo.21.2023.11.10.12.33.19
+ d=1e100.net; s=20230601; t=1699648694; x=1700253494;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nDEOGTCwLGe8/AbnY8N0ixov4mA0V6wpnOxoAqQPSK4=;
+ b=WclM34DP0cp/VVapIlID5uMgdh6TG4DsrYflMNUOMBlaaO8UsIENVG+ZfFE4K1No8q
+ odd/GJx0AOvW0mZE/AOOeETbgZLTkYg5sU2XQgGVqShy9Gn3wROanuRkuZdBX6gv/AXe
+ ZNsvDI6OeZZnH0HQP/qNWjA9HXszr8HsfsXtRzWpHp5KoCHwxkVuMXRCX3KyAPGWPHU2
+ fGfxmLuvJtSTfc7s/lckVH3ngizKXeZ7KPPqpzLKPdG8PsU2+//LeTyrRiLXpxpQ/spY
+ 3xtimdSZNUBLQwrMKl3Ae3bgl2X1cIou1P1f/0jGPqwzaPH7W+mGLXygzhZPkOSbUU7U
+ WcpQ==
+X-Gm-Message-State: AOJu0YynTZTdSbpkIVQ9HGVcxx4FpsyReYZ+6sy2VKdV0Zvxu1IfBWzz
+ ccukYrgLJUv5MI/UzZhZqA==
+X-Google-Smtp-Source: AGHT+IFVVQE4BI8cOz3AIQYw2pXVqurA/tQ+STytYpdzYk+6P+Wjdqy5vAj94WGd/H3Kxm+R2FQFzQ==
+X-Received: by 2002:a05:6870:d1c2:b0:1ea:14eb:b741 with SMTP id
+ b2-20020a056870d1c200b001ea14ebb741mr343191oac.54.1699648694529; 
+ Fri, 10 Nov 2023 12:38:14 -0800 (PST)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ y4-20020a056870a34400b001e9ce1b5e8fsm59655oak.15.2023.11.10.12.38.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Nov 2023 12:33:19 -0800 (PST)
-Date: Fri, 10 Nov 2023 21:33:17 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PULL] drm-misc-fixes
-Message-ID: <ZU6TjYQVWgfW9xcw@phenom.ffwll.local>
-References: <bc8598ee-d427-4616-8ebd-64107ab9a2d8@linux.intel.com>
+ Fri, 10 Nov 2023 12:38:13 -0800 (PST)
+Received: (nullmailer pid 390527 invoked by uid 1000);
+ Fri, 10 Nov 2023 20:38:11 -0000
+Date: Fri, 10 Nov 2023 14:38:11 -0600
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 02/17] dt-bindings: i2c: exynos5: add specific
+ compatibles for existing SoC
+Message-ID: <169964869116.390473.6961652258456026108.robh@kernel.org>
+References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
+ <20231108104343.24192-3-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <bc8598ee-d427-4616-8ebd-64107ab9a2d8@linux.intel.com>
-X-Operating-System: Linux phenom 6.5.0-1-amd64 
+In-Reply-To: <20231108104343.24192-3-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,85 +65,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, linux-pwm@vger.kernel.org,
+ linux-iio@vger.kernel.org, alsa-devel@alsa-project.org,
+ dri-devel@lists.freedesktop.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-i2c@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-rtc@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
+ Lee Jones <lee@kernel.org>, Jaehoon Chung <jh80.chung@samsung.com>,
+ linux-samsung-soc@vger.kernel.org, linux-serial@vger.kernel.org,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Ulf Hansson <ulf.hansson@linaro.org>, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Tomasz Figa <tomasz.figa@gmail.com>,
+ linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-sound@vger.kernel.org, Sam Protsenko <semen.protsenko@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, Alessandro Zummo <a.zummo@towertech.it>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 08, 2023 at 02:18:28PM +0100, Maarten Lankhorst wrote:
-> Hi Dave, Daniel,
-> 
-> drm-misc-next-fixes is empty, have a pull request for drm-misc-fixes.
-> 
-> Cheers,
-> ~Maarten
-> 
-> drm-misc-fixes-2023-11-08:
-> drm-misc-fixes for v6.7-rc1:
-> 
-> - drm-misc-fixes from 2023-11-02 + a single qxl memory leak fix.
-> The following changes since commit 8f5ad367e8b884772945c6c9fb622ac94b7d3e32:
-> 
->   accel/ivpu: Extend address range for MMU mmap (2023-10-19 08:01:20 +0200)
-> 
-> are available in the Git repository at:
-> 
->   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-11-08
 
-Merged to drm-next, thanks.
--Sima
+On Wed, 08 Nov 2023 11:43:28 +0100, Krzysztof Kozlowski wrote:
+> Samsung Exynos SoC reuses several devices from older designs, thus
+> historically we kept the old (block's) compatible only.  This works fine
+> and there is no bug here, however guidelines expressed in
+> Documentation/devicetree/bindings/writing-bindings.rst state that:
+> 1. Compatibles should be specific.
+> 2. We should add new compatibles in case of bugs or features.
 > 
-> for you to fetch changes up to 0e8b9f258baed25f1c5672613699247c76b007b5:
+> Add compatibles specific to each SoC in front of all old-SoC-like
+> compatibles.
 > 
->   drm/qxl: prevent memory leak (2023-11-06 09:37:03 +0100)
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
-> ----------------------------------------------------------------
-> drm-misc-fixes for v6.7-rc1:
+> ---
 > 
-> - drm-misc-fixes from 2023-11-02 + a single qxl memory leak fix.
+> I propose to take the patch through Samsung SoC (me). See cover letter
+> for explanation.
+> ---
+>  Documentation/devicetree/bindings/i2c/i2c-exynos5.yaml | 10 +++++++++-
+>  .../devicetree/bindings/soc/samsung/exynos-usi.yaml    |  2 +-
+>  2 files changed, 10 insertions(+), 2 deletions(-)
 > 
-> ----------------------------------------------------------------
-> Christian König (2):
->       drm/amdgpu: ignore duplicate BOs again
->       drm/amdkfd: reserve a fence slot while locking the BO
-> 
-> Erik Kurzinger (1):
->       drm/syncobj: fix DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE
-> 
-> Karol Wachowski (1):
->       accel/ivpu/37xx: Fix missing VPUIP interrupts
-> 
-> Luben Tuikov (1):
->       drm/amdgpu: Remove redundant call to priority_is_valid()
-> 
-> Lukasz Majczak (1):
->       drm/dp_mst: Fix NULL deref in get_mst_branch_device_by_guid_helper()
-> 
-> Maxime Ripard (1):
->       drm/vc4: tests: Fix UAF in the mock helpers
-> 
-> Sui Jingfeng (1):
->       drm/logicvc: Kconfig: select REGMAP and REGMAP_MMIO
-> 
-> Zongmin Zhou (1):
->       drm/qxl: prevent memory leak
-> 
->  drivers/accel/ivpu/ivpu_hw_37xx.c                | 11 +++++------
->  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c |  2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c           |  3 ++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c          | 15 ++++++++-------
->  drivers/gpu/drm/display/drm_dp_mst_topology.c    |  6 +++---
->  drivers/gpu/drm/drm_syncobj.c                    |  3 ++-
->  drivers/gpu/drm/logicvc/Kconfig                  |  2 ++
->  drivers/gpu/drm/qxl/qxl_display.c                |  3 +++
->  drivers/gpu/drm/vc4/tests/vc4_mock_crtc.c        |  2 +-
->  drivers/gpu/drm/vc4/tests/vc4_mock_output.c      |  2 +-
->  10 files changed, 28 insertions(+), 21 deletions(-)
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Acked-by: Rob Herring <robh@kernel.org>
+
