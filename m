@@ -1,46 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82A0E7E7B48
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 11:16:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD0837E7B4C
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 11:16:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E9EC10E96E;
-	Fri, 10 Nov 2023 10:16:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB4C210E966;
+	Fri, 10 Nov 2023 10:16:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB8410E974;
- Fri, 10 Nov 2023 10:16:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D7A410E96B;
+ Fri, 10 Nov 2023 10:16:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699611388; x=1731147388;
+ t=1699611390; x=1731147390;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ft2/CtymjK5VFjb3aJqnpleRsnRSTtdxTlCaCXy2Z68=;
- b=Zk/0rWY/7u7hhVqwmBvbz+i175bNpYFi12YO/A2u5E3Egc06H0VjljSE
- Yv9V+77Dr2HAgT6yxnlyd03FLCODIWFmGYhMSXgFZYALcoqReErWEnx+E
- peF0nI0SbIslfHuh6qvnJ62VvkDfwVpeFpOTx2kQla0CwBIsvFVjadjtk
- 2mZpYlegBBlJoZ36yAeAybcIiQItyn1dAnKJYmwUzNpMRGcs8eQ2ZcXin
- 6qknNZq62XyAI4B+h2r5PDck3nxymVIyoqqtBtgBavy1+LgB7DOHZ1krg
- 4RQRmD9VdQm3Kk4kma4C8+jhvdI7Y+Sxs0CMyYJAqDwi3jTb+AUNqc9Vl A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="11712820"
-X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; d="scan'208";a="11712820"
+ bh=h0DQe/y+9A84wd2JelD0AQtf/U8M8ivA/ChSiFNeXrs=;
+ b=hBbbYhxKQU5NUoo+rCNbJ9D5M4w+brEPTR648V/HwOG5z/+qfS19EzfV
+ MwbC9c7qhQ7m3xa3/mOrqK1WF3goHySRbCwMwcb+8Zna6ygDdisV9POD+
+ LDsNNydBtVkIyhbWkRxq6Yk1LCzcrZhBYBWBp8+nh3qpt32Dj+hp2jFrE
+ V9dsd1kvNQH4bfNVDHomp2fafaX96qn1GJw578BgC4qsCevGa0EGzbxm9
+ J5cADDgCq4Gd/jZcgNtnynTcLLEAU9QkMAlGoYEwWZXqVn4zEbSUEXBVH
+ 4CaOPKZBXKiVESnWzlM++tjuGjOcFoqJdKas4Fn22IePCPNqItBJIxj5N A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="11712822"
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; d="scan'208";a="11712822"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2023 02:16:28 -0800
+ 10 Nov 2023 02:16:30 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="4816412"
+   d="scan'208";a="4816416"
 Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2023 02:16:26 -0800
+ 10 Nov 2023 02:16:28 -0800
 From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 05/11] drm/i915/dsc/mtl: Add support for fractional bpp
-Date: Fri, 10 Nov 2023 15:40:14 +0530
-Message-Id: <20231110101020.4067342-6-ankit.k.nautiyal@intel.com>
+Subject: [PATCH 06/11] drm/i915/dp: Iterate over output bpp with fractional
+ step size
+Date: Fri, 10 Nov 2023 15:40:15 +0530
+Message-Id: <20231110101020.4067342-7-ankit.k.nautiyal@intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231110101020.4067342-1-ankit.k.nautiyal@intel.com>
 References: <20231110101020.4067342-1-ankit.k.nautiyal@intel.com>
@@ -63,100 +64,128 @@ Cc: vandita.kulkarni@intel.com, suraj.kandpal@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vandita Kulkarni <vandita.kulkarni@intel.com>
+This patch adds support to iterate over compressed output bpp as per the
+fractional step, supported by DP sink.
 
-Consider the fractional bpp while reading the qp values.
+v2:
+-Avoid ending up with compressed bpp, same as pipe bpp. (Stan)
 
-v2: Use helpers for fractional, integral bits of bits_per_pixel. (Suraj)
-
-Signed-off-by: Vandita Kulkarni <vandita.kulkarni@intel.com>
 Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
 Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
- .../gpu/drm/i915/display/intel_qp_tables.c    |  3 ---
- drivers/gpu/drm/i915/display/intel_vdsc.c     | 25 +++++++++++++++----
- 2 files changed, 20 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp.c | 41 +++++++++++++++----------
+ 1 file changed, 25 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_qp_tables.c b/drivers/gpu/drm/i915/display/intel_qp_tables.c
-index 543cdc46aa1d..600c815e37e4 100644
---- a/drivers/gpu/drm/i915/display/intel_qp_tables.c
-+++ b/drivers/gpu/drm/i915/display/intel_qp_tables.c
-@@ -34,9 +34,6 @@
-  * These qp tables are as per the C model
-  * and it has the rows pointing to bpps which increment
-  * in steps of 0.5
-- * We do not support fractional bpps as of today,
-- * hence we would skip the fractional bpps during
-- * our references for qp calclulations.
-  */
- static const u8 rc_range_minqp444_8bpc[DSC_NUM_BUF_RANGES][RC_RANGE_QP444_8BPC_MAX_NUM_BPP] = {
- 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-diff --git a/drivers/gpu/drm/i915/display/intel_vdsc.c b/drivers/gpu/drm/i915/display/intel_vdsc.c
-index 3a1ed574edbb..5f2fb702e367 100644
---- a/drivers/gpu/drm/i915/display/intel_vdsc.c
-+++ b/drivers/gpu/drm/i915/display/intel_vdsc.c
-@@ -77,8 +77,8 @@ intel_vdsc_set_min_max_qp(struct drm_dsc_config *vdsc_cfg, int buf,
- static void
- calculate_rc_params(struct drm_dsc_config *vdsc_cfg)
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 246f50d1f030..e53c87825194 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -1737,15 +1737,15 @@ static bool intel_dp_dsc_supports_format(const struct intel_connector *connector
+ 	return drm_dp_dsc_sink_supports_format(connector->dp.dsc_dpcd, sink_dsc_format);
+ }
+ 
+-static bool is_bw_sufficient_for_dsc_config(u16 compressed_bpp, u32 link_clock,
++static bool is_bw_sufficient_for_dsc_config(u16 compressed_bppx16, u32 link_clock,
+ 					    u32 lane_count, u32 mode_clock,
+ 					    enum intel_output_format output_format,
+ 					    int timeslots)
  {
-+	int bpp = to_bpp_int(vdsc_cfg->bits_per_pixel);
- 	int bpc = vdsc_cfg->bits_per_component;
--	int bpp = vdsc_cfg->bits_per_pixel >> 4;
- 	int qp_bpc_modifier = (bpc - 8) * 2;
- 	int uncompressed_bpg_rate;
- 	int first_line_bpg_offset;
-@@ -148,7 +148,13 @@ calculate_rc_params(struct drm_dsc_config *vdsc_cfg)
- 		static const s8 ofs_und8[] = {
- 			10, 8, 6, 4, 2, 0, -2, -4, -6, -8, -10, -10, -12, -12, -12
- 		};
--
-+		/*
-+		 * For 420 format since bits_per_pixel (bpp) is set to target bpp * 2,
-+		 * QP table values for target bpp 4.0 to 4.4375 (rounded to 4.0) are
-+		 * actually for bpp 8 to 8.875 (rounded to 4.0 * 2 i.e 8).
-+		 * Similarly values for target bpp 4.5 to 4.8375 (rounded to 4.5)
-+		 * are for bpp 9 to 9.875 (rounded to 4.5 * 2 i.e 9), and so on.
-+		 */
- 		bpp_i  = bpp - 8;
- 		for (buf_i = 0; buf_i < DSC_NUM_BUF_RANGES; buf_i++) {
- 			u8 range_bpg_offset;
-@@ -178,6 +184,9 @@ calculate_rc_params(struct drm_dsc_config *vdsc_cfg)
- 				range_bpg_offset & DSC_RANGE_BPG_OFFSET_MASK;
+ 	u32 available_bw, required_bw;
+ 
+-	available_bw = (link_clock * lane_count * timeslots)  / 8;
+-	required_bw = compressed_bpp * (intel_dp_mode_to_fec_clock(mode_clock));
++	available_bw = (link_clock * lane_count * timeslots * 16)  / 8;
++	required_bw = compressed_bppx16 * (intel_dp_mode_to_fec_clock(mode_clock));
+ 
+ 	return available_bw > required_bw;
+ }
+@@ -1753,7 +1753,7 @@ static bool is_bw_sufficient_for_dsc_config(u16 compressed_bpp, u32 link_clock,
+ static int dsc_compute_link_config(struct intel_dp *intel_dp,
+ 				   struct intel_crtc_state *pipe_config,
+ 				   struct link_config_limits *limits,
+-				   u16 compressed_bpp,
++				   u16 compressed_bppx16,
+ 				   int timeslots)
+ {
+ 	const struct drm_display_mode *adjusted_mode = &pipe_config->hw.adjusted_mode;
+@@ -1768,8 +1768,8 @@ static int dsc_compute_link_config(struct intel_dp *intel_dp,
+ 		for (lane_count = limits->min_lane_count;
+ 		     lane_count <= limits->max_lane_count;
+ 		     lane_count <<= 1) {
+-			if (!is_bw_sufficient_for_dsc_config(compressed_bpp, link_rate, lane_count,
+-							     adjusted_mode->clock,
++			if (!is_bw_sufficient_for_dsc_config(compressed_bppx16, link_rate,
++							     lane_count, adjusted_mode->clock,
+ 							     pipe_config->output_format,
+ 							     timeslots))
+ 				continue;
+@@ -1882,7 +1882,7 @@ icl_dsc_compute_link_config(struct intel_dp *intel_dp,
+ 		ret = dsc_compute_link_config(intel_dp,
+ 					      pipe_config,
+ 					      limits,
+-					      valid_dsc_bpp[i],
++					      valid_dsc_bpp[i] << 4,
+ 					      timeslots);
+ 		if (ret == 0) {
+ 			pipe_config->dsc.compressed_bpp_x16 =
+@@ -1902,6 +1902,7 @@ icl_dsc_compute_link_config(struct intel_dp *intel_dp,
+  */
+ static int
+ xelpd_dsc_compute_link_config(struct intel_dp *intel_dp,
++			      const struct intel_connector *connector,
+ 			      struct intel_crtc_state *pipe_config,
+ 			      struct link_config_limits *limits,
+ 			      int dsc_max_bpp,
+@@ -1909,23 +1910,31 @@ xelpd_dsc_compute_link_config(struct intel_dp *intel_dp,
+ 			      int pipe_bpp,
+ 			      int timeslots)
+ {
+-	u16 compressed_bpp;
++	u8 bppx16_incr = drm_dp_dsc_sink_bpp_incr(connector->dp.dsc_dpcd);
++	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
++	u16 compressed_bppx16;
++	u8 bppx16_step;
+ 	int ret;
+ 
++	if (DISPLAY_VER(i915) < 14 || bppx16_incr <= 1)
++		bppx16_step = 16;
++	else
++		bppx16_step = 16 / bppx16_incr;
++
+ 	/* Compressed BPP should be less than the Input DSC bpp */
+-	dsc_max_bpp = min(dsc_max_bpp, pipe_bpp - 1);
++	dsc_max_bpp = min(dsc_max_bpp << 4, (pipe_bpp << 4) - bppx16_step);
++	dsc_min_bpp = dsc_min_bpp << 4;
+ 
+-	for (compressed_bpp = dsc_max_bpp;
+-	     compressed_bpp >= dsc_min_bpp;
+-	     compressed_bpp--) {
++	for (compressed_bppx16 = dsc_max_bpp;
++	     compressed_bppx16 >= dsc_min_bpp;
++	     compressed_bppx16 -= bppx16_step) {
+ 		ret = dsc_compute_link_config(intel_dp,
+ 					      pipe_config,
+ 					      limits,
+-					      compressed_bpp,
++					      compressed_bppx16,
+ 					      timeslots);
+ 		if (ret == 0) {
+-			pipe_config->dsc.compressed_bpp_x16 =
+-				to_bpp_x16(compressed_bpp);
++			pipe_config->dsc.compressed_bpp_x16 = compressed_bppx16;
+ 			return 0;
  		}
- 	} else {
-+		/* fractional bpp part * 10000 (for precision up to 4 decimal places) */
-+		int fractional_bits = to_bpp_frac(vdsc_cfg->bits_per_pixel);
-+
- 		static const s8 ofs_und6[] = {
- 			0, -2, -2, -4, -6, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12
- 		};
-@@ -191,7 +200,14 @@ calculate_rc_params(struct drm_dsc_config *vdsc_cfg)
- 			10, 8, 6, 4, 2, 0, -2, -4, -6, -8, -10, -10, -12, -12, -12
- 		};
+ 	}
+@@ -1963,7 +1972,7 @@ static int dsc_compute_compressed_bpp(struct intel_dp *intel_dp,
+ 	dsc_max_bpp = min(dsc_max_bpp, to_bpp_int(limits->link.max_bpp_x16));
  
--		bpp_i  = (2 * (bpp - 6));
-+		/*
-+		 * QP table rows have values in increment of 0.5.
-+		 * So 6.0 bpp to 6.4375 will have index 0, 6.5 to 6.9375 will have index 1,
-+		 * and so on.
-+		 * 0.5 fractional part with 4 decimal precision becomes 5000
-+		 */
-+		bpp_i  = ((bpp - 6) + (fractional_bits < 5000 ? 0 : 1));
-+
- 		for (buf_i = 0; buf_i < DSC_NUM_BUF_RANGES; buf_i++) {
- 			u8 range_bpg_offset;
- 
-@@ -279,8 +295,7 @@ int intel_dsc_compute_params(struct intel_crtc_state *pipe_config)
- 	/* Gen 11 does not support VBR */
- 	vdsc_cfg->vbr_enable = false;
- 
--	/* Gen 11 only supports integral values of bpp */
--	vdsc_cfg->bits_per_pixel = compressed_bpp << 4;
-+	vdsc_cfg->bits_per_pixel = pipe_config->dsc.compressed_bpp_x16;
- 
- 	/*
- 	 * According to DSC 1.2 specs in Section 4.1 if native_420 is set
+ 	if (DISPLAY_VER(i915) >= 13)
+-		return xelpd_dsc_compute_link_config(intel_dp, pipe_config, limits,
++		return xelpd_dsc_compute_link_config(intel_dp, connector, pipe_config, limits,
+ 						     dsc_max_bpp, dsc_min_bpp, pipe_bpp, timeslots);
+ 	return icl_dsc_compute_link_config(intel_dp, pipe_config, limits,
+ 					   dsc_max_bpp, dsc_min_bpp, pipe_bpp, timeslots);
 -- 
 2.40.1
 
