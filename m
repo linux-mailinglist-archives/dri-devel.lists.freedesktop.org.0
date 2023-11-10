@@ -2,76 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CC4A7E788A
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 05:03:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3197E788C
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 05:06:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC35810E640;
-	Fri, 10 Nov 2023 04:03:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A396010E647;
+	Fri, 10 Nov 2023 04:06:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C53610E640
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 04:03:51 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3AA411kb014084; Fri, 10 Nov 2023 04:03:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=8vxioZ4l5DdQfe6B+y2aQH551hY/8/PE7aZMrX+d32o=;
- b=Ib92pYHyw96+e0/IjzPw7f+phVkgkKpxFq4jiuhtYtKmWXaPN8GuuG0BqZQtcKkJ9TrI
- fKhjZcbUQjZtKlFQ8BbJtu3VZbW7OxzgDSE+gesLWmzdHULKRvJeROlEYE1/SykSeHPv
- BnyUz2MvBDwJ1Ha0G+wI+X0NVHufjO4OH47m654io3eNg+3GsG4aB7eF/Z5vSHbW77mn
- bd8nveVdLKErbuHmLz8dwjw17J8jNMY/d8hI77wpRuV2KgiSfmCDYH2iTdBFVzQEX1Rv
- HuR7IUb37VKxmfZpD0wCw/ZiMPKpTazq+A2ITVJn1GzY+8bHjHdGrvedpp+Q+Qev5Di2 Rw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u99e90cb1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 10 Nov 2023 04:03:45 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AA43hKY022971
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 10 Nov 2023 04:03:43 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Thu, 9 Nov
- 2023 20:03:43 -0800
-Message-ID: <5a1c5f44-d593-2254-0c95-4828fbc10ad9@quicinc.com>
-Date: Thu, 9 Nov 2023 21:03:42 -0700
+Received: from mail-vs1-xe2c.google.com (mail-vs1-xe2c.google.com
+ [IPv6:2607:f8b0:4864:20::e2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5834110E648
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 04:06:12 +0000 (UTC)
+Received: by mail-vs1-xe2c.google.com with SMTP id
+ ada2fe7eead31-45d6d97af38so1074767137.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 20:06:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1699589171; x=1700193971;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eHJDdNWZZ4tIwkHZEN1gC9OcT0HCJr1RVppBH6tmUws=;
+ b=B8nuVIHhlQD5MQ8tsNPePvPngY4Sx59b+fWqIN9xM9zMP/Dq+Ac2nBxrn5YIB7zxUe
+ kULBLV6cR3njeODZyalH4Se74As8PUIP/tlEB5q+O3DG5pKrsyTtbIuzNGkqQUtGjFbm
+ 2EaZrxYTXX8nc3JlNdlNDMCIZjYqbI5dtokgXD5wA4VM8Xk3MEGPstNtymYc6meKC2dw
+ WMIGnn5W/uG3oLQzZOkKtxljkqaZh3KUih2vTl/Ri1hVFze6YQh5TQjrbYLqtD84/qYL
+ usH4pSI+Nff7kyAaG3LeWAIyz1khTpAeS1eF5FAivWKv4BxsNSGr5h/F+84lxBQi/RN9
+ YP0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699589171; x=1700193971;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=eHJDdNWZZ4tIwkHZEN1gC9OcT0HCJr1RVppBH6tmUws=;
+ b=wrIredpZeafiwrH1dvinyCpQl9LcpAdR4yUgGa6wUmR+lCTpYLRJ8tRY4XKwyj47b0
+ LzL+Jq4ajZAXH/eETdstLnDLlEwXHMnCHtVsBkDQeAay2BHOufRaNZcsaknjSDwjfxWP
+ PqFktK4rUpVEkntJ9BqG+haO93qSzyDi0phA9tf02Er6HcQO8x4u9gr7JIdZ50gQ0mIl
+ QvPNWZgio9mnyvpSbwyyKl+rfctcXjpkI5dFrwFanEdc/88YDVqR94GBtJ80f7iLP2gH
+ XAjxxgvC5GsnZfHvmBoyYJ9r0QpxfuNY6dGfE/RpLD3H+k+4iqpoVaUIKdVMewvuqRCt
+ ONPA==
+X-Gm-Message-State: AOJu0YxdED0/fuDmCnS6etMf3jVU4RKYn9rFk/Bl8rCUdW/of/BzYmUv
+ bjfbxLLMa2wcOBx2acszA//ypFISD2vbkwiIocBTBA==
+X-Google-Smtp-Source: AGHT+IHV8+0MFbC/VQpqHkvElGy/RL/z/ISeA+lbF9gB7A+2xFrkzHZehvrtNrke+02jjGbQaJXjvKRk/eDFLYB8QzU=
+X-Received: by 2002:a05:6102:3d8b:b0:44d:38d6:5cb8 with SMTP id
+ h11-20020a0561023d8b00b0044d38d65cb8mr631035vsv.10.1699589171185; Thu, 09 Nov
+ 2023 20:06:11 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 2/5] accel/ivpu: Do not use irqsave in ivpu_ipc_dispatch
-Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-References: <20231107123514.2218850-1-jacek.lawrynowicz@linux.intel.com>
- <20231107123514.2218850-3-jacek.lawrynowicz@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20231107123514.2218850-3-jacek.lawrynowicz@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: WYbQwQaABdigoXSw-sUe4thecy1TkL1h
-X-Proofpoint-ORIG-GUID: WYbQwQaABdigoXSw-sUe4thecy1TkL1h
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-09_17,2023-11-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0
- priorityscore=1501 lowpriorityscore=0 mlxscore=0 adultscore=0 phishscore=0
- suspectscore=0 mlxlogscore=402 bulkscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311060000
- definitions=main-2311100033
+References: <20231106024413.2801438-1-almasrymina@google.com>
+ <20231106024413.2801438-9-almasrymina@google.com>
+ <adde2b31fdd9e7bb4a09f0073580b840bea0bab1.camel@redhat.com>
+In-Reply-To: <adde2b31fdd9e7bb4a09f0073580b840bea0bab1.camel@redhat.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Thu, 9 Nov 2023 20:06:00 -0800
+Message-ID: <CAHS8izMrJVb0ESjFhqUWuxdZ8W5HDmg=yRj1J1sTeGoQjDcJog@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 08/12] net: support non paged skb frags
+To: Paolo Abeni <pabeni@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,18 +71,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Cc: linux-arch@vger.kernel.org,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, Eric Dumazet <edumazet@google.com>,
+ Shakeel Butt <shakeelb@google.com>, linux-kselftest@vger.kernel.org,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Shuah Khan <shuah@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/7/2023 5:35 AM, Jacek Lawrynowicz wrote:
-> From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-> 
-> ivpu_ipc_dispatch is always called with irqs disabled. Add lockdep
-> assertion and remove unneeded _irqsave/_irqrestore.
-> 
-> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+On Thu, Nov 9, 2023 at 1:15=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wrot=
+e:
+>
+> On Sun, 2023-11-05 at 18:44 -0800, Mina Almasry wrote:
+> [...]
+> > @@ -3421,7 +3446,7 @@ static inline struct page *skb_frag_page(const sk=
+b_frag_t *frag)
+> >   */
+> >  static inline void __skb_frag_ref(skb_frag_t *frag)
+> >  {
+> > -     get_page(skb_frag_page(frag));
+> > +     page_pool_page_get_many(frag->bv_page, 1);
+>
+> I guess the above needs #ifdef CONFIG_PAGE_POOL guards and explicit
+> skb_frag_is_page_pool_iov() check ?
+>
 
-Missing SOB.
+It doesn't actually. page_pool_page_* helpers are compiled in
+regardless of CONFIG_PAGE_POOL, and handle both page_pool_iov* & page*
+just fine (the checking happens inside the function).
 
--Jeff
+You may yell at me that it's too confusing... I somewhat agree, but
+I'm unsure of what is a better name or location for the helpers. The
+helpers handle (page_pool_iov* || page*) gracefully, so they seem to
+belong in the page pool for me, but it is indeed surprising/confusing
+that these helpers are available even if !CONFIG_PAGE_POOL.
+
+>
+> Cheers,
+>
+> Paolo
+>
+>
+
+
+--=20
+Thanks,
+Mina
