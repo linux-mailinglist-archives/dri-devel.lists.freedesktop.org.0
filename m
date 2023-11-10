@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1951D7E7B58
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 11:17:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A817E7B64
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 11:30:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14EBF10E980;
-	Fri, 10 Nov 2023 10:17:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C88210E982;
+	Fri, 10 Nov 2023 10:30:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B37110E980
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 10:17:43 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E301C10E982
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 10:30:12 +0000 (UTC)
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 3764166073F9;
- Fri, 10 Nov 2023 10:17:41 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 87A2B66073F9;
+ Fri, 10 Nov 2023 10:30:10 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1699611462;
- bh=tC5sjf8JC5T2/oyASwUzhHg2NFb01acCe9klcjlI0uY=;
+ s=mail; t=1699612211;
+ bh=fmIgRldcPaxkMOahz2iminQvGRgsI7UzfHVaQEb2Rgc=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=kb0noODfQiq2ijYfkjrIhVkonAhY7ZXSwkp3IleOgNqmbC6Xh7oxHzauYZTlp7K20
- AOEOHxqbHMt82LZPUH1OObIXxPvulwwRsizpMT8zhQARfXv2HVB9iZujGcgrxxQyhx
- alQ58eOSwm6eX8s9rqhQs24/QH2Lw3aZSh20IhqfGFzUqgwpYORJWYEBf9R4FdzvMt
- Ari1bqARnv2H7VYbdEQom16EjWh4IvJWr/Wm4M2H85hrEIlOy/xu8rMLzRtyc+hLrl
- 0tK0FkPF4cWKJLKDetHSVWuP/8IEdhOq9POq24Xjd2JtsXHzYyYhdcrPtHD6IsX4+x
- +coW0J+FRJuog==
-Date: Fri, 10 Nov 2023 11:17:37 +0100
+ b=SpZSbskcGN1cd5a251hFAMouFuhn7IptHfS0olNAx8thCCPaIGZS3DMtl9V7YgXY1
+ xnaI8XSzmJYUPHxXpk7KndsvqGItJXCrH/p/CikmqWVWWwAGUIWr9cr/Ahyy/iJ2H2
+ wiZrQNz68fn0djNX1yEgCPbhEe7tvS4vSU+dWlk3w2IknFoPLQTzNBFZfx4YolDO4e
+ +Gxy6EDyD6ngJtsMPNAX4o76Qm/5gYTrrGxVntuxT9v17SC/zpJ5XJI6TEMtr0X2id
+ /Tj9PLwq574xIw7+8YqWtJm19cfQDF5cv2WHozf1uyccvoR0RQuS4kbCjEMBP284M1
+ 1v3KUHfjuBuow==
+Date: Fri, 10 Nov 2023 11:30:07 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v18 12/26] drm/shmem-helper: Make
- drm_gem_shmem_get_pages() public
-Message-ID: <20231110111737.212f9454@collabora.com>
-In-Reply-To: <20231029230205.93277-13-dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v18 14/26] drm/lima: Explicitly get and put drm-shmem pages
+Message-ID: <20231110113007.600e72c1@collabora.com>
+In-Reply-To: <20231029230205.93277-15-dmitry.osipenko@collabora.com>
 References: <20231029230205.93277-1-dmitry.osipenko@collabora.com>
- <20231029230205.93277-13-dmitry.osipenko@collabora.com>
+ <20231029230205.93277-15-dmitry.osipenko@collabora.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -65,61 +65,117 @@ Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 Oct 2023 02:01:51 +0300
+On Mon, 30 Oct 2023 02:01:53 +0300
 Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-> We're going to move away from having implicit get_pages() done by
-> get_pages_sgt() to ease simplify refcnt handling. Drivers will manage
-
-Nit: ease or simplify, not both.
-
-> get/put_pages() by themselves. Expose the drm_gem_shmem_get_pages()
-> in a public drm-shmem API.
+> To simplify the drm-shmem refcnt handling, we're moving away from
+> the implicit get_pages() that is used by get_pages_sgt(). From now on
+> drivers will have to pin pages while they use sgt. Lima driver doesn't
+> have shrinker, hence pages are pinned and sgt is valid as long as pages'
+> use-count > 0.
 > 
 > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 > ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 10 +++++++++-
->  include/drm/drm_gem_shmem_helper.h     |  1 +
->  2 files changed, 10 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/lima/lima_gem.c | 18 ++++++++++++++++--
+>  drivers/gpu/drm/lima/lima_gem.h |  1 +
+>  2 files changed, 17 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index 24ff2b99e75b..ca6f422c0dfc 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -227,7 +227,14 @@ void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
+> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
+> index 988e74f67465..d255f5775dac 100644
+> --- a/drivers/gpu/drm/lima/lima_gem.c
+> +++ b/drivers/gpu/drm/lima/lima_gem.c
+> @@ -46,6 +46,7 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm *vm)
+>  			return -ENOMEM;
+>  		}
+>  
+> +		bo->put_pages = true;
+>  		bo->base.pages = pages;
+>  		refcount_set(&bo->base.pages_use_count, 1);
+>  
+> @@ -115,6 +116,7 @@ int lima_gem_create_handle(struct drm_device *dev, struct drm_file *file,
+>  		return PTR_ERR(shmem);
+>  
+>  	obj = &shmem->base;
+> +	bo = to_lima_bo(obj);
+>  
+>  	/* Mali Utgard GPU can only support 32bit address space */
+>  	mask = mapping_gfp_mask(obj->filp->f_mapping);
+> @@ -123,13 +125,19 @@ int lima_gem_create_handle(struct drm_device *dev, struct drm_file *file,
+>  	mapping_set_gfp_mask(obj->filp->f_mapping, mask);
+>  
+>  	if (is_heap) {
+> -		bo = to_lima_bo(obj);
+>  		err = lima_heap_alloc(bo, NULL);
+>  		if (err)
+>  			goto out;
+>  	} else {
+> -		struct sg_table *sgt = drm_gem_shmem_get_pages_sgt(shmem);
+> +		struct sg_table *sgt;
+> +
+> +		err = drm_gem_shmem_get_pages(shmem);
+> +		if (err)
+> +			goto out;
+> +
+> +		bo->put_pages = true;
+>  
+> +		sgt = drm_gem_shmem_get_pages_sgt(shmem);
+>  		if (IS_ERR(sgt)) {
+>  			err = PTR_ERR(sgt);
+>  			goto out;
+
+Pretty sure we don't need this put_pages flag. We can either check
+ba->base.base.pages or refcount_read(&bo->base.pages_use_count). Or,
+even better, if it's just used in the error path of the same function,
+simply have a dedicated error path for that case:
+
+	drm_gem_object_put(obj);
+	return 0;
+
+err_put_pages:
+	if (!is_heap)
+		drm_gem_shmem_put_pages(shmem);
+
+err_put_bo:
+	drm_gem_object_put(obj);
+	return err;
+}
+
+> @@ -139,6 +147,9 @@ int lima_gem_create_handle(struct drm_device *dev, struct drm_file *file,
+>  	err = drm_gem_handle_create(file, obj, handle);
+>  
+>  out:
+> +	if (err && bo->put_pages)
+> +		drm_gem_shmem_put_pages(shmem);
+> +
+>  	/* drop reference from allocate - handle holds it now */
+>  	drm_gem_object_put(obj);
+>  
+> @@ -152,6 +163,9 @@ static void lima_gem_free_object(struct drm_gem_object *obj)
+>  	if (!list_empty(&bo->va))
+>  		dev_err(obj->dev->dev, "lima gem free bo still has va\n");
+>  
+> +	if (bo->put_pages)
+> +		drm_gem_shmem_put_pages(&bo->base);
+
+This one can be replaced by
+
+	if (!is_heap || bo->base.base.pages)
+		drm_gem_shmem_put_pages(&bo->base);
+
+> +
+>  	drm_gem_shmem_free(&bo->base);
 >  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_put_pages_locked);
 >  
-> -static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
-> +/*
-> + * drm_gem_shmem_get_pages - Increase use count on the backing pages for a shmem GEM object
-> + * @shmem: shmem GEM object
-> + *
-> + * This function Increases the use count and allocates the backing pages if
-> + * use-count equals to zero.
-> + */
-> +int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
->  {
->  	int ret;
+> diff --git a/drivers/gpu/drm/lima/lima_gem.h b/drivers/gpu/drm/lima/lima_gem.h
+> index ccea06142f4b..dc5a6d465c80 100644
+> --- a/drivers/gpu/drm/lima/lima_gem.h
+> +++ b/drivers/gpu/drm/lima/lima_gem.h
+> @@ -16,6 +16,7 @@ struct lima_bo {
+>  	struct list_head va;
 >  
-> @@ -240,6 +247,7 @@ static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
+>  	size_t heap_size;
+> +	bool put_pages;
+>  };
 >  
->  	return ret;
->  }
-> +EXPORT_SYMBOL_GPL(drm_gem_shmem_get_pages);
->  
->  static int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
->  {
-> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-> index e7b3f4c02bf5..45cd293e10a4 100644
-> --- a/include/drm/drm_gem_shmem_helper.h
-> +++ b/include/drm/drm_gem_shmem_helper.h
-> @@ -110,6 +110,7 @@ struct drm_gem_shmem_object {
->  struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size);
->  void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
->  
-> +int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem);
->  void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem);
->  int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem);
->  void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem);
+>  static inline struct lima_bo *
 
