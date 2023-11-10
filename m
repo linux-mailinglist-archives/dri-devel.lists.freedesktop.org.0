@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 721D37E826A
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 20:25:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E55E7E836F
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 21:08:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A7CC10E1A8;
-	Fri, 10 Nov 2023 19:25:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38CB710E238;
+	Fri, 10 Nov 2023 20:08:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5082210E1A8
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 19:25:33 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- 46e09a7af769-6ce2fc858feso1300631a34.3
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 11:25:33 -0800 (PST)
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com
+ [IPv6:2607:f8b0:4864:20::b49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60C0F10E238
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 20:08:39 +0000 (UTC)
+Received: by mail-yb1-xb49.google.com with SMTP id
+ 3f1490d57ef6-da13698a6d3so3141750276.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 12:08:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699644332; x=1700249132; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=9WuF0Pi5V569GCKj27JB/b2x9SROneMhMi2aagE8fG0=;
- b=BDc6P7yraF7asc+xq7+A/PnW/9Z6VmzpIc9EA7b75PeeRk/px5u+H7StqvLrZ5qkUz
- 8VwqKbHH97Z4YcgkASh1GH5bOBrm84BOYp7F/D/bQd/nf9MegGsIcv5jPbiXx3IU8Exu
- rfgW4jdEf9newRROpo/27RAz0dXvfGMiNTq6UUMpQ4+tWkzyZG9+7puBxQrNHyYGz97D
- gmMlSxj/xXmYkP8dOrqQDsn5rTqNxRxn8dNLVgllM081NrXbTSA4TMziIBBXHxDiRSDF
- x47K6Q0cfimGQkmU3Ne2fteUZdEIotACq3Nyw624deRW4zNggCUUrRgokJJW1w64RPAp
- CgKA==
+ d=google.com; s=20230601; t=1699646918; x=1700251718;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=4YunHZgtb5nkD4PkAgnIRkW9gO+ZcmaQMUyBJXXvNgg=;
+ b=Ycw+xOer7SjdcpwvpBoGKvEdvRQCfZ3dUqM/ZOnwCt0SP2QxSHEb47MmYGTi9RlQsR
+ RVnsqMIgt9tgdqQ9dyI0wwSn2xRg5FEGgvvxhQ0w5zX8YRZDIqWvKyNUhi2DfbvxKP2x
+ qij/RY6fGFr8/VskksHyXqMzzU+47feEc8ogko97rPmDRk6DLrjuJpw2hgUI8ZleWKlM
+ Kif1iio65XZ7u4JJiRgQ5agq7Gbcqq7a8vSUTXspfP92UxEUSWu4pjSz66ffpGnPrUCI
+ UJkCAhjPnmyBz5spo6cR8Xwp+DogeEqolgR5GJM900K0aYEwn7Ey9ezZ6x6e59WyEy88
+ 4gQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699644332; x=1700249132;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9WuF0Pi5V569GCKj27JB/b2x9SROneMhMi2aagE8fG0=;
- b=efkclyll/4rXRi6/lS6iuinsk7nw9X/IlEAQ2xfUqCGzyEQj9erUY8Hq8l7xqQpoND
- bmLKdKfc4UwEC5Rf5tjVNlVKmZqncjE9oCfqs2Ovs5WBsMY9PissLLvNC2jRGqJZI9Ks
- tVQVNoHXSBVteFBMyxnfi6suD6p2I6EPMCIcctyW3KMpg/ynbFuZzFi8QdFIB1CkRGdn
- pylBRNGVhefFUih56fCYfPJZqd6tuXUryGnNsAWVJL34/X2erN5kda1BgVMOzPXmex4u
- fIPy5Ye/f4tlfDaIMW2XcyEEshTsGQ3Z9KYG+FIAoJ+wWOoxkWrMXJasi6uBy60JbBnk
- KOug==
-X-Gm-Message-State: AOJu0YykGFSSXFYsDcG2iPujF7SsCv+xU8Rtp7phqHXWJNM2feZyCvEo
- xqT0vu04mQRuDXWZgQmREz0=
-X-Google-Smtp-Source: AGHT+IEo1//wDVWt/tm1wE749UqnbecpRb3xBJK4fg+h8xqM6wjIx3xSoS40xzkNWv62fUOim9iKYQ==
-X-Received: by 2002:a05:6830:3492:b0:6b8:dc53:9efd with SMTP id
- c18-20020a056830349200b006b8dc539efdmr83527otu.3.1699644332401; 
- Fri, 10 Nov 2023 11:25:32 -0800 (PST)
-Received: from anfanite396-Predator-PH315-51.gateway.iitmandi.ac.in
- ([14.139.34.101]) by smtp.gmail.com with ESMTPSA id
- 71-20020a63004a000000b0057412d84d25sm32493pga.4.2023.11.10.11.25.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Nov 2023 11:25:32 -0800 (PST)
-From: Dipam Turkar <dipamt1729@gmail.com>
-To: maarten.lankhorst@linux.intel.com
-Subject: [PATCH v2] drm/tests: Add KUnit tests for
- drm_mode_create_dvi_i_properties()
-Date: Sat, 11 Nov 2023 00:54:53 +0530
-Message-Id: <20231110192452.734925-1-dipamt1729@gmail.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ d=1e100.net; s=20230601; t=1699646918; x=1700251718;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4YunHZgtb5nkD4PkAgnIRkW9gO+ZcmaQMUyBJXXvNgg=;
+ b=Auc3cHtBD7mg4vKAsywmemiHM0NOp+b1M8j+0NMbEaA4WNdgbk2ttFf9QXol6MFin5
+ rfb+cOijzutPsKWwdZ8wYXg5XCV1QRHUUS44qcKak75l3YT7gAhNG2CBWQvWkVLXo/wJ
+ z/j9ADsSbIJfTMXHcwLvYGLVRL1p3wdKws9odYEjjNL6xMEGVKnjOFbDtaw7fvGNZJtu
+ Wy9w2ql47fvq0BwuxLH+BXhn0g73jrsEzW0NcsS20oFNhLMN4Q6JOTofAcAXL1EWMP6V
+ v9zOXvG64I41Dysf9nL6WtGJgHzoyhRPx39fmR7xV0peUTHdq+EqcqpDo+HCJxDNBKsa
+ ZmZw==
+X-Gm-Message-State: AOJu0YzvJfBZFy/unj1eicCHlqdZRsR6p0f7Dg/1WeWbyjEfyQMNfUgO
+ 1NJDrkS/OriO84LryoUq3sgInC+yvIGfWw==
+X-Google-Smtp-Source: AGHT+IHpA8elPSDmxOHqJghOs6XywJyufpnZHYdeTgE8gm6TvPMzYUyvszmAZYiKI4lKiyHTNGpdXhSKe/S/Cw==
+X-Received: from slicestar.c.googlers.com
+ ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
+ (user=davidgow job=sendgmr) by 2002:a25:d849:0:b0:d9a:f3dc:7d18 with SMTP id
+ p70-20020a25d849000000b00d9af3dc7d18mr3271ybg.13.1699646918475; Fri, 10 Nov
+ 2023 12:08:38 -0800 (PST)
+Date: Sat, 11 Nov 2023 04:08:26 +0800
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.42.0.869.gea05f2083d-goog
+Message-ID: <20231110200830.1832556-1-davidgow@google.com>
+Subject: [PATCH 1/3] kunit: Add a macro to wrap a deferred action function
+From: David Gow <davidgow@google.com>
+To: Nathan Chancellor <nathan@kernel.org>, Kees Cook <keescook@chromium.org>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, Rae Moar <rmoar@google.com>,
+ dlatypov@google.com, 
+ Maxime Ripard <mripard@kernel.org>, Arthur Grillo <arthurgrillo@riseup.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,85 +71,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dipam Turkar <dipamt1729@gmail.com>, tzimmermann@suse.de,
- javierm@redhat.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
- mairacanal@riseup.net, dri-devel@lists.freedesktop.org,
- arthurgrillo@riseup.net
+Cc: linux-kselftest@vger.kernel.org, David Gow <davidgow@google.com>,
+ Emma Anholt <emma@anholt.net>, Benjamin Berg <benjamin.berg@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>, linux-hardening@vger.kernel.org,
+ Sami Tolvanen <samitolvanen@google.com>, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce unit tests for the drm_mode_create_dvi_i_properties() function to ensure
-the proper creation of DVI-I specific connector properties.
+KUnit's deferred action API accepts a void(*)(void *) function pointer
+which is called when the test is exited. However, we very frequently
+want to use existing functions which accept a single pointer, but which
+may not be of type void*. While this is probably dodgy enough to be on
+the wrong side of the C standard, it's been often used for similar
+callbacks, and gcc's -Wcast-function-type seems to ignore cases where
+the only difference is the type of the argument, assuming it's
+compatible (i.e., they're both pointers to data).
 
-Signed-off-by: Dipam Turkar <dipamt1729@gmail.com>
+However, clang 16 has introduced -Wcast-function-type-strict, which no
+longer permits any deviation in function pointer type. This seems to be
+because it'd break CFI, which validates the type of function calls.
+
+This rather ruins our attempts to cast functions to defer them, and
+leaves us with a few options. The one we've chosen is to implement a
+macro which will generate a wrapper function which accepts a void*, and
+casts the argument to the appropriate type.
+
+For example, if you were trying to wrap:
+void foo_close(struct foo *handle);
+you could use:
+KUNIT_DEFINE_ACTION_WRAPPER(kunit_action_foo_close,
+			    foo_close,
+			    struct foo *);
+
+This would create a new kunit_action_foo_close() function, of type
+kunit_action_t, which could be passed into kunit_add_action() and
+similar functions.
+
+In addition to defining this macro, update KUnit and its tests to use
+it.
+
+Link: https://github.com/ClangBuiltLinux/linux/issues/1750
+Signed-off-by: David Gow <davidgow@google.com>
 ---
- drivers/gpu/drm/tests/drm_connector_test.c | 38 ++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
 
-diff --git a/drivers/gpu/drm/tests/drm_connector_test.c b/drivers/gpu/drm/tests/drm_connector_test.c
-index c66aa2dc8d9d..9ac1fd32c579 100644
---- a/drivers/gpu/drm/tests/drm_connector_test.c
-+++ b/drivers/gpu/drm/tests/drm_connector_test.c
-@@ -4,6 +4,9 @@
-  */
+This is a follow-up to the RFC here:
+https://lore.kernel.org/linux-kselftest/20230915050125.3609689-1-davidgow@google.com/
+
+There's no difference in the macro implementation, just an update to the
+KUnit tests to use it. This version is intended to complement:
+https://lore.kernel.org/all/20231106172557.2963-1-rf@opensource.cirrus.com/
+
+There are also two follow-up patches in the series to use this macro in
+various DRM tests.
+
+Hopefully this will solve any CFI issues that show up with KUnit.
+
+Thanks,
+-- David
+
+---
+ include/kunit/resource.h | 9 +++++++++
+ lib/kunit/kunit-test.c   | 5 +----
+ lib/kunit/test.c         | 6 ++++--
+ 3 files changed, 14 insertions(+), 6 deletions(-)
+
+diff --git a/include/kunit/resource.h b/include/kunit/resource.h
+index c7383e90f5c9..4110e13970dc 100644
+--- a/include/kunit/resource.h
++++ b/include/kunit/resource.h
+@@ -390,6 +390,15 @@ void kunit_remove_resource(struct kunit *test, struct kunit_resource *res);
+ /* A 'deferred action' function to be used with kunit_add_action. */
+ typedef void (kunit_action_t)(void *);
  
- #include <drm/drm_connector.h>
-+#include <drm/drm_device.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_kunit_helpers.h>
++/* We can't cast function pointers to kunit_action_t if CFI is enabled. */
++#define KUNIT_DEFINE_ACTION_WRAPPER(wrapper, orig, arg_type) \
++	static void wrapper(void *in) \
++	{ \
++		arg_type arg = (arg_type)in; \
++		orig(arg); \
++	}
++
++
+ /**
+  * kunit_add_action() - Call a function when the test ends.
+  * @test: Test case to associate the action with.
+diff --git a/lib/kunit/kunit-test.c b/lib/kunit/kunit-test.c
+index de2113a58fa0..ee6927c60979 100644
+--- a/lib/kunit/kunit-test.c
++++ b/lib/kunit/kunit-test.c
+@@ -538,10 +538,7 @@ static struct kunit_suite kunit_resource_test_suite = {
+ #if IS_BUILTIN(CONFIG_KUNIT_TEST)
  
- #include <kunit/test.h>
+ /* This avoids a cast warning if kfree() is passed direct to kunit_add_action(). */
+-static void kfree_wrapper(void *p)
+-{
+-	kfree(p);
+-}
++KUNIT_DEFINE_ACTION_WRAPPER(kfree_wrapper, kfree, const void *);
  
-@@ -58,6 +61,30 @@ static void drm_test_get_tv_mode_from_name_truncated(struct kunit *test)
- 	KUNIT_EXPECT_LT(test, ret, 0);
+ static void kunit_log_test(struct kunit *test)
+ {
+diff --git a/lib/kunit/test.c b/lib/kunit/test.c
+index f2eb71f1a66c..0308865194bb 100644
+--- a/lib/kunit/test.c
++++ b/lib/kunit/test.c
+@@ -772,6 +772,8 @@ static struct notifier_block kunit_mod_nb = {
  };
+ #endif
  
-+/*
-+ * Test that drm_mode_create_dvi_i_properties() succeeds and
-+ * DVI-I subconnector and select subconectors properties have
-+ * been created.
-+ */
-+static void drm_test_mode_create_dvi_i_properties(struct kunit *test)
-+{
-+	struct drm_device *drm;
-+	struct device *dev;
++KUNIT_DEFINE_ACTION_WRAPPER(kfree_action_wrapper, kfree, const void *)
 +
-+	dev = drm_kunit_helper_alloc_device(test);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+
-+	drm = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0, DRIVER_MODESET);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
-+
-+	KUNIT_EXPECT_EQ(test, drm_mode_create_dvi_i_properties(drm), 0);
-+	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, drm->mode_config.dvi_i_select_subconnector_property);
-+	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, drm->mode_config.dvi_i_subconnector_property);
-+
-+	// Expect the function to return 0 if called twice.
-+	KUNIT_EXPECT_EQ(test, drm_mode_create_dvi_i_properties(drm), 0);
-+}
-+
- static struct kunit_case drm_get_tv_mode_from_name_tests[] = {
- 	KUNIT_CASE_PARAM(drm_test_get_tv_mode_from_name_valid,
- 			 drm_get_tv_mode_from_name_valid_gen_params),
-@@ -70,7 +97,18 @@ static struct kunit_suite drm_get_tv_mode_from_name_test_suite = {
- 	.test_cases = drm_get_tv_mode_from_name_tests,
- };
+ void *kunit_kmalloc_array(struct kunit *test, size_t n, size_t size, gfp_t gfp)
+ {
+ 	void *data;
+@@ -781,7 +783,7 @@ void *kunit_kmalloc_array(struct kunit *test, size_t n, size_t size, gfp_t gfp)
+ 	if (!data)
+ 		return NULL;
  
-+static struct kunit_case drm_connector_tests[] = {
-+	KUNIT_CASE(drm_test_mode_create_dvi_i_properties),
-+	{ }
-+};
-+
-+static struct kunit_suite drm_connector_test_suite = {
-+	.name = "drm_connector",
-+	.test_cases = drm_connector_tests,
-+};
-+
- kunit_test_suite(drm_get_tv_mode_from_name_test_suite);
-+kunit_test_suite(drm_connector_test_suite);
+-	if (kunit_add_action_or_reset(test, (kunit_action_t *)kfree, data) != 0)
++	if (kunit_add_action_or_reset(test, kfree_action_wrapper, data) != 0)
+ 		return NULL;
  
- MODULE_AUTHOR("Maxime Ripard <maxime@cerno.tech>");
- MODULE_LICENSE("GPL");
+ 	return data;
+@@ -793,7 +795,7 @@ void kunit_kfree(struct kunit *test, const void *ptr)
+ 	if (!ptr)
+ 		return;
+ 
+-	kunit_release_action(test, (kunit_action_t *)kfree, (void *)ptr);
++	kunit_release_action(test, kfree_action_wrapper, (void *)ptr);
+ }
+ EXPORT_SYMBOL_GPL(kunit_kfree);
+ 
 -- 
-2.34.1
+2.42.0.869.gea05f2083d-goog
 
