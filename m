@@ -1,66 +1,153 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94FAA7E7AFF
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 10:40:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33F707E7B0D
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 10:44:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4B0810E95B;
-	Fri, 10 Nov 2023 09:40:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0FDC10E968;
+	Fri, 10 Nov 2023 09:44:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44B3F10E95A;
- Fri, 10 Nov 2023 09:40:06 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 629F510E95E;
+ Fri, 10 Nov 2023 09:44:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699609206; x=1731145206;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=KSYtIowPTOFzxauX4JUkX/8mXpoYMUvd3xexE6SC60M=;
- b=jwlccOtGjw/8OwyaoJudAbVQd2qBqqNuFO4k2vFhtdNtxoXqX0SCJkXb
- hlRUXP4Hwt30EUhi1xh5hvBYY/JHGiB5yBOXYJdCmZnbb+lp35aafXip1
- 4QsxKMJjvk8U+BZEXfHtu2ZtTGuSIzUW0aoHmR1lru1hGr1kFuPrkJUBX
- 2ku2VhI2fSm3WlsL+050sdSLTreYoOFOx2BP+xGZxgGjiDalsmy8cacco
- zC2aZe/cPa5HDOeLbTUDtgIIBt/+XgeuYUe8eUNhi9oLxnjgo94cJvz2r
- h28yEaAnbqnxqYQUXujMwHl707jpWtW7o5NhWcNg+1hIMdBMMSt3NefiG g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="421253174"
-X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; d="scan'208";a="421253174"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2023 01:40:05 -0800
+ t=1699609471; x=1731145471;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=sQ+GR3FN98LglIQuEpmoa0XBA9orHnKvNx551LVamC4=;
+ b=a17Txtu3MgjAAo904RMsUdvJI4XFkBXip1hHHs1FTVX9omlV78/NCcWf
+ ZY12l51PqlhZPahpwZ1tXoWOFp+vcrodYiXkQTMmv88BNWbk0b8muSE6P
+ gUvnReWU8IMvlWkNyeIuOa+b0djrXgY8k1NP8UyIvuYgP4XTN6oXrWxkU
+ 1Edri2ui2Yx2Uh2j0f1WJEbDkb5POj5KyGWh3mUW7A1hPCvdulZVWWQ4a
+ j3LlHhon3Rie228gb6S0OFDTjCSqil9AwlBWEt1Kx1Rp/vgi7UHKz6KWs
+ zh3hagvxt+sUGTtAzD0gfRbX1M1Q+0L9H78kI4kwCPY201ut731OgecsV A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="454463572"
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; d="scan'208";a="454463572"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2023 01:44:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="740113471"
-X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; d="scan'208";a="740113471"
-Received: from amirafax-mobl4.gar.corp.intel.com (HELO [10.249.254.223])
- ([10.249.254.223])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Nov 2023 01:40:01 -0800
-Message-ID: <f7a64e17-d8b0-a20a-4e27-46f448a10bd4@linux.intel.com>
-Date: Fri, 10 Nov 2023 10:39:59 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH drm-misc-next v8 09/12] drm/gpuvm: reference count
- drm_gpuvm structures
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="887316885"
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; d="scan'208";a="887316885"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 10 Nov 2023 01:44:30 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Fri, 10 Nov 2023 01:44:30 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Fri, 10 Nov 2023 01:44:30 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Fri, 10 Nov 2023 01:44:29 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MeV+VesZK0g7XejlQN9+ICHoRpG9pNzOiZ93zH+JYBQ2U+c6P5NUo0HLnsOcKxlSj2T8MOvPbJEfc78u8ReDx/XIKmOgVLmdJKHD6d4r7bKM6nm/6DJf631KMDRy4sxE6+cv5hvkVe0U9F0GMft4uoMMyWmcQ9bttNMM/yrlL4sDGWWJ3LiX/R45gUlvwAuvdBB8RpP8CCn/ZRagifSB8Gg9WBVhUb0X1La5dh9UhLhpeTd8mNus0fTKLCRV3Ut5d9JsSg9wSxeRe2TuDQ0rbnP1ADairuhpexbnUzyW3jPsRg9ykGc+FnjjoiL3AoS3gaOhuJY9/XdZSBP3Sy1U1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sQ+GR3FN98LglIQuEpmoa0XBA9orHnKvNx551LVamC4=;
+ b=N0aCL0isAL78JY5XPTGahpTCzThyREE34Fgedz5ugZSSH+Og8D3qEihD916FgSm2gzhH1AmhsVaUxZQkZQlyxLq85eTDN+QHB/05uKX6MKWu+KyDVuFDJGYRx1vKUTEl39LKxMC2e/yDGkYM4gLBe07GEEIDlAvalViZ4+46acCv2HZ//yYnr1mk9B5qPCQ+dOI+uFTiR7HHD6Pqc0UhLA9pY3vXgaDSCbSMaZQjZcT4PI8HrrvGTBQiJg7NvqbYzmMqI3qNsR/9vDewZHDXt/Tw2lZ17cPeES8GotqmFBQAufAjdTcwW6mhEJkDp9DgirT7MDTYs3pqvp21gOsQUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BL1PR11MB5979.namprd11.prod.outlook.com (2603:10b6:208:386::9)
+ by PH0PR11MB7712.namprd11.prod.outlook.com (2603:10b6:510:290::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Fri, 10 Nov
+ 2023 09:44:22 +0000
+Received: from BL1PR11MB5979.namprd11.prod.outlook.com
+ ([fe80::d35c:f42b:fdf7:36bb]) by BL1PR11MB5979.namprd11.prod.outlook.com
+ ([fe80::d35c:f42b:fdf7:36bb%5]) with mapi id 15.20.6954.021; Fri, 10 Nov 2023
+ 09:44:22 +0000
+From: "Manna, Animesh" <animesh.manna@intel.com>
+To: "Nikula, Jani" <jani.nikula@intel.com>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH v9 1/6] drm/panelreplay: dpcd register definition for
+ panelreplay
+Thread-Topic: [PATCH v9 1/6] drm/panelreplay: dpcd register definition for
+ panelreplay
+Thread-Index: AQHaEhYrQzX4BsawRESdXoOd7QThy7Bx9zAAgAFYY9A=
+Date: Fri, 10 Nov 2023 09:44:22 +0000
+Message-ID: <BL1PR11MB5979B002FACFCB644D206D9FF9AEA@BL1PR11MB5979.namprd11.prod.outlook.com>
+References: <20231108072303.3414118-1-animesh.manna@intel.com>
+ <20231108072303.3414118-2-animesh.manna@intel.com> <87wmurvzw3.fsf@intel.com>
+In-Reply-To: <87wmurvzw3.fsf@intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@redhat.com>
-References: <20231101233113.8059-10-dakr@redhat.com>
- <be93d9ef-3d3e-4262-a280-d2922b983ca1@amd.com> <ZUTyGTxcH7WlHKsv@pollux>
- <a2e13a27-d2e5-4ae3-9c11-c18b425b69cc@amd.com>
- <b533af44-0404-49c9-9879-3414d0964acc@redhat.com>
- <51dea5f3-a18b-4797-b4fa-87da7db4624a@amd.com> <ZUjZFFtLM435tTxJ@pollux>
- <8e87d962-c80c-40d9-94d7-58b6cd9dd794@amd.com> <ZUj0DdYZUgjhcvf5@pollux>
- <6d3c48f6-a92d-49b3-b836-ee1bc95b56bf@amd.com> <ZUkXkJ+zT7OFGosC@pollux>
- <44bc28c7-05f4-4419-5183-453c4951aac0@linux.intel.com>
- <6c536c94-7072-403c-9c63-d932252fd66b@amd.com>
- <4532d9d5-4c5a-4639-8136-d3ba9995d7b6@redhat.com>
- <1d4ca394-ee0c-4617-adbe-1d47e295c8fb@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <1d4ca394-ee0c-4617-adbe-1d47e295c8fb@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BL1PR11MB5979:EE_|PH0PR11MB7712:EE_
+x-ms-office365-filtering-correlation-id: d284dbb6-3513-40d0-267a-08dbe1d19e56
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: QlyiCs9RhOwabnl1mxXvTnE7hsvOeXLWk2XFgHw+2nGrk0hTuoTxMdo7XFlaYQI4lVkO/c9KhQXwiVNYKTWmbHFlAH/XUubC6HT5bWsF1vOPrzQR6t9G8LJtV2hlVFm9GK9YDiSmc+NQe79qVwq7y7V2egpMrWPnwWPo0HODt5c5Krku+ouL8vP7eDbYfc/K5MfJxWZJrRdvPXmQ0MTH0hOzdFqiD1QNywFqwSHsAgqI6yiL97ooBgKM/OGcdqBZJWmggBGZ/13r3t/mVY+PQRCDVKav9aLx4LnuItNPLUa4y86WGFSH8J+bNFbFa1Nspttlu8tIf1GGxp+q+knTFfVyob8cQWbMlSj0SCq8Hhwm6Zm83ty0EcVZOo5MrZtsWcyI/CjbfbG/8OeWTqNpgFV8ioLXwaoQ3jt3EjW6paILKiP4b14IvV2Komk1RAgsOi9l+sU9VXip4C8JE3mi6ZTHUseB9SNBZ75SLgKjMyUwZMkVOLWviMfRGLQzxLqyPxcUNmEbrl9UuyQauucBNQxE/v9ayth8Qpla0eEWYgPrbF0rybJx5GzUoXBnCGgykChZgI4YeABwbJA+SZcSyoo1fnMUF+P6WyNY0iwyEu0=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR11MB5979.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(396003)(366004)(346002)(39860400002)(376002)(230922051799003)(64100799003)(186009)(451199024)(1800799009)(316002)(41300700001)(8936002)(2906002)(8676002)(4326008)(55016003)(38100700002)(5660300002)(53546011)(66556008)(966005)(450100002)(9686003)(33656002)(54906003)(66446008)(66476007)(64756008)(86362001)(52536014)(66946007)(83380400001)(38070700009)(76116006)(26005)(82960400001)(107886003)(122000001)(110136005)(7696005)(66574015)(6506007)(71200400001)(478600001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RmgxajRqMmFIanJOSlI4TjllRGxBdHlTOXhaNUs1SEQ5MEZmOTI4Y2wyajIz?=
+ =?utf-8?B?MzQ5YkhROWFydUMybmhSV3BOekVOdnJoaU9rYkgxNjNtRTdxaXhXSUp6Smxq?=
+ =?utf-8?B?c3hDSDdwcG1VbUo1cW1lTnNjOVI2ZGlpbndLNVlGSGVadmViVjdOaFdCVnFJ?=
+ =?utf-8?B?VElUeDZTaC9kQjl1Mk9jR1RDdFRBQS80V1BLbTBqdy9xMVBDelMycCtqYVdx?=
+ =?utf-8?B?NElWMGQ2V0VHYkZaa1hvQVU5WG5uMVNlK3RucThzR0gyeWNYN2NsVElGNGFp?=
+ =?utf-8?B?WFVFOWtrMnNjVmVBZW9MUjBCNDVjeXVTbCtaZ3NhaldsNDdCT3VuL1BiTU85?=
+ =?utf-8?B?QWwxS1BzWmo2K0ZuTWJMTzF4VllhVkhjbnl4YktORHZaK0YzVk9mVTZFZ1hT?=
+ =?utf-8?B?UmdBS3pLRXJtUVJsYnBIN0lBbjdCUC9zKzJzVk5QdldZMkdvQkFLNXhmNE11?=
+ =?utf-8?B?MFJLeTBjdDVLeSsrRzU0Q1ZEYWphaDlHbkltMzRpenVNVzlvd2hWYnBQTzlZ?=
+ =?utf-8?B?NUN0bllrTXA4WlZLdGxYZ0oyRW9McVZ1d2NtNzIyUkVURC83L2MvNktmT25Q?=
+ =?utf-8?B?cENVQUlVdFN3Z3JDSjNuZlhySFNSZFVEN1dtbkRoV1FRT1hVeGxaZ2w1UExs?=
+ =?utf-8?B?RllONUxFaUVKVnZITGo4N2ZoL1ZRdWtObnVjSDBMWTZkdUMvbXV2WWVQZWFo?=
+ =?utf-8?B?eU1FMWVtR1VQZThsVlhUL2o5RUJxazhwSnlEVkFISm4wdFIzRDRtdll2VVZS?=
+ =?utf-8?B?eVlqcXhBbktoOG4wWGlKVCswbW5tQjZXQjdtem9qWVFqRjhEb2dzb3lvL2ZT?=
+ =?utf-8?B?Tk1HUEU4SUdZQmRzaUhZdlF2ZS9MdDVsN3Nsd0s5aG1LUlM4ZGtaZXo3VzdM?=
+ =?utf-8?B?SVBRLzVUVGhxQXdoZEs0UnNoOUlteEd3Z0VJbVlBUkxvYU9PL0kzTldyUnl2?=
+ =?utf-8?B?MFBPZnFIdEVxWTc1SUpMWXJpM2h6YVNtM3htN25DTWt5REZWVnZyL3g1MUI2?=
+ =?utf-8?B?dkVCb1E0N1RDbDkyTmVaMThyWDJobjRIbUo2ZUw2enFYUkFsb0pHeG50bENq?=
+ =?utf-8?B?R1lyM2h2ME0yVXR0anVjN2xmWE5nVU8yRGtpcjhZb0ZBVlVpYllidDFUaG1z?=
+ =?utf-8?B?d1JxR2FybUE0MzZpZXpla1JoTG1jYk80MjdGdThLa3IzLytGMFBaWGpoRmQv?=
+ =?utf-8?B?YWllY1hZbjl2c0lvdE1TR0Y0RnlpZzB6ZDFaY3ZJYk5USmM1S3p0S0Y2S2Mx?=
+ =?utf-8?B?OUZPVkF0aWR5SE1Tek1laFRUYXAya1ljYjd1bU5hTnFGdzNoMXBDYjZ5SXA2?=
+ =?utf-8?B?TzZ6cTRHZTNLc2FNZmRPT2h4d2pZTlp3MXJGQitjSktRQWMxUUFwUEFiMzlx?=
+ =?utf-8?B?Nm9tbzZrZDhrUkFMei8rVVZhWFNFRm1GODhRTGgwYzRDSHBiMVhualJxL3p4?=
+ =?utf-8?B?b2dxZWNiS252bWladG5LcUFOYjcxNHlEM0lsU0Q3c29zbG5SWWluQkp2RkpS?=
+ =?utf-8?B?b21HeUdSYzR1a1gzY0tGOG1ybTlhdHlMU3pMa0JnVVBHTnFCTnBGaGtkWVFn?=
+ =?utf-8?B?MDJUbWJGaWpCWDlsV0MxSnEyaENSNW5CN0hzajN4NEFqN0drWFpMZVcvSWJz?=
+ =?utf-8?B?U3ZEaFhOQ2NtUkZ2R2hRc1dIcERLU3ZoMHRJVG1VQThORU9WQUp0Nk9YNDMw?=
+ =?utf-8?B?MGsrOFhDOEJkVHB5ZTlsOTJOemF1SGdkdi9KZ2Q3SUZrcHpBOG5iUnB0dmgw?=
+ =?utf-8?B?ZVU1VkhnTDNOOWEyVWxMZDZZNUlYVnFKMmdQaVJDSlhRWDBVSmNkQVJpRkVP?=
+ =?utf-8?B?bG9pNkF5T3R4bm5XYklJbWtLNTdQbDhFek1EdmpkRzh4aVpEQVhzYkRjbEVE?=
+ =?utf-8?B?clUzNmRSY21QVkNtRzJVSzA0V1hZdFZNV0RWcFZRbzBVVlFYZ2RsRFg4eitG?=
+ =?utf-8?B?djNVelNGYm5aVit0WEY4ZmdMYVNmZkZsT3dmdWcrb1hUR3VENDJEcVVBMjRR?=
+ =?utf-8?B?WDhrVExpTmVwYTNLVmtkVEZtbUV1TU1ldHFFbzA4ZG1zbklmaFZiZlBmN0R1?=
+ =?utf-8?B?RndPWFlpaHYrdy9RakhIcGlBbXRKWk9CZGVuc1pzRk9wb2IvOXNXNm9wL0py?=
+ =?utf-8?Q?2tE9sCdmC9hUC+MfQ7stq7V5g?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR11MB5979.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d284dbb6-3513-40d0-267a-08dbe1d19e56
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Nov 2023 09:44:22.3735 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: IJs+JbFcpQIsQUZ62wG7TxcEhnt0uVV4KladSZyFKrN/0w4M7eOzHp7NU8m8BoRN9quyQNTskz0bup64EzLAXA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7712
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,228 +160,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, sarah.walker@imgtec.com,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, faith@gfxstrand.net,
- boris.brezillon@collabora.com, donald.robson@imgtec.com
+Cc: "Hogander, Jouni" <jouni.hogander@intel.com>, "Murthy,
+ Arun R" <arun.r.murthy@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 11/10/23 09:50, Christian König wrote:
-> Am 09.11.23 um 19:34 schrieb Danilo Krummrich:
->> On 11/9/23 17:03, Christian König wrote:
->>> Am 09.11.23 um 16:50 schrieb Thomas Hellström:
->>>> [SNIP]
->>>>>>
->>>> Did we get any resolution on this?
->>>>
->>>> FWIW, my take on this is that it would be possible to get GPUVM to 
->>>> work both with and without internal refcounting; If with, the 
->>>> driver needs a vm close to resolve cyclic references, if without 
->>>> that's not necessary. If GPUVM is allowed to refcount in mappings 
->>>> and vm_bos, that comes with a slight performance drop but as Danilo 
->>>> pointed out, the VM lifetime problem iterating over a vm_bo's 
->>>> mapping becomes much easier and the code thus becomes easier to 
->>>> maintain moving forward. That convinced me it's a good thing.
->>>
->>> I strongly believe you guys stumbled over one of the core problems 
->>> with the VM here and I think that reference counting is the right 
->>> answer to solving this.
->>>
->>> The big question is that what is reference counted and in which 
->>> direction does the dependency points, e.g. we have here VM, BO, 
->>> BO_VM and Mapping objects.
->>>
->>> Those patches here suggest a counted Mapping -> VM reference and I'm 
->>> pretty sure that this isn't a good idea. What we should rather 
->>> really have is a BO -> VM or BO_VM ->VM reference. In other words 
->>> that each BO which is part of the VM keeps a reference to the VM.
->>
->> We have both. Please see the subsequent patch introducing VM_BO 
->> structures for that.
->>
->> As I explained, mappings (struct drm_gpuva) keep a pointer to their 
->> VM they're mapped
->> in and besides that it doesn't make sense to free a VM that still 
->> contains mappings,
->> the reference count ensures that. This simply ensures memory safety.
->>
->>>
->>> BTW: At least in amdgpu we can have BOs which (temporary) doesn't 
->>> have any mappings, but are still considered part of the VM.
->>
->> That should be possible.
->>
->>>
->>>>
->>>> Another issue Christian brought up is that something intended to be 
->>>> embeddable (a base class) shouldn't really have its own refcount. I 
->>>> think that's a valid point. If you at some point need to derive 
->>>> from multiple such structs each having its own refcount, things 
->>>> will start to get weird. One way to resolve that would be to have 
->>>> the driver's subclass provide get() and put() ops, and export a 
->>>> destructor for the base-class, rather than to have the base-class 
->>>> provide the refcount and a destructor  ops.
->>
->> GPUVM simply follows the same pattern we have with drm_gem_objects. 
->> And I think it makes
->> sense. Why would we want to embed two struct drm_gpuvm in a single 
->> driver structure?
->
-> Because you need one drm_gpuvm structure for each application using 
-> the driver? Or am I missing something?
->
-> As far as I can see a driver would want to embed that into your fpriv 
-> structure which is allocated during drm_driver.open callback.
-
-I was thinking more of the general design of a base-class that needs to 
-be refcounted. Say a driver vm that inherits from gpu-vm, gem_object and 
-yet another base-class that supplies its own refcount. What's the 
-best-practice way to do refcounting? All base-classes supplying a 
-refcount of its own, or the subclass supplying a refcount and the 
-base-classes supply destroy helpers.
-
-But to be clear this is nothing I see needing urgent attention.
-
->
->>
->>>
->>> Well, I have never seen stuff like that in the kernel. Might be that 
->>> this works, but I would rather not try if avoidable.
->>>
->>>>
->>>> That would also make it possible for the driver to decide the 
->>>> context for the put() call: If the driver needs to be able to call 
->>>> put() from irq / atomic context but the base-class'es destructor 
->>>> doesn't allow atomic context, the driver can push freeing out to a 
->>>> work item if needed.
->>>>
->>>> Finally, the refcount overflow Christian pointed out. Limiting the 
->>>> number of mapping sounds like a reasonable remedy to me.
->>>
->>> Well that depends, I would rather avoid having a dependency for 
->>> mappings.
->>>
->>> Taking the CPU VM handling as example as far as I know 
->>> vm_area_structs doesn't grab a reference to their mm_struct either. 
->>> Instead they get automatically destroyed when the mm_struct is 
->>> destroyed.
->>
->> Certainly, that would be possible. However, thinking about it, this 
->> might call for
->> huge trouble.
->>
->> First of all, we'd still need to reference count a GPUVM and take a 
->> reference for each
->> VM_BO, as we do already. Now instead of simply increasing the 
->> reference count for each
->> mapping as well, we'd need a *mandatory* driver callback that is 
->> called when the GPUVM
->> reference count drops to zero. Maybe something like vm_destroy().
->>
->> The reason is that GPUVM can't just remove all mappings from the tree 
->> nor can it free them
->> by itself, since drivers might use them for tracking their allocated 
->> page tables and/or
->> other stuff.
->>
->> Now, let's think about the scope this callback might be called from. 
->> When a VM_BO is destroyed
->> the driver might hold a couple of locks (for Xe it would be the VM's 
->> shared dma-resv lock and
->> potentially the corresponding object's dma-resv lock if they're not 
->> the same already). If
->> destroying this VM_BO leads to the VM being destroyed, the drivers 
->> vm_destroy() callback would
->> be called with those locks being held as well.
->>
->> I feel like doing this finally opens the doors of the locking hell 
->> entirely. I think we should
->> really avoid that.
-
-I don't think we need to worry much about this particular locking hell 
-because if we hold, for example a vm and bo resv when putting the vm_bo, 
-we need to keep additional strong references for the bo / vm pointer we 
-use for unlocking. Hence putting the vm_bo under those locks can never 
-lead to the vm getting destroyed.
-
-Also, don't we already sort of have a mandatory vm_destroy callback?
-
-+	if (drm_WARN_ON(gpuvm->drm, !gpuvm->ops->vm_free))
-+		return;
-
-
-
->
-> That's a really good point, but I fear exactly that's the use case.
->
-> I would expect that VM_BO structures are added in the 
-> drm_gem_object_funcs.open callback and freed in 
-> drm_gem_object_funcs.close.
->
-> Since it is perfectly legal for userspace to close a BO while there 
-> are still mappings (can trivial be that the app is killed) I would 
-> expect that the drm_gem_object_funcs.close handling is something like 
-> asking drm_gpuvm destroying the VM_BO and getting the mappings which 
-> should be cleared in the page table in return.
->
-> In amdgpu we even go a step further and the VM structure keeps track 
-> of all the mappings of deleted VM_BOs so that higher level can query 
-> those and clear them later on.
->
-> Background is that the drm_gem_object_funcs.close can't fail, but it 
-> can perfectly be that the app is killed because of an OOM situation 
-> and we can't do page tables updates in that moment because of this.
->
->>
->>>
->>> Which makes sense in that case because when the mm_struct is gone 
->>> the vm_area_struct doesn't make sense any more either.
->>>
->>> What we clearly need is a reference to prevent the VM or at least 
->>> the shared resv to go away to early.
->>
->> Yeah, that was a good hint and we've covered that.
->>
->>>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>> But I think all of this is fixable as follow-ups if needed, unless 
->>>> I'm missing something crucial.
->>
->> Fully agree, I think at this point we should go ahead and land this 
->> series.
-
-+1.
-
-/Thomas
-
-
->>
->
-> Yeah, agree this is not UAPI so not nailed in stone. Feel free to add 
-> my acked-by as well if you want.
->
-> Only keep in mind that when you give drivers some functionality in a 
-> common component they usually expect to keep that functionality.
->
-> For example changing the dma_resv object to make sure that drivers 
-> can't cause use after free errors any more was an extremely annoying 
-> experience since every user of those interface had to change at once.
->
-> Regards,
-> Christian.
->
->>
->>>>
->>>> Just my 2 cents.
->>>>
->>>> /Thomas
->>>>
->>>>
->>>
->>
->
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTmlrdWxhLCBKYW5pIDxq
+YW5pLm5pa3VsYUBpbnRlbC5jb20+DQo+IFNlbnQ6IFRodXJzZGF5LCBOb3ZlbWJlciA5LCAyMDIz
+IDY6MzcgUE0NCj4gVG86IE1hbm5hLCBBbmltZXNoIDxhbmltZXNoLm1hbm5hQGludGVsLmNvbT47
+IGludGVsLQ0KPiBnZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnDQo+IENjOiBNYW5uYSwgQW5pbWVzaCA8YW5pbWVzaC5tYW5uYUBpbnRlbC5j
+b20+OyBIb2dhbmRlciwgSm91bmkNCj4gPGpvdW5pLmhvZ2FuZGVyQGludGVsLmNvbT47IE11cnRo
+eSwgQXJ1biBSIDxhcnVuLnIubXVydGh5QGludGVsLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRD
+SCB2OSAxLzZdIGRybS9wYW5lbHJlcGxheTogZHBjZCByZWdpc3RlciBkZWZpbml0aW9uIGZvcg0K
+PiBwYW5lbHJlcGxheQ0KPiANCj4gT24gV2VkLCAwOCBOb3YgMjAyMywgQW5pbWVzaCBNYW5uYSA8
+YW5pbWVzaC5tYW5uYUBpbnRlbC5jb20+IHdyb3RlOg0KPiA+IEFkZCBEUENEIHJlZ2lzdGVyIGRl
+ZmluaXRpb24gZm9yIGRpc2NvdmVyaW5nLCBlbmFibGluZyBhbmQgY2hlY2tpbmcNCj4gPiBzdGF0
+dXMgb2YgcGFuZWwgcmVwbGF5IG9mIHRoZSBzaW5rLg0KPiA+DQo+ID4gQ2M6IEpvdW5pIEjDtmdh
+bmRlciA8am91bmkuaG9nYW5kZXJAaW50ZWwuY29tPg0KPiA+IENjOiBBcnVuIFIgTXVydGh5IDxh
+cnVuLnIubXVydGh5QGludGVsLmNvbT4NCj4gPiBDYzogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxh
+QGludGVsLmNvbT4NCj4gPiBSZXZpZXdlZC1ieTogQXJ1biBSIE11cnRoeSA8YXJ1bi5yLm11cnRo
+eUBpbnRlbC5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogQW5pbWVzaCBNYW5uYSA8YW5pbWVzaC5t
+YW5uYUBpbnRlbC5jb20+DQo+IA0KPiBZb3UgZ290IHRoZSBhY2ssIHBsZWFzZSBrZWVwIHRyYWNr
+IG9mIGl0Lg0KPiANCj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci9lbGNlYnlneHM0MzJiY2o3
+b2V6N25kbGZ2YjNscnU3bTd5em55cXAyZWk0b2Nqaw0KPiB2eHBAMjNsZjJyaDQ1Zm10DQoNClRo
+YW5rcyBKYW5pIGFuZCBldmVyeW9uZSB3aG8gaGVscGVkIGluIHJldmlldy4NClB1c2hlZCB0aGUg
+aW5pdGlhbCA1IHBhdGNoZXMgb2YgdGhpcyBzZXJpZXMuIEFzIDZ0aCBwYXRjaCBoYXMgZGVwZW5k
+ZW5jeSBvbiBpZ3QgY2hhbmdlcywgd2lsbCBwdXNoIGFmdGVyIGlndCBjaGFuZ2VzIGdldCBtZXJn
+ZWQuDQoNClJlZ2FyZHMsDQpBbmltZXNoIA0KPiANCj4gPiAtLS0NCj4gPiAgaW5jbHVkZS9kcm0v
+ZGlzcGxheS9kcm1fZHAuaCB8IDIzICsrKysrKysrKysrKysrKysrKysrKysrDQo+ID4gIDEgZmls
+ZSBjaGFuZ2VkLCAyMyBpbnNlcnRpb25zKCspDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVk
+ZS9kcm0vZGlzcGxheS9kcm1fZHAuaA0KPiA+IGIvaW5jbHVkZS9kcm0vZGlzcGxheS9kcm1fZHAu
+aCBpbmRleCBlNjljZWNlNDA0YjMuLmZjNDJiNjIyZWYzMg0KPiAxMDA2NDQNCj4gPiAtLS0gYS9p
+bmNsdWRlL2RybS9kaXNwbGF5L2RybV9kcC5oDQo+ID4gKysrIGIvaW5jbHVkZS9kcm0vZGlzcGxh
+eS9kcm1fZHAuaA0KPiA+IEBAIC01NDMsNiArNTQzLDEwIEBADQo+ID4gIC8qIERGUCBDYXBhYmls
+aXR5IEV4dGVuc2lvbiAqLw0KPiA+ICAjZGVmaW5lIERQX0RGUF9DQVBBQklMSVRZX0VYVEVOU0lP
+Tl9TVVBQT1JUCTB4MGEzCS8qIDIuMCAqLw0KPiA+DQo+ID4gKyNkZWZpbmUgRFBfUEFORUxfUkVQ
+TEFZX0NBUCAgICAgICAgICAgICAgICAgMHgwYjAgIC8qIERQIDIuMCAqLw0KPiA+ICsjIGRlZmlu
+ZSBEUF9QQU5FTF9SRVBMQVlfU1VQUE9SVCAgICAgICAgICAgICgxIDw8IDApDQo+ID4gKyMgZGVm
+aW5lIERQX1BBTkVMX1JFUExBWV9TVV9TVVBQT1JUICAgICAgICAgKDEgPDwgMSkNCj4gPiArDQo+
+ID4gIC8qIExpbmsgQ29uZmlndXJhdGlvbiAqLw0KPiA+ICAjZGVmaW5lCURQX0xJTktfQldfU0VU
+CQkgICAgICAgICAgICAweDEwMA0KPiA+ICAjIGRlZmluZSBEUF9MSU5LX1JBVEVfVEFCTEUJCSAg
+ICAweDAwICAgIC8qIGVEUCAxLjQgKi8NCj4gPiBAQCAtNzE2LDYgKzcyMCwxMyBAQA0KPiA+ICAj
+ZGVmaW5lIERQX0JSQU5DSF9ERVZJQ0VfQ1RSTAkJICAgIDB4MWExDQo+ID4gICMgZGVmaW5lIERQ
+X0JSQU5DSF9ERVZJQ0VfSVJRX0hQRAkgICAgKDEgPDwgMCkNCj4gPg0KPiA+ICsjZGVmaW5lIFBB
+TkVMX1JFUExBWV9DT05GSUcgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDB4MWIwICAvKiBE
+UCAyLjAgKi8NCj4gPiArIyBkZWZpbmUgRFBfUEFORUxfUkVQTEFZX0VOQUJMRSAgICAgICAgICAg
+ICAgICAgICAgICAgICAoMSA8PCAwKQ0KPiA+ICsjIGRlZmluZSBEUF9QQU5FTF9SRVBMQVlfVU5S
+RUNPVkVSQUJMRV9FUlJPUl9FTiAgICAgICAgICgxIDw8IDMpDQo+ID4gKyMgZGVmaW5lIERQX1BB
+TkVMX1JFUExBWV9SRkJfU1RPUkFHRV9FUlJPUl9FTiAgICAgICAgICAgKDEgPDwgNCkNCj4gPiAr
+IyBkZWZpbmUgRFBfUEFORUxfUkVQTEFZX0FDVElWRV9GUkFNRV9DUkNfRVJST1JfRU4gICAgICAo
+MSA8PCA1KQ0KPiA+ICsjIGRlZmluZSBEUF9QQU5FTF9SRVBMQVlfU1VfRU5BQkxFICAgICAgICAg
+ICAgICAgICAgICAgICgxIDw8IDYpDQo+ID4gKw0KPiA+ICAjZGVmaW5lIERQX1BBWUxPQURfQUxM
+T0NBVEVfU0VUCQkgICAgMHgxYzANCj4gPiAgI2RlZmluZSBEUF9QQVlMT0FEX0FMTE9DQVRFX1NU
+QVJUX1RJTUVfU0xPVCAweDFjMSAgI2RlZmluZQ0KPiA+IERQX1BBWUxPQURfQUxMT0NBVEVfVElN
+RV9TTE9UX0NPVU5UIDB4MWMyIEBAIC0xMTA1LDYgKzExMTYsMTgNCj4gQEANCj4gPiAgI2RlZmlu
+ZSBEUF9MQU5FX0FMSUdOX1NUQVRVU19VUERBVEVEX0VTSSAgICAgICAweDIwMGUgLyogc3RhdHVz
+IHNhbWUNCj4gYXMgMHgyMDQgKi8NCj4gPiAgI2RlZmluZSBEUF9TSU5LX1NUQVRVU19FU0kgICAg
+ICAgICAgICAgICAgICAgICAweDIwMGYgLyogc3RhdHVzIHNhbWUgYXMgMHgyMDUgKi8NCj4gPg0K
+PiA+ICsjZGVmaW5lIERQX1BBTkVMX1JFUExBWV9FUlJPUl9TVEFUVVMgICAgICAgICAgICAgICAg
+ICAgMHgyMDIwICAvKiBEUCAyLjEqLw0KPiA+ICsjIGRlZmluZSBEUF9QQU5FTF9SRVBMQVlfTElO
+S19DUkNfRVJST1IgICAgICAgICAgICAgICAgKDEgPDwgMCkNCj4gPiArIyBkZWZpbmUgRFBfUEFO
+RUxfUkVQTEFZX1JGQl9TVE9SQUdFX0VSUk9SICAgICAgICAgICAgICgxIDw8IDEpDQo+ID4gKyMg
+ZGVmaW5lIERQX1BBTkVMX1JFUExBWV9WU0NfU0RQX1VOQ09SUkVDVEFCTEVfRVJST1IgICAoMSA8
+PCAyKQ0KPiA+ICsNCj4gPiArI2RlZmluZSBEUF9TSU5LX0RFVklDRV9QUl9BTkRfRlJBTUVfTE9D
+S19TVEFUVVMgICAgICAgIDB4MjAyMiAgLyoNCj4gRFAgMi4xICovDQo+ID4gKyMgZGVmaW5lIERQ
+X1NJTktfREVWSUNFX1BBTkVMX1JFUExBWV9TVEFUVVNfTUFTSyAgICAgICAoNyA8PCAwKQ0KPiA+
+ICsjIGRlZmluZSBEUF9TSU5LX0ZSQU1FX0xPQ0tFRF9TSElGVCAgICAgICAgICAgICAgICAgICAg
+Mw0KPiA+ICsjIGRlZmluZSBEUF9TSU5LX0ZSQU1FX0xPQ0tFRF9NQVNLICAgICAgICAgICAgICAg
+ICAgICAgKDMgPDwgMykNCj4gPiArIyBkZWZpbmUgRFBfU0lOS19GUkFNRV9MT0NLRURfU1RBVFVT
+X1ZBTElEX1NISUZUICAgICAgIDUNCj4gPiArIyBkZWZpbmUgRFBfU0lOS19GUkFNRV9MT0NLRURf
+U1RBVFVTX1ZBTElEX01BU0sgICAgICAgICgxIDw8IDUpDQo+ID4gKw0KPiA+ICAvKiBFeHRlbmRl
+ZCBSZWNlaXZlciBDYXBhYmlsaXR5OiBTZWUgRFBfRFBDRF9SRVYgZm9yIGRlZmluaXRpb25zICov
+DQo+ID4gICNkZWZpbmUgRFBfRFAxM19EUENEX1JFViAgICAgICAgICAgICAgICAgICAgMHgyMjAw
+DQo+IA0KPiAtLQ0KPiBKYW5pIE5pa3VsYSwgSW50ZWwNCg==
