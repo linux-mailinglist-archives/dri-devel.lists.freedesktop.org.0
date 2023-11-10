@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E5937E7BC4
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 12:20:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E20247E7BC6
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 12:20:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F60E10E932;
-	Fri, 10 Nov 2023 11:20:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EA0A10E98F;
+	Fri, 10 Nov 2023 11:20:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2204C10E932;
- Fri, 10 Nov 2023 11:20:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C9A110E98F;
+ Fri, 10 Nov 2023 11:20:21 +0000 (UTC)
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id CAD5466071D4;
- Fri, 10 Nov 2023 11:20:01 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 586F866073F2;
+ Fri, 10 Nov 2023 11:20:19 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1699615202;
- bh=g9TyoOYvkxRuOxwkgEkdZD2BKRl3kf4lLjfgbCUhWc8=;
+ s=mail; t=1699615220;
+ bh=Z0zorD13MGeP3kyTlELN9r96mOGvi5sP1bTmMJl3V4o=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=GzDjgmK9aPYDeZzee4qKNzG9AjxX6gPG8FQGY/9vJ607I1iQrmt4wBHStGxQLVsx7
- GumM5B1c9B3UXihIb222uqyDOvIoEaufq6TuM8JGHxO4tPKjuGhgQkGJwFvfkuVznw
- Xo9vFH5FhFPHQ0fmpKmaspbT0ihIiodVS/a1j3m/MAriRraGk7ehyHy6iONWbQhCM2
- 1BeeHwXYmFTfQXQo+fY2d2sY8rKKMLO6+Th99VipiGLARpAkZ29krcJDoJh3S2R2Ni
- vtvpFnH/hqTT6GCCe4I+lkzb7iIVRVS1kDSUn2ZWNMx6+L3QiKsWQlrBnU4rkvuHve
- I2oq0ccAVeaPA==
-Date: Fri, 10 Nov 2023 12:19:58 +0100
+ b=Ayk/AVHym2BJgJbGvk/B2iVIKqZoHSp62m9kRA+hn5j+rwB2IV55McLc9c0VWlAWo
+ dD5jmFoXQaIrzNvBN35Oe3PsYBJcIw8R3ZzP4butquqKM+6ckE+58/ScivbRIXP7r7
+ wXmNHKYwXuGnamuWXXHLvUDLFPHIiD3JBLW32An/JuDQovM1XlNM8jcUrkR/nXnqkN
+ plfCe7TpYvyrWDOEa2dtUzQLvaLrq1dZ8mJLOHVpxwT4KCjaCw+9aQTyYe+J2UHw8W
+ KZxAWMUpYB8NwHp5LzFuvL1x+DbqN0bNuzA+fIbxmRi8NmdAasUACTsGXAD3wnUAXu
+ 0UJYD6bWU7aDA==
+Date: Fri, 10 Nov 2023 12:20:15 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH drm-misc-next v9 02/12] drm/gpuvm: don't always WARN in
- drm_gpuvm_check_overflow()
-Message-ID: <20231110121958.59f9d330@collabora.com>
-In-Reply-To: <20231108001259.15123-3-dakr@redhat.com>
+Subject: Re: [PATCH drm-misc-next v9 03/12] drm/gpuvm: export
+ drm_gpuvm_range_valid()
+Message-ID: <20231110122015.69636459@collabora.com>
+In-Reply-To: <20231108001259.15123-4-dakr@redhat.com>
 References: <20231108001259.15123-1-dakr@redhat.com>
- <20231108001259.15123-3-dakr@redhat.com>
+ <20231108001259.15123-4-dakr@redhat.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -62,14 +62,11 @@ Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed,  8 Nov 2023 01:12:32 +0100
+On Wed,  8 Nov 2023 01:12:33 +0100
 Danilo Krummrich <dakr@redhat.com> wrote:
 
-> Don't always WARN in drm_gpuvm_check_overflow() and separate it into a
-> drm_gpuvm_check_overflow() and a dedicated
-> drm_gpuvm_warn_check_overflow() variant.
->=20
-> This avoids printing warnings due to invalid userspace requests.
+> Drivers may use this function to validate userspace requests in advance,
+> hence export it.
 >=20
 > Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
 > Signed-off-by: Danilo Krummrich <dakr@redhat.com>
@@ -77,66 +74,56 @@ Danilo Krummrich <dakr@redhat.com> wrote:
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
 > ---
->  drivers/gpu/drm/drm_gpuvm.c | 20 +++++++++++++-------
->  1 file changed, 13 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/drm_gpuvm.c | 14 +++++++++++++-
+>  include/drm/drm_gpuvm.h     |  1 +
+>  2 files changed, 14 insertions(+), 1 deletion(-)
 >=20
 > diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-> index d7367a202fee..445767f8fbc4 100644
+> index 445767f8fbc4..2669f9bbc377 100644
 > --- a/drivers/gpu/drm/drm_gpuvm.c
 > +++ b/drivers/gpu/drm/drm_gpuvm.c
-> @@ -614,12 +614,18 @@ static int __drm_gpuva_insert(struct drm_gpuvm *gpu=
-vm,
->  static void __drm_gpuva_remove(struct drm_gpuva *va);
-> =20
->  static bool
-> -drm_gpuvm_check_overflow(struct drm_gpuvm *gpuvm, u64 addr, u64 range)
-> +drm_gpuvm_check_overflow(u64 addr, u64 range)
->  {
->  	u64 end;
-> =20
-> -	return drm_WARN(gpuvm->drm, check_add_overflow(addr, range, &end),
-> -			"GPUVA address limited to %zu bytes.\n", sizeof(end));
-> +	return check_add_overflow(addr, range, &end);
-> +}
-> +
-> +static bool
-> +drm_gpuvm_warn_check_overflow(struct drm_gpuvm *gpuvm, u64 addr, u64 ran=
-ge)
-> +{
-> +	return drm_WARN(gpuvm->drm, drm_gpuvm_check_overflow(addr, range),
-> +			"GPUVA address limited to %zu bytes.\n", sizeof(addr));
+> @@ -649,7 +649,18 @@ drm_gpuvm_in_kernel_node(struct drm_gpuvm *gpuvm, u6=
+4 addr, u64 range)
+>  	return krange && addr < kend && kstart < end;
 >  }
 > =20
->  static bool
-> @@ -647,7 +653,7 @@ static bool
+> -static bool
+> +/**
+> + * drm_gpuvm_range_valid() - checks whether the given range is valid for=
+ the
+> + * given &drm_gpuvm
+> + * @gpuvm: the GPUVM to check the range for
+> + * @addr: the base address
+> + * @range: the range starting from the base address
+> + *
+> + * Checks whether the range is within the GPUVM's managed boundaries.
+> + *
+> + * Returns: true for a valid range, false otherwise
+> + */
+> +bool
 >  drm_gpuvm_range_valid(struct drm_gpuvm *gpuvm,
 >  		      u64 addr, u64 range)
 >  {
-> -	return !drm_gpuvm_check_overflow(gpuvm, addr, range) &&
-> +	return !drm_gpuvm_check_overflow(addr, range) &&
+> @@ -657,6 +668,7 @@ drm_gpuvm_range_valid(struct drm_gpuvm *gpuvm,
 >  	       drm_gpuvm_in_mm_range(gpuvm, addr, range) &&
 >  	       !drm_gpuvm_in_kernel_node(gpuvm, addr, range);
 >  }
-> @@ -682,7 +688,7 @@ drm_gpuvm_init(struct drm_gpuvm *gpuvm, const char *n=
-ame,
->  	gpuvm->ops =3D ops;
->  	gpuvm->drm =3D drm;
+> +EXPORT_SYMBOL_GPL(drm_gpuvm_range_valid);
 > =20
-> -	drm_gpuvm_check_overflow(gpuvm, start_offset, range);
-> +	drm_gpuvm_warn_check_overflow(gpuvm, start_offset, range);
->  	gpuvm->mm_start =3D start_offset;
->  	gpuvm->mm_range =3D range;
+>  /**
+>   * drm_gpuvm_init() - initialize a &drm_gpuvm
+> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
+> index 687fd5893624..13eac6f70061 100644
+> --- a/include/drm/drm_gpuvm.h
+> +++ b/include/drm/drm_gpuvm.h
+> @@ -253,6 +253,7 @@ void drm_gpuvm_init(struct drm_gpuvm *gpuvm, const ch=
+ar *name,
+>  		    const struct drm_gpuvm_ops *ops);
+>  void drm_gpuvm_destroy(struct drm_gpuvm *gpuvm);
 > =20
-> @@ -691,8 +697,8 @@ drm_gpuvm_init(struct drm_gpuvm *gpuvm, const char *n=
-ame,
->  		gpuvm->kernel_alloc_node.va.addr =3D reserve_offset;
->  		gpuvm->kernel_alloc_node.va.range =3D reserve_range;
+> +bool drm_gpuvm_range_valid(struct drm_gpuvm *gpuvm, u64 addr, u64 range);
+>  bool drm_gpuvm_interval_empty(struct drm_gpuvm *gpuvm, u64 addr, u64 ran=
+ge);
 > =20
-> -		if (likely(!drm_gpuvm_check_overflow(gpuvm, reserve_offset,
-> -						     reserve_range)))
-> +		if (likely(!drm_gpuvm_warn_check_overflow(gpuvm, reserve_offset,
-> +							  reserve_range)))
->  			__drm_gpuva_insert(gpuvm, &gpuvm->kernel_alloc_node);
->  	}
->  }
+>  static inline struct drm_gpuva *
 
