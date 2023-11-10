@@ -1,64 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4597B7E824C
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 20:14:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 721D37E826A
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 20:25:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF66610E1DB;
-	Fri, 10 Nov 2023 19:14:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A7CC10E1A8;
+	Fri, 10 Nov 2023 19:25:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
- [IPv6:2607:f8b0:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83C1B10E1D9
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 19:14:03 +0000 (UTC)
-Received: by mail-pg1-x530.google.com with SMTP id
- 41be03b00d2f7-5bdc18756a3so1717692a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 11:14:03 -0800 (PST)
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5082210E1A8
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 19:25:33 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ 46e09a7af769-6ce2fc858feso1300631a34.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 11:25:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1699643643; x=1700248443;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MD1dV3f2O7u955hezn07tiOBc51OBGshXDAo/OfAZrA=;
- b=n0LecbDx6m9jpDlQPXFLpcgpIZBEUSxUn1DYqIETpTXvv91+y2+NIpIE2mevNBt56H
- tfsSi1ZHVxRYBjR47aYaoARs2pDYK2fa5UFFu1zeQ2Ubfwm/SLI+fGffBPW8ZiVWJMjX
- ljoX+w9WuEUMYBj5Tj9yMAVS25uH4fMY89vgI=
+ d=gmail.com; s=20230601; t=1699644332; x=1700249132; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9WuF0Pi5V569GCKj27JB/b2x9SROneMhMi2aagE8fG0=;
+ b=BDc6P7yraF7asc+xq7+A/PnW/9Z6VmzpIc9EA7b75PeeRk/px5u+H7StqvLrZ5qkUz
+ 8VwqKbHH97Z4YcgkASh1GH5bOBrm84BOYp7F/D/bQd/nf9MegGsIcv5jPbiXx3IU8Exu
+ rfgW4jdEf9newRROpo/27RAz0dXvfGMiNTq6UUMpQ4+tWkzyZG9+7puBxQrNHyYGz97D
+ gmMlSxj/xXmYkP8dOrqQDsn5rTqNxRxn8dNLVgllM081NrXbTSA4TMziIBBXHxDiRSDF
+ x47K6Q0cfimGQkmU3Ne2fteUZdEIotACq3Nyw624deRW4zNggCUUrRgokJJW1w64RPAp
+ CgKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699643643; x=1700248443;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MD1dV3f2O7u955hezn07tiOBc51OBGshXDAo/OfAZrA=;
- b=YmF7GIcXL4N1uZ7CLKK+q9s1gCM3tv7DdxE8jZjl9EYe1vAP5BkAeTd08n5tO81joq
- 8OSxwB6Es55/h5B0p8tZIquO5iQAtrNgXC9qB+vhbfuF/XoCjLWAWS6Kcp+D51OXHri1
- 0+8IR5DCW1j3Wvppnr7MqCeWIy7eQV9tCoJmhdEUDxqj4dIf13wusDorez071TbN1FBI
- BCqeZld4SB1mGV2L67xw3Kbv59BajspxoU7Q+HnL6TwxvYSajSBZ+CDutNknLeVswGLl
- iVwJno85DO1o34J7x/czwM3YGVNjKbX4B6sZsPdIc18Im0nrQJzhGef8QRBI3VanS5MU
- D9gQ==
-X-Gm-Message-State: AOJu0YygFNln+880q03zvwpsozGyrOopkETZET7QYS8IMQ6N9BEHHd0o
- a4KqLrxjS/9/hqi5S8PlyY/8GQ==
-X-Google-Smtp-Source: AGHT+IG56L/poRnCSG+JgnV/8FlZGz4mVVijUIZfx7X/ZKyDxkv3Cg5t+LEK6GYKkue8BeIvRwpjsw==
-X-Received: by 2002:a17:90b:1c8b:b0:281:5860:12f3 with SMTP id
- oo11-20020a17090b1c8b00b00281586012f3mr5459831pjb.3.1699643642943; 
- Fri, 10 Nov 2023 11:14:02 -0800 (PST)
-Received: from ballway1.c.googlers.com.com
- (175.199.125.34.bc.googleusercontent.com. [34.125.199.175])
- by smtp.gmail.com with ESMTPSA id
- t9-20020a17090ad14900b00280976d4ce3sm1960160pjw.37.2023.11.10.11.14.01
+ d=1e100.net; s=20230601; t=1699644332; x=1700249132;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9WuF0Pi5V569GCKj27JB/b2x9SROneMhMi2aagE8fG0=;
+ b=efkclyll/4rXRi6/lS6iuinsk7nw9X/IlEAQ2xfUqCGzyEQj9erUY8Hq8l7xqQpoND
+ bmLKdKfc4UwEC5Rf5tjVNlVKmZqncjE9oCfqs2Ovs5WBsMY9PissLLvNC2jRGqJZI9Ks
+ tVQVNoHXSBVteFBMyxnfi6suD6p2I6EPMCIcctyW3KMpg/ynbFuZzFi8QdFIB1CkRGdn
+ pylBRNGVhefFUih56fCYfPJZqd6tuXUryGnNsAWVJL34/X2erN5kda1BgVMOzPXmex4u
+ fIPy5Ye/f4tlfDaIMW2XcyEEshTsGQ3Z9KYG+FIAoJ+wWOoxkWrMXJasi6uBy60JbBnk
+ KOug==
+X-Gm-Message-State: AOJu0YykGFSSXFYsDcG2iPujF7SsCv+xU8Rtp7phqHXWJNM2feZyCvEo
+ xqT0vu04mQRuDXWZgQmREz0=
+X-Google-Smtp-Source: AGHT+IEo1//wDVWt/tm1wE749UqnbecpRb3xBJK4fg+h8xqM6wjIx3xSoS40xzkNWv62fUOim9iKYQ==
+X-Received: by 2002:a05:6830:3492:b0:6b8:dc53:9efd with SMTP id
+ c18-20020a056830349200b006b8dc539efdmr83527otu.3.1699644332401; 
+ Fri, 10 Nov 2023 11:25:32 -0800 (PST)
+Received: from anfanite396-Predator-PH315-51.gateway.iitmandi.ac.in
+ ([14.139.34.101]) by smtp.gmail.com with ESMTPSA id
+ 71-20020a63004a000000b0057412d84d25sm32493pga.4.2023.11.10.11.25.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Nov 2023 11:14:02 -0800 (PST)
-From: Allen Ballway <ballway@chromium.org>
-To: dmitry.torokhov@gmail.com
-Subject: [PATCH v2] drm/i915/quirk: Add quirk for devices with incorrect PWM
- frequency
-Date: Fri, 10 Nov 2023 19:13:37 +0000
-Message-ID: <20231110191340.4157610-1-ballway@chromium.org>
-X-Mailer: git-send-email 2.42.0.869.gea05f2083d-goog
-In-Reply-To: <ZU0fa6fvT4ZWTNXr@google.com>
-References: <ZU0fa6fvT4ZWTNXr@google.com>
+ Fri, 10 Nov 2023 11:25:32 -0800 (PST)
+From: Dipam Turkar <dipamt1729@gmail.com>
+To: maarten.lankhorst@linux.intel.com
+Subject: [PATCH v2] drm/tests: Add KUnit tests for
+ drm_mode_create_dvi_i_properties()
+Date: Sat, 11 Nov 2023 00:54:53 +0530
+Message-Id: <20231110192452.734925-1-dipamt1729@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,104 +71,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, ballway@chromium.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Dipam Turkar <dipamt1729@gmail.com>, tzimmermann@suse.de,
+ javierm@redhat.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
+ mairacanal@riseup.net, dri-devel@lists.freedesktop.org,
+ arthurgrillo@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cyernet T10C has a bad default PWM frequency causing the display to
-strobe when the brightness is less than 100%. Create a new quirk to use
-the value from the BIOS rather than the default register value.
+Introduce unit tests for the drm_mode_create_dvi_i_properties() function to ensure
+the proper creation of DVI-I specific connector properties.
 
-Signed-off-by: Allen Ballway <ballway@chromium.org>
+Signed-off-by: Dipam Turkar <dipamt1729@gmail.com>
 ---
-V1 -> V2: Fix style issues.
+ drivers/gpu/drm/tests/drm_connector_test.c | 38 ++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
- .../gpu/drm/i915/display/intel_backlight.c    |  6 +++--
- drivers/gpu/drm/i915/display/intel_quirks.c   | 26 +++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_quirks.h   |  1 +
- 3 files changed, 31 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu/drm/i915/display/intel_backlight.c
-index 2e8f17c045222..b4171952343eb 100644
---- a/drivers/gpu/drm/i915/display/intel_backlight.c
-+++ b/drivers/gpu/drm/i915/display/intel_backlight.c
-@@ -1385,8 +1385,10 @@ static int vlv_setup_backlight(struct intel_connector *connector, enum pipe pipe
- 	ctl2 = intel_de_read(i915, VLV_BLC_PWM_CTL2(pipe));
- 	panel->backlight.active_low_pwm = ctl2 & BLM_POLARITY_I965;
-
--	ctl = intel_de_read(i915, VLV_BLC_PWM_CTL(pipe));
--	panel->backlight.pwm_level_max = ctl >> 16;
-+	if (!intel_has_quirk(i915, QUIRK_IGNORE_DEFAULT_PWM_FREQUENCY)) {
-+		ctl = intel_de_read(i915, VLV_BLC_PWM_CTL(pipe));
-+		panel->backlight.pwm_level_max = ctl >> 16;
-+	}
-
- 	if (!panel->backlight.pwm_level_max)
- 		panel->backlight.pwm_level_max = get_backlight_max_vbt(connector);
-diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c b/drivers/gpu/drm/i915/display/intel_quirks.c
-index a280448df771a..ff6cb499428ce 100644
---- a/drivers/gpu/drm/i915/display/intel_quirks.c
-+++ b/drivers/gpu/drm/i915/display/intel_quirks.c
-@@ -65,6 +65,12 @@ static void quirk_no_pps_backlight_power_hook(struct drm_i915_private *i915)
- 	drm_info(&i915->drm, "Applying no pps backlight power quirk\n");
- }
-
-+static void quirk_ignore_default_pwm_frequency(struct drm_i915_private *i915)
+diff --git a/drivers/gpu/drm/tests/drm_connector_test.c b/drivers/gpu/drm/tests/drm_connector_test.c
+index c66aa2dc8d9d..9ac1fd32c579 100644
+--- a/drivers/gpu/drm/tests/drm_connector_test.c
++++ b/drivers/gpu/drm/tests/drm_connector_test.c
+@@ -4,6 +4,9 @@
+  */
+ 
+ #include <drm/drm_connector.h>
++#include <drm/drm_device.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_kunit_helpers.h>
+ 
+ #include <kunit/test.h>
+ 
+@@ -58,6 +61,30 @@ static void drm_test_get_tv_mode_from_name_truncated(struct kunit *test)
+ 	KUNIT_EXPECT_LT(test, ret, 0);
+ };
+ 
++/*
++ * Test that drm_mode_create_dvi_i_properties() succeeds and
++ * DVI-I subconnector and select subconectors properties have
++ * been created.
++ */
++static void drm_test_mode_create_dvi_i_properties(struct kunit *test)
 +{
-+	intel_set_quirk(i915, QUIRK_IGNORE_DEFAULT_PWM_FREQUENCY);
-+	drm_info(&i915->drm, "Applying ignore default pwm frequency quirk");
++	struct drm_device *drm;
++	struct device *dev;
++
++	dev = drm_kunit_helper_alloc_device(test);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
++
++	drm = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0, DRIVER_MODESET);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
++
++	KUNIT_EXPECT_EQ(test, drm_mode_create_dvi_i_properties(drm), 0);
++	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, drm->mode_config.dvi_i_select_subconnector_property);
++	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, drm->mode_config.dvi_i_subconnector_property);
++
++	// Expect the function to return 0 if called twice.
++	KUNIT_EXPECT_EQ(test, drm_mode_create_dvi_i_properties(drm), 0);
 +}
 +
- struct intel_quirk {
- 	int device;
- 	int subsystem_vendor;
-@@ -90,6 +96,12 @@ static int intel_dmi_no_pps_backlight(const struct dmi_system_id *id)
- 	return 1;
- }
-
-+static int intel_dmi_ignore_default_pwm_frequency(const struct dmi_system_id *id)
-+{
-+	DRM_INFO("Default PWM frequency is incorrect and is overridden on %s\n", id->ident);
-+	return 1;
-+}
+ static struct kunit_case drm_get_tv_mode_from_name_tests[] = {
+ 	KUNIT_CASE_PARAM(drm_test_get_tv_mode_from_name_valid,
+ 			 drm_get_tv_mode_from_name_valid_gen_params),
+@@ -70,7 +97,18 @@ static struct kunit_suite drm_get_tv_mode_from_name_test_suite = {
+ 	.test_cases = drm_get_tv_mode_from_name_tests,
+ };
+ 
++static struct kunit_case drm_connector_tests[] = {
++	KUNIT_CASE(drm_test_mode_create_dvi_i_properties),
++	{ }
++};
 +
- static const struct intel_dmi_quirk intel_dmi_quirks[] = {
- 	{
- 		.dmi_id_list = &(const struct dmi_system_id[]) {
-@@ -136,6 +148,20 @@ static const struct intel_dmi_quirk intel_dmi_quirks[] = {
- 		},
- 		.hook = quirk_no_pps_backlight_power_hook,
- 	},
-+	{
-+		.dmi_id_list = &(const struct dmi_system_id[]) {
-+			{
-+				.callback = intel_dmi_ignore_default_pwm_frequency,
-+				.ident = "Cybernet T10C Tablet",
-+				.matches = {DMI_EXACT_MATCH(DMI_BOARD_VENDOR,
-+							    "Cybernet Manufacturing Inc."),
-+					    DMI_EXACT_MATCH(DMI_BOARD_NAME, "T10C Tablet"),
-+				},
-+			},
-+			{ }
-+		},
-+		.hook = quirk_ignore_default_pwm_frequency,
-+	},
- };
-
- static struct intel_quirk intel_quirks[] = {
-diff --git a/drivers/gpu/drm/i915/display/intel_quirks.h b/drivers/gpu/drm/i915/display/intel_quirks.h
-index 10a4d163149fd..ca34dacf0c242 100644
---- a/drivers/gpu/drm/i915/display/intel_quirks.h
-+++ b/drivers/gpu/drm/i915/display/intel_quirks.h
-@@ -17,6 +17,7 @@ enum intel_quirk_id {
- 	QUIRK_INVERT_BRIGHTNESS,
- 	QUIRK_LVDS_SSC_DISABLE,
- 	QUIRK_NO_PPS_BACKLIGHT_POWER_HOOK,
-+	QUIRK_IGNORE_DEFAULT_PWM_FREQUENCY,
- };
-
- void intel_init_quirks(struct drm_i915_private *i915);
---
-2.42.0.869.gea05f2083d-goog
++static struct kunit_suite drm_connector_test_suite = {
++	.name = "drm_connector",
++	.test_cases = drm_connector_tests,
++};
++
+ kunit_test_suite(drm_get_tv_mode_from_name_test_suite);
++kunit_test_suite(drm_connector_test_suite);
+ 
+ MODULE_AUTHOR("Maxime Ripard <maxime@cerno.tech>");
+ MODULE_LICENSE("GPL");
+-- 
+2.34.1
 
