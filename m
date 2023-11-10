@@ -1,47 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C587E7B29
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 11:08:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D6B67E7B36
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 11:16:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A19910E95E;
-	Fri, 10 Nov 2023 10:08:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DE7D10E965;
+	Fri, 10 Nov 2023 10:16:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52EB110E95E
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 10:08:33 +0000 (UTC)
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id D67ED66073F9;
- Fri, 10 Nov 2023 10:08:30 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1699610911;
- bh=KCYQjuvBuxZp544n/rzQNo2zbiK+/sDsQ1UcXNqg44c=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Ga1uUKYEYCxW4M5uvTyMJDuwJVeGOEZ1DEQ98wI3oCLBEWy3cc8/mOKBCocZ5CuU+
- +HNrw2nmDv1I60Kk7dZyOe1V60UfJx9TBu6TNhuh9jiC3cJ+Vcx+ThSpwkTq4poeUm
- bj2JyogkeSVigN7Vyo35bL/Hi7djIgpLxgb6qWKPSnKITT4JeODZHplMr+aaFgQu0H
- fsRTMlw5xC/jRBFTf9wF973yBzyhu0KrRXGjqPwb9Mu/dwdw28fKvxLLuABomhEoBt
- fZtrxS16lXVRU3nK41IxD/cAYZg1hWSsaTZ2T/NzHAkBjSztxBR6qIRBnfNIwsY4Um
- VVtL/U+4IFMwQ==
-Date: Fri, 10 Nov 2023 11:08:27 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v18 05/26] drm/shmem-helper: Remove obsoleted is_iomem test
-Message-ID: <20231110110827.403bdbeb@collabora.com>
-In-Reply-To: <20231029230205.93277-6-dmitry.osipenko@collabora.com>
-References: <20231029230205.93277-1-dmitry.osipenko@collabora.com>
- <20231029230205.93277-6-dmitry.osipenko@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E1B110E963;
+ Fri, 10 Nov 2023 10:16:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699611377; x=1731147377;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=8ePbLA/SR0H2puoLIk0ypOkX+vCkB23hrJ4880K3Nc4=;
+ b=fHZ5zhs4nX0P1KqHxCZT2IppwCL2YaZhIKQrnvHMuhlTaHa0OQ1VChuW
+ /EMbXQxkPEKjpMcxDopmirsCJSbyhXxlJFWT895PqVlQduFqlqgcuz/Cr
+ 9+sBVCIgP4iCPJFHQlxJtSPz3ZOzn2lBvx/tsFJj3qDIEvHigeqsZ4e9e
+ KJ1lscEVfvCl3uy/dxRK7PmpEPc2XEANXcQzuJ5DmGtGSmn2fNXnnECwU
+ OjrAkjr9i+zO3G5Rehisq/hvgtS9Xd6vE+X4Cs3300aJC93XBqtWcj0In
+ kA8l+GvhI2QaWhibDVG1RcjqC1j+F3hKBpE9s8Ivoxpt96c4MOOQcj1U4 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="11712784"
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; d="scan'208";a="11712784"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2023 02:16:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
+   d="scan'208";a="4816390"
+Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2023 02:16:14 -0800
+From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH 00/11] Add DSC fractional bpp support
+Date: Fri, 10 Nov 2023 15:40:09 +0530
+Message-Id: <20231110101020.4067342-1-ankit.k.nautiyal@intel.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,49 +56,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: vandita.kulkarni@intel.com, suraj.kandpal@intel.com,
+ suijingfeng@loongson.cn, swati2.sharma@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 Oct 2023 02:01:44 +0300
-Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+This patch series adds support for DSC fractional compressed bpp
+for MTL+. The series starts with some fixes, followed by patches that
+lay groundwork to iterate over valid compressed bpps to select the
+'best' compressed bpp with optimal link configuration (taken from
+upstream series: https://patchwork.freedesktop.org/series/105200/).
 
-> Everything that uses the mapped buffer should be agnostic to is_iomem.
-> The only reason for the is_iomem test is that we're setting shmem->vaddr
-> to the returned map->vaddr. Now that the shmem->vaddr code is gone, remove
-> the obsoleted is_iomem test to clean up the code.
-> 
-> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+The later patches, add changes to accommodate compressed bpp with
+fractional part, including changes to QP calculations.
+To get the 'best' compressed bpp, we iterate over the valid compressed
+bpp values, but with fractional step size 1/16, 1/8, 1/4 or 1/2 as per
+sink support.
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+The last 2 patches add support to depict DSC sink's fractional support,
+and debugfs to enforce use of fractional bpp, while choosing an
+appropriate compressed bpp.
 
-> ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 6 ------
->  1 file changed, 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index 154585ddae08..2cc0601865f6 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -315,12 +315,6 @@ int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
->  
->  	if (obj->import_attach) {
->  		ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
-> -		if (!ret) {
-> -			if (drm_WARN_ON(obj->dev, map->is_iomem)) {
-> -				dma_buf_vunmap(obj->import_attach->dmabuf, map);
-> -				return -EIO;
-> -			}
-> -		}
->  	} else {
->  		pgprot_t prot = PAGE_KERNEL;
->  
+Rev10: Rebased and added DSC Fractional support for DP MST.
+
+Ankit Nautiyal (8):
+  drm/display/dp: Add helper function to get DSC bpp precision
+  drm/i915/display: Store compressed bpp in U6.4 format
+  drm/i915/display: Consider fractional vdsc bpp while computing m_n
+    values
+  drm/i915/audio: Consider fractional vdsc bpp while computing tu_data
+  drm/i915/dp: Iterate over output bpp with fractional step size
+  drm/i915/dp_mst: Use precision of 1/16 for computing bpp
+  drm/i916/dp_mst: Iterate over the DSC bpps as per DSC precision
+    support
+  drm/i915/dp_mst: Add support for forcing dsc fractional bpp via
+    debugfs
+
+Swati Sharma (2):
+  drm/i915/dsc: Add debugfs entry to validate DSC fractional bpp
+  drm/i915/dsc: Allow DSC only with fractional bpp when forced from
+    debugfs
+
+Vandita Kulkarni (1):
+  drm/i915/dsc/mtl: Add support for fractional bpp
+
+ drivers/gpu/drm/display/drm_dp_helper.c       | 27 ++++++
+ drivers/gpu/drm/i915/display/icl_dsi.c        | 10 +--
+ drivers/gpu/drm/i915/display/intel_audio.c    | 16 ++--
+ drivers/gpu/drm/i915/display/intel_bios.c     |  4 +-
+ drivers/gpu/drm/i915/display/intel_cdclk.c    |  5 +-
+ drivers/gpu/drm/i915/display/intel_display.c  |  6 +-
+ .../drm/i915/display/intel_display_debugfs.c  | 84 ++++++++++++++++++
+ .../drm/i915/display/intel_display_types.h    |  4 +-
+ drivers/gpu/drm/i915/display/intel_dp.c       | 87 +++++++++++--------
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   | 85 +++++++++++-------
+ drivers/gpu/drm/i915/display/intel_fdi.c      |  3 +-
+ drivers/gpu/drm/i915/display/intel_link_bw.c  |  2 +-
+ .../gpu/drm/i915/display/intel_qp_tables.c    |  3 -
+ drivers/gpu/drm/i915/display/intel_vdsc.c     | 29 +++++--
+ include/drm/display/drm_dp_helper.h           |  1 +
+ 15 files changed, 266 insertions(+), 100 deletions(-)
+
+-- 
+2.40.1
 
