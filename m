@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3688D7E7619
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 01:54:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1DE67E7617
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 01:53:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E57810E401;
-	Fri, 10 Nov 2023 00:53:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D32310E398;
+	Fri, 10 Nov 2023 00:53:49 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2028110E395;
- Fri, 10 Nov 2023 00:53:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE87E10E397;
+ Fri, 10 Nov 2023 00:53:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699577625; x=1731113625;
+ t=1699577624; x=1731113624;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=qPU6h5YKoiEn1bzN6Te9l/ZFP/0xck7VA1TRirSI9xQ=;
- b=IqWVpAPj90lGpAZv+W/+/h2XowPisGLlCjrsNxOHZfi5p63k2iIqgdhl
- 1mUZ7zeb4AZWfqKx0VXHS0IfKcaDxq4Ca7mMOXmLtjuFCU0KcKNakP5yJ
- 4GzLWq03gt4oVF8CrmQzxesyQw8c5MpNL+DraRm16mC1TKXCB3BTGwbSm
- 3SrOL3owSiaNUHu5QcOUzgUP45vD2T4YghVMW1/PmNYZ95DkaDIxA8L2P
- h83Nmw6/CnDoTwkYn6cC/zfbF3xHynYcAgG8S9Bt4yAUGZ7qS6Ir5mPr2
- Ltq1K4J05baPU8OpUxtwFHCPJuuVmnEpCoisBUCPMWx7yEszV1V+Q1hHs A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="11654503"
-X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; d="scan'208";a="11654503"
+ bh=84pDLDh6lmqngX7cXRImNXJrIJW9EiEqAA3XrlhYDPo=;
+ b=XLfIT8QVDBPAIu35Kgyk0yUfPqV6nE210xWwppdERCgk7QMDuy7CD88o
+ wKaW81JGf71U6k8KgsGFr7ZSo1a3Qzou9jqylKl9wsRzw5XGX0C+PgseA
+ crddzjh94UlpymXVIxthfK50bWn3YQpeaLH/wFHg8fwc96w7IPHRUzAiO
+ MFxNrDUbB7zJjvju6GlXHarw3SddJ1V6/4DHhPOi71xue4OaDp1MBUG+c
+ obEJ8ljZo5d++P7vZ8c+BEw6TIY9fXMiSvD+NTueGr60BUoCg1XiNIfHo
+ G/VPUXQ0hLPOja9csoGETnWzWgPV3Vp/uMpRi9TXFiRNZQyybDseByYWa Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="11654504"
+X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; d="scan'208";a="11654504"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  09 Nov 2023 16:53:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="887206115"
-X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; d="scan'208";a="887206115"
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="887206118"
+X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; d="scan'208";a="887206118"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
  by orsmga004.jf.intel.com with ESMTP; 09 Nov 2023 16:53:41 -0800
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 1/2] drm/i915/guc: Don't double enable a context
-Date: Thu,  9 Nov 2023 16:54:08 -0800
-Message-ID: <20231110005409.304273-2-John.C.Harrison@Intel.com>
+Subject: [PATCH 2/2] drm/i915/guc: Don't disable a context whose enable is
+ still pending
+Date: Thu,  9 Nov 2023 16:54:09 -0800
+Message-ID: <20231110005409.304273-3-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231110005409.304273-1-John.C.Harrison@Intel.com>
 References: <20231110005409.304273-1-John.C.Harrison@Intel.com>
@@ -64,32 +65,90 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-If a context is blocked, unblocked and subitted repeatedly in rapid
-succession, the driver can end up trying to enable the context while
-the previous enable request is still in flight. This can lead to much
-confusion in the state tracking.
-
-Prevent that by checking the pending enable flag before trying to
-enable a context.
+Various processes involve requesting GuC to disable a given context.
+However context enable/disable is an asynchronous process in the GuC.
+Thus, it is possible the previous enable request is still being
+processed when the disable request is triggered. Having both enable
+and disable in flight concurrently is illegal - GuC will return an
+error and fail the second operation. The KMD side handler for the
+completion message also can't cope with having both pending flags set.
+So delay the disable request until it is safe to send.
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 31 +++++++++++++++----
+ 1 file changed, 25 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index d37698bd6b91a..d399e4d238c10 100644
+index d399e4d238c10..8c34b0a5abf9a 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -720,7 +720,7 @@ static int __guc_add_request(struct intel_guc *guc, struct i915_request *rq)
- 	if (unlikely(context_blocked(ce) && !intel_context_is_parent(ce)))
- 		goto out;
+@@ -3150,7 +3150,8 @@ guc_context_revoke(struct intel_context *ce, struct i915_request *rq,
+ 		guc_cancel_context_requests(ce);
+ 		intel_engine_signal_breadcrumbs(ce->engine);
+ 	} else if (!context_pending_disable(ce)) {
+-		u16 guc_id;
++		u16 guc_id = ~0;
++		bool pending_enable = context_pending_enable(ce);
  
--	enabled = context_enabled(ce) || context_blocked(ce);
-+	enabled = context_enabled(ce) || context_blocked(ce) || context_pending_enable(ce);
+ 		/*
+ 		 * We add +2 here as the schedule disable complete CTB handler
+@@ -3158,7 +3159,11 @@ guc_context_revoke(struct intel_context *ce, struct i915_request *rq,
+ 		 */
+ 		atomic_add(2, &ce->pin_count);
  
- 	if (!enabled) {
- 		action[len++] = INTEL_GUC_ACTION_SCHED_CONTEXT_MODE_SET;
+-		guc_id = prep_context_pending_disable(ce);
++		if (pending_enable)
++			guc_id = ce->guc_id.id;
++		else
++			guc_id = prep_context_pending_disable(ce);
++
+ 		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+ 
+ 		/*
+@@ -3169,7 +3174,15 @@ guc_context_revoke(struct intel_context *ce, struct i915_request *rq,
+ 		with_intel_runtime_pm(runtime_pm, wakeref) {
+ 			__guc_context_set_preemption_timeout(guc, guc_id,
+ 							     preempt_timeout_ms);
+-			__guc_context_sched_disable(guc, ce, guc_id);
++			if (!pending_enable)
++				__guc_context_sched_disable(guc, ce, guc_id);
++		}
++
++		if (pending_enable) {
++			/* Can't have both in flight concurrently, so try again later... */
++			mod_delayed_work(system_unbound_wq,
++					 &ce->guc_state.sched_disable_delay_work,
++					 msecs_to_jiffies(1));
+ 		}
+ 	} else {
+ 		if (!context_guc_id_invalid(ce))
+@@ -3222,7 +3235,13 @@ static void __delay_sched_disable(struct work_struct *wrk)
+ 
+ 	spin_lock_irqsave(&ce->guc_state.lock, flags);
+ 
+-	if (bypass_sched_disable(guc, ce)) {
++	if (context_pending_enable(ce)) {
++		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
++		/* Can't have both in flight concurrently, so try again later... */
++		mod_delayed_work(system_unbound_wq,
++				 &ce->guc_state.sched_disable_delay_work,
++				 msecs_to_jiffies(1));
++	} else if (bypass_sched_disable(guc, ce)) {
+ 		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+ 		intel_context_sched_disable_unpin(ce);
+ 	} else {
+@@ -3257,8 +3276,8 @@ static void guc_context_sched_disable(struct intel_context *ce)
+ 	if (bypass_sched_disable(guc, ce)) {
+ 		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+ 		intel_context_sched_disable_unpin(ce);
+-	} else if (!intel_context_is_closed(ce) && !guc_id_pressure(guc, ce) &&
+-		   delay) {
++	} else if ((!intel_context_is_closed(ce) && !guc_id_pressure(guc, ce) &&
++		    delay) || context_pending_enable(ce)) {
+ 		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+ 		mod_delayed_work(system_unbound_wq,
+ 				 &ce->guc_state.sched_disable_delay_work,
 -- 
 2.41.0
 
