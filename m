@@ -2,44 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D9657E7B95
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 12:02:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3D57E7B96
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 12:03:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64E1510E98E;
-	Fri, 10 Nov 2023 11:02:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6079210E64B;
+	Fri, 10 Nov 2023 11:03:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4474710E98E
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 11:02:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1699614127; x=1699873327;
- bh=3TF2CVI+efc/5Cfq1Y+/2PARk3tlrG+0uxnA5bsbKbQ=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=AIlRy/lw+6jHc2XBKNi6X1FKO3CjZTnLlcnqzmo5sWtxgBxG2IrSOUnaDHXBlGl7x
- S8FFuYJEwrelkbpKqylzuRHiA+SjTPShE7ujX+GcqW0BO/bQtyWCC+F2O2LNt6OSxO
- iCUNk5WYeHd7HlzL+FIA2PRN04NEL+7oqFf+ZftkoG6bD59eYO7Ok7R4PU4KXIlnch
- I1JuGZwTdtuAjb5J5HUfu+uv12UO/5ZbqP0RSJ2TeUjfJEKE8FgzPVGwuV4rqAnBHk
- CONjVnnAyP0Aw0KkqHxgmBikTcwnRy/xSlvhgpMHNdY4wjuHMiSSxGoAoUjTjrm38N
- p/tUSMZTmZ4XA==
-Date: Fri, 10 Nov 2023 11:01:37 +0000
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [RFC PATCH 2/2] vc4: introduce DMA-BUF heap
-Message-ID: <a5sVz8pDt49O7hbbxuidCoUByUe0mpaWntH9OfvBBCSTILrYnzeoFaXGGqgl1Z-Yjp7FkFlTSREmHwRejJDGA2V2yZGXfWzk60Tonuo6t2o=@emersion.fr>
-In-Reply-To: <CAPY8ntCjN8Hdam=r2i2-EePjhZZFQxn9zEm0Soz-W5WwKGO8Hg@mail.gmail.com>
-References: <20231109074545.148149-1-contact@emersion.fr>
- <20231109074545.148149-2-contact@emersion.fr>
- <tmsf75w3iskpvx2dxgzpk4vn7g6jpfdgdq2qv3nl5i4ocawzz4@ihcwmnq5gval>
- <CAPY8ntC=qa-ajgSxeqrP5DVW4cEVZd+ik84ag5sN0RJvKLokqA@mail.gmail.com>
- <n_evglPOy869LKjnmZvX3Ka8Bh6P5NPJkoV7I-yGW9A-YZFl70d4dMuitHkUaPiNyX_o2-DZA31-hR6mp6tShKhGlNC_UWdnpL7OoGrZ52Y=@emersion.fr>
- <CAPY8ntCjN8Hdam=r2i2-EePjhZZFQxn9zEm0Soz-W5WwKGO8Hg@mail.gmail.com>
-Feedback-ID: 1358184:user:proton
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8563C10E64B
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 11:03:39 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id
+ d9443c01a7336-1cc9784dbc1so16445675ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 03:03:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1699614219; x=1700219019; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=AKw4O8MZEMOutKTAoJPOv7w9iVpbVz72yRMuKDaXQPE=;
+ b=Cpy6rUqkBw1AQwmzz24Py7Vhvur8JKMX6t7IbaR99vqBmpOzAb5e5vzkaEJD1R0GDA
+ Zu1CinV/Y5kUZvn846qKO07PgJOhAu7w11fE5sPEnViRDDvrYz914nMuiqF5iA5Jj9mI
+ QI3aEUSEx69XnlgLG3YwtT0mzlKJNurDhufg/xNx4IdHk4DrbsIYOzrZhe/qKKjUxLgS
+ 1j0zmlxtzFv+q/hS+aUcVAKiMoaRt+caRi+naE51IA78SvqwDUxg92768N9WIQq0yHND
+ xqr3nJgg6qmwhxcu/Jfj3zE10ZPjwbK4Dm6zLjAbrtoQ1JAe41OF2+3Brv+jX6jVovyu
+ 55MA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699614219; x=1700219019;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=AKw4O8MZEMOutKTAoJPOv7w9iVpbVz72yRMuKDaXQPE=;
+ b=RDQPE8EpOP471OsJzD+vpIyt+N5FvItisLox//ODz5WTwf/OVEGlzESNLkizZMKORO
+ KBczYQFaiSfji85NndkbYpNBMUxDfDA0HEmhqqi/PhOi8r1nMMt3RJriV4qqo7/u1zKg
+ Ix53tKSMN/tgFs36kdMhmR9VfBnIucVZejpyzChJpsK9XxXmKdM+jyLMhkrRzIzD3zJ5
+ cKOL5qmN+CJA9uYAKZnDQKhAqnHr8uy0ihYewrr39gep+5w6DUNbRFRs98OYH8xFQtks
+ AbgooCwcv45zP6ZDl86vdM7/LFP7mVU+Kr3ZSuJeJy911IRKK9Oh9vkmOhl+kNZGb4LZ
+ YeHw==
+X-Gm-Message-State: AOJu0YzdLNwEmiqq09O0N1lNa1F+bVC3B++7Pi8frz4fNk+kuCnejeOX
+ Hn4a2q7u5wxJ2s4Wnay51Yk=
+X-Google-Smtp-Source: AGHT+IFHwT2sbY2VJnvXIZ+EMaEwIg99+ncPmI/ey7ABQ1jF2vodiKtBR+L5R61wPWZTLgb7f/tZww==
+X-Received: by 2002:a17:903:11d0:b0:1cc:50ad:58 with SMTP id
+ q16-20020a17090311d000b001cc50ad0058mr7979575plh.42.1699614218952; 
+ Fri, 10 Nov 2023 03:03:38 -0800 (PST)
+Received: from anfanite396-Predator-PH315-51.gateway.iitmandi.ac.in
+ ([14.139.34.101]) by smtp.gmail.com with ESMTPSA id
+ iy18-20020a170903131200b001c5eb2c4d8csm5097631plb.160.2023.11.10.03.03.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Nov 2023 03:03:38 -0800 (PST)
+From: Dipam Turkar <dipamt1729@gmail.com>
+To: maarten.lankhorst@linux.intel.com
+Subject: [PATCH] drm/tests: Add KUnit tests for
+ drm_mode_create_dvi_i_properties()
+Date: Fri, 10 Nov 2023 16:33:23 +0530
+Message-Id: <20231110110323.381215-1-dipamt1729@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,151 +71,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org, Iago Toral Quiroga <itoral@igalia.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Erico Nunes <nunes.erico@gmail.com>
+Cc: Dipam Turkar <dipamt1729@gmail.com>, tzimmermann@suse.de,
+ javierm@redhat.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
+ mairacanal@riseup.net, dri-devel@lists.freedesktop.org,
+ arthurgrillo@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, November 9th, 2023 at 19:38, Dave Stevenson <dave.stevenson@ra=
-spberrypi.com> wrote:
+Introduce unit tests for the drm_mode_create_dvi_i_properties() function to ensure
+the proper creation of DVI-I specific connector properties.
 
-> Hi Simon
->=20
-> On Thu, 9 Nov 2023 at 17:46, Simon Ser <contact@emersion.fr> wrote:
-> >
-> > On Thursday, November 9th, 2023 at 16:42, Dave Stevenson <dave.stevenso=
-n@raspberrypi.com> wrote:
-> >
-> > > > > - What would be a good name for the heap? "vc4" is maybe a bit na=
-ive and
-> > > > >   not precise enough. Something with "cma"? Do we need to plan a =
-naming
-> > > > >   scheme to accomodate for multiple vc4 devices?
-> > > >
-> > > > That's a general issue though that happens with pretty much all dev=
-ices
-> > > > with a separate node for modesetting and rendering, so I don't thin=
-k
-> > > > addressing it only for vc4 make sense, we should make it generic.
-> > > >
-> > > > So maybe something like "scanout"?
-> > > >
-> > > > One thing we need to consider too is that the Pi5 will have multipl=
-e
-> > > > display nodes (4(?) iirc) with different capabilities, vc4 being on=
-ly
-> > > > one of them. This will impact that solution too.
-> > >
-> > > It does need to scale.
-> > >
-> > > Pi5 adds 4 additional DRM devices (2xDSI, 1xDPI, and 1xComposite
-> > > Video), and just this last week I've been running Wayfire with TinyDR=
-M
-> > > drivers for SPI displays and UDL (DisplayLink) outputs as well.
-> > > Presumably all of those drivers need to have appropriate hooks added
-> > > so they each expose a dma-heap to enable scanout buffers to be
-> > > allocated.
-> >
-> > I'm not sure this makes sense necessarily for all of these devices. For=
- vc4 and
-> > the 4 additional RPi 5 DRM devices, probably. For the rest, e.g. UDL, I=
-'m not
-> > sure it makes sense to expose scanout memory allocation via DMA heaps: =
-AFAIK
-> > UDL needs CPU access to the buffers, it can't "scanout", and thus direc=
-tly
-> > rendering via v3d to a "scanout-capable" buffer doesn't make sense. The=
-re will
-> > be a copy (CPU download) either way, and allocating via v3d wouldn't ma=
-ke a
-> > difference.
->=20
-> You as a developer may know that UDL is going to need CPU access, but
-> how does a generic userspace app know? Is it a case of falling back to
-> allocating via the renderer if there is no suitably named heap?
+Signed-off-by: Dipam Turkar <dipamt1729@gmail.com>
+---
+ drivers/gpu/drm/tests/drm_connector_test.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-Yeah, just like how things are working today. Then try to do direct scanout
-with the buffer allocated on the render node, and if it doesn't work blit i=
-nto
-a DRM dumb buffer.
+diff --git a/drivers/gpu/drm/tests/drm_connector_test.c b/drivers/gpu/drm/tests/drm_connector_test.c
+index c66aa2dc8d9d..aad63839b5e5 100644
+--- a/drivers/gpu/drm/tests/drm_connector_test.c
++++ b/drivers/gpu/drm/tests/drm_connector_test.c
+@@ -4,6 +4,9 @@
+  */
+ 
+ #include <drm/drm_connector.h>
++#include <drm/drm_device.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_kunit_helpers.h>
+ 
+ #include <kunit/test.h>
+ 
+@@ -58,10 +61,27 @@ static void drm_test_get_tv_mode_from_name_truncated(struct kunit *test)
+ 	KUNIT_EXPECT_LT(test, ret, 0);
+ };
+ 
++static void drm_test_mode_create_dvi_i_properties(struct kunit *test)
++{
++	struct drm_device *drm;
++	struct device *dev;
++
++	dev = drm_kunit_helper_alloc_device(test);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
++
++	drm = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0, DRIVER_MODESET);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
++
++	KUNIT_EXPECT_EQ(test, drm_mode_create_dvi_i_properties(drm), 0);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm->mode_config.dvi_i_select_subconnector_property);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm->mode_config.dvi_i_subconnector_property);
++}
++
+ static struct kunit_case drm_get_tv_mode_from_name_tests[] = {
+ 	KUNIT_CASE_PARAM(drm_test_get_tv_mode_from_name_valid,
+ 			 drm_get_tv_mode_from_name_valid_gen_params),
+ 	KUNIT_CASE(drm_test_get_tv_mode_from_name_truncated),
++	KUNIT_CASE(drm_test_mode_create_dvi_i_properties),
+ 	{ }
+ };
+ 
+-- 
+2.34.1
 
-> > Indeed, there is nothing vc4-specific in this patch, the only requireme=
-nt is
-> > that the driver uses drm_gem_dma_helper. So this code could be moved in=
-to (or
-> > alongside) that helper in DRM core. However, maybe it would be best to =
-wait to
-> > have a second user for this infrastructure before we move into core.
->=20
-> Upstreaming of the DSI / DPI / composite drivers for Pi5 should only
-> be a few months away, and they can all directly scanout.
->=20
-> I expect the Rockchip platforms to also fall into the same category as
-> the Pi, with Mali as the 3D IP, and the VOP block as the scanout
-> engine. Have I missed some detail that means that they aren't a second
-> user for this?
->=20
-> > > > > - Need to add !vc5 support.
-> > > >
-> > > > If by !vc5 you mean RPi0-3, then it's probably not needed there at =
-all
-> > > > since it has a single node for both modesetting and rendering?
-> > >
-> > > That is true, but potentially vc4 could be rendering for scanout via =
-UDL or SPI.
-> > > Is it easier to always have the dma-heap allocator for every DRM card
-> > > rather than making userspace mix and match depending on whether it is
-> > > all in one vs split?
-> >
-> > I don't think it's realistic to try to always make DMA heaps available =
-for each
-> > and every driver which might need it from day one. It's too big of a ta=
-sk. And
-> > it's an even bigger task to try to design a fully generic heap compatib=
-ility
-> > uAPI from day one. I'd much rather add the heaps one by one, if and whe=
-n we
-> > figure that it makes sense, and incrementally work our way through.
->=20
-> Is it really that massive a task? We have the dma heap UAPI for
-> handling the allocations, so what new UAPI is required?
-
-I'm only focused on fixing v3d for now. Some split render/display drivers d=
-o
-similar things, some drivers not. I don't have hardware to test, I'm not
-willing to commit a lot of time writing a patchset I'm not even sure will m=
-ake
-it. I don't really understand the hurry of doing all of the things at once =
-here.
-If you do happen to have the time, feel free to write the patches or even t=
-ake
-over this series.
-
-I'm worried about blindly adding heaps all over the place, because as said
-above, I don't believe it makes sense for all drivers. I think it's probabl=
-y a
-safe bet to add heaps in cases where we use kmsro with dumb buffers on the =
-Mesa
-side. But anything else and it really needs to be discussed on a case-by-ca=
-se
-basis.
-
-> If it's a new function pointer in struct drm_driver, then the heap is
-> only created by the core if that function is defined using the driver
-> name. The function returns a struct dma_buf *.
-> Any driver using drm_gem_dma_helper can use the new helper function
-> that is basically your vc4_dma_heap_allocate. The "if
-> (WARN_ON_ONCE(!vc4->is_vc5))" could be handled by not setting the
-> function pointer on those platforms.
-
-I would advise against a function pointer, because that kind of API design
-makes DRM core more of a midlayer than a helper library, and this is someth=
-ing
-we prefer to avoid [1]. I would instead suggest introducing a DRM core func=
-tion
-which creates the heap and can be called from the driver. 1-line vs. 3-line
-in driver code doesn't really make such a big difference.
-
-[1]: https://blog.ffwll.ch/2016/12/midlayers-once-more-with-feeling.html
