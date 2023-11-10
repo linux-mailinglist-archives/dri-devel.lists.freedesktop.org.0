@@ -2,95 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754EE7E79E3
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 08:52:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8D177E79E4
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 08:52:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DEB410E940;
-	Fri, 10 Nov 2023 07:52:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03F1010E942;
+	Fri, 10 Nov 2023 07:52:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CE4710E942
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 07:52:01 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id
- ffacd0b85a97d-32dc9ff4a8fso938594f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Nov 2023 23:52:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1699602719; x=1700207519; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=emsT2msKceFt3PV2O7Tp50pasdkiiAdF3O2L4Y3FXfM=;
- b=jp13fSO7VbD2v3KdvI0eVteyn5gTS63iGFLn65TcFqqIWNcprwRO15th8XmwJnKbUv
- qDFFS9aAPBeMkFOTmfjirXilBIPXn1/x68slWuz1EnagqsDVz+M7KZC+U1aNWeNuXGfL
- /uA4RSTNHhMl2Bm3fPx6e4xYB1AphrQix5QIDF8ldDxvzTDUPAerNahRHYnhTuMXteky
- 4OOoPdxDa2rA9PhcQR1NcSX8kHPazsYLlQUXU7HfRbE9r0Kd0cL0LrHkQ7nYioM2KZLA
- cY6UCzzh36BcYQbMbx3pSYFsMt4THSuh3pzTeNgEhwZIEmYuSkQA85TJOKNy5AVMob6K
- 53Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699602719; x=1700207519;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=emsT2msKceFt3PV2O7Tp50pasdkiiAdF3O2L4Y3FXfM=;
- b=jrNshxj5Tox4jzX42gjJ6AAW8dHpW/OB+8Mqzf+0329V+UjRHeHylGF/eP8HY5Nj3U
- gyZ+fJCeGXoSmn4MvIEE6aT68EURRomLvGAAFQWqBU7O70XtcyJD2iZRfwqBO3kjgOg8
- 9FWqyDkWrgpr30N8Rs5beQfZz7oZMrw7t1nudjsQP+1MpNCecfehwhFHqg79/9q+losh
- 8Jc4NBrP/oaNUzrDr5yssqdpe4IDUnF6m2nPhd+FXzV0kMiutnPJXd4M3AZYoW2O0FTH
- HbEpR4O17jt6R75gqC+R0YI6WbRpdCYrRR85bruSxSzY62A4gcuCrT0NOc1gxaH6W2sn
- KgzQ==
-X-Gm-Message-State: AOJu0YzAMSKhcIa3PRhl3kPFFcWOc7jKi3gz8A3HzGdCKAr0dPYisyng
- XijrQJKY21y9F047URFk1MdQmw==
-X-Google-Smtp-Source: AGHT+IGw+PCkMA6bHWqEEuoAwJ5a3yEHlqxE3b+F0LZFd3qRiaZ2W3inoKUaaR7waw3M3gHHAzI3FA==
-X-Received: by 2002:a5d:6dc5:0:b0:32d:8094:f4c8 with SMTP id
- d5-20020a5d6dc5000000b0032d8094f4c8mr5497228wrz.19.1699602719377; 
- Thu, 09 Nov 2023 23:51:59 -0800 (PST)
-Received: from [192.168.7.189] (679773502.box.freepro.com. [212.114.21.58])
- by smtp.gmail.com with ESMTPSA id
- i5-20020adff305000000b0031c52e81490sm1333879wro.72.2023.11.09.23.51.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Nov 2023 23:51:58 -0800 (PST)
-Message-ID: <589daf80-727e-460f-a41e-2481b199c805@linaro.org>
-Date: Fri, 10 Nov 2023 08:51:56 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8789810E941;
+ Fri, 10 Nov 2023 07:52:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699602730; x=1731138730;
+ h=date:from:to:cc:subject:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=7DwHVKs4drwN8dKG/le0hmMvn+5gCKtCWvKn5wVkQho=;
+ b=GDfEDRXHtIoxpeA6eJDEQqfSiyte86R47aWD79LTsZByn0f74ck39fBs
+ RST/CedSHLRRWx3HUgt4MeMrTRVDC2KBCCWB/gNzPvT6iQqnuyae2+Y7i
+ b6/51PGUZfdeUS6hEoc1WF8RhXEKiuMk4CydCyGWJiLTb3EgxLJYBVP3h
+ UVmlxOPeYOjLxdWhpa0tDth8c2hkKR72wvCqJOxX/9A2QFetNG99B2Nv+
+ Vs9NkoH3CmoQGYgZ+nwOrjNoqgk2cSPXQh74G2aAyHaGveYCTBJG/z5CF
+ Wo+lScgHS3A7q4RDhFackZUADu7H0uQ4fhE9rL7T7MmpCCMHfhx5QzbpY w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="387311246"
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; d="scan'208";a="387311246"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2023 23:52:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
+   d="scan'208";a="4789820"
+Received: from linux.intel.com ([10.54.29.200])
+ by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2023 23:52:09 -0800
+Received: from maurocar-mobl2 (maurocar-mobl2.ger.corp.intel.com
+ [10.249.151.192])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by linux.intel.com (Postfix) with ESMTPS id BD6EF580D28;
+ Thu,  9 Nov 2023 23:52:07 -0800 (PST)
+Date: Fri, 10 Nov 2023 08:52:04 +0100
+From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Subject: Re: [PATCH i-g-t 2/2] lib/kunit: Execute test cases synchronously
+Message-ID: <20231110085204.2244899e@maurocar-mobl2>
+In-Reply-To: <20231106095935.7031-6-janusz.krzysztofik@linux.intel.com>
+References: <20231106095935.7031-4-janusz.krzysztofik@linux.intel.com>
+ <20231106095935.7031-6-janusz.krzysztofik@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v8 04/12] dt-bindings: phy: amlogic, g12a-mipi-dphy-analog:
- drop unneeded reg property and example
-Content-Language: en-US, fr
-To: Conor Dooley <conor@kernel.org>
-References: <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-0-81e4aeeda193@linaro.org>
- <20231109-amlogic-v6-4-upstream-dsi-ccf-vim3-v8-4-81e4aeeda193@linaro.org>
- <20231109-sterility-unsoiled-e43771c61894@spud>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <20231109-sterility-unsoiled-e43771c61894@spud>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -104,75 +64,264 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Kevin Hilman <khilman@baylibre.com>,
- Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Rob Herring <robh+dt@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
- Nicolas Belin <nbelin@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>
+Cc: igt-dev@lists.freedesktop.org,
+ Kamil Konieczny <kamil.konieczny@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/11/2023 19:04, Conor Dooley wrote:
-> On Thu, Nov 09, 2023 at 10:00:05AM +0100, Neil Armstrong wrote:
->> Now this bindings is referred from amlogic,meson-gx-hhi-sysctrl.yaml and is
->> documented as a subnode of a simple-mfd, drop the invalid reg property.
+On Mon,  6 Nov 2023 10:59:38 +0100
+Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com> wrote:
+
+> Up to now we've been loading a KUnit test module in background and parsing
+> in parallel its KTAP output with results from all the module's test cases.
+> However, recent KUnit implementation is capable of executing only those
+> test cases that match a user filter specified on test module load.
 > 
-> I'd expect a note here tbh about how removing reg & relying on being a
-> subnode of the simple-mfd is safe to do. It looks like your driver
-> was added at the same time as this binding & it was always documented as
-> being a child of the simple-mfd system controller, so I'd kinda expect
-> to see a Fixes tag on this patch..
+> Stop loading the KUnit test module in background once per the whole
+> subtest.  Instead, load the module on each dynamic sub-subtest execution
+> with a filter that selects a specific test case and wait for its
+> completion.  If successful and no kernel taint then parse the whole KTAP
+> report it has produced and translate it to IGT result of the sub-subtest.
 > 
-> Am I missing something?
+> With that in place, we no longer need to skip the whole subtest on a
+> failure from module loading or KTAP reading or parsing.  Since such event
+> is now local to execution of an individual test case, only fail its
+> corresponding dynamic sub-subtests and continue with subsequent ones.
+> However, still omit execution of subsequent test cases once the kernel
+> gets tainted.
 
-No you're totally right, I'll reword the commit message and add a Fixes tags.
+The main reason why loading the module in background was done in the
+first place was because if there is a BUG() or PANIC() or gpu hang
+while executing KUnit, the dmesg KUnit parser was not producing anything,
+and were blocking normal dmesg parsing by IGT runner. While I didn't
+test such changes, we need to check what will be there at the JSON file
+when IGT resume run is enabled, and those kind of bugs are triggered.
 
-Thanks,
-Neil
+-
+
+Yet, let's take one step back, as IMO this may not solve the issues.
+See, when you say:  
+
+> only fail its
+> corresponding dynamic sub-subtests and continue with subsequent ones.
+
+When a normal failure happens on KUnit, other tests will be executed. This
+is the normal KUnit behavior. So, except if we're doing something wrong on
+Xe or KMS tests, the other subtests after the failure will be tested.
+
+However, if such failure is calling BUG_ON(), then the driver will be
+tainted, and will prevent module unload. On such case, it doesn't matter
+if tests are executed in batch or not: IGT will try to unload the
+KUnit module but it will fail due to BUG_ON() behavior.
+
+Also, doing module unload/reload every time will bring some performance penalty,
+as loading/unloading KUnit for every individual test case will increase the
+time to execute such tests.
+
+Ok, if are there filtering rules on IGT limiting what subtests will be
+executed, then be it.  But for normal execution, I can't see why we
+would be adding a performance penalty.
+
+Regards,
+Mauro
 
 > 
->>
->> Also drop the unnecessary example, the top level bindings example should
->> be enough.
->>
->> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->> ---
->>   .../bindings/phy/amlogic,g12a-mipi-dphy-analog.yaml          | 12 ------------
->>   1 file changed, 12 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/phy/amlogic,g12a-mipi-dphy-analog.yaml b/Documentation/devicetree/bindings/phy/amlogic,g12a-mipi-dphy-analog.yaml
->> index c8c83acfb871..81c2654b7e57 100644
->> --- a/Documentation/devicetree/bindings/phy/amlogic,g12a-mipi-dphy-analog.yaml
->> +++ b/Documentation/devicetree/bindings/phy/amlogic,g12a-mipi-dphy-analog.yaml
->> @@ -16,20 +16,8 @@ properties:
->>     "#phy-cells":
->>       const: 0
->>   
->> -  reg:
->> -    maxItems: 1
->> -
->>   required:
->>     - compatible
->> -  - reg
->>     - "#phy-cells"
->>   
->>   additionalProperties: false
->> -
->> -examples:
->> -  - |
->> -    phy@0 {
->> -          compatible = "amlogic,g12a-mipi-dphy-analog";
->> -          reg = <0x0 0xc>;
->> -          #phy-cells = <0>;
->> -    };
->>
->> -- 
->> 2.34.1
->>
-
+> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> ---
+>  lib/igt_kmod.c | 135 ++++++++++++-------------------------------------
+>  1 file changed, 31 insertions(+), 104 deletions(-)
+> 
+> diff --git a/lib/igt_kmod.c b/lib/igt_kmod.c
+> index 37591b7389..5bd8f56088 100644
+> --- a/lib/igt_kmod.c
+> +++ b/lib/igt_kmod.c
+> @@ -960,6 +960,7 @@ static int kunit_kmsg_get_results(struct igt_list_head *results,
+>  {
+>  	char *suite_name = NULL, *case_name = NULL;
+>  	struct igt_ktap_results *ktap;
+> +	unsigned long taints;
+>  	int flags, err;
+>  
+>  	if (igt_debug_on(tst->kmsg < 0))
+> @@ -998,6 +999,11 @@ static int kunit_kmsg_get_results(struct igt_list_head *results,
+>  	if (err)
+>  		goto out_kmod_unload;
+>  
+> +	if (igt_debug_on(igt_kernel_tainted(&taints))) {
+> +		err = -ENOTRECOVERABLE;
+> +		goto out_remove_module;
+> +	}
+> +
+>  	ktap = igt_ktap_alloc(results);
+>  	if (igt_debug_on(!ktap)) {
+>  		err = -ENOMEM;
+> @@ -1203,84 +1209,43 @@ static void __igt_kunit(struct igt_ktest *tst,
+>  			const char *opts,
+>  			struct igt_list_head *tests)
+>  {
+> -	struct modprobe_data modprobe = { tst->kmod, opts, 0, pthread_self(), };
+> -	char *suite_name = NULL, *case_name = NULL;
+> -	struct igt_ktap_result *t, *r = NULL;
+> -	struct igt_ktap_results *ktap;
+> -	pthread_mutexattr_t attr;
+> -	IGT_LIST_HEAD(results);
+> -	int ret = -EINPROGRESS;
+> -	unsigned long taints;
+> -
+> -	igt_skip_on(lseek(tst->kmsg, 0, SEEK_END) < 0);
+> -
+> -	ktap = igt_ktap_alloc(&results);
+> -	igt_require(ktap);
+> +	struct igt_ktap_result *t;
+>  
+>  	igt_list_for_each_entry(t, tests, link) {
+> +		char *suite_name = NULL, *case_name = NULL;
+> +		IGT_LIST_HEAD(results);
+> +		unsigned long taints;
+> +
+>  		igt_dynamic_f("%s%s%s",
+>  			      strcmp(t->suite_name, name) ?  t->suite_name : "",
+>  			      strcmp(t->suite_name, name) ? "-" : "",
+>  			      t->case_name) {
+> +			struct igt_ktap_result *r = NULL;
+> +			char filter[1024];
+> +			int expect = 2;
+>  
+> -			if (!modprobe.thread) {
+> -				igt_assert_eq(pthread_mutexattr_init(&attr), 0);
+> -				igt_assert_eq(pthread_mutexattr_setrobust(&attr,
+> -							  PTHREAD_MUTEX_ROBUST),
+> -					      0);
+> -				igt_assert_eq(pthread_mutex_init(&modprobe.lock,
+> -								 &attr), 0);
+> -
+> -				modprobe.err = pthread_create(&modprobe.thread,
+> -							      NULL,
+> -							      modprobe_task,
+> -							      &modprobe);
+> -				igt_assert_eq(modprobe.err, 0);
+> -
+> -				igt_assert(igt_list_empty(&results));
+> -				igt_assert_eq(ret, -EINPROGRESS);
+> -				ret = kunit_kmsg_result_get(&results, &modprobe,
+> -							    tst->kmsg, ktap);
+> -				igt_fail_on(igt_list_empty(&results));
+> -
+> -				r = igt_list_first_entry(&results, r, link);
+> -			}
+> +			igt_skip_on(igt_kernel_tainted(&taints));
+>  
+> -			while (igt_debug_on_f(strcmp(r->suite_name, t->suite_name),
+> -					      "suite_name expected: %s, got: %s\n",
+> -					      t->suite_name, r->suite_name) ||
+> -			       igt_debug_on_f(strcmp(r->case_name, t->case_name),
+> -					      "case_name expected: %s, got: %s\n",
+> -					      t->case_name, r->case_name) ||
+> -			       r->code == IGT_EXIT_INVALID) {
+> +			igt_assert_lt(snprintf(filter, sizeof(filter), "filter_glob=%s.%s",
+> +					       t->suite_name, t->case_name), sizeof(filter));
+> +			igt_assert_eq(kunit_kmsg_get_results(&results, tst, filter, opts), 0);
+>  
+> -				int code = r->code;
+> +			do {
+> +				igt_fail_on_f(!expect--, "Invalid result code\n");
+>  
+>  				kunit_result_free(&r, &suite_name, &case_name);
+> -				if (igt_list_empty(&results)) {
+> -					igt_assert_eq(ret, -EINPROGRESS);
+> -					ret = kunit_kmsg_result_get(&results,
+> -								    &modprobe,
+> -								    tst->kmsg,
+> -								    ktap);
+> -					igt_fail_on(igt_list_empty(&results));
+> -				}
+> +				igt_fail_on(igt_list_empty(&results));
+>  
+>  				r = igt_list_first_entry(&results, r, link);
+>  
+> -				if (code != IGT_EXIT_INVALID)
+> -					continue;
+> -
+> -				/* result from parametrized test case */
+> -				igt_fail_on_f(strcmp(r->suite_name, suite_name),
+> +				igt_fail_on_f(strcmp(r->suite_name, t->suite_name),
+>  					      "suite_name expected: %s, got: %s\n",
+> -					      suite_name, r->suite_name);
+> -				igt_fail_on_f(strcmp(r->case_name, case_name),
+> +					      t->suite_name, r->suite_name);
+> +				igt_fail_on_f(strcmp(r->case_name, t->case_name),
+>  					      "case_name expected: %s, got: %s\n",
+> -					      case_name, r->case_name);
+> -			}
+> +					      t->case_name, r->case_name);
+>  
+> -			igt_assert_neq(r->code, IGT_EXIT_INVALID);
+> +			} while (r->code == IGT_EXIT_INVALID);
+>  
+>  			if (r->msg && *r->msg) {
+>  				igt_skip_on_f(r->code == IGT_EXIT_SKIP,
+> @@ -1297,57 +1262,19 @@ static void __igt_kunit(struct igt_ktest *tst,
+>  			}
+>  			igt_assert_eq(r->code, IGT_EXIT_SUCCESS);
+>  
+> -			switch (pthread_mutex_lock(&modprobe.lock)) {
+> -			case 0:
+> -				igt_debug_on(pthread_mutex_unlock(&modprobe.lock));
+> -				break;
+> -			case EOWNERDEAD:
+> -				/* leave the mutex unrecoverable */
+> -				igt_debug_on(pthread_mutex_unlock(&modprobe.lock));
+> -				__attribute__ ((fallthrough));
+> -			case ENOTRECOVERABLE:
+> -				igt_assert_eq(modprobe.err, 0);
+> -				break;
+> -			default:
+> -				igt_debug("pthread_mutex_lock() failed\n");
+> -				break;
+> -			}
+> -
+>  			igt_assert_eq(igt_kernel_tainted(&taints), 0);
+>  		}
+>  
+> -		if (igt_debug_on(ret != -EINPROGRESS))
+> -			break;
+> -	}
+> +		kunit_results_free(&results, &suite_name, &case_name);
+>  
+> -	kunit_results_free(&results, &suite_name, &case_name);
+> +		igt_debug_on(kmod_module_remove_module(tst->kmod, KMOD_REMOVE_FORCE));
+> +		igt_debug_on(igt_kmod_unload("kunit", KMOD_REMOVE_FORCE));
+>  
+> -	if (modprobe.thread) {
+> -		switch (pthread_mutex_lock(&modprobe.lock)) {
+> -		case 0:
+> -			igt_debug_on(pthread_cancel(modprobe.thread));
+> -			igt_debug_on(pthread_mutex_unlock(&modprobe.lock));
+> -			igt_debug_on(pthread_join(modprobe.thread, NULL));
+> -			break;
+> -		case EOWNERDEAD:
+> -			/* leave the mutex unrecoverable */
+> -			igt_debug_on(pthread_mutex_unlock(&modprobe.lock));
+> -			break;
+> -		case ENOTRECOVERABLE:
+> -			break;
+> -		default:
+> -			igt_debug("pthread_mutex_lock() failed\n");
+> -			igt_debug_on(pthread_join(modprobe.thread, NULL));
+> +		if (igt_debug_on(igt_kernel_tainted(&taints))) {
+> +			igt_info("Kernel tainted, not executing more selftests.\n");
+>  			break;
+>  		}
+>  	}
+> -
+> -	igt_ktap_free(ktap);
+> -
+> -	igt_skip_on(modprobe.err);
+> -	igt_skip_on(igt_kernel_tainted(&taints));
+> -	if (ret != -EINPROGRESS)
+> -		igt_skip_on_f(ret, "KTAP parser failed\n");
+>  }
+>  
+>  /**
