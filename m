@@ -1,113 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABEA67E7C6C
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 14:14:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 728F27E7C8F
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 14:27:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D365310E043;
-	Fri, 10 Nov 2023 13:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDF0410E059;
+	Fri, 10 Nov 2023 13:27:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 931B410E043
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 13:14:26 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id
- 4fb4d7f45d1cf-5446c9f3a77so3469973a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 05:14:26 -0800 (PST)
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD1C910E010;
+ Fri, 10 Nov 2023 13:27:37 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id
+ 38308e7fff4ca-2c6ed1b9a1cso25248191fa.3; 
+ Fri, 10 Nov 2023 05:27:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1699622065; x=1700226865; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=p9JHns6zyKkZ5RtdPvtlBA1z5tFdRVVt9Vp5AUAZ8X8=;
- b=pwVivaOSE7SFJ0vyArkaeUQEBkhyWWVel52KE0Jvzp9WLHMHQCzsJ8EkywfqgKn2I4
- FsFeQx/a4Eom3SqGn/ktcGmIpnqoZQYAB7ByhGnxnlEr1F92ejTfx3FEb5urvYNWP58P
- iYCS4gh6PNGoQf2Xs1NC/E03hMDnRY7a2v2iHfCisdZ/pOu+OqVARGBjcuOKpJZuXiQA
- QyOPornpI1wluA4TBWc2zeufeQtKKjpgSGKuOLbmGVbZuNHO9S9WDqKdf1wr0BdWbwVT
- OdmbizW9YY3tKiUKs8QqcrXkfF9ty89Kx6oRvRGyqWgfaQQcz7HxDC3MvD82hWzjQMdg
- sjAA==
+ d=gmail.com; s=20230601; t=1699622856; x=1700227656; darn=lists.freedesktop.org;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=bsqp6QDbnl+BZbpxh5DVbVgFfmrykVj8TNvlrU1xFaA=;
+ b=K8ComweFiKAXhDP44UcDV0jTbV4XG09Hgqq9t64U8tBZVy7w7b2btlml4DnIrE8Zo8
+ nW3mnFrrENc8hvxbM/TwZbuVimQ+p2qBHFtHPDiiTSd7t7M8cMutqqi2LWNwtq12Q510
+ 4PaPWgUjbpILGeAVceIYTaBMQwN0NynDdNwQ+JgN7EfJUY2RNVP367xkul16udUBsKsE
+ kyQqJ9jc4a1oSnk42747cI/aN6A6pqlyOCHVhpjbQekbPKSSXrzK4tniUNnm8GPTF0qH
+ 9032oRFNMieAwIbv4sTyl4wxxC3gQjbFkhA2uBGHzoDvSDOd8UTZG9jUw7vIoXKKBeFQ
+ jCmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699622065; x=1700226865;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=p9JHns6zyKkZ5RtdPvtlBA1z5tFdRVVt9Vp5AUAZ8X8=;
- b=loSeKCUGNUVjygo2NW1e1aFAUU5TyK5esgST4F+A8dx66MtQKX0/oeuyzdMZZiqpDR
- pNUt2XgwUZqwzex5DkM5H5cutFmn3pfP7gl1/AAIDZqhlSyebRAVTCZ4Mub0q70oLw8O
- AnUO9akhtzgQ9D/3tqRBB4YHhlqeFx9IZoqoYgFX7NS32969G55zs7/bSz0RhFqmBwXF
- Kyoi3Kjxn0rarvY7dy6GRousflA+nJXGlUsRL2XhGcW3/gKrBe2IJzV0uwEm95xGxm72
- 1lJErps+fLPpu8hCKea4dADMpuRziVX9UK274WZfMAv2Us3aPg5GtSESJiSvoWWAbSSy
- V0Ig==
-X-Gm-Message-State: AOJu0YynsGXk5LsfNOrEjVMz97XykilZUQWqXoWLMk7Vxoo8RkxWUKJr
- cSt7XkmFdxLCPcsb4hHETmHpLQ==
-X-Google-Smtp-Source: AGHT+IFHLIhkk5Fhis0pSnaEPm4kr+9yKb63zrJPfV3HV+9ueyhy789I+teQbGDTSDLBdCHJVblrcQ==
-X-Received: by 2002:a17:907:7ea9:b0:9c6:10d4:d09f with SMTP id
- qb41-20020a1709077ea900b009c610d4d09fmr7961509ejc.63.1699622065013; 
- Fri, 10 Nov 2023 05:14:25 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.126])
- by smtp.gmail.com with ESMTPSA id
- n22-20020a170906841600b009b27d4153c0sm3938708ejx.178.2023.11.10.05.14.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Nov 2023 05:14:24 -0800 (PST)
-Message-ID: <15be209c-753d-469b-a7c4-7403c7745a9f@linaro.org>
-Date: Fri, 10 Nov 2023 14:14:23 +0100
+ d=1e100.net; s=20230601; t=1699622856; x=1700227656;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bsqp6QDbnl+BZbpxh5DVbVgFfmrykVj8TNvlrU1xFaA=;
+ b=N1H6WZ3PWkuHWtnrnOSxGVq9ZWiab7fjT3aljvlb17uGmnL8xGxFHfBv4xQsijAje+
+ 67v1S+gvm1y2QMASTYmRNa7cFiiMbLExoX/Ww8J3HC8JdgjNSRoYUbMokjzg6EoMBOo/
+ YGEaqDP3jIw8ieBxD9vMtVz+Eaaxge2L2XYkmzT4RdOsQ7rqoBKL10UrteAatJC90mXG
+ WwDSf7rlU7FOrpANYVuVoLmBmIe3mM59AzXJTO+Ya4Yyje/Zzv/xRYye5PYYFMgZ52Vt
+ JPd/Zu9/lxsgZDkZDGzRX31qgVXk0dvHlYqe5xWNVXjT1KCscOV536saTXf8BdkzxLJm
+ pU0Q==
+X-Gm-Message-State: AOJu0YyBokaeAmfljZ06j62MwjPQ5lX7TlBvrWfdXYxrK+aJIQgrbTvC
+ +0IIOEFUBnUUauvo1jNid/Y=
+X-Google-Smtp-Source: AGHT+IE8uxeTTWa9kYakpqn1dNmkRGUSZ7dpOLgaZ5twLObPycuuYk28u4U0cPaG//mzm5e+qQGXQw==
+X-Received: by 2002:a2e:8084:0:b0:2c6:ef19:4658 with SMTP id
+ i4-20020a2e8084000000b002c6ef194658mr6987888ljg.48.1699622855595; 
+ Fri, 10 Nov 2023 05:27:35 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ bi12-20020a05651c230c00b002c6f50d277esm277983ljb.135.2023.11.10.05.27.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Nov 2023 05:27:35 -0800 (PST)
+Date: Fri, 10 Nov 2023 15:27:18 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: "Shankar, Uma" <uma.shankar@intel.com>
+Subject: Re: [RFC PATCH v2 06/17] drm/doc/rfc: Describe why prescriptive
+ color pipeline is needed
+Message-ID: <20231110152718.7ed30873@eldfell>
+In-Reply-To: <CY5PR11MB63440D53FA45D3E5419279C7F4AEA@CY5PR11MB6344.namprd11.prod.outlook.com>
+References: <20231019212133.245155-1-harry.wentland@amd.com>
+ <20231019212133.245155-7-harry.wentland@amd.com>
+ <CY5PR11MB6344A6C878FBAF5E66EFCE1CF4A8A@CY5PR11MB6344.namprd11.prod.outlook.com>
+ <69ff5fd4-3c19-469c-bdcc-8fe54d681904@froggi.es>
+ <CY5PR11MB6344784A745F5BB2032D2B3CF4AFA@CY5PR11MB6344.namprd11.prod.outlook.com>
+ <20231109135552.1e93ab62@eldfell>
+ <CY5PR11MB63440D53FA45D3E5419279C7F4AEA@CY5PR11MB6344.namprd11.prod.outlook.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 4/4] arm64: dts: rockchip: add Powkiddy RK2023
-Content-Language: en-US
-To: Chris Morgan <macroalpha82@gmail.com>, linux-rockchip@lists.infradead.org
-References: <20231109215007.66826-1-macroalpha82@gmail.com>
- <20231109215007.66826-5-macroalpha82@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231109215007.66826-5-macroalpha82@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/aj3VCmtkRMxi10e9sd68p=+";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,127 +78,422 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, neil.armstrong@linaro.org, sam@ravnborg.org,
- Chris Morgan <macromorgan@hotmail.com>, sebastian.reichel@collabora.com,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org
+Cc: Sasha McIntosh <sashamcintosh@google.com>,
+ Liviu Dudau <Liviu.Dudau@arm.com>, Victoria Brekenfeld <victoria@system76.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Michel =?UTF-8?B?RMOkbnplcg==?= <mdaenzer@redhat.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ Christopher Braga <quic_cbraga@quicinc.com>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ Shashank Sharma <shashank.sharma@amd.com>,
+ "wayland-devel@lists.freedesktop.org" <wayland-devel@lists.freedesktop.org>,
+ Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Naseer Ahmed <quic_naseer@quicinc.com>, Melissa Wen <mwen@igalia.com>,
+ Aleix Pol <aleixpol@kde.org>, Hector Martin <marcan@marcan.st>,
+ Xaver Hugl <xaver.hugl@gmail.com>, Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/11/2023 22:50, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Add support for the Powkiddy RK2023. The Powkiddy RK2023 is a handheld
-> gaming device with a 3.5 inch screen powered by the Rockchip RK3566
-> SoC. The device is almost identical to the Anbernic RG353P except it
-> lacks eMMC, a function button, a touch screen, no UART headers on the
-> board, and the panel has slightly different timings.
-> 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> ---
->  arch/arm64/boot/dts/rockchip/Makefile         |   1 +
->  .../dts/rockchip/rk3566-powkiddy-rk2023.dts   | 161 ++++++++++++++++++
->  2 files changed, 162 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rk2023.dts
-> 
-> diff --git a/arch/arm64/boot/dts/rockchip/Makefile b/arch/arm64/boot/dts/rockchip/Makefile
-> index a18f33bf0c0e..f969618da352 100644
-> --- a/arch/arm64/boot/dts/rockchip/Makefile
-> +++ b/arch/arm64/boot/dts/rockchip/Makefile
-> @@ -78,6 +78,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-anbernic-rg503.dtb
->  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-pinenote-v1.1.dtb
->  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-pinenote-v1.2.dtb
->  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-powkiddy-rgb30.dtb
-> +dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-powkiddy-rk2023.dtb
->  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-quartz64-a.dtb
->  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-quartz64-b.dtb
->  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-radxa-cm3-io.dtb
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rk2023.dts b/arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rk2023.dts
-> new file mode 100644
-> index 000000000000..5740412f6b2b
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rk2023.dts
-> @@ -0,0 +1,161 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +
-> +/dts-v1/;
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/input/linux-event-codes.h>
-> +#include <dt-bindings/pinctrl/rockchip.h>
-> +#include "rk3566-anbernic-rg353x.dtsi"
-> +
-> +/ {
-> +	model = "RK2023";
-> +	compatible = "powkiddy,rk2023", "rockchip,rk3566";
-> +
-> +	aliases {
-> +		mmc1 = &sdmmc0;
-> +		mmc2 = &sdmmc1;
-> +		mmc3 = &sdmmc2;
-> +	};
-> +
-> +	battery: battery {
-> +		compatible = "simple-battery";
-> +		charge-full-design-microamp-hours = <3151000>;
-> +		charge-term-current-microamp = <300000>;
-> +		constant-charge-current-max-microamp = <2000000>;
-> +		constant-charge-voltage-max-microvolt = <4250000>;
-> +		factory-internal-resistance-micro-ohms = <117000>;
-> +		voltage-max-design-microvolt = <4172000>;
-> +		voltage-min-design-microvolt = <3400000>;
-> +
-> +		ocv-capacity-celsius = <20>;
-> +		ocv-capacity-table-0 =  <4172000 100>, <4092000 95>, <4035000 90>, <3990000 85>,
-> +					<3939000 80>, <3895000 75>, <3852000 70>, <3807000 65>,
-> +					<3762000 60>, <3713000 55>, <3672000 50>, <3647000 45>,
-> +					<3629000 40>, <3613000 35>, <3598000 30>, <3578000 25>,
-> +					<3550000 20>, <3519000 15>, <3479000 10>, <3438000 5>,
-> +					<3400000 0>;
-> +	};
-> +
-> +	/* Channels reversed for headphones. */
-> +	sound {
-> +		compatible = "simple-audio-card";
-> +		simple-audio-card,name = "rk817_int";
-> +		simple-audio-card,format = "i2s";
-> +		simple-audio-card,hp-det-gpio = <&gpio4 RK_PC6 GPIO_ACTIVE_HIGH>;
-> +		simple-audio-card,mclk-fs = <256>;
-> +		simple-audio-card,widgets =
-> +			"Microphone", "Mic Jack",
-> +			"Headphone", "Headphones",
-> +			"Speaker", "Internal Speakers";
-> +		simple-audio-card,routing =
-> +			"MICL", "Mic Jack",
-> +			"Headphones", "HPOL",
-> +			"Headphones", "HPOR",
-> +			"Internal Speakers", "SPKO";
-> +
-> +		simple-audio-card,codec {
-> +			sound-dai = <&rk817>;
-> +		};
-> +
-> +		simple-audio-card,cpu {
-> +			sound-dai = <&i2s1_8ch>;
-> +		};
-> +	};
-> +
-> +};
-> +
-> +/delete-node/ &adc_keys;
-> +
-> +&chosen {
-> +	/delete-property/ stdout-path;
-> +};
+--Sig_/aj3VCmtkRMxi10e9sd68p=+
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-If you have to delete so many nodes and properties, this means your
-common DTSI is not that common.
+On Fri, 10 Nov 2023 11:27:14 +0000
+"Shankar, Uma" <uma.shankar@intel.com> wrote:
 
-Common DTSI means there is shared hardware. If you take shared hardware
-and put it into another board, pieces of the shared hardware do not
-disappear.
+> > -----Original Message-----
+> > From: Pekka Paalanen <ppaalanen@gmail.com>
+> > Sent: Thursday, November 9, 2023 5:26 PM
+> > To: Shankar, Uma <uma.shankar@intel.com>
+> > Cc: Joshua Ashton <joshua@froggi.es>; Harry Wentland
+> > <harry.wentland@amd.com>; dri-devel@lists.freedesktop.org; Sebastian Wi=
+ck
+> > <sebastian.wick@redhat.com>; Sasha McIntosh <sashamcintosh@google.com>;
+> > Abhinav Kumar <quic_abhinavk@quicinc.com>; Shashank Sharma
+> > <shashank.sharma@amd.com>; Xaver Hugl <xaver.hugl@gmail.com>; Hector
+> > Martin <marcan@marcan.st>; Liviu Dudau <Liviu.Dudau@arm.com>; Alexander
+> > Goins <agoins@nvidia.com>; Michel D=C3=A4nzer <mdaenzer@redhat.com>; wa=
+yland-
+> > devel@lists.freedesktop.org; Melissa Wen <mwen@igalia.com>; Jonas =C3=
+=85dahl
+> > <jadahl@redhat.com>; Arthur Grillo <arthurgrillo@riseup.net>; Victoria
+> > Brekenfeld <victoria@system76.com>; Sima <daniel@ffwll.ch>; Aleix Pol
+> > <aleixpol@kde.org>; Naseer Ahmed <quic_naseer@quicinc.com>; Christopher
+> > Braga <quic_cbraga@quicinc.com>; Ville Syrjala <ville.syrjala@linux.int=
+el.com>
+> > Subject: Re: [RFC PATCH v2 06/17] drm/doc/rfc: Describe why prescriptiv=
+e color
+> > pipeline is needed
+> >=20
+> > On Thu, 9 Nov 2023 10:17:11 +0000
+> > "Shankar, Uma" <uma.shankar@intel.com> wrote:
+> >  =20
+> > > > -----Original Message-----
+> > > > From: Joshua Ashton <joshua@froggi.es>
+> > > > Sent: Wednesday, November 8, 2023 7:13 PM
+> > > > To: Shankar, Uma <uma.shankar@intel.com>; Harry Wentland
+> > > > <harry.wentland@amd.com>; dri-devel@lists.freedesktop.org =20
+> >=20
+> > ...
+> >  =20
+> > > > Subject: Re: [RFC PATCH v2 06/17] drm/doc/rfc: Describe why
+> > > > prescriptive color pipeline is needed
+> > > >
+> > > >
+> > > >
+> > > > On 11/8/23 12:18, Shankar, Uma wrote: =20
+> > > > >
+> > > > > =20
+> > > > >> -----Original Message-----
+> > > > >> From: Harry Wentland <harry.wentland@amd.com>
+> > > > >> Sent: Friday, October 20, 2023 2:51 AM
+> > > > >> To: dri-devel@lists.freedesktop.org =20
+> >=20
+> > ...
+> >  =20
+> > > > >> Subject: [RFC PATCH v2 06/17] drm/doc/rfc: Describe why
+> > > > >> prescriptive color pipeline is needed =20
+> >=20
+> > ...
+> >  =20
+> > > > >> +An example of a drm_colorop object might look like one of these=
+::
+> > > > >> +
+> > > > >> +    /* 1D enumerated curve */
+> > > > >> +    Color operation 42
+> > > > >> +    =E2=94=9C=E2=94=80 "TYPE": immutable enum {1D enumerated cu=
+rve, 1D LUT, 3x3
+> > > > >> + matrix, 3x4
+> > > > >> matrix, 3D LUT, etc.} =3D 1D enumerated curve
+> > > > >> +    =E2=94=9C=E2=94=80 "BYPASS": bool {true, false}
+> > > > >> +    =E2=94=9C=E2=94=80 "CURVE_1D_TYPE": enum {sRGB EOTF, sRGB i=
+nverse EOTF, PQ
+> > > > >> + EOTF, PQ
+> > > > >> inverse EOTF, =E2=80=A6} =20
+> > > > >
+> > > > > Having the fixed function enum for some targeted input/output may
+> > > > > not be scalable for all usecases. There are multiple colorspaces
+> > > > > and transfer functions possible, so it will not be possible to
+> > > > > cover all these by any enum definitions. Also, this will depend on
+> > > > > the capabilities of =20
+> > > > respective hardware from various vendors.
+> > > >
+> > > > The reason this exists is such that certain HW vendors such as AMD
+> > > > have transfer functions implemented in HW. It is important to take
+> > > > advantage of these for both precision and power reasons. =20
+> > >
+> > > Issue we see here is that, it will be too usecase and vendor specific.
+> > > There will be BT601, BT709, BT2020, SRGB, HDR EOTF and many more. Not
+> > > to forget we will need linearization and non-linearization enums for =
+each of =20
+> > these.
+> >=20
+> > I don't see that as a problem at all. It's not a combinatorial explosio=
+n like
+> > input/output combinations in a single enum would be.
+> > It's always a curve and its inverse at most.
+> >=20
+> > It's KMS properties, not every driver needs to implement every defined =
+enum
+> > value but only those values it can and wants to support.
+> > Userspace also sees the supported list, it does not need trial and erro=
+r.
+> >=20
+> > This is the only way to actually use hard-wired curves. The alternative=
+ would be
+> > for userspace to submit a LUT of some type, and the driver needs to sta=
+rt
+> > guessing if it matches one of the hard-wired curves the hardware suppor=
+ts, which
+> > is just not feasible.
+> >=20
+> > Hard-wired curves are an addition, not a replacement, to custom curves =
+defined
+> > by parameters or various different LUT representations.
+> > Many of these hard-wired curves will emerge as is from common use cases=
+. =20
+>=20
+> Point taken, we can go with this fixed function curve types as long as it=
+ represents a
+> single mathematical operation, thereby avoiding the combination nightmare.
+>=20
+> However, just want to make sure that the same thing can be done with a pr=
+ogrammable
+> hardware. In the case above, lut tables for the same need to be hardcoded=
+ in driver for
+> various platforms (depending on its capabilities, precision, number, and =
+distribution of luts etc).
+
+Hi Uma,
+
+you can do that if you want to.
+
+> This is manageable, but driver will get bloated with all kinds of hardcod=
+ed lut tables,
+> which could have been easily computed by the compositor runtime. Driver c=
+annot compute
+> the tables runtime due to the complexity of the floating math involved, s=
+o hardcoded
+> lut tables will be the only option.=20
+
+You do not have to do that if you don't want to.
+
+> So we should just ensure that if these enums are not exposed by a driver,=
+ but a programmable
+> lut block is exposed instead, userspace should fall back to the programma=
+ble lut. Having the
+> fixed function enum should not become a mandatory norm to implement and e=
+xpose even for a
+> programmable hardware.
+
+I agree.
+
+> With this we will be able to cater to both kinds of hardware with a gener=
+ic userspace.
+> Hope this expectation is ok.
+>=20
+> > > Also
+> > > a CTM indication to convert colospace. =20
+> >=20
+> > Did someone propose to enumerate matrices? I would not do that, unless =
+you
+> > literally have hard-wired matrices in hardware and cannot do custom mat=
+rices. =20
+>=20
+> Not currently, but there can be fixed function matrix for certain color s=
+pace or
+> format conversion like BT709->BT2020 etc..
+> However, we see this is not proposed currently and if not needed, it's fi=
+ne and
+> don't want to bring another non-problem for discussion.
+>=20
+> > > Also, if the underlying hardware block is programmable, its not
+> > > limited to be used only for the colorspace management but can be used
+> > > for other color enhancements as well by a capable client. =20
+> >=20
+> > Yes, that's why we have other types for curves, the programmable ones. =
+=20
+>=20
+> Got that and agree, it's fine as mentioned above.
+>=20
+> > > Hence, we feel that it is bordering on being descriptive with too many
+> > > possible combinations (not easy to generalize). So, if hardware is
+> > > programmable, lets expose its capability through a blob and be generi=
+c. =20
+> >=20
+> > It's not descriptive though. It's a prescription of a mathematical func=
+tion the
+> > hardware implements as fixed-function hardware. The function is a curve=
+. There
+> > is no implication that the curve must be used with specific input or ou=
+tput color
+> > spaces. =20
+>=20
+> As long as we don=E2=80=99t mix combinations it should be fine. But all h=
+ardware's may not
+> represent these fixed functions with single mathematical operation level =
+granularity.
+> It would be tough to represent such color blocks with a single enum.
+
+If a colorop does not fit for some hardware, then the driver should
+not expose that colorop or pipeline.
+
+> > > For any fixed function hardware where Lut etc is stored in ROM and
+> > > just a control/enable bit is provided to driver, we can define a
+> > > pipeline with a vendor specific color block. This can be identified w=
+ith a flag =20
+> > (better ways can be discussed).
+> >=20
+> > No, there is no need for that. A curve type will do well. =20
+>=20
+> Agree and aligned here.
+>=20
+> > A vendor specific colorop needs vendor specific userspace code to progr=
+am *at
+> > all*. A generic curve colorop might list some curve types the userspace=
+ does not
+> > understand, but also curve types userspace does understand. The underst=
+ood
+> > curve types can still be used by userspace. =20
+>=20
+> Issue is with combination operation in hardware. If it=E2=80=99s a single=
+ mathematical operation,
+> it would be easy.
+>=20
+> > > For example, on some of the Intel platform, we had a fixed function to
+> > > convert colorspaces directly with a bit setting. These kinds of things
+> > > should be vendor specific and not be part of generic userspace implem=
+entation. =20
+> >=20
+> > Why would you forbid generic userspace from making use of them? =20
+>=20
+> Issue is that it was not one single mathematical operation but a combinat=
+ion
+> as described below.
+> =20
+> > > For reference:
+> > > 001b	YUV601 to RGB601 YUV BT.601 to RGB BT.601 conversion.
+> > > 010b	YUV709 to RGB709 YUV BT.709 to RGB BT.709 conversion.
+> > > 011b	YUV2020 to RGB2020 YUV BT.2020 to RGB BT.2020 conversion.
+> > > 100b	RGB709 to RGB2020 RGB BT.709 to RGB BT.2020 conversion. =20
+> >=20
+> > This is nothing like the curves we talked about above.
+> > Anyway, you can expose these fixed-function operations with a colorop t=
+hat has
+> > an enum choosing the conversion. There is no need to make it vendor-spe=
+cific at
+> > all. It's possible that only specific chips from Intel support it, but =
+nothing stops
+> > anyone else from implementing or emulating the colorop if they can cons=
+truct a
+> > hardware configuration achieving the same result.
+> >=20
+> > It seems there are already problems in exploding the number of pipeline=
+s to
+> > expose, so it's best to try to avoid single-use colorops and use enums =
+in more
+> > generic colorops instead. =20
+>=20
+> Yeah, this is how hardware will implement and it involves multiple mathem=
+atical operations,
+> controlled with one programmable bit to enable the same. These will be to=
+ugh to generalize.
+> What should be the type of color op for these would be an open.
+>=20
+> It would be great if we can address this generically.
+
+We would need to know what those four things actually do. Your
+description is very vague. Are there curves involved?
 
 
-Best regards,
-Krzysztof
+> > > > Additionally, not every vendor implements bucketed/segemented LUTs
+> > > > the same way, so it's not feasible to expose that in a way that's
+> > > > particularly useful or not vendor-specific. =20
+> >=20
+> > Joshua, I see no problem here really. They are just another type of LUT=
+ for a curve
+> > colorop, with a different configuration blob that can be defined in the=
+ UAPI. =20
+>=20
+> Yeah, agree.
+> And the programmable hardware can be easily exposed and generalize for al=
+l vendors,
+> so it should not be a concern.
+>=20
+> > > If the underlying hardware is programmable, the structure which we
+> > > propose to advertise the capability of the block to userspace will be=
+ sufficient to =20
+> > compute the LUT coefficients. =20
+> > > The caps can be :
+> > > 1. Number of segments in Lut
+> > > 2. Precision of lut
+> > > 3. Starting and ending point of the segment 4. Number of samples in
+> > > the segment.
+> > > 5. Any other flag which could be useful in this computation.
+> > >
+> > > This way we can compute LUT's generically and send to driver. This
+> > > will be scalable for all colorspaces, configurations and vendors. =20
+> >=20
+> > Drop the mention of colorspaces, and I hope so. :-)
+> >=20
+> > Color spaces don't quite exist in a prescriptive pipeline definition. =
+=20
+>=20
+> Yeah. For driver it's just a LUT for programmable hardware, OR mathematic=
+al
+> operation for fixed function hardware defined via enum =F0=9F=98=8A
+>=20
+> > > > Thus we decided to have a regular 1D LUT modulated onto a known cur=
+ve.
+> > > > This is the only real cross-vendor solution here that allows HW
+> > > > curve implementations to be taken advantage of and also works with
+> > > > bucketing/segemented LUTs.
+> > > > (Including vendors we are not aware of yet).
+> > > >
+> > > > This also means that vendors that only support HW curves at some
+> > > > stages without an actual LUT are also serviced. =20
+> > >
+> > > Any fixed function vendor implementation should be supported but with
+> > > a vendor specific color block. Trying to come up with enums which
+> > > aligns with some underlying hardware may not be scalable. =20
+> >=20
+> > I disagree with both of you.
+> >=20
+> > Who said there could be only one "degamma" block on a plane's pipeline?
+> >=20
+> > If hardware is best modelled as a fixed-function selectable curve follo=
+wed by a
+> > custom curve, then expose exactly those two generic colorops. Nothing s=
+tops a
+> > pipeline from having two curve colorops in sequence with a disjoint set=
+ of
+> > supported types or features. If some hardware does not have one of the =
+curve
+> > colorops, then just don't add the missing one in a pipeline. =20
+>=20
+> Agree, I think we are aligned now here.
 
+Awesome!
+
+Thanks,
+pq
+
+
+> > > > You are right that there *might* be some usecase not covered by this
+> > > > right now, and that it would need kernel churn to implement new
+> > > > curves, but unfortunately that's the compromise that we (so-far)
+> > > > have decided on in order to ensure everyone can have good, precise,=
+ power- =20
+> > efficient support. =20
+> > >
+> > > Yes, we are aligned on this. But believe programmable hardware should
+> > > be able to expose its caps. Fixed function hardware should be non-gen=
+eric and =20
+> > vendor specific. =20
+> > > =20
+> > > > It is always possible for us to extend the uAPI at a later date for
+> > > > other curves, or other properties that might expose a generic
+> > > > segmented LUT interface (such as what you have proposed for a while=
+) for =20
+> > vendors that can support it. =20
+> > > > (With the whole color pipeline thing, we can essentially do 'versio=
+ning'
+> > > > with that, if we wanted a new 1D LUT type.) =20
+> > >
+> > > Most of the hardware vendors have programmable luts (including AMD),
+> > > so it would be good to have this as a default generic compositor
+> > > implementation. And yes, any new color block with a type can be added
+> > > to the existing API's as the need arises without breaking compatibili=
+ty.
+> > >
+> > > Regards,
+> > > Uma Shankar
+> > > =20
+> > > >
+> > > > Thanks!
+> > > > - Joshie =F0=9F=90=B8=E2=9C=A8 =20
+
+
+--Sig_/aj3VCmtkRMxi10e9sd68p=+
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVOL7YACgkQI1/ltBGq
+qqdmLQ/+NWSdWYkKhaoVOXf/7jqt3j+jBxw/0gG9sWpnZeawhhttUwaHoWbvm7WM
+1+VdlsEbdI5TUR3NLId+Lzyj+8cFAY3Lv4B5RHjq9/MVW3gnzff3tGuj/0Jts5Bb
+OCn09iJWDVn8pKQm5o/o3wVIx9oluV1dNoMHptXQK886Tk4Yuse0UXkwdc3sTT95
+ZDazmGh+zz+nS1u+EhB5P1bQHoQJ3R1aFUhh7NO9i3Vl3DnpAeRR5PnOzrKulNaI
+SXivvk2kGezdUaRyMHyWGxpa7F14tnXCjsV3sJZ274DA2b7WrBpbuIL/w45a00hV
+tEwP7hqc1cGF9HhDhAZ5VPuiMdAfDpkh3eONCFwFhVMIuf5Mp9+6i1BHcfOuv+eD
+SXhDJWAuiIOEh5OmaBnPGrqt8VZrg1nVwPrfMHBtY10KEx48LMLHbPS551vblRHA
+lYfGCYzWYmy5AHiSvceJBvjiEZ5TUrL4sooOwp/Qo6QTs/jXyiCos690Td5EF7iI
+kkvxx3ECHQxSYqZdOh1M6QCo19XlkOfmkVgeuWK0jlXY82/ZB1XZv9TXmtMbzP09
+C0U2YYf3p1CllFVnFxEFOhreHMtM7X3n/fROTT0dPtV0lkvOth7SWUFeeEORsyWl
+/1v28P9gcxU5hjcQmkWIxB9BWjjLb/wxpQo2YUyRFgx0Lcnl6Cc=
+=eeSH
+-----END PGP SIGNATURE-----
+
+--Sig_/aj3VCmtkRMxi10e9sd68p=+--
