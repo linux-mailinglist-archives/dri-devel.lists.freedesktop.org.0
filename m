@@ -1,93 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADF0D7E7DDC
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 17:43:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91B587E7DDF
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Nov 2023 17:44:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C667210E103;
-	Fri, 10 Nov 2023 16:43:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA33F10E11E;
+	Fri, 10 Nov 2023 16:44:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46D3910E122
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 16:43:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1699634616;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8eSqnXtcIXrPq6GHt4g8iPFkhbDhqTIANdoSOzK1UFI=;
- b=PM6E2q1mJqLASs205A8num5VKs2XhmZJsMUqACdtZvRfiuDtsoSPH/ljIKb9+vA/+PZrh5
- +V5Aozr3C4GVktPDU08rpQr12xArnPZvl8XLGXFk/yQUcYS0gwyqdHHTcA9imdDJtfB4gE
- sxxL0amzhxh02E7VO7s81LOipaWlviM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-108-W8ZnlQmoPTqX7hR8oIFZbw-1; Fri, 10 Nov 2023 11:43:34 -0500
-X-MC-Unique: W8ZnlQmoPTqX7hR8oIFZbw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-32f8c4e9b88so1493772f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 08:43:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699634614; x=1700239414;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8eSqnXtcIXrPq6GHt4g8iPFkhbDhqTIANdoSOzK1UFI=;
- b=W5OZFOsFpwDhd5oKHMANabtlq7AR3lX+Eo+gtTd+5DbAQQ3bTunrAvHflVmelpnrfW
- /s/VoOQV3X1yhuTZMBuPXl5EzF1Oc3++IR/uts+pUqTGmFo81UcuyZgaySRV3dS4TIWb
- MYT5ic2LiBdvy1S89uoJzhCwFOvdkM4kFlGPhJ6ApALrD2OGyMnEKpH96MKDj24CT13y
- JSC/+Ibp2m8eddLCDx9XlIZXSgiXRNC6sAXzA9LxFD1Z0LoRKm7rYkNJJ+h7ja7SZPBb
- 2JMs+CSXm24wFngYI1VURNuC5rZsxQI88hacFsgG4C3wk2IhneINc286Gvi3X8Ikhj1X
- WyHA==
-X-Gm-Message-State: AOJu0YwPw60i1FEMWXy6MwiVRPkjyFvOONOXGCjLrgtBw4zJEFqky0v9
- xbunLBEshkIdUPteBeyDZdPrP5wLrLIHD6cGnzN7nCBdI0XQukN1I6Tr+ONtK7U1ef/U5KSDny7
- adNnniYpzcrqdASrM+fWlIGyCzyar
-X-Received: by 2002:a5d:64ae:0:b0:32d:d2aa:ed21 with SMTP id
- m14-20020a5d64ae000000b0032dd2aaed21mr3366090wrp.28.1699634613782; 
- Fri, 10 Nov 2023 08:43:33 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEshZwp1b4wYLbwnbJwTIrDjpK4sffhd5PPHlSOV1hLyZqrd6bemiltJSoPkbT/N4PLUdJ37Q==
-X-Received: by 2002:a5d:64ae:0:b0:32d:d2aa:ed21 with SMTP id
- m14-20020a5d64ae000000b0032dd2aaed21mr3366065wrp.28.1699634613180; 
- Fri, 10 Nov 2023 08:43:33 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- l4-20020adfa384000000b0031fd849e797sm2244692wrb.105.2023.11.10.08.43.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Nov 2023 08:43:32 -0800 (PST)
-Message-ID: <fe31edb5-8a82-4af9-9a2a-d0531f540814@redhat.com>
-Date: Fri, 10 Nov 2023 17:43:31 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EC9710E11E
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 16:44:32 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3AAGYQ5X014468; Fri, 10 Nov 2023 16:44:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=yOT9dK1JpatXxqzUBCMfWUouTtxvXPJP9IAud6HgSYI=;
+ b=XyN8xjWqWQT52OccXevALGsvbQQRm8MLhranpq60ib2A9vbQTIdtV/tgYMeQIo4gedde
+ KDi2H6POc1MsPlKl2xCMnf3TNH+Zl0+KQwUDjw1ZEUXyBY+ECQYNB03IoY9YF5zqk1eG
+ aDVj99Z8MtfhtbHtyhNVrpUcp1Yv8VU2q8oWCfdRV1KaMVp/Cz9Xu+5TxDX1rcxZm5IS
+ /LD7Zn5+toWE8Ek4TYAnoMBaFYi4L2OP639EKKPJejMpGs/FuNuwtWNPoWtUr5Dcg706
+ LDXUdjZHWfTKCR5NWs+9F5z8f3Qqw73FZ+KggDYyR/iZg9EOIT/T22kNCJ82j1UsDvpP vg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u9q0w075d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 10 Nov 2023 16:44:29 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AAGiTNY002945
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 10 Nov 2023 16:44:29 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 10 Nov
+ 2023 08:44:28 -0800
+Message-ID: <3dfeec85-1d05-2b9d-fe37-aebbfe9732b6@quicinc.com>
+Date: Fri, 10 Nov 2023 09:44:27 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH drm-misc-next v8 09/12] drm/gpuvm: reference count
- drm_gpuvm structures
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-References: <20231101233113.8059-10-dakr@redhat.com>
- <be93d9ef-3d3e-4262-a280-d2922b983ca1@amd.com> <ZUTyGTxcH7WlHKsv@pollux>
- <a2e13a27-d2e5-4ae3-9c11-c18b425b69cc@amd.com>
- <b533af44-0404-49c9-9879-3414d0964acc@redhat.com>
- <51dea5f3-a18b-4797-b4fa-87da7db4624a@amd.com> <ZUjZFFtLM435tTxJ@pollux>
- <8e87d962-c80c-40d9-94d7-58b6cd9dd794@amd.com> <ZUj0DdYZUgjhcvf5@pollux>
- <6d3c48f6-a92d-49b3-b836-ee1bc95b56bf@amd.com> <ZUkXkJ+zT7OFGosC@pollux>
- <44bc28c7-05f4-4419-5183-453c4951aac0@linux.intel.com>
- <6c536c94-7072-403c-9c63-d932252fd66b@amd.com>
- <4532d9d5-4c5a-4639-8136-d3ba9995d7b6@redhat.com>
- <1d4ca394-ee0c-4617-adbe-1d47e295c8fb@amd.com>
- <f7a64e17-d8b0-a20a-4e27-46f448a10bd4@linux.intel.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <f7a64e17-d8b0-a20a-4e27-46f448a10bd4@linux.intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 5/5] accel/ivpu: Use threaded IRQ to handle JOB done
+ messages
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20231107123514.2218850-1-jacek.lawrynowicz@linux.intel.com>
+ <20231107123514.2218850-6-jacek.lawrynowicz@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20231107123514.2218850-6-jacek.lawrynowicz@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: E-EmiruHGkLL_6ViTvcwt-GJsqbqZ56d
+X-Proofpoint-ORIG-GUID: E-EmiruHGkLL_6ViTvcwt-GJsqbqZ56d
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-10_14,2023-11-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ bulkscore=0 spamscore=0 mlxlogscore=999 phishscore=0 impostorscore=0
+ lowpriorityscore=0 clxscore=1015 malwarescore=0 mlxscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311100139
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,161 +85,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, sarah.walker@imgtec.com,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, faith@gfxstrand.net,
- boris.brezillon@collabora.com, donald.robson@imgtec.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/10/23 10:39, Thomas Hellström wrote:
+On 11/7/2023 5:35 AM, Jacek Lawrynowicz wrote:
+> Remove job_done thread and replace it with generic callback based
+> mechanism.
 > 
-> On 11/10/23 09:50, Christian König wrote:
->> Am 09.11.23 um 19:34 schrieb Danilo Krummrich:
->>> On 11/9/23 17:03, Christian König wrote:
->>>> Am 09.11.23 um 16:50 schrieb Thomas Hellström:
->>>>> [SNIP]
->>>>>>>
->>>>> Did we get any resolution on this?
->>>>>
->>>>> FWIW, my take on this is that it would be possible to get GPUVM to work both with and without internal refcounting; If with, the driver needs a vm close to resolve cyclic references, if without that's not necessary. If GPUVM is allowed to refcount in mappings and vm_bos, that comes with a slight performance drop but as Danilo pointed out, the VM lifetime problem iterating over a vm_bo's mapping becomes much easier and the code thus becomes easier to maintain moving forward. That convinced me it's a good thing.
->>>>
->>>> I strongly believe you guys stumbled over one of the core problems with the VM here and I think that reference counting is the right answer to solving this.
->>>>
->>>> The big question is that what is reference counted and in which direction does the dependency points, e.g. we have here VM, BO, BO_VM and Mapping objects.
->>>>
->>>> Those patches here suggest a counted Mapping -> VM reference and I'm pretty sure that this isn't a good idea. What we should rather really have is a BO -> VM or BO_VM ->VM reference. In other words that each BO which is part of the VM keeps a reference to the VM.
->>>
->>> We have both. Please see the subsequent patch introducing VM_BO structures for that.
->>>
->>> As I explained, mappings (struct drm_gpuva) keep a pointer to their VM they're mapped
->>> in and besides that it doesn't make sense to free a VM that still contains mappings,
->>> the reference count ensures that. This simply ensures memory safety.
->>>
->>>>
->>>> BTW: At least in amdgpu we can have BOs which (temporary) doesn't have any mappings, but are still considered part of the VM.
->>>
->>> That should be possible.
->>>
->>>>
->>>>>
->>>>> Another issue Christian brought up is that something intended to be embeddable (a base class) shouldn't really have its own refcount. I think that's a valid point. If you at some point need to derive from multiple such structs each having its own refcount, things will start to get weird. One way to resolve that would be to have the driver's subclass provide get() and put() ops, and export a destructor for the base-class, rather than to have the base-class provide the refcount and a destructor  ops.
->>>
->>> GPUVM simply follows the same pattern we have with drm_gem_objects. And I think it makes
->>> sense. Why would we want to embed two struct drm_gpuvm in a single driver structure?
->>
->> Because you need one drm_gpuvm structure for each application using the driver? Or am I missing something?
->>
->> As far as I can see a driver would want to embed that into your fpriv structure which is allocated during drm_driver.open callback.
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> ---
+>   drivers/accel/ivpu/ivpu_drv.c     |  30 ++---
+>   drivers/accel/ivpu/ivpu_drv.h     |   3 +-
+>   drivers/accel/ivpu/ivpu_hw_37xx.c |  29 +++--
+>   drivers/accel/ivpu/ivpu_ipc.c     | 195 +++++++++++++++++-------------
+>   drivers/accel/ivpu/ivpu_ipc.h     |  22 +++-
+>   drivers/accel/ivpu/ivpu_job.c     |  84 +++----------
+>   drivers/accel/ivpu/ivpu_job.h     |   6 +-
+>   7 files changed, 185 insertions(+), 184 deletions(-)
 > 
-> I was thinking more of the general design of a base-class that needs to be refcounted. Say a driver vm that inherits from gpu-vm, gem_object and yet another base-class that supplies its own refcount. What's the best-practice way to do refcounting? All base-classes supplying a refcount of its own, or the subclass supplying a refcount and the base-classes supply destroy helpers.
-> 
-> But to be clear this is nothing I see needing urgent attention.
-> 
->>
->>>
->>>>
->>>> Well, I have never seen stuff like that in the kernel. Might be that this works, but I would rather not try if avoidable.
->>>>
->>>>>
->>>>> That would also make it possible for the driver to decide the context for the put() call: If the driver needs to be able to call put() from irq / atomic context but the base-class'es destructor doesn't allow atomic context, the driver can push freeing out to a work item if needed.
->>>>>
->>>>> Finally, the refcount overflow Christian pointed out. Limiting the number of mapping sounds like a reasonable remedy to me.
->>>>
->>>> Well that depends, I would rather avoid having a dependency for mappings.
->>>>
->>>> Taking the CPU VM handling as example as far as I know vm_area_structs doesn't grab a reference to their mm_struct either. Instead they get automatically destroyed when the mm_struct is destroyed.
->>>
->>> Certainly, that would be possible. However, thinking about it, this might call for
->>> huge trouble.
->>>
->>> First of all, we'd still need to reference count a GPUVM and take a reference for each
->>> VM_BO, as we do already. Now instead of simply increasing the reference count for each
->>> mapping as well, we'd need a *mandatory* driver callback that is called when the GPUVM
->>> reference count drops to zero. Maybe something like vm_destroy().
->>>
->>> The reason is that GPUVM can't just remove all mappings from the tree nor can it free them
->>> by itself, since drivers might use them for tracking their allocated page tables and/or
->>> other stuff.
->>>
->>> Now, let's think about the scope this callback might be called from. When a VM_BO is destroyed
->>> the driver might hold a couple of locks (for Xe it would be the VM's shared dma-resv lock and
->>> potentially the corresponding object's dma-resv lock if they're not the same already). If
->>> destroying this VM_BO leads to the VM being destroyed, the drivers vm_destroy() callback would
->>> be called with those locks being held as well.
->>>
->>> I feel like doing this finally opens the doors of the locking hell entirely. I think we should
->>> really avoid that.
-> 
-> I don't think we need to worry much about this particular locking hell because if we hold, for example a vm and bo resv when putting the vm_bo, we need to keep additional strong references for the bo / vm pointer we use for unlocking. Hence putting the vm_bo under those locks can never lead to the vm getting destroyed.
-> 
-> Also, don't we already sort of have a mandatory vm_destroy callback?
+> diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+> index c4456abe228c..48cbcb254237 100644
+> --- a/drivers/accel/ivpu/ivpu_drv.c
+> +++ b/drivers/accel/ivpu/ivpu_drv.c
+> @@ -318,13 +318,15 @@ static int ivpu_wait_for_ready(struct ivpu_device *vdev)
+>   	if (ivpu_test_mode & IVPU_TEST_MODE_FW_TEST)
+>   		return 0;
+>   
+> -	ivpu_ipc_consumer_add(vdev, &cons, IVPU_IPC_CHAN_BOOT_MSG);
+> +	ivpu_ipc_consumer_add(vdev, &cons, IVPU_IPC_CHAN_BOOT_MSG, NULL);
+>   
+>   	timeout = jiffies + msecs_to_jiffies(vdev->timeout.boot);
+>   	while (1) {
+>   		ret = ivpu_ipc_irq_handler(vdev);
+> -		if (ret)
+> +		if (ret != IRQ_HANDLED) {
 
-Sure, I just wanted to say that we'd then have a mandatory callback where drivers *must* ensure
-to remove *all* mappings before returning from this callback. I could imagine that there could
-be some pitfalls with that.
+What about the IRQ_WAKE_THREAD case?
 
-So I'm not worried about the callback itself being mandatory, but about enforcing this semantics
-on it. Maybe I didn't phrase this very well.
+> +			ret = -EIO;
+>   			break;
+> +		}
+>   		ret = ivpu_ipc_receive(vdev, &cons, &ipc_hdr, NULL, 0);
+>   		if (ret != -ETIMEDOUT || time_after_eq(jiffies, timeout))
+>   			break;
 
-> 
-> +    if (drm_WARN_ON(gpuvm->drm, !gpuvm->ops->vm_free))
-> +        return;> 
-> 
-> 
->>
->> That's a really good point, but I fear exactly that's the use case.
->>
->> I would expect that VM_BO structures are added in the drm_gem_object_funcs.open callback and freed in drm_gem_object_funcs.close.
->>
->> Since it is perfectly legal for userspace to close a BO while there are still mappings (can trivial be that the app is killed) I would expect that the drm_gem_object_funcs.close handling is something like asking drm_gpuvm destroying the VM_BO and getting the mappings which should be cleared in the page table in return.
->>
->> In amdgpu we even go a step further and the VM structure keeps track of all the mappings of deleted VM_BOs so that higher level can query those and clear them later on.
->>
->> Background is that the drm_gem_object_funcs.close can't fail, but it can perfectly be that the app is killed because of an OOM situation and we can't do page tables updates in that moment because of this.
->>
->>>
->>>>
->>>> Which makes sense in that case because when the mm_struct is gone the vm_area_struct doesn't make sense any more either.
->>>>
->>>> What we clearly need is a reference to prevent the VM or at least the shared resv to go away to early.
->>>
->>> Yeah, that was a good hint and we've covered that.
->>>
->>>>
->>>> Regards,
->>>> Christian.
->>>>
->>>>>
->>>>> But I think all of this is fixable as follow-ups if needed, unless I'm missing something crucial.
->>>
->>> Fully agree, I think at this point we should go ahead and land this series.
-> 
-> +1.
-> 
-> /Thomas
-> 
-> 
->>>
->>
->> Yeah, agree this is not UAPI so not nailed in stone. Feel free to add my acked-by as well if you want.
->>
->> Only keep in mind that when you give drivers some functionality in a common component they usually expect to keep that functionality.
->>
->> For example changing the dma_resv object to make sure that drivers can't cause use after free errors any more was an extremely annoying experience since every user of those interface had to change at once.
->>
->> Regards,
->> Christian.
->>
->>>
->>>>>
->>>>> Just my 2 cents.
->>>>>
->>>>> /Thomas
->>>>>
->>>>>
->>>>
->>>
->>
-> 
+> diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
+> index a172cfb1c31f..d1795cd6cc09 100644
+> --- a/drivers/accel/ivpu/ivpu_hw_37xx.c
+> +++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
+> @@ -891,9 +891,13 @@ static void ivpu_hw_37xx_irq_noc_firewall_handler(struct ivpu_device *vdev)
+>   }
+>   
+>   /* Handler for IRQs from VPU core (irqV) */
+> -static u32 ivpu_hw_37xx_irqv_handler(struct ivpu_device *vdev, int irq)
+> +static irqreturn_t ivpu_hw_37xx_irqv_handler(struct ivpu_device *vdev, int irq)
+>   {
+>   	u32 status = REGV_RD32(VPU_37XX_HOST_SS_ICB_STATUS_0) & ICB_0_IRQ_MASK;
+> +	irqreturn_t ret = IRQ_NONE;
+> +
+> +	if (!status)
+> +		return IRQ_NONE;
+>   
+>   	REGV_WR32(VPU_37XX_HOST_SS_ICB_CLEAR_0, status);
+>   
+> @@ -901,7 +905,7 @@ static u32 ivpu_hw_37xx_irqv_handler(struct ivpu_device *vdev, int irq)
+>   		ivpu_mmu_irq_evtq_handler(vdev);
+>   
+>   	if (REG_TEST_FLD(VPU_37XX_HOST_SS_ICB_STATUS_0, HOST_IPC_FIFO_INT, status))
+> -		ivpu_ipc_irq_handler(vdev);
+> +		ret |= ivpu_ipc_irq_handler(vdev);
 
+Why the bitwise operation?  handler() returns a irqreturn_t, so it seems 
+like this should just be ret = handler();
+
+>   
+>   	if (REG_TEST_FLD(VPU_37XX_HOST_SS_ICB_STATUS_0, MMU_IRQ_1_INT, status))
+>   		ivpu_dbg(vdev, IRQ, "MMU sync complete\n");
+> @@ -918,17 +922,17 @@ static u32 ivpu_hw_37xx_irqv_handler(struct ivpu_device *vdev, int irq)
+>   	if (REG_TEST_FLD(VPU_37XX_HOST_SS_ICB_STATUS_0, NOC_FIREWALL_INT, status))
+>   		ivpu_hw_37xx_irq_noc_firewall_handler(vdev);
+>   
+> -	return status;
+> +	return ret;
+>   }
+>   
+>   /* Handler for IRQs from Buttress core (irqB) */
+> -static u32 ivpu_hw_37xx_irqb_handler(struct ivpu_device *vdev, int irq)
+> +static irqreturn_t ivpu_hw_37xx_irqb_handler(struct ivpu_device *vdev, int irq)
+>   {
+>   	u32 status = REGB_RD32(VPU_37XX_BUTTRESS_INTERRUPT_STAT) & BUTTRESS_IRQ_MASK;
+>   	bool schedule_recovery = false;
+>   
+> -	if (status == 0)
+> -		return 0;
+> +	if (!status)
+> +		return IRQ_NONE;
+>   
+>   	if (REG_TEST_FLD(VPU_37XX_BUTTRESS_INTERRUPT_STAT, FREQ_CHANGE, status))
+>   		ivpu_dbg(vdev, IRQ, "FREQ_CHANGE irq: %08x",
+> @@ -964,23 +968,26 @@ static u32 ivpu_hw_37xx_irqb_handler(struct ivpu_device *vdev, int irq)
+>   	if (schedule_recovery)
+>   		ivpu_pm_schedule_recovery(vdev);
+>   
+> -	return status;
+> +	return IRQ_HANDLED;
+>   }
+>   
+>   static irqreturn_t ivpu_hw_37xx_irq_handler(int irq, void *ptr)
+>   {
+>   	struct ivpu_device *vdev = ptr;
+> -	u32 ret_irqv, ret_irqb;
+> +	irqreturn_t ret = IRQ_NONE;
+>   
+>   	REGB_WR32(VPU_37XX_BUTTRESS_GLOBAL_INT_MASK, 0x1);
+>   
+> -	ret_irqv = ivpu_hw_37xx_irqv_handler(vdev, irq);
+> -	ret_irqb = ivpu_hw_37xx_irqb_handler(vdev, irq);
+> +	ret |= ivpu_hw_37xx_irqv_handler(vdev, irq);
+> +	ret |= ivpu_hw_37xx_irqb_handler(vdev, irq);
+
+I think this violates coding-style. typedefs are only to be used in 
+limited circumstances.  The one I think that applies here is that the 
+type is intended to be completely opaque and only accessed through 
+proper accessor functions.  You are peering into the type and using the 
+information that it is implemented as a bitfield, which is not for you 
+to know.
+
+If irqreturn_t changes in structure, this will break, and I don't think 
+it will be caught by the compiler, or be obvious.
+
+>   
+>   	/* Re-enable global interrupts to re-trigger MSI for pending interrupts */
+>   	REGB_WR32(VPU_37XX_BUTTRESS_GLOBAL_INT_MASK, 0x0);
+>   
+> -	return IRQ_RETVAL(ret_irqb | ret_irqv);
+> +	if (ret & IRQ_WAKE_THREAD)
+> +		return IRQ_WAKE_THREAD;
+> +
+> +	return ret;
+>   }
+>   
+>   static void ivpu_hw_37xx_diagnose_failure(struct ivpu_device *vdev)
