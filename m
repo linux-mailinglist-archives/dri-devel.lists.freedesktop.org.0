@@ -1,46 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 509617E885F
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 03:36:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C59247E8863
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 03:41:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67D7A10E121;
-	Sat, 11 Nov 2023 02:36:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F69E10E24A;
+	Sat, 11 Nov 2023 02:41:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B812310E121
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 02:36:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id EAB0AB82448;
- Sat, 11 Nov 2023 02:35:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75F08C433C7;
- Sat, 11 Nov 2023 02:35:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699670158;
- bh=gY+gv6FuH7IyPZd+GcBbaxMFJ8nyFzbRgSyvPpB8WHI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ht9uExB8i5dnk2CmKBU1mVcjqsdrsD2ZgLZevr8N30eX0ZSAYboFGGKykaf+sSld7
- CGIVo25CwHPZiytr+teiiIPuigIDo+JPIkQyvN5n3iPDUMIc9jsF0NZEo7e+fDs8hI
- ztRuR71feWJhW6c3gOy9FbB8al83VwWsa2jI6RDs8vnryE62nP6YASRYhTa1kayr6w
- Da1EO6WGh1FXrOMerj2O/J/S46xnJ+wZhJFsdyYR1y51fhNB5Bz4l+uQ9vxyzm9yki
- rXMDshUoip7ZzimtjecJgZVPpXDWmdS8vodHd4gqw3Sf3ZLjfhV8IAAtpr5Xj5Edg8
- N5/Cmof6uQUjA==
-Date: Fri, 10 Nov 2023 18:35:56 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Subject: Re: [RFC PATCH v3 12/12] selftests: add ncdevmem, netcat for devmem
- TCP
-Message-ID: <20231110183556.2b7b7502@kernel.org>
-In-Reply-To: <CAHS8izNFnE8RGgBhKzxhVoKXtXgZGVQCLSdm4_dWNeH9Gx-WDQ@mail.gmail.com>
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-13-almasrymina@google.com>
- <20231110151335.38a1c6ec@kernel.org>
- <CAHS8izNFnE8RGgBhKzxhVoKXtXgZGVQCLSdm4_dWNeH9Gx-WDQ@mail.gmail.com>
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com
+ [IPv6:2607:f8b0:4864:20::f32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00D4E10E24A
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 02:41:46 +0000 (UTC)
+Received: by mail-qv1-xf32.google.com with SMTP id
+ 6a1803df08f44-66cfc96f475so15479386d6.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 18:41:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1699670506; x=1700275306; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=msNrrEN0bZwqIlYo+MsvtI+OgOD1hUza7H9RwsFo/P4=;
+ b=LZMTYPPqtHrMOFwHlL4/uhUICc4Tv9LgKpA/55lsxnD05T1XpDxbjKnnezpS0gmKj6
+ Rcs89y0xg3Cf5T1zRxMDYGSyn3iPLqnnMPzXi8hk9x+UOM4ksiKx/lc2xti4+xa+GhXG
+ IaseUE/JsPP17Ty6Lo2VrD3loNHHdEoRZ5/cHPZ+NoeFok65ZmewJfCPgPSiqPXDGoEc
+ 3HZRTotIoofhrukFUD5rVjjazgJM9g+Tn8aTRqjkTqTmRB2kwuYJP6ziM0OmsT8Z/8zF
+ zAGDwOWphWkizivj7CfIXwm3yC6vDsmpjBbB6B5SzAiL9ZvBEd/MM7Hm9UIi9shhgGLs
+ 6nQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699670506; x=1700275306;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=msNrrEN0bZwqIlYo+MsvtI+OgOD1hUza7H9RwsFo/P4=;
+ b=gOc/i78B/v3+mWj5MCk81tDJo6npV0cOB7qjR6gM42fCV+9+Q20Cbl68DEisnVzyED
+ excxYRRmVDIjIzHZNAXtwvxJc51NVICWAF13zBu4uW6G7Fjz3T2CDhMZJKDUZAVcy3Qs
+ WreW6FID1YM0a7y3+F1tWhYDfqyyHeLTYt3l3i0fbrhjRhD6HGZBSoE8i0XWwEZzZpt0
+ /3KL38s3toXMI2IEALvUOwPGVaia/ZRbZ4TrDy9X/qL22JQL5NuXQ88PPxUllpXBqkHr
+ 2SVLuR2xYf+hdR97mqYsDtaHKxjU45gPj+HLRyZMvnoiqjCi7LmjPsfhja3D1oNGDtOL
+ Mu3g==
+X-Gm-Message-State: AOJu0YzrA5I7QJCO/J9gQk0QPznfcXYK/yHVKtn5qRi5AKauyDDXO1TP
+ 8EKkTXMdZWYUDi1b3ddi27A=
+X-Google-Smtp-Source: AGHT+IEItfmxshsDKVqO/tBJl8NjyHU2T8EBRtv7IusqkXaaD86HXi8wxIfWSqstn1wYd4683lLZrQ==
+X-Received: by 2002:a0c:ea4a:0:b0:66d:65ae:18f6 with SMTP id
+ u10-20020a0cea4a000000b0066d65ae18f6mr956796qvp.50.1699670505800; 
+ Fri, 10 Nov 2023 18:41:45 -0800 (PST)
+Received: from localhost.localdomain ([76.65.20.140])
+ by smtp.gmail.com with ESMTPSA id
+ m8-20020a0cfde8000000b0065aff6b49afsm279814qvu.110.2023.11.10.18.41.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Nov 2023 18:41:45 -0800 (PST)
+From: Luben Tuikov <ltuikov89@gmail.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: [PATCH] Revert "drm/sched: Define pr_fmt() for DRM using pr_*()"
+Date: Fri, 10 Nov 2023 21:41:31 -0500
+Message-ID: <20231111024130.11464-2-ltuikov89@gmail.com>
+X-Mailer: git-send-email 2.42.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,60 +70,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
- Stanislav Fomichev <sdf@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Paolo Abeni <pabeni@redhat.com>,
- linux-media@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, linaro-mm-sig@lists.linaro.org,
- Shakeel Butt <shakeelb@google.com>, netdev@vger.kernel.org,
- David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Direct Rendering Infrastructure - Development
+ <dri-devel@lists.freedesktop.org>, Luben Tuikov <ltuikov89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 10 Nov 2023 18:27:08 -0800 Mina Almasry wrote:
-> Thanks for the clear requirement. I clearly had something different in mind.
-> 
-> Might be dumb suggestions, but instead of creating a new ndo that we
-> maybe end up wanting to deprecate once the queue API is ready, how
-> about we use either of those existing APIs?
-> 
-> +void netdev_reset(struct net_device *dev)
-> +{
-> +       int flags = ETH_RESET_ALL;
-> +       int err;
-> +
-> +#if 1
-> +       __dev_close(dev);
-> +       err = __dev_open(dev, NULL);
-> +#else
-> +       err = dev->ethtool_ops->reset(dev, &flags);
-> +#endif
-> +}
-> +
-> 
-> I've tested both of these to work with GVE on both bind via the
-> netlink API and unbind via the netlink socket close, but I'm not
-> enough of an expert to tell if there is some bad side effect that can
-> happen or something.
+This reverts commit 36245bd02e88e68ac5955c2958c968879d7b75a9.
 
-We generally don't accept drivers doing device reconfiguration with
-full close() + open() because if the open() fails your machine 
-may be cut off.
+Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
+---
+ include/drm/drm_print.h | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-There are drivers which do it, but they are either old... or weren't
-reviewed hard enough.
+diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+index e8fe60d0eb8783..a93a387f8a1a15 100644
+--- a/include/drm/drm_print.h
++++ b/include/drm/drm_print.h
+@@ -26,20 +26,6 @@
+ #ifndef DRM_PRINT_H_
+ #define DRM_PRINT_H_
+ 
+-/* Define this before including linux/printk.h, so that the format
+- * string in pr_*() macros is correctly set for DRM. If a file wants
+- * to define this to something else, it should do so before including
+- * this header file.
+- *
+- * It is encouraged code using pr_err() to prefix their format with
+- * the string "*ERROR* ", to make it easier to scan kernel logs. For
+- * instance,
+- *   pr_err("*ERROR* <the rest of your format string here>", args).
+- */
+-#ifndef pr_fmt
+-#define pr_fmt(fmt) "[drm] " fmt
+-#endif
+-
+ #include <linux/compiler.h>
+ #include <linux/printk.h>
+ #include <linux/seq_file.h>
 
-The driver should allocate memory and whether else it can without
-stopping the queues first. Once it has all those, stop the queues,
-reconfigure with already allocated resources, start queues, free old.
+base-commit: 540527b1385fb203cc4513ca838b4de60bbbc49a
+-- 
+2.42.1
 
-Even without the queue API in place, good drivers do full device
-reconfig this way. Hence my mind goes towards a new (temporary?)
-ndo. It will be replaced by the queue API, but whoever implements
-it for now has to follow this careful reconfig strategy...
