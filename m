@@ -2,65 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60D7B7E8A5A
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 11:43:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 250777E8A7C
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 12:16:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B896210E275;
-	Sat, 11 Nov 2023 10:42:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8B3410E053;
+	Sat, 11 Nov 2023 11:16:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0130F10E269
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 10:42:50 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id
- 4fb4d7f45d1cf-5435336ab0bso4683318a12.1
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 02:42:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1699699369; x=1700304169;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=57XfclRA1DPTjEGTeta8gbvZTvGhPeSww56J1vwZoGA=;
- b=JTfBInpgfiQiT0vICG0u+J7aKBs6cipmIuYmqBue9l7x8zsRJWOcvCOiMXQol2+QbM
- kxxtvszCkOlcKF91bE/xl1esLxJTVLKb3orNPPnshdgdhcv0Ah0tSLGhTloevUlq/7N7
- BcfsQy7hEV6jnWH/1t5sM5g+PKYhRkuJsu8JA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699699369; x=1700304169;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=57XfclRA1DPTjEGTeta8gbvZTvGhPeSww56J1vwZoGA=;
- b=VgtxOK1fm1at2EYrzz9x7TJjXGol7cyPihNe6RAdZKfmKEX9E5dRAaHONrJIX0HcRQ
- 9jkQ+k7ntU9LVwTG74cZy7rQZcmPxnufuW0z1KFFjjrHh4ujcU3PP/BJIDb5ax+DERI4
- RZLaog5DFlQMJ78jEdjKR6xLwJ9fZmKTA6sdv2GAY7JfjW7j0lVCNorJLMgd2qwaS/Gq
- ljeMLav7YEiTysuWbjYfl1816RDiAKKgYPydJOvUbnxtj21rYkpJWbIBOJWvZC25y2SN
- 64pOIAyR/y0MuMgznid/Ja/VMGAa6LBGdQ9k9gugIfX6CRkJlZi3ES1TojPNqJe3gTyh
- WzLw==
-X-Gm-Message-State: AOJu0YzK3J3StjXixscL4nz3qUyxN4/0WVj50oQ9Um29qI8lm480h33u
- WHbaxdMXu1qzLzCzMbJqy+lX0w==
-X-Google-Smtp-Source: AGHT+IF51sz/9Eym2oiwu4zOU3bpJ1pg92NvUM3b8/mDpd88MUL1wczf210dAwnnzyMpQ5H7XMHxcg==
-X-Received: by 2002:a17:906:361a:b0:9dd:bd42:4ec2 with SMTP id
- q26-20020a170906361a00b009ddbd424ec2mr908050ejb.10.1699699369457; 
- Sat, 11 Nov 2023 02:42:49 -0800 (PST)
-Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it
- (host-79-20-97-182.retail.telecomitalia.it. [79.20.97.182])
- by smtp.gmail.com with ESMTPSA id
- ga33-20020a1709070c2100b0099e12a49c8fsm872183ejc.173.2023.11.11.02.42.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Nov 2023 02:42:49 -0800 (PST)
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 10/10] fbdev: imxfb: add '*/' on a separate line in block
- comment
-Date: Sat, 11 Nov 2023 11:41:59 +0100
-Message-ID: <20231111104225.136512-11-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231111104225.136512-1-dario.binacchi@amarulasolutions.com>
-References: <20231111104225.136512-1-dario.binacchi@amarulasolutions.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C12910E053
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 11:16:23 +0000 (UTC)
+X-UUID: bb35b3e4808311ee8051498923ad61e6-20231111
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=D2tKsXiy0X+1JGV/GrDN1OLzUO3UG44bCa8GSOX5Eqc=; 
+ b=ZYVp65ZKL9ii//GMRU+3Tykq1kLMIacfXQ0nUO8RIrVzwDumVK/jnHAwyzRTIdCO350B7ZJCaScXLko1RgwVuKdL7aXewsLAdakY6gi0mB5K8pFqto0ZLA+RG7n66nS53yWTRj497ffjtTU2Ioy5z5VmrA+CbxLniS4hGITzO90=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.33, REQID:1bb9f16c-58c5-49af-bcbe-52e6832c6786, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:364b77b, CLOUDID:9e818872-1bd3-4f48-b671-ada88705968c,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+ DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: bb35b3e4808311ee8051498923ad61e6-20231111
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
+ mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 384052900; Sat, 11 Nov 2023 19:16:16 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Sat, 11 Nov 2023 19:16:15 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Sat, 11 Nov 2023 19:16:14 +0800
+From: Yong Wu <yong.wu@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ <christian.koenig@amd.com>, Matthias Brugger <matthias.bgg@gmail.com>
+Subject: [PATCH v2 0/8] dma-buf: heaps: Add secure heap
+Date: Sat, 11 Nov 2023 19:15:51 +0800
+Message-ID: <20231111111559.8218-1-yong.wu@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,48 +66,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-amarula@amarulasolutions.com,
- Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>,
- Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jeffrey Kardatzke <jkardatzke@google.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Vijayanand Jitta <quic_vjitta@quicinc.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, Yong Wu <yong.wu@mediatek.com>,
+ jianjiao.zeng@mediatek.com, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ ckoenig.leichtzumerken@gmail.com, linaro-mm-sig@lists.linaro.org,
+ linux-mediatek@lists.infradead.org, Joakim Bech <joakim.bech@linaro.org>,
+ tjmercier@google.com, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Linux kernel coding style uses '*/' on a separate line at the end of
-multi line comments.
+This patchset adds three secure heaps:
+1) secure_mtk_cm: secure chunk memory for MediaTek SVP (Secure Video Path).
+   The buffer is reserved for the secure world after bootup and it is used
+   for vcodec's ES/working buffer;
+2) secure_mtk_cma: secure CMA memory for MediaTek SVP. This buffer is
+   dynamically reserved for the secure world and will be got when we start
+   playing secure videos, Once the security video playing is complete, the
+   CMA will be released. This heap is used for the vcodec's frame buffer. 
+3) secure_cma: Use the kerne CMA ops as the allocation ops. 
+   currently it is a draft version for Vijay and Jaskaran.
 
-Fix block comments by moving '*/' at the end of block comments on a
-separate line as reported by checkpatch:
+For the first two MediaTek heaps will be used v4l2[1] and drm[2], thus we
+cannot put it in v4l2 or drm, and create a common heap for them. Meanwhile
+We have a limited number of hardware entries to protect memory, we cannot
+protect memory arbitrarily, thus the secure memory management is actually
+inside OPTEE. The kernel just tells the TEE what size I want and the TEE
+will return a "secure handle".
 
-WARNING: Block comments use a trailing */ on a separate line
+[1] https://lore.kernel.org/linux-mediatek/20231106120423.23364-1-yunfei.dong@mediatek.com/
+[2] https://lore.kernel.org/linux-mediatek/20231023044549.21412-1-jason-jh.lin@mediatek.com/
 
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Change note:
+v2: 1) Move John's patches into the vcodec patchset since they use the new
+       dma heap interface directly.
+       https://lore.kernel.org/linux-mediatek/20231106120423.23364-1-yunfei.dong@mediatek.com/
+    2) Reword the dt-binding description.
+    3) Rename the heap name from mtk_svp to secure_mtk_cm.
+       This means the current vcodec/DRM upstream code doesn't match this.
+    4) Add a normal CMA heap. currently it should be a draft version.
+    5) Regarding the UUID, I still use hard code, but put it in a private
+    data which allow the others could set their own UUID. What's more, UUID
+    is necessary for the session with TEE. If we don't have it, we can't
+    communicate with the TEE, including the get_uuid interface, which tries
+    to make uuid more generic, not working. If there is other way to make
+    UUID more general, please free to tell me.
+    
+v1: https://lore.kernel.org/linux-mediatek/20230911023038.30649-1-yong.wu@mediatek.com/
+    Base on v6.6-rc1.
 
----
+Yong Wu (8):
+  dma-buf: heaps: Initialize a secure heap
+  dma-buf: heaps: secure_heap: Add private heap ops
+  dma-buf: heaps: secure_heap: Initialize tee session
+  dma-buf: heaps: secure_heap: Add tee memory service call
+  dma-buf: heaps: secure_heap: Add dma_ops
+  dt-bindings: reserved-memory: Add secure CMA reserved memory range
+  dma_buf: heaps: secure_heap: Add a new MediaTek CMA heap
+  dma-buf: heaps: secure_heap: Add normal CMA heap
 
- drivers/video/fbdev/imxfb.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ .../reserved-memory/secure_cma_region.yaml    |  44 ++
+ drivers/dma-buf/heaps/Kconfig                 |   7 +
+ drivers/dma-buf/heaps/Makefile                |   1 +
+ drivers/dma-buf/heaps/secure_heap.c           | 602 ++++++++++++++++++
+ 4 files changed, 654 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/reserved-memory/secure_cma_region.yaml
+ create mode 100644 drivers/dma-buf/heaps/secure_heap.c
 
-diff --git a/drivers/video/fbdev/imxfb.c b/drivers/video/fbdev/imxfb.c
-index 8d6943f0bfca..a4dbc72f93c3 100644
---- a/drivers/video/fbdev/imxfb.c
-+++ b/drivers/video/fbdev/imxfb.c
-@@ -946,8 +946,10 @@ static int imxfb_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto failed_init;
- 
--	/* Calculate maximum bytes used per pixel. In most cases this should
--	 * be the same as m->bpp/8 */
-+	/*
-+	 * Calculate maximum bytes used per pixel. In most cases this should
-+	 * be the same as m->bpp/8
-+	 */
- 	m = &fbi->mode[0];
- 	bytes_per_pixel = (m->bpp + 7) / 8;
- 	for (i = 0; i < fbi->num_modes; i++, m++)
 -- 
-2.42.0
+2.25.1
 
