@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AF287E8A4B
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 11:42:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB987E8A50
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 11:42:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1DAC10E267;
-	Sat, 11 Nov 2023 10:42:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C75E10E268;
+	Sat, 11 Nov 2023 10:42:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADDE210E268
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 10:42:45 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id
- a640c23a62f3a-9df8d0c2505so585436166b.0
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 02:42:45 -0800 (PST)
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1024510E267
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 10:42:47 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id
+ 4fb4d7f45d1cf-5437269a661so7977471a12.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 02:42:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1699699364; x=1700304164;
+ d=amarulasolutions.com; s=google; t=1699699365; x=1700304165;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=gKRsMdTRp52wX/RfOne0bAjVlYqKCb2FkmXxuvgSsdI=;
- b=U3xviCFJmP2InTPlTQeu0Dsqk2j2sE9oT+NPEpR5eNHHBHMUo7DVFdK7VHU/ChNBP6
- vHhmLTWoyHBLRuskvDHeracAmLha/6hZHn2Yxm1FTRXnCXuQ59IAzSgxWAe2ouqfM/Wm
- U3uxTHg2KLsmqy0xiAMqXK1Z4532AINTmRh2A=
+ bh=IDgHYbXQcqXOi8pgjjCFs89msy5Cd5Tn06zlqflQDL0=;
+ b=EgHDYEtOplEKIkEKzN9gslZTDfr59URUpdrP4EeOmzAA23iTxDHlqFaeUhrE3yghs9
+ zhph1BPDYactNYu0JGWDab0OkPB87wN/tAGEQ4beI8qpQUVrc3euo1019/IgaHiXpAe1
+ xGITcr3AQuIvYuvVMLTXYpLd0SAiHB2/7qzMw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699699364; x=1700304164;
+ d=1e100.net; s=20230601; t=1699699365; x=1700304165;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gKRsMdTRp52wX/RfOne0bAjVlYqKCb2FkmXxuvgSsdI=;
- b=YTT+1SV4td8eDHG3e4OTOuo53XEZ8gcD+dhxPyQwMRi+0trSWPlNOKWlOE64XGz+sK
- jI/b3nsAp26bLY43Nuiv4wnDC2Rti8EI4jZWt03DlSu3cPzi8FycTfSTq6qvUAu1P2p9
- zyuWGW7L9CsXIiEWRaMN4VQpxrMmyjhOESMnihYPqpT2rCOzbwBwDUGFZCtMnmjA4ESg
- PW6MBx7nGpa3dab/3lDguXhLNE8AdeNpHAJGM/lu2HbHH10PiRk0DXv6vWh4Vl/JJlRB
- 7FcW6e/P/Ph4HaWSX5A0rQCGupHMFuNeDve0dFUOfeZ6du1wJOjW7p+Zx7RUWmTkwn5s
- 0YwQ==
-X-Gm-Message-State: AOJu0YwKNew35Ha3V4basZnnHjpDJwa1Na4zX88w7LI0uL08CmaZY6Na
- HqATORHrPsyQwNKVUKC+ZKkjAw==
-X-Google-Smtp-Source: AGHT+IEJbLdVs0JW+jcGlc8xPQxdZhfaKGnEyX/Ga6OBU0qyC2zAkwbXYZvVAliT6vWUL6mEDi9zyw==
-X-Received: by 2002:a17:906:4e4d:b0:9ba:8ed:ea58 with SMTP id
- g13-20020a1709064e4d00b009ba08edea58mr1653246ejw.30.1699699364258; 
- Sat, 11 Nov 2023 02:42:44 -0800 (PST)
+ bh=IDgHYbXQcqXOi8pgjjCFs89msy5Cd5Tn06zlqflQDL0=;
+ b=JG7gHAPbzWMDGfwP+dGtaqk4ibKP5RtDw29DzlUmoxN5IPRWLYCirH1WjsKgdPL1Q3
+ jk54J8UXNrBSW3nKUigP5h+Gl1lxURYBg8gSV9nXnAws4co+1SUgEy7yE5K3w5WTAjXe
+ h4D5/J5rfMd3teIe6Cmw7NTNgRMYb2Y4/ZAy8idc5j34neZpxwyOTEvrg8YSKQXNDw2c
+ 1lRh04cgsSotr/7n3BE3hcMj5OnrpLJIe/x7ggG+Q8movE6y+qkgDaZndJkvJh6xxDEv
+ uQ8jvjsC7gNMIQLGIeY0AuHpQQ85ky9+oUh1FXZnauUR3T3vWA7M0TqtXDdwF3eH+THi
+ k9+A==
+X-Gm-Message-State: AOJu0YyeMlZDTbA9VbPoJK5aOLl6fr40P3V4y2HEegXaswN3seVGFEQ2
+ +uCVgefsaMnqdcYUGDIosc677Q==
+X-Google-Smtp-Source: AGHT+IGWjzXZAnVOpqEeTHo29O9vwepCgThZZ6Cih0GL59Twpo4NVs/EaN2y7j4ks3a/O63PR8CCEA==
+X-Received: by 2002:a17:906:80c4:b0:9ae:50ec:bd81 with SMTP id
+ a4-20020a17090680c400b009ae50ecbd81mr4311227ejx.21.1699699365597; 
+ Sat, 11 Nov 2023 02:42:45 -0800 (PST)
 Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it
  (host-79-20-97-182.retail.telecomitalia.it. [79.20.97.182])
  by smtp.gmail.com with ESMTPSA id
- ga33-20020a1709070c2100b0099e12a49c8fsm872183ejc.173.2023.11.11.02.42.43
+ ga33-20020a1709070c2100b0099e12a49c8fsm872183ejc.173.2023.11.11.02.42.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Nov 2023 02:42:43 -0800 (PST)
+ Sat, 11 Nov 2023 02:42:45 -0800 (PST)
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 06/10] fbdev: imxfb: drop ftrace-like logging
-Date: Sat, 11 Nov 2023 11:41:55 +0100
-Message-ID: <20231111104225.136512-7-dario.binacchi@amarulasolutions.com>
+Subject: [PATCH 07/10] fbdev: imxfb: add missing spaces after ','
+Date: Sat, 11 Nov 2023 11:41:56 +0100
+Message-ID: <20231111104225.136512-8-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231111104225.136512-1-dario.binacchi@amarulasolutions.com>
 References: <20231111104225.136512-1-dario.binacchi@amarulasolutions.com>
@@ -82,29 +82,33 @@ Cc: linux-fbdev@vger.kernel.org, linux-amarula@amarulasolutions.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Resolve the following warning reported by checkpatch:
+Fix the following checkpatch error:
 
-WARNING: Unnecessary ftrace-like logging - prefer using ftrace
+ERROR: space required after that ',' (ctx:VxV)
 
 Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 ---
 
- drivers/video/fbdev/imxfb.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/video/fbdev/imxfb.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/video/fbdev/imxfb.c b/drivers/video/fbdev/imxfb.c
-index de1434069530..83497f6998f1 100644
+index 83497f6998f1..ad293dc44dbb 100644
 --- a/drivers/video/fbdev/imxfb.c
 +++ b/drivers/video/fbdev/imxfb.c
-@@ -694,8 +694,6 @@ static int imxfb_init_fbinfo(struct platform_device *pdev)
+@@ -280,10 +280,10 @@ static int imxfb_setpalettereg(u_int regno, u_int red, u_int green, u_int blue,
  	struct imxfb_info *fbi = info->par;
- 	struct device_node *np;
+ 	u_int val, ret = 1;
  
--	pr_debug("%s\n",__func__);
--
- 	info->pseudo_palette = devm_kmalloc_array(&pdev->dev, 16,
- 						  sizeof(u32), GFP_KERNEL);
- 	if (!info->pseudo_palette)
+-#define CNVT_TOHW(val,width) ((((val)<<(width))+0x7FFF-(val))>>16)
++#define CNVT_TOHW(val, width) ((((val)<<(width))+0x7FFF-(val))>>16)
+ 	if (regno < fbi->palette_size) {
+ 		val = (CNVT_TOHW(red, 4) << 8) |
+-		      (CNVT_TOHW(green,4) << 4) |
++		      (CNVT_TOHW(green, 4) << 4) |
+ 		      CNVT_TOHW(blue,  4);
+ 
+ 		writel(val, fbi->regs + 0x800 + (regno << 2));
 -- 
 2.42.0
 
