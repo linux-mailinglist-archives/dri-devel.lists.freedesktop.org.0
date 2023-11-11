@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15FC57E89DD
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 09:31:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 914A37E89DF
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 09:33:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F014710E257;
-	Sat, 11 Nov 2023 08:31:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06A5F10E259;
+	Sat, 11 Nov 2023 08:33:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A4A410E257
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 08:31:25 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id
- 2adb3069b0e04-507b9408c61so3810102e87.0
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 00:31:25 -0800 (PST)
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com
+ [IPv6:2607:f8b0:4864:20::830])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E4A310E259
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 08:33:46 +0000 (UTC)
+Received: by mail-qt1-x830.google.com with SMTP id
+ d75a77b69052e-41cc75c55f0so32543311cf.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 00:33:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699691483; x=1700296283; darn=lists.freedesktop.org;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CnzMPSuSkDs43Z3P5R9j6n7+bWlsIBEP8r17ky0zTro=;
- b=XmIDZ3vjsrQwE7emyGAoA4QeDiCqz/lAnFVm3Mg2nxq1S2goc4IvvuSK2UdnoIb1kW
- RrxyBCdcB2Wea7mw2mW8LCOml+fIb1JUb2qUWbk4wv7CCAr33edtgCgwd1lPNT8lXnpo
- 6RxWBidD0ZZYbwNcaoDPJWF3YT0vgL2qzuUn3BX3JG1yHCow9H0R+vgM+sR/0UZgCYp9
- v9DNg35VxB0P6nh8GLGD+e2Xb/mOGV7OkgAcD/i1lJZZPLQYa+Di1jrzY4s2K5i/w0CD
- vACDFHMbVSS4kW5WEY+OsCJyCYM0jKDgJ/2o06ddyNcpLzHdoW2LkJMEVN4rUKr2Zpao
- XI5A==
+ d=gmail.com; s=20230601; t=1699691625; x=1700296425; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Tduwgwv0y4OQ/7MZGtzARJqzqu828fYBun4lpQ9eTRY=;
+ b=B/RRcHQMTM/OiMGQISzDsyLjUnZ+fckz2ydPnX3hnF6jESmdONZoRXoYKU0OV5rE0A
+ m53wYr8XFdEoKVcqMRf7Ya0NZsBGmXLh722HMNIsHe8Lh3Ql2svhcXR24q2ZboTjfdE4
+ 3XFNESIoxfKxwnWzRuLG3+UHpEZx9me3a2ECGDHCe01eO0EgNKZgBFsKYv0j0vAHitB2
+ 6YB0lnICMFzII/aBeEvE7Yxh2tjp+LKf2aQttxgeQSYa65mhoX6CP4aY4J6I8q1O5CfC
+ VHHIhdlSO6cElJDqgqmML65aJX+aXLOLoqX4xdb17vAT+UATOC8xng9FwQA2CMtsPh1p
+ L4Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699691483; x=1700296283;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CnzMPSuSkDs43Z3P5R9j6n7+bWlsIBEP8r17ky0zTro=;
- b=at8OckWuriBQSrYI2RjguICjX4I+0G9sgI0eDeKAgASlCnepwP6ajp2KwhOEmll6eB
- EbJwrFuP19/XYCJ9VBaliH7UfFul4A4vxN6zVr51M9U2I6UzDo0gahFPPanS5pVAVjGh
- d1yW0ffpBAREy3UjxobrL3LRlxmxuO+GWz1vev6l7NXL0/V6KXaK5k64B/nWaUUh6WyI
- +U7zqWZnNbbtGvLKtTFv4mXFk3a3TXM37Q0Vv1nepxOLp6OYCK8Wj7vxRL9ckpLhsPvL
- iSfTqzJ9tC9dG5On554gwdjZH4cOBk29C1vuyRDYKGnbaddYfxAnvnVQ9+680dBeCk18
- 0CjQ==
-X-Gm-Message-State: AOJu0Yz0qvEJ6FIkIDa5jsFiSxU0PEMuZo2eZygwD3SRskPXmbD1Lgy2
- nFjbavMt9xP7qEd2sDNixePHYWrC+l7yYBksoXA=
-X-Google-Smtp-Source: AGHT+IELK3Jp5o8QXO7eI93fMAFpbKC2f3FagLHhgYb/6DMOHmsvKBQnhpOM1YShIk5J/joBlvbrofzWhq+QJPHovzY=
-X-Received: by 2002:a19:3809:0:b0:50a:6375:d5f1 with SMTP id
- f9-20020a193809000000b0050a6375d5f1mr804587lfa.60.1699691483119; Sat, 11 Nov
- 2023 00:31:23 -0800 (PST)
+ d=1e100.net; s=20230601; t=1699691625; x=1700296425;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Tduwgwv0y4OQ/7MZGtzARJqzqu828fYBun4lpQ9eTRY=;
+ b=w9ImSu3sYnnf4G55Lq5Azc95R2X+VDo4qGlB5fU+D9qUZaCG2Az76iIrxyD7I1kjxb
+ Oswe2CIpUYP+7Cg276R9lt7egw/lELwDx25lGg9DTLV8Xbyk4WmvRx/j4ruy6Uk/RQh6
+ 9EkJNbKo4Rr/850sqDqytkAYGHyGgg99OctXo38Du5kvjl8NyLO5ezK1+92GdosLKFVU
+ 0mfhVErzMWiAdTU8ZeMndbCgaBjB8h6W9HFdai3jKr5WyrcEEgw7WK4rygR6BCQGXJXs
+ jHeYBHTyoGj3uZwyBYa0Hsa5NaY33y5RGkrMLFwe3t14yiR7FQu+FXJcgfLYvmeaFqza
+ 2MPg==
+X-Gm-Message-State: AOJu0YypX716xzAPOnN+riQFcakLvkXEaNUSLgOMlqiquhFlfNBDNpah
+ gcKxnjv/0Mu5iXRq3TCRdV8=
+X-Google-Smtp-Source: AGHT+IFP8jVsyh3pzqhpFC+WkP1kdgT/s3dBF46AAF/9+3dSkc1kSm25/bx4x8e5dp3zUfrrCt+vGA==
+X-Received: by 2002:ad4:5502:0:b0:66d:953e:226d with SMTP id
+ pz2-20020ad45502000000b0066d953e226dmr6259395qvb.26.1699691625330; 
+ Sat, 11 Nov 2023 00:33:45 -0800 (PST)
+Received: from localhost.localdomain ([76.65.20.140])
+ by smtp.gmail.com with ESMTPSA id
+ lg10-20020a056214548a00b0066d1b4ce863sm457406qvb.31.2023.11.11.00.33.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 11 Nov 2023 00:33:45 -0800 (PST)
+From: Luben Tuikov <ltuikov89@gmail.com>
+To: javierm@redhat.com
+Subject: [PATCH] Revert "drm/sched: Define pr_fmt() for DRM using pr_*()"
+Date: Sat, 11 Nov 2023 03:33:28 -0500
+Message-ID: <20231111083327.18607-2-ltuikov89@gmail.com>
+X-Mailer: git-send-email 2.42.1
+In-Reply-To: <87leb4ae6z.fsf@minerva.mail-host-address-is-not-set>
+References: <87leb4ae6z.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-References: <20231111042926.52990-1-amworsley@gmail.com>
- <20231111042926.52990-2-amworsley@gmail.com>
-In-Reply-To: <20231111042926.52990-2-amworsley@gmail.com>
-From: Andrew Worsley <amworsley@gmail.com>
-Date: Sat, 11 Nov 2023 19:31:11 +1100
-Message-ID: <CA+Y=x3mF4jFX7PiJQ-1Gk9zyBE1mwZaF_GLYjSspT+mxtMn4GQ@mail.gmail.com>
-Subject: Re: [PATCH] Fix failure of simpledrm probe when trying to grab FB
- from the EFI-based Framebuffer
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- "open list:DRM DRIVER FOR FIRMWARE FRAMEBUFFERS"
- <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,82 +73,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org, ltuikov89@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's inline - part of the email - not an attachment?
+From Jani:
+The drm_print.[ch] facilities use very few pr_*() calls directly. The
+users of pr_*() calls do not necessarily include <drm/drm_print.h> at
+all, and really don't have to.
 
-I can see it in the copy that went to me...
+Even the ones that do include it, usually have <linux/...> includes
+first, and <drm/...> includes next. Notably, <linux/kernel.h> includes
+<linux/printk.h>.
 
-Andrew
+And, of course, <linux/printk.h> defines pr_fmt() itself if not already
+defined.
 
-On Sat, 11 Nov 2023 at 15:30, Andrew Worsley <amworsley@gmail.com> wrote:
->
->    The simpledrm.c does not call aperture_remove_conflicting_devices() in it's probe
->    function as the drivers/video/aperture.c documentation says it should. Consequently
->    it's request for the FB memory fails.
->
-> ...
-> [    3.085302] simple-framebuffer bd58dc000.framebuffer: [drm] *ERROR* could not acquire memory range [??? 0xffff6e1d8629d580-0x2a5000001a7 flags 0x0]: -16
-> [    3.086433] simple-framebuffer: probe of bd58dc000.framebuffer failed with error -16
-> ...
->
->    In my case no driver provided /dev/dri/card0 device is available on boot up and X
->    fails to start as per this from X start up log.
->
-> ...
-> [     5.616] (WW) Falling back to old probe method for modesetting
-> [     5.616] (EE) open /dev/dri/card0: No such file or directory
-> ...
->
->    Fault confirmed and fixed on Asahi 6.5.0 kernel with both CONFIG_FB_EFI and
->    CONFIG_DRM_SIMPLEDRM config options set.
->
-> Signed-off-by: Andrew Worsley <amworsley@gmail.com>
-> ---
->  drivers/gpu/drm/tiny/simpledrm.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->
-> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-> index 5fefc895bca2..e55a536b04cf 100644
-> --- a/drivers/gpu/drm/tiny/simpledrm.c
-> +++ b/drivers/gpu/drm/tiny/simpledrm.c
-> @@ -8,6 +8,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/pm_domain.h>
->  #include <linux/regulator/consumer.h>
-> +#include <linux/aperture.h>
->
->  #include <drm/drm_aperture.h>
->  #include <drm/drm_atomic.h>
-> @@ -828,6 +829,13 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
->         if (mem) {
->                 void *screen_base;
->
-> +               ret = aperture_remove_conflicting_devices(mem->start, resource_size(mem),
-> +                       DRIVER_NAME);
-> +               if (ret) {
-> +                       drm_err(dev, "aperture_remove_conflicting_devices: failed:%d\n",
-> +                           __func__, ret);
-> +                       return ERR_PTR(ret);
-> +               }
->                 ret = devm_aperture_acquire_from_firmware(dev, mem->start, resource_size(mem));
->                 if (ret) {
->                         drm_err(dev, "could not acquire memory range %pr: %d\n", mem, ret);
-> @@ -848,6 +856,13 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
->                 if (!res)
->                         return ERR_PTR(-EINVAL);
->
-> +               ret = aperture_remove_conflicting_devices(res->start, resource_size(res),
-> +                       DRIVER_NAME);
-> +               if (ret) {
-> +                       drm_err(dev, "aperture_remove_conflicting_devices: failed:%d\n",
-> +                           __func__, ret);
-> +                       return ERR_PTR(ret);
-> +               }
->                 ret = devm_aperture_acquire_from_firmware(dev, res->start, resource_size(res));
->                 if (ret) {
->                         drm_err(dev, "could not acquire memory range %pr: %d\n", res, ret);
-> --
-> 2.42.0
->
+No, it's encouraged not to use pr_*() at all, and prefer drm device
+based logging, or device based logging.
+
+This reverts commit 36245bd02e88e68ac5955c2958c968879d7b75a9.
+
+Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/878r75wzm9.fsf@intel.com
+---
+ include/drm/drm_print.h | 14 --------------
+ 1 file changed, 14 deletions(-)
+
+diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+index e8fe60d0eb8783..a93a387f8a1a15 100644
+--- a/include/drm/drm_print.h
++++ b/include/drm/drm_print.h
+@@ -26,20 +26,6 @@
+ #ifndef DRM_PRINT_H_
+ #define DRM_PRINT_H_
+ 
+-/* Define this before including linux/printk.h, so that the format
+- * string in pr_*() macros is correctly set for DRM. If a file wants
+- * to define this to something else, it should do so before including
+- * this header file.
+- *
+- * It is encouraged code using pr_err() to prefix their format with
+- * the string "*ERROR* ", to make it easier to scan kernel logs. For
+- * instance,
+- *   pr_err("*ERROR* <the rest of your format string here>", args).
+- */
+-#ifndef pr_fmt
+-#define pr_fmt(fmt) "[drm] " fmt
+-#endif
+-
+ #include <linux/compiler.h>
+ #include <linux/printk.h>
+ #include <linux/seq_file.h>
+
+base-commit: 540527b1385fb203cc4513ca838b4de60bbbc49a
+-- 
+2.42.1
+
