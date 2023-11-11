@@ -1,69 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA45C7E89F3
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 09:56:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25FC47E8A00
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 10:10:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3EA110E25D;
-	Sat, 11 Nov 2023 08:56:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59ECA10E25E;
+	Sat, 11 Nov 2023 09:10:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06E9D10E25D
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 08:56:23 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E36F810E25E
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 09:10:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1699692983;
+ s=mimecast20190719; t=1699693849;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=LGOFt1JfhjtGiblhN9a/032gAq4BmiVgO1JSpbn3+6k=;
- b=Y8mhCSnA1xNuy34NhOtwvA4mKFt7SEsCLLUBVPIrbXYzWnk5TwyJWU8u3w693HQRgPrnFi
- 1SHPb6wUNOBIoh73kFDcd8Gqnu7qVcYqMHuWiH61HOPMCE61msUWNX6B3IWmn3rFqufb8l
- BercI6upHJaI/wHvpUMGODRVxjJaRpU=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7c/Lm/uJDATCAgPRHFNpVgc8PBzSucZIj3Gj3ErqE9E=;
+ b=ZGNoxyrgCVI+tISyX3/mx2xbRK6ZHfkdRnyVAIORUZOGGX6cA5SyxO+PWpDEorjlWjN87t
+ 5zs2hhXe9NNxQwkGPk/MRPjGX4rKkECuoPZD9gQuin12ebsRghe5Lp14Z9FUKymOzWJYwU
+ qzV49FEAmQ62E1Mdy5Sqb7OdyPEK/10=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-48-zRHGgKU3Msuuxx5rkbeU1w-1; Sat, 11 Nov 2023 03:56:21 -0500
-X-MC-Unique: zRHGgKU3Msuuxx5rkbeU1w-1
-Received: by mail-lf1-f69.google.com with SMTP id
- 2adb3069b0e04-5090b916b7fso3138664e87.1
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 00:56:21 -0800 (PST)
+ us-mta-619-hruLtRzYPlK5fB33MkUw2w-1; Sat, 11 Nov 2023 04:10:47 -0500
+X-MC-Unique: hruLtRzYPlK5fB33MkUw2w-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ 2adb3069b0e04-507cb169766so2685222e87.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 01:10:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699692979; x=1700297779;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LGOFt1JfhjtGiblhN9a/032gAq4BmiVgO1JSpbn3+6k=;
- b=or7twKrRa0gy2cIUcoeurLeDjBKbG6Oc7RpLybV3uqJZRGTU9ttFa5cdQ81a6VHHYn
- uJqLrXYlNAx3XMnhT3f/ci7s838naHN7aeABBjByvYSfSrf/T8E4SjZGe+4uTOGwxTOe
- mgL3oOSOdMEY+d9b25F6nfQxIy2w9Omwwq1DX9AgyLEN4arKdhRg/Y1mIG80eLsOBSGx
- 59kf6jIE5QZ0qMjLpKKGd+knWyjHxjGXU/nmy+RHZQy+DIrC5/njs+uhQkKi3N5VDgf2
- spg9+JBihYjTKM0KGZ52sIdry4Sr8fId9oid88Fs5DLtr0f6qlg6C1HDCvbY1mdzCRC6
- azbA==
-X-Gm-Message-State: AOJu0YxFDTi5BkE0hV3URoMHfMS94Pwam1eVNHy4msZKIKW7d5kwAJ7U
- hRrbYHIgaQ5Ebqx4liZ13654bBtxyzsKiy6Si5eDp4512R5lptfs0j0rt42R5ODPetzgaTRvhJp
- g4v0HO/hINN+Bl0mpNKSVbVkIkvkxJlQfpvln
-X-Received: by 2002:a05:6512:31c8:b0:4fe:279b:8a02 with SMTP id
- j8-20020a05651231c800b004fe279b8a02mr989237lfe.67.1699692979437; 
- Sat, 11 Nov 2023 00:56:19 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGY8ccmlkBOq88EILichraXBPrI6zT6ibD+9BQmjfcutwvaXL5OwNK5iSVllYnSOs7nSiUQxA==
-X-Received: by 2002:a05:6512:31c8:b0:4fe:279b:8a02 with SMTP id
- j8-20020a05651231c800b004fe279b8a02mr989233lfe.67.1699692979064; 
- Sat, 11 Nov 2023 00:56:19 -0800 (PST)
+ d=1e100.net; s=20230601; t=1699693846; x=1700298646;
+ h=mime-version:message-id:date:references:in-reply-to:subject:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7c/Lm/uJDATCAgPRHFNpVgc8PBzSucZIj3Gj3ErqE9E=;
+ b=pSLGzkLPFO0wdvk5PwIPuGX7WNlxY1CvHqKaJFOCA/oDiJystVpcUvZEdehDyhhMic
+ VdfZijAApOlSjG+KeOB6+DYHWKGx6hx8mxSJtyzyWBFmiFd+j0j4ebIxxN94YsYNrMRU
+ MLexboqFP7rDXzabeP7YapaC447ohYXn/TQ9ieX2FKsxc2hnfSCbON2ZYqHxXk1lNc6R
+ pJpCqqvMyPd+yIisrDG8Dx4efEK0uvBN/m61euYsSq7bVX6w1ABy4F7WGoFsdxKUtChB
+ DbKwpBLiKFWg84IxnBk75Cazn90Hr13Ih4Xrcu8AlrUyrUtURzOflZizPdOIQwa5eO64
+ RJ/Q==
+X-Gm-Message-State: AOJu0YyIITPqWQLHsixWQnBCw9QOpnAd1+P/Ev4DJM5CQEoOdSQ70djP
+ rO630ne4hMo+qiJuCiJo/MpIhZJTWcDlKrjOOMfbhEuokr2t24MZ9CcTyvEdVe5WOF2OO1u3G7+
+ Ei8oLF9UMXBK3e9yqgO/Hps1vZVMA
+X-Received: by 2002:ac2:5551:0:b0:509:2b80:f90c with SMTP id
+ l17-20020ac25551000000b005092b80f90cmr749738lfk.68.1699693845889; 
+ Sat, 11 Nov 2023 01:10:45 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHPc9NJxiye/TNgxXuVbWNyzEeyOp6micERKdg2Co2s8cthNpH2I7hrfr/C39Ll0Y6NaWzR1A==
+X-Received: by 2002:ac2:5551:0:b0:509:2b80:f90c with SMTP id
+ l17-20020ac25551000000b005092b80f90cmr749726lfk.68.1699693845545; 
+ Sat, 11 Nov 2023 01:10:45 -0800 (PST)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- e14-20020adfe7ce000000b0032d2489a399sm1054153wrn.49.2023.11.11.00.56.18
+ l5-20020adfa385000000b0032da8fb0d05sm1070611wrb.110.2023.11.11.01.10.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Nov 2023 00:56:18 -0800 (PST)
+ Sat, 11 Nov 2023 01:10:45 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
-To: Luben Tuikov <ltuikov89@gmail.com>
-Subject: Re: [PATCH] Revert "drm/sched: Define pr_fmt() for DRM using pr_*()"
-In-Reply-To: <20231111083327.18607-2-ltuikov89@gmail.com>
-References: <87leb4ae6z.fsf@minerva.mail-host-address-is-not-set>
- <20231111083327.18607-2-ltuikov89@gmail.com>
-Date: Sat, 11 Nov 2023 09:56:18 +0100
-Message-ID: <87fs1cacst.fsf@minerva.mail-host-address-is-not-set>
+To: Andrew Worsley <amworsley@gmail.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "open
+ list:DRM DRIVER FOR FIRMWARE FRAMEBUFFERS"
+ <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Fix failure of simpledrm probe when trying to grab FB
+ from the EFI-based Framebuffer
+In-Reply-To: <CA+Y=x3mF4jFX7PiJQ-1Gk9zyBE1mwZaF_GLYjSspT+mxtMn4GQ@mail.gmail.com>
+References: <20231111042926.52990-1-amworsley@gmail.com>
+ <20231111042926.52990-2-amworsley@gmail.com>
+ <CA+Y=x3mF4jFX7PiJQ-1Gk9zyBE1mwZaF_GLYjSspT+mxtMn4GQ@mail.gmail.com>
+Date: Sat, 11 Nov 2023 10:10:44 +0100
+Message-ID: <87cywgac4r.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -80,39 +87,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, ltuikov89@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Luben Tuikov <ltuikov89@gmail.com> writes:
+Andrew Worsley <amworsley@gmail.com> writes:
 
-Hello Luben,
+> It's inline - part of the email - not an attachment?
+>
+> I can see it in the copy that went to me...
+>
+> Andrew
+>
+> On Sat, 11 Nov 2023 at 15:30, Andrew Worsley <amworsley@gmail.com> wrote:
+>>
+>>    The simpledrm.c does not call aperture_remove_conflicting_devices() in it's probe
+>>    function as the drivers/video/aperture.c documentation says it should. Consequently
+>>    it's request for the FB memory fails.
+>>
 
-> From Jani:
-> The drm_print.[ch] facilities use very few pr_*() calls directly. The
-> users of pr_*() calls do not necessarily include <drm/drm_print.h> at
-> all, and really don't have to.
->
-> Even the ones that do include it, usually have <linux/...> includes
-> first, and <drm/...> includes next. Notably, <linux/kernel.h> includes
-> <linux/printk.h>.
->
-> And, of course, <linux/printk.h> defines pr_fmt() itself if not already
-> defined.
->
-> No, it's encouraged not to use pr_*() at all, and prefer drm device
-> based logging, or device based logging.
->
+The current behaviour is correct since aperture_remove_conflicting_devices()
+is for native drivers to remove simple framebuffer devices such as simpledrm,
+simplefb, efifb, etc.
 
-Thanks for including the rationale from Jani for the revert.
+>> ...
+>> [    3.085302] simple-framebuffer bd58dc000.framebuffer: [drm] *ERROR* could not acquire memory range [??? 0xffff6e1d8629d580-0x2a5000001a7 flags 0x0]: -16
+>> [    3.086433] simple-framebuffer: probe of bd58dc000.framebuffer failed with error -16
+>> ...
+>>
 
-> This reverts commit 36245bd02e88e68ac5955c2958c968879d7b75a9.
->
-> Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
-> Link: https://patchwork.freedesktop.org/patch/msgid/878r75wzm9.fsf@intel.com
-> ---
+This is -EBUSY. What is your kernel configuration? Can you share it please.
 
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+>>    In my case no driver provided /dev/dri/card0 device is available on boot up and X
+>>    fails to start as per this from X start up log.
+>>
+>> ...
+>> [     5.616] (WW) Falling back to old probe method for modesetting
+>> [     5.616] (EE) open /dev/dri/card0: No such file or directory
+>> ...
+>>
+>>    Fault confirmed and fixed on Asahi 6.5.0 kernel with both CONFIG_FB_EFI and
+>>    CONFIG_DRM_SIMPLEDRM config options set.
+>>
+>> Signed-off-by: Andrew Worsley <amworsley@gmail.com>
+>> ---
+
+I wonder if this is anothe side effect of commit 60aebc955949
+("drivers/firmware: Move sysfb_init() from device_initcall to
+subsys_initcall_sync").
+
+Can you try reverting that one and see if it helps?
+
+>>  drivers/gpu/drm/tiny/simpledrm.c | 15 +++++++++++++++
+>>  1 file changed, 15 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+>> index 5fefc895bca2..e55a536b04cf 100644
+>> --- a/drivers/gpu/drm/tiny/simpledrm.c
+>> +++ b/drivers/gpu/drm/tiny/simpledrm.c
+>> @@ -8,6 +8,7 @@
+>>  #include <linux/platform_device.h>
+>>  #include <linux/pm_domain.h>
+>>  #include <linux/regulator/consumer.h>
+>> +#include <linux/aperture.h>
+>>
+>>  #include <drm/drm_aperture.h>
+>>  #include <drm/drm_atomic.h>
+>> @@ -828,6 +829,13 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
+>>         if (mem) {
+>>                 void *screen_base;
+>>
+>> +               ret = aperture_remove_conflicting_devices(mem->start, resource_size(mem),
+>> +                       DRIVER_NAME);
+>> +               if (ret) {
+
+DRM drivers should use drm_aperture_remove_framebuffers() instead. But
+this shouldn't be needed for the simpledrm driver as mentioned, since
+there shouldn't be another device grabbing this aperture at this point.
+
+I would rather try to understand what is going on in your setup and why 
+the acquire is returning -EBUSY.
 
 -- 
 Best regards,
