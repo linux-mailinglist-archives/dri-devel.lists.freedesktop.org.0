@@ -1,52 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D51BC7E8BD6
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 18:19:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D48EE7E8BF7
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 18:45:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EAC610E109;
-	Sat, 11 Nov 2023 17:19:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9E3810E2B6;
+	Sat, 11 Nov 2023 17:45:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F66C10E109
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 17:19:09 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id F068960B72;
- Sat, 11 Nov 2023 17:19:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2C2DC433C8;
- Sat, 11 Nov 2023 17:19:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699723147;
- bh=NgpKnj5nzW/ae95+vZHVPjMxvDXA89DOUJ9HvG7wcRg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=hFKFk+ZamKmhKyj7bEJVHKQQ1UL6rBZnH9b8IwFaQflQC0QDjGiR8TW+vR2jfuH5F
- cANfiI4eIvdmmyIUqoXiRpJC4s7BxEvWM9oh1SOwBP/kdL4Yk8j9+NfqVYlSQpB1hO
- 6bFisDNKhGV9lGq/O7MZStKzfpUNVqOGTNikgZ4FBpwqvQ4PnXHgy15fcm3LnKdlka
- UqH4WHVRR44ISDNH0scX2ITCDFZz6qbUG/EkCkheyKe10W41KlEfTmvmDZlHGbr24R
- J5G6ziaMn6j191JLlKPmjSH9rz/sPK96QLPCJmT20V+qeocSSGy67LHqpy8m1tfc/X
- MAwiRifHVFSiQ==
-Message-ID: <f59c200f-4659-4c71-8c83-4457d0b08fe1@kernel.org>
-Date: Sat, 11 Nov 2023 10:19:05 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A611310E2B6
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 17:45:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699724715; x=1731260715;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=JCkyLUFSiAGNSLRbnliFr9Cc7vWp3ub6eb46sIme+qs=;
+ b=Q2air+zgexZo09UzdodYKSzQ1vWzV4TtUZJbEd/kbP7ncfqxe8gT8u2v
+ m8IeELC2W0mR+4j42ZhU9NTSmzk4v75XIoAs1Pmf+KuPgd4bceYoVgEhI
+ C10vPj0fw9igF6gERsHtB21aJKC0ezvfmGO+qF402ma0oICGRzqErNDLb
+ 2ho+Pq6p6NN4dbr9gYuUe92/GID+YOccV4JWPELIxGL5lJfGWdUZwE84u
+ vjpqaqN+YNRP0mJ4uIYzA6C+6eB3t7jUnUxFYpPENaREQzaH2qFwII0zu
+ NBt4Jb7vO5bXNkjlkTAbkXLfOVvWvXgbOLe9XFrp6TnzcF/TYYAgjoF10 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="3346744"
+X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
+   d="scan'208";a="3346744"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Nov 2023 09:45:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="763989254"
+X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; d="scan'208";a="763989254"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+ by orsmga002.jf.intel.com with ESMTP; 11 Nov 2023 09:45:07 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1r1s2b-000Aee-0Z;
+ Sat, 11 Nov 2023 17:45:05 +0000
+Date: Sun, 12 Nov 2023 01:44:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com,
+ Matthias Brugger <matthias.bgg@gmail.com>
+Subject: Re: [PATCH v2 3/8] dma-buf: heaps: secure_heap: Initialize tee session
+Message-ID: <202311120136.o1VqalXm-lkp@intel.com>
+References: <20231111111559.8218-4-yong.wu@mediatek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 05/12] netdev: netdevice devmem allocator
-Content-Language: en-US
-To: Pavel Begunkov <asml.silence@gmail.com>,
- Mina Almasry <almasrymina@google.com>, David Wei <dw@davidwei.uk>
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-6-almasrymina@google.com>
- <3b0d612c-e33b-48aa-a861-fbb042572fc9@kernel.org>
- <CAHS8izOHYx+oYnzksUDrK1S0+6CdMJmirApntP5W862yFumezw@mail.gmail.com>
- <a5b95e6b-8716-4e2e-9183-959b754b5b5e@kernel.org>
- <CAHS8izMKDOw5_y2MLRfuJHs=ai+sZ6GF7Rg1NuR_JqONg-5u5Q@mail.gmail.com>
- <3687e70e-29e6-34af-c943-8c0830ff92b8@gmail.com>
-From: David Ahern <dsahern@kernel.org>
-In-Reply-To: <3687e70e-29e6-34af-c943-8c0830ff92b8@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231111111559.8218-4-yong.wu@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,85 +62,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>,
- netdev@vger.kernel.org, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
+ Jeffrey Kardatzke <jkardatzke@google.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Vijayanand Jitta <quic_vjitta@quicinc.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Yong Wu <yong.wu@mediatek.com>, jianjiao.zeng@mediatek.com,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, ckoenig.leichtzumerken@gmail.com,
+ linaro-mm-sig@lists.linaro.org, linux-mediatek@lists.infradead.org,
+ oe-kbuild-all@lists.linux.dev, Joakim Bech <joakim.bech@linaro.org>,
+ tjmercier@google.com, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/10/23 7:26 AM, Pavel Begunkov wrote:
-> On 11/7/23 23:03, Mina Almasry wrote:
->> On Tue, Nov 7, 2023 at 2:55 PM David Ahern <dsahern@kernel.org> wrote:
->>>
->>> On 11/7/23 3:10 PM, Mina Almasry wrote:
->>>> On Mon, Nov 6, 2023 at 3:44 PM David Ahern <dsahern@kernel.org> wrote:
->>>>>
->>>>> On 11/5/23 7:44 PM, Mina Almasry wrote:
->>>>>> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
->>>>>> index eeeda849115c..1c351c138a5b 100644
->>>>>> --- a/include/linux/netdevice.h
->>>>>> +++ b/include/linux/netdevice.h
->>>>>> @@ -843,6 +843,9 @@ struct netdev_dmabuf_binding {
->>>>>>   };
->>>>>>
->>>>>>   #ifdef CONFIG_DMA_SHARED_BUFFER
->>>>>> +struct page_pool_iov *
->>>>>> +netdev_alloc_devmem(struct netdev_dmabuf_binding *binding);
->>>>>> +void netdev_free_devmem(struct page_pool_iov *ppiov);
->>>>>
->>>>> netdev_{alloc,free}_dmabuf?
->>>>>
->>>>
->>>> Can do.
->>>>
->>>>> I say that because a dmabuf can be host memory, at least I am not
->>>>> aware
->>>>> of a restriction that a dmabuf is device memory.
->>>>>
->>>>
->>>> In my limited experience dma-buf is generally device memory, and
->>>> that's really its use case. CONFIG_UDMABUF is a driver that mocks
->>>> dma-buf with a memfd which I think is used for testing. But I can do
->>>> the rename, it's more clear anyway, I think.
->>>
->>> config UDMABUF
->>>          bool "userspace dmabuf misc driver"
->>>          default n
->>>          depends on DMA_SHARED_BUFFER
->>>          depends on MEMFD_CREATE || COMPILE_TEST
->>>          help
->>>            A driver to let userspace turn memfd regions into dma-bufs.
->>>            Qemu can use this to create host dmabufs for guest
->>> framebuffers.
->>>
->>>
->>> Qemu is just a userspace process; it is no way a special one.
->>>
->>> Treating host memory as a dmabuf should radically simplify the io_uring
->>> extension of this set.
->>
->> I agree actually, and I was about to make that comment to David Wei's
->> series once I have the time.
->>
->> David, your io_uring RX zerocopy proposal actually works with devmem
->> TCP, if you're inclined to do that instead, what you'd do roughly is
->> (I think):
-> That would be a Frankenstein's monster api with no good reason for it.
+Hi Yong,
 
-It brings a consistent API from a networking perspective.
+kernel test robot noticed the following build errors:
 
-io_uring should not need to be in the page pool and memory management
-business. Have you or David coded up the re-use of the socket APIs with
-dmabuf to see how much smaller it makes the io_uring change - or even
-walked through from a theoretical perspective?
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on robh/for-next drm-tip/drm-tip linus/master v6.6 next-20231110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Yong-Wu/dma-buf-heaps-Initialize-a-secure-heap/20231111-192115
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231111111559.8218-4-yong.wu%40mediatek.com
+patch subject: [PATCH v2 3/8] dma-buf: heaps: secure_heap: Initialize tee session
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20231112/202311120136.o1VqalXm-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120136.o1VqalXm-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311120136.o1VqalXm-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   s390-linux-ld: drivers/dma-buf/heaps/secure_heap.o: in function `secure_heap_tee_session_init':
+   secure_heap.c:(.text+0x256): undefined reference to `tee_client_open_context'
+>> s390-linux-ld: secure_heap.c:(.text+0x3e0): undefined reference to `tee_client_open_session'
+>> s390-linux-ld: secure_heap.c:(.text+0x52a): undefined reference to `tee_client_close_context'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
