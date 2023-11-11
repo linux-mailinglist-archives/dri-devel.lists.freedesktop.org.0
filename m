@@ -2,53 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 849387E89D6
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 09:25:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC4917E89D5
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 09:25:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49EEF10E256;
-	Sat, 11 Nov 2023 08:24:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE69610E255;
+	Sat, 11 Nov 2023 08:24:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
- [IPv6:2607:f8b0:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27D4310E10E
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 04:30:05 +0000 (UTC)
-Received: by mail-ot1-x336.google.com with SMTP id
- 46e09a7af769-6ce37683cf6so1456902a34.3
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 20:30:05 -0800 (PST)
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F32E10E10E
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 04:30:22 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ 46e09a7af769-6ce322b62aeso1367724a34.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 20:30:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699677004; x=1700281804; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=qbEMuqKiRO1Bmqqs4mp6AF0/3oi8wc7b0yDR5qPsAek=;
- b=Wrf/dgKjbl8bFGIeQoUHnTdLj7+XpHtWC0wMmcx/u+vfePY9PNuFxOleR05E+LA9/a
- yn4e5P7FwyvtBc24Ai6k3yBZRrQf6715D3iUrNk0VFw9TC9wDKtJ4BmpYoEEXJJuPNqK
- dRAXfzqMnvwLa49ha+MAifGDgYnukup0vyPMSVs73RD/4bJj8RuuEfXM9UtaQWAnepIJ
- o7UcVJxOxgotObz5E8ULpRY+kpFkHk/iORmCAZgysRFO+0sNwjdn5phmUzDPEd+cWzHQ
- 85uhy7SMlP4vE5moTUyACXlnLNNTzBjua8MpeXPiOYxysB0iNzYZoKFdwl0wat6Otg7V
- fcvg==
+ d=gmail.com; s=20230601; t=1699677022; x=1700281822; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0UeOfKSGtUGFS1M67vt4QeOHf8NL5FRLZhzwheHOXEQ=;
+ b=ERB9oTaXG2kdqxSKXEYMXAiXTnFlL3C2Q4zHt3FcXDIaebZzGihendI1ooIHu6qK1D
+ W+bRzMf/O76k2bOJIp74uHTJelJKkeIhULvkUqtuU4Wa2mMhsekh5+KD2DJ8rkUaov/f
+ J5P+koYrAnPgWKHBxoFO0aoF2R9ABGQxQ1wCx6kNUHUC/pAqo2mqa1NI+3Z0ZX4j1+0a
+ MJ5+98HyzKa3xsACXEn8As4q8yefqLHS82a1vPDcc/Jh/g1vpDMXWEbsj3E6ANpFssGj
+ 0Cizb3wRiGXr1QPwejog2SKKgfht0PAR2279DoUWJruV8ctL4RlK21236QJG1kkr91EL
+ F88Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699677004; x=1700281804;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qbEMuqKiRO1Bmqqs4mp6AF0/3oi8wc7b0yDR5qPsAek=;
- b=uEthaXVreQWc7XbWCRAfUTHFRwiyJ4WzMulR11mo4jhb02l9sylMdhcFvF5kci+8cg
- F7cfM9HbJy7iAeUwPSwASS56jxrme5ScMy0qVGhTNuSKMaHYfUfQNumycbU1pH2E6s5j
- qILbMP/8DGfu3DW5R7Z3yTdyNt6Wco+tm+7cgpev6QnhByc9cW5JfhdKFdPV53FjLsdR
- mTSkOU3Ynmukr46EX5ZRV9aT/cUNZmnNSkH2p446ioeDQ+TLcRgWZCwuujTDWhbFTaiQ
- OaHmzwXjZkZ9VilImW0VRbSxcE+JRY98nmdTFYQm2QR4JqU6IL9S0tvGHx0vwGu344fG
- O+mQ==
-X-Gm-Message-State: AOJu0YwhPoCUfVeu3FQbYWQKhzmAqoOA8YOSLcGhfj1pQ6ZxG9hQi+cV
- 6O8UnP51P00X1E2ZBDv3DkE=
-X-Google-Smtp-Source: AGHT+IHOe1HBDh7zJVpvbDhWnWNvgk48cuwtImFRumXvct8eYDMrWuFc6b5vdq+M/ULV1w2+F2dMzA==
-X-Received: by 2002:a9d:6847:0:b0:6cd:a989:c7ea with SMTP id
- c7-20020a9d6847000000b006cda989c7eamr392942oto.16.1699677004262; 
- Fri, 10 Nov 2023 20:30:04 -0800 (PST)
+ d=1e100.net; s=20230601; t=1699677022; x=1700281822;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0UeOfKSGtUGFS1M67vt4QeOHf8NL5FRLZhzwheHOXEQ=;
+ b=ocoJc+1P6sgxZSjSXWZEc6vu1rvs2qJbwVJoax82pKmeGzaNn3+4vkRhE4WmX1QFM3
+ pe4Uw5K6e7/UOzYahu2D830N4qJ8EJcYyOS4csFfBkwnO9MlvqOatHIaQG26IFqE8MFY
+ wvBY7XuESS1A/QWs9Bum2r8JGm6uSuyTuG73D5kEbTN+cMQQbchR6tB/5Tm4ztbaclBc
+ 9mUW111IJWUWdwrZV1op3Kg8KTIgE+e/+rq0DiS6KNTHUrClMWyhKSO4FSnVQQPxJaDU
+ yQR0/7K98yzAbp/LHrJ6L3ioyYpeJWQgjunUz6QEHp9W+VN/mpjbP48+2Mlu+dGygLv2
+ rzTw==
+X-Gm-Message-State: AOJu0YyHh3ZLJLSIS6dR7ak4ZXNv9THlzZpydbJ849VyDSxyjgjc3yTd
+ aEAaJGniROqUg8c4MCc3Jcs=
+X-Google-Smtp-Source: AGHT+IGqm442xKF6kqYoBxkN0ltyPIsvs6VvlDXjXkHff5Tv5uMmiXes6nVYN8UQxl3ctcJwjcpiKw==
+X-Received: by 2002:a9d:684d:0:b0:6c4:a349:4b10 with SMTP id
+ c13-20020a9d684d000000b006c4a3494b10mr1064937oto.28.1699677021877; 
+ Fri, 10 Nov 2023 20:30:21 -0800 (PST)
 Received: from macbook.lan (119-18-27-45.77121b.mel.nbn.aussiebb.net.
  [119.18.27.45]) by smtp.gmail.com with ESMTPSA id
- a8-20020a1709027d8800b001c74df14e6esm469672plm.51.2023.11.10.20.30.01
+ a8-20020a1709027d8800b001c74df14e6esm469672plm.51.2023.11.10.20.30.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Nov 2023 20:30:03 -0800 (PST)
+ Fri, 10 Nov 2023 20:30:21 -0800 (PST)
 From: Andrew Worsley <amworsley@gmail.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>,
  Javier Martinez Canillas <javierm@redhat.com>,
@@ -57,10 +59,13 @@ To: Thomas Zimmermann <tzimmermann@suse.de>,
  Daniel Vetter <daniel@ffwll.ch>,
  dri-devel@lists.freedesktop.org (open list:DRM DRIVER FOR FIRMWARE
  FRAMEBUFFERS), linux-kernel@vger.kernel.org (open list)
-Subject: 
-Date: Sat, 11 Nov 2023 15:21:21 +1100
-Message-ID: <20231111042926.52990-1-amworsley@gmail.com>
+Subject: [PATCH] Fix failure of simpledrm probe when trying to grab FB from
+ the EFI-based Framebuffer
+Date: Sat, 11 Nov 2023 15:21:22 +1100
+Message-ID: <20231111042926.52990-2-amworsley@gmail.com>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231111042926.52990-1-amworsley@gmail.com>
+References: <20231111042926.52990-1-amworsley@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sat, 11 Nov 2023 08:24:49 +0000
@@ -76,18 +81,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Andrew Worsley <amworsley@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-   This patch fix's the failure of the frame buffer driver on my Asahi kernel
-which prevented X11 from starting on my Apple M1 laptop. It seems like a straight
-forward failure to follow the procedure described in drivers/video/aperture.c
-to remove the ealier driver. This patch is very simple and minimal. Very likely
-there may be better ways to fix this and very like there may be other drivers
-which have the same problem but I submit this so at least there is
-an interim fix for my problem.
+   The simpledrm.c does not call aperture_remove_conflicting_devices() in it's probe
+   function as the drivers/video/aperture.c documentation says it should. Consequently
+   it's request for the FB memory fails.
 
-    Thanks
+...
+[    3.085302] simple-framebuffer bd58dc000.framebuffer: [drm] *ERROR* could not acquire memory range [??? 0xffff6e1d8629d580-0x2a5000001a7 flags 0x0]: -16
+[    3.086433] simple-framebuffer: probe of bd58dc000.framebuffer failed with error -16
+...
 
-    Andrew Worsley
+   In my case no driver provided /dev/dri/card0 device is available on boot up and X
+   fails to start as per this from X start up log.
+
+...
+[     5.616] (WW) Falling back to old probe method for modesetting
+[     5.616] (EE) open /dev/dri/card0: No such file or directory
+...
+
+   Fault confirmed and fixed on Asahi 6.5.0 kernel with both CONFIG_FB_EFI and
+   CONFIG_DRM_SIMPLEDRM config options set.
+
+Signed-off-by: Andrew Worsley <amworsley@gmail.com>
+---
+ drivers/gpu/drm/tiny/simpledrm.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+index 5fefc895bca2..e55a536b04cf 100644
+--- a/drivers/gpu/drm/tiny/simpledrm.c
++++ b/drivers/gpu/drm/tiny/simpledrm.c
+@@ -8,6 +8,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_domain.h>
+ #include <linux/regulator/consumer.h>
++#include <linux/aperture.h>
+ 
+ #include <drm/drm_aperture.h>
+ #include <drm/drm_atomic.h>
+@@ -828,6 +829,13 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
+ 	if (mem) {
+ 		void *screen_base;
+ 
++		ret = aperture_remove_conflicting_devices(mem->start, resource_size(mem),
++			DRIVER_NAME);
++		if (ret) {
++			drm_err(dev, "aperture_remove_conflicting_devices: failed:%d\n",
++			    __func__, ret);
++			return ERR_PTR(ret);
++		}
+ 		ret = devm_aperture_acquire_from_firmware(dev, mem->start, resource_size(mem));
+ 		if (ret) {
+ 			drm_err(dev, "could not acquire memory range %pr: %d\n", mem, ret);
+@@ -848,6 +856,13 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
+ 		if (!res)
+ 			return ERR_PTR(-EINVAL);
+ 
++		ret = aperture_remove_conflicting_devices(res->start, resource_size(res),
++			DRIVER_NAME);
++		if (ret) {
++			drm_err(dev, "aperture_remove_conflicting_devices: failed:%d\n",
++			    __func__, ret);
++			return ERR_PTR(ret);
++		}
+ 		ret = devm_aperture_acquire_from_firmware(dev, res->start, resource_size(res));
+ 		if (ret) {
+ 			drm_err(dev, "could not acquire memory range %pr: %d\n", res, ret);
+-- 
+2.42.0
 
