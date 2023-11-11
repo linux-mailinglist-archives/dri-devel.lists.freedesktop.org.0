@@ -2,54 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48EE7E8BF7
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 18:45:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03D387E8C29
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 19:40:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9E3810E2B6;
-	Sat, 11 Nov 2023 17:45:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48B7610E141;
+	Sat, 11 Nov 2023 18:40:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A611310E2B6
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 17:45:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699724715; x=1731260715;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=JCkyLUFSiAGNSLRbnliFr9Cc7vWp3ub6eb46sIme+qs=;
- b=Q2air+zgexZo09UzdodYKSzQ1vWzV4TtUZJbEd/kbP7ncfqxe8gT8u2v
- m8IeELC2W0mR+4j42ZhU9NTSmzk4v75XIoAs1Pmf+KuPgd4bceYoVgEhI
- C10vPj0fw9igF6gERsHtB21aJKC0ezvfmGO+qF402ma0oICGRzqErNDLb
- 2ho+Pq6p6NN4dbr9gYuUe92/GID+YOccV4JWPELIxGL5lJfGWdUZwE84u
- vjpqaqN+YNRP0mJ4uIYzA6C+6eB3t7jUnUxFYpPENaREQzaH2qFwII0zu
- NBt4Jb7vO5bXNkjlkTAbkXLfOVvWvXgbOLe9XFrp6TnzcF/TYYAgjoF10 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="3346744"
-X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="3346744"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Nov 2023 09:45:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="763989254"
-X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; d="scan'208";a="763989254"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 11 Nov 2023 09:45:07 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1r1s2b-000Aee-0Z;
- Sat, 11 Nov 2023 17:45:05 +0000
-Date: Sun, 12 Nov 2023 01:44:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com,
- Matthias Brugger <matthias.bgg@gmail.com>
-Subject: Re: [PATCH v2 3/8] dma-buf: heaps: secure_heap: Initialize tee session
-Message-ID: <202311120136.o1VqalXm-lkp@intel.com>
-References: <20231111111559.8218-4-yong.wu@mediatek.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59A8710E2BA
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 18:40:28 +0000 (UTC)
+Received: from [10.3.2.161] (zone.collabora.co.uk [167.235.23.81])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 54FD266073B7;
+ Sat, 11 Nov 2023 18:40:26 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1699728026;
+ bh=C9hbg3YER1tfMUA7RGMlvBY2RFh6xu+gWcyDeKEN0+g=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=QlAlpCGJC/iWQOAh8N/vNSCmItef6nLYAYsCVVQ7qw4gff/MeeZLOrPy4uhOPsxvF
+ QXI9Xhjf3wRj+LCiD/t3iQz79pkIUCdaqdCtSR/udXtDLg/gim017uLpQPQKxk+cy3
+ QMROYWcaCO+bLI9xkj6zxLO0mB2cz8tBqbnFBX7mDOyy6tY75h3wDVu8Ml556vJWiB
+ kLPhQ1QzFh8XN1UpQFsE7IAkPXoUadcBaQatMpg47FC7bw9qITEUjQnfXp57VrxDs8
+ lmDxOCNkT07luTi5LNbwvFQ5zDZ9ql37l1N5g83wXrn2P9aHoYvkz2btN2XiSx+aWX
+ CKEZwg3dntZsQ==
+Message-ID: <77316c81-df8b-19f0-04a1-feca42f3943f@collabora.com>
+Date: Sat, 11 Nov 2023 21:40:22 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231111111559.8218-4-yong.wu@mediatek.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v3 2/2] drm/uapi: add explicit virtgpu context debug name
+Content-Language: en-US
+To: Gurchetan Singh <gurchetansingh@chromium.org>,
+ dri-devel@lists.freedesktop.org, kraxel@redhat.com
+References: <20231018181727.772-1-gurchetansingh@chromium.org>
+ <20231018181727.772-2-gurchetansingh@chromium.org>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20231018181727.772-2-gurchetansingh@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,52 +56,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
- Jeffrey Kardatzke <jkardatzke@google.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Vijayanand Jitta <quic_vjitta@quicinc.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Nicolas Dufresne <nicolas@ndufresne.ca>,
- Yong Wu <yong.wu@mediatek.com>, jianjiao.zeng@mediatek.com,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, ckoenig.leichtzumerken@gmail.com,
- linaro-mm-sig@lists.linaro.org, linux-mediatek@lists.infradead.org,
- oe-kbuild-all@lists.linux.dev, Joakim Bech <joakim.bech@linaro.org>,
- tjmercier@google.com, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org
+Cc: josh.simonot@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yong,
+On 10/18/23 21:17, Gurchetan Singh wrote:
+> There are two problems with the current method of determining the
+> virtio-gpu debug name.
+> 
+> 1) TASK_COMM_LEN is defined to be 16 bytes only, and this is a
+>    Linux kernel idiom (see PR_SET_NAME + PR_GET_NAME). Though,
+>    Android/FreeBSD get around this via setprogname(..)/getprogname(..)
+>    in libc.
+> 
+>    On Android, names longer than 16 bytes are common.  For example,
+>    one often encounters a program like "com.android.systemui".
+> 
+>    The virtio-gpu spec allows the debug name to be up to 64 bytes, so
+>    ideally userspace should be able to set debug names up to 64 bytes.
+> 
+> 2) The current implementation determines the debug name using whatever
+>    task initiated virtgpu.  This is could be a "RenderThread" of a
+>    larger program, when we actually want to propagate the debug name
+>    of the program.
+> 
+> To fix these issues, add a new CONTEXT_INIT param that allows userspace
+> to set the debug name when creating a context.
+> 
+> It takes a null-terminated C-string as the param value. The length of the
+> string (excluding the terminator) **should** be <= 64 bytes.  Otherwise,
+> the debug_name will be truncated to 64 bytes.
+> 
+> Link to open-source userspace:
+> https://android-review.googlesource.com/c/platform/hardware/google/gfxstream/+/2787176
+> 
+> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+> Reviewed-by: Josh Simonot <josh.simonot@gmail.com>
+> ---
+> Fixes suggested by Dmitry Osipenko
+> v2:
+>     - Squash implementation and UAPI change into one commit
+>     - Avoid unnecessary casts
+>     - Use bool when necessary
+> v3:
+>     - Use DEBUG_NAME_MAX_LEN - 1 when copying string
+> 
+>  drivers/gpu/drm/virtio/virtgpu_drv.h   |  5 ++++
+>  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 39 ++++++++++++++++++++++----
+>  include/uapi/drm/virtgpu_drm.h         |  2 ++
+>  3 files changed, 40 insertions(+), 6 deletions(-)
+...
+> +			ret = strncpy_from_user(vfpriv->debug_name,
+> +						u64_to_user_ptr(value),
+> +						DEBUG_NAME_MAX_LEN - 1);
+> +
+> +			if (ret < 0) {
+> +				ret = -EFAULT;
+> +				goto out_unlock;
+> +			}
 
-kernel test robot noticed the following build errors:
+The strncpy_from_user() itself returns -EFAULT. I changed code to return
+the "ret" directly and applied to misc-next.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on robh/for-next drm-tip/drm-tip linus/master v6.6 next-20231110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yong-Wu/dma-buf-heaps-Initialize-a-secure-heap/20231111-192115
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231111111559.8218-4-yong.wu%40mediatek.com
-patch subject: [PATCH v2 3/8] dma-buf: heaps: secure_heap: Initialize tee session
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20231112/202311120136.o1VqalXm-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120136.o1VqalXm-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311120136.o1VqalXm-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   s390-linux-ld: drivers/dma-buf/heaps/secure_heap.o: in function `secure_heap_tee_session_init':
-   secure_heap.c:(.text+0x256): undefined reference to `tee_client_open_context'
->> s390-linux-ld: secure_heap.c:(.text+0x3e0): undefined reference to `tee_client_open_session'
->> s390-linux-ld: secure_heap.c:(.text+0x52a): undefined reference to `tee_client_close_context'
+Gerd, let us know if have any objections to this patch.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Dmitry
+
