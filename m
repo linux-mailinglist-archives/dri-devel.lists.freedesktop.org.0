@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E55B97E8945
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 05:55:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DADA7E8946
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 05:55:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3710210E10E;
-	Sat, 11 Nov 2023 04:55:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 631A710E24C;
+	Sat, 11 Nov 2023 04:55:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FFFD10E10E
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 04:55:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F0DB10E24C
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 04:55:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id C5C76B8236A
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 04:55:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2A313C433C7
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 04:55:26 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 1BD50B82425
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 04:55:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 752CEC433C7
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 04:55:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699678526;
- bh=Ikkvp5R7oFIotoLY+H2CzKu333Wbd/o7aliyVe9FHO8=;
+ s=k20201202; t=1699678547;
+ bh=RNz8+wLfN7mMovr7bxPFZJKrGzZeqXpfbt3dRv7pSsc=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=d0M18Pze+W0F64fSNmeIZIY/2bi+Qw6vUZruVDKi0MSILDklFIptiUSw8oO+LtmVf
- ZF1URRbGaE7ujWYN3wM2y+lrtcd0jW7rf4m+HtxU0mKimQX5epuvhIWGUlXe/Pge0j
- G2YJ6YktPOAU7LZg1tZzSTcW5/0VbdPRF/9IA43zzYB7G3BVGL9R3G/46E1leaK8pz
- hWr8W0PRdM6DUmi155GgSuQoOoXU7AW/1P7wbSPV8ZoNT2/LsA3wwlSQ0GGNCFatcY
- 97LoWWsV7MGY5vqRTPoMq9GVJBdH2DYi8LCiNt20jJJVHhOM+lNIL3IT2JfEESF3jF
- RtKbLx4eQKmHw==
+ b=hQm+gDmCUEll4qdvCM9LKyNpsD4lRmUQG7AVWVWyzVfmENv6+jVBi4Luiw+Wa7wnE
+ NUVkBSBCL+nfwo9h/4nXOuMRRG6FE+pw5t1WpTBikbQKE80cTyMXjDe5Cco3i9mQki
+ YVaRQHvDUHNktNKt12/DQGNm65EcUZv7hvwy3cCWcawwiNm00K2eYRnk14L0EbPWPA
+ H6dihCH/f6EbpbnRZLSsrP3cLI020gezu72+wvoyndyFQNMdk9T8HAoifaOwwmU+DN
+ tvT3/KnBHa/PavxtBp+yzneHM0mHixxliIpIFEHCtszlJONsPDTkpAgrk6Dw79pZvc
+ jNXy+kvqS/mtA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 18043C53BD0; Sat, 11 Nov 2023 04:55:26 +0000 (UTC)
+ from userid 48) id 65D98C53BD0; Sat, 11 Nov 2023 04:55:47 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 218133] kernel panic when opening spotify/firefox 6.5.0.10.12
- ubuntu 23.10
-Date: Sat, 11 Nov 2023 04:55:25 +0000
+ ubuntu 23.10  vega 64
+Date: Sat, 11 Nov 2023 04:55:47 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -49,7 +49,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: short_desc
-Message-ID: <bug-218133-2300-rTDJbNVUw4@https.bugzilla.kernel.org/>
+Message-ID: <bug-218133-2300-oEIEisP9eC@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-218133-2300@https.bugzilla.kernel.org/>
 References: <bug-218133-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -79,8 +79,8 @@ Michael Pollind (mpollind@gmail.com) changed:
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
             Summary|kernel panic when opening   |kernel panic when opening
-                   |spotify 6.5.0.10.12 ubuntu  |spotify/firefox 6.5.0.10.12
-                   |23.10                       |ubuntu 23.10
+                   |spotify/firefox 6.5.0.10.12 |spotify/firefox 6.5.0.10.12
+                   |ubuntu 23.10                |ubuntu 23.10  vega 64
 
 --=20
 You may reply to this email to add a comment.
