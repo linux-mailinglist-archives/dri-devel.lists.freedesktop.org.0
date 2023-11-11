@@ -2,64 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F957E8834
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 03:27:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 509617E885F
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 03:36:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE60D10E056;
-	Sat, 11 Nov 2023 02:27:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67D7A10E121;
+	Sat, 11 Nov 2023 02:36:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
- [IPv6:2607:f8b0:4864:20::c34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C1E710E056
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 02:27:20 +0000 (UTC)
-Received: by mail-oo1-xc34.google.com with SMTP id
- 006d021491bc7-586940ee5a5so1328590eaf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 18:27:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1699669640; x=1700274440;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SHEiP3XV2uBmn0PqLRLjX42b0E6uQ7KYb1D3uUIKBZU=;
- b=V1N+QQ+W7QCG84rd4AO3FBidEw8GY2vz5EMzttYoBuiY0kn0XsntMd7dQHJWaU1tFt
- 8InmsZ0mD2Z5D4XCV+VnOP9LgUpdd0KPz6jHVcKaEnf0/U62RdjKuTyI+Uv3qOO/5Up8
- ttEK5E+d1Y2/L/BJmBCzZfJj6Xu7vqV/8NeT+PWVDfI2KM5jcUOgH86gBmMdVHVBJ49v
- qsRxOagNiVojTj/HRZLFVZniS8S1dxzLd3StJjYfp4r46vXqXb7neHWfZJDI2mIuhtAS
- aSS7keNSPhWxR0hpefyC+94u7vj3gncdNVzjQC4nS/KVEBs18IWjel255rDnr7ooRuMX
- AY2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699669640; x=1700274440;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SHEiP3XV2uBmn0PqLRLjX42b0E6uQ7KYb1D3uUIKBZU=;
- b=qs+ZVy13doqAFYVLU7TSLV8ZLDwK/Gd9ZcS9rUfLmkCg83j61Xb6Wf6dqRgukcAYS+
- f0AcoaZEN6uXBgeUnKOGhD5pNyCzPgoaS20Dhk2vty73snF6fYYZ2vbuxYj63ngLijNf
- hBwntSDnZT0dZHtxYELiO7YOoGtoJGtBCP0H3sbyN26sYRafhnWU6YRFeTnEJ6lzoh+F
- tBDHiWlPcG7B3azKsCjN+ydyc0BlW5pnT37JU/4LoLnRTg9kcOT2hj8j82smGboRa7YY
- Tg7sprmL4gNOlkj2tGsWu2iRQcI7D6LBLttL9CSXE57K2pUvlcSlmlWfZe8lxanRk4/h
- dlXg==
-X-Gm-Message-State: AOJu0YxOo8Qy3pvL31+W53lHWIY+al4TAnmsieYnlYC8TzFOzu5AduPK
- f2/CBgRbwWZ6zL5xG59cbM0OSok+pXxrL2oux9QAFQ==
-X-Google-Smtp-Source: AGHT+IGyBV+nVxcKXqDhr/jOsghB7xKbBgit+rRkn7+/EmvaA+hI7Vwg9695v7Wh5I5Hq/ZuyDfKvkdxmxTKCmeUs+M=
-X-Received: by 2002:a05:6358:7f1b:b0:16b:b980:d84b with SMTP id
- p27-20020a0563587f1b00b0016bb980d84bmr742598rwn.11.1699669639815; Fri, 10 Nov
- 2023 18:27:19 -0800 (PST)
-MIME-Version: 1.0
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B812310E121
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 02:36:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id EAB0AB82448;
+ Sat, 11 Nov 2023 02:35:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75F08C433C7;
+ Sat, 11 Nov 2023 02:35:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1699670158;
+ bh=gY+gv6FuH7IyPZd+GcBbaxMFJ8nyFzbRgSyvPpB8WHI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ht9uExB8i5dnk2CmKBU1mVcjqsdrsD2ZgLZevr8N30eX0ZSAYboFGGKykaf+sSld7
+ CGIVo25CwHPZiytr+teiiIPuigIDo+JPIkQyvN5n3iPDUMIc9jsF0NZEo7e+fDs8hI
+ ztRuR71feWJhW6c3gOy9FbB8al83VwWsa2jI6RDs8vnryE62nP6YASRYhTa1kayr6w
+ Da1EO6WGh1FXrOMerj2O/J/S46xnJ+wZhJFsdyYR1y51fhNB5Bz4l+uQ9vxyzm9yki
+ rXMDshUoip7ZzimtjecJgZVPpXDWmdS8vodHd4gqw3Sf3ZLjfhV8IAAtpr5Xj5Edg8
+ N5/Cmof6uQUjA==
+Date: Fri, 10 Nov 2023 18:35:56 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Subject: Re: [RFC PATCH v3 12/12] selftests: add ncdevmem, netcat for devmem
+ TCP
+Message-ID: <20231110183556.2b7b7502@kernel.org>
+In-Reply-To: <CAHS8izNFnE8RGgBhKzxhVoKXtXgZGVQCLSdm4_dWNeH9Gx-WDQ@mail.gmail.com>
 References: <20231106024413.2801438-1-almasrymina@google.com>
  <20231106024413.2801438-13-almasrymina@google.com>
  <20231110151335.38a1c6ec@kernel.org>
-In-Reply-To: <20231110151335.38a1c6ec@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Fri, 10 Nov 2023 18:27:08 -0800
-Message-ID: <CAHS8izNFnE8RGgBhKzxhVoKXtXgZGVQCLSdm4_dWNeH9Gx-WDQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 12/12] selftests: add ncdevmem,
- netcat for devmem TCP
-To: Jakub Kicinski <kuba@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <CAHS8izNFnE8RGgBhKzxhVoKXtXgZGVQCLSdm4_dWNeH9Gx-WDQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,67 +65,48 @@ Cc: dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
  Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
  "David S. Miller" <davem@davemloft.net>,
  Praveen Kaligineedi <pkaligineedi@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 10, 2023 at 3:13=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> My brain is slightly fried after trying to catch up on the thread
-> for close to 2h. So forgive me if I'm missing something.
-> This applies to all emails I'm about to send :)
->
-> On Sun,  5 Nov 2023 18:44:11 -0800 Mina Almasry wrote:
-> > +     trigger_device_reset();
->
-> The user space must not be responsible for the reset.
-> We can add some temporary "recreate page pools" ndo
-> until the queue API is ready.
->
+On Fri, 10 Nov 2023 18:27:08 -0800 Mina Almasry wrote:
+> Thanks for the clear requirement. I clearly had something different in mind.
+> 
+> Might be dumb suggestions, but instead of creating a new ndo that we
+> maybe end up wanting to deprecate once the queue API is ready, how
+> about we use either of those existing APIs?
+> 
+> +void netdev_reset(struct net_device *dev)
+> +{
+> +       int flags = ETH_RESET_ALL;
+> +       int err;
+> +
+> +#if 1
+> +       __dev_close(dev);
+> +       err = __dev_open(dev, NULL);
+> +#else
+> +       err = dev->ethtool_ops->reset(dev, &flags);
+> +#endif
+> +}
+> +
+> 
+> I've tested both of these to work with GVE on both bind via the
+> netlink API and unbind via the netlink socket close, but I'm not
+> enough of an expert to tell if there is some bad side effect that can
+> happen or something.
 
-Thanks for the clear requirement. I clearly had something different in mind=
-.
+We generally don't accept drivers doing device reconfiguration with
+full close() + open() because if the open() fails your machine 
+may be cut off.
 
-Might be dumb suggestions, but instead of creating a new ndo that we
-maybe end up wanting to deprecate once the queue API is ready, how
-about we use either of those existing APIs?
+There are drivers which do it, but they are either old... or weren't
+reviewed hard enough.
 
-+void netdev_reset(struct net_device *dev)
-+{
-+       int flags =3D ETH_RESET_ALL;
-+       int err;
-+
-+#if 1
-+       __dev_close(dev);
-+       err =3D __dev_open(dev, NULL);
-+#else
-+       err =3D dev->ethtool_ops->reset(dev, &flags);
-+#endif
-+}
-+
+The driver should allocate memory and whether else it can without
+stopping the queues first. Once it has all those, stop the queues,
+reconfigure with already allocated resources, start queues, free old.
 
-I've tested both of these to work with GVE on both bind via the
-netlink API and unbind via the netlink socket close, but I'm not
-enough of an expert to tell if there is some bad side effect that can
-happen or something.
-
-> But it should not be visible to the user in any way.
->
-> And then the kernel can issue the same reset when the netlink
-> socket dies to flush device free lists.
->
-
-Sure thing, I can do that.
-
-> Maybe we should also add a "allow device/all-queues reload" flag
-> to the netlink API to differentiate drivers which can't implement
-> full queue API later on. We want to make sure the defaults work well
-> in our "target design", rather than at the first stage. And target
-> design will reload queues one by one.
-
-I can add a flag, yes.
-
---=20
-Thanks,
-Mina
+Even without the queue API in place, good drivers do full device
+reconfig this way. Hence my mind goes towards a new (temporary?)
+ndo. It will be replaced by the queue API, but whoever implements
+it for now has to follow this careful reconfig strategy...
