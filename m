@@ -2,62 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F047E8948
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 05:59:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197807E89AC
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 08:55:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F85910E24E;
-	Sat, 11 Nov 2023 04:59:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52D8210E099;
+	Sat, 11 Nov 2023 07:55:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7A0D10E24E
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 04:59:46 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 8A743CE17B3
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 04:59:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id ED7DFC433C8
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 04:59:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699678782;
- bh=XKglwbaxam/Q8TfNhBAHO+VEUDk/PJxt1xXwRN4WIeA=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=dkcOgRC5ay9jqd36syebbL2ee2LLip83WrsFUpMGcFaID7QsCL3A0i8Fjx5c4R+oH
- L/qiFZdGC0NTpRqRniEQP5m9wTXtcazeuvVgos4TOY8gyzQO6smTyLsfJ5eoUInQGM
- O7m8anZqcbA15pjTe9hcLbxYLMJuMMbkO01Y0pei2yXJIoJ7D7N/JaC55vcsCTdtXu
- BVNC/ge/EyfLkOhNqnK5yaHL8CgCPphScOEHPYWvl3K9IXXewkjHiKc/211fyjQ10B
- inQ5uDL/Xn0FWc7fQU+b71aF5P0uAMTuxv9lQ9N9nJ1miqPcnNgycFzEuzzCndsiXH
- rNPMcmRWiZ2Hg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id DDB4BC53BC6; Sat, 11 Nov 2023 04:59:41 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218133] kernel panic when opening spotify/firefox 6.5.0.10.12
- ubuntu 23.10  vega 64
-Date: Sat, 11 Nov 2023 04:59:41 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mpollind@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_kernel_version
-Message-ID: <bug-218133-2300-qFD2cNZrE9@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-218133-2300@https.bugzilla.kernel.org/>
-References: <bug-218133-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from smtp.gentoo.org (smtp.gentoo.org
+ [IPv6:2001:470:ea4a:1:5054:ff:fec7:86e4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E391110E099;
+ Sat, 11 Nov 2023 07:55:15 +0000 (UTC)
+References: <20231107215538.1891359-1-sam@gentoo.org>
+ <87jzqsy3sp.fsf@intel.com>
+User-agent: mu4e 1.10.8; emacs 30.0.50
+From: Sam James <sam@gentoo.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH] drm: i915: Adapt to -Walloc-size
+Date: Sat, 11 Nov 2023 07:54:26 +0000
+Organization: Gentoo
+In-reply-to: <87jzqsy3sp.fsf@intel.com>
+Message-ID: <87zfzk7mhv.fsf@gentoo.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,20 +38,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, Sam James <sam@gentoo.org>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218133
 
-Michael Pollind (mpollind@gmail.com) changed:
+Jani Nikula <jani.nikula@linux.intel.com> writes:
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-     Kernel Version|                            |Linux version
-                   |                            |6.5.0-10-generic
+> On Tue, 07 Nov 2023, Sam James <sam@gentoo.org> wrote:
+>> GCC 14 introduces a new -Walloc-size included in -Wextra which errors out
+>> like:
+>> ```
+>> drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c: In function =E2=80=98eb_=
+copy_relocations=E2=80=99:
+>> drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:1681:24: error: allocatio=
+n of insufficient size =E2=80=981=E2=80=99 for type =E2=80=98struct drm_i91=
+5_gem_relocation_entry=E2=80=99 with size =E2=80=9832=E2=80=99 [-Werror=3Da=
+lloc-size]
+>>  1681 |                 relocs =3D kvmalloc_array(size, 1, GFP_KERNEL);
+>>       |                        ^
+>>
+>> ```
+>>
+>> So, just swap the number of members and size arguments to match the prot=
+otype, as
+>> we're initialising 1 element of size `size`. GCC then sees we're not
+>> doing anything wrong.
+>>
+>> Signed-off-by: Sam James <sam@gentoo.org>
+>
+> The short answer,
+>
+> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+>
+> but please read on.
+>
+>> ---
+>>  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gp=
+u/drm/i915/gem/i915_gem_execbuffer.c
+>> index 683fd8d3151c..45b9d9e34b8b 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>> @@ -1678,7 +1678,7 @@ static int eb_copy_relocations(const struct i915_e=
+xecbuffer *eb)
+>>  		urelocs =3D u64_to_user_ptr(eb->exec[i].relocs_ptr);
+>>  		size =3D nreloc * sizeof(*relocs);
+>>=20=20
+>> -		relocs =3D kvmalloc_array(size, 1, GFP_KERNEL);
+>> +		relocs =3D kvmalloc_array(1, size, GFP_KERNEL);
+>
+> Based on the patch context, we should really be calling:
+>
+> 	kvmalloc_array(nreloc, sizeof(*relocs), GFP_KERNEL);
+>
+> and we'd get mul overflow checks too.
+>
+> However, the code below also needs size, unless it's refactored to
+> operate on multiples of sizeof(*relocs) and it all gets a bit annoying.
+>
+> Maybe there's a better way, but for the short term the patch at hand is
+> no worse than what we currently have, and it'll silence the warning, so
+> let's go with this.
 
---=20
-You may reply to this email to add a comment.
+Thanks. I have been trying to port to kvmalloc_array where I can if it's
+obvious/trivial, but I admit I didn't want to take it on when it'd
+require any surrounding refactoring unless someone insisted.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+>
+>
+>>  		if (!relocs) {
+>>  			err =3D -ENOMEM;
+>>  			goto err;
+
+best,
+sam
