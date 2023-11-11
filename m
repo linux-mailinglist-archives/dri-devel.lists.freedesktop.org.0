@@ -2,72 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2F97E8AA4
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 12:18:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 363107E8AB2
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 12:33:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93E0010E27C;
-	Sat, 11 Nov 2023 11:18:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE35F10E27E;
+	Sat, 11 Nov 2023 11:33:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7E9110E27C
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 11:18:08 +0000 (UTC)
-X-UUID: fadfc61a808311ee8051498923ad61e6-20231111
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=PTkJwhlG295J7Fq7DBG9f0P0y9BIpK10DHJxLIVe19g=; 
- b=g0D6tp7hVsbc7lPPx2KqtJoCZpLVTtmSCZk1Pmvnw7riV943Zn8C5G9rv4nIT2Dl28iH4vQhTMxZ+W3Jck88BlyMmYMPqKrE92Dwb+aPBxeGP0OnTBN3oT3v7IRS1+RM2T+VwBTVHkaIfX20fUObAzyfiwuoX/IcNhplQfjKmSc=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.33, REQID:5c67a7ac-e03b-4394-9eb9-398b44ce7acd, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:364b77b, CLOUDID:79184695-10ce-4e4b-85c2-c9b5229ff92b,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
- DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: fadfc61a808311ee8051498923ad61e6-20231111
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
- mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 339753797; Sat, 11 Nov 2023 19:18:03 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Sat, 11 Nov 2023 19:18:01 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Sat, 11 Nov 2023 19:18:00 +0800
-From: Yong Wu <yong.wu@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
- <christian.koenig@amd.com>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v2 8/8] dma-buf: heaps: secure_heap: Add normal CMA heap
-Date: Sat, 11 Nov 2023 19:15:59 +0800
-Message-ID: <20231111111559.8218-9-yong.wu@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231111111559.8218-1-yong.wu@mediatek.com>
-References: <20231111111559.8218-1-yong.wu@mediatek.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A64BF10E27E
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 11:33:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699702427; x=1731238427;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=fQD/oqu5OcK1UU8xk7iEK2AaaP6OU77DWfMuqW2r9DQ=;
+ b=gqp6xwIeWtIWOT8S8PasZYYdia2sE2oI50yX0H3l+x9K6GFL/IMZZOpU
+ S3B3a0HaKYmIPi8IjTiNnMiBVUQr+Rnmlm/sckFZSvwM7bwDYh/8aALtM
+ 9oN+SjZOdOHOPkirjMoAyXFziORZPY4w5FtHWindPotlaSWbtOdFiRL0W
+ gOoIK0gV7mr8ij8recPc2mi65VfXwXPKiJxJ8h274WwTDnT3K/2gEJeMJ
+ wdvnzbwKRnReSVuG+Gd6e0ZVA447WtmwbGSk9afwp3CxBFeUV6R2s1Ts/
+ SQLwJDt4y2n9rnoJ0ywyYoOLy7bSJ5UluxQ+6AbzgaJV7ims+TTJB/tvT A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="389134214"
+X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; d="scan'208";a="389134214"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Nov 2023 03:33:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="1011144238"
+X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; d="scan'208";a="1011144238"
+Received: from sschumil-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.54.111])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Nov 2023 03:33:45 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Luben Tuikov <ltuikov89@gmail.com>, javierm@redhat.com
+Subject: Re: [PATCH] Revert "drm/sched: Define pr_fmt() for DRM using pr_*()"
+In-Reply-To: <20231111083327.18607-2-ltuikov89@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <87leb4ae6z.fsf@minerva.mail-host-address-is-not-set>
+ <20231111083327.18607-2-ltuikov89@gmail.com>
+Date: Sat, 11 Nov 2023 13:33:43 +0200
+Message-ID: <87y1f4v814.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--8.713600-8.000000
-X-TMASE-MatchedRID: XAa2d/45j8QtJMbDWD8p3pEbNXwHGDRxqQ9UezeTkTjb6Y+fnTZULzAg
- xTloju5/Xt8ERZJyv5z+zbn+OlN0IkPbYPqd/GaJwCZxkTHxccnWSrKtwxqWpaj5v7I4/SgYU7g
- EPucszGeVMlcqqHWd7WAecQuhpQq2v94QsDvR6NwbmaDSnOqZfofsPVs/8Vw6RY/QCO8+EY40ZG
- lGdzy556HPibXQz0iw3BTxUdcaKkIfE8yM4pjsDwtuKBGekqUpIG4YlbCDECsYpN+2ZkfdFw5Eg
- x2RURWzOX6Gf/YkVyO2bMkQ2ubJ+3p46hvecdNTC8XKjsVbJjU=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--8.713600-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: C57F37D27EAEC8D1A7ABBC4D4778A4F2275F843CCD29DDAD8C5D302DE4BE19C92000:8
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,117 +59,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jeffrey Kardatzke <jkardatzke@google.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Vijayanand Jitta <quic_vjitta@quicinc.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>, Yong Wu <yong.wu@mediatek.com>,
- jianjiao.zeng@mediatek.com, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- ckoenig.leichtzumerken@gmail.com, linaro-mm-sig@lists.linaro.org,
- linux-mediatek@lists.infradead.org, Joakim Bech <joakim.bech@linaro.org>,
- tjmercier@google.com, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, ltuikov89@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a normal CMA heap which use the standard cma allocate.
+On Sat, 11 Nov 2023, Luben Tuikov <ltuikov89@gmail.com> wrote:
+> From Jani:
+> The drm_print.[ch] facilities use very few pr_*() calls directly. The
+> users of pr_*() calls do not necessarily include <drm/drm_print.h> at
+> all, and really don't have to.
+>
+> Even the ones that do include it, usually have <linux/...> includes
+> first, and <drm/...> includes next. Notably, <linux/kernel.h> includes
+> <linux/printk.h>.
+>
+> And, of course, <linux/printk.h> defines pr_fmt() itself if not already
+> defined.
+>
+> No, it's encouraged not to use pr_*() at all, and prefer drm device
+> based logging, or device based logging.
+>
+> This reverts commit 36245bd02e88e68ac5955c2958c968879d7b75a9.
+>
+> Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
+> Link: https://patchwork.freedesktop.org/patch/msgid/878r75wzm9.fsf@intel.com
 
-Signed-off-by: Yong Wu <yong.wu@mediatek.com>
----
-Hi Vijay and Jaskaran,
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-For this heap,
-1) It uses sec_heap_buf_ops currently. I guess we cann't use the
-cma_heap_buf_ops. since if it is secure buffer, some operations such
-as mmap should not be allowed.
-2) I didn't add how to protect/secure the buffer.
 
-Please feel free to change to meet your requirements.
-Thanks.
----
- drivers/dma-buf/heaps/secure_heap.c | 38 ++++++++++++++++++++++++++++-
- 1 file changed, 37 insertions(+), 1 deletion(-)
+> ---
+>  include/drm/drm_print.h | 14 --------------
+>  1 file changed, 14 deletions(-)
+>
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index e8fe60d0eb8783..a93a387f8a1a15 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -26,20 +26,6 @@
+>  #ifndef DRM_PRINT_H_
+>  #define DRM_PRINT_H_
+>  
+> -/* Define this before including linux/printk.h, so that the format
+> - * string in pr_*() macros is correctly set for DRM. If a file wants
+> - * to define this to something else, it should do so before including
+> - * this header file.
+> - *
+> - * It is encouraged code using pr_err() to prefix their format with
+> - * the string "*ERROR* ", to make it easier to scan kernel logs. For
+> - * instance,
+> - *   pr_err("*ERROR* <the rest of your format string here>", args).
+> - */
+> -#ifndef pr_fmt
+> -#define pr_fmt(fmt) "[drm] " fmt
+> -#endif
+> -
+>  #include <linux/compiler.h>
+>  #include <linux/printk.h>
+>  #include <linux/seq_file.h>
+>
+> base-commit: 540527b1385fb203cc4513ca838b4de60bbbc49a
 
-diff --git a/drivers/dma-buf/heaps/secure_heap.c b/drivers/dma-buf/heaps/secure_heap.c
-index f8b84fd16288..8989ad5d03e9 100644
---- a/drivers/dma-buf/heaps/secure_heap.c
-+++ b/drivers/dma-buf/heaps/secure_heap.c
-@@ -43,6 +43,8 @@ enum secure_buffer_tee_cmd { /* PARAM NUM always is 4. */
- };
- 
- enum secure_memory_type {
-+	/* CMA for the secure memory, Use the normal cma ops to alloc/free. */
-+	SECURE_MEMORY_TYPE_CMA		= 0,
- 	/*
- 	 * MediaTek static chunk memory carved out for TrustZone. The memory
- 	 * management is inside the TEE.
-@@ -65,6 +67,7 @@ struct secure_buffer {
- 	 * a value got from TEE.
- 	 */
- 	u32				sec_handle;
-+	struct page			*cma_page;
- };
- 
- #define TEE_MEM_COMMAND_ID_BASE_MTK	0x10000
-@@ -287,6 +290,33 @@ const struct secure_heap_prv_data mtk_sec_mem_data = {
- 	.unsecure_the_memory	= secure_heap_tee_unsecure_memory,
- };
- 
-+static int cma_secure_memory_allocate(struct secure_heap *sec_heap,
-+				      struct secure_buffer *sec_buf)
-+{
-+	if (!sec_heap->cma)
-+		return -EINVAL;
-+
-+	sec_buf->cma_page = cma_alloc(sec_heap->cma, sec_buf->size >> PAGE_SHIFT,
-+				      get_order(PAGE_SIZE), false);
-+	if (!sec_buf->cma_page)
-+		return -ENOMEM;
-+
-+	memset(page_address(sec_buf->cma_page), 0, sec_buf->size);
-+	return 0;
-+}
-+
-+static void cma_secure_memory_free(struct secure_heap *sec_heap,
-+				   struct secure_buffer *sec_buf)
-+{
-+	cma_release(sec_heap->cma, sec_buf->cma_page, sec_buf->size >> PAGE_SHIFT);
-+}
-+
-+const struct secure_heap_prv_data cma_sec_mem_data = {
-+	.memory_alloc	= cma_secure_memory_allocate,
-+	.memory_free	= cma_secure_memory_free,
-+	/* TODO : secure the buffer. */
-+};
-+
- static int secure_heap_secure_memory_allocate(struct secure_heap *sec_heap,
- 					      struct secure_buffer *sec_buf)
- {
-@@ -496,6 +526,11 @@ static const struct dma_heap_ops sec_heap_ops = {
- };
- 
- static struct secure_heap secure_heaps[] = {
-+	{
-+		.name		= "secure_cma",
-+		.mem_type	= SECURE_MEMORY_TYPE_CMA,
-+		.data		= &cma_sec_mem_data,
-+	},
- 	{
- 		.name		= "secure_mtk_cm",
- 		.mem_type	= SECURE_MEMORY_TYPE_MTK_CM_TZ,
-@@ -522,7 +557,8 @@ static int __init secure_cma_init(struct reserved_mem *rmem)
- 	}
- 
- 	for (i = 0; i < ARRAY_SIZE(secure_heaps); i++, sec_heap++) {
--		if (sec_heap->mem_type != SECURE_MEMORY_TYPE_MTK_CM_CMA)
-+		if (sec_heap->mem_type != SECURE_MEMORY_TYPE_MTK_CM_CMA &&
-+		    sec_heap->mem_type != SECURE_MEMORY_TYPE_CMA)
- 			continue;
- 
- 		sec_heap->cma = sec_cma;
 -- 
-2.25.1
-
+Jani Nikula, Intel
