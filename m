@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 903067E8A53
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 11:43:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AF287E8A4B
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 11:42:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33C1510E26E;
-	Sat, 11 Nov 2023 10:42:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1DAC10E267;
+	Sat, 11 Nov 2023 10:42:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 670D710E26E
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 10:42:44 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id
- a640c23a62f3a-9e62f903e88so214900466b.2
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 02:42:44 -0800 (PST)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADDE210E268
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 10:42:45 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id
+ a640c23a62f3a-9df8d0c2505so585436166b.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 02:42:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1699699363; x=1700304163;
+ d=amarulasolutions.com; s=google; t=1699699364; x=1700304164;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VfR080tdra7BLhUIWSvcaEDMSQNVyZv5MjwAaJaquw0=;
- b=eZvzzadLwSEMIMCeOPt7YlZEu8btTIblcLv81fK/SdJM0LQCudisfNlYixJPdHCaB1
- DeDLz3diSiq2nTfsjG0fDMwkgAK6jRMXCdEFSxoHxJ7IqmqlM6kCLUgZbTm3Pj1a6wse
- pGCCg4LO3UOYcaI/BZijQ8Wrhaz/A3+mhap4I=
+ bh=gKRsMdTRp52wX/RfOne0bAjVlYqKCb2FkmXxuvgSsdI=;
+ b=U3xviCFJmP2InTPlTQeu0Dsqk2j2sE9oT+NPEpR5eNHHBHMUo7DVFdK7VHU/ChNBP6
+ vHhmLTWoyHBLRuskvDHeracAmLha/6hZHn2Yxm1FTRXnCXuQ59IAzSgxWAe2ouqfM/Wm
+ U3uxTHg2KLsmqy0xiAMqXK1Z4532AINTmRh2A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699699363; x=1700304163;
+ d=1e100.net; s=20230601; t=1699699364; x=1700304164;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VfR080tdra7BLhUIWSvcaEDMSQNVyZv5MjwAaJaquw0=;
- b=KwmtfbyT74OKVIXTmcnNe9VAS5aQoG+P32e9f+fCWaLDNkewhFj5BQL6YqRBoE7lw6
- UfRZVIuvdPufukggw6lKe/ZRkJCto2+lp2P0hcw6xNeNjxodCqnHRTEj1uTEdJcxrBQi
- ui1YiGr2t1svRsrwpSgFlk1U/rLxFf4aKIH5Wxntbwy5FGTkcszwsWUPbN6KQ2JDHC0M
- 8lyxWF7C+YJABFCNsXnNI9ZJ2kHuwEVL5vLAdRaoyzLY/JWJPkVjFibu8F3zoojw6FAT
- xoWg+bq103ElR4LNkBVfeQUG54Qfk4/WSMJLexWM0dYGZAcekYcr4e4BTFhPiOBlXG30
- Xlug==
-X-Gm-Message-State: AOJu0YxiFAxDUND0M8Wk/4dPxlhuKmXILt39/L8mKktXTheuaMut/1tA
- Hs4s+3Db9kmrGhDme3XHq9VatA==
-X-Google-Smtp-Source: AGHT+IERVItiW0QNcc7Itc1tQ63vCmzWRiYW8aKUXkxzrDZclJWRXQE4ZuhMCcTgFOSgvNri9tEQNA==
-X-Received: by 2002:a17:906:32d9:b0:9cc:97b:5a15 with SMTP id
- k25-20020a17090632d900b009cc097b5a15mr963727ejk.64.1699699362713; 
- Sat, 11 Nov 2023 02:42:42 -0800 (PST)
+ bh=gKRsMdTRp52wX/RfOne0bAjVlYqKCb2FkmXxuvgSsdI=;
+ b=YTT+1SV4td8eDHG3e4OTOuo53XEZ8gcD+dhxPyQwMRi+0trSWPlNOKWlOE64XGz+sK
+ jI/b3nsAp26bLY43Nuiv4wnDC2Rti8EI4jZWt03DlSu3cPzi8FycTfSTq6qvUAu1P2p9
+ zyuWGW7L9CsXIiEWRaMN4VQpxrMmyjhOESMnihYPqpT2rCOzbwBwDUGFZCtMnmjA4ESg
+ PW6MBx7nGpa3dab/3lDguXhLNE8AdeNpHAJGM/lu2HbHH10PiRk0DXv6vWh4Vl/JJlRB
+ 7FcW6e/P/Ph4HaWSX5A0rQCGupHMFuNeDve0dFUOfeZ6du1wJOjW7p+Zx7RUWmTkwn5s
+ 0YwQ==
+X-Gm-Message-State: AOJu0YwKNew35Ha3V4basZnnHjpDJwa1Na4zX88w7LI0uL08CmaZY6Na
+ HqATORHrPsyQwNKVUKC+ZKkjAw==
+X-Google-Smtp-Source: AGHT+IEJbLdVs0JW+jcGlc8xPQxdZhfaKGnEyX/Ga6OBU0qyC2zAkwbXYZvVAliT6vWUL6mEDi9zyw==
+X-Received: by 2002:a17:906:4e4d:b0:9ba:8ed:ea58 with SMTP id
+ g13-20020a1709064e4d00b009ba08edea58mr1653246ejw.30.1699699364258; 
+ Sat, 11 Nov 2023 02:42:44 -0800 (PST)
 Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it
  (host-79-20-97-182.retail.telecomitalia.it. [79.20.97.182])
  by smtp.gmail.com with ESMTPSA id
- ga33-20020a1709070c2100b0099e12a49c8fsm872183ejc.173.2023.11.11.02.42.41
+ ga33-20020a1709070c2100b0099e12a49c8fsm872183ejc.173.2023.11.11.02.42.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Nov 2023 02:42:42 -0800 (PST)
+ Sat, 11 Nov 2023 02:42:43 -0800 (PST)
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 05/10] fbdev: imxfb: add missing SPDX tag
-Date: Sat, 11 Nov 2023 11:41:54 +0100
-Message-ID: <20231111104225.136512-6-dario.binacchi@amarulasolutions.com>
+Subject: [PATCH 06/10] fbdev: imxfb: drop ftrace-like logging
+Date: Sat, 11 Nov 2023 11:41:55 +0100
+Message-ID: <20231111104225.136512-7-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231111104225.136512-1-dario.binacchi@amarulasolutions.com>
 References: <20231111104225.136512-1-dario.binacchi@amarulasolutions.com>
@@ -82,38 +82,29 @@ Cc: linux-fbdev@vger.kernel.org, linux-amarula@amarulasolutions.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Resolve the following warning reported by checkpatch.pl:
+Resolve the following warning reported by checkpatch:
 
-WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
-
-The patch also removes some license info made redundant by the addition
-of the SPDX tag.
+WARNING: Unnecessary ftrace-like logging - prefer using ftrace
 
 Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 ---
 
- drivers/video/fbdev/imxfb.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/video/fbdev/imxfb.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/video/fbdev/imxfb.c b/drivers/video/fbdev/imxfb.c
-index 485e57fa9389..de1434069530 100644
+index de1434069530..83497f6998f1 100644
 --- a/drivers/video/fbdev/imxfb.c
 +++ b/drivers/video/fbdev/imxfb.c
-@@ -1,13 +1,10 @@
-+// SPDX-License-Identifier: GPL-2.0-only
- /*
-  *  Freescale i.MX Frame Buffer device driver
-  *
-  *  Copyright (C) 2004 Sascha Hauer, Pengutronix
-  *   Based on acornfb.c Copyright (C) Russell King.
-  *
-- * This file is subject to the terms and conditions of the GNU General Public
-- * License.  See the file COPYING in the main directory of this archive for
-- * more details.
-- *
-  * Please direct your questions and comments on this driver to the following
-  * email address:
-  *
+@@ -694,8 +694,6 @@ static int imxfb_init_fbinfo(struct platform_device *pdev)
+ 	struct imxfb_info *fbi = info->par;
+ 	struct device_node *np;
+ 
+-	pr_debug("%s\n",__func__);
+-
+ 	info->pseudo_palette = devm_kmalloc_array(&pdev->dev, 16,
+ 						  sizeof(u32), GFP_KERNEL);
+ 	if (!info->pseudo_palette)
 -- 
 2.42.0
 
