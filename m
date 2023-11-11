@@ -1,66 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 914A37E89DF
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 09:33:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C214B7E89E7
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 09:46:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06A5F10E259;
-	Sat, 11 Nov 2023 08:33:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9B0710E25A;
+	Sat, 11 Nov 2023 08:46:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com
- [IPv6:2607:f8b0:4864:20::830])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E4A310E259
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 08:33:46 +0000 (UTC)
-Received: by mail-qt1-x830.google.com with SMTP id
- d75a77b69052e-41cc75c55f0so32543311cf.1
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 00:33:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699691625; x=1700296425; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Tduwgwv0y4OQ/7MZGtzARJqzqu828fYBun4lpQ9eTRY=;
- b=B/RRcHQMTM/OiMGQISzDsyLjUnZ+fckz2ydPnX3hnF6jESmdONZoRXoYKU0OV5rE0A
- m53wYr8XFdEoKVcqMRf7Ya0NZsBGmXLh722HMNIsHe8Lh3Ql2svhcXR24q2ZboTjfdE4
- 3XFNESIoxfKxwnWzRuLG3+UHpEZx9me3a2ECGDHCe01eO0EgNKZgBFsKYv0j0vAHitB2
- 6YB0lnICMFzII/aBeEvE7Yxh2tjp+LKf2aQttxgeQSYa65mhoX6CP4aY4J6I8q1O5CfC
- VHHIhdlSO6cElJDqgqmML65aJX+aXLOLoqX4xdb17vAT+UATOC8xng9FwQA2CMtsPh1p
- L4Fw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4958F10E25A
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 08:46:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1699692388;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Qe4AnVqkbysPosOtrXNw4qx0DGe8XSJWaRQMRFv81Ro=;
+ b=Nv9v6nM3FtwLptwKraQeZ2TMXpN/vm60K/Jdq5b3A7r7kmHJEZzBacGJQwscOS1WrbYflf
+ dHli+fBsIKGrXX1JgWlUy1eGAPx0qOyua9nAAxpH3jCeRtdrsIJ89H1ZL0dK+9b4JAuKX7
+ c+dlhNHX/oiVGBeoiKmKafA3eMsRgLI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-228-j4NKKy0nNnKiZfpHZi3lmA-1; Sat, 11 Nov 2023 03:46:25 -0500
+X-MC-Unique: j4NKKy0nNnKiZfpHZi3lmA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-4094d1e52daso18954795e9.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 00:46:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699691625; x=1700296425;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Tduwgwv0y4OQ/7MZGtzARJqzqu828fYBun4lpQ9eTRY=;
- b=w9ImSu3sYnnf4G55Lq5Azc95R2X+VDo4qGlB5fU+D9qUZaCG2Az76iIrxyD7I1kjxb
- Oswe2CIpUYP+7Cg276R9lt7egw/lELwDx25lGg9DTLV8Xbyk4WmvRx/j4ruy6Uk/RQh6
- 9EkJNbKo4Rr/850sqDqytkAYGHyGgg99OctXo38Du5kvjl8NyLO5ezK1+92GdosLKFVU
- 0mfhVErzMWiAdTU8ZeMndbCgaBjB8h6W9HFdai3jKr5WyrcEEgw7WK4rygR6BCQGXJXs
- jHeYBHTyoGj3uZwyBYa0Hsa5NaY33y5RGkrMLFwe3t14yiR7FQu+FXJcgfLYvmeaFqza
- 2MPg==
-X-Gm-Message-State: AOJu0YypX716xzAPOnN+riQFcakLvkXEaNUSLgOMlqiquhFlfNBDNpah
- gcKxnjv/0Mu5iXRq3TCRdV8=
-X-Google-Smtp-Source: AGHT+IFP8jVsyh3pzqhpFC+WkP1kdgT/s3dBF46AAF/9+3dSkc1kSm25/bx4x8e5dp3zUfrrCt+vGA==
-X-Received: by 2002:ad4:5502:0:b0:66d:953e:226d with SMTP id
- pz2-20020ad45502000000b0066d953e226dmr6259395qvb.26.1699691625330; 
- Sat, 11 Nov 2023 00:33:45 -0800 (PST)
-Received: from localhost.localdomain ([76.65.20.140])
- by smtp.gmail.com with ESMTPSA id
- lg10-20020a056214548a00b0066d1b4ce863sm457406qvb.31.2023.11.11.00.33.44
+ d=1e100.net; s=20230601; t=1699692384; x=1700297184;
+ h=mime-version:message-id:date:references:in-reply-to:subject:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Qe4AnVqkbysPosOtrXNw4qx0DGe8XSJWaRQMRFv81Ro=;
+ b=sE+Okj75f8/ynRFP9Kppkol4pwG/u23SivfEJMmUlEl4sE5GIfvcOhtBqO0QOxY3ty
+ /7dI4qbZuJ/IaQgkUj1rGpbGMyNDjp1/9UviYdu3nLIprdKGi71dXGE5Zdb1Kbu7+ZMJ
+ Xbb5X4bAbkCQ+o3VNw+1PEzK6TfwBtPFomRKdpLF5dzyYuxfuCsJr9FNIqvWqkvPLIvt
+ sDyeej7WaKaDUjxpHlCWikhbznyoNlZXdVnqxtZcoCpiSMNDJoLBL58UGvvu740ygVUZ
+ 1Mj3PDdl00dMELdqbYsklIJ3EVzVNvyaVd4jO8Vbf/7VGwVsm3nPUkYF7wlxxodKbI8I
+ jRaw==
+X-Gm-Message-State: AOJu0Yy5rICh0jhFwA6amcAK9JN1+bymssiRYOrT6GZm60OZOm3TEihj
+ hySxuu11EcDmAnVVfquhtYVtnG59Ziy6YJ9FxDb+ggVB/lcen+Ypu+7YlGIiUa4Ruw8F0mgBNxb
+ QlEkQ/xQsIWdKUFTlDzgufbwkv2//
+X-Received: by 2002:a05:600c:5129:b0:409:325:e499 with SMTP id
+ o41-20020a05600c512900b004090325e499mr1236500wms.32.1699692384458; 
+ Sat, 11 Nov 2023 00:46:24 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGQWv9ONWQ/9v4pE27vYGxbfOnqlBRHwhWNrhiZeopvK2vqA9fqnRiJMVbSHt1YK5D+0gIa0A==
+X-Received: by 2002:a05:600c:5129:b0:409:325:e499 with SMTP id
+ o41-20020a05600c512900b004090325e499mr1236487wms.32.1699692384065; 
+ Sat, 11 Nov 2023 00:46:24 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ iv10-20020a05600c548a00b0040535648639sm1541957wmb.36.2023.11.11.00.46.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Nov 2023 00:33:45 -0800 (PST)
-From: Luben Tuikov <ltuikov89@gmail.com>
-To: javierm@redhat.com
-Subject: [PATCH] Revert "drm/sched: Define pr_fmt() for DRM using pr_*()"
-Date: Sat, 11 Nov 2023 03:33:28 -0500
-Message-ID: <20231111083327.18607-2-ltuikov89@gmail.com>
-X-Mailer: git-send-email 2.42.1
-In-Reply-To: <87leb4ae6z.fsf@minerva.mail-host-address-is-not-set>
-References: <87leb4ae6z.fsf@minerva.mail-host-address-is-not-set>
+ Sat, 11 Nov 2023 00:46:23 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Andrew Worsley <amworsley@gmail.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "open
+ list:DRM DRIVER FOR FIRMWARE FRAMEBUFFERS"
+ <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Fix failure of simpledrm probe when trying to grab FB
+ from the EFI-based Framebuffer
+In-Reply-To: <CA+Y=x3mF4jFX7PiJQ-1Gk9zyBE1mwZaF_GLYjSspT+mxtMn4GQ@mail.gmail.com>
+References: <20231111042926.52990-1-amworsley@gmail.com>
+ <20231111042926.52990-2-amworsley@gmail.com>
+ <CA+Y=x3mF4jFX7PiJQ-1Gk9zyBE1mwZaF_GLYjSspT+mxtMn4GQ@mail.gmail.com>
+Date: Sat, 11 Nov 2023 09:46:22 +0100
+Message-ID: <87il68ad9d.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,60 +87,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, ltuikov89@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From Jani:
-The drm_print.[ch] facilities use very few pr_*() calls directly. The
-users of pr_*() calls do not necessarily include <drm/drm_print.h> at
-all, and really don't have to.
+Andrew Worsley <amworsley@gmail.com> writes:
 
-Even the ones that do include it, usually have <linux/...> includes
-first, and <drm/...> includes next. Notably, <linux/kernel.h> includes
-<linux/printk.h>.
+> It's inline - part of the email - not an attachment?
+>
+> I can see it in the copy that went to me...
+>
 
-And, of course, <linux/printk.h> defines pr_fmt() itself if not already
-defined.
+I see it now as another thread. There is something weird with the threading
+since your first email was shown as first email in a thread with no subject.
 
-No, it's encouraged not to use pr_*() at all, and prefer drm device
-based logging, or device based logging.
+> Andrew
+>
+> On Sat, 11 Nov 2023 at 15:30, Andrew Worsley <amworsley@gmail.com> wrote:
 
-This reverts commit 36245bd02e88e68ac5955c2958c968879d7b75a9.
-
-Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/878r75wzm9.fsf@intel.com
----
- include/drm/drm_print.h | 14 --------------
- 1 file changed, 14 deletions(-)
-
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index e8fe60d0eb8783..a93a387f8a1a15 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -26,20 +26,6 @@
- #ifndef DRM_PRINT_H_
- #define DRM_PRINT_H_
- 
--/* Define this before including linux/printk.h, so that the format
-- * string in pr_*() macros is correctly set for DRM. If a file wants
-- * to define this to something else, it should do so before including
-- * this header file.
-- *
-- * It is encouraged code using pr_err() to prefix their format with
-- * the string "*ERROR* ", to make it easier to scan kernel logs. For
-- * instance,
-- *   pr_err("*ERROR* <the rest of your format string here>", args).
-- */
--#ifndef pr_fmt
--#define pr_fmt(fmt) "[drm] " fmt
--#endif
--
- #include <linux/compiler.h>
- #include <linux/printk.h>
- #include <linux/seq_file.h>
-
-base-commit: 540527b1385fb203cc4513ca838b4de60bbbc49a
 -- 
-2.42.1
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
