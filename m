@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6EAB7E89C8
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 09:16:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA067E89CB
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 09:18:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D358910E028;
-	Sat, 11 Nov 2023 08:16:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0338F10E107;
+	Sat, 11 Nov 2023 08:18:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7DE010E028
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 08:16:51 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC45510E107
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 08:17:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 15F77B821BA
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 08:16:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6BB89C433C9
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 08:16:49 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id D653ECE0016
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 08:17:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 71879C433C7
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 08:17:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699690609;
- bh=uKVOSggO3Xp/5kLaUa5On15W7FSJfMefQAC1U6UDdgc=;
+ s=k20201202; t=1699690676;
+ bh=E8Qt9sy+qig8deG0UX4hFh3zJWze/MK5Wzdhkf/8v4w=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=LZxHlmf68OGx8FfM/1zHyTPLtA+oPQWPkF6Sz5DT86tQ+5F05xrIVZkAAOeceFBVS
- jAhnOYS7XN4qPKm0XgjW0UGOa9xoiRKSdEwrK6UwKMPqAb+VpHH4BLAwlUnSdxlCf+
- l1tUsd+27JG9Or6U4/O5WruWAxWs+MMIYVtW+rlaHv89ozXNS/MCRX7nt3OvoovbLn
- JzeK+gMaS7vGzEiWyXguIZ7N+d9hnoRQjlA++/BbMN32gQ6gm4LoXHuxnm5/FrYoP8
- Y5GRsUuPeJiJED5NaPm/DhHp7SIof5heagq5AYKdixplQCYr3Ptz84T652tiO2MbG0
- xCH3MXmjoP5XQ==
+ b=IAZQVxTlgVuFvZ2s7j+VxRMfcQY2+Hx2z6hOKZYAtc7Cx0B7bPVu7JUpDl8UljURs
+ ZK8ygKzL7E3x3kIACkxc3Hmcego84/aMS7GMGQpjAb0qR6Nh+bg58QMIDMZUS+QBMA
+ bSrMPTHPzuXWs6HCWrED/JggJPGE3aT09xBl372w4Zdx6Qkas7aRNKtEI4x9CHmQ8T
+ YTvIW66+wEdLjTM7z7xwDuWR+34Q49kJ9tDuS8G2TBc6vZyy2CO8/30CJCjVjKEcuc
+ iq8mYAX+qJkZBIneFLt4L19w48a49XGF5DOWdJRV2r0AL6Rlgj4CZ2LaU4UTKfUY+w
+ 4Fjoz+E3nmBBg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 56D56C53BD0; Sat, 11 Nov 2023 08:16:49 +0000 (UTC)
+ from userid 48) id 61CDAC53BC6; Sat, 11 Nov 2023 08:17:56 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 218133] kernel panic when opening spotify/firefox 6.5.0.10.12
  ubuntu 23.10  vega 64
-Date: Sat, 11 Nov 2023 08:16:49 +0000
+Date: Sat, 11 Nov 2023 08:17:56 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -48,8 +48,8 @@ X-Bugzilla-Resolution: ANSWERED
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-218133-2300-fZpkVXpD5r@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-218133-2300-aTG9SJa8R1@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-218133-2300@https.bugzilla.kernel.org/>
 References: <bug-218133-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -78,11 +78,12 @@ Artem S. Tashkinov (aros@gmx.com) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |ANSWERED
+     Kernel Version|Linux version               |6.5.0-10-generic Ubuntu
+                   |6.5.0-10-generic            |
 
---- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
-Please report on https://bugs.launchpad.net/ubuntu
+--- Comment #2 from Artem S. Tashkinov (aros@gmx.com) ---
+If you can reproduce the issue in vanilla 6.5.11 or 6.6.1 then report to
+https://gitlab.freedesktop.org/drm/amd/-/issues
 
 --=20
 You may reply to this email to add a comment.
