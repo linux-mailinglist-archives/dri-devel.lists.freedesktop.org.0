@@ -1,43 +1,143 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E0D87E868B
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 00:20:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 591F27E870C
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 01:55:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5911610E2C7;
-	Fri, 10 Nov 2023 23:20:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89DD210E2CC;
+	Sat, 11 Nov 2023 00:55:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64D4A10E2C7
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Nov 2023 23:19:58 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id AEF3DCE16DE;
- Fri, 10 Nov 2023 23:19:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA104C433C8;
- Fri, 10 Nov 2023 23:19:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699658395;
- bh=WhEv7XhK+t86jf2iy5v/8j4Xu6HVlv6Bu7i7eHf+DcQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=lBPJ+8HOTH+QZNkBBNnj3QzSJF+Y0eeL633p3vyJ/AvYHNIDs0ZyxBh1HUUxvu9ww
- Kdu7kCnZfMUZoATzyYeJ8lNCkvs07MFihtPxdJEhv45ubQ6Sg12r35L3sD7WJFaVC5
- FnCdIKAN5XL16RbE2J6mU4B3ESUlTgRMADYoBsRUdmUdqK1cbk5xhmoYrtZkOB5Vmx
- urqguJR3yAIfYDyKO0uuN4NC0w4Ec54bVQQya+ceeb9+iRPVuWbuxKTtVtNOrDCW1M
- gMq1zXrVv6VEbQv/zkG0wJQD4dnri/rEc5t6BPhuLd5CyaLW/Q9gizTFwrQT37mB4S
- FGagW5ESHEB4Q==
-Date: Fri, 10 Nov 2023 15:19:53 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Subject: Re: [RFC PATCH v3 04/12] netdev: support binding dma-buf to netdevice
-Message-ID: <20231110151953.75c03297@kernel.org>
-In-Reply-To: <20231106024413.2801438-5-almasrymina@google.com>
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-5-almasrymina@google.com>
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A12B10E2CC
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 00:55:46 +0000 (UTC)
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20231111005544epoutp03d2206ec9368f53264d1ab1eb1e4ab302~Wa4i8p8yg2368123681epoutp03m;
+ Sat, 11 Nov 2023 00:55:44 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20231111005544epoutp03d2206ec9368f53264d1ab1eb1e4ab302~Wa4i8p8yg2368123681epoutp03m
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1699664144;
+ bh=tyQ3oO6IXzD6oc5DWP5nha9j9dt1yoRAX7U33QwZFuc=;
+ h=From:To:In-Reply-To:Subject:Date:References:From;
+ b=pnM6769JvdQ2KlYf83drAm7PJF+aOrlABeiplW7O3o5W+5hDnZ8douSlWFhPzWOuW
+ VdfCqUTFB4hSTJvOKMww8o9Ifptf7KYiFCO0EAHtqxkouGPf1EF5UMJHwskkWqtcLw
+ 71m08SfkGuJUrumO8wM8wSW7UzECwbbEnt/xt2uY=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+ epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+ 20231111005543epcas5p3e2376e4e804646a00b5112e8f7a53908~Wa4iQaOHi2744627446epcas5p3h;
+ Sat, 11 Nov 2023 00:55:43 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.183]) by
+ epsnrtp2.localdomain (Postfix) with ESMTP id 4SRy0s6g4yz4x9Pv; Sat, 11 Nov
+ 2023 00:55:41 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+ epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 84.DB.10009.D01DE456; Sat, 11 Nov 2023 09:55:41 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20231111005540epcas5p1dd9d6746bd293ae86b582c8770fac213~Wa4fV_M3s2063720637epcas5p1q;
+ Sat, 11 Nov 2023 00:55:40 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20231111005540epsmtrp212a3137ba5366921dc6aac34f7b06787~Wa4fUhJpv0060400604epsmtrp2c;
+ Sat, 11 Nov 2023 00:55:40 +0000 (GMT)
+X-AuditID: b6c32a4a-261fd70000002719-ea-654ed10d8fa2
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ B8.94.07368.C01DE456; Sat, 11 Nov 2023 09:55:40 +0900 (KST)
+Received: from INBRO000447 (unknown [107.122.12.5]) by epsmtip2.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20231111005534epsmtip238d4e217372bd20a02cbfe5bbfff9454~Wa4aAJ8OK2710327103epsmtip2T;
+ Sat, 11 Nov 2023 00:55:34 +0000 (GMT)
+From: "Alim Akhtar" <alim.akhtar@samsung.com>
+To: "'Krzysztof Kozlowski'" <krzysztof.kozlowski@linaro.org>, "'David
+ Airlie'" <airlied@gmail.com>, "'Daniel Vetter'" <daniel@ffwll.ch>, "'Maarten
+ Lankhorst'" <maarten.lankhorst@linux.intel.com>, "'Maxime Ripard'"
+ <mripard@kernel.org>, "'Thomas Zimmermann'" <tzimmermann@suse.de>, "'Rob
+ Herring'" <robh+dt@kernel.org>, "'Krzysztof Kozlowski'"
+ <krzysztof.kozlowski+dt@linaro.org>, "'Conor Dooley'" <conor+dt@kernel.org>,
+ "'Andi Shyti'" <andi.shyti@kernel.org>, "'Jonathan Cameron'"
+ <jic23@kernel.org>, "'Lars-Peter Clausen'" <lars@metafoo.de>, "'Lee Jones'"
+ <lee@kernel.org>, "'Ulf Hansson'" <ulf.hansson@linaro.org>, "'Tomasz	Figa'"
+ <tomasz.figa@gmail.com>, "'Sylwester Nawrocki'" <s.nawrocki@samsung.com>,
+ "'Linus Walleij'" <linus.walleij@linaro.org>, "'Thierry Reding'"
+ <thierry.reding@gmail.com>, =?utf-8?Q?'Uwe_Kleine-K=C3=B6nig'?=
+ <u.kleine-koenig@pengutronix.de>, "'Alessandro Zummo'"
+ <a.zummo@towertech.it>, "'Alexandre Belloni'"
+ <alexandre.belloni@bootlin.com>, "'Greg Kroah-Hartman'"
+ <gregkh@linuxfoundation.org>, "'Jiri Slaby'" <jirislaby@kernel.org>, "'Liam
+ Girdwood'" <lgirdwood@gmail.com>, "'Mark Brown'" <broonie@kernel.org>,
+ "'Jaehoon	Chung'" <jh80.chung@samsung.com>, "'Sam Protsenko'"
+ <semen.protsenko@linaro.org>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
+ <linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+ <linux-mmc@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
+ <linux-serial@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+ <linux-sound@vger.kernel.org>
+In-Reply-To: <20231108104343.24192-4-krzysztof.kozlowski@linaro.org>
+Subject: RE: [PATCH 03/17] dt-bindings: i2c: samsung,s3c2410-i2c: add
+ specific compatibles for existing SoC
+Date: Sat, 11 Nov 2023 06:25:33 +0530
+Message-ID: <059f01da1439$ca3f04f0$5ebd0ed0$@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQGWJB6kbFUwx2+cGuz2YrV1SxstmQGfqS2MAmdQtOuw2/KhUA==
+Content-Language: en-us
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Te0xTZxTfd3sfhVl3LRg/cHO1CVFcCsWV+kFk87ndCVnc3GZgG9iUG4pC
+ 2/QW3fQPjY9SYTw6n2uEirC6dU5dQQaVAsEqGozCLOILeaw4JozJFBZnKytc5vjvd875/b7f
+ OefLEQrEY1SkMFtrZA1aVY6UDMVrL0Qvlok63mflro5YVNXRSaHLXScwlD9ip5C3owVDPWNm
+ gA71+Uh0yn0NQxO1FgGyea4RyDv2J4n2VJ4h0a1/TATq3e3A0EjZq6h4sE+A3EPnKFR1wEag
+ OlMFjsa9Zgwd9J/EkPPXmwSqtvkBMgeeAFTuGcHRDdcxEnkmSgDq7nYAdOkHL4mOXm/E0NXK
+ IgqVPTgoQBWj53Bk2m8n0D63h0IXhvMJ9FtxkPLUVY4jhyv4Xs2whUB3LQcAav1x44po5uzj
+ 3SRTfmoH4x4/jjP11m6KcTr2k8y9mw3B/JUPmKayUxTTU9iKMdVVO5mq4RaCKQnImeIaB2Cq
+ 23YwR8qfYsxj54L1dNqW5RpWlckaJKxWrcvM1mYlSZM3ZKzOiFfK42RxCWiZVKJV5bJJ0jUp
+ 62XvZOcEFyyVbFXl5AVT61UcJ419a7lBl2dkJRodZ0ySsvrMHL1CH8Opcrk8bVaMljUmxsnl
+ S+ODxE1bNPVf3yf0T6gvDpfb8F3AQxaAECGkFbC2ogsvAKFCMX0eQN/FEQEf/AXgnbNXp4Nx
+ AC2Hvn8h8duPUHzBDaC5KgD4YBBA0+5jUyySlsG6ShM5WQinz4vgjaZ+fLIQQq+Bxc27pnAY
+ nQsLRs3YJMbpKOiyOalJLKIT4JOCM4DHc+CVb3xTfAH9BrRXDAn4NiTw6YCdmMTh9Co4MVFK
+ 8px58PeLnqn2IF0fCu1dZooXrIG3T1/HeRwGH7bWTOcj4eMRd1AsDGIGnvBH8mkN/OMk3wOk
+ 34bN3mP4JEVAR8MzrljeajYseubDeKUImk1inh0F94x0ThvNh5bCQoLHDCx3tk6ZiukOAN3V
+ m0uBxDpjSOuMIa0zhrH+b3wc4A4Qweq53CyWi9cv1bLbXny4WpfrBFP3t2RdHejrfRTTAjAh
+ aAFQKJCGi9oVKaxYlKn6cjtr0GUY8nJYrgXEBzdvEUTOVeuCB6w1ZsQpEuQKpVKpSHhTGSed
+ JxraV5YpprNURnYLy+pZw386TBgSuQsTDRjUaeKlDtLmtHaqenamqpMi2mad/Fv48q2fhGG6
+ oyVpmRmzm7CPvmodlL0uHa/Na7BmS0r1t4tTAs4Q7t0VtVUbfas/W5W4sKckypnuiUpct+iT
+ 5PkP39Pcarke2PYL0RilNEUMpMUuXtDeRS3Ov/dzWOXRrXuXfd5eedO8/XJz4u1ott8496Xm
+ hsMRj/Qrh7qHP8z6dGzUK+nNeTB6X9pwaWGSnEvynB6a/2wcFQcajW3JPv3D9gWpdaRMoRjy
+ t367KepuUWP6iVntK/MWfZfff3dvhiQ6YZb3jnrDK9iz8TnPQ7c/X5sqtCOta7NVJg7MUy5i
+ /TL1a/6BdPLj0f5mKc5pVHFLBAZO9S/RKkMLCAUAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTdxTG87+9L6Wj2ZWy9Cpm0zqyARFkUTyaxRgj212Gc8smJH7YrHJT
+ HW0trS9TnCMaK7RaICBildZCU6Tg3AplLVrcoI51bCCx6pR2zGlhBIYzIBPX2gF1C9+ePM9z
+ fud8OHxeQj+xiL9LuYdTK6VyCSnA27okryyP73+PW6GPiMDaf5OCH27XYXB83EaBv78Tg8HH
+ JQhO3XtAQrOnF4NoWwUPzN5eAvyPH5JwtP4SCb881RLw2xE7BuO1i8Hwxz0eeEadFFgrzQS4
+ tBYcpvwlGFSFGzBw3L9FQIs5jKAkMonA5B3H4Ub7ORK80TIEwaAdwfdNfhJq+jow+Kn+JAW1
+ Q1U8sDxy4qAttRFwzOOloGvsOAHDhpnKdLsJB3v7DK91rIKAgYpKBN0X89ansF9NHCFZU3MR
+ 65k6j7NuY5BiHfZSkg3cujLj+z5gr9Y2U+ygvhtjW6xfsNaxToIti6xgDa12xLb0FLGnTdMY
+ O+F4+X16q+DNfE6+ax+nzli3TbBzpLGDUD2kPgv/dYUsRh5Sh+L4DL2SCdtOUzok4CfQlxHT
+ V32TigVJzO2vy59rEdP4bPh5aQgxkxea8NmApJczrnrtHCmRviNkegKbY6WfEWP/20DMBnH0
+ RsbwbfHMAJ8voguY8t9zZ22cTmbazY65BUJ6DTOpu4RiegHjO/Ngjs+j05jQndD/2mYZ5cUO
+ WsJMh2xEbO8GJhotJ2MdMTNyzUuVowTjPJRxHso4D2WcN3Ie4Xa0kFNpFDLFjkxVppLbn66R
+ KjR7lbL0HbsVDjT3damvu9Cv5mfpnQjjo07E8HmSROH1lTlcgjBfeuAgp979iXqvnNN0oiQ+
+ LhELM2vO5ifQMukeroDjVJz6vxTjxy0qxlQBofnFun1v5ZZVVgpecGgiH/pCecNnl0zlbrW4
+ 97cJvO5aV46gMDKiHX73ney0z49OHdqyzrOmKMvy6t2wpOnwYHxgk0iPsuxyZ/yoc+nGAsHk
+ RyFx4kJx2kSetXzbKn/KibRo6hleUPblN/0Hoe1T8cnXspStuQ1JPl11XdUJx6mMBVp5d83a
+ DIXNl1x4kareUIQ7q5rFqeIno4qec6o+XYe78I3tlt6373oE7rqUawObBl3Tq/SN13vZzZdF
+ efrIWs2FgcOK9S+V5gzVoQOm5GzrdzcKsxP/bDD8s0xpIFY/lW8Jamj3j6sP3X8klj0JHlNc
+ pbYvLfZ3LQ6EPpbgmp3SzFSeWiP9FxJSPbrkAwAA
+X-CMS-MailID: 20231111005540epcas5p1dd9d6746bd293ae86b582c8770fac213
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231108104411epcas5p3d0306bbffc3dbc48b3d91fc2a57cdf7f
+References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
+ <CGME20231108104411epcas5p3d0306bbffc3dbc48b3d91fc2a57cdf7f@epcas5p3.samsung.com>
+ <20231108104343.24192-4-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,46 +150,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Paolo Abeni <pabeni@redhat.com>,
- linux-media@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, linaro-mm-sig@lists.linaro.org,
- Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>,
- netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun,  5 Nov 2023 18:44:03 -0800 Mina Almasry wrote:
-> --- a/include/linux/netdevice.h
-> +++ b/include/linux/netdevice.h
-> @@ -52,6 +52,8 @@
->  #include <net/net_trackers.h>
->  #include <net/net_debug.h>
->  #include <net/dropreason-core.h>
-> +#include <linux/xarray.h>
-> +#include <linux/refcount.h>
-> =20
->  struct netpoll_info;
->  struct device;
-> @@ -808,6 +810,84 @@ bool rps_may_expire_flow(struct net_device *dev, u16=
- rxq_index, u32 flow_id,
->  #endif
->  #endif /* CONFIG_RPS */
-> =20
-> +struct netdev_dmabuf_binding {
 
-Similar nitpick to the skbuff.h comment. Take this somewhere else,
-please, it doesn't need to be included in netdevice.h
 
-> +	struct netdev_dmabuf_binding *rbinding;
+> -----Original Message-----
+> From: Krzysztof Kozlowski <krzysztof.kozlowski=40linaro.org>
+> Sent: Wednesday, November 8, 2023 4:13 PM
+> Samsung Exynos SoC reuses several devices from older designs, thus
+> historically we kept the old (block's) compatible only.  This works fine =
+and
+> there is no bug here, however guidelines expressed in
+> Documentation/devicetree/bindings/writing-bindings.rst state that:
+> 1. Compatibles should be specific.
+> 2. We should add new compatibles in case of bugs or features.
+>=20
+> Add compatibles specific to each SoC in front of all old-SoC-like compati=
+bles.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski=40linaro.org>
+>=20
+> ---
 
-the 'r' in rbinding stands for rx? =F0=9F=A4=94=EF=B8=8F
+Reviewed-by: Alim Akhtar <alim.akhtar=40samsung.com>
 
+>=20
+> I propose to take the patch through Samsung SoC (me). See cover letter fo=
+r
+> explanation.
+> ---
+>  .../bindings/i2c/samsung,s3c2410-i2c.yaml     =7C 22 ++++++++++++-------
+>  1 file changed, 14 insertions(+), 8 deletions(-)
+(...)
 
