@@ -2,115 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8459A7E8AEC
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 13:49:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB67E7E8B00
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 14:09:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D6ED10E0B0;
-	Sat, 11 Nov 2023 12:48:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B13A210E096;
+	Sat, 11 Nov 2023 13:09:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40D8F10E0B0
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 12:48:53 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id
- a640c23a62f3a-9e61e969b1aso236402666b.0
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 04:48:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1699706931; x=1700311731; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9KXJpYZzRkCqTvec87XlahQByPlsLnbY5jFrjhVHCwQ=;
- b=tGiBN5RTWMuzQ1ObY9EX5qKT2g6B+uvlZp/jrPJKE9bqyc3bMsqnvLAYXmlNQ0X4eN
- O1NFQ7xYMXeB2Uzk3Fm3MiH5jqq2mxG33fximPD2QCM+4cWF9tux8PAh1e6DDCETI9Wi
- rfoyeHEtQ78Oc6KhfehOOm2ef7rrA5jazq71SB0/w63/+EHyckLl35WgYZIgSuvOEQGZ
- 02qo193ExtBah34OD/Cc+YJGgujispHJzfmsvbE9MXpRODLu7+KVw7Fhdkj1dxm7yMVV
- rF+Ew9o6qxnFPSCBdvZ94QWGKyZseV3ANYWWCvqCTFillto9W/FUNhfOyNY6E33t7vjx
- 8M4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699706931; x=1700311731;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9KXJpYZzRkCqTvec87XlahQByPlsLnbY5jFrjhVHCwQ=;
- b=rlvWF2gys4kjq5oyJdythn37pWr9XspWto7aqFtbPSqpU3dB/dMd8HZkw6bChB2hxA
- y9oaZQlckmdNB9i3uVBOILEdIDYY1eT1yZXXy1PGfpcq5H7WfaERtRI8jDHcfKQRhpgT
- Um/xsgEECvyCvlhGZqPqREL6UGJU7lzM0E1Kjt5J9XVm+G5wkKEZx86ueyjuweaAvyX4
- opF9gu6nof30z8VCkUrZ8h4IYBVrcnT9/b8xfiAUloxnR+IeefjbDWvSXkKuP0nHocKu
- Y8o7aCWnCiwIDTp48JASS7pqBFDeggo6rAB3cIuAvfPblbeAz0dvdQSvubhDw+EaonZR
- 9yrg==
-X-Gm-Message-State: AOJu0YwWOCROII9dxSOCDFdXLV3K+LzwBI7h7M44TUgnBx36GKQ0uet5
- 2fIQJHmOpFe2i9/lm2M/6C0h7A==
-X-Google-Smtp-Source: AGHT+IFix718UahWWr38N7cLqjT3VKT/ONBu0qEgIoL5lRKExo0ymCSOmmMfkI/WARsZpx3IKL5SJQ==
-X-Received: by 2002:a17:906:24d9:b0:9d3:ccf0:7617 with SMTP id
- f25-20020a17090624d900b009d3ccf07617mr990320ejb.44.1699706931444; 
- Sat, 11 Nov 2023 04:48:51 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.126])
- by smtp.gmail.com with ESMTPSA id
- s15-20020a170906bc4f00b00992ea405a79sm1015062ejv.166.2023.11.11.04.48.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 11 Nov 2023 04:48:50 -0800 (PST)
-Message-ID: <0ccee72f-98ac-4a08-9253-9c22dad4d95a@linaro.org>
-Date: Sat, 11 Nov 2023 13:48:48 +0100
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2059.outbound.protection.outlook.com [40.107.237.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A96CF10E096;
+ Sat, 11 Nov 2023 13:09:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=huwJ2YI9u7CJ4+5w8j48p1xlxwXtZ5WgL7VXhWKWbGik9/YwHvATNEUn+9o1+3K4s0Qv7O2K5fpPZlNW2m6h9tUf3ecW2MCXMZsPklFHo/yTcvQk9dNcyeGB1El2ihtrubw5IL3leTBtT9FEsKUcZUR+wAQZ3ptZE1oe953mmgFVd/5Mh3ibBd/oZL4L1n/mdCss5vsHoh/KAqZ44KE1jIBcTw19C7d/ifKSAXWGnum0TzOoUOHOmO/oAX56p3NNiMm6rBmIph0rvbFusIhtzWddB7kdCliWgLbzExNNLv5BaXO8RpXw3ALIk3eNe6pFmWQ1XfdraZd69+UCsFVLYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jw0ZI9w2RA0SxqVW79HzdYs2b02dxXoOVmKROHr0gL8=;
+ b=oDruirtSUn/r2gSVeK3BryXges7k0pLCpLZqVEA1OF/ebJbSq+TaVvkNdfZn3qpAPB2MpGqre1j9SechP/LM9YpArT6txiiJc0nrAgP5ApstBXuvsVSqJbaXeUS6hV4gRa0CIKt0ndMjhCnwNQJhXhUKJDOA9ldqf1uytypjy/igajwFgD2YOXZCHRoB8bFzRatgOOp2Fu1NwGzmP98ajnIrVp0UPVemetfF+LjEZVYHR3dUc2mfXiaE1XRQbA80EgPqykGxQPOQ7jU42NuzUwXYUU9kqaOztG4nakdFWua6Mgi9IoVesLAsMc9PiTOqv40ARogxUwDVIbotHz2BWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jw0ZI9w2RA0SxqVW79HzdYs2b02dxXoOVmKROHr0gL8=;
+ b=Qv/SRIfLg51flfVQbQ6FPSoq51PH24KysE5oiT/fSpJ2khArOohIQiY8u5UjW+VnFW8eDwooJkeJ5yW3x8LErl3dJpw5AnBf4wGInK+ULZvHCtVDJQQ99705o0cIrpxq3YcoLUhmrUjzGzvGfo77aCdgmBu4xRySsQ2ArOa8XTw=
+Received: from MN2PR12CA0024.namprd12.prod.outlook.com (2603:10b6:208:a8::37)
+ by SA1PR12MB7270.namprd12.prod.outlook.com (2603:10b6:806:2b9::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.19; Sat, 11 Nov
+ 2023 13:09:15 +0000
+Received: from BL02EPF0001A103.namprd05.prod.outlook.com
+ (2603:10b6:208:a8:cafe::ee) by MN2PR12CA0024.outlook.office365.com
+ (2603:10b6:208:a8::37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.22 via Frontend
+ Transport; Sat, 11 Nov 2023 13:09:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL02EPF0001A103.mail.protection.outlook.com (10.167.241.133) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7002.13 via Frontend Transport; Sat, 11 Nov 2023 13:09:14 +0000
+Received: from rajneesh-desk.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Sat, 11 Nov
+ 2023 07:09:09 -0600
+From: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+To: <amd-gfx@lists.freedesktop.org>
+Subject: [Patch v3] drm/ttm: Schedule delayed_delete worker closer
+Date: Sat, 11 Nov 2023 08:08:56 -0500
+Message-ID: <20231111130856.1168304-1-rajneesh.bhardwaj@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/8] dt-bindings: reserved-memory: Add secure CMA
- reserved memory range
-Content-Language: en-US
-To: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com,
- Matthias Brugger <matthias.bgg@gmail.com>
-References: <20231111111559.8218-1-yong.wu@mediatek.com>
- <20231111111559.8218-7-yong.wu@mediatek.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231111111559.8218-7-yong.wu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A103:EE_|SA1PR12MB7270:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e5c679d-9ad4-4f7d-d861-08dbe2b76778
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FORgHS31T2W7srPdkpLFNqpyxw5ayilTX682OQF2kC/s7loiAZqqwgkYESFatpqP485C9C4q0CfIWsr92M1niTa49b2c0BWTjaGibc3q4pgHfahgDKIpmTAzyxugJwscM2VSaH3uodhOG5YhsjKoKbPH9O4LPoB+K7E0L6XQ+LHGdpX1fE2TMiEjyxf6R2/O6A0jw46VSY3Q2kN0MpVfMbyzJT7THK4DabnYXzTvLNJHYFZrSSUapm4X8mJYeBgGREjduav51OZ0PiOSSdRvGx4Wea2FiNBd2Ip0490GFdvCKOWtvZnATO3pDoM3eX3otDLTObz9RXhOJACNq7SX9YCpsG3k3Gr2XuQ2diIax3IGQeh7rEZtG9GBa8tAIhvTyV2/PSNp8/0krbzO8dCscN8M1E78+xwMRsm4xqGj3/fQUGrUrY5uVkWXqxIdQbi0R/2ha4Zvkik0VAP9ogltXNDWTbt8dQRHUtPpPEWnZpaVIG8o8OSOSEMSS1t3usIg2tTZOiYoC6UisiOelJ4IIVGy5jvRQHzRfqxDnTkhj1+aMs82RUKQH7oSrW6I7pVrMxFy4Dqi48/zwrDiR54GtQ1PY9fGBAjfMh477R+yy86+aHOtI9zflv/JrAERGGDc9JaOmf6AdZ1LIVDPZYzaGnEA1k9QuxL/GfErlkjMdkVnOnos5xo2h7e1lcNlwYvU83raYfVr6FFUV4ghtJNoR18MUstUZP1h9rs7PLlIlw09s/jqmvaXg67Gm7BuJNg4ThYT9AMZ0zpPtQDkPdZ3gFmMexshrb9Er45P0LnQ0bNfUpNO/Rb8BPYljAZFq3HF
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(396003)(39860400002)(346002)(376002)(136003)(230273577357003)(230173577357003)(230922051799003)(451199024)(186009)(64100799003)(82310400011)(1800799009)(36840700001)(46966006)(40470700004)(36860700001)(5660300002)(478600001)(40460700003)(7696005)(8676002)(82740400003)(44832011)(356005)(6916009)(41300700001)(86362001)(70586007)(8936002)(316002)(54906003)(70206006)(36756003)(2906002)(81166007)(4326008)(450100002)(2616005)(426003)(336012)(1076003)(26005)(16526019)(6666004)(83380400001)(47076005)(40480700001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2023 13:09:14.5453 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e5c679d-9ad4-4f7d-d861-08dbe2b76778
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A103.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7270
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,119 +98,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Kardatzke <jkardatzke@google.com>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- ckoenig.leichtzumerken@gmail.com, Vijayanand Jitta <quic_vjitta@quicinc.com>,
- kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tjmercier@google.com,
- linaro-mm-sig@lists.linaro.org, John Stultz <jstultz@google.com>,
- jianjiao.zeng@mediatek.com,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>, linux-mediatek@lists.infradead.org,
- Joakim Bech <joakim.bech@linaro.org>, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: alexander.deucher@amd.com, Felix Kuehling <Felix.Kuehling@amd.com>,
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+ Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/11/2023 12:15, Yong Wu wrote:
-> Add a binding for describing the secure CMA reserved memory range. The
-> memory range also will be defined in the TEE firmware. It means the TEE
-> will be configured with the same address/size that is being set in this
-> DT node.
-> 
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> ---
+Try to allocate system memory on the NUMA node the device is closest to
+and try to run delayed_delete workers on a CPU of this node as well.
 
-What was the outcome of previous discussion? I don't see any references
-to the conclusion and your changelog "Reword the dt-binding description"
-is way too generic.
+To optimize the memory clearing operation when a TTM BO gets freed by
+the delayed_delete worker, scheduling it closer to a NUMA node where the
+memory was initially allocated helps avoid the cases where the worker
+gets randomly scheduled on the CPU cores that are across interconnect
+boundaries such as xGMI, PCIe etc.
 
-You must explain what happened here.
+This change helps USWC GTT allocations on NUMA systems (dGPU) and AMD
+APU platforms such as GFXIP9.4.3.
 
->  .../reserved-memory/secure_cma_region.yaml    | 44 +++++++++++++++++++
->  1 file changed, 44 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/reserved-memory/secure_cma_region.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/reserved-memory/secure_cma_region.yaml b/Documentation/devicetree/bindings/reserved-memory/secure_cma_region.yaml
-> new file mode 100644
-> index 000000000000..8ab559595fbe
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/reserved-memory/secure_cma_region.yaml
-> @@ -0,0 +1,44 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/reserved-memory/secure_cma_region.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Secure Reserved CMA Region
-> +
-> +description:
-> +  This binding describes a CMA region that can dynamically transition
+Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+---
+Changes in v3:
+ * Use WQ_UNBOUND to address the warning reported by CI pipeline.
 
-Describe the hardware or firmware, not the binding. Drop first four
-words and rephrase it.
+ drivers/gpu/drm/ttm/ttm_bo.c     | 8 +++++++-
+ drivers/gpu/drm/ttm/ttm_device.c | 6 ++++--
+ 2 files changed, 11 insertions(+), 3 deletions(-)
 
-> +between secure and non-secure states that a TEE can allocate memory
-> +from.
-
-It does not look like you tested the bindings, at least after quick
-look. Please run `make dt_binding_check` (see
-Documentation/devicetree/bindings/writing-schema.rst for instructions).
-Maybe you need to update your dtschema and yamllint.
-
-Do not send untested code.
-
-> +
-> +maintainers:
-> +  - Yong Wu <yong.wu@mediatek.com>
-> +
-> +allOf:
-> +  - $ref: reserved-memory.yaml
-> +
-> +properties:
-> +  compatible:
-> +    const: secure_cma_region
-
-Still wrong compatible. Look at other bindings - there is nowhere
-underscore. Look at other reserved memory bindings especially.
-
-Also, CMA is a Linux thingy, so either not suitable for bindings at all,
-or you need Linux specific compatible. I don't quite get why do you even
-put CMA there - adding Linux specific stuff will get obvious pushback...
-
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reusable
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +
-
-Stray blank line.
-
-> +    reserved-memory {
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +        ranges;
-> +
-> +        reserved-memory@80000000 {
-> +            compatible = "secure_cma_region";
-> +            reusable;
-> +            reg = <0x80000000 0x18000000>;
-
-reg is second property. Open DTS and check how it is there.
-
-> +        };
-> +    };
-
-Best regards,
-Krzysztof
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index 5757b9415e37..6f28a77a565b 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -370,7 +370,13 @@ static void ttm_bo_release(struct kref *kref)
+ 			spin_unlock(&bo->bdev->lru_lock);
+ 
+ 			INIT_WORK(&bo->delayed_delete, ttm_bo_delayed_delete);
+-			queue_work(bdev->wq, &bo->delayed_delete);
++
++			/* Schedule the worker on the closest NUMA node. This
++			 * improves performance since system memory might be
++			 * cleared on free and that is best done on a CPU core
++			 * close to it.
++			 */
++			queue_work_node(bdev->pool.nid, bdev->wq, &bo->delayed_delete);
+ 			return;
+ 		}
+ 
+diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+index 43e27ab77f95..bc97e3dd40f0 100644
+--- a/drivers/gpu/drm/ttm/ttm_device.c
++++ b/drivers/gpu/drm/ttm/ttm_device.c
+@@ -204,7 +204,8 @@ int ttm_device_init(struct ttm_device *bdev, struct ttm_device_funcs *funcs,
+ 	if (ret)
+ 		return ret;
+ 
+-	bdev->wq = alloc_workqueue("ttm", WQ_MEM_RECLAIM | WQ_HIGHPRI, 16);
++	bdev->wq = alloc_workqueue("ttm",
++				   WQ_MEM_RECLAIM | WQ_HIGHPRI | WQ_UNBOUND, 16);
+ 	if (!bdev->wq) {
+ 		ttm_global_release();
+ 		return -ENOMEM;
+@@ -213,7 +214,8 @@ int ttm_device_init(struct ttm_device *bdev, struct ttm_device_funcs *funcs,
+ 	bdev->funcs = funcs;
+ 
+ 	ttm_sys_man_init(bdev);
+-	ttm_pool_init(&bdev->pool, dev, NUMA_NO_NODE, use_dma_alloc, use_dma32);
++
++	ttm_pool_init(&bdev->pool, dev, dev_to_node(dev), use_dma_alloc, use_dma32);
+ 
+ 	bdev->vma_manager = vma_manager;
+ 	spin_lock_init(&bdev->lru_lock);
+-- 
+2.34.1
 
