@@ -1,73 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA547E89CF
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 09:23:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFA4B7E89D8
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Nov 2023 09:26:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F97910E145;
-	Sat, 11 Nov 2023 08:23:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F379210E139;
+	Sat, 11 Nov 2023 08:26:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EFBA10E139
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 08:23:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D96CD10E139
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 08:26:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1699690984;
+ s=mimecast20190719; t=1699691180;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=atynAEPTfoWaTFzhCmsRpTVi62wChDn9ybU1dA1F4RU=;
- b=EkTuw6Tfh9Vh8lkswYNsTc9V/EKv7YMx+gAy2Sj9aUHLRqS0dFeLhyOStkuI+X901tf+KM
- y2E9cjpEvcPJ6aClRybunT5unafv5M/S/rm4iBJvspFbfZy5vDN7T+cJqtSqyQOTp6gLgK
- f0y3YSBj/HHo2dM6y0K+3ino1guV44U=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=92ui9aGQz7iflvc1jcLMyOxURaRtvKs/xaTeeVmLJXs=;
+ b=eMQYvFNjDtwY76mtsAcAXBpEyiSY/wl5rlmcaYpE0AmcT/95+HpHWR5vVt9aChoxWSRifv
+ 2bjH/s6MDSp2XrDKLoz6WqGYfFIE1OOOmThmXNIuYETyG/CnQsuIwITVM8zS9YAcsZRasY
+ g1ZRrFfjlNM7pKvE0oU0gjUCwfSVbdQ=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-451-gQLrQxemNZ2iigbwAcBp4w-1; Sat, 11 Nov 2023 03:23:03 -0500
-X-MC-Unique: gQLrQxemNZ2iigbwAcBp4w-1
-Received: by mail-lf1-f69.google.com with SMTP id
- 2adb3069b0e04-5079630993dso2796277e87.1
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 00:23:02 -0800 (PST)
+ us-mta-277-_Z9AuNZ1NbWdMotbb7v6MQ-1; Sat, 11 Nov 2023 03:26:15 -0500
+X-MC-Unique: _Z9AuNZ1NbWdMotbb7v6MQ-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ 38308e7fff4ca-2c50dcd377eso28634051fa.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Nov 2023 00:26:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699690981; x=1700295781;
- h=mime-version:message-id:date:references:in-reply-to:subject:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=atynAEPTfoWaTFzhCmsRpTVi62wChDn9ybU1dA1F4RU=;
- b=qyXHMoAit8OBgtBV7fyAfJ9RDjO+L34xjocx6gNKzCnpp6plUDa9gw+SPs3fEnDkGq
- HpOHyaK5bUuvgUnR39xFtf/cpTc6daJ6X8tLTJuMVyPhF90JLzOoMrU1FwZQQzV+zzwN
- 2CHAsJnwAEbDr79KI9SxEkqvcAzaiutoxYKwcT2dDeNLzZ5XpUk2IlU3iIIhBfPd5JIp
- EbkY+T1HkynZQSgOZDFi5uvtsM7yC3giLMy9ROl/7UZZ3mxT+Ku3Mv6rHk0j3aYs09V8
- 56/EKgorQ4WytZ2/i6nr2eDwBY/yDV/R3Kl2NblOcqQvO1DnisZ6j34+2l9p3I+HUBBx
- FtKQ==
-X-Gm-Message-State: AOJu0YwUhpuFCb4zguAZY0ZTXyva164CGxydotGBetYPsbGhUwF95B3I
- K2cry5RrmzsBbL1sQaSLC73MIqIWJ3sl1jkx+Ilp+eGfmUwBcGoku0vGcumeDcIE6+iitNmTplG
- DaXvUtiUBXBb8HOdpwmVVd2iQ0ftB
-X-Received: by 2002:a19:7509:0:b0:500:9a45:62f with SMTP id
- y9-20020a197509000000b005009a45062fmr864858lfe.8.1699690981698; 
- Sat, 11 Nov 2023 00:23:01 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH6nJoUNA6XRAC1D3A5wF+hzfzKU/LOq+x+G3NEN3OgJMUiAVEfgREdpR410T3zw36xrPV2bg==
-X-Received: by 2002:a19:7509:0:b0:500:9a45:62f with SMTP id
- y9-20020a197509000000b005009a45062fmr864846lfe.8.1699690981373; 
- Sat, 11 Nov 2023 00:23:01 -0800 (PST)
+ d=1e100.net; s=20230601; t=1699691174; x=1700295974;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=92ui9aGQz7iflvc1jcLMyOxURaRtvKs/xaTeeVmLJXs=;
+ b=ulERmMwMD5Qmb6+2esHmJ5G0XQZlIEQInQJxXW4pzT9/t8rpZz/eGOEt2nziJPnkka
+ x172k/sYSpZjT/UwbEfScb5AvSCmgaeElLAgctf515cW/gek/+jd4nXj5mKuu4uaCUW2
+ 83BMA8LKRnSo8nGtl2fU0qVqC0F7Zg08TGW36k2LYeMa1CqbpR++iqTL8yWsXwv8e25l
+ MemWWxhEV/h6pCEWHQJjOxzF2rWhT2vPrG/v1CbtPIkUwhsr/8Ehk+FuDEyJ9mnklXPk
+ UbigIBuM0j8fdJ/VQISd79wWCejEzlTFl59xVfdBUqn4eu9GjhtH7Q+5XH4xwxRavl+M
+ TR1w==
+X-Gm-Message-State: AOJu0YwMmqtDjYokrw86anTEw8AmiAsSbAacpBjnxTAd9gx1Vxem+yC1
+ 6yiP4ay0jD7D5LOP+GBzciXsZMZbRnHBR+WMe31tvYnN1QhbxIJ2IpK8qsIu008J2mXMgyinM2I
+ 0czqWvzR/sTamO1uqH06IYVPU5rfR
+X-Received: by 2002:a2e:9c4d:0:b0:2c5:1bd9:f946 with SMTP id
+ t13-20020a2e9c4d000000b002c51bd9f946mr1078220ljj.9.1699691173970; 
+ Sat, 11 Nov 2023 00:26:13 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF/gQ2RxMPrbb733WVLyeiZTyYaXVA5ObwiIiMVVog0zfVseHB8d0M9CVyq1CWPfnSoRBzdfw==
+X-Received: by 2002:a2e:9c4d:0:b0:2c5:1bd9:f946 with SMTP id
+ t13-20020a2e9c4d000000b002c51bd9f946mr1078212ljj.9.1699691173690; 
+ Sat, 11 Nov 2023 00:26:13 -0800 (PST)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- c10-20020a5d63ca000000b0032d81837433sm996350wrw.30.2023.11.11.00.23.00
+ p6-20020adfe606000000b0032d2f09d991sm996976wrm.33.2023.11.11.00.26.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Nov 2023 00:23:01 -0800 (PST)
+ Sat, 11 Nov 2023 00:26:13 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
-To: Andrew Worsley <amworsley@gmail.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "open
- list:DRM DRIVER FOR FIRMWARE FRAMEBUFFERS"
- <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>
-Subject: Re:
-In-Reply-To: <20231111042926.52990-1-amworsley@gmail.com>
-References: <20231111042926.52990-1-amworsley@gmail.com>
-Date: Sat, 11 Nov 2023 09:22:59 +0100
-Message-ID: <87o7g0aecc.fsf@minerva.mail-host-address-is-not-set>
+To: Luben Tuikov <ltuikov89@gmail.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH] Revert "drm/sched: Define pr_fmt() for DRM using pr_*()"
+In-Reply-To: <20231111024130.11464-2-ltuikov89@gmail.com>
+References: <20231111024130.11464-2-ltuikov89@gmail.com>
+Date: Sat, 11 Nov 2023 09:26:12 +0100
+Message-ID: <87leb4ae6z.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -84,28 +80,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Direct Rendering Infrastructure - Development
+ <dri-devel@lists.freedesktop.org>, Luben Tuikov <ltuikov89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Andrew Worsley <amworsley@gmail.com> writes:
+Luben Tuikov <ltuikov89@gmail.com> writes:
 
-Hello Andrew,
+Hello Luben,
 
->    This patch fix's the failure of the frame buffer driver on my Asahi kernel
-> which prevented X11 from starting on my Apple M1 laptop. It seems like a straight
-> forward failure to follow the procedure described in drivers/video/aperture.c
-> to remove the ealier driver. This patch is very simple and minimal. Very likely
-> there may be better ways to fix this and very like there may be other drivers
-> which have the same problem but I submit this so at least there is
-> an interim fix for my problem.
+> This reverts commit 36245bd02e88e68ac5955c2958c968879d7b75a9.
 >
 
-Which partch? I think you forgot to include in your email?
+You should include a commit message explaining why this commit should
+be reverted. I noticed that was asked by Jani so I would include what
+he mentioned in the other email thread.
 
->     Thanks
->
->     Andrew Worsley
->
+> Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
+> ---
 
 -- 
 Best regards,
