@@ -1,32 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 154D07E9201
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Nov 2023 19:42:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B0B57E9203
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Nov 2023 19:44:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77B1F10E08F;
-	Sun, 12 Nov 2023 18:42:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E51910E14B;
+	Sun, 12 Nov 2023 18:44:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 64521 seconds by postgrey-1.36 at gabe;
- Sun, 12 Nov 2023 18:42:03 UTC
-Received: from vps.thesusis.net (vps.thesusis.net [34.202.238.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3E8310E08F
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Nov 2023 18:42:03 +0000 (UTC)
-Received: by vps.thesusis.net (Postfix, from userid 1000)
- id A1719148909; Sun, 12 Nov 2023 13:42:02 -0500 (EST)
-From: Phillip Susi <phill@thesusis.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Luben Tuikov
- <luben.tuikov@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: Re: Radeon regression in 6.6 kernel
-In-Reply-To: <ZVCzCrkdRJy9AHd2@archie.me>
-References: <87edgv4x3i.fsf@vps.thesusis.net> <ZVCzCrkdRJy9AHd2@archie.me>
-Date: Sun, 12 Nov 2023 13:42:02 -0500
-Message-ID: <87fs1addad.fsf@vps.thesusis.net>
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
+ [IPv6:2607:f8b0:4864:20::112e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68C7F10E14B
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Nov 2023 18:44:11 +0000 (UTC)
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-5b31c5143a0so42985377b3.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Nov 2023 10:44:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1699814650; x=1700419450; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3sqqPllgETnwwQvfwmEwhxp6/p5QdcAaEjx6oKJg44Y=;
+ b=q/49C78WdH8ET8zhtSgFDZIDjGpgKveao3t8PgNGnk/ZDtPZMcHQK1ZLthxc3+vyzh
+ QWREQPO6t0pduz4f6sip+8daGMHqhyNjPM2XhlyNlvhVx3Q9pPRrAL5bYGzAMA2FFJu9
+ J7cCmg8OJWKBYX93j7zTYyevkeJS3QYF86hva32LpjREZvWQU2tg98ftTka8U0LH3zVg
+ 7YR3HMC3XKjOhZFvIpchjezuz1c+zUzM/SjFxRRsFeJpX8TpE3qRIqQZIxWh4JKDswXi
+ XkCwKZWzVvrhgQzvIkhNoKxkM76uokJf95qH/xrazKXIG0cAsTZAJjZNMwMP/8sgLqe9
+ zCKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699814650; x=1700419450;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3sqqPllgETnwwQvfwmEwhxp6/p5QdcAaEjx6oKJg44Y=;
+ b=BqKo2/PH+SGV92sw7E4VpeiBucEI5ZmlC2l8V5Tq7iLaJ65L4M/TfbxhOeOsai+boL
+ V2FO4hFkWilpLNndJCWvfYTuDUpuPqJDQ60DrUNsc5n0TXefldrOJC9cxnMiv4oTqIXF
+ ne8EPreFU9wKRS5fDk+Ke0WxE+pKBvwTTxIs6cOo4+LpaykbfsydorzMQkwSCwvdCeMg
+ EazezrQIC+aa+rSrM0mY5ibQtyBonFHMQ/IoJZdIJdIFmHybx+5G+qDRnvwrZXUeSdfQ
+ 75GUVG5Bi4hr0UFZrHT9i4Gc+Z5xr2uMQHB23Qv4HPS0/p8iUjbcvfz3uY0IXSiq4ahb
+ Ed3A==
+X-Gm-Message-State: AOJu0YzkAjvbmel7MIv31whWBpJSfvkJXwMETgczD8pu/v209OD0qH3s
+ 8xBeoLJi8hezf/kWfClHZmyl/A==
+X-Google-Smtp-Source: AGHT+IGGlUk61F4BEzF1VDsWt9xVT4gMPv8utBpaeVZEcfGMjrCm0u4YtgErk53VC2pVhXrV1Vku9w==
+X-Received: by 2002:a81:5201:0:b0:5a7:ba09:e58b with SMTP id
+ g1-20020a815201000000b005a7ba09e58bmr5191792ywb.14.1699814650481; 
+ Sun, 12 Nov 2023 10:44:10 -0800 (PST)
+Received: from krzk-bin.. ([12.161.6.170]) by smtp.gmail.com with ESMTPSA id
+ u63-20020a0deb42000000b005b3f6c1b5edsm1308938ywe.80.2023.11.12.10.44.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 12 Nov 2023 10:44:10 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Inki Dae <inki.dae@samsung.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH 1/5] dt-bindings: gpu: samsung-rotator: drop redundant quotes
+Date: Sun, 12 Nov 2023 19:43:59 +0100
+Message-Id: <20231112184403.3449-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="=-=-="
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,77 +76,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Regressions <regressions@lists.linux.dev>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---=-=-=
-Content-Type: text/plain
+Compatibles should not use quotes in the bindings.
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../devicetree/bindings/gpu/samsung-rotator.yaml         | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-> Please show the full bisect log, and also tell why these commits are
-> skipped.
+diff --git a/Documentation/devicetree/bindings/gpu/samsung-rotator.yaml b/Documentation/devicetree/bindings/gpu/samsung-rotator.yaml
+index d60626ffb28e..18bf44e06e8f 100644
+--- a/Documentation/devicetree/bindings/gpu/samsung-rotator.yaml
++++ b/Documentation/devicetree/bindings/gpu/samsung-rotator.yaml
+@@ -12,10 +12,11 @@ maintainers:
+ properties:
+   compatible:
+     enum:
+-      - "samsung,s5pv210-rotator"
+-      - "samsung,exynos4210-rotator"
+-      - "samsung,exynos4212-rotator"
+-      - "samsung,exynos5250-rotator"
++      - samsung,s5pv210-rotator
++      - samsung,exynos4210-rotator
++      - samsung,exynos4212-rotator
++      - samsung,exynos5250-rotator
++
+   reg:
+     maxItems: 1
+ 
+-- 
+2.34.1
 
-Two of them would not compile and one would not boot.
-
-Here's the log.
-
-
---=-=-=
-Content-Type: text/plain
-Content-Disposition: inline; filename=BISECT_LOG
-Content-Description: BISECT_LOG
-
-# bad: [4bbdb725a36b0d235f3b832bd0c1e885f0442d9f] Merge tag 'iommu-updates-v6.7' of git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu
-# good: [94f6f0550c625fab1f373bb86a6669b45e9748b3] Linux 6.6-rc5
-git bisect start 'HEAD' 'v6.6-rc5'
-# good: [8bc9e6515183935fa0cccaf67455c439afe4982b] Merge tag 'devicetree-for-6.7' of git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux
-git bisect good 8bc9e6515183935fa0cccaf67455c439afe4982b
-# bad: [431f1051884e38d2a5751e4731d69b2ff289ee56] Merge tag 'leds-next-6.7' of git://git.kernel.org/pub/scm/linux/kernel/git/lee/leds
-git bisect bad 431f1051884e38d2a5751e4731d69b2ff289ee56
-# bad: [0364249d2073c32c5214f02866999ce940bc35a2] Merge tag 'for-6.7/dm-changes' of git://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm
-git bisect bad 0364249d2073c32c5214f02866999ce940bc35a2
-# good: [27442758e9b4e083bef3f164a1739475c01f3202] Merge tag 'amd-drm-next-6.7-2023-10-13' of https://gitlab.freedesktop.org/agd5f/linux into drm-next
-git bisect good 27442758e9b4e083bef3f164a1739475c01f3202
-# bad: [631808095a82e6b6f8410a95f8b12b8d0d38b161] Merge tag 'amd-drm-next-6.7-2023-10-27' of https://gitlab.freedesktop.org/agd5f/linux into drm-next
-git bisect bad 631808095a82e6b6f8410a95f8b12b8d0d38b161
-# skip: [0ecf4aa32b7896b9160688bdbd20153dc06a50fb] Merge tag 'amd-drm-next-6.7-2023-10-20' of https://gitlab.freedesktop.org/agd5f/linux into drm-next
-git bisect skip 0ecf4aa32b7896b9160688bdbd20153dc06a50fb
-# good: [74ce0f3873821f12391bcf5469d81583d34f4c6c] accel/ivpu: Fix verbose version of REG_POLL macros
-git bisect good 74ce0f3873821f12391bcf5469d81583d34f4c6c
-# skip: [3f5ba636d6987ddffeaa056dea1c524da63912f3] Merge tag 'drm-msm-next-2023-10-17' of https://gitlab.freedesktop.org/drm/msm into drm-next
-git bisect skip 3f5ba636d6987ddffeaa056dea1c524da63912f3
-# good: [a3cd664e7f971b0f33acb3ba790c142669cd34e5] accel/ivpu: Print IPC type string instead of number
-git bisect good a3cd664e7f971b0f33acb3ba790c142669cd34e5
-# good: [b0b0d811eac6b4c52cb9ad632fa6384cf48869e7] drm/mediatek: Fix coverity issue with unintentional integer overflow
-git bisect good b0b0d811eac6b4c52cb9ad632fa6384cf48869e7
-# good: [808b43fa7e56e94563b86af2703ba88ee156e3c2] drm/i915/dp_mst: Set connector DSC capabilities and decompression AUX
-git bisect good 808b43fa7e56e94563b86af2703ba88ee156e3c2
-# skip: [11ae5eb516b656e8a0e4efbea90ea24c152a346d] Merge tag 'topic/vmemdup-user-array-2023-10-24-1' of git://anongit.freedesktop.org/drm/drm into drm-next
-git bisect skip 11ae5eb516b656e8a0e4efbea90ea24c152a346d
-# good: [a67f7a0b18c09d5b62eafb6d5c2f54e6f6ea6cf1] drm/amd/display: Update SDP VSC colorimetry from DP test automation request
-git bisect good a67f7a0b18c09d5b62eafb6d5c2f54e6f6ea6cf1
-# good: [dd3dd9829bf9a4ecd55482050745efdd9f7f97fc] drm/amdgpu: Remove unused variables from amdgpu_show_fdinfo
-git bisect good dd3dd9829bf9a4ecd55482050745efdd9f7f97fc
-# good: [b1abb484417ec8edd68df0c9bf8cb1c1fc035fd2] drm/ci: force-enable CONFIG_MSM_MMCC_8996 as built-in
-git bisect good b1abb484417ec8edd68df0c9bf8cb1c1fc035fd2
-# good: [5fa8f128462c5b3b20576b12286dca7fe95b3af1] drm/ci: increase i915 job timeout to 1h30m
-git bisect good 5fa8f128462c5b3b20576b12286dca7fe95b3af1
-# good: [3ddba96b0d7e714dee4db5aed4f7d413be43b4ba] MAINTAINERS: drm/ci: add entries for xfail files
-git bisect good 3ddba96b0d7e714dee4db5aed4f7d413be43b4ba
-# bad: [b70438004a14f4d0f9890b3297cd66248728546c] drm/amdgpu: move buffer funcs setting up a level
-git bisect bad b70438004a14f4d0f9890b3297cd66248728546c
-# skip: [56e449603f0ac580700621a356d35d5716a62ce5] drm/sched: Convert the GPU scheduler to variable number of run-queues
-git bisect skip 56e449603f0ac580700621a356d35d5716a62ce5
-# skip: [c07bf1636f0005f9eb7956404490672286ea59d3] MAINTAINERS: Update the GPU Scheduler email
-git bisect skip c07bf1636f0005f9eb7956404490672286ea59d3
-# only skipped commits left to test
-# possible first bad commit: [b70438004a14f4d0f9890b3297cd66248728546c] drm/amdgpu: move buffer funcs setting up a level
-# possible first bad commit: [c07bf1636f0005f9eb7956404490672286ea59d3] MAINTAINERS: Update the GPU Scheduler email
-# possible first bad commit: [56e449603f0ac580700621a356d35d5716a62ce5] drm/sched: Convert the GPU scheduler to variable number of run-queues
-
---=-=-=--
