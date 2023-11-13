@@ -1,83 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BEC77E9CCB
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 14:14:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7253B7EA424
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 21:01:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1547C10E092;
-	Mon, 13 Nov 2023 13:14:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B74110E40B;
+	Mon, 13 Nov 2023 20:01:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F73A10E092
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 13:14:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1699881251;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=apRsgsjUrkTMu7Ex/ouOXJ10+bWdueEuJWESAypcOEY=;
- b=iXvjRiw2G06YSqwD1fmD+TgNi+QcLxSOmgxcdrzGTM0s8D7QQQBIsfydriq6ll2vJmhTmU
- eCWNl2K0lwZTB8rvZgnbg9YvoQCTchp8urh/l0hOMDvVpjA75vD6NGYqwbDXGzLKVdRrVC
- VoiLlSZMhBSmbsKlPPjkOLw/hXm6rCI=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-343-zPJojICbNNS_oRuP_6C6dw-1; Mon, 13 Nov 2023 08:14:10 -0500
-X-MC-Unique: zPJojICbNNS_oRuP_6C6dw-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-9bf1047cb28so319016666b.2
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 05:14:10 -0800 (PST)
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03B5310E09E
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 13:15:19 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id
+ 3f1490d57ef6-da30fd994fdso4551635276.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 05:15:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1699881319; x=1700486119;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=L4J9L/OCrmZEAUCARuzc0AkzKVP1ZOLy75hxW10akIQ=;
+ b=WSceM0kXg209GmlqxzCF/15lZKeOhuRgCOSyobvIm5sOvyvm8gA4eI5d2UU7nkx6qq
+ Ld44zS0Fbo4a2YrlCYPA4nbvjyErviQOZiAtp6K9/Ahoxj8DKPz8O3+/aP79KQ6j7QfH
+ CgcwpcZTGNnD+B1oG9WS68cOJFzk0kK/LxBBc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699881249; x=1700486049;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=apRsgsjUrkTMu7Ex/ouOXJ10+bWdueEuJWESAypcOEY=;
- b=PlsfBNlhPLn4ZKGkIoJR3cDDfTqU9XSg1K27MgbO7W2MjrQo8pUjPTiMsoIWq57NET
- WBcS2/I2Fgkh1441/JFpUy+SmEN5OyWK+kYsPSG+MxRsjDl4nExZk8uxk/mPXtLY+8Qy
- fgF0Sg3TRqFQEiK6pAwfBlhcSa05G+pKvjBW2oZUteFLZUGqEnV+lWK3xktm7CL4sJlM
- QTz3GxwMiDHdRjh9n3JqFFFyWqyzI6kg6sC9T1ITrOYgv7yOPiwsfeYwYVP4JfZ7XNNx
- I34ykWFqGMdj9biOIFZ+X5Q3pdp+XSw4SQJzyzPtMK3+YfP+wg9cugvwJJ8CnT3Ag3HF
- BvPQ==
-X-Gm-Message-State: AOJu0YytbMPvvV+Q/z65U0KRMBVpCnTicE5ThkO1iRz6cwjhoqMAShXF
- 3pQh5dC336OHBk9igRnozg5jldTp1wkv/4DGc3A2U+VejLyKosEtOYkw1cCl4UrsBymEwdoQEGI
- sAVWb9YJR++JeIUwrEmNhfAWOyL5t
-X-Received: by 2002:a17:906:40c5:b0:9e2:d087:86de with SMTP id
- a5-20020a17090640c500b009e2d08786demr4163683ejk.42.1699881249182; 
- Mon, 13 Nov 2023 05:14:09 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEmjEqe4EBqb9oN66sVBtDI23BScatKihht2oGtIktFpEKFMstJcw5iPKx18Ni0psCt0zWV2g==
-X-Received: by 2002:a17:906:40c5:b0:9e2:d087:86de with SMTP id
- a5-20020a17090640c500b009e2d08786demr4163664ejk.42.1699881248872; 
- Mon, 13 Nov 2023 05:14:08 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- m16-20020a1709060d9000b009be14e5cd54sm4047977eji.57.2023.11.13.05.14.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Nov 2023 05:14:08 -0800 (PST)
-Message-ID: <4be75380-eefc-4808-9cfb-8e3f2448ab90@redhat.com>
-Date: Mon, 13 Nov 2023 14:14:07 +0100
+ d=1e100.net; s=20230601; t=1699881319; x=1700486119;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=L4J9L/OCrmZEAUCARuzc0AkzKVP1ZOLy75hxW10akIQ=;
+ b=Rs7Lh1goZCtZsKxwGcTWiYyvUKskl+zIjg6jwqW8P5dx75p08Me1IxHcjIgDJ226BY
+ Cml3oNh3e7GL5l0wFDoFNlMCU+0KMQQjtVMnlhUK+EcEHaB5wf9rO3YAewr9b7Ej95cx
+ cPLSrjFvyy1cUict8QS9/DyiT+7Ns0ZRTfBgziK4/A4JTqAVuKmODrbXIZ5YlV15ijcE
+ yO8HQgTE3ePPAWvOubt6VTCKH+WVP2HGU5OVtemFLUsJ+JkzE8p+SeZ0IytKHzY1raVy
+ zSUgSppu29XZ2A0uA0EVwG9BJ10U29MAA3/1gHK9d63WDXJMIpw5W+fRgMRQmLk1frxu
+ GL8w==
+X-Gm-Message-State: AOJu0YwoJLJezt5Gat/60Ek/NvqyO0ou2hgquJRLP5pszGQ7mN5XKQDW
+ 3b3+glovsh4bHBP2PeHaTGMQB//VLTb0r5yxqT9dvg==
+X-Google-Smtp-Source: AGHT+IET6zpXhwQZhQRUdi4km+AMqCVW29p1ychoAlcccGLWuU0gHf7TzqFsK41GeYRePbcgtL2RpTCuBpXje+uGYJI=
+X-Received: by 2002:a25:3288:0:b0:da0:8955:34f7 with SMTP id
+ y130-20020a253288000000b00da0895534f7mr3341128yby.23.1699881319000; Mon, 13
+ Nov 2023 05:15:19 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/scheduler: improve GPU scheduler documentation
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- airlied@gmail.com, ltuikov89@gmail.com, dri-devel@lists.freedesktop.org,
- matthew.brost@intel.com, boris.brezillon@collabora.com,
- alexander.deucher@amd.com, "daniel@ffwll.ch" <daniel@ffwll.ch>
-References: <20231113123832.120710-1-christian.koenig@amd.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20231113123832.120710-1-christian.koenig@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230328170752.1102347-1-jagan@amarulasolutions.com>
+ <CAMty3ZBnAw+VHXoZuSgZPmSTMYd-nxBw5cZ+OxLYxqrXRX=MNg@mail.gmail.com>
+ <CAPY8ntDTv-dMxRgFOfcbBvH+qjoEOPdK_02OmUtRxtyumx6Q0w@mail.gmail.com>
+In-Reply-To: <CAPY8ntDTv-dMxRgFOfcbBvH+qjoEOPdK_02OmUtRxtyumx6Q0w@mail.gmail.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Mon, 13 Nov 2023 08:15:07 -0500
+Message-ID: <CAMty3ZDpty-pgzm-UHg_jpDQs5RjPh+j+RN02Lqh39-wrj8ZtQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm/bridge: Fix improper bridge init order with
+ pre_enable_prev_first
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Mon, 13 Nov 2023 20:01:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,181 +71,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+On Tue, Aug 1, 2023 at 11:50=E2=80=AFAM Dave Stevenson
+<dave.stevenson@raspberrypi.com> wrote:
+>
+> Hi Jagan
+>
+> My apologies for dropping the ball on this one, and thanks to Frieder
+> for the nudge.
+>
+> On Wed, 12 Apr 2023 at 07:25, Jagan Teki <jagan@amarulasolutions.com> wro=
+te:
+> >
+> > Hi Dave,
+> >
+> > Added Maxime, Laurent [which I thought I added before]
+> >
+> > On Tue, Mar 28, 2023 at 10:38=E2=80=AFPM Jagan Teki <jagan@amarulasolut=
+ions.com> wrote:
+> > >
+> > > For a given bridge pipeline if any bridge sets pre_enable_prev_first
+> > > flag then the pre_enable for the previous bridge will be called befor=
+e
+> > > pre_enable of this bridge and opposite is done for post_disable.
+> > >
+> > > These are the potential bridge flags to alter bridge init order in or=
+der
+> > > to satisfy the MIPI DSI host and downstream panel or bridge to functi=
+on.
+> > > However the existing pre_enable_prev_first logic with associated brid=
+ge
+> > > ordering has broken for both pre_enable and post_disable calls.
+> > >
+> > > [pre_enable]
+> > >
+> > > The altered bridge ordering has failed if two consecutive bridges on =
+a
+> > > given pipeline enables the pre_enable_prev_first flag.
+> > >
+> > > Example:
+> > > - Panel
+> > > - Bridge 1
+> > > - Bridge 2 pre_enable_prev_first
+> > > - Bridge 3
+> > > - Bridge 4 pre_enable_prev_first
+> > > - Bridge 5 pre_enable_prev_first
+> > > - Bridge 6
+> > > - Encoder
+> > >
+> > > In this example, Bridge 4 and Bridge 5 have pre_enable_prev_first.
+> > >
+> > > The logic looks for a bridge which enabled pre_enable_prev_first flag
+> > > on each iteration and assigned the previou bridge to limit pointer
+> > > if the bridge doesn't enable pre_enable_prev_first flags.
+> > >
+> > > If control found Bridge 2 is pre_enable_prev_first then the iteration
+> > > looks for Bridge 3 and found it is not pre_enable_prev_first and assi=
+gns
+> > > it's previous Bridge 4 to limit pointer and calls pre_enable of Bridg=
+e 3
+> > > and Bridge 2 and assign iter pointer with limit which is Bridge 4.
+> > >
+> > > Here is the actual problem, for the next iteration control look for
+> > > Bridge 5 instead of Bridge 4 has iter pointer in previous iteration
+> > > moved to Bridge 4 so this iteration skips the Bridge 4. The iteration
+> > > found Bridge 6 doesn't pre_enable_prev_first flags so the limit assig=
+ned
+> > > to Encoder. From next iteration Encoder skips as it is the last bridg=
+e
+> > > for reverse order pipeline.
+> > >
+> > > So, the resulting pre_enable bridge order would be,
+> > > - Panel, Bridge 1, Bridge 3, Bridge 2, Bridge 6, Bridge 5.
+> > >
+> > > This patch fixes this by assigning limit to next pointer instead of
+> > > previous bridge since the iteration always looks for bridge that does
+> > > NOT request prev so assigning next makes sure the last bridge on a
+> > > given iteration what exactly the limit bridge is.
+> > >
+> > > So, the resulting pre_enable bridge order with fix would be,
+> > > - Panel, Bridge 1, Bridge 3, Bridge 2, Bridge 6, Bridge 5, Bridge 4,
+> > >   Encoder.
+> > >
+> > > [post_disable]
+> > >
+> > > The altered bridge ordering has failed if two consecutive bridges on =
+a
+> > > given pipeline enables the pre_enable_prev_first flag.
+> > >
+> > > Example:
+> > > - Panel
+> > > - Bridge 1
+> > > - Bridge 2 pre_enable_prev_first
+> > > - Bridge 3
+> > > - Bridge 4 pre_enable_prev_first
+> > > - Bridge 5 pre_enable_prev_first
+> > > - Bridge 6
+> > > - Encoder
+> > >
+> > > In this example Bridge 5 and Bridge 4 have pre_enable_prev_first.
+> > >
+> > > The logic looks for a bridge which enabled pre_enable_prev_first flag=
+s
+> > > on each iteration and assigned the previou bridge to next and next to
+> > > limit pointer if the bridge does enable pre_enable_prev_first flag.
+> > >
+> > > If control starts from Bridge 6 then it found next Bridge 5 is
+> > > pre_enable_prev_first and immediately the next assigned to previous
+> > > Bridge 6 and limit assignments to next Bridge 6 and call post_enable
+> > > of Bridge 6 even though the next consecutive Bridge 5 is enabled with
+> > > pre_enable_prev_first. This clearly misses the logic to find the stat=
+e
+> > > of next conducive bridge as everytime the next and limit assigns
+> > > previous bridge if given bridge enabled pre_enable_prev_first.
+> > >
+> > > So, the resulting post_disable bridge order would be,
+> > > - Encoder, Bridge 6, Bridge 5, Bridge 4, Bridge 3, Bridge 2, Bridge 1=
+,
+> > >   Panel.
+> > >
+> > > This patch fixes this by assigning next with previou bridge only if t=
+he
+> > > bridge doesn't enable pre_enable_prev_first flag and the next further
+> > > assign it to limit. This way we can find the bridge that NOT requeste=
+d
+> > > prev to disable last.
+> > >
+> > > So, the resulting pre_enable bridge order with fix would be,
+> > > - Encoder, Bridge 4, Bridge 5, Bridge 6, Bridge 2, Bridge 3, Bridge 1=
+,
+> > >   Panel.
+> > >
+> > > Validated the bridge init ordering by incorporating dummy bridges in
+> > > the sun6i-mipi-dsi pipeline
+> > >
+> > > Fixes: 4fb912e5e190 ("drm/bridge: Introduce pre_enable_prev_first to
+> > > alter bridge init order")
+> > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+>
+> Thanks for investigating and sorting this.
+>
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>
+> > > ---
+> > > Changes for v2:
+> > > - add missing dri-devel in CC
+> >
+> > Would you please look into this issue?
 
-On 11/13/23 13:38, Christian König wrote:
-> Start to improve the scheduler document. Especially document the
-> lifetime of each of the objects as well as the restrictions around
-> DMA-fence handling and userspace compatibility.
+These still not been picked it yet, can any one pull these two fixes?
 
-Thanks a lot for submitting this - it's very much appreciated!
-
-Before reviewing in detail, do you mind to re-structure this a little bit? Instead
-of packing everything in an enumeration I'd suggest to have separate DOC paragraphs.
-
-For instance:
-
-- keep "Overview" to introduce the overall idea and basic structures of the component
-- a paragraph for each of those basic structures (drm_gpu_scheduler, drm_sched_entity,
-   drm_sched_fence) explaining their purpose and lifetime
-- a paragraph about the pitfalls dealing with DMA fences
-- a paragraph about the pitfalls of the driver callbacks (although this might highly
-   intersect with the previous suggested one)
-
-I feel like this would be much easier to read.
-
-Besides that, which covers the conceptual side of things, I think we also need to
-improve the documentation on what the scheduler implementation expects from drivers,
-e.g. zero initialize structures, valid initialization parameters for typical use cases,
-etc. However, that's for a separate patch.
-
-- Danilo
-
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/gpu/drm/scheduler/sched_main.c | 126 ++++++++++++++++++++-----
->   1 file changed, 104 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 506371c42745..36a7c5dc852d 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -24,28 +24,110 @@
->   /**
->    * DOC: Overview
->    *
-> - * The GPU scheduler provides entities which allow userspace to push jobs
-> - * into software queues which are then scheduled on a hardware run queue.
-> - * The software queues have a priority among them. The scheduler selects the entities
-> - * from the run queue using a FIFO. The scheduler provides dependency handling
-> - * features among jobs. The driver is supposed to provide callback functions for
-> - * backend operations to the scheduler like submitting a job to hardware run queue,
-> - * returning the dependencies of a job etc.
-> - *
-> - * The organisation of the scheduler is the following:
-> - *
-> - * 1. Each hw run queue has one scheduler
-> - * 2. Each scheduler has multiple run queues with different priorities
-> - *    (e.g., HIGH_HW,HIGH_SW, KERNEL, NORMAL)
-> - * 3. Each scheduler run queue has a queue of entities to schedule
-> - * 4. Entities themselves maintain a queue of jobs that will be scheduled on
-> - *    the hardware.
-> - *
-> - * The jobs in a entity are always scheduled in the order that they were pushed.
-> - *
-> - * Note that once a job was taken from the entities queue and pushed to the
-> - * hardware, i.e. the pending queue, the entity must not be referenced anymore
-> - * through the jobs entity pointer.
-> + * The GPU scheduler implements some logic to decide which command submission
-> + * to push next to the hardware. Another major use case for the GPU scheduler
-> + * is to enforce correct driver behavior around those command submission.
-> + * Because of this it's also used by drivers which don't need the actual
-> + * scheduling functionality.
-> + *
-> + * To fulfill this task the GPU scheduler uses of the following objects:
-> + *
-> + * 1. The job object which contains a bunch of dependencies in the form of
-> + *    DMA-fence objects. Drivers can also implement an optional prepare_job
-> + *    callback which returns additional dependencies as DMA-fence objects.
-> + *    It's important to note that this callback must follow the DMA-fence rules,
-> + *    so it can't easily allocate memory or grab locks under which memory is
-> + *    allocated. Drivers should use this as base class for an object which
-> + *    contains the necessary state to push the command submission to the
-> + *    hardware.
-> + *
-> + *    The lifetime of the job object should at least be from pushing it into the
-> + *    scheduler until the scheduler notes through the free callback that a job
-> + *    isn't needed any more. Drivers can of course keep their job object alive
-> + *    longer than that, but that's outside of the scope of the scheduler
-> + *    component. Job initialization is split into two parts,
-> + *    drm_sched_job_init() and drm_sched_job_arm(). It's important to note that
-> + *    after arming a job drivers must follow the DMA-fence rules and can't
-> + *    easily allocate memory or takes locks under which memory is allocated.
-> + *
-> + * 2. The entity object which is a container for jobs which should execute
-> + *    sequentially. Drivers should create an entity for each individual context
-> + *    they maintain for command submissions which can run in parallel.
-> + *
-> + *    The lifetime of the entity should *not* exceed the lifetime of the
-> + *    userspace process it was created for and drivers should call the
-> + *    drm_sched_entity_flush() function from their file_operations.flush
-> + *    callback. Background is that for compatibility reasons with existing
-> + *    userspace all results of a command submission should become visible
-> + *    externally even after after a process exits. The only exception to that
-> + *    is when the process is actively killed by a SIGKILL. In this case the
-> + *    entity object makes sure that jobs are freed without running them while
-> + *    still maintaining correct sequential order for signaling fences. So it's
-> + *    possible that an entity object is not alive any more while jobs from it
-> + *    are still running on the hardware.
-> + *
-> + * 3. The hardware fence object which is a DMA-fence provided by the driver as
-> + *    result of running jobs. Drivers need to make sure that the normal
-> + *    DMA-fence semantics are followed for this object. It's important to note
-> + *    that the memory for this object can *not* be allocated in the run_job
-> + *    callback since that would violate the requirements for the DMA-fence
-> + *    implementation. The scheduler maintains a timeout handler which triggers
-> + *    if this fence doesn't signal in a configurable time frame.
-> + *
-> + *    The lifetime of this object follows DMA-fence ref-counting rules, the
-> + *    scheduler takes ownership of the reference returned by the driver and
-> + *    drops it when it's not needed any more. Errors should also be signaled
-> + *    through the hardware fence and are bubbled up back to the scheduler fence
-> + *    and entity.
-> + *
-> + * 4. The scheduler fence object which encapsulates the whole time from pushing
-> + *    the job into the scheduler until the hardware has finished processing it.
-> + *    This is internally managed by the scheduler, but drivers can grab
-> + *    additional reference to it after arming a job. The implementation
-> + *    provides DMA-fence interfaces for signaling both scheduling of a command
-> + *    submission as well as finishing of processing.
-> + *
-> + *    The lifetime of this object also follows normal DMA-fence ref-counting
-> + *    rules. The finished fence is the one normally exposed outside of the
-> + *    scheduler, but the driver can grab references to both the scheduled as
-> + *    well as the finished fence when needed for pipe-lining optimizations.
-> + *
-> + * 5. The run queue object which is a container of entities for a certain
-> + *    priority level. The lifetime of those objects are bound to the scheduler
-> + *    lifetime.
-> + *
-> + *    This is internally managed by the scheduler and drivers shouldn't touch
-> + *    them directly.
-> + *
-> + * 6. The scheduler object itself which does the actual work of selecting a job
-> + *    and pushing it to the hardware. Both FIFO and RR selection algorithm are
-> + *    supported, but FIFO is preferred for many use cases.
-> + *
-> + *    The lifetime of this object is managed by the driver using it. Before
-> + *    destroying the scheduler the driver must ensure that all hardware
-> + *    processing involving this scheduler object has finished by calling for
-> + *    example disable_irq(). It is *not* sufficient to wait for the hardware
-> + *    fence here since this doesn't guarantee that all callback processing has
-> + *    finished.
-> + *
-> + * All callbacks the driver needs to implement are restricted by DMA-fence
-> + * signaling rules to guarantee deadlock free forward progress. This especially
-> + * means that for normal operation no memory can be allocated. All memory which
-> + * is needed for pushing the job to the hardware must be allocated before
-> + * arming a job. It also means that no locks can be taken under which memory
-> + * might be allocated as well.
-> + *
-> + * Memory which is optional to allocate for device core dumping or debugging
-> + * *must* be allocated with GFP_NOWAIT and appropriate error handling taking if
-> + * that allocation fails. GFP_ATOMIC should only be used if absolutely
-> + * necessary since dipping into the special atomic reserves is usually not
-> + * justified for a GPU driver.
-> + *
-> + * The scheduler also used to provided functionality for re-submitting jobs
-> + * with replacing the hardware fence during reset handling. This functionality
-> + * is now marked as deprecated since this has proven to be fundamentally racy
-> + * and not compatible with DMA-fence rules and shouldn't be used in any new
-> + * code.
->    */
->   
->   #include <linux/kthread.h>
-
+Thanks,
+Jagan.
