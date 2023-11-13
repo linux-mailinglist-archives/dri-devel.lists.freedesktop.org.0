@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 685BF7E9949
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 10:44:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5F3F7E9959
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 10:47:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D1CF10E329;
-	Mon, 13 Nov 2023 09:44:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11FD810E330;
+	Mon, 13 Nov 2023 09:47:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCE5A10E329;
- Mon, 13 Nov 2023 09:44:28 +0000 (UTC)
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53D7710E32E;
+ Mon, 13 Nov 2023 09:47:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1699868666; x=1700127866;
- bh=4cUr+dEfME37FPxFHeIbt8JPHNpEiIuEOSNTafJhkXA=;
+ s=protonmail2; t=1699868838; x=1700128038;
+ bh=Jv3HMgEE4Gwun+QGpWgOt7T4wtyMLsGYWjC4ye0QvZo=;
  h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
  Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
  Message-ID:BIMI-Selector;
- b=QlmObd4rIaOKoxhoh2Aob21CpGpT6dZMHpcbPqCeG/BjkzLHXgeIlDZZQ5B8W4fb/
- YG4SU2vCR28Ov8gRYmeyQfIN4HmQAYH/rU0qyI2yWypJ41fgcrBFGa115ku7qDuqN0
- YaukYZup6BZNpiPDOvuHAw0qqi25HHxHUuU+T1OHH8st2GK3Tz6SYtypD5DmE7gnBw
- l8vWO41WSkWXNhVPTX2yHdfMlEJAVVjxFOuMpy88nh85rTWsWPT8rj1kPofaeC0XA+
- FiRzk+9k5zAWrap6f69IE9oYRRmwuI/lZyF4JPiuR4Tr9Tcb9aPoN6WzoYQBRzklqg
- e0R4R8isOP6OA==
-Date: Mon, 13 Nov 2023 09:44:15 +0000
-To: Pekka Paalanen <ppaalanen@gmail.com>
+ b=C41kEeKDWUej2yun47dY7ptO4/lScs+lNGxeZmajXswRhbwJZ1HeqJEK41uXnolD6
+ pJPZ+uRNqufJDETjE895v/w7Lg5O0F0tT23kRYoYzPJehaabRLS287Lha9+56My/Xd
+ YM/im5uQ5VXX0pG4sW+SYEW35QbJYUrMU+7FhoLs/Z3HhFPXvfbErDGAQbbgSG/LJ2
+ sd6UEmtyZrYvI0V3McdCx14efM9z19532ncdOBkinQGokGC3gPDCbx0qfsD5f6O833
+ diytSyibxbv9Qo6nC3GbUbZqGm1dI/iMz+g27C8jaNGENdJ2VrRHSqDW8tIL/igNOf
+ R9NLh5j4sdqtw==
+Date: Mon, 13 Nov 2023 09:47:04 +0000
+To: =?utf-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
 From: Simon Ser <contact@emersion.fr>
 Subject: Re: [PATCH v6 6/6] drm/doc: Define KMS atomic state set
-Message-ID: <ha7UwaZ0eilF_Hl6wWqJXJQ0oy9_rD1FKUNDwIlNxC-vT3InSP4bpTRwVnZG9QvzZBsX4W-p_vz5FfByoAXuGewyhVtwVd4KyRSMJ4G8cQ4=@emersion.fr>
-In-Reply-To: <20231113113804.6e2adfa8@eldfell>
+Message-ID: <lpel36VSNcFmcpY-E0tWcyO88CxmVfIdAMNYkkyxRy8ELbvM5xEZS68zxsK3JncHlkjQnxdE8vbKsJT_RZSGRCkPSiTvbXZWqOER6ZtpL2A=@emersion.fr>
+In-Reply-To: <438f2960-c49e-6485-5916-20d6e69ef7d4@mailbox.org>
 References: <20230815185710.159779-1-andrealmeid@igalia.com>
  <aa424bf8-5652-4a44-9b93-bdc0a31d835a@igalia.com>
  <20231016175222.7a89e6ab@eldfell> <ZS1ST6XAUHilBg3d@intel.com>
@@ -37,7 +37,7 @@ References: <20230815185710.159779-1-andrealmeid@igalia.com>
  <ZS55mXTSxpXKYbsd@intel.com>
  <mawSNnD1hQ6vCVrNVMAvuQESnTToKPXrtiHIXXdqC-mq_LkxWOizPCcXx_KiEASVX-Mbm0LgjfTYkMNOjSAKCldpkXHAd9MmRzbC8ECPsTs=@emersion.fr>
  <5_NYn1PEc-XUYiRf5fC9oQqTaJxoAuvHVvw1PVTume5m8_cbOyku2Q2XKdCm66g0WcMq_RL8oSp52AowBzX9WAEiVBgdmYtPeXI9SWnD6Ts=@emersion.fr>
- <20231113113804.6e2adfa8@eldfell>
+ <438f2960-c49e-6485-5916-20d6e69ef7d4@mailbox.org>
 Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -57,21 +57,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: pierre-eric.pelloux-prayer@amd.com,
  =?utf-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
  =?utf-8?Q?=27Marek_Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
- =?utf-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
  Randy Dunlap <rdunlap@infradead.org>, xaver.hugl@gmail.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
- alexander.deucher@amd.com, joshua@froggi.es,
+ Pekka Paalanen <ppaalanen@gmail.com>, amd-gfx@lists.freedesktop.org,
+ kernel-dev@igalia.com, alexander.deucher@amd.com, joshua@froggi.es,
  wayland-devel@lists.freedesktop.org, hwentlan@amd.com,
  christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, November 13th, 2023 at 10:38, Pekka Paalanen <ppaalanen@gmail.co=
-m> wrote:
+On Monday, November 13th, 2023 at 10:41, Michel D=C3=A4nzer <michel.daenzer=
+@mailbox.org> wrote:
 
-> On Mon, 13 Nov 2023 09:18:39 +0000
-> Simon Ser contact@emersion.fr wrote:
+> On 11/13/23 10:18, Simon Ser wrote:
 >=20
 > > On Monday, October 23rd, 2023 at 10:25, Simon Ser contact@emersion.fr w=
 rote:
@@ -140,18 +138,19 @@ ps,
 > > > Does it actually matter though? For async page-flips, I don't think t=
 his
 > > > would result in any actual difference in behavior?
->=20
->=20
-> Hi Simon,
->=20
-> a fly-by question...
->=20
+> >=20
 > > To sum this up, here is a matrix of behavior as seen by user-space:
 > >=20
 > > - Sync atomic page-flip
 > > - Set FB_ID to different value: programs hw for page-flip, sends uevent
 > > - Set FB_ID to same value: same (important for VRR)
 > > - Set another plane prop to same value: same
+>=20
+> A page flip is programmed even if FB_ID isn't touched?
+
+I believe so. Set CRTC_X on a plane to the same value as before, and the
+CRTC gets implicitly included in the atomic commit?
+
 > > - Set another plane prop to different value: maybe rejected if modeset =
 required
 > > - Async atomic page-flip
@@ -159,42 +158,10 @@ required
 > > immediate uevent
 > > - Set FB_ID to same value: same (no-op for the hw)
 >=20
-> It should not be a no-op for the hw, because the hw might be in the
-> middle of a VRR front-porch waiting period, and the commit needs to end
-> the waiting immediately rather than time out?
+> No-op implies it doesn't trigger scanning out a frame with VRR, if
+> scanout is currently in vertical blank. Is that the case? If so, async
+> flips can't reliably trigger scanning out a frame with VRR.
 
-I'm not sure=20
-
-> > - Set another plane prop to same value: ignored, sends immediate uevent
-> > (special codepath)
->=20
-> If the sync case says "same", then shouldn't this say "same" as well to
-> be consistent?
-
-Okay, I think I chose my words badly. By "same" I meant "same as
-previous item in the list".
-
-Here I tried to be more explicit and explain why it's the same behavior.
-We have a special path in the kernel code that ignores the change, but
-the effective result is that it doesn't differ from the sync case.
-
-Here's a fixed matrix where I don't use confusing words:
-
-- Sync atomic page-flip
-  - Set FB_ID to different value: programs hw for page-flip, sends uevent
-  - Set FB_ID to same value: programs hw for page-flip, sends uevent (impor=
-tant
-    for VRR)
-  - Set another plane prop to same value: programs hw for page-flip, sends
-    uevent
-  - Set another plane prop to different value: maybe rejected if modeset re=
-quired
-- Async atomic page-flip
-  - Set FB_ID to different value: updates hw with new FB address, sends
-    immediate uevent
-  - Set FB_ID to same value: updates hw with new FB address (no-op for the =
-hw),
-    sends immediate uevent
-  - Set another plane prop to same value: ignored, sends immediate uevent
-    (special codepath)
-  - Set another plane prop to different value: always rejected
+By no-op I mean that the hw is programmed for an immediate async flip
+with the same buffer addr as the previous one. So this doesn't actually
+change anything.
