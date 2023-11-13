@@ -2,70 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D6D7EA195
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 18:02:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B2C97EA19F
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 18:03:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 338E310E002;
-	Mon, 13 Nov 2023 17:02:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C947A10E172;
+	Mon, 13 Nov 2023 17:03:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3765610E002
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:02:03 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-53dfc28a2afso7111255a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 09:02:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1699894921; x=1700499721;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ekBSHP/1YeU9jwYcmsP3zzbhcplNaOryrB1NGQEPyWc=;
- b=a+bQxAkQkXUNcu9LyPLjeFQZV4jlMVn/crkVWQnTtaHjKc8ZScmcP9EFFHCvA5eUd3
- dBrcWmltlE3FaEGrzYgPfDJP86lWrGXbhDt7MFXF20ol5TzymVHE7OA3i6L3uFhdVQm0
- gab3WlWO9I++hWiFgklft7KGLiWmw2wpuX06U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699894921; x=1700499721;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ekBSHP/1YeU9jwYcmsP3zzbhcplNaOryrB1NGQEPyWc=;
- b=tGWAkL/kKrAQJPNFdy7+CocJSFC09iSLD88YPK73/oVARpQldl9EJsRI49h4Qgx1J4
- WB3FTNl+w/aOznGDfX2GzTBxq4CWiJopQrMOls29FtJn74e25xVd5fcD6gA8kNuofdgK
- /tS5OOa4FvhH9VGvjyaAwvBn+dlo8F3n9U2w5shp9l3wTui2MJwjuID27pFXkFbEvKop
- 5F9V5vAUgBP1RNfh5djQ62Cz7JYrjscaOVPlZKfbTa+BhWcH/j2FCRpFi/0hCOxJAw3M
- G0GfSe+g1spWLCsXaUllHd1Qfo+iJIOdVzv/HtKXaIoMBykBKzmtglYzV3pADhB4oGhu
- ho5A==
-X-Gm-Message-State: AOJu0YxDwV5cMdNzCz9QaLa5klypov7OVicQz2YQbEXSc0NjvuEo7OrQ
- 3VdiubFn4qxFf4kBA9MwphY6IYXU46jwinBXQANdkg==
-X-Google-Smtp-Source: AGHT+IHtMmMZaR3ECa29smPLB+QQx8SRK5r0v+WH+pjGwnV7RTv7owYPUAYxVoowdINKaXRQ0cONNQ==
-X-Received: by 2002:aa7:d5cd:0:b0:53b:9948:cc1f with SMTP id
- d13-20020aa7d5cd000000b0053b9948cc1fmr5491992eds.12.1699894921254; 
- Mon, 13 Nov 2023 09:02:01 -0800 (PST)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com.
- [209.85.208.41]) by smtp.gmail.com with ESMTPSA id
- g24-20020a50d5d8000000b0054037c6676esm3989232edj.69.2023.11.13.09.02.01
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Nov 2023 09:02:01 -0800 (PST)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-54366bb1c02so16931a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 09:02:01 -0800 (PST)
-X-Received: by 2002:a05:6402:518d:b0:544:e249:be8f with SMTP id
- q13-20020a056402518d00b00544e249be8fmr178013edd.1.1699894920683; Mon, 13 Nov
- 2023 09:02:00 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8AEC10E171
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:03:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699895015; x=1731431015;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Cex74w3wyj8UBoi+UOqprXll7DQA6Fpr/7Q4rxudm8c=;
+ b=OIvumb7RH5ZMUbkjLdVqCP8nhpVcaUgcKKDNz2s/gMWeU0IuLQbc9oYg
+ gKykSHLIPEOcHEGgs1ZSpMPTzre1SdZ5xpIpsjq15X7raQn4EGNq9yDom
+ bJ/l3bzGyFtlXsVbKCe5euaTsn7klmRsexc6RU2XJnHWrTIsEjZlQcW1J
+ J1rChVRzs23L5In8nDmZ9e2/ZFWTX8JKbJD7mvCfnSoO2VpJWSs1dH9j/
+ uSbp07CaPqoc8fhe24zNBjUK1E0LwpPFzBatqOjlISThydLw16CzneuIr
+ +57UGvlguUPW2IXq8QcMUEOzNm5nS27KN8VYP5vjgoEe1jj2IVQa82JTN Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="3520643"
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
+   d="scan'208";a="3520643"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2023 09:02:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="937788057"
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; d="scan'208";a="937788057"
+Received: from jlawryno.igk.intel.com ([10.91.220.59])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2023 09:02:54 -0800
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/5] accel/ivpu: Replace IPC kthread with threaded IRQ
+Date: Mon, 13 Nov 2023 18:02:47 +0100
+Message-ID: <20231113170252.758137-1-jacek.lawrynowicz@linux.intel.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-References: <20231111224236.890431-1-dmitry.osipenko@collabora.com>
-In-Reply-To: <20231111224236.890431-1-dmitry.osipenko@collabora.com>
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-Date: Mon, 13 Nov 2023 09:01:47 -0800
-X-Gmail-Original-Message-ID: <CAAfnVBmrqDTADFSuxLr2iiT0re8pv0H_==htjDnDQahxo0u+1A@mail.gmail.com>
-Message-ID: <CAAfnVBmrqDTADFSuxLr2iiT0re8pv0H_==htjDnDQahxo0u+1A@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/virtio: Fix return value for
- VIRTGPU_CONTEXT_PARAM_DEBUG_NAME
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Type: multipart/alternative; boundary="000000000000e7da1f060a0ba0f4"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,101 +56,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@redhat.com>,
- kernel@collabora.com
+Cc: quic_jhugo@quicinc.com,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000e7da1f060a0ba0f4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Use threaded IRQ to handle incoming IPC messages. IPC consumers can now
+provide optional callback that will be executed once message is received.
+This allows to handle multiple message types in a generic manner.
 
-On Sat, Nov 11, 2023 at 2:43=E2=80=AFPM Dmitry Osipenko <
-dmitry.osipenko@collabora.com> wrote:
+Removing kthread also simplifies synchronization as disable_irq() will block
+until all pending messages are handled.
 
-> The strncpy_from_user() returns number of copied bytes and not zero on
-> success. The non-zero return value of ioctl is treated as error. Return
-> zero on success instead of the number of copied bytes.
->
-> Fixes: 7add80126bce ("drm/uapi: add explicit virtgpu context debug name")
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->
+v2:
+  - Don't do bit operations on enum irqreturn
 
-Reviewed-by: Gurchetan Singh <gurchetansingh@chromium.org>
+v1: https://lore.kernel.org/all/20231107123514.2218850-1-jacek.lawrynowicz@linux.intel.com
 
+Jacek Lawrynowicz (1):
+  accel/ivpu: Use threaded IRQ to handle JOB done messages
 
-> ---
->  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> index 1e2042419f95..e4f76f315550 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> @@ -665,6 +665,7 @@ static int virtio_gpu_context_init_ioctl(struct
-> drm_device *dev,
->                                 goto out_unlock;
->
->                         vfpriv->explicit_debug_name =3D true;
-> +                       ret =3D 0;
->                         break;
->                 default:
->                         ret =3D -EINVAL;
-> --
-> 2.41.0
->
->
+Stanislaw Gruszka (4):
+  accel/ivpu: Rename cons->rx_msg_lock
+  accel/ivpu: Do not use irqsave in ivpu_ipc_dispatch
+  accel/ivpu: Do not use cons->aborted for job_done_thread
+  accel/ivpu: Use dedicated work for job timeout detection
 
---000000000000e7da1f060a0ba0f4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ drivers/accel/ivpu/ivpu_drv.c     |  30 ++--
+ drivers/accel/ivpu/ivpu_drv.h     |   3 +-
+ drivers/accel/ivpu/ivpu_hw_37xx.c |  29 ++--
+ drivers/accel/ivpu/ivpu_hw_40xx.c |  30 ++--
+ drivers/accel/ivpu/ivpu_ipc.c     | 223 +++++++++++++++++-------------
+ drivers/accel/ivpu/ivpu_ipc.h     |  24 +++-
+ drivers/accel/ivpu/ivpu_job.c     |  99 +++----------
+ drivers/accel/ivpu/ivpu_job.h     |   6 +-
+ drivers/accel/ivpu/ivpu_pm.c      |  31 +++++
+ drivers/accel/ivpu/ivpu_pm.h      |   3 +
+ 10 files changed, 251 insertions(+), 227 deletions(-)
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Nov 11, 2023 at 2:43=E2=80=AF=
-PM Dmitry Osipenko &lt;<a href=3D"mailto:dmitry.osipenko@collabora.com">dmi=
-try.osipenko@collabora.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">The strncpy_from_user() returns number of copied =
-bytes and not zero on<br>
-success. The non-zero return value of ioctl is treated as error. Return<br>
-zero on success instead of the number of copied bytes.<br>
-<br>
-Fixes: 7add80126bce (&quot;drm/uapi: add explicit virtgpu context debug nam=
-e&quot;)<br>
-Signed-off-by: Dmitry Osipenko &lt;<a href=3D"mailto:dmitry.osipenko@collab=
-ora.com" target=3D"_blank">dmitry.osipenko@collabora.com</a>&gt;<br></block=
-quote><div><br></div><div>Reviewed-by: Gurchetan Singh &lt;<a href=3D"mailt=
-o:gurchetansingh@chromium.org">gurchetansingh@chromium.org</a>&gt;</div><di=
-v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0drivers/gpu/drm/virtio/virtgpu_ioctl.c | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virti=
-o/virtgpu_ioctl.c<br>
-index 1e2042419f95..e4f76f315550 100644<br>
---- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c<br>
-+++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c<br>
-@@ -665,6 +665,7 @@ static int virtio_gpu_context_init_ioctl(struct drm_dev=
-ice *dev,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out_unlock;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 vfpriv-&gt;explicit_debug_name =3D true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0ret =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 break;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 ret =3D -EINVAL;<br>
--- <br>
-2.41.0<br>
-<br>
-</blockquote></div></div>
-
---000000000000e7da1f060a0ba0f4--
+--
+2.42.0
