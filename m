@@ -1,57 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E2917E9B80
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 12:55:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C41857E9BBF
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 13:02:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 066B610E366;
-	Mon, 13 Nov 2023 11:55:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61F4410E362;
+	Mon, 13 Nov 2023 12:01:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9487E10E35F
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 11:55:11 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 43F621F6E6;
- Mon, 13 Nov 2023 11:55:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1699876510; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=/5kYUV1rEFjHNEaAdgspwkitSoq5USt+2BcNwPIYOiU=;
- b=Yg/aw22Nos0HVsCb5HEK5E32aSCmR06EFnT4UpNQTWPjFJ7uQbsNMaZf+hEzbZ2bqmWtKC
- uv1odWRywV3JDpiZvxhPzfHu6gMJWNgT7BiYbEYeSlc267cU0l3OeZwXOZE3gAAIHehEo2
- HkG78RkdvantjYAuXd3CX/3KFlFei4c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1699876510;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=/5kYUV1rEFjHNEaAdgspwkitSoq5USt+2BcNwPIYOiU=;
- b=x8udOIrW2UzPgkn0PE4X5AnRwBJXxDyIFtjNi4s5+TctjDfGMmnBKr29duhBys4vMbXFnG
- sec97xrJuw4HAOCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EC15213398;
- Mon, 13 Nov 2023 11:55:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id JL/9N50OUmVcVwAAMHmgww
- (envelope-from <jdelvare@suse.de>); Mon, 13 Nov 2023 11:55:09 +0000
-Date: Mon, 13 Nov 2023 12:55:08 +0100
-From: Jean Delvare <jdelvare@suse.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/loongson: Add platform dependency
-Message-ID: <20231113125508.4dc755e8@endymion.delvare>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.34; x86_64-suse-linux-gnu)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C188210E361
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 12:01:56 +0000 (UTC)
+Received: from [100.102.120.103]
+ (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: koike)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id D288A6601710;
+ Mon, 13 Nov 2023 12:01:52 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1699876915;
+ bh=Tvih1onIKqpZTx2G6rz268ug+WBFIIIgCLwsjMZL1tE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=R8SBuDt028+v1z29vgmNcmpe4yilQx7xMVrwrbRVOfRyp7Mo3xQe+tY+oJDHNi7em
+ 1uGWhWMpKbx717CniffcQh9WrzR4mrGKn17Cm484WUSjy50PhYzj7ppbdV4/RtZSp4
+ 0nYnq39w7oIG9smAHAUqil3vv46jSOyIzkX+p6tZCrsNeGvS50DwKOu9YXg0PcCC/F
+ 8LUgQsLoJT/3iFCXBvGs8C2ldBxEcoxxNXW+if62RpiIYATIa0xXfLEEl1K2ubavi4
+ B6Z5iVMDBFHda+5x9UeEIYUTfMAgpGSLNeyIur0nCLkYNUbYhjyBYQ4Pk1bq5atF1y
+ EOF4hB7DcZz5g==
+Message-ID: <0007372a-1fb3-40df-a1d0-cc9c76d0feec@collabora.com>
+Date: Mon, 13 Nov 2023 09:01:47 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: github version complaints about the gitlab CI requirements.txt
+Content-Language: en-US
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ David Heidelberg <david.heidelberg@collabora.com>,
+ Vignesh Raman <vignesh.raman@collabora.com>
+References: <CAHk-=wjTGzKGcEmSW98j7kZin71x3yLFEuQS-2VP2pB+qxCwoA@mail.gmail.com>
+From: Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <CAHk-=wjTGzKGcEmSW98j7kZin71x3yLFEuQS-2VP2pB+qxCwoA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,36 +58,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sui Jingfeng <sui.jingfeng@linux.dev>, LKML <linux-kernel@vger.kernel.org>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Only offer the Loongson DRM driver as an option on platforms where
-it makes sense.
+Hi Linus,
 
-Signed-off-by: Jean Delvare <jdelvare@suse.de>
-Cc: Sui Jingfeng <sui.jingfeng@linux.dev>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
----
-Changes since v1:
-* Use the architecture dependencies suggested by Sui Jingfeng.
+On 12/11/2023 17:33, Linus Torvalds wrote:
+> So every time I push to my github mirror, github now ends up having a
+> 'dependabot' thing that warns about some of the CI version
+> requirements for the gitlab automated testing file.
+> 
+> It wants to update the pip requirements from 23.2.1 to 23.3
+> 
+>   - When installing a package from a Mercurial VCS URL, e.g. pip install
+>     hg+..., with pip prior to v23.3, the specified Mercurial revision
+>     could be used to inject arbitrary configuration options to the hg
+>     clone call (e.g. --config). Controlling the Mercurial configuration
+>     can modify how and which repository is installed. This vulnerability
+>     does not affect users who aren't installing from Mercurial.
+> 
+> and upgrade the urllib3 requirements from 2.0.4 to 2.0.7:
+> 
+>   - urllib3's request body not stripped after redirect from 303 status
+>     changes request method to GET
+> 
+>   - `Cookie` HTTP header isn't stripped on cross-origin redirects
+> 
+> And it's not like any of this looks like a big deal, but I'd like to
+> shut up the messages I get.
+> 
+> I can either just close those issues, or I can apply a patch something
+> like the attached (which also adds a missing newline at the end).
+> 
+> I thought I should ask the people who actually set this up. Comments?
 
- drivers/gpu/drm/loongson/Kconfig |    1 +
- 1 file changed, 1 insertion(+)
+I just tested your attached patch and looks fine, the scripts with those
+requirements worked as expected, so please go ahead with your patch with
+Tested-by: Helen Koike <helen.koike@collabora.com>
 
---- linux-6.6.orig/drivers/gpu/drm/loongson/Kconfig
-+++ linux-6.6/drivers/gpu/drm/loongson/Kconfig
-@@ -3,6 +3,7 @@
- config DRM_LOONGSON
- 	tristate "DRM support for Loongson Graphics"
- 	depends on DRM && PCI && MMU
-+	depends on LOONGARCH || MIPS || COMPILE_TEST
- 	select DRM_KMS_HELPER
- 	select DRM_TTM
- 	select I2C
+Now I'm thinking how to prevent those warnings in the future.
 
+Thank you,
+Helen
 
--- 
-Jean Delvare
-SUSE L3 Support
+> 
+>                 Linus
