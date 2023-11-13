@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17ECF7EA2FE
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 19:37:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E497EA302
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 19:43:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17C7810E180;
-	Mon, 13 Nov 2023 18:37:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F2D910E3EA;
+	Mon, 13 Nov 2023 18:42:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C220410E180;
- Mon, 13 Nov 2023 18:37:51 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id
- 41be03b00d2f7-58962bf3f89so316435a12.0; 
- Mon, 13 Nov 2023 10:37:51 -0800 (PST)
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABC5310E187;
+ Mon, 13 Nov 2023 18:42:56 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id
+ 46e09a7af769-6d64ca151c2so179227a34.1; 
+ Mon, 13 Nov 2023 10:42:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699900671; x=1700505471; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1699900976; x=1700505776; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
  bh=2mtmd09hFYXnVdRkrFU6g3p7HtLLyzcUAB+w/A7AON4=;
- b=JPyMzLS9x0pfWQ+xi9ExoQq2clcrrCTSjScaTfbNHQeucb+Bv1IW5vTgDWnL7WCRwK
- ASchlPSTXq0OIEQthdFl77WKBtUE+u/cNZLfoNAvx/A3doVWjHqi33iRyMbZXsSKiCo2
- 4O3qUjtYEQyT9K8ViQRrM3y16PaUVnHvjZKvsyhq7Xap3NY/ghpHw0mlxZkM0pEe57sE
- NlIOoBazAMmSQA1sDx1PFgJL2k7CTOLqZhixbmXWBv+3IUQBQad/3jr5mLtWxOc2dP6M
- fh7HU8m2mPcgjCRtN2ZAinSvElOfYqesb/8O0JdMVqgG4h+jcKu+63cixy/RxWqeh0Ll
- 9CYg==
+ b=RbgV+U0OnzIsFYbShrIn/6xzalp1rfjGp54I36GKZOh71aRhKy27WoQ2sml9w16tJX
+ MW2GcXHmo7Gk3GSzKleb+MgMG/PNrRCVIhAmlqfa1PtB4em1fo05M+hGQy499yBnyq7y
+ oF7HCSC9r0BPL8eaWslhfULdBZRwl6KpMRVDaEo6STqqy1mF74cp0+WGVmF0umolM4TP
+ iAcCnQZwVGt0tKuz36PURtqHI4L+vZmYImgdWLMl4gLnl3R55avfvne4mkSKNsyIyTPw
+ dwLhEt5Z5vUN52PdEUYGjWHgnTk+GyYXenQ9s5LiOuk+CUw/1y7pOfLfZ/SXO6ayrgnU
+ HMfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699900671; x=1700505471;
+ d=1e100.net; s=20230601; t=1699900976; x=1700505776;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
  bh=2mtmd09hFYXnVdRkrFU6g3p7HtLLyzcUAB+w/A7AON4=;
- b=FtwRp2FJ4Sk9IpcTwi7IGpirhy06OYwE9WpBs1fuf8aM2ozJwoKnqm+7M/QnHUI1RG
- 7tslnbsCEXThSECXaP3M87alzVlrwGjKl/Liyp4ePmddpqKfnZwNLq4GgrrrKQpCCgF1
- 93Y/kAz/yUB1913QOz4pUYRkPDVoQRvgHUq8ysh1hXbn68TdLPWvsCOtXEXZmcK7gtb8
- GHPu0bWP4o3UntQBLye0GH1/ry9FuEeYLNz3eJAk6SRDzF2Tu1gRV1rkJc+7CayqIqzQ
- baF8ObmsIbzCmi3LMyfpo+Js5CZ9SDkST696vVkX63pAtPwpwl+ISIlOtXPwqw/ZOALF
- D7PA==
-X-Gm-Message-State: AOJu0YxZxoNW4eGPjpwWoGl0R+X6GuNjaLRACuh6yxkvALJLuiEPlFaI
- 9kLCa13L8xAt7sE7CO6QmUY=
-X-Google-Smtp-Source: AGHT+IF8WqLZR69KCm/civDjgFUbwk1ZPnhnTXEboXMHqRlLQMHKjR9oiG6PqIPphLBYkQjDkLbheg==
-X-Received: by 2002:a05:6a21:9981:b0:17a:d292:25d1 with SMTP id
- ve1-20020a056a21998100b0017ad29225d1mr93125pzb.6.1699900671212; 
- Mon, 13 Nov 2023 10:37:51 -0800 (PST)
+ b=FY0ObTzVktWuH/WFuHbq+nFlpw9FYBxFzL+ML9LnQUm9V06azWplHDE72GXI4yDv7u
+ sFutQWARCNELUJ/abpHdDLP5VVPVf6U3KhsC0XPqOsB0y73qYsV4eSk+rebxwO5RmW99
+ C9xisjqMoX0FYM+Ph6DQB6dv1y2R3ZF0hq2dUtEIh1VXSipF8Thx+QqR3U1lZfYbg1l+
+ KJt4n3RJKjB6Iuvr58qCInHC24PhWF7tCi2Qv1V5WcZoYckPeKwKxejrofXnGVOIYfri
+ 4ZruT23Y/o9gzCInOT2cFZqFbnGbZHbbpzBGf/WiNNPnsk3FX48NXZAe/49YadtK4M5m
+ norQ==
+X-Gm-Message-State: AOJu0YwwUntM8bGFpSAC5OmS6w6V9yT1M0Pnbzjf5to86oyrYPTPkPrD
+ ln5l6CSzNHu8I4CjwVgv01w=
+X-Google-Smtp-Source: AGHT+IEA1BUXt8w/1R9eTTYLZmyMjGnY+Z6vq6aMaSD2YdSx84htQATbTZVVwb3NbeXa3fdeWUhkBg==
+X-Received: by 2002:a05:6830:462a:b0:6b9:d3bd:3985 with SMTP id
+ ba42-20020a056830462a00b006b9d3bd3985mr6976344otb.1.1699900975849; 
+ Mon, 13 Nov 2023 10:42:55 -0800 (PST)
 Received: from abhinav.. ([103.75.161.208]) by smtp.gmail.com with ESMTPSA id
- e13-20020a056a001a8d00b006b8ffc49ba5sm4058507pfv.38.2023.11.13.10.37.46
+ 16-20020a630b10000000b005bd627c05c3sm4256693pgl.19.2023.11.13.10.42.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Nov 2023 10:37:50 -0800 (PST)
+ Mon, 13 Nov 2023 10:42:55 -0800 (PST)
 From: Abhinav Singh <singhabhinav9051571833@gmail.com>
 To: kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com, airlied@gmail.com,
  daniel@ffwll.ch
-Subject: [PATCH v2] drivers: gpu: Fixing warning directly dereferencing a rcu
- pointer v2
-Date: Tue, 14 Nov 2023 00:07:37 +0530
-Message-Id: <20231113183737.3276419-1-singhabhinav9051571833@gmail.com>
+Subject: [PATCH v2] driver: gpu: Fixing warning directly dereferencing a rcu
+ pointer
+Date: Tue, 14 Nov 2023 00:12:38 +0530
+Message-Id: <20231113184238.3276835-1-singhabhinav9051571833@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <d33fc41b-5a1f-4186-a0b2-3c82dcb8f00b@redhat.com>
 References: <d33fc41b-5a1f-4186-a0b2-3c82dcb8f00b@redhat.com>
