@@ -1,48 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606147EA625
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 23:50:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8E17EA62B
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 23:54:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AEAD10E1A1;
-	Mon, 13 Nov 2023 22:50:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85A8C10E22C;
+	Mon, 13 Nov 2023 22:54:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB97210E1A1;
- Mon, 13 Nov 2023 22:49:57 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EEDB10E22C;
+ Mon, 13 Nov 2023 22:54:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699915797; x=1731451797;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=6fIP9LtyvBC2cgTBGdyui9KJ5OC+h5k/j0qB/CLVrmg=;
- b=PF14dUS4Qj7LCzUM85Z5iIgJuMcrICYUq23UZ+bl5jX3XwHWsFrP9SR9
- pd2y2flA4yKtb+4NUiIjcP8kYhzdXmvhtnajrSOZ1KU7XGreTgaC7K9gc
- caOyGHmbozCYdlCiAVLc/xzqUzHyJJEjev4t/dO4rvvSSxZkJ+C79qDOu
- AE0lDPrkjxV4GSsH0kwII6nQ0wqQIfl0odDBIdUtlaiHW+JfY1VHwKD2W
- DJ9UHVKhyI39nh1LucuUi9qfL+vZ4omMeOnIb3+pIDyLNZMt003aE4v6Q
- XuVenLLZ/b/Xnr6gCvCWCkPllmg8FXR8VFmh9ABKDUXsv8evzu7sUWBrZ Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="387689970"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; d="scan'208";a="387689970"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2023 14:49:57 -0800
-X-ExtLoop1: 1
+ t=1699916083; x=1731452083;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=nM8oXg6NlWdaZi1x+Pshqgt0LOd5wq3aRv+YRElrtaY=;
+ b=TLGn0ddgcduXv7H1cM0n75XXpPj0/FvhonSa9ikCS7pQHrsbPEjFFRje
+ wFbPWuNbQTVHl3wtu4MDd/B89iR5RFssdYWijr2NzBB09IOpgxSc3Ns23
+ VYMTLSebarR8XsPEMtZ7n4e9L2pBqc96Dmz61Q14F99i+KMI944b3HDTN
+ plwxT2k0Ho2iyn/FqspklJIQEeX8q+FBAXsmryn6zNgGPnvMcDw8DUcHU
+ Nv+79BanUmyBG2Ord5rVOx01FZBXjIX01mTTWNuM6AO9wChYcTWt0L4+8
+ UA7qLRVrsJBwI1Rc9bxXwEM9jxH0s3TvrM2dM8EglNNFpL/25PE4s/TLT A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="3611225"
 X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
-   d="scan'208";a="5591020"
-Received: from guc-pnp-dev-box-1.fm.intel.com ([10.1.27.7])
- by orviesa002.jf.intel.com with ESMTP; 13 Nov 2023 14:49:58 -0800
-From: Zhanjun Dong <zhanjun.dong@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm/i915: Skip pxp init if gt is wedged
-Date: Mon, 13 Nov 2023 14:49:53 -0800
-Message-Id: <20231113224953.378534-1-zhanjun.dong@intel.com>
-X-Mailer: git-send-email 2.34.1
+   d="scan'208";a="3611225"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2023 14:54:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; d="scan'208";a="12223544"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+ by orviesa001.jf.intel.com with ESMTP; 13 Nov 2023 14:54:41 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1r2fpH-000CaU-09;
+ Mon, 13 Nov 2023 22:54:39 +0000
+Date: Tue, 14 Nov 2023 06:54:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 4/4] drm/dp_mst: Fix PBN divider calculation for UHBR rates
+Message-ID: <202311140620.1gHQRb4g-lkp@intel.com>
+References: <20231113201110.510724-4-imre.deak@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231113201110.510724-4-imre.deak@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,52 +59,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhanjun Dong <zhanjun.dong@intel.com>
+Cc: dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The gt wedged could be triggered by missing guc firmware file, HW not
-working, etc. Once triggered, it means all gt usage is dead, therefore we
-can't enable pxp under this fatal error condition.
+Hi Imre,
 
-v2: Updated commit message.
-v3: Updated return code check.
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
----
- drivers/gpu/drm/i915/i915_driver.c   | 4 +++-
- drivers/gpu/drm/i915/pxp/intel_pxp.c | 3 +++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+[auto build test ERROR on drm-tip/drm-tip]
 
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index 80e85cadb9a2..b74977ceb455 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -804,7 +804,9 @@ int i915_driver_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (ret)
- 		goto out_cleanup_modeset2;
- 
--	intel_pxp_init(i915);
-+	ret = intel_pxp_init(i915);
-+	if (ret != -ENODEV)
-+		drm_dbg(&i915->drm, "pxp init failed with %d\n", ret);
- 
- 	ret = intel_display_driver_probe(i915);
- 	if (ret)
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-index dc327cf40b5a..3e33b7de1dfd 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-@@ -199,6 +199,9 @@ int intel_pxp_init(struct drm_i915_private *i915)
- 	struct intel_gt *gt;
- 	bool is_full_feature = false;
- 
-+	if (intel_gt_is_wedged(to_gt(i915)))
-+		return -ENOTCONN;
-+
- 	/*
- 	 * NOTE: Get the ctrl_gt before checking intel_pxp_is_supported since
- 	 * we still need it if PXP's backend tee transport is needed.
+url:    https://github.com/intel-lab-lkp/linux/commits/Imre-Deak/drm-i915-dp-Fix-UHBR-link-M-N-values/20231114-043135
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20231113201110.510724-4-imre.deak%40intel.com
+patch subject: [PATCH 4/4] drm/dp_mst: Fix PBN divider calculation for UHBR rates
+config: i386-buildonly-randconfig-002-20231114 (https://download.01.org/0day-ci/archive/20231114/202311140620.1gHQRb4g-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231114/202311140620.1gHQRb4g-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311140620.1gHQRb4g-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: drivers/gpu/drm/display/drm_dp_mst_topology.o: in function `drm_dp_get_vc_payload_bw':
+>> drm_dp_mst_topology.c:(.text+0x931): undefined reference to `__udivdi3'
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
