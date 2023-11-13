@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E9B47EA263
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 18:50:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 827D57EA26F
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 18:53:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D21A10E3E7;
-	Mon, 13 Nov 2023 17:50:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 915AF10E3E5;
+	Mon, 13 Nov 2023 17:53:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6034F10E3E5;
- Mon, 13 Nov 2023 17:50:43 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC6B210E3E5;
+ Mon, 13 Nov 2023 17:53:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699897843; x=1731433843;
+ t=1699897988; x=1731433988;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=x3fSoSQz6UCNu3JdEMAXXt9H/432BZE0hvyfGRoi6Hc=;
- b=TJk7qqHkioV73o8EbWt4cTfBNc3zwObAQx3WysnvwCBo7sM7VJDn1Kt8
- OGkdFOycbnRouRWs3HAIghP6J6XD5Nq6ibwKxtz/5dDw3oxrNQnSIwyj5
- 60gCrMutE/RMAjSUIlyZXJzOVLooB64fZewcJmbX8JG0k6KYZoLnrxClo
- vkBdrLicg9+H4t4YZIRRJpra2uYblih0pxWJ5cPQGJpYny1ZOw066M0ID
- qDU0SYU1XIgSi5lPSaTNUENj0bXpzFwRZO893WODQQbYtfv7iW12xVBue
- +OspGZ24YVBijXvwpwB00ogfPAUGjKjoV/dXt/SlyySYv2S8n76E4m5O/ g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="456972053"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; d="scan'208";a="456972053"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2023 09:50:42 -0800
+ bh=udS9SfzTwwnCam3BM7zqV5qU6ZGdKL8Y0UdUz8KpRV8=;
+ b=fIBMRLnKnGsk4oJ5/OGJzZEU7ncj+hI4olfsOpNUdkl0CooCYn3beR6p
+ VaH5NxokhSfyRRF9XDpPiyPn4yEJkL0y0/zZRgZnIVyJRipNU7dqC1QTs
+ nlQvElYu2MkqGbvRYE93fU2Xavy6Xap4E+v0iF1wxkabyd9TCvOAi9dSz
+ V1ZFC1oJNj0c1pCmrgMUMOoXFmn9Wnpy1nJ/I67Dg4cdlGLPYtW9rnb/V
+ 7S1GP7aWRuovkoOeA2J7YeDhSvmAYJmGuYNf8G2YMfRhn9jQPmkTqvz6c
+ UDrkBGejeDLfPxr/cCzKYVZSj1zMiFcN4+CRr+L6Ru8IdY6wyIWG7wsbM g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="9122383"
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
+   d="scan'208";a="9122383"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2023 09:53:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="1011613445"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; d="scan'208";a="1011613445"
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="855030752"
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; d="scan'208";a="855030752"
 Received: from cgheban-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.55.92])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2023 09:50:39 -0800
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2023 09:53:03 -0800
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Heiner Kallweit <hkallweit1@gmail.com>, Wolfram Sang <wsa@kernel.org>
-Subject: Re: [PATCH 15/20] drivers/gpu/drm/i915/display: remove
- I2C_CLASS_DDC support
-In-Reply-To: <6f924890-a5a0-48b4-973d-3c0f88b0d294@gmail.com>
+To: Dipam Turkar <dipamt1729@gmail.com>
+Subject: Re: [PATCH v2] Remove custom dumb_map_offset implementations in
+ i915 driver
+In-Reply-To: <20231110184126.712310-1-dipamt1729@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231113112344.719-1-hkallweit1@gmail.com>
- <20231113112344.719-16-hkallweit1@gmail.com> <87sf59vodx.fsf@intel.com>
- <6f924890-a5a0-48b4-973d-3c0f88b0d294@gmail.com>
-Date: Mon, 13 Nov 2023 19:50:36 +0200
-Message-ID: <878r71tudv.fsf@intel.com>
+References: <20231110184126.712310-1-dipamt1729@gmail.com>
+Date: Mon, 13 Nov 2023 19:53:01 +0200
+Message-ID: <875y25tu9u.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,96 +60,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+Cc: tvrtko.ursulin@linux.intel.com, Dipam Turkar <dipamt1729@gmail.com>,
  intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+ dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 13 Nov 2023, Heiner Kallweit <hkallweit1@gmail.com> wrote:
-> On 13.11.2023 13:17, Jani Nikula wrote:
->> On Mon, 13 Nov 2023, Heiner Kallweit <hkallweit1@gmail.com> wrote:
->>> After removal of the legacy EEPROM driver and I2C_CLASS_DDC support in
->>> olpc_dcon there's no i2c client driver left supporting I2C_CLASS_DDC.
->>> Class-based device auto-detection is a legacy mechanism and shouldn't
->>> be used in new code. So we can remove this class completely now.
->> 
->> So this is copy-pasted to all commits and the cover letter, but please
->> do explain why there are no functional changes here (or are there?),
->> without me having to go through the i2c stack and try to find the
->> commits alluded to in "After removal of the legacy ...".
->> 
-> Legacy eeprom driver was marked deprecated 4 yrs ago with:
-> 3079b54aa9a0 ("eeprom: Warn that the driver is deprecated")
-> Now it has been removed with:
-> 0113a99b8a75 ("eeprom: Remove deprecated legacy eeprom driver")
->
-> Declaration of I2C_CLASS_DDC support is a no-op now, so there's
-> no functional change in this patch.
->
-> If loaded manually, the legacy eeprom driver exposed the DDC EEPROM
-> to userspace. If this functionality is needed, then now the DDC
-> EEPROM has to be explicitly instantiated using at24.
->
-> See also:
-> https://docs.kernel.org/i2c/instantiating-devices.html
+On Sat, 11 Nov 2023, Dipam Turkar <dipamt1729@gmail.com> wrote:
+> Making i915 use drm_gem_create_mmap_offset() instead of its custom
+> implementations for associating GEM object with a fake offset.
 
-I'll take your word for it. Though none of the documentation I can find
-say that setting the class is legacy or deprecated or should be
-avoided. *shrug*.
+It would probably help a lot if your commit messages explained what you
+are trying to achieve and, especially, why. This only describes the
+patch in English.
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-
+BR,
+Jani.
 
 >
+> Signed-off-by: Dipam Turkar <dipamt1729@gmail.com>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_mman.c | 21 ---------------------
+>  drivers/gpu/drm/i915/gem/i915_gem_mman.h |  4 ----
+>  drivers/gpu/drm/i915/i915_driver.c       |  3 ++-
+>  3 files changed, 2 insertions(+), 26 deletions(-)
 >
->> What does this mean?
->> 
->> 
->> BR,
->> Jani.
->> 
-> Heiner
->
->> 
->>>
->>> Preferably this series should be applied via the i2c tree.
->>>
->>> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
->>>
->>> ---
->>>  drivers/gpu/drm/i915/display/intel_gmbus.c |    1 -
->>>  drivers/gpu/drm/i915/display/intel_sdvo.c  |    1 -
->>>  2 files changed, 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/display/intel_gmbus.c b/drivers/gpu/drm/i915/display/intel_gmbus.c
->>> index 40d7b6f3f..e9e4dcf34 100644
->>> --- a/drivers/gpu/drm/i915/display/intel_gmbus.c
->>> +++ b/drivers/gpu/drm/i915/display/intel_gmbus.c
->>> @@ -899,7 +899,6 @@ int intel_gmbus_setup(struct drm_i915_private *i915)
->>>  		}
->>>  
->>>  		bus->adapter.owner = THIS_MODULE;
->>> -		bus->adapter.class = I2C_CLASS_DDC;
->>>  		snprintf(bus->adapter.name,
->>>  			 sizeof(bus->adapter.name),
->>>  			 "i915 gmbus %s", gmbus_pin->name);
->>> diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
->>> index a636f42ce..5e64d1baf 100644
->>> --- a/drivers/gpu/drm/i915/display/intel_sdvo.c
->>> +++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
->>> @@ -3311,7 +3311,6 @@ intel_sdvo_init_ddc_proxy(struct intel_sdvo_ddc *ddc,
->>>  	ddc->ddc_bus = ddc_bus;
->>>  
->>>  	ddc->ddc.owner = THIS_MODULE;
->>> -	ddc->ddc.class = I2C_CLASS_DDC;
->>>  	snprintf(ddc->ddc.name, I2C_NAME_SIZE, "SDVO %c DDC%d",
->>>  		 port_name(sdvo->base.port), ddc_bus);
->>>  	ddc->ddc.dev.parent = &pdev->dev;
->>>
->> 
->
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> index aa4d842d4c5a..71d621a1f249 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> @@ -771,27 +771,6 @@ __assign_mmap_offset_handle(struct drm_file *file,
+>  	return err;
+>  }
+>  
+> -int
+> -i915_gem_dumb_mmap_offset(struct drm_file *file,
+> -			  struct drm_device *dev,
+> -			  u32 handle,
+> -			  u64 *offset)
+> -{
+> -	struct drm_i915_private *i915 = to_i915(dev);
+> -	enum i915_mmap_type mmap_type;
+> -
+> -	if (HAS_LMEM(to_i915(dev)))
+> -		mmap_type = I915_MMAP_TYPE_FIXED;
+> -	else if (pat_enabled())
+> -		mmap_type = I915_MMAP_TYPE_WC;
+> -	else if (!i915_ggtt_has_aperture(to_gt(i915)->ggtt))
+> -		return -ENODEV;
+> -	else
+> -		mmap_type = I915_MMAP_TYPE_GTT;
+> -
+> -	return __assign_mmap_offset_handle(file, handle, mmap_type, offset);
+> -}
+> -
+>  /**
+>   * i915_gem_mmap_offset_ioctl - prepare an object for GTT mmap'ing
+>   * @dev: DRM device
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.h b/drivers/gpu/drm/i915/gem/i915_gem_mman.h
+> index 196417fd0f5c..253435795caf 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.h
+> @@ -20,10 +20,6 @@ struct mutex;
+>  int i915_gem_mmap_gtt_version(void);
+>  int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma);
+>  
+> -int i915_gem_dumb_mmap_offset(struct drm_file *file_priv,
+> -			      struct drm_device *dev,
+> -			      u32 handle, u64 *offset);
+> -
+>  void __i915_gem_object_release_mmap_gtt(struct drm_i915_gem_object *obj);
+>  void i915_gem_object_release_mmap_gtt(struct drm_i915_gem_object *obj);
+>  
+> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+> index d50347e5773a..48d7e53c49d6 100644
+> --- a/drivers/gpu/drm/i915/i915_driver.c
+> +++ b/drivers/gpu/drm/i915/i915_driver.c
+> @@ -42,6 +42,7 @@
+>  #include <drm/drm_aperture.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_ioctl.h>
+> +#include <drm/drm_gem.h>
+>  #include <drm/drm_managed.h>
+>  #include <drm/drm_probe_helper.h>
+>  
+> @@ -1826,7 +1827,7 @@ static const struct drm_driver i915_drm_driver = {
+>  	.gem_prime_import = i915_gem_prime_import,
+>  
+>  	.dumb_create = i915_gem_dumb_create,
+> -	.dumb_map_offset = i915_gem_dumb_mmap_offset,
+> +	.dumb_map_offset = drm_gem_dumb_map_offset,
+>  
+>  	.ioctls = i915_ioctls,
+>  	.num_ioctls = ARRAY_SIZE(i915_ioctls),
 
 -- 
 Jani Nikula, Intel
