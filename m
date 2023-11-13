@@ -1,128 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D356D7E9A55
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 11:33:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8185B7E9A8B
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 11:52:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8961610E33F;
-	Mon, 13 Nov 2023 10:33:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4627610E32F;
+	Mon, 13 Nov 2023 10:52:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B567110E33F
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 10:33:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1699871629;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=aOGLTuh5ESYNeOqdnKvh9Tfl9wvwpFnKPRwUnq11j0U=;
- b=WsZ9610VPLHuheTHtfyGbJ6AU3A2Tf8SdUDpMRFuPbK6LWPh3hfl3zPMKdDC2U5TL1LTL8
- 4buePFZOnMlQZbVA1sOKnu/suPslYxduD06y4bvtJPqJDdVxWFIRfeuNdWN+xzAIPO4VIl
- bLMhSowVDetU5quJnbG4sZzfxNac7v4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-675-ERTHYLdFPPKj4nmaJYmeLQ-1; Mon, 13 Nov 2023 05:33:46 -0500
-X-MC-Unique: ERTHYLdFPPKj4nmaJYmeLQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-32fa41d0564so1911255f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 02:33:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699871625; x=1700476425;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt:from
- :references:cc:to:content-language:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aOGLTuh5ESYNeOqdnKvh9Tfl9wvwpFnKPRwUnq11j0U=;
- b=sWVbu4w4BieDic2q1RjAHCQY452vRr1/SBPNO80R4wbW9liD3azYSqArmJ3XQtF7PG
- ZjgAGafxjJP4ScCbjbpOtVtcYVVhYtXgCbik3lM87MNfQK89IfB7MqQfBfByV3KkRFl9
- T9ESN/FPfdkm4QIKQO07spUx7fJth1zLR9CmrTY1Cd17khnw4VV7QM8lhBXurZdmy9AI
- 3ODyQwQAm2vJ2YW3V7SpBTceeAdNfMHG3Mbkj+MfC6xv2qBXAwz87xexhgeHKwNurY0l
- oODb1ipLqDDqEpqiwZfxRoABobrlWH8OzVEJmCjZ8hzv+9G1c15M+kBNEbaWOY+Muz6T
- I1lg==
-X-Gm-Message-State: AOJu0YwkRdjJRNgUTc+uEM3UHUJfRiWya+EY67baaQRj+O7vgNBm+CZo
- nlF7sk9BzAmUxmBWzM1IAsStSJ3HEhWBIeEzfZHaX2p+pA8s2QGhRndznW4ScndOXDU1vkKMUUl
- fSgHdG+jjKRiyWIC/Q/qVSpy5XXEN
-X-Received: by 2002:a05:6000:2c1:b0:32f:c750:6ebc with SMTP id
- o1-20020a05600002c100b0032fc7506ebcmr4334702wry.71.1699871625556; 
- Mon, 13 Nov 2023 02:33:45 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE2MAMIyKyXFbIqfoh46ekBYFzDJiAKj6xNuZtPoBt8H6P4Xe+ycv4ercecBCDKsUKJ2ui03g==
-X-Received: by 2002:a05:6000:2c1:b0:32f:c750:6ebc with SMTP id
- o1-20020a05600002c100b0032fc7506ebcmr4334687wry.71.1699871625153; 
- Mon, 13 Nov 2023 02:33:45 -0800 (PST)
-Received: from ?IPV6:2003:d8:2f09:f500:a38f:d086:59d4:9df?
- (p200300d82f09f500a38fd08659d409df.dip0.t-ipconnect.de.
- [2003:d8:2f09:f500:a38f:d086:59d4:9df])
- by smtp.gmail.com with ESMTPSA id
- j30-20020adfb31e000000b003197869bcd7sm5163464wrd.13.2023.11.13.02.33.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Nov 2023 02:33:44 -0800 (PST)
-Message-ID: <0f05cade-c75e-4605-8e22-9fb916c622b0@redhat.com>
-Date: Mon, 13 Nov 2023 11:33:43 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E6B910E32F
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 10:52:37 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 907ED60DE4;
+ Mon, 13 Nov 2023 10:52:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6D2FC433C8;
+ Mon, 13 Nov 2023 10:52:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1699872756;
+ bh=r+cF8t/1JDjYoU5jHldb1WOkP7lg5ttMP9h30f15cHY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YK6LKyKF4gIT2lLrx8A7ChOHSnmvKlpWeSvL7LClDxsakDQTwEICxL4rxYTEd+qHM
+ pTlsJQQNv16a76PyWZpt5w0MCevIE8flBJ5LfjwB5PDNhTHX1bU3pqT4Jh7hdjhNtS
+ aHBerOfxZHBpCzvz4EMdNItSv5FdWhOpesNdYHPSXaibcIMqn2mqRXLuxYdMwpMoot
+ 4gOa5vjRwEBPp1F2t0/BOBBIlCKxVcFuToBjJZWE8uSaOs8ubGcG2TG74ExReVi4RD
+ XHwj0Zoj4V3YPgFFB4cHGgqCrN7iVJDj8TieVo9X8AGT7N9OlWjOAqU8yzs3WcRzXE
+ SoXG/J3uLsD1A==
+Date: Mon, 13 Nov 2023 11:52:33 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [RFC PATCH 2/2] vc4: introduce DMA-BUF heap
+Message-ID: <5vho2bbvq6ek7watowevagouumsynoqq7yhllq2od3qpqwtspj@77vgr7vlsvyq>
+References: <20231109074545.148149-1-contact@emersion.fr>
+ <20231109074545.148149-2-contact@emersion.fr>
+ <tmsf75w3iskpvx2dxgzpk4vn7g6jpfdgdq2qv3nl5i4ocawzz4@ihcwmnq5gval>
+ <CAPY8ntC=qa-ajgSxeqrP5DVW4cEVZd+ik84ag5sN0RJvKLokqA@mail.gmail.com>
+ <ph4ssz5r3afaovoviavkkemfxqyttqucnzl6nnrbyi3tejxfsf@22dyuwq3uyot>
+ <x547FihqvjPqU5HRTVPzPb6Gsx8_I4z8LHxxhyiBjTi6fCNHYGKvgfAdQQJlXfcCfbf9rKKK7Tlj4vkZcey0PVaJfgwbEGgPaJIPJfMuou0=@emersion.fr>
+ <nptkmf2w6j7ro74ihthpvkrmc7r2bqm7zljiv2ajpqx565f5ty@o46mdlhzasvu>
+ <gQR1IvZQuSocyjbMBXHrYbnNCMHNXwjmItCrmRgRVjG5xF2qFuD1WWB60aik8UNHJpNkPfTweafYINmniOywJpGPqFOSNvdwTemWPBUifeY=@emersion.fr>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] mm/gup: Introduce pin_user_pages_fd() for pinning
- shmem/hugetlbfs file pages (v2)
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org
-References: <20231106061541.507116-1-vivek.kasireddy@intel.com>
- <20231106061541.507116-2-vivek.kasireddy@intel.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <20231106061541.507116-2-vivek.kasireddy@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="4dwxeuivst2jqyl6"
+Content-Disposition: inline
+In-Reply-To: <gQR1IvZQuSocyjbMBXHrYbnNCMHNXwjmItCrmRgRVjG5xF2qFuD1WWB60aik8UNHJpNkPfTweafYINmniOywJpGPqFOSNvdwTemWPBUifeY=@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,191 +58,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dongwon Kim <dongwon.kim@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Hugh Dickins <hughd@google.com>, Peter Xu <peterx@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Junxiao Chang <junxiao.chang@intel.com>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org, Iago Toral Quiroga <itoral@igalia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06.11.23 07:15, Vivek Kasireddy wrote:
-> For drivers that would like to longterm-pin the pages associated
-> with a file, the pin_user_pages_fd() API provides an option to
-> not only pin the pages via FOLL_PIN but also to check and migrate
-> them if they reside in movable zone or CMA block. This API
-> currently works with files that belong to either shmem or hugetlbfs.
-> Files belonging to other filesystems are rejected for now.
-> 
-> The pages need to be located first before pinning them via FOLL_PIN.
-> If they are found in the page cache, they can be immediately pinned.
-> Otherwise, they need to be allocated using the filesystem specific
-> APIs and then pinned.
-> 
-> v2:
-> - Drop gup_flags and improve comments and commit message (David)
-> - Allocate a page if we cannot find in page cache for the hugetlbfs
->    case as well (David)
-> - Don't unpin pages if there is a migration related failure (David)
-> - Drop the unnecessary nr_pages <= 0 check (Jason)
-> - Have the caller of the API pass in file * instead of fd (Jason)
-> 
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Mike Kravetz <mike.kravetz@oracle.com>
-> Cc: Hugh Dickins <hughd@google.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Dongwon Kim <dongwon.kim@intel.com>
-> Cc: Junxiao Chang <junxiao.chang@intel.com>
-> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> ---
->   include/linux/mm.h |  2 +
->   mm/gup.c           | 99 ++++++++++++++++++++++++++++++++++++++++++++++
->   2 files changed, 101 insertions(+)
-> 
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index bf5d0b1b16f4..f6cc17b14653 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -2457,6 +2457,8 @@ long get_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
->   		    struct page **pages, unsigned int gup_flags);
->   long pin_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
->   		    struct page **pages, unsigned int gup_flags);
-> +long pin_user_pages_fd(struct file *file, pgoff_t start,
-> +		       unsigned long nr_pages, struct page **pages);
->   
->   int get_user_pages_fast(unsigned long start, int nr_pages,
->   			unsigned int gup_flags, struct page **pages);
-> diff --git a/mm/gup.c b/mm/gup.c
-> index 2f8a2d89fde1..d30b9dfebbb6 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-> @@ -3400,3 +3400,102 @@ long pin_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
->   				     &locked, gup_flags);
->   }
->   EXPORT_SYMBOL(pin_user_pages_unlocked);
-> +
-> +static struct page *alloc_file_page(struct file *file, pgoff_t idx)
-> +{
-> +	struct page *page = ERR_PTR(-ENOMEM);
-> +	struct folio *folio;
-> +	int err;
-> +
-> +	if (shmem_file(file))
-> +		return shmem_read_mapping_page(file->f_mapping, idx);
-> +
 
-As the build reports indicate, this might have to be fenced with
+--4dwxeuivst2jqyl6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-#ifdef CONFIG_HUGETLB_PAGE
+On Fri, Nov 10, 2023 at 02:23:16PM +0000, Simon Ser wrote:
+> On Friday, November 10th, 2023 at 15:01, Maxime Ripard <mripard@kernel.or=
+g> wrote:
+>=20
+> > On Fri, Nov 10, 2023 at 11:21:15AM +0000, Simon Ser wrote:
+> >=20
+> > > On Thursday, November 9th, 2023 at 20:17, Maxime Ripard mripard@kerne=
+l.org wrote:
+> > >=20
+> > > > > Can we add another function pointer to the struct drm_driver (or
+> > > > > similar) to do the allocation, and move the actual dmabuf handling
+> > > > > code into the core?
+> > > >=20
+> > > > Yeah, I agree here, it just seems easier to provide a global hook a=
+nd a
+> > > > somewhat sane default to cover all drivers in one go (potentially w=
+ith
+> > > > additional restrictions, like only for modeset-only drivers or
+> > > > something).
+> > >=20
+> > > First off not all drivers are using the GEM DMA helpers (e.g. vc4 with
+> > > !vc5 does not).
+> >=20
+> > Right. vc4 pre-RPi4 is the exception though, so it's kind of what I
+> > meant by providing sane defaults: the vast majority of drivers are using
+> > GEM DMA helpers, and we should totally let drivers override that if
+> > relevant.
+> >=20
+> > Basically, we already have 2.5 citizen classes, I'd really like to avoid
+> > having 3 officially, even more so if it's not super difficult to do.
+> >=20
+> > > The heap code in this patch only works with drivers leveraging GEM DMA
+> > > helpers.
+> >=20
+> > We could add a new hook to drm_driver to allocate heaps, link to a
+> > default implementation in DRM_GEM_DMA_DRIVER_OPS_WITH_DUMB_CREATE(), and
+> > then use that new hook in your new heap. It would already cover 40
+> > drivers at the moment, instead of just one, with all of them (but
+> > atmel-hlcdc maybe?) being in the same situation than RPi4-vc4 is.
+>=20
+> As said in another e-mail, I really think the consequences of DMA heaps
+> need to be thought out on a per-driver basis.
 
-> +	folio = alloc_hugetlb_folio_nodemask(hstate_file(file),
-> +					     NUMA_NO_NODE,
-> +					     NULL,
-> +					     GFP_USER);
-> +	if (folio && folio_try_get(folio)) {
-> +		page = &folio->page;
-> +		err = hugetlb_add_to_page_cache(folio, file->f_mapping, idx);
-> +		if (err) {
-> +			folio_put(folio);
-> +			free_huge_folio(folio);
-> +			page = ERR_PTR(err);
-> +		}
-> +	}
-> +
-> +	return page;
-> +}
-> +
-> +/**
-> + * pin_user_pages_fd() - pin user pages associated with a file
-> + * @file:       the file whose pages are to be pinned
-> + * @start:      starting file offset
-> + * @nr_pages:   number of pages from start to pin
-> + * @pages:      array that receives pointers to the pages pinned.
-> + *              Should be at-least nr_pages long.
-> + *
-> + * Attempt to pin pages associated with a file that belongs to either shmem
-> + * or hugetlbfs. The pages are either found in the page cache or allocated
+The issue you pointed out doesn't show up on a per-driver basis though.
 
-nit: s/hugetlbfs/hugetlb/
+> Moreover this approach makes core DRM go in the wrong direction,
+> deeper in midlayer territory.
 
-> + * if necessary. Once the pages are located, they are all pinned via FOLL_PIN.
-> + * And, these pinned pages need to be released using unpin_user_pages() or
-> + * unpin_user_page().
-> + *
+I have no idea why that makes it more of a midlayer here, but even if it
+does, just because it does doesn't mean it's bad or something to avoid.
+We've been striving for more than a decade now to make drivers easy to
+write and easy to extend / deviate from the norm.
 
-It might be reasonable to add that the behavior mimics FOLL_LONGTERM 
-semantics: the page may be held for an indefinite time period _often_ 
-under userspace control.
+AFAIK, what I suggested provides both. Yours create unnecessary
+boilerplate and will leave a lot of drivers out of a needed solution.
 
-> + * Returns number of pages pinned. This would be equal to the number of
-> + * pages requested. If no pages were pinned, it returns -errno.
-> + */
-> +long pin_user_pages_fd(struct file *file, pgoff_t start,
-> +		       unsigned long nr_pages, struct page **pages)
-> +{
-> +	struct page *page;
-> +	unsigned int flags, i;
-> +	long ret;
-> +
-> +	if (start < 0)
-> +		return -EINVAL;
-> +
-> +	if (!file)
-> +	    return -EINVAL;
-> +
-> +	if (!shmem_file(file) && !is_file_hugepages(file))
-> +	    return -EINVAL;
-> +
-> +	flags = memalloc_pin_save();
-> +	do {
-> +		for (i = 0; i < nr_pages; i++) {
-> +			/*
-> + 			 * In most cases, we should be able to find the page
-> +			 * in the page cache. If we cannot find it, we try to
-> +			 * allocate one and add it to the page cache.
-> +			 */
-> +			page = find_get_page_flags(file->f_mapping,
-> +						   start + i,
-> +						   FGP_ACCESSED);
-> +			if (!page) {
-> +				page = alloc_file_page(file, start + i);
-> +				if (IS_ERR(page)) {
-> +					ret = PTR_ERR(page);
-> +					goto err;
-> +				}
-> +			}
-> +			ret = try_grab_page(page, FOLL_PIN);
-> +			if (unlikely(ret))
-> +				goto err;
-> +
-> +			pages[i] = page;
-> +			put_page(pages[i]);
-> +		}
-> +
-> +		ret = check_and_migrate_movable_pages(nr_pages, pages);
-> +	} while (ret == -EAGAIN);
-> +
-> +	memalloc_pin_restore(flags);
-> +	return ret ? ret : nr_pages;
-> +err:
+> > > Then maybe it's somewhat simple to cover typical display devices found
+> > > on split render/display SoCs, however for the rest it's going to be m=
+uch
+> > > more complicated. For x86 typically there are multiple buffer placeme=
+nts
+> > > supported by the GPU and we need to have one heap per possible placem=
+ent.
+> > > And then figuring out all of the rules, priority and compatibility st=
+uff
+> > > is a whole other task in and of itself.
+> >=20
+> > But x86 typically doesn't have a split render/display setup, right?
+>=20
+> So you're saying we should fix everything at once, but why is x86 not
+> part of "everything" then?
 
-missing memalloc_pin_restore() ?
+"everything" is your word, not mine. I'm saying that the issue you've
+mentioned for this series applies to a lot of other drivers, and we
+should fix it for those too.
 
-> +	while (i > 0 && pages[--i])
-> +		unpin_user_page(pages[i]);
+x86 doesn't suffer from the issue you've mentioned, just like the Pi0-3,
+and thus we don't have to come up with a solution for them.
 
-So if any pages[] would be 0, we would stop completely? Shouldn't this 
-be something like:
+> x86 also has issues regarding buffer placement. You're saying you
+> don't want to fragment the ecosystem, but it seems like there would
+> still be "fragmentation" between split render/display SoCs and the
+> rest?
 
-while (i-- > 0)
-	if (pages[i])
-		unpin_user_page(pages[i]);
+If you want to come up with a generic solution to buffer placement, then
+you need to consider both sides. A buffer that can be addressed by the
+scanout engine might not be addressable by the codec that will fill that
+buffer for example.
 
--- 
-Cheers,
+The problem is far broader than what you described here, and the
+solution far more involved too.
 
-David / dhildenb
+I don't see why you're bringing that up here, I don't think we need a
+solution for that at this point, and yet I think your current patch is a
+step in the right direction if we enroll every relevant driver.
 
+Maxime
+
+> I'm having a hard time understanding your goals here.
+
+--4dwxeuivst2jqyl6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZVH/8QAKCRDj7w1vZxhR
+xZSOAP9EBKJ87BaLlWkIC3+z04g1VGCznnsQiTI07cGUrv5mYAEA3n7HqIfJE7+T
+ZHaPCVHtTRn7K/54M2pf8pvfd8PdNQw=
+=0TlS
+-----END PGP SIGNATURE-----
+
+--4dwxeuivst2jqyl6--
