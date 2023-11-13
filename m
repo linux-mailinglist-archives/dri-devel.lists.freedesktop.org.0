@@ -2,91 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213557E9C7F
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 13:57:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C1E7E9CC7
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 14:12:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 641C110E374;
-	Mon, 13 Nov 2023 12:57:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A45E289065;
+	Mon, 13 Nov 2023 13:12:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC77C10E371
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 12:57:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1699880244;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=99HQPaexgy0VlHo7G+FMrZBwsYGZqGO7/PNoylZTCAo=;
- b=GgnCfXgkwjUJWoureE5sOUdMqq6HrAWc612/PtOja0hdSx5vDsWhIZ9Fz6P3Xa/80cE/37
- iX01TGT1qxo3vI3pt2Q9tYxl1VwfL8qz2PXPbIbmhrs+1PgkRZoKtUha45+4+bfVDJ3prz
- HofECLGYcsuLdsUNivZvDbTE0LZ7TPo=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-610-K_l-zEJZOJW72qcjgzlNZQ-1; Mon, 13 Nov 2023 07:57:23 -0500
-X-MC-Unique: K_l-zEJZOJW72qcjgzlNZQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-9e5dd91b0ebso196667266b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 04:57:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699880242; x=1700485042;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=99HQPaexgy0VlHo7G+FMrZBwsYGZqGO7/PNoylZTCAo=;
- b=PCaiJeXhTFhWylG4rLOFo1fzrHKQBs00LcTBxztOXz+5tjR6D3SrT6tCNqZqANAlyM
- IgEB4BGucHf0SV0FdKGjquyaQ9jWg3DAI2m6Fwf2S6awoMmmOUNY7ZT4+QbtgOuRz+x2
- 6LesSOGw+jRjXzvsxmdxXS23BftDk18R3vk5TL+ebRVItoiqxwr34EFR0nCFeCpM/oel
- ZyDtVHA42yTNzoEujMDvUmou590S0U/ZdPxOBHqj8cVskMk4F9gu+0HBCLW4Vlsobp4A
- ilCNKFKwuV0sTImRKn2MHs6BNAeqVA3V8bHXNYm8USYv/nwsxQjOskDytLEd5FZtaFrS
- 1l3A==
-X-Gm-Message-State: AOJu0YwnetMeKIs8G0AXIIwtJl1H8oPVKmZykpspeXLfwJu/OGNN73cs
- IqgRB2/3CQMbxaUiJn5pSaWkjwVWXl7wqgmUhDtykljZ7kECFe42nzx462EOa/7HcK++/WWQ1j6
- mcqe9VfJLb5aCEJH8esq4AqHqtXQi
-X-Received: by 2002:a17:906:340c:b0:9d8:27e2:4c12 with SMTP id
- c12-20020a170906340c00b009d827e24c12mr4300057ejb.63.1699880242358; 
- Mon, 13 Nov 2023 04:57:22 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHhqSC5pNXAAfTn2Ku8ibOoV0faQFodi6FP8YDestjtCGX+ELhgazhdKJkF80CqKfD4FjEM0g==
-X-Received: by 2002:a17:906:340c:b0:9d8:27e2:4c12 with SMTP id
- c12-20020a170906340c00b009d827e24c12mr4300043ejb.63.1699880241912; 
- Mon, 13 Nov 2023 04:57:21 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- s10-20020a1709066c8a00b009dbe08bc793sm4108212ejr.18.2023.11.13.04.57.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Nov 2023 04:57:21 -0800 (PST)
-Message-ID: <45ba5373-6454-4687-b21c-46748a3a6e5d@redhat.com>
-Date: Mon, 13 Nov 2023 13:57:20 +0100
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [81.169.146.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 057B510E09E
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 13:12:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1699881125; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=pl6qRniJynuyduCGedWh/QVs0QTDoTEuVD/XmIvGAepBt6jDanKlgkbIoG1LCgoAxM
+ WJCxXJALgC9ECo0M8WoefyGGQ0d643asgbkLr3QLspXQX7hmRffov2l/d6mw8/TqgJEN
+ KXdoc19Ejm8GaGyh9MjFHsdDgzwpE/SWpoVNAXAr5WmigwbbmFzRwSbosg5L+mkhZ5MA
+ eitfcNcW8y3bCF7A2NmiA2kk2I3SJ6VlmRmr4rgIyQEWsXne8D8DhIHkxmAPmjbzAXTE
+ 0Ib91DZbVZDZCGNseDThiCH5FCFO09WwbAdsc/SQ53blQ5dkUg9sN/56ePycBweHMTm1
+ 6z/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1699881125;
+ s=strato-dkim-0002; d=strato.com;
+ h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+ From:Subject:Sender;
+ bh=lb65o+mTnZ3kNMGlV9mMbXogLgBhbRodOia1owMdsmI=;
+ b=Y0YRk8OpC7v4mFkkEC69oSYZdEm0W9jAw02+ySX/lqU2lbUcXbgVIMp95bvr+J2PY5
+ xTF+M/vBLr5Et1+12MJ4/2nsjgSS44EU/JQARCKrhpwaFDY/hU7tzriZwVs+ubJdvJ/f
+ QjD1vYpv0gpmmvo4Kv4psl6P7ZYI5VHYlJ1+XLFj3zdrl39XhzOfYBwxbiha/WS0GIeC
+ Hx4yV04lynBzhoxjJmFwmx2EP1jWv9DFCjPbvSzVMmq3gqHKr0bJFu3VcY3j4Y0aLbS0
+ yJbGQ4G4KElUZ7KKIK+oyTe1ti7GqMRmyb55A8CHSqGuBLhUWCwazaIfeZ03IqYYmloB
+ DB4A==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1699881125;
+ s=strato-dkim-0002; d=xenosoft.de;
+ h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+ From:Subject:Sender;
+ bh=lb65o+mTnZ3kNMGlV9mMbXogLgBhbRodOia1owMdsmI=;
+ b=syddjFCI6OsCNy2SlBzv8BjTTtE5rCyELkS1VdRbEK9rL+IF6qkvz9vxr2GFnpuEcW
+ yEj9r5sGA41hz4ZMKnmH7zWvxuU4V0Gi7HN1K2VD/BX7BkFJn82U+ClimSypM4Wkq2zf
+ 98LfUJoBLWE5RJ2M3UOX5bQz6asaiwxeGnQ8tzXAHZE0K1yJH8ep/2Lj2z/8EFKZI3qe
+ eGud41mRjsEuK/1MvVXTLW5S0lLluoLWZnkuReB8SIjThaFbxNxxsnmj5nzGCRgaLl4b
+ jvmex5h77qVJPkn/kd+xfFmpJTewdz/o9KDmTesUZglilqcWRh3zDqO7BqYIJt7OvdMW
+ OkUQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1699881125;
+ s=strato-dkim-0003; d=xenosoft.de;
+ h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+ From:Subject:Sender;
+ bh=lb65o+mTnZ3kNMGlV9mMbXogLgBhbRodOia1owMdsmI=;
+ b=oZ+MRNb/ffCIwl+E0nszYYQ2fw8gcZ2wLC2iqklbhlXC4wfN8tJZ2va4n5ifVlE3XT
+ SUuj+6f0iIbR/x5+E0Dg==
+X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHfJ+Dkjp5DdBfi4XXBswJY1yykKPrNF3HqKoSdKxg8PLRcSAog=="
+Received: from [IPV6:2a02:8109:8984:5d00:1cfd:7f23:3d91:7ce8]
+ by smtp.strato.de (RZmta 49.9.1 AUTH) with ESMTPSA id m61756zADDC4TCu
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Mon, 13 Nov 2023 14:12:04 +0100 (CET)
+Message-ID: <c13fcf82-3bf0-447e-9ac5-b33db0e38f07@xenosoft.de>
+Date: Mon, 13 Nov 2023 14:12:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH drm-misc-next v8 09/12] drm/gpuvm: reference count
- drm_gpuvm structures
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-References: <20231101233113.8059-10-dakr@redhat.com>
- <be93d9ef-3d3e-4262-a280-d2922b983ca1@amd.com> <ZUTyGTxcH7WlHKsv@pollux>
- <a2e13a27-d2e5-4ae3-9c11-c18b425b69cc@amd.com>
- <b533af44-0404-49c9-9879-3414d0964acc@redhat.com>
- <51dea5f3-a18b-4797-b4fa-87da7db4624a@amd.com> <ZUjZFFtLM435tTxJ@pollux>
- <8e87d962-c80c-40d9-94d7-58b6cd9dd794@amd.com> <ZUj0DdYZUgjhcvf5@pollux>
- <6d3c48f6-a92d-49b3-b836-ee1bc95b56bf@amd.com> <ZUkXkJ+zT7OFGosC@pollux>
- <44bc28c7-05f4-4419-5183-453c4951aac0@linux.intel.com>
- <6c536c94-7072-403c-9c63-d932252fd66b@amd.com>
- <4532d9d5-4c5a-4639-8136-d3ba9995d7b6@redhat.com>
- <1d4ca394-ee0c-4617-adbe-1d47e295c8fb@amd.com>
- <987ac707-8f9b-4e33-86c3-decdc1c48a3a@redhat.com>
- <71a50cac-3253-480f-adff-da475738ae6b@amd.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <71a50cac-3253-480f-adff-da475738ae6b@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+Subject: Re: Fbdev issue after the drm updates 'drm-next-2023-10-31-1'
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <a1d9e09b-f533-5e2c-7a13-af96647e1a71@embeddedor.com>
+ <10D1983F-33EF-46C3-976E-463D1CB5A6E9@xenosoft.de>
+ <9bb5fcbd-daf5-1669-b3e7-b8624b3c36f9@xenosoft.de>
+ <c47fba21-3ae9-4021-9f4a-09c2670ebdbc@xenosoft.de>
+ <0d89bcd0-9b68-4c0a-acd8-2c7532e62f6d@xenosoft.de>
+ <6530cea3-4507-454e-bc36-a6970c8e7578@xenosoft.de>
+ <CAMuHMdU-8Fu55C2zu_XxmG8n5paOQYfqNA84JNvXo4c87D-kFw@mail.gmail.com>
+Content-Language: de-DE
+From: Christian Zigotzky <chzigotzky@xenosoft.de>
+In-Reply-To: <CAMuHMdU-8Fu55C2zu_XxmG8n5paOQYfqNA84JNvXo4c87D-kFw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,38 +90,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, sarah.walker@imgtec.com,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, faith@gfxstrand.net,
- boris.brezillon@collabora.com, donald.robson@imgtec.com
+Cc: Darren Stevens <darren@stevens-zone.net>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kraxel@cs.tu-berlin.de,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ mad skateman <madskateman@gmail.com>, deller@gmx.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/13/23 08:22, Christian König wrote:
-> Am 10.11.23 um 17:57 schrieb Danilo Krummrich:
->> On 11/10/23 09:50, Christian König wrote:
->>> [SNIP]
->>>>>
->>>>>>
->>>>>> Another issue Christian brought up is that something intended to be embeddable (a base class) shouldn't really have its own refcount. I think that's a valid point. If you at some point need to derive from multiple such structs each having its own refcount, things will start to get weird. One way to resolve that would be to have the driver's subclass provide get() and put() ops, and export a destructor for the base-class, rather than to have the base-class provide the refcount and a destructor  ops.
->>>>
->>>> GPUVM simply follows the same pattern we have with drm_gem_objects. And I think it makes
->>>> sense. Why would we want to embed two struct drm_gpuvm in a single driver structure?
+On 13 November 2023 at 01:48 pm, Geert Uytterhoeven wrote:
+> Hi Christian,
+>
+> On Sun, Nov 12, 2023 at 3:23 PM Christian Zigotzky
+> <chzigotzky@xenosoft.de> wrote:
+>> On 07 November 2023 at 09:36 am, Christian Zigotzky wrote:
+>>> I have found out that fbdev no longer works with virtio-gpu-pci and
+>>> virtio-vga. It is not a problem with the penguin logos.
 >>>
->>> Because you need one drm_gpuvm structure for each application using the driver? Or am I missing something?
->>
->> Right, *one*, but not more than one. Wasn't that the concern? Maybe I misunderstood something. :)
-> 
-> Well, there is the use case of native context with XEN/KVM. In that situation QEMU opens tons of driver file descriptors on behalves of the virtual environment clients.
-> 
-> In this use case you have many drm_gpuvm instances for a single application. So you can't assume that you only have one VM per PID/TGID or something like that.
+>>> Could you please check fbdev in QEMU virtual machines with
+>>> virtio-gpu-pci and virtio-vga graphics?
+>>> On 02 November 2023 at 03:45 pm, Christian Zigotzky wrote:
+>>>> There is a fbdev issue with the virtio-gpu-pci and virtio-vga. (The
+>>>> penguins are not displayed at boot time)
+>>>>
+>>>> Error message:  [    0.889302] virtio-pci 0000:00:02.0: [drm] *ERROR*
+>>>> fbdev: Failed to setup generic emulation (ret=-2)
+>>>>
+>>>> The kernel 6.6 final doesn't have this issue.
+>>>>
+>>>> Please check the fbdev changes in the drm updates
+>>>> 'drm-next-2023-10-31-1'.
+> Thanks for your report!
+>
+> I can confirm there is no graphics output with m68k/virt, and
+> bisected this to my own commit 6ae2ff23aa43a0c4 ("drm/client: Convert
+> drm_client_buffer_addfb() to drm_mode_addfb2()"), ouch...
+>
+> It turns out the old call to drm_mode_addfb() caused a translation
+> from a fourcc to a bpp/depth pair to a _different_ fourcc, due to the
+> quirk processing in drm_driver_legacy_fb_format().
+> I.e. on m68k/virt, the original requested format was XR24, which was
+> translated to BX24. The former doesn't work, the latter works.
+>
+> The following (gmail-whitespace-damaged) patch fixed the issue for me:
+>
+> --- a/drivers/gpu/drm/drm_client.c
+> +++ b/drivers/gpu/drm/drm_client.c
+> @@ -400,6 +400,16 @@ static int drm_client_buffer_addfb(struct
+> drm_client_buffer *buffer,
+>
+>          fb_req.width = width;
+>          fb_req.height = height;
+> +       if (client->dev->mode_config.quirk_addfb_prefer_host_byte_order) {
+> +               if (format == DRM_FORMAT_XRGB8888)
+> +                       format = DRM_FORMAT_HOST_XRGB8888;
+> +               if (format == DRM_FORMAT_ARGB8888)
+> +                       format = DRM_FORMAT_HOST_ARGB8888;
+> +               if (format == DRM_FORMAT_RGB565)
+> +                       format = DRM_FORMAT_HOST_RGB565;
+> +               if (format == DRM_FORMAT_XRGB1555)
+> +                       format = DRM_FORMAT_HOST_XRGB1555;
+> +       }
+>          fb_req.pixel_format = format;
+>          fb_req.handles[0] = handle;
+>          fb_req.pitches[0] = buffer->pitch;
+>
+> However, I don't think we want to sprinkle more of these
+> translations around... So perhaps we should (re)add a call to
+> drm_driver_legacy_fb_format() to drm_client_buffer_addfb()?
+>
+> Second, as I doubt you are using a big-endian system, you are probably
+> running into a slightly different issue.
+>
+> Oh wait, you did CC linuxppc-dev, so perhaps you are running on a
+> big-endian machine?
+>
+> If not, please add
+>
+>      pr_info("%s: format = %p4cc\n", __func__, &format);
+>
+> to drivers/gpu/drm/drm_client.c:drm_client_buffer_addfb(), and,
+> after reverting commit 6ae2ff23aa43a0c4, add
+>
+>      pr_info("%s: bpp %u/depth %u => r.pixel_format = %p4cc\n",
+> __func__, or->bpp, or->depth, &r.pixel_format);
+>
+> to drivers/gpu/drm/drm_framebuffer.c:drm_mode_addfb(), so we know the
+> translation in your case?
+>
+> Thanks!
+>
+> Gr{oetje,eeting}s,
+>
+>                          Geert
+>
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                  -- Linus Torvalds
+Hi Geert,
 
-Well, that's fine. I think Xe can have multiple VMs per PID as well. In this case you'd keep creating driver VM structures with a single GPUVM as base class. But not multiple GPUVMs serving as base class for a single driver structure, which I thought was the concern here. For the latter I can't see a use case.
+Thanks for your answer! I use a big-endian system.
 
-> 
-> AMD already made that mistake with KFD and I strongly suggest not to repeat it :)
-> 
-> Regards,
-> Christian.
-> 
-
+Cheers,
+Christian
