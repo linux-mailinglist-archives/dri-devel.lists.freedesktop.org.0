@@ -2,52 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20187EA57D
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 22:28:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E5A7EA5BD
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 23:11:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD25F10E419;
-	Mon, 13 Nov 2023 21:28:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78E9610E223;
+	Mon, 13 Nov 2023 22:11:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB8A610E419
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 21:28:22 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1r2eTZ-0006K4-SL; Mon, 13 Nov 2023 22:28:09 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1r2eTV-008qY8-9X; Mon, 13 Nov 2023 22:28:05 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1r2eTU-0015Of-Vv; Mon, 13 Nov 2023 22:28:05 +0100
-Date: Mon, 13 Nov 2023 22:28:01 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Helge Deller <deller@gmx.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jilin Yuan <yuanjilin@cdjrlc.com>,
- Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH 0/3] pwm: Drop useless member "pwm" from struct pwm_device
-Message-ID: <20231113212801.v4nh6njrog5q2hxe@pengutronix.de>
-References: <20230728145824.616687-1-u.kleine-koenig@pengutronix.de>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F30E10E223
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 22:11:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 65D4CB810B9;
+ Mon, 13 Nov 2023 22:11:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73772C433C8;
+ Mon, 13 Nov 2023 22:11:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1699913462;
+ bh=y8SvI32OK2xraWnJ4KYO59jDyKCSgMJ4BUaSyMs0sXQ=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=sh8VLAlu2TmvxYxt3GN/26B09B8wkV2+1djcwE8Do3NvbevLDLFLmcF4YsP/sCiHD
+ NW4TAVN2626qYqQZ9gcvgaKIoHkfVe+s2AWqXNrsu8Xl0AfBnF1Vd8JWmlqeVdBKOM
+ h2ru3fjERW2LWok5RGV9gkJxm2hnRvqjsTxAfYZyMO9A2PhTDH5PN+1t8UAu1SEGIZ
+ NOIR0ex6iou1GQEd1NFF2ucKqLJjr9mKhphshDQXzoqdPKJhBHReb0wsywTUyCOztx
+ tLE5Vxef0IOTcXVEzGS5tfTu8GIR8oCdjW0zUkV3ILeho4XhBy1idGuC8LO3I8aBdJ
+ yzLBad+6UuGBg==
+Date: Mon, 13 Nov 2023 17:10:58 -0500
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Subject: Re: [RFC PATCH v3 02/12] net: page_pool: create hooks for custom
+ page providers
+Message-ID: <20231113171058.68973860@kernel.org>
+In-Reply-To: <CAHS8izPKRh7ukRytXaweKcY_76sE7F_3s1sYVgsUXYGrypK93Q@mail.gmail.com>
+References: <20231106024413.2801438-1-almasrymina@google.com>
+ <20231106024413.2801438-3-almasrymina@google.com>
+ <20231110151907.023c61cd@kernel.org>
+ <CAHS8izPKRh7ukRytXaweKcY_76sE7F_3s1sYVgsUXYGrypK93Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="6j3bhefnu7emb5lk"
-Content-Disposition: inline
-In-Reply-To: <20230728145824.616687-1-u.kleine-koenig@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,73 +54,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de
+Cc: linux-arch@vger.kernel.org,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, Eric Dumazet <edumazet@google.com>,
+ Shakeel Butt <shakeelb@google.com>, linux-kselftest@vger.kernel.org,
+ Praveen Kaligineedi <pkaligineedi@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Shuah Khan <shuah@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sun, 12 Nov 2023 19:28:52 -0800 Mina Almasry wrote:
+> My issue with this is that if the driver doesn't support dmabuf then
+> the driver will accidentally use the pp backed by the dmabuf, allocate
+> a page from it, then call page_address() on it or something, and
+> crash.
+> 
+> Currently I avoid that by having the driver be responsible for picking
+> up the dmabuf from the netdev_rx_queue and giving it to the page pool.
+> What would be the appropriate way to check for driver support in the
+> netlink API? Perhaps adding something to ndo_features_check?
 
---6j3bhefnu7emb5lk
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hello,
-
-On Fri, Jul 28, 2023 at 04:58:21PM +0200, Uwe Kleine-K=F6nig wrote:
-> there are only two users of struct pwm_device::pwm in the tree; both use
-> it for some dev_dbg output. While this number allows to identify the
-> PWM, it's not trivial, for example the data currently available in
-> /sys/kernel/debug/pwm isn't enough. (You have to look in /sys/class/pwm,
-> pick the pwmchip with the highest number that isn't bigger than the
-> PWM's number.)
->=20
-> To be honest the label isn't always usefull either, but it's easy to use
-> and should be enough to identify the used PWM. The parent device + hwid
-> might be more useful?! On the other hand using that for a dev_dbg that
-> is probably only looked at by someone debugging the driver and thus
-> knowing the used PWM anyhow is of little value either.
->=20
-> Assuming this change is still considered worthwile I suggest that patches=
- #1
-> and #2 go in via their respective maintainer trees and I resend patch #3 =
-to go
-> via the pwm tree once these two are "in".
->=20
-> Best regards
-> Uwe
->=20
-> Uwe Kleine-K=F6nig (3):
->   drm/ssd130x: Print the PWM's label instead of its number
->   video: fbdev: ssd1307fb: Print the PWM's label instead of its number
->   pwm: Drop unused member "pwm" from struct pwm_device
-
-The two patches to stop making use of struct pwm_device::pwm are now in
-Linus's tree (as of v6.7-rc1). The third patch is still "new" in
-patchwork, so I don't resend.
-
-It's great if patch #3 goes in during the next merge window.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---6j3bhefnu7emb5lk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVSlOEACgkQj4D7WH0S
-/k7u7AgAg4xtAcglUYH0v23q8qHBO4gYPTdvMPn/Oao+/72FDmpW7/Q9wT9kaMfh
-6K/ZhDJiOQ/9p3ek+P8uUKl8g5JdFEH0+luqF5QIOg2iwH//uu0UppmkEBprmNg+
-pWTJUxUsD13AuyquMp0yIqLT3hsEzh9N/803NWp/98kXxMOLjvGNYLKZFsH6KKkl
-er2+4/XxV1oyq/an4DlTIjIAO9pQr3G14gb9AUdT/UGmkzipqTNHBaiA8ykOPjGO
-tcgfXBDi9OM56y6R8syM6c0iP6GQSlY3y4Hqk3jfZ3hKF2Q/C5bdsyosRTet/Dmg
-FrwZ/snIa4f2oQV6Bd+rpYjwetsegA==
-=YvtS
------END PGP SIGNATURE-----
-
---6j3bhefnu7emb5lk--
+We need some form of capabilities. I was expecting to add that as part
+of the queue API. Either a new field in struct net_device or in ndos.
+I tend to put static driver caps of this nature into ops.
+See for instance .supported_ring_params in ethtool ops.
