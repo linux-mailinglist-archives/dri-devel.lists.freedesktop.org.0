@@ -2,68 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3F477EA146
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 17:30:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 748A67EA158
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 17:37:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E40A10E382;
-	Mon, 13 Nov 2023 16:30:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D65E10E170;
+	Mon, 13 Nov 2023 16:37:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADDCA10E37E;
- Mon, 13 Nov 2023 16:30:18 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-408425c7c10so37849945e9.0; 
- Mon, 13 Nov 2023 08:30:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699893017; x=1700497817; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=TrgwIpCr3cCz+wMfmli2lw8x6mUCbDU3/IRrq0WSMkE=;
- b=ToE/9Hwbooq4BQQgaQzDYiqYz0lESsCbla6ObJdp/psNImmF27torvps9Y5TADKgxM
- HbiJjCoZw4/cIf6HFQ8EuInps+rsTAOkZrc0dw2tSsdsJxKzxt3gKgbISUblFn9uwEE2
- 9dpzrmgRd2ZWGGGupRxRA/OUFOpEssJ9spEvZjoQCEHl/A6BGztWFntASsDW8XygHX8G
- me2iWUo1mlyX5lr+Yqal026a1nz+hm5V+OIz/Ge5gnSlot62akXilyaaPmb3SM8lSQa1
- L47ipyhE60n1ZRg4WjaLMik0b4NhwknCfrPRj6Y/XS3j4k8MQZTs5XBFfRrrCzMiVwmX
- VJfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699893017; x=1700497817;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TrgwIpCr3cCz+wMfmli2lw8x6mUCbDU3/IRrq0WSMkE=;
- b=V5UfTLPfyn7MstZ0AZipvTCUFYMz3A93Sn3d55Q5czI78T5H7dWYHtUjeXHUxPjlvA
- WZJkw52xsbR8+MrJarkc/Uj6W48H/2Hyv7bIkOnFplhqw+nEqzcf8hk1WUWGdxDYpaBf
- gpsYbit40+zaJBfZcg9n/xYblQSMXKiRQDCFfIdVXE6194as91NsgKRRw8fYibVd3Dox
- ik+q74p3AHtkFc2bQJMUOlRfJVhgLlv1TQrSvZcN/96KjKaIDPn9U3H/mRura6/2iwIn
- +oyFvNCgiJApHlaKhefamJDtVHTzCKky1dBupN14G35Dy17kQ8gRrNOIaiEw7t8pBc9A
- N+BA==
-X-Gm-Message-State: AOJu0Yz3DqB4agCJNNj7cqIylJ2O/ybvdF+Hz5JvtdREoA8ChqUb/Vjy
- PYrD9ejLTe1GoFsOgixTyQ4=
-X-Google-Smtp-Source: AGHT+IE0J8cRqw24bIVALelxvDPrWhyLK1LYW38NqvfVI5ixoJpqk8RyUKoNA1ilNWXAHcnnA3J8Lw==
-X-Received: by 2002:a05:600c:5023:b0:40a:2796:618f with SMTP id
- n35-20020a05600c502300b0040a2796618fmr6040257wmr.40.1699893016796; 
- Mon, 13 Nov 2023 08:30:16 -0800 (PST)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- p15-20020a05600c358f00b0040596352951sm14441920wmq.5.2023.11.13.08.30.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Nov 2023 08:30:16 -0800 (PST)
-Message-ID: <f416899a-da4a-4ad3-9aa6-a133d797f9af@gmail.com>
-Date: Mon, 13 Nov 2023 17:30:15 +0100
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B877810E3C5
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 16:37:29 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id A144FB80D27;
+ Mon, 13 Nov 2023 16:37:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C187DC433C8;
+ Mon, 13 Nov 2023 16:37:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1699893447;
+ bh=MS6OK3Y9zr6NroPi54QBhTFjm/3rXWVuwNhqgxT80rs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NuVtMTkKIcxY12QgKlUgvvEIdmu5R03mehE2D8ykODRAe6jpXB/Wbe7/QiWZQoJOS
+ FcC6WqWPeyzM50wqIQHxoc+GlMx7wFRld2aIALSOQen2w2c9ggQP3dWt52apcaon0F
+ Lnb4g+aU6CFOG+AUv7rCIxY1WlhzzZlSNahodRl+5rz9NzLAbdEbCPAN1TwXffnteP
+ Pm+IWB3o3uuub9xYtN1tCfR9HkjtR6F6ZtIk3sEc8Q6HXp+ElDOV2LY9Hfs6phMSqP
+ sNptxw2Fsxiv3j3fir6sqZnrCh2tVgAdLZ2S9UOejaG2rBtAabf/+Z26TLwgmHKbfB
+ mxwAFobtfX8tg==
+Date: Mon, 13 Nov 2023 11:37:25 -0500
+From: Sasha Levin <sashal@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: Incomplete stable drm/ast backport - screen freeze on boot
+Message-ID: <ZVJQxS6h_K73fMfQ@sashalap>
+References: <CABV8kRwx=92ntPW155ef=72z6gtS_NPQ9bRD=R1q_hx1p7wy=g@mail.gmail.com>
+ <32a25774-440c-4de3-8836-01d46718b4f8@redhat.com>
+ <9dc39636-ff41-44d7-96cb-f954008bfc9d@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Patch v3] drm/ttm: Schedule delayed_delete worker closer
-Content-Language: en-US
-To: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>,
- amd-gfx@lists.freedesktop.org
-References: <20231111130856.1168304-1-rajneesh.bhardwaj@amd.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20231111130856.1168304-1-rajneesh.bhardwaj@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <9dc39636-ff41-44d7-96cb-f954008bfc9d@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,78 +51,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, Felix Kuehling <Felix.Kuehling@amd.com>,
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, regressions@lists.linux.dev,
+ Keno Fischer <keno@juliahub.com>, Greg KH <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 11.11.23 um 14:08 schrieb Rajneesh Bhardwaj:
-> Try to allocate system memory on the NUMA node the device is closest to
-> and try to run delayed_delete workers on a CPU of this node as well.
+On Mon, Nov 13, 2023 at 10:49:01AM +0100, Thomas Zimmermann wrote:
+>(cc: gregkh)
 >
-> To optimize the memory clearing operation when a TTM BO gets freed by
-> the delayed_delete worker, scheduling it closer to a NUMA node where the
-> memory was initially allocated helps avoid the cases where the worker
-> gets randomly scheduled on the CPU cores that are across interconnect
-> boundaries such as xGMI, PCIe etc.
+>Hi Jocelyn
 >
-> This change helps USWC GTT allocations on NUMA systems (dGPU) and AMD
-> APU platforms such as GFXIP9.4.3.
+>Am 13.11.23 um 10:36 schrieb Jocelyn Falempe:
+>>On 13/11/2023 09:34, Keno Fischer wrote:
+>>>Greetings,
+>>>
+>>>When connected to a remote machine via the BMC KVM functionality,
+>>>I am experiencing screen freezes on boot when using 6.5 stable,
+>>>but not master.
+>>>
+>>>The BMC on the machine in question is an ASpeed AST2600.
+>>>A quick bisect shows the problematic commit to be 2fb9667
+>>>("drm/ast: report connection status on Display Port.").
+>>>This is commit f81bb0ac upstream.
+>>>
+>>>I believe the problem is that the previous commit in the series
+>>>e329cb5 ("drm/ast: Add BMC virtual connector")
+>>>was not backported to the stable branch.
+>>>As a consequence, it appears that the more accurate DP state detection
+>>>is causing the kernel to believe that no display is connected,
+>>>even when the BMC's virtual display is in fact in use.
+>>>A cherry-pick of e329cb5 onto the stable branch resolves the issue.
+>>
+>>Yes, you're right this two patches must be backported together.
+>>
+>>I'm sorry I didn't pay enough attention, that only one of the two 
+>>was picked up for the stable branch.
+>>
+>>Is it possible to backport e329cb5 to the stable branch, or should I 
+>>push it to drm-misc-fixes ?
 >
-> Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
-> Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+>I think stable, which is in cc, will pick up commit e329cb5 
+>semi-automatically now. Otherwise, maybe ping gregkh in a few days 
+>about it.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+I thikn it would be more appropriate to revert 2fb9667, as e329cb5
+doesn't look like -stable material. I'll go ahead and do that.
 
-> ---
-> Changes in v3:
->   * Use WQ_UNBOUND to address the warning reported by CI pipeline.
->
->   drivers/gpu/drm/ttm/ttm_bo.c     | 8 +++++++-
->   drivers/gpu/drm/ttm/ttm_device.c | 6 ++++--
->   2 files changed, 11 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index 5757b9415e37..6f28a77a565b 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -370,7 +370,13 @@ static void ttm_bo_release(struct kref *kref)
->   			spin_unlock(&bo->bdev->lru_lock);
->   
->   			INIT_WORK(&bo->delayed_delete, ttm_bo_delayed_delete);
-> -			queue_work(bdev->wq, &bo->delayed_delete);
-> +
-> +			/* Schedule the worker on the closest NUMA node. This
-> +			 * improves performance since system memory might be
-> +			 * cleared on free and that is best done on a CPU core
-> +			 * close to it.
-> +			 */
-> +			queue_work_node(bdev->pool.nid, bdev->wq, &bo->delayed_delete);
->   			return;
->   		}
->   
-> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-> index 43e27ab77f95..bc97e3dd40f0 100644
-> --- a/drivers/gpu/drm/ttm/ttm_device.c
-> +++ b/drivers/gpu/drm/ttm/ttm_device.c
-> @@ -204,7 +204,8 @@ int ttm_device_init(struct ttm_device *bdev, struct ttm_device_funcs *funcs,
->   	if (ret)
->   		return ret;
->   
-> -	bdev->wq = alloc_workqueue("ttm", WQ_MEM_RECLAIM | WQ_HIGHPRI, 16);
-> +	bdev->wq = alloc_workqueue("ttm",
-> +				   WQ_MEM_RECLAIM | WQ_HIGHPRI | WQ_UNBOUND, 16);
->   	if (!bdev->wq) {
->   		ttm_global_release();
->   		return -ENOMEM;
-> @@ -213,7 +214,8 @@ int ttm_device_init(struct ttm_device *bdev, struct ttm_device_funcs *funcs,
->   	bdev->funcs = funcs;
->   
->   	ttm_sys_man_init(bdev);
-> -	ttm_pool_init(&bdev->pool, dev, NUMA_NO_NODE, use_dma_alloc, use_dma32);
-> +
-> +	ttm_pool_init(&bdev->pool, dev, dev_to_node(dev), use_dma_alloc, use_dma32);
->   
->   	bdev->vma_manager = vma_manager;
->   	spin_lock_init(&bdev->lru_lock);
-
+-- 
+Thanks,
+Sasha
