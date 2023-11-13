@@ -1,51 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A7087E9A91
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 11:54:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A4A7E9ADE
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 12:24:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCC0310E343;
-	Mon, 13 Nov 2023 10:54:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65E5510E084;
+	Mon, 13 Nov 2023 11:24:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA61810E343
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 10:54:02 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 65DFB60DCE;
- Mon, 13 Nov 2023 10:54:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA02CC433C7;
- Mon, 13 Nov 2023 10:54:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699872842;
- bh=7KmVsixosgcu7Hg1EdfRcTZc0uujdVph/8F4c2Ho2bs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NVpFTRgIsxkszt4yAFmmTD7fsHm3KkDcVQg7fokl2cMHGRAxAHBO5jGQX5/w3yQ3X
- AoxJK76XsuoOB3wrFZ6EUF1k0EO5BbMv1vDU39Y/z0V02RQV2RjC5YA6yQoqZ8sEcW
- TtNg5rVZpHT7qRPPe9kiQdiGE9wpNEVHteK3avYIg7nL1exm8QqmxkyoX40HFg5AYU
- re/EbKa1mgl+4BtgouhVb/QAo1tfZCLig3ZWvhHbcqqCOCHgWoAEawtLBZKxqx1afe
- ZD8hdCBe/xn87H5f4JguFfmIsVZYhje1oUkjXFJ1sVVVHKOcyFeRir6qF9PugLKH0N
- u7+IVWzerR0Kw==
-Date: Mon, 13 Nov 2023 11:53:59 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [RFC PATCH 2/2] vc4: introduce DMA-BUF heap
-Message-ID: <4gbqeu4e5bgahuwttiv5wxn6rmkgeyxkctxb3z5lzxipn35gm6@vuek4lebwx5g>
-References: <20231109074545.148149-1-contact@emersion.fr>
- <20231109074545.148149-2-contact@emersion.fr>
- <tmsf75w3iskpvx2dxgzpk4vn7g6jpfdgdq2qv3nl5i4ocawzz4@ihcwmnq5gval>
- <bEg7cd-LFy1CzhAIao2Dt0cNFUFEb6D1ZhZN1Rec3w151EjXWpaXsOAs2MmvEPMxQjVhuE0k3qvuryxN6hJp5tJCU1b7EqSKHdTXte-UvmQ=@emersion.fr>
- <hqeyywu2pnava4hdgmjnsktsdkblia4mllrtffl5skocqm7kkx@eqtiltsn44ts>
- <oTp8iN2ODz4pEo4WpvMQ5HWhBfoPYzA4aGKhe04iKaGNo7dn1G3Uw04Nsw6ZKlflcboqsp_gPb-V6mqGCLwT-V68O6JzBYbua56bLq0H51s=@emersion.fr>
- <l72427ml6ljlbbf732pilstfavqznrtmdvz3pkn7vc5vgqxm6j@2kyg6bgjygce>
- <2pDb5-Ul5-NYArg5AkCgZg5-U26_xReMq03Y4rfPqsLur5DWRKOJQLQss27qxhUJrngcReeuXZbAzSHokMy8e2xjBJTCAeefUojHHptiBdQ=@emersion.fr>
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5706D10E066;
+ Mon, 13 Nov 2023 11:24:02 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-40859c466efso33253355e9.3; 
+ Mon, 13 Nov 2023 03:24:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1699874641; x=1700479441; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4/UMvWLGwbB65y4MgNgbTrhLeriroJNqxOaU5RBpd/A=;
+ b=ReU3n2VR/eDzsvpcwoBaylOONtUUzQYaE1EHdRkNHzJo9tP/cWtnAASy8MwRnIpEkf
+ dY67iclsy4hBTB/1FUpDooa3msWSO76IlsvVE9DocHrNewI/zhSX30K1YlppKDDifA9h
+ FRcACapFxSU3OKq12GT8hmruAPTP/whFyX6gcBHg3cVXhYKYhRCmtxEBCcg1oNwqurm3
+ az+1xI5Kqp4k7rVA7GBMZ2W4TUknCk0xrIO9bvw51kiCNrnV12NAWfWUDPut1JXLx2Z4
+ T5tFrmwYl9/DN1x3TIVZeWmYtYkURAbP+qFQMUbn9ORjU3NSpv198p9DDVR8otrn2cJX
+ Bq6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699874641; x=1700479441;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4/UMvWLGwbB65y4MgNgbTrhLeriroJNqxOaU5RBpd/A=;
+ b=Ojau1HxDsVoGxW096zZRrIlsu21XgxM0cUhu+n1VmBtl6e/lO/9aseRezb1LQvTFw+
+ JtQLRlj7yfutxEDFlunDPbCkQhaKAWthii0VPSZEl6+H02JHZRr/EoBecoqDiz6Z3sct
+ yjez6oX+P3gHW9ExIJmFxC5wR++g/r1iGWZM6q3MLVms+/rcSIvEMJkC/iPgDwSBKSaj
+ GM2PU49kHia8ILw+Upaqs+iYoRiYncu0LRQDtf52AjgixE6fRP433XMpQ/XH6nxCFhLz
+ qYZpr6zeC5cHpua62xAqa3Gi4X7yBbKGCJZpM3H8dU80+MIiZFVRbwX3IcEWngYY7PLl
+ fG3w==
+X-Gm-Message-State: AOJu0YxeojRDtZewBAAsF0R0slKXhc5y6ApsPuFBAScwzlwCh0vNJ7X0
+ JybSUCWBrDHNNZuBF6jbVjc=
+X-Google-Smtp-Source: AGHT+IHeSfxulnBJhsxmWDCBwohx10bO7bTu1BHjhSiyjqQiFY1QaU+JjC7xoDkTmTAquVkbrdJhaA==
+X-Received: by 2002:a05:600c:4fd2:b0:404:7670:90b8 with SMTP id
+ o18-20020a05600c4fd200b00404767090b8mr5004204wmq.27.1699874640270; 
+ Mon, 13 Nov 2023 03:24:00 -0800 (PST)
+Received: from zotac.lan.
+ (dynamic-2a01-0c22-6e16-fe00-2223-08ff-fe18-0310.c22.pool.telefonica.de.
+ [2a01:c22:6e16:fe00:2223:8ff:fe18:310])
+ by smtp.gmail.com with ESMTPSA id
+ l19-20020a05600c4f1300b0040772138bb7sm13565787wmq.2.2023.11.13.03.23.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Nov 2023 03:23:59 -0800 (PST)
+From: Heiner Kallweit <hkallweit1@gmail.com>
+To: Wolfram Sang <wsa@kernel.org>,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH 00/20] remove I2C_CLASS_DDC support
+Date: Mon, 13 Nov 2023 12:23:24 +0100
+Message-ID: <20231113112344.719-1-hkallweit1@gmail.com>
+X-Mailer: git-send-email 2.42.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="dekaivxwg5wrdnzi"
-Content-Disposition: inline
-In-Reply-To: <2pDb5-Ul5-NYArg5AkCgZg5-U26_xReMq03Y4rfPqsLur5DWRKOJQLQss27qxhUJrngcReeuXZbAzSHokMy8e2xjBJTCAeefUojHHptiBdQ=@emersion.fr>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,68 +73,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Iago Toral Quiroga <itoral@igalia.com>, dri-devel@lists.freedesktop.org,
- Erico Nunes <nunes.erico@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yongqin Liu <yongqin.liu@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, amd-gfx@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, linux-sunxi@lists.linux.dev,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, Sean Paul <sean@poorly.run>,
+ linux-arm-kernel@lists.infradead.org, Jocelyn Falempe <jfalempe@redhat.com>,
+ linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, John Stultz <jstultz@google.com>,
+ Heiner Kallweit <hkallweit1@gmail.com>, freedreno@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+After removal of the legacy EEPROM driver and I2C_CLASS_DDC support in
+olpc_dcon there's no i2c client driver left supporting I2C_CLASS_DDC.
+Class-based device auto-detection is a legacy mechanism and shouldn't
+be used in new code. So we can remove this class completely now.
 
---dekaivxwg5wrdnzi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Preferably this series should be applied via the i2c tree.
 
-On Fri, Nov 10, 2023 at 02:17:45PM +0000, Simon Ser wrote:
-> On Friday, November 10th, 2023 at 15:13, Maxime Ripard <mripard@kernel.or=
-g> wrote:
->=20
-> > > > > We've talked with Sima at XDC about adding a symlink pointing to =
-the
-> > > > > DMA heap and extra metadata files describing priorities and such.
-> > > > > However we don't actually need that part for the purposes of v3d =
---
-> > > > > I think I'd rather defer that until more DMA heaps are plumbed
-> > > > > across the DRM drivers.
-> > > >=20
-> > > > Honestly, I don't think we can afford to only consider vc4/v3d here=
-=2E The
-> > > > issue you described seem to affect any SoC with a split scanout/GPU,
-> > > > which is pretty much all of them? And if they are all affected, we
-> > > > should design something that fixes it once and for all.
-> > >=20
-> > > We don't need any sysfs stuff to fix the primary node and DRM dumb bu=
-ffer
-> > > issues in Mesa's kmsro/renderonly. The sysfs stuff is only required f=
-or a fully
-> > > generic buffer placement constraint/compatibility uAPI. Which would b=
-e super
-> > > useful in compositors, but let's do one step at a time.
-> >=20
-> > I don't think a solution that further fragments the ecosystem is worth
-> > taking, sorry. What you're doing is valuable, we should totally fix the
-> > issue you have, but not at the expense of making vc4 special on one of
-> > the platforms it supports.
->=20
-> This does not fragment the ecosystem. It moves the ecosystem bit by bit
-> towards the final solution.
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
-You can rephrase that any way you want, it moves one driver towards the
-final solution, thus making it deviate from the norm and leaving the
-rest behind.
+---
 
-Maxime
-
---dekaivxwg5wrdnzi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZVIARwAKCRDj7w1vZxhR
-xR20AQD80snG1LHh1VpxVp60f2qdutvhMSO0f5knrUrw5VV1lwEAs9kGEWGOuKy9
-Ah9PfjHQLI0oej/lmO3OmAJ0qs4PlQU=
-=3GuZ
------END PGP SIGNATURE-----
-
---dekaivxwg5wrdnzi--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c           |    1 -
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |    1 -
+ drivers/gpu/drm/ast/ast_i2c.c                     |    1 -
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c         |    1 -
+ drivers/gpu/drm/display/drm_dp_helper.c           |    1 -
+ drivers/gpu/drm/display/drm_dp_mst_topology.c     |    1 -
+ drivers/gpu/drm/gma500/cdv_intel_dp.c             |    1 -
+ drivers/gpu/drm/gma500/intel_gmbus.c              |    1 -
+ drivers/gpu/drm/gma500/oaktrail_hdmi_i2c.c        |    1 -
+ drivers/gpu/drm/gma500/psb_intel_sdvo.c           |    1 -
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c   |    1 -
+ drivers/gpu/drm/i915/display/intel_gmbus.c        |    1 -
+ drivers/gpu/drm/i915/display/intel_sdvo.c         |    1 -
+ drivers/gpu/drm/loongson/lsdc_i2c.c               |    1 -
+ drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c           |    1 -
+ drivers/gpu/drm/mgag200/mgag200_i2c.c             |    1 -
+ drivers/gpu/drm/msm/hdmi/hdmi_i2c.c               |    1 -
+ drivers/gpu/drm/radeon/radeon_i2c.c               |    1 -
+ drivers/gpu/drm/rockchip/inno_hdmi.c              |    1 -
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c            |    1 -
+ drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c            |    1 -
+ drivers/video/fbdev/core/fb_ddc.c                 |    1 -
+ drivers/video/fbdev/cyber2000fb.c                 |    1 -
+ drivers/video/fbdev/i740fb.c                      |    1 -
+ drivers/video/fbdev/intelfb/intelfb_i2c.c         |   15 +++++----------
+ drivers/video/fbdev/matrox/i2c-matroxfb.c         |   12 ++++--------
+ drivers/video/fbdev/s3fb.c                        |    1 -
+ drivers/video/fbdev/tdfxfb.c                      |    1 -
+ drivers/video/fbdev/tridentfb.c                   |    1 -
+ drivers/video/fbdev/via/via_i2c.c                 |    1 -
+ include/linux/i2c.h                               |    1 -
+ 31 files changed, 9 insertions(+), 47 deletions(-)
