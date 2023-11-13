@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7F6E7EA1D0
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 18:26:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB947EA1D1
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 18:26:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF4AB10E3D3;
-	Mon, 13 Nov 2023 17:26:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C961510E3D9;
+	Mon, 13 Nov 2023 17:26:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CF9D10E3D3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:25:59 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFB9C10E3D8
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:26:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3C9DB60FCD
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:25:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DE23DC433C7
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:25:57 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2F37960FCD
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:26:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F02A6C433CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:26:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699896357;
- bh=HVJL8hDVUKtyaXm0IwHWUcm/7fpsx55zWVNoxFzsv2I=;
- h=From:To:Subject:Date:From;
- b=qoZxdKgt3s0wqzK6knReUKiTDmgD9/OajCdC5h/mERUkLWWBsOKlHU/E/jajYY1Ly
- G0AD9yN61sewQu042TJXgbrqLbdJubaSxNt/DRFYCKOG5msfMciL7NemH/Ij3tex+m
- lGd4vSNAFGyOBVxDTNInsXYwimYc3TkjbUznzy2W4stNWX4XhitKSGzTjF6AMGgSHD
- 2VJ04jQMq/V6ySRLQlKJFr/pKbeRHeBY2ZBC7ieGnFSdMHMB47DsVeoXU3I8pyjBMx
- gvYxwXGWyeW5XbAkXKZgvoqXb3C91dxVAaVS/qLrI6lokPZTSujPYA28xICNns7bO6
- h6KVILFWaDawQ==
+ s=k20201202; t=1699896366;
+ bh=+8IbRz+xs6Xil59qJsE5YxO/l7a7/QhDZhg6QFd1qLU=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=LTCfcoL7iPVdF71UnBEWH4OK/Eh2E+6D+2juOD6e/lGpKl8X607a8GNREtRVmjEnF
+ FVFlDKuNLBbMc4AcQ/KXmmPLzpKTdHbxU+aP6xtQGHpDjY76XbOu2pyRgY+TNBnBqL
+ 5L+Rr2AswQiMiLromGXp8QUw4kT4IVa8jaaUJQK+tRYmpY5O/4QGjoBk/S8DIHrJ6E
+ 0CL2ogo4+l/JAyYTdXgDxGVkMxUhWhdSsZ7JFalnlzAXCIuj1iU8UeJS75/on6wwmo
+ RLMObj2u5BJ+/yv44+p4aunQvoXr/0hLV7fRqZFCcUxxCdgZMeLM3an1TJXO89JMsE
+ byx+qyzYQ69Gg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id C75E3C53BD0; Mon, 13 Nov 2023 17:25:57 +0000 (UTC)
+ from userid 48) id E05F6C53BC6; Mon, 13 Nov 2023 17:26:05 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218141] New: fb: trapped write at 0000006000 on channel -1
- [3fed0000 unknown] engine 06 [BAR] client 04 [PFIFO_WRITE] subclient 00 [FB]
+Subject: [Bug 218141] fb: trapped write at 0000006000 on channel -1 [3fed0000
+ unknown] engine 06 [BAR] client 04 [PFIFO_WRITE] subclient 00 [FB]
  reason 00000002 [PAGE_NOT_PRESENT]
-Date: Mon, 13 Nov 2023 17:25:57 +0000
+Date: Mon, 13 Nov 2023 17:26:05 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -50,10 +49,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-218141-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cf_kernel_version
+Message-ID: <bug-218141-2300-GyDOoWaNvQ@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218141-2300@https.bugzilla.kernel.org/>
+References: <bug-218141-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -76,35 +75,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218141
 
-            Bug ID: 218141
-           Summary: fb: trapped write at 0000006000 on channel -1
-                    [3fed0000 unknown] engine 06 [BAR] client 04
-                    [PFIFO_WRITE] subclient 00 [FB] reason 00000002
-                    [PAGE_NOT_PRESENT]
-           Product: Drivers
-           Version: 2.5
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: ionut_n2001@yahoo.com
-        Regression: No
+sander44 (ionut_n2001@yahoo.com) changed:
 
-Hi Kernel Team,
-
-I notice today this:
-
-nouveau 0000:65:00.0: fb: trapped write at 0000006000 on channel -1 [3fed00=
-00
-unknown] engine 06 [BAR] client 04 [PFIFO_WRITE] subclient 00 [FB] reason
-00000002 [PAGE_NOT_PRESENT]
-
-Kernel: 6.6.1-vanilla
-
-Sporadic nouveau driver have issue with performance.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|                            |6.6.1
 
 --=20
 You may reply to this email to add a comment.
