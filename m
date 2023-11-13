@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB947EA1D1
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 18:26:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 972997EA1D6
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 18:30:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C961510E3D9;
-	Mon, 13 Nov 2023 17:26:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FFE410E174;
+	Mon, 13 Nov 2023 17:30:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFB9C10E3D8
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:26:06 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D01410E174
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:29:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2F37960FCD
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:26:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F02A6C433CC
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:26:05 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id BD358B80EC7
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:29:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1A1FCC433C7
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:29:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1699896366;
- bh=+8IbRz+xs6Xil59qJsE5YxO/l7a7/QhDZhg6QFd1qLU=;
+ s=k20201202; t=1699896596;
+ bh=DCdFkIFHZWPpujMAeZMTQLwaqO9kHIA4Yr5akPOd1Nk=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=LTCfcoL7iPVdF71UnBEWH4OK/Eh2E+6D+2juOD6e/lGpKl8X607a8GNREtRVmjEnF
- FVFlDKuNLBbMc4AcQ/KXmmPLzpKTdHbxU+aP6xtQGHpDjY76XbOu2pyRgY+TNBnBqL
- 5L+Rr2AswQiMiLromGXp8QUw4kT4IVa8jaaUJQK+tRYmpY5O/4QGjoBk/S8DIHrJ6E
- 0CL2ogo4+l/JAyYTdXgDxGVkMxUhWhdSsZ7JFalnlzAXCIuj1iU8UeJS75/on6wwmo
- RLMObj2u5BJ+/yv44+p4aunQvoXr/0hLV7fRqZFCcUxxCdgZMeLM3an1TJXO89JMsE
- byx+qyzYQ69Gg==
+ b=Csl1f5vVY9eM4uBCoyZf4y+SOCFMXYbgU+P/+qyEMY3tUWeKhgS8ZhakwSC2WBByJ
+ /hPjFvc37n22/oV7/ZqMQQ15nKCw1nkB6rn4lo0pg+zfn+tw3y+phWGIWl7aEFazgN
+ R0c1yLjkNrhdOjphi+KEKcu8UGi2guf3njcwp52ivg/41HKXDcnSq4mQA+8nrZyya2
+ A6WXOC1SjHPaLU9et0TTJpkJSBJrngI3mNa5CDZWJJTUIAFj9z89PpJtJUOAbFer7p
+ d9lazsYqeNr+YXq7sS8WTypLOrr3kteGO5Y1Ty9byqHl1DlTXzbWjyHQ6ojXysyjhm
+ oIweaRqWr8CVg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id E05F6C53BC6; Mon, 13 Nov 2023 17:26:05 +0000 (UTC)
+ from userid 48) id 009B7C53BD0; Mon, 13 Nov 2023 17:29:55 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 218141] fb: trapped write at 0000006000 on channel -1 [3fed0000
  unknown] engine 06 [BAR] client 04 [PFIFO_WRITE] subclient 00 [FB]
  reason 00000002 [PAGE_NOT_PRESENT]
-Date: Mon, 13 Nov 2023 17:26:05 +0000
+Date: Mon, 13 Nov 2023 17:29:55 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -49,8 +50,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_kernel_version
-Message-ID: <bug-218141-2300-GyDOoWaNvQ@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-218141-2300-p7ApzxeXh1@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-218141-2300@https.bugzilla.kernel.org/>
 References: <bug-218141-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -75,11 +76,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D218141
 
-sander44 (ionut_n2001@yahoo.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-     Kernel Version|                            |6.6.1
+--- Comment #1 from sander44 (ionut_n2001@yahoo.com) ---
+Created attachment 305402
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D305402&action=3Dedit
+dmesg nouveau
 
 --=20
 You may reply to this email to add a comment.
