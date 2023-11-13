@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D065B7EA1A2
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 18:03:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E64D37EA1A3
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 18:03:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F81910E3C9;
-	Mon, 13 Nov 2023 17:03:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 082B010E3CD;
+	Mon, 13 Nov 2023 17:03:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B92110E171
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4CBF10E171
  for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:03:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699895018; x=1731431018;
+ t=1699895019; x=1731431019;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=aphWYFW7p5lClmjDUVokop1xXPY7B+zW+UPUpmCjiI4=;
- b=QG9OdlAKpvpjru7LuXyVln0ysO/CSNvdlX7CaXyN8/AUFEpd9vjdzkal
- jZaSWwBKHNco889ij0yTA1dpGN/25IOPqi18pO5Sh5uYQ9khbXx8Hi5QP
- fOw6W+08lkCx8yZkr7RAEPq5yynk89f4hLmtylZH2YXBDawpE/bIiLAzx
- NUk0jJMId+2rfYmK6WpAuOv0rBmgz/g+rzYIR1lJGpM/0yYdOHJ+mrXbr
- U/xNckb/cPaBDytzpUmiz0QKzBB10SFWd+vmgAiYPqKglBpbY9FK1ynjS
- NuVM5U5Is7+XSn9SKNOaSTf959bDdhFRu9fxl30sY7W3sTGSu+NdhIaDl w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="3520676"
+ bh=2DSvW282phEckpq3Ay9yjea3iCD+3QLtNlorFbE3ceM=;
+ b=lH0MqKIaBldwt7Aw39xy7rX5FM1bZjYq6HPJz799JrzKny2gnWqZrRFb
+ r/ozN5KX2RJk0DRphJO472NGlo2x7he/0UMP19dbVubdNLHtS9vnf+Vbm
+ kGAmo8rmz5P7arp5SM3x0XMz06hdp7d8EFWKOuy7UmIrtRkLjh1NCGiIK
+ t40sB6EDT1gMBTvd84RuAONhIRxxR0/D02/EnM/50ZYekysdQOF+8msvr
+ NzJnCfdSw39MbKNoLw+NY8iIH0cKvIOGm1P/SIDoSxWCIlD3xr6hvdV3o
+ bKBnEaXqXfn2dAyoL3EzlQlSpzQVJYqefoJHisso5FDAUKfrmUoB47YOS A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="3520686"
 X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
-   d="scan'208";a="3520676"
+   d="scan'208";a="3520686"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2023 09:03:02 -0800
+ 13 Nov 2023 09:03:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="937788070"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; d="scan'208";a="937788070"
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="937788083"
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; d="scan'208";a="937788083"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2023 09:03:00 -0800
+ 13 Nov 2023 09:03:02 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/5] accel/ivpu: Do not use cons->aborted for job_done_thread
-Date: Mon, 13 Nov 2023 18:02:50 +0100
-Message-ID: <20231113170252.758137-4-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 4/5] accel/ivpu: Use dedicated work for job timeout detection
+Date: Mon, 13 Nov 2023 18:02:51 +0100
+Message-ID: <20231113170252.758137-5-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231113170252.758137-1-jacek.lawrynowicz@linux.intel.com>
 References: <20231113170252.758137-1-jacek.lawrynowicz@linux.intel.com>
@@ -65,78 +65,172 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 
-This allow to simplify ivpu_ipc_receive() as now we do not have
-to process all messages in aborted state - they will be freed in
-ivpu_ipc_consumer_del().
+Change to use work for timeout detection. Needed for thread_irq
+conversion.
 
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_ipc.c | 18 +++++++++---------
- drivers/accel/ivpu/ivpu_job.c |  1 -
- 2 files changed, 9 insertions(+), 10 deletions(-)
+ drivers/accel/ivpu/ivpu_job.c | 24 +++++++++---------------
+ drivers/accel/ivpu/ivpu_pm.c  | 31 +++++++++++++++++++++++++++++++
+ drivers/accel/ivpu/ivpu_pm.h  |  3 +++
+ 3 files changed, 43 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
-index 781c7e40505a..1dd4413dc88f 100644
---- a/drivers/accel/ivpu/ivpu_ipc.c
-+++ b/drivers/accel/ivpu/ivpu_ipc.c
-@@ -238,17 +238,16 @@ int ivpu_ipc_receive(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
- 		return -ETIMEDOUT;
- 
- 	spin_lock_irq(&cons->rx_lock);
-+	if (cons->aborted) {
-+		spin_unlock_irq(&cons->rx_lock);
-+		return -ECANCELED;
-+	}
- 	rx_msg = list_first_entry_or_null(&cons->rx_msg_list, struct ivpu_ipc_rx_msg, link);
- 	if (!rx_msg) {
- 		spin_unlock_irq(&cons->rx_lock);
- 		return -EAGAIN;
- 	}
- 	list_del(&rx_msg->link);
--	if (cons->aborted) {
--		spin_unlock_irq(&cons->rx_lock);
--		ret = -ECANCELED;
--		goto out;
--	}
- 	spin_unlock_irq(&cons->rx_lock);
- 
- 	if (ipc_buf)
-@@ -266,7 +265,6 @@ int ivpu_ipc_receive(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
- 	}
- 
- 	ivpu_ipc_rx_mark_free(vdev, rx_msg->ipc_hdr, rx_msg->jsm_msg);
--out:
- 	atomic_dec(&ipc->rx_msg_count);
- 	kfree(rx_msg);
- 
-@@ -528,9 +526,11 @@ void ivpu_ipc_disable(struct ivpu_device *vdev)
- 
- 	spin_lock_irqsave(&ipc->cons_list_lock, flags);
- 	list_for_each_entry_safe(cons, c, &ipc->cons_list, link) {
--		spin_lock(&cons->rx_lock);
--		cons->aborted = true;
--		spin_unlock(&cons->rx_lock);
-+		if (cons->channel != VPU_IPC_CHAN_JOB_RET) {
-+			spin_lock(&cons->rx_lock);
-+			cons->aborted = true;
-+			spin_unlock(&cons->rx_lock);
-+		}
- 		wake_up(&cons->rx_msg_wq);
- 	}
- 	spin_unlock_irqrestore(&ipc->cons_list_lock, flags);
 diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-index 02acd8dba02a..77b1b8abadd6 100644
+index 77b1b8abadd6..796366d67984 100644
 --- a/drivers/accel/ivpu/ivpu_job.c
 +++ b/drivers/accel/ivpu/ivpu_job.c
-@@ -578,7 +578,6 @@ static int ivpu_job_done_thread(void *arg)
+@@ -24,10 +24,6 @@
+ #define JOB_ID_CONTEXT_MASK  GENMASK(31, 8)
+ #define JOB_MAX_BUFFER_COUNT 65535
+ 
+-static unsigned int ivpu_tdr_timeout_ms;
+-module_param_named(tdr_timeout_ms, ivpu_tdr_timeout_ms, uint, 0644);
+-MODULE_PARM_DESC(tdr_timeout_ms, "Timeout for device hang detection, in milliseconds, 0 - default");
+-
+ static void ivpu_cmdq_ring_db(struct ivpu_device *vdev, struct ivpu_cmdq *cmdq)
+ {
+ 	ivpu_hw_reg_db_set(vdev, cmdq->db_id);
+@@ -342,6 +338,8 @@ static int ivpu_job_done(struct ivpu_device *vdev, u32 job_id, u32 job_status)
+ 	ivpu_dbg(vdev, JOB, "Job complete:  id %3u ctx %2d engine %d status 0x%x\n",
+ 		 job->job_id, job->file_priv->ctx.id, job->engine_idx, job_status);
+ 
++	ivpu_stop_job_timeout_detection(vdev);
++
+ 	job_put(job);
+ 	return 0;
+ }
+@@ -357,6 +355,9 @@ static void ivpu_job_done_message(struct ivpu_device *vdev, void *msg)
+ 	ret = ivpu_job_done(vdev, payload->job_id, payload->job_status);
+ 	if (ret)
+ 		ivpu_err(vdev, "Failed to finish job %d: %d\n", payload->job_id, ret);
++
++	if (!ret && !xa_empty(&vdev->submitted_jobs_xa))
++		ivpu_start_job_timeout_detection(vdev);
+ }
+ 
+ void ivpu_jobs_abort_all(struct ivpu_device *vdev)
+@@ -400,6 +401,8 @@ static int ivpu_direct_job_submission(struct ivpu_job *job)
+ 	if (ret)
+ 		goto err_xa_erase;
+ 
++	ivpu_start_job_timeout_detection(vdev);
++
+ 	ivpu_dbg(vdev, JOB, "Job submitted: id %3u addr 0x%llx ctx %2d engine %d next %d\n",
+ 		 job->job_id, job->cmd_buf_vpu_addr, file_priv->ctx.id,
+ 		 job->engine_idx, cmdq->jobq->header.tail);
+@@ -569,7 +572,6 @@ static int ivpu_job_done_thread(void *arg)
+ 	struct ivpu_device *vdev = (struct ivpu_device *)arg;
+ 	struct ivpu_ipc_consumer cons;
+ 	struct vpu_jsm_msg jsm_msg;
+-	bool jobs_submitted;
+ 	unsigned int timeout;
+ 	int ret;
+ 
+@@ -578,18 +580,10 @@ static int ivpu_job_done_thread(void *arg)
  	ivpu_ipc_consumer_add(vdev, &cons, VPU_IPC_CHAN_JOB_RET);
  
  	while (!kthread_should_stop()) {
--		cons.aborted = false;
- 		timeout = ivpu_tdr_timeout_ms ? ivpu_tdr_timeout_ms : vdev->timeout.tdr;
- 		jobs_submitted = !xa_empty(&vdev->submitted_jobs_xa);
+-		timeout = ivpu_tdr_timeout_ms ? ivpu_tdr_timeout_ms : vdev->timeout.tdr;
+-		jobs_submitted = !xa_empty(&vdev->submitted_jobs_xa);
  		ret = ivpu_ipc_receive(vdev, &cons, NULL, &jsm_msg, timeout);
+-		if (!ret) {
++		if (!ret)
+ 			ivpu_job_done_message(vdev, &jsm_msg);
+-		} else if (ret == -ETIMEDOUT) {
+-			if (jobs_submitted && !xa_empty(&vdev->submitted_jobs_xa)) {
+-				ivpu_err(vdev, "TDR detected, timeout %d ms", timeout);
+-				ivpu_hw_diagnose_failure(vdev);
+-				ivpu_pm_schedule_recovery(vdev);
+-			}
+-		}
++
+ 		if (kthread_should_park()) {
+ 			ivpu_dbg(vdev, JOB, "Parked %s\n", __func__);
+ 			kthread_parkme();
+diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
+index d915f3c2991f..0af8864cb3b5 100644
+--- a/drivers/accel/ivpu/ivpu_pm.c
++++ b/drivers/accel/ivpu/ivpu_pm.c
+@@ -23,6 +23,10 @@ static bool ivpu_disable_recovery;
+ module_param_named_unsafe(disable_recovery, ivpu_disable_recovery, bool, 0644);
+ MODULE_PARM_DESC(disable_recovery, "Disables recovery when VPU hang is detected");
+ 
++static unsigned long ivpu_tdr_timeout_ms;
++module_param_named(tdr_timeout_ms, ivpu_tdr_timeout_ms, ulong, 0644);
++MODULE_PARM_DESC(tdr_timeout_ms, "Timeout for device hang detection, in milliseconds, 0 - default");
++
+ #define PM_RESCHEDULE_LIMIT     5
+ 
+ static void ivpu_pm_prepare_cold_boot(struct ivpu_device *vdev)
+@@ -141,6 +145,31 @@ void ivpu_pm_schedule_recovery(struct ivpu_device *vdev)
+ 	}
+ }
+ 
++static void ivpu_job_timeout_work(struct work_struct *work)
++{
++	struct ivpu_pm_info *pm = container_of(work, struct ivpu_pm_info, job_timeout_work.work);
++	struct ivpu_device *vdev = pm->vdev;
++	unsigned long timeout_ms = ivpu_tdr_timeout_ms ? ivpu_tdr_timeout_ms : vdev->timeout.tdr;
++
++	ivpu_err(vdev, "TDR detected, timeout %lu ms", timeout_ms);
++	ivpu_hw_diagnose_failure(vdev);
++
++	ivpu_pm_schedule_recovery(vdev);
++}
++
++void ivpu_start_job_timeout_detection(struct ivpu_device *vdev)
++{
++	unsigned long timeout_ms = ivpu_tdr_timeout_ms ? ivpu_tdr_timeout_ms : vdev->timeout.tdr;
++
++	/* No-op if already queued */
++	queue_delayed_work(system_wq, &vdev->pm->job_timeout_work, msecs_to_jiffies(timeout_ms));
++}
++
++void ivpu_stop_job_timeout_detection(struct ivpu_device *vdev)
++{
++	cancel_delayed_work_sync(&vdev->pm->job_timeout_work);
++}
++
+ int ivpu_pm_suspend_cb(struct device *dev)
+ {
+ 	struct drm_device *drm = dev_get_drvdata(dev);
+@@ -317,6 +346,7 @@ void ivpu_pm_init(struct ivpu_device *vdev)
+ 
+ 	atomic_set(&pm->in_reset, 0);
+ 	INIT_WORK(&pm->recovery_work, ivpu_pm_recovery_work);
++	INIT_DELAYED_WORK(&pm->job_timeout_work, ivpu_job_timeout_work);
+ 
+ 	if (ivpu_disable_recovery)
+ 		delay = -1;
+@@ -331,6 +361,7 @@ void ivpu_pm_init(struct ivpu_device *vdev)
+ 
+ void ivpu_pm_cancel_recovery(struct ivpu_device *vdev)
+ {
++	drm_WARN_ON(&vdev->drm, delayed_work_pending(&vdev->pm->job_timeout_work));
+ 	cancel_work_sync(&vdev->pm->recovery_work);
+ }
+ 
+diff --git a/drivers/accel/ivpu/ivpu_pm.h b/drivers/accel/ivpu/ivpu_pm.h
+index 044db150be07..97c6e0b0aa42 100644
+--- a/drivers/accel/ivpu/ivpu_pm.h
++++ b/drivers/accel/ivpu/ivpu_pm.h
+@@ -12,6 +12,7 @@ struct ivpu_device;
+ 
+ struct ivpu_pm_info {
+ 	struct ivpu_device *vdev;
++	struct delayed_work job_timeout_work;
+ 	struct work_struct recovery_work;
+ 	atomic_t in_reset;
+ 	atomic_t reset_counter;
+@@ -37,5 +38,7 @@ int __must_check ivpu_rpm_get_if_active(struct ivpu_device *vdev);
+ void ivpu_rpm_put(struct ivpu_device *vdev);
+ 
+ void ivpu_pm_schedule_recovery(struct ivpu_device *vdev);
++void ivpu_start_job_timeout_detection(struct ivpu_device *vdev);
++void ivpu_stop_job_timeout_detection(struct ivpu_device *vdev);
+ 
+ #endif /* __IVPU_PM_H__ */
 -- 
 2.42.0
 
