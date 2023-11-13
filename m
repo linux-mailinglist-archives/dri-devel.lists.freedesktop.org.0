@@ -1,64 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7253B7EA424
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 21:01:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E4B37E9CEE
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 14:18:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B74110E40B;
-	Mon, 13 Nov 2023 20:01:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFB6810E0A1;
+	Mon, 13 Nov 2023 13:18:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
- [IPv6:2607:f8b0:4864:20::b35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03B5310E09E
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 13:15:19 +0000 (UTC)
-Received: by mail-yb1-xb35.google.com with SMTP id
- 3f1490d57ef6-da30fd994fdso4551635276.1
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 05:15:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1699881319; x=1700486119;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=L4J9L/OCrmZEAUCARuzc0AkzKVP1ZOLy75hxW10akIQ=;
- b=WSceM0kXg209GmlqxzCF/15lZKeOhuRgCOSyobvIm5sOvyvm8gA4eI5d2UU7nkx6qq
- Ld44zS0Fbo4a2YrlCYPA4nbvjyErviQOZiAtp6K9/Ahoxj8DKPz8O3+/aP79KQ6j7QfH
- CgcwpcZTGNnD+B1oG9WS68cOJFzk0kK/LxBBc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699881319; x=1700486119;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=L4J9L/OCrmZEAUCARuzc0AkzKVP1ZOLy75hxW10akIQ=;
- b=Rs7Lh1goZCtZsKxwGcTWiYyvUKskl+zIjg6jwqW8P5dx75p08Me1IxHcjIgDJ226BY
- Cml3oNh3e7GL5l0wFDoFNlMCU+0KMQQjtVMnlhUK+EcEHaB5wf9rO3YAewr9b7Ej95cx
- cPLSrjFvyy1cUict8QS9/DyiT+7Ns0ZRTfBgziK4/A4JTqAVuKmODrbXIZ5YlV15ijcE
- yO8HQgTE3ePPAWvOubt6VTCKH+WVP2HGU5OVtemFLUsJ+JkzE8p+SeZ0IytKHzY1raVy
- zSUgSppu29XZ2A0uA0EVwG9BJ10U29MAA3/1gHK9d63WDXJMIpw5W+fRgMRQmLk1frxu
- GL8w==
-X-Gm-Message-State: AOJu0YwoJLJezt5Gat/60Ek/NvqyO0ou2hgquJRLP5pszGQ7mN5XKQDW
- 3b3+glovsh4bHBP2PeHaTGMQB//VLTb0r5yxqT9dvg==
-X-Google-Smtp-Source: AGHT+IET6zpXhwQZhQRUdi4km+AMqCVW29p1ychoAlcccGLWuU0gHf7TzqFsK41GeYRePbcgtL2RpTCuBpXje+uGYJI=
-X-Received: by 2002:a25:3288:0:b0:da0:8955:34f7 with SMTP id
- y130-20020a253288000000b00da0895534f7mr3341128yby.23.1699881319000; Mon, 13
- Nov 2023 05:15:19 -0800 (PST)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABA3A10E377;
+ Mon, 13 Nov 2023 13:18:41 +0000 (UTC)
+Received: from [10.3.2.161] (zone.collabora.co.uk [167.235.23.81])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id EF94A6602F27;
+ Mon, 13 Nov 2023 13:18:38 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1699881520;
+ bh=PsIR0GMAaqeUGdkQLSq03TGY+YtcolIVSMRqZDzc4JU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=X6iNkjwQ8pObx2Yq1DU9viprvhAzw6KpMX/7M6wC4FvKDGMfxLVcYSFLxI9LSkM00
+ Rde7H5LmO6xc6SWwyoprZBk4t9b6gE2W+YfXYZVRz3gS50oZ50MpHUB5IHZ1jmDsop
+ xmjdsnRVIkvvADYlsOhztSTId32H6nhE2i/rkKGXYrHZpHEiYUb0s9kvfIOsTP8/z8
+ ZikdbAh/HYFzUqB62ESil2c4PqvnnhvxzxYivCwUltf7pykxcKlYLIgbtzAmFSjRUL
+ SklX/mE5/zPNykCY/JMvQX5RQ1ybYIIkXmEWdAYCGaW0zkZpeOar30hDaQkJkWvQia
+ BnBX7FQ8DMC1g==
+Message-ID: <622e2064-095f-d2da-0ad1-887642306020@collabora.com>
+Date: Mon, 13 Nov 2023 16:18:34 +0300
 MIME-Version: 1.0
-References: <20230328170752.1102347-1-jagan@amarulasolutions.com>
- <CAMty3ZBnAw+VHXoZuSgZPmSTMYd-nxBw5cZ+OxLYxqrXRX=MNg@mail.gmail.com>
- <CAPY8ntDTv-dMxRgFOfcbBvH+qjoEOPdK_02OmUtRxtyumx6Q0w@mail.gmail.com>
-In-Reply-To: <CAPY8ntDTv-dMxRgFOfcbBvH+qjoEOPdK_02OmUtRxtyumx6Q0w@mail.gmail.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Mon, 13 Nov 2023 08:15:07 -0500
-Message-ID: <CAMty3ZDpty-pgzm-UHg_jpDQs5RjPh+j+RN02Lqh39-wrj8ZtQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/bridge: Fix improper bridge init order with
- pre_enable_prev_first
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Mon, 13 Nov 2023 20:01:09 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 2/2] drm/virtio: Modify RESOURCE_GET_LAYOUT ioctl
+Content-Language: en-US
+To: Julia Zhang <julia.zhang@amd.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, David Airlie <airlied@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
+References: <20231110071632.24612-1-julia.zhang@amd.com>
+ <20231110071632.24612-3-julia.zhang@amd.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20231110071632.24612-3-julia.zhang@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,163 +60,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>
+Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Honglei Huang <honglei1.huang@amd.com>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
+ Erik Faye-Lund <kusmabite@gmail.com>, Chen Jiqian <Jiqian.Chen@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 1, 2023 at 11:50=E2=80=AFAM Dave Stevenson
-<dave.stevenson@raspberrypi.com> wrote:
->
-> Hi Jagan
->
-> My apologies for dropping the ball on this one, and thanks to Frieder
-> for the nudge.
->
-> On Wed, 12 Apr 2023 at 07:25, Jagan Teki <jagan@amarulasolutions.com> wro=
-te:
-> >
-> > Hi Dave,
-> >
-> > Added Maxime, Laurent [which I thought I added before]
-> >
-> > On Tue, Mar 28, 2023 at 10:38=E2=80=AFPM Jagan Teki <jagan@amarulasolut=
-ions.com> wrote:
-> > >
-> > > For a given bridge pipeline if any bridge sets pre_enable_prev_first
-> > > flag then the pre_enable for the previous bridge will be called befor=
-e
-> > > pre_enable of this bridge and opposite is done for post_disable.
-> > >
-> > > These are the potential bridge flags to alter bridge init order in or=
-der
-> > > to satisfy the MIPI DSI host and downstream panel or bridge to functi=
-on.
-> > > However the existing pre_enable_prev_first logic with associated brid=
-ge
-> > > ordering has broken for both pre_enable and post_disable calls.
-> > >
-> > > [pre_enable]
-> > >
-> > > The altered bridge ordering has failed if two consecutive bridges on =
-a
-> > > given pipeline enables the pre_enable_prev_first flag.
-> > >
-> > > Example:
-> > > - Panel
-> > > - Bridge 1
-> > > - Bridge 2 pre_enable_prev_first
-> > > - Bridge 3
-> > > - Bridge 4 pre_enable_prev_first
-> > > - Bridge 5 pre_enable_prev_first
-> > > - Bridge 6
-> > > - Encoder
-> > >
-> > > In this example, Bridge 4 and Bridge 5 have pre_enable_prev_first.
-> > >
-> > > The logic looks for a bridge which enabled pre_enable_prev_first flag
-> > > on each iteration and assigned the previou bridge to limit pointer
-> > > if the bridge doesn't enable pre_enable_prev_first flags.
-> > >
-> > > If control found Bridge 2 is pre_enable_prev_first then the iteration
-> > > looks for Bridge 3 and found it is not pre_enable_prev_first and assi=
-gns
-> > > it's previous Bridge 4 to limit pointer and calls pre_enable of Bridg=
-e 3
-> > > and Bridge 2 and assign iter pointer with limit which is Bridge 4.
-> > >
-> > > Here is the actual problem, for the next iteration control look for
-> > > Bridge 5 instead of Bridge 4 has iter pointer in previous iteration
-> > > moved to Bridge 4 so this iteration skips the Bridge 4. The iteration
-> > > found Bridge 6 doesn't pre_enable_prev_first flags so the limit assig=
-ned
-> > > to Encoder. From next iteration Encoder skips as it is the last bridg=
-e
-> > > for reverse order pipeline.
-> > >
-> > > So, the resulting pre_enable bridge order would be,
-> > > - Panel, Bridge 1, Bridge 3, Bridge 2, Bridge 6, Bridge 5.
-> > >
-> > > This patch fixes this by assigning limit to next pointer instead of
-> > > previous bridge since the iteration always looks for bridge that does
-> > > NOT request prev so assigning next makes sure the last bridge on a
-> > > given iteration what exactly the limit bridge is.
-> > >
-> > > So, the resulting pre_enable bridge order with fix would be,
-> > > - Panel, Bridge 1, Bridge 3, Bridge 2, Bridge 6, Bridge 5, Bridge 4,
-> > >   Encoder.
-> > >
-> > > [post_disable]
-> > >
-> > > The altered bridge ordering has failed if two consecutive bridges on =
-a
-> > > given pipeline enables the pre_enable_prev_first flag.
-> > >
-> > > Example:
-> > > - Panel
-> > > - Bridge 1
-> > > - Bridge 2 pre_enable_prev_first
-> > > - Bridge 3
-> > > - Bridge 4 pre_enable_prev_first
-> > > - Bridge 5 pre_enable_prev_first
-> > > - Bridge 6
-> > > - Encoder
-> > >
-> > > In this example Bridge 5 and Bridge 4 have pre_enable_prev_first.
-> > >
-> > > The logic looks for a bridge which enabled pre_enable_prev_first flag=
-s
-> > > on each iteration and assigned the previou bridge to next and next to
-> > > limit pointer if the bridge does enable pre_enable_prev_first flag.
-> > >
-> > > If control starts from Bridge 6 then it found next Bridge 5 is
-> > > pre_enable_prev_first and immediately the next assigned to previous
-> > > Bridge 6 and limit assignments to next Bridge 6 and call post_enable
-> > > of Bridge 6 even though the next consecutive Bridge 5 is enabled with
-> > > pre_enable_prev_first. This clearly misses the logic to find the stat=
-e
-> > > of next conducive bridge as everytime the next and limit assigns
-> > > previous bridge if given bridge enabled pre_enable_prev_first.
-> > >
-> > > So, the resulting post_disable bridge order would be,
-> > > - Encoder, Bridge 6, Bridge 5, Bridge 4, Bridge 3, Bridge 2, Bridge 1=
-,
-> > >   Panel.
-> > >
-> > > This patch fixes this by assigning next with previou bridge only if t=
-he
-> > > bridge doesn't enable pre_enable_prev_first flag and the next further
-> > > assign it to limit. This way we can find the bridge that NOT requeste=
-d
-> > > prev to disable last.
-> > >
-> > > So, the resulting pre_enable bridge order with fix would be,
-> > > - Encoder, Bridge 4, Bridge 5, Bridge 6, Bridge 2, Bridge 3, Bridge 1=
-,
-> > >   Panel.
-> > >
-> > > Validated the bridge init ordering by incorporating dummy bridges in
-> > > the sun6i-mipi-dsi pipeline
-> > >
-> > > Fixes: 4fb912e5e190 ("drm/bridge: Introduce pre_enable_prev_first to
-> > > alter bridge init order")
-> > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
->
-> Thanks for investigating and sorting this.
->
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
->
-> > > ---
-> > > Changes for v2:
-> > > - add missing dri-devel in CC
-> >
-> > Would you please look into this issue?
+On 11/10/23 10:16, Julia Zhang wrote:
+> Modify RESOURCE_GET_LAYOUT ioctl to handle the use case that query
+> correct stride for guest linear resource before it is created.
+> 
+> Signed-off-by: Julia Zhang <julia.zhang@amd.com>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_drv.h   | 26 ++++++++------
+>  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 47 ++++++++++++--------------
+>  drivers/gpu/drm/virtio/virtgpu_vq.c    | 35 +++++++++++--------
+>  include/uapi/drm/virtgpu_drm.h         |  6 ++--
+>  include/uapi/linux/virtio_gpu.h        |  8 ++---
+>  5 files changed, 66 insertions(+), 56 deletions(-)
 
-These still not been picked it yet, can any one pull these two fixes?
+1. Please squash this all into a single patch. For upstream kernel it's
+not acceptable to have subsequent commits modifying previous commits. To
+commit message add your s-o-b, your co-developed-by tags and a brief
+comment explaining changes you've done to the original patch.
 
-Thanks,
-Jagan.
+Signed-off-by: Daniel Stone <daniels@collabora.com>
+Co-developed-by: Julia Zhang <julia.zhang@amd.com> # query correct
+stride for guest linear resource before it's created
+Signed-off-by: Julia Zhang <julia.zhang@amd.com>
+
+2. Make sure that patch passes `scripts/checkpatch.pl`
+
+3. Add link to the commit message for the relevant Mesa MR that makes
+use of the new ioctl. The MR should be already merged or ready to be merged.
+
+Link: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/123456
+
+-- 
+Best regards,
+Dmitry
+
