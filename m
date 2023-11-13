@@ -2,50 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1FBD7EA46C
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 21:11:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D1A7EA47E
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 21:12:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2B0410E411;
-	Mon, 13 Nov 2023 20:11:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D060210E27F;
+	Mon, 13 Nov 2023 20:12:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9941C10E410;
- Mon, 13 Nov 2023 20:11:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699906275; x=1731442275;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=3JRsCBbkvD1Y84ofNkeetVXUr8bjqrGeMKeJ8ALre8Y=;
- b=R7CwpoH4djwJYtoOsr0UQUDvg4mKkdE6kmYAcMbqyFIRJSAEsQNTBTCa
- DlZoDVG1ugxUTjuUS5S9Uu/V6M0tlMv+/17myIvLTh13gEHRVG21Oz9Ih
- mezqx1SkdnDS7L3ij+h7udY0+NfcSp4unOhwfNB4tUVSYKgwpPSzjvcPT
- WhMKitlKFDEUMiwVAnZywfuSBTjZsmUWUf4CYAg4aFMMxawS7kLvVV48K
- jOFXyhnY2JhUjD8YkBzq5nw2XszTyd6x/89HLLtyYmWrqYzfWaJgU3EA5
- GL14leofCMRuporFBZJtjf3Vwtkz/HW05yKu4ZAeY/jdix9DWVilIccAe Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="3553666"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
-   d="scan'208";a="3553666"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2023 12:11:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="937829890"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; d="scan'208";a="937829890"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2023 12:11:13 -0800
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/dp_mst: Fix PBN divider calculation for UHBR rates
-Date: Mon, 13 Nov 2023 22:11:10 +0200
-Message-Id: <20231113201110.510724-4-imre.deak@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231113201110.510724-1-imre.deak@intel.com>
-References: <20231113201110.510724-1-imre.deak@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34AD410E27F
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 20:12:08 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3ADGF30b014193; Mon, 13 Nov 2023 20:12:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=Zrnz4sdzZEDcJlIGPQxJ804bA48I7zblCwwQRkPvGyI=;
+ b=CEbf6l+2W0yQJgtN5mVQc9UgRWVZ3AEwR+HseC3c1l5STaRTGy5DowHw5zQO/EiXBqzD
+ FWT488agMwNxKfq57sBvbLSlIpKfCZUBjitpB3A/yZZS9EgjszauwuJYqVljCEdj8tna
+ jrrJdWR4KKyQhO67m9FUsvLilFO/4IrPuaN9QGRY4cJf54FIVg4yuBBD++5o2XO5TJva
+ pVLo1ZoptuLdOFQEqV+P8zSLaWKdqNHm54QdxGsUD4YmGzYQQkHfwCuSb9zgH7l+De8Z
+ WtlBhkgF1FcGjXUgFtZ8z9EYgCNCKCl0Huv57yTrUCC4jHYPbENX3B6nlHAzMHAcdhP9 Fg== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ua1q1m9r6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 13 Nov 2023 20:12:05 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ADKBeU4023899
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 13 Nov 2023 20:11:40 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 13 Nov
+ 2023 12:11:39 -0800
+Message-ID: <0eca5ad0-32f5-5540-fc14-64cdbbcd76db@quicinc.com>
+Date: Mon, 13 Nov 2023 13:11:38 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 3/5] accel/ivpu: Do not use cons->aborted for
+ job_done_thread
+Content-Language: en-US
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20231113170252.758137-1-jacek.lawrynowicz@linux.intel.com>
+ <20231113170252.758137-4-jacek.lawrynowicz@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20231113170252.758137-4-jacek.lawrynowicz@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: xmuNE_JRW-I5Mz97sVmSjlRsQA1gE_8B
+X-Proofpoint-ORIG-GUID: xmuNE_JRW-I5Mz97sVmSjlRsQA1gE_8B
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-13_11,2023-11-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 bulkscore=0
+ clxscore=1015 adultscore=0 spamscore=0 malwarescore=0 phishscore=0
+ priorityscore=1501 lowpriorityscore=0 impostorscore=0 mlxlogscore=884
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311130160
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,84 +85,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current way of calculating the pbn_div value, the link BW per each
-MTP slot, worked only for DP 1.4 link rates. Fix things up for UHBR
-rates calculating with the correct channel coding efficiency based on
-the link rate.
+On 11/13/2023 10:02 AM, Jacek Lawrynowicz wrote:
+> From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> 
+> This allow to simplify ivpu_ipc_receive() as now we do not have
+> to process all messages in aborted state - they will be freed in
+> ivpu_ipc_consumer_del().
+> 
+> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
-On UHBR the resulting pbn_div value is not an integer (vs. DP 1.4 where
-the value is always an integer), so ideally a scaled value containing
-the fractional part should be returned, so that the PBN -> MTP slot
-count (aka TU size) conversion can be done with less error. For now
-return a rounded-down value - which can result in +1 excess MTP slot
-getting allocated on UHBR links.
-
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Imre Deak <imre.deak@intel.com>
----
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 15 +++++++++++++--
- include/drm/display/drm_dp_helper.h           | 13 +++++++++++++
- 2 files changed, 26 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index 4d72c9a32026e..940a9fc0d0244 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -3582,12 +3582,23 @@ static int drm_dp_send_up_ack_reply(struct drm_dp_mst_topology_mgr *mgr,
- int drm_dp_get_vc_payload_bw(const struct drm_dp_mst_topology_mgr *mgr,
- 			     int link_rate, int link_lane_count)
- {
-+	int ret;
-+
- 	if (link_rate == 0 || link_lane_count == 0)
- 		drm_dbg_kms(mgr->dev, "invalid link rate/lane count: (%d / %d)\n",
- 			    link_rate, link_lane_count);
- 
--	/* See DP v2.0 2.6.4.2, VCPayload_Bandwidth_for_OneTimeSlotPer_MTP_Allocation */
--	return link_rate * link_lane_count / 54000;
-+	/* See DP v2.0 2.6.4.2, 2.7.6.3 VCPayload_Bandwidth_for_OneTimeSlotPer_MTP_Allocation */
-+	/*
-+	 * TODO: Return the value with a higher precision, allowing a better
-+	 * slots per MTP allocation granularity. With the current returned
-+	 * value +1 slot/MTP can get allocated on UHBR links.
-+	 */
-+	ret = mul_u32_u32(link_rate * link_lane_count,
-+			  drm_dp_bw_channel_coding_efficiency(drm_dp_is_uhbr_rate(link_rate))) /
-+	      (1000000ULL * 8 * 5400);
-+
-+	return ret;
- }
- EXPORT_SYMBOL(drm_dp_get_vc_payload_bw);
- 
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index caee29d28463c..18ff6af0b5a31 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -251,6 +251,19 @@ drm_edp_backlight_supported(const u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE])
- 	return !!(edp_dpcd[1] & DP_EDP_TCON_BACKLIGHT_ADJUSTMENT_CAP);
- }
- 
-+/**
-+ * drm_dp_is_uhbr_rate - Determine if a link rate is UHBR
-+ * @link_rate: link rate in 10kbits/s units
-+ *
-+ * Determine if the provided link rate is an UHBR rate.
-+ *
-+ * Returns: %True if @link_rate is an UHBR rate.
-+ */
-+static inline bool drm_dp_is_uhbr_rate(int link_rate)
-+{
-+	return link_rate >= 1000000;
-+}
-+
- /*
-  * DisplayPort AUX channel
-  */
--- 
-2.39.2
-
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
