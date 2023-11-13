@@ -2,76 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D1A7EA47E
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 21:12:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D8EC7EA49A
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 21:14:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D060210E27F;
-	Mon, 13 Nov 2023 20:12:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7286610E19A;
+	Mon, 13 Nov 2023 20:14:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34AD410E27F
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 20:12:08 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07FD110E19A
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 20:14:29 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3ADGF30b014193; Mon, 13 Nov 2023 20:12:05 GMT
+ 3ADJmo2N023068; Mon, 13 Nov 2023 20:14:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Zrnz4sdzZEDcJlIGPQxJ804bA48I7zblCwwQRkPvGyI=;
- b=CEbf6l+2W0yQJgtN5mVQc9UgRWVZ3AEwR+HseC3c1l5STaRTGy5DowHw5zQO/EiXBqzD
- FWT488agMwNxKfq57sBvbLSlIpKfCZUBjitpB3A/yZZS9EgjszauwuJYqVljCEdj8tna
- jrrJdWR4KKyQhO67m9FUsvLilFO/4IrPuaN9QGRY4cJf54FIVg4yuBBD++5o2XO5TJva
- pVLo1ZoptuLdOFQEqV+P8zSLaWKdqNHm54QdxGsUD4YmGzYQQkHfwCuSb9zgH7l+De8Z
- WtlBhkgF1FcGjXUgFtZ8z9EYgCNCKCl0Huv57yTrUCC4jHYPbENX3B6nlHAzMHAcdhP9 Fg== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=Sb5Nl52gxz+77ChSBbKac15dHLM5u13pVtRi23mVJLo=;
+ b=MOQ80mhzybSUaoHxEW5F0C2v2AHfHPq50SLkQeKw8jTy2lpZTPleths/jyJDSZ15KGjF
+ Xcr6ti5VKPWMOM7ZywcrXjbXH8aEQDo+3WCZ1Lpo5KV1RJhQ3iTb1ZmemB4kIDlWIu92
+ UO9JgoNwy2mEJvb64mq6RmRUY8qQXWr6yruPBbErUABPAMWNg50MJnn9RJXrw4NZJMrB
+ cDHmAaG4ltPpiZd9s54x1CISJq4k/gcuXZ473JtJhNWEjgkVExktweo/zqfKSrUng9Ix
+ oOm+MbHphieDZ5EYgJjmrHSdJG/Dzj+yk/FEHJikJ9dG3QEAfpUFmwoxD3el6RLEh1fk nA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ua1q1m9r6-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ubqvt8e0g-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Nov 2023 20:12:05 +0000
+ Mon, 13 Nov 2023 20:14:26 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ADKBeU4023899
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ADKEQH1009472
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Nov 2023 20:11:40 GMT
+ Mon, 13 Nov 2023 20:14:26 GMT
 Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 13 Nov
- 2023 12:11:39 -0800
-Message-ID: <0eca5ad0-32f5-5540-fc14-64cdbbcd76db@quicinc.com>
-Date: Mon, 13 Nov 2023 13:11:38 -0700
+ 2023 12:14:25 -0800
+Message-ID: <92aabb70-8c51-d2a9-037f-9e9ddbd87a5e@quicinc.com>
+Date: Mon, 13 Nov 2023 13:14:24 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.0
-Subject: Re: [PATCH 3/5] accel/ivpu: Do not use cons->aborted for
- job_done_thread
+Subject: Re: [PATCH 4/5] accel/ivpu: Use dedicated work for job timeout
+ detection
 Content-Language: en-US
 To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
  <dri-devel@lists.freedesktop.org>
 References: <20231113170252.758137-1-jacek.lawrynowicz@linux.intel.com>
- <20231113170252.758137-4-jacek.lawrynowicz@linux.intel.com>
+ <20231113170252.758137-5-jacek.lawrynowicz@linux.intel.com>
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20231113170252.758137-4-jacek.lawrynowicz@linux.intel.com>
+In-Reply-To: <20231113170252.758137-5-jacek.lawrynowicz@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: xmuNE_JRW-I5Mz97sVmSjlRsQA1gE_8B
-X-Proofpoint-ORIG-GUID: xmuNE_JRW-I5Mz97sVmSjlRsQA1gE_8B
+X-Proofpoint-ORIG-GUID: MN7Rptrjoa41kx8sK237nUnKcz5iEMhx
+X-Proofpoint-GUID: MN7Rptrjoa41kx8sK237nUnKcz5iEMhx
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-11-13_11,2023-11-09_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- clxscore=1015 adultscore=0 spamscore=0 malwarescore=0 phishscore=0
- priorityscore=1501 lowpriorityscore=0 impostorscore=0 mlxlogscore=884
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ lowpriorityscore=0
+ malwarescore=0 mlxlogscore=769 clxscore=1015 spamscore=0 impostorscore=0
+ suspectscore=0 phishscore=0 priorityscore=1501 bulkscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2311060000 definitions=main-2311130160
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,9 +92,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 11/13/2023 10:02 AM, Jacek Lawrynowicz wrote:
 > From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 > 
-> This allow to simplify ivpu_ipc_receive() as now we do not have
-> to process all messages in aborted state - they will be freed in
-> ivpu_ipc_consumer_del().
+> Change to use work for timeout detection. Needed for thread_irq
+> conversion.
 > 
 > Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 > Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
