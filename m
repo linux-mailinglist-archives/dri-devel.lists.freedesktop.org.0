@@ -2,71 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 182E77EA1A7
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 18:04:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6947B7EA1B3
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 18:10:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3700010E3CE;
-	Mon, 13 Nov 2023 17:04:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BCE810E175;
+	Mon, 13 Nov 2023 17:10:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0807210E3CE
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:04:27 +0000 (UTC)
-Received: by mail-ej1-x632.google.com with SMTP id
- a640c23a62f3a-99bdeae1d0aso689197666b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 09:04:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1699895065; x=1700499865;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=zJsbUoh16G9SmdzYCkBZG3ak7oJNsZTLFRqgDM/pl7c=;
- b=U/6k+A4eX9gOniQaY2iRajvnDzPK+oAzsnuxtwSIGdiXE06UVvsx/fUnRnVxhYRIEl
- /FpLPcxarOlusniZMD9eCQDj5vZkup6LzahlapQYYpfKJmWpFy15iCjKDs0UY6sTmN0s
- vNkrEI4uxDVWxlfzdYUvUpaMlytesZ6JRu/uE=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 031C210E176
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:10:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1699895414;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G65WustLE2dEQVp8ysLE58NJMc/t5tEbPzYhJeMqn9s=;
+ b=L/FzBVG06ycohrn4j0LKWW4XMsJ1h0J1EQ+XJPp5Cy0PsJyElWw6YL3sp4JGslYb5AREYM
+ qYfistzC1i8H1GX7zqb1E+1CEUpZboSHpytSpoq/zOjcHBcrcfS8Y+t76SXt0Ib4m2rUO3
+ fnYZEcM0mzypRxYMakn6QEBL+Jna+9E=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-145-ut5a8ctANu-FQuTpBxs2Fg-1; Mon, 13 Nov 2023 12:10:10 -0500
+X-MC-Unique: ut5a8ctANu-FQuTpBxs2Fg-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ 38308e7fff4ca-2c506abc320so36862531fa.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 09:10:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699895065; x=1700499865;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1699895409; x=1700500209;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=zJsbUoh16G9SmdzYCkBZG3ak7oJNsZTLFRqgDM/pl7c=;
- b=aqRRetSvkA7pOYh2AkCsREpIcmrPGlpA+ykLfEmtyVEbt/9jeTEEwZ2raBYCY/uL+D
- PrZAx57K7Zpg0rAg+/BArrQ36yhrBvaLCVha+i83pzVbCaYkAIOr4G49ylS5MgcDTS7c
- RDKz+0csrP8Vj3gOwRzycTMtWuDY29nMOmPpwro+FZpii8YuHvqFB+sIk9Z6t0KygKYv
- fQZAySmc6vxY3ZRnHHv18CNcp4N7fplg4Yx9A5lmuGbBjaiqMItmSxuLGbVpXNmfcYGr
- yrVR2xWRjnjy9E5m2B2C6G3vGRV7FqWT4luNqIQU+W0n2IRpFmEArl3Kw+KdVUhRtxBz
- nwJg==
-X-Gm-Message-State: AOJu0Yz40/oPkwWEF8J/PFr5zqOrzdMxKnHmNKGgIVFNgXXu/Z75oRUx
- OhpLKegRN+gf0Q8l+hyV4NVa7nt6ClkaVStIQI1qAw==
-X-Google-Smtp-Source: AGHT+IEQ82d/2CUhBNsNx/zNVphgzDfzDDY4PZbed7RkZ63KAxF9WkSgHgcBBrmqwM/Gd/Ofl5rvmA==
-X-Received: by 2002:a17:906:cb95:b0:9bf:30e8:5bf9 with SMTP id
- mf21-20020a170906cb9500b009bf30e85bf9mr5730635ejb.4.1699895064876; 
- Mon, 13 Nov 2023 09:04:24 -0800 (PST)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com.
- [209.85.208.45]) by smtp.gmail.com with ESMTPSA id
- y26-20020a170906471a00b009dd8debf9d8sm4287024ejq.157.2023.11.13.09.04.24
- for <dri-devel@lists.freedesktop.org>
+ bh=G65WustLE2dEQVp8ysLE58NJMc/t5tEbPzYhJeMqn9s=;
+ b=G/HI0g0hqBcuUCSOhyXPg96SVbNZ4nRL11Br/l0iIGpbl+5URz3j3q04We2E9iUwSb
+ 4dCoJo4ok1H3JRf+NqH1HObKGkwCxuD/HAFwaNiVPE47bW1MDEIND+AB5Z/1uH0HyzXY
+ vpnVhB9JRswQIR/B5O6t3f6h2k7Gc/C1xJtOU73vHS4m9Wgai1GE8/irDdISZ/261RUQ
+ tmaSlZZpxqS6fUaWvxIeEeOVGEr7evGD6Sm/w/J8UYRSDdDU2/lwaB2Oe7Pj0C1tMMoP
+ o5iK5/xE6Gq/nGOSzfFVjiHrvpvxUxartpmDiB+5bSl5RwtonOoEWg/uBzxzRYFkJNKO
+ kS1Q==
+X-Gm-Message-State: AOJu0YyjGG8zhKgFTjhtvt/D0R/OuH3NTeyh1Njk6AL3tZByA/blzm4p
+ yDeIJqRjon/ziDRBMhjGXd/Or2BIUL5BDbOaoV485iS92/DOEsfZ9Wec+JKX02C/Cd7FSSYw+4D
+ xAQAWFosbDt6PHjXnxfMYDO/bgzM9
+X-Received: by 2002:a05:6512:4014:b0:500:7a21:3e78 with SMTP id
+ br20-20020a056512401400b005007a213e78mr6100254lfb.55.1699895409169; 
+ Mon, 13 Nov 2023 09:10:09 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH/xPxDvcc33kOc3ZeaYYvr9EKONgzFQPtiIPoNDj3O2aUw5WCUYtxdrDIZshZQrDyJOu4hpw==
+X-Received: by 2002:a05:6512:4014:b0:500:7a21:3e78 with SMTP id
+ br20-20020a056512401400b005007a213e78mr6100236lfb.55.1699895408838; 
+ Mon, 13 Nov 2023 09:10:08 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ b1-20020a0565120b8100b004fdde1db756sm1029983lfv.26.2023.11.13.09.10.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Nov 2023 09:04:24 -0800 (PST)
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-54744e66d27so11273a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 09:04:24 -0800 (PST)
-X-Received: by 2002:aa7:d503:0:b0:544:e37e:d597 with SMTP id
- y3-20020aa7d503000000b00544e37ed597mr162244edq.7.1699895064416; Mon, 13 Nov
- 2023 09:04:24 -0800 (PST)
+ Mon, 13 Nov 2023 09:10:08 -0800 (PST)
+Message-ID: <d33fc41b-5a1f-4186-a0b2-3c82dcb8f00b@redhat.com>
+Date: Mon, 13 Nov 2023 18:10:06 +0100
 MIME-Version: 1.0
-References: <20231018181727.772-1-gurchetansingh@chromium.org>
- <20231018181727.772-2-gurchetansingh@chromium.org>
- <9b2f45e1-ea49-97ae-e359-3f9c0996394f@collabora.com>
-In-Reply-To: <9b2f45e1-ea49-97ae-e359-3f9c0996394f@collabora.com>
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-Date: Mon, 13 Nov 2023 09:04:12 -0800
-X-Gmail-Original-Message-ID: <CAAfnVBn7S+ca3RvYeR_NVb2KOhqYf5hGwxrEHW53UVcjrxRMaw@mail.gmail.com>
-Message-ID: <CAAfnVBn7S+ca3RvYeR_NVb2KOhqYf5hGwxrEHW53UVcjrxRMaw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/uapi: add explicit virtgpu context debug name
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Type: multipart/alternative; boundary="00000000000078fb0a060a0ba9a8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] driver: gpu: Fixing warning directly dereferencing a rcu
+ pointer
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Abhinav Singh <singhabhinav9051571833@gmail.com>, kherbst@redhat.com,
+ lyude@redhat.com, airlied@gmail.com, daniel@ffwll.ch
+References: <20231113081040.2947143-1-singhabhinav9051571833@gmail.com>
+ <f229d1ed-b71e-434a-acca-06ee81826260@linux.intel.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <f229d1ed-b71e-434a-acca-06ee81826260@linux.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,122 +91,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: josh.simonot@gmail.com, kraxel@redhat.com, dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000078fb0a060a0ba9a8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 11/13/23 09:24, Maarten Lankhorst wrote:
+> Hey,
+> 
+> Den 2023-11-13 kl. 09:10, skrev Abhinav Singh:
+>> This patch fixes a sparse warning with this message
+>> "warning:dereference of noderef expression". In this context it means we
+>> are dereferencing a __rcu tagged pointer directly.
+>>
+>> We should not be directly dereferencing a rcu pointer, rather we should
+>> be using rcu helper function rcu_dereferece() inside rcu read critical
+>> section to get a normal pointer which can be dereferenced.
+>>
+>> I tested with qemu with this command
+>> qemu-system-x86_64 \
+>>     -m 2G \
+>>     -smp 2 \
+>>     -kernel bzImage \
+>>     -append "console=ttyS0 root=/dev/sda earlyprintk=serial net.ifnames=0" \
+>>     -drive file=bullseye.img,format=raw \
+>>     -net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 \
+>>     -net nic,model=e1000 \
+>>     -enable-kvm \
+>>     -nographic \
+>>     -pidfile vm.pid \
+>>     2>&1 | tee vm.log
+>> with lockdep enabled.
+>>
+>> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
+>> ---
+>>   drivers/gpu/drm/nouveau/nv04_fence.c | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/nouveau/nv04_fence.c b/drivers/gpu/drm/nouveau/nv04_fence.c
+>> index 5b71a5a5cd85..e62bad1ac720 100644
+>> --- a/drivers/gpu/drm/nouveau/nv04_fence.c
+>> +++ b/drivers/gpu/drm/nouveau/nv04_fence.c
+>> @@ -39,7 +39,9 @@ struct nv04_fence_priv {
+>>   static int
+>>   nv04_fence_emit(struct nouveau_fence *fence)
+>>   {
+>> -    struct nvif_push *push = fence->channel->chan.push;
+>> +    rcu_read_lock();
+>> +    struct nvif_push *push = rcu_dereference(fence->channel)->chan.push;
+>> +    rcu_read_unlock();
+>>       int ret = PUSH_WAIT(push, 2);
+>>       if (ret == 0) {
+>>           PUSH_NVSQ(push, NV_SW, 0x0150, fence->base.seqno);
+> 
+> I'm not an expert in nouveau fence channel lifetime, but I'm pretty sure this should probably be a rcu_dereference_protected, since a fence likely can't lose its channel before its command to signal is submitted.
 
-On Sat, Nov 11, 2023 at 2:37=E2=80=AFPM Dmitry Osipenko <
-dmitry.osipenko@collabora.com> wrote:
+Yes, before nouveau_fence_emit() did not add this fence to the fence context's
+pending list ->channel doesn't need any protection. We can probably just use
+unrcu_pointer(), as in [1].
 
-> On 10/18/23 21:17, Gurchetan Singh wrote:
-> > +             case VIRTGPU_CONTEXT_PARAM_DEBUG_NAME:
-> > +                     if (vfpriv->explicit_debug_name) {
-> > +                             ret =3D -EINVAL;
-> > +                             goto out_unlock;
-> > +                     }
-> > +
-> > +                     ret =3D strncpy_from_user(vfpriv->debug_name,
-> > +                                             u64_to_user_ptr(value),
-> > +                                             DEBUG_NAME_MAX_LEN - 1);
-> > +
-> > +                     if (ret < 0) {
-> > +                             ret =3D -EFAULT;
-> > +                             goto out_unlock;
-> > +                     }
-> > +
-> > +                     vfpriv->explicit_debug_name =3D true;
-> > +                     break;
->
-> Spotted a problem here. The ret needs to be set to zero on success. I'll
-> send the fix shortly. Gurchetan you should've been getting the
-> DRM_IOCTL_VIRTGPU_CONTEXT_INIT failure from gfxstream when you tested
-> this patch, haven't you?
->
+[1] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/nouveau/nouveau_fence.c#L210
 
-To accommodate older kernels/QEMU, gfxstream doesn't fail if CONTEXT_INIT
-fails.  So the guest thought it failed and didn't react, but the value was
-propagated to the host.
+> 
+> But in case it's not, I would at least advise to check for fence->channel lifetime before submitting a patch like this. At least the original code warned about it not being 100% correct.
+> 
+> Cheers,
+> 
+> ~Maarten
+> 
 
-
->
-> Also noticed that the patch title says "drm/uapi" instead of
-> "drm/virtio". My bad for not noticing it earlier. Please be more careful
-> next time too :)
->
-> --
-> Best regards,
-> Dmitry
->
->
-
---00000000000078fb0a060a0ba9a8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Nov 11, 2023 at 2:37=E2=80=AF=
-PM Dmitry Osipenko &lt;<a href=3D"mailto:dmitry.osipenko@collabora.com">dmi=
-try.osipenko@collabora.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">On 10/18/23 21:17, Gurchetan Singh wrote:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case VIRTGPU_CONTEXT_=
-PARAM_DEBUG_NAME:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0if (vfpriv-&gt;explicit_debug_name) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D -EINVAL;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto out_unlock;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0ret =3D strncpy_from_user(vfpriv-&gt;debug_name,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0u64_to_user_ptr(value),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0DEBUG_NAME_MAX_LEN - 1);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0if (ret &lt; 0) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D -EFAULT;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto out_unlock;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0vfpriv-&gt;explicit_debug_name =3D true;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0break;<br>
-<br>
-Spotted a problem here. The ret needs to be set to zero on success. I&#39;l=
-l<br>
-send the fix shortly. Gurchetan you should&#39;ve been getting the<br>
-DRM_IOCTL_VIRTGPU_CONTEXT_INIT failure from gfxstream when you tested<br>
-this patch, haven&#39;t you?<br></blockquote><div><br></div><div>To accommo=
-date older kernels/QEMU, gfxstream doesn&#39;t fail if CONTEXT_INIT fails.=
-=C2=A0 So the guest thought it failed and didn&#39;t react, but the value w=
-as propagated to the host.</div><div>=C2=A0</div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">
-<br>
-Also noticed that the patch title says &quot;drm/uapi&quot; instead of<br>
-&quot;drm/virtio&quot;. My bad for not noticing it earlier. Please be more =
-careful<br>
-next time too :)<br>
-<br>
--- <br>
-Best regards,<br>
-Dmitry<br>
-<br>
-</blockquote></div></div>
-
---00000000000078fb0a060a0ba9a8--
