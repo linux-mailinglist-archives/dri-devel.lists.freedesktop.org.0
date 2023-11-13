@@ -2,46 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BB6A7E98C0
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 10:18:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3BD77E98D1
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 10:22:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CE0D10E305;
-	Mon, 13 Nov 2023 09:18:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0244A10E17B;
+	Mon, 13 Nov 2023 09:22:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9AFB10E323
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 09:18:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1699867130; x=1700126330;
- bh=VU3Btx3X1J18kU8FRZV64T6jpyvkk76C3q96fshTW9M=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=XnUcvUArSCQOnEtR/0UdpLNtbq3cDulWZ1WSRb6gDsCuL/IVyzMGnWm/j+BZB462N
- Awgu8OIsprWFFVx4xrQ3KdjsgmCicnCK1Dy5bgRaN45C4iPqVdxQl5yrWvqKGda3LL
- Nt6PJHKcmTLBVvpkGZt+UVNmVjDxUyj86d4AIgMjs/OSjEEdxv49qUZP2jiZK/HwIA
- kd2CSWA6TpXwECFlwkoo0GTjfSEuJ87b0bik3I3Gv+qgaJDlaI16sZQ7IGP3XFZPqb
- OpwzBvxE6xlzAmU7rWWX9qoSA76IRISyhE5IsHslGnb1q4oPrQSbyu6JMx4ZsYHagG
- hQKeymDlS49Qw==
-Date: Mon, 13 Nov 2023 09:18:39 +0000
-To: =?utf-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v6 6/6] drm/doc: Define KMS atomic state set
-Message-ID: <5_NYn1PEc-XUYiRf5fC9oQqTaJxoAuvHVvw1PVTume5m8_cbOyku2Q2XKdCm66g0WcMq_RL8oSp52AowBzX9WAEiVBgdmYtPeXI9SWnD6Ts=@emersion.fr>
-In-Reply-To: <mawSNnD1hQ6vCVrNVMAvuQESnTToKPXrtiHIXXdqC-mq_LkxWOizPCcXx_KiEASVX-Mbm0LgjfTYkMNOjSAKCldpkXHAd9MmRzbC8ECPsTs=@emersion.fr>
-References: <20230815185710.159779-1-andrealmeid@igalia.com>
- <b48bd1fc-fcb0-481b-8413-9210d44d709b@igalia.com>
- <20231016151856.74af9305@eldfell>
- <aa424bf8-5652-4a44-9b93-bdc0a31d835a@igalia.com>
- <20231016175222.7a89e6ab@eldfell> <ZS1ST6XAUHilBg3d@intel.com>
- <8NqDNz1Y8H5I_WhNhOj0ERarBH7nJhGQAsDHbmSnwzoOFtXPBPILwxLlF8-vDPKR06Uknp1BDSt7-6gTmHls62k79ETajXDfPRsmIP-cZN0=@emersion.fr>
- <ZS55mXTSxpXKYbsd@intel.com>
- <mawSNnD1hQ6vCVrNVMAvuQESnTToKPXrtiHIXXdqC-mq_LkxWOizPCcXx_KiEASVX-Mbm0LgjfTYkMNOjSAKCldpkXHAd9MmRzbC8ECPsTs=@emersion.fr>
-Feedback-ID: 1358184:user:proton
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17F5110E17B
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 09:22:38 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C0B4721900;
+ Mon, 13 Nov 2023 09:22:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1699867356; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=D3Jfk6wPDPn61d9SkNQs0RWFcu0gEIcj0L1gosyNYP8=;
+ b=ERFtAi0H+/DmiIIYjA+Bg4Dqa4ttdxaixobGeq6zAd8e+voDaBuTYYHh5mShTHIydQhYDO
+ BhFcwI5MgzxmaiPz4c610/cjl7TD0zbozg0vkTGoSHKBIS6XiSOHus9Z3cm/EXoHv3uFMr
+ tQTYZ6bZatOp7TGSp8ez0Y/9Ot7gCRU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1699867356;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=D3Jfk6wPDPn61d9SkNQs0RWFcu0gEIcj0L1gosyNYP8=;
+ b=PC5YoXrUjX6g/jXM/N5NHV/AtDbhH4BfCbejheLebBTK6Ge4VnlGBOz0UYqdOwNIsJHxfc
+ +iLd84dtD/q1/YBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3FD2B13398;
+ Mon, 13 Nov 2023 09:22:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Dta+DNzqUWVjCwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 13 Nov 2023 09:22:36 +0000
+Message-ID: <ba7e407c-d091-410d-92a5-19ec25224bd2@suse.de>
+Date: Mon, 13 Nov 2023 10:22:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: (subset) [PATCH v5 0/5] ppc, fbdev: Clean up fbdev mmap helper
+To: Michael Ellerman <patch-notifications@ellerman.id.au>
+References: <20230922080636.26762-1-tzimmermann@suse.de>
+ <169984352204.1887074.16685503842131763450.b4-ty@ellerman.id.au>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <169984352204.1887074.16685503842131763450.b4-ty@ellerman.id.au>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------bhtCdMnClY6lSHNIfviMvszc"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,95 +93,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- =?utf-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- =?utf-8?Q?=27Marek_Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
- =?utf-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Randy Dunlap <rdunlap@infradead.org>, xaver.hugl@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Pekka Paalanen <ppaalanen@gmail.com>, amd-gfx@lists.freedesktop.org,
- kernel-dev@igalia.com, alexander.deucher@amd.com,
- wayland-devel@lists.freedesktop.org, hwentlan@amd.com,
- christian.koenig@amd.com, joshua@froggi.es
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, October 23rd, 2023 at 10:25, Simon Ser <contact@emersion.fr> wro=
-te:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------bhtCdMnClY6lSHNIfviMvszc
+Content-Type: multipart/mixed; boundary="------------ZnC76XYWWYK1mLFHw8ZmTwef";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Michael Ellerman <patch-notifications@ellerman.id.au>
+Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org
+Message-ID: <ba7e407c-d091-410d-92a5-19ec25224bd2@suse.de>
+Subject: Re: (subset) [PATCH v5 0/5] ppc, fbdev: Clean up fbdev mmap helper
+References: <20230922080636.26762-1-tzimmermann@suse.de>
+ <169984352204.1887074.16685503842131763450.b4-ty@ellerman.id.au>
+In-Reply-To: <169984352204.1887074.16685503842131763450.b4-ty@ellerman.id.au>
 
-> > > > > > > > > > +An atomic commit with the flag DRM_MODE_PAGE_FLIP_ASYN=
-C is allowed to
-> > > > > > > > > > +effectively change only the FB_ID property on any plan=
-es. No-operation changes
-> > > > > > > > > > +are ignored as always. [...]
-> > > > > > > > > > During the hackfest in Brno, it was mentioned that a co=
-mmit which re-sets the same FB_ID could actually have an effect with VRR: I=
-t could trigger scanout of the next frame before vertical blank has reached=
- its maximum duration. Some kind of mechanism is required for this in order=
- to allow user space to perform low frame rate compensation.
-> > > > > > > >=20
-> > > > > > > > Xaver tested this hypothesis in a flipping the same fb in a=
- VRR monitor
-> > > > > > > > and it worked as expected, so this shouldn't be a concern.
-> > > > > > > > Right, so it must have some effect. It cannot be simply ign=
-ored like in
-> > > > > > > > the proposed doc wording. Do we special-case re-setting the=
- same FB_ID
-> > > > > > > > as "not a no-op" or "not ignored" or some other way?
-> > > > > > > > There's an effect in the refresh rate, the image won't chan=
-ge but it
-> > > > > > > > will report that a flip had happened asynchronously so the =
-reported
-> > > > > > > > framerate will be increased. Maybe an additional wording co=
-uld be like:
-> > > > > >=20
-> > > > > > Flipping to the same FB_ID will result in a immediate flip as i=
-f it was
-> > > > > > changing to a different one, with no effect on the image but ef=
-fecting
-> > > > > > the reported frame rate.
-> > > > >=20
-> > > > > Re-setting FB_ID to its current value is a special case regardles=
-s of
-> > > > > PAGE_FLIP_ASYNC, is it not?
-> > > >=20
-> > > > No. The rule has so far been that all side effects are observed
-> > > > even if you flip to the same fb. And that is one of my annoyances
-> > > > with this proposal. The rules will now be different for async flips
-> > > > vs. everything else.
-> > >=20
-> > > Well with the patches the async page-flip case is exactly the same as
-> > > the non-async page-flip case. In both cases, if a FB_ID is included i=
-n
-> > > an atomic commit then the side effects are triggered even if the prop=
-erty
-> > > value didn't change. The rules are the same for everything.
-> >=20
-> > I see it only checking if FB_ID changes or not. If it doesn't
-> > change then the implication is that the side effects will in
-> > fact be skipped as not all planes may even support async flips.
->=20
-> Hm right. So the problem is that setting any prop =3D same value as
-> previous one will result in a new page-flip for asynchronous page-flips,
-> but will not result in any side-effect for asynchronous page-flips.
->=20
-> Does it actually matter though? For async page-flips, I don't think this
-> would result in any actual difference in behavior?
+--------------ZnC76XYWWYK1mLFHw8ZmTwef
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-To sum this up, here is a matrix of behavior as seen by user-space:
+DQoNCkFtIDEzLjExLjIzIHVtIDAzOjQ1IHNjaHJpZWIgTWljaGFlbCBFbGxlcm1hbjoNCj4g
+T24gRnJpLCAyMiBTZXAgMjAyMyAxMDowNDo1NCArMDIwMCwgVGhvbWFzIFppbW1lcm1hbm4g
+d3JvdGU6DQo+PiBDbGVhbiB1cCBhbmQgcmVuYW1lIGZiX3BncHJvdGVjdCgpIHRvIHdvcmsg
+d2l0aG91dCBzdHJ1Y3QgZmlsZS4gVGhlbg0KPj4gcmVmYWN0b3IgdGhlIGltcGxlbWVudGF0
+aW9uIGZvciBQb3dlclBDLiBUaGlzIGNoYW5nZSBoYXMgYmVlbiBkaXNjdXNzZWQNCj4+IGF0
+IFsxXSBpbiB0aGUgY29udGV4dCBvZiByZWZhY3RvcmluZyBmYmRldidzIG1tYXAgY29kZS4N
+Cj4+DQo+PiBUaGUgZmlyc3QgdHdvIHBhdGNoZXMgdXBkYXRlIGZiZGV2IGFuZCByZXBsYWNl
+IGZiZGV2J3MgZmJfcGdwcm90ZWN0KCkNCj4+IHdpdGggcGdwcm90X2ZyYW1lYnVmZmVyKCkg
+b24gYWxsIGFyY2hpdGVjdHVyZXMuIFRoZSBuZXcgaGVscGVyJ3Mgc3RyZWFtLQ0KPj4gbGlu
+ZWQgaW50ZXJmYWNlIGVuYWJsZXMgbW9yZSByZWZhY3RvcmluZyB3aXRoaW4gZmJkZXYncyBt
+bWFwDQo+PiBpbXBsZW1lbnRhdGlvbi4NCj4+DQo+PiBbLi4uXQ0KPiANCj4gUGF0Y2hlcyAz
+LTUgYXBwbGllZCB0byBwb3dlcnBjL2ZpeGVzLg0KPiANCj4gWzMvNV0gYXJjaC9wb3dlcnBj
+OiBSZW1vdmUgdHJhaWxpbmcgd2hpdGVzcGFjZXMNCj4gICAgICAgIGh0dHBzOi8vZ2l0Lmtl
+cm5lbC5vcmcvcG93ZXJwYy9jLzMyMjk0OGMzMTk4Y2Y4MGU3YzEwZDk1M2RkYWQyNGViZDg1
+NzU3Y2QNCj4gWzQvNV0gYXJjaC9wb3dlcnBjOiBSZW1vdmUgZmlsZSBwYXJhbWV0ZXIgZnJv
+bSBwaHlzX21lbV9hY2Nlc3NfcHJvdCBjb2RlDQo+ICAgICAgICBodHRwczovL2dpdC5rZXJu
+ZWwub3JnL3Bvd2VycGMvYy8xZjkyYTg0NGMzNWU0ODNjMDBiYWI4YTdiN2QzOWM1NTVlZTc5
+OWQ4DQo+IFs1LzVdIGFyY2gvcG93ZXJwYzogQ2FsbCBpbnRlcm5hbCBfX3BoeXNfbWVtX2Fj
+Y2Vzc19wcm90KCkgaW4gZmJkZXYgY29kZQ0KPiAgICAgICAgaHR0cHM6Ly9naXQua2VybmVs
+Lm9yZy9wb3dlcnBjL2MvZGVlYmU1ZjYwN2Q3ZjcyZjgzYzQxMTYzMTkxYWQwYzFjNDM1NjM4
+NQ0KDQpHcmVhdCwgdGhhbmtzIGEgbG90IQ0KDQo+IA0KPiBjaGVlcnMNCg0KLS0gDQpUaG9t
+YXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2Fy
+ZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51
+ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcg
+TWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-- Sync atomic page-flip
-  - Set FB_ID to different value: programs hw for page-flip, sends uevent
-  - Set FB_ID to same value: same (important for VRR)
-  - Set another plane prop to same value: same
-  - Set another plane prop to different value: maybe rejected if modeset re=
-quired
-- Async atomic page-flip
-  - Set FB_ID to different value: updates hw with new FB address, sends
-    immediate uevent
-  - Set FB_ID to same value: same (no-op for the hw)
-  - Set another plane prop to same value: ignored, sends immediate uevent
-    (special codepath)
-  - Set another plane prop to different value: always rejected
 
-To me sync and async look consistent.
+--------------ZnC76XYWWYK1mLFHw8ZmTwef--
+
+--------------bhtCdMnClY6lSHNIfviMvszc
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVR6tsFAwAAAAAACgkQlh/E3EQov+Db
++Q//VC9xdTxmoG7kkH+AyylOR0zi9TCw9c4m+AppLVu16/wmZST6snqAPRBzoXQDrPXOyWaLujR8
+1bKd+/5KUf07wboA5UOV+6z4DMOC7E0eGAwWsfYvgpPML4y5mD1UWeRoSqXuHGNiVeQoDavIgK91
+PPck79Iio2/66zBh9P9/0QSHvJGKGcsuLVSd6ACxtgp+ADNdperGmT+7gAoqEoOeUiA5OhvVGv1l
+3Juv91vCU7x5bgCsfvr0p3BXGAdWBG0B2eGiUhdtNM1dBdxWXn8zbvgMxkyCImceZkgJebZDvuLO
+psEzobD5NvsM41DAQEpxLshhL8Eq+6/No9c0oUhmLcN7BDgagRanlJXRRSnMSIx8kvLAOs4YvcZ2
+5sR+UAIx6NM7fQhdq4CoGCE05Ff/s571qRlDB8TaTnb9l4+ooLYWcM3wtEqJSO9RdD98orMiE5H1
+1APxpQwq+Mg+oEM3/QprJSCu68Iu9I8E8ArjugGP7eRw83sN/VJM7EB3NrDgZ3/V0znFCSb11JP1
+WAjoF0X09yHMivD91jm+pVeNcM5TLOTC0Fv11VZHbDMtaLSpwGi4Pn6fyFVrFHLvotckv70TFRvz
+rqNzZtQjManvzCGFBQVtNIWGXZgi7eWiK8mWsyFHOcYhhlw2646Bdoi81E93egf9QvWJXQV7MxvK
+epo=
+=KjZf
+-----END PGP SIGNATURE-----
+
+--------------bhtCdMnClY6lSHNIfviMvszc--
