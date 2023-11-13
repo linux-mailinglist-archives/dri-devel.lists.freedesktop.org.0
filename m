@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E64D37EA1A3
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 18:03:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D27B47EA1A4
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 18:03:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 082B010E3CD;
-	Mon, 13 Nov 2023 17:03:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A9FC10E3D1;
+	Mon, 13 Nov 2023 17:03:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4CBF10E171
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:03:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E74210E3C9
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:03:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699895019; x=1731431019;
+ t=1699895020; x=1731431020;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=2DSvW282phEckpq3Ay9yjea3iCD+3QLtNlorFbE3ceM=;
- b=lH0MqKIaBldwt7Aw39xy7rX5FM1bZjYq6HPJz799JrzKny2gnWqZrRFb
- r/ozN5KX2RJk0DRphJO472NGlo2x7he/0UMP19dbVubdNLHtS9vnf+Vbm
- kGAmo8rmz5P7arp5SM3x0XMz06hdp7d8EFWKOuy7UmIrtRkLjh1NCGiIK
- t40sB6EDT1gMBTvd84RuAONhIRxxR0/D02/EnM/50ZYekysdQOF+8msvr
- NzJnCfdSw39MbKNoLw+NY8iIH0cKvIOGm1P/SIDoSxWCIlD3xr6hvdV3o
- bKBnEaXqXfn2dAyoL3EzlQlSpzQVJYqefoJHisso5FDAUKfrmUoB47YOS A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="3520686"
+ bh=JVY5bQ20XA6n/dMmEtn55yGk1krNk+UyIreGjZSoQwk=;
+ b=Iizsx3kBCx8ooM8wlzza4STvv9BXgyB6MS1IzXEm1GLxZM+ktaAHF1ih
+ 0+Gb1hjm6mjqNxiRcUE3v5F2XA4j2v/2dAr7SnYPiZlIxE1P6yxEY7twz
+ gNsLzHK36JcR5fn/zEoDch2LwsmyS3gre0e3QrvvQ3GGK5IrISHlCIMmZ
+ f6IoCrddQGS9uTL/XyWDAjl31EQwXZvVV6oH3jJ1KIQtn4OZIOPKGbhpt
+ i6gacW+41vAzmwaAyOBvPaLSny58a571YxVd+Z/LNi81aljS8addm3L/H
+ H6sX3GlEBpJjpH/f9/T3wNT1NRC+ieZGSpR5DCHEL85P/hV6G69f9Hr8p g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="3520694"
 X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
-   d="scan'208";a="3520686"
+   d="scan'208";a="3520694"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2023 09:03:04 -0800
+ 13 Nov 2023 09:03:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="937788083"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; d="scan'208";a="937788083"
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="937788088"
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; d="scan'208";a="937788088"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2023 09:03:02 -0800
+ 13 Nov 2023 09:03:04 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/5] accel/ivpu: Use dedicated work for job timeout detection
-Date: Mon, 13 Nov 2023 18:02:51 +0100
-Message-ID: <20231113170252.758137-5-jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH 5/5] accel/ivpu: Use threaded IRQ to handle JOB done messages
+Date: Mon, 13 Nov 2023 18:02:52 +0100
+Message-ID: <20231113170252.758137-6-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231113170252.758137-1-jacek.lawrynowicz@linux.intel.com>
 References: <20231113170252.758137-1-jacek.lawrynowicz@linux.intel.com>
@@ -58,179 +58,870 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- quic_jhugo@quicinc.com, Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: quic_jhugo@quicinc.com,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Remove job_done thread and replace it with generic callback based
+mechanism.
 
-Change to use work for timeout detection. Needed for thread_irq
-conversion.
-
-Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_job.c | 24 +++++++++---------------
- drivers/accel/ivpu/ivpu_pm.c  | 31 +++++++++++++++++++++++++++++++
- drivers/accel/ivpu/ivpu_pm.h  |  3 +++
- 3 files changed, 43 insertions(+), 15 deletions(-)
+ drivers/accel/ivpu/ivpu_drv.c     |  30 +++--
+ drivers/accel/ivpu/ivpu_drv.h     |   3 +-
+ drivers/accel/ivpu/ivpu_hw_37xx.c |  29 +++--
+ drivers/accel/ivpu/ivpu_hw_40xx.c |  30 ++---
+ drivers/accel/ivpu/ivpu_ipc.c     | 196 +++++++++++++++++-------------
+ drivers/accel/ivpu/ivpu_ipc.h     |  22 +++-
+ drivers/accel/ivpu/ivpu_job.c     |  84 +++----------
+ drivers/accel/ivpu/ivpu_job.h     |   6 +-
+ 8 files changed, 199 insertions(+), 201 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-index 77b1b8abadd6..796366d67984 100644
---- a/drivers/accel/ivpu/ivpu_job.c
-+++ b/drivers/accel/ivpu/ivpu_job.c
-@@ -24,10 +24,6 @@
- #define JOB_ID_CONTEXT_MASK  GENMASK(31, 8)
- #define JOB_MAX_BUFFER_COUNT 65535
+diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+index bc15b06e1744..64927682161b 100644
+--- a/drivers/accel/ivpu/ivpu_drv.c
++++ b/drivers/accel/ivpu/ivpu_drv.c
+@@ -318,13 +318,11 @@ static int ivpu_wait_for_ready(struct ivpu_device *vdev)
+ 	if (ivpu_test_mode & IVPU_TEST_MODE_FW_TEST)
+ 		return 0;
  
--static unsigned int ivpu_tdr_timeout_ms;
--module_param_named(tdr_timeout_ms, ivpu_tdr_timeout_ms, uint, 0644);
--MODULE_PARM_DESC(tdr_timeout_ms, "Timeout for device hang detection, in milliseconds, 0 - default");
--
- static void ivpu_cmdq_ring_db(struct ivpu_device *vdev, struct ivpu_cmdq *cmdq)
- {
- 	ivpu_hw_reg_db_set(vdev, cmdq->db_id);
-@@ -342,6 +338,8 @@ static int ivpu_job_done(struct ivpu_device *vdev, u32 job_id, u32 job_status)
- 	ivpu_dbg(vdev, JOB, "Job complete:  id %3u ctx %2d engine %d status 0x%x\n",
- 		 job->job_id, job->file_priv->ctx.id, job->engine_idx, job_status);
+-	ivpu_ipc_consumer_add(vdev, &cons, IVPU_IPC_CHAN_BOOT_MSG);
++	ivpu_ipc_consumer_add(vdev, &cons, IVPU_IPC_CHAN_BOOT_MSG, NULL);
  
-+	ivpu_stop_job_timeout_detection(vdev);
-+
- 	job_put(job);
+ 	timeout = jiffies + msecs_to_jiffies(vdev->timeout.boot);
+ 	while (1) {
+-		ret = ivpu_ipc_irq_handler(vdev);
+-		if (ret)
+-			break;
++		ivpu_ipc_irq_handler(vdev, NULL);
+ 		ret = ivpu_ipc_receive(vdev, &cons, &ipc_hdr, NULL, 0);
+ 		if (ret != -ETIMEDOUT || time_after_eq(jiffies, timeout))
+ 			break;
+@@ -378,7 +376,6 @@ int ivpu_boot(struct ivpu_device *vdev)
+ 	enable_irq(vdev->irq);
+ 	ivpu_hw_irq_enable(vdev);
+ 	ivpu_ipc_enable(vdev);
+-	ivpu_job_done_thread_enable(vdev);
  	return 0;
  }
-@@ -357,6 +355,9 @@ static void ivpu_job_done_message(struct ivpu_device *vdev, void *msg)
- 	ret = ivpu_job_done(vdev, payload->job_id, payload->job_status);
- 	if (ret)
- 		ivpu_err(vdev, "Failed to finish job %d: %d\n", payload->job_id, ret);
+ 
+@@ -388,7 +385,6 @@ void ivpu_prepare_for_reset(struct ivpu_device *vdev)
+ 	disable_irq(vdev->irq);
+ 	ivpu_ipc_disable(vdev);
+ 	ivpu_mmu_disable(vdev);
+-	ivpu_job_done_thread_disable(vdev);
+ }
+ 
+ int ivpu_shutdown(struct ivpu_device *vdev)
+@@ -429,6 +425,13 @@ static const struct drm_driver driver = {
+ 	.minor = DRM_IVPU_DRIVER_MINOR,
+ };
+ 
++static irqreturn_t ivpu_irq_thread_handler(int irq, void *arg)
++{
++	struct ivpu_device *vdev = arg;
 +
++	return ivpu_ipc_irq_thread_handler(vdev);
++}
++
+ static int ivpu_irq_init(struct ivpu_device *vdev)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(vdev->drm.dev);
+@@ -442,8 +445,8 @@ static int ivpu_irq_init(struct ivpu_device *vdev)
+ 
+ 	vdev->irq = pci_irq_vector(pdev, 0);
+ 
+-	ret = devm_request_irq(vdev->drm.dev, vdev->irq, vdev->hw->ops->irq_handler,
+-			       IRQF_NO_AUTOEN, DRIVER_NAME, vdev);
++	ret = devm_request_threaded_irq(vdev->drm.dev, vdev->irq, vdev->hw->ops->irq_handler,
++					ivpu_irq_thread_handler, IRQF_NO_AUTOEN, DRIVER_NAME, vdev);
+ 	if (ret)
+ 		ivpu_err(vdev, "Failed to request an IRQ %d\n", ret);
+ 
+@@ -581,20 +584,15 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ 
+ 	ivpu_pm_init(vdev);
+ 
+-	ret = ivpu_job_done_thread_init(vdev);
+-	if (ret)
+-		goto err_ipc_fini;
+-
+ 	ret = ivpu_boot(vdev);
+ 	if (ret)
+-		goto err_job_done_thread_fini;
++		goto err_ipc_fini;
+ 
++	ivpu_job_done_consumer_init(vdev);
+ 	ivpu_pm_enable(vdev);
+ 
+ 	return 0;
+ 
+-err_job_done_thread_fini:
+-	ivpu_job_done_thread_fini(vdev);
+ err_ipc_fini:
+ 	ivpu_ipc_fini(vdev);
+ err_fw_fini:
+@@ -619,7 +617,7 @@ static void ivpu_dev_fini(struct ivpu_device *vdev)
+ 	ivpu_shutdown(vdev);
+ 	if (IVPU_WA(d3hot_after_power_off))
+ 		pci_set_power_state(to_pci_dev(vdev->drm.dev), PCI_D3hot);
+-	ivpu_job_done_thread_fini(vdev);
++	ivpu_job_done_consumer_fini(vdev);
+ 	ivpu_pm_cancel_recovery(vdev);
+ 
+ 	ivpu_ipc_fini(vdev);
+diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
+index f1e7072449f1..ebc4b84f27b2 100644
+--- a/drivers/accel/ivpu/ivpu_drv.h
++++ b/drivers/accel/ivpu/ivpu_drv.h
+@@ -17,6 +17,7 @@
+ #include <uapi/drm/ivpu_accel.h>
+ 
+ #include "ivpu_mmu_context.h"
++#include "ivpu_ipc.h"
+ 
+ #define DRIVER_NAME "intel_vpu"
+ #define DRIVER_DESC "Driver for Intel NPU (Neural Processing Unit)"
+@@ -120,7 +121,7 @@ struct ivpu_device {
+ 	struct list_head bo_list;
+ 
+ 	struct xarray submitted_jobs_xa;
+-	struct task_struct *job_done_thread;
++	struct ivpu_ipc_consumer job_done_consumer;
+ 
+ 	atomic64_t unique_id_counter;
+ 
+diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
+index a172cfb1c31f..4ab1f14cf360 100644
+--- a/drivers/accel/ivpu/ivpu_hw_37xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
+@@ -891,17 +891,20 @@ static void ivpu_hw_37xx_irq_noc_firewall_handler(struct ivpu_device *vdev)
+ }
+ 
+ /* Handler for IRQs from VPU core (irqV) */
+-static u32 ivpu_hw_37xx_irqv_handler(struct ivpu_device *vdev, int irq)
++static bool ivpu_hw_37xx_irqv_handler(struct ivpu_device *vdev, int irq, bool *wake_thread)
+ {
+ 	u32 status = REGV_RD32(VPU_37XX_HOST_SS_ICB_STATUS_0) & ICB_0_IRQ_MASK;
+ 
++	if (!status)
++		return false;
++
+ 	REGV_WR32(VPU_37XX_HOST_SS_ICB_CLEAR_0, status);
+ 
+ 	if (REG_TEST_FLD(VPU_37XX_HOST_SS_ICB_STATUS_0, MMU_IRQ_0_INT, status))
+ 		ivpu_mmu_irq_evtq_handler(vdev);
+ 
+ 	if (REG_TEST_FLD(VPU_37XX_HOST_SS_ICB_STATUS_0, HOST_IPC_FIFO_INT, status))
+-		ivpu_ipc_irq_handler(vdev);
++		ivpu_ipc_irq_handler(vdev, wake_thread);
+ 
+ 	if (REG_TEST_FLD(VPU_37XX_HOST_SS_ICB_STATUS_0, MMU_IRQ_1_INT, status))
+ 		ivpu_dbg(vdev, IRQ, "MMU sync complete\n");
+@@ -918,17 +921,17 @@ static u32 ivpu_hw_37xx_irqv_handler(struct ivpu_device *vdev, int irq)
+ 	if (REG_TEST_FLD(VPU_37XX_HOST_SS_ICB_STATUS_0, NOC_FIREWALL_INT, status))
+ 		ivpu_hw_37xx_irq_noc_firewall_handler(vdev);
+ 
+-	return status;
++	return true;
+ }
+ 
+ /* Handler for IRQs from Buttress core (irqB) */
+-static u32 ivpu_hw_37xx_irqb_handler(struct ivpu_device *vdev, int irq)
++static bool ivpu_hw_37xx_irqb_handler(struct ivpu_device *vdev, int irq)
+ {
+ 	u32 status = REGB_RD32(VPU_37XX_BUTTRESS_INTERRUPT_STAT) & BUTTRESS_IRQ_MASK;
+ 	bool schedule_recovery = false;
+ 
+-	if (status == 0)
+-		return 0;
++	if (!status)
++		return false;
+ 
+ 	if (REG_TEST_FLD(VPU_37XX_BUTTRESS_INTERRUPT_STAT, FREQ_CHANGE, status))
+ 		ivpu_dbg(vdev, IRQ, "FREQ_CHANGE irq: %08x",
+@@ -964,23 +967,27 @@ static u32 ivpu_hw_37xx_irqb_handler(struct ivpu_device *vdev, int irq)
+ 	if (schedule_recovery)
+ 		ivpu_pm_schedule_recovery(vdev);
+ 
+-	return status;
++	return true;
+ }
+ 
+ static irqreturn_t ivpu_hw_37xx_irq_handler(int irq, void *ptr)
+ {
+ 	struct ivpu_device *vdev = ptr;
+-	u32 ret_irqv, ret_irqb;
++	bool irqv_handled, irqb_handled, wake_thread = false;
+ 
+ 	REGB_WR32(VPU_37XX_BUTTRESS_GLOBAL_INT_MASK, 0x1);
+ 
+-	ret_irqv = ivpu_hw_37xx_irqv_handler(vdev, irq);
+-	ret_irqb = ivpu_hw_37xx_irqb_handler(vdev, irq);
++	irqv_handled = ivpu_hw_37xx_irqv_handler(vdev, irq, &wake_thread);
++	irqb_handled = ivpu_hw_37xx_irqb_handler(vdev, irq);
+ 
+ 	/* Re-enable global interrupts to re-trigger MSI for pending interrupts */
+ 	REGB_WR32(VPU_37XX_BUTTRESS_GLOBAL_INT_MASK, 0x0);
+ 
+-	return IRQ_RETVAL(ret_irqb | ret_irqv);
++	if (wake_thread)
++		return IRQ_WAKE_THREAD;
++	if (irqv_handled || irqb_handled)
++		return IRQ_HANDLED;
++	return IRQ_NONE;
+ }
+ 
+ static void ivpu_hw_37xx_diagnose_failure(struct ivpu_device *vdev)
+diff --git a/drivers/accel/ivpu/ivpu_hw_40xx.c b/drivers/accel/ivpu/ivpu_hw_40xx.c
+index f7e1f5c0667b..eba2fdef2ace 100644
+--- a/drivers/accel/ivpu/ivpu_hw_40xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_40xx.c
+@@ -1047,13 +1047,12 @@ static void ivpu_hw_40xx_irq_noc_firewall_handler(struct ivpu_device *vdev)
+ }
+ 
+ /* Handler for IRQs from VPU core (irqV) */
+-static irqreturn_t ivpu_hw_40xx_irqv_handler(struct ivpu_device *vdev, int irq)
++static bool ivpu_hw_40xx_irqv_handler(struct ivpu_device *vdev, int irq, bool *wake_thread)
+ {
+ 	u32 status = REGV_RD32(VPU_40XX_HOST_SS_ICB_STATUS_0) & ICB_0_IRQ_MASK;
+-	irqreturn_t ret = IRQ_NONE;
+ 
+ 	if (!status)
+-		return IRQ_NONE;
++		return false;
+ 
+ 	REGV_WR32(VPU_40XX_HOST_SS_ICB_CLEAR_0, status);
+ 
+@@ -1061,7 +1060,7 @@ static irqreturn_t ivpu_hw_40xx_irqv_handler(struct ivpu_device *vdev, int irq)
+ 		ivpu_mmu_irq_evtq_handler(vdev);
+ 
+ 	if (REG_TEST_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, HOST_IPC_FIFO_INT, status))
+-		ret |= ivpu_ipc_irq_handler(vdev);
++		ivpu_ipc_irq_handler(vdev, wake_thread);
+ 
+ 	if (REG_TEST_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, MMU_IRQ_1_INT, status))
+ 		ivpu_dbg(vdev, IRQ, "MMU sync complete\n");
+@@ -1078,17 +1077,17 @@ static irqreturn_t ivpu_hw_40xx_irqv_handler(struct ivpu_device *vdev, int irq)
+ 	if (REG_TEST_FLD(VPU_40XX_HOST_SS_ICB_STATUS_0, NOC_FIREWALL_INT, status))
+ 		ivpu_hw_40xx_irq_noc_firewall_handler(vdev);
+ 
+-	return ret;
++	return true;
+ }
+ 
+ /* Handler for IRQs from Buttress core (irqB) */
+-static irqreturn_t ivpu_hw_40xx_irqb_handler(struct ivpu_device *vdev, int irq)
++static bool ivpu_hw_40xx_irqb_handler(struct ivpu_device *vdev, int irq)
+ {
+ 	bool schedule_recovery = false;
+ 	u32 status = REGB_RD32(VPU_40XX_BUTTRESS_INTERRUPT_STAT) & BUTTRESS_IRQ_MASK;
+ 
+-	if (status == 0)
+-		return IRQ_NONE;
++	if (!status)
++		return false;
+ 
+ 	if (REG_TEST_FLD(VPU_40XX_BUTTRESS_INTERRUPT_STAT, FREQ_CHANGE, status))
+ 		ivpu_dbg(vdev, IRQ, "FREQ_CHANGE");
+@@ -1140,26 +1139,27 @@ static irqreturn_t ivpu_hw_40xx_irqb_handler(struct ivpu_device *vdev, int irq)
+ 	if (schedule_recovery)
+ 		ivpu_pm_schedule_recovery(vdev);
+ 
+-	return IRQ_HANDLED;
++	return true;
+ }
+ 
+ static irqreturn_t ivpu_hw_40xx_irq_handler(int irq, void *ptr)
+ {
++	bool irqv_handled, irqb_handled, wake_thread = false;
+ 	struct ivpu_device *vdev = ptr;
+-	irqreturn_t ret = IRQ_NONE;
+ 
+ 	REGB_WR32(VPU_40XX_BUTTRESS_GLOBAL_INT_MASK, 0x1);
+ 
+-	ret |= ivpu_hw_40xx_irqv_handler(vdev, irq);
+-	ret |= ivpu_hw_40xx_irqb_handler(vdev, irq);
++	irqv_handled = ivpu_hw_40xx_irqv_handler(vdev, irq, &wake_thread);
++	irqb_handled = ivpu_hw_40xx_irqb_handler(vdev, irq);
+ 
+ 	/* Re-enable global interrupts to re-trigger MSI for pending interrupts */
+ 	REGB_WR32(VPU_40XX_BUTTRESS_GLOBAL_INT_MASK, 0x0);
+ 
+-	if (ret & IRQ_WAKE_THREAD)
++	if (wake_thread)
+ 		return IRQ_WAKE_THREAD;
+-
+-	return ret;
++	if (irqv_handled || irqb_handled)
++		return IRQ_HANDLED;
++	return IRQ_NONE;
+ }
+ 
+ static void ivpu_hw_40xx_diagnose_failure(struct ivpu_device *vdev)
+diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
+index 1dd4413dc88f..e86621f16f85 100644
+--- a/drivers/accel/ivpu/ivpu_ipc.c
++++ b/drivers/accel/ivpu/ivpu_ipc.c
+@@ -5,7 +5,6 @@
+ 
+ #include <linux/genalloc.h>
+ #include <linux/highmem.h>
+-#include <linux/kthread.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/wait.h>
+ 
+@@ -18,19 +17,12 @@
+ #include "ivpu_pm.h"
+ 
+ #define IPC_MAX_RX_MSG	128
+-#define IS_KTHREAD()	(get_current()->flags & PF_KTHREAD)
+ 
+ struct ivpu_ipc_tx_buf {
+ 	struct ivpu_ipc_hdr ipc;
+ 	struct vpu_jsm_msg jsm;
+ };
+ 
+-struct ivpu_ipc_rx_msg {
+-	struct list_head link;
+-	struct ivpu_ipc_hdr *ipc_hdr;
+-	struct vpu_jsm_msg *jsm_msg;
+-};
+-
+ static void ivpu_ipc_msg_dump(struct ivpu_device *vdev, char *c,
+ 			      struct ivpu_ipc_hdr *ipc_hdr, u32 vpu_addr)
+ {
+@@ -140,8 +132,49 @@ static void ivpu_ipc_tx(struct ivpu_device *vdev, u32 vpu_addr)
+ 	ivpu_hw_reg_ipc_tx_set(vdev, vpu_addr);
+ }
+ 
+-void
+-ivpu_ipc_consumer_add(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons, u32 channel)
++static void
++ivpu_ipc_rx_msg_add(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
++		    struct ivpu_ipc_hdr *ipc_hdr, struct vpu_jsm_msg *jsm_msg)
++{
++	struct ivpu_ipc_info *ipc = vdev->ipc;
++	struct ivpu_ipc_rx_msg *rx_msg;
++
++	lockdep_assert_held(&ipc->cons_lock);
++	lockdep_assert_irqs_disabled();
++
++	rx_msg = kzalloc(sizeof(*rx_msg), GFP_ATOMIC);
++	if (!rx_msg) {
++		ivpu_ipc_rx_mark_free(vdev, ipc_hdr, jsm_msg);
++		return;
++	}
++
++	atomic_inc(&ipc->rx_msg_count);
++
++	rx_msg->ipc_hdr = ipc_hdr;
++	rx_msg->jsm_msg = jsm_msg;
++	rx_msg->callback = cons->rx_callback;
++
++	if (rx_msg->callback) {
++		list_add_tail(&rx_msg->link, &ipc->cb_msg_list);
++	} else {
++		spin_lock(&cons->rx_lock);
++		list_add_tail(&rx_msg->link, &cons->rx_msg_list);
++		spin_unlock(&cons->rx_lock);
++		wake_up(&cons->rx_msg_wq);
++	}
++}
++
++static void
++ivpu_ipc_rx_msg_del(struct ivpu_device *vdev, struct ivpu_ipc_rx_msg *rx_msg)
++{
++	list_del(&rx_msg->link);
++	ivpu_ipc_rx_mark_free(vdev, rx_msg->ipc_hdr, rx_msg->jsm_msg);
++	atomic_dec(&vdev->ipc->rx_msg_count);
++	kfree(rx_msg);
++}
++
++void ivpu_ipc_consumer_add(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
++			   u32 channel, ivpu_ipc_rx_callback_t rx_callback)
+ {
+ 	struct ivpu_ipc_info *ipc = vdev->ipc;
+ 
+@@ -150,13 +183,14 @@ ivpu_ipc_consumer_add(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
+ 	cons->tx_vpu_addr = 0;
+ 	cons->request_id = 0;
+ 	cons->aborted = false;
++	cons->rx_callback = rx_callback;
+ 	spin_lock_init(&cons->rx_lock);
+ 	INIT_LIST_HEAD(&cons->rx_msg_list);
+ 	init_waitqueue_head(&cons->rx_msg_wq);
+ 
+-	spin_lock_irq(&ipc->cons_list_lock);
++	spin_lock_irq(&ipc->cons_lock);
+ 	list_add_tail(&cons->link, &ipc->cons_list);
+-	spin_unlock_irq(&ipc->cons_list_lock);
++	spin_unlock_irq(&ipc->cons_lock);
+ }
+ 
+ void ivpu_ipc_consumer_del(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons)
+@@ -164,18 +198,13 @@ void ivpu_ipc_consumer_del(struct ivpu_device *vdev, struct ivpu_ipc_consumer *c
+ 	struct ivpu_ipc_info *ipc = vdev->ipc;
+ 	struct ivpu_ipc_rx_msg *rx_msg, *r;
+ 
+-	spin_lock_irq(&ipc->cons_list_lock);
++	spin_lock_irq(&ipc->cons_lock);
+ 	list_del(&cons->link);
+-	spin_unlock_irq(&ipc->cons_list_lock);
++	spin_unlock_irq(&ipc->cons_lock);
+ 
+ 	spin_lock_irq(&cons->rx_lock);
+-	list_for_each_entry_safe(rx_msg, r, &cons->rx_msg_list, link) {
+-		list_del(&rx_msg->link);
+-		if (!cons->aborted)
+-			ivpu_ipc_rx_mark_free(vdev, rx_msg->ipc_hdr, rx_msg->jsm_msg);
+-		atomic_dec(&ipc->rx_msg_count);
+-		kfree(rx_msg);
+-	}
++	list_for_each_entry_safe(rx_msg, r, &cons->rx_msg_list, link)
++		ivpu_ipc_rx_msg_del(vdev, rx_msg);
+ 	spin_unlock_irq(&cons->rx_lock);
+ 
+ 	ivpu_ipc_tx_release(vdev, cons->tx_vpu_addr);
+@@ -205,15 +234,12 @@ ivpu_ipc_send(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons, struct v
+ 	return ret;
+ }
+ 
+-static int ivpu_ipc_rx_need_wakeup(struct ivpu_ipc_consumer *cons)
++static bool ivpu_ipc_rx_need_wakeup(struct ivpu_ipc_consumer *cons)
+ {
+-	int ret = 0;
+-
+-	if (IS_KTHREAD())
+-		ret |= (kthread_should_stop() || kthread_should_park());
++	bool ret;
+ 
+ 	spin_lock_irq(&cons->rx_lock);
+-	ret |= !list_empty(&cons->rx_msg_list) || cons->aborted;
++	ret = !list_empty(&cons->rx_msg_list) || cons->aborted;
+ 	spin_unlock_irq(&cons->rx_lock);
+ 
+ 	return ret;
+@@ -221,19 +247,18 @@ static int ivpu_ipc_rx_need_wakeup(struct ivpu_ipc_consumer *cons)
+ 
+ int ivpu_ipc_receive(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
+ 		     struct ivpu_ipc_hdr *ipc_buf,
+-		     struct vpu_jsm_msg *ipc_payload, unsigned long timeout_ms)
++		     struct vpu_jsm_msg *jsm_msg, unsigned long timeout_ms)
+ {
+-	struct ivpu_ipc_info *ipc = vdev->ipc;
+ 	struct ivpu_ipc_rx_msg *rx_msg;
+ 	int wait_ret, ret = 0;
+ 
++	if (drm_WARN_ONCE(&vdev->drm, cons->rx_callback, "Consumer works only in async mode\n"))
++		return -EINVAL;
++
+ 	wait_ret = wait_event_timeout(cons->rx_msg_wq,
+ 				      ivpu_ipc_rx_need_wakeup(cons),
+ 				      msecs_to_jiffies(timeout_ms));
+ 
+-	if (IS_KTHREAD() && kthread_should_stop())
+-		return -EINTR;
+-
+ 	if (wait_ret == 0)
+ 		return -ETIMEDOUT;
+ 
+@@ -247,27 +272,23 @@ int ivpu_ipc_receive(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
+ 		spin_unlock_irq(&cons->rx_lock);
+ 		return -EAGAIN;
+ 	}
+-	list_del(&rx_msg->link);
+-	spin_unlock_irq(&cons->rx_lock);
+ 
+ 	if (ipc_buf)
+ 		memcpy(ipc_buf, rx_msg->ipc_hdr, sizeof(*ipc_buf));
+ 	if (rx_msg->jsm_msg) {
+-		u32 size = min_t(int, rx_msg->ipc_hdr->data_size, sizeof(*ipc_payload));
++		u32 size = min_t(int, rx_msg->ipc_hdr->data_size, sizeof(*jsm_msg));
+ 
+ 		if (rx_msg->jsm_msg->result != VPU_JSM_STATUS_SUCCESS) {
+ 			ivpu_dbg(vdev, IPC, "IPC resp result error: %d\n", rx_msg->jsm_msg->result);
+ 			ret = -EBADMSG;
+ 		}
+ 
+-		if (ipc_payload)
+-			memcpy(ipc_payload, rx_msg->jsm_msg, size);
++		if (jsm_msg)
++			memcpy(jsm_msg, rx_msg->jsm_msg, size);
+ 	}
+ 
+-	ivpu_ipc_rx_mark_free(vdev, rx_msg->ipc_hdr, rx_msg->jsm_msg);
+-	atomic_dec(&ipc->rx_msg_count);
+-	kfree(rx_msg);
+-
++	ivpu_ipc_rx_msg_del(vdev, rx_msg);
++	spin_unlock_irq(&cons->rx_lock);
+ 	return ret;
+ }
+ 
+@@ -280,7 +301,7 @@ ivpu_ipc_send_receive_internal(struct ivpu_device *vdev, struct vpu_jsm_msg *req
+ 	struct ivpu_ipc_consumer cons;
+ 	int ret;
+ 
+-	ivpu_ipc_consumer_add(vdev, &cons, channel);
++	ivpu_ipc_consumer_add(vdev, &cons, channel, NULL);
+ 
+ 	ret = ivpu_ipc_send(vdev, &cons, req);
+ 	if (ret) {
+@@ -359,35 +380,7 @@ ivpu_ipc_match_consumer(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons
+ 	return false;
+ }
+ 
+-static void
+-ivpu_ipc_dispatch(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
+-		  struct ivpu_ipc_hdr *ipc_hdr, struct vpu_jsm_msg *jsm_msg)
+-{
+-	struct ivpu_ipc_info *ipc = vdev->ipc;
+-	struct ivpu_ipc_rx_msg *rx_msg;
+-
+-	lockdep_assert_held(&ipc->cons_list_lock);
+-	lockdep_assert_irqs_disabled();
+-
+-	rx_msg = kzalloc(sizeof(*rx_msg), GFP_ATOMIC);
+-	if (!rx_msg) {
+-		ivpu_ipc_rx_mark_free(vdev, ipc_hdr, jsm_msg);
+-		return;
+-	}
+-
+-	atomic_inc(&ipc->rx_msg_count);
+-
+-	rx_msg->ipc_hdr = ipc_hdr;
+-	rx_msg->jsm_msg = jsm_msg;
+-
+-	spin_lock(&cons->rx_lock);
+-	list_add_tail(&rx_msg->link, &cons->rx_msg_list);
+-	spin_unlock(&cons->rx_lock);
+-
+-	wake_up(&cons->rx_msg_wq);
+-}
+-
+-int ivpu_ipc_irq_handler(struct ivpu_device *vdev)
++void ivpu_ipc_irq_handler(struct ivpu_device *vdev, bool *wake_thread)
+ {
+ 	struct ivpu_ipc_info *ipc = vdev->ipc;
+ 	struct ivpu_ipc_consumer *cons;
+@@ -405,7 +398,7 @@ int ivpu_ipc_irq_handler(struct ivpu_device *vdev)
+ 		vpu_addr = ivpu_hw_reg_ipc_rx_addr_get(vdev);
+ 		if (vpu_addr == REG_IO_ERROR) {
+ 			ivpu_err_ratelimited(vdev, "Failed to read IPC rx addr register\n");
+-			return -EIO;
++			return;
+ 		}
+ 
+ 		ipc_hdr = ivpu_to_cpu_addr(ipc->mem_rx, vpu_addr);
+@@ -435,15 +428,15 @@ int ivpu_ipc_irq_handler(struct ivpu_device *vdev)
+ 		}
+ 
+ 		dispatched = false;
+-		spin_lock_irqsave(&ipc->cons_list_lock, flags);
++		spin_lock_irqsave(&ipc->cons_lock, flags);
+ 		list_for_each_entry(cons, &ipc->cons_list, link) {
+ 			if (ivpu_ipc_match_consumer(vdev, cons, ipc_hdr, jsm_msg)) {
+-				ivpu_ipc_dispatch(vdev, cons, ipc_hdr, jsm_msg);
++				ivpu_ipc_rx_msg_add(vdev, cons, ipc_hdr, jsm_msg);
+ 				dispatched = true;
+ 				break;
+ 			}
+ 		}
+-		spin_unlock_irqrestore(&ipc->cons_list_lock, flags);
++		spin_unlock_irqrestore(&ipc->cons_lock, flags);
+ 
+ 		if (!dispatched) {
+ 			ivpu_dbg(vdev, IPC, "IPC RX msg 0x%x dropped (no consumer)\n", vpu_addr);
+@@ -451,7 +444,28 @@ int ivpu_ipc_irq_handler(struct ivpu_device *vdev)
+ 		}
+ 	}
+ 
+-	return 0;
++	if (wake_thread)
++		*wake_thread = !list_empty(&ipc->cb_msg_list);
++}
++
++irqreturn_t ivpu_ipc_irq_thread_handler(struct ivpu_device *vdev)
++{
++	struct ivpu_ipc_info *ipc = vdev->ipc;
++	struct ivpu_ipc_rx_msg *rx_msg, *r;
++	struct list_head cb_msg_list;
++
++	INIT_LIST_HEAD(&cb_msg_list);
++
++	spin_lock_irq(&ipc->cons_lock);
++	list_splice_tail_init(&ipc->cb_msg_list, &cb_msg_list);
++	spin_unlock_irq(&ipc->cons_lock);
++
++	list_for_each_entry_safe(rx_msg, r, &cb_msg_list, link) {
++		rx_msg->callback(vdev, rx_msg->ipc_hdr, rx_msg->jsm_msg);
++		ivpu_ipc_rx_msg_del(vdev, rx_msg);
++	}
++
++	return IRQ_HANDLED;
+ }
+ 
+ int ivpu_ipc_init(struct ivpu_device *vdev)
+@@ -486,10 +500,10 @@ int ivpu_ipc_init(struct ivpu_device *vdev)
+ 		goto err_free_rx;
+ 	}
+ 
++	spin_lock_init(&ipc->cons_lock);
+ 	INIT_LIST_HEAD(&ipc->cons_list);
+-	spin_lock_init(&ipc->cons_list_lock);
++	INIT_LIST_HEAD(&ipc->cb_msg_list);
+ 	drmm_mutex_init(&vdev->drm, &ipc->lock);
+-
+ 	ivpu_ipc_reset(vdev);
+ 	return 0;
+ 
+@@ -502,6 +516,13 @@ int ivpu_ipc_init(struct ivpu_device *vdev)
+ 
+ void ivpu_ipc_fini(struct ivpu_device *vdev)
+ {
++	struct ivpu_ipc_info *ipc = vdev->ipc;
++
++	drm_WARN_ON(&vdev->drm, ipc->on);
++	drm_WARN_ON(&vdev->drm, !list_empty(&ipc->cons_list));
++	drm_WARN_ON(&vdev->drm, !list_empty(&ipc->cb_msg_list));
++	drm_WARN_ON(&vdev->drm, atomic_read(&ipc->rx_msg_count) > 0);
++
+ 	ivpu_ipc_mem_fini(vdev);
+ }
+ 
+@@ -518,22 +539,27 @@ void ivpu_ipc_disable(struct ivpu_device *vdev)
+ {
+ 	struct ivpu_ipc_info *ipc = vdev->ipc;
+ 	struct ivpu_ipc_consumer *cons, *c;
+-	unsigned long flags;
++	struct ivpu_ipc_rx_msg *rx_msg, *r;
++
++	drm_WARN_ON(&vdev->drm, !list_empty(&ipc->cb_msg_list));
+ 
+ 	mutex_lock(&ipc->lock);
+ 	ipc->on = false;
+ 	mutex_unlock(&ipc->lock);
+ 
+-	spin_lock_irqsave(&ipc->cons_list_lock, flags);
++	spin_lock_irq(&ipc->cons_lock);
+ 	list_for_each_entry_safe(cons, c, &ipc->cons_list, link) {
+-		if (cons->channel != VPU_IPC_CHAN_JOB_RET) {
+-			spin_lock(&cons->rx_lock);
++		spin_lock(&cons->rx_lock);
++		if (!cons->rx_callback)
+ 			cons->aborted = true;
+-			spin_unlock(&cons->rx_lock);
+-		}
++		list_for_each_entry_safe(rx_msg, r, &cons->rx_msg_list, link)
++			ivpu_ipc_rx_msg_del(vdev, rx_msg);
++		spin_unlock(&cons->rx_lock);
+ 		wake_up(&cons->rx_msg_wq);
+ 	}
+-	spin_unlock_irqrestore(&ipc->cons_list_lock, flags);
++	spin_unlock_irq(&ipc->cons_lock);
++
++	drm_WARN_ON(&vdev->drm, atomic_read(&ipc->rx_msg_count) > 0);
+ }
+ 
+ void ivpu_ipc_reset(struct ivpu_device *vdev)
+diff --git a/drivers/accel/ivpu/ivpu_ipc.h b/drivers/accel/ivpu/ivpu_ipc.h
+index 71b2e648dffd..40ca3cc4e61f 100644
+--- a/drivers/accel/ivpu/ivpu_ipc.h
++++ b/drivers/accel/ivpu/ivpu_ipc.h
+@@ -42,12 +42,24 @@ struct ivpu_ipc_hdr {
+ 	u8 status;
+ } __packed __aligned(IVPU_IPC_ALIGNMENT);
+ 
++typedef void (*ivpu_ipc_rx_callback_t)(struct ivpu_device *vdev,
++				       struct ivpu_ipc_hdr *ipc_hdr,
++				       struct vpu_jsm_msg *jsm_msg);
++
++struct ivpu_ipc_rx_msg {
++	struct list_head link;
++	struct ivpu_ipc_hdr *ipc_hdr;
++	struct vpu_jsm_msg *jsm_msg;
++	ivpu_ipc_rx_callback_t callback;
++};
++
+ struct ivpu_ipc_consumer {
+ 	struct list_head link;
+ 	u32 channel;
+ 	u32 tx_vpu_addr;
+ 	u32 request_id;
+ 	bool aborted;
++	ivpu_ipc_rx_callback_t rx_callback;
+ 
+ 	spinlock_t rx_lock; /* Protects rx_msg_list and aborted */
+ 	struct list_head rx_msg_list;
+@@ -61,8 +73,9 @@ struct ivpu_ipc_info {
+ 
+ 	atomic_t rx_msg_count;
+ 
+-	spinlock_t cons_list_lock; /* Protects cons_list */
++	spinlock_t cons_lock; /* Protects cons_list and cb_msg_list */
+ 	struct list_head cons_list;
++	struct list_head cb_msg_list;
+ 
+ 	atomic_t request_id;
+ 	struct mutex lock; /* Lock on status */
+@@ -76,14 +89,15 @@ void ivpu_ipc_enable(struct ivpu_device *vdev);
+ void ivpu_ipc_disable(struct ivpu_device *vdev);
+ void ivpu_ipc_reset(struct ivpu_device *vdev);
+ 
+-int ivpu_ipc_irq_handler(struct ivpu_device *vdev);
++void ivpu_ipc_irq_handler(struct ivpu_device *vdev, bool *wake_thread);
++irqreturn_t ivpu_ipc_irq_thread_handler(struct ivpu_device *vdev);
+ 
+ void ivpu_ipc_consumer_add(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
+-			   u32 channel);
++			   u32 channel, ivpu_ipc_rx_callback_t callback);
+ void ivpu_ipc_consumer_del(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons);
+ 
+ int ivpu_ipc_receive(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
+-		     struct ivpu_ipc_hdr *ipc_buf, struct vpu_jsm_msg *ipc_payload,
++		     struct ivpu_ipc_hdr *ipc_buf, struct vpu_jsm_msg *jsm_msg,
+ 		     unsigned long timeout_ms);
+ 
+ int ivpu_ipc_send_receive_active(struct ivpu_device *vdev, struct vpu_jsm_msg *req,
+diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
+index 796366d67984..7206cf9cdb4a 100644
+--- a/drivers/accel/ivpu/ivpu_job.c
++++ b/drivers/accel/ivpu/ivpu_job.c
+@@ -7,7 +7,6 @@
+ 
+ #include <linux/bitfield.h>
+ #include <linux/highmem.h>
+-#include <linux/kthread.h>
+ #include <linux/pci.h>
+ #include <linux/module.h>
+ #include <uapi/drm/ivpu_accel.h>
+@@ -344,22 +343,6 @@ static int ivpu_job_done(struct ivpu_device *vdev, u32 job_id, u32 job_status)
+ 	return 0;
+ }
+ 
+-static void ivpu_job_done_message(struct ivpu_device *vdev, void *msg)
+-{
+-	struct vpu_ipc_msg_payload_job_done *payload;
+-	struct vpu_jsm_msg *job_ret_msg = msg;
+-	int ret;
+-
+-	payload = (struct vpu_ipc_msg_payload_job_done *)&job_ret_msg->payload;
+-
+-	ret = ivpu_job_done(vdev, payload->job_id, payload->job_status);
+-	if (ret)
+-		ivpu_err(vdev, "Failed to finish job %d: %d\n", payload->job_id, ret);
+-
+-	if (!ret && !xa_empty(&vdev->submitted_jobs_xa))
+-		ivpu_start_job_timeout_detection(vdev);
+-}
+-
+ void ivpu_jobs_abort_all(struct ivpu_device *vdev)
+ {
+ 	struct ivpu_job *job;
+@@ -567,65 +550,36 @@ int ivpu_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+ 	return ret;
+ }
+ 
+-static int ivpu_job_done_thread(void *arg)
++static void
++ivpu_job_done_callback(struct ivpu_device *vdev, struct ivpu_ipc_hdr *ipc_hdr,
++		       struct vpu_jsm_msg *jsm_msg)
+ {
+-	struct ivpu_device *vdev = (struct ivpu_device *)arg;
+-	struct ivpu_ipc_consumer cons;
+-	struct vpu_jsm_msg jsm_msg;
+-	unsigned int timeout;
++	struct vpu_ipc_msg_payload_job_done *payload;
+ 	int ret;
+ 
+-	ivpu_dbg(vdev, JOB, "Started %s\n", __func__);
+-
+-	ivpu_ipc_consumer_add(vdev, &cons, VPU_IPC_CHAN_JOB_RET);
+-
+-	while (!kthread_should_stop()) {
+-		ret = ivpu_ipc_receive(vdev, &cons, NULL, &jsm_msg, timeout);
+-		if (!ret)
+-			ivpu_job_done_message(vdev, &jsm_msg);
+-
+-		if (kthread_should_park()) {
+-			ivpu_dbg(vdev, JOB, "Parked %s\n", __func__);
+-			kthread_parkme();
+-			ivpu_dbg(vdev, JOB, "Unparked %s\n", __func__);
+-		}
++	if (!jsm_msg) {
++		ivpu_err(vdev, "IPC message has no JSM payload\n");
++		return;
+ 	}
+ 
+-	ivpu_ipc_consumer_del(vdev, &cons);
+-
+-	ivpu_jobs_abort_all(vdev);
+-
+-	ivpu_dbg(vdev, JOB, "Stopped %s\n", __func__);
+-	return 0;
+-}
+-
+-int ivpu_job_done_thread_init(struct ivpu_device *vdev)
+-{
+-	struct task_struct *thread;
+-
+-	thread = kthread_run(&ivpu_job_done_thread, (void *)vdev, "ivpu_job_done_thread");
+-	if (IS_ERR(thread)) {
+-		ivpu_err(vdev, "Failed to start job completion thread\n");
+-		return -EIO;
++	if (jsm_msg->result != VPU_JSM_STATUS_SUCCESS) {
++		ivpu_err(vdev, "Invalid JSM message result: %d\n", jsm_msg->result);
++		return;
+ 	}
+ 
+-	vdev->job_done_thread = thread;
+-
+-	return 0;
+-}
+-
+-void ivpu_job_done_thread_fini(struct ivpu_device *vdev)
+-{
+-	kthread_unpark(vdev->job_done_thread);
+-	kthread_stop(vdev->job_done_thread);
++	payload = (struct vpu_ipc_msg_payload_job_done *)&jsm_msg->payload;
++	ret = ivpu_job_done(vdev, payload->job_id, payload->job_status);
 +	if (!ret && !xa_empty(&vdev->submitted_jobs_xa))
 +		ivpu_start_job_timeout_detection(vdev);
  }
  
- void ivpu_jobs_abort_all(struct ivpu_device *vdev)
-@@ -400,6 +401,8 @@ static int ivpu_direct_job_submission(struct ivpu_job *job)
- 	if (ret)
- 		goto err_xa_erase;
- 
-+	ivpu_start_job_timeout_detection(vdev);
-+
- 	ivpu_dbg(vdev, JOB, "Job submitted: id %3u addr 0x%llx ctx %2d engine %d next %d\n",
- 		 job->job_id, job->cmd_buf_vpu_addr, file_priv->ctx.id,
- 		 job->engine_idx, cmdq->jobq->header.tail);
-@@ -569,7 +572,6 @@ static int ivpu_job_done_thread(void *arg)
- 	struct ivpu_device *vdev = (struct ivpu_device *)arg;
- 	struct ivpu_ipc_consumer cons;
- 	struct vpu_jsm_msg jsm_msg;
--	bool jobs_submitted;
- 	unsigned int timeout;
- 	int ret;
- 
-@@ -578,18 +580,10 @@ static int ivpu_job_done_thread(void *arg)
- 	ivpu_ipc_consumer_add(vdev, &cons, VPU_IPC_CHAN_JOB_RET);
- 
- 	while (!kthread_should_stop()) {
--		timeout = ivpu_tdr_timeout_ms ? ivpu_tdr_timeout_ms : vdev->timeout.tdr;
--		jobs_submitted = !xa_empty(&vdev->submitted_jobs_xa);
- 		ret = ivpu_ipc_receive(vdev, &cons, NULL, &jsm_msg, timeout);
--		if (!ret) {
-+		if (!ret)
- 			ivpu_job_done_message(vdev, &jsm_msg);
--		} else if (ret == -ETIMEDOUT) {
--			if (jobs_submitted && !xa_empty(&vdev->submitted_jobs_xa)) {
--				ivpu_err(vdev, "TDR detected, timeout %d ms", timeout);
--				ivpu_hw_diagnose_failure(vdev);
--				ivpu_pm_schedule_recovery(vdev);
--			}
--		}
-+
- 		if (kthread_should_park()) {
- 			ivpu_dbg(vdev, JOB, "Parked %s\n", __func__);
- 			kthread_parkme();
-diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-index d915f3c2991f..0af8864cb3b5 100644
---- a/drivers/accel/ivpu/ivpu_pm.c
-+++ b/drivers/accel/ivpu/ivpu_pm.c
-@@ -23,6 +23,10 @@ static bool ivpu_disable_recovery;
- module_param_named_unsafe(disable_recovery, ivpu_disable_recovery, bool, 0644);
- MODULE_PARM_DESC(disable_recovery, "Disables recovery when VPU hang is detected");
- 
-+static unsigned long ivpu_tdr_timeout_ms;
-+module_param_named(tdr_timeout_ms, ivpu_tdr_timeout_ms, ulong, 0644);
-+MODULE_PARM_DESC(tdr_timeout_ms, "Timeout for device hang detection, in milliseconds, 0 - default");
-+
- #define PM_RESCHEDULE_LIMIT     5
- 
- static void ivpu_pm_prepare_cold_boot(struct ivpu_device *vdev)
-@@ -141,6 +145,31 @@ void ivpu_pm_schedule_recovery(struct ivpu_device *vdev)
- 	}
+-void ivpu_job_done_thread_disable(struct ivpu_device *vdev)
++void ivpu_job_done_consumer_init(struct ivpu_device *vdev)
+ {
+-	kthread_park(vdev->job_done_thread);
++	ivpu_ipc_consumer_add(vdev, &vdev->job_done_consumer,
++			      VPU_IPC_CHAN_JOB_RET, ivpu_job_done_callback);
  }
  
-+static void ivpu_job_timeout_work(struct work_struct *work)
-+{
-+	struct ivpu_pm_info *pm = container_of(work, struct ivpu_pm_info, job_timeout_work.work);
-+	struct ivpu_device *vdev = pm->vdev;
-+	unsigned long timeout_ms = ivpu_tdr_timeout_ms ? ivpu_tdr_timeout_ms : vdev->timeout.tdr;
-+
-+	ivpu_err(vdev, "TDR detected, timeout %lu ms", timeout_ms);
-+	ivpu_hw_diagnose_failure(vdev);
-+
-+	ivpu_pm_schedule_recovery(vdev);
-+}
-+
-+void ivpu_start_job_timeout_detection(struct ivpu_device *vdev)
-+{
-+	unsigned long timeout_ms = ivpu_tdr_timeout_ms ? ivpu_tdr_timeout_ms : vdev->timeout.tdr;
-+
-+	/* No-op if already queued */
-+	queue_delayed_work(system_wq, &vdev->pm->job_timeout_work, msecs_to_jiffies(timeout_ms));
-+}
-+
-+void ivpu_stop_job_timeout_detection(struct ivpu_device *vdev)
-+{
-+	cancel_delayed_work_sync(&vdev->pm->job_timeout_work);
-+}
-+
- int ivpu_pm_suspend_cb(struct device *dev)
+-void ivpu_job_done_thread_enable(struct ivpu_device *vdev)
++void ivpu_job_done_consumer_fini(struct ivpu_device *vdev)
  {
- 	struct drm_device *drm = dev_get_drvdata(dev);
-@@ -317,6 +346,7 @@ void ivpu_pm_init(struct ivpu_device *vdev)
- 
- 	atomic_set(&pm->in_reset, 0);
- 	INIT_WORK(&pm->recovery_work, ivpu_pm_recovery_work);
-+	INIT_DELAYED_WORK(&pm->job_timeout_work, ivpu_job_timeout_work);
- 
- 	if (ivpu_disable_recovery)
- 		delay = -1;
-@@ -331,6 +361,7 @@ void ivpu_pm_init(struct ivpu_device *vdev)
- 
- void ivpu_pm_cancel_recovery(struct ivpu_device *vdev)
- {
-+	drm_WARN_ON(&vdev->drm, delayed_work_pending(&vdev->pm->job_timeout_work));
- 	cancel_work_sync(&vdev->pm->recovery_work);
+-	kthread_unpark(vdev->job_done_thread);
++	ivpu_ipc_consumer_del(vdev, &vdev->job_done_consumer);
  }
+diff --git a/drivers/accel/ivpu/ivpu_job.h b/drivers/accel/ivpu/ivpu_job.h
+index 4b604c90041e..45a2f2ec82e5 100644
+--- a/drivers/accel/ivpu/ivpu_job.h
++++ b/drivers/accel/ivpu/ivpu_job.h
+@@ -59,10 +59,8 @@ int ivpu_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+ void ivpu_cmdq_release_all(struct ivpu_file_priv *file_priv);
+ void ivpu_cmdq_reset_all_contexts(struct ivpu_device *vdev);
  
-diff --git a/drivers/accel/ivpu/ivpu_pm.h b/drivers/accel/ivpu/ivpu_pm.h
-index 044db150be07..97c6e0b0aa42 100644
---- a/drivers/accel/ivpu/ivpu_pm.h
-+++ b/drivers/accel/ivpu/ivpu_pm.h
-@@ -12,6 +12,7 @@ struct ivpu_device;
+-int ivpu_job_done_thread_init(struct ivpu_device *vdev);
+-void ivpu_job_done_thread_fini(struct ivpu_device *vdev);
+-void ivpu_job_done_thread_disable(struct ivpu_device *vdev);
+-void ivpu_job_done_thread_enable(struct ivpu_device *vdev);
++void ivpu_job_done_consumer_init(struct ivpu_device *vdev);
++void ivpu_job_done_consumer_fini(struct ivpu_device *vdev);
  
- struct ivpu_pm_info {
- 	struct ivpu_device *vdev;
-+	struct delayed_work job_timeout_work;
- 	struct work_struct recovery_work;
- 	atomic_t in_reset;
- 	atomic_t reset_counter;
-@@ -37,5 +38,7 @@ int __must_check ivpu_rpm_get_if_active(struct ivpu_device *vdev);
- void ivpu_rpm_put(struct ivpu_device *vdev);
+ void ivpu_jobs_abort_all(struct ivpu_device *vdev);
  
- void ivpu_pm_schedule_recovery(struct ivpu_device *vdev);
-+void ivpu_start_job_timeout_detection(struct ivpu_device *vdev);
-+void ivpu_stop_job_timeout_detection(struct ivpu_device *vdev);
- 
- #endif /* __IVPU_PM_H__ */
 -- 
 2.42.0
 
