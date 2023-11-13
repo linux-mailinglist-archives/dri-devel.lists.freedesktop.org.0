@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E22D7E9C43
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 13:38:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B28BF7E9C63
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 13:48:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F59C10E09F;
-	Mon, 13 Nov 2023 12:38:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA4B910E36B;
+	Mon, 13 Nov 2023 12:48:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E687710E374
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 12:38:38 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- 5b1f17b1804b1-4084de32db5so38047135e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 04:38:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699879117; x=1700483917; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Ukm8phRDPk8EbU35rBMhp9qJpmKB4f/zJ1Y/aXk5W+w=;
- b=FqDiY3Wzuozrlu0PLuFqv8PvYkfcy3Sb+IcoZisjFaK97DfLB0yV+JM1jYcvb4X2U7
- wPPZ2QJbwN9DnMtmzufjYs1NZqBS2v5rGUTVoNc0KvdtUEBSaOxD4AaiTRHDdzdxcGY0
- Uppt5niXa6xRsgKpJeViKcUwmxblX3TAGenePktltanlokmbu1QXor2hieh/ve11tRRJ
- VErwfvvTVEIg7D7eKio6hfiYBYm8tPD90sTJz5mPmXrEIXOqnMlkFRX2zB4USkQnSsbd
- WDqUkgfVtWgyrnyLiGojpAFNztezv6wRixqxEaWU2lau5d0KEiQeM7Mvxdi+a/3Y28mD
- ffvw==
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
+ [209.85.128.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEC2810E36B
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 12:48:48 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-5a84204e7aeso50816457b3.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 04:48:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699879117; x=1700483917;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Ukm8phRDPk8EbU35rBMhp9qJpmKB4f/zJ1Y/aXk5W+w=;
- b=IWaYqiojkk77CnEActENUf3lf8BWScidWK10tEtJUXTi4BtG5yoVNzHq4YT+oA4nf/
- mNqPzjPOaScdXaWG7+0753ItBjCvkPe2RdvhIYipveLj4ovEtDltGliTuqhglhZJi6Xp
- d8HvtNUSx1BAdgArLi/MqomOpFHMC6Skn/OGux3lRQ7XdKsFyaYulc8BZF7AH73mtJ+Y
- wio36/KhjLvZpf1mueyEGa2rliqwuHSVBNIU56XxKGi/0HWPNvvU9wVYxC5sWr5EhwDp
- uZK6naOWNVPJ2PiOKQDNlBMG0ZOiUtMfhphrwp6gJsIllVZZcFTtpMlE0Q0DnyAU//8e
- OVKg==
-X-Gm-Message-State: AOJu0Yzqvsev86y8xwiFtChjokIRyrPHve5PIC88tgutq+VcEGTSFaqw
- IZUrNec9ZmRvdZigEA3NiIM=
-X-Google-Smtp-Source: AGHT+IFHtTYLExf2ag11zaOn6IYxKYrcPWEfy4+eatoMQq2/CF8RAkgnpieT7o91vksj6nCsUrB4Yg==
-X-Received: by 2002:a05:600c:d9:b0:402:cc5c:c98 with SMTP id
- u25-20020a05600c00d900b00402cc5c0c98mr5076290wmm.13.1699879117145; 
- Mon, 13 Nov 2023 04:38:37 -0800 (PST)
-Received: from EliteBook.amd.com (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- p41-20020a05600c1da900b00406408dc788sm13879636wms.44.2023.11.13.04.38.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Nov 2023 04:38:36 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: airlied@gmail.com, ltuikov89@gmail.com, dakr@redhat.com,
- dri-devel@lists.freedesktop.org, matthew.brost@intel.com,
- boris.brezillon@collabora.com, alexander.deucher@amd.com
-Subject: [PATCH] drm/scheduler: improve GPU scheduler documentation
-Date: Mon, 13 Nov 2023 13:38:32 +0100
-Message-Id: <20231113123832.120710-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
+ d=1e100.net; s=20230601; t=1699879727; x=1700484527;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7NpcagooPlgB42zJ8lCFvRZKrafl2J7642p6A31Uxcs=;
+ b=sTZ8j8TrXwXEDaLGAC28xy+wCE8KE/aozbN88NyxFh5kKHfA1n5/gKAARANeoBcWw7
+ IcRcqArCL7JxPtQNs0p+QdODmouJQq0A0UDMyQO5Zs7Fte++8Hu/kdGyPOgxFS7YP4TM
+ PwT5LyKbK1j+sFKwr7vjVJ7bdqydzC4k6L7gxjcwd1uhdyGlcorFZ8s3zM7ZZKGUErM2
+ +9clry8M5mG9AdwdjX2L7MV0Q5vvZxIp5vlw9RY+9FcgI0tdS4Pr7hmTFR7he1rxiWq2
+ X/JlfYaZc36AInbWVTouclkyWgHbYcKB6TLHOlk8PuKWKHAxWtzZrVQ+biW9hcTVhKMK
+ Ikyw==
+X-Gm-Message-State: AOJu0YyG+tI5pvoL491kvYbSO5yS+5gJEobXgI+AJ+DbpNUnM7uvxoCA
+ qp+OScNshSdcQ3fCqyzH6CyKhKUaSb/hRw==
+X-Google-Smtp-Source: AGHT+IG/sGwf4hL9Qi9eNsoM/533+PrqO8qI0J1GWoJBeNIFvcf393lxpS6zhrEi/gCFVGpsOqHTrw==
+X-Received: by 2002:a25:6853:0:b0:daf:7704:3f60 with SMTP id
+ d80-20020a256853000000b00daf77043f60mr4522222ybc.24.1699879727615; 
+ Mon, 13 Nov 2023 04:48:47 -0800 (PST)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com.
+ [209.85.219.173]) by smtp.gmail.com with ESMTPSA id
+ r11-20020a5b054b000000b00d8674371317sm1490889ybp.36.2023.11.13.04.48.45
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Nov 2023 04:48:46 -0800 (PST)
+Received: by mail-yb1-f173.google.com with SMTP id
+ 3f1490d57ef6-d9ca471cf3aso4420712276.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 04:48:45 -0800 (PST)
+X-Received: by 2002:a25:4409:0:b0:daf:6519:5e53 with SMTP id
+ r9-20020a254409000000b00daf65195e53mr4012822yba.53.1699879725649; Mon, 13 Nov
+ 2023 04:48:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <a1d9e09b-f533-5e2c-7a13-af96647e1a71@embeddedor.com>
+ <10D1983F-33EF-46C3-976E-463D1CB5A6E9@xenosoft.de>
+ <9bb5fcbd-daf5-1669-b3e7-b8624b3c36f9@xenosoft.de>
+ <c47fba21-3ae9-4021-9f4a-09c2670ebdbc@xenosoft.de>
+ <0d89bcd0-9b68-4c0a-acd8-2c7532e62f6d@xenosoft.de>
+ <6530cea3-4507-454e-bc36-a6970c8e7578@xenosoft.de>
+In-Reply-To: <6530cea3-4507-454e-bc36-a6970c8e7578@xenosoft.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 13 Nov 2023 13:48:33 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU-8Fu55C2zu_XxmG8n5paOQYfqNA84JNvXo4c87D-kFw@mail.gmail.com>
+Message-ID: <CAMuHMdU-8Fu55C2zu_XxmG8n5paOQYfqNA84JNvXo4c87D-kFw@mail.gmail.com>
+Subject: Re: Fbdev issue after the drm updates 'drm-next-2023-10-31-1'
+To: Christian Zigotzky <chzigotzky@xenosoft.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,156 +74,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Darren Stevens <darren@stevens-zone.net>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kraxel@cs.tu-berlin.de,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ mad skateman <madskateman@gmail.com>, deller@gmx.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Start to improve the scheduler document. Especially document the
-lifetime of each of the objects as well as the restrictions around
-DMA-fence handling and userspace compatibility.
+Hi Christian,
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/scheduler/sched_main.c | 126 ++++++++++++++++++++-----
- 1 file changed, 104 insertions(+), 22 deletions(-)
+On Sun, Nov 12, 2023 at 3:23=E2=80=AFPM Christian Zigotzky
+<chzigotzky@xenosoft.de> wrote:
+> On 07 November 2023 at 09:36 am, Christian Zigotzky wrote:
+> > I have found out that fbdev no longer works with virtio-gpu-pci and
+> > virtio-vga. It is not a problem with the penguin logos.
+> >
+> > Could you please check fbdev in QEMU virtual machines with
+> > virtio-gpu-pci and virtio-vga graphics?
+>
+> > On 02 November 2023 at 03:45 pm, Christian Zigotzky wrote:
+> >> There is a fbdev issue with the virtio-gpu-pci and virtio-vga. (The
+> >> penguins are not displayed at boot time)
+> >>
+> >> Error message:  [    0.889302] virtio-pci 0000:00:02.0: [drm] *ERROR*
+> >> fbdev: Failed to setup generic emulation (ret=3D-2)
+> >>
+> >> The kernel 6.6 final doesn't have this issue.
+> >>
+> >> Please check the fbdev changes in the drm updates
+> >> 'drm-next-2023-10-31-1'.
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 506371c42745..36a7c5dc852d 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -24,28 +24,110 @@
- /**
-  * DOC: Overview
-  *
-- * The GPU scheduler provides entities which allow userspace to push jobs
-- * into software queues which are then scheduled on a hardware run queue.
-- * The software queues have a priority among them. The scheduler selects the entities
-- * from the run queue using a FIFO. The scheduler provides dependency handling
-- * features among jobs. The driver is supposed to provide callback functions for
-- * backend operations to the scheduler like submitting a job to hardware run queue,
-- * returning the dependencies of a job etc.
-- *
-- * The organisation of the scheduler is the following:
-- *
-- * 1. Each hw run queue has one scheduler
-- * 2. Each scheduler has multiple run queues with different priorities
-- *    (e.g., HIGH_HW,HIGH_SW, KERNEL, NORMAL)
-- * 3. Each scheduler run queue has a queue of entities to schedule
-- * 4. Entities themselves maintain a queue of jobs that will be scheduled on
-- *    the hardware.
-- *
-- * The jobs in a entity are always scheduled in the order that they were pushed.
-- *
-- * Note that once a job was taken from the entities queue and pushed to the
-- * hardware, i.e. the pending queue, the entity must not be referenced anymore
-- * through the jobs entity pointer.
-+ * The GPU scheduler implements some logic to decide which command submission
-+ * to push next to the hardware. Another major use case for the GPU scheduler
-+ * is to enforce correct driver behavior around those command submission.
-+ * Because of this it's also used by drivers which don't need the actual
-+ * scheduling functionality.
-+ *
-+ * To fulfill this task the GPU scheduler uses of the following objects:
-+ *
-+ * 1. The job object which contains a bunch of dependencies in the form of
-+ *    DMA-fence objects. Drivers can also implement an optional prepare_job
-+ *    callback which returns additional dependencies as DMA-fence objects.
-+ *    It's important to note that this callback must follow the DMA-fence rules,
-+ *    so it can't easily allocate memory or grab locks under which memory is
-+ *    allocated. Drivers should use this as base class for an object which
-+ *    contains the necessary state to push the command submission to the
-+ *    hardware.
-+ *
-+ *    The lifetime of the job object should at least be from pushing it into the
-+ *    scheduler until the scheduler notes through the free callback that a job
-+ *    isn't needed any more. Drivers can of course keep their job object alive
-+ *    longer than that, but that's outside of the scope of the scheduler
-+ *    component. Job initialization is split into two parts,
-+ *    drm_sched_job_init() and drm_sched_job_arm(). It's important to note that
-+ *    after arming a job drivers must follow the DMA-fence rules and can't
-+ *    easily allocate memory or takes locks under which memory is allocated.
-+ *
-+ * 2. The entity object which is a container for jobs which should execute
-+ *    sequentially. Drivers should create an entity for each individual context
-+ *    they maintain for command submissions which can run in parallel.
-+ *
-+ *    The lifetime of the entity should *not* exceed the lifetime of the
-+ *    userspace process it was created for and drivers should call the
-+ *    drm_sched_entity_flush() function from their file_operations.flush
-+ *    callback. Background is that for compatibility reasons with existing
-+ *    userspace all results of a command submission should become visible
-+ *    externally even after after a process exits. The only exception to that
-+ *    is when the process is actively killed by a SIGKILL. In this case the
-+ *    entity object makes sure that jobs are freed without running them while
-+ *    still maintaining correct sequential order for signaling fences. So it's
-+ *    possible that an entity object is not alive any more while jobs from it
-+ *    are still running on the hardware.
-+ *
-+ * 3. The hardware fence object which is a DMA-fence provided by the driver as
-+ *    result of running jobs. Drivers need to make sure that the normal
-+ *    DMA-fence semantics are followed for this object. It's important to note
-+ *    that the memory for this object can *not* be allocated in the run_job
-+ *    callback since that would violate the requirements for the DMA-fence
-+ *    implementation. The scheduler maintains a timeout handler which triggers
-+ *    if this fence doesn't signal in a configurable time frame.
-+ *
-+ *    The lifetime of this object follows DMA-fence ref-counting rules, the
-+ *    scheduler takes ownership of the reference returned by the driver and
-+ *    drops it when it's not needed any more. Errors should also be signaled
-+ *    through the hardware fence and are bubbled up back to the scheduler fence
-+ *    and entity.
-+ *
-+ * 4. The scheduler fence object which encapsulates the whole time from pushing
-+ *    the job into the scheduler until the hardware has finished processing it.
-+ *    This is internally managed by the scheduler, but drivers can grab
-+ *    additional reference to it after arming a job. The implementation
-+ *    provides DMA-fence interfaces for signaling both scheduling of a command
-+ *    submission as well as finishing of processing.
-+ *
-+ *    The lifetime of this object also follows normal DMA-fence ref-counting
-+ *    rules. The finished fence is the one normally exposed outside of the
-+ *    scheduler, but the driver can grab references to both the scheduled as
-+ *    well as the finished fence when needed for pipe-lining optimizations.
-+ *
-+ * 5. The run queue object which is a container of entities for a certain
-+ *    priority level. The lifetime of those objects are bound to the scheduler
-+ *    lifetime.
-+ *
-+ *    This is internally managed by the scheduler and drivers shouldn't touch
-+ *    them directly.
-+ *
-+ * 6. The scheduler object itself which does the actual work of selecting a job
-+ *    and pushing it to the hardware. Both FIFO and RR selection algorithm are
-+ *    supported, but FIFO is preferred for many use cases.
-+ *
-+ *    The lifetime of this object is managed by the driver using it. Before
-+ *    destroying the scheduler the driver must ensure that all hardware
-+ *    processing involving this scheduler object has finished by calling for
-+ *    example disable_irq(). It is *not* sufficient to wait for the hardware
-+ *    fence here since this doesn't guarantee that all callback processing has
-+ *    finished.
-+ *
-+ * All callbacks the driver needs to implement are restricted by DMA-fence
-+ * signaling rules to guarantee deadlock free forward progress. This especially
-+ * means that for normal operation no memory can be allocated. All memory which
-+ * is needed for pushing the job to the hardware must be allocated before
-+ * arming a job. It also means that no locks can be taken under which memory
-+ * might be allocated as well.
-+ *
-+ * Memory which is optional to allocate for device core dumping or debugging
-+ * *must* be allocated with GFP_NOWAIT and appropriate error handling taking if
-+ * that allocation fails. GFP_ATOMIC should only be used if absolutely
-+ * necessary since dipping into the special atomic reserves is usually not
-+ * justified for a GPU driver.
-+ *
-+ * The scheduler also used to provided functionality for re-submitting jobs
-+ * with replacing the hardware fence during reset handling. This functionality
-+ * is now marked as deprecated since this has proven to be fundamentally racy
-+ * and not compatible with DMA-fence rules and shouldn't be used in any new
-+ * code.
-  */
- 
- #include <linux/kthread.h>
--- 
-2.34.1
+Thanks for your report!
 
+I can confirm there is no graphics output with m68k/virt, and
+bisected this to my own commit 6ae2ff23aa43a0c4 ("drm/client: Convert
+drm_client_buffer_addfb() to drm_mode_addfb2()"), ouch...
+
+It turns out the old call to drm_mode_addfb() caused a translation
+from a fourcc to a bpp/depth pair to a _different_ fourcc, due to the
+quirk processing in drm_driver_legacy_fb_format().
+I.e. on m68k/virt, the original requested format was XR24, which was
+translated to BX24. The former doesn't work, the latter works.
+
+The following (gmail-whitespace-damaged) patch fixed the issue for me:
+
+--- a/drivers/gpu/drm/drm_client.c
++++ b/drivers/gpu/drm/drm_client.c
+@@ -400,6 +400,16 @@ static int drm_client_buffer_addfb(struct
+drm_client_buffer *buffer,
+
+        fb_req.width =3D width;
+        fb_req.height =3D height;
++       if (client->dev->mode_config.quirk_addfb_prefer_host_byte_order) {
++               if (format =3D=3D DRM_FORMAT_XRGB8888)
++                       format =3D DRM_FORMAT_HOST_XRGB8888;
++               if (format =3D=3D DRM_FORMAT_ARGB8888)
++                       format =3D DRM_FORMAT_HOST_ARGB8888;
++               if (format =3D=3D DRM_FORMAT_RGB565)
++                       format =3D DRM_FORMAT_HOST_RGB565;
++               if (format =3D=3D DRM_FORMAT_XRGB1555)
++                       format =3D DRM_FORMAT_HOST_XRGB1555;
++       }
+        fb_req.pixel_format =3D format;
+        fb_req.handles[0] =3D handle;
+        fb_req.pitches[0] =3D buffer->pitch;
+
+However, I don't think we want to sprinkle more of these
+translations around... So perhaps we should (re)add a call to
+drm_driver_legacy_fb_format() to drm_client_buffer_addfb()?
+
+Second, as I doubt you are using a big-endian system, you are probably
+running into a slightly different issue.
+
+Oh wait, you did CC linuxppc-dev, so perhaps you are running on a
+big-endian machine?
+
+If not, please add
+
+    pr_info("%s: format =3D %p4cc\n", __func__, &format);
+
+to drivers/gpu/drm/drm_client.c:drm_client_buffer_addfb(), and,
+after reverting commit 6ae2ff23aa43a0c4, add
+
+    pr_info("%s: bpp %u/depth %u =3D> r.pixel_format =3D %p4cc\n",
+__func__, or->bpp, or->depth, &r.pixel_format);
+
+to drivers/gpu/drm/drm_framebuffer.c:drm_mode_addfb(), so we know the
+translation in your case?
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
