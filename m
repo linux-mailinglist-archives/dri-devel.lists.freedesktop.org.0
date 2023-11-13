@@ -1,67 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B28BF7E9C63
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 13:48:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 162807E9C7C
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 13:57:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA4B910E36B;
-	Mon, 13 Nov 2023 12:48:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0081110E36E;
+	Mon, 13 Nov 2023 12:57:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
- [209.85.128.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEC2810E36B
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 12:48:48 +0000 (UTC)
-Received: by mail-yw1-f172.google.com with SMTP id
- 00721157ae682-5a84204e7aeso50816457b3.0
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 04:48:48 -0800 (PST)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3560910E36E
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 12:57:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1699880240;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XEEW3XcoHB1VZUo6+U7UmEZpZHFHm8rW7krXF/G2wlo=;
+ b=MYKWsRyNpfyzORUqB3RRo3ufFJ5ETTTdfkDWDMfbGh5zDiah9mQk9pgy9bR79e2+1vUx8E
+ oL4BzbdzZMU7JBj9Tapc/ArTn5ijAaTmqELD4Y8qqUmhajMS8fvfwp7ULY3fjn91BJxyKH
+ +OrYLlfZ9u5PPJrWs7BhOPiXRA5ZGT4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-471-dNIJYT4PPC64dYMvg9-e7w-1; Mon, 13 Nov 2023 07:57:19 -0500
+X-MC-Unique: dNIJYT4PPC64dYMvg9-e7w-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-32f8c4e9b88so2405329f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 04:57:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699879727; x=1700484527;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7NpcagooPlgB42zJ8lCFvRZKrafl2J7642p6A31Uxcs=;
- b=sTZ8j8TrXwXEDaLGAC28xy+wCE8KE/aozbN88NyxFh5kKHfA1n5/gKAARANeoBcWw7
- IcRcqArCL7JxPtQNs0p+QdODmouJQq0A0UDMyQO5Zs7Fte++8Hu/kdGyPOgxFS7YP4TM
- PwT5LyKbK1j+sFKwr7vjVJ7bdqydzC4k6L7gxjcwd1uhdyGlcorFZ8s3zM7ZZKGUErM2
- +9clry8M5mG9AdwdjX2L7MV0Q5vvZxIp5vlw9RY+9FcgI0tdS4Pr7hmTFR7he1rxiWq2
- X/JlfYaZc36AInbWVTouclkyWgHbYcKB6TLHOlk8PuKWKHAxWtzZrVQ+biW9hcTVhKMK
- Ikyw==
-X-Gm-Message-State: AOJu0YyG+tI5pvoL491kvYbSO5yS+5gJEobXgI+AJ+DbpNUnM7uvxoCA
- qp+OScNshSdcQ3fCqyzH6CyKhKUaSb/hRw==
-X-Google-Smtp-Source: AGHT+IG/sGwf4hL9Qi9eNsoM/533+PrqO8qI0J1GWoJBeNIFvcf393lxpS6zhrEi/gCFVGpsOqHTrw==
-X-Received: by 2002:a25:6853:0:b0:daf:7704:3f60 with SMTP id
- d80-20020a256853000000b00daf77043f60mr4522222ybc.24.1699879727615; 
- Mon, 13 Nov 2023 04:48:47 -0800 (PST)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com.
- [209.85.219.173]) by smtp.gmail.com with ESMTPSA id
- r11-20020a5b054b000000b00d8674371317sm1490889ybp.36.2023.11.13.04.48.45
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Nov 2023 04:48:46 -0800 (PST)
-Received: by mail-yb1-f173.google.com with SMTP id
- 3f1490d57ef6-d9ca471cf3aso4420712276.2
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 04:48:45 -0800 (PST)
-X-Received: by 2002:a25:4409:0:b0:daf:6519:5e53 with SMTP id
- r9-20020a254409000000b00daf65195e53mr4012822yba.53.1699879725649; Mon, 13 Nov
- 2023 04:48:45 -0800 (PST)
+ d=1e100.net; s=20230601; t=1699880238; x=1700485038;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XEEW3XcoHB1VZUo6+U7UmEZpZHFHm8rW7krXF/G2wlo=;
+ b=qdw3QZ2pPvEcLp+W99wCT+IKm/CyCmntTPOCm+YQhpHktDSB5cOoCIv5MuSlGsalV0
+ SrwvUUOXY8I4n8qIPVQjVC0+Sycy5dag85e4734+jb6AluVz0PMk7Ko/OR5py5LkGjOR
+ prKFfU/Jn13yIwMAPmc66mxZRASoflQHETJO7bxMlP3SVvRKQrW9rjeZ5j1vuBVG4UZq
+ LEhOU6ufp27YWqxJFpoKZ4gmCX/Ltj8fjd1RSxba7HGxQK7eS3oHw0im9PWKDtJcGqfr
+ 19MLKZJJtwD9cjSUHHBNh9MNwUkLF6yvtDw5zF5YXgnGkQy97XltgUFnFYcgMXlyR/fD
+ StoQ==
+X-Gm-Message-State: AOJu0YwSI8K/2Ngafz9E3EWIn21WF9Cs+YPCo/tRcrQQz38yqjxXm8Ml
+ Vqn8U/6EVL7G/wYVs1Pm0aA+YFQEqtU67s9hL2ffaSM0NgsBG3i0ZoaegCVyBuvHiWDwhMlYvOD
+ KCQcOliYmQ91+C2lml6Rwm5oOoJs1
+X-Received: by 2002:a5d:6486:0:b0:32f:89ce:f66b with SMTP id
+ o6-20020a5d6486000000b0032f89cef66bmr6690283wri.10.1699880237838; 
+ Mon, 13 Nov 2023 04:57:17 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGvU+wcl912JE3I6ry5f8WGalZEQtNXVee4MgWE9m4W+nSgpYWlK++Na50Jp1k5l+5FVCg/Vw==
+X-Received: by 2002:a5d:6486:0:b0:32f:89ce:f66b with SMTP id
+ o6-20020a5d6486000000b0032f89cef66bmr6690272wri.10.1699880237501; 
+ Mon, 13 Nov 2023 04:57:17 -0800 (PST)
+Received: from localhost ([90.167.95.115]) by smtp.gmail.com with ESMTPSA id
+ o9-20020a5d58c9000000b0032d9caeab0fsm5403122wrf.77.2023.11.13.04.57.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Nov 2023 04:57:17 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Andrew Worsley <amworsley@gmail.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>
+Subject: Re: [RFC PATCH] of/platform: Disable sysfb if a simple-framebuffer
+ node is found
+In-Reply-To: <CA+Y=x3khfKx_oQYABMSCAPOEuDWyZ+MyTHK=JufH8fC-m6z7Xw@mail.gmail.com>
+References: <20231113085305.1823455-1-javierm@redhat.com>
+ <9f3d3c8d-fbf1-485b-9c2a-4d442733954d@suse.de>
+ <CA+Y=x3khfKx_oQYABMSCAPOEuDWyZ+MyTHK=JufH8fC-m6z7Xw@mail.gmail.com>
+Date: Mon, 13 Nov 2023 13:57:16 +0100
+Message-ID: <8734x9steb.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-References: <a1d9e09b-f533-5e2c-7a13-af96647e1a71@embeddedor.com>
- <10D1983F-33EF-46C3-976E-463D1CB5A6E9@xenosoft.de>
- <9bb5fcbd-daf5-1669-b3e7-b8624b3c36f9@xenosoft.de>
- <c47fba21-3ae9-4021-9f4a-09c2670ebdbc@xenosoft.de>
- <0d89bcd0-9b68-4c0a-acd8-2c7532e62f6d@xenosoft.de>
- <6530cea3-4507-454e-bc36-a6970c8e7578@xenosoft.de>
-In-Reply-To: <6530cea3-4507-454e-bc36-a6970c8e7578@xenosoft.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 13 Nov 2023 13:48:33 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU-8Fu55C2zu_XxmG8n5paOQYfqNA84JNvXo4c87D-kFw@mail.gmail.com>
-Message-ID: <CAMuHMdU-8Fu55C2zu_XxmG8n5paOQYfqNA84JNvXo4c87D-kFw@mail.gmail.com>
-Subject: Re: Fbdev issue after the drm updates 'drm-next-2023-10-31-1'
-To: Christian Zigotzky <chzigotzky@xenosoft.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,109 +82,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Darren Stevens <darren@stevens-zone.net>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
- Thomas Zimmermann <tzimmermann@suse.de>, kraxel@cs.tu-berlin.de,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- mad skateman <madskateman@gmail.com>, deller@gmx.de
+Cc: Sergio Lopez <slp@redhat.com>, devicetree@vger.kernel.org,
+ Sima Vetter <daniel.vetter@ffwll.ch>, Hector Martin <marcan@marcan.st>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ Ard Biesheuvel <ardb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+Andrew Worsley <amworsley@gmail.com> writes:
 
-On Sun, Nov 12, 2023 at 3:23=E2=80=AFPM Christian Zigotzky
-<chzigotzky@xenosoft.de> wrote:
-> On 07 November 2023 at 09:36 am, Christian Zigotzky wrote:
-> > I have found out that fbdev no longer works with virtio-gpu-pci and
-> > virtio-vga. It is not a problem with the penguin logos.
-> >
-> > Could you please check fbdev in QEMU virtual machines with
-> > virtio-gpu-pci and virtio-vga graphics?
+Hello Andrew,
+
+> On Mon, 13 Nov 2023 at 20:18, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>> Am 13.11.23 um 09:51 schrieb Javier Martinez Canillas:
+>> > Some DT platforms use EFI to boot and in this case the EFI Boot Services
+>> > may register a EFI_GRAPHICS_OUTPUT_PROTOCOL handle, that will later be
+>> > queried by the Linux EFI stub to fill the global struct screen_info data.
+>> >
+
+[...]
+
 >
-> > On 02 November 2023 at 03:45 pm, Christian Zigotzky wrote:
-> >> There is a fbdev issue with the virtio-gpu-pci and virtio-vga. (The
-> >> penguins are not displayed at boot time)
-> >>
-> >> Error message:  [    0.889302] virtio-pci 0000:00:02.0: [drm] *ERROR*
-> >> fbdev: Failed to setup generic emulation (ret=3D-2)
-> >>
-> >> The kernel 6.6 final doesn't have this issue.
-> >>
-> >> Please check the fbdev changes in the drm updates
-> >> 'drm-next-2023-10-31-1'.
+> I applied the patch and just the simpledrm driver is probed (the efifb is not):
+>
+> grep -i -E 'drm|efifb' --color -C3 dmesg-6.5.0-asahi-00780-gf5aadc85a34d.txt
+> [    2.621433] systemd-journald[276]: varlink-21: Changing state
+> idle-server \xe2\x86\x92 pending-disconnect
+> [    2.621437] systemd-journald[276]: varlink-21: Changing state
+> pending-disconnect \xe2\x86\x92 processing-disconnect
+> [    2.621439] systemd-journald[276]: varlink-21: Changing state
+> processing-disconnect \xe2\x86\x92 disconnected
+> [    2.878828] [drm] Initialized simpledrm 1.0.0 20200625 for
+> bd58dc000.framebuffer on minor 0
+> [    2.909764] Console: switching to colour frame buffer device 160x50
 
-Thanks for your report!
+Great, thanks for testing. The patch works then as expected. Can I get
+your Tested-by then ?
 
-I can confirm there is no graphics output with m68k/virt, and
-bisected this to my own commit 6ae2ff23aa43a0c4 ("drm/client: Convert
-drm_client_buffer_addfb() to drm_mode_addfb2()"), ouch...
+>
+> I am wondering if the drm_aperture_remove_framebuffers() shouldn't be
+> called in the probe function anyway
+> as it ends up overriding the efifb one as wanted and handles the case
+> the simpledrm (CONFIG_DRM_SIMPLEDRM)
+> is not present.
+> Perhaps there is an accepted principle that such kernels *should* fail
+> to set up a FB?
+>
 
-It turns out the old call to drm_mode_addfb() caused a translation
-from a fourcc to a bpp/depth pair to a _different_ fourcc, due to the
-quirk processing in drm_driver_legacy_fb_format().
-I.e. on m68k/virt, the original requested format was XR24, which was
-translated to BX24. The former doesn't work, the latter works.
+We were talking with Thomas that the sysfb design seems to be reaching its
+limits and need some rework but currently you either need some driver that
+matches the "simple-framebuffer" device that is registered by OF or won't
+get an early framebuffer in the system.
 
-The following (gmail-whitespace-damaged) patch fixed the issue for me:
+That could be either simpledrm or simplefb. But if a DT has a device node
+for "simple-framebuffer", how can the OF core know if there is a driver to
+match that device? And same for any other device defined in the DTB.
 
---- a/drivers/gpu/drm/drm_client.c
-+++ b/drivers/gpu/drm/drm_client.c
-@@ -400,6 +400,16 @@ static int drm_client_buffer_addfb(struct
-drm_client_buffer *buffer,
+It's similar on platforms that use sysfb to register the device (e.g: x86)
+since either "simple-framebuffer" is registered (if CONFIG_SYSFB_SIMPLEFB
+is enabled) or "efi-framebuffer" (if CONFIG_SYSFB_SIMPLEFB is disabled).
 
-        fb_req.width =3D width;
-        fb_req.height =3D height;
-+       if (client->dev->mode_config.quirk_addfb_prefer_host_byte_order) {
-+               if (format =3D=3D DRM_FORMAT_XRGB8888)
-+                       format =3D DRM_FORMAT_HOST_XRGB8888;
-+               if (format =3D=3D DRM_FORMAT_ARGB8888)
-+                       format =3D DRM_FORMAT_HOST_ARGB8888;
-+               if (format =3D=3D DRM_FORMAT_RGB565)
-+                       format =3D DRM_FORMAT_HOST_RGB565;
-+               if (format =3D=3D DRM_FORMAT_XRGB1555)
-+                       format =3D DRM_FORMAT_HOST_XRGB1555;
-+       }
-        fb_req.pixel_format =3D format;
-        fb_req.handles[0] =3D handle;
-        fb_req.pitches[0] =3D buffer->pitch;
+That means CONFIG_SYSFB_SIMPLEFB=y and CONFIG_DRM_SIMPLEDRM disabled won't
+work either, even if CONFIG_FB_EFI=y which is the case you are mentioning.
 
-However, I don't think we want to sprinkle more of these
-translations around... So perhaps we should (re)add a call to
-drm_driver_legacy_fb_format() to drm_client_buffer_addfb()?
+What I think that doesn't make sense is to remove conflicting framebuffers
+from drivers that can only handle firmware provided framebuffers. As said
+in the other thread, drm_aperture_remove_framebuffers() is only meant for
+native DRM drivers.
 
-Second, as I doubt you are using a big-endian system, you are probably
-running into a slightly different issue.
+> Andrew
+>
 
-Oh wait, you did CC linuxppc-dev, so perhaps you are running on a
-big-endian machine?
+-- 
+Best regards,
 
-If not, please add
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-    pr_info("%s: format =3D %p4cc\n", __func__, &format);
-
-to drivers/gpu/drm/drm_client.c:drm_client_buffer_addfb(), and,
-after reverting commit 6ae2ff23aa43a0c4, add
-
-    pr_info("%s: bpp %u/depth %u =3D> r.pixel_format =3D %p4cc\n",
-__func__, or->bpp, or->depth, &r.pixel_format);
-
-to drivers/gpu/drm/drm_framebuffer.c:drm_mode_addfb(), so we know the
-translation in your case?
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
