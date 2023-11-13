@@ -1,55 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69D557E9795
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 09:25:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B94437EA423
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 21:01:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E04E10E0B7;
-	Mon, 13 Nov 2023 08:25:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30F8910E408;
+	Mon, 13 Nov 2023 20:01:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FF9D10E0B7;
- Mon, 13 Nov 2023 08:25:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699863900; x=1731399900;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=kGU4JUG2Lr96HBJbf/kazk1tGm2ODqpAeWA0HE3tUjU=;
- b=CQaAUdkchFAkhhRHNDDDmyuE94CxKfXT2XsxGkn2R4fmqLrT/VF7g3KP
- BYAG12T5mPvJYuH6ITy62Aho+cmtow4q2VYVrGz0msa8sOwu0Lb2bgdjB
- vTzqK7KZKkc93GqeubNl6Oo65duXuwAaqkpQ07kWAyEU+r2Ha/JHsJbXm
- 8zAl6K0ZQHHkX+f75+40vahITNzkWbLfdEyow9GUzWWWLZj6iYudrZb6a
- CQG8LYN2aPTakjB4QGrPf2u05yaTUPeQ0dUy8kccaI83iGs1QC8i3UXJO
- kYHzzw9oYolvBvdKdS5W+ZZo4gPZ/0HlwN8Ae8en8FMt2o8/vRDS4BdUx g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="375421983"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; d="scan'208";a="375421983"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2023 00:24:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="740700336"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; d="scan'208";a="740700336"
-Received: from rdegreef-mobl2.ger.corp.intel.com (HELO [10.251.217.208])
- ([10.251.217.208])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2023 00:24:55 -0800
-Message-ID: <f229d1ed-b71e-434a-acca-06ee81826260@linux.intel.com>
-Date: Mon, 13 Nov 2023 09:24:50 +0100
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE69A10E15F
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 08:34:54 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id
+ 2adb3069b0e04-507bd19eac8so5506110e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 00:34:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=juliahub.com; s=google; t=1699864493; x=1700469293;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=nSmZOQp3NDYoYQRoOZeW69Lq5ePPtNZcj13zDtILkTQ=;
+ b=bG5QN1Agk7EH6IkmOoC/9zPnDBX0ADnThrCCNiWzDJKih0mq80qKstiEKL/9A9RxME
+ uzNgKGtXq7Am8p3J/4mBLdFSQPxF5z5h/UVPpwiTrmb5Tn86ENCYPalrPHag1xPKQtvV
+ bMbuQB3x3mJ0CvUdSCVEwI1qSFqnIRkQ2csmTDiHcUkO4nwxnvwqWjg1Bsi+htoB811r
+ 4zVfMJv3Nl8DDDEdjJkRPjem+vwgctc9Re+oTDVAWxhc4TcdgIZ3iyzvATNHNM4MUMY2
+ rnbQwJ6dI4eeUL7542TkBQXnm0BjoAO1po4kCT/HWz7unv/cWJk2b7C+iomVYxwE0n7p
+ 3P1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699864493; x=1700469293;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nSmZOQp3NDYoYQRoOZeW69Lq5ePPtNZcj13zDtILkTQ=;
+ b=MJS+jau0+JwJtktqaZGXF8nP6boyhCCXROCA5bqSpi/a2eq2xUVuCndB1nZkWkxK63
+ qvsE0QPpR8OvGo+jgjDAkNByVlpiRbNojwfZPhKl/9IU5Bawiho5QJWA3t10gmeL+rJP
+ SuSKWKmP6yigaQP20gLajDUgeIPDjF3maqvX2FaiRWzgvw7Dxp7pZPCcjJoh4yHIePsF
+ m2iMUEQv+N/0ymNJH9rOIxdRrrxC3Ik/Q+4x/+AnZS8C7WJFqquQJUJpTwXvl/5WDuz9
+ XHvbKSkkZMR/pry9lqdJX26rd232SYRwuFprcLS06V9g0F0VKSNG46CLJHH0K/mv2+Cq
+ Aypw==
+X-Gm-Message-State: AOJu0Yw2DQEj0uLerd+1DsyQsx/fNKVC6nn/PB9jSAbfymR2v/xsCitj
+ 9gsXtVjVVsEk6lIkCwvsSx9kQ+ggz872ykGJrojwuQ==
+X-Google-Smtp-Source: AGHT+IFgq88MRaTHmaB9J8NNC+BSZ2b2vgGjklcYDBiGTryencLrXHqw3v0z2CHQw9bfeLiZxgYwLYjzwO05rQCXNX8=
+X-Received: by 2002:a05:6512:3904:b0:503:258f:fd1b with SMTP id
+ a4-20020a056512390400b00503258ffd1bmr3749298lfu.18.1699864492911; Mon, 13 Nov
+ 2023 00:34:52 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] driver: gpu: Fixing warning directly dereferencing a rcu
- pointer
-To: Abhinav Singh <singhabhinav9051571833@gmail.com>, kherbst@redhat.com,
- lyude@redhat.com, dakr@redhat.com, airlied@gmail.com, daniel@ffwll.ch
-References: <20231113081040.2947143-1-singhabhinav9051571833@gmail.com>
-Content-Language: en-US
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <20231113081040.2947143-1-singhabhinav9051571833@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Keno Fischer <keno@juliahub.com>
+Date: Mon, 13 Nov 2023 03:34:16 -0500
+Message-ID: <CABV8kRwx=92ntPW155ef=72z6gtS_NPQ9bRD=R1q_hx1p7wy=g@mail.gmail.com>
+Subject: Incomplete stable drm/ast backport - screen freeze on boot
+To: stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Mon, 13 Nov 2023 20:01:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,68 +65,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: sashal@kernel.org, jfalempe@redhat.com, regressions@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
+Greetings,
 
-Den 2023-11-13 kl. 09:10, skrev Abhinav Singh:
-> This patch fixes a sparse warning with this message
-> "warning:dereference of noderef expression". In this context it means we
-> are dereferencing a __rcu tagged pointer directly.
->
-> We should not be directly dereferencing a rcu pointer, rather we should
-> be using rcu helper function rcu_dereferece() inside rcu read critical
-> section to get a normal pointer which can be dereferenced.
->
-> I tested with qemu with this command
-> qemu-system-x86_64 \
-> 	-m 2G \
-> 	-smp 2 \
-> 	-kernel bzImage \
-> 	-append "console=ttyS0 root=/dev/sda earlyprintk=serial net.ifnames=0" \
-> 	-drive file=bullseye.img,format=raw \
-> 	-net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 \
-> 	-net nic,model=e1000 \
-> 	-enable-kvm \
-> 	-nographic \
-> 	-pidfile vm.pid \
-> 	2>&1 | tee vm.log
-> with lockdep enabled.
->
-> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
-> ---
->   drivers/gpu/drm/nouveau/nv04_fence.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nv04_fence.c b/drivers/gpu/drm/nouveau/nv04_fence.c
-> index 5b71a5a5cd85..e62bad1ac720 100644
-> --- a/drivers/gpu/drm/nouveau/nv04_fence.c
-> +++ b/drivers/gpu/drm/nouveau/nv04_fence.c
-> @@ -39,7 +39,9 @@ struct nv04_fence_priv {
->   static int
->   nv04_fence_emit(struct nouveau_fence *fence)
->   {
-> -	struct nvif_push *push = fence->channel->chan.push;
-> +	rcu_read_lock();
-> +	struct nvif_push *push = rcu_dereference(fence->channel)->chan.push;
-> +	rcu_read_unlock();
->   	int ret = PUSH_WAIT(push, 2);
->   	if (ret == 0) {
->   		PUSH_NVSQ(push, NV_SW, 0x0150, fence->base.seqno);
+When connected to a remote machine via the BMC KVM functionality,
+I am experiencing screen freezes on boot when using 6.5 stable,
+but not master.
 
-I'm not an expert in nouveau fence channel lifetime, but I'm pretty sure 
-this should probably be a rcu_dereference_protected, since a fence 
-likely can't lose its channel before its command to signal is submitted.
+The BMC on the machine in question is an ASpeed AST2600.
+A quick bisect shows the problematic commit to be 2fb9667
+("drm/ast: report connection status on Display Port.").
+This is commit f81bb0ac upstream.
 
-But in case it's not, I would at least advise to check for 
-fence->channel lifetime before submitting a patch like this. At least 
-the original code warned about it not being 100% correct.
+I believe the problem is that the previous commit in the series
+e329cb5 ("drm/ast: Add BMC virtual connector")
+was not backported to the stable branch.
+As a consequence, it appears that the more accurate DP state detection
+is causing the kernel to believe that no display is connected,
+even when the BMC's virtual display is in fact in use.
+A cherry-pick of e329cb5 onto the stable branch resolves the issue.
 
 Cheers,
-
-~Maarten
-
+Keno
