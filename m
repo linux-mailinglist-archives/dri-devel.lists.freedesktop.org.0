@@ -2,66 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84E497EA302
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 19:43:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6DB7EA30F
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 19:49:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F2D910E3EA;
-	Mon, 13 Nov 2023 18:42:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EFC810E187;
+	Mon, 13 Nov 2023 18:49:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABC5310E187;
- Mon, 13 Nov 2023 18:42:56 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- 46e09a7af769-6d64ca151c2so179227a34.1; 
- Mon, 13 Nov 2023 10:42:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699900976; x=1700505776; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2mtmd09hFYXnVdRkrFU6g3p7HtLLyzcUAB+w/A7AON4=;
- b=RbgV+U0OnzIsFYbShrIn/6xzalp1rfjGp54I36GKZOh71aRhKy27WoQ2sml9w16tJX
- MW2GcXHmo7Gk3GSzKleb+MgMG/PNrRCVIhAmlqfa1PtB4em1fo05M+hGQy499yBnyq7y
- oF7HCSC9r0BPL8eaWslhfULdBZRwl6KpMRVDaEo6STqqy1mF74cp0+WGVmF0umolM4TP
- iAcCnQZwVGt0tKuz36PURtqHI4L+vZmYImgdWLMl4gLnl3R55avfvne4mkSKNsyIyTPw
- dwLhEt5Z5vUN52PdEUYGjWHgnTk+GyYXenQ9s5LiOuk+CUw/1y7pOfLfZ/SXO6ayrgnU
- HMfw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8835010E187
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 18:49:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1699901365;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=J9Fat91VCfWswbfB4dQoar2RJWXbpc4KeUVKZoklMG4=;
+ b=UTnm1QUR5rZRRZ3/+AIS0gDlleJ7KCgUVGQWKZF2kuLq0vJnjIeitJRybnU7xAQezDxCZ/
+ fE0Wl/IFE0W6OY5145a5jf8Zbl3tqWIvM4BYH0t5KSa/XYVdo4HHJiRruJSciIduvS+UvH
+ JSOlBgFfWwunXRLOtiqUVOGLNgsltWo=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-694-sxnV8reXMsKkIYn2gMnjqQ-1; Mon, 13 Nov 2023 13:49:23 -0500
+X-MC-Unique: sxnV8reXMsKkIYn2gMnjqQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-9e5dd91b0ebso216528466b.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 10:49:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699900976; x=1700505776;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2mtmd09hFYXnVdRkrFU6g3p7HtLLyzcUAB+w/A7AON4=;
- b=FY0ObTzVktWuH/WFuHbq+nFlpw9FYBxFzL+ML9LnQUm9V06azWplHDE72GXI4yDv7u
- sFutQWARCNELUJ/abpHdDLP5VVPVf6U3KhsC0XPqOsB0y73qYsV4eSk+rebxwO5RmW99
- C9xisjqMoX0FYM+Ph6DQB6dv1y2R3ZF0hq2dUtEIh1VXSipF8Thx+QqR3U1lZfYbg1l+
- KJt4n3RJKjB6Iuvr58qCInHC24PhWF7tCi2Qv1V5WcZoYckPeKwKxejrofXnGVOIYfri
- 4ZruT23Y/o9gzCInOT2cFZqFbnGbZHbbpzBGf/WiNNPnsk3FX48NXZAe/49YadtK4M5m
- norQ==
-X-Gm-Message-State: AOJu0YwwUntM8bGFpSAC5OmS6w6V9yT1M0Pnbzjf5to86oyrYPTPkPrD
- ln5l6CSzNHu8I4CjwVgv01w=
-X-Google-Smtp-Source: AGHT+IEA1BUXt8w/1R9eTTYLZmyMjGnY+Z6vq6aMaSD2YdSx84htQATbTZVVwb3NbeXa3fdeWUhkBg==
-X-Received: by 2002:a05:6830:462a:b0:6b9:d3bd:3985 with SMTP id
- ba42-20020a056830462a00b006b9d3bd3985mr6976344otb.1.1699900975849; 
- Mon, 13 Nov 2023 10:42:55 -0800 (PST)
-Received: from abhinav.. ([103.75.161.208]) by smtp.gmail.com with ESMTPSA id
- 16-20020a630b10000000b005bd627c05c3sm4256693pgl.19.2023.11.13.10.42.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Nov 2023 10:42:55 -0800 (PST)
-From: Abhinav Singh <singhabhinav9051571833@gmail.com>
-To: kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com, airlied@gmail.com,
- daniel@ffwll.ch
-Subject: [PATCH v2] driver: gpu: Fixing warning directly dereferencing a rcu
- pointer
-Date: Tue, 14 Nov 2023 00:12:38 +0530
-Message-Id: <20231113184238.3276835-1-singhabhinav9051571833@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <d33fc41b-5a1f-4186-a0b2-3c82dcb8f00b@redhat.com>
-References: <d33fc41b-5a1f-4186-a0b2-3c82dcb8f00b@redhat.com>
+ d=1e100.net; s=20230601; t=1699901363; x=1700506163;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=J9Fat91VCfWswbfB4dQoar2RJWXbpc4KeUVKZoklMG4=;
+ b=sXDgqoI21CORchVeumy7gxzRV/e0gagDGjlsG3oxpMzFhDCZjPSyOec34ii/9+Z6nG
+ uple3oMTNEvdTYfeNwnZQisZwuRLrYnVkE0sMRGXv0IU1BNp/Gcq8yVUDPbjdemQYw/B
+ Gni7bBJrbqF0ghxGSzm0vE0FWpqzJSIa1OdwJrLuyQ/8M37gTez6ZGhZj1lrF8/QgAvC
+ fpi0M748dszs8gLFTIbkgXJ8lEERwnGZmS4nm2h8GTSUvg7Boy736/FdMxMaTr5DexZA
+ 3RnlKnpzqOP1urks/LfgP/otRY1T4cuIl09g4CWIxrkBmKREHOGAc6cQUZwHZxjM9WCk
+ zOuw==
+X-Gm-Message-State: AOJu0YxwQi1OojlAD4cLU1PMneebEF2TI1QzwoPeZgvhclc9GcGsWUFK
+ OjSmCqswK+tEEkFcFCsWH75vUNx8B2Bj6P4iYEVsQHaH+RJ/UhKAH7kdZhhOcaDcw4Ja7eYYHVd
+ JvZTKwLYQAfQSceoxE86CrwHVQuQ9
+X-Received: by 2002:a17:906:3bd7:b0:9dd:7ccf:77f8 with SMTP id
+ v23-20020a1709063bd700b009dd7ccf77f8mr4957511ejf.20.1699901362781; 
+ Mon, 13 Nov 2023 10:49:22 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEQ0uVWVogauvgHwe0HaAW2uaROhlGctVUZQkTd5P1FixQh0Rbjuz2KkG7VPVhO+wwo/3DUDA==
+X-Received: by 2002:a17:906:3bd7:b0:9dd:7ccf:77f8 with SMTP id
+ v23-20020a1709063bd700b009dd7ccf77f8mr4957500ejf.20.1699901362466; 
+ Mon, 13 Nov 2023 10:49:22 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ y24-20020a170906471800b009dda94509casm4368759ejq.102.2023.11.13.10.49.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Nov 2023 10:49:21 -0800 (PST)
+Message-ID: <373d97fc-0612-40da-ae9d-6702aa4483ba@redhat.com>
+Date: Mon, 13 Nov 2023 19:49:20 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] driver: gpu: Fixing warning directly dereferencing a
+ rcu pointer
+To: Abhinav Singh <singhabhinav9051571833@gmail.com>, kherbst@redhat.com,
+ lyude@redhat.com, airlied@gmail.com, daniel@ffwll.ch
+References: <d33fc41b-5a1f-4186-a0b2-3c82dcb8f00b@redhat.com>
+ <20231113184238.3276835-1-singhabhinav9051571833@gmail.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20231113184238.3276835-1-singhabhinav9051571833@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,55 +92,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: nouveau@lists.freedesktop.org,
  linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Abhinav Singh <singhabhinav9051571833@gmail.com>
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch fixes a sparse warning with this message 
-"warning:dereference of noderef expression". In this context it means we
-are dereferencing a __rcu tagged pointer directly.
+Hi,
 
-We should not be directly dereferencing a rcu pointer, rather we should
-be using rcu helper function rcu_dereferece() inside rcu read critical
-section to get a normal pointer which can be dereferenced.
+thanks for sending a v2.
 
-I tested with qemu with this command 
-qemu-system-x86_64 \
-	-m 2G \
-	-smp 2 \
-	-kernel bzImage \
-	-append "console=ttyS0 root=/dev/sda earlyprintk=serial net.ifnames=0" \
-	-drive file=bullseye.img,format=raw \
-	-net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 \
-	-net nic,model=e1000 \
-	-enable-kvm \
-	-nographic \
-	-pidfile vm.pid \
-	2>&1 | tee vm.log
-with lockdep enabled.
+On 11/13/23 19:42, Abhinav Singh wrote:
+> This patch fixes a sparse warning with this message
+> "warning:dereference of noderef expression". In this context it means we
+> are dereferencing a __rcu tagged pointer directly.
 
-Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
----
-v1 -> v2 : Replaced the rcu_dereference(...) with unrcu_pointer(...) and
-also removed the rcu locking and unlocking function call.
+Better use imperative here, e.g. "Fix a sparse warning ...".
 
- drivers/gpu/drm/nouveau/nv04_fence.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Wouldn't ask you to send a v3 for that alone...
 
-diff --git a/drivers/gpu/drm/nouveau/nv04_fence.c b/drivers/gpu/drm/nouveau/nv04_fence.c
-index 5b71a5a5cd85..cdbc75e3d1f6 100644
---- a/drivers/gpu/drm/nouveau/nv04_fence.c
-+++ b/drivers/gpu/drm/nouveau/nv04_fence.c
-@@ -39,7 +39,7 @@ struct nv04_fence_priv {
- static int
- nv04_fence_emit(struct nouveau_fence *fence)
- {
--	struct nvif_push *push = fence->channel->chan.push;
-+	struct nvif_push *push = unrcu_pointer(fence->channel)->chan.push;
- 	int ret = PUSH_WAIT(push, 2);
- 	if (ret == 0) {
- 		PUSH_NVSQ(push, NV_SW, 0x0150, fence->base.seqno);
--- 
-2.39.2
+> 
+> We should not be directly dereferencing a rcu pointer, rather we should
+> be using rcu helper function rcu_dereferece() inside rcu read critical
+> section to get a normal pointer which can be dereferenced.
+
+...but this doesn't seem accurate anymore as well.
+
+- Danilo
+
+> 
+> I tested with qemu with this command
+> qemu-system-x86_64 \
+> 	-m 2G \
+> 	-smp 2 \
+> 	-kernel bzImage \
+> 	-append "console=ttyS0 root=/dev/sda earlyprintk=serial net.ifnames=0" \
+> 	-drive file=bullseye.img,format=raw \
+> 	-net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 \
+> 	-net nic,model=e1000 \
+> 	-enable-kvm \
+> 	-nographic \
+> 	-pidfile vm.pid \
+> 	2>&1 | tee vm.log
+> with lockdep enabled.
+> 
+> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
+> ---
+> v1 -> v2 : Replaced the rcu_dereference(...) with unrcu_pointer(...) and
+> also removed the rcu locking and unlocking function call.
+> 
+>   drivers/gpu/drm/nouveau/nv04_fence.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nv04_fence.c b/drivers/gpu/drm/nouveau/nv04_fence.c
+> index 5b71a5a5cd85..cdbc75e3d1f6 100644
+> --- a/drivers/gpu/drm/nouveau/nv04_fence.c
+> +++ b/drivers/gpu/drm/nouveau/nv04_fence.c
+> @@ -39,7 +39,7 @@ struct nv04_fence_priv {
+>   static int
+>   nv04_fence_emit(struct nouveau_fence *fence)
+>   {
+> -	struct nvif_push *push = fence->channel->chan.push;
+> +	struct nvif_push *push = unrcu_pointer(fence->channel)->chan.push;
+>   	int ret = PUSH_WAIT(push, 2);
+>   	if (ret == 0) {
+>   		PUSH_NVSQ(push, NV_SW, 0x0150, fence->base.seqno);
 
