@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D11D7E98AC
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 10:15:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32D907E98A8
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 10:15:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A7A210E182;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71A9410E2F9;
 	Mon, 13 Nov 2023 09:15:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 925DE10E17A
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4926D10E15B
  for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 09:14:46 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D52F621905;
- Mon, 13 Nov 2023 09:14:44 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 0E5881F750;
+ Mon, 13 Nov 2023 09:14:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1699866884; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1699866885; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cbwIU9Qq9EMTtNa58u4UO1xcpDoYZGQmLFIj33J4ZQ0=;
- b=AaXjyxBNMHqjM3Zwu4dmXgdHQLPSnNGDjfd9qBiHEzKw8aeUz+nr437l90/JadxmvvS2Ju
- Vb6af8XgV4d2DDD9AOjacqfnvAsFzZEpiUsFfuIoeNYSAxxP6/ETr+2HKGx5odJREXLdXJ
- iVA2bew2FWhv2P4LxgfKQquRZ99ZaK8=
+ bh=aktxMqY/ugprwJs2gJYwfxuvyv++OJvKJmK8VhKFrlo=;
+ b=um/kAGbCPBOFdDge/phF6StkEzVMrHU95RHeimpMzOvwa7vnQ7Hpgsuk/eNaDIV67mPLsx
+ d0iPzpjsfAPe9tp6UgXj12NcFJLjJG4i8O3fO0UXpUqZVfU4IyQkfm16Unjr+/E4xAakMX
+ /nK8NCn7pA/SL0B3sh81OBLe/xarMX4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1699866884;
+ s=susede2_ed25519; t=1699866885;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cbwIU9Qq9EMTtNa58u4UO1xcpDoYZGQmLFIj33J4ZQ0=;
- b=F2S8kvW13JfFVenlD5IRvviI3ZItXRiOvEBqqOyoZD6/kxCLATnxOnBTuyPqLkpHDtD9+N
- HQur/yZMoINnqYAg==
+ bh=aktxMqY/ugprwJs2gJYwfxuvyv++OJvKJmK8VhKFrlo=;
+ b=FpZAx//ODgUaW/VBR0hZ885Tll8Z2tWISRjd4DgHSw0fDIbIKouMlSYc4vc69/YV0q+2qF
+ +KFJoRzZPvaFYHAg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A88F113907;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D5E3F13398;
  Mon, 13 Nov 2023 09:14:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IBY9KATpUWW0BwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id GNFgMwTpUWW0BwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 13 Nov 2023 09:14:44 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, daniel@ffwll.ch, airlied@gmail.com
-Subject: [PATCH 06/10] drm/ast: Enable MMIO without ast device instance
-Date: Mon, 13 Nov 2023 09:50:28 +0100
-Message-ID: <20231113091439.17181-7-tzimmermann@suse.de>
+Subject: [PATCH 07/10] drm/ast: Partially implement POST without ast device
+ instance
+Date: Mon, 13 Nov 2023 09:50:29 +0100
+Message-ID: <20231113091439.17181-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231113091439.17181-1-tzimmermann@suse.de>
 References: <20231113091439.17181-1-tzimmermann@suse.de>
@@ -72,69 +73,163 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We'll have to enable the MMIO access for detecting the ast device
+We'll have to do some of the GPU POSTing for detecting the ast device
 type. Make this work without an instance of the ast device.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ast/ast_main.c | 16 +++++++++-------
- drivers/gpu/drm/ast/ast_reg.h  |  2 ++
- 2 files changed, 11 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/ast/ast_drv.h  |  2 +-
+ drivers/gpu/drm/ast/ast_main.c |  2 +-
+ drivers/gpu/drm/ast/ast_post.c | 73 +++++++++++++++++++++-------------
+ 3 files changed, 47 insertions(+), 30 deletions(-)
 
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index b82be890d9fce..491603a13151c 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -471,7 +471,7 @@ int ast_mm_init(struct ast_device *ast);
+ void ast_post_gpu(struct drm_device *dev);
+ u32 ast_mindwm(struct ast_device *ast, u32 r);
+ void ast_moutdwm(struct ast_device *ast, u32 r, u32 v);
+-void ast_patch_ahb_2500(struct ast_device *ast);
++void ast_patch_ahb_2500(void __iomem *regs);
+ /* ast dp501 */
+ void ast_set_dp501_video_output(struct drm_device *dev, u8 mode);
+ bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size);
 diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index 1d2ec77c1d8d9..a24d3529373c1 100644
+index a24d3529373c1..f100df8d74f71 100644
 --- a/drivers/gpu/drm/ast/ast_main.c
 +++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -54,19 +54,21 @@ static void ast_enable_vga(void __iomem *ioregs)
-  */
- static void ast_enable_mmio_release(void *data)
- {
--	struct ast_device *ast = data;
-+	void __iomem *ioregs = (void __force __iomem *)data;
+@@ -113,7 +113,7 @@ static int ast_device_config_init(struct ast_device *ast)
+ 			/* Patch AST2500/AST2510 */
+ 			if ((pdev->revision & 0xf0) == 0x40) {
+ 				if (!(jregd0 & AST_VRAM_INIT_STATUS_MASK))
+-					ast_patch_ahb_2500(ast);
++					ast_patch_ahb_2500(ast->regs);
+ 			}
  
- 	/* enable standard VGA decode */
--	ast_set_index_reg(ast, AST_IO_VGACRI, 0xa1, 0x04);
-+	__ast_write8_i(ioregs, AST_IO_VGACRI, 0xa1, AST_IO_VGACRA1_MMIO_ENABLED);
+ 			/* Double check that it's actually working */
+diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
+index 7a993a3843147..22f548805dfb0 100644
+--- a/drivers/gpu/drm/ast/ast_post.c
++++ b/drivers/gpu/drm/ast/ast_post.c
+@@ -77,28 +77,42 @@ ast_set_def_ext_reg(struct drm_device *dev)
+ 	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xb6, 0xff, reg);
  }
  
--static int ast_enable_mmio(struct ast_device *ast)
-+static int ast_enable_mmio(struct device *dev, void __iomem *ioregs)
+-u32 ast_mindwm(struct ast_device *ast, u32 r)
++static u32 __ast_mindwm(void __iomem *regs, u32 r)
  {
--	struct drm_device *dev = &ast->base;
-+	void *data = (void __force *)ioregs;
+-	uint32_t data;
++	u32 data;
  
--	ast_set_index_reg(ast, AST_IO_VGACRI, 0xa1, 0x06);
-+	__ast_write8_i(ioregs, AST_IO_VGACRI, 0xa1,
-+		       AST_IO_VGACRA1_MMIO_ENABLED |
-+		       AST_IO_VGACRA1_VGAIO_DISABLED);
+-	ast_write32(ast, 0xf004, r & 0xffff0000);
+-	ast_write32(ast, 0xf000, 0x1);
++	__ast_write32(regs, 0xf004, r & 0xffff0000);
++	__ast_write32(regs, 0xf000, 0x1);
  
--	return devm_add_action_or_reset(dev->dev, ast_enable_mmio_release, ast);
-+	return devm_add_action_or_reset(dev, ast_enable_mmio_release, data);
+ 	do {
+-		data = ast_read32(ast, 0xf004) & 0xffff0000;
++		data = __ast_read32(regs, 0xf004) & 0xffff0000;
+ 	} while (data != (r & 0xffff0000));
+-	return ast_read32(ast, 0x10000 + (r & 0x0000ffff));
++
++	return __ast_read32(regs, 0x10000 + (r & 0x0000ffff));
  }
  
- static void ast_open_key(void __iomem *ioregs)
-@@ -496,7 +498,7 @@ struct ast_device *ast_device_create(const struct drm_driver *drv,
- 	/* Enable extended register access */
- 	ast_open_key(ioregs);
+-void ast_moutdwm(struct ast_device *ast, u32 r, u32 v)
++static void __ast_moutdwm(void __iomem *regs, u32 r, u32 v)
+ {
+-	uint32_t data;
+-	ast_write32(ast, 0xf004, r & 0xffff0000);
+-	ast_write32(ast, 0xf000, 0x1);
++	u32 data;
++
++	__ast_write32(regs, 0xf004, r & 0xffff0000);
++	__ast_write32(regs, 0xf000, 0x1);
++
+ 	do {
+-		data = ast_read32(ast, 0xf004) & 0xffff0000;
++		data = __ast_read32(regs, 0xf004) & 0xffff0000;
+ 	} while (data != (r & 0xffff0000));
+-	ast_write32(ast, 0x10000 + (r & 0x0000ffff), v);
++
++	__ast_write32(regs, 0x10000 + (r & 0x0000ffff), v);
++}
++
++u32 ast_mindwm(struct ast_device *ast, u32 r)
++{
++	return __ast_mindwm(ast->regs, r);
++}
++
++void ast_moutdwm(struct ast_device *ast, u32 r, u32 v)
++{
++	__ast_moutdwm(ast->regs, r, v);
+ }
  
--	ret = ast_enable_mmio(ast);
-+	ret = ast_enable_mmio(&pdev->dev, ioregs);
- 	if (ret)
- 		return ERR_PTR(ret);
+ /*
+@@ -1987,17 +2001,18 @@ static bool ast_dram_init_2500(struct ast_device *ast)
+ 	return true;
+ }
  
-diff --git a/drivers/gpu/drm/ast/ast_reg.h b/drivers/gpu/drm/ast/ast_reg.h
-index 826fcb08398ec..236547a0280d9 100644
---- a/drivers/gpu/drm/ast/ast_reg.h
-+++ b/drivers/gpu/drm/ast/ast_reg.h
-@@ -29,6 +29,8 @@
+-void ast_patch_ahb_2500(struct ast_device *ast)
++void ast_patch_ahb_2500(void __iomem *regs)
+ {
+-	u32	data;
++	u32 data;
  
- #define AST_IO_VGACRI			(0x54)
- #define AST_IO_VGACR80_PASSWORD		(0xa8)
-+#define AST_IO_VGACRA1_VGAIO_DISABLED	BIT(1)
-+#define AST_IO_VGACRA1_MMIO_ENABLED	BIT(2)
- #define AST_IO_VGACRCB_HWC_16BPP	BIT(0) /* set: ARGB4444, cleared: 2bpp palette */
- #define AST_IO_VGACRCB_HWC_ENABLED	BIT(1)
+ 	/* Clear bus lock condition */
+-	ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
+-	ast_moutdwm(ast, 0x1e600084, 0x00010000);
+-	ast_moutdwm(ast, 0x1e600088, 0x00000000);
+-	ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
+-	data = ast_mindwm(ast, 0x1e6e2070);
+-	if (data & 0x08000000) {					/* check fast reset */
++	__ast_moutdwm(regs, 0x1e600000, 0xAEED1A03);
++	__ast_moutdwm(regs, 0x1e600084, 0x00010000);
++	__ast_moutdwm(regs, 0x1e600088, 0x00000000);
++	__ast_moutdwm(regs, 0x1e6e2000, 0x1688A8A8);
++
++	data = __ast_mindwm(regs, 0x1e6e2070);
++	if (data & 0x08000000) { /* check fast reset */
+ 		/*
+ 		 * If "Fast restet" is enabled for ARM-ICE debugger,
+ 		 * then WDT needs to enable, that
+@@ -2009,16 +2024,18 @@ void ast_patch_ahb_2500(struct ast_device *ast)
+ 		 *	[1]:= 1:WDT will be cleeared and disabled after timeout occurs
+ 		 *	[0]:= 1:WDT enable
+ 		 */
+-		ast_moutdwm(ast, 0x1E785004, 0x00000010);
+-		ast_moutdwm(ast, 0x1E785008, 0x00004755);
+-		ast_moutdwm(ast, 0x1E78500c, 0x00000033);
++		__ast_moutdwm(regs, 0x1E785004, 0x00000010);
++		__ast_moutdwm(regs, 0x1E785008, 0x00004755);
++		__ast_moutdwm(regs, 0x1E78500c, 0x00000033);
+ 		udelay(1000);
+ 	}
++
+ 	do {
+-		ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
+-		data = ast_mindwm(ast, 0x1e6e2000);
+-	}	while (data != 1);
+-	ast_moutdwm(ast, 0x1e6e207c, 0x08000000);	/* clear fast reset */
++		__ast_moutdwm(regs, 0x1e6e2000, 0x1688A8A8);
++		data = __ast_mindwm(regs, 0x1e6e2000);
++	} while (data != 1);
++
++	__ast_moutdwm(regs, 0x1e6e207c, 0x08000000); /* clear fast reset */
+ }
  
+ void ast_post_chip_2500(struct drm_device *dev)
+@@ -2030,7 +2047,7 @@ void ast_post_chip_2500(struct drm_device *dev)
+ 	reg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd0, 0xff);
+ 	if ((reg & AST_VRAM_INIT_STATUS_MASK) == 0) {/* vga only */
+ 		/* Clear bus lock condition */
+-		ast_patch_ahb_2500(ast);
++		ast_patch_ahb_2500(ast->regs);
+ 
+ 		/* Disable watchdog */
+ 		ast_moutdwm(ast, 0x1E78502C, 0x00000000);
 -- 
 2.42.0
 
