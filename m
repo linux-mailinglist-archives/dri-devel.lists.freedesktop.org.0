@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2089A7E965C
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 05:54:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C07567E9694
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Nov 2023 07:05:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD96710E10A;
-	Mon, 13 Nov 2023 04:54:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E2C910E07A;
+	Mon, 13 Nov 2023 06:05:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com
- [IPv6:2607:f8b0:4864:20::933])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EBB310E10A
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 04:54:30 +0000 (UTC)
-Received: by mail-ua1-x933.google.com with SMTP id
- a1e0cc1a2514c-7b6e1770519so899009241.2
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Nov 2023 20:54:30 -0800 (PST)
+Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com
+ [IPv6:2607:f8b0:4864:20::e32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29DC910E034
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 06:05:45 +0000 (UTC)
+Received: by mail-vs1-xe32.google.com with SMTP id
+ ada2fe7eead31-45d955fcabdso1167563137.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Nov 2023 22:05:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1699851269; x=1700456069;
+ d=google.com; s=20230601; t=1699855544; x=1700460344;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ulZUsxBjy/DYiq3mQzgGs9wuxEBLqLXZ1LrWDxA7qvo=;
- b=iyLLnDKrGLhBzcCalSEx4B2vyLkI1cutBR76whdP6DIQKyYS5W+Z7e1LMK0fJg481Y
- Gr5nIuMHLof58Queg1YUXMegICgFAETvESAGVD7On4BqqsXqaCST/5qgBlkocBLu2iZz
- 6sImY40qPT8uChSg7rqm6brsOldh/3/ObyWmzq3h18JtZEr7l0PYobv/WpYXllrkfMmo
- WNl29UG5MiJMAvBmbYAw1RIfI8CRVWO5qif/v5vyRYYsfh/XLjpFMxTLMHa9ge6rD1ix
- HLEvlG3sgoah6gLfE6OyzDAgsVB2wO2+9jI//6/68xTQJqYk800/aomb39XBoxeh2dXi
- 5eyg==
+ bh=+O4c7eDef50yyoJSsJxpIFGb81PUKkG+p7ugALAq5oE=;
+ b=en3mjNO1AMG9Q5LiUKMrxe4aVo4iu64BLye50+653+g6qhU/rAK4MkH0a6f7+dp+7l
+ x7lWtlrN0U16Rd5Rq/jSJ3T0uki2kNan/hNS3Q8mLrzwnbKXKdtxo5GhK+KNxHo6rFaZ
+ tCdvhsqt1+5c7yo9iOYwTP+pERWp3tl09y9ZVoFCd6xH43tp7L7vgdzGM0OunKWpQ3oO
+ wxbPoxrkoSq0ObtV9oHuzloUMdF7jvqKocA15tEd9TSfk3e1yXqsPTa5G/mjET0E2rNN
+ njQFSTrJgVsUJ5dNSISzx4R5xJJZmm0VN9B7FrX1Tf85bdppOAjZfbo2SKI7+Rt1BKnY
+ qrRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699851269; x=1700456069;
+ d=1e100.net; s=20230601; t=1699855544; x=1700460344;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ulZUsxBjy/DYiq3mQzgGs9wuxEBLqLXZ1LrWDxA7qvo=;
- b=ccJSyI4Bi4UjKtp4pA00bGbTzg785bJ62mMGF1/+LBhuqxZXyrZTFDVkyCpagDvreO
- V+KQksKTH7EDUbS8FP9zaObl+SoXoEKDXJqXkiV/msa5QSn2JdXBcuTxdMXx2fhb3sZm
- 6YTucLAXUqvQJ8qcTpwSuTFrwCCAuncd1BxEm/tdRt6JiWkTzW/ttgX6/AHIBov4wxSN
- bB8ImkzLB7Kqzyl9uFuIV8CpQSF2qXps0rmhT06FS1hYarU6Zv3w8aZFWZkM803ag1ds
- buLCWG/xNP4MlER8vTy5GLlEp/q6+MW19mmIhOGEDsz5SVqJrZfZDYi/muAJOkvuI3Lh
- wBuw==
-X-Gm-Message-State: AOJu0Yzz2K0IreFC5meF6jAk+BlV8/Eyv7PROKKNl1MYxm753AVJl2hB
- IXHO/JzTxGM0q0SYRQeQ343rlk03wPkVBjaN4W3p0Q==
-X-Google-Smtp-Source: AGHT+IGBugYmcwQCmYo3XhrW53vx7SnsNtkGBEWopCzRD+dofX6GN+L1OxYsj2HtZsztRRSBDJnHEIwyfhi7gc94JeA=
-X-Received: by 2002:a67:ab0d:0:b0:45f:4e67:4420 with SMTP id
- u13-20020a67ab0d000000b0045f4e674420mr2062262vse.2.1699851269262; Sun, 12 Nov
- 2023 20:54:29 -0800 (PST)
+ bh=+O4c7eDef50yyoJSsJxpIFGb81PUKkG+p7ugALAq5oE=;
+ b=qNVYz2W3fYche+Z3cZJja6byl4v0HAfEEcCv0Vpr4JCmLap3WeKxL9HYwsHFb0Nv4H
+ 1LA9rkGV1TuIeBmfGpT/oIWZMyfslb9lXV5RVTSiY+rtOjYzKjXtl16xgdl5Sv792y9x
+ 7thrkEbHyaNkswpL9+4iJcbT86wS1v0GPfSowVzzRdvfypmBdM1Up7qLt/vBfwWaR8u4
+ ZInFCKHpF0AtbPG9GtiJ333Na1anFFb32djgJTSDthRwymH450t+dbtcDw0obmzrJ5IJ
+ 8ueLmid6XZ2T9yJNUZswDYYVIWlpvttbfkmFsw6aocKZ1kTpnDAViRrS8K+9DokVJwjo
+ iFSQ==
+X-Gm-Message-State: AOJu0YyNjUsPIVBPtyZ7srQuoqroWXrjFJkxrLBMvSOB7XTBzQUnvw1x
+ fJspTNfwkOqqwuCOWRotNFw1s72yxSmcPgoyNqFWkA==
+X-Google-Smtp-Source: AGHT+IEzmDvkwRkaQiM0DAzYdV0kX0ZDqS9InenhAVr/MpvpHQQqRmx4Go8bctNEzwdfIOZ4RbhEG1ddlIqUfdGfcuo=
+X-Received: by 2002:a05:6102:2c04:b0:45e:f8af:79c1 with SMTP id
+ ie4-20020a0561022c0400b0045ef8af79c1mr2667348vsb.31.1699855544082; Sun, 12
+ Nov 2023 22:05:44 -0800 (PST)
 MIME-Version: 1.0
 References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-7-almasrymina@google.com>
- <20231110151622.2f45f618@kernel.org>
-In-Reply-To: <20231110151622.2f45f618@kernel.org>
+ <20231106024413.2801438-9-almasrymina@google.com>
+ <20231110151935.0859fd7a@kernel.org>
+In-Reply-To: <20231110151935.0859fd7a@kernel.org>
 From: Mina Almasry <almasrymina@google.com>
-Date: Sun, 12 Nov 2023 20:54:18 -0800
-Message-ID: <CAHS8izMGNLM18TF1RCDBfdOXXpqseePA4_27qmQt-FsrFzGfdQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 06/12] memory-provider: dmabuf devmem memory
- provider
+Date: Sun, 12 Nov 2023 22:05:30 -0800
+Message-ID: <CAHS8izN7MydkJPaHfj7Pw0V+xoDBkCmEVTc1TH24=hjXm98xnQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 08/12] net: support non paged skb frags
 To: Jakub Kicinski <kuba@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,58 +71,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Paolo Abeni <pabeni@redhat.com>,
- linux-media@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, linaro-mm-sig@lists.linaro.org,
- Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>,
+Cc: linux-arch@vger.kernel.org,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
  Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, Eric Dumazet <edumazet@google.com>,
+ Shakeel Butt <shakeelb@google.com>, linux-kselftest@vger.kernel.org,
+ Praveen Kaligineedi <pkaligineedi@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Shuah Khan <shuah@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 10, 2023 at 3:16=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+On Fri, Nov 10, 2023 at 3:19=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
 ote:
 >
-> On Sun,  5 Nov 2023 18:44:05 -0800 Mina Almasry wrote:
-> > +static int mp_dmabuf_devmem_init(struct page_pool *pool)
+> On Sun,  5 Nov 2023 18:44:07 -0800 Mina Almasry wrote:
+> >  #include <net/net_debug.h>
+> >  #include <net/dropreason-core.h>
+> > +#include <net/page_pool/types.h>
+> > +#include <net/page_pool/helpers.h>
+>
+> >  /**
+> >   * DOC: skb checksums
+> > @@ -3402,15 +3404,38 @@ static inline void skb_frag_off_copy(skb_frag_t=
+ *fragto,
+> >       fragto->bv_offset =3D fragfrom->bv_offset;
+> >  }
+> >
+> > +/* Returns true if the skb_frag contains a page_pool_iov. */
+> > +static inline bool skb_frag_is_page_pool_iov(const skb_frag_t *frag)
 > > +{
-> > +     struct netdev_dmabuf_binding *binding =3D pool->mp_priv;
-> > +
-> > +     if (!binding)
-> > +             return -EINVAL;
-> > +
-> > +     if (pool->p.flags & PP_FLAG_DMA_MAP ||
-> > +         pool->p.flags & PP_FLAG_DMA_SYNC_DEV)
-> > +             return -EOPNOTSUPP;
+> > +     return page_is_page_pool_iov(frag->bv_page);
+> > +}
 >
-> This looks backwards, we should _force_ the driver to use the dma
-> mapping built into the page pool APIs, to isolate the driver from
-> how the DMA addr actually gets obtained. Right?
+> Maybe we can create a new header? For skb + page pool.
 >
-> Maybe seeing driver patches would illuminate.
+> skbuff.h is included by 1/4th of the kernel objects, we should not
+> be adding dependencies to this header, it really slows down incremental
+> builds.
+>
 
-The full tree with driver patches is here:
+My issue here is that all these skb helpers call each other so I end
+up having to move a lot of the unrelated skb helpers to this new
+header (maybe that is acceptable but it feels weird).
 
-https://github.com/torvalds/linux/compare/master...mina:linux:tcpdevmem-v3
-
-This is probably the most relevant patch, it implements POC page-pool
-support into GVE + devmem support:
-
-https://github.com/torvalds/linux/commit/3c27aa21eb3374f2f1677ece6258f046da=
-234443
-
-But, to answer your question, yes, this is a mistake. devmem doesn't
-need to be mapped, which is why I disabled the flag. Actually what
-should happen is like you said, we should enforce that PP_FLAG_DMA_MAP
-is on, and have it be a no-op, so the driver doesn't try to map the
-devmem on its own.
+What I could do here is move all the page_pool_page|iov_* helpers to a
+minimal header, and include only that one from skbuff.h, rather than
+including all of net/page_pool/helpers.h
 
 --=20
 Thanks,
