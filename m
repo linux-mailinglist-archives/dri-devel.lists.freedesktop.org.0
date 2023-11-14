@@ -2,96 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B950C7EB77B
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 21:09:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9296A7EB811
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 22:01:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F23610E4D2;
-	Tue, 14 Nov 2023 20:08:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 965CF10E02E;
+	Tue, 14 Nov 2023 21:01:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2087.outbound.protection.outlook.com [40.107.101.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A21F110E4C6;
- Tue, 14 Nov 2023 20:08:42 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2070.outbound.protection.outlook.com [40.107.244.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8371210E02E;
+ Tue, 14 Nov 2023 21:01:22 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=H/hfy5NfHD7sAMP/irV7tQQoDswq5E8nLa8kaZfJonOJGKTN87NVSmBtRoY33OHAcBfQ/TSn2fb/2AXXCYGU0rkAwkv97s2UgThI4a022Yjnv+EE+KeUUtRbTm5+4C2LFVawZDa2r6PN+r6mMqyy6lyE4EEsEgmpLY8Tc+0fkoGu66TfvP3fYC5AlYZKRXFnlki7Rh2k8QZH9WrqvqkXN1LXgZAEKqo9H4khrWEekeyRcG0gwhTu8E8xMLA4ZU+sT/JtM3RWQQuiKbUagFQKZfdYWqeJY7iQ5DIkS5WIRRM0MADt4vk1hPHizewFbxnk2E3hvKIcyuJtfcEETbr40A==
+ b=NWN/j3etZd+47G+ZvneYvfMBK4DNRKWfhc4VBJt16GoXdPwkPmkcBz56w0ZMWjbLKK0LjQyk9zTj3KmY8gIlO3CondyNxxtMiZ1Yvj5vZxHDS4/J7xEeQ9kJuogMgY+8SppTHotASdEB3J2T5TyhNim9dnmembg1jcgLtE2l8LqPWOrHx8jEytFc+//IB7ehnymurVRO6VErKBD0LTokrnQOPBiyp+PLczEPcvmQ6xXtOPc4PLMCI8Xury32MQ4CZqFUGLVy3rVUaEyMYdfty/6C1Oz+xgEHB27awFgKn68KZnGhTBIrtwozXRQnf1NmJiXUhkE1wy7mUdu5hZUZig==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JGQJ2s9aczHwLlKwGw5MbAsL0y0CXVt2bqkXEOEvYPE=;
- b=I9x3QWCO6J/SOwGWsHRigxPqstIyqyC/ZUaU8zaF6rlK/4NOQc1ldlXmqHGX3rQ8gKPVJGpMir+3F5eu21tERAomS3RSuVGm7Lc93g5v8ZFtmTrrXOET2Qy8q5H+IxSJQ1lTiGOPnBr3h8vcIQeGfj4UOEr7iGv2aBKA7PdBkZm6iSVR7PH4SUGENbMlv3Ah9I5y1NPMjnGAX3cYVos4hRcgrbIK9GCxb5kdHMhw4ttH6bS71WqQENEloXAJ7fIH8RZEOmx8kjOMzxQXN4wVJefCYy9zxdNz8Xqh5RpA8WnI0eba4yvxYA03vzIq7NAj2mbGzRnuwzIuZbR9lAav1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
+ bh=bMy3a6q41TetShNkIiUHauKfv/BFEDOhF0VSlxLQSzk=;
+ b=asD5EPwTWS5t4mbuYHvgvzpA0jHDCfzPLgJ+sAUSwSdO2ZiN2Nm/d1sjeieYP/Wvv/ttxoi93i69cRCoQI5366Xxk3qW8rby84YTWKHY+YbDQk0FK88CLIyWjo63i/svpyUlfK7NJLJl3TeMvrhiVUauAaaXHT+X8jFZDcdK8sulsf2aN+qIvL2Ds/RRHj3iZe+Nj4Y/AktveI2S4Rb/tdbI4HsHPv/zoVrajvuO4i8nzF+YH28iOLc83aHwXzjIyzOnO+HWJ1+9Hvj6Ubqk2eRadrZSzDKnMSiZiG34P0ICqPJ/3KD8VhPe/RfqlsgBOFcQAUSUm1XbITNDlgBGeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JGQJ2s9aczHwLlKwGw5MbAsL0y0CXVt2bqkXEOEvYPE=;
- b=m4gWFlrWMMUv9/vnDDQkKzY5AzbWqD0gn4E1bF2n/ry8zz0Q8JtB5FhvyPN+6/sek7PgEoZtTx9GVgfva8IvhUR//F2hWzxrGWJuNpX1/GzH+/P0D1FQA8d0cUhdPcHIY2SC2KtCvtOPLwrn6BQvT2vdL58ZwxxBUq3B22r1bpY=
-Received: from BLAPR03CA0156.namprd03.prod.outlook.com (2603:10b6:208:32f::29)
- by CY5PR12MB6275.namprd12.prod.outlook.com (2603:10b6:930:20::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Tue, 14 Nov
- 2023 20:08:38 +0000
-Received: from BL02EPF0001A103.namprd05.prod.outlook.com
- (2603:10b6:208:32f:cafe::36) by BLAPR03CA0156.outlook.office365.com
- (2603:10b6:208:32f::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31 via Frontend
- Transport; Tue, 14 Nov 2023 20:08:38 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL02EPF0001A103.mail.protection.outlook.com (10.167.241.133) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7002.13 via Frontend Transport; Tue, 14 Nov 2023 20:08:38 +0000
-Received: from test-TBI1100B.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Tue, 14 Nov
- 2023 14:08:36 -0600
-From: Mario Limonciello <mario.limonciello@amd.com>
-To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, "Alex
- Deucher" <alexander.deucher@amd.com>, =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>, Bjorn Helgaas <bhelgaas@google.com>, "Mika
- Westerberg" <mika.westerberg@linux.intel.com>, Lukas Wunner <lukas@wunner.de>
-Subject: [PATCH v3 7/7] PCI: Exclude PCIe ports used for virtual links in
- pcie_bandwidth_available()
-Date: Tue, 14 Nov 2023 14:07:55 -0600
-Message-ID: <20231114200755.14911-8-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231114200755.14911-1-mario.limonciello@amd.com>
-References: <20231114200755.14911-1-mario.limonciello@amd.com>
-MIME-Version: 1.0
+ bh=bMy3a6q41TetShNkIiUHauKfv/BFEDOhF0VSlxLQSzk=;
+ b=JbCyR7WdOyRfIqqlq458NzVyMF36L2tBRxGaYIU+FlJZJpz3jYo5AUBTfyZoWEKoKKw2JQ24kGn7v0dsmv8b1Gmx20/rFeVpeCJry9Ty/hprgKhRaIDmBf/1noaZ5VsUFdVOAxOhQF0rq3F3zXz/d4Brfs7AaWTHM5yTAreBWg4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
+ DM4PR12MB5722.namprd12.prod.outlook.com (2603:10b6:8:5d::11) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7002.17; Tue, 14 Nov 2023 21:01:19 +0000
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::5588:7117:d54e:9466]) by DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::5588:7117:d54e:9466%7]) with mapi id 15.20.7002.015; Tue, 14 Nov 2023
+ 21:01:17 +0000
+Message-ID: <689f3862-09d5-448d-b418-fd52d7288106@amd.com>
+Date: Tue, 14 Nov 2023 16:01:14 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/amd/display: fix NULL dereference
+Content-Language: en-US
+To: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ skhan@linuxfoundation.org
+References: <20231114152751.30167-1-jose.pekkarinen@foxhound.fi>
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+In-Reply-To: <20231114152751.30167-1-jose.pekkarinen@foxhound.fi>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
+X-ClientProxiedBy: YT4PR01CA0068.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:111::28) To DM4PR12MB6280.namprd12.prod.outlook.com
+ (2603:10b6:8:a2::11)
+MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0001A103:EE_|CY5PR12MB6275:EE_
-X-MS-Office365-Filtering-Correlation-Id: 48817130-7df4-4be1-d229-08dbe54d7d89
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|DM4PR12MB5722:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1601b413-be29-416a-d365-08dbe554d899
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qAEcpAVAXE9PXfFweQl4igx5vpKZd0ofDnpX0YV1pNSqDaCySAQp0y9Ur4zDYhUM7tStS82ffe2XSKYoRwoEIINxzyMpFVwKs0yLdlmwzfRNcPwzsOhxT85sXtEQvdLYd0qK2l9iZYlpc2IRalPaJEQVv8xREhLaEIH2SzPr4Fmm4q+ET0jHerwQYmJ4EoWWlg+Y3KTSOumnC6Drw5XEeRZIvdjLQ2bTWsCBmxE9O0FiPTJWiA8dkor06HXQ/i7+eAyVviuGONqmAb0lzkAKbkqOqF9UOh5IBdWTSZRDpMjoFy6UmTtru2kno/pLYoO4tjaibjmVEjqFezgEi3XfAuSOg6DAaE+rbzhdV3SLEQwLWK7r4mc8XUuaufDF+xzZeUDAP0DXkbYxXTCjsJsubCvpxECHhC78dC0Q2ufhNzGdnZ3MOwol4/UZa3p8vSIDftwOVCGtHgetLPGij0XsayxntsEHge0JbJgkz19oFxeCj3Qaml3BzeW+nIvyrSgrvLbCQjRtfDZzZ3o13uDC9BTwWFwrx/L+++MkSFkTm9F6xI2YGf0P6+vFFNR6tcEO3rOqrXEsLenzBVLHEdtHoJFwSQlh1ukOiN5fXQnEb+r+mJaYnvxhlODakorZkF2v/A+LSLZBpDvnZhhpre5JUI6w0Uxpc72KJSUsM8YwkRjKSoqkmFwKAEn+KnUFBcaS0dPvQzomDp/QRCcBip1HPwCQvr3wg3B+Q4NmCNp8OVe13S3KoFkRjJ+K6gfgC063
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(396003)(39860400002)(376002)(136003)(346002)(230922051799003)(1800799009)(186009)(64100799003)(451199024)(82310400011)(40470700004)(36840700001)(46966006)(40460700003)(41300700001)(36860700001)(966005)(86362001)(36756003)(70586007)(70206006)(110136005)(316002)(54906003)(356005)(81166007)(478600001)(82740400003)(1076003)(2616005)(5660300002)(7416002)(2906002)(26005)(16526019)(7696005)(44832011)(6666004)(47076005)(426003)(336012)(8936002)(4326008)(8676002)(83380400001)(40480700001)(36900700001);
+X-Microsoft-Antispam-Message-Info: HpRsVqnykqLEuNaveGV9tMyITIUBj9SxE/MAPymLDIeAmB5TSxTJaT0sVBSt2OTwso5rILcESBf7EgUAuetL9l9/cNGKApaVCrmaZCAh/aThD1uTSVdIWv2Jr9045fj7DjyK+h8A1HJCdNZnOjazEmyMabTI510kMQrkq8XlEF20ci6iX1sTRXyKV3dLZBSMYRinBEdXoUPJqOEqvF93B1WmjzGz7wCXVk6QbRn1juewxL64C8mqJdQ4obH5ROo4VhMtIY/pXNLIIepvFdiqbA2mGgTCCPM0dx2IcQ3BUaTgxNzklxTWnXLfoMsko9lxjgfvZ0wMWVWOUrdsqdBagmbEE52kqqbKiRC2rg9FdLXw8HG4HETFHFviipERbuprpQbbDAPUZBHFzOvVSzs0oU8SHYZ8HtqU4R1d3GLo9pT4Badh8rRDJ4jcRXqaZTsW5KMU7oJ8E0Pr4MR/tlupNFAa8FdTsqcNvdYQXqKW4e5TJy/Uq12WfUSXC8gFiPNtG2yAO6pbdXJEEh+2I8zXO9qXcjs2/Elg2Kak5W1t16w87/DCXG13ND1uQ5MySSuhxMZBNzjFsDKGpa4K+1TX1CEtDfAg2war7fAdTQjwVhrwiJsEdzbve0YiVh5QZDk+wvYptUqvLVEplk8hwcTZow==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(346002)(366004)(39860400002)(396003)(376002)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(26005)(53546011)(6506007)(6666004)(2616005)(6512007)(83380400001)(44832011)(8936002)(5660300002)(4326008)(8676002)(41300700001)(2906002)(6486002)(478600001)(316002)(86362001)(66476007)(66556008)(66946007)(31696002)(36756003)(38100700002)(31686004)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?emdFVGd3YUJaZmJ5TEF3MGRwRkc1YmY0aExRbHBZMWF4WVVyYnd2b25zMldo?=
+ =?utf-8?B?b0xWeWdmL2hjVC9XZ2xDVXRHcjl1QUsrbEpEbHpzSlJrVWg1NEZOOWVJTXkx?=
+ =?utf-8?B?S0VmRm81VXhJU05McGIrS203NmJqNjdGZXBHejV2K3hyL3FPcTIxRk56KzZO?=
+ =?utf-8?B?NWViNFlxYjlJU1pQMTdlWVBvWHQ4ejBWYnBxS0U1citlbk9KbU9zZ1pQTWhW?=
+ =?utf-8?B?MG55c1JrRWJpcVB5eEcvM3dVYTZ2d1FsWnl2bUNwME53VzNiQUw5NTQ1ZnlE?=
+ =?utf-8?B?eExvSS9Hb2JiL05Ra0RNYTMramdVb3pMRVZiajZib2E0VmEwVWtpRy8reVhv?=
+ =?utf-8?B?ckdKWTBuOWY3Zzk5NDRadEgvdXRKSTJFWlM3SS91MDV2OVRBY1FZcVI4WGZt?=
+ =?utf-8?B?K2czR3Q1RFNUMFh0amZwZ3huL1ZTREdSRFFtY2VONFdjMkRENUdxRzN6Mk5k?=
+ =?utf-8?B?YXBoQi9MRnFhOW1wTkllU0RpQUc3SlBzVkxla3hicG8rdzhML3R3QTN3d2po?=
+ =?utf-8?B?eGRLM0s1Um9neUQ3WWNFekpmN3h4NW5rM3BaK3RRLzcxMGhYOUVYUmJySzIr?=
+ =?utf-8?B?SERqV2J4QllvWmwwMWJpTEU3cE5ERjBwaE42Q0xWY2o5UDJoNWZBSFV6NDdW?=
+ =?utf-8?B?M3lSaFR3ZmRONml3aE96M2tOL3pJZVhlWU9ncTNJWS9PVk4ybXMvSnFFMlRq?=
+ =?utf-8?B?SUg4cjBFU0huL2ZHa2F6TkRxUTIwMURSVmJCQ3dzNlZXbzFnbFNETEJjY0Nx?=
+ =?utf-8?B?elRZKzVWRE5mRW1pYXExSUg2V2N1K2VSUXZhUk5KMGNwM042dGN5eDV1L0Jz?=
+ =?utf-8?B?MU9odjZNV0F6cjlwbjZGN1ZCKzRHT2dOSkkxQWRzbzc3eE1ndmN2NitOMWNq?=
+ =?utf-8?B?cU5nemd0MHJRZklXZjllR2Y0MVNQSmVBUGQwSEhwektlNGxoeFJ2QzhCRGFZ?=
+ =?utf-8?B?SGwxc2tqSXdUaWtpR2pXUnY1MnFPSDJxbk5RUlJMbHpyNWdjL2JtbmVZY2NK?=
+ =?utf-8?B?WkVIWmt2TlR4M2V6RDB4SHQzMjNkTHh2bUpFSmgvaHg0SnowNmlSdnRzaFJW?=
+ =?utf-8?B?bkFqd2dwb3RpRzZUWWU4VHYzMlZkRHB5WUlFMzZNSUNBWGk3QUhDSmJVbjZG?=
+ =?utf-8?B?VjF0Z0wvcTNhMm1ubmxIdVA2Z1lzWDJ6Uk10ZjZtcjVHWC85NFQwc1ZEWW1W?=
+ =?utf-8?B?bElpL3Z4TEYrM202d3JtaTdmTnU5RERiemc2K1l4dFVRa0JISXNhWHk3dnd2?=
+ =?utf-8?B?eGFwd1pvYnZnZzF4dHg0WmtjdDFJamNGVWNZdEhrWldBNnBQbGM4TnFIbi9O?=
+ =?utf-8?B?OTRRM2g2QWNxSUxoTmpDNEs4V05PZ2lDbVNJenlhR1JVLzVjRkRTcG9FWW5K?=
+ =?utf-8?B?QWdrQ3JvS1RFVlNXVTV0T1BCTzltdmVmYUlEakxUS1M5RFVZSmplQVdoQkc0?=
+ =?utf-8?B?U0tmTllQL3ArL0FEREdtNVNnQlppRXNvUHEyZThvQjVUZmY4bWIxclRwdnNN?=
+ =?utf-8?B?LzNhU1lCSVFRQk10WFFGd0VGMEJrRkFuWm5YSzV6SzhnWnNsN1lBVkJ6dTZC?=
+ =?utf-8?B?NEhjb0F1cVhySmNxMnV5eUtSMGswK1psL25CTFBzdjBRY0ZoSURnZkk1Z3gv?=
+ =?utf-8?B?c21rRDNjSGVRaHpjSUxaZTRzbzBwWnpKZ1BtdUtrUmg4N3p3Q2toYWhFeU1J?=
+ =?utf-8?B?OXRRNEhOM1JQa0xnbUxiOUkrcjlDb29LM2NpN1J0L1JGeFBmNXd0NkxmcWZq?=
+ =?utf-8?B?a0Z6UW9VK2FDS3JMMElFSTlFbGRjeEwwR0xpd1JGWVFmOEJEZ3VQNXVOc1NL?=
+ =?utf-8?B?UE1icXV3VFBtYUxBd3JBZlpHcCs2SnNiWE5jTDR6elNJbkYzQ042MGx1NFdt?=
+ =?utf-8?B?STM5RnNjMEFGR052MlFUd25EdVJrUllRUnpkWlptekxRYkc4Y2xRdG1CS0Vi?=
+ =?utf-8?B?YkZaK3d0V01YaEQ2QkxhTHlHM2tmckdyMGVqMnYrbE1hMUd5RkE5cUdMK3B0?=
+ =?utf-8?B?YldiemNqb00vM0E2a2cxZVZZSWlLd0xGajhQd01KTTdNK1BueGd0aHJrL2VY?=
+ =?utf-8?B?MVh6NitsaDNOd2U3YWFZWmZBYXhVM295dDZDMCtBTGZlaldkWGtTMjlmcDJX?=
+ =?utf-8?Q?ncgwtksjb9BtFb3wWRD/uctj3?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2023 20:08:38.2765 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 48817130-7df4-4be1-d229-08dbe54d7d89
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1601b413-be29-416a-d365-08dbe554d899
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2023 21:01:17.8398 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A103.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6275
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uc+Sp1/+ev8TMDIRsmEmV1xr3Lz1dW8u228QxJRzblLTM8BlL3EoSPMjufZUQVYSQg/8LtWKqEYMByfrIe22Aw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5722
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,102 +126,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
- "open list:RADEON and AMDGPU DRM
- DRIVERS" <amd-gfx@lists.freedesktop.org>, "Rafael J .
- Wysocki" <rafael@kernel.org>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
- Xinhui Pan <Xinhui.Pan@amd.com>, Manivannan Sadhasivam <mani@kernel.org>, open
- list <linux-kernel@vger.kernel.org>, "open list:DRM DRIVER FOR
- NVIDIA GEFORCE/QUADRO GPUS" <dri-devel@lists.freedesktop.org>,
- "open list:ACPI" <linux-acpi@vger.kernel.org>,
- Danilo Krummrich <dakr@redhat.com>,
- Mario Limonciello <mario.limonciello@amd.com>, "open list:DRM
- DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS" <nouveau@lists.freedesktop.org>,
- =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, "Maciej
- W . Rozycki" <macro@orcam.me.uk>
+Cc: srinivasan.shanmugam@amd.com, qingqing.zhuo@amd.com, wenjing.liu@amd.com,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ aurabindo.pillai@amd.com, dri-devel@lists.freedesktop.org, Wayne.Lin@amd.com,
+ mikita.lipski@amd.com, linux-kernel-mentees@lists.linux.dev,
+ sungjoon.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The USB4 spec specifies that PCIe ports that are used for tunneling
-PCIe traffic over USB4 fabric will be hardcoded to advertise 2.5GT/s and
-behave as a PCIe Gen1 device. The actual performance of these ports is
-controlled by the fabric implementation.
+On 11/14/23 10:27, José Pekkarinen wrote:
+> The following patch will fix a minor issue where a debug message is
+> referencing an struct that has just being checked whether is null or
+> not. This has been noticed by using coccinelle, in the following output:
+> 
+> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c:540:25-29: ERROR: aconnector is NULL but dereferenced.
+> 
+> Fixes: 5d72e247e58c9 ("drm/amd/display: switch DC over to the new DRM logging macros")
 
-Callers for pcie_bandwidth_available() will always find the PCIe ports
-used for tunneling as a limiting factor potentially leading to incorrect
-performance decisions.
+You only need the first 12 characters of the hash here. I have fixed it
+for you and applied the patch in this case. But, in the future please
+test your patches against `./scripts/checkpatch.pl` before submitting
+them.
 
-To prevent such problems check explicitly for ports that are marked as
-virtual links or as thunderbolt controllers and skip them when looking
-for bandwidth limitations of the hierarchy. If the only device connected
-is a port used for tunneling then report that device.
-
-Callers to pcie_bandwidth_available() could make this change on their
-own as well but then they wouldn't be able to detect other potential
-speed bottlenecks from the hierarchy without duplicating
-pcie_bandwidth_available() logic.
-
-Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2925#note_2145860
-Link: https://www.usb.org/document-library/usb4r-specification-v20
-      USB4 V2 with Errata and ECN through June 2023
-      Section 11.2.1
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
-v2->v3:
- * Split from previous patch version
- * Look for thunderbolt or virtual link
----
- drivers/pci/pci.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
-
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 0ff7883cc774..b1fb2258b211 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -6269,11 +6269,20 @@ static u32 pcie_calc_bw_limits(struct pci_dev *dev, u32 bw,
-  * limiting_dev, speed, and width pointers are supplied) information about
-  * that point.  The bandwidth returned is in Mb/s, i.e., megabits/second of
-  * raw bandwidth.
-+ *
-+ * This excludes the bandwidth calculation that has been returned from a
-+ * PCIe device that is used for transmitting tunneled PCIe traffic over a virtual
-+ * link part of larger hierarchy. Examples include Thunderbolt3 and USB4 links.
-+ * The calculation is excluded because the USB4 specification specifies that the
-+ * max speed returned from PCIe configuration registers for the tunneling link is
-+ * always PCI 1x 2.5 GT/s.  When only tunneled devices are present, the bandwidth
-+ * returned is the bandwidth available from the first tunneled device.
-  */
- u32 pcie_bandwidth_available(struct pci_dev *dev, struct pci_dev **limiting_dev,
- 			     enum pci_bus_speed *speed,
- 			     enum pcie_link_width *width)
- {
-+	struct pci_dev *vdev = NULL;
- 	u32 bw = 0;
- 
- 	if (speed)
-@@ -6282,10 +6291,20 @@ u32 pcie_bandwidth_available(struct pci_dev *dev, struct pci_dev **limiting_dev,
- 		*width = PCIE_LNK_WIDTH_UNKNOWN;
- 
- 	while (dev) {
-+		if (dev->is_virtual_link || dev->is_thunderbolt) {
-+			if (!vdev)
-+				vdev = dev;
-+			goto skip;
-+		}
- 		bw = pcie_calc_bw_limits(dev, bw, limiting_dev, speed, width);
-+skip:
- 		dev = pci_upstream_bridge(dev);
- 	}
- 
-+	/* If nothing "faster" found on hierarchy, limit to first virtual link */
-+	if (vdev && !bw)
-+		bw = pcie_calc_bw_limits(vdev, bw, limiting_dev, speed, width);
-+
- 	return bw;
- }
- EXPORT_SYMBOL(pcie_bandwidth_available);
+> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
+> ---
+> [v1 -> v2]: Remove the debugging message, requested by Hamza
+> 
+>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> index ed784cf27d39..c7a29bb737e2 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> @@ -536,11 +536,8 @@ bool dm_helpers_dp_read_dpcd(
+>   
+>   	struct amdgpu_dm_connector *aconnector = link->priv;
+>   
+> -	if (!aconnector) {
+> -		drm_dbg_dp(aconnector->base.dev,
+> -			   "Failed to find connector for link!\n");
+> +	if (!aconnector)
+>   		return false;
+> -	}
+>   
+>   	return drm_dp_dpcd_read(&aconnector->dm_dp_aux.aux, address, data,
+>   				size) == size;
 -- 
-2.34.1
+Hamza
 
