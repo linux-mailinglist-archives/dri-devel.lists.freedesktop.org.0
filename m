@@ -1,41 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3987EB31C
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 16:09:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 149857EB338
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 16:14:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AFDC10E443;
-	Tue, 14 Nov 2023 15:09:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A41710E448;
+	Tue, 14 Nov 2023 15:14:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com
- [95.215.58.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6329F10E237
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 15:09:32 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1699974151;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=un07RUcu2zgWpUGIkjqz4RZwf2xRaP/AV1IDnwLkbiQ=;
- b=hbWJRAWGsb2GqirQOKQlvdC45YacNeKEi/rBOc4EJTe9WDpiaj6qOwW+Qf4/9hSOJSbGp8
- mdMq5IocqxI5teuylhH5gVTr6qB9+xwhTPScfL7rJEmaa7LOzCK+zIEenJ4Uwdsj6jDvlH
- 8TBlWGDj2kfglMhHbLSBt1wAZnhyj5c=
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-To: Phong LE <ple@baylibre.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
-Date: Tue, 14 Nov 2023 23:01:30 +0800
-Message-Id: <20231114150130.497915-9-sui.jingfeng@linux.dev>
-In-Reply-To: <20231114150130.497915-1-sui.jingfeng@linux.dev>
-References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FC0410E218;
+ Tue, 14 Nov 2023 15:14:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699974853; x=1731510853;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=/iJuZ/xiQZjUnrNcVG10+qLgh0V0xrRimCG9JbjH518=;
+ b=UwU3aAdm8ly1IWVc6Azo/iTNXAiKTAmfLys76WRB+lB9G+jd/fkvqoUu
+ wKocSFq2I8Mw36uEper5daVbsaRzndV9qdCb6xQHAJ4hl5XGDIP8TCo4w
+ aEfJfPWUw/2RE7olxRcqZEPw6+H+jt9QP7lUGDIh1+dkThr/qP8lT5e+Y
+ +yDSMcHbHrnydQ9z0V+iVG6cvfukRhM1y22yX8024q63V9TaKv5i29+P/
+ Q7g1Z1lRP0wbpzkccNVZ7rDf5G/wXOPIbKwEjPOzuEvpY4ozQhqafAvi6
+ N+xc7MWlC41uWNXF7vJoH8IK9lu6U6xNsDCPA0pfdzf/KEgHALG46pJyu w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="476884825"
+X-IronPort-AV: E=Sophos;i="6.03,302,1694761200"; d="scan'208";a="476884825"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2023 07:14:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="830631015"
+X-IronPort-AV: E=Sophos;i="6.03,302,1694761200"; d="scan'208";a="830631015"
+Received: from hatran1-mobl1.ccr.corp.intel.com (HELO localhost)
+ ([10.252.56.145])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2023 07:14:10 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/edid/firmware: drop drm_kms_helper.edid_firmware
+ backward compat
+Date: Tue, 14 Nov 2023 17:14:06 +0200
+Message-Id: <20231114151406.61230-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,247 +58,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sui Jingfeng <suijingfeng@loongson.cn>
+Since the edid_firmware module parameter was moved from
+drm_kms_helper.ko to drm.ko in v4.15, we've had a backwards
+compatibility helper in place, with a DRM_NOTE() suggesting to migrate
+to drm.edid_firmware. This was added in commit ac6c35a4d8c7 ("drm: add
+backwards compatibility support for drm_kms_helper.edid_firmware").
 
-The it66121_create_bridge() and it66121_destroy_bridge() are added to
-export the core functionalities. Create a connector manually by using
-bridge connector helpers when link as a lib.
+More than five years and 30+ kernel releases later, drop the backward
+compatibility.
 
-Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+v2: Drop the warnings too
+
+Acked-by: Daniel Vetter <daniel@ffwll.ch>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/bridge/ite-it66121.c | 134 +++++++++++++++++++--------
- include/drm/bridge/ite-it66121.h     |  17 ++++
- 2 files changed, 113 insertions(+), 38 deletions(-)
- create mode 100644 include/drm/bridge/ite-it66121.h
+ drivers/gpu/drm/drm_edid_load.c         | 16 -------------
+ drivers/gpu/drm/drm_kms_helper_common.c | 32 -------------------------
+ include/drm/drm_edid.h                  |  5 ----
+ 3 files changed, 53 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-index 8971414a2a60..f5968b679c5d 100644
---- a/drivers/gpu/drm/bridge/ite-it66121.c
-+++ b/drivers/gpu/drm/bridge/ite-it66121.c
-@@ -22,6 +22,7 @@
+diff --git a/drivers/gpu/drm/drm_edid_load.c b/drivers/gpu/drm/drm_edid_load.c
+index 5d9ef267ebb3..60fcb80bce61 100644
+--- a/drivers/gpu/drm/drm_edid_load.c
++++ b/drivers/gpu/drm/drm_edid_load.c
+@@ -23,22 +23,6 @@ module_param_string(edid_firmware, edid_firmware, sizeof(edid_firmware), 0644);
+ MODULE_PARM_DESC(edid_firmware, "Do not probe monitor, use specified EDID blob "
+ 	"from built-in data or /lib/firmware instead. ");
  
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_modes.h>
- #include <drm/drm_print.h>
-@@ -703,14 +704,32 @@ static int it66121_bridge_attach(struct drm_bridge *bridge,
- 				 enum drm_bridge_attach_flags flags)
- {
- 	struct it66121_ctx *ctx = bridge_to_it66121(bridge);
-+	struct drm_bridge *next_bridge = ctx->next_bridge;
-+	struct drm_encoder *encoder = bridge->encoder;
- 	int ret;
- 
--	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
--		return -EINVAL;
-+	if (next_bridge) {
-+		if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-+			WARN_ON(1);
-+			flags |= DRM_BRIDGE_ATTACH_NO_CONNECTOR;
-+		}
-+		ret = drm_bridge_attach(encoder, next_bridge, bridge, flags);
-+		if (ret)
-+			return ret;
-+	} else {
-+		struct drm_connector *connector;
- 
--	ret = drm_bridge_attach(bridge->encoder, ctx->next_bridge, bridge, flags);
--	if (ret)
--		return ret;
-+		if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
-+			WARN_ON(1);
-+
-+		connector = drm_bridge_connector_init(bridge->dev, encoder);
-+		if (IS_ERR(connector))
-+			return PTR_ERR(connector);
-+
-+		drm_connector_attach_encoder(connector, encoder);
-+
-+		ctx->connector = connector;
-+	}
- 
- 	if (ctx->info->id == ID_IT66121) {
- 		ret = regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
-@@ -1632,16 +1651,13 @@ static const char * const it66121_supplies[] = {
- 	"vcn33", "vcn18", "vrf12"
- };
- 
--static int it66121_probe(struct i2c_client *client)
-+int it66121_create_bridge(struct i2c_client *client, bool of_support,
-+			  bool hpd_support, bool audio_support,
-+			  struct drm_bridge **bridge)
- {
-+	struct device *dev = &client->dev;
- 	int ret;
- 	struct it66121_ctx *ctx;
--	struct device *dev = &client->dev;
+-/* Use only for backward compatibility with drm_kms_helper.edid_firmware */
+-int __drm_set_edid_firmware_path(const char *path)
+-{
+-	scnprintf(edid_firmware, sizeof(edid_firmware), "%s", path);
 -
--	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
--		dev_err(dev, "I2C check functionality failed.\n");
--		return -ENXIO;
--	}
- 
- 	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
- 	if (!ctx)
-@@ -1649,24 +1665,19 @@ static int it66121_probe(struct i2c_client *client)
- 
- 	ctx->dev = dev;
- 	ctx->client = client;
--	ctx->info = i2c_get_match_data(client);
+-	return 0;
+-}
+-EXPORT_SYMBOL(__drm_set_edid_firmware_path);
 -
--	ret = it66121_of_read_bus_width(dev, &ctx->bus_width);
--	if (ret)
--		return ret;
+-/* Use only for backward compatibility with drm_kms_helper.edid_firmware */
+-int __drm_get_edid_firmware_path(char *buf, size_t bufsize)
+-{
+-	return scnprintf(buf, bufsize, "%s", edid_firmware);
+-}
+-EXPORT_SYMBOL(__drm_get_edid_firmware_path);
 -
--	ret = it66121_of_get_next_bridge(dev, &ctx->next_bridge);
--	if (ret)
--		return ret;
+ #define GENERIC_EDIDS 6
+ static const char * const generic_edid_name[GENERIC_EDIDS] = {
+ 	"edid/800x600.bin",
+diff --git a/drivers/gpu/drm/drm_kms_helper_common.c b/drivers/gpu/drm/drm_kms_helper_common.c
+index 0bf0fc1abf54..0c7550c0462b 100644
+--- a/drivers/gpu/drm/drm_kms_helper_common.c
++++ b/drivers/gpu/drm/drm_kms_helper_common.c
+@@ -27,38 +27,6 @@
+ 
+ #include <linux/module.h>
+ 
+-#include <drm/drm_edid.h>
+-#include <drm/drm_print.h>
 -
--	i2c_set_clientdata(client, ctx);
- 	mutex_init(&ctx->lock);
+-#include "drm_crtc_helper_internal.h"
+-
+ MODULE_AUTHOR("David Airlie, Jesse Barnes");
+ MODULE_DESCRIPTION("DRM KMS helper");
+ MODULE_LICENSE("GPL and additional rights");
+-
+-#if IS_ENABLED(CONFIG_DRM_LOAD_EDID_FIRMWARE)
+-
+-/* Backward compatibility for drm_kms_helper.edid_firmware */
+-static int edid_firmware_set(const char *val, const struct kernel_param *kp)
+-{
+-	DRM_NOTE("drm_kms_helper.edid_firmware is deprecated, please use drm.edid_firmware instead.\n");
+-
+-	return __drm_set_edid_firmware_path(val);
+-}
+-
+-static int edid_firmware_get(char *buffer, const struct kernel_param *kp)
+-{
+-	return __drm_get_edid_firmware_path(buffer, PAGE_SIZE);
+-}
+-
+-static const struct kernel_param_ops edid_firmware_ops = {
+-	.set = edid_firmware_set,
+-	.get = edid_firmware_get,
+-};
+-
+-module_param_cb(edid_firmware, &edid_firmware_ops, NULL, 0644);
+-__MODULE_PARM_TYPE(edid_firmware, "charp");
+-MODULE_PARM_DESC(edid_firmware,
+-		 "DEPRECATED. Use drm.edid_firmware module parameter instead.");
+-
+-#endif
+diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+index e98aa6818700..518d1b8106c7 100644
+--- a/include/drm/drm_edid.h
++++ b/include/drm/drm_edid.h
+@@ -329,11 +329,6 @@ int drm_edid_to_speaker_allocation(const struct edid *edid, u8 **sadb);
+ int drm_av_sync_delay(struct drm_connector *connector,
+ 		      const struct drm_display_mode *mode);
  
--	ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(it66121_supplies),
--					     it66121_supplies);
--	if (ret) {
--		dev_err(dev, "Failed to enable power supplies\n");
--		return ret;
-+	if (of_support) {
-+		ret = it66121_of_read_bus_width(dev, &ctx->bus_width);
-+		if (ret)
-+			return ret;
-+
-+		ret = it66121_of_get_next_bridge(dev, &ctx->next_bridge);
-+		if (ret)
-+			return ret;
-+	} else {
-+		ctx->bus_width = 24;
-+		ctx->next_bridge = NULL;
- 	}
+-#ifdef CONFIG_DRM_LOAD_EDID_FIRMWARE
+-int __drm_set_edid_firmware_path(const char *path);
+-int __drm_get_edid_firmware_path(char *buf, size_t bufsize);
+-#endif
+-
+ bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2);
  
- 	it66121_hw_reset(ctx);
-@@ -1679,33 +1690,80 @@ static int it66121_probe(struct i2c_client *client)
- 	if (ret)
- 		return ret;
- 
--	if (ctx->vender_id != ctx->info->vid ||
--	    ctx->device_id != ctx->info->pid)
-+	ctx->info = it66121_get_match_data(ctx->vender_id, ctx->device_id);
-+	if (!ctx->info)
- 		return -ENODEV;
- 
--	ret = devm_request_threaded_irq(dev, client->irq, NULL,	it66121_irq_threaded_handler,
--					IRQF_ONESHOT, dev_name(dev), ctx);
--	if (ret < 0) {
--		dev_err(dev, "Failed to request irq %d:%d\n", client->irq, ret);
--		return ret;
-+	if (hpd_support) {
-+		ret = devm_request_threaded_irq(dev, client->irq, NULL,
-+						it66121_irq_threaded_handler,
-+						IRQF_ONESHOT, dev_name(dev),
-+						ctx);
-+		if (ret < 0) {
-+			dev_err(dev, "Failed to request irq: %d\n", ret);
-+			return ret;
-+		}
- 	}
- 
- 	it66121_bridge_init_base(&ctx->bridge, dev->of_node, true);
- 
--	it66121_audio_codec_init(ctx, dev);
-+	if (audio_support)
-+		it66121_audio_codec_init(ctx, dev);
-+
-+	*bridge = &ctx->bridge;
- 
- 	dev_info(dev, "IT66121 probed, chip id: 0x%x:0x%x, revision: %u\n",
- 		 ctx->vender_id, ctx->device_id, ctx->revision);
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(it66121_create_bridge);
-+
-+static int it66121_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct it66121_ctx *ctx;
-+	struct drm_bridge *bridge;
-+	int ret;
-+
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-+		dev_err(dev, "I2C check functionality failed.\n");
-+		return -ENXIO;
-+	}
-+
-+	ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(it66121_supplies),
-+					     it66121_supplies);
-+	if (ret) {
-+		dev_err(dev, "Failed to enable power supplies\n");
-+		return ret;
-+	}
-+
-+	ret = it66121_create_bridge(client, true, true, true, &bridge);
-+	if (ret)
-+		return ret;
-+
-+	ctx = bridge_to_it66121(bridge);
-+
-+	i2c_set_clientdata(client, ctx);
-+
-+	return 0;
-+}
-+
-+void it66121_destroy_bridge(struct drm_bridge *bridge)
-+{
-+	struct it66121_ctx *ctx = bridge_to_it66121(bridge);
-+
-+	drm_bridge_remove(bridge);
-+
-+	mutex_destroy(&ctx->lock);
-+}
-+EXPORT_SYMBOL_GPL(it66121_destroy_bridge);
- 
- static void it66121_remove(struct i2c_client *client)
- {
- 	struct it66121_ctx *ctx = i2c_get_clientdata(client);
- 
--	drm_bridge_remove(&ctx->bridge);
--	mutex_destroy(&ctx->lock);
-+	it66121_destroy_bridge(&ctx->bridge);
- }
- 
- static const struct of_device_id it66121_dt_match[] = {
-diff --git a/include/drm/bridge/ite-it66121.h b/include/drm/bridge/ite-it66121.h
-new file mode 100644
-index 000000000000..e6753f695b7f
---- /dev/null
-+++ b/include/drm/bridge/ite-it66121.h
-@@ -0,0 +1,17 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifndef __ITE_IT66121_H__
-+#define __ITE_IT66121_H__
-+
-+#include <linux/i2c.h>
-+
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_device.h>
-+
-+int it66121_create_bridge(struct i2c_client *client, bool of_support,
-+			  bool hpd_support, bool audio_support,
-+			  struct drm_bridge **bridge);
-+
-+void it66121_destroy_bridge(struct drm_bridge *bridge);
-+
-+#endif
+ int
 -- 
-2.34.1
+2.39.2
 
