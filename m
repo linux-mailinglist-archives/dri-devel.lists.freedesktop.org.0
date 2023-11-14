@@ -2,82 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F10007EA8D9
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 03:56:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6557EA8ED
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 04:09:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC5F110E1AA;
-	Tue, 14 Nov 2023 02:56:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87F4A10E1AB;
+	Tue, 14 Nov 2023 03:08:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com
- [IPv6:2607:f8b0:4864:20::f2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B72410E068;
- Tue, 14 Nov 2023 02:56:39 +0000 (UTC)
-Received: by mail-qv1-xf2c.google.com with SMTP id
- 6a1803df08f44-66d76904928so31007806d6.2; 
- Mon, 13 Nov 2023 18:56:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699930598; x=1700535398; darn=lists.freedesktop.org;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Z8gh+tyvh6xU3CtUfgvuoYYHt+9hj8SrGt0ODg/Sa40=;
- b=blcwAzywBYG6YbQZmUGVi6UlOnH5dIdUcwkA5KUmjZ/oqRkX8kRm70mz9HwwxxNfqF
- G/xnRQGB+rptWlmF1ViTAMy07i6EpLEQWWUFsanr2sQeJCenlODUoU3ppSym5HLKJtXy
- MZ3s21CIGyYgY0JcwkMfaT9YGWSIoqzbqkDphir+i0Kactlt0Z3DzyTPaOgnkfbtQIKg
- /ij86mCR3x2OkD7FL7C/pRtLDiaKbRl7nba7hPifvuoYri2cT2cQh3g+7dcCCxW9tmqZ
- eVWoZZ1kJOc1cfBn/gSao6XrvTEHrmK487sUOG/SpEv1uohrr7CiyQPcUb1A71oyZun3
- xvkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699930598; x=1700535398;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Z8gh+tyvh6xU3CtUfgvuoYYHt+9hj8SrGt0ODg/Sa40=;
- b=FgeHfd7VI6GCQFlZQRE60B0OYbmzYLQnjhfgjRPsnseMuWAYBeF4pirZbpGPTonSZw
- HpvakAV+PoQop8XCBtA6KMNdVNNN//ZzDAln1PpJDuXRRAuQ20vkKBJCG7PFvCkyPF2p
- X49Rb7jLA+ZEdHDfIMzh0e3MNI0mCjnislylEw6kRQnCYX+RPb51wARciryi5V9uBbGe
- /Tkz38exEAtQjvHZ0J3tI1ICefN5hLxAwo1l+AIN1Nx+lOZM/9N2jou+e/711BH2lvWH
- 56l9ziF/FYLdK//KdRuwnsUZggxD8u9l9VgRxVW6E3GUlhZhZQjTAX/B3DYm9j5EREj2
- /zQQ==
-X-Gm-Message-State: AOJu0YyIgt8uvOgAD1CRWDtsDYyEKkKqHTbmKxppUqOXZvtVDQMFOrsi
- 1Kr0aXf8WJMecf6YZIhEV70=
-X-Google-Smtp-Source: AGHT+IHUuAN3MAFGpLTAWV4ImXiPpTFZOBaOLMZe+wLj3VOPkU70r1ErUhHhns1ksiQHY/wxs1Xjqg==
-X-Received: by 2002:a0c:ec81:0:b0:66d:bc21:814c with SMTP id
- u1-20020a0cec81000000b0066dbc21814cmr974712qvo.65.1699930597891; 
- Mon, 13 Nov 2023 18:56:37 -0800 (PST)
-Received: from [192.168.2.14]
- (bras-base-toroon0964w-grc-76-76-65-20-140.dsl.bell.ca. [76.65.20.140])
- by smtp.gmail.com with ESMTPSA id
- w8-20020a0cc708000000b0066d5220d860sm2560468qvi.18.2023.11.13.18.56.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Nov 2023 18:56:37 -0800 (PST)
-Message-ID: <530b6100-4f4e-4b3d-8fea-5b316e989633@gmail.com>
-Date: Mon, 13 Nov 2023 21:56:32 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
- Thunderbird/115.4.2
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30F5210E1AB;
+ Tue, 14 Nov 2023 03:08:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1699931336;
+ bh=KR70QR5w0XcJMdBR3lpoccH3RNhz/GxEKE8X92erxPo=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=cR0Oijz6kqsaAOj2bX3dKtjU6GqQ2VpQlZH7oTiDKgeiabmR9Rrzdv1Zh3kfILIj2
+ bFu4EX308PElGpnVtrD8NDN8zbMfRa20ljPsZ69cCN6N4t5xSwGvEa1R4N4QKxOVdO
+ G9mNu0+iocotAbhuAut9dDp/1eCqhew9eIf5FGgPJDxvRMWSc/E+w297tVzEDjNC/W
+ c/A7a9uoOhqSNgKrDL4ObreCmfkG5Ss4//zucg/ujO2JzYjQxWQRtRcFbU3A73woSA
+ SlU/RGBC+jXSZKwgyzaeWl5Ug3b/vX+3ECvziN/oyd60NA/7YUDcmnZr5YfeL5blWW
+ FuMoRS7jaxnXg==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4STrqD4Wbcz4wd1;
+ Tue, 14 Nov 2023 14:08:56 +1100 (AEDT)
+Date: Tue, 14 Nov 2023 14:08:55 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Luben Tuikov <ltuikov89@gmail.com>
 Subject: Re: linux-next: Signed-off-by missing for commit in the drm-misc tree
-Content-Language: en-CA, en-US
-To: Stephen Rothwell <sfr@canb.auug.org.au>
+Message-ID: <20231114140855.0b259b2d@canb.auug.org.au>
+In-Reply-To: <530b6100-4f4e-4b3d-8fea-5b316e989633@gmail.com>
 References: <20231114075501.61321c29@canb.auug.org.au>
  <19740d41-dd5a-47e4-b3e8-539b45bbd3e5@gmail.com>
  <3c306310-04b3-4658-a197-4b2d22a88274@gmail.com>
  <20231114134506.2ba0de1f@canb.auug.org.au>
-From: Luben Tuikov <ltuikov89@gmail.com>
-Autocrypt: addr=ltuikov89@gmail.com; keydata=
- xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
- Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
- eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
- AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
- JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
- cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
- 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
- aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
-In-Reply-To: <20231114134506.2ba0de1f@canb.auug.org.au>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Tencx0UITbqjxESm55irdpdp"
+ <530b6100-4f4e-4b3d-8fea-5b316e989633@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_/Na+7zaGwGVDM71As2dVxmhu";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,129 +63,40 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Tencx0UITbqjxESm55irdpdp
-Content-Type: multipart/mixed; boundary="------------YqVmdYYomq0UeOq8wwTkv7P8";
- protected-headers="v1"
-From: Luben Tuikov <ltuikov89@gmail.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-Message-ID: <530b6100-4f4e-4b3d-8fea-5b316e989633@gmail.com>
-Subject: Re: linux-next: Signed-off-by missing for commit in the drm-misc tree
-References: <20231114075501.61321c29@canb.auug.org.au>
- <19740d41-dd5a-47e4-b3e8-539b45bbd3e5@gmail.com>
- <3c306310-04b3-4658-a197-4b2d22a88274@gmail.com>
- <20231114134506.2ba0de1f@canb.auug.org.au>
-In-Reply-To: <20231114134506.2ba0de1f@canb.auug.org.au>
-
---------------YqVmdYYomq0UeOq8wwTkv7P8
-Content-Type: multipart/mixed; boundary="------------NJtk4VEkjq3D80zuPf9TXKVC"
-
---------------NJtk4VEkjq3D80zuPf9TXKVC
-Content-Type: text/plain; charset=UTF-8
+--Sig_/Na+7zaGwGVDM71As2dVxmhu
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On 2023-11-13 21:45, Stephen Rothwell wrote:
-> Hi Luben,
->=20
-> On Mon, 13 Nov 2023 20:32:40 -0500 Luben Tuikov <ltuikov89@gmail.com> w=
-rote:
->>
->> On 2023-11-13 20:08, Luben Tuikov wrote:
->>> On 2023-11-13 15:55, Stephen Rothwell wrote: =20
->>>> Hi all,
->>>>
->>>> Commit
->>>>
->>>>   0da611a87021 ("dma-buf: add dma_fence_timestamp helper")
->>>>
->>>> is missing a Signed-off-by from its committer.
->>>> =20
->>>
->>> In order to merge the scheduler changes necessary for the Xe driver, =
-those changes
->>> were based on drm-tip, which included this change from drm-misc-fixes=
-, but which
->>> wasn't present in drm-misc-next.
->>>
->>> I didn't want to create a merge conflict between drm-misc-next and dr=
-m-misc-fixes,
->>> when pulling that change from drm-misc-next to drm-misc-fixes, so tha=
-t I can apply =20
->>
->> ... when pulling that change from from drm-misc-fixes into drm-misc-ne=
-xt, so that I can apply...
->>
->>> the Xe scheduler changes on top of drm-misc-next. =20
->>
->> The change in drm-misc-fixes is b83ce9cb4a465b. The latter is containe=
-d
->> in linus-master, and in drm-misc-fixes, while the former is in drm-mis=
-c-next.
->> When we merge linus-master/drm-misc-fixes into drm-misc-next, or which=
-ever way
->> it happens, I'd like to avoid a merge conflict, but wanted to expedite=
- the changes
->> for Xe.
->=20
-> None of that is relevant ... if you commit a patch to a tree that will
-> be in the linux kernel tree, you must add your Signed-off-by to the com=
-mit.
+Hi Luben,
 
-Hi Stephen,
+BTW, cherry picking commits does not avoid conflicts - in fact it can
+cause conflicts if there are further changes to the files affected by
+the cherry picked commit in either the tree/branch the commit was
+cheery picked from or the destination tree/branch (I have to deal with
+these all the time when merging the drm trees in linux-next).  Much
+better is to cross merge the branches so that the patch only appears
+once or have a shared branches that are merged by any other branch that
+needs the changes.
 
-Noted!
-
-So I always do this when I do git-am and such, but wasn't sure for this o=
-ne single cherry-pick whose
-original author was the committer in drm-misc-fixes, but will add my Sign=
-ed-off-by in those
-rare circumstances.
-
-Thanks for the clarification!
+I understand that things are not done like this in the drm trees :-(
 --=20
-Regards,
-Luben
+Cheers,
+Stephen Rothwell
 
---------------NJtk4VEkjq3D80zuPf9TXKVC
-Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
-PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
-QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
-BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
-MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
-bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
-9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
-OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
-z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
-=3DqCaZ
------END PGP PUBLIC KEY BLOCK-----
-
---------------NJtk4VEkjq3D80zuPf9TXKVC--
-
---------------YqVmdYYomq0UeOq8wwTkv7P8--
-
---------------Tencx0UITbqjxESm55irdpdp
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+--Sig_/Na+7zaGwGVDM71As2dVxmhu
+Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZVLh4AUDAAAAAAAKCRBMFUeUMaM0r6eC
-AQDsvW6naENA3rNs8pbN5QJSlkKy0CBPsgq9ZPggDgmaQAEA4QpMMKV/zVghKFWu/sjG3dYjdpUG
-3j9N4V02JICJBwE=
-=tP9x
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmVS5McACgkQAVBC80lX
+0GwvNwf+MEx46vQARdiMElHN+CoLXNfijWWip4XP0uRKP3n2eVw2ti11KGgJGzv0
+3eAexQBSII18+NeF/0L2HJAFdR5t0NH13Q41rr5Z2Jnd1ypRRBufmBvU4ASizvWp
+HScZe5MAOJ5MaSBS0aUDnurA/r1nSNWNFHbj1IyPMnvVLzNTos4Ft9eKGtzBeuiO
+3VrRmm3cAVgdLmG1dm3KYEc/CPu6ko6Tbb2oPvlxjDWDCqZJsHRiRrIv7FQ4Rv9f
+WCtJC7bLC0vTpwoqwDhcLzcj3ngHEruR+3ulvg8zTaPG4P4og8C8dcc8YG5vxkx3
+621pcqKp87aFR7Avtziv79hWt2B0tA==
+=EHf7
 -----END PGP SIGNATURE-----
 
---------------Tencx0UITbqjxESm55irdpdp--
+--Sig_/Na+7zaGwGVDM71As2dVxmhu--
