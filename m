@@ -1,61 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 068AE7EB45A
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 17:04:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B31A7EB460
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 17:05:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F0FD10E45F;
-	Tue, 14 Nov 2023 16:04:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC7D510E462;
+	Tue, 14 Nov 2023 16:05:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com
- [IPv6:2607:f8b0:4864:20::1135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 117FC10E45F
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 16:03:58 +0000 (UTC)
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-5bf812041a6so63562667b3.3
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 08:03:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1699977838; x=1700582638; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=84sMBLOoP3332x+kaQPC6WEmGeMSigBRO9sqFIeWhaw=;
- b=QHVtA9vRhMCkdh7K+xqRHweYQN0FeOX/R/WrDMdiqQ1LwW5blNuh5kQEnnbVddT0IN
- 2CRb82lUUpy6TYO8lyUl6hHVuGsnN/1pLneUb4omOXlWqkYOvGYI8beSJlJ8B7MmWaxW
- fbC5RpGo17Xr5CMi2HJXsYrH4288smCDjcQm1i91MM15QWPwfFT9QfaUr2Qx77s2BEDZ
- Pr3FsICPMDmoas61E2r3EONIn1m97mFHhDOBruUb0AdUZMEuiKFkLX8lOtZnZ9cgvk0k
- IGCQ730nyY3jG3kLnb3wtHOZ4mcANPMXrQW2hevffyekmrc9E+EUU/nphz86h+N3hd3x
- wxPQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A27010E462
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 16:05:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1699977916;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=j565Cy9XLw29CBi7bfBFtO6psEQo+EfQSVIEvDNtFvA=;
+ b=Oc9C61MDDXe9zVu9Bg0J4CD9IgxVO2MJ4DXRy9C2h/Q4OdXGMIEraC7nzS9Ky99Qrqlhel
+ hZAsfn4aPaNSKl5ZJbpbXChrGG5rtfKiZb3qQyHl0xsllvQlII0Simg/4sS/eNeL4pk08R
+ ReEZRUCgZN85eg0HaiRKZllSiOSB6Rk=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-140-bSm_Kw5RO5uNYPJKLd9Pbw-1; Tue, 14 Nov 2023 11:05:15 -0500
+X-MC-Unique: bSm_Kw5RO5uNYPJKLd9Pbw-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-67166648d77so73549816d6.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 08:05:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699977838; x=1700582638;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=84sMBLOoP3332x+kaQPC6WEmGeMSigBRO9sqFIeWhaw=;
- b=dGnLO/2kmmsnJEsaWyGwYyG3Sgz4MXXFckMJpjsliXAUUd6o1JfXQZEUN68rjfJ3Ay
- 5dzNOVu3F+K40cDGaYochE1YtZRBDfmgfWnWwyD1tj3XJUFpi0EfXcNYsaSGRUgPtVg2
- sU8HhrQQ1As4PCQs/7ofooam1Ix5EMc4tkhDzlCiwxp1KKVv+xvyuhlMPxmuwMtxrDTm
- QXOpVHO9qtq6aCYtEngp7OARkoHWekd/QXt0mqqo1pE/Pv9dZ+PU6EmYaULBm+yoLB7W
- px5MzcTX7Qn5XbhmyJWvqy53dguYZVs/4XYCYmQ86I03tE47i5Sev+ra9CP0UMyEVD1h
- vizg==
-X-Gm-Message-State: AOJu0Yzf28/TU0a1e0ZyZLDwXh533c/yUhNRVkhwLVbwu9bG2VvqHazp
- FbsIxahMO8n/vQo7HN/Z029QGdXw+KVr40od79r1lA==
-X-Google-Smtp-Source: AGHT+IFIv/dr950N6/LEfu34S82r9+GhcCMi5FKjW5Jcm5LagL4BVhGWPQCJjXVH0we8WxFPHGlKtF0/97aoe9Dk3L4=
-X-Received: by 2002:a0d:f304:0:b0:5a8:2b82:a031 with SMTP id
- c4-20020a0df304000000b005a82b82a031mr9872136ywf.26.1699977837957; Tue, 14 Nov
- 2023 08:03:57 -0800 (PST)
+ d=1e100.net; s=20230601; t=1699977915; x=1700582715;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=j565Cy9XLw29CBi7bfBFtO6psEQo+EfQSVIEvDNtFvA=;
+ b=a6PeYHk+vPLSjSGgOlxvsunVUG6odJJeVweyBmWqVrE97oztMK86jJSyJZsns8gb0X
+ ZnWakUzzJIX1Zl88ggAqmnJYmsk7mL6wyXvkeM3X9ZF4c3r6hgKxLZIaApd3fJTHmMKx
+ Cku7IbbKEbVWlk5yCCYSgy1uJGetKCD9561N5y/Yuah/jITYoxG6q34t4K02qrJsrFzk
+ llKK7nnB94dwCddCdxcmfxnUNNmw4NtnR1X3lrS2VAhdPzbboGCaNLZTm3owaSM27miM
+ eACVxnvAXw3yeCt1nT0+Xes1YGu2qMQLm1Av1TUanAHzV4hQH9+P4fYkYD0fVmMxdaAi
+ JxAg==
+X-Gm-Message-State: AOJu0YzdYPuw46icGPNdYy77KUMRny2HVVG1UQGDdakV7quWg2huC4a+
+ SUF60FV0UUVfH+JcvMyOj6uZguBsh8oAtO45h60B2ye6We2h/gMZ0dEtJdMxldwUOLbUou446jk
+ fD+UcK4icmh3/tU3SFgdL0N1/42Cw
+X-Received: by 2002:a0c:f74a:0:b0:66d:37be:47d2 with SMTP id
+ e10-20020a0cf74a000000b0066d37be47d2mr2515138qvo.37.1699977915004; 
+ Tue, 14 Nov 2023 08:05:15 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFG72Y2KWMfjoNvHFLMOeHbUicAjGXWzGnJiPCUY7t9jfN0rIz/VFTXo03rJ2HlwwIWkmmcoA==
+X-Received: by 2002:a0c:f74a:0:b0:66d:37be:47d2 with SMTP id
+ e10-20020a0cf74a000000b0066d37be47d2mr2515103qvo.37.1699977914680; 
+ Tue, 14 Nov 2023 08:05:14 -0800 (PST)
+Received: from localhost ([195.166.127.210]) by smtp.gmail.com with ESMTPSA id
+ h13-20020a0ceecd000000b00671b009412asm2967374qvs.141.2023.11.14.08.05.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Nov 2023 08:05:14 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/6] drm: Add
+ drm_atomic_helper_buffer_damage_{iter_init, merged}() helpers
+In-Reply-To: <6e663e37-b735-47f7-a841-fa0f93fdddaf@suse.de>
+References: <20231109172449.1599262-1-javierm@redhat.com>
+ <20231109172449.1599262-3-javierm@redhat.com>
+ <6e663e37-b735-47f7-a841-fa0f93fdddaf@suse.de>
+Date: Tue, 14 Nov 2023 17:05:12 +0100
+Message-ID: <87zfzg5nif.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
- <20231114150130.497915-4-sui.jingfeng@linux.dev>
-In-Reply-To: <20231114150130.497915-4-sui.jingfeng@linux.dev>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 14 Nov 2023 18:03:47 +0200
-Message-ID: <CAA8EJprhnxx6bS6cn1JAbdzyB_+N1BbajkuO8zs2_OxXPeV84Q@mail.gmail.com>
-Subject: Re: [PATCH 3/8] drm/bridge: it66121: Add a helper function to read
- bus width
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,90 +81,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phong LE <ple@baylibre.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: nerdopolis <bluescreen_avenger@verizon.net>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, dri-devel@lists.freedesktop.org,
+ Sima Vetter <daniel.vetter@ffwll.ch>, Bilal Elmoussaoui <belmouss@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ stable@vger.kernel.org, Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 14 Nov 2023 at 17:09, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
->
-> From: Sui Jingfeng <suijingfeng@loongson.cn>
->
-> Group those relavent code lines (which with common purpose) into one helper
-> function, suppress the dependency on DT to function level. Just trivial
-> cleanup, no functional change.
->
-> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> ---
->  drivers/gpu/drm/bridge/ite-it66121.c | 32 ++++++++++++++++++++--------
->  1 file changed, 23 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-> index 83dbdbfc9ed8..0f78737adc83 100644
-> --- a/drivers/gpu/drm/bridge/ite-it66121.c
-> +++ b/drivers/gpu/drm/bridge/ite-it66121.c
-> @@ -320,6 +320,26 @@ static inline struct it66121_ctx *bridge_to_it66121(struct drm_bridge *bridge)
->         return container_of(bridge, struct it66121_ctx, bridge);
->  }
->
-> +static int it66121_of_read_bus_width(struct device *dev, u32 *bus_width)
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Using a pointer to return int value doesn't look right. Just return a
-signed int here and if it is not an error, assign it to ctx->bus_width
+> Hi
+>
+> Am 09.11.23 um 18:24 schrieb Javier Martinez Canillas:
 
-> +{
-> +       struct device_node *np;
-> +       u32 bw;
-> +
-> +       np = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
-> +       if (!np)
-> +               return -EINVAL;
-> +
-> +       of_property_read_u32(np, "bus-width", &bw);
-> +       of_node_put(np);
-> +
-> +       if (bw != 12 && bw != 24)
-> +               return -EINVAL;
-> +
-> +       *bus_width = bw;
-> +
-> +       return 0;
-> +}
-> +
->  static const struct regmap_range_cfg it66121_regmap_banks[] = {
->         {
->                 .name = "it66121",
-> @@ -1525,19 +1545,13 @@ static int it66121_probe(struct i2c_client *client)
->         if (!ctx)
->                 return -ENOMEM;
+[...]
+
+>>   	struct drm_rect src;
+>>   	memset(iter, 0, sizeof(*iter));
+>> @@ -223,7 +224,8 @@ __drm_atomic_helper_damage_iter_init(struct drm_atomic_helper_damage_iter *iter,
+>>   	iter->plane_src.x2 = (src.x2 >> 16) + !!(src.x2 & 0xFFFF);
+>>   	iter->plane_src.y2 = (src.y2 >> 16) + !!(src.y2 & 0xFFFF);
+>>   
+>> -	if (!iter->clips || !drm_rect_equals(&state->src, &old_state->src)) {
+>> +	if (!iter->clips || !drm_rect_equals(&state->src, &old_state->src) ||
+>> +	    (buffer_damage && old_state->fb != state->fb)) {
 >
-> -       ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
-> -       if (!ep)
-> -               return -EINVAL;
-> -
->         ctx->dev = dev;
->         ctx->client = client;
->         ctx->info = i2c_get_match_data(client);
->
-> -       of_property_read_u32(ep, "bus-width", &ctx->bus_width);
-> -       of_node_put(ep);
-> -
-> -       if (ctx->bus_width != 12 && ctx->bus_width != 24)
-> -               return -EINVAL;
-> +       ret = it66121_of_read_bus_width(dev, &ctx->bus_width);
-> +       if (ret)
-> +               return ret;
->
->         ep = of_graph_get_remote_node(dev->of_node, 1, -1);
->         if (!ep) {
-> --
-> 2.34.1
+> I'd assume that this change effectivly disables damage handling. AFAICT 
+> user space often does a page flip with a new framebuffer plus damage 
+> data. Now, with each change of the framebuffer we ignore the damage 
+> information. It's not a blocker as that's the behavior before 6.4, but 
+> we should be aware of it.
 >
 
+Yes, which is the goal of this patch since page flip with a new framebuffer
+attached to a plane plus damage information can't be supported by drivers
+that do per-buffer uploads.
+
+This was causing some weston and wlroots to have flickering artifacts, due
+the framebuffers being changed since the last plane update.
+
+For now it was decided with Sima, Simon and Pekka that is the best we can
+do and the reason why I add a TODO in patch #6.
 
 -- 
-With best wishes
-Dmitry
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
