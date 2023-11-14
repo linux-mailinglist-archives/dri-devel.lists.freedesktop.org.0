@@ -1,143 +1,128 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 144287EACD8
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 10:17:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4462E7EACF1
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 10:24:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F91810E433;
-	Tue, 14 Nov 2023 09:17:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E32A010E1E6;
+	Tue, 14 Nov 2023 09:24:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ECE210E1E6;
- Tue, 14 Nov 2023 09:17:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699953445; x=1731489445;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=wYfipz6I7sk+GkMYfDWllWR50hV9zAAMCeani3n2RVc=;
- b=UJ3jBqu5WwIRcprRTZNt71WfpZvmg+c8GQMqnUE1hPnk+TBcMGp5ZfZa
- kN+Ol7OdRQdJh2ur8C+kH/GzWpBKhJtBxKf6ggJPQjbj5GgmRjETRF7+Y
- 5CcUFdoFhMAl4GWXXNxYMvWgOaP/tq4MQ7EyMJkdVPlgRRXw/Z9jj83Nn
- urSj6GejMNYNowXgT22biezDJpdqCszAxK1VyI/Rj+kA0vGmtuboiNrkJ
- huyge9ol5ksMyL5zHzG80PvOvnGEXezAD55NuxP1o8cFfnlX1Uh9qz7z6
- NOxywbKlbyW0YMvwXTOm1BJtdaHftuGDhGycEiJVnuqVpfrkBv5Hz+Bx4 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="394533232"
-X-IronPort-AV: E=Sophos;i="6.03,301,1694761200"; d="scan'208";a="394533232"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2023 01:17:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="855228994"
-X-IronPort-AV: E=Sophos;i="6.03,301,1694761200"; d="scan'208";a="855228994"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by FMSMGA003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 14 Nov 2023 01:17:23 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Tue, 14 Nov 2023 01:17:21 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Tue, 14 Nov 2023 01:17:21 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Tue, 14 Nov 2023 01:17:21 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JPNHOJWUpk4uThCQzqKkiUa1HCLy6AVLmaYD8iv9sYzjl1qv/XHPVF8Fn14Hy8DjL3ISVmElt4rxqZr+SsljK6rwqtvxcdXdtp0OKRkqyLZWPqT79qY7Wy6HkK2Xld+AbHv9H47E3GbnxDXN2ZgzD3IKHhGhluTRsJgzIJHDGmXUpu5rnr3amC3fYYEPkpfOI6uAw0OYljeweKKCKxKlLSbUDPrVzVSKV2vMhSvTCxx5s4Nyq4tfzf2I/qeO6G7AiYnHe9lI+gI8Gv8ncsKDeUfwzrePYDcMKDJBHiJtAPvvQYV9ESyi2G9uPwWVnfkSfXlXaLsGDPcmU+za8LOADg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2mzVspzZgZhBUgLuEkobBuSGFHeOC4dQslA6uXVHNQo=;
- b=b0uxgrntyKtFodb61ONWfqRj4PmXqfC/hRD6tYVWg5IZwH1lxPFpHrgvaBznSZGRXtoXou/59V0BdtBtkBVm3xWoVJDSv5GZ0a0eT+khWuTMfYfjbLQ5XELPdoTrH3ISybD1J6bshkoAI75fJjn65bXj8At4+94+qIcO8ghZdMIpJ7aUQKQ/AXtD+tdz7xUlFCspjGYPmdiZ3RGd7qOu/kNEyuySjXvFSROLkILVrkMmV7822JV0EbcCtfceVc9xXMHDdSy3kqcZQN3N8Ke6lDpENpzaT5pYrrg4zXwUAW12WREsdURXp3iSRDL5h/wtsBrVhqZqHuwRLuesW5+s9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SN7PR11MB6750.namprd11.prod.outlook.com (2603:10b6:806:266::21)
- by SN7PR11MB7975.namprd11.prod.outlook.com (2603:10b6:806:2eb::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.29; Tue, 14 Nov
- 2023 09:17:19 +0000
-Received: from SN7PR11MB6750.namprd11.prod.outlook.com
- ([fe80::3f2c:c6e5:ae21:82cb]) by SN7PR11MB6750.namprd11.prod.outlook.com
- ([fe80::3f2c:c6e5:ae21:82cb%4]) with mapi id 15.20.6977.029; Tue, 14 Nov 2023
- 09:17:19 +0000
-From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
-To: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH 03/11] drm/i915/display: Consider fractional vdsc bpp
- while computing m_n values
-Thread-Topic: [PATCH 03/11] drm/i915/display: Consider fractional vdsc bpp
- while computing m_n values
-Thread-Index: AQHaE776D9Tmsrn7u0W+DXZ2cLBBu7B5jxgg
-Date: Tue, 14 Nov 2023 09:17:19 +0000
-Message-ID: <SN7PR11MB675047F73A5FD6C82EE63296E3B2A@SN7PR11MB6750.namprd11.prod.outlook.com>
-References: <20231110101020.4067342-1-ankit.k.nautiyal@intel.com>
- <20231110101020.4067342-4-ankit.k.nautiyal@intel.com>
-In-Reply-To: <20231110101020.4067342-4-ankit.k.nautiyal@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN7PR11MB6750:EE_|SN7PR11MB7975:EE_
-x-ms-office365-filtering-correlation-id: ca5fa087-abbc-44bf-5b70-08dbe4f280bb
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: y1yclIl7VfifbNuK/6muQWvSzjXmwcrYMejjFhdWkH4cGwpxC65+enZPhBI+uY4SNE1ncdkcEG6K/536/LYqTOHpfVBUX3b0t9pLxbXiWQWO8qKp/d4hRwtweGO/HmQ9AdRRYaFdm3bi0uo7OnEPD6i5D3eB4W/abmPKvEZpX0UX7ElqoxTF/Dn80zgpS4IPEUZ2B8RkukDtZpj7HRsGopbt78e/WrJME+XbelUDbZWvGUgL1taskvN8upTNa4fKCmeAS7uOHPxJCzZmD9y3gM5FPYZQ/PNrLVdctDLcVzURQzKj5UPcMV9TAI+uRZ2ehaQ7H2M1zaalzT+PpFEbN3ayzNw4ng8JjtAfyBNjER2FvArLxWFj5Z368I9MJgap+o2pDvwoe+5ukBmqqFIpyNPy1mycQQPVdYw9Z6f0KdC4SOr2Pcp1xKfTR8sKLeFfB7ZU8Rm5STStfK1TrXvORFidxWwffaVWP2rcnzBygDJxCrvWClNiFR/q619y9YwEtB4m49cAeCMda2ZnxH3nM0l+/k36LyNblA70Q/agBSBOvAWXZuv0BhmXAoA9iHr0HXaU+MIyXmgcEUioqNSp7+I5fiOTkXc9n2aiQG1yfnuOo6IY3wZT5DC7Xa9te78Q
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR11MB6750.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(376002)(366004)(396003)(39860400002)(136003)(230922051799003)(186009)(451199024)(1800799009)(64100799003)(86362001)(5660300002)(478600001)(2906002)(71200400001)(4326008)(8936002)(8676002)(52536014)(316002)(66446008)(66946007)(66556008)(64756008)(66476007)(54906003)(76116006)(110136005)(82960400001)(26005)(83380400001)(33656002)(55016003)(41300700001)(122000001)(9686003)(38070700009)(7696005)(6506007)(38100700002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?4jJkFSuuGB5ObPViSH8adHMRTVcenLRgGqpQw/t53G8dXCapy8m8USm/Ibbl?=
- =?us-ascii?Q?7t+GuiG5GW2EmdPbNZJUjc3YcBdpeOiPHOYTDpFcvG/7MPNa18jt0rbG0nLN?=
- =?us-ascii?Q?/9jwRvG00n+Z4EcERcqaBO6/AePNz7yhB4/N4KFbQnMmyjoiqRg44Ur5Pwtz?=
- =?us-ascii?Q?X12xNrb6VR+5ghuuaZ0oNuWpS8LqsKGCm6XrexOk7tdmwve0e95/VN8c1V4L?=
- =?us-ascii?Q?YEIPcp+y8FbTK32ZeosaVLLCAbXqYS9gKB79Gk+lueqDynbmZ4zmKnOYCESB?=
- =?us-ascii?Q?yoPIymtCgFhvV/ok3QV7iQ2EeMK0NBRe+sHYUIlmah/zLjSqayFJmbk4PzyV?=
- =?us-ascii?Q?MEeKm6k7z/qk+MyV+GaHsIGaaaubD3vO/fX2alUG7RwvWFUMpSkxg64ovrY7?=
- =?us-ascii?Q?Xg4KUtueuDVttm4KePDzk88oIkdalg4TTsJmpAfsF77S0kWBzontxECELn0U?=
- =?us-ascii?Q?2IMCJ6qTTkv/0bbNrLeW4Qm2DDf0PKIm/icV7RknMYMlO/+WqiW2GRYb3ouX?=
- =?us-ascii?Q?oMbFE6RvPQFzvX/DeBWPjLMGbC9HwXYVKnYeigOFX6lF94a57imyjqXhk+iR?=
- =?us-ascii?Q?qziGUG2a7XavHpMTxzBczQWBl6ml51Q7En2oMtsnEcZMOGklo2l44cd3koe0?=
- =?us-ascii?Q?5xHFBcqk93XmKuN830uNjFWULgkwbrdC1WOJyTQJjifFQNnuEEK3Y8vIAvH1?=
- =?us-ascii?Q?JZVDQKiixBj4D3S8yCP+SvsKi557fcubHcJi0lC9vXEmqoPyJtjZ78vUsh1c?=
- =?us-ascii?Q?8zNG+I6qF54YcMbOxGkeBQ9fiVr3mi6nIKoxnFFVW3049PHx2xMo5+KN626O?=
- =?us-ascii?Q?NuZqzDgwWk5PPx4nMzAjCaNCo/peUwS08PLCUbMqRyjlm9UQw31zA0xCkW4p?=
- =?us-ascii?Q?hidPYZvw7bsX6AQqRkTG5Qm8HCv7sYxAgaAZrrQeDHg/YRnk5sBGtkGZdSMD?=
- =?us-ascii?Q?KJo3gl9QdIIqhBluZEY4xy2/YtjkZDzwEwWN70xS6jD/U+TFcZsxXpP1p0ut?=
- =?us-ascii?Q?a/aCpp5C2NNhyxePquDyozZifdFj/iONXT2TNsY9R20cgoKaX1+JDHpLQYqw?=
- =?us-ascii?Q?B46DQRl5vFqi44zeX/jAE4Kq/OGz6urknlspCf/VE8FgQ6C9g9Yul+QriRkd?=
- =?us-ascii?Q?h9LgwqyCi2vETE1ju91b1BMVThj09saQHIx47m3o6luhKf6M6aDBsh4/jq7B?=
- =?us-ascii?Q?Ek+GUz9jbqL3qjR/XU5IjI4NpMahCs3shBjdtGyAM6EWNCasqKDSA+3t+yu5?=
- =?us-ascii?Q?lrsJm068xl9wl7AlJstQZYigNrRlc2nsDP+kG/8y8TE5Ox2v77E3RY+Pw00I?=
- =?us-ascii?Q?IcUZSZI1LTyIuvJD8+7fDFxb4v4x7U8ypeyFynNGbgWB4NdZrFBk89kZeVjO?=
- =?us-ascii?Q?dDIT0j3gSFfKb6ncFLq0O38Gtimzqe5mnyhxMEgbrdhRvJBqwxJp+Wx+tkbU?=
- =?us-ascii?Q?SB6UAVR5ErVKXF8sXZO3bSrjJDmuMXeVdNVdPR35Wj3nwsKBN1HWzmMIeV1v?=
- =?us-ascii?Q?1RUDLNPTD376SLUnVJMeSYbhc+QhM3XwFN2A13iw+qg5uP/F5Pdo1UtmVC/L?=
- =?us-ascii?Q?fUYh5kbGV9PjLE9n+wGIeR2iJ4YcWWRkTJppG35Y?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74AC610E1E9
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 09:24:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1699953842;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=rhwvl11mQ/I60uaprzSGe+FBFm6/F2WNQMrZtU+N8vU=;
+ b=VfTzWFSDEYkBTFus21PDGBjd4rWaNpLV4TgO/yPqEa/8j+AqZcguvC20h4RXWs46oeaDEs
+ RVWqqt6jGkS2qGQBETr8400NpOS11D8++rV9hhscsWuho7Aq/HHwfhIF0XVCooiT1RFv5c
+ BIro0lXhjyxQoFbyIhOXu8mBviLPn2A=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-408-Jud_EbVJNDq84lqJ8p_Jjw-1; Tue, 14 Nov 2023 04:24:00 -0500
+X-MC-Unique: Jud_EbVJNDq84lqJ8p_Jjw-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ 38308e7fff4ca-2c82f76f9c4so34996421fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 01:24:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699953839; x=1700558639;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rhwvl11mQ/I60uaprzSGe+FBFm6/F2WNQMrZtU+N8vU=;
+ b=SMIOk5bZIkLt8UHNtz0Hf9A4Q34kQ1Mte4hH5FGaL5X7/K4KzB55cFklw0cWWYg2Nt
+ 1sl6hETtg9u+O1ZP4XJqRtLigwTfSXAS3iyG8/d3wRHbQONr5f/H+YX6qMJ+IE323YIp
+ SbhnT+ApfNHRT0Sp830N/WtUsFo1PaSHAz4XyKYdTEkYhtOHLTAuPXG2vrWhttD1d7Tc
+ D5IJajGKslIBSEW8fRpw8ziK7uUaMWDBWqYCK7Zby2NxdH9Gt+sKKchjSwBWtXhfZMrm
+ Ruc/Csjv9TPSspHMw0YSCd5jU0vox5o2PlOX6cyRoTq6OYZOZxslO3uJ4ax6uX8tBG6F
+ +y5g==
+X-Gm-Message-State: AOJu0Yyu5T0VBJs/ACe3OantM/+9lkIp+O4/NMh7i1j9E/Lc/Qe1rURG
+ hlKUWSK+9MQmzcGxje38jogwG0rT7VU20KcJZ+LeRBCdBv3oLitK+S9DWwDs00sekVS44wzhy6Z
+ S+TR6jTjpUfC5B3ky7xcCvHO1SvWWdIDHNNWR
+X-Received: by 2002:a2e:b0c6:0:b0:2c6:edfd:658a with SMTP id
+ g6-20020a2eb0c6000000b002c6edfd658amr1136428ljl.31.1699953838988; 
+ Tue, 14 Nov 2023 01:23:58 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG+xvL6+Z0qg7QgFVDxtPcqBvEkwPp8e1GJFupKCOxCqWNOkI+ZnPM95DB9nhgwJyRcXbo0RQ==
+X-Received: by 2002:a2e:b0c6:0:b0:2c6:edfd:658a with SMTP id
+ g6-20020a2eb0c6000000b002c6edfd658amr1136405ljl.31.1699953838488; 
+ Tue, 14 Nov 2023 01:23:58 -0800 (PST)
+Received: from ?IPV6:2003:cb:c73e:8900:2d8:c9f0:f3fb:d4fd?
+ (p200300cbc73e890002d8c9f0f3fbd4fd.dip0.t-ipconnect.de.
+ [2003:cb:c73e:8900:2d8:c9f0:f3fb:d4fd])
+ by smtp.gmail.com with ESMTPSA id
+ w21-20020a05600c475500b003feae747ff2sm16781241wmo.35.2023.11.14.01.23.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Nov 2023 01:23:58 -0800 (PST)
+Message-ID: <ee876cb8-f3de-4294-91e0-60bb426bf5bc@redhat.com>
+Date: Tue, 14 Nov 2023 10:23:57 +0100
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB6750.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca5fa087-abbc-44bf-5b70-08dbe4f280bb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Nov 2023 09:17:19.5724 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HxOMctK6XYKxI/DsgvpIwMCBTtuwwzvD67W0Z9bxaTWVlfM/6lUIc+tN0BxZQqDnvHNe8+uVglqdWMBwPmFJ9g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7975
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm/gup: Introduce pin_user_pages_fd() for pinning
+ shmem/hugetlbfs file pages (v3)
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org
+References: <0f05cade-c75e-4605-8e22-9fb916c622b0@redhat.com>
+ <20231114070044.464451-1-vivek.kasireddy@intel.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <20231114070044.464451-1-vivek.kasireddy@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,222 +135,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kulkarni, Vandita" <vandita.kulkarni@intel.com>,
- "suijingfeng@loongson.cn" <suijingfeng@loongson.cn>, "Sharma,
- Swati2" <swati2.sharma@intel.com>
+Cc: Dongwon Kim <dongwon.kim@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Hugh Dickins <hughd@google.com>, Peter Xu <peterx@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Junxiao Chang <junxiao.chang@intel.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-> MTL+ supports fractional compressed bits_per_pixel, with precision of
-> 1/16. This compressed bpp is stored in U6.4 format.
-> Accommodate this precision while computing m_n values.
->=20
-> v1:
-> Replace the computation of 'data_clock' with 'data_clock =3D
-> DIV_ROUND_UP(data_clock, 16).' (Sui Jingfeng).
->=20
+On 14.11.23 08:00, Vivek Kasireddy wrote:
+> For drivers that would like to longterm-pin the pages associated
+> with a file, the pin_user_pages_fd() API provides an option to
+> not only pin the pages via FOLL_PIN but also to check and migrate
+> them if they reside in movable zone or CMA block. This API
+> currently works with files that belong to either shmem or hugetlbfs.
+> Files belonging to other filesystems are rejected for now.
+> 
+> The pages need to be located first before pinning them via FOLL_PIN.
+> If they are found in the page cache, they can be immediately pinned.
+> Otherwise, they need to be allocated using the filesystem specific
+> APIs and then pinned.
+> 
 > v2:
-> Rebase and pass bits_per_pixel in U6.4 format.
->=20
-
-LGTM.
-
-Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
-
-> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
-> Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> - Drop gup_flags and improve comments and commit message (David)
+> - Allocate a page if we cannot find in page cache for the hugetlbfs
+>    case as well (David)
+> - Don't unpin pages if there is a migration related failure (David)
+> - Drop the unnecessary nr_pages <= 0 check (Jason)
+> - Have the caller of the API pass in file * instead of fd (Jason)
+> 
+> v3: (David)
+> - Enclose the huge page allocation code with #ifdef CONFIG_HUGETLB_PAGE
+>    (Build error reported by kernel test robot <lkp@intel.com>)
+> - Don't forget memalloc_pin_restore() on non-migration related errors
+> - Improve the readability of the cleanup code associated with
+>    non-migration related errors
+> - Augment the comments by describing FOLL_LONGTERM like behavior
+> - Include the R-b tag from Jason
+> 
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Mike Kravetz <mike.kravetz@oracle.com>
+> Cc: Hugh Dickins <hughd@google.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Dongwon Kim <dongwon.kim@intel.com>
+> Cc: Junxiao Chang <junxiao.chang@intel.com>
+> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com> (v2)
+> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 > ---
->  drivers/gpu/drm/i915/display/intel_display.c |  4 ++--
->  drivers/gpu/drm/i915/display/intel_dp.c      | 16 ++++++++--------
->  drivers/gpu/drm/i915/display/intel_dp_mst.c  | 14 +++++++-------
->  drivers/gpu/drm/i915/display/intel_fdi.c     |  3 ++-
->  4 files changed, 19 insertions(+), 18 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c
-> b/drivers/gpu/drm/i915/display/intel_display.c
-> index b4a8e3087e50..125903007a29 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -2415,12 +2415,12 @@ add_bw_alloc_overhead(int link_clock, int
-> bw_overhead,  }
->=20
->  void
-> -intel_link_compute_m_n(u16 bits_per_pixel, int nlanes,
-> +intel_link_compute_m_n(u16 bits_per_pixel_x16, int nlanes,
->  		       int pixel_clock, int link_clock,
->  		       int bw_overhead,
->  		       struct intel_link_m_n *m_n)
->  {
-> -	u32 data_clock =3D bits_per_pixel * pixel_clock;
-> +	u32 data_clock =3D DIV_ROUND_UP(bits_per_pixel_x16 * pixel_clock,
-> 16);
->  	u32 data_m;
->  	u32 data_n;
->=20
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
-> b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 4ad3718c3c7d..246f50d1f030 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -2663,7 +2663,7 @@ static bool can_enable_drrs(struct intel_connector
-> *connector,  static void  intel_dp_drrs_compute_config(struct intel_conne=
-ctor
-> *connector,
->  			     struct intel_crtc_state *pipe_config,
-> -			     int link_bpp)
-> +			     int link_bpp_x16)
->  {
->  	struct drm_i915_private *i915 =3D to_i915(connector->base.dev);
->  	const struct drm_display_mode *downclock_mode =3D @@ -2688,7
-> +2688,7 @@ intel_dp_drrs_compute_config(struct intel_connector
-> *connector,
->  	if (pipe_config->splitter.enable)
->  		pixel_clock /=3D pipe_config->splitter.link_count;
->=20
-> -	intel_link_compute_m_n(link_bpp, pipe_config->lane_count,
-> pixel_clock,
-> +	intel_link_compute_m_n(link_bpp_x16, pipe_config->lane_count,
-> +pixel_clock,
->  			       pipe_config->port_clock,
->  			       intel_dp_bw_fec_overhead(pipe_config-
-> >fec_enable),
->  			       &pipe_config->dp_m2_n2);
-> @@ -2792,7 +2792,7 @@ intel_dp_compute_config(struct intel_encoder
-> *encoder,
->  	struct intel_dp *intel_dp =3D enc_to_intel_dp(encoder);
->  	const struct drm_display_mode *fixed_mode;
->  	struct intel_connector *connector =3D intel_dp->attached_connector;
-> -	int ret =3D 0, link_bpp;
-> +	int ret =3D 0, link_bpp_x16;
->=20
->  	if (HAS_PCH_SPLIT(dev_priv) && !HAS_DDI(dev_priv) && encoder-
-> >port !=3D PORT_A)
->  		pipe_config->has_pch_encoder =3D true;
-> @@ -2841,10 +2841,10 @@ intel_dp_compute_config(struct intel_encoder
-> *encoder,
->  		drm_dp_enhanced_frame_cap(intel_dp->dpcd);
->=20
->  	if (pipe_config->dsc.compression_enable)
-> -		link_bpp =3D to_bpp_int(pipe_config-
-> >dsc.compressed_bpp_x16);
-> +		link_bpp_x16 =3D pipe_config->dsc.compressed_bpp_x16;
->  	else
-> -		link_bpp =3D intel_dp_output_bpp(pipe_config-
-> >output_format,
-> -					       pipe_config->pipe_bpp);
-> +		link_bpp_x16 =3D
-> to_bpp_x16(intel_dp_output_bpp(pipe_config->output_format,
-> +							      pipe_config-
-> >pipe_bpp));
->=20
->  	if (intel_dp->mso_link_count) {
->  		int n =3D intel_dp->mso_link_count;
-> @@ -2868,7 +2868,7 @@ intel_dp_compute_config(struct intel_encoder
-> *encoder,
->=20
->  	intel_dp_audio_compute_config(encoder, pipe_config, conn_state);
->=20
-> -	intel_link_compute_m_n(link_bpp,
-> +	intel_link_compute_m_n(link_bpp_x16,
->  			       pipe_config->lane_count,
->  			       adjusted_mode->crtc_clock,
->  			       pipe_config->port_clock,
-> @@ -2884,7 +2884,7 @@ intel_dp_compute_config(struct intel_encoder
-> *encoder,
->=20
->  	intel_vrr_compute_config(pipe_config, conn_state);
->  	intel_psr_compute_config(intel_dp, pipe_config, conn_state);
-> -	intel_dp_drrs_compute_config(connector, pipe_config, link_bpp);
-> +	intel_dp_drrs_compute_config(connector, pipe_config,
-> link_bpp_x16);
->  	intel_dp_compute_vsc_sdp(intel_dp, pipe_config, conn_state);
->  	intel_dp_compute_hdr_metadata_infoframe_sdp(intel_dp,
-> pipe_config, conn_state);
->=20
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> index 31461ea25f7c..5c7e9d296483 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> @@ -70,7 +70,7 @@ static int intel_dp_mst_check_constraints(struct
-> drm_i915_private *i915, int bpp
->=20
->  static int intel_dp_mst_bw_overhead(const struct intel_crtc_state *crtc_=
-state,
->  				    const struct intel_connector *connector,
-> -				    bool ssc, bool dsc, int bpp)
-> +				    bool ssc, bool dsc, int bpp_x16)
->  {
->  	const struct drm_display_mode *adjusted_mode =3D
->  		&crtc_state->hw.adjusted_mode;
-> @@ -94,7 +94,7 @@ static int intel_dp_mst_bw_overhead(const struct
-> intel_crtc_state *crtc_state,
->  	overhead =3D drm_dp_bw_overhead(crtc_state->lane_count,
->  				      adjusted_mode->hdisplay,
->  				      dsc_slice_count,
-> -				      to_bpp_x16(bpp),
-> +				      bpp_x16,
->  				      flags);
->=20
->  	/*
-> @@ -107,16 +107,16 @@ static int intel_dp_mst_bw_overhead(const struct
-> intel_crtc_state *crtc_state,  static void intel_dp_mst_compute_m_n(const
-> struct intel_crtc_state *crtc_state,
->  				     const struct intel_connector *connector,
->  				     bool ssc, bool dsc,
-> -				     int bpp,
-> +				     int bpp_x16,
->  				     struct intel_link_m_n *m_n)
->  {
->  	const struct drm_display_mode *adjusted_mode =3D
->  		&crtc_state->hw.adjusted_mode;
->  	int overhead =3D intel_dp_mst_bw_overhead(crtc_state,
->  						connector,
-> -						ssc, dsc, bpp);
-> +						ssc, dsc, bpp_x16);
->=20
-> -	intel_link_compute_m_n(bpp, crtc_state->lane_count,
-> +	intel_link_compute_m_n(bpp_x16, crtc_state->lane_count,
->  			       adjusted_mode->crtc_clock,
->  			       crtc_state->port_clock,
->  			       overhead,
-> @@ -180,9 +180,9 @@ static int intel_dp_mst_find_vcpi_slots_for_bpp(struc=
-t
-> intel_encoder *encoder,
->  		link_bpp =3D dsc ? bpp :
->  			intel_dp_output_bpp(crtc_state->output_format,
-> bpp);
->=20
-> -		intel_dp_mst_compute_m_n(crtc_state, connector, false, dsc,
-> link_bpp,
-> +		intel_dp_mst_compute_m_n(crtc_state, connector, false, dsc,
-> +to_bpp_x16(link_bpp),
->  					 &crtc_state->dp_m_n);
-> -		intel_dp_mst_compute_m_n(crtc_state, connector, true, dsc,
-> link_bpp,
-> +		intel_dp_mst_compute_m_n(crtc_state, connector, true, dsc,
-> +to_bpp_x16(link_bpp),
->  					 &remote_m_n);
->=20
->  		/*
-> diff --git a/drivers/gpu/drm/i915/display/intel_fdi.c
-> b/drivers/gpu/drm/i915/display/intel_fdi.c
-> index 1d87fbc1e813..295a0f24ebbf 100644
-> --- a/drivers/gpu/drm/i915/display/intel_fdi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_fdi.c
-> @@ -339,7 +339,8 @@ int ilk_fdi_compute_config(struct intel_crtc *crtc,
->=20
->  	pipe_config->fdi_lanes =3D lane;
->=20
-> -	intel_link_compute_m_n(pipe_config->pipe_bpp, lane, fdi_dotclock,
-> +	intel_link_compute_m_n(to_bpp_x16(pipe_config->pipe_bpp),
-> +			       lane, fdi_dotclock,
->  			       link_bw,
->  			       intel_dp_bw_fec_overhead(false),
->  			       &pipe_config->fdi_m_n);
-> --
-> 2.40.1
+>   include/linux/mm.h |   2 +
+>   mm/gup.c           | 109 +++++++++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 111 insertions(+)
+> 
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 418d26608ece..1b675fa35059 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -2472,6 +2472,8 @@ long get_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
+>   		    struct page **pages, unsigned int gup_flags);
+>   long pin_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
+>   		    struct page **pages, unsigned int gup_flags);
+> +long pin_user_pages_fd(struct file *file, pgoff_t start,
+> +		       unsigned long nr_pages, struct page **pages);
+>   
+>   int get_user_pages_fast(unsigned long start, int nr_pages,
+>   			unsigned int gup_flags, struct page **pages);
+> diff --git a/mm/gup.c b/mm/gup.c
+> index 231711efa390..b3af967cdff1 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -3410,3 +3410,112 @@ long pin_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
+>   				     &locked, gup_flags);
+>   }
+>   EXPORT_SYMBOL(pin_user_pages_unlocked);
+> +
+> +static struct page *alloc_file_page(struct file *file, pgoff_t idx)
+> +{
+> +#ifdef CONFIG_HUGETLB_PAGE
+> +	struct page *page = ERR_PTR(-ENOMEM);
+> +	struct folio *folio;
+> +	int err;
+> +
+> +	if (is_file_hugepages(file)) {
+> +		folio = alloc_hugetlb_folio_nodemask(hstate_file(file),
+> +						     NUMA_NO_NODE,
+> +						     NULL,
+> +						     GFP_USER);
+> +		if (folio && folio_try_get(folio)) {
+> +			page = &folio->page;
+> +			err = hugetlb_add_to_page_cache(folio,
+> +							file->f_mapping,
+> +							idx);
+> +			if (err) {
+> +				folio_put(folio);
+> +				free_huge_folio(folio);
+> +				page = ERR_PTR(err);
+> +			}
+> +		}
+> +		return page;
+
+You could avoid the "page" variable completely simply by using 3 return 
+statements.
+
+LGTM, thanks
+
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Cheers,
+
+David / dhildenb
 
