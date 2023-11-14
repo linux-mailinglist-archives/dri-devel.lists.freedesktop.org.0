@@ -1,62 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368977EBA00
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 00:00:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A94B7EBA03
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 00:00:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F39210E38D;
-	Tue, 14 Nov 2023 23:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0CB210E403;
+	Tue, 14 Nov 2023 23:00:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com
- [IPv6:2607:f8b0:4864:20::f35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 598DC10E404
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 23:00:18 +0000 (UTC)
-Received: by mail-qv1-xf35.google.com with SMTP id
- 6a1803df08f44-66d122e0c85so35841896d6.3
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 15:00:18 -0800 (PST)
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com
+ [IPv6:2607:f8b0:4864:20::f36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A707510E403
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 23:00:28 +0000 (UTC)
+Received: by mail-qv1-xf36.google.com with SMTP id
+ 6a1803df08f44-66d190a8f87so35999916d6.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 15:00:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek.ca; s=google; t=1700002817; x=1700607617; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=0WgbXh9MgeOn39Qx8ZOYsj5qd/Y25XhdC9fJIxz5E4s=;
- b=XHiDN41Qv1XB8A/je7I3HoqAAn6J4erbjXylxaDRsHrNYdL+NPN9W8KJXB732tybaX
- yYcLVx1OfxLX6WPq8VWOvWXT+ojEoOKY+PCbQ+E2h8L2k+zNajKLOHkYwao5NDCMc/UL
- a2Q21HFR4tOI8j1rTG7AeE/cF6an6m+Fu8QgdcMPXESw+aFtWlWftMbYmjuoI+DMLja3
- ycBB2jHlGoIZUEy0LtSuFFk+BOiAcGVxDrtbBdP2e4UarfZXlZ5JdPFPKJqSH+bfUnJq
- 8+1Sw6ZN0W6B4Kqav4sMOslRpaJC/ywdZfCz9Vegrm1axaEnEDEpydfmcQi3A5EpOIaI
- s9Ag==
+ d=marek.ca; s=google; t=1700002827; x=1700607627; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HCsm7VCedF16OrkkHsKZ3GlEGsmWacvBMw8jR+/V2pU=;
+ b=aKDza6OOh4io8K8PVUqWuraHjXS6IynCGkqMx4lrvP5wjCqxWa77CE4P8YRaMQDPsp
+ emqit4CiVBJBdMdGRzmmerGBaFzEr+qCF1twPQGhUBten2uCZ6xfq4joG7Sq2BcpScFQ
+ ZII9Zt09b+yGD2uHZ6q2KI46V9I5pte4DLDU09ja9gT/KIEh26YM/yQ6zhH0CspregYc
+ ViuKJyR0+dqlI6obIae4oDLZO9TF+7N5/zy2ivdsS1LavU6Xk0UcIhxhmZScwAxlUEtR
+ HlJsQLrchZgrQGJMt1XwvSrVG/J84augZ4KyxiwpjVeNW1txnJa06Xicmu9clYZ9FCXq
+ W6MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700002817; x=1700607617;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0WgbXh9MgeOn39Qx8ZOYsj5qd/Y25XhdC9fJIxz5E4s=;
- b=lL3w5GgNrobdqFL6XR2/4IFKYVWXepinr70dBWF5U0WFmmTDjAHYJx9PwwPEw618Ai
- ZsL3/I3ML4hzqzaiAjRZua+Vah+zGP7P2KwZNoRWPflRSVk6KWFQFbEqKmvqVdnAT+9e
- 45XTb25M14Rtds1CwwAkgtGYKmaNdrMnTm/cc70Jt6IS0Enf/beUQJ4eP39qRjFB+BE7
- 9WRUMns6ssvSOT/kfo7t6ieZJ5hi6JNYhVCuDa/PeBSXvRFc4mEUjM9dieZIoI0pM8gu
- RsDnj7wOny52wrPjqTmk80cOflrw7jkmJmdTlsJwTTR8XKU6iaxyi3inHTIvlSZCrU87
- mSfw==
-X-Gm-Message-State: AOJu0YycGb+aSGBeVt9dxl19OcpgSTukcj90bAZ/6E+kM5t0jwSH7AaG
- V1h3DDJO+QCJf2ZGgmx4f+44lg==
-X-Google-Smtp-Source: AGHT+IFnjqTgSRAEEv9oTG0p8gs1SiKRgR8rwDL76VdXJfcgXZJsNySy8WBq1Lpu5ZkIr/aU+PwDZA==
-X-Received: by 2002:a0c:fd81:0:b0:670:710f:203a with SMTP id
- p1-20020a0cfd81000000b00670710f203amr3645510qvr.59.1700002817358; 
- Tue, 14 Nov 2023 15:00:17 -0800 (PST)
+ d=1e100.net; s=20230601; t=1700002827; x=1700607627;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HCsm7VCedF16OrkkHsKZ3GlEGsmWacvBMw8jR+/V2pU=;
+ b=mTwvM3mpDd0mVt4ZMqPumqgOLnNdYdJHuDMuHEUDdRAX/DmKcHrqwyc/MfgNulwAdp
+ DezulwNXn82cgi4ijMg30drrxAH82IE+q3c/s6b+bnn94Gz5dMHM+rsMnJuVKUFz/46a
+ RLQPKwsa9rUwxaBrj1ac2TuZ4gSQMKIq0bCr68lghKJ7mBsNoNH/IbM4Ut7ZAHTIIWn1
+ hCgwMPlpIlPJzGv7iNFTsdqwwjlPx+MXf1HjcPIy8tkFdQlQHdlPGNU6FwICDUPGuvyy
+ T5JE8Yjh850LtzUo7t1UJejQAyI8qLvQf/892Gl0qO4Rz+aS9zoH7Z0wncBlkag9PLh7
+ kgzA==
+X-Gm-Message-State: AOJu0YymN0PGDvmtUvRSLOg4Pwy9QnaANJZWHjhpYLdO2WJSQTffdZVV
+ 2HlYpspnvAcp6mjf5YeBQWyDgw==
+X-Google-Smtp-Source: AGHT+IGhxfGR9iFdmqeZtNyN8JXoHEt4QSyhdvoHgLMcAm8gIgPgRQ/R51UTcNkf5EfuQLRv6LpEbw==
+X-Received: by 2002:a0c:be88:0:b0:677:9fb2:26e9 with SMTP id
+ n8-20020a0cbe88000000b006779fb226e9mr3489562qvi.14.1700002827707; 
+ Tue, 14 Nov 2023 15:00:27 -0800 (PST)
 Received: from localhost.localdomain
  (modemcable125.110-19-135.mc.videotron.ca. [135.19.110.125])
  by smtp.gmail.com with ESMTPSA id
- u2-20020a05621411a200b00674a45499dcsm25274qvv.88.2023.11.14.15.00.15
+ u2-20020a05621411a200b00674a45499dcsm25274qvv.88.2023.11.14.15.00.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Nov 2023 15:00:17 -0800 (PST)
+ Tue, 14 Nov 2023 15:00:27 -0800 (PST)
 From: Jonathan Marek <jonathan@marek.ca>
 To: freedreno@lists.freedesktop.org
-Subject: [PATCH v2 0/6] drm/msm: DSI DSC video mode fixes
-Date: Tue, 14 Nov 2023 17:58:28 -0500
-Message-Id: <20231114225857.19702-1-jonathan@marek.ca>
+Subject: [PATCH v2 1/6] drm/msm/dpu: fix video mode DSC for DSI
+Date: Tue, 14 Nov 2023 17:58:29 -0500
+Message-Id: <20231114225857.19702-2-jonathan@marek.ca>
 X-Mailer: git-send-email 2.26.1
+In-Reply-To: <20231114225857.19702-1-jonathan@marek.ca>
+References: <20231114225857.19702-1-jonathan@marek.ca>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,46 +74,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <dri-devel@lists.freedesktop.org>, Doug Anderson <dianders@chromium.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Maxime Ripard <mripard@kernel.org>,
- Sean Paul <sean@poorly.run>, Kalyan Thota <quic_kalyant@quicinc.com>,
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>,
  open list <linux-kernel@vger.kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Arnaud Vrac <rawoul@gmail.com>
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Arnaud Vrac <rawoul@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-v2: added new patches (first two patches) to get DSC video mode running with
-the upstream DPU driver (tested with the vtdr6130 panel)
+Add necessary DPU changes for DSC to work with DSI video mode.
 
-Jonathan Marek (6):
-  drm/msm/dpu: fix video mode DSC for DSI
-  drm/msm/dsi: set video mode widebus enable bit when widebus is enabled
-  drm/msm/dsi: set VIDEO_COMPRESSION_MODE_CTRL_WC (fix video mode DSC)
-  drm/msm/dsi: add a comment to explain pkt_per_line encoding
-  drm/msm/dsi: support DSC configurations with slice_per_pkt > 1
-  drm/msm/dsi: fix DSC for the bonded DSI case
+Note this changes the logic to enable HCTL to match downstream, it will
+now be enabled for the no-DSC no-widebus case.
 
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |  2 +-
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |  2 +-
- .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  | 11 ++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   | 13 ++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h   |  1 +
- drivers/gpu/drm/msm/dsi/dsi.h                 |  3 +-
- drivers/gpu/drm/msm/dsi/dsi.xml.h             |  1 +
- drivers/gpu/drm/msm/dsi/dsi_host.c            | 50 ++++++++++---------
- drivers/gpu/drm/msm/dsi/dsi_manager.c         |  2 +-
- include/drm/drm_mipi_dsi.h                    |  1 +
- 10 files changed, 58 insertions(+), 28 deletions(-)
+Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c         |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h    |  2 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c    | 11 +++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c         | 13 ++++++++++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h         |  1 +
+ 5 files changed, 26 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 1cf7ff6caff4..d745c8678b9d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -2477,7 +2477,7 @@ enum dpu_intf_mode dpu_encoder_get_intf_mode(struct drm_encoder *encoder)
+ 	return INTF_MODE_NONE;
+ }
+ 
+-unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc)
++unsigned int dpu_encoder_helper_get_dsc(const struct dpu_encoder_phys *phys_enc)
+ {
+ 	struct drm_encoder *encoder = phys_enc->parent;
+ 	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(encoder);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+index 6f04c3d56e77..7e27a7da0887 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+@@ -332,7 +332,7 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
+  *   used for this encoder.
+  * @phys_enc: Pointer to physical encoder structure
+  */
+-unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc);
++unsigned int dpu_encoder_helper_get_dsc(const struct dpu_encoder_phys *phys_enc);
+ 
+ /**
+  * dpu_encoder_helper_split_config - split display configuration helper function
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+index a01fda711883..df10800a9615 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+@@ -100,6 +100,8 @@ static void drm_mode_to_intf_timing_params(
+ 	}
+ 
+ 	timing->wide_bus_en = dpu_encoder_is_widebus_enabled(phys_enc->parent);
++	if (dpu_encoder_helper_get_dsc(phys_enc))
++		timing->compression_en = true;
+ 
+ 	/*
+ 	 * for DP, divide the horizonal parameters by 2 when
+@@ -112,6 +114,15 @@ static void drm_mode_to_intf_timing_params(
+ 		timing->h_front_porch = timing->h_front_porch >> 1;
+ 		timing->hsync_pulse_width = timing->hsync_pulse_width >> 1;
+ 	}
++
++	/*
++	 * for DSI, if compression is enabled, then divide the horizonal active
++	 * timing parameters by compression ratio.
++	 */
++	if (phys_enc->hw_intf->cap->type != INTF_DP && timing->compression_en) {
++		timing->width = timing->width / 3; /* XXX: don't assume 3:1 compression ratio */
++		timing->xres = timing->width;
++	}
+ }
+ 
+ static u32 get_horizontal_total(const struct dpu_hw_intf_timing_params *timing)
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+index e8b8908d3e12..d6fe45a6da2d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+@@ -166,10 +166,21 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
+ 	 * video timing. It is recommended to enable it for all cases, except
+ 	 * if compression is enabled in 1 pixel per clock mode
+ 	 */
++	if (!p->compression_en || p->wide_bus_en)
++		intf_cfg2 |= INTF_CFG2_DATA_HCTL_EN;
++
+ 	if (p->wide_bus_en)
+-		intf_cfg2 |= INTF_CFG2_DATABUS_WIDEN | INTF_CFG2_DATA_HCTL_EN;
++		intf_cfg2 |= INTF_CFG2_DATABUS_WIDEN;
+ 
+ 	data_width = p->width;
++	if (p->wide_bus_en && !dp_intf)
++		data_width = p->width >> 1;
++
++	if (p->compression_en)
++		intf_cfg2 |= INTF_CFG2_DCE_DATA_COMPRESS;
++
++	if (p->compression_en && dp_intf)
++		DPU_ERROR("missing adjustments for DSC+DP\n");
+ 
+ 	hsync_data_start_x = hsync_start_x;
+ 	hsync_data_end_x =  hsync_start_x + data_width - 1;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+index c539025c418b..15a5fdadd0a0 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+@@ -33,6 +33,7 @@ struct dpu_hw_intf_timing_params {
+ 	u32 hsync_skew;
+ 
+ 	bool wide_bus_en;
++	bool compression_en;
+ };
+ 
+ struct dpu_hw_intf_prog_fetch {
 -- 
 2.26.1
 
