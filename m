@@ -1,68 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 547257EA80E
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 02:04:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE627EA818
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 02:08:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16AC210E43D;
-	Tue, 14 Nov 2023 01:04:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D14E810E0A4;
+	Tue, 14 Nov 2023 01:08:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa33.google.com (mail-vk1-xa33.google.com
- [IPv6:2607:f8b0:4864:20::a33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B4EB10E43D
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 01:04:33 +0000 (UTC)
-Received: by mail-vk1-xa33.google.com with SMTP id
- 71dfb90a1353d-4ac10aacd27so2208477e0c.0
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Nov 2023 17:04:33 -0800 (PST)
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
+ [IPv6:2607:f8b0:4864:20::72c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE73C10E0A4;
+ Tue, 14 Nov 2023 01:08:24 +0000 (UTC)
+Received: by mail-qk1-x72c.google.com with SMTP id
+ af79cd13be357-77891c236fcso329597585a.3; 
+ Mon, 13 Nov 2023 17:08:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699923872; x=1700528672; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1699924104; x=1700528904; darn=lists.freedesktop.org;
  h=in-reply-to:autocrypt:from:references:cc:to:content-language
  :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
  :date:message-id:reply-to;
- bh=4kHXsPHKGwyF0xAN3V1/Y4Fcj/CoQWrTynZ8Dn+yjl4=;
- b=Jfo7DYbsFPizhWcVmBONNZKcu9hK0cbpwDexCAnvepBM1MRsh4JTYiHLYCYQ53ielu
- xclXrlSm5mpTeY+05iCH9QjnFpxijtP2Ym21P1NCB6NXAATJmGikl9FrYA9aM77VJwID
- ZxlY9eKyYs8YOlZbq8srilYB8WUtwO2GyC2u3lNfYt8h3YeuncNtJWiXPJfOACEV1hZL
- hpejO/kYXeqixC/O+2FmBa/1KG55FtuEYzo869tembs/804HhLyryXCOkiiwrGOpfEf8
- 9o5wn7JcrpNluYVGjkbzjk3ojPa8hop/2rVfc5MXDzA81NgRsYxxs9MJUP7jZqCBus6j
- oVxw==
+ bh=JKcvvlyi44mL6KlohMsUtHtgv16cdE0L7BYR9br9JrA=;
+ b=beLZI2Q5uFzjEy3g/E0FkEfsNwy6mEKHVgM4zNCCyJSM3/qybfuny8ueU8A28S8B/F
+ co+57Q9YESvkAVkGqDQblq9UkK2iIgdAlExmka1yQMhe0rh8pxW7bAtDMjodNwTwAGJP
+ XFewwyiMr7fxb0sMKeKJ6BCAUM0vjdVHsuPa0Rb+1DZ+GbFCLN48rfDH4yp/9sQ1/vfw
+ CLE+38enhQK0Xp//CutBbgyKf4RrBSqBFgM5m7LaXHz3jBuwoUPdgQI6a75E7mRKrMCD
+ 1PnUPwcS4szzG4EA/ShzaANctUCdOmqo3lNGSGmwb2eKiv0j9ysoiTWxtiud3OBtRcQx
+ IrKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699923872; x=1700528672;
+ d=1e100.net; s=20230601; t=1699924104; x=1700528904;
  h=in-reply-to:autocrypt:from:references:cc:to:content-language
  :subject:user-agent:mime-version:date:message-id:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=4kHXsPHKGwyF0xAN3V1/Y4Fcj/CoQWrTynZ8Dn+yjl4=;
- b=LJHiBySWVoJyhB0KwfXzcG4pc1unuDBoNrw9XzUo7OPd2+/5fuszCI0aZK1HKjArzt
- zkZnmOhxl28c9La6E9XmySfBao2AS6Rhrs5GfstVDykXf+W9eBM8hCUaD0aNB7Q8T2ph
- N9NoW2oJ3KUMTfdU8RYbAGqWnITUg9lc80731P9WDTbHN9zgOIoXpuOOD/p8YBJm4mjZ
- q0dRepnak+JbGGjLH07agVErx2XfTKJ+cMkJL3QL6engNyTBVBw9SLK9AoR9MpCsFTS7
- H9UEXxAOjXn0J2TFfSVwW8r7fHvldPlsYOPNeRqiksZVuf6qQCjjoZnX64Exnbtw9RvY
- 9NVg==
-X-Gm-Message-State: AOJu0YykmMhJ7bDnKIrr2rnAigigRP8pXw2eZHirN/May7hPhi1TlSTI
- MDslqLby00TA0L9OOCeexAc=
-X-Google-Smtp-Source: AGHT+IG0kxGuxfTRW/Nl+UJAK/1ZbpE/7RTPNUeq5fg7sPTCYg5oZhd9IHvBi+e7RwCAjrRgn/TCww==
-X-Received: by 2002:a1f:fc8a:0:b0:48d:1b20:268e with SMTP id
- a132-20020a1ffc8a000000b0048d1b20268emr8683371vki.10.1699923872102; 
- Mon, 13 Nov 2023 17:04:32 -0800 (PST)
+ bh=JKcvvlyi44mL6KlohMsUtHtgv16cdE0L7BYR9br9JrA=;
+ b=E+Et6EK0CKgLCx6aRs1r8rDRtYQjS3IFgHrcyqGfEO/DXTS89PN9qxEVoQaJAy0GBq
+ Vf6kyHGxW5txuDr0lz6+4AUEYAPrGvGPMmOmi+5iU5rc043dS89I46RVuBdFNpi1ZrUR
+ SUgMVSqaDql6bNexiaiTOieIIiwa8Wc8RdH1FHHYh3hKqwxXdHu3lS76i+uzPj4DINUp
+ WUGIhy8nSCzRm9gHYrKwIRZCzYCcOLim/IRAf94QHjOjkgpM3zPjynIJjrTo+7f9aCZS
+ BC7/fiY0DkEoWUO0G6bNb+RFmieB0xBlp6gNGbLiH3vflpTq3tPkvoZ3ydaUq3VZMt2M
+ PDZg==
+X-Gm-Message-State: AOJu0Yz+KiS4HL3U/44GoxjmDjagQQ0WF3hYeFM3f17SiBmqZQCqaIxj
+ KhX1xEgZdpqGzrHh/RWXMZE=
+X-Google-Smtp-Source: AGHT+IFiQWl24h9GC1sLTorOF/ZdWCUlUOYvQPa91zZrJC9cw0bp+El0mMCJWAMiyBDFPfqhTaNV+g==
+X-Received: by 2002:a05:620a:19a1:b0:779:d1ea:c5da with SMTP id
+ bm33-20020a05620a19a100b00779d1eac5damr972334qkb.37.1699924103773; 
+ Mon, 13 Nov 2023 17:08:23 -0800 (PST)
 Received: from [192.168.2.14] ([76.65.20.140])
  by smtp.gmail.com with ESMTPSA id
- lw4-20020a05621457c400b0066d1540f9ecsm2482253qvb.77.2023.11.13.17.04.31
+ qf6-20020a05620a660600b0077407e3d68asm2268274qkn.111.2023.11.13.17.08.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Nov 2023 17:04:31 -0800 (PST)
-Message-ID: <35c03405-4163-45de-b67e-77de08ed2d2a@gmail.com>
-Date: Mon, 13 Nov 2023 20:04:22 -0500
+ Mon, 13 Nov 2023 17:08:23 -0800 (PST)
+Message-ID: <19740d41-dd5a-47e4-b3e8-539b45bbd3e5@gmail.com>
+Date: Mon, 13 Nov 2023 20:08:14 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
  Thunderbird/115.4.2
-Subject: Re: [PATCH] drm/sched: Define pr_fmt() for DRM using pr_*()
+Subject: Re: linux-next: Signed-off-by missing for commit in the drm-misc tree
 Content-Language: en-CA, en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>, Danilo Krummrich <dakr@redhat.com>
-References: <20231110002659.113208-2-ltuikov89@gmail.com>
- <878r75wzm9.fsf@intel.com>
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>
+References: <20231114075501.61321c29@canb.auug.org.au>
 From: Luben Tuikov <ltuikov89@gmail.com>
 Autocrypt: addr=ltuikov89@gmail.com; keydata=
  xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
@@ -73,10 +73,10 @@ Autocrypt: addr=ltuikov89@gmail.com; keydata=
  cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
  10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
  aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
-In-Reply-To: <878r75wzm9.fsf@intel.com>
+In-Reply-To: <20231114075501.61321c29@canb.auug.org.au>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------4w0nL8tGdMfPvEJvBzV0kuEp"
+ boundary="------------vEfybuPWDPn3tC0gL2qgH3Ql"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,131 +89,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------4w0nL8tGdMfPvEJvBzV0kuEp
-Content-Type: multipart/mixed; boundary="------------nbQoWIhiTvzfh0W1Ir8GtRdv";
+--------------vEfybuPWDPn3tC0gL2qgH3Ql
+Content-Type: multipart/mixed; boundary="------------B4ohSNNGqjiBnNCLqzuihuRH";
  protected-headers="v1"
 From: Luben Tuikov <ltuikov89@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>, Danilo Krummrich <dakr@redhat.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Message-ID: <35c03405-4163-45de-b67e-77de08ed2d2a@gmail.com>
-Subject: Re: [PATCH] drm/sched: Define pr_fmt() for DRM using pr_*()
-References: <20231110002659.113208-2-ltuikov89@gmail.com>
- <878r75wzm9.fsf@intel.com>
-In-Reply-To: <878r75wzm9.fsf@intel.com>
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Message-ID: <19740d41-dd5a-47e4-b3e8-539b45bbd3e5@gmail.com>
+Subject: Re: linux-next: Signed-off-by missing for commit in the drm-misc tree
+References: <20231114075501.61321c29@canb.auug.org.au>
+In-Reply-To: <20231114075501.61321c29@canb.auug.org.au>
 
---------------nbQoWIhiTvzfh0W1Ir8GtRdv
-Content-Type: multipart/mixed; boundary="------------W0xH0G0puip0H2cbll4kvE3n"
+--------------B4ohSNNGqjiBnNCLqzuihuRH
+Content-Type: multipart/mixed; boundary="------------qvDQOYufPGufy4Mj2qrN1Ci0"
 
---------------W0xH0G0puip0H2cbll4kvE3n
+--------------qvDQOYufPGufy4Mj2qrN1Ci0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Jani,
+On 2023-11-13 15:55, Stephen Rothwell wrote:
+> Hi all,
+>=20
+> Commit
+>=20
+>   0da611a87021 ("dma-buf: add dma_fence_timestamp helper")
+>=20
+> is missing a Signed-off-by from its committer.
+>=20
 
-On 2023-11-10 07:40, Jani Nikula wrote:
-> On Thu, 09 Nov 2023, Luben Tuikov <ltuikov89@gmail.com> wrote:
->> Define pr_fmt() as "[drm] " for DRM code using pr_*() facilities, espe=
-cially
->> when no devices are available. This makes it easier to browse kernel l=
-ogs.
->=20
-> Please do not merge patches before people have actually had a chance to=
+In order to merge the scheduler changes necessary for the Xe driver, thos=
+e changes
+were based on drm-tip, which included this change from drm-misc-fixes, bu=
+t which
+wasn't present in drm-misc-next.
 
-> look at them. This was merged *way* too quickly.
->=20
-> This does not do what you think it does, and it's not robust enough.
->=20
-> The drm_print.[ch] facilities use very few pr_*() calls directly. The
-> users of pr_*() calls do not necessarily include <drm/drm_print.h> at
-> all, and really don't have to.
->=20
-> Even the ones that do include it, usually have <linux/...> includes
-> first, and <drm/...> includes next. Notably, <linux/kernel.h> includes
-> <linux/printk.h>.
->=20
-> And, of course, <linux/printk.h> defines pr_fmt() itself if not already=
-
-> defined.
->=20
->> Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
->> ---
->>  include/drm/drm_print.h | 14 ++++++++++++++
->>  1 file changed, 14 insertions(+)
->>
->> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
->> index a93a387f8a1a15..e8fe60d0eb8783 100644
->> --- a/include/drm/drm_print.h
->> +++ b/include/drm/drm_print.h
->> @@ -26,6 +26,20 @@
->>  #ifndef DRM_PRINT_H_
->>  #define DRM_PRINT_H_
->> =20
->> +/* Define this before including linux/printk.h, so that the format
->> + * string in pr_*() macros is correctly set for DRM. If a file wants
->> + * to define this to something else, it should do so before including=
-
->> + * this header file.
->=20
-> The only way this would work is by including <drm/drm_print.h> as the
-> very first header, and that's fragile at best.
->=20
->> + *
->> + * It is encouraged code using pr_err() to prefix their format with
->> + * the string "*ERROR* ", to make it easier to scan kernel logs. For
->> + * instance,
->> + *   pr_err("*ERROR* <the rest of your format string here>", args).
->=20
-> No, it's encouraged not to use pr_*() at all, and prefer drm device
-> based logging, or device based logging.
->=20
-> I'd rather this whole thing was just reverted.
-
-The revert has been pushed--thanks for R-B-ing it.
-
-FWIW, I wanted a device-less DRM print, with a prefix "[drm] *ERROR* ",
-because this is what we scan for, especially when we get a blank screen a=
-t boot/modprobe.
-There's a few cases in DRM where when we return -E... it's most likely a =
-blank screen result,
-as was the case with a recent debug I had with amdgpu when pushing the va=
-riable sched->rq.
-
-So then I went by this, in linux/printk.h:
-
-/**
- * pr_fmt - used by the pr_*() macros to generate the printk format strin=
-g
- * @fmt: format string passed from a pr_*() macro
- *
- * This macro can be used to generate a unified format string for pr_*()
- * macros. A common use is to prefix all pr_*() messages in a file with a=
- common
- * string. For example, defining this at the top of a source file:
- *
- *        #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- *
- * would prefix all pr_info, pr_emerg... messages in the file with the mo=
-dule
- * name.
- */
-#ifndef pr_fmt
-#define pr_fmt(fmt) fmt
-#endif
-
-Any suggestions as to a device-less DRM print with prefix "[drm] *ERROR* =
-"?
+I didn't want to create a merge conflict between drm-misc-next and drm-mi=
+sc-fixes,
+when pulling that change from drm-misc-next to drm-misc-fixes, so that I =
+can apply
+the Xe scheduler changes on top of drm-misc-next.
 --=20
 Regards,
 Luben
 
---------------W0xH0G0puip0H2cbll4kvE3n
+--------------qvDQOYufPGufy4Mj2qrN1Ci0
 Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
 Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
 Content-Description: OpenPGP public key
@@ -233,21 +162,21 @@ z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
 =3DqCaZ
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------W0xH0G0puip0H2cbll4kvE3n--
+--------------qvDQOYufPGufy4Mj2qrN1Ci0--
 
---------------nbQoWIhiTvzfh0W1Ir8GtRdv--
+--------------B4ohSNNGqjiBnNCLqzuihuRH--
 
---------------4w0nL8tGdMfPvEJvBzV0kuEp
+--------------vEfybuPWDPn3tC0gL2qgH3Ql
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZVLHlwUDAAAAAAAKCRBMFUeUMaM0r6L2
-AQCAqdkb6UxjJ45gkor14suubhEEgRLwI/Tj4TDYct9AkgEA7kJS8z1o050ITx7gzlLGkYx1WoV/
-Tl9MHSHkimqUwgQ=
-=w0+D
+wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZVLIfgUDAAAAAAAKCRBMFUeUMaM0r7zT
+AQCiNDNdfwwEl1fqI+vA0gRQhPhPspazrejdUdFVOa2rkwD9Ey1+rknoP3/l6BG/sMCB6KcSvzYM
+VqgKbrH9xS0SCQk=
+=MWyy
 -----END PGP SIGNATURE-----
 
---------------4w0nL8tGdMfPvEJvBzV0kuEp--
+--------------vEfybuPWDPn3tC0gL2qgH3Ql--
