@@ -2,110 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63BC37EB4FD
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 17:36:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 625A87EB501
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 17:37:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07AB410E477;
-	Tue, 14 Nov 2023 16:36:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78F1110E476;
+	Tue, 14 Nov 2023 16:37:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65D0C10E476
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 16:36:35 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B38BB228B6;
- Tue, 14 Nov 2023 16:36:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1699979793; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=STBLIvd9B3Ka4YzSlK5W5SFOf7AEgrvcpAECA4YCEs4=;
- b=rr719crZT6KmbfClOmXqvcv1I0ApIZ9wYJfvjYyuAAWVqpHR1IQtfPCnVq6W3T/It7mQEV
- GUc7IA00qw5XEXvS7wyhMoKDJjaoQ1vIaNmXLlHBfwZjcD4c1nf/8/xxJ5b40fCLRwaSrP
- i1XQw1WP/qaFkgxRSmBs5Qul/i8HO6o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1699979793;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=STBLIvd9B3Ka4YzSlK5W5SFOf7AEgrvcpAECA4YCEs4=;
- b=amgPPgLuamsTPmmJ0rqgZUoCljtdc5AHVKiH783+nLMCNMcERXwj6nbGF4XsnFQ/3rVq7B
- IioHXyouJz8whRAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 72EE813416;
- Tue, 14 Nov 2023 16:36:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8CNBGxGiU2V3dQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 14 Nov 2023 16:36:33 +0000
-Message-ID: <c28b6e4a-aea0-4de4-a194-aa1024a93476@suse.de>
-Date: Tue, 14 Nov 2023 17:36:32 +0100
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2065.outbound.protection.outlook.com [40.107.220.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0753910E475;
+ Tue, 14 Nov 2023 16:37:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jZOQFn/m/mxQ3yj1VWvNxWSFUCEjxoskAHvzOAloQUrC4uOyJGQ019goIDUSEcC/nLmK3P+z8kuNZKyuyzSQRSVI9/5MEQz3brZEXnhg4Uj0XH8ejlffdpo6ZPVVYYcX3DkReADinpdtxcwSIab/PdSv+Iq6QW5mZ12Ie3ihD90bKYvL3B4Qu0HVaIzC1FgEQYK7NtpGG4NQca7SYV488nsePtp0gKMFS0Fb295QJCX/rH/sOnjABnpEbVdF8+Z4cI+WdofAPpiqf34jrwQYJCMs7HDiDLc2wDfNepIlH82HrVgY+pJ8a6h2Unh1Aj0m8ZcpL9mK8iOAvF/OiTX8ug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZfR87QNmj52+CghS17sGyioBgxGoHIvFCh1Tnlt9iEw=;
+ b=FCbmqiE5B6LH6YjdvpGdO3vy3zSgN2l43/wnsS9mlGGdNIUA4CdZJX/lbQ7dWf5jES2tLuuiQwUYXOsUfP6nbPfBumF3ZV+XLOtv+BNJf6cmE6y+wdLeaeJa0JCeQOzoPOKlxuotBfpvpueiw94QWPG+ByE2WfqNWfeGEu3T2AOJQvfzfm5XtTx5BiPCEJiERF0KQ4rr1UtO9sMYBG2dGgXx+MlRArcoi9p9BBef2z7Jwl3EdBzQRR8VlRRThxMg40TLCNkl60r/WqmpihXHiVD/+4iwHyl1YW/FHhgfGanzyvQ84qNQrqSBCET86AaKsIt5rM3gkrWk9UM1iDW9pw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZfR87QNmj52+CghS17sGyioBgxGoHIvFCh1Tnlt9iEw=;
+ b=3Vbrl/V8UkzGoOl9+2KsXZZwCnAECOFfA6HmQ9uKVJ+Yidg8w3PI+Xi2EI7FmOYMh6i3xSmQQ4B6K5WvkdBmgyMlOWtpt+R6W688fIeg645+B7XzxcxgiC6XS6a0+VM9Lx0LFw8PD+Xv8pGFB5z26k0UH7ReCy5C7B2fYtT2az8=
+Received: from BL0PR1501CA0023.namprd15.prod.outlook.com
+ (2603:10b6:207:17::36) by LV8PR12MB9263.namprd12.prod.outlook.com
+ (2603:10b6:408:1e6::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.29; Tue, 14 Nov
+ 2023 16:37:17 +0000
+Received: from BL6PEPF0001AB53.namprd02.prod.outlook.com
+ (2603:10b6:207:17:cafe::aa) by BL0PR1501CA0023.outlook.office365.com
+ (2603:10b6:207:17::36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.29 via Frontend
+ Transport; Tue, 14 Nov 2023 16:37:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL6PEPF0001AB53.mail.protection.outlook.com (10.167.241.5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7002.13 via Frontend Transport; Tue, 14 Nov 2023 16:37:16 +0000
+Received: from thonkpad.localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Tue, 14 Nov
+ 2023 10:37:14 -0600
+From: <ivlipski@amd.com>
+To: <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH] drm/amdgpu/gmc11: fix logic typo in AGP check
+Date: Tue, 14 Nov 2023 11:36:56 -0500
+Message-ID: <20231114163702.933693-1-ivlipski@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] drm: Allow the damage helpers to handle buffer damage
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-References: <20231109172449.1599262-1-javierm@redhat.com>
- <9296c184-22c1-4d71-8b11-2d26f49a5790@suse.de>
- <87wmuk5mfj.fsf@minerva.mail-host-address-is-not-set>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <87wmuk5mfj.fsf@minerva.mail-host-address-is-not-set>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------nM3V1XERUOB4F0ASvZZgUSoi"
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -10.59
-X-Spamd-Result: default: False [-10.59 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
- XM_UA_NO_VERSION(0.01)[]; TO_DN_SOME(0.00)[];
- HAS_ATTACHMENT(0.00)[]; REPLY(-4.00)[];
- MIME_BASE64_TEXT_BOGUS(1.00)[];
- NEURAL_HAM_SHORT(-1.00)[-1.000]; MIME_BASE64_TEXT(0.10)[];
- SIGNED_PGP(-2.00)[]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+,1:+,2:+,3:~]; MID_RHS_MATCH_FROM(0.00)[];
- BAYES_HAM(-3.00)[100.00%]; ARC_NA(0.00)[]; FROM_HAS_DN(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; TAGGED_RCPT(0.00)[];
- MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
- NEURAL_HAM_LONG(-3.00)[-1.000];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCPT_COUNT_TWELVE(0.00)[15]; FUZZY_BLOCKED(0.00)[rspamd.com];
- RCVD_COUNT_TWO(0.00)[2]; RCVD_TLS_ALL(0.00)[];
- SUSPICIOUS_RECIPS(1.50)[];
- FREEMAIL_CC(0.00)[collabora.com, lists.freedesktop.org, lwn.net, redhat.com,
- vger.kernel.org, kernel.org, chromium.org, vmware.com, ffwll.ch,
- lists.linux-foundation.org, gmail.com]
-X-Spam-Flag: NO
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB53:EE_|LV8PR12MB9263:EE_
+X-MS-Office365-Filtering-Correlation-Id: 53f69525-da69-4d80-43cf-08dbe52ff6be
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VKHZ70MLZT0gvT+1uIV8jJ1XlJai1bC1hiFnqZRuXuI5JcDmpjZlr0cscYoCGF+wiPxe1bdTog3KA858B+heAQFFnrI438UicUqmbKZzUzpWPeB7Srkk9WMIZ40cq802CplKUVF3QSOXwmHEcox559WPrcAMsDiFUEm4qhHYvX7AEubHMeYMGuiwIWcSP8GEWPcTb4RgNLrVkGXFCscxnVbkZVFjixT5GZ3XxlsGXc4WEvOBUTbfDzHhapFsYGy6zwjkTDKLe8LmN/w1BglVzA2C9awt7cw32j+3Xk5FT11ZNYhS3UV+qDwYt9VeZSN7GP3v2reTSPKDn9HKjuwwXEpBBbvBRE5Fs6Ei2TflUmyYoQWCJSBnmTbYNN1XHASJI29DqQtSz5szb2ksxXdi82z5yxxIKrDu4B90rWJFcaoVHJ6Z7j/dLpNysq6voi46xKRHoizeUwGo3qg5LDlpYjLuCUMmWWbgzURZhHK0V3k7hsTRDomf+UQQ1JrSk8MHBm9oNRXbJyvRb6nXha5rO1hHsFElbp48TET/SzDdGUcDgsJ/iMUiicvJhHLhiMyLpx3oaFT7n5O0XYd+HdQRW2FWvQghWTNXUPXSbWoPvHDPep3bsQ/MxTVvyWFuXBmPAdgqtNFzGO/AOh0yhiOrwRBrCK7E9otfehn0MhJ6n9qpTnyRqpEz8UPztT3kZIRlJzR0vJ0tiI+GjKMLhQ+zszl5kPoqpt/stg7nsMYBCcz45XrfQQKaHfuvytuUleHx49m3IUFOoHbJES8Myux8QA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(376002)(39860400002)(136003)(396003)(346002)(230922051799003)(186009)(64100799003)(1800799009)(82310400011)(451199024)(36840700001)(40470700004)(46966006)(26005)(336012)(36860700001)(36756003)(478600001)(54906003)(2876002)(70586007)(70206006)(1076003)(66574015)(2616005)(4744005)(6916009)(316002)(8676002)(8936002)(5660300002)(4326008)(2906002)(41300700001)(6666004)(82740400003)(47076005)(81166007)(83380400001)(356005)(426003)(40480700001)(16526019)(40460700003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2023 16:37:16.6757 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53f69525-da69-4d80-43cf-08dbe52ff6be
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB53.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9263
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,121 +98,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Erico Nunes <nunes.erico@gmail.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>, linux-doc@vger.kernel.org,
- Sima Vetter <daniel.vetter@ffwll.ch>, Bilal Elmoussaoui <belmouss@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@redhat.com>,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Yifan Zhang <yifan1.zhang@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, Le Ma <le.ma@amd.com>,
+ sunpeng.li@amd.com, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ rodrigo.siqueira@amd.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, yu.wang4@amd.com, hamza.mahfooz@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------nM3V1XERUOB4F0ASvZZgUSoi
-Content-Type: multipart/mixed; boundary="------------hyk6vUikYz4urD9DYhCPRNuI";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- dri-devel@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
- Bilal Elmoussaoui <belmouss@redhat.com>, linux-doc@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Sima Vetter <daniel.vetter@ffwll.ch>,
- David Airlie <airlied@redhat.com>,
- virtualization@lists.linux-foundation.org,
- Erico Nunes <nunes.erico@gmail.com>
-Message-ID: <c28b6e4a-aea0-4de4-a194-aa1024a93476@suse.de>
-Subject: Re: [PATCH 0/6] drm: Allow the damage helpers to handle buffer damage
-References: <20231109172449.1599262-1-javierm@redhat.com>
- <9296c184-22c1-4d71-8b11-2d26f49a5790@suse.de>
- <87wmuk5mfj.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <87wmuk5mfj.fsf@minerva.mail-host-address-is-not-set>
+From: Alex Deucher <alexander.deucher@amd.com>
 
---------------hyk6vUikYz4urD9DYhCPRNuI
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Should be && rather than ||.
 
-SGkNCg0KQW0gMTQuMTEuMjMgdW0gMTc6Mjggc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
-aWxsYXM6DQo+IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPiB3cml0
-ZXM6DQo+IA0KPj4gSGkgSmF2aWVyDQo+Pg0KPj4gQW0gMDkuMTEuMjMgdW0gMTg6MjQgc2No
-cmllYiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXM6DQo+Pj4gSGVsbG8sDQo+Pj4NCj4+PiBU
-aGlzIHNlcmllcyBpcyB0byBmaXggYW4gaXNzdWUgdGhhdCBzdXJmYWNlZCBhZnRlciBkYW1h
-Z2UgY2xpcHBpbmcgd2FzDQo+Pj4gZW5hYmxlZCBmb3IgdGhlIHZpcnRpby1ncHUgYnkgY29t
-bWl0IDAxZjA1OTQwYTlhNyAoImRybS92aXJ0aW86IEVuYWJsZQ0KPj4+IGZiIGRhbWFnZSBj
-bGlwcyBwcm9wZXJ0eSBmb3IgdGhlIHByaW1hcnkgcGxhbmUiKS4NCj4+Pg0KPj4+IEFmdGVy
-IHRoYXQgY2hhbmdlLCBmbGlja2VyaW5nIGFydGlmYWN0cyB3YXMgcmVwb3J0ZWQgdG8gYmUg
-cHJlc2VudCB3aXRoDQo+Pj4gYm90aCB3ZXN0b24gYW5kIHdscm9vdHMgd2F5bGFuZCBjb21w
-b3NpdG9ycyB3aGVuIHJ1bm5pbmcgaW4gYSB2aXJ0dWFsDQo+Pj4gbWFjaGluZS4gVGhlIGNh
-dXNlIHdhcyBpZGVudGlmaWVkIGJ5IFNpbWEgVmV0dGVyLCB3aG8gcG9pbnRlZCBvdXQgdGhh
-dA0KPj4+IHZpcnRpby1ncHUgZG9lcyBwZXItYnVmZmVyIHVwbG9hZHMgYW5kIGZvciB0aGlz
-IHJlYXNvbiBpdCBuZWVkcyB0byBkbw0KPj4+IGEgYnVmZmVyIGRhbWFnZSBoYW5kbGluZywg
-aW5zdGVhZCBvZiBmcmFtZSBkYW1hZ2UgaGFuZGxpbmcuDQo+Pg0KPj4gSSdtIGhhdmluZyBw
-cm9ibGVtIHVuZGVyc3RhbmRpbmcgdGhlIHR5cGVzIG9mIGRhbWFnZS4gWW91IG5ldmVyIHNh
-eSB3aGF0DQo+PiBidWZmZXIgZGFtYWdlIGlzLiBJIGFsc28gZG9uJ3Qga25vdyB3aGF0IGEg
-ZnJhbWUgaXMgaW4gdGhpcyBjb250ZXh0Lg0KPj4NCj4+IFJlZ3VsYXIgZGFtYWdlIGhhbmRs
-aW5nIG1hcmtzIHBhcnRzIG9mIGEgcGxhbmUgYXMgZGlydHkvZGFtYWdlZC4gVGhhdCBpcw0K
-Pj4gcGVyLXBsYW5lIGRhbWFnZSBoYW5kbGluZy4gVGhlIGluZGl2aWR1YWwgcGxhbmVzIG1v
-cmUgb3IgbGVzcw0KPj4gaW5kZXBlbmRlbnQgZnJvbSBlYWNoIG90aGVyLg0KPj4NCj4+IEJ1
-ZmZlciBkYW1hZ2UsIEkgZ3Vlc3MsIG1hcmtzIHRoZSB1bmRlcmx5aW5nIGJ1ZmZlciBhcyBk
-aXJ0eSBhbmQNCj4+IHJlcXVpcmVzIHN5bmNocm9uaXphdGlvbiBvZiB0aGUgYnVmZmVyIHdp
-dGggc29tZSBiYWNraW5nIHN0b3JhZ2UuIFRoZQ0KPj4gcGxhbmVzIHVzaW5nIHRoYXQgYnVm
-ZmVyIGFyZSB0aGVuIHVwZGF0ZWQgbW9yZSBvciBsZXNzIGF1dG9tYXRpY2FsbHkuDQo+Pg0K
-Pj4gSXMgdGhhdCByaWdodD8NCj4+DQo+IA0KPiBJbiBib3RoIGNhc2VzIHRoZSBkYW1hZ2Ug
-dHJhY2tpbmcgaW5mb3JtYXRpb24gaXMgdGhlIHNhbWUsIHRoZXkgbWFyaw0KPiB0aGUgZGFt
-YWdlZCByZWdpb25zIG9uIHRoZSBwbGFuZSBpbiBmcmFtZWJ1ZmZlciBjb29yZGluYXRlcyBv
-ZiB0aGUNCj4gZnJhbWVidWZmZXIgYXR0YWNoZWQgdG8gdGhlIHBsYW5lLg0KPiANCj4gVGhl
-IHByb2JsZW0gYXMgZmFyIGFzIEkgdW5kZXJzdGFuZCBpcyB3aGV0aGVyIHRoZSBkcml2ZXIg
-ZXhwZWN0cyB0aGF0DQo+IHRvIGRldGVybWluZSB0aGUgYXJlYSB0aGF0IGNoYW5nZWQgaW4g
-dGhlIHBsYW5lIChhbmQgYSBwbGFuZSBmbHVzaCBpcw0KPiBlbm91Z2gpIG9yIHRoZSBhcmVh
-IHRoYXQgY2hhbmdlZCBzaW5jZSB0aGF0IHNhbWUgYnVmZmVyIHdhcyBsYXN0IHVzZWQuDQo+
-IA0KPj4gQW5kIHdoeSBkb2VzIGl0IGZsaWNrZXI/IElzIHRoZXJlIG9sZCBkYXRhIHN0b3Jl
-ZCBzb21ld2hlcmU/DQo+Pg0KPiANCj4gSXQgZmxpY2tlcnMgYmVjYXVzZSB0aGUgZnJhbWVi
-dWZmZXIgY2hhbmdlZCBhbmQgc28gdGhlIGRhbWFnZSB0cmFja2luZw0KPiBpcyBub3QgdXNl
-ZCBjb3JyZWN0bHkgdG8gZmx1c2ggdGhlIGRhbWFnZWQgYXJlYXMgdG8gdGhlIGJhY2tpbmcg
-c3RvcmFnZS4NCg0KSSB0aGluayBJIGdvdCBpdCBmcm9tIHRoZSBsaW5rcyBpbiBwYXRjaCA1
-LiAgSW4gb3V0IG90aGVyIGRyaXZlcnMsIA0KdGhlcmUncyBhIHNpbmdsZSBiYWNraW5nIHN0
-b3JhZ2UgZm9yIGVhY2ggcGxhbmUgKGZvciBleGFtcGxlIGluIHRoZSANCnZpZGVvIG1lbW9y
-eSkuIEhlcmUsIHRoZXJlJ3MgYSBiYWNraW5nIHN0b3JhZ2UgZm9yIGVhY2ggYnVmZmVyLiBP
-biBwYWdlIA0KZmxpcHMsIHRoZSBwbGFuZSBjaGFuZ2VzIGl0cyBiYWNraW5nIHN0b3JhZ2Uu
-ICBPdXIgR0VNIGJ1ZmZlciBpcyB1cCB0byANCmRhdGUsIGJ1dCB0aGUgcmVzcGVjdGl2ZSBi
-YWNraW5nIHN0b3JhZ2UgaXMgbWlzc2luZyBhbGwgdGhlIGludGVybWVkaWF0ZSANCmNoYW5n
-ZXMuDQoNCklmIEknbSBub3QgbWlzdGFrZW4sIGFuIGVudGlyZWx5IGRpZmZlcmVudCBzb2x1
-dGlvbiB3b3VsZCBiZSB0byANCmltcGxlbWVudCBhIHBlci1wbGFuZSBiYWNrIHN0b3JhZ2Ug
-aW4gdGhlc2UgZHJpdmVycy4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gVGhp
-cyBpcyBteSB1bmRlcnN0YW5kaW5nIGF0IGxlYXN0LCBwbGVhc2UgU2ltYSBvciBTaW1vbiBj
-b3JyZWN0IG1lIGlmIEkNCj4gZ290IHRoaXMgd3JvbmcuDQo+IA0KPj4gQmVzdCByZWdhcmRz
-DQo+PiBUaG9tYXMNCj4+DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGlj
-cyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdt
-YkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjog
-SXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2Vy
-bWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
+Fixes: b2e1cbe6281f ("drm/amdgpu/gmc11: disable AGP on GC 11.5")
+Acked-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---------------hyk6vUikYz4urD9DYhCPRNuI--
+diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
+index 6dce9b29f675..ba4c82f5e617 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
+@@ -640,7 +640,7 @@ static void gmc_v11_0_vram_gtt_location(struct amdgpu_device *adev,
+ 	amdgpu_gmc_set_agp_default(adev, mc);
+ 	amdgpu_gmc_vram_location(adev, &adev->gmc, base);
+ 	amdgpu_gmc_gart_location(adev, mc, AMDGPU_GART_PLACEMENT_HIGH);
+-	if (!amdgpu_sriov_vf(adev) ||
++	if (!amdgpu_sriov_vf(adev) &&
+ 	    (amdgpu_ip_version(adev, GC_HWIP, 0) < IP_VERSION(11, 5, 0)))
+ 		amdgpu_gmc_agp_location(adev, mc);
+ 
+-- 
+2.34.1
 
---------------nM3V1XERUOB4F0ASvZZgUSoi
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVTohEFAwAAAAAACgkQlh/E3EQov+Cm
-9Q//YM7s4S48GCkvptjMkdQR1mz/PNRB30C519mmog3CnwWNv5rzHTMPZopk7jZqECsvxkOMTFXY
-mPnk/lgJkWPJTboOcLuwwiAMzmzSubqlhNeP/MQv6ly9eSBVabFC1qlWvRg3OveZfZfWa0GwvamR
-LyXBJ39X80ighFNIf/i4Q9SCYRczs/TvU/Eskg0Ywn4NJwcjzYnOJQBtJdqGpOLq/TolWeIRl7Ag
-cKnZUhA32rFvl+10oN6FNrBN0JXVJ3MHUkkzhe4bGOJ58BKW8HXXBI98CbB/klMaEo73bOKnIk8h
-+JL3MgTRc5cvm879wgUtZoxS/99OdSROIL53DDYkrOAPgyrjJ3e8tLx/W4rI26F2FcqkmXUGATOL
-qEdN/qegBEsIsxZY2jD52RlzL90tttwtHPakHGOBobwivr8uJpu5DUnNepVURnytXtCRi7170VbS
-McHexDQQSFiR4oyzjbc1O62FlkgzZ0eLnmhCAt5ImEJUXgn2JMfWeXuzOvx/iU3EtY1dYm6WN2el
-Ahxnf0C7l5wCc47nBW8T6FMuUc2VZT+dUGEtZd/irOFE/0phkONwfBpl3h9h8Yfbo2en6a4ntWPf
-hIuY8GV3hm93XU/rRUgcq0BTjTdg7OdDOV4KmSunt/V8LXd9ifeu1FCRa2yLZX66eFgkzCJvsfn7
-LgQ=
-=ySGi
------END PGP SIGNATURE-----
-
---------------nM3V1XERUOB4F0ASvZZgUSoi--
