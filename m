@@ -2,52 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B70977EAAE0
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 08:25:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B2C7EAAC8
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 08:16:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BC6010E3EB;
-	Tue, 14 Nov 2023 07:25:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD23210E1B7;
+	Tue, 14 Nov 2023 07:15:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D209B10E3EB
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 07:25:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1699946718; x=1731482718;
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36B4410E1B7
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 07:15:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1699946155; x=1731482155;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=tAXwuNZ3/tYubJQ1opn4NWyvGa5Nh5vwg3awbeugb6E=;
- b=DYSmvdnen1HAu6vqv7K/w+tfxRxpFLB/cYbRx0eKIsgUdCiDvfr7x5Y5
- YKiEJk0ZVm2UvP/qJUevLXebH/zGqUUGU/kcyY1LY+rwL2ldlvSAaT1Dc
- mH0FMtxqrC+3XgyFKwMdTimTSYGgqgcHL3SmP4ZBZ/cIHJHVmJtYVfBYm
- DuP7ahZnao9AIKnUeOIPZOfuvI33W9YHZfHruQsireZEgQ/Kdij0uFrrq
- BNrdRzuKIQNAX7Vlg1IN3RLvzpkIN302hVnaTPvyggsx42HSggQxTBX3t
- VX5WJK6WT2IdzVo4Z7ZM1fnZBEPwURa9Z3NduTKIpN0fLJaBVIHAOY0V0 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="3655231"
-X-IronPort-AV: E=Sophos;i="6.03,301,1694761200"; 
-   d="scan'208";a="3655231"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2023 23:25:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,301,1694761200"; 
-   d="scan'208";a="5918441"
-Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
- by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2023 23:25:19 -0800
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-mm@kvack.org
-Subject: [PATCH] mm/gup: Introduce pin_user_pages_fd() for pinning
- shmem/hugetlbfs file pages (v3)
-Date: Mon, 13 Nov 2023 23:00:44 -0800
-Message-Id: <20231114070044.464451-1-vivek.kasireddy@intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <0f05cade-c75e-4605-8e22-9fb916c622b0@redhat.com>
-References: <0f05cade-c75e-4605-8e22-9fb916c622b0@redhat.com>
+ bh=kL2Yx2dJrpAiJS/uLrK4fhWhgsrhYskS23er0DBU1PM=;
+ b=gLecCij4uHePKQICp6v3nz8szKz5UfDIT+wywsojLYqbPOMc6l9q0JcE
+ dSSNHMsaT2MX/8gqJx4lPxnjFeEsfoOXuMUrygX6tGGgTPp1lCNDVq/Bk
+ otZhbVXer1tFmMu0sUMIYCCnhcbtIPQUtAa9PvqwaDSuG5lp3TU/YA5pL
+ vuJi2rYuIKTy0XQGAXYgnlWuhZACAQG6NFSVpfE6FT3SQPVwjJBlpIGGp
+ 5KEYE9XnQuhssoRDh4ZqRoqCWqL6uBtAd6OcfHYxdhI7nQb5jvDHlbCJR
+ btgH3qlXxwX4RJ9peFighRCJ9LDyyV9QyYSA1PRAPhc+JyHKyTLmlbKYP Q==;
+X-IronPort-AV: E=Sophos;i="6.03,301,1694728800"; d="scan'208";a="33960176"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 14 Nov 2023 08:15:53 +0100
+Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.18])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 7CC5B28007F;
+ Tue, 14 Nov 2023 08:15:51 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Tim Harvey <tharvey@gateworks.com>, Michael Walle <mwalle@kernel.org>
+Subject: Re: [PATCH] drm: bridge: samsung-dsim: Don't use FORCE_STOP_STATE
+Date: Tue, 14 Nov 2023 08:15:54 +0100
+Message-ID: <4527280.LvFx2qVVIh@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20231113164344.1612602-1-mwalle@kernel.org>
+References: <20231113164344.1612602-1-mwalle@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,190 +64,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dongwon Kim <dongwon.kim@intel.com>, David Hildenbrand <david@redhat.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Hugh Dickins <hughd@google.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Peter Xu <peterx@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Junxiao Chang <junxiao.chang@intel.com>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: Michael Walle <mwalle@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For drivers that would like to longterm-pin the pages associated
-with a file, the pin_user_pages_fd() API provides an option to
-not only pin the pages via FOLL_PIN but also to check and migrate
-them if they reside in movable zone or CMA block. This API
-currently works with files that belong to either shmem or hugetlbfs.
-Files belonging to other filesystems are rejected for now.
+Hi Michael,
 
-The pages need to be located first before pinning them via FOLL_PIN.
-If they are found in the page cache, they can be immediately pinned.
-Otherwise, they need to be allocated using the filesystem specific
-APIs and then pinned.
+Am Montag, 13. November 2023, 17:43:44 CET schrieb Michael Walle:
+> The FORCE_STOP_STATE bit is unsuitable to force the DSI link into LP-11
+> mode. It seems the bridge internally queues DSI packets and when the
+> FORCE_STOP_STATE bit is cleared, they are sent in close succession
+> without any useful timing (this also means that the DSI lanes won't go
+> into LP-11 mode). The length of this gibberish varies between 1ms and
+> 5ms. This sometimes breaks an attached bridge (TI SN65DSI84 in this
+> case). In our case, the bridge will fail in about 1 per 500 reboots.
+>=20
+> The FORCE_STOP_STATE handling was introduced to have the DSI lanes in
+> LP-11 state during the .pre_enable phase. But as it turns out, none of
+> this is needed at all. Between samsung_dsim_init() and
+> samsung_dsim_set_display_enable() the lanes are already in LP-11 mode.
 
-v2:
-- Drop gup_flags and improve comments and commit message (David)
-- Allocate a page if we cannot find in page cache for the hugetlbfs
-  case as well (David)
-- Don't unpin pages if there is a migration related failure (David)
-- Drop the unnecessary nr_pages <= 0 check (Jason)
-- Have the caller of the API pass in file * instead of fd (Jason)
+Apparently LP-11 is actually entered with the call to=20
+samsung_dsim_enable_lane(), but I don't know about other requisites on that=
+=20
+matter. Unfortunately documentation lacks a lot in that regard.
 
-v3: (David)
-- Enclose the huge page allocation code with #ifdef CONFIG_HUGETLB_PAGE
-  (Build error reported by kernel test robot <lkp@intel.com>)
-- Don't forget memalloc_pin_restore() on non-migration related errors
-- Improve the readability of the cleanup code associated with
-  non-migration related errors
-- Augment the comments by describing FOLL_LONGTERM like behavior
-- Include the R-b tag from Jason
+> The code as it was before commit 20c827683de0 ("drm: bridge:
+> samsung-dsim: Fix init during host transfer") and 0c14d3130654 ("drm:
+> bridge: samsung-dsim: Fix i.MX8M enable flow to meet spec") was correct
+> in this regard.
+>=20
+> This patch basically reverts both commits. It was tested on an i.MX8M
+> SoC with an SN65DSI84 bridge. The signals were probed and the DSI
+> packets were decoded during initialization and link start-up. After this
+> patch the first DSI packet on the link is a VSYNC packet and the timing
+> is correct.
 
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Mike Kravetz <mike.kravetz@oracle.com>
-Cc: Hugh Dickins <hughd@google.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Dongwon Kim <dongwon.kim@intel.com>
-Cc: Junxiao Chang <junxiao.chang@intel.com>
-Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com> (v2)
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- include/linux/mm.h |   2 +
- mm/gup.c           | 109 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 111 insertions(+)
+At which point does SN65DSI84 require LP-11?
+You have access to a DSI/D-PHY analyzer?
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 418d26608ece..1b675fa35059 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2472,6 +2472,8 @@ long get_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
- 		    struct page **pages, unsigned int gup_flags);
- long pin_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
- 		    struct page **pages, unsigned int gup_flags);
-+long pin_user_pages_fd(struct file *file, pgoff_t start,
-+		       unsigned long nr_pages, struct page **pages);
- 
- int get_user_pages_fast(unsigned long start, int nr_pages,
- 			unsigned int gup_flags, struct page **pages);
-diff --git a/mm/gup.c b/mm/gup.c
-index 231711efa390..b3af967cdff1 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -3410,3 +3410,112 @@ long pin_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
- 				     &locked, gup_flags);
- }
- EXPORT_SYMBOL(pin_user_pages_unlocked);
-+
-+static struct page *alloc_file_page(struct file *file, pgoff_t idx)
-+{
-+#ifdef CONFIG_HUGETLB_PAGE
-+	struct page *page = ERR_PTR(-ENOMEM);
-+	struct folio *folio;
-+	int err;
-+
-+	if (is_file_hugepages(file)) {
-+		folio = alloc_hugetlb_folio_nodemask(hstate_file(file),
-+						     NUMA_NO_NODE,
-+						     NULL,
-+						     GFP_USER);
-+		if (folio && folio_try_get(folio)) {
-+			page = &folio->page;
-+			err = hugetlb_add_to_page_cache(folio,
-+							file->f_mapping,
-+							idx);
-+			if (err) {
-+				folio_put(folio);
-+				free_huge_folio(folio);
-+				page = ERR_PTR(err);
-+			}
-+		}
-+		return page;
-+	}
-+#endif
-+	return shmem_read_mapping_page(file->f_mapping, idx);
-+}
-+
-+/**
-+ * pin_user_pages_fd() - pin user pages associated with a file
-+ * @file:       the file whose pages are to be pinned
-+ * @start:      starting file offset
-+ * @nr_pages:   number of pages from start to pin
-+ * @pages:      array that receives pointers to the pages pinned.
-+ *              Should be at-least nr_pages long.
-+ *
-+ * Attempt to pin pages associated with a file that belongs to either shmem
-+ * or hugetlb. The pages are either found in the page cache or allocated if
-+ * necessary. Once the pages are located, they are all pinned via FOLL_PIN.
-+ * And, these pinned pages need to be released either using unpin_user_pages()
-+ * or unpin_user_page().
-+ *
-+ * It must be noted that the pages may be pinned for an indefinite amount
-+ * of time. And, in most cases, the duration of time they may stay pinned
-+ * would be controlled by the userspace. This behavior is effectively the
-+ * same as using FOLL_LONGTERM with other GUP APIs.
-+ *
-+ * Returns number of pages pinned. This would be equal to the number of
-+ * pages requested. If no pages were pinned, it returns -errno.
-+ */
-+long pin_user_pages_fd(struct file *file, pgoff_t start,
-+		       unsigned long nr_pages, struct page **pages)
-+{
-+	struct page *page;
-+	unsigned int flags, i;
-+	long ret;
-+
-+	if (start < 0)
-+		return -EINVAL;
-+
-+	if (!file)
-+	    return -EINVAL;
-+
-+	if (!shmem_file(file) && !is_file_hugepages(file))
-+	    return -EINVAL;
-+
-+	flags = memalloc_pin_save();
-+	do {
-+		for (i = 0; i < nr_pages; i++) {
-+			/*
-+ 			 * In most cases, we should be able to find the page
-+			 * in the page cache. If we cannot find it, we try to
-+			 * allocate one and add it to the page cache.
-+			 */
-+			page = find_get_page_flags(file->f_mapping,
-+						   start + i,
-+						   FGP_ACCESSED);
-+			if (!page) {
-+				page = alloc_file_page(file, start + i);
-+				if (IS_ERR(page)) {
-+					ret = PTR_ERR(page);
-+					goto err;
-+				}
-+			}
-+			ret = try_grab_page(page, FOLL_PIN);
-+			if (unlikely(ret))
-+				goto err;
-+
-+			pages[i] = page;
-+			put_page(pages[i]);
-+		}
-+
-+		ret = check_and_migrate_movable_pages(nr_pages, pages);
-+	} while (ret == -EAGAIN);
-+
-+	memalloc_pin_restore(flags);
-+	return ret ? ret : nr_pages;
-+err:
-+	memalloc_pin_restore(flags);
-+	while (i-- > 0)
-+		if (pages[i])
-+			unpin_user_page(pages[i]);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(pin_user_pages_fd);
-+
--- 
-2.39.2
+> Command mode between .pre_enable and .enable was also briefly tested by
+> a quick hack. There was no DSI link partner which would have responded,
+> but it was made sure the DSI packet was send on the link. As a side
+> note, the command mode seems to just work in HS mode. I couldn't find
+> that the bridge will handle commands in LP mode.
+
+AFAIK ti-sn65dsi83.c only uses I2C for communication. Did you send DSI read/
+writes instead?
+
+best regards,
+Alexander
+
+> Fixes: 20c827683de0 ("drm: bridge: samsung-dsim: Fix init during host
+> transfer") Fixes: 0c14d3130654 ("drm: bridge: samsung-dsim: Fix i.MX8M
+> enable flow to meet spec") Signed-off-by: Michael Walle <mwalle@kernel.or=
+g>
+> ---
+> Let me know wether this should be two commits each reverting one, but both
+> commits appeared first in kernel 6.5.
+>=20
+>  drivers/gpu/drm/bridge/samsung-dsim.c | 32 ++-------------------------
+>  1 file changed, 2 insertions(+), 30 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
+> b/drivers/gpu/drm/bridge/samsung-dsim.c index cf777bdb25d2..4233a50baac7
+> 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -939,10 +939,6 @@ static int samsung_dsim_init_link(struct samsung_dsim
+> *dsi) reg =3D samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
+>  	reg &=3D ~DSIM_STOP_STATE_CNT_MASK;
+>  	reg |=3D DSIM_STOP_STATE_CNT(driver_data->reg_values[STOP_STATE_CNT]);
+> -
+> -	if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
+> -		reg |=3D DSIM_FORCE_STOP_STATE;
+> -
+>  	samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
+>=20
+>  	reg =3D DSIM_BTA_TIMEOUT(0xff) | DSIM_LPDR_TIMEOUT(0xffff);
+> @@ -1387,18 +1383,6 @@ static void samsung_dsim_disable_irq(struct
+> samsung_dsim *dsi) disable_irq(dsi->irq);
+>  }
+>=20
+> -static void samsung_dsim_set_stop_state(struct samsung_dsim *dsi, bool
+> enable) -{
+> -	u32 reg =3D samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
+> -
+> -	if (enable)
+> -		reg |=3D DSIM_FORCE_STOP_STATE;
+> -	else
+> -		reg &=3D ~DSIM_FORCE_STOP_STATE;
+> -
+> -	samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
+> -}
+> -
+>  static int samsung_dsim_init(struct samsung_dsim *dsi)
+>  {
+>  	const struct samsung_dsim_driver_data *driver_data =3D dsi-
+>driver_data;
+> @@ -1448,9 +1432,6 @@ static void samsung_dsim_atomic_pre_enable(struct
+> drm_bridge *bridge, ret =3D samsung_dsim_init(dsi);
+>  		if (ret)
+>  			return;
+> -
+> -		samsung_dsim_set_display_mode(dsi);
+> -		samsung_dsim_set_display_enable(dsi, true);
+>  	}
+>  }
+>=20
+> @@ -1459,12 +1440,8 @@ static void samsung_dsim_atomic_enable(struct
+> drm_bridge *bridge, {
+>  	struct samsung_dsim *dsi =3D bridge_to_dsi(bridge);
+>=20
+> -	if (samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type)) {
+> -		samsung_dsim_set_display_mode(dsi);
+> -		samsung_dsim_set_display_enable(dsi, true);
+> -	} else {
+> -		samsung_dsim_set_stop_state(dsi, false);
+> -	}
+> +	samsung_dsim_set_display_mode(dsi);
+> +	samsung_dsim_set_display_enable(dsi, true);
+>=20
+>  	dsi->state |=3D DSIM_STATE_VIDOUT_AVAILABLE;
+>  }
+> @@ -1477,9 +1454,6 @@ static void samsung_dsim_atomic_disable(struct
+> drm_bridge *bridge, if (!(dsi->state & DSIM_STATE_ENABLED))
+>  		return;
+>=20
+> -	if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
+> -		samsung_dsim_set_stop_state(dsi, true);
+> -
+>  	dsi->state &=3D ~DSIM_STATE_VIDOUT_AVAILABLE;
+>  }
+>=20
+> @@ -1781,8 +1755,6 @@ static ssize_t samsung_dsim_host_transfer(struct
+> mipi_dsi_host *host, if (ret)
+>  		return ret;
+>=20
+> -	samsung_dsim_set_stop_state(dsi, false);
+> -
+>  	ret =3D mipi_dsi_create_packet(&xfer.packet, msg);
+>  	if (ret < 0)
+>  		return ret;
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
