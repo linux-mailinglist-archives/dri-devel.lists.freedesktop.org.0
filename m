@@ -2,56 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B2C7EAAC8
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 08:16:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F66B7EAB10
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 08:48:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD23210E1B7;
-	Tue, 14 Nov 2023 07:15:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47B5C10E1BF;
+	Tue, 14 Nov 2023 07:48:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36B4410E1B7
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 07:15:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1699946155; x=1731482155;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=kL2Yx2dJrpAiJS/uLrK4fhWhgsrhYskS23er0DBU1PM=;
- b=gLecCij4uHePKQICp6v3nz8szKz5UfDIT+wywsojLYqbPOMc6l9q0JcE
- dSSNHMsaT2MX/8gqJx4lPxnjFeEsfoOXuMUrygX6tGGgTPp1lCNDVq/Bk
- otZhbVXer1tFmMu0sUMIYCCnhcbtIPQUtAa9PvqwaDSuG5lp3TU/YA5pL
- vuJi2rYuIKTy0XQGAXYgnlWuhZACAQG6NFSVpfE6FT3SQPVwjJBlpIGGp
- 5KEYE9XnQuhssoRDh4ZqRoqCWqL6uBtAd6OcfHYxdhI7nQb5jvDHlbCJR
- btgH3qlXxwX4RJ9peFighRCJ9LDyyV9QyYSA1PRAPhc+JyHKyTLmlbKYP Q==;
-X-IronPort-AV: E=Sophos;i="6.03,301,1694728800"; d="scan'208";a="33960176"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 14 Nov 2023 08:15:53 +0100
-Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.18])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93BEF10E1BF
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 07:48:02 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 7CC5B28007F;
- Tue, 14 Nov 2023 08:15:51 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Tim Harvey <tharvey@gateworks.com>, Michael Walle <mwalle@kernel.org>
-Subject: Re: [PATCH] drm: bridge: samsung-dsim: Don't use FORCE_STOP_STATE
-Date: Tue, 14 Nov 2023 08:15:54 +0100
-Message-ID: <4527280.LvFx2qVVIh@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20231113164344.1612602-1-mwalle@kernel.org>
-References: <20231113164344.1612602-1-mwalle@kernel.org>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4051C21890;
+ Tue, 14 Nov 2023 07:48:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1699948081; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=9y9iDLs5AtwD8aDtJffOjozP9jrFqOecBShHebV8s2A=;
+ b=AtpIO70Jri+XvQAskcJrwqikGU39Am6aCxr78rZYdrTsCNo7U59RbWq1V+0Sn+08oBaaHS
+ MTyibAvvNWnZ7zUQQfZd37izFX7m3lknR5I7o9svenksq8rhyhpSljY07xZCY9AidXUTkd
+ DF4SZVkd7NmLwT6zrwDjke7m2k1sF3k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1699948081;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=9y9iDLs5AtwD8aDtJffOjozP9jrFqOecBShHebV8s2A=;
+ b=Fs3Qu7eqFAZDqh268Hx3EWYC6G0DuyzeMiLDRcwnupdc5vgGe0FfCPFe4ABAMJfx2alerf
+ vJfrIQ+AxwbIefCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 01CBC13416;
+ Tue, 14 Nov 2023 07:48:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id dxOWNjAmU2XhXAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 14 Nov 2023 07:48:00 +0000
+Message-ID: <c53888ea-d317-4e6c-b42d-0265d186bc5b@suse.de>
+Date: Tue, 14 Nov 2023 08:47:59 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/10] drm/ast: Detect ast device type and config mode
+ without ast device
+To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
+ airlied@gmail.com
+References: <20231113091439.17181-1-tzimmermann@suse.de>
+ <20231113091439.17181-10-tzimmermann@suse.de>
+ <207847ed-4a12-4926-9ae4-a90cd6bb2f65@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <207847ed-4a12-4926-9ae4-a90cd6bb2f65@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Kf10EezCrV9q0a67Nw3GI77z"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,155 +97,262 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Walle <mwalle@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michael,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Kf10EezCrV9q0a67Nw3GI77z
+Content-Type: multipart/mixed; boundary="------------5HRsd06P05UJUmdx7n3Qww2U";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
+ airlied@gmail.com
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <c53888ea-d317-4e6c-b42d-0265d186bc5b@suse.de>
+Subject: Re: [PATCH 09/10] drm/ast: Detect ast device type and config mode
+ without ast device
+References: <20231113091439.17181-1-tzimmermann@suse.de>
+ <20231113091439.17181-10-tzimmermann@suse.de>
+ <207847ed-4a12-4926-9ae4-a90cd6bb2f65@redhat.com>
+In-Reply-To: <207847ed-4a12-4926-9ae4-a90cd6bb2f65@redhat.com>
 
-Am Montag, 13. November 2023, 17:43:44 CET schrieb Michael Walle:
-> The FORCE_STOP_STATE bit is unsuitable to force the DSI link into LP-11
-> mode. It seems the bridge internally queues DSI packets and when the
-> FORCE_STOP_STATE bit is cleared, they are sent in close succession
-> without any useful timing (this also means that the DSI lanes won't go
-> into LP-11 mode). The length of this gibberish varies between 1ms and
-> 5ms. This sometimes breaks an attached bridge (TI SN65DSI84 in this
-> case). In our case, the bridge will fail in about 1 per 500 reboots.
->=20
-> The FORCE_STOP_STATE handling was introduced to have the DSI lanes in
-> LP-11 state during the .pre_enable phase. But as it turns out, none of
-> this is needed at all. Between samsung_dsim_init() and
-> samsung_dsim_set_display_enable() the lanes are already in LP-11 mode.
+--------------5HRsd06P05UJUmdx7n3Qww2U
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Apparently LP-11 is actually entered with the call to=20
-samsung_dsim_enable_lane(), but I don't know about other requisites on that=
-=20
-matter. Unfortunately documentation lacks a lot in that regard.
+SGkNCg0KQW0gMTMuMTEuMjMgdW0gMTY6MjUgc2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+
+IE9uIDEzLzExLzIwMjMgMDk6NTAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gUmV0
+dXJuIHRoZSBhc3QgY2hpcCBhbmQgY29uZmlnIGluIHRoZSBkZXRlY3Rpb24gZnVuY3Rpb24n
+cyBwYXJhbWV0ZXJzDQo+PiBpbnN0ZWFkIG9mIHN0b3JpbmcgdGhlbSBkaXJlY3RseSBpbiB0
+aGUgYXN0IGRldmljZSBpbnN0YW5jZS4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMg
+WmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+IC0tLQ0KPj4gwqAgZHJpdmVy
+cy9ncHUvZHJtL2FzdC9hc3RfbWFpbi5jIHwgMTA0ICsrKysrKysrKysrKysrKysrKy0tLS0t
+LS0tLS0tLS0tLQ0KPj4gwqAgMSBmaWxlIGNoYW5nZWQsIDU3IGluc2VydGlvbnMoKyksIDQ3
+IGRlbGV0aW9ucygtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXN0
+L2FzdF9tYWluLmMgDQo+PiBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21haW4uYw0KPj4g
+aW5kZXggZjEwMGRmOGQ3NGY3MS4uMzMxYTlhODYxMTUzYiAxMDA2NDQNCj4+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9hc3QvYXN0X21haW4uYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2FzdC9hc3RfbWFpbi5jDQo+PiBAQCAtNzYsMjUgKzc2LDI3IEBAIHN0YXRpYyB2b2lkIGFz
+dF9vcGVuX2tleSh2b2lkIF9faW9tZW0gKmlvcmVncykNCj4+IMKgwqDCoMKgwqAgX19hc3Rf
+d3JpdGU4X2koaW9yZWdzLCBBU1RfSU9fVkdBQ1JJLCAweDgwLCANCj4+IEFTVF9JT19WR0FD
+UjgwX1BBU1NXT1JEKTsNCj4+IMKgIH0NCj4+IC1zdGF0aWMgaW50IGFzdF9kZXZpY2VfY29u
+ZmlnX2luaXQoc3RydWN0IGFzdF9kZXZpY2UgKmFzdCkNCj4+ICtzdGF0aWMgaW50IGFzdF9k
+ZXRlY3RfY2hpcChzdHJ1Y3QgcGNpX2RldiAqcGRldiwNCj4+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIHZvaWQgX19pb21lbSAqcmVncywgdm9pZCBfX2lvbWVtICppb3JlZ3Ms
+DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBlbnVtIGFzdF9jaGlwICpjaGlw
+X291dCwNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVudW0gYXN0X2NvbmZp
+Z19tb2RlICpjb25maWdfbW9kZV9vdXQpDQo+PiDCoCB7DQo+PiAtwqDCoMKgIHN0cnVjdCBk
+cm1fZGV2aWNlICpkZXYgPSAmYXN0LT5iYXNlOw0KPj4gLcKgwqDCoCBzdHJ1Y3QgcGNpX2Rl
+diAqcGRldiA9IHRvX3BjaV9kZXYoZGV2LT5kZXYpOw0KPj4gLcKgwqDCoCBzdHJ1Y3QgZGV2
+aWNlX25vZGUgKm5wID0gZGV2LT5kZXYtPm9mX25vZGU7DQo+PiArwqDCoMKgIHN0cnVjdCBk
+ZXZpY2UgKmRldiA9ICZwZGV2LT5kZXY7DQo+PiArwqDCoMKgIHN0cnVjdCBkZXZpY2Vfbm9k
+ZSAqbnAgPSBkZXYtPm9mX25vZGU7DQo+PiArwqDCoMKgIGVudW0gYXN0X2NvbmZpZ19tb2Rl
+IGNvbmZpZ19tb2RlID0gYXN0X3VzZV9kZWZhdWx0czsNCj4+IMKgwqDCoMKgwqAgdWludDMy
+X3Qgc2N1X3JldiA9IDB4ZmZmZmZmZmY7DQo+PiArwqDCoMKgIGVudW0gYXN0X2NoaXAgY2hp
+cDsNCj4+IMKgwqDCoMKgwqAgdTMyIGRhdGE7DQo+PiAtwqDCoMKgIHU4IGpyZWdkMCwganJl
+Z2QxOw0KPj4gK8KgwqDCoCB1OCB2Z2FjcmQwLCB2Z2FjcmQxOw0KPj4gwqDCoMKgwqDCoCAv
+Kg0KPj4gwqDCoMKgwqDCoMKgICogRmluZCBjb25maWd1cmF0aW9uIG1vZGUgYW5kIHJlYWQg
+U0NVIHJldmlzaW9uDQo+PiDCoMKgwqDCoMKgwqAgKi8NCj4+IC3CoMKgwqAgYXN0LT5jb25m
+aWdfbW9kZSA9IGFzdF91c2VfZGVmYXVsdHM7DQo+PiAtDQo+PiDCoMKgwqDCoMKgIC8qIENo
+ZWNrIGlmIHdlIGhhdmUgZGV2aWNlLXRyZWUgcHJvcGVydGllcyAqLw0KPj4gwqDCoMKgwqDC
+oCBpZiAobnAgJiYgIW9mX3Byb3BlcnR5X3JlYWRfdTMyKG5wLCAiYXNwZWVkLHNjdS1yZXZp
+c2lvbi1pZCIsIA0KPj4gJmRhdGEpKSB7DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgLyogV2Ug
+ZG8sIGRpc2FibGUgUDJBIGFjY2VzcyAqLw0KPj4gLcKgwqDCoMKgwqDCoMKgIGFzdC0+Y29u
+ZmlnX21vZGUgPSBhc3RfdXNlX2R0Ow0KPj4gK8KgwqDCoMKgwqDCoMKgIGNvbmZpZ19tb2Rl
+ID0gYXN0X3VzZV9kdDsNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBzY3VfcmV2ID0gZGF0YTsN
+Cj4+IMKgwqDCoMKgwqAgfSBlbHNlIGlmIChwZGV2LT5kZXZpY2UgPT0gUENJX0NISVBfQVNU
+MjAwMCkgeyAvLyBOb3QgYWxsIA0KPj4gZmFtaWxpZXMgaGF2ZSBhIFAyQSBicmlkZ2UNCj4+
+IMKgwqDCoMKgwqDCoMKgwqDCoCAvKg0KPj4gQEAgLTEwMiw5ICsxMDQsOSBAQCBzdGF0aWMg
+aW50IGFzdF9kZXZpY2VfY29uZmlnX2luaXQoc3RydWN0IA0KPj4gYXN0X2RldmljZSAqYXN0
+KQ0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqAgKiBpcyBkaXNhYmxlZC4gV2UgZm9yY2UgdXNp
+bmcgUDJBIGlmIFZHQSBvbmx5IG1vZGUgYml0DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoCAq
+IGlzIHNldCBEWzddDQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLw0KPj4gLcKgwqDCoMKg
+wqDCoMKgIGpyZWdkMCA9IGFzdF9nZXRfaW5kZXhfcmVnX21hc2soYXN0LCBBU1RfSU9fVkdB
+Q1JJLCAweGQwLCAweGZmKTsNCj4+IC3CoMKgwqDCoMKgwqDCoCBqcmVnZDEgPSBhc3RfZ2V0
+X2luZGV4X3JlZ19tYXNrKGFzdCwgQVNUX0lPX1ZHQUNSSSwgMHhkMSwgMHhmZik7DQo+PiAt
+wqDCoMKgwqDCoMKgwqAgaWYgKCEoanJlZ2QwICYgMHg4MCkgfHwgIShqcmVnZDEgJiAweDEw
+KSkgew0KPj4gK8KgwqDCoMKgwqDCoMKgIHZnYWNyZDAgPSBfX2FzdF9yZWFkOF9pKGlvcmVn
+cywgQVNUX0lPX1ZHQUNSSSwgMHhkMCk7DQo+PiArwqDCoMKgwqDCoMKgwqAgdmdhY3JkMSA9
+IF9fYXN0X3JlYWQ4X2koaW9yZWdzLCBBU1RfSU9fVkdBQ1JJLCAweGQxKTsNCj4+ICvCoMKg
+wqDCoMKgwqDCoCBpZiAoISh2Z2FjcmQwICYgMHg4MCkgfHwgISh2Z2FjcmQxICYgMHgxMCkp
+IHsNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC8qDQo+PiDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgICogV2UgaGF2ZSBhIFAyQSBicmlkZ2UgYW5kIGl0IGlzIGVuYWJs
+ZWQuDQo+PiBAQCAtMTEyLDMyICsxMTQsMzIgQEAgc3RhdGljIGludCBhc3RfZGV2aWNlX2Nv
+bmZpZ19pbml0KHN0cnVjdCANCj4+IGFzdF9kZXZpY2UgKmFzdCkNCj4+IMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIC8qIFBhdGNoIEFTVDI1MDAvQVNUMjUxMCAqLw0KPj4gwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKChwZGV2LT5yZXZpc2lvbiAmIDB4ZjApID09IDB4
+NDApIHsNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKCEoanJlZ2Qw
+ICYgQVNUX1ZSQU1fSU5JVF9TVEFUVVNfTUFTSykpDQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgYXN0X3BhdGNoX2FoYl8yNTAwKGFzdC0+cmVncyk7DQo+
+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmICghKHZnYWNyZDAgJiBBU1Rf
+VlJBTV9JTklUX1NUQVRVU19NQVNLKSkNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCBhc3RfcGF0Y2hfYWhiXzI1MDAocmVncyk7DQo+PiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCB9DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAvKiBE
+b3VibGUgY2hlY2sgdGhhdCBpdCdzIGFjdHVhbGx5IHdvcmtpbmcgKi8NCj4+IC3CoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIGRhdGEgPSBhc3RfcmVhZDMyKGFzdCwgMHhmMDA0KTsNCj4+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRhdGEgPSBfX2FzdF9yZWFkMzIocmVncywgMHhmMDA0
+KTsNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmICgoZGF0YSAhPSAweGZmZmZm
+ZmZmKSAmJiAoZGF0YSAhPSAweDAwKSkgew0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBhc3QtPmNvbmZpZ19tb2RlID0gYXN0X3VzZV9wMmE7DQo+PiArwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNvbmZpZ19tb2RlID0gYXN0X3VzZV9wMmE7DQo+PiDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC8qIFJlYWQgU0NVN2MgKHNpbGlj
+b24gcmV2aXNpb24gcmVnaXN0ZXIpICovDQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIGFzdF93cml0ZTMyKGFzdCwgMHhmMDA0LCAweDFlNmUwMDAwKTsNCj4+IC3CoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYXN0X3dyaXRlMzIoYXN0LCAweGYwMDAsIDB4
+MSk7DQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNjdV9yZXYgPSBhc3Rf
+cmVhZDMyKGFzdCwgMHgxMjA3Yyk7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIF9fYXN0X3dyaXRlMzIocmVncywgMHhmMDA0LCAweDFlNmUwMDAwKTsNCj4+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19hc3Rfd3JpdGUzMihyZWdzLCAweGYwMDAs
+IDB4MSk7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNjdV9yZXYgPSBf
+X2FzdF9yZWFkMzIocmVncywgMHgxMjA3Yyk7DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCB9DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgfQ0KPj4gwqDCoMKgwqDCoCB9DQo+PiAt
+wqDCoMKgIHN3aXRjaCAoYXN0LT5jb25maWdfbW9kZSkgew0KPj4gK8KgwqDCoCBzd2l0Y2gg
+KGNvbmZpZ19tb2RlKSB7DQo+PiDCoMKgwqDCoMKgIGNhc2UgYXN0X3VzZV9kZWZhdWx0czoN
+Cj4+IC3CoMKgwqDCoMKgwqDCoCBkcm1faW5mbyhkZXYsICJVc2luZyBkZWZhdWx0IGNvbmZp
+Z3VyYXRpb25cbiIpOw0KPj4gK8KgwqDCoMKgwqDCoMKgIGRldl9pbmZvKGRldiwgIlVzaW5n
+IGRlZmF1bHQgY29uZmlndXJhdGlvblxuIik7DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgYnJl
+YWs7DQo+PiDCoMKgwqDCoMKgIGNhc2UgYXN0X3VzZV9kdDoNCj4+IC3CoMKgwqDCoMKgwqDC
+oCBkcm1faW5mbyhkZXYsICJVc2luZyBkZXZpY2UtdHJlZSBmb3IgY29uZmlndXJhdGlvblxu
+Iik7DQo+PiArwqDCoMKgwqDCoMKgwqAgZGV2X2luZm8oZGV2LCAiVXNpbmcgZGV2aWNlLXRy
+ZWUgZm9yIGNvbmZpZ3VyYXRpb25cbiIpOw0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIGJyZWFr
+Ow0KPj4gwqDCoMKgwqDCoCBjYXNlIGFzdF91c2VfcDJhOg0KPj4gLcKgwqDCoMKgwqDCoMKg
+IGRybV9pbmZvKGRldiwgIlVzaW5nIFAyQSBicmlkZ2UgZm9yIGNvbmZpZ3VyYXRpb25cbiIp
+Ow0KPj4gK8KgwqDCoMKgwqDCoMKgIGRldl9pbmZvKGRldiwgIlVzaW5nIFAyQSBicmlkZ2Ug
+Zm9yIGNvbmZpZ3VyYXRpb25cbiIpOw0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIGJyZWFrOw0K
+Pj4gwqDCoMKgwqDCoCB9DQo+PiBAQCAtMTQ2LDYzICsxNDgsNjYgQEAgc3RhdGljIGludCBh
+c3RfZGV2aWNlX2NvbmZpZ19pbml0KHN0cnVjdCANCj4+IGFzdF9kZXZpY2UgKmFzdCkNCj4+
+IMKgwqDCoMKgwqDCoCAqLw0KPj4gwqDCoMKgwqDCoCBpZiAocGRldi0+cmV2aXNpb24gPj0g
+MHg1MCkgew0KPj4gLcKgwqDCoMKgwqDCoMKgIGFzdC0+Y2hpcCA9IEFTVDI2MDA7DQo+PiAt
+wqDCoMKgwqDCoMKgwqAgZHJtX2luZm8oZGV2LCAiQVNUIDI2MDAgZGV0ZWN0ZWRcbiIpOw0K
+Pj4gK8KgwqDCoMKgwqDCoMKgIGNoaXAgPSBBU1QyNjAwOw0KPj4gK8KgwqDCoMKgwqDCoMKg
+IGRldl9pbmZvKGRldiwgIkFTVCAyNjAwIGRldGVjdGVkXG4iKTsNCj4gDQo+IEFkZGluZyBh
+IG1hY3JvIHRvIHNldCBjaGlwIGFuZCBwcmludGsgY291bGQgYmUgaGFuZHkgaGVyZToNCj4g
+DQo+IHNvbWV0aGluZyBsaWtlDQo+IA0KPiAjZGVmaW5lIHNldF9jaGlwKHZlcnNpb24pIFwN
+Cj4gIMKgwqDCoMKgY2hpcCA9IHZlcnNpb247IFwNCj4gIMKgwqDCoMKgZGV2X2luZm8oZGV2
+LCAiJXMgZGV0ZWN0ZWRcbiIsICN2ZXJzaW9uKTsgXA0KPiANCj4gDQo+IGFuZCB0aGVuIHNl
+dF9jaGlwKEFTVDI1MTApDQoNCkkgd2FzIHRoaW5raW5nIGFib3V0IHJld29ya2luZyB0aGVz
+ZSBtZXNzYWdlcyBhdCBzb21lIHBvaW50LiBNYXliZSBoYXZlIA0KYSBzaW5nbGUgcHJpbnQg
+c29tZXdoZXJlIGluIHRoZSBjb2RlLg0KDQo+IA0KPiANCj4+IMKgwqDCoMKgwqAgfSBlbHNl
+IGlmIChwZGV2LT5yZXZpc2lvbiA+PSAweDQwKSB7DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAg
+c3dpdGNoIChzY3VfcmV2ICYgMHgzMDApIHsNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBjYXNl
+IDB4MDEwMDoNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGFzdC0+Y2hpcCA9IEFTVDI1
+MTA7DQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkcm1faW5mbyhkZXYsICJBU1QgMjUx
+MCBkZXRlY3RlZFxuIik7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjaGlwID0gQVNU
+MjUxMDsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRldl9pbmZvKGRldiwgIkFTVCAy
+NTEwIGRldGVjdGVkXG4iKTsNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJyZWFr
+Ow0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIGRlZmF1bHQ6DQo+PiAtwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBhc3QtPmNoaXAgPSBBU1QyNTAwOw0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgZHJtX2luZm8oZGV2LCAiQVNUIDI1MDAgZGV0ZWN0ZWRcbiIpOw0KPj4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgY2hpcCA9IEFTVDI1MDA7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBkZXZfaW5mbyhkZXYsICJBU1QgMjUwMCBkZXRlY3RlZFxuIik7DQo+IA0KPiBTaG91
+bGQgdGhlIGRlZmF1bHQgY2FzZSBoYXZlIGJyZWFrID8NCj4gVGhpcyBvbmUgaGFzIG5vIGJy
+ZWFrLCBidXQgbGF0ZXIgaW4gdGhpcyBmdW5jdGlvbiB0aGV5IGRvLiBNYXliZSB3ZSBjYW4g
+DQo+IGhhdmUgbW9yZSBjb25zaXN0ZW5jeSA/DQoNClN1cmUsIG9mIGNvdXJzZS4NCg0KQmVz
+dCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gDQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgfQ0K
+Pj4gwqDCoMKgwqDCoCB9IGVsc2UgaWYgKHBkZXYtPnJldmlzaW9uID49IDB4MzApIHsNCj4+
+IMKgwqDCoMKgwqDCoMKgwqDCoCBzd2l0Y2ggKHNjdV9yZXYgJiAweDMwMCkgew0KPj4gwqDC
+oMKgwqDCoMKgwqDCoMKgIGNhc2UgMHgwMTAwOg0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgYXN0LT5jaGlwID0gQVNUMTQwMDsNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRy
+bV9pbmZvKGRldiwgIkFTVCAxNDAwIGRldGVjdGVkXG4iKTsNCj4+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIGNoaXAgPSBBU1QxNDAwOw0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+ZGV2X2luZm8oZGV2LCAiQVNUIDE0MDAgZGV0ZWN0ZWRcbiIpOw0KPj4gwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgYnJlYWs7DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgZGVmYXVsdDoN
+Cj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGFzdC0+Y2hpcCA9IEFTVDI0MDA7DQo+PiAt
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkcm1faW5mbyhkZXYsICJBU1QgMjQwMCBkZXRlY3Rl
+ZFxuIik7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjaGlwID0gQVNUMjQwMDsNCj4+
+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRldl9pbmZvKGRldiwgIkFTVCAyNDAwIGRldGVj
+dGVkXG4iKTsNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCB9DQo+PiDCoMKgwqDCoMKgIH0gZWxz
+ZSBpZiAocGRldi0+cmV2aXNpb24gPj0gMHgyMCkgew0KPj4gwqDCoMKgwqDCoMKgwqDCoMKg
+IHN3aXRjaCAoc2N1X3JldiAmIDB4MzAwKSB7DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgY2Fz
+ZSAweDAwMDA6DQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBhc3QtPmNoaXAgPSBBU1Qx
+MzAwOw0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZHJtX2luZm8oZGV2LCAiQVNUIDEz
+MDAgZGV0ZWN0ZWRcbiIpOw0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY2hpcCA9IEFT
+VDEzMDA7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkZXZfaW5mbyhkZXYsICJBU1Qg
+MTMwMCBkZXRlY3RlZFxuIik7DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBicmVh
+azsNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBkZWZhdWx0Og0KPj4gLcKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgYXN0LT5jaGlwID0gQVNUMjMwMDsNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIGRybV9pbmZvKGRldiwgIkFTVCAyMzAwIGRldGVjdGVkXG4iKTsNCj4+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIGNoaXAgPSBBU1QyMzAwOw0KPj4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgZGV2X2luZm8oZGV2LCAiQVNUIDIzMDAgZGV0ZWN0ZWRcbiIpOw0KPj4gwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgYnJlYWs7DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgfQ0K
+Pj4gwqDCoMKgwqDCoCB9IGVsc2UgaWYgKHBkZXYtPnJldmlzaW9uID49IDB4MTApIHsNCj4+
+IMKgwqDCoMKgwqDCoMKgwqDCoCBzd2l0Y2ggKHNjdV9yZXYgJiAweDAzMDApIHsNCj4+IMKg
+wqDCoMKgwqDCoMKgwqDCoCBjYXNlIDB4MDIwMDoNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIGFzdC0+Y2hpcCA9IEFTVDExMDA7DQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBk
+cm1faW5mbyhkZXYsICJBU1QgMTEwMCBkZXRlY3RlZFxuIik7DQo+PiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBjaGlwID0gQVNUMTEwMDsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IGRldl9pbmZvKGRldiwgIkFTVCAxMTAwIGRldGVjdGVkXG4iKTsNCj4+IMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIGJyZWFrOw0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIGNhc2UgMHgw
+MTAwOg0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYXN0LT5jaGlwID0gQVNUMjIwMDsN
+Cj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRybV9pbmZvKGRldiwgIkFTVCAyMjAwIGRl
+dGVjdGVkXG4iKTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNoaXAgPSBBU1QyMjAw
+Ow0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZGV2X2luZm8oZGV2LCAiQVNUIDIyMDAg
+ZGV0ZWN0ZWRcbiIpOw0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYnJlYWs7DQo+
+PiDCoMKgwqDCoMKgwqDCoMKgwqAgY2FzZSAweDAwMDA6DQo+PiAtwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBhc3QtPmNoaXAgPSBBU1QyMTUwOw0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgZHJtX2luZm8oZGV2LCAiQVNUIDIxNTAgZGV0ZWN0ZWRcbiIpOw0KPj4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgY2hpcCA9IEFTVDIxNTA7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBkZXZfaW5mbyhkZXYsICJBU1QgMjE1MCBkZXRlY3RlZFxuIik7DQo+PiDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBicmVhazsNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBkZWZh
+dWx0Og0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYXN0LT5jaGlwID0gQVNUMjEwMDsN
+Cj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRybV9pbmZvKGRldiwgIkFTVCAyMTAwIGRl
+dGVjdGVkXG4iKTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNoaXAgPSBBU1QyMTAw
+Ow0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZGV2X2luZm8oZGV2LCAiQVNUIDIxMDAg
+ZGV0ZWN0ZWRcbiIpOw0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYnJlYWs7DQo+
+PiDCoMKgwqDCoMKgwqDCoMKgwqAgfQ0KPj4gwqDCoMKgwqDCoCB9IGVsc2Ugew0KPj4gLcKg
+wqDCoMKgwqDCoMKgIGFzdC0+Y2hpcCA9IEFTVDIwMDA7DQo+PiAtwqDCoMKgwqDCoMKgwqAg
+ZHJtX2luZm8oZGV2LCAiQVNUIDIwMDAgZGV0ZWN0ZWRcbiIpOw0KPj4gK8KgwqDCoMKgwqDC
+oMKgIGNoaXAgPSBBU1QyMDAwOw0KPj4gK8KgwqDCoMKgwqDCoMKgIGRldl9pbmZvKGRldiwg
+IkFTVCAyMDAwIGRldGVjdGVkXG4iKTsNCj4+IMKgwqDCoMKgwqAgfQ0KPj4gK8KgwqDCoCAq
+Y2hpcF9vdXQgPSBjaGlwOw0KPj4gK8KgwqDCoCAqY29uZmlnX21vZGVfb3V0ID0gY29uZmln
+X21vZGU7DQo+PiArDQo+PiDCoMKgwqDCoMKgIHJldHVybiAwOw0KPj4gwqAgfQ0KPj4gQEAg
+LTQzMSw2ICs0MzYsOCBAQCBzdHJ1Y3QgYXN0X2RldmljZSAqYXN0X2RldmljZV9jcmVhdGUo
+Y29uc3Qgc3RydWN0IA0KPj4gZHJtX2RyaXZlciAqZHJ2LA0KPj4gwqDCoMKgwqDCoCBpbnQg
+cmV0ID0gMDsNCj4+IMKgwqDCoMKgwqAgdm9pZCBfX2lvbWVtICpyZWdzOw0KPj4gwqDCoMKg
+wqDCoCB2b2lkIF9faW9tZW0gKmlvcmVnczsNCj4+ICvCoMKgwqAgZW51bSBhc3RfY29uZmln
+X21vZGUgY29uZmlnX21vZGU7DQo+PiArwqDCoMKgIGVudW0gYXN0X2NoaXAgY2hpcDsNCj4+
+IMKgwqDCoMKgwqAgYXN0ID0gZGV2bV9kcm1fZGV2X2FsbG9jKCZwZGV2LT5kZXYsIGRydiwg
+c3RydWN0IGFzdF9kZXZpY2UsIGJhc2UpOw0KPj4gwqDCoMKgwqDCoCBpZiAoSVNfRVJSKGFz
+dCkpDQo+PiBAQCAtNTAyLDEwICs1MDksMTMgQEAgc3RydWN0IGFzdF9kZXZpY2UgKmFzdF9k
+ZXZpY2VfY3JlYXRlKGNvbnN0IA0KPj4gc3RydWN0IGRybV9kcml2ZXIgKmRydiwNCj4+IMKg
+wqDCoMKgwqAgaWYgKHJldCkNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gRVJSX1BU
+UihyZXQpOw0KPj4gLcKgwqDCoCByZXQgPSBhc3RfZGV2aWNlX2NvbmZpZ19pbml0KGFzdCk7
+DQo+PiArwqDCoMKgIHJldCA9IGFzdF9kZXRlY3RfY2hpcChwZGV2LCByZWdzLCBpb3JlZ3Ms
+ICZjaGlwLCAmY29uZmlnX21vZGUpOw0KPj4gwqDCoMKgwqDCoCBpZiAocmV0KQ0KPj4gwqDC
+oMKgwqDCoMKgwqDCoMKgIHJldHVybiBFUlJfUFRSKHJldCk7DQo+PiArwqDCoMKgIGFzdC0+
+Y2hpcCA9IGNoaXA7DQo+PiArwqDCoMKgIGFzdC0+Y29uZmlnX21vZGUgPSBjb25maWdfbW9k
+ZTsNCj4+ICsNCj4+IMKgwqDCoMKgwqAgYXN0X2RldGVjdF93aWRlc2NyZWVuKGFzdCk7DQo+
+PiDCoMKgwqDCoMKgIGFzdF9kZXRlY3RfdHhfY2hpcChhc3QsIG5lZWRfcG9zdCk7DQo+IA0K
+PiBUaGFua3MgZm9yIHlvdXIgcGF0Y2gsDQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQo+IA0KDQot
+LSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNF
+IFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0Niwg
+OTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMs
+IEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJu
+YmVyZykNCg==
 
-> The code as it was before commit 20c827683de0 ("drm: bridge:
-> samsung-dsim: Fix init during host transfer") and 0c14d3130654 ("drm:
-> bridge: samsung-dsim: Fix i.MX8M enable flow to meet spec") was correct
-> in this regard.
->=20
-> This patch basically reverts both commits. It was tested on an i.MX8M
-> SoC with an SN65DSI84 bridge. The signals were probed and the DSI
-> packets were decoded during initialization and link start-up. After this
-> patch the first DSI packet on the link is a VSYNC packet and the timing
-> is correct.
+--------------5HRsd06P05UJUmdx7n3Qww2U--
 
-At which point does SN65DSI84 require LP-11?
-You have access to a DSI/D-PHY analyzer?
+--------------Kf10EezCrV9q0a67Nw3GI77z
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
-> Command mode between .pre_enable and .enable was also briefly tested by
-> a quick hack. There was no DSI link partner which would have responded,
-> but it was made sure the DSI packet was send on the link. As a side
-> note, the command mode seems to just work in HS mode. I couldn't find
-> that the bridge will handle commands in LP mode.
+-----BEGIN PGP SIGNATURE-----
 
-AFAIK ti-sn65dsi83.c only uses I2C for communication. Did you send DSI read/
-writes instead?
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVTJjAFAwAAAAAACgkQlh/E3EQov+AR
+Zg/8CIkSVGPBjhoiDftJzhR0xAauX76NCrNEnv0LIxBO1aFQt5ogIonOdENrx60mkCe05E0W9I56
+c2+GENs92L1W21jAPsd7rtYUieq0tsPbTOtPROZL4xG0VZvTFfFLdPRP7BOkZlKLKNGmc9DDWF+u
+RIZGjN1jQQRgjQUrCgm+/uGW/OKv13ohfsMCShTM6ytqq+XNNXg/ClZve5OxB2Gll9NRQxdV/yc8
+/qzMb5urVki4+ackDPu+ElcvcgbA0CBO1eyWfWCLLPlvJ27Dqjxj7Qq5+rIiux2ATxGPeSxu2H74
+HHv1JJkZPBaZtI2QbZxGwoo3yxsuJR7XMDqo3HFw0kXKzn5/nws7+qrZE2v2LmqD+k6nuJjb+nta
+YvXFWPnyqxnNHbpu//UclDFyojHIkQiwXWTEwoRi8WEX1DMZMWyRB2amXIf1F2WJvok0Vij9MFLq
+e4T5GirpjGxhlHC2Ap6d8CBgGchXpX12Bv93k+WlGiN0TrAXar0QdB6vJe1I40MPJPgNJ32FG/59
+9/8nwV7KabcHSrfDO5l/4K1GimS6SVb6ILHn1NGTSXkWKn3YeGu46ecsNCweS133+R22h1lcZSNo
+jVK1uPUDYTRysbHm4wVgKfIAqk8PJLr3wMGdh5odJUvnI7e1CWlIqojHm1nnwxlv/5FeEDMCzWNA
+GpE=
+=BWPA
+-----END PGP SIGNATURE-----
 
-best regards,
-Alexander
-
-> Fixes: 20c827683de0 ("drm: bridge: samsung-dsim: Fix init during host
-> transfer") Fixes: 0c14d3130654 ("drm: bridge: samsung-dsim: Fix i.MX8M
-> enable flow to meet spec") Signed-off-by: Michael Walle <mwalle@kernel.or=
-g>
-> ---
-> Let me know wether this should be two commits each reverting one, but both
-> commits appeared first in kernel 6.5.
->=20
->  drivers/gpu/drm/bridge/samsung-dsim.c | 32 ++-------------------------
->  1 file changed, 2 insertions(+), 30 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
-> b/drivers/gpu/drm/bridge/samsung-dsim.c index cf777bdb25d2..4233a50baac7
-> 100644
-> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> @@ -939,10 +939,6 @@ static int samsung_dsim_init_link(struct samsung_dsim
-> *dsi) reg =3D samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
->  	reg &=3D ~DSIM_STOP_STATE_CNT_MASK;
->  	reg |=3D DSIM_STOP_STATE_CNT(driver_data->reg_values[STOP_STATE_CNT]);
-> -
-> -	if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
-> -		reg |=3D DSIM_FORCE_STOP_STATE;
-> -
->  	samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
->=20
->  	reg =3D DSIM_BTA_TIMEOUT(0xff) | DSIM_LPDR_TIMEOUT(0xffff);
-> @@ -1387,18 +1383,6 @@ static void samsung_dsim_disable_irq(struct
-> samsung_dsim *dsi) disable_irq(dsi->irq);
->  }
->=20
-> -static void samsung_dsim_set_stop_state(struct samsung_dsim *dsi, bool
-> enable) -{
-> -	u32 reg =3D samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
-> -
-> -	if (enable)
-> -		reg |=3D DSIM_FORCE_STOP_STATE;
-> -	else
-> -		reg &=3D ~DSIM_FORCE_STOP_STATE;
-> -
-> -	samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
-> -}
-> -
->  static int samsung_dsim_init(struct samsung_dsim *dsi)
->  {
->  	const struct samsung_dsim_driver_data *driver_data =3D dsi-
->driver_data;
-> @@ -1448,9 +1432,6 @@ static void samsung_dsim_atomic_pre_enable(struct
-> drm_bridge *bridge, ret =3D samsung_dsim_init(dsi);
->  		if (ret)
->  			return;
-> -
-> -		samsung_dsim_set_display_mode(dsi);
-> -		samsung_dsim_set_display_enable(dsi, true);
->  	}
->  }
->=20
-> @@ -1459,12 +1440,8 @@ static void samsung_dsim_atomic_enable(struct
-> drm_bridge *bridge, {
->  	struct samsung_dsim *dsi =3D bridge_to_dsi(bridge);
->=20
-> -	if (samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type)) {
-> -		samsung_dsim_set_display_mode(dsi);
-> -		samsung_dsim_set_display_enable(dsi, true);
-> -	} else {
-> -		samsung_dsim_set_stop_state(dsi, false);
-> -	}
-> +	samsung_dsim_set_display_mode(dsi);
-> +	samsung_dsim_set_display_enable(dsi, true);
->=20
->  	dsi->state |=3D DSIM_STATE_VIDOUT_AVAILABLE;
->  }
-> @@ -1477,9 +1454,6 @@ static void samsung_dsim_atomic_disable(struct
-> drm_bridge *bridge, if (!(dsi->state & DSIM_STATE_ENABLED))
->  		return;
->=20
-> -	if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
-> -		samsung_dsim_set_stop_state(dsi, true);
-> -
->  	dsi->state &=3D ~DSIM_STATE_VIDOUT_AVAILABLE;
->  }
->=20
-> @@ -1781,8 +1755,6 @@ static ssize_t samsung_dsim_host_transfer(struct
-> mipi_dsi_host *host, if (ret)
->  		return ret;
->=20
-> -	samsung_dsim_set_stop_state(dsi, false);
-> -
->  	ret =3D mipi_dsi_create_packet(&xfer.packet, msg);
->  	if (ret < 0)
->  		return ret;
-
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+--------------Kf10EezCrV9q0a67Nw3GI77z--
