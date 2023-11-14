@@ -2,36 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78E47EB314
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 16:09:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D57D47EB30A
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 16:09:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF24C10E449;
-	Tue, 14 Nov 2023 15:09:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61AD210E206;
+	Tue, 14 Nov 2023 15:09:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com
- [IPv6:2001:41d0:203:375::bd])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A061110E21E
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 15:09:32 +0000 (UTC)
+X-Greylist: delayed 454 seconds by postgrey-1.36 at gabe;
+ Tue, 14 Nov 2023 15:09:31 UTC
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com
+ [IPv6:2001:41d0:203:375::b0])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 033FB10E206
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 15:09:31 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1699974134;
+ t=1699974138;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m5kKprLLEL4tPCbX40jldFRROJifNOVhztsTzbLcjYw=;
- b=WyS6P1AXayZo5bIYUZyFvxH6Pcx9HWuPhtPw37v8O/C66WjCM/UsZI7uLcPBQhHcgaFult
- iAcTH0nqI4aF7oSAFTboO7pyfc69AuLknUW9GM/uJkXUWSgMdgnBcNGGZ9brJwJvjYiGsZ
- OuC9XAyhhLHvBgL2h19yod6bgx6jhXg=
+ bh=NjLEQ2aBUBcn+Sqc95rmrPoW3NH5ZZ26cu6iyzwpGc0=;
+ b=kuURKlYbDIZkkE2VlZVqW0eLF4/yKYOCNNFEuflSWrkD8XOv6U9BWn3iVZmIUtoJqSidkD
+ tHAtBcRbv/f+SkUPe+gNkccy0E/Nv7Yd/65IhYW7jtAtFcDG5baoSGFxCLWjC+195kewFe
+ Ihq1rL5hTg0Go/FFQ+xyAE9m8Z5jvmw=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Phong LE <ple@baylibre.com>,
 	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [PATCH 4/8] drm/bridge: it66121: Add a helper function to get the
- next bridge
-Date: Tue, 14 Nov 2023 23:01:26 +0800
-Message-Id: <20231114150130.497915-5-sui.jingfeng@linux.dev>
+Subject: [PATCH 5/8] drm/bridge: it66121: Add a helper function to read chip id
+Date: Tue, 14 Nov 2023 23:01:27 +0800
+Message-Id: <20231114150130.497915-6-sui.jingfeng@linux.dev>
 In-Reply-To: <20231114150130.497915-1-sui.jingfeng@linux.dev>
 References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -58,93 +59,103 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 
-Group the code lines(which with the same functional) into one dedicated
-function, which reduce the weight of it66121_probe() function. Just trivial
-cleanuo, no functional change.
+Read the required chip id data back by calling regmap_bulk_read() once,
+reduce the number of local variables needed in it66121_probe() function.
+And store its values into struct it66121_ctx, as it will be used latter.
 
 Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
- drivers/gpu/drm/bridge/ite-it66121.c | 53 ++++++++++++++++++----------
- 1 file changed, 34 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/bridge/ite-it66121.c | 47 ++++++++++++++++++++--------
+ 1 file changed, 34 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-index 0f78737adc83..7e473beefc79 100644
+index 7e473beefc79..f36d05331f25 100644
 --- a/drivers/gpu/drm/bridge/ite-it66121.c
 +++ b/drivers/gpu/drm/bridge/ite-it66121.c
-@@ -340,6 +340,37 @@ static int it66121_of_read_bus_width(struct device *dev, u32 *bus_width)
- 	return 0;
+@@ -313,6 +313,9 @@ struct it66121_ctx {
+ 		bool auto_cts;
+ 	} audio;
+ 	const struct it66121_chip_info *info;
++	u16 vender_id;
++	u16 device_id;
++	u8 revision;
+ };
+ 
+ static inline struct it66121_ctx *bridge_to_it66121(struct drm_bridge *bridge)
+@@ -399,6 +402,30 @@ static void it66121_hw_reset(struct it66121_ctx *ctx)
+ 	gpiod_set_value(ctx->gpio_reset, 0);
  }
  
-+static int it66121_of_get_next_bridge(struct device *dev,
-+				      struct drm_bridge **next_bridge)
++static int it66121_read_chip_id(struct it66121_ctx *ctx, bool verbose)
 +{
-+	struct device_node *np;
-+	struct drm_bridge *bridge;
++	u8 id[4];
++	int ret;
 +
-+	np = of_graph_get_remote_node(dev->of_node, 1, -1);
-+	if (!np) {
-+		dev_err(dev, "The endpoint is unconnected\n");
-+		return -EINVAL;
++	ret = regmap_bulk_read(ctx->regmap, IT66121_VENDOR_ID0_REG, id, 4);
++	if (ret < 0) {
++		dev_err(ctx->dev, "Failed to read chip ID: %d\n", ret);
++		return ret;
 +	}
 +
-+	if (!of_device_is_available(np)) {
-+		of_node_put(np);
-+		dev_err(dev, "The remote device is disabled\n");
-+		return -ENODEV;
++	ctx->vender_id = (u16)id[1] << 8 | id[0];
++	ctx->device_id = ((u16)(id[3] & IT66121_DEVICE_ID1_MASK) << 8 | id[2]);
++	/* Revision is shared with DEVICE_ID1 */
++	ctx->revision = FIELD_GET(IT66121_REVISION_MASK, id[3]);
++
++	if (verbose) {
++		dev_info(ctx->dev, "Found ITE66121: 0x%x%x, revision: %u\n",
++			 ctx->vender_id, ctx->device_id, ctx->revision);
 +	}
-+
-+	bridge = of_drm_find_bridge(np);
-+	of_node_put(np);
-+
-+	if (!bridge) {
-+		dev_dbg(dev, "Next bridge not found, deferring probe\n");
-+		return -EPROBE_DEFER;
-+	}
-+
-+	*next_bridge = bridge;
 +
 +	return 0;
 +}
 +
- static const struct regmap_range_cfg it66121_regmap_banks[] = {
- 	{
- 		.name = "it66121",
-@@ -1531,7 +1562,6 @@ static const char * const it66121_supplies[] = {
+ static inline int it66121_preamble_ddc(struct it66121_ctx *ctx)
+ {
+ 	return regmap_write(ctx->regmap, IT66121_MASTER_SEL_REG, IT66121_MASTER_SEL_HOST);
+@@ -1561,7 +1588,6 @@ static const char * const it66121_supplies[] = {
+ 
  static int it66121_probe(struct i2c_client *client)
  {
- 	u32 revision_id, vendor_ids[2] = { 0 }, device_ids[2] = { 0 };
--	struct device_node *ep;
+-	u32 revision_id, vendor_ids[2] = { 0 }, device_ids[2] = { 0 };
  	int ret;
  	struct it66121_ctx *ctx;
  	struct device *dev = &client->dev;
-@@ -1553,24 +1583,9 @@ static int it66121_probe(struct i2c_client *client)
- 	if (ret)
- 		return ret;
+@@ -1603,19 +1629,13 @@ static int it66121_probe(struct i2c_client *client)
+ 	if (IS_ERR(ctx->regmap))
+ 		return PTR_ERR(ctx->regmap);
  
--	ep = of_graph_get_remote_node(dev->of_node, 1, -1);
--	if (!ep) {
--		dev_err(dev, "The endpoint is unconnected\n");
--		return -EINVAL;
--	}
+-	regmap_read(ctx->regmap, IT66121_VENDOR_ID0_REG, &vendor_ids[0]);
+-	regmap_read(ctx->regmap, IT66121_VENDOR_ID1_REG, &vendor_ids[1]);
+-	regmap_read(ctx->regmap, IT66121_DEVICE_ID0_REG, &device_ids[0]);
+-	regmap_read(ctx->regmap, IT66121_DEVICE_ID1_REG, &device_ids[1]);
 -
--	if (!of_device_is_available(ep)) {
--		of_node_put(ep);
--		dev_err(dev, "The remote device is disabled\n");
--		return -ENODEV;
--	}
--
--	ctx->next_bridge = of_drm_find_bridge(ep);
--	of_node_put(ep);
--	if (!ctx->next_bridge) {
--		dev_dbg(dev, "Next bridge not found, deferring probe\n");
--		return -EPROBE_DEFER;
--	}
-+	ret = it66121_of_get_next_bridge(dev, &ctx->next_bridge);
+-	/* Revision is shared with DEVICE_ID1 */
+-	revision_id = FIELD_GET(IT66121_REVISION_MASK, device_ids[1]);
+-	device_ids[1] &= IT66121_DEVICE_ID1_MASK;
++	ret = it66121_read_chip_id(ctx, false);
 +	if (ret)
 +		return ret;
  
- 	i2c_set_clientdata(client, ctx);
- 	mutex_init(&ctx->lock);
+-	if ((vendor_ids[1] << 8 | vendor_ids[0]) != ctx->info->vid ||
+-	    (device_ids[1] << 8 | device_ids[0]) != ctx->info->pid) {
++	if (ctx->vender_id != ctx->info->vid ||
++	    ctx->device_id != ctx->info->pid)
+ 		return -ENODEV;
+-	}
+ 
+ 	ctx->bridge.funcs = &it66121_bridge_funcs;
+ 	ctx->bridge.of_node = dev->of_node;
+@@ -1633,7 +1653,8 @@ static int it66121_probe(struct i2c_client *client)
+ 
+ 	drm_bridge_add(&ctx->bridge);
+ 
+-	dev_info(dev, "IT66121 revision %d probed\n", revision_id);
++	dev_info(dev, "IT66121 probed, chip id: 0x%x:0x%x, revision: %u\n",
++		 ctx->vender_id, ctx->device_id, ctx->revision);
+ 
+ 	return 0;
+ }
 -- 
 2.34.1
 
