@@ -1,76 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 383D57EB484
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 17:11:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D19E7EB482
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 17:10:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ADB410E46D;
-	Tue, 14 Nov 2023 16:11:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C18C10E46B;
+	Tue, 14 Nov 2023 16:10:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com
- [IPv6:2607:f8b0:4864:20::f30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5647110E46D
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 16:11:05 +0000 (UTC)
-Received: by mail-qv1-xf30.google.com with SMTP id
- 6a1803df08f44-66cfd35f595so29861376d6.2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 08:11:05 -0800 (PST)
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
+ [IPv6:2607:f8b0:4864:20::b29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C4CD10E46B
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 16:10:12 +0000 (UTC)
+Received: by mail-yb1-xb29.google.com with SMTP id
+ 3f1490d57ef6-dae7cc31151so5743733276.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 08:10:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699978264; x=1700583064; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=WcBBKnTEqaoj3LxtGCYhc7t/cWobqHG+KSslQabs03I=;
- b=J0u3XrIlba1mFksuOGSxJaA408QArXvDPO83/gx4SyLcfGsrPd01hv80xZ2WoAA2Tn
- f4OE3k6piBVgYOpmi4bLjgPzodeSFXFOYHcf06YTUTZz3ow58SB8tM5TMcuV0Xc6SKYa
- gTnDFy3LT3S1QHdw1zSp1h3sOiwH25UoyAbw0Uzh7Q4m0+kfL2/1FJusS++Kf0adUWvT
- BVPs8w3acE9g/jPd/eBIKU55XhWmxBymkSzNhEbNbdRMebAFORgxOs55RPKSQE8Wu+jQ
- xG5V/MzvawhXf0QWTSXC5kiYgBgsySWu0bvJ8vjM4pPuSOO4gk08/hU0MYzCA5KHnSZJ
- mfIA==
+ d=linaro.org; s=google; t=1699978211; x=1700583011; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=3NZgVf3mTInsrRVqgIvOMR7QMPkoKdJpiVaybWg4PMs=;
+ b=L3Es8Gk+35RnMcDfxZI3s0Bpi4OTVdoob3b5F7+RXtGzRwoLJHoZg8XUGFmwGWVHHo
+ dE7Mvo5urqKyvqwtWHqCBkiMfKynUXVVSCmLbfiSvINB9R7jnwmluvhCAc8KMOYsb0rb
+ 4ebWtdcVhtPxADCBv2JR2zI0UyV0qOpDDr8qC/Riz9YrWkM5fEzl2dZ8UWD4FmVag6c3
+ V0uylKqTpylA3JytJ3KjO3g1O0OJ3lRleTkvlCpaHpE5f2Z++arojlgY/DYuG0z7zDZ5
+ kKNKlDUjQFOmA0dGHx07ChaOaMhFOq+zwLmMAhi5/NHjc5JC9FqG12FP8F9r95/uZaUL
+ 2mVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699978264; x=1700583064;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WcBBKnTEqaoj3LxtGCYhc7t/cWobqHG+KSslQabs03I=;
- b=TQTzkpm74NxJKCLjapmMxOPz+/ujSn6pRLNh4Y6vnGBSQjkgjh+NYqOBTXrh6jIhuE
- Z7T/kIYvHifmP5px5uhEIBXsztEKKXxoz3j8wdBfKOLzp1iw1DQkV07UyGuFgqnkrEWo
- FA91wjlPst+ra53El60N4zOUOT3BXyYdi9IOMkQcik4cI5PLLEu1A6sWO6jGxUkYRoXv
- s9QauVUnt2FVx5kMGrox8RLXUH4gCZcuVuLDUBXFYGIzk51MHnkWay/nk31FMqoDiikv
- jVcJJ2EFWwzumoIDe2wP8HnItJAxETA6TqNCp0AZ6kYknwBRQHajFV7fudMwam+V8oii
- +N0Q==
-X-Gm-Message-State: AOJu0YyhmiXMKckoPeX8U2hh49YSWx4WfkHfDXldB+rMQqdGDgDMWtEm
- npRUyMc7pH7VrREC5WCxP+A=
-X-Google-Smtp-Source: AGHT+IFP/S3WR7/gOKNC8Du/goDp8eEHlLIGAtwXreEQAWZa6gXfFFZ7r8yADmexKAwCka48pB7dfg==
-X-Received: by 2002:a05:6214:1245:b0:66d:6af7:4571 with SMTP id
- r5-20020a056214124500b0066d6af74571mr4183692qvv.17.1699978264358; 
- Tue, 14 Nov 2023 08:11:04 -0800 (PST)
-Received: from [172.25.81.254] ([12.186.190.1])
- by smtp.gmail.com with ESMTPSA id
- g1-20020a0cf841000000b00656329bb3b1sm3023598qvo.10.2023.11.14.08.11.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Nov 2023 08:11:03 -0800 (PST)
-Message-ID: <2aa9c139-eee8-c707-6e62-5415c26c2a1a@gmail.com>
-Date: Tue, 14 Nov 2023 16:09:51 +0000
+ d=1e100.net; s=20230601; t=1699978211; x=1700583011;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3NZgVf3mTInsrRVqgIvOMR7QMPkoKdJpiVaybWg4PMs=;
+ b=l3jekJXypZ78QjPb2LbZPOhjZ/qCZOyfglElj9DUur3SPN2PNZYAjyci5jvTZTgj8G
+ ZS2inoIjpg9Xi35Lju1/3KO+yyInwkqZ+UCtgCbTBwlfETEuNXQDNKRQ8M+1lTkru9VX
+ JscAS3huUC7lat9H1rbLs5AQneqOnqrw0nM7y/F2HqK4Gz3fzy1lg0tr05vMrgrwIlxh
+ OydLYrNsdzLd2FZ5TTHvfMT8xuKLhOxGROMBnU0kOKgX3UBYRa0hH7s1pH+S0kWPjxz+
+ ygDQGF9ZqbWuSwsM8NX9TzL9boDepef+lKqFyWcyjmQsbW3yElfYb9AKj471k+5QvIL5
+ eKAg==
+X-Gm-Message-State: AOJu0Yzf8w1gxDE5lNutdXnpt/enmLJDQiJ+Ib8gbpGXvO2PpA3b19P0
+ hj/zZrEQblTrUtliRFDmvlERRDFDl5jqJFzkl1kxsQ==
+X-Google-Smtp-Source: AGHT+IGsphBbtZCg5/tRs4yy3MUn3QTlPYZ+xdX/yMSogol2QvpwBWrufvRV4l421M3zeDbGqyePnqqeo0Gvd2ckuqM=
+X-Received: by 2002:a25:3624:0:b0:da0:6a55:b4d5 with SMTP id
+ d36-20020a253624000000b00da06a55b4d5mr10138459yba.46.1699978211508; Tue, 14
+ Nov 2023 08:10:11 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 05/12] netdev: netdevice devmem allocator
-To: David Ahern <dsahern@kernel.org>, Mina Almasry <almasrymina@google.com>,
- David Wei <dw@davidwei.uk>
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-6-almasrymina@google.com>
- <3b0d612c-e33b-48aa-a861-fbb042572fc9@kernel.org>
- <CAHS8izOHYx+oYnzksUDrK1S0+6CdMJmirApntP5W862yFumezw@mail.gmail.com>
- <a5b95e6b-8716-4e2e-9183-959b754b5b5e@kernel.org>
- <CAHS8izMKDOw5_y2MLRfuJHs=ai+sZ6GF7Rg1NuR_JqONg-5u5Q@mail.gmail.com>
- <3687e70e-29e6-34af-c943-8c0830ff92b8@gmail.com>
- <f59c200f-4659-4c71-8c83-4457d0b08fe1@kernel.org>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <f59c200f-4659-4c71-8c83-4457d0b08fe1@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
+ <20231114150130.497915-7-sui.jingfeng@linux.dev>
+In-Reply-To: <20231114150130.497915-7-sui.jingfeng@linux.dev>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 14 Nov 2023 18:10:00 +0200
+Message-ID: <CAA8EJpoQFZjSbJ+nENH7Zcrg_0RZLTxxgdqFzoF7hb11ge_LOQ@mail.gmail.com>
+Subject: Re: [PATCH 6/8] drm/bridge: it66121: Add a helper to initialize the
+ DRM bridge structure
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,100 +68,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>,
- netdev@vger.kernel.org, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Phong LE <ple@baylibre.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/11/23 17:19, David Ahern wrote:
-> On 11/10/23 7:26 AM, Pavel Begunkov wrote:
->> On 11/7/23 23:03, Mina Almasry wrote:
->>> On Tue, Nov 7, 2023 at 2:55 PM David Ahern <dsahern@kernel.org> wrote:
->>>>
->>>> On 11/7/23 3:10 PM, Mina Almasry wrote:
->>>>> On Mon, Nov 6, 2023 at 3:44 PM David Ahern <dsahern@kernel.org> wrote:
->>>>>>
->>>>>> On 11/5/23 7:44 PM, Mina Almasry wrote:
->>>>>>> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
->>>>>>> index eeeda849115c..1c351c138a5b 100644
->>>>>>> --- a/include/linux/netdevice.h
->>>>>>> +++ b/include/linux/netdevice.h
->>>>>>> @@ -843,6 +843,9 @@ struct netdev_dmabuf_binding {
->>>>>>>    };
->>>>>>>
->>>>>>>    #ifdef CONFIG_DMA_SHARED_BUFFER
->>>>>>> +struct page_pool_iov *
->>>>>>> +netdev_alloc_devmem(struct netdev_dmabuf_binding *binding);
->>>>>>> +void netdev_free_devmem(struct page_pool_iov *ppiov);
->>>>>>
->>>>>> netdev_{alloc,free}_dmabuf?
->>>>>>
->>>>>
->>>>> Can do.
->>>>>
->>>>>> I say that because a dmabuf can be host memory, at least I am not
->>>>>> aware
->>>>>> of a restriction that a dmabuf is device memory.
->>>>>>
->>>>>
->>>>> In my limited experience dma-buf is generally device memory, and
->>>>> that's really its use case. CONFIG_UDMABUF is a driver that mocks
->>>>> dma-buf with a memfd which I think is used for testing. But I can do
->>>>> the rename, it's more clear anyway, I think.
->>>>
->>>> config UDMABUF
->>>>           bool "userspace dmabuf misc driver"
->>>>           default n
->>>>           depends on DMA_SHARED_BUFFER
->>>>           depends on MEMFD_CREATE || COMPILE_TEST
->>>>           help
->>>>             A driver to let userspace turn memfd regions into dma-bufs.
->>>>             Qemu can use this to create host dmabufs for guest
->>>> framebuffers.
->>>>
->>>>
->>>> Qemu is just a userspace process; it is no way a special one.
->>>>
->>>> Treating host memory as a dmabuf should radically simplify the io_uring
->>>> extension of this set.
->>>
->>> I agree actually, and I was about to make that comment to David Wei's
->>> series once I have the time.
->>>
->>> David, your io_uring RX zerocopy proposal actually works with devmem
->>> TCP, if you're inclined to do that instead, what you'd do roughly is
->>> (I think):
->> That would be a Frankenstein's monster api with no good reason for it.
-> 
-> It brings a consistent API from a networking perspective.
-> 
-> io_uring should not need to be in the page pool and memory management
-> business. Have you or David coded up the re-use of the socket APIs with
-> dmabuf to see how much smaller it makes the io_uring change - or even
-> walked through from a theoretical perspective?
+On Tue, 14 Nov 2023 at 17:09, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+>
+> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>
+> Helps the it66121_probe() function to reduce weight, no functional change.
 
-Yes, we did the mental exercise, which is why we're converting to pp.
-I don't see many opportunities for reuse for the main data path,
-potentially apart from using the iov format instead of pages.
+This is not a proper commit message.
 
-If the goal is to minimise the amount of code, it can mimic the tcp
-devmem api with netlink, ioctl-ish buffer return, but that'd be a
-pretty bad api for io_uring, overly complicated and limiting
-optimisation options. If not, then we have to do some buffer
-management in io_uring, and I don't see anything wrong with that. It
-shouldn't be a burden for networking if all that extra code is
-contained in io_uring and only exposed via pp ops and following
-the rules.
+>
+> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> ---
+>  drivers/gpu/drm/bridge/ite-it66121.c | 24 +++++++++++++++++-------
+>  1 file changed, 17 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+> index f36d05331f25..2f7f00f1bedb 100644
+> --- a/drivers/gpu/drm/bridge/ite-it66121.c
+> +++ b/drivers/gpu/drm/bridge/ite-it66121.c
+> @@ -1004,6 +1004,21 @@ static const struct drm_bridge_funcs it66121_bridge_funcs = {
+>         .hpd_disable = it66121_bridge_hpd_disable,
+>  };
+>
+> +static void it66121_bridge_init_base(struct drm_bridge *bridge,
+> +                                    struct device_node *of_node,
+> +                                    bool hpd_support)
+
+At this point there is no reason for the bridge to miss HPD support.
+
+> +{
+> +       bridge->funcs = &it66121_bridge_funcs;
+> +       bridge->type = DRM_MODE_CONNECTOR_HDMIA;
+> +       bridge->ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID;
+> +       if (hpd_support)
+> +               bridge->ops |= DRM_BRIDGE_OP_HPD;
+> +
+> +       bridge->of_node = of_node;
+> +
+> +       drm_bridge_add(bridge);
+> +}
+> +
+>  static irqreturn_t it66121_irq_threaded_handler(int irq, void *dev_id)
+>  {
+>         int ret;
+> @@ -1637,11 +1652,6 @@ static int it66121_probe(struct i2c_client *client)
+>             ctx->device_id != ctx->info->pid)
+>                 return -ENODEV;
+>
+> -       ctx->bridge.funcs = &it66121_bridge_funcs;
+> -       ctx->bridge.of_node = dev->of_node;
+> -       ctx->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
+> -       ctx->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_HPD;
+> -
+>         ret = devm_request_threaded_irq(dev, client->irq, NULL, it66121_irq_threaded_handler,
+>                                         IRQF_ONESHOT, dev_name(dev), ctx);
+>         if (ret < 0) {
+> @@ -1649,9 +1659,9 @@ static int it66121_probe(struct i2c_client *client)
+>                 return ret;
+>         }
+>
+> -       it66121_audio_codec_init(ctx, dev);
+> +       it66121_bridge_init_base(&ctx->bridge, dev->of_node, true);
+>
+> -       drm_bridge_add(&ctx->bridge);
+> +       it66121_audio_codec_init(ctx, dev);
+>
+>         dev_info(dev, "IT66121 probed, chip id: 0x%x:0x%x, revision: %u\n",
+>                  ctx->vender_id, ctx->device_id, ctx->revision);
+> --
+> 2.34.1
+>
+
 
 -- 
-Pavel Begunkov
+With best wishes
+Dmitry
