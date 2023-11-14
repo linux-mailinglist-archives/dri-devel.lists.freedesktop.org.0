@@ -2,109 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28377EB420
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 16:49:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F288D7EB431
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 16:52:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7217310E453;
-	Tue, 14 Nov 2023 15:49:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51E2010E455;
+	Tue, 14 Nov 2023 15:52:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2840910E454
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 15:49:34 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 55703204B3;
- Tue, 14 Nov 2023 15:49:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1699976972; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=c/2WAh0x0wE9G1yAOetDE0OY0T8xo8epH7aDXQHZF98=;
- b=tqugTWixMlvVwNIMAO8+7TDdj073jo27+L5xw+mNYynAFo5Fev1S6d2b7uGnN3a+b2u35h
- ke7cCusn6NV8haw74vZarDDD7p+Vw/qgRVW2uKBjhXqSvDGvSjcSZ/IzjF/SHIq900iUmj
- Gpz7454zxK3phgCdmOOy+eIuLfPG4Qk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1699976972;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=c/2WAh0x0wE9G1yAOetDE0OY0T8xo8epH7aDXQHZF98=;
- b=SUQn4ClbCZr5YQY9Z/D71g0DyAWlmCLGXomuhOBQ7btbVU80ynKyRSkMlkNcE9g0z+ytBd
- KWWA0OV+SpedlRAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1DA6713460;
- Tue, 14 Nov 2023 15:49:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 95dCBgyXU2U9XAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 14 Nov 2023 15:49:32 +0000
-Message-ID: <6e663e37-b735-47f7-a841-fa0f93fdddaf@suse.de>
-Date: Tue, 14 Nov 2023 16:49:31 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23DE688C11;
+ Tue, 14 Nov 2023 15:52:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699977151; x=1731513151;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=b1aV2ZSwB1Wl7vCOw0G0TStVVeZkOlYCrSVdgpHzKvI=;
+ b=WwS/7ZNwhx3guebLVzRnq/34HPHuxl98f5BWsFyfLm9AVUlXTb6XOjYv
+ qA8vDLocd5265IMVBgDsPyhW+RmwykKtHS6ggX8+b3zb6khFY8YT6v0ti
+ TwC5v8XhTJAI30cTwlXOftUuL/ZSDM3jn5oWSaVN++nJwwV8PdRX6has3
+ zQFHGYdZTwrU4pMfnlgM+WGSBvY6LvUiJWuxEUPziHu69mBty1Bka//gj
+ 7yCq0OJDlzkT4aF6og0/bSUHx/YuQ7UaDxDPCQRH12zUFdJM4cRUf82US
+ nJjx2g6vQaah64StmDhNfLXgevLGilEqCaVNmfdIpr0KPumq+hJgUyDEX w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="3786285"
+X-IronPort-AV: E=Sophos;i="6.03,302,1694761200"; 
+   d="scan'208";a="3786285"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2023 07:52:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,302,1694761200"; 
+   d="scan'208";a="5831022"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by orviesa002.jf.intel.com with ESMTP; 14 Nov 2023 07:52:30 -0800
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v6 0/2] Resolve suspend-resume racing with GuC
+ destroy-context-worker
+Date: Tue, 14 Nov 2023 07:52:27 -0800
+Message-Id: <20231114155229.756100-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] drm: Add drm_atomic_helper_buffer_damage_{iter_init, 
- merged}() helpers
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-References: <20231109172449.1599262-1-javierm@redhat.com>
- <20231109172449.1599262-3-javierm@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20231109172449.1599262-3-javierm@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------sNemvkK09aAGhdBTslCny9VM"
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: *
-X-Spam-Score: 1.51
-X-Spamd-Result: default: False [1.51 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
- BAYES_SPAM(5.10)[100.00%]; XM_UA_NO_VERSION(0.01)[];
- TO_DN_SOME(0.00)[]; HAS_ATTACHMENT(0.00)[];
- MIME_BASE64_TEXT_BOGUS(1.00)[];
- NEURAL_HAM_SHORT(-1.00)[-1.000]; MIME_BASE64_TEXT(0.10)[];
- RCPT_COUNT_SEVEN(0.00)[11]; SIGNED_PGP(-2.00)[];
- FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
- MID_RHS_MATCH_FROM(0.00)[]; ARC_NA(0.00)[];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,verizon.net];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; TAGGED_RCPT(0.00)[];
- MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
- NEURAL_HAM_LONG(-3.00)[-1.000];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_COUNT_TWO(0.00)[2];
- RCVD_TLS_ALL(0.00)[]; SUSPICIOUS_RECIPS(1.50)[];
- FREEMAIL_CC(0.00)[lists.freedesktop.org, redhat.com, verizon.net, collabora.com,
- kernel.org, vger.kernel.org, ffwll.ch, gmail.com]
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,245 +56,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nerdopolis <bluescreen_avenger@verizon.net>,
- Pekka Paalanen <pekka.paalanen@collabora.com>, dri-devel@lists.freedesktop.org,
- Sima Vetter <daniel.vetter@ffwll.ch>, Bilal Elmoussaoui <belmouss@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- stable@vger.kernel.org, Erico Nunes <nunes.erico@gmail.com>
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Anshuman Gupta <anshuman.gupta@intel.com>, dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------sNemvkK09aAGhdBTslCny9VM
-Content-Type: multipart/mixed; boundary="------------uC5BjTMGC0Q0NkedId0TSNxP";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>,
- nerdopolis <bluescreen_avenger@verizon.net>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Bilal Elmoussaoui <belmouss@redhat.com>, Maxime Ripard <mripard@kernel.org>,
- stable@vger.kernel.org, Sima Vetter <daniel.vetter@ffwll.ch>,
- Erico Nunes <nunes.erico@gmail.com>
-Message-ID: <6e663e37-b735-47f7-a841-fa0f93fdddaf@suse.de>
-Subject: Re: [PATCH 2/6] drm: Add drm_atomic_helper_buffer_damage_{iter_init,
- merged}() helpers
-References: <20231109172449.1599262-1-javierm@redhat.com>
- <20231109172449.1599262-3-javierm@redhat.com>
-In-Reply-To: <20231109172449.1599262-3-javierm@redhat.com>
+This series is the result of debugging issues root caused to
+races between the GuC's destroyed_worker_func being triggered
+vs repeating suspend-resume cycles with concurrent delayed
+fence signals for engine-freeing.
 
---------------uC5BjTMGC0Q0NkedId0TSNxP
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+The reproduction steps require that an app is launched right
+before the start of the suspend cycle where it creates a
+new gem context and submits a tiny workload that would
+complete in the middle of the suspend cycle. However this
+app uses dma-buffer sharing or dma-fence with non-GPU
+objects or signals that eventually triggers a FENCE_FREE
+via__i915_sw_fence_notify that connects to engines_notify ->
+free_engines_rcu -> intel_context_put ->
+kref_put(&ce->ref..) that queues the worker after the GuCs
+CTB has been disabled (i.e. after i915-gem's suspend-late).
 
-SGkNCg0KQW0gMDkuMTEuMjMgdW0gMTg6MjQgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
-aWxsYXM6DQo+IFRvIGJlIHVzZWQgYnkgZHJpdmVycyB0aGF0IGRvIHBlci1idWZmZXIgKGUu
-ZzogdmlydGlvLWdwdSkgdXBsb2FkcyAocmF0aGVyDQo+IHRoYW4gcGVyLXBsYW5lIHVwbG9h
-ZHMpLCBzaW5jZSB0aGVzZSB0eXBlIG9mIGRyaXZlcnMgbmVlZCB0byBoYW5kbGUgYnVmZmVy
-DQo+IGRhbWFnZXMgaW5zdGVhZCBvZiBmcmFtZSBkYW1hZ2VzLg0KPiANCj4gVGhlIGRybV9h
-dG9taWNfaGVscGVyX2J1ZmZlcl9kYW1hZ2VfaXRlcl9pbml0KCkgaGFzIHRoZSBzYW1lIGxv
-Z2ljIHRoYW4NCj4gZHJtX2F0b21pY19oZWxwZXJfZGFtYWdlX2l0ZXJfaW5pdCgpIGJ1dCBp
-dCBhbHNvIHRha2VzIGludG8gYWNjb3VudCBpZiB0aGUNCj4gZnJhbWVidWZmZXIgYXR0YWNo
-ZWQgdG8gcGxhbmUncyBzdGF0ZSBoYXMgY2hhbmdlZCBzaW5jZSB0aGUgbGFzdCB1cGRhdGUu
-DQo+IA0KPiBBbmQgdGhlIGRybV9hdG9taWNfaGVscGVyX2J1ZmZlcl9kYW1hZ2VfbWVyZ2Vk
-KCkgaXMganVzdCBhIHZlcnNpb24gb2YgdGhlDQo+IGRybV9hdG9taWNfaGVscGVyX2RhbWFn
-ZV9tZXJnZWQoKSBoZWxwZXIsIGJ1dCBpdCB1c2VzIHRoZSBpdGVyX2luaXQgaGVscGVyDQo+
-IHRoYXQgaXMgbWVudGlvbmVkIGFib3ZlLg0KPiANCj4gRml4ZXM6IDAxZjA1OTQwYTlhNyAo
-ImRybS92aXJ0aW86IEVuYWJsZSBmYiBkYW1hZ2UgY2xpcHMgcHJvcGVydHkgZm9yIHRoZSBw
-cmltYXJ5IHBsYW5lIikNCj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIHY2LjQr
-DQo+IFJlcG9ydGVkLWJ5OiBuZXJkb3BvbGlzIDxibHVlc2NyZWVuX2F2ZW5nZXJAdmVyaXpv
-bi5uZXQ+DQo+IENsb3NlczogaHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVn
-LmNnaT9pZD0yMTgxMTUNCj4gU3VnZ2VzdGVkLWJ5OiBTaW1hIFZldHRlciA8ZGFuaWVsLnZl
-dHRlckBmZndsbC5jaD4NCj4gU2lnbmVkLW9mZi1ieTogSmF2aWVyIE1hcnRpbmV6IENhbmls
-bGFzIDxqYXZpZXJtQHJlZGhhdC5jb20+DQo+IC0tLQ0KPiANCj4gICBkcml2ZXJzL2dwdS9k
-cm0vZHJtX2RhbWFnZV9oZWxwZXIuYyB8IDc5ICsrKysrKysrKysrKysrKysrKysrKysrKysr
-LS0tDQo+ICAgaW5jbHVkZS9kcm0vZHJtX2RhbWFnZV9oZWxwZXIuaCAgICAgfCAgNyArKysN
-Cj4gICAyIGZpbGVzIGNoYW5nZWQsIDgwIGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0p
-DQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kYW1hZ2VfaGVscGVy
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RhbWFnZV9oZWxwZXIuYw0KPiBpbmRleCBhYTIz
-MjU1Njc5MTguLmI3MjA2MmM5ZDMxYyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L2RybV9kYW1hZ2VfaGVscGVyLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kYW1h
-Z2VfaGVscGVyLmMNCj4gQEAgLTIwNCw3ICsyMDQsOCBAQCBFWFBPUlRfU1lNQk9MKGRybV9h
-dG9taWNfaGVscGVyX2RpcnR5ZmIpOw0KPiAgIHN0YXRpYyB2b2lkDQo+ICAgX19kcm1fYXRv
-bWljX2hlbHBlcl9kYW1hZ2VfaXRlcl9pbml0KHN0cnVjdCBkcm1fYXRvbWljX2hlbHBlcl9k
-YW1hZ2VfaXRlciAqaXRlciwNCj4gICAJCQkJICAgICBjb25zdCBzdHJ1Y3QgZHJtX3BsYW5l
-X3N0YXRlICpvbGRfc3RhdGUsDQo+IC0JCQkJICAgICBjb25zdCBzdHJ1Y3QgZHJtX3BsYW5l
-X3N0YXRlICpzdGF0ZSkNCj4gKwkJCQkgICAgIGNvbnN0IHN0cnVjdCBkcm1fcGxhbmVfc3Rh
-dGUgKnN0YXRlLA0KPiArCQkJCSAgICAgYm9vbCBidWZmZXJfZGFtYWdlKQ0KPiAgIHsNCj4g
-ICAJc3RydWN0IGRybV9yZWN0IHNyYzsNCj4gICAJbWVtc2V0KGl0ZXIsIDAsIHNpemVvZigq
-aXRlcikpOw0KPiBAQCAtMjIzLDcgKzIyNCw4IEBAIF9fZHJtX2F0b21pY19oZWxwZXJfZGFt
-YWdlX2l0ZXJfaW5pdChzdHJ1Y3QgZHJtX2F0b21pY19oZWxwZXJfZGFtYWdlX2l0ZXIgKml0
-ZXIsDQo+ICAgCWl0ZXItPnBsYW5lX3NyYy54MiA9IChzcmMueDIgPj4gMTYpICsgISEoc3Jj
-LngyICYgMHhGRkZGKTsNCj4gICAJaXRlci0+cGxhbmVfc3JjLnkyID0gKHNyYy55MiA+PiAx
-NikgKyAhIShzcmMueTIgJiAweEZGRkYpOw0KPiAgIA0KPiAtCWlmICghaXRlci0+Y2xpcHMg
-fHwgIWRybV9yZWN0X2VxdWFscygmc3RhdGUtPnNyYywgJm9sZF9zdGF0ZS0+c3JjKSkgew0K
-PiArCWlmICghaXRlci0+Y2xpcHMgfHwgIWRybV9yZWN0X2VxdWFscygmc3RhdGUtPnNyYywg
-Jm9sZF9zdGF0ZS0+c3JjKSB8fA0KPiArCSAgICAoYnVmZmVyX2RhbWFnZSAmJiBvbGRfc3Rh
-dGUtPmZiICE9IHN0YXRlLT5mYikpIHsNCg0KSSdkIGFzc3VtZSB0aGF0IHRoaXMgY2hhbmdl
-IGVmZmVjdGl2bHkgZGlzYWJsZXMgZGFtYWdlIGhhbmRsaW5nLiBBRkFJQ1QgDQp1c2VyIHNw
-YWNlIG9mdGVuIGRvZXMgYSBwYWdlIGZsaXAgd2l0aCBhIG5ldyBmcmFtZWJ1ZmZlciBwbHVz
-IGRhbWFnZSANCmRhdGEuIE5vdywgd2l0aCBlYWNoIGNoYW5nZSBvZiB0aGUgZnJhbWVidWZm
-ZXIgd2UgaWdub3JlIHRoZSBkYW1hZ2UgDQppbmZvcm1hdGlvbi4gSXQncyBub3QgYSBibG9j
-a2VyIGFzIHRoYXQncyB0aGUgYmVoYXZpb3IgYmVmb3JlIDYuNCwgYnV0IA0Kd2Ugc2hvdWxk
-IGJlIGF3YXJlIG9mIGl0Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+ICAgCQlpdGVy
-LT5jbGlwcyA9IE5VTEw7DQo+ICAgCQlpdGVyLT5udW1fY2xpcHMgPSAwOw0KPiAgIAkJaXRl
-ci0+ZnVsbF91cGRhdGUgPSB0cnVlOw0KPiBAQCAtMjQzLDYgKzI0NSwxMCBAQCBfX2RybV9h
-dG9taWNfaGVscGVyX2RhbWFnZV9pdGVyX2luaXQoc3RydWN0IGRybV9hdG9taWNfaGVscGVy
-X2RhbWFnZV9pdGVyICppdGVyLA0KPiAgICAqIHVwZGF0ZSkuIEN1cnJlbnRseSB0aGlzIGl0
-ZXJhdG9yIHJldHVybnMgZnVsbCBwbGFuZSBzcmMgaW4gY2FzZSBwbGFuZSBzcmMNCj4gICAg
-KiBjaGFuZ2VkIGJ1dCB0aGF0IGNhbiBiZSBjaGFuZ2VkIGluIGZ1dHVyZSB0byByZXR1cm4g
-ZGFtYWdlLg0KPiAgICAqDQo+ICsgKiBOb3RlIHRoYXQgdGhpcyBoZWxwZXIgaXMgZm9yIGRy
-aXZlcnMgdGhhdCBkbyBwZXItcGxhbmUgdXBsb2FkcyBhbmQgZXhwZWN0DQo+ICsgKiB0byBo
-YW5kbGUgZnJhbWUgZGFtYWdlcy4gRHJpdmVycyB0aGF0IGRvIHBlci1idWZmZXIgdXBsb2Fk
-cyBpbnN0ZWFkIHNob3VsZA0KPiArICogdXNlIEBkcm1fYXRvbWljX2hlbHBlcl9idWZmZXJf
-ZGFtYWdlX2l0ZXJfaW5pdCgpIHRoYXQgaGFuZGxlcyBidWZmZXIgZGFtYWdlcy4NCj4gKyAq
-DQo+ICAgICogRm9yIHRoZSBjYXNlIHdoZW4gcGxhbmUgaXMgbm90IHZpc2libGUgb3IgcGxh
-bmUgdXBkYXRlIHNob3VsZCBub3QgaGFwcGVuIHRoZQ0KPiAgICAqIGZpcnN0IGNhbGwgdG8g
-aXRlcl9uZXh0IHdpbGwgcmV0dXJuIGZhbHNlLiBOb3RlIHRoYXQgdGhpcyBoZWxwZXIgdXNl
-IGNsaXBwZWQNCj4gICAgKiAmZHJtX3BsYW5lX3N0YXRlLnNyYywgc28gZHJpdmVyIGNhbGxp
-bmcgdGhpcyBoZWxwZXIgc2hvdWxkIGhhdmUgY2FsbGVkDQo+IEBAIC0yNTMsMTAgKzI1OSwz
-NyBAQCBkcm1fYXRvbWljX2hlbHBlcl9kYW1hZ2VfaXRlcl9pbml0KHN0cnVjdCBkcm1fYXRv
-bWljX2hlbHBlcl9kYW1hZ2VfaXRlciAqaXRlciwNCj4gICAJCQkJICAgY29uc3Qgc3RydWN0
-IGRybV9wbGFuZV9zdGF0ZSAqb2xkX3N0YXRlLA0KPiAgIAkJCQkgICBjb25zdCBzdHJ1Y3Qg
-ZHJtX3BsYW5lX3N0YXRlICpzdGF0ZSkNCj4gICB7DQo+IC0JX19kcm1fYXRvbWljX2hlbHBl
-cl9kYW1hZ2VfaXRlcl9pbml0KGl0ZXIsIG9sZF9zdGF0ZSwgc3RhdGUpOw0KPiArCV9fZHJt
-X2F0b21pY19oZWxwZXJfZGFtYWdlX2l0ZXJfaW5pdChpdGVyLCBvbGRfc3RhdGUsIHN0YXRl
-LCBmYWxzZSk7DQo+ICAgfQ0KPiAgIEVYUE9SVF9TWU1CT0woZHJtX2F0b21pY19oZWxwZXJf
-ZGFtYWdlX2l0ZXJfaW5pdCk7DQo+ICAgDQo+ICsvKioNCj4gKyAqIGRybV9hdG9taWNfaGVs
-cGVyX2J1ZmZlcl9kYW1hZ2VfaXRlcl9pbml0IC0gSW5pdGlhbGl6ZSB0aGUgYnVmZmVyIGRh
-bWFnZSBpdGVyYXRvci4NCj4gKyAqIEBpdGVyOiBUaGUgaXRlcmF0b3IgdG8gaW5pdGlhbGl6
-ZS4NCj4gKyAqIEBvbGRfc3RhdGU6IE9sZCBwbGFuZSBzdGF0ZSBmb3IgdmFsaWRhdGlvbi4N
-Cj4gKyAqIEBzdGF0ZTogUGxhbmUgc3RhdGUgZnJvbSB3aGljaCB0byBpdGVyYXRlIHRoZSBk
-YW1hZ2UgY2xpcHMuDQo+ICsgKg0KPiArICogSW5pdGlhbGl6ZSBhbiBpdGVyYXRvciwgd2hp
-Y2ggY2xpcHMgYnVmZmVyIGRhbWFnZQ0KPiArICogJmRybV9wbGFuZV9zdGF0ZS5mYl9kYW1h
-Z2VfY2xpcHMgdG8gcGxhbmUgJmRybV9wbGFuZV9zdGF0ZS5zcmMuIFRoaXMgaXRlcmF0b3IN
-Cj4gKyAqIHJldHVybnMgZnVsbCBwbGFuZSBzcmMgaW4gY2FzZSBidWZmZXIgZGFtYWdlIGlz
-IG5vdCBwcmVzZW50IGJlY2F1c2UgdXNlci1zcGFjZQ0KPiArICogZGlkbid0IHNlbnQsIGRy
-aXZlciBkaXNjYXJkZWQgaXQgKGl0IHdhbnQgdG8gZG8gZnVsbCBwbGFuZSB1cGRhdGUpIG9y
-IHRoZSBwbGFuZQ0KPiArICogQHN0YXRlIGhhcyBhbiBhdHRhY2hlZCBmcmFtZWJ1ZmZlciB0
-aGF0IGlzIGRpZmZlcmVudCB0aGFuIHRoZSBvbmUgaW4gQHN0YXRlIChpdA0KPiArICogaGFz
-IGNoYW5nZWQgc2luY2UgdGhlIGxhc3QgcGxhbmUgdXBkYXRlKS4NCj4gKyAqDQo+ICsgKiBG
-b3IgdGhlIGNhc2Ugd2hlbiBwbGFuZSBpcyBub3QgdmlzaWJsZSBvciBwbGFuZSB1cGRhdGUg
-c2hvdWxkIG5vdCBoYXBwZW4gdGhlDQo+ICsgKiBmaXJzdCBjYWxsIHRvIGl0ZXJfbmV4dCB3
-aWxsIHJldHVybiBmYWxzZS4gTm90ZSB0aGF0IHRoaXMgaGVscGVyIHVzZSBjbGlwcGVkDQo+
-ICsgKiAmZHJtX3BsYW5lX3N0YXRlLnNyYywgc28gZHJpdmVyIGNhbGxpbmcgdGhpcyBoZWxw
-ZXIgc2hvdWxkIGhhdmUgY2FsbGVkDQo+ICsgKiBkcm1fYXRvbWljX2hlbHBlcl9jaGVja19w
-bGFuZV9zdGF0ZSgpIGVhcmxpZXIuDQo+ICsgKi8NCj4gK3ZvaWQNCj4gK2RybV9hdG9taWNf
-aGVscGVyX2J1ZmZlcl9kYW1hZ2VfaXRlcl9pbml0KHN0cnVjdCBkcm1fYXRvbWljX2hlbHBl
-cl9kYW1hZ2VfaXRlciAqaXRlciwNCj4gKwkJCQkJICBjb25zdCBzdHJ1Y3QgZHJtX3BsYW5l
-X3N0YXRlICpvbGRfc3RhdGUsDQo+ICsJCQkJCSAgY29uc3Qgc3RydWN0IGRybV9wbGFuZV9z
-dGF0ZSAqc3RhdGUpDQo+ICt7DQo+ICsJX19kcm1fYXRvbWljX2hlbHBlcl9kYW1hZ2VfaXRl
-cl9pbml0KGl0ZXIsIG9sZF9zdGF0ZSwgc3RhdGUsIHRydWUpOw0KPiArfQ0KPiArRVhQT1JU
-X1NZTUJPTChkcm1fYXRvbWljX2hlbHBlcl9idWZmZXJfZGFtYWdlX2l0ZXJfaW5pdCk7DQo+
-ICsNCj4gICAvKioNCj4gICAgKiBkcm1fYXRvbWljX2hlbHBlcl9kYW1hZ2VfaXRlcl9uZXh0
-IC0gQWR2YW5jZSB0aGUgZGFtYWdlIGl0ZXJhdG9yLg0KPiAgICAqIEBpdGVyOiBUaGUgaXRl
-cmF0b3IgdG8gYWR2YW5jZS4NCj4gQEAgLTMwMSw3ICszMzQsOCBAQCBFWFBPUlRfU1lNQk9M
-KGRybV9hdG9taWNfaGVscGVyX2RhbWFnZV9pdGVyX25leHQpOw0KPiAgIA0KPiAgIHN0YXRp
-YyBib29sIF9fZHJtX2F0b21pY19oZWxwZXJfZGFtYWdlX21lcmdlZChjb25zdCBzdHJ1Y3Qg
-ZHJtX3BsYW5lX3N0YXRlICpvbGRfc3RhdGUsDQo+ICAgCQkJCQkgICAgICBzdHJ1Y3QgZHJt
-X3BsYW5lX3N0YXRlICpzdGF0ZSwNCj4gLQkJCQkJICAgICAgc3RydWN0IGRybV9yZWN0ICpy
-ZWN0KQ0KPiArCQkJCQkgICAgICBzdHJ1Y3QgZHJtX3JlY3QgKnJlY3QsDQo+ICsJCQkJCSAg
-ICAgIGJvb2wgYnVmZmVyX2RhbWFnZSkNCj4gICB7DQo+ICAgCXN0cnVjdCBkcm1fYXRvbWlj
-X2hlbHBlcl9kYW1hZ2VfaXRlciBpdGVyOw0KPiAgIAlzdHJ1Y3QgZHJtX3JlY3QgY2xpcDsN
-Cj4gQEAgLTMxMiw3ICszNDYsNyBAQCBzdGF0aWMgYm9vbCBfX2RybV9hdG9taWNfaGVscGVy
-X2RhbWFnZV9tZXJnZWQoY29uc3Qgc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqb2xkXw0KPiAg
-IAlyZWN0LT54MiA9IDA7DQo+ICAgCXJlY3QtPnkyID0gMDsNCj4gICANCj4gLQlkcm1fYXRv
-bWljX2hlbHBlcl9kYW1hZ2VfaXRlcl9pbml0KCZpdGVyLCBvbGRfc3RhdGUsIHN0YXRlKTsN
-Cj4gKwlfX2RybV9hdG9taWNfaGVscGVyX2RhbWFnZV9pdGVyX2luaXQoJml0ZXIsIG9sZF9z
-dGF0ZSwgc3RhdGUsIGJ1ZmZlcl9kYW1hZ2UpOw0KPiAgIAlkcm1fYXRvbWljX2Zvcl9lYWNo
-X3BsYW5lX2RhbWFnZSgmaXRlciwgJmNsaXApIHsNCj4gICAJCXJlY3QtPngxID0gbWluKHJl
-Y3QtPngxLCBjbGlwLngxKTsNCj4gICAJCXJlY3QtPnkxID0gbWluKHJlY3QtPnkxLCBjbGlw
-LnkxKTsNCj4gQEAgLTMzNiw2ICszNzAsMTAgQEAgc3RhdGljIGJvb2wgX19kcm1fYXRvbWlj
-X2hlbHBlcl9kYW1hZ2VfbWVyZ2VkKGNvbnN0IHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm9s
-ZF8NCj4gICAgKiBGb3IgZGV0YWlscyBzZWU6IGRybV9hdG9taWNfaGVscGVyX2RhbWFnZV9p
-dGVyX2luaXQoKSBhbmQNCj4gICAgKiBkcm1fYXRvbWljX2hlbHBlcl9kYW1hZ2VfaXRlcl9u
-ZXh0KCkuDQo+ICAgICoNCj4gKyAqIE5vdGUgdGhhdCB0aGlzIGhlbHBlciBpcyBmb3IgZHJp
-dmVycyB0aGF0IGRvIHBlci1wbGFuZSB1cGxvYWRzIGFuZCBleHBlY3QNCj4gKyAqIHRvIGhh
-bmRsZSBmcmFtZSBkYW1hZ2VzLiBEcml2ZXJzIHRoYXQgZG8gcGVyLWJ1ZmZlciB1cGxvYWRz
-IGluc3RlYWQgc2hvdWxkDQo+ICsgKiB1c2UgQGRybV9hdG9taWNfaGVscGVyX2J1ZmZlcl9k
-YW1hZ2VfbWVyZ2VkKCkgdGhhdCBoYW5kbGVzIGJ1ZmZlciBkYW1hZ2VzLg0KPiArICoNCj4g
-ICAgKiBSZXR1cm5zOg0KPiAgICAqIFRydWUgaWYgdGhlcmUgaXMgdmFsaWQgcGxhbmUgZGFt
-YWdlIG90aGVyd2lzZSBmYWxzZS4NCj4gICAgKi8NCj4gQEAgLTM0Myw2ICszODEsMzUgQEAg
-Ym9vbCBkcm1fYXRvbWljX2hlbHBlcl9kYW1hZ2VfbWVyZ2VkKGNvbnN0IHN0cnVjdCBkcm1f
-cGxhbmVfc3RhdGUgKm9sZF9zdGF0ZSwNCj4gICAJCQkJICAgICBzdHJ1Y3QgZHJtX3BsYW5l
-X3N0YXRlICpzdGF0ZSwNCj4gICAJCQkJICAgICBzdHJ1Y3QgZHJtX3JlY3QgKnJlY3QpDQo+
-ICAgew0KPiAtCXJldHVybiBfX2RybV9hdG9taWNfaGVscGVyX2RhbWFnZV9tZXJnZWQob2xk
-X3N0YXRlLCBzdGF0ZSwgcmVjdCk7DQo+ICsJcmV0dXJuIF9fZHJtX2F0b21pY19oZWxwZXJf
-ZGFtYWdlX21lcmdlZChvbGRfc3RhdGUsIHN0YXRlLCByZWN0LCBmYWxzZSk7DQo+ICAgfQ0K
-PiAgIEVYUE9SVF9TWU1CT0woZHJtX2F0b21pY19oZWxwZXJfZGFtYWdlX21lcmdlZCk7DQo+
-ICsNCj4gKy8qKg0KPiArICogZHJtX2F0b21pY19oZWxwZXJfYnVmZmVyX2RhbWFnZV9tZXJn
-ZWQgLSBNZXJnZWQgYnVmZmVyIGRhbWFnZQ0KPiArICogQG9sZF9zdGF0ZTogT2xkIHBsYW5l
-IHN0YXRlIGZvciB2YWxpZGF0aW9uLg0KPiArICogQHN0YXRlOiBQbGFuZSBzdGF0ZSBmcm9t
-IHdoaWNoIHRvIGl0ZXJhdGUgdGhlIGRhbWFnZSBjbGlwcy4NCj4gKyAqIEByZWN0OiBSZXR1
-cm5zIHRoZSBtZXJnZWQgYnVmZmVyIGRhbWFnZSByZWN0YW5nbGUNCj4gKyAqDQo+ICsgKiBU
-aGlzIGZ1bmN0aW9uIG1lcmdlcyBhbnkgdmFsaWQgYnVmZmVyIGRhbWFnZSBjbGlwcyBpbnRv
-IG9uZSByZWN0YW5nbGUgYW5kDQo+ICsgKiByZXR1cm5zIGl0IGluIEByZWN0LiBJdCBjaGVj
-a3MgaWYgdGhlIGZyYW1lYnVmZmVycyBhdHRhY2hlZCB0byBAb2xkX3N0YXRlDQo+ICsgKiBh
-bmQgQHN0YXRlIGFyZSB0aGUgc2FtZS4gSWYgdGhhdCBpcyBub3QgdGhlIGNhc2UgdGhlbiB0
-aGUgcmV0dXJuZWQgZGFtYWdlDQo+ICsgKiByZWN0YW5nbGUgaXMgdGhlICZkcm1fcGxhbmVf
-c3RhdGUuc3JjLCBzaW5jZSBhIGZ1bGwgdXBkYXRlIHNob3VsZCBoYXBwZW4uDQo+ICsgKg0K
-PiArICogTm90ZSB0aGF0ICZkcm1fcGxhbmVfc3RhdGUuZmJfZGFtYWdlX2NsaXBzID09IE5V
-TEwgaW4gcGxhbmUgc3RhdGUgbWVhbnMgdGhhdA0KPiArICogZnVsbCBwbGFuZSB1cGRhdGUg
-c2hvdWxkIGhhcHBlbi4gSXQgYWxzbyBlbnN1cmUgaGVscGVyIGl0ZXJhdG9yIHdpbGwgcmV0
-dXJuDQo+ICsgKiAmZHJtX3BsYW5lX3N0YXRlLnNyYyBhcyBkYW1hZ2UuDQo+ICsgKg0KPiAr
-ICogRm9yIGRldGFpbHMgc2VlOiBkcm1fYXRvbWljX2hlbHBlcl9idWZmZXJfZGFtYWdlX2l0
-ZXJfaW5pdCgpIGFuZA0KPiArICogZHJtX2F0b21pY19oZWxwZXJfZGFtYWdlX2l0ZXJfbmV4
-dCgpLg0KPiArICoNCj4gKyAqIFJldHVybnM6DQo+ICsgKiBUcnVlIGlmIHRoZXJlIGlzIHZh
-bGlkIGJ1ZmZlciBkYW1hZ2Ugb3RoZXJ3aXNlIGZhbHNlLg0KPiArICovDQo+ICtib29sIGRy
-bV9hdG9taWNfaGVscGVyX2J1ZmZlcl9kYW1hZ2VfbWVyZ2VkKGNvbnN0IHN0cnVjdCBkcm1f
-cGxhbmVfc3RhdGUgKm9sZF9zdGF0ZSwNCj4gKwkJCQkJICAgIHN0cnVjdCBkcm1fcGxhbmVf
-c3RhdGUgKnN0YXRlLA0KPiArCQkJCQkgICAgc3RydWN0IGRybV9yZWN0ICpyZWN0KQ0KPiAr
-ew0KPiArCXJldHVybiBfX2RybV9hdG9taWNfaGVscGVyX2RhbWFnZV9tZXJnZWQob2xkX3N0
-YXRlLCBzdGF0ZSwgcmVjdCwgdHJ1ZSk7DQo+ICt9DQo+ICtFWFBPUlRfU1lNQk9MKGRybV9h
-dG9taWNfaGVscGVyX2J1ZmZlcl9kYW1hZ2VfbWVyZ2VkKTsNCj4gZGlmZiAtLWdpdCBhL2lu
-Y2x1ZGUvZHJtL2RybV9kYW1hZ2VfaGVscGVyLmggYi9pbmNsdWRlL2RybS9kcm1fZGFtYWdl
-X2hlbHBlci5oDQo+IGluZGV4IGVmZmRhNDJjY2UzMS4uMzI4YmIyNDlkNjhmIDEwMDY0NA0K
-PiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fZGFtYWdlX2hlbHBlci5oDQo+ICsrKyBiL2luY2x1
-ZGUvZHJtL2RybV9kYW1hZ2VfaGVscGVyLmgNCj4gQEAgLTc0LDExICs3NCwxOCBAQCB2b2lk
-DQo+ICAgZHJtX2F0b21pY19oZWxwZXJfZGFtYWdlX2l0ZXJfaW5pdChzdHJ1Y3QgZHJtX2F0
-b21pY19oZWxwZXJfZGFtYWdlX2l0ZXIgKml0ZXIsDQo+ICAgCQkJCSAgIGNvbnN0IHN0cnVj
-dCBkcm1fcGxhbmVfc3RhdGUgKm9sZF9zdGF0ZSwNCj4gICAJCQkJICAgY29uc3Qgc3RydWN0
-IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlKTsNCj4gK3ZvaWQNCj4gK2RybV9hdG9taWNf
-aGVscGVyX2J1ZmZlcl9kYW1hZ2VfaXRlcl9pbml0KHN0cnVjdCBkcm1fYXRvbWljX2hlbHBl
-cl9kYW1hZ2VfaXRlciAqaXRlciwNCj4gKwkJCQkJICBjb25zdCBzdHJ1Y3QgZHJtX3BsYW5l
-X3N0YXRlICpvbGRfc3RhdGUsDQo+ICsJCQkJCSAgY29uc3Qgc3RydWN0IGRybV9wbGFuZV9z
-dGF0ZSAqbmV3X3N0YXRlKTsNCj4gICBib29sDQo+ICAgZHJtX2F0b21pY19oZWxwZXJfZGFt
-YWdlX2l0ZXJfbmV4dChzdHJ1Y3QgZHJtX2F0b21pY19oZWxwZXJfZGFtYWdlX2l0ZXIgKml0
-ZXIsDQo+ICAgCQkJCSAgIHN0cnVjdCBkcm1fcmVjdCAqcmVjdCk7DQo+ICAgYm9vbCBkcm1f
-YXRvbWljX2hlbHBlcl9kYW1hZ2VfbWVyZ2VkKGNvbnN0IHN0cnVjdCBkcm1fcGxhbmVfc3Rh
-dGUgKm9sZF9zdGF0ZSwNCj4gICAJCQkJICAgICBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpz
-dGF0ZSwNCj4gICAJCQkJICAgICBzdHJ1Y3QgZHJtX3JlY3QgKnJlY3QpOw0KPiArYm9vbCBk
-cm1fYXRvbWljX2hlbHBlcl9idWZmZXJfZGFtYWdlX21lcmdlZChjb25zdCBzdHJ1Y3QgZHJt
-X3BsYW5lX3N0YXRlICpvbGRfc3RhdGUsDQo+ICsJCQkJCSAgICBzdHJ1Y3QgZHJtX3BsYW5l
-X3N0YXRlICpzdGF0ZSwNCj4gKwkJCQkJICAgIHN0cnVjdCBkcm1fcmVjdCAqcmVjdCk7DQo+
-ICAgDQo+ICAgI2VuZGlmDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERy
-aXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
-RnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8g
-VG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4N
-CkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+This sequence is a corner-case and required repeating this
+app->suspend->resume cycle ~1500 times across 4 identical
+systems to see it once. That said, based on above callstack,
+it is clear that merely flushing the context destruction worker,
+which is obviously missing and needed, isn't sufficient.
 
---------------uC5BjTMGC0Q0NkedId0TSNxP--
+Because of that, this series adds additional patches besides
+the obvious (Patch #1) flushing of the worker during the
+suspend flows. It also includes (Patch #2) closing a race
+between sending the context-deregistration H2G vs the CTB
+getting disabled in the midst of it (by detecing the failure
+and unrolling the guc-lrc-unpin flow) and adding an additional
+rcu_barrier in the gem-suspend flow to purge outstanding
+rcu defered tasks that may include context destruction.
 
---------------sNemvkK09aAGhdBTslCny9VM
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+This patch was tested and confirmed to be reliably working
+after running ~1500 suspend resume cycles on 4 concurrent
+machines.
 
------BEGIN PGP SIGNATURE-----
+Changes from prior revs:
+   v5: - Remove Patch #3 which doesnt solve this exact bug
+         but can be a separate patch(Tvrtko).
+   v4: - In Patch #2, change the position of the calls into
+         rcu_barrier based on latest testing data. (Alan/Anshuman).
+       - In Patch #3, fix the timeout value selection for the
+         final gt-pm idle-wait that was incorrectly using a 'ns'
+         #define as a milisec timeout.
+   v3: - In Patch #3, when deregister_context fails, instead
+         of calling intel_gt_pm_put(that might sleep), call
+         __intel_wakeref_put (without ASYNC flag) (Rodrigo/Anshuman).
+       - In wait_for_suspend add an rcu_barrier before we
+         proceed to wait for idle. (Anshuman)
+   v2: - Patch #2 Restructure code in guc_lrc_desc_unpin so
+         it's more readible to differentiate (1)direct guc-id
+         cleanup ..vs (2) sending the H2G ctx-destroy action ..
+         vs (3) the unrolling steps if the H2G fails.
+       - Patch #2 Add a check to close the race sooner by checking
+         for intel_guc_is_ready from destroyed_worker_func.
+       - Patch #2 When guc_submission_send_busy_loop gets a
+         failure from intel_guc_send_busy_loop, we need to undo
+         i.e. decrement the outstanding_submission_g2h.
+       - Patch #3 In wait_for_suspend, fix checking of return from
+         intel_gt_pm_wait_timeout_for_idle to now use -ETIMEDOUT
+         and add documentation for intel_wakeref_wait_for_idle.
+         (Rodrigo).
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVTlwsFAwAAAAAACgkQlh/E3EQov+Ce
-CxAAgBK0mCdRqDIcvO5mrlGoDbZJNRtpA8Puexm5vyrAi9Giv36wULqhx3iMlYsFsL35NDdBj+Ij
-Y4ZZoWnn1VLSdi6K61eGPrIIpZCViWSTgiVB6qS0xcpWfDcEsZae/JXSw/CvDbdpZv68aqD1GEXB
-ws2yAGNQz9j0nd1FTVAxs47hBk9fVrD56ZKf19wdEWRgyVHW9Cee91FGfpaPiJdCE/tn1F2LAQQd
-eKhO8YzZ0cQZD5krNJuLrfGDaEPDMS8hAnh7q8fGLy6bHI5d6vw9mM0IeP1lahS20v9lmoQC+pn5
-fhCzD6oAmZhMhlt/61v7jUywauy5z6HjNitbUe6QIDENguJLJUbcv2knfqPij7evKRYRhz+Zt3oQ
-w13QmviyboE9adZf7ClPiS7cReyb0pwmnTZgX6p3XOw81ZPMh7bdHrQrtofMpha99iDEmJHSqquv
-hYVF6qID0Rzcmbq0b/SpF8sm/OhUHp3iVAjY1CUOaQTrMEh/dGmvV9hDbgvYYYTYpjdbyPyADdfx
-WbcGW0q04qjHumhZhWfRZVzN+OLhvxDHWeFKuDfzxdFe80vo/JYhLMBXr97GflebmfaDwDb8P5Tc
-kWnxOiJi+j7WTTBmFNSyiuBHuvnvmvL6PzfcBy0ayalNoo5wT88+sle7XYhjN6Voo+/OrJRcx6wC
-yJ4=
-=trCW
------END PGP SIGNATURE-----
+Alan Previn (2):
+  drm/i915/guc: Flush context destruction worker at suspend
+  drm/i915/guc: Close deregister-context race against CT-loss
 
---------------sNemvkK09aAGhdBTslCny9VM--
+ drivers/gpu/drm/i915/gem/i915_gem_pm.c        | 10 +++
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 86 ++++++++++++++++---
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.h |  2 +
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  2 +
+ 4 files changed, 89 insertions(+), 11 deletions(-)
+
+
+base-commit: 3d1e36691e73b3946b4a9ca8132a34f0319ff984
+-- 
+2.39.0
+
