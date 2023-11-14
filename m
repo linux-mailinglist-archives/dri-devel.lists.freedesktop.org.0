@@ -1,119 +1,127 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7FC7EB205
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 15:21:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F767EB215
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 15:29:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C67010E0BE;
-	Tue, 14 Nov 2023 14:21:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB53610E214;
+	Tue, 14 Nov 2023 14:29:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2048.outbound.protection.outlook.com [40.107.101.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C899610E07E;
- Tue, 14 Nov 2023 14:21:17 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2115.outbound.protection.outlook.com [40.107.21.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B88910E214
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 14:29:40 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eZLgbpS5RZ5VvVCaRbD6Q5RganIG4R3AHIkN7FlbUQyT02sWifkRvFX7SMIfmh6kUrmUUgw9g9ygEelJJIZWqeoua0r3MsjNwDKWVjt4i6AnpfXNNT5rYtgxjlE0pEE8Q97HCE4V8yrYVfhE+kulIiP9C5HoyyNnLHSnmXALzGiueMII0bss53/wCtf5cP3exz/9I7Rq3eKsxl1o5iFi9oC4xRMYaj3MT+ZCEOO7VPTmZ8en/V+2DybsnCw9biq05Ds1M83yD2tibI7kOjt7jlBXt3XqYpOGPSFDvSs2oZL7GWn7vaWMzSh8EjSzR7NCDuW6xIMj6YkThGJg7wwSTQ==
+ b=aauCOwO6E7rNouHAVDq4t+hviQYCY13bGw+Dvsefhplchz2GrW6xcsbqxHXpHsYhX0xm/2XFWtAjCFWvyUF7OKM8Fj9rac5eOiXqW7qeejjnjnIKUmAOYlDTbqpw71B0dRtf5R/C9JSBcc/QctQkuplmmyDPh3a4rGZLUKUxNo5oBYdSHMfc/h8cfzaMSflg29PyWQ18QC5p02bRqO9jiO43deg4tC5uhNFGLGhQpCBkkaPDWdM1Hmrkcmm+wjPZq4nO5gMalmpp0i0eoMRikl5sfRkHrw2Vus5vBkFmEZUlENNJjIQ4d/JQI26OKMtVKAjmFapDTG+2RgUO/Rc5nQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qwpstLwAKCPSiISO0gQ1tqEvboxggq8vZVnvQbYYu2o=;
- b=FhKnRGicFvPD3qmBN0z2BqeoggH6n1wpmOYGVlpaGSuuowS2nvwe5JMK6mEcgXIAlUhGhomNhdp4Dn2MkET+7hx/kWC/oFJj5tl8fxQHMbQqiuJC47bWn5G/olHpnicBbeIv6MAtcZN7Kzzi7b1KOIJAocXJWsu5BDLZ84DQ3g/Ju3LA2y6GbzfSgwFzcLs7xqiPrjHFbJ20FEmuGBFKr+PW7SZX4ma4Cg1N8KpRgyHlP8n5oNdV1myHus2Yq0VQpqbFfLF+cm8T0HP6ZpubkJuizkZRLKbeRAop5Yq6v5YpkpKpSptaABmsNVuyok4Ag4Nkj9Z8qu653cXOf8Uc/Q==
+ bh=KkLasijjWyEIpmxEP7fIUf8RVPE8JtC3j+UmKCcQDkk=;
+ b=VPToyIpDb+H8vDZNaB1SGdpleb+sbtcBqv/O8EGHhNdGfFaSv0dYRR7p2zMcWR9XvJXN3GcAOXFE4dvyX7fBhE+/Ga+1P4yugRf4TMqHEisjtkPPTp74KkbV9Bj8L4pBGZD+YzyssEy14Rl4sNVuEEJEDN9LlBizc6+XvSDij/Vjl2uEEM+/jv0xPcsOZ+2j2g04jS0lLhTSVGmCMW6Px6CM8mcgrqLITPscR89m44yc1Vz/SdPGqOpTlrdn3hKUYUFTvmq9CCC2S/bTSmdXm539NemER+qxg5s5qwmeVFfaDK7HMOLe+hQLpc4rkRqCTsgUfalR99axqVUzmHPFmA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
+ s=selector2-mysnt-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qwpstLwAKCPSiISO0gQ1tqEvboxggq8vZVnvQbYYu2o=;
- b=tP51PdnJFe5bJqhK5RwKa6Ni+e4o3PL0OfMEXHy96rStb4IeGZC75tUitanZt2wS6X9IfIUQ/UDIv9ON32gqmpMqnE5bRBfYAQs0I7JVgCXXqulYIPIO8Zv7nd5oED7No5nrrpAPYTqtk9+d5TZHAkVMvQwCfGEybFChAYI3Fak=
+ bh=KkLasijjWyEIpmxEP7fIUf8RVPE8JtC3j+UmKCcQDkk=;
+ b=e4pvsofrfAD32JMXYT3ZWRxeO4gCO6ZnBtRZnJFssenfEhrvlqM47ZVdWsclmfN+oLn86ifIhyUvn+natZ+ZYBxZbjDkWpQOLwnBEMD1OzspheID0fUvlIC/7Gwvfhpu9MecSGU4YIt9bDPEg1q1cw2CFoqKzSczkPoPgOVR0QI=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
- DS7PR12MB8369.namprd12.prod.outlook.com (2603:10b6:8:eb::18) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6977.29; Tue, 14 Nov 2023 14:21:15 +0000
-Received: from DM4PR12MB6280.namprd12.prod.outlook.com
- ([fe80::5588:7117:d54e:9466]) by DM4PR12MB6280.namprd12.prod.outlook.com
- ([fe80::5588:7117:d54e:9466%7]) with mapi id 15.20.7002.015; Tue, 14 Nov 2023
- 14:21:15 +0000
-Message-ID: <bd577fa9-d487-457b-8c27-bbbfd338fcea@amd.com>
-Date: Tue, 14 Nov 2023 09:21:11 -0500
+ header.d=none;dmarc=none action=none header.from=kontron.de;
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
+ by DB9PR10MB6356.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:3c4::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.18; Tue, 14 Nov
+ 2023 14:29:37 +0000
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::27ba:9922:8d12:7b3d]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::27ba:9922:8d12:7b3d%5]) with mapi id 15.20.6977.029; Tue, 14 Nov 2023
+ 14:29:36 +0000
+Message-ID: <11fe6f0e-49e7-44d4-a31a-3b739f77489f@kontron.de>
+Date: Tue, 14 Nov 2023 15:29:33 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/display: fix NULL dereference
-To: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- skhan@linuxfoundation.org
-References: <20231114063647.71929-1-jose.pekkarinen@foxhound.fi>
-Content-Language: en-US
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-In-Reply-To: <20231114063647.71929-1-jose.pekkarinen@foxhound.fi>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQBPR01CA0009.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01::17)
- To DM4PR12MB6280.namprd12.prod.outlook.com
- (2603:10b6:8:a2::11)
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
+Subject: Re: [PATCH] drm: bridge: samsung-dsim: Don't use FORCE_STOP_STATE
+To: Michael Walle <mwalle@kernel.org>, Inki Dae <inki.dae@samsung.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Tim Harvey <tharvey@gateworks.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>
+References: <20231113164344.1612602-1-mwalle@kernel.org>
+Content-Language: en-US, de-DE
+In-Reply-To: <20231113164344.1612602-1-mwalle@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR01CA0146.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:aa::15) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:263::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|DS7PR12MB8369:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4a5652ca-3c7d-40d2-a93d-08dbe51cf5e1
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|DB9PR10MB6356:EE_
+X-MS-Office365-Filtering-Correlation-Id: a2ab9457-9c66-4031-7ddb-08dbe51e20dd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: woT5OCI8oy5Y0rImTsbHYhmfOUqT7cgMbaGQFhNae+3AB3kA/X1Qraqh73PXY/Zms5L0vn116jlyIVris6Nj8bP6DE5YwQnLup9+aXbGZjCA0/GymGGOg4hr4ROHWEchFD8B6JZhTgdHHernzRSR+eHB0CUxJSeW0peOEE60rKt0ST1Jq/ySC4IWS+HfjhC9jEzxFKQjN4JF7ZvzpEyFoHR9z6KEFAzhaCX3E+Kqx/+4+u2jf/NoD3uQP2P/wjGAm6XMJfF6bOHfWnveGPw+t955Rcp5pT35QudtN5bRYkMmH3w93lFx4tzf8WWFb2bKt0jYTLjgf8ZOHbWMMWOVZzXMRnHQWgpvRCLNjtxuvmCKJtGXVp5ojAOv2KxTaHpCGUK0ccOYlP//2HTMRjQ8veI5YAKR77wxPrNYuMB+srp/yUbknkDzJv7cslYj2H0xZIYZRTWHNbkCyEZxGUyfe+kHRBuWz3kqkQDlcCouIjrDcvXGJU4gGTjsZPE2kSGEniToNunadUPv6/8hWM/0Ym0vyZPQ/rhnZlv0+rp9689Ts9Cr+WFVZ+hCc1lLfwklfE5lgjG12tuEz37xUOb/sN+3fMWG+utVBM3R3D0XzjGf+NOqyT3hcop4fRRqhIO4bcJchwwWBZ/tyUxvbyeekg==
+X-Microsoft-Antispam-Message-Info: FpwbgEI04B3hmlKJtn3ac0A5uwuCGU6QYGHdjzObl67hqnHi1vA4VqfEp81TaLLsjFYT+WxDa9YUuW2w7VFNAWdPhMmt1oE71chr2BonzEiCVEtyqi+VzWrN80knSg8dVOM6yTlx7RybEHut0oavo++/jXWhCG3Pe3JdRZ3oWwmW4k+UphMtMjuanhPb00ImPrJjVwPu9dnp8uwd7wyoXI1WPhDqQHyMIg9vqGS5JvVr61SzkEFeXZAf1ZGb5sL0IdCZ9SIueYe56TUqc/dtoT4HCYc/JWjCZtZDAe8UKzqZGcUcK2ucE9lHjD2w/zkHP/CsT5S7XlbyOtz9sxjMuakKHpWiLyAhVZ9CxoKt+thfni+cLqO4SznkgdTzd2NVTFRYUR8hrOkgRHFCOA0ckHKT2Fz0h/aJRxdXHxy1mlTYX4TI0qvoxzp+YEbSSdchVKUx+QyXBaWhEfPz5TU0bpEsoXut1mdPNcQvrUxvRxCLB3XhPq6UjFi8aG4LXu15gNNJsLJvc4/JalZJheQoaJnhtb12TlLKxO+d/J3EghnxDydmNGWxovcvJkuCh6fBlh+9OB69JEsryq4IP6LPDkQvzUVvE8LDpUsSCwTn4KttLnI3qSM4SWdyCUUPnj/ArBFD2xDZM4S+6s8tqiclIaDjWg6VEzZjRki57dQa8LE=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(376002)(136003)(39860400002)(346002)(366004)(396003)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(36756003)(26005)(31686004)(478600001)(6666004)(6486002)(53546011)(6506007)(66556008)(316002)(6512007)(66946007)(38100700002)(66476007)(2616005)(5660300002)(44832011)(8936002)(4326008)(8676002)(2906002)(41300700001)(83380400001)(86362001)(31696002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230031)(376002)(136003)(39860400002)(396003)(366004)(346002)(230922051799003)(1800799009)(186009)(64100799003)(451199024)(53546011)(44832011)(26005)(6486002)(478600001)(8676002)(6506007)(6666004)(4326008)(8936002)(2616005)(7416002)(6512007)(316002)(66476007)(31686004)(110136005)(66556008)(66946007)(5660300002)(2906002)(41300700001)(83380400001)(36756003)(31696002)(86362001)(38100700002)(921008)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q2ZORGRnRjl5eW5Oc2g4cys3Y29UMUpEWUdXV0l5YVBub25JYWRqWmNtZVZQ?=
- =?utf-8?B?bDdwYmcwbEdzYnVLeHZNUHgwYm9hKzVwN1ZsUWZSNEE5dklweUFjV2JPRmNk?=
- =?utf-8?B?c28zK0R5blFESmRkb2p6SHE2RDYwUWRBR3FSLzk0MEo0NlhKY0t0R1BLWTJP?=
- =?utf-8?B?ejNDQkxXdTR5a0NaUXNRWE9jTjVSUlIrWWdjTldJdlEwUWw4Qkc3bGJpWVla?=
- =?utf-8?B?eFFibWJnV3Y1MlZETE5TVE1FNit4QWcxUW4wQVp1OXhVS3Q1N1pVdkdpS3Ur?=
- =?utf-8?B?VXlLOVBCanllRFNzOGVIL2Vwcm8vS01FNG9ZcVdEZ3Y4Zms3YTJBNklVVFBh?=
- =?utf-8?B?b3MzWUsxRHRjNzhKbHFUS0gxZmJzOE5vWDN2UkF3TTd6b1Z3NEs4ZUF5d3NC?=
- =?utf-8?B?Wm14UkxXQUVOMGFqRDArM2QrdlVmZlV0YWJZWWFqbzE2djRQL25ISVBTc3Ru?=
- =?utf-8?B?TkhDa3NVeWlndTg2Q2ljT1RiSU5UanhPNmhSbDREeHVXc3YyWEpOb3dNL1FY?=
- =?utf-8?B?MlB5akkrd2pTNEl6OXM2SDlmRVRSSXhBVnlJRlhTK1NUVThYVDNDSEVoUVpj?=
- =?utf-8?B?Y1NoZE45U0dJN0RodUtzZlU1eFBrRjV6TjJEUjRidFIxeldxb0JXbXp2d1Rn?=
- =?utf-8?B?WG9UQVFmdktPc1VYTnZ0L0g1MXZ3T2hQOUtUZlBBdWpEL3BISHI3N05zQmlG?=
- =?utf-8?B?dXFZNDN1dk5HM1JLZER4cFR3ZEZMU2tBWWpqTmVZUmdKZ0t4NW9UV2tya05G?=
- =?utf-8?B?OEVodlFFWVV2YkdxVWJSSHc4TlhtNEtIb1o2NlNLd1hJY013T1pCUEw1K2NP?=
- =?utf-8?B?VVpKdWJyRGZ6aHV0WXYwVjNzL1RBVUI4V09CK2Y1cFBCQnpJSFMyYnp3NlR0?=
- =?utf-8?B?dFQzQWxYWjdzWCtGY1E0WXFRMFREVU00SXpWY0FXSGxVTE9oZ3FBdW9qNjhP?=
- =?utf-8?B?K2xEdGY1aUpxQjhMR0ZMOTQzeHVncGVNcEV4MnpVWHN1YWYxQ3ArUjVLem1H?=
- =?utf-8?B?ZVV3emtTOXNiOFJTczNBQm05ZlBWNGNPTlY1SXBoeWFwemcxSk9vTUM2TVNS?=
- =?utf-8?B?UW1vQWxDQ3ljK01oTURObkl4R0ozc3hMWW1lbDNOemtUdFp4Q01Gd0VRcTRI?=
- =?utf-8?B?dmxSOU1NVlhkUlRvM2kvVHRtcEpHSGloUHJJcWpnbzVYNFRUU0Z1OE1VbGVL?=
- =?utf-8?B?c0NyZ0VXS2ZTcExFYTNUZ2lpWGlHM2UrLzdSbjdBb1VhNDByUlVVc216NnEx?=
- =?utf-8?B?NnEvTmsway9oSklTeWEwcUQwbW1vVnhwRjJMMTJOaThrTmk2NzNnRnRUSGFw?=
- =?utf-8?B?U3NaY1R6OStIZ0tWNFljUkZFdVNpaFdUbWdScmZFUjgwNXBuMWVZMkdQdk9i?=
- =?utf-8?B?K09Fd09abk1KbTFBYzNydDV4cEFTeE96SFRBOEZZMXVTZUo1QlZjN2RuV2RK?=
- =?utf-8?B?cjdMN1FES3Y1STNVSGtSYUhVZ3lwRURTaVBFQzgyZ3hZT0lwWldzeXZyTjhK?=
- =?utf-8?B?NW4vdzUyVHBra2trVCt1SzRCUGFqZUpRWlQrZ1AxSGd5RmFJQ1ZFRzJHa2li?=
- =?utf-8?B?V2hGdXhZV09sQ1BMTTN0UC9GMy9ZdVFtZlFGUDFIVmErQ2ZWZUNEdmpNanlT?=
- =?utf-8?B?ZmMyWjdaL2dwNlBaVjlkdnVYR3duOFh3QS9zelltZTk0cFlTbXp6Q2pSNUdQ?=
- =?utf-8?B?Z21qWFI5OWQwcHcxdGRDbDlCbGFpK0Z3ZHpZTUlxZUliR2oydnppT0FQRjBB?=
- =?utf-8?B?SHFPUXhKYzQzekw4TmVWZTQwYjNHZUtEN3IvcG1zd0Y2R29zTi9zT2NQRlpo?=
- =?utf-8?B?Qk9ZM2tybGg5c0Q4UU91eFk0RDF5NUJIcmNBandFNlVlWVIyelQra1VBd3F5?=
- =?utf-8?B?dkFTYUlodEQ3am9OMFNrRGU0S3N0SW9CTlpMT3lMUzJXbmJaUjdqd1pDUVNL?=
- =?utf-8?B?QlhlTTJWVGdOdmMzWkdZWEJHOVM2QWNJODE2TkxkblU5YlE5eDJMdWJodkJU?=
- =?utf-8?B?aDNjdDRhRHZRVDBSbU5tMm1wZHovVFVUY2NveWtoSlpCVENML0xQRDYwb3pu?=
- =?utf-8?B?LzZWUjlzYnhNMkZTTWllc1ErUmVtK3lYZXREaDlPODFxUG1XOS96M1Bvclg1?=
- =?utf-8?Q?jkM/3S3Beb4HOGXOUB6fyyTAQ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a5652ca-3c7d-40d2-a93d-08dbe51cf5e1
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K2tsSUxhVDZ2Y0lKWU1DR3N5b0VzWm5uNjZ4SWhWbmlVcllUMVcvOE1yeGY4?=
+ =?utf-8?B?WU1vSEVsMVZUdkJPWjF5TDY1azhhSFFnZGFiNElsRlV5OWI4R3dJZFY2eDNa?=
+ =?utf-8?B?Nm0vK3VYUmtIbjI2ejVKVUJVVENJTVIrM1BjRS9tbm9VNE1xMW5YWFVkeU5P?=
+ =?utf-8?B?dm9JakoreFpPNEpiaUt1TGRkWUYvdHBkdm5JTWRheDN0SUVuajRwVzhvR3hM?=
+ =?utf-8?B?T0FLQkI3TUxnb0JaL01XVkJ0cW1ZcmpUQW9ZekphRmhUaDBUU0hYOGNpYTUv?=
+ =?utf-8?B?WTZQckJkSDdSMXg5ak1IODRYVlA5b012UmpSb2RNK2JWNGNzTEFDR0g3aDQ0?=
+ =?utf-8?B?bk5pRkU5Vzd3OTdGT2ZXVHZZSVN1REZCMDMyaVZuUmdpMVM1RVc4NDVkMWt2?=
+ =?utf-8?B?amZnRFBvcS9qa0dkUE8vbnBTSmxBOGJrUDMzd0FOUjFMbUtTVWN5b0l4MnBF?=
+ =?utf-8?B?VTlQOGpndzJUcHpJc2ZyUHVvNXU3TW44V1RiMy9ZdUlHWUVpYU0rZi80NFJE?=
+ =?utf-8?B?ZHRUdnJERXBVcWtvK2NoR091TDR2ZGVMTGpteWRhYWZWWHpmMnNsdVVQU3BL?=
+ =?utf-8?B?c3VFbWJ0UnNmS2w0aVdWVE00SzZsNzdDSnRWQk5TbG5ZcE9JWmdjNm5XQndv?=
+ =?utf-8?B?U3NqeHdCakp3V3htSlR1emtJRXNFTGkxZDdxWjRWVEhTT1lpZElPTmdxRG9p?=
+ =?utf-8?B?eXFMNlloMTlPMk5GUnRuaExhUDQ1Q1hGTi94ajgvdXppWHdCaTF2MUJGNmZO?=
+ =?utf-8?B?YmNEVStnTVYwSnprZnVSSWhyMmRKNEQ4VTdiQThiWkw1OW53ZjVFL2puWUZq?=
+ =?utf-8?B?b3pDMytIcFJybCtnYmFSWDlUVVV5ZHRIRDNMQmlyai9NZEVzZndyVmFOSDBu?=
+ =?utf-8?B?SUlpQkg2UW9mdU5lMUxHa3VmNzJlTmpBRTFjWUFyL0pJZEF3eGNIdjBLRWJq?=
+ =?utf-8?B?bWwxbzM1bWNxRTBaL1FENnVaSDVQYjRjV3U0cTRpbE13S3RFZlVkc0Y4aDAv?=
+ =?utf-8?B?Mk42Y3FaZ241SWZXMTdjemcvTFJiVGZsZ1VWeHhTdm43L00xV0ZTWmVUUWxt?=
+ =?utf-8?B?ZHZ3VTdHRjZvVUN2MWc0K0NZOCtHVnA2YmZVWFlKc05qM0RjYUN6OCsreEkw?=
+ =?utf-8?B?WVE5ZFVKcVMzUVZIbFh6NnFEVkVEWWVRaTQvQmRGYkE3NnZIZ3N0Vk5TbllR?=
+ =?utf-8?B?TDc3ODlhSFlJR3BGK2lMdk43cGlvNUhJc3pvTitWM2hFWHQ0QUF4VVJOWkQ3?=
+ =?utf-8?B?RjVaUWU1c2VsdlpzWFJiUjFtVGZFbU5Id2hqdmlMZ05WSXN4UGhiMnBEZ2l1?=
+ =?utf-8?B?S1Jsd01xUHpnWGVIYmJxUUJoZjNzZm5hdk9LaUttT20yN09CS0VuemNjMUV3?=
+ =?utf-8?B?NWFETm5EV2FkNUJXSDMrNmxIbjg4d2F4RGlnQ2RpSDhkVUFVeXhQT2dtT281?=
+ =?utf-8?B?L05TQ0hIYk1YUnp5Z3BqN1VpRmh0Sk04YXgyTzdEMFFFV2xmaXluVDNnRU1H?=
+ =?utf-8?B?S29LRmtBSnoxVUZpQjUvWmU1b0k5aENsL3pLd09GMDc5Rmg4MU03dGpHWitE?=
+ =?utf-8?B?MlZxdFNZUWUwQ2ZnWGVzMU9KUWt0d0k4TVVQQzIxS01MU1hxRWYzaWNLN0NB?=
+ =?utf-8?B?b1VGTFg4QnBlTllmdFMzdEFiR3N6V3ZVa3dhUW5SZFBpMWQ0S3hSLzdwZXBv?=
+ =?utf-8?B?UTN1T3pZR3RLWWxmSFFTYW9ubjhLMzRBcXNuYnE2ZnhKZSt6WkpUYWVURVFU?=
+ =?utf-8?B?cmwweHlRWHdwSUhISFZRZTJDMDVPc25pSHB5b3V4TVBDR2htaFVLS2lHbE9I?=
+ =?utf-8?B?TXdCT2xEaVJKOS91bmpkUmhxVXQxRjM1MDJGT1M0QWVYdmcwT3NmTVlUT29U?=
+ =?utf-8?B?K3lhR2prWWdRYUQ2eFI5TnBpdjRSbVlucUhxeWpwVFZzMTF5SWxQa3ZuL1VY?=
+ =?utf-8?B?d0FVbWFLTmtZaUlTcURXQlArRkc1UUpoQUcrcnZNUHdMRXZsQVZlbTZrcDV0?=
+ =?utf-8?B?cWJJMm9sTm5NaUNKdW5PbmZsK2FDNUsvR2VxVVRPbWg0TzR5amw1aVZqVWlO?=
+ =?utf-8?B?cXY0dktaend5T1V3SmU2a1pqMGYvc1BZdzhpMnhLVTAySUZ1WXA3amhKdmxo?=
+ =?utf-8?B?T21scVU1WGMzdXJqNlFLdFBxc0pSdlZYNnRtNWZBa2tMbVl0eEdKMmc1L3Nz?=
+ =?utf-8?B?NFE9PQ==?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2ab9457-9c66-4031-7ddb-08dbe51e20dd
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2023 14:21:15.2550 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2023 14:29:36.8051 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i2o00DjnaipG8j7aeR2GvStBMgo8jcSDzWjNLEKmYh3p5pjoBCnnTJ6vR/coCh1ctPLbdqQo7TRz7yxvfO/v7w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8369
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8/QLZDMJ+DcOSoK1qV/PP35HmIE0rj3FMUcRIzWQl3J1NBQmdrsqJf6vZ4K9aj1xnv0dGf7c0PmFbJxnfGCX83o59i4tTqY1n3+ehM8IeJ0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB6356
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,46 +134,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: qingqing.zhuo@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, aurabindo.pillai@amd.com,
- dri-devel@lists.freedesktop.org, Wayne.Lin@amd.com,
- srinivasan.shanmugam@amd.com, mikita.lipski@amd.com,
- linux-kernel-mentees@lists.linux.dev, sungjoon.kim@amd.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/14/23 01:36, José Pekkarinen wrote:
-> The following patch will fix a minor issue where a debug message is
-> referencing an struct that has just being checked whether is null or
-> not. This has been noticed by using coccinelle, in the following output:
-> 
-> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c:540:25-29: ERROR: aconnector is NULL but dereferenced.
-> 
-> Fixes: 5d72e247e58c9 ("drm/amd/display: switch DC over to the new DRM logging macros")
-> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
-> ---
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> index ed784cf27d39..7048dab5e356 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> @@ -537,8 +537,7 @@ bool dm_helpers_dp_read_dpcd(
->   	struct amdgpu_dm_connector *aconnector = link->priv;
->   
->   	if (!aconnector) {
-> -		drm_dbg_dp(aconnector->base.dev,
-> -			   "Failed to find connector for link!\n");
-> +		DRM_ERROR("Failed to find connector for link!");
+Hi Michael,
 
-I would prefer a patch that drops this error message entirely since
-it's not particularly useful. As, it's only possible before hw init
-(and at that point it's expected).
+On 13.11.23 17:43, Michael Walle wrote:
+> The FORCE_STOP_STATE bit is unsuitable to force the DSI link into LP-11
+> mode. It seems the bridge internally queues DSI packets and when the
+> FORCE_STOP_STATE bit is cleared, they are sent in close succession
+> without any useful timing (this also means that the DSI lanes won't go
+> into LP-11 mode). The length of this gibberish varies between 1ms and
+> 5ms. This sometimes breaks an attached bridge (TI SN65DSI84 in this
+> case). In our case, the bridge will fail in about 1 per 500 reboots.
+> 
+> The FORCE_STOP_STATE handling was introduced to have the DSI lanes in
+> LP-11 state during the .pre_enable phase. But as it turns out, none of
+> this is needed at all. Between samsung_dsim_init() and
+> samsung_dsim_set_display_enable() the lanes are already in LP-11 mode.
+> The code as it was before commit 20c827683de0 ("drm: bridge:
+> samsung-dsim: Fix init during host transfer") and 0c14d3130654 ("drm:
+> bridge: samsung-dsim: Fix i.MX8M enable flow to meet spec") was correct
+> in this regard.
+> 
+> This patch basically reverts both commits. It was tested on an i.MX8M
+> SoC with an SN65DSI84 bridge. The signals were probed and the DSI
+> packets were decoded during initialization and link start-up. After this
+> patch the first DSI packet on the link is a VSYNC packet and the timing
+> is correct.
+> 
+> Command mode between .pre_enable and .enable was also briefly tested by
+> a quick hack. There was no DSI link partner which would have responded,
+> but it was made sure the DSI packet was send on the link. As a side
+> note, the command mode seems to just work in HS mode. I couldn't find
+> that the bridge will handle commands in LP mode.
+> 
+> Fixes: 20c827683de0 ("drm: bridge: samsung-dsim: Fix init during host transfer")
+> Fixes: 0c14d3130654 ("drm: bridge: samsung-dsim: Fix i.MX8M enable flow to meet spec")
+> Signed-off-by: Michael Walle <mwalle@kernel.org>
 
->   		return false;
->   	}
->   
--- 
-Hamza
+Thanks for the fix. Your explanation sounds convincing.
 
+Unfortunately I'm currently not able to understand why I had to
+introduce these changes in the first place. What I tried to fix was
+exactly this kind of issue where the display stays black every few
+hundred boot cycles.
+
+My current guess would be that the issue I was seeing was already fixed
+with dd9e329af723 ("drm/bridge: ti-sn65dsi83: Fix enable/disable flow to
+meet spec") and I didn't properly test both changes separately.
+
+My cheap scope is not able to capture the DSI signals and I admit that
+we didn't use our more expensive equipment to verify the changes back then.
+
+Instead, we had an automated test setup to do cyclic on/off switching
+for the display and check for a black screen using a sensor. It is quite
+a hassle to set up and I'm currently not planning to spend that much
+effort to verify this change again.
+
+Anyway, I currently don't see any reasons to not revert my changes. Your
+revert looks correct and seems to work fine as far as I can tell.
+
+Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+
+Thanks
+Frieder
