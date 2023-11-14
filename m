@@ -1,48 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F8957EAA93
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 07:37:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B70977EAAE0
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 08:25:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D560F10E1C2;
-	Tue, 14 Nov 2023 06:37:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BC6010E3EB;
+	Tue, 14 Nov 2023 07:25:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 10.mo550.mail-out.ovh.net (10.mo550.mail-out.ovh.net
- [178.32.96.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE8D210E1C2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 06:37:00 +0000 (UTC)
-Received: from director9.ghost.mail-out.ovh.net (unknown [10.108.16.251])
- by mo550.mail-out.ovh.net (Postfix) with ESMTP id 89B2228E47
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 06:36:58 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-xkfk5 (unknown [10.110.208.213])
- by director9.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 7942A1FDCE;
- Tue, 14 Nov 2023 06:36:55 +0000 (UTC)
-Received: from foxhound.fi ([37.59.142.99])
- by ghost-submission-6684bf9d7b-xkfk5 with ESMTPSA
- id ONtBGYcVU2XrtQYAFz0/+Q
- (envelope-from <jose.pekkarinen@foxhound.fi>); Tue, 14 Nov 2023 06:36:55 +0000
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G00388b5308c-d874-4d8f-9cc7-23e6befe93bc,
- 39B655737E19CE8DAD14488E69459E8CEBC9C448)
- smtp.auth=jose.pekkarinen@foxhound.fi
-X-OVh-ClientIp: 83.100.46.156
-From: =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- skhan@linuxfoundation.org
-Subject: [PATCH] drm/amd/display: fix NULL dereference
-Date: Tue, 14 Nov 2023 08:36:46 +0200
-Message-Id: <20231114063647.71929-1-jose.pekkarinen@foxhound.fi>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D209B10E3EB
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 07:25:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699946718; x=1731482718;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=tAXwuNZ3/tYubJQ1opn4NWyvGa5Nh5vwg3awbeugb6E=;
+ b=DYSmvdnen1HAu6vqv7K/w+tfxRxpFLB/cYbRx0eKIsgUdCiDvfr7x5Y5
+ YKiEJk0ZVm2UvP/qJUevLXebH/zGqUUGU/kcyY1LY+rwL2ldlvSAaT1Dc
+ mH0FMtxqrC+3XgyFKwMdTimTSYGgqgcHL3SmP4ZBZ/cIHJHVmJtYVfBYm
+ DuP7ahZnao9AIKnUeOIPZOfuvI33W9YHZfHruQsireZEgQ/Kdij0uFrrq
+ BNrdRzuKIQNAX7Vlg1IN3RLvzpkIN302hVnaTPvyggsx42HSggQxTBX3t
+ VX5WJK6WT2IdzVo4Z7ZM1fnZBEPwURa9Z3NduTKIpN0fLJaBVIHAOY0V0 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="3655231"
+X-IronPort-AV: E=Sophos;i="6.03,301,1694761200"; 
+   d="scan'208";a="3655231"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2023 23:25:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,301,1694761200"; 
+   d="scan'208";a="5918441"
+Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2023 23:25:19 -0800
+From: Vivek Kasireddy <vivek.kasireddy@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	linux-mm@kvack.org
+Subject: [PATCH] mm/gup: Introduce pin_user_pages_fd() for pinning
+ shmem/hugetlbfs file pages (v3)
+Date: Mon, 13 Nov 2023 23:00:44 -0800
+Message-Id: <20231114070044.464451-1-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <0f05cade-c75e-4605-8e22-9fb916c622b0@redhat.com>
+References: <0f05cade-c75e-4605-8e22-9fb916c622b0@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 1552053025768449729
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedrudefuddgleekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpeeftdelueetieetvdettdetueeivedujeefffdvteefkeelhefhleelfeetteejjeenucfkphepuddvjedrtddrtddruddpkeefrddutddtrdegiedrudehiedpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdpoffvtefjohhsthepmhhoheehtddpmhhouggvpehsmhhtphhouhht
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,42 +60,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, qingqing.zhuo@amd.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- aurabindo.pillai@amd.com,
- =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
- hamza.mahfooz@amd.com, Wayne.Lin@amd.com, srinivasan.shanmugam@amd.com,
- mikita.lipski@amd.com, linux-kernel-mentees@lists.linux.dev,
- sungjoon.kim@amd.com
+Cc: Dongwon Kim <dongwon.kim@intel.com>, David Hildenbrand <david@redhat.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Hugh Dickins <hughd@google.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Peter Xu <peterx@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Junxiao Chang <junxiao.chang@intel.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The following patch will fix a minor issue where a debug message is
-referencing an struct that has just being checked whether is null or
-not. This has been noticed by using coccinelle, in the following output:
+For drivers that would like to longterm-pin the pages associated
+with a file, the pin_user_pages_fd() API provides an option to
+not only pin the pages via FOLL_PIN but also to check and migrate
+them if they reside in movable zone or CMA block. This API
+currently works with files that belong to either shmem or hugetlbfs.
+Files belonging to other filesystems are rejected for now.
 
-drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c:540:25-29: ERROR: aconnector is NULL but dereferenced.
+The pages need to be located first before pinning them via FOLL_PIN.
+If they are found in the page cache, they can be immediately pinned.
+Otherwise, they need to be allocated using the filesystem specific
+APIs and then pinned.
 
-Fixes: 5d72e247e58c9 ("drm/amd/display: switch DC over to the new DRM logging macros")
-Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
+v2:
+- Drop gup_flags and improve comments and commit message (David)
+- Allocate a page if we cannot find in page cache for the hugetlbfs
+  case as well (David)
+- Don't unpin pages if there is a migration related failure (David)
+- Drop the unnecessary nr_pages <= 0 check (Jason)
+- Have the caller of the API pass in file * instead of fd (Jason)
+
+v3: (David)
+- Enclose the huge page allocation code with #ifdef CONFIG_HUGETLB_PAGE
+  (Build error reported by kernel test robot <lkp@intel.com>)
+- Don't forget memalloc_pin_restore() on non-migration related errors
+- Improve the readability of the cleanup code associated with
+  non-migration related errors
+- Augment the comments by describing FOLL_LONGTERM like behavior
+- Include the R-b tag from Jason
+
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Mike Kravetz <mike.kravetz@oracle.com>
+Cc: Hugh Dickins <hughd@google.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Dongwon Kim <dongwon.kim@intel.com>
+Cc: Junxiao Chang <junxiao.chang@intel.com>
+Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com> (v2)
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/linux/mm.h |   2 +
+ mm/gup.c           | 109 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 111 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index ed784cf27d39..7048dab5e356 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -537,8 +537,7 @@ bool dm_helpers_dp_read_dpcd(
- 	struct amdgpu_dm_connector *aconnector = link->priv;
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 418d26608ece..1b675fa35059 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2472,6 +2472,8 @@ long get_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
+ 		    struct page **pages, unsigned int gup_flags);
+ long pin_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
+ 		    struct page **pages, unsigned int gup_flags);
++long pin_user_pages_fd(struct file *file, pgoff_t start,
++		       unsigned long nr_pages, struct page **pages);
  
- 	if (!aconnector) {
--		drm_dbg_dp(aconnector->base.dev,
--			   "Failed to find connector for link!\n");
-+		DRM_ERROR("Failed to find connector for link!");
- 		return false;
- 	}
- 
+ int get_user_pages_fast(unsigned long start, int nr_pages,
+ 			unsigned int gup_flags, struct page **pages);
+diff --git a/mm/gup.c b/mm/gup.c
+index 231711efa390..b3af967cdff1 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -3410,3 +3410,112 @@ long pin_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
+ 				     &locked, gup_flags);
+ }
+ EXPORT_SYMBOL(pin_user_pages_unlocked);
++
++static struct page *alloc_file_page(struct file *file, pgoff_t idx)
++{
++#ifdef CONFIG_HUGETLB_PAGE
++	struct page *page = ERR_PTR(-ENOMEM);
++	struct folio *folio;
++	int err;
++
++	if (is_file_hugepages(file)) {
++		folio = alloc_hugetlb_folio_nodemask(hstate_file(file),
++						     NUMA_NO_NODE,
++						     NULL,
++						     GFP_USER);
++		if (folio && folio_try_get(folio)) {
++			page = &folio->page;
++			err = hugetlb_add_to_page_cache(folio,
++							file->f_mapping,
++							idx);
++			if (err) {
++				folio_put(folio);
++				free_huge_folio(folio);
++				page = ERR_PTR(err);
++			}
++		}
++		return page;
++	}
++#endif
++	return shmem_read_mapping_page(file->f_mapping, idx);
++}
++
++/**
++ * pin_user_pages_fd() - pin user pages associated with a file
++ * @file:       the file whose pages are to be pinned
++ * @start:      starting file offset
++ * @nr_pages:   number of pages from start to pin
++ * @pages:      array that receives pointers to the pages pinned.
++ *              Should be at-least nr_pages long.
++ *
++ * Attempt to pin pages associated with a file that belongs to either shmem
++ * or hugetlb. The pages are either found in the page cache or allocated if
++ * necessary. Once the pages are located, they are all pinned via FOLL_PIN.
++ * And, these pinned pages need to be released either using unpin_user_pages()
++ * or unpin_user_page().
++ *
++ * It must be noted that the pages may be pinned for an indefinite amount
++ * of time. And, in most cases, the duration of time they may stay pinned
++ * would be controlled by the userspace. This behavior is effectively the
++ * same as using FOLL_LONGTERM with other GUP APIs.
++ *
++ * Returns number of pages pinned. This would be equal to the number of
++ * pages requested. If no pages were pinned, it returns -errno.
++ */
++long pin_user_pages_fd(struct file *file, pgoff_t start,
++		       unsigned long nr_pages, struct page **pages)
++{
++	struct page *page;
++	unsigned int flags, i;
++	long ret;
++
++	if (start < 0)
++		return -EINVAL;
++
++	if (!file)
++	    return -EINVAL;
++
++	if (!shmem_file(file) && !is_file_hugepages(file))
++	    return -EINVAL;
++
++	flags = memalloc_pin_save();
++	do {
++		for (i = 0; i < nr_pages; i++) {
++			/*
++ 			 * In most cases, we should be able to find the page
++			 * in the page cache. If we cannot find it, we try to
++			 * allocate one and add it to the page cache.
++			 */
++			page = find_get_page_flags(file->f_mapping,
++						   start + i,
++						   FGP_ACCESSED);
++			if (!page) {
++				page = alloc_file_page(file, start + i);
++				if (IS_ERR(page)) {
++					ret = PTR_ERR(page);
++					goto err;
++				}
++			}
++			ret = try_grab_page(page, FOLL_PIN);
++			if (unlikely(ret))
++				goto err;
++
++			pages[i] = page;
++			put_page(pages[i]);
++		}
++
++		ret = check_and_migrate_movable_pages(nr_pages, pages);
++	} while (ret == -EAGAIN);
++
++	memalloc_pin_restore(flags);
++	return ret ? ret : nr_pages;
++err:
++	memalloc_pin_restore(flags);
++	while (i-- > 0)
++		if (pages[i])
++			unpin_user_page(pages[i]);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(pin_user_pages_fd);
++
 -- 
 2.39.2
 
