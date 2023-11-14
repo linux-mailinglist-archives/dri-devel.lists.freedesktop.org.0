@@ -1,81 +1,143 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C007E7EACD2
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 10:17:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 144287EACD8
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 10:17:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CB8410E1E5;
-	Tue, 14 Nov 2023 09:17:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F91810E433;
+	Tue, 14 Nov 2023 09:17:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A60410E1E5
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 09:17:08 +0000 (UTC)
-X-UUID: 9185a0ca82ce11eea33bb35ae8d461a2-20231114
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:Message-ID;
- bh=S7FFin8rpFrowu9bWACjUo3oZH7qAEuMvwUzNC7+1D4=; 
- b=qEJVC4vNBskrUUDtTk6U6efQShJbpBXOCG0B4xsY0hD3osaRE34700lO17QJz9LBQJBWFqsyc+m32njnLOvx8eeMji1B0Ucmo1Em2JtZQb1OwLNWORK/SdDMlbnMU5CjwPnj3KXr2e0r1GgnpacRarGjwrImgxcPjsRI18RzaKQ=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.33, REQID:a0199460-e386-4bcb-a000-db54e0ce36d1, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:364b77b, CLOUDID:1a3e83fc-4a48-46e2-b946-12f04f20af8c,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
- DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 9185a0ca82ce11eea33bb35ae8d461a2-20231114
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <macpaul.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 274492188; Tue, 14 Nov 2023 17:17:01 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ECE210E1E6;
+ Tue, 14 Nov 2023 09:17:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1699953445; x=1731489445;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=wYfipz6I7sk+GkMYfDWllWR50hV9zAAMCeani3n2RVc=;
+ b=UJ3jBqu5WwIRcprRTZNt71WfpZvmg+c8GQMqnUE1hPnk+TBcMGp5ZfZa
+ kN+Ol7OdRQdJh2ur8C+kH/GzWpBKhJtBxKf6ggJPQjbj5GgmRjETRF7+Y
+ 5CcUFdoFhMAl4GWXXNxYMvWgOaP/tq4MQ7EyMJkdVPlgRRXw/Z9jj83Nn
+ urSj6GejMNYNowXgT22biezDJpdqCszAxK1VyI/Rj+kA0vGmtuboiNrkJ
+ huyge9ol5ksMyL5zHzG80PvOvnGEXezAD55NuxP1o8cFfnlX1Uh9qz7z6
+ NOxywbKlbyW0YMvwXTOm1BJtdaHftuGDhGycEiJVnuqVpfrkBv5Hz+Bx4 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="394533232"
+X-IronPort-AV: E=Sophos;i="6.03,301,1694761200"; d="scan'208";a="394533232"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2023 01:17:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="855228994"
+X-IronPort-AV: E=Sophos;i="6.03,301,1694761200"; d="scan'208";a="855228994"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by FMSMGA003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 14 Nov 2023 01:17:23 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Tue, 14 Nov 2023 01:17:21 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Tue, 14 Nov 2023 01:17:21 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 14 Nov 2023 17:16:59 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkmbs13n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.1118.26 via Frontend
- Transport; Tue, 14 Nov 2023 17:16:50 +0800
-Message-ID: <a6268eb1-0136-7d13-5aae-f8e2a864f090@mediatek.com>
-Date: Tue, 14 Nov 2023 17:16:46 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 1/1] drm/mediatek: Fix access violation in
- mtk_drm_crtc_dma_dev_get
+ 15.1.2507.34; Tue, 14 Nov 2023 01:17:21 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JPNHOJWUpk4uThCQzqKkiUa1HCLy6AVLmaYD8iv9sYzjl1qv/XHPVF8Fn14Hy8DjL3ISVmElt4rxqZr+SsljK6rwqtvxcdXdtp0OKRkqyLZWPqT79qY7Wy6HkK2Xld+AbHv9H47E3GbnxDXN2ZgzD3IKHhGhluTRsJgzIJHDGmXUpu5rnr3amC3fYYEPkpfOI6uAw0OYljeweKKCKxKlLSbUDPrVzVSKV2vMhSvTCxx5s4Nyq4tfzf2I/qeO6G7AiYnHe9lI+gI8Gv8ncsKDeUfwzrePYDcMKDJBHiJtAPvvQYV9ESyi2G9uPwWVnfkSfXlXaLsGDPcmU+za8LOADg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2mzVspzZgZhBUgLuEkobBuSGFHeOC4dQslA6uXVHNQo=;
+ b=b0uxgrntyKtFodb61ONWfqRj4PmXqfC/hRD6tYVWg5IZwH1lxPFpHrgvaBznSZGRXtoXou/59V0BdtBtkBVm3xWoVJDSv5GZ0a0eT+khWuTMfYfjbLQ5XELPdoTrH3ISybD1J6bshkoAI75fJjn65bXj8At4+94+qIcO8ghZdMIpJ7aUQKQ/AXtD+tdz7xUlFCspjGYPmdiZ3RGd7qOu/kNEyuySjXvFSROLkILVrkMmV7822JV0EbcCtfceVc9xXMHDdSy3kqcZQN3N8Ke6lDpENpzaT5pYrrg4zXwUAW12WREsdURXp3iSRDL5h/wtsBrVhqZqHuwRLuesW5+s9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SN7PR11MB6750.namprd11.prod.outlook.com (2603:10b6:806:266::21)
+ by SN7PR11MB7975.namprd11.prod.outlook.com (2603:10b6:806:2eb::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.29; Tue, 14 Nov
+ 2023 09:17:19 +0000
+Received: from SN7PR11MB6750.namprd11.prod.outlook.com
+ ([fe80::3f2c:c6e5:ae21:82cb]) by SN7PR11MB6750.namprd11.prod.outlook.com
+ ([fe80::3f2c:c6e5:ae21:82cb%4]) with mapi id 15.20.6977.029; Tue, 14 Nov 2023
+ 09:17:19 +0000
+From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
+To: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH 03/11] drm/i915/display: Consider fractional vdsc bpp
+ while computing m_n values
+Thread-Topic: [PATCH 03/11] drm/i915/display: Consider fractional vdsc bpp
+ while computing m_n values
+Thread-Index: AQHaE776D9Tmsrn7u0W+DXZ2cLBBu7B5jxgg
+Date: Tue, 14 Nov 2023 09:17:19 +0000
+Message-ID: <SN7PR11MB675047F73A5FD6C82EE63296E3B2A@SN7PR11MB6750.namprd11.prod.outlook.com>
+References: <20231110101020.4067342-1-ankit.k.nautiyal@intel.com>
+ <20231110101020.4067342-4-ankit.k.nautiyal@intel.com>
+In-Reply-To: <20231110101020.4067342-4-ankit.k.nautiyal@intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Stuart Lee <stuart.lee@mediatek.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-References: <20231110012914.14884-1-stuart.lee@mediatek.com>
- <20231110012914.14884-2-stuart.lee@mediatek.com>
-From: Macpaul Lin <macpaul.lin@mediatek.com>
-In-Reply-To: <20231110012914.14884-2-stuart.lee@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--7.518000-8.000000
-X-TMASE-MatchedRID: fE0JoqABJp06yy6RAAEPcya1MaKuob8PC/ExpXrHizz8rSaNLblw6tno
- quRwHY3Bj7Wc8+5sjRThpAulFEAvQ/+rTYoF7KeerK1919cGzDIrHkgIan9a0Wd6vNuG6Cqy0pM
- 6y4hp8eqORmg3vGx7V9sIe/TXUbL1kKjL2IOi2LAVglQa/gMvfJdPjWZp9Ce4W+jwVKpqvlKW1/
- 3TtIf0zi6l7Me4lYYaavSkNIv6dWMC8/gH0ZUaBws9VkfCh3uAkKAa/khZ3iSM2ehTV+imixSli
- qFp8m5g80gC5XNpZoW7thdnLNxB1Ea2DXGqwZmfDOL14/DRHdBA8JZETQujwvt592eq2xoT8R2R
- sKRNAl3KcczIzww8nRoRu3pmdZfHok7b0Yft8KGeAiCmPx4NwLTrdaH1ZWqC1B0Hk1Q1KyLgfCf
- WlnNb/1cppCzPq+1Uymsk/wUE4hpizLd1CYz0L/CAl/12j+ZfYQi/5pFZJQ2XgQHfq3IbwLkmA0
- dUQbLZPYY2Oko2eT6jXcTK0di+6+7BuoRxOBASO0Hxo74EaE+uqM9Je4eg9TjEr02BXMZhzb1EI
- PuPmESrQbSvtjL8dVIwYPm973ce
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--7.518000-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 0BC2E4DADE089477D0E3BDFE917D5AC397BF7328650D6F38882ADC7E086DB5162000:8
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN7PR11MB6750:EE_|SN7PR11MB7975:EE_
+x-ms-office365-filtering-correlation-id: ca5fa087-abbc-44bf-5b70-08dbe4f280bb
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: y1yclIl7VfifbNuK/6muQWvSzjXmwcrYMejjFhdWkH4cGwpxC65+enZPhBI+uY4SNE1ncdkcEG6K/536/LYqTOHpfVBUX3b0t9pLxbXiWQWO8qKp/d4hRwtweGO/HmQ9AdRRYaFdm3bi0uo7OnEPD6i5D3eB4W/abmPKvEZpX0UX7ElqoxTF/Dn80zgpS4IPEUZ2B8RkukDtZpj7HRsGopbt78e/WrJME+XbelUDbZWvGUgL1taskvN8upTNa4fKCmeAS7uOHPxJCzZmD9y3gM5FPYZQ/PNrLVdctDLcVzURQzKj5UPcMV9TAI+uRZ2ehaQ7H2M1zaalzT+PpFEbN3ayzNw4ng8JjtAfyBNjER2FvArLxWFj5Z368I9MJgap+o2pDvwoe+5ukBmqqFIpyNPy1mycQQPVdYw9Z6f0KdC4SOr2Pcp1xKfTR8sKLeFfB7ZU8Rm5STStfK1TrXvORFidxWwffaVWP2rcnzBygDJxCrvWClNiFR/q619y9YwEtB4m49cAeCMda2ZnxH3nM0l+/k36LyNblA70Q/agBSBOvAWXZuv0BhmXAoA9iHr0HXaU+MIyXmgcEUioqNSp7+I5fiOTkXc9n2aiQG1yfnuOo6IY3wZT5DC7Xa9te78Q
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR11MB6750.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(376002)(366004)(396003)(39860400002)(136003)(230922051799003)(186009)(451199024)(1800799009)(64100799003)(86362001)(5660300002)(478600001)(2906002)(71200400001)(4326008)(8936002)(8676002)(52536014)(316002)(66446008)(66946007)(66556008)(64756008)(66476007)(54906003)(76116006)(110136005)(82960400001)(26005)(83380400001)(33656002)(55016003)(41300700001)(122000001)(9686003)(38070700009)(7696005)(6506007)(38100700002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?4jJkFSuuGB5ObPViSH8adHMRTVcenLRgGqpQw/t53G8dXCapy8m8USm/Ibbl?=
+ =?us-ascii?Q?7t+GuiG5GW2EmdPbNZJUjc3YcBdpeOiPHOYTDpFcvG/7MPNa18jt0rbG0nLN?=
+ =?us-ascii?Q?/9jwRvG00n+Z4EcERcqaBO6/AePNz7yhB4/N4KFbQnMmyjoiqRg44Ur5Pwtz?=
+ =?us-ascii?Q?X12xNrb6VR+5ghuuaZ0oNuWpS8LqsKGCm6XrexOk7tdmwve0e95/VN8c1V4L?=
+ =?us-ascii?Q?YEIPcp+y8FbTK32ZeosaVLLCAbXqYS9gKB79Gk+lueqDynbmZ4zmKnOYCESB?=
+ =?us-ascii?Q?yoPIymtCgFhvV/ok3QV7iQ2EeMK0NBRe+sHYUIlmah/zLjSqayFJmbk4PzyV?=
+ =?us-ascii?Q?MEeKm6k7z/qk+MyV+GaHsIGaaaubD3vO/fX2alUG7RwvWFUMpSkxg64ovrY7?=
+ =?us-ascii?Q?Xg4KUtueuDVttm4KePDzk88oIkdalg4TTsJmpAfsF77S0kWBzontxECELn0U?=
+ =?us-ascii?Q?2IMCJ6qTTkv/0bbNrLeW4Qm2DDf0PKIm/icV7RknMYMlO/+WqiW2GRYb3ouX?=
+ =?us-ascii?Q?oMbFE6RvPQFzvX/DeBWPjLMGbC9HwXYVKnYeigOFX6lF94a57imyjqXhk+iR?=
+ =?us-ascii?Q?qziGUG2a7XavHpMTxzBczQWBl6ml51Q7En2oMtsnEcZMOGklo2l44cd3koe0?=
+ =?us-ascii?Q?5xHFBcqk93XmKuN830uNjFWULgkwbrdC1WOJyTQJjifFQNnuEEK3Y8vIAvH1?=
+ =?us-ascii?Q?JZVDQKiixBj4D3S8yCP+SvsKi557fcubHcJi0lC9vXEmqoPyJtjZ78vUsh1c?=
+ =?us-ascii?Q?8zNG+I6qF54YcMbOxGkeBQ9fiVr3mi6nIKoxnFFVW3049PHx2xMo5+KN626O?=
+ =?us-ascii?Q?NuZqzDgwWk5PPx4nMzAjCaNCo/peUwS08PLCUbMqRyjlm9UQw31zA0xCkW4p?=
+ =?us-ascii?Q?hidPYZvw7bsX6AQqRkTG5Qm8HCv7sYxAgaAZrrQeDHg/YRnk5sBGtkGZdSMD?=
+ =?us-ascii?Q?KJo3gl9QdIIqhBluZEY4xy2/YtjkZDzwEwWN70xS6jD/U+TFcZsxXpP1p0ut?=
+ =?us-ascii?Q?a/aCpp5C2NNhyxePquDyozZifdFj/iONXT2TNsY9R20cgoKaX1+JDHpLQYqw?=
+ =?us-ascii?Q?B46DQRl5vFqi44zeX/jAE4Kq/OGz6urknlspCf/VE8FgQ6C9g9Yul+QriRkd?=
+ =?us-ascii?Q?h9LgwqyCi2vETE1ju91b1BMVThj09saQHIx47m3o6luhKf6M6aDBsh4/jq7B?=
+ =?us-ascii?Q?Ek+GUz9jbqL3qjR/XU5IjI4NpMahCs3shBjdtGyAM6EWNCasqKDSA+3t+yu5?=
+ =?us-ascii?Q?lrsJm068xl9wl7AlJstQZYigNrRlc2nsDP+kG/8y8TE5Ox2v77E3RY+Pw00I?=
+ =?us-ascii?Q?IcUZSZI1LTyIuvJD8+7fDFxb4v4x7U8ypeyFynNGbgWB4NdZrFBk89kZeVjO?=
+ =?us-ascii?Q?dDIT0j3gSFfKb6ncFLq0O38Gtimzqe5mnyhxMEgbrdhRvJBqwxJp+Wx+tkbU?=
+ =?us-ascii?Q?SB6UAVR5ErVKXF8sXZO3bSrjJDmuMXeVdNVdPR35Wj3nwsKBN1HWzmMIeV1v?=
+ =?us-ascii?Q?1RUDLNPTD376SLUnVJMeSYbhc+QhM3XwFN2A13iw+qg5uP/F5Pdo1UtmVC/L?=
+ =?us-ascii?Q?fUYh5kbGV9PjLE9n+wGIeR2iJ4YcWWRkTJppG35Y?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB6750.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca5fa087-abbc-44bf-5b70-08dbe4f280bb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Nov 2023 09:17:19.5724 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: HxOMctK6XYKxI/DsgvpIwMCBTtuwwzvD67W0Z9bxaTWVlfM/6lUIc+tN0BxZQqDnvHNe8+uVglqdWMBwPmFJ9g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7975
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,145 +150,222 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "Bear.Wang" <bear.wang@mediatek.com>, "Nancy . Lin" <nancy.lin@mediatek.com>,
- linux-mediatek@lists.infradead.org, stable@vger.kernel.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Lancelot Wu <lancelot.wu@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
- Pablo Sun <pablo.sun@mediatek.com>, linux-arm-kernel@lists.infradead.org
+Cc: "Kulkarni, Vandita" <vandita.kulkarni@intel.com>,
+ "suijingfeng@loongson.cn" <suijingfeng@loongson.cn>, "Sharma,
+ Swati2" <swati2.sharma@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/10/23 09:29, Stuart Lee wrote:
-> Add error handling to check NULL input in
-> mtk_drm_crtc_dma_dev_get function.
-> 
-> While display path is not configured correctly, none of crtc is
-> established. So the caller of mtk_drm_crtc_dma_dev_get may pass
-> input parameter *crtc as NULL, Which may cause coredump when
-> we try to get the container of NULL pointer.
-> 
-> Fixes: cb1d6bcca542 ("drm/mediatek: Add dma dev get function")
-> Signed-off-by: Stuart Lee <stuart.lee@mediatek.com>
-> Cc: stable@vger.kernel.org
+
+> MTL+ supports fractional compressed bits_per_pixel, with precision of
+> 1/16. This compressed bpp is stored in U6.4 format.
+> Accommodate this precision while computing m_n values.
+>=20
+> v1:
+> Replace the computation of 'data_clock' with 'data_clock =3D
+> DIV_ROUND_UP(data_clock, 16).' (Sui Jingfeng).
+>=20
+> v2:
+> Rebase and pass bits_per_pixel in U6.4 format.
+>=20
+
+LGTM.
+
+Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
+
+> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> Signed-off-by: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>
+> Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
+> Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
 > ---
->   drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> index c277b9fae950..047c9a31d306 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> @@ -921,7 +921,14 @@ static int mtk_drm_crtc_init_comp_planes(struct drm_device *drm_dev,
->   
->   struct device *mtk_drm_crtc_dma_dev_get(struct drm_crtc *crtc)
->   {
-> -	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
-> +	struct mtk_drm_crtc *mtk_crtc = NULL;
-> +
-> +	if (!crtc)
-> +		return NULL;
-> +
-> +	mtk_crtc = to_mtk_crtc(crtc);
-> +	if (!mtk_crtc)
-> +		return NULL;
->   
->   	return mtk_crtc->dma_dev;
->   }
-
-Maybe you could attach the stack dump log in commit message next time.
-
-I've tested this patch with 6.7-rc1 on mt8395-genio-1200-evk.
-
-The following error dump can be solved with this patch, thanks.
-
-Tested-by: Macpaul Lin <macpaul.lin@mediatek.com>
-
-
-[    2.804652] mediatek-drm mediatek-drm.6.auto: bound 
-1c110000.vpp-merge (ops mtk_disp_merge_component_ops [mediatek_drm])
-[    2.804660] mediatek-drm mediatek-drm.4.auto: Not creating crtc 0 
-because component 8 is disabled or missing
-[    2.804662] mediatek-drm mediatek-drm.4.auto: Not creating crtc 0 
-because component 9 is disabled or missing
-[    2.804666] Unable to handle kernel NULL pointer dereference at 
-virtual address 00000000000004a0
-[    2.804668] Mem abort info:
-[    2.804669]   ESR = 0x0000000096000004
-[    2.804670]   EC = 0x25: DABT (current EL), IL = 32 bits
-[    2.804671]   SET = 0, FnV = 0
-[    2.804672]   EA = 0, S1PTW = 0
-[    2.804673]   FSC = 0x04: level 0 translation fault
-[    2.804674] Data abort info:
-[    2.804674]   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
-[    2.804676]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-[    2.804677]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-[    2.804678] user pgtable: 4k pages, 48-bit VAs, pgdp=0000000107380000
-[    2.804680] [00000000000004a0] pgd=0000000000000000, p4d=0000000000000000
-[    2.804683] Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
-[    2.804684] Modules linked in: mt6315_regulator mtk_jpeg 
-mtk_jpeg_enc_hw crct10dif_ce mtk_jpeg_dec_hw btusb btrtl mtk_vcodec_dec 
-btintel btmtk v4l2_vp9 mtk_vcodec_enc btbcm v4l2_h264 mtk_vcodec_dbgfs 
-mediatek_drm bluetooth mtk_vcodec_common v4l2_mem2mem ecdh_generic 
-videobuf2_dma_contig ecc videobuf2_memops videobuf2_v4l2 rfkill 
-goodix_ts videodev videobuf2_common mc drm_kms_helper mtk_mmsys 
-mtk_mutex mtk_cmdq_helper mcp251xfd mtk_cmdq_mailbox pcie_mediatek_gen3 
-can_dev mtk_scp pwm_mtk_disp mtk_rpmsg rtc_mt6397 mtk_scp_ipi 
-snd_soc_dmic spmi_mtk_pmif mediatek_cpufreq_hw pwm_bl fuse drm backlight 
-ipv6
-[    2.828100] CPU: 7 PID: 56 Comm: kworker/u16:1 Not tainted 
-6.7.0-rc1-mtk+modified #1
-[    2.829073] Hardware name: MediaTek Genio 1200 EVK-P1V2-EMMC (DT)
-[    2.829838] Workqueue: events_unbound deferred_probe_work_func
-[    2.830578] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS 
-BTYPE=--)
-[    2.831452] pc : mtk_drm_crtc_dma_dev_get+0x0/0x8 [mediatek_drm]
-[    2.832212] lr : mtk_drm_bind+0x418/0x5e8 [mediatek_drm]
-[    2.832885] sp : ffff800082d93a20
-[    2.833301] x29: ffff800082d93a40 x28: ffff8000824379c0 x27: 
-ffff80007acc8c10
-[    2.834197] x26: ffff0000c7e3e080 x25: 0000000000000002 x24: 
-0000000000000000
-[    2.835093] x23: ffff0000c7e3e080 x22: 0000000000000002 x21: 
-0000000000000000
-[    2.835989] x20: ffff0000ca5a2800 x19: ffff0000c7e3e080 x18: 
-ffffffffffffffff
-[    2.836884] x17: 69645f6b746d2073 x16: 706f28206c61612e x15: 
-ffff80008288a5aa
-[    2.837779] x14: ffffffffffffffff x13: 0a676e697373696d x12: 
-20726f2064656c62
-[    2.838676] x11: fffffffffffe0000 x10: 0000000000000020 x9 : 
-ffff800082d93900
-[    2.839572] x8 : 0000000000000020 x7 : 20726f2064656c62 x6 : 
-000000000000000c
-[    2.840468] x5 : ffff0001fef70d08 x4 : 0000000000000000 x3 : 
-ffff0000ca5a2ae0
-[    2.841363] x2 : ffff0000ca5a2ae0 x1 : 0000000000000000 x0 : 
-0000000000000000
-[    2.842259] Call trace:
-[    2.842568]  mtk_drm_crtc_dma_dev_get+0x0/0x8 [mediatek_drm]
-[    2.843285]  try_to_bring_up_aggregate_device+0x168/0x1d4
-[    2.843965]  __component_add+0xa4/0x170
-[    2.844448]  component_add+0x14/0x20
-[    2.844898]  mtk_disp_rdma_probe+0x178/0x268 [mediatek_drm]
-[    2.845602]  platform_probe+0x68/0xdc
-[    2.846064]  really_probe+0x148/0x2ac
-[    2.846525]  __driver_probe_device+0x78/0x12c
-[    2.847074]  driver_probe_device+0x40/0x160
-[    2.847600]  __device_attach_driver+0xb8/0x134
-[    2.848158]  bus_for_each_drv+0x84/0xe4
-[    2.848641]  __device_attach+0xac/0x1b8
-[    2.849124]  device_initial_probe+0x14/0x20
-[    2.849651]  bus_probe_device+0xa8/0xac
-[    2.850133]  deferred_probe_work_func+0x88/0xc0
-[    2.850702]  process_one_work+0x138/0x260
-[    2.851209]  worker_thread+0x32c/0x438
-[    2.851681]  kthread+0x118/0x11c
-[    2.852088]  ret_from_fork+0x10/0x20
-[    2.852540] Code: 97fffdec a8c17bfd d50323bf d65f03c0 (f9425000)
-[    2.853305] ---[ end trace 0000000000000000 ]---
-[    4.102725] random: crng init done
-
-Best regards,
-Macpaul Lin
+>  drivers/gpu/drm/i915/display/intel_display.c |  4 ++--
+>  drivers/gpu/drm/i915/display/intel_dp.c      | 16 ++++++++--------
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c  | 14 +++++++-------
+>  drivers/gpu/drm/i915/display/intel_fdi.c     |  3 ++-
+>  4 files changed, 19 insertions(+), 18 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c
+> b/drivers/gpu/drm/i915/display/intel_display.c
+> index b4a8e3087e50..125903007a29 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -2415,12 +2415,12 @@ add_bw_alloc_overhead(int link_clock, int
+> bw_overhead,  }
+>=20
+>  void
+> -intel_link_compute_m_n(u16 bits_per_pixel, int nlanes,
+> +intel_link_compute_m_n(u16 bits_per_pixel_x16, int nlanes,
+>  		       int pixel_clock, int link_clock,
+>  		       int bw_overhead,
+>  		       struct intel_link_m_n *m_n)
+>  {
+> -	u32 data_clock =3D bits_per_pixel * pixel_clock;
+> +	u32 data_clock =3D DIV_ROUND_UP(bits_per_pixel_x16 * pixel_clock,
+> 16);
+>  	u32 data_m;
+>  	u32 data_n;
+>=20
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
+> b/drivers/gpu/drm/i915/display/intel_dp.c
+> index 4ad3718c3c7d..246f50d1f030 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -2663,7 +2663,7 @@ static bool can_enable_drrs(struct intel_connector
+> *connector,  static void  intel_dp_drrs_compute_config(struct intel_conne=
+ctor
+> *connector,
+>  			     struct intel_crtc_state *pipe_config,
+> -			     int link_bpp)
+> +			     int link_bpp_x16)
+>  {
+>  	struct drm_i915_private *i915 =3D to_i915(connector->base.dev);
+>  	const struct drm_display_mode *downclock_mode =3D @@ -2688,7
+> +2688,7 @@ intel_dp_drrs_compute_config(struct intel_connector
+> *connector,
+>  	if (pipe_config->splitter.enable)
+>  		pixel_clock /=3D pipe_config->splitter.link_count;
+>=20
+> -	intel_link_compute_m_n(link_bpp, pipe_config->lane_count,
+> pixel_clock,
+> +	intel_link_compute_m_n(link_bpp_x16, pipe_config->lane_count,
+> +pixel_clock,
+>  			       pipe_config->port_clock,
+>  			       intel_dp_bw_fec_overhead(pipe_config-
+> >fec_enable),
+>  			       &pipe_config->dp_m2_n2);
+> @@ -2792,7 +2792,7 @@ intel_dp_compute_config(struct intel_encoder
+> *encoder,
+>  	struct intel_dp *intel_dp =3D enc_to_intel_dp(encoder);
+>  	const struct drm_display_mode *fixed_mode;
+>  	struct intel_connector *connector =3D intel_dp->attached_connector;
+> -	int ret =3D 0, link_bpp;
+> +	int ret =3D 0, link_bpp_x16;
+>=20
+>  	if (HAS_PCH_SPLIT(dev_priv) && !HAS_DDI(dev_priv) && encoder-
+> >port !=3D PORT_A)
+>  		pipe_config->has_pch_encoder =3D true;
+> @@ -2841,10 +2841,10 @@ intel_dp_compute_config(struct intel_encoder
+> *encoder,
+>  		drm_dp_enhanced_frame_cap(intel_dp->dpcd);
+>=20
+>  	if (pipe_config->dsc.compression_enable)
+> -		link_bpp =3D to_bpp_int(pipe_config-
+> >dsc.compressed_bpp_x16);
+> +		link_bpp_x16 =3D pipe_config->dsc.compressed_bpp_x16;
+>  	else
+> -		link_bpp =3D intel_dp_output_bpp(pipe_config-
+> >output_format,
+> -					       pipe_config->pipe_bpp);
+> +		link_bpp_x16 =3D
+> to_bpp_x16(intel_dp_output_bpp(pipe_config->output_format,
+> +							      pipe_config-
+> >pipe_bpp));
+>=20
+>  	if (intel_dp->mso_link_count) {
+>  		int n =3D intel_dp->mso_link_count;
+> @@ -2868,7 +2868,7 @@ intel_dp_compute_config(struct intel_encoder
+> *encoder,
+>=20
+>  	intel_dp_audio_compute_config(encoder, pipe_config, conn_state);
+>=20
+> -	intel_link_compute_m_n(link_bpp,
+> +	intel_link_compute_m_n(link_bpp_x16,
+>  			       pipe_config->lane_count,
+>  			       adjusted_mode->crtc_clock,
+>  			       pipe_config->port_clock,
+> @@ -2884,7 +2884,7 @@ intel_dp_compute_config(struct intel_encoder
+> *encoder,
+>=20
+>  	intel_vrr_compute_config(pipe_config, conn_state);
+>  	intel_psr_compute_config(intel_dp, pipe_config, conn_state);
+> -	intel_dp_drrs_compute_config(connector, pipe_config, link_bpp);
+> +	intel_dp_drrs_compute_config(connector, pipe_config,
+> link_bpp_x16);
+>  	intel_dp_compute_vsc_sdp(intel_dp, pipe_config, conn_state);
+>  	intel_dp_compute_hdr_metadata_infoframe_sdp(intel_dp,
+> pipe_config, conn_state);
+>=20
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> index 31461ea25f7c..5c7e9d296483 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> @@ -70,7 +70,7 @@ static int intel_dp_mst_check_constraints(struct
+> drm_i915_private *i915, int bpp
+>=20
+>  static int intel_dp_mst_bw_overhead(const struct intel_crtc_state *crtc_=
+state,
+>  				    const struct intel_connector *connector,
+> -				    bool ssc, bool dsc, int bpp)
+> +				    bool ssc, bool dsc, int bpp_x16)
+>  {
+>  	const struct drm_display_mode *adjusted_mode =3D
+>  		&crtc_state->hw.adjusted_mode;
+> @@ -94,7 +94,7 @@ static int intel_dp_mst_bw_overhead(const struct
+> intel_crtc_state *crtc_state,
+>  	overhead =3D drm_dp_bw_overhead(crtc_state->lane_count,
+>  				      adjusted_mode->hdisplay,
+>  				      dsc_slice_count,
+> -				      to_bpp_x16(bpp),
+> +				      bpp_x16,
+>  				      flags);
+>=20
+>  	/*
+> @@ -107,16 +107,16 @@ static int intel_dp_mst_bw_overhead(const struct
+> intel_crtc_state *crtc_state,  static void intel_dp_mst_compute_m_n(const
+> struct intel_crtc_state *crtc_state,
+>  				     const struct intel_connector *connector,
+>  				     bool ssc, bool dsc,
+> -				     int bpp,
+> +				     int bpp_x16,
+>  				     struct intel_link_m_n *m_n)
+>  {
+>  	const struct drm_display_mode *adjusted_mode =3D
+>  		&crtc_state->hw.adjusted_mode;
+>  	int overhead =3D intel_dp_mst_bw_overhead(crtc_state,
+>  						connector,
+> -						ssc, dsc, bpp);
+> +						ssc, dsc, bpp_x16);
+>=20
+> -	intel_link_compute_m_n(bpp, crtc_state->lane_count,
+> +	intel_link_compute_m_n(bpp_x16, crtc_state->lane_count,
+>  			       adjusted_mode->crtc_clock,
+>  			       crtc_state->port_clock,
+>  			       overhead,
+> @@ -180,9 +180,9 @@ static int intel_dp_mst_find_vcpi_slots_for_bpp(struc=
+t
+> intel_encoder *encoder,
+>  		link_bpp =3D dsc ? bpp :
+>  			intel_dp_output_bpp(crtc_state->output_format,
+> bpp);
+>=20
+> -		intel_dp_mst_compute_m_n(crtc_state, connector, false, dsc,
+> link_bpp,
+> +		intel_dp_mst_compute_m_n(crtc_state, connector, false, dsc,
+> +to_bpp_x16(link_bpp),
+>  					 &crtc_state->dp_m_n);
+> -		intel_dp_mst_compute_m_n(crtc_state, connector, true, dsc,
+> link_bpp,
+> +		intel_dp_mst_compute_m_n(crtc_state, connector, true, dsc,
+> +to_bpp_x16(link_bpp),
+>  					 &remote_m_n);
+>=20
+>  		/*
+> diff --git a/drivers/gpu/drm/i915/display/intel_fdi.c
+> b/drivers/gpu/drm/i915/display/intel_fdi.c
+> index 1d87fbc1e813..295a0f24ebbf 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fdi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fdi.c
+> @@ -339,7 +339,8 @@ int ilk_fdi_compute_config(struct intel_crtc *crtc,
+>=20
+>  	pipe_config->fdi_lanes =3D lane;
+>=20
+> -	intel_link_compute_m_n(pipe_config->pipe_bpp, lane, fdi_dotclock,
+> +	intel_link_compute_m_n(to_bpp_x16(pipe_config->pipe_bpp),
+> +			       lane, fdi_dotclock,
+>  			       link_bw,
+>  			       intel_dp_bw_fec_overhead(false),
+>  			       &pipe_config->fdi_m_n);
+> --
+> 2.40.1
 
