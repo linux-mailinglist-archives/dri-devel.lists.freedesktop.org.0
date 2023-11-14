@@ -2,90 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 625A87EB501
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 17:37:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B657EB510
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Nov 2023 17:42:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78F1110E476;
-	Tue, 14 Nov 2023 16:37:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10E8710E47A;
+	Tue, 14 Nov 2023 16:42:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2065.outbound.protection.outlook.com [40.107.220.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0753910E475;
- Tue, 14 Nov 2023 16:37:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jZOQFn/m/mxQ3yj1VWvNxWSFUCEjxoskAHvzOAloQUrC4uOyJGQ019goIDUSEcC/nLmK3P+z8kuNZKyuyzSQRSVI9/5MEQz3brZEXnhg4Uj0XH8ejlffdpo6ZPVVYYcX3DkReADinpdtxcwSIab/PdSv+Iq6QW5mZ12Ie3ihD90bKYvL3B4Qu0HVaIzC1FgEQYK7NtpGG4NQca7SYV488nsePtp0gKMFS0Fb295QJCX/rH/sOnjABnpEbVdF8+Z4cI+WdofAPpiqf34jrwQYJCMs7HDiDLc2wDfNepIlH82HrVgY+pJ8a6h2Unh1Aj0m8ZcpL9mK8iOAvF/OiTX8ug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZfR87QNmj52+CghS17sGyioBgxGoHIvFCh1Tnlt9iEw=;
- b=FCbmqiE5B6LH6YjdvpGdO3vy3zSgN2l43/wnsS9mlGGdNIUA4CdZJX/lbQ7dWf5jES2tLuuiQwUYXOsUfP6nbPfBumF3ZV+XLOtv+BNJf6cmE6y+wdLeaeJa0JCeQOzoPOKlxuotBfpvpueiw94QWPG+ByE2WfqNWfeGEu3T2AOJQvfzfm5XtTx5BiPCEJiERF0KQ4rr1UtO9sMYBG2dGgXx+MlRArcoi9p9BBef2z7Jwl3EdBzQRR8VlRRThxMg40TLCNkl60r/WqmpihXHiVD/+4iwHyl1YW/FHhgfGanzyvQ84qNQrqSBCET86AaKsIt5rM3gkrWk9UM1iDW9pw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZfR87QNmj52+CghS17sGyioBgxGoHIvFCh1Tnlt9iEw=;
- b=3Vbrl/V8UkzGoOl9+2KsXZZwCnAECOFfA6HmQ9uKVJ+Yidg8w3PI+Xi2EI7FmOYMh6i3xSmQQ4B6K5WvkdBmgyMlOWtpt+R6W688fIeg645+B7XzxcxgiC6XS6a0+VM9Lx0LFw8PD+Xv8pGFB5z26k0UH7ReCy5C7B2fYtT2az8=
-Received: from BL0PR1501CA0023.namprd15.prod.outlook.com
- (2603:10b6:207:17::36) by LV8PR12MB9263.namprd12.prod.outlook.com
- (2603:10b6:408:1e6::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.29; Tue, 14 Nov
- 2023 16:37:17 +0000
-Received: from BL6PEPF0001AB53.namprd02.prod.outlook.com
- (2603:10b6:207:17:cafe::aa) by BL0PR1501CA0023.outlook.office365.com
- (2603:10b6:207:17::36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.29 via Frontend
- Transport; Tue, 14 Nov 2023 16:37:17 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL6PEPF0001AB53.mail.protection.outlook.com (10.167.241.5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7002.13 via Frontend Transport; Tue, 14 Nov 2023 16:37:16 +0000
-Received: from thonkpad.localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.32; Tue, 14 Nov
- 2023 10:37:14 -0600
-From: <ivlipski@amd.com>
-To: <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH] drm/amdgpu/gmc11: fix logic typo in AGP check
-Date: Tue, 14 Nov 2023 11:36:56 -0500
-Message-ID: <20231114163702.933693-1-ivlipski@amd.com>
-X-Mailer: git-send-email 2.25.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4484D10E47B
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 16:42:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1699980157;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=S0c77MRIfmEGYCNMMqVyI2qPOnHUBgvpZCQHCynNgK8=;
+ b=GERmnqXCS6btgTnkvNuXwSapr4qSlrZNXnedtzpItu6Alli8MhEmNFIZ1B2bfAhuVLH6FH
+ PmjrjMpyRn5mvrsWxxQWmmHGvzkG3XCeJiUGL4YCkefKnwA52PQVDGTIV3pfQMzyHU1A/h
+ xx01W3rsJ3vqk7XbDym1ycEAvVshJSM=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-457-h7jOwYEyOROWUDhD-Lb_rw-1; Tue, 14 Nov 2023 11:42:36 -0500
+X-MC-Unique: h7jOwYEyOROWUDhD-Lb_rw-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-9e31708ad72so401918066b.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 08:42:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699980155; x=1700584955;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=S0c77MRIfmEGYCNMMqVyI2qPOnHUBgvpZCQHCynNgK8=;
+ b=uIVCq2h/QmZ7BHNWvq8/349hGcnyLN4fXAldk9dr1/pEJXMzkd+A8T+JiYt9jW1ORZ
+ hUSL+yNwwdiKPnnNl2hvPQDx2EzUpmRUIaa1Pae/TOghVzYkLONemG7ODF8OhLC1hoQU
+ pW39UE1VraNI/nRLCgEcvumGacDY8OHwDoGs8CLQVU79yD0rNBiaMk5vnuejFvKYMTPl
+ O1zL2pWayp78dQAbKQJ0GoLunNVVTBbyBKGl2QufUbSVt0run6pzIN2vRsyh/KJndL3A
+ v7VjqFdxAA8+aDB9mr5Gw/nIUcJVsMIr2p/b1546QEk2ZZbgR/LFCAbHKqficmOK1xcS
+ 8b+A==
+X-Gm-Message-State: AOJu0YwiTN5kZWQLZhkiQ1X6z7uPSQi0JLtiDcic6+FXPGrt3R8NPiZm
+ YvRb0kZ0V++8UeY9kafSXmwfJ7CH72BpUa7jFVZRhiQaYhbO5ett8bVftMEbpp2hNz740YOXmhj
+ zhiVW/3ikPfPEotRWLT5sOOKoZhF/
+X-Received: by 2002:a17:906:4f13:b0:9df:bc50:2513 with SMTP id
+ t19-20020a1709064f1300b009dfbc502513mr7274342eju.65.1699980154879; 
+ Tue, 14 Nov 2023 08:42:34 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHfn4c24R5W4bd+EVwrMNaRwBMuNVIsC9zYOUo2FKiKsCdAOBsvD6dioe9WjEOnxb9D3QGFVw==
+X-Received: by 2002:a17:906:4f13:b0:9df:bc50:2513 with SMTP id
+ t19-20020a1709064f1300b009dfbc502513mr7274298eju.65.1699980154501; 
+ Tue, 14 Nov 2023 08:42:34 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ y19-20020a170906525300b009a13fdc139fsm5766753ejm.183.2023.11.14.08.42.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Nov 2023 08:42:34 -0800 (PST)
+Message-ID: <e517d560-3a1f-4e79-9bec-acdc77784bcd@redhat.com>
+Date: Tue, 14 Nov 2023 17:42:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB53:EE_|LV8PR12MB9263:EE_
-X-MS-Office365-Filtering-Correlation-Id: 53f69525-da69-4d80-43cf-08dbe52ff6be
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VKHZ70MLZT0gvT+1uIV8jJ1XlJai1bC1hiFnqZRuXuI5JcDmpjZlr0cscYoCGF+wiPxe1bdTog3KA858B+heAQFFnrI438UicUqmbKZzUzpWPeB7Srkk9WMIZ40cq802CplKUVF3QSOXwmHEcox559WPrcAMsDiFUEm4qhHYvX7AEubHMeYMGuiwIWcSP8GEWPcTb4RgNLrVkGXFCscxnVbkZVFjixT5GZ3XxlsGXc4WEvOBUTbfDzHhapFsYGy6zwjkTDKLe8LmN/w1BglVzA2C9awt7cw32j+3Xk5FT11ZNYhS3UV+qDwYt9VeZSN7GP3v2reTSPKDn9HKjuwwXEpBBbvBRE5Fs6Ei2TflUmyYoQWCJSBnmTbYNN1XHASJI29DqQtSz5szb2ksxXdi82z5yxxIKrDu4B90rWJFcaoVHJ6Z7j/dLpNysq6voi46xKRHoizeUwGo3qg5LDlpYjLuCUMmWWbgzURZhHK0V3k7hsTRDomf+UQQ1JrSk8MHBm9oNRXbJyvRb6nXha5rO1hHsFElbp48TET/SzDdGUcDgsJ/iMUiicvJhHLhiMyLpx3oaFT7n5O0XYd+HdQRW2FWvQghWTNXUPXSbWoPvHDPep3bsQ/MxTVvyWFuXBmPAdgqtNFzGO/AOh0yhiOrwRBrCK7E9otfehn0MhJ6n9qpTnyRqpEz8UPztT3kZIRlJzR0vJ0tiI+GjKMLhQ+zszl5kPoqpt/stg7nsMYBCcz45XrfQQKaHfuvytuUleHx49m3IUFOoHbJES8Myux8QA==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(376002)(39860400002)(136003)(396003)(346002)(230922051799003)(186009)(64100799003)(1800799009)(82310400011)(451199024)(36840700001)(40470700004)(46966006)(26005)(336012)(36860700001)(36756003)(478600001)(54906003)(2876002)(70586007)(70206006)(1076003)(66574015)(2616005)(4744005)(6916009)(316002)(8676002)(8936002)(5660300002)(4326008)(2906002)(41300700001)(6666004)(82740400003)(47076005)(81166007)(83380400001)(356005)(426003)(40480700001)(16526019)(40460700003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2023 16:37:16.6757 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53f69525-da69-4d80-43cf-08dbe52ff6be
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB53.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9263
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 02/20] drm/gpuvm: Helper to get range of unmap from a
+ remap op.
+To: Sarah Walker <sarah.walker@imgtec.com>, dri-devel@lists.freedesktop.org
+References: <20231031151257.90350-1-sarah.walker@imgtec.com>
+ <20231031151257.90350-3-sarah.walker@imgtec.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20231031151257.90350-3-sarah.walker@imgtec.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,41 +89,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yifan Zhang <yifan1.zhang@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, Le Ma <le.ma@amd.com>,
- sunpeng.li@amd.com, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- rodrigo.siqueira@amd.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, yu.wang4@amd.com, hamza.mahfooz@amd.com,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: matthew.brost@intel.com, luben.tuikov@amd.com, conor+dt@kernel.org,
+ linux-doc@vger.kernel.org, tzimmermann@suse.de,
+ krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org, corbet@lwn.net,
+ linux-kernel@vger.kernel.org, mripard@kernel.org, afd@ti.com,
+ robh+dt@kernel.org, boris.brezillon@collabora.com, donald.robson@imgtec.com,
+ hns@goldelico.com, christian.koenig@amd.com, faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
+On 10/31/23 16:12, Sarah Walker wrote:
+> From: Donald Robson <donald.robson@imgtec.com>
+> 
+> Determining the start and range of the unmap stage of a remap op is a
+> common piece of code currently implemented by multiple drivers. Add a
+> helper for this.
+> 
+> Changes since v7:
+> - Renamed helper to drm_gpuva_op_remap_to_unmap_range()
+> - Improved documentation
+> 
+> Changes since v6:
+> - Remove use of __always_inline
+> 
+> Signed-off-by: Donald Robson <donald.robson@imgtec.com>
+> Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
 
-Should be && rather than ||.
+Reviewed-by: Danilo Krummrich <dakr@redhat.com>
 
-Fixes: b2e1cbe6281f ("drm/amdgpu/gmc11: disable AGP on GC 11.5")
-Acked-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Want me to apply the patch?
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-index 6dce9b29f675..ba4c82f5e617 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-@@ -640,7 +640,7 @@ static void gmc_v11_0_vram_gtt_location(struct amdgpu_device *adev,
- 	amdgpu_gmc_set_agp_default(adev, mc);
- 	amdgpu_gmc_vram_location(adev, &adev->gmc, base);
- 	amdgpu_gmc_gart_location(adev, mc, AMDGPU_GART_PLACEMENT_HIGH);
--	if (!amdgpu_sriov_vf(adev) ||
-+	if (!amdgpu_sriov_vf(adev) &&
- 	    (amdgpu_ip_version(adev, GC_HWIP, 0) < IP_VERSION(11, 5, 0)))
- 		amdgpu_gmc_agp_location(adev, mc);
- 
--- 
-2.34.1
+> ---
+>   include/drm/drm_gpuvm.h | 28 ++++++++++++++++++++++++++++
+>   1 file changed, 28 insertions(+)
+> 
+> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
+> index c7ed6bf441d4..c64585dc4e8e 100644
+> --- a/include/drm/drm_gpuvm.h
+> +++ b/include/drm/drm_gpuvm.h
+> @@ -702,4 +702,32 @@ void drm_gpuva_remap(struct drm_gpuva *prev,
+>   
+>   void drm_gpuva_unmap(struct drm_gpuva_op_unmap *op);
+>   
+> +/**
+> + * drm_gpuva_op_remap_to_unmap_range() - Helper to get the start and range of
+> + * the unmap stage of a remap op.
+> + * @op: Remap op.
+> + * @start_addr: Output pointer for the start of the required unmap.
+> + * @range: Output pointer for the length of the required unmap.
+> + *
+> + * The given start address and range will be set such that they represent the
+> + * range of the address space that was previously covered by the mapping being
+> + * re-mapped, but is now empty.
+> + */
+> +static inline void
+> +drm_gpuva_op_remap_to_unmap_range(const struct drm_gpuva_op_remap *op,
+> +				  u64 *start_addr, u64 *range)
+> +{
+> +	const u64 va_start = op->prev ?
+> +			     op->prev->va.addr + op->prev->va.range :
+> +			     op->unmap->va->va.addr;
+> +	const u64 va_end = op->next ?
+> +			   op->next->va.addr :
+> +			   op->unmap->va->va.addr + op->unmap->va->va.range;
+> +
+> +	if (start_addr)
+> +		*start_addr = va_start;
+> +	if (range)
+> +		*range = va_end - va_start;
+> +}
+> +
+>   #endif /* __DRM_GPUVM_H__ */
 
