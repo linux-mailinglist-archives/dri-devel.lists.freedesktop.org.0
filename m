@@ -1,49 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059777EBB0D
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 03:03:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62DBE7EBB68
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 04:03:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 548A810E34C;
-	Wed, 15 Nov 2023 02:02:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 419D410E1CD;
+	Wed, 15 Nov 2023 03:03:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49219.qiye.163.com (mail-m49219.qiye.163.com
- [45.254.49.219])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08A4E10E34C
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 02:02:55 +0000 (UTC)
+X-Greylist: delayed 599 seconds by postgrey-1.36 at gabe;
+ Wed, 15 Nov 2023 03:03:45 UTC
+Received: from ec2-44-216-146-129.compute-1.amazonaws.com
+ (ec2-44-216-146-129.compute-1.amazonaws.com [44.216.146.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D658D10E1CD
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 03:03:45 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256;
- b=cQL6kMnPwtYJPZmko8Td+ZApmq1jNNukWYBHvhKvj8hVAfTk5NonJgjr+fwoA5JD0T9dIkwepsZsXBEzLC9e9SnbD6pZSkoZhzwJUcGaCxwtNtF0Ovhz+S+ha2KfBAdwP/Bc24TNh5mMseFc+yMfg7kvzRquzlnqrOiRSLc3rBw=;
+ b=B63RZCm9h9X1F0ItkSIiZQN1Q5SRObyjJ+Ejx8p3zSkT1Osm5pEecBpZdu3t7ZwqoD8zLnJrRp4+2RK4+mqxkuxcWD89NrPIulFQdFsg+iFFwnqNyBrsORajiYmHx/kq6Gb79Vx3Kf8iw+o9+c9nJ5SubHukVF/8iOqtYtf/NCg=;
  c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
- bh=+0r5sfkCBJ8BY7925qHZXtbfyibcqRxLotDg68tTO/w=;
+ bh=JogRrWa0NTb5d0n006ipq3R/fD5aUYOfvc69+L6lX00=;
  h=date:mime-version:subject:message-id:from;
 Received: from [172.16.12.141] (unknown [58.22.7.114])
- by mail-m12779.qiye.163.com (Hmail) with ESMTPA id 9B9917801EF;
- Wed, 15 Nov 2023 10:02:42 +0800 (CST)
-Message-ID: <b8605ecb-0244-4ff7-8338-759011dee1b3@rock-chips.com>
-Date: Wed, 15 Nov 2023 10:02:42 +0800
+ by mail-m12779.qiye.163.com (Hmail) with ESMTPA id B76777801CE;
+ Wed, 15 Nov 2023 10:45:25 +0800 (CST)
+Message-ID: <3906a288-cafa-4c60-9fb3-4d4c75487340@rock-chips.com>
+Date: Wed, 15 Nov 2023 10:45:25 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/11] drm/rockchip: vop2: Add support for rk3588
+Subject: Re: [PATCH 08/11] dt-bindings: display: vop2: Add rk3588 support
+Content-Language: en-US
 To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
  Andy Yan <andyshrk@163.com>
 References: <20231114112534.1770731-1-andyshrk@163.com>
- <20231114112855.1771372-1-andyshrk@163.com> <7034316.0VBMTVartN@diego>
-Content-Language: en-US
+ <20231114112841.1771312-1-andyshrk@163.com> <11331566.rMLUfLXkoz@diego>
 From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <7034316.0VBMTVartN@diego>
+In-Reply-To: <11331566.rMLUfLXkoz@diego>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQxlKQ1YeTU9MHx1PQ0weSU9VEwETFh
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ0kdH1YfTBlCQkgfSBpOSxpVEwETFh
  oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5JVUpLS1VKQl
  kG
-X-HM-Tid: 0a8bd0b76993b24fkuuu9b9917801ef
+X-HM-Tid: 0a8bd0de85bab24fkuuub76777801ce
 X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PyI6OCo5Fzw2TE4sPgMRN00*
- GRIaCRVVSlVKTEtLS0pITE1ITk5OVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSEpNTjcG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OTY6ASo4Ljw8H05KST1JLFYT
+ NSlPFClVSlVKTEtLS0pNSElNTEpNVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+ WUFZTkNVSUlVTFVKSk9ZV1kIAVlBT0xCSTcG
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,56 +67,94 @@ Cc: devicetree@vger.kernel.org, s.hauer@pengutronix.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Heiko:
 
-On 11/15/23 07:34, Heiko Stübner wrote:
-> Hi Andy,
->
-> Am Dienstag, 14. November 2023, 12:28:55 CET schrieb Andy Yan:
+On 11/15/23 05:54, Heiko Stübner wrote:
+> Am Dienstag, 14. November 2023, 12:28:41 CET schrieb Andy Yan:
 >> From: Andy Yan <andy.yan@rock-chips.com>
 >>
->> VOP2 on rk3588:
->>
->> Four video ports:
->> VP0 Max 4096x2160
->> VP1 Max 4096x2160
->> VP2 Max 4096x2160
->> VP3 Max 2048x1080
->>
->> 4 4K Cluster windows with AFBC/line RGB and AFBC-only YUV support
->> 4 4K Esmart windows with line RGB/YUV support
+>> The vop2 on rk3588 is similar to which on rk356x
+>> but with 4 video outputs and need to reference
+>> more grf modules.
 >>
 >> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-> not a review yet, but when testing and the display sets a mode,
-> I always get a bunch of
+>> ---
+>>
+>>   .../display/rockchip/rockchip-vop2.yaml       | 25 +++++++++++++++++++
+>>   1 file changed, 25 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+>> index b60b90472d42..c333c651da1a 100644
+>> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+>> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+>> @@ -20,6 +20,7 @@ properties:
+>>       enum:
+>>         - rockchip,rk3566-vop
+>>         - rockchip,rk3568-vop
+>> +      - rockchip,rk3588-vop
+>>   
+>>     reg:
+>>       items:
+>> @@ -48,6 +49,8 @@ properties:
+>>         - description: Pixel clock for video port 0.
+>>         - description: Pixel clock for video port 1.
+>>         - description: Pixel clock for video port 2.
+>> +      - description: Pixel clock for video port 4.
+>> +      - description: Peripheral clock for vop on rk3588.
+>>   
+>>     clock-names:
+>>       items:
+>> @@ -56,12 +59,29 @@ properties:
+>>         - const: dclk_vp0
+>>         - const: dclk_vp1
+>>         - const: dclk_vp2
+>> +      - const: dclk_vp3
+>> +      - const: pclk_vop
+> with the error Rob's bot reported, I guess both clocks and clock-names
+> need a minItems element to mark these new clocks essentially as optional?
+
+Yes, when add minItems for clocks and clkock-names, the erro gone.
+
+Considering we also have vop2 based soc(rk3562) only have one video port,
+
+so it is better to set the minItems as 3 here?
+
 >
-> 	rockchip-drm display-subsystem: [drm] *ERROR* POST_BUF_EMPTY irq err at vp0
->
-> messages in the log (initial mode to console, starting glmark2 from console,
-> stopping glmark2 to the console).
->
-> I'm not sure what is up with that, have you seen these messages as well
-> at some point?
-
-Yes, it will raise POST_BUF_EMPTY when set a mode,  it needs some fix 
-like [0]:
-
-
-I still trying to find a appropriate way to do it with the upstream 
-code, as it doesn't affect the
-
-real display function(I must admit that the POST_BUF_EMPTY irq is very 
-annoying), so l let  it as
-
-it is in the current version.
-
-By the way, can you see the glmark2 rending on your HDMI monitor now?
-
-[0]https://github.com/Fruit-Pi/kernel/commit/29af993b46f024360e6d02c0d26c9fd3057aa918
-
->
-> Thanks
-> Heiko
+>>     rockchip,grf:
+>>       $ref: /schemas/types.yaml#/definitions/phandle
+>>       description:
+>>         Phandle to GRF regs used for misc control
+>>   
+>> +  rockchip,vo-grf:
+>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>> +    description:
+>> +      Phandle to VO GRF regs used for misc control, required for rk3588
+>> +
+>> +  rockchip,vop-grf:
+>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>> +    description:
+>> +      Phandle to VOP GRF regs used for misc control, required for rk3588
+>> +
+>> +  rockchip,pmu:
+>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>> +    description:
+>> +      Phandle to PMU regs used for misc control, required for rk3588
+>> +
+>>     ports:
+>>       $ref: /schemas/graph.yaml#/properties/ports
+>>   
+>> @@ -81,6 +101,11 @@ properties:
+>>           description:
+>>             Output endpoint of VP2
+>>   
+>> +      port@3:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description:
+>> +          Output endpoint of VP3
+>> +
+>>     iommus:
+>>       maxItems: 1
+>>   
+>>
 >
 >
 >
