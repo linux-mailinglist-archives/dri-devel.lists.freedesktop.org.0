@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766947EC8BB
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 17:39:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7690C7EC8BA
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 17:39:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DD0D10E264;
-	Wed, 15 Nov 2023 16:39:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B646110E158;
+	Wed, 15 Nov 2023 16:39:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 734DE10E116
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72C1510E114
  for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 16:39:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 90959B81A67;
+ by dfw.source.kernel.org (Postfix) with ESMTP id E5C876154F;
+ Wed, 15 Nov 2023 16:39:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B26EC433C9;
  Wed, 15 Nov 2023 16:39:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF136C433C8;
- Wed, 15 Nov 2023 16:39:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700066364;
- bh=gfk8zALZbdkLMNgU9Gvg6x8rMFGs5nttVZo1WOrF8z4=;
+ s=k20201202; t=1700066366;
+ bh=O/lr4P1EsL7YBuHracXPErJjSaguLam5N+lR2mNBaRQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Y1sPNITGGaeCwOfznhyoXmKJGEFd0tZ++yksjkpidz9p2R/pI7A2/vyZIT56zhhQl
- H2Zu9ECdXB+0ViFFD6rL81ZhRKBUQZyPJH+TRGJd0uykgthPOEZQoH4pkqwp1OgRO8
- eYlBs17wIOYFJLxu3w1XbQdFeHSizwRRIevYRVRgGJ//mZ4V8jxK8KU7JV/vsSeZTb
- URJPS9RZMjJLmAgylqCEozfgTL0d/2w3DOcTaTRb/MK3jaEUlXJkdguHa2E+ZApntr
- tMVIhYfRW36fi9h6gfZaDTvrREzef+uaBCG6JSDvqYshritwA52uQ5OjRT9PMK+uf9
- VCIgX3hpVyDsQ==
+ b=HloXa8yfi2b8+zalpwQqL7zMe2cDWjk3K16Qu3i1dSW5lnc3nTXjYE+Jeco7gTwPF
+ QFdW9p28kq86x5Kf/alAeyE4tW5CzZ5g0XJ4+eDT0wP9whbbzvfw7P6S3oeMpTNOSR
+ qnVmmB+ZhRgR7quZL+8hkHs3XAx7EWRmv4cuiuvZfQbhi00Ksw2966oNpDIbGSJT/C
+ ndxjkOJZNv0CG0ai5a+kuDri42Gv0KvbyrVmFup51ZvPkKW3dBn17zaViLe4e4X05P
+ wvpsBQf3MUThIlbMtFVLIoa6JhkLd/U87bdhY7hvNcvoSiwQnOSSCC6RSV6S7tjzeg
+ lFCtprQEDNgww==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 05/10] accel/habanalabs/gaudi2: fix undef opcode reporting
-Date: Wed, 15 Nov 2023 18:39:07 +0200
-Message-Id: <20231115163912.1243175-5-ogabbay@kernel.org>
+Subject: [PATCH 06/10] accel/habanalabs: remove 'get temperature' debug print
+Date: Wed, 15 Nov 2023 18:39:08 +0200
+Message-Id: <20231115163912.1243175-6-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231115163912.1243175-1-ogabbay@kernel.org>
 References: <20231115163912.1243175-1-ogabbay@kernel.org>
@@ -51,54 +51,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dafna Hirschfeld <dhirschfeld@habana.ai>
+Cc: Ofir Bitton <obitton@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dafna Hirschfeld <dhirschfeld@habana.ai>
+From: Ofir Bitton <obitton@habana.ai>
 
-currently the undefined opcode event bit in set only for lower cp and
-only if 'write_enable' is true. It should be set anyway and for all
-streams in order to report that event to userspace.
+The print was added long back for a specific debug and can
+now be removed.
 
-Signed-off-by: Dafna Hirschfeld <dhirschfeld@habana.ai>
+Signed-off-by: Ofir Bitton <obitton@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/gaudi2/gaudi2.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ drivers/accel/habanalabs/common/hwmon.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-index b739078c2d87..5075f92d15cc 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-@@ -7929,21 +7929,19 @@ static int gaudi2_handle_qman_err_generic(struct hl_device *hdev, u16 event_type
- 				error_count++;
- 			}
- 
--		if (i == QMAN_STREAMS && error_count) {
--			/* check for undefined opcode */
--			if (glbl_sts_val & PDMA0_QM_GLBL_ERR_STS_CP_UNDEF_CMD_ERR_MASK &&
--					hdev->captured_err_info.undef_opcode.write_enable) {
-+		/* check for undefined opcode */
-+		if (glbl_sts_val & PDMA0_QM_GLBL_ERR_STS_CP_UNDEF_CMD_ERR_MASK) {
-+			*event_mask |= HL_NOTIFIER_EVENT_UNDEFINED_OPCODE;
-+			if (hdev->captured_err_info.undef_opcode.write_enable) {
- 				memset(&hdev->captured_err_info.undef_opcode, 0,
- 						sizeof(hdev->captured_err_info.undef_opcode));
+diff --git a/drivers/accel/habanalabs/common/hwmon.c b/drivers/accel/habanalabs/common/hwmon.c
+index 8598056216e7..1ee2ee07e9ed 100644
+--- a/drivers/accel/habanalabs/common/hwmon.c
++++ b/drivers/accel/habanalabs/common/hwmon.c
+@@ -578,10 +578,6 @@ int hl_get_temperature(struct hl_device *hdev,
+ 				CPUCP_PKT_CTL_OPCODE_SHIFT);
+ 	pkt.sensor_index = __cpu_to_le16(sensor_index);
+ 	pkt.type = __cpu_to_le16(attr);
 -
--				hdev->captured_err_info.undef_opcode.write_enable = false;
- 				hdev->captured_err_info.undef_opcode.timestamp = ktime_get();
- 				hdev->captured_err_info.undef_opcode.engine_id =
- 							gaudi2_queue_id_to_engine_id[qid_base];
--				*event_mask |= HL_NOTIFIER_EVENT_UNDEFINED_OPCODE;
- 			}
- 
--			handle_lower_qman_data_on_err(hdev, qman_base, *event_mask);
-+			if (i == QMAN_STREAMS)
-+				handle_lower_qman_data_on_err(hdev, qman_base, *event_mask);
- 		}
- 	}
+-	dev_dbg(hdev->dev, "get temp, ctl 0x%x, sensor %d, type %d\n",
+-		pkt.ctl, pkt.sensor_index, pkt.type);
+-
+ 	rc = hdev->asic_funcs->send_cpu_message(hdev, (u32 *) &pkt, sizeof(pkt),
+ 						0, &result);
  
 -- 
 2.34.1
