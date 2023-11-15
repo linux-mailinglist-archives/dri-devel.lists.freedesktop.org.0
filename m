@@ -1,48 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F0BF7EC4D4
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 15:13:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 649917EC551
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 15:30:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7F7610E046;
-	Wed, 15 Nov 2023 14:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05B6410E03C;
+	Wed, 15 Nov 2023 14:30:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com
- [61.152.239.71])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8CCB410E046
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 14:12:56 +0000 (UTC)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
- (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
- (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
- by fd01.gateway.ufhost.com (Postfix) with ESMTP id 725DF24DB83;
- Wed, 15 Nov 2023 22:12:51 +0800 (CST)
-Received: from EXMBX161.cuchost.com (172.16.6.71) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 15 Nov
- 2023 22:12:51 +0800
-Received: from [192.168.1.115] (180.164.60.184) by EXMBX161.cuchost.com
- (172.16.6.71) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 15 Nov
- 2023 22:12:50 +0800
-Message-ID: <e7c887a9-d08a-42e6-ac21-effa8e2e620b@starfivetech.com>
-Date: Wed, 15 Nov 2023 22:12:50 +0800
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B20F10E010;
+ Wed, 15 Nov 2023 14:30:02 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id
+ d9443c01a7336-1cc131e52f1so6974445ad.0; 
+ Wed, 15 Nov 2023 06:30:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1700058601; x=1700663401; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=GPMvuBHzrnyzsvQOdVNlUdgVRHRy9nrQ04fDZWtnk3k=;
+ b=A8JYxoIeoBuWPy3Hby3Caot6cqnkRuaNgfRovOhr+LcuIvRvYeHOkZvXLqwIRCb5Cv
+ icwhDZ9W6MTOjUajLaCISjkl/wzOHLxo0UvnxBTZDn2J4YKKsZpTo4jkMYJhi0nh10dd
+ F401SjioWwN0AM+H9NJWXJXbGIrRgpQrxUwHMOTHNnpCw0+kp63gp3+1oyDQon1Y8aqW
+ a891BC6YYwjrYAMWe8HCi3b/sGCX8jH01YZjifrj5HexMj00Dp9ouHEqKYcemkYm+5IY
+ OXqJCu4H7jBajRyckzEkrm5GdIXsVACAF8EFV7Gn670ouMFdMx/9kDeM1fBmmSoMhFQJ
+ 0QUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700058601; x=1700663401;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=GPMvuBHzrnyzsvQOdVNlUdgVRHRy9nrQ04fDZWtnk3k=;
+ b=kTgerRuG7Q+GY8UrSmwmVzKCs/R91baUoWGmiDP3dijnmFWnQWOSq6Hg+sjQMT4jd8
+ Us+8yBelFfwVMARQ+480cNf1x5kydu8ZR1mZVA38hAFJqOBxxy5wOLm4Dws65yjR6595
+ mtN+WJzvIalkkW2xizobEtmEkDEMmVK9TCID+e8/gBmIV3Xp1DHnuuv/74UfUoJZ3fW3
+ 9pIIvMPPIBMnt9klcar8PL7CA3bxsDiV3nOSd2bQ1h4t/z06bZZJjL0lt8n6DCk8L4xC
+ kA6jBQO8lmmLwa+PswgHzeO66imopsw0LcV/rNZ6vp7I0XYW2DqxL2SeaAMXfgcTgAEu
+ Ysxw==
+X-Gm-Message-State: AOJu0YxkpkQS+CPqlRqlI6xrQL0fYxFa13TmzvHz3L2bbdT6X7bnGMXb
+ X9ahdc8tPuG69cLix99tXiI=
+X-Google-Smtp-Source: AGHT+IHR+sZxIEfC2uUZdghvt6bSSRkjl+Y9PXIX6Xv0Rdgv1JOVM2jGbrua15b2q46+mFVr1Pajzw==
+X-Received: by 2002:a17:903:41c8:b0:1cc:47c1:c2cb with SMTP id
+ u8-20020a17090341c800b001cc47c1c2cbmr8442197ple.2.1700058601324; 
+ Wed, 15 Nov 2023 06:30:01 -0800 (PST)
+Received: from anfanite396-Predator-PH315-51.gateway.iitmandi.ac.in
+ ([14.139.34.151]) by smtp.gmail.com with ESMTPSA id
+ q9-20020a170902dac900b001cc50f67fbasm7429751plx.281.2023.11.15.06.29.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Nov 2023 06:30:00 -0800 (PST)
+From: Dipam Turkar <dipamt1729@gmail.com>
+To: robdclark@gmail.com
+Subject: [PATCH v2] Remove custom dumb_map_offset implementation in msm driver
+Date: Wed, 15 Nov 2023 19:49:29 +0530
+Message-Id: <20231115141928.429688-1-dipamt1729@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/6] drm/fourcc: Add drm/vs tiled modifiers
-Content-Language: en-US
-To: Simon Ser <contact@emersion.fr>
-References: <20231025103957.3776-1-keith.zhao@starfivetech.com>
- <20231025103957.3776-4-keith.zhao@starfivetech.com>
- <nPUOGd5_-QuZTUXhGdmJ03Bri58JI0SeYVcBLnJG4aFuqobd5i1RUBVoi4CNP3VGg5oBdz5LAGdwHERxtMwXJyHPyVxJz4UpiBuFiA5NlkA=@emersion.fr>
- <2wq8ssA4KblYH5JfC8KxeWWoYPleN_BcH6wSZ92tkOixbiU5k2ZU_lS4lO0awCCeomkdjsEoVlUmAH7aaaR2n-bdLKu1AaSar_JW78Kw4Ik=@emersion.fr>
-From: Keith Zhao <keith.zhao@starfivetech.com>
-In-Reply-To: <2wq8ssA4KblYH5JfC8KxeWWoYPleN_BcH6wSZ92tkOixbiU5k2ZU_lS4lO0awCCeomkdjsEoVlUmAH7aaaR2n-bdLKu1AaSar_JW78Kw4Ik=@emersion.fr>
-Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX161.cuchost.com
- (172.16.6.71)
-X-YovoleRuleAgent: yovoleflag
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,32 +70,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emil Renner Berthing <kernel@esmil.dk>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Shengyang
- Chen <shengyang.chen@starfivetech.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
- Maxime Ripard <mripard@kernel.org>, Jagan Teki <jagan@edgeble.ai>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, Rob
- Herring <robh+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>, Paul
- Walmsley <paul.walmsley@sifive.com>, Bjorn Andersson <andersson@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- Jack Zhu <jack.zhu@starfivetech.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Shawn Guo <shawnguo@kernel.org>,
- Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: freedreno@lists.freedesktop.org, Dipam Turkar <dipamt1729@gmail.com>,
+ sean@poorly.run, quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dmitry.baryshkov@linaro.org, marijn.suijten@somainline.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ok=EF=BC=8C I will do this in my next patch
-Thanks your advice!
+Make msm use drm_gem_create_map_offset() instead of its custom
+implementation for associating GEM object with a fake offset. Since,
+we already have this generic implementation, we don't need the custom
+implementation and it is better to standardize the code for GEM based
+drivers. This also removes the outdated locking leftovers.
 
-On 2023/10/25 23:44, Simon Ser wrote:
->  it seems like you could start with just simple
-> enumerated modifiers like Intel does, and then only switch to more
-> complicated logic with macros and fields if there is an actual need in
-> the future.
+Signed-off-by: Dipam Turkar <dipamt1729@gmail.com>
+---
+ drivers/gpu/drm/msm/msm_drv.c |  2 +-
+ drivers/gpu/drm/msm/msm_gem.c | 21 ---------------------
+ drivers/gpu/drm/msm/msm_gem.h |  2 --
+ 3 files changed, 1 insertion(+), 24 deletions(-)
+
+Changes in v2:
+Modify commit message to include the absence of internal locking leftovers
+around allocating a fake offset in msm_gem_mmap_offset() in the generic
+implementation drm_gem_create_map_offset().
+
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index a428951ee539..86a15992c717 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -1085,7 +1085,7 @@ static const struct drm_driver msm_driver = {
+ 	.open               = msm_open,
+ 	.postclose          = msm_postclose,
+ 	.dumb_create        = msm_gem_dumb_create,
+-	.dumb_map_offset    = msm_gem_dumb_map_offset,
++	.dumb_map_offset    = drm_gem_dumb_map_offset,
+ 	.gem_prime_import_sg_table = msm_gem_prime_import_sg_table,
+ #ifdef CONFIG_DEBUG_FS
+ 	.debugfs_init       = msm_debugfs_init,
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index db1e748daa75..489694ef79cb 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -671,27 +671,6 @@ int msm_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
+ 			MSM_BO_SCANOUT | MSM_BO_WC, &args->handle, "dumb");
+ }
+ 
+-int msm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
+-		uint32_t handle, uint64_t *offset)
+-{
+-	struct drm_gem_object *obj;
+-	int ret = 0;
+-
+-	/* GEM does all our handle to object mapping */
+-	obj = drm_gem_object_lookup(file, handle);
+-	if (obj == NULL) {
+-		ret = -ENOENT;
+-		goto fail;
+-	}
+-
+-	*offset = msm_gem_mmap_offset(obj);
+-
+-	drm_gem_object_put(obj);
+-
+-fail:
+-	return ret;
+-}
+-
+ static void *get_vaddr(struct drm_gem_object *obj, unsigned madv)
+ {
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index 8ddef5443140..dc74a0ef865d 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -139,8 +139,6 @@ struct page **msm_gem_pin_pages(struct drm_gem_object *obj);
+ void msm_gem_unpin_pages(struct drm_gem_object *obj);
+ int msm_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
+ 		struct drm_mode_create_dumb *args);
+-int msm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
+-		uint32_t handle, uint64_t *offset);
+ void *msm_gem_get_vaddr_locked(struct drm_gem_object *obj);
+ void *msm_gem_get_vaddr(struct drm_gem_object *obj);
+ void *msm_gem_get_vaddr_active(struct drm_gem_object *obj);
+-- 
+2.34.1
+
