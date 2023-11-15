@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C6F7EC720
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 16:27:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68BEF7EC71F
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 16:27:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18C5010E060;
-	Wed, 15 Nov 2023 15:27:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1298310E05B;
+	Wed, 15 Nov 2023 15:27:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com
- [IPv6:2607:f8b0:4864:20::c2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3806D10E059
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB99810E059
  for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 15:26:54 +0000 (UTC)
-Received: by mail-oo1-xc2b.google.com with SMTP id
- 006d021491bc7-581ed744114so3168650eaf.0
+Received: by mail-ot1-x32e.google.com with SMTP id
+ 46e09a7af769-6ce2c71c61fso3753976a34.1
  for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 07:26:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700062013; x=1700666813; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1700062014; x=1700666814; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KZGFsZil0baYKKqeLGbbmIrruY0ps4D1rKYDPh+vV2g=;
- b=NVLj7FOQxbHfJ1n6sCQpxdiL6KOos9xSrAjpuQUbN2SXTXWCWImPDFSxw4g6H2tqbp
- nvgj1HZfEFrORYXsD9qBKoeV0oa4xKT+UrMPT+R3o37CiMF7y9fbvlEpaCAUhVfpbOYN
- a0/1nHZHJGtmMM58LooqPO396x6EcQ6xcKugJfHFvJ3jWyzaw18snKO90XnNODWOfspq
- RgQ6thdO0biNsRl6dEliZfIChAeTZ/r5W8yJh+nANWi8pVDPXSf2alvJlAXaG5bOdYmT
- 2kS/5yFP27npALbrXGlz83734oXnicd4NP57ez0kKkuvAgbfnW9C0a+ZECTCXAXy29Vl
- YCBg==
+ bh=R1HJYXNya0VUmq+cPipu8J3xs7ouSTliH+WFcewq36Q=;
+ b=jqs3j821G2BHs1vbM1S3iRj/q0ZaurFHUd1f8CvEatlWY5Mu5ya0xWSjV4Mf8EDg1H
+ G1djHE1guBMTlGZ/YOwYLx3HmGvt049QFQWi4gBSr/OrweXRF85LBl3euv+M7QWMvYyG
+ /gEP2vvhvLD2m7o5/SWzDxgTTlr3rphO+g83YUSkjXkwHporLaEbG5qUEe0cjbJKj/gc
+ 6PtTadOtVBrKeWyc9xyo93AnK5Ir2VtNy7PHt8thwzsKhjLCUtETSgrdUutRNleXQm3w
+ jZlM5qrf1yFym3v0LGqEtJyIBUb8CG2qqXZXuLkpU6XPpVzXbiCwhm5L75tAenMFoVef
+ mGgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700062013; x=1700666813;
+ d=1e100.net; s=20230601; t=1700062014; x=1700666814;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KZGFsZil0baYKKqeLGbbmIrruY0ps4D1rKYDPh+vV2g=;
- b=GT6uqywWEJ7Y0nnzP6s6KLVJ8Y6K2qnwPhWDe01J6FII6Vxrl4GYaEbwjIaA81KgL6
- 2EFYEQuPhRNwmeNRUstfr8leDo68p7Er2vR72ClbNvK973g8kM+viMDZHmpKjmyiGfKT
- SUv8cyuXAonEJAm0Aa9tM7a49sLRISErVaw5UTvy9t0GfF9swNGSnBpCQP6+0/Z5e36u
- tiRbnlyCbnPdfQ1YqD7YdvR/iGu7KiEuoEjuuYt4GtCVcEvXnb8R0v8HIFUfvTv5MnrJ
- pxzvBdu69QQIVMu4F2imw+cR0p0WNdY5MqdgeiiIM5NVk8fTh8vOV4PzNXWxrZWLuGO5
- Lraw==
-X-Gm-Message-State: AOJu0YyK6GKZLRzfZ5aKBtj4svP5tXopnoNxweIJLf4W7voYXBPB51Rj
- NznUQTkyFArpUC6ClKuQzyvhlnMirhM=
-X-Google-Smtp-Source: AGHT+IHYrxG2w1/cHskJG3vTQP4FMyX6nm01gaV4IGT/y9/Nm4/afRw3q1CqHTi2fBEJPEQhVv9eYA==
-X-Received: by 2002:a4a:7505:0:b0:581:d5a6:da4a with SMTP id
- j5-20020a4a7505000000b00581d5a6da4amr10251799ooc.1.1700062013294; 
+ bh=R1HJYXNya0VUmq+cPipu8J3xs7ouSTliH+WFcewq36Q=;
+ b=w1CttMjf33ybZo6lLcqjHQDuQbpdb+Mf8Te9J1IJOCVx3BItGB43nLvxpbfTBaD6B3
+ UxkyPeS8ZYV3eHglmBZZ2zNbH+4edu9VaNJ9XpIuta59VPgi+5P9D/3dxyNCg0Wa25aA
+ hLLhFhGXIZjXwpxaTNKNE7oG611Uv5/NsU2cGWmE1ft68oOF/avsPOCPOj03uN7No18A
+ qi0jHyTJLT4G/DjMcNk95EnZfB00WUUyVw7FyIZFU33xdVSSWPd9l9KRykEjDX/+1giq
+ Xf9kk45esu+fE3+njocBARxO+a2MF4xMYKvtz4yjagBK0EeH0dxSjortRahAkF/GNWwh
+ T3Dw==
+X-Gm-Message-State: AOJu0YywrRZ0RV1fxNPjqFJSG7VmPFRmOfZL2IKSAqiRMLE3NXUQBzYK
+ u1HQKovvImQCwgkXJ4xLRgXQ9ZKPTd0=
+X-Google-Smtp-Source: AGHT+IHm9JSBiHjWboei5Jl8iT2kiDQoCe+OliwJULEwxFa6wMDUvT+KPjxEo6WeCthq1WyTLHWwYg==
+X-Received: by 2002:a05:6830:2056:b0:6d6:4d74:8450 with SMTP id
+ f22-20020a056830205600b006d64d748450mr5524611otp.25.1700062013916; 
  Wed, 15 Nov 2023 07:26:53 -0800 (PST)
 Received: from localhost.localdomain ([75.28.21.198])
  by smtp.gmail.com with ESMTPSA id
- a18-20020a056830101200b006cdf9935af2sm398012otp.53.2023.11.15.07.26.52
+ a18-20020a056830101200b006cdf9935af2sm398012otp.53.2023.11.15.07.26.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Nov 2023 07:26:52 -0800 (PST)
+ Wed, 15 Nov 2023 07:26:53 -0800 (PST)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/4] drm/panel-elida-kd35t133: hold panel in reset for
- unprepare
-Date: Wed, 15 Nov 2023 09:26:45 -0600
-Message-Id: <20231115152647.2303283-3-macroalpha82@gmail.com>
+Subject: [PATCH 3/4] drm/panel-elida-kd35t133: drop
+ drm_connector_set_orientation_from_panel
+Date: Wed, 15 Nov 2023 09:26:46 -0600
+Message-Id: <20231115152647.2303283-4-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231115152647.2303283-1-macroalpha82@gmail.com>
 References: <20231115152647.2303283-1-macroalpha82@gmail.com>
@@ -81,30 +81,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-For devices like the Anbernic RG351M and RG351P the panel is wired to
-an always on regulator. When the device suspends and wakes up, there
-are some slight artifacts on the screen that go away over time. If
-instead we hold the panel in reset status after it is unprepared,
-this does not happen.
+Stop calling drm_connector_set_orientation_from_panel() as its now
+called by the panel bridge directly when it is initialized.
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- drivers/gpu/drm/panel/panel-elida-kd35t133.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/panel/panel-elida-kd35t133.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-elida-kd35t133.c b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-index 6cd8536c09ff..f1fc4a26f447 100644
+index f1fc4a26f447..29b4ee63d83b 100644
 --- a/drivers/gpu/drm/panel/panel-elida-kd35t133.c
 +++ b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-@@ -104,6 +104,8 @@ static int kd35t133_unprepare(struct drm_panel *panel)
- 		return ret;
- 	}
+@@ -211,11 +211,6 @@ static int kd35t133_get_modes(struct drm_panel *panel,
+ 	connector->display_info.width_mm = mode->width_mm;
+ 	connector->display_info.height_mm = mode->height_mm;
+ 	drm_mode_probed_add(connector, mode);
+-	/*
+-	 * TODO: Remove once all drm drivers call
+-	 * drm_connector_set_orientation_from_panel()
+-	 */
+-	drm_connector_set_panel_orientation(connector, ctx->orientation);
  
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+
- 	regulator_disable(ctx->iovcc);
- 	regulator_disable(ctx->vdd);
- 
+ 	return 1;
+ }
 -- 
 2.34.1
 
