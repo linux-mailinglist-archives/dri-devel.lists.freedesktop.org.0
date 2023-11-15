@@ -2,45 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB927EC657
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 15:52:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99E9F7EC6B7
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 16:08:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA8D10E044;
-	Wed, 15 Nov 2023 14:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39FE410E042;
+	Wed, 15 Nov 2023 15:07:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9D63B10E044
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 14:52:36 +0000 (UTC)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
- (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
- (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
- by ex01.ufhost.com (Postfix) with ESMTP id 3CE7C24E20F;
- Wed, 15 Nov 2023 22:52:28 +0800 (CST)
-Received: from EXMBX161.cuchost.com (172.16.6.71) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 15 Nov
- 2023 22:52:28 +0800
-Received: from [192.168.1.115] (180.164.60.184) by EXMBX161.cuchost.com
- (172.16.6.71) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 15 Nov
- 2023 22:52:27 +0800
-Message-ID: <21e14a40-e707-4925-b43b-6656ae59d680@starfivetech.com>
-Date: Wed, 15 Nov 2023 22:52:27 +0800
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com
+ [IPv6:2607:f8b0:4864:20::1133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16DEF10E04E
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 15:07:54 +0000 (UTC)
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-5a8ee23f043so78543547b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 07:07:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1700060873; x=1700665673; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=dAkdFR38VbZr+retwYJvC4pXK2CLkuRAU6TUrfj2Y/Q=;
+ b=QtdEUW+7LaRVSIs/saImZWMFPiJzz8wmnkhRECRc2n3NRwzJZq4fyqIUffTBOYMdQ5
+ 2X6q/mWh05SMWbTaKMVFWSD/yY/PJaeA02Yfm5j0RRGl0mWQTsgfZfr3wTEvX6sSCd9E
+ 2Cj1b4LdjiJHmTKi7xcvDnqhHURZqFKj6j2B99CDPRcGSUrVMoHTm3s3reddnCT6/aRs
+ qHJXq9f3pO+iXtyFPjh69zYN659aiJnDsksKjArEzffLxQ2fCnQVO/wZzglUXMqGenkc
+ i4DBAwhw8HLiebWbePLBHVFMCX9MuUKtVZpc3/mgvAAx322j1gybqrI0cVnqpRsDpraT
+ 6Sfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700060873; x=1700665673;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dAkdFR38VbZr+retwYJvC4pXK2CLkuRAU6TUrfj2Y/Q=;
+ b=mH0qWm6oE1+R4Bakx5TXz42/OR7PStlyi+AQKfjbhJsm3dZvvbgKDb41PaQPvdcIM6
+ eD2ry5plgmKVcHZe5QUlzPqeDia/BU7yTktNgIkx8KuK/cYig84Yg7TUUUSm1MOLKUv/
+ L5nvf0E0E7R13f+VEqPi0MSUt2aCQ6O7C80Jm69LvAb6H9StBD2hFAtssCi1Pyp1KtLo
+ 9qfX+qQjSow6n0hyjBGC/GZg4NyKaeMJJwxhz5UIsR2lCCoErlwmuJzJbGD1dZjqKKoE
+ PI+2YmCkW9YOSI50d3V5z2QxFf0FvEM6JESF908Yh6CA+rw0r8JrKbL1zFNQ58RbDIwg
+ 8NRw==
+X-Gm-Message-State: AOJu0YzRm19e07pOADTQ9IKjyO7DHybFk/ED3CB9/clVwxL6Hsw/D4hd
+ g9urz975/17PV6lSpEMorATub1KULwbhqmIwcS/4kQ==
+X-Google-Smtp-Source: AGHT+IFWMAAPr69IJZOrpc5SNuEM+oacpGbG5vuVdTWdzsr6zLBxZ1vBt7gGnTY8n6wgmwhM4whO4LzzuHfj/jYhdaU=
+X-Received: by 2002:a0d:cb0f:0:b0:5a7:dbd1:4889 with SMTP id
+ n15-20020a0dcb0f000000b005a7dbd14889mr15802748ywd.2.1700060873202; Wed, 15
+ Nov 2023 07:07:53 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/6] drm/vs: Add KMS crtc&plane
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>
-References: <20231025103957.3776-1-keith.zhao@starfivetech.com>
- <20231025103957.3776-6-keith.zhao@starfivetech.com>
- <pfjfxkpg4cheozhnjgql67ntfiapssba36ukusqrlo6za4owv3@mwzucmdqboy5>
-From: Keith Zhao <keith.zhao@starfivetech.com>
-In-Reply-To: <pfjfxkpg4cheozhnjgql67ntfiapssba36ukusqrlo6za4owv3@mwzucmdqboy5>
+References: <20231115141928.429688-1-dipamt1729@gmail.com>
+In-Reply-To: <20231115141928.429688-1-dipamt1729@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 15 Nov 2023 17:07:41 +0200
+Message-ID: <CAA8EJprqnUGQxmj4Y=qttVuj0zJxdD9B6neHa6sPseLLETpk5A@mail.gmail.com>
+Subject: Re: [PATCH v2] Remove custom dumb_map_offset implementation in msm
+ driver
+To: Dipam Turkar <dipamt1729@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX161.cuchost.com
- (172.16.6.71)
-X-YovoleRuleAgent: yovoleflag
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,224 +67,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emil Renner Berthing <kernel@esmil.dk>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Shengyang Chen <shengyang.chen@starfivetech.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
- Jagan Teki <jagan@edgeble.ai>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Bjorn Andersson <andersson@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Changhuang Liang <changhuang.liang@starfivetech.com>,
- Jack Zhu <jack.zhu@starfivetech.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Shawn Guo <shawnguo@kernel.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>
+Cc: freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, marijn.suijten@somainline.org, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 15 Nov 2023 at 16:30, Dipam Turkar <dipamt1729@gmail.com> wrote:
+>
+> Make msm use drm_gem_create_map_offset() instead of its custom
+> implementation for associating GEM object with a fake offset. Since,
+> we already have this generic implementation, we don't need the custom
+> implementation and it is better to standardize the code for GEM based
+> drivers. This also removes the outdated locking leftovers.
+
+Why are they outdated?
+
+>
+> Signed-off-by: Dipam Turkar <dipamt1729@gmail.com>
+> ---
+>  drivers/gpu/drm/msm/msm_drv.c |  2 +-
+>  drivers/gpu/drm/msm/msm_gem.c | 21 ---------------------
+>  drivers/gpu/drm/msm/msm_gem.h |  2 --
+>  3 files changed, 1 insertion(+), 24 deletions(-)
+>
+> Changes in v2:
+> Modify commit message to include the absence of internal locking leftovers
+> around allocating a fake offset in msm_gem_mmap_offset() in the generic
+> implementation drm_gem_create_map_offset().
+>
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index a428951ee539..86a15992c717 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -1085,7 +1085,7 @@ static const struct drm_driver msm_driver = {
+>         .open               = msm_open,
+>         .postclose          = msm_postclose,
+>         .dumb_create        = msm_gem_dumb_create,
+> -       .dumb_map_offset    = msm_gem_dumb_map_offset,
+> +       .dumb_map_offset    = drm_gem_dumb_map_offset,
+>         .gem_prime_import_sg_table = msm_gem_prime_import_sg_table,
+>  #ifdef CONFIG_DEBUG_FS
+>         .debugfs_init       = msm_debugfs_init,
+> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+> index db1e748daa75..489694ef79cb 100644
+> --- a/drivers/gpu/drm/msm/msm_gem.c
+> +++ b/drivers/gpu/drm/msm/msm_gem.c
+> @@ -671,27 +671,6 @@ int msm_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
+>                         MSM_BO_SCANOUT | MSM_BO_WC, &args->handle, "dumb");
+>  }
+>
+> -int msm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
+> -               uint32_t handle, uint64_t *offset)
+> -{
+> -       struct drm_gem_object *obj;
+> -       int ret = 0;
+> -
+> -       /* GEM does all our handle to object mapping */
+> -       obj = drm_gem_object_lookup(file, handle);
+> -       if (obj == NULL) {
+> -               ret = -ENOENT;
+> -               goto fail;
+> -       }
+> -
+> -       *offset = msm_gem_mmap_offset(obj);
+> -
+> -       drm_gem_object_put(obj);
+> -
+> -fail:
+> -       return ret;
+> -}
+> -
+>  static void *get_vaddr(struct drm_gem_object *obj, unsigned madv)
+>  {
+>         struct msm_gem_object *msm_obj = to_msm_bo(obj);
+> diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+> index 8ddef5443140..dc74a0ef865d 100644
+> --- a/drivers/gpu/drm/msm/msm_gem.h
+> +++ b/drivers/gpu/drm/msm/msm_gem.h
+> @@ -139,8 +139,6 @@ struct page **msm_gem_pin_pages(struct drm_gem_object *obj);
+>  void msm_gem_unpin_pages(struct drm_gem_object *obj);
+>  int msm_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
+>                 struct drm_mode_create_dumb *args);
+> -int msm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
+> -               uint32_t handle, uint64_t *offset);
+>  void *msm_gem_get_vaddr_locked(struct drm_gem_object *obj);
+>  void *msm_gem_get_vaddr(struct drm_gem_object *obj);
+>  void *msm_gem_get_vaddr_active(struct drm_gem_object *obj);
+> --
+> 2.34.1
+>
 
 
-On 2023/10/25 21:57, Maxime Ripard wrote:
-> On Wed, Oct 25, 2023 at 06:39:56PM +0800, Keith Zhao wrote:
->> +static struct drm_crtc_state *
->> +vs_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
->> +{
->> +	struct vs_crtc_state *ori_state;
->> +	struct vs_crtc_state *state;
->> +
->> +	if (!crtc->state)
->> +		return NULL;
->> +
->> +	ori_state = to_vs_crtc_state(crtc->state);
->> +	state = kzalloc(sizeof(*state), GFP_KERNEL);
->> +	if (!state)
->> +		return NULL;
->> +
->> +	__drm_atomic_helper_crtc_duplicate_state(crtc, &state->base);
->> +
->> +	state->output_fmt = ori_state->output_fmt;
-> 
-> That field is never set in your patch.
-> 
->> +	state->encoder_type = ori_state->encoder_type;
-> 
-> That isn't either, and it's not clear why you would need the
-> encoder_type stored in the CRTC?
-> 
->> +	state->bpp = ori_state->bpp;
-> 
-> You seem to derive that from output_fmt, it doesn't need to be in the
-> CRTC state.
-> 
->> +	state->underflow = ori_state->underflow;
-> 
-> Assuming you're setting this from the interrupt handler, it's unsafe,
-> you shouldn't do that. What are you using it for?
-I am going to use the crtc_debugfs function for printing.
-crtc_debugfs  will use it
-But now I'd better delete it
-
-> 
->> +static const struct drm_prop_enum_list vs_sync_mode_enum_list[] = {
->> +	{ VS_SINGLE_DC,				"single dc mode" },
->> +	{ VS_MULTI_DC_PRIMARY,		"primary dc for multi dc mode" },
->> +	{ VS_MULTI_DC_SECONDARY,	"secondary dc for multi dc mode" },
->> +};
-> 
-> Custom driver properties are a no-go:
-> https://docs.kernel.org/gpu/drm-kms.html#requirements
-> 
-> And
-> 
-> https://docs.kernel.org/gpu/drm-uapi.html#open-source-userspace-requirements
-> 
->> +void vs_dc_enable(struct vs_dc *dc, struct drm_crtc *crtc)
->> +{
->> +	struct vs_crtc_state *crtc_state = to_vs_crtc_state(crtc->state);
->> +	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
->> +	struct dc_hw_display display;
-> 
-> Why are you rolling your own structure here, if it's exactly equivalent
-> to what drm_display_mode and the crtc_state provide?
-My original intention was to make the hardware part purer. and 
-want to decouple hardware from drm struct.
-
-so I define the own structure  between drm and hardware.
-Maybe doing this will make both the hardware and drm happy
-
-> 
->> +void vs_dc_commit(struct vs_dc *dc)
->> +{
->> +	dc_hw_enable_shadow_register(&dc->hw, false);
->> +
->> +	dc_hw_commit(&dc->hw);
->> +
->> +	if (dc->first_frame)
->> +		dc->first_frame = false;
->> +
->> +	dc_hw_enable_shadow_register(&dc->hw, true);
->> +}
-> 
-> It's not clear to me what you're trying to do here, does the hardware
-> have latched registers that are only updated during vblank?
-> 
->> +static int dc_bind(struct device *dev, struct device *master, void *data)
->> +{
->> +	struct drm_device *drm_dev = data;
->> +	struct vs_dc *dc = dev_get_drvdata(dev);
->> +	struct device_node *port;
->> +	struct vs_crtc *crtc;
->> +	struct vs_dc_info *dc_info;
->> +	struct vs_plane *plane;
->> +	struct vs_plane_info *plane_info;
->> +	int i, ret;
->> +	u32 ctrc_mask = 0;
->> +
->> +	if (!drm_dev || !dc) {
->> +		dev_err(dev, "devices are not created.\n");
->> +		return -ENODEV;
->> +	}
->> +
->> +	ret = dc_init(dev);
->> +	if (ret < 0) {
->> +		drm_err(drm_dev, "Failed to initialize DC hardware.\n");
->> +		return ret;
->> +	}
->> +
->> +	port = of_get_child_by_name(dev->of_node, "port");
->> +	if (!port) {
->> +		drm_err(drm_dev, "no port node found\n");
->> +		return -ENODEV;
->> +	}
->> +	of_node_put(port);
->> +
->> +	dc_info = dc->hw.info;
->> +
->> +	for (i = 0; i < dc_info->panel_num; i++) {
->> +		crtc = vs_crtc_create(drm_dev, dc_info);
->> +		if (!crtc) {
->> +			drm_err(drm_dev, "Failed to create CRTC.\n");
->> +			ret = -ENOMEM;
->> +			return ret;
->> +		}
->> +
->> +		crtc->base.port = port;
->> +		crtc->dev = dev;
->> +		dc->crtc[i] = crtc;
->> +		ctrc_mask |= drm_crtc_mask(&crtc->base);
->> +	}
->> +
->> +	for (i = 0; i < dc_info->plane_num; i++) {
->> +		plane_info = (struct vs_plane_info *)&dc_info->planes[i];
->> +
->> +		if (!strcmp(plane_info->name, "Primary") || !strcmp(plane_info->name, "Cursor")) {
->> +			plane = vs_plane_create(drm_dev, plane_info, dc_info->layer_num,
->> +						drm_crtc_mask(&dc->crtc[0]->base));
->> +		} else if (!strcmp(plane_info->name, "Primary_1") ||
->> +				   !strcmp(plane_info->name, "Cursor_1")) {
-> 
-> Please use an enum and an id there.
-> 
->> +static int vs_plane_atomic_set_property(struct drm_plane *plane,
->> +					struct drm_plane_state *state,
->> +					struct drm_property *property,
->> +					uint64_t val)
->> +{
->> +	struct drm_device *dev = plane->dev;
->> +	struct vs_plane *vs_plane = to_vs_plane(plane);
->> +	struct vs_plane_state *vs_plane_state = to_vs_plane_state(state);
->> +	int ret = 0;
->> +
->> +	if (property == vs_plane->degamma_mode) {
->> +		if (vs_plane_state->degamma != val) {
->> +			vs_plane_state->degamma = val;
->> +			vs_plane_state->degamma_changed = true;
->> +		} else {
->> +			vs_plane_state->degamma_changed = false;
->> +		}
->> +	} else if (property == vs_plane->watermark_prop) {
->> +		ret = _vs_plane_set_property_blob_from_id(dev,
->> +							  &vs_plane_state->watermark,
->> +							  val,
->> +							  sizeof(struct drm_vs_watermark));
->> +		return ret;
->> +	} else if (property == vs_plane->color_mgmt_prop) {
->> +		ret = _vs_plane_set_property_blob_from_id(dev,
->> +							  &vs_plane_state->color_mgmt,
->> +							  val,
->> +							  sizeof(struct drm_vs_color_mgmt));
->> +		return ret;
->> +	} else if (property == vs_plane->roi_prop) {
->> +		ret = _vs_plane_set_property_blob_from_id(dev,
->> +							  &vs_plane_state->roi,
->> +							  val,
->> +							  sizeof(struct drm_vs_roi));
->> +		return ret;
->> +	} else {
->> +		return -EINVAL;
->> +	}
->> +
->> +	return 0;
->> +}
-> 
-> Same story than above for properties
-> 
-> 
-> Honestly, that driver is pretty massive, and you should be simplifying
-> it a lot of you want the initial contribution to be as smooth as
-> possible.
-> 
-> Things like all the tiling formats, the underflowing handling, all those
-> properties, etc can (and should) be added in a second step once the
-> foundations are in.
-> 
-> Maxime
-
-ok , Thanks for reminding me. I will clarify my next goal and be more likely to simplify features.
+-- 
+With best wishes
+Dmitry
