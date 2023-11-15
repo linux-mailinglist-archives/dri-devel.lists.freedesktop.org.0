@@ -1,62 +1,153 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EFCC7ECAC8
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 19:50:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B4AB7ECAF2
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 20:03:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA09410E574;
-	Wed, 15 Nov 2023 18:50:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A18B10E131;
+	Wed, 15 Nov 2023 19:02:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D853510E12B;
- Wed, 15 Nov 2023 18:49:58 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- 98e67ed59e1d1-27ddc1b1652so748615a91.2; 
- Wed, 15 Nov 2023 10:49:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700074198; x=1700678998; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=D7v48j/pl5FIGApNbjyO+r+midNPw05IJ+kvZmAA5CM=;
- b=EqpHi+vxg1fxFEdNG1sFy8WAWEo239Dsbs2nivvQSAQ4GCxnvV2wL35ifmbzek3Mlq
- 3g2O4A5LlYLf4BUWGJGgOf9r67DNdhWOwjMzyWK+GiisvI869bnQ3R1ADvjw2NvlSUvw
- 2y6JlHI1mxriUKjC0yUNk6fBHbGIfukKlbmxPjSFBDzB/c2PyGVDGiWzokBMQyW117oR
- yJfsfGb3YUGOHRSQVRU3a9mve68kJBd7rj85Emp5eaQkm5K4pi8D1IGoeOxwPmJCKF7L
- yed+v7usFlKH09/8WH8eV5Vsjlph+qyHJuzX3idXqdncf73sHhTknO1YtXgRPekBI2i4
- k6ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700074198; x=1700678998;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=D7v48j/pl5FIGApNbjyO+r+midNPw05IJ+kvZmAA5CM=;
- b=ifui6DylcpSS9naADBmlXj4AJO33edp7ltW9tmxh8Rk4/VEiaQVfkRA4UwEAbY/1jD
- V7C0/J4x2O8VcSUzX4Wfq0cl8DvqQ7+xLErheqmwV4D2E5WmzlE5VPQMJC4TBRt2w56W
- wAyVVs0qBWau0Wg9Ra/bhYcyM3hRwI6mklajdbh/voN6EsEqKMVGRbGrPqwpKHQlqMSL
- r2eV1BPQBEsXcO9jDMrDumr31RJufQaFlhTCFbnzDdTz4wPSG9rSlL8Wv/U/5t4udpLd
- g8ioPy96zl73wdHwweueSYVLU7oU8H9iIqImd4EgPNxx7dPEeV9HJlP7WtSPNdFPV+qt
- DSmg==
-X-Gm-Message-State: AOJu0YwddYc5IZ2o42Z8wSznUnyWdXOu7EZ7rjDd9/F3rkMMfpDakVn5
- DruZn1R0tbfuCv/wqZ1EOBDoi6qzWC3xS5MdrJI=
-X-Google-Smtp-Source: AGHT+IFMQFR9ro3de0zCac+SFFip6+Utg91BLlP+JAlPDz4ucfq/N5mxAMcswsGlrB3wZlnW6YfwRU3Dj7B2ar+/MU8=
-X-Received: by 2002:a17:90b:390b:b0:281:3fb:6df1 with SMTP id
- ob11-20020a17090b390b00b0028103fb6df1mr13887743pjb.46.1700074197760; Wed, 15
- Nov 2023 10:49:57 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E519810E131;
+ Wed, 15 Nov 2023 19:02:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1700074977; x=1731610977;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=LnsdmLmK8AUBo8DIl7XsPd1DDM/N6cYKc6HKFM16jAw=;
+ b=gZLx7DBK5D1VMQFIGH3v4+jee5c/DFPG3Rw3PswRlhU/eKEU+ZZ4Ooe+
+ E76Ony4iG/5veMr6UDyDhojVQrYSM6l9oK6wTi6siqJvCpVAVtHnJ+DkY
+ yP1sBOp0mFh95b0pzuyMEJBLvYQHHSvTnWfjCZCxsQ2Rn3k/3xOlw6rH3
+ WecqpEX0iRulBlIUnPNQmsC2YH/xbDyjzPb1M+gSx7+mabXvHcsOhLQHo
+ ljb755pyR2Z0sr3uK8RopBLsdgD3/Nt4FQdf79Yg/yQLumYneCeKxeXP0
+ ftK+5zH8cJh5FDZtQiFuL0UOBJyZo2gV+ISypQ2HTIhYEOQenjW7b2kAv A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="370285703"
+X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; d="scan'208";a="370285703"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2023 11:02:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="741516914"
+X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; d="scan'208";a="741516914"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 15 Nov 2023 11:02:26 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Wed, 15 Nov 2023 11:02:16 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Wed, 15 Nov 2023 11:02:16 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Wed, 15 Nov 2023 11:02:16 -0800
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.41) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Wed, 15 Nov 2023 11:02:16 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DJ1u4m0n5JI05xq0G0TesPdTLzh0bCnQq/cevl0ULSeTxns2lP0xzVSdL82CuIZiiFRMHs+cJAgL0ANAv++pLXiXnm8sI2F5bmOpd2ef/71dYd/nosG/dOstnX/70hJoMehwzg7p2nBEOsKydIQvatpj0l0Z7Jwi4pBUD7+g+mS9IwFdSNaG/07Iv9ae+1I+4ACbA7Kb5h6zq6XxX2aYeApaVaLBQG4xdtm5oGR/lv91zYpsFSDM/1gnuw69fFyE6W4pgvfDUCNHrtiPAJIjRJJWesdbH01zrSJ89yud6HVrXvLDQVRoP5vMcGuHkBXG7qUksYWsUbGI3nJSH46fMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xCCXJciximm0zyAMldr2dmr6EvgJgxOkuuJiN73jsI0=;
+ b=I/ZYZbNEBHEllImIyFRfIrluVFQB7BlunoCEDBATUdqbGf4s3goeymY58iaIc6x1haq/ImqN6l4yE7mpFGpOx3njddsSQOOCe3EVaBW+XGqp5o17qfh5URBNW/C1UUSs6khWz77rN9nMXlgE44d1pwaC7/SM//A3vMkZC6DF/ImjmHy3XgU9QqTn457O7hd0k6EgXRg6YAFIWDyjrV4wfq3oPc+sPjbUJkosuVKs7aKYoZSTNKUwtBhC2vG/f+XgJWVs0r5ax5MOm0/8Q2Z/tFWa8IArDxwG6ra0ki5ggPftNjKiciIIqNhNqC+AQdSfYfU/Zmn8hoGuaRaEsTn2UA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7617.namprd11.prod.outlook.com (2603:10b6:a03:4cb::9)
+ by SA1PR11MB5876.namprd11.prod.outlook.com (2603:10b6:806:22a::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.18; Wed, 15 Nov
+ 2023 19:02:13 +0000
+Received: from SJ2PR11MB7617.namprd11.prod.outlook.com
+ ([fe80::e664:6a97:c93:4e57]) by SJ2PR11MB7617.namprd11.prod.outlook.com
+ ([fe80::e664:6a97:c93:4e57%5]) with mapi id 15.20.6977.029; Wed, 15 Nov 2023
+ 19:02:13 +0000
+Message-ID: <798c7cbd-70ad-4b69-9465-f5e2ca23c3ed@intel.com>
+Date: Wed, 15 Nov 2023 11:02:12 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/i915/gsc: Mark internal GSC engine with reserved uabi
+ class
+Content-Language: en-US
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ <Intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+References: <20231115110216.267138-1-tvrtko.ursulin@linux.intel.com>
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+In-Reply-To: <20231115110216.267138-1-tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR13CA0162.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c7::17) To SJ2PR11MB7617.namprd11.prod.outlook.com
+ (2603:10b6:a03:4cb::9)
 MIME-Version: 1.0
-References: <20231115141928.429688-1-dipamt1729@gmail.com>
- <CAA8EJprqnUGQxmj4Y=qttVuj0zJxdD9B6neHa6sPseLLETpk5A@mail.gmail.com>
- <CALHmwsoC5h7_w9OzpUS_-xM6x5WF5V-vFExLEf4y99b2eCcqGQ@mail.gmail.com>
-In-Reply-To: <CALHmwsoC5h7_w9OzpUS_-xM6x5WF5V-vFExLEf4y99b2eCcqGQ@mail.gmail.com>
-From: Dipam Turkar <dipamt1729@gmail.com>
-Date: Thu, 16 Nov 2023 00:19:46 +0530
-Message-ID: <CALHmwso-Y+f1YK07P3v4Y5uvG+7MR8Nqt0bCarfF7x9WkGuBww@mail.gmail.com>
-Subject: Re: [PATCH v2] Remove custom dumb_map_offset implementation in msm
- driver
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000a641a3060a355e92"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7617:EE_|SA1PR11MB5876:EE_
+X-MS-Office365-Filtering-Correlation-Id: ef706f6d-37a0-4d2c-b937-08dbe60d60b6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sTG3OSAV1Hkf528hSNSk5ms6eQH0MThtf+yEMQjB6Ns1nrT5ugYMepQCyqY6YKWiymYp+pkgxO/3C3Eok226hW3GXmCa8igAr32tLInlFVYH5IOOt7RjHU2o0OX45LPY+47u9ZibD818aU0h/oUWBBmofvKElF+1qVJRa81RdHcdGKuPLCzN16AqT+6a9gVfwkxrmfLrtAVW3mURuSq13NrL2jpDzDZlfUYLRdlczCD+bjgetghda5qX7AS1U4nPRU97mCYUBmWrs9LboW5thy+msJs6o95kmwpIKLoBRianohHz3bRjIMlFL/iC80wQHeWHoRxKXQI8cgUZmUehki02Se+3VPkdAEZtpO+M3ZdeU3gvGFIMRcvfPLPynQfOxGyYh5F2Ko9W58SYvwkn0kLMnHUXBKvLlSTOeiARMnt1b7O43/aD2YGFJc3vJBX1BHeljJK3y+mMNgSG6tG0H6Mt0GYjC1Kw17OwUByBSmMRXdpQ3Vhr28Qh/tZN3xgPfJI+rDuuo/kjexiuegQR5yudiG6H4LbDXuEkd156fQTzwZ1Vnh7o44bMCpQ1zv5xZYCWayCZB8Yfgqeb0spJ7GAaJ4YBKBEKhML22/dqn64h2ZVS2Kx9iaIZuRQe6yS5JCGpY+2mQfZ0wKIMuI5iCg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ2PR11MB7617.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(39860400002)(346002)(136003)(396003)(376002)(230922051799003)(186009)(64100799003)(451199024)(1800799009)(6486002)(478600001)(2906002)(2616005)(6512007)(31696002)(5660300002)(53546011)(6506007)(86362001)(4326008)(8676002)(8936002)(66556008)(54906003)(66476007)(316002)(66946007)(41300700001)(31686004)(82960400001)(83380400001)(38100700002)(26005)(36756003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RTllR1BUMGVRT0FLWi9IZmxkVldBeHJHd0EwOVlPME40WUxwcFZTdkZjREJn?=
+ =?utf-8?B?OGV2M2IxL3d2L3E5S2tGRUU4cVVwNHpuOG81K2pBOTZBanR0MGJGL3hYQm5h?=
+ =?utf-8?B?S2hxR0dSQzZaelkrb2lZeURMZkhBa1dIR3p2QVNYMzZ1TWdnbUdrYjRXZExI?=
+ =?utf-8?B?YTRpTTFyekJRNmJDUG1yUlBKTjFxY3IzTFQ1OHdPa2R0aEcrSkovRHpiOFg3?=
+ =?utf-8?B?MG5jNWVKSFNCMlRXNEJqZ0JFVmNBQ2ltUUpaZDZ0c29NZXREMGxpSXY3MkQy?=
+ =?utf-8?B?SkFpNzNCeGVQVDRwQkhjMC9hWU10dGFBNUFvQXpmeFVENnAwUUx0WktPMm9F?=
+ =?utf-8?B?Si9McXAra2VjZXJIT2tBNHJISGtYeEVGY1J6U0piQ1hEWTJMRGNUQzI1TVQv?=
+ =?utf-8?B?QzJpeE5MMzNqaFVJUEU1Z1RtZEovNHNPVlVuOEEzbXBxNW5SYW9vM3hiODRX?=
+ =?utf-8?B?c3hYKzQ1d3J6TG5YTzU2QUpUSXg2aXlTSU5mcDhKY1dtSk01REU3N1JNRGlP?=
+ =?utf-8?B?V3RESHdvd1BmMGloY0VYZzg1UjRiUkUxZkVaZXUwWW16ZDNmWkVjOWpac3J1?=
+ =?utf-8?B?VFkxUGE4OU1EV3daZnhWcHVqWE1NeFFEUlFtUU1BN0Q1QjQrMWdxckt2OGh1?=
+ =?utf-8?B?UldpSnUwQWNoUWtrdW5OTytVOVZrdGVwUUw5MWpuTDVSSHNBQmlFUlFtUUlU?=
+ =?utf-8?B?aW5jT3RZNUhzczVDS09xU3IxQU9XUXViMG5Tc0EwYXFwQlcva2l1SG9aV2V5?=
+ =?utf-8?B?cnpYV0c4N1hOVUY4SlhvSk0vaEFSNHYrcEgySVduUTJuV1gvVERBQjhLZmUv?=
+ =?utf-8?B?di8wQTd2SmxtNWEvY245Ym5hSnRNM3VvaVVVL1J6Ui8vM2x4Ly9TNVZqSUdB?=
+ =?utf-8?B?YzVSVUVkNExUc28rZXl3YUVKSnBOd1d0d3l2dTNKZTMzczlNbTRsNk04ZVlX?=
+ =?utf-8?B?aGNGS0JZSENDc2NpaHJTYmlaQ1RBRi9qUCtuRzVJNnZHNU8zQjU4NWVHY0Yy?=
+ =?utf-8?B?UmJlU1NITG1EMlF1dDVDc1JPbWJscm9zWjB3Y1JKZ1ZRbGdCMmpYci8vYnJm?=
+ =?utf-8?B?SnRBa1EwVzRkNnFsOWJnVDBZcnFCbTlSY0JkTkdLeEg4blZWb2ZtMURDa3VT?=
+ =?utf-8?B?eitwemJwdWE1ZHF3S1hjdWZPbFVaSWpkcjk2dk0zMXlYTHhtVDF4c1BUb2F2?=
+ =?utf-8?B?Y1R5ZnJwN1c3K0tkaUZ0SWcySlpicFVJZ2R3WjFmNEtmRjV4ZTI5RUFxMnV5?=
+ =?utf-8?B?aDVtMXdLNVRjUTBEVytDek0yRkV0TlM3N3lGalgxSUV4aU5IblVCUDdlL2s1?=
+ =?utf-8?B?M2xOd0Fkb0NHRzlVamlPMWxMR3BpL2pyd3dZSXQ5MkxMWGwrUi8wcjNHb2w0?=
+ =?utf-8?B?UDhrZHM0VHFneC9oT3VPZWR1U29yQUVMRzQrUWsvK1NHTEVhb2VVbGVNNnMx?=
+ =?utf-8?B?UkJJbWhhbkVXU1J0K2ZTNTRPdE53ZzM0eUQ3VU42a1hmV3ozNjNRV3pmOVds?=
+ =?utf-8?B?N1IxUmhodFlNekNkSmxUMllJVElmcXZnWElMUFVVNzkyRUI2TytJWURGeita?=
+ =?utf-8?B?bHJzZWtqc0Fpbk81cXZrZHR1MzhKVlNzMEwwUi9McWpLcFdmTmFJUGtLd2Zj?=
+ =?utf-8?B?TnhraGtyYk5SaHM4T1Z0YkVLRm4zcGdXWlVUQk5ycUxiOXBwWTdMZEhxcEtx?=
+ =?utf-8?B?bnRKNTZYc2hOZkgrb0RZWWVzTDl2Y0hQVGtHamg0eVRMQXVVWjQrNld2SE10?=
+ =?utf-8?B?UkFpQTEzVG9EMFJuVHM0R2lncE9oMndQemw3WmE3SFBNSkxjNmtGUnlvWTlL?=
+ =?utf-8?B?Mm80cCtBbmFwRTEwRVVnNUhIYXVrWWh0SndPQUdpdVczZkN6Vk5UU3JvdWJu?=
+ =?utf-8?B?R1p0K3UyKytqcGs1NlAwWjcxeU1zckl3WTZjK3RWZE9CQmppeVJPcFYxeUZY?=
+ =?utf-8?B?bm9BL3d3K3hzZ3hBVkltOHc5TXZOR2toNHd3NG9vQWFDaTNkQ3JxZW9nVEVT?=
+ =?utf-8?B?R01JNXdsYTFPcEk2N2FxLzh6S2ZkNzRkRk9ESkhjL1RVYmgzVVBIcVg2R2xq?=
+ =?utf-8?B?dUhzaHVyZDBWNFZvTUY3Q2lsNXZnSkJjNlVjbzFxYmp1NGVHRzk0dGoyWXRS?=
+ =?utf-8?B?cWI5VklPYXNWcndWa1FQSkhSRGZOdlRLUjdDUUxDKzdmZ2h0OG5Ca291QUpn?=
+ =?utf-8?Q?U7bzORJ/l1Hl0lW3XDAbD60=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef706f6d-37a0-4d2c-b937-08dbe60d60b6
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7617.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2023 19:02:13.5886 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: j7ld09It9Uze1FITGfCapG6gZfoXKXgkD3trUw9G5FVoBi9k3LiZlkaSITchrH0OHBs9LwEaUhjCnQLrwZ5MjdJsNUGgtlslSq1ZKFmjAGI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB5876
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,296 +160,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, marijn.suijten@somainline.org, sean@poorly.run
+Cc: Matt Roper <matthew.d.roper@intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000a641a3060a355e92
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-They are not outdated, my bad. I went through the locks' code and saw that
-they have been updated. But they are probably not necessary here as most of
-the drivers do not use any form of locking in their implementations. The
-generic implementations drm_gem_dumb_map_offset() and
-drm_gem_ttm_dumb_map_offset() do not have any locking mechanisms either.
 
-Thanks and regards
-Dipam Turkar
-
-On Thu, Nov 16, 2023 at 12:16=E2=80=AFAM Dipam Turkar <dipamt1729@gmail.com=
-> wrote:
-
-> They are not outdated, my bad. I went through the locks' code and saw tha=
-t
-> they have been updated. But they are probably not necessary here as most =
-of
-> the drivers do not use any form of locking in their implementations. The
-> generic implementations drm_gem_dumb_map_offset() and
-> drm_gem_ttm_dumb_map_offset() do not have any locking mechanisms either.
+On 11/15/2023 3:02 AM, Tvrtko Ursulin wrote:
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 >
-> Thanks and regards
-> Dipam Turkar
+> The GSC CS is not exposed to the user, so we skipped assigning a uabi
+> class number for it. However, the trace logs use the uabi class and
+> instance to identify the engine, so leaving uabi class unset makes the
+> GSC CS show up as the RCS in those logs.
 >
-> On Wed, Nov 15, 2023 at 8:37=E2=80=AFPM Dmitry Baryshkov <
-> dmitry.baryshkov@linaro.org> wrote:
+> Given that the engine is not exposed to the user, we can't add a new
+> case in the uabi enum, so we insted internally define a kernel
+> internal class as -1.
 >
->> On Wed, 15 Nov 2023 at 16:30, Dipam Turkar <dipamt1729@gmail.com> wrote:
->> >
->> > Make msm use drm_gem_create_map_offset() instead of its custom
->> > implementation for associating GEM object with a fake offset. Since,
->> > we already have this generic implementation, we don't need the custom
->> > implementation and it is better to standardize the code for GEM based
->> > drivers. This also removes the outdated locking leftovers.
->>
->> Why are they outdated?
->>
->> >
->> > Signed-off-by: Dipam Turkar <dipamt1729@gmail.com>
->> > ---
->> >  drivers/gpu/drm/msm/msm_drv.c |  2 +-
->> >  drivers/gpu/drm/msm/msm_gem.c | 21 ---------------------
->> >  drivers/gpu/drm/msm/msm_gem.h |  2 --
->> >  3 files changed, 1 insertion(+), 24 deletions(-)
->> >
->> > Changes in v2:
->> > Modify commit message to include the absence of internal locking
->> leftovers
->> > around allocating a fake offset in msm_gem_mmap_offset() in the generi=
-c
->> > implementation drm_gem_create_map_offset().
->> >
->> > diff --git a/drivers/gpu/drm/msm/msm_drv.c
->> b/drivers/gpu/drm/msm/msm_drv.c
->> > index a428951ee539..86a15992c717 100644
->> > --- a/drivers/gpu/drm/msm/msm_drv.c
->> > +++ b/drivers/gpu/drm/msm/msm_drv.c
->> > @@ -1085,7 +1085,7 @@ static const struct drm_driver msm_driver =3D {
->> >         .open               =3D msm_open,
->> >         .postclose          =3D msm_postclose,
->> >         .dumb_create        =3D msm_gem_dumb_create,
->> > -       .dumb_map_offset    =3D msm_gem_dumb_map_offset,
->> > +       .dumb_map_offset    =3D drm_gem_dumb_map_offset,
->> >         .gem_prime_import_sg_table =3D msm_gem_prime_import_sg_table,
->> >  #ifdef CONFIG_DEBUG_FS
->> >         .debugfs_init       =3D msm_debugfs_init,
->> > diff --git a/drivers/gpu/drm/msm/msm_gem.c
->> b/drivers/gpu/drm/msm/msm_gem.c
->> > index db1e748daa75..489694ef79cb 100644
->> > --- a/drivers/gpu/drm/msm/msm_gem.c
->> > +++ b/drivers/gpu/drm/msm/msm_gem.c
->> > @@ -671,27 +671,6 @@ int msm_gem_dumb_create(struct drm_file *file,
->> struct drm_device *dev,
->> >                         MSM_BO_SCANOUT | MSM_BO_WC, &args->handle,
->> "dumb");
->> >  }
->> >
->> > -int msm_gem_dumb_map_offset(struct drm_file *file, struct drm_device
->> *dev,
->> > -               uint32_t handle, uint64_t *offset)
->> > -{
->> > -       struct drm_gem_object *obj;
->> > -       int ret =3D 0;
->> > -
->> > -       /* GEM does all our handle to object mapping */
->> > -       obj =3D drm_gem_object_lookup(file, handle);
->> > -       if (obj =3D=3D NULL) {
->> > -               ret =3D -ENOENT;
->> > -               goto fail;
->> > -       }
->> > -
->> > -       *offset =3D msm_gem_mmap_offset(obj);
->> > -
->> > -       drm_gem_object_put(obj);
->> > -
->> > -fail:
->> > -       return ret;
->> > -}
->> > -
->> >  static void *get_vaddr(struct drm_gem_object *obj, unsigned madv)
->> >  {
->> >         struct msm_gem_object *msm_obj =3D to_msm_bo(obj);
->> > diff --git a/drivers/gpu/drm/msm/msm_gem.h
->> b/drivers/gpu/drm/msm/msm_gem.h
->> > index 8ddef5443140..dc74a0ef865d 100644
->> > --- a/drivers/gpu/drm/msm/msm_gem.h
->> > +++ b/drivers/gpu/drm/msm/msm_gem.h
->> > @@ -139,8 +139,6 @@ struct page **msm_gem_pin_pages(struct
->> drm_gem_object *obj);
->> >  void msm_gem_unpin_pages(struct drm_gem_object *obj);
->> >  int msm_gem_dumb_create(struct drm_file *file, struct drm_device *dev=
-,
->> >                 struct drm_mode_create_dumb *args);
->> > -int msm_gem_dumb_map_offset(struct drm_file *file, struct drm_device
->> *dev,
->> > -               uint32_t handle, uint64_t *offset);
->> >  void *msm_gem_get_vaddr_locked(struct drm_gem_object *obj);
->> >  void *msm_gem_get_vaddr(struct drm_gem_object *obj);
->> >  void *msm_gem_get_vaddr_active(struct drm_gem_object *obj);
->> > --
->> > 2.34.1
->> >
->>
->>
->> --
->> With best wishes
->> Dmitry
->>
+> At the same time remove special handling for the name and complete
+> the uabi_classes array so internal class is automatically correctly
+> assigned.
 >
+> Engine will show as 65535:0 other0 in the logs/traces which should
+> be unique enough.
+>
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Fixes: 194babe26bdc ("drm/i915/mtl: don't expose GSC command streamer to the user")
+> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> ---
+> Daniele I borrowed most of your commit text as is, hope you don't mind but
+> I was lazy. See if you like this solution. It is also untested so lets see.
 
---000000000000a641a3060a355e92
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I'm ok with this approach. As you said the naming is unique so we can 
+easily identify the engine. I've tested this locally with a small change 
+(see below) and I see the expected values in the logs.
 
-<div dir=3D"ltr"><div>They are not outdated, my bad. I went through the loc=
-ks&#39; code and=20
-saw that they have been updated. But they are probably not necessary=20
-here as most of the drivers do not use any form of locking in their=20
-implementations. The generic implementations drm_gem_dumb_map_offset()=20
-and drm_gem_ttm_dumb_map_offset() do not have any locking mechanisms=20
-either.</div><div><br></div><div>Thanks and regards</div><div>Dipam Turkar<=
-br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gma=
-il_attr">On Thu, Nov 16, 2023 at 12:16=E2=80=AFAM Dipam Turkar &lt;<a href=
-=3D"mailto:dipamt1729@gmail.com">dipamt1729@gmail.com</a>&gt; wrote:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>=
-They are not outdated, my bad. I went through the locks&#39; code and=20
-saw that they have been updated. But they are probably not necessary=20
-here as most of the drivers do not use any form of locking in their=20
-implementations. The generic implementations drm_gem_dumb_map_offset()=20
-and drm_gem_ttm_dumb_map_offset() do not have any locking mechanisms=20
-either.</div><div><br></div><div>Thanks and regards</div><font color=3D"#88=
-8888"><div>Dipam Turkar</div></font></div><br><div class=3D"gmail_quote"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 15, 2023 at 8:37=E2=80=AFPM=
- Dmitry Baryshkov &lt;<a href=3D"mailto:dmitry.baryshkov@linaro.org" target=
-=3D"_blank">dmitry.baryshkov@linaro.org</a>&gt; wrote:<br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">On Wed, 15 Nov 2023 at 16:30, Dipam =
-Turkar &lt;<a href=3D"mailto:dipamt1729@gmail.com" target=3D"_blank">dipamt=
-1729@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Make msm use drm_gem_create_map_offset() instead of its custom<br>
-&gt; implementation for associating GEM object with a fake offset. Since,<b=
-r>
-&gt; we already have this generic implementation, we don&#39;t need the cus=
-tom<br>
-&gt; implementation and it is better to standardize the code for GEM based<=
-br>
-&gt; drivers. This also removes the outdated locking leftovers.<br>
-<br>
-Why are they outdated?<br>
-<br>
-&gt;<br>
-&gt; Signed-off-by: Dipam Turkar &lt;<a href=3D"mailto:dipamt1729@gmail.com=
-" target=3D"_blank">dipamt1729@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 drivers/gpu/drm/msm/msm_drv.c |=C2=A0 2 +-<br>
-&gt;=C2=A0 drivers/gpu/drm/msm/msm_gem.c | 21 ---------------------<br>
-&gt;=C2=A0 drivers/gpu/drm/msm/msm_gem.h |=C2=A0 2 --<br>
-&gt;=C2=A0 3 files changed, 1 insertion(+), 24 deletions(-)<br>
-&gt;<br>
-&gt; Changes in v2:<br>
-&gt; Modify commit message to include the absence of internal locking lefto=
-vers<br>
-&gt; around allocating a fake offset in msm_gem_mmap_offset() in the generi=
-c<br>
-&gt; implementation drm_gem_create_map_offset().<br>
-&gt;<br>
-&gt; diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_d=
-rv.c<br>
-&gt; index a428951ee539..86a15992c717 100644<br>
-&gt; --- a/drivers/gpu/drm/msm/msm_drv.c<br>
-&gt; +++ b/drivers/gpu/drm/msm/msm_drv.c<br>
-&gt; @@ -1085,7 +1085,7 @@ static const struct drm_driver msm_driver =3D {<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.open=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0=3D msm_open,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.postclose=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =3D msm_postclose,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.dumb_create=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =3D msm_gem_dumb_create,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0.dumb_map_offset=C2=A0 =C2=A0 =3D msm_gem_=
-dumb_map_offset,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0.dumb_map_offset=C2=A0 =C2=A0 =3D drm_gem_=
-dumb_map_offset,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.gem_prime_import_sg_table =3D msm_ge=
-m_prime_import_sg_table,<br>
-&gt;=C2=A0 #ifdef CONFIG_DEBUG_FS<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.debugfs_init=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0=3D msm_debugfs_init,<br>
-&gt; diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_g=
-em.c<br>
-&gt; index db1e748daa75..489694ef79cb 100644<br>
-&gt; --- a/drivers/gpu/drm/msm/msm_gem.c<br>
-&gt; +++ b/drivers/gpu/drm/msm/msm_gem.c<br>
-&gt; @@ -671,27 +671,6 @@ int msm_gem_dumb_create(struct drm_file *file, st=
-ruct drm_device *dev,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0MSM_BO_SCANOUT | MSM_BO_WC, &amp;args-&gt;handle, &quot=
-;dumb&quot;);<br>
-&gt;=C2=A0 }<br>
-&gt;<br>
-&gt; -int msm_gem_dumb_map_offset(struct drm_file *file, struct drm_device =
-*dev,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t handl=
-e, uint64_t *offset)<br>
-&gt; -{<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_gem_object *obj;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0int ret =3D 0;<br>
-&gt; -<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0/* GEM does all our handle to object mappi=
-ng */<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0obj =3D drm_gem_object_lookup(file, handle=
-);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0if (obj =3D=3D NULL) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D -ENOEN=
-T;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto fail;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; -<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0*offset =3D msm_gem_mmap_offset(obj);<br>
-&gt; -<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0drm_gem_object_put(obj);<br>
-&gt; -<br>
-&gt; -fail:<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;<br>
-&gt; -}<br>
-&gt; -<br>
-&gt;=C2=A0 static void *get_vaddr(struct drm_gem_object *obj, unsigned madv=
-)<br>
-&gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct msm_gem_object *msm_obj =3D to=
-_msm_bo(obj);<br>
-&gt; diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_g=
-em.h<br>
-&gt; index 8ddef5443140..dc74a0ef865d 100644<br>
-&gt; --- a/drivers/gpu/drm/msm/msm_gem.h<br>
-&gt; +++ b/drivers/gpu/drm/msm/msm_gem.h<br>
-&gt; @@ -139,8 +139,6 @@ struct page **msm_gem_pin_pages(struct drm_gem_obj=
-ect *obj);<br>
-&gt;=C2=A0 void msm_gem_unpin_pages(struct drm_gem_object *obj);<br>
-&gt;=C2=A0 int msm_gem_dumb_create(struct drm_file *file, struct drm_device=
- *dev,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct dr=
-m_mode_create_dumb *args);<br>
-&gt; -int msm_gem_dumb_map_offset(struct drm_file *file, struct drm_device =
-*dev,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t handl=
-e, uint64_t *offset);<br>
-&gt;=C2=A0 void *msm_gem_get_vaddr_locked(struct drm_gem_object *obj);<br>
-&gt;=C2=A0 void *msm_gem_get_vaddr(struct drm_gem_object *obj);<br>
-&gt;=C2=A0 void *msm_gem_get_vaddr_active(struct drm_gem_object *obj);<br>
-&gt; --<br>
-&gt; 2.34.1<br>
-&gt;<br>
-<br>
-<br>
--- <br>
-With best wishes<br>
-Dmitry<br>
-</blockquote></div>
-</blockquote></div>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_engine_user.c | 37 ++++++++++++---------
+>   1 file changed, 21 insertions(+), 16 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> index 118164ddbb2e..7693ccfac1f9 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> @@ -41,12 +41,15 @@ void intel_engine_add_user(struct intel_engine_cs *engine)
+>   	llist_add(&engine->uabi_llist, &engine->i915->uabi_engines_llist);
+>   }
+>   
+> +#define I915_NO_UABI_CLASS (-1)
 
---000000000000a641a3060a355e92--
+I see the lkp is complaining about using this for comparison against a 
+u16. When I locally tried to reduce this to u16 my compiler also 
+complained that we're assigning it to a u8 in the uabi_classes array, so 
+I've just set I915_NO_UABI_CLASS directly to 255 and it all worked as 
+expected. With that fix, or an alternative change to work with all the 
+involved types:
+
+Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+
+Daniele
+
+> +
+>   static const u8 uabi_classes[] = {
+>   	[RENDER_CLASS] = I915_ENGINE_CLASS_RENDER,
+>   	[COPY_ENGINE_CLASS] = I915_ENGINE_CLASS_COPY,
+>   	[VIDEO_DECODE_CLASS] = I915_ENGINE_CLASS_VIDEO,
+>   	[VIDEO_ENHANCEMENT_CLASS] = I915_ENGINE_CLASS_VIDEO_ENHANCE,
+>   	[COMPUTE_CLASS] = I915_ENGINE_CLASS_COMPUTE,
+> +	[OTHER_CLASS] = I915_NO_UABI_CLASS, /* Not exposed to users, no uabi class. */
+>   };
+>   
+>   static int engine_cmp(void *priv, const struct list_head *A,
+> @@ -200,6 +203,7 @@ static void engine_rename(struct intel_engine_cs *engine, const char *name, u16
+>   
+>   void intel_engines_driver_register(struct drm_i915_private *i915)
+>   {
+> +	u16 name_instance, other_instance = 0;
+>   	struct legacy_ring ring = {};
+>   	struct list_head *it, *next;
+>   	struct rb_node **p, *prev;
+> @@ -216,27 +220,28 @@ void intel_engines_driver_register(struct drm_i915_private *i915)
+>   		if (intel_gt_has_unrecoverable_error(engine->gt))
+>   			continue; /* ignore incomplete engines */
+>   
+> -		/*
+> -		 * We don't want to expose the GSC engine to the users, but we
+> -		 * still rename it so it is easier to identify in the debug logs
+> -		 */
+> -		if (engine->id == GSC0) {
+> -			engine_rename(engine, "gsc", 0);
+> -			continue;
+> -		}
+> -
+>   		GEM_BUG_ON(engine->class >= ARRAY_SIZE(uabi_classes));
+>   		engine->uabi_class = uabi_classes[engine->class];
+> +		if (engine->uabi_class == I915_NO_UABI_CLASS) {
+> +			name_instance = other_instance++;
+> +		} else {
+> +			GEM_BUG_ON(engine->uabi_class >=
+> +				   ARRAY_SIZE(i915->engine_uabi_class_count));
+> +			name_instance =
+> +				i915->engine_uabi_class_count[engine->uabi_class]++;
+> +		}
+> +		engine->uabi_instance = name_instance;
+>   
+> -		GEM_BUG_ON(engine->uabi_class >=
+> -			   ARRAY_SIZE(i915->engine_uabi_class_count));
+> -		engine->uabi_instance =
+> -			i915->engine_uabi_class_count[engine->uabi_class]++;
+> -
+> -		/* Replace the internal name with the final user facing name */
+> +		/*
+> +		 * Replace the internal name with the final user and log facing
+> +		 * name.
+> +		 */
+>   		engine_rename(engine,
+>   			      intel_engine_class_repr(engine->class),
+> -			      engine->uabi_instance);
+> +			      name_instance);
+> +
+> +		if (engine->uabi_class == I915_NO_UABI_CLASS)
+> +			continue;
+>   
+>   		rb_link_node(&engine->uabi_node, prev, p);
+>   		rb_insert_color(&engine->uabi_node, &i915->uabi_engines);
+
