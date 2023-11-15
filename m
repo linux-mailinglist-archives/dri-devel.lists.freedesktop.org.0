@@ -1,119 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE2A7EC967
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 18:08:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E01197EC96E
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 18:10:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5079E10E0FF;
-	Wed, 15 Nov 2023 17:08:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E1A910E0F6;
+	Wed, 15 Nov 2023 17:10:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2044.outbound.protection.outlook.com [40.107.220.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB0F310E0F1;
- Wed, 15 Nov 2023 17:08:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LWfbQV4N9ax6ZBBTxP+FiqqgK5rIiOHhcFNh/nCq0KgbfUYl7IdPKVBPX2zwgxrCcRjPaUVCBWcgiCuxlhoJ4GW6YzEzhx4tT6YoeFfr/dfHyT9lXTyBAgw1lvMcOxTc1mb2XXb1h8AmpJDyzY3DdKE5qrsgXE7hNIdbVY7VeAMgiMn2wbYKifHAZIR8cNPma74hX1vzDhfg1KGjHC7eoZkYfYvnf0wCuSHhhaiaz+egsq20HHmwxPQQM67sE2udFOnhXU74CNsi3GUx+6V0yxhOo6E401OTVLJbQkcchK8JYP88HU7x8vquQoFtO9zGjU4M0BcKvPIsshaQNcFX6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lN6CL2acWKZy0CwSo3JdCf8uGHAVsrZgEb6HlVE9/ko=;
- b=UwbNz5SuOw6pBTs9P24GIqvCaWx04i4/mHbIs+StG7LqZffbcH7mnlVO/c3JQMlWEu/CZwtpuoZ+x6egvQvC9BnIzuOpIKxd12fIsrZRFuhGgON6nnbweesG/6ItVw2b+HXlg4otLDEKIDXkBJtuyYqcILCXxkMoxlzy5EdKDlDPSqv2uYFtHQktmQnxMW+WRZoVVC3PoId+7joqgOL9+usasmR5pwqX68lfeJjQuIs28MXLsVB2XJzzD0lhMGSP1Fuf3hvekBUUwuhQyqwC+oyigBM6qqTNCp1XQBfVyIwkCJ+OZ4qix4Nqjr7JyDRhjUUrhkmSZ3IlDwYt1/YOXw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lN6CL2acWKZy0CwSo3JdCf8uGHAVsrZgEb6HlVE9/ko=;
- b=S0TdVLKdI6CbMDAFZ2MybjDWb4xafa1irCQWgQD+YcVw5fiNC2nMK1UFg7dUd5ZcW5KqAXRIJZXqks9/K8VXOqKIXcZkXXJl6q5Ap4Fjc9TXwjOXLHcBTj5/dVnwpM93h+HxZxQROfVeWsJijTPPumZaiqVn6s2LTpp/MwtKFGM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by DS0PR12MB7948.namprd12.prod.outlook.com (2603:10b6:8:152::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Wed, 15 Nov
- 2023 17:08:46 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::83d7:9c4f:4d9b:1f2a]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::83d7:9c4f:4d9b:1f2a%5]) with mapi id 15.20.7002.019; Wed, 15 Nov 2023
- 17:08:46 +0000
-Message-ID: <70b35a0e-5ccd-4e19-a8ac-4cf095007a69@amd.com>
-Date: Wed, 15 Nov 2023 11:08:43 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/7] PCI: ACPI: Detect PCIe root ports that are used
- for tunneling
-Content-Language: en-US
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-References: <20231114200755.14911-1-mario.limonciello@amd.com>
- <20231114200755.14911-6-mario.limonciello@amd.com>
- <20231115104019.GY17433@black.fi.intel.com>
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20231115104019.GY17433@black.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA9PR13CA0159.namprd13.prod.outlook.com
- (2603:10b6:806:28::14) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 138EB10E102;
+ Wed, 15 Nov 2023 17:10:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1700068239; x=1731604239;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Qgux1RxgmOdTrZ+XM5YJR3vYYmq5dU/OrRR/xq6hqUc=;
+ b=U1lbhbpwosTGJsLKh74fJAv4RSY5A13iV5ZqU/KK/f/m+3UKpfQcij7o
+ qujXwQKqpFqkfZGlbu1LrktoXq0myWFDZZ0jAp7yqeiKAWa+EXjXPGZfk
+ I5W6Ky3nkgor9q8ABKngdK1bWIQJsWmZqL35ad3qqNWG35ObubbkinbC4
+ bexaGi/35wQnuT/5B7OJ4ywOq+68Oyxo/snMb76eEqlX6LdjjsN3nEBSF
+ AidWYks0GAy7qwadbEZV3c5kvI9/AvM13ClohqeqWKvBPcndHP2AI3rkr
+ jVOGecG5HmHF5MZca41jtj7anxWHSj9Eds8GV2p3C7g8CCKclliLwT1Vo A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="375955668"
+X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; d="scan'208";a="375955668"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2023 09:10:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="1012339208"
+X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; d="scan'208";a="1012339208"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+ by fmsmga006.fm.intel.com with ESMTP; 15 Nov 2023 09:10:02 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1r3JOo-0000dw-0k;
+ Wed, 15 Nov 2023 17:09:58 +0000
+Date: Thu, 16 Nov 2023 01:09:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/gsc: Mark internal GSC engine with reserved
+ uabi class
+Message-ID: <202311160136.EtOH3ghf-lkp@intel.com>
+References: <20231115110216.267138-1-tvrtko.ursulin@linux.intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DS0PR12MB7948:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc14c823-7c88-4fed-0819-08dbe5fd8742
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pEdZM6wq5b1iGSH0ENTWoRV5IZQVklBGbIXMGdCks7NFOoG8AQECbkuKa+IiRGJTQccj7CJLjGA1s2KE8ZR+rHeZ3fBaaLoWt4Ya1dVnzK/F2Y6nJ8rraT5BDrK0x3HBKvDi4CDT/ED8JyohOq/TtLXd+fc9ibyH7INfcYqPUQ0bxkspJN6HcqS1h4MaZqtJrGKvoxA3t11EeVrpVOWqaR1fwjwN1eyWGEf8O3G73CMrxQ2ocNibqaMRbIYYDx4/a0g18PGCBskrNvsHpOq31XFDEnBUFLWp1uVccktfevoQ8UPDjx4v/iupH0c5+GYhfWQ9r5xo4ZoLuXkdaqnYN6CmmsZndN3TPjG6N1br08+ZJAZkQFbzv/9LLoEOnfsyfKnH1juZ0WbmYl+xj2dViK5QW97fx/b0KTY1YAmkWAU2uac08lEgeSeb1VNdBTxExu0EUDytkSos8TMRWuzQmZs81pUhmSB+3uIjgcNkarMbB2CAWSkCT9G/WyqvUkvJsYdOPdqvUgMrV9aqAtNRxpAauv58Yaa3DQ1tVuO/HRGGf25YnzpADDxa9lR2SwqVms7m9xjbzsm2Tqa3mXRxZlecT1sl0ecjGBrKqyuTvnLC7IeDy5cIVf7lguoAvSa3UogDelq01PGKoqe/F1z7Bw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(39860400002)(366004)(376002)(136003)(346002)(230922051799003)(451199024)(1800799009)(64100799003)(186009)(31686004)(6916009)(6486002)(66574015)(316002)(6666004)(53546011)(4326008)(83380400001)(6512007)(41300700001)(2906002)(8676002)(5660300002)(6506007)(7416002)(44832011)(66476007)(66946007)(54906003)(2616005)(66556008)(36756003)(478600001)(8936002)(31696002)(38100700002)(86362001)(26005)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eVJlNVJJTmd4SlIxWmNQM0xFRVFWYTdZd25SRHF0RzFGbEhYTk1Zb0ZrUHlG?=
- =?utf-8?B?U2VhMlVtZWVZT1pCekNHbWNiZ2NmcnIxNVZzOWRRK1ozYnJsOVl3WFFjcHlQ?=
- =?utf-8?B?TDJ4VnByQk9wNStybHBkRUUybkMrNzdwUG8xRVkxQ2tqaXk3eEoyMnF3eVFU?=
- =?utf-8?B?SjZqVS80NFVjT1EyS3JQU2h2eVUzblNPVlFJK3RHRG1xZGYyZmh1UEFmTkhk?=
- =?utf-8?B?UGJxank5clZ4REJsRVpQbGdFWmhxNTR4R1V0bDV6cngvSnN5VkF5WC80akIr?=
- =?utf-8?B?bURBc2IyR01zMW13ZTlGSSsvZTNkYStzSkgxbWh3SjFESzdtem1DQjdKdmRV?=
- =?utf-8?B?VHYya2ZXREhDUGV5NURKZUl6UG0zUm8xNHhkOHFBNHc4QXdkZ0g3ZXFkYk9o?=
- =?utf-8?B?T05FRi9GY1I5UExaL1dzcDJsK2NVRjFaTzRyZ0wxeFVnN2xkVThxL2V6dGhB?=
- =?utf-8?B?My8rdkIrRzBLMWcxNXJ5WWQ1eHZJWmFLM2RGSDl6YmI1TWpwUlVKWkU1MStS?=
- =?utf-8?B?YVpNYXdOc0laeTVjR1BDZXZ6QWcxeGxjZVJVMGFxZnR1YVhyNEo5emZCQzBi?=
- =?utf-8?B?a3VEdUxIL1M1OHV1ZGNNRmNKZXZHRVNiTDhuNSs2ZVNCY01kcjBZN0FVRmgw?=
- =?utf-8?B?aXdZK2k1Z1RlS0E1amw3MmE3eGwrWjVBamIrMzlFU3hTcGo3R3Z1cUZtOThM?=
- =?utf-8?B?aGNHakZxeWFHSVF4elZDL0p4U01aZTNuTUxGU3RwVlk5WW5nbG05eStwbUtT?=
- =?utf-8?B?cGgwN1kzb0hnc0hsWUNtNy9TdFg1ODlUSGN2SEhyLzh6VkMzUk9GVzJnVlNt?=
- =?utf-8?B?SzFSYlNzS2IxMENpckNWUVM0amZpUExHdW5tbWoyUFR1ZERVM1h5SWVTWUty?=
- =?utf-8?B?Y3dTeVNrTmdtYm96T3lqNFFjM2dwN2NONWhqUWZjMjJZN3hWSnJ4RXROVlh5?=
- =?utf-8?B?TlBYNElRRFdQTE84ZEpqdGpxRy9vNlRHMWpQNm5vVENsVHlzRXYyd1lvOEFu?=
- =?utf-8?B?OWtiZk1LT2NEcGEzUFdFYkJvMmJZOVZvZjlJeDBPMGM0Unl2ZldPYkcxTDBU?=
- =?utf-8?B?aG9Ra0F4eXU0TTJHR1FFYVVEV21SQjBuU28vRmJPeUVCajlLajJMUjhGZ0Iy?=
- =?utf-8?B?cU9waUZzM2lxbkRCa1RyV1djL3VXM2ZOY1Q5ckswOHp4bmNHQWRzU3lBT2Mz?=
- =?utf-8?B?cnpoVFhIV01wQS9iUUwzZ1dYa0Z3ZlQzUmFlYXU4TVR5eUZWN3prSWtkRlNJ?=
- =?utf-8?B?ODFtbCtIZXJ1VTFSZVE1ZndXcVVPcXZ6Uzk0T29aV2Z1OFI5aEVKd0RUaW1s?=
- =?utf-8?B?aHVpV0hFdllrUllvRlkra0NXOHd4SXJwcXMwSk1pWFRhTkdtQmRTNXY5TGNI?=
- =?utf-8?B?a01ERHhtT0cycm12YXVjMXBNS0tNc2lYQ1pWYm5WZDBtbzFPNkMwaTZEVzZH?=
- =?utf-8?B?VHltOXQzd0ZMemtQNk1MRkpheXdXZEY5WU9tTGVHMnRrT0R4Tmd2NE1DMmxo?=
- =?utf-8?B?dnM2aEhUOVU3dUcvdWpZeTd4TXNwWGV2ZDRJb2pROFJZSTh3dkNlOWpYbmpG?=
- =?utf-8?B?MWE3NW9jejVvME5sUTMvNTFmVzl6SGRUOE12ZzZWN0RsTnh5U2ZoNWEreEJP?=
- =?utf-8?B?bEY4eUFObm9IZzRPQjJYU0pUMG8yZjJpV1FIZlAxVE1KQlJialIvK1k5MTAw?=
- =?utf-8?B?S1hWdWpYQi9nRmNsTS9HcElTRmpXWEo1YVRIbERmdDBheXBXZ2NNdTUrSEwx?=
- =?utf-8?B?NWMvNnlKeFZIZjhrWGJWcU85Rml5a3JnQjlKNzdRdXA1NGQ3eGF3Q2l1aGc5?=
- =?utf-8?B?VmZQMFVDL1YzVHFYc08wdnFEM2lreTVEN3N5TFFWa1lNV3lKYnFSd290dGYz?=
- =?utf-8?B?Y2N6SmlBQjMxbE9LbGRuWUpOdlFHSVExR0JaeHJJMHFoYTBuYUg1bEszRGdT?=
- =?utf-8?B?Z1U1OHFqZmdmNGU4S2VQR2RBSlcrTzBpOFMwSjBDeCtzTm9SOVVXMmtsSFU3?=
- =?utf-8?B?RGRTWkI2NXNDNW1KOEpqT3MwQ0xlZmFrOFArWi9aZDFvQ1pyZk9QUFVHNDFy?=
- =?utf-8?B?akU3NVBZV0k5N25XNmtLd29KRjg2MmI3MG84RlhMckJVaGU2cU5zSi9sTlNJ?=
- =?utf-8?Q?vZJ6uymqoNBms8G/FSMZL2PxI?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc14c823-7c88-4fed-0819-08dbe5fd8742
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2023 17:08:46.3441 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IEiiFuwE+NvGO/VwH7j9JFZSw4N8Y/OeFrGEhY0DUXJIglWvnMb4C2rOGF9oDvsZdePyh7qMbMEVBSgMN6dI5g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7948
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231115110216.267138-1-tvrtko.ursulin@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,65 +61,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:ACPI" <linux-acpi@vger.kernel.org>,
- Danilo Krummrich <dakr@redhat.com>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Manivannan Sadhasivam <mani@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, open list <linux-kernel@vger.kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "Maciej W . Rozycki" <macro@orcam.me.uk>
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, llvm@lists.linux.dev,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ oe-kbuild-all@lists.linux.dev, Matt Roper <matthew.d.roper@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/15/2023 04:40, Mika Westerberg wrote:
-> Hi Mario,
-> 
-> On Tue, Nov 14, 2023 at 02:07:53PM -0600, Mario Limonciello wrote:
->> USB4 routers support a feature called "PCIe tunneling". This
->> allows PCIe traffic to be transmitted over USB4 fabric.
->>
->> PCIe root ports that are used in this fashion can be discovered
->> by device specific data that specifies the USB4 router they are
->> connected to. For the PCI core, the specific connection information
->> doesn't matter, but it's interesting to know that this root port is
->> used for tunneling traffic. This will allow other decisions to be
->> made based upon it.
->>
->> Detect the `usb4-host-interface` _DSD and if it's found save it
->> into a new `is_virtual_link` bit in `struct pci_device`.
-> 
-> While this is fine for the "first" tunneled link, this does not take
-> into account possible other "virtual" links that lead to the endpoint in
-> question. Typically for eGPU it only makes sense to plug it directly to
-> the host but say there is a USB4 hub (with PCIe tunneling capabilities)
-> in the middle. Now the link from the hub to the eGPU that is also
-> "virtual" is not marked as such and the bandwidth calculations may not
-> get what is expected.
+Hi Tvrtko,
 
-Right; you mentioned the DVSEC available for hubs in this case.  As I 
-don't have one of these to validate it works properly I was thinking 
-that should be a follow up.
+kernel test robot noticed the following build warnings:
 
-If you think it should be part of the same series I'll add it, but I'd 
-ask if you can please check I did it right on one that reports the DVSEC?
+[auto build test WARNING on drm-intel/for-linux-next-fixes]
+[also build test WARNING on drm-tip/drm-tip drm/drm-next drm-exynos/exynos-drm-next drm-misc/drm-misc-next linus/master v6.7-rc1 next-20231115]
+[cannot apply to drm-intel/for-linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> 
-> It should be possible to map the PCIe ports that go over USB4 links
-> through router port operation "Get PCIe Downstream Entry Mapping" and
-> for the Thunderbolt 3 there is the DROM entries (I believe Lukas has
-> patches for this part already) but I guess it is outside of the scope of
-> this series. 
+url:    https://github.com/intel-lab-lkp/linux/commits/Tvrtko-Ursulin/drm-i915-gsc-Mark-internal-GSC-engine-with-reserved-uabi-class/20231115-190507
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next-fixes
+patch link:    https://lore.kernel.org/r/20231115110216.267138-1-tvrtko.ursulin%40linux.intel.com
+patch subject: [PATCH] drm/i915/gsc: Mark internal GSC engine with reserved uabi class
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231116/202311160136.EtOH3ghf-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311160136.EtOH3ghf-lkp@intel.com/reproduce)
 
-Yeah I'd prefer to avoid the kitchen sink for the first pass and then we 
-an add more cases to is_virtual_link later.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311160136.EtOH3ghf-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/i915/gt/intel_engine_user.c:225:26: warning: result of comparison of constant -1 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
+                   if (engine->uabi_class == I915_NO_UABI_CLASS) {
+                       ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/intel_engine_user.c:243:26: warning: result of comparison of constant -1 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
+                   if (engine->uabi_class == I915_NO_UABI_CLASS)
+                       ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
+
+
+vim +225 drivers/gpu/drm/i915/gt/intel_engine_user.c
+
+   203	
+   204	void intel_engines_driver_register(struct drm_i915_private *i915)
+   205	{
+   206		u16 name_instance, other_instance = 0;
+   207		struct legacy_ring ring = {};
+   208		struct list_head *it, *next;
+   209		struct rb_node **p, *prev;
+   210		LIST_HEAD(engines);
+   211	
+   212		sort_engines(i915, &engines);
+   213	
+   214		prev = NULL;
+   215		p = &i915->uabi_engines.rb_node;
+   216		list_for_each_safe(it, next, &engines) {
+   217			struct intel_engine_cs *engine =
+   218				container_of(it, typeof(*engine), uabi_list);
+   219	
+   220			if (intel_gt_has_unrecoverable_error(engine->gt))
+   221				continue; /* ignore incomplete engines */
+   222	
+   223			GEM_BUG_ON(engine->class >= ARRAY_SIZE(uabi_classes));
+   224			engine->uabi_class = uabi_classes[engine->class];
+ > 225			if (engine->uabi_class == I915_NO_UABI_CLASS) {
+   226				name_instance = other_instance++;
+   227			} else {
+   228				GEM_BUG_ON(engine->uabi_class >=
+   229					   ARRAY_SIZE(i915->engine_uabi_class_count));
+   230				name_instance =
+   231					i915->engine_uabi_class_count[engine->uabi_class]++;
+   232			}
+   233			engine->uabi_instance = name_instance;
+   234	
+   235			/*
+   236			 * Replace the internal name with the final user and log facing
+   237			 * name.
+   238			 */
+   239			engine_rename(engine,
+   240				      intel_engine_class_repr(engine->class),
+   241				      name_instance);
+   242	
+   243			if (engine->uabi_class == I915_NO_UABI_CLASS)
+   244				continue;
+   245	
+   246			rb_link_node(&engine->uabi_node, prev, p);
+   247			rb_insert_color(&engine->uabi_node, &i915->uabi_engines);
+   248	
+   249			GEM_BUG_ON(intel_engine_lookup_user(i915,
+   250							    engine->uabi_class,
+   251							    engine->uabi_instance) != engine);
+   252	
+   253			/* Fix up the mapping to match default execbuf::user_map[] */
+   254			add_legacy_ring(&ring, engine);
+   255	
+   256			prev = &engine->uabi_node;
+   257			p = &prev->rb_right;
+   258		}
+   259	
+   260		if (IS_ENABLED(CONFIG_DRM_I915_SELFTESTS) &&
+   261		    IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM)) {
+   262			struct intel_engine_cs *engine;
+   263			unsigned int isolation;
+   264			int class, inst;
+   265			int errors = 0;
+   266	
+   267			for (class = 0; class < ARRAY_SIZE(i915->engine_uabi_class_count); class++) {
+   268				for (inst = 0; inst < i915->engine_uabi_class_count[class]; inst++) {
+   269					engine = intel_engine_lookup_user(i915,
+   270									  class, inst);
+   271					if (!engine) {
+   272						pr_err("UABI engine not found for { class:%d, instance:%d }\n",
+   273						       class, inst);
+   274						errors++;
+   275						continue;
+   276					}
+   277	
+   278					if (engine->uabi_class != class ||
+   279					    engine->uabi_instance != inst) {
+   280						pr_err("Wrong UABI engine:%s { class:%d, instance:%d } found for { class:%d, instance:%d }\n",
+   281						       engine->name,
+   282						       engine->uabi_class,
+   283						       engine->uabi_instance,
+   284						       class, inst);
+   285						errors++;
+   286						continue;
+   287					}
+   288				}
+   289			}
+   290	
+   291			/*
+   292			 * Make sure that classes with multiple engine instances all
+   293			 * share the same basic configuration.
+   294			 */
+   295			isolation = intel_engines_has_context_isolation(i915);
+   296			for_each_uabi_engine(engine, i915) {
+   297				unsigned int bit = BIT(engine->uabi_class);
+   298				unsigned int expected = engine->default_state ? bit : 0;
+   299	
+   300				if ((isolation & bit) != expected) {
+   301					pr_err("mismatching default context state for class %d on engine %s\n",
+   302					       engine->uabi_class, engine->name);
+   303					errors++;
+   304				}
+   305			}
+   306	
+   307			if (drm_WARN(&i915->drm, errors,
+   308				     "Invalid UABI engine mapping found"))
+   309				i915->uabi_engines = RB_ROOT;
+   310		}
+   311	
+   312		set_scheduler_caps(i915);
+   313	}
+   314	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
