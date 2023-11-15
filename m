@@ -1,37 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E697EC1E7
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 13:13:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 151D37EC1EF
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 13:14:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91B6B10E541;
-	Wed, 15 Nov 2023 12:13:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68D6F10E54A;
+	Wed, 15 Nov 2023 12:13:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail11.truemail.it (mail11.truemail.it [IPv6:2001:4b7e:0:8::81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B25710E546
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 12:13:45 +0000 (UTC)
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EE3D10E541
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 12:13:47 +0000 (UTC)
 Received: from francesco-nb.pivistrello.it (93-49-2-63.ip317.fastwebnet.it
  [93.49.2.63])
- by mail11.truemail.it (Postfix) with ESMTPA id 8881020718;
- Wed, 15 Nov 2023 13:13:43 +0100 (CET)
+ by mail11.truemail.it (Postfix) with ESMTPA id 3F5762072F;
+ Wed, 15 Nov 2023 13:13:44 +0100 (CET)
 From: Francesco Dolcini <francesco@dolcini.it>
 To: Adrien Grassein <adrien.grassein@gmail.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH v1 2/3] dt-bindings: display: bridge: lt8912b: Add power
- supplies
-Date: Wed, 15 Nov 2023 13:13:37 +0100
-Message-Id: <20231115121338.22959-3-francesco@dolcini.it>
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v1 3/3] drm/bridge: lt8912b: Add power supplies
+Date: Wed, 15 Nov 2023 13:13:38 +0100
+Message-Id: <20231115121338.22959-4-francesco@dolcini.it>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231115121338.22959-1-francesco@dolcini.it>
 References: <20231115121338.22959-1-francesco@dolcini.it>
@@ -50,54 +47,92 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Stefan Eichenberger <stefan.eichenberger@toradex.com>,
- Francesco Dolcini <francesco.dolcini@toradex.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
+ Francesco Dolcini <francesco.dolcini@toradex.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
 
-Add Lontium lt8912b power supplies.
+Add supplies to the driver that can be used to turn the Lontium lt8912b
+on and off. It can have up to 7 independent supplies, we add them all
+and enable/disable them with bulk_enable/disable.
 
 Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
 Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
 ---
- .../display/bridge/lontium,lt8912b.yaml       | 21 +++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ drivers/gpu/drm/bridge/lontium-lt8912b.c | 30 ++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml
-index f201ae4af4fb..2cef25215798 100644
---- a/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt8912b.yaml
-@@ -55,6 +55,27 @@ properties:
-       - port@0
-       - port@1
+diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+index 097ab04234b7..273157428c82 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
++++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+@@ -43,6 +43,8 @@ struct lt8912 {
  
-+  vcchdmipll-supply:
-+    description: A 1.8V supply that powers the HDMI PLL.
+ 	struct videomode mode;
+ 
++	struct regulator_bulk_data supplies[7];
 +
-+  vcchdmitx-supply:
-+    description: A 1.8V supply that powers the HDMI TX part.
+ 	u8 data_lanes;
+ 	bool is_power_on;
+ };
+@@ -257,6 +259,12 @@ static int lt8912_free_i2c(struct lt8912 *lt)
+ 
+ static int lt8912_hard_power_on(struct lt8912 *lt)
+ {
++	int ret;
 +
-+  vcclvdspll-supply:
-+    description: A 1.8V supply that powers the LVDS PLL.
++	ret = regulator_bulk_enable(ARRAY_SIZE(lt->supplies), lt->supplies);
++	if (ret)
++		return ret;
 +
-+  vcclvdstx-supply:
-+    description: A 1.8V supply that powers the LVDS TX part.
+ 	gpiod_set_value_cansleep(lt->gp_reset, 0);
+ 	msleep(20);
+ 
+@@ -267,6 +275,9 @@ static void lt8912_hard_power_off(struct lt8912 *lt)
+ {
+ 	gpiod_set_value_cansleep(lt->gp_reset, 1);
+ 	msleep(20);
 +
-+  vccmipirx-supply:
-+    description: A 1.8V supply that powers the MIPI RX part.
++	regulator_bulk_disable(ARRAY_SIZE(lt->supplies), lt->supplies);
 +
-+  vccsysclk-supply:
-+    description: A 1.8V supply that powers the SYSCLK.
+ 	lt->is_power_on = false;
+ }
+ 
+@@ -661,6 +672,21 @@ static int lt8912_bridge_suspend(struct device *dev)
+ 
+ static DEFINE_SIMPLE_DEV_PM_OPS(lt8912_bridge_pm_ops, lt8912_bridge_suspend, lt8912_bridge_resume);
+ 
++static int lt8912_get_regulators(struct lt8912 *lt)
++{
++	unsigned int i;
++	const char * const supply_names[] = {
++		"vdd", "vccmipirx", "vccsysclk", "vcclvdstx",
++		"vcchdmitx", "vcclvdspll", "vcchdmipll"
++	};
 +
-+  vdd-supply:
-+    description: A 1.8V supply that powers the digital part.
++	for (i = 0; i < ARRAY_SIZE(lt->supplies); i++)
++		lt->supplies[i].supply = supply_names[i];
 +
- required:
-   - compatible
-   - reg
++	return devm_regulator_bulk_get(lt->dev, ARRAY_SIZE(lt->supplies),
++				       lt->supplies);
++}
++
+ static int lt8912_parse_dt(struct lt8912 *lt)
+ {
+ 	struct gpio_desc *gp_reset;
+@@ -712,6 +738,10 @@ static int lt8912_parse_dt(struct lt8912 *lt)
+ 		goto err_free_host_node;
+ 	}
+ 
++	ret = lt8912_get_regulators(lt);
++	if (ret)
++		goto err_free_host_node;
++
+ 	of_node_put(port_node);
+ 	return 0;
+ 
 -- 
 2.25.1
 
