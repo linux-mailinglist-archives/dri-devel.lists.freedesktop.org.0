@@ -1,42 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCD927EC716
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 16:23:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A66487EC71E
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 16:27:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A36B010E057;
-	Wed, 15 Nov 2023 15:23:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3303810E05A;
+	Wed, 15 Nov 2023 15:26:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF95A10E057
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 15:23:18 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 7822FCE1DC3;
- Wed, 15 Nov 2023 15:23:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82E40C433C9;
- Wed, 15 Nov 2023 15:23:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700061795;
- bh=8xQ64PrJ2r1RKXD2ge4xYHHnqovHMM4KOyXknKJ04QU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kpZZteBhAL9H1KTmPyNx7ikQLfKMsMVaRL4GQcWRZZGPhrnujZQKScATqof0lddny
- MdWmFHCsJEQYXXL5wV3CMxKJXr2rrd903frBLnbRpkljLIhjCAvRZ5mEvw7Rc1ysi1
- Lb6KEvOncIF9cWGWdsuPZ/FwFevgpa4FpJeViewmLLm/YhC+BSg1JSoL04M8rPvPW5
- M4U6y3TeHoraU3PV/F939T5gNFeCIJpm//mTCDSid8GQ4NkXBlTLukwAccLS28sQN3
- 3L41ZYUnq3ttFHXk0+O9y0X/Tex65d+iABwxzcGj7iXZvfFeyRTcgzUVL2WBomMrzN
- QqMGgCHQ69+ag==
-Date: Wed, 15 Nov 2023 08:23:12 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: David Gow <davidgow@google.com>
-Subject: Re: [PATCH 1/3] kunit: Add a macro to wrap a deferred action function
-Message-ID: <20231115152312.GA51310@dev-arch.thelio-3990X>
-References: <20231110200830.1832556-1-davidgow@google.com>
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AA4C10E059
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 15:26:53 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id
+ 46e09a7af769-6ce2b6cb933so3918246a34.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 07:26:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1700062012; x=1700666812; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=bXbmbRHnBcevx5RjJfA0BM5ZfkfpSJke3EDu7+/+YyQ=;
+ b=VnX+hziMR4L917fLHRxCaAYx3pxKUN6gaY8Xj+QG29cgDtDNqyEGyTmHG8P2YelEKn
+ 3PCAFP7QlAtdpKQe+vbOsxK+azMlS8rXaIRH06WrcB/RUX4TRmg6kTQZg8FCZuJVx6Cv
+ 6M5d6MEKS7rVgn0My+YB+4aDifKLmdv+PQ43lD7hLAK+TPRPpRoRug1lYVNRR0ON5y6v
+ eCRDKhGVf92dtB1iIPlfBijZIAibdAOqo5gIVerf/oXEOlCLxtkdj0UH7obLuj06Zihr
+ odWc0l9XOOU6KcJ2j7YLUcJ6hmwlyaZlzvNUn+o9sIYmm0iuI9TA3HvvJtATXURDw5zF
+ bF0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700062012; x=1700666812;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bXbmbRHnBcevx5RjJfA0BM5ZfkfpSJke3EDu7+/+YyQ=;
+ b=WtsafzZdrQRGE1CXg3NMHVDgg7vOE5bYPiSotEz1VF8In3kOhB12dWAlI8vt4NX4Hs
+ UJTKNUnVaA1Vq11DrcF6rJ35KL432ZEmCK6WgxzgP5jonTmJq1qLLPoewmn0xjN7Qw6o
+ +jJSF5FZfhr0gZGKv55F9cUFnWpEOfauqoGVxkhuQOkOLlPbP6TM0HB72bi7m8qKc75I
+ uFKVlLbSX4FRzrYrxmEJBB7l2GJvevOV5VNW30kkYoJgNE/8Hpu+BruR3f0ZsX7pCabQ
+ EDq8Uq3d/iZL8UWQwlc7ewwOPWQFFcaRxdvvdp2yB/GeGRYJOcG7eKCcgROZk0Ek9cZb
+ WSUw==
+X-Gm-Message-State: AOJu0Yz4kVv46mSnyKRMs7v2PRXsxtzxpPwbmmSdR+4rGf/QsiItr1Xg
+ WIRKuRMJgOzpqInWK70z3oTISsmYMi8=
+X-Google-Smtp-Source: AGHT+IGWmJpESFn/Gnup8P0IwP8A07FM6rqzd5p3SYOd9ebzrTKAXZPdeDsQa0atBMGNdzHlIMOXbA==
+X-Received: by 2002:a05:6830:14d9:b0:6d6:43e7:b0bc with SMTP id
+ t25-20020a05683014d900b006d643e7b0bcmr6061800otq.16.1700062012200; 
+ Wed, 15 Nov 2023 07:26:52 -0800 (PST)
+Received: from localhost.localdomain ([75.28.21.198])
+ by smtp.gmail.com with ESMTPSA id
+ a18-20020a056830101200b006cdf9935af2sm398012otp.53.2023.11.15.07.26.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Nov 2023 07:26:52 -0800 (PST)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/4] Elida KD35T133 Panel Improvements
+Date: Wed, 15 Nov 2023 09:26:43 -0600
+Message-Id: <20231115152647.2303283-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231110200830.1832556-1-davidgow@google.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,215 +70,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, dlatypov@google.com, llvm@lists.linux.dev,
- Rae Moar <rmoar@google.com>, dri-devel@lists.freedesktop.org,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- linux-hardening@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Sami Tolvanen <samitolvanen@google.com>, Kees Cook <keescook@chromium.org>,
- Maxime Ripard <mripard@kernel.org>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Benjamin Berg <benjamin.berg@intel.com>,
- Shuah Khan <skhan@linuxfoundation.org>, kunit-dev@googlegroups.com,
- Brendan Higgins <brendan.higgins@linux.dev>, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: quic_jesszhan@quicinc.com, sam@ravnborg.org,
+ Chris Morgan <macromorgan@hotmail.com>, neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi David,
+From: Chris Morgan <macromorgan@hotmail.com>
 
-On Sat, Nov 11, 2023 at 04:08:26AM +0800, David Gow wrote:
-> KUnit's deferred action API accepts a void(*)(void *) function pointer
-> which is called when the test is exited. However, we very frequently
-> want to use existing functions which accept a single pointer, but which
-> may not be of type void*. While this is probably dodgy enough to be on
-> the wrong side of the C standard, it's been often used for similar
-> callbacks, and gcc's -Wcast-function-type seems to ignore cases where
-> the only difference is the type of the argument, assuming it's
-> compatible (i.e., they're both pointers to data).
-> 
-> However, clang 16 has introduced -Wcast-function-type-strict, which no
-> longer permits any deviation in function pointer type. This seems to be
-> because it'd break CFI, which validates the type of function calls.
-> 
-> This rather ruins our attempts to cast functions to defer them, and
-> leaves us with a few options. The one we've chosen is to implement a
-> macro which will generate a wrapper function which accepts a void*, and
-> casts the argument to the appropriate type.
-> 
-> For example, if you were trying to wrap:
-> void foo_close(struct foo *handle);
-> you could use:
-> KUNIT_DEFINE_ACTION_WRAPPER(kunit_action_foo_close,
-> 			    foo_close,
-> 			    struct foo *);
-> 
-> This would create a new kunit_action_foo_close() function, of type
-> kunit_action_t, which could be passed into kunit_add_action() and
-> similar functions.
-> 
-> In addition to defining this macro, update KUnit and its tests to use
-> it.
-> 
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1750
-> Signed-off-by: David Gow <davidgow@google.com>
-> ---
-> 
-> This is a follow-up to the RFC here:
-> https://lore.kernel.org/linux-kselftest/20230915050125.3609689-1-davidgow@google.com/
-> 
-> There's no difference in the macro implementation, just an update to the
-> KUnit tests to use it. This version is intended to complement:
-> https://lore.kernel.org/all/20231106172557.2963-1-rf@opensource.cirrus.com/
-> 
-> There are also two follow-up patches in the series to use this macro in
-> various DRM tests.
-> 
-> Hopefully this will solve any CFI issues that show up with KUnit.
-> 
-> Thanks,
-> -- David
-> 
-> ---
+Fix a few bugs and clean up no longer needed code on the Elida KD35T133
+DSI panel, as used in devices such as the Odroid Go Advance and the
+Anbernic RG351M.
 
-Prior to this series, there is indeed a crash when running the KUnit
-tests with CONFIG_CFI_CLANG=y:
+Chris Morgan (4):
+  drm/panel-elida-kd35t133: trival: update panel size from 5.5 to 3.5
+  drm/panel-elida-kd35t133: hold panel in reset for unprepare
+  drm/panel-elida-kd35t133: drop
+    drm_connector_set_orientation_from_panel
+  drm/panel-elida-kd35t133: Drop prepare/unprepare logic
 
-$ tools/testing/kunit/kunit.py run \
-    --alltests \
-    --arch x86_64 \
-    --kconfig_add CONFIG_CFI_CLANG=y \
-    --make_options LLVM=1 \
-    --timeout 30
-...
-[08:06:03] [ERROR] Test: sysctl_test: missing subtest result line!
-[08:06:03]     # module: sysctl_test
-[08:06:03]     1..10
-[08:06:03] CFI failure at __kunit_action_free+0x18/0x20 (target: kfree+0x0/0x80; expected type: 0xe82c6923)
-[08:06:03] invalid opcode: 0000 [#1] PREEMPT NOPTI
-[08:06:03] CPU: 0 PID: 53 Comm: kunit_try_catch Tainted: G                 N 6.7.0-rc1-00019-gc42d9eeef8e5 #3
-[08:06:03] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.2-14-g1e1da7a96300-prebuilt.qemu.org 04/01/2014
-[08:06:03] RIP: 0010:__kunit_action_free+0x18/0x20
-[08:06:03] Code: 00 00 b8 ae 55 f1 4d 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 4c 8b 5f 38 48 8b 7f 40 41 ba dd 96 d3 17 45 03 53 f1 74 02 <0f> 0b 2e e9 f0 b5 46 00 b8 fa f1 06 5e 90 90 90 90 90 90 90 90 90
-[08:06:03] RSP: 0018:ffffb0d2c00ebea0 EFLAGS: 00000292
-[08:06:03] RAX: 0000000000000001 RBX: ffff993d41949a80 RCX: ffff993d41949aa0
-[08:06:03] RDX: 0000000000000282 RSI: ffff993d41949a80 RDI: ffff993d4186b6b0
-[08:06:03] RBP: ffffb0d2c0013ad8 R08: ffffffffc9c84000 R09: 0000000000000400
-[08:06:03] R10: 00000000f707d502 R11: ffffffff8f33aa40 R12: ffff993d418d2e00
-[08:06:03] R13: ffff993d41a05600 R14: ffffb0d2c0013cc0 R15: ffff993d41949ae0
-[08:06:03] FS:  0000000000000000(0000) GS:ffffffff90049000(0000) knlGS:0000000000000000
-[08:06:03] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[08:06:03] CR2: ffff993d55c01000 CR3: 000000001563e000 CR4: 00000000000006f0
-[08:06:03] Call Trace:
-[08:06:03]  <TASK>
-[08:06:03]  ? __die+0xd6/0x120
-[08:06:03]  ? die+0x5f/0xa0
-[08:06:03]  ? do_trap+0x9b/0x180
-[08:06:03]  ? __kunit_action_free+0x18/0x20
-[08:06:03]  ? __kunit_action_free+0x18/0x20
-[08:06:03]  ? handle_invalid_op+0x64/0x80
-[08:06:03]  ? __kunit_action_free+0x18/0x20
-[08:06:03]  ? exc_invalid_op+0x38/0x60
-[08:06:03]  ? asm_exc_invalid_op+0x1a/0x20
-[08:06:03]  ? __cfi_kfree+0x10/0x10
-[08:06:03]  ? __kunit_action_free+0x18/0x20
-[08:06:03]  kunit_remove_resource+0x8f/0xf0
-[08:06:03]  kunit_cleanup+0x60/0xe0
-[08:06:03]  kunit_generic_run_threadfn_adapter+0x24/0x30
-[08:06:03]  ? __cfi_kunit_generic_run_threadfn_adapter+0x10/0x10
-[08:06:03]  kthread+0xd9/0xf0
-[08:06:03]  ? __cfi_kthread+0x10/0x10
-[08:06:03]  ret_from_fork+0x43/0x50
-[08:06:03]  ? __cfi_kthread+0x10/0x10
-[08:06:03]  ret_from_fork_asm+0x1a/0x30
-[08:06:03]  </TASK>
-[08:06:03] ---[ end trace 0000000000000000 ]---
-[08:06:03] RIP: 0010:__kunit_action_free+0x18/0x20
-...
+ drivers/gpu/drm/panel/panel-elida-kd35t133.c | 37 ++------------------
+ 1 file changed, 3 insertions(+), 34 deletions(-)
 
-With this series applied with
-https://lore.kernel.org/20231106172557.2963-1-rf@opensource.cirrus.com/,
-all the tests pass for arm64 and x86_64 on my machine. I see no
-remaining casts in the tree in this state. It seems like the
-documentation in Documentation/dev-tools/kunit/usage.rst may want to be
-updated to remove mention of casting to kunit_action_t as well?
-Regardless:
+-- 
+2.34.1
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Tested-by: Nathan Chancellor <nathan@kernel.org>
-
->  include/kunit/resource.h | 9 +++++++++
->  lib/kunit/kunit-test.c   | 5 +----
->  lib/kunit/test.c         | 6 ++++--
->  3 files changed, 14 insertions(+), 6 deletions(-)
-> 
-> diff --git a/include/kunit/resource.h b/include/kunit/resource.h
-> index c7383e90f5c9..4110e13970dc 100644
-> --- a/include/kunit/resource.h
-> +++ b/include/kunit/resource.h
-> @@ -390,6 +390,15 @@ void kunit_remove_resource(struct kunit *test, struct kunit_resource *res);
->  /* A 'deferred action' function to be used with kunit_add_action. */
->  typedef void (kunit_action_t)(void *);
->  
-> +/* We can't cast function pointers to kunit_action_t if CFI is enabled. */
-> +#define KUNIT_DEFINE_ACTION_WRAPPER(wrapper, orig, arg_type) \
-> +	static void wrapper(void *in) \
-> +	{ \
-> +		arg_type arg = (arg_type)in; \
-> +		orig(arg); \
-> +	}
-> +
-> +
->  /**
->   * kunit_add_action() - Call a function when the test ends.
->   * @test: Test case to associate the action with.
-> diff --git a/lib/kunit/kunit-test.c b/lib/kunit/kunit-test.c
-> index de2113a58fa0..ee6927c60979 100644
-> --- a/lib/kunit/kunit-test.c
-> +++ b/lib/kunit/kunit-test.c
-> @@ -538,10 +538,7 @@ static struct kunit_suite kunit_resource_test_suite = {
->  #if IS_BUILTIN(CONFIG_KUNIT_TEST)
->  
->  /* This avoids a cast warning if kfree() is passed direct to kunit_add_action(). */
-> -static void kfree_wrapper(void *p)
-> -{
-> -	kfree(p);
-> -}
-> +KUNIT_DEFINE_ACTION_WRAPPER(kfree_wrapper, kfree, const void *);
->  
->  static void kunit_log_test(struct kunit *test)
->  {
-> diff --git a/lib/kunit/test.c b/lib/kunit/test.c
-> index f2eb71f1a66c..0308865194bb 100644
-> --- a/lib/kunit/test.c
-> +++ b/lib/kunit/test.c
-> @@ -772,6 +772,8 @@ static struct notifier_block kunit_mod_nb = {
->  };
->  #endif
->  
-> +KUNIT_DEFINE_ACTION_WRAPPER(kfree_action_wrapper, kfree, const void *)
-> +
->  void *kunit_kmalloc_array(struct kunit *test, size_t n, size_t size, gfp_t gfp)
->  {
->  	void *data;
-> @@ -781,7 +783,7 @@ void *kunit_kmalloc_array(struct kunit *test, size_t n, size_t size, gfp_t gfp)
->  	if (!data)
->  		return NULL;
->  
-> -	if (kunit_add_action_or_reset(test, (kunit_action_t *)kfree, data) != 0)
-> +	if (kunit_add_action_or_reset(test, kfree_action_wrapper, data) != 0)
->  		return NULL;
->  
->  	return data;
-> @@ -793,7 +795,7 @@ void kunit_kfree(struct kunit *test, const void *ptr)
->  	if (!ptr)
->  		return;
->  
-> -	kunit_release_action(test, (kunit_action_t *)kfree, (void *)ptr);
-> +	kunit_release_action(test, kfree_action_wrapper, (void *)ptr);
->  }
->  EXPORT_SYMBOL_GPL(kunit_kfree);
->  
-> -- 
-> 2.42.0.869.gea05f2083d-goog
-> 
