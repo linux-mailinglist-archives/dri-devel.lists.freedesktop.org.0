@@ -2,58 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D3F7ED363
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 21:50:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 987A37ED5AB
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 22:09:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93E8510E24B;
-	Wed, 15 Nov 2023 20:50:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C61710E10B;
+	Wed, 15 Nov 2023 21:09:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC88510E23F;
- Wed, 15 Nov 2023 20:50:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700081450; x=1731617450;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=fPn7CKrHbfkwSCfm3Gr6rqVDrOGf0MX7RPhat1Zc2gg=;
- b=mX807aChE8SiXxzOofnj/fGOSFkn8LN/CUxxBuObTIHZKRJqmCA5d5Qu
- px5pJFLGjsxeeyGzkYg/dpPhBI7e4JvD2KB2cz1cg4EB6EeJ28T+lx8N7
- 7T01saa18s+FsL8wQeO51sUJ+hQQLUMXKK1BhAj+bFgYQfpqV0eLr6azk
- hU/Jb2O356PXVHMCG7+oez5uTTq96axxH2Ze3WJGS3iS4qoEjrq2Wd9+D
- dxT27L3R8jIznhoHCROlspH/nfxKwQsJHIJdpmNV9CQMh2VZYYkVvNYwR
- NCLfSRmv9eJw3VhvNDgENb23hrRP+NAcHhAQsGyTPqERjyvU697hRiRAq Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="12507461"
-X-IronPort-AV: E=Sophos;i="6.03,306,1694761200"; d="scan'208";a="12507461"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2023 12:43:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="758608625"
-X-IronPort-AV: E=Sophos;i="6.03,306,1694761200"; d="scan'208";a="758608625"
-Received: from irvmail002.ir.intel.com ([10.43.11.120])
- by orsmga007.jf.intel.com with ESMTP; 15 Nov 2023 12:42:52 -0800
-Received: from [10.249.135.24] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.135.24])
- by irvmail002.ir.intel.com (Postfix) with ESMTP id DE9A436836;
- Wed, 15 Nov 2023 20:42:49 +0000 (GMT)
-Message-ID: <577635dd-da1b-49b1-8af1-f9119dca334f@intel.com>
-Date: Wed, 15 Nov 2023 21:42:49 +0100
-MIME-Version: 1.0
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2079.outbound.protection.outlook.com [40.107.244.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6F7F10E10B;
+ Wed, 15 Nov 2023 21:09:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=m0lGvH7585XTgFQJWJo6Ne6Jf7qoBog1o47Kho6hFs2D3xBlHe9+Hq+h+wqb5quZfs7UTHuzM29vHuDCWE/LddMddEJ9fKRXqto7Ol8VJhqXxUadGVR7hxbR97m9MQQRFVozNbqnl0Gikf25uNad0K1AKM8dg77FMjUA+wO1W3dyZgqsBV/XCqEkB/PVkFwCf5puI1Gzl98CZOC/6SMneXynXbvOV9qOBEH7OA3JVOdgm8yvIe9Ae+a6Q6opLDa6ewashmfs71nJddgRXoEoT/tFFlldwthqBQFWLLrxb+SohQ0QXQOtanBK8xGBsqIczsXb8C/1XvRjTYLl5ucHVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LEAGG7uaQ7Cx4EW/SpG+sUaW8WzVuepuE6BNGplDn0k=;
+ b=byVDGCpz384wMfJCO4AMfrA45HIMkpdHscWlmXlV1yVGhjMkM1nL/x+8mnVov/MnrwX2tqkjW4eMr5xstuj3Iz1qp8YeHD8iBo3YjSQ+eJRhFug2cogffj9dl175MjJ0Q6NlgYPSr/ljEew0rGaDwLY4cHE/P7pgNOciqlMmgSNmXZNFABb1NVhrNfr7YG43G5zFCiPAJu/NJk0W7EOkIZRQo7J+hSOVXZbMl3SQBArRnMDL/SkcTv4ybW3WNmugsAt5oG2H1IaAZ3YySbJikP7k3YMQ4PQyOhUJZ65FcO25nAl4LuxNF390hMnVsMl6mIPIilFp30Oi4u3p+HpatQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LEAGG7uaQ7Cx4EW/SpG+sUaW8WzVuepuE6BNGplDn0k=;
+ b=5KmSIE5vcdtsByWfkmdtDel79v77vWxoOFZRmLYfgqT7mfPejO7bfSuAYsiIsuAGxh8po98Y3yJLAxMRWoiXCGl/RM78aoDU7JbTp8hhRJEsvv7DiQmYL73OMmFmunbenpBZVnJDnlxiJzGbey6lCVjok9kxFIB6bflcvQ4TWUo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by SA3PR12MB8021.namprd12.prod.outlook.com (2603:10b6:806:305::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Wed, 15 Nov
+ 2023 21:09:12 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::83d7:9c4f:4d9b:1f2a]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::83d7:9c4f:4d9b:1f2a%5]) with mapi id 15.20.7002.019; Wed, 15 Nov 2023
+ 21:09:12 +0000
+Message-ID: <d7539754-1877-43ed-a1b4-f969315ec271@amd.com>
+Date: Wed, 15 Nov 2023 15:09:09 -0600
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/doc/rfc: SR-IOV support on the new Xe driver
+Subject: Re: [PATCH v3 7/7] PCI: Exclude PCIe ports used for virtual links in
+ pcie_bandwidth_available()
 Content-Language: en-US
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20231110182231.1730-1-michal.wajdeczko@intel.com>
- <a2f1748f-e6d9-473f-943f-6f709f15282f@linux.intel.com>
- <a3569132-0372-41d8-9add-db291d25a27b@intel.com>
- <9142e0f2-a4ae-4eb7-8280-25d797810dd5@linux.intel.com>
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-In-Reply-To: <9142e0f2-a4ae-4eb7-8280-25d797810dd5@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
+From: Mario Limonciello <mario.limonciello@amd.com>
+To: "Lazar, Lijo" <lijo.lazar@amd.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Lukas Wunner <lukas@wunner.de>
+References: <20231114200755.14911-1-mario.limonciello@amd.com>
+ <20231114200755.14911-8-mario.limonciello@amd.com>
+ <e0e76948-a0a8-b6c2-163b-1d00afb6650c@amd.com>
+ <5356bcbd-0785-4156-993c-338fed67d39d@amd.com>
+In-Reply-To: <5356bcbd-0785-4156-993c-338fed67d39d@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN7PR04CA0210.namprd04.prod.outlook.com
+ (2603:10b6:806:126::35) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|SA3PR12MB8021:EE_
+X-MS-Office365-Filtering-Correlation-Id: bb0818b5-fedc-4b50-1e8e-08dbe61f1da5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XSDulacBpiZOYPqY02M1QXNhuWU+lQ44PhLYYbFBAxPLMIsKrujhBC+MqvSE2PF7GlneU2Iur64RvzjY1KzNPeBkCXj8btycM4IPXJHczXBffLhRPnbKLZKPx5UZ6OBcRSfMZHpnHWT7KfXMVtXzYf6I5xQO1YK93XNEUoP5RiZzwIW5j/ASlGdEwfwt48r3pZ0P8FvXZGOY7bkf/U0NxYhI8C3DdwyKHMP4u7FJgtcUvsfDIFdC6eCQnx0anny1eB2y0jBX/Y4jmkxj1WuZQmUTBu5ADRbNjgpcX07LTUZAPmPTlHZwUsYBsLsfe/B+YHqWjZRh8UOm5qUfHNOaMr5DSPrAB/ZLdxrUk9SmAweYKYbMZIvEJkdx7lzqmY1ZbIiSZgKvT4vPN6ou/3UKv+aCq87MCNWiao1gwCFZ5/scAGlc7+WDPeoU7uFaUhcj249XNkaF6FSKHWsE8Hbr0DK7o7dPZRGro8zZEUwd7xWSIwiBSDidmn9mxt8rnKZWBVMMHWJhGJlFoeimvQsXCCbcoxMrEUv+GQqyopxT5kXllSm47eNg+uZi8+lmTsfBrCwv42y29gSNG4vlWM7NxY317ECDp+Xx01eqfW7oPNrbaI4RYRvzp1WyZQbXO7nl
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(366004)(39860400002)(396003)(346002)(376002)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(8936002)(31686004)(54906003)(2906002)(7416002)(5660300002)(4326008)(83380400001)(966005)(6486002)(44832011)(8676002)(478600001)(36756003)(66476007)(86362001)(66946007)(31696002)(316002)(41300700001)(38100700002)(66556008)(53546011)(6506007)(6666004)(2616005)(26005)(6512007)(110136005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WWJzQVdsaENSNElNUGtDcU8wcG5SN3RyN1gvN1NYdGEybnFucXdHeVNtaFh6?=
+ =?utf-8?B?SUMxaWprekMrb043eWduWVpxZ1BZWERiZStLM09xYWRJWWlrRlI3TEtSQTds?=
+ =?utf-8?B?US9QS3JLQ2lLWkVVN2lvZXExWm9nRTd5NUdEVHgvV2FYWW1ZUFI1K2psNGl6?=
+ =?utf-8?B?aEJOQzYybXJDNE81T3JZSlU1YXdscTQ4OGZkMG5ySzM5NjFjVWFEOUV1cTV0?=
+ =?utf-8?B?dElxVlRzSGN6Rkw0SThHZjduRHd5L052ZXRxSHowNU80ZldETFIrREJkOXdT?=
+ =?utf-8?B?eGo0VVVpSEJPSENEL3dXUmduQU92VWgvcS9zb1hMNi9Od09YWVZTRG5EY2FW?=
+ =?utf-8?B?OFU0eEVrc01LVzNkaWNmdDJ5dTJXYjladUtNdGVOcnMxRWk3ck1lMmJqZC9X?=
+ =?utf-8?B?N1VlUmEzcmxwOHAyTlhteU5PczJaV3RVa0NJQy9UM0xCbVNiR2hhenlVdWtN?=
+ =?utf-8?B?VWlRWWVIaGZLc0xjYnBEWWZ0M0s2Rjh1WURsdUh1WGNncFVMU0xRYnR3cDJ1?=
+ =?utf-8?B?QW8rdzdjaklZalVzUE5ja1hGdU1aN0kvc0JQSHNQZVFjN0llMy95RGl6VjdY?=
+ =?utf-8?B?NllCWmgzNE00aDFTVm5hTlV4cHpQc0R2NzlUOGMrUmVpVFZOWTQ4eDllOHRB?=
+ =?utf-8?B?My9TVHFNYTFvYmVQVkFkVE1QVnZFendwUUZrdnU3d3p2TGtscUZNZkgrYTdN?=
+ =?utf-8?B?eWRvbVhDY0k2V3R5cDlyVUUvaDAwSm9sOTdZbHprTHBTRnRyUmx2VEVmb2FU?=
+ =?utf-8?B?aWJhaitBK3pab3U1RGg0MWVjNUJGRmpyaWc3bDNDU0lJWHd4YmFyNUg0MERD?=
+ =?utf-8?B?alM2bHFHVnZiSXlNYlFCYXE4QkloRWNuUVJvT2VJMUQ1SDJNZVNpajNsbmM0?=
+ =?utf-8?B?M3RLcThLRk9UVWNPczZtTHd0eEYzVER4cDd4NGM3VzNBL1NIaFZsbzE2eUZU?=
+ =?utf-8?B?M3llZGRsNTRNNzhLSThYbmF3QnNWSjd6QjRMZWVYandjb2ZWREx2Ylo2ei9m?=
+ =?utf-8?B?SUlSYkxXTUllZ1VDeVNIcHoyZndPUExFOWxXYzhLMkFySEdUWS9zcnQ3Vnpq?=
+ =?utf-8?B?OVJRNTFMSHlWWHJodk9ZdkdseXY0c1ROa0gvNVdRQUVvUUpTR3hSNloyTU5I?=
+ =?utf-8?B?MzB4UWpoRkJsSmlOUFQ5bXhZMVQ2VndBVXQ1VnZmZW1KQVFuU3crcElJK2xT?=
+ =?utf-8?B?TnVDakNrZUh0NHhNVlgvN3pRdzI5SUZ0b2Vxc3Yvdm9DdDVOSUxSaWY2d1I3?=
+ =?utf-8?B?Sk80TmZEajFCcHpvZUpkYXlzeGovT0t2Mkd6QWtuOVR0bU5YZGErYW5PMy9V?=
+ =?utf-8?B?NGZxWWU0Ukx3TU9UYndPNVl4S29VNnhqMU9QRElwc3dGbmZvclpSNk9QUUFQ?=
+ =?utf-8?B?YjZkN0N3ckt0Smk4TmNVcFNQZDBzNXVCbWI2M0grcjBRWUV0bFU4WWJheWFX?=
+ =?utf-8?B?bjUyc25tUXdVb3VNUXZiU1pKMjJnYjlkRHozVEVCS21wRFE5cUkvQnZXdll1?=
+ =?utf-8?B?ditYYlJqSEZKamRZdXhBSHRMQjVIVWhxY2llYkVRbG9UdXNkY0wxdTJ3Wk9W?=
+ =?utf-8?B?dENlZ0o5bjVpUUlWTjFGaTFveTRJakVieEhOTEt5S2pkZDQ0OVBvUFpZYXVq?=
+ =?utf-8?B?TzJiU0ZSd2lQUkQvUHlDNHhxN1Bld2NrNWxucWZIczBTazFEdE11Q3FqaHBl?=
+ =?utf-8?B?VmZtNWJWQ01PY0RqdFBuOGQ1ZkRVcG1mRWtXSnlrUTdyODRORWZlNUZwWVNW?=
+ =?utf-8?B?T1VwWW9TWFR6ODJhTzF3V1h4WFNaMUVsaHp0d3ZSRzduT2hUQjVsODhCUHkz?=
+ =?utf-8?B?aG1ZSkk1VUxnUWE5N2xLdnJEOGtoLzlIbmU5Uk4ra2MxK001VndEQjN4NjJU?=
+ =?utf-8?B?cmxtOHJkQm5xN3BhUEd2b2YxeHBhNjYzQlI1Vng5WjNCL0pCckhtWlJkTm4v?=
+ =?utf-8?B?ZDQzTVFHcytSSEdCb1paZTVBOEQvQlhvMmdTZy9lOTdGS1FOdTl3UVRGdWNh?=
+ =?utf-8?B?QXpMb0hycXhrTVBKVi8zTUZvOFNoVEV6T1JnY2xHdGZlTlF4OGUxSmRLaGxD?=
+ =?utf-8?B?L2oxVi9VNFg5TXNHaXpxeExLTUhvNUZTUWp5Q1RoZjlNVkZIM21Ydld3RzZu?=
+ =?utf-8?Q?umJUHMGpaKzMbmHGN5EpwnT0r?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb0818b5-fedc-4b50-1e8e-08dbe61f1da5
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2023 21:09:12.0446 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 894K+cIUIXH53edsRey+eUXhVK+B8QMVv3KdCXXxjged4rzpwmKdkC9+sanOAEueOnKFuRhVfRrG9w8QneS0YA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB8021
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,1049 +132,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, open list <linux-kernel@vger.kernel.org>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:ACPI" <linux-acpi@vger.kernel.org>,
+ Danilo Krummrich <dakr@redhat.com>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>, Manivannan Sadhasivam <mani@kernel.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+ "Maciej W . Rozycki" <macro@orcam.me.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 15.11.2023 11:00, Tvrtko Ursulin wrote:
-> 
-> On 14/11/2023 16:55, Michal Wajdeczko wrote:
->> On 14.11.2023 13:37, Tvrtko Ursulin wrote:
->>> On 10/11/2023 18:22, Michal Wajdeczko wrote:
->>>> The Single Root I/O Virtualization (SR-IOV) extension to the PCI
->>>> Express (PCIe) specification suite is supported starting from 12th
->>>> generation of Intel Graphics processors.
->>>>
->>>> This RFC aims to explain how do we want to add support for SR-IOV
->>>> to the new Xe driver and to propose related additions to the sysfs.
->>>>
->>>> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
->>>> Cc: Oded Gabbay <ogabbay@kernel.org>
->>>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->>>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
->>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->>>> Cc: Daniel Vetter <daniel@ffwll.ch>
->>>> ---
->>>>    Documentation/gpu/rfc/index.rst             |   5 +
->>>>    Documentation/gpu/rfc/sysfs-driver-xe-sriov | 501
->>>> ++++++++++++++++++++
->>>>    Documentation/gpu/rfc/xe_sriov.rst          | 192 ++++++++
->>>>    3 files changed, 698 insertions(+)
->>>>    create mode 100644 Documentation/gpu/rfc/sysfs-driver-xe-sriov
->>>>    create mode 100644 Documentation/gpu/rfc/xe_sriov.rst
->>>>
->>>> diff --git a/Documentation/gpu/rfc/index.rst
->>>> b/Documentation/gpu/rfc/index.rst
->>>> index e4f7b005138d..fc5bc447f30d 100644
->>>> --- a/Documentation/gpu/rfc/index.rst
->>>> +++ b/Documentation/gpu/rfc/index.rst
->>>> @@ -35,3 +35,8 @@ host such documentation:
->>>>    .. toctree::
->>>>         xe.rst
->>>> +
->>>> +.. toctree::
->>>> +   :maxdepth: 1
->>>> +
->>>> +   xe_sriov.rst
->>>> diff --git a/Documentation/gpu/rfc/sysfs-driver-xe-sriov
->>>> b/Documentation/gpu/rfc/sysfs-driver-xe-sriov
->>>> new file mode 100644
->>>> index 000000000000..77748204dd83
->>>> --- /dev/null
->>>> +++ b/Documentation/gpu/rfc/sysfs-driver-xe-sriov
->>>> @@ -0,0 +1,501 @@
->>>> +﻿.. Documentation/ABI/testing/sysfs-driver-xe-sriov
->>>> +..
->>>> +.. Intel Xe driver ABI (SR-IOV extensions)
->>>> +..
->>>> +    The Single Root I/O Virtualization (SR-IOV) extension to
->>>> +    the PCI Express (PCIe) specification suite is supported
->>>> +    starting from 12th generation of Intel Graphics processors.
->>>> +
->>>> +    This document describes Xe driver specific additions.
->>>> +
->>>> +    For description of generic SR-IOV sysfs attributes see
->>>> +    "Documentation/ABI/testing/sysfs-bus-pci" document.
->>>> +
->>>> +    /sys/bus/pci/drivers/xe/BDF/
->>>> +    ├── sriov_auto_provisioning
->>>> +    │   ├── admin_mode
->>>> +    │   ├── enabled
->>>> +    │   ├── reset_defaults
->>>> +    │   ├── resources
->>>> +    │   │   ├── default_contexts_quota
->>>> +    │   │   ├── default_doorbells_quota
->>>> +    │   │   ├── default_ggtt_quota
->>>> +    │   │   └── default_lmem_quota
->>>> +    │   ├── scheduling
->>>> +    │   │   ├── default_exec_quantum_ms
->>>> +    │   │   └── default_preempt_timeout_us
->>>> +    │   └── monitoring
->>>> +    │       ├── default_cat_error_count
->>>> +    │       ├── default_doorbell_time_us
->>>> +    │       ├── default_engine_reset_count
->>>> +    │       ├── default_h2g_time_us
->>>> +    │       ├── default_irq_time_us
->>>> +    │       └── default_page_fault_count
+On 11/15/2023 11:04, Mario Limonciello wrote:
+> On 11/14/2023 21:23, Lazar, Lijo wrote:
+>>
+>>
+>> On 11/15/2023 1:37 AM, Mario Limonciello wrote:
+>>> The USB4 spec specifies that PCIe ports that are used for tunneling
+>>> PCIe traffic over USB4 fabric will be hardcoded to advertise 2.5GT/s and
+>>> behave as a PCIe Gen1 device. The actual performance of these ports is
+>>> controlled by the fabric implementation.
 >>>
->>>  From the department of bike-shedding, one alternative could be to
->>> have a
->>> directory called defaults which avoids having to have the default_
->>> prefix on everything under it.
->>
->> like this ?
->>
->>      /sys/bus/pci/drivers/xe/BDF/
->>      ├── sriov_auto_provisioning
->>      │   ├── admin_mode
->>      │   ├── enabled
->>      │   └── defaults
->>      │       ├── resources
->>      │       │   ├── contexts_quota
->>      │       │   ├── doorbells_quota
->>      │       │   ├── ggtt_quota
->>      │       │   └── lmem_quota
->>      │       ├── scheduling
->>      │       │   ├── exec_quantum_ms
->>      │       │   └── preempt_timeout_us
->>      │       └── monitoring
->>      │           ├── cat_error_count
->>      │           ├── doorbell_time_us
->>      │           ├── engine_reset_count
->>      │           ├── h2g_time_us
->>      │           ├── irq_time_us
->>      │           └── page_fault_count
-> 
-> Looks better to me but it may be just a matter of taste so I was just
-> roughly outlining an alternative.
-
-another proposal (to avoid clash with '.defaults' used elsewhere for
-different purposes):
-
-      /sys/bus/pci/drivers/xe/BDF/
-      ├── sriov_auto_provisioning
-      │   ├── admin_mode
-      │   ├── enabled
-      │   └── template
-      │       ├── resources
-      │       │   ├── guc_contexts_quota
-      │       │   ├── guc_doorbells_quota
-      │       │   ├── ggtt_quota
-      │       │   └── lmem_quota
-      │       ├── scheduling
-      │       │   ├── guc_exec_quantum_ms
-      │       │   └── guc_preempt_timeout_us
-      │       └── monitoring
-      │           ├── cat_error_count
-      │           ├── engine_reset_count
-      │           ├── guc_doorbell_time_us
-      │           ├── guc_h2g_time_us
-      │           ├── guc_irq_time_us
-      │           └── page_fault_count
-
-> 
+>>> Callers for pcie_bandwidth_available() will always find the PCIe ports
+>>> used for tunneling as a limiting factor potentially leading to incorrect
+>>> performance decisions.
 >>>
->>>> +
->>>> +    /sys/bus/pci/drivers/xe/BDF/
->>>> +    ├── sriov_extensions
+>>> To prevent such problems check explicitly for ports that are marked as
+>>> virtual links or as thunderbolt controllers and skip them when looking
+>>> for bandwidth limitations of the hierarchy. If the only device connected
+>>> is a port used for tunneling then report that device.
 >>>
->>> Should this be xe_sriov_extensions or if not doesn't it need agreement
->>> to reserve the keyword in Documentation/ABI/testing/sysfs-bus-pci?
->>> Sriov_auto_provisioning too I guess.
->>
->> I didn't spot in ABI documents any driver specific additions to device
->> that were using extra prefix, nor the "reservation" placeholders.
->>
->> but if we want to go with a prefix, then maybe all our additions at
->> device level should have one, including already added tileT:
->>
->>     tile0 -> xe_tile0
->>
->> or even to match existing mei file we should use "xe." prefix instead:
->>
->>     xe.sriov_auto_provisioning
->>     xe.sriov_extension
->>     xe.tile0
->>     xe.mei-gsc...
-> 
-> I don't know really - I assumed since there are common sriov_ prefix
-> controls at the PCI level, that adding driver specific things using the
-> same namespace might require agreement from the PCI core folks. Perhaps
-> a topic to consult the respestive mailing list(s).
-
-ok, will try to confirm that
-
-> 
->>>> +    │   ├── monitoring_period_ms
->>>> +    │   ├── strict_scheduling_enabled
->>>> +    │   ├── pf
->>>> +    │   │   ├── device -> ../../../BDF
->>>> +    │   │   ├── priority
->>>> +    │   │   ├── tile0
->>>> +    │   │   │   ├── gt0
->>>> +    │   │   │   │   ├── exec_quantum_ms
->>>> +    │   │   │   │   ├── preempt_timeout_us
->>>> +    │   │   │   │   └── thresholds
->>>> +    │   │   │   │       ├── cat_error_count
->>>> +    │   │   │   │       ├── doorbell_time_us
->>>> +    │   │   │   │       ├── engine_reset_count
->>>> +    │   │   │   │       ├── h2g_time_us
->>>> +    │   │   │   │       ├── irq_time_us
->>>> +    │   │   │   │       └── page_fault_count
->>>> +    │   │   │   └── gtX
->>>> +    │   │   └── tileT
->>>> +    │   ├── vf1
->>>> +    │   │   ├── device -> ../../../BDF+1
->>>> +    │   │   ├── stop
->>>> +    │   │   ├── tile0
->>>> +    │   │   │   ├── ggtt_quota
->>>> +    │   │   │   ├── lmem_quota
->>>> +    │   │   │   ├── gt0
->>>> +    │   │   │   │   ├── contexts_quota
->>>> +    │   │   │   │   ├── doorbells_quota
->>>> +    │   │   │   │   ├── exec_quantum_ms
->>>> +    │   │   │   │   ├── preempt_timeout_us
->>>> +    │   │   │   │   └── thresholds
->>>> +    │   │   │   │       ├── cat_error_count
->>>> +    │   │   │   │       ├── doorbell_time_us
->>>> +    │   │   │   │       ├── engine_reset_count
->>>> +    │   │   │   │       ├── h2g_time_us
->>>> +    │   │   │   │       ├── irq_time_us
->>>> +    │   │   │   │       └── page_fault_count
->>>> +    │   │   │   └── gtX
->>>> +    │   │   └── tileT
->>>> +    │   └── vfN
->>>> +..
->>>> +
->>>> +
->>>> +What:        /sys/bus/pci/drivers/xe/.../sriov_auto_provisioning/
->>>> +Date:        2024
->>>> +KernelVersion:    TBD
->>>> +Contact:    intel-xe@lists.freedesktop.org
->>>> +Description:
->>>> +        This directory appears on the device when:
->>>> +
->>>> +         - device supports SR-IOV, and
->>>> +         - device is a Physical Function (PF), and
->>>> +         - xe driver supports SR-IOV PF on given device, and
->>>> +         - xe driver supports automatic VFs provisioning.
->>>> +
->>>> +        This directory is used as a root for all attributes related to
->>>> +        automatic provisioning of SR-IOV Physical Function (PF) and/or
->>>> +        Virtual Functions (VFs).
->>>> +
->>>> +
->>>> +What:       
->>>> /sys/bus/pci/drivers/xe/.../sriov_auto_provisioning/enabled
->>>> +Date:        2024
->>>> +KernelVersion:    TBD
->>>> +Contact:    intel-xe@lists.freedesktop.org
->>>> +Description:
->>>> +        (RW) bool (0, 1)
->>>> +
->>>> +        This file represents configuration flag for the automatic VFs
->>>> +        (un)provisioning that could be performed by the PF.
->>>> +
->>>> +        The default value is 1 (true).
->>>> +
->>>> +        This flag can be set to false, unless manual provisioning
->>>> is not
->>>> +        applicable for given platform or it is not supported by
->>>> current
->>>> +        PF implementation. In such cases -EPERM will be returned.
->>>> +
->>>> +        This flag will be automatically set to false when there
->>>> will be
->>>> +        other attempts to change any of VF's resource provisioning.
->>>> +        See "sriov_extensions" section for details.
->>>> +
->>>> +        This flag can be set back to true if and only if all VFs are
->>>> +        fully unprovisioned, otherwise -EEXIST error will be returned.
->>>> +
->>>> +        false = "disabled"
->>>> +            When disabled, then PF will not attempt to do automatic
->>>> +            VFs provisioning when VFs are being enabled and will not
->>>> +            perform automatic unprovisioning of the VFs when VFs will
->>>> +            be disabled.
->>>> +
->>>> +        true = "enabled"
->>>> +            When enabled, then on VFs enabling PF will do automatic
->>>> +            VFs provisioning based on the default settings described
->>>> +            below.
->>>> +
->>>> +            If automatic VFs provisioning fails due to some reasons,
->>>> +            then VFs will not be enabled.
->>>> +
->>>> +            If enabled, all resources allocated during VFs enabling
->>>> +            will be released during VFs disabling (automatic
->>>> unprovisioning).
->>>> +
->>>> +
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_auto_provisioning/admin_mode
->>>> +Date:        2024
->>>> +KernelVersion:    TBD
->>>> +Contact:    intel-xe@lists.freedesktop.org
->>>> +Description:
->>>> +        (RW) bool (0, 1)
->>>> +
->>>> +        This file represents configuration flag for the automatic VFs
->>>> +        provisioning that could be performed by the PF.
->>>> +
->>>> +        The default value depends on the platform type.
->>>> +
->>>> +        This flag can be changed any time, but will have no effect if
->>>> +        VFs are already provisioned.
->>>> +
->>>> +        If enabled (default on discrete platforms) then the PF will
->>>> +        retain only minimum hardcoded resources for its own use when
->>>> +        doing VFs automatic provisioning and will not use any default
->>>> +        values described below for its own configuration.
->>>> +
->>>> +        If disabled (default on integrated platforms) then the PF will
->>>> +        treat itself like yet another additional VF in all fair
->>>> resource
->>>> +        allocations and will also try to apply default provisioning
->>>> +        values described below for its own configuration.
->>>> +
+>>> Callers to pcie_bandwidth_available() could make this change on their
+>>> own as well but then they wouldn't be able to detect other potential
+>>> speed bottlenecks from the hierarchy without duplicating
+>>> pcie_bandwidth_available() logic.
 >>>
->>> One alternative could be to expose two sets of defaults, the PF and VF
->>> ones. With the advantage of allowing the "admin mode" / "minimal PF" to
->>> be explicitly configurable instead of hardcoded. Should be more
->>> flexible.
->>
->> but this "admin_mode" is supposed to be configurable, only default
->> setting will depend on the platform.
->>
->> the only "hardcoded" values will be what is needed (or already used) by
->> the PF for it's basic operations (load firmwares, communication, clears)
->>
->> also note that when running in "minimal PF" mode then "defaults" are not
->> applicable to the PF, as PF is not treated like a VF, and IMO any
->> customization of PF scheduling parameters should be done directly using
->> "sriov_extensions/pf/tile/gt/*" attributes, not inside
->> "auto_provisioning/defaults"
->>
->> only in "non-admin-mode" the PF will benefit from the default
->> scheduling/monitoring attributes, as then it will be treated as "yet
->> another VF"
->>
->> regarding regular resources, PF will always be able to use what was not
->> allocated to other VFs (as primary goal is to have equal allocations on
->> each VF, PF will take any remaining anyway)
-> 
-> Right, I was simply suggesting to allow configuring this hardcoded
-> "minimal" PF mode by exposing a second set of tunables. So that they
-> don't have to be hardcoded but users can set up the parameters for their
-> own "admin mode". I was not suggesting not having the admin_mode boolean
-> control. But maybe it is not even needed? Maybe it would work to allow
-> individual "reserve for PF" resources be individually controlled at
-> runtime?
-
-we were trying such approach with PF's "spare" resources, but it was
-most beneficial in "admin-mode/mode1 with 1VF" but then these "spare"
-resources were always set to minimal values (so not much use of this param)
-
-> 
->>> If the discrete vs integrated distinction is wanted it could simply be
->>> made by initialy populating (driver init) the respective defaults based
->>> on the platform type.
+>>> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2925#note_2145860
+>>> Link: https://www.usb.org/document-library/usb4r-specification-v20
+>>>        USB4 V2 with Errata and ECN through June 2023
+>>>        Section 11.2.1
+>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>>> ---
+>>> v2->v3:
+>>>   * Split from previous patch version
+>>>   * Look for thunderbolt or virtual link
+>>> ---
+>>>   drivers/pci/pci.c | 19 +++++++++++++++++++
+>>>   1 file changed, 19 insertions(+)
 >>>
->>>> +
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_auto_provisioning/reset_defaults
->>>> +Date:        2024
->>>> +KernelVersion:    TBD
->>>> +Contact:    intel-xe@lists.freedesktop.org
->>>> +Description:
->>>> +        (WO) bool (1)
->>>> +
->>>> +        Writing to this file will reset all default provisioning
->>>> parameters
->>>> +        listed below to the default values.
->>>
->>> Maybe this isn't required if you can say it is the responsibility of
->>> whoever changes the defaults to either know what they are doing, or to
->>> save and restore themselves if they. It is not a major concern but if
->>> writing kernel code can be avoided perhaps it can be considered.
+>>> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+>>> index 0ff7883cc774..b1fb2258b211 100644
+>>> --- a/drivers/pci/pci.c
+>>> +++ b/drivers/pci/pci.c
+>>> @@ -6269,11 +6269,20 @@ static u32 pcie_calc_bw_limits(struct pci_dev 
+>>> *dev, u32 bw,
+>>>    * limiting_dev, speed, and width pointers are supplied) 
+>>> information about
+>>>    * that point.  The bandwidth returned is in Mb/s, i.e., 
+>>> megabits/second of
+>>>    * raw bandwidth.
+>>> + *
+>>> + * This excludes the bandwidth calculation that has been returned 
+>>> from a
+>>> + * PCIe device that is used for transmitting tunneled PCIe traffic 
+>>> over a virtual
+>>> + * link part of larger hierarchy. Examples include Thunderbolt3 and 
+>>> USB4 links.
+>>> + * The calculation is excluded because the USB4 specification 
+>>> specifies that the
+>>> + * max speed returned from PCIe configuration registers for the 
+>>> tunneling link is
+>>> + * always PCI 1x 2.5 GT/s.  When only tunneled devices are present, 
+>>> the bandwidth
+>>> + * returned is the bandwidth available from the first tunneled device.
+>>>    */
+>>>   u32 pcie_bandwidth_available(struct pci_dev *dev, struct pci_dev 
+>>> **limiting_dev,
+>>>                    enum pci_bus_speed *speed,
+>>>                    enum pcie_link_width *width)
+>>>   {
+>>> +    struct pci_dev *vdev = NULL;
+>>>       u32 bw = 0;
+>>>       if (speed)
+>>> @@ -6282,10 +6291,20 @@ u32 pcie_bandwidth_available(struct pci_dev 
+>>> *dev, struct pci_dev **limiting_dev,
+>>>           *width = PCIE_LNK_WIDTH_UNKNOWN;
+>>>       while (dev) {
+>>> +        if (dev->is_virtual_link || dev->is_thunderbolt) {
+>>> +            if (!vdev)
+>>> +                vdev = dev;
+>>> +            goto skip;
+>>> +        }
 >>
->> true, it's optional, added only as a way to make sure no residual
->> changes impacts new auto-provisioning (without it we will have to ask to
->> reload the driver)
+>> One problem with this is it *silently* ignores the bandwidth limiting 
+>> device - the bandwidth may not be really available if there are 
+>> virtual links in between. That is a change in behavior from the 
+>> messages shown in __pcie_print_link_status.
 > 
-> Why reload? If someone modified the defaults they can restore it, if so
-> they want. If they can't, tough luck to them.
+> That's a good point.  How about a matching behavioral change to 
+> __pcie_print_link_status() where it looks at the entire hierarchy for 
+> any links marked as virtual and prints a message along the lines of:
+> 
+> "This value may be further limited by virtual links".
 
-ok, maybe reload was bad proposal as we could still provide them with
-safe defaults (or document them somewhere)
+I'll wait for some more feedback on the series before posting another 
+version, but I did put this together and this is a sample from dmesg of 
+the wording I'm planning on using for the next version:
+
+31.504 Gb/s available PCIe bandwidth, this may be further limited by 
+conditions of virtual link 0000:00:03.1
 
 > 
 >>
->>>
->>>> +
->>>> +
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_auto_provisioning/resources/default_contexts_quota
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_auto_provisioning/resources/default_doorbells_quota
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_auto_provisioning/resources/default_ggtt_quota
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_auto_provisioning/resources/default_lmem_quota
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_auto_provisioning/scheduling/default_exec_quantum_ms
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_auto_provisioning/scheduling/default_preempt_timeout_us
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_auto_provisioning/monitoring/default_cat_error_count
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_auto_provisioning/monitoring/default_doorbell_time_us
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_auto_provisioning/monitoring/default_engine_reset_count
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_auto_provisioning/monitoring/default_h2g_time_us
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_auto_provisioning/monitoring/default_irq_time_us
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_auto_provisioning/monitoring/default_page_fault_count
->>>> +Date:        2024
->>>> +KernelVersion:    TBD
->>>> +Contact:    intel-xe@lists.freedesktop.org
->>>> +Description:
->>>> +        These files represent default provisioning that should be used
->>>> +        for VFs automatic provisioning.
->>>> +
->>>> +        These values can be changed any time, but will have no
->>>> effect if
->>>> +        VFs are already provisioned.
->>>> +
->>>> +        default_contexts_quota: (RW) integer 0..U32_MAX
->>>> +            The number of GuC context IDs to provide to the VF.
->>>> +            The default value is 0 (use fair allocations).
->>>> +            See "sriov_extensions/vfN/tileT/gtX/contexts_quota" for
->>>> details.
->>>> +
->>>> +        default_doorbells_quota: (RW) integer 0..U32_MAX
->>>> +            The number of GuC doorbells to provide to the VF.
->>>> +            The default value is 0 (use fair allocations).
->>>> +            See "sriov_extensions/vfN/tileT/gtX/doorbells_quota" for
->>>> details.
->>>> +
->>>> +        default_ggtt_quota: (RW) integer 0..U32_MAX
->>>> +            The size of the GGTT address space (in bytes) to provide
->>>> to the VF.
->>>> +            The default value is 0 (use fair allocations).
->>>> +            See "sriov_extensions/vfN/tileT/ggtt_quota" for details.
->>>> +
->>>> +        default_lmem_quota: (RW) integer 0..U32_MAX
->>>> +            The size of the LMEM (in bytes) to provide to the VF.
->>>> +            The default value is 0 (use fair allocations).
->>>> +            See "sriov_extensions/vfN/tileT/lmem_quota" for details.
->>>> +
->>>> +        default_exec_quantum_ms: (RW) integer 0..U32_MAX
->>>> +            The GT execution quantum (in millisecs) assigned to the
->>>> function.
->>>> +            The default value is 0 (infinify).
->>>> +            See "sriov_extensions/vfN/tileT/gtX/exec_quantum_ms" for
->>>> details.
->>>> +
->>>> +        default_preempt_timeout_us: (RW) integer 0..U32_MAX
->>>> +            The GT preemption timeout (in microsecs) assigned to the
->>>> function.
->>>> +            The default value is 0 (infinity).
->>>> +            See "sriov_extensions/vfN/tileT/gtX/preempt_timeout_us"
->>>> for details.
->>>
->>> I have a slight concern here on the usability of GuC specific tunables.
->>>
->>> Whereas one can imagine an external entity (some admin, somewhere) to
->>> probably pretty much understand what it means to partition the local
->>> memory, address space, and set the scheduling timeouts (all are intuitve
->>> and obvious concepts), how are they suppose to approach the GuC
->>> doorbells and contexts?
+>> Thanks,
+>> Lijo
 >>
->> GuC submission is mandatory for SRIOV feature to work and both GuC
->> doorbells and contexts IDs are almost the same kind of resources like
->> memory or address space.
+>>>           bw = pcie_calc_bw_limits(dev, bw, limiting_dev, speed, width);
+>>> +skip:
+>>>           dev = pci_upstream_bridge(dev);
+>>>       }
+>>> +    /* If nothing "faster" found on hierarchy, limit to first 
+>>> virtual link */
+>>> +    if (vdev && !bw)
+>>> +        bw = pcie_calc_bw_limits(vdev, bw, limiting_dev, speed, width);
+>>> +
+>>>       return bw;
+>>>   }
+>>>   EXPORT_SYMBOL(pcie_bandwidth_available);
 > 
-> What does a random server admin do with them? When are they supposed to
-> change them and with what considerations and parameters? Maybe this
-> document is not the place to explain that but presumable it has to be
-> somewhere otherwise it is an unusable part of the ABI.
 
-I guess the purpose/importance/impact of having limited number of
-available GuC context IDs and doorbells should be part of the GuC
-submission documentation.
-
-not sure if that doc was shared with i915|xe drivers, though.
-
-> 
->> but agree, they might be not something that were highly visible (on
->> Linux we don't use doorbells at all, and we had 64K of contexts so never
->> worried about running out of them).
->>
->>>
->>> It could be a matter of adding more documentation for those two, or it
->>> even could make sense to shove them under a guc prefix (or
->>> subdirectory?) to signify the fact they are implementation details and
->>> not a fundamental concept.
->>
->> IMO "guc_" prefix would be better, as with yet another subdirectory we
->> might have too complex structure and GuC stuff is to some extend a
->> "fundamental concept" for current platforms.
->>
->>>
->>>> +
->>>> +        default_cat_error_count: (RW) integer 0..U32_MAX
->>>> +        default_doorbell_time_us: (RW) integer 0..U32_MAX
->>>> +        default_engine_reset_count: (RW) integer 0..U32_MAX
->>>> +        default_h2g_time_us: (RW) integer 0..U32_MAX
->>>> +        default_irq_time_us: (RW) integer 0..U32_MAX
->>>> +        default_page_fault_count: (RW) integer 0..U32_MAX
->>>> +            The monitoring threshold to be set for the function.
->>>> +            The default value is 0 (don't monitor).
->>>> +            See "sriov_extensions/vfN/tileT/gtX/thresholds" for
->>>> details.
->>>> +
->>>> +
->>>> +What:        /sys/bus/pci/drivers/xe/.../sriov_extensions/
->>>> +Date:        2024
->>>> +KernelVersion:    TBD
->>>> +Contact:    intel-xe@lists.freedesktop.org
->>>> +Description:
->>>> +        This directory appears on Xe device when:
->>>> +
->>>> +         - device supports SR-IOV, and
->>>> +         - device is a Physical Function (PF), and
->>>> +         - driver is enabled to support SR-IOV PF on given device.
->>>> +
->>>> +        This directory is used as a root for all attributes
->>>> required to
->>>> +        manage both Physical Function (PF) and Virtual Functions
->>>> (VFs).
->>>> +
->>>> +
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/strict_scheduling_enabled
->>>> +Date:        2024
->>>> +KernelVersion:    TBD
->>>> +Contact:    intel-xe@lists.freedesktop.org
->>>> +Description:
->>>> +        (RW) bool
->>>> +
->>>> +        This file represents a flag used to determine if scheduling
->>>> +        parameters should be respected even if there is no active
->>>> +        workloads submitted by the PF or VFs.
->>>> +
->>>> +        This flag is disabled by default, unless strict scheduling is
->>>> +        not applicable on given platform. In such case this file will
->>>> +        be read-only.
->>>> +
->>>> +        The change to this file may have no effect if VFs are not yet
->>>> enabled.
->>>> +        If strict scheduling can't be enabled in GuC then write will
->>>> fail with -EIO.
->>>
->>> I think the semantics of this need to be documented ie. how it interacts
->>> with exec_quantum_ms. If it does? I am guessing that it has to otherwise
->>> I don't know what it would mean - presumably unused timeslices are not
->>> given to other entities but time just goes wasted? But it is also a
->>
->> if strict scheduling is disabled and given VF has no work, then it's
->> execution quantum expires immediately, allowing work from next VF to be
->> submitted to the GPU, thus maximizing GPU load.
->>
->> if strict scheduling is set but given VF has no work, then VF's
->> timeslice is effectively wasted, as GPU will be idle, but at the benefit
->> that other VFs will see no fluctuations in their interval.
-> 
-> Therefore I suggest explaining the semantics and providing examples in
-> the docs. :)
-> 
-> But it does seem like a confusing setting. You cannot for instance
-> guarantee a certain time budget per VM unless you can control and
-> configure all the VMs and even then only by wasting computing resources. :(
-
-one way to limit this confusion was idea of having "vGPU" profiles where
-we define number of VFs to be enabled and their detailed provisioning
-and expected SLA of such configuration (including time budget per VM)
-
-but to configure such predefined "vGPU" profile we need some sysfs
-attributes that expose all the knobs (even the non-obvious GuC related)
-
-> 
->> if you own all VMs then you probably don't want to set this ;)
->>
->>> question on over what time interval. Or that too is purely defined by
->>> the number of PF+VFs and their respective allocated quanta.
->>>
->>> Also, would there be benefit, assuming it is possible with GuC, to allow
->>> configuring it per PF/VF?
->>
->> this is a policy setting, applicable per each GuC scheduler, not per PF
->> or VF, but moved level up here to make sure we apply same settings for
->> the whole device (all GuCs) in the same, otherwise it would be too messy
->>
->> note that the is other related attribute named "priority" that GuC will
->> implement for the PF, but with later plans to extend this to VFs too.
-> 
-> Ok.
-> 
->>>> +
->>>> +
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/monitoring_period_ms
->>>> +Date:        2024
->>>> +KernelVersion:    TBD
->>>> +Contact:    intel-xe@lists.freedesktop.org
->>>> +Description:
->>>> +        (RW) integer
->>>> +
->>>> +        This file represents the configuration knob used by adverse
->>>> event
->>>> +        monitoring. A value here is the period in millisecs during
->>>> which
->>>> +        events are counted and the total is checked against a
->>>> threshold.
->>>> +        See "sriov_extensions/vfN/tileT/gtX/thresholds" for more
->>>> details.
->>>> +
->>>> +        Default is 0 (monitoring is disabled).
->>>> +
->>>> +        If monitoring capability is not available, then attempt to
->>>> enable
->>>> +        will fail with -EPERM error. If monitoring can't be enabled in
->>>> +        GuC then write will fail with -EIO.
->>>
->>> Could the docs explain if there is a downside to enabling it, which is
->>> probably why it isn't enabled by default? Because it does sound natural
->>> that adverse events should be noticed.
->>
->> the problem is that the definition what should be treated as unwanted VF
->> activity is very blurred and depends what kind of WLs will be run on VM,
->> as in some scenarios some sporadic issues are just "normal"
->>
->> that's why we want to expose only knobs and notification mechanism,
->> without enforcing any policy on firmware or PF driver level, leaving
->> that to the administrator
-> 
-> Okay but runtime cost wise there are no downsides to say constantly run
-> with enabled reporting of VF GPU resets of faults?
-
-this should be negligible GuC cost (but don't have results, need to be
-measured) as events are generated only once thresholds are exceeded, so
-if we don't expect resets and faults, and have right thresholds set, no
-accounting/reporting should happen
-
-> 
->>>> +
->>>> +
->>>> +What:        /sys/bus/pci/drivers/xe/.../sriov_extensions/pf/
->>>> +Date:        2024
->>>> +KernelVersion:    TBD
->>>> +Contact:    intel-xe@lists.freedesktop.org
->>>> +Description:
->>>> +        This directory holds all attributes related to the SR-IOV
->>>> +        Physical Function (PF).
->>>> +
->>>> +
->>>> +What:        /sys/bus/pci/drivers/xe/.../sriov_extensions/vfN/
->>>> +Date:        2024
->>>> +KernelVersion:    TBD
->>>> +Contact:    intel-xe@lists.freedesktop.org
->>>> +Description:
->>>> +        This directory holds all attributes related to the SR-IOV
->>>> +        Virtual Function (VF).
->>>> +
->>>> +        Note that VF numbers (N) are 1-based as described in PCI
->>>> SR-IOV specification.
->>>> +        The Xe driver implementaton follows that naming schema.
->>>> +
->>>> +        There will be "vf1", "vf2" up to "vfN" directories, where N
->>>> matches
->>>> +        value of the PCI "sriov_totalvfs" attribute.
->>>> +
->>>> +What:        /sys/bus/pci/drivers/xe/.../sriov_extensions/pf/tileT/
->>>> +What:        /sys/bus/pci/drivers/xe/.../sriov_extensions/vfN/tileT/
->>>> +Date:        2024
->>>> +KernelVersion:    TBD
->>>> +Contact:    intel-xe@lists.freedesktop.org
->>>> +Description:
->>>> +        This directory holds all SR-IOV attributes related to the
->>>> device tile.
->>>> +        The tile numbers (T) start from 0.
->>>> +
->>>> +        There is at least one "tile0/" directory present.
->>>> +
->>>> +
->>>> +What:        /sys/bus/pci/drivers/xe/.../sriov_extensions/pf/tileT/gtX
->>>> +What:       
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/vfN/tileT/gtX
->>>> +Date:        2024
->>>> +KernelVersion:    TBD
->>>> +Contact:    intel-xe@lists.freedesktop.org
->>>> +Description:
->>>> +        This directory holds all SR-IOV attributes related to the
->>>> device GT.
->>>> +        The GT numbers (X) start from 0.
->>>> +
->>>> +        There is at least one "gt0/" directory present.
->>>> +
->>>> +
->>>> +What:        /sys/bus/pci/drivers/xe/.../sriov_extensions/pf/device
->>>> +What:        /sys/bus/pci/drivers/xe/.../sriov_extensions/vfN/device
->>>> +Date:        2024
->>>> +KernelVersion:    TBD
->>>> +Contact:    intel-xe@lists.freedesktop.org
->>>> +Description:
->>>> +        (symbolic link)
->>>> +
->>>> +        Backlink to the PCI device entry representing given function.
->>>> +        For PF this link is always present.
->>>> +        For VF this link is present only for currently enabled VFs.
->>>> +
->>>> +
->>>> +What:        /sys/bus/pci/drivers/xe/.../sriov_extensions/pf/priority
->>>> +Date:        2024
->>>> +KernelVersion:    TBD
->>>> +Contact:    intel-xe@lists.freedesktop.org
->>>> +Description:
->>>> +        (RW) string
->>>> +
->>>> +        This file represents a GuC Scheduler knob to override the
->>>> default
->>>> +        round-robin or FIFO scheduler policies implemented by the GuC.
->>>> +
->>>> +        The default value is "peer".
->>>> +
->>>> +        This flag can be changed, unless such change is not applicable
->>>> +        for given platform or is not supported by current GuC
->>>> firmware.
->>>> +        In such case this file could be read-only or will return
->>>> -EPERM
->>>> +        on write attempt.
->>>> +
->>>> +        "immediate"
->>>> +            GuC will Schedule PF workloads immediately and PF
->>>> +            workloads only until the PF's work queues in GuC
->>>> +            are empty.
->>>> +
->>>> +        "lazy"
->>>> +            GuC will Schedule PF workloads at the next opportune
->>>> +            moment and PF workloads only until the PF work queues
->>>> +            in GuC are empty.
->>>> +
->>>> +        "peer"
->>>> +            GuC Scheduler will treat PF and VFs with equal priority.
->>>
->>> Hmmm this is too very GuC specific and I wonder what is the usecase for
->>> lazy? Lazy = "don't care when it runs, but when it runs it will run
->>> everything queued so far", right? Feels a bit odd on first.
->>>
->>> "Immediate" may also not be depending on preemption granularity and
->>> workloads, right?
->>>
->>> Are there any ideas to express the knobs in a more generic fashion?
->>
->> will talk with GuC architect to provide a better explanation.
->>
->> in the meantime, we can treat that as a "placeholder" for the knob that
->> will provide flexibility when GuC shall attempt to submit, usually
->> sporadic, workloads from the otherwise idle PF.
->>
->> this is important in the "admin-mode" and with "strict-scheduling" as we
->> don't want to waste PF's execution_quantum
->>
->> if you think that it is too unstable knob, we can try to hide it in
->> debugfs first, expose when more mature
-> 
-> I didn't know it is unstable so yes, if it is not know how "priority"
-> control will work then it is too early to document/comment.
-> 
-> Otherwise what I saw it appears to be composed of two booleans, with one
-> combination missing. Say like this:
-> 
->   PF preempts | PF greedy | Mode
->  -------------+-----------+-------------------
->         +     +     +     + "immediate"
->  -------------+-----------+-------------------
->         -     +     +     + "lazy"
->  -------------+-----------+-------------------
->         -     +     -     + "peer"
->  -------------+-----------+-------------------
->         +     +     -     +  not implemented?
->  -------------+-----------+-------------------
-> 
-> First thought was who ever would want the "lazy" mode?
-> 
-> Second thought was why not expose the booleans directly.
-> 
-> Third thought was that the unimplemented mode, the one where queued PF
-> work would preempt the VF, but not consume everything queued (up to
-> execution quanta only) could be an interesting one.
-> 
-> Sounds like could be useful for Chrome use cases where PF would be the
-> compositor and VF a game, so that everytime compositor wants to flip it
-> gets the priority, but not so much starves everyone else if something
-> else happens to be running there. But it is not as simple as that and in
-> reality "immediate" is probably good enough so meh.
-> 
-> Oh one more thing, would it be useful for "admin mode" to control this
-> too? Presumably some sort of admin console wants to have good
-> interactivity and not be UI starved.
-
-I'll let GuC architects speak here
-
-> 
->>>> +
->>>> +
->>>> +What:        /sys/bus/pci/drivers/xe/.../sriov_extensions/vfN/stop
->>>> +Date:        2024
->>>> +KernelVersion:    TBD
->>>> +Contact:    intel-xe@lists.freedesktop.org
->>>> +Description:
->>>> +        (WO) bool (1)
->>>> +
->>>> +        Write to this file will force GuC to stop handle any requests
->>>> from
->>>> +        this VF, but without triggering a FLR.
->>>> +        To recover, the full FLR must be issued using generic
->>>> "device/reset".
->>>> +
->>>> +        This file allows to implement custom policy mechanism when
->>>> VF is
->>>> +        misbehaving and triggering adverse events above defined
->>>> thresholds.
->>>> +
->>>> +
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/pf/tileT/gtX/exec_quantum_ms
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/pf/tileT/gtX/preempt_timeout_us
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/vfN/tileT/gtX/exec_quantum_ms
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/vfN/tileT/gtX/preempt_timeout_us
->>>> +Date:        2024
->>>> +KernelVersion:    TBD
->>>> +Contact:    intel-xe@lists.freedesktop.org
->>>> +Description:
->>>> +        These files represent scheduling parameters of the functions.
->>>> +
->>>> +        These scheduling parameters can be changed even if VFs are
->>>> enabled
->>>> +        and running, unless such change is not applicable on given
->>>> platform
->>>> +        due to fixed hardware or firmware assignment.
->>>> +
->>>> +        exec_quantum_ms: (RW) integer 0..U32_MAX
->>>> +            The GT execution quantum in [ms] assigned to the function.
->>>> +            Requested quantum might be aligned per HW/FW requirements.
->>>> +
->>>> +            Default is 0 (unlimited).
->>>> +
->>>> +        preempt_timeout_us: (RW) integer 0..U32_MAX
->>>> +            The GT preemption timeout in [us] assigned to the
->>>> function.
->>>> +            Requested timeout might be aligned per HW/FW requirements.
->>>> +
->>>> +            Default is 0 (unlimited).
->>>
->>> Alignment for the above two will be visible after read-back?
->>
->> unfortunately not, as GuC does not expose any interface to query final
->> values (sometimes they depend on HW clocks, some are FW implementation
->> details, that could change with new release)
-> 
-> I would say there has to be some feedback otherwise it is a very bad
-> uapi. My 2c at least.. it does not sound acceptable to have controls
-> which we cannot know if they did anything.
-
-it's a matter of trust ;) in the meantime some quotes from the FW spec:
-
-"GUC will attempt to obey the minimum and maximum values as much as HW
-is capable"
-
-"The max value for this KLV is 100 seconds, anything exceeding that will
-be clamped to the max."
-
-note that in current design some fluctuations in VM/VF time budget seems
-to be unavoidable as time until the start of next VF
-WLs/execution_quantum depends whether WLs from previous VF were
-finished/preempted immediately or there was forced reset after
-preemption_timeout (that could be still set to significant value even if
-it is declared in usec)
-
-> 
->>>> +
->>>> +
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/vfN/tileT/ggtt_quota
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/vfN/tileT/lmem_quota
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/vfN/tileT/gtX/contexts_quota
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/vfN/tileT/gtX/doorbells_quota
->>>> +Date:        2024
->>>> +KernelVersion:    TBD
->>>> +Contact:    intel-xe@lists.freedesktop.org
->>>> +Description:
->>>> +        These files represent shared resource assigned to the
->>>> functions.
->>>> +
->>>> +        These resource parameters can be changed, unless VF is
->>>> already running,
->>>> +        or such change is not applicable on given platform due to
->>>> fixed hardware
->>>> +        or firmware assignment.
->>>> +
->>>> +        Writes to these attributes may fail with:
->>>> +            -EPERM if change is not applicable on give HW/FW.
->>>> +            -E2BIG if value larger that HW/FW limit.
->>>> +            -EDQUOT if value is larger than maximum quota defined by
->>>> the PF.
->>>> +            -ENOSPC if PF can't allocate required quota.
->>>> +            -EBUSY if the resource is currently in use by the VF.
->>>> +            -EIO if GuC refuses to change provisioning.
->>>
->>> Why it would refuse if input is valid? In other words, what is the
->>> user/admin supposed to do on -EIO?
->>
->> in early implementations we were fully relying on the GuC and return
->> -EIO on every error, as we didn't track the VF state that would allow us
->> to catch improper changes while VF is running (-EBUSY above) but even if
->> we (PF) do our best then GuC is still a decider here and may return
->> (unlikely) error.
->>
->> as recovery we will be suggesting a VF FLR and then retry.
-> 
-> Sounds like another bad uapi. User might have got everything right,
-> avoided all the list errnos by respecting all restrictions and provided
-> good inputs, but can still receive an unexplained error and "have you
-> tried turning it off and on again" will be the solution. :(
-> 
-> I guess it is not the end of the world if -EIO will truly never happen
-> but it still doesn't sound nice.
-> 
-> It would be much nicer if GuC would actually say why so that the right
-> errno can be passed on.
-
-actually it says, so error would be either PF programming mistake, or
-wrong VF state, so yes, we can convert latter to -EBUSY (we shouldn't
-send that in first place)
-
-so any remaining -EIO would indicate rather some unexpected GuC issue
-(maybe not worth mentioning it like -EINVAL due to bad input ?)
-
-> 
->>>
->>>> +
->>>> +        ggtt_quota: (RW) integer 0..U64_MAX
->>>> +            The size of the GGTT address space (in bytes) assigned to
->>>> the VF.
->>>> +            The value might be aligned per HW/FW requirements.
->>>> +
->>>> +            Default is 0 (unprovisioned).
->>>> +
->>>> +        lmem_quota: (RW) integer 0..U64_MAX
->>>> +            The size of the Local Memory (in bytes) assigned to the
->>>> VF.
->>>> +            The value might be aligned per HW/FW requirements.
->>>> +
->>>> +            This attribute is only available on discrete platforms.
->>>> +
->>>> +            Default is 0 (unprovisioned).
->>>> +
->>>> +        contexts_quota: (RW) 0..U16_MAX
->>>> +            The number of GuC submission contexts assigned to the VF.
->>>> +            This value might be aligned per HW/FW requirements.
->>>> +
->>>> +            Default is 0 (unprovisioned).
->>>> +
->>>> +        doorbells_quota: (RW) 0..U16_MAX
->>>> +            The number of GuC doorbells assigned to the VF.
->>>> +            This value might be aligned per HW/FW requirements.
->>>> +
->>>> +            Default is 0 (unprovisioned).
->>>> +
->>>> +
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/pf/tileT/gtX/thresholds/cat_error_count
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/pf/tileT/gtX/thresholds/doorbell_time_us
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/pf/tileT/gtX/thresholds/engine_reset_count
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/pf/tileT/gtX/thresholds/h2g_time_us
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/pf/tileT/gtX/thresholds/irq_time_us
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/pf/tileT/gtX/thresholds/page_fault_count
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/vfN/tileT/gtX/thresholds/cat_error_count
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/vfN/tileT/gtX/thresholds/doorbell_time_us
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/vfN/tileT/gtX/thresholds/engine_reset_count
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/vfN/tileT/gtX/thresholds/h2g_time_us
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/vfN/tileT/gtX/thresholds/irq_time_us
->>>> +What:
->>>> /sys/bus/pci/drivers/xe/.../sriov_extensions/vfN/tileT/gtX/thresholds/page_fault_count
->>>> +Date:        2024
->>>> +KernelVersion:    TBD
->>>> +Contact:    intel-xe@lists.freedesktop.org
->>>> +Description:
->>>> +        These files represent threshold values used by the GuC to
->>>> trigger
->>>> +        security events if adverse event monitoring is enabled.
->>>
->>> How are the security events delivered? There is mention of uevents in a
->>> later paragraph - are they already defined or should be together with
->>> this so the link can be place here?
->>
->> chicken/egg problem - we don't have uevent fully defined as we were
->> waiting for these threshold definitions to be accepted, and without them
->> being available we didn't generate uevent, but in early code we had:
->>
->> "THRESHOLD_EXCEEDED=1"
->> "THRESHOLD_ID=%#x"
->> "VF_ID=%u"
-> 
-> It should be possible to include the uvents definitions in the RFC too?
-> It would make the story complete for review.
-
-ok, will add above to the VFs Monitoring section
-
-> 
->>>> +
->>>> +        These thresholds are checked every "monitoring_period_ms".
->>>> +        Refer to GuC ABI for details about each threshold category.
->>>
->>> Is it possible to have a link here to GuC ABI?
->>
->> (shared offline, as GuC spec is not public yet)
-> 
-> That could be problematic I think. I don't know if there are such
-> precedents or not, like is it okay to upstream not publicly documented
-> knobs.
-
-knobs are not that secrets, it's more a technical problem where such
-public documentation should be hosted
-
-in the meantime, we plan to document that GuC ABI in similar way how it
-was done on i915 [1], as these knobs are just new actions and KLVs.
-
-[1] https://www.kernel.org/doc/html/latest/gpu/i915.html?#guc-abi
-
-> 
-> Regards,
-> 
-> Tvrtko
-
-Thanks,
-Michal
