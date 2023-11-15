@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C605A7EBED6
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 09:51:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 322A67EBDCD
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 08:21:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CAF210E25B;
-	Wed, 15 Nov 2023 08:51:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACE1F10E4FA;
+	Wed, 15 Nov 2023 07:21:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com
- [IPv6:2607:f8b0:4864:20::c2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE9F710E4F7;
- Wed, 15 Nov 2023 07:07:14 +0000 (UTC)
-Received: by mail-oo1-xc2c.google.com with SMTP id
- 006d021491bc7-5842c251d7cso3573893eaf.1; 
- Tue, 14 Nov 2023 23:07:14 -0800 (PST)
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
+ [IPv6:2607:f8b0:4864:20::b2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDB0210E4FA
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 07:21:11 +0000 (UTC)
+Received: by mail-yb1-xb2a.google.com with SMTP id
+ 3f1490d57ef6-da041ffef81so7069889276.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Nov 2023 23:21:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700032034; x=1700636834; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1700032871; x=1700637671; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=DD6loysLm1if0z26gUfJWR92/8dI2bMs4fySErE1LEY=;
- b=Phc4OPsGPwMua5p9T9v098vNdFUwkK1oU5xDLBeLsEZuWZquYqg7nFAvwmliWvaL//
- LL+0EV+Fa5i9mi8OZdO4rf3QS0GM/FjJazPKA2g1pqFo/z7bxOZVpI5rcHZtenbKBARR
- ryJ4ekHp+nNA5Hp5CPXxQRMpJkg73GV6fPx3bXCQKIi/5KqIA7kkqzdroKqoCX/GmkP2
- RW15azQoeWvmywJtNThEA09ZygFd13Jx3fjJ2zr8MU4w9i61Q1tWIri+gdUsuZVYFduq
- nZsdJlJZYQG6evP5D7rP6YUVCJEevO9jE5QIR/8rpgg1tvOh9m7sWkd6zH2znqy2zNCS
- JPkQ==
+ bh=0vD1Bck5HDYUM72yjoV0Q8qgtg6QFL0VXndDmXOf70I=;
+ b=bLi0eIS4EjWZP1hOxjRdVsWad9XlIQUBDIaIKGdJDfzYyfSCHGwNspEdEeyDBOd7cK
+ EoncKvqCf4ei7lZFnJtnv21zlWeyU0kTrDh6xpqdswx0Ww+90dT1sYpQM8vPzJiDjM2y
+ nhVGyg1BRFNApYrqwaQfdjsSsboUzbqguBaq0VP02+Iir2bUCk/WpoYRXacQdM3FKT44
+ C/VFgWAVAFGcvvyls9M1cClBBYtZr6kHiaEqEwFcfp2r6fuNSvEZJhCaxWw32QhyjxMh
+ XzvKVrodTqDDvJBkHugeJHp60b386bZA1DeYMjT3PqPRG/zknzRoV6VSqhwSwln6qJsS
+ M4TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700032034; x=1700636834;
+ d=1e100.net; s=20230601; t=1700032871; x=1700637671;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=DD6loysLm1if0z26gUfJWR92/8dI2bMs4fySErE1LEY=;
- b=Ncuh2P55ybvPXM0hRo79MmJTyAImZMZmyPeBnj5EXkfDH5pYqJgM59hZTtJVUBsasA
- Ip2QSkkb1AK3knGWmxd3VhsP7cCDjIDY0lVnZTDG8Bm8+smN/icu01DX1Ox+pWv1UAlA
- YcCled4XLtmzDr4aJD7DyvyXo4xftUbUkmeZ6rXk6cYHjwjentPlaF8bQImpG2KmLjAG
- dNArzsaKbzAayDuugS8O9beT8ysBBtbnjP58M5KAybiX/DFLmpSw/31pK2hBB0Gm8VW+
- IlBggCzWuJEmjDi2Bj/Xnsii1ijYSfbo04GsD87ejOp0/mwnDvkU/M6YOrzJgJeIbexP
- 8t9w==
-X-Gm-Message-State: AOJu0YwD6pgydBMegdO/jo8Qhe+VUGVKIYW3adfHqovY5B8xt/jH8BPE
- 4Y/EpZjvyVGraMTKXv7UNDqY3JuOLiFqs7BW4BA=
-X-Google-Smtp-Source: AGHT+IGraImbABbVnYg6Ry57RVFnd3IqKf02szE055lgCefoqqyZvE2zfw+kuPwbsXcgZfPjjXz5Afh8lqooVZbQ9JU=
-X-Received: by 2002:a4a:305e:0:b0:58a:211:acf8 with SMTP id
- z30-20020a4a305e000000b0058a0211acf8mr10912431ooz.7.1700032033893; Tue, 14
- Nov 2023 23:07:13 -0800 (PST)
+ bh=0vD1Bck5HDYUM72yjoV0Q8qgtg6QFL0VXndDmXOf70I=;
+ b=of81Db2DutlhaxA0/E1BtubDvzBP6/72/9obxwT7/M56fc1bKqzNiGUlJHs/DSZrkf
+ dUpNg1SB1E58m4bF+3LaauB7rtH2+Bnv/GgnwR3788/KAYK7+SH3qC2oOd8tNE7bN6N9
+ CPG7ri/Ms54KVMz2s5SDKbza+p1f3VOOc/+m3ho8lNB6XcKc8DDvQ9Ux7s6asDpnrNkp
+ AW03/Vhk4gpFTMU+TZxmIB7baPdrXFlDCRO6kOxwB4eaeg2FKWy0iZDobmi9UlIn57a8
+ tYafALC63PbEKgXrpkM7rJktX+XS6Bw0nQJHtlNams/HgNzyk4bhEZU17gAEbr+N6xzH
+ AJDA==
+X-Gm-Message-State: AOJu0Yz9pYw0tBA24OgtEeXcW7/ZtjlzcI4e4cqptf3eZnsXR/mupvjV
+ uaoCuymQ5Ug4dSC5jE6dR4nyQOdsC+kOinUlVftIog==
+X-Google-Smtp-Source: AGHT+IEULgD391byZsXPtXNbPcw0yCylBtdnLApeQVAUxwBDpohA/yg4/aHXgsob+pZ1sRHJYNKdu3NZUuCiQiUASW8=
+X-Received: by 2002:a25:107:0:b0:d81:89e9:9f48 with SMTP id
+ 7-20020a250107000000b00d8189e99f48mr10803617ybb.63.1700032871066; Tue, 14 Nov
+ 2023 23:21:11 -0800 (PST)
 MIME-Version: 1.0
-References: <20231115033459.1228900-1-sashal@kernel.org>
- <20231115033459.1228900-2-sashal@kernel.org>
-In-Reply-To: <20231115033459.1228900-2-sashal@kernel.org>
-From: Frediano Ziglio <freddy77@gmail.com>
-Date: Wed, 15 Nov 2023 07:07:02 +0000
-Message-ID: <CAHt6W4cdQSXbBf4gO_jR-q-Q8SAonNDoQ0f2cO7LsnT__priWA@mail.gmail.com>
-Subject: Re: [Spice-devel] [PATCH AUTOSEL 6.5 2/6] drm/qxl: prevent memory leak
-To: Sasha Levin <sashal@kernel.org>
+References: <20231114225857.19702-1-jonathan@marek.ca>
+ <20231114225857.19702-3-jonathan@marek.ca>
+In-Reply-To: <20231114225857.19702-3-jonathan@marek.ca>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 15 Nov 2023 09:20:59 +0200
+Message-ID: <CAA8EJprADPYpJBUkq_TA381xntkfHbBVMm5h4qwwg+vM7GzzRg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] drm/msm/dsi: set video mode widebus enable bit
+ when widebus is enabled
+To: Jonathan Marek <jonathan@marek.ca>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Wed, 15 Nov 2023 08:51:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,52 +68,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>, tzimmermann@suse.de,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux.dev, Zongmin Zhou <zhouzongmin@kylinos.cn>,
- stable@vger.kernel.org, Dave Airlie <airlied@redhat.com>,
- spice-devel@lists.freedesktop.org, kraxel@redhat.com
+Cc: freedreno@lists.freedesktop.org,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il giorno mer 15 nov 2023 alle ore 06:57 Sasha Levin
-<sashal@kernel.org> ha scritto:
+On Wed, 15 Nov 2023 at 01:00, Jonathan Marek <jonathan@marek.ca> wrote:
 >
-> From: Zongmin Zhou <zhouzongmin@kylinos.cn>
+> The value returned by msm_dsi_wide_bus_enabled() doesn't match what the
+> driver is doing in video mode. Fix that by actually enabling widebus for
+> video mode.
 >
-> [ Upstream commit 0e8b9f258baed25f1c5672613699247c76b007b5 ]
->
-> The allocated memory for qdev->dumb_heads should be released
-> in qxl_destroy_monitors_object before qxl suspend.
-> otherwise,qxl_create_monitors_object will be called to
-
-Minor, typo: otherwise -> Otherwise.
-
-> reallocate memory for qdev->dumb_heads after qxl resume,
-> it will cause memory leak.
->
-> Signed-off-by: Zongmin Zhou <zhouzongmin@kylinos.cn>
-> Link: https://lore.kernel.org/r/20230801025309.4049813-1-zhouzongmin@kylinos.cn
-> Reviewed-by: Dave Airlie <airlied@redhat.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> Fixes: efcbd6f9cdeb ("drm/msm/dsi: Enable widebus for DSI")
+> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
 > ---
->  drivers/gpu/drm/qxl/qxl_display.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-> index 6492a70e3c396..404b0483bb7cb 100644
-> --- a/drivers/gpu/drm/qxl/qxl_display.c
-> +++ b/drivers/gpu/drm/qxl/qxl_display.c
-> @@ -1229,6 +1229,9 @@ int qxl_destroy_monitors_object(struct qxl_device *qdev)
->         if (!qdev->monitors_config_bo)
->                 return 0;
->
-> +       kfree(qdev->dumb_heads);
-> +       qdev->dumb_heads = NULL;
-> +
->         qdev->monitors_config = NULL;
->         qdev->ram_header->monitors_config = 0;
->
+>  drivers/gpu/drm/msm/dsi/dsi.xml.h  | 1 +
+>  drivers/gpu/drm/msm/dsi/dsi_host.c | 2 ++
+>  2 files changed, 3 insertions(+)
 
-Frediano
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+-- 
+With best wishes
+Dmitry
