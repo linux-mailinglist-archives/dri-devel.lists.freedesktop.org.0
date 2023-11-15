@@ -1,38 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 050717ECE3B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 20:41:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02EE87ECBE5
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 20:25:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46C5B10E147;
-	Wed, 15 Nov 2023 19:41:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2436A10E136;
+	Wed, 15 Nov 2023 19:25:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A8C910E147
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 19:41:36 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C59310E136
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 19:25:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 2366DB81BBC;
- Wed, 15 Nov 2023 19:41:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4165EC433C7;
- Wed, 15 Nov 2023 19:41:33 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id CC6D3B81BDD;
+ Wed, 15 Nov 2023 19:24:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E34D0C433C9;
+ Wed, 15 Nov 2023 19:24:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1700077293;
- bh=nlygXryv5WuSeD1yY8M7C2IbYtKn8Dgc82k9/TMiii0=;
+ s=korg; t=1700076299;
+ bh=wuvroDY4uGQp/fl+OaaERphePNKLexf/N7P9HUYf1ak=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Epa3oMECkrb4dkkJZX3oQUAS86uQasyd4utudyfNgFOaZ4WGqHoptgSO3B5rjbe4q
- uhPQuUSIPimMNECxzG73xcIsl34OoHZOlT7LrKtxZ3TVgjmbDEQMxilLh3XHD0hjDs
- RP8AhklqdccgnfanY5KZ+FJ5cBMD45T/1+y2AlEo=
+ b=VGd+GqL/glku8IRX5DBlii1e1UKxvHRX6pExFom3F9FRGQRBCKlwNyrgyHjXQPgcL
+ ll9xYSLhKiBNHDB49kozAKgAKIYDtbGsBslugo5aBFHFFYzXp6HREjz9cuYi/bW1GJ
+ giVHwJEbS+v5PIXNfjM0twZsNib24qJqf7EMqB80=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 6.6 215/603] drm: bridge: for GENERIC_PHY_MIPI_DPHY also
+Subject: [PATCH 6.5 203/550] drm: bridge: for GENERIC_PHY_MIPI_DPHY also
  select GENERIC_PHY
-Date: Wed, 15 Nov 2023 14:12:40 -0500
-Message-ID: <20231115191628.156983839@linuxfoundation.org>
+Date: Wed, 15 Nov 2023 14:13:07 -0500
+Message-ID: <20231115191614.844160896@linuxfoundation.org>
 X-Mailer: git-send-email 2.42.1
-In-Reply-To: <20231115191613.097702445@linuxfoundation.org>
-References: <20231115191613.097702445@linuxfoundation.org>
+In-Reply-To: <20231115191600.708733204@linuxfoundation.org>
+References: <20231115191600.708733204@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -63,7 +64,7 @@ Cc: Sasha Levin <sashal@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+6.5-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -117,7 +118,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 3 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 44a660a4bdbfc..ba82a1142adf7 100644
+index 82c68b0424443..42d05a247511a 100644
 --- a/drivers/gpu/drm/bridge/Kconfig
 +++ b/drivers/gpu/drm/bridge/Kconfig
 @@ -181,6 +181,7 @@ config DRM_NWL_MIPI_DSI
