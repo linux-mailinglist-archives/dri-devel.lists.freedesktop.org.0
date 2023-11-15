@@ -2,59 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 120767EBEE6
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 09:54:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84DFB7EBF28
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 10:09:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23D8710E503;
-	Wed, 15 Nov 2023 08:54:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68B7D10E507;
+	Wed, 15 Nov 2023 09:09:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
- [IPv6:2607:f8b0:4864:20::112d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C9F310E506
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 08:54:11 +0000 (UTC)
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-5a7af52ee31so76007627b3.2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 00:54:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700038450; x=1700643250; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Pbjo3TAguD6KXTLjuIu3/cGWUkxEw1wpK/hlHSFO3xI=;
- b=zgqW59yYYMD/HKqlF8pmN1cYsuI7ReKPkWYx5MoX1ljXq6i0B5sPkIVcYyIxjqh8jE
- cppMbv5gBtBWeluAM+ooze0ioVF+NJA+Y2sjZ1wbXiS2EqJMW6RxgvKIDMKIrX2WmIAq
- y+wq8nJD6Gih+47aIxB78FXdRlVBgMG0pZ5O9qKTQsI6be4dOJrpsEVqpRAvCV7I7kVt
- nKn9OyETB0r97PWdcpA7CR5gagLJfWTaJP6nT9+DA+EV/mve3SnAJuv5N6v3kA3nEgpA
- OPsD8pl3tNq+YZkemsibkciJaWZgnuW5ST/6co8Wa7YD8R8ZQtBHN9Ga+FEFln4BB3R1
- Vt7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700038450; x=1700643250;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Pbjo3TAguD6KXTLjuIu3/cGWUkxEw1wpK/hlHSFO3xI=;
- b=c4TWcNi+63xu5GoR11qPRfZKrxMWVGkLPVE0vWtun/Bm1GWyfLym2VMDDijLlVupxW
- FnuOcttnmmb6j/CDGER8TUHzq1JCcP+8JHNXzvmFI4vebWhF9DO4UCLf9jrgzfaNLkSG
- Mkuxf1WCNJrK6XiD1a7+9uvgwW0CLWhZcMQxZJL/p7buYkWu+ZWyyJfmQkaQTMHPKrnY
- 80ZAlYH7lkKL2GdqjdTk03PQp5cmh8zvHgY65fAO6Xp1GYGnjrZW94D4bXXpSmaw59UR
- H2AO01PHebzt98oJxq/93bj/ZINZjOwKWWiTny6XZb0qKmPK/bmMm0ZLQgzetiA+A8VZ
- KIEw==
-X-Gm-Message-State: AOJu0YxVBaRXLCzn56pr9MG+u/zqQ3EIcLk1Gk+ssS1udvVejkt/twqO
- Pk6dcDlkrxCPZl0f28E2PVyQozjianBmA6p8e48ijw==
-X-Google-Smtp-Source: AGHT+IEDMvHcwrOwIhCANMLXvIPUaFUum2/1YHpZwaESZfy2I2Os/5+HMHREWDFFhrgyeOeFEN55Ab6h3bYKn0zn45o=
-X-Received: by 2002:a0d:f9c6:0:b0:5be:9a1e:5864 with SMTP id
- j189-20020a0df9c6000000b005be9a1e5864mr10921663ywf.10.1700038450409; Wed, 15
- Nov 2023 00:54:10 -0800 (PST)
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com
+ (mail-db5eur02olkn2099.outbound.protection.outlook.com [40.92.50.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90FA610E507;
+ Wed, 15 Nov 2023 09:09:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Npdft/OGYuMbmyAUX0ZvKN51KFI/lSAI0Wtst8V2Ct9zVLJZKrgvpJl2Yt5OgQjleoSZHrjVWu/MiSbgMLs6liphGqlG5FS3E86u0e+NC/NkN06KYopI2Zp6BLmRffaEN0OSgz4z/g6w7fUrqjwHF86G1DwpoYUlRNJ5pLXsvq9yAsjP7VATY0JddW8g38AVIlaNTLl6QFRfy8Lf2IYkJ/aHxta37cnoMFlnhd0syrmxNoGLDWtsyEByMbvVhg4Epws9C0yfJxAgnGNOmYaBqfLSq096YSZ6rykdpen6XoKDK5UqC46+VzVbYVun2ar9SnXK6qTF6ZBa0j0fwY1Zqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BVufSnjklVtqYF/i2zyON1MCgifDrEx/Ju38yb3+pAM=;
+ b=S7HXj9W6fd5f2lDgomLVneLC/IJdwkIjOsoJGLmeiowJucva6gD9UIs0roJrPJxU+WCU0lxX90EvDoHvcq50jfpt7EA6tGp/pQeYjf3Nu4fSyqMEf8zHUP/SdHfdvB1dv7vrcAuPaVXm3UT/LVoVPrtJgymsNtRWxDevjZCCxkGuUf8V4XgFYEboa63qiVN17SPWstgrISCa3k6pYptuNK0Wn656DNbGEjtvaMX3qOuXYpxTS8z0Kej2veIfNpImoDcir+vTDobmQ0+0nMKXQQLctDOA7jf0+EzMS4/N8YrcDrsRnZeV7M10fcy0gDdFPSzOyXnf7qX7nVZLrT7vJA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BVufSnjklVtqYF/i2zyON1MCgifDrEx/Ju38yb3+pAM=;
+ b=IW542DAiHHO6tkqqS6GfvEVWMmSOuNXJ5oa2Z8S8OFxVhBy3EfOPDCX3z0JLzJvGX8iopHkpAGt1uBY9qTF2Vx7snr+dQEc1p45F9sRcHrp4FDvqm0OadG57rXWguJ8y5ao3zEQR750ERcXiG7LRGleJVNdYimiHZ10st3pN+Z2NCKbpncaCDKHOjYCGt0QvVuK+IASENuey2EVfrsaoUIMT6xZs3M4FY/+e54g6T6hnN58jBpulqFgmccw9tWz3zd7omASdQRhYFaHZfAiBiIfx4p5AbSVEB/bMxQz5TXjMqWL1bVgdk+zXEGyqt7TmoEaAbuDmMpFdIP0arkp2gg==
+Received: from GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:83::20)
+ by GV1PR10MB5937.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:59::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Wed, 15 Nov
+ 2023 09:09:14 +0000
+Received: from GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c45:bfdf:a384:5450]) by GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c45:bfdf:a384:5450%6]) with mapi id 15.20.6977.029; Wed, 15 Nov 2023
+ 09:09:14 +0000
+Date: Wed, 15 Nov 2023 14:38:12 +0530
+From: Yuran Pereira <yuran.pereira@hotmail.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH] drm/nouveau: Prevents NULL pointer dereference in
+ nouveau_uvmm_sm_prepare
+Message-ID: <GV1PR10MB6563980A0097762C6868E2DCE8B1A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
+References: <DB3PR10MB6835FA6E15F3C830FC793D2EE8DDA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+ <6a1ebcef-bade-45a0-9bd9-c05f0226eb88@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6a1ebcef-bade-45a0-9bd9-c05f0226eb88@redhat.com>
+X-TMN: [6Iqutr5U9611Hn/yxu9KtnQuiFevF5DX]
+X-ClientProxiedBy: JN2P275CA0034.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::22)
+ To GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:150:83::20)
+X-Microsoft-Original-Message-ID: <20231115090812.GA2381420@nmj-network>
 MIME-Version: 1.0
-References: <20231114225857.19702-1-jonathan@marek.ca>
- <20231114225857.19702-2-jonathan@marek.ca>
-In-Reply-To: <20231114225857.19702-2-jonathan@marek.ca>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 15 Nov 2023 10:53:59 +0200
-Message-ID: <CAA8EJpp0OGkgf0P6LcwE-H6BVN9kbtF_eRCsef+7NgDFmJOZfA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] drm/msm/dpu: fix video mode DSC for DSI
-To: Jonathan Marek <jonathan@marek.ca>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV1PR10MB6563:EE_|GV1PR10MB5937:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8d6aafc1-a82f-4db3-7b09-08dbe5ba6e59
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aM6hab7v2ftiW148wwotWQ8J/R3WvAn6+iq+8Id/xRZUpKp51RLxQLSQMyhoUlfTTSDZn59/IvTPYPqFwRm+y4wVjIO47TDebKb3+B/eMWx6aeBn8YqdBgyRd6biwtNGY3ED7FgT8B1GTm5oOmKk9nzG3/F6hfbi2Rarx+GN+FAFgeAtX/NquGI2XfRutVUa6N9exKA5vN9fgcwlNZrAflM/Damdhkyn+WtJVlZvvJyKbTTQYB1PUQmCiumn0O6Edq4c/OoVMDLrzNUAgdgSnCe9XPVcKn5cfeGVAQ58IPbmT67lJ0VyZp1vvcxlR2qewFfT+u70//3IYLCM0tk9B20c7ji3pEpO0LHNnzRv4p1IjORUPA+s2cHW4cORL/8dmgazbesBJzXjdL1bKs7QU2tPXbjkSVD6zt1QXsSus16UvUT1kR4grfhdby9VMvzRcPJOfTcxokOBGoovBJ4tFjv4Fj2i0qa6++EA9xQnCux7z3cKfm8mw6auS6gxk/iK+E8816um045AlEx9Xb6/Ud7SD8ywrbKUgyzPatOO0IFbUkohFgc8fr6fqCS9Cvy+
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?h3CH4Q8PKXybcKFv5OAy88ojmkvCZdx3xRLcOSq3Dg8uWYc6gd0vc9DLp5Sl?=
+ =?us-ascii?Q?fGXNnW/CgZq8fxsIIrZU34+mfUiCRuLzLWZUfJ/x9FkBlIJ2A3J5t0iG/1K/?=
+ =?us-ascii?Q?QarvwQcKo2jXvtiYyL6NiZC9LChAtgoh4JNNSBmxtI4cEaVOxdC3GAbC92ZB?=
+ =?us-ascii?Q?ZEqP/lv7pwUOF/mss5m29Ll+7aaI0QrjAR+e8wHNmGRu4PuV7HZt2R3zuxQ2?=
+ =?us-ascii?Q?XwgQx3spbofO7R+HhzAgTL+v/+kp9nWweGDG5GyTgONKN+8yoiO8vRIf3Fw6?=
+ =?us-ascii?Q?xg7pn3ja3dg3woIpghFB/ae2syrmkdtxyeDQx8CXLNujj2NrfuBnN6PE+E49?=
+ =?us-ascii?Q?JQokkvfjKqUtjv4eb97fXjYMeIryKSHH8iMLOSdebmlvlMYplByNvepqTdHM?=
+ =?us-ascii?Q?D/AdSJgnjBygjVkpDi0nAeAEmulxndx48EYu1NCpnktxWEngjdYH9CzqLux7?=
+ =?us-ascii?Q?3tXuYCpQIXtjiO9yQltTe3euMS8eZLJSSrJusybM1Mj5WxOQJe59NDXpFE4Y?=
+ =?us-ascii?Q?FprLe9R4blEC21fH5RxEJFAlFTErdVn+hRnJz7uExTiNolEuy5GMTcZ358nS?=
+ =?us-ascii?Q?YmpI4iuxuaCjb5s/yjOCDcLrYnVt5AD15TnlCWT4elgOllG3EXB3JZxza6Xf?=
+ =?us-ascii?Q?VmPyIvoQ4xzX26FxvYzt9G31Aimj0c/vd01IF+mPwM1pfSV0JEXO00yPwVt3?=
+ =?us-ascii?Q?TrI9cYDEQCAHeulxiA/d30T7DKwNk8iCEUtDAbcQkd11UX1uQXSKA3asnHiF?=
+ =?us-ascii?Q?IK/8iCZBuxblC3StJyMS7QBd+2AQP26nZDhqM7/qfHozHYzTjJ1KCUKgl9CC?=
+ =?us-ascii?Q?7tPBYAAH2N8vzEWT6FO0JubLGnug66LJiOciqm+w1eR7q1c6Faha9eBf0CP2?=
+ =?us-ascii?Q?+LuaKFpairwXlsS1b7JCssm1xDiSNASWZaSD47Yp1fRSh8MzvGgLFT1USyZh?=
+ =?us-ascii?Q?Ya1tzuzIkNZrpQpCwoB5xfBX9M8xTOOwWFssaBqZvqcNr8w4fWegjrddaq6P?=
+ =?us-ascii?Q?SmMe9/p4xi7eHrUNJHf9Zw6Sf6mAQ6PAqIfW/N1Zf03Rb6aPqtnAeFGFcJrR?=
+ =?us-ascii?Q?qPysucbZaQoHnlYuKFrWxMyahVECcxomffCtSucwzvk2gVUjjT1xgDJx8kiQ?=
+ =?us-ascii?Q?yy6SzYYuJsz5HT1ocjw4ZC+xF27zrzIVvq7IdJwvVCSvkQ89ElcTNxLl8Zf5?=
+ =?us-ascii?Q?/1wZltK3VLf26dKRZ5sPOGeIB+ZxblV2rTKPURMQRdQE1gYr26CKPLY2jwI?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d6aafc1-a82f-4db3-7b09-08dbe5ba6e59
+X-MS-Exchange-CrossTenant-AuthSource: GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2023 09:09:14.3652 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB5937
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,144 +103,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kalyan Thota <quic_kalyant@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, freedreno@lists.freedesktop.org,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>, Sean Paul <sean@poorly.run>,
- Arnaud Vrac <rawoul@gmail.com>
+Cc: kherbst@redhat.com, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ sumit.semwal@linaro.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, christian.koenig@amd.com,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 15 Nov 2023 at 01:00, Jonathan Marek <jonathan@marek.ca> wrote:
->
-> Add necessary DPU changes for DSC to work with DSI video mode.
->
-> Note this changes the logic to enable HCTL to match downstream, it will
-> now be enabled for the no-DSC no-widebus case.
->
-> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c         |  2 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h    |  2 +-
->  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c    | 11 +++++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c         | 13 ++++++++++++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h         |  1 +
->  5 files changed, 26 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 1cf7ff6caff4..d745c8678b9d 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -2477,7 +2477,7 @@ enum dpu_intf_mode dpu_encoder_get_intf_mode(struct drm_encoder *encoder)
->         return INTF_MODE_NONE;
->  }
->
-> -unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc)
-> +unsigned int dpu_encoder_helper_get_dsc(const struct dpu_encoder_phys *phys_enc)
+Hello Danilo,
+On Tue, Nov 14, 2023 at 05:23:59PM +0100, Danilo Krummrich wrote:
+> Hi Yuran,
+> 
+> op_map_prepare() can't be called with `args` being NULL, since when called
+> through nouveau_uvmm_sm_unmap_prepare() we can't hit the DRM_GPUVA_OP_MAP
+> case at all.
+> 
+> Unmapping something never leads to a new mapping being created, it can lead
+> to remaps though.
+> 
+Yes, you're right. I certainly hadn't noticed that when I first
+submitted this patch.
+> 
+> This check is not required for the reason given above. If you like, you
+> can change this patch up to remove the args check and add a comment like:
+> 
+> /* args can't be NULL when called for a map operation. */
+> 
+Sure, I'll do that, sounds reasonable.
 
-Why?
+Thank you for your feedback.
 
->  {
->         struct drm_encoder *encoder = phys_enc->parent;
->         struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(encoder);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> index 6f04c3d56e77..7e27a7da0887 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> @@ -332,7 +332,7 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
->   *   used for this encoder.
->   * @phys_enc: Pointer to physical encoder structure
->   */
-> -unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc);
-> +unsigned int dpu_encoder_helper_get_dsc(const struct dpu_encoder_phys *phys_enc);
->
->  /**
->   * dpu_encoder_helper_split_config - split display configuration helper function
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> index a01fda711883..df10800a9615 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-> @@ -100,6 +100,8 @@ static void drm_mode_to_intf_timing_params(
->         }
->
->         timing->wide_bus_en = dpu_encoder_is_widebus_enabled(phys_enc->parent);
-> +       if (dpu_encoder_helper_get_dsc(phys_enc))
-> +               timing->compression_en = true;
->
->         /*
->          * for DP, divide the horizonal parameters by 2 when
-> @@ -112,6 +114,15 @@ static void drm_mode_to_intf_timing_params(
->                 timing->h_front_porch = timing->h_front_porch >> 1;
->                 timing->hsync_pulse_width = timing->hsync_pulse_width >> 1;
->         }
-> +
-> +       /*
-> +        * for DSI, if compression is enabled, then divide the horizonal active
-> +        * timing parameters by compression ratio.
-> +        */
-> +       if (phys_enc->hw_intf->cap->type != INTF_DP && timing->compression_en) {
-> +               timing->width = timing->width / 3; /* XXX: don't assume 3:1 compression ratio */
-
-Is this /3 from bpp / compressed_bpp?
-
-> +               timing->xres = timing->width;
-> +       }
->  }
->
->  static u32 get_horizontal_total(const struct dpu_hw_intf_timing_params *timing)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> index e8b8908d3e12..d6fe45a6da2d 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> @@ -166,10 +166,21 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
->          * video timing. It is recommended to enable it for all cases, except
->          * if compression is enabled in 1 pixel per clock mode
->          */
-> +       if (!p->compression_en || p->wide_bus_en)
-> +               intf_cfg2 |= INTF_CFG2_DATA_HCTL_EN;
-> +
->         if (p->wide_bus_en)
-> -               intf_cfg2 |= INTF_CFG2_DATABUS_WIDEN | INTF_CFG2_DATA_HCTL_EN;
-> +               intf_cfg2 |= INTF_CFG2_DATABUS_WIDEN;
->
->         data_width = p->width;
-> +       if (p->wide_bus_en && !dp_intf)
-> +               data_width = p->width >> 1;
-> +
-> +       if (p->compression_en)
-> +               intf_cfg2 |= INTF_CFG2_DCE_DATA_COMPRESS;
-> +
-> +       if (p->compression_en && dp_intf)
-> +               DPU_ERROR("missing adjustments for DSC+DP\n");
->
->         hsync_data_start_x = hsync_start_x;
->         hsync_data_end_x =  hsync_start_x + data_width - 1;
-
-This should go into a separate commit with the proper justification.
-
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> index c539025c418b..15a5fdadd0a0 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
-> @@ -33,6 +33,7 @@ struct dpu_hw_intf_timing_params {
->         u32 hsync_skew;
->
->         bool wide_bus_en;
-> +       bool compression_en;
->  };
->
->  struct dpu_hw_intf_prog_fetch {
-> --
-> 2.26.1
->
-
-
--- 
-With best wishes
-Dmitry
+Yuran
+> 
+> Yeah, I see how this unnecessary check made you think so.
+> 
+> - Danilo
+> 
+> 
