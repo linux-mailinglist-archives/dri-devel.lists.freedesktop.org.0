@@ -1,77 +1,114 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1AD87EC36E
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 14:16:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C2B7EC393
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 14:27:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 225F210E554;
-	Wed, 15 Nov 2023 13:16:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D47110E00C;
+	Wed, 15 Nov 2023 13:27:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5E5610E0E6
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 13:16:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1700054165;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LPNZAc6r0CSSO6lMN8bwDAougMdgFH11dwZvW1JyD1g=;
- b=Qt7njRPfKbr36Z9bQFi6mkCg54Oje1peMIZov8cojk9CJHA7o8oVr/5ra6pZ2fG7FNCj+y
- Y5Ww49CMxaJgeijnmv/pZeqtGcxtHU5PLp8jf+H3FQIVoPu0QNiUzBSBP2n3WC78KrFr9p
- Gdyrrh65y0X+ZE9q92JviWEJ6eCOJgI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-169-56MJ3-m8Mvu-BdNT18EDmA-1; Wed, 15 Nov 2023 08:16:04 -0500
-X-MC-Unique: 56MJ3-m8Mvu-BdNT18EDmA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-32d9751ca2cso3205391f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 05:16:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700054163; x=1700658963;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LPNZAc6r0CSSO6lMN8bwDAougMdgFH11dwZvW1JyD1g=;
- b=Bz4GsjF3oGkyxMquRJvpTAaXyPTu3h15bfW+PzORBULdQihLv+PMwb27bVXe/3gGJA
- +bm/Bw9+lpI90ssQDyEALuQpc5YiFFwaaoHnTmeDBBTROpVoshniNPEnKPkpIQsvIieZ
- RXZ7URIiQJzVXIkbeJkU8cYQ3TkUcSCahOE4XXQy5urvKWN8OP9+BeQ3//ihNCHETeB0
- nKgsgLDVsOJb+5hOLuvguZ7GtZRgXX3d8ujh3k+T5BtEMdixpd7r6NpitdKKITXPhSsn
- 0bltHhHukj+MEKZy87okkRwNJvuXzEaLHB5RDzP47gd4jMjOUvCsSybmkiD4FIOEUFWf
- OiSQ==
-X-Gm-Message-State: AOJu0Ywkxpvmdv911lBlj5aHeUkstXsE8MQhrlSwS8g0RZ0bk5ahWlHS
- LhUXzcWu2+cpMOiSIJ/8Bm0TYib6RECInEvYVO3achDw2h77QF2SX9BAQLkxl2FzB6s6CtFEr2H
- PhzfFgdW0ExwcTLrSc/tfVGRCVWNL
-X-Received: by 2002:a5d:6b8f:0:b0:331:4e5e:d9e7 with SMTP id
- n15-20020a5d6b8f000000b003314e5ed9e7mr5201126wrx.34.1700054163333; 
- Wed, 15 Nov 2023 05:16:03 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH90wwQXO1DSYdUi0fT0muUxSLgnxdRuPpEfFKAh1lwXIDvxopHNTDogbaEw6FCwpQCc2B74A==
-X-Received: by 2002:a5d:6b8f:0:b0:331:4e5e:d9e7 with SMTP id
- n15-20020a5d6b8f000000b003314e5ed9e7mr5201118wrx.34.1700054163127; 
- Wed, 15 Nov 2023 05:16:03 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- b1-20020a5d6341000000b00323293bd023sm10579306wrw.6.2023.11.15.05.16.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Nov 2023 05:16:02 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/5] drm/todo: Add entry about implementing buffer age for
- damage tracking
-Date: Wed, 15 Nov 2023 14:15:44 +0100
-Message-ID: <20231115131549.2191589-6-javierm@redhat.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231115131549.2191589-1-javierm@redhat.com>
-References: <20231115131549.2191589-1-javierm@redhat.com>
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com
+ (mail-os0jpn01on20701.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:201a::701])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EBF710E00C
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 13:27:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k7P9733HglU7iVMf8CEfombu4rszuthVfUMoMyBlsv2FaGtDnhLsEAWRwL0PHeI10QZuZ68tY/V4cbFlAW8Yw64myl0K3LN+xc/HVYnRANRAZlIheJ+mq0SMR9Gb6oMcpbcApnfSVJQVK6MLXdJGr5OmcJVJ8uzG8jP78RHLLQnjKzD3eIJYnvlQZ/oGk08qnc098xGCLSopyOPo1To1o6k7dqYFT1GLAnFcIJmtVgZrT0z5WA2YLLneRrNqvqh9MPQkrmsoX0CogIFgZ8HW0CT7H9sT/fwKK05dT6gXZ3rzZaVyag2JHs4YUbJ/9Rtdez9xLF/YqXeqeCrMgi2w7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yV/pjxp+WD3WqUoz9M7hLaZYQMoOHj/pgOrJ5XTHtRU=;
+ b=SlUF8DfMMzBI4/cN8VLYEziC1VmTVsUpOJXvWgOsBfp4p2BshsO8TbJYitZTr1l4kbJqWcvlYzfrwTEsDUT6VfYhKexxuswLR1TNmz2GOfNrt2h2D1DG/34mEdlDNiQWmIIhY5J87TUfq/Lftcf+/nOCfiEmQKYQGUlzbgZFrmx7cTcUHfJqJ0iykSxd2GocwUlGu8+QqRoVU78tnPvBbYCTp+ieMXfL7IBZ75KLKbQnT2fwcwA8vMRMCgMH9xQmFbN8ASlwqAn5GyS5irIV7Gm2qwRR74Et1CBmnRHvpna1ZvvmEZcnlef00ilAhtCvitPZBsWSCn14p6xX8eoGmg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yV/pjxp+WD3WqUoz9M7hLaZYQMoOHj/pgOrJ5XTHtRU=;
+ b=AG9KN70Izffk36UhozIfejKGGXJJjtoD9/l60dr0i2CoIBMXnCsW64RZHOUz6r8YDNL8GM6au2K2p4Wz3BGADkYuFPhLKLsY1RELISrdw/coDJ2cona5aOFPDtsPuAlzZhTDoLWS3BrF732EzXwlriVbhnxoAQmwhKj9ruyEV9k=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by TYCPR01MB8110.jpnprd01.prod.outlook.com
+ (2603:1096:400:11f::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.18; Wed, 15 Nov
+ 2023 13:27:31 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::6069:90c7:909:c89b]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::6069:90c7:909:c89b%7]) with mapi id 15.20.7002.021; Wed, 15 Nov 2023
+ 13:27:28 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: RE: [PATCH v12 3/4] drm: renesas: Add RZ/G2L DU Support
+Thread-Topic: [PATCH v12 3/4] drm: renesas: Add RZ/G2L DU Support
+Thread-Index: AQHaDZ5oJe/uy1a7mU++VPYrFoPc6LBu6ReAgAyKJTA=
+Date: Wed, 15 Nov 2023 13:27:28 +0000
+Message-ID: <TYCPR01MB11269FBB803B76A9DC0D334C586B1A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20231102150744.28736-1-biju.das.jz@bp.renesas.com>
+ <20231102150744.28736-4-biju.das.jz@bp.renesas.com>
+ <72edcrxqbhq3ykcdocipx7tf7pd6dporvi7hh6mor4inxchuho@p5j7s4zczmux>
+In-Reply-To: <72edcrxqbhq3ykcdocipx7tf7pd6dporvi7hh6mor4inxchuho@p5j7s4zczmux>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYCPR01MB8110:EE_
+x-ms-office365-filtering-correlation-id: 4ea6aa20-d309-4ef2-0e0c-08dbe5de9d3e
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 2BDziV2VC7Apy9wGTPBtOp8zwVMn92c/RkPllM/7oIpqr0siNNRH0/ugvgur9kg8A6xZ9KvaCdjI9y2nPaZZRSvLd9z935djnnWKZVaawAj2PLSBdGhX0NH7hLLiQ7IqgZ8blcUy54Sg3Ps/7S3krYlbV7qukuqO5xtk8b6w9BdZRyN3G5V569RZtSlqRg9JcU/6IuRre+0/JD5frc1RZm3gXwpxarjJY1hqKhhjmvDl3bvtrjIPE9AFud/N0+IuxvbcxGzfWYdaSeq/hlDHj+e7ilKc8lUlhjS7RVynWaYSwT+fdvdK+7IUHR4zuAwxkOvNdYDm4rqvyr8ZKXM+hWwenwO9+Kx8Vl11bx3rPl7PkJXI/hWN63ac4WzNLV6E02TkhrjcHYD0s+6aG5zYQ4lj4kGjdkV5OnxjY9jaH0teOz468p4KqqB3THMXhzzhfVCLmstWTJyTmknbVpOT2qtw8ebRrtsJHwUOWozvlJHaqtpSk64BsPqtDg7ykubzt/KlqwnKPBwSGpeC2onAyASIGz3nroBq/enb4gXyfXsKEL5Y118R3RKfw+yiPNq6sDjOc95cMvu6L5pAgl9RHhMCNu/Bw3OVm2I+D6/wxwKDyEThZWobPj2zhQYhLjAm
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYCPR01MB11269.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(376002)(136003)(346002)(396003)(366004)(230922051799003)(1800799009)(186009)(64100799003)(451199024)(122000001)(83380400001)(26005)(55016003)(38100700002)(478600001)(71200400001)(6506007)(7696005)(9686003)(86362001)(54906003)(76116006)(66946007)(66476007)(66446008)(66556008)(64756008)(316002)(6916009)(8676002)(33656002)(7416002)(4326008)(8936002)(52536014)(5660300002)(38070700009)(4744005)(2906002)(41300700001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?2O4q8bWrK6TcIzjREkzBLwBNZLMYxmERIOa7qqvMkEYhWngYKMGaRpIBB8Rj?=
+ =?us-ascii?Q?JS8DNsdbNiieqxa0nE2c+JPtmzBWnYkhxMhxdbKSs944PdsUHD1O6uJxsmwY?=
+ =?us-ascii?Q?V7LPf1qgiTE3iU9wRoakw+1TZagmjLCLQRfbStAnpbOgY+elBJ6H27T4H9Y9?=
+ =?us-ascii?Q?tA7X/qt8UFCH5Htj4SWb5dmHmn0ZcJUEiVaGGx2iOl3H5BDAPJexjSsENvDs?=
+ =?us-ascii?Q?yfAmYEc1EGMh1El+JvO/CjeppvfDNaztMPpvfShbC9O6KaIB6zon8Lm5kEHE?=
+ =?us-ascii?Q?nrI/6/J2pdTGyI8MdxQ+30uUMo5Jb79OzClppbQFR4Yab3u8dTfJAzsc3EM/?=
+ =?us-ascii?Q?q26kzJN1bR1UNUzcG984rUFcLeRb9gdfovryXYpCvfv5n85WUDfmeFvJtPQs?=
+ =?us-ascii?Q?8GveztMsA8UVgrqz6VKkr1MAU9u2Ck60cbvUrrG8H/RZAbArE3JZPx+hPBRQ?=
+ =?us-ascii?Q?g0D+q/0/+bnStx4P1pKoIFZJuX1smSrGqPUrB2FQzWT4cExMcu27gq6Vg4Px?=
+ =?us-ascii?Q?suOFEriCPW8ox8xGJ4kuWROBHcHKKTIjwhH7n9Xhez8nqNPQ1sBQv4LClcYW?=
+ =?us-ascii?Q?KRDU5v7OZB6+2EMuhlZ4oQLilNtO2JJZoKvmDvSesMlteYskPa0yTj82uBOw?=
+ =?us-ascii?Q?lIQL4rCZkDK9stdMz5WCetzC1LIK9Ybx7ie8oA9u74ZTXrAhH7dowEotZd2p?=
+ =?us-ascii?Q?akK6g7vHIz0Jj7Zvok5IkyrkWq9N66o0gxehw23Tlqri5+GHZ9UT/eqEyktS?=
+ =?us-ascii?Q?UUkSAeibCwt+bK8BUL7O/e6sVMpuSJATFLuHEHUPQAfYJaXOYCvbLXrdd09f?=
+ =?us-ascii?Q?Kzz5LqfaPhWUJVf6z8X7dSL1v1iCTI6uD0vYSc6wEq93Xv14OZEsPMslNWmU?=
+ =?us-ascii?Q?wKx1bLe926T77cjw0ULKTiGsyusHS2BMKs1ewIHi0W9WjP68/gQHBysU9tlh?=
+ =?us-ascii?Q?ZrzfcZ+AYsaImiIj4pE3n3nbADS/8KnxKfMUukrHFHO1cy8a2MC4AQKar26/?=
+ =?us-ascii?Q?mczibcJynCLleo838Rql68HKevhPHsUa0LWK59QmIb3j+EAbCqERM4lQjqfS?=
+ =?us-ascii?Q?uTTh6MQsQ7lxqlsExh24L5Sq2bRmRESHGciHCbd6ClaPcspE9SZKuS+sh51L?=
+ =?us-ascii?Q?MtkpIi3lgmy5emuUqaF1M3X+KmBnV9XZMRbuy5pL+M7eC0k72NTNCp2ZipFe?=
+ =?us-ascii?Q?LAWoQzXdDgAxxp7iWwZ4xu7ECycxvIseBlX1t/rfB15CYe5OlyStTylOIihm?=
+ =?us-ascii?Q?WFlgOYg2TjUewuAKAAJe44TGDrGezyxxKFzb9gybTuYkbdZTEz6OcLEe3g9U?=
+ =?us-ascii?Q?AeHS4snyO1JmdWNjzSJ42OfoU6abCOFuloWfDxqNcZiLWN0ITV3zkKVf+bb6?=
+ =?us-ascii?Q?L+5jevifi4s/w34KwOK5aAIOV1SN0MXPF3OH0Z/2jfd/q4IYLezzEeCtFC5v?=
+ =?us-ascii?Q?tcj5CMCyTrnw5Vt5q1IDvFQ9VKqeeEhN2ATolsSzplxRSVa7tgb+mjZKDEAN?=
+ =?us-ascii?Q?aKkDnGGYjoIPjBz+5eOSum5piTnVvpt4QhNxm9NiixsGz8D9GIkTSTCNV00p?=
+ =?us-ascii?Q?DkhPRH5dz3AVB6ZkqQLoPwuiW/cJ3vhue4ebEMu/FDCu3FEdsGRT2zZWpe46?=
+ =?us-ascii?Q?Mw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ea6aa20-d309-4ef2-0e0c-08dbe5de9d3e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Nov 2023 13:27:28.6649 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: UOw3koDVBM1JRZjRk1wp71IXbFR5cHzSN2N0m7eUZWXTZ0Jq4A71mn6ggpRlycvvmWUTnuLd6ypHs72h7Esp/XP4ngGO0qMXhh8ln5q4McE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8110
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,64 +121,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Jonathan Corbet <corbet@lwn.net>, Bilal Elmoussaoui <belmouss@redhat.com>,
- linux-doc@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Sima Vetter <daniel.vetter@ffwll.ch>,
- Erico Nunes <nunes.erico@gmail.com>
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ "biju.das.au" <biju.das.au@gmail.com>, Magnus Damm <magnus.damm@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, only damage tracking for frame damage is supported. If a driver
-needs to do buffer damage (e.g: the framebuffer attached to plane's state
-has changed since the last page-flip), the damage helpers just fallback to
-a full plane update.
+Hi Jacopo Mondi,
 
-Add en entry in the TODO about implementing buffer age or any other damage
-accumulation algorithm for buffer damage handling.
+> -----Original Message-----
+> From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Subject: Re: [PATCH v12 3/4] drm: renesas: Add RZ/G2L DU Support
+>=20
+> Hi Biju
+>=20
+>   the series does not apply on v6.3. What is the base for the series ?
 
-Suggested-by: Simon Ser <contact@emersion.fr>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Simon Ser <contact@emersion.fr>
----
+This patch series is based on drm-misc. I will add base-commit id on next v=
+ersion.
 
-(no changes since v1)
-
- Documentation/gpu/todo.rst | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index b62c7fa0c2bc..5c43a958814b 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -782,6 +782,26 @@ Contact: Hans de Goede
- 
- Level: Advanced
- 
-+Buffer age or other damage accumulation algorithm for buffer damage handling
-+============================================================================
-+
-+Drivers that do per-buffer uploads, need a buffer damage handling (rather than
-+frame damage like drivers that do per-plane or per-CRTC uploads), but there is
-+no support to get the buffer age or any other damage accumulation algorithm.
-+
-+For this reason, the damage helpers just fallback to a full plane update if the
-+framebuffer attached to a plane has changed since the last page-flip.
-+
-+This should be improved to get damage tracking properly working on drivers that
-+do per-buffer uploads.
-+
-+More information about damage tracking and references to learning materials in
-+`Damage Tracking Properties <https://docs.kernel.org/gpu/drm-kms.html#damage-tracking-properties>`_
-+
-+Contact: Javier Martinez Canillas <javierm@redhat.com>
-+
-+Level: Advanced
-+
- Outside DRM
- ===========
- 
--- 
-2.41.0
-
+Cheers,
+Biju
