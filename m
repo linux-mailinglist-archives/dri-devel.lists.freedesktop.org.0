@@ -2,68 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DBC57EBE99
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 09:33:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 120767EBEE6
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 09:54:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCEC110E515;
-	Wed, 15 Nov 2023 08:33:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23D8710E503;
+	Wed, 15 Nov 2023 08:54:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
- [209.85.128.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47B9B10E51B
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 08:33:42 +0000 (UTC)
-Received: by mail-yw1-f174.google.com with SMTP id
- 00721157ae682-5a7dd65052aso76508467b3.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 00:33:42 -0800 (PST)
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
+ [IPv6:2607:f8b0:4864:20::112d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C9F310E506
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 08:54:11 +0000 (UTC)
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-5a7af52ee31so76007627b3.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 00:54:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1700038450; x=1700643250; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Pbjo3TAguD6KXTLjuIu3/cGWUkxEw1wpK/hlHSFO3xI=;
+ b=zgqW59yYYMD/HKqlF8pmN1cYsuI7ReKPkWYx5MoX1ljXq6i0B5sPkIVcYyIxjqh8jE
+ cppMbv5gBtBWeluAM+ooze0ioVF+NJA+Y2sjZ1wbXiS2EqJMW6RxgvKIDMKIrX2WmIAq
+ y+wq8nJD6Gih+47aIxB78FXdRlVBgMG0pZ5O9qKTQsI6be4dOJrpsEVqpRAvCV7I7kVt
+ nKn9OyETB0r97PWdcpA7CR5gagLJfWTaJP6nT9+DA+EV/mve3SnAJuv5N6v3kA3nEgpA
+ OPsD8pl3tNq+YZkemsibkciJaWZgnuW5ST/6co8Wa7YD8R8ZQtBHN9Ga+FEFln4BB3R1
+ Vt7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700037221; x=1700642021;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=loUWrR6eECAA+uv6HMt8OKh14KvU7DOewoh9g24/Sfw=;
- b=TNrAu7P/vWJwPnQfsSXvaDAlU7aLQWuZFh4le+e7Q3Rb+tCfyOljDrsbitLjevkKji
- IcHf771uCgedY5agiT8mr0CdFaBCibKaOyEWix/eBIAw68qvC6ZTDYzDsx1uVZw/IOYI
- dKoJWWyZz6YhCcEGDd0N0QCMswgBR0SciOc4fBB8nPNQ5FztUcesK7nxB5R5VFIj2EM5
- uO1Tp2tui0PnXirCF9qGX9JeA9EhmMgcTKS44mVw35/0xzcVQAE7oWMq02/0w9Gt0EwU
- HHSTmN54h291M3+q0jJePMIUVlGYgbzmwPVUGZWu9zWFCDdRTvsY1RqaKICyJ7BzFTh0
- 8YKg==
-X-Gm-Message-State: AOJu0YzykxffzBcKByhP8QfwvxTadJ+Kb5w5ocD8k+sXEx8laA1MKTrE
- QTK+Lo20RuFZgnV4YEjZL1rM1Px6gAsf4g==
-X-Google-Smtp-Source: AGHT+IEXO3AoHW022/UiIJkdiYP/HJN/q58zp9TjLsBaN4An9wWxFK9HggyPH2utKV0jISilH8IimQ==
-X-Received: by 2002:a0d:d307:0:b0:570:28a9:fe40 with SMTP id
- v7-20020a0dd307000000b0057028a9fe40mr12490458ywd.5.1700037221167; 
- Wed, 15 Nov 2023 00:33:41 -0800 (PST)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com.
- [209.85.128.178]) by smtp.gmail.com with ESMTPSA id
- w205-20020a0dd4d6000000b005af5ef0687fsm258371ywd.6.2023.11.15.00.33.40
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Nov 2023 00:33:40 -0800 (PST)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-5a7c011e113so76327717b3.1
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 00:33:40 -0800 (PST)
-X-Received: by 2002:a81:8408:0:b0:5a7:a81d:e410 with SMTP id
- u8-20020a818408000000b005a7a81de410mr13654199ywf.18.1700037220389; Wed, 15
- Nov 2023 00:33:40 -0800 (PST)
+ d=1e100.net; s=20230601; t=1700038450; x=1700643250;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Pbjo3TAguD6KXTLjuIu3/cGWUkxEw1wpK/hlHSFO3xI=;
+ b=c4TWcNi+63xu5GoR11qPRfZKrxMWVGkLPVE0vWtun/Bm1GWyfLym2VMDDijLlVupxW
+ FnuOcttnmmb6j/CDGER8TUHzq1JCcP+8JHNXzvmFI4vebWhF9DO4UCLf9jrgzfaNLkSG
+ Mkuxf1WCNJrK6XiD1a7+9uvgwW0CLWhZcMQxZJL/p7buYkWu+ZWyyJfmQkaQTMHPKrnY
+ 80ZAlYH7lkKL2GdqjdTk03PQp5cmh8zvHgY65fAO6Xp1GYGnjrZW94D4bXXpSmaw59UR
+ H2AO01PHebzt98oJxq/93bj/ZINZjOwKWWiTny6XZb0qKmPK/bmMm0ZLQgzetiA+A8VZ
+ KIEw==
+X-Gm-Message-State: AOJu0YxVBaRXLCzn56pr9MG+u/zqQ3EIcLk1Gk+ssS1udvVejkt/twqO
+ Pk6dcDlkrxCPZl0f28E2PVyQozjianBmA6p8e48ijw==
+X-Google-Smtp-Source: AGHT+IEDMvHcwrOwIhCANMLXvIPUaFUum2/1YHpZwaESZfy2I2Os/5+HMHREWDFFhrgyeOeFEN55Ab6h3bYKn0zn45o=
+X-Received: by 2002:a0d:f9c6:0:b0:5be:9a1e:5864 with SMTP id
+ j189-20020a0df9c6000000b005be9a1e5864mr10921663ywf.10.1700038450409; Wed, 15
+ Nov 2023 00:54:10 -0800 (PST)
 MIME-Version: 1.0
-References: <a1d9e09b-f533-5e2c-7a13-af96647e1a71@embeddedor.com>
- <10D1983F-33EF-46C3-976E-463D1CB5A6E9@xenosoft.de>
- <9bb5fcbd-daf5-1669-b3e7-b8624b3c36f9@xenosoft.de>
- <c47fba21-3ae9-4021-9f4a-09c2670ebdbc@xenosoft.de>
- <0d89bcd0-9b68-4c0a-acd8-2c7532e62f6d@xenosoft.de>
- <6530cea3-4507-454e-bc36-a6970c8e7578@xenosoft.de>
- <CAMuHMdU-8Fu55C2zu_XxmG8n5paOQYfqNA84JNvXo4c87D-kFw@mail.gmail.com>
- <fee4eb69-97ea-4b02-9e36-0962ebe3faa9@xenosoft.de>
-In-Reply-To: <fee4eb69-97ea-4b02-9e36-0962ebe3faa9@xenosoft.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 15 Nov 2023 09:33:28 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWu6Q3ew0m4xugjF_hgSt0RFFr+ccoBrSzt0FGLgtxJtA@mail.gmail.com>
-Message-ID: <CAMuHMdWu6Q3ew0m4xugjF_hgSt0RFFr+ccoBrSzt0FGLgtxJtA@mail.gmail.com>
-Subject: Re: Fbdev issue after the drm updates 'drm-next-2023-10-31-1'
-To: Christian Zigotzky <chzigotzky@xenosoft.de>
+References: <20231114225857.19702-1-jonathan@marek.ca>
+ <20231114225857.19702-2-jonathan@marek.ca>
+In-Reply-To: <20231114225857.19702-2-jonathan@marek.ca>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 15 Nov 2023 10:53:59 +0200
+Message-ID: <CAA8EJpp0OGkgf0P6LcwE-H6BVN9kbtF_eRCsef+7NgDFmJOZfA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] drm/msm/dpu: fix video mode DSC for DSI
+To: Jonathan Marek <jonathan@marek.ca>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,105 +67,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Darren Stevens <darren@stevens-zone.net>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- virtualization@lists.linux.dev,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, mad skateman <madskateman@gmail.com>,
- deller@gmx.de, Christian Zigotzky <info@xenosoft.de>
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, freedreno@lists.freedesktop.org,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Arnaud Vrac <rawoul@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
-
-CC virtgpu
-
-On Tue, Nov 14, 2023 at 10:45=E2=80=AFAM Christian Zigotzky
-<chzigotzky@xenosoft.de> wrote:
-> On 13 November 2023 at 01:48 pm, Geert Uytterhoeven wrote:
-> > I can confirm there is no graphics output with m68k/virt, and
-
-Before the error message you reported:
-
-    virtio-mmio virtio-mmio.125: [drm] *ERROR* fbdev: Failed to setup
-generic emulation (ret=3D-2)
-
-it also prints:
-
-    virtio-mmio virtio-mmio.125: [drm] bpp/depth value of 32/24 not support=
-ed
-    virtio-mmio virtio-mmio.125: [drm] No compatible format found
-
-Upon closer look, it turns out virtgpu is special in that its main
-plane supports only a single format: DRM_FORMAT_HOST_XRGB8888, which
-is XR24 on little-endian, and BX24 on big-endian.  I.e. on big-endian,
-virtgpu does not support XR24.  Isn't this a violation of the DRM
-rule that every driver must implement support for XR24?
-
-> > bisected this to my own commit 6ae2ff23aa43a0c4 ("drm/client: Convert
-> > drm_client_buffer_addfb() to drm_mode_addfb2()"), ouch...
-> >
-> > It turns out the old call to drm_mode_addfb() caused a translation
-> > from a fourcc to a bpp/depth pair to a _different_ fourcc, due to the
-> > quirk processing in drm_driver_legacy_fb_format().
-> > I.e. on m68k/virt, the original requested format was XR24, which was
-> > translated to BX24. The former doesn't work, the latter works.
-> >
-> > The following (gmail-whitespace-damaged) patch fixed the issue for me:
-> >
-> > --- a/drivers/gpu/drm/drm_client.c
-> > +++ b/drivers/gpu/drm/drm_client.c
-> > @@ -400,6 +400,16 @@ static int drm_client_buffer_addfb(struct
-> > drm_client_buffer *buffer,
-> >
-> >         fb_req.width =3D width;
-> >         fb_req.height =3D height;
-> > +       if (client->dev->mode_config.quirk_addfb_prefer_host_byte_order=
-) {
-> > +               if (format =3D=3D DRM_FORMAT_XRGB8888)
-> > +                       format =3D DRM_FORMAT_HOST_XRGB8888;
-> > +               if (format =3D=3D DRM_FORMAT_ARGB8888)
-> > +                       format =3D DRM_FORMAT_HOST_ARGB8888;
-> > +               if (format =3D=3D DRM_FORMAT_RGB565)
-> > +                       format =3D DRM_FORMAT_HOST_RGB565;
-> > +               if (format =3D=3D DRM_FORMAT_XRGB1555)
-> > +                       format =3D DRM_FORMAT_HOST_XRGB1555;
-> > +       }
-> >         fb_req.pixel_format =3D format;
-> >         fb_req.handles[0] =3D handle;
-> >         fb_req.pitches[0] =3D buffer->pitch;
-> >
-> > However, I don't think we want to sprinkle more of these
-> > translations around... So perhaps we should (re)add a call to
-> > drm_driver_legacy_fb_format() to drm_client_buffer_addfb()?
-> >
-> > Second, as I doubt you are using a big-endian system, you are probably
-> > running into a slightly different issue.
-> >
-> > Oh wait, you did CC linuxppc-dev, so perhaps you are running on a
-> > big-endian machine?
+On Wed, 15 Nov 2023 at 01:00, Jonathan Marek <jonathan@marek.ca> wrote:
 >
-> Your patch works! :-) Thanks a lot!
+> Add necessary DPU changes for DSC to work with DSI video mode.
 >
-> I tested it with the virtio-vga and with the virtio-gpu-pci device in a v=
-irtual ppce500 QEMU/KVM HV machine with an e5500 CPU today.
+> Note this changes the logic to enable HCTL to match downstream, it will
+> now be enabled for the no-DSC no-widebus case.
 >
-> Tested-by: Christian Zigotzky <chzigotzky@xenosoft.de>
+> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c         |  2 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h    |  2 +-
+>  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c    | 11 +++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c         | 13 ++++++++++++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h         |  1 +
+>  5 files changed, 26 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 1cf7ff6caff4..d745c8678b9d 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -2477,7 +2477,7 @@ enum dpu_intf_mode dpu_encoder_get_intf_mode(struct drm_encoder *encoder)
+>         return INTF_MODE_NONE;
+>  }
+>
+> -unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc)
+> +unsigned int dpu_encoder_helper_get_dsc(const struct dpu_encoder_phys *phys_enc)
 
-Thanks for testing!
+Why?
 
-Gr{oetje,eeting}s,
+>  {
+>         struct drm_encoder *encoder = phys_enc->parent;
+>         struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(encoder);
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> index 6f04c3d56e77..7e27a7da0887 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> @@ -332,7 +332,7 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
+>   *   used for this encoder.
+>   * @phys_enc: Pointer to physical encoder structure
+>   */
+> -unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc);
+> +unsigned int dpu_encoder_helper_get_dsc(const struct dpu_encoder_phys *phys_enc);
+>
+>  /**
+>   * dpu_encoder_helper_split_config - split display configuration helper function
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> index a01fda711883..df10800a9615 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> @@ -100,6 +100,8 @@ static void drm_mode_to_intf_timing_params(
+>         }
+>
+>         timing->wide_bus_en = dpu_encoder_is_widebus_enabled(phys_enc->parent);
+> +       if (dpu_encoder_helper_get_dsc(phys_enc))
+> +               timing->compression_en = true;
+>
+>         /*
+>          * for DP, divide the horizonal parameters by 2 when
+> @@ -112,6 +114,15 @@ static void drm_mode_to_intf_timing_params(
+>                 timing->h_front_porch = timing->h_front_porch >> 1;
+>                 timing->hsync_pulse_width = timing->hsync_pulse_width >> 1;
+>         }
+> +
+> +       /*
+> +        * for DSI, if compression is enabled, then divide the horizonal active
+> +        * timing parameters by compression ratio.
+> +        */
+> +       if (phys_enc->hw_intf->cap->type != INTF_DP && timing->compression_en) {
+> +               timing->width = timing->width / 3; /* XXX: don't assume 3:1 compression ratio */
 
-                        Geert
+Is this /3 from bpp / compressed_bpp?
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+> +               timing->xres = timing->width;
+> +       }
+>  }
+>
+>  static u32 get_horizontal_total(const struct dpu_hw_intf_timing_params *timing)
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> index e8b8908d3e12..d6fe45a6da2d 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> @@ -166,10 +166,21 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
+>          * video timing. It is recommended to enable it for all cases, except
+>          * if compression is enabled in 1 pixel per clock mode
+>          */
+> +       if (!p->compression_en || p->wide_bus_en)
+> +               intf_cfg2 |= INTF_CFG2_DATA_HCTL_EN;
+> +
+>         if (p->wide_bus_en)
+> -               intf_cfg2 |= INTF_CFG2_DATABUS_WIDEN | INTF_CFG2_DATA_HCTL_EN;
+> +               intf_cfg2 |= INTF_CFG2_DATABUS_WIDEN;
+>
+>         data_width = p->width;
+> +       if (p->wide_bus_en && !dp_intf)
+> +               data_width = p->width >> 1;
+> +
+> +       if (p->compression_en)
+> +               intf_cfg2 |= INTF_CFG2_DCE_DATA_COMPRESS;
+> +
+> +       if (p->compression_en && dp_intf)
+> +               DPU_ERROR("missing adjustments for DSC+DP\n");
+>
+>         hsync_data_start_x = hsync_start_x;
+>         hsync_data_end_x =  hsync_start_x + data_width - 1;
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+This should go into a separate commit with the proper justification.
+
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> index c539025c418b..15a5fdadd0a0 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> @@ -33,6 +33,7 @@ struct dpu_hw_intf_timing_params {
+>         u32 hsync_skew;
+>
+>         bool wide_bus_en;
+> +       bool compression_en;
+>  };
+>
+>  struct dpu_hw_intf_prog_fetch {
+> --
+> 2.26.1
+>
+
+
+-- 
+With best wishes
+Dmitry
