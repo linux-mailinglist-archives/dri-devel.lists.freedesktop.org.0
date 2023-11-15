@@ -2,61 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCF427ED713
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 23:19:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 771557ED737
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 23:30:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBCCB10E27D;
-	Wed, 15 Nov 2023 22:19:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B12DE10E283;
+	Wed, 15 Nov 2023 22:30:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com
- [IPv6:2607:f8b0:4864:20::c2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E17C10E15E;
- Wed, 15 Nov 2023 22:19:02 +0000 (UTC)
-Received: by mail-oo1-xc2b.google.com with SMTP id
- 006d021491bc7-586ae6edf77so91378eaf.1; 
- Wed, 15 Nov 2023 14:19:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700086741; x=1700691541; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oi5d2nfQsyWJ6Cl5654DEWfBpi+oqUq6KQecwyT1JVA=;
- b=idVe3YKx6Sr5QmwOFbw1JMTl5W63+BQfrmvWV4ebJQZs1mXGdjgqtHmG6hObBQUYm3
- SYHjJV7e5d0GxCsi5RghQtO2/PFjwjZJQ88XlE3aE3JXiczapQSlVURihgHDvKZuZHtE
- g731Ykf7OI9wcjzd/9rGYWVcG6hPPlQytqz/6G9RjzUhlk4vcOQp1yyDObBgQhcHnNJA
- 8WJWr9SH/EgJCIE1wnTS3x0tHhnbjPlBAQYpwFEA/IgUatsnHXOy5yNgMVGifnqz6yl8
- yAdyqQ1uh5+g/LSk2m0HTLPorKJqVo7SfC60Fs7/anYwbIzVfelnLUAGaXaPHJFOPjYb
- k0ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700086741; x=1700691541;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oi5d2nfQsyWJ6Cl5654DEWfBpi+oqUq6KQecwyT1JVA=;
- b=Fcwx7k3letGa/HCGGRq4dk+jzfalp725mc/usqK7/6BeznKtG8iy4f7BqgasXaB6rJ
- eSDskZp8kQKH8NZ1rK1GaXjYcJ16O+uKTZJrWuFpyt2AA9xCevQIZ5f4/iJvkzizrhYZ
- 0gZqn2lTB9lZVOhNxVz/RgYs3QDrpdYRqXtePyiqB6hKgioUmB8iTn/CFkZovn+x/vHO
- lZktbQmAxY84+0mQl+xcT6C90SAARjLucAVv9Sn3ttAmthbFYvZYK/yyRtyO2ReZ6P50
- GmWvvojwNGJnoAlrta0S7a7/f6citlDBMNpPGFN0QBr5t+EJMUz9ixh1xv0UtzP+vFLE
- zKVA==
-X-Gm-Message-State: AOJu0YzFKXilZpx8JmDxwVbqHABPxwmB+EuH6+ajhC+TamzoHnmRtJjj
- 2iyBTtu3SVw8mD3Jibn43y3J9+7KQelVh7oL8YY=
-X-Google-Smtp-Source: AGHT+IFDHG7TFOj1M6G82jXF7/qMb+lq03AZmJ0wqThx1Gfl8ngW6icByI+INXqHMngodqtbyZC6aBvEqmmngv08fVQ=
-X-Received: by 2002:a4a:6342:0:b0:581:f6b9:30d9 with SMTP id
- r2-20020a4a6342000000b00581f6b930d9mr10690905oof.8.1700086741532; Wed, 15 Nov
- 2023 14:19:01 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6073A10E283
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 22:30:41 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3AFLpVkA031610; Wed, 15 Nov 2023 22:30:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=vksiK8Ov8bH7PrqS5YyQfOD/LKFN1lfNFZwKmBJ82MA=;
+ b=Dd0PHR3OWkvVFphgx6TY+dUtYJQs8HIhqAPxY5futR4jeHh6Moripz//QEqnQmv6ub4Q
+ nr8XUGeJFzEig5Kj12SQibN9QzpHBRLpGma07ObmOlQ3TEwWu028AbjFDU1/6p9e6MK2
+ uZn/WqlKAQmSnktLUKQMPcMxSnfKAxBni5UBo8LQD9eI4NmmlXdgosPztUQVC5eRIljI
+ ay+DD1t7G4knKvoy0MHX5gvmiZ+fzer9q+DaqCMBOYB+3qJi+QNcQknNR8Wh6SNDNMLX
+ voubU3xeSxcgbYfyUxt4EuTQ0iHilfgd1YeShGLLsMkXQ3RQEM8XqwnoGoaBGWcKnsY6 tA== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ucba6v01k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Nov 2023 22:30:37 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AFMUaMC009035
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Nov 2023 22:30:36 GMT
+Received: from [10.110.75.112] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 15 Nov
+ 2023 14:30:36 -0800
+Message-ID: <4865be55-9683-466d-bbb3-c3b80923e352@quicinc.com>
+Date: Wed, 15 Nov 2023 14:30:35 -0800
 MIME-Version: 1.0
-References: <20231115143933.261287-1-airlied@gmail.com>
-In-Reply-To: <20231115143933.261287-1-airlied@gmail.com>
-From: Nicolas Chauvet <kwizart@gmail.com>
-Date: Wed, 15 Nov 2023 23:18:50 +0100
-Message-ID: <CABr+WTmq8v1yGkrvRhxSr4XFtm+54g1E0_8X1CS+NrZF2h+yYw@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH] nouveau: don't fail driver load if no display
- hw present.
-To: airlied@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] drm/panel-elida-kd35t133: Drop prepare/unprepare logic
+Content-Language: en-US
+To: Chris Morgan <macroalpha82@gmail.com>, <dri-devel@lists.freedesktop.org>
+References: <20231115152647.2303283-1-macroalpha82@gmail.com>
+ <20231115152647.2303283-5-macroalpha82@gmail.com>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20231115152647.2303283-5-macroalpha82@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: rTia7nOrRFnWOKBXkdumIpIbCV80Cw0n
+X-Proofpoint-ORIG-GUID: rTia7nOrRFnWOKBXkdumIpIbCV80Cw0n
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-15_20,2023-11-15_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxscore=0
+ suspectscore=0 clxscore=1015 bulkscore=0 mlxlogscore=999 phishscore=0
+ adultscore=0 priorityscore=1501 malwarescore=0 impostorscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311150178
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,49 +82,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>
+Cc: neil.armstrong@linaro.org, sam@ravnborg.org,
+ Chris Morgan <macromorgan@hotmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le mer. 15 nov. 2023 =C3=A0 15:40, <airlied@gmail.com> a =C3=A9crit :
->
-> From: Dave Airlie <airlied@redhat.com>
->
-> If we get back ENODEV don't fail load. There are nvidia devices
-> that don't have display blocks and the driver should work on those.
->
-> Fixes: 15740541e8f0 ("drm/nouveau/devinit/tu102-: prepare for GSP-RM")
-> Link: https://gitlab.freedesktop.org/drm/nouveau/-/issues/270
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
+
+
+On 11/15/2023 7:26 AM, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
+> 
+> Drop the prepare/unprepare logic, as this is now tracked elsewhere.
+> Additionally, the driver shutdown is also duplicate as it calls
+> drm_unprepare and drm_disable which are called anyway when
+> associated drivers are shutdown/removed.
+
+Hi Chris,
+
+In the commit message, can you mention that this [1] was the change that 
+made tracking the prepared flag common?
+
+Also, it seems to me that this patch squashes 2 different changes 
+together. Maybe we can split this into 2 patches -- one to drop the 
+prepared flag checks and another to drop shutdown().
+
+Thanks,
+
+Jessica Zhang
+
+[1] d2aacaf07395 ("drm/panel: Check for already prepared/enabled in 
+drm_panel")
+
+> 
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 > ---
->  drivers/gpu/drm/nouveau/nouveau_display.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/=
-nouveau/nouveau_display.c
-> index d8c92521226d9..f28f9a8574586 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_display.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_display.c
-> @@ -726,6 +726,11 @@ nouveau_display_create(struct drm_device *dev)
->
->         if (nouveau_modeset !=3D 2) {
->                 ret =3D nvif_disp_ctor(&drm->client.device, "kmsDisp", 0,=
- &disp->disp);
-> +               /* no display hw */
-> +               if (ret =3D=3D -ENODEV) {
-> +                       ret =3D 0;
-> +                       goto disp_create_err;
-> +               }
->
->                 if (!ret && (disp->disp.outp_mask || drm->vbios.dcb.entri=
-es)) {
->                         nouveau_display_create_properties(dev);
-> --
-> 2.41.0
-
-I have tested this patch on top of 6.7-rc1+ and this doesn't change
-the situation on jetson-tx1 (gm20b)
-Could it be that something else similar is missing on arm64 ?
-
-Thanks
+>   drivers/gpu/drm/panel/panel-elida-kd35t133.c | 28 --------------------
+>   1 file changed, 28 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-elida-kd35t133.c b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+> index 29b4ee63d83b..00791ea81e90 100644
+> --- a/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+> +++ b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+> @@ -43,7 +43,6 @@ struct kd35t133 {
+>   	struct regulator *vdd;
+>   	struct regulator *iovcc;
+>   	enum drm_panel_orientation orientation;
+> -	bool prepared;
+>   };
+>   
+>   static inline struct kd35t133 *panel_to_kd35t133(struct drm_panel *panel)
+> @@ -91,9 +90,6 @@ static int kd35t133_unprepare(struct drm_panel *panel)
+>   	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+>   	int ret;
+>   
+> -	if (!ctx->prepared)
+> -		return 0;
+> -
+>   	ret = mipi_dsi_dcs_set_display_off(dsi);
+>   	if (ret < 0)
+>   		dev_err(ctx->dev, "failed to set display off: %d\n", ret);
+> @@ -109,8 +105,6 @@ static int kd35t133_unprepare(struct drm_panel *panel)
+>   	regulator_disable(ctx->iovcc);
+>   	regulator_disable(ctx->vdd);
+>   
+> -	ctx->prepared = false;
+> -
+>   	return 0;
+>   }
+>   
+> @@ -120,9 +114,6 @@ static int kd35t133_prepare(struct drm_panel *panel)
+>   	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+>   	int ret;
+>   
+> -	if (ctx->prepared)
+> -		return 0;
+> -
+>   	dev_dbg(ctx->dev, "Resetting the panel\n");
+>   	ret = regulator_enable(ctx->vdd);
+>   	if (ret < 0) {
+> @@ -166,8 +157,6 @@ static int kd35t133_prepare(struct drm_panel *panel)
+>   
+>   	msleep(50);
+>   
+> -	ctx->prepared = true;
+> -
+>   	return 0;
+>   
+>   disable_iovcc:
+> @@ -296,27 +285,11 @@ static int kd35t133_probe(struct mipi_dsi_device *dsi)
+>   	return 0;
+>   }
+>   
+> -static void kd35t133_shutdown(struct mipi_dsi_device *dsi)
+> -{
+> -	struct kd35t133 *ctx = mipi_dsi_get_drvdata(dsi);
+> -	int ret;
+> -
+> -	ret = drm_panel_unprepare(&ctx->panel);
+> -	if (ret < 0)
+> -		dev_err(&dsi->dev, "Failed to unprepare panel: %d\n", ret);
+> -
+> -	ret = drm_panel_disable(&ctx->panel);
+> -	if (ret < 0)
+> -		dev_err(&dsi->dev, "Failed to disable panel: %d\n", ret);
+> -}
+> -
+>   static void kd35t133_remove(struct mipi_dsi_device *dsi)
+>   {
+>   	struct kd35t133 *ctx = mipi_dsi_get_drvdata(dsi);
+>   	int ret;
+>   
+> -	kd35t133_shutdown(dsi);
+> -
+>   	ret = mipi_dsi_detach(dsi);
+>   	if (ret < 0)
+>   		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
+> @@ -337,7 +310,6 @@ static struct mipi_dsi_driver kd35t133_driver = {
+>   	},
+>   	.probe	= kd35t133_probe,
+>   	.remove = kd35t133_remove,
+> -	.shutdown = kd35t133_shutdown,
+>   };
+>   module_mipi_dsi_driver(kd35t133_driver);
+>   
+> -- 
+> 2.34.1
+> 
