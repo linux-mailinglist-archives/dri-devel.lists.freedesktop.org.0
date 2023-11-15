@@ -1,38 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 865A07EC99B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 18:23:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C55D7ECA3C
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 19:06:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B873C10E102;
-	Wed, 15 Nov 2023 17:23:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E283610E11E;
+	Wed, 15 Nov 2023 18:06:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E85E10E102
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 17:23:50 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 09CA93F8F8;
- Wed, 15 Nov 2023 18:23:47 +0100 (CET)
-Date: Wed, 15 Nov 2023 18:23:46 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Jonathan Marek <jonathan@marek.ca>
-Subject: Re: [PATCH 4/4] drm/msm/dsi: fix DSC for the bonded DSI case
-Message-ID: <74ou4xly7pjnsqbavvt2iuonvpgioznriq2vgbccprn5uagkhm@ntq6sq7ywelv>
-References: <20231114174218.19765-1-jonathan@marek.ca>
- <20231114174218.19765-4-jonathan@marek.ca>
- <eanx45rnasj7lu3r2tfhtg4qkqkcidd6zctsz6ci6jlklu4fgi@3nf73w2ka4li>
- <a9712ef1-5f60-b127-a276-9e437d95914f@marek.ca>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE71B10E11D;
+ Wed, 15 Nov 2023 18:06:35 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3AFHK1Lj009307; Wed, 15 Nov 2023 18:06:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=S456DIdiCxNIzgFZZHqEiiB7zYGKq4moNB/BFR0ew/0=;
+ b=Tx36VVTEpg6BnSTV9ttCOVrO00weIg6c5BKYP2dlWr/2SXU+givoU95fYR41qCjmWDTV
+ +aqVqlo1gzT4lToOG9vO6CjaFsIhdYjXPv3IhIFX3mk9dcO5QwTETcqL7k/g6KScDyLt
+ SPRvGU6qRB6063Zm6Xaj1izajFnv8jmBt8+ulGq8cboVE0M0SwVwLjsPhCPx9yl22wFI
+ nPeyLMrF2p9//Gku+D2TWXsC1PYzAjcOe1Aud0kJ33RzIcbyHIymanNd7ABDgX3fzKwx
+ mNXwjZJdysI/uogb4RlY3plg1Zb3y4C+JWnhkPzAeGVOASkuAyoEB0bfQc1Wxnp+OP93 AQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ucg2uak73-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Nov 2023 18:06:27 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AFI6QSF000930
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Nov 2023 18:06:26 GMT
+Received: from [10.110.71.50] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 15 Nov
+ 2023 10:06:26 -0800
+Message-ID: <a35623df-6a8e-b398-a0b2-7f11b9ec4e5d@quicinc.com>
+Date: Wed, 15 Nov 2023 10:06:25 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a9712ef1-5f60-b127-a276-9e437d95914f@marek.ca>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 2/2] drm/msm/dp: attach the DP subconnector property
+Content-Language: en-US
+To: Johan Hovold <johan@kernel.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+References: <20231025092711.851168-1-dmitry.baryshkov@linaro.org>
+ <20231025092711.851168-3-dmitry.baryshkov@linaro.org>
+ <ZVR8Flrjxy-wgqgJ@hovoldconsulting.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <ZVR8Flrjxy-wgqgJ@hovoldconsulting.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: L5Iv8SQPLsOJUHk-WpdGem-q6Lbq-7eH
+X-Proofpoint-GUID: L5Iv8SQPLsOJUHk-WpdGem-q6Lbq-7eH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-15_17,2023-11-15_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011
+ priorityscore=1501 bulkscore=0 spamscore=0 impostorscore=0 mlxscore=0
+ phishscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=999
+ adultscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2311060000 definitions=main-2311150141
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,179 +85,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Doug Anderson <dianders@chromium.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sean Paul <sean@poorly.run>,
- open list <linux-kernel@vger.kernel.org>
+Cc: freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ Abel Vesa <abel.vesa@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-11-14 14:00:19, Jonathan Marek wrote:
-> On 11/14/23 1:28 PM, Marijn Suijten wrote:
-> > On what hardware have you been testing this?  Dmitry and I have a stack of
-> > patches to resolve support for Active CTL programming on newer hardware (DPU
-> > 5.0+ IIRC), where a single CTL is responsible for programming multiple INTF and
-> > DSC blocks as used in bonded DSI.
-> > 
+
+
+On 11/15/2023 12:06 AM, Johan Hovold wrote:
+> On Wed, Oct 25, 2023 at 12:23:10PM +0300, Dmitry Baryshkov wrote:
+>> While developing and testing the commit bfcc3d8f94f4 ("drm/msm/dp:
+>> support setting the DP subconnector type") I had the patch [1] in my
+>> tree. I haven't noticed that it was a dependency for the commit in
+>> question. Mea culpa.
 > 
-> I am also using DPU 6+ but I won't be posting patches for DPU to support 
-> this as I am not using the upstream DPU codebase.
-
-Oh that is an odd situation!  At least glad to hear we aren't completely
-duplicating our efforts :)
-
-> > On 2023-11-14 12:42:16, Jonathan Marek wrote:
-> >> For the bonded DSI case, DSC pic_width and timing calculations should use
-> >> the width of a single panel instead of the total combined width.
-> >>
-> >> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
-> >> ---
-> >>   drivers/gpu/drm/msm/dsi/dsi.h         |  3 ++-
-> >>   drivers/gpu/drm/msm/dsi/dsi_host.c    | 20 +++++++++++---------
-> >>   drivers/gpu/drm/msm/dsi/dsi_manager.c |  2 +-
-> >>   3 files changed, 14 insertions(+), 11 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-> >> index 28379b1af63f..3a641e69447c 100644
-> >> --- a/drivers/gpu/drm/msm/dsi/dsi.h
-> >> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
-> >> @@ -93,7 +93,8 @@ int msm_dsi_host_power_off(struct mipi_dsi_host *host);
-> >>   int msm_dsi_host_set_display_mode(struct mipi_dsi_host *host,
-> >>   				  const struct drm_display_mode *mode);
-> >>   enum drm_mode_status msm_dsi_host_check_dsc(struct mipi_dsi_host *host,
-> >> -					    const struct drm_display_mode *mode);
-> >> +					    const struct drm_display_mode *mode,
-> >> +					    bool is_bonded_dsi);
-> >>   unsigned long msm_dsi_host_get_mode_flags(struct mipi_dsi_host *host);
-> >>   int msm_dsi_host_register(struct mipi_dsi_host *host);
-> >>   void msm_dsi_host_unregister(struct mipi_dsi_host *host);
-> >> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> >> index 7284346ab787..a6286eb9d006 100644
-> >> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> >> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> >> @@ -938,8 +938,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
-> >>   			       mode->hdisplay, mode->vdisplay);
-> >>   			return;
-> >>   		}
-> >> -
-> >> -		dsc->pic_width = mode->hdisplay;
-> >> +		dsc->pic_width = hdisplay;
-> > 
-> > In my testing and debugging on CMDmode panels downstream this value/register
-> > was always programmed to the _full_ width of the bonded panel.  Is that maybe
-> > different for video mode?
-> > 
+> This also broke boot on the Lenovo ThinkPad X13s.
 > 
-> downstream dual DSI panel timings are specified for a single panel 
-> ("qcom,mdss-dsi-panel-width" is for a single panel, not both panels)
+> Would be nice to get this fixed ASAP so that further people don't have
+> to debug this known regression.
+>   
 
-_dual panels_?  In my case I have a "single panel" that is driven by two
-"bonded" DSI hosts, just to achieve enough bandwidth.
+I will queue this patch for -fixes rightaway.
 
-Indeed my downstream DTS has qcom,mdss-dsi-panel-width set to half the total
-panel width, but I recall seeing the full width in the register dump.  I'll scan
-through my logs and see if I can back this up.
-
-> >>   		dsc->pic_height = mode->vdisplay;
-> >>   		DBG("Mode %dx%d\n", dsc->pic_width, dsc->pic_height);
-> >>   
-> >> @@ -950,6 +949,11 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
-> >>   		if (ret)
-> >>   			return;
-> >>   
-> >> +		if (msm_host->mode_flags & MIPI_DSI_MODE_VIDEO)
-> >> +			dsi_update_dsc_timing(msm_host, false, hdisplay);
-> >> +		else
-> >> +			dsi_update_dsc_timing(msm_host, true, hdisplay);
-
-Another thought: it's probably clearer to write:
-
-	bool is_cmd_mode = msm_host->mode_flags & MIPI_DSI_MODE_VIDEO;
-	dsi_update_dsc_timing(msm_host, is_cmd_mode, hdisplay);
-
-> >> +
-> > 
-> > Such cleanups (which appear unrelated) should probably be posted as separate
-> > patches.
-> > 
-> > - Marijn
-> > 
+>> Since the patch has not landed yet (and even was not reviewed)
+>> and since one of the bridges erroneously uses USB connector type instead
+>> of DP, attach the property directly from the MSM DP driver.
+>>
+>> This fixes the following oops on DP HPD event:
+>>
+>>   drm_object_property_set_value (drivers/gpu/drm/drm_mode_object.c:288)
+>>   dp_display_process_hpd_high (drivers/gpu/drm/msm/dp/dp_display.c:402)
+>>   dp_hpd_plug_handle.isra.0 (drivers/gpu/drm/msm/dp/dp_display.c:604)
+>>   hpd_event_thread (drivers/gpu/drm/msm/dp/dp_display.c:1110)
+>>   kthread (kernel/kthread.c:388)
+>>   ret_from_fork (arch/arm64/kernel/entry.S:858)
 > 
-> Its not unrelated, dsi_update_dsc_timing call is moved up so it can use 
-> the single-panel "hdisplay" value before it gets adjusted for DSC.
+> This only says where the oops happened, it doesn't necessarily in itself
+> indicate an oops at all or that in this case it's a NULL pointer
+> dereference.
+> 
+> On the X13s I'm seeing the NULL deref in a different path during boot,
+> and when this happens after a deferred probe (due to the panel lookup
+> mess) it hangs the machine, which makes it a bit of a pain to debug:
+> 
+>     Unable to handle kernel NULL pointer dereference at virtual address 0000000000000060
+>     ...
+>     CPU: 4 PID: 57 Comm: kworker/u16:1 Not tainted 6.7.0-rc1 #4
+>     Hardware name: Qualcomm QRD, BIOS 6.0.220110.BOOT.MXF.1.1-00470-MAKENA-1 01/10/2022
+>     ...
+>     Call trace:
+>      drm_object_property_set_value+0x0/0x88 [drm]
+>      dp_display_process_hpd_high+0xa0/0x14c [msm]
+>      dp_hpd_plug_handle.constprop.0.isra.0+0x90/0x110 [msm]
+>      dp_bridge_atomic_enable+0x184/0x21c [msm]
+>      edp_bridge_atomic_enable+0x60/0x94 [msm]
+>      drm_atomic_bridge_chain_enable+0x54/0xc8 [drm]
+>      drm_atomic_helper_commit_modeset_enables+0x194/0x26c [drm_kms_helper]
+>      msm_atomic_commit_tail+0x204/0x804 [msm]
+>      commit_tail+0xa4/0x18c [drm_kms_helper]
+>      drm_atomic_helper_commit+0x19c/0x1b0 [drm_kms_helper]
+>      drm_atomic_commit+0xa4/0x104 [drm]
+>      drm_client_modeset_commit_atomic+0x22c/0x298 [drm]
+>      drm_client_modeset_commit_locked+0x60/0x1c0 [drm]
+>      drm_client_modeset_commit+0x30/0x58 [drm]
+>      __drm_fb_helper_restore_fbdev_mode_unlocked+0xbc/0xfc [drm_kms_helper]
+>      drm_fb_helper_set_par+0x30/0x4c [drm_kms_helper]
+>      fbcon_init+0x224/0x49c
+>      visual_init+0xb0/0x108
+>      do_bind_con_driver.isra.0+0x19c/0x38c
+>      do_take_over_console+0x140/0x1ec
+>      do_fbcon_takeover+0x6c/0xe4
+>      fbcon_fb_registered+0x180/0x1f0
+>      register_framebuffer+0x19c/0x228
+>      __drm_fb_helper_initial_config_and_unlock+0x2e8/0x4e8 [drm_kms_helper]
+>      drm_fb_helper_initial_config+0x3c/0x4c [drm_kms_helper]
+>      msm_fbdev_client_hotplug+0x84/0xcc [msm]
+>      drm_client_register+0x5c/0xa0 [drm]
+>      msm_fbdev_setup+0x94/0x148 [msm]
+>      msm_drm_bind+0x3d0/0x42c [msm]
+>      try_to_bring_up_aggregate_device+0x1ec/0x2f4
+>      __component_add+0xa8/0x194
+>      component_add+0x14/0x20
+>      dp_display_probe+0x278/0x41c [msm]
+> 
+>> [1] https://patchwork.freedesktop.org/patch/555530/
+>>
+>> Fixes: bfcc3d8f94f4 ("drm/msm/dp: support setting the DP subconnector type")
+>> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
+> Tested-by: Johan Hovold <johan+linaro@kernel.org>
+> 
 
-This reply was mostly expected after not looking at the original code folded in
-the diff, and pretty much solidifies my point: it's a hidden semantical change
-that's not immediately obvious from reading the patch, and why I'd like to see
-this split up in a few smaller patches.
+Thanks !
 
-> >>   		/* Divide the display by 3 but keep back/font porch and
-> >>   		 * pulse width same
-> >>   		 */
-> >> @@ -966,9 +970,6 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
-> >>   	}
-> >>   
-> >>   	if (msm_host->mode_flags & MIPI_DSI_MODE_VIDEO) {
-> >> -		if (msm_host->dsc)
-> >> -			dsi_update_dsc_timing(msm_host, false, mode->hdisplay);
-> >> -
-> >>   		dsi_write(msm_host, REG_DSI_ACTIVE_H,
-> >>   			DSI_ACTIVE_H_START(ha_start) |
-> >>   			DSI_ACTIVE_H_END(ha_end));
-> >> @@ -987,9 +988,6 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
-> >>   			DSI_ACTIVE_VSYNC_VPOS_START(vs_start) |
-> >>   			DSI_ACTIVE_VSYNC_VPOS_END(vs_end));
-> >>   	} else {		/* command mode */
-> >> -		if (msm_host->dsc)
-> >> -			dsi_update_dsc_timing(msm_host, true, mode->hdisplay);
-> >> -
-> >>   		/* image data and 1 byte write_memory_start cmd */
-> >>   		if (!msm_host->dsc)
-> >>   			wc = hdisplay * dsi_get_bpp(msm_host->format) / 8 + 1;
-
-Regarding another patch: cmdmode calculates and uses word count here, but video
-mode does it as part of timing calculations?
-
-- Marijn
-
-> >> @@ -2487,7 +2485,8 @@ int msm_dsi_host_set_display_mode(struct mipi_dsi_host *host,
-> >>   }
-> >>   
-> >>   enum drm_mode_status msm_dsi_host_check_dsc(struct mipi_dsi_host *host,
-> >> -					    const struct drm_display_mode *mode)
-> >> +					    const struct drm_display_mode *mode,
-> >> +					    bool is_bonded_dsi)
-> >>   {
-> >>   	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
-> >>   	struct drm_dsc_config *dsc = msm_host->dsc;
-> >> @@ -2497,6 +2496,9 @@ enum drm_mode_status msm_dsi_host_check_dsc(struct mipi_dsi_host *host,
-> >>   	if (!msm_host->dsc)
-> >>   		return MODE_OK;
-> >>   
-> >> +	if (is_bonded_dsi)
-> >> +		pic_width = mode->hdisplay / 2;
-> >> +
-> >>   	if (pic_width % dsc->slice_width) {
-> >>   		pr_err("DSI: pic_width %d has to be multiple of slice %d\n",
-> >>   		       pic_width, dsc->slice_width);
-> >> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> >> index 896f369fdd53..2ca1a7ca3659 100644
-> >> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> >> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> >> @@ -455,7 +455,7 @@ static enum drm_mode_status dsi_mgr_bridge_mode_valid(struct drm_bridge *bridge,
-> >>   			return MODE_ERROR;
-> >>   	}
-> >>   
-> >> -	return msm_dsi_host_check_dsc(host, mode);
-> >> +	return msm_dsi_host_check_dsc(host, mode, IS_BONDED_DSI());
-> >>   }
-> >>   
-> >>   static const struct drm_bridge_funcs dsi_mgr_bridge_funcs = {
-> >> -- 
-> >> 2.26.1
-> >>
+> Johan
