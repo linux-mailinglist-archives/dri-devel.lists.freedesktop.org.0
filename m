@@ -1,34 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2978A7EBE8A
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 09:25:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DBC57EBE99
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 09:33:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 574E310E504;
-	Wed, 15 Nov 2023 08:25:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCEC110E515;
+	Wed, 15 Nov 2023 08:33:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5975A10E503
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 08:25:06 +0000 (UTC)
-Received: from i5e861935.versanet.de ([94.134.25.53] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1r3BCi-0003VS-FZ; Wed, 15 Nov 2023 09:24:56 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Andy Yan <andyshrk@163.com>, Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH 09/11] drm/rockchip: vop2: Add support for rk3588
-Date: Wed, 15 Nov 2023 09:24:55 +0100
-Message-ID: <4720010.k3LOHGUjKi@diego>
-In-Reply-To: <b8605ecb-0244-4ff7-8338-759011dee1b3@rock-chips.com>
-References: <20231114112534.1770731-1-andyshrk@163.com>
- <7034316.0VBMTVartN@diego>
- <b8605ecb-0244-4ff7-8338-759011dee1b3@rock-chips.com>
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
+ [209.85.128.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47B9B10E51B
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 08:33:42 +0000 (UTC)
+Received: by mail-yw1-f174.google.com with SMTP id
+ 00721157ae682-5a7dd65052aso76508467b3.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 00:33:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700037221; x=1700642021;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=loUWrR6eECAA+uv6HMt8OKh14KvU7DOewoh9g24/Sfw=;
+ b=TNrAu7P/vWJwPnQfsSXvaDAlU7aLQWuZFh4le+e7Q3Rb+tCfyOljDrsbitLjevkKji
+ IcHf771uCgedY5agiT8mr0CdFaBCibKaOyEWix/eBIAw68qvC6ZTDYzDsx1uVZw/IOYI
+ dKoJWWyZz6YhCcEGDd0N0QCMswgBR0SciOc4fBB8nPNQ5FztUcesK7nxB5R5VFIj2EM5
+ uO1Tp2tui0PnXirCF9qGX9JeA9EhmMgcTKS44mVw35/0xzcVQAE7oWMq02/0w9Gt0EwU
+ HHSTmN54h291M3+q0jJePMIUVlGYgbzmwPVUGZWu9zWFCDdRTvsY1RqaKICyJ7BzFTh0
+ 8YKg==
+X-Gm-Message-State: AOJu0YzykxffzBcKByhP8QfwvxTadJ+Kb5w5ocD8k+sXEx8laA1MKTrE
+ QTK+Lo20RuFZgnV4YEjZL1rM1Px6gAsf4g==
+X-Google-Smtp-Source: AGHT+IEXO3AoHW022/UiIJkdiYP/HJN/q58zp9TjLsBaN4An9wWxFK9HggyPH2utKV0jISilH8IimQ==
+X-Received: by 2002:a0d:d307:0:b0:570:28a9:fe40 with SMTP id
+ v7-20020a0dd307000000b0057028a9fe40mr12490458ywd.5.1700037221167; 
+ Wed, 15 Nov 2023 00:33:41 -0800 (PST)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com.
+ [209.85.128.178]) by smtp.gmail.com with ESMTPSA id
+ w205-20020a0dd4d6000000b005af5ef0687fsm258371ywd.6.2023.11.15.00.33.40
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Nov 2023 00:33:40 -0800 (PST)
+Received: by mail-yw1-f178.google.com with SMTP id
+ 00721157ae682-5a7c011e113so76327717b3.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 00:33:40 -0800 (PST)
+X-Received: by 2002:a81:8408:0:b0:5a7:a81d:e410 with SMTP id
+ u8-20020a818408000000b005a7a81de410mr13654199ywf.18.1700037220389; Wed, 15
+ Nov 2023 00:33:40 -0800 (PST)
 MIME-Version: 1.0
+References: <a1d9e09b-f533-5e2c-7a13-af96647e1a71@embeddedor.com>
+ <10D1983F-33EF-46C3-976E-463D1CB5A6E9@xenosoft.de>
+ <9bb5fcbd-daf5-1669-b3e7-b8624b3c36f9@xenosoft.de>
+ <c47fba21-3ae9-4021-9f4a-09c2670ebdbc@xenosoft.de>
+ <0d89bcd0-9b68-4c0a-acd8-2c7532e62f6d@xenosoft.de>
+ <6530cea3-4507-454e-bc36-a6970c8e7578@xenosoft.de>
+ <CAMuHMdU-8Fu55C2zu_XxmG8n5paOQYfqNA84JNvXo4c87D-kFw@mail.gmail.com>
+ <fee4eb69-97ea-4b02-9e36-0962ebe3faa9@xenosoft.de>
+In-Reply-To: <fee4eb69-97ea-4b02-9e36-0962ebe3faa9@xenosoft.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 15 Nov 2023 09:33:28 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWu6Q3ew0m4xugjF_hgSt0RFFr+ccoBrSzt0FGLgtxJtA@mail.gmail.com>
+Message-ID: <CAMuHMdWu6Q3ew0m4xugjF_hgSt0RFFr+ccoBrSzt0FGLgtxJtA@mail.gmail.com>
+Subject: Re: Fbdev issue after the drm updates 'drm-next-2023-10-31-1'
+To: Christian Zigotzky <chzigotzky@xenosoft.de>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,76 +76,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, s.hauer@pengutronix.de,
- chris.obbard@collabora.com, hjc@rock-chips.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kever.yang@rock-chips.com, linux-rockchip@lists.infradead.org,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- sebastian.reichel@collabora.com
+Cc: Darren Stevens <darren@stevens-zone.net>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ virtualization@lists.linux.dev,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, mad skateman <madskateman@gmail.com>,
+ deller@gmx.de, Christian Zigotzky <info@xenosoft.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mittwoch, 15. November 2023, 03:02:42 CET schrieb Andy Yan:
-> Hi Heiko:
->=20
-> On 11/15/23 07:34, Heiko St=FCbner wrote:
-> > Hi Andy,
+Hi Christian,
+
+CC virtgpu
+
+On Tue, Nov 14, 2023 at 10:45=E2=80=AFAM Christian Zigotzky
+<chzigotzky@xenosoft.de> wrote:
+> On 13 November 2023 at 01:48 pm, Geert Uytterhoeven wrote:
+> > I can confirm there is no graphics output with m68k/virt, and
+
+Before the error message you reported:
+
+    virtio-mmio virtio-mmio.125: [drm] *ERROR* fbdev: Failed to setup
+generic emulation (ret=3D-2)
+
+it also prints:
+
+    virtio-mmio virtio-mmio.125: [drm] bpp/depth value of 32/24 not support=
+ed
+    virtio-mmio virtio-mmio.125: [drm] No compatible format found
+
+Upon closer look, it turns out virtgpu is special in that its main
+plane supports only a single format: DRM_FORMAT_HOST_XRGB8888, which
+is XR24 on little-endian, and BX24 on big-endian.  I.e. on big-endian,
+virtgpu does not support XR24.  Isn't this a violation of the DRM
+rule that every driver must implement support for XR24?
+
+> > bisected this to my own commit 6ae2ff23aa43a0c4 ("drm/client: Convert
+> > drm_client_buffer_addfb() to drm_mode_addfb2()"), ouch...
 > >
-> > Am Dienstag, 14. November 2023, 12:28:55 CET schrieb Andy Yan:
-> >> From: Andy Yan <andy.yan@rock-chips.com>
-> >>
-> >> VOP2 on rk3588:
-> >>
-> >> Four video ports:
-> >> VP0 Max 4096x2160
-> >> VP1 Max 4096x2160
-> >> VP2 Max 4096x2160
-> >> VP3 Max 2048x1080
-> >>
-> >> 4 4K Cluster windows with AFBC/line RGB and AFBC-only YUV support
-> >> 4 4K Esmart windows with line RGB/YUV support
-> >>
-> >> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-> > not a review yet, but when testing and the display sets a mode,
-> > I always get a bunch of
+> > It turns out the old call to drm_mode_addfb() caused a translation
+> > from a fourcc to a bpp/depth pair to a _different_ fourcc, due to the
+> > quirk processing in drm_driver_legacy_fb_format().
+> > I.e. on m68k/virt, the original requested format was XR24, which was
+> > translated to BX24. The former doesn't work, the latter works.
 > >
-> > 	rockchip-drm display-subsystem: [drm] *ERROR* POST_BUF_EMPTY irq err a=
-t vp0
+> > The following (gmail-whitespace-damaged) patch fixed the issue for me:
 > >
-> > messages in the log (initial mode to console, starting glmark2 from con=
-sole,
-> > stopping glmark2 to the console).
+> > --- a/drivers/gpu/drm/drm_client.c
+> > +++ b/drivers/gpu/drm/drm_client.c
+> > @@ -400,6 +400,16 @@ static int drm_client_buffer_addfb(struct
+> > drm_client_buffer *buffer,
 > >
-> > I'm not sure what is up with that, have you seen these messages as well
-> > at some point?
->=20
-> Yes, it will raise POST_BUF_EMPTY when set a mode,  it needs some fix=20
-> like [0]:
->=20
->=20
-> I still trying to find a appropriate way to do it with the upstream=20
-> code, as it doesn't affect the
->=20
-> real display function(I must admit that the POST_BUF_EMPTY irq is very=20
-> annoying), so l let  it as
->=20
-> it is in the current version.
+> >         fb_req.width =3D width;
+> >         fb_req.height =3D height;
+> > +       if (client->dev->mode_config.quirk_addfb_prefer_host_byte_order=
+) {
+> > +               if (format =3D=3D DRM_FORMAT_XRGB8888)
+> > +                       format =3D DRM_FORMAT_HOST_XRGB8888;
+> > +               if (format =3D=3D DRM_FORMAT_ARGB8888)
+> > +                       format =3D DRM_FORMAT_HOST_ARGB8888;
+> > +               if (format =3D=3D DRM_FORMAT_RGB565)
+> > +                       format =3D DRM_FORMAT_HOST_RGB565;
+> > +               if (format =3D=3D DRM_FORMAT_XRGB1555)
+> > +                       format =3D DRM_FORMAT_HOST_XRGB1555;
+> > +       }
+> >         fb_req.pixel_format =3D format;
+> >         fb_req.handles[0] =3D handle;
+> >         fb_req.pitches[0] =3D buffer->pitch;
+> >
+> > However, I don't think we want to sprinkle more of these
+> > translations around... So perhaps we should (re)add a call to
+> > drm_driver_legacy_fb_format() to drm_client_buffer_addfb()?
+> >
+> > Second, as I doubt you are using a big-endian system, you are probably
+> > running into a slightly different issue.
+> >
+> > Oh wait, you did CC linuxppc-dev, so perhaps you are running on a
+> > big-endian machine?
+>
+> Your patch works! :-) Thanks a lot!
+>
+> I tested it with the virtio-vga and with the virtio-gpu-pci device in a v=
+irtual ppce500 QEMU/KVM HV machine with an e5500 CPU today.
+>
+> Tested-by: Christian Zigotzky <chzigotzky@xenosoft.de>
 
-okay, so this is a known thing. So no worries and I'm confident that
-you'll figure out a way to do this :-)
+Thanks for testing!
 
+Gr{oetje,eeting}s,
 
-> By the way, can you see the glmark2 rending on your HDMI monitor now?
+                        Geert
 
-Yes :-D . I do have glmark2 (both es2 and full-gl) running with Boris'
-panthor patches [0] merged into my dev-kernel and mesa build
-from one his branches [1] .
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-Heiko
-
-
-[0] https://gitlab.freedesktop.org/bbrezillon/linux/-/tree/panthor-v3
-[1] https://gitlab.freedesktop.org/bbrezillon/mesa/-/tree/v10+panthor-v3+32=
-b+g310+egl15+afrc+afbc?ref_type=3Dheads
-
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
