@@ -1,49 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C16047EC10D
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 12:02:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8351A7EC11D
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 12:10:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A1E410E544;
-	Wed, 15 Nov 2023 11:02:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E53E10E53E;
+	Wed, 15 Nov 2023 11:10:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A9A910E542;
- Wed, 15 Nov 2023 11:02:25 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1998510E53E
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 11:10:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700046145; x=1731582145;
+ t=1700046610; x=1731582610;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=A1jD3pp9Ww79dbHlgMKPCb/ew2abLukNSeZGWRbQLlo=;
- b=QGKRWkd7nXUk7Z5E3hPLGhtLrzO4BnRIvjoxdu0tGSJHbt/svq4BSQoe
- xKJ/Wj+v7dBKg9qIzXe0q7GGybgMnM4dYKzVc0H9zDp2pEuinKLBm1+0I
- nLrPF89FMJTRf5U4IRZsdnDy1mTM8/uKtfIuMXk6MVbXox4+lP22DGSRr
- BTe38CZgNPWLSb1Ff2gz+XMC3gtPfq9Beoc1HLeERHKYKFlvfY4qOaJKw
- TpWoGCNrVowlfgTiwNuG7QZQOX8SVU7ecei+fdanibbttnanGAOMnBRd4
- nVLmzoLqJsj0umEOANjJiYoKtb0k1IKgALq0XUhC1p1W52BHcZF5qC0ow A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="421953828"
-X-IronPort-AV: E=Sophos;i="6.03,304,1694761200"; d="scan'208";a="421953828"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2023 03:02:24 -0800
+ bh=JbxytaP6UMJBdMcT+5WHtuc9auoYKdTOaoPuPN1F2JU=;
+ b=UxsF1mF2X/p93QOltTQ6lb7W/9EG+J8u2dyMiGAG+7wFncRB2MM40ge6
+ tld9g9PBbRUzPc1UMpJPspF/WvvMsxeOSDRb2K9f+YPgHzKzikV+LdTTf
+ 0Lslf8L+bLx1UVoL24ZjkVXjbXmxpQqmCdwvy2VjNgBmOEPwk/og27ELv
+ t0HHc51H6pheOrid5FNmXThMP7PaCBv2wugwtyweyQqS7c3t9BpXrtuyx
+ WMLH84s7JQca54jDl38uHcar7k+a+L7jh7NBJH5c2UdF7f7KGBUeO0p6h
+ M+191VWPlhwlv/MRCHgiz+vtRDIvQ3zgEbE+qjErGLs/FN5Zu0RMQUvt+ g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="388017727"
+X-IronPort-AV: E=Sophos;i="6.03,304,1694761200"; d="scan'208";a="388017727"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2023 03:10:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="799811849"
-X-IronPort-AV: E=Sophos;i="6.03,304,1694761200"; d="scan'208";a="799811849"
-Received: from jcornall-mobl3.ger.corp.intel.com (HELO localhost.localdomain)
- ([10.213.211.209])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2023 03:02:22 -0800
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/gsc: Mark internal GSC engine with reserved uabi
- class
-Date: Wed, 15 Nov 2023 11:02:16 +0000
-Message-Id: <20231115110216.267138-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.40.1
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="714858957"
+X-IronPort-AV: E=Sophos;i="6.03,304,1694761200"; d="scan'208";a="714858957"
+Received: from jlawryno.igk.intel.com ([10.91.220.59])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2023 03:10:06 -0800
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] accel/ivpu/37xx: Fix hangs related to MMIO reset
+Date: Wed, 15 Nov 2023 12:10:04 +0100
+Message-ID: <20231115111004.1304092-1-jacek.lawrynowicz@linux.intel.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,116 +55,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: quic_jhugo@quicinc.com,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+There is no need to call MMIO reset using VPU_37XX_BUTTRESS_VPU_IP_RESET
+register. IP will be reset by FLR or by entering d0i3. Also IP reset
+during power_up is not needed as the VPU is already in reset.
 
-The GSC CS is not exposed to the user, so we skipped assigning a uabi
-class number for it. However, the trace logs use the uabi class and
-instance to identify the engine, so leaving uabi class unset makes the
-GSC CS show up as the RCS in those logs.
+Removing MMIO reset improves stability as it a partial device reset
+that is not safe in some corner cases.
 
-Given that the engine is not exposed to the user, we can't add a new
-case in the uabi enum, so we insted internally define a kernel
-internal class as -1.
+This change also brings back ivpu_boot_pwr_domain_disable() that
+helps to properly power down VPU when it is hung by a buggy workload.
 
-At the same time remove special handling for the name and complete
-the uabi_classes array so internal class is automatically correctly
-assigned.
-
-Engine will show as 65535:0 other0 in the logs/traces which should
-be unique enough.
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Fixes: 194babe26bdc ("drm/i915/mtl: don't expose GSC command streamer to the user")
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Fixes: 828d63042aec ("accel/ivpu: Don't enter d0i3 during FLR")
 ---
-Daniele I borrowed most of your commit text as is, hope you don't mind but
-I was lazy. See if you like this solution. It is also untested so lets see.
----
- drivers/gpu/drm/i915/gt/intel_engine_user.c | 37 ++++++++++++---------
- 1 file changed, 21 insertions(+), 16 deletions(-)
+ drivers/accel/ivpu/ivpu_hw_37xx.c | 46 +++++++++++++++----------------
+ 1 file changed, 22 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-index 118164ddbb2e..7693ccfac1f9 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-@@ -41,12 +41,15 @@ void intel_engine_add_user(struct intel_engine_cs *engine)
- 	llist_add(&engine->uabi_llist, &engine->i915->uabi_engines_llist);
+diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
+index 5c0246b9e522..4ccf1994b97a 100644
+--- a/drivers/accel/ivpu/ivpu_hw_37xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
+@@ -502,6 +502,16 @@ static int ivpu_boot_pwr_domain_enable(struct ivpu_device *vdev)
+ 	return ret;
  }
  
-+#define I915_NO_UABI_CLASS (-1)
++static int ivpu_boot_pwr_domain_disable(struct ivpu_device *vdev)
++{
++	ivpu_boot_dpu_active_drive(vdev, false);
++	ivpu_boot_pwr_island_isolation_drive(vdev, true);
++	ivpu_boot_pwr_island_trickle_drive(vdev, false);
++	ivpu_boot_pwr_island_drive(vdev, false);
 +
- static const u8 uabi_classes[] = {
- 	[RENDER_CLASS] = I915_ENGINE_CLASS_RENDER,
- 	[COPY_ENGINE_CLASS] = I915_ENGINE_CLASS_COPY,
- 	[VIDEO_DECODE_CLASS] = I915_ENGINE_CLASS_VIDEO,
- 	[VIDEO_ENHANCEMENT_CLASS] = I915_ENGINE_CLASS_VIDEO_ENHANCE,
- 	[COMPUTE_CLASS] = I915_ENGINE_CLASS_COMPUTE,
-+	[OTHER_CLASS] = I915_NO_UABI_CLASS, /* Not exposed to users, no uabi class. */
- };
- 
- static int engine_cmp(void *priv, const struct list_head *A,
-@@ -200,6 +203,7 @@ static void engine_rename(struct intel_engine_cs *engine, const char *name, u16
- 
- void intel_engines_driver_register(struct drm_i915_private *i915)
++	return ivpu_boot_wait_for_pwr_island_status(vdev, 0x0);
++}
++
+ static void ivpu_boot_no_snoop_enable(struct ivpu_device *vdev)
  {
-+	u16 name_instance, other_instance = 0;
- 	struct legacy_ring ring = {};
- 	struct list_head *it, *next;
- 	struct rb_node **p, *prev;
-@@ -216,27 +220,28 @@ void intel_engines_driver_register(struct drm_i915_private *i915)
- 		if (intel_gt_has_unrecoverable_error(engine->gt))
- 			continue; /* ignore incomplete engines */
+ 	u32 val = REGV_RD32(VPU_37XX_HOST_IF_TCU_PTW_OVERRIDES);
+@@ -600,25 +610,17 @@ static int ivpu_hw_37xx_info_init(struct ivpu_device *vdev)
  
--		/*
--		 * We don't want to expose the GSC engine to the users, but we
--		 * still rename it so it is easier to identify in the debug logs
--		 */
--		if (engine->id == GSC0) {
--			engine_rename(engine, "gsc", 0);
--			continue;
--		}
+ static int ivpu_hw_37xx_reset(struct ivpu_device *vdev)
+ {
+-	int ret;
+-	u32 val;
 -
- 		GEM_BUG_ON(engine->class >= ARRAY_SIZE(uabi_classes));
- 		engine->uabi_class = uabi_classes[engine->class];
-+		if (engine->uabi_class == I915_NO_UABI_CLASS) {
-+			name_instance = other_instance++;
-+		} else {
-+			GEM_BUG_ON(engine->uabi_class >=
-+				   ARRAY_SIZE(i915->engine_uabi_class_count));
-+			name_instance =
-+				i915->engine_uabi_class_count[engine->uabi_class]++;
-+		}
-+		engine->uabi_instance = name_instance;
+-	if (IVPU_WA(punit_disabled))
+-		return 0;
++	int ret = 0;
  
--		GEM_BUG_ON(engine->uabi_class >=
--			   ARRAY_SIZE(i915->engine_uabi_class_count));
--		engine->uabi_instance =
--			i915->engine_uabi_class_count[engine->uabi_class]++;
+-	ret = REGB_POLL_FLD(VPU_37XX_BUTTRESS_VPU_IP_RESET, TRIGGER, 0, TIMEOUT_US);
+-	if (ret) {
+-		ivpu_err(vdev, "Timed out waiting for TRIGGER bit\n");
+-		return ret;
++	if (ivpu_boot_pwr_domain_disable(vdev)) {
++		ivpu_err(vdev, "Failed to disable power domain\n");
++		ret = -EIO;
+ 	}
+ 
+-	val = REGB_RD32(VPU_37XX_BUTTRESS_VPU_IP_RESET);
+-	val = REG_SET_FLD(VPU_37XX_BUTTRESS_VPU_IP_RESET, TRIGGER, val);
+-	REGB_WR32(VPU_37XX_BUTTRESS_VPU_IP_RESET, val);
 -
--		/* Replace the internal name with the final user facing name */
-+		/*
-+		 * Replace the internal name with the final user and log facing
-+		 * name.
-+		 */
- 		engine_rename(engine,
- 			      intel_engine_class_repr(engine->class),
--			      engine->uabi_instance);
-+			      name_instance);
-+
-+		if (engine->uabi_class == I915_NO_UABI_CLASS)
-+			continue;
+-	ret = REGB_POLL_FLD(VPU_37XX_BUTTRESS_VPU_IP_RESET, TRIGGER, 0, TIMEOUT_US);
+-	if (ret)
+-		ivpu_err(vdev, "Timed out waiting for RESET completion\n");
++	if (ivpu_pll_disable(vdev)) {
++		ivpu_err(vdev, "Failed to disable PLL\n");
++		ret = -EIO;
++	}
  
- 		rb_link_node(&engine->uabi_node, prev, p);
- 		rb_insert_color(&engine->uabi_node, &i915->uabi_engines);
+ 	return ret;
+ }
+@@ -651,10 +653,6 @@ static int ivpu_hw_37xx_power_up(struct ivpu_device *vdev)
+ {
+ 	int ret;
+ 
+-	ret = ivpu_hw_37xx_reset(vdev);
+-	if (ret)
+-		ivpu_warn(vdev, "Failed to reset HW: %d\n", ret);
+-
+ 	ret = ivpu_hw_37xx_d0i3_disable(vdev);
+ 	if (ret)
+ 		ivpu_warn(vdev, "Failed to disable D0I3: %d\n", ret);
+@@ -722,11 +720,11 @@ static int ivpu_hw_37xx_power_down(struct ivpu_device *vdev)
+ {
+ 	int ret = 0;
+ 
+-	if (!ivpu_hw_37xx_is_idle(vdev) && ivpu_hw_37xx_reset(vdev))
+-		ivpu_err(vdev, "Failed to reset the VPU\n");
++	if (!ivpu_hw_37xx_is_idle(vdev))
++		ivpu_warn(vdev, "VPU not idle during power down\n");
+ 
+-	if (ivpu_pll_disable(vdev)) {
+-		ivpu_err(vdev, "Failed to disable PLL\n");
++	if (ivpu_hw_37xx_reset(vdev)) {
++		ivpu_err(vdev, "Failed to reset VPU\n");
+ 		ret = -EIO;
+ 	}
+ 
 -- 
-2.40.1
+2.42.0
 
