@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66BB67EBAFD
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 02:44:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 059777EBB0D
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 03:03:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82C5C10E23C;
-	Wed, 15 Nov 2023 01:44:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 548A810E34C;
+	Wed, 15 Nov 2023 02:02:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 111C910E23C
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 01:44:29 +0000 (UTC)
-Received: from [10.3.2.161] (zone.collabora.co.uk [167.235.23.81])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 33DBE6602F2D;
- Wed, 15 Nov 2023 01:44:27 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1700012667;
- bh=G2HdRE//PMPfIFvEPPpVcfoOz5Ri+WdmmDFy6ZQPcd8=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=ZYyq9jjXR57vMgRa1L3ebvcNwd2ChtruumeASWm94tRTii+hBpktDdzYPG+NvF2Pe
- Z+ppaB0fqRlDljPxqmo1I9Lu9FFTYvtzXW+XemLDRFghNa3t54x6xhJ0JI52u3tuY8
- isBV3MRDwq2TXC7jfAK0l6+BZWeSexm912HZxde03+8ibXJhzm9G0db99qfldiqeVK
- yLE4F0FtPZvEwa7UuLv7m558mslKGaiJRQCcJpl+pvpz7pl+zyg7M6AvHEw9uc2tBJ
- ikHrOXRIFzaPMS4pC3yHchiFzHtF5S2LDnkIh1Y8/iyUAb6sC/4ry0pb2ChLsrfcnJ
- ymu419nS3VJ+Q==
-Message-ID: <3404c7ca-c0aa-cf23-a2ba-521dbc339780@collabora.com>
-Date: Wed, 15 Nov 2023 04:44:22 +0300
+Received: from mail-m49219.qiye.163.com (mail-m49219.qiye.163.com
+ [45.254.49.219])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08A4E10E34C
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 02:02:55 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256;
+ b=cQL6kMnPwtYJPZmko8Td+ZApmq1jNNukWYBHvhKvj8hVAfTk5NonJgjr+fwoA5JD0T9dIkwepsZsXBEzLC9e9SnbD6pZSkoZhzwJUcGaCxwtNtF0Ovhz+S+ha2KfBAdwP/Bc24TNh5mMseFc+yMfg7kvzRquzlnqrOiRSLc3rBw=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
+ bh=+0r5sfkCBJ8BY7925qHZXtbfyibcqRxLotDg68tTO/w=;
+ h=date:mime-version:subject:message-id:from;
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+ by mail-m12779.qiye.163.com (Hmail) with ESMTPA id 9B9917801EF;
+ Wed, 15 Nov 2023 10:02:42 +0800 (CST)
+Message-ID: <b8605ecb-0244-4ff7-8338-759011dee1b3@rock-chips.com>
+Date: Wed, 15 Nov 2023 10:02:42 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v1] drm/virtio: Fix return value for
- VIRTGPU_CONTEXT_PARAM_DEBUG_NAME
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/11] drm/rockchip: vop2: Add support for rk3588
+To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andyshrk@163.com>
+References: <20231114112534.1770731-1-andyshrk@163.com>
+ <20231114112855.1771372-1-andyshrk@163.com> <7034316.0VBMTVartN@diego>
 Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>
-References: <20231111224236.890431-1-dmitry.osipenko@collabora.com>
-In-Reply-To: <20231111224236.890431-1-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <7034316.0VBMTVartN@diego>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQxlKQ1YeTU9MHx1PQ0weSU9VEwETFh
+ oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5JVUpLS1VKQl
+ kG
+X-HM-Tid: 0a8bd0b76993b24fkuuu9b9917801ef
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PyI6OCo5Fzw2TE4sPgMRN00*
+ GRIaCRVVSlVKTEtLS0pITE1ITk5OVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+ WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSEpNTjcG
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,38 +56,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, s.hauer@pengutronix.de,
+ chris.obbard@collabora.com, hjc@rock-chips.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kever.yang@rock-chips.com, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ sebastian.reichel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/12/23 01:42, Dmitry Osipenko wrote:
-> The strncpy_from_user() returns number of copied bytes and not zero on
-> success. The non-zero return value of ioctl is treated as error. Return
-> zero on success instead of the number of copied bytes.
-> 
-> Fixes: 7add80126bce ("drm/uapi: add explicit virtgpu context debug name")
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> index 1e2042419f95..e4f76f315550 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> @@ -665,6 +665,7 @@ static int virtio_gpu_context_init_ioctl(struct drm_device *dev,
->  				goto out_unlock;
->  
->  			vfpriv->explicit_debug_name = true;
-> +			ret = 0;
->  			break;
->  		default:
->  			ret = -EINVAL;
+Hi Heiko:
 
-Applied to misc-next
+On 11/15/23 07:34, Heiko Stübner wrote:
+> Hi Andy,
+>
+> Am Dienstag, 14. November 2023, 12:28:55 CET schrieb Andy Yan:
+>> From: Andy Yan <andy.yan@rock-chips.com>
+>>
+>> VOP2 on rk3588:
+>>
+>> Four video ports:
+>> VP0 Max 4096x2160
+>> VP1 Max 4096x2160
+>> VP2 Max 4096x2160
+>> VP3 Max 2048x1080
+>>
+>> 4 4K Cluster windows with AFBC/line RGB and AFBC-only YUV support
+>> 4 4K Esmart windows with line RGB/YUV support
+>>
+>> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> not a review yet, but when testing and the display sets a mode,
+> I always get a bunch of
+>
+> 	rockchip-drm display-subsystem: [drm] *ERROR* POST_BUF_EMPTY irq err at vp0
+>
+> messages in the log (initial mode to console, starting glmark2 from console,
+> stopping glmark2 to the console).
+>
+> I'm not sure what is up with that, have you seen these messages as well
+> at some point?
 
--- 
-Best regards,
-Dmitry
+Yes, it will raise POST_BUF_EMPTY when set a mode,  it needs some fix 
+like [0]:
 
+
+I still trying to find a appropriate way to do it with the upstream 
+code, as it doesn't affect the
+
+real display function(I must admit that the POST_BUF_EMPTY irq is very 
+annoying), so l let  it as
+
+it is in the current version.
+
+By the way, can you see the glmark2 rending on your HDMI monitor now?
+
+[0]https://github.com/Fruit-Pi/kernel/commit/29af993b46f024360e6d02c0d26c9fd3057aa918
+
+>
+> Thanks
+> Heiko
+>
+>
+>
