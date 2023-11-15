@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95EF7EC8BF
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 17:39:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F017EC8BC
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 17:39:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBAFA10E0DD;
-	Wed, 15 Nov 2023 16:39:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B6FF10E54E;
+	Wed, 15 Nov 2023 16:39:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D476F10E114
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB2A110E0DD
  for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 16:39:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 0A72ECE1C90;
- Wed, 15 Nov 2023 16:39:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28D4CC433C8;
- Wed, 15 Nov 2023 16:39:26 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 40C9A6154F;
+ Wed, 15 Nov 2023 16:39:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7886C433C9;
+ Wed, 15 Nov 2023 16:39:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700066368;
- bh=exKYJcOqE7PAuCguPkuv8mAJu56vWsUJCYEBl4ctl6U=;
+ s=k20201202; t=1700066369;
+ bh=WZZpUNtc2DPKkk+uXGa4GT4m3SV97GOyHrjsNd9er2Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=e3HR+gVGFqu0vVmFFLsLi6cHtZ8Jb2lvPyuWJmDx9KCYdiSnWppVoyrZdcX/xOoio
- xhK1BicgbAqrEjdyI8x95IuviXOVX8ZeRGn5eBjumWTtXODIuNpZkEKg17Bkr7t41Z
- mrX7Bf5mPU+j/ZbD715h7vd0Bi5lYFWNNiKSSbPSxww6r/K6+5TrcuonS8zyUmMQm8
- zMJgongjUWJsXNCMYaunSPZEUSLQKQEN3riWs111z1cFYCE0Y70TEvrLCOl1DErBaj
- Aj80uJgu2mBoCXNztCZa4TgMyls1nu2cVD4ZGZl/CQOJhp0GNEg4h6LQL7TtMDj1C8
- yDuBVdDL7I1HA==
+ b=GRzEctaIriss8XyXc5pNIHTyjlT/C7pWhsoqkZfJ/Lk4BNxVWSAh/cqkcdRmmDv/N
+ viCBbDwH3eJi593IonCjeJ6I9Oquec3a3mmgrUe838VhxepGO9JLNatoJydrwuhoXf
+ s0sKdOCx41ZVekUXqMWKLtM7yAs6WmgfSVqvgUD5r+7i9zlLatYoUfhY7FucSZbRxe
+ plMlrl8x6mEnIZZ7/WT6UeFlBCh6lgZczEI870ARaBfcGCLuf+jQRYW1NKwylmU3xA
+ 3gqKvIBP7rO/If0H2/za29YTnKxopAgQ74US6ONe9+D7ycf9qOc+frk8znQpKoiUDz
+ ayEvZJEcFjmvw==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 07/10] accel/habanalabs: set hard reset flag if graceful reset
- is skipped
-Date: Wed, 15 Nov 2023 18:39:09 +0200
-Message-Id: <20231115163912.1243175-7-ogabbay@kernel.org>
+Subject: [PATCH 08/10] accel/habanalabs/gaudi2: get the correct QM CQ info
+ upon an error
+Date: Wed, 15 Nov 2023 18:39:10 +0200
+Message-Id: <20231115163912.1243175-8-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231115163912.1243175-1-ogabbay@kernel.org>
 References: <20231115163912.1243175-1-ogabbay@kernel.org>
@@ -58,37 +57,101 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tomer Tayar <ttayar@habana.ai>
 
-hl_device_cond_reset() might be called with the hard reset flag unset,
-because a compute reset upon device release as part of a graceful reset
-is valid.
-If the conditions for graceful reset are not met, hl_device_reset() will
-be called for an immediate reset. In this case a compute reset is not
-valid, so it will be replaced with a hard reset together with a debug
-message about it.
-This message might be confusing, as it implies that a compute reset was
-requested when it shouldn't. To prevent this confusion, set the hard
-reset flag in hl_device_cond_reset() if going to an immediate reset.
+Upon a QM error, the address/size from both the CQ and the ARC_CQ are
+printed, although the instruction that led to the error was received
+from only one of them.
+
+Moreover, in case of a QM undefined opcode, only one of these
+address/size sets will be captured based on the value of ARC_CQ_PTR.
+However, this value can be non-zero even if currently the CQ is used, in
+case the CQ/ARC_CQ are alternately used.
+
+Under the assumption of having a stop-on-error configuration, modify to
+use CP_STS.CUR_CQ field to get the relevant CQ for the QM error.
 
 Signed-off-by: Tomer Tayar <ttayar@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/device.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/accel/habanalabs/gaudi2/gaudi2.c      | 44 +++++++++----------
+ .../include/gaudi2/asic_reg/gaudi2_regs.h     |  1 +
+ 2 files changed, 23 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
-index 6bf5f1d0d005..a365791a9f5c 100644
---- a/drivers/accel/habanalabs/common/device.c
-+++ b/drivers/accel/habanalabs/common/device.c
-@@ -2040,7 +2040,7 @@ int hl_device_cond_reset(struct hl_device *hdev, u32 flags, u64 event_mask)
- 	if (ctx)
- 		hl_ctx_put(ctx);
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index 5075f92d15cc..77c480725a84 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -7860,36 +7860,36 @@ static bool gaudi2_handle_ecc_event(struct hl_device *hdev, u16 event_type,
  
--	return hl_device_reset(hdev, flags);
-+	return hl_device_reset(hdev, flags | HL_DRV_RESET_HARD);
+ static void handle_lower_qman_data_on_err(struct hl_device *hdev, u64 qman_base, u64 event_mask)
+ {
+-	u32 lo, hi, cq_ptr_size, arc_cq_ptr_size;
+-	u64 cq_ptr, arc_cq_ptr, cp_current_inst;
+-
+-	lo = RREG32(qman_base + QM_CQ_PTR_LO_4_OFFSET);
+-	hi = RREG32(qman_base + QM_CQ_PTR_HI_4_OFFSET);
+-	cq_ptr = ((u64) hi) << 32 | lo;
+-	cq_ptr_size = RREG32(qman_base + QM_CQ_TSIZE_4_OFFSET);
+-
+-	lo = RREG32(qman_base + QM_ARC_CQ_PTR_LO_OFFSET);
+-	hi = RREG32(qman_base + QM_ARC_CQ_PTR_HI_OFFSET);
+-	arc_cq_ptr = ((u64) hi) << 32 | lo;
+-	arc_cq_ptr_size = RREG32(qman_base + QM_ARC_CQ_TSIZE_OFFSET);
++	u32 lo, hi, cq_ptr_size, cp_sts;
++	u64 cq_ptr, cp_current_inst;
++	bool is_arc_cq;
++
++	cp_sts = RREG32(qman_base + QM_CP_STS_4_OFFSET);
++	is_arc_cq = FIELD_GET(PDMA0_QM_CP_STS_CUR_CQ_MASK, cp_sts); /* 0 - legacy CQ, 1 - ARC_CQ */
++
++	if (is_arc_cq) {
++		lo = RREG32(qman_base + QM_ARC_CQ_PTR_LO_OFFSET);
++		hi = RREG32(qman_base + QM_ARC_CQ_PTR_HI_OFFSET);
++		cq_ptr = ((u64) hi) << 32 | lo;
++		cq_ptr_size = RREG32(qman_base + QM_ARC_CQ_TSIZE_OFFSET);
++	} else {
++		lo = RREG32(qman_base + QM_CQ_PTR_LO_4_OFFSET);
++		hi = RREG32(qman_base + QM_CQ_PTR_HI_4_OFFSET);
++		cq_ptr = ((u64) hi) << 32 | lo;
++		cq_ptr_size = RREG32(qman_base + QM_CQ_TSIZE_4_OFFSET);
++	}
+ 
+ 	lo = RREG32(qman_base + QM_CP_CURRENT_INST_LO_4_OFFSET);
+ 	hi = RREG32(qman_base + QM_CP_CURRENT_INST_HI_4_OFFSET);
+ 	cp_current_inst = ((u64) hi) << 32 | lo;
+ 
+ 	dev_info(hdev->dev,
+-		"LowerQM. CQ: {ptr %#llx, size %u}, ARC_CQ: {ptr %#llx, size %u}, CP: {instruction %#llx}\n",
+-		cq_ptr, cq_ptr_size, arc_cq_ptr, arc_cq_ptr_size, cp_current_inst);
++		"LowerQM. %sCQ: {ptr %#llx, size %u}, CP: {instruction %#llx}\n",
++		is_arc_cq ? "ARC_" : "", cq_ptr, cq_ptr_size, cp_current_inst);
+ 
+ 	if (event_mask & HL_NOTIFIER_EVENT_UNDEFINED_OPCODE) {
+-		if (arc_cq_ptr) {
+-			hdev->captured_err_info.undef_opcode.cq_addr = arc_cq_ptr;
+-			hdev->captured_err_info.undef_opcode.cq_size = arc_cq_ptr_size;
+-		} else {
+-			hdev->captured_err_info.undef_opcode.cq_addr = cq_ptr;
+-			hdev->captured_err_info.undef_opcode.cq_size = cq_ptr_size;
+-		}
+-
++		hdev->captured_err_info.undef_opcode.cq_addr = cq_ptr;
++		hdev->captured_err_info.undef_opcode.cq_size = cq_ptr_size;
+ 		hdev->captured_err_info.undef_opcode.stream_id = QMAN_STREAMS;
+ 	}
  }
+diff --git a/drivers/accel/habanalabs/include/gaudi2/asic_reg/gaudi2_regs.h b/drivers/accel/habanalabs/include/gaudi2/asic_reg/gaudi2_regs.h
+index a08378d0802b..8018214a7b59 100644
+--- a/drivers/accel/habanalabs/include/gaudi2/asic_reg/gaudi2_regs.h
++++ b/drivers/accel/habanalabs/include/gaudi2/asic_reg/gaudi2_regs.h
+@@ -250,6 +250,7 @@
+ #define QM_ARC_CQ_PTR_HI_OFFSET		(mmPDMA0_QM_ARC_CQ_PTR_HI - mmPDMA0_QM_BASE)
+ #define QM_ARC_CQ_TSIZE_OFFSET		(mmPDMA0_QM_ARC_CQ_TSIZE - mmPDMA0_QM_BASE)
  
- static void hl_notifier_event_send(struct hl_notifier_event *notifier_event, u64 event_mask)
++#define QM_CP_STS_4_OFFSET		(mmPDMA0_QM_CP_STS_4 - mmPDMA0_QM_BASE)
+ #define QM_CP_CURRENT_INST_LO_4_OFFSET	(mmPDMA0_QM_CP_CURRENT_INST_LO_4 - mmPDMA0_QM_BASE)
+ #define QM_CP_CURRENT_INST_HI_4_OFFSET	(mmPDMA0_QM_CP_CURRENT_INST_HI_4 - mmPDMA0_QM_BASE)
+ 
 -- 
 2.34.1
 
