@@ -2,74 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6DD27ED7AD
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 23:58:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A480C7ED804
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 00:18:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 280A710E299;
-	Wed, 15 Nov 2023 22:58:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAA8610E5AE;
+	Wed, 15 Nov 2023 23:18:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2CFC10E298;
- Wed, 15 Nov 2023 22:58:43 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3AFMwdK5028464; Wed, 15 Nov 2023 22:58:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=CFFe/tma71Nzm3q3uaEi+UNcsA+0+RvIe/Hg4W4Uqfw=;
- b=fqaoueza1F/suuwguRjXD7k00aRheUhfjwOotGj7FeulqxNHGKBlFETDlkJZnz7tLw0j
- hKniqcYFQCLqDNsaUJqwzLkpXx7NF9n3BZvtwebbFK/xv1Pwztyk4JwmE7IhQzVZD1CA
- B3TQaSNoS3nl/R1buF5qBTq2kngD4FatyfOQg0iqKLavQX8CmrDxGft8eG5iZjPmU2Uq
- OD2g1O7xbYEhk5D+oiW7Ne6c3gDOG2YcJbv+PsHB2UZuBAhLm7LWRQNoofzrgDMpj+9c
- KsObaj1c7IHwHOHzsI2nNf0iO8xt5eMdcRacDWz2VE9d8VcUHQEDbq9uZefWSv9aUqic 5Q== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ud5fhg6rh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Nov 2023 22:58:39 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AFMwcnd000884
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Nov 2023 22:58:38 GMT
-Received: from [10.110.71.50] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 15 Nov
- 2023 14:58:37 -0800
-Message-ID: <6107757c-1217-1759-8bcf-7dbce6f2e730@quicinc.com>
-Date: Wed, 15 Nov 2023 14:58:37 -0800
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB98610E241
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 23:18:44 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id
+ d9443c01a7336-1cc30de471dso61315ad.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 15:18:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1700090324; x=1700695124;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+cDX2/TcLZZv47keVH9izOB2UPw4wXcT8INdh+8le7A=;
+ b=iXsUvH04fVOSEqnS9MP9GEcpSMJ9RYfvP6S3Lm+YL56+2jTrqXg7vVnh6iyeD+TRZv
+ iZFfAymkfpBCcjhg9G8zqDwGIo4qx6ArNC2rvIhaVjcE1hzmCwE5agms3vk3JwcuN/hk
+ x6MPUTdpS5zngqlqgITIT9FwxsSIedejxeQyR3Pn+nRkTXihu/agX1c8JAZypM070Ijj
+ faNVJxeFeYYX+4JUx5yui+KDpIvrahIj/vS/369xZDJUnva+D6+H58PkHke+xNnDvErn
+ De6pNnWzKtJT+Gtl76Ed2PfuO/8Kt/fKnze6F4CSZXSsO/OvLD+9a1XP0hID69oVDRZy
+ NjRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700090324; x=1700695124;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+cDX2/TcLZZv47keVH9izOB2UPw4wXcT8INdh+8le7A=;
+ b=Q5jzoYrET4HNuUoHe93GMpU3hiiDvmXeJBRCdh59sZpCJHk6OcdSQPRmme1z33e2ex
+ KBZ3aLtH+6VrGtTYK0Cw+6MfED0uO54a1SCtIOW7aF1vnuVJKUKv21Xn37SEkFL1WgQ9
+ 8lGYUTxCGzW/zrecGWbnOPdX1Tzpwdn3MSQmkcER7lrXKvgN5TgK41qlcA9pSOHJ8ZcD
+ Bdoimc1cWHEbf4H+mUgDHzGoShx9Z6LreKIPEEf7lYbyqG7p8jHf3HqPspDCVJzf0uvF
+ yCJC6siEHPtgeuuEIubSGu4pE1nPJnmY5eZpgs8vjXuTaG5QQ1Wc0rm+uIrKGPDPmIs7
+ 4NqQ==
+X-Gm-Message-State: AOJu0YyAumfhsn1FlmlygfAEN/SJ+VEpfRgfMxyP+Fzb0hblLogG7VVm
+ Cz2v8DU8yeBYomA8+RutWUYdy0zmaQRq6P5X5EAI
+X-Google-Smtp-Source: AGHT+IGyoRxZw5ygDqLDB76eixVmV7Sl9Rg99pJFDrY1646vTJd9/k/9IdlRgQQs8vDIsMVb3PqED09pUEuJwebdqxU=
+X-Received: by 2002:a17:902:d50f:b0:1cc:ff0:213f with SMTP id
+ b15-20020a170902d50f00b001cc0ff0213fmr66975plg.2.1700090323863; Wed, 15 Nov
+ 2023 15:18:43 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/msm/gpu: Move gpu devcore's to gpu device
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, <dri-devel@lists.freedesktop.org>
-References: <20231115224409.240935-1-robdclark@gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20231115224409.240935-1-robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 5XK6lS6q0-sL_QiRoX8dL9aKXLnOdp0s
-X-Proofpoint-ORIG-GUID: 5XK6lS6q0-sL_QiRoX8dL9aKXLnOdp0s
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-15_20,2023-11-15_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0
- spamscore=0 lowpriorityscore=0 clxscore=1015 mlxlogscore=700
- suspectscore=0 phishscore=0 priorityscore=1501 impostorscore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311150181
+References: <20231111111559.8218-1-yong.wu@mediatek.com>
+ <20231111111559.8218-2-yong.wu@mediatek.com>
+In-Reply-To: <20231111111559.8218-2-yong.wu@mediatek.com>
+From: Jeffrey Kardatzke <jkardatzke@google.com>
+Date: Wed, 15 Nov 2023 15:18:32 -0800
+Message-ID: <CA+ddPcMQan85Q8KDdDub=aDe0HB3vy9dBj33ofEoM2WUhFu8Zw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/8] dma-buf: heaps: Initialize a secure heap
+To: Yong Wu <yong.wu@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,22 +70,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Vijayanand Jitta <quic_vjitta@quicinc.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, jianjiao.zeng@mediatek.com,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, ckoenig.leichtzumerken@gmail.com,
+ linaro-mm-sig@lists.linaro.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ Joakim Bech <joakim.bech@linaro.org>, tjmercier@google.com,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sat, Nov 11, 2023 at 3:16=E2=80=AFAM Yong Wu <yong.wu@mediatek.com> wrot=
+e:
+>
+> Initialize a secure heap. Currently just add a null heap, Prepare for
+> the later patches.
+>
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> ---
+>  drivers/dma-buf/heaps/Kconfig       |  7 +++
+>  drivers/dma-buf/heaps/Makefile      |  1 +
+>  drivers/dma-buf/heaps/secure_heap.c | 98 +++++++++++++++++++++++++++++
+>  3 files changed, 106 insertions(+)
+>  create mode 100644 drivers/dma-buf/heaps/secure_heap.c
+>
+> diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfi=
+g
+> index a5eef06c4226..e358bf711145 100644
+> --- a/drivers/dma-buf/heaps/Kconfig
+> +++ b/drivers/dma-buf/heaps/Kconfig
+> @@ -12,3 +12,10 @@ config DMABUF_HEAPS_CMA
+>           Choose this option to enable dma-buf CMA heap. This heap is bac=
+ked
+>           by the Contiguous Memory Allocator (CMA). If your system has th=
+ese
+>           regions, you should say Y here.
+> +
+> +config DMABUF_HEAPS_SECURE
+> +       bool "DMA-BUF Secure Heap"
+> +       depends on DMABUF_HEAPS && TEE
+> +       help
+> +         Choose this option to enable dma-buf secure heap. This heap is =
+backed by
+> +         TEE client interfaces or CMA. If in doubt, say N.
+
+Remove the mention of TEE and CMA from this.
+
+You should probably add two KConfig options. One is for
+DMABUF_HEAPS_SECURE which is for the framework for secure heaps. The
+other one should be:
+
+config MTK_DMABUF_HEAPS_SECURE
+    bool "Mediatek DMA-BUF Secure Heap"
+    depends on DMABUF_HEAPS_SECURE && TEE
+    help
+        Enables secure dma-buf heaps for Mediatek platforms.
 
 
-On 11/15/2023 2:44 PM, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> The dpu devcore's are already associated with the dpu device.  So we
-> should associate the gpu devcore's with the gpu device, for easier
-> classification.
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makef=
+ile
+> index 974467791032..b1ad9d1f2fbe 100644
+> --- a/drivers/dma-buf/heaps/Makefile
+> +++ b/drivers/dma-buf/heaps/Makefile
+> @@ -1,3 +1,4 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> +obj-$(CONFIG_DMABUF_HEAPS_SECURE)      +=3D secure_heap.o
+>  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)      +=3D system_heap.o
+>  obj-$(CONFIG_DMABUF_HEAPS_CMA)         +=3D cma_heap.o
+> diff --git a/drivers/dma-buf/heaps/secure_heap.c b/drivers/dma-buf/heaps/=
+secure_heap.c
+> new file mode 100644
+> index 000000000000..a634051a0a67
+> --- /dev/null
+> +++ b/drivers/dma-buf/heaps/secure_heap.c
+> @@ -0,0 +1,98 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * DMABUF secure heap exporter
+> + *
+> + * Copyright (C) 2023 MediaTek Inc.
+> + */
+> +
+> +#include <linux/dma-buf.h>
+> +#include <linux/dma-heap.h>
+> +#include <linux/err.h>
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+> +
+> +enum secure_memory_type {
+> +       /*
+> +        * MediaTek static chunk memory carved out for TrustZone. The mem=
+ory
+> +        * management is inside the TEE.
+> +        */
+> +       SECURE_MEMORY_TYPE_MTK_CM_TZ    =3D 1,
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Mediatek specific code for secure dma heaps should go into a new file
+(maybe secure_heap_mtk.c which the MTK_DMABUF_HEAPS_SECURE option
+enables).
+
+> +};
+> +
+> +struct secure_buffer {
+> +       struct dma_heap                 *heap;
+> +       size_t                          size;
+> +};
+> +
+> +struct secure_heap {
+> +       const char                      *name;
+> +       const enum secure_memory_type   mem_type;
+secure_memory_type is going to be in the vendor specific
+implementation, I don't think you need it in the framework.
+
+> +};
+
+You should probably move these to a <linux/dma-heap-secure.h> file so
+they can be shared by the framework and the specific implementation
+(in this case vendor specific).
+
+> +
+> +static struct dma_buf *
+> +secure_heap_allocate(struct dma_heap *heap, unsigned long size,
+> +                    unsigned long fd_flags, unsigned long heap_flags)
+> +{
+> +       struct secure_buffer *sec_buf;
+> +       DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+> +       struct dma_buf *dmabuf;
+> +       int ret;
+> +
+> +       sec_buf =3D kzalloc(sizeof(*sec_buf), GFP_KERNEL);
+> +       if (!sec_buf)
+> +               return ERR_PTR(-ENOMEM);
+> +
+> +       sec_buf->size =3D ALIGN(size, PAGE_SIZE);
+> +       sec_buf->heap =3D heap;
+> +
+> +       exp_info.exp_name =3D dma_heap_get_name(heap);
+> +       exp_info.size =3D sec_buf->size;
+> +       exp_info.flags =3D fd_flags;
+> +       exp_info.priv =3D sec_buf;
+> +
+> +       dmabuf =3D dma_buf_export(&exp_info);
+> +       if (IS_ERR(dmabuf)) {
+> +               ret =3D PTR_ERR(dmabuf);
+> +               goto err_free_buf;
+> +       }
+> +
+> +       return dmabuf;
+> +
+> +err_free_buf:
+> +       kfree(sec_buf);
+> +       return ERR_PTR(ret);
+> +}
+> +
+> +static const struct dma_heap_ops sec_heap_ops =3D {
+> +       .allocate =3D secure_heap_allocate,
+> +};
+> +
+> +static struct secure_heap secure_heaps[] =3D {
+> +       {
+> +               .name           =3D "secure_mtk_cm",
+> +               .mem_type       =3D SECURE_MEMORY_TYPE_MTK_CM_TZ,
+> +       },
+> +};
+
+Move this to the vendor specific implementation.
+
+> +
+> +static int secure_heap_init(void)
+> +{
+> +       struct secure_heap *sec_heap =3D secure_heaps;
+> +       struct dma_heap_export_info exp_info;
+> +       struct dma_heap *heap;
+> +       unsigned int i;
+> +
+> +       for (i =3D 0; i < ARRAY_SIZE(secure_heaps); i++, sec_heap++) {
+> +               exp_info.name =3D sec_heap->name;
+> +               exp_info.ops =3D &sec_heap_ops;
+> +               exp_info.priv =3D (void *)sec_heap;
+> +
+> +               heap =3D dma_heap_add(&exp_info);
+> +               if (IS_ERR(heap))
+> +                       return PTR_ERR(heap);
+> +       }
+> +       return 0;
+> +}
+
+secure_heap_init should take a 'struct secure_heap*' as an argument
+and be defined in dma-heap-secure.h.
+
+> +
+> +module_init(secure_heap_init);
+> +MODULE_DESCRIPTION("Secure Heap Driver");
+> +MODULE_LICENSE("GPL");
+
+Remove from this file, it should go in the specific implementations.
+
+> --
+> 2.25.1
+>
