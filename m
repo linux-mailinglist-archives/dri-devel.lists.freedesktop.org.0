@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 803987EBC3F
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 04:41:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1388B7EBC4B
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 04:41:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B26610E4E3;
-	Wed, 15 Nov 2023 03:41:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A30C10E4E7;
+	Wed, 15 Nov 2023 03:41:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2369E10E4E2;
- Wed, 15 Nov 2023 03:41:10 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA43E10E4E5;
+ Wed, 15 Nov 2023 03:41:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 8D05AB81885;
- Wed, 15 Nov 2023 03:41:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E641FC433CA;
- Wed, 15 Nov 2023 03:41:03 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 34EED6151C;
+ Wed, 15 Nov 2023 03:41:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67204C433C7;
+ Wed, 15 Nov 2023 03:41:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700019667;
- bh=wkxtWmOme5Ihn7bu0xkaXlOfjlzTRH/UVExSjsHjIdY=;
+ s=k20201202; t=1700019709;
+ bh=WJNkawEkrDnlq4Of4/6qE6Sj9Nm//W3MHAgm2p84Yqs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FygeGtOZMQVyEFZC3MKLkG7L7XfZk4uTRKRm43FTmCG2CU6J5MGloUI3F7tsorWHx
- yABJFKDkPCy3dXNprzWS2WDq8yWORaBX2IKqa/3hhf1YD27vJE+QLsxg+tz0VxVibK
- E3NVeuVAUh+Z+NPYJ7l/WfxH1e7NOkDrj6ji0pm1GkGc1ek1hsr3Hc0cqu7rjbLook
- yMJn/Ot+HWdzcGQp1YdVsnbs0DNIJICEOVmT5cY+gK1h3V/rR9VR+ZOqiRXc2LFU/I
- wn+YYvl0pxVHUF0kswp7SMAcQxOF1fFPne6mNNX8qwk4WDFj0yYGdSAT38DRKhBYuW
- wALuSZyEucW6A==
+ b=stVZ2E3C7qyLw/0ONtfIn83xQS4d7Z/6dXTOP5jJjtK5xUlbzCqHzm8hUaZ4/bR5g
+ gxmN1UBrzbL9dGq/9E7mgI0xfsyyFtDGO61K+aFmBd1spiYWKJnlLFHmKLrqU9hODQ
+ wpwGWX7sTcB2n5hZxWNAlU3Gj8FFaSWqSDc8wx59QfMA1XYA5rmpQvpvXUjg9f9mcS
+ UJgo26da2FTB1yuMqLaqoYUw4oWhwhWkat9oyr4hKiadKdCEfeq1wIjQW4FtJNBxNB
+ PeJR1bgK7r83dgf4kC8ZVczJLteYc6AEy2YGV0elfZuvw7cUod05b52IO2VNPXjaYc
+ E/udBognM6wtw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 3/4] drm/amdgpu: fix software pci_unplug on some
+Subject: [PATCH AUTOSEL 5.10 2/3] drm/amdgpu: fix software pci_unplug on some
  chips
-Date: Tue, 14 Nov 2023 22:40:13 -0500
-Message-ID: <20231115034024.1236659-3-sashal@kernel.org>
+Date: Tue, 14 Nov 2023 22:41:13 -0500
+Message-ID: <20231115034123.1239405-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231115034024.1236659-1-sashal@kernel.org>
-References: <20231115034024.1236659-1-sashal@kernel.org>
+In-Reply-To: <20231115034123.1239405-1-sashal@kernel.org>
+References: <20231115034123.1239405-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.138
+X-stable-base: Linux 5.10.200
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -126,10 +127,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-index 96a8fd0ca1df3..439ea256ed252 100644
+index 3638f0e12a2b8..a8f1c4969fac7 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-@@ -1192,7 +1192,8 @@ static void amdgpu_ras_sysfs_remove_bad_page_node(struct amdgpu_device *adev)
+@@ -1031,7 +1031,8 @@ static void amdgpu_ras_sysfs_remove_bad_page_node(struct amdgpu_device *adev)
  {
  	struct amdgpu_ras *con = amdgpu_ras_get_context(adev);
  
@@ -139,7 +140,7 @@ index 96a8fd0ca1df3..439ea256ed252 100644
  				&con->badpages_attr.attr,
  				RAS_FS_NAME);
  }
-@@ -1209,7 +1210,8 @@ static int amdgpu_ras_sysfs_remove_feature_node(struct amdgpu_device *adev)
+@@ -1048,7 +1049,8 @@ static int amdgpu_ras_sysfs_remove_feature_node(struct amdgpu_device *adev)
  		.attrs = attrs,
  	};
  
@@ -149,7 +150,7 @@ index 96a8fd0ca1df3..439ea256ed252 100644
  
  	return 0;
  }
-@@ -1257,7 +1259,8 @@ int amdgpu_ras_sysfs_remove(struct amdgpu_device *adev,
+@@ -1096,7 +1098,8 @@ int amdgpu_ras_sysfs_remove(struct amdgpu_device *adev,
  	if (!obj || !obj->attr_inuse)
  		return -EINVAL;
  
