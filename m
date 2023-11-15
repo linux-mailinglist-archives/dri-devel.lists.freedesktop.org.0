@@ -1,45 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D37B7EC7AF
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 16:50:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C85E7EC7C0
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 16:51:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B305910E087;
-	Wed, 15 Nov 2023 15:50:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99E9A10E09C;
+	Wed, 15 Nov 2023 15:51:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49B6010E087
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 15:50:46 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 2A762CE1E3F;
- Wed, 15 Nov 2023 15:50:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69AEAC433C7;
- Wed, 15 Nov 2023 15:50:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700063443;
- bh=AxRQ9Y/RrzRtP29GRL6CccyXYunQ633DeTBzGsCyGQw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fMot+BPSYUpgf34K5i4JQ4ytk8SMMk5K04pNrSisd4s52Sgg3qskLmpuuaxeqgnRP
- avc6wU1wKa0XdWVGrLU8iWAPY0EjnnZythPnnuWVEYCGYdqPbHF3o8ow8W8Qiwl+Iw
- gNkYj9UY/fVTbP4J8CHROmI2LBIvrLHbpqOOBVHtwDNAgG/ofmLka5ea9J7pQP1Wuf
- OJauXAq4mew6jupJKgFp8jlZWqJkyRgzWmMCmnADYqyu39eNtK0e+TXn3h2cYz/q4s
- 8m59XLl/PZ8VUtx+RFs1KHwRrpaS7XJCd7I8/bEV9vDzuZy+ZALLQV6N7j2uxKykNE
- bNvNb6MI7HmzQ==
-Date: Wed, 15 Nov 2023 16:50:41 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: David Gow <davidgow@google.com>
-Subject: Re: [PATCH 2/3] drm/tests: Use KUNIT_DEFINE_ACTION_WRAPPER()
-Message-ID: <6gfqtuhscq2z2obvx3xh6ve4kj5hrqniyegfywldtx2vowdp5z@ikix547w3vff>
-References: <20231110200830.1832556-1-davidgow@google.com>
- <20231110200830.1832556-2-davidgow@google.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AFEC10E086
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 15:51:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1700063466;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=v1fbGF7Qkv7teUuJLTRPkGkYvp5FXnG2+paeUI2HZvM=;
+ b=A/MVRO5dXV6JdI9hMwmSffxdZG4gQV7c03AD1BbcWUIEAbjARpfYVkZ4PURa4fBtcNRRXd
+ KgOV59Q1ExSRoq0T0F6sxZ+uasUJvB8QtayGggox2g/W69wKuEsnjrKZKESj4h4TxLgkKH
+ 9GwOWs28ioxFl+Vgi3MMbGifS3LoYd0=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-663-kRTgX3rMOy2Nfh5UHZ8JcA-1; Wed, 15 Nov 2023 10:50:59 -0500
+X-MC-Unique: kRTgX3rMOy2Nfh5UHZ8JcA-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ 38308e7fff4ca-2c506abc320so56006191fa.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 07:50:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700063458; x=1700668258;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=v1fbGF7Qkv7teUuJLTRPkGkYvp5FXnG2+paeUI2HZvM=;
+ b=daItRrmySslYvCLA4ojNkt7OfrPPEdhkuoZqSxRWs6+GVQ031xDM1Fqt0MLhpUl4HC
+ n/MBhBT103vFHT2RXjxcvjiKsLzW5RXZUpeQlbVOJPVl2nahU8veilUVl5xz3E569OTo
+ tdnvtA0HLlCEYJNIzQrn8Kryullxh0K3wux31K2RJuFhngLh2zT2qzPEEzQ20Pfhr8fV
+ Nqeirfd8fRczVzRzbUli5jfAAH2YDT0tv5PoApKNXPNCoLEjqBPn1CH8nFdnM7RGLDB+
+ RMzIBhqTxaGDIJpLe91TPv3kqB5wUKHcDT3LWvGAvitYz7r7AScPZ+VTxTUWK0deIkGw
+ d6sw==
+X-Gm-Message-State: AOJu0Ywb+zNwNijE4A6LrySJVav0Z/fanYDysH6OlIfgRMCYyaohgeg3
+ CDgX2rozEVwJ/UHz5NCOY0AlJ98tNAzmU6u2g7EMK2h/Ob13y/fs01Ugm+RN54jZPW0MCYlGVy4
+ jr6abmZAmL9RodM268N2AlaHc1qWU
+X-Received: by 2002:a19:2d59:0:b0:507:984b:f174 with SMTP id
+ t25-20020a192d59000000b00507984bf174mr8384274lft.48.1700063458234; 
+ Wed, 15 Nov 2023 07:50:58 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGL1znuxl2ULUiExZruoVbV/H+47fM+nDMFfZuJyFLjC1AAX5XUVosc+FBmsmiqu+o1APToBQ==
+X-Received: by 2002:a19:2d59:0:b0:507:984b:f174 with SMTP id
+ t25-20020a192d59000000b00507984bf174mr8384254lft.48.1700063457912; 
+ Wed, 15 Nov 2023 07:50:57 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
+ (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+ by smtp.gmail.com with ESMTPSA id
+ gy18-20020a170906f25200b009b95787eb6dsm7216951ejb.48.2023.11.15.07.50.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Nov 2023 07:50:57 -0800 (PST)
+Message-ID: <4570d94e-b446-4fd1-a24a-db11a87846c4@redhat.com>
+Date: Wed, 15 Nov 2023 16:50:56 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="n3zmtdttqoymp72e"
-Content-Disposition: inline
-In-Reply-To: <20231110200830.1832556-2-davidgow@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panel-orientation-quirks: add Lenovo Legion Go
+To: Brenton Simpson <appsforartists@google.com>
+References: <20231114233859.274189-1-appsforartists@google.com>
+ <70f12e96-0fcc-4954-8507-27cf5e15a3b2@redhat.com>
+ <CAAL3-=9YYQBV-T-KhHdYrtGHH1RC29uzTuQ98roAY9GwrNrwmg@mail.gmail.com>
+ <CAAL3-=-b3-RZNNfQEYzQxK=SW4PPJ7cmrX8omBniec+tgC2frw@mail.gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAAL3-=-b3-RZNNfQEYzQxK=SW4PPJ7cmrX8omBniec+tgC2frw@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,65 +89,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, dlatypov@google.com, llvm@lists.linux.dev,
- Rae Moar <rmoar@google.com>, dri-devel@lists.freedesktop.org,
- =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>,
- linux-hardening@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Sami Tolvanen <samitolvanen@google.com>, Kees Cook <keescook@chromium.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Benjamin Berg <benjamin.berg@intel.com>,
- Shuah Khan <skhan@linuxfoundation.org>, kunit-dev@googlegroups.com,
- Brendan Higgins <brendan.higgins@linux.dev>, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Patrick Thompson <ptf@google.com>, Emil Velikov <emil.l.velikov@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jared Baldridge <jrb@expunge.us>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Allen Ballway <ballway@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---n3zmtdttqoymp72e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 11/15/23 16:48, Brenton Simpson wrote:
+> Resending from the email address linked to my GitHub account.
 
-Hi David,
+Ok, this doesn't really help. I'll just fix-up the author
+field of the original patch.
 
-On Sat, Nov 11, 2023 at 04:08:27AM +0800, David Gow wrote:
-> In order to pass functions to kunit_add_action(), they need to be of the
-> kunit_action_t type. While casting the function pointer can work, it
-> will break control-flow integrity.
->=20
-> drm_kunit_helpers already defines wrappers, but we now have a macro
-> which does this automatically. Using this greatly reduces the
-> boilerplate needed.
->=20
-> Signed-off-by: David Gow <davidgow@google.com>
+Do understand correctly that both the author and the Signed-off-by
+should be set to:
+
+Brenton Simpson <appsforartists@google.com>
+
+?
+
+Regards,
+
+Hans
+
+
+
+> 
+> -- >8 --
+> 
+> The Legion Go has a 2560x1600 portrait screen, with the native "up" facing =
+> the right controller (90=C2=B0 CW from the rest of the device).
+> 
+> Signed-off-by: Brenton Simpson <appsforartists@google.com>
 > ---
->=20
-> This patch should be a no-op, just moving to use a standard macro to
-> implement these wrappers rather than hand-coding them.
->=20
-> Let me know if you'd prefer to take these in separately via the drm
-> trees, or if you're okay with having this whole series go via
-> kselftest/kunit.
+>  drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/d=
+> rm/drm_panel_orientation_quirks.c
+> index d5c1529..3d92f66 100644
+> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> @@ -336,6 +336,12 @@ static const struct dmi_system_id orientation_data[] =
+> =3D {
+>  =09=09  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "IdeaPad Duet 3 10IGL5"),
+>  =09=09},
+>  =09=09.driver_data =3D (void *)&lcd1200x1920_rightside_up,
+> +=09}, {=09/* Lenovo Legion Go 8APU1 */
+> +=09=09.matches =3D {
+> +=09=09  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+> +=09=09  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Legion Go 8APU1"),
+> +=09=09},
+> +=09=09.driver_data =3D (void *)&lcd1600x2560_leftside_up,
+>  =09}, {=09/* Lenovo Yoga Book X90F / X90L */
+>  =09=09.matches =3D {
+>  =09=09  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
+> --=20
+> 2.43.0.rc0.421.g78406f8d94-goog
+> 
 
-You can merge it through your tree with
-
-Acked-by: Maxime Ripard <mripard@kernel.org>
-
-For the patches 2 and 3
-
-Maxime
-
---n3zmtdttqoymp72e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZVTo0QAKCRDj7w1vZxhR
-xQeXAP9Cc0Xaqj0i9btSv7+sdwGcJtBfv0nHvQIAVwKgmgijaAEA+a3M3Ed+B0yC
-CAa0ilav0pfJVeTj5jGOnK+886mpQw4=
-=9flX
------END PGP SIGNATURE-----
-
---n3zmtdttqoymp72e--
