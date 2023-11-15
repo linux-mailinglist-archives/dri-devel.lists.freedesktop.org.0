@@ -1,57 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 554E47EC80A
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 17:00:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B027EC817
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Nov 2023 17:04:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6393C10E086;
-	Wed, 15 Nov 2023 16:00:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB0B610E0AC;
+	Wed, 15 Nov 2023 16:04:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBD4E10E0C5
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 16:00:46 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id
- 5614622812f47-3b4bdb89177so701047b6e.1
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 08:00:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1700064046; x=1700668846; darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=eFmbaY0oGVZ7sScVBLanmu7D2D9vxvb7T+NtcQ3NkJ4=;
- b=cPuOTTEAUVbudIBIoLUfEo7f7P+nx4vqCUfl5OfgTgjRKnZF9p38LDd3+4qV2gIyMY
- YcsMXlhjWj9JsQySLkWeHWVpFiy67Sf6A7PtLjJcD8JaAJBuw1AS7FKZCOlSISDMWT3i
- WO6A3/wocjHWnzFylEJMiXWswEc2mwvWGV6QQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700064046; x=1700668846;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=eFmbaY0oGVZ7sScVBLanmu7D2D9vxvb7T+NtcQ3NkJ4=;
- b=OuRgvChKdSoCWFVCogU/7LWjSuAj5vzPRms4G5JI8cUeCqqjndR+qFQdncG3+1QrWC
- leQWeXX4BDrYbuor4t5xax7lEIBOkhG1OUXrsdV3pcTn5+N+CYrFeyENntUxi1vlJJhw
- h+im4NQJCUmvj3yqsUE5U8dKcMAD9AXJ4lNFKixrRXq/EGvuDuu+9tdJux5r0WEvkyWO
- xoHx0vGC23SsY/8OPTn1LAxIXqNceWoLGVCgHk6QT+xHaO1/3LmSM658x/6iYwUVMIzW
- B0GlZ4i2nykHunsEA1o9Dz8GGBuox3UO4d3vpUrRUiaOhY+c3YakJigsXqXZYIWM/uoy
- 9yug==
-X-Gm-Message-State: AOJu0Yz216Md4uGSWbuAmtCKxDXJuv96+E+CUP+tMA/WZ/Wlthr+zHYs
- G1I7Q99d1QqwfAMpCXqtIrjQbg21CUw6a38+7J9oxIqFfgerEywR
-X-Google-Smtp-Source: AGHT+IEC7e0xzEZvfFar3WHPgtO7pOAY07ejbJf+y9ARFz7vkcAW/xxvlGk01OR2uItXzOvVmoLvaArE9Pf6m0XXx+0=
-X-Received: by 2002:a05:6871:5c47:b0:1e9:bbfe:6458 with SMTP id
- os7-20020a0568715c4700b001e9bbfe6458mr7237902oac.1.1700064046168; Wed, 15 Nov
- 2023 08:00:46 -0800 (PST)
-MIME-Version: 1.0
-References: <20231110200830.1832556-1-davidgow@google.com>
- <4e0c8bb796a67af5fb901f831c5f87fe.mripard@kernel.org>
-In-Reply-To: <4e0c8bb796a67af5fb901f831c5f87fe.mripard@kernel.org>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 15 Nov 2023 17:00:35 +0100
-Message-ID: <CAKMK7uG-FH6iLpNpQ74xXPZoyGoDGvg+L99oCK3nFZT43o6GcA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] kunit: Add a macro to wrap a deferred action function
-To: Maxime Ripard <mripard@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 713E210E0F0;
+ Wed, 15 Nov 2023 16:04:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1700064280; x=1731600280;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=O/fZFbklNsKeN7n0YTs1ErGCdGrUFkA8QD9UV8Sn92M=;
+ b=Oxy1r0mQdGHqr69zJQrth4RfIyAgFUf9aQxaU9BdO52TrABp6OP9t3Xa
+ j6UyQUm08TuxiNw1V6yp6v4JIP+Y4Otf0VQV6OSM5uvhtFtQuQWEKa4zu
+ FtialsFMTisCcCjptBihHegKbcVO1yKXEulr6ELmlgzQotRD7uwZfDZVg
+ Ntee3ONQflE1kAZLub5QmPDUxXbnEyt35oaN+tl3uAZWWjGFadcLzUS57
+ FF9kjxBhqSIsx8P0VNXAjfU4B2ywhOUAvTXqzSRhseL1uNagvXS4ffB2D
+ J8cN59nOAD9wz4292U1rONYx0MGZI0dQ7ul4dgTtIWnkB252bmzUcdpx6 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="389752766"
+X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; d="scan'208";a="389752766"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2023 08:04:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
+   d="scan'208";a="6209924"
+Received: from krchrist-mobl2.ger.corp.intel.com (HELO [10.249.254.114])
+ ([10.249.254.114])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Nov 2023 08:04:36 -0800
+Message-ID: <62cdf31f6dbbb3a114755affc89d22fde875c3ff.camel@linux.intel.com>
+Subject: Re: [PATCH v4] Documentation/gpu: VM_BIND locking document
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Date: Wed, 15 Nov 2023 17:04:33 +0100
+In-Reply-To: <ZVTfmbDz1HGqt4Ef@pollux>
+References: <20231115124937.6740-1-thomas.hellstrom@linux.intel.com>
+ <ZVTfmbDz1HGqt4Ef@pollux>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,40 +61,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Gow <davidgow@google.com>, Emma Anholt <emma@anholt.net>,
- dlatypov@google.com, llvm@lists.linux.dev, Rae Moar <rmoar@google.com>,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>,
- linux-hardening@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Arthur Grillo <arthurgrillo@riseup.net>,
- Sami Tolvanen <samitolvanen@google.com>, Kees Cook <keescook@chromium.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Benjamin Berg <benjamin.berg@intel.com>,
- Shuah Khan <skhan@linuxfoundation.org>, kunit-dev@googlegroups.com,
- Brendan Higgins <brendan.higgins@linux.dev>, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>, linux-kernel@vger.kernel.org,
+ Oak Zeng <oak.zeng@intel.com>, Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-xe@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 15 Nov 2023 at 16:51, Maxime Ripard <mripard@kernel.org> wrote:
->
-> On Sat, 11 Nov 2023 04:08:26 +0800, David Gow wrote:
-> > KUnit's deferred action API accepts a void(*)(void *) function pointer
-> > which is called when the test is exited. However, we very frequently
-> > want to use existing functions which accept a single pointer, but which
-> > may not be of type void*. While this is probably dodgy enough to be on
-> > the wrong side of the C standard, it's been often used for similar
-> >
-> > [ ... ]
->
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Hi, Danilo,
 
-Acked-by: Daniel Vetter <daniel@ffwll.ch> for merging through kunit
-tree, since I guess that's the simplest way to land this.
+On Wed, 2023-11-15 at 16:11 +0100, Danilo Krummrich wrote:
+> On Wed, Nov 15, 2023 at 01:49:37PM +0100, Thomas Hellstr=C3=B6m wrote:
+> > Add the first version of the VM_BIND locking document which is
+> > intended to be part of the xe driver upstreaming agreement.
+> >=20
+> > The document describes and discuss the locking used during exec-
+> > functions, evicton and for userptr gpu-vmas. Intention is to be
+> > using the
+> > same nomenclature as the drm-vm-bind-async.rst.
+> >=20
 
-Cheers!
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Thanks for reviewing. I'll update the document accordingly except for
+the s/an rwsem/a rwsem/g, I think it's "an rwsem" similarly to "an r".
+
+/Thomas
+
