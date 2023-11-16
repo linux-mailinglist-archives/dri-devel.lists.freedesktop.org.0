@@ -2,122 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818CB7EDA90
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 05:04:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BF697EDAD0
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 05:34:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73B7210E0B5;
-	Thu, 16 Nov 2023 04:04:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C0BA10E121;
+	Thu, 16 Nov 2023 04:34:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR02CU001.outbound.protection.outlook.com
- (mail-westus2azon11011004.outbound.protection.outlook.com [52.101.47.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 568E710E0B5
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 04:04:14 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 134A910E056;
+ Thu, 16 Nov 2023 04:34:01 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j8X1YInVCvKgnjwMxeMNzmjVM5LIY2jdYvF+PNnC5ATy6J0ZJTEDyJzwxnq7HyvcMwNDGHc3yQF0fY8Ts1vmV5HUP5GskrbN9EyaByJOM00bPParTQ8IiGQr1hDcAOU/VjcLMF7T3J79CdQWZgTOCK63OYrx+1ROlajXaV0J9lkvFt8FN7669UWcX9xmO187GBcJr/tcY/J2OTcd9bGBaHzjdV3hyAdVviDW5jCTypeAB6PLIBjM1N2zC6jVUDXyl2eCfrCctqip2ERHhcKndTx7Me2XZx8LDboSry8vVwbI4Bd9PwblhSyQGS88B2EnqARxcrXBAKwzhn7Ww4+GSQ==
+ b=S1VfOEQRTKkZMgOfXo9lqAIYOmK1HgUp4Mxf+eSZb+q9JEvVXjWF770u79VNl8f/m4EeSI5ueX8+wp7fyq4PqGibMQg+PWu4jm6b73tlhyw313gAZCT+1xjlmCy+1QW/O4g5h4IxzxkywgjZQEwnDAXuCdgvW++n5Q2xxv8eHllMvLYuhRevp/eCFAO2BZ2ZTJg80tQGf/O7qEwK0/jQgOMXvBqP3TUYVwFiAh+UriqXa3Qm0D0wrEBgS1tv70vIlj+Mwfa26DXcbwZrZtsdVqRUE8QO47AwhEbaS0D4kgncOJI2VQuCc8d3zy2w+bMJp+hQq71mY2Yb0s73yAW5HA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SqOpWDpIjpz7JLEQs3en4srKYpI0tTJ0kmu/3j6aPv0=;
- b=R8SZEerQB5ekm4czvsTC+bBwrFBxlwvaDIOeYkN8y47hked+7ayGYnhGDbEHK1IeWas7yEDEwsLzKQbZeaAJ1iw3f4ZiCPLWgEiBT8afvcmZP0SlDfPg21w2Ztxudjogppx0FTecqvivio4Ut9KK1OnRRl9mZfLeNul0DPc9Pa3+UrVWCrhsczT9kyeTBmg6kT+kPIe2U3Io49Xfn+GM3pWM7cENJsHL3pwFsJxWc4Fixh0ropkC1bZpF4NP6O2XHFGDW63zzpf5ua1XOyLElpYLVsb/RU9aCHIQCK6ALhdL3IrL81OiFsXsPiuu4ZbA5X6lxYwxYqjS1tXW0Z1gzw==
+ bh=dPX9Y3DDSPe4Dkmf3EwQ714i3oyO+ArRVD8DwL6RTRU=;
+ b=JMfwyiJi/5BLkQlEEoPUf/gVmwbCiq4XgKgeMVv4MPTmnHyVhXe7FIjZdx54vVcVTRJc4AwdCZMLc07P6fpI9QDJsQlNPcXq0K6U4MZs1vAerc08XkP0OxSNHu51mE39nhOeg7cx8UXFNniYTfRAxJ9LSPeKtSNrTpIrie1kdJkjC7E93LyzhfX7/tv9IF8gUgEPPdBuJqaYsi8PhIA4Q2v/1ZW5yNA1Plz8X+gFr9DPK8Pt8HbU+2H6n1kvt7n4OpzSSK8TyeM7BdMPAUSphALitDH045wAk6i/H/mqu2XscyjNwQH73mSV4NwXLBDk8SQYdddPg7OOAS86na8zMA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
- dkim=pass header.d=vmware.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SqOpWDpIjpz7JLEQs3en4srKYpI0tTJ0kmu/3j6aPv0=;
- b=YIAoyq/88JXJQCqcroWqVbbWufLgi8D9+aw3bspuUDoo8CqTHQTZRFjti8mlOZ0/bwqEdaKeXolc5f8HeovvsyBfK5Zkqur6hZLs3xfkRrldK0H5YyeAwoK00wB/OV7+kg0ajaeV2k/El84BJSupABAH+BSBIImqBRzHbYl+FAk=
-Received: from IA0PR05MB9832.namprd05.prod.outlook.com (2603:10b6:208:404::6)
- by LV3PR05MB10360.namprd05.prod.outlook.com (2603:10b6:408:1a3::19)
+ bh=dPX9Y3DDSPe4Dkmf3EwQ714i3oyO+ArRVD8DwL6RTRU=;
+ b=kcfzk6zLM8EDO/LBolXZTWDZrXw2X8fxhHbxRYnpZLJfBOlJSXEd75tuoHV72C+h1Sz4RgWyOfcfpdx5LlTfK2e4CYpgPaOg0FvfsuRgKdR0UIE40Su6i6dth+0kceAEWhu1yKPZ26YZBtdxLpI3/0X3mCwYMRehIednQrBmcus=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB4614.namprd12.prod.outlook.com (2603:10b6:a03:a6::22)
+ by MN6PR12MB8541.namprd12.prod.outlook.com (2603:10b6:208:47a::19)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.21; Thu, 16 Nov
- 2023 04:04:10 +0000
-Received: from IA0PR05MB9832.namprd05.prod.outlook.com
- ([fe80::7e24:8821:d736:fbb5]) by IA0PR05MB9832.namprd05.prod.outlook.com
- ([fe80::7e24:8821:d736:fbb5%5]) with mapi id 15.20.7002.019; Thu, 16 Nov 2023
- 04:04:10 +0000
-From: Zack Rusin <zackr@vmware.com>
-To: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "javierm@redhat.com" <javierm@redhat.com>
-Subject: Re: [PATCH v2 0/5] drm: Allow the damage helpers to handle buffer
- damage
-Thread-Topic: [PATCH v2 0/5] drm: Allow the damage helpers to handle buffer
- damage
-Thread-Index: AQHaF8XhF3+4IU0LGkihWLK/H/28urB8VFkA
-Date: Thu, 16 Nov 2023 04:04:09 +0000
-Message-ID: <a16a61582f90a5b490fb7681b44864a4801c830a.camel@vmware.com>
-References: <20231115131549.2191589-1-javierm@redhat.com>
-In-Reply-To: <20231115131549.2191589-1-javierm@redhat.com>
-Accept-Language: en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Thu, 16 Nov
+ 2023 04:33:58 +0000
+Received: from BYAPR12MB4614.namprd12.prod.outlook.com
+ ([fe80::c258:1e94:a85b:1510]) by BYAPR12MB4614.namprd12.prod.outlook.com
+ ([fe80::c258:1e94:a85b:1510%4]) with mapi id 15.20.6977.033; Thu, 16 Nov 2023
+ 04:33:58 +0000
+Message-ID: <ed07b850-8924-29b5-895c-331e3093d8a2@amd.com>
+Date: Thu, 16 Nov 2023 10:03:41 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v3 7/7] PCI: Exclude PCIe ports used for virtual links in
+ pcie_bandwidth_available()
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.48.1-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vmware.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA0PR05MB9832:EE_|LV3PR05MB10360:EE_
-x-ms-office365-filtering-correlation-id: 99742fab-e917-4742-1eb1-08dbe6591611
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: CmXhMANAiAHuQngj7l0C/d0N4E7kjxNV84l2NfbkkVxCu7TZ5rW7fuXHV6qbyffBaFAN+o8AEEPjvA+wx84yAwcNRcLQVle1ENgqTpLHx1tImS2xAxSTPWCC0L2DTN2w9+I5mlALqAskfQUvDev/a3eJFN1IoXmIkAvWHJlxqQ/WNH/DEYj2O2qQiG3WgqPQRs/FofABT5KS2vpEl7VHxOp3ubX8+QboS1Oj23NhoGlZCniuQozxRV8Kow25KYdDQVXku/lDX6xWhqnkcDO/b8PfYDpdFUBirjmNPmHWL/cIDsKNveE7xuLFrA1kpmAjN28ZaMR02cMp6B6zykShdSC2KozLjvcPw2QigXTXF/cYW2K4qxAoFxBRev24uNvjLUdurNjzmX3/ApHlxlk9WG9tUbRN4fCE8z7Nfo2SMXw0BLl+iXbjF5UbA5hUg6xQV2saQcaLWRvVLYyYiPSqwQcpnxjw+nSapJiwxT9mLPZD1j3BZGgMdJdVlWtuFBKSyr+sIVZWbazPy+I3SN7VcYqveEoFeA99W8UspyI0SRt57a7H9oppv9A9ZJQmF+yhSSNmqu+uoREwgFogixTiPpku3RzkUAqylz/ZIDVE/Xb+2DZTixNizEYpJCLQuMGPhU9M2cN4ZCuPi4wuv+5SahbvMul28+pgdwct6SZpohOtxUXs8zedUwxVFF8/tuqT
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA0PR05MB9832.namprd05.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(136003)(366004)(376002)(396003)(346002)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(4001150100001)(122000001)(2906002)(38100700002)(86362001)(7416002)(5660300002)(4326008)(8676002)(8936002)(41300700001)(83380400001)(2616005)(76116006)(66946007)(316002)(36756003)(91956017)(110136005)(66556008)(54906003)(6512007)(26005)(64756008)(66446008)(66476007)(6506007)(45080400002)(71200400001)(6486002)(478600001)(38070700009)(966005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cnFEeTNOSEpXWXVxaHZCWS92UGxuTkdoMS84azNpRzB5LzBycXluZGExMFV1?=
- =?utf-8?B?VUd1eS9WZGZlUjE4eWZkT1VvRUJRUXArVFdmZXQzQ1h1QzI2eWVsMTB4TEE4?=
- =?utf-8?B?WDQ0V3NjS2p3YXcwSDUwMTY0RFo0TmVydzV1a3h0aXVLUW4zOWRWdjhxaGcr?=
- =?utf-8?B?WWdka1VrQy9rcWZUM2diRTBRYThXRzQ4dXdGWGZuRUtrS3lHVVd0ZS84aTdz?=
- =?utf-8?B?Q3RNVEMzK3Y1UmVDeVdEcldhM0htQW1BMWxXQ04zQVEwMklGZWRlSStlSnR1?=
- =?utf-8?B?VkZFQmIwa3RCZWFwd2tzZjBMZDFqSmZ0RVpIdmYvbGJCZGhLNGltTCs1WUdG?=
- =?utf-8?B?bmRLQ0VoaDVRQzNDU3k3dWE2bE9KVnlzTWJONFFXQWpoZnRKVkdodGpYNGdM?=
- =?utf-8?B?bGJwOFhadjVMUXd4QmJORlM0d0dnblJ4L1hiQ1RnSFV0WVVwb3NKcHlGdlB5?=
- =?utf-8?B?QzBWYmpPcVhIcDdHd09ORTZ5V1Z6QTViUnBiN08zVEp2THBnWms1TjhCMXli?=
- =?utf-8?B?b3dtUS9VVUo4YmlGQTE0b3RXWlRVUGtMVDdqbXRTdWZra2ZKeVpxUkxJMVRJ?=
- =?utf-8?B?WjV1bTBRRE14REtKRUQxQ2hCT2J4YjUyWFBOMTlFeFl4RmtrZTRCTjloRWFh?=
- =?utf-8?B?ZXljQjhua212dnczdU8wb1FBUVNOdE1OclNkY01Ca3BMeVdreEQ1aE9LS1ox?=
- =?utf-8?B?KzE0NlBqMTNJMEQ5QkQvNzg0T2JKbjd1SHY5bkxTbHhiVmNJYjFSbVFnbkR3?=
- =?utf-8?B?UkdEd0dYejlqcmlGRWQ0bXpqVjBCZlVJcnRjdDJCdkxNZzVVSEM0UW12S3BX?=
- =?utf-8?B?Mi9tVTdJdm1WVXRyRkxhVlp1RHFGR1dnTktXempyRGVmWjQ1WDk3TFpscXUr?=
- =?utf-8?B?WjVMYjhKNEI5UUFZdmN0QjF6VDZnckozQ2QxZzhMN0ZKVEhRa0E3M05DdEd3?=
- =?utf-8?B?TnBYelhBNzZDd2xvdVJxRzNCNTNLYTl4c3BEVXhUcXpjVWduU3lhYldMbnk3?=
- =?utf-8?B?Q2hTdWpSb0l6V0ZldzdQUjJSaU9RS29UdktmRGxBZ2pRR1dhbzJEQ1AzUFl4?=
- =?utf-8?B?VEFlanlqcERkNXRjNlVzMlBXNEtnazRMOHJ4ak5xOGtvWnpYVkZZRkwrVjhU?=
- =?utf-8?B?R0Y4bnphTkZxZXlLM0Y2UVBIZTNGT3c4dEJmdnUxaHhBMGduWVQzREV2WjM1?=
- =?utf-8?B?ZndYay9FRGlVZHNXdDkyRmU1U0pFbG5oUks2MGlkSVJLSDVXeEh2ODZtVVA4?=
- =?utf-8?B?K2Ryb2J5WVBWZGgva1RMYW9BWTdCUHZZU3I5M1F4NFNtYUd1UjZhT0M5c0Nh?=
- =?utf-8?B?ZDVjLzZ4UzJ5L2NGWEpJakpUTnVEbjVCRC9XVFBTK1R5UGhUeFRXV04ycTZy?=
- =?utf-8?B?KzJoT2J0bStNQ01YUUM5cGRDcmRpQkVLNGRmSnlvZ0kxK2NGNWlBVm1hS3Zz?=
- =?utf-8?B?NXVvYm1Pekp5STFXNEFLSG93YmV2aklqNkQyU0ZDeUltY012VEdodDdVV0pq?=
- =?utf-8?B?RjZxV2Q2RElLemJmVUFyOVJYNlRvb0cvWStqblBMSEQzcjIzQWtsdnRQUUNJ?=
- =?utf-8?B?QmFqQlpPK2cydzY5eU1XdVdSUWRMOElXWUN1MnVxQ29DeHpVdHlyUkcwVmNH?=
- =?utf-8?B?YVIxVmNLc3JIMW14OU9RRFhuT2VCRm04ckxsSWJaU0Nka1ZRdlVxZzdnSnlP?=
- =?utf-8?B?VHJJUVZnZWRVQ2NldWNNSDh2d3VhdXFmZDVoTUNFQm9ndnJSbmd0UzdUZkNy?=
- =?utf-8?B?MDBtY29sNWl1ZnhESUs3V2RieFZGZnQyWUJ0alYzZVhST3l5alVsaWhNU0d0?=
- =?utf-8?B?aUFxVWNQMkdLVUxFb1BYTDNCV04ySURPS01oQW9JbmZ2U3hsaENUUXZ3M2p1?=
- =?utf-8?B?TFNyRmNEblJhQjNNV295bTVPTEdTZW5neWVqQTRGc0dUZVhYNmZxdHFWMWpF?=
- =?utf-8?B?TndKaStlTnlGM3JNRTh6SkdZRmRucVp6eE96TzlwQnVsbXlVRGdTQTNHTnlU?=
- =?utf-8?B?SDNZeklBcHRIMCsveTFLUGFpOFVRYVNTYXBydzJiQnlCNjJweVBPNDVvaktk?=
- =?utf-8?B?VFhqMi81SGYrNDdlMHI0UWNoZkRMQzlqUGF1UzdkWEZZSHdQREloMTVHbi81?=
- =?utf-8?Q?203ZdRWz4IccKRriWOkIE4iaX?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <EE4AC92E6A156B45A6ECB149BA68232D@namprd05.prod.outlook.com>
-Content-Transfer-Encoding: base64
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Lukas Wunner <lukas@wunner.de>
+References: <20231114200755.14911-1-mario.limonciello@amd.com>
+ <20231114200755.14911-8-mario.limonciello@amd.com>
+ <e0e76948-a0a8-b6c2-163b-1d00afb6650c@amd.com>
+ <5356bcbd-0785-4156-993c-338fed67d39d@amd.com>
+ <d7539754-1877-43ed-a1b4-f969315ec271@amd.com>
+From: "Lazar, Lijo" <lijo.lazar@amd.com>
+In-Reply-To: <d7539754-1877-43ed-a1b4-f969315ec271@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BM1PR01CA0150.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:68::20) To BYAPR12MB4614.namprd12.prod.outlook.com
+ (2603:10b6:a03:a6::22)
 MIME-Version: 1.0
-X-OriginatorOrg: vmware.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB4614:EE_|MN6PR12MB8541:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4ac6499f-87fb-4c64-c4bc-08dbe65d3f25
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LOiyDkmUOkb50OJqFQJ/i5aIGVmSNJUztWYRt5rT2BNtnJbq8SqakH7iDPDfAlurwuw/Jd0AElvuK0jET1caazjytTDjhFxyADCEjFLfbuHuvcXquY04KK18yslVuSmkW8fafV6D4stePfWGdUofvxslpj4EGrLaWD06visIIk9LUfJjyxLpxX2w9FiSNPRPL0mr8gCOlYY3fZjVRV4W2QbS4gvqQDV+554bNfJinHebGX1121y4pB4Sw341+7zhnCpepaSi9xp09GHIbcAzGKCykRv1QZsKpflYB2yKTSWWfG0pArtBcrKfOqYW7JTXgX/LhUvodWq/SYfeT8J/vHMbDbcbvtW0diNnU9ayrgckxZvi6rlknxf11hulRRZACEZC6fWzCSA3sf6FTWLN5cvn5pqzraHexwjfrJ2ISssMvjh1gp4LAA+wq4CKMgBeTWaRCNPAhhvoS9aYoipPhHv/0UOhq+FS6GebQsTHUFM0+BNIPO5Bj5+7aj7689oq1zzkVR8oHVSMmYKpkegr2nLTAOUm0Qzsz/sAnBwOnQ37NATZWICscqm9eNIgm8o966jIqIGQhAHl8x/hLTHFA+gUpMjZmN880+oq8lqPaKyZccTOTmSzs8hJM6hlnJnj
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB4614.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(376002)(396003)(136003)(346002)(366004)(230922051799003)(451199024)(186009)(1800799009)(64100799003)(54906003)(316002)(86362001)(6512007)(53546011)(6486002)(6506007)(66476007)(966005)(478600001)(31686004)(31696002)(36756003)(5660300002)(2616005)(7416002)(8936002)(110136005)(66946007)(4326008)(6666004)(66556008)(8676002)(26005)(83380400001)(41300700001)(2906002)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y0JaT1RoYUhwYVhiNkpYbWtTdTFodG9VU3d4czRTZ3FZeEtqMHFMaHozUDJM?=
+ =?utf-8?B?OFk2OEhzVTRxVnIvckV6Vk0rMUFtcENzZENUOE1DR0xKNjhWVWZPbnBnb2Vn?=
+ =?utf-8?B?eTB6OUczOVc0V2dtWGJoSTdWNkx4NnhSdXdTRXVIelo3cU5yOHlESUFEQ2Uw?=
+ =?utf-8?B?SHFkZkZ0clpuSEpJNkpnRTRDMGNia2Y1RTQ1R2ltRjY2T3UxZDVlblZNYytu?=
+ =?utf-8?B?MnkrQlEvL3Y1WUN0OXpDcnZ5dExJQS9iTzZwdTB3T1JGNHVvK0ltTGE5MlNs?=
+ =?utf-8?B?ZVdPNEQ5WXNmQTY5dUd6bVZaUFBWQ3RnMXdYMFZMVVBxdCthanZFM3M4Ky9n?=
+ =?utf-8?B?emI3NHlNZEhtMWZGdkpIOTQreWZMcmRYWHdFd1hNUTJWWnV6V0RLNHVtWHc5?=
+ =?utf-8?B?V1dqY0k3clhRbDZ5NWpvd040Z05yMmVxdkpLMXBlaEdPYzBWMEZ1bG1HcmV5?=
+ =?utf-8?B?TlFNdEVaSGVCamJJcTdtb3U5Tmw1WHE2YXdMZ0U1L2plWHVid0gyR3ZRRFR5?=
+ =?utf-8?B?S0x6bWdORU5UdUI1N0VzTmlpZHJYa2dFald1M25QcjF1bldYQzErQmhWUHZh?=
+ =?utf-8?B?U0JJcmRiT0VDWVdlQkc5Y1U0aFdzZUJYQXFoZjBVOUZyL3IySHlEWU82LzlJ?=
+ =?utf-8?B?eitrSUhxcWZteFRxQklvd2V4Vm9oUDNITlE4S2MxRGowN3p1ODVhN2U4QUMv?=
+ =?utf-8?B?L1llQSttdkRrZlQ3dlF1TkowSzdQb0VSZHYvWHdnVnVDUkp0MW1lQjJQZ3NQ?=
+ =?utf-8?B?Z2FNVG9TMWJxSzVsazM1d3pvM2pvRXJ1MHBXYkpyMFdENWYxZWx3a0o2Rk0y?=
+ =?utf-8?B?SUgvMzBtaWJXN2FkMWh4bCs2NWN6QWw4aFFCdjhrN2FhR0prOWFaOTE1V0pX?=
+ =?utf-8?B?M25Yd2FBYlg3OWlIaE9zR2RSWStLUHVqZHZLeURUWjluTzlybzdDSmZhWkVu?=
+ =?utf-8?B?dXdLY2JEVHhnK0Z5R2tPeXc3V3Bac3kwcnlRc1p1eEpHVFdHWXZiRUJodGRu?=
+ =?utf-8?B?VlpjZlVpRnVoaWdhbnFLd0dtMUdROUZDRjMxcG54aHRWQlBLVFZsdW1aRDc0?=
+ =?utf-8?B?c1QrbnBCTEQyK0lPVW00b1U2VVlyYjNad29Zb29PeGdER1BnTjhzWHdjV25O?=
+ =?utf-8?B?RDFudWNSWnNBbXowRGNERUNoUkZVV3R2NkE3NXNnSXI4Uy84MUhVT25zK1Ju?=
+ =?utf-8?B?a1FDSVk2U2U3dVVIWndscFVNZXltay9KdW1Jd3pkRGJBOGNXVklvSzczSlY2?=
+ =?utf-8?B?VVg4VUExOCtWTVVMUU1UR0NKUW1KUUtCemVIa21Hc0N4YzRNOGR0ZzlrNzhX?=
+ =?utf-8?B?NnhOdUtrb2YzcVlUUmlMRFJGVjRsb2lVVGU5cHRXOThHUVczR3BPTlIwL1Rm?=
+ =?utf-8?B?ajFMNmRtQi9sbXZlRUdrYU5uZHRsaGQzUEpKVEtYODJrQlZadkNRcFZvZVR5?=
+ =?utf-8?B?NHlRUmUzdUEranliMExhU3ZhZ0NlQUVxUm1kT1ovbnZ1Y2UrQ25XNjcyZWc5?=
+ =?utf-8?B?a1ZQVWlSMnBFK1FBQWRQNXVLNDZJdkt3dWNuMUc1NXVlSEtFNGdiZ3E5SDFv?=
+ =?utf-8?B?WXFYM0dUZ2c4Q1piOXFRcFY3WU9JVEtiRGtNT1JsbVFBMmxjaXRHa0RGOWlK?=
+ =?utf-8?B?cFBic3Q3YUd0RFpsZXFxMzUrbFJjejBRcXBDWXdaaFVNK1oralhIZEdkNTB3?=
+ =?utf-8?B?MnJadG1VcC85TitaZXZnQUlLTWVPb1VBcmFMZ0w4aFZTWEJ0emw5NWYxclhI?=
+ =?utf-8?B?eFlMVDM0NlA4d0kzcFBjZVBSZG5sY1BzUUF6WWZGY1BuSkgvMGp5MVRTSU9S?=
+ =?utf-8?B?bHllQWgxcS9lTmtJOEMyTEFnemZKcHAxWk9sM0JtSGk3ZlByOGpGb0ZEVWRx?=
+ =?utf-8?B?d1NFR0dPSjc2MTJYOS9seTNrdVBqeVFLNkx6TE1oVUp5ZmNoYVRGMlNuK3hx?=
+ =?utf-8?B?MHJUMkpZUXZUTk1meGRxeEZtNkl3WDBrZzQ5QnpwYThuSi9hRmdleTAxcVFq?=
+ =?utf-8?B?S3ZzZUd3NE5MakNFeVBRNkZodmtxbXZtVDh5blFaNFVkMm1IOE5zVW1yeUdW?=
+ =?utf-8?B?a1JpYWtUd1JNOHRoMkpWdERHclN3bnRWUGJyWU5YUnBYTGVieXdyYWhDOFJv?=
+ =?utf-8?Q?rXnvbdox0de6Bmg8tJ99Y3Gia?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ac6499f-87fb-4c64-c4bc-08dbe65d3f25
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB4614.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR05MB9832.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99742fab-e917-4742-1eb1-08dbe6591611
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2023 04:04:09.9243 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Q8vrMbtPnsKVMnnmwsRnflDHZHsj/VV2UqIAdDLYoNlXPw4V1KX3zoVua019bEyILMjdSognzfUtXIV1relfNQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR05MB10360
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2023 04:33:57.2946 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uUHmYuf2zfmK7EzTtP9eoDRbqO2nu3jL4qUcUC/HqARatlnO0706oTFjcBKI6X3h
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8541
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,72 +135,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kraxel@redhat.com" <kraxel@redhat.com>,
- "pekka.paalanen@collabora.com" <pekka.paalanen@collabora.com>,
- "corbet@lwn.net" <corbet@lwn.net>,
- "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "belmouss@redhat.com" <belmouss@redhat.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "gurchetansingh@chromium.org" <gurchetansingh@chromium.org>,
- Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "airlied@redhat.com" <airlied@redhat.com>,
- "nunes.erico@gmail.com" <nunes.erico@gmail.com>
+Cc: =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, open list <linux-kernel@vger.kernel.org>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:ACPI" <linux-acpi@vger.kernel.org>,
+ Danilo Krummrich <dakr@redhat.com>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>, Manivannan Sadhasivam <mani@kernel.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>,
+ =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+ "Maciej W . Rozycki" <macro@orcam.me.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDIzLTExLTE1IGF0IDE0OjE1ICswMTAwLCBKYXZpZXIgTWFydGluZXogQ2FuaWxs
-YXMgd3JvdGU6DQo+IEhlbGxvLA0KPg0KPiBUaGlzIHNlcmllcyBpcyB0byBmaXggYW4gaXNzdWUg
-dGhhdCBzdXJmYWNlZCBhZnRlciBkYW1hZ2UgY2xpcHBpbmcgd2FzDQo+IGVuYWJsZWQgZm9yIHRo
-ZSB2aXJ0aW8tZ3B1IGJ5IGNvbW1pdCAwMWYwNTk0MGE5YTcgKCJkcm0vdmlydGlvOiBFbmFibGUN
-Cj4gZmIgZGFtYWdlIGNsaXBzIHByb3BlcnR5IGZvciB0aGUgcHJpbWFyeSBwbGFuZSIpLg0KPg0K
-PiBBZnRlciB0aGF0IGNoYW5nZSwgZmxpY2tlcmluZyBhcnRpZmFjdHMgd2FzIHJlcG9ydGVkIHRv
-IGJlIHByZXNlbnQgd2l0aA0KPiBib3RoIHdlc3RvbiBhbmQgd2xyb290cyB3YXlsYW5kIGNvbXBv
-c2l0b3JzIHdoZW4gcnVubmluZyBpbiBhIHZpcnR1YWwNCj4gbWFjaGluZS4gVGhlIGNhdXNlIHdh
-cyBpZGVudGlmaWVkIGJ5IFNpbWEgVmV0dGVyLCB3aG8gcG9pbnRlZCBvdXQgdGhhdA0KPiB2aXJ0
-aW8tZ3B1IGRvZXMgcGVyLWJ1ZmZlciB1cGxvYWRzIGFuZCBmb3IgdGhpcyByZWFzb24gaXQgbmVl
-ZHMgdG8gZG8NCj4gYSBidWZmZXIgZGFtYWdlIGhhbmRsaW5nLCBpbnN0ZWFkIG9mIGZyYW1lIGRh
-bWFnZSBoYW5kbGluZy4NCj4NCj4gVGhlaXIgc3VnZ2VzdGlvbiB3YXMgdG8gZXh0ZW5kIHRoZSBk
-YW1hZ2UgaGVscGVycyB0byBjb3ZlciB0aGF0IGNhc2UNCj4gYW5kIGdpdmVuIHRoYXQgdGhlcmUn
-cyBpc24ndCBhIGJ1ZmZlciBkYW1hZ2UgYWNjdW11bGF0aW9uIGFsZ29yaXRobQ0KPiAoZS5nOiBi
-dWZmZXIgYWdlKSwganVzdCBkbyBhIGZ1bGwgcGxhbmUgdXBkYXRlIGlmIHRoZSBmcmFtZWJ1ZmZl
-ciB0aGF0DQo+IGlzIGF0dGFjaGVkIHRvIGEgcGxhbmUgY2hhbmdlZCBzaW5jZSB0aGUgbGFzdCBw
-bGFuZSB1cGRhdGUgKHBhZ2UtZmxpcCkuDQo+DQo+IEl0IGlzIGEgdjIgdGhhdCBhZGRyZXNzZXMg
-aXNzdWVzIHBvaW50ZWQgb3V0IGJ5IFRob21hcyBaaW1tZXJtYW5uIGluIHYxOg0KPiBodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZlcy9kcmktZGV2ZWwvMjAyMy1Ob3ZlbWJlci80
-MzAxMzguaHRtbA0KPg0KPiBQYXRjaCAjMSBhZGRzIGEgaWdub3JlX2RhbWFnZV9jbGlwcyBmaWVs
-ZCB0byBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlIHRvIGJlDQo+IHNldCBieSBkcml2ZXJzIHRoYXQg
-d2FudCB0aGUgZGFtYWdlIGhlbHBlcnMgdG8gaWdub3JlIHRoZSBkYW1hZ2UgY2xpcHMuDQo+DQo+
-IFBhdGNoICMyIGZpeGVzIHRoZSB2aXJ0aW8tZ3B1IGRhbWFnZSBoYW5kbGluZyBsb2dpYyBieSBh
-c2tpbmcgdGhlIGRhbWFnZQ0KPiBoZWxwZXIgdG8gaWdub3JlIHRoZSBkYW1hZ2UgY2xpcHMgaWYg
-dGhlIGZyYW1lYnVmZmVyIGF0dGFjaGVkIHRvIGEgcGxhbmUNCj4gaGFzIGNoYW5nZWQgc2luY2Ug
-dGhlIGxhc3QgcGFnZS1mbGlwLg0KPg0KPiBQYXRjaCAjMyBkb2VzIHRoZSBzYW1lIGJ1dCBmb3Ig
-dGhlIHZtd2dmeCBkcml2ZXIgdGhhdCBhbHNvIG5lZWRzIHRvIGhhbmRsZQ0KPiBidWZmZXIgZGFt
-YWdlIGFuZCBzaG91bGQgaGF2ZSB0aGUgc2FtZSBpc3N1ZSAoYWx0aG91Z2ggSSBoYXZlbid0IHRl
-c3RlZCBpdA0KPiBkdWUgbm90IGhhdmluZyBhIFZNV2FyZSBzZXR1cCkuDQo+DQo+IFBhdGNoICM0
-IGFkZHMgdG8gdGhlIEtNUyBkYW1hZ2UgdHJhY2tpbmcga2VybmVsLWRvYyBzb21lIHBhcmFncmFw
-aHMgYWJvdXQNCj4gZGFtYWdlIHRyYWNraW5nIHR5cGVzIGFuZCByZWZlcmVuY2VzIHRvIGxpbmtz
-IHRoYXQgZXhwbGFpbiBmcmFtZSBkYW1hZ2UgdnMNCj4gYnVmZmVyIGRhbWFnZS4NCj4NCj4gRmlu
-YWxseSBwYXRjaCAjNSBhZGRzIGFuIGl0ZW0gdG8gdGhlIERSTSB0b2RvLCBhYm91dCB0aGUgbmVl
-ZCB0byBpbXBsZW1lbnQNCj4gc29tZSBidWZmZXIgZGFtYWdlIGFjY3VtdWxhdGlvbiBhbGdvcml0
-aG0gaW5zdGVhZCBvZiBqdXN0IGRvaW5nIGZ1bGwgcGxhbmUNCj4gdXBkYXRlcyBpbiB0aGlzIGNh
-c2UuDQo+DQo+IEJlY2F1c2UgY29tbWl0IDAxZjA1OTQwYTlhNyBsYW5kZWQgaW4gdjYuNCwgdGhl
-IGZpcnN0IDIgcGF0Y2hlcyBhcmUgbWFya2VkDQo+IGFzIEZpeGVzIGFuZCBDYyBzdGFibGUuDQo+
-DQo+IEkndmUgdGVzdGVkIHRoaXMgb24gYSBWTSB3aXRoIHdlc3Rvbiwgd2FzIGFibGUgdG8gcmVw
-cm9kdWNlIHRoZSBpc3N1ZQ0KPiByZXBvcnRlZCBhbmQgdGhlIHBhdGNoZXMgZGlkIGZpeCB0aGUg
-cHJvYmxlbS4NCj4NCj4gQmVzdCByZWdhcmRzLA0KPiBKYXZpZXINCj4NCj4gQ2hhbmdlcyBpbiB2
-MjoNCj4gLSBBZGQgYSBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlIC5pZ25vcmVfZGFtYWdlX2NsaXBz
-IHRvIHNldCBpbiB0aGUgcGxhbmUncw0KPiAgIC5hdG9taWNfY2hlY2ssIGluc3RlYWQgb2YgaGF2
-aW5nIGRpZmZlcmVudCBoZWxwZXJzIChUaG9tYXMgWmltbWVybWFubikuDQo+IC0gU2V0IHN0cnVj
-dCBkcm1fcGxhbmVfc3RhdGUgLmlnbm9yZV9kYW1hZ2VfY2xpcHMgaW4gdmlydGlvLWdwdSBwbGFu
-ZSdzDQo+ICAgLmF0b21pY19jaGVjayBpbnN0ZWFkIG9mIHVzaW5nIGEgZGlmZmVyZW50IGhlbHBl
-cnMgKFRob21hcyBaaW1tZXJtYW5uKS4NCj4gLSBTZXQgc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAu
-aWdub3JlX2RhbWFnZV9jbGlwcyBpbiB2bXdnZnggcGxhbmUncw0KPiAgIC5hdG9taWNfY2hlY2sg
-aW5zdGVhZCBvZiB1c2luZyBhIGRpZmZlcmVudCBoZWxwZXJzIChUaG9tYXMgWmltbWVybWFubiku
-DQoNClRoZSBzZXJpZXMgbG9va3MgZ29vZCB0byBtZSwgdGhhbmtzIGZvciB0YWNrbGluZyB0aGlz
-LiBJJ20gc3VycHJpc2VkIHRoYXQgd2UgZG9uJ3QNCmhhdmUgYW55IElHVCB0ZXN0cyBmb3IgdGhp
-cy4gU2VlbXMgbGlrZSBpdCBzaG91bGRuJ3QgYmUgdG9vIGhhcmQgdG8gdGVzdCBpdCBpbiBhDQpn
-ZW5lcmljIHdheSB3aXRoIGp1c3QgYSBjb3VwbGUgb2YgZHVtYiBidWZmZXJzLg0KDQp6DQo=
+
+
+On 11/16/2023 2:39 AM, Mario Limonciello wrote:
+> On 11/15/2023 11:04, Mario Limonciello wrote:
+>> On 11/14/2023 21:23, Lazar, Lijo wrote:
+>>>
+>>>
+>>> On 11/15/2023 1:37 AM, Mario Limonciello wrote:
+>>>> The USB4 spec specifies that PCIe ports that are used for tunneling
+>>>> PCIe traffic over USB4 fabric will be hardcoded to advertise 2.5GT/s 
+>>>> and
+>>>> behave as a PCIe Gen1 device. The actual performance of these ports is
+>>>> controlled by the fabric implementation.
+>>>>
+>>>> Callers for pcie_bandwidth_available() will always find the PCIe ports
+>>>> used for tunneling as a limiting factor potentially leading to 
+>>>> incorrect
+>>>> performance decisions.
+>>>>
+>>>> To prevent such problems check explicitly for ports that are marked as
+>>>> virtual links or as thunderbolt controllers and skip them when looking
+>>>> for bandwidth limitations of the hierarchy. If the only device 
+>>>> connected
+>>>> is a port used for tunneling then report that device.
+>>>>
+>>>> Callers to pcie_bandwidth_available() could make this change on their
+>>>> own as well but then they wouldn't be able to detect other potential
+>>>> speed bottlenecks from the hierarchy without duplicating
+>>>> pcie_bandwidth_available() logic.
+>>>>
+>>>> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2925#note_2145860
+>>>> Link: https://www.usb.org/document-library/usb4r-specification-v20
+>>>>        USB4 V2 with Errata and ECN through June 2023
+>>>>        Section 11.2.1
+>>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>>>> ---
+>>>> v2->v3:
+>>>>   * Split from previous patch version
+>>>>   * Look for thunderbolt or virtual link
+>>>> ---
+>>>>   drivers/pci/pci.c | 19 +++++++++++++++++++
+>>>>   1 file changed, 19 insertions(+)
+>>>>
+>>>> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+>>>> index 0ff7883cc774..b1fb2258b211 100644
+>>>> --- a/drivers/pci/pci.c
+>>>> +++ b/drivers/pci/pci.c
+>>>> @@ -6269,11 +6269,20 @@ static u32 pcie_calc_bw_limits(struct 
+>>>> pci_dev *dev, u32 bw,
+>>>>    * limiting_dev, speed, and width pointers are supplied) 
+>>>> information about
+>>>>    * that point.  The bandwidth returned is in Mb/s, i.e., 
+>>>> megabits/second of
+>>>>    * raw bandwidth.
+>>>> + *
+>>>> + * This excludes the bandwidth calculation that has been returned 
+>>>> from a
+>>>> + * PCIe device that is used for transmitting tunneled PCIe traffic 
+>>>> over a virtual
+>>>> + * link part of larger hierarchy. Examples include Thunderbolt3 and 
+>>>> USB4 links.
+>>>> + * The calculation is excluded because the USB4 specification 
+>>>> specifies that the
+>>>> + * max speed returned from PCIe configuration registers for the 
+>>>> tunneling link is
+>>>> + * always PCI 1x 2.5 GT/s.  When only tunneled devices are present, 
+>>>> the bandwidth
+>>>> + * returned is the bandwidth available from the first tunneled device.
+>>>>    */
+>>>>   u32 pcie_bandwidth_available(struct pci_dev *dev, struct pci_dev 
+>>>> **limiting_dev,
+>>>>                    enum pci_bus_speed *speed,
+>>>>                    enum pcie_link_width *width)
+>>>>   {
+>>>> +    struct pci_dev *vdev = NULL;
+>>>>       u32 bw = 0;
+>>>>       if (speed)
+>>>> @@ -6282,10 +6291,20 @@ u32 pcie_bandwidth_available(struct pci_dev 
+>>>> *dev, struct pci_dev **limiting_dev,
+>>>>           *width = PCIE_LNK_WIDTH_UNKNOWN;
+>>>>       while (dev) {
+>>>> +        if (dev->is_virtual_link || dev->is_thunderbolt) {
+>>>> +            if (!vdev)
+>>>> +                vdev = dev;
+>>>> +            goto skip;
+>>>> +        }
+>>>
+>>> One problem with this is it *silently* ignores the bandwidth limiting 
+>>> device - the bandwidth may not be really available if there are 
+>>> virtual links in between. That is a change in behavior from the 
+>>> messages shown in __pcie_print_link_status.
+>>
+>> That's a good point.  How about a matching behavioral change to 
+>> __pcie_print_link_status() where it looks at the entire hierarchy for 
+>> any links marked as virtual and prints a message along the lines of:
+>>
+>> "This value may be further limited by virtual links".
+> 
+> I'll wait for some more feedback on the series before posting another 
+> version, but I did put this together and this is a sample from dmesg of 
+> the wording I'm planning on using for the next version:
+> 
+> 31.504 Gb/s available PCIe bandwidth, this may be further limited by 
+> conditions of virtual link 0000:00:03.1
+> 
+
+This will cover the the message, but for any real user of the API this 
+is not good enough as the speed returned doesn't really indicate the 
+bandwidth available. Or, modify the description such that users know 
+that the value cannot be trusted when there is virtual link in between 
+(probably the API should indicate that through some param/return code) 
+and act accordingly.
+
+Thanks,
+Lijo
+
+>>
+>>>
+>>> Thanks,
+>>> Lijo
+>>>
+>>>>           bw = pcie_calc_bw_limits(dev, bw, limiting_dev, speed, 
+>>>> width);
+>>>> +skip:
+>>>>           dev = pci_upstream_bridge(dev);
+>>>>       }
+>>>> +    /* If nothing "faster" found on hierarchy, limit to first 
+>>>> virtual link */
+>>>> +    if (vdev && !bw)
+>>>> +        bw = pcie_calc_bw_limits(vdev, bw, limiting_dev, speed, 
+>>>> width);
+>>>> +
+>>>>       return bw;
+>>>>   }
+>>>>   EXPORT_SYMBOL(pcie_bandwidth_available);
+>>
+> 
