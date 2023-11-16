@@ -2,127 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF697EDAD0
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 05:34:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D2B7EDBEC
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 08:25:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C0BA10E121;
-	Thu, 16 Nov 2023 04:34:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C65B10E24C;
+	Thu, 16 Nov 2023 07:25:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 134A910E056;
- Thu, 16 Nov 2023 04:34:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S1VfOEQRTKkZMgOfXo9lqAIYOmK1HgUp4Mxf+eSZb+q9JEvVXjWF770u79VNl8f/m4EeSI5ueX8+wp7fyq4PqGibMQg+PWu4jm6b73tlhyw313gAZCT+1xjlmCy+1QW/O4g5h4IxzxkywgjZQEwnDAXuCdgvW++n5Q2xxv8eHllMvLYuhRevp/eCFAO2BZ2ZTJg80tQGf/O7qEwK0/jQgOMXvBqP3TUYVwFiAh+UriqXa3Qm0D0wrEBgS1tv70vIlj+Mwfa26DXcbwZrZtsdVqRUE8QO47AwhEbaS0D4kgncOJI2VQuCc8d3zy2w+bMJp+hQq71mY2Yb0s73yAW5HA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dPX9Y3DDSPe4Dkmf3EwQ714i3oyO+ArRVD8DwL6RTRU=;
- b=JMfwyiJi/5BLkQlEEoPUf/gVmwbCiq4XgKgeMVv4MPTmnHyVhXe7FIjZdx54vVcVTRJc4AwdCZMLc07P6fpI9QDJsQlNPcXq0K6U4MZs1vAerc08XkP0OxSNHu51mE39nhOeg7cx8UXFNniYTfRAxJ9LSPeKtSNrTpIrie1kdJkjC7E93LyzhfX7/tv9IF8gUgEPPdBuJqaYsi8PhIA4Q2v/1ZW5yNA1Plz8X+gFr9DPK8Pt8HbU+2H6n1kvt7n4OpzSSK8TyeM7BdMPAUSphALitDH045wAk6i/H/mqu2XscyjNwQH73mSV4NwXLBDk8SQYdddPg7OOAS86na8zMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dPX9Y3DDSPe4Dkmf3EwQ714i3oyO+ArRVD8DwL6RTRU=;
- b=kcfzk6zLM8EDO/LBolXZTWDZrXw2X8fxhHbxRYnpZLJfBOlJSXEd75tuoHV72C+h1Sz4RgWyOfcfpdx5LlTfK2e4CYpgPaOg0FvfsuRgKdR0UIE40Su6i6dth+0kceAEWhu1yKPZ26YZBtdxLpI3/0X3mCwYMRehIednQrBmcus=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BYAPR12MB4614.namprd12.prod.outlook.com (2603:10b6:a03:a6::22)
- by MN6PR12MB8541.namprd12.prod.outlook.com (2603:10b6:208:47a::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Thu, 16 Nov
- 2023 04:33:58 +0000
-Received: from BYAPR12MB4614.namprd12.prod.outlook.com
- ([fe80::c258:1e94:a85b:1510]) by BYAPR12MB4614.namprd12.prod.outlook.com
- ([fe80::c258:1e94:a85b:1510%4]) with mapi id 15.20.6977.033; Thu, 16 Nov 2023
- 04:33:58 +0000
-Message-ID: <ed07b850-8924-29b5-895c-331e3093d8a2@amd.com>
-Date: Thu, 16 Nov 2023 10:03:41 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v3 7/7] PCI: Exclude PCIe ports used for virtual links in
- pcie_bandwidth_available()
+Received: from mail-m11871.qiye.163.com (mail-m11871.qiye.163.com
+ [115.236.118.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5C4410E24C
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 07:25:09 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256;
+ b=CJizYPUMEJGuQkLUzVYSJBUZmZWoN2U79utK1nmfzV6yQZ21iGsAkebKz1BiXIqybMK1dCsaihAxuRQMjm9UNy5LdP8vwh1/9A8SIxatjlvWqC+JW3Mlo9H1vErtX6eLdtLd4vqcQUZrl+jyWb4EyVwlUN+Ajm2UcC5BLM7ief4=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
+ bh=Nss8tpEKs+9j6WCglvSMT+zJ7vOBcmk5CoeXdmgqLP4=;
+ h=date:mime-version:subject:message-id:from;
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+ by mail-m12779.qiye.163.com (Hmail) with ESMTPA id 318667801D0;
+ Thu, 16 Nov 2023 15:24:55 +0800 (CST)
+Message-ID: <229557d7-beec-44e0-9ee6-4a962b33ec79@rock-chips.com>
+Date: Thu, 16 Nov 2023 15:24:54 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/11] drm/rockchip: vop2: Add support for rk3588
 Content-Language: en-US
-To: Mario Limonciello <mario.limonciello@amd.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Lukas Wunner <lukas@wunner.de>
-References: <20231114200755.14911-1-mario.limonciello@amd.com>
- <20231114200755.14911-8-mario.limonciello@amd.com>
- <e0e76948-a0a8-b6c2-163b-1d00afb6650c@amd.com>
- <5356bcbd-0785-4156-993c-338fed67d39d@amd.com>
- <d7539754-1877-43ed-a1b4-f969315ec271@amd.com>
-From: "Lazar, Lijo" <lijo.lazar@amd.com>
-In-Reply-To: <d7539754-1877-43ed-a1b4-f969315ec271@amd.com>
+To: Sascha Hauer <s.hauer@pengutronix.de>, Andy Yan <andyshrk@163.com>
+References: <20231114112534.1770731-1-andyshrk@163.com>
+ <20231114112855.1771372-1-andyshrk@163.com>
+ <20231115090823.GY3359458@pengutronix.de>
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <20231115090823.GY3359458@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BM1PR01CA0150.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:68::20) To BYAPR12MB4614.namprd12.prod.outlook.com
- (2603:10b6:a03:a6::22)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB4614:EE_|MN6PR12MB8541:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4ac6499f-87fb-4c64-c4bc-08dbe65d3f25
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LOiyDkmUOkb50OJqFQJ/i5aIGVmSNJUztWYRt5rT2BNtnJbq8SqakH7iDPDfAlurwuw/Jd0AElvuK0jET1caazjytTDjhFxyADCEjFLfbuHuvcXquY04KK18yslVuSmkW8fafV6D4stePfWGdUofvxslpj4EGrLaWD06visIIk9LUfJjyxLpxX2w9FiSNPRPL0mr8gCOlYY3fZjVRV4W2QbS4gvqQDV+554bNfJinHebGX1121y4pB4Sw341+7zhnCpepaSi9xp09GHIbcAzGKCykRv1QZsKpflYB2yKTSWWfG0pArtBcrKfOqYW7JTXgX/LhUvodWq/SYfeT8J/vHMbDbcbvtW0diNnU9ayrgckxZvi6rlknxf11hulRRZACEZC6fWzCSA3sf6FTWLN5cvn5pqzraHexwjfrJ2ISssMvjh1gp4LAA+wq4CKMgBeTWaRCNPAhhvoS9aYoipPhHv/0UOhq+FS6GebQsTHUFM0+BNIPO5Bj5+7aj7689oq1zzkVR8oHVSMmYKpkegr2nLTAOUm0Qzsz/sAnBwOnQ37NATZWICscqm9eNIgm8o966jIqIGQhAHl8x/hLTHFA+gUpMjZmN880+oq8lqPaKyZccTOTmSzs8hJM6hlnJnj
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB4614.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(376002)(396003)(136003)(346002)(366004)(230922051799003)(451199024)(186009)(1800799009)(64100799003)(54906003)(316002)(86362001)(6512007)(53546011)(6486002)(6506007)(66476007)(966005)(478600001)(31686004)(31696002)(36756003)(5660300002)(2616005)(7416002)(8936002)(110136005)(66946007)(4326008)(6666004)(66556008)(8676002)(26005)(83380400001)(41300700001)(2906002)(38100700002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y0JaT1RoYUhwYVhiNkpYbWtTdTFodG9VU3d4czRTZ3FZeEtqMHFMaHozUDJM?=
- =?utf-8?B?OFk2OEhzVTRxVnIvckV6Vk0rMUFtcENzZENUOE1DR0xKNjhWVWZPbnBnb2Vn?=
- =?utf-8?B?eTB6OUczOVc0V2dtWGJoSTdWNkx4NnhSdXdTRXVIelo3cU5yOHlESUFEQ2Uw?=
- =?utf-8?B?SHFkZkZ0clpuSEpJNkpnRTRDMGNia2Y1RTQ1R2ltRjY2T3UxZDVlblZNYytu?=
- =?utf-8?B?MnkrQlEvL3Y1WUN0OXpDcnZ5dExJQS9iTzZwdTB3T1JGNHVvK0ltTGE5MlNs?=
- =?utf-8?B?ZVdPNEQ5WXNmQTY5dUd6bVZaUFBWQ3RnMXdYMFZMVVBxdCthanZFM3M4Ky9n?=
- =?utf-8?B?emI3NHlNZEhtMWZGdkpIOTQreWZMcmRYWHdFd1hNUTJWWnV6V0RLNHVtWHc5?=
- =?utf-8?B?V1dqY0k3clhRbDZ5NWpvd040Z05yMmVxdkpLMXBlaEdPYzBWMEZ1bG1HcmV5?=
- =?utf-8?B?TlFNdEVaSGVCamJJcTdtb3U5Tmw1WHE2YXdMZ0U1L2plWHVid0gyR3ZRRFR5?=
- =?utf-8?B?S0x6bWdORU5UdUI1N0VzTmlpZHJYa2dFald1M25QcjF1bldYQzErQmhWUHZh?=
- =?utf-8?B?U0JJcmRiT0VDWVdlQkc5Y1U0aFdzZUJYQXFoZjBVOUZyL3IySHlEWU82LzlJ?=
- =?utf-8?B?eitrSUhxcWZteFRxQklvd2V4Vm9oUDNITlE4S2MxRGowN3p1ODVhN2U4QUMv?=
- =?utf-8?B?L1llQSttdkRrZlQ3dlF1TkowSzdQb0VSZHYvWHdnVnVDUkp0MW1lQjJQZ3NQ?=
- =?utf-8?B?Z2FNVG9TMWJxSzVsazM1d3pvM2pvRXJ1MHBXYkpyMFdENWYxZWx3a0o2Rk0y?=
- =?utf-8?B?SUgvMzBtaWJXN2FkMWh4bCs2NWN6QWw4aFFCdjhrN2FhR0prOWFaOTE1V0pX?=
- =?utf-8?B?M25Yd2FBYlg3OWlIaE9zR2RSWStLUHVqZHZLeURUWjluTzlybzdDSmZhWkVu?=
- =?utf-8?B?dXdLY2JEVHhnK0Z5R2tPeXc3V3Bac3kwcnlRc1p1eEpHVFdHWXZiRUJodGRu?=
- =?utf-8?B?VlpjZlVpRnVoaWdhbnFLd0dtMUdROUZDRjMxcG54aHRWQlBLVFZsdW1aRDc0?=
- =?utf-8?B?c1QrbnBCTEQyK0lPVW00b1U2VVlyYjNad29Zb29PeGdER1BnTjhzWHdjV25O?=
- =?utf-8?B?RDFudWNSWnNBbXowRGNERUNoUkZVV3R2NkE3NXNnSXI4Uy84MUhVT25zK1Ju?=
- =?utf-8?B?a1FDSVk2U2U3dVVIWndscFVNZXltay9KdW1Jd3pkRGJBOGNXVklvSzczSlY2?=
- =?utf-8?B?VVg4VUExOCtWTVVMUU1UR0NKUW1KUUtCemVIa21Hc0N4YzRNOGR0ZzlrNzhX?=
- =?utf-8?B?NnhOdUtrb2YzcVlUUmlMRFJGVjRsb2lVVGU5cHRXOThHUVczR3BPTlIwL1Rm?=
- =?utf-8?B?ajFMNmRtQi9sbXZlRUdrYU5uZHRsaGQzUEpKVEtYODJrQlZadkNRcFZvZVR5?=
- =?utf-8?B?NHlRUmUzdUEranliMExhU3ZhZ0NlQUVxUm1kT1ovbnZ1Y2UrQ25XNjcyZWc5?=
- =?utf-8?B?a1ZQVWlSMnBFK1FBQWRQNXVLNDZJdkt3dWNuMUc1NXVlSEtFNGdiZ3E5SDFv?=
- =?utf-8?B?WXFYM0dUZ2c4Q1piOXFRcFY3WU9JVEtiRGtNT1JsbVFBMmxjaXRHa0RGOWlK?=
- =?utf-8?B?cFBic3Q3YUd0RFpsZXFxMzUrbFJjejBRcXBDWXdaaFVNK1oralhIZEdkNTB3?=
- =?utf-8?B?MnJadG1VcC85TitaZXZnQUlLTWVPb1VBcmFMZ0w4aFZTWEJ0emw5NWYxclhI?=
- =?utf-8?B?eFlMVDM0NlA4d0kzcFBjZVBSZG5sY1BzUUF6WWZGY1BuSkgvMGp5MVRTSU9S?=
- =?utf-8?B?bHllQWgxcS9lTmtJOEMyTEFnemZKcHAxWk9sM0JtSGk3ZlByOGpGb0ZEVWRx?=
- =?utf-8?B?d1NFR0dPSjc2MTJYOS9seTNrdVBqeVFLNkx6TE1oVUp5ZmNoYVRGMlNuK3hx?=
- =?utf-8?B?MHJUMkpZUXZUTk1meGRxeEZtNkl3WDBrZzQ5QnpwYThuSi9hRmdleTAxcVFq?=
- =?utf-8?B?S3ZzZUd3NE5MakNFeVBRNkZodmtxbXZtVDh5blFaNFVkMm1IOE5zVW1yeUdW?=
- =?utf-8?B?a1JpYWtUd1JNOHRoMkpWdERHclN3bnRWUGJyWU5YUnBYTGVieXdyYWhDOFJv?=
- =?utf-8?Q?rXnvbdox0de6Bmg8tJ99Y3Gia?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ac6499f-87fb-4c64-c4bc-08dbe65d3f25
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB4614.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2023 04:33:57.2946 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uUHmYuf2zfmK7EzTtP9eoDRbqO2nu3jL4qUcUC/HqARatlnO0706oTFjcBKI6X3h
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8541
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQx4dS1YdShlISEoYT0tDQk1VEwETFh
+ oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk5MSUpJVUpLS1VKQl
+ kG
+X-HM-Tid: 0a8bd704c33ab24fkuuu318667801d0
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PEk6Ljo5TDw4OUIiF0IMTjIM
+ Qz8KCxBVSlVKTEtLSkpCT0JNSUpJVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+ WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSExNSUM3Bg++
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,157 +56,955 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- Xinhui Pan <Xinhui.Pan@amd.com>, open list <linux-kernel@vger.kernel.org>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:ACPI" <linux-acpi@vger.kernel.org>,
- Danilo Krummrich <dakr@redhat.com>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>, Manivannan Sadhasivam <mani@kernel.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>,
- =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
- "Maciej W . Rozycki" <macro@orcam.me.uk>
+Cc: devicetree@vger.kernel.org, chris.obbard@collabora.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ hjc@rock-chips.com, kever.yang@rock-chips.com,
+ linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, sebastian.reichel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Sascha:
 
+  Thanks for your review.
 
-On 11/16/2023 2:39 AM, Mario Limonciello wrote:
-> On 11/15/2023 11:04, Mario Limonciello wrote:
->> On 11/14/2023 21:23, Lazar, Lijo wrote:
->>>
->>>
->>> On 11/15/2023 1:37 AM, Mario Limonciello wrote:
->>>> The USB4 spec specifies that PCIe ports that are used for tunneling
->>>> PCIe traffic over USB4 fabric will be hardcoded to advertise 2.5GT/s 
->>>> and
->>>> behave as a PCIe Gen1 device. The actual performance of these ports is
->>>> controlled by the fabric implementation.
->>>>
->>>> Callers for pcie_bandwidth_available() will always find the PCIe ports
->>>> used for tunneling as a limiting factor potentially leading to 
->>>> incorrect
->>>> performance decisions.
->>>>
->>>> To prevent such problems check explicitly for ports that are marked as
->>>> virtual links or as thunderbolt controllers and skip them when looking
->>>> for bandwidth limitations of the hierarchy. If the only device 
->>>> connected
->>>> is a port used for tunneling then report that device.
->>>>
->>>> Callers to pcie_bandwidth_available() could make this change on their
->>>> own as well but then they wouldn't be able to detect other potential
->>>> speed bottlenecks from the hierarchy without duplicating
->>>> pcie_bandwidth_available() logic.
->>>>
->>>> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2925#note_2145860
->>>> Link: https://www.usb.org/document-library/usb4r-specification-v20
->>>>        USB4 V2 with Errata and ECN through June 2023
->>>>        Section 11.2.1
->>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->>>> ---
->>>> v2->v3:
->>>>   * Split from previous patch version
->>>>   * Look for thunderbolt or virtual link
->>>> ---
->>>>   drivers/pci/pci.c | 19 +++++++++++++++++++
->>>>   1 file changed, 19 insertions(+)
->>>>
->>>> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
->>>> index 0ff7883cc774..b1fb2258b211 100644
->>>> --- a/drivers/pci/pci.c
->>>> +++ b/drivers/pci/pci.c
->>>> @@ -6269,11 +6269,20 @@ static u32 pcie_calc_bw_limits(struct 
->>>> pci_dev *dev, u32 bw,
->>>>    * limiting_dev, speed, and width pointers are supplied) 
->>>> information about
->>>>    * that point.  The bandwidth returned is in Mb/s, i.e., 
->>>> megabits/second of
->>>>    * raw bandwidth.
->>>> + *
->>>> + * This excludes the bandwidth calculation that has been returned 
->>>> from a
->>>> + * PCIe device that is used for transmitting tunneled PCIe traffic 
->>>> over a virtual
->>>> + * link part of larger hierarchy. Examples include Thunderbolt3 and 
->>>> USB4 links.
->>>> + * The calculation is excluded because the USB4 specification 
->>>> specifies that the
->>>> + * max speed returned from PCIe configuration registers for the 
->>>> tunneling link is
->>>> + * always PCI 1x 2.5 GT/s.  When only tunneled devices are present, 
->>>> the bandwidth
->>>> + * returned is the bandwidth available from the first tunneled device.
->>>>    */
->>>>   u32 pcie_bandwidth_available(struct pci_dev *dev, struct pci_dev 
->>>> **limiting_dev,
->>>>                    enum pci_bus_speed *speed,
->>>>                    enum pcie_link_width *width)
->>>>   {
->>>> +    struct pci_dev *vdev = NULL;
->>>>       u32 bw = 0;
->>>>       if (speed)
->>>> @@ -6282,10 +6291,20 @@ u32 pcie_bandwidth_available(struct pci_dev 
->>>> *dev, struct pci_dev **limiting_dev,
->>>>           *width = PCIE_LNK_WIDTH_UNKNOWN;
->>>>       while (dev) {
->>>> +        if (dev->is_virtual_link || dev->is_thunderbolt) {
->>>> +            if (!vdev)
->>>> +                vdev = dev;
->>>> +            goto skip;
->>>> +        }
->>>
->>> One problem with this is it *silently* ignores the bandwidth limiting 
->>> device - the bandwidth may not be really available if there are 
->>> virtual links in between. That is a change in behavior from the 
->>> messages shown in __pcie_print_link_status.
+  Let's confirm your remarks in function vop2_calc_cru_cfg fist,
+
+others are small nits I think can be easy to address.
+
+On 11/15/23 17:08, Sascha Hauer wrote:
+> Hi Andy,
+>
+> Thanks for your patches, some remarks inline.
+>
+> On Tue, Nov 14, 2023 at 07:28:55PM +0800, Andy Yan wrote:
+>> From: Andy Yan <andy.yan@rock-chips.com>
 >>
->> That's a good point.  How about a matching behavioral change to 
->> __pcie_print_link_status() where it looks at the entire hierarchy for 
->> any links marked as virtual and prints a message along the lines of:
+>> VOP2 on rk3588:
 >>
->> "This value may be further limited by virtual links".
-> 
-> I'll wait for some more feedback on the series before posting another 
-> version, but I did put this together and this is a sample from dmesg of 
-> the wording I'm planning on using for the next version:
-> 
-> 31.504 Gb/s available PCIe bandwidth, this may be further limited by 
-> conditions of virtual link 0000:00:03.1
-> 
-
-This will cover the the message, but for any real user of the API this 
-is not good enough as the speed returned doesn't really indicate the 
-bandwidth available. Or, modify the description such that users know 
-that the value cannot be trusted when there is virtual link in between 
-(probably the API should indicate that through some param/return code) 
-and act accordingly.
-
-Thanks,
-Lijo
-
+>> Four video ports:
+>> VP0 Max 4096x2160
+>> VP1 Max 4096x2160
+>> VP2 Max 4096x2160
+>> VP3 Max 2048x1080
 >>
->>>
->>> Thanks,
->>> Lijo
->>>
->>>>           bw = pcie_calc_bw_limits(dev, bw, limiting_dev, speed, 
->>>> width);
->>>> +skip:
->>>>           dev = pci_upstream_bridge(dev);
->>>>       }
->>>> +    /* If nothing "faster" found on hierarchy, limit to first 
->>>> virtual link */
->>>> +    if (vdev && !bw)
->>>> +        bw = pcie_calc_bw_limits(vdev, bw, limiting_dev, speed, 
->>>> width);
->>>> +
->>>>       return bw;
->>>>   }
->>>>   EXPORT_SYMBOL(pcie_bandwidth_available);
+>> 4 4K Cluster windows with AFBC/line RGB and AFBC-only YUV support
+>> 4 4K Esmart windows with line RGB/YUV support
 >>
-> 
+>> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+>> ---
+>>
+>>   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 324 ++++++++++++++++++-
+>>   drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  57 ++++
+>>   drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 215 ++++++++++++
+>>   include/dt-bindings/soc/rockchip,vop2.h      |   4 +
+>>   4 files changed, 593 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>> index 0d7dc543bef3..ba61c0233937 100644
+>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>> @@ -191,6 +191,9 @@ struct vop2 {
+>>   	struct regmap *map;
+>>   
+>>   	struct regmap *sys_grf;
+>> +	struct regmap *vop_grf;
+>> +	struct regmap *vo1_grf;
+>> +	struct regmap *sys_pmu;
+>>   
+>>   	/* physical map length of vop2 register */
+>>   	u32 len;
+>> @@ -209,6 +212,7 @@ struct vop2 {
+>>   	unsigned int enable_count;
+>>   	struct clk *hclk;
+>>   	struct clk *aclk;
+>> +	struct clk *pclk;
+>>   
+>>   	/* optional internal rgb encoder */
+>>   	struct rockchip_rgb *rgb;
+>> @@ -217,6 +221,13 @@ struct vop2 {
+>>   	struct vop2_win win[];
+>>   };
+>>   
+>> +#define vop2_output_if_is_hdmi(x)	(x == ROCKCHIP_VOP2_EP_HDMI0 || x == ROCKCHIP_VOP2_EP_HDMI1)
+>> +#define vop2_output_if_is_dp(x)		(x == ROCKCHIP_VOP2_EP_DP0 || x == ROCKCHIP_VOP2_EP_DP1)
+>> +#define vop2_output_if_is_edp(x)	(x == ROCKCHIP_VOP2_EP_EDP0 || x == ROCKCHIP_VOP2_EP_EDP1)
+>> +#define vop2_output_if_is_mipi(x)	(x == ROCKCHIP_VOP2_EP_MIPI0 || x == ROCKCHIP_VOP2_EP_MIPI1)
+>> +#define vop2_output_if_is_lvds(x)	(x == ROCKCHIP_VOP2_EP_LVDS0 || x == ROCKCHIP_VOP2_EP_LVDS1)
+>> +#define vop2_output_if_is_dpi(x)	(x == ROCKCHIP_VOP2_EP_RGB0)
+>> +
+>>   static const struct regmap_config vop2_regmap_config;
+>>   
+>>   static struct vop2_video_port *to_vop2_video_port(struct drm_crtc *crtc)
+>> @@ -271,9 +282,12 @@ static bool vop2_cluster_window(const struct vop2_win *win)
+>>   static void vop2_cfg_done(struct vop2_video_port *vp)
+>>   {
+>>   	struct vop2 *vop2 = vp->vop2;
+>> +	u32 val;
+>>   
+>> -	regmap_set_bits(vop2->map, RK3568_REG_CFG_DONE,
+>> -			BIT(vp->id) | RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN);
+>> +	val = BIT(vp->id) | (BIT(vp->id) << 16) |
+>> +		RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN;
+>> +
+>> +	regmap_set_bits(vop2->map, RK3568_REG_CFG_DONE, val);
+>>   }
+>>   
+>>   static void vop2_win_disable(struct vop2_win *win)
+>> @@ -863,13 +877,32 @@ static int vop2_core_clks_prepare_enable(struct vop2 *vop2)
+>>   		goto err;
+>>   	}
+>>   
+>> +	ret = clk_prepare_enable(vop2->pclk);
+>> +	if (ret < 0) {
+>> +		drm_err(vop2->drm, "failed to enable pclk - %d\n", ret);
+>> +		goto err1;
+>> +	}
+>> +
+>>   	return 0;
+>> +err1:
+>> +	clk_disable_unprepare(vop2->aclk);
+>>   err:
+>>   	clk_disable_unprepare(vop2->hclk);
+>>   
+>>   	return ret;
+>>   }
+>>   
+>> +static void vop2_power_domain_all_on(struct vop2 *vop2)
+> The function name sounds like it would return the current status rather
+> than enabling them. Better vop2_power_domain_enable_all(). Also a
+> rk3588_ prefix would be nice.
+>
+>> +{
+>> +	u32 pd;
+>> +
+>> +	pd = vop2_readl(vop2, RK3588_SYS_PD_CTRL);
+>> +	pd &= ~(VOP2_PD_CLUSTER0 | VOP2_PD_CLUSTER1 | VOP2_PD_CLUSTER2 |
+>> +		VOP2_PD_CLUSTER3 | VOP2_PD_ESMART);
+>> +
+>> +	vop2_writel(vop2, RK3588_SYS_PD_CTRL, pd);
+>> +}
+>> +
+>>   static void vop2_enable(struct vop2 *vop2)
+>>   {
+>>   	int ret;
+>> @@ -901,6 +934,9 @@ static void vop2_enable(struct vop2 *vop2)
+>>   	if (vop2->data->soc_id == 3566)
+>>   		vop2_writel(vop2, RK3568_OTP_WIN_EN, 1);
+>>   
+>> +	if (vop2->data->soc_id == 3588)
+>> +		vop2_power_domain_all_on(vop2);
+>> +
+>>   	vop2_writel(vop2, RK3568_REG_CFG_DONE, RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN);
+>>   
+>>   	/*
+>> @@ -926,6 +962,7 @@ static void vop2_disable(struct vop2 *vop2)
+>>   
+>>   	pm_runtime_put_sync(vop2->dev);
+>>   
+>> +	clk_disable_unprepare(vop2->pclk);
+>>   	clk_disable_unprepare(vop2->aclk);
+>>   	clk_disable_unprepare(vop2->hclk);
+>>   }
+>> @@ -1293,7 +1330,11 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+>>   			vop2_win_write(win, VOP2_WIN_AFBC_ENABLE, 1);
+>>   		vop2_win_write(win, VOP2_WIN_AFBC_FORMAT, afbc_format);
+>>   		vop2_win_write(win, VOP2_WIN_AFBC_UV_SWAP, uv_swap);
+>> -		vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 0);
+>> +		if (vop2->data->soc_id == 3566 || vop2->data->soc_id == 3568)
+>> +			vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 0);
+>> +		else
+>> +			vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 1);
+>> +
+>>   		vop2_win_write(win, VOP2_WIN_AFBC_BLOCK_SPLIT_EN, 0);
+>>   		transform_offset = vop2_afbc_transform_offset(pstate, half_block_en);
+>>   		vop2_win_write(win, VOP2_WIN_AFBC_HDR_PTR, yrgb_mst);
+>> @@ -1481,10 +1522,10 @@ static void vop2_post_config(struct drm_crtc *crtc)
+>>   	vop2_vp_write(vp, RK3568_VP_DSP_BG, 0);
+>>   }
+>>   
+>> -static void rk3568_set_intf_mux(struct vop2_video_port *vp, int id,
+>> -				u32 polflags)
+>> +static unsigned long rk3568_set_intf_mux(struct vop2_video_port *vp, int id, u32 polflags)
+>>   {
+>>   	struct vop2 *vop2 = vp->vop2;
+>> +	struct drm_crtc *crtc = &vp->crtc;
+>>   	u32 die, dip;
+>>   
+>>   	die = vop2_readl(vop2, RK3568_DSP_IF_EN);
+>> @@ -1546,13 +1587,257 @@ static void rk3568_set_intf_mux(struct vop2_video_port *vp, int id,
+>>   		break;
+>>   	default:
+>>   		drm_err(vop2->drm, "Invalid interface id %d on vp%d\n", id, vp->id);
+>> -		return;
+>> +		return 0;
+>> +	}
+>> +
+>> +	dip |= RK3568_DSP_IF_POL__CFG_DONE_IMD;
+>> +
+>> +	vop2_writel(vop2, RK3568_DSP_IF_EN, die);
+>> +	vop2_writel(vop2, RK3568_DSP_IF_POL, dip);
+>> +
+>> +	return crtc->state->adjusted_mode.crtc_clock  * 1000LL;
+>> +}
+>> +
+>> +/*
+>> + * calc the dclk on rk3588
+>> + * the available div of dclk is 1, 2, 4
+>> + */
+>> +static unsigned long vop2_calc_dclk(unsigned long child_clk, unsigned long max_dclk)
+>> +{
+>> +	if (child_clk * 4 <= max_dclk)
+>> +		return child_clk * 4;
+>> +	else if (child_clk * 2 <= max_dclk)
+>> +		return child_clk * 2;
+>> +	else if (child_clk <= max_dclk)
+>> +		return child_clk;
+>> +	else
+>> +		return 0;
+>> +}
+>> +
+>> +/*
+>> + * 4 pixclk/cycle on rk3588
+>> + * RGB/eDP/HDMI: if_pixclk >= dclk_core
+>> + * DP: dp_pixclk = dclk_out <= dclk_core
+>> + * DSI: mipi_pixclk <= dclk_out <= dclk_core
+>> + */
+>> +static unsigned long vop2_calc_cru_cfg(struct vop2_video_port *vp, int id,
+>> +				       int *dclk_core_div, int *dclk_out_div,
+>> +				       int *if_pixclk_div, int *if_dclk_div)
+> Please add a rk3588_ prefix to all functions that are rk3588 only.
+>
+>> +{
+>> +	struct vop2 *vop2 = vp->vop2;
+>> +	struct drm_crtc *crtc = &vp->crtc;
+>> +	struct drm_display_mode *adjusted_mode = &crtc->state->adjusted_mode;
+>> +	struct rockchip_crtc_state *vcstate = to_rockchip_crtc_state(crtc->state);
+>> +	int output_mode = vcstate->output_mode;
+>> +	unsigned long v_pixclk = adjusted_mode->crtc_clock * 1000LL; /* video timing pixclk */
+>> +	unsigned long dclk_core_rate = v_pixclk >> 2;
+>> +	unsigned long dclk_rate = v_pixclk;
+>> +	unsigned long dclk_out_rate;
+>> +	unsigned long if_dclk_rate;
+>> +	unsigned long if_pixclk_rate;
+>> +	int K = 1;
+>> +
+>> +	if (vop2_output_if_is_hdmi(id)) {
+> The vop2_output_if_is_* defines are used only once. Maybe a big:
+>
+> switch (id) {
+> 	case ROCKCHIP_VOP2_EP_HDMI0:
+> 	case ROCKCHIP_VOP2_EP_HDMI1:
+> 		...
+> }
+>
+> would look a bit better overall.
+>
+>> +		/*
+>> +		 * K = 2: dclk_core = if_pixclk_rate > if_dclk_rate
+>> +		 * K = 1: dclk_core = hdmie_edp_dclk > if_pixclk_rate
+>> +		 */
+>> +		if (output_mode == ROCKCHIP_OUT_MODE_YUV420) {
+>> +			dclk_rate = dclk_rate >> 1;
+>> +			K = 2;
+>> +		}
+>> +
+>> +		if_pixclk_rate = (dclk_core_rate << 1) / K;
+>> +		if_dclk_rate = dclk_core_rate / K;
+>> +
+>> +		*if_pixclk_div = dclk_rate / if_pixclk_rate;
+>> +		*if_dclk_div = dclk_rate / if_dclk_rate;
+> Not sure if this will change with future extensions, but currently
+> *if_pixclk_div will always be 2 and *if_dclk_div will alway be 4,
+> so maybe better write it like this
+
+
+Yes, the calculation of *if_pixclk_div is always 2 and *if_dclk_div is always 4,
+
+I think calculation formula can give us a clear explanation why is 2 or 4.
+
+considering the great power of rk3588, i think it can calculate it very easy.
+
+>
+>
+>> +		*dclk_core_div = dclk_rate / dclk_core_rate;
+> *dclk_core_div is calculated the same way for all cases. You could pull
+> this out of the if/else.
+Okay, will do.
+>
+>> +	} else if (vop2_output_if_is_edp(id)) {
+>> +		/* edp_pixclk = edp_dclk > dclk_core */
+>> +		if_pixclk_rate = v_pixclk / K;
+>> +		if_dclk_rate = v_pixclk / K;
+> if_dclk_rate is unused here.
+
+
+It will be removed in next version.
+
+>
+>> +		dclk_rate = if_pixclk_rate * K;
+>> +		*dclk_core_div = dclk_rate / dclk_core_rate;
+>> +		*if_pixclk_div = dclk_rate / if_pixclk_rate;
+>> +		*if_dclk_div = *if_pixclk_div;
+> Both *if_pixclk_div and *if_dclk_div will always be 1.
+
+Actually,  they will be the value of K here,  if it work at split mode(two
+
+edp connect to one VP, one show the image for left half, one for right half,
+
+a function like a dual channel mipi dsi).
+
+I know it split mode is not supported by the current mainline, but i think keep
+
+it as it is will give us convenient when we support split mode one day in the future.
+>
+>> +	} else if (vop2_output_if_is_dp(id)) {
+>> +		if (output_mode == ROCKCHIP_OUT_MODE_YUV420)
+>> +			dclk_out_rate = v_pixclk >> 3;
+>> +		else
+>> +			dclk_out_rate = v_pixclk >> 2;
+>> +
+>> +		dclk_rate = vop2_calc_dclk(dclk_out_rate, 600000);
+>> +		if (!dclk_rate) {
+>> +			drm_err(vop2->drm, "DP dclk_out_rate out of range, dclk_out_rate: %ld KHZ\n",
+>> +				dclk_out_rate);
+>> +			return -EINVAL;
+> This function has return type unsigned long. Also this error is never
+> checked for by the caller.
+>
+>> +		}
+>> +		*dclk_out_div = dclk_rate / dclk_out_rate;
+>> +		*dclk_core_div = dclk_rate / dclk_core_rate;
+>> +	} else if (vop2_output_if_is_mipi(id)) {
+>> +		if_pixclk_rate = dclk_core_rate / K;
+>> +		/* dclk_core = dclk_out * K = if_pixclk * K = v_pixclk / 4 */
+>> +		dclk_out_rate = if_pixclk_rate;
+>> +		/* dclk_rate = N * dclk_core_rate N = (1,2,4 ), we get a little factor here */
+>> +		dclk_rate = vop2_calc_dclk(dclk_out_rate, 600000);
+>> +		if (!dclk_rate) {
+>> +			drm_err(vop2->drm, "MIPI dclk out of range, dclk_out_rate: %ld KHZ\n",
+>> +				dclk_out_rate);
+>> +			return -EINVAL;
+>> +		}
+>> +		*dclk_out_div = dclk_rate / dclk_out_rate;
+>> +		*dclk_core_div = dclk_rate / dclk_core_rate;
+>> +		*if_pixclk_div = 1;       /*mipi pixclk == dclk_out*/
+>> +	} else if (vop2_output_if_is_dpi(id)) {
+>> +		dclk_rate = v_pixclk;
+>> +		*dclk_core_div = dclk_rate / dclk_core_rate;
+>> +	}
+>> +
+>> +	*if_pixclk_div = ilog2(*if_pixclk_div);
+>> +	*if_dclk_div = ilog2(*if_dclk_div);
+>> +	*dclk_core_div = ilog2(*dclk_core_div);
+>> +	*dclk_out_div = ilog2(*dclk_out_div);
+>> +
+>> +	drm_dbg(vop2->drm, "dclk:%ld, pixclk_div;%d,dclk_div:%d\n",
+> Replace ';' with ':' in the format string, some whitespaces are missing.
+>
+>> +		dclk_rate, *if_pixclk_div, *if_dclk_div);
+>> +
+>> +	return dclk_rate;
+>> +}
+>> +
+>> +/*
+>> + * MIPI port mux on rk3588:
+>> + * 0: Video Port2
+>> + * 1: Video Port3
+>> + * 3: Video Port 1(MIPI1 only)
+>> + */
+>> +static u32 rk3588_get_mipi_port_mux(int vp_id)
+>> +{
+>> +	if (vp_id == 1)
+>> +		return 3;
+>> +	else if (vp_id == 3)
+>> +		return 1;
+>> +	else
+>> +		return 0;
+>> +}
+>> +
+>> +static u32 rk3588_get_hdmi_pol(u32 flags)
+>> +{
+>> +	u32 val;
+>> +
+>> +	val = (flags & DRM_MODE_FLAG_NHSYNC) ? BIT(HSYNC_POSITIVE) : 0;
+>> +	val |= (flags & DRM_MODE_FLAG_NVSYNC) ? BIT(VSYNC_POSITIVE) : 0;
+>> +
+>> +	return val;
+>> +}
+>> +
+>> +static unsigned long rk3588_set_intf_mux(struct vop2_video_port *vp, int id, u32 polflags)
+>> +{
+>> +	struct vop2 *vop2 = vp->vop2;
+>> +	int dclk_core_div, dclk_out_div, if_pixclk_div, if_dclk_div;
+>> +	unsigned long clock;
+>> +	u32 die, dip, div, vp_clk_div, val;
+>> +
+>> +	clock = vop2_calc_cru_cfg(vp, id, &dclk_core_div, &dclk_out_div,
+>> +				  &if_pixclk_div, &if_dclk_div);
+>> +
+>> +	vp_clk_div = FIELD_PREP(RK3588_VP_CLK_CTRL__DCLK_CORE_DIV, dclk_core_div);
+>> +	vp_clk_div |= FIELD_PREP(RK3588_VP_CLK_CTRL__DCLK_OUT_DIV, dclk_out_div);
+>> +
+>> +	die = vop2_readl(vop2, RK3568_DSP_IF_EN);
+>> +	dip = vop2_readl(vop2, RK3568_DSP_IF_POL);
+>> +	div = vop2_readl(vop2, RK3568_DSP_IF_CTRL);
+>> +
+>> +	switch (id) {
+>> +	case ROCKCHIP_VOP2_EP_HDMI0:
+>> +		div |= FIELD_PREP(RK3588_DSP_IF_EDP_HDMI0_DCLK_DIV, if_dclk_div);
+>> +		div |= FIELD_PREP(RK3588_DSP_IF_EDP_HDMI0_PCLK_DIV, if_pixclk_div);
+>> +		die &= ~RK3588_SYS_DSP_INFACE_EN_EDP_HDMI0_MUX;
+>> +		die |= RK3588_SYS_DSP_INFACE_EN_HDMI0 |
+>> +			    FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_EDP_HDMI0_MUX, vp->id);
+>> +		val = rk3588_get_hdmi_pol(polflags);
+>> +		regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, HIWORD_UPDATE(1, 1, 1));
+>> +		regmap_write(vop2->vo1_grf, RK3588_GRF_VO1_CON0, HIWORD_UPDATE(val, 6, 5));
+>> +		break;
+>> +	case ROCKCHIP_VOP2_EP_HDMI1:
+>> +		div |= FIELD_PREP(RK3588_DSP_IF_EDP_HDMI1_DCLK_DIV, if_dclk_div);
+>> +		div |= FIELD_PREP(RK3588_DSP_IF_EDP_HDMI1_PCLK_DIV, if_pixclk_div);
+>> +		die &= ~RK3588_SYS_DSP_INFACE_EN_EDP_HDMI1_MUX;
+>> +		die |= RK3588_SYS_DSP_INFACE_EN_HDMI1 |
+>> +			    FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_EDP_HDMI1_MUX, vp->id);
+>> +		val = rk3588_get_hdmi_pol(polflags);
+>> +		regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, HIWORD_UPDATE(1, 4, 4));
+>> +		regmap_write(vop2->vo1_grf, RK3588_GRF_VO1_CON0, HIWORD_UPDATE(val, 8, 7));
+>> +		break;
+>> +	case ROCKCHIP_VOP2_EP_EDP0:
+>> +		div |= FIELD_PREP(RK3588_DSP_IF_EDP_HDMI0_DCLK_DIV, if_dclk_div);
+>> +		div |= FIELD_PREP(RK3588_DSP_IF_EDP_HDMI0_PCLK_DIV, if_pixclk_div);
+>> +		die &= ~RK3588_SYS_DSP_INFACE_EN_EDP_HDMI0_MUX;
+>> +		die |= RK3588_SYS_DSP_INFACE_EN_EDP0 |
+>> +			   FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_EDP_HDMI0_MUX, vp->id);
+>> +		regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, HIWORD_UPDATE(1, 0, 0));
+>> +		break;
+>> +	case ROCKCHIP_VOP2_EP_EDP1:
+>> +		div |= FIELD_PREP(RK3588_DSP_IF_EDP_HDMI0_DCLK_DIV, if_dclk_div);
+>> +		div |= FIELD_PREP(RK3588_DSP_IF_EDP_HDMI0_PCLK_DIV, if_pixclk_div);
+>> +		die &= ~RK3588_SYS_DSP_INFACE_EN_EDP_HDMI1_MUX;
+>> +		die |= RK3588_SYS_DSP_INFACE_EN_EDP1 |
+>> +			   FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_EDP_HDMI1_MUX, vp->id);
+>> +		regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, HIWORD_UPDATE(1, 3, 3));
+>> +		break;
+>> +	case ROCKCHIP_VOP2_EP_MIPI0:
+>> +		div |= FIELD_PREP(RK3588_DSP_IF_MIPI0_PCLK_DIV, if_pixclk_div);
+>> +		die &= ~RK3588_SYS_DSP_INFACE_EN_MIPI0_MUX;
+>> +		val = rk3588_get_mipi_port_mux(vp->id);
+>> +		die |= RK3588_SYS_DSP_INFACE_EN_MIPI0 |
+>> +			   FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_MIPI0_MUX, !!val);
+>> +		break;
+>> +	case ROCKCHIP_VOP2_EP_MIPI1:
+>> +		div |= FIELD_PREP(RK3588_DSP_IF_MIPI1_PCLK_DIV, if_pixclk_div);
+>> +		die &= ~RK3588_SYS_DSP_INFACE_EN_MIPI1_MUX;
+>> +		val = rk3588_get_mipi_port_mux(vp->id);
+>> +		die |= RK3588_SYS_DSP_INFACE_EN_MIPI1 |
+>> +			   FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_MIPI1_MUX, val);
+>> +		break;
+>> +	case ROCKCHIP_VOP2_EP_DP0:
+>> +		die &= ~RK3588_SYS_DSP_INFACE_EN_DP0_MUX;
+>> +		die |= RK3588_SYS_DSP_INFACE_EN_DP0 |
+>> +			   FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_DP0_MUX, vp->id);
+>> +		dip &= ~RK3588_DSP_IF_POL__DP0_PIN_POL;
+>> +		dip |= FIELD_PREP(RK3588_DSP_IF_POL__DP0_PIN_POL, polflags);
+>> +		break;
+>> +	case ROCKCHIP_VOP2_EP_DP1:
+>> +		die &= ~RK3588_SYS_DSP_INFACE_EN_MIPI1_MUX;
+>> +		die |= RK3588_SYS_DSP_INFACE_EN_MIPI1 |
+>> +			   FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_MIPI1_MUX, vp->id);
+>> +		dip &= ~RK3588_DSP_IF_POL__DP1_PIN_POL;
+>> +		dip |= FIELD_PREP(RK3588_DSP_IF_POL__DP1_PIN_POL, polflags);
+>> +		break;
+>> +	default:
+>> +		drm_err(vop2->drm, "Invalid interface id %d on vp%d\n", id, vp->id);
+>> +		return 0;
+>>   	}
+>>   
+>>   	dip |= RK3568_DSP_IF_POL__CFG_DONE_IMD;
+>>   
+>> +	vop2_vp_write(vp, RK3588_VP_CLK_CTRL, vp_clk_div);
+>>   	vop2_writel(vop2, RK3568_DSP_IF_EN, die);
+>> +	vop2_writel(vop2, RK3568_DSP_IF_CTRL, div);
+>>   	vop2_writel(vop2, RK3568_DSP_IF_POL, dip);
+>> +
+>> +	return clock;
+>> +}
+>> +
+>> +static unsigned long vop2_set_intf_mux(struct vop2_video_port *vp, int ep_id, u32 polflags)
+>> +{
+>> +	struct vop2 *vop2 = vp->vop2;
+>> +
+>> +	if (vop2->data->soc_id == 3566 || vop2->data->soc_id == 3568)
+>> +		return rk3568_set_intf_mux(vp, ep_id, polflags);
+>> +	else if (vop2->data->soc_id == 3588)
+>> +		return rk3588_set_intf_mux(vp, ep_id, polflags);
+>> +	else
+>> +		return 0;
+>>   }
+>>   
+>>   static int us_to_vertical_line(struct drm_display_mode *mode, int us)
+>> @@ -1622,7 +1907,7 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
+>>   	drm_for_each_encoder_mask(encoder, crtc->dev, crtc_state->encoder_mask) {
+>>   		struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
+>>   
+>> -		rk3568_set_intf_mux(vp, rkencoder->crtc_endpoint_id, polflags);
+>> +		clock = vop2_set_intf_mux(vp, rkencoder->crtc_endpoint_id, polflags);
+> clock is set to potentially different values in this loop and the last
+> value is taken. Without a further description or check this looks wrong.
+>
+>>   	}
+>>   
+>>   	if (vcstate->output_mode == ROCKCHIP_OUT_MODE_AAAA &&
+>> @@ -2011,6 +2296,14 @@ static void vop2_setup_layer_mixer(struct vop2_video_port *vp)
+>>   			port_sel &= ~RK3568_OVL_PORT_SEL__CLUSTER1;
+>>   			port_sel |= FIELD_PREP(RK3568_OVL_PORT_SEL__CLUSTER1, vp->id);
+>>   			break;
+>> +		case ROCKCHIP_VOP2_CLUSTER2:
+>> +			port_sel &= ~RK3588_OVL_PORT_SEL__CLUSTER2;
+>> +			port_sel |= FIELD_PREP(RK3588_OVL_PORT_SEL__CLUSTER2, vp->id);
+>> +			break;
+>> +		case ROCKCHIP_VOP2_CLUSTER3:
+>> +			port_sel &= ~RK3588_OVL_PORT_SEL__CLUSTER3;
+>> +			port_sel |= FIELD_PREP(RK3588_OVL_PORT_SEL__CLUSTER3, vp->id);
+>> +			break;
+>>   		case ROCKCHIP_VOP2_ESMART0:
+>>   			port_sel &= ~RK3568_OVL_PORT_SEL__ESMART0;
+>>   			port_sel |= FIELD_PREP(RK3568_OVL_PORT_SEL__ESMART0, vp->id);
+>> @@ -2019,6 +2312,14 @@ static void vop2_setup_layer_mixer(struct vop2_video_port *vp)
+>>   			port_sel &= ~RK3568_OVL_PORT_SEL__ESMART1;
+>>   			port_sel |= FIELD_PREP(RK3568_OVL_PORT_SEL__ESMART1, vp->id);
+>>   			break;
+>> +		case ROCKCHIP_VOP2_ESMART2:
+>> +			port_sel &= ~RK3588_OVL_PORT_SEL__ESMART2;
+>> +			port_sel |= FIELD_PREP(RK3588_OVL_PORT_SEL__ESMART2, vp->id);
+>> +			break;
+>> +		case ROCKCHIP_VOP2_ESMART3:
+>> +			port_sel &= ~RK3588_OVL_PORT_SEL__ESMART3;
+>> +			port_sel |= FIELD_PREP(RK3588_OVL_PORT_SEL__ESMART3, vp->id);
+>> +			break;
+>>   		case ROCKCHIP_VOP2_SMART0:
+>>   			port_sel &= ~RK3568_OVL_PORT_SEL__SMART0;
+>>   			port_sel |= FIELD_PREP(RK3568_OVL_PORT_SEL__SMART0, vp->id);
+>> @@ -2760,6 +3061,9 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
+>>   	}
+>>   
+>>   	vop2->sys_grf = syscon_regmap_lookup_by_phandle(dev->of_node, "rockchip,grf");
+> This already lacks an error check, shame on me...
+>
+>> +	vop2->vop_grf = syscon_regmap_lookup_by_phandle(dev->of_node, "rockchip,vop-grf");
+>> +	vop2->vo1_grf = syscon_regmap_lookup_by_phandle(dev->of_node, "rockchip,vo1-grf");
+>> +	vop2->sys_pmu = syscon_regmap_lookup_by_phandle(dev->of_node, "rockchip,pmu");
+> ... but please don't duplicate that.
+>
+>>   
+>>   	vop2->hclk = devm_clk_get(vop2->dev, "hclk");
+>>   	if (IS_ERR(vop2->hclk)) {
+>> @@ -2773,6 +3077,12 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
+>>   		return PTR_ERR(vop2->aclk);
+>>   	}
+>>   
+>> +	vop2->pclk = devm_clk_get_optional(vop2->dev, "pclk_vop");
+>> +	if (IS_ERR(vop2->pclk)) {
+>> +		drm_err(vop2->drm, "failed to get pclk source\n");
+>> +		return PTR_ERR(vop2->pclk);
+>> +	}
+>> +
+>>   	vop2->irq = platform_get_irq(pdev, 0);
+>>   	if (vop2->irq < 0) {
+>>   		drm_err(vop2->drm, "cannot find irq for vop2\n");
+>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+>> index 7175f46a2014..2fffe580b215 100644
+>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+>> @@ -16,6 +16,7 @@
+>>   #define WIN_FEATURE_AFBDC		BIT(0)
+>>   #define WIN_FEATURE_CLUSTER		BIT(1)
+>>   
+>> +#define HIWORD_UPDATE(v, h, l)  ((GENMASK(h, l) << 16) | ((v) << (l)))
+>>   /*
+>>    *  the delay number of a window in different mode.
+>>    */
+>> @@ -38,6 +39,18 @@ enum vop2_scale_down_mode {
+>>   	VOP2_SCALE_DOWN_AVG,
+>>   };
+>>   
+>> +/*
+>> + * vop2 internal power domain id,
+>> + * should be all none zero, 0 will be treat as invalid;
+>> + */
+>> +#define VOP2_PD_CLUSTER0	BIT(0)
+>> +#define VOP2_PD_CLUSTER1	BIT(1)
+>> +#define VOP2_PD_CLUSTER2	BIT(2)
+>> +#define VOP2_PD_CLUSTER3	BIT(3)
+>> +#define VOP2_PD_DSC_8K		BIT(5)
+>> +#define VOP2_PD_DSC_4K		BIT(6)
+>> +#define VOP2_PD_ESMART		BIT(7)
+>> +
+>>   enum vop2_win_regs {
+>>   	VOP2_WIN_ENABLE,
+>>   	VOP2_WIN_FORMAT,
+>> @@ -192,6 +205,11 @@ enum dst_factor_mode {
+>>   };
+>>   
+>>   #define RK3568_GRF_VO_CON1			0x0364
+>> +
+>> +#define RK3588_GRF_SOC_CON1			0x0304
+>> +#define RK3588_GRF_VOP_CON2			0x08
+>> +#define RK3588_GRF_VO1_CON0			0x00
+>> +
+>>   /* System registers definition */
+>>   #define RK3568_REG_CFG_DONE			0x000
+>>   #define RK3568_VERSION_INFO			0x004
+>> @@ -200,6 +218,7 @@ enum dst_factor_mode {
+>>   #define RK3568_DSP_IF_EN			0x028
+>>   #define RK3568_DSP_IF_CTRL			0x02c
+>>   #define RK3568_DSP_IF_POL			0x030
+>> +#define RK3588_SYS_PD_CTRL			0x034
+>>   #define RK3568_WB_CTRL				0x40
+>>   #define RK3568_WB_XSCAL_FACTOR			0x44
+>>   #define RK3568_WB_YRGB_MST			0x48
+>> @@ -223,6 +242,7 @@ enum dst_factor_mode {
+>>   #define RK3568_VP_DSP_CTRL			0x00
+>>   #define RK3568_VP_MIPI_CTRL			0x04
+>>   #define RK3568_VP_COLOR_BAR_CTRL		0x08
+>> +#define RK3588_VP_CLK_CTRL			0x0C
+>>   #define RK3568_VP_3D_LUT_CTRL			0x10
+>>   #define RK3568_VP_3D_LUT_MST			0x20
+>>   #define RK3568_VP_DSP_BG			0x2C
+>> @@ -364,6 +384,9 @@ enum dst_factor_mode {
+>>   #define RK3568_VP_DSP_CTRL__CORE_DCLK_DIV		BIT(4)
+>>   #define RK3568_VP_DSP_CTRL__OUT_MODE			GENMASK(3, 0)
+>>   
+>> +#define RK3588_VP_CLK_CTRL__DCLK_OUT_DIV		GENMASK(3, 2)
+>> +#define RK3588_VP_CLK_CTRL__DCLK_CORE_DIV		GENMASK(1, 0)
+>> +
+>>   #define RK3568_VP_POST_SCL_CTRL__VSCALEDOWN		BIT(1)
+>>   #define RK3568_VP_POST_SCL_CTRL__HSCALEDOWN		BIT(0)
+>>   
+>> @@ -382,11 +405,37 @@ enum dst_factor_mode {
+>>   #define RK3568_SYS_DSP_INFACE_EN_HDMI			BIT(1)
+>>   #define RK3568_SYS_DSP_INFACE_EN_RGB			BIT(0)
+>>   
+>> +#define RK3588_SYS_DSP_INFACE_EN_MIPI1_MUX		GENMASK(22, 21)
+>> +#define RK3588_SYS_DSP_INFACE_EN_MIPI0_MUX		GENMASK(20, 20)
+>> +#define RK3588_SYS_DSP_INFACE_EN_EDP_HDMI1_MUX		GENMASK(19, 18)
+>> +#define RK3588_SYS_DSP_INFACE_EN_EDP_HDMI0_MUX		GENMASK(17, 16)
+>> +#define RK3588_SYS_DSP_INFACE_EN_DP1_MUX		GENMASK(15, 14)
+>> +#define RK3588_SYS_DSP_INFACE_EN_DP0_MUX		GENMASK(13, 12)
+>> +#define RK3588_SYS_DSP_INFACE_EN_DPI			GENMASK(9, 8)
+>> +#define RK3588_SYS_DSP_INFACE_EN_MIPI1			BIT(7)
+>> +#define RK3588_SYS_DSP_INFACE_EN_MIPI0			BIT(6)
+>> +#define RK3588_SYS_DSP_INFACE_EN_HDMI1			BIT(5)
+>> +#define RK3588_SYS_DSP_INFACE_EN_EDP1			BIT(4)
+>> +#define RK3588_SYS_DSP_INFACE_EN_HDMI0			BIT(3)
+>> +#define RK3588_SYS_DSP_INFACE_EN_EDP0			BIT(2)
+>> +#define RK3588_SYS_DSP_INFACE_EN_DP1			BIT(1)
+>> +#define RK3588_SYS_DSP_INFACE_EN_DP0			BIT(0)
+>> +
+>> +#define RK3588_DSP_IF_MIPI1_PCLK_DIV			GENMASK(27, 26)
+>> +#define RK3588_DSP_IF_MIPI0_PCLK_DIV			GENMASK(25, 24)
+>> +#define RK3588_DSP_IF_EDP_HDMI1_PCLK_DIV		GENMASK(22, 22)
+>> +#define RK3588_DSP_IF_EDP_HDMI1_DCLK_DIV		GENMASK(21, 20)
+>> +#define RK3588_DSP_IF_EDP_HDMI0_PCLK_DIV		GENMASK(18, 18)
+>> +#define RK3588_DSP_IF_EDP_HDMI0_DCLK_DIV		GENMASK(17, 16)
+>> +
+>>   #define RK3568_DSP_IF_POL__MIPI_PIN_POL			GENMASK(19, 16)
+>>   #define RK3568_DSP_IF_POL__EDP_PIN_POL			GENMASK(15, 12)
+>>   #define RK3568_DSP_IF_POL__HDMI_PIN_POL			GENMASK(7, 4)
+>>   #define RK3568_DSP_IF_POL__RGB_LVDS_PIN_POL		GENMASK(3, 0)
+>>   
+>> +#define RK3588_DSP_IF_POL__DP1_PIN_POL			GENMASK(14, 12)
+>> +#define RK3588_DSP_IF_POL__DP0_PIN_POL			GENMASK(10, 8)
+>> +
+>>   #define RK3568_VP0_MIPI_CTRL__DCLK_DIV2_PHASE_LOCK	BIT(5)
+>>   #define RK3568_VP0_MIPI_CTRL__DCLK_DIV2			BIT(4)
+>>   
+>> @@ -407,8 +456,12 @@ enum dst_factor_mode {
+>>   #define RK3568_OVL_PORT_SEL__SEL_PORT			GENMASK(31, 16)
+>>   #define RK3568_OVL_PORT_SEL__SMART1			GENMASK(31, 30)
+>>   #define RK3568_OVL_PORT_SEL__SMART0			GENMASK(29, 28)
+>> +#define RK3588_OVL_PORT_SEL__ESMART3			GENMASK(31, 30)
+>> +#define RK3588_OVL_PORT_SEL__ESMART2			GENMASK(29, 28)
+>>   #define RK3568_OVL_PORT_SEL__ESMART1			GENMASK(27, 26)
+>>   #define RK3568_OVL_PORT_SEL__ESMART0			GENMASK(25, 24)
+>> +#define RK3588_OVL_PORT_SEL__CLUSTER3			GENMASK(23, 22)
+>> +#define RK3588_OVL_PORT_SEL__CLUSTER2			GENMASK(21, 20)
+>>   #define RK3568_OVL_PORT_SEL__CLUSTER1			GENMASK(19, 18)
+>>   #define RK3568_OVL_PORT_SEL__CLUSTER0			GENMASK(17, 16)
+>>   #define RK3568_OVL_PORT_SET__PORT2_MUX			GENMASK(11, 8)
+>> @@ -421,6 +474,10 @@ enum dst_factor_mode {
+>>   #define RK3568_CLUSTER_DLY_NUM__CLUSTER0_1		GENMASK(15, 8)
+>>   #define RK3568_CLUSTER_DLY_NUM__CLUSTER0_0		GENMASK(7, 0)
+>>   
+>> +#define RK3568_CLUSTER_WIN_CTRL0__WIN0_EN		BIT(0)
+>> +
+>> +#define RK3568_SMART_REGION0_CTRL__WIN0_EN		BIT(0)
+>> +
+>>   #define RK3568_SMART_DLY_NUM__SMART1			GENMASK(31, 24)
+>>   #define RK3568_SMART_DLY_NUM__SMART0			GENMASK(23, 16)
+>>   #define RK3568_SMART_DLY_NUM__ESMART1			GENMASK(15, 8)
+>> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+>> index 22288ad7f326..4745a9260cf8 100644
+>> --- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+>> +++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+>> @@ -34,6 +34,28 @@ static const uint32_t formats_cluster[] = {
+>>   	DRM_FORMAT_Y210, /* yuv422_10bit non-Linear mode only */
+>>   };
+>>   
+>> +static const uint32_t formats_esmart[] = {
+>> +	DRM_FORMAT_XRGB8888,
+>> +	DRM_FORMAT_ARGB8888,
+>> +	DRM_FORMAT_XBGR8888,
+>> +	DRM_FORMAT_ABGR8888,
+>> +	DRM_FORMAT_RGB888,
+>> +	DRM_FORMAT_BGR888,
+>> +	DRM_FORMAT_RGB565,
+>> +	DRM_FORMAT_BGR565,
+>> +	DRM_FORMAT_NV12, /* yuv420_8bit linear mode, 2 plane */
+>> +	DRM_FORMAT_NV21, /* yvu420_8bit linear mode, 2 plane */
+>> +	DRM_FORMAT_NV16, /* yuv422_8bit linear mode, 2 plane */
+>> +	DRM_FORMAT_NV61, /* yvu422_8bit linear mode, 2 plane */
+>> +	DRM_FORMAT_NV24, /* yuv444_8bit linear mode, 2 plane */
+>> +	DRM_FORMAT_NV42, /* yvu444_8bit linear mode, 2 plane */
+>> +	DRM_FORMAT_NV15, /* yuv420_10bit linear mode, 2 plane, no padding */
+>> +	DRM_FORMAT_YVYU, /* yuv422_8bit[YVYU] linear mode */
+>> +	DRM_FORMAT_VYUY, /* yuv422_8bit[VYUY] linear mode */
+>> +	DRM_FORMAT_YUYV, /* yuv422_8bit[YUYV] linear mode */
+>> +	DRM_FORMAT_UYVY, /* yuv422_8bit[UYVY] linear mode */
+>> +};
+>> +
+>>   static const uint32_t formats_rk356x_esmart[] = {
+>>   	DRM_FORMAT_XRGB8888,
+>>   	DRM_FORMAT_ARGB8888,
+>> @@ -234,6 +256,186 @@ static const struct vop2_win_data rk3568_vop_win_data[] = {
+>>   	},
+>>   };
+>>   
+>> +static const struct vop2_video_port_data rk3588_vop_video_ports[] = {
+>> +	{
+>> +		.id = 0,
+>> +		.feature = VOP_FEATURE_OUTPUT_10BIT,
+>> +		.gamma_lut_len = 1024,
+>> +		.cubic_lut_len = 9 * 9 * 9, /* 9x9x9 */
+>> +		.max_output = { 4096, 2304 },
+>> +		/* hdr2sdr sdr2hdr hdr2hdr sdr2sdr */
+>> +		.pre_scan_max_dly = { 76, 65, 65, 54 },
+>> +		.offset = 0xc00,
+>> +	}, {
+>> +		.id = 1,
+>> +		.feature = VOP_FEATURE_OUTPUT_10BIT,
+>> +		.gamma_lut_len = 1024,
+>> +		.cubic_lut_len = 729, /* 9x9x9 */
+>> +		.max_output = { 4096, 2304 },
+>> +		.pre_scan_max_dly = { 76, 65, 65, 54 },
+>> +		.offset = 0xd00,
+>> +	}, {
+>> +		.id = 2,
+>> +		.feature = VOP_FEATURE_OUTPUT_10BIT,
+>> +		.gamma_lut_len = 1024,
+>> +		.cubic_lut_len = 17 * 17 * 17, /* 17x17x17 */
+>> +		.max_output = { 4096, 2304 },
+>> +		.pre_scan_max_dly = { 52, 52, 52, 52 },
+>> +		.offset = 0xe00,
+>> +	}, {
+>> +		.id = 3,
+>> +		.gamma_lut_len = 1024,
+>> +		.max_output = { 2048, 1536 },
+>> +		.pre_scan_max_dly = { 52, 52, 52, 52 },
+>> +		.offset = 0xf00,
+>> +	},
+>> +};
+>> +
+>> +/*
+>> + * rk3588 vop with 4 cluster, 4 esmart win.
+>> + * Every cluster can work as 4K win or split into two win.
+>> + * All win in cluster support AFBCD.
+>> + *
+>> + * Every esmart win and smart win support 4 Multi-region.
+>> + *
+>> + * Scale filter mode:
+>> + *
+>> + * * Cluster:  bicubic for horizontal scale up, others use bilinear
+>> + * * ESmart:
+>> + *    * nearest-neighbor/bilinear/bicubic for scale up
+>> + *    * nearest-neighbor/bilinear/average for scale down
+>> + *
+>> + * AXI Read ID assignment:
+>> + * Two AXI bus:
+>> + * AXI0 is a read/write bus with a higher performance.
+>> + * AXI1 is a read only bus.
+>> + *
+>> + * Every window on a AXI bus must assigned two unique
+>> + * read id(yrgb_id/uv_id, valid id are 0x1~0xe).
+>> + *
+>> + * AXI0:
+>> + * Cluster0/1, Esmart0/1, WriteBack
+>> + *
+>> + * AXI 1:
+>> + * Cluster2/3, Esmart2/3
+>> + *
+>> + */
+>> +static const struct vop2_win_data rk3588_vop_win_data[] = {
+>> +	{
+>> +		.name = "Cluster0-win0",
+>> +		.phys_id = ROCKCHIP_VOP2_CLUSTER0,
+>> +		.base = 0x1000,
+>> +		.formats = formats_cluster,
+>> +		.nformats = ARRAY_SIZE(formats_cluster),
+>> +		.format_modifiers = format_modifiers_afbc,
+>> +		.layer_sel_id = 0,
+>> +		.supported_rotations = DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_270 |
+>> +				       DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y,
+>> +		.max_upscale_factor = 4,
+>> +		.max_downscale_factor = 4,
+>> +		.dly = { 4, 26, 29 },
+>> +		.type = DRM_PLANE_TYPE_PRIMARY,
+>> +		.feature = WIN_FEATURE_AFBDC | WIN_FEATURE_CLUSTER,
+>> +	}, {
+>> +		.name = "Cluster1-win0",
+>> +		.phys_id = ROCKCHIP_VOP2_CLUSTER1,
+>> +		.base = 0x1200,
+>> +		.formats = formats_cluster,
+>> +		.nformats = ARRAY_SIZE(formats_cluster),
+>> +		.format_modifiers = format_modifiers_afbc,
+>> +		.layer_sel_id = 1,
+>> +		.supported_rotations = DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_270 |
+>> +				       DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y,
+>> +		.type = DRM_PLANE_TYPE_PRIMARY,
+>> +		.max_upscale_factor = 4,
+>> +		.max_downscale_factor = 4,
+>> +		.dly = { 4, 26, 29 },
+>> +		.feature = WIN_FEATURE_AFBDC | WIN_FEATURE_CLUSTER,
+>> +	}, {
+>> +		.name = "Cluster2-win0",
+>> +		.phys_id = ROCKCHIP_VOP2_CLUSTER2,
+>> +		.base = 0x1400,
+>> +		.formats = formats_cluster,
+>> +		.nformats = ARRAY_SIZE(formats_cluster),
+>> +		.format_modifiers = format_modifiers_afbc,
+>> +		.layer_sel_id = 4,
+>> +		.supported_rotations = DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_270 |
+>> +				       DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y,
+>> +		.type = DRM_PLANE_TYPE_PRIMARY,
+>> +		.max_upscale_factor = 4,
+>> +		.max_downscale_factor = 4,
+>> +		.dly = { 4, 26, 29 },
+>> +		.feature = WIN_FEATURE_AFBDC | WIN_FEATURE_CLUSTER,
+>> +	}, {
+>> +		.name = "Cluster3-win0",
+>> +		.phys_id = ROCKCHIP_VOP2_CLUSTER3,
+>> +		.base = 0x1600,
+>> +		.formats = formats_cluster,
+>> +		.nformats = ARRAY_SIZE(formats_cluster),
+>> +		.format_modifiers = format_modifiers_afbc,
+>> +		.layer_sel_id = 5,
+>> +		.supported_rotations = DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_270 |
+>> +				       DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y,
+>> +		.type = DRM_PLANE_TYPE_PRIMARY,
+>> +		.max_upscale_factor = 4,
+>> +		.max_downscale_factor = 4,
+>> +		.dly = { 4, 26, 29 },
+>> +		.feature = WIN_FEATURE_AFBDC | WIN_FEATURE_CLUSTER,
+>> +	}, {
+>> +		.name = "Esmart0-win0",
+>> +		.phys_id = ROCKCHIP_VOP2_ESMART0,
+>> +		.formats = formats_esmart,
+>> +		.nformats = ARRAY_SIZE(formats_esmart),
+>> +		.format_modifiers = format_modifiers,
+>> +		.base = 0x1800,
+>> +		.layer_sel_id = 2,
+>> +		.supported_rotations = DRM_MODE_REFLECT_Y,
+>> +		.type = DRM_PLANE_TYPE_OVERLAY,
+>> +		.max_upscale_factor = 8,
+>> +		.max_downscale_factor = 8,
+>> +		.dly = { 23, 45, 48 },
+>> +	}, {
+>> +		.name = "Esmart1-win0",
+>> +		.phys_id = ROCKCHIP_VOP2_ESMART1,
+>> +		.formats = formats_esmart,
+>> +		.nformats = ARRAY_SIZE(formats_esmart),
+>> +		.format_modifiers = format_modifiers,
+>> +		.base = 0x1a00,
+>> +		.layer_sel_id = 3,
+>> +		.supported_rotations = DRM_MODE_REFLECT_Y,
+>> +		.type = DRM_PLANE_TYPE_OVERLAY,
+>> +		.max_upscale_factor = 8,
+>> +		.max_downscale_factor = 8,
+>> +		.dly = { 23, 45, 48 },
+>> +	}, {
+>> +		.name = "Esmart2-win0",
+>> +		.phys_id = ROCKCHIP_VOP2_ESMART2,
+>> +		.base = 0x1c00,
+>> +		.formats = formats_esmart,
+>> +		.nformats = ARRAY_SIZE(formats_esmart),
+>> +		.format_modifiers = format_modifiers,
+>> +		.layer_sel_id = 6,
+>> +		.supported_rotations = DRM_MODE_REFLECT_Y,
+>> +		.type = DRM_PLANE_TYPE_OVERLAY,
+>> +		.max_upscale_factor = 8,
+>> +		.max_downscale_factor = 8,
+>> +		.dly = { 23, 45, 48 },
+>> +	}, {
+>> +		.name = "Esmart3-win0",
+>> +		.phys_id = ROCKCHIP_VOP2_ESMART3,
+>> +		.formats = formats_esmart,
+>> +		.nformats = ARRAY_SIZE(formats_esmart),
+>> +		.format_modifiers = format_modifiers,
+>> +		.base = 0x1e00,
+>> +		.layer_sel_id = 7,
+>> +		.supported_rotations = DRM_MODE_REFLECT_Y,
+>> +		.type = DRM_PLANE_TYPE_OVERLAY,
+>> +		.max_upscale_factor = 8,
+>> +		.max_downscale_factor = 8,
+>> +		.dly = { 23, 45, 48 },
+>> +	},
+>> +};
+>> +
+>>   static const struct vop2_data rk3566_vop = {
+>>   	.nr_vps = 3,
+>>   	.max_input = { 4096, 2304 },
+>> @@ -254,6 +456,16 @@ static const struct vop2_data rk3568_vop = {
+>>   	.soc_id = 3568,
+>>   };
+>>   
+>> +static const struct vop2_data rk3588_vop = {
+>> +	.nr_vps = 4,
+>> +	.max_input = { 4096, 4320 },
+>> +	.max_output = { 4096, 4320 },
+>> +	.vp = rk3588_vop_video_ports,
+>> +	.win = rk3588_vop_win_data,
+>> +	.win_size = ARRAY_SIZE(rk3588_vop_win_data),
+>> +	.soc_id = 3588,
+>> +};
+>> +
+>>   static const struct of_device_id vop2_dt_match[] = {
+>>   	{
+>>   		.compatible = "rockchip,rk3566-vop",
+>> @@ -261,6 +473,9 @@ static const struct of_device_id vop2_dt_match[] = {
+>>   	}, {
+>>   		.compatible = "rockchip,rk3568-vop",
+>>   		.data = &rk3568_vop,
+>> +	}, {
+>> +		.compatible = "rockchip,rk3588-vop",
+>> +		.data = &rk3588_vop
+>>   	}, {
+>>   	},
+>>   };
+>> diff --git a/include/dt-bindings/soc/rockchip,vop2.h b/include/dt-bindings/soc/rockchip,vop2.h
+>> index 6e66a802b96a..668f199df9f0 100644
+>> --- a/include/dt-bindings/soc/rockchip,vop2.h
+>> +++ b/include/dt-bindings/soc/rockchip,vop2.h
+>> @@ -10,5 +10,9 @@
+>>   #define ROCKCHIP_VOP2_EP_LVDS0	5
+>>   #define ROCKCHIP_VOP2_EP_MIPI1	6
+>>   #define ROCKCHIP_VOP2_EP_LVDS1	7
+>> +#define ROCKCHIP_VOP2_EP_HDMI1	8
+>> +#define ROCKCHIP_VOP2_EP_EDP1	9
+>> +#define ROCKCHIP_VOP2_EP_DP0	10
+>> +#define ROCKCHIP_VOP2_EP_DP1	11
+>>   
+>>   #endif /* __DT_BINDINGS_ROCKCHIP_VOP2_H */
+>> -- 
+>> 2.34.1
+>>
+>>
