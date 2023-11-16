@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B01477EE15A
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 14:18:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C42DF7EE15D
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 14:19:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C150810E5E3;
-	Thu, 16 Nov 2023 13:18:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DFF510E5E2;
+	Thu, 16 Nov 2023 13:18:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC09610E5D8;
- Thu, 16 Nov 2023 13:18:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64F5010E5DC;
+ Thu, 16 Nov 2023 13:18:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700140726; x=1731676726;
+ t=1700140728; x=1731676728;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=SVdzxX+o76uHs97K1GMJS2pvOT9GVhRRg9CCqdfPUNQ=;
- b=ZfQAe/MQsN/SogaEsqA3apbNNEtTuJStfkVxlVOeCr7aWjrnRRvjkA+j
- yd8uWTGD4p04NvkSOBZQJQPGEHrZnUo62OGAFby5eUosXrTQnFt12jaSv
- XtIXcLlNOcPAhlpBI1Lxe8oG++2rWcarcsPfURsN7dJCxJE43YKU2CfRm
- WUFNkhAMflIQmd2Ak5r2+wexR9QsfeGT41qDIYQfVIdpSE0DjBaySQ/w/
- iTKTwuJou36g8mlTAh+0M4dJF29nA1ZwUHHkRxOhT3g5Quap0kBMxj88e
- V/mrfOB6o/T8Zb0mAiO+CfVgtVdYDrdpDf0AJN/IsjAKzmnI5X+Pfo1bS w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="422177151"
-X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; d="scan'208";a="422177151"
+ bh=YoB0eD7/YHIIr651D0Heql7qAcfIVTP2zbTlvr7YuZI=;
+ b=Kb336ji9ziOiAW2UxeNHBTzw4hJdov6f0qS8Z+FT+pNuzaoabvsXOa8T
+ eUreFzOgBitIQpxUf6QmiNdOuHMxAu3lVXuHBcVFpqlabQ6i7cXZvFQ6r
+ M7aQEUBPvk6WeW4KfH+XdspI9K6vMvL44zh2PkVlR70MivO66YQ6Ym+i7
+ DQ1iKcW4V9+6yRnMcrDJCGEdYxAlSx1rdacJwB53eky6FD8oq6BTu2+yz
+ 4JppIrRD3TSNbVxKF0rTtodSbmj1FiGcE6kkJQEZKiRQjMHudqGsL8dwg
+ nSdSai974RJMI7PmypnI/mXFO4Z9EsihMTxV1F7mRudIcgEZTvTP/12wl g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="422177155"
+X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; d="scan'208";a="422177155"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2023 05:18:46 -0800
+ 16 Nov 2023 05:18:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="938834333"
-X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; d="scan'208";a="938834333"
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="938834336"
+X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; d="scan'208";a="938834336"
 Received: from ideak-desk.fi.intel.com ([10.237.72.78])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2023 05:18:45 -0800
+ 16 Nov 2023 05:18:46 -0800
 From: Imre Deak <imre.deak@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 02/11] drm/dp_mst: Fix PBN divider calculation for UHBR
- rates
-Date: Thu, 16 Nov 2023 15:18:32 +0200
-Message-Id: <20231116131841.1588781-3-imre.deak@intel.com>
+Subject: [PATCH v2 03/11] drm/dp_mst: Add kunit tests for
+ drm_dp_get_vc_payload_bw()
+Date: Thu, 16 Nov 2023 15:18:33 +0200
+Message-Id: <20231116131841.1588781-4-imre.deak@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231116131841.1588781-1-imre.deak@intel.com>
 References: <20231116131841.1588781-1-imre.deak@intel.com>
@@ -62,90 +62,179 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current way of calculating the pbn_div value, the link BW per each
-MTP slot, worked only for DP 1.4 link rates. Fix things up for UHBR
-rates calculating with the correct channel coding efficiency based on
-the link rate.
-
-v2:
-- Return the fractional pbn_div value from drm_dp_get_vc_payload_bw().
+Add kunit test cases for drm_dp_get_vc_payload_bw() with all the DP1.4
+and UHBR link configurations.
 
 Cc: Lyude Paul <lyude@redhat.com>
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Imre Deak <imre.deak@intel.com>
 ---
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 13 ++++++++++---
- include/drm/display/drm_dp_helper.h           | 13 +++++++++++++
- 2 files changed, 23 insertions(+), 3 deletions(-)
+ .../gpu/drm/tests/drm_dp_mst_helper_test.c    | 145 ++++++++++++++++++
+ 1 file changed, 145 insertions(+)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index 000d05e80352a..3fbd5585d5e6c 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -3585,14 +3585,18 @@ static int drm_dp_send_up_ack_reply(struct drm_dp_mst_topology_mgr *mgr,
- fixed20_12 drm_dp_get_vc_payload_bw(const struct drm_dp_mst_topology_mgr *mgr,
- 				    int link_rate, int link_lane_count)
- {
-+	int ch_coding_efficiency =
-+		drm_dp_bw_channel_coding_efficiency(drm_dp_is_uhbr_rate(link_rate));
- 	fixed20_12 ret;
+diff --git a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
+index e3c818dfc0e6d..cafb463124f71 100644
+--- a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
+@@ -68,6 +68,150 @@ static void dp_mst_calc_pbn_mode_desc(const struct drm_dp_mst_calc_pbn_mode_test
+ KUNIT_ARRAY_PARAM(drm_dp_mst_calc_pbn_mode, drm_dp_mst_calc_pbn_mode_cases,
+ 		  dp_mst_calc_pbn_mode_desc);
  
- 	if (link_rate == 0 || link_lane_count == 0)
- 		drm_dbg_kms(mgr->dev, "invalid link rate/lane count: (%d / %d)\n",
- 			    link_rate, link_lane_count);
- 
--	/* See DP v2.0 2.6.4.2, VCPayload_Bandwidth_for_OneTimeSlotPer_MTP_Allocation */
--	ret.full = dfixed_const(link_rate * link_lane_count / 54000);
-+	/* See DP v2.0 2.6.4.2, 2.7.6.3 VCPayload_Bandwidth_for_OneTimeSlotPer_MTP_Allocation */
-+	ret.full = DIV_ROUND_DOWN_ULL(mul_u32_u32(link_rate * link_lane_count,
-+						  ch_coding_efficiency),
-+				      (1000000ULL * 8 * 5400) >> 12);
- 
- 	return ret;
- }
-@@ -4315,6 +4319,7 @@ int drm_dp_atomic_find_time_slots(struct drm_atomic_state *state,
- 	struct drm_dp_mst_atomic_payload *payload = NULL;
- 	struct drm_connector_state *conn_state;
- 	int prev_slots = 0, prev_bw = 0, req_slots;
-+	fixed20_12 req_slots_fp;
- 
- 	topology_state = drm_atomic_get_mst_topology_state(state, mgr);
- 	if (IS_ERR(topology_state))
-@@ -4342,7 +4347,9 @@ int drm_dp_atomic_find_time_slots(struct drm_atomic_state *state,
- 		}
- 	}
- 
--	req_slots = DIV_ROUND_UP(pbn, dfixed_trunc(topology_state->pbn_div));
-+	req_slots_fp.full = dfixed_div((fixed20_12)dfixed_init(pbn), topology_state->pbn_div);
-+	req_slots_fp.full = dfixed_ceil(req_slots_fp);
-+	req_slots = dfixed_trunc(req_slots_fp);
- 
- 	drm_dbg_atomic(mgr->dev, "[CONNECTOR:%d:%s] [MST PORT:%p] TU %d -> %d\n",
- 		       port->connector->base.id, port->connector->name,
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index c5f1079acb3b1..863b2e7add29e 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -252,6 +252,19 @@ drm_edp_backlight_supported(const u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE])
- 	return !!(edp_dpcd[1] & DP_EDP_TCON_BACKLIGHT_ADJUSTMENT_CAP);
- }
- 
-+/**
-+ * drm_dp_is_uhbr_rate - Determine if a link rate is UHBR
-+ * @link_rate: link rate in 10kbits/s units
-+ *
-+ * Determine if the provided link rate is an UHBR rate.
-+ *
-+ * Returns: %True if @link_rate is an UHBR rate.
-+ */
-+static inline bool drm_dp_is_uhbr_rate(int link_rate)
-+{
-+	return link_rate >= 1000000;
++struct drm_dp_mst_calc_pbn_div_test {
++	int link_rate;
++	int lane_count;
++	fixed20_12 expected;
++};
++
++#define fp_init(__int, __frac) { \
++	.full = (__int) * (1 << 12) + \
++		(__frac) * (1 << 12) / 100000 \
 +}
 +
- /*
-  * DisplayPort AUX channel
-  */
++static const struct drm_dp_mst_calc_pbn_div_test drm_dp_mst_calc_pbn_div_dp1_4_cases[] = {
++	/*
++	 * DP1.4 rates:
++	 * .expected = .link_rate * .lane_count * 0.8000 / 8 / 54 / 100
++	 * UHBR rates:
++	 * .expected = .link_rate * .lane_count * 0.9671 / 8 / 54 / 100
++	 * truncated to 5 decimal places.
++	 */
++	{
++		.link_rate = 162000,
++		.lane_count = 1,
++		.expected = fp_init(3, 0),
++	},
++	{
++		.link_rate = 162000,
++		.lane_count = 2,
++		.expected = fp_init(6, 0),
++	},
++	{
++		.link_rate = 162000,
++		.lane_count = 4,
++		.expected = fp_init(12, 0),
++	},
++	{
++		.link_rate = 270000,
++		.lane_count = 1,
++		.expected = fp_init(5, 0),
++	},
++	{
++		.link_rate = 270000,
++		.lane_count = 2,
++		.expected = fp_init(10, 0),
++	},
++	{
++		.link_rate = 270000,
++		.lane_count = 4,
++		.expected = fp_init(20, 0),
++	},
++	{
++		.link_rate = 540000,
++		.lane_count = 1,
++		.expected = fp_init(10, 0),
++	},
++	{
++		.link_rate = 540000,
++		.lane_count = 2,
++		.expected = fp_init(20, 0),
++	},
++	{
++		.link_rate = 540000,
++		.lane_count = 4,
++		.expected = fp_init(40, 0),
++	},
++	{
++		.link_rate = 810000,
++		.lane_count = 1,
++		.expected = fp_init(15, 0),
++	},
++	{
++		.link_rate = 810000,
++		.lane_count = 2,
++		.expected = fp_init(30, 0),
++	},
++	{
++		.link_rate = 810000,
++		.lane_count = 4,
++		.expected = fp_init(60, 0),
++	},
++	{
++		.link_rate = 1000000,
++		.lane_count = 1,
++		.expected = fp_init(22, 38657),
++	},
++	{
++		.link_rate = 1000000,
++		.lane_count = 2,
++		.expected = fp_init(44, 77314),
++	},
++	{
++		.link_rate = 1000000,
++		.lane_count = 4,
++		.expected = fp_init(89, 54629),
++	},
++	{
++		.link_rate = 1350000,
++		.lane_count = 1,
++		.expected = fp_init(30, 22187),
++	},
++	{
++		.link_rate = 1350000,
++		.lane_count = 2,
++		.expected = fp_init(60, 44375),
++	},
++	{
++		.link_rate = 1350000,
++		.lane_count = 4,
++		.expected = fp_init(120, 88750),
++	},
++	{
++		.link_rate = 2000000,
++		.lane_count = 1,
++		.expected = fp_init(44, 77314),
++	},
++	{
++		.link_rate = 2000000,
++		.lane_count = 2,
++		.expected = fp_init(89, 54629),
++	},
++	{
++		.link_rate = 2000000,
++		.lane_count = 4,
++		.expected = fp_init(179,  9259),  /* 179.09259 */
++	},
++};
++
++static void drm_test_dp_mst_calc_pbn_div(struct kunit *test)
++{
++	const struct drm_dp_mst_calc_pbn_div_test *params = test->param_value;
++	/* mgr->dev is only needed by drm_dbg_kms(), but it's not called for the test cases. */
++	struct drm_dp_mst_topology_mgr mgr = {};
++
++	KUNIT_EXPECT_EQ(test, drm_dp_get_vc_payload_bw(&mgr, params->link_rate, params->lane_count).full,
++			params->expected.full);
++}
++
++static void dp_mst_calc_pbn_div_desc(const struct drm_dp_mst_calc_pbn_div_test *t, char *desc)
++{
++	sprintf(desc, "Link rate %d lane count %d", t->link_rate, t->lane_count);
++}
++
++KUNIT_ARRAY_PARAM(drm_dp_mst_calc_pbn_div, drm_dp_mst_calc_pbn_div_dp1_4_cases,
++		  dp_mst_calc_pbn_div_desc);
++
+ static u8 data[] = { 0xff, 0x00, 0xdd };
+ 
+ struct drm_dp_mst_sideband_msg_req_test {
+@@ -416,6 +560,7 @@ KUNIT_ARRAY_PARAM(drm_dp_mst_sideband_msg_req, drm_dp_mst_sideband_msg_req_cases
+ 
+ static struct kunit_case drm_dp_mst_helper_tests[] = {
+ 	KUNIT_CASE_PARAM(drm_test_dp_mst_calc_pbn_mode, drm_dp_mst_calc_pbn_mode_gen_params),
++	KUNIT_CASE_PARAM(drm_test_dp_mst_calc_pbn_div, drm_dp_mst_calc_pbn_div_gen_params),
+ 	KUNIT_CASE_PARAM(drm_test_dp_mst_sideband_msg_req_decode,
+ 			 drm_dp_mst_sideband_msg_req_gen_params),
+ 	{ }
 -- 
 2.39.2
 
