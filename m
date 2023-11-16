@@ -1,42 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E415E7EE085
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 13:15:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D97087EE094
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 13:18:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DD0F10E263;
-	Thu, 16 Nov 2023 12:15:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 815D310E277;
+	Thu, 16 Nov 2023 12:18:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5908910E263
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 12:15:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1700136899; x=1700396099;
- bh=peIdrePwT8uOuhEHgYRJoTaPJUFwzal6w1Hv2WtpNCo=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=KVYvMq7aUUgkkM4hhRzz9XhWI+nkkhDGTbCDwnU/ctZr0Nm2+qG84sztDrDTvJjdf
- /UMyuWgoWQDW2LWkaGN+J+qP0Et3l9XrhZgRWnHs8IuH/NLkk0hasslujZzRtfg1Ve
- Q0QAQSx7oCxchKdAR4cZ2T5u7sY5sAdD7gSAD+V4Ixtp769LL1gzBRF4foscxG92Dx
- lCci/swQew4QXOcGq/5VeXHwsffnGQj271Fne2Wj7/bRIBdktfeY+XxDhwjrYUGF6e
- zCZLKPGWE/Z4pvFKOuW/WjBuuNw539vlcMexnBAJG1B3kgVS1KvXT/rrZWXJiCsoLL
- jGa19YgrPfBgQ==
-Date: Thu, 16 Nov 2023 12:14:51 +0000
-To: Thomas Zimmermann <tzimmermann@suse.de>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v2 4/5] drm/plane: Extend damage tracking kernel-doc
-Message-ID: <vhshocGSkXgVLycHIcJIVPsN9OQokPA2NCgIBqOvIzpKRZXQjN1uEiFKVudwa-S4hpBnFPaxxYh8hCFxd-u_ahYKBamQxFzIhBkYGkND9Kc=@emersion.fr>
-In-Reply-To: <abfd41c7-dc9f-4cd3-be83-97b2c2c96b62@suse.de>
-References: <20231115131549.2191589-1-javierm@redhat.com>
- <20231115131549.2191589-5-javierm@redhat.com>
- <abfd41c7-dc9f-4cd3-be83-97b2c2c96b62@suse.de>
-Feedback-ID: 1358184:user:proton
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com
+ [95.215.58.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0003E10E277
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 12:18:23 +0000 (UTC)
+Message-ID: <7602cd83-0e05-4e11-9bd1-10eb1d48a507@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1700137102;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mojXKgKsD6OOdOdTVyAHt9qNfNzmLYV5MNq0diPZ0zo=;
+ b=ui0PNUIWnN3h0wZZlTNPpzsTYt72RGpccxzSG5u2mJgqPIRlWezUkSceAZfLDNwbl7aiyd
+ f3Z0dAwKeBEj8HzSlDEuC5fobUcRY/59txepIFCGunD1O2JARyC5JKOYlhwgCNb57bFBjR
+ LLkrWlUnt+Qx0bphCRc3GD+DZfsPIik=
+Date: Thu, 16 Nov 2023 20:18:12 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 5/8] drm/bridge: it66121: Add a helper function to read
+ chip id
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
+ <20231114150130.497915-6-sui.jingfeng@linux.dev>
+ <CAA8EJprkDpjuHEi5R01p4XNvFBr94BvXhr7AZCLr6dC8Mk=yPw@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <CAA8EJprkDpjuHEi5R01p4XNvFBr94BvXhr7AZCLr6dC8Mk=yPw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,64 +52,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Sima Vetter <daniel.vetter@ffwll.ch>, Bilal Elmoussaoui <belmouss@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Erico Nunes <nunes.erico@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Phong LE <ple@baylibre.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, November 16th, 2023 at 13:06, Thomas Zimmermann <tzimmermann@s=
-use.de> wrote:
+Hi,
 
-> > + * Note that there are two types of damage handling: frame damage and =
-buffer
-> > + * damage. The type of damage handling implemented depends on a driver=
-'s upload
-> > + * target. Drivers implementing a per-plane or per-CRTC upload target =
-need to
-> > + * handle frame damage while drivers implementing a per-buffer upload =
-target
-> > + * need to handle buffer damage.
-> > + *
-> > + * The existing damage helpers only support the frame damage type, the=
-re is no
-> > + * buffer age support or similar damage accumulation algorithm impleme=
-nted yet.
-> > + *
-> > + * Only drivers handling frame damage can use the mentiored damage hel=
-pers to
 
-Typo: mentioned
+On 2023/11/15 00:06, Dmitry Baryshkov wrote:
+> On Tue, 14 Nov 2023 at 17:09, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+>> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>>
+>> Read the required chip id data back by calling regmap_bulk_read() once,
+>> reduce the number of local variables needed in it66121_probe() function.
+>> And store its values into struct it66121_ctx, as it will be used latter.
+>>
+>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>> ---
+>>   drivers/gpu/drm/bridge/ite-it66121.c | 47 ++++++++++++++++++++--------
+>>   1 file changed, 34 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+>> index 7e473beefc79..f36d05331f25 100644
+>> --- a/drivers/gpu/drm/bridge/ite-it66121.c
+>> +++ b/drivers/gpu/drm/bridge/ite-it66121.c
+>> @@ -313,6 +313,9 @@ struct it66121_ctx {
+>>                  bool auto_cts;
+>>          } audio;
+>>          const struct it66121_chip_info *info;
+>> +       u16 vender_id;
+>> +       u16 device_id;
+>> +       u8 revision;
+> There is no need to store them, they are not used by the driver anywhere.
+>
+>>   };
+>>
+>>   static inline struct it66121_ctx *bridge_to_it66121(struct drm_bridge *bridge)
+>> @@ -399,6 +402,30 @@ static void it66121_hw_reset(struct it66121_ctx *ctx)
+>>          gpiod_set_value(ctx->gpio_reset, 0);
+>>   }
+>>
+>> +static int it66121_read_chip_id(struct it66121_ctx *ctx, bool verbose)
+>> +{
+>> +       u8 id[4];
+>> +       int ret;
+>> +
+>> +       ret = regmap_bulk_read(ctx->regmap, IT66121_VENDOR_ID0_REG, id, 4);
+>> +       if (ret < 0) {
+>> +               dev_err(ctx->dev, "Failed to read chip ID: %d\n", ret);
+>> +               return ret;
+>> +       }
+>> +
+>> +       ctx->vender_id = (u16)id[1] << 8 | id[0];
+>> +       ctx->device_id = ((u16)(id[3] & IT66121_DEVICE_ID1_MASK) << 8 | id[2]);
+>> +       /* Revision is shared with DEVICE_ID1 */
+>> +       ctx->revision = FIELD_GET(IT66121_REVISION_MASK, id[3]);
+>> +
+>> +       if (verbose) {
+>> +               dev_info(ctx->dev, "Found ITE66121: 0x%x%x, revision: %u\n",
+>> +                        ctx->vender_id, ctx->device_id, ctx->revision);
+>> +       }
+>> +
+>> +       return 0;
+>> +}
+>> +
+>>   static inline int it66121_preamble_ddc(struct it66121_ctx *ctx)
+>>   {
+>>          return regmap_write(ctx->regmap, IT66121_MASTER_SEL_REG, IT66121_MASTER_SEL_HOST);
+>> @@ -1561,7 +1588,6 @@ static const char * const it66121_supplies[] = {
+>>
+>>   static int it66121_probe(struct i2c_client *client)
+>>   {
+>> -       u32 revision_id, vendor_ids[2] = { 0 }, device_ids[2] = { 0 };
+>>          int ret;
+>>          struct it66121_ctx *ctx;
+>>          struct device *dev = &client->dev;
+>> @@ -1603,19 +1629,13 @@ static int it66121_probe(struct i2c_client *client)
+>>          if (IS_ERR(ctx->regmap))
+>>                  return PTR_ERR(ctx->regmap);
+>>
+>> -       regmap_read(ctx->regmap, IT66121_VENDOR_ID0_REG, &vendor_ids[0]);
+>> -       regmap_read(ctx->regmap, IT66121_VENDOR_ID1_REG, &vendor_ids[1]);
+>> -       regmap_read(ctx->regmap, IT66121_DEVICE_ID0_REG, &device_ids[0]);
+>> -       regmap_read(ctx->regmap, IT66121_DEVICE_ID1_REG, &device_ids[1]);
+>> -
+>> -       /* Revision is shared with DEVICE_ID1 */
+>> -       revision_id = FIELD_GET(IT66121_REVISION_MASK, device_ids[1]);
+>> -       device_ids[1] &= IT66121_DEVICE_ID1_MASK;
+>> +       ret = it66121_read_chip_id(ctx, false);
+>> +       if (ret)
+>> +               return ret;
+>>
+>> -       if ((vendor_ids[1] << 8 | vendor_ids[0]) != ctx->info->vid ||
+>> -           (device_ids[1] << 8 | device_ids[0]) != ctx->info->pid) {
+>> +       if (ctx->vender_id != ctx->info->vid ||
+>> +           ctx->device_id != ctx->info->pid)
 
-> > + * iterate over the damaged regions. Drivers that handle buffer damage=
-, need to
-> > + * set &struct drm_plane_state.ignore_damage_clips as an indication to
-> > + * drm_atomic_helper_damage_iter_init() that the damage clips should b=
-e ignored.
-> > + * In that case, the returned damage rectangle is the &drm_plane_state=
-.src since
-> > + * a full plane update should happen.
-> > + *
-> > + * For more information about the two type of damage, see:
-> > + * https://registry.khronos.org/EGL/extensions/KHR/EGL_KHR_swap_buffer=
-s_with_damage.txt
-> > + * https://emersion.fr/blog/2019/intro-to-damage-tracking/
->=20
-> One thought you might want to consider.
->=20
-> These URLs are helpful. The only issue I have is that frame damage and
-> buffer damage are user-space concepts. The kernel bug is that damage
-> handling expects the backing storage/upload buffer not to change for a
-> given plane. If the upload buffer changes between page flips, the new
-> upload buffer has to be updated as a whole. Hence no damage handling then=
-.
+Q: There is no need to store them, they are not used by the driver anywhere.
 
-Why would these concepts be specific to user-space? The kernel could
-better handle buffer damage instead of forcing full damage, by doing
-something similar to what user-space does.
+A: Here it is used, it is also used by the 0007-patch to get the entity(instance)-specific data.
 
-Anyways:
 
-Reviewed-by: Simon Ser <contact@emersion.fr>
+Since it6610 was introduced, this is used for chip identifying.
+It can also be used with in debugfs context, to show who I am.
+
+
+>>                  return -ENODEV;
+>> -       }
+>>
+>>          ctx->bridge.funcs = &it66121_bridge_funcs;
+>>          ctx->bridge.of_node = dev->of_node;
+>> @@ -1633,7 +1653,8 @@ static int it66121_probe(struct i2c_client *client)
+>>
+>>          drm_bridge_add(&ctx->bridge);
+>>
+>> -       dev_info(dev, "IT66121 revision %d probed\n", revision_id);
+>> +       dev_info(dev, "IT66121 probed, chip id: 0x%x:0x%x, revision: %u\n",
+>> +                ctx->vender_id, ctx->device_id, ctx->revision);
+>>
+>>          return 0;
+>>   }
+>> --
+>> 2.34.1
+>>
+>
