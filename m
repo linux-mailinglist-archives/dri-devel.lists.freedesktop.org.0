@@ -2,52 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 938407EE4EC
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 17:06:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB98F7EE52A
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 17:29:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11E9010E628;
-	Thu, 16 Nov 2023 16:06:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A19D10E622;
+	Thu, 16 Nov 2023 16:29:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D153D10E625
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 16:06:36 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mkl@pengutronix.de>)
- id 1r3et1-0007qI-6r; Thu, 16 Nov 2023 17:06:35 +0100
-Received: from [2a0a:edc0:0:b01:1d::7b] (helo=bjornoya.blackshift.org)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <mkl@pengutronix.de>)
- id 1r3et0-009U4E-P8; Thu, 16 Nov 2023 17:06:34 +0100
-Received: from pengutronix.de (unknown [172.20.34.65])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (Client did not present a certificate)
- (Authenticated sender: mkl-all@blackshift.org)
- by smtp.blackshift.org (Postfix) with ESMTPSA id 7B63624DF12;
- Thu, 16 Nov 2023 16:06:34 +0000 (UTC)
-Date: Thu, 16 Nov 2023 17:06:34 +0100
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH 3/5] drm/bridge: tc358762: Instruct DSI host to generate
- HSE packets
-Message-ID: <20231116-tarantula-posing-b941e929b40d-mkl@pengutronix.de>
-References: <20230615201902.566182-1-marex@denx.de>
- <20230615201902.566182-3-marex@denx.de>
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com
+ [209.85.160.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B062A10E622
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 16:28:58 +0000 (UTC)
+Received: by mail-oa1-f54.google.com with SMTP id
+ 586e51a60fabf-1f03d9ad89fso490388fac.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 08:28:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700152138; x=1700756938;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SHpsolomr1O8IoNZNmWuKJghrcMhtNlGZuOKvxu4Hyg=;
+ b=d/Wg5vbNXnxmOArQFmh6RNKM84bpuxAXaL30Gjq4O83F2rQU5gqA/eFmtBvRg9THEy
+ D5tUwe2xd1j+s5mh1nu3wLQ5yAs6MXVWdOgdMLA4sbbcjR8ym1l9QlNmgntkXMFIhgaq
+ 4SWC2vtX2kxOaajGoffV3tPfEK5RLf0pGkDmEZS2d/XOed8/rCjLGH1+6CWM/yzf5Pfd
+ zijCgBhth3ZOfy7LutghjXM90tJHaz5czkbiiqPnKzROQFh6XM5LT7pvwZrbZoKpRbVj
+ fK8XLMzhIsvADZCQhanKAkQJGO35cMa2A7FFEd0okI5geCrNt59JqRXwKkmtiE9Jn2fm
+ migg==
+X-Gm-Message-State: AOJu0YyMGI2RkTYaez75ThPuQfiQICwPs5sys9047Dzk4EtLHrafQ6Cm
+ ScahVdscRv2Lzh9ppIk9i8ROa071Wg==
+X-Google-Smtp-Source: AGHT+IEN7OCfu+AaT2L23F6tUrWC+9ztcQ5rH5Mxyh/0SpCy8jBoSr8cd13j15tMtuSmOolw2nIBzQ==
+X-Received: by 2002:a05:6870:6c05:b0:1f0:6931:e301 with SMTP id
+ na5-20020a0568706c0500b001f06931e301mr21055183oab.0.1700152137858; 
+ Thu, 16 Nov 2023 08:28:57 -0800 (PST)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ bp9-20020a056871280900b001eb79fedbb1sm2156514oac.17.2023.11.16.08.28.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Nov 2023 08:28:57 -0800 (PST)
+Received: (nullmailer pid 2438161 invoked by uid 1000);
+ Thu, 16 Nov 2023 16:28:55 -0000
+Date: Thu, 16 Nov 2023 10:28:55 -0600
+From: Rob Herring <robh@kernel.org>
+To: Conor Dooley <conor@kernel.org>
+Subject: Re: [PATCH 3/5] dt-bindings: gpu: samsung: constrain clocks in
+ top-level properties
+Message-ID: <20231116162855.GA2435337-robh@kernel.org>
+References: <20231112184403.3449-1-krzysztof.kozlowski@linaro.org>
+ <20231112184403.3449-3-krzysztof.kozlowski@linaro.org>
+ <20231113-sultry-cold-d63dd9f015d9@squawk>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="xqboflvdr2a56zih"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230615201902.566182-3-marex@denx.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231113-sultry-cold-d63dd9f015d9@squawk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,147 +67,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Nov 13, 2023 at 01:51:30PM +0000, Conor Dooley wrote:
+> On Sun, Nov 12, 2023 at 07:44:01PM +0100, Krzysztof Kozlowski wrote:
+> > When number of clock varies between variants, the Devicetree bindings
+> > coding convention expects to have widest constraints in top-level
+> > definition of the properties and narrow them in allOf:if:then block.
+> > 
+> > This is more readable and sometimes allows to spot some errors in the
+> > bindings.
+> > 
+> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> 
+> Åcked-by: Conor Dooley <conor.dooley@microchip.com>
 
---xqboflvdr2a56zih
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  ^
 
-Hey Marek,
+Not an 'A'. I only caught this because I go thru everything 
+Acked/Reviewed-by first and this one was missed.
 
-On 15.06.2023 22:19:00, Marek Vasut wrote:
-> This bridge seems to need the HSE packet, otherwise the image is
-> shifted up and corrupted at the bottom. This makes the bridge
-> work with Samsung DSIM on i.MX8MM and i.MX8MP.
-
-I'm using v6.6 (which includes this series) on an i.MX8MP with the 7inch
-Rspi Panel ("powertip,ph800480t013-idf02"), but I cannot get a stable
-image.
-
-With an unmodified imx8mp clock tree the lower 1/4 of the image sheers
-to the left.
-
-With 24.75 MHz on the media_disp1_pix and media_mipi_phy1_ref and 792
-MHz on video_pll1_out, the image is not static, but wobbly and it's
-wrapped around half of the image.
-
-    video_pll1_ref_sel                1        1        0    24000000      =
-    0     0  50000         Y
-       video_pll1                     1        1        0   792000000      =
-    0     0  50000         Y
-          video_pll1_bypass           1        1        0   792000000      =
-    0     0  50000         Y
-             video_pll1_out           2        2        0   792000000      =
-    0     0  50000         Y
-                media_mipi_phy1_ref       1        1        0    24750000  =
-        0     0  50000         Y
-                   media_mipi_phy1_ref_root       0        0        0    24=
-750000          0     0  50000         Y
-                media_disp2_pix       0        0        0   792000000      =
-    0     0  50000         N
-                   media_disp2_pix_root_clk       0        0        0   792=
-000000          0     0  50000         N
-                media_disp1_pix       1        1        0    24750000      =
-    0     0  50000         Y
-                   media_disp1_pix_root_clk       1        1        0    24=
-750000          0     0  50000         Y
-
-Do you have a working device tree for such a setup? regards, Marc
-
-Relevant DT snipped for my setup:
-
-&{/} {
-	panel {
-		compatible =3D "powertip,ph800480t013-idf02";
-		power-supply =3D <&attiny>;
-		backlight =3D <&attiny>;
-
-		port {
-			panel_in: endpoint {
-				remote-endpoint =3D <&bridge_out>;
-			};
-		};
-	};
-};
-
-&mipi_dsi {
-	samsung,esc-clock-frequency =3D <54000000>;
-	assigned-clock-parents =3D <&clk IMX8MP_SYS_PLL1_800M>,
-				 <&clk IMX8MP_VIDEO_PLL1_OUT>;
-	assigned-clock-rates =3D <200000000>, <24750000>;
-	status =3D "okay";
-
-	bridge@0 {
-		compatible =3D "toshiba,tc358762";
-		reg =3D <0>;
-		vddc-supply =3D <&attiny>;
-		reset-gpio =3D <&attiny 0 0>;
-
-		ports {
-			#address-cells =3D <1>;
-			#size-cells =3D <0>;
-
-			port@0 {
-				reg =3D <0>;
-
-				bridge_in: endpoint {
-					remote-endpoint =3D <&dsi_out>;
-				};
-			};
-
-			port@1 {
-				reg =3D <1>;
-
-				bridge_out: endpoint {
-					remote-endpoint =3D <&panel_in>;
-				};
-			};
-		};
-	};
-
-	ports {
-		#address-cells =3D <1>;
-		#size-cells =3D <0>;
-
-		port@1 {
-			reg =3D <1>;
-
-			dsi_out: endpoint {
-				data-lanes =3D <1 2>;
-				remote-endpoint =3D <&bridge_in>;
-			};
-		};
-	};
-};
-
-&media_blk_ctrl {
-	assigned-clock-rates =3D <500000000>, <200000000>,
-			       <0>, <0>, <792000000>;
-};
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
-
---xqboflvdr2a56zih
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmVWPgcACgkQvlAcSiqK
-BOg3mAgArCxMpMsvngkM0SNNOAnHVHGlRVHe5rYI0oEQZEvycYex1ux/ArXvw5Zs
-W02e1Oqed0k7EgUVZnUuGeRxvV0mncpiN5SZfoIS33a80WPHE/c+vl8VPo0Us1Kq
-hfAcUfgGlI7eQ/siRkjGWVNwODQwosM+zQW9TpD9I9ogKFl4KddDai8F6J2B84Az
-dVevq/+E0+hDOr1YYMcC86jeYbgPP6ZmfBW0PMaoW5TCiGN0zPrAG0xJx5nSu7ZU
-/vU8EHgrci56XMNkAfb+KeAjMebKMTiDjzcoDKElPQVseHmQaiGOQWdK4Yy1/eEg
-6KJ5SCeFAL+5EjBz5Fgs/nX+bM5MEw==
-=XU2v
------END PGP SIGNATURE-----
-
---xqboflvdr2a56zih--
+Rob
