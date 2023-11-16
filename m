@@ -2,72 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A0647EDE55
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 11:17:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 185157EDE57
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 11:19:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9064A10E5A8;
-	Thu, 16 Nov 2023 10:17:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65EFF10E5AF;
+	Thu, 16 Nov 2023 10:19:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02AE910E5A8
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 10:17:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1700129821;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uAtAjL19nZ/0ZV6KMPfpP7ukF57+qpyYq0AblvSNwYM=;
- b=HWBOXHUB3bjs2y0a47QE5P0KSV61naUm7rO0GvAHQK37sIpAKK7d/P7EECEcFScb2c5UFD
- DGWjBNu7sCuge9/lSTt9QqDYQtHmrNl+aXbyGVVmoBc25Lxz5vb7m4js4eDkfliHrTd20N
- k8S7QCaDGVfA5CTmZ535ILXtUVRBjnE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-619-HFUMtDfUNrm6ltc5HBhwlw-1; Thu, 16 Nov 2023 05:16:59 -0500
-X-MC-Unique: HFUMtDfUNrm6ltc5HBhwlw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-4084d08235fso3263735e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 02:16:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700129818; x=1700734618;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uAtAjL19nZ/0ZV6KMPfpP7ukF57+qpyYq0AblvSNwYM=;
- b=BvMukgQ9UTHU+v9za6vPrX0sn8Z5DAQujeeMk8Kk8o/ZyJcdGcfzYsmviodF2vsuDt
- bp1U+XCnFVzrVyAKQOwAb0JI7JXsjY31BoA+S+XpGn6l47f22oahKvwhhRKhST7Lb6HY
- Kot9rCmI2vlFKild6q2zG6JgrFHgYD4QT3JWGNJvYHmGggN52l/Gmur5ddwmTBTBs6es
- Q7Wel6f2X+TVctZJqTLXG7Wc6ehr23Di2FYjet0lCXQMizVDyIK0bQVy6bCqTkF+G/MA
- amuM235qYBZP9rPwfVm4NRI46e4pazyTx6yiL6A4kxZtH4QJtcPUl5k6wyj4l9vBUc1I
- wZsQ==
-X-Gm-Message-State: AOJu0Yx1Hh4CVsdOb6xpgE71ehRLK3gB+IZXKQ9YRxobbYN4oRZdF4C/
- qCOM8qy6Wv3cSzu8qtc7se43am0yJhfIPZXJHED1WeCx6+xPOUdWfnUZIFtas04/7LLXhwx0Pj8
- eEHwBQDbuBCMJOo3lTgjwF3jPzRLh
-X-Received: by 2002:a1c:7218:0:b0:40a:463c:1de0 with SMTP id
- n24-20020a1c7218000000b0040a463c1de0mr12700965wmc.34.1700129817999; 
- Thu, 16 Nov 2023 02:16:57 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGwo4cRZ4kMa/b0dHBNMP9yNxr5MEmvXd6XyahEiigcjOkqMWJ95Q4H6fJ41SYwKyCbs0VP4w==
-X-Received: by 2002:a1c:7218:0:b0:40a:463c:1de0 with SMTP id
- n24-20020a1c7218000000b0040a463c1de0mr12700946wmc.34.1700129817625; 
- Thu, 16 Nov 2023 02:16:57 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- q12-20020a05600000cc00b0032db4e660d9sm13094966wrx.56.2023.11.16.02.16.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Nov 2023 02:16:57 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de
-Subject: Re: [PATCH 07/32] auxdisplay/cfag12864bfb: Set FBINFO_VIRTFB flag
-In-Reply-To: <20231115102954.7102-8-tzimmermann@suse.de>
-References: <20231115102954.7102-1-tzimmermann@suse.de>
- <20231115102954.7102-8-tzimmermann@suse.de>
-Date: Thu, 16 Nov 2023 11:16:56 +0100
-Message-ID: <87zfze3svb.fsf@minerva.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CCFF10E5AF;
+ Thu, 16 Nov 2023 10:19:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1700129965; x=1731665965;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Nt6akQnpm7bWk9/h9cThAah0cF+LQLqs+jmfI+CwVH4=;
+ b=KbGQLC8ULIXJ5DrMuTZ/PfUgITsFKeDvKdiuP37aWulkfL+0pUKqTFZ/
+ ozrq6GjF6kCA12C7smjboIOGoyH/amMUnU/xPPbZuxdDfn0B4B41yDzpR
+ fG8idEJ64VXCL388rKfjGvDgZY1RJaGAIYmm/UQMBbWRDyP/KusmtxpgE
+ lVsJPtUnO/OukhGeswhcQ7307HYraMBa0vU0LPBqPw2QTxNtN8WsCTA3D
+ 6/2y01Cuu4QgyHoc9z/kA1eWmOke91nMVnnk+hqLDHl2+2qcVqhOFItbY
+ t3pg6yEjZ+wQT9Oyr7dgdXJZko91bc/GONwaj0WPRWnUa+WfppPAqYGE+ w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="376107038"
+X-IronPort-AV: E=Sophos;i="6.03,308,1694761200"; d="scan'208";a="376107038"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2023 02:19:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="768865316"
+X-IronPort-AV: E=Sophos;i="6.03,308,1694761200"; d="scan'208";a="768865316"
+Received: from shudso3x-mobl.ger.corp.intel.com (HELO [10.213.211.151])
+ ([10.213.211.151])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2023 02:19:22 -0800
+Message-ID: <0a15860d-6fa0-4f1c-b12b-2f9b65911fbc@linux.intel.com>
+Date: Thu, 16 Nov 2023 10:19:20 +0000
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Intel-gfx] [PATCH v4 3/3] drm/i915/gt: Timeout when waiting for
+ idle in suspending
+Content-Language: en-US
+To: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+References: <20230926190518.105393-1-alan.previn.teres.alexis@intel.com>
+ <20230926190518.105393-4-alan.previn.teres.alexis@intel.com>
+ <9ca17c5c-7bb4-ff6b-69cb-3983299729c1@linux.intel.com>
+ <123edf6b37aa982de20279d64c213156a2dc8c2e.camel@intel.com>
+ <fad657e7-beec-75fc-9003-5883412d6e6b@linux.intel.com>
+ <0c1e1e713fc46bf0783ca6e0a72a39d6671a6b57.camel@intel.com>
+ <ace7375e-d9a8-4b6f-aa92-6360ca3bfa96@linux.intel.com>
+ <16068beebe0fdac5aabd83816fd25367f5170c24.camel@intel.com>
+ <eeded970-cee7-420c-9b34-26ea9d78e420@linux.intel.com>
+ <246ecbb0dcbbc96d9e48f8de6798bd9d16961c8f.camel@intel.com>
+ <dc97f378-c8c6-4841-95da-740f3ecca187@linux.intel.com>
+ <b075538a522adbbb3b83934279b93bde9913b9e8.camel@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <b075538a522adbbb3b83934279b93bde9913b9e8.camel@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,30 +74,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Miguel Ojeda <ojeda@kernel.org>, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: "Jana, Mousumi" <mousumi.jana@intel.com>,
+ "intel.com@freedesktop.org" <intel.com@freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> The cfag12864bfb driver operates on system memory. Mark the framebuffer
-> accordingly. Helpers operating on the framebuffer memory will test for
-> the presence of this flag.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Miguel Ojeda <ojeda@kernel.org>
-> ---
->  drivers/auxdisplay/cfag12864bfb.c | 1 +
->  1 file changed, 1 insertion(+)
->
+On 14/11/2023 19:48, Teres Alexis, Alan Previn wrote:
+> On Tue, 2023-11-14 at 17:52 +0000, Tvrtko Ursulin wrote:
+>> On 14/11/2023 17:37, Teres Alexis, Alan Previn wrote:
+>>> On Tue, 2023-11-14 at 17:27 +0000, Tvrtko Ursulin wrote:
+>>>> On 13/11/2023 17:57, Teres Alexis, Alan Previn wrote:
+>>>>> On Wed, 2023-10-25 at 13:58 +0100, Tvrtko Ursulin wrote:
+>>>>>> On 04/10/2023 18:59, Teres Alexis, Alan Previn wrote:
+>>>>>>> On Thu, 2023-09-28 at 13:46 +0100, Tvrtko Ursulin wrote:
+>>>>>>>> On 27/09/2023 17:36, Teres Alexis, Alan Previn wrote:
+>>
+> alan:snip
+> 
+>>> alan: So i did trace back the gt->wakeref before i posted these patches and
+>>> see that within these runtime get/put calls, i believe the first 'get' leads
+>>> to __intel_wakeref_get_first which calls intel_runtime_pm_get via rpm_get
+>>> helper and eventually executes a pm_runtime_get_sync(rpm->kdev); (hanging off
+>>> i915_device). (naturally there is a corresponding mirros for the '_put_last').
+>>> So this means the first-get and last-put lets the kernel know. Thats why when
+>>> i tested this patch, it did actually cause the suspend to abort from kernel side
+>>> and the kernel would print a message indicating i915 was the one that didnt
+>>> release all refs.
+>>
+>> Ah that would be much better then.
+>>
+>> Do you know if everything gets resumed/restored correctly in that case
+>> or we would need some additional work to maybe early exit from callers
+>> of wait_for_suspend()?
+> alan: So assuming we are still discussing about a "potentially new
+> future leaked-wakeref bug" (i.e. putting aside the fact that
+> Patch #1 + #2 resolves this specific series' bug), based on the
+> previous testing we did, after this timeout-bail trigger,
+> the suspend flow bails and gt/guc operation does actually continue
+> as normal. However, its been a long time since we tested this so
+> i am not sure of how accidental-new-future bugs might play to this
+> assumption especially if some other subsystem that leaked the rpm
+> wakref but that subsystem did NOT get reset like how GuC is reset
+> at the end of suspend.
+> 
+>>
+>> What I would also ask is to see if something like injecting a probing
+>> failure is feasible, so we can have this new timeout exit path
+>> constantly/regularly tested in CI.
+> alan: Thats a good idea. In line with this, i would like to point out that
+> rev6 of this series has been posted but i removed this Patch #3. However i did
+> post this Patch #3 as a standalone patch here: https://patchwork.freedesktop.org/series/126414/
+> as i anticipate this patch will truly help with future issue debuggability.
+> 
+> That said, i shall post a review on that patch with your suggestion to add
+> an injected probe error for the suspend-resume flow and follow up on that one
+> separately.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Cool! I don't know exactly how to do it but if we come up with way and 
+so gain IGT coverage then I am okay with the patch in principle.
 
--- 
-Best regards,
+Like perhaps some new debugfs api needs to be added to provoke the 
+timeout error path on suspend, or something.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Regards,
 
+Tvrtko
+
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>> alan: Anyways, i have pulled this patch out of rev6 of this series and created a
+>>> separate standalone patch for this patch #3 that we review independently.
+>>>
+> 
