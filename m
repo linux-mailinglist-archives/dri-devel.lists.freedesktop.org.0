@@ -2,76 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22A4B7EDD8C
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 10:23:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0999A7EDD9E
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 10:30:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A30C510E256;
-	Thu, 16 Nov 2023 09:23:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2196610E255;
+	Thu, 16 Nov 2023 09:30:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D139010E255
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 09:23:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1700126583;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=w35rrT7mZxkd5tfTUmEJQuHgJFwG2ZKuKcURtyFKyzE=;
- b=S55gNxeNT/5EfLrr8xHrtbIy5OBAlPNtZNsfdKGh+RhdsU0Ydn37cGQBcrkFdh59Tmma3I
- 7ToIvi1BLRJuYnlqznJGs6erZ6y0WNNeBIQlOqn9RbucV2i6kzTh1BYmcx1r3tKfT1FstA
- sdvhM1E5NRW5jIfN9GvsM8B4I2/wSXI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-446-nt9qVdNPNTWaB4zWza_Mpw-1; Thu, 16 Nov 2023 04:23:00 -0500
-X-MC-Unique: nt9qVdNPNTWaB4zWza_Mpw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-4092164eceeso3306915e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 01:23:00 -0800 (PST)
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D89AC10E255
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 09:30:46 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-5a7fb84f6ceso6120837b3.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 01:30:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1700127046; x=1700731846; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=cOalNhNWON0tzgJDSNBQ7PJyNiEFmyM6jXYqhmL2sw4=;
+ b=VyUsk9MXamnxLyKolkC5AzAgsWOx0PDyJ1FDx0hZdv66ewJdxK0WSNhjPQJ34vGADu
+ xmOugdNXHgszMRjxbAaylOkdVLIOjahgeG0rmENrkkUgA+q6GRdTBN6ReomR5ZlNX8xA
+ /SHPivaQIgbwyFr5yyUYqm4JdVVWSbCZTB9FSOUS9J4US1whhfr2aryfmdxoSzlQYUgM
+ dONnq0tXC3fftwPIbUfn02rwY9fx2jZnZhqJPrDX0S3ktI2U/SRZu2yRNvJwQLUarNg4
+ TS2rOVwu0X7fRRx49RH4VSeMF0a+RmibfHPHrhGpadO1Ykpzj6fb4zZxoek05L1RXC+N
+ FKug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700126579; x=1700731379;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=w35rrT7mZxkd5tfTUmEJQuHgJFwG2ZKuKcURtyFKyzE=;
- b=uHnn6HIAPXpr//8btbvAiTSuOYODunbhSi29nI4zhUIAamxkF58sGliftgZlsg6gEb
- BhxnAup8T2CVMIZgcdptKkjo95xhWRg4eDNWDqm5awwRiMxt4WVIwVIVq92kZySYCsNl
- OXLLBXfOuukRXbreltP9/Pu/HeQm8SHO+T+/R8BCms9swLMHpAt3tZjzK/7TWO4Dx7UB
- xsK8IWrCcdtsRYa0l2jGorKp5rBxbbu623wwtF5lvSONMPAYpAizl1DnWi28wVtR+vKi
- EWW6B9qNSyd9iH+gX7YFLD1Q3ZAmHAdPCcuTVsPbqA3AvMzH3q3heFGxTVHlA1wYihZ2
- VHSw==
-X-Gm-Message-State: AOJu0YyM+Ztt1kQUP0GPlw9oDXdmtvDqpWItaWaLWLFI7EMSFcLIzZ6A
- Xc9UUrD05klKd0/zVkh/oTkp5uhBXCoEl1qOiWahJPK/EWrvOuUcZ1It0LJ0dQERirek1Y05Khm
- CfoS88oTO9kZK6PFUnrUyOyIJ3L7W
-X-Received: by 2002:a05:600c:1906:b0:408:5ba9:d707 with SMTP id
- j6-20020a05600c190600b004085ba9d707mr12879655wmq.16.1700126579446; 
- Thu, 16 Nov 2023 01:22:59 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGyuBLaQ9uVYXCAgGY4tjsp6WBRdoWBL/6H3EJ08muS9pK4nQxBMd8/uWN9ZKr7eoapbzo5sw==
-X-Received: by 2002:a05:600c:1906:b0:408:5ba9:d707 with SMTP id
- j6-20020a05600c190600b004085ba9d707mr12879634wmq.16.1700126579048; 
- Thu, 16 Nov 2023 01:22:59 -0800 (PST)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- dn17-20020a0560000c1100b0032db1d741a6sm12734556wrb.99.2023.11.16.01.22.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Nov 2023 01:22:58 -0800 (PST)
-Date: Thu, 16 Nov 2023 10:22:58 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Luben Tuikov <ltuikov89@gmail.com>
-Subject: Re: linux-next: Signed-off-by missing for commit in the drm-misc tree
-Message-ID: <53oamsiakocoohdvs2raagdpzfj73xlrxuxvrsdvxkkwxdrm3m@dlu2tno6tjgv>
-References: <20231114075501.61321c29@canb.auug.org.au>
- <19740d41-dd5a-47e4-b3e8-539b45bbd3e5@gmail.com>
- <3c306310-04b3-4658-a197-4b2d22a88274@gmail.com>
- <20231114134506.2ba0de1f@canb.auug.org.au>
- <530b6100-4f4e-4b3d-8fea-5b316e989633@gmail.com>
+ d=1e100.net; s=20230601; t=1700127046; x=1700731846;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cOalNhNWON0tzgJDSNBQ7PJyNiEFmyM6jXYqhmL2sw4=;
+ b=D4kmtfJ/zWuXJQdIqgRC58xHrWG+wOlhFXHc4IVdGEZJWJPRZdLkuySZCGHsAMrkt/
+ 8H1oex6RzGoFuvXdHBYz1CQDO5NWZWBzZx8HLIli64UK7mLwEuV/VMp9uAiQ5PpLIjSr
+ fcpDSL9gGp8ySglxwCHUJ5dCmonu+ysgVsEVK+CUyhNEfiDRpE6biYcNT8PX2EhbVar2
+ R3zqtfVaNArJKKVamsu7xP/nBo3xXWqW1vrxb/yJh+zgBMynCowm4v5VJ9p/KdfYh1Ko
+ cv7oHFNeIkyPwYG4lwabJO0KHRjk6ao0So/mDQ8kNlApEPvzhLbWwrCqFyIMx7uAhgCj
+ kfcQ==
+X-Gm-Message-State: AOJu0YyBOgUMfcY34Jb7hU4wVE34ZJMK00CdKlqUH1hPYoWyZwm89kkv
+ IqYvSgH6FSe8c/XPGnpyJwQHCQj8oYPlrZsxtwUU7w==
+X-Google-Smtp-Source: AGHT+IG/y2QkwE5jz6zn2wyoqRZJsRkb2SMpVkvXZlwMv12XeV3+EIY7Vc3LwWdJMLOl+P+/86tTF28+DWBpYWwsTB0=
+X-Received: by 2002:a0d:ccc4:0:b0:5be:9d2f:2eaf with SMTP id
+ o187-20020a0dccc4000000b005be9d2f2eafmr13881753ywd.0.1700127045878; Thu, 16
+ Nov 2023 01:30:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="oucpashu4qkda5nm"
-Content-Disposition: inline
-In-Reply-To: <530b6100-4f4e-4b3d-8fea-5b316e989633@gmail.com>
+References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
+ <20231114150130.497915-9-sui.jingfeng@linux.dev>
+ <CAA8EJprQq3aDhzE+yKGZ2-nsuHWcptzMvApsyOi9D63PgeiZ3w@mail.gmail.com>
+ <79301d04-c0cb-4740-8a6d-27a889b65daf@linux.dev>
+In-Reply-To: <79301d04-c0cb-4740-8a6d-27a889b65daf@linux.dev>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 16 Nov 2023 11:30:34 +0200
+Message-ID: <CAA8EJpom5kAbDkacOdqp6BR7YPfmCSXaQfDYRVcLf9eGmi64CQ@mail.gmail.com>
+Subject: Re: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,95 +69,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Phong LE <ple@baylibre.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---oucpashu4qkda5nm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Mon, Nov 13, 2023 at 09:56:32PM -0500, Luben Tuikov wrote:
-> On 2023-11-13 21:45, Stephen Rothwell wrote:
-> > Hi Luben,
-> >=20
-> > On Mon, 13 Nov 2023 20:32:40 -0500 Luben Tuikov <ltuikov89@gmail.com> w=
-rote:
-> >>
-> >> On 2023-11-13 20:08, Luben Tuikov wrote:
-> >>> On 2023-11-13 15:55, Stephen Rothwell wrote: =20
-> >>>> Hi all,
-> >>>>
-> >>>> Commit
-> >>>>
-> >>>>   0da611a87021 ("dma-buf: add dma_fence_timestamp helper")
-> >>>>
-> >>>> is missing a Signed-off-by from its committer.
-> >>>> =20
-> >>>
-> >>> In order to merge the scheduler changes necessary for the Xe driver, =
-those changes
-> >>> were based on drm-tip, which included this change from drm-misc-fixes=
-, but which
-> >>> wasn't present in drm-misc-next.
-> >>>
-> >>> I didn't want to create a merge conflict between drm-misc-next and dr=
-m-misc-fixes,
-> >>> when pulling that change from drm-misc-next to drm-misc-fixes, so tha=
-t I can apply =20
-> >>
-> >> ... when pulling that change from from drm-misc-fixes into drm-misc-ne=
-xt, so that I can apply...
-> >>
-> >>> the Xe scheduler changes on top of drm-misc-next. =20
-> >>
-> >> The change in drm-misc-fixes is b83ce9cb4a465b. The latter is contained
-> >> in linus-master, and in drm-misc-fixes, while the former is in drm-mis=
-c-next.
-> >> When we merge linus-master/drm-misc-fixes into drm-misc-next, or which=
-ever way
-> >> it happens, I'd like to avoid a merge conflict, but wanted to expedite=
- the changes
-> >> for Xe.
-> >=20
-> > None of that is relevant ... if you commit a patch to a tree that will
-> > be in the linux kernel tree, you must add your Signed-off-by to the com=
-mit.
+On Thu, 16 Nov 2023 at 11:14, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
 >
-> Noted!
->=20
-> So I always do this when I do git-am and such, but wasn't sure for this o=
-ne single cherry-pick whose
-> original author was the committer in drm-misc-fixes, but will add my Sign=
-ed-off-by in those
-> rare circumstances.
->=20
-> Thanks for the clarification!
+> Hi,
+>
+> Thanks a lot for reviewing!
+>
+>
+> On 2023/11/15 00:30, Dmitry Baryshkov wrote:
+> > On Tue, 14 Nov 2023 at 17:09, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+> >> From: Sui Jingfeng <suijingfeng@loongson.cn>
+> >>
+> >> The it66121_create_bridge() and it66121_destroy_bridge() are added to
+> >> export the core functionalities. Create a connector manually by using
+> >> bridge connector helpers when link as a lib.
+> >>
+> >> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> >> ---
+> >>   drivers/gpu/drm/bridge/ite-it66121.c | 134 +++++++++++++++++++--------
+> >>   include/drm/bridge/ite-it66121.h     |  17 ++++
+> >>   2 files changed, 113 insertions(+), 38 deletions(-)
+> >>   create mode 100644 include/drm/bridge/ite-it66121.h
+> >>
+> >> diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+> >> index 8971414a2a60..f5968b679c5d 100644
+> >> --- a/drivers/gpu/drm/bridge/ite-it66121.c
+> >> +++ b/drivers/gpu/drm/bridge/ite-it66121.c
+> >> @@ -22,6 +22,7 @@
+> >>
+> >>   #include <drm/drm_atomic_helper.h>
+> >>   #include <drm/drm_bridge.h>
+> >> +#include <drm/drm_bridge_connector.h>
+> >>   #include <drm/drm_edid.h>
+> >>   #include <drm/drm_modes.h>
+> >>   #include <drm/drm_print.h>
+> >> @@ -703,14 +704,32 @@ static int it66121_bridge_attach(struct drm_bridge *bridge,
+> >>                                   enum drm_bridge_attach_flags flags)
+> >>   {
+> >>          struct it66121_ctx *ctx = bridge_to_it66121(bridge);
+> >> +       struct drm_bridge *next_bridge = ctx->next_bridge;
+> >> +       struct drm_encoder *encoder = bridge->encoder;
+> >>          int ret;
+> >>
+> >> -       if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
+> >> -               return -EINVAL;
+> >> +       if (next_bridge) {
+> >> +               if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
+> >> +                       WARN_ON(1);
+> > Why? At least use WARN() instead
+>
+> Originally I want to
+>
+>
+>
+>
+> >> +                       flags |= DRM_BRIDGE_ATTACH_NO_CONNECTOR;
+> >> +               }
+> >> +               ret = drm_bridge_attach(encoder, next_bridge, bridge, flags);
+> >> +               if (ret)
+> >> +                       return ret;
+> >> +       } else {
+> >> +               struct drm_connector *connector;
+> >>
+> >> -       ret = drm_bridge_attach(bridge->encoder, ctx->next_bridge, bridge, flags);
+> >> -       if (ret)
+> >> -               return ret;
+> >> +               if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
+> >> +                       WARN_ON(1);
+> > No. It is perfectly fine to create attach a bridge with no next_bridge
+> > and with the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
+> >
+>
+> The document say when DRM_BRIDGE_ATTACH_NO_CONNECTOR flag is set
+> the bridge shall not create a drm_connector. So I think if a display
+> bridge driver don't have a next bridge attached (Currently, this is
+> told by the DT), it says that this is a non-DT environment. On such
+> a case, this display bridge driver(it66121.ko) should behavior like
+> a *agent*. Because the upstream port of it66121 is the DVO port of
+> the display controller, the downstream port of it66121 is the HDMI
+> connector. it66121 is on the middle. So I think the it66121.ko should
+> handle all of troubles on behalf of the display controller drivers.
 
-In order to move forward with this, can you provide your SoB here for
-that patch so that we can at least point to it in the drm-misc-next PR?
+No. Don't make decisions for the other drivers. They might have different needs.
 
-Maxime
+> Therefore (when in non-DT use case), the display controller drivers
+> side should not set DRM_BRIDGE_ATTACH_NO_CONNECTOR flag anymore.
+> Which is to hint that the it66121 should totally in charge of those
+> tasks (either by using bridge connector helper or create a connector
+> manually). I don't understand on such a case, why bother display
+> controller drivers anymore.
 
---oucpashu4qkda5nm
-Content-Type: application/pgp-signature; name="signature.asc"
+This is the reason why we had introduced this flag. It allows the
+driver to customise the connector. It even allows the driver to
+implement a connector on its own, completely ignoring the
+drm_bridge_connector.
 
------BEGIN PGP SIGNATURE-----
+>
+>
+> >> +
+> >> +               connector = drm_bridge_connector_init(bridge->dev, encoder);
+> >> +               if (IS_ERR(connector))
+> >> +                       return PTR_ERR(connector);
+> >> +
+> >> +               drm_connector_attach_encoder(connector, encoder);
+> > This goes into your device driver.
+> >
+> >> +
+> >> +               ctx->connector = connector;
+> >> +       }
+> >>
+> >>          if (ctx->info->id == ID_IT66121) {
+> >>                  ret = regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
+> >> @@ -1632,16 +1651,13 @@ static const char * const it66121_supplies[] = {
+> >>          "vcn33", "vcn18", "vrf12"
+> >>   };
+> >
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZVXfcgAKCRDj7w1vZxhR
-xQ0TAQD+tZvFBotDMwtlIexNUj36LAdqeTNlZf+et4C/TGjE6wD8Cpt1DNsNFwD7
-HtkspJgcjo7h41mN5yevjDoR2XxRbAo=
-=ZICb
------END PGP SIGNATURE-----
 
---oucpashu4qkda5nm--
 
+-- 
+With best wishes
+Dmitry
