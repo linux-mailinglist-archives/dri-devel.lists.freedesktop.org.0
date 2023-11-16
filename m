@@ -2,72 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7011B7EE13F
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 14:15:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B547EE151
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 14:17:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8059C10E5D9;
-	Thu, 16 Nov 2023 13:15:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E540210E5D5;
+	Thu, 16 Nov 2023 13:17:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3385310E5D5
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 13:15:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1700140505;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lhqQ5BsbU492ZArPjoM5H4h5bLkzseqSxtuMUFrb25I=;
- b=FTznIlyyc+rJQFCp5hJFzlh0xrqrAN4QCRwGaQr5cuy75CSTnvJMnW2pNCVUOUBO86HGmq
- +zYAH8/VykCwhqpv5pp6FM81fCPP0WQWcWXNoKSYGmBwXmo2biTA8HhYyQF7b8C3Xeu4T+
- GYhU6JM7AVnhCLzlfKicjO4xmYQXgeg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-90-DH9BiNXoNr2rWcOm88QErA-1; Thu, 16 Nov 2023 08:15:04 -0500
-X-MC-Unique: DH9BiNXoNr2rWcOm88QErA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-40a5290de84so4553545e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 05:15:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700140503; x=1700745303;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lhqQ5BsbU492ZArPjoM5H4h5bLkzseqSxtuMUFrb25I=;
- b=DdOnUp/r/M7klH0X+myoLqJ4OZbx5M7aq1hqmHjCxHhMFNqQFtkd05ad5FmsP4v0XY
- rZL01RG+r/s27AKeMUCjrdFexZlZgw0ASzqMQVSuMGKW2z1hqF2TYjW6PRV2j/i1MNJL
- DLdpP73dWtg/D6oycKu/Oma1Yni9xYM60R8WLYU13uBCQCYZFR9MjJNjbNn9/JPJVMrm
- +z7dk/DPRjPIWawM0So/vyaE7jethu5mWYQ7Mys1kxd0sHBSy6rBoBT29vp7HjCNBn+V
- 7W3qRjYvKQQmnPl3dPIyEuCoF1UFQFX92IBnSlaXi+T+p7PeRkh377LD3HoS9SEOMU6F
- szqA==
-X-Gm-Message-State: AOJu0YzfZ/jGvIVHcPyCPkiObjiYKXyp4tZKj4tmMjqBlnU733Xb9Xmb
- VNb+vat56eEjcvsLmBgQdJDfTfC5YrFlWjc3JDy6Y0j18oP2ycb4HXFXtXP3A56l9rWa/WKaptW
- teD5BLmEyTt61Fet3Ra41kgiMncP1
-X-Received: by 2002:a05:600c:154a:b0:401:bdd7:49ae with SMTP id
- f10-20020a05600c154a00b00401bdd749aemr13426300wmg.18.1700140503075; 
- Thu, 16 Nov 2023 05:15:03 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IELI8sW+MIxOxGgPKrkQ0OehkuAbYn7qHMcKqTARz4KGdq/TLndhUJZcAFE/gym1FScs/FZTQ==
-X-Received: by 2002:a05:600c:154a:b0:401:bdd7:49ae with SMTP id
- f10-20020a05600c154a00b00401bdd749aemr13426286wmg.18.1700140502784; 
- Thu, 16 Nov 2023 05:15:02 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- l6-20020a05600c4f0600b004068495910csm3609186wmq.23.2023.11.16.05.15.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Nov 2023 05:15:02 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de
-Subject: Re: [PATCH 32/32] fbdev: Remove default file-I/O implementations
-In-Reply-To: <20231115102954.7102-33-tzimmermann@suse.de>
-References: <20231115102954.7102-1-tzimmermann@suse.de>
- <20231115102954.7102-33-tzimmermann@suse.de>
-Date: Thu, 16 Nov 2023 14:15:01 +0100
-Message-ID: <87zfzd2622.fsf@minerva.mail-host-address-is-not-set>
+Received: from albert.telenet-ops.be (albert.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:1a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A28DF10E5D5
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 13:17:02 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:1f07:ca72:c5f4:4244])
+ by albert.telenet-ops.be with bizsmtp
+ id B1Gv2B00S4CbZ7h061Gvkt; Thu, 16 Nov 2023 14:17:01 +0100
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtp (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1r3cEe-009Qwb-9o;
+ Thu, 16 Nov 2023 14:16:55 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1r3cEp-007jda-GC;
+ Thu, 16 Nov 2023 14:16:55 +0100
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Christian Zigotzky <chzigotzky@xenosoft.de>,
+ David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, linux-m68k@lists.linux-m68k.org
+Subject: [PATCH v2] drm/virtio: Add suppport for non-native buffer formats
+Date: Thu, 16 Nov 2023 14:16:54 +0100
+Message-Id: <47a81d2e0e47b1715718779b6978a8b595cc7c5d.1700140609.git.geert@linux-m68k.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,48 +50,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+When using virtgpu on a big-endian machine, e.g. powerpc QEMU:
 
-> Drop the default implementations for file read, write and mmap
-> operations. Each fbdev driver must now provide an implementation
-> and select any necessary helpers. If no implementation has been
-> set, fbdev returns an errno code to user space. The code is the
-> same as if the operation had not been set in the file_operations
-> struct.
->
-> This change makes the fbdev helpers for I/O memory optional. Most
-> systems only use system-memory framebuffers via DRM's fbdev emulation.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+    virtio-pci 0000:00:02.0: [drm] *ERROR* fbdev: Failed to setup generic emulation (ret=-2)
 
-[...]
+or m68k/virt:
 
-> @@ -34,13 +34,13 @@ static ssize_t fb_read(struct file *file, char __user *buf, size_t count, loff_t
->  	if (!info)
->  		return -ENODEV;
->  
-> +	if (!info->fbops->fb_read)
-> +		return -EINVAL;
-> +
+    virtio-mmio virtio-mmio.125: [drm] *ERROR* fbdev: Failed to setup generic emulation (ret=-2)
 
-Can we also add a warn here? In case that it was missed to set a driver
-callback. Probably can be figured out from the -EINVAL but better to be
-explicit about the issue to make finding that easier.
+and the graphical display fails to come up.
 
-And same for the other fops.
+Before, the call to drm_mode_addfb() caused a translation from a fourcc
+format (XR24) to a bpp/depth pair (32/24) to a potentially different fourcc
+format (BX24 on big-endian), due to the quirk processing in
+drm_driver_legacy_fb_format().  After, the original fourcc format (XR24)
+is passed unmodified.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+However, the virtgpu DRM driver supports only a single format for its
+main plane: DRM_FORMAT_HOST_XRGB8888, which is XR24 on little-endian,
+and BX24 on big-endian.  I.e. on big-endian, virtgpu does not support
+XR24, which is the default DRM format, and must be supported by all
+drivers.  Before, this was reported, but didn't lead to a failure:
 
+    virtio-mmio virtio-mmio.125: [drm] bpp/depth value of 32/24 not supported
+    virtio-mmio virtio-mmio.125: [drm] No compatible format found
+
+As the core virtgpu driver and device support both XR24 and BX24 on both
+little-endian and big-endian just fine, fix this extending the list of
+supported formats for main plane and cursor plane to XR24/BX24 resp.
+AR24/BA24.
+
+Fixes: 6ae2ff23aa43a0c4 ("drm/client: Convert drm_client_buffer_addfb() to drm_mode_addfb2()")
+Reported-by: Christian Zigotzky <chzigotzky@xenosoft.de>
+Closes: https://lore.kernel.org/r/c47fba21-3ae9-4021-9f4a-09c2670ebdbc@xenosoft.de
+Suggested-by: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+---
+v2:
+  - Fix truncated one-line summary.
+---
+ drivers/gpu/drm/virtio/virtgpu_display.c | 11 +++++++++--
+ drivers/gpu/drm/virtio/virtgpu_plane.c   |  6 ++++--
+ 2 files changed, 13 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+index ad924a8502e9025c..49c89000aec33f23 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_display.c
++++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+@@ -301,9 +301,16 @@ virtio_gpu_user_framebuffer_create(struct drm_device *dev,
+ 	struct virtio_gpu_framebuffer *virtio_gpu_fb;
+ 	int ret;
+ 
+-	if (mode_cmd->pixel_format != DRM_FORMAT_HOST_XRGB8888 &&
+-	    mode_cmd->pixel_format != DRM_FORMAT_HOST_ARGB8888)
++	switch (mode_cmd->pixel_format) {
++	case DRM_FORMAT_XRGB8888:
++	case DRM_FORMAT_ARGB8888:
++	case DRM_FORMAT_BGRX8888:
++	case DRM_FORMAT_BGRA8888:
++		break;
++
++	default:
+ 		return ERR_PTR(-ENOENT);
++	}
+ 
+ 	/* lookup object associated with res handle */
+ 	obj = drm_gem_object_lookup(file_priv, mode_cmd->handles[0]);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
+index a2e045f3a0004a1b..a547d76b8fb0a77d 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_plane.c
++++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+@@ -30,11 +30,13 @@
+ #include "virtgpu_drv.h"
+ 
+ static const uint32_t virtio_gpu_formats[] = {
+-	DRM_FORMAT_HOST_XRGB8888,
++	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_BGRX8888,
+ };
+ 
+ static const uint32_t virtio_gpu_cursor_formats[] = {
+-	DRM_FORMAT_HOST_ARGB8888,
++	DRM_FORMAT_ARGB8888,
++	DRM_FORMAT_BGRA8888,
+ };
+ 
+ uint32_t virtio_gpu_translate_format(uint32_t drm_fourcc)
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.34.1
 
