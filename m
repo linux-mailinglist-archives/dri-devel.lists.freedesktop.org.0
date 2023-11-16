@@ -2,93 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D80AA7EE883
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 21:52:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF0C7EE8A5
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 22:06:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5C5E10E6E9;
-	Thu, 16 Nov 2023 20:52:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4DC710E2C9;
+	Thu, 16 Nov 2023 21:06:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com
- (mail-db5eur02olkn2028.outbound.protection.outlook.com [40.92.50.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3BBD10E6E9;
- Thu, 16 Nov 2023 20:52:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LSMMK2LpiCYIlwfEAolno/MlYPT6breerFpLbViMji27mXHJKtlVqiH7J/xkitBIv8D7aCsWpgzKsRWcAzoSZFXje7DfAHefBdSYP3LVdlDOyhYrVSX3jV4i6fH0zEvlEGXvqbrmtJU4B7MnwM73j+72Zs+JEdFzHemHAJgSXJCO2O+N5uwZiJFXlvMU6q7R/mZeZKrAHuXcX0bg2NYsjSc85wi7OXkHQ7+cSR0ij7cc77E5s7eu9r/LzAWEd2sEtfU+NWXPhTKTA41z5RCvD22xfrMTe30j8ikUPPo8dPUryDxSvlin42aOjB6ho10FXt9QKYhYmKsjnF537+j5xQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XQNshLlt0GdrtbGrvbEjdZvpIZtXhwVa1R42K7SEs30=;
- b=RrtOU6GcZHM9OduetJHhgGoBgwQ+lDULV1nALIdHlD+WNjRF2nPEjDhmIIQcGk4B/KbI87ct1NLuyjGEOxyj6TpGqQZcuk2P97ClBMZY9TgZwdXRhafHG2fxr59JVJLgXAAkTlBhsnVuiyKbfJOtjmvSnxPj7Tmky1yXhU6TEsutYliVqLJo/YsWT5kYA4NPqOySu6CyS78naLE/sDOxFjeb1iVq01l+7YXR6ym/tkgyFZAmph3ZkzHvDsgC6HnTwHrcSOrH2aAYYAqcItmbabMBg9qLE4gz9mA8sA5aCS7KcwW6htzcVzy64c3ySV7mZocRsKZ/eYh2RQPh7uhqcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XQNshLlt0GdrtbGrvbEjdZvpIZtXhwVa1R42K7SEs30=;
- b=hFAiJBMAcv87j+USEMjQx7947odItX4rfz0YDzm9ykq4d9BRtR5PE/KuqFiufgs5wJf7Xu3qrXTD/GEkLe/kWkhH0X1CDurLiCvl48Sq3I+0dDbIqJpm5rZuE2ceXQMTDgcQoeXgTC6oe18KK3lV2jRDR13Y0nG81KJVtYpbPPXJORMKbPVxFjicRPt/q9xYK4Uubv1BOxFsBn11+UIWxKT+4JwPDpvcLzIAAhdXJQ/7aNd7juZbBN+4Z7cOkMvijgbvNR6UdA5NW8qC23PvyV6sdyT7VfidYOkuUFAsAgPifMhqqojaRIzPEmb4zyiVDo8fBh7VSX0982s3dG5hkQ==
-Received: from GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:83::20)
- by GVXPR10MB8059.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:111::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.23; Thu, 16 Nov
- 2023 20:52:28 +0000
-Received: from GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c45:bfdf:a384:5450]) by GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c45:bfdf:a384:5450%7]) with mapi id 15.20.7002.021; Thu, 16 Nov 2023
- 20:52:28 +0000
-From: Yuran Pereira <yuran.pereira@hotmail.com>
-To: nouveau@lists.freedesktop.org
-Subject: [PATCH] drm/nouveau: Removes unnecessary args check in
- nouveau_uvmm_sm_prepare
-Date: Fri, 17 Nov 2023 02:22:00 +0530
-Message-ID: <GV1PR10MB65637F4BAABFE2D8E261E1DCE8B0A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [2Bib8ajI9sDOFvRIql6hWPrHGcUfuJBD]
-X-ClientProxiedBy: JN2P275CA0014.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::26)
- To GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:150:83::20)
-X-Microsoft-Original-Message-ID: <20231116205200.105928-1-yuran.pereira@hotmail.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94A9910E28A;
+ Thu, 16 Nov 2023 21:05:58 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3AGJ2GTE016673; Thu, 16 Nov 2023 21:05:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : from : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=h/ceQFvVd7icRg18RKM+vHrf4FiKh0owxs7zhww8GgQ=;
+ b=Uzwwwt1Xv5PMnINNbk9NxzxpLf8pEvbyPa9Zn4xcgCMTBAhJ+m12mbKxM+GiAchwJTYm
+ 2WLmSc5OGKyjevxLNMvhsFUkelIsHJVRWgfBzlLVCEkE9/raueDvUXTVwdsI86xpajL1
+ zGgWl3G3/D2ysJzCkmYunJ9LERjzuGaVB5Ebs18SdL8SAYPRpkRCcSq8qRIaG5YTsOwu
+ SwuFr2fvri4N7rTnHuWcV8rVORyinnsJi/RqWA7mMcfmi0EgrqT1gK+ZvHGvEHfajc3G
+ L3szu0DaBPO6xLMEn6MgCLGbePwXJsxS6AF6qPm3qDq+XGkkTwfx/LQ44m6IUDSajp/Y 2w== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3udrvs0bf2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Nov 2023 21:05:55 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AGL5sZ1014322
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Nov 2023 21:05:54 GMT
+Received: from [10.110.71.50] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Thu, 16 Nov
+ 2023 13:05:53 -0800
+Message-ID: <62943ca3-26ac-8712-2caa-102dc98f099c@quicinc.com>
+Date: Thu, 16 Nov 2023 13:05:52 -0800
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV1PR10MB6563:EE_|GVXPR10MB8059:EE_
-X-MS-Office365-Filtering-Correlation-Id: e856e520-e34f-4b02-bbf9-08dbe6e5f1e2
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RBRw7d7RSzUQ+TL56OyqMdDZdMo9uHzAdgHgOJwHfRNPMR8ww9idT99gz8eysMVFt+rRUeoLcnoQCJPN++1nTBqVMULllU2bEQXkArvyNeiOr0yC7dczjTCMat/I2Umvq3d3t8OfuZBVX8c0//baZyEBDNs4D2bodgZ0MTGHR+mZuVSiz8noEUhHyuIwfoNMIrna1DGhoE1QZI2kacQ8NRRZZklMcNHVMZJPIqJ1srt+8hmMevZk35PzUfxL2zfdATpviuzRtcoYTROqH4rYcDmp3l/HlfnskTlI10/gFziM+qIw3q5OkZlEYANu7MQSZsSN+tOvGDZwqfAWtxU+mLrUkiVvLO03PJsnFSTgTkg+oSpLOykyWSVghMuZQR/C17cH9ICzXZgIngNsqy79qbZon9juwKqU+A7qWOsrqSdzzQJpta+Gz+KRheWXwiQARNpgE7vgXLbOFF85YNb+4Ko7Do2VUN98SJ1lGHdaorRZxTOe0Ztc+ib2lKtWlB5eW6xg21geAqwQos4rqEoOhelhVqr8FVHnAex2ssFzHHOnqHhPqoGEfvL5HJqYVwmEhxJVagp0XM8b9mrHmwgTT5UQoxP9ZSEfzcwLD4aNvbo=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PDVrgFeOfY6fiXnfuCCUJ+SCC3J2CdLX1sT0xrgTWw7vw6HcMp/VT8kTK4s3?=
- =?us-ascii?Q?1dM5GMp1uK6qHhzm2RD+IHEt4sFCDDE5D9d3boxCv564zJsdAWpzT/rC1BYv?=
- =?us-ascii?Q?V1iBj2o5mYN75gcvbfXQUjEcJZzZDLArxa2WZqs4WhvW9TzndKTUQjHiPaMU?=
- =?us-ascii?Q?Y2xo17tiwXy+QW5l/lbKRDw8HsBOCt4ST6sE6dlUFRG7OGJjAC1LYRYywfFa?=
- =?us-ascii?Q?Lr+ulBRLkyAuJ7PTJx668C8pq7bFjzLWqJli8x5tVt4iSu6X+8F16TZ7deQ2?=
- =?us-ascii?Q?noD2LwWqrv0qr/zRwDo3vJW/Py+2GD4KAh7EW6w0cItUejdCYwIaE0TlYKpz?=
- =?us-ascii?Q?0bdCE7KiiEPlyHJmedcgEd74T/qqBjHq0wtR/rhlkNuNcheTeerJQd45tRJg?=
- =?us-ascii?Q?Wcx3xj2yq792kNqQymjCEmCbVShA1WWnATOdFFua6aK8aN5lJLuugIaRFyDI?=
- =?us-ascii?Q?ibt0Ct70nBYncz0I9dxMinYtTLfjlOSa84yr2UaortIJkdkayPaCGDeYl/7+?=
- =?us-ascii?Q?qCrbMAsUucoTi9A916CVJnmQV8ilaSTc4vyoQTzFv9kJtc4Im0kBGhUvtnYi?=
- =?us-ascii?Q?hkLrWeFxDdYeKwbTmyaodMj6k6hYPeSCCquSnr2YWfKBXnWU5wynpsTDDOUv?=
- =?us-ascii?Q?HeltbFDszqoEEAQ2m1GKpLQa+AqDNi8pMo5Y6vQzdaf/ZGa10ItEBxEbUuHc?=
- =?us-ascii?Q?oHB5j1WBtJjIPiVKR2Q9Eiev2EvfHOoum0NgvUCOYqmbDBJbYkoyNdK1xuyD?=
- =?us-ascii?Q?nfwF56h+FJxselYZIZSCzCf9Q92pxnLyPgVjekzc6gzVsEqAN2TVlYVzSV5a?=
- =?us-ascii?Q?9l259N9XdJMOc1Qub9Mpwv2sKetdjaRI2RcBpQ//kqLZC5X+LYGgHvAC5ejM?=
- =?us-ascii?Q?KDSuWus0qe9iK9CiI6ecZ9StaRLAyOTfWpdiSNCRCWy79ksCRo7qrGmvgHL6?=
- =?us-ascii?Q?8pC6KZ2uBzf7GmhOeIuYpV8ih/gAaHSCQf9xTC4pw6CDdXVvC7FXptXRWYi7?=
- =?us-ascii?Q?R3Dx/rRTR61Gvi/c+B9rlPGR90xyiICJhvAAcKdpipfh2Xs0PoWB7Y2Yfto4?=
- =?us-ascii?Q?MSLK2feEYkLAt2ErSJGJBxZd+XwRLz9S1cpKm6uPD2Y/PkXQ+gG3d0Nmh3WX?=
- =?us-ascii?Q?nnmTKDp2MeKbNCQD+VA4MXJ9axhFmZ7/W0/kyBBqTxFvpHIY/eNgoLfOGrGE?=
- =?us-ascii?Q?ZUKS9XPjRjuYyeyQHqZYjy/V39Eg2blVXAPru/TzXot4tHX/LpNKHFsnufo?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: e856e520-e34f-4b02-bbf9-08dbe6e5f1e2
-X-MS-Exchange-CrossTenant-AuthSource: GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2023 20:52:28.7181 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR10MB8059
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [Freedreno] [PATCH v2] drm/msm: remove unnecessary NULL check
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>, Rob Clark <robdclark@gmail.com>
+References: <ZSj+6/J6YsoSpLak@kadam>
+ <095b7283-3555-cc38-a73e-83efec8a9bf8@quicinc.com>
+In-Reply-To: <095b7283-3555-cc38-a73e-83efec8a9bf8@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: QlIewNp0jlFkpuRtJKY-uWweuP2I9WYO
+X-Proofpoint-ORIG-GUID: QlIewNp0jlFkpuRtJKY-uWweuP2I9WYO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_23,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=956
+ priorityscore=1501 malwarescore=0 suspectscore=0 impostorscore=0
+ adultscore=0 lowpriorityscore=0 phishscore=0 spamscore=0 bulkscore=0
+ mlxscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311160163
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,52 +83,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kherbst@redhat.com, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, dakr@redhat.com,
- Yuran Pereira <yuran.pereira@hotmail.com>
+Cc: Su Hui <suhui@nfschina.com>, freedreno@lists.freedesktop.org,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Checking `args` after calling `op_map_prepare` is unnecessary since
-if `op_map_prepare` was to be called with  NULL args, it would lead
-to a NULL pointer dereference, thus never hitting that check.
 
-Hence this check can be removed, and a note added to remind users of
-this function to ensure that args != NULL when calling this function
-for a map operation as it was suggested  by Danilo [1]
 
-[1] https://lore.kernel.org/lkml/6a1ebcef-bade-45a0-9bd9-c05f0226eb88@redhat.com
+On 11/1/2023 12:23 PM, Abhinav Kumar wrote:
+> 
+> 
+> On 10/13/2023 1:25 AM, Dan Carpenter wrote:
+>> This NULL check was required when it was added, but we shuffled the code
+>> around and now it's not.  The inconsistent NULL checking triggers a
+>> Smatch warning:
+>>
+>>      drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:847 mdp5_init() warn:
+>>      variable dereferenced before check 'mdp5_kms' (see line 782)
+>>
+>> Fixes: 1f50db2f3e1e ("drm/msm/mdp5: move resource allocation to the 
+>> _probe function"
 
-Suggested-by: Danilo Krummrich <dakr@redhat.com>
-Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
----
- drivers/gpu/drm/nouveau/nouveau_uvmm.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+A small error here. Its missing the closing brace for the Fixes tag.
+Checkpatch cries without it.
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-index 5cf892c50f43..c8c3f1b1b604 100644
---- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-@@ -604,6 +604,10 @@ op_unmap_prepare(struct drm_gpuva_op_unmap *u)
- 	drm_gpuva_unmap(u);
- }
- 
-+/*
-+ * Note: @args should not be NULL when calling for
-+ * a map operation.
-+ */
- static int
- nouveau_uvmm_sm_prepare(struct nouveau_uvmm *uvmm,
- 			struct nouveau_uvma_prealloc *new,
-@@ -624,7 +628,7 @@ nouveau_uvmm_sm_prepare(struct nouveau_uvmm *uvmm,
- 			if (ret)
- 				goto unwind;
- 
--			if (args && vmm_get_range) {
-+			if (vmm_get_range) {
- 				ret = nouveau_uvmm_vmm_get(uvmm, vmm_get_start,
- 							   vmm_get_range);
- 				if (ret) {
--- 
-2.25.1
+I have fixed it while applying.
 
+>> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+>> ---
+>> v2: Added a Fixes tag.  It's not really a bug fix and so adding the
+>> fixes tag is slightly unfair but it should prevent this patch from
+>> accidentally getting backported before the refactoring and causing an
+>> issue.
+>>
+>> Btw, fixes tags are often unfair like this.  People look at fixes tags
+>> and think, "the fix introduced a bug" but actually it's really common
+>> that the fix was just not complete.  But from a backporting perspective
+>> it makes sense to tie them together.
+>>
+>> Plus everyone introduces bugs.  If you're not introducing bugs, then
+>> you're probably not writing a lot of code.
+>>
+>>   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 3 +--
+>>   1 file changed, 1 insertion(+), 2 deletions(-)
+>>
+> 
+> LGTM,
+> 
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> 
