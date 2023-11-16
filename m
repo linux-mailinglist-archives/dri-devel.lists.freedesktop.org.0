@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E0C7EE7E9
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 20:59:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19F207EE7E3
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 20:59:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4B2510E6C2;
-	Thu, 16 Nov 2023 19:59:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF70210E6BC;
+	Thu, 16 Nov 2023 19:59:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F163210E6AB;
- Thu, 16 Nov 2023 19:58:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A1CB10E6B2;
+ Thu, 16 Nov 2023 19:58:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -19,25 +19,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=rW6e8Wz3hNwNjkrRY9Znuto9unoEv2l3DW4o7bg/gbY=; b=o+eo5Vjn24WaS7hp9PBiliXeRQ
- X8Maw/BURy+keM5N3HYwZ2bTiXo2UmUvQQmlZyLaXeGKGarR9kJrjUpG9mYvcYU3yDTe8cy1Aol/L
- MteqON+i49HHrqzmC2VRmI7LxVlxF+Lt3/EYJuq4L0ko2QqONbTXDSilAR4WQLkD32+LjFmXd6/Kc
- 2ZDUzRkWwTenuEIMZa9GViJ4+gS29IVPZQ9cE3RaWIGAirHeF6n94kXtajibXUWBk10v3nWGQ+Ejm
- kJDoVmwVNQA1f8xmJfVDVrhb2VKYjn/LvV1kRMfJl8S/5yw5SGGK9JEIfkqFGz4/7RyrmQMFpRTPa
- hU1+ju2g==;
+ bh=Axkb/OyWbzdHiNqGs0wMSxcmlcLtngvbnI3+dSzeHnU=; b=E/dNJthIKwXjSg1UJA7pTIFE90
+ JJfYj3usx0dPuekQOJFV+zR9OgNODzZnAfVd8WqC8RT2ArbW8i7L1BRJnYgOdrQ/RWjKuxmngf7Ul
+ HezH3TrO7Fcc46yRDMiQK/LKfmV7Pezvz1RAsTEJAoKDqGueKR80rH9Hn+kLFvIJA1cPL9DR/DQ4q
+ qUpenqex/za/REKCWAHEuWD4Wt2GSlXKUAd9uHGbKPiQOQaW20/odhJplM4OsLFsH7/cWR55p+ACD
+ l9ZnQ4UYghzGeoayNCIFkovLQip3wAfTsW1UpkBFCa/cUKdZoaL6E917zzIGpK6WlmrPLTT7UiOZI
+ Pt8njwZw==;
 Received: from [102.213.205.115] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1r3iVi-0048Yy-VP; Thu, 16 Nov 2023 20:58:47 +0100
+ id 1r3iVl-0048Yy-5Q; Thu, 16 Nov 2023 20:58:49 +0100
 From: Melissa Wen <mwen@igalia.com>
 To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
  Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
  daniel@ffwll.ch
-Subject: [PATCH v5 14/32] drm/amd/display: encapsulate atomic regamma operation
-Date: Thu, 16 Nov 2023 18:57:54 -0100
-Message-Id: <20231116195812.906115-15-mwen@igalia.com>
+Subject: [PATCH v5 15/32] drm/amd/display: add CRTC gamma TF support
+Date: Thu, 16 Nov 2023 18:57:55 -0100
+Message-Id: <20231116195812.906115-16-mwen@igalia.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231116195812.906115-1-mwen@igalia.com>
 References: <20231116195812.906115-1-mwen@igalia.com>
@@ -64,95 +64,192 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We will wire up MPC 3D LUT to DM CRTC color pipeline in the next patch,
-but so far, only for atomic interface. By checking
-set_output_transfer_func in DC drivers with MPC 3D LUT support, we can
-verify that regamma is only programmed when 3D LUT programming fails. As
-a groundwork to introduce 3D LUT programming and better understand each
-step, detach atomic regamma programming from the crtc colocr updating
-code.
+From: Joshua Ashton <joshua@froggi.es>
+
+Add predefined transfer function programming. There is no post-blending
+out gamma ROM for hardcoded curves, but we can use AMD color modules to
+program LUT parameters from pre-defined coefficients and an empty
+regamma LUT (or bump up LUT parameters with pre-defined TF values).
+
+v2:
+- update crtc color mgmt if regamma TF differs between states (Joshua)
+- map inverse EOTF to DC transfer function (Melissa)
+
+v3:
+- update AMDGPU TF list
+
+v4:
+- update comment regarding regamma behavior
 
 Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Joshua Ashton <joshua@froggi.es>
+Co-developed-by: Melissa Wen <mwen@igalia.com>
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 55 ++++++++++++-------
- 1 file changed, 35 insertions(+), 20 deletions(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  1 +
+ .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 77 +++++++++++++++----
+ 2 files changed, 61 insertions(+), 17 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 56053de2aaea..8bf7866ee1af 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -9564,6 +9564,7 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
+ 	 * when a modeset is needed, to ensure it gets reprogrammed.
+ 	 */
+ 	if (dm_new_crtc_state->base.color_mgmt_changed ||
++	    dm_old_crtc_state->regamma_tf != dm_new_crtc_state->regamma_tf ||
+ 	    drm_atomic_crtc_needs_modeset(new_crtc_state)) {
+ 		ret = amdgpu_dm_update_crtc_color_mgmt(dm_new_crtc_state);
+ 		if (ret)
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index 0b92513eab98..dec734f03832 100644
+index dec734f03832..9b930e3eb79d 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -525,6 +525,37 @@ static int __set_output_tf(struct dc_transfer_func *func,
+@@ -490,16 +490,18 @@ static int __set_output_tf(struct dc_transfer_func *func,
+ 	struct calculate_buffer cal_buffer = {0};
+ 	bool res;
+ 
+-	ASSERT(lut && lut_size == MAX_COLOR_LUT_ENTRIES);
+-
+ 	cal_buffer.buffer_index = -1;
+ 
+-	gamma = dc_create_gamma();
+-	if (!gamma)
+-		return -ENOMEM;
++	if (lut_size) {
++		ASSERT(lut && lut_size == MAX_COLOR_LUT_ENTRIES);
+ 
+-	gamma->num_entries = lut_size;
+-	__drm_lut_to_dc_gamma(lut, gamma, false);
++		gamma = dc_create_gamma();
++		if (!gamma)
++			return -ENOMEM;
++
++		gamma->num_entries = lut_size;
++		__drm_lut_to_dc_gamma(lut, gamma, false);
++	}
+ 
+ 	if (func->tf == TRANSFER_FUNCTION_LINEAR) {
+ 		/*
+@@ -507,41 +509,49 @@ static int __set_output_tf(struct dc_transfer_func *func,
+ 		 * on top of a linear input. But degamma params can be used
+ 		 * instead to simulate this.
+ 		 */
+-		gamma->type = GAMMA_CUSTOM;
++		if (gamma)
++			gamma->type = GAMMA_CUSTOM;
+ 		res = mod_color_calculate_degamma_params(NULL, func,
+-							gamma, true);
++							 gamma, gamma != NULL);
+ 	} else {
+ 		/*
+ 		 * Assume sRGB. The actual mapping will depend on whether the
+ 		 * input was legacy or not.
+ 		 */
+-		gamma->type = GAMMA_CS_TFM_1D;
+-		res = mod_color_calculate_regamma_params(func, gamma, false,
++		if (gamma)
++			gamma->type = GAMMA_CS_TFM_1D;
++		res = mod_color_calculate_regamma_params(func, gamma, gamma != NULL,
+ 							 has_rom, NULL, &cal_buffer);
+ 	}
+ 
+-	dc_gamma_release(&gamma);
++	if (gamma)
++		dc_gamma_release(&gamma);
+ 
  	return res ? 0 : -ENOMEM;
  }
  
-+static int amdgpu_dm_set_atomic_regamma(struct dc_stream_state *stream,
-+					const struct drm_color_lut *regamma_lut,
-+					uint32_t regamma_size, bool has_rom)
+ static int amdgpu_dm_set_atomic_regamma(struct dc_stream_state *stream,
+ 					const struct drm_color_lut *regamma_lut,
+-					uint32_t regamma_size, bool has_rom)
++					uint32_t regamma_size, bool has_rom,
++					enum dc_transfer_func_predefined tf)
+ {
+ 	struct dc_transfer_func *out_tf = stream->out_transfer_func;
+ 	int ret = 0;
+ 
+-	if (regamma_size) {
++	if (regamma_size || tf != TRANSFER_FUNCTION_LINEAR) {
+ 		/*
+ 		 * CRTC RGM goes into RGM LUT.
+ 		 *
+ 		 * Note: there is no implicit sRGB regamma here. We are using
+ 		 * degamma calculation from color module to calculate the curve
+-		 * from a linear base.
++		 * from a linear base if gamma TF is not set. However, if gamma
++		 * TF (!= Linear) and LUT are set at the same time, we will use
++		 * regamma calculation, and the color module will combine the
++		 * pre-defined TF and the custom LUT values into the LUT that's
++		 * actually programmed.
+ 		 */
+ 		out_tf->type = TF_TYPE_DISTRIBUTED_POINTS;
+-		out_tf->tf = TRANSFER_FUNCTION_LINEAR;
++		out_tf->tf = tf;
+ 
+ 		ret = __set_output_tf(out_tf, regamma_lut, regamma_size, has_rom);
+ 	} else {
+@@ -587,6 +597,36 @@ static int __set_input_tf(struct dc_transfer_func *func,
+ 	return res ? 0 : -ENOMEM;
+ }
+ 
++static enum dc_transfer_func_predefined
++amdgpu_tf_to_dc_tf(enum amdgpu_transfer_function tf)
 +{
-+	struct dc_transfer_func *out_tf = stream->out_transfer_func;
-+	int ret = 0;
-+
-+	if (regamma_size) {
-+		/*
-+		 * CRTC RGM goes into RGM LUT.
-+		 *
-+		 * Note: there is no implicit sRGB regamma here. We are using
-+		 * degamma calculation from color module to calculate the curve
-+		 * from a linear base.
-+		 */
-+		out_tf->type = TF_TYPE_DISTRIBUTED_POINTS;
-+		out_tf->tf = TRANSFER_FUNCTION_LINEAR;
-+
-+		ret = __set_output_tf(out_tf, regamma_lut, regamma_size, has_rom);
-+	} else {
-+		/*
-+		 * No CRTC RGM means we can just put the block into bypass
-+		 * since we don't have any plane level adjustments using it.
-+		 */
-+		out_tf->type = TF_TYPE_BYPASS;
-+		out_tf->tf = TRANSFER_FUNCTION_LINEAR;
++	switch (tf)
++	{
++	default:
++	case AMDGPU_TRANSFER_FUNCTION_DEFAULT:
++	case AMDGPU_TRANSFER_FUNCTION_IDENTITY:
++		return TRANSFER_FUNCTION_LINEAR;
++	case AMDGPU_TRANSFER_FUNCTION_SRGB_EOTF:
++	case AMDGPU_TRANSFER_FUNCTION_SRGB_INV_EOTF:
++		return TRANSFER_FUNCTION_SRGB;
++	case AMDGPU_TRANSFER_FUNCTION_BT709_OETF:
++	case AMDGPU_TRANSFER_FUNCTION_BT709_INV_OETF:
++		return TRANSFER_FUNCTION_BT709;
++	case AMDGPU_TRANSFER_FUNCTION_PQ_EOTF:
++	case AMDGPU_TRANSFER_FUNCTION_PQ_INV_EOTF:
++		return TRANSFER_FUNCTION_PQ;
++	case AMDGPU_TRANSFER_FUNCTION_GAMMA22_EOTF:
++	case AMDGPU_TRANSFER_FUNCTION_GAMMA22_INV_EOTF:
++		return TRANSFER_FUNCTION_GAMMA22;
++	case AMDGPU_TRANSFER_FUNCTION_GAMMA24_EOTF:
++	case AMDGPU_TRANSFER_FUNCTION_GAMMA24_INV_EOTF:
++		return TRANSFER_FUNCTION_GAMMA24;
++	case AMDGPU_TRANSFER_FUNCTION_GAMMA26_EOTF:
++	case AMDGPU_TRANSFER_FUNCTION_GAMMA26_INV_EOTF:
++		return TRANSFER_FUNCTION_GAMMA26;
 +	}
-+
-+	return ret;
 +}
 +
  /**
-  * __set_input_tf - calculates the input transfer function based on expected
-  * input space.
-@@ -672,28 +703,12 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
- 				    regamma_size, has_rom);
- 		if (r)
- 			return r;
--	} else if (has_regamma) {
--		/*
--		 * CRTC RGM goes into RGM LUT.
--		 *
--		 * Note: there is no implicit sRGB regamma here. We are using
--		 * degamma calculation from color module to calculate the curve
--		 * from a linear base.
--		 */
--		stream->out_transfer_func->type = TF_TYPE_DISTRIBUTED_POINTS;
--		stream->out_transfer_func->tf = TRANSFER_FUNCTION_LINEAR;
--
--		r = __set_output_tf(stream->out_transfer_func, regamma_lut,
--				    regamma_size, has_rom);
-+	} else {
-+		regamma_size = has_regamma ? regamma_size : 0;
-+		r = amdgpu_dm_set_atomic_regamma(stream, regamma_lut,
-+						 regamma_size, has_rom);
- 		if (r)
- 			return r;
--	} else {
--		/*
--		 * No CRTC RGM means we can just put the block into bypass
--		 * since we don't have any plane level adjustments using it.
--		 */
--		stream->out_transfer_func->type = TF_TYPE_BYPASS;
--		stream->out_transfer_func->tf = TRANSFER_FUNCTION_LINEAR;
- 	}
+  * amdgpu_dm_verify_lut_sizes - verifies if DRM luts match the hw supported sizes
+  * @crtc_state: the DRM CRTC state
+@@ -654,9 +694,12 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
+ 	const struct drm_color_lut *degamma_lut, *regamma_lut;
+ 	uint32_t degamma_size, regamma_size;
+ 	bool has_regamma, has_degamma;
++	enum dc_transfer_func_predefined tf = TRANSFER_FUNCTION_LINEAR;
+ 	bool is_legacy;
+ 	int r;
  
- 	/*
++	tf = amdgpu_tf_to_dc_tf(crtc->regamma_tf);
++
+ 	r = amdgpu_dm_verify_lut_sizes(&crtc->base);
+ 	if (r)
+ 		return r;
+@@ -706,7 +749,7 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
+ 	} else {
+ 		regamma_size = has_regamma ? regamma_size : 0;
+ 		r = amdgpu_dm_set_atomic_regamma(stream, regamma_lut,
+-						 regamma_size, has_rom);
++						 regamma_size, has_rom, tf);
+ 		if (r)
+ 			return r;
+ 	}
 -- 
 2.40.1
 
