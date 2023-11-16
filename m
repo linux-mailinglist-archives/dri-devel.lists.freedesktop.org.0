@@ -2,49 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0532B7EE0FB
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 14:02:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1882C7EE0FD
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 14:02:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E10B10E5D2;
-	Thu, 16 Nov 2023 13:02:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF9FA10E5D1;
+	Thu, 16 Nov 2023 13:02:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C45E010E5D3;
- Thu, 16 Nov 2023 13:02:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700139740; x=1731675740;
- h=date:from:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=qni4q+MCRq+nAUIb30fVBT62T2fPU22iNzyXzheWpdg=;
- b=QolO64CJe2TCEWToxUrLxK29Vbq4OR1al+Dv5dFGWH1zo4lKZMfAcIfV
- FuPwkYNSzt/or0oTtZMqjVYsIvREVP9VQ3gApCCT56in/lyVF4DDpNux7
- l5aNIkJgRyVJb8w+YECRMTQMCa5o8HkyBLqhMhZb0kw1eopgACZWw/44q
- icTe4i7d7AQIVLy4fwhWiGdxPcbg+x/CdJphtBnMnoEW6OqCHd3k7nXVk
- u7gs8T1T1ZIG/GqaIb9UgYSRjQBP9FSzkoogSH/W48bHhrGYR2ljrusqe
- B7TKniPK50hOeOEw5noyIc79JFR9VSgIhZvU7OIaMvlJBiULJFpOKnLjF g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="388247935"
-X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; d="scan'208";a="388247935"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2023 05:02:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; d="scan'208";a="13550045"
-Received: from jhsteyn-mobl1.ger.corp.intel.com ([10.252.40.9])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2023 05:02:14 -0800
-Date: Thu, 16 Nov 2023 15:02:11 +0200 (EET)
-From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v3 6/7] PCI: Split up some logic in
- pcie_bandwidth_available() to separate function
-In-Reply-To: <20231114200755.14911-7-mario.limonciello@amd.com>
-Message-ID: <671f5c3b-fd24-7d24-c848-1ae31cea82ff@linux.intel.com>
-References: <20231114200755.14911-1-mario.limonciello@amd.com>
- <20231114200755.14911-7-mario.limonciello@amd.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1D7610E5D2
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 13:02:20 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 58D6020503;
+ Thu, 16 Nov 2023 13:02:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1700139739; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=PAt9mP0SWf+4DAncgko3z+8k0IejKDYG4Kv094SL4K0=;
+ b=v+PKkhj5knrhQt/BRxdbnIeOmCI51TrTFjvd4paDZzeSBtZz8KKMc6E/WVGSSZJQVaEEAe
+ +Dnep8CgZeidWz5cfd9jXf27MOstuHCYxyOOWuERj2U3dEliN2PZmq+OAZNIKQzNV/AVTV
+ G6UrY9Jy4bF14SaBugmzLElm8eVUnSU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1700139739;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=PAt9mP0SWf+4DAncgko3z+8k0IejKDYG4Kv094SL4K0=;
+ b=r78LSopLf1PKkS1T4oJ02spb1VVn/bIaAw58ArymnAHppxS8Cb6ziA8M48AlYAH+q+D7y9
+ qO86qtmehy/h7hAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2F9381377E;
+ Thu, 16 Nov 2023 13:02:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id jl3KCtsSVmXJAQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 16 Nov 2023 13:02:19 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, daniel@ffwll.ch
+Subject: [PATCH] drm/ast: Disconnect BMC if physical connector is connected
+Date: Thu, 16 Nov 2023 14:02:12 +0100
+Message-ID: <20231116130217.22931-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-761469376-1700139739=:1886"
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: 0.70
+X-Spamd-Result: default: False [0.70 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; R_MISSING_CHARSET(2.50)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ BROKEN_CONTENT_TYPE(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; RCPT_COUNT_SEVEN(0.00)[8];
+ MID_CONTAINS_FROM(1.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCVD_COUNT_TWO(0.00)[2]; RCVD_TLS_ALL(0.00)[];
+ BAYES_HAM(-3.00)[100.00%]
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,145 +78,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <dri-devel@lists.freedesktop.org>,
- =?ISO-8859-15?Q?Marek_Beh=FAn?= <kabel@kernel.org>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:ACPI" <linux-acpi@vger.kernel.org>,
- Danilo Krummrich <dakr@redhat.com>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>, Manivannan Sadhasivam <mani@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, open list <linux-kernel@vger.kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?ISO-8859-15?Q?Pali_Roh=E1r?= <pali@kernel.org>,
- =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>,
- "Maciej W . Rozycki" <macro@orcam.me.uk>
+Cc: stable@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Many user-space compositors fail with mode setting if a CRTC has
+more than one connected connector. This is the case with the BMC
+on Aspeed systems. Work around this problem by setting the BMC's
+connector status to disconnected when the physical connector has
+a display attached. This way compositors will only see one connected
+connector at a time; either the physical one or the BMC.
 
---8323329-761469376-1700139739=:1886
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Suggested-by: Jocelyn Falempe <jfalempe@redhat.com>
+Fixes: e329cb53b45d ("drm/ast: Add BMC virtual connector")
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: <stable@vger.kernel.org> # v6.6+
+---
+ drivers/gpu/drm/ast/ast_drv.h  | 13 ++++++-
+ drivers/gpu/drm/ast/ast_mode.c | 62 ++++++++++++++++++++++++++++++----
+ 2 files changed, 67 insertions(+), 8 deletions(-)
 
-On Tue, 14 Nov 2023, Mario Limonciello wrote:
-
-> The logic to calculate bandwidth limits may be used at multiple call sites
-> so split it up into its own static function instead.
-> 
-> No intended functional changes.
-> 
-> Suggested-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> ---
-> v2->v3:
->  * Split from previous patch version
-> ---
->  drivers/pci/pci.c | 60 +++++++++++++++++++++++++++--------------------
->  1 file changed, 34 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index 55bc3576a985..0ff7883cc774 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -6224,6 +6224,38 @@ int pcie_set_mps(struct pci_dev *dev, int mps)
->  }
->  EXPORT_SYMBOL(pcie_set_mps);
->  
-> +static u32 pcie_calc_bw_limits(struct pci_dev *dev, u32 bw,
-> +			       struct pci_dev **limiting_dev,
-> +			       enum pci_bus_speed *speed,
-> +			       enum pcie_link_width *width)
-> +{
-> +	enum pcie_link_width next_width;
-> +	enum pci_bus_speed next_speed;
-> +	u32 next_bw;
-> +	u16 lnksta;
-> +
-> +	pcie_capability_read_word(dev, PCI_EXP_LNKSTA, &lnksta);
-> +
-> +	next_speed = pcie_link_speed[FIELD_GET(PCI_EXP_LNKSTA_CLS, lnksta)];
-> +	next_width = FIELD_GET(PCI_EXP_LNKSTA_NLW, lnksta);
-> +
-> +	next_bw = next_width * PCIE_SPEED2MBS_ENC(next_speed);
-> +
-> +	/* Check if current device limits the total bandwidth */
-
-I'd make this a function comment instead and say:
-
-/* Check if @dev limits the total bandwidth. */
-
-Other than that,
-
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index 2aee32344f4a2..772f3b049c169 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -174,6 +174,17 @@ to_ast_sil164_connector(struct drm_connector *connector)
+ 	return container_of(connector, struct ast_sil164_connector, base);
+ }
+ 
++struct ast_bmc_connector {
++	struct drm_connector base;
++	struct drm_connector *physical_connector;
++};
++
++static inline struct ast_bmc_connector *
++to_ast_bmc_connector(struct drm_connector *connector)
++{
++	return container_of(connector, struct ast_bmc_connector, base);
++}
++
+ /*
+  * Device
+  */
+@@ -218,7 +229,7 @@ struct ast_device {
+ 		} astdp;
+ 		struct {
+ 			struct drm_encoder encoder;
+-			struct drm_connector connector;
++			struct ast_bmc_connector bmc_connector;
+ 		} bmc;
+ 	} output;
+ 
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index cb96149842851..c20534d0ef7c8 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -1767,6 +1767,30 @@ static const struct drm_encoder_funcs ast_bmc_encoder_funcs = {
+ 	.destroy = drm_encoder_cleanup,
+ };
+ 
++static int ast_bmc_connector_helper_detect_ctx(struct drm_connector *connector,
++					       struct drm_modeset_acquire_ctx *ctx,
++					       bool force)
++{
++	struct ast_bmc_connector *bmc_connector = to_ast_bmc_connector(connector);
++	struct drm_connector *physical_connector = bmc_connector->physical_connector;
++
++	/*
++	 * Most user-space compositors cannot handle more than one connected
++	 * connector per CRTC. Hence, we only mark the BMC as connected if the
++	 * physical connector is disconnected. If the physical connector's status
++	 * is connected or unknown, the BMC remains disconnected. This has no
++	 * effect on the output of the BMC.
++	 *
++	 * FIXME: Remove this logic once user-space compositors can handle more
++	 *        than one connector per CRTC. The BMC should always be connected.
++	 */
++
++	if (physical_connector && physical_connector->status == connector_status_disconnected)
++		return connector_status_connected;
++
++	return connector_status_disconnected;
++}
++
+ static int ast_bmc_connector_helper_get_modes(struct drm_connector *connector)
+ {
+ 	return drm_add_modes_noedid(connector, 4096, 4096);
+@@ -1774,6 +1798,7 @@ static int ast_bmc_connector_helper_get_modes(struct drm_connector *connector)
+ 
+ static const struct drm_connector_helper_funcs ast_bmc_connector_helper_funcs = {
+ 	.get_modes = ast_bmc_connector_helper_get_modes,
++	.detect_ctx = ast_bmc_connector_helper_detect_ctx,
+ };
+ 
+ static const struct drm_connector_funcs ast_bmc_connector_funcs = {
+@@ -1784,12 +1809,33 @@ static const struct drm_connector_funcs ast_bmc_connector_funcs = {
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+ };
+ 
+-static int ast_bmc_output_init(struct ast_device *ast)
++static int ast_bmc_connector_init(struct drm_device *dev,
++				  struct ast_bmc_connector *bmc_connector,
++				  struct drm_connector *physical_connector)
++{
++	struct drm_connector *connector = &bmc_connector->base;
++	int ret;
++
++	ret = drm_connector_init(dev, connector, &ast_bmc_connector_funcs,
++				 DRM_MODE_CONNECTOR_VIRTUAL);
++	if (ret)
++		return ret;
++
++	drm_connector_helper_add(connector, &ast_bmc_connector_helper_funcs);
++
++	bmc_connector->physical_connector = physical_connector;
++
++	return 0;
++}
++
++static int ast_bmc_output_init(struct ast_device *ast,
++			       struct drm_connector *physical_connector)
+ {
+ 	struct drm_device *dev = &ast->base;
+ 	struct drm_crtc *crtc = &ast->crtc;
+ 	struct drm_encoder *encoder = &ast->output.bmc.encoder;
+-	struct drm_connector *connector = &ast->output.bmc.connector;
++	struct ast_bmc_connector *bmc_connector = &ast->output.bmc.bmc_connector;
++	struct drm_connector *connector = &bmc_connector->base;
+ 	int ret;
+ 
+ 	ret = drm_encoder_init(dev, encoder,
+@@ -1799,13 +1845,10 @@ static int ast_bmc_output_init(struct ast_device *ast)
+ 		return ret;
+ 	encoder->possible_crtcs = drm_crtc_mask(crtc);
+ 
+-	ret = drm_connector_init(dev, connector, &ast_bmc_connector_funcs,
+-				 DRM_MODE_CONNECTOR_VIRTUAL);
++	ret = ast_bmc_connector_init(dev, bmc_connector, physical_connector);
+ 	if (ret)
+ 		return ret;
+ 
+-	drm_connector_helper_add(connector, &ast_bmc_connector_helper_funcs);
+-
+ 	ret = drm_connector_attach_encoder(connector, encoder);
+ 	if (ret)
+ 		return ret;
+@@ -1864,6 +1907,7 @@ static const struct drm_mode_config_funcs ast_mode_config_funcs = {
+ int ast_mode_config_init(struct ast_device *ast)
+ {
+ 	struct drm_device *dev = &ast->base;
++	struct drm_connector *physical_connector = NULL;
+ 	int ret;
+ 
+ 	ret = drmm_mode_config_init(dev);
+@@ -1904,23 +1948,27 @@ int ast_mode_config_init(struct ast_device *ast)
+ 		ret = ast_vga_output_init(ast);
+ 		if (ret)
+ 			return ret;
++		physical_connector = &ast->output.vga.vga_connector.base;
+ 	}
+ 	if (ast->tx_chip_types & AST_TX_SIL164_BIT) {
+ 		ret = ast_sil164_output_init(ast);
+ 		if (ret)
+ 			return ret;
++		physical_connector = &ast->output.sil164.sil164_connector.base;
+ 	}
+ 	if (ast->tx_chip_types & AST_TX_DP501_BIT) {
+ 		ret = ast_dp501_output_init(ast);
+ 		if (ret)
+ 			return ret;
++		physical_connector = &ast->output.dp501.connector;
+ 	}
+ 	if (ast->tx_chip_types & AST_TX_ASTDP_BIT) {
+ 		ret = ast_astdp_output_init(ast);
+ 		if (ret)
+ 			return ret;
++		physical_connector = &ast->output.astdp.connector;
+ 	}
+-	ret = ast_bmc_output_init(ast);
++	ret = ast_bmc_output_init(ast, physical_connector);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
- i.
+2.42.0
 
-> +	if (!bw || next_bw <= bw) {
-> +		bw = next_bw;
-> +
-> +		if (limiting_dev)
-> +			*limiting_dev = dev;
-> +		if (speed)
-> +			*speed = next_speed;
-> +		if (width)
-> +			*width = next_width;
-> +	}
-> +
-> +	return bw;
-> +}
-> +
->  /**
->   * pcie_bandwidth_available - determine minimum link settings of a PCIe
->   *			      device and its bandwidth limitation
-> @@ -6242,39 +6274,15 @@ u32 pcie_bandwidth_available(struct pci_dev *dev, struct pci_dev **limiting_dev,
->  			     enum pci_bus_speed *speed,
->  			     enum pcie_link_width *width)
->  {
-> -	u16 lnksta;
-> -	enum pci_bus_speed next_speed;
-> -	enum pcie_link_width next_width;
-> -	u32 bw, next_bw;
-> +	u32 bw = 0;
->  
->  	if (speed)
->  		*speed = PCI_SPEED_UNKNOWN;
->  	if (width)
->  		*width = PCIE_LNK_WIDTH_UNKNOWN;
->  
-> -	bw = 0;
-> -
->  	while (dev) {
-> -		pcie_capability_read_word(dev, PCI_EXP_LNKSTA, &lnksta);
-> -
-> -		next_speed = pcie_link_speed[FIELD_GET(PCI_EXP_LNKSTA_CLS,
-> -						       lnksta)];
-> -		next_width = FIELD_GET(PCI_EXP_LNKSTA_NLW, lnksta);
-> -
-> -		next_bw = next_width * PCIE_SPEED2MBS_ENC(next_speed);
-> -
-> -		/* Check if current device limits the total bandwidth */
-> -		if (!bw || next_bw <= bw) {
-> -			bw = next_bw;
-> -
-> -			if (limiting_dev)
-> -				*limiting_dev = dev;
-> -			if (speed)
-> -				*speed = next_speed;
-> -			if (width)
-> -				*width = next_width;
-> -		}
-> -
-> +		bw = pcie_calc_bw_limits(dev, bw, limiting_dev, speed, width);
->  		dev = pci_upstream_bridge(dev);
->  	}
->  
-> 
---8323329-761469376-1700139739=:1886--
