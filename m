@@ -2,73 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 287717EDE66
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 11:23:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 320A77EDE6F
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 11:28:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25EB110E5B0;
-	Thu, 16 Nov 2023 10:23:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BDA810E5B1;
+	Thu, 16 Nov 2023 10:28:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD1B910E5B0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 10:23:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2AF310E5B1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 10:27:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1700130234;
+ s=mimecast20190719; t=1700130478;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mZuQXo9gnkbNsHEOB2zSY3qjcWzrlb81dsj8lBIB1oQ=;
- b=it3iQiuGm4SZMuNN1x06MoymumAO2v7tVtX1KgT/EtIlauao4ewsBTgGMu9pZHn4UQyx8P
- 3v1siaXSwMPtH54iaCFz56d0Z3+4HHK4a0au15rk3i7t92UkGwnXlizuAOfp33B9TAy3jj
- lqeTkB4jAeJVoPLUaUY4ph+6IPIXVqs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FlHlGuIFKBdR7Fli1C8w7UyO4Sn2DZFiv8/q8c7YdBo=;
+ b=eltw52C/nKSvHd2YF7ahsP0gIE8pla7jukyEk6456nUaTLYMZFujTSka5Bn12DYlXNXSsU
+ dGYAmyWL/QrW6hJxF4zcorCYn/RCkPPLkHj0C1BPVkIRuNQjp/rJy95N8zMCfqBDUeDDTf
+ G+cqrcOqJQsJU2e/zNKiMfA3mcm1BX8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-84-0Lch6e_PP5ySbEZTeJeUJQ-1; Thu, 16 Nov 2023 05:23:52 -0500
-X-MC-Unique: 0Lch6e_PP5ySbEZTeJeUJQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-4091c9bdb8eso8628255e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 02:23:52 -0800 (PST)
+ us-mta-452-BwNAYltmP9yd5iLIZvWSsA-1; Thu, 16 Nov 2023 05:27:57 -0500
+X-MC-Unique: BwNAYltmP9yd5iLIZvWSsA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-32d9751ca2cso304163f8f.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 02:27:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700130231; x=1700735031;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mZuQXo9gnkbNsHEOB2zSY3qjcWzrlb81dsj8lBIB1oQ=;
- b=JR0pdNv2Rgj0MbU3ECtUb6iTMfrD+EBLyHZcvgKu6XhXUyXz+PgYYLBcQw7EpHBGAn
- rCwqJsUOQGtJLm3eBTCviRSxCskPME/TNnV1fF8eHmSJ50/5j22Z9gh7w2J3uwZisgah
- WU48C5GtfeQQrAlo0hS21lG8uxYfF0wa2d9sMR9qFiopEr/tWgbiAVedks/A17qUCh4s
- DhlgCz18xueqncoG9Pz2RupTbFBazIZV/IF/I20QNY2sIUUpGud0KbXCMBlaDsZhR/75
- OgDFpBMe6vdP+V1zzhGsYa+levCjxhCun/MAts7LheYCSlRTBqM3JgeOsogA7smZcxCj
- RggA==
-X-Gm-Message-State: AOJu0YyeGWegDIKWTiiH9JtX9+Mb5i7dR7FKT1q5dP8Epkl0Eg8CvpU+
- c56WwyfqckiP/p69v4oz7ITVUEQ9UtQGFWxt7Gk5BjdG1rpYeV+Jhqw/bn1C/raq1tcV2NUH0oI
- Ti+ulC5lUIUlBVcLs9yc9LAF6w3sD
-X-Received: by 2002:a05:600c:1906:b0:409:6e0e:e95a with SMTP id
- j6-20020a05600c190600b004096e0ee95amr1138237wmq.19.1700130231650; 
- Thu, 16 Nov 2023 02:23:51 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEAVDQkmo3j+8iWEwGwvFmLiS/SO/vAfk2hJXFP092iyiMamOm6OHU8ASafyrHF8vMvPKAMmg==
-X-Received: by 2002:a05:600c:1906:b0:409:6e0e:e95a with SMTP id
- j6-20020a05600c190600b004096e0ee95amr1138222wmq.19.1700130231264; 
- Thu, 16 Nov 2023 02:23:51 -0800 (PST)
+ d=1e100.net; s=20230601; t=1700130476; x=1700735276;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=FlHlGuIFKBdR7Fli1C8w7UyO4Sn2DZFiv8/q8c7YdBo=;
+ b=u2G3W/Gtmc0ZhkVNfnSX1n5s5o24AedV6mATy4xHYpYCQk8I6drnoyXmKfB5WuZpM2
+ 4ZB+EW9DVdmapewr+81YjwStCGyY58Go0B2+RacicQ24WrbrUQwUEnU8+OnIgj9gqHzV
+ Hf3bx1poAQRu73UBrXtNee5SeFwCU6GZRVM3bYnm8k7kY8ojxWv3Ljadh1/Cjx4VCz2d
+ P3u3wDWFf5o1Q9oAC+8+bc5N0rTpsRGqyMsy7Dml4NYRXSUk6axavF8lozrk8dAm07PZ
+ qP0Zb9NJRfC91gmqH0iL4DP1HXIsTWVJUuf6QDQ0079xjYuF0Uzv5rq54vOePtJMehD0
+ eN0Q==
+X-Gm-Message-State: AOJu0YzHsI3yjdlTB6N4TNC7GVD+XM6oNiN1A3A+TAmPcRNZUmff9ST5
+ nMv0MHkKz0LkQPYL6iPt4oX7ebfl1UtP/1Otx4fmE8G7MYm7DBQGcJq+h1qWXcghZo+jA+UXgs6
+ GCeffu/AWrvvXS/ulMUiKzPkgnrku
+X-Received: by 2002:a05:6000:2c1:b0:32f:7f65:8f3e with SMTP id
+ o1-20020a05600002c100b0032f7f658f3emr11490925wry.7.1700130476319; 
+ Thu, 16 Nov 2023 02:27:56 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHVowa78+7DuIt1O2CluTlGpgTtzZ/Y0J9eR+J6IQbq1Imn9LSMs1Gu9C++CQRfYKUKXpQNgg==
+X-Received: by 2002:a05:6000:2c1:b0:32f:7f65:8f3e with SMTP id
+ o1-20020a05600002c100b0032f7f658f3emr11490908wry.7.1700130475998; 
+ Thu, 16 Nov 2023 02:27:55 -0800 (PST)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- u5-20020a05600c138500b003fee6e170f9sm2986310wmf.45.2023.11.16.02.23.50
+ m3-20020adffe43000000b0032d8354fb43sm13119242wrs.76.2023.11.16.02.27.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Nov 2023 02:23:51 -0800 (PST)
+ Thu, 16 Nov 2023 02:27:55 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de
-Subject: Re: [PATCH 10/32] auxdisplay/ht16k33: Initialize fb_ops with fbdev
- macros
-In-Reply-To: <20231115102954.7102-11-tzimmermann@suse.de>
+Subject: Re: [PATCH 11/32] hid/picolcd_fb: Set FBINFO_VIRTFB flag
+In-Reply-To: <20231115102954.7102-12-tzimmermann@suse.de>
 References: <20231115102954.7102-1-tzimmermann@suse.de>
- <20231115102954.7102-11-tzimmermann@suse.de>
-Date: Thu, 16 Nov 2023 11:23:50 +0100
-Message-ID: <87r0kq3sjt.fsf@minerva.mail-host-address-is-not-set>
+ <20231115102954.7102-12-tzimmermann@suse.de>
+Date: Thu, 16 Nov 2023 11:27:55 +0100
+Message-ID: <87o7fu3sd0.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,38 +83,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Robin van der Gracht <robin@protonic.nl>,
- linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ Bruno =?utf-8?Q?Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-input@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Initialize the instance of struct fb_ops with fbdev initializer
-> macros for framebuffers in virtual address space. Set the read/write,
-> draw and mmap callbacks to the correct implementation and avoid
-> implicit defaults. Also select the necessary helpers in Kconfig.
->
-> Fbdev drivers sometimes rely on the callbacks being NULL for a
-> default I/O-memory-based implementation to be invoked; hence
-> requiring the I/O helpers to be built in any case. Setting all
-> callbacks in all drivers explicitly will allow to make the I/O
-> helpers optional. This benefits systems that do not use these
-> functions.
+> The picolcd_fb driver operates on system memory. Mark the framebuffer
+> accordingly. Helpers operating on the framebuffer memory will test
+> for the presence of this flag.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Miguel Ojeda <ojeda@kernel.org>
-> Cc: Robin van der Gracht <robin@protonic.nl>
+> Cc: "Bruno Pr=C3=A9mont" <bonbons@linux-vserver.org>
+> Cc: Jiri Kosina <jikos@kernel.org>
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: linux-input@vger.kernel.org
 > ---
->  drivers/auxdisplay/Kconfig   | 5 +----
->  drivers/auxdisplay/ht16k33.c | 7 ++-----
->  2 files changed, 3 insertions(+), 9 deletions(-)
+>  drivers/hid/hid-picolcd_fb.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
--- 
+--=20
 Best regards,
 
 Javier Martinez Canillas
