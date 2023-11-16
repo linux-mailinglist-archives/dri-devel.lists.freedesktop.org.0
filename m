@@ -2,45 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59057EE028
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 12:53:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29A877EE03D
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 12:57:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECA7910E274;
-	Thu, 16 Nov 2023 11:53:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5638910E27A;
+	Thu, 16 Nov 2023 11:57:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com
- [IPv6:2001:41d0:203:375::af])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87BD810E274
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 11:53:21 +0000 (UTC)
-Message-ID: <7b85d057-3d66-435a-a657-dd69067b6bef@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1700135599;
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DA7910E27A
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 11:57:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1700135855;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7Xl6aJx0SHekVlEjDxe6eGi8u/KrzGs66x4YWxgVZtU=;
- b=QSXw0jhtDLFevMZsd8w9rmmT1z/O5XbhcFpo0gmhnUhUVkrAvp7RR28EnDKPaOhmfy7CAy
- HaTOr6zQXt6F6N4YLg2dckFKFbr4IxJnOEl+0TOQNsJqbwD1DdJpJ1FZZC/L3rWHBTxc9g
- nYO1XdcCRqkMsK09jATuJz7/r+s6FDM=
-Date: Thu, 16 Nov 2023 19:53:12 +0800
+ bh=d0x9UvS/AGzYjlZ/Z2zNd3aI+mpUR93ucZIMrrtEjbM=;
+ b=P3DaPKNdVSNLQmXBIq6QsXC5XSBKuyQXcnTCioWXQ80VCorMGZRxp+dNzBKbpX39KmBQXS
+ CSWscRcWSQ0ofHyPGip1V1j+bGwlboG98lvrjqWZhG+rinQ2jF6Pb9Ktl7n3SBzFBZrQ6B
+ 4heoXWweYVwii+mXVquz5M00GIGiIOA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-86-Tel7VndmNB--JAiAkGWMeQ-1; Thu, 16 Nov 2023 06:57:34 -0500
+X-MC-Unique: Tel7VndmNB--JAiAkGWMeQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-4090fa518bbso3972835e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 03:57:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700135853; x=1700740653;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=d0x9UvS/AGzYjlZ/Z2zNd3aI+mpUR93ucZIMrrtEjbM=;
+ b=NFkoX6wyrQlOWnLHsF3O+3uYTXcjuFF7exEYHtP1KSg4kbuJyVdacsSvXLNf2G5+hp
+ XfD599Gyf/1Cl5x6ZMYK6Y1YAlfkVnPotLANA3R7jvTRav8YeO7+WseBMJy+SYtg080y
+ HGohZZRFWlrVmHWuURBlZIf4R5sWucy/jFGxMTvQXnqmFYSV9obiT8etBPy0xkKzBvvY
+ jnmgRPwS5+7rC3DuXk3ruB++2vtaYViI/bDIn0J85+y6mCT7jfCBp3VTcfMulB0VrGOR
+ DgL6suEe9wW6BtPaopaLSeblWS+Qs33SeFVUQrXWqwDtL/sQVYGkrQ0wBuYoTt4FQrgq
+ mJxQ==
+X-Gm-Message-State: AOJu0YwrBFSEcTfCY0jPdkSriAQpaondd1lGr+Wje/58cMhmFd7E2PRE
+ nEyMrC86QU9wpLltbeKK9doQr8YP0/2B6EY4Per/kO1cM1fjHHKkVWNfkVIoa+4na1rLIbuzEzF
+ /kkdq4KZyixAhL76h1ON8YysHalbu
+X-Received: by 2002:a05:600c:45cb:b0:407:4944:76d1 with SMTP id
+ s11-20020a05600c45cb00b00407494476d1mr13758927wmo.17.1700135852901; 
+ Thu, 16 Nov 2023 03:57:32 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFm26jbjrnNx5RwuUbvEv4kZjrhk1hAedzBux3U2jDdTSsXmQhUUYJ6Mw3sAUj+R0Hgu6ZZMQ==
+X-Received: by 2002:a05:600c:45cb:b0:407:4944:76d1 with SMTP id
+ s11-20020a05600c45cb00b00407494476d1mr13758914wmo.17.1700135852559; 
+ Thu, 16 Nov 2023 03:57:32 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ j6-20020adff006000000b0033142b1a1eesm13008753wro.87.2023.11.16.03.57.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Nov 2023 03:57:32 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de
+Subject: Re: [PATCH 26/32] staging/sm750fb: Initialize fb_ops with fbdev macros
+In-Reply-To: <20231115102954.7102-27-tzimmermann@suse.de>
+References: <20231115102954.7102-1-tzimmermann@suse.de>
+ <20231115102954.7102-27-tzimmermann@suse.de>
+Date: Thu, 16 Nov 2023 12:57:31 +0100
+Message-ID: <87h6ll3o7o.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Subject: Re: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
- <20231114150130.497915-9-sui.jingfeng@linux.dev>
- <CAA8EJprQq3aDhzE+yKGZ2-nsuHWcptzMvApsyOi9D63PgeiZ3w@mail.gmail.com>
- <1b59d647-c345-4260-b07b-22abb70ae17a@linux.dev>
- <CAA8EJppY2+ymX0kLY+cuR=SV1Po2J24r=NQecmb3ZhSE9NHG7Q@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <CAA8EJppY2+ymX0kLY+cuR=SV1Po2J24r=NQecmb3ZhSE9NHG7Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,148 +80,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phong LE <ple@baylibre.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: linux-fbdev@vger.kernel.org, Teddy Wang <teddy.wang@siliconmotion.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-
-On 2023/11/16 19:29, Dmitry Baryshkov wrote:
-> On Thu, 16 Nov 2023 at 13:18, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
->> Hi,
->>
->>
->> On 2023/11/15 00:30, Dmitry Baryshkov wrote:
->>>> +
->>>> +               ctx->connector = connector;
->>>> +       }
->>>>
->>>>           if (ctx->info->id == ID_IT66121) {
->>>>                   ret = regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
->>>> @@ -1632,16 +1651,13 @@ static const char * const it66121_supplies[] = {
->>>>           "vcn33", "vcn18", "vrf12"
->>>>    };
->>>>
->>>> -static int it66121_probe(struct i2c_client *client)
->>>> +int it66121_create_bridge(struct i2c_client *client, bool of_support,
->>>> +                         bool hpd_support, bool audio_support,
->>>> +                         struct drm_bridge **bridge)
->>>>    {
->>>> +       struct device *dev = &client->dev;
->>>>           int ret;
->>>>           struct it66121_ctx *ctx;
->>>> -       struct device *dev = &client->dev;
->>>> -
->>>> -       if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
->>>> -               dev_err(dev, "I2C check functionality failed.\n");
->>>> -               return -ENXIO;
->>>> -       }
->>>>
->>>>           ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
->>>>           if (!ctx)
->>>> @@ -1649,24 +1665,19 @@ static int it66121_probe(struct i2c_client *client)
->>>>
->>>>           ctx->dev = dev;
->>>>           ctx->client = client;
->>>> -       ctx->info = i2c_get_match_data(client);
->>>> -
->>>> -       ret = it66121_of_read_bus_width(dev, &ctx->bus_width);
->>>> -       if (ret)
->>>> -               return ret;
->>>> -
->>>> -       ret = it66121_of_get_next_bridge(dev, &ctx->next_bridge);
->>>> -       if (ret)
->>>> -               return ret;
->>>> -
->>>> -       i2c_set_clientdata(client, ctx);
->>>>           mutex_init(&ctx->lock);
->>>>
->>>> -       ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(it66121_supplies),
->>>> -                                            it66121_supplies);
->>>> -       if (ret) {
->>>> -               dev_err(dev, "Failed to enable power supplies\n");
->>>> -               return ret;
->>>> +       if (of_support) {
->>>> +               ret = it66121_of_read_bus_width(dev, &ctx->bus_width);
->>>> +               if (ret)
->>>> +                       return ret;
->>>> +
->>>> +               ret = it66121_of_get_next_bridge(dev, &ctx->next_bridge);
->>>> +               if (ret)
->>>> +                       return ret;
->>>> +       } else {
->>>> +               ctx->bus_width = 24;
->>>> +               ctx->next_bridge = NULL;
->>>>           }
->>> A better alternative would be to turn OF calls into fwnode calls and
->>> to populate the fwnode properties. See
->>> drivers/platform/x86/intel/chtwc_int33fe.c for example.
->>
->> Honestly, I don't want to leave any scratch(breadcrumbs).
->> I'm worries about that turn OF calls into fwnode calls will leave something unwanted.
->>
->> Because I am not sure if fwnode calls will make sense in the DT world, while my patch
->> *still* be useful in the DT world.
-> fwnode calls work for both DT and non-DT cases. In the DT case they
-> work with DT nodes and properties. In the non-DT case, they work with
-> manually populated properties.
+> Initialize all instances of struct fb_ops with fbdev initializer
+> macros for framebuffers in I/O address space. Set the read/write,
+> draw and mmap callbacks to the correct implementation and avoid
+> implicit defaults. Also select the necessary helpers in Kconfig.
 >
->> Because the newly introduced it66121_create_bridge()
->> function is a core. I think It's better leave this task to a more advance programmer.
->> if there have use case. It can be introduced at a latter time, probably parallel with
->> the DT.
->>
->> I think DT and/or ACPI is best for integrated devices, but it66121 display bridges is
->> a i2c slave device. Personally, I think slave device shouldn't be standalone. I'm more
->> prefer to turn this driver to support hot-plug, even remove the device on the run time
->> freely when detach and allow reattach. Like the I2C EEPROM device in the monitor (which
->> contains the EDID, with I2C slave address 0x50). The I2C EEPROM device *also* don't has
->> a corresponding struct device representation in linux kernel.
-> It has. See i2c_client::dev.
-
-No, what I mean is that there don't have a device driver for monitor(display) hardware entity.
-And the drm_do_probe_ddc_edid() is the static linked driver, which is similar with the idea
-this series want to express.
-
-
->> so I still think It is best to make this drivers functional as a static lib, but I want
->> to hear you to say more. Why it would be a *better* alternative to turn OF calls into
->> fwnode calls? what are the potential benefits?
-> Because then you can populate device properties from your root device.
-> Because it allows the platform to specify the bus width instead of
-> hardcoding 24 bits (which might work in your case, but might not be
-> applicable to another user next week).
-
-
-No, this problem can be easily solved. Simply add another argument.
-
-```
-
-int it66121_create_bridge(struct i2c_client *client, bool of_support,
-                           bool hpd_support, bool audio_support, u32 bus_width,
-                           struct drm_bridge **bridge);
-```
-
-
-> Anyway, even without fwnode, I'd strongly suggest you to drop the
-> it66121_create_bridge() as it is now and start by populating the i2c
-> bus from your root device.
-
-This will force all non-DT users to add the similar code patter at the display controller side,
-which is another kind of duplication. The monitor is also as I2C slave device, can be abstract
-as a identify drm bridges in theory, I guess.
-
-
-> Then you will need some way (fwnode?) to
-> discover the bridge chain. And at the last point you will get into the
-> device data and/or properties business.
+> Fbdev drivers sometimes rely on the callbacks being NULL for a
+> default I/O-memory-based implementation to be invoked; hence
+> requiring the I/O helpers to be built in any case. Setting all
+> callbacks in all drivers explicitly will allow to make the I/O
+> helpers optional. This benefits systems that do not use these
+> functions.
 >
-No, leave that chance to a more better programmer and forgive me please,
-too difficult, I'm afraid of not able to solve. Thanks a lot for the trust!
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+> Cc: Teddy Wang <teddy.wang@siliconmotion.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-staging@lists.linux.dev
+> ---
+>  drivers/staging/sm750fb/sm750.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>
 
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
