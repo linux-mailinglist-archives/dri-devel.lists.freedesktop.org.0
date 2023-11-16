@@ -1,47 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328697EE064
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 13:08:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E415E7EE085
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 13:15:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93ACE10E5D0;
-	Thu, 16 Nov 2023 12:08:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DD0F10E263;
+	Thu, 16 Nov 2023 12:15:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com
- [IPv6:2001:41d0:1004:224b::b7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4030710E5D3
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 12:08:15 +0000 (UTC)
-Message-ID: <b9eacd91-8d6f-4265-931e-bc31cadd54d4@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1700136493;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=k9oetIw2tFldJiOGCUKM2J/cABhuLHaFmSF5ziLE1Pg=;
- b=fJN0/POdxJ2qznbqNjU2TFEX8CyZdzr61R3U8qfTAtTrnZ5ECyVrFppcRpHoppC3dUMUZM
- ARrpL7w5VXh4t4g/uvKOK80LOUSfv5BbyKlUAo1CkCAsOeSEv5MM7H/40kq7FbbEEHz5ze
- 6UmPZPgVjJfxp2BbOoOKoTC/5htG+oo=
-Date: Thu, 16 Nov 2023 20:07:59 +0800
+Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5908910E263
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 12:15:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1700136899; x=1700396099;
+ bh=peIdrePwT8uOuhEHgYRJoTaPJUFwzal6w1Hv2WtpNCo=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=KVYvMq7aUUgkkM4hhRzz9XhWI+nkkhDGTbCDwnU/ctZr0Nm2+qG84sztDrDTvJjdf
+ /UMyuWgoWQDW2LWkaGN+J+qP0Et3l9XrhZgRWnHs8IuH/NLkk0hasslujZzRtfg1Ve
+ Q0QAQSx7oCxchKdAR4cZ2T5u7sY5sAdD7gSAD+V4Ixtp769LL1gzBRF4foscxG92Dx
+ lCci/swQew4QXOcGq/5VeXHwsffnGQj271Fne2Wj7/bRIBdktfeY+XxDhwjrYUGF6e
+ zCZLKPGWE/Z4pvFKOuW/WjBuuNw539vlcMexnBAJG1B3kgVS1KvXT/rrZWXJiCsoLL
+ jGa19YgrPfBgQ==
+Date: Thu, 16 Nov 2023 12:14:51 +0000
+To: Thomas Zimmermann <tzimmermann@suse.de>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v2 4/5] drm/plane: Extend damage tracking kernel-doc
+Message-ID: <vhshocGSkXgVLycHIcJIVPsN9OQokPA2NCgIBqOvIzpKRZXQjN1uEiFKVudwa-S4hpBnFPaxxYh8hCFxd-u_ahYKBamQxFzIhBkYGkND9Kc=@emersion.fr>
+In-Reply-To: <abfd41c7-dc9f-4cd3-be83-97b2c2c96b62@suse.de>
+References: <20231115131549.2191589-1-javierm@redhat.com>
+ <20231115131549.2191589-5-javierm@redhat.com>
+ <abfd41c7-dc9f-4cd3-be83-97b2c2c96b62@suse.de>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Subject: Re: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
- <20231114150130.497915-9-sui.jingfeng@linux.dev>
- <CAA8EJprQq3aDhzE+yKGZ2-nsuHWcptzMvApsyOi9D63PgeiZ3w@mail.gmail.com>
- <1b59d647-c345-4260-b07b-22abb70ae17a@linux.dev>
- <CAA8EJppY2+ymX0kLY+cuR=SV1Po2J24r=NQecmb3ZhSE9NHG7Q@mail.gmail.com>
- <7b85d057-3d66-435a-a657-dd69067b6bef@linux.dev>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <7b85d057-3d66-435a-a657-dd69067b6bef@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,180 +49,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phong LE <ple@baylibre.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Sima Vetter <daniel.vetter@ffwll.ch>, Bilal Elmoussaoui <belmouss@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thursday, November 16th, 2023 at 13:06, Thomas Zimmermann <tzimmermann@s=
+use.de> wrote:
 
-On 2023/11/16 19:53, Sui Jingfeng wrote:
-> Hi,
->
->
-> On 2023/11/16 19:29, Dmitry Baryshkov wrote:
->> On Thu, 16 Nov 2023 at 13:18, Sui Jingfeng <sui.jingfeng@linux.dev> 
->> wrote:
->>> Hi,
->>>
->>>
->>> On 2023/11/15 00:30, Dmitry Baryshkov wrote:
->>>>> +
->>>>> +               ctx->connector = connector;
->>>>> +       }
->>>>>
->>>>>           if (ctx->info->id == ID_IT66121) {
->>>>>                   ret = regmap_write_bits(ctx->regmap, 
->>>>> IT66121_CLK_BANK_REG,
->>>>> @@ -1632,16 +1651,13 @@ static const char * const 
->>>>> it66121_supplies[] = {
->>>>>           "vcn33", "vcn18", "vrf12"
->>>>>    };
->>>>>
->>>>> -static int it66121_probe(struct i2c_client *client)
->>>>> +int it66121_create_bridge(struct i2c_client *client, bool 
->>>>> of_support,
->>>>> +                         bool hpd_support, bool audio_support,
->>>>> +                         struct drm_bridge **bridge)
->>>>>    {
->>>>> +       struct device *dev = &client->dev;
->>>>>           int ret;
->>>>>           struct it66121_ctx *ctx;
->>>>> -       struct device *dev = &client->dev;
->>>>> -
->>>>> -       if (!i2c_check_functionality(client->adapter, 
->>>>> I2C_FUNC_I2C)) {
->>>>> -               dev_err(dev, "I2C check functionality failed.\n");
->>>>> -               return -ENXIO;
->>>>> -       }
->>>>>
->>>>>           ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
->>>>>           if (!ctx)
->>>>> @@ -1649,24 +1665,19 @@ static int it66121_probe(struct i2c_client 
->>>>> *client)
->>>>>
->>>>>           ctx->dev = dev;
->>>>>           ctx->client = client;
->>>>> -       ctx->info = i2c_get_match_data(client);
->>>>> -
->>>>> -       ret = it66121_of_read_bus_width(dev, &ctx->bus_width);
->>>>> -       if (ret)
->>>>> -               return ret;
->>>>> -
->>>>> -       ret = it66121_of_get_next_bridge(dev, &ctx->next_bridge);
->>>>> -       if (ret)
->>>>> -               return ret;
->>>>> -
->>>>> -       i2c_set_clientdata(client, ctx);
->>>>>           mutex_init(&ctx->lock);
->>>>>
->>>>> -       ret = devm_regulator_bulk_get_enable(dev, 
->>>>> ARRAY_SIZE(it66121_supplies),
->>>>> - it66121_supplies);
->>>>> -       if (ret) {
->>>>> -               dev_err(dev, "Failed to enable power supplies\n");
->>>>> -               return ret;
->>>>> +       if (of_support) {
->>>>> +               ret = it66121_of_read_bus_width(dev, 
->>>>> &ctx->bus_width);
->>>>> +               if (ret)
->>>>> +                       return ret;
->>>>> +
->>>>> +               ret = it66121_of_get_next_bridge(dev, 
->>>>> &ctx->next_bridge);
->>>>> +               if (ret)
->>>>> +                       return ret;
->>>>> +       } else {
->>>>> +               ctx->bus_width = 24;
->>>>> +               ctx->next_bridge = NULL;
->>>>>           }
->>>> A better alternative would be to turn OF calls into fwnode calls and
->>>> to populate the fwnode properties. See
->>>> drivers/platform/x86/intel/chtwc_int33fe.c for example.
->>>
->>> Honestly, I don't want to leave any scratch(breadcrumbs).
->>> I'm worries about that turn OF calls into fwnode calls will leave 
->>> something unwanted.
->>>
->>> Because I am not sure if fwnode calls will make sense in the DT 
->>> world, while my patch
->>> *still* be useful in the DT world.
->> fwnode calls work for both DT and non-DT cases. In the DT case they
->> work with DT nodes and properties. In the non-DT case, they work with
->> manually populated properties.
->>
->>> Because the newly introduced it66121_create_bridge()
->>> function is a core. I think It's better leave this task to a more 
->>> advance programmer.
->>> if there have use case. It can be introduced at a latter time, 
->>> probably parallel with
->>> the DT.
->>>
->>> I think DT and/or ACPI is best for integrated devices, but it66121 
->>> display bridges is
->>> a i2c slave device. Personally, I think slave device shouldn't be 
->>> standalone. I'm more
->>> prefer to turn this driver to support hot-plug, even remove the 
->>> device on the run time
->>> freely when detach and allow reattach. Like the I2C EEPROM device in 
->>> the monitor (which
->>> contains the EDID, with I2C slave address 0x50). The I2C EEPROM 
->>> device *also* don't has
->>> a corresponding struct device representation in linux kernel.
->> It has. See i2c_client::dev.
->
-> No, what I mean is that there don't have a device driver for 
-> monitor(display) hardware entity.
-> And the drm_do_probe_ddc_edid() is the static linked driver, which is 
-> similar with the idea
-> this series want to express.
->
->
->>> so I still think It is best to make this drivers functional as a 
->>> static lib, but I want
->>> to hear you to say more. Why it would be a *better* alternative to 
->>> turn OF calls into
->>> fwnode calls? what are the potential benefits?
->> Because then you can populate device properties from your root device.
->> Because it allows the platform to specify the bus width instead of
->> hardcoding 24 bits (which might work in your case, but might not be
->> applicable to another user next week).
->
->
-> No, this problem can be easily solved. Simply add another argument.
->
-> ```
->
-> int it66121_create_bridge(struct i2c_client *client, bool of_support,
->                           bool hpd_support, bool audio_support, u32 
-> bus_width,
->                           struct drm_bridge **bridge);
-> ```
->
->
->> Anyway, even without fwnode, I'd strongly suggest you to drop the
->> it66121_create_bridge() as it is now and start by populating the i2c
->> bus from your root device.
->
-> This will force all non-DT users to add the similar code patter at the 
-> display controller side,
-> which is another kind of duplication. The monitor is also as I2C slave 
-> device, can be abstract
-> as a identify drm bridges in theory, I guess.
->
+> > + * Note that there are two types of damage handling: frame damage and =
+buffer
+> > + * damage. The type of damage handling implemented depends on a driver=
+'s upload
+> > + * target. Drivers implementing a per-plane or per-CRTC upload target =
+need to
+> > + * handle frame damage while drivers implementing a per-buffer upload =
+target
+> > + * need to handle buffer damage.
+> > + *
+> > + * The existing damage helpers only support the frame damage type, the=
+re is no
+> > + * buffer age support or similar damage accumulation algorithm impleme=
+nted yet.
+> > + *
+> > + * Only drivers handling frame damage can use the mentiored damage hel=
+pers to
 
-'identify' -> 'identity'
+Typo: mentioned
 
+> > + * iterate over the damaged regions. Drivers that handle buffer damage=
+, need to
+> > + * set &struct drm_plane_state.ignore_damage_clips as an indication to
+> > + * drm_atomic_helper_damage_iter_init() that the damage clips should b=
+e ignored.
+> > + * In that case, the returned damage rectangle is the &drm_plane_state=
+.src since
+> > + * a full plane update should happen.
+> > + *
+> > + * For more information about the two type of damage, see:
+> > + * https://registry.khronos.org/EGL/extensions/KHR/EGL_KHR_swap_buffer=
+s_with_damage.txt
+> > + * https://emersion.fr/blog/2019/intro-to-damage-tracking/
+>=20
+> One thought you might want to consider.
+>=20
+> These URLs are helpful. The only issue I have is that frame damage and
+> buffer damage are user-space concepts. The kernel bug is that damage
+> handling expects the backing storage/upload buffer not to change for a
+> given plane. If the upload buffer changes between page flips, the new
+> upload buffer has to be updated as a whole. Hence no damage handling then=
+.
 
->
->> Then you will need some way (fwnode?) to
->> discover the bridge chain. And at the last point you will get into the
->> device data and/or properties business.
->>
-> No, leave that chance to a more better programmer and forgive me please,
-> too difficult, I'm afraid of not able to solve. Thanks a lot for the 
-> trust!
->
->
+Why would these concepts be specific to user-space? The kernel could
+better handle buffer damage instead of forcing full damage, by doing
+something similar to what user-space does.
+
+Anyways:
+
+Reviewed-by: Simon Ser <contact@emersion.fr>
