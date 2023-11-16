@@ -2,55 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6872B7EDF5E
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 12:16:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D947EDF78
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 12:18:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0617E10E269;
-	Thu, 16 Nov 2023 11:15:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EA8F10E265;
+	Thu, 16 Nov 2023 11:18:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EE3D10E269
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 11:15:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700133353; x=1731669353;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=dFk9C6P6EDoLQ/MU1IPFOE63iJQgYNoIm59o9kn9VFk=;
- b=Ywg6p4YRf602rjvGXhN2x1sPyJdbAbjiY+rNgoW6fcwt0jHvhQb9jdK2
- lxKLKFI9TpwWdSvIALXBqoFIBw9nTmDwiqJk/3y+mIH02x+61dnnh8MiI
- YqxGCIcZjWpOvgHblOFEKOR/mp4NyhIkwUwZovo5+Q1s2wMwdlXqKo2DF
- 72vVIEEHz1edasAg+sXwZ00dxA/zo7eowbCqtPWvl4zRdBdMncJNXlhy/
- 0kFsCEiKG677y2Wm0rYxEHLQ9nQ4Guju/TJCmSthVcf9QIVFo4272E1WQ
- hvYMfFkL8iYqtWIcIBb+tQNorFEai06tISrIKdGWOPt5dsaTK75eUirpe w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="4195239"
-X-IronPort-AV: E=Sophos;i="6.03,308,1694761200"; 
-   d="scan'208";a="4195239"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2023 03:15:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="1012582924"
-X-IronPort-AV: E=Sophos;i="6.03,308,1694761200"; d="scan'208";a="1012582924"
-Received: from oroos-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.41.17])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2023 03:15:48 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sui Jingfeng
- <sui.jingfeng@linux.dev>
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com
+ [IPv6:2001:41d0:1004:224b::b6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BD0210E051
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 11:18:27 +0000 (UTC)
+Message-ID: <1b59d647-c345-4260-b07b-22abb70ae17a@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1700133505;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=v3ky3IGmo059i8LI1Q9gFHB3PczZNsekFc8ype32aes=;
+ b=ezvDvGaKms6UgbUFpQmlbuvdMdUzp45i41zsw5O9HfSyJGV4UMBDg6zyNYu3EsRLSwbG2o
+ k4e+Affx2Sfqf3pA06ntjqVEDRIwfKEot2KYZC15r0Du2dZAb8lgoQ/etG0aEye1YplH/u
+ TC41cbtffix+gvgv2yWgFUBgqOHmZ4s=
+Date: Thu, 16 Nov 2023 19:18:18 +0800
+MIME-Version: 1.0
 Subject: Re: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
-In-Reply-To: <CAA8EJpokxcO2qXgZ=+f=J+6EhAS_7KkrNJ_oZgk=RMHfv8riog@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
  <20231114150130.497915-9-sui.jingfeng@linux.dev>
  <CAA8EJprQq3aDhzE+yKGZ2-nsuHWcptzMvApsyOi9D63PgeiZ3w@mail.gmail.com>
- <50006160-f82b-4ec1-91a4-2ebbd7752e1d@linux.dev>
- <CAA8EJpokxcO2qXgZ=+f=J+6EhAS_7KkrNJ_oZgk=RMHfv8riog@mail.gmail.com>
-Date: Thu, 16 Nov 2023 13:15:46 +0200
-Message-ID: <87y1eyosnx.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <CAA8EJprQq3aDhzE+yKGZ2-nsuHWcptzMvApsyOi9D63PgeiZ3w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,42 +59,95 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Nov 2023, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> On Thu, 16 Nov 2023 at 12:29, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
->>
->> Hi,
->>
->>
->> On 2023/11/15 00:30, Dmitry Baryshkov wrote:
->> >> @@ -703,14 +704,32 @@ static int it66121_bridge_attach(struct drm_bridge *bridge,
->> >>                                   enum drm_bridge_attach_flags flags)
->> >>   {
->> >>          struct it66121_ctx *ctx = bridge_to_it66121(bridge);
->> >> +       struct drm_bridge *next_bridge = ctx->next_bridge;
->> >> +       struct drm_encoder *encoder = bridge->encoder;
->> >>          int ret;
->> >>
->> >> -       if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
->> >> -               return -EINVAL;
->> >> +       if (next_bridge) {
->> >> +               if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
->> >> +                       WARN_ON(1);
->> > Why? At least use WARN() instead
->>
->> If (next_bridge) is true, it says that the driver *already* known that
->> it66121 have a next bridges attached. Then it66121 driver should certainly
->> attach it, no matter what it is. Either a connector or another display bridge.
->> It also says that this is a DT-based system on such a case. CallingWARN_ON(1) here helps to see(print) which DC driver is doing the wired
->> things. Ok, I will remove the WARN_ON(1)  on the next version.
->
-> That's why I pointed you to WARN(). WARN_ON(1) gives no information to
-> the user. WARN() allows you to add a message.
-
-Please use drm_WARN* while at it.
-
-BR,
-Jani.
+Hi,
 
 
--- 
-Jani Nikula, Intel
+On 2023/11/15 00:30, Dmitry Baryshkov wrote:
+>> +
+>> +               ctx->connector = connector;
+>> +       }
+>>
+>>          if (ctx->info->id == ID_IT66121) {
+>>                  ret = regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
+>> @@ -1632,16 +1651,13 @@ static const char * const it66121_supplies[] = {
+>>          "vcn33", "vcn18", "vrf12"
+>>   };
+>>
+>> -static int it66121_probe(struct i2c_client *client)
+>> +int it66121_create_bridge(struct i2c_client *client, bool of_support,
+>> +                         bool hpd_support, bool audio_support,
+>> +                         struct drm_bridge **bridge)
+>>   {
+>> +       struct device *dev = &client->dev;
+>>          int ret;
+>>          struct it66121_ctx *ctx;
+>> -       struct device *dev = &client->dev;
+>> -
+>> -       if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+>> -               dev_err(dev, "I2C check functionality failed.\n");
+>> -               return -ENXIO;
+>> -       }
+>>
+>>          ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+>>          if (!ctx)
+>> @@ -1649,24 +1665,19 @@ static int it66121_probe(struct i2c_client *client)
+>>
+>>          ctx->dev = dev;
+>>          ctx->client = client;
+>> -       ctx->info = i2c_get_match_data(client);
+>> -
+>> -       ret = it66121_of_read_bus_width(dev, &ctx->bus_width);
+>> -       if (ret)
+>> -               return ret;
+>> -
+>> -       ret = it66121_of_get_next_bridge(dev, &ctx->next_bridge);
+>> -       if (ret)
+>> -               return ret;
+>> -
+>> -       i2c_set_clientdata(client, ctx);
+>>          mutex_init(&ctx->lock);
+>>
+>> -       ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(it66121_supplies),
+>> -                                            it66121_supplies);
+>> -       if (ret) {
+>> -               dev_err(dev, "Failed to enable power supplies\n");
+>> -               return ret;
+>> +       if (of_support) {
+>> +               ret = it66121_of_read_bus_width(dev, &ctx->bus_width);
+>> +               if (ret)
+>> +                       return ret;
+>> +
+>> +               ret = it66121_of_get_next_bridge(dev, &ctx->next_bridge);
+>> +               if (ret)
+>> +                       return ret;
+>> +       } else {
+>> +               ctx->bus_width = 24;
+>> +               ctx->next_bridge = NULL;
+>>          }
+> A better alternative would be to turn OF calls into fwnode calls and
+> to populate the fwnode properties. See
+> drivers/platform/x86/intel/chtwc_int33fe.c for example.
+
+
+Honestly, I don't want to leave any scratch(breadcrumbs).
+I'm worries about that turn OF calls into fwnode calls will leave something unwanted.
+
+Because I am not sure if fwnode calls will make sense in the DT world, while my patch
+*still* be useful in the DT world. Because the newly introduced it66121_create_bridge()
+function is a core. I think It's better leave this task to a more advance programmer.
+if there have use case. It can be introduced at a latter time, probably parallel with
+the DT.
+
+I think DT and/or ACPI is best for integrated devices, but it66121 display bridges is
+a i2c slave device. Personally, I think slave device shouldn't be standalone. I'm more
+prefer to turn this driver to support hot-plug, even remove the device on the run time
+freely when detach and allow reattach. Like the I2C EEPROM device in the monitor (which
+contains the EDID, with I2C slave address 0x50). The I2C EEPROM device *also* don't has
+a corresponding struct device representation in linux kernel.
+
+so I still think It is best to make this drivers functional as a static lib, but I want
+to hear you to say more. Why it would be a *better* alternative to turn OF calls into
+fwnode calls? what are the potential benefits?
+
+
+
