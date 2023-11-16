@@ -2,76 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EE1B7EDDB9
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 10:36:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B457C7EDDE1
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 10:45:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 058BC10E258;
-	Thu, 16 Nov 2023 09:36:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C5F210E259;
+	Thu, 16 Nov 2023 09:45:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E653E10E258
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 09:36:11 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26A9110E259
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 09:45:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1700127370;
+ s=mimecast20190719; t=1700127950;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=McpPjYt7smDxeHi7cHEp953Y78A8Rfs6XOh5yVPu+9w=;
- b=GKn46YAqKCjq2abHcs6wPwm1qEFaHE2XbhODjiEXz5x4f5vz+oCmDY7u7s0h1Xi6hLpS+p
- hzXC/GItmvgQ5u6ezdARxjHvg1Z2aUJT3xWWsLF5QyIvmHLtCtcKCZr3mUVYbXKRh76ulP
- wfSnevhMfP/Ho3FgjY9plFtds5jgn1Y=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zSzsA5SxyFLcplHAlbNRiGj1W1HdcMtXrU3K2DbJDWo=;
+ b=BS8cDv13tlnncvqz42L16ScaQGgJDbw+Zd7bntQm3tK4iJrLOspjNcK6+ItXvGWGiqyUsA
+ q3JmQTnlswQT37uy0uQUny4M+4Zs+ZQfJNBCXbqZXtsU9VKGlSx9L/pnrmytci0J4DcXCY
+ 0DWpp2AuMrJlzU9s0wKQOndCH2eOddQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-577-w4g8sxA_N_-BOYifesZEYw-1; Thu, 16 Nov 2023 04:36:08 -0500
-X-MC-Unique: w4g8sxA_N_-BOYifesZEYw-1
-Received: by mail-lf1-f72.google.com with SMTP id
- 2adb3069b0e04-507b8ac8007so570921e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 01:36:08 -0800 (PST)
+ us-mta-480-BMIl6nZ-PFaAjT48NN0alQ-1; Thu, 16 Nov 2023 04:45:48 -0500
+X-MC-Unique: BMIl6nZ-PFaAjT48NN0alQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-4083717431eso3584685e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 01:45:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700127367; x=1700732167;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=S+LZsf1Geh2x5b5Ad0zzJw+dVByeOVUvndd2RtoYI34=;
- b=U7B3yUIesduu7qaPBQ/fIggsiLmvS+Lql28NrAdau1X59Qg0UWPNwHGnxYwrmQdfPF
- ae0Tr+Oc/t5rjAKB3egqLVHBJR0a9cS4QFGempceXUpzjFn89u/LmuRvAjIJf26s8eB4
- 12CczptpVXNlx4ruqAGbrroDx+74Bzl6Fhv1vRnUYhkED3ExUG98Pco0tEebwf4/2QEI
- VBDLCUVJhMkmY7r3NqOvibiRUclHGUybpRZNl86G3CzAG+rU98qDCrgjnlHX3LMmGlfm
- g8X7sz7LrjhyHXP+HeUy2KjHRTfo+v4BjvqUuIymN/n7iaxcjGFk9ERtfo+SDNMLr4z6
- cFAg==
-X-Gm-Message-State: AOJu0Yzj4xYyo6ROs0MHXSwIT4My4oEiEyHTcVH7nI5qL0JaiJC4xctj
- O6EWl94YW9b/n8QMXCPbjuL8rsdnPHMjb8BGjU+8dTk15LJplfuSdmEFKfN87Yz1Vmgu9SnsZt1
- uUsGa9u0c7vU4pGGvFr3Kbjxfy/SS
-X-Received: by 2002:a05:6512:3d02:b0:509:31e6:1de5 with SMTP id
- d2-20020a0565123d0200b0050931e61de5mr15185625lfv.47.1700127367543; 
- Thu, 16 Nov 2023 01:36:07 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE75yAvd+0pV7xWDGGFOLYeqfxtPEMRAHOezjjPoj7Cde5b1To5N4sTL7RRUU4c3qam6M0Img==
-X-Received: by 2002:a05:6512:3d02:b0:509:31e6:1de5 with SMTP id
- d2-20020a0565123d0200b0050931e61de5mr15185608lfv.47.1700127367236; 
- Thu, 16 Nov 2023 01:36:07 -0800 (PST)
+ d=1e100.net; s=20230601; t=1700127947; x=1700732747;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zSzsA5SxyFLcplHAlbNRiGj1W1HdcMtXrU3K2DbJDWo=;
+ b=iC3qAdD7zCeuttVx7T3AWRGb8p0fQi2NAueAbPNSg3aFd2PysGDUfVU8HlEfhoJI3o
+ IwzIU6atc7hHxwWdN//mM/utMDINp1fQ6Yaa4NmW/OK3nZDyaM1gfTYwUGACYYFvoIGY
+ xe2YQq/+Ibvdnie5vbie268zDbC3U+0a9YF1hq8NScC0b/0oRlU9jHiguW7OpJdrNjIG
+ pqfwosaqDWDl/7H4n/E8fLDOze1iY3aFGg352B3zz7AebqDdkvS+iIyRLYGv3L2UXpPS
+ LNbJ35ImU5ZQo6w0KFRRn0zsc4Xa5vIdAIwmbcuV2dsA+MsAUCwYCfDA6czVwNEm0JRE
+ wZtg==
+X-Gm-Message-State: AOJu0Yy4bKoEKyAfK3szezseZDgXjzw+n13Oy2GJNWxwxhXDIMxmgFU+
+ HxOQjanWr150wddZsZKajaM3Pp0jOD0HxGeAsTp/uJzcD3vBxKcW2cPKWPJ56Yy6zE2/DMcgsVU
+ zy3R5yQ4S6PbNf1c6Q7dDB4EqGTPh
+X-Received: by 2002:a05:600c:46cf:b0:3f5:fff8:d4f3 with SMTP id
+ q15-20020a05600c46cf00b003f5fff8d4f3mr13564633wmo.7.1700127947457; 
+ Thu, 16 Nov 2023 01:45:47 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHtLFlJthV6m1GTAAXrgTEAAU7vMTnuD+YdTz6edocexCaOzMz3U0re055aJeRbTrwW/zVrhw==
+X-Received: by 2002:a05:600c:46cf:b0:3f5:fff8:d4f3 with SMTP id
+ q15-20020a05600c46cf00b003f5fff8d4f3mr13564617wmo.7.1700127947117; 
+ Thu, 16 Nov 2023 01:45:47 -0800 (PST)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- d11-20020a5d4f8b000000b0032d829e10c0sm12933437wru.28.2023.11.16.01.36.06
+ je14-20020a05600c1f8e00b00405bbfd5d16sm2915620wmb.7.2023.11.16.01.45.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Nov 2023 01:36:07 -0800 (PST)
+ Thu, 16 Nov 2023 01:45:46 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [RFC PATCH] of/platform: Disable sysfb if a simple-framebuffer
- node is found
-In-Reply-To: <CAL_JsqKHTN5hfd4qpg5RXbmQLKZNVywDkSj9mxvfGmjrcChQQg@mail.gmail.com>
-References: <20231113085305.1823455-1-javierm@redhat.com>
- <CAL_JsqKHTN5hfd4qpg5RXbmQLKZNVywDkSj9mxvfGmjrcChQQg@mail.gmail.com>
-Date: Thu, 16 Nov 2023 10:36:06 +0100
-Message-ID: <87jzqi59bt.fsf@minerva.mail-host-address-is-not-set>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de
+Subject: Re: [PATCH 01/32] fbdev/acornfb: Fix name of fb_ops initializer macro
+In-Reply-To: <20231115102954.7102-2-tzimmermann@suse.de>
+References: <20231115102954.7102-1-tzimmermann@suse.de>
+ <20231115102954.7102-2-tzimmermann@suse.de>
+Date: Thu, 16 Nov 2023 10:45:46 +0100
+Message-ID: <87h6lm58vp.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,81 +80,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sergio Lopez <slp@redhat.com>,
- Sima Vetter <daniel.vetter@ffwll.ch>, Hector Martin <marcan@marcan.st>,
- Andrew Worsley <amworsley@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Frank Rowand <frowand.list@gmail.com>, Ard Biesheuvel <ardb@kernel.org>
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rob Herring <robh@kernel.org> writes:
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Hello Rob,
-
-> On Mon, Nov 13, 2023 at 2:53=E2=80=AFAM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
->>
->> Some DT platforms use EFI to boot and in this case the EFI Boot Services
->> may register a EFI_GRAPHICS_OUTPUT_PROTOCOL handle, that will later be
->> queried by the Linux EFI stub to fill the global struct screen_info data=
-.
->>
->> The data is used by the Generic System Framebuffers (sysfb) framework to
->> add a platform device with platform data about the system framebuffer.
->>
->> But if there is a "simple-framebuffer" node in the DT, the OF core will
->> also do the same and add another device for the system framebuffer.
->>
->> This could lead for example, to two platform devices ("simple-framebuffe=
-r"
->> and "efi-framebuffer") to be added and matched with their corresponding
->> drivers. So both efifb and simpledrm will be probed, leading to followin=
-g:
->>
->> [    0.055752] efifb: framebuffer at 0xbd58dc000, using 16000k, total 16=
-000k
->> [    0.055755] efifb: mode is 2560x1600x32, linelength=3D10240, pages=3D=
-1
->> [    0.055758] efifb: scrolling: redraw
->> [    0.055759] efifb: Truecolor: size=3D2:10:10:10, shift=3D30:20:10:0
->> ...
->> [    3.295896] simple-framebuffer bd58dc000.framebuffer: [drm] *ERROR*
->> could not acquire memory range [??? 0xffff79f30a29ee40-0x2a5000001a7
->> flags 0x0]: -16
->> [    3.298018] simple-framebuffer: probe of bd58dc000.framebuffer
->> failed with error -16
->>
->> To prevent the issue, make the OF core to disable sysfb if there is a no=
-de
->> with a "simple-framebuffer" compatible. That way only this device will b=
-e
->> registered and sysfb would not attempt to register another one using the
->> screen_info data even if this has been filled.
->>
->> This seems the correct thing to do in this case because:
->>
->> a) On a DT platform, the DTB is the single source of truth since is what
->>    describes the hardware topology. Even if EFI Boot Services are used t=
-o
->>    boot the machine.
+> Fix build by using the correct name for the initializer macro
+> for struct fb_ops.
 >
-> This is the opposite of what we do for memory and memory reservations.
-> EFI is the source of truth for those.
->
-> This could also lead to an interesting scenario. As simple-framebuffer
-> can define its memory in a /reserved-memory node, but that is ignored
-> in EFI boot. Probably would work, but only because EFI probably
-> generates its memory map table from the /reserved-memory nodes.
->
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 9037afde8b9d ("fbdev/acornfb: Use fbdev I/O helpers")
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: <stable@vger.kernel.org> # v6.6+
+> ---
 
-I see. So what would be the solution then? Ignoring creating a platform
-device for "simple-framebuffer" if booted using EFI and have an EFI-GOP?
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-> Rob
->
-
---=20
+-- 
 Best regards,
 
 Javier Martinez Canillas
