@@ -1,75 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8BA37EDC30
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 08:46:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 348B17EDC51
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 08:50:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94C3310E24E;
-	Thu, 16 Nov 2023 07:46:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C5B710E2A2;
+	Thu, 16 Nov 2023 07:50:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0431C10E24E
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 07:46:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1700120779;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LD5mFa7Ljzodyl4DGNnE3tN04HrOGXS/NNuwBDagln8=;
- b=Zid15TOMC+cBvGr10gBGkotPix/ciruvxBNqe05kXbMxbaHeT2LH15QRsVik+x9LUFJt6P
- nK/Mv41CsBd53PLu429+Aiuu8Cgu7kBaBatOMfvzU0D2Y2w6rautRJB1O2rIqVnC0cAQvk
- cb2M9TZJESOD74zvqeSotjrZnPpajTs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-197-x7zmSxQvPvGetniVk8ZQEg-1; Thu, 16 Nov 2023 02:46:17 -0500
-X-MC-Unique: x7zmSxQvPvGetniVk8ZQEg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-407da05ee50so2878195e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 23:46:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700120776; x=1700725576;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LD5mFa7Ljzodyl4DGNnE3tN04HrOGXS/NNuwBDagln8=;
- b=iI9djCZD2amPMkPsdZedDICRHUIuN2DPxse7Rs2rL1AdOBLBWoNp0NMN/F+n0hQogS
- CGdNPWf02G486wCva8926PQfF7tI/r4qhsXgm6WBYzAuHtko6Xu47i+N4Tl59/ZFfamD
- yvHSDg0IhsL9QlQEMygk9GPD3b3MLYdmFsM+Ef5iBTvyfCFoUlDTgk8uTluyG+nMjLZ+
- RVtB6JSrWzMaKraqWUdAvFgPESdzvOOTydqLTEPQ7DPZXJxlmnrPViOk4jvyn2kIm/ZQ
- MEJWfslvzUw4CTh5vyDz4r9kg1Y0HPw2+xg2WO7ctRjrOMGigJpL3kQb920zXAE0HXG/
- ha1A==
-X-Gm-Message-State: AOJu0YyRhVAXtV+n2bTpt6wp2+sONBGHAFVoPlvN5lKiW3VNedg/FU8P
- PCulyCDSbxFCVNaDkN3/wiEeG/HCehXXTfEZSneDEJVItboubN5MZYlrZFmbhEePQXrT1JgNDMP
- 8rwtCb77ZA3vmHPOE/o/zgXDCovFZ
-X-Received: by 2002:a05:600c:1d93:b0:406:3977:eccd with SMTP id
- p19-20020a05600c1d9300b004063977eccdmr11516327wms.33.1700120776413; 
- Wed, 15 Nov 2023 23:46:16 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFNCg5qd5AbZ0tYK0uFvI/J3tJ++zfJ/l5opv0/UGjSHKkjb6Zp4IdC4i38tjSPgJYq49xhdQ==
-X-Received: by 2002:a05:600c:1d93:b0:406:3977:eccd with SMTP id
- p19-20020a05600c1d9300b004063977eccdmr11516314wms.33.1700120776005; 
- Wed, 15 Nov 2023 23:46:16 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- m7-20020a05600c4f4700b0040772138bb7sm2455636wmq.2.2023.11.15.23.46.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Nov 2023 23:46:15 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Zack Rusin <zackr@vmware.com>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 0/5] drm: Allow the damage helpers to handle buffer
- damage
-In-Reply-To: <a16a61582f90a5b490fb7681b44864a4801c830a.camel@vmware.com>
-References: <20231115131549.2191589-1-javierm@redhat.com>
- <a16a61582f90a5b490fb7681b44864a4801c830a.camel@vmware.com>
-Date: Thu, 16 Nov 2023 08:46:14 +0100
-Message-ID: <87o7fu5eex.fsf@minerva.mail-host-address-is-not-set>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 815DF10E29E
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 07:50:21 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1r3X8l-0007e8-Pq; Thu, 16 Nov 2023 08:50:19 +0100
+Received: from [2a0a:edc0:2:b01:1d::c0] (helo=ptx.whiteo.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <sha@pengutronix.de>)
+ id 1r3X8h-009P0C-AH; Thu, 16 Nov 2023 08:50:15 +0100
+Received: from sha by ptx.whiteo.stw.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1r3X8h-002J9d-7Q; Thu, 16 Nov 2023 08:50:15 +0100
+Date: Thu, 16 Nov 2023 08:50:15 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH 09/11] drm/rockchip: vop2: Add support for rk3588
+Message-ID: <20231116075015.GG3359458@pengutronix.de>
+References: <20231114112534.1770731-1-andyshrk@163.com>
+ <20231114112855.1771372-1-andyshrk@163.com>
+ <20231115090823.GY3359458@pengutronix.de>
+ <229557d7-beec-44e0-9ee6-4a962b33ec79@rock-chips.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <229557d7-beec-44e0-9ee6-4a962b33ec79@rock-chips.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,56 +62,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kraxel@redhat.com" <kraxel@redhat.com>,
- "pekka.paalanen@collabora.com" <pekka.paalanen@collabora.com>,
- "corbet@lwn.net" <corbet@lwn.net>,
- "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "belmouss@redhat.com" <belmouss@redhat.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "gurchetansingh@chromium.org" <gurchetansingh@chromium.org>,
- Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "airlied@redhat.com" <airlied@redhat.com>,
- "nunes.erico@gmail.com" <nunes.erico@gmail.com>
+Cc: devicetree@vger.kernel.org, chris.obbard@collabora.com, hjc@rock-chips.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kever.yang@rock-chips.com, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ sebastian.reichel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Zack Rusin <zackr@vmware.com> writes:
+On Thu, Nov 16, 2023 at 03:24:54PM +0800, Andy Yan wrote:
+> > 	case ROCKCHIP_VOP2_EP_HDMI0:
+> > 	case ROCKCHIP_VOP2_EP_HDMI1:
+> > 		...
+> > }
+> > 
+> > would look a bit better overall.
+> > 
+> > > +		/*
+> > > +		 * K = 2: dclk_core = if_pixclk_rate > if_dclk_rate
+> > > +		 * K = 1: dclk_core = hdmie_edp_dclk > if_pixclk_rate
+> > > +		 */
+> > > +		if (output_mode == ROCKCHIP_OUT_MODE_YUV420) {
+> > > +			dclk_rate = dclk_rate >> 1;
+> > > +			K = 2;
+> > > +		}
+> > > +
+> > > +		if_pixclk_rate = (dclk_core_rate << 1) / K;
+> > > +		if_dclk_rate = dclk_core_rate / K;
+> > > +
+> > > +		*if_pixclk_div = dclk_rate / if_pixclk_rate;
+> > > +		*if_dclk_div = dclk_rate / if_dclk_rate;
+> > Not sure if this will change with future extensions, but currently
+> > *if_pixclk_div will always be 2 and *if_dclk_div will alway be 4,
+> > so maybe better write it like this
+> 
+> 
+> Yes, the calculation of *if_pixclk_div is always 2 and *if_dclk_div is always 4,
+> 
+> I think calculation formula can give us a clear explanation why is 2 or 4.
+> 
+> considering the great power of rk3588, i think it can calculate it very easy.
 
-Hello Zack,
+Sure it can. My concern is not the CPU time it takes to do that
+equation, but more the readability of the code. For me as a reader it
+might be more easily acceptable that both dividers have fixed values
+than it is to understand the equation.
 
-> On Wed, 2023-11-15 at 14:15 +0100, Javier Martinez Canillas wrote:
+Your mileage may vary, I won't insist on this.
 
-[...]
+> 
+> > 
+> > 
+> > > +		*dclk_core_div = dclk_rate / dclk_core_rate;
+> > *dclk_core_div is calculated the same way for all cases. You could pull
+> > this out of the if/else.
+> Okay, will do.
+> > 
+> > > +	} else if (vop2_output_if_is_edp(id)) {
+> > > +		/* edp_pixclk = edp_dclk > dclk_core */
+> > > +		if_pixclk_rate = v_pixclk / K;
+> > > +		if_dclk_rate = v_pixclk / K;
+> > if_dclk_rate is unused here.
+> 
+> 
+> It will be removed in next version.
+> 
+> > 
+> > > +		dclk_rate = if_pixclk_rate * K;
+> > > +		*dclk_core_div = dclk_rate / dclk_core_rate;
+> > > +		*if_pixclk_div = dclk_rate / if_pixclk_rate;
+> > > +		*if_dclk_div = *if_pixclk_div;
+> > Both *if_pixclk_div and *if_dclk_div will always be 1.
+> 
+> Actually,  they will be the value of K here,  if it work at split mode(two
+> 
+> edp connect to one VP, one show the image for left half, one for right half,
+> 
+> a function like a dual channel mipi dsi).
+> 
+> I know it split mode is not supported by the current mainline, but i think keep
 
->>
->> Changes in v2:
->> - Add a struct drm_plane_state .ignore_damage_clips to set in the plane's
->>   .atomic_check, instead of having different helpers (Thomas Zimmermann).
->> - Set struct drm_plane_state .ignore_damage_clips in virtio-gpu plane's
->>   .atomic_check instead of using a different helpers (Thomas Zimmermann).
->> - Set struct drm_plane_state .ignore_damage_clips in vmwgfx plane's
->>   .atomic_check instead of using a different helpers (Thomas Zimmermann).
->
-> The series looks good to me, thanks for tackling this. I'm surprised that we don't
+Ok.
 
-Thanks. Can I get your r-b or a-b ?
+Sascha
 
-> have any IGT tests for this. Seems like it shouldn't be too hard to test it in a
-> generic way with just a couple of dumb buffers.
->
-
-Yes, I haven't looked at it but also think that shouldn't be that hard.
-
-> z
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
