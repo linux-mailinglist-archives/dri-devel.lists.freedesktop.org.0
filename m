@@ -2,40 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A987EE4BE
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 16:53:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F027EE4DB
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 16:58:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B219810E290;
-	Thu, 16 Nov 2023 15:53:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4312210E623;
+	Thu, 16 Nov 2023 15:58:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25D4B10E290
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 15:53:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1700150026; x=1700409226;
- bh=3VcRG0KNMFotQuIS4x9T+r6NkPtuwOlYKeTjK/BY94I=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=lmCIAzs+hLZQ5OQfSseb+XH7zaMTIkaxPx1xbvnKHy3HminZ1kXA5aBnbBETv0zzx
- IDlsYJqGOQfq5Scd+3lmiGmEjShtZR//+7Mh8qvX16cR8nrTgmuHiquVvA9pOqw/FC
- QsH+upJmDsNafkZSdiJbpIJF7Hj3J49k2kiDiy9c8gKD6byQtRpdCYVKmhQRsI6q4o
- 3D8uAsGHOtxMtOn81Z0VH14auPcq28zi53G9YFjmv6TxBs5Jk6CIwDW0BX2YOe6nTd
- t0HbtUDky1KxVTcsnSuWAHsD0La+/Cr0NTpquEdpsF58V+DjT5G4xYH6rgdTdbuEBw
- 3ixr0z/twDICw==
-Date: Thu, 16 Nov 2023 15:53:20 +0000
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [RFC PATCH 2/2] vc4: introduce DMA-BUF heap
-Message-ID: <SsSohScL3nokTnLEzO0FXd2Mhxq9IYM3_qjKhHD8-rynieR_0otvP-WmHQ18UNJuf1Dp7u4iaRB-XPZU4eAxZADSFODzbXxYPFuoJNJ6GcU=@emersion.fr>
-In-Reply-To: <20231109074545.148149-2-contact@emersion.fr>
-References: <20231109074545.148149-1-contact@emersion.fr>
- <20231109074545.148149-2-contact@emersion.fr>
-Feedback-ID: 1358184:user:proton
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6602710E623
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 15:58:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 54532B81DAB;
+ Thu, 16 Nov 2023 15:58:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36831C433C8;
+ Thu, 16 Nov 2023 15:58:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1700150295;
+ bh=qjPCYaBA8/IUh3/zH+wJB4HYv8bpOynQzXs9Y1jF654=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=a8QDYMBTgArH0HBA/rV4I+Ir63N/bJcJFy5hCdTrQE1h1H0k5njERnhxkpLrdy94H
+ W94aBt4Xs+hEEk7AbAfxy4K7s2tPcnNxfmfB6OZdo5p/pGcNxjJyAjGe0mXZzzL88U
+ dBuKoNBXLBNIuc9PFcGkcgA6Zj3QdxAeGFgp7idmRSJTG07f8f+Pj89uj/Fr3PEFEt
+ QIvBTY7h0Bs4PIgyefcmUHpegM4sCa4271tlrfhBaTnH3M7Bb3MyGkgmAnh5apwBo4
+ OO+4SHN4s4hT6p8SQPMQ5WJyIDDb3LjDOx5C3JFabesbT6UAtlUxR/dAw1tmFyLpfx
+ qJyiNGkFLVrRQ==
+Date: Thu, 16 Nov 2023 16:58:12 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v14 4/4] MAINTAINERS: Create entry for Renesas RZ DRM
+ drivers
+Message-ID: <eywaoaudaqtrv5ky46ahenapkjwk4tajxdrkuentehezw4ajid@aioncg5rahws>
+References: <20231116141608.252452-1-biju.das.jz@bp.renesas.com>
+ <20231116141608.252452-5-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="hq4btskxfnn24xgh"
+Content-Disposition: inline
+In-Reply-To: <20231116141608.252452-5-biju.das.jz@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,62 +52,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Iago Toral Quiroga <itoral@igalia.com>, Maxime Ripard <mripard@kernel.org>,
- "T.J. Mercier" <tjmercier@google.com>, Erico Nunes <nunes.erico@gmail.com>
+Cc: Biju Das <biju.das.au@gmail.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ linux-renesas-soc@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ dri-devel@lists.freedesktop.org, Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, November 9th, 2023 at 08:45, Simon Ser <contact@emersion.fr> w=
-rote:
 
-> User-space sometimes needs to allocate scanout-capable memory for
-> GPU rendering purposes. On a vc4/v3d split render/display SoC, this
-> is achieved via DRM dumb buffers: the v3d user-space driver opens
-> the primary vc4 node, allocates a DRM dumb buffer there, exports it
-> as a DMA-BUF, imports it into the v3d render node, and renders to it.
+--hq4btskxfnn24xgh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Thu, Nov 16, 2023 at 02:16:08PM +0000, Biju Das wrote:
+> Create entry for Renesas RZ DRM drivers and add my self as a maintainer.
 >=20
-> However, DRM dumb buffers are only meant for CPU rendering, they are
-> not intended to be used for GPU rendering. Primary nodes should only
-> be used for mode-setting purposes, other programs should not attempt
-> to open it. Moreover, opening the primary node is already broken on
-> some setups: systemd grants permission to open primary nodes to
-> physically logged in users, but this breaks when the user is not
-> physically logged in (e.g. headless setup) and when the distribution
-> is using a different init (e.g. Alpine Linux uses openrc).
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> v13->v14:
+>  * Now SHMOBILE has maintainer entries. So dropped updating
+>    DRM DRIVERS FOR RENESAS RCAR AND SHMOBILE.
+>  * Updated comment header and description.
+>  * The above changes are trivial, so kept the Rb tag from Laurent.
+> v12->v13:
+>  * No change.
+> v11->v12:
+>  * No change.
+> v10->v11:
+>  * No change.
+> v9->v10:
+>  * No change.
+> v8->v9:
+>  * Added Rb tag from Laurent.
+>  * Updated entries for common parts(Makefile and Kconfig).
+> v8:
+>  * New patch
+> ---
+>  MAINTAINERS | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 >=20
-> We need an alternate way for v3d to allocate scanout-capable memory.
-> Leverage DMA heaps for this purpose: expose a CMA heap to user-space.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 8a70be8f08ee..d4e21fe54fe0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7154,6 +7154,14 @@ F:	Documentation/devicetree/bindings/display/renes=
+as,shmobile-lcdc.yaml
+>  F:	drivers/gpu/drm/renesas/shmobile/
+>  F:	include/linux/platform_data/shmob_drm.h
+> =20
+> +DRM DRIVERS FOR RENESAS RZ
+> +M:	Biju Das <biju.das.jz@bp.renesas.com>
+> +L:	dri-devel@lists.freedesktop.org
+> +L:	linux-renesas-soc@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+> +F:	drivers/gpu/drm/renesas/rz-du/
 
-So we've discussed about this patch on IRC [1] [2]. Some random notes:
+Any particular reason you want to opt-out of drm-misc?
 
-- We shouldn't create per-DRM-device heaps in general. Instead, we should t=
-ry
-  using centralized heaps like the existing system and cma ones. That way o=
-ther
-  drivers (video, render, etc) can also link to these heaps without dependi=
-ng
-  on the display driver.
-- We can't generically link to heaps in core DRM, however we probably provi=
-de
-  a default for shmem and cma helpers.
-- We're missing a bunch of heaps, e.g. sometimes there are multiple cma are=
-as
-  but only a single cma heap is created right now.
-- Some hw needs the memory to be in a specific region for scanout (e.g. low=
-er
-  256MB of RAM for Allwinner). We could create one heap per such region (bu=
-t is
-  it fine to have overlapping heaps?).
+Maxime
 
-Also I tried using the default CMA heap on a Pi 4 for scanout and it works =
-fine.
-Not super sure it's strictly equivalent to allocations done via dumb buffer=
-s
-(e.g. WC etc).
+--hq4btskxfnn24xgh
+Content-Type: application/pgp-signature; name="signature.asc"
 
-[1]: https://oftc.irclog.whitequark.org/dri-devel/2023-11-13#1699899003-169=
-9919633;
-[2]: https://oftc.irclog.whitequark.org/dri-devel/2023-11-14
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZVY8FAAKCRDj7w1vZxhR
+xbpdAP9/LacrlhGa6pJCGA6gqnkOZC5BCnKotC4dBUiaygTycAD9HpwzTjOXqi/i
+jRvrPq8ZUEHdx+AQQEkWDpSSUm9SSwY=
+=ZAo4
+-----END PGP SIGNATURE-----
+
+--hq4btskxfnn24xgh--
