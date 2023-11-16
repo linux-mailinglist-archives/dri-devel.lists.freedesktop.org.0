@@ -2,81 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 034947EDD31
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 09:58:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E337EDD37
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 10:01:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C4B310E099;
-	Thu, 16 Nov 2023 08:58:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBF4A10E24F;
+	Thu, 16 Nov 2023 09:01:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43AD010E24F
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 08:58:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1700125092;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lzR95smyeeh/FiV11pRQQl93svK/jp4ut938ur2cfQs=;
- b=OZy361w2vFp4ufu6q8s1/IbK3ugnom81J/qMKY8RXu0GiKEG9aJHBdor23JsJ5odLvaxr1
- HmmE4ZiVhlgm74cAkW7ZmEXdpxZKeDGGC8Cm6JwfMaNJmj5lFUm9AqcPCCCEEMpTg8AHj0
- u+kFnCoW5SFsi5rHrXIcoTUH01Cm7Ew=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-468-Q9tWE2x0NZqGB1deMHNY8g-1; Thu, 16 Nov 2023 03:58:09 -0500
-X-MC-Unique: Q9tWE2x0NZqGB1deMHNY8g-1
-Received: by mail-ed1-f70.google.com with SMTP id
- 4fb4d7f45d1cf-53fa5cd4480so407354a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 00:58:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700125088; x=1700729888;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lzR95smyeeh/FiV11pRQQl93svK/jp4ut938ur2cfQs=;
- b=Z0RV/w78Q02WFfH37g1AIjtFUwkG9sRDDQPDjcuQiqPA/cF5pXCNnMl/nR+8nKAXst
- GUC6SAPeyWxFyoMoZpBSyh85UYojOeSeJ9Xc7TThg/lUxh5uNkTLkIyQIpc/pBE0pprd
- 6UPH2pKZnSDFCrVULQriBWJznjmDF9pMCiN8vKhKxXpSizIFWWLCh6HvqDr8W0N6LijX
- okgyB0FUh/WjvIJLThhVqZpBgxhXJtYyOfPXMoA00PtuIcOFwRMnejvTTlh/3l7ofQKB
- Qhwn2cKc35HhM5em7hhBEoUyAjoJogUZMRs2nm0a/u+Vq/d/zS1bQ8wIoWMSM/8DQ2Q5
- YIdQ==
-X-Gm-Message-State: AOJu0Yx4onvpnFHgd6IrVfMHa9voP0u5Ao16FdQLZL85Yhwv480kIxKc
- HYw4VgxFg2xuo8DOmEe1QtZJ8lFPhWHdvwgKrJdT784flxQqZWqUZdkbRZ4aCOtVKVdsj4lk9vW
- XLPloN8AA1FlliO9ZsLi7MhlmFAAQ
-X-Received: by 2002:aa7:d4c2:0:b0:543:9670:7ee8 with SMTP id
- t2-20020aa7d4c2000000b0054396707ee8mr11227126edr.14.1700125088224; 
- Thu, 16 Nov 2023 00:58:08 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFeO8Z4VQxOJHWlez75/PPOrqNzsKmQn04wP1vApaXiXcOExOZBZFeAqXryegrjIC2O0lA3eA==
-X-Received: by 2002:aa7:d4c2:0:b0:543:9670:7ee8 with SMTP id
- t2-20020aa7d4c2000000b0054396707ee8mr11227112edr.14.1700125087921; 
- Thu, 16 Nov 2023 00:58:07 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
- by smtp.gmail.com with ESMTPSA id
- v6-20020a056402174600b00530a9488623sm7474432edx.46.2023.11.16.00.58.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Nov 2023 00:58:07 -0800 (PST)
-Message-ID: <e66638b0-bbad-4ac7-ad93-6fb0c6147005@redhat.com>
-Date: Thu, 16 Nov 2023 09:58:06 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE24410E139;
+ Thu, 16 Nov 2023 09:01:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1700125272; x=1731661272;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=/STXsbosH6Rz9sQMt/crvGrrS9Z0X1RfO/fEtM3K5Z0=;
+ b=c2kzmUqqgVbWi66PCkg97xzHjwQPrQKrLSfj3J8/qfkajdvh9ev+0N5V
+ Rd7C8WL+L/g1UKaLioI58MDaVetS4sC1GUj48APtoP5cKM1xAYNT1GELU
+ 8u1J5BFwTB7DgLlFwOBx9lmEgl1ER3vxBiHhjm3C7lS2QI5+XEGR7nLTy
+ N+lhGic8FQMUL/JGcYk30yavq2EW3JqLY+McWkvBKJemIxzZE6a2CqyLX
+ ECYM3fGM+b1oTkERX3328ppqNJY8fS4GVTowcc9231721PlJaKE/QFY9V
+ UcPpil7sEwDELNzPYG6OUm1/l847Eq5oXpbQ54GBFAmpG8eT9u6uJthbi A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="457542989"
+X-IronPort-AV: E=Sophos;i="6.03,307,1694761200"; d="scan'208";a="457542989"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2023 01:00:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="768851613"
+X-IronPort-AV: E=Sophos;i="6.03,307,1694761200"; d="scan'208";a="768851613"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by fmsmga007.fm.intel.com with ESMTP; 16 Nov 2023 01:00:43 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+ id 9BFF0209; Thu, 16 Nov 2023 11:00:42 +0200 (EET)
+Date: Thu, 16 Nov 2023 11:00:42 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v3 5/7] PCI: ACPI: Detect PCIe root ports that are used
+ for tunneling
+Message-ID: <20231116090042.GF17433@black.fi.intel.com>
+References: <20231114200755.14911-1-mario.limonciello@amd.com>
+ <20231114200755.14911-6-mario.limonciello@amd.com>
+ <20231115104019.GY17433@black.fi.intel.com>
+ <70b35a0e-5ccd-4e19-a8ac-4cf095007a69@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [rft, PATCH v4 00/16] drm/i915/dsi: 4th attempt to get rid of
- IOSF GPIO
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20231103201831.1037416-1-andriy.shevchenko@linux.intel.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231103201831.1037416-1-andriy.shevchenko@linux.intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <70b35a0e-5ccd-4e19-a8ac-4cf095007a69@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,90 +62,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Karol Herbst <kherbst@redhat.com>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <dri-devel@lists.freedesktop.org>,
+ Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:ACPI" <linux-acpi@vger.kernel.org>,
+ Danilo Krummrich <dakr@redhat.com>,
+ "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>,
+ Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+ Manivannan Sadhasivam <mani@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, open list <linux-kernel@vger.kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ "Maciej W . Rozycki" <macro@orcam.me.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Mario,
 
-On 11/3/23 21:18, Andy Shevchenko wrote:
-> DSI code for VBT has a set of ugly GPIO hacks, one of which is direct
-> talking to GPIO IP behind the actual driver's back. A second attempt
-> to fix that is here.
+On Wed, Nov 15, 2023 at 11:08:43AM -0600, Mario Limonciello wrote:
+> On 11/15/2023 04:40, Mika Westerberg wrote:
+> > Hi Mario,
+> > 
+> > On Tue, Nov 14, 2023 at 02:07:53PM -0600, Mario Limonciello wrote:
+> > > USB4 routers support a feature called "PCIe tunneling". This
+> > > allows PCIe traffic to be transmitted over USB4 fabric.
+> > > 
+> > > PCIe root ports that are used in this fashion can be discovered
+> > > by device specific data that specifies the USB4 router they are
+> > > connected to. For the PCI core, the specific connection information
+> > > doesn't matter, but it's interesting to know that this root port is
+> > > used for tunneling traffic. This will allow other decisions to be
+> > > made based upon it.
+> > > 
+> > > Detect the `usb4-host-interface` _DSD and if it's found save it
+> > > into a new `is_virtual_link` bit in `struct pci_device`.
+> > 
+> > While this is fine for the "first" tunneled link, this does not take
+> > into account possible other "virtual" links that lead to the endpoint in
+> > question. Typically for eGPU it only makes sense to plug it directly to
+> > the host but say there is a USB4 hub (with PCIe tunneling capabilities)
+> > in the middle. Now the link from the hub to the eGPU that is also
+> > "virtual" is not marked as such and the bandwidth calculations may not
+> > get what is expected.
 > 
-> If I understood correctly, my approach should work in the similar way as
-> the current IOSF GPIO.
+> Right; you mentioned the DVSEC available for hubs in this case.  As I don't
+> have one of these to validate it works properly I was thinking that should
+> be a follow up.
 > 
-> Hans, I believe you have some devices that use this piece of code,
-> is it possible to give a test run on (one of) them?
+> If you think it should be part of the same series I'll add it, but I'd ask
+> if you can please check I did it right on one that reports the DVSEC?
 
-Ok, this now has been testen on both a BYT and a CHT device which
-actually use GPIO controls in their MIPI sequences so this
-series is:
+I don't think it should be part of this series. I just checked and DVSEC
+is only required for hosts so kind of hardware equivalent for the _DSD
+property you are using here. For hubs there is no such luxury
+unfortunately.
 
-Tested-by: Hans de Goede <hdegoede@redhat.com>
-
-And the code of the entire series also looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-for the series.
-
-Regards,
-
-Hans
-
-
-
-
-> In v4:
-> - fixed compile time errors in patch 14 (Hans, LKP)
-> - fixed cover letter Subject
-> - added patch 15 (as suggested by Ville)
-> - added Ack tag (Jani)
-> 
-> In v3:
-> - incorporated series by Jani
-> - incorporated couple of precursor patches by Hans
-> - added Rb tag for used to be first three patches (Andi)
-> - rebased on top of the above changes
-> - fixed indexing for multi-community devices, such as Cherry View
-> 
-> In v2:
-> - added a few cleanup patches
-> - reworked to use dynamic GPIO lookup tables
-> - converted CHV as well
-> 
-> Andy Shevchenko (9):
->   drm/i915/dsi: Replace while(1) with one with clear exit condition
->   drm/i915/dsi: Get rid of redundant 'else'
->   drm/i915/dsi: Replace check with a (missing) MIPI sequence name
->   drm/i915/dsi: Extract common soc_gpio_set_value() helper
->   drm/i915/dsi: Replace poking of VLV GPIOs behind the driver's back
->   drm/i915/dsi: Prepare soc_gpio_set_value() to distinguish GPIO
->     communities
->   drm/i915/dsi: Replace poking of CHV GPIOs behind the driver's back
->   drm/i915/dsi: Combine checks in mipi_exec_gpio()
->   drm/i915/iosf: Drop unused APIs
-> 
-> Hans de Goede (2):
->   drm/i915/dsi: Remove GPIO lookup table at the end of
->     intel_dsi_vbt_gpio_init()
->   drm/i915/dsi: Fix wrong initial value for GPIOs in
->     bxt_gpio_set_value()
-> 
-> Jani Nikula (5):
->   drm/i915/dsi: assume BXT gpio works for non-native GPIO
->   drm/i915/dsi: switch mipi_exec_gpio() from dev_priv to i915
->   drm/i915/dsi: clarify GPIO exec sequence
->   drm/i915/dsi: rename platform specific *_exec_gpio() to
->     *_gpio_set_value()
->   drm/i915/dsi: bxt/icl GPIO set value do not need gpio source
-> 
->  drivers/gpu/drm/i915/display/intel_dsi_vbt.c | 355 +++++++------------
->  drivers/gpu/drm/i915/vlv_sideband.c          |  17 -
->  drivers/gpu/drm/i915/vlv_sideband.h          |   3 -
->  3 files changed, 136 insertions(+), 239 deletions(-)
-> 
-
+I think I do have hardware here with the DVSEC in place so if you
+decide to add it, I should be able to try it.
