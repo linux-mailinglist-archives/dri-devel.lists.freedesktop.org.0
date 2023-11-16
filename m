@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCA037EE7D0
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 20:58:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 963237EE7D4
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 20:58:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C72BE10E6AA;
-	Thu, 16 Nov 2023 19:58:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79E9610E6A9;
+	Thu, 16 Nov 2023 19:58:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C25D310E6A5;
- Thu, 16 Nov 2023 19:58:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D652510E6AB;
+ Thu, 16 Nov 2023 19:58:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -19,26 +19,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=vBjvOerNsYWGm5taxM724fTTlZS2JZ+lKkqZ2h+E6/Y=; b=NTA8xhqj9Sd/TgnJBLNeJUWjS4
- DyJlabcstV1xXwlpfZuJC9Nb9Pg8ckguwPyIdT9uBWn/gKYcbYUwDZImB2MltmynBBzCmfHUnTTwl
- lqkWyPYUUkMKwcmlrj0UnM4qxePrslA8SmPDaIrpNwurxuUQ/slsuzU/BeLVhXxjhEtZK3NSmxVxi
- 3rDr2QlIBCTZQ/sMmir5Yr/W2RJe5p1/5WvxTEUJu6SnyZ2FuHEHS1q9oVgf7HpsuwSfe/UamzeZ7
- LloDxHBv1lNd5R+/CfpnhOM37fdrowZgPF0jmSt/mb8Gp/FIHhQsB5c7+D85ovKuJvJH4Em5Dpn0U
- IzKZaExw==;
+ bh=pfO0AbH6aZ0ndtM3ZK70gHTP5GLSc5uydmbi1tifutc=; b=idPUq0pZRGwCYXGq/d6vrqpMxJ
+ FpZ3qMYoCzpvWHzbVnVLgC581Opql56dQVB0HG+T9QXkRvRKJBvJtCcbEqJdUGhiRunHkLi++3b+7
+ VJ8jugewicvdzfF+aWJiDin51mmlVtNgUHqWBavNpgdtYEl32syOymIlzM2hlbFfezmYmf+Bzsd9P
+ OqQwhmzSAnsFTy0TsdS9ddAhrTRY5ngZ7HkarY+5rxpFgEjBqyQNaq22t3bNMhY5mn/hbG2XLU9Qy
+ E1TRvK46nGZeIHwJF6SM60kBXId/MPvsxgVrpPq/WEwRxT9hKAODX4HNXIEze71D3+txsgqQnKZNz
+ 09xO853w==;
 Received: from [102.213.205.115] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1r3iVe-0048Yy-Po; Thu, 16 Nov 2023 20:58:42 +0100
+ id 1r3iVg-0048Yy-Sc; Thu, 16 Nov 2023 20:58:45 +0100
 From: Melissa Wen <mwen@igalia.com>
 To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
  Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
  daniel@ffwll.ch
-Subject: [PATCH v5 12/32] drm/amd/display: add CRTC gamma TF driver-specific
- property
-Date: Thu, 16 Nov 2023 18:57:52 -0100
-Message-Id: <20231116195812.906115-13-mwen@igalia.com>
+Subject: [PATCH v5 13/32] drm/amd/display: add comments to describe DM crtc
+ color mgmt behavior
+Date: Thu, 16 Nov 2023 18:57:53 -0100
+Message-Id: <20231116195812.906115-14-mwen@igalia.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231116195812.906115-1-mwen@igalia.com>
 References: <20231116195812.906115-1-mwen@igalia.com>
@@ -65,191 +65,46 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add AMD pre-defined transfer function property to default DRM CRTC gamma
-to convert to wire encoding with or without a user gamma LUT. There is
-no post-blending regamma ROM for pre-defined TF. When setting Gamma TF
-(!= Identity) and LUT at the same time, the color module will combine
-the pre-defined TF and the custom LUT values into the LUT that's
-actually programmed.
-
-v2:
-- enable CRTC prop in the end of driver-specific prop sequence
-- define inverse EOTFs as supported regamma TFs
-- reword driver-specific function doc to remove shaper/3D LUT
-
-v3:
-- spell out TF+LUT behavior in the commit and comments (Harry)
+Describe some expected behavior of the AMD DM color mgmt programming.
 
 Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-Co-developed-by: Joshua Ashton <joshua@froggi.es>
-Signed-off-by: Joshua Ashton <joshua@froggi.es>
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  7 ++
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  8 +++
- .../amd/display/amdgpu_dm/amdgpu_dm_color.c   |  7 ++
- .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    | 72 +++++++++++++++++++
- 4 files changed, 94 insertions(+)
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_color.c  | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-index d1c38dedfc7a..f4e74acd8dca 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-@@ -425,6 +425,13 @@ struct amdgpu_mode_info {
- 	 * from a combination of pre-defined TF and the custom 1D LUT).
- 	 */
- 	struct drm_property *plane_blend_tf_property;
-+	/* @regamma_tf_property: Transfer function for CRTC regamma
-+	 * (post-blending). Possible values are defined by `enum
-+	 * amdgpu_transfer_function`. There is no regamma ROM, but we can use
-+	 * AMD color modules to program LUT parameters from predefined TF (or
-+	 * from a combination of pre-defined TF and the custom 1D LUT).
-+	 */
-+	struct drm_property *regamma_tf_property;
- };
- 
- #define AMDGPU_MAX_BL_LEVEL 0xFF
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index 8c040c55359b..b997bb287dda 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -828,6 +828,14 @@ struct dm_crtc_state {
- 	struct dc_info_packet vrr_infopacket;
- 
- 	int abm_level;
-+
-+        /**
-+	 * @regamma_tf:
-+	 *
-+	 * Pre-defined transfer function for converting internal FB -> wire
-+	 * encoding.
-+	 */
-+	enum amdgpu_transfer_function regamma_tf;
- };
- 
- #define to_dm_crtc_state(x) container_of(x, struct dm_crtc_state, base)
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index 425676f5afb7..4150e9370daf 100644
+index 4150e9370daf..0b92513eab98 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -295,6 +295,13 @@ amdgpu_dm_create_color_properties(struct amdgpu_device *adev)
- 		return -ENOMEM;
- 	adev->mode_info.plane_blend_tf_property = prop;
+@@ -661,13 +661,25 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
+ 		crtc->cm_is_degamma_srgb = true;
+ 		stream->out_transfer_func->type = TF_TYPE_DISTRIBUTED_POINTS;
+ 		stream->out_transfer_func->tf = TRANSFER_FUNCTION_SRGB;
+-
++		/*
++		 * Note: although we pass has_rom as parameter here, we never
++		 * actually use ROM because the color module only takes the ROM
++		 * path if transfer_func->type == PREDEFINED.
++		 *
++		 * See more in mod_color_calculate_regamma_params()
++		 */
+ 		r = __set_legacy_tf(stream->out_transfer_func, regamma_lut,
+ 				    regamma_size, has_rom);
+ 		if (r)
+ 			return r;
+ 	} else if (has_regamma) {
+-		/* If atomic regamma, CRTC RGM goes into RGM LUT. */
++		/*
++		 * CRTC RGM goes into RGM LUT.
++		 *
++		 * Note: there is no implicit sRGB regamma here. We are using
++		 * degamma calculation from color module to calculate the curve
++		 * from a linear base.
++		 */
+ 		stream->out_transfer_func->type = TF_TYPE_DISTRIBUTED_POINTS;
+ 		stream->out_transfer_func->tf = TRANSFER_FUNCTION_LINEAR;
  
-+	prop = amdgpu_create_tf_property(adev_to_drm(adev),
-+					 "AMD_CRTC_REGAMMA_TF",
-+					 amdgpu_inv_eotf);
-+	if (!prop)
-+		return -ENOMEM;
-+	adev->mode_info.regamma_tf_property = prop;
-+
- 	return 0;
- }
- #endif
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-index 611849e3bf91..e8dfc4aa92c6 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-@@ -253,6 +253,7 @@ static struct drm_crtc_state *amdgpu_dm_crtc_duplicate_state(struct drm_crtc *cr
- 	state->freesync_config = cur->freesync_config;
- 	state->cm_has_degamma = cur->cm_has_degamma;
- 	state->cm_is_degamma_srgb = cur->cm_is_degamma_srgb;
-+	state->regamma_tf = cur->regamma_tf;
- 	state->crc_skip_count = cur->crc_skip_count;
- 	state->mpo_requested = cur->mpo_requested;
- 	/* TODO Duplicate dc_stream after objects are stream object is flattened */
-@@ -289,6 +290,70 @@ static int amdgpu_dm_crtc_late_register(struct drm_crtc *crtc)
- }
- #endif
- 
-+#ifdef AMD_PRIVATE_COLOR
-+/**
-+ * drm_crtc_additional_color_mgmt - enable additional color properties
-+ * @crtc: DRM CRTC
-+ *
-+ * This function lets the driver enable post-blending CRTC regamma transfer
-+ * function property in addition to DRM CRTC gamma LUT. Default value means
-+ * linear transfer function, which is the default CRTC gamma LUT behaviour
-+ * without this property.
-+ */
-+static void
-+dm_crtc_additional_color_mgmt(struct drm_crtc *crtc)
-+{
-+	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
-+
-+	if(adev->dm.dc->caps.color.mpc.ogam_ram)
-+		drm_object_attach_property(&crtc->base,
-+					   adev->mode_info.regamma_tf_property,
-+					   AMDGPU_TRANSFER_FUNCTION_DEFAULT);
-+}
-+
-+static int
-+amdgpu_dm_atomic_crtc_set_property(struct drm_crtc *crtc,
-+				   struct drm_crtc_state *state,
-+				   struct drm_property *property,
-+				   uint64_t val)
-+{
-+	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
-+	struct dm_crtc_state *acrtc_state = to_dm_crtc_state(state);
-+
-+	if (property == adev->mode_info.regamma_tf_property) {
-+		if (acrtc_state->regamma_tf != val) {
-+			acrtc_state->regamma_tf = val;
-+			acrtc_state->base.color_mgmt_changed |= 1;
-+		}
-+	} else {
-+		drm_dbg_atomic(crtc->dev,
-+			       "[CRTC:%d:%s] unknown property [PROP:%d:%s]]\n",
-+			       crtc->base.id, crtc->name,
-+			       property->base.id, property->name);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int
-+amdgpu_dm_atomic_crtc_get_property(struct drm_crtc *crtc,
-+				   const struct drm_crtc_state *state,
-+				   struct drm_property *property,
-+				   uint64_t *val)
-+{
-+	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
-+	struct dm_crtc_state *acrtc_state = to_dm_crtc_state(state);
-+
-+	if (property == adev->mode_info.regamma_tf_property)
-+		*val = acrtc_state->regamma_tf;
-+	else
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+#endif
-+
- /* Implemented only the options currently available for the driver */
- static const struct drm_crtc_funcs amdgpu_dm_crtc_funcs = {
- 	.reset = amdgpu_dm_crtc_reset_state,
-@@ -307,6 +372,10 @@ static const struct drm_crtc_funcs amdgpu_dm_crtc_funcs = {
- #if defined(CONFIG_DEBUG_FS)
- 	.late_register = amdgpu_dm_crtc_late_register,
- #endif
-+#ifdef AMD_PRIVATE_COLOR
-+	.atomic_set_property = amdgpu_dm_atomic_crtc_set_property,
-+	.atomic_get_property = amdgpu_dm_atomic_crtc_get_property,
-+#endif
- };
- 
- static void amdgpu_dm_crtc_helper_disable(struct drm_crtc *crtc)
-@@ -470,6 +539,9 @@ int amdgpu_dm_crtc_init(struct amdgpu_display_manager *dm,
- 
- 	drm_mode_crtc_set_gamma_size(&acrtc->base, MAX_COLOR_LEGACY_LUT_ENTRIES);
- 
-+#ifdef AMD_PRIVATE_COLOR
-+	dm_crtc_additional_color_mgmt(&acrtc->base);
-+#endif
- 	return 0;
- 
- fail:
 -- 
 2.40.1
 
