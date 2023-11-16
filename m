@@ -2,76 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E6B7EE66B
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 19:08:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6BE57EE679
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 19:12:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65C3810E2AC;
-	Thu, 16 Nov 2023 18:08:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE8E710E2B3;
+	Thu, 16 Nov 2023 18:11:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7F0610E2AE
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 18:08:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1700158080;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=abMypBf5ucI4kN1b2IUT7QxG30gkYzFxCp5z4V1rKYE=;
- b=Rl2lLLYibXgIW8TvXgv61D+4ZCc4iZMTTR64t+xBb80GEZASiTYQYVrKn67xiVKJRLR1cS
- eonUqKwauVjAH24Z6PTe+RfAzFL6YDmAzBEJXiJPaJ8vmFuMbg+w2x3vvrxR1dPK27yq2b
- GhtN5sbgwf1pXatpvHg9zPjE1PMcvTo=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-198-9g9eZau4OSW-7zkjwWa4cg-1; Thu, 16 Nov 2023 13:07:59 -0500
-X-MC-Unique: 9g9eZau4OSW-7zkjwWa4cg-1
-Received: by mail-lj1-f198.google.com with SMTP id
- 38308e7fff4ca-2c53c85e482so10389201fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 10:07:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700158077; x=1700762877;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=abMypBf5ucI4kN1b2IUT7QxG30gkYzFxCp5z4V1rKYE=;
- b=awwYeOPPPh14WRFL5yJ9moBFqatdwU3HKXr6fJbQNaXg4tVS/FBpP+WCW3DexuiACm
- MjvXCYfeCTAmD2wd5yjXUPffZOtleK9jzUUtPQW1uW/Sn+N90K5r9ygOz4RbOZjkkR/N
- mJfJpmscGgiCtf/L7Y5EhLAIbcAv1GYhvyw9CyIkMXaTeGH6Y6qRB2QXzDsWDJoYFuUq
- WYQ5iUQLWszFI2XeUZ12mTzlkcsUL8z0BM7QzzAbx0byzWMws/kNwiwrE4VKM6++58d5
- ZkUm7SciANts6OOWTrep7NRoCEqPFh2D8WuoFj0D6O4/8ekAG2r4s9QNL//EsEodMjpq
- btXw==
-X-Gm-Message-State: AOJu0Yzwu4yqQygbpCJmn4omQQiYS7SqzPG5tuIS3XsvvOg4/d6eGqx+
- GXj1jKCfE6S+AlwsX6WBPyf3681kUxZJWf10ccH6Js08wa07jjv+UBwpUt5LESNS8PTz7O5LdxW
- frWL4NcmImVwDEe8M9RLZ4qBr+8rd
-X-Received: by 2002:a2e:9b13:0:b0:2c5:2813:5534 with SMTP id
- u19-20020a2e9b13000000b002c528135534mr7628254lji.51.1700158077696; 
- Thu, 16 Nov 2023 10:07:57 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGKGl1y5xpKNFNEdGTKKeWQHa+nKfgkMEp5Q7PtqN7fzQrCOV0Z8V6aBoDs2btVWPzkwvYFHA==
-X-Received: by 2002:a2e:9b13:0:b0:2c5:2813:5534 with SMTP id
- u19-20020a2e9b13000000b002c528135534mr7628244lji.51.1700158077374; 
- Thu, 16 Nov 2023 10:07:57 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- q9-20020a05600c330900b0040a3f9862e3sm3216257wmp.1.2023.11.16.10.07.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Nov 2023 10:07:56 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] drm/ssd130x: Change "solomon,
- page-offset" property default value
-Date: Thu, 16 Nov 2023 19:07:39 +0100
-Message-ID: <20231116180743.2763021-3-javierm@redhat.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231116180743.2763021-1-javierm@redhat.com>
-References: <20231116180743.2763021-1-javierm@redhat.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C480E10E2B1;
+ Thu, 16 Nov 2023 18:11:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id E3AE4CE2150;
+ Thu, 16 Nov 2023 18:11:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E2C7C433C9;
+ Thu, 16 Nov 2023 18:11:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1700158307;
+ bh=Ry4mQQ1q/vn/j3+Dj1Ms0K/kq2DMCGX9s61dOISwTRo=;
+ h=Date:From:To:Cc:Subject:From;
+ b=la6R0gS4A9sua9wheZyCxfbRGCUfMXibabY/Ch7ODIveMD52xRHRGABVg9QniPV3L
+ /5Z5+C+0ck49xRi+27ggYHvoNZ3Oq4AxSk6SqMgLOYo+Q56/tu7/awDVwGKwQU3SG3
+ VEgi/EuHhu7B8nSgTEx7dl4Q7xjz2zJL6LLENK82zgRCCPA5RZYClmRkDBA7TsP1+5
+ 8LkS2PdipAWqokVc9o8iBKQ3B0Z0al6fKdNvMtOHlA3MylPEzhnCFMQhedTPgQd9Bs
+ ka46ygRkuiJqgbpkdHucUNQ2Vj94TTjKwtYlHTz8Wu4/J3Wm9yRZztnQU8cgsHZ9CS
+ Jcg/Mtvj3mylA==
+Date: Thu, 16 Nov 2023 12:11:43 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH][next] nouveau/gsp: replace zero-length array with flex-array
+ member and use __counted_by
+Message-ID: <ZVZbX7C5suLMiBf+@work>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,46 +50,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Sahaj Sarup <sahaj.sarup@linaro.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org, linux-hardening@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is used to specify the page start address offset of the display RAM.
+Fake flexible arrays (zero-length and one-element arrays) are deprecated,
+and should be replaced by flexible-array members. So, replace
+zero-length array with a flexible-array member in `struct
+PACKED_REGISTRY_TABLE`.
 
-The value is used as offset when setting the page start address with the
-SSD130X_SET_PAGE_RANGE command, and the driver currently sets its value to
-1 if the property is not present in the Device Tree.
+Also annotate array `entries` with `__counted_by()` to prepare for the
+coming implementation by GCC and Clang of the `__counted_by` attribute.
+Flexible array members annotated with `__counted_by` can have their
+accesses bounds-checked at run-time via `CONFIG_UBSAN_BOUNDS` (for array
+indexing) and `CONFIG_FORTIFY_SOURCE` (for strcpy/memcpy-family functions).
 
-But the datasheet mentions that the value on reset for the page start is a
-0, so it makes more sense to also have 0 as the default value for the page
-offset if the property is not present.
+This fixes multiple -Warray-bounds warnings:
+drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1069:29: warning: array subscript 0 is outside array bounds of 'PACKED_REGISTRY_ENTRY[0]' [-Warray-bounds=]
+drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1070:29: warning: array subscript 0 is outside array bounds of 'PACKED_REGISTRY_ENTRY[0]' [-Warray-bounds=]
+drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1071:29: warning: array subscript 0 is outside array bounds of 'PACKED_REGISTRY_ENTRY[0]' [-Warray-bounds=]
+drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1072:29: warning: array subscript 0 is outside array bounds of 'PACKED_REGISTRY_ENTRY[0]' [-Warray-bounds=]
 
-In fact, using a default value of 1 leads to the display not working when
-the emulated fbdev is attached to the framebuffer console.
+While there, also make use of the struct_size() helper, and address
+checkpatch.pl warning:
+WARNING: please, no spaces at the start of a line
 
-Reported-by: Sahaj Sarup <sahaj.sarup@linaro.org>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+This results in no differences in binary output.
+
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 ---
+ .../nvrm/535.113.01/nvidia/generated/g_os_nvoc.h   | 14 +++++++-------
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c     |  2 +-
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
- drivers/gpu/drm/solomon/ssd130x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index bef293922b98..8944129a8e0b 100644
---- a/drivers/gpu/drm/solomon/ssd130x.c
-+++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -1453,7 +1453,7 @@ static void ssd130x_parse_properties(struct ssd130x_device *ssd130x)
- 		ssd130x->height = ssd130x->device_info->default_height;
+diff --git a/drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/generated/g_os_nvoc.h b/drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/generated/g_os_nvoc.h
+index 754c6af42f30..259b25c2ac6b 100644
+--- a/drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/generated/g_os_nvoc.h
++++ b/drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/generated/g_os_nvoc.h
+@@ -28,17 +28,17 @@
  
- 	if (device_property_read_u32(dev, "solomon,page-offset", &ssd130x->page_offset))
--		ssd130x->page_offset = 1;
-+		ssd130x->page_offset = 0;
+ typedef struct PACKED_REGISTRY_ENTRY
+ {
+-    NvU32                   nameOffset;
+-    NvU8                    type;
+-    NvU32                   data;
+-    NvU32                   length;
++	NvU32                   nameOffset;
++	NvU8                    type;
++	NvU32                   data;
++	NvU32                   length;
+ } PACKED_REGISTRY_ENTRY;
  
- 	if (device_property_read_u32(dev, "solomon,col-offset", &ssd130x->col_offset))
- 		ssd130x->col_offset = 0;
+ typedef struct PACKED_REGISTRY_TABLE
+ {
+-    NvU32                   size;
+-    NvU32                   numEntries;
+-    PACKED_REGISTRY_ENTRY   entries[0];
++	NvU32                   size;
++	NvU32                   numEntries;
++	PACKED_REGISTRY_ENTRY   entries[] __counted_by(numEntries);
+ } PACKED_REGISTRY_TABLE;
+ 
+ #endif
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+index dc44f5c7833f..228335487af5 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+@@ -1048,7 +1048,7 @@ r535_gsp_rpc_set_registry(struct nvkm_gsp *gsp)
+ 	char *strings;
+ 	int str_offset;
+ 	int i;
+-	size_t rpc_size = sizeof(*rpc) + sizeof(rpc->entries[0]) * NV_GSP_REG_NUM_ENTRIES;
++	size_t rpc_size = struct_size(rpc, entries, NV_GSP_REG_NUM_ENTRIES);
+ 
+ 	/* add strings + null terminator */
+ 	for (i = 0; i < NV_GSP_REG_NUM_ENTRIES; i++)
 -- 
-2.41.0
+2.34.1
 
