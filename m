@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E99027EDEEC
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 11:53:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAE17EDEF7
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 11:53:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C899E10E5C0;
-	Thu, 16 Nov 2023 10:53:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09E0D10E5C6;
+	Thu, 16 Nov 2023 10:53:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com
- (mail-dbaeur03on2059.outbound.protection.outlook.com [40.107.104.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17E3310E5BE
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 10:53:32 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ (mail-am6eur05on2049.outbound.protection.outlook.com [40.107.22.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA96C10E5C0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 10:53:33 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ensroeWe8OgikfbRvbYQYg5kqhtHgEBMizdPeCWDplwBzFJHyOconX4VADQX/iyUzxf7s+KGHA4/OTqyTnyb/bob9Y7DdUWJ9IhmeyBY6Grd/dcLd3GshnnKYY09B4MbupeN/wf4q7x5HfHHZhjdI9JiGFfN1+WfzN+4mGnfq3dqsFRzZ4qO+gqoUD0FMbcAEigI6m7OOdvqEOnqhCyno7uhHJ2Y9t8W7v6VQMTAj3zjkY8g3Di9SNx57BHjMGLvNDLqiRHmaGVlAW3mv1Mwtwn3xI8NozSPpOKOpkkxuqT3PVFeLTd+easdXwpn6XL63yLObJsnfz5TOIV4JQEutQ==
+ b=NKh6nJFZtK5VdgPai5BvxQlY1nzsBA9/kBu721VS28YjZVjYyit6N8+w8ejubtBpdaRgzPksdadmsOkcFET4tRPe3pdREdEA1Gc03XZcvl0iLHD+BIDYtxJlC0ZY8K2usvpp9dMlCfi/bLXGYpYiHYaL7U/yxv6GXMo/5OOrz3ZzrTfZYP+EggL5G8aCgryEPfhFjM3fIfLjaPeF1UfWbH0MxiHXIND8LAVHEmlWbQpmtO1Gfr/LQgw868f+RdTGf1l0PBuHfcg7C9aHTzFb5FL3buPtIIhuN1zoo/AuOvYRVJsy+8BGpBk6HA/Sr28iDXSS5u5+g16mhfoAnZaF/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XXGX5/3lV8ls++zZ8s81a873PdqAXsZCi8zrTLpHNn8=;
- b=UyYr4P/tFAxoRbp9CPUYO8K6JzTL+VSg7lEI04fUXBqGEdnUzBCPMpCeT4qXfi95OqzlSqqxMWsH88m8aqntTzGEgJR+D1Qh5PJE/VVf9f8ihMDTvlITa7yfvSIVP1lUCioiSss02YE7o0Twzo94M3HyC6nzDvPF5UBZ6uP+U5KXypuylc8ziMecJNOtbL2Ji3yPA+E4hYRM/FojaGztQ9M8jdYAYsQA1cCK1XF0UJN9IASzoTewsRHRNYd2KWAa5JAn7EnRgSV09TGjd+lc/feWqwzDA3LTibpsN93o+GiTRqP/Ci8MxeCnOuFjZAhPWuHIZlZdqSn1QSKMCMaTBQ==
+ bh=ua/oqV5LCgOSfirxjjqLTqhFB905Hf/rwMjguAtE2wE=;
+ b=gjzYHXPMmX6u+motQK2lMDw5GvdcLg4DD9n/qwMwPtWl0W2hfZ3bj9iEyNHk+ekaNguUbRM40WuxXdtIadjq85pFNVboSiqs6kJFb8+fdOy2BdpAOgHF4bKKbFTLSfJR0r0jpbH1yWugA+h5zzy9ITh8WxLGXmbMQ+N6k6UWYUvQ/LylamUkpBH9Nt2LsEQ5c6eYToO0TEDaFsLQ8frJBywc59r3fDZCS/2040Se6r5C7LbLsmno5SsgRmPyZAD5r2iY01wUr+PN1eNgYKij+cqvRpelf+fYa2DJ1KGrciQHO2vpFzbofgE2QDT6iU1asQOsR38MaQyshq5av2IRBA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
  is 151.1.184.193) smtp.rcpttodomain=lists.freedesktop.org
  smtp.mailfrom=asem.it; dmarc=fail (p=none sp=none pct=100) action=none
  header.from=asem.it; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asem.it; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XXGX5/3lV8ls++zZ8s81a873PdqAXsZCi8zrTLpHNn8=;
- b=UytH6+ZlMF3FwS2/ib7d5186NeA3iqiaSbzZln+4s3DMJSoYkbiTH8OgXikAG6iTrUV7fOJMWQwrGI912QtvVknWYF0B8OKYnPDlGPBmstiXM4V2b8nW/1QEYQeTC3qLCuQ31QnmwfHJa9Pl8oHgN7zZuNoO3Ef0fQNz+BbkFEA=
-Received: from AM6P191CA0082.EURP191.PROD.OUTLOOK.COM (2603:10a6:209:8a::23)
- by AM7PR01MB6771.eurprd01.prod.exchangelabs.com (2603:10a6:20b:1a6::20) with
+ bh=ua/oqV5LCgOSfirxjjqLTqhFB905Hf/rwMjguAtE2wE=;
+ b=ctW3834mgWtqG6FXL5/L4d7eXkpWXdUTZAqQMRdKVKIXEPQzs2YohD1woAhs5H4gVOJ0F9aLLT+NRrzjr2mEtOHreEib2IlKLbhHrRBI71fvUjjDJspPdQSfgA001P0L2ipaiD0cMiFubVu7lBA0iQRNnQfuiUH4E8QmLLWJssI=
+Received: from AM6P191CA0094.EURP191.PROD.OUTLOOK.COM (2603:10a6:209:8a::35)
+ by PR3PR01MB8065.eurprd01.prod.exchangelabs.com (2603:10a6:102:174::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.21; Thu, 16 Nov
  2023 10:53:29 +0000
 Received: from AMS0EPF0000019C.eurprd05.prod.outlook.com
- (2603:10a6:209:8a:cafe::3b) by AM6P191CA0082.outlook.office365.com
- (2603:10a6:209:8a::23) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10a6:209:8a:cafe::3d) by AM6P191CA0094.outlook.office365.com
+ (2603:10a6:209:8a::35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.21 via Frontend
  Transport; Thu, 16 Nov 2023 10:53:29 +0000
 X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
@@ -46,7 +46,7 @@ Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
 Received: from asas054.asem.intra (151.1.184.193) by
  AMS0EPF0000019C.mail.protection.outlook.com (10.167.16.248) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7002.19 via Frontend Transport; Thu, 16 Nov 2023 10:53:28 +0000
+ 15.20.7002.19 via Frontend Transport; Thu, 16 Nov 2023 10:53:29 +0000
 Received: from flavio-x.asem.intra ([172.16.18.47]) by asas054.asem.intra with
  Microsoft SMTPSVC(10.0.14393.4169); Thu, 16 Nov 2023 11:53:27 +0100
 From: Flavio Suligoi <f.suligoi@asem.it>
@@ -55,40 +55,39 @@ To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
  Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH v7 1/2] dt-bindings: backlight: mp3309c: remove two required
- properties
-Date: Thu, 16 Nov 2023 11:53:18 +0100
-Message-Id: <20231116105319.957600-2-f.suligoi@asem.it>
+Subject: [PATCH v7 2/2] backlight: mp3309c: Add support for MPS MP3309C
+Date: Thu, 16 Nov 2023 11:53:19 +0100
+Message-Id: <20231116105319.957600-3-f.suligoi@asem.it>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231116105319.957600-1-f.suligoi@asem.it>
 References: <20231116105319.957600-1-f.suligoi@asem.it>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 16 Nov 2023 10:53:27.0512 (UTC)
- FILETIME=[2108CD80:01DA187B]
+X-OriginalArrivalTime: 16 Nov 2023 10:53:27.0606 (UTC)
+ FILETIME=[21172560:01DA187B]
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS0EPF0000019C:EE_|AM7PR01MB6771:EE_
+X-MS-TrafficTypeDiagnostic: AMS0EPF0000019C:EE_|PR3PR01MB8065:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 68edec59-ea35-4a3b-ad42-08dbe6924467
+X-MS-Office365-Filtering-Correlation-Id: 74c5fbe2-0946-4dbf-81d6-08dbe69244bd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /4L61OzdSGeTjKnYGg9tQ3JPGao2LfG4i4eEW7m8BK9oolrNQsmE6c+PEgK4AZPVzIUGkT9naktt2Z++J2+tJ/RevNHdwhhjPogecsVMzRe/MNDniQvXI5EvA+maU/f2XnQZIc1aX/DZVBixzi5NsvGb3Lt/hP1d85W/7/BrlllYZwnqFfpZ/5gJ6y648WeS/BL4f9ZrXLN9+74BGvfaQkVLuCmADsMQ/MFe6McaGVp4vbQyus/SVMBRmIq3V3SdJAgtPju7VoCh6feNnTBUkL1rrxoiWzXkYIWeN4POSoe4CAISCmjUTjpjYttEshdDwFb8EM1yvptgtGB8FVNYiiEtgX0GtevWSMjCZFMviwULNbrhDstqnwUpZ+ClXbn7PJavlgj0SQRZZPNyt4fX7lo3Kj2o16oH1Kg9EFVw+aZrtoYZwl4M7yGWT1x1w/ut/THTI5d2gRaVSS3KXqufjQLIB1sa06wP8+Un9LVl2WLwZMg60mT2xMCqOne0s8albx2d4b8mMH2VyPZXmFhxWYrm1uGKdFcX5U0Xjvt21mhcMr7CjsV59OAgh5Jx8clMv/ExXKQjP/KR+OyIcHmhtPxGt51XKawBKuV4xqN1zj83mT58/Z1KXuTgCV7ZUWcH8+3BAbsNC6RFzjjYgLQ2qzUSdieaUsali+5DQJnJa5YBPd04aIdn/mhGJM9faHYHPZU9+GilQnfXThwMTf1kYWPSXzxALM3ADVdbTjLP8qw=
+X-Microsoft-Antispam-Message-Info: 3fTC0t4XN2J++X8OiBIEqUPtZ//jfodUzbc/St9Ks7B1mY5tQ9FT0oxWuEZpzX6dRnzimfv/g8+2AEq7/EoqxbglQ1nNrtq2E316gBhSkNk0SaBtNFf7ym0nZd/+ICE/5MwkT3tuZQQsOeOcPEp+rB/KkllAEmZzbjBkmojyz3gSzZ8juAANDLKT9OtfwRgiDbFB6xEz4xIdocUEc1edP1QmX68PInOBQn8wLvHPz466IVg7/38T8W4b2il1AsDeWEZEAdCH6MRFrdu3xuyQhNc+2FE/1dUuW/4zCEzxnK7BaSQ5joYK1GOqLptppSHvde7mBYL2sUJ/iV7psLv0uGLMBBh5WMUMzFWOxScv+soJ4E93Um56cPjaN5DiRJt6JS4nnnOkPCqC8dLv3K5GLtos7+82ksuDNfsHs5YiNbhDkMPCILj9YOEbKRozvIWti9D65LCaYdSIMzbIAlo0VxcSJMfnA+Isby6RwJs2VrN8U8HxrVn5Ie14q+fk0n2iLv/kugsQJ9FeF3Bmi5d3bSrkoinbP8wlUN7dqMNHiJfuQ61Ah7FX9+zCLp/1zhprxMtNpcD7585/WZBhFRPtg2irD62L05zphej8873GFD1g7MfG3PbtWTu5IVjsDl5qgs/P/IiOcM3FTKsjpA+bMPViaNPsvR40W8N+FCpHUhxa4I7p3Gq4IAOCd9sG9PMfCInwM3hnvRizwEEBJb0U2UUOAbl3h67AL8PNWAP6MG3Ct3f/cv3nTFDviJS3sC6S5qteujrIFJJZ9G1cXHmHcA==
 X-Forefront-Antispam-Report: CIP:151.1.184.193; CTRY:IT; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:asas054.asem.intra; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(396003)(39840400004)(346002)(376002)(136003)(230922051799003)(82310400011)(64100799003)(186009)(451199024)(1800799009)(46966006)(36840700001)(70206006)(70586007)(54906003)(110136005)(316002)(83380400001)(2616005)(478600001)(6666004)(966005)(36756003)(1076003)(107886003)(26005)(336012)(81166007)(356005)(2906002)(41300700001)(47076005)(5660300002)(86362001)(40480700001)(36860700001)(8676002)(4326008)(8936002)(36900700001);
+ SFS:(13230031)(346002)(136003)(39850400004)(396003)(376002)(230922051799003)(230173577357003)(230273577357003)(451199024)(186009)(82310400011)(1800799009)(64100799003)(46966006)(36840700001)(70206006)(70586007)(110136005)(41300700001)(316002)(86362001)(5660300002)(30864003)(2906002)(8676002)(4326008)(8936002)(47076005)(81166007)(356005)(36860700001)(336012)(82740400003)(83380400001)(6666004)(966005)(40480700001)(478600001)(36756003)(1076003)(26005)(107886003)(2616005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: asem.it
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2023 10:53:28.9378 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68edec59-ea35-4a3b-ad42-08dbe6924467
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2023 10:53:29.4847 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 74c5fbe2-0946-4dbf-81d6-08dbe69244bd
 X-MS-Exchange-CrossTenant-Id: d0a766c6-7992-4344-a4a2-a467a7bb1ed2
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d0a766c6-7992-4344-a4a2-a467a7bb1ed2; Ip=[151.1.184.193];
  Helo=[asas054.asem.intra]
 X-MS-Exchange-CrossTenant-AuthSource: AMS0EPF0000019C.eurprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR01MB6771
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR01MB8065
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,110 +102,566 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Conor Dooley <conor.dooley@microchip.com>, Flavio Suligoi <f.suligoi@asem.it>,
- linux-leds@vger.kernel.org
+ Flavio Suligoi <f.suligoi@asem.it>, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The two properties:
+The Monolithic Power (MPS) MP3309C is a WLED step-up converter, featuring a
+programmable switching frequency to optimize efficiency.
+The brightness can be controlled either by I2C commands (called "analog"
+mode) or by a PWM input signal (PWM mode).
+This driver supports both modes.
 
-- max-brightness
-- default brightness
+For DT configuration details, please refer to:
+- Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
 
-are not really required, so they can be removed from the "required"
-section.
-The "max-brightness" is no longer used in the current version
-of the driver (it was used only in the first version).
-The "default-brightness", if omitted in the DT, is managed by the
-device driver, using a default value. This value depends on the dimming
-mode used:
-
-- for the "analog mode", via I2C commands, this value is fixed by
-  hardware (=31)
-- while in case of pwm mode the default used is the last value of the
-  brightness-levels array.
-
-Also the brightness-levels array is not required:
-
-- in "analog mode", via I2C commands, the brightness-level array is
-  fixed by hardware (0..31).;
-- in pwm dimming mode, the driver uses a default array of 0..255 and
-  the "default-brightness" is the last one, which is "255"
-
-NOTE: there are no compatibility problems with the previous version,
-      since the device driver has not yet been included in any kernel.
-      Only this dt-binding yaml file is already included in the current
-      v6.7.0-rc1 kernel version.
-      No developer may have used it.
-
-Other changes:
-
-- improve the backlight working mode description, in the "description"
-  section
-- update the example, removing the "max-brightness" and introducing the
-  "brightess-levels" property
+The datasheet is available at:
+- https://www.monolithicpower.com/en/mp3309c.html
 
 Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 ---
 
 v7:
  - add missed patch history
- - add missed "Acked-by" added in one of the previous version
+ - add missed "Reviewed-by" added in one of the previous version
 v6:
- - check and resend for updated kernel 6.7.0-rc1 (nothing changed compared
-   to the previous versions)
- - add this patch to the same patchset of the MP3309C device driver
-   Note: the patch related to this file was previously a separate patch and
-          sent in two versions (v1 and v2).
-          It has now been included in this patchset, starting with the
-          version v6.
-v5...v3:
- - non-existing versions (the last was v2, the next is v6)
+ - check and resend for updated kernel 6.7.0-rc1
+v5:
+ - check and resend for updated kernel 6.6.0-rc1
+v4:
+ - add brightness-levels property
+ - force fixed 32 brightness levels (0..31) in analog-i2c dimming mode
+ - remove useless irq and reset_gpio from mp3309c_chip structure
+v3:
+ - fix SPDX obsolete spelling
+ - in mp3309c_bl_update_status, change from msleep_interruptible() to msleep()
+   and improve the related comment
 v2:
- - add more explanations in commit message, about the the non-existence of
-   compatibility issues with the previous versions of the yaml file
+ - fix dependecies in Kconfig
+ - fix Kconfig MP3309C entry order
+ - remove switch-on-delay-ms property
+ - remove optional gpio property to reset external devices
+ - remove dimming-mode property (the analog-i2c dimming mode is the default; the
+   presence of the pwms property, in DT, selects automatically the pwm dimming
+   mode)
+ - substitute three boolean properties, used for the overvoltage-protection
+   values, with a single enum property
+ - drop simple tracing messages
+ - use dev_err_probe() in probe function
+ - change device name from mp3309c_bl to the simple mp3309c
+ - remove shutdown function
 v1:
  - first version
 
- .../bindings/leds/backlight/mps,mp3309c.yaml           | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ MAINTAINERS                       |   7 +
+ drivers/video/backlight/Kconfig   |  11 +
+ drivers/video/backlight/Makefile  |   1 +
+ drivers/video/backlight/mp3309c.c | 443 ++++++++++++++++++++++++++++++
+ 4 files changed, 462 insertions(+)
+ create mode 100644 drivers/video/backlight/mp3309c.c
 
-diff --git a/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-index 4191e33626f5..527a37368ed7 100644
---- a/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-+++ b/Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
-@@ -14,8 +14,8 @@ description: |
-   programmable switching frequency to optimize efficiency.
-   It supports two different dimming modes:
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5c9f868e13b6..d033c2a2d120 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14657,6 +14657,13 @@ S:	Maintained
+ F:	Documentation/driver-api/tty/moxa-smartio.rst
+ F:	drivers/tty/mxser.*
  
--  - analog mode, via I2C commands (default)
--  - PWM controlled mode.
-+  - analog mode, via I2C commands, as default mode (32 dimming levels)
-+  - PWM controlled mode (optional)
++MP3309C BACKLIGHT DRIVER
++M:	Flavio Suligoi <f.suligoi@asem.it>
++L:	dri-devel@lists.freedesktop.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/leds/backlight/mps,mp3309c.yaml
++F:	drivers/video/backlight/mp3309c.c
++
+ MR800 AVERMEDIA USB FM RADIO DRIVER
+ M:	Alexey Klimov <klimov.linux@gmail.com>
+ L:	linux-media@vger.kernel.org
+diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+index 51387b1ef012..1144a54a35c0 100644
+--- a/drivers/video/backlight/Kconfig
++++ b/drivers/video/backlight/Kconfig
+@@ -402,6 +402,17 @@ config BACKLIGHT_LP8788
+ 	help
+ 	  This supports TI LP8788 backlight driver.
  
-   The datasheet is available at:
-   https://www.monolithicpower.com/en/mp3309c.html
-@@ -50,8 +50,6 @@ properties:
- required:
-   - compatible
-   - reg
--  - max-brightness
--  - default-brightness
- 
- unevaluatedProperties: false
- 
-@@ -66,8 +64,8 @@ examples:
-             compatible = "mps,mp3309c";
-             reg = <0x17>;
-             pwms = <&pwm1 0 3333333 0>; /* 300 Hz --> (1/f) * 1*10^9 */
--            max-brightness = <100>;
--            default-brightness = <80>;
-+            brightness-levels = <0 4 8 16 32 64 128 255>;
-+            default-brightness = <6>;
-             mps,overvoltage-protection-microvolt = <24000000>;
-         };
-     };
++config BACKLIGHT_MP3309C
++	tristate "Backlight Driver for MPS MP3309C"
++	depends on I2C && PWM
++	select REGMAP_I2C
++	help
++	  This supports MPS MP3309C backlight WLED driver in both PWM and
++	  analog/I2C dimming modes.
++
++	  To compile this driver as a module, choose M here: the module will
++	  be called mp3309c.
++
+ config BACKLIGHT_PANDORA
+ 	tristate "Backlight driver for Pandora console"
+ 	depends on TWL4030_CORE
+diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+index f72e1c3c59e9..1af583de665b 100644
+--- a/drivers/video/backlight/Makefile
++++ b/drivers/video/backlight/Makefile
+@@ -44,6 +44,7 @@ obj-$(CONFIG_BACKLIGHT_LP855X)		+= lp855x_bl.o
+ obj-$(CONFIG_BACKLIGHT_LP8788)		+= lp8788_bl.o
+ obj-$(CONFIG_BACKLIGHT_LV5207LP)	+= lv5207lp.o
+ obj-$(CONFIG_BACKLIGHT_MAX8925)		+= max8925_bl.o
++obj-$(CONFIG_BACKLIGHT_MP3309C)		+= mp3309c.o
+ obj-$(CONFIG_BACKLIGHT_MT6370)		+= mt6370-backlight.o
+ obj-$(CONFIG_BACKLIGHT_OMAP1)		+= omap1_bl.o
+ obj-$(CONFIG_BACKLIGHT_PANDORA)		+= pandora_bl.o
+diff --git a/drivers/video/backlight/mp3309c.c b/drivers/video/backlight/mp3309c.c
+new file mode 100644
+index 000000000000..3fe4469ef43f
+--- /dev/null
++++ b/drivers/video/backlight/mp3309c.c
+@@ -0,0 +1,443 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Driver for MPS MP3309C White LED driver with I2C interface
++ *
++ * This driver support both analog (by I2C commands) and PWM dimming control
++ * modes.
++ *
++ * Copyright (C) 2023 ASEM Srl
++ * Author: Flavio Suligoi <f.suligoi@asem.it>
++ *
++ * Based on pwm_bl.c
++ */
++
++#include <linux/backlight.h>
++#include <linux/delay.h>
++#include <linux/gpio/consumer.h>
++#include <linux/i2c.h>
++#include <linux/pwm.h>
++#include <linux/regmap.h>
++
++#define REG_I2C_0	0x00
++#define REG_I2C_1	0x01
++
++#define REG_I2C_0_EN	0x80
++#define REG_I2C_0_D0	0x40
++#define REG_I2C_0_D1	0x20
++#define REG_I2C_0_D2	0x10
++#define REG_I2C_0_D3	0x08
++#define REG_I2C_0_D4	0x04
++#define REG_I2C_0_RSRV1	0x02
++#define REG_I2C_0_RSRV2	0x01
++
++#define REG_I2C_1_RSRV1	0x80
++#define REG_I2C_1_DIMS	0x40
++#define REG_I2C_1_SYNC	0x20
++#define REG_I2C_1_OVP0	0x10
++#define REG_I2C_1_OVP1	0x08
++#define REG_I2C_1_VOS	0x04
++#define REG_I2C_1_LEDO	0x02
++#define REG_I2C_1_OTP	0x01
++
++#define ANALOG_I2C_NUM_LEVELS	32		/* 0..31 */
++#define ANALOG_I2C_REG_MASK	0x7c
++
++#define MP3309C_PWM_DEFAULT_NUM_LEVELS	256	/* 0..255 */
++
++enum mp3309c_status_value {
++	FIRST_POWER_ON,
++	BACKLIGHT_OFF,
++	BACKLIGHT_ON,
++};
++
++enum mp3309c_dimming_mode_value {
++	DIMMING_PWM,
++	DIMMING_ANALOG_I2C,
++};
++
++struct mp3309c_platform_data {
++	unsigned int max_brightness;
++	unsigned int default_brightness;
++	unsigned int *levels;
++	u8  dimming_mode;
++	u8  over_voltage_protection;
++	bool sync_mode;
++	u8 status;
++};
++
++struct mp3309c_chip {
++	struct device *dev;
++	struct mp3309c_platform_data *pdata;
++	struct backlight_device *bl;
++	struct gpio_desc *enable_gpio;
++	struct regmap *regmap;
++	struct pwm_device *pwmd;
++};
++
++static const struct regmap_config mp3309c_regmap = {
++	.name = "mp3309c_regmap",
++	.reg_bits = 8,
++	.reg_stride = 1,
++	.val_bits = 8,
++	.max_register = REG_I2C_1,
++};
++
++static int mp3309c_enable_device(struct mp3309c_chip *chip)
++{
++	u8 reg_val;
++	int ret;
++
++	/* I2C register #0 - Device enable */
++	ret = regmap_update_bits(chip->regmap, REG_I2C_0, REG_I2C_0_EN,
++				 REG_I2C_0_EN);
++	if (ret)
++		return ret;
++
++	/*
++	 * I2C register #1 - Set working mode:
++	 *  - set one of the two dimming mode:
++	 *    - PWM dimming using an external PWM dimming signal
++	 *    - analog dimming using I2C commands
++	 *  - enable/disable synchronous mode
++	 *  - set overvoltage protection (OVP)
++	 */
++	reg_val = 0x00;
++	if (chip->pdata->dimming_mode == DIMMING_PWM)
++		reg_val |= REG_I2C_1_DIMS;
++	if (chip->pdata->sync_mode)
++		reg_val |= REG_I2C_1_SYNC;
++	reg_val |= chip->pdata->over_voltage_protection;
++	ret = regmap_write(chip->regmap, REG_I2C_1, reg_val);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++static int mp3309c_bl_update_status(struct backlight_device *bl)
++{
++	struct mp3309c_chip *chip = bl_get_data(bl);
++	int brightness = backlight_get_brightness(bl);
++	struct pwm_state pwmstate;
++	unsigned int analog_val, bits_val;
++	int i, ret;
++
++	if (chip->pdata->dimming_mode == DIMMING_PWM) {
++		/*
++		 * PWM control mode
++		 */
++		pwm_get_state(chip->pwmd, &pwmstate);
++		pwm_set_relative_duty_cycle(&pwmstate,
++					    chip->pdata->levels[brightness],
++					    chip->pdata->levels[chip->pdata->max_brightness]);
++		pwmstate.enabled = true;
++		ret = pwm_apply_state(chip->pwmd, &pwmstate);
++		if (ret)
++			return ret;
++
++		switch (chip->pdata->status) {
++		case FIRST_POWER_ON:
++		case BACKLIGHT_OFF:
++			/*
++			 * After 20ms of low pwm signal level, the chip turns
++			 * off automatically. In this case, before enabling the
++			 * chip again, we must wait about 10ms for pwm signal to
++			 * stabilize.
++			 */
++			if (brightness > 0) {
++				msleep(10);
++				mp3309c_enable_device(chip);
++				chip->pdata->status = BACKLIGHT_ON;
++			} else {
++				chip->pdata->status = BACKLIGHT_OFF;
++			}
++			break;
++		case BACKLIGHT_ON:
++			if (brightness == 0)
++				chip->pdata->status = BACKLIGHT_OFF;
++			break;
++		}
++	} else {
++		/*
++		 * Analog (by I2C command) control mode
++		 *
++		 * The first time, before setting brightness, we must enable the
++		 * device
++		 */
++		if (chip->pdata->status == FIRST_POWER_ON)
++			mp3309c_enable_device(chip);
++
++		/*
++		 * Dimming mode I2C command (fixed dimming range 0..31)
++		 *
++		 * The 5 bits of the dimming analog value D4..D0 is allocated
++		 * in the I2C register #0, in the following way:
++		 *
++		 *     +--+--+--+--+--+--+--+--+
++		 *     |EN|D0|D1|D2|D3|D4|XX|XX|
++		 *     +--+--+--+--+--+--+--+--+
++		 */
++		analog_val = brightness;
++		bits_val = 0;
++		for (i = 0; i <= 5; i++)
++			bits_val += ((analog_val >> i) & 0x01) << (6 - i);
++		ret = regmap_update_bits(chip->regmap, REG_I2C_0,
++					 ANALOG_I2C_REG_MASK, bits_val);
++		if (ret)
++			return ret;
++
++		if (brightness > 0)
++			chip->pdata->status = BACKLIGHT_ON;
++		else
++			chip->pdata->status = BACKLIGHT_OFF;
++	}
++
++	return 0;
++}
++
++static const struct backlight_ops mp3309c_bl_ops = {
++	.update_status = mp3309c_bl_update_status,
++};
++
++static int pm3309c_parse_dt_node(struct mp3309c_chip *chip,
++				 struct mp3309c_platform_data *pdata)
++{
++	struct device_node *node = chip->dev->of_node;
++	struct property *prop_pwms, *prop_levels;
++	int length = 0;
++	int ret, i;
++	unsigned int num_levels, tmp_value;
++
++	if (!node) {
++		dev_err(chip->dev, "failed to get DT node\n");
++		return -ENODEV;
++	}
++
++	/*
++	 * Dimming mode: the MP3309C provides two dimming control mode:
++	 *
++	 * - PWM mode
++	 * - Analog by I2C control mode (default)
++	 *
++	 * I2C control mode is assumed as default but, if the pwms property is
++	 * found in the backlight node, the mode switches to PWM mode.
++	 */
++	pdata->dimming_mode = DIMMING_ANALOG_I2C;
++	prop_pwms = of_find_property(node, "pwms", &length);
++	if (prop_pwms) {
++		chip->pwmd = devm_pwm_get(chip->dev, NULL);
++		if (IS_ERR(chip->pwmd))
++			return dev_err_probe(chip->dev, PTR_ERR(chip->pwmd),
++					     "error getting pwm data\n");
++		pdata->dimming_mode = DIMMING_PWM;
++		pwm_apply_args(chip->pwmd);
++	}
++
++	/*
++	 * In I2C control mode the dimming levels (0..31) are fixed by the
++	 * hardware, while in PWM control mode they can be chosen by the user,
++	 * to allow nonlinear mappings.
++	 */
++	if  (pdata->dimming_mode == DIMMING_ANALOG_I2C) {
++		/*
++		 * Analog (by I2C commands) control mode: fixed 0..31 brightness
++		 * levels
++		 */
++		num_levels = ANALOG_I2C_NUM_LEVELS;
++
++		/* Enable GPIO used in I2C dimming mode only */
++		chip->enable_gpio = devm_gpiod_get(chip->dev, "enable",
++						   GPIOD_OUT_HIGH);
++		if (IS_ERR(chip->enable_gpio))
++			return dev_err_probe(chip->dev,
++					     PTR_ERR(chip->enable_gpio),
++					     "error getting enable gpio\n");
++	} else {
++		/*
++		 * PWM control mode: check for brightness level in DT
++		 */
++		prop_levels = of_find_property(node, "brightness-levels",
++					       &length);
++		if (prop_levels) {
++			/* Read brightness levels from DT */
++			num_levels = length / sizeof(u32);
++			if (num_levels < 2)
++				return -EINVAL;
++		} else {
++			/* Use default brightness levels */
++			num_levels = MP3309C_PWM_DEFAULT_NUM_LEVELS;
++		}
++	}
++
++	/* Fill brightness levels array */
++	pdata->levels = devm_kcalloc(chip->dev, num_levels,
++				     sizeof(*pdata->levels), GFP_KERNEL);
++	if (!pdata->levels)
++		return -ENOMEM;
++	if (prop_levels) {
++		ret = of_property_read_u32_array(node, "brightness-levels",
++						 pdata->levels,
++						 num_levels);
++		if (ret < 0)
++			return ret;
++	} else {
++		for (i = 0; i < num_levels; i++)
++			pdata->levels[i] = i;
++	}
++
++	pdata->max_brightness = num_levels - 1;
++
++	ret = of_property_read_u32(node, "default-brightness",
++				   &pdata->default_brightness);
++	if (ret)
++		pdata->default_brightness = pdata->max_brightness;
++	if (pdata->default_brightness > pdata->max_brightness) {
++		dev_err(chip->dev,
++			"default brightness exceeds max brightness\n");
++		pdata->default_brightness = pdata->max_brightness;
++	}
++
++	/*
++	 * Over-voltage protection (OVP)
++	 *
++	 * This (optional) property values are:
++	 *
++	 *  - 13.5V
++	 *  - 24V
++	 *  - 35.5V (hardware default setting)
++	 *
++	 * If missing, the default value for OVP is 35.5V
++	 */
++	pdata->over_voltage_protection = REG_I2C_1_OVP1;
++	if (!of_property_read_u32(node, "mps,overvoltage-protection-microvolt",
++				  &tmp_value)) {
++		switch (tmp_value) {
++		case 13500000:
++			pdata->over_voltage_protection = 0x00;
++			break;
++		case 24000000:
++			pdata->over_voltage_protection = REG_I2C_1_OVP0;
++			break;
++		case 35500000:
++			pdata->over_voltage_protection = REG_I2C_1_OVP1;
++			break;
++		default:
++			return -EINVAL;
++		}
++	}
++
++	/* Synchronous (default) and non-synchronous mode */
++	pdata->sync_mode = true;
++	if (of_property_read_bool(node, "mps,no-sync-mode"))
++		pdata->sync_mode = false;
++
++	return 0;
++}
++
++static int mp3309c_probe(struct i2c_client *client)
++{
++	struct mp3309c_platform_data *pdata = dev_get_platdata(&client->dev);
++	struct mp3309c_chip *chip;
++	struct backlight_properties props;
++	struct pwm_state pwmstate;
++	int ret;
++
++	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
++		dev_err(&client->dev, "failed to check i2c functionality\n");
++		return -EOPNOTSUPP;
++	}
++
++	chip = devm_kzalloc(&client->dev, sizeof(*chip), GFP_KERNEL);
++	if (!chip)
++		return -ENOMEM;
++
++	chip->dev = &client->dev;
++
++	chip->regmap = devm_regmap_init_i2c(client, &mp3309c_regmap);
++	if (IS_ERR(chip->regmap))
++		return dev_err_probe(&client->dev, PTR_ERR(chip->regmap),
++				     "failed to allocate register map\n");
++
++	i2c_set_clientdata(client, chip);
++
++	if (!pdata) {
++		pdata = devm_kzalloc(chip->dev, sizeof(*pdata), GFP_KERNEL);
++		if (!pdata)
++			return -ENOMEM;
++
++		ret = pm3309c_parse_dt_node(chip, pdata);
++		if (ret)
++			return ret;
++	}
++	chip->pdata = pdata;
++
++	/* Backlight properties */
++	props.brightness = pdata->default_brightness;
++	props.max_brightness = pdata->max_brightness;
++	props.scale = BACKLIGHT_SCALE_LINEAR;
++	props.type = BACKLIGHT_RAW;
++	props.power = FB_BLANK_UNBLANK;
++	props.fb_blank = FB_BLANK_UNBLANK;
++	chip->bl = devm_backlight_device_register(chip->dev, "mp3309c",
++						  chip->dev, chip,
++						  &mp3309c_bl_ops, &props);
++	if (IS_ERR(chip->bl))
++		return dev_err_probe(chip->dev, PTR_ERR(chip->bl),
++				     "error registering backlight device\n");
++
++	/* In PWM dimming mode, enable pwm device */
++	if (chip->pdata->dimming_mode == DIMMING_PWM) {
++		pwm_init_state(chip->pwmd, &pwmstate);
++		pwm_set_relative_duty_cycle(&pwmstate,
++					    chip->pdata->default_brightness,
++					    chip->pdata->max_brightness);
++		pwmstate.enabled = true;
++		ret = pwm_apply_state(chip->pwmd, &pwmstate);
++		if (ret)
++			return dev_err_probe(chip->dev, ret,
++					     "error setting pwm device\n");
++	}
++
++	chip->pdata->status = FIRST_POWER_ON;
++	backlight_update_status(chip->bl);
++
++	return 0;
++}
++
++static void mp3309c_remove(struct i2c_client *client)
++{
++	struct mp3309c_chip *chip = i2c_get_clientdata(client);
++	struct backlight_device *bl = chip->bl;
++
++	bl->props.power = FB_BLANK_POWERDOWN;
++	bl->props.brightness = 0;
++	backlight_update_status(chip->bl);
++}
++
++static const struct of_device_id mp3309c_match_table[] = {
++	{ .compatible = "mps,mp3309c", },
++	{ },
++};
++MODULE_DEVICE_TABLE(of, mp3309c_match_table);
++
++static const struct i2c_device_id mp3309c_id[] = {
++	{ "mp3309c", 0 },
++	{ }
++};
++MODULE_DEVICE_TABLE(i2c, mp3309c_id);
++
++static struct i2c_driver mp3309c_i2c_driver = {
++	.driver	= {
++			.name		= KBUILD_MODNAME,
++			.of_match_table	= mp3309c_match_table,
++	},
++	.probe		= mp3309c_probe,
++	.remove		= mp3309c_remove,
++	.id_table	= mp3309c_id,
++};
++
++module_i2c_driver(mp3309c_i2c_driver);
++
++MODULE_DESCRIPTION("Backlight Driver for MPS MP3309C");
++MODULE_AUTHOR("Flavio Suligoi <f.suligoi@asem.it>");
++MODULE_LICENSE("GPL");
 -- 
 2.34.1
 
