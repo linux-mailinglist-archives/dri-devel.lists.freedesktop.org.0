@@ -2,48 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA2687EE428
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 16:25:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A987EE4BE
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 16:53:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ACCD10E61B;
-	Thu, 16 Nov 2023 15:25:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B219810E290;
+	Thu, 16 Nov 2023 15:53:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45F1610E61B
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 15:25:04 +0000 (UTC)
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested) (Authenticated sender: pq)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 2C8D8660734B;
- Thu, 16 Nov 2023 15:25:02 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1700148302;
- bh=KNKzR3AdYrcGsgvQ5hgYYumtewtEY9oprWir7jRod8g=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=XpByk+9s2bMzN6tEhHw2hV3ZhOTZv75dbBTGs5kkodE7sKIJ/UfYba760FJMlslJt
- jTrIQ+oly4RL5rdtaq4FOaAwmhGeH3529NWB5bRE7hf0bByZxumt6CHs8p6NfIgueb
- LBMye/6AXul0maQC+Zh95pS1tkTT1a+CY9uG7nKFPEyE9xrLwnOs5DkO7ZNmfOrGby
- WBF6FPebu57JNPEv44eUAEa9imsooyqANlfhrzxknp21PcZ27ZsPOiEcQ+0zhIK1m7
- I3u+9ppp++pTQNAHj0+cwK83tXhuYeCd5MMZPui7S/vuX2gIhhJjBtbXA/AlMxtAfk
- B7DpNTeXuzhtA==
-Date: Thu, 16 Nov 2023 17:24:51 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 4/5] drm/plane: Extend damage tracking kernel-doc
-Message-ID: <20231116172451.00a7ec9e.pekka.paalanen@collabora.com>
-In-Reply-To: <3b799dee-c366-4c0b-9efe-c75d189fc24b@suse.de>
-References: <20231115131549.2191589-1-javierm@redhat.com>
- <20231115131549.2191589-5-javierm@redhat.com>
- <abfd41c7-dc9f-4cd3-be83-97b2c2c96b62@suse.de>
- <vhshocGSkXgVLycHIcJIVPsN9OQokPA2NCgIBqOvIzpKRZXQjN1uEiFKVudwa-S4hpBnFPaxxYh8hCFxd-u_ahYKBamQxFzIhBkYGkND9Kc=@emersion.fr>
- <3b799dee-c366-4c0b-9efe-c75d189fc24b@suse.de>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25D4B10E290
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 15:53:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1700150026; x=1700409226;
+ bh=3VcRG0KNMFotQuIS4x9T+r6NkPtuwOlYKeTjK/BY94I=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=lmCIAzs+hLZQ5OQfSseb+XH7zaMTIkaxPx1xbvnKHy3HminZ1kXA5aBnbBETv0zzx
+ IDlsYJqGOQfq5Scd+3lmiGmEjShtZR//+7Mh8qvX16cR8nrTgmuHiquVvA9pOqw/FC
+ QsH+upJmDsNafkZSdiJbpIJF7Hj3J49k2kiDiy9c8gKD6byQtRpdCYVKmhQRsI6q4o
+ 3D8uAsGHOtxMtOn81Z0VH14auPcq28zi53G9YFjmv6TxBs5Jk6CIwDW0BX2YOe6nTd
+ t0HbtUDky1KxVTcsnSuWAHsD0La+/Cr0NTpquEdpsF58V+DjT5G4xYH6rgdTdbuEBw
+ 3ixr0z/twDICw==
+Date: Thu, 16 Nov 2023 15:53:20 +0000
+To: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [RFC PATCH 2/2] vc4: introduce DMA-BUF heap
+Message-ID: <SsSohScL3nokTnLEzO0FXd2Mhxq9IYM3_qjKhHD8-rynieR_0otvP-WmHQ18UNJuf1Dp7u4iaRB-XPZU4eAxZADSFODzbXxYPFuoJNJ6GcU=@emersion.fr>
+In-Reply-To: <20231109074545.148149-2-contact@emersion.fr>
+References: <20231109074545.148149-1-contact@emersion.fr>
+ <20231109074545.148149-2-contact@emersion.fr>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/j+uUmYK70pFZfFAf/9klwKl";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,106 +48,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bilal Elmoussaoui <belmouss@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, Sima Vetter <daniel.vetter@ffwll.ch>,
- Erico Nunes <nunes.erico@gmail.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Iago Toral Quiroga <itoral@igalia.com>, Maxime Ripard <mripard@kernel.org>,
+ "T.J. Mercier" <tjmercier@google.com>, Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/j+uUmYK70pFZfFAf/9klwKl
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Thursday, November 9th, 2023 at 08:45, Simon Ser <contact@emersion.fr> w=
+rote:
 
-On Thu, 16 Nov 2023 13:34:07 +0100
-Thomas Zimmermann <tzimmermann@suse.de> wrote:
-
-> Hi
+> User-space sometimes needs to allocate scanout-capable memory for
+> GPU rendering purposes. On a vc4/v3d split render/display SoC, this
+> is achieved via DRM dumb buffers: the v3d user-space driver opens
+> the primary vc4 node, allocates a DRM dumb buffer there, exports it
+> as a DMA-BUF, imports it into the v3d render node, and renders to it.
 >=20
-> Am 16.11.23 um 13:14 schrieb Simon Ser:
-> > On Thursday, November 16th, 2023 at 13:06, Thomas Zimmermann <tzimmerma=
-nn@suse.de> wrote:
-> >  =20
-> >>> + * Note that there are two types of damage handling: frame damage an=
-d buffer
-> >>> + * damage. The type of damage handling implemented depends on a driv=
-er's upload
-> >>> + * target. Drivers implementing a per-plane or per-CRTC upload targe=
-t need to
-> >>> + * handle frame damage while drivers implementing a per-buffer uploa=
-d target
-> >>> + * need to handle buffer damage.
-> >>> + *
-> >>> + * The existing damage helpers only support the frame damage type, t=
-here is no
-> >>> + * buffer age support or similar damage accumulation algorithm imple=
-mented yet.
-> >>> + *
-> >>> + * Only drivers handling frame damage can use the mentiored damage h=
-elpers to =20
-> >=20
-> > Typo: mentioned
-> >  =20
-> >>> + * iterate over the damaged regions. Drivers that handle buffer dama=
-ge, need to
-> >>> + * set &struct drm_plane_state.ignore_damage_clips as an indication =
-to
-> >>> + * drm_atomic_helper_damage_iter_init() that the damage clips should=
- be ignored.
-> >>> + * In that case, the returned damage rectangle is the &drm_plane_sta=
-te.src since
-> >>> + * a full plane update should happen.
-> >>> + *
-> >>> + * For more information about the two type of damage, see:
-> >>> + * https://registry.khronos.org/EGL/extensions/KHR/EGL_KHR_swap_buff=
-ers_with_damage.txt
-> >>> + * https://emersion.fr/blog/2019/intro-to-damage-tracking/ =20
-> >>
-> >> One thought you might want to consider.
-> >>
-> >> These URLs are helpful. The only issue I have is that frame damage and
-> >> buffer damage are user-space concepts. The kernel bug is that damage
-> >> handling expects the backing storage/upload buffer not to change for a
-> >> given plane. If the upload buffer changes between page flips, the new
-> >> upload buffer has to be updated as a whole. Hence no damage handling t=
-hen. =20
-> >=20
-> > Why would these concepts be specific to user-space? The kernel could
-> > better handle buffer damage instead of forcing full damage, by doing
-> > something similar to what user-space does. =20
+> However, DRM dumb buffers are only meant for CPU rendering, they are
+> not intended to be used for GPU rendering. Primary nodes should only
+> be used for mode-setting purposes, other programs should not attempt
+> to open it. Moreover, opening the primary node is already broken on
+> some setups: systemd grants permission to open primary nodes to
+> physically logged in users, but this breaks when the user is not
+> physically logged in (e.g. headless setup) and when the distribution
+> is using a different init (e.g. Alpine Linux uses openrc).
 >=20
-> The terms 'frame damage' and 'buffer damage' do not exist in the kernel.=
-=20
-> The problem can be better described in wording that is common within the=
-=20
-> context of the kernel drivers.
+> We need an alternate way for v3d to allocate scanout-capable memory.
+> Leverage DMA heaps for this purpose: expose a CMA heap to user-space.
 
-What terms does the kernel use for these two different concepts of
-damage?
+So we've discussed about this patch on IRC [1] [2]. Some random notes:
 
+- We shouldn't create per-DRM-device heaps in general. Instead, we should t=
+ry
+  using centralized heaps like the existing system and cma ones. That way o=
+ther
+  drivers (video, render, etc) can also link to these heaps without dependi=
+ng
+  on the display driver.
+- We can't generically link to heaps in core DRM, however we probably provi=
+de
+  a default for shmem and cma helpers.
+- We're missing a bunch of heaps, e.g. sometimes there are multiple cma are=
+as
+  but only a single cma heap is created right now.
+- Some hw needs the memory to be in a specific region for scanout (e.g. low=
+er
+  256MB of RAM for Allwinner). We could create one heap per such region (bu=
+t is
+  it fine to have overlapping heaps?).
 
-Thanks,
-pq
+Also I tried using the default CMA heap on a Pi 4 for scanout and it works =
+fine.
+Not super sure it's strictly equivalent to allocations done via dumb buffer=
+s
+(e.g. WC etc).
 
---Sig_/j+uUmYK70pFZfFAf/9klwKl
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVWNEMACgkQI1/ltBGq
-qqd06RAAhfgSXquqYQp3UhAgvMrBtAt6PmgvhPU6+C+e8YHBIV6Q2GlLzHEAidAG
-d0Hm1lxUIjGFtu9GC5wkPcIMR5UWYCCF4E3RGJrmWGs2IXYeR0tfpWVH2Wdb4KAg
-oisO5yllQmhzuSixwK9QKkiCzpemaT5MNAIXLtGz6+u626kkTRzHuAoRwLhZOznF
-K7xgm9Sx3kBAA0gBf6APAht+QRcjsZWI5fBu3RC2w20BXP137AtUAZdBbMV4KzpX
-UNrkpAuxmMXvxjQP+PhHaJw2PaKgOi9gGSVZ6hL4wdmEoe9Y/Lyexvw0VAekrCbb
-klXn+WRZWd094v2DjDkYputfWOX06h4eVupBd2DMiv/XXSe6g0hINIotp9uZg0IT
-YeiR9nQE+HID99kRn5EZfw/R7WtVgT42IY7LCQfrPeq9CnqtrFG14lSFeloQwOGf
-N+Oj3y0oiKzD4osuOn6sgJMWVGf+KVIKWzAq4E45UWBgi7ch8vNC7SLmyXILeqDT
-stxQ2WhaLnF4lBYDVo7k2Bo93TqnOvWQfZoyA6cLaMPYjfOR7QqiCvJKG2vv7gob
-1Z5FWHIyWeHPlu+f6FKTAJ3N9stSlV1tmSPVtCJ/JXuhOjqxVyYMYxROKjQ7Z7BE
-Ir2Mp/FSZ3X5dEcyQwEP7Y4XMduiVBf7HEaRSacNmU5Sae0jSGc=
-=AFrP
------END PGP SIGNATURE-----
-
---Sig_/j+uUmYK70pFZfFAf/9klwKl--
+[1]: https://oftc.irclog.whitequark.org/dri-devel/2023-11-13#1699899003-169=
+9919633;
+[2]: https://oftc.irclog.whitequark.org/dri-devel/2023-11-14
