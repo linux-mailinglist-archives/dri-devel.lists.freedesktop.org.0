@@ -1,49 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D117EDC4D
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 08:50:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE6947EDC76
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 09:00:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D0B610E29E;
-	Thu, 16 Nov 2023 07:50:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E30A10E2A8;
+	Thu, 16 Nov 2023 08:00:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9EC710E29E
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 07:50:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1700121021; x=1731657021;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=kjXlzMKI4SAh9l1+GsCDYTAjNE/uMze9MZXtOyCmaPM=;
- b=S37DsSk+eEY4py9sXn8iIigkO0oICsQXN6vmd4FOHTvmU71Yypds9l1x
- cMEoBMIXtHpAjxBDDlRXlojigeSrlKk433gYdaxRRDrtWQz8HkYM1el/Y
- gqyVUXCPZP0b77yV2qzVGitEv8X/Hyb1/Mx3ZLYiNW+MIu4VZNpPs4iVn
- JbOQoa4EmOxNNyASMWpl0DI1oFjfGiPMugN8pWKhHm/y6PjfPEjzbkYrT
- xFMSM2X75prJyF4ygr6QyZbzxPF63ZKQmhE02f5bq7m7OXv1EnMwf3e9S
- T812RzFRwdmWrq2naEd1iNrfQefkpx4RxNeMbkjC9wSqhPHsoG6nasg9H Q==;
-X-IronPort-AV: E=Sophos;i="6.03,307,1694728800"; d="scan'208";a="34010892"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 16 Nov 2023 08:50:18 +0100
-Received: from steina-w.tq-net.de (steina-w.tq-net.de [10.123.53.18])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 30CB928007F;
- Thu, 16 Nov 2023 08:50:18 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Subject: [PATCH 1/1] backlight: pwm_bl: Use dev_err_probe
-Date: Thu, 16 Nov 2023 08:50:17 +0100
-Message-Id: <20231116075017.939926-1-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-m12775.qiye.163.com (mail-m12775.qiye.163.com
+ [115.236.127.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ED6410E2CC
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 08:00:10 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256;
+ b=KWqvvflA9+/axwizsRSRSGyg5fk6IiUM3lVg4IWeuLgSTHP3EQwrAHevkwLc9fj1YaVp0MhVr5sxIW+M6U3bH5A8RWx1FFuNaXhOfQX4jKKO0eplRABeNejJiZklHazkzs1VNUFwz0Ei+cMawQgO4+qE4HMijB789pKyiY4iVWo=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
+ bh=tb1X4KpeIfR7YuU+9FGfgBz5jQqP4HMT01BOCR63WJc=;
+ h=date:mime-version:subject:message-id:from;
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+ by mail-m12779.qiye.163.com (Hmail) with ESMTPA id A79AA7801AF;
+ Thu, 16 Nov 2023 16:00:06 +0800 (CST)
+Message-ID: <d6c77064-bae5-41c3-b49f-8c5c3a076a6b@rock-chips.com>
+Date: Thu, 16 Nov 2023 16:00:06 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/11] drm/rockchip: vop2: Add support for rk3588
+Content-Language: en-US
+To: Sascha Hauer <s.hauer@pengutronix.de>
+References: <20231114112534.1770731-1-andyshrk@163.com>
+ <20231114112855.1771372-1-andyshrk@163.com>
+ <20231115090823.GY3359458@pengutronix.de>
+ <229557d7-beec-44e0-9ee6-4a962b33ec79@rock-chips.com>
+ <20231116075015.GG3359458@pengutronix.de>
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <20231116075015.GG3359458@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQxkZGVZKH0weGEofGR9NQ0pVEwETFh
+ oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk5MSUpJVUpLS1VKQl
+ kG
+X-HM-Tid: 0a8bd724fb70b24fkuuua79aa7801af
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NU06Pzo6Pzw8KUIOMiocFBA0
+ SyNPCxRVSlVKTEtLSklKTUtMT0NCVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+ WUFZTkNVSUlVTFVKSk9ZV1kIAVlBT05NTjcG
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,34 +58,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
- linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, chris.obbard@collabora.com, hjc@rock-chips.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kever.yang@rock-chips.com, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ sebastian.reichel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let dev_err_probe handle the -EPROBE_DEFER case and also add an entry to
-/sys/kernel/debug/devices_deferred when deferred.
+Hi Sascha:
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
- drivers/video/backlight/pwm_bl.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On 11/16/23 15:50, Sascha Hauer wrote:
+> On Thu, Nov 16, 2023 at 03:24:54PM +0800, Andy Yan wrote:
+>>> 	case ROCKCHIP_VOP2_EP_HDMI0:
+>>> 	case ROCKCHIP_VOP2_EP_HDMI1:
+>>> 		...
+>>> }
+>>>
+>>> would look a bit better overall.
+>>>
+>>>> +		/*
+>>>> +		 * K = 2: dclk_core = if_pixclk_rate > if_dclk_rate
+>>>> +		 * K = 1: dclk_core = hdmie_edp_dclk > if_pixclk_rate
+>>>> +		 */
+>>>> +		if (output_mode == ROCKCHIP_OUT_MODE_YUV420) {
+>>>> +			dclk_rate = dclk_rate >> 1;
+>>>> +			K = 2;
+>>>> +		}
+>>>> +
+>>>> +		if_pixclk_rate = (dclk_core_rate << 1) / K;
+>>>> +		if_dclk_rate = dclk_core_rate / K;
+>>>> +
+>>>> +		*if_pixclk_div = dclk_rate / if_pixclk_rate;
+>>>> +		*if_dclk_div = dclk_rate / if_dclk_rate;
+>>> Not sure if this will change with future extensions, but currently
+>>> *if_pixclk_div will always be 2 and *if_dclk_div will alway be 4,
+>>> so maybe better write it like this
+>>
+>> Yes, the calculation of *if_pixclk_div is always 2 and *if_dclk_div is always 4,
+>>
+>> I think calculation formula can give us a clear explanation why is 2 or 4.
+>>
+>> considering the great power of rk3588, i think it can calculate it very easy.
+> Sure it can. My concern is not the CPU time it takes to do that
+> equation, but more the readability of the code. For me as a reader it
+> might be more easily acceptable that both dividers have fixed values
+> than it is to understand the equation.
+>
+> Your mileage may vary, I won't insist on this.
 
-diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
-index 289bd9ce4d36d..3825c2b67c53b 100644
---- a/drivers/video/backlight/pwm_bl.c
-+++ b/drivers/video/backlight/pwm_bl.c
-@@ -509,8 +509,7 @@ static int pwm_backlight_probe(struct platform_device *pdev)
- 	pb->pwm = devm_pwm_get(&pdev->dev, NULL);
- 	if (IS_ERR(pb->pwm)) {
- 		ret = PTR_ERR(pb->pwm);
--		if (ret != -EPROBE_DEFER)
--			dev_err(&pdev->dev, "unable to request PWM\n");
-+		dev_err_probe(&pdev->dev, ret, "unable to request PWM\n");
- 		goto err_alloc;
- 	}
- 
--- 
-2.34.1
 
+Or I make it as fixed values, and leave the calculation formula as comments ?
+
+>
+>>>
+>>>> +		*dclk_core_div = dclk_rate / dclk_core_rate;
+>>> *dclk_core_div is calculated the same way for all cases. You could pull
+>>> this out of the if/else.
+>> Okay, will do.
+>>>> +	} else if (vop2_output_if_is_edp(id)) {
+>>>> +		/* edp_pixclk = edp_dclk > dclk_core */
+>>>> +		if_pixclk_rate = v_pixclk / K;
+>>>> +		if_dclk_rate = v_pixclk / K;
+>>> if_dclk_rate is unused here.
+>>
+>> It will be removed in next version.
+>>
+>>>> +		dclk_rate = if_pixclk_rate * K;
+>>>> +		*dclk_core_div = dclk_rate / dclk_core_rate;
+>>>> +		*if_pixclk_div = dclk_rate / if_pixclk_rate;
+>>>> +		*if_dclk_div = *if_pixclk_div;
+>>> Both *if_pixclk_div and *if_dclk_div will always be 1.
+>> Actually,  they will be the value of K here,  if it work at split mode(two
+>>
+>> edp connect to one VP, one show the image for left half, one for right half,
+>>
+>> a function like a dual channel mipi dsi).
+>>
+>> I know it split mode is not supported by the current mainline, but i think keep
+> Ok.
+>
+> Sascha
+>
+>
