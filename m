@@ -2,67 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE00F7EE405
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 16:17:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FECA7EE424
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 16:23:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3DA710E613;
-	Thu, 16 Nov 2023 15:17:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3629610E616;
+	Thu, 16 Nov 2023 15:23:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
- [IPv6:2607:f8b0:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0CEB10E613
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 15:17:34 +0000 (UTC)
-Received: by mail-oi1-x235.google.com with SMTP id
- 5614622812f47-3b566ee5f1dso530531b6e.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 07:17:34 -0800 (PST)
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
+ [IPv6:2607:f8b0:4864:20::b2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 798B210E616
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 15:23:22 +0000 (UTC)
+Received: by mail-yb1-xb2a.google.com with SMTP id
+ 3f1490d57ef6-d9fe0a598d8so865929276.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 07:23:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700147854; x=1700752654; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:subject:cc
- :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=upYktaC638C+1n8jos+j3AezzgKo0tWBtbMgfTx+UFw=;
- b=OH8uOAELZd5vb1EGKRb4EYK9gnu+e3EKXZqzn71pLlUtVIrEJPTMF0YNmPQEoIlGYC
- 1qP65ufht/fligJAI1TcXsC9qOsJSc75WCTYSj/mfeW1E3rS+24dIP1qxLwzrgTpNQNP
- 1DMlwUKQ4HV9+7gvb4PBeEvs/1c0/mUjL46Cijw2waGouTX+i+nOPKwnyPpgAA0p1shU
- sxw9cEDS/uzAa7vMGa/8q6S4vfs7pnGg9SRgmnwa2uwmk0zdpvrSSsz3AzeXv5BbkYuQ
- jAmI55BKvd+NWGpwLbKiVLNhztjV6ZFvME4Wit4twArJkWfKv5lFdkYQ9ahklKr/rECN
- ARcQ==
+ d=linaro.org; s=google; t=1700148201; x=1700753001; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=jSgupIeANP5tueuGjabzmCgxHpd7wjSVIIaOyj586g8=;
+ b=L8avutLgY27lj7Kw/yaKV11FF0pe1bWKRfJxJG8lpGkKdkLgSjzAWa+WAwmui/4od+
+ jGUiNqd/1HuO82Z8CMJlcbHtn9sVimIXKS4HVvAn9/YGV3mUA6YMOHWyFKCMZYFG+S+R
+ cl2fHO2mSVDEA3el58MmMT2nGIuqLFnRxSHTtAbHphIHjzxwYnHbzVg/p8ZSSavDV0yv
+ fcmv21orHKwsl3+bxxxkEwbg8oSxbDHXV4QnQur+gIl4zv2fSDMx2EEV7/VRWHMmY4ZV
+ sDgizOxyAqMifDjx6qIAMYehDOnXhpK7g6Aahb5G/VrWWlCYehtPWCVcZy6SY3W0REc+
+ D1XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700147854; x=1700752654;
- h=in-reply-to:content-disposition:mime-version:references:subject:cc
- :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=upYktaC638C+1n8jos+j3AezzgKo0tWBtbMgfTx+UFw=;
- b=Ezou4pcNv63CL4ApZ/3143sg+3GmbDuxSPuQK0NOEnetNLID8Gkk1+hBFUcsO2sRkd
- F35NMcrviTtdAw/7UDj9fxXFq1mQ/TQQuOoaYhE/mZpCOe8eq8wTg8uzr7dcmWFkXlno
- MLigVqQrOMWHgjJxhEPH6PfpbyqUbJNi8ORB1+s+LNCiDhp8gw17RXKCbB5i4LKZfk1r
- FJWX3N0mv/2wocIs2NcrfZUtI4AQesS/oRitd9/S8Xc8feHLvTmCrXnmmGFYdLp//yr6
- en6HhsQ5jVMS9ruIZP+3ycpA1DKjhnXJiV7Cg+m9/igy+BLKshsUVjvpjUW0s4RCFT86
- L2CA==
-X-Gm-Message-State: AOJu0YzfXIqWEpJdkxHL51MkWIh1E1+jgHTNgh6Z4cuKpECCSHb3Kivz
- 7SYJzTv+ewqyH6aUUrNVHB8=
-X-Google-Smtp-Source: AGHT+IHOtuHXMqHOf2OtX3tlLfuANhMWMt/Bn+r+cI9qmYCTvdSjrcAo6bpdlJuyR6U0MYK1p0VV4g==
-X-Received: by 2002:a05:6808:320e:b0:3b2:d8c8:7bfa with SMTP id
- cb14-20020a056808320e00b003b2d8c87bfamr23975444oib.8.1700147854049; 
- Thu, 16 Nov 2023 07:17:34 -0800 (PST)
-Received: from neuromancer. ([75.28.21.198]) by smtp.gmail.com with ESMTPSA id
- b7-20020aca1b07000000b003af732a2054sm1836824oib.57.2023.11.16.07.17.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Nov 2023 07:17:33 -0800 (PST)
-Message-ID: <6556328d.ca0a0220.644a5.b79b@mx.google.com>
-X-Google-Original-Message-ID: <ZVYyi09/1UjiKq+U@neuromancer.>
-Date: Thu, 16 Nov 2023 09:17:31 -0600
-From: Chris Morgan <macroalpha82@gmail.com>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: [PATCH 2/4] drm/panel-elida-kd35t133: hold panel in reset for
- unprepare
-References: <20231115152647.2303283-1-macroalpha82@gmail.com>
- <20231115152647.2303283-3-macroalpha82@gmail.com>
- <8959af0e-080f-42b0-8b3a-ba8ea7f34c91@quicinc.com>
+ d=1e100.net; s=20230601; t=1700148201; x=1700753001;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jSgupIeANP5tueuGjabzmCgxHpd7wjSVIIaOyj586g8=;
+ b=BMzzjiGrj7Gsey426SpIfo6TiSnUqFWlXuCUQpWEJ7Cusy0IBXDETd7iWplAvx//+j
+ tHnA1vg1rq8+clt9U2E1zM02YMbBm1lEZBkd8H0orWCbA7aOmY6mdstXQlYp/ib4IudS
+ g6RcVirjF4p4vx0kOi7tksvoPLQ5/YF8gY8f+dt00L24QLcgA3M8bQLX+sSF2+paCJg1
+ 7cnsny483tofsQIjeCnIPacVz3DGchXMeDnH0TLL4QJLV57KAKU9NQ3njrs3pkBeVJJZ
+ RYAvU767VFwzYcCDlHKIJ111qbYpIszt+XgICw7QOdUrPY9Wwoj3JQP0dCMNRD2M9Mcq
+ M0eg==
+X-Gm-Message-State: AOJu0YwBKDA9e5r9941DkVeG6Lnl1hBIY8xgfTHeZE9CLoUwHhq/IL0L
+ /UrfiueKpAHgGbfKSncbVGPWmyTB7kT/BXqBSd8e4g==
+X-Google-Smtp-Source: AGHT+IEIVa1NI6XgtzOUgIl2iL6jHoUviE3ArBPvKGR5eaRoUTXtbiZhuEKkizVPrrGfKMTq8p/Vw7/vzby5tkqKXs8=
+X-Received: by 2002:a05:6902:188d:b0:d9a:49bb:3d1d with SMTP id
+ cj13-20020a056902188d00b00d9a49bb3d1dmr18422215ybb.3.1700148201540; Thu, 16
+ Nov 2023 07:23:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8959af0e-080f-42b0-8b3a-ba8ea7f34c91@quicinc.com>
+References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
+ <20231114150130.497915-9-sui.jingfeng@linux.dev>
+ <CAA8EJprQq3aDhzE+yKGZ2-nsuHWcptzMvApsyOi9D63PgeiZ3w@mail.gmail.com>
+ <1b59d647-c345-4260-b07b-22abb70ae17a@linux.dev>
+ <CAA8EJppY2+ymX0kLY+cuR=SV1Po2J24r=NQecmb3ZhSE9NHG7Q@mail.gmail.com>
+ <7b85d057-3d66-435a-a657-dd69067b6bef@linux.dev>
+ <b9eacd91-8d6f-4265-931e-bc31cadd54d4@linux.dev>
+In-Reply-To: <b9eacd91-8d6f-4265-931e-bc31cadd54d4@linux.dev>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 16 Nov 2023 17:23:09 +0200
+Message-ID: <CAA8EJpo1KhzTpaSqjbOuQvNKw4WGaqrtNBtNfdNLn28eZVgwhw@mail.gmail.com>
+Subject: Re: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,63 +72,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, Chris Morgan <macromorgan@hotmail.com>,
- sam@ravnborg.org, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Phong LE <ple@baylibre.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 15, 2023 at 01:38:11PM -0800, Jessica Zhang wrote:
-> 
-> 
-> On 11/15/2023 7:26 AM, Chris Morgan wrote:
-> > From: Chris Morgan <macromorgan@hotmail.com>
-> > 
-> > For devices like the Anbernic RG351M and RG351P the panel is wired to
-> > an always on regulator. When the device suspends and wakes up, there
-> > are some slight artifacts on the screen that go away over time. If
-> > instead we hold the panel in reset status after it is unprepared,
-> > this does not happen.
-> 
-> Hi Chris,
-> 
-> LGTM, though if this is fixing something maybe we can add
-> 
-> Fixes: 5b6603360c12 ("drm/panel: add panel driver for Elida KD35T133
-> panels")
+On Thu, 16 Nov 2023 at 14:08, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+>
+>
+> On 2023/11/16 19:53, Sui Jingfeng wrote:
+> > Hi,
+> >
+> >
+> > On 2023/11/16 19:29, Dmitry Baryshkov wrote:
+> >> On Thu, 16 Nov 2023 at 13:18, Sui Jingfeng <sui.jingfeng@linux.dev>
+> >> wrote:
+> >>> Hi,
+> >>>
+> >>>
+> >>> On 2023/11/15 00:30, Dmitry Baryshkov wrote:
+> >>>>> +
+> >>>>> +               ctx->connector = connector;
+> >>>>> +       }
+> >>>>>
+> >>>>>           if (ctx->info->id == ID_IT66121) {
+> >>>>>                   ret = regmap_write_bits(ctx->regmap,
+> >>>>> IT66121_CLK_BANK_REG,
+> >>>>> @@ -1632,16 +1651,13 @@ static const char * const
+> >>>>> it66121_supplies[] = {
+> >>>>>           "vcn33", "vcn18", "vrf12"
+> >>>>>    };
+> >>>>>
+> >>>>> -static int it66121_probe(struct i2c_client *client)
+> >>>>> +int it66121_create_bridge(struct i2c_client *client, bool
+> >>>>> of_support,
+> >>>>> +                         bool hpd_support, bool audio_support,
+> >>>>> +                         struct drm_bridge **bridge)
+> >>>>>    {
+> >>>>> +       struct device *dev = &client->dev;
+> >>>>>           int ret;
+> >>>>>           struct it66121_ctx *ctx;
+> >>>>> -       struct device *dev = &client->dev;
+> >>>>> -
+> >>>>> -       if (!i2c_check_functionality(client->adapter,
+> >>>>> I2C_FUNC_I2C)) {
+> >>>>> -               dev_err(dev, "I2C check functionality failed.\n");
+> >>>>> -               return -ENXIO;
+> >>>>> -       }
+> >>>>>
+> >>>>>           ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+> >>>>>           if (!ctx)
+> >>>>> @@ -1649,24 +1665,19 @@ static int it66121_probe(struct i2c_client
+> >>>>> *client)
+> >>>>>
+> >>>>>           ctx->dev = dev;
+> >>>>>           ctx->client = client;
+> >>>>> -       ctx->info = i2c_get_match_data(client);
+> >>>>> -
+> >>>>> -       ret = it66121_of_read_bus_width(dev, &ctx->bus_width);
+> >>>>> -       if (ret)
+> >>>>> -               return ret;
+> >>>>> -
+> >>>>> -       ret = it66121_of_get_next_bridge(dev, &ctx->next_bridge);
+> >>>>> -       if (ret)
+> >>>>> -               return ret;
+> >>>>> -
+> >>>>> -       i2c_set_clientdata(client, ctx);
+> >>>>>           mutex_init(&ctx->lock);
+> >>>>>
+> >>>>> -       ret = devm_regulator_bulk_get_enable(dev,
+> >>>>> ARRAY_SIZE(it66121_supplies),
+> >>>>> - it66121_supplies);
+> >>>>> -       if (ret) {
+> >>>>> -               dev_err(dev, "Failed to enable power supplies\n");
+> >>>>> -               return ret;
+> >>>>> +       if (of_support) {
+> >>>>> +               ret = it66121_of_read_bus_width(dev,
+> >>>>> &ctx->bus_width);
+> >>>>> +               if (ret)
+> >>>>> +                       return ret;
+> >>>>> +
+> >>>>> +               ret = it66121_of_get_next_bridge(dev,
+> >>>>> &ctx->next_bridge);
+> >>>>> +               if (ret)
+> >>>>> +                       return ret;
+> >>>>> +       } else {
+> >>>>> +               ctx->bus_width = 24;
+> >>>>> +               ctx->next_bridge = NULL;
+> >>>>>           }
+> >>>> A better alternative would be to turn OF calls into fwnode calls and
+> >>>> to populate the fwnode properties. See
+> >>>> drivers/platform/x86/intel/chtwc_int33fe.c for example.
+> >>>
+> >>> Honestly, I don't want to leave any scratch(breadcrumbs).
+> >>> I'm worries about that turn OF calls into fwnode calls will leave
+> >>> something unwanted.
+> >>>
+> >>> Because I am not sure if fwnode calls will make sense in the DT
+> >>> world, while my patch
+> >>> *still* be useful in the DT world.
+> >> fwnode calls work for both DT and non-DT cases. In the DT case they
+> >> work with DT nodes and properties. In the non-DT case, they work with
+> >> manually populated properties.
+> >>
+> >>> Because the newly introduced it66121_create_bridge()
+> >>> function is a core. I think It's better leave this task to a more
+> >>> advance programmer.
+> >>> if there have use case. It can be introduced at a latter time,
+> >>> probably parallel with
+> >>> the DT.
+> >>>
+> >>> I think DT and/or ACPI is best for integrated devices, but it66121
+> >>> display bridges is
+> >>> a i2c slave device. Personally, I think slave device shouldn't be
+> >>> standalone. I'm more
+> >>> prefer to turn this driver to support hot-plug, even remove the
+> >>> device on the run time
+> >>> freely when detach and allow reattach. Like the I2C EEPROM device in
+> >>> the monitor (which
+> >>> contains the EDID, with I2C slave address 0x50). The I2C EEPROM
+> >>> device *also* don't has
+> >>> a corresponding struct device representation in linux kernel.
+> >> It has. See i2c_client::dev.
+> >
+> > No, what I mean is that there don't have a device driver for
+> > monitor(display) hardware entity.
+> > And the drm_do_probe_ddc_edid() is the static linked driver, which is
+> > similar with the idea
+> > this series want to express.
 
-It *may* fix an intermittent issue with the panel resuming from
-suspend, but it really more solves an issue with devices for which
-we're still adding support.
+Because the monitor is not a part of the display pipeline.
 
-Should I still tag it as a "fixes" then?
+> >
+> >
+> >>> so I still think It is best to make this drivers functional as a
+> >>> static lib, but I want
+> >>> to hear you to say more. Why it would be a *better* alternative to
+> >>> turn OF calls into
+> >>> fwnode calls? what are the potential benefits?
+> >> Because then you can populate device properties from your root device.
+> >> Because it allows the platform to specify the bus width instead of
+> >> hardcoding 24 bits (which might work in your case, but might not be
+> >> applicable to another user next week).
+> >
+> >
+> > No, this problem can be easily solved. Simply add another argument.
+> >
+> > ```
+> >
+> > int it66121_create_bridge(struct i2c_client *client, bool of_support,
+> >                           bool hpd_support, bool audio_support, u32
+> > bus_width,
+> >                           struct drm_bridge **bridge);
+> > ```
+> >
+> >
+> >> Anyway, even without fwnode, I'd strongly suggest you to drop the
+> >> it66121_create_bridge() as it is now and start by populating the i2c
+> >> bus from your root device.
+> >
+> > This will force all non-DT users to add the similar code patter at the
+> > display controller side,
+> > which is another kind of duplication. The monitor is also as I2C slave
+> > device, can be abstract
+> > as a identify drm bridges in theory, I guess.
+> >
+>
+> 'identify' -> 'identity'
+>
+>
+> >
+> >> Then you will need some way (fwnode?) to
+> >> discover the bridge chain. And at the last point you will get into the
+> >> device data and/or properties business.
+> >>
+> > No, leave that chance to a more better programmer and forgive me please,
+> > too difficult, I'm afraid of not able to solve. Thanks a lot for the
+> > trust!
 
-Thank you.
+From my point of view: no.
 
-> 
-> > 
-> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> 
-> Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> 
-> Thanks,
-> 
-> Jessica Zhang
-> 
-> > ---
-> >   drivers/gpu/drm/panel/panel-elida-kd35t133.c | 2 ++
-> >   1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/panel/panel-elida-kd35t133.c b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-> > index 6cd8536c09ff..f1fc4a26f447 100644
-> > --- a/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-> > +++ b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-> > @@ -104,6 +104,8 @@ static int kd35t133_unprepare(struct drm_panel *panel)
-> >   		return ret;
-> >   	}
-> > +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> > +
-> >   	regulator_disable(ctx->iovcc);
-> >   	regulator_disable(ctx->vdd);
-> > -- 
-> > 2.34.1
-> > 
+-- 
+With best wishes
+Dmitry
