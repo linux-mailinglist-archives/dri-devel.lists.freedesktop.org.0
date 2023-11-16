@@ -1,47 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A597C7EE6BA
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 19:29:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBED37EE6C4
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 19:31:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18CAB10E65A;
-	Thu, 16 Nov 2023 18:29:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13CDF10E671;
+	Thu, 16 Nov 2023 18:31:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com
- [91.218.175.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AEF010E65A
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 18:29:35 +0000 (UTC)
-Message-ID: <cc1bee15-f69f-4467-873d-c85cc09d60a0@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1700159373;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Edk6FLzHTRuYYpwZ3fxzpEOntgKfq8bYriPXqiotyZI=;
- b=BbdP5LbJs917g+nVPVtTSfLgSHIgGpMCVOrjedB+PT0GgKJiSDIx0DGhDbT/Ah1BqC9wpM
- ZD4bC24s5vEy0uF0/fkgAkyHsJWdqIQJPalBJWY4DSRUIxxg4M0MluE/FHjBS/c3OJm26G
- 6aAeBVSpaWnB12L7dQlA+6hK6pE7n0E=
-Date: Fri, 17 Nov 2023 02:29:25 +0800
-MIME-Version: 1.0
-Subject: Re: [PATCH 5/8] drm/bridge: it66121: Add a helper function to read
- chip id
-Content-Language: en-US
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com
+ [IPv6:2607:f8b0:4864:20::f2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7889510E660
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 18:31:30 +0000 (UTC)
+Received: by mail-qv1-xf2f.google.com with SMTP id
+ 6a1803df08f44-672096e0e89so5812476d6.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 10:31:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marek.ca; s=google; t=1700159489; x=1700764289; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:content-language:in-reply-to:mime-version
+ :user-agent:date:message-id:references:cc:to:subject:from:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rU0Onv3SuE+K6mh1ouNAPCMkOiMWIv4TJL2AZdCOGUw=;
+ b=WLeZ40ZxI9X1q/x5DAZ4lozrHmzrHsUO70S0rNVfLcAS4JepjKEk58ZxoPMm9xDdXw
+ kRFJqIokYTtxrPo/558GvEJ91QlmQJchZnaYlmRbSuM0o9kyGr4SBrDTGIgEfZO05IgK
+ hbWYLe+VSAXllY1jlGednOXKiqMKyxfxbqVvbHU06SNoVfvn7rLnc+FJAxfKz5KWlhXg
+ LtrZfg1S+BzOaU5cEztQqz/BQBYZGgoQMREu9Iii/tt37pbscWJ4+spl7rad8vEjyJbl
+ hqYvYiMy0ydseexfIol1Up1HRnWgJ1he1tgBbUhaHchar8IwfttvL5irzpFRADTIXNQ0
+ UbqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700159489; x=1700764289;
+ h=content-transfer-encoding:content-language:in-reply-to:mime-version
+ :user-agent:date:message-id:references:cc:to:subject:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rU0Onv3SuE+K6mh1ouNAPCMkOiMWIv4TJL2AZdCOGUw=;
+ b=oDNvi6/3TMviLZluG2xtuId8vY44tFIEhYJZ3u5BcYH/owJ8KAaBuEaD8MhKEXJNgb
+ g9/yPBNIWTQW9GKn4ULtujrCG9Kz7g01Wvb4q76AEL67DzWya9f+mFOEIOgAnVhLSOgn
+ 7u/YcOD8CxZ9ddwtC26p8prvjJBbCB+sb85GLuyO1KskBhFCjVCLCfZfKsrVJro0H7Bu
+ UO0AJ0DPQVwLWruDyTMsiKnY9FZz5fRAaPCm3IzK8Smj5VWIMTYxZiIkcr6ULF74uL6A
+ OEvzkFwXCq8xtawfNjqEUMrHNxqWO3+ErV/bQhZBYJrAA8wzNWGKZjvf0aVwVwOE3GZ/
+ PViA==
+X-Gm-Message-State: AOJu0YyeoMB8J0psri6vy4xYZaJBQqZxreQM7+pKMDJvoLhXnXhHzUL8
+ Kl1Zcs7YlRxfjnId+ictL3W8QA==
+X-Google-Smtp-Source: AGHT+IG1dtT861g2sp4EuKubGCs2MqPMYXbAKW0AsBqZnVTbe7Dwjir9T3SG6Z6PX3ZoTrHqa61+GQ==
+X-Received: by 2002:a05:6214:1255:b0:66d:42d9:fc83 with SMTP id
+ r21-20020a056214125500b0066d42d9fc83mr13813746qvv.10.1700159489365; 
+ Thu, 16 Nov 2023 10:31:29 -0800 (PST)
+Received: from [192.168.0.189] (modemcable125.110-19-135.mc.videotron.ca.
+ [135.19.110.125]) by smtp.gmail.com with ESMTPSA id
+ k13-20020a0cebcd000000b00670c15033aesm1528608qvq.144.2023.11.16.10.31.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Nov 2023 10:31:29 -0800 (PST)
+From: Jonathan Marek <jonathan@marek.ca>
+Subject: Re: [PATCH v2 1/6] drm/msm/dpu: fix video mode DSC for DSI
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
- <20231114150130.497915-6-sui.jingfeng@linux.dev>
- <CAA8EJprkDpjuHEi5R01p4XNvFBr94BvXhr7AZCLr6dC8Mk=yPw@mail.gmail.com>
- <7602cd83-0e05-4e11-9bd1-10eb1d48a507@linux.dev>
- <CAA8EJprFjdrQtegJd5HyzGYQaMawwQOhvkE=SNqsdsBCrtfDTA@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <CAA8EJprFjdrQtegJd5HyzGYQaMawwQOhvkE=SNqsdsBCrtfDTA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: <20231114225857.19702-1-jonathan@marek.ca>
+ <20231114225857.19702-2-jonathan@marek.ca>
+ <CAA8EJpp0OGkgf0P6LcwE-H6BVN9kbtF_eRCsef+7NgDFmJOZfA@mail.gmail.com>
+Message-ID: <d93a7c6f-a798-c9ec-6c10-08e4e5a70f4d@marek.ca>
+Date: Thu, 16 Nov 2023 13:30:32 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <CAA8EJpp0OGkgf0P6LcwE-H6BVN9kbtF_eRCsef+7NgDFmJOZfA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,156 +78,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phong LE <ple@baylibre.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, freedreno@lists.freedesktop.org,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Arnaud Vrac <rawoul@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-
-On 2023/11/16 21:00, Dmitry Baryshkov wrote:
-> On Thu, 16 Nov 2023 at 14:18, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
->> Hi,
+On 11/15/23 3:53 AM, Dmitry Baryshkov wrote:
+> On Wed, 15 Nov 2023 at 01:00, Jonathan Marek <jonathan@marek.ca> wrote:
 >>
+>> Add necessary DPU changes for DSC to work with DSI video mode.
 >>
->> On 2023/11/15 00:06, Dmitry Baryshkov wrote:
->>> On Tue, 14 Nov 2023 at 17:09, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
->>>> From: Sui Jingfeng <suijingfeng@loongson.cn>
->>>>
->>>> Read the required chip id data back by calling regmap_bulk_read() once,
->>>> reduce the number of local variables needed in it66121_probe() function.
->>>> And store its values into struct it66121_ctx, as it will be used latter.
->>>>
->>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->>>> ---
->>>>    drivers/gpu/drm/bridge/ite-it66121.c | 47 ++++++++++++++++++++--------
->>>>    1 file changed, 34 insertions(+), 13 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
->>>> index 7e473beefc79..f36d05331f25 100644
->>>> --- a/drivers/gpu/drm/bridge/ite-it66121.c
->>>> +++ b/drivers/gpu/drm/bridge/ite-it66121.c
->>>> @@ -313,6 +313,9 @@ struct it66121_ctx {
->>>>                   bool auto_cts;
->>>>           } audio;
->>>>           const struct it66121_chip_info *info;
->>>> +       u16 vender_id;
->>>> +       u16 device_id;
->>>> +       u8 revision;
->>> There is no need to store them, they are not used by the driver anywhere.
->>>
->>>>    };
->>>>
->>>>    static inline struct it66121_ctx *bridge_to_it66121(struct drm_bridge *bridge)
->>>> @@ -399,6 +402,30 @@ static void it66121_hw_reset(struct it66121_ctx *ctx)
->>>>           gpiod_set_value(ctx->gpio_reset, 0);
->>>>    }
->>>>
->>>> +static int it66121_read_chip_id(struct it66121_ctx *ctx, bool verbose)
->>>> +{
->>>> +       u8 id[4];
->>>> +       int ret;
->>>> +
->>>> +       ret = regmap_bulk_read(ctx->regmap, IT66121_VENDOR_ID0_REG, id, 4);
->>>> +       if (ret < 0) {
->>>> +               dev_err(ctx->dev, "Failed to read chip ID: %d\n", ret);
->>>> +               return ret;
->>>> +       }
->>>> +
->>>> +       ctx->vender_id = (u16)id[1] << 8 | id[0];
->>>> +       ctx->device_id = ((u16)(id[3] & IT66121_DEVICE_ID1_MASK) << 8 | id[2]);
->>>> +       /* Revision is shared with DEVICE_ID1 */
->>>> +       ctx->revision = FIELD_GET(IT66121_REVISION_MASK, id[3]);
->>>> +
->>>> +       if (verbose) {
->>>> +               dev_info(ctx->dev, "Found ITE66121: 0x%x%x, revision: %u\n",
->>>> +                        ctx->vender_id, ctx->device_id, ctx->revision);
->>>> +       }
->>>> +
->>>> +       return 0;
->>>> +}
->>>> +
->>>>    static inline int it66121_preamble_ddc(struct it66121_ctx *ctx)
->>>>    {
->>>>           return regmap_write(ctx->regmap, IT66121_MASTER_SEL_REG, IT66121_MASTER_SEL_HOST);
->>>> @@ -1561,7 +1588,6 @@ static const char * const it66121_supplies[] = {
->>>>
->>>>    static int it66121_probe(struct i2c_client *client)
->>>>    {
->>>> -       u32 revision_id, vendor_ids[2] = { 0 }, device_ids[2] = { 0 };
->>>>           int ret;
->>>>           struct it66121_ctx *ctx;
->>>>           struct device *dev = &client->dev;
->>>> @@ -1603,19 +1629,13 @@ static int it66121_probe(struct i2c_client *client)
->>>>           if (IS_ERR(ctx->regmap))
->>>>                   return PTR_ERR(ctx->regmap);
->>>>
->>>> -       regmap_read(ctx->regmap, IT66121_VENDOR_ID0_REG, &vendor_ids[0]);
->>>> -       regmap_read(ctx->regmap, IT66121_VENDOR_ID1_REG, &vendor_ids[1]);
->>>> -       regmap_read(ctx->regmap, IT66121_DEVICE_ID0_REG, &device_ids[0]);
->>>> -       regmap_read(ctx->regmap, IT66121_DEVICE_ID1_REG, &device_ids[1]);
->>>> -
->>>> -       /* Revision is shared with DEVICE_ID1 */
->>>> -       revision_id = FIELD_GET(IT66121_REVISION_MASK, device_ids[1]);
->>>> -       device_ids[1] &= IT66121_DEVICE_ID1_MASK;
->>>> +       ret = it66121_read_chip_id(ctx, false);
->>>> +       if (ret)
->>>> +               return ret;
->>>>
->>>> -       if ((vendor_ids[1] << 8 | vendor_ids[0]) != ctx->info->vid ||
->>>> -           (device_ids[1] << 8 | device_ids[0]) != ctx->info->pid) {
->>>> +       if (ctx->vender_id != ctx->info->vid ||
->>>> +           ctx->device_id != ctx->info->pid)
->> Q: There is no need to store them, they are not used by the driver anywhere.
+>> Note this changes the logic to enable HCTL to match downstream, it will
+>> now be enabled for the no-DSC no-widebus case.
 >>
->> A: Here it is used, it is also used by the 0007-patch to get the entity(instance)-specific data.
-> And the patch 7 will be changed once you have proper i2c client struct
-> registered.
->
-We will create a "wrong"i2c client intentionally by calling i2c_new_client_device, the "wrong" 
-here means that 'board_info.type'  is not equal to "it66121" or "it6610".
+>> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c         |  2 +-
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h    |  2 +-
+>>   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c    | 11 +++++++++++
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c         | 13 ++++++++++++-
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h         |  1 +
+>>   5 files changed, 26 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> index 1cf7ff6caff4..d745c8678b9d 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> @@ -2477,7 +2477,7 @@ enum dpu_intf_mode dpu_encoder_get_intf_mode(struct drm_encoder *encoder)
+>>          return INTF_MODE_NONE;
+>>   }
+>>
+>> -unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc)
+>> +unsigned int dpu_encoder_helper_get_dsc(const struct dpu_encoder_phys *phys_enc)
+> 
+> Why?
+> 
 
-I probably know what you means, but please note that we are not object you at here.
-The reason why we prefer theit66121_get_match_data() over the i2c_get_match_data() is that our 
-it66121_get_match_data()  works with *the least dependency*. Ourversion
-don't rely on the DT to provide compatible strings. Because the it66121 itself already
-provided constant hard-coded vender id and device id on-chip register. This is a bit
-similar with the PCIe devices. This chip id speak everything about chip identify.
-By re-arranging the variants into array, searching and matching against became
-straight-forward. We can also utilize the vender id and device id information to
-dynamic bind the instance specific functions *at the setup(probe) time*. Which helps
-to untangle the it66121 and it6610 cases with function object. Currently they are
-tangled. This is not a problem simply because the model supported is too small(less).
+drm_mode_to_intf_timing_params has "phys_enc" pointer declared as const, 
+so one of them needs to change to call dpu_encoder_helper_get_dsc
 
+>>   {
+>>          struct drm_encoder *encoder = phys_enc->parent;
+>>          struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(encoder);
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>> index 6f04c3d56e77..7e27a7da0887 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>> @@ -332,7 +332,7 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
+>>    *   used for this encoder.
+>>    * @phys_enc: Pointer to physical encoder structure
+>>    */
+>> -unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc);
+>> +unsigned int dpu_encoder_helper_get_dsc(const struct dpu_encoder_phys *phys_enc);
+>>
+>>   /**
+>>    * dpu_encoder_helper_split_config - split display configuration helper function
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+>> index a01fda711883..df10800a9615 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+>> @@ -100,6 +100,8 @@ static void drm_mode_to_intf_timing_params(
+>>          }
+>>
+>>          timing->wide_bus_en = dpu_encoder_is_widebus_enabled(phys_enc->parent);
+>> +       if (dpu_encoder_helper_get_dsc(phys_enc))
+>> +               timing->compression_en = true;
+>>
+>>          /*
+>>           * for DP, divide the horizonal parameters by 2 when
+>> @@ -112,6 +114,15 @@ static void drm_mode_to_intf_timing_params(
+>>                  timing->h_front_porch = timing->h_front_porch >> 1;
+>>                  timing->hsync_pulse_width = timing->hsync_pulse_width >> 1;
+>>          }
+>> +
+>> +       /*
+>> +        * for DSI, if compression is enabled, then divide the horizonal active
+>> +        * timing parameters by compression ratio.
+>> +        */
+>> +       if (phys_enc->hw_intf->cap->type != INTF_DP && timing->compression_en) {
+>> +               timing->width = timing->width / 3; /* XXX: don't assume 3:1 compression ratio */
+> 
+> Is this /3 from bpp / compressed_bpp?
+> 
 
+It is the compression ratio of DSC for 8bpc (24bpp) compressed to 8bpp. 
+DSI driver doesn't support any other cases so this assumption should be 
+OK for now (the other common ratio is 3.75 for 10bpc compressed to 8bpp 
+- from downstream driver it appears this would mean a division by 3.75 
+here).
+
+>> +               timing->xres = timing->width;
+>> +       }
+>>   }
 >>
->> Since it6610 was introduced, this is used for chip identifying.
->> It can also be used with in debugfs context, to show who I am.
-> I'd say, there is little point in whoami debugfs files. Debugfs is for
-> the useful information.
->
+>>   static u32 get_horizontal_total(const struct dpu_hw_intf_timing_params *timing)
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>> index e8b8908d3e12..d6fe45a6da2d 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+>> @@ -166,10 +166,21 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
+>>           * video timing. It is recommended to enable it for all cases, except
+>>           * if compression is enabled in 1 pixel per clock mode
+>>           */
+>> +       if (!p->compression_en || p->wide_bus_en)
+>> +               intf_cfg2 |= INTF_CFG2_DATA_HCTL_EN;
+>> +
+>>          if (p->wide_bus_en)
+>> -               intf_cfg2 |= INTF_CFG2_DATABUS_WIDEN | INTF_CFG2_DATA_HCTL_EN;
+>> +               intf_cfg2 |= INTF_CFG2_DATABUS_WIDEN;
 >>
->>>>                   return -ENODEV;
->>>> -       }
->>>>
->>>>           ctx->bridge.funcs = &it66121_bridge_funcs;
->>>>           ctx->bridge.of_node = dev->of_node;
->>>> @@ -1633,7 +1653,8 @@ static int it66121_probe(struct i2c_client *client)
->>>>
->>>>           drm_bridge_add(&ctx->bridge);
->>>>
->>>> -       dev_info(dev, "IT66121 revision %d probed\n", revision_id);
->>>> +       dev_info(dev, "IT66121 probed, chip id: 0x%x:0x%x, revision: %u\n",
->>>> +                ctx->vender_id, ctx->device_id, ctx->revision);
->>>>
->>>>           return 0;
->>>>    }
->>>> --
->>>> 2.34.1
->>>>
->
->
+>>          data_width = p->width;
+>> +       if (p->wide_bus_en && !dp_intf)
+>> +               data_width = p->width >> 1;
+>> +
+>> +       if (p->compression_en)
+>> +               intf_cfg2 |= INTF_CFG2_DCE_DATA_COMPRESS;
+>> +
+>> +       if (p->compression_en && dp_intf)
+>> +               DPU_ERROR("missing adjustments for DSC+DP\n");
+>>
+>>          hsync_data_start_x = hsync_start_x;
+>>          hsync_data_end_x =  hsync_start_x + data_width - 1;
+> 
+> This should go into a separate commit with the proper justification.
+> 
+
+All of it? setting the INTF_CFG2_DCE_DATA_COMPRESS flag at least doesn't 
+make sense to make a separate patch. And DSI widebus is only used with 
+DSC (and always used when available), so IMO also in the scope of this 
+commit.
+
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+>> index c539025c418b..15a5fdadd0a0 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+>> @@ -33,6 +33,7 @@ struct dpu_hw_intf_timing_params {
+>>          u32 hsync_skew;
+>>
+>>          bool wide_bus_en;
+>> +       bool compression_en;
+>>   };
+>>
+>>   struct dpu_hw_intf_prog_fetch {
+>> --
+>> 2.26.1
+>>
+> 
+> 
