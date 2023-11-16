@@ -2,52 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A834C7EE6AB
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 19:25:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE6007EE6B1
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 19:28:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A19C710E2B0;
-	Thu, 16 Nov 2023 18:25:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F124D10E658;
+	Thu, 16 Nov 2023 18:28:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 483 seconds by postgrey-1.36 at gabe;
- Thu, 16 Nov 2023 18:25:16 UTC
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49E2210E2B0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 18:25:16 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id DFAA1874AB;
- Thu, 16 Nov 2023 19:17:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1700158629;
- bh=IuFABVM7kZSpA09E94Xi1oNJwlHBKLMQfnPbvM07d+U=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=N+o0AuAr+aMwkfm2WD5clyclPcc0IDkqBU5I1zQcBLgHnOEsruf5aKVq/59ObOCaP
- cdVFl7Db7GsCzK0aXL+OZkfTQxwvnmGqW8u9NkwkUJli580Ozp9WzrnOmjV4Vn7Wq5
- tYDdw+K0/n/YKl7fz7zw1/noecYnSt7fNUyCxG11aKnhdl/El5ZQCrN0ihpSc7yNpA
- DKi8aSrKqcWAIINgxrXiFEo0KWoE8W9roMb+/3lRm2Bjuewoo3SIGWSvOotpyGmiOP
- tvYdj2wDkZrCUWePElaDW821tirWUMHqKJl0iGaOqkp3WBz4KRJ++cHooYavek87UA
- 6oKpw6hZvlTRg==
-Message-ID: <d85f5c30-3960-4bdd-bff0-32158c1633a5@denx.de>
-Date: Thu, 16 Nov 2023 19:17:08 +0100
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5F2010E665
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 18:28:38 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id
+ d9443c01a7336-1cc131e52f1so17448375ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 10:28:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1700159318; x=1700764118;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=7reBGJiccGvFEPh84DNhsMy+d8d0VEfZ803Vs8wYx6A=;
+ b=C++qO4tx/HxtIn9XdRiJzvnjuROcf/PVIZNJKvyDMFXrtn+cqIjufFgu2TOVnhVdNq
+ Gix/z6NRxnHt6jlap/rqbob9I66145RXiU9T3n7Tj1yWoqzZ2svaAqlGT/l0z2wq2V1M
+ 8U++XFsqywh6B7t2merVbNNUe6KcTxi1QVkGA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700159318; x=1700764118;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7reBGJiccGvFEPh84DNhsMy+d8d0VEfZ803Vs8wYx6A=;
+ b=Mt8BX2HMvkUqCfUlMMGz69ayVGE7iO6kgwH/Ifm7o5F3BoVQE03EKCIOU8WQYcrL/J
+ YWYMHmN+x7mB7mcd9eL6nceq0dVvr7VMJJ91ue3FnMWwx2iR8ASlGPm0KP18Du2tP3X2
+ U6frtQKOvhSpEUL7nUloK+nRYhXEtNFmmB4g5+pAHGh+QFhoc5uPKUsm/LCgpGh1euU0
+ smvqkUpMn4kVgBWlwx2muqanTYouga7DK5hIkR/ZEItUaPA/Xq6BUKu3acqUi/7kQH2U
+ AjTdK8iHCwFavasOiS530eElCsH55OJAXXcUnl2Jl8qGf6kxFZTjqXNgNP7yMpS/t3YP
+ Pugw==
+X-Gm-Message-State: AOJu0YyM5iVH5uak9PYSLIsEj9clgbJpAn4gQA+sW4yFeqTVNzOhvyN1
+ bTFe/+0Td1VIQ9GyZjjUU0Uvzg==
+X-Google-Smtp-Source: AGHT+IGAIJ1flNjVNFt30991BeOzVwdm7nFOpSj7aipBLifSRgBzIDb+/MN7TcTVw7PDSnp4FgwR1Q==
+X-Received: by 2002:a17:903:485:b0:1cc:38e6:f097 with SMTP id
+ jj5-20020a170903048500b001cc38e6f097mr3076987plb.7.1700159318125; 
+ Thu, 16 Nov 2023 10:28:38 -0800 (PST)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
+ [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
+ t18-20020a1709028c9200b001bdeedd8579sm9514614plo.252.2023.11.16.10.28.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Nov 2023 10:28:37 -0800 (PST)
+Date: Thu, 16 Nov 2023 10:28:37 -0800
+From: Kees Cook <keescook@chromium.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH][next] nouveau/gsp: replace zero-length array with
+ flex-array member and use __counted_by
+Message-ID: <202311161028.E780FBB146@keescook>
+References: <ZVZbX7C5suLMiBf+@work>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] drm/bridge: tc358762: Instruct DSI host to generate
- HSE packets
-To: Marc Kleine-Budde <mkl@pengutronix.de>
-References: <20230615201902.566182-1-marex@denx.de>
- <20230615201902.566182-3-marex@denx.de>
- <20231116-tarantula-posing-b941e929b40d-mkl@pengutronix.de>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20231116-tarantula-posing-b941e929b40d-mkl@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZVZbX7C5suLMiBf+@work>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,134 +71,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
+Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Danilo Krummrich <dakr@redhat.com>, linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/16/23 17:06, Marc Kleine-Budde wrote:
-> Hey Marek,
+On Thu, Nov 16, 2023 at 12:11:43PM -0600, Gustavo A. R. Silva wrote:
+> Fake flexible arrays (zero-length and one-element arrays) are deprecated,
+> and should be replaced by flexible-array members. So, replace
+> zero-length array with a flexible-array member in `struct
+> PACKED_REGISTRY_TABLE`.
 > 
-> On 15.06.2023 22:19:00, Marek Vasut wrote:
->> This bridge seems to need the HSE packet, otherwise the image is
->> shifted up and corrupted at the bottom. This makes the bridge
->> work with Samsung DSIM on i.MX8MM and i.MX8MP.
+> Also annotate array `entries` with `__counted_by()` to prepare for the
+> coming implementation by GCC and Clang of the `__counted_by` attribute.
+> Flexible array members annotated with `__counted_by` can have their
+> accesses bounds-checked at run-time via `CONFIG_UBSAN_BOUNDS` (for array
+> indexing) and `CONFIG_FORTIFY_SOURCE` (for strcpy/memcpy-family functions).
 > 
-> I'm using v6.6 (which includes this series) on an i.MX8MP with the 7inch
-> Rspi Panel ("powertip,ph800480t013-idf02"), but I cannot get a stable
-> image.
+> This fixes multiple -Warray-bounds warnings:
+> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1069:29: warning: array subscript 0 is outside array bounds of 'PACKED_REGISTRY_ENTRY[0]' [-Warray-bounds=]
+> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1070:29: warning: array subscript 0 is outside array bounds of 'PACKED_REGISTRY_ENTRY[0]' [-Warray-bounds=]
+> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1071:29: warning: array subscript 0 is outside array bounds of 'PACKED_REGISTRY_ENTRY[0]' [-Warray-bounds=]
+> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1072:29: warning: array subscript 0 is outside array bounds of 'PACKED_REGISTRY_ENTRY[0]' [-Warray-bounds=]
 > 
-> With an unmodified imx8mp clock tree the lower 1/4 of the image sheers
-> to the left.
+> While there, also make use of the struct_size() helper, and address
+> checkpatch.pl warning:
+> WARNING: please, no spaces at the start of a line
 > 
-> With 24.75 MHz on the media_disp1_pix and media_mipi_phy1_ref and 792
-> MHz on video_pll1_out, the image is not static, but wobbly and it's
-> wrapped around half of the image.
+> This results in no differences in binary output.
 > 
->      video_pll1_ref_sel                1        1        0    24000000          0     0  50000         Y
->         video_pll1                     1        1        0   792000000          0     0  50000         Y
->            video_pll1_bypass           1        1        0   792000000          0     0  50000         Y
->               video_pll1_out           2        2        0   792000000          0     0  50000         Y
->                  media_mipi_phy1_ref       1        1        0    24750000          0     0  50000         Y
->                     media_mipi_phy1_ref_root       0        0        0    24750000          0     0  50000         Y
->                  media_disp2_pix       0        0        0   792000000          0     0  50000         N
->                     media_disp2_pix_root_clk       0        0        0   792000000          0     0  50000         N
->                  media_disp1_pix       1        1        0    24750000          0     0  50000         Y
->                     media_disp1_pix_root_clk       1        1        0    24750000          0     0  50000         Y
-> 
-> Do you have a working device tree for such a setup? regards, Marc
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-This seems to be what I used last time I tried (notice the 
-samsung,burst-clock-frequency = <720000000>; ), but this was a few 
-months ago:
+Looks nice to me.
 
-/ {
-         panel {
-                 compatible = "powertip,ph800480t013-idf02";
-                 backlight = <&attiny>;
-                 enable-gpio = <&attiny 0 GPIO_ACTIVE_HIGH>;
-                 power-supply = <&attiny>;
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-                 port {
-                         panel_in: endpoint {
-                                 remote-endpoint = <&bridge_out>;
-                         };
-                 };
-         };
-};
-
-&mipi_dsi {
-         /*
-          * This is DSIM PLL frequency, DSI HS clock lane frequency
-          * is half of the "samsung,burst-clock-frequency" value.
-          */
-         samsung,burst-clock-frequency = <720000000>;
-         status = "okay";
-
-         bridge@0 {
-                 compatible = "toshiba,tc358762";
-                 reg = <0>;
-                 vddc-supply = <&attiny>;
-                 #address-cells = <1>;
-                 #size-cells = <0>;
-                 status = "okay";
-
-                 port@0 {
-                         reg = <0>;
-                         bridge_in: endpoint {
-                                 data-lanes = <1>;
-                                 remote-endpoint = <&dsi_out>;
-                         };
-                 };
-
-                 port@1 {
-                         reg = <1>;
-                         bridge_out: endpoint {
-                                 remote-endpoint = <&panel_in>;
-                         };
-                 };
-         };
-};
-
-&dsi_out {
-         data-lanes = <1>;
-         remote-endpoint = <&bridge_in>;
-};
-
-&i2cmuxed0 {
-         #address-cells = <1>;
-         #size-cells = <0>;
-
-         touchscreen: touchscreen@38 {
-                 compatible = "edt,edt-ft5406";
-                 reg = <0x38>;
-                 reset-gpios = <&attiny 1 GPIO_ACTIVE_LOW>;
-                 /*
-                  * Disabled, since the IRQ line is not on
-                  * the FPC cable, so we cannot get touch
-                  * IRQs unless its connected otherwise. In
-                  * that case, add entry like this one and
-                  * enable below.
-                  *
-                  * interrupt-parent = <&gpiog>;
-                  * interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
-                  */
-                 status = "disabled";
-         };
-
-         attiny: regulator@45 {
-                 compatible = 
-"raspberrypi,7inch-touchscreen-panel-regulator";
-                 gpio-controller;
-                 #gpio-cells = <2>;
-                 reg = <0x45>;
-         };
-};
-
-&pwm1 {
-         status = "okay";
-};
-
-&lcdif1 {
-         status = "okay";
-};
-
+-- 
+Kees Cook
