@@ -2,74 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EFCB7EE7AC
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 20:45:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 030CC7EE7BC
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 20:56:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3986A10E68E;
-	Thu, 16 Nov 2023 19:45:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72DF310E692;
+	Thu, 16 Nov 2023 19:55:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11B2710E689
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 19:45:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1700163940;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=sPv6+1Sa94rgfObfXMphmchW6ouivMuvY1saNAx/w4Q=;
- b=FWhcCpMD3ejjS2BYpUofqsqAusy9F94CxXkEeGo4AGHq64mZXpSIZLYDuwHou7cBgxYzVD
- fN5deP89YCb819GBRnpNzGM1rxMir8MA2zNZa+NXp+QGR0HkDT4Z//ReOEIpS/ssFe3U7v
- xfpP63pn7WyYJ46XWdbMzFbdSCAWN9g=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-374-ThNTR2okMKeMafG-HKRd3g-1; Thu, 16 Nov 2023 14:45:39 -0500
-X-MC-Unique: ThNTR2okMKeMafG-HKRd3g-1
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-9e1020e2996so86707466b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 11:45:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700163938; x=1700768738;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sPv6+1Sa94rgfObfXMphmchW6ouivMuvY1saNAx/w4Q=;
- b=m7qk39M6irEFLOPmhDbzNUo1iR/vgXbX5vJWtLSo8WWhekTI7n+UzmfTJdt2Rl9iZk
- MB3AP65XAc4QqKFxE5cAH9k0ndkTH9/rQb0q5Fr0IXS7/emEbtVjSK37zUW17lZyKJdj
- Pu8bfRPhv/I3PoXqFilR9KmGvmWtfBHxJ8tj1hiPAvopIkX/jIB3IavafxZUOuCHfhcw
- +l+lOZTUMT8J4VfiylOCuEMPcq38Pif98AnpYW1zFnGH2dVM1iavZyNMK2LTz8FC0tms
- 8oyo86OErHxWUNwyfz2DJSBeti9KQRBpoCs2i58/6u6n/4yKVtNznS0RzzYFd+vMzCI7
- Z/KA==
-X-Gm-Message-State: AOJu0YxDQSV5VZkl4CVodVm+/2uJW36YGTE8ELbXJb6VE+dS+0/n+7oX
- R4Xrx2sFhs2ZQxjekuTGW5e/tcoYwjJ+BqgzD6PNu7DrtKXehd2dTZojyOtRNYdabL69JgzjXci
- f5n2l6wBKnCwQ5652r+b5z0YhEaSf
-X-Received: by 2002:a17:906:6d4e:b0:9ba:1d08:ad43 with SMTP id
- a14-20020a1709066d4e00b009ba1d08ad43mr12608768ejt.70.1700163937812; 
- Thu, 16 Nov 2023 11:45:37 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHq5/tnfwnzHJdeqlubHm24XqYASLf5h9KV93zPhLD7kixnisyCvTTF1mPX7goyJbwx62HiBA==
-X-Received: by 2002:a17:906:6d4e:b0:9ba:1d08:ad43 with SMTP id
- a14-20020a1709066d4e00b009ba1d08ad43mr12608750ejt.70.1700163937326; 
- Thu, 16 Nov 2023 11:45:37 -0800 (PST)
-Received: from pollux ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- y3-20020a17090629c300b009b94fe3fc47sm8733916eje.159.2023.11.16.11.45.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Nov 2023 11:45:36 -0800 (PST)
-Date: Thu, 16 Nov 2023 20:45:34 +0100
-From: Danilo Krummrich <dakr@redhat.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH][next] nouveau/gsp: replace zero-length array with
- flex-array member and use __counted_by
-Message-ID: <ZVZxXiXYIzEwUE3N@pollux>
-References: <ZVZbX7C5suLMiBf+@work>
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2087.outbound.protection.outlook.com [40.107.95.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B361410E691;
+ Thu, 16 Nov 2023 19:55:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aeUXWiiQFEwH70ysSeH61pfC5nEIJSCtkzjC6i9JOhXEdNgpqpXrnT9TQgKWEam15cJxD7UrAxnRRH4MvRJ/wDYZONzWsowBgiAeQuE8s06mezWqj55H1VHgHCx1IdV7Lp+DtuWcz2WEv7nTHAsOtsV0vVlnMdHOiif13gAAXQNkcMsD2dPJAOfHqwQJfKG8/iv/KtMfT9MNEnCgWgThYmlrC1/IwFLxfdN5V6r7gAO7XmJZePn20uHj1ikyAKw467BbCzpLXdpapVV052Iito/rmgWgBWqcMq7fmRAqmtohUb5L14/5cNL3gnjIK31Xccr6MfRlzpxs1ic+rDTX7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hoOFnbJItGvmHZtw8KN0XrgAUM9OSZ0Ok91CuWr5+iY=;
+ b=BGxyxvIN+X06vPow25q3WudFicS2DsawodMmFEqw/wEuW+D0PMmcIvem+772JCCGqEKt465pn8Yw4RmWHxvZlUzkFEcJqD/NeVpPsT/ft9nkSZFydWBULzxqpk+xVpCITvzmF9qRMpwjucvtVSHgV3ATEZyVmOnMGarEj6UtHY4I2TzgFUms+/LoWYGJ9orTWXTOjiL1kR+73yGBdKdJ8Sef+5tlmdBe1hMEMysl2igBlGFv44fDOW+kgIhfhJi+/rh388cs+wISCzgic2ao4OKZ3qQd/nS0sWLMs6VlzR5fvycx0GF0WxsErN5dEGspbPY2kx7LIz2HDg6zh8QnKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hoOFnbJItGvmHZtw8KN0XrgAUM9OSZ0Ok91CuWr5+iY=;
+ b=neMNNd6D/TDpTKJ6FZpMjLA//yWCDbntQBulQyvp/YTJL7eflY1sztCoKq3ukskYAKMwEpbVri1ZcFgzqcosBgR+zI83ax7NEo06QpXkMpxcE6yVYrVOHjz5BgV3LNKEN1dScelYeNbwsVk2LHqZcCg7BIcSJ9dV1H5AJe0h/pumlamawMitaUWo+rspLRLh4fwB2S1W4opi5jYu2XVJcMIecX3DtW4IniAq5QNSyb3ZBthiKUk9P62up/5lw76nV9q3u5fNNDXFAVOYM/gDE7LeoPjKOS9jx5KZcPL1L0TPXYLurMspJoJZg4U4gUXdNcmnTs9GcqPUSUnejMtZ2A==
+Received: from SN7PR12MB8769.namprd12.prod.outlook.com (2603:10b6:806:34b::12)
+ by SN7PR12MB7912.namprd12.prod.outlook.com (2603:10b6:806:341::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Thu, 16 Nov
+ 2023 19:55:54 +0000
+Received: from SN7PR12MB8769.namprd12.prod.outlook.com
+ ([fe80::6799:dc7a:e121:1af6]) by SN7PR12MB8769.namprd12.prod.outlook.com
+ ([fe80::6799:dc7a:e121:1af6%7]) with mapi id 15.20.7002.019; Thu, 16 Nov 2023
+ 19:55:54 +0000
+From: Timur Tabi <ttabi@nvidia.com>
+To: "dakr@redhat.com" <dakr@redhat.com>, "gustavoars@kernel.org"
+ <gustavoars@kernel.org>
+Subject: Re: [Nouveau] [PATCH][next] nouveau/gsp: replace zero-length array
+ with flex-array member and use __counted_by
+Thread-Topic: [Nouveau] [PATCH][next] nouveau/gsp: replace zero-length array
+ with flex-array member and use __counted_by
+Thread-Index: AQHaGLhk0tg241wav0u8A6kt0NXJMLB9WXwAgAAC4oA=
+Date: Thu, 16 Nov 2023 19:55:54 +0000
+Message-ID: <6517a6a41eb72d16596c913dc56467e0390287a3.camel@nvidia.com>
+References: <ZVZbX7C5suLMiBf+@work> <ZVZxXiXYIzEwUE3N@pollux>
+In-Reply-To: <ZVZxXiXYIzEwUE3N@pollux>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.44.4-0ubuntu2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN7PR12MB8769:EE_|SN7PR12MB7912:EE_
+x-ms-office365-filtering-correlation-id: 361e3613-a0c6-44d3-7a16-08dbe6de0aef
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: nOoQ8OoAWS7vF+DPsPmwk2aUyGWg5G8iM68CkhtJx3l1qNNtZmMjpVj+vVCK7Jpy5It9X+bzK0Z7QnxDh0V9LSsG1a0dqu7LcIHw1e3inlJClYCWFzdAVnL9VARxLsmBnwMBc3cj0DbJCyP/WpMaPN9R84XSP8P7tG4J+oV2LEpDbcIfqeCBWoimzcqVZ5IO3yCDktSGmoG9JroGJ83DRGsbnAY16xhraj59DHDZ3nKL2FUwtXZ0vOK0mK+kf85sihx2PJ+0VAP3jbMfcRCiAWF6fx9pCgthw6LP/xbx8kl7uSh1QECzWeZtjLDWY9wRlEwbuo2HLa3JVz5wAHROlw3Bo+NIid2gEwXtExY95MJ6cr3yZRWLgTnrNDAuYbnwQVaUvlIXXkM14S570Fhb6CtdLWHQU5GaMFU3N+sJS1VzK7RoofLz08aQfbfzldJHj/9/ApglHrJXDuAz8JGkNQ5cOWQPBW6JVzy+LrFr1x1VLT9kdrSG3S5B5SnyyhxfdPLkLwqZ+ur33PaohDnaYfu62AEv3tmaGSs3HGxo4yWwr0nIdnKxq1eZSsuTs0+kNNhO+plvPmosPesMQbknKRPmhDv6llWDioqyIjcbZsYgaDZ8oQq0nHocy2OOY1YV
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8769.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(366004)(376002)(39860400002)(346002)(396003)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(6506007)(91956017)(2906002)(2616005)(71200400001)(8936002)(36756003)(6512007)(26005)(4001150100001)(5660300002)(8676002)(4326008)(478600001)(4744005)(316002)(6486002)(41300700001)(66946007)(66556008)(76116006)(66476007)(110136005)(54906003)(122000001)(64756008)(38070700009)(66446008)(38100700002)(86362001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?KnKaf+/6jXQ7y8309b6zVHZvkJZkFrBwdu1OaF70hbg3GJn2sjZA+gMApd?=
+ =?iso-8859-1?Q?zlc7Dnv0ZMcf3UhOt3YmPnw6VZUQhEQ5OlUnFCCzEiFQeSd3wVyoZ0tqQp?=
+ =?iso-8859-1?Q?FRJ7O4ujn2E1zyUGD54+VWjBYB0UUjJ6zoDwwHI4bHO85d13GGBEcDubfc?=
+ =?iso-8859-1?Q?NwYHBpseiK+hrViPsa1ZBv473afmukOITqWsNVM6DojgKDrmAtiuEyPoBQ?=
+ =?iso-8859-1?Q?OHZHnrXGqZpWOfXFIaA5xDMS1bl5cdnsxPl8mqYZqmytM3ArfEJ/fNpnpl?=
+ =?iso-8859-1?Q?kpyFx/ai0voT9rOa6tSDm39rdQvDJQ0LtFDzF1N3e/b7wvsq2Pybr0u3NZ?=
+ =?iso-8859-1?Q?xxpgJkXXw8UvINUyuwtBJC5nMUhpG2tWjfmoGH0PgtN4hLRrWmWgfRF9C5?=
+ =?iso-8859-1?Q?c4yEB6b2EhWdFHRyOAQdpXoiK9hKeT5uv5UzjXK+4JEAbzPF/ROE6dg2Dk?=
+ =?iso-8859-1?Q?VoxNSP9jRzIWwh5xDNoR5npTxVVffh/UKpUO7ySxxO9d5Q1g0oDhO+FYEh?=
+ =?iso-8859-1?Q?uNq4HgILKv4HGpJbDGfLdH26EUP8RTlfSgfxPvSOXaxX/T3NOAMxdsRQBI?=
+ =?iso-8859-1?Q?k8CIG55wcfR0dhD2gFdlgHyDBarHmxOKp6H71zEV6TW5EHdl4p8B/QrP0N?=
+ =?iso-8859-1?Q?UNBokphK1P32L5m4tueaZidKfHK7QjBoiuuu3PsnOSalRrz5MXr796GocK?=
+ =?iso-8859-1?Q?rVyIDhgxDYiX0MlZBLoG3qfu+PXAuh14GZ/4GAm9LfmTalqbpP0+Offy7w?=
+ =?iso-8859-1?Q?QbIpU2VVN1zxtKhpBGJojz1C0gE/4XkE8BNJVge4iuyQAHKZYtNqsBbSsQ?=
+ =?iso-8859-1?Q?8GX7C32H5aWPkfTgloYX40hpmSJ7/OSZv5hPawWXqfXUnX5s778bhe3EaL?=
+ =?iso-8859-1?Q?wGcjtVAJlRolizFeZor7AFcrz80e8yXTxoUdRYIsYSbUoK+rfF4rUnzyrA?=
+ =?iso-8859-1?Q?W74o1fHyNkZUq60JNjhLf/J08Ixf0LzybIKr+D5AZijDjN3mBq3lh/v3AU?=
+ =?iso-8859-1?Q?SA12hfHK6Ha09KgNrnd3mdImSYiUc7oeYoMKuv8oXy7OKk3HW1/xIT5w4Y?=
+ =?iso-8859-1?Q?HK1B8PWhlMgLDMoK7qjwhdpK5B7LJvrDSKtGkR67PVT7g6xOjjaY70SezT?=
+ =?iso-8859-1?Q?P2lZIx3d/zjip/D7Es2U8MNUmnDIICzXcNO+FXd1dDvg8x7Kso6WFwD3xu?=
+ =?iso-8859-1?Q?wmE+o7tm+E4Q0ERBQ75HWYq811+K/7Fdu2lsXxccKjlRfIc4rZqJGGOemo?=
+ =?iso-8859-1?Q?j3hBxDdHLhFAzfMHxAA7VRG4NFDmUkPx0blRDbbTX5v5OB6ltrRAKhKQLW?=
+ =?iso-8859-1?Q?R0kHRazzpkmhR7tPGIObZNo+BMtx1CtOuB2JQqwfXTorZBAV9Gt+EGSB4N?=
+ =?iso-8859-1?Q?cC96XMiBwtlyCzDXzCjmMLU+mKgUK4Fc/7GpJSRt0APmSzmG69SgaTQr6I?=
+ =?iso-8859-1?Q?WCJcyt2kIyaXT7IWMRlbkHM4tIh2nn9edyARqZndeVC57AN5Mqt1VKpk+g?=
+ =?iso-8859-1?Q?OIAMT82rL45oSU+tV85CVjU+FlhBgcTSL7DzBYQRXIDRWDWTcT2RzI4uXz?=
+ =?iso-8859-1?Q?Cac2v2WLcCwqoLLlcs5s7IDhu3j8cbw13u6WrKRUDFg1t97CSo8AQ/fmHj?=
+ =?iso-8859-1?Q?7NyMrWH6YbCguvkJSnS1eMwnKQDBb4g8WR?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <C355FBBF27F44A49A1800CE9B90D8F11@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <ZVZbX7C5suLMiBf+@work>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8769.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 361e3613-a0c6-44d3-7a16-08dbe6de0aef
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2023 19:55:54.3283 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yLL2j+o5j+hOPs4ZmCG812Pmiax8Q5lH/pv7SHVy8rnnNRAU/wtAdikYW1xatPjXura63UPkyLrmEhesiIXcmQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7912
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,106 +122,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-hardening@vger.kernel.org
+Cc: "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Gustavo,
+On Thu, 2023-11-16 at 20:45 +0100, Danilo Krummrich wrote:
+> As I already mentioned for Timur's patch [2], I'd prefer to get a fix
+> upstream
+> (meaning [1] in this case). Of course, that's probably more up to Timur t=
+o
+> tell
+> if this will work out.
 
-On Thu, Nov 16, 2023 at 12:11:43PM -0600, Gustavo A. R. Silva wrote:
-> Fake flexible arrays (zero-length and one-element arrays) are deprecated,
-> and should be replaced by flexible-array members. So, replace
-> zero-length array with a flexible-array member in `struct
-> PACKED_REGISTRY_TABLE`.
-> 
-> Also annotate array `entries` with `__counted_by()` to prepare for the
-> coming implementation by GCC and Clang of the `__counted_by` attribute.
-> Flexible array members annotated with `__counted_by` can have their
-> accesses bounds-checked at run-time via `CONFIG_UBSAN_BOUNDS` (for array
-> indexing) and `CONFIG_FORTIFY_SOURCE` (for strcpy/memcpy-family functions).
-> 
-> This fixes multiple -Warray-bounds warnings:
-> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1069:29: warning: array subscript 0 is outside array bounds of 'PACKED_REGISTRY_ENTRY[0]' [-Warray-bounds=]
-> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1070:29: warning: array subscript 0 is outside array bounds of 'PACKED_REGISTRY_ENTRY[0]' [-Warray-bounds=]
-> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1071:29: warning: array subscript 0 is outside array bounds of 'PACKED_REGISTRY_ENTRY[0]' [-Warray-bounds=]
-> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c:1072:29: warning: array subscript 0 is outside array bounds of 'PACKED_REGISTRY_ENTRY[0]' [-Warray-bounds=]
-> 
-> While there, also make use of the struct_size() helper, and address
-> checkpatch.pl warning:
-> WARNING: please, no spaces at the start of a line
-> 
-> This results in no differences in binary output.
-> 
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> ---
->  .../nvrm/535.113.01/nvidia/generated/g_os_nvoc.h   | 14 +++++++-------
->  drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c     |  2 +-
->  2 files changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/generated/g_os_nvoc.h b/drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/generated/g_os_nvoc.h
-> index 754c6af42f30..259b25c2ac6b 100644
-> --- a/drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/generated/g_os_nvoc.h
-> +++ b/drivers/gpu/drm/nouveau/include/nvrm/535.113.01/nvidia/generated/g_os_nvoc.h
-> @@ -28,17 +28,17 @@
->  
->  typedef struct PACKED_REGISTRY_ENTRY
->  {
-> -    NvU32                   nameOffset;
-> -    NvU8                    type;
-> -    NvU32                   data;
-> -    NvU32                   length;
-> +	NvU32                   nameOffset;
-> +	NvU8                    type;
-> +	NvU32                   data;
-> +	NvU32                   length;
->  } PACKED_REGISTRY_ENTRY;
->  
->  typedef struct PACKED_REGISTRY_TABLE
->  {
-> -    NvU32                   size;
-> -    NvU32                   numEntries;
-> -    PACKED_REGISTRY_ENTRY   entries[0];
-> +	NvU32                   size;
-> +	NvU32                   numEntries;
-> +	PACKED_REGISTRY_ENTRY   entries[] __counted_by(numEntries);
->  } PACKED_REGISTRY_TABLE;
+Don't count on it.
 
-Thanks for the fix!
+Even if I did change [0] to [], I'm not going to be able to add the
+"__counted_by(numEntries);" because that's just not something that our buil=
+d
+system uses.
 
-However, I have some concerns about changing those header files, since they're
-just copied over from Nvidia's driver [1].
+And even then, I would need to change all [0] to []. =20
 
-Once we add the header files for a new firmware revision, we'd potentially run
-into the same issue, applying the same fix again.
+You're not going to be able to use RM's header files as-is anyway in the
+long term.  If we changed the layout of PACKED_REGISTRY_TABLE, we're not
+going to create a PACKED_REGISTRY_TABLE2 and keep both around. =A0We're jus=
+t
+going to change PACKED_REGISTRY_TABLE and pretend the previous version neve=
+r
+existed.  You will then have to manually copy the new struct to your header
+files and and maintain two versions yourself.
 
-As I already mentioned for Timur's patch [2], I'd prefer to get a fix upstream
-(meaning [1] in this case). Of course, that's probably more up to Timur to tell
-if this will work out.
 
-If we can't get a fix upstream, I'd probably prefer to silence warning
-elsewhere.
-
-[1] https://github.com/NVIDIA/open-gpu-kernel-modules
-[2] https://lore.kernel.org/all/20231107234726.854248-1-ttabi@nvidia.com/T/
-
->  
->  #endif
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> index dc44f5c7833f..228335487af5 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
-> @@ -1048,7 +1048,7 @@ r535_gsp_rpc_set_registry(struct nvkm_gsp *gsp)
->  	char *strings;
->  	int str_offset;
->  	int i;
-> -	size_t rpc_size = sizeof(*rpc) + sizeof(rpc->entries[0]) * NV_GSP_REG_NUM_ENTRIES;
-> +	size_t rpc_size = struct_size(rpc, entries, NV_GSP_REG_NUM_ENTRIES);
->  
->  	/* add strings + null terminator */
->  	for (i = 0; i < NV_GSP_REG_NUM_ENTRIES; i++)
-> -- 
-> 2.34.1
-> 
 
