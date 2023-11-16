@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6407EE166
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 14:19:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BFD37EE174
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 14:22:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD2A210E5EE;
-	Thu, 16 Nov 2023 13:19:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3F2D10E5D6;
+	Thu, 16 Nov 2023 13:22:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44B9710E5EC
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 13:19:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8461910E5D6
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 13:22:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1700140740;
+ s=mimecast20190719; t=1700140945;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=r2ioSvsdVC24BNs/tJ+ckjjBuQcpkPVhbaN7mfLUSmk=;
- b=gEFhBfNcCbMgIupKMmqeXxjaSPUFpcLPDVixjVMLqjV0z3sIehZ/K+KGSb65me9m+lmEyI
- Kr4RhuZia2JFhZbUgSQ6ILaahlrCQTXBl9E6gR1suQMKXtWUf5n4jl4/r8DOtFd4z0W7tH
- TMRG0UnEXLkp/wNIdVleTZEJfykAbS0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=F7+iNGSwtyGLrsX7CmnTv6eFqLzHKXVfMpm2hsnu83o=;
+ b=fdcBPcM4+ISfyggLLG9nHtw6OHm0Fq4qGpcUcR/w7C+j2YZM1RopvUU7z4Vi5RYuQjNAtp
+ 0xBqAEGLhjIE6Ve0j+CWuCOa+879oJRaSViEzyFgzYcwiiovEjb+Hu7oIpeqcf7QG7fcHB
+ CxscpvYNoTy0NFXdi8MmDYSF9QA2PyQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-99-tVMGbZCeMwSYFTfk7nfy9A-1; Thu, 16 Nov 2023 08:18:58 -0500
-X-MC-Unique: tVMGbZCeMwSYFTfk7nfy9A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-4084001846eso4487105e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 05:18:58 -0800 (PST)
+ us-mta-557-SwsTw6_3NsuzZphXCu8N7Q-1; Thu, 16 Nov 2023 08:22:22 -0500
+X-MC-Unique: SwsTw6_3NsuzZphXCu8N7Q-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-32d9cd6eb0bso437709f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 05:22:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700140738; x=1700745538;
+ d=1e100.net; s=20230601; t=1700140941; x=1700745741;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=r2ioSvsdVC24BNs/tJ+ckjjBuQcpkPVhbaN7mfLUSmk=;
- b=e6KsL0HbgLBZCJEKeGaweeY4JbaE2IAaNk/yMQ1Ihe9UgJE+3lJDEQfp9zFKMwSIJF
- DVQpiIuO2B0GIyiLWu691D0hbTRov2IenR18u65L5lVXmEiUs1GwY64s4nQ6QWYPxVRP
- qtDDDRfSrHQVnOWFU3PeBhjHAZbuQCAe5C1PW8pIE1+0mvDq+9nLHxuROfsNdHjRx3Sr
- m6WnMduaWJYXN7yJQj1rSqG1txuvzEkPUSMHl8uJwXL0aJcSZ5hySHdeJz61Xs5Op3tL
- iICq3ei6Rhrx8GoiOzmlZOhiHZt+a4J3mzkLMqX8oVEMvaNByYx4oIlz+8UNPM/qILBV
- MQRA==
-X-Gm-Message-State: AOJu0Yyn6HN09W/NU/M4Gq1fwjBPDrT+vNV97Y6z0sfcyKvodLNt2HCW
- dALEPdqLJXGSJ3SxuaWqkJya7M2LE3O+LGX0IORO3J+nvRbEk766tvwyLypapmZcDRp11OMyyI6
- UQC/toJXzpqkzPH5MvqjaMCYQj5ge
-X-Received: by 2002:a05:6000:186b:b0:32d:9b3d:4f69 with SMTP id
- d11-20020a056000186b00b0032d9b3d4f69mr15354761wri.64.1700140737930; 
- Thu, 16 Nov 2023 05:18:57 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEZePSLm6805MffvvwhDpaaQKx0BMg13ekmNTxyFySFKHK0WR1spvD11gT9iZCxRQtve/mI9g==
-X-Received: by 2002:a05:6000:186b:b0:32d:9b3d:4f69 with SMTP id
- d11-20020a056000186b00b0032d9b3d4f69mr15354743wri.64.1700140737613; 
- Thu, 16 Nov 2023 05:18:57 -0800 (PST)
+ bh=F7+iNGSwtyGLrsX7CmnTv6eFqLzHKXVfMpm2hsnu83o=;
+ b=sEFVgK+MQ50JichMva+OaaUygzmzLVHgsYTdAXixTI6LpOj0JtsZkXFi4ZPqdJFcN4
+ RSgNtZbNpae/hQA/ONaxb3dfEpiJTsN9fWVDIBUhFm7ijYTh8BJLMdpAa1I7p3EpTi/d
+ qcW1h33wq2lLTOG7b05gkgZTzSEYSJ/8ZWLF+zTD7YvaWLuYFzXV9HAkQoibMQ9cEKHF
+ boeCeSyNPv4C1G0/jJ6bL8qq9wlNTwopifmzvY69wpfAFpbim+6ZkB9vQlpC001b+aOn
+ swkQeGXuEyzLfsob2Q4xvvmYJzczkh1hS2Guhg2Y3OSoXXSPRj7Wrb6qQmIc2om9Q1d7
+ FoXg==
+X-Gm-Message-State: AOJu0YyWGGf2sFYQFwgrdhtt6TxqNibF8wBdX6PvggJvhaH3fJKvwl7j
+ 3OPf2y3KGSgMTGkgaK6qNorkC037MnX8p5DyI4JaeaYh0uNwKMsonzOkqyHLTvU8t9Gn7l+ixH8
+ TMrxjSMhXjHEvswMStONOojrdejr1
+X-Received: by 2002:a5d:5741:0:b0:32f:7db1:22f0 with SMTP id
+ q1-20020a5d5741000000b0032f7db122f0mr10520036wrw.20.1700140941531; 
+ Thu, 16 Nov 2023 05:22:21 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGFuK+UpxCjYuUwCxoI9MkGHUTPUyNvLFpUtkuAQkHfNvTxAFlBt0TzLY1alrl726JtxtyLtA==
+X-Received: by 2002:a5d:5741:0:b0:32f:7db1:22f0 with SMTP id
+ q1-20020a5d5741000000b0032f7db122f0mr10520027wrw.20.1700140941220; 
+ Thu, 16 Nov 2023 05:22:21 -0800 (PST)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- g26-20020adfa49a000000b0030647449730sm13748332wrb.74.2023.11.16.05.18.57
+ q4-20020a056000136400b003233b554e6esm13556933wrz.85.2023.11.16.05.22.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Nov 2023 05:18:57 -0800 (PST)
+ Thu, 16 Nov 2023 05:22:21 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Geert Uytterhoeven <geert@linux-m68k.org>, Christian Zigotzky
  <chzigotzky@xenosoft.de>, David Airlie <airlied@redhat.com>, Gerd Hoffmann
@@ -63,11 +63,11 @@ To: Geert Uytterhoeven <geert@linux-m68k.org>, Christian Zigotzky
  Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann
  <tzimmermann@suse.de>, Laurent Vivier <lvivier@redhat.com>, Hamza Mahfooz
  <hamza.mahfooz@amd.com>, linux-m68k@lists.linux-m68k.org
-Subject: Re: [PATCH] drm/virtio: Add suppport for non-native
-In-Reply-To: <282a31154172a78165912c832a09f6502515d139.1700140178.git.geert@linux-m68k.org>
-References: <282a31154172a78165912c832a09f6502515d139.1700140178.git.geert@linux-m68k.org>
-Date: Thu, 16 Nov 2023 14:18:56 +0100
-Message-ID: <87wmuh25vj.fsf@minerva.mail-host-address-is-not-set>
+Subject: Re: [PATCH v2] drm/virtio: Add suppport for non-native buffer formats
+In-Reply-To: <47a81d2e0e47b1715718779b6978a8b595cc7c5d.1700140609.git.geert@linux-m68k.org>
+References: <47a81d2e0e47b1715718779b6978a8b595cc7c5d.1700140609.git.geert@linux-m68k.org>
+Date: Thu, 16 Nov 2023 14:22:20 +0100
+Message-ID: <87ttpl25pv.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -90,8 +90,6 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Geert Uytterhoeven <geert@linux-m68k.org> writes:
-
-Hello Geert,
 
 > When using virtgpu on a big-endian machine, e.g. powerpc QEMU:
 >
@@ -128,6 +126,9 @@ Hello Geert,
 > Closes: https://lore.kernel.org/r/c47fba21-3ae9-4021-9f4a-09c2670ebdbc@xenosoft.de
 > Suggested-by: Gerd Hoffmann <kraxel@redhat.com>
 > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> ---
+> v2:
+>   - Fix truncated one-line summary.
 > ---
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
