@@ -1,49 +1,152 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35AC97EE9F0
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 00:20:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D747EE9F9
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 00:28:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4885F10E2D8;
-	Thu, 16 Nov 2023 23:20:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42BFC10E70D;
+	Thu, 16 Nov 2023 23:28:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8407F10E2D8;
- Thu, 16 Nov 2023 23:20:43 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0F0C10E040;
+ Thu, 16 Nov 2023 23:28:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700176843; x=1731712843;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=AHdlijasPpYfdJ9Jt6N6vvvBtszP85uNsJvFObuDq1g=;
- b=J3yRQ2H6rYfY2x6N5luKMpoaphELuwER5EKsWVmqz1aVA1fnqAkfZ/ix
- JJCAw8jVQnO/LPYs+fIh0BuOUp2aakdn8faLChaKLt9KMWuMtRQGbCv+b
- IglZqfIuT+K1aa2eEBnQgYSBnevPkFxD+mlKMBDnNDCWIK8pbTNkbKawg
- dKhZ29hpeNdA/J9OaZvOKEhrohXu/PavyyWsuyoSwkrDsUZ1bCL0uCJDz
- SUoG006q3tMzZ2BQBzbScGoy5wMgxs2nS303ZteavYDvHFdiwsSoXMI1+
- JZiaCLw83zscHmvQCIj7a4T/Co+FAs8dV1JgW7rhBeM6hOQqf3p6sZX8w w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="9860996"
-X-IronPort-AV: E=Sophos;i="6.04,205,1695711600"; 
-   d="scan'208";a="9860996"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2023 15:20:41 -0800
+ t=1700177322; x=1731713322;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=Ii3XOy3OXGn5OiFhck+DJ+RA/uxPTZp+nJA2MsKfXyk=;
+ b=eprwWM8WRjjY5qMZ1xwr95/1WSc3tWZi61I9SyRXYU7QD7e3lU5fJWYP
+ CSmYeahMmi9B2AH6bp9BjilWM9+CGB3ujb1yMjcpnxjQqcgJdmSME0t8Y
+ Tbb0k9MzdNQjm5tgtthFyPTKCes/P8bGBhL0FUtyzFW1xq2rPDi/ZRrvw
+ a777JQun7kX3FBcfebBZg6/SyCWqnNI96E1e2Rd90j/Tbwx6rp+tJBTno
+ sVfmH61+/6oDVhlPxTTrSZNfxVxSkQ94CmBks9X/MCmj4ghGsRpAm987q
+ PMWsIidRTseIwONCX+wlL4gOSB5fYxQOQ31cYkSLyU950pp+kS5NveaB2 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="376251275"
+X-IronPort-AV: E=Sophos;i="6.04,205,1695711600"; d="scan'208";a="376251275"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2023 15:28:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,205,1695711600"; 
-   d="scan'208";a="6680981"
-Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by orviesa002.jf.intel.com with ESMTP; 16 Nov 2023 15:20:42 -0800
-From: Alan Previn <alan.previn.teres.alexis@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v1 1/1] drm/i915/pxp: Bail early in pxp tee backend on first
- teardown error
-Date: Thu, 16 Nov 2023 15:20:41 -0800
-Message-Id: <20231116232041.25534-1-alan.previn.teres.alexis@intel.com>
-X-Mailer: git-send-email 2.39.0
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="1096933141"
+X-IronPort-AV: E=Sophos;i="6.04,205,1695711600"; d="scan'208";a="1096933141"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 16 Nov 2023 15:28:41 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 16 Nov 2023 15:28:40 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Thu, 16 Nov 2023 15:28:40 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Thu, 16 Nov 2023 15:28:40 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fh4yyp+xxQy8co/tcIRyiZd0+8o0mFbkAtoqd7GRmL9CwA0rbXuExokPblQI0lmLB7LRIoMWzYVX0T8i1e8OYOvfnAYrk/jT/XgiHNQ3rJHaSRvVSBoaHf3WnlLBttcvQKX7GrYecXvSEdnCq56cZkUB+QVPftuY218kF/i9kN/MQmfq94uNAIoZFlS9yvaGXNZ+YSESSsOBsuSU/rrqYP5NY4mjsgx44Q8qrCgeaGyhcB+G4vBKpv5OUEwIWQm2ZXvUjs6/Q/3M7kkN9VCqyyjxfO7UXJFtC3kwgZeo3sxHdjTxfgGOKJP7W1ltZqjsZx0qL8bI+Feutf02QnPIRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ii3XOy3OXGn5OiFhck+DJ+RA/uxPTZp+nJA2MsKfXyk=;
+ b=fI/U+9E6j0KetOJott8yp9R1g/TWCVrriCNMKEapZD7t470C8jK9pMWTCchRsd5qk41vG27PORGAApmjZS7W1wd7+t6z097YYlcm9iza9UpUxEsoqClT2ZHRc8Rt0wP+qM7MQa7MS6fd8kiiwJsXKJtADQpJH1i5ScBpUbGTz9UTQxcAkmL7PP9oPrMQzex+RgEnbpdleVNsuDPi/Z9QzbSs1qaFt+28A6H6lM5Bbm9doh2apN6NU0zuzwPACL2dqIeFLFN4BUfOue0bt0HuCY2YSdUOBySD/BS3skFfZoXl0qGNf9BdgM0XYK24GAWC4N4gJorvOVvtNezin5U6fA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN0PR11MB5758.namprd11.prod.outlook.com (2603:10b6:408:166::18)
+ by SJ2PR11MB8497.namprd11.prod.outlook.com (2603:10b6:a03:57b::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Thu, 16 Nov
+ 2023 23:28:38 +0000
+Received: from BN0PR11MB5758.namprd11.prod.outlook.com
+ ([fe80::f83:5f23:404f:a87c]) by BN0PR11MB5758.namprd11.prod.outlook.com
+ ([fe80::f83:5f23:404f:a87c%7]) with mapi id 15.20.7002.021; Thu, 16 Nov 2023
+ 23:28:38 +0000
+From: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
+To: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH v1 1/1] drm/i915/pxp: Bail early in pxp tee backend on
+ first teardown error
+Thread-Topic: [PATCH v1 1/1] drm/i915/pxp: Bail early in pxp tee backend on
+ first teardown error
+Thread-Index: AQHaGOOM17iiUYJRjkGbE4e+kNVzV7B9l3YA
+Date: Thu, 16 Nov 2023 23:28:37 +0000
+Message-ID: <2f53a52f62801810695c6e6ec1f3f409ed1f1c1b.camel@intel.com>
+References: <20231116232041.25534-1-alan.previn.teres.alexis@intel.com>
+In-Reply-To: <20231116232041.25534-1-alan.previn.teres.alexis@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.50.0-1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN0PR11MB5758:EE_|SJ2PR11MB8497:EE_
+x-ms-office365-filtering-correlation-id: c80d546c-e130-41f7-a4da-08dbe6fbc2ad
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Ud0s8IYYaYr0Kq/piEFFEZxnzG8alKULwEDALeSY7HR2Ce4JI3p2L81wEr5rcJaHlQMslT4zosQCxwHHWN7rUMxXHxw0k4F/+EVXPU7w69Kfequ7GcVg9/+pWjqQ6G9rV422jwmaWF/5AFO9Sf59DDiCWaA2KGNSYgCGVN34xG+VEl1oVNhlcO4TgdlSv6kgIXIB/ToNJKylB1sdFxRVO2VLS/9+UtFvTLN4llZp08QXdolNvV9ainvYiGyM2kC5K/4wU3DVVIPtb1G2wG/wilLQhdhTfs1UmxoO3A7fAfo/Ye0XNjySXl5fNxAT8QvcdGbf4UCA8WleJrMdXrwLrjmPMnVl/rPrg/G3IhL9k6t0NohtnWUI/PMLjsVThSsAjr684uQaCk4o7Ey0+P9LXKvIYaQ4cdWE47gRCJNlwFmaukQcAv64pI7yuhgd6tf7Xoa3kUO1IzLiceLSe8iiFZkOmUeGdsaNOB1GSKbvDAUR+PKod58zfXEuIReq9xHTU6vVbB61gQg/Ivz1HM80Lxr3wIOr/NqXxVb2ROYTaeMO+bPq0qZvU8UOUJW/IBB8LcdlDqge1ENL+Dv+/hggHVGcM0aZmATvWXro7xamEKjrPSQKnUeTsZicmwE/3wO/
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN0PR11MB5758.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(396003)(39860400002)(346002)(366004)(376002)(230922051799003)(1800799009)(64100799003)(186009)(451199024)(478600001)(6486002)(6512007)(122000001)(36756003)(71200400001)(38100700002)(6506007)(64756008)(316002)(107886003)(66556008)(6916009)(2616005)(83380400001)(54906003)(66446008)(82960400001)(76116006)(26005)(66476007)(66946007)(91956017)(5660300002)(4326008)(8676002)(8936002)(86362001)(2906002)(4001150100001)(38070700009)(66899024)(41300700001)(450100002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TkVCanBUNFpscVNIRWVCUkhqMjZNMUczTkt6c09OWmdUWVQ0WUV2WnZOb1FD?=
+ =?utf-8?B?QndNdEczTnhqNk1aUWI1NGdqYjZjSmJwYnZZWXQ3TU1OZmNRbFROejl2MWF4?=
+ =?utf-8?B?ZUZ1QTFCclR5ckpsbTBnODI3cEg3c2UzQk1TNWtaR0xUVkZZOVptZWpoRGhD?=
+ =?utf-8?B?elNmUkYwNFBKaDZ2alUyYkZ1SEZKdVE5ZjhrMG4zcXJjT1ZUR2NwK1VQSitY?=
+ =?utf-8?B?VkMzQ2NXR2VHa21QdnJ6c09VQ3hxY1lCYlhrZE5mbmtLay9ZTFJZcUVaWS8y?=
+ =?utf-8?B?ZzVPQ2g4ell0NFJ5VmtEdXpVeURsUldscFFaN3pETktMTWZIak5RSTcwZGdL?=
+ =?utf-8?B?Vm1nMVZzRXJhN0hIOXY5dE9TZjFCc1V6ZU8rd0ZMRWFIV3daVG9MVXNHV0l6?=
+ =?utf-8?B?d0EvMkhVcnZXMys5aVlDaVg3c1BSNTkyeHJQa0ZRc1BBZ0RQYVdsMmJPMTRN?=
+ =?utf-8?B?SzBad0RaeVRUSnNHeEQyL2JHRHhjTTNTTDRwdXVZT20xV1pWWEVsM09yZFJS?=
+ =?utf-8?B?ZG54ZnNYYU1nRVlkcGg3OWh0eEpEdExvL2kzL2llaUdGdkIzU0YweVJWZGJP?=
+ =?utf-8?B?c0hUbzJDbXdISjY1K3B3ZFVoYUF3K1FFWERReHd3RnFFNS8ya3ZQazVMdlNN?=
+ =?utf-8?B?d1VrZUhhNGFTcUZWR0JTSW8rQUJhOXViZ1gxU05ZdU9zVS9oT2lKMG5oY1Z2?=
+ =?utf-8?B?aCtJWEFwU1pwems2SFhaVmt5TFNtN1pFSTZWOW1OLzhWMVlPNmJZZlo2R0tB?=
+ =?utf-8?B?OFI1L2xPaHlHcjJIYTd2MEdOVlVpMXNqTUlES0JpWklRSzJDM0R5WVF1ZVRB?=
+ =?utf-8?B?RTBDSE1URHB6R2FDbGM5emJpb1M0a293TFVhZUcyczN1Znd1cVJoblcvcTFF?=
+ =?utf-8?B?NnZSU0xkaWpiVk5NaHFSS2krTHIxVlN5RGtKTmgySURsRGJGMkNCbXp0cjlu?=
+ =?utf-8?B?QmJjcjhnVGM1aFBNYlRHWmpUWE5OaUlCNFpLL1ltU09HWEVUemdXYW1DdTNx?=
+ =?utf-8?B?cG9xbkcrdGhCVHlyRVZqUnUyM2txWllrMGlRVkNUeUhlN3dLdzV1ZmEwM3pT?=
+ =?utf-8?B?WGpoM21uOUlCeWxkN3BMMGovT1lDZmZoRXJ1aTNHQkpvZDYwOE9PejMyTCs1?=
+ =?utf-8?B?V0x5bGRaejh1QzRvbHNnVUhxS0haN3I0R3dpOEFOcUY3UVNUamRmelZ3Q3FM?=
+ =?utf-8?B?aVZsWUg5SVhVVlpZbmYwWEU2SE04blptU0tWL1ovR2NhdllYNENHYXpYOWtp?=
+ =?utf-8?B?MEY0MW4rR0xiNytMZ0xUUGRka0RaOEdLRm5ON3o2ZFZ1UG1Td0lTbmtDZ0JF?=
+ =?utf-8?B?a2xqNW5tUlF0MTM4L01EakZQeHFvNHVXOGFSTUdUSkZFSzFJTFNQZ0hzSGlB?=
+ =?utf-8?B?aEllMElWOWRUdllObWFzVDRLRElXaGwwbVFyMGdhRTJId1NJT3Ivd2ZvR3ZZ?=
+ =?utf-8?B?eHhUZWNuYUZVaXZvTmljeGFMcHViZjc3TFRZcjFMZUh5VS8rUTBXL05qdllU?=
+ =?utf-8?B?emhlMk03V3l0VG13Z2hzOHIxZTdnRDFwL1BnT1dEUThZSFhZZ2NXUWg5aXZ1?=
+ =?utf-8?B?di9QVHArUm40TGtHckNzQU1wVmtzaTNhTWd5Zk44aXMzTzNIWS8xS2IwSUkz?=
+ =?utf-8?B?cWlvWld3ZWxtRmJudjZTWk9ZTm5JaGh1bmw4Mi8xNlZFV3FqTzc3V2RDOHVZ?=
+ =?utf-8?B?cGNuZkdSTklBeU5wRDZ3MXJDdnFxVEFDY0VMUzhLSDg4V2VhcmZyd05wemI4?=
+ =?utf-8?B?cEZXRFg1aTdYT2tsWlJnNE5YS3Y4OCtTNi9PZDJVeUZoYVZ1Y1oxcXR3T0FD?=
+ =?utf-8?B?VmVtVFozczJaaG56RDZOejA1YytGUHB5QzlQQUorZ28wVnEzdnl5cVVtV1V0?=
+ =?utf-8?B?aEdpS3pPc2NRTHZxUVpKQ2pLUHpjUG9xZ3FMbmZ0OE1TQWZKVDN4WFcwR0RV?=
+ =?utf-8?B?OGVid1A1ak53VElJYk56akoxZmhtYndCTXh4U2p2OVNTRDRWdW9lblVScWRy?=
+ =?utf-8?B?NnFQUW5IRmhyZVhmS1lvZzhOQTJTci9XcXg2cWFwOVVuNytOOWRreFBXbUJ0?=
+ =?utf-8?B?VkRqNG53eTNESkxPeHdiWjRoVml3bHZSL00xVEEweHp0enF6dVlNdlozbGFL?=
+ =?utf-8?B?OGdwUTZoYk16eVB1bW5NRVdrd2g4TmVDSHFGS05Mb2xUak5MWlBCMmFlT2VZ?=
+ =?utf-8?Q?ly+TwmhdC1tU2W3Sm6uMwg8=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <DF183005FDFC204B9603A4B57ABAF9A7@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR11MB5758.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c80d546c-e130-41f7-a4da-08dbe6fbc2ad
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2023 23:28:38.0080 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NgcPzIr9kRCDM4T3vSjY/v06m0aH5yshWFeweAWJSd+RHyYu3kwsM14HqWMlwrVmVq+ba3/4yHBcHf70vYQKE5PPA1hEf6MoGguj+Gav0zD3WkfuusgQajPvMrulJs9r
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB8497
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,210 +159,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Ursulin,
+ Tvrtko" <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For Gen12 when using mei-pxp tee backend tranport, if we are coming
-up from a cold boot or from a resume (not runtime resume), we can
-optionally quicken the very first session cleanup that would occur
-as part of starting up a default PXP session. Typically a cleanup
-from a cold-start is expected to be quick so we can use a shorter
-timeout and skip retries (when getting non-success on calling
-backend transport for intel_pxp_tee_end_arb_fw_session).
-
-While we are touching this area of code, lets not update
-pxp->platform_cfg_is_bad so its not done inside an "is_foo"
-helper, move that to the helper's caller.
-
-Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
----
- drivers/gpu/drm/i915/pxp/intel_pxp.c         |  1 +
- drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c   |  3 ++-
- drivers/gpu/drm/i915/pxp/intel_pxp_pm.c      |  1 +
- drivers/gpu/drm/i915/pxp/intel_pxp_session.c |  1 +
- drivers/gpu/drm/i915/pxp/intel_pxp_tee.c     | 23 +++++++++++++-------
- drivers/gpu/drm/i915/pxp/intel_pxp_types.h   | 10 +++++++++
- 6 files changed, 30 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-index dc327cf40b5a..b4de34e6ad01 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-@@ -140,6 +140,7 @@ static void pxp_init_full(struct intel_pxp *pxp)
- 	if (ret)
- 		return;
- 
-+	pxp->hw_state_coldstart = true;
- 	if (HAS_ENGINE(pxp->ctrl_gt, GSC0))
- 		ret = intel_pxp_gsccs_init(pxp);
- 	else
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
-index 75df959b0aa0..94a26faac14f 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
-@@ -24,7 +24,6 @@ is_fw_err_platform_config(struct intel_pxp *pxp, u32 type)
- 	case PXP_STATUS_ERROR_API_VERSION:
- 	case PXP_STATUS_PLATFCONFIG_KF1_NOVERIF:
- 	case PXP_STATUS_PLATFCONFIG_KF1_BAD:
--		pxp->platform_cfg_is_bad = true;
- 		return true;
- 	default:
- 		break;
-@@ -228,6 +227,7 @@ int intel_pxp_gsccs_create_session(struct intel_pxp *pxp,
- 		drm_err(&i915->drm, "Failed to init session %d, ret=[%d]\n", arb_session_id, ret);
- 	} else if (msg_out.header.status != 0) {
- 		if (is_fw_err_platform_config(pxp, msg_out.header.status)) {
-+			pxp->platform_cfg_is_bad = true;
- 			drm_info_once(&i915->drm,
- 				      "PXP init-session-%d failed due to BIOS/SOC:0x%08x:%s\n",
- 				      arb_session_id, msg_out.header.status,
-@@ -271,6 +271,7 @@ void intel_pxp_gsccs_end_arb_fw_session(struct intel_pxp *pxp, u32 session_id)
- 			session_id, ret);
- 	} else if (msg_out.header.status != 0) {
- 		if (is_fw_err_platform_config(pxp, msg_out.header.status)) {
-+			pxp->platform_cfg_is_bad = true;
- 			drm_info_once(&i915->drm,
- 				      "PXP inv-stream-key-%u failed due to BIOS/SOC :0x%08x:%s\n",
- 				      session_id, msg_out.header.status,
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
-index 6dfd24918953..fd53b4fd7bac 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
-@@ -60,6 +60,7 @@ static void _pxp_resume(struct intel_pxp *pxp, bool take_wakeref)
- void intel_pxp_resume_complete(struct intel_pxp *pxp)
- {
- 	_pxp_resume(pxp, true);
-+	pxp->hw_state_coldstart = true;
- }
- 
- void intel_pxp_runtime_resume(struct intel_pxp *pxp)
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-index 0a3e66b0265e..7979648c6a2c 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-@@ -114,6 +114,7 @@ static int pxp_terminate_arb_session_and_global(struct intel_pxp *pxp)
- 		intel_pxp_gsccs_end_arb_fw_session(pxp, ARB_SESSION);
- 	else
- 		intel_pxp_tee_end_arb_fw_session(pxp, ARB_SESSION);
-+	pxp->hw_state_coldstart = false;
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-index b00d6c280159..07696738d31b 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-@@ -22,6 +22,7 @@
- #include "intel_pxp_types.h"
- 
- #define PXP_TRANSPORT_TIMEOUT_MS 5000 /* 5 sec */
-+#define PXP_TRANSPORT_TIMEOUT_FAST_MS 1000 /* 1 sec */
- 
- static bool
- is_fw_err_platform_config(struct intel_pxp *pxp, u32 type)
-@@ -30,7 +31,6 @@ is_fw_err_platform_config(struct intel_pxp *pxp, u32 type)
- 	case PXP_STATUS_ERROR_API_VERSION:
- 	case PXP_STATUS_PLATFCONFIG_KF1_NOVERIF:
- 	case PXP_STATUS_PLATFCONFIG_KF1_BAD:
--		pxp->platform_cfg_is_bad = true;
- 		return true;
- 	default:
- 		break;
-@@ -58,7 +58,8 @@ fw_err_to_string(u32 type)
- static int intel_pxp_tee_io_message(struct intel_pxp *pxp,
- 				    void *msg_in, u32 msg_in_size,
- 				    void *msg_out, u32 msg_out_max_size,
--				    u32 *msg_out_rcv_size)
-+				    u32 *msg_out_rcv_size,
-+				    unsigned long timeout_ms)
- {
- 	struct drm_i915_private *i915 = pxp->ctrl_gt->i915;
- 	struct i915_pxp_component *pxp_component = pxp->pxp_component;
-@@ -76,14 +77,14 @@ static int intel_pxp_tee_io_message(struct intel_pxp *pxp,
- 	}
- 
- 	ret = pxp_component->ops->send(pxp_component->tee_dev, msg_in, msg_in_size,
--				       PXP_TRANSPORT_TIMEOUT_MS);
-+				       timeout_ms);
- 	if (ret) {
- 		drm_err(&i915->drm, "Failed to send PXP TEE message\n");
- 		goto unlock;
- 	}
- 
- 	ret = pxp_component->ops->recv(pxp_component->tee_dev, msg_out, msg_out_max_size,
--				       PXP_TRANSPORT_TIMEOUT_MS);
-+				       timeout_ms);
- 	if (ret < 0) {
- 		drm_err(&i915->drm, "Failed to receive PXP TEE message\n");
- 		goto unlock;
-@@ -344,12 +345,13 @@ int intel_pxp_tee_cmd_create_arb_session(struct intel_pxp *pxp,
- 	ret = intel_pxp_tee_io_message(pxp,
- 				       &msg_in, sizeof(msg_in),
- 				       &msg_out, sizeof(msg_out),
--				       NULL);
-+				       NULL, PXP_TRANSPORT_TIMEOUT_MS);
- 
- 	if (ret) {
- 		drm_err(&i915->drm, "Failed to send tee msg init arb session, ret=[%d]\n", ret);
- 	} else if (msg_out.header.status != 0) {
- 		if (is_fw_err_platform_config(pxp, msg_out.header.status)) {
-+			pxp->platform_cfg_is_bad = true;
- 			drm_info_once(&i915->drm,
- 				      "PXP init-arb-session-%d failed due to BIOS/SOC:0x%08x:%s\n",
- 				      arb_session_id, msg_out.header.status,
-@@ -387,10 +389,14 @@ void intel_pxp_tee_end_arb_fw_session(struct intel_pxp *pxp, u32 session_id)
- 	ret = intel_pxp_tee_io_message(pxp,
- 				       &msg_in, sizeof(msg_in),
- 				       &msg_out, sizeof(msg_out),
--				       NULL);
-+				       NULL, pxp->hw_state_coldstart ?
-+				       PXP_TRANSPORT_TIMEOUT_FAST_MS : PXP_TRANSPORT_TIMEOUT_MS);
- 
--	/* Cleanup coherency between GT and Firmware is critical, so try again if it fails */
--	if ((ret || msg_out.header.status != 0x0) && ++trials < 3)
-+	/*
-+	 * Cleanup coherency between GT and Firmware is critical, so try again if it
-+	 * fails, unless we are performing a cold-start reset
-+	 */
-+	if ((ret || msg_out.header.status != 0x0) && !pxp->hw_state_coldstart &&  ++trials < 3)
- 		goto try_again;
- 
- 	if (ret) {
-@@ -398,6 +404,7 @@ void intel_pxp_tee_end_arb_fw_session(struct intel_pxp *pxp, u32 session_id)
- 			session_id, ret);
- 	} else if (msg_out.header.status != 0) {
- 		if (is_fw_err_platform_config(pxp, msg_out.header.status)) {
-+			pxp->platform_cfg_is_bad = true;
- 			drm_info_once(&i915->drm,
- 				      "PXP inv-stream-key-%u failed due to BIOS/SOC :0x%08x:%s\n",
- 				      session_id, msg_out.header.status,
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-index 7e11fa8034b2..acafd5dfe12f 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
-@@ -108,6 +108,16 @@ struct intel_pxp {
- 	 * we only re-start the arb session when required.
- 	 */
- 	bool hw_state_invalidated;
-+	/**
-+	 * @hw_state_coldstart: If we are coming up from a cold boot or from
-+	 * resume (not runtime resume) condition, we can optionally quicken
-+	 * the very first session cleanup that would occur as part of starting
-+	 * up a default PXP session. Typically a cleanup from a cold-start
-+	 * is expected to be quick so we can use a shorter timeout and skip
-+	 * retries (when getting non-success on calling backend transport
-+	 * for intel_pxp_tee_end_arb_fw_session).
-+	 */
-+	bool hw_state_coldstart;
- 
- 	/** @irq_enabled: tracks the status of the kcr irqs */
- 	bool irq_enabled;
-
-base-commit: 346f47e69d27a4b3177c2939b1f6f26d093ad8c4
--- 
-2.39.0
-
+T24gVGh1LCAyMDIzLTExLTE2IGF0IDE1OjIwIC0wODAwLCBUZXJlcyBBbGV4aXMsIEFsYW4gUHJl
+dmluIHdyb3RlOg0KPiBGb3IgR2VuMTIgd2hlbiB1c2luZyBtZWktcHhwIHRlZSBiYWNrZW5kIHRy
+YW5wb3J0LCBpZiB3ZSBhcmUgY29taW5nDQo+IHVwIGZyb20gYSBjb2xkIGJvb3Qgb3IgZnJvbSBh
+IHJlc3VtZSAobm90IHJ1bnRpbWUgcmVzdW1lKSwgd2UgY2FuDQo+IG9wdGlvbmFsbHkgcXVpY2tl
+biB0aGUgdmVyeSBmaXJzdCBzZXNzaW9uIGNsZWFudXAgdGhhdCB3b3VsZCBvY2N1cg0KPiBhcyBw
+YXJ0IG9mIHN0YXJ0aW5nIHVwIGEgZGVmYXVsdCBQWFAgc2Vzc2lvbi4gVHlwaWNhbGx5IGEgY2xl
+YW51cA0KPiBmcm9tIGEgY29sZC1zdGFydCBpcyBleHBlY3RlZCB0byBiZSBxdWljayBzbyB3ZSBj
+YW4gdXNlIGEgc2hvcnRlcg0KPiB0aW1lb3V0IGFuZCBza2lwIHJldHJpZXMgKHdoZW4gZ2V0dGlu
+ZyBub24tc3VjY2VzcyBvbiBjYWxsaW5nDQo+IGJhY2tlbmQgdHJhbnNwb3J0IGZvciBpbnRlbF9w
+eHBfdGVlX2VuZF9hcmJfZndfc2Vzc2lvbikuDQphbGFuOnNuaXANCg0KPiBAQCAtMzg3LDEwICsz
+ODksMTQgQEAgdm9pZCBpbnRlbF9weHBfdGVlX2VuZF9hcmJfZndfc2Vzc2lvbihzdHJ1Y3QgaW50
+ZWxfcHhwICpweHAsIHUzMiBzZXNzaW9uX2lkKQ0KPiAgCXJldCA9IGludGVsX3B4cF90ZWVfaW9f
+bWVzc2FnZShweHAsDQo+ICAJCQkJICAgICAgICZtc2dfaW4sIHNpemVvZihtc2dfaW4pLA0KPiAg
+CQkJCSAgICAgICAmbXNnX291dCwgc2l6ZW9mKG1zZ19vdXQpLA0KPiAtCQkJCSAgICAgICBOVUxM
+KTsNCj4gKwkJCQkgICAgICAgTlVMTCwgcHhwLT5od19zdGF0ZV9jb2xkc3RhcnQgPw0KPiArCQkJ
+CSAgICAgICBQWFBfVFJBTlNQT1JUX1RJTUVPVVRfRkFTVF9NUyA6IFBYUF9UUkFOU1BPUlRfVElN
+RU9VVF9NUyk7DQo+ICANCj4gLQkvKiBDbGVhbnVwIGNvaGVyZW5jeSBiZXR3ZWVuIEdUIGFuZCBG
+aXJtd2FyZSBpcyBjcml0aWNhbCwgc28gdHJ5IGFnYWluIGlmIGl0IGZhaWxzICovDQo+IC0JaWYg
+KChyZXQgfHwgbXNnX291dC5oZWFkZXIuc3RhdHVzICE9IDB4MCkgJiYgKyt0cmlhbHMgPCAzKQ0K
+PiArCS8qDQo+ICsJICogQ2xlYW51cCBjb2hlcmVuY3kgYmV0d2VlbiBHVCBhbmQgRmlybXdhcmUg
+aXMgY3JpdGljYWwsIHNvIHRyeSBhZ2FpbiBpZiBpdA0KPiArCSAqIGZhaWxzLCB1bmxlc3Mgd2Ug
+YXJlIHBlcmZvcm1pbmcgYSBjb2xkLXN0YXJ0IHJlc2V0DQo+ICsJICovDQo+ICsJaWYgKChyZXQg
+fHwgbXNnX291dC5oZWFkZXIuc3RhdHVzICE9IDB4MCkgJiYgIXB4cC0+aHdfc3RhdGVfY29sZHN0
+YXJ0ICYmICArK3RyaWFscyA8IDMpDQphbGFuOiBUYWtlIG5vdGUgSSBhbSB3b3JraW5nIG9mZmxp
+bmUgd2l0aCBzaXN0ZXIgdGVhbXMgdG8gcGVyZm9ybSBzb21lIGVuZCB0bw0KZW5kIGNvbmZvcm1h
+bmNlIHRlc3Rpbmcgd2l0aCBtb3JlIGNvbXByZWhlbnNpdmUgT1Mgc3RhY2tzIGJlZm9yZSB3ZSBj
+YW4gdmVyaWZ5DQp0aGF0IHRoaXMgb3B0aW1pemF0aW9uIGRvZXNudCBicmVhayBhbnkgZXhpc3Rp
+bmcgdXNlLWNhc2VzLg0K
