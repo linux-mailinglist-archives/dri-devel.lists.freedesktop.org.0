@@ -2,78 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95CF07EE738
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 20:14:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7441F7EE73D
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 20:14:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 005DF10E67C;
-	Thu, 16 Nov 2023 19:14:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4EC810E67E;
+	Thu, 16 Nov 2023 19:14:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
- [IPv6:2607:f8b0:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6A2410E67C
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 19:14:12 +0000 (UTC)
-Received: by mail-pg1-x52b.google.com with SMTP id
- 41be03b00d2f7-5b9a7357553so953323a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 11:14:12 -0800 (PST)
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 498CA10E67D
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 19:14:41 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ 46e09a7af769-6ce2ea3a944so701354a34.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 11:14:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1700162052; x=1700766852;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=eVfmF+WaYqBufuKhkvOgsH1LmjL21XWKZ2k2AqPWwJc=;
- b=KNtfYMNsc8Wj+wsTibowQXdz5/VNc1GTk5VVuxlQ56SFUabAftkSH4dmJmZ80jK02S
- 1jxjG44axuWxozuhLCyLUs6r2f6vBQjChUoxWaasyXawVDz3RZ7W9IgHlirim6IPKz03
- KPO49uvHRn9FAoxb2YiIWHSKrqQgQhUJK+RR0=
+ d=gmail.com; s=20230601; t=1700162080; x=1700766880; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MWiF1WqqxyBapoclv3EkYIJfdBOsrn+v/ULRkmttT6o=;
+ b=JbfMTUoY/awWvQv6aY9GAUE3NFWhJaBJz7M2WHp/Ip+YH925pC15+38QObSX2vSE/Q
+ /usAvi/B1cMdiSgvZ7C/qz2KFxTh97p8JvNCQHAi/JkoJjfSRM3AJu2PNnob2JfrS7bo
+ GdIG46IWE8236TWY11hn5G7lTnleAuh6HvGyxTFNkAI/kSQif2xyNZoW8CUcY+BKh2z7
+ MzvMELDWuJH+jLPITjf7nUnl7SnFMaG7WOjEGDC2VG6Pwc17U17SXS2r+9X302Zdubir
+ 1Vklp9DJYtPtv3BIw343T2xRZvUDXXaGJ3m6kPwJ5BYhP3eixX3NUhJw6j8UwgkiFZgz
+ qNKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700162052; x=1700766852;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=eVfmF+WaYqBufuKhkvOgsH1LmjL21XWKZ2k2AqPWwJc=;
- b=OB/Yx85dmYpEmUMnwLNqlURBYv9ZGG9mrSOcUiq0BK7fFv+pkEIvWiYQ6HWsu0STeS
- csQn1jg2y9Br/IrGdm7K0tCU3qhjppNX5eTSaqQcEEh+Ef5agUwj9REh3OFj5bckbQbH
- YnAbvBYOhBq5A4+TlUZq5ei+7iwYsYLdfkIn29y/1pbnoaeyexDbU8CgIMDiLNDAyyuD
- K8fBjqdiIeb59OB1PxQE0564GgaTCpYW0GisIoBtB0bAXNs9n4bYA/CY4GTgdES2nch0
- Gc7wupRnbxMKIRLw5zD/pbKDsKtjayBzF2FiOqJShUQkwo2eNoflOeRcSbO/E4Tb8VhY
- 9IOQ==
-X-Gm-Message-State: AOJu0YxdaizCgSL6Zgm8oMhQ2uNtQo8Q4WweABU8CA6M5r9EKNOmTQKo
- SQVfWWs1cEaCwjv+ZMK8whXPtQ==
-X-Google-Smtp-Source: AGHT+IEhiV51XKMD1zOBA5sD1OXQnyONH1asnHIR7eOg2pPSelrDFt5DBTV7MXEVihwsOKosOCrQ0A==
-X-Received: by 2002:a05:6a20:8421:b0:185:876f:4f4d with SMTP id
- c33-20020a056a20842100b00185876f4f4dmr20888854pzd.32.1700162052390; 
- Thu, 16 Nov 2023 11:14:12 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
- [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
- it14-20020a056a00458e00b006c8721330fesm83721pfb.74.2023.11.16.11.14.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Nov 2023 11:14:12 -0800 (PST)
-From: Kees Cook <keescook@chromium.org>
-To: Sumit Semwal <sumit.semwal@linaro.org>
-Subject: [PATCH] dma-buf: Replace strlcpy() with strscpy()
-Date: Thu, 16 Nov 2023 11:14:10 -0800
-Message-Id: <20231116191409.work.634-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
+ d=1e100.net; s=20230601; t=1700162080; x=1700766880;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MWiF1WqqxyBapoclv3EkYIJfdBOsrn+v/ULRkmttT6o=;
+ b=JTi83INqb2TcpYNo3aruooj9ohNjctCVEFaOFQSt4B4PQFz/soGjJ9RUQoaP6TpwZF
+ CArdHrfjZBDh9by+BVYWInYzOr3Fm+e2aGUgw8jYfHfZTko4c0MqYXEl4oL+EKjT8muB
+ ga2AgZXAesj/EoBsNVFJHT1HQy5f7c7N+7ZDCk/PR3CTUO5VuVEqMuwDwgCbSrZREYZX
+ kIfvUxtzuz0JKBsTKOH1LpHDJAF9rhCo3cPnOvliXTJbnBhyqcQyVWL6wbTGQ2jew5hJ
+ m19mOExbCRzhqgJVg0f3qdLIZatAWkFm52hFOItRONzCuHUDEivFb3Iubkd5hT4NKF8l
+ Xrgw==
+X-Gm-Message-State: AOJu0YzPyDl9sja+kXn1svOcbjbjU3JyOzh3wqFrm42jw6jo/kp7oDOh
+ 2SxRFs25VGzT1y18mx9EpyqeF+9MHpcOpTMDyUFbJnFr
+X-Google-Smtp-Source: AGHT+IEY+u54FfeNJdJrCOSqzUm/T+8SHxcra/gAeZNjk67vEALsXeSBFNp0n26t+lFgh7s8dBMuraIGNmmWWVYZMEk=
+X-Received: by 2002:a05:6870:bb19:b0:1e9:9179:4c6f with SMTP id
+ nw25-20020a056870bb1900b001e991794c6fmr21555134oab.49.1700162080572; Thu, 16
+ Nov 2023 11:14:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1603; i=keescook@chromium.org; 
- h=from:subject:message-id;
- bh=ujMUNo3RU3wpVThFuzKIZ2gb6sD3uJtU27PlSfCQHtw=; 
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlVmoBZbJJwqB7WG04tbh2/UJo2fxHw9dAlFGyu
- eEfMPCM8D+JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZVZqAQAKCRCJcvTf3G3A
- JtT+D/9ZzA0yA7kvOO/Y+64NFTRleFpB8MdlXKFS7ysgcMx4Q/lTBKhkKLD6qvD9NiIXGTKSGrh
- 3GGTQlSXtD3gnP9vhfnsdQPxm7Nme0HfgCADjlK12TQqmzTEluquxp57OqhgDPqrFwjp8zEkEHB
- Hznzi9UF9cqj/T63wcAuGjXC8mx550cZDOzWaKfsxIIwENsPZLrbekUNeZsgQPN8un/mTeTasXh
- Dim2vXCq1wg+zmIYt4wb3MFHvAeNDMdbudLjwnaxS7KH4SAhXIV+iQTJjOW5gj+CnOEliIjO0eP
- fctBuohDOYWiyPZ/b5LKRsaNIaNLhlsKrsXW7qpvTi8NTdNME/ndlbETv7KqumwjSQtiDoIqNmf
- t4ZH9yrrcuYCaDcaA0D5Mh7Z3fyLsNgiO5WZ5JDwGOfxsVz5Ux99LctSgV9M1T6ygM6fYkp3X5/
- jHoeIUVCzQ/rFkZqtLD3RMj0C94i6hEM9oWm1/HyfB+sFVvdNn7zG+RyuryDoT2rOjrig1Y4IES
- i8Zu0UB9f03CJHQeC9RkPMDoG4U+ZEA9wgMwqQ2eNX8M3t3UGzFepxFW11XLyXTfEq8GKLh8Qxd
- qYRKZLWDQkcbtBf6aRIGrTkqc3Xw6N6aymKwpizpCz/BphPJrIy5TIkEpZI9xYTbwzO+eW77/2H
- cTml0Zt rnUC/efg==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp;
- fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+References: <20231113112344.719-1-hkallweit1@gmail.com>
+ <20231113112344.719-20-hkallweit1@gmail.com>
+In-Reply-To: <20231113112344.719-20-hkallweit1@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 16 Nov 2023 14:14:29 -0500
+Message-ID: <CADnq5_O66nHTSuLNfu42bPYZ_4ZOeoq7UzpxiWfGuixbgSyJvg@mail.gmail.com>
+Subject: Re: [PATCH 19/20] drivers/gpu/drm/display: remove I2C_CLASS_DDC
+ support
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,53 +70,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Azeem Shaikh <azeemshaikh38@gmail.com>,
- linaro-mm-sig@lists.linaro.org, linux-hardening@vger.kernel.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Wolfram Sang <wsa@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-i2c@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-strlcpy() reads the entire source buffer first. This read may exceed
-the destination size limit. This is both inefficient and can lead
-to linear read overflows if a source string is not NUL-terminated[1].
-Additionally, it returns the size of the source string, not the
-resulting size of the destination string. In an effort to remove strlcpy()
-completely[2], replace strlcpy() here with strscpy().
+On Mon, Nov 13, 2023 at 6:24=E2=80=AFAM Heiner Kallweit <hkallweit1@gmail.c=
+om> wrote:
+>
+> After removal of the legacy EEPROM driver and I2C_CLASS_DDC support in
+> olpc_dcon there's no i2c client driver left supporting I2C_CLASS_DDC.
+> Class-based device auto-detection is a legacy mechanism and shouldn't
+> be used in new code. So we can remove this class completely now.
+>
+> Preferably this series should be applied via the i2c tree.
+>
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
-Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strlcpy [1]
-Link: https://github.com/KSPP/linux/issues/89 [2]
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: Azeem Shaikh <azeemshaikh38@gmail.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- drivers/dma-buf/dma-buf.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 21916bba77d5..8fe5aa67b167 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -46,12 +46,12 @@ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
- {
- 	struct dma_buf *dmabuf;
- 	char name[DMA_BUF_NAME_LEN];
--	size_t ret = 0;
-+	ssize_t ret = 0;
- 
- 	dmabuf = dentry->d_fsdata;
- 	spin_lock(&dmabuf->name_lock);
- 	if (dmabuf->name)
--		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
-+		ret = strscpy(name, dmabuf->name, sizeof(name));
- 	spin_unlock(&dmabuf->name_lock);
- 
- 	return dynamic_dname(buffer, buflen, "/%s:%s",
--- 
-2.34.1
-
+>
+> ---
+>  drivers/gpu/drm/display/drm_dp_helper.c       |    1 -
+>  drivers/gpu/drm/display/drm_dp_mst_topology.c |    1 -
+>  2 files changed, 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/di=
+splay/drm_dp_helper.c
+> index f3680f4e6..ac901f4b4 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -2102,7 +2102,6 @@ int drm_dp_aux_register(struct drm_dp_aux *aux)
+>         if (!aux->ddc.algo)
+>                 drm_dp_aux_init(aux);
+>
+> -       aux->ddc.class =3D I2C_CLASS_DDC;
+>         aux->ddc.owner =3D THIS_MODULE;
+>         aux->ddc.dev.parent =3D aux->dev;
+>
+> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/=
+drm/display/drm_dp_mst_topology.c
+> index 0e0d0e76d..4376e2c1f 100644
+> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> @@ -5803,7 +5803,6 @@ static int drm_dp_mst_register_i2c_bus(struct drm_d=
+p_mst_port *port)
+>         aux->ddc.algo_data =3D aux;
+>         aux->ddc.retries =3D 3;
+>
+> -       aux->ddc.class =3D I2C_CLASS_DDC;
+>         aux->ddc.owner =3D THIS_MODULE;
+>         /* FIXME: set the kdev of the port's connector as parent */
+>         aux->ddc.dev.parent =3D parent_dev;
+>
