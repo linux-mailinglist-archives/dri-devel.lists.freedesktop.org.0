@@ -2,48 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C6537EE5DF
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 18:24:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A4967EE632
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 18:54:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D330B10E64F;
-	Thu, 16 Nov 2023 17:24:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38A7610E293;
+	Thu, 16 Nov 2023 17:54:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 684BC10E64F
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 17:24:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id B6B64CE211D;
- Thu, 16 Nov 2023 17:24:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6940C433C8;
- Thu, 16 Nov 2023 17:24:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700155451;
- bh=6Uez4j1D+PV94+gqoUCDXgF4YMEOJqot79M3jVUUXcE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tL5bXgoYqER57kKf3S27zY1UmSnSytsgx9QMRh0kUUc/HRJ65MQtxQs/l0oGayDrW
- Za0jzcrRlQtnLZ8QqiNBeF0RHj5D3klQ12XcWwVW+hr9e0wTLwcQ2EP10E0bbFnH5y
- Pent9uuB/VMnqvp+m3syefqXBX2nk4WV6PL1CYKnpDQVyom+IsgGn6CnoyzfrBDBmS
- +p12aQuhp0WricDi1IuBYGwhW4unEjgFPYjpi4i4/hVTVZDkXkFaAFR8ABCjsr6uKb
- 9kyh1Y1X/k4IZWt07tUl8Enu3mfHzBEtsRSqrl3Et9TT0R874EbP9R2bDBwQxh2QmW
- kF+iFhop8mh3A==
-Date: Thu, 16 Nov 2023 17:24:07 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 3/5] dt-bindings: gpu: samsung: constrain clocks in
- top-level properties
-Message-ID: <20231116-fit-secluding-58541c26d484@squawk>
-References: <20231112184403.3449-1-krzysztof.kozlowski@linaro.org>
- <20231112184403.3449-3-krzysztof.kozlowski@linaro.org>
- <20231113-sultry-cold-d63dd9f015d9@squawk>
- <20231116162855.GA2435337-robh@kernel.org>
- <e9daa8cc-9cdd-4b76-96b9-b9a6b1ef6f5e@linaro.org>
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD06B10E293
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 17:54:31 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-5098e423ba2so1541754e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 09:54:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1700157270; x=1700762070;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/RDZxZXQw38fLxfRFujJZywNkog1jvLPlmbJYwotb9A=;
+ b=R4m3RsHrLsg5pY9cy61U14lTxl/f7qcjrJP2unJymgmS6Pi88yGqHg69JnQHCOYgxG
+ aPsqzNIj6KM6lT8wCeFa+8tMl/3fPDfd7ZtvKb4y8bioxM192q4hqQFkJeIdMFYelMre
+ Z92XaoCUe12F6d8v0/qdUKbZdaDhx3M2KZ/Eo1XvPIlRDoBEpVwvsDEozegyfW6Ltydj
+ 47amH547NezzX5J5Nji/4tVcJRSV3pJlTYqgNJJ8QS5O27Vzkd6QEFYr/8gNmmUAWjLX
+ hdnJJkShS0zjo0H11h79X2l2/gcWYz9309xZtxOmDtlBbs/X6VjqieqrNVFxwrX/XxJj
+ m3rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700157270; x=1700762070;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/RDZxZXQw38fLxfRFujJZywNkog1jvLPlmbJYwotb9A=;
+ b=Ton95UbytHhXainqnNRpwqhZrKL97yZ9eIa3prJq9fE8R9tmZ1/Ji+MLVxj7SVTXNr
+ ogVAjilhsDnCSHbO+iTE3HJCpoG7BkjBvE/nazUJ2ke8zC2Q8S59hUT/Ycldsc0kI5Nx
+ OWc/mQDMCenwTzeSaiaXL0YPFPkjMDuCpYRiXgHFttuat/r0jAjsbi2GdxstLv4me2Wh
+ cLU8lc5VKV1wT12tYP2LP993E1wh8TKGWoHmneOp0+fo0zUNUSbABvs0MJiNNmlV35MS
+ A5PrwXa0OxOZWCkvrEzrJfTrfLVcnNQee8W6bFwW3jVrhgMwhGJyMi42pv692bwyl8vS
+ v5cg==
+X-Gm-Message-State: AOJu0YwML2JVJxikKtlewWue6ZHBlQQUy3P93fZVfV5IdSuOZdFXkZFl
+ sjzM04fS68IYK34oXVRSSoyhtGROda5UVKRuMzirx8XNkQg46NbBBxAWEQ==
+X-Google-Smtp-Source: AGHT+IFz7zh+0ZdIqnz5ejz7YNssiuPxBYm4eGI90YO5NwzWRK1clM3tcLQ26ai2V0O4NIFX72Kok4ogLtDONoifRJg=
+X-Received: by 2002:a05:6512:1243:b0:507:a001:792e with SMTP id
+ fb3-20020a056512124300b00507a001792emr2974680lfb.46.1700157269663; Thu, 16
+ Nov 2023 09:54:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="fFmKGqJ6SO8LH1UG"
-Content-Disposition: inline
-In-Reply-To: <e9daa8cc-9cdd-4b76-96b9-b9a6b1ef6f5e@linaro.org>
+References: <20231114233859.274189-1-appsforartists@google.com>
+ <70f12e96-0fcc-4954-8507-27cf5e15a3b2@redhat.com>
+ <CAAL3-=9YYQBV-T-KhHdYrtGHH1RC29uzTuQ98roAY9GwrNrwmg@mail.gmail.com>
+ <CAAL3-=-b3-RZNNfQEYzQxK=SW4PPJ7cmrX8omBniec+tgC2frw@mail.gmail.com>
+ <4570d94e-b446-4fd1-a24a-db11a87846c4@redhat.com>
+ <CAAL3-=_p4waxpf9a6B0Yvno0dnakZ6f81-Kfjxwbw4jA_CrcSw@mail.gmail.com>
+ <02ea9279-7bdc-43ca-bd7d-898dee14884e@redhat.com>
+In-Reply-To: <02ea9279-7bdc-43ca-bd7d-898dee14884e@redhat.com>
+From: Brenton Simpson <appsforartists@google.com>
+Date: Thu, 16 Nov 2023 09:54:18 -0800
+Message-ID: <CAAL3-=_y7T1ErkEj_QjDWc7svimA1tCSH=xZ0LPsMCWoi40s3g@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-orientation-quirks: add Lenovo Legion Go
+To: Hans de Goede <hdegoede@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,62 +75,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Conor Dooley <conor+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+Cc: Patrick Thompson <ptf@google.com>, Emil Velikov <emil.l.velikov@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jared Baldridge <jrb@expunge.us>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Allen Ballway <ballway@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Oh believe me, I tried.  I spent like 2 hours fighting with the CLI to
+send it.  There are restrictions on what addresses it can send from
+that don't line up with the identity I use for git.  Our corp setup
+can be=E2=80=A6complicated.
 
---fFmKGqJ6SO8LH1UG
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+My workflow for patching the kernel is actually a bit weird: I use the
+GitHub web editor to make the patches, and then test them with Nix's
+build system, which pulls them by URL.  Since it's a gaming console,
+it's easier to use a real computer to write the patches, and then test
+them by instigating a build over SSH.
 
-On Thu, Nov 16, 2023 at 06:17:31PM +0100, Krzysztof Kozlowski wrote:
-> On 16/11/2023 17:28, Rob Herring wrote:
-> > On Mon, Nov 13, 2023 at 01:51:30PM +0000, Conor Dooley wrote:
-> >> On Sun, Nov 12, 2023 at 07:44:01PM +0100, Krzysztof Kozlowski wrote:
-> >>> When number of clock varies between variants, the Devicetree bindings
-> >>> coding convention expects to have widest constraints in top-level
-> >>> definition of the properties and narrow them in allOf:if:then block.
-> >>>
-> >>> This is more readable and sometimes allows to spot some errors in the
-> >>> bindings.
-> >>>
-> >>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >>
-> >>
-> >> =C5cked-by: Conor Dooley <conor.dooley@microchip.com>
-> >=20
-> >   ^
-> >=20
-> > Not an 'A'. I only caught this because I go thru everything=20
-> > Acked/Reviewed-by first and this one was missed.
->=20
-> And in Norwegian it is pronounced as "o", so this would be ocked-by :)
+Now that I know the format the email is supposed to take, it might be
+easier for me to paste GitHub's .patch body into a plain text email
+and add the Signed Off tag by hand.
 
-What on earth! The fedora install on this macbook I've been travelling
-with does some odd things (clearly there's some setting I need to
-disable) if I type something incorrectly and hit a backspace, but I use
-a vim keybind to "type" my acks etc, so I am not sure that could have
-been affected. FWIW,
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+I just CCed you on a patch created that way.  Does that look okay to
+you (at least from a formatting point-of-view).
 
-Cheers,
-Conor.
+Thanks again for your patience and assistance.  Sorry for my weird setup.
 
 
---fFmKGqJ6SO8LH1UG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZVZQNAAKCRB4tDGHoIJi
-0gWAAP9W+XCybNMkVo8bMN5r4PJjQJGNCRNikfpBlS1m6dw74gEAltKpe/BflVoJ
-60jjmtdd8w8JJuweFkYGUVs9o1/8rQQ=
-=Y/mO
------END PGP SIGNATURE-----
-
---fFmKGqJ6SO8LH1UG--
+  .matches =3D {
+   DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
