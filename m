@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CAF07EE670
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 19:08:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E6B7EE66B
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 19:08:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D0CA10E2AE;
-	Thu, 16 Nov 2023 18:08:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65C3810E2AC;
+	Thu, 16 Nov 2023 18:08:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC6CE10E2AC
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7F0610E2AE
  for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 18:08:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1700158081;
+ s=mimecast20190719; t=1700158080;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W54lS/jbyFmKQJpxN3dQRiCf/ft7R1Q+OyFPgBZkh2k=;
- b=arIlDxk1Ra+zfTrgBXtBnVTS7SC4/fsnLfEgTd1kQbZ0FlOz4vp8MVMlN91eHnonEfM+Go
- 5nf8OVoHNQOVu+r9p+EUwuxO3L3iTiWRAlLOUHwtZogfysvGjKbLPF/rBamG8ZydEb8vlV
- puQLENIxCEl4+zO43TaMegAehzFKDbQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=abMypBf5ucI4kN1b2IUT7QxG30gkYzFxCp5z4V1rKYE=;
+ b=Rl2lLLYibXgIW8TvXgv61D+4ZCc4iZMTTR64t+xBb80GEZASiTYQYVrKn67xiVKJRLR1cS
+ eonUqKwauVjAH24Z6PTe+RfAzFL6YDmAzBEJXiJPaJ8vmFuMbg+w2x3vvrxR1dPK27yq2b
+ GhtN5sbgwf1pXatpvHg9zPjE1PMcvTo=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-47-mLc8WT5pN6uAAavifj4X4A-1; Thu, 16 Nov 2023 13:07:57 -0500
-X-MC-Unique: mLc8WT5pN6uAAavifj4X4A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-32db43129c6so544064f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 10:07:56 -0800 (PST)
+ us-mta-198-9g9eZau4OSW-7zkjwWa4cg-1; Thu, 16 Nov 2023 13:07:59 -0500
+X-MC-Unique: 9g9eZau4OSW-7zkjwWa4cg-1
+Received: by mail-lj1-f198.google.com with SMTP id
+ 38308e7fff4ca-2c53c85e482so10389201fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 10:07:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700158076; x=1700762876;
+ d=1e100.net; s=20230601; t=1700158077; x=1700762877;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=W54lS/jbyFmKQJpxN3dQRiCf/ft7R1Q+OyFPgBZkh2k=;
- b=SnnA+qv3qYvYIcBXsZK+iogy0ZqwF+RFVbpI+evkL0SA1FTkPcjRh74iIQ1LwZVuSw
- Xs641KqbP0mYi3McJ1JYyUAkQ/c1Ahkk1NZZ0F7MQLEUZHr2kRPiQLGFRKE9tMAuZMZz
- zGVPCvK/iASZw76SozFHeqPB7QppcaKQXf2NqpFn337lf9enCktZg1wiwk5Teydl51Sx
- fXueQGHySejuP8DS8/SP4mwArIXzWHUYOBCYKNJruq6Brdqif7pa6swlIRI5GBIeyFpW
- L9jQo5EChx4YKt0/J2fTZviuerZVPIU/HKHkrPJgYcKqeEa6/7/7H+DZdNoQpaPTHbAs
- 0sQA==
-X-Gm-Message-State: AOJu0Ywr5gavPqsyrVxe6QFEg42IF8hgsbAgalJdUwYiwag3aErLX2Yr
- eQBtMfXeIFU/UKsXLNgAyIGY5E19scvpOhcSCQ0+rKh/EdT3zCOJJhEW4BNPMciltXKykB1eu2b
- W5yfyoNygXlJgbOj+uXzhBB2062jM
-X-Received: by 2002:a5d:4441:0:b0:32d:a688:8813 with SMTP id
- x1-20020a5d4441000000b0032da6888813mr11709923wrr.32.1700158075975; 
- Thu, 16 Nov 2023 10:07:55 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGr2Uo2/zKtm0kyeqWnh34kZmrEKiHbZLy5vndsH3tPLeRv2OqMJqf+niFFID1bDqbG3zONhA==
-X-Received: by 2002:a5d:4441:0:b0:32d:a688:8813 with SMTP id
- x1-20020a5d4441000000b0032da6888813mr11709913wrr.32.1700158075741; 
- Thu, 16 Nov 2023 10:07:55 -0800 (PST)
+ bh=abMypBf5ucI4kN1b2IUT7QxG30gkYzFxCp5z4V1rKYE=;
+ b=awwYeOPPPh14WRFL5yJ9moBFqatdwU3HKXr6fJbQNaXg4tVS/FBpP+WCW3DexuiACm
+ MjvXCYfeCTAmD2wd5yjXUPffZOtleK9jzUUtPQW1uW/Sn+N90K5r9ygOz4RbOZjkkR/N
+ mJfJpmscGgiCtf/L7Y5EhLAIbcAv1GYhvyw9CyIkMXaTeGH6Y6qRB2QXzDsWDJoYFuUq
+ WYQ5iUQLWszFI2XeUZ12mTzlkcsUL8z0BM7QzzAbx0byzWMws/kNwiwrE4VKM6++58d5
+ ZkUm7SciANts6OOWTrep7NRoCEqPFh2D8WuoFj0D6O4/8ekAG2r4s9QNL//EsEodMjpq
+ btXw==
+X-Gm-Message-State: AOJu0Yzwu4yqQygbpCJmn4omQQiYS7SqzPG5tuIS3XsvvOg4/d6eGqx+
+ GXj1jKCfE6S+AlwsX6WBPyf3681kUxZJWf10ccH6Js08wa07jjv+UBwpUt5LESNS8PTz7O5LdxW
+ frWL4NcmImVwDEe8M9RLZ4qBr+8rd
+X-Received: by 2002:a2e:9b13:0:b0:2c5:2813:5534 with SMTP id
+ u19-20020a2e9b13000000b002c528135534mr7628254lji.51.1700158077696; 
+ Thu, 16 Nov 2023 10:07:57 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGKGl1y5xpKNFNEdGTKKeWQHa+nKfgkMEp5Q7PtqN7fzQrCOV0Z8V6aBoDs2btVWPzkwvYFHA==
+X-Received: by 2002:a2e:9b13:0:b0:2c5:2813:5534 with SMTP id
+ u19-20020a2e9b13000000b002c528135534mr7628244lji.51.1700158077374; 
+ Thu, 16 Nov 2023 10:07:57 -0800 (PST)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- p6-20020a5d48c6000000b0032db8cccd3asm32812wrs.114.2023.11.16.10.07.54
+ q9-20020a05600c330900b0040a3f9862e3sm3216257wmp.1.2023.11.16.10.07.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Nov 2023 10:07:54 -0800 (PST)
+ Thu, 16 Nov 2023 10:07:56 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] fbdev: ssd1307fb: Change "solomon,
+Subject: [PATCH 3/3] drm/ssd130x: Change "solomon,
  page-offset" property default value
-Date: Thu, 16 Nov 2023 19:07:38 +0100
-Message-ID: <20231116180743.2763021-2-javierm@redhat.com>
+Date: Thu, 16 Nov 2023 19:07:39 +0100
+Message-ID: <20231116180743.2763021-3-javierm@redhat.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231116180743.2763021-1-javierm@redhat.com>
 References: <20231116180743.2763021-1-javierm@redhat.com>
@@ -84,13 +84,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Sahaj Sarup <sahaj.sarup@linaro.org>,
- Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Sahaj Sarup <sahaj.sarup@linaro.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -105,28 +102,28 @@ But the datasheet mentions that the value on reset for the page start is a
 offset if the property is not present.
 
 In fact, using a default value of 1 leads to the display not working when
-the fbdev is attached to the framebuffer console.
+the emulated fbdev is attached to the framebuffer console.
 
 Reported-by: Sahaj Sarup <sahaj.sarup@linaro.org>
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
 
- drivers/video/fbdev/ssd1307fb.c | 2 +-
+ drivers/gpu/drm/solomon/ssd130x.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/ssd1307fb.c b/drivers/video/fbdev/ssd1307fb.c
-index 5ae48e36fccb..34f014bf4994 100644
---- a/drivers/video/fbdev/ssd1307fb.c
-+++ b/drivers/video/fbdev/ssd1307fb.c
-@@ -637,7 +637,7 @@ static int ssd1307fb_probe(struct i2c_client *client)
- 		par->height = 16;
+diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+index bef293922b98..8944129a8e0b 100644
+--- a/drivers/gpu/drm/solomon/ssd130x.c
++++ b/drivers/gpu/drm/solomon/ssd130x.c
+@@ -1453,7 +1453,7 @@ static void ssd130x_parse_properties(struct ssd130x_device *ssd130x)
+ 		ssd130x->height = ssd130x->device_info->default_height;
  
- 	if (device_property_read_u32(dev, "solomon,page-offset", &par->page_offset))
--		par->page_offset = 1;
-+		par->page_offset = 0;
+ 	if (device_property_read_u32(dev, "solomon,page-offset", &ssd130x->page_offset))
+-		ssd130x->page_offset = 1;
++		ssd130x->page_offset = 0;
  
- 	if (device_property_read_u32(dev, "solomon,col-offset", &par->col_offset))
- 		par->col_offset = 0;
+ 	if (device_property_read_u32(dev, "solomon,col-offset", &ssd130x->col_offset))
+ 		ssd130x->col_offset = 0;
 -- 
 2.41.0
 
