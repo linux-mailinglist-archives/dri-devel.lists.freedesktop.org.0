@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD8B47EE7E6
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 20:59:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5EF57EE7E7
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 20:59:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1EA410E6C3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AA3910E6C0;
 	Thu, 16 Nov 2023 19:59:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A79010E6B6;
- Thu, 16 Nov 2023 19:58:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B76810E6B6;
+ Thu, 16 Nov 2023 19:59:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -19,26 +19,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=wDD0P6LC5J/uwHuOLNOhZxXDND9YaLsqNBHL4xBejvU=; b=HsIWH+B2BwOwNX5HdVibAXV9Xv
- o77ctKLWGtO7wACASkA+2PTPNGEIJWdq217w0AddDXGbq7SWvWgrs2PGoAgQ87PyYg+JQJIm4kHL+
- 1XNPGN3MWulEFloAahG4vCkR1dHYvrupNLIONd+6VH92QFH6yALl3CI7m9aLqF7mwBrJzUwQeBBKW
- 0rO5ewFn7ZXrChUq96OAXZ0VHPuGAapE5RPQrQIAAuh0JxZ5J+G8wE7kcmjp5Kb3WrVkzCxUQ820P
- bsbihuKhDgBGZmhIAo/Aev1zHeqt653FR5CZVvYSpNKlY0ZKayBo/3zbh+lYSXowGOHPusw+Dax6d
- xL3DiU8Q==;
+ bh=rSIq7SXqfs2WTv0lhNNpTNCfh3FLIZ7IUVqISJRImL0=; b=CtBAbpSnqu/H34H9MMMDb2zanc
+ lIHmJNFiDNz+Z1fCb0ATIi1DMmWHTKH8pmbJJAY8cqQS951e4pz4N+FHGEaQajD67MZtBBJHjY0R3
+ TzSv1TnYHry9Due4qL5c9cfZW6vT/NE8WGMJX4NIRB2nMHUeGNXGoDALp0dRcljAqj7i/xHu3Wy9+
+ 1umH7mOzvkD/l8GeDkEYVR6E/H9QvvKU3PMy0FRJ4P2zay3nm8GQ27oA4ywsjipN8VHRiwLhAY4yQ
+ XrDqLVJS0Jz9T1ddFyWFvSP+seqoKcpNnynUG9sHGTct5XW+zh9Xv7b/d9qEVpzoLZNijaF9IUDq2
+ Hp7ZZPzg==;
 Received: from [102.213.205.115] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1r3iVr-0048Yy-VJ; Thu, 16 Nov 2023 20:58:56 +0100
+ id 1r3iVu-0048Yy-GN; Thu, 16 Nov 2023 20:58:58 +0100
 From: Melissa Wen <mwen@igalia.com>
 To: amd-gfx@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
  Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
  christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
  daniel@ffwll.ch
-Subject: [PATCH v5 18/32] drm/amd/display: decouple steps for mapping CRTC
- degamma to DC plane
-Date: Thu, 16 Nov 2023 18:57:58 -0100
-Message-Id: <20231116195812.906115-19-mwen@igalia.com>
+Subject: [PATCH v5 19/32] drm/amd/display: add plane degamma TF and LUT support
+Date: Thu, 16 Nov 2023 18:57:59 -0100
+Message-Id: <20231116195812.906115-20-mwen@igalia.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231116195812.906115-1-mwen@igalia.com>
 References: <20231116195812.906115-1-mwen@igalia.com>
@@ -65,111 +64,155 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The next patch adds pre-blending degamma to AMD color mgmt pipeline, but
-pre-blending degamma caps (DPP) is currently in use to provide DRM CRTC
-atomic degamma or implict degamma on legacy gamma. Detach degamma usage
-regarging CRTC color properties to manage plane and CRTC color
-correction combinations.
+From: Joshua Ashton <joshua@froggi.es>
+
+Set DC plane with user degamma LUT or predefined TF from driver-specific
+plane color properties. If plane and CRTC degamma are set in the same
+time, plane degamma has priority.  That means, we only set CRTC degamma
+if we don't have plane degamma LUT or TF to configure. We return -EINVAL
+if we don't have plane degamma settings, so we can continue and check
+CRTC degamma.
 
 Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Joshua Ashton <joshua@froggi.es>
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 60 +++++++++++++------
- 1 file changed, 42 insertions(+), 18 deletions(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  4 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  1 +
+ .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 70 +++++++++++++++++--
+ 3 files changed, 69 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 8f82d9837a41..e694bc3c2d5f 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -5092,7 +5092,9 @@ static int fill_dc_plane_attributes(struct amdgpu_device *adev,
+ 	 * Always set input transfer function, since plane state is refreshed
+ 	 * every time.
+ 	 */
+-	ret = amdgpu_dm_update_plane_color_mgmt(dm_crtc_state, dc_plane_state);
++	ret = amdgpu_dm_update_plane_color_mgmt(dm_crtc_state,
++						plane_state,
++						dc_plane_state);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+index b997bb287dda..daae70f618a7 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+@@ -910,6 +910,7 @@ int amdgpu_dm_create_color_properties(struct amdgpu_device *adev);
+ int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state);
+ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc);
+ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
++				      struct drm_plane_state *plane_state,
+ 				      struct dc_plane_state *dc_plane_state);
+ 
+ void amdgpu_dm_update_connector_after_detect(
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index 83c14fb57721..f13d22851fe4 100644
+index f13d22851fe4..13117516f2a4 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -789,20 +789,9 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
+@@ -868,9 +868,58 @@ map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
  	return 0;
  }
  
--/**
-- * amdgpu_dm_update_plane_color_mgmt: Maps DRM color management to DC plane.
-- * @crtc: amdgpu_dm crtc state
-- * @dc_plane_state: target DC surface
-- *
-- * Update the underlying dc_stream_state's input transfer function (ITF) in
-- * preparation for hardware commit. The transfer function used depends on
-- * the preparation done on the stream for color management.
-- *
-- * Returns:
-- * 0 on success. -ENOMEM if mem allocation fails.
-- */
--int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
--				      struct dc_plane_state *dc_plane_state)
 +static int
-+map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
-+			     struct dc_plane_state *dc_plane_state)
- {
- 	const struct drm_color_lut *degamma_lut;
- 	enum dc_transfer_func_predefined tf = TRANSFER_FUNCTION_SRGB;
-@@ -825,8 +814,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
- 						 &degamma_size);
- 		ASSERT(degamma_size == MAX_COLOR_LUT_ENTRIES);
- 
--		dc_plane_state->in_transfer_func->type =
--			TF_TYPE_DISTRIBUTED_POINTS;
-+		dc_plane_state->in_transfer_func->type = TF_TYPE_DISTRIBUTED_POINTS;
- 
- 		/*
- 		 * This case isn't fully correct, but also fairly
-@@ -862,7 +850,7 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
- 				   degamma_lut, degamma_size);
- 		if (r)
- 			return r;
--	} else if (crtc->cm_is_degamma_srgb) {
-+	} else {
- 		/*
- 		 * For legacy gamma support we need the regamma input
- 		 * in linear space. Assume that the input is sRGB.
-@@ -872,8 +860,44 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
- 
- 		if (tf != TRANSFER_FUNCTION_SRGB &&
- 		    !mod_color_calculate_degamma_params(NULL,
--			    dc_plane_state->in_transfer_func, NULL, false))
-+							dc_plane_state->in_transfer_func,
-+							NULL, false))
- 			return -ENOMEM;
-+	}
++__set_dm_plane_degamma(struct drm_plane_state *plane_state,
++		       struct dc_plane_state *dc_plane_state)
++{
++	struct dm_plane_state *dm_plane_state = to_dm_plane_state(plane_state);
++	const struct drm_color_lut *degamma_lut;
++	enum amdgpu_transfer_function tf = AMDGPU_TRANSFER_FUNCTION_DEFAULT;
++	uint32_t degamma_size;
++	bool has_degamma_lut;
++	int ret;
 +
++	degamma_lut = __extract_blob_lut(dm_plane_state->degamma_lut,
++					 &degamma_size);
++
++	has_degamma_lut = degamma_lut &&
++			  !__is_lut_linear(degamma_lut, degamma_size);
++
++	tf = dm_plane_state->degamma_tf;
++
++	/* If we don't have plane degamma LUT nor TF to set on DC, we have
++	 * nothing to do here, return.
++	 */
++	if (!has_degamma_lut && tf == AMDGPU_TRANSFER_FUNCTION_DEFAULT)
++		return -EINVAL;
++
++	dc_plane_state->in_transfer_func->tf = amdgpu_tf_to_dc_tf(tf);
++
++	if (has_degamma_lut) {
++		ASSERT(degamma_size == MAX_COLOR_LUT_ENTRIES);
++
++		dc_plane_state->in_transfer_func->type =
++			TF_TYPE_DISTRIBUTED_POINTS;
++
++		ret = __set_input_tf(dc_plane_state->in_transfer_func,
++				     degamma_lut, degamma_size);
++		if (ret)
++			return ret;
++       } else {
++		dc_plane_state->in_transfer_func->type =
++			TF_TYPE_PREDEFINED;
++
++		if (!mod_color_calculate_degamma_params(NULL,
++		    dc_plane_state->in_transfer_func, NULL, false))
++			return -ENOMEM;
++	}
 +	return 0;
 +}
 +
-+/**
-+ * amdgpu_dm_update_plane_color_mgmt: Maps DRM color management to DC plane.
-+ * @crtc: amdgpu_dm crtc state
-+ * @dc_plane_state: target DC surface
-+ *
-+ * Update the underlying dc_stream_state's input transfer function (ITF) in
-+ * preparation for hardware commit. The transfer function used depends on
-+ * the preparation done on the stream for color management.
-+ *
-+ * Returns:
-+ * 0 on success. -ENOMEM if mem allocation fails.
-+ */
-+int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
-+				      struct dc_plane_state *dc_plane_state)
-+{
-+	bool has_crtc_cm_degamma;
-+	int ret;
+ /**
+  * amdgpu_dm_update_plane_color_mgmt: Maps DRM color management to DC plane.
+  * @crtc: amdgpu_dm crtc state
++ * @plane_state: DRM plane state
+  * @dc_plane_state: target DC surface
+  *
+  * Update the underlying dc_stream_state's input transfer function (ITF) in
+@@ -881,13 +930,28 @@ map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
+  * 0 on success. -ENOMEM if mem allocation fails.
+  */
+ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
++				      struct drm_plane_state *plane_state,
+ 				      struct dc_plane_state *dc_plane_state)
+ {
+ 	bool has_crtc_cm_degamma;
+ 	int ret;
+ 
++	/* Initially, we can just bypass the DGM block. */
++	dc_plane_state->in_transfer_func->type = TF_TYPE_BYPASS;
++	dc_plane_state->in_transfer_func->tf = TRANSFER_FUNCTION_LINEAR;
 +
-+	has_crtc_cm_degamma = (crtc->cm_has_degamma || crtc->cm_is_degamma_srgb);
-+	if (has_crtc_cm_degamma){
-+		/*
-+		 * AMD HW doesn't have post-blending degamma caps. When DRM
-+		 * CRTC atomic degamma is set, we maps it to DPP degamma block
-+		 * (pre-blending) or, on legacy gamma, we use DPP degamma to
-+		 * linearize (implicit degamma) from sRGB/BT709 according to
-+		 * the input space.
-+		 */
-+		ret = map_crtc_degamma_to_dc_plane(crtc, dc_plane_state);
-+		if (ret)
-+			return ret;
- 	} else {
- 		/* ...Otherwise we can just bypass the DGM block. */
- 		dc_plane_state->in_transfer_func->type = TF_TYPE_BYPASS;
++	/* After, we start to update values according to color props */
+ 	has_crtc_cm_degamma = (crtc->cm_has_degamma || crtc->cm_is_degamma_srgb);
+-	if (has_crtc_cm_degamma){
++
++	ret = __set_dm_plane_degamma(plane_state, dc_plane_state);
++	if (ret != -EINVAL)
++		return ret;
++
++	/* If we are here, it means we don't have plane degamma settings, check
++	 * if we have CRTC degamma waiting for mapping to pre-blending degamma
++	 * block
++	 */
++	if (has_crtc_cm_degamma) {
+ 		/*
+ 		 * AMD HW doesn't have post-blending degamma caps. When DRM
+ 		 * CRTC atomic degamma is set, we maps it to DPP degamma block
+@@ -898,10 +962,6 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+ 		ret = map_crtc_degamma_to_dc_plane(crtc, dc_plane_state);
+ 		if (ret)
+ 			return ret;
+-	} else {
+-		/* ...Otherwise we can just bypass the DGM block. */
+-		dc_plane_state->in_transfer_func->type = TF_TYPE_BYPASS;
+-		dc_plane_state->in_transfer_func->tf = TRANSFER_FUNCTION_LINEAR;
+ 	}
+ 
+ 	return 0;
 -- 
 2.40.1
 
