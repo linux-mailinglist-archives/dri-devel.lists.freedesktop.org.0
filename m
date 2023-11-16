@@ -2,63 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF60F7EDF84
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 12:20:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECE7C7EDF83
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 12:20:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ECE010E26A;
-	Thu, 16 Nov 2023 11:20:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 263CD10E051;
+	Thu, 16 Nov 2023 11:20:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
- [IPv6:2607:f8b0:4864:20::b2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1C4210E26A
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 11:20:06 +0000 (UTC)
-Received: by mail-yb1-xb2c.google.com with SMTP id
- 3f1490d57ef6-d9ace5370a0so663384276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 03:20:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700133606; x=1700738406; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=GNz8Mj94lyuJrLopjO1nbrgigdrAg1NmhmUedWnVTlg=;
- b=fjaMmeuTI1IKkHw5pYiIOpeliUUdbM7mNUZ4AbdE8W1qthNyULzgZKuObA6/1mckmk
- klWZFjcPqL5uJXDAd+SIuwJH9MQOWubgt7cUmIo2jVCzUBziqcaHXIXibblcQp5HlvGJ
- 5r2fWL0Vt5OIqkHMzG1n5L8gnUFYPhUIWAs8s7aZQ5WH4+bsaplXjZrSx/tAvukIizTs
- M1L5fBJSsBnmNvGc4WKpYiWsaFttfR7ObzEW+xmBB1oT+VhGuz472FduGA/20xSeTn5e
- 8tkDwCyclNYPqyLu9z4uKVOaNNQG5WSbXkTaM/NQa82K919NHXQztCl/2fCa0UzgfGq8
- UMgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700133606; x=1700738406;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GNz8Mj94lyuJrLopjO1nbrgigdrAg1NmhmUedWnVTlg=;
- b=pJj2t5xoK7odh3Eoq5Ir6N0ywUEud6XQhUhTdoYPld6qlKSeWJWUIny4ICJ3CNLDxb
- TS/nVY5Cxi72WSoxFb8L6D+HbBwHhf06pYJXcVVA7oxCcJiEp20QE0CJ5GXy1EdjjOXP
- fzlndP7i6ch9ovFsz3MGiS1nZxRTyYNA8WZgHKDlN+StyKEHE2vIrwc4rbfWQC3+9O7v
- pmeRUl1k2t6FA58mTfGA20cbGYi2m0JKKbVTSJ4THtL3hDJ/lMFJiEVg83PMZDb6stBv
- 7f2yp5MWJ07NUkmxsfHjFSqCfDoJ4BJxF0M67nh1srXPdhszpBpBR6XN/RlMi8Edv+vo
- pNzQ==
-X-Gm-Message-State: AOJu0Yx9XUzf1u5BkEh2u0k+Un7ibF2iIhzRhtYErgSlj1PAr7oxNEfH
- OnqRtNdXDLdhHxomW/xbrbgCn4DuCtWEe+xaPgq/mw==
-X-Google-Smtp-Source: AGHT+IGqFClAsyT9AYCbI8ZNvTJFKmmRF+52rXiJuzPb5Oh4ZMwuLuYLj2qT2aoDAhyNn9INEi2ilkqWkU4DSjwbYpY=
-X-Received: by 2002:a25:b15:0:b0:daf:5f13:4a4e with SMTP id
- 21-20020a250b15000000b00daf5f134a4emr11298963ybl.48.1700133605833; Thu, 16
- Nov 2023 03:20:05 -0800 (PST)
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com
+ (mail-os0jpn01on20700.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:201a::700])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B8FA10E051
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 11:20:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U8RsLfmhKYjSX9s9PH+GNbIuCBv5vJih1o7ZPbFBEs0b5aBA7UcIPcxLBj6kcdl/vRhoDxiRLgBbl59+Wt4OS7LfQfPDYLbYJL9FTtELBc/lX3KJXFL4SgxRSFcO6CyoRnzhnfxaBpRmEOOL+k8fWW7EKIsuvLNgR946V5ymHeS6l806GyA3/H3kzgxIsdmB3UdzIiqIbC7xT1a+J4Gewp+kbYKf1epg98Qxzcld4rFzq8WkenGzyExaLdSbFQxA2nPz3o4axX4/9Lvx0HWP/2jZuTPWkV9rJ1o1ubMKbvWJtZBYSDV5wppN3bGN34EN2nWcMqf2F8Uf/9YUIsXMDg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z5BWOEHgHishyEy8gL24X7nie/Q6kz5aDNTwZVa2G9E=;
+ b=R06o6jZ/e2rd6ZBj2Y0u29hUqA9tiIjpwf+StSAM4qQ0A8xXzJXtfAgCBeu04AGJhrg1d0Xbv9XnqaIsj7R1KuEGwfEq4c0OaVRqjGmfcej6ZNb9ZuNi1y5T5E2/Ho31NyERSqk3K9q1zzVBrDbOIrKVwqhRH4+8W3nbKpn4vQ6L8s4tLAlYd8ARjuc9S1llzxEg6ofJ0x/WOUl2edY4JA6l4+MH9Tded4J6+O2+Pvb1AN4JiPC1pr4cA5zKPvZMheYfeYk6zlnGREc3NE/yrpKpprIxHvOTbxUaoDw5k/Yg7GK05m4NCKJOJFL2fVKAuIj+tF/iXSulnnFaHDrQxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z5BWOEHgHishyEy8gL24X7nie/Q6kz5aDNTwZVa2G9E=;
+ b=m88ezrukU+GVnStE9gm2NLlV4GWiaUYerLAbPl6DS9C5cgJV+HFfN4q0+Cs6Oqo7JmF/0IFWrNo1RDrRJn/wYlLkLFeTQh1FZvMmhUS9smwVO0DqRCGnoLzsBwDsVixjciEw0ALlJeeC7+sw9Jvrp0g7Xu+4D1i5MsHECCtO6a4=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by TY3PR01MB9983.jpnprd01.prod.outlook.com
+ (2603:1096:400:1dc::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.21; Thu, 16 Nov
+ 2023 11:19:59 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::6069:90c7:909:c89b]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::6069:90c7:909:c89b%7]) with mapi id 15.20.7002.021; Thu, 16 Nov 2023
+ 11:19:59 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: RE: [PATCH] drm: rcar-du: Fix memory leak in rcar_du_vsps_init()
+Thread-Topic: [PATCH] drm: rcar-du: Fix memory leak in rcar_du_vsps_init()
+Thread-Index: AQHaF9XD+kjIDpQWrEeYyotVLHznYbB8J72AgACl6bA=
+Date: Thu, 16 Nov 2023 11:19:59 +0000
+Message-ID: <TYCPR01MB1126959F8FAD57D0BBC02E11886B0A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20231115150932.107796-1-biju.das.jz@bp.renesas.com>
+ <20231116012455.GA20846@pendragon.ideasonboard.com>
+In-Reply-To: <20231116012455.GA20846@pendragon.ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TY3PR01MB9983:EE_
+x-ms-office365-filtering-correlation-id: 4532d121-ff22-4386-b285-08dbe695f835
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: /MIXhk9aGwbxbWsNUJy+DiFEV6DvLdw9hnNAtWJcRMaKWdzIQXerOqPigeyHkuvg/jLkGvlAmicCw7OMzhOpFIWz7SLGyN3kz7kVNNcQHqBP7KH2BF9lFNfP0kkYtEucCh44NJjjFGLg9Iyh3iteYwc135uGcD05JNabPVdkx58yP4J1ZvnTZonTFR60uLmSNUdo7RMj7CiuPXHholSAlKdQNIisD+5orhEIlTBpuEpKHgQwDROtKKOHnAvhnAezItjfIhLBd7ZH/VofDcQOs+AQSqkWEv6sUZH/uqXM7qNdNZ2wJGOf9j7BEqb4A0iHVS2T4gp9erQxJRKlogCUCppRKqXDeUTMn6gVTQLgruhcH6asPC8qbXgi9+b1KCn2nyYPIHUc2CIgBpfW65Uldit5Iy/26UFgahWPwq1/udm0yt6U5psOj5ouuKVsSELSqNh1aWqnVfB0BgOQX6wdukPq1Rgyyucu3oEuo27yYFxutPNop+PX3/8qwWqH8AJgFbRi/lotmgMwzhXGS52G7FcqxyrSUlFibxbSldm4Y+xUQBGSWYYaEtjvmKxg5ucAYb0p0Z9iR9o6vdKSSo8vLbm3mFUGixgAejtR+jVijiXZSVDiC00iqyrcJJcjvQBY
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYCPR01MB11269.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(396003)(366004)(39860400002)(376002)(346002)(230922051799003)(451199024)(1800799009)(64100799003)(186009)(478600001)(9686003)(71200400001)(53546011)(6506007)(7696005)(76116006)(64756008)(316002)(6916009)(66476007)(66446008)(66556008)(66946007)(54906003)(52536014)(4326008)(8676002)(8936002)(38070700009)(55016003)(83380400001)(2906002)(41300700001)(38100700002)(33656002)(26005)(86362001)(5660300002)(122000001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?blhrcHZRQXpiTzJibzRteHR4cXpjWFFKZng5M1c4QmxUc3VpbVJwWjgvdkFM?=
+ =?utf-8?B?SS9sSzNPTzVaZ1NBMW9MYmZKbDhmdEhpanJSL2tWZXB0cW43THRRMU5IU2ha?=
+ =?utf-8?B?MCt5bU9kTDEwMmNnN3IzKzVXck1qU0RnQk9pZ0xrT3J3Ykx1Tkcrc25xaDRu?=
+ =?utf-8?B?dlZPdE56UGpEbjQvYVB2cFE4dHZQRFNoT1c1eWxkaXgrQ0p0OGJWeURCZkdO?=
+ =?utf-8?B?RG5tcTBqa0laYjlVYmlTc1RpRnI3Zk9Cd2dLdnBQQWMwb2JaREFoS2tiNThv?=
+ =?utf-8?B?STNpNGJSMDhJb0x4bWcyK0Y1Zjc1ZU5JV2d5dFNmZ29rWGtCUUxUNmFtUENJ?=
+ =?utf-8?B?ald1ekVtWWtvbXhUcFcwc0xVbGhlL3R0dm9IZXNRczVEQWNTN2ZzN1BiQnUx?=
+ =?utf-8?B?QkFGZlBteHZQL0E5NEltbEFLVGZuRUhHL3YzU0U4N2JRWm9TTGIxUTJCTWZx?=
+ =?utf-8?B?Zk9xMnZza01RSytTRHJxQUZZWFVXZGZZUm4vQm5LMDFjUzkzVmo2T00zbE5m?=
+ =?utf-8?B?ZW1RbFNWWlZwbTM0SzVPUnExNE1PMmxGL2lDVDk4RUVVTTEvbkYwS2NWSWx4?=
+ =?utf-8?B?eE5QQVhVVVl5aW96ZkRVcEpRTENPbDdHQU9ZRElHS3lQVzVjU0ZKRFFMTlA5?=
+ =?utf-8?B?cXMxUVJtSVNHb2lENnpRVGRwaG9rRXNST1VoUzRqWWZyY05Zb1BYWE5QRzNa?=
+ =?utf-8?B?bk96ZHdmQ0Z1NWpJc1UwbVlBcERLL1pDVTB1ZlpaK2ZGeHJHUElHcW1nK2hz?=
+ =?utf-8?B?aWRDK0xOa0t0Zi9pQ2ZtK0FId3VwK1ZRS1Y1aVNqdUNMcDNCeGt1aGIrUGhT?=
+ =?utf-8?B?STd6TDZHckUwdXlqODliRXREaDY3WnJDK3B5VDFEUWluTUZSTWFEV2YyUjN5?=
+ =?utf-8?B?ZlZETHNQc1FlL0tuWkg3K0cvenlXeG1yd0VITU9sQ28vS2lzY0NDQ0MxUUo5?=
+ =?utf-8?B?c0xYZjZRazVmUkxjMHA4U2RjRlE5SGM0bUZWR3lXR3NsMXJPOGFoOGd1NTUw?=
+ =?utf-8?B?TkZwZkU2cGZZUWdvUkhaZUtsWFRHdkNWeXArMU9pcGpHTHFlSFpuakJtbUNZ?=
+ =?utf-8?B?bThXeGkxZ3l3Yi9WQW1vemltaFZlNzJJc0NsYzNqdU9hRXgrV2Nydno0ZFlx?=
+ =?utf-8?B?czVvM0lwNEs5N1dsTHI3RktKbERrK0VwL0ZDL2JucENac0E3NDNTTnl6VGFr?=
+ =?utf-8?B?ZjA2RDE1Q05HakpFS0ZNM0g2MlRZVkM5VVl2QmtEelkyZ0U0dDl3dytWbWFz?=
+ =?utf-8?B?MlNSUVBMMFV3dURmRklyRERvT1RVQ2phSTVPSCtKeE5aSnI5WkF1MEljYmU0?=
+ =?utf-8?B?KzhGYUxvSW1kdmROV1FEeGUvcGdaUFl4em0rOXhxTDdRU2ZONWIvQmxZY2xW?=
+ =?utf-8?B?KzMrbEx6V0w1QWppNjkvajNJdlRtZVFvTFcyL2dsSDF6M3FPTkdxazNURnky?=
+ =?utf-8?B?eVYzWlVZeUNFM2FiWjVNQlQwdWZJOXc0YzV5VUxZdlMvMVcvV1E5UVRUTUQ5?=
+ =?utf-8?B?WE1yaHo5MUZXb0g0NjQ4cXhFRFI5WGJHZmlZdUl5Y0tEZ1UyeU5mTXNsbnpH?=
+ =?utf-8?B?Wk5PUk0wQ1VWMGkwUmdRRDdYR1V0eWhaNDVZZXkyR3A1YURKc3pNSmRkeDNh?=
+ =?utf-8?B?eFEvd09XOUhiQno0YnJFZ1NPZXp5SE4zYTdTWWRKZnB6WEZWck1iUXVCSUxO?=
+ =?utf-8?B?WFcyN1ZZMFpIZzNtQklTWGxxdExwd1NrZ1VJOXJZayswemRuVm92NkFZako1?=
+ =?utf-8?B?QVg4TnZEczlwclQ3aXV2MnhvbE5keVNVcXVqNTBpOEl0SXdiQVVWaW5SUk1z?=
+ =?utf-8?B?L0xzMS83d1VyQ0g0b0p0NUNpRmxhV29pS1lTbTJ0amoyRFpsTWJZeU9mZ3VU?=
+ =?utf-8?B?NlIzdUZOQXpLR2lsK3MzRUY0cjVvMlI2N05QL1lLNWQ5LzlVQWJ4QlhkUjdz?=
+ =?utf-8?B?cWdGYVRPamhGMWxJV1lJV3AzL2Zac2pWVzhIQjRFNmswemZ2c2NJdllpMi9p?=
+ =?utf-8?B?WkMwVll0UFhzb3JvTGZqZ3FNY3dkM3Q0aWRnaDFZSGs3aytkSXRNLzdKVXJN?=
+ =?utf-8?B?QmRDQ2VhVGo4WmpWVWR2K1B0SjVHZUtYYnpDVEs0VG5jYllZT0lIQllZRnRz?=
+ =?utf-8?B?QjdWbG95VjdmTWQyVEZhdHRRckRvZ3BKc0RiUFpES0RWNDhGNk1zTzBUQlpT?=
+ =?utf-8?B?Snc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
- <20231114150130.497915-9-sui.jingfeng@linux.dev>
- <CAA8EJprQq3aDhzE+yKGZ2-nsuHWcptzMvApsyOi9D63PgeiZ3w@mail.gmail.com>
- <79301d04-c0cb-4740-8a6d-27a889b65daf@linux.dev>
- <CAA8EJpom5kAbDkacOdqp6BR7YPfmCSXaQfDYRVcLf9eGmi64CQ@mail.gmail.com>
- <121163c9-0d56-47ad-a12e-e67390fef2b4@linux.dev>
-In-Reply-To: <121163c9-0d56-47ad-a12e-e67390fef2b4@linux.dev>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 16 Nov 2023 13:19:54 +0200
-Message-ID: <CAA8EJpowjhX=LL-9cnQL4pfCei63zNkCGW5wGOeeFxcnFpNCVA@mail.gmail.com>
-Subject: Re: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4532d121-ff22-4386-b285-08dbe695f835
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2023 11:19:59.1333 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: baaF+JRTXDi91WjtwvqOHiBY5LrgWTuxj+ZdWBY2o9Fa7MALO5r1h8BB3509ggdwIsH56TcwdwWZ5rN8ldtBJR/S0eJ4LPSQinS1qSqlEDg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB9983
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,216 +129,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phong LE <ple@baylibre.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: "biju.das.au" <biju.das.au@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Nov 2023 at 12:13, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
->
-> Hi,
->
->
-> On 2023/11/16 17:30, Dmitry Baryshkov wrote:
-> > On Thu, 16 Nov 2023 at 11:14, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
-> >> Hi,
-> >>
-> >> Thanks a lot for reviewing!
-> >>
-> >>
-> >> On 2023/11/15 00:30, Dmitry Baryshkov wrote:
-> >>> On Tue, 14 Nov 2023 at 17:09, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
-> >>>> From: Sui Jingfeng <suijingfeng@loongson.cn>
-> >>>>
-> >>>> The it66121_create_bridge() and it66121_destroy_bridge() are added to
-> >>>> export the core functionalities. Create a connector manually by using
-> >>>> bridge connector helpers when link as a lib.
-> >>>>
-> >>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> >>>> ---
-> >>>>    drivers/gpu/drm/bridge/ite-it66121.c | 134 +++++++++++++++++++--------
-> >>>>    include/drm/bridge/ite-it66121.h     |  17 ++++
-> >>>>    2 files changed, 113 insertions(+), 38 deletions(-)
-> >>>>    create mode 100644 include/drm/bridge/ite-it66121.h
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-> >>>> index 8971414a2a60..f5968b679c5d 100644
-> >>>> --- a/drivers/gpu/drm/bridge/ite-it66121.c
-> >>>> +++ b/drivers/gpu/drm/bridge/ite-it66121.c
-> >>>> @@ -22,6 +22,7 @@
-> >>>>
-> >>>>    #include <drm/drm_atomic_helper.h>
-> >>>>    #include <drm/drm_bridge.h>
-> >>>> +#include <drm/drm_bridge_connector.h>
-> >>>>    #include <drm/drm_edid.h>
-> >>>>    #include <drm/drm_modes.h>
-> >>>>    #include <drm/drm_print.h>
-> >>>> @@ -703,14 +704,32 @@ static int it66121_bridge_attach(struct drm_bridge *bridge,
-> >>>>                                    enum drm_bridge_attach_flags flags)
-> >>>>    {
-> >>>>           struct it66121_ctx *ctx = bridge_to_it66121(bridge);
-> >>>> +       struct drm_bridge *next_bridge = ctx->next_bridge;
-> >>>> +       struct drm_encoder *encoder = bridge->encoder;
-> >>>>           int ret;
-> >>>>
-> >>>> -       if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
-> >>>> -               return -EINVAL;
-> >>>> +       if (next_bridge) {
-> >>>> +               if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-> >>>> +                       WARN_ON(1);
-> >>> Why? At least use WARN() instead
-> >> Originally I want to
-> >>
-> >>
-> >>
-> >>
-> >>>> +                       flags |= DRM_BRIDGE_ATTACH_NO_CONNECTOR;
-> >>>> +               }
-> >>>> +               ret = drm_bridge_attach(encoder, next_bridge, bridge, flags);
-> >>>> +               if (ret)
-> >>>> +                       return ret;
-> >>>> +       } else {
-> >>>> +               struct drm_connector *connector;
-> >>>>
-> >>>> -       ret = drm_bridge_attach(bridge->encoder, ctx->next_bridge, bridge, flags);
-> >>>> -       if (ret)
-> >>>> -               return ret;
-> >>>> +               if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
-> >>>> +                       WARN_ON(1);
-> >>> No. It is perfectly fine to create attach a bridge with no next_bridge
-> >>> and with the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
-> >>>
-> >> The document say when DRM_BRIDGE_ATTACH_NO_CONNECTOR flag is set
-> >> the bridge shall not create a drm_connector. So I think if a display
-> >> bridge driver don't have a next bridge attached (Currently, this is
-> >> told by the DT), it says that this is a non-DT environment. On such
-> >> a case, this display bridge driver(it66121.ko) should behavior like
-> >> a *agent*. Because the upstream port of it66121 is the DVO port of
-> >> the display controller, the downstream port of it66121 is the HDMI
-> >> connector. it66121 is on the middle. So I think the it66121.ko should
-> >> handle all of troubles on behalf of the display controller drivers.
-> > No. Don't make decisions for the other drivers. They might have different needs.
->
-> [...]
->
->
-> >
-> >> Therefore (when in non-DT use case), the display controller drivers
-> >> side should not set DRM_BRIDGE_ATTACH_NO_CONNECTOR flag anymore.
-> >> Which is to hint that the it66121 should totally in charge of those
-> >> tasks (either by using bridge connector helper or create a connector
-> >> manually). I don't understand on such a case, why bother display
-> >> controller drivers anymore.
-> > This is the reason why we had introduced this flag. It allows the
-> > driver to customise the connector. It even allows the driver to
-> > implement a connector on its own, completely ignoring the
-> > drm_bridge_connector.
->
->
-> I know what you said is right in the sense of the universe cases,
-> but I think the most frequent(majority) use case is that there is
-> only one display bridge on the middle. Therefore, I don't want to
-> movethe connector things into device driver if there is only one display
-> bridge(say it66121) in the middle. After all, there is no *direct
-> physical connection* from the perspective of the hardware. I means that
-> there is no hardware wires connectthe HDMI connector and the DVO port. So display controller drivers
-> should not interact with anything related with the connector on a
-> perfect abstract on the software side. Especially for such a simple use
-> case. It probably make senses to make a  decision for themost frequently use case, please also note
-> that this patch didn't introduce any-restriction for the more advance
-> uses cases(multiple bridges in the middle).
-
-So, for the sake of not having the connector in the display driver,
-you want to add boilerplate code basically to each and every bridge
-driver. In the end, they should all behave in the same way.
-
-Moreover, there is no way this implementation can work without a
-warning if there are two bridges in a chain and the it66121 is the
-second (the last) one. The host can not specify the
-DRM_BRIDGE_ATTACH_NO_CONNECTOR)
-> >>>> +                       WARN_ON(1);
-> >>> No. It is perfectly fine to create attach a bridge with no next_bridge
-> >>> and with the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
-> >>>
-> >> The document say when DRM_BRIDGE_ATTACH_NO_CONNECTOR flag is set
-> >> the bridge shall not create a drm_connector. So I think if a display
-> >> bridge driver don't have a next bridge attached (Currently, this is
-> >> told by the DT), it says that this is a non-DT environment. On such
-> >> a case, this display bridge driver(it66121.ko) should behavior like
-> >> a *agent*. Because the upstream port of it66121 is the DVO port of
-> >> the display controller, the downstream port of it66121 is the HDMI
-> >> connector. it66121 is on the middle. So I think the it66121.ko should
-> >> handle all of troubles on behalf of the display controller drivers.
-> > No. Don't make decisions for the other drivers. They might have different needs.
->
-> [...]
->
->
-> >
-> >> Therefore (when in non-DT use case), the display controller drivers
-> >> side should not set DRM_BRIDGE_ATTACH_NO_CONNECTOR flag anymore.
-> >> Which is to hint that the it66121 should totally in charge of those
-> >> tasks (either by using bridge connector helper or create a connector
-> >> manually). I don't understand on such a case, why bother display
-> >> controller drivers anymore.
-> > This is the reason why we had introduced this flag. It allows the
-> > driver to customise the connector. It even allows the driver to
-> > implement a connector on its own, completely ignoring the
-> > drm_bridge_connector.
->
->
-> I know what you said is right in the sense of the universe cases,
-> but I think the most frequent(majority) use case is that there is
-> only one display bridge on the middle. Therefore, I don't want to
-> movethe connector things into device driver if there is only one display
-> bridge(say it66121) in the middle. After all, there is no *direct
-> physical connection* from the perspective of the hardware. I means that
-> there is no hardware wires connectthe HDMI connector and the DVO port. So display controller drivers
-> should not interact with anything related with the connector on a
-> perfect abstract on the software side. Especially for such a simple use
-> case. It probably make senses to make a  decision for themost frequently use case, please also note
-> that this patch didn't introduce any-restriction for the more advance
-> uses cases(multiple bridges in the middle).
-
-So, for the sake of not having the connector in the display driver,
-you want to add boilerplate code basically to each and every bridge
-driver. In the end, they should all behave in the same way.
-
-Moreover, there is no way this implementation can work without a
-warning if there are two bridges in a chain and the it66121 is the
-second (the last) one. The host can not specify the
-DRM_BRIDGE_ATTACH_NO_CONNECTOR flag, it will cause a warning here. And
-it can not omit the flag (as otherwise the first bridge will create a
-connector, without consulting the second bridge).
-
->
->
-> >>
-> >>>> +
-> >>>> +               connector = drm_bridge_connector_init(bridge->dev, encoder);
-> >>>> +               if (IS_ERR(connector))
-> >>>> +                       return PTR_ERR(connector);
-> >>>> +
-> >>>> +               drm_connector_attach_encoder(connector, encoder);
-> >>> This goes into your device driver.
-> >>>
-> >>>> +
-> >>>> +               ctx->connector = connector;
-> >>>> +       }
-> >>>>
-> >>>>           if (ctx->info->id == ID_IT66121) {
-> >>>>                   ret = regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
-> >>>> @@ -1632,16 +1651,13 @@ static const char * const it66121_supplies[] = {
-> >>>>           "vcn33", "vcn18", "vrf12"
-> >>>>    };
-> >
-> >
-
-
-
--- 
-With best wishes
-Dmitry
+SGkgTGF1cmVudCwNCg0KVGhhbmtzIGZvciB0aGUgZmVlZGJhY2suDQoNCj4gLS0tLS1PcmlnaW5h
+bCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFy
+dEBpZGVhc29uYm9hcmQuY29tPg0KPiBTZW50OiBUaHVyc2RheSwgTm92ZW1iZXIgMTYsIDIwMjMg
+MToyNSBBTQ0KPiBTdWJqZWN0OiBSZTogW1BBVENIXSBkcm06IHJjYXItZHU6IEZpeCBtZW1vcnkg
+bGVhayBpbiByY2FyX2R1X3ZzcHNfaW5pdCgpDQo+IA0KPiBIaSBCaWp1LA0KPiANCj4gVGhhbmsg
+eW91IGZvciB0aGUgcGF0Y2guDQo+IA0KPiBPbiBXZWQsIE5vdiAxNSwgMjAyMyBhdCAwMzowOToz
+MlBNICswMDAwLCBCaWp1IERhcyB3cm90ZToNCj4gPiBUaGUgcmNhcl9kdV92c3BzX2luaXQoKSBk
+b2Vzbid0IGZyZWUgdGhlIG5wIGFsbG9jYXRlZCBieQ0KPiA+IG9mX3BhcnNlX3BoYW5kbGVfd2l0
+aF9maXhlZF9hcmdzKCkgZm9yIHRoZSBub24tZXJyb3IgY2FzZS4NCj4gPg0KPiA+IEZpeCBtZW1v
+cnkgbGVhayBmb3IgdGhlIG5vbi1lcnJvciBjYXNlLg0KPiANCj4gR29vZCBjYXRjaC4NCj4gDQo+
+ID4gRml4ZXM6IDNlODEzNzRlMjAxNCAoImRybTogcmNhci1kdTogU3VwcG9ydCBtdWx0aXBsZSBz
+b3VyY2VzIGZyb20gdGhlDQo+ID4gc2FtZSBWU1AiKQ0KPiA+IFNpZ25lZC1vZmYtYnk6IEJpanUg
+RGFzIDxiaWp1LmRhcy5qekBicC5yZW5lc2FzLmNvbT4NCj4gPiAtLS0NCj4gPiAgZHJpdmVycy9n
+cHUvZHJtL3JlbmVzYXMvcmNhci1kdS9yY2FyX2R1X2ttcy5jIHwgMiAtLQ0KPiA+ICAxIGZpbGUg
+Y2hhbmdlZCwgMiBkZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vcmVuZXNhcy9yY2FyLWR1L3JjYXJfZHVfa21zLmMNCj4gPiBiL2RyaXZlcnMvZ3B1L2Ry
+bS9yZW5lc2FzL3JjYXItZHUvcmNhcl9kdV9rbXMuYw0KPiA+IGluZGV4IDcwZDhhZDA2NWJmYS4u
+NWNkNTRlYTMzMzEzIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yZW5lc2FzL3Jj
+YXItZHUvcmNhcl9kdV9rbXMuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yZW5lc2FzL3Jj
+YXItZHUvcmNhcl9kdV9rbXMuYw0KPiA+IEBAIC03NDcsOCArNzQ3LDYgQEAgc3RhdGljIGludCBy
+Y2FyX2R1X3ZzcHNfaW5pdChzdHJ1Y3QgcmNhcl9kdV9kZXZpY2UNCj4gKnJjZHUpDQo+ID4gIAkJ
+CWdvdG8gZXJyb3I7DQo+ID4gIAl9DQo+ID4NCj4gPiAtCXJldHVybiAwOw0KPiA+IC0NCj4gPiAg
+ZXJyb3I6DQo+IA0KPiBJZiB0aGUgY29kZSBwYXRoIGlzIHVzZWQgaW4gbm9uLWVycm9yIGNhc2Vz
+IGFzIHdlbGwsIEknZCBwcmVmZXIgcmVuYW1pbmcNCj4gaXQgdG8gImRvbmUiLg0KPiANCj4gPiAg
+CWZvciAoaSA9IDA7IGkgPCBBUlJBWV9TSVpFKHZzcHMpOyArK2kpDQo+ID4gIAkJb2Zfbm9kZV9w
+dXQodnNwc1tpXS5ucCk7DQo+IA0KPiBUaGUgbmV4dCBsaW5lIGlzDQo+IA0KPiAJcmV0dXJuIHJl
+dDsNCj4gDQo+IFdoZW4gcmVhY2hlZCBpbiB0aGUgbm9uLWVycm9yIGNhc2UsIHJldCBpcyBndWFy
+YW50ZWVkIHRvIGJlIG5vbi1uZWdhdGl2ZSwNCj4gYXMgaXQgaGFzIGJlZW4gYXNzaWduZWQgdG8g
+dGhlIHJldHVybiB2YWx1ZSBvZiByY2FyX2R1X3ZzcF9pbml0KCksIHdpdGggYW4NCj4gDQo+IAlp
+ZiAocmV0IDwgMCkNCj4gDQo+IGVycm9yIGNoZWNrIGZvbGxvd2luZyBpdC4gV2hpbGUgcmNhcl9k
+dV92c3BfaW5pdCgpIGRvZXNuJ3QgcmV0dXJuIGENCj4gcG9zaXRpdmUgdmFsdWUgdG9kYXksIHRo
+ZSBjb2RlIGhlcmUgd291bGQgYnJlYWsgaW4gYSB3YXkgdGhhdCBtYXkgbm90IGJlDQo+IGltbWVk
+aWF0ZWx5IHZpc2libGUgZHVyaW5nIHJldmlldyBpZiB0aGlzIGNoYW5nZWQuIEkgdGh1cyByZWNv
+bW1lbmQgZWl0aGVyDQo+IGFzc2lnbmluZw0KPiANCj4gCXJldCA9IDA7DQo+IA0KPiBpbiB0aGUg
+c3VjY2VzcyBjYXNlLCBqdXN0IGJlZm9yZSB0aGUgImRvbmUiIGxhYmVsLCBvciBjaGFuZ2luZyB0
+aGUNCj4gDQo+IAlpZiAocmV0IDwgMCkNCj4gDQo+IHRlc3Qgd2l0aA0KPiANCj4gCWlmIChyZXQp
+DQo+IA0KPiBhZnRlciB0aGUgY2FsbCB0byByY2FyX2R1X3ZzcF9pbml0KCkuIEkgdGhpbmsgSSBo
+YXZlIGEgcHJlZmVyZW5jZSBmb3IgdGhlDQo+IGxhdHRlci4NCg0KQWdyZWVkLCB3aWxsIHNlbmQg
+djIgZm9yIGNoYW5naW5nIGVycm9yLT5kb25lIGFuZCBpZiAocmV0KSBjb25kaXRpb24uDQoNCkNo
+ZWVycywNCkJpanUNCg==
