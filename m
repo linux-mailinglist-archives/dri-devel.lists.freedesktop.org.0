@@ -2,46 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 460587EE649
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 18:58:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB17F7EE66A
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 19:08:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77CBF10E294;
-	Thu, 16 Nov 2023 17:58:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF67C10E2AB;
+	Thu, 16 Nov 2023 18:07:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A799610E294
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 17:58:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 666EECE214C;
- Thu, 16 Nov 2023 17:58:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DFC6C433C7;
- Thu, 16 Nov 2023 17:58:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700157510;
- bh=NjZTWXhX6tYOsHS9g+R+JRPWbqHvVjLp4SgC77GdIxw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=p555UH18g6sDDJjACITrbyiY0nDmXqCmx1ke7jvceBy3ZSFpDYGLMA7RFLY/WVZfj
- BTmGw38amtDapGnFvHtmKE3jk6/LBsO+spr61d6XCUpxnYdQn/hca+kWeoK6w+uqY8
- hVv/rcB8ICh+2iD1vUmjLaVFUJiNcsESGYgOy3qNn0xnfn6jsgfR3YfQ5Q6RW+e3EL
- 3VY3cxr0kD/XBBC1V24C0ezHYqAJZlj22/e1UgOQJEAkKLYGRZag7xXq6oBrUoURfw
- wEXclue7LPHJqgFECBuZgwJ/rBvWsfcmY0bNtuAmAIinkpx14XebNgx4B8Wd6ugj6Z
- IN+eOa0FtVYgQ==
-Date: Thu, 16 Nov 2023 18:58:27 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v14 4/4] MAINTAINERS: Create entry for Renesas RZ DRM
- drivers
-Message-ID: <gqbxdb2un7s2hqttzb4ryhcwpwvsxj244ubaifzpugryioj6bg@6dleflere7oo>
-References: <20231116141608.252452-1-biju.das.jz@bp.renesas.com>
- <20231116141608.252452-5-biju.das.jz@bp.renesas.com>
- <eywaoaudaqtrv5ky46ahenapkjwk4tajxdrkuentehezw4ajid@aioncg5rahws>
- <CAMuHMdXZjft3AVEF7cPnhH4pz_2+9U51jnSg-tFJ-ppfi7GTZw@mail.gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 449DD10E2AC
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 18:07:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1700158076;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hPxzOncy5HIGVOblAN4i/IW7KR+JFRLvP+iQR6fOxe0=;
+ b=CosX6M222v2sSUie3Lzy1XyvUqSdw6M/DpmrT8znDhz4lpVooxFBvFhYH+7EdUi1P+Fs9k
+ MrzfdB123ia2CqINH1y2G1q3i782gUgRG/dAu26f2KRdWTRQ94VntxPyOCE1FaLsTbv1fN
+ OTBMhPyFzDXa+zlxrlBufEI6DrsMLCg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-373-tduuRuruO466HkGMyq-gqg-1; Thu, 16 Nov 2023 13:07:54 -0500
+X-MC-Unique: tduuRuruO466HkGMyq-gqg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-40a36dd4a58so6892615e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 10:07:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700158073; x=1700762873;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hPxzOncy5HIGVOblAN4i/IW7KR+JFRLvP+iQR6fOxe0=;
+ b=vn0zHoakTUruyqrMjoHEkbaSiBXbBk0wvOs24vRw4Y9b/BrYwh4CYSe5CJ8A2vR21d
+ a/bUuxPakbWpAnm3R4RQOXZ78MVkHjV283WtIDS++PnP8Hu3I/liTTCjNl1BanWDtkRT
+ ZhTPuzHd9oLiYJhwVaqcsl2xZaxgfpmDG83T8riYW/j5ml6BW7MYkaMjOEfef3nYIx03
+ p5uqQ2BMiWRnlM/nyxNjkujpkaDYqE2qEL/rDASj8yAurwK34bBFFJnwlo20SPICGbgj
+ 4fdw7g7SdA59jCHk/H3LTsOz85N+ycXr3H0+Q9XG/CQWgWY2VDJztlSR+bUlbF0CRuzw
+ BArA==
+X-Gm-Message-State: AOJu0Yy3aXNeWjsrN9yG2+DRuSQvsKSy8+6ldOEiQ9sjtoOJmkIHBHpR
+ Z1/uupTxMyDAH5RM1mhbUb/TFLBh7V5u5xJbkr8CPed82MJm2RvYNBrMKu8P7OW7IAM3CfInEWv
+ KEzLNbXA7RjooB69IRYnIjDwE3M3H
+X-Received: by 2002:a05:600c:c0f:b0:402:e68f:8896 with SMTP id
+ fm15-20020a05600c0c0f00b00402e68f8896mr14609080wmb.0.1700158073625; 
+ Thu, 16 Nov 2023 10:07:53 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHmdfeAnuQFuohht1CLAm2Stx5W5EGXlcnDY8tsQEAn2nKKlrvW/+NDUyqH/j1nM9uFFuRyLA==
+X-Received: by 2002:a05:600c:c0f:b0:402:e68f:8896 with SMTP id
+ fm15-20020a05600c0c0f00b00402e68f8896mr14609042wmb.0.1700158073266; 
+ Thu, 16 Nov 2023 10:07:53 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ w8-20020a05600c474800b0040836519dd9sm61664wmo.25.2023.11.16.10.07.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Nov 2023 10:07:52 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] dt-bindings: display: ssd1307fb: Change "solomon,
+ page-offset" default value
+Date: Thu, 16 Nov 2023 19:07:37 +0100
+Message-ID: <20231116180743.2763021-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="xs47cj4uibzuyjcu"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXZjft3AVEF7cPnhH4pz_2+9U51jnSg-tFJ-ppfi7GTZw@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,80 +81,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Biju Das <biju.das.au@gmail.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- linux-renesas-soc@vger.kernel.org,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Biju Das <biju.das.jz@bp.renesas.com>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Sahaj Sarup <sahaj.sarup@linaro.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is used to specify the page start address offset of the display RAM.
 
---xs47cj4uibzuyjcu
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The value is used as offset when setting the page start address with the
+SSD130X_SET_PAGE_RANGE command, and the driver currently sets its value to
+1 if the property is not present in the Device Tree.
 
-Hi,
+But the datasheet mentions that the value on reset for the page start is a
+0, so it makes more sense to also have 0 as the default value for the page
+offset if the property is not present.
 
-On Thu, Nov 16, 2023 at 05:04:03PM +0100, Geert Uytterhoeven wrote:
-> On Thu, Nov 16, 2023 at 4:58=E2=80=AFPM Maxime Ripard <mripard@kernel.org=
-> wrote:
-> > On Thu, Nov 16, 2023 at 02:16:08PM +0000, Biju Das wrote:
-> > > Create entry for Renesas RZ DRM drivers and add my self as a maintain=
-er.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.=
-com>
-> > > ---
-> > > v13->v14:
-> > >  * Now SHMOBILE has maintainer entries. So dropped updating
-> > >    DRM DRIVERS FOR RENESAS RCAR AND SHMOBILE.
-> > >  * Updated comment header and description.
-> > >  * The above changes are trivial, so kept the Rb tag from Laurent.
->=20
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -7154,6 +7154,14 @@ F:     Documentation/devicetree/bindings/displ=
-ay/renesas,shmobile-lcdc.yaml
-> > >  F:   drivers/gpu/drm/renesas/shmobile/
-> > >  F:   include/linux/platform_data/shmob_drm.h
-> > >
-> > > +DRM DRIVERS FOR RENESAS RZ
-> > > +M:   Biju Das <biju.das.jz@bp.renesas.com>
-> > > +L:   dri-devel@lists.freedesktop.org
-> > > +L:   linux-renesas-soc@vger.kernel.org
-> > > +S:   Maintained
-> > > +F:   Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> > > +F:   drivers/gpu/drm/renesas/rz-du/
-> >
-> > Any particular reason you want to opt-out of drm-misc?
->=20
-> IIRC, you opted all Renesas drivers out in commit 5a44d50f00725f31
-> ("MAINTAINERS: Update drm-misc entry to match all drivers")?
+In fact, using a default value of 1 leads to the display not working when
+the fbdev is attached to the framebuffer console.
 
-That's not exactly what happened. I excluded it from that list because
-rcar-du has never been maintained in drm-misc.
+Reported-by: Sahaj Sarup <sahaj.sarup@linaro.org>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
-> Probably that should be restricted to drivers/gpu/drm/renesas/rcar-du/?
+ .../devicetree/bindings/display/solomon,ssd1307fb.yaml          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Sure, either within that patch if there's a new version, or as a follow-up
+diff --git a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+index 3afbb52d1b7f..badd81459aaa 100644
+--- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
++++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+@@ -35,7 +35,7 @@ properties:
+ 
+   solomon,page-offset:
+     $ref: /schemas/types.yaml#/definitions/uint32
+-    default: 1
++    default: 0
+     description:
+       Offset of pages (band of 8 pixels) that the screen is mapped to
+ 
+-- 
+2.41.0
 
-Maxime
-
---xs47cj4uibzuyjcu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZVZYQwAKCRDj7w1vZxhR
-xWsYAP9UUkc8Nei2d8KODGDqiL1dG2G4LJdfiNGFO4nuDJ/EkAD/aUPdE/HGNi23
-OsmdYERv5LFe4hTjpl3UV37vrQYbrg8=
-=VH9i
------END PGP SIGNATURE-----
-
---xs47cj4uibzuyjcu--
