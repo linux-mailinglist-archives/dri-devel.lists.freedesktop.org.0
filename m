@@ -2,65 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C5E7ED876
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 01:18:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09B877ED87E
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 01:29:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6719B10E2C3;
-	Thu, 16 Nov 2023 00:18:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C9D910E2BB;
+	Thu, 16 Nov 2023 00:29:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ECC610E2B5
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 00:17:52 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- 46e09a7af769-6ce2988d62eso126942a34.1
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 16:17:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700093872; x=1700698672; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Fn0jnV8watcY8qyeukKxGsG/nXZh1+98BwjcKTbh6rk=;
- b=gh8pjjxd6Khv1bwVmrBrx2Y93omb5+Kl2rCMXXAHYgkeLofg1mWpcgOBLp/Z65P4L9
- TNEm799nRra2/l7hP3ChsjX40ZkO+tiYCxBdLoLbgOVL/ka8B7W83BRQODZgcsjsUV5X
- /ghHhKYtSaJ6KK0DPs88UthU4n9fN0CcjC14MfSOFXRQRFWqGhkVgk88q2F/lBKkE6sQ
- iieAyNX8KoEgPpWgwA3nGIhoDSLZznKuU4V0sMnRnlimWLB33j12d9yNox9hecU9oxDU
- GPi9Be5VIEPluMgWbTSAY7KuHT2Y+ILhIg7SkMWHLRK5OVIj0NaPFpaIM0Sg9jdduigG
- zWsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700093872; x=1700698672;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Fn0jnV8watcY8qyeukKxGsG/nXZh1+98BwjcKTbh6rk=;
- b=jhoX/sQ9ZhKyt4P2d7Pt3wOk78/lRM7D884Iv3BgOLNJYrvaQA/hm2BKKaNtApOlmh
- hpdmwx9BPDoi+hN2BhYs2dMzkfRSadJq4QXaU1awM9jAQfJFODBFl2+K504tYL/KgVi/
- SC2yUmbD8sboWC/A6Hns1o1RWogfTG6+ewEdt9KdszEqhQbauxaz06jKQ2YwQ1IHrsEP
- mT6Zn5+R17Nu2UWW6z04et4j0d+M12mmqMRz5keAGUUKuAssPErW05dE7vbf70p3x3mB
- yLuBAUcczGLu3XX25SiqbFowVkL2wYgk1ru+Tg3AzcvmEtQhFT3zOWo7g7agHbCama1k
- WZjw==
-X-Gm-Message-State: AOJu0YxltdKHtYu2SBRthrt3jG1fPWJHvN25ulQoWFE/uqkbT7NFLD7F
- u1P6NJLiatm1Nt2SxRA7gvY=
-X-Google-Smtp-Source: AGHT+IFgW6c7qYUuH54nf6HOWx8QDa/CnQp5Ih8Am7cVXsTlWykB1rknOmnEGKWlpgCmzukCr7Kivw==
-X-Received: by 2002:a05:6870:cd0e:b0:1e9:dae7:f58a with SMTP id
- qk14-20020a056870cd0e00b001e9dae7f58amr16617397oab.22.1700093871792; 
- Wed, 15 Nov 2023 16:17:51 -0800 (PST)
-Received: from localhost.localdomain ([75.28.21.198])
- by smtp.gmail.com with ESMTPSA id
- j18-20020a9d7d92000000b006c619f17669sm727117otn.74.2023.11.15.16.17.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Nov 2023 16:17:51 -0800 (PST)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: linux-rockchip@lists.infradead.org
-Subject: [PATCH V3 6/6] dt-bindings: arm: rockchip: Add Powkiddy RK2023
-Date: Wed, 15 Nov 2023 18:17:42 -0600
-Message-Id: <20231116001742.2340646-7-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231116001742.2340646-1-macroalpha82@gmail.com>
-References: <20231116001742.2340646-1-macroalpha82@gmail.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A683510E2BB
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 00:29:18 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3AFNeJbU011566; Thu, 16 Nov 2023 00:29:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=7EC19LKgQ+v6Aw+lDYbNKfbenGRZYcpN+E7LRr14WiY=;
+ b=kKl+tyN+cJicQRRBxLUZk1quEoRamoif0ReVbRtxWeyYpQ9tjVGK5mTlnMT0QePccUH2
+ C2xOmJjv+S2SBmg7A3Pa9XgH7Gb11g0KKqhWifSQoeiE8bupbLOYr7brtmBVXZblzChp
+ Xt7egQdnmsNZNRP7+2yporeOVINWPJAXNa6efKHvPdkE1RF7kgUbcckweG8l8pPafmdX
+ OxNIvTJ6cRdKiNp/lhgBJ+hJMAWH7Xrd0EFGQ7QRmIo0Rv21MMLdBd9BG+CLXvsRuffO
+ GVGGMhpGiHL86UrVFttzMd6HOYadSRnp+eMKkgy82iq7K3gZjfp8zKhcLIVuhdTIXPbb RQ== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ud7b8r41a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Nov 2023 00:29:07 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AG0T6pG011728
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Nov 2023 00:29:06 GMT
+Received: from [10.110.75.112] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 15 Nov
+ 2023 16:29:06 -0800
+Message-ID: <f9326480-2da5-48da-8528-dc07c9b4f4c8@quicinc.com>
+Date: Wed, 15 Nov 2023 16:29:05 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V3 2/6] drm/panel: nv3051d: Hold panel in reset for
+ unprepare
+Content-Language: en-US
+To: Chris Morgan <macroalpha82@gmail.com>, <linux-rockchip@lists.infradead.org>
+References: <20231116001742.2340646-1-macroalpha82@gmail.com>
+ <20231116001742.2340646-3-macroalpha82@gmail.com>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20231116001742.2340646-3-macroalpha82@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: R1GmW5Zin-bxDDZkrrhJDLQzHI46XkHy
+X-Proofpoint-GUID: R1GmW5Zin-bxDDZkrrhJDLQzHI46XkHy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-15_20,2023-11-15_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0
+ mlxscore=0 bulkscore=0 phishscore=0 spamscore=0 priorityscore=1501
+ malwarescore=0 impostorscore=0 mlxlogscore=999 clxscore=1015
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311160002
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,82 +84,44 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, conor+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, neil.armstrong@linaro.org, sam@ravnborg.org,
- Chris Morgan <macromorgan@hotmail.com>, sebastian.reichel@collabora.com,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org
+ krzysztof.kozlowski+dt@linaro.org, neil.armstrong@linaro.org,
+ sebastian.reichel@collabora.com, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, Chris Morgan <macromorgan@hotmail.com>, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Morgan <macromorgan@hotmail.com>
 
-Add support for the Powkiddy RK2023. The Powkiddy RK2023 is a handheld
-gaming device with a 3.5 inch screen powered by the Rockchip RK3566
-SoC. The device looks physically different from the Powkiddy RGB30,
-but is functionally identical except for the panel.
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
----
- arch/arm64/boot/dts/rockchip/Makefile         |  1 +
- .../dts/rockchip/rk3566-powkiddy-rk2023.dts   | 38 +++++++++++++++++++
- 2 files changed, 39 insertions(+)
- create mode 100644 arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rk2023.dts
+On 11/15/2023 4:17 PM, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
+> 
+> Improve the panel's ability to restore from suspend by holding the
+> panel in suspend after unprepare.
+> 
+> Fixes: b1d39f0f4264 ("drm/panel: Add NewVision NV3051D MIPI-DSI LCD panel")
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 
-diff --git a/arch/arm64/boot/dts/rockchip/Makefile b/arch/arm64/boot/dts/rockchip/Makefile
-index a18f33bf0c0e..f969618da352 100644
---- a/arch/arm64/boot/dts/rockchip/Makefile
-+++ b/arch/arm64/boot/dts/rockchip/Makefile
-@@ -78,6 +78,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-anbernic-rg503.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-pinenote-v1.1.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-pinenote-v1.2.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-powkiddy-rgb30.dtb
-+dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-powkiddy-rk2023.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-quartz64-a.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-quartz64-b.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3566-radxa-cm3-io.dtb
-diff --git a/arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rk2023.dts b/arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rk2023.dts
-new file mode 100644
-index 000000000000..ba32d0793dca
---- /dev/null
-+++ b/arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rk2023.dts
-@@ -0,0 +1,38 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+
-+/dts-v1/;
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/input/linux-event-codes.h>
-+#include <dt-bindings/pinctrl/rockchip.h>
-+#include "rk3566-powkiddy-rk2023.dtsi"
-+
-+/ {
-+	model = "RK2023";
-+	compatible = "powkiddy,rk2023", "rockchip,rk3566";
-+};
-+
-+&cru {
-+	assigned-clocks = <&pmucru CLK_RTC_32K>, <&cru PLL_GPLL>,
-+			  <&pmucru PLL_PPLL>, <&cru PLL_VPLL>;
-+	assigned-clock-rates = <32768>, <1200000000>,
-+			  <200000000>, <115200000>;
-+};
-+
-+&dsi0 {
-+	panel: panel@0 {
-+		compatible = "powkiddy,rk2023-panel", "newvision,nv3051d";
-+		reg = <0>;
-+		backlight = <&backlight>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&lcd_rst>;
-+		reset-gpios = <&gpio4 RK_PA0 GPIO_ACTIVE_LOW>;
-+		vdd-supply = <&vcc3v3_lcd0_n>;
-+
-+		port {
-+			mipi_in_panel: endpoint {
-+				remote-endpoint = <&mipi_out_panel>;
-+			};
-+		};
-+	};
-+};
--- 
-2.34.1
+Thanks!
 
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+
+> ---
+>   drivers/gpu/drm/panel/panel-newvision-nv3051d.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
+> index 79de6c886292..c44c6945662f 100644
+> --- a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
+> +++ b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
+> @@ -261,6 +261,8 @@ static int panel_nv3051d_unprepare(struct drm_panel *panel)
+>   
+>   	usleep_range(10000, 15000);
+>   
+> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+> +
+>   	regulator_disable(ctx->vdd);
+>   
+>   	return 0;
+> -- 
+> 2.34.1
+> 
