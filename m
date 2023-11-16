@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0386F7EE8B3
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 22:15:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF6A87EE8B4
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 22:15:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA2A110E2CE;
-	Thu, 16 Nov 2023 21:15:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91D1F10E2D1;
+	Thu, 16 Nov 2023 21:15:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2763610E2CE
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 21:15:27 +0000 (UTC)
+X-Greylist: delayed 10704 seconds by postgrey-1.36 at gabe;
+ Thu, 16 Nov 2023 21:15:39 UTC
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BFE910E2D1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 21:15:39 +0000 (UTC)
 Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 6EA258272A;
- Thu, 16 Nov 2023 22:15:15 +0100 (CET)
+ by phobos.denx.de (Postfix) with ESMTPSA id 2E15F86D85;
+ Thu, 16 Nov 2023 22:15:31 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1700169321;
- bh=TvvkMBMlyUY0SY5KpfYFhTGR1XRZC3i/XR/JXDfax08=;
+ s=phobos-20191101; t=1700169337;
+ bh=MwU3+pWOWSmQIKMWGoVKhaLIosd3hZl8I6WoFiEMAuk=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lEPxXG0c1t1ZrLKpRttXddgjEzFgh/UK7wFcbOpKrTNsclC2Oddwj9flBtibYFmpZ
- sckPCzzV9vCPt4Rpt5YcbKgNGkO35knYmmBIwPo3eS8M6FvTTV7B40TNb9qYoK9ASc
- PJ1aqFeJHAI2lezi3hmU27hmLfeLNYVmVpvxBA6GU7QD2GMMffdnt5SaesqgwxLdbZ
- g6yqpnstDMX32LEpkbEVswnWGV7D6Q7y1VpWwZDjsMTcmo2T3uAA9+IiZcu4R7upzN
- sgNTqZ8L2jQugEx8u4IOl5KMvQUFI9cRXzEAioj5s69+IS6MkbMoUy6hxmEm1dT3Or
- 0bkciFIvuJi7Q==
-Message-ID: <c8c0d672-a26b-49fc-9cad-4b16e19dd947@denx.de>
-Date: Thu, 16 Nov 2023 22:15:14 +0100
+ b=Ieok1Biu9ZRs0Pr9AyH/W+XHD7GIeZrxWdScS+hlLI8OEUKZN0KsmdqoVcEZfJ23U
+ AaGM1MZ13/XNvtUMGabuaLFIev1Q1zn0h1mt8uYFAR13IKoL+1kRzRDa15y3RYouUP
+ 6jrb1DZwbvDhQsW0LiTh5kXIWmkR6mMlLN+n8fa3VA9vP9rtKmpxuoGX+yXPQFykP3
+ suKM3RatUygftBqZ00r3vLHnN2JnvDRgSUEVjRWfE8qJr06IwM94hoGWEH1ulmXgT3
+ iSOAZgy1g3ykfWEtSKtzKxYMhlb9MJabgwQXILZJNf3kttneLg6jxRITYrz9XbVdap
+ DU7egSluUsD9A==
+Message-ID: <5481d74f-4b58-4527-987a-562e1b213a6b@denx.de>
+Date: Thu, 16 Nov 2023 22:15:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panel: simple: Fix Innolux G101ICE-L01 timings
-To: neil.armstrong@linaro.org, dri-devel@lists.freedesktop.org
-References: <20231008223256.279196-1-marex@denx.de>
- <8137a960-bb6d-4520-88d8-03ee701a0138@linaro.org>
+Subject: Re: [PATCH] drm/panel: simple: Fix Innolux G101ICE-L01 bus flags
 Content-Language: en-US
+To: neil.armstrong@linaro.org, dri-devel@lists.freedesktop.org
+References: <20231008223315.279215-1-marex@denx.de>
+ <ea0e3550-83ca-4006-819a-64780589d687@linaro.org>
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <8137a960-bb6d-4520-88d8-03ee701a0138@linaro.org>
+In-Reply-To: <ea0e3550-83ca-4006-819a-64780589d687@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
@@ -61,21 +62,10 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/9/23 11:01, Neil Armstrong wrote:
-> Hi,
-> 
-> On 09/10/2023 00:32, Marek Vasut wrote:
->> The Innolux G101ICE-L01 datasheet [1] page 17 table
->> 6.1 INPUT SIGNAL TIMING SPECIFICATIONS
->> indicates that maximum vertical blanking time is 40 lines.
->> Currently the driver uses 29 lines.
->>
->> Fix it, and since this panel is a DE panel, adjust the timings
->> to make them less hostile to controllers which cannot do 1 px
->> HSA/VSA, distribute the delays evenly between all three parts.
->>
->> [1] 
->> https://www.data-modul.com/sites/default/files/products/G101ICE-L01-C2-specification-12042389.pdf
+On 10/9/23 10:58, Neil Armstrong wrote:
+> On 09/10/2023 00:33, Marek Vasut wrote:
+>> Add missing .bus_flags = DRM_BUS_FLAG_DE_HIGH to this panel description,
+>> ones which match both the datasheet and the panel display_timing flags .
 >>
 >> Fixes: 1e29b840af9f ("drm/panel: simple: Add Innolux G101ICE-L01 panel")
 >> Signed-off-by: Marek Vasut <marex@denx.de>
@@ -90,37 +80,22 @@ On 10/9/23 11:01, Neil Armstrong wrote:
 >> Cc: Thomas Zimmermann <tzimmermann@suse.de>
 >> Cc: dri-devel@lists.freedesktop.org
 >> ---
->>   drivers/gpu/drm/panel/panel-simple.c | 12 ++++++------
->>   1 file changed, 6 insertions(+), 6 deletions(-)
+>>   drivers/gpu/drm/panel/panel-simple.c | 1 +
+>>   1 file changed, 1 insertion(+)
 >>
 >> diff --git a/drivers/gpu/drm/panel/panel-simple.c 
 >> b/drivers/gpu/drm/panel/panel-simple.c
->> index 7ce51ad616296..44c11c418cd56 100644
+>> index 44c11c418cd56..8e4ea15f0e1e5 100644
 >> --- a/drivers/gpu/drm/panel/panel-simple.c
 >> +++ b/drivers/gpu/drm/panel/panel-simple.c
->> @@ -2295,13 +2295,13 @@ static const struct panel_desc 
->> innolux_g070y2_t02 = {
->>   static const struct display_timing innolux_g101ice_l01_timing = {
->>       .pixelclock = { 60400000, 71100000, 74700000 },
->>       .hactive = { 1280, 1280, 1280 },
->> -    .hfront_porch = { 41, 80, 100 },
->> -    .hback_porch = { 40, 79, 99 },
->> -    .hsync_len = { 1, 1, 1 },
->> +    .hfront_porch = { 30, 60, 70 },
->> +    .hback_porch = { 30, 60, 70 },
->> +    .hsync_len = { 22, 40, 60 },
->>       .vactive = { 800, 800, 800 },
->> -    .vfront_porch = { 5, 11, 14 },
->> -    .vback_porch = { 4, 11, 14 },
->> -    .vsync_len = { 1, 1, 1 },
->> +    .vfront_porch = { 3, 8, 14 },
->> +    .vback_porch = { 3, 8, 14 },
->> +    .vsync_len = { 4, 7, 12 },
->>       .flags = DISPLAY_FLAGS_DE_HIGH,
+>> @@ -2318,6 +2318,7 @@ static const struct panel_desc 
+>> innolux_g101ice_l01 = {
+>>           .disable = 200,
+>>       },
+>>       .bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+>> +    .bus_flags = DRM_BUS_FLAG_DE_HIGH,
+>>       .connector_type = DRM_MODE_CONNECTOR_LVDS,
 >>   };
-> 
-> Looks ok, I'll wait for a few days before applying if someone wants to 
-> test it.
 > 
 > Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
