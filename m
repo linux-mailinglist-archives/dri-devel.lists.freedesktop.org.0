@@ -2,70 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 382D47EE12B
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 14:13:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADB807EE132
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 14:14:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 886BB10E5D4;
-	Thu, 16 Nov 2023 13:13:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD00110E5D7;
+	Thu, 16 Nov 2023 13:14:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
- [209.85.128.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 826DE10E5D4
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 13:13:47 +0000 (UTC)
-Received: by mail-yw1-f172.google.com with SMTP id
- 00721157ae682-5c08c47c055so8466347b3.1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 05:13:47 -0800 (PST)
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28DF410E5D7;
+ Thu, 16 Nov 2023 13:14:02 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id
+ d2e1a72fcca58-6b87c1edfd5so695558b3a.1; 
+ Thu, 16 Nov 2023 05:14:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1700140442; x=1700745242; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=IijjW5z83l5PX4DSM0mCw5PGI5YXGJ/C+FpbXJjae/o=;
+ b=JjZiqc+K2v5jzMRNPwaA105BZ1Aui+4Y3OGizoWb5p/LlMrFFgnq3AZHgftEgxgRwz
+ 8udlPYaKIq3uygm4rSb39TQxBt5gMOtPL11SinBBQkPoqTflcWIRsAjyVBwbLk/I0H4w
+ ppvUv9QUIURv5RusbzPclRG6Fq69b0i4nQJX0wqfabT+88isFs7Z3eI7dIj28zGcxChd
+ FGIGSsZNdAxCMCOAMx8SsBwyF7F/LTobOKprTSK2jJTmvjH78YJPX7fWo/XKds4PB3+k
+ FLtAvKObPIxDrr3tLvkip5/EA1jqTQcn3FDp6MNxHRyHyPY+NXXlS2rH/PJvQoJFguws
+ myVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700140426; x=1700745226;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LIlzYfO2Ms3adHoFgSONl5i8POJ8DPO0QqHqcNpaY0s=;
- b=wWxXwE9xX0OZl1eCoQD6L3GiwErLOej526w5rTQALVPLWMtQraLa5ZszAZEzbom36/
- KDgXnJ2chdlirn9kJwHiGBu7eyaLhJNpQFLhjn1Z9us0xpea37hL9H+jdUjIQCgL6k+J
- KmyQKxootqXsytX053rxOCVavsz+rpwcK0l2bTr8rsAqJsOwZ6UguYnTMR5+5WTEsmAU
- xY2U5HgpLewUslUBxZxWAZ0J2cNiIM+tgFwUTWMAEOoew0jqu8BPLnlbeVowIDP6mNnu
- fZLuOIEWHmIn83hLiq9F5IkDinfku1pwnRR+mlIq2+1XMUhPQ7+K9mxjmq4vcY6fsxoR
- jzug==
-X-Gm-Message-State: AOJu0Yz6J7TuAgBi6uQLAObmVIruWcX5N9Rq10fOgtYuTwA4AytQwojl
- wuB9FPhBuioy9l7bE80Mcts40j6kXcdYag==
-X-Google-Smtp-Source: AGHT+IFL/FxNlyxoToN++25z1+WEJsV5a2qad7luJuszk9c2BCbESC5wEw9811aTfgJquCQyvhje0w==
-X-Received: by 2002:a0d:cfc4:0:b0:5a7:c8fa:c620 with SMTP id
- r187-20020a0dcfc4000000b005a7c8fac620mr15819481ywd.0.1700140426073; 
- Thu, 16 Nov 2023 05:13:46 -0800 (PST)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com.
- [209.85.219.181]) by smtp.gmail.com with ESMTPSA id
- f66-20020a0dc345000000b00577269ba9e9sm991913ywd.86.2023.11.16.05.13.44
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Nov 2023 05:13:45 -0800 (PST)
-Received: by mail-yb1-f181.google.com with SMTP id
- 3f1490d57ef6-da41e70e334so743816276.3
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 05:13:44 -0800 (PST)
-X-Received: by 2002:a25:b21f:0:b0:db0:3962:fce4 with SMTP id
- i31-20020a25b21f000000b00db03962fce4mr5009733ybj.20.1700140424481; Thu, 16
- Nov 2023 05:13:44 -0800 (PST)
+ d=1e100.net; s=20230601; t=1700140442; x=1700745242;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=IijjW5z83l5PX4DSM0mCw5PGI5YXGJ/C+FpbXJjae/o=;
+ b=CJWWJBIjUh7kcn1i3dmzQtmB1ShDXiHc+xHA2i/h2cz6zSk4/2NBtSqrewQElSKva0
+ 1gaN1PVbRLAX1BcttOujtZrOQfSh9ApLeo1v8D9k1AveNlLQuKAS+3rkMnlEzmU9Oxwb
+ 5kMFc7uDg9YAkXMynPxZMyO3+h4Wd0K3ujFVuBhhU4riuqKpAyO0wBovTNeTyo+BdYO0
+ jRDtvza4FhsU6e7bURGd9yUCX/b75so5LuzuVAUeIJam7yJb2TNHFDxxAc+cur/Sba+H
+ p/w4OYFMxbQgrhfbor5jMooyXlBT82ntVGPoX4tRRRc0zcPyTrDmJ4+1p24gXuv8Y9YV
+ 8dYQ==
+X-Gm-Message-State: AOJu0YwsTnxTnWxXSbHymLkEWNKp9RpYQLgc+VDxRfyd2a4kWgUMEKzL
+ Pol4LLTYp9vgb8zfH83WKCU=
+X-Google-Smtp-Source: AGHT+IEWSiEcX1lNfco4/eSeRq9smE/cTNyoWk8TVFKE59OwR5CRw3g74Fw1pnSPx3oZda7lCOiJHA==
+X-Received: by 2002:a05:6a20:8e1f:b0:187:2c9a:c9ad with SMTP id
+ y31-20020a056a208e1f00b001872c9ac9admr7906794pzj.55.1700140441584; 
+ Thu, 16 Nov 2023 05:14:01 -0800 (PST)
+Received: from archie.me ([103.131.18.64]) by smtp.gmail.com with ESMTPSA id
+ u17-20020a056a00159100b006c4d2479c1asm4458116pfk.219.2023.11.16.05.14.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Nov 2023 05:14:01 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+ id 0D69C10D76D28; Thu, 16 Nov 2023 20:13:55 +0700 (WIB)
+Date: Thu, 16 Nov 2023 20:13:55 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH v4] Documentation/gpu: VM_BIND locking document
+Message-ID: <ZVYVk8KutkQE0RDU@archie.me>
+References: <20231115124937.6740-1-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
-References: <a1d9e09b-f533-5e2c-7a13-af96647e1a71@embeddedor.com>
- <10D1983F-33EF-46C3-976E-463D1CB5A6E9@xenosoft.de>
- <9bb5fcbd-daf5-1669-b3e7-b8624b3c36f9@xenosoft.de>
- <c47fba21-3ae9-4021-9f4a-09c2670ebdbc@xenosoft.de>
- <0d89bcd0-9b68-4c0a-acd8-2c7532e62f6d@xenosoft.de>
- <6530cea3-4507-454e-bc36-a6970c8e7578@xenosoft.de>
- <CAMuHMdU-8Fu55C2zu_XxmG8n5paOQYfqNA84JNvXo4c87D-kFw@mail.gmail.com>
- <fee4eb69-97ea-4b02-9e36-0962ebe3faa9@xenosoft.de>
- <CAMuHMdWu6Q3ew0m4xugjF_hgSt0RFFr+ccoBrSzt0FGLgtxJtA@mail.gmail.com>
- <uxr4sf6kirv32tfbd6qjzxqd53zpoknjfa4ucr4zs5ktkks2re@spgj4j64raaa>
-In-Reply-To: <uxr4sf6kirv32tfbd6qjzxqd53zpoknjfa4ucr4zs5ktkks2re@spgj4j64raaa>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 16 Nov 2023 14:13:32 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU_3riPCSf_WDnUQWZENtDjaQmGf6cQn2-Dfsgf2HKHfA@mail.gmail.com>
-Message-ID: <CAMuHMdU_3riPCSf_WDnUQWZENtDjaQmGf6cQn2-Dfsgf2HKHfA@mail.gmail.com>
-Subject: Re: Fbdev issue after the drm updates 'drm-next-2023-10-31-1'
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231115124937.6740-1-thomas.hellstrom@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,95 +76,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Darren Stevens <darren@stevens-zone.net>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- virtualization@lists.linux.dev,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- mad skateman <madskateman@gmail.com>,
- Christian Zigotzky <chzigotzky@xenosoft.de>, deller@gmx.de,
- Christian Zigotzky <info@xenosoft.de>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Oak Zeng <oak.zeng@intel.com>, Boris Brezillon <boris.brezillon@collabora.com>,
+ Danilo Krummrich <dakr@redhat.com>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Gerd,
+On Wed, Nov 15, 2023 at 01:49:37PM +0100, Thomas Hellström wrote:
+> +TODO: Pointer to the gpuvm code implementation if this iteration and
 
-On Wed, Nov 15, 2023 at 10:22=E2=80=AFAM Gerd Hoffmann <kraxel@redhat.com> =
-wrote:
-> On Wed, Nov 15, 2023 at 09:33:28AM +0100, Geert Uytterhoeven wrote:
-> > On Tue, Nov 14, 2023 at 10:45=E2=80=AFAM Christian Zigotzky
-> > <chzigotzky@xenosoft.de> wrote:
-> > > On 13 November 2023 at 01:48 pm, Geert Uytterhoeven wrote:
-> > > > I can confirm there is no graphics output with m68k/virt, and
-> >
-> > Before the error message you reported:
-> >
-> >     virtio-mmio virtio-mmio.125: [drm] *ERROR* fbdev: Failed to setup
-> > generic emulation (ret=3D-2)
-> >
-> > it also prints:
-> >
-> >     virtio-mmio virtio-mmio.125: [drm] bpp/depth value of 32/24 not sup=
-ported
-> >     virtio-mmio virtio-mmio.125: [drm] No compatible format found
-> >
-> > Upon closer look, it turns out virtgpu is special in that its main
-> > plane supports only a single format: DRM_FORMAT_HOST_XRGB8888, which
-> > is XR24 on little-endian, and BX24 on big-endian.  I.e. on big-endian,
-> > virtgpu does not support XR24.
->
-> Driver and device support both XR24 and BX24 on both little endian and
-> big endian just fine.
+"... implementation of this iteration ..."
 
-OK.
+> +Using a MMU notifier for device DMA (and other methods) is described in
+> +`this document
+> +<https://docs.kernel.org/core-api/pin_user_pages.html#case-3-mmu-notifier-registration-with-or-without-page-faulting-hardware>`_.
 
-> Problem is both fbdev interfaces and the ADDFB ioctl specify the format
-> using bpp instead of fourcc, and advertising only one framebuffer format
-> -- in native byte order -- used to worked best, especially on bigendian
-> machines.
->
-> That was years ago though, IIRC predating the generic fbdev emulation,
-> so maybe it's time to revisit that.  Changing it should be as simple as
-> updating the format arrays:
->
-> --- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-> @@ -30,11 +30,13 @@
->  #include "virtgpu_drv.h"
->
->  static const uint32_t virtio_gpu_formats[] =3D {
-> -       DRM_FORMAT_HOST_XRGB8888,
-> +       DRM_FORMAT_XRGB8888,
-> +       DRM_FORMAT_BGRX8888,
->  };
->
->  static const uint32_t virtio_gpu_cursor_formats[] =3D {
-> -       DRM_FORMAT_HOST_ARGB8888,
-> +       DRM_FORMAT_ARGB8888,
-> +       DRM_FORMAT_BGRA8888,
->  };
->
->  uint32_t virtio_gpu_translate_format(uint32_t drm_fourcc)
+You can use internal linking instead:
 
-Thanks!
-Almost there, the check in virtio_gpu_user_framebuffer_create()
-must be extended, too.
+---- >8 ----
+diff --git a/Documentation/core-api/pin_user_pages.rst b/Documentation/core-api/pin_user_pages.rst
+index d3c1f6d8c0e0ec..6b5f7e6e7155fb 100644
+--- a/Documentation/core-api/pin_user_pages.rst
++++ b/Documentation/core-api/pin_user_pages.rst
+@@ -153,6 +153,8 @@ NOTE: Some pages, such as DAX pages, cannot be pinned with longterm pins. That's
+ because DAX pages do not have a separate page cache, and so "pinning" implies
+ locking down file system blocks, which is not (yet) supported in that way.
+ 
++.. _mmu-notifier-registration-case:
++
+ CASE 3: MMU notifier registration, with or without page faulting hardware
+ -------------------------------------------------------------------------
+ Device drivers can pin pages via get_user_pages*(), and register for mmu
+diff --git a/Documentation/gpu/drm-vm-bind-locking.rst b/Documentation/gpu/drm-vm-bind-locking.rst
+index bc701157cb3414..08b6a47a6e592f 100644
+--- a/Documentation/gpu/drm-vm-bind-locking.rst
++++ b/Documentation/gpu/drm-vm-bind-locking.rst
+@@ -366,8 +366,7 @@ need to care about, but so far it has proven difficult to exclude
+ certain notifications.
+ 
+ Using a MMU notifier for device DMA (and other methods) is described in
+-`this document
+-<https://docs.kernel.org/core-api/pin_user_pages.html#case-3-mmu-notifier-registration-with-or-without-page-faulting-hardware>`_.
++:ref:`pin_user_pages() documentation <mmu-notifier-registration-case>`.
+ 
+ Now the method of obtaining struct page references using
+ get_user_pages() unfortunately can't be used under a dma_resv lock
 
-I have submitted a patch
-https://lore.kernel.org/r/282a31154172a78165912c832a09f6502515d139.17001401=
-78.git.geert@linux-m68k.org/
+Thanks.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+An old man doll... just what I always wanted! - Clara
