@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E297ED86E
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 01:18:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A7D7ED873
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 01:18:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E12910E2B4;
-	Thu, 16 Nov 2023 00:17:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5054B10E2BC;
+	Thu, 16 Nov 2023 00:17:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 590D510E2B2
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F40A710E2B2
  for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 00:17:49 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- 46e09a7af769-6ce327458a6so131493a34.1
+Received: by mail-ot1-x334.google.com with SMTP id
+ 46e09a7af769-6ce2b6b3cb6so128855a34.3
  for <dri-devel@lists.freedesktop.org>; Wed, 15 Nov 2023 16:17:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700093868; x=1700698668; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1700093869; x=1700698669; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=U0mEsiNdPfHU/4JTiWw+15A4V1CJWyMXbRELX83ScM4=;
- b=mIpNHtvsr+NpJixwJDe2bt5sCu4ynp9OQSdgffmbbWZ+8geHUAtsbSjicvH/N8o7Hv
- Vi5lNdPvQzdDyStHcezTBnXh8L1bzbqYP9Nv8VnbMVN6vIP+zsXDx7AzhXZnzmycRduU
- ZWhW9a8p25krpPWo6EOlqUU7HHhY83kMLUXbWSVy79nZtILgypTSSsakTodeHBrguyuz
- b2/oOGgBSlMiSyKjrT+HCZstW+C327fgl68IPVQAwgXFt1Fj37hW+s0kI3GUOU/k+O08
- QhuMNSoN6yJ1+989wCjm/VJM552kZQTEJgJxJ0KrmrXQQmTcwZtT9VdyYCxIfKDtHYMZ
- ntGQ==
+ bh=5axKZ3rBh2546l575rzKo4AVUrOHl6dJO+NCLZTqdmQ=;
+ b=ChG6LJxHSBoJAPyy/C8GESbF7J7Lme6C1drsAXCYFSPx5OclbrJ25wCXX6BPPg4q5V
+ vP3ggCLjHjkaUFyRaZJVoX5ofka+F9KnPm6ZaX7FAlXrEaDdHX7eB0ZlvF9QmGrTIkyZ
+ St9SxKo88O3ed9Ej/Q9XR3H+NWP7R+SSV0icly+ZoLqUzyPwMA2xcjBS6APiUgkfuwPB
+ d9b2IJ+8PFqQTcRt0CjMp17I2pTGnjgUHhzSGkPyRtG+IKT3evEE0i8XAZPrexRVwpmf
+ Ux1WH1EKckmcqVpp9+o33ny2b2QyUoV9CrCYMxo8HEnJSOxriv1ft+K7rkmaerKYQPQc
+ wGPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700093868; x=1700698668;
+ d=1e100.net; s=20230601; t=1700093869; x=1700698669;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=U0mEsiNdPfHU/4JTiWw+15A4V1CJWyMXbRELX83ScM4=;
- b=vjvG7L0QXKFVeyK+xFnhW+eNrNgoja99DQDC0kG5SKANlx94OwqSZ4PF8bDsTrUUr1
- SZZQcfM5O29d61bCMbLDH5+tJ7taEcNn0eP+hD0DJIM0hWrdjopBcnsagj7K9pe4kNu2
- Noxx1OqNZxvTY+IW+9TooBIR+3UMZ80FJeFYhCgDAJrgpUuvKZqFMpZ047/DFR0OYGoL
- jxOPkIpGCP5iBGHHmsFx0n0brJStOmxCqc+HmWNNZ/edM+scekEd9WYsDBj4cHlflkYx
- AtLQfC+9fNE15jN1kVYQsyVLzkgu4K/qh4FPAFHdV0a0aO/VTLO/sbTRDUh4NUzvyHsT
- f4kQ==
-X-Gm-Message-State: AOJu0YzF3i/aiqox8fP1ltmvyxnuEBuryHUitbw21spugMEz2hA8RNED
- 9iAqmpVgNsGdDDAkelfvlmY=
-X-Google-Smtp-Source: AGHT+IEWe51vXJ2DhIHJ7URCfodlJcoGklKewxeM5wtzw2YWENnAh582QPOTBc2Ex3kEBpeQszEIcw==
-X-Received: by 2002:a05:6830:43a4:b0:6bd:335e:1eda with SMTP id
- s36-20020a05683043a400b006bd335e1edamr66302otv.11.1700093868511; 
- Wed, 15 Nov 2023 16:17:48 -0800 (PST)
+ bh=5axKZ3rBh2546l575rzKo4AVUrOHl6dJO+NCLZTqdmQ=;
+ b=aeyVeXFPvADOg6HStNc3Syt4kvTAF/sXiC8XLrc3KAiQXsodne5Dw3TSnJLQiN0XwR
+ 4GohbsE5T60vSB6EmXz+eW7aukURTt4hjVit10iMzmOc47iHyzuUxIutEyZnZgfqz/9k
+ U1uZpXIxge79OPCh3RpVtpfzl4DHxPdXHXCNKOXDrmF/rEsynCuNLn0C4TVEO1Ryp9z0
+ /hXgjSU7Kb7VTWgCJ2QgR8xzQAXxku4l9tngWDT4T3Yo0ZX0DBQJGpOIdQGMeCGSMzKO
+ b2HMbz5Pss6VD2sm9dkVCXc4havayz350QGVTzXFZ0CHHkAydS7HY300cHqdA11j/FTp
+ BRIQ==
+X-Gm-Message-State: AOJu0YxXXtYMlo/IWrJ9bdbizNP5H36wQSYKD8yQVTBQxpiUKQvKVoMm
+ TPbQIoZJGTUO6qnhSboXFZs=
+X-Google-Smtp-Source: AGHT+IFDBddG1lVi868AvwqXMsbhb/xjnNXZ9npqgsEGmKHtLPeO2U8aBbM2Pm0KhfnvhakZQEzH6g==
+X-Received: by 2002:a05:6870:b155:b0:1ef:62fc:d51c with SMTP id
+ a21-20020a056870b15500b001ef62fcd51cmr16441458oal.51.1700093869189; 
+ Wed, 15 Nov 2023 16:17:49 -0800 (PST)
 Received: from localhost.localdomain ([75.28.21.198])
  by smtp.gmail.com with ESMTPSA id
- j18-20020a9d7d92000000b006c619f17669sm727117otn.74.2023.11.15.16.17.47
+ j18-20020a9d7d92000000b006c619f17669sm727117otn.74.2023.11.15.16.17.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 15 Nov 2023 16:17:48 -0800 (PST)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-rockchip@lists.infradead.org
-Subject: [PATCH V3 1/6] dt-bindings: display: panel: Update NewVision NV3051D
- compatibles
-Date: Wed, 15 Nov 2023 18:17:37 -0600
-Message-Id: <20231116001742.2340646-2-macroalpha82@gmail.com>
+Subject: [PATCH V3 2/6] drm/panel: nv3051d: Hold panel in reset for unprepare
+Date: Wed, 15 Nov 2023 18:17:38 -0600
+Message-Id: <20231116001742.2340646-3-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231116001742.2340646-1-macroalpha82@gmail.com>
 References: <20231116001742.2340646-1-macroalpha82@gmail.com>
@@ -83,35 +82,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Update the NewVision NV3051D compatible strings by adding a new panel,
-the powkiddy,rk2023-panel, and removing another entry, the
-anbernic,rg353v-panel.
+Improve the panel's ability to restore from suspend by holding the
+panel in suspend after unprepare.
 
-The rk2023-panel is similar to the rg353p-panel but has slightly
-different timings so it needs a new string.
-
-The rg353v-panel is duplicate to the rg353p-panel, so remove it. No
-current devices use it and changes to the driver mean it is no longer
-valid as a compatible string.
-
+Fixes: b1d39f0f4264 ("drm/panel: Add NewVision NV3051D MIPI-DSI LCD panel")
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- .../devicetree/bindings/display/panel/newvision,nv3051d.yaml    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/panel/panel-newvision-nv3051d.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml b/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml
-index cce775a87f87..7a634fbc465e 100644
---- a/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/newvision,nv3051d.yaml
-@@ -21,7 +21,7 @@ properties:
-       - enum:
-           - anbernic,rg351v-panel
-           - anbernic,rg353p-panel
--          - anbernic,rg353v-panel
-+          - powkiddy,rk2023-panel
-       - const: newvision,nv3051d
+diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
+index 79de6c886292..c44c6945662f 100644
+--- a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
++++ b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
+@@ -261,6 +261,8 @@ static int panel_nv3051d_unprepare(struct drm_panel *panel)
  
-   reg: true
+ 	usleep_range(10000, 15000);
+ 
++	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
++
+ 	regulator_disable(ctx->vdd);
+ 
+ 	return 0;
 -- 
 2.34.1
 
