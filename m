@@ -2,78 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C66AC7EDCA5
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 09:11:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 672187EDCAD
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 09:12:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30E4D10E249;
-	Thu, 16 Nov 2023 08:11:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A09A8951B;
+	Thu, 16 Nov 2023 08:12:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C70A10E249
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 08:11:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1700122308;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QdxgmAIHvXZQQ6jHVUpXaSiCgu9Ax2tLuylEkXqKU7s=;
- b=LPDCrJ/NnJm4tqE1HYwvabQ4pWdMxYeC8IqWY3ic2r/cnvpJxzOwjo0Nu2TKdez7KgWtUy
- tccFBxBsNfbFD/0rJ2cgDzfP/I1OAoC6nx1KjVWo9ZZ9EWRBsaE8fjdG9oTbRS7hzq6R4+
- X29m5+g2uPbTbV+rvwQGZpXNKWFkqP8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-193-qB9WF6C6PzSIz8ZupwS_rg-1; Thu, 16 Nov 2023 03:11:46 -0500
-X-MC-Unique: qB9WF6C6PzSIz8ZupwS_rg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-40839252e81so2886075e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 00:11:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700122305; x=1700727105;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QdxgmAIHvXZQQ6jHVUpXaSiCgu9Ax2tLuylEkXqKU7s=;
- b=Mouz08q8pu48bPiGoQsm6Q5DnSdo+HEOiFx5Zy+L61QBfM38sxaOKiI+4pf/2Ch/dr
- sK5Ee8tO3cJookxD94uZ0raYvZckeYFotMhxFchfUIrTbcOxNG7yWJzzi9wunL3Bef4O
- Wu4yuvSn+aUff9+SzvGYP+mMnoinz1p3sr2fyruuQ045rYMWBpB4MFomnlEus2i5Mjh2
- MjdxM0j7NL/hHEYtr9rGWY9ACZ8CFhfJ2fRSH2sUbKhJkKti6YfANeJOuxyfJiXs8X+k
- FS11KVgeAxqO9wov7tr9iKSBxRSrUi189d5A+syyYFyikwmWrAIHYQNJtmAQdeMJ52Dr
- QpPQ==
-X-Gm-Message-State: AOJu0YyEKOc50B3+1SykZXbrZXqoIb/Q8xNuJIQjT8uRx9ka4RxEKRTk
- RRbJvxntvfW745JyvBt1gSIRp8WRc2u5GRqSdxAMgA+7a+c0wrcLqp0713C0noowQXbLU8yndzd
- xbJxDJ1XZ/V1m51DQa+8d58M7uwlQ
-X-Received: by 2002:a05:600c:c14:b0:409:51c2:1192 with SMTP id
- fm20-20020a05600c0c1400b0040951c21192mr11997531wmb.38.1700122304999; 
- Thu, 16 Nov 2023 00:11:44 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGFArIjVMDUnueoI1XD+Bo6xsKtSuttRwG0IUwtvvb5tgUEIqUlUQnkr13VMXQfIq5mmPwWJw==
-X-Received: by 2002:a05:600c:c14:b0:409:51c2:1192 with SMTP id
- fm20-20020a05600c0c1400b0040951c21192mr11997506wmb.38.1700122304611; 
- Thu, 16 Nov 2023 00:11:44 -0800 (PST)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- o22-20020a05600c4fd600b004064741f855sm2504399wmq.47.2023.11.16.00.11.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Nov 2023 00:11:44 -0800 (PST)
-Date: Thu, 16 Nov 2023 09:11:43 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Luben Tuikov <ltuikov89@gmail.com>
-Subject: Re: linux-next: Signed-off-by missing for commit in the drm-misc tree
-Message-ID: <73cg637ax5cahqocscx5cjvtqkwlt4ves6cxgprbwqllasxq6v@gk6vzsqfc46j>
-References: <20231114075501.61321c29@canb.auug.org.au>
- <19740d41-dd5a-47e4-b3e8-539b45bbd3e5@gmail.com>
- <3c306310-04b3-4658-a197-4b2d22a88274@gmail.com>
- <20231114134506.2ba0de1f@canb.auug.org.au>
- <530b6100-4f4e-4b3d-8fea-5b316e989633@gmail.com>
- <20231114140855.0b259b2d@canb.auug.org.au>
- <f1b21cbd-5bb6-4030-ae7d-a0ca2fbc76a9@gmail.com>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A7AE10E2AD
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 08:12:29 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r3XU9-0002Eo-11; Thu, 16 Nov 2023 09:12:25 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r3XU7-009PTq-PW; Thu, 16 Nov 2023 09:12:23 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r3XU7-002XQH-G2; Thu, 16 Nov 2023 09:12:23 +0100
+Date: Thu, 16 Nov 2023 09:12:23 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Subject: Re: [PATCH 1/1] backlight: pwm_bl: Use dev_err_probe
+Message-ID: <20231116081223.6bdlwmy56eaahpgt@pengutronix.de>
+References: <20231116075017.939926-1-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="7hqxyzpgktklwnyb"
+ protocol="application/pgp-signature"; boundary="sk6c3h6rfs4ia424"
 Content-Disposition: inline
-In-Reply-To: <f1b21cbd-5bb6-4030-ae7d-a0ca2fbc76a9@gmail.com>
+In-Reply-To: <20231116075017.939926-1-alexander.stein@ew.tq-group.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,61 +54,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc: linux-pwm@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Lee Jones <lee@kernel.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---7hqxyzpgktklwnyb
-Content-Type: text/plain; charset=us-ascii
+--sk6c3h6rfs4ia424
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 14, 2023 at 06:46:21PM -0500, Luben Tuikov wrote:
-> On 2023-11-13 22:08, Stephen Rothwell wrote:
-> > BTW, cherry picking commits does not avoid conflicts - in fact it can
-> > cause conflicts if there are further changes to the files affected by
-> > the cherry picked commit in either the tree/branch the commit was
-> > cheery picked from or the destination tree/branch (I have to deal with
-> > these all the time when merging the drm trees in linux-next).  Much
-> > better is to cross merge the branches so that the patch only appears
-> > once or have a shared branches that are merged by any other branch that
-> > needs the changes.
-> >=20
-> > I understand that things are not done like this in the drm trees :-(
+Hello,
+
+On Thu, Nov 16, 2023 at 08:50:17AM +0100, Alexander Stein wrote:
+> Let dev_err_probe handle the -EPROBE_DEFER case and also add an entry to
+> /sys/kernel/debug/devices_deferred when deferred.
 >=20
-> Hi Stephen,
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> ---
+>  drivers/video/backlight/pwm_bl.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >=20
-> Thank you for the clarification--understood. I'll be more careful in the =
-future.
-> Thanks again! :-)
+> diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/p=
+wm_bl.c
+> index 289bd9ce4d36d..3825c2b67c53b 100644
+> --- a/drivers/video/backlight/pwm_bl.c
+> +++ b/drivers/video/backlight/pwm_bl.c
+> @@ -509,8 +509,7 @@ static int pwm_backlight_probe(struct platform_device=
+ *pdev)
+>  	pb->pwm =3D devm_pwm_get(&pdev->dev, NULL);
+>  	if (IS_ERR(pb->pwm)) {
+>  		ret =3D PTR_ERR(pb->pwm);
+> -		if (ret !=3D -EPROBE_DEFER)
+> -			dev_err(&pdev->dev, "unable to request PWM\n");
+> +		dev_err_probe(&pdev->dev, ret, "unable to request PWM\n");
+>  		goto err_alloc;
+>  	}
 
-In this case, the best thing to do would indeed have been to ask the
-drm-misc maintainers to merge drm-misc-fixes into drm-misc-next.
+This change is an improvement, but I suggest to convert the complete
+driver to dev_err_probe() while at it.
 
-We're doing that all the time, but we're not ubiquitous so you need to
-ask us :)
+Something like:
 
-Also, dim should have caught that when you pushed the branch. Did you
-use it?
+diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm=
+_bl.c
+index 289bd9ce4d36..9d80835158a2 100644
+--- a/drivers/video/backlight/pwm_bl.c
++++ b/drivers/video/backlight/pwm_bl.c
+@@ -461,10 +461,8 @@ static int pwm_backlight_probe(struct platform_device =
+*pdev)
+=20
+ 	if (!data) {
+ 		ret =3D pwm_backlight_parse_dt(&pdev->dev, &defdata);
+-		if (ret < 0) {
+-			dev_err(&pdev->dev, "failed to find platform data\n");
+-			return ret;
+-		}
++		if (ret < 0)
++			return dev_err_probe(&pdev->dev, ret, "failed to find platform data\n");
+=20
+ 		data =3D &defdata;
+ 	}
+@@ -493,24 +491,27 @@ static int pwm_backlight_probe(struct platform_device=
+ *pdev)
+ 	pb->enable_gpio =3D devm_gpiod_get_optional(&pdev->dev, "enable",
+ 						  GPIOD_ASIS);
+ 	if (IS_ERR(pb->enable_gpio)) {
+-		ret =3D PTR_ERR(pb->enable_gpio);
++		ret =3D dev_err_probe(&pdev->dev, PTR_ERR(pb->enable_gpio),
++				    "failed to acquire enable GPIO\n");
+ 		goto err_alloc;
+ 	}
+=20
+ 	pb->power_supply =3D devm_regulator_get_optional(&pdev->dev, "power");
+ 	if (IS_ERR(pb->power_supply)) {
+ 		ret =3D PTR_ERR(pb->power_supply);
+-		if (ret =3D=3D -ENODEV)
++		if (ret =3D=3D -ENODEV) {
+ 			pb->power_supply =3D NULL;
+-		else
++		} else {
++			dev_err_probe(&pdev->dev, ret,
++				      "failed to acquire power regulator\n");
+ 			goto err_alloc;
++		}
+ 	}
+=20
+ 	pb->pwm =3D devm_pwm_get(&pdev->dev, NULL);
+ 	if (IS_ERR(pb->pwm)) {
+-		ret =3D PTR_ERR(pb->pwm);
+-		if (ret !=3D -EPROBE_DEFER)
+-			dev_err(&pdev->dev, "unable to request PWM\n");
++		ret =3D dev_err_probe(&pdev->dev, PTR_ERR(pb->pwm),
++				    "unable to request PWM\n");
+ 		goto err_alloc;
+ 	}
+=20
+@@ -530,8 +531,8 @@ static int pwm_backlight_probe(struct platform_device *=
+pdev)
+=20
+ 	ret =3D pwm_apply_state(pb->pwm, &state);
+ 	if (ret) {
+-		dev_err(&pdev->dev, "failed to apply initial PWM state: %d\n",
+-			ret);
++		dev_err_probe(&pdev->dev, ret,
++			      "failed to apply initial PWM state\n");
+ 		goto err_alloc;
+ 	}
+=20
+@@ -568,8 +569,8 @@ static int pwm_backlight_probe(struct platform_device *=
+pdev)
+ 		ret =3D pwm_backlight_brightness_default(&pdev->dev, data,
+ 						       state.period);
+ 		if (ret < 0) {
+-			dev_err(&pdev->dev,
+-				"failed to setup default brightness table\n");
++			dev_err_probe(&pdev->dev, ret,
++				      "failed to setup default brightness table\n");
+ 			goto err_alloc;
+ 		}
+=20
+@@ -597,8 +598,8 @@ static int pwm_backlight_probe(struct platform_device *=
+pdev)
+ 	bl =3D backlight_device_register(dev_name(&pdev->dev), &pdev->dev, pb,
+ 				       &pwm_backlight_ops, &props);
+ 	if (IS_ERR(bl)) {
+-		dev_err(&pdev->dev, "failed to register backlight\n");
+-		ret =3D PTR_ERR(bl);
++		ret =3D dev_err_probe(&pdev->dev, PTR_ERR(bl),
++				    "failed to register backlight\n");
+ 		goto err_alloc;
+ 	}
+=20
 
-Maxime
+Feel free to pick up this diff claiming it's your's if you respin your
+patch.
 
---7hqxyzpgktklwnyb
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--sk6c3h6rfs4ia424
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZVXOvwAKCRDj7w1vZxhR
-xSpoAP9R6u/FDuWma6CxU5HZBYqMkt5dLAFaBh09JkKgEgODsQEA+ff+2mfWZWks
-JIa2770u4xDDPwvd4rX6nTK1ILbicQk=
-=OXab
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVVzuYACgkQj4D7WH0S
+/k6tOQf/fv4hZevIaw/ejm2WHkTj/fG6G6i4bJ80obV7oBndCUd5oh8MfYrdvJio
+slcVUNKpTrxSO8tzkLMjTGJtRJWsiRFz12LnOfMPo4apuiDpTYZNIaSmqXEFE1I6
+zZP7trtt6mmUfBco94OAlWTjDsBB0OsVBIdJm1Sw2hQ5lDFiHLDNwWIBQ389IKvr
+zWOtpwmzskK2Q++JlORiQ8mdLRWq5yYJVD0troq1GquPqd5v8O+uF0XZgfL7bE4J
+bA3/SW0NHtujihbXy0nw7lPTt5a0I6VV5CCsbhV8SaXHyWi0P5zujos0U/ZloTEZ
+shx5z3t17nkYvEIfV2wz4u7W+zKRNg==
+=KPfS
 -----END PGP SIGNATURE-----
 
---7hqxyzpgktklwnyb--
-
+--sk6c3h6rfs4ia424--
