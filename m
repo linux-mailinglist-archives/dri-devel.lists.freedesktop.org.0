@@ -2,49 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0C987EE268
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 15:12:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 035EE7EE330
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 15:45:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFE9010E5E6;
-	Thu, 16 Nov 2023 14:11:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05E5010E605;
+	Thu, 16 Nov 2023 14:45:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1636410E5DF;
- Thu, 16 Nov 2023 14:11:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700143913; x=1731679913;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=omUiGmuakLzV7uhaf0BYT6F+wZd8LOHntDZvbIOUufc=;
- b=SPg4DCG0hsWwVEPJ6Mqye0zicF6icxW3QbBNtS84Uwa2MjUY6Is3RqJb
- o6QdoBBFi3Ry3504nK/Y9Pf8iMCJ1E5W6Ew3C9mPXYRlC4npfdbwAtHop
- MXwPGW/i51AujCUV4WeGEgDvqOIwmEzCjT6ppf2jdMwT5TZBa9Eam2jik
- CeZUYvgOri3Fja4bvyKko4opQoQz0SwKmjXq715hlTrCsq2hQEszIwP+Y
- dVzviHcvihyuMM0T3bfIByM9/UKjMg//ayIk229XcyPdsqmg4dcCksKZQ
- 2qk1v80YL0PXjXTM/Iz0Ipu8WfxLqWQe/Li35W1BRTyf+gURPnqDj/hki w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="12642432"
-X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; d="scan'208";a="12642432"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2023 06:11:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="765303698"
-X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; d="scan'208";a="765303698"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.213.28.210])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2023 06:11:33 -0800
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3] drm/i915/vma: Fix VMA UAF on destroy against deactivate
- race
-Date: Thu, 16 Nov 2023 15:07:20 +0100
-Message-ID: <20231116140719.1046040-2-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.42.1
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E2A410E5E7;
+ Thu, 16 Nov 2023 14:09:32 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-53e08b60febso1312065a12.1; 
+ Thu, 16 Nov 2023 06:09:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700143771; x=1700748571;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=o5kzymm4w15fT9h/X6FV1rQ8roz2ERsjL4xXI9ZSR/o=;
+ b=WD93WGyRVEFrfh7cARDSCqj0Krh01HCHwhyfXJacy+KlejdeFsEz5WZhuLWCktAl7F
+ 1/R3FIMJUwNieJE89OxH4R3T4G1XzYOR+NAMWNQnfHxYTNzD7RmUqayu/wprVuvH0YZT
+ 9EGHJ15sBReqkwoiyBEy2C8I7rp2EEWcO3oxx9dw85Huz6/z8oEsKKmefyI2G+WsYhZ+
+ 8+DCEFRdt3sEIbQOYtXxVArkb8dJ7dc1URhdW8u3Uq4NdJp21GHC/x8P21cxRMQ0fSQM
+ upXl9IGTIYHcx478QShD6J9As/mefcPsxmokICu4OxZxogqivSxYVMndheo5+0WsUZRO
+ 5m7g==
+X-Gm-Message-State: AOJu0Yyc4v9FQLCDt7zmsoVU4CtOdcsZ+vNqeE1cF+12iwm0Hts1RLOe
+ +2nxsPE3W07XQlCukHeWG18=
+X-Google-Smtp-Source: AGHT+IGRWoFnBFUiWPYA9FbvARFcOKys4+ta9wagYCFe7EhBbKQSmcyNKTgtPPdyw/t26xJZFnLa7A==
+X-Received: by 2002:a17:906:f190:b0:9c7:59d1:b2c2 with SMTP id
+ gs16-20020a170906f19000b009c759d1b2c2mr12339402ejb.27.1700143770734; 
+ Thu, 16 Nov 2023 06:09:30 -0800 (PST)
+Received: from ramallet.home (cst-prg-38-127.cust.vodafone.cz. [46.135.38.127])
+ by smtp.gmail.com with ESMTPSA id
+ a11-20020a170906190b00b0098d2d219649sm8603682eje.174.2023.11.16.06.09.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Nov 2023 06:09:30 -0800 (PST)
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/etnaviv: Expose a few more chipspecs to userspace
+Date: Thu, 16 Nov 2023 15:09:09 +0100
+Message-ID: <20231116140910.1613508-1-tomeu@tomeuvizoso.net>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 16 Nov 2023 14:45:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,247 +63,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Object debugging tools were sporadically reporting illegal attempts to
-free a still active i915 VMA object from when parking a GPU tile believed
-to be idle.
+These ones will be needed to make use fo the NN and TP units in the NPUs
+based on Vivante IP.
 
-[161.359441] ODEBUG: free active (active state 0) object: ffff88811643b958 object type: i915_active hint: __i915_vma_active+0x0/0x50 [i915]
-[161.360082] WARNING: CPU: 5 PID: 276 at lib/debugobjects.c:514 debug_print_object+0x80/0xb0
-...
-[161.360304] CPU: 5 PID: 276 Comm: kworker/5:2 Not tainted 6.5.0-rc1-CI_DRM_13375-g003f860e5577+ #1
-[161.360314] Hardware name: Intel Corporation Rocket Lake Client Platform/RocketLake S UDIMM 6L RVP, BIOS RKLSFWI1.R00.3173.A03.2204210138 04/21/2022
-[161.360322] Workqueue: i915-unordered __intel_wakeref_put_work [i915]
-[161.360592] RIP: 0010:debug_print_object+0x80/0xb0
-...
-[161.361347] debug_object_free+0xeb/0x110
-[161.361362] i915_active_fini+0x14/0x130 [i915]
-[161.361866] release_references+0xfe/0x1f0 [i915]
-[161.362543] i915_vma_parked+0x1db/0x380 [i915]
-[161.363129] __gt_park+0x121/0x230 [i915]
-[161.363515] ____intel_wakeref_put_last+0x1f/0x70 [i915]
+Also fix the number of NN cores in the VIPNano-qi.
 
-That has been tracked down to be happening when another thread is
-deactivating the VMA inside __active_retire() helper, after the VMA's
-active counter has been already decremented to 0, but before deactivation
-of the VMA's object is reported to the object debugging tool.
-
-We could prevent from that race by serializing i915_active_fini() with
-__active_retire() via ref->tree_lock, but that wouldn't stop the VMA from
-being used, e.g. from __i915_vma_retire() called at the end of
-__active_retire(), after that VMA has been already freed by a concurrent
-i915_vma_destroy() on return from the i915_active_fini().  Then, we should
-rather fix the issue at the VMA level, not in i915_active.
-
-Since __i915_vma_parked() is called from __gt_park() on last put of the
-GT's wakeref, the issue could be addressed by holding the GT wakeref long
-enough for __active_retire() to complete before that wakeref is released
-and the GT parked.
-
-A VMA associated with a request doesn't acquire a GT wakeref by itself.
-Instead, it depends on a wakeref held directly by the request's active
-intel_context for a GT associated with its VM, and indirectly on that
-intel_context's engine wakeref if the engine belongs to the same GT as the
-VMA's VM.  In case of single-tile platforms, at least one of those
-wakerefs is usually held long enough for the request's VMA to be
-deactivated on time, before it is destroyed on last put of its VM GT
-wakeref.  However, on multi-tile platforms, a request may use a VMA from a
-tile other than the one that hosts the request's engine, then it is
-protected only with the intel_context's VM GT wakeref.
-
-There was an attempt to fix this issue on 2-tile Meteor Lake by acquiring
-an extra wakeref for a Primary GT from i915_gem_do_execbuffer() -- see
-commit f56fe3e91787 ("drm/i915: Fix a VMA UAF for multi-gt platform").
-However, it occurred insufficient -- the issue was still reported by CI.
-That wakeref was released on exit from i915_gem_do_execbuffer(), then
-potentially before completion of the request and deactivation of its
-associated VMAs.
-
-OTOH, CI reports indicate that single-tile platforms also suffer
-sporadically from the same race.
-
-I believe the issue was introduced by commit d93939730347 ("drm/i915:
-Remove the vma refcount") which moved a call to i915_active_fini() from
-a dropped i915_vma_release(), called on last put of the removed VMA kref,
-to i915_vma_parked() processing path called on last put of a GT wakeref.
-However, its visibility to the object debugging tool was suppressed by a
-bug in i915_active that was fixed two weeks later with commit e92eb246feb9
-("drm/i915/active: Fix missing debug object activation").
-
-Fix the issue by getting a wakeref for the VMA's tile when activating it,
-and putting that wakeref only after the VMA is deactivated.  However,
-exclude global GTT from that processing path, otherwise the GPU never goes
-idle.  Since __i915_vma_retire() may be called from atomic contexts, use
-async variant of wakeref put.
-
-Having that fixed, stop explicitly acquiring the extra GT0 wakeref from
-inside i915_gem_do_execbuffer(), and also drop an extra call to
-i915_active_wait(), introduced by commit 7a2280e8dcd2 ("drm/i915: Wait for
-active retire before i915_active_fini()") as another insufficient fix for
-this UAF race.
-
-v3: Identify root cause more precisely, and a commit to blame,
-  - identify and drop former workarounds,
-  - update commit message and description.
-v2: Get the wakeref before VM mutex to avoid circular locking dependency,
-  - drop questionable Fixes: tag.
-
-Fixes: d93939730347 ("drm/i915: Remove the vma refcount")
-Closes: https://gitlab.freedesktop.org/drm/intel/issues/8875
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Nirmoy Das <nirmoy.das@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: stable@vger.kernel.org # v5.19+
+Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 ---
- .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 21 ++------------
- drivers/gpu/drm/i915/i915_vma.c               | 28 +++++++++++++------
- 2 files changed, 21 insertions(+), 28 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c  | 20 ++++++++++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h  | 12 ++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 22 +++++++++++++++++++++-
+ include/uapi/drm/etnaviv_drm.h         |  5 +++++
+ 4 files changed, 58 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-index 45b9d9e34b8b8..e0c3eaf316e9e 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-@@ -2691,7 +2691,6 @@ static int
- eb_select_engine(struct i915_execbuffer *eb)
- {
- 	struct intel_context *ce, *child;
--	struct intel_gt *gt;
- 	unsigned int idx;
- 	int err;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 5f96e7b1a9ec..9a18b5431975 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -164,6 +164,26 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value)
+ 		*value = gpu->identity.eco_id;
+ 		break;
  
-@@ -2715,17 +2714,10 @@ eb_select_engine(struct i915_execbuffer *eb)
- 		}
- 	}
- 	eb->num_batches = ce->parallel.number_children + 1;
--	gt = ce->engine->gt;
- 
- 	for_each_child(ce, child)
- 		intel_context_get(child);
--	intel_gt_pm_get(gt);
--	/*
--	 * Keep GT0 active on MTL so that i915_vma_parked() doesn't
--	 * free VMAs while execbuf ioctl is validating VMAs.
--	 */
--	if (gt->info.id)
--		intel_gt_pm_get(to_gt(gt->i915));
-+	intel_gt_pm_get(ce->engine->gt);
- 
- 	if (!test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
- 		err = intel_context_alloc_state(ce);
-@@ -2764,10 +2756,7 @@ eb_select_engine(struct i915_execbuffer *eb)
- 	return err;
- 
- err:
--	if (gt->info.id)
--		intel_gt_pm_put(to_gt(gt->i915));
--
--	intel_gt_pm_put(gt);
-+	intel_gt_pm_put(ce->engine->gt);
- 	for_each_child(ce, child)
- 		intel_context_put(child);
- 	intel_context_put(ce);
-@@ -2780,12 +2769,6 @@ eb_put_engine(struct i915_execbuffer *eb)
- 	struct intel_context *child;
- 
- 	i915_vm_put(eb->context->vm);
--	/*
--	 * This works in conjunction with eb_select_engine() to prevent
--	 * i915_vma_parked() from interfering while execbuf validates vmas.
--	 */
--	if (eb->gt->info.id)
--		intel_gt_pm_put(to_gt(eb->gt->i915));
- 	intel_gt_pm_put(eb->gt);
- 	for_each_child(eb->context, child)
- 		intel_context_put(child);
-diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-index d09aad34ba37f..727123ebfc06e 100644
---- a/drivers/gpu/drm/i915/i915_vma.c
-+++ b/drivers/gpu/drm/i915/i915_vma.c
-@@ -34,6 +34,7 @@
- #include "gt/intel_engine.h"
- #include "gt/intel_engine_heartbeat.h"
- #include "gt/intel_gt.h"
-+#include "gt/intel_gt_pm.h"
- #include "gt/intel_gt_requests.h"
- #include "gt/intel_tlb.h"
- 
-@@ -103,12 +104,25 @@ static inline struct i915_vma *active_to_vma(struct i915_active *ref)
- 
- static int __i915_vma_active(struct i915_active *ref)
- {
--	return i915_vma_tryget(active_to_vma(ref)) ? 0 : -ENOENT;
-+	struct i915_vma *vma = active_to_vma(ref);
++	case ETNAVIV_PARAM_GPU_NN_CORE_COUNT:
++		*value = gpu->identity.nn_core_count;
++		break;
 +
-+	if (!i915_vma_tryget(vma))
-+		return -ENOENT;
++	case ETNAVIV_PARAM_GPU_NN_MAD_PER_CORE:
++		*value = gpu->identity.nn_mad_per_core;
++		break;
 +
-+	if (!i915_vma_is_ggtt(vma))
-+		intel_gt_pm_get(vma->vm->gt);
++	case ETNAVIV_PARAM_GPU_TP_CORE_COUNT:
++		*value = gpu->identity.tp_core_count;
++		break;
 +
-+	return 0;
- }
- 
- static void __i915_vma_retire(struct i915_active *ref)
- {
--	i915_vma_put(active_to_vma(ref));
-+	struct i915_vma *vma = active_to_vma(ref);
++	case ETNAVIV_PARAM_GPU_ON_CHIP_SRAM_SIZE:
++		*value = gpu->identity.on_chip_sram_size;
++		break;
 +
-+	if (!i915_vma_is_ggtt(vma))
-+		intel_gt_pm_put_async(vma->vm->gt);
++	case ETNAVIV_PARAM_GPU_AXI_SRAM_SIZE:
++		*value = gpu->identity.axi_sram_size;
++		break;
 +
-+	i915_vma_put(vma);
- }
+ 	default:
+ 		DBG("%s: invalid param: %u", dev_name(gpu->dev), param);
+ 		return -EINVAL;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+index c8f3ad2031ce..83ef3c06da5d 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+@@ -53,6 +53,18 @@ struct etnaviv_chip_identity {
+ 	/* Number of Neural Network cores. */
+ 	u32 nn_core_count;
  
- static struct i915_vma *
-@@ -1404,7 +1418,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 	struct i915_vma_work *work = NULL;
- 	struct dma_fence *moving = NULL;
- 	struct i915_vma_resource *vma_res = NULL;
--	intel_wakeref_t wakeref = 0;
-+	intel_wakeref_t wakeref;
- 	unsigned int bound;
- 	int err;
++	/* Number of MAD units per Neural Network core. */
++	u32 nn_mad_per_core;
++
++	/* Number of Tensor Processing cores. */
++	u32 tp_core_count;
++
++	/* Size in bytes of the SRAM inside the NPU. */
++	u32 on_chip_sram_size;
++
++	/* Size in bytes of the SRAM across the AXI bus. */
++	u32 axi_sram_size;
++
+ 	/* Size of the vertex cache. */
+ 	u32 vertex_cache_size;
  
-@@ -1424,8 +1438,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 	if (err)
- 		return err;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+index 0cb5aacaf384..93f15cce6d22 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+@@ -17,6 +17,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.thread_count = 128,
+ 		.shader_core_count = 1,
+ 		.nn_core_count = 0,
++		.nn_mad_per_core = 0,
++		.tp_core_count = 0,
++		.on_chip_sram_size = 0,
++		.axi_sram_size = 0,
+ 		.vertex_cache_size = 8,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
+@@ -49,6 +53,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.thread_count = 512,
+ 		.shader_core_count = 2,
+ 		.nn_core_count = 0,
++		.nn_mad_per_core = 0,
++		.tp_core_count = 0,
++		.on_chip_sram_size = 0,
++		.axi_sram_size = 0,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
+@@ -81,6 +89,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.thread_count = 512,
+ 		.shader_core_count = 2,
+ 		.nn_core_count = 0,
++		.nn_mad_per_core = 0,
++		.tp_core_count = 0,
++		.on_chip_sram_size = 0,
++		.axi_sram_size = 0,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
+@@ -113,6 +125,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.thread_count = 1024,
+ 		.shader_core_count = 4,
+ 		.nn_core_count = 0,
++		.nn_mad_per_core = 0,
++		.tp_core_count = 0,
++		.on_chip_sram_size = 0,
++		.axi_sram_size = 0,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 2,
+@@ -144,7 +160,11 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.register_max = 64,
+ 		.thread_count = 256,
+ 		.shader_core_count = 1,
+-		.nn_core_count = 1,
++		.nn_core_count = 8,
++		.nn_mad_per_core = 64,
++		.tp_core_count = 4,
++		.on_chip_sram_size = 524288,
++		.axi_sram_size = 1048576,
+ 		.vertex_cache_size = 16,
+ 		.vertex_output_buffer_size = 1024,
+ 		.pixel_pipes = 1,
+diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
+index af024d90453d..d87410a8443a 100644
+--- a/include/uapi/drm/etnaviv_drm.h
++++ b/include/uapi/drm/etnaviv_drm.h
+@@ -77,6 +77,11 @@ struct drm_etnaviv_timespec {
+ #define ETNAVIV_PARAM_GPU_PRODUCT_ID                0x1c
+ #define ETNAVIV_PARAM_GPU_CUSTOMER_ID               0x1d
+ #define ETNAVIV_PARAM_GPU_ECO_ID                    0x1e
++#define ETNAVIV_PARAM_GPU_NN_CORE_COUNT             0x1f
++#define ETNAVIV_PARAM_GPU_NN_MAD_PER_CORE           0x20
++#define ETNAVIV_PARAM_GPU_TP_CORE_COUNT             0x21
++#define ETNAVIV_PARAM_GPU_ON_CHIP_SRAM_SIZE         0x22
++#define ETNAVIV_PARAM_GPU_AXI_SRAM_SIZE             0x23
  
--	if (flags & PIN_GLOBAL)
--		wakeref = intel_runtime_pm_get(&vma->vm->i915->runtime_pm);
-+	wakeref = intel_runtime_pm_get(&vma->vm->i915->runtime_pm);
+ #define ETNA_MAX_PIPES 4
  
- 	if (flags & vma->vm->bind_async_flags) {
- 		/* lock VM */
-@@ -1561,8 +1574,7 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
- 	if (work)
- 		dma_fence_work_commit_imm(&work->base);
- err_rpm:
--	if (wakeref)
--		intel_runtime_pm_put(&vma->vm->i915->runtime_pm, wakeref);
-+	intel_runtime_pm_put(&vma->vm->i915->runtime_pm, wakeref);
- 
- 	if (moving)
- 		dma_fence_put(moving);
-@@ -1740,8 +1752,6 @@ static void release_references(struct i915_vma *vma, struct intel_gt *gt,
- 	if (vm_ddestroy)
- 		i915_vm_resv_put(vma->vm);
- 
--	/* Wait for async active retire */
--	i915_active_wait(&vma->active);
- 	i915_active_fini(&vma->active);
- 	GEM_WARN_ON(vma->resource);
- 	i915_vma_free(vma);
 -- 
-2.42.1
+2.41.0
 
