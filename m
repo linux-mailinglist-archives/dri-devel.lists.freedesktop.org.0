@@ -1,49 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F0BC7EE1D9
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 14:48:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 005377EE1E1
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Nov 2023 14:49:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90AF210E0C6;
-	Thu, 16 Nov 2023 13:48:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB0BC10E5DA;
+	Thu, 16 Nov 2023 13:49:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1146A10E0C6
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 13:48:01 +0000 (UTC)
-Received: from mercury (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: sre)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id B4995660734A;
- Thu, 16 Nov 2023 13:47:59 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1700142479;
- bh=0F+bD5IJvC5DvD53eU1GEpAuHcSfiOhDXPjgQwy4gxU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ennw2qkv+TWcuWKJb/JxsE2jdCn3IKctEidn6+LBnljCe+v1UPs4IrEDksAcfrbkP
- i/NA/dK8J1rHvXw6S3r3jO7jTHYPtSOfCi2G2oRm2RIbEzPmnhaLuelKA+pQpBL8y4
- /q9u2CLaklIlN7g3XcC9aEPaUFMtdMzK64qKkNG73gPlvHkOavshCDgCZjM0C0pDDT
- rihxJ1eRSLOTm3TYuHngAsXEKQckU9bKtfP+3mlLODjkX3RHMIcBjiPZ+o4oTPs1uO
- aqzt89HdHbgYsIkMHYFYkhvOUUPkte3vR9J1J8ox5s3tAe4F9JIfGrBuMX9QC+4ah2
- houZmc0+DWMJg==
-Received: by mercury (Postfix, from userid 1000)
- id DA79210613A1; Thu, 16 Nov 2023 14:47:57 +0100 (CET)
-Date: Thu, 16 Nov 2023 14:47:57 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH 09/11] drm/rockchip: vop2: Add support for rk3588
-Message-ID: <20231116134757.zu7axb6cvriqjm6y@mercury.elektranox.org>
-References: <20231114112534.1770731-1-andyshrk@163.com>
- <20231114112855.1771372-1-andyshrk@163.com>
- <20231115090823.GY3359458@pengutronix.de>
- <8f2ebc81-51c5-44d5-b27b-633a6cc85d0d@rock-chips.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF0F210E28C;
+ Thu, 16 Nov 2023 13:48:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1700142539; x=1731678539;
+ h=message-id:date:mime-version:from:to:cc:subject:
+ content-transfer-encoding;
+ bh=jnxRL3fcFHCMcn/kER0Vt+xRDIApEscVDCQk82gvUKI=;
+ b=Wrc3p60pbZoF855IeHfM88oztOLhg0eu22Kp2SFYQ61SHgSr1aLtqcxK
+ tHG6iRcrevW1oiq4LynMiOwaC/PIYPXrbm3RU1znpu1gU1Tuwz/z7hs+n
+ bJaWVUIrLEJ4VRmlV9G9yR2an0k5fmQb4bJa3/AQZ+l5O9u6tK+vUIy+t
+ BUsh3zdKlMge7O83UMA4nRLrU7BSwmS4MnHDgFXlphap24P3edMv3wMz+
+ Vr/Zy3cu3Y3p8AMGSG5euR6XnvuivdMqq90s+u1nZsCEtAROIODrz1pV9
+ 9GR2zeXxoCxVqDKR/q9mnloD9VOvcCqOGEsldiKwBC08VubjJkRdxzQ3K A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="4216335"
+X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; 
+   d="scan'208";a="4216335"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2023 05:48:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; 
+   d="scan'208";a="6723421"
+Received: from dtanasex-mobl.ger.corp.intel.com (HELO [10.252.56.125])
+ ([10.252.56.125])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2023 05:48:54 -0800
+Message-ID: <98fc82d3-8714-45e7-bd12-c95ba8c6c35f@linux.intel.com>
+Date: Thu, 16 Nov 2023 14:48:52 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="fodj6ulte5c5gkb5"
-Content-Disposition: inline
-In-Reply-To: <8f2ebc81-51c5-44d5-b27b-633a6cc85d0d@rock-chips.com>
+User-Agent: Mozilla Thunderbird
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>
+Subject: [PULL] drm-misc-fixes
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,83 +59,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Sascha Hauer <s.hauer@pengutronix.de>, hjc@rock-chips.com,
- dri-devel@lists.freedesktop.org, kever.yang@rock-chips.com,
- linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, chris.obbard@collabora.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave, Daniel,
 
---fodj6ulte5c5gkb5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Small pull request, mostly nouveau fixes.
 
-Hi,
+Cheers,
+~Maarten
 
-On Thu, Nov 16, 2023 at 06:39:40PM +0800, Andy Yan wrote:
-> > >   	vop2->sys_grf =3D syscon_regmap_lookup_by_phandle(dev->of_node, "r=
-ockchip,grf");
-> > This already lacks an error check, shame on me...
-> >=20
-> > > +	vop2->vop_grf =3D syscon_regmap_lookup_by_phandle(dev->of_node, "ro=
-ckchip,vop-grf");
-> > > +	vop2->vo1_grf =3D syscon_regmap_lookup_by_phandle(dev->of_node, "ro=
-ckchip,vo1-grf");
-> > > +	vop2->sys_pmu =3D syscon_regmap_lookup_by_phandle(dev->of_node, "ro=
-ckchip,pmu");
-> > ... but please don't duplicate that.
->=20
-> It a little difficult to find a proper way to do the check, as not every =
-soc need all these phandles.
->=20
-> Do i need check it per soc?
+Mostly drm-misc-fixes-2023-11-16:
+Assorted fixes for v6.7-rc2:
+- Nouveau GSP fixes.
+- Fix nouveau driver load without display.
+- Use rwlock for nouveau's event lock to break a lockdep splat.
+- Add orientation quirk for Lenovo Legion Go.
+- Fix build failure in IVPU.
+The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
 
-I suggest adding a u32 flags to struct vop2_data and then have
-something like this:
+   Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
 
-if (vop2_data->flags & VOP2_HAS_VOP_GRF) {
-    vop2->vop_grf =3D syscon_regmap_lookup_by_phandle(dev->of_node, "rockch=
-ip,vop-grf");
-    if (IS_ERR(vop2->vop_grf))
-        return dev_err_probe(dev, PTR_ERR(vop2->vop_grf) "cannot get vop-gr=
-f");
-}
+are available in the Git repository at:
 
-if (vop2_data->flags & VOP2_HAS_VO1_GRF) {
-    vop2->vo1_grf =3D syscon_regmap_lookup_by_phandle(dev->of_node, "rockch=
-ip,vo1-grf");
-    if (IS_ERR(vop2->vo1_grf))
-        return dev_err_probe(dev, PTR_ERR(vop2->vo1_grf) "cannot get vo1-gr=
-f");
-}
+   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-11-16
 
-=2E..
+for you to fetch changes up to ae1aadb1eb8d3cbc52e42bee71d67bd4a71f9f07:
 
-Greetings,
+   nouveau: don't fail driver load if no display hw present. (2023-11-15 
+18:23:31 +0100)
 
--- Sebastian
+----------------------------------------------------------------
+Assorted fixes for v6.7-rc2:
+- Nouveau GSP fixes.
+- Fix nouveau driver load without display.
+- Use rwlock for nouveau's event lock to break a lockdep splat.
+- Add orientation quirk for Lenovo Legion Go.
+- Fix build failure in IVPU.
 
---fodj6ulte5c5gkb5
-Content-Type: application/pgp-signature; name="signature.asc"
+----------------------------------------------------------------
+Arnd Bergmann (1):
+       accel/ivpu: avoid build failure with CONFIG_PM=n
 
------BEGIN PGP SIGNATURE-----
+Brenton Simpson (1):
+       drm: panel-orientation-quirks: Add quirk for Lenovo Legion Go
 
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmVWHYUACgkQ2O7X88g7
-+po82w//W3u/dHpgUXr+77xCVn2g3AVTWISnP6mEQ1VQkqATekZ8LpLJq7thz2pp
-yuq3rG6e35mWVHVex5KNFzElA0eKPlHZ6Yy41mVK5lFn5/B00gVTKyY1Ke4b5gHS
-ub3KYPmhEssqLioA4H+8w7clThuT6CClRrhH7snBTh+/Wq99ivsJTRvib3v5V1jE
-nqzw/UnvodV54WlytiYADIsuRbcURk1BJx7xNgjuBBGWVjtOoUKPoJ4gqM8VpDmz
-Ibc0H42k82E4XnWDbMZUaCEA2DqZOgNwlEAwX3lQGuJE6LYlUt/hRcU6+31AzdSh
-ch9mGOFXz+8/6OxyWOD4uktftyiYAKFNL7Hon+z3pxBqoc2Bt94pcUlnfFyJvPgQ
-WoaCQH4crpeYkPH4fo5QCyW5sUdtn12cM1ihF1JsUicAMmzsLcUagXKL7c+ObVrz
-vCyPZGQDXuwiiNLSvkmG6yRrmAQFtquboGBPZOTH46fFNuASkR9ZuGEDm0nIH9Mh
-AwWYqdlz9h/bg0vR/uXqro0DI0gx7TJwap870n9v5gvfK/e4MWM15W/VzbUv0Kxo
-TL1+LtgAtDGbGVeuI3DHY94dzYwsov6yrViwuFC/wIgllZlHgK5Ir9su9XCfVCt1
-SP5ybo1ag2VdjC88XQBHSV5m7hoKHC0PEJzAhtjvSSjbazh2PsM=
-=DnDq
------END PGP SIGNATURE-----
+Dan Carpenter (2):
+       nouveau/gsp/r535: uninitialized variable in r535_gsp_acpi_mux_id()
+       nouveau/gsp/r535: Fix a NULL vs error pointer bug
 
---fodj6ulte5c5gkb5--
+Dave Airlie (2):
+       nouveau: use an rwlock for the event lock.
+       nouveau: don't fail driver load if no display hw present.
+
+  drivers/accel/ivpu/ivpu_pm.c                      |  3 ---
+  drivers/gpu/drm/drm_panel_orientation_quirks.c    |  6 ++++++
+  drivers/gpu/drm/nouveau/include/nvkm/core/event.h |  4 ++--
+  drivers/gpu/drm/nouveau/nouveau_display.c         |  5 +++++
+  drivers/gpu/drm/nouveau/nvkm/core/event.c         | 12 ++++++------
+  drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c    |  6 +++---
+  6 files changed, 22 insertions(+), 14 deletions(-)
