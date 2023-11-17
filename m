@@ -2,75 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 591897EF742
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 18:49:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6447EF74F
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 19:07:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B078D10E30D;
-	Fri, 17 Nov 2023 17:49:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8536210E312;
+	Fri, 17 Nov 2023 18:07:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 170FC10E30D
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 17:49:51 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3AHEjqsL023140; Fri, 17 Nov 2023 17:49:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=eI+9MtSNRjFcCd5vkGmHjvo8Ak2PAE40uynj0L+LhWA=;
- b=mqWoj63s+B7yjKPTiNOFAHGwPHIxw3qET9EdgmAwZPVsnhnVE7rGv+GEH59FimTK9eHI
- NflcWcFut8GznAQSbIKDy8mFiYS24HYOEzkDKk5sOd8WVS+gb5qphrji1KkxossWgC6d
- ewmE7ffkMCrHmXJsdqke6x/6XD1pcariw7zRX0T+oMnVUqq+mcCUz1rnli4/a1h5V/fd
- MRPPVGFyU+ipiiAEvQw4cTHGPsEV/yrjJS4dlnLk3XzgASOXx9QImPw+FHJYmowuCl5H
- UAxaof57ZUXLsP97GBs9iu0uWy5LU/EvLG6oXCquRdrgM2Ciz0hRw1dcLQIvdmphrGg/ VA== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ue6x18tn4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Nov 2023 17:49:46 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AHHnjnf028561
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Nov 2023 17:49:45 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 17 Nov
- 2023 09:49:45 -0800
-Message-ID: <6e153123-7367-6825-9a97-b600300ff288@quicinc.com>
-Date: Fri, 17 Nov 2023 10:49:44 -0700
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9EDA10E0A3
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 18:07:42 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r43Fh-0007T5-KT; Fri, 17 Nov 2023 19:07:37 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r43Fg-009jIK-4J; Fri, 17 Nov 2023 19:07:36 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r43Ff-003C8h-Q2; Fri, 17 Nov 2023 19:07:35 +0100
+Date: Fri, 17 Nov 2023 19:07:33 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Subject: Re: [PATCH v3 1/1] backlight: pwm_bl: Use dev_err_probe
+Message-ID: <20231117180733.4p5zkhzxwfur6dcg@pengutronix.de>
+References: <20231117120625.2398417-1-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] accel/qaic: Update MAX_ORDER use to be inclusive
-Content-Language: en-US
-To: <quic_carlv@quicinc.com>, <quic_pkanojiy@quicinc.com>,
- <stanislaw.gruszka@linux.intel.com>, <ogabbay@kernel.org>
-References: <20231103153302.20642-1-quic_jhugo@quicinc.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20231103153302.20642-1-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: z-F4pTQi3YicqsqIVYdwtgJ8oVGKeyxr
-X-Proofpoint-GUID: z-F4pTQi3YicqsqIVYdwtgJ8oVGKeyxr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-17_16,2023-11-17_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 mlxlogscore=999 lowpriorityscore=0 suspectscore=0
- clxscore=1015 mlxscore=0 phishscore=0 adultscore=0 bulkscore=0 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311170133
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="jy5iil4yjrcrfou5"
+Content-Disposition: inline
+In-Reply-To: <20231117120625.2398417-1-alexander.stein@ew.tq-group.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,23 +54,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-pwm@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Lee Jones <lee@kernel.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/3/2023 9:33 AM, Jeffrey Hugo wrote:
-> MAX_ORDER was redefined so that valid allocations to the page allocator
-> are in the range of 0..MAX_ORDER, inclusive in the commit
-> 23baf831a32c ("mm, treewide: redefine MAX_ORDER sanely").
-> 
-> We are treating MAX_ORDER as an exclusive value, and thus could be
-> requesting larger allocations.  Update our use to match the redefinition
-> of MAX_ORDER.
-> 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
 
-Applied to drm-misc-next
+--jy5iil4yjrcrfou5
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--Jeff
+Hello Alexander,
+
+On Fri, Nov 17, 2023 at 01:06:25PM +0100, Alexander Stein wrote:
+> Use dev_err_probe to simplify error paths. Also let dev_err_probe handle
+> the -EPROBE_DEFER case and add an entry to
+> /sys/kernel/debug/devices_deferred when deferred.
+>=20
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+
+Reviewed-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+
+Thanks
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--jy5iil4yjrcrfou5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVXq+QACgkQj4D7WH0S
+/k5VEQf/SRCjx28hkWDbqq/1JesvS2n1hzirF0hHfkH6Sf0dbm+KxS5XTYihmUsd
+eusJBb6h8kt9vU/CsB2kYLK3GvbcYd33zakz5wZaL45oDn1kVezHmmGr5XHYJK8Y
+V52WZupXXWKQ78FmMXjp+CeOLp9CEPD/vvbLvoMpXpQF4FzpHgWlb8Oj59kEvdNE
+vn6UeLFCpqW7pjJJX/tZyGSEqbyQ3Ghmb5LYJ2ehFad/dDELFmFLBsiLwrIYxkS+
+qHyrOCpe6cIAHtAQ309LdZ2p4FdeSqG6WtDWG3ig1TKTycpjjgIQy1qbGe5Yav52
+d8RJiorK9cM5cWYbL4xP4sbJYQlbdw==
+=ZNb9
+-----END PGP SIGNATURE-----
+
+--jy5iil4yjrcrfou5--
