@@ -1,47 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D6447EF74F
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 19:07:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE077EF78B
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 19:50:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8536210E312;
-	Fri, 17 Nov 2023 18:07:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DE5E10E14A;
+	Fri, 17 Nov 2023 18:50:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9EDA10E0A3
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 18:07:42 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1r43Fh-0007T5-KT; Fri, 17 Nov 2023 19:07:37 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1r43Fg-009jIK-4J; Fri, 17 Nov 2023 19:07:36 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1r43Ff-003C8h-Q2; Fri, 17 Nov 2023 19:07:35 +0100
-Date: Fri, 17 Nov 2023 19:07:33 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Subject: Re: [PATCH v3 1/1] backlight: pwm_bl: Use dev_err_probe
-Message-ID: <20231117180733.4p5zkhzxwfur6dcg@pengutronix.de>
-References: <20231117120625.2398417-1-alexander.stein@ew.tq-group.com>
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
+ [IPv6:2607:f8b0:4864:20::112d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDC6D10E14A
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 18:50:34 +0000 (UTC)
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-5a90d6ab962so25498277b3.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 10:50:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1700247034; x=1700851834;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DtpYAOIzka1JBZk8iAppwwSnkzFLFfJkyz+jdr3nWyE=;
+ b=q56xT3FBA8nCIjGXzAqTsqoD5MxCrtbVpNjpzOPwA98Rf5Oka/WN52leoLhL2tR9RE
+ Tymz0ZN4QWjupFZ0Dqaki8eswFeuFwsbwq2TVRNXDRpGXkTFORjZw13Yr4a8uNESFwLl
+ BFxuKt1ulOXY9MeJHxcaOoFFDdEhxvBeNm37xEBBox3npvqFklVZ8ifw4xfOJpnbIST0
+ 1H2H+xF3+H6hUrpLFbgxaxOdZhTH8E5OCCs16ykLBFr+Wd1ZMmbrgKYJmVyKha+VZ2If
+ JTBNWnSyav/ObFZLwRRaivFQZtFHBQxSrU2WN/j4EeKCKZvjpEuiaZIVgvOoaLXl+2bw
+ +kHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700247034; x=1700851834;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=DtpYAOIzka1JBZk8iAppwwSnkzFLFfJkyz+jdr3nWyE=;
+ b=uK+FKkuzkw7zjbxVI2hm/n1BxHdeSiH4Zbsq/leRKpFTcKRzAh8ZFfEC0sq29XBq5f
+ 2uBMm6BCxoq0n2dz/oD6JswAorvrBB+ETGswWoIFsfbEH52BuWnRW/gjl5EU/Cayngip
+ oDEbeSRBRDsQKYjXBXJmNaEYZBeJwITqjsbxb7w3GY9e0+f/IkS7xPDHOM+l6DSvr1vg
+ ZdkUKUiSnibiLhFOFc0hK2NiPQgRGVPx855ge+QH2BFirAhB/IANTbSV+YoNPux5k5+a
+ pYcCk/eRp8SUudjyWnqFx6+TkVMA+LR1sb8LB+hjgLH2LDLwN+UAM3/r+l7qehh0afQi
+ 5K8A==
+X-Gm-Message-State: AOJu0YxPp8djdflyeC37PQFeVFiIU9ArDKwxKFbg0HVGwZDYVLF2iU77
+ Ysrib1n3GrvfNFUtnq41+8oJp591y8B5oQsPqLTquQ==
+X-Google-Smtp-Source: AGHT+IFi5dwlJjXKeALdkQ3r7NL6Ns0Vqtg+0GbT2TnyYHl6vrk7ylgtgCrw4Xy73kvNJHON7kCIdI2uoaIh9nEMUls=
+X-Received: by 2002:a05:6902:1508:b0:d91:c3fe:6144 with SMTP id
+ q8-20020a056902150800b00d91c3fe6144mr286813ybu.3.1700247033764; Fri, 17 Nov
+ 2023 10:50:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="jy5iil4yjrcrfou5"
-Content-Disposition: inline
-In-Reply-To: <20231117120625.2398417-1-alexander.stein@ew.tq-group.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20231116191409.work.634-kees@kernel.org>
+In-Reply-To: <20231116191409.work.634-kees@kernel.org>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Fri, 17 Nov 2023 10:50:21 -0800
+Message-ID: <CABdmKX1oNw+quAd+ALcgGoz-PPsvy=O6YM4f2_SmP+dQBddzAA@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: Replace strlcpy() with strscpy()
+To: Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,50 +69,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Azeem Shaikh <azeemshaikh38@gmail.com>, linaro-mm-sig@lists.linaro.org,
+ linux-hardening@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Nov 16, 2023 at 11:14=E2=80=AFAM Kees Cook <keescook@chromium.org> =
+wrote:
+>
+> strlcpy() reads the entire source buffer first. This read may exceed
+> the destination size limit. This is both inefficient and can lead
+> to linear read overflows if a source string is not NUL-terminated[1].
+> Additionally, it returns the size of the source string, not the
+> resulting size of the destination string. In an effort to remove strlcpy(=
+)
+> completely[2], replace strlcpy() here with strscpy().
+>
+> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strl=
+cpy [1]
+> Link: https://github.com/KSPP/linux/issues/89 [2]
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: Azeem Shaikh <azeemshaikh38@gmail.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
---jy5iil4yjrcrfou5
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: T.J. Mercier <tjmercier@google.com>
 
-Hello Alexander,
-
-On Fri, Nov 17, 2023 at 01:06:25PM +0100, Alexander Stein wrote:
-> Use dev_err_probe to simplify error paths. Also let dev_err_probe handle
-> the -EPROBE_DEFER case and add an entry to
-> /sys/kernel/debug/devices_deferred when deferred.
->=20
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-
-Reviewed-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-
-Thanks
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---jy5iil4yjrcrfou5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVXq+QACgkQj4D7WH0S
-/k5VEQf/SRCjx28hkWDbqq/1JesvS2n1hzirF0hHfkH6Sf0dbm+KxS5XTYihmUsd
-eusJBb6h8kt9vU/CsB2kYLK3GvbcYd33zakz5wZaL45oDn1kVezHmmGr5XHYJK8Y
-V52WZupXXWKQ78FmMXjp+CeOLp9CEPD/vvbLvoMpXpQF4FzpHgWlb8Oj59kEvdNE
-vn6UeLFCpqW7pjJJX/tZyGSEqbyQ3Ghmb5LYJ2ehFad/dDELFmFLBsiLwrIYxkS+
-qHyrOCpe6cIAHtAQ309LdZ2p4FdeSqG6WtDWG3ig1TKTycpjjgIQy1qbGe5Yav52
-d8RJiorK9cM5cWYbL4xP4sbJYQlbdw==
-=ZNb9
------END PGP SIGNATURE-----
-
---jy5iil4yjrcrfou5--
+strscpy returns -E2BIG when it truncates / force null-terminates which
+would provide the wrong argument for dynamic_dname, but
+dma_buf_set_name{_user} makes sure we have a null-terminated string of
+the appropriate maximum size in dmabuf->name.
