@@ -1,51 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A927EF703
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 18:36:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93BF17EF737
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 18:44:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A04B910E073;
-	Fri, 17 Nov 2023 17:36:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00A4910E2FC;
+	Fri, 17 Nov 2023 17:44:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com
- [91.218.175.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E84D10E073
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 17:36:08 +0000 (UTC)
-Message-ID: <954e2f85-7ed8-4768-97c4-970315afeec1@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1700242565;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9vWjfYPNGTMvPQmWqPhQYpJv3Ri6BeWVhxBfWZZgUXg=;
- b=baZIDETogy3HPFLmzPPEvP+7Z7rf3XKfKcDs8ueMQdbzIbxthuwI2sJATP245CyZiV9grr
- 3NuEfR/r0nJvTnzPQkPme2O5OUYg/it4JBQlUs/64v8uXtGk5dHZqYyD1pMJ3F/5WCdOC5
- tCnAItfZhFH62ftjaGzE8P9WpdfO+4E=
-Date: Sat, 18 Nov 2023 01:35:56 +0800
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D82BF10E2FC
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 17:44:06 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3AHFSGFc013124; Fri, 17 Nov 2023 17:43:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=ELGprjDCWCLBgZMCc4MhIGy8D4h2ygp8V/1+4HZmZq8=;
+ b=j5HBdPodm9o1B8L5+gp4Y4pzscrSkBsQEh8YNPKT6CMClB8vExv4q+16os1iq3Ew7t8Z
+ BjCzneVDOel4Z/B5/r2EQfVvaxxRLtLyiE+6LR1rfXK04X6ZEyI1p/DMXd8UV8OWnKnv
+ 8Fo+QLeRJnYjzvk/tF1TX2g1xhkCUG8BrpM25Uav+UttFCm0GxhAFriXeAUJJz6Y058u
+ +mTUlrP1dL7yBvEGFQI6CyXrDndHWNqUdmITgKOjMJOuVZSOvaq0LaA0S8fSZokFw6Nk
+ yqvIvL5Sfggjk6Lygy+p9Qs+TyszWAfAWFl9pJqg2OwxamWZA/Hl9A+zJymqJQzU8rK7 Nw== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3udxs39tng-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Nov 2023 17:43:56 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AHHhtRf021032
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Nov 2023 17:43:55 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 17 Nov 2023 09:43:55 -0800
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <quic_carlv@quicinc.com>, <quic_pkanojiy@quicinc.com>,
+ <stanislaw.gruszka@linux.intel.com>, <ogabbay@kernel.org>
+Subject: [PATCH 0/2] Convert to persistent DRM devices
+Date: Fri, 17 Nov 2023 10:43:35 -0700
+Message-ID: <20231117174337.20174-1-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Subject: Re: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
- <20231114150130.497915-9-sui.jingfeng@linux.dev>
- <CAA8EJprQq3aDhzE+yKGZ2-nsuHWcptzMvApsyOi9D63PgeiZ3w@mail.gmail.com>
- <1b59d647-c345-4260-b07b-22abb70ae17a@linux.dev>
- <CAA8EJppY2+ymX0kLY+cuR=SV1Po2J24r=NQecmb3ZhSE9NHG7Q@mail.gmail.com>
- <7b85d057-3d66-435a-a657-dd69067b6bef@linux.dev>
- <b9eacd91-8d6f-4265-931e-bc31cadd54d4@linux.dev>
- <CAA8EJpo1KhzTpaSqjbOuQvNKw4WGaqrtNBtNfdNLn28eZVgwhw@mail.gmail.com>
- <cf27d25a-3e51-4292-af63-37e5bc585d88@linux.dev>
- <CAA8EJprm6FL9_ZOr5uBXNXLBt=scs=FY2o6ZEv5r576iEM5KRw@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <CAA8EJprm6FL9_ZOr5uBXNXLBt=scs=FY2o6ZEv5r576iEM5KRw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: O4ykXcyHRHombWNA5s5HfjrRb1_5Soxl
+X-Proofpoint-ORIG-GUID: O4ykXcyHRHombWNA5s5HfjrRb1_5Soxl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-17_16,2023-11-17_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ phishscore=0 bulkscore=0 clxscore=1015 mlxlogscore=774 mlxscore=0
+ adultscore=0 spamscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311170133
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,47 +79,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phong LE <ple@baylibre.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: linux-arm-msm@vger.kernel.org, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The qaic driver currently creates and destroys the DRM devices when the
+qaic device is in an operational state for userspace. This does not match
+what other DRM drivers do, and leads to a few race conditions that need
+to be handled.
 
+Instead, create the DRM device when the underlying PCIe device is detected
+and destroy the DRM device when the underlying device disappears.
 
-On 2023/11/17 17:03, Dmitry Baryshkov wrote:
-> On Fri, 17 Nov 2023 at 06:24, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
->> Hi,
->>
->> On 2023/11/16 23:23, Dmitry Baryshkov wrote:
->>>>>> Then you will need some way (fwnode?) to
->>>>>> discover the bridge chain. And at the last point you will get into the
->>>>>> device data and/or properties business.
->>>>>>
->>>>> No, leave that chance to a more better programmer and forgive me please,
->>>>> too difficult, I'm afraid of not able to solve. Thanks a lot for the
->>>>> trust!
->>>   From my point of view: no.
->>
->> I respect the fact that the community prefer generic mechanisms.
->> If our approach is not what the community want, can I switch back
->> to my previous solution? I can reduce the duplication of our
->> localized it66121 driver to a minimal, rewrite it until it meets
->> the community's requirement. I know our device looks weird and
->> our approach is not elegant. But at the very least, we could not
->> mess the community's design up by localize. Otherwise, I don't know
->> what is the better approach to solve such a problem.
->>
->> Can I switch back or any other ideas?
-> I keep on repeating: create the i2c device from your root device
-> driver, which parses BIOS data.
+Use KOBJ_ONLINE/OFFLINE udev events to signal to userspace when the
+underlying device is ready to accept requests, or has entered a reset
+state.
 
+Carl Vanderlip (2):
+  accel/qaic: Increase number of in_reset states
+  accel/qaic: Expand DRM device lifecycle
 
-You didn't focus on solve the problem, You are focus on solving me.
-How does the method that parsing BIOS data can be generic and applied
-universally?
+ Documentation/accel/qaic/qaic.rst   |  9 +++++-
+ drivers/accel/qaic/mhi_controller.c |  2 +-
+ drivers/accel/qaic/qaic.h           | 15 +++++++--
+ drivers/accel/qaic/qaic_control.c   |  5 +--
+ drivers/accel/qaic/qaic_data.c      | 16 ++++-----
+ drivers/accel/qaic/qaic_drv.c       | 50 ++++++++++++-----------------
+ 6 files changed, 52 insertions(+), 45 deletions(-)
 
+-- 
+2.40.1
 
