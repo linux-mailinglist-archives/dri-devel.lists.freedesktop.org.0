@@ -1,66 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D8AC7EFC02
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Nov 2023 00:05:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18BD67EFC4E
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Nov 2023 00:56:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A12CC10E77F;
-	Fri, 17 Nov 2023 23:05:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B416010E013;
+	Fri, 17 Nov 2023 23:56:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30BB910E77C
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 23:01:53 +0000 (UTC)
-Received: by mail-qk1-x729.google.com with SMTP id
- af79cd13be357-77bc5d8490dso157808485a.2
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 15:01:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1700262112; x=1700866912;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=fVbP8CyiBZehwmNjDxKXZZtGdp94/xgeZ0x/AluKOVY=;
- b=LT6EVT/S1xFyRjG6fh2IoLd5qeg3W2nWdf1UowqGeNeVkUd/Gjg12xejA8tMVR7vUy
- iLyTV1ImYwelJyrIVK+dhPWidInmz+Lgm1CjvYtXdh8Q0G1KQefTz58l7KAt8i0mt/QN
- +vQxrCxC/TfOOBIKaxxYccpQwVLOHhmREMhF4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700262112; x=1700866912;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fVbP8CyiBZehwmNjDxKXZZtGdp94/xgeZ0x/AluKOVY=;
- b=w3ZcKbvTVOpIzHx67GqAKXRh4IZNi1UtFsT9Tkq4i9JJRJMw8p7UB4IfRXu4L55uXc
- vE39aDEVphMS3wn0kIaNmShcXwhOrLBiKhL/f+95SxN+td73dg18mR1h+V6t/uj+XkTJ
- RRrZLiW8pDQSkvhZaHTbkGvjT0N6vDO2jGxJueGV1iBHcV00v8FX4YIXtb9ortZ14Ppa
- 5Xm35AjOKvrqCQUJaKuJ7Z8Xc86EgoBxAYs9FdM7lle4EgEVbxPR2k5bKng9ftSItqdn
- /fQWXIyoC+vYP4Ae3/bF0ZBfXqOxCMK6/U3Z2n6bp3Rmw3ju8be+j23F4qirYzm8cIg6
- XdbQ==
-X-Gm-Message-State: AOJu0YzrcGZpga6Uiv60tCYcXxlZ9J/sMGup1B0k4eAgbR2vaZ7Q7bL3
- Vnr/OH24wCetsT7D65OJkjcRlw==
-X-Google-Smtp-Source: AGHT+IGo/j+JjI7nVgbEx1Oh0K7fiN+Cgcz8UA9x0+i23g0mH+S4fJxvJq/lN51n2QT7YE/f9oL0bA==
-X-Received: by 2002:a05:620a:4541:b0:778:9148:3c2c with SMTP id
- u1-20020a05620a454100b0077891483c2cmr1044309qkp.18.1700262112282; 
- Fri, 17 Nov 2023 15:01:52 -0800 (PST)
-Received: from google.com (193.132.150.34.bc.googleusercontent.com.
- [34.150.132.193]) by smtp.gmail.com with ESMTPSA id
- rr7-20020a05620a678700b0076cc0a6e127sm936543qkn.116.2023.11.17.15.01.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Nov 2023 15:01:51 -0800 (PST)
-Date: Fri, 17 Nov 2023 23:01:50 +0000
-From: Paz Zcharya <pazz@chromium.org>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/display: Fix phys_base to be
- relative not absolute
-Message-ID: <ZVfw3ghfBLdHB7uk@google.com>
-References: <20231105172718.18673-1-pazz@chromium.org>
- <ZVQ3d8FFqxsy0OX7@intel.com>
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4CC610E013
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 23:56:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1700265396;
+ bh=Akxh1pCwlwZ2/Alq/eq4OWlp6spZ3DqWnVV7jZPqbRo=;
+ b=EnxzJ/D0fi2l0fTuqex8iMkg1Uw70Q46mrOe05ZjsoSOA6SrJqB4FfqkXlRUNSn+DORfWMLKU
+ 0LyzYMX23N4VFwkt16pBt/RjCCtQFhXMnRUUfkC4MDK5YvF/Sck9FYojZUIkDifuxmtx/pWH/cP
+ Y45DGQTXe10erHcCO3Xf139isV6m3zo6650XwOkPXCg9V6leFICG7r1ZX78C3jy4qkWUtf+ofEB
+ fo9VnjqHib6GqEyCBFsYHOhaYl7WVAZyPuTgmJQJ4n/40+0VcHvLFi3962qR/fhNVRHLq8mv3yB
+ y+Ljy4tKoYk9hxNvLy2kXgWjZzS6RlT1/C1oeqVP/rlQ==
+Message-ID: <37348be2-c7c4-4eb6-8dd0-e6b18923a88e@kwiboo.se>
+Date: Sat, 18 Nov 2023 00:46:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZVQ3d8FFqxsy0OX7@intel.com>
-X-Mailman-Approved-At: Fri, 17 Nov 2023 23:05:15 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/11] drm/rockchip: vop2: Add support for rk3588
+Content-Language: en-US
+To: Andy Yan <andyshrk@163.com>, heiko@sntech.de
+References: <20231114112534.1770731-1-andyshrk@163.com>
+ <20231114112855.1771372-1-andyshrk@163.com>
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <20231114112855.1771372-1-andyshrk@163.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-ForwardEmail-ID: 6557fb469b02fe711135f205
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,136 +54,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Subrata Banik <subratabanik@google.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sean Paul <seanpaul@chromium.org>, matthew.auld@intel.com,
- Marcin Wojtas <mwojtas@chromium.org>, Drew Davenport <ddavenport@chromium.org>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: devicetree@vger.kernel.org, sebastian.reichel@collabora.com,
+ s.hauer@pengutronix.de, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hjc@rock-chips.com, kever.yang@rock-chips.com,
+ linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, Andy Yan <andy.yan@rock-chips.com>,
+ chris.obbard@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 14, 2023 at 10:13:59PM -0500, Rodrigo Vivi wrote:
-> On Sun, Nov 05, 2023 at 05:27:03PM +0000, Paz Zcharya wrote:
-> > Fix the value of variable `phys_base` to be the relative offset in
-> > stolen memory, and not the absolute offset of the GSM.
+On 2023-11-14 12:28, Andy Yan wrote:
+> From: Andy Yan <andy.yan@rock-chips.com>
 > 
-> to me it looks like the other way around. phys_base is the physical
-> base address for the frame_buffer. Setting it to zero doesn't seem
-> to make that relative. And also doesn't look right.
->
-> > 
-> > Currently, the value of `phys_base` is set to "Surface Base Address,"
-> > which in the case of Meter Lake is 0xfc00_0000.
+> VOP2 on rk3588:
 > 
-> I don't believe this is a fixed value. IIRC this comes from the register
-> set by video bios, where the idea is to reuse the fb that was used so
-> far.
+> Four video ports:
+> VP0 Max 4096x2160
+> VP1 Max 4096x2160
+> VP2 Max 4096x2160
+> VP3 Max 2048x1080
 > 
-> With this in mind I don't understand how that could overflow. Maybe
-> the size of the stolen is not right? maybe the size? maybe different
-> memory region?
->
+> 4 4K Cluster windows with AFBC/line RGB and AFBC-only YUV support
+> 4 4K Esmart windows with line RGB/YUV support
+> 
+> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> ---
+> 
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 324 ++++++++++++++++++-
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  57 ++++
+>  drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 215 ++++++++++++
+>  include/dt-bindings/soc/rockchip,vop2.h      |   4 +
+>  4 files changed, 593 insertions(+), 7 deletions(-)
+> 
 
-Hi Rodrigo, thanks for the great comments.
+[...]
 
-Apologies for using a wrong/confusing terminology. I think 'phys_base'
-is supposed to be the offset in the GEM BO, where base (or
-"Surface Base Address") is supposed to be the GTT offset.
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> index 22288ad7f326..4745a9260cf8 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> @@ -34,6 +34,28 @@ static const uint32_t formats_cluster[] = {
+>  	DRM_FORMAT_Y210, /* yuv422_10bit non-Linear mode only */
+>  };
+>  
+> +static const uint32_t formats_esmart[] = {
+> +	DRM_FORMAT_XRGB8888,
+> +	DRM_FORMAT_ARGB8888,
+> +	DRM_FORMAT_XBGR8888,
+> +	DRM_FORMAT_ABGR8888,
+> +	DRM_FORMAT_RGB888,
+> +	DRM_FORMAT_BGR888,
+> +	DRM_FORMAT_RGB565,
+> +	DRM_FORMAT_BGR565,
+> +	DRM_FORMAT_NV12, /* yuv420_8bit linear mode, 2 plane */
+> +	DRM_FORMAT_NV21, /* yvu420_8bit linear mode, 2 plane */
+> +	DRM_FORMAT_NV16, /* yuv422_8bit linear mode, 2 plane */
+> +	DRM_FORMAT_NV61, /* yvu422_8bit linear mode, 2 plane */
+> +	DRM_FORMAT_NV24, /* yuv444_8bit linear mode, 2 plane */
+> +	DRM_FORMAT_NV42, /* yvu444_8bit linear mode, 2 plane */
+> +	DRM_FORMAT_NV15, /* yuv420_10bit linear mode, 2 plane, no padding */
 
-Other than what I wrote before, I noticed that the function 'i915_vma_pin'
-which calls to 'i915_gem_gtt_reserve' is the one that binds the right
-address space in the GTT for that stolen region.
+NV20 and NV30 drm format have now been merged into mainline linux,
+please add these missing formats. The patch below adds support for them
+to rk356x part of vop2 driver.
 
-I see that in the function 'i915_vma_insert' (full call stack below),
-where if (flags & PIN_OFFSET_FIXED), then when calling 'i915_gem_gtt_reserve'
-we add an offset.
+drm/rockchip: vop2: Add NV20 and NV30 support
+https://lore.kernel.org/linux-rockchip/20231025213248.2641962-1-jonas@kwiboo.se/
 
-Specifically in MeteorLake, and specifically when using GOP driver, this
-offset is equal to 0xfc00_0000. But as you mentioned, this is not strict.
+NV15/NV20/NV30 formats can be tested using modetest from latest main
+of libdrm.
 
-The if statement always renders true because in the function
-'initial_plane_vma' we always set
-pinctl = PIN_GLOBAL | PIN_OFFSET_FIXED | base;
-where pinctl == flags (see file 'intel_plane_initial.c' line 145).
+modetest: add support for DRM_FORMAT_NV{15,20,30}
+https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/329
 
-Call stack:
-drm_mm_reserve_node
-i915_gem_gtt_reserve
-	i915_vma_insert
-i915_vma_pin_ww
-i915_vma_pin
-initial_plane_vma
-intel_alloc_initial_plane_obj
-intel_find_initial_plane_obj
+Regards,
+Jonas
 
-Therefore, I believe the variable 'phys_base' in the
-function 'initial_plane_vma,' should be the the offset in the GEM BO
-and not the GTT offset, and because the base is added later on
-in the function 'i915_gem_gtt_reserve', this value should not be
-equal to base and be 0.
+> +	DRM_FORMAT_YVYU, /* yuv422_8bit[YVYU] linear mode */
+> +	DRM_FORMAT_VYUY, /* yuv422_8bit[VYUY] linear mode */
+> +	DRM_FORMAT_YUYV, /* yuv422_8bit[YUYV] linear mode */
+> +	DRM_FORMAT_UYVY, /* yuv422_8bit[UYVY] linear mode */
+> +};
+> +
+>  static const uint32_t formats_rk356x_esmart[] = {
+>  	DRM_FORMAT_XRGB8888,
+>  	DRM_FORMAT_ARGB8888,
 
-Hope it makes more sense.
-
-> > This causes the
-> > function `i915_gem_object_create_region_at` to fail in line 128, when
-> > it attempts to verify that the range does not overflow:
-> > 
-> > if (range_overflows(offset, size, resource_size(&mem->region)))
-> >       return ERR_PTR(-EINVAL);
-> > 
-> > where:
-> >   offset = 0xfc000000
-> >   size = 0x8ca000
-> >   mem->region.end + 1 = 0x4400000
-> >   mem->region.start = 0x800000
-> >   resource_size(&mem->region) = 0x3c00000
-> > 
-> > call stack:
-> >   i915_gem_object_create_region_at
-> >   initial_plane_vma
-> >   intel_alloc_initial_plane_obj
-> >   intel_find_initial_plane_obj
-> >   intel_crtc_initial_plane_config
-> > 
-> > Looking at the flow coming next, we see that `phys_base` is only used
-> > once, in function `_i915_gem_object_stolen_init`, in the context of
-> > the offset *in* the stolen memory. Combining that with an
-> > examinination of the history of the file seems to indicate the
-> > current value set is invalid.
-> > 
-> > call stack (functions using `phys_base`)
-> >   _i915_gem_object_stolen_init
-> >   __i915_gem_object_create_region
-> >   i915_gem_object_create_region_at
-> >   initial_plane_vma
-> >   intel_alloc_initial_plane_obj
-> >   intel_find_initial_plane_obj
-> >   intel_crtc_initial_plane_config
-> > 
-> > [drm:_i915_gem_object_stolen_init] creating preallocated stolen
-> > object: stolen_offset=0x0000000000000000, size=0x00000000008ca000
-> > 
-> > Signed-off-by: Paz Zcharya <pazz@chromium.org>
-> > ---
-> > 
-> >  drivers/gpu/drm/i915/display/intel_plane_initial.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/display/intel_plane_initial.c b/drivers/gpu/drm/i915/display/intel_plane_initial.c
-> > index a55c09cbd0e4..e696cb13756a 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_plane_initial.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_plane_initial.c
-> > @@ -90,7 +90,7 @@ initial_plane_vma(struct drm_i915_private *i915,
-> >  			"Using phys_base=%pa, based on initial plane programming\n",
-> >  			&phys_base);
-> >  	} else {
-> > -		phys_base = base;
-> > +		phys_base = 0;
-> >  		mem = i915->mm.stolen_region;
-> >  	}
-> >  
-> > -- 
-> > 2.42.0.869.gea05f2083d-goog
-> > 
+[...]
