@@ -1,54 +1,122 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA3B7EF79C
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 19:55:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC2D87EF7B9
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 20:14:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 516A210E148;
-	Fri, 17 Nov 2023 18:55:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 854C110E766;
+	Fri, 17 Nov 2023 19:14:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BA0A10E148
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 18:54:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700247299; x=1731783299;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=22IeTBS/0i5e01l93kvTVPXptw53FK4PWLryYKbUdTI=;
- b=SC9J3eLNvSl5NZkcweWZ8pjrqo98UtQL9gplx30Vg7OmS5DwWurIrCbV
- 7aouppg+HWG9FDVwBLfUEtDClDrhhq6Z/on3Oo462uapS9n3Q13/xgmZq
- Ajo9HEqJe65hFOcokhFdqSaazOmknpWXHy5KWCCnw9m1zlPzf+Ybv4z56
- HC4MovAJ5huaIMnYnkZM8BL3rUqgMWAMa61tkyz43cb9ZZHyoeCWh0Fan
- U/aYwObmu4ugNOxD8M20V+Y6vMnTzMST+Nwh26pAqn/u+ggsgWpQKfXrm
- gqwmUXvmYMTS6HVj7VgcX8CxcamJ/7bah3/iUvGoXgRJUM9GidHhEK7Et Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="455650643"
-X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; d="scan'208";a="455650643"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2023 10:54:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="836148948"
-X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; d="scan'208";a="836148948"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
- by fmsmga004.fm.intel.com with ESMTP; 17 Nov 2023 10:54:56 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1r43zS-00033N-0l;
- Fri, 17 Nov 2023 18:54:54 +0000
-Date: Sat, 18 Nov 2023 02:54:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Karolina Stolarek <karolina.stolarek@intel.com>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v7 6/8] drm/ttm/tests: Test simple BO creation and
- validation
-Message-ID: <202311180247.4A61HKYG-lkp@intel.com>
-References: <fe0d1ba291b12e7b4671bee8b95812ac30a469df.1700207346.git.karolina.stolarek@intel.com>
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2064.outbound.protection.outlook.com [40.107.100.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 299F410E766;
+ Fri, 17 Nov 2023 19:14:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gzbMEzQys9V/IPfm4BhjvUPT54UIOpA4UQWGCIh01U5DioWf486Q8xJNyw5FUIJb0VMvDZyGHZpK9mfdTXWsbbV1wZqBvkwzul1/4uBXfw2DZYkPPwbHb638RNzyuhLpLb+IKsl9mBDULTWu112152to5VGSoJo8US6PIP+kBiDIhTtFYm6vpI5Jl87IEgKUrEdMWXKhepWBPQUOg3nfGcFjOGZp0RttuoMuZiwHmcRYRKLgADZP9EbDdZXo5t9H2PhDOrwsKINCHqGXDqSTKlDl+dZBmx6G/71Rc84AVwyu0ckAxbtwCKfjDJeV0e3oX6CezMB/+HpeY5/+tBHsvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WNjziSD1evOFctcde+YIF/efJ1mACSAF46hmhsPZ4mI=;
+ b=D1cdqBQzJgdTOxJw7nr4lr9qg3npjb5dgmNJTtEaObRG4vEzFTVmRzEXa9EejtmuEwnrYYOEX5P+YbVugWlTI0bC6PuPbDsbelDrHfRfsBRUiEr58ec++8MfEhYMHQTsk6zqACD4tzNr4Bn5otZnAJ84VjiuCZ9tS6XP5dY2imHH3/UBxXibpxQ4XnO7D7YfzAyq2mtuMsO9mkG4bZANs2LbJS0+zh58yS+VYnbvesjC616lz0siSNnUTproxusPEDUgzVRO3YIo6GEVh8g/p/dscLKkhG2iPdIbxLaM0aKvsMsjCTMOtX6LykqAixyFaHMTAy3KcjfkpOU7r03s4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WNjziSD1evOFctcde+YIF/efJ1mACSAF46hmhsPZ4mI=;
+ b=NOtsk5slRs+NGx7sByBfhOR2/pGhncOqPXlBLSQPlcqj31WroKLSi5O4YbCwjiCEZtRKJHECztE0uCQS/N/juE7OBNgk752AS/ybT5v8EiTwK9J6kfIchHZkNjWcqRygTh6kHR0+2fEHdmCweVVmXdNQSmuooHexeHFGXSAdMRM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by MN6PR12MB8490.namprd12.prod.outlook.com (2603:10b6:208:470::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.21; Fri, 17 Nov
+ 2023 19:14:34 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::5e7e:d568:2bfd:a53a]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::5e7e:d568:2bfd:a53a%5]) with mapi id 15.20.7002.015; Fri, 17 Nov 2023
+ 19:14:33 +0000
+Message-ID: <53b73a8a-453c-41a3-ba1c-b00091204d56@amd.com>
+Date: Fri, 17 Nov 2023 14:14:29 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 09/32] drm/amd/display: add plane 3D LUT
+ driver-specific properties
+Content-Language: en-US
+To: Melissa Wen <mwen@igalia.com>, amd-gfx@lists.freedesktop.org,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, sunpeng.li@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch
+References: <20231116195812.906115-1-mwen@igalia.com>
+ <20231116195812.906115-10-mwen@igalia.com>
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20231116195812.906115-10-mwen@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR01CA0125.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:1::25) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fe0d1ba291b12e7b4671bee8b95812ac30a469df.1700207346.git.karolina.stolarek@intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|MN6PR12MB8490:EE_
+X-MS-Office365-Filtering-Correlation-Id: c3019f44-fee0-492c-78c4-08dbe7a16ea0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yeOAupkCshOI289XU0D+Pc4i1xO01uHNRN7gJqZNvpmpegqD3Ev3MUoC5jBmlRy8/tTpbsA6XoLKJMbWHuIe9MomoAdjN54b4QRS3pf/c623NvVCcKOe9k4BKPweRicqV5xPAl7dxw10T1IvXp4W90k7S/ahReX8QzaEETLVP1C3m3fhP+rdpmro0zavhPx9us39B0yr/EUcU3YxQcqLYQoKGypctoiY6yDnNddCFc1c8zRPu2uBSDVVasfp+nkj0/J2S7vnC64JNPFxPSgpikaHi1W7LJXgZ/biZWRLpets5P1g6iCdqXuSG6ZPPSCgxd7LTG0/GMpnn+tB8V2HjQJXqAZ1iHcf0I4BhQmzCaB37as0QKb0dPk0pdT5wUs8+oyL+B+2XqX6nNnn1QtbM9NO+QiTYYvT0YpztUIa84NO4YpvhJOBKAM5KSIORBcNjFG+Wiv+Ps+eusUuHTvY6dDaUZdSwi5HXj34GHy2QWdEs/qwnXySzL4oQNQ19Rnt98BrUC3KkaKWu06xnDSRhM6L2FsmCtOhwF1Z77dySENIk/eVkIaen2qPQDUNIOMh0XIqVc+ymU0i5yktoOYeIoBJAjgg9tY0s7Dqqag5fs5BsLOKAdtJyg9wvI9fQJX7iNRD1QQbsUWRPZnD4uJbXdHzLcg0rSVez0D90W8liew=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376002)(396003)(136003)(366004)(346002)(39860400002)(230922051799003)(186009)(451199024)(64100799003)(1800799009)(83380400001)(478600001)(6486002)(2616005)(6666004)(26005)(38100700002)(31696002)(44832011)(66946007)(66556008)(54906003)(66476007)(4326008)(316002)(8676002)(36756003)(8936002)(41300700001)(4001150100001)(2906002)(5660300002)(31686004)(86362001)(53546011)(7416002)(110136005)(6506007)(921008)(6512007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MFpBM0xTUHgrU0VqcTh2ZkFTcjhia3paNklMR2JKd2FHaVYvSWRHd3RHdCtJ?=
+ =?utf-8?B?Q0JFdDRFbjRoQVZqc0NSK2E3bHBZeE9Xb09Zc1FLNGtyNkt3ckZtcGhtU2hR?=
+ =?utf-8?B?TzlydDF4REJuREpNYmhPSFBnZCtjbGN1UTg0VkErczZoc0JqdEJ0WTR0d3Qw?=
+ =?utf-8?B?TkN6RXBOK0srdWJNWmkvZ1dSMFZLcVJzYWxKUVdWSnNqQ01ZU3EvdTJYaU5m?=
+ =?utf-8?B?V3JuUlFNNmJCNUVQa2RPYXdHaTNzTWVKQzlXV0ZRNk8xVERLUUtQa0hUMVVB?=
+ =?utf-8?B?YXF3YVJlWWRobHh6TGJiU0FiQWJWWHlWcDg3cXFiQk9zL0lEd2VaajhUMlRR?=
+ =?utf-8?B?cFVwNkQyU0pmS3hGanUrMFVQS2dDamh0cVp4UjNBeGhsRUx0bVhzSk9FTU1N?=
+ =?utf-8?B?WllORHdSclJsOTBVVk4vVkRucWRHaXFrZ3VvMTY3bFlubDJxRG1HbWF5allL?=
+ =?utf-8?B?MGRjaHVLTWhFOUhtdUZ1WHJQcTVWaEowU0J3Sm5oUlllY3Y0ZHJDRHZXcGpT?=
+ =?utf-8?B?dkxISzkxRWs4bkxCZ1d4MUk3V0FSS1pCNVVNdW9MSXVwL3puN1NCR0JzVi9G?=
+ =?utf-8?B?VHMrZEN4Unk2ekdhbVZkOWxwd0ZBYzNxSU5Sd3JGdkpPclV1TVBUbjdHY1c5?=
+ =?utf-8?B?czR6UWJndGIrcWcwSitJejhENm5RWHJvVnZJNlNuTXV2TktNOUlXMCtPaUt5?=
+ =?utf-8?B?QlZCMkF3aG1YbkZsMllyTjQ1N21zdjh5S25ueVUzUmdoNUhpL3ppNmRQSG5k?=
+ =?utf-8?B?V0N1MXU3b3NBcVpjYjV6VUhoemRkL0ZiaEJRSDVUMi9XcUw1RElrTzJBTnZK?=
+ =?utf-8?B?R0hxbko4MVMxUStUOEFwU3VqcGI1cmlJazNJem14c1d3VDdPeDljK0ZKUWtm?=
+ =?utf-8?B?azJVMTBhQ1NvTFZwUXo2UmwyVFRTdElvM1oyajg4YlVKNUxodFlxN2YvNis4?=
+ =?utf-8?B?bllIUE41WFd0YWNjUmQ3NjRvemVWZGl4d2xmY0VpVUFIVXlsN0RPSGN5YnpD?=
+ =?utf-8?B?aVIraTFLNFlIcGdxcDVEYWp0ajNKOVNzWWp0Rm9VbFVoMGdnSzl0dXM3SmJr?=
+ =?utf-8?B?MDN5R0tJY25pUGVQYTNIL0c0QnpXMlM0bGZ6MEYrd2ZIS0dGVWpHUk1RZzh0?=
+ =?utf-8?B?Q0pNcDlHbEtucmtDMFVOdUFwODlVdXQzR1pBRDRNcUFRWWdQQlBxcXBaTGFV?=
+ =?utf-8?B?THBtdWgzM1dXSGx6Ykhrc3lWZG1mVmkxQzRnVzZEVHdmcVUxVXkyOC9oSW8v?=
+ =?utf-8?B?ME1QRGlJUnZEamRrY1BFYmdQaWxNaWk1SS9ZN3BnMzExS2lOV3d6NzNxaUtq?=
+ =?utf-8?B?VWZYMHF2SGRwMGxaanRxRzljakpvUVpmS3YzL21QV25WKzFoTEl1MzRlN0tY?=
+ =?utf-8?B?cXcvVmpxbFdKWkphSXJ2L1lNMXYvMkZqbjZxd0pPcHUyREM2OFkvOFB6M0Uw?=
+ =?utf-8?B?MjhOeDFMMElTZlIzRno2Mk1mSHVJZGRadEZDOTVLK01UanU1TVRURHdCYjFr?=
+ =?utf-8?B?S2llZ2NNeVJOdkxXNitvclNBM3ZMTGR4dnViTloyRTc5MTJSUUppdU1YRHQ5?=
+ =?utf-8?B?MmRyZTNSYUtCQ29YWTBOd3NkTEhDTnN4STkyUWplQXZvNVVNVlpLY2RvT1lG?=
+ =?utf-8?B?eDZiankyY1d2VS94R1RRNzhnT01YYTdCOGRHWCtLT2t3eThYdWc4cHFLVDFq?=
+ =?utf-8?B?eWJ4S3JCcjZ6czhXb1o5MmlnU0x2elpHU0FOZTRyZXc0Vzd5SlpGYjRZMUV4?=
+ =?utf-8?B?VklkUGtmc29URjR3dmI5RGdRWHNJcVhiU2pQdEpTeS96OUlKZmM3WDBqQzJj?=
+ =?utf-8?B?aGRDK2VJcWIyWWorcHA2MDRYUzZZS0tqTUoyazRSMUJnTHQ5aVF5eWRxeTBk?=
+ =?utf-8?B?N1dDUm9wNXc0L1cvS1JkUnMxSFpPQlZtWlFtcDNhUmY0VHV3WFYwZDhzak8y?=
+ =?utf-8?B?VThQWE9mNHZVT0hCYXhpdnpTbmwvQ0xJb3JvRXZENDFvbXhPQTB4TDdJaWp5?=
+ =?utf-8?B?WElZQ0VjLy9QMUh2enJFRVBVblpRYVZYYzFkN04yQmVRNFBvQnlhcUVuT2d5?=
+ =?utf-8?B?OWxYNGhqT3VDUUJxMllzMkFaZlpGT05SZGQ2aVIrSFFPUi9WMS9hQlkxQlB2?=
+ =?utf-8?Q?ZUvwcSw/SBTQH0NnBxoQDG9uB?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3019f44-fee0-492c-78c4-08dbe7a16ea0
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2023 19:14:33.8269 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1jbd1MYAVycghKI6jaQXehhHGmoWomgM3/XJvLOwwRH9ehCetVUgZwO21JSMzkZ5TnbixWF006K743K5L1Rz+w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8490
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,93 +129,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nirmoy Das <nirmoy.das@intel.com>,
- Karolina Stolarek <karolina.stolarek@intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, oe-kbuild-all@lists.linux.dev
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Shashank Sharma <Shashank.Sharma@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>, kernel-dev@igalia.com,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Joshua Ashton <joshua@froggi.es>, sungjoon.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Karolina,
+On 2023-11-16 14:57, Melissa Wen wrote:
+> Add 3D LUT property for plane color transformations using a 3D lookup
+> table. 3D LUT allows for highly accurate and complex color
+> transformations and is suitable to adjust the balance between color
+> channels. It's also more complex to manage and require more
+> computational resources.
+> 
+> Since a 3D LUT has a limited number of entries in each dimension we want
+> to use them in an optimal fashion. This means using the 3D LUT in a
+> colorspace that is optimized for human vision, such as sRGB, PQ, or
+> another non-linear space. Therefore, userpace may need one 1D LUT
+> (shaper) before it to delinearize content and another 1D LUT after 3D
+> LUT (blend) to linearize content again for blending. The next patches
+> add these 1D LUTs to the plane color mgmt pipeline.
+> 
+> v3:
+> - improve commit message about 3D LUT
+> - describe the 3D LUT entries and size (Harry)
+> 
+> v4:
+> - advertise 3D LUT max size as the size of a single-dimension
+> 
+> v5:
+> - get lut3d blob correctly (Joshua)
+> - fix doc about 3d-lut dimension size (Sebastian)
+> 
+> Signed-off-by: Melissa Wen <mwen@igalia.com>
 
-kernel test robot noticed the following build warnings:
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7-rc1 next-20231117]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+We'll run this series through our testing. If that doesn't show
+problems and if I don't see any new comments on the series I'm
+planning to merge it through amd-staging-drm-next.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Karolina-Stolarek/drm-ttm-tests-Add-tests-for-ttm_resource-and-ttm_sys_man/20231117-165755
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/fe0d1ba291b12e7b4671bee8b95812ac30a469df.1700207346.git.karolina.stolarek%40intel.com
-patch subject: [PATCH v7 6/8] drm/ttm/tests: Test simple BO creation and validation
-config: x86_64-randconfig-122-20231117 (https://download.01.org/0day-ci/archive/20231118/202311180247.4A61HKYG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311180247.4A61HKYG-lkp@intel.com/reproduce)
+Harry
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311180247.4A61HKYG-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c:98:9: sparse: sparse: cast removes address space '__rcu' of expression
->> drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c:98:9: sparse: sparse: cast removes address space '__rcu' of expression
-
-vim +/__rcu +98 drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-
-    59	
-    60	KUNIT_ARRAY_PARAM(ttm_bo_types, ttm_bo_type_cases,
-    61			  ttm_bo_validate_case_desc);
-    62	
-    63	static void ttm_bo_init_reserved_sys_man(struct kunit *test)
-    64	{
-    65		const struct ttm_bo_validate_test_case *params = test->param_value;
-    66		struct ttm_test_devices *priv = test->priv;
-    67		struct ttm_buffer_object *bo;
-    68		struct ttm_place *place;
-    69		struct ttm_placement *placement;
-    70		enum ttm_bo_type bo_type = params->bo_type;
-    71		struct ttm_operation_ctx ctx = { };
-    72		uint32_t size = ALIGN(BO_SIZE, PAGE_SIZE);
-    73		int err;
-    74	
-    75		bo = kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
-    76		KUNIT_ASSERT_NOT_NULL(test, bo);
-    77	
-    78		place = ttm_place_kunit_init(test, TTM_PL_SYSTEM, 0);
-    79		placement = ttm_placement_kunit_init(test, place, 1, NULL, 0);
-    80	
-    81		drm_gem_private_object_init(priv->drm, &bo->base, size);
-    82	
-    83		err = ttm_bo_init_reserved(priv->ttm_dev, bo, bo_type, placement,
-    84					   PAGE_SIZE, &ctx, NULL, NULL,
-    85					   &dummy_ttm_bo_destroy);
-    86		dma_resv_unlock(bo->base.resv);
-    87	
-    88		KUNIT_EXPECT_EQ(test, err, 0);
-    89		KUNIT_EXPECT_EQ(test, kref_read(&bo->kref), 1);
-    90		KUNIT_EXPECT_PTR_EQ(test, bo->bdev, priv->ttm_dev);
-    91		KUNIT_EXPECT_EQ(test, bo->type, bo_type);
-    92		KUNIT_EXPECT_EQ(test, bo->page_alignment, PAGE_SIZE);
-    93		KUNIT_EXPECT_PTR_EQ(test, bo->destroy, &dummy_ttm_bo_destroy);
-    94		KUNIT_EXPECT_EQ(test, bo->pin_count, 0);
-    95		KUNIT_EXPECT_NULL(test, bo->bulk_move);
-    96		KUNIT_EXPECT_NOT_NULL(test, bo->ttm);
-    97		KUNIT_EXPECT_FALSE(test, ttm_tt_is_populated(bo->ttm));
-  > 98		KUNIT_EXPECT_NOT_NULL(test, (void *)bo->base.resv->fences);
-    99		KUNIT_EXPECT_EQ(test, ctx.bytes_moved, size);
-   100	
-   101		if (bo_type != ttm_bo_type_kernel)
-   102			KUNIT_EXPECT_TRUE(test,
-   103					  drm_mm_node_allocated(&bo->base.vma_node.vm_node));
-   104	
-   105		ttm_resource_free(bo, &bo->resource);
-   106		ttm_bo_put(bo);
-   107	}
-   108	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      | 18 ++++++++++++++
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  9 +++++++
+>   .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 14 +++++++++++
+>   .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 24 +++++++++++++++++++
+>   4 files changed, 65 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> index ee67c5adf0f1..57822477408f 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+> @@ -364,6 +364,24 @@ struct amdgpu_mode_info {
+>   	 * @plane_hdr_mult_property:
+>   	 */
+>   	struct drm_property *plane_hdr_mult_property;
+> +	/**
+> +	 * @plane_lut3d_property: Plane property for color transformation using
+> +	 * a 3D LUT (pre-blending), a three-dimensional array where each
+> +	 * element is an RGB triplet. Each dimension has the size of
+> +	 * lut3d_size. The array contains samples from the approximated
+> +	 * function. On AMD, values between samples are estimated by
+> +	 * tetrahedral interpolation. The array is accessed with three indices,
+> +	 * one for each input dimension (color channel), blue being the
+> +	 * outermost dimension, red the innermost.
+> +	 */
+> +	struct drm_property *plane_lut3d_property;
+> +	/**
+> +	 * @plane_degamma_lut_size_property: Plane property to define the max
+> +	 * size of 3D LUT as supported by the driver (read-only). The max size
+> +	 * is the max size of one dimension and, therefore, the max number of
+> +	 * entries for 3D LUT array is the 3D LUT size cubed;
+> +	 */
+> +	struct drm_property *plane_lut3d_size_property;
+>   };
+>   
+>   #define AMDGPU_MAX_BL_LEVEL 0xFF
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> index 38163b7084fa..03b48b331b7c 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> @@ -776,6 +776,11 @@ struct dm_plane_state {
+>   	 * TF is needed for any subsequent linear-to-non-linear transforms.
+>   	 */
+>   	__u64 hdr_mult;
+> +	/**
+> +	 * @lut3d: 3D lookup table blob. The blob (if not NULL) is an array of
+> +	 * &struct drm_color_lut.
+> +	 */
+> +	struct drm_property_blob *lut3d;
+>   };
+>   
+>   struct dm_crtc_state {
+> @@ -861,6 +866,10 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+>   
+>   void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
+>   
+> +/* 3D LUT max size is 17x17x17 (4913 entries) */
+> +#define MAX_COLOR_3DLUT_SIZE 17
+> +#define MAX_COLOR_3DLUT_BITDEPTH 12
+> +/* 1D LUT size */
+>   #define MAX_COLOR_LUT_ENTRIES 4096
+>   /* Legacy gamm LUT users such as X doesn't like large LUT sizes */
+>   #define MAX_COLOR_LEGACY_LUT_ENTRIES 256
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> index b5b34a9209e4..a3b4f6a4c4a8 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> @@ -231,6 +231,20 @@ amdgpu_dm_create_color_properties(struct amdgpu_device *adev)
+>   		return -ENOMEM;
+>   	adev->mode_info.plane_hdr_mult_property = prop;
+>   
+> +	prop = drm_property_create(adev_to_drm(adev),
+> +				   DRM_MODE_PROP_BLOB,
+> +				   "AMD_PLANE_LUT3D", 0);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +	adev->mode_info.plane_lut3d_property = prop;
+> +
+> +	prop = drm_property_create_range(adev_to_drm(adev),
+> +					 DRM_MODE_PROP_IMMUTABLE,
+> +					 "AMD_PLANE_LUT3D_SIZE", 0, UINT_MAX);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +	adev->mode_info.plane_lut3d_size_property = prop;
+> +
+>   	return 0;
+>   }
+>   #endif
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> index 45a2c9b36630..e588cff7d6b0 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> @@ -1364,6 +1364,9 @@ static struct drm_plane_state *amdgpu_dm_plane_drm_plane_duplicate_state(struct
+>   	if (old_dm_plane_state->degamma_lut)
+>   		dm_plane_state->degamma_lut =
+>   			drm_property_blob_get(old_dm_plane_state->degamma_lut);
+> +	if (old_dm_plane_state->lut3d)
+> +		dm_plane_state->lut3d =
+> +			drm_property_blob_get(old_dm_plane_state->lut3d);
+>   
+>   	dm_plane_state->degamma_tf = old_dm_plane_state->degamma_tf;
+>   	dm_plane_state->hdr_mult = old_dm_plane_state->hdr_mult;
+> @@ -1437,6 +1440,8 @@ static void amdgpu_dm_plane_drm_plane_destroy_state(struct drm_plane *plane,
+>   
+>   	if (dm_plane_state->degamma_lut)
+>   		drm_property_blob_put(dm_plane_state->degamma_lut);
+> +	if (dm_plane_state->lut3d)
+> +		drm_property_blob_put(dm_plane_state->lut3d);
+>   
+>   	if (dm_plane_state->dc_state)
+>   		dc_plane_state_release(dm_plane_state->dc_state);
+> @@ -1470,6 +1475,14 @@ dm_atomic_plane_attach_color_mgmt_properties(struct amdgpu_display_manager *dm,
+>   	drm_object_attach_property(&plane->base,
+>   				   dm->adev->mode_info.plane_hdr_mult_property,
+>   				   AMDGPU_HDR_MULT_DEFAULT);
+> +
+> +	if (dpp_color_caps.hw_3d_lut) {
+> +		drm_object_attach_property(&plane->base,
+> +					   mode_info.plane_lut3d_property, 0);
+> +		drm_object_attach_property(&plane->base,
+> +					   mode_info.plane_lut3d_size_property,
+> +					   MAX_COLOR_3DLUT_SIZE);
+> +	}
+>   }
+>   
+>   static int
+> @@ -1501,6 +1514,14 @@ dm_atomic_plane_set_property(struct drm_plane *plane,
+>   			dm_plane_state->hdr_mult = val;
+>   			dm_plane_state->base.color_mgmt_changed = 1;
+>   		}
+> +	} else if (property == adev->mode_info.plane_lut3d_property) {
+> +		ret = drm_property_replace_blob_from_id(plane->dev,
+> +							&dm_plane_state->lut3d,
+> +							val, -1,
+> +							sizeof(struct drm_color_lut),
+> +							&replaced);
+> +		dm_plane_state->base.color_mgmt_changed |= replaced;
+> +		return ret;
+>   	} else {
+>   		drm_dbg_atomic(plane->dev,
+>   			       "[PLANE:%d:%s] unknown property [PROP:%d:%s]]\n",
+> @@ -1528,6 +1549,9 @@ dm_atomic_plane_get_property(struct drm_plane *plane,
+>   		*val = dm_plane_state->degamma_tf;
+>   	} else if (property == adev->mode_info.plane_hdr_mult_property) {
+>   		*val = dm_plane_state->hdr_mult;
+> +	} else 	if (property == adev->mode_info.plane_lut3d_property) {
+> +		*val = (dm_plane_state->lut3d) ?
+> +			dm_plane_state->lut3d->base.id : 0;
+>   	} else {
+>   		return -EINVAL;
+>   	}
