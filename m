@@ -1,84 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 058897EEB64
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 04:22:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E30D77EEB65
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 04:25:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FF1810E718;
-	Fri, 17 Nov 2023 03:22:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DC2B10E719;
+	Fri, 17 Nov 2023 03:25:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com
- [IPv6:2607:f8b0:4864:20::834])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E0BD10E718
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 03:22:23 +0000 (UTC)
-Received: by mail-qt1-x834.google.com with SMTP id
- d75a77b69052e-41e58a33ec9so8858581cf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 19:22:23 -0800 (PST)
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACBE310E719
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 03:25:07 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ 98e67ed59e1d1-27ddc1b1652so1250147a91.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Nov 2023 19:25:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700191342; x=1700796142; darn=lists.freedesktop.org;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=iiVbmahWDLnqUiWj4pYz3vhmV7NQIvNj/KInllVNKzs=;
- b=HdAmWLP8v8595t/SdipT7x/CtV5mLGXF5VCccw9AAwvVXG7qSo5F93rsdLh7cygIt9
- 7XnGiBnS/XGFkh0CnzzGgY5xf2HpwDEy7wS5c6Nr/Htb+z11223p3lxPJUUuM47CwFUH
- sWunJOgd7opfifM80XkbDrSSE3S9KW71yrWYX654wuphlK/9AteiBvz6mTyrv97dN6Gm
- xvc0BdQgbPQYX/OS63Q0Gm7raM0gsvayDoJLaP9twBkJrAxM4M17sgnPWHJX761bU6Ki
- kEgGvnNOReGXV00FoRbfGLAUfzIfvqVQGwmYWtyDVlva3LuE0Vd3KZBTjMGywkpHRJgK
- 6n4A==
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1700191507; x=1700796307; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=lWUBbXEC+MgyXJRRkGeNSIspYkMNL5y7cUNz4Wj7NSQ=;
+ b=PYDvA2rme+PsppjCAiZzU38XJJ3wQTcbTG1s7Be+rhn+MD4GRihzn892s2AQMFMSQc
+ fEzUJrNVdrHgXRrVEIlkTQG2WffIpTniXtEoMJy7PWJlpWSjxfX13aHE2qXNA8a2jVgJ
+ J2meGtwMksBp+7i2Wiij5v9qy+6Z5Cm05xqNA3WPHpfPnKQIcpmPqWfmpssoPIqr8eZu
+ vHesrpww+/1JIWqsx8x6SJT8JjEM1FPjJ6O0JWSCBKTvZsgXSvX6b6tpeVUv6NNN/rw8
+ F0tEASDVXGUyRIxzXQy17WkHpspr5pYDU90xPOAtc+p+aDy+A7TFIBHfpAgWCL+8SqAk
+ fv6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700191342; x=1700796142;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=iiVbmahWDLnqUiWj4pYz3vhmV7NQIvNj/KInllVNKzs=;
- b=WXpel4LKe7zSSeLTSyBNcCU+vkxnWStTMbJ7fX/i3cjyL5bb0TTHuuwpvV/2J6ymKT
- KvNO4GF1e4XfezPkCTerRo5D1hhIG4hz35+R0mYRfxMwmluiJGWch0XQb+JbpufIEGWx
- xBMOb2vThstFxfYyYNu5pDqNkNopiBrvIaFo7kzFaBREXmi1DhlZkrEY1UVAI011vaM7
- j4XBT+eMuvHDN3TVmXcS6mCM0Cb9eE2aE8we/B4PJqvmRljXzzN8LHPZCHqeozqxnRYy
- 9FeBMxoWVHHgzZ5/ujhrOxQoz1vuf4/9Qjm6vI+Mwb5ZcuON2Bb+N7/ll3J//QI/N2jW
- eJLw==
-X-Gm-Message-State: AOJu0YzMbicwyzgvwD+3agQEpIVF3JasM7DJQG4nL/k1oVahipdRC2Ra
- wu3Y8DsoidfdGWYoQedfgOY=
-X-Google-Smtp-Source: AGHT+IEl7nJWkJzFVBGSHyQJZIV+x/RGkyQiSTXFCaDlMvxjuDZDNu4+ZaV4no8mOI5MtEZd9cIJGQ==
-X-Received: by 2002:a05:622a:1ba2:b0:418:1059:dfb9 with SMTP id
- bp34-20020a05622a1ba200b004181059dfb9mr11638834qtb.1.1700191342352; 
- Thu, 16 Nov 2023 19:22:22 -0800 (PST)
-Received: from [192.168.2.14] ([76.65.20.140])
+ d=1e100.net; s=20230601; t=1700191507; x=1700796307;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lWUBbXEC+MgyXJRRkGeNSIspYkMNL5y7cUNz4Wj7NSQ=;
+ b=GrNi1JParnFAkgmlbTZfCczWzyPxmTOLAAHD7Fe843AFku/yJRfkV/0Nzr0rAipXTz
+ 4d7rcVXcgwWexRVdgl8i7k9BaZgOVVsuCFg2UHttsIP9H7mDWOSku4sRI9b1otKJgR5I
+ V0Qff/Tk+os7HMM2so1xPTeDdFWFXTSCq9zj1K8oxYXFqmeMaG1iPlm+kGx9izqgCdak
+ BzSkiUamBx0wOvJx309URd0WZGeqpao+CSRcZsDcKP1Xz5JTQd6kxP52bQRxSbQ+9dBC
+ lBPMhDuJrbG6/muaWMOzKig92lZh7836YS4kzJBSUHap9cZ9ybrOS6qv7PJEmgLCPQba
+ jv7A==
+X-Gm-Message-State: AOJu0YwvJTdpZ94Qy9UMdL9xacfr19JV+6F/v5zZu3GzEQznGDjEkrj6
+ RM2k5l8KvT1uHeDOsoZylwdIbg==
+X-Google-Smtp-Source: AGHT+IE6OWI/jwL5fAJpf23gN7aUq72uxewInPxjPSZWqBYQZCwX8g6+5NggP1C/lPistUSPEAB/pw==
+X-Received: by 2002:a17:90b:1d88:b0:27d:3f0c:f087 with SMTP id
+ pf8-20020a17090b1d8800b0027d3f0cf087mr18291129pjb.25.1700191507128; 
+ Thu, 16 Nov 2023 19:25:07 -0800 (PST)
+Received: from yc.huaqin.com ([101.78.151.210])
  by smtp.gmail.com with ESMTPSA id
- m6-20020ac86886000000b0041969bc2e4csm289373qtq.32.2023.11.16.19.22.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Nov 2023 19:22:21 -0800 (PST)
-Message-ID: <adc9ed22-6c3b-4d56-89b4-16258b16e963@gmail.com>
-Date: Thu, 16 Nov 2023 22:22:13 -0500
+ 20-20020a170902ee5400b001c724732058sm383950plo.235.2023.11.16.19.25.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Nov 2023 19:25:06 -0800 (PST)
+From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
+ dianders@google.com, hsinyi@google.com, airlied@gmail.com,
+ zhouruihai@huaqin.com
+Subject: [PATCH V2] drm/panel: boe-tv101wum-nl6: Fine tune Himax83102-j02
+ panel HFP and HBP
+Date: Fri, 17 Nov 2023 11:25:00 +0800
+Message-Id: <20231117032500.2923624-1-yangcong5@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
- Thunderbird/115.4.3
-Subject: Re: [PATCH] drm/sched: Define pr_fmt() for DRM using pr_*()
-Content-Language: en-CA, en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>, Danilo Krummrich <dakr@redhat.com>
-References: <20231110002659.113208-2-ltuikov89@gmail.com>
- <878r75wzm9.fsf@intel.com> <35c03405-4163-45de-b67e-77de08ed2d2a@gmail.com>
- <87h6losf0p.fsf@intel.com> <fcec4d24-41d6-4897-bc2a-9ea7d3b4afd5@gmail.com>
- <871qcrs9u2.fsf@intel.com>
-From: Luben Tuikov <ltuikov89@gmail.com>
-Autocrypt: addr=ltuikov89@gmail.com; keydata=
- xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
- Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
- eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
- AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
- JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
- cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
- 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
- aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
-In-Reply-To: <871qcrs9u2.fsf@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------U0IRTPeU78xTisBW62M0fbx0"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,103 +74,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: devicetree@vger.kernel.org,
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------U0IRTPeU78xTisBW62M0fbx0
-Content-Type: multipart/mixed; boundary="------------ryjh7f17DSsksuvfqsdtlp28";
- protected-headers="v1"
-From: Luben Tuikov <ltuikov89@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>, Danilo Krummrich <dakr@redhat.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Message-ID: <adc9ed22-6c3b-4d56-89b4-16258b16e963@gmail.com>
-Subject: Re: [PATCH] drm/sched: Define pr_fmt() for DRM using pr_*()
-References: <20231110002659.113208-2-ltuikov89@gmail.com>
- <878r75wzm9.fsf@intel.com> <35c03405-4163-45de-b67e-77de08ed2d2a@gmail.com>
- <87h6losf0p.fsf@intel.com> <fcec4d24-41d6-4897-bc2a-9ea7d3b4afd5@gmail.com>
- <871qcrs9u2.fsf@intel.com>
-In-Reply-To: <871qcrs9u2.fsf@intel.com>
+The refresh reported by modetest is 60.46Hz, and the actual measurement
+is 60.01Hz, which is outside the expected tolerance. Adjust hporch and
+pixel clock to fix it. After repair, modetest and actual measurement were
+all 60.01Hz.
 
---------------ryjh7f17DSsksuvfqsdtlp28
-Content-Type: multipart/mixed; boundary="------------qwtlEO6ufP0LyyhcL280Sin9"
+Modetest refresh = Pixel CLK/ htotal* vtotal, but measurement frame rate
+is HS->LP cycle time(Vblanking). Measured frame rate is not only affected
+by Htotal/Vtotal/pixel clock, also affecte by Lane-num/PixelBit/LineTime
+/DSI CLK. If you use a different SOC platform mipi controller, you may
+need to readjust these parameters. Now this panel looks like it's only used
+by me on the MTK platform, so let's change this set of parameters.
 
---------------qwtlEO6ufP0LyyhcL280Sin9
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Fixes: 1bc2ef065f13 ("drm/panel: Support for Starry-himax83102-j02 TDDI MIPI-DSI panel")
+Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+---
+Chage since V1:
 
-On 2023-11-15 03:24, Jani Nikula wrote:
-> On Tue, 14 Nov 2023, Luben Tuikov <ltuikov89@gmail.com> wrote:
->> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
->> index a93a387f8a1a15..ce784118e4f762 100644
->> --- a/include/drm/drm_print.h
->> +++ b/include/drm/drm_print.h
->> @@ -453,7 +453,7 @@ void __drm_dev_dbg(struct _ddebug *desc, const str=
-uct device *dev,
->> =20
->>  /* Helper for struct drm_device based logging. */
->>  #define __drm_printk(drm, level, type, fmt, ...)                     =
-  \
->> -       dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
->> +       dev_##level##type(drm ? (drm)->dev : NULL, "[drm] " fmt, ##__V=
-A_ARGS__)
->=20
-> I think that would be an improvement that stands on its own merits.
->=20
-> Please also wrap the first drm in parens (drm).
+- Update commit message.
 
-Okay.
+V1: https://lore.kernel.org/all/20231110094553.2361842-1-yangcong5@huaqin.corp-partner.google.com
+---
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
->=20
->> The output would be similar to that if drm->dev were NULL.
->=20
-> Yes. I don't know how people will feel about intentionally using
-> drm_err(NULL, ...) all over the place, but that's another matter. ;)
+diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+index 4f370bc6dca8..5f7e7dee8a82 100644
+--- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
++++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+@@ -1768,11 +1768,11 @@ static const struct panel_desc starry_qfh032011_53g_desc = {
+ };
+ 
+ static const struct drm_display_mode starry_himax83102_j02_default_mode = {
+-	.clock = 161600,
++	.clock = 162850,
+ 	.hdisplay = 1200,
+-	.hsync_start = 1200 + 40,
+-	.hsync_end = 1200 + 40 + 20,
+-	.htotal = 1200 + 40 + 20 + 40,
++	.hsync_start = 1200 + 50,
++	.hsync_end = 1200 + 50 + 20,
++	.htotal = 1200 + 50 + 20 + 50,
+ 	.vdisplay = 1920,
+ 	.vsync_start = 1920 + 116,
+ 	.vsync_end = 1920 + 116 + 8,
+-- 
+2.25.1
 
-:-)
-
---=20
-Regards,
-Luben
-
---------------qwtlEO6ufP0LyyhcL280Sin9
-Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
-PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
-QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
-BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
-MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
-bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
-9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
-OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
-z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
-=3DqCaZ
------END PGP PUBLIC KEY BLOCK-----
-
---------------qwtlEO6ufP0LyyhcL280Sin9--
-
---------------ryjh7f17DSsksuvfqsdtlp28--
-
---------------U0IRTPeU78xTisBW62M0fbx0
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZVbcZQUDAAAAAAAKCRBMFUeUMaM0r+Tf
-AP9FgfO13iqFbboyPGqzgka4cDmzh9mHMWmS340hOsRQiAEA0+UmguzPhkaR2USYJPXuIGV6AunR
-ZOYtr2xHy2OAZgw=
-=vG9e
------END PGP SIGNATURE-----
-
---------------U0IRTPeU78xTisBW62M0fbx0--
