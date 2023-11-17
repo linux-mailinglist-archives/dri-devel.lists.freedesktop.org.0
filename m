@@ -1,58 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E62C7EF0E0
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 11:44:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC10E7EF0E3
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 11:46:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8240610E742;
-	Fri, 17 Nov 2023 10:44:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2858D10E744;
+	Fri, 17 Nov 2023 10:46:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
- [IPv6:2001:4860:4864:20::32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8FA210E742
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 10:44:46 +0000 (UTC)
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-1e99b05c8f4so192334fac.0
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 02:44:46 -0800 (PST)
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5A5510E744
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 10:45:59 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ 5b1f17b1804b1-408363c2918so2173545e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 02:45:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1700217886; x=1700822686; darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=nGWhpvEe+yw2xaw+AfrLaZq0v0m8nxdrO9p+O1/cciY=;
- b=a7dpOM04QUnxpkK/c9i3bcZaQMfqQQWBj3fYYVnijnCnhZnA/PQPqn0LQcOgJuju+6
- CQMzKcuPaVL5figMi1jA1YqMw42we8r1T3S7PKFe9UAu464tPjgdm/x+NPRf/aacm5ZL
- w3HsszPFEfz48zcxuAd5Zt8635t4kwYb+hcqQ=
+ d=ffwll.ch; s=google; t=1700217958; x=1700822758; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=qOlmuv/C4FNc+RsVQ+rQHs7D/XTaZYmhBhF6Gjjo5mU=;
+ b=hAXZqyOqTqivYYpIDcBt7vrkCe0D6TAoMvXHH7rFiKoB9aXE2Tmjoxl6vOkOXEYdX0
+ WpTTT+TWwAFG7KIA9ed1HfHLXac9iUbLtK4BoWLWEq5+TwnzBZB38CUpJy84wairkNm2
+ Nlzsy4Y98ZT/D2NWfC1Vg2pzOS5dnDF8cfOcE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700217886; x=1700822686;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=nGWhpvEe+yw2xaw+AfrLaZq0v0m8nxdrO9p+O1/cciY=;
- b=lJNNuzGppgI5dBcYzfEk11PSJgIPM/vQbKb+DJvzjzMKNw+0nbgM0yLMD7YixOU31O
- Kch7m3mtUJqdIPTq0/F0oNPi1/6Xc3g4A1NragYPORHtN48PAtFunPj9CUuEmk2YkqF0
- PtBp9CRBDB9HRRVGoWypnaiR3nEzOJTLgCXmZHw1kNZRRl/33OdSE4gcozyjMgiF+F1G
- VIgDYxe5ItIjzfwzdNVjN6SUC5QcwN5aunhgIi2geN32ECZT6yCC3hZjI2kDeSwZSj2N
- SQbrdtGY6D3nFRzqOiZ3VQxut6nV1VSJlz2IUwafTzstet59h5O0es35GW834Fkxw7Kt
- PXeQ==
-X-Gm-Message-State: AOJu0YwvNnaZ5bpPV6/ZIX7U79Xk+guBoybQTuwabi2aaBDSqfRCEzDt
- Ptz4jY3/DD85238CI806veDrQypj/GYz033Ss+W6Lg==
-X-Google-Smtp-Source: AGHT+IH6d8pugRzCyCPpgsD/p3S0ErPfdXLzHU0/BD0Ge8OqcLZ+VCXqpt8W7BHkvzmvNVD+wx/r1Kj0tXeX1vl1m0k=
-X-Received: by 2002:a05:6870:7e04:b0:1ea:972:d2b6 with SMTP id
- wx4-20020a0568707e0400b001ea0972d2b6mr12410000oab.3.1700217886205; Fri, 17
- Nov 2023 02:44:46 -0800 (PST)
-MIME-Version: 1.0
-References: <20231009141018.11291-1-tzimmermann@suse.de>
- <skb2mpjs5hawsl4daczcunfplds65uj762vdpcvp3lurrldxdb@e65uaawi2kpu>
- <e445fb5d-0cdd-4ba0-aafd-1f025bcca30b@suse.de>
-In-Reply-To: <e445fb5d-0cdd-4ba0-aafd-1f025bcca30b@suse.de>
+ d=1e100.net; s=20230601; t=1700217958; x=1700822758;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qOlmuv/C4FNc+RsVQ+rQHs7D/XTaZYmhBhF6Gjjo5mU=;
+ b=pOPBei2sEo8han1k7zTXrhLd+gGHtGjtmlo645lLDjgLUO6FKubX5y3TCyzyGZ1l5E
+ faG7shmfBkFrXXq6zcCpsvNMWXAFvuQQzeTLqiGYNGke7RzfcdEn4X0WxUh6s/CobeU2
+ xX4UKahx+tPzKf4GNAvqbh/BtXByPQdxQFGSpG+vgNfrTdlFWY+Lv9y0tJVKLxbT5zk2
+ orSyN6I8xIJOJ1/q+E2p6bGvR/UXkEAdBb5J/L3qQKBHUA78wwZRGyyrkuLKyiuTEbQO
+ 46lUqjbYK5QULgvtH63dzOoOohO1sljCBJgg4Q4zYNBcx7ckauEkM0+NG7GATBH35ye6
+ 7jrA==
+X-Gm-Message-State: AOJu0YyYdkXCnAoRuO+SrMKXJnV6J7EjF2d6uq/zP37mlQlUU5FRvT9p
+ WBsCe/A68fsEdzd6IXWDUoHn3Hxrpuxg+qSeh8I=
+X-Google-Smtp-Source: AGHT+IFlSc+CKyiOyxKcBSxs2/OUpxikvqzT+G8JusZUT+QSp3lPKCPxgnLbvyc8NJtw6Qzg5IRmRw==
+X-Received: by 2002:a5d:47c5:0:b0:32f:acb1:ba92 with SMTP id
+ o5-20020a5d47c5000000b0032facb1ba92mr10582154wrc.5.1700217937581; 
+ Fri, 17 Nov 2023 02:45:37 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ b15-20020a056000054f00b0031980294e9fsm1898005wrf.116.2023.11.17.02.45.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Nov 2023 02:45:37 -0800 (PST)
+Date: Fri, 17 Nov 2023 11:45:34 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 17 Nov 2023 11:44:34 +0100
-Message-ID: <CAKMK7uGj2Z7dFsVL_iQu-pGJS16-j1na+tSE13qp104q5wxVMw@mail.gmail.com>
-Subject: Re: [PATCH v5 0/7] drm: Reuse temporary memory for format conversion
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [PULL] drm-misc-fixes
+Message-ID: <ZVdETuL1JOu0trL0@phenom.ffwll.local>
+References: <98fc82d3-8714-45e7-bd12-c95ba8c6c35f@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <98fc82d3-8714-45e7-bd12-c95ba8c6c35f@linux.intel.com>
+X-Operating-System: Linux phenom 6.5.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,93 +70,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jfalempe@redhat.com, javierm@redhat.com, dri-devel@lists.freedesktop.org,
- mairacanal@riseup.net, noralf@tronnes.org, Maxime Ripard <mripard@kernel.org>,
- jose.exposito89@gmail.com, arthurgrillo@riseup.net
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 17 Nov 2023 at 11:07, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Hi
->
-> Am 17.11.23 um 10:34 schrieb Maxime Ripard:
-> > On Mon, Oct 09, 2023 at 04:06:29PM +0200, Thomas Zimmermann wrote:
-> >> DRM's format-conversion helpers require temporary memory. Pass the
-> >> buffer from the caller to allow the caller to preallocate the buffer
-> >> memory.
-> >>
-> >> The motivation for this patchset is the recent work on a DRM panic
-> >> handler. [1] The panic handler requires format conversion to display an
-> >> error to the screen. But allocating memory during a kernel panic is
-> >> fragile. The changes in this patchset enable the DRM panic handler to
-> >> preallocate buffer storage before the panic occurs.
-> >>
-> >> Patch 1 adds struct drm_format_conv_state, a simple interface to pass
-> >> around the buffer storage. Patch 2 adds an instance of the struct to
-> >> the shadow-plane state. Patch 3 moves the buffer's memory management
-> >> from the format helpers into their callers within the DRM drivers. Most
-> >> of the affected drivers use the state instance stored in their shadow-
-> >> plane state. The shadow-plane code releases the buffer memory automatically.
-> >>
-> >> Patches 4 to 7 update three drivers to pre-allocate the format-conversion
-> >> buffer in their plane's atomic_check function. The drivers thus detect OOM
-> >> errors before the display update begins.
-> >>
-> >> Tested with simpledrm.
-> >
-> > So, I just discovered that you merged that series.
-> >
-> > You've complained before about "sneaking patches in", and while I was
-> > disagreeing with you then, this particular instance is definitely a
-> > strong case for it. You've merged it without telling anyone, and despite
-> > our ongoing conversation on the v4 that was active more recently than
-> > the v5. And that you never responded to.
-> >
-> > Awesome.
->
-> My apologies. From my point of view, that conversion had ended. I left
-> the patch set for a while to wait for further comments or questions, but
-> nothing happened. So I merged it.
->
-> Revert it if you cannot live with the changes. IIRC you found the
-> reduced number of alloc/free cycles to be irrelevant. But even then, the
-> patches allow us to move the allocation from atomic_update to
-> atomic_check, thus detecting allocation failures early. That's an
-> improvement to me.
+On Thu, Nov 16, 2023 at 02:48:52PM +0100, Maarten Lankhorst wrote:
+> Hi Dave, Daniel,
+> 
+> Small pull request, mostly nouveau fixes.
+> 
+> Cheers,
+> ~Maarten
+> 
+> Mostly drm-misc-fixes-2023-11-16:
+> Assorted fixes for v6.7-rc2:
+> - Nouveau GSP fixes.
+> - Fix nouveau driver load without display.
+> - Use rwlock for nouveau's event lock to break a lockdep splat.
+> - Add orientation quirk for Lenovo Legion Go.
+> - Fix build failure in IVPU.
+> The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
+> 
+>   Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
+> 
+> are available in the Git repository at:
+> 
+>   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-11-16
 
-Just a small comment on this, I didn't read up the full discussion:
+Pulled into drm-fixes, thanks!
+-Sima
 
-Yeah allocating memory in atomic_commit after the point of no return
-is no-go. Usually the best spot is the prepare_fb hooks since that
-avoids doing expensive allocations for TEST_ONLY commits, but since
-the allocation is fairly small it probably doesn't matter overall.
-Well the new-ish begin/end_fb_access helpers would be even better I
-guess for the atomic flow, but break the panic handler use-case I
-think.
-
-Oh and a bikeshed, _copy() feels a bit like a funny postfix for
-something that does a state duplication, everywhere else in atomic we
-put _duplicate into the name for these functions.
-
-Cheers, Sima
-
->
-> Best regards
-> Thomas
->
-> >
-> > Maxime
->
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
-
-
+> 
+> for you to fetch changes up to ae1aadb1eb8d3cbc52e42bee71d67bd4a71f9f07:
+> 
+>   nouveau: don't fail driver load if no display hw present. (2023-11-15
+> 18:23:31 +0100)
+> 
+> ----------------------------------------------------------------
+> Assorted fixes for v6.7-rc2:
+> - Nouveau GSP fixes.
+> - Fix nouveau driver load without display.
+> - Use rwlock for nouveau's event lock to break a lockdep splat.
+> - Add orientation quirk for Lenovo Legion Go.
+> - Fix build failure in IVPU.
+> 
+> ----------------------------------------------------------------
+> Arnd Bergmann (1):
+>       accel/ivpu: avoid build failure with CONFIG_PM=n
+> 
+> Brenton Simpson (1):
+>       drm: panel-orientation-quirks: Add quirk for Lenovo Legion Go
+> 
+> Dan Carpenter (2):
+>       nouveau/gsp/r535: uninitialized variable in r535_gsp_acpi_mux_id()
+>       nouveau/gsp/r535: Fix a NULL vs error pointer bug
+> 
+> Dave Airlie (2):
+>       nouveau: use an rwlock for the event lock.
+>       nouveau: don't fail driver load if no display hw present.
+> 
+>  drivers/accel/ivpu/ivpu_pm.c                      |  3 ---
+>  drivers/gpu/drm/drm_panel_orientation_quirks.c    |  6 ++++++
+>  drivers/gpu/drm/nouveau/include/nvkm/core/event.h |  4 ++--
+>  drivers/gpu/drm/nouveau/nouveau_display.c         |  5 +++++
+>  drivers/gpu/drm/nouveau/nvkm/core/event.c         | 12 ++++++------
+>  drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c    |  6 +++---
+>  6 files changed, 22 insertions(+), 14 deletions(-)
 
 -- 
 Daniel Vetter
