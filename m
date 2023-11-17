@@ -2,73 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF1147EF2EB
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 13:46:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9516B7EF157
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 12:04:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F1A610E2F1;
-	Fri, 17 Nov 2023 12:46:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69E7510E746;
+	Fri, 17 Nov 2023 11:04:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22CA410E737
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 10:04:10 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3AH9Qdc8009283; Fri, 17 Nov 2023 10:03:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=DhkJnR22Jop4i2vHDhl5q1CKNIHtvIzQcFATKsxapzk=;
- b=XbbngjzR/GasnWiBpR6iA3hOUNgMPDZYP01zZ6vS0JkAVWksrAqw3xXIGCYnNks0QYZz
- usWp74Boqxfy+MrHgkhAYyE8a+0CJxq6aCMu0w8lFgn+h0gKmAdtoIZvgSqLzT23znia
- og2YDc6zZ7AZPaQL66Duwv3b54AGaTTrLTd6xiX3YNk/3GIq6dPPunP6+iQ79m+AoyKd
- +YGKOTLr01d3Fa1FZHAhTRWhvr7Qb7nkZQz1ldgd+jrk1Rooo3uXSml95x501W694pCO
- vBv9EcqexhzkWtdGQwoMrOs0BLAcgfny0GgMGCZjF2CO4oiKlX2NjumabqKBi9bXsMYa VQ== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ue2na0g2t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Nov 2023 10:03:57 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AHA3uIm012999
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Nov 2023 10:03:56 GMT
-Received: from hu-jasksing-hyd.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.39; Fri, 17 Nov 2023 02:03:51 -0800
-From: Jaskaran Singh <quic_jasksing@quicinc.com>
-To: <sumit.semwal@linaro.org>, <benjamin.gaignard@collabora.com>,
- <Brian.Starkey@arm.com>, <jstultz@google.com>, <tjmercier@google.com>,
- <christian.koenig@amd.com>, <matthias.bgg@gmail.com>,
- <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v2] dma-buf: heaps: Introduce cma_heap_add() for non-default
- CMA heap
-Date: Fri, 17 Nov 2023 15:33:37 +0530
-Message-ID: <20231117100337.5215-1-quic_jasksing@quicinc.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19A3110E13C;
+ Fri, 17 Nov 2023 11:04:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1700219046; x=1731755046;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=Z9RsAm3o2jfovCTdjbIWszu7G+Fiy1WpwELkjJwU2+M=;
+ b=Yev+eit4CJM95ROqqPiZ53mZT3nXpKOERMdd3pcCvg9tDzPaXoR+XO/s
+ clSYdEQhcxcjjf2geUGtSa3rwOaS2FEBFAUkYgVj/FUhm9PHnyZxYI+WS
+ OSTa0a03N7SA9rMW/khi7cGfkMHnZKHn6DiXlKFx2lqLzXt+wISPp1c+o
+ Njh+e2SmJqDvOu5p7A4nIsZDZwiB27itnU/4gbVMZr201pJKI99+USduL
+ KLNHoOliSKXiQOdTlyp2QAjL+JYUSSwsynjVtTfqK8lCwnI2cwdI2NW67
+ l/fwjSzFG7AvNvGbFA8Zet0xlJh/kWHE/iTBn1/S5VEqToWqCvIF2/cOW w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="376328547"
+X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; d="scan'208";a="376328547"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2023 03:04:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="759144440"
+X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; d="scan'208";a="759144440"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga007.jf.intel.com with SMTP; 17 Nov 2023 03:04:03 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 17 Nov 2023 13:04:02 +0200
+Date: Fri, 17 Nov 2023 13:04:02 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Imre Deak <imre.deak@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 03/11] drm/dp_mst: Add kunit tests for
+ drm_dp_get_vc_payload_bw()
+Message-ID: <ZVdIoq7j83nBrD_c@intel.com>
+References: <20231116131841.1588781-1-imre.deak@intel.com>
+ <20231116131841.1588781-4-imre.deak@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 5Mjj9yaE5YbLk6qMKCFvI8mWREOm329-
-X-Proofpoint-ORIG-GUID: 5Mjj9yaE5YbLk6qMKCFvI8mWREOm329-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-17_07,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- priorityscore=1501 malwarescore=0 mlxscore=0 lowpriorityscore=0
- mlxlogscore=627 phishscore=0 suspectscore=0 clxscore=1011 adultscore=0
- impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2311060000 definitions=main-2311170074
-X-Mailman-Approved-At: Fri, 17 Nov 2023 12:46:25 +0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231116131841.1588781-4-imre.deak@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,124 +62,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_vjitta@quicinc.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
+On Thu, Nov 16, 2023 at 03:18:33PM +0200, Imre Deak wrote:
+> Add kunit test cases for drm_dp_get_vc_payload_bw() with all the DP1.4
+> and UHBR link configurations.
+> 
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
+> ---
+>  .../gpu/drm/tests/drm_dp_mst_helper_test.c    | 145 ++++++++++++++++++
+>  1 file changed, 145 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
+> index e3c818dfc0e6d..cafb463124f71 100644
+> --- a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
+> @@ -68,6 +68,150 @@ static void dp_mst_calc_pbn_mode_desc(const struct drm_dp_mst_calc_pbn_mode_test
+>  KUNIT_ARRAY_PARAM(drm_dp_mst_calc_pbn_mode, drm_dp_mst_calc_pbn_mode_cases,
+>  		  dp_mst_calc_pbn_mode_desc);
+>  
+> +struct drm_dp_mst_calc_pbn_div_test {
+> +	int link_rate;
+> +	int lane_count;
+> +	fixed20_12 expected;
+> +};
+> +
+> +#define fp_init(__int, __frac) { \
+> +	.full = (__int) * (1 << 12) + \
+> +		(__frac) * (1 << 12) / 100000 \
+> +}
+> +
+> +static const struct drm_dp_mst_calc_pbn_div_test drm_dp_mst_calc_pbn_div_dp1_4_cases[] = {
+> +	/*
+> +	 * DP1.4 rates:
+> +	 * .expected = .link_rate * .lane_count * 0.8000 / 8 / 54 / 100
+> +	 * UHBR rates:
+> +	 * .expected = .link_rate * .lane_count * 0.9671 / 8 / 54 / 100
+> +	 * truncated to 5 decimal places.
+> +	 */
+> +	{
+> +		.link_rate = 162000,
+> +		.lane_count = 1,
+> +		.expected = fp_init(3, 0),
+> +	},
 
-Currently dma-buf heaps can handle only default CMA. This exposes
-__add_cma_heap(), renamed to cma_heap_add(), as a public API to
-initialize CMA heaps from a pointer to a CMA region.
+Would be nice to sort this to match the tables in the spec.
+A bit hard to do a quick visual comparison now.
 
-At first, the driver calls of_reserved_mem_device_init() to set
-memory-region property associated with reserved-memory defined as CMA
-to the device. And when the driver calls this cma_heap_add() with the
-struct cma attached to the device, the CMA will be added to dma-buf
-heaps.
+> +	{
+> +		.link_rate = 162000,
+> +		.lane_count = 2,
+> +		.expected = fp_init(6, 0),
+> +	},
+> +	{
+> +		.link_rate = 162000,
+> +		.lane_count = 4,
+> +		.expected = fp_init(12, 0),
+> +	},
+> +	{
+> +		.link_rate = 270000,
+> +		.lane_count = 1,
+> +		.expected = fp_init(5, 0),
+> +	},
+> +	{
+> +		.link_rate = 270000,
+> +		.lane_count = 2,
+> +		.expected = fp_init(10, 0),
+> +	},
+> +	{
+> +		.link_rate = 270000,
+> +		.lane_count = 4,
+> +		.expected = fp_init(20, 0),
+> +	},
+> +	{
+> +		.link_rate = 540000,
+> +		.lane_count = 1,
+> +		.expected = fp_init(10, 0),
+> +	},
+> +	{
+> +		.link_rate = 540000,
+> +		.lane_count = 2,
+> +		.expected = fp_init(20, 0),
+> +	},
+> +	{
+> +		.link_rate = 540000,
+> +		.lane_count = 4,
+> +		.expected = fp_init(40, 0),
+> +	},
+> +	{
+> +		.link_rate = 810000,
+> +		.lane_count = 1,
+> +		.expected = fp_init(15, 0),
+> +	},
+> +	{
+> +		.link_rate = 810000,
+> +		.lane_count = 2,
+> +		.expected = fp_init(30, 0),
+> +	},
+> +	{
+> +		.link_rate = 810000,
+> +		.lane_count = 4,
+> +		.expected = fp_init(60, 0),
+> +	},
+> +	{
+> +		.link_rate = 1000000,
+> +		.lane_count = 1,
+> +		.expected = fp_init(22, 38657),
+> +	},
+> +	{
+> +		.link_rate = 1000000,
+> +		.lane_count = 2,
+> +		.expected = fp_init(44, 77314),
+> +	},
+> +	{
+> +		.link_rate = 1000000,
+> +		.lane_count = 4,
+> +		.expected = fp_init(89, 54629),
+> +	},
+> +	{
+> +		.link_rate = 1350000,
+> +		.lane_count = 1,
+> +		.expected = fp_init(30, 22187),
+> +	},
+> +	{
+> +		.link_rate = 1350000,
+> +		.lane_count = 2,
+> +		.expected = fp_init(60, 44375),
+> +	},
+> +	{
+> +		.link_rate = 1350000,
+> +		.lane_count = 4,
+> +		.expected = fp_init(120, 88750),
+> +	},
+> +	{
+> +		.link_rate = 2000000,
+> +		.lane_count = 1,
+> +		.expected = fp_init(44, 77314),
+> +	},
+> +	{
+> +		.link_rate = 2000000,
+> +		.lane_count = 2,
+> +		.expected = fp_init(89, 54629),
+> +	},
+> +	{
+> +		.link_rate = 2000000,
+> +		.lane_count = 4,
+> +		.expected = fp_init(179,  9259),  /* 179.09259 */
+> +	},
+> +};
+> +
+> +static void drm_test_dp_mst_calc_pbn_div(struct kunit *test)
+> +{
+> +	const struct drm_dp_mst_calc_pbn_div_test *params = test->param_value;
+> +	/* mgr->dev is only needed by drm_dbg_kms(), but it's not called for the test cases. */
+> +	struct drm_dp_mst_topology_mgr mgr = {};
+> +
+> +	KUNIT_EXPECT_EQ(test, drm_dp_get_vc_payload_bw(&mgr, params->link_rate, params->lane_count).full,
+> +			params->expected.full);
+> +}
+> +
+> +static void dp_mst_calc_pbn_div_desc(const struct drm_dp_mst_calc_pbn_div_test *t, char *desc)
+> +{
+> +	sprintf(desc, "Link rate %d lane count %d", t->link_rate, t->lane_count);
+> +}
+> +
+> +KUNIT_ARRAY_PARAM(drm_dp_mst_calc_pbn_div, drm_dp_mst_calc_pbn_div_dp1_4_cases,
+> +		  dp_mst_calc_pbn_div_desc);
+> +
+>  static u8 data[] = { 0xff, 0x00, 0xdd };
+>  
+>  struct drm_dp_mst_sideband_msg_req_test {
+> @@ -416,6 +560,7 @@ KUNIT_ARRAY_PARAM(drm_dp_mst_sideband_msg_req, drm_dp_mst_sideband_msg_req_cases
+>  
+>  static struct kunit_case drm_dp_mst_helper_tests[] = {
+>  	KUNIT_CASE_PARAM(drm_test_dp_mst_calc_pbn_mode, drm_dp_mst_calc_pbn_mode_gen_params),
+> +	KUNIT_CASE_PARAM(drm_test_dp_mst_calc_pbn_div, drm_dp_mst_calc_pbn_div_gen_params),
+>  	KUNIT_CASE_PARAM(drm_test_dp_mst_sideband_msg_req_decode,
+>  			 drm_dp_mst_sideband_msg_req_gen_params),
+>  	{ }
+> -- 
+> 2.39.2
 
-For example, prepare CMA node named "linux,cma@10000000" and
-specify the node for memory-region property. After the above calls
-in the driver, a device file "/dev/dma_heap/linux,cma@10000000"
-associated with the CMA become available as dma-buf heaps.
-
-Signed-off-by: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
-[quic_jasksing@quicinc.com: Use struct cma as the function argument]
-Signed-off-by: Jaskaran Singh <quic_jasksing@quicinc.com>
----
-Reviving this patch as per discussions on the MediaTek Secure Heap patch
-series[1]. There is now a potential client of the cma_heap_add() API.
-
-An unaddressed problem in this patch is the proper parsing of heap
-names. Naming convention for fixed address heaps in the devicetree is of
-the format "[heap name]@[fixed address]", for example
-"audio-heap@88b00000". Exposing heaps this way to userspace could
-prove erroneous as the usecases fulfilled by these heaps are the same
-across individual SoCs. Userspace clients of these heaps might expect a
-more consistent interface. Any feedback on this is appreciated.
-
-Changes v1->v2:
-- Change the function argument for dma_heap_add_cma() from struct
-  device to struct cma as per the discussion on [1].
-- In lieu of the above point, discard dma_heap_add_cma() and instead
-  expose the existing __add_cma_heap() as cma_heap_add().
-- Make minor modifications to the commit message based on the changes in
-  this version. Retain most of the original commit message.
-
-v1: https://lore.kernel.org/lkml/1594948208-4739-1-git-send-email-hayashi.kunihiko@socionext.com/
-
-[1] https://lore.kernel.org/lkml/20230911023038.30649-1-yong.wu@mediatek.com/T/#m5184a1e13767bb656a4a3d9bf5a1fd7450e42eb7
-
- drivers/dma-buf/heaps/cma_heap.c | 12 ++++++++++--
- include/linux/dma-heap.h         | 10 ++++++++++
- 2 files changed, 20 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index ee899f8e6721..b3bef8206e8b 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -367,7 +367,14 @@ static const struct dma_heap_ops cma_heap_ops = {
- 	.allocate = cma_heap_allocate,
- };
- 
--static int __add_cma_heap(struct cma *cma, void *data)
-+/**
-+ * cma_heap_add - adds a CMA heap to dmabuf heaps
-+ * @cma:       pointer to the CMA pool to register the heap for
-+ * @data:      unused
-+ *
-+ * Returns 0 on success. Else, returns errno.
-+ */
-+int cma_heap_add(struct cma *cma, void *data)
- {
- 	struct cma_heap *cma_heap;
- 	struct dma_heap_export_info exp_info;
-@@ -391,6 +398,7 @@ static int __add_cma_heap(struct cma *cma, void *data)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(cma_heap_add);
- 
- static int add_default_cma_heap(void)
- {
-@@ -398,7 +406,7 @@ static int add_default_cma_heap(void)
- 	int ret = 0;
- 
- 	if (default_cma)
--		ret = __add_cma_heap(default_cma, NULL);
-+		ret = cma_heap_add(default_cma, NULL);
- 
- 	return ret;
- }
-diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
-index 0c05561cad6e..adcd462825a8 100644
---- a/include/linux/dma-heap.h
-+++ b/include/linux/dma-heap.h
-@@ -12,6 +12,7 @@
- #include <linux/cdev.h>
- #include <linux/types.h>
- 
-+struct cma;
- struct dma_heap;
- 
- /**
-@@ -65,4 +66,13 @@ const char *dma_heap_get_name(struct dma_heap *heap);
-  */
- struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info);
- 
-+#ifdef CONFIG_DMABUF_HEAPS_CMA
-+int cma_heap_add(struct cma *cma, void *data);
-+#else
-+static inline int cma_heap_add(struct cma *cma, void *data)
-+{
-+	return -EINVAL;
-+}
-+#endif /* CONFIG_DMABUF_HEAPS_CMA */
-+
- #endif /* _DMA_HEAPS_H */
 -- 
-2.17.1
-
+Ville Syrjälä
+Intel
