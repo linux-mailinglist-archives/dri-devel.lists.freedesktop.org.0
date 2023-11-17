@@ -1,67 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C0917EEE0E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 10:04:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F32157EEEC7
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 10:34:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8371E10E735;
-	Fri, 17 Nov 2023 09:04:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D17E10E2EE;
+	Fri, 17 Nov 2023 09:34:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
- [IPv6:2607:f8b0:4864:20::b2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2210B10E735
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 09:04:04 +0000 (UTC)
-Received: by mail-yb1-xb2d.google.com with SMTP id
- 3f1490d57ef6-da7238b3eb4so1810970276.1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 01:04:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700211843; x=1700816643; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=INxHYDPvWZEfX4YbefK8xCXn7NpSQ5SeCE7fYLVC5i4=;
- b=pbq9N6/rwThj+CoMTItljOBTASpFRrreeqRuFNu65EHc3BrBw9um9WtvltUmVzEw2v
- 7d0t1f4cMwTeDSlEjN8bd5AGQNACqXg4icL4tOrdGFcAA8o1bqt9dLQOJBLZdnDRHRZc
- 9KG1H2X76+adUprVvJNFgqgFBGyYZv/+7VK66xfviBU1HUyzw67izJzZkx9IUEF4vpgU
- he6s0k8KYnhPE/6Ow73yE4C4+JTc1N4XU7Sdrx4OtTjBleF5WuPTODjW5J0ZXgsOGmKj
- 96SykPvV3z6/dEDy/+0Rw0wX04qUTRHdtb89ATX4aht1X/C1a9gHNsdbL1kpeLTiFhkG
- uz0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700211843; x=1700816643;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=INxHYDPvWZEfX4YbefK8xCXn7NpSQ5SeCE7fYLVC5i4=;
- b=aXg0tmyOhc2zAYAcltFKAY55Qw3mZuirSbyMzJ3I5MZuPum76iD6yTSR9nSGeNIbT/
- 7E/HQWZKjVGApkHxGIeW4n7acFxxYhDuyNK2pI88oOpxW0QuCCsibchO5OKzbsnCHxv4
- 1AQEWijlJMiJSL51N5HxMuJ4kQsXkIcFO6b2xzJGfk754vq7vu+amZ3ChyMoPxDRpU1f
- txsITHK9/HplwdUxWwRfKQM3+tIxjLZW7AJRfleMxT66VX9mcwVF6OGAVnuW1wkz3bs5
- iMtSf6HUY6/dYO9GQTVQkaSL35nOffnRsWer1+tOC3FjMHXLsiF4DcSSNUM55iFNTfO3
- wYEQ==
-X-Gm-Message-State: AOJu0Yw9Z/VPGygh/69AmwVNZ/e+flWbC1FUfwb0V+08p97+bNM+zZKz
- ZwhOgX9kXJhc1boda83x9ndiE5YeZMtoxoeExZUA6A==
-X-Google-Smtp-Source: AGHT+IH1pWflHfi8hN98JclJU1bBwV+AayAuHAiCbo2Yy6iJi5kz8hoy6KNUMTIHH4XZlaK+GjuYo/OBc5e8YA7rimg=
-X-Received: by 2002:a25:107:0:b0:d81:89e9:9f48 with SMTP id
- 7-20020a250107000000b00d8189e99f48mr16791660ybb.63.1700211843160; Fri, 17 Nov
- 2023 01:04:03 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3488210E2EE
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 09:34:47 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1C32561CB2;
+ Fri, 17 Nov 2023 09:34:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 728CAC433C8;
+ Fri, 17 Nov 2023 09:34:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1700213685;
+ bh=eBENRcN04XFObXCwkZuspBbWllYJKOoKRyOlrq+5Ul4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SZIZVjFq7Vhi6Zm33vPxtiOWCg2yw4aNXfAl0ugk4hesPOgIe3ijgqA6jnlh5zCm4
+ 4il3hkmay6p+G3+V98299doX3fX1qF4Xw9XzKF5CjRayrBvigjS7N2Gup8//NBule0
+ YkyK7eGqhnYNsdJcvushkc0JVP8ZTIFuoNwi3ezCwq1urKqnVc5GD/pA/rn6+OrDBe
+ FuF9gvVhcMRyv4IA5uSGwVMW3ekXjbcVoZ9gfDjT/9cQonhc0+8Dv7Jq1MDjAS8JNk
+ /xdctyQW98WyRFi1zrcEKYq9o/f2dal73qnFpLMAJmUZzVJtZmi6RDBQRuQVVxUg5l
+ W4lvSKk+BI2Ag==
+Date: Fri, 17 Nov 2023 10:34:42 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v5 0/7] drm: Reuse temporary memory for format conversion
+Message-ID: <skb2mpjs5hawsl4daczcunfplds65uj762vdpcvp3lurrldxdb@e65uaawi2kpu>
+References: <20231009141018.11291-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
- <20231114150130.497915-9-sui.jingfeng@linux.dev>
- <CAA8EJprQq3aDhzE+yKGZ2-nsuHWcptzMvApsyOi9D63PgeiZ3w@mail.gmail.com>
- <1b59d647-c345-4260-b07b-22abb70ae17a@linux.dev>
- <CAA8EJppY2+ymX0kLY+cuR=SV1Po2J24r=NQecmb3ZhSE9NHG7Q@mail.gmail.com>
- <7b85d057-3d66-435a-a657-dd69067b6bef@linux.dev>
- <b9eacd91-8d6f-4265-931e-bc31cadd54d4@linux.dev>
- <CAA8EJpo1KhzTpaSqjbOuQvNKw4WGaqrtNBtNfdNLn28eZVgwhw@mail.gmail.com>
- <cf27d25a-3e51-4292-af63-37e5bc585d88@linux.dev>
-In-Reply-To: <cf27d25a-3e51-4292-af63-37e5bc585d88@linux.dev>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 17 Nov 2023 11:03:50 +0200
-Message-ID: <CAA8EJprm6FL9_ZOr5uBXNXLBt=scs=FY2o6ZEv5r576iEM5KRw@mail.gmail.com>
-Subject: Re: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="q46pdj3l53ku3l5x"
+Content-Disposition: inline
+In-Reply-To: <20231009141018.11291-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,43 +51,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phong LE <ple@baylibre.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: jfalempe@redhat.com, javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ mairacanal@riseup.net, noralf@tronnes.org, jose.exposito89@gmail.com,
+ arthurgrillo@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 17 Nov 2023 at 06:24, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
->
-> Hi,
->
-> On 2023/11/16 23:23, Dmitry Baryshkov wrote:
-> >>>> Then you will need some way (fwnode?) to
-> >>>> discover the bridge chain. And at the last point you will get into the
-> >>>> device data and/or properties business.
-> >>>>
-> >>> No, leave that chance to a more better programmer and forgive me please,
-> >>> too difficult, I'm afraid of not able to solve. Thanks a lot for the
-> >>> trust!
-> >  From my point of view: no.
->
->
-> I respect the fact that the community prefer generic mechanisms.
-> If our approach is not what the community want, can I switch back
-> to my previous solution? I can reduce the duplication of our
-> localized it66121 driver to a minimal, rewrite it until it meets
-> the community's requirement. I know our device looks weird and
-> our approach is not elegant. But at the very least, we could not
-> mess the community's design up by localize. Otherwise, I don't know
-> what is the better approach to solve such a problem.
->
-> Can I switch back or any other ideas?
 
-I keep on repeating: create the i2c device from your root device
-driver, which parses BIOS data.
+--q46pdj3l53ku3l5x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-With best wishes
-Dmitry
+On Mon, Oct 09, 2023 at 04:06:29PM +0200, Thomas Zimmermann wrote:
+> DRM's format-conversion helpers require temporary memory. Pass the
+> buffer from the caller to allow the caller to preallocate the buffer
+> memory.
+>=20
+> The motivation for this patchset is the recent work on a DRM panic
+> handler. [1] The panic handler requires format conversion to display an
+> error to the screen. But allocating memory during a kernel panic is
+> fragile. The changes in this patchset enable the DRM panic handler to
+> preallocate buffer storage before the panic occurs.
+>=20
+> Patch 1 adds struct drm_format_conv_state, a simple interface to pass
+> around the buffer storage. Patch 2 adds an instance of the struct to
+> the shadow-plane state. Patch 3 moves the buffer's memory management
+> from the format helpers into their callers within the DRM drivers. Most
+> of the affected drivers use the state instance stored in their shadow-
+> plane state. The shadow-plane code releases the buffer memory automatical=
+ly.
+>=20
+> Patches 4 to 7 update three drivers to pre-allocate the format-conversion
+> buffer in their plane's atomic_check function. The drivers thus detect OOM
+> errors before the display update begins.
+>=20
+> Tested with simpledrm.
+
+So, I just discovered that you merged that series.
+
+You've complained before about "sneaking patches in", and while I was
+disagreeing with you then, this particular instance is definitely a
+strong case for it. You've merged it without telling anyone, and despite
+our ongoing conversation on the v4 that was active more recently than
+the v5. And that you never responded to.
+
+Awesome.
+
+Maxime
+
+--q46pdj3l53ku3l5x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZVczsgAKCRDj7w1vZxhR
+xd0uAP97ARd4GrcByKrGedFG3EXP+0MrdQSLO3S/Elt1L95jLwD/e0HhOGtIzBTG
+KJ3yb8X3MwT1cVHI9oRLHwCEnvEGqQU=
+=rFH+
+-----END PGP SIGNATURE-----
+
+--q46pdj3l53ku3l5x--
