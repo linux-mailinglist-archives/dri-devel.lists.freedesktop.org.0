@@ -2,75 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 580747EF9FD
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 22:19:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB2C7EFA70
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 22:23:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0A7410E794;
-	Fri, 17 Nov 2023 21:19:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E275F10E797;
+	Fri, 17 Nov 2023 21:23:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED0C710E794
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 21:19:22 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3AHK0CYm004671; Fri, 17 Nov 2023 21:19:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=e055X8OGpTabMVBBVto2Cmdcd4e+3yfEMPoal/4+PjI=;
- b=b99+UaePfaE94/Ye0B0IVgjcnOeHtgb/09zYHbUJ0pk13O1vPMrigNXKd0xT5vJSGiTz
- q+EZQS5iqXuScbKtJmDnM7TYesiEicbtdeHuNbSqBkEsiVFNJJiPibbSca+H/v31bs47
- bNu4qVC8tulRXaVNddLEXK3pQDyemcJTrMJNksF7+ECzQHyQVFXYtGlQ5+5Z3xhv89g8
- rP9Sl1O0UtmPQIoSJgvfx7gLFkrHSWIAYCON09sSPUSd0gkW2umioVgBIX3HLesobrAC
- pDuGwcp47faLkaxbMq4LsWPiKxXjel+qrOzbQ0GwecEbC3yZSfun1yp9kXhXiAN/9ScT 7A== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ue5exse3c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Nov 2023 21:19:19 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AHLJIQP016616
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Nov 2023 21:19:18 GMT
-Received: from [10.71.109.160] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 17 Nov
- 2023 13:19:18 -0800
-Message-ID: <99d677f1-2bf3-4a78-bc7f-caca612a7c1b@quicinc.com>
-Date: Fri, 17 Nov 2023 13:19:17 -0800
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E271C10E795
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 21:23:14 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id
+ 4fb4d7f45d1cf-548696eac92so262061a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 13:23:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1700256191; x=1700860991;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yFBqw6WWFn2DTJJAm5oTscYcujSFx4g4cXCp4v+z0IA=;
+ b=JGKgdEEj2OycnilQ0J2D17+MrnJNnHkTJcmPbCLHS49610w8pfJXSuxGiQSvo3pbcP
+ Uy+9aqPqYOoFZR51VTfQ/I70CDYONuuyTW9n6u2LNQg8A1+f4Eal5Pz2c2Tusa4yMbVf
+ pqD9DAMZOhyqdM6jQczIZNnQd3BvybPprPd0k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700256191; x=1700860991;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=yFBqw6WWFn2DTJJAm5oTscYcujSFx4g4cXCp4v+z0IA=;
+ b=NbfXEBDFA8VpHDHdsnAqZJX85cAOI3ccdWEMJkR4syd9V/o5gycSY4SMGbGXigW//G
+ EC3wZU5jG0GqynbyVJFpYVMHj/697Is/R+TVYwhz5ABCOhfVTWyhSdurt5XfYxLS2Urr
+ XJshGEOpAtfGTBP4E1CiSnxSHB7b/QVUn7CjYR/vzbyQxCfEW+UO9tcr80aCGJoimHE4
+ MoAVX9a9s1YgBkuxd6mDXHTGECv2UXPCT0QmBwgLi02F5JQaP5ja7tvN7t+8czxFalgB
+ yfNx9bYSRdhlTKrboNP9QzeeaPJ4tBCRlldJH+HkafsgUiBMH8b6xaOOgk9W5/QqYSd6
+ dhmw==
+X-Gm-Message-State: AOJu0Ywm/Dl28gkZJ3W8DMb0opotnGqK4Wy2FRRpplO3ttjJhZUTBzv/
+ 2yKcq+Pq2O4xLSyyoSqTQGrnT9n/DEs08Vas301zjA==
+X-Google-Smtp-Source: AGHT+IEXHiMQ/prHeMAJBu6nb9AhDSwVzr46g6vLqoA9ZDbaBsqUkbfq/vljDkKt+ChcXR64AFxYLA==
+X-Received: by 2002:a17:906:29d0:b0:9e6:26d4:120f with SMTP id
+ y16-20020a17090629d000b009e626d4120fmr158624eje.74.1700256191135; 
+ Fri, 17 Nov 2023 13:23:11 -0800 (PST)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com.
+ [209.85.128.43]) by smtp.gmail.com with ESMTPSA id
+ d24-20020a1709064c5800b009dbe08bc793sm1202950ejw.18.2023.11.17.13.23.09
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Nov 2023 13:23:10 -0800 (PST)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-40837124e1cso18535e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 13:23:09 -0800 (PST)
+X-Received: by 2002:a1c:7504:0:b0:404:74f8:f47c with SMTP id
+ o4-20020a1c7504000000b0040474f8f47cmr50225wmc.5.1700256189626; Fri, 17 Nov
+ 2023 13:23:09 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 2/5] drm/panel-elida-kd35t133: hold panel in reset for
- unprepare
-Content-Language: en-US
-To: Chris Morgan <macroalpha82@gmail.com>, <dri-devel@lists.freedesktop.org>
-References: <20231117194405.1386265-1-macroalpha82@gmail.com>
- <20231117194405.1386265-3-macroalpha82@gmail.com>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20231117194405.1386265-3-macroalpha82@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 0LHDKkrRhEw0qx49aqKXXyMUW2rxgz6R
-X-Proofpoint-ORIG-GUID: 0LHDKkrRhEw0qx49aqKXXyMUW2rxgz6R
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-17_21,2023-11-17_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- impostorscore=0 bulkscore=0 phishscore=0 malwarescore=0 adultscore=0
- priorityscore=1501 clxscore=1015 lowpriorityscore=0 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311170159
+References: <20231114044205.613421-1-xuxinxiong@huaqin.corp-partner.google.com>
+In-Reply-To: <20231114044205.613421-1-xuxinxiong@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 17 Nov 2023 13:22:52 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=Vg5YouEYVSnv3XJ-ghjZoLa9-QG6Ksh4yg5hExN_9gWA@mail.gmail.com>
+Message-ID: <CAD=FV=Vg5YouEYVSnv3XJ-ghjZoLa9-QG6Ksh4yg5hExN_9gWA@mail.gmail.com>
+Subject: Re: [V3] drm/panel: auo,
+ b101uan08.3: Fine tune the panel power sequence
+To: Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,44 +80,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, sam@ravnborg.org,
- Chris Morgan <macromorgan@hotmail.com>
+Cc: neil.armstrong@linaro.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ hsinyi@google.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-
-On 11/17/2023 11:44 AM, Chris Morgan wrote:
-> From: Chris Morgan <macromorgan@hotmail.com>
-> 
-> For devices like the Anbernic RG351M and RG351P the panel is wired to
-> an always on regulator. When the device suspends and wakes up, there
-> are some slight artifacts on the screen that go away over time. If
-> instead we hold the panel in reset status after it is unprepared,
-> this does not happen.
-> 
-> Fixes: 5b6603360c12 ("drm/panel: add panel driver for Elida KD35T133 panels")
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-
+On Mon, Nov 13, 2023 at 8:42=E2=80=AFPM Xuxin Xiong
+<xuxinxiong@huaqin.corp-partner.google.com> wrote:
+>
+> For "auo,b101uan08.3" this panel, it is stipulated in the panel spec that
+> MIPI needs to keep the LP11 state before the lcm_reset pin is pulled high=
+.
+>
+> Fixes: 56ad624b4cb5 ("drm/panel: support for auo, b101uan08.3 wuxga dsi v=
+ideo mode panel")
+> Signed-off-by: Xuxin Xiong <xuxinxiong@huaqin.corp-partner.google.com>
 > ---
->   drivers/gpu/drm/panel/panel-elida-kd35t133.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-elida-kd35t133.c b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-> index 6cd8536c09ff..f1fc4a26f447 100644
-> --- a/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-> +++ b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-> @@ -104,6 +104,8 @@ static int kd35t133_unprepare(struct drm_panel *panel)
->   		return ret;
->   	}
->   
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> +
->   	regulator_disable(ctx->iovcc);
->   	regulator_disable(ctx->vdd);
->   
-> -- 
-> 2.34.1
-> 
+> Changes in V3:
+>   - Updated the Fixes tag's style.
+> link to V2: https://patchwork.kernel.org/project/dri-devel/patch/20231114=
+034505.288569-1-xuxinxiong@huaqin.corp-partner.google.com/
+> ---
+> Changes in V2:
+>   - Updated the commit message and added the Fixes tag.
+> link to V1: https://patchwork.kernel.org/project/dri-devel/patch/20231109=
+092634.1694066-1-xuxinxiong@huaqin.corp-partner.google.com/
+> ---
+>  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 1 +
+>  1 file changed, 1 insertion(+)
+
+In my response to v1 [1] I said you could have just added my
+Reviewed-by tag yourself after the problems were fixed. Some
+maintainers actually get a bit annoyed when you don't do this, so you
+should get in the habit of doing it.
+
+In any case, this looks fine.
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+Pushed to drm-misc-fixes with my tag:
+6965809e5269 drm/panel: auo,b101uan08.3: Fine tune the panel power sequence
+
+
+
+[1] https://lore.kernel.org/r/CAD=3DFV=3DVxQJFWFaGHD+zpr4dxB85jMQpJiTDAmFZk=
+67CTYNcg=3Dw@mail.gmail.com/
