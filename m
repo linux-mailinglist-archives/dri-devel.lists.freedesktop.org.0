@@ -1,51 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D91F27EEC77
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 08:07:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B24C7EECA8
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 08:33:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAB7010E717;
-	Fri, 17 Nov 2023 07:06:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42B6A10E71C;
+	Fri, 17 Nov 2023 07:33:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m12738.qiye.163.com (mail-m12738.qiye.163.com
- [115.236.127.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B3D510E720
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 07:06:57 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256;
- b=Nu292DN2E6gfuHIj233Rh8Mdr+z5CJlMWHO8NWBfbI4ao9MCcWWM5VLf2BnX2BVH9c92Fx09CxiX4W8gRKqXwKDxiAREUGNt1I7x/DpyeAWDV6rYxLJjP9k4eRtbglzyPG0EIa1YuA5UhPKtrAj8LITcaYyVn1FdDw0padxAVRs=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
- bh=at1ne/rWq7oflyNTr5NsoIEOTljtkrgIcuWxm4pqXDc=;
- h=date:mime-version:subject:message-id:from;
-Received: from [172.16.12.141] (unknown [58.22.7.114])
- by mail-m12779.qiye.163.com (Hmail) with ESMTPA id 6C5477804C6;
- Fri, 17 Nov 2023 15:06:35 +0800 (CST)
-Message-ID: <3e011d52-017e-4360-86b4-781535ef61ad@rock-chips.com>
-Date: Fri, 17 Nov 2023 15:06:35 +0800
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0346910E71C
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 07:33:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1700206397; x=1731742397;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=+7xplb2EDRVudwSeGqzpqCtcj22RhVs/CX26mtXzjQk=;
+ b=QKTkoQVPpp9SPDNDCJIf/GWIzEPiaYiUOxUYk1ip8iF18bQlDfpwmfCz
+ XHbfEJNxY1omOvEXqSP6mai/vdFmcdtmMXvfhYcbWpQsd4Nw8fk5H83A7
+ 1t+f2LtegKW/6PB4FxWqXjLFc5GfeUA2u/XHQMZcnzhL2MundYzNNdFtZ
+ cbNQHX+7Le9JBjcR6Kr7UfMPsUNsiDLeghXVxvB/VFVDYX+t4YDX6CJCy
+ qIIgAEylQ0Q75C30sLCBoPtyT1y9t7wpCcyY4ZBoTSpxxKWKiqSgyBBU1
+ RA8MBxMV4t/wRAhUzOOHXxKXml5SgyhSANtEihX/7VWBW4Nxa89bSGo0b Q==;
+X-IronPort-AV: E=Sophos;i="6.04,206,1695679200"; d="scan'208";a="34032746"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 17 Nov 2023 08:33:14 +0100
+Received: from steina-w.tq-net.de (steina-w.tq-net.de [10.123.53.18])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 3C5EC28007F;
+ Fri, 17 Nov 2023 08:33:14 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
+Subject: [PATCH v2 1/1] backlight: pwm_bl: Use dev_err_probe
+Date: Fri, 17 Nov 2023 08:33:16 +0100
+Message-Id: <20231117073316.2103162-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/11] drm/rockchip: vop2: Add support for rk3588
-Content-Language: en-US
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-References: <20231114112534.1770731-1-andyshrk@163.com>
- <20231114112855.1771372-1-andyshrk@163.com>
- <20231115090823.GY3359458@pengutronix.de>
- <8f2ebc81-51c5-44d5-b27b-633a6cc85d0d@rock-chips.com>
- <20231116134757.zu7axb6cvriqjm6y@mercury.elektranox.org>
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <20231116134757.zu7axb6cvriqjm6y@mercury.elektranox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGR5DGFYZTU8fSEIfSk5LHh1VEwETFh
- oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk5MSUpJVUpLS1VKQl
- kG
-X-HM-Tid: 0a8bdc1a5771b24fkuuu6c5477804c6
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NxA6Dgw6KDw5MDhKPzJKLA0o
- DyIwFCFVSlVKTEtLSUtPTEJNSU5PVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSE5ISzcG
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,51 +56,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Sascha Hauer <s.hauer@pengutronix.de>, hjc@rock-chips.com,
- dri-devel@lists.freedesktop.org, kever.yang@rock-chips.com,
- linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, chris.obbard@collabora.com
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sebastian:
+Use dev_err_probe to simplify error paths. Also Let dev_err_probe handle
+the -EPROBE_DEFER case and also add an entry to
+/sys/kernel/debug/devices_deferred when deferred.
 
-On 11/16/23 21:47, Sebastian Reichel wrote:
-> Hi,
->
-> On Thu, Nov 16, 2023 at 06:39:40PM +0800, Andy Yan wrote:
->>>>    	vop2->sys_grf = syscon_regmap_lookup_by_phandle(dev->of_node, "rockchip,grf");
->>> This already lacks an error check, shame on me...
->>>
->>>> +	vop2->vop_grf = syscon_regmap_lookup_by_phandle(dev->of_node, "rockchip,vop-grf");
->>>> +	vop2->vo1_grf = syscon_regmap_lookup_by_phandle(dev->of_node, "rockchip,vo1-grf");
->>>> +	vop2->sys_pmu = syscon_regmap_lookup_by_phandle(dev->of_node, "rockchip,pmu");
->>> ... but please don't duplicate that.
->> It a little difficult to find a proper way to do the check, as not every soc need all these phandles.
->>
->> Do i need check it per soc?
-> I suggest adding a u32 flags to struct vop2_data and then have
-> something like this:
->
-> if (vop2_data->flags & VOP2_HAS_VOP_GRF) {
->      vop2->vop_grf = syscon_regmap_lookup_by_phandle(dev->of_node, "rockchip,vop-grf");
->      if (IS_ERR(vop2->vop_grf))
->          return dev_err_probe(dev, PTR_ERR(vop2->vop_grf) "cannot get vop-grf");
-> }
->
-> if (vop2_data->flags & VOP2_HAS_VO1_GRF) {
->      vop2->vo1_grf = syscon_regmap_lookup_by_phandle(dev->of_node, "rockchip,vo1-grf");
->      if (IS_ERR(vop2->vo1_grf))
->          return dev_err_probe(dev, PTR_ERR(vop2->vo1_grf) "cannot get vo1-grf");
-> }
->
-> ...
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+Changes in v2:
+* Use dev_err_probe in more places in probe function (as suggested by Uwe)
+* Adjusted commit message
 
+ drivers/video/backlight/pwm_bl.c | 32 +++++++++++++++++---------------
+ 1 file changed, 17 insertions(+), 15 deletions(-)
 
-I can do it like this if Sascha is also happy with it.
+diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
+index 289bd9ce4d36d..e1b3fe04d3169 100644
+--- a/drivers/video/backlight/pwm_bl.c
++++ b/drivers/video/backlight/pwm_bl.c
+@@ -461,10 +461,9 @@ static int pwm_backlight_probe(struct platform_device *pdev)
+ 
+ 	if (!data) {
+ 		ret = pwm_backlight_parse_dt(&pdev->dev, &defdata);
+-		if (ret < 0) {
+-			dev_err(&pdev->dev, "failed to find platform data\n");
+-			return ret;
+-		}
++		if (ret < 0)
++			return dev_err_probe(&pdev->dev, ret,
++					     "failed to find platform data\n");
+ 
+ 		data = &defdata;
+ 	}
+@@ -493,24 +492,27 @@ static int pwm_backlight_probe(struct platform_device *pdev)
+ 	pb->enable_gpio = devm_gpiod_get_optional(&pdev->dev, "enable",
+ 						  GPIOD_ASIS);
+ 	if (IS_ERR(pb->enable_gpio)) {
+-		ret = PTR_ERR(pb->enable_gpio);
++		ret = dev_err_probe(&pdev->dev, PTR_ERR(pb->enable_gpio),
++				    "failed to acquire enable GPIO\n");
+ 		goto err_alloc;
+ 	}
+ 
+ 	pb->power_supply = devm_regulator_get_optional(&pdev->dev, "power");
+ 	if (IS_ERR(pb->power_supply)) {
+ 		ret = PTR_ERR(pb->power_supply);
+-		if (ret == -ENODEV)
++		if (ret == -ENODEV) {
+ 			pb->power_supply = NULL;
+-		else
++		} else {
++			dev_err_probe(&pdev->dev, ret,
++				      "failed to acquire power regulator\n");
+ 			goto err_alloc;
++		}
+ 	}
+ 
+ 	pb->pwm = devm_pwm_get(&pdev->dev, NULL);
+ 	if (IS_ERR(pb->pwm)) {
+-		ret = PTR_ERR(pb->pwm);
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(&pdev->dev, "unable to request PWM\n");
++		ret = dev_err_probe(&pdev->dev, PTR_ERR(pb->pwm),
++				    "unable to request PWM\n");
+ 		goto err_alloc;
+ 	}
+ 
+@@ -530,8 +532,8 @@ static int pwm_backlight_probe(struct platform_device *pdev)
+ 
+ 	ret = pwm_apply_state(pb->pwm, &state);
+ 	if (ret) {
+-		dev_err(&pdev->dev, "failed to apply initial PWM state: %d\n",
+-			ret);
++		dev_err_probe(&pdev->dev, ret,
++			      "failed to apply initial PWM state");
+ 		goto err_alloc;
+ 	}
+ 
+@@ -568,7 +570,7 @@ static int pwm_backlight_probe(struct platform_device *pdev)
+ 		ret = pwm_backlight_brightness_default(&pdev->dev, data,
+ 						       state.period);
+ 		if (ret < 0) {
+-			dev_err(&pdev->dev,
++			dev_err_probe(&pdev->dev, ret,
+ 				"failed to setup default brightness table\n");
+ 			goto err_alloc;
+ 		}
+@@ -597,8 +599,8 @@ static int pwm_backlight_probe(struct platform_device *pdev)
+ 	bl = backlight_device_register(dev_name(&pdev->dev), &pdev->dev, pb,
+ 				       &pwm_backlight_ops, &props);
+ 	if (IS_ERR(bl)) {
+-		dev_err(&pdev->dev, "failed to register backlight\n");
+-		ret = PTR_ERR(bl);
++		ret = dev_err_probe(&pdev->dev, PTR_ERR(bl),
++				    "failed to register backlight\n");
+ 		goto err_alloc;
+ 	}
+ 
+-- 
+2.34.1
 
->
-> Greetings,
->
-> -- Sebastian
