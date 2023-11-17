@@ -1,63 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC10E7EF0E3
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 11:46:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F30247EF126
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 11:56:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2858D10E744;
-	Fri, 17 Nov 2023 10:46:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07A2110E748;
+	Fri, 17 Nov 2023 10:56:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5A5510E744
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 10:45:59 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-408363c2918so2173545e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 02:45:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1700217958; x=1700822758; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=qOlmuv/C4FNc+RsVQ+rQHs7D/XTaZYmhBhF6Gjjo5mU=;
- b=hAXZqyOqTqivYYpIDcBt7vrkCe0D6TAoMvXHH7rFiKoB9aXE2Tmjoxl6vOkOXEYdX0
- WpTTT+TWwAFG7KIA9ed1HfHLXac9iUbLtK4BoWLWEq5+TwnzBZB38CUpJy84wairkNm2
- Nlzsy4Y98ZT/D2NWfC1Vg2pzOS5dnDF8cfOcE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700217958; x=1700822758;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qOlmuv/C4FNc+RsVQ+rQHs7D/XTaZYmhBhF6Gjjo5mU=;
- b=pOPBei2sEo8han1k7zTXrhLd+gGHtGjtmlo645lLDjgLUO6FKubX5y3TCyzyGZ1l5E
- faG7shmfBkFrXXq6zcCpsvNMWXAFvuQQzeTLqiGYNGke7RzfcdEn4X0WxUh6s/CobeU2
- xX4UKahx+tPzKf4GNAvqbh/BtXByPQdxQFGSpG+vgNfrTdlFWY+Lv9y0tJVKLxbT5zk2
- orSyN6I8xIJOJ1/q+E2p6bGvR/UXkEAdBb5J/L3qQKBHUA78wwZRGyyrkuLKyiuTEbQO
- 46lUqjbYK5QULgvtH63dzOoOohO1sljCBJgg4Q4zYNBcx7ckauEkM0+NG7GATBH35ye6
- 7jrA==
-X-Gm-Message-State: AOJu0YyYdkXCnAoRuO+SrMKXJnV6J7EjF2d6uq/zP37mlQlUU5FRvT9p
- WBsCe/A68fsEdzd6IXWDUoHn3Hxrpuxg+qSeh8I=
-X-Google-Smtp-Source: AGHT+IFlSc+CKyiOyxKcBSxs2/OUpxikvqzT+G8JusZUT+QSp3lPKCPxgnLbvyc8NJtw6Qzg5IRmRw==
-X-Received: by 2002:a5d:47c5:0:b0:32f:acb1:ba92 with SMTP id
- o5-20020a5d47c5000000b0032facb1ba92mr10582154wrc.5.1700217937581; 
- Fri, 17 Nov 2023 02:45:37 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- b15-20020a056000054f00b0031980294e9fsm1898005wrf.116.2023.11.17.02.45.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Nov 2023 02:45:37 -0800 (PST)
-Date: Fri, 17 Nov 2023 11:45:34 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PULL] drm-misc-fixes
-Message-ID: <ZVdETuL1JOu0trL0@phenom.ffwll.local>
-References: <98fc82d3-8714-45e7-bd12-c95ba8c6c35f@linux.intel.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0730110E080;
+ Fri, 17 Nov 2023 10:56:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1700218601; x=1731754601;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=z3CfkrV5RGBBT2YI2sTBxto3Kv/pe1X0APO5D2cq6dA=;
+ b=bf8D0ib+5BzC2Aspor86RkyfrvecsnoLC95qYrANLbn545EgF1Cyqsor
+ C1ccpPBAqdgt+hxfdhpeP51t0kdlsHe8Hu926v2qrSKxbnBZ1zbVivuWE
+ 5aogs1djlGOnsi58EBXGM0Xw2yYZ1qZSobwLH0EHtHdwuWaXpGI0lGrkF
+ 55bumFnIiYLYty3cAosHXbvDIcp/cp7MFhGaRAq/ooAIoJ6sH2Bd9ej4B
+ H+uyjKoteB4N7u1fxGu+cwAuexikLjKT/0h8587dhbWKQi9qYpTsEqAb3
+ yR4EQ66nQFpKfzZiMlIPFXDH1XxwUWJYYrMnT5/ZsDJT8v5WZwb+d0xR8 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="376327494"
+X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; d="scan'208";a="376327494"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2023 02:56:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="759132542"
+X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; d="scan'208";a="759132542"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga007.jf.intel.com with SMTP; 17 Nov 2023 02:56:37 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 17 Nov 2023 12:56:36 +0200
+Date: Fri, 17 Nov 2023 12:56:36 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Imre Deak <imre.deak@intel.com>
+Subject: Re: [PATCH v2 01/11] drm/dp_mst: Store the MST PBN divider value in
+ fixed point format
+Message-ID: <ZVdG5DY9sbqHe-8v@intel.com>
+References: <20231116131841.1588781-1-imre.deak@intel.com>
+ <20231116131841.1588781-2-imre.deak@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <98fc82d3-8714-45e7-bd12-c95ba8c6c35f@linux.intel.com>
-X-Operating-System: Linux phenom 6.5.0-4-amd64 
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231116131841.1588781-2-imre.deak@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,78 +62,269 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, intel-gfx@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Wayne Lin <wayne.lin@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 16, 2023 at 02:48:52PM +0100, Maarten Lankhorst wrote:
-> Hi Dave, Daniel,
+On Thu, Nov 16, 2023 at 03:18:31PM +0200, Imre Deak wrote:
+> On UHBR links the PBN divider is a fractional number, accordingly store
+> it in fixed point format. For now drm_dp_get_vc_payload_bw() always
+> returns a whole number and all callers will use only the integer part of
+> it which should preserve the current behavior. The next patch will fix
+> drm_dp_get_vc_payload_bw() for UHBR rates returning a fractional number
+> for those (also accounting for the channel coding efficiency correctly).
 > 
-> Small pull request, mostly nouveau fixes.
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Wayne Lin <wayne.lin@amd.com>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
+> ---
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  5 +++--
+>  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  3 ++-
+>  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  5 +++--
+>  drivers/gpu/drm/display/drm_dp_mst_topology.c | 22 +++++++++++++------
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  3 ++-
+>  drivers/gpu/drm/nouveau/dispnv50/disp.c       |  6 +++--
+>  include/drm/display/drm_dp_mst_helper.h       |  7 +++---
+>  7 files changed, 33 insertions(+), 18 deletions(-)
 > 
-> Cheers,
-> ~Maarten
-> 
-> Mostly drm-misc-fixes-2023-11-16:
-> Assorted fixes for v6.7-rc2:
-> - Nouveau GSP fixes.
-> - Fix nouveau driver load without display.
-> - Use rwlock for nouveau's event lock to break a lockdep splat.
-> - Add orientation quirk for Lenovo Legion Go.
-> - Fix build failure in IVPU.
-> The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
-> 
->   Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
-> 
-> are available in the Git repository at:
-> 
->   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-11-16
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 74f9f02abcdec..12346b21d0b05 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -85,6 +85,7 @@
+>  #include <drm/drm_atomic_uapi.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_blend.h>
+> +#include <drm/drm_fixed.h>
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_edid.h>
+>  #include <drm/drm_eld.h>
+> @@ -6909,8 +6910,8 @@ static int dm_encoder_helper_atomic_check(struct drm_encoder *encoder,
+>  	if (IS_ERR(mst_state))
+>  		return PTR_ERR(mst_state);
+>  
+> -	if (!mst_state->pbn_div)
+> -		mst_state->pbn_div = dm_mst_get_pbn_divider(aconnector->mst_root->dc_link);
+> +	if (!mst_state->pbn_div.full)
+> +		mst_state->pbn_div.full = dfixed_const(dm_mst_get_pbn_divider(aconnector->mst_root->dc_link));
 
-Pulled into drm-fixes, thanks!
--Sima
+Why doesn't that dfixed stuff return the correct type?
 
-> 
-> for you to fetch changes up to ae1aadb1eb8d3cbc52e42bee71d67bd4a71f9f07:
-> 
->   nouveau: don't fail driver load if no display hw present. (2023-11-15
-> 18:23:31 +0100)
-> 
-> ----------------------------------------------------------------
-> Assorted fixes for v6.7-rc2:
-> - Nouveau GSP fixes.
-> - Fix nouveau driver load without display.
-> - Use rwlock for nouveau's event lock to break a lockdep splat.
-> - Add orientation quirk for Lenovo Legion Go.
-> - Fix build failure in IVPU.
-> 
-> ----------------------------------------------------------------
-> Arnd Bergmann (1):
->       accel/ivpu: avoid build failure with CONFIG_PM=n
-> 
-> Brenton Simpson (1):
->       drm: panel-orientation-quirks: Add quirk for Lenovo Legion Go
-> 
-> Dan Carpenter (2):
->       nouveau/gsp/r535: uninitialized variable in r535_gsp_acpi_mux_id()
->       nouveau/gsp/r535: Fix a NULL vs error pointer bug
-> 
-> Dave Airlie (2):
->       nouveau: use an rwlock for the event lock.
->       nouveau: don't fail driver load if no display hw present.
-> 
->  drivers/accel/ivpu/ivpu_pm.c                      |  3 ---
->  drivers/gpu/drm/drm_panel_orientation_quirks.c    |  6 ++++++
->  drivers/gpu/drm/nouveau/include/nvkm/core/event.h |  4 ++--
->  drivers/gpu/drm/nouveau/nouveau_display.c         |  5 +++++
->  drivers/gpu/drm/nouveau/nvkm/core/event.c         | 12 ++++++------
->  drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c    |  6 +++---
->  6 files changed, 22 insertions(+), 14 deletions(-)
+Anyways looks mostly mechanical
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
+>  
+>  	if (!state->duplicated) {
+>  		int max_bpc = conn_state->max_requested_bpc;
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> index ed784cf27d396..63024393b516e 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> @@ -31,6 +31,7 @@
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/amdgpu_drm.h>
+>  #include <drm/drm_edid.h>
+> +#include <drm/drm_fixed.h>
+>  
+>  #include "dm_services.h"
+>  #include "amdgpu.h"
+> @@ -210,7 +211,7 @@ static void dm_helpers_construct_old_payload(
+>  			struct drm_dp_mst_atomic_payload *old_payload)
+>  {
+>  	struct drm_dp_mst_atomic_payload *pos;
+> -	int pbn_per_slot = mst_state->pbn_div;
+> +	int pbn_per_slot = dfixed_trunc(mst_state->pbn_div);
+>  	u8 next_payload_vc_start = mgr->next_start_slot;
+>  	u8 payload_vc_start = new_payload->vc_start_slot;
+>  	u8 allocated_time_slots;
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> index 9a58e1a4c5f49..d1ba3ae228b08 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> @@ -27,6 +27,7 @@
+>  #include <drm/display/drm_dp_mst_helper.h>
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_fixed.h>
+>  #include "dm_services.h"
+>  #include "amdgpu.h"
+>  #include "amdgpu_dm.h"
+> @@ -941,10 +942,10 @@ static int increase_dsc_bpp(struct drm_atomic_state *state,
+>  		link_timeslots_used = 0;
+>  
+>  		for (i = 0; i < count; i++)
+> -			link_timeslots_used += DIV_ROUND_UP(vars[i + k].pbn, mst_state->pbn_div);
+> +			link_timeslots_used += DIV_ROUND_UP(vars[i + k].pbn, dfixed_trunc(mst_state->pbn_div));
+>  
+>  		fair_pbn_alloc =
+> -			(63 - link_timeslots_used) / remaining_to_increase * mst_state->pbn_div;
+> +			(63 - link_timeslots_used) / remaining_to_increase * dfixed_trunc(mst_state->pbn_div);
+>  
+>  		if (initial_slack[next_index] > fair_pbn_alloc) {
+>  			vars[next_index].pbn += fair_pbn_alloc;
+> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> index 4d72c9a32026e..000d05e80352a 100644
+> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> @@ -43,6 +43,7 @@
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_edid.h>
+> +#include <drm/drm_fixed.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_probe_helper.h>
+>  
+> @@ -3578,16 +3579,22 @@ static int drm_dp_send_up_ack_reply(struct drm_dp_mst_topology_mgr *mgr,
+>   * value is in units of PBNs/(timeslots/1 MTP). This value can be used to
+>   * convert the number of PBNs required for a given stream to the number of
+>   * timeslots this stream requires in each MTP.
+> + *
+> + * Returns the BW / timeslot value in 20.12 fixed point format.
+>   */
+> -int drm_dp_get_vc_payload_bw(const struct drm_dp_mst_topology_mgr *mgr,
+> -			     int link_rate, int link_lane_count)
+> +fixed20_12 drm_dp_get_vc_payload_bw(const struct drm_dp_mst_topology_mgr *mgr,
+> +				    int link_rate, int link_lane_count)
+>  {
+> +	fixed20_12 ret;
+> +
+>  	if (link_rate == 0 || link_lane_count == 0)
+>  		drm_dbg_kms(mgr->dev, "invalid link rate/lane count: (%d / %d)\n",
+>  			    link_rate, link_lane_count);
+>  
+>  	/* See DP v2.0 2.6.4.2, VCPayload_Bandwidth_for_OneTimeSlotPer_MTP_Allocation */
+> -	return link_rate * link_lane_count / 54000;
+> +	ret.full = dfixed_const(link_rate * link_lane_count / 54000);
+> +
+> +	return ret;
+>  }
+>  EXPORT_SYMBOL(drm_dp_get_vc_payload_bw);
+>  
+> @@ -4335,7 +4342,7 @@ int drm_dp_atomic_find_time_slots(struct drm_atomic_state *state,
+>  		}
+>  	}
+>  
+> -	req_slots = DIV_ROUND_UP(pbn, topology_state->pbn_div);
+> +	req_slots = DIV_ROUND_UP(pbn, dfixed_trunc(topology_state->pbn_div));
+>  
+>  	drm_dbg_atomic(mgr->dev, "[CONNECTOR:%d:%s] [MST PORT:%p] TU %d -> %d\n",
+>  		       port->connector->base.id, port->connector->name,
+> @@ -4872,7 +4879,8 @@ void drm_dp_mst_dump_topology(struct seq_file *m,
+>  	state = to_drm_dp_mst_topology_state(mgr->base.state);
+>  	seq_printf(m, "\n*** Atomic state info ***\n");
+>  	seq_printf(m, "payload_mask: %x, max_payloads: %d, start_slot: %u, pbn_div: %d\n",
+> -		   state->payload_mask, mgr->max_payloads, state->start_slot, state->pbn_div);
+> +		   state->payload_mask, mgr->max_payloads, state->start_slot,
+> +		   dfixed_trunc(state->pbn_div));
+>  
+>  	seq_printf(m, "\n| idx | port | vcpi | slots | pbn | dsc | status |     sink name     |\n");
+>  	for (i = 0; i < mgr->max_payloads; i++) {
+> @@ -5330,10 +5338,10 @@ drm_dp_mst_atomic_check_payload_alloc_limits(struct drm_dp_mst_topology_mgr *mgr
+>  	}
+>  
+>  	if (!payload_count)
+> -		mst_state->pbn_div = 0;
+> +		mst_state->pbn_div.full = dfixed_const(0);
+>  
+>  	drm_dbg_atomic(mgr->dev, "[MST MGR:%p] mst state %p TU pbn_div=%d avail=%d used=%d\n",
+> -		       mgr, mst_state, mst_state->pbn_div, avail_slots,
+> +		       mgr, mst_state, dfixed_trunc(mst_state->pbn_div), avail_slots,
+>  		       mst_state->total_avail_slots - avail_slots);
+>  
+>  	return 0;
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> index 0cb9405f59eaa..e5d6b811c22ef 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> @@ -26,6 +26,7 @@
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_edid.h>
+> +#include <drm/drm_fixed.h>
+>  #include <drm/drm_probe_helper.h>
+>  
+>  #include "i915_drv.h"
+> @@ -202,7 +203,7 @@ static int intel_dp_mst_find_vcpi_slots_for_bpp(struct intel_encoder *encoder,
+>  		 */
+>  		drm_WARN_ON(&i915->drm, remote_m_n.tu < crtc_state->dp_m_n.tu);
+>  		crtc_state->dp_m_n.tu = remote_m_n.tu;
+> -		crtc_state->pbn = remote_m_n.tu * mst_state->pbn_div;
+> +		crtc_state->pbn = remote_m_n.tu * dfixed_trunc(mst_state->pbn_div);
+>  
+>  		slots = drm_dp_atomic_find_time_slots(state, &intel_dp->mst_mgr,
+>  						      connector->port,
+> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> index 493fe4660f651..11fe75b68e95c 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> @@ -40,6 +40,7 @@
+>  #include <drm/drm_edid.h>
+>  #include <drm/drm_eld.h>
+>  #include <drm/drm_fb_helper.h>
+> +#include <drm/drm_fixed.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_vblank.h>
+>  
+> @@ -946,7 +947,8 @@ nv50_msto_prepare(struct drm_atomic_state *state,
+>  	if (ret == 0) {
+>  		nvif_outp_dp_mst_vcpi(&mstm->outp->outp, msto->head->base.index,
+>  				      payload->vc_start_slot, payload->time_slots,
+> -				      payload->pbn, payload->time_slots * mst_state->pbn_div);
+> +				      payload->pbn,
+> +				      payload->time_slots * dfixed_trunc(mst_state->pbn_div));
+>  	} else {
+>  		nvif_outp_dp_mst_vcpi(&mstm->outp->outp, msto->head->base.index, 0, 0, 0, 0);
+>  	}
+> @@ -990,7 +992,7 @@ nv50_msto_atomic_check(struct drm_encoder *encoder,
+>  	if (IS_ERR(mst_state))
+>  		return PTR_ERR(mst_state);
+>  
+> -	if (!mst_state->pbn_div) {
+> +	if (!mst_state->pbn_div.full) {
+>  		struct nouveau_encoder *outp = mstc->mstm->outp;
+>  
+>  		mst_state->pbn_div = drm_dp_get_vc_payload_bw(&mstm->mgr,
+> diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
+> index a4aad6df71f18..9b19d8bd520af 100644
+> --- a/include/drm/display/drm_dp_mst_helper.h
+> +++ b/include/drm/display/drm_dp_mst_helper.h
+> @@ -25,6 +25,7 @@
+>  #include <linux/types.h>
+>  #include <drm/display/drm_dp_helper.h>
+>  #include <drm/drm_atomic.h>
+> +#include <drm/drm_fixed.h>
+>  
+>  #if IS_ENABLED(CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS)
+>  #include <linux/stackdepot.h>
+> @@ -617,7 +618,7 @@ struct drm_dp_mst_topology_state {
+>  	 * @pbn_div: The current PBN divisor for this topology. The driver is expected to fill this
+>  	 * out itself.
+>  	 */
+> -	int pbn_div;
+> +	fixed20_12 pbn_div;
+>  };
+>  
+>  #define to_dp_mst_topology_mgr(x) container_of(x, struct drm_dp_mst_topology_mgr, base)
+> @@ -839,8 +840,8 @@ struct edid *drm_dp_mst_get_edid(struct drm_connector *connector,
+>  				 struct drm_dp_mst_topology_mgr *mgr,
+>  				 struct drm_dp_mst_port *port);
+>  
+> -int drm_dp_get_vc_payload_bw(const struct drm_dp_mst_topology_mgr *mgr,
+> -			     int link_rate, int link_lane_count);
+> +fixed20_12 drm_dp_get_vc_payload_bw(const struct drm_dp_mst_topology_mgr *mgr,
+> +				    int link_rate, int link_lane_count);
+>  
+>  int drm_dp_calc_pbn_mode(int clock, int bpp);
+>  
+> -- 
+> 2.39.2
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Ville Syrjälä
+Intel
