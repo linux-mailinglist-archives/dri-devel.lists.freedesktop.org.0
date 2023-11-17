@@ -2,54 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9516B7EF157
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 12:04:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 779477EF16B
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 12:09:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69E7510E746;
-	Fri, 17 Nov 2023 11:04:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2FB810E745;
+	Fri, 17 Nov 2023 11:09:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19A3110E13C;
- Fri, 17 Nov 2023 11:04:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700219046; x=1731755046;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Z9RsAm3o2jfovCTdjbIWszu7G+Fiy1WpwELkjJwU2+M=;
- b=Yev+eit4CJM95ROqqPiZ53mZT3nXpKOERMdd3pcCvg9tDzPaXoR+XO/s
- clSYdEQhcxcjjf2geUGtSa3rwOaS2FEBFAUkYgVj/FUhm9PHnyZxYI+WS
- OSTa0a03N7SA9rMW/khi7cGfkMHnZKHn6DiXlKFx2lqLzXt+wISPp1c+o
- Njh+e2SmJqDvOu5p7A4nIsZDZwiB27itnU/4gbVMZr201pJKI99+USduL
- KLNHoOliSKXiQOdTlyp2QAjL+JYUSSwsynjVtTfqK8lCwnI2cwdI2NW67
- l/fwjSzFG7AvNvGbFA8Zet0xlJh/kWHE/iTBn1/S5VEqToWqCvIF2/cOW w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="376328547"
-X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; d="scan'208";a="376328547"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2023 03:04:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="759144440"
-X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; d="scan'208";a="759144440"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga007.jf.intel.com with SMTP; 17 Nov 2023 03:04:03 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 17 Nov 2023 13:04:02 +0200
-Date: Fri, 17 Nov 2023 13:04:02 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Imre Deak <imre.deak@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2 03/11] drm/dp_mst: Add kunit tests for
- drm_dp_get_vc_payload_bw()
-Message-ID: <ZVdIoq7j83nBrD_c@intel.com>
-References: <20231116131841.1588781-1-imre.deak@intel.com>
- <20231116131841.1588781-4-imre.deak@intel.com>
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B67C10E74A
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 11:09:09 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-32f831087c6so472459f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 03:09:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1700219347; x=1700824147; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=qd+QmjFXL3FqK0Swp5Mq09yMTi11ELd3uXDtmtZHbiY=;
+ b=DHpj45hH+oh+UXxNIIzMFzbslpLZr2S7dE3kRfZ808bwmGPOhKVwgmwX3KEHKhRjLd
+ prkF7nczqJmHfjd9GFy1XJIUXJ1SNbcRKpvcp8Sotwvp8VBWcLLTCDIXDs56oZd0ZIhC
+ UTJ9cLSD7edxdv9CL3/L4399s13iH1iPk7GTM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700219347; x=1700824147;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qd+QmjFXL3FqK0Swp5Mq09yMTi11ELd3uXDtmtZHbiY=;
+ b=sFkc7EUPuPk1HuiI6nCtjRi21/wT2i9nsD0cgbithaGpkAYi+FeawKw1fg41Nd8yPI
+ efr17ZE5TqPYrLHcEonTW0y/xnrsXkv/gSG6y1WhOXTMS27LGdxqrleG6x7Fosb2KPds
+ 6gavj2q+0bEQdt5tc6oyzUc38KoGYX9BDlMeDrt+u6tNonWyBgUqQgt8VkkghIxORKXN
+ uDRTvcbNSZKKJ3UcyXDuS1/UyoL6nOtvT7zJurJMrEEBonJxubUpkp5p7OVGmvwnJRcY
+ VL5T2irkXE1vYEj8A+m69uzr0VLeJ1tHlwgG45s2y1rJpqmCbBJMF5/Rv6Li4Vy9e/V8
+ TJ5w==
+X-Gm-Message-State: AOJu0YygehY23H+Cu3RJPUaQSDhWKt0Rmgjq66iiZbEFMbrwEV2rIEBu
+ Jbq6zcuK1W7KaRrPIXx+z59uyQ==
+X-Google-Smtp-Source: AGHT+IEYA5YA8BugdzBq3oCClsldoD9BbByOjT4yGSzv99fVEHxTdHDrWmEevZGrUBivhYNuLEc2Vg==
+X-Received: by 2002:a05:600c:3b15:b0:409:72c6:8232 with SMTP id
+ m21-20020a05600c3b1500b0040972c68232mr8271901wms.3.1700219347356; 
+ Fri, 17 Nov 2023 03:09:07 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ je12-20020a05600c1f8c00b0040839fcb217sm2342272wmb.8.2023.11.17.03.09.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Nov 2023 03:09:06 -0800 (PST)
+Date: Fri, 17 Nov 2023 12:09:04 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Alex Deucher <alexander.deucher@amd.com>
+Subject: Re: [pull] amdgpu drm-fixes-6.7
+Message-ID: <ZVdJ0E-ND2NySCsO@phenom.ffwll.local>
+References: <20231117063441.4883-1-alexander.deucher@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231116131841.1588781-4-imre.deak@intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <20231117063441.4883-1-alexander.deucher@amd.com>
+X-Operating-System: Linux phenom 6.5.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,191 +72,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 16, 2023 at 03:18:33PM +0200, Imre Deak wrote:
-> Add kunit test cases for drm_dp_get_vc_payload_bw() with all the DP1.4
-> and UHBR link configurations.
+On Fri, Nov 17, 2023 at 01:34:41AM -0500, Alex Deucher wrote:
+> Hi Dave, Sima,
 > 
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
-> ---
->  .../gpu/drm/tests/drm_dp_mst_helper_test.c    | 145 ++++++++++++++++++
->  1 file changed, 145 insertions(+)
+> Fixes for 6.7.
 > 
-> diff --git a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
-> index e3c818dfc0e6d..cafb463124f71 100644
-> --- a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
-> +++ b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
-> @@ -68,6 +68,150 @@ static void dp_mst_calc_pbn_mode_desc(const struct drm_dp_mst_calc_pbn_mode_test
->  KUNIT_ARRAY_PARAM(drm_dp_mst_calc_pbn_mode, drm_dp_mst_calc_pbn_mode_cases,
->  		  dp_mst_calc_pbn_mode_desc);
->  
-> +struct drm_dp_mst_calc_pbn_div_test {
-> +	int link_rate;
-> +	int lane_count;
-> +	fixed20_12 expected;
-> +};
-> +
-> +#define fp_init(__int, __frac) { \
-> +	.full = (__int) * (1 << 12) + \
-> +		(__frac) * (1 << 12) / 100000 \
-> +}
-> +
-> +static const struct drm_dp_mst_calc_pbn_div_test drm_dp_mst_calc_pbn_div_dp1_4_cases[] = {
-> +	/*
-> +	 * DP1.4 rates:
-> +	 * .expected = .link_rate * .lane_count * 0.8000 / 8 / 54 / 100
-> +	 * UHBR rates:
-> +	 * .expected = .link_rate * .lane_count * 0.9671 / 8 / 54 / 100
-> +	 * truncated to 5 decimal places.
-> +	 */
-> +	{
-> +		.link_rate = 162000,
-> +		.lane_count = 1,
-> +		.expected = fp_init(3, 0),
-> +	},
+> The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
+> 
+>   Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
+> 
+> are available in the Git repository at:
+> 
+>   https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.7-2023-11-17
+> 
+> for you to fetch changes up to e8c2d3e25b844ad8f7c8b269a7cfd65285329264:
+> 
+>   drm/amdgpu/gmc9: disable AGP aperture (2023-11-17 00:58:41 -0500)
 
-Would be nice to sort this to match the tables in the spec.
-A bit hard to do a quick visual comparison now.
-
-> +	{
-> +		.link_rate = 162000,
-> +		.lane_count = 2,
-> +		.expected = fp_init(6, 0),
-> +	},
-> +	{
-> +		.link_rate = 162000,
-> +		.lane_count = 4,
-> +		.expected = fp_init(12, 0),
-> +	},
-> +	{
-> +		.link_rate = 270000,
-> +		.lane_count = 1,
-> +		.expected = fp_init(5, 0),
-> +	},
-> +	{
-> +		.link_rate = 270000,
-> +		.lane_count = 2,
-> +		.expected = fp_init(10, 0),
-> +	},
-> +	{
-> +		.link_rate = 270000,
-> +		.lane_count = 4,
-> +		.expected = fp_init(20, 0),
-> +	},
-> +	{
-> +		.link_rate = 540000,
-> +		.lane_count = 1,
-> +		.expected = fp_init(10, 0),
-> +	},
-> +	{
-> +		.link_rate = 540000,
-> +		.lane_count = 2,
-> +		.expected = fp_init(20, 0),
-> +	},
-> +	{
-> +		.link_rate = 540000,
-> +		.lane_count = 4,
-> +		.expected = fp_init(40, 0),
-> +	},
-> +	{
-> +		.link_rate = 810000,
-> +		.lane_count = 1,
-> +		.expected = fp_init(15, 0),
-> +	},
-> +	{
-> +		.link_rate = 810000,
-> +		.lane_count = 2,
-> +		.expected = fp_init(30, 0),
-> +	},
-> +	{
-> +		.link_rate = 810000,
-> +		.lane_count = 4,
-> +		.expected = fp_init(60, 0),
-> +	},
-> +	{
-> +		.link_rate = 1000000,
-> +		.lane_count = 1,
-> +		.expected = fp_init(22, 38657),
-> +	},
-> +	{
-> +		.link_rate = 1000000,
-> +		.lane_count = 2,
-> +		.expected = fp_init(44, 77314),
-> +	},
-> +	{
-> +		.link_rate = 1000000,
-> +		.lane_count = 4,
-> +		.expected = fp_init(89, 54629),
-> +	},
-> +	{
-> +		.link_rate = 1350000,
-> +		.lane_count = 1,
-> +		.expected = fp_init(30, 22187),
-> +	},
-> +	{
-> +		.link_rate = 1350000,
-> +		.lane_count = 2,
-> +		.expected = fp_init(60, 44375),
-> +	},
-> +	{
-> +		.link_rate = 1350000,
-> +		.lane_count = 4,
-> +		.expected = fp_init(120, 88750),
-> +	},
-> +	{
-> +		.link_rate = 2000000,
-> +		.lane_count = 1,
-> +		.expected = fp_init(44, 77314),
-> +	},
-> +	{
-> +		.link_rate = 2000000,
-> +		.lane_count = 2,
-> +		.expected = fp_init(89, 54629),
-> +	},
-> +	{
-> +		.link_rate = 2000000,
-> +		.lane_count = 4,
-> +		.expected = fp_init(179,  9259),  /* 179.09259 */
-> +	},
-> +};
-> +
-> +static void drm_test_dp_mst_calc_pbn_div(struct kunit *test)
-> +{
-> +	const struct drm_dp_mst_calc_pbn_div_test *params = test->param_value;
-> +	/* mgr->dev is only needed by drm_dbg_kms(), but it's not called for the test cases. */
-> +	struct drm_dp_mst_topology_mgr mgr = {};
-> +
-> +	KUNIT_EXPECT_EQ(test, drm_dp_get_vc_payload_bw(&mgr, params->link_rate, params->lane_count).full,
-> +			params->expected.full);
-> +}
-> +
-> +static void dp_mst_calc_pbn_div_desc(const struct drm_dp_mst_calc_pbn_div_test *t, char *desc)
-> +{
-> +	sprintf(desc, "Link rate %d lane count %d", t->link_rate, t->lane_count);
-> +}
-> +
-> +KUNIT_ARRAY_PARAM(drm_dp_mst_calc_pbn_div, drm_dp_mst_calc_pbn_div_dp1_4_cases,
-> +		  dp_mst_calc_pbn_div_desc);
-> +
->  static u8 data[] = { 0xff, 0x00, 0xdd };
->  
->  struct drm_dp_mst_sideband_msg_req_test {
-> @@ -416,6 +560,7 @@ KUNIT_ARRAY_PARAM(drm_dp_mst_sideband_msg_req, drm_dp_mst_sideband_msg_req_cases
->  
->  static struct kunit_case drm_dp_mst_helper_tests[] = {
->  	KUNIT_CASE_PARAM(drm_test_dp_mst_calc_pbn_mode, drm_dp_mst_calc_pbn_mode_gen_params),
-> +	KUNIT_CASE_PARAM(drm_test_dp_mst_calc_pbn_div, drm_dp_mst_calc_pbn_div_gen_params),
->  	KUNIT_CASE_PARAM(drm_test_dp_mst_sideband_msg_req_decode,
->  			 drm_dp_mst_sideband_msg_req_gen_params),
->  	{ }
-> -- 
-> 2.39.2
+Pulled to drm-fixes, thanks!
+-Sima
+> 
+> ----------------------------------------------------------------
+> amd-drm-fixes-6.7-2023-11-17:
+> 
+> amdgpu:
+> - DMCUB fixes
+> - SR-IOV fix
+> - GMC9 fix
+> - Documentation fix
+> - DSC MST fix
+> - CS chunk parsing fix
+> - SMU13.0.6 fixes
+> - 8K tiled display fix
+> - Fix potential NULL pointer dereferences
+> - Cursor lag fix
+> - Backlight fix
+> - DCN s0ix fix
+> - XGMI fix
+> - DCN encoder disable logic fix
+> - AGP aperture fixes
+> 
+> ----------------------------------------------------------------
+> Alex Deucher (5):
+>       drm/amdgpu/gmc11: fix logic typo in AGP check
+>       drm/amdgpu: add a module parameter to control the AGP aperture
+>       drm/amdgpu/gmc11: disable AGP aperture
+>       drm/amdgpu/gmc10: disable AGP aperture
+>       drm/amdgpu/gmc9: disable AGP aperture
+> 
+> Asad Kamal (2):
+>       drm/amd/pm: Update metric table for smu v13_0_6
+>       drm/amd/pm: Fill pcie error counters for gpu v1_4
+> 
+> Duncan Ma (1):
+>       drm/amd/display: Negate IPS allow and commit bits
+> 
+> Fangzhi Zuo (1):
+>       drm/amd/display: Fix DSC not Enabled on Direct MST Sink
+> 
+> José Pekkarinen (1):
+>       drm/amd/display: fix NULL dereference
+> 
+> Le Ma (1):
+>       drm/amdgpu: finalizing mem_partitions at the end of GMC v9 sw_fini
+> 
+> Lewis Huang (1):
+>       drm/amd/display: Change the DMCUB mailbox memory location from FB to inbox
+> 
+> Lijo Lazar (1):
+>       drm/amd/pm: Don't send unload message for reset
+> 
+> Mario Limonciello (1):
+>       drm/amd/display: fix a NULL pointer dereference in amdgpu_dm_i2c_xfer()
+> 
+> Muhammad Ahmed (1):
+>       drm/amd/display: Add null checks for 8K60 lightup
+> 
+> Nicholas Kazlauskas (1):
+>       drm/amd/display: Guard against invalid RPTR/WPTR being set
+> 
+> Nicholas Susanto (1):
+>       drm/amd/display: Fix encoder disable logic
+> 
+> Paul Hsieh (1):
+>       drm/amd/display: Clear dpcd_sink_ext_caps if not set
+> 
+> Shiwu Zhang (1):
+>       drm/amdgpu: add and populate the port num into xgmi topology info
+> 
+> Srinivasan Shanmugam (1):
+>       drm/amdgpu: Address member 'ring' not described in 'amdgpu_ vce, uvd_entity_init()'
+> 
+> Tianci Yin (1):
+>       drm/amd/display: Enable fast plane updates on DCN3.2 and above
+> 
+> Victor Lu (1):
+>       drm/amdgpu: Do not program VF copy regs in mmhub v1.8 under SRIOV (v2)
+> 
+> Yang Wang (1):
+>       drm/amdgpu: fix ras err_data null pointer issue in amdgpu_ras.c
+> 
+> YuanShang (1):
+>       drm/amdgpu: correct chunk_ptr to a pointer to chunk.
+> 
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h                |  1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            | 10 +++++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |  5 +++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h            |  1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c            |  1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c            |  1 +
+>  drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c             |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c             |  5 ++-
+>  drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |  7 +--
+>  drivers/gpu/drm/amd/amdgpu/mmhub_v1_8.c            |  6 +--
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 24 ++++++-----
+>  .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |  5 +--
+>  .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    | 29 ++++++-------
+>  .../amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c   | 18 ++++----
+>  drivers/gpu/drm/amd/display/dc/core/dc.c           |  6 +--
+>  drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |  3 ++
+>  drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c       | 10 ++---
+>  drivers/gpu/drm/amd/display/dc/dc_types.h          |  1 +
+>  .../display/dc/dcn35/dcn35_dio_stream_encoder.c    | 10 ++---
+>  .../gpu/drm/amd/display/dc/link/link_detection.c   |  3 ++
+>  drivers/gpu/drm/amd/display/dmub/dmub_srv.h        | 22 ++++++----
+>  drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c    | 50 +++++++++++++++++-----
+>  .../amd/pm/swsmu/inc/pmfw_if/smu_v13_0_6_pmfw.h    | 10 ++++-
+>  .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c   | 10 ++++-
+>  26 files changed, 160 insertions(+), 84 deletions(-)
 
 -- 
-Ville Syrjälä
-Intel
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
