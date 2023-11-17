@@ -1,54 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B2277EED95
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 09:33:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF70C7EED9E
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 09:38:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38C9610E13A;
-	Fri, 17 Nov 2023 08:33:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C02F010E2A0;
+	Fri, 17 Nov 2023 08:38:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A72610E13A;
- Fri, 17 Nov 2023 08:33:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700209995; x=1731745995;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=LadFFOa9cUtU7ECOTPF5KVOGh+N1azQgLZ4EmevYVpc=;
- b=SU3UIyebWj6jGxHRvX05dBpekQ3zEExgY9zDPj9Cza05QwwJa/uFxuKk
- Xu0VPEg53DQ9vX3zskiOb7rCVhXDKlL96mIrpWuuaCgdTJD4v4IF15/E1
- uEiLLzSYU+0Vmj0NGR5RdHW0DMVZdlShBQXsOWHBDLJzgNqTzL84Nx0zx
- sYhfnC8BRaHYSaIlESiNxNuS/5Z2eVnltb9N/h1nOSvo/qaqJlh+GXDWm
- qRkTBBJKgopU5+5yuChI7WzHWU+yXkGOVSyYpR1Lir8efG2XT0Z2YTARd
- aRP6b2gCmHTlYdCQR5FaWUdi8E5XYrspDa1lqYb7R25jBQLULBhm4pE5z g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="422355779"
-X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; d="scan'208";a="422355779"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2023 00:33:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; d="scan'208";a="13846915"
-Received: from jpoulsen-mobl.ger.corp.intel.com (HELO [10.249.254.136])
- ([10.249.254.136])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2023 00:33:11 -0800
-Message-ID: <a1cbe3e8-2b2c-150a-7919-65bdd38f75be@linux.intel.com>
-Date: Fri, 17 Nov 2023 09:33:08 +0100
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 654AF10E2A0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 08:38:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 76C2EB81CAB;
+ Fri, 17 Nov 2023 08:38:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F8D4C433C8;
+ Fri, 17 Nov 2023 08:38:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1700210296;
+ bh=Zltwp4GsFJ8WfP3ZhXGXiAa9/m0rbEf851izwH8yjO8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kMZGno5qrvLEpX6AN9zmd71utBBkwSFFzxkvEDGD5nD1hI/FzwtZeU1edNY9tbH93
+ 0VSY5MuZpTE4HYrai69U+Ept2rPIUjCpfa2GJ+Up25xQAPmbB+2iTK1Ltr7vwPZE4D
+ IP44dPdtg9GBu/FEFbqA/R5ukGAEE7Gi+jiifEGeZF1RADYKNqc8u2hRU9zbPfrubG
+ y7MBvOAm6ccBAyMhzeCTzFhhjquV3uKaqe1D0YePTNqo/8Foxydk0IysortH79cBei
+ 1Lr3MzK79PRPa9EX7/e7G4v4j0MNyXTbgmDd26kLAxveZrzXoJx6wcvAJvIAFTYyHS
+ 3nJhk4iggSnMA==
+Date: Fri, 17 Nov 2023 09:38:13 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH 3/3] drm/ssd130x: Change "solomon,page-offset" property
+ default value
+Message-ID: <yqneztpzmhhqenommpvhw2pksjspq7srpeba7ckfia5z3c5aap@wmnxhbgcflnd>
+References: <20231116180743.2763021-1-javierm@redhat.com>
+ <20231116180743.2763021-3-javierm@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v4] Documentation/gpu: VM_BIND locking document
-Content-Language: en-US
-To: Bagas Sanjaya <bagasdotme@gmail.com>, intel-xe@lists.freedesktop.org
-References: <20231115124937.6740-1-thomas.hellstrom@linux.intel.com>
- <ZVYVk8KutkQE0RDU@archie.me>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <ZVYVk8KutkQE0RDU@archie.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ugqcnc4hp5qdpf6v"
+Content-Disposition: inline
+In-Reply-To: <20231116180743.2763021-3-javierm@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,64 +52,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Francois Dugast <francois.dugast@intel.com>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Oak Zeng <oak.zeng@intel.com>, Boris Brezillon <boris.brezillon@collabora.com>,
- Danilo Krummrich <dakr@redhat.com>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Sahaj Sarup <sahaj.sarup@linaro.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
+--ugqcnc4hp5qdpf6v
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 11/16/23 14:13, Bagas Sanjaya wrote:
-> On Wed, Nov 15, 2023 at 01:49:37PM +0100, Thomas Hellström wrote:
->> +TODO: Pointer to the gpuvm code implementation if this iteration and
-> "... implementation of this iteration ..."
->
->> +Using a MMU notifier for device DMA (and other methods) is described in
->> +`this document
->> +<https://docs.kernel.org/core-api/pin_user_pages.html#case-3-mmu-notifier-registration-with-or-without-page-faulting-hardware>`_.
-> You can use internal linking instead:
->
-> ---- >8 ----
-> diff --git a/Documentation/core-api/pin_user_pages.rst b/Documentation/core-api/pin_user_pages.rst
-> index d3c1f6d8c0e0ec..6b5f7e6e7155fb 100644
-> --- a/Documentation/core-api/pin_user_pages.rst
-> +++ b/Documentation/core-api/pin_user_pages.rst
-> @@ -153,6 +153,8 @@ NOTE: Some pages, such as DAX pages, cannot be pinned with longterm pins. That's
->   because DAX pages do not have a separate page cache, and so "pinning" implies
->   locking down file system blocks, which is not (yet) supported in that way.
->   
-> +.. _mmu-notifier-registration-case:
-> +
->   CASE 3: MMU notifier registration, with or without page faulting hardware
->   -------------------------------------------------------------------------
->   Device drivers can pin pages via get_user_pages*(), and register for mmu
-> diff --git a/Documentation/gpu/drm-vm-bind-locking.rst b/Documentation/gpu/drm-vm-bind-locking.rst
-> index bc701157cb3414..08b6a47a6e592f 100644
-> --- a/Documentation/gpu/drm-vm-bind-locking.rst
-> +++ b/Documentation/gpu/drm-vm-bind-locking.rst
-> @@ -366,8 +366,7 @@ need to care about, but so far it has proven difficult to exclude
->   certain notifications.
->   
->   Using a MMU notifier for device DMA (and other methods) is described in
-> -`this document
-> -<https://docs.kernel.org/core-api/pin_user_pages.html#case-3-mmu-notifier-registration-with-or-without-page-faulting-hardware>`_.
-> +:ref:`pin_user_pages() documentation <mmu-notifier-registration-case>`.
->   
->   Now the method of obtaining struct page references using
->   get_user_pages() unfortunately can't be used under a dma_resv lock
->
-> Thanks.
->
-Thanks. I'll take a look at doing this as well.
+On Thu, Nov 16, 2023 at 07:07:39PM +0100, Javier Martinez Canillas wrote:
+> This is used to specify the page start address offset of the display RAM.
+>=20
+> The value is used as offset when setting the page start address with the
+> SSD130X_SET_PAGE_RANGE command, and the driver currently sets its value to
+> 1 if the property is not present in the Device Tree.
+>=20
+> But the datasheet mentions that the value on reset for the page start is a
+> 0, so it makes more sense to also have 0 as the default value for the page
+> offset if the property is not present.
 
-Thomas
+I can see the argument, but that's a DT ABI breaking change.
 
+> In fact, using a default value of 1 leads to the display not working when
+> the emulated fbdev is attached to the framebuffer console.
 
+Could we fix that one instead? What is the issue about, exactly
 
+Maxime
+
+--ugqcnc4hp5qdpf6v
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZVcmawAKCRDj7w1vZxhR
+xT0mAQCE0xcyl9bZKj0rvFdl4wB/NEpUf6ubP/8QlEW1O0uNogEA3sQFl+W/EfEi
+L21HM4MkPBXDc8MHyzB/8wbCsrnHQQ0=
+=T+Yj
+-----END PGP SIGNATURE-----
+
+--ugqcnc4hp5qdpf6v--
