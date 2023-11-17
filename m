@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B0C47EF7F7
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 20:44:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6840A7EF7F8
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Nov 2023 20:44:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A657C10E76B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A983D10E76D;
 	Fri, 17 Nov 2023 19:44:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08D9610E76B
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 19:44:15 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id
- 5614622812f47-3b6cfc62514so1143495b6e.0
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 11:44:15 -0800 (PST)
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A45D10E76B
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 19:44:14 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id
+ 5614622812f47-3b40d5ea323so1480526b6e.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Nov 2023 11:44:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700250254; x=1700855054; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1700250253; x=1700855053; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Dm+B9LqpTKhZJZ6afsKQk2fW35ugV3YMPYGBr869QBA=;
- b=BzVRwBQIJUx65pnerJtqy2I+uE3g45fHDtT+U2SplGAfaU4M7ZJ0SQMepfy65YnyOT
- wdoxtaQ65TUk40gQC0iZNoQCMsc64aQXe9D26ToyE9fphflYUolFOu6wFuwlhYFirK06
- KiSkAV0E87L7sZgg5+BcqNfE/k0LekitDA27DS86Jwh9NdBmRwomHHcMXlCb61gUuwfq
- iPUna3BkNX+iNiffnTd88dBo6jEdLAbGNPcera41ZEIcM2/QHqT5n4lx1plf2f83s1JO
- ZM6reyzUkFteJ81ci40q3R2/Wdj36Z/Nv+tEiF7lRWlDSgU576jk44njUbYp4ZCHyCuc
- A/oQ==
+ bh=57wKZQ9CpcI/KABBdYnBmlor/KExRJr0eHFWG2qkyVs=;
+ b=lOZdHnS27wyrhZVfh5cBfush07uLJy98d7unBX68rMYH62zRTbED3U4+0AoyFfPBSe
+ GFN46B9zA5vkcL75NX5s3uGJD9OXaj5miDjalwOYd7TftwK2i+uVJ0hJ/iG1vwIR6YhU
+ RGwy0LiLfPlXYFoW/f59zSexVKWug9WhBbS4iAaa2xLRM8ndl1XJH7GUWPGqF/ZALyK5
+ ROXaSQcVj7K5zDGeiekF17KzLOZpr2JPlKyQ+qH3DBTM+UTNTSIkfbGadeLYNGQII4cR
+ GvARo1PLWVMWDSU+dDcf5M9M8teWuHcsNgmuxuGNolN4cOneZNFBg9TsogPDzDngfww1
+ lqeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700250254; x=1700855054;
+ d=1e100.net; s=20230601; t=1700250253; x=1700855053;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Dm+B9LqpTKhZJZ6afsKQk2fW35ugV3YMPYGBr869QBA=;
- b=BEGltz1lxWag735q9bLxPmUdNSz8MS/DoyYq6q3ha2bUfMtksUleEymk9VXb8BlXlC
- vKOUXI2kKv0X05pBmUoX0N0GRiTrP5kh2XxFuqkDus6QmyHSKJT3cyTf69vwK1KcFUDQ
- nNqdd5fuiY9NhXkBcqfeYWfGQ2D5rCp3hb9YSRTXIukuYTJbCNuZ60nRCFEOKpACMh2N
- nWtuX4jQjTg/LhVklC+UE5Mk2F34QIqdmdSwrJbt7Fh6NcWTXg9Fq+fnofxFo5IagpeH
- UP+kl9gK5VSagn3VH5Ib5lDVYmzSeBalOsK+mOBfLCfe6HQrV83DCHx3yk+v7GhikR48
- Jc1A==
-X-Gm-Message-State: AOJu0Yy7gPMZQB3eZ7firD0QwNY0xKsJ3J1yAg88HjAyXB4XJjtKswOY
- RsKU7oaFXvJukRoLkClrwtck4SorDdQ=
-X-Google-Smtp-Source: AGHT+IGtvecZpvLRkI5fvhAzyW7c77PVwxoPyk7O2QfCWDl9Uh5UDWR8OWKBw+kMQX6hvXASREYHyw==
-X-Received: by 2002:a05:6808:1a28:b0:3b2:db2f:9f2 with SMTP id
- bk40-20020a0568081a2800b003b2db2f09f2mr3037522oib.15.1700250252709; 
- Fri, 17 Nov 2023 11:44:12 -0800 (PST)
+ bh=57wKZQ9CpcI/KABBdYnBmlor/KExRJr0eHFWG2qkyVs=;
+ b=iPUD81i4OO84/FFl/OzpGW0ixww12ZGBU1cYbab4RynsRobYOnAsZXCrOtiFprbfBD
+ e9NWhwGT/dIcLRXr3VdSTN6nk2z4MzMUqy/Pun28WZkqNkiJBFKgBislTiQo8dH7sS8l
+ VpmrCgsJK+a/inOJ4xm/S4Ywc/2JH2jhPRHKudrN/NBZzMD+/FhxxHvvOneqMJUusadd
+ Bw38JDiR6gSmXVxg1Fo+e/PSc7XqdtPstIZwbTskwCnA2jUW1IxoMngQuGfBKiHXbinq
+ Ga8LEREUeCR2F+hY2jR4aX9qmK0Bfu7eKdAZAy3pdzNqUa5S3gU6Pc6kqD22DqMyJGEe
+ idSQ==
+X-Gm-Message-State: AOJu0Yz6/BoUl//pYLltAOreibmSRuUsgFsugJCRDUobOvRLwyPE5dt2
+ he6Sc5YPKe4cw5GW6oj3d5iprWI9uDM=
+X-Google-Smtp-Source: AGHT+IHQ0EYg9FWbkoppMB+I2rCvddHn874Ao+DFHShBVAc7+4nIW+v07lHrGo0/JjnaTZ66sxMIIA==
+X-Received: by 2002:a05:6808:6543:b0:3b5:66af:f8e3 with SMTP id
+ fn3-20020a056808654300b003b566aff8e3mr379628oib.37.1700250253237; 
+ Fri, 17 Nov 2023 11:44:13 -0800 (PST)
 Received: from localhost.localdomain ([75.28.21.198])
  by smtp.gmail.com with ESMTPSA id
  y5-20020a056830108500b006cd099bb052sm338193oto.1.2023.11.17.11.44.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Nov 2023 11:44:12 -0800 (PST)
+ Fri, 17 Nov 2023 11:44:13 -0800 (PST)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH V2 4/5] drm/panel-elida-kd35t133: Drop shutdown logic
-Date: Fri, 17 Nov 2023 13:44:04 -0600
-Message-Id: <20231117194405.1386265-5-macroalpha82@gmail.com>
+Subject: [PATCH V2 5/5] drm/panel-elida-kd35t133: Drop prepare/unprepare logic
+Date: Fri, 17 Nov 2023 13:44:05 -0600
+Message-Id: <20231117194405.1386265-6-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231117194405.1386265-1-macroalpha82@gmail.com>
 References: <20231117194405.1386265-1-macroalpha82@gmail.com>
@@ -80,55 +80,66 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-The driver shutdown is duplicate as it calls drm_unprepare and
-drm_disable which are called anyway when associated drivers are
-shutdown/removed.
+Drop the prepare/unprepare logic, as this is now tracked elsewhere
+since this commit [1].
+
+[1] commit d2aacaf07395 ("drm/panel: Check for already prepared/enabled in drm_panel")
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- drivers/gpu/drm/panel/panel-elida-kd35t133.c | 17 -----------------
- 1 file changed, 17 deletions(-)
+ drivers/gpu/drm/panel/panel-elida-kd35t133.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-elida-kd35t133.c b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-index 29b4ee63d83b..fea3d9e84905 100644
+index fea3d9e84905..00791ea81e90 100644
 --- a/drivers/gpu/drm/panel/panel-elida-kd35t133.c
 +++ b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-@@ -296,27 +296,11 @@ static int kd35t133_probe(struct mipi_dsi_device *dsi)
+@@ -43,7 +43,6 @@ struct kd35t133 {
+ 	struct regulator *vdd;
+ 	struct regulator *iovcc;
+ 	enum drm_panel_orientation orientation;
+-	bool prepared;
+ };
+ 
+ static inline struct kd35t133 *panel_to_kd35t133(struct drm_panel *panel)
+@@ -91,9 +90,6 @@ static int kd35t133_unprepare(struct drm_panel *panel)
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+ 	int ret;
+ 
+-	if (!ctx->prepared)
+-		return 0;
+-
+ 	ret = mipi_dsi_dcs_set_display_off(dsi);
+ 	if (ret < 0)
+ 		dev_err(ctx->dev, "failed to set display off: %d\n", ret);
+@@ -109,8 +105,6 @@ static int kd35t133_unprepare(struct drm_panel *panel)
+ 	regulator_disable(ctx->iovcc);
+ 	regulator_disable(ctx->vdd);
+ 
+-	ctx->prepared = false;
+-
  	return 0;
  }
  
--static void kd35t133_shutdown(struct mipi_dsi_device *dsi)
--{
--	struct kd35t133 *ctx = mipi_dsi_get_drvdata(dsi);
--	int ret;
--
--	ret = drm_panel_unprepare(&ctx->panel);
--	if (ret < 0)
--		dev_err(&dsi->dev, "Failed to unprepare panel: %d\n", ret);
--
--	ret = drm_panel_disable(&ctx->panel);
--	if (ret < 0)
--		dev_err(&dsi->dev, "Failed to disable panel: %d\n", ret);
--}
--
- static void kd35t133_remove(struct mipi_dsi_device *dsi)
- {
- 	struct kd35t133 *ctx = mipi_dsi_get_drvdata(dsi);
+@@ -120,9 +114,6 @@ static int kd35t133_prepare(struct drm_panel *panel)
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
  	int ret;
  
--	kd35t133_shutdown(dsi);
+-	if (ctx->prepared)
+-		return 0;
 -
- 	ret = mipi_dsi_detach(dsi);
- 	if (ret < 0)
- 		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
-@@ -337,7 +321,6 @@ static struct mipi_dsi_driver kd35t133_driver = {
- 	},
- 	.probe	= kd35t133_probe,
- 	.remove = kd35t133_remove,
--	.shutdown = kd35t133_shutdown,
- };
- module_mipi_dsi_driver(kd35t133_driver);
+ 	dev_dbg(ctx->dev, "Resetting the panel\n");
+ 	ret = regulator_enable(ctx->vdd);
+ 	if (ret < 0) {
+@@ -166,8 +157,6 @@ static int kd35t133_prepare(struct drm_panel *panel)
  
+ 	msleep(50);
+ 
+-	ctx->prepared = true;
+-
+ 	return 0;
+ 
+ disable_iovcc:
 -- 
 2.34.1
 
