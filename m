@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861E47F018B
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Nov 2023 18:43:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72BDF7F0190
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Nov 2023 18:43:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F13B610E344;
-	Sat, 18 Nov 2023 17:42:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9B3410E343;
+	Sat, 18 Nov 2023 17:42:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7275910E339
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Nov 2023 17:42:37 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-4084e49a5e5so5442715e9.3
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Nov 2023 09:42:37 -0800 (PST)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1F2610E33E
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Nov 2023 17:42:38 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ 5b1f17b1804b1-40a46ea95f0so5327375e9.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Nov 2023 09:42:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700329356; x=1700934156; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1700329357; x=1700934157; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lj6lXffwhPaiA+tttg2gWfCsavHU7fIAFEm3bWLvYqY=;
- b=Q+p9wbbDp5F9M7Pg8Q56D7ARaJXqCqm9suR1CkZgkFIx0Dc9MHy0wOth6Pbwaf73jj
- oEItFyOz1T4fjOwXYrrtd//yDfpidLdtso+SCvDWqyc7vWlkSAIvPRfXMiUQ9mVKKPNi
- vjhx498xpLO44c0Twtpp1x1Qakt31aOcz4YqR3B484WGGuAAjIAR4+sL6qhoJwezYreh
- 1vAnIn4492r33yFzSiVIjoPSOKEOiTgnad3rSy90cHNzofGmk4KsgYY/ZYuIQcDWbJk+
- p1S3sEcfMV+ncizLf3K59IJ7r56BHvYw5/6XciZ66gprifzqCNZZGdbs+ItYNMc9utww
- WXhQ==
+ bh=x0UShpfjCPfBIWng5J4/pQaeext1SYGd0ovoJY2VHzk=;
+ b=lnqm68TY7T35IHn+waJLriotQRev9L4RPCnOBo9r2BKNf5AyTTJ7+m1R57URResLJ+
+ OPOlLjBsnBi27obBM7MtDoONEkLL1Ftv0q3NwvuwCLpa7+wC+a/NCr2lAac+LWNe/RBS
+ 75TVaQKHvHMA8N9yFtCPZ5G0m653SyVizRhFcsBr2E+sjxSVeWCmQoeCT8k/lV0ei9Mp
+ QHA4f6r3EGqYaZovTMgIMp0k9tsFHN7mjYYOVFbP67gfkHLBCnfN41U7k+wV+y3caRfS
+ j7MpXl3hmJyIJMf4EvQZ51Y1gy7Vi2+vOji6nmdEjgD/zM+hJMGsgc1QwCteg81+tiFs
+ 9o0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700329356; x=1700934156;
+ d=1e100.net; s=20230601; t=1700329357; x=1700934157;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lj6lXffwhPaiA+tttg2gWfCsavHU7fIAFEm3bWLvYqY=;
- b=TyBroiJUF4p6Cf+EUEQzGY9DEe2ojH93E7i12hwkJaw4d1DXKHAlsExAPGcXpzcUKK
- x9DwI+evmXe5zJ7ntGU2YzDshXH51tlhasis6fb3fy4dSTi3GMX4NkYSZ8W5/2EQK20H
- LDgJaAaW7eOjuTiqXi/N8R0HuXJoHUlzLIb+gvZE/LrdtypkqH1ewbgvDtO5waxlBo8H
- 8ncr3kqTZTStO8pFa+UbBGzo9ccCLNmZ2sm2KUpyj3oA8K7Ic77JFiPcB2m6I2Jm3leg
- LR+I6PE8dvBbjEihFBmMHGbN60Qg4rH3u299ihoiTvwZTP14Lk6dyotrjDPCdOeol7Vi
- pmTw==
-X-Gm-Message-State: AOJu0Yy5rCXxCZtYqf2B/0CMVBiXaqlhK4anI1Y7TVsAxsoj31VHgxwK
- a6AhiKxgXwvQSwFsG3zXqR1Llj3mjUU=
-X-Google-Smtp-Source: AGHT+IH/UONni9JBi2RCMivHlBv+H1UGwnLkk3yuImh+ir7/RnEejhHlDGLGWXdlNBwBR0HTwihAzg==
-X-Received: by 2002:a05:600c:4ec6:b0:409:3f53:c9c7 with SMTP id
- g6-20020a05600c4ec600b004093f53c9c7mr2232492wmq.35.1700329355808; 
- Sat, 18 Nov 2023 09:42:35 -0800 (PST)
+ bh=x0UShpfjCPfBIWng5J4/pQaeext1SYGd0ovoJY2VHzk=;
+ b=pi7nVwRi0EzB59fwNteWv7fn3vlL5aHTIuYXGK027Bo9SrMbGRu6eIJTqoc4Vth1Qy
+ Pm+aKh7I0R/ar54+J5SXGF4f7kERaRvQ8n2vl6eZ0Gj+RaxMcaYw5NzJTSJv4a9Kpjps
+ c743yVoPWAaCbo/nhgZxG6/Noufe00CbGwiGuaj7vSrTPRkf4wYNBOdKAHWlmugeh+zy
+ Pn4xJYPeLjR7l/9LjFgaeMsvusI4JGR28xkfXHpb7M/HHBXBpI5TdAWxCoUsnaUPWGxZ
+ fe/Xv7LGDArrrtQUVPJfii3pzQMhAfpueHqp2LctfPKEW1LIl7jRmPucKtdObwQQdWiC
+ HJOw==
+X-Gm-Message-State: AOJu0YwQ0v+AmiLot+iKiCTpJfxGuORlNgXJ4239qjHlBFXO5+M0LFid
+ 2rWqaoOo+hKVxUtYKQSRCDQ=
+X-Google-Smtp-Source: AGHT+IEYtipVOmHkmNUNcpfhd7yRWRn/fCm6xuayGvnoz64EspqjxwBcgwutFlkQhj/M1VwINT6WNw==
+X-Received: by 2002:a05:600c:470a:b0:405:4a78:a892 with SMTP id
+ v10-20020a05600c470a00b004054a78a892mr1927675wmo.9.1700329356850; 
+ Sat, 18 Nov 2023 09:42:36 -0800 (PST)
 Received: from zotac.lan.
  (dynamic-2a01-0c22-77bf-8300-2223-08ff-fe18-0310.c22.pool.telefonica.de.
  [2a01:c22:77bf:8300:2223:8ff:fe18:310])
  by smtp.gmail.com with ESMTPSA id
- y10-20020a05600c340a00b004068de50c64sm6964211wmp.46.2023.11.18.09.42.34
+ y10-20020a05600c340a00b004068de50c64sm6964211wmp.46.2023.11.18.09.42.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Nov 2023 09:42:35 -0800 (PST)
+ Sat, 18 Nov 2023 09:42:36 -0800 (PST)
 From: Heiner Kallweit <hkallweit1@gmail.com>
 To: Wolfram Sang <wsa@kernel.org>,
-	Russell King <linux@armlinux.org.uk>
-Subject: [PATCH v2 10/20] drivers/video/fbdev/cyber2000fb.c: remove
+	Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: [PATCH v2 11/20] drivers/gpu/drm/bridge/synopsys/dw-hdmi.c: remove
  I2C_CLASS_DDC support
-Date: Sat, 18 Nov 2023 18:42:10 +0100
-Message-ID: <20231118174221.851-11-hkallweit1@gmail.com>
+Date: Sat, 18 Nov 2023 18:42:11 +0100
+Message-ID: <20231118174221.851-12-hkallweit1@gmail.com>
 X-Mailer: git-send-email 2.42.1
 In-Reply-To: <20231118174221.851-1-hkallweit1@gmail.com>
 References: <20231118174221.851-1-hkallweit1@gmail.com>
@@ -77,10 +77,13 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-i2c@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Heiner Kallweit <hkallweit1@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -94,19 +97,19 @@ Preferably this series should be applied via the i2c tree.
 Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
 ---
- drivers/video/fbdev/cyber2000fb.c |    1 -
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c |    1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/cyber2000fb.c b/drivers/video/fbdev/cyber2000fb.c
-index 52105dc1a..79775deda 100644
---- a/drivers/video/fbdev/cyber2000fb.c
-+++ b/drivers/video/fbdev/cyber2000fb.c
-@@ -1234,7 +1234,6 @@ static int cyber2000fb_setup_ddc_bus(struct cfb_info *cfb)
- 	strscpy(cfb->ddc_adapter.name, cfb->fb.fix.id,
- 		sizeof(cfb->ddc_adapter.name));
- 	cfb->ddc_adapter.owner		= THIS_MODULE;
--	cfb->ddc_adapter.class		= I2C_CLASS_DDC;
- 	cfb->ddc_adapter.algo_data	= &cfb->ddc_algo;
- 	cfb->ddc_adapter.dev.parent	= cfb->fb.device;
- 	cfb->ddc_algo.setsda		= cyber2000fb_ddc_setsda;
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index 52d91a0df..aca5bb086 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -515,7 +515,6 @@ static struct i2c_adapter *dw_hdmi_i2c_adapter(struct dw_hdmi *hdmi)
+ 	init_completion(&i2c->cmp);
+ 
+ 	adap = &i2c->adap;
+-	adap->class = I2C_CLASS_DDC;
+ 	adap->owner = THIS_MODULE;
+ 	adap->dev.parent = hdmi->dev;
+ 	adap->algo = &dw_hdmi_algorithm;
 
