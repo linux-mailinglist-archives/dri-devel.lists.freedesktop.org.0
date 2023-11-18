@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E2F97F0172
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Nov 2023 18:42:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 104837F0169
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Nov 2023 18:42:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67BAE10E338;
-	Sat, 18 Nov 2023 17:42:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCF4C88FAE;
+	Sat, 18 Nov 2023 17:42:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4814510E336;
- Sat, 18 Nov 2023 17:42:31 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id
- 38308e7fff4ca-2c87acba73bso1396411fa.1; 
- Sat, 18 Nov 2023 09:42:31 -0800 (PST)
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94C4010E177
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Nov 2023 17:42:31 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ 5b1f17b1804b1-40859dee28cso5420915e9.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Nov 2023 09:42:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700329349; x=1700934149; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1700329350; x=1700934150; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cyZ/cbQESDC/MGT/kN0ThvfGObcymEWZy6uoIIRVQcA=;
- b=NS+YbM7ysVb7lWQSSsU/b0b1kEbXeOdCjkLG8JC1xquBVzJZRnE2Uz6SIqbYeIss2E
- kcAQX6GginkvltkmDvaC7WBfmxtcnOJbBNG1V5h18hWeVvUvJv6i8HxlGyWssQcjcaS9
- LBQEUWBmt0LTfLUG0PmpPJML4BQiikj4IHrF2JT1p0dzxfIWWHztK9AT3Hv9YkF9d37i
- n1hpLHIPcRhW14DruuzrmNn82ivzX7K5VE98JoTPkIgPw8sZKZETZsfJk37Y0jh+2FQq
- hMS6AfNQa6yfMBGRIBoZq8ueEE3V7ZhLnNgNdIEGuF2sEnn9alrBUVydcWSfEhALSZ+E
- XPMw==
+ bh=2A7KgJeMP1lI74vlMRztf0ZeAIQKlR0j/L1YwdkkguA=;
+ b=nXTyofjICM1m2IKAfL++M2bi4IvcRxRwfuOP/N9LCZvy+uF/IV7HG72UITCkTmKamf
+ KncM0+0xUpa2QCXslPst/ogxD4/qdFeoSo/qE1OwUZdSVL/8CGB40qDVJEIUMRcwMV5t
+ 6fCi88JEfJYiQzltApUlFUMT5NUVZfVX59mgLUCP2UWEg5H1oV0WV42jkBa6poB+2wII
+ 36kiwCMcGklrmfc09RtGyt+9eX+iOmwEwD7N8uSQqu3wD2DU7XXRGTv9kHaN6/lIXtB1
+ 8AMzQ+R1+U/c45/nrHef3v3ytPrmqrDeqpanhAyA/Y5ox0Ki+ynmDhUZ/Ms2T53rmgmK
+ FgNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700329349; x=1700934149;
+ d=1e100.net; s=20230601; t=1700329350; x=1700934150;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cyZ/cbQESDC/MGT/kN0ThvfGObcymEWZy6uoIIRVQcA=;
- b=vCcmi1LwKAcarUYb7bo1OKsMd59L1tx5bqxj9xq9As+9ZQNCvPHk25YlzL/XZpJuLc
- 4IU1wJN6M+arPa1ZRRkFZIvNf559YTaJ9voD5FnAic5UNF6wI74+6naW7ZqSWs/k0tgV
- n6owD2LW/6zDVzWWycsKA2XJ8Zjb30ZM8SmlNr2tVB0asrXO591U04/VXmK3adIrDAfb
- Bdb4xba5sKrE9jZC1SFnii3S6p8BtDEjq8sN+er17MSqFpRjVRSr0NoTxzwckbzcjpwv
- 61kkyskH+SFy73aVaaLjLa4jfjbtPt2jbG5acsa5o32jI6lv589BLKK1GqSNzKV5QK6K
- QvwQ==
-X-Gm-Message-State: AOJu0YxMUyyhSd0NMEk3XsHoQfVW1krDK77XlWzkl6lJYJAQeYA/LfnB
- xhNrdHSXuH/iUzOaLgRpDH0=
-X-Google-Smtp-Source: AGHT+IHnFgNWvQQzwc0XOhpUWTcrcN2j6CYFonTN+gof5Zy5XsRr775SK97ByQAzYdXjmLv3xio01A==
-X-Received: by 2002:a2e:82cc:0:b0:2c8:3254:bde5 with SMTP id
- n12-20020a2e82cc000000b002c83254bde5mr1493466ljh.50.1700329348922; 
- Sat, 18 Nov 2023 09:42:28 -0800 (PST)
+ bh=2A7KgJeMP1lI74vlMRztf0ZeAIQKlR0j/L1YwdkkguA=;
+ b=Qc3TNcLgWAzKkrz8tONlJE+3sUYVAW3ZMGCYhtr9Yz8cV1kmv9ZmrTscrtDH74CMsG
+ NX/9Ny5Er0LHRe5xKMuQ07l7Vs+1ZcPpFAEiA+ffRyz8FdpZjdB2Z+kn3DJ4V0bAWMVe
+ 5jbf8ZeV37TlKw1eKIRp58mdtftnMoXXtdcCDg9f3zXx0hVfaW5492OBzxYYPfu8EtXJ
+ OZsMdwZavq1JEgjIBFz9XyCOnVP2N2ZBBkqv0ZoaBOlX92SvZS/Uzc4yqfjTDde2wBda
+ VjC2T/qCw0XvQOxQ6bS1+hqN0/tbpviUrGqMShOAKUFV6cDiXMlq82J9TZiWZrxYcnQf
+ OAvw==
+X-Gm-Message-State: AOJu0YwMEPn/FtP5mdPBPJ1Ww7TYqTOEA1nnqpQOGG6/Lxp+LhcT/iJi
+ eGc1QQf7u+Qc0FYIjLPcezs=
+X-Google-Smtp-Source: AGHT+IFhcmh+HF8fxApZE0ppjzudwwON5aQtR0W323i40dvMUD5YGJYLj4L/jEO65VvDn1fpwc/WhA==
+X-Received: by 2002:a7b:cd97:0:b0:408:3b8d:f7e8 with SMTP id
+ y23-20020a7bcd97000000b004083b8df7e8mr2221493wmj.33.1700329349862; 
+ Sat, 18 Nov 2023 09:42:29 -0800 (PST)
 Received: from zotac.lan.
  (dynamic-2a01-0c22-77bf-8300-2223-08ff-fe18-0310.c22.pool.telefonica.de.
  [2a01:c22:77bf:8300:2223:8ff:fe18:310])
  by smtp.gmail.com with ESMTPSA id
- y10-20020a05600c340a00b004068de50c64sm6964211wmp.46.2023.11.18.09.42.27
+ y10-20020a05600c340a00b004068de50c64sm6964211wmp.46.2023.11.18.09.42.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Nov 2023 09:42:28 -0800 (PST)
+ Sat, 18 Nov 2023 09:42:29 -0800 (PST)
 From: Heiner Kallweit <hkallweit1@gmail.com>
 To: Wolfram Sang <wsa@kernel.org>,
-	Harry Wentland <harry.wentland@amd.com>
-Subject: [PATCH v2 03/20] drm/amd/display: remove I2C_CLASS_DDC support
-Date: Sat, 18 Nov 2023 18:42:03 +0100
-Message-ID: <20231118174221.851-4-hkallweit1@gmail.com>
+	Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v2 04/20] drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c: remove
+ I2C_CLASS_DDC support
+Date: Sat, 18 Nov 2023 18:42:04 +0100
+Message-ID: <20231118174221.851-5-hkallweit1@gmail.com>
 X-Mailer: git-send-email 2.42.1
 In-Reply-To: <20231118174221.851-1-hkallweit1@gmail.com>
 References: <20231118174221.851-1-hkallweit1@gmail.com>
@@ -76,12 +77,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, dri-devel@lists.freedesktop.org, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- linux-i2c@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, linux-i2c@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, Heiner Kallweit <hkallweit1@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -92,27 +92,22 @@ be used in new code. So we can remove this class completely now.
 
 Preferably this series should be applied via the i2c tree.
 
-Acked-by: Harry Wentland <harry.wentland@amd.com>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
 ---
-v2:
-- adjust tag in commit subject
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |    1 -
+ drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c |    1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 6f99f6754..ae1edc6ab 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -7529,7 +7529,6 @@ create_i2c(struct ddc_service *ddc_service,
- 	if (!i2c)
- 		return NULL;
- 	i2c->base.owner = THIS_MODULE;
--	i2c->base.class = I2C_CLASS_DDC;
- 	i2c->base.dev.parent = &adev->pdev->dev;
- 	i2c->base.algo = &amdgpu_dm_i2c_algo;
- 	snprintf(i2c->base.name, sizeof(i2c->base.name), "AMDGPU DM i2c hw bus %d", link_index);
+diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
+index d1a65a921..f5f62eb0e 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
++++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
+@@ -302,7 +302,6 @@ int sun4i_hdmi_i2c_create(struct device *dev, struct sun4i_hdmi *hdmi)
+ 		return -ENOMEM;
+ 
+ 	adap->owner = THIS_MODULE;
+-	adap->class = I2C_CLASS_DDC;
+ 	adap->algo = &sun4i_hdmi_i2c_algorithm;
+ 	strscpy(adap->name, "sun4i_hdmi_i2c adapter", sizeof(adap->name));
+ 	i2c_set_adapdata(adap, hdmi);
 
