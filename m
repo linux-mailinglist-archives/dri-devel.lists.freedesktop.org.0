@@ -2,68 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A12667F030D
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Nov 2023 22:50:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 710997F03A5
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Nov 2023 00:41:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0C1210E030;
-	Sat, 18 Nov 2023 21:49:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3A5B10E069;
+	Sat, 18 Nov 2023 23:41:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57C7910E030
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Nov 2023 21:49:55 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id
- 4fb4d7f45d1cf-5437269a661so8243885a12.0
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Nov 2023 13:49:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700344194; x=1700948994; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tu8B/DrosgiV85GSiOsUY9FsBSgQ5Nsx1mRRxIDJDOU=;
- b=FfU50dZgFA+wCa+5JFnfsn/HmC5dl25c5HoRz8A4robCENYeDSAAxZq1WZA9amZ/h4
- VQmN+mV+GfyiRpLJkxnR+4AfxFKWlrEkGPHNM0zUJNT0trVauDe1WuMrBdkDpUeZ25of
- 1dREtQ4bZlViuvBiYo18Kii0UGOhoiueh6iJij9FKRomshVp9NlN6Npxbau4lpvqtSol
- aGBrZO8XGZnbMcIZJcT2iL4kH2hx1jWde5YJ3zZhwNcoNU//PVB6+T11ZYl4v/Ccg0UA
- dcItrYrMyVlD1Jy/sLudZ0UYr7zWvbgghDnnMvOaCSWhh8q0205S/THerdu2/9pCIDe/
- cdgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700344194; x=1700948994;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tu8B/DrosgiV85GSiOsUY9FsBSgQ5Nsx1mRRxIDJDOU=;
- b=eC0991OeOivPNCudI2WulkdZq1okKMmIW/kwlvaxPtULQ8TCOxaniomUU0GGedIVD3
- btJk+eTz3hUrLE2h9lZzxGYJ3MvOoVyBDjrXYVAAAPYQxl5CILM3mMm4HsZPJFO6e8QC
- 5FqKQcRmKJo7zCyuFZZPtFV3jM8iQJV6Tt+WqacQ6ZL2/rFtR5He4U4ATH3pjiM4NUYY
- YDEX7X3pUe9AuopFN5k99TOGz3cpDX8g1UaS1yDdS37Ujxm1MB8+CjcENkdILPx9aCMG
- L1+LRHaERnLIgmHlQChv/DKILViB0W0hrOraFZ5RnMCva9i3+fEUfHcyIt3JcXE310ah
- zNEw==
-X-Gm-Message-State: AOJu0Yy9BHHioXkkDtUfs/OujqjtlEbXDs8Eoob7um2CyfbTy9U7ucNL
- Xtxaa5gGcJbFNNJjKERilnI=
-X-Google-Smtp-Source: AGHT+IGvGe/YhVqfTTgGOZH6rxAZKgoCFGPA+F4kHVoXMK1rmU/eIymVSurR+kzjcJHGaQ8dnTci8A==
-X-Received: by 2002:a17:906:38da:b0:9ae:50ec:bd81 with SMTP id
- r26-20020a17090638da00b009ae50ecbd81mr6889839ejd.21.1700344193504; 
- Sat, 18 Nov 2023 13:49:53 -0800 (PST)
-Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net.
- [82.149.12.148]) by smtp.gmail.com with ESMTPSA id
- cm7-20020a170906f58700b009e5e1710ae7sm1028955ejd.191.2023.11.18.13.49.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Nov 2023 13:49:52 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Wolfram Sang <wsa@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Heiner Kallweit <hkallweit1@gmail.com>
-Subject: Re: [PATCH v2 04/20] drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c: remove
- I2C_CLASS_DDC support
-Date: Sat, 18 Nov 2023 22:49:51 +0100
-Message-ID: <2705713.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20231118174221.851-5-hkallweit1@gmail.com>
-References: <20231118174221.851-1-hkallweit1@gmail.com>
- <20231118174221.851-5-hkallweit1@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BE4610E069;
+ Sat, 18 Nov 2023 23:41:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1700350891; x=1731886891;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=7GaA30VVy3TnzrQ3lsYbX9fMaj5n7eqRdnGe9El6YD4=;
+ b=bpnrEy44dPQugrQGtUvmYCTwyH24mEE/lOue1cw8X/ni1XYotFoO0vAu
+ vYLbsvznRhniaHvSbcjOWeeOcDy615qZEJZEQOVOY57CmQGN9lAVRK/4Y
+ tbtc151FgaXMwARTqjB3OB+okuCIglFSNf3qIw2rX4Mo7EsHipwFyQTkq
+ Nw9TtP8o7RP7FV0woZn22q2zJuAm5ljxXNIQxt4UK6iJosajQnLwMW102
+ /xLgRsq9qCwsrL5iSVCYvfogrBn3QzJZMCN0ktlAnNjN5/pgTXXt/2zbz
+ AdUmVRs8413aSDFUrP+ckhvuneolPLhGXg374HWAslbPoxB8jxt8pc2vu w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="13012546"
+X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; d="scan'208";a="13012546"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2023 15:41:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="939464390"
+X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; d="scan'208";a="939464390"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+ by orsmga005.jf.intel.com with ESMTP; 18 Nov 2023 15:41:27 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1r4UwH-0004RT-28;
+ Sat, 18 Nov 2023 23:41:25 +0000
+Date: Sun, 19 Nov 2023 07:41:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH v2 03/11] drm/dp_mst: Add kunit tests for
+ drm_dp_get_vc_payload_bw()
+Message-ID: <202311190743.K2U2VXVT-lkp@intel.com>
+References: <20231116131841.1588781-4-imre.deak@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231116131841.1588781-4-imre.deak@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,49 +60,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- linux-i2c@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- Heiner Kallweit <hkallweit1@gmail.com>
+Cc: llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dne sobota, 18. november 2023 ob 18:42:04 CET je Heiner Kallweit napisal(a):
-> After removal of the legacy EEPROM driver and I2C_CLASS_DDC support in
-> olpc_dcon there's no i2c client driver left supporting I2C_CLASS_DDC.
-> Class-based device auto-detection is a legacy mechanism and shouldn't
-> be used in new code. So we can remove this class completely now.
-> 
-> Preferably this series should be applied via the i2c tree.
-> 
-> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+Hi Imre,
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+kernel test robot noticed the following build warnings:
 
-Best regards,
-Jernej
+[auto build test WARNING on drm-tip/drm-tip]
 
-> 
-> ---
->  drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c |    1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-> index d1a65a921..f5f62eb0e 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-> @@ -302,7 +302,6 @@ int sun4i_hdmi_i2c_create(struct device *dev, struct sun4i_hdmi *hdmi)
->  		return -ENOMEM;
->  
->  	adap->owner = THIS_MODULE;
-> -	adap->class = I2C_CLASS_DDC;
->  	adap->algo = &sun4i_hdmi_i2c_algorithm;
->  	strscpy(adap->name, "sun4i_hdmi_i2c adapter", sizeof(adap->name));
->  	i2c_set_adapdata(adap, hdmi);
-> 
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/Imre-Deak/drm-dp_mst-Store-the-MST-PBN-divider-value-in-fixed-point-format/20231116-212936
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20231116131841.1588781-4-imre.deak%40intel.com
+patch subject: [Intel-gfx] [PATCH v2 03/11] drm/dp_mst: Add kunit tests for drm_dp_get_vc_payload_bw()
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20231119/202311190743.K2U2VXVT-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231119/202311190743.K2U2VXVT-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311190743.K2U2VXVT-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/tests/drm_dp_mst_helper_test.c:10:
+   In file included from include/drm/display/drm_dp_mst_helper.h:26:
+   In file included from include/drm/display/drm_dp_helper.h:27:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/gpu/drm/tests/drm_dp_mst_helper_test.c:10:
+   In file included from include/drm/display/drm_dp_mst_helper.h:26:
+   In file included from include/drm/display/drm_dp_helper.h:27:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/gpu/drm/tests/drm_dp_mst_helper_test.c:10:
+   In file included from include/drm/display/drm_dp_mst_helper.h:26:
+   In file included from include/drm/display/drm_dp_helper.h:27:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/gpu/drm/tests/drm_dp_mst_helper_test.c:197:13: warning: stack frame size (1664) exceeds limit (1024) in 'drm_test_dp_mst_calc_pbn_div' [-Wframe-larger-than]
+     197 | static void drm_test_dp_mst_calc_pbn_div(struct kunit *test)
+         |             ^
+   7 warnings generated.
 
 
+vim +/drm_test_dp_mst_calc_pbn_div +197 drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
 
+   196	
+ > 197	static void drm_test_dp_mst_calc_pbn_div(struct kunit *test)
+   198	{
+   199		const struct drm_dp_mst_calc_pbn_div_test *params = test->param_value;
+   200		/* mgr->dev is only needed by drm_dbg_kms(), but it's not called for the test cases. */
+   201		struct drm_dp_mst_topology_mgr mgr = {};
+   202	
+   203		KUNIT_EXPECT_EQ(test, drm_dp_get_vc_payload_bw(&mgr, params->link_rate, params->lane_count).full,
+   204				params->expected.full);
+   205	}
+   206	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
