@@ -1,72 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F07DF7F069A
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Nov 2023 14:53:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 812117F0785
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Nov 2023 17:28:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1BF310E0F8;
-	Sun, 19 Nov 2023 13:53:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E36A10E05F;
+	Sun, 19 Nov 2023 16:28:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
- [IPv6:2607:f8b0:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32EB610E0F8;
- Sun, 19 Nov 2023 13:53:40 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id
- d9443c01a7336-1cc68c1fac2so31504045ad.0; 
- Sun, 19 Nov 2023 05:53:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700402019; x=1701006819; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=QKKLS+w0ex8qV597KBVIuYVHQ6+SkzFRNWt3xyBrGms=;
- b=C180Iyj/K9/igyenuxGgka+7LtNglxrue5sZeMkFElbRXT1i3k8z75DanIS1xuPyNk
- mhw46JthE6Yxo+5cYbAGpx21RDpFFFrlHVZgswt8WT6xo5dTJ6On2/Ooee/Hxn2h2C4Z
- yeoNg5PW+cpMpnNJUEgiZdLgbM1wnuNjTANgdVoPsr6fsqb7mieHq4x/+XsEi62nDQr6
- he81zVAJWrKR6mlrrVWV8jHQlHfl7FKeMqpWRyjKt97czRKYLCmUVE00H7Lt9My6JtJb
- 6pQK0GsZZJ66EJ2xzpDAsTtOhs1Bv0Xw43lVbq5sbcqi0/PtF/qFBquuS4DP+GWzabZ3
- b+2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700402019; x=1701006819;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QKKLS+w0ex8qV597KBVIuYVHQ6+SkzFRNWt3xyBrGms=;
- b=oQufWki8dGDjVY2Q1vfGu3jPOUgaXqp2KQpTlbRKyb56YeYo4XXXn6EofK+gcV1C9c
- DEFsXOV35AvC/IfVhgIPn2h0nb9HOoQ0BToUer8HCodia3hrtCURlBVDPUXTlP1SLd6Z
- A4E3A4/+eJl2uAqEV4T1E0oK76hVxA2fN99Om/66hnCJLQQESUK33VWg8cUL49KF5vhs
- Mxg2owoLa+ULHXEojhZBTwXJ09Vgqmck8tcgPxEorr/irt14MlRvkIRzyjxdPC2Finad
- aVEjouOPKu2sbz62KcXuQ0sJzePqz+ymD96tygfCKyQ2r3QpYejoPPEeLigIxvWRC8jt
- GhEA==
-X-Gm-Message-State: AOJu0Yxay3d5mFtd6lZnOZ5+LWJR4hnRoNRxm6qbjlO9SI7tvQchosC4
- aki2zDBcl/83awAhKYRB1+s=
-X-Google-Smtp-Source: AGHT+IHriLxPDpGKhWAjBZMWDVWsozrin31cIWjg7jAzFtJ80MgWjLRxNJXU2ldtCC5/2LJ3VhQf8w==
-X-Received: by 2002:a17:903:495:b0:1c9:ff46:163d with SMTP id
- jj21-20020a170903049500b001c9ff46163dmr5386849plb.38.1700402019602; 
- Sun, 19 Nov 2023 05:53:39 -0800 (PST)
-Received: from [192.168.0.106] ([103.131.18.64])
- by smtp.gmail.com with ESMTPSA id
- z4-20020a170902ee0400b001c55db80b14sm4372776plb.221.2023.11.19.05.53.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Nov 2023 05:53:39 -0800 (PST)
-Message-ID: <af2d08ab-54c3-4066-9c28-18e96de8643a@gmail.com>
-Date: Sun, 19 Nov 2023 20:53:33 +0700
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [81.169.146.167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7D7010E05F
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Nov 2023 16:28:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1700411270; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=g62MVC0Jh8G1BA0V1hTxRJIfCqe6NF2qwyQNpL8i4i+tooxcNWk8mUGkJOh/c3PjZy
+ 4Km5tQtCf4AIo424lfXMOs1tIA4K/qtrFEyBClfxITI+LUCPMFAWhHGiIOzEvPDLFwGV
+ QDK5H3HlbgVETp0uQA2ltVkOMtiRXRm7+10bWCQY+Xd5CU2XYkUsSnJbZZe5mFtzIh65
+ SCy7HVPS0AQTwxKY86OR7y5rDeJDv4L7UevvWBkhutabZmZm2tktEWr0P3ZjgXuVsnv0
+ MImGQE5IfxIOLeDL+T1TGNbtUwlXo5AxVzVRjoENfEVP2hWXBfUluIvHmCwkwhRcXp5m
+ pXug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1700411270;
+ s=strato-dkim-0002; d=strato.com;
+ h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+ From:Subject:Sender;
+ bh=9e4OV8vET8pL9QsaX1Uk5dAJCWcAgTeKF08zFu/UPPs=;
+ b=SmssSD3qyt+U8SqvsBxCiOERW3xIYN3rmhcBJtRs+pJChutfgxFiLPnKt965GANSM/
+ makhgdzERRZT/65rnAenMOOA6K1Rqyf28wUrXdHN7C63+VNJxuegreG2WjCBow1kW/6A
+ Hnps7KFtey0xOZpqHbDpI7da3uskzNXM3sthNTXO2V/9RmF/xXBNB29Bsu9fi+8pMYzK
+ 6eKVq6HEKnepfsfToSUXEjwl8O3Ehta+UT4hsWMaILTxhUGaoolK5SwLXqMwYJyJ+jcl
+ wsw20wUrL5VzGdHJa4VX6arc/Ml3OnVhqbzFgWE+o0apQhACwOiHaPHfeDvgtM4UMcQq
+ UZOg==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1700411270;
+ s=strato-dkim-0002; d=xenosoft.de;
+ h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+ From:Subject:Sender;
+ bh=9e4OV8vET8pL9QsaX1Uk5dAJCWcAgTeKF08zFu/UPPs=;
+ b=Bquf3SmPxr/ttZ0ohplg27BU4Z7CbGGun/gKLUFpwknb56kYWrMexjRojrdkU/dFKR
+ /uq+exvwYOkWNiLEmvZ/Yc/rtjLRA4nO1A5w1VeUX8pz89BxAMf7XgYZsljzYbj+uccc
+ ey0drsHqJxjFS9qDRl7IwNJPUdsG+g2t/GCbgfQvAUCtkTsbQevdSc3Cfqt7MzreonyR
+ xMdK4OFBj+S5DpAaNaSH0ChdmjWzTbNuTrloZPjSmY0tOph1c9WaXaam0dTy9K0LV7ZC
+ EGOezxd3LJtCeivvwD3m0B1SAoR1ajr3qV4sWy/G3HFBy4CI4dRrMEWyQ7dmiBe0rERp
+ PuUA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1700411270;
+ s=strato-dkim-0003; d=xenosoft.de;
+ h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
+ From:Subject:Sender;
+ bh=9e4OV8vET8pL9QsaX1Uk5dAJCWcAgTeKF08zFu/UPPs=;
+ b=EkaLml/k47CnYEjiCbwowCEzN/4nbm59WGkAhlmcIeQIJ+WBkurIyGfEQorvxTeK2V
+ 5TONuypzksKAoLGB7mBg==
+X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHfJ+Dkjp5DdBfi4XXBswJY0gmAktx3ttlYVUFI0ea++ZcGg82g=="
+Received: from [IPV6:2a02:8109:8984:5d00:c1eb:ec37:8228:567a]
+ by smtp.strato.de (RZmta 49.9.1 AUTH) with ESMTPSA id U060a4zAJGRnJIM
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Sun, 19 Nov 2023 17:27:49 +0100 (CET)
+Message-ID: <a9ade305-f90e-4250-a795-49ef4e29e0ac@xenosoft.de>
+Date: Sun, 19 Nov 2023 17:27:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Radeon regression in 6.6 kernel
-Content-Language: en-US
-To: Linux regressions mailing list <regressions@lists.linux.dev>,
- Dave Airlie <airlied@gmail.com>
-References: <87edgv4x3i.fsf@vps.thesusis.net>
- <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
- <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
- <ZVoMklvIVClr_IIH@archie.me>
- <9195ca1f-1d72-4616-8bdf-62f9f5c636b9@leemhuis.info>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <9195ca1f-1d72-4616-8bdf-62f9f5c636b9@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v2] drm/virtio: Add suppport for non-native buffer formats
+To: Gerd Hoffmann <kraxel@redhat.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+References: <47a81d2e0e47b1715718779b6978a8b595cc7c5d.1700140609.git.geert@linux-m68k.org>
+ <77c6gkquzq4sdtmrlko3lkxvcnipm2zfjem3kvhgslcellkefh@man7pbbzud47>
+Content-Language: de-DE
+From: Christian Zigotzky <chzigotzky@xenosoft.de>
+In-Reply-To: <77c6gkquzq4sdtmrlko3lkxvcnipm2zfjem3kvhgslcellkefh@man7pbbzud47>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,35 +86,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Luben Tuikov <luben.tuikov@amd.com>,
- Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
- Phillip Susi <phill@thesusis.net>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
+ linux-kernel@vger.kernel.org, mad skateman <madskateman@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>, linux-m68k@lists.linux-m68k.org,
+ Darren Stevens <darren@stevens-zone.net>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@redhat.com>, virtualization@lists.linux-foundation.org,
+ Christian Zigotzky <info@xenosoft.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/19/23 20:48, Linux regression tracking (Thorsten Leemhuis) wrote:
-> On 19.11.23 14:24, Bagas Sanjaya wrote:
->> Hi Dave,
+On 16 November 2023 at 03:44 pm, Gerd Hoffmann wrote:
+> On Thu, Nov 16, 2023 at 02:16:54PM +0100, Geert Uytterhoeven wrote:
+>> When using virtgpu on a big-endian machine, e.g. powerpc QEMU:
 >>
->> AFAIK commit c07bf1636f0005 ("MAINTAINERS: Update the GPU Scheduler email")
->> doesn't seem to do with this regression as it doesn't change any amdgpu code
->> that may introduce the regression.
-> 
-> Bagas, sorry for being blunt here, I know you mean well. But I feel the
-> need to say the following in the open, as this otherwise falls back on
-> me and regression tracking.
-> 
-> Stating the above is not very helpful, as Dave for sure will know.
-> Telling Phillip that he likely can skip that commit might have been
-> something different. But I guess even for most users that are able to do
-> a bisection it's obvious and maybe not worth pointing out.
-> 
+>>      virtio-pci 0000:00:02.0: [drm] *ERROR* fbdev: Failed to setup generic emulation (ret=-2)
+>>
+>> or m68k/virt:
+>>
+>>      virtio-mmio virtio-mmio.125: [drm] *ERROR* fbdev: Failed to setup generic emulation (ret=-2)
+>>
+>> and the graphical display fails to come up.
+>>
+>> Before, the call to drm_mode_addfb() caused a translation from a fourcc
+>> format (XR24) to a bpp/depth pair (32/24) to a potentially different fourcc
+>> format (BX24 on big-endian), due to the quirk processing in
+>> drm_driver_legacy_fb_format().  After, the original fourcc format (XR24)
+>> is passed unmodified.
+>>
+>> However, the virtgpu DRM driver supports only a single format for its
+>> main plane: DRM_FORMAT_HOST_XRGB8888, which is XR24 on little-endian,
+>> and BX24 on big-endian.  I.e. on big-endian, virtgpu does not support
+>> XR24, which is the default DRM format, and must be supported by all
+>> drivers.  Before, this was reported, but didn't lead to a failure:
+>>
+>>      virtio-mmio virtio-mmio.125: [drm] bpp/depth value of 32/24 not supported
+>>      virtio-mmio virtio-mmio.125: [drm] No compatible format found
+>>
+>> As the core virtgpu driver and device support both XR24 and BX24 on both
+>> little-endian and big-endian just fine, fix this extending the list of
+>> supported formats for main plane and cursor plane to XR24/BX24 resp.
+>> AR24/BA24.
+>>
+>> Fixes: 6ae2ff23aa43a0c4 ("drm/client: Convert drm_client_buffer_addfb() to drm_mode_addfb2()")
+>> Reported-by: Christian Zigotzky <chzigotzky@xenosoft.de>
+>> Closes: https://lore.kernel.org/r/c47fba21-3ae9-4021-9f4a-09c2670ebdbc@xenosoft.de
+>> Suggested-by: Gerd Hoffmann <kraxel@redhat.com>
+>> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+>
+Hi All,
 
-I was scratching my itch then when replying. Thanks anyway.
+The new patch works but I don't see the virtio-mouse-pci pointer 
+anymore. I see the pointer with -device usb-tablet. Please check the 
+second patch. I will use the first patch for the RC2 of kernel 6.7.
 
--- 
-An old man doll... just what I always wanted! - Clara
-
+Thanks,
+Christian
