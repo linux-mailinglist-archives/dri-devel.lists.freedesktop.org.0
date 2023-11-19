@@ -2,52 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 110E77F0454
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Nov 2023 05:46:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C353D7F048F
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Nov 2023 07:33:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CE9410E0C0;
-	Sun, 19 Nov 2023 04:46:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B134310E06D;
+	Sun, 19 Nov 2023 06:32:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CAA710E0C0
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Nov 2023 04:46:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700369208; x=1731905208;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=yjy1hnZoy8EpUYxdS9+3c1qFSR3s+PuC8hjfRrt0Szg=;
- b=jCPZswtv3UbQyVudsuizeXsMra0TRvvUHPPGiIdO+L2Au/AGYFLvkTd7
- HrxIfvml6cYEvaqpOQUg6+3DDRz75iLdYZ4WAWP23NzRNAuxJFNgk+afF
- PHzyg+cgVPBhSEdZsOzIm4+7I0XisUcV2v3vcd3/DiaOSPAaBYOxGNBnn
- r1ImxHAdnNuWcp3HWk0KxYd0VysZtzi/HxurOqb9tb2fMsCtLnuvcooZP
- jkkAqgsUQYp9FlwYffkBrzI293sIJCiUU2coHkQOAQdKsCEb2L+IZO6kq
- F0RLWM//3dsx1BcBguHwIX0XiWPuVijXUV3cv1NfQ7yV5VrS1fEBbHDF5 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="390331101"
-X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; d="scan'208";a="390331101"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2023 20:46:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="889610134"
-X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; d="scan'208";a="889610134"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
- by orsmga004.jf.intel.com with ESMTP; 18 Nov 2023 20:46:44 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1r4Zhi-0004eV-0z;
- Sun, 19 Nov 2023 04:46:42 +0000
-Date: Sun, 19 Nov 2023 12:46:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Heiner Kallweit <hkallweit1@gmail.com>,
- Wolfram Sang <wsa-dev@sang-engineering.com>, Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH v2 05/20] drivers/video/fbdev: remove I2C_CLASS_DDC support
-Message-ID: <202311191235.fdwRQUG6-lkp@intel.com>
-References: <20231118174221.851-6-hkallweit1@gmail.com>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3595810E06D;
+ Sun, 19 Nov 2023 06:32:57 +0000 (UTC)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1r4bMV-0000Gj-3u; Sun, 19 Nov 2023 07:32:55 +0100
+Message-ID: <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
+Date: Sun, 19 Nov 2023 07:32:54 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231118174221.851-6-hkallweit1@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Radeon regression in 6.6 kernel
+Content-Language: en-US, de-DE
+To: Phillip Susi <phill@thesusis.net>, Luben Tuikov <luben.tuikov@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <87edgv4x3i.fsf@vps.thesusis.net>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+In-Reply-To: <87edgv4x3i.fsf@vps.thesusis.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1700375577;
+ 88fa1715; 
+X-HE-SMSGID: 1r4bMV-0000Gj-3u
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,109 +47,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev, Heiner Kallweit <hkallweit1@gmail.com>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Linux kernel regressions list <regressions@lists.linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Heiner,
+Lo!
 
-kernel test robot noticed the following build errors:
+On 12.11.23 01:46, Phillip Susi wrote:
+> I had been testing some things on a post 6.6-rc5 kernel for a week or
+> two and then when I pulled to a post 6.6 release kernel, I found that
+> system suspend was broken.  It seems that the radeon driver failed to
+> suspend, leaving the display dead, the wayland display server hung, and
+> the system still running.  I have been trying to bisect it for the last
+> few days and have only been able to narrow it down to the following 3
+> commits:
+> 
+> There are only 'skip'ped commits left to test.
+> The first bad commit could be any of:
+> 56e449603f0ac580700621a356d35d5716a62ce5
+> c07bf1636f0005f9eb7956404490672286ea59d3
+> b70438004a14f4d0f9890b3297cd66248728546c
+> We cannot bisect more!
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-intel/for-linux-next drm-intel/for-linux-next-fixes sunxi/sunxi/for-next wsa/i2c/for-next drm-tip/drm-tip linus/master v6.7-rc1 next-20231117]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Hmm, not a single reply from the amdgpu folks. Wondering how we can
+encourage them to look into this.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Heiner-Kallweit/drivers-gpu-drm-rockchip-remove-I2C_CLASS_DDC-support/20231119-014549
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231118174221.851-6-hkallweit1%40gmail.com
-patch subject: [PATCH v2 05/20] drivers/video/fbdev: remove I2C_CLASS_DDC support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231119/202311191235.fdwRQUG6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231119/202311191235.fdwRQUG6-lkp@intel.com/reproduce)
+Phillip, reporting issues by mail should still work, but you might have
+more luck here, as that's where the amdgpu afaics prefer to track bugs:
+https://gitlab.freedesktop.org/drm/amd/-/issues
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311191235.fdwRQUG6-lkp@intel.com/
+When you file an issue there, please mention it here.
 
-All errors (new ones prefixed by >>):
+Furthermore it might help if you could verify if 6.7-rc1 (or rc2, which
+comes out later today) or 6.6.2-rc1 improve things.
 
-   drivers/video/fbdev/matrox/i2c-matroxfb.c: In function 'i2c_matroxfb_probe':
->> drivers/video/fbdev/matrox/i2c-matroxfb.c:178:23: error: too many arguments to function 'i2c_bus_reg'
-     178 |                 err = i2c_bus_reg(&m2info->maven, minfo,
-         |                       ^~~~~~~~~~~
-   drivers/video/fbdev/matrox/i2c-matroxfb.c:102:12: note: declared here
-     102 | static int i2c_bus_reg(struct i2c_bit_adapter* b, struct matrox_fb_info* minfo,
-         |            ^~~~~~~~~~~
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
+
+#regzbot poke
 
 
-vim +/i2c_bus_reg +178 drivers/video/fbdev/matrox/i2c-matroxfb.c
-
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  141  
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  142  static void* i2c_matroxfb_probe(struct matrox_fb_info* minfo) {
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  143  	int err;
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  144  	unsigned long flags;
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  145  	struct matroxfb_dh_maven_info* m2info;
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  146  
-2fdbe5cf27aff9 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2007-02-12  147  	m2info = kzalloc(sizeof(*m2info), GFP_KERNEL);
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  148  	if (!m2info)
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  149  		return NULL;
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  150  
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  151  	matroxfb_DAC_lock_irqsave(flags);
-316b4d644caceb drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2009-09-22  152  	matroxfb_DAC_out(minfo, DAC_XGENIODATA, 0xFF);
-316b4d644caceb drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2009-09-22  153  	matroxfb_DAC_out(minfo, DAC_XGENIOCTRL, 0x00);
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  154  	matroxfb_DAC_unlock_irqrestore(flags);
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  155  
-fc2d10ddfc8989 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2009-09-22  156  	switch (minfo->chip) {
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  157  		case MGA_2064:
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  158  		case MGA_2164:
-c1b6b4f2342d07 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2008-07-14  159  			err = i2c_bus_reg(&m2info->ddc1, minfo,
-c1b6b4f2342d07 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2008-07-14  160  					  DDC1B_DATA, DDC1B_CLK,
-d0e2994db76d4c drivers/video/fbdev/matrox/i2c-matroxfb.c Heiner Kallweit 2023-11-18  161  					  "DDC:fb%u #0");
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  162  			break;
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  163  		default:
-c1b6b4f2342d07 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2008-07-14  164  			err = i2c_bus_reg(&m2info->ddc1, minfo,
-c1b6b4f2342d07 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2008-07-14  165  					  DDC1_DATA, DDC1_CLK,
-d0e2994db76d4c drivers/video/fbdev/matrox/i2c-matroxfb.c Heiner Kallweit 2023-11-18  166  					  "DDC:fb%u #0");
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  167  			break;
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  168  	}
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  169  	if (err)
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  170  		goto fail_ddc1;
-fc2d10ddfc8989 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2009-09-22  171  	if (minfo->devflags.dualhead) {
-d0e2994db76d4c drivers/video/fbdev/matrox/i2c-matroxfb.c Heiner Kallweit 2023-11-18  172  		err = i2c_bus_reg(&m2info->ddc2, minfo, DDC2_DATA, DDC2_CLK, "DDC:fb%u #1");
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  173  		if (err == -ENODEV) {
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  174  			printk(KERN_INFO "i2c-matroxfb: VGA->TV plug detected, DDC unavailable.\n");
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  175  		} else if (err)
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  176  			printk(KERN_INFO "i2c-matroxfb: Could not register secondary output i2c bus. Continuing anyway.\n");
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  177  		/* Register maven bus even on G450/G550 */
-c1b6b4f2342d07 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2008-07-14 @178  		err = i2c_bus_reg(&m2info->maven, minfo,
-c1b6b4f2342d07 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2008-07-14  179  				  MAT_DATA, MAT_CLK, "MAVEN:fb%u", 0);
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  180  		if (err)
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  181  			printk(KERN_INFO "i2c-matroxfb: Could not register Maven i2c bus. Continuing anyway.\n");
-10546355323e48 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2008-08-12  182  		else {
-10546355323e48 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2008-08-12  183  			struct i2c_board_info maven_info = {
-10546355323e48 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2008-08-12  184  				I2C_BOARD_INFO("maven", 0x1b),
-10546355323e48 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2008-08-12  185  			};
-10546355323e48 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2008-08-12  186  			unsigned short const addr_list[2] = {
-10546355323e48 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2008-08-12  187  				0x1b, I2C_CLIENT_END
-10546355323e48 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2008-08-12  188  			};
-10546355323e48 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2008-08-12  189  
-a72e27f7a47069 drivers/video/fbdev/matrox/i2c-matroxfb.c Wolfram Sang    2019-11-06  190  			i2c_new_scanned_device(&m2info->maven.adapter,
-9a94241afcc9a4 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2010-08-11  191  					       &maven_info, addr_list, NULL);
-10546355323e48 drivers/video/matrox/i2c-matroxfb.c       Jean Delvare    2008-08-12  192  		}
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  193  	}
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  194  	return m2info;
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  195  fail_ddc1:;
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  196  	kfree(m2info);
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  197  	printk(KERN_ERR "i2c-matroxfb: Could not register primary adapter DDC bus.\n");
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  198  	return NULL;
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  199  }
-^1da177e4c3f41 drivers/video/matrox/i2c-matroxfb.c       Linus Torvalds  2005-04-16  200  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> It appears that there was a late merge in the 6.6 window that originally
+> forked from the -rc2, as many of the later commits that I bisected had
+> that version number.
+> 
+> I couldn't get it more narrowed down because I had to skip the
+> surrounding commits because they wouldn't even boot up to a gui desktop,
+> let alone try to suspend.
+> 
+> When system suspend fails, I find the following in my syslog after I
+> have to magic-sysrq reboot because the the display is dead:
+> 
+> Nov 11 18:44:39 faldara kernel: PM: suspend entry (deep)
+> Nov 11 18:44:39 faldara kernel: Filesystems sync: 0.035 seconds
+> Nov 11 18:44:40 faldara kernel: Freezing user space processes
+> Nov 11 18:44:40 faldara kernel: Freezing user space processes completed (elapsed 0.001 seconds)
+> Nov 11 18:44:40 faldara kernel: OOM killer disabled.
+> Nov 11 18:44:40 faldara kernel: Freezing remaining freezable tasks
+> Nov 11 18:44:40 faldara kernel: Freezing remaining freezable tasks completed (elapsed 0.001 seconds)
+> Nov 11 18:44:40 faldara kernel: printk: Suspending console(s) (use no_console_suspend to debug)
+> Nov 11 18:44:40 faldara kernel: serial 00:01: disabled
+> Nov 11 18:44:40 faldara kernel: e1000e: EEE TX LPI TIMER: 00000011
+> Nov 11 18:44:40 faldara kernel: sd 4:0:0:0: [sdb] Synchronizing SCSI cache
+> Nov 11 18:44:40 faldara kernel: sd 1:0:0:0: [sda] Synchronizing SCSI cache
+> Nov 11 18:44:40 faldara kernel: sd 5:0:0:0: [sdc] Synchronizing SCSI cache
+> Nov 11 18:44:40 faldara kernel: sd 4:0:0:0: [sdb] Stopping disk
+> Nov 11 18:44:40 faldara kernel: sd 1:0:0:0: [sda] Stopping disk
+> Nov 11 18:44:40 faldara kernel: sd 5:0:0:0: [sdc] Stopping disk
+> Nov 11 18:44:40 faldara kernel: amdgpu: Move buffer fallback to memcpy unavailable
+> Nov 11 18:44:40 faldara kernel: [TTM] Buffer eviction failed
+> Nov 11 18:44:40 faldara kernel: [drm] evicting device resources failed
+> Nov 11 18:44:40 faldara kernel: amdgpu 0000:03:00.0: PM: pci_pm_suspend(): amdgpu_pmops_suspend+0x0/0x80 [amdgpu] returns -19
+> Nov 11 18:44:40 faldara kernel: amdgpu 0000:03:00.0: PM: dpm_run_callback(): pci_pm_suspend+0x0/0x170 returns -19
+> Nov 11 18:44:40 faldara kernel: amdgpu 0000:03:00.0: PM: failed to suspend async: error -19
+> Nov 11 18:44:40 faldara kernel: PM: Some devices failed to suspend, or early wake event detected
+> Nov 11 18:44:40 faldara kernel: xhci_hcd 0000:06:00.0: xHC error in resume, USBSTS 0x401, Reinit
+> Nov 11 18:44:40 faldara kernel: usb usb3: root hub lost power or was reset
+> Nov 11 18:44:40 faldara kernel: usb usb4: root hub lost power or was reset
+> Nov 11 18:44:40 faldara kernel: serial 00:01: activated
+> Nov 11 18:44:40 faldara kernel: nvme nvme0: 4/0/0 default/read/poll queues
+> Nov 11 18:44:40 faldara kernel: ata8: SATA link down (SStatus 0 SControl 300)
+> Nov 11 18:44:40 faldara kernel: ata7: SATA link down (SStatus 0 SControl 300)
+> Nov 11 18:44:40 faldara kernel: ata4: SATA link up 1.5 Gbps (SStatus 113 SControl 300)
+> Nov 11 18:44:40 faldara kernel: ata1: SATA link down (SStatus 4 SControl 300)
+> Nov 11 18:44:40 faldara kernel: ata3: SATA link down (SStatus 4 SControl 300)
+> Nov 11 18:44:40 faldara kernel: ata4.00: configured for UDMA/133
+> Nov 11 18:44:40 faldara kernel: OOM killer enabled.
+> Nov 11 18:44:40 faldara kernel: Restarting tasks ... done.
+> Nov 11 18:44:40 faldara kernel: random: crng reseeded on system resumption
+> Nov 11 18:44:40 faldara kernel: PM: suspend exit
+> Nov 11 18:44:40 faldara kernel: PM: suspend entry (s2idle)
+> Nov 11 18:44:40 faldara systemd-networkd[384]: enp0s31f6: Gained IPv6LL
+> Nov 11 18:44:40 faldara avahi-daemon[668]: Joining mDNS multicast group on interface enp0s31f6.IPv6 with address fe80::3ad5:47ff:fe0f:488a.
+> 
+> My video card is this:
+> 
+> 03:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Navi 23 (rev c7) (prog-if 00 [VGA controller])
+>         Subsystem: Gigabyte Technology Co., Ltd Navi 23
+>         Flags: bus master, fast devsel, latency 0, IRQ 139
+>         Memory at e0000000 (64-bit, prefetchable) [size=256M]
+>         Memory at f0000000 (64-bit, prefetchable) [size=2M]
+>         I/O ports at e000 [size=256]
+>         Memory at f7900000 (32-bit, non-prefetchable) [size=1M]
+>         Expansion ROM at 000c0000 [disabled] [size=128K]
+>         Capabilities: [48] Vendor Specific Information: Len=08 <?>
+>         Capabilities: [50] Power Management version 3
+>         Capabilities: [64] Express Legacy Endpoint, MSI 00
+>         Capabilities: [a0] MSI: Enable+ Count=1/1 Maskable- 64bit+
+>         Capabilities: [100] Vendor Specific Information: ID=0001 Rev=1 Len=010 <?>
+>         Capabilities: [150] Advanced Error Reporting
+>         Capabilities: [200] Physical Resizable BAR
+>         Capabilities: [240] Power Budgeting <?>
+>         Capabilities: [270] Secondary PCI Express
+>         Capabilities: [2a0] Access Control Services
+>         Capabilities: [2d0] Process Address Space ID (PASID)
+>         Capabilities: [320] Latency Tolerance Reporting
+>         Capabilities: [410] Physical Layer 16.0 GT/s <?>
+>         Capabilities: [440] Lane Margining at the Receiver <?>
+>         Kernel driver in use: amdgpu
+>         Kernel modules: amdgpu
