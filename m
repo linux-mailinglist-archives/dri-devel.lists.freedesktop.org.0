@@ -2,41 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5AE17F0690
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Nov 2023 14:49:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F07DF7F069A
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Nov 2023 14:53:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D49510E04F;
-	Sun, 19 Nov 2023 13:48:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1BF310E0F8;
+	Sun, 19 Nov 2023 13:53:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BADA10E04F;
- Sun, 19 Nov 2023 13:48:56 +0000 (UTC)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1r4iAQ-0000jH-0q; Sun, 19 Nov 2023 14:48:54 +0100
-Message-ID: <9195ca1f-1d72-4616-8bdf-62f9f5c636b9@leemhuis.info>
-Date: Sun, 19 Nov 2023 14:48:53 +0100
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32EB610E0F8;
+ Sun, 19 Nov 2023 13:53:40 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id
+ d9443c01a7336-1cc68c1fac2so31504045ad.0; 
+ Sun, 19 Nov 2023 05:53:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1700402019; x=1701006819; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=QKKLS+w0ex8qV597KBVIuYVHQ6+SkzFRNWt3xyBrGms=;
+ b=C180Iyj/K9/igyenuxGgka+7LtNglxrue5sZeMkFElbRXT1i3k8z75DanIS1xuPyNk
+ mhw46JthE6Yxo+5cYbAGpx21RDpFFFrlHVZgswt8WT6xo5dTJ6On2/Ooee/Hxn2h2C4Z
+ yeoNg5PW+cpMpnNJUEgiZdLgbM1wnuNjTANgdVoPsr6fsqb7mieHq4x/+XsEi62nDQr6
+ he81zVAJWrKR6mlrrVWV8jHQlHfl7FKeMqpWRyjKt97czRKYLCmUVE00H7Lt9My6JtJb
+ 6pQK0GsZZJ66EJ2xzpDAsTtOhs1Bv0Xw43lVbq5sbcqi0/PtF/qFBquuS4DP+GWzabZ3
+ b+2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700402019; x=1701006819;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QKKLS+w0ex8qV597KBVIuYVHQ6+SkzFRNWt3xyBrGms=;
+ b=oQufWki8dGDjVY2Q1vfGu3jPOUgaXqp2KQpTlbRKyb56YeYo4XXXn6EofK+gcV1C9c
+ DEFsXOV35AvC/IfVhgIPn2h0nb9HOoQ0BToUer8HCodia3hrtCURlBVDPUXTlP1SLd6Z
+ A4E3A4/+eJl2uAqEV4T1E0oK76hVxA2fN99Om/66hnCJLQQESUK33VWg8cUL49KF5vhs
+ Mxg2owoLa+ULHXEojhZBTwXJ09Vgqmck8tcgPxEorr/irt14MlRvkIRzyjxdPC2Finad
+ aVEjouOPKu2sbz62KcXuQ0sJzePqz+ymD96tygfCKyQ2r3QpYejoPPEeLigIxvWRC8jt
+ GhEA==
+X-Gm-Message-State: AOJu0Yxay3d5mFtd6lZnOZ5+LWJR4hnRoNRxm6qbjlO9SI7tvQchosC4
+ aki2zDBcl/83awAhKYRB1+s=
+X-Google-Smtp-Source: AGHT+IHriLxPDpGKhWAjBZMWDVWsozrin31cIWjg7jAzFtJ80MgWjLRxNJXU2ldtCC5/2LJ3VhQf8w==
+X-Received: by 2002:a17:903:495:b0:1c9:ff46:163d with SMTP id
+ jj21-20020a170903049500b001c9ff46163dmr5386849plb.38.1700402019602; 
+ Sun, 19 Nov 2023 05:53:39 -0800 (PST)
+Received: from [192.168.0.106] ([103.131.18.64])
+ by smtp.gmail.com with ESMTPSA id
+ z4-20020a170902ee0400b001c55db80b14sm4372776plb.221.2023.11.19.05.53.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 19 Nov 2023 05:53:39 -0800 (PST)
+Message-ID: <af2d08ab-54c3-4066-9c28-18e96de8643a@gmail.com>
+Date: Sun, 19 Nov 2023 20:53:33 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: Radeon regression in 6.6 kernel
-Content-Language: en-US, de-DE
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Dave Airlie <airlied@gmail.com>,
- Linux Regressions <regressions@lists.linux.dev>
+Content-Language: en-US
+To: Linux regressions mailing list <regressions@lists.linux.dev>,
+ Dave Airlie <airlied@gmail.com>
 References: <87edgv4x3i.fsf@vps.thesusis.net>
  <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
  <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
  <ZVoMklvIVClr_IIH@archie.me>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-In-Reply-To: <ZVoMklvIVClr_IIH@archie.me>
+ <9195ca1f-1d72-4616-8bdf-62f9f5c636b9@leemhuis.info>
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <9195ca1f-1d72-4616-8bdf-62f9f5c636b9@leemhuis.info>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1700401736;
- adf05db9; 
-X-HE-SMSGID: 1r4iAQ-0000jH-0q
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,7 +80,6 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux DRI Development <dri-devel@lists.freedesktop.org>,
  Luben Tuikov <luben.tuikov@amd.com>,
@@ -59,55 +89,26 @@ Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19.11.23 14:24, Bagas Sanjaya wrote:
-> On Sun, Nov 19, 2023 at 04:47:01PM +1000, Dave Airlie wrote:
->>> On 12.11.23 01:46, Phillip Susi wrote:
->>>> I had been testing some things on a post 6.6-rc5 kernel for a week or
->>>> two and then when I pulled to a post 6.6 release kernel, I found that
->>>> system suspend was broken.  It seems that the radeon driver failed to
->>>> suspend, leaving the display dead, the wayland display server hung, and
->>>> the system still running.  I have been trying to bisect it for the last
->>>> few days and have only been able to narrow it down to the following 3
->>>> commits:
->>>>
->>>> There are only 'skip'ped commits left to test.
->>>> The first bad commit could be any of:
->>>> 56e449603f0ac580700621a356d35d5716a62ce5
->>>> c07bf1636f0005f9eb7956404490672286ea59d3
->>>> b70438004a14f4d0f9890b3297cd66248728546c
->>>> We cannot bisect more!
->>>
->>> Hmm, not a single reply from the amdgpu folks. Wondering how we can
->>> encourage them to look into this.
->>>
->>> Phillip, reporting issues by mail should still work, but you might have
->>> more luck here, as that's where the amdgpu afaics prefer to track bugs:
->>> https://gitlab.freedesktop.org/drm/amd/-/issues
->>>
->>> When you file an issue there, please mention it here.
->>>
->>> Furthermore it might help if you could verify if 6.7-rc1 (or rc2, which
->>> comes out later today) or 6.6.2-rc1 improve things.
-
-BTW, ignore the "6.6.2-rc1" here, I misunderstood one detail earlier. Sorry.
-
->> It would also be good to test if reverting any of these is possible or not.
-
-Good point, sorry, forgot to mention that.
-
-> Hi Dave,
+On 11/19/23 20:48, Linux regression tracking (Thorsten Leemhuis) wrote:
+> On 19.11.23 14:24, Bagas Sanjaya wrote:
+>> Hi Dave,
+>>
+>> AFAIK commit c07bf1636f0005 ("MAINTAINERS: Update the GPU Scheduler email")
+>> doesn't seem to do with this regression as it doesn't change any amdgpu code
+>> that may introduce the regression.
 > 
-> AFAIK commit c07bf1636f0005 ("MAINTAINERS: Update the GPU Scheduler email")
-> doesn't seem to do with this regression as it doesn't change any amdgpu code
-> that may introduce the regression.
+> Bagas, sorry for being blunt here, I know you mean well. But I feel the
+> need to say the following in the open, as this otherwise falls back on
+> me and regression tracking.
+> 
+> Stating the above is not very helpful, as Dave for sure will know.
+> Telling Phillip that he likely can skip that commit might have been
+> something different. But I guess even for most users that are able to do
+> a bisection it's obvious and maybe not worth pointing out.
+> 
 
-Bagas, sorry for being blunt here, I know you mean well. But I feel the
-need to say the following in the open, as this otherwise falls back on
-me and regression tracking.
+I was scratching my itch then when replying. Thanks anyway.
 
-Stating the above is not very helpful, as Dave for sure will know.
-Telling Phillip that he likely can skip that commit might have been
-something different. But I guess even for most users that are able to do
-a bisection it's obvious and maybe not worth pointing out.
+-- 
+An old man doll... just what I always wanted! - Clara
 
-Ciao, Thorsten
