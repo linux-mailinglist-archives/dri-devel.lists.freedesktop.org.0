@@ -2,110 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FFE07F0934
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Nov 2023 22:51:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 747037F096F
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Nov 2023 23:26:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95BED10E0F9;
-	Sun, 19 Nov 2023 21:51:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB12E10E0EC;
+	Sun, 19 Nov 2023 22:26:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1456310E0F9
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Nov 2023 21:51:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1700430664; x=1701035464; i=deller@gmx.de;
- bh=GZw86HrxI4KNbAsNQxkedUxJj0YIJUQmH1y/U7vq1Ng=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
- In-Reply-To;
- b=ZSeJtHhl3OfGnXw/HAjm1kVpm4HeqsKE5+6GhOhb5DVrUqSXAmJNuTd5dq1TQ73u
- tZd/b1HD7MACqol344m9cjYf0rMr15MvmDGo35N/rsVEitMz/nNA0mkCORSU9zGer
- cLs6h2TXw55kTO+9ELXD5G6KugSxAVNyzbpsSRXiuYU7r2sMrg1XXGO3/P9t2PnlQ
- VAh8jxBiPNssFoZEmJqy5C/HzKTnqJwsWdC3uKFS3Zf1ryda3P+2PVi9+uiTU66+l
- DZZkS+iwjJgqdybWRElOkox2MguC+HkEIEu3pMRdbNjDQnbPukFSzpVAxnicAfUNk
- sIkHZ+cf33tDRKl0fA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.146.64]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MDhhX-1rEUc30rkl-00AmGw; Sun, 19
- Nov 2023 22:51:04 +0100
-Message-ID: <106b818d-ad4b-4539-a159-751e2108d77e@gmx.de>
-Date: Sun, 19 Nov 2023 22:51:01 +0100
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
+ [IPv6:2607:f8b0:4864:20::112d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65C7110E02E
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Nov 2023 22:26:38 +0000 (UTC)
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-5a87ac9d245so41948767b3.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Nov 2023 14:26:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1700432797; x=1701037597; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=tKHAEH8pm+mdyGm3S8xcZ989PK/m0lepxYWwzGVtNa8=;
+ b=nq/DaxFcnFp44LuHulXQtV9qp7u6VUqdWY87UtrnERDu7Z65tF0UJsdP44KCsCL/fQ
+ 2xtI76S6kFQEeBhD1bC0nE80yNpVIy3G1/LcyaSRaE0ABc4zvv//HctiCwoVgcy3ygvs
+ gRrI2WCnRIFBRAPehB7/9xKVb8H2eLQy8xJPKdJ1mXC30sw0Tz++IHaZUoahHbxGtCNI
+ irR7axmlew9pqvqfDio0rVt45EYfJ0s1s302u3mQo8m8J1zQxrwSgVJs63h0+VJ4xqAt
+ fx6jgcd9u7FfvQX8HYJfAhTqCWn7yBSaT3+kfNm6BcJUDGWm6Vlu433kbyBodkUDPmt5
+ pVMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700432797; x=1701037597;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tKHAEH8pm+mdyGm3S8xcZ989PK/m0lepxYWwzGVtNa8=;
+ b=l2JJPFEITS1LE3ZwKKdRUfg0l0HGhfks5ClGR9kauj56wcbGjXzIwWxlkV4Vr/Fu6F
+ ay6SrxxRhuXADVyKNI3/OxHR86b8bI6rscxCJwLJMzZ9mMOw7QUWNPqaOKtiKAhAtA+Q
+ qHzzglzVzADS5A1bdShPzcPrgRwffPTAuXQpFaVYGFkKSxvA3ouNiDN+1uMOgRmNqrmm
+ W+jh9+zYF0JraAQpHsmZ6ryPloBY1zPZhI9Qgow+di2Nx+lOaf8eNu9s3mb5uq6JBMXy
+ rIDB72xZuTevLe/rP0GDXl7KlH9hHHyoRdA9bKV3Ox0NagH737KXd5jYkuH0NbWcUbsQ
+ tiSw==
+X-Gm-Message-State: AOJu0YzPJvMFM9a4x4YTy6NibJciTiosnluqJVmrMfik/3GQI76wAqoB
+ U5VZcspYv7cwr5BcO0Jnc3HUBTUXjI0rMd6VCqUx2Q==
+X-Google-Smtp-Source: AGHT+IEtI+WRNtdT4PtRIsdb7Gg1gy47h39hKWZ51B3OX/a2prMfArKvd71uD8hG3OuEWkkjavfqqMPGUN001gM/ruY=
+X-Received: by 2002:a0d:fb86:0:b0:5a7:be61:d52b with SMTP id
+ l128-20020a0dfb86000000b005a7be61d52bmr6291046ywf.24.1700432797500; Sun, 19
+ Nov 2023 14:26:37 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 RESEND 00/20] remove I2C_CLASS_DDC support
-Content-Language: en-US
-To: Heiner Kallweit <hkallweit1@gmail.com>, Wolfram Sang <wsa@kernel.org>,
- intel-gfx@lists.freedesktop.org
 References: <20231119112826.5115-1-hkallweit1@gmail.com>
- <e40b913f-379f-4b6e-a0d2-844887a17284@gmx.de>
- <b336a8e3-44e7-4f56-a950-5155675b5628@gmail.com>
- <bd4be069-b86d-4a69-aa0f-71257f93691f@gmail.com>
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <bd4be069-b86d-4a69-aa0f-71257f93691f@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-Provags-ID: V03:K1:4bo0YQp4nOX04fSlYKU7Ed7/Lx5pYstzA4JPyY4mAXCHdJpljs3
- yDd16cdeh0gpASf/ZInpwaZcM23Ih+PXc+ledOmLjOwybtxI+dQvoN3Ii81KHFb9+qriDX0
- u4h7DchrevyaHQ1ae714S54Y7JiqdBj1ZGyD2Ivq+axKYXxVpGJqoQnP7NEaF0sV7o2tumQ
- /R1hkMAw27qE6kexZk1iw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:XxsjsC6iqXI=;zo2Q6e54K/3B/k62l86hh+pmYGY
- KMnzvTX+tu7XpRJPpbXKhCHw2e1DsJ5V2ia9DzA7dtCR0buPYjmsSf/iPon4mYf9PA464Z6d1
- 1we9hnmqqnlkQDwqMr3x+5GHIVgMQpXn7zqaV0mjlx/vUYeTj1xZNoVTpQ0BiMs48ks54j5h6
- sM7hfA+PeZE7qVtCDQZtFvrZEKF49TGlkqzVfLEcPheAuWHVUuH4LrTQmVu8CWOVTGoGJcudP
- 14gbah4APu+VwZ7qZcb7HImgGHv9lVYymue7UIWxQafq5QgBeCZSRT4JHpIsdUstBbnkKp3Y7
- xWymncMYVUqLI6BEI9f8OSQYNeqrsHDAY0IgcL3y7bKeryRzlAFz/o/CwhN2m+g4Z6IC7uFhB
- oN4lePpA0gAqKU/m99DV65aLUkv/3e2m08QwoaE+cn5xM2+Ni8H+aAkmqNt1g7NrfCYURxZjs
- krTZSvGkp6LytPwzxQioQdkHbJXtxD6PIwymby3/EwqHLNunOsEI7j7/8XHMT+69odr8YqMjo
- Vqqvc8/th14RMUGcsPWPyiDJQ4HAC5ffSOYS5VbBRUFpQ8qZ5LNMEdZu0leftxffetHGgrXQK
- VxEAXRw33BBdW2ft/xH3OCZm37F+zLWJY4O1e06LNjddxQp32ILZ+k1i7A7dwGKLkO65WPZbC
- lKlUbI5xYQ/xkcoQvHEL75HkZm7kXsrFrR83y9XI23pjt2OjEpYYbMOoCqIJci1hqV+9U2Yj8
- NnS0h1ve396EAav9Pg9Ftx7mLYtcXwkDeWl2x29ulXKzi4CLQAKHvTzJvbAsy+GVfd8brptCg
- HZSTpVEVrwJ8B963Pmm3jukO8/0NvjadKafGU2kR3Wthp9IJDOOUnvTl6TER+ZvhpLTAnhN1J
- bW9AVAaSItQH20UMl5RYIWbp40SUidWRxPCC7Anlj8sza1yhL6j+zbmhXtwaJMYLoGuLrRQe/
- +kEKcA==
+ <20231119112826.5115-15-hkallweit1@gmail.com>
+In-Reply-To: <20231119112826.5115-15-hkallweit1@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 20 Nov 2023 00:26:26 +0200
+Message-ID: <CAA8EJpr6uVn+MA=yzFrCybKx7j2YDXALV1i-Gh01PaR84qRkXg@mail.gmail.com>
+Subject: Re: [PATCH v3 14/20] drivers/gpu/drm/msm/hdmi/hdmi_i2c.c: remove
+ I2C_CLASS_DDC support
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,88 +68,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yongqin Liu <yongqin.liu@linaro.org>, amd-gfx@lists.freedesktop.org,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-rockchip@lists.infradead.org,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, linux-sunxi@lists.linux.dev,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org, Jocelyn Falempe <jfalempe@redhat.com>,
- linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, John Stultz <jstultz@google.com>,
- freedreno@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Wolfram Sang <wsa@kernel.org>, linux-i2c@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTEvMTkvMjMgMjE6NTEsIEhlaW5lciBLYWxsd2VpdCB3cm90ZToNCj4gT24gMTkuMTEuMjAy
-MyAyMTo0OCwgSGVpbmVyIEthbGx3ZWl0IHdyb3RlOg0KPj4gT24gMTkuMTEuMjAyMyAyMToyOCwg
-SGVsZ2UgRGVsbGVyIHdyb3RlOg0KPj4+IE9uIDExLzE5LzIzIDEyOjI4LCBIZWluZXIgS2FsbHdl
-aXQgd3JvdGU6DQo+Pj4+IEFmdGVyIHJlbW92YWwgb2YgdGhlIGxlZ2FjeSBFRVBST00gZHJpdmVy
-IGFuZCBJMkNfQ0xBU1NfRERDIHN1cHBvcnQgaW4NCj4+Pj4gb2xwY19kY29uIHRoZXJlJ3Mgbm8g
-aTJjIGNsaWVudCBkcml2ZXIgbGVmdCBzdXBwb3J0aW5nIEkyQ19DTEFTU19EREMuDQo+Pj4+IENs
-YXNzLWJhc2VkIGRldmljZSBhdXRvLWRldGVjdGlvbiBpcyBhIGxlZ2FjeSBtZWNoYW5pc20gYW5k
-IHNob3VsZG4ndA0KPj4+PiBiZSB1c2VkIGluIG5ldyBjb2RlLiBTbyB3ZSBjYW4gcmVtb3ZlIHRo
-aXMgY2xhc3MgY29tcGxldGVseSBub3cuDQo+Pj4+DQo+Pj4+IFByZWZlcmFibHkgdGhpcyBzZXJp
-ZXMgc2hvdWxkIGJlIGFwcGxpZWQgdmlhIHRoZSBpMmMgdHJlZS4NCj4+Pg0KPj4+IFRoZSBmYmRl
-diBjaGFuZ2VzIGxvb2sgYXQgbGVhc3Qgb2sgc28gZmFyLCBzbzoNCj4+PiBBY2tlZC1ieTogSGVs
-Z2UgRGVsbGVyIDxkZWxsZXJAZ214LmRlPsKgwqAgI2ZiZGV2DQo+Pj4NCj4+IEkgdGhpbmsgdGhp
-cyByZWZlcnMgdG8gcGF0Y2ggNSBvZiB0aGUgc2VyaWVzLiBDb3VsZCB5b3UgcGxlYXNlIHJlcGx5
-DQo+PiB0byBwYXRjaCA1IGluc3RlYWQgb2YgdGhlIGNvdmVyIGxldHRlciB3aXRoIHlvdXIgYWNr
-ZWQtYnkgc28gdGhhdA0KPj4gcGF0Y2h3b3JrIGdldHMgaXQgcmlnaHQ/IFRoYW5rcyENCj4+DQo+
-IFNvcnJ5LCBqdXN0IGxvb2tlZCBhdCB3aGVyZSB5b3UgYXJlIGluIFRvLCBub3QgQ2MuDQo+IFNv
-IHlvdXIgYWNrIGluY2x1ZGVzIHBhdGNoZXMgNiwgOSwgMTAsIDEzPw0KDQpZZXMuDQoNCkhlbGdl
-DQogIA0KPj4+DQo+Pj4+IHYyOg0KPj4+PiAtIGNoYW5nZSB0YWcgaW4gY29tbWl0IHN1YmplY3Qg
-b2YgcGF0Y2ggMDMNCj4+Pj4gLSBhZGQgYWNrIHRhZ3MNCj4+Pj4gdjM6DQo+Pj4+IC0gZml4IGEg
-Y29tcGlsZSBlcnJvciBpbiBwYXRjaCA1DQo+Pj4+DQo+Pj4+IFNpZ25lZC1vZmYtYnk6IEhlaW5l
-ciBLYWxsd2VpdCA8aGthbGx3ZWl0MUBnbWFpbC5jb20+DQo+Pj4+DQo+Pj4+IC0tLQ0KPj4+Pg0K
-Pj4+PiAgwqAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2kyYy5jwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgfMKgwqDCoCAxIC0NCj4+Pj4gIMKgIGRyaXZlcnMvZ3B1L2RybS9hbWQvZGlz
-cGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMgfMKgwqDCoCAxIC0NCj4+Pj4gIMKgIGRyaXZlcnMv
-Z3B1L2RybS9hc3QvYXN0X2kyYy5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCB8wqDCoMKgIDEgLQ0KPj4+PiAgwqAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5
-cy9kdy1oZG1pLmPCoMKgwqDCoMKgwqDCoMKgIHzCoMKgwqAgMSAtDQo+Pj4+ICDCoCBkcml2ZXJz
-L2dwdS9kcm0vZGlzcGxheS9kcm1fZHBfaGVscGVyLmPCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDC
-oMKgIDEgLQ0KPj4+PiAgwqAgZHJpdmVycy9ncHUvZHJtL2Rpc3BsYXkvZHJtX2RwX21zdF90b3Bv
-bG9neS5jwqDCoMKgwqAgfMKgwqDCoCAxIC0NCj4+Pj4gIMKgIGRyaXZlcnMvZ3B1L2RybS9nbWE1
-MDAvY2R2X2ludGVsX2RwLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoCAxIC0NCj4+
-Pj4gIMKgIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvaW50ZWxfZ21idXMuY8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIHzCoMKgwqAgMSAtDQo+Pj4+ICDCoCBkcml2ZXJzL2dwdS9kcm0vZ21hNTAw
-L29ha3RyYWlsX2hkbWlfaTJjLmPCoMKgwqDCoMKgwqDCoCB8wqDCoMKgIDEgLQ0KPj4+PiAgwqAg
-ZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2JfaW50ZWxfc2R2by5jwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgfMKgwqDCoCAxIC0NCj4+Pj4gIMKgIGRyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMv
-aGlibWNfZHJtX2kyYy5jwqDCoCB8wqDCoMKgIDEgLQ0KPj4+PiAgwqAgZHJpdmVycy9ncHUvZHJt
-L2k5MTUvZGlzcGxheS9pbnRlbF9nbWJ1cy5jwqDCoMKgwqDCoMKgwqAgfMKgwqDCoCAxIC0NCj4+
-Pj4gIMKgIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfc2R2by5jwqDCoMKgwqDC
-oMKgwqDCoCB8wqDCoMKgIDEgLQ0KPj4+PiAgwqAgZHJpdmVycy9ncHUvZHJtL2xvb25nc29uL2xz
-ZGNfaTJjLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgwqAgMSAtDQo+Pj4+ICDC
-oCBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hkbWlfZGRjLmPCoMKgwqDCoMKgwqDCoMKg
-wqDCoCB8wqDCoMKgIDEgLQ0KPj4+PiAgwqAgZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIw
-MF9pMmMuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoMKgIDEgLQ0KPj4+PiAgwqAgZHJp
-dmVycy9ncHUvZHJtL21zbS9oZG1pL2hkbWlfaTJjLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIHzCoMKgwqAgMSAtDQo+Pj4+ICDCoCBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9p
-MmMuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoCAxIC0NCj4+Pj4gIMKgIGRy
-aXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9pbm5vX2hkbWkuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIHzCoMKgwqAgMSAtDQo+Pj4+ICDCoCBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcmszMDY2
-X2hkbWkuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoCAxIC0NCj4+Pj4gIMKgIGRyaXZl
-cnMvZ3B1L2RybS9zdW40aS9zdW40aV9oZG1pX2kyYy5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8
-wqDCoMKgIDEgLQ0KPj4+PiAgwqAgZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZiX2RkYy5jwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoCAxIC0NCj4+Pj4gIMKgIGRyaXZl
-cnMvdmlkZW8vZmJkZXYvY3liZXIyMDAwZmIuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIHzCoMKgwqAgMSAtDQo+Pj4+ICDCoCBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2k3NDBmYi5jwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgwqAgMSAtDQo+Pj4+
-ICDCoCBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2ludGVsZmIvaW50ZWxmYl9pMmMuY8KgwqDCoMKgwqDC
-oMKgwqAgfMKgwqAgMTUgKysrKystLS0tLS0tLS0tDQo+Pj4+ICDCoCBkcml2ZXJzL3ZpZGVvL2Zi
-ZGV2L21hdHJveC9pMmMtbWF0cm94ZmIuY8KgwqDCoMKgwqDCoMKgwqAgfMKgwqAgMTIgKysrKy0t
-LS0tLS0tDQo+Pj4+ICDCoCBkcml2ZXJzL3ZpZGVvL2ZiZGV2L3MzZmIuY8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoCAxIC0NCj4+Pj4gIMKgIGRy
-aXZlcnMvdmlkZW8vZmJkZXYvdGRmeGZiLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgfMKgwqDCoCAxIC0NCj4+Pj4gIMKgIGRyaXZlcnMvdmlkZW8vZmJkZXYvdHJp
-ZGVudGZiLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoCAxIC0N
-Cj4+Pj4gIMKgIGRyaXZlcnMvdmlkZW8vZmJkZXYvdmlhL3ZpYV9pMmMuY8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgwqAgMSAtDQo+Pj4+ICDCoCBpbmNsdWRlL2xpbnV4L2ky
-Yy5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIHzCoMKgwqAgMSAtDQo+Pj4+ICDCoCAzMSBmaWxlcyBjaGFuZ2VkLCA5IGluc2VydGlv
-bnMoKyksIDQ3IGRlbGV0aW9ucygtKQ0KPj4+Pg0KPj4+DQo+Pg0KPiANCg0K
+On Sun, 19 Nov 2023 at 13:28, Heiner Kallweit <hkallweit1@gmail.com> wrote:
+>
+> After removal of the legacy EEPROM driver and I2C_CLASS_DDC support in
+> olpc_dcon there's no i2c client driver left supporting I2C_CLASS_DDC.
+> Class-based device auto-detection is a legacy mechanism and shouldn't
+> be used in new code. So we can remove this class completely now.
+>
+> Preferably this series should be applied via the i2c tree.
+>
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+I'm fine with merging this patch through any of the trees that picks
+up the rest of the patches.
+
+>
+> ---
+>  drivers/gpu/drm/msm/hdmi/hdmi_i2c.c |    1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_i2c.c b/drivers/gpu/drm/msm/hdmi/hdmi_i2c.c
+> index de182c004..7aa500d24 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi_i2c.c
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_i2c.c
+> @@ -249,7 +249,6 @@ struct i2c_adapter *msm_hdmi_i2c_init(struct hdmi *hdmi)
+>
+>
+>         i2c->owner = THIS_MODULE;
+> -       i2c->class = I2C_CLASS_DDC;
+>         snprintf(i2c->name, sizeof(i2c->name), "msm hdmi i2c");
+>         i2c->dev.parent = &hdmi->pdev->dev;
+>         i2c->algo = &msm_hdmi_i2c_algorithm;
+>
+
+
+-- 
+With best wishes
+Dmitry
