@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96DF77F055E
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Nov 2023 11:16:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 071E27F055C
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Nov 2023 11:16:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C47710E1BC;
-	Sun, 19 Nov 2023 10:16:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 088A910E1B0;
+	Sun, 19 Nov 2023 10:16:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C947910E1C0;
- Sun, 19 Nov 2023 10:15:04 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id
- a640c23a62f3a-9fa45e75ed9so135156066b.1; 
- Sun, 19 Nov 2023 02:15:04 -0800 (PST)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCE3D10E1AA
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Nov 2023 10:15:05 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id
+ a640c23a62f3a-9de7a43bd1aso460286266b.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Nov 2023 02:15:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700388903; x=1700993703; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1700388904; x=1700993704; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=iwY3dw5n8Qn4ucno1MuBuADAhIYe/cj92x0CcIZXqhc=;
- b=VxNgpcmNAn7eHe0lOWbCl8LRxwNfC8f5bYROqvoKOmtsiukJMxDImHhyhXrhc9NuLD
- gTKT77s5+mQ1MDyspaJNnQqEggAE2vFEL1Niaui1Kx+ZoBYM/SzlFCl/bDN2sytRbtcy
- GiAHzt2KCJhzvuqYGpiRPfjaFwC2m7/4zdz903+6iQYL0j7qrOm6yuqMz243b4vV52a3
- hKA7WgOwmoMK8jQCglTW7zcM+IM7m0n4VVuGXYO9ygJQth/PoRBqc+ayO3fdYN9TEJ/N
- u1EJIXFa47pEtDg9XUoIXLZSz20B24EHLj8iigzRVMKTrfj79F9MWbSvKk2EU4qnONX+
- gQww==
+ bh=anw5D9jgaSVgoYwRFPH2zMk9qB9A7j/26DqujJWuba0=;
+ b=BB48L4Qwi78zV2e4OfopLe4VGKxDEffoF+W9wgOhIg9W9ha5La5RrhTTXhpkdyus+F
+ ma/RYMyTN50aLPdg4oUirTC5/R6y0Vi5S14P1RMzmvojzTngW6HkH9qFaWWEIEfqPW1y
+ GPtCI03JrFD8xbyU9chvUFfTkouLycUyKqmmgF7RBcqCIsEMvZTfJqadp0tiXBeCzEXW
+ 3KiPQaXQTb2Uxa7d7BPfQu9slyc2boitDm2cIDEvM5pAjoQiyRzJ4KqcXsDyfssAcF4/
+ 1vLNVU+Tvle4Iiy5/c+aQJwgZynEyBz4H3DbedvSuwrdQ5lNN61oPmBOPImfIFxVhoFW
+ 8nPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700388903; x=1700993703;
+ d=1e100.net; s=20230601; t=1700388904; x=1700993704;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=iwY3dw5n8Qn4ucno1MuBuADAhIYe/cj92x0CcIZXqhc=;
- b=bpwx859zSfVneGwAkI6YZ78aa2bSbc1Pt7JtCNk1rwDK7qGzV78+8TFQJYRP96IuPH
- 2yvV/2lpvWepr//6aeKiw7WflnDg2xTGEtUaMzrAPhAzvJHCtzpMvn0HKu9qhBE6vnhv
- +9R6C9qLx5VJCyCyuj6nqxcLJpU6YUhfz4Lpdt8idOZx9HchOxCIzycCar/fIHQsnOMO
- DMrvn1gOoCC5iWvK3bQKfWXBSyVFtkQOcI2iw8GmtFjxBX5kdIbDpjDdFzFc4qNukzMd
- Fw0+Jezb0s9BOvM+RjBX6IV1J+TtPG6RAfGxFUyK5wt/drQvkOSnO5SYOSkr3wywi1CB
- ejpA==
-X-Gm-Message-State: AOJu0YxPdzRMdFpiSQzja2kgMcrQ9MTwF+FAb1CO0Xeq027ffJzVN5QQ
- TVjn37eyziwyOgzo1x37u5s=
-X-Google-Smtp-Source: AGHT+IHP6byAlqIoVwDbbgjuChf3oN9zUpAvK+yJPawUfgKyxdFFP80iOw8k2baYpP8MVO/1Y6ukEg==
-X-Received: by 2002:a17:907:1ca4:b0:9c7:5200:e4f4 with SMTP id
- nb36-20020a1709071ca400b009c75200e4f4mr4905232ejc.41.1700388903204; 
- Sun, 19 Nov 2023 02:15:03 -0800 (PST)
+ bh=anw5D9jgaSVgoYwRFPH2zMk9qB9A7j/26DqujJWuba0=;
+ b=L3Kpzoy2uRtMB/8UQP++UkmQxnXyLwYaE/vrXX4l1nEgFQZm29F+dTSlWdKVSRNkBI
+ +yjOinkgcFnPicuFhBv+Au7P+z14wotefBpqshKCagZoI5nvgtm6xdZZBxlAg2XMLFob
+ O5zDGoTR1VvfxFwM2+F6vib+wj9VjwF/bk7ofFXYoPIU0plUFI8rkh9JCh9w9dHM7lun
+ +9+/R2HNVZdTCsuTz6+8K3IRLIiOPUJ7ufk0aBEMgZjhrNhXPIX3MmpGoB7+9RddxOxq
+ NxZixy+wirtSHb0x1tIxF5bIvLuvXDuo/vMP5J/h/cWIDrCgRw87DAhrkc7nNEmcLnlx
+ Dszw==
+X-Gm-Message-State: AOJu0YyOJq19G4s59v/XfTJ7zCn2t54TvMCWhAYUnLnr6Ng9lyQb5D0P
+ J7UaO/XePmL2vBp4yqS1pjA=
+X-Google-Smtp-Source: AGHT+IE8GHFq7uiHSNV4+P+yG9Uk8xKqFaoBRiYyFD0p/QlJu9rTxI9UZij7OIQ47Q1zPCUxvVwxGw==
+X-Received: by 2002:a17:907:8b90:b0:9dd:7133:881 with SMTP id
+ tb16-20020a1709078b9000b009dd71330881mr4222135ejc.40.1700388904176; 
+ Sun, 19 Nov 2023 02:15:04 -0800 (PST)
 Received: from zotac.lan.
  (dynamic-2a01-0c23-bde4-3e00-2223-08ff-fe18-0310.c23.pool.telefonica.de.
  [2a01:c23:bde4:3e00:2223:8ff:fe18:310])
  by smtp.gmail.com with ESMTPSA id
- p20-20020a17090628d400b009928b4e3b9fsm2743581ejd.114.2023.11.19.02.15.02
+ p20-20020a17090628d400b009928b4e3b9fsm2743581ejd.114.2023.11.19.02.15.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Nov 2023 02:15:02 -0800 (PST)
+ Sun, 19 Nov 2023 02:15:03 -0800 (PST)
 From: Heiner Kallweit <hkallweit1@gmail.com>
 To: Wolfram Sang <wsa@kernel.org>,
-	Jani Nikula <jani.nikula@linux.intel.com>
-Subject: [PATCH v3 15/20] drivers/gpu/drm/i915/display: remove I2C_CLASS_DDC
- support
-Date: Sun, 19 Nov 2023 11:14:40 +0100
-Message-ID: <20231119101445.4737-16-hkallweit1@gmail.com>
+	Xinliang Liu <xinliang.liu@linaro.org>
+Subject: [PATCH v3 16/20] drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c:
+ remove I2C_CLASS_DDC support
+Date: Sun, 19 Nov 2023 11:14:41 +0100
+Message-ID: <20231119101445.4737-17-hkallweit1@gmail.com>
 X-Mailer: git-send-email 2.42.1
 In-Reply-To: <20231119101445.4737-1-hkallweit1@gmail.com>
 References: <20231119101445.4737-1-hkallweit1@gmail.com>
@@ -77,11 +77,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-i2c@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Heiner Kallweit <hkallweit1@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, John Stultz <jstultz@google.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Yongqin Liu <yongqin.liu@linaro.org>, linux-i2c@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tian Tao <tiantao6@hisilicon.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Heiner Kallweit <hkallweit1@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -92,36 +93,22 @@ be used in new code. So we can remove this class completely now.
 
 Preferably this series should be applied via the i2c tree.
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
 ---
- drivers/gpu/drm/i915/display/intel_gmbus.c |    1 -
- drivers/gpu/drm/i915/display/intel_sdvo.c  |    1 -
- 2 files changed, 2 deletions(-)
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c |    1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_gmbus.c b/drivers/gpu/drm/i915/display/intel_gmbus.c
-index 40d7b6f3f..e9e4dcf34 100644
---- a/drivers/gpu/drm/i915/display/intel_gmbus.c
-+++ b/drivers/gpu/drm/i915/display/intel_gmbus.c
-@@ -899,7 +899,6 @@ int intel_gmbus_setup(struct drm_i915_private *i915)
- 		}
- 
- 		bus->adapter.owner = THIS_MODULE;
--		bus->adapter.class = I2C_CLASS_DDC;
- 		snprintf(bus->adapter.name,
- 			 sizeof(bus->adapter.name),
- 			 "i915 gmbus %s", gmbus_pin->name);
-diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
-index a636f42ce..5e64d1baf 100644
---- a/drivers/gpu/drm/i915/display/intel_sdvo.c
-+++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
-@@ -3311,7 +3311,6 @@ intel_sdvo_init_ddc_proxy(struct intel_sdvo_ddc *ddc,
- 	ddc->ddc_bus = ddc_bus;
- 
- 	ddc->ddc.owner = THIS_MODULE;
--	ddc->ddc.class = I2C_CLASS_DDC;
- 	snprintf(ddc->ddc.name, I2C_NAME_SIZE, "SDVO %c DDC%d",
- 		 port_name(sdvo->base.port), ddc_bus);
- 	ddc->ddc.dev.parent = &pdev->dev;
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c
+index 410bd019b..e6e48651c 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c
+@@ -81,7 +81,6 @@ int hibmc_ddc_create(struct drm_device *drm_dev,
+ 		     struct hibmc_connector *connector)
+ {
+ 	connector->adapter.owner = THIS_MODULE;
+-	connector->adapter.class = I2C_CLASS_DDC;
+ 	snprintf(connector->adapter.name, I2C_NAME_SIZE, "HIS i2c bit bus");
+ 	connector->adapter.dev.parent = drm_dev->dev;
+ 	i2c_set_adapdata(&connector->adapter, connector);
 
