@@ -1,61 +1,98 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA4047F0C9C
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 08:13:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CEC67F0D45
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 09:16:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FE6410E123;
-	Mon, 20 Nov 2023 07:13:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7729410E23C;
+	Mon, 20 Nov 2023 08:16:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 525D310E123
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 07:13:00 +0000 (UTC)
-X-UUID: 375ae240877411ee8051498923ad61e6-20231120
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=j5IpbcoHNTNi0FUsd17IilokznPZh9NR8c06lLDBEfs=; 
- b=oQOKlMuUyN9Q3Ng61cNbuSrLT3ie86QE6Nx7ULH9lKR45MnfJL2d0c1fp1Rctf5M5xt5Nas0j9YEY/ljqICzuEQmU28lYy9L+I58TgI4w6l0qMvbn6h/5RiT7alpxtOQ04eoRZemXf25jkUr1rP2lSHuhRcfYxY7GJj8arrY5PE=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.33, REQID:7b98f906-564b-42e5-b82a-3f2524b082cc, IP:0,
- U
- RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:-25
-X-CID-META: VersionHash:364b77b, CLOUDID:30709695-10ce-4e4b-85c2-c9b5229ff92b,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
- DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 375ae240877411ee8051498923ad61e6-20231120
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
- mailgw02.mediatek.com (envelope-from <shawn.sung@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1733356639; Mon, 20 Nov 2023 15:12:50 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 20 Nov 2023 15:12:49 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 20 Nov 2023 15:12:49 +0800
-From: Hsiao Chien Sung <shawn.sung@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v3 1/1] drm/mediatek: Fix errors when reporting rotation
- capability
-Date: Mon, 20 Nov 2023 15:12:46 +0800
-Message-ID: <20231120071246.30823-2-shawn.sung@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20231120071246.30823-1-shawn.sung@mediatek.com>
-References: <20231120071246.30823-1-shawn.sung@mediatek.com>
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D22F410E140
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 08:16:18 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id
+ 2adb3069b0e04-507bd64814fso5663122e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 00:16:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1700468177; x=1701072977; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=l5sTEAmTtbhoCMXLFmbz+riipdvwXdm2iXG8qiQt4WA=;
+ b=hGwtwWvDNErBHMu1juALCPtXzVYngf5NMtXnvBZMmeJDkz/DLN9pbyRG3aySHb58x4
+ CmQX2Fv3vRclW/qME5xhxGoUbEPBtanEUIhJYq+ukPZrVDHcP5GMqNLM3gaiAwrrzSzX
+ wjKiZ9HrnVzLp95ISxZmaKsLK9fMGQ2COpaPwCv5WfQTgcqbWf2TgXL5HaIYT+8SVeF7
+ peH4ZlHfTWUrhl06qDJcCCwhulXyt0zB0m820qrdI1Mqi4nU6AcGpWbAQ25OsHLWXbBg
+ 4Wb94ndupWA0wPpt8cOmZMyHJeB4POlzMG4nhWnJpTHgNhOf8oqxKt4j5h2L3kKpe/hc
+ 7AAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700468177; x=1701072977;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=l5sTEAmTtbhoCMXLFmbz+riipdvwXdm2iXG8qiQt4WA=;
+ b=GyxVoQ21xVx2EVLX/b8jZ7mvfuvTviAe/+Br6XaM2h4baE+P6Z1dtUMM9NeKcbU7/x
+ on4j5H/no6aCJM2XIXx9Gc2cdHfFsTmrdeOk7zyecOW5uMbuPLzRgFJ5IXcO7mkLxYHq
+ eCLe+1K0hXZ7eVSTF8XwisFdasmeYtUgqeBoRQ6pcRVoOXA/OQUz64TFnyLdKs318aUp
+ 5QSqO4kuWnU1KKESAfIQsO17gMtKLhhltjRSAI0ij1nKZGj99EDTT06paUwBvkd8rxoi
+ xDERz2NUtcgzIFp4hwiNsYb2cADjMZr8ICy/W2Rstu19FVT2Cq6inteqvflcBaoHNVtS
+ LFhA==
+X-Gm-Message-State: AOJu0YyIX1G4kUEWhRCwx2QTJGSSr1e+5Xy0MeMzzPKpXTEUEKkAvcSu
+ cWgiT9qRGE3DlM5U7Wzychhp2Q==
+X-Google-Smtp-Source: AGHT+IF/PYPeGH6vKFaVERL8d59d/q4hV3dx20a+d1LHqXStUFNJsezbcXcTnBZ/CEp3k6/bUuSyhA==
+X-Received: by 2002:ac2:5619:0:b0:509:8dee:71e with SMTP id
+ v25-20020ac25619000000b005098dee071emr4495922lfd.0.1700468176735; 
+ Mon, 20 Nov 2023 00:16:16 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:f04:f84b:d87d:1d06?
+ ([2a01:e0a:982:cbb0:f04:f84b:d87d:1d06])
+ by smtp.gmail.com with ESMTPSA id
+ l9-20020a05600002a900b00332cb5185edsm290587wry.14.2023.11.20.00.16.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Nov 2023 00:16:16 -0800 (PST)
+Message-ID: <58b10e6e-87cd-4157-8541-0cbfeb263422@linaro.org>
+Date: Mon, 20 Nov 2023 09:16:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v3 11/20] drivers/gpu/drm/bridge/synopsys/dw-hdmi.c:
+ remove I2C_CLASS_DDC support
+Content-Language: en-US, fr
+To: Heiner Kallweit <hkallweit1@gmail.com>, Wolfram Sang <wsa@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
+References: <20231119112826.5115-1-hkallweit1@gmail.com>
+ <20231119112826.5115-12-hkallweit1@gmail.com>
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <20231119112826.5115-12-hkallweit1@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,157 +105,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sean Paul <seanpaul@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-mediatek@lists.infradead.org, Hsiao Chien Sung <shawn.sung@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Reply-To: neil.armstrong@linaro.org
+Cc: Maxime Ripard <mripard@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-i2c@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create rotation property according to the hardware capability.
+On 19/11/2023 12:28, Heiner Kallweit wrote:
+> After removal of the legacy EEPROM driver and I2C_CLASS_DDC support in
+> olpc_dcon there's no i2c client driver left supporting I2C_CLASS_DDC.
+> Class-based device auto-detection is a legacy mechanism and shouldn't
+> be used in new code. So we can remove this class completely now.
+> 
+> Preferably this series should be applied via the i2c tree.
+> 
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+> 
+> ---
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c |    1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index 52d91a0df..aca5bb086 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -515,7 +515,6 @@ static struct i2c_adapter *dw_hdmi_i2c_adapter(struct dw_hdmi *hdmi)
+>   	init_completion(&i2c->cmp);
+>   
+>   	adap = &i2c->adap;
+> -	adap->class = I2C_CLASS_DDC;
+>   	adap->owner = THIS_MODULE;
+>   	adap->dev.parent = hdmi->dev;
+>   	adap->algo = &dw_hdmi_algorithm;
+> 
 
-Fixes: 84d805753983 ("drm/mediatek: Support reflect-y plane rotation")
-
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  1 +
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c       | 30 ++++++++++---------
- .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   |  5 ++++
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |  1 +
- drivers/gpu/drm/mediatek/mtk_drm_plane.c      |  2 +-
- 5 files changed, 24 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-index 4d6e8b667bc3..c5afeb7c5527 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-@@ -127,6 +127,7 @@ void mtk_ovl_adaptor_register_vblank_cb(struct device *dev, void (*vblank_cb)(vo
- void mtk_ovl_adaptor_unregister_vblank_cb(struct device *dev);
- void mtk_ovl_adaptor_enable_vblank(struct device *dev);
- void mtk_ovl_adaptor_disable_vblank(struct device *dev);
-+unsigned int mtk_ovl_adaptor_supported_rotations(struct device *dev);
- void mtk_ovl_adaptor_start(struct device *dev);
- void mtk_ovl_adaptor_stop(struct device *dev);
- unsigned int mtk_ovl_adaptor_layer_nr(struct device *dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index ecc38932fd44..285987c1ccc7 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -177,6 +177,7 @@ static const u32 mt8195_ovl_crc_ofs[] = {
-  * @supports_clrfmt_ext: whether the ovl supports clear format (for alpha blend)
-  * @crc_ofs: crc offset table
-  * @crc_cnt: count of crc registers (could be more than one bank)
-+ * @rotations: supported rotations
-  */
- struct mtk_disp_ovl_data {
- 	unsigned int addr;
-@@ -190,6 +191,7 @@ struct mtk_disp_ovl_data {
- 	bool supports_clrfmt_ext;
- 	const u32 *crc_ofs;
- 	size_t crc_cnt;
-+	unsigned int rotations;
- };
-
- /**
-@@ -415,35 +417,26 @@ unsigned int mtk_ovl_layer_nr(struct device *dev)
-
- unsigned int mtk_ovl_supported_rotations(struct device *dev)
- {
--	return DRM_MODE_ROTATE_0 | DRM_MODE_ROTATE_180 |
--	       DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y;
-+	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
-+
-+	return ovl->data->rotations ?: 0;
- }
-
- int mtk_ovl_layer_check(struct device *dev, unsigned int idx,
- 			struct mtk_plane_state *mtk_state)
- {
- 	struct drm_plane_state *state = &mtk_state->base;
--	unsigned int rotation = 0;
-
--	rotation = drm_rotation_simplify(state->rotation,
--					 DRM_MODE_ROTATE_0 |
--					 DRM_MODE_REFLECT_X |
--					 DRM_MODE_REFLECT_Y);
--	rotation &= ~DRM_MODE_ROTATE_0;
--
--	/* We can only do reflection, not rotation */
--	if ((rotation & DRM_MODE_ROTATE_MASK) != 0)
-+	if (state->rotation & ~mtk_ovl_supported_rotations(dev))
- 		return -EINVAL;
-
- 	/*
- 	 * TODO: Rotating/reflecting YUV buffers is not supported at this time.
- 	 *	 Only RGB[AX] variants are supported.
- 	 */
--	if (state->fb->format->is_yuv && rotation != 0)
-+	if (state->fb->format->is_yuv && (state->rotation & ~DRM_MODE_ROTATE_0))
- 		return -EINVAL;
-
--	state->rotation = rotation;
--
- 	return 0;
- }
-
-@@ -883,6 +876,15 @@ static const struct mtk_disp_ovl_data mt8195_ovl_driver_data = {
- 	.supports_clrfmt_ext = true,
- 	.crc_ofs = mt8195_ovl_crc_ofs,
- 	.crc_cnt = ARRAY_SIZE(mt8195_ovl_crc_ofs),
-+
-+	/*
-+	 * although OVL only supports reflections on MT8195,
-+	 * reflect x + reflect y = rotate 180
-+	 */
-+	.rotations = DRM_MODE_ROTATE_0   |
-+		     DRM_MODE_ROTATE_180 |
-+		     DRM_MODE_REFLECT_X  |
-+		     DRM_MODE_REFLECT_Y,
- };
-
- static const struct of_device_id mtk_disp_ovl_driver_dt_match[] = {
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-index 4398db9a6276..b0d3ebdba93a 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-@@ -383,6 +383,11 @@ void mtk_ovl_adaptor_register_vblank_cb(struct device *dev, void (*vblank_cb)(vo
- 				     vblank_cb, vblank_cb_data);
- }
-
-+unsigned int mtk_ovl_adaptor_supported_rotations(struct device *dev)
-+{
-+	return DRM_MODE_ROTATE_0;
-+}
-+
- void mtk_ovl_adaptor_unregister_vblank_cb(struct device *dev)
- {
- 	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index ffa4868b1222..206dd6f6f99e 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -422,6 +422,7 @@ static const struct mtk_ddp_comp_funcs ddp_ovl_adaptor = {
- 	.remove = mtk_ovl_adaptor_remove_comp,
- 	.get_formats = mtk_ovl_adaptor_get_formats,
- 	.get_num_formats = mtk_ovl_adaptor_get_num_formats,
-+	.supported_rotations = mtk_ovl_adaptor_supported_rotations,
- };
-
- static const char * const mtk_ddp_comp_stem[MTK_DDP_COMP_TYPE_MAX] = {
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-index e2ec61b69618..894c39a38a58 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-@@ -344,7 +344,7 @@ int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
- 		return err;
- 	}
-
--	if (supported_rotations & ~DRM_MODE_ROTATE_0) {
-+	if (supported_rotations) {
- 		err = drm_plane_create_rotation_property(plane,
- 							 DRM_MODE_ROTATE_0,
- 							 supported_rotations);
---
-2.39.2
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
