@@ -2,43 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6419F7F0A50
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 02:28:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB4567F0A56
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 02:33:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEBBE10E075;
-	Mon, 20 Nov 2023 01:28:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73A0D10E0FD;
+	Mon, 20 Nov 2023 01:33:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CF5A10E075;
- Mon, 20 Nov 2023 01:28:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1700443700;
- bh=Csn+rSOlc7hq+c8kVNN3ZRY0a5UgOwfACyTDU+giBM4=;
- h=Date:From:To:Cc:Subject:From;
- b=GQ5eWlmyF0MfSbdDe8/EDFZ9l/yhyRu23K+EbRZwDdGeXGB6sFWkA4WzWNDq01KsE
- 2OBK9ejg8LiiGnbgxHaOP0oE0qC8se1jctVja3ONLZu8Zi9zhAoVwdwuHOl/+hY3jl
- e2cJizyF+sOt6oAdJcis+xfag/TJ2pZj155AuphfD0Of0b2aAuRjQ6Sm9TIKGioFna
- WodTWKADnR54thH/0gpRqk650dUcLz5qcng1ucfMQqy/Tkv0EoZxu2FaiXcV7Ap9h+
- 24AJYfDFw/x2c33gm/pikCUHA9qgwzeJ8uiLGOe/p4J459GYV/lxq61Z/ahHBHreh6
- Pl2zBHZtz4qWw==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4SYVJM2FcNz4wnv;
- Mon, 20 Nov 2023 12:28:18 +1100 (AEDT)
-Date: Mon, 20 Nov 2023 12:28:18 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexdeucher@gmail.com>
-Subject: linux-next: manual merge of the drm-intel tree with the amdgpu tree
-Message-ID: <20231120122818.09bb6f35@canb.auug.org.au>
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42EB910E0FD
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 01:33:38 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ 98e67ed59e1d1-2839cf9ea95so1356184a91.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Nov 2023 17:33:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1700444018; x=1701048818;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3kuzrNLLLYuThvLXebFuGOWTMIEQwvHilBibvY9e/CE=;
+ b=WP1IKjLAtyk7wfNbFD1JuO3Vzz1wsEKy6rqSCq87eHMNPDqd3eRc+7LmMWm2+pDMO7
+ LaTcBgnz+dNs1WORX1OS04XywWP2YeqRVHaJagQCtL6gC/Tcb0qviTZTzRhrp/EXWcAN
+ Rf4N0XeBbIslhtwVOAXuFgET7hPI6RReMSz5weDLweW5lt5fgWSkEzrOTxsKw03uR9VM
+ oXqekyIAPCgSPH7qx3NIrjpTnaPWhqzCffFT7gqvDlWuh/3O1vZ4r++yA9iE2HPMWAOi
+ yE+HXJ8ZKWmikp1qb+n1uzCfef4HuFqN9aBfgL1Va5obEINdS380BqJcYvYQh0GcD6jd
+ vbdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700444018; x=1701048818;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3kuzrNLLLYuThvLXebFuGOWTMIEQwvHilBibvY9e/CE=;
+ b=cvgx6UV+LcBxcSjya5l8Mux+0KBEXjV0DzLJbnG6Tw3cWMqrQggOwoLGQozDBJoLYH
+ dirZVhfEpN16UG9DHQX3oVwSfpg1hckcfFxRr0EyznZNIOJ0cTHzd+9Wm/PLNvkbLCFw
+ AJK8fZZMPqFIlpiOqwLyBAg+C1D6ZBzmVSoaRUPZGqAMff355IUMuR3I4HzsWuVB1Gii
+ UW4u7vPhs+9FSDVPJvdmhZPQwNh8AcHtrz6iDhjxjT0mzlHGGCuj6jnY2xaTQfZSybQO
+ TNCM103m+KyIdFbI70ipNWBWRiOdRuop7ASB29MLWpAH9zUgHj+KSHyXcB7O48tC9HNJ
+ qWGw==
+X-Gm-Message-State: AOJu0YxnnkyXkl+NTrsOpQzlVrWvwQv45VS0Jg+ftOfTAsgKat+JeQ4n
+ 2b0H466HIAEpiD6QUgOrFNdEvt9cEyzeoBQUr1b6jQ==
+X-Google-Smtp-Source: AGHT+IGfrLe3ZXNHG4Y8Xe/D8PiQI2xGMA0op/1BiKUT+XL/eSwYNihBlU80n/lj9rtzMBy0amdioREwq0mzBANkb0k=
+X-Received: by 2002:a17:90a:dc0b:b0:27d:1d1f:1551 with SMTP id
+ i11-20020a17090adc0b00b0027d1d1f1551mr3639521pjv.29.1700444017713; Sun, 19
+ Nov 2023 17:33:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/+H5fErey4cTN8tJv.P0+EJV";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20231117032500.2923624-1-yangcong5@huaqin.corp-partner.google.com>
+ <CAD=FV=WAPAhMfK5jgkMS=m3grxaUtrDoZnQs3rmbLpLX84+j1w@mail.gmail.com>
+In-Reply-To: <CAD=FV=WAPAhMfK5jgkMS=m3grxaUtrDoZnQs3rmbLpLX84+j1w@mail.gmail.com>
+From: cong yang <yangcong5@huaqin.corp-partner.google.com>
+Date: Mon, 20 Nov 2023 09:33:26 +0800
+Message-ID: <CAHwB_NLHqyP6mpQJHw86Hk-g3d8Q9xjRBde_YTTQiuLBwAhEKQ@mail.gmail.com>
+Subject: Re: [PATCH V2] drm/panel: boe-tv101wum-nl6: Fine tune Himax83102-j02
+ panel HFP and HBP
+To: Doug Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,78 +71,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>, Fangzhi Zuo <jerry.zuo@amd.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, zhouruihai@huaqin.com,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Hsin-Yi Wang <hsinyi@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/+H5fErey4cTN8tJv.P0+EJV
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-Hi all,
+On Sat, Nov 18, 2023 at 1:11=E2=80=AFAM Doug Anderson <dianders@chromium.or=
+g> wrote:
+>
+> Hi,
+>
+> On Thu, Nov 16, 2023 at 7:25=E2=80=AFPM Cong Yang
+> <yangcong5@huaqin.corp-partner.google.com> wrote:
+> >
+> > The refresh reported by modetest is 60.46Hz, and the actual measurement
+> > is 60.01Hz, which is outside the expected tolerance.
+>
+> Presumably you've swapped the numbers above? The value reported by
+> modetest is 60.01Hz and the actual measurement is 60.46Hz?
 
-Today's linux-next merge of the drm-intel tree got a conflict in:
+No, the value reported by modetest is 60.46Hz.
 
-  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
 
-between commits:
-
-  a58555359a9f ("drm/amd/display: Fix DSC not Enabled on Direct MST Sink")
-  c29085d29562 ("drm/amd/display: Enable DSC Flag in MST Mode Validation")
-
-from the amdgpu tree and commit:
-
-  7707dd602259 ("drm/dp_mst: Fix fractional DSC bpp handling")
-
-from the drm-intel tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-index 8d7d4024f285,2afd1bc74978..000000000000
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-@@@ -1650,7 -1636,8 +1650,7 @@@ enum dc_status dm_dp_mst_is_port_suppor
-  	} else {
-  		/* check if mode could be supported within full_pbn */
-  		bpp =3D convert_dc_color_depth_into_bpc(stream->timing.display_color_de=
-pth) * 3;
-- 		pbn =3D drm_dp_calc_pbn_mode(stream->timing.pix_clk_100hz / 10, bpp, fa=
-lse);
-+ 		pbn =3D drm_dp_calc_pbn_mode(stream->timing.pix_clk_100hz / 10, bpp << =
-4);
- -
-  		if (pbn > aconnector->mst_output_port->full_pbn)
-  			return DC_FAIL_BANDWIDTH_VALIDATE;
-  	}
-
---Sig_/+H5fErey4cTN8tJv.P0+EJV
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmVatjIACgkQAVBC80lX
-0GzERQf/dspWZjht/bOS+ur+0tu/EliDMLpiAw0xVsjlhOfvvseEdYHvEo4ZQazz
-lf+0LAj7yIQcd6hK+sv2xVn731w/pQwQF6wv7YEAsY/+EZhpwLekV6pnB30dEYyk
-H0Cu3eB2QhLvsElHqqzKlq1FTVMpzucS1cfMG07aPFKZJhH8IbfUGBt4JdqFeio2
-dpoGTEhVingpmX4KvvrBZc4jH9ef3XO8EAIq9Nm9eIsy4f46bR5+n94cBF1/A3jT
-q8pqNYa3Z8b6zdxGeJJ4dT7xarfXEBzPU0JoOp6JsXJxdocFcT3i7geFZBtmKlyU
-KD5wQSfN/cqr3IkHAyJdivP/Rx7sZg==
-=YqFo
------END PGP SIGNATURE-----
-
---Sig_/+H5fErey4cTN8tJv.P0+EJV--
+>
+> > Adjust hporch and
+> > pixel clock to fix it. After repair, modetest and actual measurement we=
+re
+> > all 60.01Hz.
+> >
+> > Modetest refresh =3D Pixel CLK/ htotal* vtotal, but measurement frame r=
+ate
+> > is HS->LP cycle time(Vblanking). Measured frame rate is not only affect=
+ed
+> > by Htotal/Vtotal/pixel clock, also affecte by Lane-num/PixelBit/LineTim=
+e
+>
+> s/affecte/affected
+>
+> For me, the important part would be to explain the reason for the
+> difference. I assume that the DSI controller could not make the mode
+> that we requested exactly (presumably it's PLL couldn't generate the
+> exact pixel clock?). This new mode was picked to be achievable by the
+> DSI controller on the system that the panel is used on.
+>
+>
+> > /DSI CLK. If you use a different SOC platform mipi controller, you may
+> > need to readjust these parameters. Now this panel looks like it's only =
+used
+> > by me on the MTK platform, so let's change this set of parameters.
+> >
+> > Fixes: 1bc2ef065f13 ("drm/panel: Support for Starry-himax83102-j02 TDDI=
+ MIPI-DSI panel")
+> > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+> > ---
+> > Chage since V1:
+> >
+> > - Update commit message.
+> >
+> > V1: https://lore.kernel.org/all/20231110094553.2361842-1-yangcong5@huaq=
+in.corp-partner.google.com
+> > ---
+> >  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> As per discussion in V1, I'm OK with this.
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>
+> I'll probably give it at least another week before applying in case
+> anyone else wants to speak up. It would be nice if you could send a V3
+> with a few more touchups to the commit message, especially since the
+> 60.01 and 60.46 numbers were backward (unless I'm mistaken).
+>
+>
+> -Doug
