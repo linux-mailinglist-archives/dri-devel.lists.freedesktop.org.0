@@ -2,55 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8CF77F18A1
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 17:29:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E8137F18A7
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 17:32:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2734910E43D;
-	Mon, 20 Nov 2023 16:29:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD1E10E441;
+	Mon, 20 Nov 2023 16:32:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B99F10E09B;
- Mon, 20 Nov 2023 16:29:02 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 641411F895;
- Mon, 20 Nov 2023 16:29:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1700497740; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=8hbojln0NHXCgH7ubL2R3+F0+sjJV2RWFjRrtKSKDL4=;
- b=cwMHogJIUJS7yPDVLjnz3rSCEaV/ri0IiV/yrRdK6uth/SHsD/GdDKxXooVVj4bW2+eena
- 0Jh8R/4wYGo+iA8tAwGOWs3l7Qmtw3b9DyU4foam39dL0kR5SChjT/BHdn/VFYGnQOxizD
- A8EFM67ltemW/UfHr2datpd48LZyDv8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1700497740;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=8hbojln0NHXCgH7ubL2R3+F0+sjJV2RWFjRrtKSKDL4=;
- b=t74nP/xfmEISQy1ic6AZ+kxWnIPDiUSyc/xBY6alUjzb4UZe5lDCbeUEeGRmMl8hgVZ+ab
- Gv4zL19QFtfCWIBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4DAA713499;
- Mon, 20 Nov 2023 16:29:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id cxAbEkyJW2XzbwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 20 Nov 2023 16:29:00 +0000
-Message-ID: <49164a90-c294-4a9c-9fed-516347583dde@suse.de>
-Date: Mon, 20 Nov 2023 17:28:59 +0100
-MIME-Version: 1.0
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2084.outbound.protection.outlook.com [40.107.220.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3388E10E440;
+ Mon, 20 Nov 2023 16:32:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PrcLBxgssmKs978LuuZfAbkvhqOQ9A3cCVEQzE9QWVsRQQ11MJiebDnsEMC01oQVgCUyzXBin2Ydno7RX2eYla5eMSAPddChGN3LLAHS0ScvOpaLexvCVMt+ne651DD7D8a+pDvFRCWahsgojmVsg96F1k7sT/9TU3KpnrGwOT0xKwM0HvSXN0bdr8ODcCfwwGqxF9uKPKxvKVZVDYC1F5Px9MQ/35B81mtIrW5gfcsbIEw72x05h0aqI4qk6AY1E6OblV6jZqKb9gGgSgdMSC8huKXUFjm/6+klk1766KsfaEUdyBGrraaHmzFd5h9gGvRe+zbfQL7+ZAl981lWLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TrVMFEN4NSFXeWI0x66CQ6XvrKa739MehGKDnFX6h9M=;
+ b=Ttk+o22jnWPK6HG8sAB4bfOMVf3LXH5gttb1NJHL8n7wl/zH8BMNFS0lFUuYu2neLZkKRxvxxWyT23PPxUh7kVlFu3qHPw9OAfqiC8m5jvE/hDNgpLcYmiEFoCz0TL7ItdRQVLLZoqusr79X767493wxmxiLFCiQQ+Bzt2jQ3dyaawI/1uh2lJ3axkQImMjhN1Lud8uIkPKRPSKfcbis6KE4NXYfDqQ12rLQhyOE4HPbnBpL4PCc8l9UfHKsWS3a09jAXyCCtHefLGIsE1F55imTRvwgLesw9HCRspeiUFpl7xc2WIrQqRKsZE0AbyOLN65IGHyz0WJ5KSMta1m0nQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TrVMFEN4NSFXeWI0x66CQ6XvrKa739MehGKDnFX6h9M=;
+ b=vOLhkL2A28fEM0moNW/l6YJ7zZV2wa00vTYyQRM5euZFkTN4zqiowRGhoYOVQwCSyvVHLX4h2maGntEgg3h231VqTP5z5ZRywiRn24PHCrhAPMe4a7J92CcbEdP9sAZoOclkkC5RrftAjlXJrR2wcZlzOsiu6iMuaCx4GIbE5Ns=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DM4PR12MB5229.namprd12.prod.outlook.com (2603:10b6:5:398::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.27; Mon, 20 Nov
+ 2023 16:32:06 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::ca80:8f1c:c11:ded3%7]) with mapi id 15.20.7002.027; Mon, 20 Nov 2023
+ 16:32:06 +0000
+Message-ID: <8ca58669-9819-42d5-a5a9-a8fc35cb77bc@amd.com>
+Date: Mon, 20 Nov 2023 17:32:02 +0100
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/3] Revert "drm/prime: Unexport helpers for fd/handle
  conversion"
 Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+To: Thomas Zimmermann <tzimmermann@suse.de>,
  Felix Kuehling <felix.kuehling@amd.com>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
@@ -62,54 +56,73 @@ References: <20231117214419.418556-1-Felix.Kuehling@amd.com>
  <73722172-69e8-4bdf-bfe3-e7c5bbff7219@suse.de>
  <814430b0-38de-4fd5-9719-a2f7b217cb0d@amd.com>
  <5fee047e-2dfb-450d-839b-01fffb3c01d0@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <5fee047e-2dfb-450d-839b-01fffb3c01d0@amd.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------p9QzI1O08KtpOtY0OLXb73Fk"
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -10.29
-X-Spamd-Result: default: False [-10.29 / 50.00]; ARC_NA(0.00)[];
- TO_DN_EQ_ADDR_SOME(0.00)[]; XM_UA_NO_VERSION(0.01)[];
- FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
- TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
- HAS_ATTACHMENT(0.00)[]; REPLY(-4.00)[];
- BAYES_HAM(-3.00)[100.00%]; NEURAL_HAM_LONG(-1.00)[-1.000];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_BASE64_TEXT(0.10)[];
- SIGNED_PGP(-2.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
- RCVD_COUNT_TWO(0.00)[2]; RCVD_TLS_ALL(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]
-X-Spam-Flag: NO
+ <49164a90-c294-4a9c-9fed-516347583dde@suse.de>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <49164a90-c294-4a9c-9fed-516347583dde@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0038.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c7::7) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DM4PR12MB5229:EE_
+X-MS-Office365-Filtering-Correlation-Id: fcd870a1-6dda-49dc-f8bf-08dbe9e63c00
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Eqe+EdtxHmCpiTicy7moRwpsUbJ4qhF7KSt8gZb01ELdNZjY14BEnHtDyLEcvn6mGtrYSYzmn/T9Jz6FnS9ozcBPQb+QHMi3sNaWwdl2syxOP9UlKRdZb5aPEBFbMHpJZ4X9jdGG0apHWjCfvj4HeMFM3JOznthc98LDPMxhoEqueKiUGL8anLQtj5lSZzT/PTN9lxsYq5e8MLzOtouyU4m6aFsJRkczH1poOBcghrn+oTcjPGGX9gNdlraOjZ3jWK2JLOisZDkAdnOeCXhD88Fb15vUhRTe330EEFk65+VinaqC3rNPQvA3RzG5dGNkrjPVmc0slL73xKIS0sw4YLht0YWcySelxhJDApbPfoBpWOBU4fctBbGTZpGT5tyWg+qbYHQAhKAPuuOfAr7Zi2WJVLWji8JUYVlNho+eUQpahpEaO7D1TGHVvJBaouP6Zu3rfj7T3/n9Mt4LetQ7SIEvXGDyKTlR7NZRQtjrn8caR9S4yI72E40ZZNFDwyP/bHkymJmPbuYttZFMRoMyKq/yquicpHLLWkUWNnjVVzq4jcC/fYK+McBT9NqP9QyWC7z6QHMTbuKRaGzohe2pgLrFjaI7s6cEsQaq+CNeX7h3bSYoqXmQmF4RxnA2uEsHlMVfwcx8DTDNsWJ/5uGUHQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(39860400002)(376002)(366004)(136003)(346002)(396003)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(6666004)(2616005)(6512007)(31686004)(66946007)(66476007)(66556008)(316002)(8676002)(110136005)(8936002)(478600001)(26005)(6506007)(53546011)(83380400001)(6486002)(66574015)(38100700002)(31696002)(5660300002)(2906002)(30864003)(41300700001)(86362001)(36756003)(4001150100001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S2ZXUHlDWiszU3oyR0hJdkl5SnhJa1M1aElacnhBTEJDSUpNTjNSRjQ3cElM?=
+ =?utf-8?B?c0VDTGJ3cmlUeGN5UnNuZGZNWUV1WEtlejlyejYxYTY0bFFBTWdKc3BOZHJi?=
+ =?utf-8?B?N0xBVTk1NmRoUCtlSTVJdytZa2Nyb2xEZ1FhYVEvWm9uMWxaU1I1c1l3SXhN?=
+ =?utf-8?B?MFo3MmtzUnh6OFU2S09zWVZyTlJiaTFkMUJiTVcwcldUNWt5elcrL3czUit5?=
+ =?utf-8?B?VFN2R3Zwdnl0STVCRXlKak1kTWhLVlJKYit5MlYvWHRiZXZvOU9sWkdsRmVV?=
+ =?utf-8?B?K2YzcXg4TzRSa09KcUxGVWxFWWJiZ2RmQTEwa0NCSTZ6emRqRlpmSlZ3blNI?=
+ =?utf-8?B?c3hvL2hiV0h6K3RoUnpoTnoxYktMb1lMM1MyVkFKdVZzTVdRZG1aMC9NUU1O?=
+ =?utf-8?B?cDF3Wlloc2hMdGVoZjNSblprREZUODIxZEpYVmMxSCtoNWdyUkt2VzV2M3dK?=
+ =?utf-8?B?UytBWEZGZWZWWUhhWXZmaVZQQnhkd2YydTAzWS8zSWZFeEl2VmxIRm9keURy?=
+ =?utf-8?B?eElQTzd5aVFNQVJXTEpGTXNvN2hHVy9sOTgzS2w4aTlaZ1drV1RYS2NKQVIy?=
+ =?utf-8?B?c2g4YkRlbXgzTDFJNWhHQTRPZ1NpNnc4RGxPY1FYeUNidVJoYWdoSE05NjRF?=
+ =?utf-8?B?ZS9LOUZtRUI3Mlo1YWIvYW92dkdBaGpoQkNxMUdpWTZOTlBpdnNmeVVXVSth?=
+ =?utf-8?B?OGIreVp3NldhT0V6Y0dGTm1lSFp2M2o0VHV2N3BtZlg5c1RIUUF0TTdGV1dY?=
+ =?utf-8?B?THNQaGFDWGtzRlVWSGdwTFpjeUp5OURaNGtWN3JtbmFwZjRuQ3FsWE9GTVQ3?=
+ =?utf-8?B?c0lFZSs3NjZrYlg2cS9NZG9udlpmT3Q1c0VidjU4d0U5Ui9pTVp5dThmUkRv?=
+ =?utf-8?B?bnk2MVBtNFh4YW91Ym14V0ZFWThCL0ZacFdHUThQYXllMSsydk9pTWpKZjZW?=
+ =?utf-8?B?ODZUcXF4NmY0c1hJVFZQWFZGUmI1R0VmUWt1NUF2Nk1GcE9ENC9lK1dFdVBN?=
+ =?utf-8?B?M3ZLaDB3NG5qbklXOGRNa3VQcW1KaHdLZ1VCYlVsTUpZUWQwOVFVZnlvRVc0?=
+ =?utf-8?B?cS9KN3FlVmxLdVUyV2NRMG1WUFJ5bitOR29rSUZXYnAxTzExZ3kwYnppaFBG?=
+ =?utf-8?B?OEtZeCs2VnB2K2lmWEdLWTdIOWJQUnFveUdCU0dwdW5rNE1iZnRlV0pQcDVh?=
+ =?utf-8?B?TTJHY01TS2kwdDMzSEdWUFRhZm1HMEdCazJqOVorNkRZbWxhUkp5d2FZblJ2?=
+ =?utf-8?B?bTdTYkg3bi9Xc0tlV0F3cVZHVE5TQzFuMGlFWGI4MlJOM0ZFMGtQSlB6d2dO?=
+ =?utf-8?B?V3VDQml3Uk9pNjlibW1DaXFmV2xwR3YyRDgyQzFoSnhSWmg1c3hISER6WmQ1?=
+ =?utf-8?B?NFRONFZKMWdBYjhid3VIUHNXYzJTaEFEOEEwazdHU0FmYWIxbTUxeDl6aHEz?=
+ =?utf-8?B?VEoxWHoyTFhCRHNhMGgyWlFaSHpMZDVwOUhIdnlwK2Y4T2hYUWpzam1Bb0sz?=
+ =?utf-8?B?WkRtZFdWK3JGSjh4L2lReXVtYUFRZ1VST04zanZsVjI4ZzF6ZGg2SFJnWUVn?=
+ =?utf-8?B?dzBPOXFGbm9pWTFJQUtFSTZnS3VhWG96YWVvS3drbzdaKzFpaWIvZnIzSUpx?=
+ =?utf-8?B?Z05lZGw2YWxwWTZPZWpVcFI1NDRvNGJBbnRUc1VCSlE3YUlUMlUwb3NYcEU3?=
+ =?utf-8?B?bFF2SEVKaHhFWDE1WFRoNjJwVGd3YTNybDVBQmtlR052ZXNDb1ZMSkJ1THJV?=
+ =?utf-8?B?OXF4eVNJOEplZWNzOEJjQlBSRVpMVHMwZlprNFdvK1hSRktLZE5GOUZzbmhG?=
+ =?utf-8?B?TTlOeXlxK2d0cUJXU2ZTQTBDYkRSK3poK2RLR0NlbjFKd1BjYy84WjBCR0hJ?=
+ =?utf-8?B?U2ZWR3dnTU5XQno3dGVqVVllaFhvS21QWWtnOThhdUJBMjVLVjJqMkFQRHh5?=
+ =?utf-8?B?WFFWSFRUODg2NkFlYkhieFMxYnpPL1NCR1QxQ2JJT3dYVUc0RVdxeTlBTk5s?=
+ =?utf-8?B?Y0VZWkMvQlJ2NUVONit4VVlVMHJvajQ5aWp1ZVdZQWpEYXFjUlcxUzBva0o3?=
+ =?utf-8?B?WEJVL2k0aGtqTEZESFJ1dTBiZU1ySEdVVkNSRFV0TmxpYW5iN3RGNGJlVTIv?=
+ =?utf-8?Q?/4CEXPMQ02oGdNUkpW+f49cfz?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcd870a1-6dda-49dc-f8bf-08dbe9e63c00
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2023 16:32:06.2990 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YPhdiKm143sJSPG74WNYTO+mmSUgSajib1gnhGF9dOC1CPbcHkoIZtLgKx4lOvTs
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5229
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,289 +138,302 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------p9QzI1O08KtpOtY0OLXb73Fk
-Content-Type: multipart/mixed; boundary="------------CqVygzRbE5JE8T1wWugAKajM";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Felix Kuehling <felix.kuehling@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-Message-ID: <49164a90-c294-4a9c-9fed-516347583dde@suse.de>
-Subject: Re: [PATCH 1/3] Revert "drm/prime: Unexport helpers for fd/handle
- conversion"
-References: <20231117214419.418556-1-Felix.Kuehling@amd.com>
- <73a16f1e-3556-49b3-bd19-8b510f6af3fd@suse.de>
- <7501fb58-9f34-4410-b529-c01e2e45e019@amd.com>
- <86a843ed-d286-4da0-9fa9-b777d783982f@suse.de>
- <c4e5254a-6c69-434a-8128-dd140ddba623@amd.com>
- <73722172-69e8-4bdf-bfe3-e7c5bbff7219@suse.de>
- <814430b0-38de-4fd5-9719-a2f7b217cb0d@amd.com>
- <5fee047e-2dfb-450d-839b-01fffb3c01d0@amd.com>
-In-Reply-To: <5fee047e-2dfb-450d-839b-01fffb3c01d0@amd.com>
+Am 20.11.23 um 17:28 schrieb Thomas Zimmermann:
+> Hi
+>
+> Am 20.11.23 um 17:22 schrieb Christian König:
+>> Am 20.11.23 um 17:15 schrieb Felix Kuehling:
+>>>
+>>> On 2023-11-20 11:02, Thomas Zimmermann wrote:
+>>>> Hi Christian
+>>>>
+>>>> Am 20.11.23 um 16:22 schrieb Christian König:
+>>>>> Am 20.11.23 um 16:18 schrieb Thomas Zimmermann:
+>>>>>> Hi
+>>>>>>
+>>>>>> Am 20.11.23 um 16:06 schrieb Felix Kuehling:
+>>>>>>> On 2023-11-20 6:54, Thomas Zimmermann wrote:
+>>>>>>>> Hi
+>>>>>>>>
+>>>>>>>> Am 17.11.23 um 22:44 schrieb Felix Kuehling:
+>>>>>>>>> This reverts commit 71a7974ac7019afeec105a54447ae1dc7216cbb3.
+>>>>>>>>>
+>>>>>>>>> These helper functions are needed for KFD to export and import 
+>>>>>>>>> DMABufs
+>>>>>>>>> the right way without duplicating the tracking of DMABufs
+>>>>>>>>> associated with
+>>>>>>>>> GEM objects while ensuring that move notifier callbacks are 
+>>>>>>>>> working as
+>>>>>>>>> intended.
+>>>>>>>> I'm unhappy to see these functions making a comeback. They are the
+>>>>>>>> boiler-plate logic that all drivers should use. Historically,
+>>>>>>>> drivers did a lot one things in their GEM code that was only
+>>>>>>>> semi-correct. Unifying most of that made the memory management 
+>>>>>>>> more
+>>>>>>>> readable. Not giving back drivers to option of tinkering with this
+>>>>>>>> might be preferable. The rsp hooks in struct drm_driver,
+>>>>>>>> prime_fd_to_handle and prime_handle_to_fd, are only there for 
+>>>>>>>> vmwgfx.
+>>>>>>>>
+>>>>>>>> If you want to hook into prime import and export, there are
+>>>>>>>> drm_driver.gem_prime_import and drm_gem_object_funcs.export. Isn't
+>>>>>>>> it possible to move the additional code behind these pointers?
+>>>>>>> I'm not trying to hook into these functions, I'm just trying to 
+>>>>>>> call
+>>>>>>> them. I'm not bringing back the .prime_handle_to_fd and
+>>>>>>> .prime_fd_to_handle hooks in struct drm_driver. I need a clean 
+>>>>>>> way to
+>>>>>>> export and import DMAbuffers from a kernel mode context. I had
+>>>>>>> incorrect or semi-correct ways of doing that by calling some
+>>>>>>> driver-internal functions, but then my DMABufs aren't correctly
+>>>>>>> linked with GEM handles in DRM and move notifiers in amdgpu aren't
+>>>>>>> working correctly.
+>>>>>> I understand that. But why don't you use drm_driver.gem_prime_import
+>>>>>> and drm_gem_object_funcs.export to add the amdkfd-specific code? 
+>>>>>> These
+>>>>>> callbacks are being invoked from within 
+>>>>>> drm_gem_prime_fd_to_handle() and
+>>>>>> drm_gem_prime_handle_to_fd() as part of the importing and exporting
+>>>>>> logic. With the intention of doing driver-specific things. Hence you
+>>>>>> should not have to re-export the internal drm_gem_prime_*_to_*() 
+>>>>>> helpers.
+>>>>>>
+>>>>>> My question is if the existing hooks are not suitable for your 
+>>>>>> needs.
+>>>>>> If so, how could we improve them?
+>>>>> No no. You don't seem to understand the use case :) Felix doesn't 
+>>>>> try to
+>>>>> implement any driver-specific things.
+>>>> I meant that I understand that this patchset is not about setting
+>>>> drm_driver.prime_handle_to_fd, et al.
+>>>>
+>>>>> What Felix tries to do is to export a DMA-buf handle from kernel 
+>>>>> space.
+>>>> For example, looking at patch 2, it converts a GEM handle to a file
+>>>> descriptor and then assigns the rsp dmabuf to mem, which is of type
+>>>> struct kgd_mem. From my impression, this could be done within the
+>>>> existing ->export hook.
+>>>
+>>> That would skip the call to export_and_register_object. I think 
+>>> that's what I'm currently missing to set up gem_obj->dmabuf.
+>>
+>> I think we are talking past each other. kgd_mem is not part of the 
+>> amdgpu driver, so it can't go into an ->export callback.
+>>
+>> What happens here is that a drm_client code uses the amdgpu driver to 
+>> export some DMA-buf to file descriptors.
+>>
+>> In other words this is a high level user of drm_client and not 
+>> something driver internal.
+>>
+>> If you don't want to export the drm_gem_prime_handle_to_fd() function 
+>> directly we could add some drm_client_buffer_export() or similar.
+>
+> I think it's the fd that's bothering me. As I've mentioned in another 
+> email, fb appears to be not required. So the overall interface looks 
+> suboptimal. Something like drm_gem_prime_handle_to_dmabuf() would be 
+> better. Such a helper would then also invoke the existing hooks.
 
---------------CqVygzRbE5JE8T1wWugAKajM
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Really good point. I think that should work for Felix as well.
 
-SGkNCg0KQW0gMjAuMTEuMjMgdW0gMTc6MjIgc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOg0K
-PiBBbSAyMC4xMS4yMyB1bSAxNzoxNSBzY2hyaWViIEZlbGl4IEt1ZWhsaW5nOg0KPj4NCj4+
-IE9uIDIwMjMtMTEtMjAgMTE6MDIsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4+IEhp
-IENocmlzdGlhbg0KPj4+DQo+Pj4gQW0gMjAuMTEuMjMgdW0gMTY6MjIgc2NocmllYiBDaHJp
-c3RpYW4gS8O2bmlnOg0KPj4+PiBBbSAyMC4xMS4yMyB1bSAxNjoxOCBzY2hyaWViIFRob21h
-cyBaaW1tZXJtYW5uOg0KPj4+Pj4gSGkNCj4+Pj4+DQo+Pj4+PiBBbSAyMC4xMS4yMyB1bSAx
-NjowNiBzY2hyaWViIEZlbGl4IEt1ZWhsaW5nOg0KPj4+Pj4+IE9uIDIwMjMtMTEtMjAgNjo1
-NCwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6DQo+Pj4+Pj4+IEhpDQo+Pj4+Pj4+DQo+Pj4+
-Pj4+IEFtIDE3LjExLjIzIHVtIDIyOjQ0IHNjaHJpZWIgRmVsaXggS3VlaGxpbmc6DQo+Pj4+
-Pj4+PiBUaGlzIHJldmVydHMgY29tbWl0IDcxYTc5NzRhYzcwMTlhZmVlYzEwNWE1NDQ0N2Fl
-MWRjNzIxNmNiYjMuDQo+Pj4+Pj4+Pg0KPj4+Pj4+Pj4gVGhlc2UgaGVscGVyIGZ1bmN0aW9u
-cyBhcmUgbmVlZGVkIGZvciBLRkQgdG8gZXhwb3J0IGFuZCBpbXBvcnQgDQo+Pj4+Pj4+PiBE
-TUFCdWZzDQo+Pj4+Pj4+PiB0aGUgcmlnaHQgd2F5IHdpdGhvdXQgZHVwbGljYXRpbmcgdGhl
-IHRyYWNraW5nIG9mIERNQUJ1ZnMNCj4+Pj4+Pj4+IGFzc29jaWF0ZWQgd2l0aA0KPj4+Pj4+
-Pj4gR0VNIG9iamVjdHMgd2hpbGUgZW5zdXJpbmcgdGhhdCBtb3ZlIG5vdGlmaWVyIGNhbGxi
-YWNrcyBhcmUgDQo+Pj4+Pj4+PiB3b3JraW5nIGFzDQo+Pj4+Pj4+PiBpbnRlbmRlZC4NCj4+
-Pj4+Pj4gSSdtIHVuaGFwcHkgdG8gc2VlIHRoZXNlIGZ1bmN0aW9ucyBtYWtpbmcgYSBjb21l
-YmFjay4gVGhleSBhcmUgdGhlDQo+Pj4+Pj4+IGJvaWxlci1wbGF0ZSBsb2dpYyB0aGF0IGFs
-bCBkcml2ZXJzIHNob3VsZCB1c2UuIEhpc3RvcmljYWxseSwNCj4+Pj4+Pj4gZHJpdmVycyBk
-aWQgYSBsb3Qgb25lIHRoaW5ncyBpbiB0aGVpciBHRU0gY29kZSB0aGF0IHdhcyBvbmx5DQo+
-Pj4+Pj4+IHNlbWktY29ycmVjdC4gVW5pZnlpbmcgbW9zdCBvZiB0aGF0IG1hZGUgdGhlIG1l
-bW9yeSBtYW5hZ2VtZW50IG1vcmUNCj4+Pj4+Pj4gcmVhZGFibGUuIE5vdCBnaXZpbmcgYmFj
-ayBkcml2ZXJzIHRvIG9wdGlvbiBvZiB0aW5rZXJpbmcgd2l0aCB0aGlzDQo+Pj4+Pj4+IG1p
-Z2h0IGJlIHByZWZlcmFibGUuIFRoZSByc3AgaG9va3MgaW4gc3RydWN0IGRybV9kcml2ZXIs
-DQo+Pj4+Pj4+IHByaW1lX2ZkX3RvX2hhbmRsZSBhbmQgcHJpbWVfaGFuZGxlX3RvX2ZkLCBh
-cmUgb25seSB0aGVyZSBmb3IgDQo+Pj4+Pj4+IHZtd2dmeC4NCj4+Pj4+Pj4NCj4+Pj4+Pj4g
-SWYgeW91IHdhbnQgdG8gaG9vayBpbnRvIHByaW1lIGltcG9ydCBhbmQgZXhwb3J0LCB0aGVy
-ZSBhcmUNCj4+Pj4+Pj4gZHJtX2RyaXZlci5nZW1fcHJpbWVfaW1wb3J0IGFuZCBkcm1fZ2Vt
-X29iamVjdF9mdW5jcy5leHBvcnQuIElzbid0DQo+Pj4+Pj4+IGl0IHBvc3NpYmxlIHRvIG1v
-dmUgdGhlIGFkZGl0aW9uYWwgY29kZSBiZWhpbmQgdGhlc2UgcG9pbnRlcnM/DQo+Pj4+Pj4g
-SSdtIG5vdCB0cnlpbmcgdG8gaG9vayBpbnRvIHRoZXNlIGZ1bmN0aW9ucywgSSdtIGp1c3Qg
-dHJ5aW5nIHRvIGNhbGwNCj4+Pj4+PiB0aGVtLiBJJ20gbm90IGJyaW5naW5nIGJhY2sgdGhl
-IC5wcmltZV9oYW5kbGVfdG9fZmQgYW5kDQo+Pj4+Pj4gLnByaW1lX2ZkX3RvX2hhbmRsZSBo
-b29rcyBpbiBzdHJ1Y3QgZHJtX2RyaXZlci4gSSBuZWVkIGEgY2xlYW4gd2F5IHRvDQo+Pj4+
-Pj4gZXhwb3J0IGFuZCBpbXBvcnQgRE1BYnVmZmVycyBmcm9tIGEga2VybmVsIG1vZGUgY29u
-dGV4dC4gSSBoYWQNCj4+Pj4+PiBpbmNvcnJlY3Qgb3Igc2VtaS1jb3JyZWN0IHdheXMgb2Yg
-ZG9pbmcgdGhhdCBieSBjYWxsaW5nIHNvbWUNCj4+Pj4+PiBkcml2ZXItaW50ZXJuYWwgZnVu
-Y3Rpb25zLCBidXQgdGhlbiBteSBETUFCdWZzIGFyZW4ndCBjb3JyZWN0bHkNCj4+Pj4+PiBs
-aW5rZWQgd2l0aCBHRU0gaGFuZGxlcyBpbiBEUk0gYW5kIG1vdmUgbm90aWZpZXJzIGluIGFt
-ZGdwdSBhcmVuJ3QNCj4+Pj4+PiB3b3JraW5nIGNvcnJlY3RseS4NCj4+Pj4+IEkgdW5kZXJz
-dGFuZCB0aGF0LiBCdXQgd2h5IGRvbid0IHlvdSB1c2UgZHJtX2RyaXZlci5nZW1fcHJpbWVf
-aW1wb3J0DQo+Pj4+PiBhbmQgZHJtX2dlbV9vYmplY3RfZnVuY3MuZXhwb3J0IHRvIGFkZCB0
-aGUgYW1ka2ZkLXNwZWNpZmljIGNvZGU/IFRoZXNlDQo+Pj4+PiBjYWxsYmFja3MgYXJlIGJl
-aW5nIGludm9rZWQgZnJvbSB3aXRoaW4gDQo+Pj4+PiBkcm1fZ2VtX3ByaW1lX2ZkX3RvX2hh
-bmRsZSgpIGFuZA0KPj4+Pj4gZHJtX2dlbV9wcmltZV9oYW5kbGVfdG9fZmQoKSBhcyBwYXJ0
-IG9mIHRoZSBpbXBvcnRpbmcgYW5kIGV4cG9ydGluZw0KPj4+Pj4gbG9naWMuIFdpdGggdGhl
-IGludGVudGlvbiBvZiBkb2luZyBkcml2ZXItc3BlY2lmaWMgdGhpbmdzLiBIZW5jZSB5b3UN
-Cj4+Pj4+IHNob3VsZCBub3QgaGF2ZSB0byByZS1leHBvcnQgdGhlIGludGVybmFsIGRybV9n
-ZW1fcHJpbWVfKl90b18qKCkgDQo+Pj4+PiBoZWxwZXJzLg0KPj4+Pj4NCj4+Pj4+IE15IHF1
-ZXN0aW9uIGlzIGlmIHRoZSBleGlzdGluZyBob29rcyBhcmUgbm90IHN1aXRhYmxlIGZvciB5
-b3VyIG5lZWRzLg0KPj4+Pj4gSWYgc28sIGhvdyBjb3VsZCB3ZSBpbXByb3ZlIHRoZW0/DQo+
-Pj4+IE5vIG5vLiBZb3UgZG9uJ3Qgc2VlbSB0byB1bmRlcnN0YW5kIHRoZSB1c2UgY2FzZSA6
-KSBGZWxpeCBkb2Vzbid0IA0KPj4+PiB0cnkgdG8NCj4+Pj4gaW1wbGVtZW50IGFueSBkcml2
-ZXItc3BlY2lmaWMgdGhpbmdzLg0KPj4+IEkgbWVhbnQgdGhhdCBJIHVuZGVyc3RhbmQgdGhh
-dCB0aGlzIHBhdGNoc2V0IGlzIG5vdCBhYm91dCBzZXR0aW5nDQo+Pj4gZHJtX2RyaXZlci5w
-cmltZV9oYW5kbGVfdG9fZmQsIGV0IGFsLg0KPj4+DQo+Pj4+IFdoYXQgRmVsaXggdHJpZXMg
-dG8gZG8gaXMgdG8gZXhwb3J0IGEgRE1BLWJ1ZiBoYW5kbGUgZnJvbSBrZXJuZWwgc3BhY2Uu
-DQo+Pj4gRm9yIGV4YW1wbGUsIGxvb2tpbmcgYXQgcGF0Y2ggMiwgaXQgY29udmVydHMgYSBH
-RU0gaGFuZGxlIHRvIGEgZmlsZQ0KPj4+IGRlc2NyaXB0b3IgYW5kIHRoZW4gYXNzaWducyB0
-aGUgcnNwIGRtYWJ1ZiB0byBtZW0sIHdoaWNoIGlzIG9mIHR5cGUNCj4+PiBzdHJ1Y3Qga2dk
-X21lbS4gRnJvbSBteSBpbXByZXNzaW9uLCB0aGlzIGNvdWxkIGJlIGRvbmUgd2l0aGluIHRo
-ZQ0KPj4+IGV4aXN0aW5nIC0+ZXhwb3J0IGhvb2suDQo+Pg0KPj4gVGhhdCB3b3VsZCBza2lw
-IHRoZSBjYWxsIHRvIGV4cG9ydF9hbmRfcmVnaXN0ZXJfb2JqZWN0LiBJIHRoaW5rIHRoYXQn
-cyANCj4+IHdoYXQgSSdtIGN1cnJlbnRseSBtaXNzaW5nIHRvIHNldCB1cCBnZW1fb2JqLT5k
-bWFidWYuDQo+IA0KPiBJIHRoaW5rIHdlIGFyZSB0YWxraW5nIHBhc3QgZWFjaCBvdGhlci4g
-a2dkX21lbSBpcyBub3QgcGFydCBvZiB0aGUgDQo+IGFtZGdwdSBkcml2ZXIsIHNvIGl0IGNh
-bid0IGdvIGludG8gYW4gLT5leHBvcnQgY2FsbGJhY2suDQo+IA0KPiBXaGF0IGhhcHBlbnMg
-aGVyZSBpcyB0aGF0IGEgZHJtX2NsaWVudCBjb2RlIHVzZXMgdGhlIGFtZGdwdSBkcml2ZXIg
-dG8gDQo+IGV4cG9ydCBzb21lIERNQS1idWYgdG8gZmlsZSBkZXNjcmlwdG9ycy4NCj4gDQo+
-IEluIG90aGVyIHdvcmRzIHRoaXMgaXMgYSBoaWdoIGxldmVsIHVzZXIgb2YgZHJtX2NsaWVu
-dCBhbmQgbm90IHNvbWV0aGluZyANCj4gZHJpdmVyIGludGVybmFsLg0KPiANCj4gSWYgeW91
-IGRvbid0IHdhbnQgdG8gZXhwb3J0IHRoZSBkcm1fZ2VtX3ByaW1lX2hhbmRsZV90b19mZCgp
-IGZ1bmN0aW9uIA0KPiBkaXJlY3RseSB3ZSBjb3VsZCBhZGQgc29tZSBkcm1fY2xpZW50X2J1
-ZmZlcl9leHBvcnQoKSBvciBzaW1pbGFyLg0KDQpJIHRoaW5rIGl0J3MgdGhlIGZkIHRoYXQn
-cyBib3RoZXJpbmcgbWUuIEFzIEkndmUgbWVudGlvbmVkIGluIGFub3RoZXIgDQplbWFpbCwg
-ZmIgYXBwZWFycyB0byBiZSBub3QgcmVxdWlyZWQuIFNvIHRoZSBvdmVyYWxsIGludGVyZmFj
-ZSBsb29rcyANCnN1Ym9wdGltYWwuIFNvbWV0aGluZyBsaWtlIGRybV9nZW1fcHJpbWVfaGFu
-ZGxlX3RvX2RtYWJ1ZigpIHdvdWxkIGJlIA0KYmV0dGVyLiBTdWNoIGEgaGVscGVyIHdvdWxk
-IHRoZW4gYWxzbyBpbnZva2UgdGhlIGV4aXN0aW5nIGhvb2tzLg0KDQpCdXQgaXQncyBjZXJ0
-YWlubHkgbm90IGEgYmxvY2tlci4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4g
-UmVnYXJkcywNCj4gQ2hyaXN0aWFuLg0KPiANCj4+DQo+PiBSZWdhcmRzLA0KPj4gwqAgRmVs
-aXgNCj4+DQo+Pg0KPj4+DQo+Pj4gVGhlbiB0aGVyZSdzIGNsb3NlX2ZkKCksIHdoaWNoIGNh
-bm5vdCBnbyBpbnRvIC0+ZXhwb3J0LiBJdCBsb29rcyBsaWtlDQo+Pj4gdGhlIGZkIGlzbid0
-IHJlYWxseSByZXF1aXJlZC7CoCBDb3VsZCB0aGUgZHJtX3ByaW1lX2hhbmRsZV90b19mZCgp
-IGJlDQo+Pj4gcmV3b3JrZWQgaW50byBhIGhlbHBlciB0aGF0IGNvbnZlcnRzIHRoZSBoYW5k
-bGUgdG8gdGhlIGRtYWJ1ZiB3aXRob3V0DQo+Pj4gdGhlIGZkP8KgIFNvbWV0aGluZyBsaWtl
-IGRybV9nZW1fcHJpbWVfaGFuZGxlX3RvX2RtYWJ1ZigpLCB3aGljaCB3b3VsZA0KPj4+IHRo
-ZW4gYmUgZXhwb3J0ZWQ/DQo+Pj4NCj4+PiBBbmQgSSBoYXZlIHRoZSBxdWVzdGlvbiB3cnQg
-dGhlIDNyZCBwYXRjaDsganVzdCB0aGF0IGl0J3MgYWJvdXQgDQo+Pj4gaW1wb3J0aW5nLg0K
-Pj4+DQo+Pj4gKExvb2tpbmcgZnVydGhlciB0aHJvdWdoIHRoZSBjb2RlLCBpdCBhcHBlYXJz
-IHRoYXQgdGhlIGZkIGNvdWxkIGJlDQo+Pj4gcmVtb3ZlZCBmcm9tIHRoZSBoZWxwZXJzLCB0
-aGUgY2FsbGJhY2tzIGFuZCB2bXdnZnguIEl0IHdvdWxkIHRoZW4gYmUNCj4+PiB1c2VkIGVu
-dGlyZWx5IGluIHRoZSBpb2N0bCBlbnRyeSBwb2ludHMsIHN1Y2ggYXMNCj4+PiBkcm1fcHJp
-bWVfZmRfdG9faGFuZGxlX2lvY3RsKCkuKQ0KPj4+DQo+Pj4gQmVzdCByZWdhcmRzDQo+Pj4g
-VGhvbWFzDQo+Pj4NCj4+Pg0KPj4+PiBSZWdhcmRzLA0KPj4+PiBDaHJpc3RpYW4uDQo+Pj4+
-DQo+Pj4+PiBCZXN0IHJlZ2FyZHMNCj4+Pj4+IFRob21hcw0KPj4+Pj4NCj4+Pj4+DQo+Pj4+
-Pj4gUmVnYXJkcywNCj4+Pj4+PiDCoMKgwqAgRmVsaXgNCj4+Pj4+Pg0KPj4+Pj4+DQo+Pj4+
-Pj4+IEJlc3QgcmVnYXJkcw0KPj4+Pj4+PiBUaG9tYXMNCj4+Pj4+Pj4NCj4+Pj4+Pj4+IEND
-OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+Pj4+Pj4+
-PiBDQzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+Pj4+Pj4+
-PiBTaWduZWQtb2ZmLWJ5OiBGZWxpeCBLdWVobGluZyA8RmVsaXguS3VlaGxpbmdAYW1kLmNv
-bT4NCj4+Pj4+Pj4+IC0tLQ0KPj4+Pj4+Pj4gwqDCoCBkcml2ZXJzL2dwdS9kcm0vZHJtX3By
-aW1lLmMgfCAzMyANCj4+Pj4+Pj4+ICsrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0t
-LQ0KPj4+Pj4+Pj4gwqDCoCBpbmNsdWRlL2RybS9kcm1fcHJpbWUuaMKgwqDCoMKgIHzCoCA3
-ICsrKysrKysNCj4+Pj4+Pj4+IMKgwqAgMiBmaWxlcyBjaGFuZ2VkLCAyNSBpbnNlcnRpb25z
-KCspLCAxNSBkZWxldGlvbnMoLSkNCj4+Pj4+Pj4+DQo+Pj4+Pj4+PiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jIA0KPj4+Pj4+Pj4gYi9kcml2ZXJzL2dwdS9k
-cm0vZHJtX3ByaW1lLmMNCj4+Pj4+Pj4+IGluZGV4IDYzYjcwOWE2NzQ3MS4uODM0YTVlMjhh
-YmJlIDEwMDY0NA0KPj4+Pj4+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5j
-DQo+Pj4+Pj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMNCj4+Pj4+Pj4+
-IEBAIC0yNzgsNyArMjc4LDcgQEAgdm9pZCBkcm1fZ2VtX2RtYWJ1Zl9yZWxlYXNlKHN0cnVj
-dCBkbWFfYnVmDQo+Pj4+Pj4+PiAqZG1hX2J1ZikNCj4+Pj4+Pj4+IMKgwqAgfQ0KPj4+Pj4+
-Pj4gwqDCoCBFWFBPUlRfU1lNQk9MKGRybV9nZW1fZG1hYnVmX3JlbGVhc2UpOw0KPj4+Pj4+
-Pj4gwqDCoCAtLyoNCj4+Pj4+Pj4+ICsvKioNCj4+Pj4+Pj4+IMKgwqDCoCAqIGRybV9nZW1f
-cHJpbWVfZmRfdG9faGFuZGxlIC0gUFJJTUUgaW1wb3J0IGZ1bmN0aW9uIGZvciBHRU0NCj4+
-Pj4+Pj4+IGRyaXZlcnMNCj4+Pj4+Pj4+IMKgwqDCoCAqIEBkZXY6IGRybV9kZXZpY2UgdG8g
-aW1wb3J0IGludG8NCj4+Pj4+Pj4+IMKgwqDCoCAqIEBmaWxlX3ByaXY6IGRybSBmaWxlLXBy
-aXZhdGUgc3RydWN0dXJlDQo+Pj4+Pj4+PiBAQCAtMjkyLDkgKzI5Miw5IEBAIEVYUE9SVF9T
-WU1CT0woZHJtX2dlbV9kbWFidWZfcmVsZWFzZSk7DQo+Pj4+Pj4+PiDCoMKgwqAgKg0KPj4+
-Pj4+Pj4gwqDCoMKgICogUmV0dXJucyAwIG9uIHN1Y2Nlc3Mgb3IgYSBuZWdhdGl2ZSBlcnJv
-ciBjb2RlIG9uIGZhaWx1cmUuDQo+Pj4+Pj4+PiDCoMKgwqAgKi8NCj4+Pj4+Pj4+IC1zdGF0
-aWMgaW50IGRybV9nZW1fcHJpbWVfZmRfdG9faGFuZGxlKHN0cnVjdCBkcm1fZGV2aWNlICpk
-ZXYsDQo+Pj4+Pj4+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2LCBpbnQgcHJpbWVfZmQsDQo+Pj4+Pj4+
-PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHVpbnQzMl90
-ICpoYW5kbGUpDQo+Pj4+Pj4+PiAraW50IGRybV9nZW1fcHJpbWVfZmRfdG9faGFuZGxlKHN0
-cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+Pj4+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2LCBpbnQgcHJpbWVf
-ZmQsDQo+Pj4+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHVp
-bnQzMl90ICpoYW5kbGUpDQo+Pj4+Pj4+PiDCoMKgIHsNCj4+Pj4+Pj4+IMKgwqDCoMKgwqDC
-oCBzdHJ1Y3QgZG1hX2J1ZiAqZG1hX2J1ZjsNCj4+Pj4+Pj4+IMKgwqDCoMKgwqDCoCBzdHJ1
-Y3QgZHJtX2dlbV9vYmplY3QgKm9iajsNCj4+Pj4+Pj4+IEBAIC0zNjAsNiArMzYwLDcgQEAg
-c3RhdGljIGludCBkcm1fZ2VtX3ByaW1lX2ZkX3RvX2hhbmRsZShzdHJ1Y3QNCj4+Pj4+Pj4+
-IGRybV9kZXZpY2UgKmRldiwNCj4+Pj4+Pj4+IMKgwqDCoMKgwqDCoCBkbWFfYnVmX3B1dChk
-bWFfYnVmKTsNCj4+Pj4+Pj4+IMKgwqDCoMKgwqDCoCByZXR1cm4gcmV0Ow0KPj4+Pj4+Pj4g
-wqDCoCB9DQo+Pj4+Pj4+PiArRVhQT1JUX1NZTUJPTChkcm1fZ2VtX3ByaW1lX2ZkX3RvX2hh
-bmRsZSk7DQo+Pj4+Pj4+PiDCoMKgIMKgIGludCBkcm1fcHJpbWVfZmRfdG9faGFuZGxlX2lv
-Y3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQNCj4+Pj4+Pj4+ICpkYXRhLA0KPj4+
-Pj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGRy
-bV9maWxlICpmaWxlX3ByaXYpDQo+Pj4+Pj4+PiBAQCAtNDA4LDcgKzQwOSw3IEBAIHN0YXRp
-YyBzdHJ1Y3QgZG1hX2J1Zg0KPj4+Pj4+Pj4gKmV4cG9ydF9hbmRfcmVnaXN0ZXJfb2JqZWN0
-KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+Pj4+Pj4+PiDCoMKgwqDCoMKgwqAgcmV0dXJu
-IGRtYWJ1ZjsNCj4+Pj4+Pj4+IMKgwqAgfQ0KPj4+Pj4+Pj4gwqDCoCAtLyoNCj4+Pj4+Pj4+
-ICsvKioNCj4+Pj4+Pj4+IMKgwqDCoCAqIGRybV9nZW1fcHJpbWVfaGFuZGxlX3RvX2ZkIC0g
-UFJJTUUgZXhwb3J0IGZ1bmN0aW9uIGZvciBHRU0NCj4+Pj4+Pj4+IGRyaXZlcnMNCj4+Pj4+
-Pj4+IMKgwqDCoCAqIEBkZXY6IGRldiB0byBleHBvcnQgdGhlIGJ1ZmZlciBmcm9tDQo+Pj4+
-Pj4+PiDCoMKgwqAgKiBAZmlsZV9wcml2OiBkcm0gZmlsZS1wcml2YXRlIHN0cnVjdHVyZQ0K
-Pj4+Pj4+Pj4gQEAgLTQyMSwxMCArNDIyLDEwIEBAIHN0YXRpYyBzdHJ1Y3QgZG1hX2J1Zg0K
-Pj4+Pj4+Pj4gKmV4cG9ydF9hbmRfcmVnaXN0ZXJfb2JqZWN0KHN0cnVjdCBkcm1fZGV2aWNl
-ICpkZXYsDQo+Pj4+Pj4+PiDCoMKgwqAgKiBUaGUgYWN0dWFsIGV4cG9ydGluZyBmcm9tIEdF
-TSBvYmplY3QgdG8gYSBkbWEtYnVmIGlzIGRvbmUNCj4+Pj4+Pj4+IHRocm91Z2ggdGhlDQo+
-Pj4+Pj4+PiDCoMKgwqAgKiAmZHJtX2dlbV9vYmplY3RfZnVuY3MuZXhwb3J0IGNhbGxiYWNr
-Lg0KPj4+Pj4+Pj4gwqDCoMKgICovDQo+Pj4+Pj4+PiAtc3RhdGljIGludCBkcm1fZ2VtX3By
-aW1lX2hhbmRsZV90b19mZChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0KPj4+Pj4+Pj4gLcKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX2Zp
-bGUgKmZpbGVfcHJpdiwgdWludDMyX3QgaGFuZGxlLA0KPj4+Pj4+Pj4gLcKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB1aW50MzJfdCBmbGFncywNCj4+Pj4+
-Pj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaW50ICpw
-cmltZV9mZCkNCj4+Pj4+Pj4+ICtpbnQgZHJtX2dlbV9wcmltZV9oYW5kbGVfdG9fZmQoc3Ry
-dWN0IGRybV9kZXZpY2UgKmRldiwNCj4+Pj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYsIHVpbnQzMl90IGhh
-bmRsZSwNCj4+Pj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-dWludDMyX3QgZmxhZ3MsDQo+Pj4+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIGludCAqcHJpbWVfZmQpDQo+Pj4+Pj4+PiDCoMKgIHsNCj4+Pj4+Pj4+IMKg
-wqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iajsNCj4+Pj4+Pj4+IMKgwqDC
-oMKgwqDCoCBpbnQgcmV0ID0gMDsNCj4+Pj4+Pj4+IEBAIC01MDYsNiArNTA3LDcgQEAgc3Rh
-dGljIGludCBkcm1fZ2VtX3ByaW1lX2hhbmRsZV90b19mZChzdHJ1Y3QNCj4+Pj4+Pj4+IGRy
-bV9kZXZpY2UgKmRldiwNCj4+Pj4+Pj4+IMKgwqAgwqDCoMKgwqDCoCByZXR1cm4gcmV0Ow0K
-Pj4+Pj4+Pj4gwqDCoCB9DQo+Pj4+Pj4+PiArRVhQT1JUX1NZTUJPTChkcm1fZ2VtX3ByaW1l
-X2hhbmRsZV90b19mZCk7DQo+Pj4+Pj4+PiDCoMKgIMKgIGludCBkcm1fcHJpbWVfaGFuZGxl
-X3RvX2ZkX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQNCj4+Pj4+Pj4+ICpk
-YXRhLA0KPj4+Pj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-c3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYpDQo+Pj4+Pj4+PiBAQCAtODY0LDkgKzg2Niw5
-IEBAIEVYUE9SVF9TWU1CT0woZHJtX3ByaW1lX2dldF9jb250aWd1b3VzX3NpemUpOw0KPj4+
-Pj4+Pj4gwqDCoMKgICogQG9iajogR0VNIG9iamVjdCB0byBleHBvcnQNCj4+Pj4+Pj4+IMKg
-wqDCoCAqIEBmbGFnczogZmxhZ3MgbGlrZSBEUk1fQ0xPRVhFQyBhbmQgRFJNX1JEV1INCj4+
-Pj4+Pj4+IMKgwqDCoCAqDQo+Pj4+Pj4+PiAtICogVGhpcyBpcyB0aGUgaW1wbGVtZW50YXRp
-b24gb2YgdGhlICZkcm1fZ2VtX29iamVjdF9mdW5jcy5leHBvcnQNCj4+Pj4+Pj4+IGZ1bmN0
-aW9ucw0KPj4+Pj4+Pj4gLSAqIGZvciBHRU0gZHJpdmVycyB1c2luZyB0aGUgUFJJTUUgaGVs
-cGVycy4gSXQgaXMgdXNlZCBhcyB0aGUNCj4+Pj4+Pj4+IGRlZmF1bHQgZm9yDQo+Pj4+Pj4+
-PiAtICogZHJpdmVycyB0aGF0IGRvIG5vdCBzZXQgdGhlaXIgb3duLg0KPj4+Pj4+Pj4gKyAq
-IFRoaXMgaXMgdGhlIGltcGxlbWVudGF0aW9uIG9mIHRoZSAmZHJtX2dlbV9vYmplY3RfZnVu
-Y3MuZXhwb3J0DQo+Pj4+Pj4+PiBmdW5jdGlvbnMgZm9yIEdFTSBkcml2ZXJzDQo+Pj4+Pj4+
-PiArICogdXNpbmcgdGhlIFBSSU1FIGhlbHBlcnMuIEl0IGlzIHVzZWQgYXMgdGhlIGRlZmF1
-bHQgaW4NCj4+Pj4+Pj4+ICsgKiBkcm1fZ2VtX3ByaW1lX2hhbmRsZV90b19mZCgpLg0KPj4+
-Pj4+Pj4gwqDCoMKgICovDQo+Pj4+Pj4+PiDCoMKgIHN0cnVjdCBkbWFfYnVmICpkcm1fZ2Vt
-X3ByaW1lX2V4cG9ydChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwNCj4+Pj4+Pj4+IMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaW50IGZsYWdz
-KQ0KPj4+Pj4+Pj4gQEAgLTk2Miw5ICs5NjQsMTAgQEAgRVhQT1JUX1NZTUJPTChkcm1fZ2Vt
-X3ByaW1lX2ltcG9ydF9kZXYpOw0KPj4+Pj4+Pj4gwqDCoMKgICogQGRldjogZHJtX2Rldmlj
-ZSB0byBpbXBvcnQgaW50bw0KPj4+Pj4+Pj4gwqDCoMKgICogQGRtYV9idWY6IGRtYS1idWYg
-b2JqZWN0IHRvIGltcG9ydA0KPj4+Pj4+Pj4gwqDCoMKgICoNCj4+Pj4+Pj4+IC0gKiBUaGlz
-IGlzIHRoZSBpbXBsZW1lbnRhdGlvbiBvZiB0aGUgZ2VtX3ByaW1lX2ltcG9ydCBmdW5jdGlv
-bnMNCj4+Pj4+Pj4+IGZvciBHRU0NCj4+Pj4+Pj4+IC0gKiBkcml2ZXJzIHVzaW5nIHRoZSBQ
-UklNRSBoZWxwZXJzLiBJdCBpcyB0aGUgZGVmYXVsdCBmb3IgZHJpdmVycw0KPj4+Pj4+Pj4g
-dGhhdCBkbw0KPj4+Pj4+Pj4gLSAqIG5vdCBzZXQgdGhlaXIgb3duICZkcm1fZHJpdmVyLmdl
-bV9wcmltZV9pbXBvcnQuDQo+Pj4+Pj4+PiArICogVGhpcyBpcyB0aGUgaW1wbGVtZW50YXRp
-b24gb2YgdGhlIGdlbV9wcmltZV9pbXBvcnQgZnVuY3Rpb25zDQo+Pj4+Pj4+PiBmb3IgR0VN
-IGRyaXZlcnMNCj4+Pj4+Pj4+ICsgKiB1c2luZyB0aGUgUFJJTUUgaGVscGVycy4gRHJpdmVy
-cyBjYW4gdXNlIHRoaXMgYXMgdGhlaXINCj4+Pj4+Pj4+ICsgKiAmZHJtX2RyaXZlci5nZW1f
-cHJpbWVfaW1wb3J0IGltcGxlbWVudGF0aW9uLiBJdCBpcyB1c2VkIGFzIHRoZQ0KPj4+Pj4+
-Pj4gZGVmYXVsdA0KPj4+Pj4+Pj4gKyAqIGltcGxlbWVudGF0aW9uIGluIGRybV9nZW1fcHJp
-bWVfZmRfdG9faGFuZGxlKCkuDQo+Pj4+Pj4+PiDCoMKgwqAgKg0KPj4+Pj4+Pj4gwqDCoMKg
-ICogRHJpdmVycyBtdXN0IGFycmFuZ2UgdG8gY2FsbCBkcm1fcHJpbWVfZ2VtX2Rlc3Ryb3ko
-KSBmcm9tIA0KPj4+Pj4+Pj4gdGhlaXINCj4+Pj4+Pj4+IMKgwqDCoCAqICZkcm1fZ2VtX29i
-amVjdF9mdW5jcy5mcmVlIGhvb2sgd2hlbiB1c2luZyB0aGlzIGZ1bmN0aW9uLg0KPj4+Pj4+
-Pj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9wcmltZS5oIGIvaW5jbHVkZS9kcm0v
-ZHJtX3ByaW1lLmgNCj4+Pj4+Pj4+IGluZGV4IGE3YWJmOWYzZTY5Ny4uMmExZDAxZTViNTZi
-IDEwMDY0NA0KPj4+Pj4+Pj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX3ByaW1lLmgNCj4+Pj4+
-Pj4+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9wcmltZS5oDQo+Pj4+Pj4+PiBAQCAtNjAsMTIg
-KzYwLDE5IEBAIGVudW0gZG1hX2RhdGFfZGlyZWN0aW9uOw0KPj4+Pj4+Pj4gwqDCoCDCoCBz
-dHJ1Y3QgZHJtX2RldmljZTsNCj4+Pj4+Pj4+IMKgwqAgc3RydWN0IGRybV9nZW1fb2JqZWN0
-Ow0KPj4+Pj4+Pj4gK3N0cnVjdCBkcm1fZmlsZTsNCj4+Pj4+Pj4+IMKgwqAgwqAgLyogY29y
-ZSBwcmltZSBmdW5jdGlvbnMgKi8NCj4+Pj4+Pj4+IMKgwqAgc3RydWN0IGRtYV9idWYgKmRy
-bV9nZW1fZG1hYnVmX2V4cG9ydChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0KPj4+Pj4+Pj4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVj
-dCBkbWFfYnVmX2V4cG9ydF9pbmZvICpleHBfaW5mbyk7DQo+Pj4+Pj4+PiDCoMKgIHZvaWQg
-ZHJtX2dlbV9kbWFidWZfcmVsZWFzZShzdHJ1Y3QgZG1hX2J1ZiAqZG1hX2J1Zik7DQo+Pj4+
-Pj4+PiDCoMKgICtpbnQgZHJtX2dlbV9wcmltZV9mZF90b19oYW5kbGUoc3RydWN0IGRybV9k
-ZXZpY2UgKmRldiwNCj4+Pj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYsIGludCBwcmltZV9mZCwNCj4+Pj4+
-Pj4+IHVpbnQzMl90ICpoYW5kbGUpOw0KPj4+Pj4+Pj4gK2ludCBkcm1fZ2VtX3ByaW1lX2hh
-bmRsZV90b19mZChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0KPj4+Pj4+Pj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJp
-diwgdWludDMyX3QgaGFuZGxlLA0KPj4+Pj4+Pj4gdWludDMyX3QgZmxhZ3MsDQo+Pj4+Pj4+
-PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGludCAqcHJpbWVfZmQp
-Ow0KPj4+Pj4+Pj4gKw0KPj4+Pj4+Pj4gwqDCoCAvKiBoZWxwZXIgZnVuY3Rpb25zIGZvciBl
-eHBvcnRpbmcgKi8NCj4+Pj4+Pj4+IMKgwqAgaW50IGRybV9nZW1fbWFwX2F0dGFjaChzdHJ1
-Y3QgZG1hX2J1ZiAqZG1hX2J1ZiwNCj4+Pj4+Pj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNoKTsNCj4gDQoN
-Ci0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNV
-U0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2
-LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVy
-cywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVl
-cm5iZXJnKQ0K
+Thanks,
+Christian.
 
---------------CqVygzRbE5JE8T1wWugAKajM--
+>
+> But it's certainly not a blocker.
+>
+> Best regards
+> Thomas
+>
+>>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>> Regards,
+>>>   Felix
+>>>
+>>>
+>>>>
+>>>> Then there's close_fd(), which cannot go into ->export. It looks like
+>>>> the fd isn't really required.  Could the drm_prime_handle_to_fd() be
+>>>> reworked into a helper that converts the handle to the dmabuf without
+>>>> the fd?  Something like drm_gem_prime_handle_to_dmabuf(), which would
+>>>> then be exported?
+>>>>
+>>>> And I have the question wrt the 3rd patch; just that it's about 
+>>>> importing.
+>>>>
+>>>> (Looking further through the code, it appears that the fd could be
+>>>> removed from the helpers, the callbacks and vmwgfx. It would then be
+>>>> used entirely in the ioctl entry points, such as
+>>>> drm_prime_fd_to_handle_ioctl().)
+>>>>
+>>>> Best regards
+>>>> Thomas
+>>>>
+>>>>
+>>>>> Regards,
+>>>>> Christian.
+>>>>>
+>>>>>> Best regards
+>>>>>> Thomas
+>>>>>>
+>>>>>>
+>>>>>>> Regards,
+>>>>>>>     Felix
+>>>>>>>
+>>>>>>>
+>>>>>>>> Best regards
+>>>>>>>> Thomas
+>>>>>>>>
+>>>>>>>>> CC: Christian König <christian.koenig@amd.com>
+>>>>>>>>> CC: Thomas Zimmermann <tzimmermann@suse.de>
+>>>>>>>>> Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+>>>>>>>>> ---
+>>>>>>>>>    drivers/gpu/drm/drm_prime.c | 33 
+>>>>>>>>> ++++++++++++++++++---------------
+>>>>>>>>>    include/drm/drm_prime.h     |  7 +++++++
+>>>>>>>>>    2 files changed, 25 insertions(+), 15 deletions(-)
+>>>>>>>>>
+>>>>>>>>> diff --git a/drivers/gpu/drm/drm_prime.c 
+>>>>>>>>> b/drivers/gpu/drm/drm_prime.c
+>>>>>>>>> index 63b709a67471..834a5e28abbe 100644
+>>>>>>>>> --- a/drivers/gpu/drm/drm_prime.c
+>>>>>>>>> +++ b/drivers/gpu/drm/drm_prime.c
+>>>>>>>>> @@ -278,7 +278,7 @@ void drm_gem_dmabuf_release(struct dma_buf
+>>>>>>>>> *dma_buf)
+>>>>>>>>>    }
+>>>>>>>>>    EXPORT_SYMBOL(drm_gem_dmabuf_release);
+>>>>>>>>>    -/*
+>>>>>>>>> +/**
+>>>>>>>>>     * drm_gem_prime_fd_to_handle - PRIME import function for GEM
+>>>>>>>>> drivers
+>>>>>>>>>     * @dev: drm_device to import into
+>>>>>>>>>     * @file_priv: drm file-private structure
+>>>>>>>>> @@ -292,9 +292,9 @@ EXPORT_SYMBOL(drm_gem_dmabuf_release);
+>>>>>>>>>     *
+>>>>>>>>>     * Returns 0 on success or a negative error code on failure.
+>>>>>>>>>     */
+>>>>>>>>> -static int drm_gem_prime_fd_to_handle(struct drm_device *dev,
+>>>>>>>>> -                      struct drm_file *file_priv, int prime_fd,
+>>>>>>>>> -                      uint32_t *handle)
+>>>>>>>>> +int drm_gem_prime_fd_to_handle(struct drm_device *dev,
+>>>>>>>>> +                   struct drm_file *file_priv, int prime_fd,
+>>>>>>>>> +                   uint32_t *handle)
+>>>>>>>>>    {
+>>>>>>>>>        struct dma_buf *dma_buf;
+>>>>>>>>>        struct drm_gem_object *obj;
+>>>>>>>>> @@ -360,6 +360,7 @@ static int drm_gem_prime_fd_to_handle(struct
+>>>>>>>>> drm_device *dev,
+>>>>>>>>>        dma_buf_put(dma_buf);
+>>>>>>>>>        return ret;
+>>>>>>>>>    }
+>>>>>>>>> +EXPORT_SYMBOL(drm_gem_prime_fd_to_handle);
+>>>>>>>>>      int drm_prime_fd_to_handle_ioctl(struct drm_device *dev, 
+>>>>>>>>> void
+>>>>>>>>> *data,
+>>>>>>>>>                     struct drm_file *file_priv)
+>>>>>>>>> @@ -408,7 +409,7 @@ static struct dma_buf
+>>>>>>>>> *export_and_register_object(struct drm_device *dev,
+>>>>>>>>>        return dmabuf;
+>>>>>>>>>    }
+>>>>>>>>>    -/*
+>>>>>>>>> +/**
+>>>>>>>>>     * drm_gem_prime_handle_to_fd - PRIME export function for GEM
+>>>>>>>>> drivers
+>>>>>>>>>     * @dev: dev to export the buffer from
+>>>>>>>>>     * @file_priv: drm file-private structure
+>>>>>>>>> @@ -421,10 +422,10 @@ static struct dma_buf
+>>>>>>>>> *export_and_register_object(struct drm_device *dev,
+>>>>>>>>>     * The actual exporting from GEM object to a dma-buf is done
+>>>>>>>>> through the
+>>>>>>>>>     * &drm_gem_object_funcs.export callback.
+>>>>>>>>>     */
+>>>>>>>>> -static int drm_gem_prime_handle_to_fd(struct drm_device *dev,
+>>>>>>>>> -                      struct drm_file *file_priv, uint32_t 
+>>>>>>>>> handle,
+>>>>>>>>> -                      uint32_t flags,
+>>>>>>>>> -                      int *prime_fd)
+>>>>>>>>> +int drm_gem_prime_handle_to_fd(struct drm_device *dev,
+>>>>>>>>> +                   struct drm_file *file_priv, uint32_t handle,
+>>>>>>>>> +                   uint32_t flags,
+>>>>>>>>> +                   int *prime_fd)
+>>>>>>>>>    {
+>>>>>>>>>        struct drm_gem_object *obj;
+>>>>>>>>>        int ret = 0;
+>>>>>>>>> @@ -506,6 +507,7 @@ static int drm_gem_prime_handle_to_fd(struct
+>>>>>>>>> drm_device *dev,
+>>>>>>>>>          return ret;
+>>>>>>>>>    }
+>>>>>>>>> +EXPORT_SYMBOL(drm_gem_prime_handle_to_fd);
+>>>>>>>>>      int drm_prime_handle_to_fd_ioctl(struct drm_device *dev, 
+>>>>>>>>> void
+>>>>>>>>> *data,
+>>>>>>>>>                     struct drm_file *file_priv)
+>>>>>>>>> @@ -864,9 +866,9 @@ EXPORT_SYMBOL(drm_prime_get_contiguous_size);
+>>>>>>>>>     * @obj: GEM object to export
+>>>>>>>>>     * @flags: flags like DRM_CLOEXEC and DRM_RDWR
+>>>>>>>>>     *
+>>>>>>>>> - * This is the implementation of the 
+>>>>>>>>> &drm_gem_object_funcs.export
+>>>>>>>>> functions
+>>>>>>>>> - * for GEM drivers using the PRIME helpers. It is used as the
+>>>>>>>>> default for
+>>>>>>>>> - * drivers that do not set their own.
+>>>>>>>>> + * This is the implementation of the 
+>>>>>>>>> &drm_gem_object_funcs.export
+>>>>>>>>> functions for GEM drivers
+>>>>>>>>> + * using the PRIME helpers. It is used as the default in
+>>>>>>>>> + * drm_gem_prime_handle_to_fd().
+>>>>>>>>>     */
+>>>>>>>>>    struct dma_buf *drm_gem_prime_export(struct drm_gem_object 
+>>>>>>>>> *obj,
+>>>>>>>>>                         int flags)
+>>>>>>>>> @@ -962,9 +964,10 @@ EXPORT_SYMBOL(drm_gem_prime_import_dev);
+>>>>>>>>>     * @dev: drm_device to import into
+>>>>>>>>>     * @dma_buf: dma-buf object to import
+>>>>>>>>>     *
+>>>>>>>>> - * This is the implementation of the gem_prime_import functions
+>>>>>>>>> for GEM
+>>>>>>>>> - * drivers using the PRIME helpers. It is the default for 
+>>>>>>>>> drivers
+>>>>>>>>> that do
+>>>>>>>>> - * not set their own &drm_driver.gem_prime_import.
+>>>>>>>>> + * This is the implementation of the gem_prime_import functions
+>>>>>>>>> for GEM drivers
+>>>>>>>>> + * using the PRIME helpers. Drivers can use this as their
+>>>>>>>>> + * &drm_driver.gem_prime_import implementation. It is used as 
+>>>>>>>>> the
+>>>>>>>>> default
+>>>>>>>>> + * implementation in drm_gem_prime_fd_to_handle().
+>>>>>>>>>     *
+>>>>>>>>>     * Drivers must arrange to call drm_prime_gem_destroy() 
+>>>>>>>>> from their
+>>>>>>>>>     * &drm_gem_object_funcs.free hook when using this function.
+>>>>>>>>> diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h
+>>>>>>>>> index a7abf9f3e697..2a1d01e5b56b 100644
+>>>>>>>>> --- a/include/drm/drm_prime.h
+>>>>>>>>> +++ b/include/drm/drm_prime.h
+>>>>>>>>> @@ -60,12 +60,19 @@ enum dma_data_direction;
+>>>>>>>>>      struct drm_device;
+>>>>>>>>>    struct drm_gem_object;
+>>>>>>>>> +struct drm_file;
+>>>>>>>>>      /* core prime functions */
+>>>>>>>>>    struct dma_buf *drm_gem_dmabuf_export(struct drm_device *dev,
+>>>>>>>>>                          struct dma_buf_export_info *exp_info);
+>>>>>>>>>    void drm_gem_dmabuf_release(struct dma_buf *dma_buf);
+>>>>>>>>>    +int drm_gem_prime_fd_to_handle(struct drm_device *dev,
+>>>>>>>>> +                   struct drm_file *file_priv, int prime_fd,
+>>>>>>>>> uint32_t *handle);
+>>>>>>>>> +int drm_gem_prime_handle_to_fd(struct drm_device *dev,
+>>>>>>>>> +                   struct drm_file *file_priv, uint32_t handle,
+>>>>>>>>> uint32_t flags,
+>>>>>>>>> +                   int *prime_fd);
+>>>>>>>>> +
+>>>>>>>>>    /* helper functions for exporting */
+>>>>>>>>>    int drm_gem_map_attach(struct dma_buf *dma_buf,
+>>>>>>>>>                   struct dma_buf_attachment *attach);
+>>
+>
 
---------------p9QzI1O08KtpOtY0OLXb73Fk
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVbiUsFAwAAAAAACgkQlh/E3EQov+Di
-bBAArOms8TFCTrydR3lAigJbhkdCog5X/00nFdqA9NEE8ViOCcy6FKvVz4zUDTuHztXUdWR3T7o7
-1tS8rMhVjKb6mJ73npzYsTOsb17DmeylhWxONd1zP1hKzKljiUSsT0wpT7As2sG2zv5Gob0vPDtS
-6VoF6LchfMFwPxslMC7QbJNi0KATMZbmIPbpNZ3QF/9Z8ztAJgfX1tLzTyJe9jgYh89G77zJsHAN
-nCvOcOA9ek7wKzmWVDloYMUyw/o0NrXiYt96hWiuc+aIWBBaVG48pujkLHU91q5dZ0jDHqIPuZkY
-VGFAo3j5hkOlgyuAx8npFbinlWuAoV7UtIAgmc/5gp9chYuBgqximBfU6qVbGlBNFitITU6+QFse
-+mHZb3v649x7pKuGEp0VAoRU+EnkHbSsxmH+/dP7T3FrlQa68JIDUhLpDBts0+N+EG9SHce5SraT
-A/bR5aK0svXOT1fx44OZbIfuJTp4MxVEtNvvMkiy3/V2EviN6C9FhKDDnj8QIdGVKi5YwymbLN6h
-wioMvbsD+Oy9U4/VZAvc7m57D+YlWn4TjK4KCRoArSB6DoAW35FLardDjI+pC+jYFJMHl8yiNgvC
-W8cKMXX8QkTAh8BQSNTwL2/Lq7ydYJIFVRvah5IEjn5OMhrJAkpKTzSEBuuXLc1Yzg6kQ2iLCX4j
-zqk=
-=sqPa
------END PGP SIGNATURE-----
-
---------------p9QzI1O08KtpOtY0OLXb73Fk--
