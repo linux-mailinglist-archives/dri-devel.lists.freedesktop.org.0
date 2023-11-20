@@ -2,36 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C2977F13E8
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 14:06:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2AF17F13F2
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 14:11:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E97D10E3BB;
-	Mon, 20 Nov 2023 13:06:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0D3B10E244;
+	Mon, 20 Nov 2023 13:10:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7C6F10E3BB
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 13:06:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1700485582; x=1700744782;
- bh=K0/aUJ3RvZPtM2eH0MrAQywxV3/qNikcw+0Xkp8J0YA=;
- h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=YoyebSmQztuto9pMm/YKAiM9y3ULwFtErJfyYq5co99hVwdojrTXN2cgpbdircggb
- gq0yegfER0KzkHsWILKEZSmAj/pXiZ8QCGfDVnxWHfKJYm3U3XWqwvAeYyUd/2wnWC
- Zd2woBrwmwsaNcwv39SjwRhGnC4rngQT+jKu2iQNdl6qcuP4sqFiDhN28WJB8qRQWK
- AcxRKuqkhHFmUONih59XdT4sT6FceN1Lsgat0A4jPeL7uVQD3aFkWnxSTaqTUWkiFY
- UYRHvHotD2zGio0Gg4/35C3RoBpJy1I5PhqxDOY4Fa7gccnE1qv6Sy4vpeOz3JhDi4
- ZElOTojlMQ2iw==
-Date: Mon, 20 Nov 2023 13:06:12 +0000
-To: "xorg-announce@lists.x.org" <xorg-announce@lists.x.org>
-From: Simon Ser <contact@emersion.fr>
-Subject: [ANNOUNCE] libdrm 2.4.118
-Message-ID: <oTnkbiU-LSPO_z1xva6aVlKO99KVk1l8BTA9foPrG_1uoP0ZzjVXMRkIsCAHRoQTSqnk8BDbkKcnYbMr6EgftqzM0WIBZz1zeso7SpHfX6s=@emersion.fr>
-Feedback-ID: 1358184:user:proton
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87D2810E070;
+ Mon, 20 Nov 2023 13:10:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1700485852; x=1732021852;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=Zy40wqUoBRP6sTePg19jD80thnLUbSvAaxVsDZMP7Ac=;
+ b=DUxGO58wo1RL5z/IgxBKeHiqXMAqgVoBw3K4X5JDqw3KbJ6p+uJ4CNfs
+ mHjY+Pu0K74lMXK9WdIJG+S7BczXbKee8Pw9YWu/JyGwQPwAUn0BRHGiZ
+ /ge7rkDQq7dXWjSC1BpbzJDmMwvw+QWWWNwS5RixgjRXGFbtqtoElk37H
+ 2R0v/aYb8GT0Otw7apLjnapNuj7SeRMVk05oKjMDUpIe3bLSmIf1nBCc9
+ Ms11YZalNIaNX5RFrH5uguvP/XXUC/ixSGeTPYAoc9Qvq93UuJtXYl8GQ
+ J6Wa/KIr8+FjY9Y3o20e/+f6FYIJ+SOQ+D8nnCDpTEL/ohwLlOp19eoaC Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="395542474"
+X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; d="scan'208";a="395542474"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Nov 2023 05:10:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="883848848"
+X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; d="scan'208";a="883848848"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Nov 2023 05:10:48 -0800
+Date: Mon, 20 Nov 2023 15:10:49 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v2 00/11] drm/i915: Fix UHBR data,link M/N/TU and PBN
+ values
+Message-ID: <ZVta2eJBqGMRVX6g@ideak-desk.fi.intel.com>
+References: <20231116131841.1588781-1-imre.deak@intel.com>
+ <87y1esobbt.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87y1esobbt.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,51 +59,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>
+Reply-To: imre.deak@intel.com
+Cc: intel-gfx@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Arun R Murthy <arun.r.murthy@intel.com>, "Lankhorst,
+ Maarten" <maarten.lankhorst@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-David Jagu (1):
-      meson: fix typo in libdrm_intel
+On Mon, Nov 20, 2023 at 02:31:34PM +0200, Jani Nikula wrote:
+> On Thu, 16 Nov 2023, Imre Deak <imre.deak@intel.com> wrote:
+> > This is v2 of [1], with the following changes:
+> > - Store the pbn_div value in fixed point format.
+> > - Fix PBN calculation in patch 8.
+> > - Reuse intel_dp_max_data_rate(), intel_dp_effective_data_rate() in
+> >   intel_link_compute_m_n() (Jani).
+> >
+> > [1] https://lore.kernel.org/all/20231113201110.510724-1-imre.deak@intel.com
+> >
+> > Cc: Arun R Murthy <arun.r.murthy@intel.com>
+> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > Cc: Lyude Paul <lyude@redhat.com>
+> >
+> > Imre Deak (11):
+> >   drm/dp_mst: Store the MST PBN divider value in fixed point format
+> >   drm/dp_mst: Fix PBN divider calculation for UHBR rates
+> >   drm/dp_mst: Add kunit tests for drm_dp_get_vc_payload_bw()
+> 
+> Maarten, Maxime, Thomas, ack for merging these three via drm-intel-next?
+> 
+> Imre, I note that said patches were Cc: dri-devel, but for future
+> reference please Cc: the entire series to dri-devel when you include
+> dependencies that you plan to merge via drm-intel.
 
-Geert Uytterhoeven (18):
-      util: improve SMPTE color LUT accuracy
-      util: factor out and optimize C8 SMPTE color LUT
-      util: add support for DRM_FORMAT_C[124]
-      util: store number of colors for indexed formats
-      util: add SMPTE pattern support for C4 format
-      util: add SMPTE pattern support for C1 format
-      util: add SMPTE pattern support for C2 format
-      modetest: add support for DRM_FORMAT_C[124]
-      modetest: add SMPTE pattern support for C[124] formats
-      intel: determine target endianness using meson
-      util: fix 32 bpp patterns on big-endian
-      util: fix 16 bpp patterns on big-endian
-      util: add missing big-endian RGB16 frame buffer formats
-      modetest: add support for parsing big-endian formats
-      util: add test pattern support for big-endian XRGB1555/RGB565
-      util: fix pwetty on big-endian
-      util: add pwetty support for big-endian RGB565
-      modetest: add support for big-endian XRGB1555/RGB565
+Ok. I assumed the alternative to merge the 3 patches via drm-misc-next,
+wait for that to get merged back to i915 and then merge the rest to i915
+was still a preferred way; wondering now if in general this is better to
+avoid merge conflicts similar to the one reported now wrt. 
+  "drm/dp_mst: Fix fractional DSC bpp handling".
 
-Jonas Karlman (1):
-      modetest: add support for DRM_FORMAT_NV{15,20,30}
+In any case yes, I can CC dri-devel the whole patchset whenever there
+are any drm changes in it. While still wondering about the ideal
+approach above, I'd still prefer if the 3 drm patches in this one could
+also get merged via the i915 tree.
 
-Neil Armstrong (1):
-      modetest: switch usage to proper options grammar
+--Imre
 
-Simon Ser (4):
-      xf86drm: add drmGetNodeTypeFromDevId
-      Sync headers with drm-next
-      xf86drmMode: add drmModeCloseFB()
-      build: bump version to 2.4.118
-
-git tag: libdrm-2.4.118
-
-https://dri.freedesktop.org/libdrm/libdrm-2.4.118.tar.xz
-SHA256: a777bd85f2b5fc9c57f886c82058300578317cafdbc77d0a769d7e9a9567ab88  l=
-ibdrm-2.4.118.tar.xz
-SHA512: 2740ec10dfe96b520345c3f6f0d99a30aac95b1f96656bd9cd11269c2a83a9dac42=
-3da29d74a3deb55360e3ae2ca4a1de283e1e443667bedd22673f6629c9920  libdrm-2.4.1=
-18.tar.xz
-PGP:  https://dri.freedesktop.org/libdrm/libdrm-2.4.118.tar.xz.sig
+> BR,
+> Jani.
+> 
+> 
+> >   drm/i915/dp: Replace intel_dp_is_uhbr_rate() with
+> >     drm_dp_is_uhbr_rate()
+> >   drm/i915/dp: Account for channel coding efficiency on UHBR links
+> >   drm/i915/dp: Fix UHBR link M/N values
+> >   drm/i915/dp_mst: Calculate the BW overhead in
+> >     intel_dp_mst_find_vcpi_slots_for_bpp()
+> >   drm/i915/dp_mst: Fix PBN / MTP_TU size calculation for UHBR rates
+> >   drm/i915/dp: Report a rounded-down value as the maximum data rate
+> >   drm/i915/dp: Simplify intel_dp_max_data_rate()
+> >   drm/i915/dp: Reuse intel_dp_{max,effective}_data_rate in
+> >     intel_link_compute_m_n()
+> >
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   5 +-
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |   3 +-
+> >  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |   5 +-
+> >  drivers/gpu/drm/display/drm_dp_mst_topology.c |  31 +++-
+> >  drivers/gpu/drm/i915/display/intel_display.c  |  51 ++----
+> >  drivers/gpu/drm/i915/display/intel_dp.c       |  78 +++++++---
+> >  drivers/gpu/drm/i915/display/intel_dp.h       |   5 +-
+> >  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  55 +++++--
+> >  drivers/gpu/drm/nouveau/dispnv50/disp.c       |   6 +-
+> >  .../gpu/drm/tests/drm_dp_mst_helper_test.c    | 145 ++++++++++++++++++
+> >  include/drm/display/drm_dp_helper.h           |  13 ++
+> >  include/drm/display/drm_dp_mst_helper.h       |   7 +-
+> >  12 files changed, 311 insertions(+), 93 deletions(-)
+> 
+> -- 
+> Jani Nikula, Intel
