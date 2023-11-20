@@ -2,78 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC227F0E27
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 09:52:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 421E67F0E91
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 10:09:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14DDE10E327;
-	Mon, 20 Nov 2023 08:52:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 269BD10E25B;
+	Mon, 20 Nov 2023 09:09:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52A1810E327
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 08:52:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6FE4A60FB3;
- Mon, 20 Nov 2023 08:52:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9C97C433C8;
- Mon, 20 Nov 2023 08:52:46 +0000 (UTC)
-Message-ID: <3103e3a1-7dfd-4db0-b67e-b8857b8027e7@xs4all.nl>
-Date: Mon, 20 Nov 2023 09:52:45 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B7C510E25B
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 09:09:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1700471374; x=1732007374;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=2CTH71gUL8f+hX64gpw0KnmZN7mC9T3jKZ/oNiWW2p0=;
+ b=hrqstafr8RXSZfi2p40fjJkZueakEYd1RG4RFjxtdwEuA15QbG4QCq5m
+ 7HLbvYP5VDkO2pKtfsEl9kPBLkLkCOj1Whui7x6+R3fLvI1r/6sH3wY72
+ 7fKMGHUxTKcl9lV+WgBk0GOyjXWQop4HZh30bkEjMT3FRNcypF+gYOspE
+ KaPbjN0u9edAjw26efIPXdPMUfvGj1jcqFFvxTbKMe171hdBTxHTug8a+
+ ZZpKb5l8dMrS0nFCNf4r4gyt3+lcyP7TjfHI1MEdkkWDkvOz/aTo1FtRe
+ f1d0ZqcnFxn0yObWi3GSe0LVu6Typ7hI5RZ/fSdaK2QSaYePOzwGj9usV w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="370926015"
+X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; d="scan'208";a="370926015"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Nov 2023 01:09:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="832209606"
+X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; d="scan'208";a="832209606"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+ by fmsmga008.fm.intel.com with ESMTP; 20 Nov 2023 01:09:30 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1r50HY-0006FK-0L;
+ Mon, 20 Nov 2023 09:09:28 +0000
+Date: Mon, 20 Nov 2023 17:08:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, Phong LE <ple@baylibre.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
+Message-ID: <202311201649.qjEbx5YL-lkp@intel.com>
+References: <20231114150130.497915-9-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 20/32] media/ivtvfb: Initialize fb_ops to fbdev I/O-memory
- helpers
-Content-Language: en-US, nl
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, javierm@redhat.com
-References: <20231115102954.7102-1-tzimmermann@suse.de>
- <20231115102954.7102-21-tzimmermann@suse.de>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20231115102954.7102-21-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231114150130.497915-9-sui.jingfeng@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,86 +60,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Andy Walls <awalls@md.metrocast.net>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: Sui Jingfeng <suijingfeng@loongson.cn>, dri-devel@lists.freedesktop.org,
+ llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+Hi Sui,
 
-On 15/11/2023 11:19, Thomas Zimmermann wrote:
-> Initialize the instance of struct fb_ops with fbdev initializer
-> macros for framebuffers in I/O address space. This explictily sets
-> the read/write, draw and mmap callbacks to the correct default
-> implementation.
-> 
-> Fbdev drivers sometimes rely on the callbacks being NULL for a
-> default implementation to be invoked; hence requireing the I/O
-> helpers to be built in any case. Setting all callbacks in all
-> drivers explicitly will allow to make the I/O helpers optional.
-> This benefits systems that do not use these functions.
-> 
-> Set the callbacks via macros. No functional changes.
+kernel test robot noticed the following build warnings:
 
-Makes sense, shall I pick up this patch?
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.7-rc2 next-20231120]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-If you prefer to take it, then you can add:
+url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-bridge-it66121-Use-dev-replace-ctx-dev-in-the-it66121_probe/20231114-231203
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231114150130.497915-9-sui.jingfeng%40linux.dev
+patch subject: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
+config: x86_64-buildonly-randconfig-004-20231120 (https://download.01.org/0day-ci/archive/20231120/202311201649.qjEbx5YL-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311201649.qjEbx5YL-lkp@intel.com/reproduce)
 
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311201649.qjEbx5YL-lkp@intel.com/
 
-Regards,
+All warnings (new ones prefixed by >>):
 
-	Hans
+>> drivers/gpu/drm/bridge/ite-it66121.c:1654:5: warning: no previous prototype for function 'it66121_create_bridge' [-Wmissing-prototypes]
+   int it66121_create_bridge(struct i2c_client *client, bool of_support,
+       ^
+   drivers/gpu/drm/bridge/ite-it66121.c:1654:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int it66121_create_bridge(struct i2c_client *client, bool of_support,
+   ^
+   static 
+>> drivers/gpu/drm/bridge/ite-it66121.c:1752:6: warning: no previous prototype for function 'it66121_destroy_bridge' [-Wmissing-prototypes]
+   void it66121_destroy_bridge(struct drm_bridge *bridge)
+        ^
+   drivers/gpu/drm/bridge/ite-it66121.c:1752:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void it66121_destroy_bridge(struct drm_bridge *bridge)
+   ^
+   static 
+   2 warnings generated.
 
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Andy Walls <awalls@md.metrocast.net>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: linux-media@vger.kernel.org
-> ---
->  drivers/media/pci/ivtv/Kconfig  | 4 +---
->  drivers/media/pci/ivtv/ivtvfb.c | 6 +++---
->  2 files changed, 4 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/pci/ivtv/Kconfig b/drivers/media/pci/ivtv/Kconfig
-> index 9be52101bc4f2..2498f9079b756 100644
-> --- a/drivers/media/pci/ivtv/Kconfig
-> +++ b/drivers/media/pci/ivtv/Kconfig
-> @@ -48,9 +48,7 @@ config VIDEO_IVTV_ALSA
->  config VIDEO_FB_IVTV
->  	tristate "Conexant cx23415 framebuffer support"
->  	depends on VIDEO_IVTV && FB
-> -	select FB_CFB_FILLRECT
-> -	select FB_CFB_COPYAREA
-> -	select FB_CFB_IMAGEBLIT
-> +	select FB_IOMEM_HELPERS
->  	help
->  	  This is a framebuffer driver for the Conexant cx23415 MPEG
->  	  encoder/decoder.
-> diff --git a/drivers/media/pci/ivtv/ivtvfb.c b/drivers/media/pci/ivtv/ivtvfb.c
-> index 23c8c094e791b..410477e3e6216 100644
-> --- a/drivers/media/pci/ivtv/ivtvfb.c
-> +++ b/drivers/media/pci/ivtv/ivtvfb.c
-> @@ -927,17 +927,17 @@ static int ivtvfb_blank(int blank_mode, struct fb_info *info)
->  
->  static const struct fb_ops ivtvfb_ops = {
->  	.owner = THIS_MODULE,
-> +	.fb_read        = fb_io_read,
->  	.fb_write       = ivtvfb_write,
->  	.fb_check_var   = ivtvfb_check_var,
->  	.fb_set_par     = ivtvfb_set_par,
->  	.fb_setcolreg   = ivtvfb_setcolreg,
-> -	.fb_fillrect    = cfb_fillrect,
-> -	.fb_copyarea    = cfb_copyarea,
-> -	.fb_imageblit   = cfb_imageblit,
-> +	__FB_DEFAULT_IOMEM_OPS_DRAW,
->  	.fb_cursor      = NULL,
->  	.fb_ioctl       = ivtvfb_ioctl,
->  	.fb_pan_display = ivtvfb_pan_display,
->  	.fb_blank       = ivtvfb_blank,
-> +	__FB_DEFAULT_IOMEM_OPS_MMAP,
->  };
->  
->  /* Restore hardware after firmware restart */
 
+vim +/it66121_create_bridge +1654 drivers/gpu/drm/bridge/ite-it66121.c
+
+  1653	
+> 1654	int it66121_create_bridge(struct i2c_client *client, bool of_support,
+  1655				  bool hpd_support, bool audio_support,
+  1656				  struct drm_bridge **bridge)
+  1657	{
+  1658		struct device *dev = &client->dev;
+  1659		int ret;
+  1660		struct it66121_ctx *ctx;
+  1661	
+  1662		ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+  1663		if (!ctx)
+  1664			return -ENOMEM;
+  1665	
+  1666		ctx->dev = dev;
+  1667		ctx->client = client;
+  1668		mutex_init(&ctx->lock);
+  1669	
+  1670		if (of_support) {
+  1671			ret = it66121_of_read_bus_width(dev, &ctx->bus_width);
+  1672			if (ret)
+  1673				return ret;
+  1674	
+  1675			ret = it66121_of_get_next_bridge(dev, &ctx->next_bridge);
+  1676			if (ret)
+  1677				return ret;
+  1678		} else {
+  1679			ctx->bus_width = 24;
+  1680			ctx->next_bridge = NULL;
+  1681		}
+  1682	
+  1683		it66121_hw_reset(ctx);
+  1684	
+  1685		ctx->regmap = devm_regmap_init_i2c(client, &it66121_regmap_config);
+  1686		if (IS_ERR(ctx->regmap))
+  1687			return PTR_ERR(ctx->regmap);
+  1688	
+  1689		ret = it66121_read_chip_id(ctx, false);
+  1690		if (ret)
+  1691			return ret;
+  1692	
+  1693		ctx->info = it66121_get_match_data(ctx->vender_id, ctx->device_id);
+  1694		if (!ctx->info)
+  1695			return -ENODEV;
+  1696	
+  1697		if (hpd_support) {
+  1698			ret = devm_request_threaded_irq(dev, client->irq, NULL,
+  1699							it66121_irq_threaded_handler,
+  1700							IRQF_ONESHOT, dev_name(dev),
+  1701							ctx);
+  1702			if (ret < 0) {
+  1703				dev_err(dev, "Failed to request irq: %d\n", ret);
+  1704				return ret;
+  1705			}
+  1706		}
+  1707	
+  1708		it66121_bridge_init_base(&ctx->bridge, dev->of_node, true);
+  1709	
+  1710		if (audio_support)
+  1711			it66121_audio_codec_init(ctx, dev);
+  1712	
+  1713		*bridge = &ctx->bridge;
+  1714	
+  1715		dev_info(dev, "IT66121 probed, chip id: 0x%x:0x%x, revision: %u\n",
+  1716			 ctx->vender_id, ctx->device_id, ctx->revision);
+  1717	
+  1718		return 0;
+  1719	}
+  1720	EXPORT_SYMBOL_GPL(it66121_create_bridge);
+  1721	
+  1722	static int it66121_probe(struct i2c_client *client)
+  1723	{
+  1724		struct device *dev = &client->dev;
+  1725		struct it66121_ctx *ctx;
+  1726		struct drm_bridge *bridge;
+  1727		int ret;
+  1728	
+  1729		if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+  1730			dev_err(dev, "I2C check functionality failed.\n");
+  1731			return -ENXIO;
+  1732		}
+  1733	
+  1734		ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(it66121_supplies),
+  1735						     it66121_supplies);
+  1736		if (ret) {
+  1737			dev_err(dev, "Failed to enable power supplies\n");
+  1738			return ret;
+  1739		}
+  1740	
+  1741		ret = it66121_create_bridge(client, true, true, true, &bridge);
+  1742		if (ret)
+  1743			return ret;
+  1744	
+  1745		ctx = bridge_to_it66121(bridge);
+  1746	
+  1747		i2c_set_clientdata(client, ctx);
+  1748	
+  1749		return 0;
+  1750	}
+  1751	
+> 1752	void it66121_destroy_bridge(struct drm_bridge *bridge)
+  1753	{
+  1754		struct it66121_ctx *ctx = bridge_to_it66121(bridge);
+  1755	
+  1756		drm_bridge_remove(bridge);
+  1757	
+  1758		mutex_destroy(&ctx->lock);
+  1759	}
+  1760	EXPORT_SYMBOL_GPL(it66121_destroy_bridge);
+  1761	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
