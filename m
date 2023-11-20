@@ -1,49 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9517F1501
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 14:56:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9C87F15A4
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 15:26:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 748B210E00C;
-	Mon, 20 Nov 2023 13:56:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 504CD10E3E2;
+	Mon, 20 Nov 2023 14:26:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18C2210E00C
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 13:56:06 +0000 (UTC)
-Received: from [100.107.97.3] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id DAD116600367;
- Mon, 20 Nov 2023 13:56:03 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1700488564;
- bh=LRGku4mgI3CyWNGC5qdMEGicvWEaOWczf1gTa2doZpI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=c9pGTjRpycIcF0pdwS4h+ZJFwwEsCe6B92BIOnLdsALi4qQ634vUfl9h82aIRi6aL
- Xb/GnBNmauxMVgbNA8CPIfzzoGbHXhEs2HmNzrjVG6/cMUJ4r42k6Fc80/IexCWs0q
- HMvRUHL57K0xfvASYsEazM8Z7f6YFqvHggz1ySIo2qiSjvh4fPN42V+CG8sibmfN6z
- lnl+V1jRvkkY7DTs2f6kir6cQb2vSLB0PDU+yesdf0s26ZDgtbGvTm77lawNlaenLA
- qG7cwXYQPYGv29BIGNbVDOjwhlKa46K8xBLHrbbj8GiNOt1eEvulQOksZxXgXCv0rY
- 55NaZJWd6S60Q==
-Message-ID: <17be794c-1e75-4843-8dda-63ca7b879c5d@collabora.com>
-Date: Mon, 20 Nov 2023 14:56:01 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E028D10E3E2;
+ Mon, 20 Nov 2023 14:26:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1700490402; x=1732026402;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=xHHHm00VYu05k5fzkYjxacJagW2ryppPYM/pycFjEgI=;
+ b=ChNSi49qK8fxCUvJKZvfpbWhNJVeeL0EHoGB3GXDho1blHMLXlRBNM8A
+ esyRSqM1R5Yp96MHVQLeZHLn7jSTY3vbPL8KqahoBv60U1VqRW4g1WSid
+ H9uV6gamrxYe3Yfz27LLewEkSaRGewUkY1ahI6BmqzgoofFh7qoLv8QBV
+ t6sFKG/X40j36LZ4jC4c1DEwNvq96G9+001Zaiir/80+T1KlSDR7BqqiV
+ 233twACADbVJXK4I0V5L4PVNy2jdygdct+U3a3DqXtEdq1x45eobRKhn+
+ /HRVcbj/wh7wt2TiXHnIDytsK1ufMruW43kdP9E0emJqCR3o0MOl8DhdU A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="422722219"
+X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; d="scan'208";a="422722219"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Nov 2023 06:26:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="759797688"
+X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; d="scan'208";a="759797688"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga007.jf.intel.com with SMTP; 20 Nov 2023 06:26:39 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 20 Nov 2023 16:26:38 +0200
+Date: Mon, 20 Nov 2023 16:26:38 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
+Subject: Re: [PATCH 2/4] drm/i915: Adjust LUT rounding rules
+Message-ID: <ZVtsnsLQ22ImaiFz@intel.com>
+References: <20231013131402.24072-1-ville.syrjala@linux.intel.com>
+ <20231013131402.24072-3-ville.syrjala@linux.intel.com>
+ <SJ1PR11MB612921FEBAC75CFA6407F14CB9B4A@SJ1PR11MB6129.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 12/20] drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c: remove
- I2C_CLASS_DDC support
-Content-Language: en-US
-To: Heiner Kallweit <hkallweit1@gmail.com>, Wolfram Sang <wsa@kernel.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-References: <20231119112826.5115-1-hkallweit1@gmail.com>
- <20231119112826.5115-13-hkallweit1@gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20231119112826.5115-13-hkallweit1@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <SJ1PR11MB612921FEBAC75CFA6407F14CB9B4A@SJ1PR11MB6129.namprd11.prod.outlook.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,23 +62,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-i2c@vger.kernel.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 19/11/23 12:28, Heiner Kallweit ha scritto:
-> After removal of the legacy EEPROM driver and I2C_CLASS_DDC support in
-> olpc_dcon there's no i2c client driver left supporting I2C_CLASS_DDC.
-> Class-based device auto-detection is a legacy mechanism and shouldn't
-> be used in new code. So we can remove this class completely now.
+On Mon, Nov 20, 2023 at 06:08:57AM +0000, Borah, Chaitanya Kumar wrote:
+> Hello Ville,
 > 
-> Preferably this series should be applied via the i2c tree.
+> > -----Original Message-----
+> > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Ville
+> > Syrjala
+> > Sent: Friday, October 13, 2023 6:44 PM
+> > To: intel-gfx@lists.freedesktop.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Subject: [PATCH 2/4] drm/i915: Adjust LUT rounding rules
+> > 
+> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > 
+> > drm_color_lut_extract() rounding was changed to follow the OpenGL int<-
+> > >float conversion rules. Adjust intel_color_lut_pack() to match.
+> > 
+> > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_color.c | 14 ++++++--------
+> >  1 file changed, 6 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/display/intel_color.c
+> > b/drivers/gpu/drm/i915/display/intel_color.c
+> > index 2a2a163ea652..b01f463af861 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_color.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_color.c
+> > @@ -785,14 +785,12 @@ static void chv_assign_csc(struct intel_crtc_state
+> > *crtc_state)
+> >  /* convert hw value with given bit_precision to lut property val */  static u32
+> > intel_color_lut_pack(u32 val, int bit_precision)  {
 > 
-> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+> Is this operation unique to Intel. Should there be a drm helper for this?
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+If some other driver gains gamma readout support they
+could probably use something like this. The other option
+would be to rework the current helper to allow conversions
+both ways.
 
+> 
+> Regards
+> 
+> Chaitanya
+> 
+> > -	u32 max = 0xffff >> (16 - bit_precision);
+> > -
+> > -	val = clamp_val(val, 0, max);
+> > -
+> > -	if (bit_precision < 16)
+> > -		val <<= 16 - bit_precision;
+> > -
+> > -	return val;
+> > +	if (bit_precision > 16)
+> > +		return DIV_ROUND_CLOSEST_ULL(mul_u32_u32(val, (1 << 16)
+> > - 1),
+> > +					     (1 << bit_precision) - 1);
+> > +	else
+> > +		return DIV_ROUND_CLOSEST(val * ((1 << 16) - 1),
+> > +					 (1 << bit_precision) - 1);
+> >  }
+> > 
+> >  static u32 i9xx_lut_8(const struct drm_color_lut *color)
+> > --
+> > 2.41.0
+> 
 
+-- 
+Ville Syrjälä
+Intel
