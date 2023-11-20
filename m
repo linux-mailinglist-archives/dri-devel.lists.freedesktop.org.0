@@ -2,66 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F207F12E4
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 13:13:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B97B47F12ED
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 13:13:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0FA610E12B;
-	Mon, 20 Nov 2023 12:13:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58B5210E3B2;
+	Mon, 20 Nov 2023 12:13:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 308E410E12B
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 12:13:07 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-543456dbd7bso10252729a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 04:13:07 -0800 (PST)
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40AEC10E3AC
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 12:13:10 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id
+ 4fb4d7f45d1cf-5401bab7525so6170564a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 04:13:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700482385; x=1701087185; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=9gzY9FqizGaQnSZZhxsA0vWZnsDs08MMlwZNySIk8xQ=;
- b=lsGDPrXMUstJCs54qbm3xCfy3vgGRfYQDTmq3AYNOxalqcWRltntVsYcWUEn5MO+A8
- Yj0lZJa08hZltoSeOxwfNjALiwNzGLgynDkjeZW5arU5025LveEFdoehVbTM2pdpS9CV
- Si8kMWxnbA+0wRwIBY74AYJwWbVuLiATDmdBp1lZcUdWspKt++3QteKAGi+CZ5CmqYGM
- bk9U8leIGenNvOLAnshXJFfXqIwubM7n7nN+8bWN3gEaFsPV4RPSZLibeYFAN/GmKZ16
- zLwKDL81AsZAXF87np1HwIlINB6fnUnXryV95HxdWGILbv/0GhVLrlKiHfV1fgsZHf1f
- cTAw==
+ d=linaro.org; s=google; t=1700482388; x=1701087188; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=y4obJbFuX32a51CPgRwasEGqIWFeGs2SFetYjrfd9IY=;
+ b=lxbAjQfw6UgfmOhqcK56Fql1vlSg9Ygz1ld6Nzo8GeIAIsLcMVlXqQDYl6VeDP8FA/
+ qvwE1q74oSeL8o3TxEpbbVT1S5m0UaYHunH/+nu9+Zvq4OHkL1Ma+nFYTe+lID240066
+ gpJ4mm2f12GuPboqZ+1yCH1Gx4mIO7IGai0OvlnNw3F93pe+IGQZve70kuxbxe+umyyI
+ clVWDvP+mja82twubt/TWWBUF9Y6LV9rL9q+aQW/VY6UTyVhFmvBLg33W7WpjtM7snXh
+ t+5YbbFDMCyeI6XmngVx+hboDIzARb8FxHK9GCt6mTLiEVBAV+FmcNtj1AS1Rt5UKXlZ
+ ilqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700482385; x=1701087185;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9gzY9FqizGaQnSZZhxsA0vWZnsDs08MMlwZNySIk8xQ=;
- b=efOm+WZ703KzsemesttcTlKLxeVrZ54O48vfZgUA229CmsP+qWb8NOay9mJj7BZzYI
- DT1JUfdLKQTab7+kWRNxLRRsM+GUTwZ2CltUWE7ZkEe5DgfHN7EVQ+/mjTaRko1W4Qlq
- 84tbDWXYdmmP6xNg59UZnjYMJMQ+YoITBoiDAG4dtNASlKis+MJa30ebEzh2fxS1aYoM
- G4g+zMij/HFYG7O9kNvdW6WHEyCxK7uT8hmK9BWZxp4+VS36sYhta3C3dKC4EmY5/Rsn
- 2I9+IpUnTPCicO5mkh8uOApiRM54s39KoZXpbiNMVAlMkNia4579SdcbZeAkW+cTIxoW
- 774Q==
-X-Gm-Message-State: AOJu0YxzLatoxc7hleN7n9m4UCmTnhzg+WkXYZijXtCF241/ttLlC5gS
- BgK2PT3lzul6Hazu+wU6joDqIg==
-X-Google-Smtp-Source: AGHT+IFCcHlK6Uo5Dn5EOrxOYnCuxGsZot4TPy1ZycY8WEFLZMdX58P1HwLevCsuJ00GPYhXVUYKoQ==
-X-Received: by 2002:a05:6402:1605:b0:548:786b:b46c with SMTP id
- f5-20020a056402160500b00548786bb46cmr1568764edv.8.1700482385623; 
- Mon, 20 Nov 2023 04:13:05 -0800 (PST)
+ d=1e100.net; s=20230601; t=1700482388; x=1701087188;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=y4obJbFuX32a51CPgRwasEGqIWFeGs2SFetYjrfd9IY=;
+ b=bjVMbijOdHOik8XXcp1ZMA2ERKJo4aJqGDsemHFTKq225PnA5ROaWW8V1NPhOxniT0
+ AaJsO8JdHW0loWGUV2MuwLmzyiQntgLN3dCGFZ71jnnFdi85/+7MLJ8dwJZiWiFZ5UWC
+ pu282r1B83WWL+5z72v4cuNU3S42jwzVcErUg6EQ0CyNK4Hsaa/A5+j9JCucjOXvG5w4
+ DrRAw56jOp74sjej0+fzRWcP7TAWr3VSMl636p773foxQki6cRlnd868tyh92LB048LZ
+ e7mAyMkhbDuWwqSkLDECvoGBljwaSxZiPQ8ABvbGewrowwgXgN4UMK1uI85boRt+jC8N
+ MPgw==
+X-Gm-Message-State: AOJu0YyCICOmUCpe9XaaXvngDg9eTvodhG0x86umgTU9jNwj4Q5sWeE4
+ JtTYL9f8Pw0sprrEAW9Qw0J6Ww==
+X-Google-Smtp-Source: AGHT+IHvqKMeMD59wsOARYBHIOOtmh9DOb0vYqoILiQ4tuG247ufeLMp7wMGy+ZaKH140knr325lBg==
+X-Received: by 2002:a50:d7d4:0:b0:53f:2128:ff4f with SMTP id
+ m20-20020a50d7d4000000b0053f2128ff4fmr4619581edj.17.1700482388356; 
+ Mon, 20 Nov 2023 04:13:08 -0800 (PST)
 Received: from [10.167.154.1]
  (178235187204.dynamic-4-waw-k-2-3-0.vectranet.pl. [178.235.187.204])
  by smtp.gmail.com with ESMTPSA id
- i22-20020aa7c716000000b00548ac80f90csm1324584edq.40.2023.11.20.04.13.03
+ i22-20020aa7c716000000b00548ac80f90csm1324584edq.40.2023.11.20.04.13.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Nov 2023 04:13:05 -0800 (PST)
+ Mon, 20 Nov 2023 04:13:08 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: [PATCH v2 0/4] Adreno 643 + fixes
-Date: Mon, 20 Nov 2023 13:12:51 +0100
-Message-Id: <20230926-topic-a643-v2-0-06fa3d899c0a@linaro.org>
+Date: Mon, 20 Nov 2023 13:12:52 +0100
+Subject: [PATCH v2 1/4] arm64: dts: qcom: sc7280: Add ZAP shader support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAENNW2UC/22NQQ6CMBBFr0Jm7ZjSGhBX3sOwGOoAk5CWTJFoC
- He3snb5XvL/2yCxCie4FRsor5Ikhgz2VIAfKQyM8swM1lhnGlvhEmfxSNXFIdXsGzJXclRCHnS
- UGDul4Mc8Ca9pynJW7uV9FB5t5lHSEvVzBNfyZ/9+ryUarKmvGleTN+TukwTSeI46QLvv+xeMw
- 7jOugAAAA==
+Message-Id: <20230926-topic-a643-v2-1-06fa3d899c0a@linaro.org>
+References: <20230926-topic-a643-v2-0-06fa3d899c0a@linaro.org>
+In-Reply-To: <20230926-topic-a643-v2-0-06fa3d899c0a@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
@@ -72,11 +70,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <swboyd@chromium.org>, 
  Akhil P Oommen <quic_akhilpo@quicinc.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1700482383; l=1189;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1700482383; l=1670;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=lzZGsaV15spB0k9fqGINqbiPXsC0S/Y51YP+msYyDY8=;
- b=3uR6tatKteVbqY6ZWNDllqeKEl9etaE/psCLJlK0nI0YanFKwabwox0uOWwDwCRkXAa0Xp9UG
- M3iGEBQ7KyEDee9gS4dvWGhxAeubkU9droGBpdntQ+uOaU4H6j19A4+
+ bh=FO3D/4Lb+LmHq1IGkCnu/dhJPyd8/ht4WBGb18ODAj4=;
+ b=GDIoeoFFvlB60e66DCtoCtdYcFDJbtJgGMbZGN5KrIZ1iWjzao4lxLmmp21pEUKM97CcEFTle
+ lF26xtdb/VUC4IGtZsC0gvQrUiKc+np3MWMmV6N9bzHMdNmiX96otsu
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,39 +98,56 @@ Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-as it says on the can
-
-drm/msm patches for Rob
-arm64 patches for linux-arm-msm
-
-for use with https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/25408
-
-tested on QCM6490 (SC7280-IOT) Fairphone FP5
+Non-Chrome SC7280-family platforms ship a ZAP shader with the Adreno GPU.
+Describe that and make sure it doesn't interfere with Chrome devices.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
-Changes in v2:
-- Drop drm/msm patches (all applied)
-- Make the commit message of "Fix up GPU SIDs" clearer (Abhinav)
-- Drop unwanted firmware-name in "Add ZAP shader support" (self)
-- Pick up tags
-- Link to v1: https://lore.kernel.org/r/20230926-topic-a643-v1-0-7af6937ac0a3@linaro.org
+ arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi | 2 ++
+ arch/arm64/boot/dts/qcom/sc7280.dtsi               | 9 +++++++++
+ 2 files changed, 11 insertions(+)
 
----
-Konrad Dybcio (4):
-      arm64: dts: qcom: sc7280: Add ZAP shader support
-      arm64: dts: qcom: sc7280: Fix up GPU SIDs
-      arm64: dts: qcom: sc7280: Mark Adreno SMMU as DMA coherent
-      arm64: dts: qcom: sc7280: Add 0xac Adreno speed bin
+diff --git a/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi b/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
+index 5d462ae14ba1..88fc67c3646e 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
+@@ -17,6 +17,8 @@
+  * required by the setup for Chrome boards.
+  */
+ 
++/delete-node/ &gpu_zap_mem;
++/delete-node/ &gpu_zap_shader;
+ /delete-node/ &hyp_mem;
+ /delete-node/ &xbl_mem;
+ /delete-node/ &reserved_xbl_uefi_log;
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index 04bf85b0399a..58563f8fdc16 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -152,6 +152,11 @@ ipa_fw_mem: memory@8b700000 {
+ 			no-map;
+ 		};
+ 
++		gpu_zap_mem: zap@8b71a000 {
++			reg = <0 0x8b71a000 0 0x2000>;
++			no-map;
++		};
++
+ 		rmtfs_mem: memory@9c900000 {
+ 			compatible = "qcom,rmtfs-mem";
+ 			reg = <0x0 0x9c900000 0x0 0x280000>;
+@@ -2613,6 +2618,10 @@ gpu: gpu@3d00000 {
+ 			nvmem-cells = <&gpu_speed_bin>;
+ 			nvmem-cell-names = "speed_bin";
+ 
++			gpu_zap_shader: zap-shader {
++				memory-region = <&gpu_zap_mem>;
++			};
++
+ 			gpu_opp_table: opp-table {
+ 				compatible = "operating-points-v2";
+ 
 
- arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi |  2 ++
- arch/arm64/boot/dts/qcom/sc7280.dtsi               | 25 ++++++++++++++++------
- 2 files changed, 20 insertions(+), 7 deletions(-)
----
-base-commit: 5a82d69d48c82e89aef44483d2a129f869f3506a
-change-id: 20230926-topic-a643-a7ec9a08a3a1
-
-Best regards,
 -- 
-Konrad Dybcio <konrad.dybcio@linaro.org>
+2.42.1
 
