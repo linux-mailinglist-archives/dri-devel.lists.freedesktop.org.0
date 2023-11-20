@@ -1,45 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 803767F17CB
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 16:50:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 472A77F17F7
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 16:57:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBC1C10E057;
-	Mon, 20 Nov 2023 15:50:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66D5310E06F;
+	Mon, 20 Nov 2023 15:57:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED8B810E057
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 15:50:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1A9B361307;
- Mon, 20 Nov 2023 15:50:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A91EC433C7;
- Mon, 20 Nov 2023 15:50:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700495425;
- bh=hwGdvTC30e2lqKVVWjBXy5T6ES/s37IXoRVGMd2+0pQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OuakXYfH2B3OCYrq02ImXPaLKHHgv1XoOxq2euxeIQWC0Crhms/GQfyHAERvfK69s
- DF1RBMamEUYPuaOfpnaQp1j+CNzucEdp1EpNAPN+hWMv57j1T/49wvYAu20TggHUvr
- 9h9mFblafUh5Qh+JN7xv4j9enLyvvjGgt/YK2XvQvOmhX4pbud5Uo9wJI5ysIkZrNw
- BPWdpOl8U5S3cdCW/wUONBUm0CW8H5dyUUZJsDljmdbgfcn5XTMVRFnoX/B5WCXJTP
- PyXPoKPqTJYSNuJDOUBMqvy72xpUWxgQ/NsRdT6CL/dMnTLhYok/ymvlzSQA5CyIvF
- LZZLM4LJ/KWzQ==
-Date: Mon, 20 Nov 2023 15:50:20 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH 1/3] dt-bindings: display: ssd1307fb: Change
- "solomon,page-offset" default value
-Message-ID: <20231120-granola-sturdy-83d054f1b6fa@spud>
-References: <20231116180743.2763021-1-javierm@redhat.com>
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0A1710E06F;
+ Mon, 20 Nov 2023 15:57:39 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-40836ea8cbaso15426635e9.0; 
+ Mon, 20 Nov 2023 07:57:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1700495858; x=1701100658; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=89EYg4ouBWYX+fl0hKWC4znxsM2071TE3litLlRaSBY=;
+ b=XYPv8ZM2RudzdKFK8Cb0+2pExNkfisMlu3ifHFwa+e6ZUJiNBg1QUbrsDgRjC7MxI8
+ ucdAf6yj06wuppvB0GJavpTPYxsgEqY/daEVldA+3PW2jVS5SHXBfU7DkFiphUm14JX1
+ vCsVjQ3cvHFxrFSZN54bRGXVWd1ny3csMf3HIYLLXJj7hNqdi4TsmBEX1cf0LEKO2g73
+ 9UcEusW9D4SQRpSLpNUyNndlkFBloVOV59WWho+SPGowpxNVkLUU0VmDQJ6C+aY1OK6M
+ 3BnS+Ma4Z8SNdTj5mkwKgcKRfpzy4RWhHrQDp1o3xLzSfCwW/MdxUlEkf2nT3oRmYSJV
+ QeVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700495858; x=1701100658;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=89EYg4ouBWYX+fl0hKWC4znxsM2071TE3litLlRaSBY=;
+ b=Izl2I0119gPC57eBh/MlOGbwC+sKQcNpU/UZKmlbMPU6ddXHHRnDkPSYSl1FGOF/1E
+ 76qWTaXNtem5z1hpOs+BZnWvzxMJ3MesQbzmE4s/F+PYmKteSjLJOyfiNWYBm0o3YC00
+ fL4yOa+4/rX01NIQ7/v6k/XtJPbS1bBZWvtIxCQtQWbGOlMNnjN7R+VWlDxKdUrhDVjs
+ TeDMDw85N9NQrB5KgxfwyLwckp8IcPgoqD6XwAaf+53rfBnklioY9HoXA1e9apqTa+TN
+ sNOc4GofbPNzyp+IhsNwd1PKBCwjrRwy4M5VnNG0+YjAVB764xmMUkUsEaa3Qa87hTVX
+ BsYw==
+X-Gm-Message-State: AOJu0Yyls7a6UfWRRMMjXRsTnOWzd9x0JklStoBqKywxmor1k3XZVQ3x
+ 4dXZyBgZHEheANu3vbRvHzk=
+X-Google-Smtp-Source: AGHT+IFhUMUVyBcUDGRSZaC3iPujMi7KSk5AL1rJDDgsBFZb0+BSUafYsTQ9/YcD2194+2G2rh41ZQ==
+X-Received: by 2002:a05:600c:4f8f:b0:40a:4609:9c97 with SMTP id
+ n15-20020a05600c4f8f00b0040a46099c97mr6312604wmq.20.1700495858005; 
+ Mon, 20 Nov 2023 07:57:38 -0800 (PST)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+ by smtp.gmail.com with ESMTPSA id
+ y15-20020a05600c364f00b004060f0a0fd5sm13509216wmq.13.2023.11.20.07.57.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Nov 2023 07:57:37 -0800 (PST)
+Message-ID: <bdb238b6-60c7-4f26-81d0-9e62cd5dd326@gmail.com>
+Date: Mon, 20 Nov 2023 16:57:33 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4bFoAD9+noYJcHZh"
-Content-Disposition: inline
-In-Reply-To: <20231116180743.2763021-1-javierm@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Radeon regression in 6.6 kernel
+Content-Language: en-US
+To: Dave Airlie <airlied@gmail.com>,
+ Linux regressions mailing list <regressions@lists.linux.dev>
+References: <87edgv4x3i.fsf@vps.thesusis.net>
+ <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
+ <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,78 +78,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Sahaj Sarup <sahaj.sarup@linaro.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: linux-kernel@vger.kernel.org,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Luben Tuikov <luben.tuikov@amd.com>, dri-devel@lists.freedesktop.org,
+ Phillip Susi <phill@thesusis.net>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am 19.11.23 um 07:47 schrieb Dave Airlie:
+>> On 12.11.23 01:46, Phillip Susi wrote:
+>>> I had been testing some things on a post 6.6-rc5 kernel for a week or
+>>> two and then when I pulled to a post 6.6 release kernel, I found that
+>>> system suspend was broken.  It seems that the radeon driver failed to
+>>> suspend, leaving the display dead, the wayland display server hung, and
+>>> the system still running.  I have been trying to bisect it for the last
+>>> few days and have only been able to narrow it down to the following 3
+>>> commits:
+>>>
+>>> There are only 'skip'ped commits left to test.
+>>> The first bad commit could be any of:
+>>> 56e449603f0ac580700621a356d35d5716a62ce5
+>>> c07bf1636f0005f9eb7956404490672286ea59d3
+>>> b70438004a14f4d0f9890b3297cd66248728546c
+>>> We cannot bisect more!
+>> Hmm, not a single reply from the amdgpu folks. Wondering how we can
+>> encourage them to look into this.
+>>
+>> Phillip, reporting issues by mail should still work, but you might have
+>> more luck here, as that's where the amdgpu afaics prefer to track bugs:
+>> https://gitlab.freedesktop.org/drm/amd/-/issues
+>>
+>> When you file an issue there, please mention it here.
+>>
+>> Furthermore it might help if you could verify if 6.7-rc1 (or rc2, which
+>> comes out later today) or 6.6.2-rc1 improve things.
+> It would also be good to test if reverting any of these is possible or not.
 
---4bFoAD9+noYJcHZh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Well none of the commits mentioned can affect radeon in any way. Radeon 
+simply doesn't use the scheduler.
 
-On Thu, Nov 16, 2023 at 07:07:37PM +0100, Javier Martinez Canillas wrote:
-> This is used to specify the page start address offset of the display RAM.
->=20
-> The value is used as offset when setting the page start address with the
-> SSD130X_SET_PAGE_RANGE command, and the driver currently sets its value to
-> 1 if the property is not present in the Device Tree.
->=20
-> But the datasheet mentions that the value on reset for the page start is a
-> 0, so it makes more sense to also have 0 as the default value for the page
-> offset if the property is not present.
->=20
-> In fact, using a default value of 1 leads to the display not working when
-> the fbdev is attached to the framebuffer console.
->=20
-> Reported-by: Sahaj Sarup <sahaj.sarup@linaro.org>
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
->=20
->  .../devicetree/bindings/display/solomon,ssd1307fb.yaml          | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.=
-yaml b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-> index 3afbb52d1b7f..badd81459aaa 100644
-> --- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-> +++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-> @@ -35,7 +35,7 @@ properties:
-> =20
->    solomon,page-offset:
->      $ref: /schemas/types.yaml#/definitions/uint32
-> -    default: 1
-> +    default: 0
+My suspicion is that the user is actually using amdgpu instead of 
+radeon. The switch potentially occurred accidentally, for example by 
+compiling amdgpu support for SI/CIK.
 
-I think I saw it pointed out by Maxime elsewhere that this breaks the
-ABI. It would be nice if DT defaults matched the hardware's, but I don't
-really think it is worth breaking the ABI here. Expanding the property
-description to explain the impact of the particular values might help
-with incorrect usage.
+Those amdgpu problems for older ASIC have already been worked on and 
+should be fixed by now.
 
-Thanks,
-Conor.
+Regards,
+Christian.
 
->      description:
->        Offset of pages (band of 8 pixels) that the screen is mapped to
-> =20
-> --=20
-> 2.41.0
->=20
+>
+> File the gitlab issue and we should poke amd a but more to take a look.
+>
+> Dave.
 
---4bFoAD9+noYJcHZh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZVuAPAAKCRB4tDGHoIJi
-0rwwAQDwlz5bsqGXaRqTo+gxHO6qWygSskpfqHWje4LOQ/STSAEAjptBSDLIi9s1
-DjGRyqKsN280gvpMTdz7FUpAEO1gZwg=
-=pjLO
------END PGP SIGNATURE-----
-
---4bFoAD9+noYJcHZh--
