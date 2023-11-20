@@ -2,107 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E6317F122C
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 12:35:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B69947F1233
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 12:38:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E6C010E3A4;
-	Mon, 20 Nov 2023 11:35:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D820210E3A5;
+	Mon, 20 Nov 2023 11:38:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 731E210E3A4
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 11:35:47 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39D1E10E3A5
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 11:38:06 +0000 (UTC)
+Received: from [10.3.2.161] (zone.collabora.co.uk [167.235.23.81])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E131A2190C;
- Mon, 20 Nov 2023 11:35:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1700480145; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Q+c9KCNCk4phwSWIGOwpqJ0qmONW0iqFNOW1khLxYWo=;
- b=Q5PudbcpHQnR0Ab89sx0fg4bnjxusH+EGdvIFrTdsyIUfJxwtlxvN7NqD/S8/eiSUOrYO/
- xLK7Uuj+COiLTLHXEieSoBKvA7KqsawICQ+rCfEoiu2yjwIs266/u5P3H+LUnFaaRfFVfA
- W1/XgJ2rCq6KSKWPwP/UB5pzsRynBl8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1700480145;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Q+c9KCNCk4phwSWIGOwpqJ0qmONW0iqFNOW1khLxYWo=;
- b=SBqRNCeH2FLdjUc4Pu04z7Bl6gHvZrz8VEd98mv5TpRNymFVQ2hDnom2OeYPr1+NtBMMMw
- ZX0Xw7uvj9GEM8Dg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AA95913499;
- Mon, 20 Nov 2023 11:35:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 4Hm/J5FEW2WBOwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 20 Nov 2023 11:35:45 +0000
-Message-ID: <950888cc-9d7e-4253-8821-e843ef32b6ec@suse.de>
-Date: Mon, 20 Nov 2023 12:35:45 +0100
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 359F96602F1D;
+ Mon, 20 Nov 2023 11:38:03 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1700480284;
+ bh=lX9d/Us0h3a8J02mdLie/YqRrpifDkBDv3KBw5ibIks=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=chJFgsWQJyiQmfayqPlZ/ywdBeuH/DLNWFm9e+lVYjoPy31JHLrAFwQkqgLrm4MKX
+ TKOAq+/8SPGa0jMFfX2Wfn05kUMuCE81IH5j0kWlVBjIDbBB08LQub3NrbLMXYAvU3
+ mW7Q/Hme2Utumxsb4KUPawimjE9/8o4BTIVxwnkatOEQQfQ6Y/uZSlR+0kP1MySz38
+ jlmwiCSQLA3nLUpg8acg8wBYqxRxS5NLPvwMNMPEjieCzJh78Giapyo24mBtYyv2eT
+ rQGfliib8CnQQEkoolLnEoU8zPOV+n5TZkytqmh3rIW4nWZocO7eOZUEXXrgzd8d9O
+ X2MoeZ71QhnIw==
+Message-ID: <97c673e2-66ee-80de-3ad7-d8f02a56a3f6@collabora.com>
+Date: Mon, 20 Nov 2023 14:38:00 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 17/20] drivers/gpu/drm/ast/ast_i2c.c: remove
- I2C_CLASS_DDC support
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v18 11/26] drm/shmem-helper: Prepare drm_gem_shmem_free()
+ to shrinker addition
 Content-Language: en-US
-To: Heiner Kallweit <hkallweit1@gmail.com>, Wolfram Sang <wsa@kernel.org>,
- Dave Airlie <airlied@redhat.com>
-References: <20231119101445.4737-1-hkallweit1@gmail.com>
- <20231119101445.4737-18-hkallweit1@gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20231119101445.4737-18-hkallweit1@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Dal7yWifu1tGxRxXL2MVTv81"
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -5.29
-X-Spamd-Result: default: False [-5.29 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; XM_UA_NO_VERSION(0.01)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
- HAS_ATTACHMENT(0.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- MIME_BASE64_TEXT_BOGUS(1.00)[]; BAYES_HAM(-3.00)[100.00%];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_BASE64_TEXT(0.10)[];
- RCPT_COUNT_SEVEN(0.00)[8]; SIGNED_PGP(-2.00)[];
- FREEMAIL_TO(0.00)[gmail.com,kernel.org,redhat.com];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+,1:+,2:+,3:~]; RCVD_COUNT_TWO(0.00)[2];
- RCVD_TLS_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[]
-X-Spam-Flag: NO
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20231029230205.93277-1-dmitry.osipenko@collabora.com>
+ <20231029230205.93277-12-dmitry.osipenko@collabora.com>
+ <20231110111601.5d6bd1ab@collabora.com>
+ <bd2308d6-38e5-6042-3da8-fb436f67a88e@collabora.com>
+ <20231120121942.4eef9e03@collabora.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20231120121942.4eef9e03@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,80 +59,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>, Jocelyn Falempe <jfalempe@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-i2c@vger.kernel.org
+Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
+ virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Dal7yWifu1tGxRxXL2MVTv81
-Content-Type: multipart/mixed; boundary="------------n2jKO0zPuEt2E7ncKRUIRjS0";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Heiner Kallweit <hkallweit1@gmail.com>, Wolfram Sang <wsa@kernel.org>,
- Dave Airlie <airlied@redhat.com>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- linux-i2c@vger.kernel.org
-Message-ID: <950888cc-9d7e-4253-8821-e843ef32b6ec@suse.de>
-Subject: Re: [PATCH v3 17/20] drivers/gpu/drm/ast/ast_i2c.c: remove
- I2C_CLASS_DDC support
-References: <20231119101445.4737-1-hkallweit1@gmail.com>
- <20231119101445.4737-18-hkallweit1@gmail.com>
-In-Reply-To: <20231119101445.4737-18-hkallweit1@gmail.com>
+On 11/20/23 14:19, Boris Brezillon wrote:
+...
+>>>> -		dma_resv_lock(shmem->base.resv, NULL);
+>>>> -
+>>>>  		drm_WARN_ON(obj->dev, refcount_read(&shmem->vmap_use_count));
+>>>>  
+>>>>  		if (shmem->sgt) {
+>>>> @@ -157,8 +171,6 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>>>>    
+>>> If you drop the dma_resv_lock/unlock(), you should also replace the
+>>> drm_gem_shmem_put_pages_locked() by a drm_gem_shmem_free_pages() in this
+>>> commit.  
+>>
+>> drm_gem_shmem_put_pages_locked() is exported by a later patch of this
+>> series, it's not worthwhile to remove this function
+> 
+> I'm not talking about removing drm_gem_shmem_put_pages_locked(), but
+> replacing the drm_gem_shmem_put_pages_locked() call you have in
+> drm_gem_shmem_free() by a drm_gem_shmem_free_pages(), so you don't end
+> up with a lockdep warning when you stop exactly here in the patch
+> series, which is important if we want to keep things bisectable.
 
---------------n2jKO0zPuEt2E7ncKRUIRjS0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Indeed, there is assert_locked() there. Thanks for the clarification :)
 
-DQoNCkFtIDE5LjExLjIzIHVtIDExOjE0IHNjaHJpZWIgSGVpbmVyIEthbGx3ZWl0Og0KPiBB
-ZnRlciByZW1vdmFsIG9mIHRoZSBsZWdhY3kgRUVQUk9NIGRyaXZlciBhbmQgSTJDX0NMQVNT
-X0REQyBzdXBwb3J0IGluDQo+IG9scGNfZGNvbiB0aGVyZSdzIG5vIGkyYyBjbGllbnQgZHJp
-dmVyIGxlZnQgc3VwcG9ydGluZyBJMkNfQ0xBU1NfRERDLg0KPiBDbGFzcy1iYXNlZCBkZXZp
-Y2UgYXV0by1kZXRlY3Rpb24gaXMgYSBsZWdhY3kgbWVjaGFuaXNtIGFuZCBzaG91bGRuJ3QN
-Cj4gYmUgdXNlZCBpbiBuZXcgY29kZS4gU28gd2UgY2FuIHJlbW92ZSB0aGlzIGNsYXNzIGNv
-bXBsZXRlbHkgbm93Lg0KPiANCj4gUHJlZmVyYWJseSB0aGlzIHNlcmllcyBzaG91bGQgYmUg
-YXBwbGllZCB2aWEgdGhlIGkyYyB0cmVlLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogSGVpbmVy
-IEthbGx3ZWl0IDxoa2FsbHdlaXQxQGdtYWlsLmNvbT4NCg0KUmV2aWV3ZWQtYnk6IFRob21h
-cyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KDQo+IA0KPiAtLS0NCj4gICBk
-cml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9pMmMuYyB8ICAgIDEgLQ0KPiAgIDEgZmlsZSBjaGFu
-Z2VkLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L2FzdC9hc3RfaTJjLmMgYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9pMmMuYw0KPiBpbmRl
-eCAwZTg0NWU3YWMuLmU1ZDNmNzEyMSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L2FzdC9hc3RfaTJjLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfaTJjLmMN
-Cj4gQEAgLTEyMCw3ICsxMjAsNiBAQCBzdHJ1Y3QgYXN0X2kyY19jaGFuICphc3RfaTJjX2Ny
-ZWF0ZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQ0KPiAgIAkJcmV0dXJuIE5VTEw7DQo+ICAg
-DQo+ICAgCWkyYy0+YWRhcHRlci5vd25lciA9IFRISVNfTU9EVUxFOw0KPiAtCWkyYy0+YWRh
-cHRlci5jbGFzcyA9IEkyQ19DTEFTU19EREM7DQo+ICAgCWkyYy0+YWRhcHRlci5kZXYucGFy
-ZW50ID0gZGV2LT5kZXY7DQo+ICAgCWkyYy0+ZGV2ID0gZGV2Ow0KPiAgIAlpMmNfc2V0X2Fk
-YXBkYXRhKCZpMmMtPmFkYXB0ZXIsIGkyYyk7DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJt
-YW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9u
-cyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBH
-ZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwg
-Qm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
+-- 
+Best regards,
+Dmitry
 
---------------n2jKO0zPuEt2E7ncKRUIRjS0--
-
---------------Dal7yWifu1tGxRxXL2MVTv81
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVbRJEFAwAAAAAACgkQlh/E3EQov+C/
-hQ//VOrLXUUM9ZeD3F9PjPkmpsTVaJhhcUOTYPEP8ayHEpGBRDNYDr38R7U3X7TZtJDCp4bWxHFl
-EHJmbD/35LyujEwhUQWTR+Zg/BfhWa+GMf4ymI60kgxM505JGDUcllXuu7Zo3qPY2+BvXFm6wdHm
-EJz8+jCCxVKsLhN09Mn678OaNfJiRPc/LtA3NKBuELJDjyNJCVypUI2i0YgUAs5Fxm6eozjfaqCi
-sJszxsPDtUuApMwJ1BE7AjapowSjFTfaGqzFo2WOoq8VqsXaU5oMI9ZEn2VBgRI2MEgyOqyyiwWq
-pj/fxOfqSRnwC1NvWDA2AsSzGR6hrqnDchDo2WCPSbqREpk2kUDthVzBoivLe6RZ2XKU7cpYPtwH
-v6BRQBVlMi87IR1JpRDolBwC6mtUQWJfB5phOkqVnY4y2P4lfG9pLNQyAkFIZwioSqYs2RTvIKHL
-z1+WhFH3hJB+1SQXyK46ApxH15aBNrAiHZfSj55krYzfQaYmSheAJLpH5u21bX1+58AzUQLBeGno
-Ok5esc/Bu/CBPECr5I4yI8DvUs0ZCT0kTQzl38f7rXDwJOx5XemqcjRRB5pyD8Z3bryZdEZg5Z53
-bT4IKm6+zA/JCAnHq3l/9+2eO4VeDc0lNKaHNYhKMFlBdfTzQ9P1IgyQFuOhBaRna7wk6/tQWrVo
-zfo=
-=zJQi
------END PGP SIGNATURE-----
-
---------------Dal7yWifu1tGxRxXL2MVTv81--
