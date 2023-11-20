@@ -1,48 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4881C7F1E39
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 21:53:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 198F47F1F77
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 22:46:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADEDF10E11A;
-	Mon, 20 Nov 2023 20:53:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 839CF10E1E1;
+	Mon, 20 Nov 2023 21:46:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C89BA10E11E
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 20:53:53 +0000 (UTC)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
- id 7E54A1C0050; Mon, 20 Nov 2023 21:53:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
- t=1700513632;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=T6LfoMY/Fvp0UXzBZ+W7X81hPAVnp3D1vcRIVa9CydA=;
- b=eLNR+DfutupDoKP3c+C0DbY1+lXsFmpXNqcRY2eGyyJiC+LFIxjZecUl6vD1nvFUkbTnB2
- YmqpbfQNE0HH5kFd/oyl997swsjsEr5veurdUfW7I5FcrEMyOV3zJH200Dv6srV1ymkYhb
- YI7sDEE4i1X6oCwkGwaPtFw5K209GFU=
-Date: Mon, 20 Nov 2023 21:53:52 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, jikos@kernel.org
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-Message-ID: <ZVvHYAsM1p8O7J8r@duo.ucw.cz>
-References: <ZSe1GYLplZo5fsAe@duo.ucw.cz>
- <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
- <ZSf9QneKO/8IzWhd@duo.ucw.cz>
- <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
- <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
- <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <ZSmg4tqXiYiX18K/@duo.ucw.cz>
- <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
- <87sf61bm8t.fsf@intel.com>
- <CANiq72kvZcNp2ocXoqBae9q2UW+RPQy3dXUr+QS-izKpM1yyoA@mail.gmail.com>
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFC5010E1B9;
+ Mon, 20 Nov 2023 21:46:29 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id
+ ffacd0b85a97d-32f8441dfb5so3793526f8f.0; 
+ Mon, 20 Nov 2023 13:46:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1700516788; x=1701121588; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ifrjBfgOSiyuCFRkxJCsnT3OdDkva6hhJuoAwARmBUY=;
+ b=eGVxsGy8PKPU3YmMohPBPkIMgraS0dU+oLNGvp9BHy8uc9Nc9hYDibOFnPdDb4NkqX
+ YcwMFBaaEk1Z6hetJ8xfHnx2X9e5vMNIFmYZG2L7r/qNTeBbVH4D7ErNBjEy6j958W4T
+ nQw3d+7owdsg9ft0pkVOaZGNwSzPdDiwg1zv/+UpVv7NnAttiv0KsVFn2e9R9VZaKn3T
+ iWuCSNwyoNf/ZvQ/Ki6o1YhBmdUn/ekXkaEI1EkZdudJJ5RzFUzSyMjVhJmUOlUF81fa
+ TceEw+/PW3lOs2ny7KIy4gUqCte2oLnslumDW8B1Vz81IXOM7kA73U51okGpAXy/GSia
+ 5ehg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700516788; x=1701121588;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ifrjBfgOSiyuCFRkxJCsnT3OdDkva6hhJuoAwARmBUY=;
+ b=bCDHfh0P4XVdkqPnySzO+MlNKr3m3hJqh4XQWk9tMTMekuxa4YhACaMbWbclthY4Ai
+ wACSavILzZJR/krZfuo4V35N9K3NHTs0P7a1ACTD5URMUJtYti3Qu1o3+Z16JCcsUlye
+ Cyfq5ACuymcJqixAOZjb9tYYkA7sNc7IPmM5be004JN/kpa5eNNRW6HP/B6RnhWkIBEI
+ qeeUu+GUaaTAJ0HgwFeeFGxgtyVSSnxjGtPOfMKiXJm0yQRomoCFKbL/jCcy4pV10PgN
+ cEuX5qWSGdYti1YLFOf6hbb1R/TLGoUNnrpFgfxccOOWNMJot4RDjlc0HXMhWbvfEVdl
+ Ustw==
+X-Gm-Message-State: AOJu0YzsZPamokA/tDDH6vdU0IaYjyqWpHIV5RTp44o6mZ57+iuHu8jH
+ t+njhagHOs3o/HjbRk839AE=
+X-Google-Smtp-Source: AGHT+IHp3LoF2DOrCwbBP5ZAP28MyKKAznq0CT/uy4NViD6EoST7Z+71CXBfeYQKBX9yVV00pAiniQ==
+X-Received: by 2002:adf:e9cb:0:b0:32d:9d3a:d8c0 with SMTP id
+ l11-20020adfe9cb000000b0032d9d3ad8c0mr5215561wrn.60.1700516787764; 
+ Mon, 20 Nov 2023 13:46:27 -0800 (PST)
+Received: from zotac.lan.
+ (dynamic-2a02-3100-9030-5a00-2223-08ff-fe18-0310.310.pool.telefonica.de.
+ [2a02:3100:9030:5a00:2223:8ff:fe18:310])
+ by smtp.gmail.com with ESMTPSA id
+ i13-20020a5d584d000000b00332cb0937f4sm2667052wrf.33.2023.11.20.13.46.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Nov 2023 13:46:27 -0800 (PST)
+From: Heiner Kallweit <hkallweit1@gmail.com>
+To: Wolfram Sang <wsa@kernel.org>,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH v4 00/20] remove I2C_CLASS_DDC support
+Date: Mon, 20 Nov 2023 22:46:03 +0100
+Message-ID: <20231120214624.9378-1-hkallweit1@gmail.com>
+X-Mailer: git-send-email 2.42.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="9jeVF7q2cF6LMKnm"
-Content-Disposition: inline
-In-Reply-To: <CANiq72kvZcNp2ocXoqBae9q2UW+RPQy3dXUr+QS-izKpM1yyoA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,57 +73,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Werner Sembach <wse@tuxedocomputers.com>, linux-input@vger.kernel.org,
- ojeda@kernel.org, linux-leds@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yongqin Liu <yongqin.liu@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, amd-gfx@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, linux-sunxi@lists.linux.dev,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, Sean Paul <sean@poorly.run>,
+ linux-arm-kernel@lists.infradead.org, Jocelyn Falempe <jfalempe@redhat.com>,
+ linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, John Stultz <jstultz@google.com>,
+ Heiner Kallweit <hkallweit1@gmail.com>, freedreno@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+After removal of the legacy EEPROM driver and I2C_CLASS_DDC support in
+olpc_dcon there's no i2c client driver left supporting I2C_CLASS_DDC.
+Class-based device auto-detection is a legacy mechanism and shouldn't
+be used in new code. So we can remove this class completely now.
 
---9jeVF7q2cF6LMKnm
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Preferably this series should be applied via the i2c tree.
 
-On Mon 2023-10-23 13:44:46, Miguel Ojeda wrote:
-> On Mon, Oct 23, 2023 at 1:40=E2=80=AFPM Jani Nikula <jani.nikula@linux.in=
-tel.com> wrote:
-> >
-> > One could also reasonably make the argument that controlling the
-> > individual keyboard key backlights should be part of the input
-> > subsystem. It's not a display per se. (Unless you actually have small
-> > displays on the keycaps, and I think that's a thing too.)
-> >
-> > There's force feedback, there could be light feedback? There's also
-> > drivers/input/input-leds.c for the keycaps that have leds, like caps
-> > lock, num lock, etc.
-> >
-> > Anyway, just throwing ideas around, no strong opinions, really.
->=20
-> Yeah, sounds quite reasonable too, in fact it may make more sense
-> there given the LEDs are associated per-key rather than being an
-> uniform matrix in a rectangle if I understand correctly. If the input
-> subsystem wants to take it, that would be great.
+v2:
+- change tag in commit subject of patch 03
+- add ack tags
+v3:
+- fix a compile error in patch 5
+v4:
+- more ack and review tags
 
-Unfortunately we are getting no input from input subsystem. Question
-seems to be more of "is auxdisplay willing to take it if it is done
-properly"?
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
-Best regards,
-								Pavel
+---
 
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
-
---9jeVF7q2cF6LMKnm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZVvHYAAKCRAw5/Bqldv6
-8tamAJ9ay6bqjz3WKWY0hzcjA1oaf0rrFACghHK4/NlmCVR1KurSm8xzJvVcKSs=
-=1Jqp
------END PGP SIGNATURE-----
-
---9jeVF7q2cF6LMKnm--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c           |    1 -
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |    1 -
+ drivers/gpu/drm/ast/ast_i2c.c                     |    1 -
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c         |    1 -
+ drivers/gpu/drm/display/drm_dp_helper.c           |    1 -
+ drivers/gpu/drm/display/drm_dp_mst_topology.c     |    1 -
+ drivers/gpu/drm/gma500/cdv_intel_dp.c             |    1 -
+ drivers/gpu/drm/gma500/intel_gmbus.c              |    1 -
+ drivers/gpu/drm/gma500/oaktrail_hdmi_i2c.c        |    1 -
+ drivers/gpu/drm/gma500/psb_intel_sdvo.c           |    1 -
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c   |    1 -
+ drivers/gpu/drm/i915/display/intel_gmbus.c        |    1 -
+ drivers/gpu/drm/i915/display/intel_sdvo.c         |    1 -
+ drivers/gpu/drm/loongson/lsdc_i2c.c               |    1 -
+ drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c           |    1 -
+ drivers/gpu/drm/mgag200/mgag200_i2c.c             |    1 -
+ drivers/gpu/drm/msm/hdmi/hdmi_i2c.c               |    1 -
+ drivers/gpu/drm/radeon/radeon_i2c.c               |    1 -
+ drivers/gpu/drm/rockchip/inno_hdmi.c              |    1 -
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c            |    1 -
+ drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c            |    1 -
+ drivers/video/fbdev/core/fb_ddc.c                 |    1 -
+ drivers/video/fbdev/cyber2000fb.c                 |    1 -
+ drivers/video/fbdev/i740fb.c                      |    1 -
+ drivers/video/fbdev/intelfb/intelfb_i2c.c         |   15 +++++----------
+ drivers/video/fbdev/matrox/i2c-matroxfb.c         |   12 ++++--------
+ drivers/video/fbdev/s3fb.c                        |    1 -
+ drivers/video/fbdev/tdfxfb.c                      |    1 -
+ drivers/video/fbdev/tridentfb.c                   |    1 -
+ drivers/video/fbdev/via/via_i2c.c                 |    1 -
+ include/linux/i2c.h                               |    1 -
+ 31 files changed, 9 insertions(+), 47 deletions(-)
