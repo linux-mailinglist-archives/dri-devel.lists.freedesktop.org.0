@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5A8C7F135B
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 13:31:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B2CC7F13CE
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 13:53:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED91510E3BA;
-	Mon, 20 Nov 2023 12:31:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F1CE10E3C1;
+	Mon, 20 Nov 2023 12:53:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C56FA10E3BA;
- Mon, 20 Nov 2023 12:31:43 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FE5B10E04A;
+ Mon, 20 Nov 2023 12:52:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700483503; x=1732019503;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=s2Sz/k2C3vClA1ZL29UEioOfWz6nNPpISmlGVfUyBKk=;
- b=ePUesCDiQtz3drEpEWUiUrKGslgvS+KbM0CBrovg6+S1xkeZGGC1oAqd
- 1ZDukBMtKgjXJZ0uCMT0Wg9LulYw6/fWTkrLweLGDPko/JpErOccAyHZM
- xqI5QjuLr2061PLaW7r5z1gOXnqT34SF5Ysj4zmwHDn5VAbjPJg6DigDN
- kqw35tpLLMrUtRR+0JZX5A3Uv7h/vTjXCQISYNSI/Bn1CSQHIMLcgzbKf
- XcM/kvBt6B29Lb2Tj6GwV1cfoudQxGgp3OiHhNC+5w1MKmi65Cpn4vZT3
- fomyQfR7VLcSxxpKVL1j9jfuriWD+cKrWJsgs58SC81WIAQDfL3MQ2GB1 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="477817852"
-X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; d="scan'208";a="477817852"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Nov 2023 04:31:40 -0800
+ t=1700484777; x=1732020777;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=8L4/nxDx2bduTPScjd5qxY3nCcDY7afh0bBaOpI0r/8=;
+ b=AoUblev/r9GVfB3xRPd0OnGxrYylY+KenPwGta1uBlP3PHzGptsQRtuR
+ Pvs270p2pmL7jhq/jn84TPlA9Yq137HoMbeB9dfMPcWXLMHieaEsXE7G4
+ 0LmQI18AP00g5/GWGJ8Y9YRFJD6B93sr9saH8Qludo13c31U8zNHklyJ+
+ qJzafWkni96wAoju5K3Dwc5GnubDLbsyZhuXVVEXnrLDniwe5k5ovd7Qo
+ 9ytjFK/yom6j6+CnvpXLcRhvxuzXyCuaDhIX4AeLG+Qg3RRA4y83+det8
+ tXum2lEbKoMplpSYcw5TKeAHhqWdx3HoecgnT+bP/PPlkpv574njY6qys w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="395540173"
+X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; d="scan'208";a="395540173"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Nov 2023 04:52:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="795453765"
-X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; d="scan'208";a="795453765"
-Received: from avmoskal-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.40.194])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Nov 2023 04:31:36 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v2 00/11] drm/i915: Fix UHBR data,link M/N/TU and PBN
- values
-In-Reply-To: <20231116131841.1588781-1-imre.deak@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231116131841.1588781-1-imre.deak@intel.com>
-Date: Mon, 20 Nov 2023 14:31:34 +0200
-Message-ID: <87y1esobbt.fsf@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="883844743"
+X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; d="scan'208";a="883844743"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Nov 2023 04:52:55 -0800
+From: Imre Deak <imre.deak@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v5 03/11] drm/dp_mst: Add kunit tests for
+ drm_dp_get_vc_payload_bw()
+Date: Mon, 20 Nov 2023 14:52:56 +0200
+Message-Id: <20231120125256.2433782-1-imre.deak@intel.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231117152737.1782690-1-imre.deak@intel.com>
+References: <20231117152737.1782690-1-imre.deak@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,66 +59,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Arun R Murthy <arun.r.murthy@intel.com>, "Lankhorst,
- Maarten" <maarten.lankhorst@intel.com>
+Cc: dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Nov 2023, Imre Deak <imre.deak@intel.com> wrote:
-> This is v2 of [1], with the following changes:
-> - Store the pbn_div value in fixed point format.
-> - Fix PBN calculation in patch 8.
-> - Reuse intel_dp_max_data_rate(), intel_dp_effective_data_rate() in
->   intel_link_compute_m_n() (Jani).
->
-> [1] https://lore.kernel.org/all/20231113201110.510724-1-imre.deak@intel.com
->
-> Cc: Arun R Murthy <arun.r.murthy@intel.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Lyude Paul <lyude@redhat.com>
->
-> Imre Deak (11):
->   drm/dp_mst: Store the MST PBN divider value in fixed point format
->   drm/dp_mst: Fix PBN divider calculation for UHBR rates
->   drm/dp_mst: Add kunit tests for drm_dp_get_vc_payload_bw()
+Add kunit test cases for drm_dp_get_vc_payload_bw() with all the DP1.4
+and UHBR link configurations.
 
-Maarten, Maxime, Thomas, ack for merging these three via drm-intel-next?
+v2:
+- List test cases in decreasing rate,lane count order matching the
+  corresponding DP Standard tables. (Ville)
+- Add references to the DP Standard tables.
+v3:
+- Sort the testcases properly.
+v4:
+- Avoid 'stack frame size x exceeds limit y in
+  drm_test_dp_mst_calc_pbn_div()' compiler warn. (LKP)
 
-Imre, I note that said patches were Cc: dri-devel, but for future
-reference please Cc: the entire series to dri-devel when you include
-dependencies that you plan to merge via drm-intel.
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: kernel test robot <lkp@intel.com>
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com> (v3)
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+---
+ .../gpu/drm/tests/drm_dp_mst_helper_test.c    | 160 ++++++++++++++++++
+ 1 file changed, 160 insertions(+)
 
-BR,
-Jani.
-
-
->   drm/i915/dp: Replace intel_dp_is_uhbr_rate() with
->     drm_dp_is_uhbr_rate()
->   drm/i915/dp: Account for channel coding efficiency on UHBR links
->   drm/i915/dp: Fix UHBR link M/N values
->   drm/i915/dp_mst: Calculate the BW overhead in
->     intel_dp_mst_find_vcpi_slots_for_bpp()
->   drm/i915/dp_mst: Fix PBN / MTP_TU size calculation for UHBR rates
->   drm/i915/dp: Report a rounded-down value as the maximum data rate
->   drm/i915/dp: Simplify intel_dp_max_data_rate()
->   drm/i915/dp: Reuse intel_dp_{max,effective}_data_rate in
->     intel_link_compute_m_n()
->
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   5 +-
->  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |   3 +-
->  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |   5 +-
->  drivers/gpu/drm/display/drm_dp_mst_topology.c |  31 +++-
->  drivers/gpu/drm/i915/display/intel_display.c  |  51 ++----
->  drivers/gpu/drm/i915/display/intel_dp.c       |  78 +++++++---
->  drivers/gpu/drm/i915/display/intel_dp.h       |   5 +-
->  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  55 +++++--
->  drivers/gpu/drm/nouveau/dispnv50/disp.c       |   6 +-
->  .../gpu/drm/tests/drm_dp_mst_helper_test.c    | 145 ++++++++++++++++++
->  include/drm/display/drm_dp_helper.h           |  13 ++
->  include/drm/display/drm_dp_mst_helper.h       |   7 +-
->  12 files changed, 311 insertions(+), 93 deletions(-)
-
+diff --git a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
+index e3c818dfc0e6d..d916e548fcb12 100644
+--- a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
+@@ -68,6 +68,152 @@ static void dp_mst_calc_pbn_mode_desc(const struct drm_dp_mst_calc_pbn_mode_test
+ KUNIT_ARRAY_PARAM(drm_dp_mst_calc_pbn_mode, drm_dp_mst_calc_pbn_mode_cases,
+ 		  dp_mst_calc_pbn_mode_desc);
+ 
++struct drm_dp_mst_calc_pbn_div_test {
++	int link_rate;
++	int lane_count;
++	fixed20_12 expected;
++};
++
++#define fp_init(__int, __frac) { \
++	.full = (__int) * (1 << 12) + \
++		(__frac) * (1 << 12) / 100000 \
++}
++
++static const struct drm_dp_mst_calc_pbn_div_test drm_dp_mst_calc_pbn_div_dp1_4_cases[] = {
++	/*
++	 * UHBR rates (DP Standard v2.1 2.7.6.3, specifying the rounded to
++	 *             closest value to 2 decimal places):
++	 * .expected = .link_rate * .lane_count * 0.9671 / 8 / 54 / 100
++	 * DP1.4 rates (DP Standard v2.1 2.6.4.2):
++	 * .expected = .link_rate * .lane_count * 0.8000 / 8 / 54 / 100
++	 *
++	 * truncated to 5 decimal places.
++	 */
++	{
++		.link_rate = 2000000,
++		.lane_count = 4,
++		.expected = fp_init(179,  9259),  /* 179.09259 */
++	},
++	{
++		.link_rate = 2000000,
++		.lane_count = 2,
++		.expected = fp_init(89, 54629),
++	},
++	{
++		.link_rate = 2000000,
++		.lane_count = 1,
++		.expected = fp_init(44, 77314),
++	},
++	{
++		.link_rate = 1350000,
++		.lane_count = 4,
++		.expected = fp_init(120, 88750),
++	},
++	{
++		.link_rate = 1350000,
++		.lane_count = 2,
++		.expected = fp_init(60, 44375),
++	},
++	{
++		.link_rate = 1350000,
++		.lane_count = 1,
++		.expected = fp_init(30, 22187),
++	},
++	{
++		.link_rate = 1000000,
++		.lane_count = 4,
++		.expected = fp_init(89, 54629),
++	},
++	{
++		.link_rate = 1000000,
++		.lane_count = 2,
++		.expected = fp_init(44, 77314),
++	},
++	{
++		.link_rate = 1000000,
++		.lane_count = 1,
++		.expected = fp_init(22, 38657),
++	},
++	{
++		.link_rate = 810000,
++		.lane_count = 4,
++		.expected = fp_init(60, 0),
++	},
++	{
++		.link_rate = 810000,
++		.lane_count = 2,
++		.expected = fp_init(30, 0),
++	},
++	{
++		.link_rate = 810000,
++		.lane_count = 1,
++		.expected = fp_init(15, 0),
++	},
++	{
++		.link_rate = 540000,
++		.lane_count = 4,
++		.expected = fp_init(40, 0),
++	},
++	{
++		.link_rate = 540000,
++		.lane_count = 2,
++		.expected = fp_init(20, 0),
++	},
++	{
++		.link_rate = 540000,
++		.lane_count = 1,
++		.expected = fp_init(10, 0),
++	},
++	{
++		.link_rate = 270000,
++		.lane_count = 4,
++		.expected = fp_init(20, 0),
++	},
++	{
++		.link_rate = 270000,
++		.lane_count = 2,
++		.expected = fp_init(10, 0),
++	},
++	{
++		.link_rate = 270000,
++		.lane_count = 1,
++		.expected = fp_init(5, 0),
++	},
++	{
++		.link_rate = 162000,
++		.lane_count = 4,
++		.expected = fp_init(12, 0),
++	},
++	{
++		.link_rate = 162000,
++		.lane_count = 2,
++		.expected = fp_init(6, 0),
++	},
++	{
++		.link_rate = 162000,
++		.lane_count = 1,
++		.expected = fp_init(3, 0),
++	},
++};
++
++static void drm_test_dp_mst_calc_pbn_div(struct kunit *test)
++{
++	const struct drm_dp_mst_calc_pbn_div_test *params = test->param_value;
++	/* mgr->dev is only needed by drm_dbg_kms(), but it's not called for the test cases. */
++	struct drm_dp_mst_topology_mgr *mgr = test->priv;
++
++	KUNIT_EXPECT_EQ(test, drm_dp_get_vc_payload_bw(mgr, params->link_rate, params->lane_count).full,
++			params->expected.full);
++}
++
++static void dp_mst_calc_pbn_div_desc(const struct drm_dp_mst_calc_pbn_div_test *t, char *desc)
++{
++	sprintf(desc, "Link rate %d lane count %d", t->link_rate, t->lane_count);
++}
++
++KUNIT_ARRAY_PARAM(drm_dp_mst_calc_pbn_div, drm_dp_mst_calc_pbn_div_dp1_4_cases,
++		  dp_mst_calc_pbn_div_desc);
++
+ static u8 data[] = { 0xff, 0x00, 0xdd };
+ 
+ struct drm_dp_mst_sideband_msg_req_test {
+@@ -416,13 +562,27 @@ KUNIT_ARRAY_PARAM(drm_dp_mst_sideband_msg_req, drm_dp_mst_sideband_msg_req_cases
+ 
+ static struct kunit_case drm_dp_mst_helper_tests[] = {
+ 	KUNIT_CASE_PARAM(drm_test_dp_mst_calc_pbn_mode, drm_dp_mst_calc_pbn_mode_gen_params),
++	KUNIT_CASE_PARAM(drm_test_dp_mst_calc_pbn_div, drm_dp_mst_calc_pbn_div_gen_params),
+ 	KUNIT_CASE_PARAM(drm_test_dp_mst_sideband_msg_req_decode,
+ 			 drm_dp_mst_sideband_msg_req_gen_params),
+ 	{ }
+ };
+ 
++static int drm_dp_mst_helper_tests_init(struct kunit *test)
++{
++	struct drm_dp_mst_topology_mgr *mgr;
++
++	mgr = kunit_kzalloc(test, sizeof(*mgr), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mgr);
++
++	test->priv = mgr;
++
++	return 0;
++}
++
+ static struct kunit_suite drm_dp_mst_helper_test_suite = {
+ 	.name = "drm_dp_mst_helper",
++	.init = drm_dp_mst_helper_tests_init,
+ 	.test_cases = drm_dp_mst_helper_tests,
+ };
+ 
 -- 
-Jani Nikula, Intel
+2.39.2
+
