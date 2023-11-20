@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8132F7F1FB2
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 22:47:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A87437F1F9F
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 22:47:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D81B10E1F4;
-	Mon, 20 Nov 2023 21:47:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83B4310E1F8;
+	Mon, 20 Nov 2023 21:46:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 562F410E1F3
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 21:46:41 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- 5b1f17b1804b1-40906fc54fdso20452485e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 13:46:41 -0800 (PST)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57E2410E1F4;
+ Mon, 20 Nov 2023 21:46:42 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-4083dbc43cfso16966675e9.3; 
+ Mon, 20 Nov 2023 13:46:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700516800; x=1701121600; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1700516801; x=1701121601; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YucjSL5i0nwNQb8TgcsZe7VSoyFWTM6YGwWJl941dgc=;
- b=QzQnLomIhk/qC8fQ2LJv6C1eVLgUT2x/bJ6NxvpxZY5BS8+DilwA+ZJKUnO9HDooze
- DrHsf7MphmCY+4uH6dM8oz6E8xxPU+LluqdZaJtjhWan+8YQlA68c6CHTPlzZncbIPIu
- 7Uiyp4YtJ1q5Z444V1WEZYJjuNOU36N0x6HSoiDvppQntoAxIoH8zuFxR5cYXyflkZIW
- gYEl7BJRELb4d8h2dQJbNMcMGD2IeHWn0TEq7IiYwfed1EOONMRRjVzP3SZTs2XVnZMf
- m6dNXYfxBqy9yEZpA2CYEvleBXNrbC1L2hNXUq/6Mtmuqutmjl0n2MYPq1h+fvXDRuOg
- VdDQ==
+ bh=EQ/FEK2mYsIsrLAMj1ftUkEFHG7z/MaBn+ksqWZD4+o=;
+ b=g2VGKZCHnM9MRIzFnsZO74hK3fBmdQCXooZU1YNvCMJsOqBDcyf42H1V8kUmhtjsRd
+ KvivgzT4f9lv2Tf0fNUqBBo5PrZcS36IYeukbuiSpqalfnf1tL/PMrWzSOXNv98i2ZWS
+ ofWerhdRyCY+yYvQTZNEVivjxPBGGBrRSbhO/CXDGfU0DY00Yli6Otf6PvCmiBJnrTP4
+ IvyMitwqVuVKfHPq6mESIPq+BcxHubDmwkyU/D10uUDGA2k4Xd6OuP50uNhArUMFeOqy
+ Mpjb/LkQiJTZLneTWkmeamaeBF+lIpZdqVFHGwgWUCtlSaFFVYgvrWAE69BLAT2V6Mck
+ LlUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700516800; x=1701121600;
+ d=1e100.net; s=20230601; t=1700516801; x=1701121601;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YucjSL5i0nwNQb8TgcsZe7VSoyFWTM6YGwWJl941dgc=;
- b=RIJz26Sm2Ij9qPZLG3CzYNejB2ujRH2BNehlfn4N0sQ6SYQznx/rTq4s5clObV07Qk
- jjBrrpCYgE97gHxqLFKpAdrTbrUw2ChdZQlMhBc2GSoZpla35e5Dib+1qGNewNCQBiUf
- 1QGuwdANkmghPkhKkx3jBZ66THyPm2bivQcSr0GLSX7Rai5TJYdY1pHPtqlWMWiEEr4j
- 1beoYKK6pyvtg3hObAk6R1dQh9IYbdBMQ5YJxg0qPI99sVYT1nPHRPPI4Zs8cYFPrad9
- ai5hd/fGo9fdPZpjJJDl8+aslfRdtuRHZZ0M5vH1hwFBj12r/I+F598kMyJyzQ+PcgZ3
- 8PDQ==
-X-Gm-Message-State: AOJu0YxR9t7G77snFX4RzpLGI4mo/iJ1LCHQzo7d8qiTQUYdEcczi8g2
- S8nfwAMg/ZcWbXARVTLZ5uZzyrCYmRw=
-X-Google-Smtp-Source: AGHT+IHI1MXMavn+Gq00D5IWRHVWhxn647ptsSuePBK36r3qhuByg6Z/4wSKnRhzWG0O01cnuBnrlQ==
-X-Received: by 2002:a05:6000:18cc:b0:331:6b5d:84d2 with SMTP id
- w12-20020a05600018cc00b003316b5d84d2mr5455372wrq.19.1700516799569; 
- Mon, 20 Nov 2023 13:46:39 -0800 (PST)
+ bh=EQ/FEK2mYsIsrLAMj1ftUkEFHG7z/MaBn+ksqWZD4+o=;
+ b=v3NeBmzy9nLYjwT6FZWjl7D2blMkRZFoYB24ZvZqbGoPJ5HmMb+iQ3RF5KxaH/3gA6
+ W7DC4I/Fx5vTPLZ9H1u1/IPDD0HIZ97504SD74hCpb4OY5EbNDbDaZ7ImubVzgMqWLf6
+ RHIvTjEFyKl05XTXI7ObhGF04jn9oY8AofYM0zSqV8C+hcJwoNM1xTz51krzqqwFSocT
+ cyMThxT6YC8bR0e5Ptkfl19OoHVLQ5MZQs45Xu+qkEC5dmuknfH1Zf6KCU4EcTIHWk95
+ TdbmFuEZkJ9l2Aksh4T1vJYiH5KXqDVuzYLf/+Jqru5fQm5jdRprSr6vn0fp+mPT/2Md
+ 7iew==
+X-Gm-Message-State: AOJu0Yy/XXdut0v6rVfP7U8sYXZ/9KZCZZ92BlmLUMhWq/7KjnUaEyJ7
+ S/s1k41iUMKohNVMXIWaxOw=
+X-Google-Smtp-Source: AGHT+IEJmFFE3EHKXQ4RGWFBYumObm40aSlus52AgE+TXXlh+CCacbrX+eglWn0cbPoyet+nNAcCRg==
+X-Received: by 2002:a05:6000:4010:b0:332:c1da:4cca with SMTP id
+ cp16-20020a056000401000b00332c1da4ccamr4845981wrb.14.1700516800595; 
+ Mon, 20 Nov 2023 13:46:40 -0800 (PST)
 Received: from zotac.lan.
  (dynamic-2a02-3100-9030-5a00-2223-08ff-fe18-0310.310.pool.telefonica.de.
  [2a02:3100:9030:5a00:2223:8ff:fe18:310])
  by smtp.gmail.com with ESMTPSA id
- i13-20020a5d584d000000b00332cb0937f4sm2667052wrf.33.2023.11.20.13.46.38
+ i13-20020a5d584d000000b00332cb0937f4sm2667052wrf.33.2023.11.20.13.46.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Nov 2023 13:46:39 -0800 (PST)
+ Mon, 20 Nov 2023 13:46:40 -0800 (PST)
 From: Heiner Kallweit <hkallweit1@gmail.com>
 To: Wolfram Sang <wsa@kernel.org>,
-	Maik Broemme <mbroemme@libmpq.org>
-Subject: [PATCH v4 13/20] drivers/video/fbdev/intelfb/intelfb_i2c.c: remove
+	Rob Clark <robdclark@gmail.com>
+Subject: [PATCH v4 14/20] drivers/gpu/drm/msm/hdmi/hdmi_i2c.c: remove
  I2C_CLASS_DDC support
-Date: Mon, 20 Nov 2023 22:46:16 +0100
-Message-ID: <20231120214624.9378-14-hkallweit1@gmail.com>
+Date: Mon, 20 Nov 2023 22:46:17 +0100
+Message-ID: <20231120214624.9378-15-hkallweit1@gmail.com>
 X-Mailer: git-send-email 2.42.1
 In-Reply-To: <20231120214624.9378-1-hkallweit1@gmail.com>
 References: <20231120214624.9378-1-hkallweit1@gmail.com>
@@ -77,9 +77,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-i2c@vger.kernel.org, Heiner Kallweit <hkallweit1@gmail.com>
+Cc: freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
+ Heiner Kallweit <hkallweit1@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -90,65 +93,23 @@ be used in new code. So we can remove this class completely now.
 
 Preferably this series should be applied via the i2c tree.
 
-Acked-by: Helge Deller <deller@gmx.de>
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
 ---
- drivers/video/fbdev/intelfb/intelfb_i2c.c |   15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/msm/hdmi/hdmi_i2c.c |    1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/intelfb/intelfb_i2c.c b/drivers/video/fbdev/intelfb/intelfb_i2c.c
-index 3300bd31d..f24c7cb4c 100644
---- a/drivers/video/fbdev/intelfb/intelfb_i2c.c
-+++ b/drivers/video/fbdev/intelfb/intelfb_i2c.c
-@@ -99,8 +99,7 @@ static int intelfb_gpio_getsda(void *data)
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_i2c.c b/drivers/gpu/drm/msm/hdmi/hdmi_i2c.c
+index de182c004..7aa500d24 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi_i2c.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi_i2c.c
+@@ -249,7 +249,6 @@ struct i2c_adapter *msm_hdmi_i2c_init(struct hdmi *hdmi)
  
- static int intelfb_setup_i2c_bus(struct intelfb_info *dinfo,
- 				 struct intelfb_i2c_chan *chan,
--				 const u32 reg, const char *name,
--				 int class)
-+				 const u32 reg, const char *name)
- {
- 	int rc;
  
-@@ -108,7 +107,6 @@ static int intelfb_setup_i2c_bus(struct intelfb_info *dinfo,
- 	chan->reg			= reg;
- 	snprintf(chan->adapter.name, sizeof(chan->adapter.name),
- 		 "intelfb %s", name);
--	chan->adapter.class		= class;
- 	chan->adapter.owner		= THIS_MODULE;
- 	chan->adapter.algo_data		= &chan->algo;
- 	chan->adapter.dev.parent	= &chan->dinfo->pdev->dev;
-@@ -144,8 +142,7 @@ void intelfb_create_i2c_busses(struct intelfb_info *dinfo)
- 	dinfo->output[i].type = INTELFB_OUTPUT_ANALOG;
- 
- 	/* setup the DDC bus for analog output */
--	intelfb_setup_i2c_bus(dinfo, &dinfo->output[i].ddc_bus, GPIOA,
--			      "CRTDDC_A", I2C_CLASS_DDC);
-+	intelfb_setup_i2c_bus(dinfo, &dinfo->output[i].ddc_bus, GPIOA, "CRTDDC_A");
- 	i++;
- 
- 	/* need to add the output busses for each device
-@@ -159,10 +156,8 @@ void intelfb_create_i2c_busses(struct intelfb_info *dinfo)
- 	case INTEL_855GM:
- 	case INTEL_865G:
- 		dinfo->output[i].type = INTELFB_OUTPUT_DVO;
--		intelfb_setup_i2c_bus(dinfo, &dinfo->output[i].ddc_bus,
--				      GPIOD, "DVODDC_D", I2C_CLASS_DDC);
--		intelfb_setup_i2c_bus(dinfo, &dinfo->output[i].i2c_bus,
--				      GPIOE, "DVOI2C_E", 0);
-+		intelfb_setup_i2c_bus(dinfo, &dinfo->output[i].ddc_bus, GPIOD, "DVODDC_D");
-+		intelfb_setup_i2c_bus(dinfo, &dinfo->output[i].i2c_bus, GPIOE, "DVOI2C_E");
- 		i++;
- 		break;
- 	case INTEL_915G:
-@@ -176,7 +171,7 @@ void intelfb_create_i2c_busses(struct intelfb_info *dinfo)
- 		/* SDVO ports have a single control bus - 2 devices */
- 		dinfo->output[i].type = INTELFB_OUTPUT_SDVO;
- 		intelfb_setup_i2c_bus(dinfo, &dinfo->output[i].i2c_bus,
--				      GPIOE, "SDVOCTRL_E", 0);
-+				      GPIOE, "SDVOCTRL_E");
- 		/* TODO: initialize the SDVO */
- 		/* I830SDVOInit(pScrn, i, DVOB); */
- 		i++;
+ 	i2c->owner = THIS_MODULE;
+-	i2c->class = I2C_CLASS_DDC;
+ 	snprintf(i2c->name, sizeof(i2c->name), "msm hdmi i2c");
+ 	i2c->dev.parent = &hdmi->pdev->dev;
+ 	i2c->algo = &msm_hdmi_i2c_algorithm;
 
