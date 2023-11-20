@@ -2,105 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B62D7F0D6B
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 09:23:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA177F0D6F
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 09:24:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C93B10E167;
-	Mon, 20 Nov 2023 08:23:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CC8810E388;
+	Mon, 20 Nov 2023 08:24:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4777B10E167
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 08:23:30 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id
- ffacd0b85a97d-32fadd4ad09so3052119f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 00:23:30 -0800 (PST)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EE8E10E37D
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 08:24:48 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ 5b1f17b1804b1-40853c639abso13902015e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 00:24:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700468608; x=1701073408; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=zDpNOA1ZQ6fgVY3fGVzzlkHvI60okoLt3vVAIeD7m/A=;
- b=XpjZS3AqOwEd3GJwGyxJ2GN4MrIDy3bmDAvbSvwx4HZDcWcYXG/v65L3Z3Ogn4tWaL
- 2T4VP+Awz4fPRvQ9Oa3duablMbJv18AuacB0PStwG3R/0xA6q+4hfR9riTr0beEHVm17
- 1s2VToWz6lA6deakef7974uEjSRa48uvIRv0WxaCFWB97/C9/mCHmcT2TWUyhBDT34+I
- CWNYitVNGYpy5Mo5K73f7VRi9ODsTBy6KcrF7m44Wog3HcSWULhVksQ2nD8MJvtRopV7
- lJSd2x3RQdMZWPu3W6j0RAWDABZvxZofsZRLcTj1SQsjOpjldmC8Uv9VtyRG2qCUg72Z
- KYcw==
+ d=linaro.org; s=google; t=1700468686; x=1701073486; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=LiwLz7rgORSXU5ZDowGagc2wpV+uTLoI4pnI3SOTIak=;
+ b=aBgM2CXGGYAyyiC/86W6lA4q7BUo7uqJRH7OG9UdQLbWAYWGRVOueG3PnqGDUumfAT
+ ZX20PptvwatP/c7s0b7WEQ1m5XFuF4cJYhVZNIAKzfnuiorG+u9B0dseH/56seIQGzrJ
+ eJzuP/c76lmJ360ZSPjJhIUkPsriqQ3VG+UibGX3nM1x8xyO2rxnI4/gNznyO6OktHyh
+ lzCfUKBejU/pOmxmH7INs20WeP6tHiIA3nRx3TkmxnGSyxFnsSyH37trSlUO1ljdFmww
+ 0+gMOOOTPKTb45FuWXwcITRKKqtSUv4mzBle43FS9zUunUI81E4cSXrBBa0qkgtj2A2a
+ 7G1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700468608; x=1701073408;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=zDpNOA1ZQ6fgVY3fGVzzlkHvI60okoLt3vVAIeD7m/A=;
- b=IXd2MDSRAErIo92ObKmz338LgK2DFCX7lZedQ2Qr+Oc8UF7lYDYWBHuzdXvxmVoWRE
- hmz4LriMr+IeuTSWWPWPAildKz4R+L+YbHmV3rWUB7mjXbrBMxJTFI1HuXLE2N/Rx4JD
- P3uW0kxd0Snc2LkuViqqlmOcRwx4YpXObpnOsfqSqNDTmv0o74RsXCG7KHb1Ac88QOxr
- nfyaXtutL1cw+zjxkc7PAF2f4HThPrxY8qwRqHxvutsArCtGVWX4ei3/fGWTiXx0aCYR
- 3WxUMkyw3iPn87w8AAve6h8vIssUcsTayVB4wTBshVaDlowvLtwBtTUv9ldNUXMUFIfc
- YAEw==
-X-Gm-Message-State: AOJu0YwtnWtavxbYDh4cFgDEhljrejrd66+4q3ZdwB4/LkURFiIhOWej
- yNwNKuDS4IZEE0R4uPeG7lcXGw==
-X-Google-Smtp-Source: AGHT+IFH+4hs9Z8rfoBt29ysYtj7bV3eaXTJxK7DQ6vcgHZMWl1u+nSsUp7PR9zPmvR/iRVE1l3B9w==
-X-Received: by 2002:a05:6000:1209:b0:331:6945:dc33 with SMTP id
- e9-20020a056000120900b003316945dc33mr3959236wrx.58.1700468608620; 
- Mon, 20 Nov 2023 00:23:28 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:f04:f84b:d87d:1d06?
- ([2a01:e0a:982:cbb0:f04:f84b:d87d:1d06])
- by smtp.gmail.com with ESMTPSA id
- s11-20020adfe00b000000b0032ddc3b88e9sm10487286wrh.0.2023.11.20.00.23.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Nov 2023 00:23:28 -0800 (PST)
-Message-ID: <58d71614-4be0-4b78-8169-d7e6399734b3@linaro.org>
-Date: Mon, 20 Nov 2023 09:23:24 +0100
+ d=1e100.net; s=20230601; t=1700468686; x=1701073486;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LiwLz7rgORSXU5ZDowGagc2wpV+uTLoI4pnI3SOTIak=;
+ b=qODUr+GzbeMqSnURN0P9exHid+1CF7k31juf3wWV5PiRCBIb8bX/wh2I04hI7VnTmK
+ kfVWrKTy2BJN6kjQSibUDUwxS8TMK0FEpPvOosRGGdrgLP+ld7ZSzxBSxsSaaM8ExUbW
+ kiU7rpX0QQiYFUP6HBqrcqJVG+VNz0hUEWO111v72fYnyxLXI4KAj1eQ0lX6SFMsPlHs
+ iV+uAzkbCkFgPQMktxNaBz/ETeh1Oo8iXSi2qi5/7PXd38aYiR3u6Ug938rxXs1GMulr
+ YikvXMAjWK9FbI7W0Jy2RPId9gX3lKs1Jt9AYi7EmJSLqxFwhb6UFN8dHZlhrXrCAcwp
+ t91Q==
+X-Gm-Message-State: AOJu0YzaQ2phuPd2CWpJ4eXAMZYEuVlDeo/RG5QU5rVuPt2NZmaeTtyo
+ I2j8fuSNS9QTgIFc2zlnA1kpxA==
+X-Google-Smtp-Source: AGHT+IFLuFWYBRvyWcbXSNal7y2L0gxiFMY6jL/MShNjQA43ddXnWWdRUS33btuzM+seVvagiGyBaw==
+X-Received: by 2002:a05:600c:3504:b0:409:5a4e:512b with SMTP id
+ h4-20020a05600c350400b004095a4e512bmr5583059wmq.18.1700468686642; 
+ Mon, 20 Nov 2023 00:24:46 -0800 (PST)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ bg3-20020a05600c3c8300b004077219aed5sm17387903wmb.6.2023.11.20.00.24.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Nov 2023 00:24:46 -0800 (PST)
+Date: Mon, 20 Nov 2023 03:24:43 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [Freedreno] [PATCH v2] drm/msm: remove unnecessary NULL check
+Message-ID: <23209856-0459-49bc-99d0-cab66e1c098a@suswa.mountain>
+References: <ZSj+6/J6YsoSpLak@kadam>
+ <095b7283-3555-cc38-a73e-83efec8a9bf8@quicinc.com>
+ <62943ca3-26ac-8712-2caa-102dc98f099c@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
-Content-Language: en-US, fr
-To: Sui Jingfeng <sui.jingfeng@linux.dev>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
- <20231114150130.497915-9-sui.jingfeng@linux.dev>
- <CAA8EJprQq3aDhzE+yKGZ2-nsuHWcptzMvApsyOi9D63PgeiZ3w@mail.gmail.com>
- <1b59d647-c345-4260-b07b-22abb70ae17a@linux.dev>
- <CAA8EJppY2+ymX0kLY+cuR=SV1Po2J24r=NQecmb3ZhSE9NHG7Q@mail.gmail.com>
- <7b85d057-3d66-435a-a657-dd69067b6bef@linux.dev>
- <b9eacd91-8d6f-4265-931e-bc31cadd54d4@linux.dev>
- <CAA8EJpo1KhzTpaSqjbOuQvNKw4WGaqrtNBtNfdNLn28eZVgwhw@mail.gmail.com>
- <cf27d25a-3e51-4292-af63-37e5bc585d88@linux.dev>
- <CAA8EJprm6FL9_ZOr5uBXNXLBt=scs=FY2o6ZEv5r576iEM5KRw@mail.gmail.com>
- <aa4dd247-0eb1-4cda-9284-98da981bd3e1@linux.dev>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <aa4dd247-0eb1-4cda-9284-98da981bd3e1@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <62943ca3-26ac-8712-2caa-102dc98f099c@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,63 +73,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phong LE <ple@baylibre.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Su Hui <suhui@nfschina.com>, freedreno@lists.freedesktop.org,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/11/2023 18:14, Sui Jingfeng wrote:
-> Hi,
+On Thu, Nov 16, 2023 at 01:05:52PM -0800, Abhinav Kumar wrote:
 > 
-> On 2023/11/17 17:03, Dmitry Baryshkov wrote:
->> On Fri, 17 Nov 2023 at 06:24, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
->>> Hi,
->>>
->>> On 2023/11/16 23:23, Dmitry Baryshkov wrote:
->>>>>>> Then you will need some way (fwnode?) to
->>>>>>> discover the bridge chain. And at the last point you will get into the
->>>>>>> device data and/or properties business.
->>>>>>>
->>>>>> No, leave that chance to a more better programmer and forgive me please,
->>>>>> too difficult, I'm afraid of not able to solve. Thanks a lot for the
->>>>>> trust!
->>>>   From my point of view: no.
->>>
->>> I respect the fact that the community prefer generic mechanisms.
->>> If our approach is not what the community want, can I switch back
->>> to my previous solution? I can reduce the duplication of our
->>> localized it66121 driver to a minimal, rewrite it until it meets
->>> the community's requirement. I know our device looks weird and
->>> our approach is not elegant. But at the very least, we could not
->>> mess the community's design up by localize. Otherwise, I don't know
->>> what is the better approach to solve such a problem.
->>>
->>> Can I switch back or any other ideas?
->> I keep on repeating: create the i2c device from your root device
->> driver, which parses BIOS data.
->>
-> This is not my own problems, currently it66121 (but not only) display bridge driver
-> don't works on X86 either. What we are trying to do is to provide a generic, non-platform
-> dependent solution. It is not only relevant to my driver. In fact, this series made
-> no assumption which hardware/display controller will be the user.
 > 
-> I have investigated before respin this patch, there are other hardwares which
-> ship the it66121 display bridge. For example, the Fresco Logic FL2000dx USB 3.0
-> to VGA display adapter[1][2]. Even the windows have a driver.
+> On 11/1/2023 12:23 PM, Abhinav Kumar wrote:
+> > 
+> > 
+> > On 10/13/2023 1:25 AM, Dan Carpenter wrote:
+> > > This NULL check was required when it was added, but we shuffled the code
+> > > around and now it's not.? The inconsistent NULL checking triggers a
+> > > Smatch warning:
+> > > 
+> > > ???? drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c:847 mdp5_init() warn:
+> > > ???? variable dereferenced before check 'mdp5_kms' (see line 782)
+> > > 
+> > > Fixes: 1f50db2f3e1e ("drm/msm/mdp5: move resource allocation to the
+> > > _probe function"
 > 
-> [1] https://github.com/FrescoLogic/FL2000
-> [2] https://oemdrivers.com/graphics-fresco-logic-fl2000
-
-Switching to fwnodes, registering an i2c bus and generating fwnode data matching the
-interconnect architecture is the way.
-
-DRM Bridge transition to fwnode only should be done first, this will open bridge
-to any architecture and device description (DT or ACPI).
-
-Neil
-
+> A small error here. Its missing the closing brace for the Fixes tag.
+> Checkpatch cries without it.
 > 
+
+Sorry.  I must have accidentally deleted it after I ran checkpatch.
+
+> I have fixed it while applying.
+
+Thanks!
+
+regards,
+dan carpenter
 
