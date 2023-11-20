@@ -2,52 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 124EF7F15BB
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 15:31:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB16F7F15DA
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Nov 2023 15:38:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C86110E3EA;
-	Mon, 20 Nov 2023 14:31:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 569B010E046;
+	Mon, 20 Nov 2023 14:38:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9DCB10E3E5;
- Mon, 20 Nov 2023 14:30:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700490659; x=1732026659;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=p6lc/Yg+JpINLljoOwVBcamQg6BYTNdq8G7Ol7M4H3M=;
- b=Sk8MYQT/ZWLDwoftkpMMv9R8D/vJUR8CD/aGIRqCMNrpY3hOGIZaF5Tz
- Rq8eeNy4l0VOk80e728Btu4azMUdAoF6Mo6W3QjN38z/XUMk6pw44i38h
- OqvpkenbNtdbSG6qrWEpwlekKcyOjzC/i7wIrj3PiCxupIce5jNNGLD1g
- mgxzDvIeAgs9UwhVl2zA1UvbYjm0/gjt60neKpc9qq/CiCmNj++NwXZjQ
- d/YwSu6ac/ddQ+nv8aH9Gg8YquYaJtvpKx2es2G32NILR/dj/eumLUx1M
- TqCa8XthzyWm9EY30tx7J422YVUHQMiScAXoniZmyyu/sjJ36ilxjInq2 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="422722763"
-X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; d="scan'208";a="422722763"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Nov 2023 06:30:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="759798576"
-X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; d="scan'208";a="759798576"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga007.jf.intel.com with SMTP; 20 Nov 2023 06:30:54 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 20 Nov 2023 16:30:53 +0200
-Date: Mon, 20 Nov 2023 16:30:53 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 0/4] drm/i915: Fix LUT rounding
-Message-ID: <ZVttnXE_P9xzXlZT@intel.com>
-References: <20231013131402.24072-1-ville.syrjala@linux.intel.com>
+X-Greylist: delayed 376 seconds by postgrey-1.36 at gabe;
+ Mon, 20 Nov 2023 14:38:31 UTC
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com
+ [95.215.58.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A241610E046
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Nov 2023 14:38:31 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+ t=1700490731;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9f2A7iG9QxlXfAhIGL2D+akxaRYV9pGj/jh0RBA7f6g=;
+ b=eXTUg62Ik8PLUvGO7KikQvTAi17nKie3zmKzUDBoMEk2ga6YJTT54Tjd9fZM8hrdqElBQ4
+ PNCG0CuwseA+UJ2MRXx1SbyNNOMxrIBE34jqYs28BsICDpe86GZ1824IfBZ/2hb2mFsx7R
+ Uidq3sIaMcDoYnaW3nMGUeT/Zy93B/jRKSKedNKrVt/EQgE+mD/v9HOfvUZ4igosvIYpCb
+ 6j3A6+7ObP+vWntzpGTxE3GE9DxGUfyOHDxNvYykR4PF6SuwpBtXgxnlfHtWNCMRgZW0qT
+ qaRVL1ffrLSwxwZLInfnFEOrxGq+UYUzFgcdDrjJh1Chl7x5Jw6QjDOHRT2RHw==
+From: Diederik de Haas <didi.debian@cknow.org>
+To: Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Tomasz Figa <tfiga@chromium.org>, linux-rockchip@lists.infradead.org,
+ Jonas Karlman <jonas@kwiboo.se>
+Subject: Re: [PATCH v2] drm/rockchip: vop: Fix color for RGB888/BGR888 format
+ on VOP full
+Date: Mon, 20 Nov 2023 15:31:59 +0100
+Message-ID: <4726930.fbnEVBQaF0@bagend>
+Organization: Connecting Knowledge
+In-Reply-To: <20231026191500.2994225-1-jonas@kwiboo.se>
+References: <20231026191500.2994225-1-jonas@kwiboo.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231013131402.24072-1-ville.syrjala@linux.intel.com>
-X-Patchwork-Hint: comment
+Content-Type: multipart/signed; boundary="nextPart2134285.SbVt0S7CNQ";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,36 +56,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
- dri-devel@lists.freedesktop.org
+Cc: Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Christopher Obbard <chris.obbard@collabora.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 13, 2023 at 04:13:58PM +0300, Ville Syrjala wrote:
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> 
-> The current LUT rounding is generating weird results. Adjust
-> it to follow the OpenGL int<->float conversion rules.
-> 
-> Ville Syrjälä (4):
->   drm: Fix color LUT rounding
-    ^
-I'd like to merge this via drm-intel-next as needs to match
-the rounding done in the readout path in i915.
+--nextPart2134285.SbVt0S7CNQ
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Diederik de Haas <didi.debian@cknow.org>
+Date: Mon, 20 Nov 2023 15:31:59 +0100
+Message-ID: <4726930.fbnEVBQaF0@bagend>
+Organization: Connecting Knowledge
+In-Reply-To: <20231026191500.2994225-1-jonas@kwiboo.se>
+References: <20231026191500.2994225-1-jonas@kwiboo.se>
+MIME-Version: 1.0
 
-Maarten,Maxime,Thomas can I get an ack for that?
-
->   drm/i915: Adjust LUT rounding rules
->   drm/i915: s/clamp()/min()/ in i965_lut_11p6_max_pack()
->   drm/i915: Fix glk+ degamma LUT conversions
+On Thursday, 26 October 2023 21:14:58 CET Jonas Karlman wrote:
+> Use of DRM_FORMAT_RGB888 and DRM_FORMAT_BGR888 on e.g. RK3288, RK3328
+> and RK3399 result in wrong colors being displayed.
 > 
->  drivers/gpu/drm/i915/display/intel_color.c | 70 +++++++++++-----------
->  include/drm/drm_color_mgmt.h               | 18 +++---
->  2 files changed, 42 insertions(+), 46 deletions(-)
+> The issue can be observed using modetest:
 > 
-> -- 
-> 2.41.0
+>   modetest -s <connector_id>@<crtc_id>:1920x1080-60@RG24
+>   modetest -s <connector_id>@<crtc_id>:1920x1080-60@BG24
 
--- 
-Ville Syrjälä
-Intel
+On my Rock64 (rk3328) I was able to see the problem without this patch and see 
+it displaying correctly with it, so 
+
+Tested-by: Diederik de Haas <didi.debian@cknow.org>
+--nextPart2134285.SbVt0S7CNQ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZVtt3wAKCRDXblvOeH7b
+bh3QAP9r8UfZ3jyDD/yp2jWUOlNzKz65zugAk67eVGxIULqbyAEAmtAgGSCuHdAN
+t0RCnpEig29n4OGCexugcrRCnSp09wE=
+=Aix3
+-----END PGP SIGNATURE-----
+
+--nextPart2134285.SbVt0S7CNQ--
+
+
+
