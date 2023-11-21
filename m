@@ -2,45 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269577F3048
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 15:07:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F27F7F31A7
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 15:52:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBF2610E4B2;
-	Tue, 21 Nov 2023 14:07:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D088F10E0FE;
+	Tue, 21 Nov 2023 14:52:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFE1410E4B2
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 14:07:32 +0000 (UTC)
-Received: from notapiano (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: nfraprado)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 45C1966072F6;
- Tue, 21 Nov 2023 14:07:28 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1700575651;
- bh=tOGWTmQJW/JANHeyGfQepL3uI6iHK1P8zxtRmtORk2o=;
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14D9C10E0FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 14:52:44 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 4FC25CE1BC6;
+ Tue, 21 Nov 2023 14:52:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 580D7C433C7;
+ Tue, 21 Nov 2023 14:52:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1700578360;
+ bh=dGYz6IxNOUY4NpvhlMLeIB3Xxc/hARJYIHJyki7wDHE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=C4syRfR21MGFLX1wH3nywSpQpCUGVfO1aI/4C99i7AxCnFTJB+cas+a+yAy/3lsL1
- ApnAIbNuyYVeDlg9mff0itSwKCOvUF+P1BOS/qrkMY0MrAaWs6EbPSdZbhmbn+kZg0
- NFXmAiDw5AU7uiAa0cmpJQWDp5O48pa7rGT+AdP85Q1ogWoW+tAID6+tpMmFafhJ4z
- H9ZkUeXDPVHO7kro8Nl95ff6G68TOkqGJmFUyoAFKxBgCoQkavB3XgfDC18kzxEt2t
- /v0H3r4k5++qjcZCJu7tdUFKbck/1sxl+MstUPYA0WWWnCBmwqFUDJy+kR99aQksNZ
- e/yyLWFgkmo0Q==
-Date: Tue, 21 Nov 2023 09:07:24 -0500
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH] drm/mediatek: dp: Add phy_mtk_dp module as pre-dependency
-Message-ID: <1de08400-8441-43b9-9104-395444bccc0e@notapiano>
-References: <20231120202837.396760-1-nfraprado@collabora.com>
- <8fd1affd-936d-415e-9f1f-b0415b68ddb6@collabora.com>
+ b=poue5VPWyYd+HrTAPC2kL1JwV02FvsHlUJ1z3W9FXk/U2czUqklkcawHdmmtSEsoY
+ IlPddu/gpJsZ1UpOPQIgrM7BkkvyXf2F3hIfHrb2U18/fsMMvTR4wCzYJDyNBuBtzP
+ SpQfWPT1cgV1qEShQyzt0KdJxLEsOUDx610rqzSQ=
+Date: Tue, 21 Nov 2023 15:12:23 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH 20/22] usb: fsl-mph-dr-of: mark fsl_usb2_mpc5121_init()
+ static
+Message-ID: <2023112114-cried-ramble-b3f9@gregkh>
+References: <20231108125843.3806765-1-arnd@kernel.org>
+ <20231108125843.3806765-21-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8fd1affd-936d-415e-9f1f-b0415b68ddb6@collabora.com>
+In-Reply-To: <20231108125843.3806765-21-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,57 +49,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Guillaume Ranquet <granquet@baylibre.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Markus Schneider-Pargmann <msp@baylibre.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Bo-Chen Chen <rex-bc.chen@mediatek.com>, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Mark Rutland <mark.rutland@arm.com>, Juri Lelli <juri.lelli@redhat.com>,
+ linux-fbdev@vger.kernel.org, x86@kernel.org, loongarch@lists.linux.dev,
+ linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, netdev@vger.kernel.org,
+ Guo Ren <guoren@kernel.org>,
+ Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+ Helge Deller <deller@gmx.de>, sparclinux@vger.kernel.org,
+ linux-riscv@lists.infradead.org, Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Nicolas Schier <nicolas@fjasle.eu>, linux-s390@vger.kernel.org,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, Masahiro Yamada <masahiroy@kernel.org>,
+ Huacai Chen <chenhuacai@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Greg Ungerer <gerg@linux-m68k.org>, linux-bcachefs@vger.kernel.org,
+ Ingo Molnar <mingo@redhat.com>, Vineet Gupta <vgupta@kernel.org>,
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Matt Turner <mattst88@gmail.com>,
+ linux-snps-arc@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
+ linux-kbuild@vger.kernel.org, Heiko Carstens <hca@linux.ibm.com>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Steven Rostedt <rostedt@goodmis.org>, Nathan Chancellor <nathan@kernel.org>,
+ linux-m68k@lists.linux-m68k.org, linux-csky@vger.kernel.org,
+ Nicholas Piggin <npiggin@gmail.com>, Andy Lutomirski <luto@kernel.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Michal Simek <monstr@monstr.eu>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ Timur Tabi <timur@kernel.org>, Geoff Levand <geoff@infradead.org>,
+ linuxppc-dev@lists.ozlabs.org, Kent Overstreet <kent.overstreet@linux.dev>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ Dinh Nguyen <dinguyen@kernel.org>, linux-usb@vger.kernel.org,
+ Palmer Dabbelt <palmer@dabbelt.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ linux-alpha@vger.kernel.org, linux-mtd@lists.infradead.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Woodhouse <dwmw2@infradead.org>, "David S. Miller" <davem@davemloft.net>,
+ Al Viro <viro@zeniv.linux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 21, 2023 at 11:59:14AM +0100, AngeloGioacchino Del Regno wrote:
-> Il 20/11/23 21:28, Nícolas F. R. A. Prado ha scritto:
-> > The mtk_dp driver registers a phy device which is handled by the
-> > phy_mtk_dp driver and assumes that the phy probe will complete
-> > synchronously, proceeding to make use of functionality exposed by that
-> > driver right away. This assumption however is false when the phy driver
-> > is built as a module, causing the mtk_dp driver to fail probe in this
-> > case.
-> > 
-> > Add the phy_mtk_dp module as a pre-dependency to the mtk_dp module to
-> > ensure the phy module has been loaded before the dp, so that the phy
-> > probe happens synchrounously and the mtk_dp driver can probe
-> > successfully even with the phy driver built as a module.
-> > 
+On Wed, Nov 08, 2023 at 01:58:41PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> You forgot a Suggested-by here :-P
+> This function is only called locally and should always have been static:
+> 
+> drivers/usb/host/fsl-mph-dr-of.c:291:5: error: no previous prototype for 'fsl_usb2_mpc5121_init' [-Werror=missing-prototypes]
+> 
+> Fixes: 230f7ede6c2f ("USB: add USB EHCI support for MPC5121 SoC")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Oops, sorry, I forgot that tag existed. Will send a v2 with it added :).
-
-> 
-> > Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver")
-> > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> 
-> It's fine anyway; being the best solution that we can use:
-> 
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> 
-> > 
-> > ---
-> > 
-> >   drivers/gpu/drm/mediatek/mtk_dp.c | 1 +
-> >   1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-> > index e4c16ba9902d..2136a596efa1 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_dp.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-> > @@ -2818,3 +2818,4 @@ MODULE_AUTHOR("Markus Schneider-Pargmann <msp@baylibre.com>");
-> >   MODULE_AUTHOR("Bo-Chen Chen <rex-bc.chen@mediatek.com>");
-> >   MODULE_DESCRIPTION("MediaTek DisplayPort Driver");
-> >   MODULE_LICENSE("GPL");
-> > +MODULE_SOFTDEP("pre: phy_mtk_dp");
-> 
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
