@@ -1,63 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8966B7F368A
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 19:53:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFB3F7F3690
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 19:56:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80C2B10E56A;
-	Tue, 21 Nov 2023 18:53:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B55E10E56D;
+	Tue, 21 Nov 2023 18:56:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
- [IPv6:2001:4860:4864:20::2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D62F10E2B8;
- Tue, 21 Nov 2023 18:53:08 +0000 (UTC)
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-1f938410f92so1377213fac.3; 
- Tue, 21 Nov 2023 10:53:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700592788; x=1701197588; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4MJviHtyv8L1V4pX3J+mGOhL9XRHlVW6pwIEatSbK/o=;
- b=UC0lk1hQA2KKAivYd/scbg6bJKs5bMzYrby6bBXieBzYUrhzi71X0/swBlmCWdcbaa
- qZyqpeJZ/pLyz1U643HEUmd2pW9E2W42DwIw+uDjWRXeaKIUMH/Ul1jkPUL3eRMTBUo8
- xbceE0Dah6MrZzXr44TohyD4zpl4qMJYTdaf3t8iOmN43rxZpj8BuLF57QN5XTzH8XxA
- 2Y0KBKhiWnXafU/tcy7ta9fAbnIXRMfztd/K8higOO/YNRiuwM0oo4tekTvn60nItltH
- lMCtfWr3yKyBltXu198E16VDqFU87KlG0V11Zr4/KttymJnxnQktQ7wWzoaxr/lEOq7N
- gwKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700592788; x=1701197588;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4MJviHtyv8L1V4pX3J+mGOhL9XRHlVW6pwIEatSbK/o=;
- b=sD0jX5iHDJegS7+3KVaBzKxCAU/Qwl5vr6mWyjhqzIc5+ViT1A/lVNFAPMw6NhnhaA
- YxBhwGcc3Xv5ooCYl1M6KlZY6Xu7o6RESCls9Qs2LQK9Rgo1WXPmBCQKbq6Bal/WG9hC
- YFLkKN5XLjTIXQAIfKJZIa7s7eNjNLQe3kAcM8ICSRx6NGYBF4uDI/uDVoqtVO9oPDFl
- 1MJKHaYFh+brMjtbL6ugqTA7XfK39Mb7nIOGO5QhsUJh7cU4rGmrZTbAWAD1Xu+H6eHr
- vJaCvT0/2WbIt8zRlia0X3xtD63INdfd/chVZ+lGudZ2eGSSc2Z1RC6BmYbXH2nB51sy
- T3lQ==
-X-Gm-Message-State: AOJu0YwAa7LJnrqpGyv90uzUkAphep0A90tSvuY9gnthQNWg0LKCICHA
- VISemNcDHX4m/1qFFl98B+Z3bQiIoWq7lIhOZsE=
-X-Google-Smtp-Source: AGHT+IE4CuBHJccxLbxl9uGN4mYz2Nq3566nDVcfvuXoHLGqjwkxWr/FWzsJgyhoRhGglObIvVU6uSnFU4vVZm9S4z0=
-X-Received: by 2002:a05:6870:bacf:b0:1f9:5155:b135 with SMTP id
- js15-20020a056870bacf00b001f95155b135mr187608oab.39.1700592787805; Tue, 21
- Nov 2023 10:53:07 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11F7310E56D;
+ Tue, 21 Nov 2023 18:55:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1700592958; x=1732128958;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Tj3vwYuDpFx4lFlKoBdx5Xerip99JWiKOJkbLomiMOA=;
+ b=FoexZ34vk6rhnxfLntQiEvcFMQ1oOvRUM3Z9WhwuAOLj4x1u5l/Pseau
+ OLDk86jvsPtoKAB2iP4tUJ0sikf/996jgYmrjvl1wBFOP5VdlniZk6oig
+ 0oiy3XQ3KXQCaDKEH2YahJFEdZmLRDwbfG1JyY6TJMQx2fnmoWyA/8Uo2
+ I+EPxLYwlCzr37mwgN82AI3uFRv2+l03sku77oFwgdU2rxf0V0KU0lVQV
+ i1P9e7YyXnvtQRhpl596fA5ZBFM/utpa8LD5/4dt9PBPGsiiK+cYGWCug
+ 6ojpQR8GCqUIT7EwnQPkr66yvy5/frBZhOsTwse50WZ1P67iDx48uVjwG A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="5033876"
+X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
+   d="scan'208";a="5033876"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2023 10:55:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="857407287"
+X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; d="scan'208";a="857407287"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by FMSMGA003.fm.intel.com with ESMTP; 21 Nov 2023 10:55:57 -0800
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 1/1] drm/i915/pxp: Add missing tag for Wa_14019159160
+Date: Tue, 21 Nov 2023 10:55:56 -0800
+Message-Id: <20231121185556.45770-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <20231121043621.9351-1-u202112078@hust.edu.cn>
- <bac617fe-6b23-411f-8dc9-c97cc84208f3@amd.com>
-In-Reply-To: <bac617fe-6b23-411f-8dc9-c97cc84208f3@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 21 Nov 2023 13:52:56 -0500
-Message-ID: <CADnq5_P-Wr8C75vueF_oEqfp+PB2rf8KcJE8z4Xtd84jLB96bA@mail.gmail.com>
-Subject: Re: [PATCH] gpu: display: remove unnecessary braces to fix coding
- style
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,62 +55,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hust-os-kernel-patches@googlegroups.com, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Leo Li <sunpeng.li@amd.com>, RutingZhang <u202112078@hust.edu.cn>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Dongliang Mu <dzm91@hust.edu.cn>,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Cc: John Harrison <john.c.harrison@Intel.com>, dri-devel@lists.freedesktop.org,
+ Alan Previn <alan.previn.teres.alexis@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 21, 2023 at 4:27=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 21.11.23 um 05:36 schrieb RutingZhang:
-> > checkpatch complains that:
-> >
-> > WARNING: braces {} are not necessary for single statement blocks
-> > +                if (pool->base.irqs !=3D NULL) {
-> > +                        dal_irq_service_destroy(&pool->base.irqs);
-> > +                }
-> >
-> > Fixed it by removing unnecessary braces to fix the coding style issue.
-> >
-> > Signed-off-by: RutingZhang <u202112078@hust.edu.cn>
-> > Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
->
-> Subject line prefix should be "drm/amdgpu".
->
-> Apart from this nit it looks good to me, but might be already fixed
-> internally.
+Add missing tag for "Wa_14019159160 - Case 2" (for existing
+PXP code that ensures run alone mode bit is set to allow
+PxP-decryption.
 
-Applied.  Thanks!
+Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_lrc.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Alex
+diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
+index 7c367ba8d9dc..c758fe4906a5 100644
+--- a/drivers/gpu/drm/i915/gt/intel_lrc.c
++++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+@@ -863,8 +863,10 @@ static bool ctx_needs_runalone(const struct intel_context *ce)
+ 	bool ctx_is_protected = false;
+ 
+ 	/*
++	 * Wa_140191591606 - Case 2: mtl
+ 	 * On MTL and newer platforms, protected contexts require setting
+-	 * the LRC run-alone bit or else the encryption will not happen.
++	 * the LRC run-alone bit or else the encryption/decryption will not happen.
++	 * NOTE: Case 2 only applies to PXP use-case of said workaround.
+ 	 */
+ 	if (GRAPHICS_VER_FULL(ce->engine->i915) >= IP_VER(12, 70) &&
+ 	    (ce->engine->class == COMPUTE_CLASS || ce->engine->class == RENDER_CLASS)) {
 
->
-> Regards,
-> Christian.
->
-> > ---
-> >   drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 3 +--
-> >   1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/dr=
-ivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-> > index 447de8492594..6835dbb733a2 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-> > @@ -713,9 +713,8 @@ static void dcn21_resource_destruct(struct dcn21_re=
-source_pool *pool)
-> >                       pool->base.hubps[i] =3D NULL;
-> >               }
-> >
-> > -             if (pool->base.irqs !=3D NULL) {
-> > +             if (pool->base.irqs !=3D NULL)
-> >                       dal_irq_service_destroy(&pool->base.irqs);
-> > -             }
-> >       }
-> >
-> >       for (i =3D 0; i < pool->base.res_cap->num_ddc; i++) {
->
+base-commit: dbdb47c227dc21b7bf98ada039bf42aac4b58b8b
+-- 
+2.39.0
+
