@@ -1,66 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87DC77F2E14
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 14:14:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73D0F7F2E4E
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 14:29:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8CF910E4A1;
-	Tue, 21 Nov 2023 13:14:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5353610E0B0;
+	Tue, 21 Nov 2023 13:29:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
- [IPv6:2607:f8b0:4864:20::112e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 797BE10E4A1
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 13:14:40 +0000 (UTC)
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-5cade8466f7so17284437b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 05:14:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700572479; x=1701177279; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=T1FVx31ny1UIsUYTN0FvTESgACbfkRrXqAtlZm7hdMQ=;
- b=Ytrx9fDQbzeFZzfCAlzvoksPAzE4pujlCc1lxp4IH2wlB6fECjWPS17f93i2GyIft3
- Msp0woGBKyGFT/Ycti97AztjpP5tSuD8tAFA6Id/XgcMgicLI3b7Mi3T2kB+2NCysyiI
- 3AOLQPxOIZdpV2COq/rU4lfRKtOsQPtvXrIyuchIKKPbj8uwtyErkfZHvHqJm1BLM8UB
- bxpmEDbY2Fw7fEyJlRjmAFuS4++7V+zuzdqaTTtIWL3Lr7gyCFphH/jOVfa83Vm+k7Lx
- 0EISZo9232cseNpDgahHDthkPm9SZjcfy27HYiIFksuPvCu/9qJBED5JJFCTL2ReGxZP
- zkHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700572479; x=1701177279;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=T1FVx31ny1UIsUYTN0FvTESgACbfkRrXqAtlZm7hdMQ=;
- b=CL475NKDvWvXMlE2AVZo4hLcDTMpIdWVqQyFssZrhhVW0xznqSmzrvLz4anezrJroO
- JgvgNVnCCgAGbfpwXHa8SAVsJpkqx3+CQI2qVmSAhtEZpEULYZdjXlF+H3pGarbpwDxQ
- pzoaVKJzTAirmfRhETfkIx0vUhwTL4MAgxi1ab417YDcydfe6hf6RNEBV2E0HsRWjQua
- YTqHDvIhKuDaAbQYRiE1WyUnr/TgUziCriDSkM19kJMRGC1TSVMQEr9WQgr6kOtkwsuI
- DS3glp67JzTzZS7m29DAQWrZEecWbmfg4R5f3EZvu8/06PSOwwNEDm6o8Kqx5ZEDkWlw
- kMZw==
-X-Gm-Message-State: AOJu0Yx4CYaWBQDhrT1lD4Z16sMqCTknIY/AkYcU8xsAC9nWoCg/Syms
- Oc0DA+QIPBAxBG9x7flm7kgRrkLT2wOzS9qhokD+kQ==
-X-Google-Smtp-Source: AGHT+IGdy0glLtv5dcrxHz/dOPuR1DdG5UQYfnJPpwRpz2KnBMCt7ft48fu4aJhKTM32UX2jKzQNfexAUsNEH1vJArE=
-X-Received: by 2002:a81:5342:0:b0:5c8:d81d:763d with SMTP id
- h63-20020a815342000000b005c8d81d763dmr7840991ywb.44.1700572479464; Tue, 21
- Nov 2023 05:14:39 -0800 (PST)
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
+ [157.90.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E045710E0B0
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 13:29:35 +0000 (UTC)
+Received: from [192.168.42.20] (p5b164862.dip0.t-ipconnect.de [91.22.72.98])
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by mail.tuxedocomputers.com (Postfix) with ESMTPSA id B65852FC01F9;
+ Tue, 21 Nov 2023 14:29:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+ s=default; t=1700573374;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oJvMBifarv+hJKntJue/VPuBCrrPqYvgBBAEq0tUgBQ=;
+ b=Yt0RXSrB8OTBqGx5lC1udvYoRk+uLncyJ6HykBuza5D5QHxSph0sgH15Zb4V4Uq6Yl7GiT
+ 17ChoLECQ+17MS3IN080yzOB8bageGcjIq5h8MWDWwWqA1L50jEY/SZPn/qkuzCEPKGcbQ
+ YGEgcmRpYLyQLZ1VbogozQIxsgZ3gOg=
+Authentication-Results: mail.tuxedocomputers.com;
+ auth=pass smtp.auth=wse@tuxedocomputers.com
+ smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+Date: Tue, 21 Nov 2023 14:29:33 +0100
 MIME-Version: 1.0
-References: <20231115141928.429688-1-dipamt1729@gmail.com>
- <CAA8EJprqnUGQxmj4Y=qttVuj0zJxdD9B6neHa6sPseLLETpk5A@mail.gmail.com>
- <CALHmwsoC5h7_w9OzpUS_-xM6x5WF5V-vFExLEf4y99b2eCcqGQ@mail.gmail.com>
- <CAA8EJpoyC=paF1ZuznXgJAkT1fne0RwYfqJh-cdz0WLt02i+bw@mail.gmail.com>
- <CAF6AEGtdKD6-xA+AeZDXuKc+k4MnP8Ba4-12hHxt00bXLhJ7Eg@mail.gmail.com>
-In-Reply-To: <CAF6AEGtdKD6-xA+AeZDXuKc+k4MnP8Ba4-12hHxt00bXLhJ7Eg@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 21 Nov 2023 15:14:28 +0200
-Message-ID: <CAA8EJprj7F_K1zxnGdz1ReLNMR2CiYfRxWHUmudTZC+qjKA+kA@mail.gmail.com>
-Subject: Re: [PATCH v2] Remove custom dumb_map_offset implementation in msm
- driver
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+Content-Language: en-US
+To: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+ Jani Nikula <jani.nikula@linux.intel.com>, jikos@kernel.org
+References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
+ <ZSe1GYLplZo5fsAe@duo.ucw.cz>
+ <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
+ <ZSf9QneKO/8IzWhd@duo.ucw.cz>
+ <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
+ <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
+ <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+ <ZSmg4tqXiYiX18K/@duo.ucw.cz>
+ <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+ <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+ <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+ <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,163 +66,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Dipam Turkar <dipamt1729@gmail.com>,
- sean@poorly.run, quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- marijn.suijten@somainline.org
+Cc: Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, linux-input@vger.kernel.org,
+ ojeda@kernel.org, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 21 Nov 2023 at 04:26, Rob Clark <robdclark@gmail.com> wrote:
+
+Am 21.11.23 um 13:20 schrieb Hans de Goede:
+> Hi Werner,
 >
-> On Wed, Nov 15, 2023 at 11:33=E2=80=AFAM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
-> >
-> > On Wed, 15 Nov 2023 at 20:46, Dipam Turkar <dipamt1729@gmail.com> wrote=
-:
-> > >
-> > > They are not outdated, my bad. I went through the locks' code and saw=
- that they have been updated. But they are probably not necessary here as m=
-ost of the drivers do not use any form of locking in their implementations.=
- The generic implementations drm_gem_dumb_map_offset() and drm_gem_ttm_dumb=
-_map_offset() do not have any locking mechanisms either.
-> >
-> > Excuse me, but this doesn't sound right to me. There are different
-> > drivers with different implementations. So either we'd need a good
-> > explanation of why it is not necessary, or this patch is NAKed.
+> On 11/21/23 12:33, Werner Sembach wrote:
+>> Hi,
+>>
+>> Am 20.11.23 um 21:52 schrieb Pavel Machek:
+>>> Hi!
+>>>
+>>>>>> So... a bit of rationale. The keyboard does not really fit into the
+>>>>>> LED subsystem; LEDs are expected to be independent ("hdd led") and not
+>>>>>> a matrix of them.
+>>>>> Makes sense.
+>>>>>
+>>>>>> We do see various strange displays these days -- they commonly have
+>>>>>> rounded corners and holes in them. I'm not sure how that's currently
+>>>>>> supported, but I believe it is reasonable to view keyboard as a
+>>>>>> display with slightly weird placing of pixels.
+>>>>>>
+>>>>>> Plus, I'd really like to play tetris on one of those :-).
+>>>>>>
+>>>>>> So, would presenting them as auxdisplay be acceptable? Or are there
+>>>>>> better options?
+>>>>> It sounds like a fair use case -- auxdisplay are typically simple
+>>>>> character-based or small graphical displays, e.g. 128x64, that may not
+>>>>> be a "main" / usual screen as typically understood, but the concept is
+>>>>> a bit fuzzy and we are a bit of a catch-all.
+>>>>>
+>>>>> And "keyboard backlight display with a pixel/color per-key" does not
+>>>>> sound like a "main" screen, and having some cute effects displayed
+>>>>> there are the kind of thing that one could do in the usual small
+>>>>> graphical ones too. :)
+>>>>>
+>>>>> But if somebody prefers to create new categories (or subcategories
+>>>>> within auxdisplay) to hold these, that could be nice too (in the
+>>>>> latter case, I would perhaps suggest reorganizing all of the existing
+>>>>> ones while at it).
+>>>> One could also reasonably make the argument that controlling the
+>>>> individual keyboard key backlights should be part of the input
+>>>> subsystem. It's not a display per se. (Unless you actually have small
+>>>> displays on the keycaps, and I think that's a thing too.)
+>>> While it would not be completely crazy to do that... I believe the
+>>> backlight is more of a display and less of a keyboard. Plus input
+>>> subystem is very far away from supporting this, and we had no input
+>>> from input people here.
+>>>
+>>> I don't think LED subsystem is right place for this, and I believe
+>>> auxdisplay makes slightly more sense than input.
+>>>
+>>> Unless someone steps up, I'd suggest Werner tries to implement this as
+>>> an auxdisplay. [And yes, this will not be simple task. RGB on LED is
+>>> different from RGB on display. But there are other LED displays, so
+>>> auxdisplay should handle this. Plus pixels are really funnily
+>>> shaped. But displays with missing pixels -- aka holes for camera --
+>>> are common in phones, and I believe we'll get variable pixel densities
+>>> -- less dense over camera -- too. So displays will have to deal with
+>>> these in the end.]
+>> Another idea I want to throw in the mix:
+>>
+>> Maybe the kernel is not the right place to implement this at all. RGB stuff is not at all standardized and every vendor is doing completely different interfaces, which does not fit the kernel userpsace apis desire to be uniformal and fixed. e.g. Auxdisplay might fit static setting of RGB values, but it does not fit the snake-effect mode, or the raindrops mode, or the 4-different-colors-in-the-edges-breathing-and-color-cycling mode.
+>>
+>> So my current idea: Implement these keyboards as a single zone RGB kbd_backlight in the leds interface to have something functional out of the box, but make it runtime disable-able if something like https://gitlab.com/CalcProgrammer1/OpenRGB wants to take over more fine granular control from userspace via hidraw.
+> That sounds like a good approach to me. We are seeing the same with game controllers where steam and wine/proton also sometimes use hidraw mode to get access to all the crazy^W interesting features.
 >
-> Digging a bit thru history, it looks like commit 0de23977cfeb
-> ("drm/gem: convert to new unified vma manager") made external locking
-> unnecessary, since the vma mgr already had it's own internal locking.
+> That would mean that all we need to standardize and the kernel <-> userspace API level is adding a standard way to disable the single zone RGB kbd_backlight support in the kernel.
 
-So, should we drop our own locking system?
+I would suggest a simple "enable" entry. Default is 1. When set to 0 the kernel 
+driver no longer does anything.
+
+Questions:
+
+- Should the driver try to reset the settings to boot default? Or just leave the 
+device in the current state? With the former I could see issues that they 
+keyboard is flashing when changing from kernelspace control to userspace 
+control. With the later the burden on bringing the device to a know state lies 
+with the userspace driver.
+
+- Should this be a optional entry that only shows up on drivers supporting it, 
+or could this implemented in a generic way affecting all current led entries?
+
+- I guess UPower integration for the userspace driver could be archived with 
+https://www.kernel.org/doc/html/latest/leds/uleds.html however this limited to 
+brightness atm, so when accent colors actually come to UPower this would also 
+need some expansion to be able to pass a preferred color to the userspace driver 
+(regardless of what that driver is then doing with that information).
+
+On a different note: This approach does currently not cover the older EC 
+controlled 3 zone keyboards from clevo. Here only the kernel has access access 
+to the device so the kernel driver has to expose all functionality somehow. 
+Should this be done by an arbitrarily designed platform device?
+
+Kind regards,
+
+Werner
 
 >
-> BR,
-> -R
+> Regards,
 >
-> > >
-> > > Thanks and regards
-> > > Dipam Turkar
-> > >
-> > > On Wed, Nov 15, 2023 at 8:37=E2=80=AFPM Dmitry Baryshkov <dmitry.bary=
-shkov@linaro.org> wrote:
-> > >>
-> > >> On Wed, 15 Nov 2023 at 16:30, Dipam Turkar <dipamt1729@gmail.com> wr=
-ote:
-> > >> >
-> > >> > Make msm use drm_gem_create_map_offset() instead of its custom
-> > >> > implementation for associating GEM object with a fake offset. Sinc=
-e,
-> > >> > we already have this generic implementation, we don't need the cus=
-tom
-> > >> > implementation and it is better to standardize the code for GEM ba=
-sed
-> > >> > drivers. This also removes the outdated locking leftovers.
-> > >>
-> > >> Why are they outdated?
-> > >>
-> > >> >
-> > >> > Signed-off-by: Dipam Turkar <dipamt1729@gmail.com>
-> > >> > ---
-> > >> >  drivers/gpu/drm/msm/msm_drv.c |  2 +-
-> > >> >  drivers/gpu/drm/msm/msm_gem.c | 21 ---------------------
-> > >> >  drivers/gpu/drm/msm/msm_gem.h |  2 --
-> > >> >  3 files changed, 1 insertion(+), 24 deletions(-)
-> > >> >
-> > >> > Changes in v2:
-> > >> > Modify commit message to include the absence of internal locking l=
-eftovers
-> > >> > around allocating a fake offset in msm_gem_mmap_offset() in the ge=
-neric
-> > >> > implementation drm_gem_create_map_offset().
-> > >> >
-> > >> > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/m=
-sm_drv.c
-> > >> > index a428951ee539..86a15992c717 100644
-> > >> > --- a/drivers/gpu/drm/msm/msm_drv.c
-> > >> > +++ b/drivers/gpu/drm/msm/msm_drv.c
-> > >> > @@ -1085,7 +1085,7 @@ static const struct drm_driver msm_driver =
-=3D {
-> > >> >         .open               =3D msm_open,
-> > >> >         .postclose          =3D msm_postclose,
-> > >> >         .dumb_create        =3D msm_gem_dumb_create,
-> > >> > -       .dumb_map_offset    =3D msm_gem_dumb_map_offset,
-> > >> > +       .dumb_map_offset    =3D drm_gem_dumb_map_offset,
-> > >> >         .gem_prime_import_sg_table =3D msm_gem_prime_import_sg_tab=
-le,
-> > >> >  #ifdef CONFIG_DEBUG_FS
-> > >> >         .debugfs_init       =3D msm_debugfs_init,
-> > >> > diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/m=
-sm_gem.c
-> > >> > index db1e748daa75..489694ef79cb 100644
-> > >> > --- a/drivers/gpu/drm/msm/msm_gem.c
-> > >> > +++ b/drivers/gpu/drm/msm/msm_gem.c
-> > >> > @@ -671,27 +671,6 @@ int msm_gem_dumb_create(struct drm_file *file=
-, struct drm_device *dev,
-> > >> >                         MSM_BO_SCANOUT | MSM_BO_WC, &args->handle,=
- "dumb");
-> > >> >  }
-> > >> >
-> > >> > -int msm_gem_dumb_map_offset(struct drm_file *file, struct drm_dev=
-ice *dev,
-> > >> > -               uint32_t handle, uint64_t *offset)
-> > >> > -{
-> > >> > -       struct drm_gem_object *obj;
-> > >> > -       int ret =3D 0;
-> > >> > -
-> > >> > -       /* GEM does all our handle to object mapping */
-> > >> > -       obj =3D drm_gem_object_lookup(file, handle);
-> > >> > -       if (obj =3D=3D NULL) {
-> > >> > -               ret =3D -ENOENT;
-> > >> > -               goto fail;
-> > >> > -       }
-> > >> > -
-> > >> > -       *offset =3D msm_gem_mmap_offset(obj);
-> > >> > -
-> > >> > -       drm_gem_object_put(obj);
-> > >> > -
-> > >> > -fail:
-> > >> > -       return ret;
-> > >> > -}
-> > >> > -
-> > >> >  static void *get_vaddr(struct drm_gem_object *obj, unsigned madv)
-> > >> >  {
-> > >> >         struct msm_gem_object *msm_obj =3D to_msm_bo(obj);
-> > >> > diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/m=
-sm_gem.h
-> > >> > index 8ddef5443140..dc74a0ef865d 100644
-> > >> > --- a/drivers/gpu/drm/msm/msm_gem.h
-> > >> > +++ b/drivers/gpu/drm/msm/msm_gem.h
-> > >> > @@ -139,8 +139,6 @@ struct page **msm_gem_pin_pages(struct drm_gem=
-_object *obj);
-> > >> >  void msm_gem_unpin_pages(struct drm_gem_object *obj);
-> > >> >  int msm_gem_dumb_create(struct drm_file *file, struct drm_device =
-*dev,
-> > >> >                 struct drm_mode_create_dumb *args);
-> > >> > -int msm_gem_dumb_map_offset(struct drm_file *file, struct drm_dev=
-ice *dev,
-> > >> > -               uint32_t handle, uint64_t *offset);
-> > >> >  void *msm_gem_get_vaddr_locked(struct drm_gem_object *obj);
-> > >> >  void *msm_gem_get_vaddr(struct drm_gem_object *obj);
-> > >> >  void *msm_gem_get_vaddr_active(struct drm_gem_object *obj);
-> > >> > --
-> > >> > 2.34.1
-> > >> >
-> > >>
-> > >>
-> > >> --
-> > >> With best wishes
-> > >> Dmitry
-> >
-> >
-> >
-> > --
-> > With best wishes
-> > Dmitry
-
-
-
---=20
-With best wishes
-Dmitry
+> Hans
+>
+>
