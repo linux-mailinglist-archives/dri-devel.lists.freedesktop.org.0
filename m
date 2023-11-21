@@ -2,116 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCC337F33DB
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 17:35:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C817F340C
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 17:41:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF5210E508;
-	Tue, 21 Nov 2023 16:35:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B004C10E50D;
+	Tue, 21 Nov 2023 16:41:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C37F910E508
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 16:35:36 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id
- 38308e7fff4ca-2c8769edd9fso39733021fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 08:35:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700584535; x=1701189335; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=F0Qc58VOhtQSFb6zH77rAvrOot3qoWr1Hqgr/cQJ/eg=;
- b=lUNJdjybeuy7bX/N/GgFz83RrfOuBY3IsToRKacBkXX826V5lkP/e3XlUA10qLImTJ
- buwjYoB22czfr0e+SXfNJNM0+RIo/rPndfKpfImgdH3rTFiw/YNFDWUteExJoKnM2Lux
- zpzuPT3di/y0M3OxfRDoSJxfSpiWXZUqrO4v/53DnFQdy/l9y1US8Tubg1owSSoCWdIv
- t30IXfEI+wmyPI8OL1pt6Vdt43M43wWmPJfM+JC1g+57pRWjRKtxNDiRcNvGrNsv11qs
- bNxEca/DVD46iOCikcMiy8i32km2DbmQHFfmnJ0AkWlYJqtu4gsti3nsAE0uW644rmE4
- 1VqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700584535; x=1701189335;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=F0Qc58VOhtQSFb6zH77rAvrOot3qoWr1Hqgr/cQJ/eg=;
- b=D5l0poBMzdGqee7dB8dfTAsDnNRfVQ/rD55goxKgeEyYVtumrGpZbuVxroyBFGqUnp
- FwV6QqaueugF/4iU0NBU20GQcox4TK030iSApfuY1TJRyydPmrQK4zTKwPYPhN9AZMw4
- hyQxoZAFlWt8dsFyqNQ/WNxxl4bmqYmQIZyK+9opGi0yvth9DxPcN/OZ18xQe4Tc/5Rw
- ekVm7VgcjIP1axv+eTQFaOc+mLcCAyEq3zQPFibx5lUvzgW31ReZb8FFiRRyREvsyGPb
- mgd9aPatA5b9wLEEpEs36ck3GnT2a89vTxAY9GzjslEB6d2GAb1JfOOzXNiR6GSAGKgh
- Rrfw==
-X-Gm-Message-State: AOJu0YxaCs0ZThdGuErp9Y2c/R50KflB+ANwnDKGUNXzgkevrKoCGBtZ
- hg5yQLiiUjxjVJb1NqJ2yDPGg+x09XWJ+Pn4kcE=
-X-Google-Smtp-Source: AGHT+IFovDezjZHG+3S3ZJllJwIhLh9fyfAyiCj86C8liDIgk3R+JsbXwgyyfN5jtQ7MeJXgiPmefg==
-X-Received: by 2002:a05:6512:3c81:b0:50a:aa0e:876f with SMTP id
- h1-20020a0565123c8100b0050aaa0e876fmr7583958lfv.53.1700584534875; 
- Tue, 21 Nov 2023 08:35:34 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.11])
- by smtp.gmail.com with ESMTPSA id
- n22-20020a170906b31600b009fc6ac28110sm3402780ejz.20.2023.11.21.08.35.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Nov 2023 08:35:34 -0800 (PST)
-Message-ID: <5ee44954-1ea8-4ab6-b308-d58b52bd5c87@linaro.org>
-Date: Tue, 21 Nov 2023 17:35:32 +0100
-MIME-Version: 1.0
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on20600.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe5b::600])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBC2F10E50D;
+ Tue, 21 Nov 2023 16:41:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FNcnMF2eX9P1w7rJbzEMVwjnC45XRLHABM8CmRA/G2IqBbk58divc+S+zJw6XQuuy8kiGMwgj61ySzS/LoODCEM0qnPB3mI4iJcgHmbabvycZRTMBvl0R7D6JmSx7mqG8P6qKL4WdVKY0YQtn4KNXH7CbLxg7LOIqzzRhu9xuZR0VimHSVigjIJ41Zh5w7eA2MVM/72N3UTCT/MoicJDENM61lzI0BH+o5cr/AV05U6as6+Jzc7JtUU6sI2kCoy/XD76gURMJs+dlQaCVd3dDf99/WiV1MjaI1lbZ1OUKNb/iR5zc/y9wjDd4oEGTDKaBzjP/irFPCa0yqXidKOgdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EVGM3ETCkkmMJBcNgPksQm10XmtucRdS/ZVrjj0v9VM=;
+ b=VO76zal78DEXgGm8yZVUTjn/xxESTnncB8g9M38JbQJ7thrJo31m2ta6E7N50eVjEHQJ0v4quJsb1O+VK5yj9pUwpxuKJ2bpMbNyL/1lhBszPlgugXKdGcj2leMq16Xopi3v/hRUkPthk1yz5+8N80NZnCrUHuX+RljOxK60Ipdn/OwDbMbripJU1PqmMNjejCrSMQ9UTYlilGlKAbE17acfuKXrJXicLZjyazLreMq+q34Y5mjO65cqw2sYb3EBWbJhIf5cwR8c/oOy5pgTR/O/8x+UGlCS23KseBGXRAiIwkuVat5l1Pm8z9b5AshE8aZ0dFSp3nBq6P09mAk4lA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EVGM3ETCkkmMJBcNgPksQm10XmtucRdS/ZVrjj0v9VM=;
+ b=M3I1L5Btm70mCq04ooWN+be4N0XGfvZp5xAuGSxJV8g6l4tIOmzahn0XDzPBtZXjUfxeFxstkOBzOYII3AMY9xYIvW0UAkgAOAE9ZflScFmHEeHtWTMBCp9jsyYZGY2dhSQAZzTmC8sOs7Pz0fVxI4NhV3V6r/TxKyRFvjSVB/E=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by CYXPR12MB9428.namprd12.prod.outlook.com (2603:10b6:930:d5::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.27; Tue, 21 Nov
+ 2023 16:41:30 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::7bfc:e32b:f362:60f3]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::7bfc:e32b:f362:60f3%5]) with mapi id 15.20.7002.026; Tue, 21 Nov 2023
+ 16:41:30 +0000
+Message-ID: <fe6549e8-12b7-4ccb-96d1-a01cfa39709c@amd.com>
+Date: Tue, 21 Nov 2023 11:41:28 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panfrost: Really power off GPU cores in
- panfrost_gpu_power_off()
+Subject: Re: [Bug 218168] New: amdgpu: kfd_topology.c warning: the frame size
+ of 1408 bytes is larger than 1024 bytes
 Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Steven Price <steven.price@arm.com>, boris.brezillon@collabora.com
-References: <20231102141507.73481-1-angelogioacchino.delregno@collabora.com>
- <7928524a-b581-483b-b1a1-6ffd719ce650@arm.com>
- <1c9838fb-7f2d-4752-b86a-95bcf504ac2f@linaro.org>
- <6b7a4669-7aef-41a7-8201-c2cfe401bc43@collabora.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <6b7a4669-7aef-41a7-8201-c2cfe401bc43@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Hamza Mahfooz <hamza.mahfooz@amd.com>, bugzilla-daemon@kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <bug-218168-2300@https.bugzilla.kernel.org/>
+ <22a0edcb-26fa-415a-a05a-e4d807e2b703@amd.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Organization: AMD Inc.
+In-Reply-To: <22a0edcb-26fa-415a-a05a-e4d807e2b703@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YQBPR01CA0005.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01::13)
+ To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|CYXPR12MB9428:EE_
+X-MS-Office365-Filtering-Correlation-Id: e579f691-753d-46e8-9398-08dbeab0b6d3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Q5ouKgW1WNzezU+ptvAQe9MDzGfQvuJPGe6oQOWFPVdG/xK2RDS8mETBji2cIsg5CeU0qQMgLqMdwCuqSdu7ky9WsrRIoBQBuf4MNTpokyXbe0uZi7DrZQiAhtEv5wuHn6ngFUFskNUxg1Ef38F+Dny+VkrFFYKbDeKrUPEtrDMtscTdmNMZexIipEhO9Ov5pS+TNdDR+iXIytqJrkrt/hArg513gDBqrRVbXZEqTasBQ1zPa+/QLAZ64+9yDYJqr1nCPcJLplKo4v0S0P/FVz2pXRhS36xspb5ww1xFfkpCprN06n7fYsOVFhVfOktFuOdHPQ17tOYDIMVaE7TU1zctnL0KZ8X8mnUetMtcHcw+Q/1y+AyqiaozyVNQ5WClv/b0aClI60OdLNdCYhI9Hek75OhMiBewqQtj0pUMyEenhjUWJmSJva0uoUg0a9a9SHD5zdGtCKIwQQG3RDuNIU3fbFtT34I2CN/r3cbH0XJYE42g3CofAIq7oiDUjAYcYOG/Kk4tp7/uG9J3NIsb7yuh0SXJ5xaA47LwzCGX38ZTh9CS9YOrPDCThAeSWJdtfiVIdr8VDZa9fbn3pSEdoSWrCoQys1DSDtxbSLSMbztSDGBQolHjwLWLMWEWglJerJn3TZdD11kt/NoZ0yYGyCETAHev+CgLAmNI+KpYaf6k/9IY1NIHBpwZi6hau2R9HjfVxLWIrABXUVcZjKafxw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(366004)(346002)(396003)(376002)(39860400002)(230273577357003)(230922051799003)(230173577357003)(1800799012)(451199024)(186009)(64100799003)(83380400001)(6506007)(478600001)(2616005)(53546011)(36916002)(6486002)(966005)(26005)(66574015)(316002)(31686004)(66556008)(66476007)(66946007)(6512007)(4326008)(8936002)(8676002)(38100700002)(44832011)(31696002)(5660300002)(2906002)(41300700001)(86362001)(36756003)(4001150100001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y1NGaVkxeGVCOS9rSWkxQXFDMnJycXJhSFpDRzFEb0EvdnNaQnlPaE1jd0wr?=
+ =?utf-8?B?QThKb2JtNi8wZ1NFU1o5QkhuWXB4LytyZGIwTzM0cklROEtEQm42SWRvUCts?=
+ =?utf-8?B?VEpsRmdoVmhFZGk1MERDano3Q2NEWnRkeWVzdVZmTm5HQUJnNXdOVUh2UnZN?=
+ =?utf-8?B?WU9NaUloNVgzcnZ4ZHRsNDMzYlJjSWpwTFI2KzZFWVJMVXdaVitUSXd5aTNL?=
+ =?utf-8?B?QW1UY3kxSFp1cDBMempTdHRjRXZGbkhyL0xnOEQ1MDJlbkU4Nng3T0VBTEJZ?=
+ =?utf-8?B?c0tHUEVuMnJMUGV3cGg0S2p2eTdlUnhCOW9mOThGQ3hhY0piMlYycUQ4anhq?=
+ =?utf-8?B?WE9KMTdNVS9iOGpRd29XVzhtS09NeDBYZHFMODloSWt4S0h1WnFNcXlQbWY0?=
+ =?utf-8?B?Y2MzRUxiVDFWenNMYW5DdmNRRTRlZVQ2UFdZR3M3bEE0ck5PdFRoU2FVNVFZ?=
+ =?utf-8?B?YmRRK3ZZUWlFS3B0MkVYa1ZvTENxUzNiUkVNWWczc25pRnowWXYyejVOVjJN?=
+ =?utf-8?B?OWtGdlpRTXZtK1dkZTFQcVYzL0w4Z0lyMG1rZnNob1VRc2tUY3ZQTGpOMjRF?=
+ =?utf-8?B?YmI1S3hXT0lYSHp2dWMxWXNDNHRHYVY0aGhEZVNUOXl1S2RNNXFSM1p0SDhJ?=
+ =?utf-8?B?bGdKZkpnTFMxRGtEWThYVk9MRWdRa0F4b0NuK1ljRlpScDZSWDFtSjdxQjVR?=
+ =?utf-8?B?clBFaTgwaGpLcUl5NXE5T3N4S1dTem5HV2lqNThZZS9TSXpJU3JvNVBRSC9u?=
+ =?utf-8?B?MWtRaXl2Zm1WR1RNSDlqZlhSRWl6OTFjVUdRY0tHdE8ydENtZEtEcVRwUVJv?=
+ =?utf-8?B?YWZOemNKL3R0SHRYdXQvaHZCUWdtOVV2bmNPcmVNcnVIaUllZSs1d29VMDh6?=
+ =?utf-8?B?bXNjOU9tNldMNXFaRHhUYlpsUm9yM1dCditxSnFFemZkY280TC9uVVF1cWVR?=
+ =?utf-8?B?UGZpckFrb0lvYmpGTnVNQThUQ3hiaEwvZlRneGZWV3RITVAyc0haUEdaLzZW?=
+ =?utf-8?B?SUdRdllZQlBMM3VIWE9RSDJGVmd4ZUhVcjdneHI5a2tBbiszYVpmR0VWQklM?=
+ =?utf-8?B?ZVpoZVZ6a1R6Y1FaRnJWMEhyQjQ4UEUwa1owZ05YNVMrYlh5NFJUTjg1MUx3?=
+ =?utf-8?B?YUJYUVI2cFdEdVJ3a0dkM3ZhMHB0c2tTLzJEclI3b1pNeDhTQTJFeFRiVG9Z?=
+ =?utf-8?B?VVQrcXg5Y3pWYkRuQ3VYai94YVk1eUU2UVBndWFkaURMNThpRlN2NEpONHk1?=
+ =?utf-8?B?OFBoUkwwckFHRXl6Q1JJdXFPUkpEaFAxQWg3NWVMbHZ0SEp4dFg5enBHK0RS?=
+ =?utf-8?B?azBiNlhDak9iZW81cmZxK3dLeUUwaXZxQ2RXRWZQdHpON3FQdGhkeU52Vm5r?=
+ =?utf-8?B?Q2x3UHM4U0JZSElLQ1hZZHB3S1VQTFNuQVlPYU8rbmRmaFJSVVB1NWZLZGJJ?=
+ =?utf-8?B?Q0tEenZrb1UzVTlqNFpDNFdwY2xVUWhPUmtyU053V1VvRyt4Yi9kSmNzaUFI?=
+ =?utf-8?B?VVZ5VEhmZUZrK3Y2SHlWSi9aZW0raE14K3lIVnNSRm0wdGZpRE1Hd0cvS2kz?=
+ =?utf-8?B?eVlTYnQyN0ZiTlVURER1aHlMK3ZONVoxQmpyaWxrSDNoUlV1ZmpuQlFiNFBx?=
+ =?utf-8?B?SzlGdHpSNHN6KzlVZWNYdnlCbnVxMTMrbmFDZHB3U1Fud1BLZURyTVRKWGlz?=
+ =?utf-8?B?MFdFNjl1MUVYaUVGbW5obGwwYnhLOUMya3RLWEZEeEZsR1EwSnQvSHFvZVpR?=
+ =?utf-8?B?SEd6ZDJiS3RHb2FaSFJDNmY5a3hwTlVubEJRVkVCZnlFSmFQc1NmUS9NTHNh?=
+ =?utf-8?B?aDFsMndMbDNBQThJSXcxSWZVODU1SHQwTUpRQzFQS2tQeDZxYUt6bklDQTc4?=
+ =?utf-8?B?MnpROXdCSVplMXN4TDg2TnQrckJvcnUzSGpnSWpscEFZWGNRTlg5TERKMzgz?=
+ =?utf-8?B?MnJFMmlNWFNPY0JpdEtBLzNxeldBWGxjQlMzUkt0Rm80OGNrNHd1dGVLVzEr?=
+ =?utf-8?B?UzcvWmFPZGxiekdJZXgrWmtGSXBaSkhIaFR3UTg0cDBMaHJNWXEwdm1wblps?=
+ =?utf-8?B?Uzk2TlBLaSt4M1BTcFZVY3M0clBtbG1QYm9ZRlJJay83Y3dVWXFlcDliK0FD?=
+ =?utf-8?Q?qVbkUgI2MMf/mE/MH1dxrSjxj?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e579f691-753d-46e8-9398-08dbeab0b6d3
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2023 16:41:30.7450 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: O9XalHvkzQkXeJaao0URKyjINnvnB9REqXvWouL/psXVqIS5wmlxCZXILDa/iAHg61zwfgRBMOaDl1pB0ci/4A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9428
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,115 +128,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, mripard@kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de, wenst@chromium.org,
- kernel@collabora.com, Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/11/2023 17:11, AngeloGioacchino Del Regno wrote:
-> Il 21/11/23 16:34, Krzysztof Kozlowski ha scritto:
->> On 08/11/2023 14:20, Steven Price wrote:
->>> On 02/11/2023 14:15, AngeloGioacchino Del Regno wrote:
->>>> The layout of the registers {TILER,SHADER,L2}_PWROFF_LO, used to request
->>>> powering off cores, is the same as the {TILER,SHADER,L2}_PWRON_LO ones:
->>>> this means that in order to request poweroff of cores, we are supposed
->>>> to write a bitmask of cores that should be powered off!
->>>> This means that the panfrost_gpu_power_off() function has always been
->>>> doing nothing.
->>>>
->>>> Fix powering off the GPU by writing a bitmask of the cores to poweroff
->>>> to the relevant PWROFF_LO registers and then check that the transition
->>>> (from ON to OFF) has finished by polling the relevant PWRTRANS_LO
->>>> registers.
->>>>
->>>> While at it, in order to avoid code duplication, move the core mask
->>>> logic from panfrost_gpu_power_on() to a new panfrost_get_core_mask()
->>>> function, used in both poweron and poweroff.
->>>>
->>>> Fixes: f3ba91228e8e ("drm/panfrost: Add initial panfrost driver")
->>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->>
->>
->> Hi,
->>
->> This commit was added to next recently but it causes "external abort on
->> non-linefetch" during boot of my Odroid HC1 board.
->>
->> At least bisect points to it.
->>
->> If fixed, please add:
->>
->> Reported-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>
->> [    4.861683] 8<--- cut here ---
->> [    4.863429] Unhandled fault: external abort on non-linefetch (0x1008) at 0xf0c8802c
->> [    4.871018] [f0c8802c] *pgd=433ed811, *pte=11800653, *ppte=11800453
->> ...
->> [    5.164010]  panfrost_gpu_irq_handler from __handle_irq_event_percpu+0xcc/0x31c
->> [    5.171276]  __handle_irq_event_percpu from handle_irq_event+0x38/0x80
->> [    5.177765]  handle_irq_event from handle_fasteoi_irq+0x9c/0x250
->> [    5.183743]  handle_fasteoi_irq from generic_handle_domain_irq+0x28/0x38
->> [    5.190417]  generic_handle_domain_irq from gic_handle_irq+0x88/0xa8
->> [    5.196741]  gic_handle_irq from generic_handle_arch_irq+0x34/0x44
->> [    5.202893]  generic_handle_arch_irq from __irq_svc+0x8c/0xd0
->>
->> Full log:
->> https://krzk.eu/#/builders/21/builds/4392/steps/11/logs/serial0
->>
-> 
-> Hey Krzysztof,
-> 
-> This is interesting. It might be about the cores that are missing from the partial
-> core_mask raising interrupts, but an external abort on non-linefetch is strange to
-> see here.
-> 
-> Would you be available for some tests?
-> 
-> I'm thinking to call power_off on all cores (all shaders, all tilers, all l2s),
-> regardless of what panfrost_get_core_mask() says, as it could be that your GPU
-> powers on the cores that are unused by Panfrost by default, and that then we never
-> turn them off, escalating to this issue.
-> 
-> If you can please please please test:
-> 
-> void panfrost_gpu_power_off(struct panfrost_device *pfdev)
-> {
-> 	u64 core_mask = panfrost_get_core_mask(pfdev);
-> 	int ret;
-> 	u32 val;
-> 
-> 	gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present);
-> 	gpu_write(pfdev, SHADER_PWROFF_HI, pfdev->features.shader_present >> 32);
-> 	ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_PWRTRANS_LO,
-> 					 val, !val, 1, 1000);
-> 	if (ret)
-> 		dev_err(pfdev->dev, "shader power transition timeout");
-> 
-> 	gpu_write(pfdev, TILER_PWROFF_LO, pfdev->features.tiler_present);
-> 	gpu_write(pfdev, TILER_PWROFF_HI, pfdev->features.tiler_present >> 32);
-> 	ret = readl_relaxed_poll_timeout(pfdev->iomem + TILER_PWRTRANS_LO,
-> 					 val, !val, 1, 1000);
-> 	if (ret)
-> 		dev_err(pfdev->dev, "tiler power transition timeout");
-> 
-> 	gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present);
-> 	ret = readl_poll_timeout(pfdev->iomem + L2_PWRTRANS_LO,
-> 					 val, !val, 0, 1000);
-> 	if (ret)
-> 		dev_err(pfdev->dev, "l2 power transition timeout");
-> 
-> 	gpu_write(pfdev, L2_PWROFF_HI, pfdev->features.l2_present >> 32);
-> 	ret = readl_poll_timeout(pfdev->iomem + L2_PWRTRANS_HI,
-> 					 val, !val, 0, 1000);
-> 	if (ret)
-> 		dev_err(pfdev->dev, "l2 power transition timeout");
-> }
-> 
+There are two patches that didn't make it into Linux 6.6 that reduce the 
+stack size in kfd_topology_add_device. Can you check if those fix the 
+problem?
 
-Send a diff please - against next or some other commit sha from next.
+commit aa5a9b2ccda2fa834fddb4bd30a2ab831598f551
+Author: Alex Deucher <alexander.deucher@amd.com>
+Date:   Tue Sep 26 12:00:23 2023 -0400
 
-Best regards,
-Krzysztof
+     drm/amdkfd: drop struct kfd_cu_info
+     
+     I think this was an abstraction back from when
+     kfd supported both radeon and amdgpu.  Since we just
+     support amdgpu now, there is no more need for this and
+     we can use the amdgpu structures directly.
+     
+     This also avoids having the kfd_cu_info structures on
+     the stack when inlining which can blow up the stack.
+     
+     Cc: Arnd Bergmann <arnd@kernel.org>
+     Acked-by: Arnd Bergmann <arnd@arndb.de>
+     Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+     Acked-by: Christian König <christian.koenig@amd.com>
+     Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 
+commit 1f3b515578a1d73926993629a06a7f3b60535b59
+Author: Alex Deucher <alexander.deucher@amd.com>
+Date:   Thu Sep 21 10:32:09 2023 -0400
+
+     drm/amdkfd: reduce stack size in kfd_topology_add_device()
+     
+     kfd_topology.c:2082:1: warning: the frame size of 1440 bytes is larger than 1024 bytes
+     
+     Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2866
+     Cc: Arnd Bergmann <arnd@kernel.org>
+     Acked-by: Arnd Bergmann <arnd@arndb.de>
+     Acked-by: Christian König <christian.koenig@amd.com>
+     Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+     Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+
+Regards,
+   Felix
+
+
+On 2023-11-20 10:36, Hamza Mahfooz wrote:
+> + amd-gfx
+> + Felix
+>
+> On 11/20/23 10:16, bugzilla-daemon@kernel.org wrote:
+>> https://bugzilla.kernel.org/show_bug.cgi?id=218168
+>>
+>>              Bug ID: 218168
+>>             Summary: amdgpu: kfd_topology.c warning: the frame size 
+>> of 1408
+>>                      bytes is larger than 1024 bytes
+>>             Product: Drivers
+>>             Version: 2.5
+>>            Hardware: All
+>>                  OS: Linux
+>>              Status: NEW
+>>            Severity: normal
+>>            Priority: P3
+>>           Component: Video(DRI - non Intel)
+>>            Assignee: drivers_video-dri@kernel-bugs.osdl.org
+>>            Reporter: bluesun654@gmail.com
+>>          Regression: No
+>>
+>> Trying to compile Linux 6.6.2 with GCC 13.2.1 and CONFIG_WERROR=y:
+>>
+>> [...]
+>> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c: In function
+>> 'kfd_topology_add_device':
+>> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:2082:1: error: 
+>> the frame
+>> size of 1408 bytes is larger than 1024 bytes 
+>> [-Werror=frame-larger-than=]
+>>   2082 | }
+>>        | ^
+>> cc1: all warnings being treated as errors
+>> [...]
+>>
