@@ -1,63 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C7347F3538
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 18:48:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F9C07F3569
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 18:57:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E310F10E54A;
-	Tue, 21 Nov 2023 17:48:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C86F10E54D;
+	Tue, 21 Nov 2023 17:57:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
- [IPv6:2607:f8b0:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E71810E54A
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 17:48:40 +0000 (UTC)
-Received: by mail-pg1-x529.google.com with SMTP id
- 41be03b00d2f7-53fbf2c42bfso4486083a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 09:48:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700588920; x=1701193720; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EAK/ItuSDRPVMNR15AwNhdUvFP+x071LcAQ3w3yTJs0=;
- b=k5Z2gHj8ALfkgx8Ol9UdknZQupCWVWRracF29KB1wwPyPBTuUTwYLJaVMtFXLuijEH
- tHHRGLzAnJ5n30MXlE/zd6rdyigCT7ReUftsx4YgXQ4FYE7fAZjOq4Kmjmtw40CzxDyZ
- pH7T4FTqH8moVdb3ci+qcOwYe6mSck0MJTu0UfaT4MD6JdnFEqFRpAZC6AwGJbtGQ93F
- L1KvnKP6cnGlPeBKAyllzvR8aTNEsBJuSK3/KUUFw73X9lzPJgxRAia+6qzvExfoZafr
- qUGuT/Wy7cz2Y4SNekoFmUcyjJOofIsQnAlwpQB2Ysf61e1NNI/Mrg6dHv/qtWXFKtmQ
- CM2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700588920; x=1701193720;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EAK/ItuSDRPVMNR15AwNhdUvFP+x071LcAQ3w3yTJs0=;
- b=WwFDaPkqqpW/+iAC38bjeV16FNVJMX4qpL8taMz+4LTq55IAQeQhXzuzMoqnh4JClA
- YZd8C8BR426ivdiXHvzbwA+f9im34U2QQPq67oL4AlUnGPkr9YajOVNOS7nfFdjqhSWH
- fzk8kC+9GA7/enZmq7bh72y9TfDIJ1ibvqschDBOgb13hbspnDcFgVrmwsHXNhKs8urN
- HsrEVb17th0ytElyYns0rgmL7mIKcZ/5cHjYL2gZ5V3lepR6+oCTIzz0+yCXNwXYQXsf
- ZM6MvvnC4DicJ6m4/mIHjkwNW3qJjOYQVMRmq0eI/8Q6FrsidR8BmHdOqUdctFg0LGZI
- GSCQ==
-X-Gm-Message-State: AOJu0YzFm6jO0qd9N8XDW2sSPj9ArkwHa11LzloKFIVZYv/N7/npI8BM
- /6CLcTa1/TLjZqdPBM+Y+IprSKKl2bmblEWMUBFaGg==
-X-Google-Smtp-Source: AGHT+IGsVYAziCjXoCBHiftycTLKlFRj+F3xZDSfXKxIguYqxWX7xqT/er/I16AqY0h4UFWzZ5qHqodRZyjJQpRXSA8=
-X-Received: by 2002:a05:6a20:4306:b0:187:5be4:67e2 with SMTP id
- h6-20020a056a20430600b001875be467e2mr16406256pzk.53.1700588920073; Tue, 21
- Nov 2023 09:48:40 -0800 (PST)
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2474910E54D;
+ Tue, 21 Nov 2023 17:57:47 +0000 (UTC)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1r5V0K-0006Bk-Gx; Tue, 21 Nov 2023 18:57:44 +0100
+Message-ID: <c1b0bc05-41ee-403c-a0c7-0a2fc0e6b0a8@leemhuis.info>
+Date: Tue, 21 Nov 2023 18:57:43 +0100
 MIME-Version: 1.0
-References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
- <20231108104343.24192-17-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20231108104343.24192-17-krzysztof.kozlowski@linaro.org>
-From: Sam Protsenko <semen.protsenko@linaro.org>
-Date: Tue, 21 Nov 2023 11:48:29 -0600
-Message-ID: <CAPLW+4nkrMwc9GiQyn7ojaPz_50NQ3vAcMt9+tOzpHfq7G7+Tg@mail.gmail.com>
-Subject: Re: [PATCH 16/17] arm64: dts: exynos850: add specific compatibles to
- several blocks
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] drm/msm/dp: attach the DP subconnector property
+Content-Language: en-US, de-DE
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Johan Hovold
+ <johan@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20231025092711.851168-1-dmitry.baryshkov@linaro.org>
+ <20231025092711.851168-3-dmitry.baryshkov@linaro.org>
+ <ZVR8Flrjxy-wgqgJ@hovoldconsulting.com>
+ <a35623df-6a8e-b398-a0b2-7f11b9ec4e5d@quicinc.com>
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+In-Reply-To: <a35623df-6a8e-b398-a0b2-7f11b9ec4e5d@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1700589467;
+ d106d9ee; 
+X-HE-SMSGID: 1r5V0K-0006Bk-Gx
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,211 +49,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-pwm@vger.kernel.org,
- linux-iio@vger.kernel.org, Tomasz Figa <tomasz.figa@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, linux-i2c@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Andi Shyti <andi.shyti@kernel.org>, linux-rtc@vger.kernel.org,
- Jiri Slaby <jirislaby@kernel.org>, Lee Jones <lee@kernel.org>,
- Jaehoon Chung <jh80.chung@samsung.com>, linux-samsung-soc@vger.kernel.org,
- linux-serial@vger.kernel.org,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- alsa-devel@alsa-project.org, Maxime Ripard <mripard@kernel.org>,
- linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Alessandro Zummo <a.zummo@towertech.it>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mmc@vger.kernel.org,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Cameron <jic23@kernel.org>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: Sean Paul <sean@poorly.run>,
+ Linux kernel regressions list <regressions@lists.linux.dev>,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Abel Vesa <abel.vesa@linaro.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 8, 2023 at 4:44=E2=80=AFAM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> Exynos850 reuses several devices from older designs, thus historically
-> we kept the old (block's) compatible only.  This works fine and there is
-> no bug here, however guidelines expressed in
-> Documentation/devicetree/bindings/writing-bindings.rst state that:
-> 1. Compatibles should be specific.
-> 2. We should add new compatibles in case of bugs or features.
->
-> Add compatibles specific to Exynos850 in front of all old-SoC-like
-> compatibles.  This will also help reviews of new code using existing
-> DTS as template.  No functional impact on Linux drivers behavior.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
+On 15.11.23 19:06, Abhinav Kumar wrote:
+> On 11/15/2023 12:06 AM, Johan Hovold wrote:
+>> On Wed, Oct 25, 2023 at 12:23:10PM +0300, Dmitry Baryshkov wrote:
+>>> While developing and testing the commit bfcc3d8f94f4 ("drm/msm/dp:
+>>> support setting the DP subconnector type") I had the patch [1] in my
+>>> tree. I haven't noticed that it was a dependency for the commit in
+>>> question. Mea culpa.
+>>
+>> This also broke boot on the Lenovo ThinkPad X13s.
+>>
+>> Would be nice to get this fixed ASAP so that further people don't have
+>> to debug this known regression.
+> 
+> I will queue this patch for -fixes rightaway.
 
-Reviewed-by: Sam Protsenko <semen.protsenko@linaro.org>
+Thx. I noticed that this fix is still not in -next. I then investigated
+and I found it was applied on Thursday last week here:
+https://gitlab.freedesktop.org/drm/msm/-/commits/msm-fixes?ref_type=heads
 
->  arch/arm64/boot/dts/exynos/exynos850.dtsi | 34 +++++++++++++----------
->  1 file changed, 20 insertions(+), 14 deletions(-)
->
-> diff --git a/arch/arm64/boot/dts/exynos/exynos850.dtsi b/arch/arm64/boot/=
-dts/exynos/exynos850.dtsi
-> index 53104e65b9c6..df5ea43ebcad 100644
-> --- a/arch/arm64/boot/dts/exynos/exynos850.dtsi
-> +++ b/arch/arm64/boot/dts/exynos/exynos850.dtsi
-> @@ -396,7 +396,7 @@ pinctrl_aud: pinctrl@14a60000 {
->                 };
->
->                 rtc: rtc@11a30000 {
-> -                       compatible =3D "samsung,s3c6410-rtc";
-> +                       compatible =3D "samsung,exynos850-rtc", "samsung,=
-s3c6410-rtc";
->                         reg =3D <0x11a30000 0x100>;
->                         interrupts =3D <GIC_SPI 57 IRQ_TYPE_LEVEL_HIGH>,
->                                      <GIC_SPI 58 IRQ_TYPE_LEVEL_HIGH>;
-> @@ -406,7 +406,8 @@ rtc: rtc@11a30000 {
->                 };
->
->                 mmc_0: mmc@12100000 {
-> -                       compatible =3D "samsung,exynos7-dw-mshc-smu";
-> +                       compatible =3D "samsung,exynos850-dw-mshc-smu",
-> +                                    "samsung,exynos7-dw-mshc-smu";
->                         reg =3D <0x12100000 0x2000>;
->                         interrupts =3D <GIC_SPI 452 IRQ_TYPE_LEVEL_HIGH>;
->                         #address-cells =3D <1>;
-> @@ -419,7 +420,7 @@ mmc_0: mmc@12100000 {
->                 };
->
->                 i2c_0: i2c@13830000 {
-> -                       compatible =3D "samsung,s3c2440-i2c";
-> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
-s3c2440-i2c";
->                         reg =3D <0x13830000 0x100>;
->                         interrupts =3D <GIC_SPI 196 IRQ_TYPE_LEVEL_HIGH>;
->                         #address-cells =3D <1>;
-> @@ -432,7 +433,7 @@ i2c_0: i2c@13830000 {
->                 };
->
->                 i2c_1: i2c@13840000 {
-> -                       compatible =3D "samsung,s3c2440-i2c";
-> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
-s3c2440-i2c";
->                         reg =3D <0x13840000 0x100>;
->                         interrupts =3D <GIC_SPI 197 IRQ_TYPE_LEVEL_HIGH>;
->                         #address-cells =3D <1>;
-> @@ -445,7 +446,7 @@ i2c_1: i2c@13840000 {
->                 };
->
->                 i2c_2: i2c@13850000 {
-> -                       compatible =3D "samsung,s3c2440-i2c";
-> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
-s3c2440-i2c";
->                         reg =3D <0x13850000 0x100>;
->                         interrupts =3D <GIC_SPI 198 IRQ_TYPE_LEVEL_HIGH>;
->                         #address-cells =3D <1>;
-> @@ -458,7 +459,7 @@ i2c_2: i2c@13850000 {
->                 };
->
->                 i2c_3: i2c@13860000 {
-> -                       compatible =3D "samsung,s3c2440-i2c";
-> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
-s3c2440-i2c";
->                         reg =3D <0x13860000 0x100>;
->                         interrupts =3D <GIC_SPI 199 IRQ_TYPE_LEVEL_HIGH>;
->                         #address-cells =3D <1>;
-> @@ -471,7 +472,7 @@ i2c_3: i2c@13860000 {
->                 };
->
->                 i2c_4: i2c@13870000 {
-> -                       compatible =3D "samsung,s3c2440-i2c";
-> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
-s3c2440-i2c";
->                         reg =3D <0x13870000 0x100>;
->                         interrupts =3D <GIC_SPI 200 IRQ_TYPE_LEVEL_HIGH>;
->                         #address-cells =3D <1>;
-> @@ -485,7 +486,7 @@ i2c_4: i2c@13870000 {
->
->                 /* I2C_5 (also called CAM_PMIC_I2C in TRM) */
->                 i2c_5: i2c@13880000 {
-> -                       compatible =3D "samsung,s3c2440-i2c";
-> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
-s3c2440-i2c";
->                         reg =3D <0x13880000 0x100>;
->                         interrupts =3D <GIC_SPI 201 IRQ_TYPE_LEVEL_HIGH>;
->                         #address-cells =3D <1>;
-> @@ -499,7 +500,7 @@ i2c_5: i2c@13880000 {
->
->                 /* I2C_6 (also called MOTOR_I2C in TRM) */
->                 i2c_6: i2c@13890000 {
-> -                       compatible =3D "samsung,s3c2440-i2c";
-> +                       compatible =3D "samsung,exynos850-i2c", "samsung,=
-s3c2440-i2c";
->                         reg =3D <0x13890000 0x100>;
->                         interrupts =3D <GIC_SPI 202 IRQ_TYPE_LEVEL_HIGH>;
->                         #address-cells =3D <1>;
-> @@ -640,7 +641,8 @@ usi_hsi2c_0: usi@138a00c0 {
->                         status =3D "disabled";
->
->                         hsi2c_0: i2c@138a0000 {
-> -                               compatible =3D "samsung,exynosautov9-hsi2=
-c";
-> +                               compatible =3D "samsung,exynos850-hsi2c",
-> +                                            "samsung,exynosautov9-hsi2c"=
-;
->                                 reg =3D <0x138a0000 0xc0>;
->                                 interrupts =3D <GIC_SPI 193 IRQ_TYPE_LEVE=
-L_HIGH>;
->                                 #address-cells =3D <1>;
-> @@ -668,7 +670,8 @@ usi_hsi2c_1: usi@138b00c0 {
->                         status =3D "disabled";
->
->                         hsi2c_1: i2c@138b0000 {
-> -                               compatible =3D "samsung,exynosautov9-hsi2=
-c";
-> +                               compatible =3D "samsung,exynos850-hsi2c",
-> +                                            "samsung,exynosautov9-hsi2c"=
-;
->                                 reg =3D <0x138b0000 0xc0>;
->                                 interrupts =3D <GIC_SPI 194 IRQ_TYPE_LEVE=
-L_HIGH>;
->                                 #address-cells =3D <1>;
-> @@ -696,7 +699,8 @@ usi_hsi2c_2: usi@138c00c0 {
->                         status =3D "disabled";
->
->                         hsi2c_2: i2c@138c0000 {
-> -                               compatible =3D "samsung,exynosautov9-hsi2=
-c";
-> +                               compatible =3D "samsung,exynos850-hsi2c",
-> +                                            "samsung,exynosautov9-hsi2c"=
-;
->                                 reg =3D <0x138c0000 0xc0>;
->                                 interrupts =3D <GIC_SPI 195 IRQ_TYPE_LEVE=
-L_HIGH>;
->                                 #address-cells =3D <1>;
-> @@ -738,7 +742,8 @@ usi_cmgp0: usi@11d000c0 {
->                         status =3D "disabled";
->
->                         hsi2c_3: i2c@11d00000 {
-> -                               compatible =3D "samsung,exynosautov9-hsi2=
-c";
-> +                               compatible =3D "samsung,exynos850-hsi2c",
-> +                                            "samsung,exynosautov9-hsi2c"=
-;
->                                 reg =3D <0x11d00000 0xc0>;
->                                 interrupts =3D <GIC_SPI 62 IRQ_TYPE_LEVEL=
-_HIGH>;
->                                 #address-cells =3D <1>;
-> @@ -778,7 +783,8 @@ usi_cmgp1: usi@11d200c0 {
->                         status =3D "disabled";
->
->                         hsi2c_4: i2c@11d20000 {
-> -                               compatible =3D "samsung,exynosautov9-hsi2=
-c";
-> +                               compatible =3D "samsung,exynos850-hsi2c",
-> +                                            "samsung,exynosautov9-hsi2c"=
-;
->                                 reg =3D <0x11d20000 0xc0>;
->                                 interrupts =3D <GIC_SPI 63 IRQ_TYPE_LEVEL=
-_HIGH>;
->                                 #address-cells =3D <1>;
-> --
-> 2.34.1
->
+Makes me wonder: when will that patch go to a branch that is included in
+-next? And when will it move on towards mainline?
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
+
+>>> Since the patch has not landed yet (and even was not reviewed)
+>>> and since one of the bridges erroneously uses USB connector type instead
+>>> of DP, attach the property directly from the MSM DP driver.
+>>>
+>>> This fixes the following oops on DP HPD event:
+>>>
+>>>   drm_object_property_set_value (drivers/gpu/drm/drm_mode_object.c:288)
+>>>   dp_display_process_hpd_high (drivers/gpu/drm/msm/dp/dp_display.c:402)
+>>>   dp_hpd_plug_handle.isra.0 (drivers/gpu/drm/msm/dp/dp_display.c:604)
+>>>   hpd_event_thread (drivers/gpu/drm/msm/dp/dp_display.c:1110)
+>>>   kthread (kernel/kthread.c:388)
+>>>   ret_from_fork (arch/arm64/kernel/entry.S:858)
+>>
+>> This only says where the oops happened, it doesn't necessarily in itself
+>> indicate an oops at all or that in this case it's a NULL pointer
+>> dereference.
+>>
+>> On the X13s I'm seeing the NULL deref in a different path during boot,
+>> and when this happens after a deferred probe (due to the panel lookup
+>> mess) it hangs the machine, which makes it a bit of a pain to debug:
+>>
+>>     Unable to handle kernel NULL pointer dereference at virtual
+>> address 0000000000000060
+>>     ...
+>>     CPU: 4 PID: 57 Comm: kworker/u16:1 Not tainted 6.7.0-rc1 #4
+>>     Hardware name: Qualcomm QRD, BIOS
+>> 6.0.220110.BOOT.MXF.1.1-00470-MAKENA-1 01/10/2022
+>>     ...
+>>     Call trace:
+>>      drm_object_property_set_value+0x0/0x88 [drm]
+>>      dp_display_process_hpd_high+0xa0/0x14c [msm]
+>>      dp_hpd_plug_handle.constprop.0.isra.0+0x90/0x110 [msm]
+>>      dp_bridge_atomic_enable+0x184/0x21c [msm]
+>>      edp_bridge_atomic_enable+0x60/0x94 [msm]
+>>      drm_atomic_bridge_chain_enable+0x54/0xc8 [drm]
+>>      drm_atomic_helper_commit_modeset_enables+0x194/0x26c
+>> [drm_kms_helper]
+>>      msm_atomic_commit_tail+0x204/0x804 [msm]
+>>      commit_tail+0xa4/0x18c [drm_kms_helper]
+>>      drm_atomic_helper_commit+0x19c/0x1b0 [drm_kms_helper]
+>>      drm_atomic_commit+0xa4/0x104 [drm]
+>>      drm_client_modeset_commit_atomic+0x22c/0x298 [drm]
+>>      drm_client_modeset_commit_locked+0x60/0x1c0 [drm]
+>>      drm_client_modeset_commit+0x30/0x58 [drm]
+>>      __drm_fb_helper_restore_fbdev_mode_unlocked+0xbc/0xfc
+>> [drm_kms_helper]
+>>      drm_fb_helper_set_par+0x30/0x4c [drm_kms_helper]
+>>      fbcon_init+0x224/0x49c
+>>      visual_init+0xb0/0x108
+>>      do_bind_con_driver.isra.0+0x19c/0x38c
+>>      do_take_over_console+0x140/0x1ec
+>>      do_fbcon_takeover+0x6c/0xe4
+>>      fbcon_fb_registered+0x180/0x1f0
+>>      register_framebuffer+0x19c/0x228
+>>      __drm_fb_helper_initial_config_and_unlock+0x2e8/0x4e8
+>> [drm_kms_helper]
+>>      drm_fb_helper_initial_config+0x3c/0x4c [drm_kms_helper]
+>>      msm_fbdev_client_hotplug+0x84/0xcc [msm]
+>>      drm_client_register+0x5c/0xa0 [drm]
+>>      msm_fbdev_setup+0x94/0x148 [msm]
+>>      msm_drm_bind+0x3d0/0x42c [msm]
+>>      try_to_bring_up_aggregate_device+0x1ec/0x2f4
+>>      __component_add+0xa8/0x194
+>>      component_add+0x14/0x20
+>>      dp_display_probe+0x278/0x41c [msm]
+>>
+>>> [1] https://patchwork.freedesktop.org/patch/555530/
+>>>
+>>> Fixes: bfcc3d8f94f4 ("drm/msm/dp: support setting the DP subconnector
+>>> type")
+>>> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>
+>> Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
+>> Tested-by: Johan Hovold <johan+linaro@kernel.org>
+>>
+> 
+> Thanks !
+> 
+>> Johan
