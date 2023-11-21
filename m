@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5DF7F3A6D
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 00:45:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD617F3A7B
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 00:50:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4117910E2DB;
-	Tue, 21 Nov 2023 23:45:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3052A10E5A9;
+	Tue, 21 Nov 2023 23:50:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com
- [IPv6:2607:f8b0:4864:20::1133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6B5210E2DB
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 23:45:40 +0000 (UTC)
-Received: by mail-yw1-x1133.google.com with SMTP id
- 00721157ae682-5c9ea2ec8deso31536897b3.0
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 15:45:40 -0800 (PST)
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
+ [IPv6:2607:f8b0:4864:20::b2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D3E110E5A9
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 23:50:14 +0000 (UTC)
+Received: by mail-yb1-xb2c.google.com with SMTP id
+ 3f1490d57ef6-daec4e4c5eeso5619532276.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 15:50:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700610340; x=1701215140; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1700610613; x=1701215413; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=g/nq/TjG7rk7+xffRTTuBE0xXTcJ6woqoDgmivDyuJU=;
- b=KEcds9gfG+ISAqxO0oPV6y6ikDpLK+Zask+q9h/XtyODCUgqCW8Sq7peBIT+QlEdhH
- QATy/F6s4cMDa+d95Umh69qiR3QJbyC3lxhZgtKGGtKDYX9cmvReDvB1LeQcsL9bFvKt
- 1C/mFmAgFuoa/h2l0xQHRNm5RiwObduD1Bh+wpjf4GTe40F0HYxrCFVrn+ug2WRm9xsa
- Gzj4LFjnxHddA3UySOue/o9e8NW8398kTLmlte2YmajyjXCfnsRugAYch8wJpDh6nVf6
- ZQXP9Do8JXeyMRPo7Vbso30dDVbRV54m9cBPg90aFn7nwkUeTpmNKFFdSSx8PI4qD1Ld
- OPNQ==
+ bh=/l06aWoK25tymroRAN5LfyNnos2Y6Vu7701TLiI0gjY=;
+ b=RaZi3haXWaXuYAuU3yGBmrNJdVXhaWY4nQWebL2qgXgoW4STmcdtPzZEUcSK8k96FW
+ jueVRrtkf/V2b37QoU1Zl1Br9HAVFh48T8miYU+dhqZyubTx+LbqKBY0UwcGee9rqOv6
+ NQLEo7sCTj582s2FAdBOMaKedfVhXQQ3j8MX2twjqI8bnu29s/P9fpSnfAE7XVc4t4H0
+ aEVk8ED6cuAdm9+scacRvCWMbrd4sfiuYAxyU7GTWCdhpH1SPSJAjo5Na0XDY3sqGPXP
+ S3qbQz5bbLV/G1Stk4dRTSfiqXCCmmN08jSilFrv2xZmRnYMWzIS/804EJ8lZ98/i2TX
+ M2gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700610340; x=1701215140;
+ d=1e100.net; s=20230601; t=1700610613; x=1701215413;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=g/nq/TjG7rk7+xffRTTuBE0xXTcJ6woqoDgmivDyuJU=;
- b=CRqp4JoGO2iYUII1cvNBENQXSUmf738vnHgDlctdyG4jlOXvEDYb3jORHD7Rmuk1I6
- mshzIhhDDlo/nTipd3Nc/sp+ltTV4mi0cYL1EyFfnMt1sqKkaI6rC5OE6mMzQyFkmUz0
- Yj+UT/qAGVpnEJQ03cp8ZHhxL1L4kHQcSogH+Acnv6amGpsmu+j4J8l7rYNVxoRsSz9+
- 0fSWO+Ke3QaONdpftUofd4Md8w4J2uZjIjdMZLmepWaXMOL9W7Tl5dC/6qMvB5Hks5hk
- Tpt/K6qvGCnitZ87KISikL+zB1XZOGKtFWQyF4GTtqjm9RRy0MeB1IIvfk+k5j5ao4ga
- 97Yg==
-X-Gm-Message-State: AOJu0Yx6OHQ3XCI5YKcR4ORked+1uZZhDfqDQ5b3zPmZjvwdlUrMnpJZ
- qMUDrLnwsJmpfzDaVEpILcQkb5oyfmQvSraUa/E=
-X-Google-Smtp-Source: AGHT+IEjEi3+lnREUELpm5SMBsO3Qg61OF291Hs70QV3a6TayvYJ13WtCdBT0H6J8bJeFx6RGEQI09H5FYOeJU2bkkw=
-X-Received: by 2002:a81:4e92:0:b0:5ca:18e9:8ef8 with SMTP id
- c140-20020a814e92000000b005ca18e98ef8mr619477ywb.28.1700610340028; Tue, 21
- Nov 2023 15:45:40 -0800 (PST)
+ bh=/l06aWoK25tymroRAN5LfyNnos2Y6Vu7701TLiI0gjY=;
+ b=e3eYA2RfYN2aT5NKOIlDLnS11LoyyG2MI2jjOwuu6QxHd19wXInDyj8TbM3+zhF4T2
+ g2L06qqf3EV4JsDWiBhus76UIoV5mQI7SygGPEwAk/Q0OWe2ltzW/GkXdR6uDjqlhXS2
+ dK+RvyS1WVtcL8bDa1fSlXcjRUrGd371AlRBO7hG7HGeRqsy3/qcYTNp3GM7a/WZwlkx
+ X6Gb6gL6an7hfIqurD1I3zV+TPZQDtkOfEOrBZfJjk+orYydkrWXXbXoNsjNFm+JytIU
+ SdPzQp2LINaUI/ZTvDddI8bGOTt8qHxg2zGCRBJhb5PhBTpaJdUVeDz6EDf2h8Ijl75g
+ yiNA==
+X-Gm-Message-State: AOJu0Yycm9UE3jnsD07s0K4ibz5nS1R+3UzKjR4JubnxMIo49SoJjiRJ
+ WUzxwblb6ADCSYAZRQs2GA1IPx9LHOkSxO3ORZQ=
+X-Google-Smtp-Source: AGHT+IEzzuDV7yVqOAYdb8QTA+Z2UBeO8W2J9fCl1SqDbEuSh3wlQ0jjreshbPUr2xeguit6WfU/uRSs5USbXzR8O9Y=
+X-Received: by 2002:a25:3489:0:b0:d0a:8973:b1c with SMTP id
+ b131-20020a253489000000b00d0a89730b1cmr508381yba.12.1700610613318; Tue, 21
+ Nov 2023 15:50:13 -0800 (PST)
 MIME-Version: 1.0
 References: <20231115102954.7102-1-tzimmermann@suse.de>
- <20231115102954.7102-11-tzimmermann@suse.de>
-In-Reply-To: <20231115102954.7102-11-tzimmermann@suse.de>
+ <20231115102954.7102-10-tzimmermann@suse.de>
+In-Reply-To: <20231115102954.7102-10-tzimmermann@suse.de>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 22 Nov 2023 00:45:29 +0100
-Message-ID: <CANiq72ndeK8etkQD-hM01ZdOP-tEBwf39xZBVzeLDF59rDSiYw@mail.gmail.com>
-Subject: Re: [PATCH 10/32] auxdisplay/ht16k33: Initialize fb_ops with fbdev
- macros
+Date: Wed, 22 Nov 2023 00:50:02 +0100
+Message-ID: <CANiq72m8=KMin6Hck1XouqC3bV3oBgBxj0Qb4HCXsOjgFdgKjA@mail.gmail.com>
+Subject: Re: [PATCH 09/32] auxdisplay/ht16k33: Set FBINFO_VIRTFB flag
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -79,21 +78,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Wed, Nov 15, 2023 at 11:30=E2=80=AFAM Thomas Zimmermann <tzimmermann@sus=
 e.de> wrote:
 >
-> Initialize the instance of struct fb_ops with fbdev initializer
-> macros for framebuffers in virtual address space. Set the read/write,
-> draw and mmap callbacks to the correct implementation and avoid
-> implicit defaults. Also select the necessary helpers in Kconfig.
->
-> Fbdev drivers sometimes rely on the callbacks being NULL for a
-> default I/O-memory-based implementation to be invoked; hence
-> requiring the I/O helpers to be built in any case. Setting all
-> callbacks in all drivers explicitly will allow to make the I/O
-> helpers optional. This benefits systems that do not use these
-> functions.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Miguel Ojeda <ojeda@kernel.org>
-> Cc: Robin van der Gracht <robin@protonic.nl>
+> +       fbdev->info->flags |=3D FBINFO_VIRTFB;
+
+Is the `|=3D` (instead of just `=3D`) used in case someone adds something
+to the flags before (e.g. `fb_bl_default_curve`) or due to some other
+reason? (One of the other patches uses `=3D`).
+
+In any case, if that is intended:
 
 Acked-by: Miguel Ojeda <ojeda@kernel.org>
 
