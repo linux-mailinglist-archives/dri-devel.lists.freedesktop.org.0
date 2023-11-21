@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22537F2828
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 09:55:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 203447F282C
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 09:56:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 863EF10E2B4;
-	Tue, 21 Nov 2023 08:55:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EFA110E2A5;
+	Tue, 21 Nov 2023 08:56:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEB1F10E2A8
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 08:55:19 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CC8710E2A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 08:56:37 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 9FFA62191A;
- Tue, 21 Nov 2023 08:55:18 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 23F411F8B4;
+ Tue, 21 Nov 2023 08:56:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1700556918; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1700556995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=CTV6ndlczfT4TlJVW1+NX9VdkkC3DHuxTE/CuAWfhZ4=;
- b=N0CQo+ssbxSG66oET4ARVDBrETRyffme/MZVQr9e1l+Oim1kU8BezitG9H4UL1ACcPcRNp
- u8zDzGg/EMA2E22NM+LLoV7Jr8wdkYK1HqaqPn6dXj2zYElkXzdk713bbPjL8u9ewleUfK
- T7uINjJGJl+5eSmn8RIgCsjPg5V/vIw=
+ bh=DuPJu93mgheSLNH9ndHuecTOXlSKZD3FjsakZM/Qfuo=;
+ b=YWWH4tFbsS7bpQuSxX0aGnIffCKrlCcLYr+kSYnsMApJHkmy0UEM08V43M0RVFGn5RFzJn
+ 7XuiHtkBadKXvD5En7ZzRBk0KtLBnPKWmVL0DBn1O78pYv9d+DneTMjq+GMTaOb5e8HkG5
+ HMSSdq22utxFveOaldS+XmDsyLE1Ob4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1700556918;
+ s=susede2_ed25519; t=1700556995;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=CTV6ndlczfT4TlJVW1+NX9VdkkC3DHuxTE/CuAWfhZ4=;
- b=iXxln9r7K38rUj482BTrF//AwDQfdeITZp5lP55Wk1VgqkB68ATJ46gQ1H1jc0RGmqXQ9J
- gaPdToViZXnnCCDw==
+ bh=DuPJu93mgheSLNH9ndHuecTOXlSKZD3FjsakZM/Qfuo=;
+ b=hBZJWKPHIVKF8iZZsurUScPkD0k3RZmBlfvc+cvUcxFuSqfN7THBvWLN4XFHZP0yVsqMqC
+ RDb6dH2fpFterkCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5684E139FD;
- Tue, 21 Nov 2023 08:55:18 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C91E5139FD;
+ Tue, 21 Nov 2023 08:56:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id yWMJE3ZwXGV+GAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 21 Nov 2023 08:55:18 +0000
-Message-ID: <3844e6e8-4c65-441a-ac57-a1d4e8635977@suse.de>
-Date: Tue, 21 Nov 2023 09:55:16 +0100
+ by imap2.suse-dmz.suse.de with ESMTPSA id UCjUHMJwXGV+GAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 21 Nov 2023 08:56:34 +0000
+Message-ID: <c24ff645-a160-4ac8-a7b6-7e94e657af0c@suse.de>
+Date: Tue, 21 Nov 2023 09:56:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ast: Disconnect BMC if physical connector is connected
+Subject: Re: [PATCH 11/32] hid/picolcd_fb: Set FBINFO_VIRTFB flag
 Content-Language: en-US
-To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch
-References: <20231116130217.22931-1-tzimmermann@suse.de>
- <f5780fd6-ebfd-4fa9-afa0-412775c820c7@redhat.com>
+To: Jiri Kosina <jikos@kernel.org>
+References: <20231115102954.7102-1-tzimmermann@suse.de>
+ <20231115102954.7102-12-tzimmermann@suse.de>
+ <nycvar.YFH.7.76.2311210942200.29220@cbobk.fhfr.pm>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -78,27 +78,28 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <f5780fd6-ebfd-4fa9-afa0-412775c820c7@redhat.com>
+In-Reply-To: <nycvar.YFH.7.76.2311210942200.29220@cbobk.fhfr.pm>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------YUs47jPZ45nWOKGUfnWbq4nX"
-Authentication-Results: smtp-out1.suse.de;
+ boundary="------------gIFdOBbi4JbF0AqBDZb0biuj"
+Authentication-Results: smtp-out2.suse.de;
 	none
 X-Spam-Level: 
-X-Spam-Score: -2.28
-X-Spamd-Result: default: False [-2.28 / 50.00]; ARC_NA(0.00)[];
+X-Spam-Score: -10.04
+X-Spamd-Result: default: False [-10.04 / 50.00]; ARC_NA(0.00)[];
  RCVD_VIA_SMTP_AUTH(0.00)[]; XM_UA_NO_VERSION(0.01)[];
  FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; BAYES_HAM(-2.81)[99.18%];
+ FREEMAIL_ENVRCPT(0.00)[gmx.de]; TO_MATCH_ENVRCPT_ALL(0.00)[];
  MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
- HAS_ATTACHMENT(0.00)[]; NEURAL_HAM_LONG(-1.00)[-0.999];
- MIME_BASE64_TEXT_BOGUS(1.00)[]; NEURAL_SPAM_SHORT(2.62)[0.874];
+ HAS_ATTACHMENT(0.00)[]; REPLY(-4.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_BASE64_TEXT(0.10)[]; RCPT_COUNT_SEVEN(0.00)[7];
+ NEURAL_HAM_SHORT(-0.20)[-0.998]; MIME_BASE64_TEXT(0.10)[];
+ RCPT_COUNT_SEVEN(0.00)[8]; BAYES_HAM(-2.75)[98.90%];
  SIGNED_PGP(-2.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
  FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
- RCVD_COUNT_TWO(0.00)[2]; RCVD_TLS_ALL(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]
+ FREEMAIL_CC(0.00)[gmx.de,redhat.com,vger.kernel.org,lists.freedesktop.org,linux-vserver.org];
+ RCVD_COUNT_TWO(0.00)[2]; RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -112,70 +113,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, deller@gmx.de, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Bruno_Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ linux-input@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------YUs47jPZ45nWOKGUfnWbq4nX
-Content-Type: multipart/mixed; boundary="------------u5m0gt0EADHsZT4L48Uh6c6V";
+--------------gIFdOBbi4JbF0AqBDZb0biuj
+Content-Type: multipart/mixed; boundary="------------KkxOZwBlmkh8nGhHWYz63qGD";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch
-Cc: stable@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <3844e6e8-4c65-441a-ac57-a1d4e8635977@suse.de>
-Subject: Re: [PATCH] drm/ast: Disconnect BMC if physical connector is
- connected
-References: <20231116130217.22931-1-tzimmermann@suse.de>
- <f5780fd6-ebfd-4fa9-afa0-412775c820c7@redhat.com>
-In-Reply-To: <f5780fd6-ebfd-4fa9-afa0-412775c820c7@redhat.com>
+To: Jiri Kosina <jikos@kernel.org>
+Cc: deller@gmx.de, javierm@redhat.com, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, =?UTF-8?Q?Bruno_Pr=C3=A9mont?=
+ <bonbons@linux-vserver.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ linux-input@vger.kernel.org
+Message-ID: <c24ff645-a160-4ac8-a7b6-7e94e657af0c@suse.de>
+Subject: Re: [PATCH 11/32] hid/picolcd_fb: Set FBINFO_VIRTFB flag
+References: <20231115102954.7102-1-tzimmermann@suse.de>
+ <20231115102954.7102-12-tzimmermann@suse.de>
+ <nycvar.YFH.7.76.2311210942200.29220@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.2311210942200.29220@cbobk.fhfr.pm>
 
---------------u5m0gt0EADHsZT4L48Uh6c6V
+--------------KkxOZwBlmkh8nGhHWYz63qGD
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: base64
 
-SGkNCg0KQW0gMTYuMTEuMjMgdW0gMTQ6NDMgc2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+
-IE9uIDE2LzExLzIwMjMgMTQ6MDIsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gTWFu
-eSB1c2VyLXNwYWNlIGNvbXBvc2l0b3JzIGZhaWwgd2l0aCBtb2RlIHNldHRpbmcgaWYgYSBD
-UlRDIGhhcw0KPj4gbW9yZSB0aGFuIG9uZSBjb25uZWN0ZWQgY29ubmVjdG9yLiBUaGlzIGlz
-IHRoZSBjYXNlIHdpdGggdGhlIEJNQw0KPj4gb24gQXNwZWVkIHN5c3RlbXMuIFdvcmsgYXJv
-dW5kIHRoaXMgcHJvYmxlbSBieSBzZXR0aW5nIHRoZSBCTUMncw0KPj4gY29ubmVjdG9yIHN0
-YXR1cyB0byBkaXNjb25uZWN0ZWQgd2hlbiB0aGUgcGh5c2ljYWwgY29ubmVjdG9yIGhhcw0K
-Pj4gYSBkaXNwbGF5IGF0dGFjaGVkLiBUaGlzIHdheSBjb21wb3NpdG9ycyB3aWxsIG9ubHkg
-c2VlIG9uZSBjb25uZWN0ZWQNCj4+IGNvbm5lY3RvciBhdCBhIHRpbWU7IGVpdGhlciB0aGUg
-cGh5c2ljYWwgb25lIG9yIHRoZSBCTUMuDQo+IA0KPiANCj4gVGhhbmtzIGZvciB0aGUgcGF0
-Y2guDQo+IEkgY2FuJ3QgdGVzdCBpdCBiZWNhdXNlIEkgZG9uJ3QgaGF2ZSBwaHlzaWNhbCBh
-Y2Nlc3MgdG8gYSBtYWNoaW5lIHdpdGggDQo+IGFzcGVlZCBHUFUsIGJ1dCBpdCBsb29rcyBn
-b29kIHRvIG1lLg0KPiANCj4gUmV2aWV3ZWQtYnk6IEpvY2VseW4gRmFsZW1wZSA8amZhbGVt
-cGVAcmVkaGF0LmNvbT4NCj4gDQoNClRoYW5rcy4gVGhlIHBhdGNoIGlzIG5vdyBpbiBkcm0t
-bWlzYy1maXhlcy4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KLS0gDQpUaG9tYXMgWmlt
-bWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1
-dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVy
-ZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25h
-bGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
+SGkNCg0KQW0gMjEuMTEuMjMgdW0gMDk6NDIgc2NocmllYiBKaXJpIEtvc2luYToNCj4gT24g
+V2VkLCAxNSBOb3YgMjAyMywgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6DQo+IA0KPj4gVGhl
+IHBpY29sY2RfZmIgZHJpdmVyIG9wZXJhdGVzIG9uIHN5c3RlbSBtZW1vcnkuIE1hcmsgdGhl
+IGZyYW1lYnVmZmVyDQo+PiBhY2NvcmRpbmdseS4gSGVscGVycyBvcGVyYXRpbmcgb24gdGhl
+IGZyYW1lYnVmZmVyIG1lbW9yeSB3aWxsIHRlc3QNCj4+IGZvciB0aGUgcHJlc2VuY2Ugb2Yg
+dGhpcyBmbGFnLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0
+emltbWVybWFubkBzdXNlLmRlPg0KPj4gQ2M6ICJCcnVubyBQcsOpbW9udCIgPGJvbmJvbnNA
+bGludXgtdnNlcnZlci5vcmc+DQo+PiBDYzogSmlyaSBLb3NpbmEgPGppa29zQGtlcm5lbC5v
+cmc+DQo+PiBDYzogQmVuamFtaW4gVGlzc29pcmVzIDxiZW5qYW1pbi50aXNzb2lyZXNAcmVk
+aGF0LmNvbT4NCj4+IENjOiBsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmcNCj4gDQo+IEFj
+a2VkLWJ5OiBKaXJpIEtvc2luYSA8amtvc2luYUBzdXNlLmN6Pg0KPiANCj4gSSBndWVzcyB0
+aGlzIHdpbGwgZ28gaW4gYXMgb25lIHNlcmllcyB0b2dldGhlciwgcmlnaHQ/DQoNClllcy4g
+SSBpbnRlbmQgdG8gbW92ZSBhbGwgdGhpcyB0aHJvdWdoIHRoZSBEUk0gdHJlZXMuDQoNCkJl
+c3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdy
+YXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1h
+bnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkN
+CkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVu
+IE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
---------------u5m0gt0EADHsZT4L48Uh6c6V--
+--------------KkxOZwBlmkh8nGhHWYz63qGD--
 
---------------YUs47jPZ45nWOKGUfnWbq4nX
+--------------gIFdOBbi4JbF0AqBDZb0biuj
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVccHUFAwAAAAAACgkQlh/E3EQov+Cn
-1xAAq/maC4DethDUl/4oXf3sIxF4b68a+/axx2CUkrP8YVl8KipFRMJqPN2swv2fW57j4Vg3M+oq
-PsvBJ48mg3Gkpxcmd6qgyVEYqwJU5MUXu0zINta+ydMw15QTjVCmfJGmCfCIhV+7tuZPOtubAgd6
-hv/0wOasOyEnGeGSJp5ONfdAQdV47mCMVbPxudeh4yjHF0ppHs5WReFijTAXmoHRHTs0BNcawhzb
-kd0XNpbF1HZLoP1N0h00qofHMUg/hP4iI5Qz7Hxhs9tz8c/ykmp6huEmpiXAEFINy5qOv+O99jls
-qXkSfkyyntVT0eW8yDKbsRzmfcXp++r7+KgBeBF6WIn6uzI9v+BMYS22zWmQZzIW10b6T55Ykg6r
-P1pThRamh3b2sJu7wCIbZGpneUABuLptC/ZnXes5xQUGLOo6UIvwkLkyk+WEy7KqPCyCdZrmAG0J
-ADWsCncUe2Ll607VaHQjjhDaYgi2QKD82MK0ptEEsS46BT/ZNRmKg4syAbOwKXLHGlM5I9fSuP68
-DpyOp+OrwpIeCoWTValhKl8UQwtCmaV4MelUyrKJwRXeHl3e4yugKbNl72HVHkTe23w1bFsRCNUR
-o5sdxOpEZBqlULbIXMWJQMfVbUffR7AuW9WJ6rOLYGHlLT1hBcXv7CgOB8c5h0iX1tBm7NkmdAHB
-Er4=
-=uOmK
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVccMEFAwAAAAAACgkQlh/E3EQov+BQ
+ShAAs9V17y1wTozgqL3e9IODe3yCmT2qpqTmMFmdprH/4JytmSLztP6o7ekphY+MB60rrU55RmjJ
+iiLNS1fdmHEP/yX7+R/kX94EXmY+D8WaceG+lVjgI4vKuWqqAQhZNcd+EHBgz7t1b8ToY0gUZSQH
+SeHUhSAyDXsDESmD+xE1jUEAbtC3zrQj+z+8ve3Smi2hXG7NduqHigQJaHR1dzzj6ZSPJtBexqYk
+Hw5z+p1+ujzS0HJ8P9hF8Iqit1bcjDG7aroP1SZdD3sxLw7l7GSsWuWSOzvYOs+kpUR8TDDivyk7
+fi86ky3+bWwaI42EbEQZ5HDKKtw9Uk1ANmKf3XCk8Axz0exLY5L+UApmHfed/7QNngFXRiMWgZnR
+RDF8Zq5lJWeXdtSY4xTyWrKikkW9vOkQs1j+fxfbz1vmyoRo6/u2nb1Xjixue8fKdZPKq6VyYPJf
+HHOHQtELHGnBVdndf3gVQKOsr0x78FxcndTzA4FLHlWbS+czlxBbkfLYzi9g4uipiud/l+CQgNo0
+cjpQlss5JqRI++xizrDXBnWVGWSyT19r9yk8dCqkI5dgrbEzvOW+wMrfMyJuospZXEfkzwrg7YeB
+4jCoh9A4YGUUSgjlWXJ1pHMTM/4KDpuo6vSnYNGka7Ar2H48n2GpVFZxwwb9LCrEco8JvtqXrOik
+ov4=
+=TD8O
 -----END PGP SIGNATURE-----
 
---------------YUs47jPZ45nWOKGUfnWbq4nX--
+--------------gIFdOBbi4JbF0AqBDZb0biuj--
