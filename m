@@ -2,48 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 842C27F315A
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 15:44:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AB377F3232
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 16:19:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD6910E4CF;
-	Tue, 21 Nov 2023 14:44:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABDEB10E4E2;
+	Tue, 21 Nov 2023 15:19:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAB9510E4C3
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 14:44:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3C1DB61962;
- Tue, 21 Nov 2023 14:44:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C80F3C433C7;
- Tue, 21 Nov 2023 14:44:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700577858;
- bh=i4k9JATCdARgpGIsnHRdPJazvwXg7FUJt9BeVRU1bpE=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=tyY22s12GfB+H/yBT0ENPS7IZmDxag0iY/ghg3pIXF2vP+qWmgTxyhsGfijaaBOkX
- rHfGRKquiqoPqyT00HZOPy3G6oWeyYJ1qvzoCFycdC2rEaeeU5KEvc7c3qx5IJy9M9
- 69FWxR1J2b9QFxveDp99y51TPdaztY+VyrEDI6EcnvJkiYTVx7PZBiTgdl2qKvIl7p
- vctT6tpXYnu22hv4gfl8vJ6Srx/GSVyQ5Wydcvfb40LugS8KnpE0r1hI8xYTteTWhJ
- rIe3SSN3EEYBoXdRs1JSNfqKGcEQvGNHgP1kTcXTUpPy+4vn8wAtOhC3127DhOT5pv
- v3xBP99CTS8jw==
+X-Greylist: delayed 573 seconds by postgrey-1.36 at gabe;
+ Tue, 21 Nov 2023 15:19:02 UTC
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A4AC10E4E2
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 15:19:02 +0000 (UTC)
+Received: from [10.0.3.168] (unknown [93.240.169.83])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: pmenzel)
+ by mx.molgen.mpg.de (Postfix) with ESMTPSA id 5A56061E5FE01;
+ Tue, 21 Nov 2023 16:08:56 +0100 (CET)
+Message-ID: <c9e3a8f1-d053-4203-a364-0d0703fafd19@molgen.mpg.de>
+Date: Tue, 21 Nov 2023 16:08:54 +0100
 MIME-Version: 1.0
-Date: Tue, 21 Nov 2023 15:44:13 +0100
-From: Michael Walle <mwalle@kernel.org>
-To: =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?=
- <nfraprado@collabora.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v4 2/2] drm/mediatek: dpi/dsi: fix possible_crtcs
- calculation
-In-Reply-To: <20230905084922.3908121-2-mwalle@kernel.org>
-References: <20230905084922.3908121-1-mwalle@kernel.org>
- <20230905084922.3908121-2-mwalle@kernel.org>
-Message-ID: <93576c3b04c8378c5c9296ec7a6585d9@kernel.org>
-X-Sender: mwalle@kernel.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Powered off Philips TV sends corrupt EDID causing flickering
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,223 +43,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jitao Shi <jitao.shi@mediatek.com>,
- Frank Wunderlich <frank-w@public-files.de>,
- "Jason-JH.Lin" <jason-jh.lin@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "Nancy . Lin" <nancy.lin@mediatek.com>,
- linux-mediatek@lists.infradead.org, Stu Hsieh <stu.hsieh@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Dear Linux folks,
 
-> mtk_drm_find_possible_crtc_by_comp() assumed that the main path will
-> always have the CRTC with id 0, the ext id 1 and the third id 2. This
-> is only true if the paths are all available. But paths are optional 
-> (see
-> also comment in mtk_drm_kms_init()), e.g. the main path might not be
-> enabled or available at all. Then the CRTC IDs will shift one up, e.g.
-> ext will be 0 and the third path will be 1.
-> 
-> To fix that, dynamically calculate the IDs by the presence of the 
-> paths.
-> 
-> While at it, make the return code a signed one and return -ENOENT if no
-> path is found and handle the error in the callers.
-> 
-> Fixes: 5aa8e7647676 ("drm/mediatek: dpi/dsi: Change the getting 
-> possible_crtc way")
-> Suggested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> Signed-off-by: Michael Walle <mwalle@kernel.org>
-> Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-Is there anything wrong with these two patches? They are now lingering
-around for more than two months.
+Connecting a USB Type-C port replicator [1] to the only USB Type-C port 
+of the Dell XPS 13 9360 with Debian sid/unstable and Debian’s Linux 
+kernel 6.10.5, and then connecting a Philips 40PFL5206H/12 TV device, 
+that is powered off or in standby, to the HDMI port, Linux logs:
 
-Unfortunately, patch 2/2 won't apply anymore because of commit
-01389b324c97 ("drm/mediatek: Add connector dynamic selection
-capability). And I'm a bit puzzled for what the crtc_id is used
-there because I guess it will have the same problem this patch
-fixes.
+```
+[    0.000000] Linux version 6.5.0-4-amd64 
+(debian-kernel@lists.debian.org) (gcc-13 (Debian 13.2.0-6) 13.2.0, GNU 
+ld (GNU Binutils for Debian) 2.41) #1 SMP PREEMPT_DYNAMIC Debian 
+6.5.10-1 (2023-11-03)
+[…]
+[    0.000000] DMI: Dell Inc. XPS 13 9360/0596KF, BIOS 2.21.0 06/02/2022
+[…]
+[  160.004836] EDID has corrupt header
+[  160.004866] 	[00] BAD  00 00 00 00 00 00 00 00 00 7f ff ff ff ff ff ff
+[  160.004875] 	[00] BAD  ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+[  160.004881] 	[00] BAD  ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+[  160.004886] 	[00] BAD  ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+[  160.004905] 	[00] BAD  ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+[  160.004911] 	[00] BAD  ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+[  160.004917] 	[00] BAD  ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+[  160.004921] 	[00] BAD  ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+[  160.013662] Registered IR keymap rc-cec
+[  160.014001] rc rc0: DP-1 as /devices/pci0000:00/0000:00:02.0/rc/rc0
+[  160.014305] input: DP-1 as 
+/devices/pci0000:00/0000:00:02.0/rc/rc0/input33
+[  160.228342] EDID has corrupt header
+[  160.408917] EDID has corrupt header
+```
 
--michael
+The internal display of the laptop also switches off shortly, but comes 
+back after two or three seconds. This is very likely due to me 
+configuring the internal display to turn off once an external display is 
+used.
 
-> ---
-> v4:
->  - return -ENOENT if mtk_drm_find_possible_crtc_by_comp() doesn't find
->    any path
-> v3:
->  - use data instead of priv_n->data
->  - fixed typos
->  - collected Rb and Tb tags
-> v2:
->  - iterate over all_drm_private[] to get any vdosys
->  - new check if a path is available
-> ---
->  drivers/gpu/drm/mediatek/mtk_dpi.c          |  5 +-
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 75 ++++++++++++++++-----
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  3 +-
->  drivers/gpu/drm/mediatek/mtk_dsi.c          |  5 +-
->  4 files changed, 68 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c 
-> b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> index 2f931e4e2b60..f9250f7ee706 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> @@ -796,7 +796,10 @@ static int mtk_dpi_bind(struct device *dev, struct 
-> device *master, void *data)
->  		return ret;
->  	}
-> 
-> -	dpi->encoder.possible_crtcs = 
-> mtk_drm_find_possible_crtc_by_comp(drm_dev, dpi->dev);
-> +	ret = mtk_drm_find_possible_crtc_by_comp(drm_dev, dpi->dev);
-> +	if (ret < 0)
-> +		goto err_cleanup;
-> +	dpi->encoder.possible_crtcs = ret;
-> 
->  	ret = drm_bridge_attach(&dpi->encoder, &dpi->bridge, NULL,
->  				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c 
-> b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> index 771f4e173353..83ae75ecd858 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-> @@ -507,6 +507,27 @@ static bool mtk_drm_find_comp_in_ddp(struct device 
-> *dev,
->  	return false;
->  }
-> 
-> +static bool mtk_ddp_path_available(const unsigned int *path,
-> +				   unsigned int path_len,
-> +				   struct device_node **comp_node)
-> +{
-> +	unsigned int i;
-> +
-> +	if (!path)
-> +		return false;
-> +
-> +	for (i = 0U; i < path_len; i++) {
-> +		/* OVL_ADAPTOR doesn't have a device node */
-> +		if (path[i] == DDP_COMPONENT_DRM_OVL_ADAPTOR)
-> +			continue;
-> +
-> +		if (!comp_node[path[i]])
-> +			return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +
->  int mtk_ddp_comp_get_id(struct device_node *node,
->  			enum mtk_ddp_comp_type comp_type)
->  {
-> @@ -522,25 +543,47 @@ int mtk_ddp_comp_get_id(struct device_node *node,
->  	return -EINVAL;
->  }
-> 
-> -unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device 
-> *drm,
-> -						struct device *dev)
-> +int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm, struct 
-> device *dev)
->  {
->  	struct mtk_drm_private *private = drm->dev_private;
-> -	unsigned int ret = 0;
-> -
-> -	if (mtk_drm_find_comp_in_ddp(dev, private->data->main_path, 
-> private->data->main_len,
-> -				     private->ddp_comp))
-> -		ret = BIT(0);
-> -	else if (mtk_drm_find_comp_in_ddp(dev, private->data->ext_path,
-> -					  private->data->ext_len, private->ddp_comp))
-> -		ret = BIT(1);
-> -	else if (mtk_drm_find_comp_in_ddp(dev, private->data->third_path,
-> -					  private->data->third_len, private->ddp_comp))
-> -		ret = BIT(2);
-> -	else
-> -		DRM_INFO("Failed to find comp in ddp table\n");
-> +	const struct mtk_mmsys_driver_data *data;
-> +	struct mtk_drm_private *priv_n;
-> +	int i = 0, j;
-> +
-> +	for (j = 0; j < private->data->mmsys_dev_num; j++) {
-> +		priv_n = private->all_drm_private[j];
-> +		data = priv_n->data;
-> +
-> +		if (mtk_ddp_path_available(data->main_path, data->main_len,
-> +					   priv_n->comp_node)) {
-> +			if (mtk_drm_find_comp_in_ddp(dev, data->main_path,
-> +						     data->main_len,
-> +						     priv_n->ddp_comp))
-> +				return BIT(i);
-> +			i++;
-> +		}
-> +
-> +		if (mtk_ddp_path_available(data->ext_path, data->ext_len,
-> +					   priv_n->comp_node)) {
-> +			if (mtk_drm_find_comp_in_ddp(dev, data->ext_path,
-> +						     data->ext_len,
-> +						     priv_n->ddp_comp))
-> +				return BIT(i);
-> +			i++;
-> +		}
-> +
-> +		if (mtk_ddp_path_available(data->third_path, data->third_len,
-> +					   priv_n->comp_node)) {
-> +			if (mtk_drm_find_comp_in_ddp(dev, data->third_path,
-> +						     data->third_len,
-> +						     priv_n->ddp_comp))
-> +				return BIT(i);
-> +			i++;
-> +		}
-> +	}
-> 
-> -	return ret;
-> +	DRM_INFO("Failed to find comp in ddp table\n");
-> +	return -ENOENT;
->  }
-> 
->  int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp 
-> *comp,
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h 
-> b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> index febcaeef16a1..6a95df72de0a 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-> @@ -277,8 +277,7 @@ static inline bool mtk_ddp_comp_disconnect(struct 
-> mtk_ddp_comp *comp, struct dev
-> 
->  int mtk_ddp_comp_get_id(struct device_node *node,
->  			enum mtk_ddp_comp_type comp_type);
-> -unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device 
-> *drm,
-> -						struct device *dev);
-> +int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm, struct 
-> device *dev);
->  int mtk_ddp_comp_init(struct device_node *comp_node, struct 
-> mtk_ddp_comp *comp,
->  		      unsigned int comp_id);
->  enum mtk_ddp_comp_type mtk_ddp_comp_get_type(unsigned int comp_id);
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c 
-> b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index d8bfc2cce54d..d67e5c61a9b9 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -843,7 +843,10 @@ static int mtk_dsi_encoder_init(struct drm_device 
-> *drm, struct mtk_dsi *dsi)
->  		return ret;
->  	}
-> 
-> -	dsi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm, 
-> dsi->host.dev);
-> +	ret = mtk_drm_find_possible_crtc_by_comp(drm, dsi->host.dev);
-> +	if (ret < 0)
-> +		goto err_cleanup_encoder;
-> +	dsi->encoder.possible_crtcs = ret;
-> 
->  	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
->  				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+No idea, why the TV is able to transmit anything at all, when it is 
+turned/powered off. To avoid the flickering, would it be possible to 
+ignore events from displays sending such incorrect EDID?
+
+
+Kind regards,
+
+Paul
