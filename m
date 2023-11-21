@@ -2,67 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 084207F3042
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 15:06:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 269577F3048
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 15:07:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F15E110E02C;
-	Tue, 21 Nov 2023 14:05:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBF2610E4B2;
+	Tue, 21 Nov 2023 14:07:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
- [IPv6:2001:4860:4864:20::2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80DE610E02C;
- Tue, 21 Nov 2023 14:05:51 +0000 (UTC)
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-1f03d9ad89fso3134973fac.1; 
- Tue, 21 Nov 2023 06:05:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700575550; x=1701180350; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JicfpEa3uNWDUz2NDkVsyh217wG6PJj7MozXv7sFA4w=;
- b=VnqrX9hZzzlnkcVS0uLxllOAsddAh/mM/8gqRibK7Npe91cpe9o7LHuT6yehTedqB/
- A1/6Fuzjq/5+rbZPMGrlhI9Kdwz7bFLUCfU+MtoPgLdTj3S8agyZVbqtabls+5lZtfPY
- 6q7Eb9jLSTm8oNTXDR5HFzEu6jDeTXe+LZzYJGCHi5RpOzPcBENIXgdEkqhPQXE/oxJ4
- kpURjQ6bJLmdTrd2qyeJjRys1LajuCmRk+Rd71tbrF7lvQT6dEl9rh/cDOS300vzvgFg
- Yx/i6PQ7fCbZ7knQDSMgCQkdomF34BnmMXz2czseQlnGXnYjDhH76VDtoul5Zv2nejp7
- DAnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700575550; x=1701180350;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JicfpEa3uNWDUz2NDkVsyh217wG6PJj7MozXv7sFA4w=;
- b=U08pTa6BEzBoEoHeHrN5LF53LexUbhoHnmzS57qQDLdsSFXUsWEwOdn+Pv1UISsooE
- z4FkLGAqr3KyJhidLHQhOFn0jZ+IZlK11Dor+cSmptsEo3YjcIlf5h72fykXbGqGTNL7
- miNYLfs7iMyE+mgSa8rMzPeULiSROW87fbcP8VGW2guFjBF8oARz+56cKp5X8T9JKPM/
- 4V2YqrUM9AWu8yoIEQVmyStFXUMuZ+FGp562bYZB8FlLgAKclXXtPw6AB6C3Wn6ILAXk
- QSIPXBnbpG3cuDTlDYY3Tm22KpHwh1T/sPby7NClEugL2FGnnUuUSQwU4T1H6mDG/oHL
- avGw==
-X-Gm-Message-State: AOJu0YwhOGVIOhmqxbzjTBByqbQXkfh6x6vvTgjUXbz556MkB1PLSoWy
- JEvpDprkzam7imrGWPACVdVY4ZuTSGILgFxaht0=
-X-Google-Smtp-Source: AGHT+IHKHQMKS3b1gLqqox30Lk4uUwKC52JYW8VCEcKNOaYp9uPK894sLiFLuA30J+s9SqYcbYaSE9jt5JVjnAUgiXE=
-X-Received: by 2002:a05:6871:7398:b0:1f5:994:9853 with SMTP id
- na24-20020a056871739800b001f509949853mr13022151oac.22.1700575550741; Tue, 21
- Nov 2023 06:05:50 -0800 (PST)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFE1410E4B2
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 14:07:32 +0000 (UTC)
+Received: from notapiano (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: nfraprado)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 45C1966072F6;
+ Tue, 21 Nov 2023 14:07:28 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1700575651;
+ bh=tOGWTmQJW/JANHeyGfQepL3uI6iHK1P8zxtRmtORk2o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=C4syRfR21MGFLX1wH3nywSpQpCUGVfO1aI/4C99i7AxCnFTJB+cas+a+yAy/3lsL1
+ ApnAIbNuyYVeDlg9mff0itSwKCOvUF+P1BOS/qrkMY0MrAaWs6EbPSdZbhmbn+kZg0
+ NFXmAiDw5AU7uiAa0cmpJQWDp5O48pa7rGT+AdP85Q1ogWoW+tAID6+tpMmFafhJ4z
+ H9ZkUeXDPVHO7kro8Nl95ff6G68TOkqGJmFUyoAFKxBgCoQkavB3XgfDC18kzxEt2t
+ /v0H3r4k5++qjcZCJu7tdUFKbck/1sxl+MstUPYA0WWWnCBmwqFUDJy+kR99aQksNZ
+ e/yyLWFgkmo0Q==
+Date: Tue, 21 Nov 2023 09:07:24 -0500
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH] drm/mediatek: dp: Add phy_mtk_dp module as pre-dependency
+Message-ID: <1de08400-8441-43b9-9104-395444bccc0e@notapiano>
+References: <20231120202837.396760-1-nfraprado@collabora.com>
+ <8fd1affd-936d-415e-9f1f-b0415b68ddb6@collabora.com>
 MIME-Version: 1.0
-References: <87edgv4x3i.fsf@vps.thesusis.net>
- <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
- <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
- <bdb238b6-60c7-4f26-81d0-9e62cd5dd326@gmail.com>
- <CADnq5_NVGS1XykxGxpcu_bpPbzboCUJQkcCF3r+0N9a23KUgiQ@mail.gmail.com>
- <96e2e13c-f01c-4baf-a9a3-cbaa48fb10c7@amd.com>
- <CADnq5_NBfeAXEyQw0gnSd67=tR-bUKg8w=10+4z9pGGuRnP9uw@mail.gmail.com>
- <87bkbodp51.fsf@vps.thesusis.net>
-In-Reply-To: <87bkbodp51.fsf@vps.thesusis.net>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 21 Nov 2023 09:05:39 -0500
-Message-ID: <CADnq5_Nh4wCFY10Ha9dTGWvehPCdY2zxfERtFuoeF5_xA+P=QA@mail.gmail.com>
-Subject: Re: Radeon regression in 6.6 kernel
-To: Phillip Susi <phill@thesusis.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8fd1affd-936d-415e-9f1f-b0415b68ddb6@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,32 +53,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- linux-kernel@vger.kernel.org,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- Luben Tuikov <luben.tuikov@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Guillaume Ranquet <granquet@baylibre.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Markus Schneider-Pargmann <msp@baylibre.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Bo-Chen Chen <rex-bc.chen@mediatek.com>, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 20, 2023 at 5:40=E2=80=AFPM Phillip Susi <phill@thesusis.net> w=
-rote:
->
-> Alex Deucher <alexdeucher@gmail.com> writes:
->
-> > Yes.  Those changes went into 6.7 though, not 6.6 AFAIK.  Maybe I'm
-> > misunderstanding what the original report was actually testing.  If it
-> > was 6.7, then try reverting:
-> > 56e449603f0ac580700621a356d35d5716a62ce5
-> > b70438004a14f4d0f9890b3297cd66248728546c
->
-> I had been running v6.6-rc5 before pulling.  It looks like that got me
-> somewhere between v6.6 and v6.7-rc1.  Reverting those two commits fixes
-> it.
+On Tue, Nov 21, 2023 at 11:59:14AM +0100, AngeloGioacchino Del Regno wrote:
+> Il 20/11/23 21:28, Nícolas F. R. A. Prado ha scritto:
+> > The mtk_dp driver registers a phy device which is handled by the
+> > phy_mtk_dp driver and assumes that the phy probe will complete
+> > synchronously, proceeding to make use of functionality exposed by that
+> > driver right away. This assumption however is false when the phy driver
+> > is built as a module, causing the mtk_dp driver to fail probe in this
+> > case.
+> > 
+> > Add the phy_mtk_dp module as a pre-dependency to the mtk_dp module to
+> > ensure the phy module has been loaded before the dp, so that the phy
+> > probe happens synchrounously and the mtk_dp driver can probe
+> > successfully even with the phy driver built as a module.
+> > 
+> 
+> You forgot a Suggested-by here :-P
 
-Does reverting 56e449603f0ac580700621a356d35d5716a62ce5 alone fix it?
-Can you also attach your full dmesg log for the failed suspend?
+Oops, sorry, I forgot that tag existed. Will send a v2 with it added :).
 
-Alex
+> 
+> > Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver")
+> > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> 
+> It's fine anyway; being the best solution that we can use:
+> 
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> 
+> > 
+> > ---
+> > 
+> >   drivers/gpu/drm/mediatek/mtk_dp.c | 1 +
+> >   1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+> > index e4c16ba9902d..2136a596efa1 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_dp.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+> > @@ -2818,3 +2818,4 @@ MODULE_AUTHOR("Markus Schneider-Pargmann <msp@baylibre.com>");
+> >   MODULE_AUTHOR("Bo-Chen Chen <rex-bc.chen@mediatek.com>");
+> >   MODULE_DESCRIPTION("MediaTek DisplayPort Driver");
+> >   MODULE_LICENSE("GPL");
+> > +MODULE_SOFTDEP("pre: phy_mtk_dp");
+> 
