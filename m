@@ -2,66 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA4DF7F3145
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 15:41:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 842C27F315A
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 15:44:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC34210E379;
-	Tue, 21 Nov 2023 14:40:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD6910E4CF;
+	Tue, 21 Nov 2023 14:44:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
- [IPv6:2001:4860:4864:20::33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94A0910E379
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 14:40:54 +0000 (UTC)
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-1f938932bf0so1232383fac.3
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 06:40:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1700577653; x=1701182453;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date
- :mime-version:in-reply-to:references:user-agent:from:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ImxWZyQw+OzqcqVpcmrRNXVgXf/9MkOc4lXvk9lNMHc=;
- b=V05fKoaAz2rdG8GnLFI5kpo5Fy+jjR7leWhYUz5tkWY/+tkNCYnvzCajNfIm8F21mA
- 8KLvBKNk9SYf5sudieMVjdREhYfKE/mUvPrRpp9Aj9IgGiAAlsQAXYdHx/R7wdh35sIe
- KqW2YWUt2+SDL3VTQuMHjownI06wW12bhvTUlEOY1i1aJGEPq+9iImYOwbDjyhxKxK1y
- cS/OIZYr/PIH/yyP5YdJzVhV/rF9C44OTSK1CYrYmYHo9LLfP49SqW4CJjj5R0PS+Iv6
- vFvEchIIlTclD59VrJ3mawnO37002iwrEyjewQ6tbobddVniK0fKpZhphm20Xs7qnz+Q
- mwhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700577653; x=1701182453;
- h=content-transfer-encoding:cc:to:subject:message-id:date
- :mime-version:in-reply-to:references:user-agent:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ImxWZyQw+OzqcqVpcmrRNXVgXf/9MkOc4lXvk9lNMHc=;
- b=pTu8A1EowP4lE4CQxfW+a/KuF+/oh6sErxnq6CcUUaE34Lx6tw30P7p22DLmu/+cuk
- zKje9TDqy8ATAC8QE3e9r32pQ/dPspUXRu/ay+wdxehz67myQpEXQ9YqVt+HUxETizRk
- 95zPOaO35OPlCOhKjHXRMI4XB3i7E2wBoiDnOxfPYE8Jl4PwSai0viCS3OQDrQv8HREU
- aUyVJTkEOJMGVhaONAhmiv2Ae/dLlfeakXjhvI6FCIj4NnYtQz28cXK3zNZtF1WY5JXn
- emdWWzQQSlbXSLc8VNPIpIevFRHyI+vHwE87zSDUC7qcNLaHaOuWNWsz4uddRgqkH4RD
- Sw/Q==
-X-Gm-Message-State: AOJu0YzrcROr31qkdn6C/p3b02HwN6BZmf+3rRADRFLBn93wVMr5CLSb
- hKzAdPa5oXsSUKP6rxNgL0cCyqVBAVk/zjfI+uajAA==
-X-Google-Smtp-Source: AGHT+IEMmr6OYDSX2nS5vNaDx2wFqAkHqsQ/xko6HAJB9cs9kRZI2B37yAeB6rBMLaCK23pkXxmz2pO5+KzJ323xLhs=
-X-Received: by 2002:a05:6870:3b85:b0:1f9:36fe:fd0e with SMTP id
- gi5-20020a0568703b8500b001f936fefd0emr5880414oab.47.1700577652158; Tue, 21
- Nov 2023 06:40:52 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 21 Nov 2023 06:40:51 -0800
-From: Guillaume Ranquet <granquet@baylibre.com>
-User-Agent: meli 0.7.3
-References: <20231121142938.460846-1-nfraprado@collabora.com>
-In-Reply-To: <20231121142938.460846-1-nfraprado@collabora.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAB9510E4C3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 14:44:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3C1DB61962;
+ Tue, 21 Nov 2023 14:44:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C80F3C433C7;
+ Tue, 21 Nov 2023 14:44:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1700577858;
+ bh=i4k9JATCdARgpGIsnHRdPJazvwXg7FUJt9BeVRU1bpE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=tyY22s12GfB+H/yBT0ENPS7IZmDxag0iY/ghg3pIXF2vP+qWmgTxyhsGfijaaBOkX
+ rHfGRKquiqoPqyT00HZOPy3G6oWeyYJ1qvzoCFycdC2rEaeeU5KEvc7c3qx5IJy9M9
+ 69FWxR1J2b9QFxveDp99y51TPdaztY+VyrEDI6EcnvJkiYTVx7PZBiTgdl2qKvIl7p
+ vctT6tpXYnu22hv4gfl8vJ6Srx/GSVyQ5Wydcvfb40LugS8KnpE0r1hI8xYTteTWhJ
+ rIe3SSN3EEYBoXdRs1JSNfqKGcEQvGNHgP1kTcXTUpPy+4vn8wAtOhC3127DhOT5pv
+ v3xBP99CTS8jw==
 MIME-Version: 1.0
-Date: Tue, 21 Nov 2023 06:40:51 -0800
-Message-ID: <CABnWg9uqPc20F93GF_wF2_o4hq9zdAJtyoa8_iMyM8gc9owDXg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/mediatek: dp: Add phy_mtk_dp module as
- pre-dependency
-To: =?UTF-8?B?TsOtIGNvbGFzIEYuIFIuIEEuIFByYWRv?= <nfraprado@collabora.com>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Tue, 21 Nov 2023 15:44:13 +0100
+From: Michael Walle <mwalle@kernel.org>
+To: =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?=
+ <nfraprado@collabora.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v4 2/2] drm/mediatek: dpi/dsi: fix possible_crtcs
+ calculation
+In-Reply-To: <20230905084922.3908121-2-mwalle@kernel.org>
+References: <20230905084922.3908121-1-mwalle@kernel.org>
+ <20230905084922.3908121-2-mwalle@kernel.org>
+Message-ID: <93576c3b04c8378c5c9296ec7a6585d9@kernel.org>
+X-Sender: mwalle@kernel.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,59 +57,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guillaume Ranquet <granquet@baylibre.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Matthias Brugger <matthias.bgg@gmail.com>,
- Bo-Chen Chen <rex-bc.chen@mediatek.com>, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Jitao Shi <jitao.shi@mediatek.com>,
+ Frank Wunderlich <frank-w@public-files.de>,
+ "Jason-JH.Lin" <jason-jh.lin@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Nancy . Lin" <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, Stu Hsieh <stu.hsieh@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 21 Nov 2023 15:29, "N=C3=ADcolas F. R. A. Prado"
-<nfraprado@collabora.com> wrote:
->The mtk_dp driver registers a phy device which is handled by the
->phy_mtk_dp driver and assumes that the phy probe will complete
->synchronously, proceeding to make use of functionality exposed by that
->driver right away. This assumption however is false when the phy driver
->is built as a module, causing the mtk_dp driver to fail probe in this
->case.
->
->Add the phy_mtk_dp module as a pre-dependency to the mtk_dp module to
->ensure the phy module has been loaded before the dp, so that the phy
->probe happens synchrounously and the mtk_dp driver can probe
->successfully even with the phy driver built as a module.
->
->Suggested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com>
->Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver=
-")
->Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
->Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabo=
-ra.com>
->
->---
+Hi,
 
-Reviewed-by: Guillaume Ranquet <granquet@baylibre.com>
->
->Changes in v2:
->- Added missing Suggested-by tag
->
-> drivers/gpu/drm/mediatek/mtk_dp.c | 1 +
-> 1 file changed, 1 insertion(+)
->
->diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/=
-mtk_dp.c
->index e4c16ba9902d..2136a596efa1 100644
->--- a/drivers/gpu/drm/mediatek/mtk_dp.c
->+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
->@@ -2818,3 +2818,4 @@ MODULE_AUTHOR("Markus Schneider-Pargmann <msp@baylib=
-re.com>");
-> MODULE_AUTHOR("Bo-Chen Chen <rex-bc.chen@mediatek.com>");
-> MODULE_DESCRIPTION("MediaTek DisplayPort Driver");
-> MODULE_LICENSE("GPL");
->+MODULE_SOFTDEP("pre: phy_mtk_dp");
->--
->2.42.1
->
+> mtk_drm_find_possible_crtc_by_comp() assumed that the main path will
+> always have the CRTC with id 0, the ext id 1 and the third id 2. This
+> is only true if the paths are all available. But paths are optional 
+> (see
+> also comment in mtk_drm_kms_init()), e.g. the main path might not be
+> enabled or available at all. Then the CRTC IDs will shift one up, e.g.
+> ext will be 0 and the third path will be 1.
+> 
+> To fix that, dynamically calculate the IDs by the presence of the 
+> paths.
+> 
+> While at it, make the return code a signed one and return -ENOENT if no
+> path is found and handle the error in the callers.
+> 
+> Fixes: 5aa8e7647676 ("drm/mediatek: dpi/dsi: Change the getting 
+> possible_crtc way")
+> Suggested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> Signed-off-by: Michael Walle <mwalle@kernel.org>
+> Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+
+Is there anything wrong with these two patches? They are now lingering
+around for more than two months.
+
+Unfortunately, patch 2/2 won't apply anymore because of commit
+01389b324c97 ("drm/mediatek: Add connector dynamic selection
+capability). And I'm a bit puzzled for what the crtc_id is used
+there because I guess it will have the same problem this patch
+fixes.
+
+-michael
+
+> ---
+> v4:
+>  - return -ENOENT if mtk_drm_find_possible_crtc_by_comp() doesn't find
+>    any path
+> v3:
+>  - use data instead of priv_n->data
+>  - fixed typos
+>  - collected Rb and Tb tags
+> v2:
+>  - iterate over all_drm_private[] to get any vdosys
+>  - new check if a path is available
+> ---
+>  drivers/gpu/drm/mediatek/mtk_dpi.c          |  5 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 75 ++++++++++++++++-----
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  3 +-
+>  drivers/gpu/drm/mediatek/mtk_dsi.c          |  5 +-
+>  4 files changed, 68 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c 
+> b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> index 2f931e4e2b60..f9250f7ee706 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -796,7 +796,10 @@ static int mtk_dpi_bind(struct device *dev, struct 
+> device *master, void *data)
+>  		return ret;
+>  	}
+> 
+> -	dpi->encoder.possible_crtcs = 
+> mtk_drm_find_possible_crtc_by_comp(drm_dev, dpi->dev);
+> +	ret = mtk_drm_find_possible_crtc_by_comp(drm_dev, dpi->dev);
+> +	if (ret < 0)
+> +		goto err_cleanup;
+> +	dpi->encoder.possible_crtcs = ret;
+> 
+>  	ret = drm_bridge_attach(&dpi->encoder, &dpi->bridge, NULL,
+>  				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c 
+> b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> index 771f4e173353..83ae75ecd858 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+> @@ -507,6 +507,27 @@ static bool mtk_drm_find_comp_in_ddp(struct device 
+> *dev,
+>  	return false;
+>  }
+> 
+> +static bool mtk_ddp_path_available(const unsigned int *path,
+> +				   unsigned int path_len,
+> +				   struct device_node **comp_node)
+> +{
+> +	unsigned int i;
+> +
+> +	if (!path)
+> +		return false;
+> +
+> +	for (i = 0U; i < path_len; i++) {
+> +		/* OVL_ADAPTOR doesn't have a device node */
+> +		if (path[i] == DDP_COMPONENT_DRM_OVL_ADAPTOR)
+> +			continue;
+> +
+> +		if (!comp_node[path[i]])
+> +			return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+>  int mtk_ddp_comp_get_id(struct device_node *node,
+>  			enum mtk_ddp_comp_type comp_type)
+>  {
+> @@ -522,25 +543,47 @@ int mtk_ddp_comp_get_id(struct device_node *node,
+>  	return -EINVAL;
+>  }
+> 
+> -unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device 
+> *drm,
+> -						struct device *dev)
+> +int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm, struct 
+> device *dev)
+>  {
+>  	struct mtk_drm_private *private = drm->dev_private;
+> -	unsigned int ret = 0;
+> -
+> -	if (mtk_drm_find_comp_in_ddp(dev, private->data->main_path, 
+> private->data->main_len,
+> -				     private->ddp_comp))
+> -		ret = BIT(0);
+> -	else if (mtk_drm_find_comp_in_ddp(dev, private->data->ext_path,
+> -					  private->data->ext_len, private->ddp_comp))
+> -		ret = BIT(1);
+> -	else if (mtk_drm_find_comp_in_ddp(dev, private->data->third_path,
+> -					  private->data->third_len, private->ddp_comp))
+> -		ret = BIT(2);
+> -	else
+> -		DRM_INFO("Failed to find comp in ddp table\n");
+> +	const struct mtk_mmsys_driver_data *data;
+> +	struct mtk_drm_private *priv_n;
+> +	int i = 0, j;
+> +
+> +	for (j = 0; j < private->data->mmsys_dev_num; j++) {
+> +		priv_n = private->all_drm_private[j];
+> +		data = priv_n->data;
+> +
+> +		if (mtk_ddp_path_available(data->main_path, data->main_len,
+> +					   priv_n->comp_node)) {
+> +			if (mtk_drm_find_comp_in_ddp(dev, data->main_path,
+> +						     data->main_len,
+> +						     priv_n->ddp_comp))
+> +				return BIT(i);
+> +			i++;
+> +		}
+> +
+> +		if (mtk_ddp_path_available(data->ext_path, data->ext_len,
+> +					   priv_n->comp_node)) {
+> +			if (mtk_drm_find_comp_in_ddp(dev, data->ext_path,
+> +						     data->ext_len,
+> +						     priv_n->ddp_comp))
+> +				return BIT(i);
+> +			i++;
+> +		}
+> +
+> +		if (mtk_ddp_path_available(data->third_path, data->third_len,
+> +					   priv_n->comp_node)) {
+> +			if (mtk_drm_find_comp_in_ddp(dev, data->third_path,
+> +						     data->third_len,
+> +						     priv_n->ddp_comp))
+> +				return BIT(i);
+> +			i++;
+> +		}
+> +	}
+> 
+> -	return ret;
+> +	DRM_INFO("Failed to find comp in ddp table\n");
+> +	return -ENOENT;
+>  }
+> 
+>  int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp 
+> *comp,
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h 
+> b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> index febcaeef16a1..6a95df72de0a 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+> @@ -277,8 +277,7 @@ static inline bool mtk_ddp_comp_disconnect(struct 
+> mtk_ddp_comp *comp, struct dev
+> 
+>  int mtk_ddp_comp_get_id(struct device_node *node,
+>  			enum mtk_ddp_comp_type comp_type);
+> -unsigned int mtk_drm_find_possible_crtc_by_comp(struct drm_device 
+> *drm,
+> -						struct device *dev);
+> +int mtk_drm_find_possible_crtc_by_comp(struct drm_device *drm, struct 
+> device *dev);
+>  int mtk_ddp_comp_init(struct device_node *comp_node, struct 
+> mtk_ddp_comp *comp,
+>  		      unsigned int comp_id);
+>  enum mtk_ddp_comp_type mtk_ddp_comp_get_type(unsigned int comp_id);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c 
+> b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> index d8bfc2cce54d..d67e5c61a9b9 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -843,7 +843,10 @@ static int mtk_dsi_encoder_init(struct drm_device 
+> *drm, struct mtk_dsi *dsi)
+>  		return ret;
+>  	}
+> 
+> -	dsi->encoder.possible_crtcs = mtk_drm_find_possible_crtc_by_comp(drm, 
+> dsi->host.dev);
+> +	ret = mtk_drm_find_possible_crtc_by_comp(drm, dsi->host.dev);
+> +	if (ret < 0)
+> +		goto err_cleanup_encoder;
+> +	dsi->encoder.possible_crtcs = ret;
+> 
+>  	ret = drm_bridge_attach(&dsi->encoder, &dsi->bridge, NULL,
+>  				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
