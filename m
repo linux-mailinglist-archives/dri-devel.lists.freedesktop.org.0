@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5502A7F35C7
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 19:15:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D72F77F35E8
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 19:29:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EC7E10E560;
-	Tue, 21 Nov 2023 18:15:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9B1810E2AB;
+	Tue, 21 Nov 2023 18:29:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F82710E560
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 18:15:07 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id
- 4fb4d7f45d1cf-5484ef5e3d2so6297011a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 10:15:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1700590502; x=1701195302;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=k3jeSqyUsXuR0G429BNK/7gdoytWLHrpF12cSBcFFIQ=;
- b=IhJp01o5Vel0ImmEaYJmDdHCoAmgb9NjXPdMZ44inq9U6blXm6PFFwWMfluIIuRW6K
- 1JE0sefnEZsERPanbBlm+yHgf7x+GOQc+RtokW2pDFzJfQ4ub09FRYEk03OPbOD4QkNf
- ZOWrWbp2Wl9PX6QG8AQRPetMAT26hVwIwtVn8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700590502; x=1701195302;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=k3jeSqyUsXuR0G429BNK/7gdoytWLHrpF12cSBcFFIQ=;
- b=YRg0n5hRXwJqeE9ZUtqoIIboqYxH7XG8z03iPUj5z3Xf+ds8haJRAlym/WXNTWBGat
- ijTHpcEtg9TPPL78kqcVgE2+ILSpB0BN7gbdtZ3vRQGGONWePYw00ErlnOLh1HcRDthS
- NTadX/VKH3Ekqfy67iJV8SdEEjSLlfUaLmqm54H6ARCQnYE58kHbdIeIfWH23KO91DXt
- 3LkeLNjHgqEQ1VVYDkuTIcK8v0JhpyHMRCdzgRHDwLDjetJJB11CCN/ovf2bCMJzwJqM
- JRhaq+oTgcTOR0suPX1zOqzJsGMm1m2GTDGDNOfHOPi0F77U2fLlb9SVvqIaL3GvA19x
- Wzlg==
-X-Gm-Message-State: AOJu0YydRDHNLePLJywldpMG2y6zfwbI48rLCwNNTKO4IeQhiTi2X4kV
- cLvqYl8dl6EdygsRzReKmCrgpyfCTkVnHZMBgG7pn0Ei
-X-Google-Smtp-Source: AGHT+IF3JsIZvkWEdVl/9RxG3OkaTggzCojdmV696hbekTA5eLmUL1dIS1B3elQr+fjSxo7irSlWoA==
-X-Received: by 2002:a17:906:9c85:b0:9c1:edd8:43c2 with SMTP id
- fj5-20020a1709069c8500b009c1edd843c2mr9928257ejc.42.1700590502228; 
- Tue, 21 Nov 2023 10:15:02 -0800 (PST)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com.
- [209.85.128.51]) by smtp.gmail.com with ESMTPSA id
- cb26-20020a170906a45a00b0099c53c4407dsm5515512ejb.78.2023.11.21.10.15.01
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Nov 2023 10:15:02 -0800 (PST)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-408c6ec1fd1so4225e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 10:15:01 -0800 (PST)
-X-Received: by 2002:a05:600c:1c1f:b0:3f4:fb7:48d4 with SMTP id
- j31-20020a05600c1c1f00b003f40fb748d4mr3601wms.3.1700590500881; Tue, 21 Nov
- 2023 10:15:00 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3A8210E56D;
+ Tue, 21 Nov 2023 18:29:31 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3ALGv1Tp013725; Tue, 21 Nov 2023 18:29:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=vG3SezDCYdIrXFGfXmFE+x/MXOvguDKneXltb/Dvw+g=;
+ b=RRpmmxdFIfyV8sEAJLOrFChD0W4qpxdp0YQuaDTMrpROjnu6DWwRFWx0BJyOEENoorDs
+ 45orMk4v8ae88bK34aGrDpcTV6UyvoBjXC8MQTI/EJ1dzroMG2o5TNG7NU8+CC0OEeI5
+ 8gAoLlZ0FnP76FIe97fvsu2a1PCilwakZKSGjVgns3pyuQjtPshKnwYKziahtXfpQLxm
+ 7vq9U183wbKN4AMxs6G6lVUyuZcUxCeTQAhvYZna8xUu0/QsJjwwWDYYZdd6SmN4lsXB
+ oBJUzKufaNtRIhxWBRSuK2zHKsUTw0pXz3ZsnPeH5QIaannocI7cI/xxJNNlU5FB8mZe wA== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ugu549g21-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Nov 2023 18:29:26 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ALITPEY021725
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Nov 2023 18:29:25 GMT
+Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Tue, 21 Nov 2023 10:29:25 -0800
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>, Jonathan Marek <jonathan@marek.ca>
+Subject: Re: [PATCH v2] drm/msm/dsi: use the correct VREG_CTRL_1 value for 4nm
+ cphy
+Date: Tue, 21 Nov 2023 10:29:03 -0800
+Message-ID: <170059072153.29644.6387537767336695325.b4-ty@quicinc.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20231110000216.29979-1-jonathan@marek.ca>
+References: <20231110000216.29979-1-jonathan@marek.ca>
 MIME-Version: 1.0
-References: <20231120020109.3216343-1-yangcong5@huaqin.corp-partner.google.com>
- <CAD=FV=WKMrnAqYNHpcKw4=X75Ts_cCkoXZKQ+b7G1pXstUCMRg@mail.gmail.com>
-In-Reply-To: <CAD=FV=WKMrnAqYNHpcKw4=X75Ts_cCkoXZKQ+b7G1pXstUCMRg@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 21 Nov 2023 10:14:43 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UxN9vgWM9e1n_1pqcOJqzhhVtE7H2h+XMf0o_Mo7Jz5g@mail.gmail.com>
-Message-ID: <CAD=FV=UxN9vgWM9e1n_1pqcOJqzhhVtE7H2h+XMf0o_Mo7Jz5g@mail.gmail.com>
-Subject: Re: [PATCH V3] drm/panel: boe-tv101wum-nl6: Fine tune Himax83102-j02
- panel HFP and HBP
-To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: PvQBdut0lXxlf4nWVQaud8WOdkgd3nJl
+X-Proofpoint-ORIG-GUID: PvQBdut0lXxlf4nWVQaud8WOdkgd3nJl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-21_10,2023-11-21_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0
+ bulkscore=0 phishscore=0 impostorscore=0 priorityscore=1501 spamscore=0
+ lowpriorityscore=0 mlxlogscore=379 adultscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311210144
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,70 +81,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, zhouruihai@huaqin.com,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Hsin-Yi Wang <hsinyi@google.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Mon, Nov 20, 2023 at 10:05=E2=80=AFAM Doug Anderson <dianders@google.com=
-> wrote:
->
-> Hi,
->
-> On Sun, Nov 19, 2023 at 6:01=E2=80=AFPM Cong Yang
-> <yangcong5@huaqin.corp-partner.google.com> wrote:
-> >
-> > The refresh reported by modetest is 60.46Hz, and the actual measurement
-> > is 60.01Hz, which is outside the expected tolerance. Adjust hporch and
-> > pixel clock to fix it. After repair, modetest and actual measurement we=
-re
-> > all 60.01Hz.
-> >
-> > Modetest refresh =3D Pixel CLK/ htotal* vtotal, but measurement frame r=
-ate
-> > is HS->LP cycle time(Vblanking). Measured frame rate is not only affect=
-e
-> > by Htotal/Vtotal/pixel clock, also affected by Lane-num/PixelBit/LineTi=
-me
-> > /DSI CLK. Assume that the DSI controller could not make the mode that w=
-e
-> > requested(presumably it's PLL couldn't generate the exact pixel clock?)=
-.
-> > If you use a different DSI controller, you may need to readjust these
-> > parameters. Now this panel looks like it's only used by me on the MTK
-> > platform, so let's change this set of parameters.
-> >
-> > Fixes: 1bc2ef065f13 ("drm/panel: Support for Starry-himax83102-j02 TDDI=
- MIPI-DSI panel")
-> > Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> > ---
-> > Chage since V2:
-> >
-> > - Update commit message.
-> >
-> > V2: https://lore.kernel.org/all/20231117032500.2923624-1-yangcong5@huaq=
-in.corp-partner.google.com
-> >
-> > Chage since V1:
-> >
-> > - Update commit message.
-> >
-> > V1: https://lore.kernel.org/all/20231110094553.2361842-1-yangcong5@huaq=
-in.corp-partner.google.com
-> > ---
-> >  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> As per previous discussions, this seems OK to me. I'll give it one
-> more day for anyone to speak up and then plan to land it.
+On Thu, 09 Nov 2023 19:02:14 -0500, Jonathan Marek wrote:
+> Use the same value as the downstream driver. This change is needed for CPHY
+> mode to work correctly.
+> 
+> 
 
-Pushed to drm-misc-fixes:
+Applied, thanks!
 
-cea7008190ad drm/panel: boe-tv101wum-nl6: Fine tune Himax83102-j02
-panel HFP and HBP
+[1/1] drm/msm/dsi: use the correct VREG_CTRL_1 value for 4nm cphy
+      https://gitlab.freedesktop.org/drm/msm/-/commit/b3e0f94d1570
+
+Best regards,
+-- 
+Abhinav Kumar <quic_abhinavk@quicinc.com>
