@@ -1,106 +1,105 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 203447F282C
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 09:56:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F09547F2810
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 09:53:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EFA110E2A5;
-	Tue, 21 Nov 2023 08:56:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A32CC10E243;
+	Tue, 21 Nov 2023 08:53:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CC8710E2A5
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 08:56:37 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 23F411F8B4;
- Tue, 21 Nov 2023 08:56:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1700556995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DuPJu93mgheSLNH9ndHuecTOXlSKZD3FjsakZM/Qfuo=;
- b=YWWH4tFbsS7bpQuSxX0aGnIffCKrlCcLYr+kSYnsMApJHkmy0UEM08V43M0RVFGn5RFzJn
- 7XuiHtkBadKXvD5En7ZzRBk0KtLBnPKWmVL0DBn1O78pYv9d+DneTMjq+GMTaOb5e8HkG5
- HMSSdq22utxFveOaldS+XmDsyLE1Ob4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1700556995;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DuPJu93mgheSLNH9ndHuecTOXlSKZD3FjsakZM/Qfuo=;
- b=hBZJWKPHIVKF8iZZsurUScPkD0k3RZmBlfvc+cvUcxFuSqfN7THBvWLN4XFHZP0yVsqMqC
- RDb6dH2fpFterkCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C91E5139FD;
- Tue, 21 Nov 2023 08:56:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id UCjUHMJwXGV+GAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 21 Nov 2023 08:56:34 +0000
-Message-ID: <c24ff645-a160-4ac8-a7b6-7e94e657af0c@suse.de>
-Date: Tue, 21 Nov 2023 09:56:32 +0100
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com
+ (mail-db5eur02on2070.outbound.protection.outlook.com [40.107.249.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 733BA10E243
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 08:53:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FdutfUNZygPK/2W2CfE6m30bhAeyWirct3cqOwF430mx7EFDq0PL2hsHBx6OYTK9q1Z8sVWm7HR/5DJVDWZrIjkbg66B4oLWzJssOTu13NktTG+f0/JQ9y6mGKuUxk0SMRvhq5RQO+wayhmld/D7/tMGgs1Y0sX4QqpW1u+CRD8JjNTVyyksyklgUR08ydS1OTl+6cQt00UrMSAy8mfCVl/4tbmtyb4IGScnUhkWVzlX9PRSW7O9/iPXI58XpgqNeZvuQskWztuskwoegN33hLshIA/lr73t/DPC64q4puRw13i8+837hTqas8IvoNbdsHDVSQf2qtgsiiGVnektgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kZ/RCylZk1gpD10xsiA87Vwdw6vJ3NkS3AD4uv0jVuM=;
+ b=j0SpyLi/yY1vQn0iKC+YHFbk1myNKp82QG+usoB9NxzZNSvitCu5FQpZ+mknWMHkLbURm4rYpREpnpn/UiijKiD+12/V7VTuk1gyyDh91zQYS2nzmNrLNMHpNVDUapjWmPv7IoN+7tJWRVIJT8TiI2xZzJ1Np6hMGbA6ExXYXt+yq+HlnsXZz8mvspRJ16b2Ezv0rnjCqdK8pihfguLvUnvjCdD1RNjfAdrI4rtj3+jBjE7rfpuVYwybhZ+yCcp0+2IfKvzpJlqOvNhjHcOT5sThY5erRUOjKwlM/v0pFcUFeVn6Spb6zgxQTeR2gRva3ZgJzc2ubTYfSNaDct1elg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kZ/RCylZk1gpD10xsiA87Vwdw6vJ3NkS3AD4uv0jVuM=;
+ b=cDPnmUndpVxRFQ5XvdlDh49nFwnqKxDIwW9wYEe6ZH9O4oEbozyl7IQwkJiIPyGR3CbQCm+DhOKdEF9cd84MQt4rU5PMkvPHngabdKzt774VbEwGFXZr0Oo0rBRhI2SmFkWt67An+CC3jtcQWE0tOIAH2T8ydzSqfcnSzs56AOc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by PA4PR04MB9637.eurprd04.prod.outlook.com (2603:10a6:102:272::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.16; Tue, 21 Nov
+ 2023 08:52:56 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d99:f43f:65a3:9bf]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d99:f43f:65a3:9bf%6]) with mapi id 15.20.7025.017; Tue, 21 Nov 2023
+ 08:52:56 +0000
+From: Liu Ying <victor.liu@nxp.com>
+To: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/bridge: imx93-mipi-dsi: Fix a couple of building warnings
+Date: Tue, 21 Nov 2023 16:56:44 +0800
+Message-Id: <20231121085644.499520-1-victor.liu@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR01CA0189.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:189::15) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/32] hid/picolcd_fb: Set FBINFO_VIRTFB flag
-Content-Language: en-US
-To: Jiri Kosina <jikos@kernel.org>
-References: <20231115102954.7102-1-tzimmermann@suse.de>
- <20231115102954.7102-12-tzimmermann@suse.de>
- <nycvar.YFH.7.76.2311210942200.29220@cbobk.fhfr.pm>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <nycvar.YFH.7.76.2311210942200.29220@cbobk.fhfr.pm>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------gIFdOBbi4JbF0AqBDZb0biuj"
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -10.04
-X-Spamd-Result: default: False [-10.04 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; XM_UA_NO_VERSION(0.01)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmx.de]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
- HAS_ATTACHMENT(0.00)[]; REPLY(-4.00)[];
- MID_RHS_MATCH_FROM(0.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-0.998]; MIME_BASE64_TEXT(0.10)[];
- RCPT_COUNT_SEVEN(0.00)[8]; BAYES_HAM(-2.75)[98.90%];
- SIGNED_PGP(-2.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
- FREEMAIL_CC(0.00)[gmx.de,redhat.com,vger.kernel.org,lists.freedesktop.org,linux-vserver.org];
- RCVD_COUNT_TWO(0.00)[2]; RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|PA4PR04MB9637:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9068ceb4-8efd-42b0-3458-08dbea6f416e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zuVr/BsHGMNmTq+Lj2MseyStLtGJWZ+tUST7XMk9p2fGJ/aPS4Pqp6w9Ok+hfy1Bdg7xFUM1w6P1o7b/wNFqa8cE18Lj98Bv4M3e8Kf4c8mU1A0xK8FR67zsezwM96pjlcmYmpHbug6QkDcVwh+iypJZTwhR9z9nZHWVSKRFbDTBm30OjXqqni0iWpXgSsEmLR8+aS4gCUmmnXnLrfKqbgq7t23lVcZx0oXjG26yiHVGRI0HNxzd0d4R4v2fKs/hH+LPkbeA1CZWjPe7LYLyzWyn46dt/mnBVJef0etELvN2A4I5cIWpP9OixTo2uUJNCDUUqoCIRWDaYd36lI7vkfws8GXd664/PBUGay6gtWFhBcWP9Md9Tf0jXjf/TJcrOb4KWvyuFFUXd+mzqIiOjbtxbwaMv9gRGc2C0qCcoU78sAFXb1EGMXNV2QSYoqtVjfQ3ZwzeCXXoQh4sZ7wLCyxeDHDvWgXDZqL3+Xf74kyWyFyk7WmAkoxY0GMHZbLrLlFz40jBwD5N2gpKKPESzPJYj8nXHfEd/4q0JQVrwWg1WBR7Yf+iOBa0YboppzQopZucE/xspPK1fIg3POxthFpzhafrCQfcjBRqR5m3RztO2UbSjB998nUKQe8n4UJRaB8YhXMsUg68STzzaIbcwA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(136003)(376002)(346002)(396003)(39860400002)(366004)(230922051799003)(230173577357003)(230273577357003)(451199024)(64100799003)(186009)(1800799012)(7416002)(5660300002)(1076003)(2906002)(26005)(8676002)(2616005)(8936002)(4326008)(86362001)(41300700001)(38350700005)(83380400001)(36756003)(66946007)(52116002)(66556008)(66476007)(6506007)(316002)(478600001)(966005)(6486002)(6512007)(38100700002)(6666004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GY11qIcdHe2tz+56QgGLD64NKR8nrYixOUVOWz8mRLCM8DKn5Kqj/kVlLPqz?=
+ =?us-ascii?Q?8hCiULreGe6wYcn/a/gXfumdcSDsiLsZzI677JcW8I01vKpjQYdghnt/8BOr?=
+ =?us-ascii?Q?BkAhX37T9BFtmDe9yZNw69Ja82oH9WLJTdfP41v5/yeg6jzUKcEtnzNlhDau?=
+ =?us-ascii?Q?xmZ0c69XqTjFix7Wq7qhOb2+ErPyoJksgjLel88210Apih9IXrWRWJsyi/uB?=
+ =?us-ascii?Q?Nj8D9dyte+vxOfW/39Rp88NZ7fTDE59FMtu/jiPlWzYk6k2fYaJFEMGKOk7e?=
+ =?us-ascii?Q?JcYZouHtdR/Pbi+nJvr42I+P/hr41hf3K7wIeP+vKfAee4QQAmt47ZHGKB31?=
+ =?us-ascii?Q?cgx6zc3f2xVk02w4YKUf1GqrqcCR5sjyMQjdSBjwnwvPNERR9EMEPsPhn1RE?=
+ =?us-ascii?Q?af/HnW+T6APu36n2M+7QsoCGroUUWycyi2QgnnSt7Y4FPKjSi/EubO3/U1Sr?=
+ =?us-ascii?Q?9YkV1RFZb6E+3fLWYrTFhpX4I7lD+Lv+HrqqNkr1cugWWTyVVBqDqua6OZzG?=
+ =?us-ascii?Q?HBocq9jIvkDVo6rGzkhRTp19i//VOaBZV6DIZJF0x0h0akNE8l5GZiLF081d?=
+ =?us-ascii?Q?qw/rsONy6EpNonMGaUPcrK8q3w6XZa2VfxtlN8ybQfIekc82FOWByHG1TYrF?=
+ =?us-ascii?Q?qwMhDWXtzfPKz7bGhUK3rAF5uxF5fALXnftEZ/mRdphLlMq/cuPxAT3sIzQC?=
+ =?us-ascii?Q?aOBXiYkSSGCXuTLq1dUUsTH9AVCDYITmXDmGHbTxVZRzZjvAiPClpmeSjGHa?=
+ =?us-ascii?Q?4bZAII28eHVuwgNVWL1L7NhV9PKRvBL4gTcedW3RAfjayPH3bmCM0g5lJJ8n?=
+ =?us-ascii?Q?OhX7q+rjx68ZsVzRrVii0df/Qv0bD28QtHlXtbMNgk50ST3kN8cQ3x4nf392?=
+ =?us-ascii?Q?VshdSXQPbUYElr32KSlP/gwWuXBXGLmdvbD210QBjd0f7lae0s0X2Xmdpnu5?=
+ =?us-ascii?Q?3P6rcgNlWJXgu4D9AtsQnF1A/3c7+ARfdzrDaIjnWIKq5W1pMytp60N1KApm?=
+ =?us-ascii?Q?PeZo597WB3Z66ZMtJWf5HBw5LSf3gZe5IgK0uvwpDHeou82nK9DNoMSNmeoP?=
+ =?us-ascii?Q?Z0H73RE4Xz8b8+Fi64kQWjKaz6Yb1H/vfOyzVSZZ/J/VqlXgG/4/n75aL5rA?=
+ =?us-ascii?Q?/JXelsdrYQYIAXIJBysWv305AJoqPF73NQmHjWrTlS7XzhX/K/ljf2pT90qI?=
+ =?us-ascii?Q?t87dAzDkf2vmjN/8QWGZ9z2/6YRzYxx6MNraD6dnZhUBXBWjJGZJoWbGWe+/?=
+ =?us-ascii?Q?I8tnwW1h99G4Ho+fjOzdQhugENc3WW9DzgtSs1/QpVlAkmOdQDX8v1YA6kIU?=
+ =?us-ascii?Q?SUjXHnUASOUw/RxYkwb/0+hP+gd4isiy1Gjgqb3Y0YLnbadWZ7Hy2rtZjeny?=
+ =?us-ascii?Q?egC+w9hMjuX9psXrSuJIFD5HZt5JXdO+q1yw8qtquoG7cnUFXZ220qJ/eUdo?=
+ =?us-ascii?Q?5Xq3qz1tkHSWa2Y4CmnE24K39Olu/9lV5e2g3WYE4FAgj2astD+tOk5U74qa?=
+ =?us-ascii?Q?WtNvNoahOYIbi0MmFaxk0gVbMqd0XO5wprdtYXkaDIC+8dxxyH0VjbaiMGYh?=
+ =?us-ascii?Q?qzV1KjSuPCyOjAI6ay+vjV2JCsQBZEGw99J6Pnx4?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9068ceb4-8efd-42b0-3458-08dbea6f416e
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2023 08:52:56.7078 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2JI21vPmu+i53fMqa68vPf3azifwJ0RhLvU4jT8OMBKCLQlZWVUcFoyL5lds316uURU0R2ZCUMvvKw+sQiMW7Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9637
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,76 +112,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, deller@gmx.de, javierm@redhat.com,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Bruno_Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- linux-input@vger.kernel.org
+Cc: mripard@kernel.org, neil.armstrong@linaro.org, rfoss@kernel.org,
+ tzimmermann@suse.de, jonas@kwiboo.se, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, jernej.skrabec@gmail.com,
+ kernel test robot <lkp@intel.com>, Laurent.pinchart@ideasonboard.com,
+ andrzej.hajda@intel.com, kernel@pengutronix.de, linux-imx@nxp.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------gIFdOBbi4JbF0AqBDZb0biuj
-Content-Type: multipart/mixed; boundary="------------KkxOZwBlmkh8nGhHWYz63qGD";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jiri Kosina <jikos@kernel.org>
-Cc: deller@gmx.de, javierm@redhat.com, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, =?UTF-8?Q?Bruno_Pr=C3=A9mont?=
- <bonbons@linux-vserver.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- linux-input@vger.kernel.org
-Message-ID: <c24ff645-a160-4ac8-a7b6-7e94e657af0c@suse.de>
-Subject: Re: [PATCH 11/32] hid/picolcd_fb: Set FBINFO_VIRTFB flag
-References: <20231115102954.7102-1-tzimmermann@suse.de>
- <20231115102954.7102-12-tzimmermann@suse.de>
- <nycvar.YFH.7.76.2311210942200.29220@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2311210942200.29220@cbobk.fhfr.pm>
+Fix a couple of building warnings on used uninitialized 'best_m' and
+'best_n' local variables by initializing them to zero.  This makes compiler
+happy only.  No functional change.
 
---------------KkxOZwBlmkh8nGhHWYz63qGD
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Fixes: ce62f8ea7e3f ("drm/bridge: imx: Add i.MX93 MIPI DSI support")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202311151746.f7u7dzbZ-lkp@intel.com/
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+---
+ drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-SGkNCg0KQW0gMjEuMTEuMjMgdW0gMDk6NDIgc2NocmllYiBKaXJpIEtvc2luYToNCj4gT24g
-V2VkLCAxNSBOb3YgMjAyMywgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6DQo+IA0KPj4gVGhl
-IHBpY29sY2RfZmIgZHJpdmVyIG9wZXJhdGVzIG9uIHN5c3RlbSBtZW1vcnkuIE1hcmsgdGhl
-IGZyYW1lYnVmZmVyDQo+PiBhY2NvcmRpbmdseS4gSGVscGVycyBvcGVyYXRpbmcgb24gdGhl
-IGZyYW1lYnVmZmVyIG1lbW9yeSB3aWxsIHRlc3QNCj4+IGZvciB0aGUgcHJlc2VuY2Ugb2Yg
-dGhpcyBmbGFnLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0
-emltbWVybWFubkBzdXNlLmRlPg0KPj4gQ2M6ICJCcnVubyBQcsOpbW9udCIgPGJvbmJvbnNA
-bGludXgtdnNlcnZlci5vcmc+DQo+PiBDYzogSmlyaSBLb3NpbmEgPGppa29zQGtlcm5lbC5v
-cmc+DQo+PiBDYzogQmVuamFtaW4gVGlzc29pcmVzIDxiZW5qYW1pbi50aXNzb2lyZXNAcmVk
-aGF0LmNvbT4NCj4+IENjOiBsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmcNCj4gDQo+IEFj
-a2VkLWJ5OiBKaXJpIEtvc2luYSA8amtvc2luYUBzdXNlLmN6Pg0KPiANCj4gSSBndWVzcyB0
-aGlzIHdpbGwgZ28gaW4gYXMgb25lIHNlcmllcyB0b2dldGhlciwgcmlnaHQ/DQoNClllcy4g
-SSBpbnRlbmQgdG8gbW92ZSBhbGwgdGhpcyB0aHJvdWdoIHRoZSBEUk0gdHJlZXMuDQoNCkJl
-c3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdy
-YXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1h
-bnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkN
-CkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVu
-IE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+diff --git a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
+index 3ff30ce80c5b..7b3b4f985098 100644
+--- a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
++++ b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
+@@ -226,8 +226,8 @@ dphy_pll_get_configure_from_opts(struct imx93_dsi *dsi,
+ 	unsigned long fout;
+ 	unsigned long best_fout = 0;
+ 	unsigned int fvco_div;
+-	unsigned int min_n, max_n, n, best_n;
+-	unsigned long m, best_m;
++	unsigned int min_n, max_n, n, best_n = 0;
++	unsigned long m, best_m = 0;
+ 	unsigned long min_delta = ULONG_MAX;
+ 	unsigned long delta;
+ 	u64 tmp;
+-- 
+2.37.1
 
---------------KkxOZwBlmkh8nGhHWYz63qGD--
-
---------------gIFdOBbi4JbF0AqBDZb0biuj
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVccMEFAwAAAAAACgkQlh/E3EQov+BQ
-ShAAs9V17y1wTozgqL3e9IODe3yCmT2qpqTmMFmdprH/4JytmSLztP6o7ekphY+MB60rrU55RmjJ
-iiLNS1fdmHEP/yX7+R/kX94EXmY+D8WaceG+lVjgI4vKuWqqAQhZNcd+EHBgz7t1b8ToY0gUZSQH
-SeHUhSAyDXsDESmD+xE1jUEAbtC3zrQj+z+8ve3Smi2hXG7NduqHigQJaHR1dzzj6ZSPJtBexqYk
-Hw5z+p1+ujzS0HJ8P9hF8Iqit1bcjDG7aroP1SZdD3sxLw7l7GSsWuWSOzvYOs+kpUR8TDDivyk7
-fi86ky3+bWwaI42EbEQZ5HDKKtw9Uk1ANmKf3XCk8Axz0exLY5L+UApmHfed/7QNngFXRiMWgZnR
-RDF8Zq5lJWeXdtSY4xTyWrKikkW9vOkQs1j+fxfbz1vmyoRo6/u2nb1Xjixue8fKdZPKq6VyYPJf
-HHOHQtELHGnBVdndf3gVQKOsr0x78FxcndTzA4FLHlWbS+czlxBbkfLYzi9g4uipiud/l+CQgNo0
-cjpQlss5JqRI++xizrDXBnWVGWSyT19r9yk8dCqkI5dgrbEzvOW+wMrfMyJuospZXEfkzwrg7YeB
-4jCoh9A4YGUUSgjlWXJ1pHMTM/4KDpuo6vSnYNGka7Ar2H48n2GpVFZxwwb9LCrEco8JvtqXrOik
-ov4=
-=TD8O
------END PGP SIGNATURE-----
-
---------------gIFdOBbi4JbF0AqBDZb0biuj--
