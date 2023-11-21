@@ -2,64 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 672D57F2FAD
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 14:52:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5709B7F2FE9
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 14:55:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6800710E24F;
-	Tue, 21 Nov 2023 13:52:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F05C10E480;
+	Tue, 21 Nov 2023 13:54:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4E8C10E24F
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 13:52:19 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1r5RAe-0006dI-6U; Tue, 21 Nov 2023 14:52:08 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1r5RAc-00Ab2q-MW; Tue, 21 Nov 2023 14:52:06 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1r5RAc-004xhh-Cn; Tue, 21 Nov 2023 14:52:06 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v3 101/108] drm/bridge: ti-sn65dsi86: Make use of
- devm_pwmchip_alloc() function
-Date: Tue, 21 Nov 2023 14:50:43 +0100
-Message-ID: <20231121134901.208535-102-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
-In-Reply-To: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
-References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3BCC10E0C7;
+ Tue, 21 Nov 2023 13:54:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1700574895; x=1732110895;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=2bD+Ccm3m05w6tvwgulYcUxARR8S8upx+BQa3lMbuyU=;
+ b=FvMm4IppZlR6YENp4+m6JV1NHscQPQjhaPvbE645EtZviqw0nYROPXhF
+ pwuw8sGwglB1DY14oxZeWj17dIDJaa+avNnmSshksbFw7TcaAHYKUFIUQ
+ Xeaqu7Zh+eeDsetC7QEbjS5mknbcaxkvogIZaPd1M/ibd2gDgFGWSLR9v
+ U05L4iJjAcnhdzAxtS73cAKhGBBo66QAAJK79jWQVsI12i5TwtsCev8jg
+ YZjEArbVIa64SLB64o/rgA35vCJvkcDMn9P0PmTzTsK2ZHeWbjrlq1mYe
+ IYU0yPehlsjyLP8SuofCEStLAuiY8pPHl0bmpX8Ll1JCB1BxNX5XoqQ1k Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="395766182"
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; d="scan'208";a="395766182"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2023 05:54:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; d="scan'208";a="14909936"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2023 05:54:52 -0800
+Date: Tue, 21 Nov 2023 15:54:52 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Wayne Lin <wayne.lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v2 01/11] drm/dp_mst: Store the MST PBN divider value in
+ fixed point format
+Message-ID: <ZVy2rGFvp2cXaCoc@ideak-desk.fi.intel.com>
+References: <20231116131841.1588781-1-imre.deak@intel.com>
+ <20231116131841.1588781-2-imre.deak@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2447;
- i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=AROzjkRpHj5njf3lU2jxlyboGI1u3N99e/UTBYdgFXs=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlXLW7E254rpuTCVIyS4NZouDS17jH+gESdrgcB
- 6EffWoXDPmJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZVy1uwAKCRCPgPtYfRL+
- To50B/99nQY7ZOK+qcYvoUmw9KtmuymkH0pyAYoAr88i/qcp1SRMDKMDl7dL9IVITrhfhG4P7IF
- aYbwHymkeUSx8TFqomj9k4Sy+koHdz2gU0r8n3WeGgfVUTk6EWaze1GqfvCcnvCRJGP/hdbuows
- uedpfHBhet7hWK+SKonsnlkJCPzOZq+8T6IFgwpCsIAlfSXmcThf440toBKC6eRz74vQEdLwciX
- YIBQ8P+xkNEnmb4V5h+dTnc4xFzEHBZMJ0ptvpRY1+/D2moA215HVy8VfNkbKViUGliXaYM2lIa
- cqgDsnsYDCOs57HfzvzUnucjyq4MQrZxip+IkflCrhkMd0/6
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231116131841.1588781-2-imre.deak@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,82 +59,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, kernel@pengutronix.de,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Reply-To: imre.deak@intel.com
+Cc: intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This prepares the pwm driver of the ti-sn65dsi86 to further changes of
-the pwm core outlined in the commit introducing devm_pwmchip_alloc().
-There is no intended semantical change and the driver should behave as
-before.
+On Thu, Nov 16, 2023 at 03:18:31PM +0200, Imre Deak wrote:
+[...]
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> index ed784cf27d396..63024393b516e 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> @@ -31,6 +31,7 @@
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/amdgpu_drm.h>
+>  #include <drm/drm_edid.h>
+> +#include <drm/drm_fixed.h>
+>  
+>  #include "dm_services.h"
+>  #include "amdgpu.h"
+> @@ -210,7 +211,7 @@ static void dm_helpers_construct_old_payload(
+>  			struct drm_dp_mst_atomic_payload *old_payload)
+>  {
+>  	struct drm_dp_mst_atomic_payload *pos;
+> -	int pbn_per_slot = mst_state->pbn_div;
+> +	int pbn_per_slot = dfixed_trunc(mst_state->pbn_div);
+>  	u8 next_payload_vc_start = mgr->next_start_slot;
+>  	u8 payload_vc_start = new_payload->vc_start_slot;
+>  	u8 allocated_time_slots;
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
+I'm planning to merge this patchset today via drm-intel-next and for
+that I'll need to rebase the above change to:
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index c45c07840f64..cd40530ffd71 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -197,7 +197,7 @@ struct ti_sn65dsi86 {
- 	DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
- #endif
- #if defined(CONFIG_PWM)
--	struct pwm_chip			pchip;
-+	struct pwm_chip			*pchip;
- 	bool				pwm_enabled;
- 	atomic_t			pwm_pin_busy;
- #endif
-@@ -1372,7 +1372,8 @@ static void ti_sn_pwm_pin_release(struct ti_sn65dsi86 *pdata)
- 
- static struct ti_sn65dsi86 *pwm_chip_to_ti_sn_bridge(struct pwm_chip *chip)
- {
--	return container_of(chip, struct ti_sn65dsi86, pchip);
-+	struct ti_sn65dsi86 **pdata = pwmchip_priv(chip);
-+	return *pdata;
- }
- 
- static int ti_sn_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
-@@ -1585,22 +1586,28 @@ static const struct pwm_ops ti_sn_pwm_ops = {
- static int ti_sn_pwm_probe(struct auxiliary_device *adev,
- 			   const struct auxiliary_device_id *id)
- {
-+	struct pwm_chip *chip;
- 	struct ti_sn65dsi86 *pdata = dev_get_drvdata(adev->dev.parent);
- 
--	pdata->pchip.dev = pdata->dev;
--	pdata->pchip.ops = &ti_sn_pwm_ops;
--	pdata->pchip.npwm = 1;
--	pdata->pchip.of_xlate = of_pwm_single_xlate;
--	pdata->pchip.of_pwm_n_cells = 1;
-+	/* XXX: should this better use adev->dev instead of pdata->dev? */
-+	pdata->pchip = chip = devm_pwmchip_alloc(pdata->dev, 1, sizeof(&pdata));
-+	if (IS_ERR(chip))
-+		return PTR_ERR(chip);
- 
--	return pwmchip_add(&pdata->pchip);
-+	*(struct ti_sn65dsi86 **)pwmchip_priv(chip) = pdata;
-+
-+	chip->ops = &ti_sn_pwm_ops;
-+	chip->of_xlate = of_pwm_single_xlate;
-+	chip->of_pwm_n_cells = 1;
-+
-+	return pwmchip_add(chip);
- }
- 
- static void ti_sn_pwm_remove(struct auxiliary_device *adev)
- {
- 	struct ti_sn65dsi86 *pdata = dev_get_drvdata(adev->dev.parent);
- 
--	pwmchip_remove(&pdata->pchip);
-+	pwmchip_remove(pdata->pchip);
- 
- 	if (pdata->pwm_enabled)
- 		pm_runtime_put_sync(pdata->dev);
--- 
-2.42.0
+@@ -205,13 +206,14 @@ void dm_helpers_dp_update_branch_info(
 
+ static void dm_helpers_construct_old_payload(
+                        struct dc_link *link,
+-                       int pbn_per_slot,
++                       fixed20_12 pbn_per_slot_fp,
+                        struct drm_dp_mst_atomic_payload *new_payload,
+                        struct drm_dp_mst_atomic_payload *old_payload)
+ {
+        struct link_mst_stream_allocation_table current_link_table =
+                                                                        link->mst_stream_alloc_table;
+        struct link_mst_stream_allocation *dc_alloc;
++       int pbn_per_slot = dfixed_trunc(pbn_per_slot_fp);
+        int i;
+
+        *old_payload = *new_payload;
+
+and then apply the original changes in the patch above while merging
+drm-intel-next to drm-tip. This is required due to
+
+commit 9031e0013f819c ("drm/amd/display: Fix mst hub unplug warning")
+
+being only in drm-misc-next, but not yet in drm-intel-next.
+
+Let me know if you have a concern with this.
+
+--Imre
