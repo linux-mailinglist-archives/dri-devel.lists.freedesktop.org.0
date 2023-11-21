@@ -2,71 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E61B47F283E
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 10:00:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22AB47F2844
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 10:01:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3D6510E2BC;
-	Tue, 21 Nov 2023 09:00:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C6EB10E2C3;
+	Tue, 21 Nov 2023 09:01:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDC4A10E2BC;
- Tue, 21 Nov 2023 08:59:58 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id
- d9443c01a7336-1cf73e25b72so118545ad.0; 
- Tue, 21 Nov 2023 00:59:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700557198; x=1701161998; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=jJ/AFKPeVxjAnYg0rcHdI79h+dhe0CVTx872xJ/48GQ=;
- b=A2EZe7OlMTrQhdUOrA/ftaSEAjJnOVV5PcgMuT23E3TORxt0fn/Zog7oIjXaY/+Zpm
- fqcocifyrc/6V/qCeLiRf+XGbyp3V03KmSrygXkYBapNG+SfbSPs5qO40k/K4iIWncbf
- FR7FwMYXoR/LxSsCujn+E2gkgH46kOWRJ+QbMdZHchEJZNJB/K8V1iNVXdeC81cv0cIo
- bCb4suu0sUO9OLd3aCtD5CE0WObd9I3hFOMPi8VKywMRb7X50UFJ33aq5x8bGIHOu07l
- NxEkM6g6JkuXvlEaPaIAHj4A2RW9a78qkYEyEsw4+HGdjBXeuWNFONFUO2qK10yw0a+U
- p/VA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0A6F10E2C3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 09:01:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1700557291;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yw6fiQH/1FP5RDlAJ71lbPk23ChcGSwEJZF1AzUc87o=;
+ b=HEt933z9U7z1zIIvnH6xhc1XeGc+OKSqFZ9KMV376i4lWzFme9b/H7yQauyp8s9TUt0tRL
+ wlp8bjRMpyFbyA8zwFYehJNLYNQRO9BbpVCEHFUP/dyD9GKXXVG8iUO+7I1jZOr8PLSQV/
+ XBbniYJbvJgdibV5OJdAZPWwTcEChkY=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-570-7I153x5_M7ei0XpNDC9KNQ-1; Tue, 21 Nov 2023 04:01:21 -0500
+X-MC-Unique: 7I153x5_M7ei0XpNDC9KNQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-a0180b0190eso39103066b.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 01:01:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700557198; x=1701161998;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1700557280; x=1701162080;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jJ/AFKPeVxjAnYg0rcHdI79h+dhe0CVTx872xJ/48GQ=;
- b=F0zCGKZU8qsFmypMHMSm4Z3Av7q2hnl5Ddvp94U8gSuydgHbIMvFLMv/bHFStfq2tp
- 5TGe+FlCmTvNyKjO814+rCpiBa2IEpjj8eNcc1+Cps9Ue9YnVS6XDX+wWutnHJztVhB2
- 4ahqSFIR55siO9eIHwGcsURf3U8eBbpzaT3oXA3R55b1bX6CxBhMgjsN3JMFCE7olAUe
- d5/XMiJx+3/BIvlYxMeKEA5tvO7p8W89oa9lKzAU4/04Uinz/kX3FEqEU7r8sNSyRxx0
- L1jxaQnx3R2xUb5DOuP/GXHKx/kegwNSsDkmPBEsFYhKAstG85d5uQndzxXcmNcJsGm9
- ct9A==
-X-Gm-Message-State: AOJu0YwUiyD513tNW/tbqTCBwJxXLz/6lAf4aZEZigRl81cyzLkaQiez
- TkOZQ56hGUggcZ6PtLGcH0g=
-X-Google-Smtp-Source: AGHT+IHuciNeLfXvkTnSw1GZl4bJP7c7mXwIB2Y7kIFG4zpwMN7QUV1San6rTxEbjcx5PX2Gvul0Yg==
-X-Received: by 2002:a17:902:eccd:b0:1cf:6a75:e989 with SMTP id
- a13-20020a170902eccd00b001cf6a75e989mr3141227plh.6.1700557198184; 
- Tue, 21 Nov 2023 00:59:58 -0800 (PST)
-Received: from [192.168.0.152] ([103.75.161.209])
+ bh=yw6fiQH/1FP5RDlAJ71lbPk23ChcGSwEJZF1AzUc87o=;
+ b=rWeT4nmhEMi8COfP1h7DNli/C3P2jIpDdPkExdFYuUF+quHIMmr3glaYRGYF9jImdh
+ n4y9xVfaL0YroEQYhFona0rIdKm6IHdzz0RXLYUytn2T9DarQ86ff0tlnlLad6quc+R+
+ bBgAl4sSN9Ym4lSA7qtbwPbXuy/sCVbNDMwLFnvYtuFyXwPMIfjCAfeCqKPbgAZqmAO1
+ upju22dRbRcTBL5QXt8iyHRzPQ6ZwbWHfto4WtJaV1JbyV5j4RFU8C4CbjNfpH1gc7uS
+ JwQiyhTGUheN9+qeuAxpIol+TQIPX+HOZGH+uZ2wuDOydI6XJbB9HJC5dflulo9fyGJU
+ MFXQ==
+X-Gm-Message-State: AOJu0YxMmv8wmXLqwJpigekTavn34Pp4W11gqaLRj1EMlYrBfXJt+QCb
+ FcLEFNf1UFjuEfpeQzgCWYD6oiL0aeUs3VKkd22IO/12zQMjKMakwwgQooxi9FtqiUNX6dUJG+h
+ FCU3kIDy6LR7Qew/ldUTviCj9E2hL
+X-Received: by 2002:a17:906:20cb:b0:9ff:f8a:9a63 with SMTP id
+ c11-20020a17090620cb00b009ff0f8a9a63mr3241572ejc.42.1700557280605; 
+ Tue, 21 Nov 2023 01:01:20 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEiYJ4B+rN090BRUTXWJ2HSbLBLGW+75Ux43XGlRHNyHYdwHWFMFeWg/QHljH1q731acsvpLQ==
+X-Received: by 2002:a17:906:20cb:b0:9ff:f8a:9a63 with SMTP id
+ c11-20020a17090620cb00b009ff0f8a9a63mr3241554ejc.42.1700557280182; 
+ Tue, 21 Nov 2023 01:01:20 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
+ (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
  by smtp.gmail.com with ESMTPSA id
- y4-20020a17090322c400b001bbb7af4963sm7401133plg.68.2023.11.21.00.59.54
+ gq16-20020a170906e25000b009fca9484a62sm2797671ejb.200.2023.11.21.01.01.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Nov 2023 00:59:57 -0800 (PST)
-Message-ID: <38a45214-7cd0-482a-a330-65c5be488fba@gmail.com>
-Date: Tue, 21 Nov 2023 14:29:58 +0530
+ Tue, 21 Nov 2023 01:01:19 -0800 (PST)
+Message-ID: <60319873-e1f5-43b4-aa22-68a5671d413b@redhat.com>
+Date: Tue, 21 Nov 2023 10:01:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] driver: gpu: Fixing warning directly dereferencing a
- rcu pointer
-Content-Language: en-US
-To: Danilo Krummrich <dakr@redhat.com>, kherbst@redhat.com, lyude@redhat.com, 
- airlied@gmail.com, daniel@ffwll.ch
-References: <8e9efe54-2799-4539-a8b0-aa199f8052f6@redhat.com>
- <20231113191303.3277733-1-singhabhinav9051571833@gmail.com>
- <0754e669-8b00-461c-b6fe-79c659bf59a3@redhat.com>
-From: Abhinav Singh <singhabhinav9051571833@gmail.com>
-In-Reply-To: <0754e669-8b00-461c-b6fe-79c659bf59a3@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 2/2] fbdev/simplefb: Add support for generic
+ power-domains
+To: Richard Acayan <mailingradian@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>
+References: <20231101172017.3872242-1-thierry.reding@gmail.com>
+ <20231101172017.3872242-3-thierry.reding@gmail.com> <ZVwFNfkqjrvhFHM0@radian>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <ZVwFNfkqjrvhFHM0@radian>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,77 +89,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/21/23 06:50, Danilo Krummrich wrote:
-> On 11/13/23 20:13, Abhinav Singh wrote:
->> This patch fixes a sparse warning with this message
->> "warning:dereference of noderef expression". In this context it means we
->> are dereferencing a __rcu tagged pointer directly.
+Hi,
+
+On 11/21/23 02:17, Richard Acayan wrote:
+> Hello,
+> 
+> On Wed, Nov 01, 2023 at 06:20:17PM +0100, Thierry Reding wrote:
+>> From: Thierry Reding <treding@nvidia.com>
 >>
->> We should not be directly dereferencing a rcu pointer. To get a normal
->> (non __rcu tagged pointer) from a __rcu tagged pointer we are using the
->> function unrcu_pointer(...). The non __rcu tagged pointer then can be
->> dereferenced just like a normal pointer.
+>> The simple-framebuffer device tree bindings document the power-domains
+>> property, so make sure that simplefb supports it. This ensures that the
+>> power domains remain enabled as long as simplefb is active.
 >>
->> I tested with qemu with this command
->> qemu-system-x86_64 \
->>     -m 2G \
->>     -smp 2 \
->>     -kernel bzImage \
->>     -append "console=ttyS0 root=/dev/sda earlyprintk=serial 
->> net.ifnames=0" \
->>     -drive file=bullseye.img,format=raw \
->>     -net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 \
->>     -net nic,model=e1000 \
->>     -enable-kvm \
->>     -nographic \
->>     -pidfile vm.pid \
->>     2>&1 | tee vm.log
->> with lockdep enabled.
+>> v2: - remove unnecessary call to simplefb_detach_genpds() since that's
+>>       already done automatically by devres
+>>     - fix crash if power-domains property is missing in DT
 >>
->> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
-> 
-> Applied, thanks!
-> 
-> There are a few more such occurrences. [1][2] Plan to fix them as well?
-> 
-> [1] 
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/nouveau/nv10_fence.c#L35
-> [2] 
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/nouveau/nv84_fence.c#L88
-> 
+>> Signed-off-by: Thierry Reding <treding@nvidia.com>
 >> ---
->> v1 -> v2 : Replaced the rcu_dereference(...) with unrcu_pointer(...) and
->>             also removed the rcu locking and unlocking function call.
->> v2 -> v3 : Changed the description of the patch to match it with the 
->> actual
->>        implementation.
+>>  drivers/video/fbdev/simplefb.c | 93 ++++++++++++++++++++++++++++++++++
+>>  1 file changed, 93 insertions(+)
 >>
->>   drivers/gpu/drm/nouveau/nv04_fence.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/nouveau/nv04_fence.c 
->> b/drivers/gpu/drm/nouveau/nv04_fence.c
->> index 5b71a5a5cd85..cdbc75e3d1f6 100644
->> --- a/drivers/gpu/drm/nouveau/nv04_fence.c
->> +++ b/drivers/gpu/drm/nouveau/nv04_fence.c
->> @@ -39,7 +39,7 @@ struct nv04_fence_priv {
->>   static int
->>   nv04_fence_emit(struct nouveau_fence *fence)
->>   {
->> -    struct nvif_push *push = fence->channel->chan.push;
->> +    struct nvif_push *push = unrcu_pointer(fence->channel)->chan.push;
->>       int ret = PUSH_WAIT(push, 2);
->>       if (ret == 0) {
->>           PUSH_NVSQ(push, NV_SW, 0x0150, fence->base.seqno);
+>> diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
+>> index 18025f34fde7..fe682af63827 100644
+>> --- a/drivers/video/fbdev/simplefb.c
+>> +++ b/drivers/video/fbdev/simplefb.c
+>> @@ -25,6 +25,7 @@
+>>  #include <linux/of_clk.h>
+>>  #include <linux/of_platform.h>
+>>  #include <linux/parser.h>
+>> +#include <linux/pm_domain.h>
+>>  #include <linux/regulator/consumer.h>
+>>  
+>>  static const struct fb_fix_screeninfo simplefb_fix = {
+>> @@ -78,6 +79,11 @@ struct simplefb_par {
+>>  	unsigned int clk_count;
+>>  	struct clk **clks;
+>>  #endif
+>> +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
+>> +	unsigned int num_genpds;
 > 
-Thanks a lot for merging this.
-Yeah sure I will submit the patch for the issues soon.
+> This is the cause of the crash that occurred on the older patch series.
+> The field is unsigned, a deviation from v6.6:drivers/remoteproc/imx_rproc.c.
+> 
+> Instead of making it signed, this version emits an error whenever the
+> count is negative.
+
+I'm not sure what you are trying to say here ?
+
+>> +	struct device **genpds;
+>> +	struct device_link **genpd_links;
+>> +#endif
+>>  #if defined CONFIG_OF && defined CONFIG_REGULATOR
+>>  	bool regulators_enabled;
+>>  	u32 regulator_count;
+>> @@ -432,6 +438,89 @@ static void simplefb_regulators_enable(struct simplefb_par *par,
+>>  static void simplefb_regulators_destroy(struct simplefb_par *par) { }
+>>  #endif
+>>  
+>> +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
+>> +static void simplefb_detach_genpds(void *res)
+>> +{
+>> +	struct simplefb_par *par = res;
+>> +	unsigned int i = par->num_genpds;
+>> +
+>> +	if (par->num_genpds <= 1)
+>> +		return;
+>> +
+>> +	while (i--) {
+>> +		if (par->genpd_links[i])
+>> +			device_link_del(par->genpd_links[i]);
+>> +
+>> +		if (!IS_ERR_OR_NULL(par->genpds[i]))
+>> +			dev_pm_domain_detach(par->genpds[i], true);
+>> +	}
+>> +}
+>> +
+>> +static int simplefb_attach_genpds(struct simplefb_par *par,
+>> +				  struct platform_device *pdev)
+>> +{
+>> +	struct device *dev = &pdev->dev;
+>> +	unsigned int i;
+>> +	int err;
+>> +
+>> +	err = of_count_phandle_with_args(dev->of_node, "power-domains",
+>> +					 "#power-domain-cells");
+>> +	if (err < 0) {
+>> +		dev_info(dev, "failed to parse power-domains: %d\n", err);
+>> +		return err;
+> 
+> This error path is taken when there is no power-domains property in the
+> device tree with err = -ENOENT.
+> 
+> Strangely, this does not suppress the error like the next if statement,
+> even though it is possible that nothing is wrong.
+> 
+>> +	}
+>> +
+>> +	par->num_genpds = err;
+>> +
+>> +	/*
+>> +	 * Single power-domain devices are handled by the driver core, so
+>> +	 * nothing to do here.
+>> +	 */
+>> +	if (par->num_genpds <= 1)
+>> +		return 0;
+>> +
+>> +	par->genpds = devm_kcalloc(dev, par->num_genpds, sizeof(*par->genpds),
+>> +				   GFP_KERNEL);
+> <snip>
+>> @@ -518,6 +607,10 @@ static int simplefb_probe(struct platform_device *pdev)
+>>  	if (ret < 0)
+>>  		goto error_clocks;
+>>  
+>> +	ret = simplefb_attach_genpds(par, pdev);
+>> +	if (ret < 0)
+>> +		goto error_regulators;
+> 
+> With the error case specified above, not specifying power-domains (which
+> is valid according to dtschema) causes the entire driver to fail
+> whenever there are no power domains in the device tree.
+> 
+> On google-sargo, this causes a bug where the framebuffer fails to probe:
+> 
+>     [    0.409290] simple-framebuffer 9c000000.framebuffer: failed to parse power-domains: -2
+>     [    0.409340] simple-framebuffer: probe of 9c000000.framebuffer failed with error -2
+
+Ok so this is a problem, sorry for not catching this during review.
+
+I believe that this should be fixed by changing the code to:
+
+	err = of_count_phandle_with_args(dev->of_node, "power-domains",
+					 "#power-domain-cells");
+	if (err < 0) {
+		if (err == -ENOENT)
+			return 0;
+
+		dev_info(dev, "failed to parse power-domains: %d\n", err);
+		return err;
+	}
+
+Can you submit a (tested) patch fixing this? Then I'll push it
+to drm-misc-next right away.
 
 Regards,
-Abhinav Singh
+
+Hans
+
+
+
+
