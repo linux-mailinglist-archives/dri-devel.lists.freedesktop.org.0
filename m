@@ -1,62 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5FD67F2B6F
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 12:06:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45F0F7F2BEF
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 12:41:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B37010E472;
-	Tue, 21 Nov 2023 11:06:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 792F210E051;
+	Tue, 21 Nov 2023 11:41:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
- [IPv6:2607:f8b0:4864:20::1130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE2A510E2E0
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 11:06:16 +0000 (UTC)
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-5ca11922cedso23672977b3.2
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 03:06:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700564775; x=1701169575; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=qAu9KNb55Wcsj1U43w2gm+QY+xIrGUFw9sDuy2hVAqQ=;
- b=Wz7+MaapA2+9hVGHTiGSwQDkqAxTsI3PlIZaCL5A1hX+xEwCoZ72BII+9/x8BYo81C
- /Yk04Ynw5wSrOSs60HjWmCQNOnKb6xiw1a0gfbpO2lM3FV5bKv80vMq+ksm9CPlw3cSw
- 5mM9ZV90aaXLIOqrqX5Mn3ppdvmXI7mnv5x7RV+0rymNmM1IebLoGdakDPZQQZHMGddI
- NlHxTp7M+MQnGeTWN+Uxizi98PtuawRhzXJ5D8Ud6JRViQ/fUmf6IKDWb+48QeFq5DWq
- bWpOHXPTM2GhyYWnpo1swfFkjxQ1/SEJAYHKUzbNYfTRf81cWsgAFkuv3VNoUjDxHKN4
- boSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700564775; x=1701169575;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qAu9KNb55Wcsj1U43w2gm+QY+xIrGUFw9sDuy2hVAqQ=;
- b=pBRiVRcDP18ncMJIRMhbnir3C3rW8/4M/BSAFQ9zU+9Yd6ZjgsJ3qzojHZkidV2k8T
- 4FuW4AzOZP3JkVVFuwTo2OdzxeHXdvNL6DuAB6a3mOGJOIPygI7MsRSizRAHZoySW9+w
- f4Z3C5xPpH6f2BqX4R56jXBYhEF+QJHtT6N9izJAok0YEjHDPpzfd6IRMW2/TZbDvSew
- 6m04FiNd9Nz1kQ9JvInrAWfzbgCwvOl2LgG5LzBwScEmrGvsQIaS/xenbWo2fxFZ0thU
- w0YIAOF0lW2Jmm5aA7HMULYRcCmMhok8TBloBkb+WWqv2uDo2gP5ntoYpo4E4YLPGCK8
- U39Q==
-X-Gm-Message-State: AOJu0Yy4D47aHT9hKEyJwxOvy4AIYa/I9cDSuxqriL8h8MyQncy+65lr
- C+cCLwIdASS/3AhF3B4N92bUqTRdo2r9quWRft/0UA==
-X-Google-Smtp-Source: AGHT+IFXmK6c+goSlc6gqDw81wwgNpcvs80rWrjqvbbbomRseLWccYA6j1JiQT06FrnHqj4stB6xqOa2n/1zntHjuNI=
-X-Received: by 2002:a0d:d3c6:0:b0:5c4:3896:7763 with SMTP id
- v189-20020a0dd3c6000000b005c438967763mr10518180ywd.44.1700564775367; Tue, 21
- Nov 2023 03:06:15 -0800 (PST)
+X-Greylist: delayed 477 seconds by postgrey-1.36 at gabe;
+ Tue, 21 Nov 2023 11:41:14 UTC
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
+ [157.90.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 050D310E051
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 11:41:13 +0000 (UTC)
+Received: from [192.168.42.20] (p5b164862.dip0.t-ipconnect.de [91.22.72.98])
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 10D352FC01F8;
+ Tue, 21 Nov 2023 12:33:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+ s=default; t=1700566395;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bE/DZ6jSuHVY0GZUKmeiKrvkfUErx6XZ/rLhfW6+yWE=;
+ b=thbtr9T8Yuz+G62q4lI97f1h/EewjqDXX3f+f386nsC9W23YpT9QO1b1CmGW1avIKk10yr
+ LgJU9QZ5xf26OisbyPn4UmNLt2Z5KKKtMWgIGoP8MPCoaIXc8tabtrq8knuJKvq1vET/yD
+ G1Ssnz+cJoo5/oSznGQ/eBl7Oc2uqb4=
+Authentication-Results: mail.tuxedocomputers.com;
+ auth=pass smtp.auth=wse@tuxedocomputers.com
+ smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+Date: Tue, 21 Nov 2023 12:33:13 +0100
 MIME-Version: 1.0
-References: <20231103230414.1483428-1-dmitry.baryshkov@linaro.org>
- <20231103230414.1483428-7-dmitry.baryshkov@linaro.org>
- <e67c00fd-37f2-4ede-983f-c8c46bf847f1@linaro.org>
-In-Reply-To: <e67c00fd-37f2-4ede-983f-c8c46bf847f1@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 21 Nov 2023 13:06:04 +0200
-Message-ID: <CAA8EJprC_9MXyzBETaHO=HcKU+vREvdJewXafqk8+R6bL3vDtw@mail.gmail.com>
-Subject: Re: [PATCH v6 6/6] usb: typec: qcom-pmic-typec: switch to
- DRM_AUX_HPD_BRIDGE
-To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+To: Pavel Machek <pavel@ucw.cz>, Jani Nikula <jani.nikula@linux.intel.com>,
+ hdegoede@redhat.com, jikos@kernel.org
+References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
+ <ZSe1GYLplZo5fsAe@duo.ucw.cz>
+ <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
+ <ZSf9QneKO/8IzWhd@duo.ucw.cz>
+ <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
+ <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
+ <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+ <ZSmg4tqXiYiX18K/@duo.ucw.cz>
+ <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+ <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,46 +66,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Robert Foss <rfoss@kernel.org>, dri-devel@lists.freedesktop.org,
- Jonas Karlman <jonas@kwiboo.se>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Andy Gross <agross@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, linux-arm-msm@vger.kernel.org,
- linux-phy@lists.infradead.org, freedreno@lists.freedesktop.org
+Cc: Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, linux-input@vger.kernel.org,
+ ojeda@kernel.org, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 21 Nov 2023 at 12:46, Bryan O'Donoghue
-<bryan.odonoghue@linaro.org> wrote:
->
-> On 03/11/2023 23:03, Dmitry Baryshkov wrote:
-> > Use the freshly defined DRM_AUX_HPD_BRIDGE instead of open-coding the
-> > same functionality for the DRM bridge chain termination.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->
-> > +     bridge_dev = drm_dp_hpd_bridge_register(tcpm->dev, to_of_node(tcpm->tcpc.fwnode));
-> > +     if (IS_ERR(bridge_dev))
-> > +             return PTR_ERR(bridge_dev);
-> > +
->
-> What is the effect if we never attach any bridged devices ?
->
-> We make an aux device that just hangs around and eventually get cleaned
-> up on release ? That's the way I read this code anyway.
+Hi,
 
-Yes. That's the point, to untangle the USB code and the DRM bridge.
+Am 20.11.23 um 21:52 schrieb Pavel Machek:
+> Hi!
+>
+>>>> So... a bit of rationale. The keyboard does not really fit into the
+>>>> LED subsystem; LEDs are expected to be independent ("hdd led") and not
+>>>> a matrix of them.
+>>> Makes sense.
+>>>
+>>>> We do see various strange displays these days -- they commonly have
+>>>> rounded corners and holes in them. I'm not sure how that's currently
+>>>> supported, but I believe it is reasonable to view keyboard as a
+>>>> display with slightly weird placing of pixels.
+>>>>
+>>>> Plus, I'd really like to play tetris on one of those :-).
+>>>>
+>>>> So, would presenting them as auxdisplay be acceptable? Or are there
+>>>> better options?
+>>> It sounds like a fair use case -- auxdisplay are typically simple
+>>> character-based or small graphical displays, e.g. 128x64, that may not
+>>> be a "main" / usual screen as typically understood, but the concept is
+>>> a bit fuzzy and we are a bit of a catch-all.
+>>>
+>>> And "keyboard backlight display with a pixel/color per-key" does not
+>>> sound like a "main" screen, and having some cute effects displayed
+>>> there are the kind of thing that one could do in the usual small
+>>> graphical ones too. :)
+>>>
+>>> But if somebody prefers to create new categories (or subcategories
+>>> within auxdisplay) to hold these, that could be nice too (in the
+>>> latter case, I would perhaps suggest reorganizing all of the existing
+>>> ones while at it).
+>> One could also reasonably make the argument that controlling the
+>> individual keyboard key backlights should be part of the input
+>> subsystem. It's not a display per se. (Unless you actually have small
+>> displays on the keycaps, and I think that's a thing too.)
+> While it would not be completely crazy to do that... I believe the
+> backlight is more of a display and less of a keyboard. Plus input
+> subystem is very far away from supporting this, and we had no input
+> from input people here.
+>
+> I don't think LED subsystem is right place for this, and I believe
+> auxdisplay makes slightly more sense than input.
+>
+> Unless someone steps up, I'd suggest Werner tries to implement this as
+> an auxdisplay. [And yes, this will not be simple task. RGB on LED is
+> different from RGB on display. But there are other LED displays, so
+> auxdisplay should handle this. Plus pixels are really funnily
+> shaped. But displays with missing pixels -- aka holes for camera --
+> are common in phones, and I believe we'll get variable pixel densities
+> -- less dense over camera -- too. So displays will have to deal with
+> these in the end.]
 
-> Acked-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Another idea I want to throw in the mix:
 
+Maybe the kernel is not the right place to implement this at all. RGB stuff is 
+not at all standardized and every vendor is doing completely different 
+interfaces, which does not fit the kernel userpsace apis desire to be uniformal 
+and fixed. e.g. Auxdisplay might fit static setting of RGB values, but it does 
+not fit the snake-effect mode, or the raindrops mode, or the 
+4-different-colors-in-the-edges-breathing-and-color-cycling mode.
 
--- 
-With best wishes
-Dmitry
+So my current idea: Implement these keyboards as a single zone RGB kbd_backlight 
+in the leds interface to have something functional out of the box, but make it 
+runtime disable-able if something like 
+https://gitlab.com/CalcProgrammer1/OpenRGB wants to take over more fine granular 
+control from userspace via hidraw.
+
+Kind regards,
+
+Werner
+
+>
+> Best regards,
+> 								Pavel
