@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777C57F2F39
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 14:50:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 672D57F2FAD
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 14:52:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0374F10E4AC;
-	Tue, 21 Nov 2023 13:50:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6800710E24F;
+	Tue, 21 Nov 2023 13:52:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 644CF10E4AC
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 13:50:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id CC9F46195E
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 13:50:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7FEA7C433CA
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 13:50:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700574624;
- bh=pT0lM3XZTa4vKt0zG3985Aq0BH52hPxQ0g6lzSIXkdo=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=MqWUyMvFk88roAfEKhFCZZfsdbkpx41ZPoDAo3NfiL39VT66cnh5LPwpn1mxcke7a
- g9UtfsfreaLFaTxQ68RDDyxQkrR1OGw2X7Gn84saxJIM07B36d5VKFLwmv8eJnFpI4
- PGfztSMNqVDhEVN8cP3zWkg/d91QfF/geo0HcRZJObE4T+tpWgHKwPeZp7Z/TxkXxS
- EygvwPIHIyMr9bFvt7pAP1iTt34zXedmICGskNrSVZTO/LPoAP15E6CK8jvlivIHtM
- CgAWmx+Tlq8CEZwDBFAqvHMe3BztbS/JwcfoZMLdwMZtiEK6yolU5+nii773lWegQS
- gTalKrvKJnGNQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 70ED2C53BD1; Tue, 21 Nov 2023 13:50:24 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218168] amdgpu: kfd_topology.c warning: the frame size of 1408
- bytes is larger than 1024 bytes
-Date: Tue, 21 Nov 2023 13:50:24 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_file_loc
-Message-ID: <bug-218168-2300-rfKavZFnHd@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-218168-2300@https.bugzilla.kernel.org/>
-References: <bug-218168-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4E8C10E24F
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 13:52:19 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r5RAe-0006dI-6U; Tue, 21 Nov 2023 14:52:08 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r5RAc-00Ab2q-MW; Tue, 21 Nov 2023 14:52:06 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r5RAc-004xhh-Cn; Tue, 21 Nov 2023 14:52:06 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Thierry Reding <thierry.reding@gmail.com>
+Subject: [PATCH v3 101/108] drm/bridge: ti-sn65dsi86: Make use of
+ devm_pwmchip_alloc() function
+Date: Tue, 21 Nov 2023 14:50:43 +0100
+Message-ID: <20231121134901.208535-102-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
+In-Reply-To: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
+References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2447;
+ i=u.kleine-koenig@pengutronix.de; h=from:subject;
+ bh=AROzjkRpHj5njf3lU2jxlyboGI1u3N99e/UTBYdgFXs=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlXLW7E254rpuTCVIyS4NZouDS17jH+gESdrgcB
+ 6EffWoXDPmJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZVy1uwAKCRCPgPtYfRL+
+ To50B/99nQY7ZOK+qcYvoUmw9KtmuymkH0pyAYoAr88i/qcp1SRMDKMDl7dL9IVITrhfhG4P7IF
+ aYbwHymkeUSx8TFqomj9k4Sy+koHdz2gU0r8n3WeGgfVUTk6EWaze1GqfvCcnvCRJGP/hdbuows
+ uedpfHBhet7hWK+SKonsnlkJCPzOZq+8T6IFgwpCsIAlfSXmcThf440toBKC6eRz74vQEdLwciX
+ YIBQ8P+xkNEnmb4V5h+dTnc4xFzEHBZMJ0ptvpRY1+/D2moA215HVy8VfNkbKViUGliXaYM2lIa
+ cqgDsnsYDCOs57HfzvzUnucjyq4MQrZxip+IkflCrhkMd0/6
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,20 +72,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-pwm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, kernel@pengutronix.de,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218168
+This prepares the pwm driver of the ti-sn65dsi86 to further changes of
+the pwm core outlined in the commit introducing devm_pwmchip_alloc().
+There is no intended semantical change and the driver should behave as
+before.
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                URL|                            |https://gitlab.freedesktop.
-                   |                            |org/drm/amd/-/issues/2866
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index c45c07840f64..cd40530ffd71 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -197,7 +197,7 @@ struct ti_sn65dsi86 {
+ 	DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
+ #endif
+ #if defined(CONFIG_PWM)
+-	struct pwm_chip			pchip;
++	struct pwm_chip			*pchip;
+ 	bool				pwm_enabled;
+ 	atomic_t			pwm_pin_busy;
+ #endif
+@@ -1372,7 +1372,8 @@ static void ti_sn_pwm_pin_release(struct ti_sn65dsi86 *pdata)
+ 
+ static struct ti_sn65dsi86 *pwm_chip_to_ti_sn_bridge(struct pwm_chip *chip)
+ {
+-	return container_of(chip, struct ti_sn65dsi86, pchip);
++	struct ti_sn65dsi86 **pdata = pwmchip_priv(chip);
++	return *pdata;
+ }
+ 
+ static int ti_sn_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+@@ -1585,22 +1586,28 @@ static const struct pwm_ops ti_sn_pwm_ops = {
+ static int ti_sn_pwm_probe(struct auxiliary_device *adev,
+ 			   const struct auxiliary_device_id *id)
+ {
++	struct pwm_chip *chip;
+ 	struct ti_sn65dsi86 *pdata = dev_get_drvdata(adev->dev.parent);
+ 
+-	pdata->pchip.dev = pdata->dev;
+-	pdata->pchip.ops = &ti_sn_pwm_ops;
+-	pdata->pchip.npwm = 1;
+-	pdata->pchip.of_xlate = of_pwm_single_xlate;
+-	pdata->pchip.of_pwm_n_cells = 1;
++	/* XXX: should this better use adev->dev instead of pdata->dev? */
++	pdata->pchip = chip = devm_pwmchip_alloc(pdata->dev, 1, sizeof(&pdata));
++	if (IS_ERR(chip))
++		return PTR_ERR(chip);
+ 
+-	return pwmchip_add(&pdata->pchip);
++	*(struct ti_sn65dsi86 **)pwmchip_priv(chip) = pdata;
++
++	chip->ops = &ti_sn_pwm_ops;
++	chip->of_xlate = of_pwm_single_xlate;
++	chip->of_pwm_n_cells = 1;
++
++	return pwmchip_add(chip);
+ }
+ 
+ static void ti_sn_pwm_remove(struct auxiliary_device *adev)
+ {
+ 	struct ti_sn65dsi86 *pdata = dev_get_drvdata(adev->dev.parent);
+ 
+-	pwmchip_remove(&pdata->pchip);
++	pwmchip_remove(pdata->pchip);
+ 
+ 	if (pdata->pwm_enabled)
+ 		pm_runtime_put_sync(pdata->dev);
+-- 
+2.42.0
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
