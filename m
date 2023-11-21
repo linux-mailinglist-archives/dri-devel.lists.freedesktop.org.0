@@ -1,122 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C11B7F2885
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 10:17:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA3AC7F289B
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 10:21:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F8B510E322;
-	Tue, 21 Nov 2023 09:17:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A0D910E456;
+	Tue, 21 Nov 2023 09:21:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6BDB10E322;
- Tue, 21 Nov 2023 09:17:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iGRiSuoEtMu6/8woZCg4JB558lYfA8c1uemScjWzydXJoLVfMemz5klLVqk2/jh9a3fPgLiCgecgLhlOGX6McKpbXudzLAPwHfaH77rVEY5LLefmG8ngXiv2hSzP5k59fukjNMtDuZLF884kVLv2OSig4oi75bu1BSLKgYpzHO0BblDDg9noLntMvi0s554aKUzEqjpadc7FKl85ZGlkY7pxDhd8qsCaCIA7+j5L5awMdOUOsoNiJw2Ncasq6huiYGdVtkJ4KHdpt+feg9vdZIiAms1USRqCzZZqs367O7ruWTka1H/VBmAEBiRZf6Ftdq7fugZG/w2q4WU630gooQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g6FleHveucG2H5Fm6Z3n3w4GeKDeMhQsStOBTI5aFxY=;
- b=QjazYbFYF2Fthanxp0TwAjL2f/HB4mbObYna7KdMiSJOIb+3O4woOC1PCnDYt4c2AsWuoxq39d0qy760h/f56rlGDF46QeVqshTHmyacFEeCwLaVxetq6YsViqxBxP2gnMFjbGNBVTr4y2dv2sFqOCh+09b7hOf+9teRSmV+UDdTq3reRXVz1N7QLXo9B1NT8l/JoY+678QSeXqOY+Nfv21r+kruMAHDTDdnUxk5wGhjeEgDbx5bl8NAOUGpS729Rb+SOwMSgApbFk0hr+KJTtP684HUmK0Kc7DRS+6vUIKjJqQ4YdX7EJ/+e0DwYogE+oQs2SbU7qm8ThGV1FREJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g6FleHveucG2H5Fm6Z3n3w4GeKDeMhQsStOBTI5aFxY=;
- b=Uf0bRjHw6vy2hIrheSWCJgvdM8oMwop738Mq2PlelbmFtvgrDmYGlElBnH4rl+Y3lb3iCAZiYprDmn6MXsCDGP2MBDuIXbmBTh1zYL6JeAH1WUVhXNrb/N3aiKJgxIQH/YcxxGL3XG99FFr+P+dKI9pRDyBPZo0pJu1gnktWjgA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CY5PR12MB6600.namprd12.prod.outlook.com (2603:10b6:930:40::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.27; Tue, 21 Nov
- 2023 09:17:06 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3%7]) with mapi id 15.20.7002.028; Tue, 21 Nov 2023
- 09:17:06 +0000
-Message-ID: <bac617fe-6b23-411f-8dc9-c97cc84208f3@amd.com>
-Date: Tue, 21 Nov 2023 10:17:00 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] gpu: display: remove unnecessary braces to fix coding
- style
-Content-Language: en-US
-To: RutingZhang <u202112078@hust.edu.cn>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, "Pan, Xinhui"
- <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20231121043621.9351-1-u202112078@hust.edu.cn>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20231121043621.9351-1-u202112078@hust.edu.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0195.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a4::7) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91DE210E099;
+ Tue, 21 Nov 2023 09:21:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1700558461; x=1732094461;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=AN2NvCErWf1LeTnhhNUlQcQl2SXOxvm16eNLcP/5POw=;
+ b=Hyc+WfMaqJu+lzJ2qkV9w7IXQBThlsKTGMmuhhNtEIQdzWDz6/Vkxv4k
+ 7sVmGkLEQNKpXc9cmR/BjRqvQsRTS9GbNBSgO1yRSlk/52wKOMo6W9S1z
+ ej0h2OxyCGTpLto3oV4UBhtBH0TodAZaH5FtZf6x8EFlYBX3G7XqtVy9v
+ Mvwl3BifTiZFeGUsD23BFOlPV9p4F6zi8uNqZem7VmsYHBF8B7GoWzEt0
+ Ipy31BKaxHCZfU8+ibQwtcCcuYOOdo1Up/3/YLBxFZuqln8zI5teuGXos
+ lvbdyoP4B/ZK5zVtoEWVr2yREvD7ukQFuMBdUK4kpXXz1Lklrlxa6o4CD A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="371140802"
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; d="scan'208";a="371140802"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2023 01:21:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="890202592"
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; d="scan'208";a="890202592"
+Received: from cdeakx-mobl.amr.corp.intel.com (HELO localhost) ([10.252.58.54])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2023 01:20:56 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Edward
+ Adam Davis <eadavis@qq.com>
+Subject: Re: [PATCH V2] drm/modes: Fix divide error in
+ drm_mode_debug_printmodeline
+In-Reply-To: <ZVt3Yv2q8w0PjsMP@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <875y1wpsp3.fsf@intel.com>
+ <tencent_DCCE6C78766FE82D816F9C94F0EAC2ED260A@qq.com>
+ <ZVt3Yv2q8w0PjsMP@intel.com>
+Date: Tue, 21 Nov 2023 11:20:53 +0200
+Message-ID: <87edgjo422.fsf@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CY5PR12MB6600:EE_
-X-MS-Office365-Filtering-Correlation-Id: 780feb06-2842-4659-7d2d-08dbea72a184
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8dpPTc3TPL6A82wRB/vRNDHyp/tJSuRSKIHdm2FVXWEaKI+Ii1WLmcsKLrFLQccFRuINdzIav3CRXncV0srUPtYqBJedIrIQ/WE8OLK1LHH0VgOE4CpKXUO/QR/uQ1Gnjnw56CtyDmkpjOlRCNq0jIP17DlPsOMJPYTKWfT1vyTqp0Hc2hW1S/ZPFDROd49CEJInFcFXLeOgQg9ckdMHT8U+xVFekaiKTyL7Sz0dLO2FOPqcK6+srR/ZLdD2v53W4WYWiPTg/bS39HYujOXZTUlnavRfoBgWkV8CndHm6HJr4q/aI+nlRyAG/Q/DK6tAaxADysw/gFh5U2Qf662UoPBpiaBtmmgEdRBokQPiXh7lgXBDVS6DEhGx6rmlBIWBmAFdiRkmz1+9ZezjyKSKvXqWM3P3ZTMUn2Z4NqHx7odBPK5/ksl4Iq72GA1ivOrw/3yC+uV3QRGagAwR6d6bQ4X8r2Xti/xH992/jYH9C0ObYdWAwLGVoKQ1/uky0G6E4h5opvbkd3XEVSpdwoPnwVme4rDDWaVJU5S6XF81DdNjHN291Sz0CsFcWRZEBwRicDA6yjLQAVwM2ffsFLd2/TQ1zT3wRJkz975fCKl8bXP3T0b2gFFqyXD602Fp69nqXv7kJhQ/tWOlU4IYQujMJyjTmjQKNlvbfA0k3pxWCCKNTnMv8L0O9647RF53YL4J
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(376002)(396003)(346002)(39860400002)(366004)(230922051799003)(230273577357003)(230173577357003)(186009)(451199024)(64100799003)(1800799012)(6512007)(31686004)(6506007)(6666004)(6486002)(478600001)(316002)(4326008)(8936002)(8676002)(66946007)(38100700002)(2616005)(110136005)(66476007)(66556008)(83380400001)(2906002)(5660300002)(31696002)(26005)(41300700001)(86362001)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RDV6bUcyMEF3N0xhbGhGMDIvMTIvR1Vzd2lRNHZKTzRldUxwUzcwSTdna1pS?=
- =?utf-8?B?a2ZCd3V5L0YrWTdIK3NjQy9CWmVnWjV1cldJTVlIYk9aTWl4SGNONEVHeGVO?=
- =?utf-8?B?bW1xc1M1UlJBWEdXSEtjdXlweXh3cGV6RDdMZmU1NW0xSVlJSktwdklmN01T?=
- =?utf-8?B?N2g1TGhBN0FWT0FWWFk2cFMvbW9mWWk5aWw3R0crSXZ5VzZEYWxnUFd1Z0d4?=
- =?utf-8?B?bEFoSGtPZlo4a3lTK2FPLzFxUjVuWldoczhwblJjYk1DYi9BWWJCOHE4R2Vs?=
- =?utf-8?B?dUZqd3JIblVLbWludzRIMjRIOUtrdUpEZE1FVWEyRm9SOEI0VjhncXpoRHN0?=
- =?utf-8?B?cWdGZUVGR0R1S3JwNGI5NHpkYTNwNVhKM0pKLzFnMjZZRCtHT3R4T0hsM0Vk?=
- =?utf-8?B?NVJrRDcxbVNPYWtWdkRXZGhWL3k4V29URlZEems4ZHMwMGVhUDZQSitLS3Jv?=
- =?utf-8?B?L1p2bG0zZm9ncUxQZ0poeDUzdkN5WTVkS0pCSHllc0FKMFdLUStmQS9HdHM2?=
- =?utf-8?B?N3NvVjF5clBIZm5ueXdqNWxlYkNFRGpORG5KZWJScldKWFZ5WkY0RXVCaUlR?=
- =?utf-8?B?NFF0YUxqS2ROVDFnNWt1M3oxa24vWXpYdE1pYUVSTFlrbjNDeExkbnA1bUFl?=
- =?utf-8?B?ZUJHQ3REZDcwNjBHdGVUVHA5RFNTWkZzekFMSWhqUytmY3h6MUdJeVFpMm0v?=
- =?utf-8?B?OEFHOUwrbis4aFNndloyYmswUklqdzZlY3JDTmxUZSs2MkozZ2ZOZ1pZMjZj?=
- =?utf-8?B?UmRLSDFjZ3ZEcEN4aFBQT1pHbXNjbzlEVU55dWRWcG5VRFdrRUNjQWZUdVZ5?=
- =?utf-8?B?Y2lRT3NCUlZwZU10SVAvRnI3ZFJWT1FiTkw0UEVYY2ZBMk1HREUxcjRZeWFY?=
- =?utf-8?B?dVBWa3lKM1ZPUjVKQU52Zm1acVllejVJSzRGYlNiTE1qSGpNNStLUnBWUEdw?=
- =?utf-8?B?Z3BiNGdpMjdZZytSc3B1VFgxN1YzRE91b3NNS3AyY0NJSGczMGJKdEx2SklK?=
- =?utf-8?B?eHprY2dmZmdWK295eGNWVEF0UlQ1RmVoWTlPd2lwWElDQTcvQzVFcjR5eWo4?=
- =?utf-8?B?djNUQWp3YVF5R0Rid3hOSVQ4Y3psS2ZCSGpqZ29oV0hHaUQxRTl1bVJKcTNI?=
- =?utf-8?B?RTI2cGxySVNDUUo4YmNkNjVUZGVtdHRmMFpINVQ3SG9ZTFdxeXk2Qzc5ZUEx?=
- =?utf-8?B?YVUrMUZmNytiNStjK05HV1FiVW5iWEdCUXhwNGU1RlBFTkVXWnNiRUVMcStk?=
- =?utf-8?B?TW45bm1GcURJVW9mRDJCbWlhbzVVSktkMUdKZW5CN1dVV1V4WFQxOFR5VENo?=
- =?utf-8?B?QkY5OCtrdzNQdVdEMnRlN283K3pFQXpGeGl2RU54SmFXekJJYzE3WDZNM2R1?=
- =?utf-8?B?dndyVUEwelNwOTAwWndhNDJ0cmpPN0dqZGV0V21PV0dqWXZ1ZTJLSmZHUDE2?=
- =?utf-8?B?elBmSUpmVE9QdEV5L3J3bzZ5aTA2bWpxdkRXRjJiSnlPejVTZFZ1d3BSR1h0?=
- =?utf-8?B?NXcwY1ppOEwzRTd5dk8wZGNMc3hKY1YyY1hMd0YveXNHWkY4U2J2cDlYdlZj?=
- =?utf-8?B?WlZteS9telJubm9YNkxuS1l5T1F5MkR3YXBHb0taNkNIckc1cGF2TlR3alJv?=
- =?utf-8?B?NGdjcy9nSTFjbytDanVMSHZEQnJLV1grMzZRTVJ5STJ5REtPSHpRVmRSckFz?=
- =?utf-8?B?bE01WVoybjM5Mk1RbmNoUUVSQ2tjZW0vRitFSjI1TE1na1NDYVVRYzB5Rkp2?=
- =?utf-8?B?MmtJc041Mjd3SFA5NmhrdENKYVAyUWt5QVoyRlpJdXhQeXFONi9lN3BOQXE4?=
- =?utf-8?B?N2VJT3BaZmlhdjUvaFdHVDNEUzhpNWVjWG5yQW5EaW1RZVVYTVYvNEhzTWl1?=
- =?utf-8?B?RkRKL3BWQllsVzlLN3B2WlJGdFhRaDlKWDZhcHdoQkkwc29uc21RUUR0dVpN?=
- =?utf-8?B?OGtvZURBTVFDVnp2VS9DOFpnOEJmRWJSTXAxSHp4aW1vUTVCMThzVlZOZERH?=
- =?utf-8?B?R0FYQjBsWTdnUGdNK3o1bnVvVXdMVG5SaGE5QXludXF2dDNTS0MzdlNWRWJJ?=
- =?utf-8?B?ck5FNGZ2VTgzY1RtR0QzT25lT1Q0bjV2cmpkOEhYVC9NMlRycVNEQXM1aFQ1?=
- =?utf-8?Q?A598vAYzu3EA9ps452VFuroqx?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 780feb06-2842-4659-7d2d-08dbea72a184
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2023 09:17:06.2045 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WqcUafJ4HjjewtkG5LkpEr0PlpsFZCij8OznedfsG+1jOZ/w1o31qPpw6FzqIjjS
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6600
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,50 +62,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hust-os-kernel-patches@googlegroups.com, Dongliang Mu <dzm91@hust.edu.cn>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Karol Herbst <kherbst@redhat.com>, airlied@linux.ie, daniel.vetter@ffwll.ch,
+ syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
+ Danilo Krummrich <dakr@redhat.com>, mripard@kernel.org, tzimmermann@suse.de,
+ nouveau@lists.freedesktop.org, daniel.vetter@intel.com,
+ syzbot+2e93e6fb36e6fdc56574@syzkaller.appspotmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 21.11.23 um 05:36 schrieb RutingZhang:
-> checkpatch complains that:
+On Mon, 20 Nov 2023, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
+> wrote:
+> On Mon, Nov 20, 2023 at 10:41:18PM +0800, Edward Adam Davis wrote:
+>> [Syz Log]
+>> divide error: 0000 [#1] PREEMPT SMP KASAN
+>> CPU: 0 PID: 5068 Comm: syz-executor357 Not tainted 6.6.0-syzkaller-16039=
+-gac347a0655db #0
+>> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS =
+Google 10/09/2023
+>> RIP: 0010:drm_mode_vrefresh drivers/gpu/drm/drm_modes.c:1303 [inline]
+>> RIP: 0010:drm_mode_debug_printmodeline+0x118/0x4e0 drivers/gpu/drm/drm_m=
+odes.c:60
+>> Code: 00 41 0f b7 07 66 83 f8 02 b9 01 00 00 00 0f 43 c8 0f b7 c1 0f af =
+e8 44 89 f0 48 69 c8 e8 03 00 00 89 e8 d1 e8 48 01 c8 31 d2 <48> f7 f5 49 8=
+9 c6 eb 0c e8 fb 07 66 fc eb 05 e8 f4 07 66 fc 48 89
+>> RSP: 0018:ffffc9000391f8d0 EFLAGS: 00010246
+>> RAX: 000000000001f400 RBX: ffff888025045000 RCX: 000000000001f400
+>> RDX: 0000000000000000 RSI: 0000000000008000 RDI: ffff888025045018
+>> RBP: 0000000000000000 R08: ffffffff8528b9af R09: 0000000000000000
+>> R10: ffffc9000391f8a0 R11: fffff52000723f17 R12: 0000000000000080
+>> R13: dffffc0000000000 R14: 0000000000000080 R15: ffff888025045016
+>> FS:  0000555556932380(0000) GS:ffff8880b9800000(0000) knlGS:000000000000=
+0000
+>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>> CR2: 00000000005fdeb8 CR3: 000000007fcff000 CR4: 00000000003506f0
+>> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+>> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+>> Call Trace:
+>>  <TASK>
+>>  drm_mode_setcrtc+0x83b/0x1880 drivers/gpu/drm/drm_crtc.c:794
+>>  drm_ioctl_kernel+0x362/0x500 drivers/gpu/drm/drm_ioctl.c:792
+>>  drm_ioctl+0x636/0xb00 drivers/gpu/drm/drm_ioctl.c:895
+>>  vfs_ioctl fs/ioctl.c:51 [inline]
+>>  __do_sys_ioctl fs/ioctl.c:871 [inline]
+>>  __se_sys_ioctl+0xf8/0x170 fs/ioctl.c:857
+>>  do_syscall_x64 arch/x86/entry/common.c:51 [inline]
+>>  do_syscall_64+0x44/0x110 arch/x86/entry/common.c:82
+>>  entry_SYSCALL_64_after_hwframe+0x63/0x6b
+>>=20
+>> [Analysis]
+>> When calculating den in drm_mode_vrefresh(), if the vscan value is too l=
+arge,=20
+>> there is a probability of unsigned integer overflow.
+>>=20
+>> [Fix]
+>> Before multiplying by vscan, first check if their product will overflow.=
+=20
+>> If overflow occurs, return 0 and exit the subsequent process.
+>>=20
+>> Reported-and-tested-by: syzbot+2e93e6fb36e6fdc56574@syzkaller.appspotmai=
+l.com
+>> Fixes: ea40d7857d52 ("drm/vkms: fbdev emulation support")
+>> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+>> ---
+>>  drivers/gpu/drm/drm_modes.c | 7 +++++--
+>>  1 file changed, 5 insertions(+), 2 deletion(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+>> index ac9a406250c5..60739d861da2 100644
+>> --- a/drivers/gpu/drm/drm_modes.c
+>> +++ b/drivers/gpu/drm/drm_modes.c
+>> @@ -36,6 +36,7 @@
+>>  #include <linux/list.h>
+>>  #include <linux/list_sort.h>
+>>  #include <linux/of.h>
+>> +#include <linux/overflow.h>
+>>=20=20
+>>  #include <video/of_display_timing.h>
+>>  #include <video/of_videomode.h>
+>> @@ -1297,8 +1298,10 @@ int drm_mode_vrefresh(const struct drm_display_mo=
+de *mode)
+>>  		num *=3D 2;
+>>  	if (mode->flags & DRM_MODE_FLAG_DBLSCAN)
+>>  		den *=3D 2;
+>> -	if (mode->vscan > 1)
+>> -		den *=3D mode->vscan;
+>> +	if (mode->vscan > 1) {
+>> +		if (unlikely(check_mul_overflow(den, mode->vscan, &den)))
+>> +			return 0;
+>> +	}
 >
-> WARNING: braces {} are not necessary for single statement blocks
-> +                if (pool->base.irqs != NULL) {
-> +                        dal_irq_service_destroy(&pool->base.irqs);
-> +                }
+> I can't see any driver that actually supports vscan>1. Only
+> nouveau has some code for it, but doesn't look like it does
+> anything sensible. All other drivers for sure should be
+> rejecting vscan>1 outright. Which driver is this?
 >
-> Fixed it by removing unnecessary braces to fix the coding style issue.
+> Is there an actual usecase where nouveau needs this (and does
+> it even work?) or could we just rip out the whole thing and
+> reject vscan>1 globally?
+
+I thought the whole thing seemed familiar [1].
+
+BR,
+Jani.
+
+
+
+[1] https://lore.kernel.org/r/20230802174746.2256-1-astrajoan@yahoo.com
+
+
 >
-> Signed-off-by: RutingZhang <u202112078@hust.edu.cn>
-> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+>>=20=20
+>>  	return DIV_ROUND_CLOSEST_ULL(mul_u32_u32(num, 1000), den);
+>>  }
+>> --=20
+>> 2.25.1
 
-Subject line prefix should be "drm/amdgpu".
-
-Apart from this nit it looks good to me, but might be already fixed 
-internally.
-
-Regards,
-Christian.
-
-> ---
->   drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-> index 447de8492594..6835dbb733a2 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
-> @@ -713,9 +713,8 @@ static void dcn21_resource_destruct(struct dcn21_resource_pool *pool)
->   			pool->base.hubps[i] = NULL;
->   		}
->   
-> -		if (pool->base.irqs != NULL) {
-> +		if (pool->base.irqs != NULL)
->   			dal_irq_service_destroy(&pool->base.irqs);
-> -		}
->   	}
->   
->   	for (i = 0; i < pool->base.res_cap->num_ddc; i++) {
-
+--=20
+Jani Nikula, Intel
