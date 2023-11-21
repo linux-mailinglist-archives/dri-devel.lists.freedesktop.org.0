@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45F0F7F2BEF
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 12:41:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B956B7F2C85
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 13:06:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 792F210E051;
-	Tue, 21 Nov 2023 11:41:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 382E410E26F;
+	Tue, 21 Nov 2023 12:06:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 477 seconds by postgrey-1.36 at gabe;
- Tue, 21 Nov 2023 11:41:14 UTC
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
- [157.90.84.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 050D310E051
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 11:41:13 +0000 (UTC)
-Received: from [192.168.42.20] (p5b164862.dip0.t-ipconnect.de [91.22.72.98])
- (Authenticated sender: wse@tuxedocomputers.com)
- by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 10D352FC01F8;
- Tue, 21 Nov 2023 12:33:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
- s=default; t=1700566395;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bE/DZ6jSuHVY0GZUKmeiKrvkfUErx6XZ/rLhfW6+yWE=;
- b=thbtr9T8Yuz+G62q4lI97f1h/EewjqDXX3f+f386nsC9W23YpT9QO1b1CmGW1avIKk10yr
- LgJU9QZ5xf26OisbyPn4UmNLt2Z5KKKtMWgIGoP8MPCoaIXc8tabtrq8knuJKvq1vET/yD
- G1Ssnz+cJoo5/oSznGQ/eBl7Oc2uqb4=
-Authentication-Results: mail.tuxedocomputers.com;
- auth=pass smtp.auth=wse@tuxedocomputers.com
- smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
-Date: Tue, 21 Nov 2023 12:33:13 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4724310E26E;
+ Tue, 21 Nov 2023 12:06:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1700568394; x=1732104394;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=t/2bEVeJuujRMjbp/hilDSCjmc2RJ6be3UC2T97ooT4=;
+ b=hMAjHDe9PO6axT8Vu68bJQTTT8lY6+IuJXT5LX92Izo9N7YRzfk+7WTL
+ Hl00W79gxSUTs8F7mzLswOKmWa6VWBoj2HsTXdkipAGzq7wIGOUQ43h8z
+ FfswIsGrdHvD6xwVg4GKJl8WE2o2iZRIQ7cgSUm+HTPmppfbXOT8vJSGr
+ hfzM6QOlWD66k4qMLvAlL4AqggKLTfdLMvPvh6L1S43/dZdKua2NkQ0j8
+ pkSlW/K7fUOV+M6fxv3XUH+4Cnfgz9IKDrsmgEjVjtmH+RhImdot1kIeW
+ zV/EifsRm8MY2nijerLOdaubmy+ojI5UxaJPbXT7bI4Y8nk/3IwZE89XL w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="395751608"
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; d="scan'208";a="395751608"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2023 04:06:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="1013898917"
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; d="scan'208";a="1013898917"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.11.238])
+ ([10.213.11.238])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2023 04:06:19 -0800
+Message-ID: <8dd6f4da-dcc9-4ea3-8395-bf048b0dbc93@intel.com>
+Date: Tue, 21 Nov 2023 13:06:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
-To: Pavel Machek <pavel@ucw.cz>, Jani Nikula <jani.nikula@linux.intel.com>,
- hdegoede@redhat.com, jikos@kernel.org
-References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
- <ZSe1GYLplZo5fsAe@duo.ucw.cz>
- <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
- <ZSf9QneKO/8IzWhd@duo.ucw.cz>
- <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
- <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
- <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <ZSmg4tqXiYiX18K/@duo.ucw.cz>
- <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
- <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/display: Fix phys_base to be
+ relative not absolute
 Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+To: Paz Zcharya <pazz@chromium.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+References: <20231105172718.18673-1-pazz@chromium.org>
+ <ZVQ3d8FFqxsy0OX7@intel.com> <ZVfw3ghfBLdHB7uk@google.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <ZVfw3ghfBLdHB7uk@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,86 +64,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, linux-input@vger.kernel.org,
- ojeda@kernel.org, linux-leds@vger.kernel.org
+Cc: Subrata Banik <subratabanik@google.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sean Paul <seanpaul@chromium.org>, matthew.auld@intel.com,
+ Marcin Wojtas <mwojtas@chromium.org>, Drew Davenport <ddavenport@chromium.org>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-Am 20.11.23 um 21:52 schrieb Pavel Machek:
-> Hi!
->
->>>> So... a bit of rationale. The keyboard does not really fit into the
->>>> LED subsystem; LEDs are expected to be independent ("hdd led") and not
->>>> a matrix of them.
->>> Makes sense.
+On 18.11.2023 00:01, Paz Zcharya wrote:
+> On Tue, Nov 14, 2023 at 10:13:59PM -0500, Rodrigo Vivi wrote:
+>> On Sun, Nov 05, 2023 at 05:27:03PM +0000, Paz Zcharya wrote:
+>>> Fix the value of variable `phys_base` to be the relative offset in
+>>> stolen memory, and not the absolute offset of the GSM.
+>>
+>> to me it looks like the other way around. phys_base is the physical
+>> base address for the frame_buffer. Setting it to zero doesn't seem
+>> to make that relative. And also doesn't look right.
+>>
 >>>
->>>> We do see various strange displays these days -- they commonly have
->>>> rounded corners and holes in them. I'm not sure how that's currently
->>>> supported, but I believe it is reasonable to view keyboard as a
->>>> display with slightly weird placing of pixels.
->>>>
->>>> Plus, I'd really like to play tetris on one of those :-).
->>>>
->>>> So, would presenting them as auxdisplay be acceptable? Or are there
->>>> better options?
->>> It sounds like a fair use case -- auxdisplay are typically simple
->>> character-based or small graphical displays, e.g. 128x64, that may not
->>> be a "main" / usual screen as typically understood, but the concept is
->>> a bit fuzzy and we are a bit of a catch-all.
+>>> Currently, the value of `phys_base` is set to "Surface Base Address,"
+>>> which in the case of Meter Lake is 0xfc00_0000.
+>>
+>> I don't believe this is a fixed value. IIRC this comes from the register
+>> set by video bios, where the idea is to reuse the fb that was used so
+>> far.
+>>
+>> With this in mind I don't understand how that could overflow. Maybe
+>> the size of the stolen is not right? maybe the size? maybe different
+>> memory region?
+>>
+> 
+> Hi Rodrigo, thanks for the great comments.
+> 
+> Apologies for using a wrong/confusing terminology. I think 'phys_base'
+> is supposed to be the offset in the GEM BO, where base (or
+> "Surface Base Address") is supposed to be the GTT offset.
+
+Since base is taken from PLANE_SURF register it should be resolvable via 
+GGTT to physical address pointing to actual framebuffer.
+I couldn't find anything in the specs.
+The simplest approach would be then do the same as in case of DGFX:
+		gen8_pte_t __iomem *gte = to_gt(i915)->ggtt->gsm;
+		gen8_pte_t pte;
+
+		gte += base / I915_GTT_PAGE_SIZE;
+
+		pte = ioread64(gte);
+		phys_base = pte & I915_GTT_PAGE_MASK;
+
+Regards
+Andrzej
+
+
+> 
+> Other than what I wrote before, I noticed that the function 'i915_vma_pin'
+> which calls to 'i915_gem_gtt_reserve' is the one that binds the right
+> address space in the GTT for that stolen region.
+> 
+> I see that in the function 'i915_vma_insert' (full call stack below),
+> where if (flags & PIN_OFFSET_FIXED), then when calling 'i915_gem_gtt_reserve'
+> we add an offset.
+> 
+> Specifically in MeteorLake, and specifically when using GOP driver, this
+> offset is equal to 0xfc00_0000. But as you mentioned, this is not strict.
+> 
+> The if statement always renders true because in the function
+> 'initial_plane_vma' we always set
+> pinctl = PIN_GLOBAL | PIN_OFFSET_FIXED | base;
+> where pinctl == flags (see file 'intel_plane_initial.c' line 145).
+> 
+> Call stack:
+> drm_mm_reserve_node
+> i915_gem_gtt_reserve
+> 	i915_vma_insert
+> i915_vma_pin_ww
+> i915_vma_pin
+> initial_plane_vma
+> intel_alloc_initial_plane_obj
+> intel_find_initial_plane_obj
+> 
+> Therefore, I believe the variable 'phys_base' in the
+> function 'initial_plane_vma,' should be the the offset in the GEM BO
+> and not the GTT offset, and because the base is added later on
+> in the function 'i915_gem_gtt_reserve', this value should not be
+> equal to base and be 0.
+> 
+> Hope it makes more sense.
+> 
+>>> This causes the
+>>> function `i915_gem_object_create_region_at` to fail in line 128, when
+>>> it attempts to verify that the range does not overflow:
 >>>
->>> And "keyboard backlight display with a pixel/color per-key" does not
->>> sound like a "main" screen, and having some cute effects displayed
->>> there are the kind of thing that one could do in the usual small
->>> graphical ones too. :)
+>>> if (range_overflows(offset, size, resource_size(&mem->region)))
+>>>        return ERR_PTR(-EINVAL);
 >>>
->>> But if somebody prefers to create new categories (or subcategories
->>> within auxdisplay) to hold these, that could be nice too (in the
->>> latter case, I would perhaps suggest reorganizing all of the existing
->>> ones while at it).
->> One could also reasonably make the argument that controlling the
->> individual keyboard key backlights should be part of the input
->> subsystem. It's not a display per se. (Unless you actually have small
->> displays on the keycaps, and I think that's a thing too.)
-> While it would not be completely crazy to do that... I believe the
-> backlight is more of a display and less of a keyboard. Plus input
-> subystem is very far away from supporting this, and we had no input
-> from input people here.
->
-> I don't think LED subsystem is right place for this, and I believe
-> auxdisplay makes slightly more sense than input.
->
-> Unless someone steps up, I'd suggest Werner tries to implement this as
-> an auxdisplay. [And yes, this will not be simple task. RGB on LED is
-> different from RGB on display. But there are other LED displays, so
-> auxdisplay should handle this. Plus pixels are really funnily
-> shaped. But displays with missing pixels -- aka holes for camera --
-> are common in phones, and I believe we'll get variable pixel densities
-> -- less dense over camera -- too. So displays will have to deal with
-> these in the end.]
+>>> where:
+>>>    offset = 0xfc000000
+>>>    size = 0x8ca000
+>>>    mem->region.end + 1 = 0x4400000
+>>>    mem->region.start = 0x800000
+>>>    resource_size(&mem->region) = 0x3c00000
+>>>
+>>> call stack:
+>>>    i915_gem_object_create_region_at
+>>>    initial_plane_vma
+>>>    intel_alloc_initial_plane_obj
+>>>    intel_find_initial_plane_obj
+>>>    intel_crtc_initial_plane_config
+>>>
+>>> Looking at the flow coming next, we see that `phys_base` is only used
+>>> once, in function `_i915_gem_object_stolen_init`, in the context of
+>>> the offset *in* the stolen memory. Combining that with an
+>>> examinination of the history of the file seems to indicate the
+>>> current value set is invalid.
+>>>
+>>> call stack (functions using `phys_base`)
+>>>    _i915_gem_object_stolen_init
+>>>    __i915_gem_object_create_region
+>>>    i915_gem_object_create_region_at
+>>>    initial_plane_vma
+>>>    intel_alloc_initial_plane_obj
+>>>    intel_find_initial_plane_obj
+>>>    intel_crtc_initial_plane_config
+>>>
+>>> [drm:_i915_gem_object_stolen_init] creating preallocated stolen
+>>> object: stolen_offset=0x0000000000000000, size=0x00000000008ca000
+>>>
+>>> Signed-off-by: Paz Zcharya <pazz@chromium.org>
+>>> ---
+>>>
+>>>   drivers/gpu/drm/i915/display/intel_plane_initial.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/display/intel_plane_initial.c b/drivers/gpu/drm/i915/display/intel_plane_initial.c
+>>> index a55c09cbd0e4..e696cb13756a 100644
+>>> --- a/drivers/gpu/drm/i915/display/intel_plane_initial.c
+>>> +++ b/drivers/gpu/drm/i915/display/intel_plane_initial.c
+>>> @@ -90,7 +90,7 @@ initial_plane_vma(struct drm_i915_private *i915,
+>>>   			"Using phys_base=%pa, based on initial plane programming\n",
+>>>   			&phys_base);
+>>>   	} else {
+>>> -		phys_base = base;
+>>> +		phys_base = 0;
+>>>   		mem = i915->mm.stolen_region;
+>>>   	}
+>>>   
+>>> -- 
+>>> 2.42.0.869.gea05f2083d-goog
+>>>
 
-Another idea I want to throw in the mix:
-
-Maybe the kernel is not the right place to implement this at all. RGB stuff is 
-not at all standardized and every vendor is doing completely different 
-interfaces, which does not fit the kernel userpsace apis desire to be uniformal 
-and fixed. e.g. Auxdisplay might fit static setting of RGB values, but it does 
-not fit the snake-effect mode, or the raindrops mode, or the 
-4-different-colors-in-the-edges-breathing-and-color-cycling mode.
-
-So my current idea: Implement these keyboards as a single zone RGB kbd_backlight 
-in the leds interface to have something functional out of the box, but make it 
-runtime disable-able if something like 
-https://gitlab.com/CalcProgrammer1/OpenRGB wants to take over more fine granular 
-control from userspace via hidraw.
-
-Kind regards,
-
-Werner
-
->
-> Best regards,
-> 								Pavel
