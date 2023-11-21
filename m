@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13CA17F30BA
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 15:29:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECBEC7F30BE
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 15:29:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97C7910E4B5;
-	Tue, 21 Nov 2023 14:29:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 230CB10E4C4;
+	Tue, 21 Nov 2023 14:29:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 838E910E4B5
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 14:29:19 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0F4A76000D;
- Tue, 21 Nov 2023 14:29:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1700576955;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MxWe3zt1b36C0+KRQ6v8yf2cKpPI8F5PGpIu/HRQudw=;
- b=R0Rce0aGsk7OBhkV4DtVZCNxc0YAWubhv6MR2/9305gOTIc7x7K6CnqDksnIQonEpFI/YV
- bwk0gt1ppAa3LYgMB70R38ko58FQIVHvDI7Qt3fj2JElY3Pm6JDnwLWW0PqbUS7yST3Y6W
- izyaHzgQ6VvClwtrJRAZIfw3nj46btr5DyczR95Y+sf7M6Ek+bYuCL5PrU7tRTc5X4N5ja
- DE96YFQkNOKHqv8neYgoM8FBBOWew7MS2hiwn1GGYF1Mzbhnk+vkbbSurgvDy7+HDMRRgE
- C85DZvFHMWqMyY5DpEhtGvgAjTyMCvZyHphbcOJCHd9CCV+AhXFvPCFa16/OIg==
-Date: Tue, 21 Nov 2023 15:29:14 +0100
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] drm/logicvc: Avoid possible overflow in layer buffer
- setup variables
-Message-ID: <ZVy-uuMnNktDnepS@aptenodytes>
-References: <20231025130946.119957-1-paul.kocialkowski@bootlin.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29F3310E4C5
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 14:29:47 +0000 (UTC)
+Received: from notapiano.myfiosgateway.com (cola.collaboradmins.com
+ [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: nfraprado)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id A4BE76607314;
+ Tue, 21 Nov 2023 14:29:42 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1700576986;
+ bh=5REf8+1qSAKeSFYSM/vLqpdzS7hrFNmkWP0nRiEB5h8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=jvN8W1ew3AdczFCVEQhQUsivssXtNz+fUumVKei73te07h7RAbtR3bCUWH2aGI09x
+ YVb/yGlRLVFmkr+4Run+wZg+eY94dz3sMOan0Sl+kZhu8n0qkI3LJvNzRvsDvO7tAR
+ 6aoPYDtsNQmyQW2UzFLPvv4D79sXAkhS7ZN6zNv3DcxY9l339xpKIBj13WaflXEMyH
+ op0yemRLAV6wMggWkDoror+JQnuolnuinVRElXXSzgVb/GSdeFxFYiTNADeQAyOhTa
+ PcIgguoRtgUzbFYikOiWTSoKWp9Aub9C0uBi0pMfla2rLLOxfMgMuR7Bf1PlwpoPmE
+ u38NSnrci9mrQ==
+From: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
+ <nfraprado@collabora.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: [PATCH v2] drm/mediatek: dp: Add phy_mtk_dp module as pre-dependency
+Date: Tue, 21 Nov 2023 09:29:27 -0500
+Message-ID: <20231121142938.460846-1-nfraprado@collabora.com>
+X-Mailer: git-send-email 2.42.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Maw3DNwEx0ys9J+Y"
-Content-Disposition: inline
-In-Reply-To: <20231025130946.119957-1-paul.kocialkowski@bootlin.com>
-X-GND-Sasl: paul.kocialkowski@bootlin.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,100 +52,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>,
- Maxime Ripard <mripard@kernel.org>
+Cc: Guillaume Ranquet <granquet@baylibre.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
+ <nfraprado@collabora.com>, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Bo-Chen Chen <rex-bc.chen@mediatek.com>, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The mtk_dp driver registers a phy device which is handled by the
+phy_mtk_dp driver and assumes that the phy probe will complete
+synchronously, proceeding to make use of functionality exposed by that
+driver right away. This assumption however is false when the phy driver
+is built as a module, causing the mtk_dp driver to fail probe in this
+case.
 
---Maw3DNwEx0ys9J+Y
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add the phy_mtk_dp module as a pre-dependency to the mtk_dp module to
+ensure the phy module has been loaded before the dp, so that the phy
+probe happens synchrounously and the mtk_dp driver can probe
+successfully even with the phy driver built as a module.
 
-Hi folks,
+Suggested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver")
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-On Wed 25 Oct 23, 15:09, Paul Kocialkowski wrote:
-> The buffer_sel, voffset and hoffset values are calculated from u32
-> values and might overflow under certain conditions.
->=20
-> Move them to u32 definitions instead of u8/u16 to avoid the issue.
+---
 
-Any chance to get a quick review on this simple fixup (and the next one)?
-I can certainly push them myself after that.
+Changes in v2:
+- Added missing Suggested-by tag
 
-Thanks,
+ drivers/gpu/drm/mediatek/mtk_dp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Paul
+diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+index e4c16ba9902d..2136a596efa1 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dp.c
++++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+@@ -2818,3 +2818,4 @@ MODULE_AUTHOR("Markus Schneider-Pargmann <msp@baylibre.com>");
+ MODULE_AUTHOR("Bo-Chen Chen <rex-bc.chen@mediatek.com>");
+ MODULE_DESCRIPTION("MediaTek DisplayPort Driver");
+ MODULE_LICENSE("GPL");
++MODULE_SOFTDEP("pre: phy_mtk_dp");
+-- 
+2.42.1
 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Fixes: efeeaefe9be5 ("drm: Add support for the LogiCVC display controller=
-")
-> ---
->  drivers/gpu/drm/logicvc/logicvc_layer.c | 6 +++---
->  drivers/gpu/drm/logicvc/logicvc_layer.h | 6 +++---
->  2 files changed, 6 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/logicvc/logicvc_layer.c b/drivers/gpu/drm/lo=
-gicvc/logicvc_layer.c
-> index 464000aea765..eea22379d042 100644
-> --- a/drivers/gpu/drm/logicvc/logicvc_layer.c
-> +++ b/drivers/gpu/drm/logicvc/logicvc_layer.c
-> @@ -268,9 +268,9 @@ int logicvc_layer_buffer_find_setup(struct logicvc_dr=
-m *logicvc,
->  	u32 layer_stride =3D layer_bytespp * logicvc->config.row_stride;
->  	u32 base_offset =3D layer->config.base_offset * layer_stride;
->  	u32 buffer_offset =3D layer->config.buffer_offset * layer_stride;
-> -	u8 buffer_sel =3D 0;
-> -	u16 voffset =3D 0;
-> -	u16 hoffset =3D 0;
-> +	u32 buffer_sel =3D 0;
-> +	u32 voffset =3D 0;
-> +	u32 hoffset =3D 0;
->  	phys_addr_t fb_addr;
->  	u32 fb_offset;
->  	u32 gap;
-> diff --git a/drivers/gpu/drm/logicvc/logicvc_layer.h b/drivers/gpu/drm/lo=
-gicvc/logicvc_layer.h
-> index 4a4b02e9b819..a06feeda3abf 100644
-> --- a/drivers/gpu/drm/logicvc/logicvc_layer.h
-> +++ b/drivers/gpu/drm/logicvc/logicvc_layer.h
-> @@ -18,9 +18,9 @@
->  #define LOGICVC_LAYER_ALPHA_PIXEL		1
-> =20
->  struct logicvc_layer_buffer_setup {
-> -	u8 buffer_sel;
-> -	u16 voffset;
-> -	u16 hoffset;
-> +	u32 buffer_sel;
-> +	u32 voffset;
-> +	u32 hoffset;
->  };
-> =20
->  struct logicvc_layer_config {
-> --=20
-> 2.42.0
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---Maw3DNwEx0ys9J+Y
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmVcvroACgkQ3cLmz3+f
-v9G7cgf/dc7VF8HvefPTOkiRgDycHW6ArFSDEgPMQQ4BCvllErH3T9aoTJwBsi2q
-tiSh7ZZJ2aJluhTVjUaI5zdDmBovpfU0Lx/sRpiqkwCh4Qx/L/p/KULzlsTjE8Sf
-rrutaDzSQ/zd6f5TIwEdZyX67JNzbyCNcXwckKlGTtBOpb9XwyjYxZNZ5+nEuxG5
-2KYIUZaw7QNNH4PkQucFi1bZyaZfTjQwvI31JFTcwFGZkWm1VbZnz7EHaiQ4bqNb
-HETWwejxIN0IgCdpjdoMOmo1rTJzE5CjUzRDveUdpIKB68+1ytKDBJwtdPSDhLtH
-TAmkFajL5HYsJcgd/xcy4Ycxw/6EgA==
-=5TT0
------END PGP SIGNATURE-----
-
---Maw3DNwEx0ys9J+Y--
