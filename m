@@ -1,55 +1,143 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD83E7F2714
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 09:17:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6AC7F274D
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Nov 2023 09:21:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6478D10E24E;
-	Tue, 21 Nov 2023 08:17:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D20A510E27F;
+	Tue, 21 Nov 2023 08:21:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9516510E24E
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Nov 2023 08:17:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700554632; x=1732090632;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=iQiafgt3A/8kRc95BEN8wMG6LblyFfcfPE+p6IB93zM=;
- b=JLURA8JWZmZn+pZPJMHilfA7fZGCEt7pRa721B3mD5AllPo5ktY8laax
- i/YkK6JyjMXZodvEZPsjkVPkALTLTfPBu3ofzuKYIKi+A9WIcblcCBOVL
- R/l2D0uTWKl/kLIvGzt4OOI+4SFodRThLVXL+rsS71kqh9EDthssvDjYI
- 8IVgAVRkZiIG6yfJrCe+UAeWUBJ/+z5y174cVfy5YUX//RzW03jJ2431j
- 7xnnJGWEFTQJct5gKUwu2C/LncEnsKw1HZzEgbQP0DmZRj8XZKOxSW9SA
- Yw9wDwC4DC2xldrNfuBPGFPS5D+Oz4lPgEJBxVhqqEaQYWd5z+0elVN1D g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="388937060"
-X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; d="scan'208";a="388937060"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2023 00:17:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; d="scan'208";a="14429378"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.217.160.78])
- ([10.217.160.78])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2023 00:17:10 -0800
-Message-ID: <456d3951-870f-4414-979a-fd5a86da9fe8@linux.intel.com>
-Date: Tue, 21 Nov 2023 09:17:08 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67E9710E27F;
+ Tue, 21 Nov 2023 08:21:06 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E060A2183B;
+ Tue, 21 Nov 2023 08:21:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1700554864; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=DHvhU3HrqobKGoHLioFRjGKT24arfOIced4wAVOChgA=;
+ b=SwQzrjcLmZMWH48dY6XiOmK21OEz/fW4qhRygDWl+M1lp+4hY0clANmK59TflHx0Ac83Pl
+ NSYpUYnL8g7EDOUNRu3Mw7WF3hqqBd/++y2d9+osxHd2GaUXJrtuxM098PWu5EbnEeLaFz
+ TEuH4TNdVPDMrIsQ0APVRARoRCJE/jE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1700554864;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=DHvhU3HrqobKGoHLioFRjGKT24arfOIced4wAVOChgA=;
+ b=E7CNSkwwZydCSsuMEAwi2OltJgC8E/vl9e1oATOyomas37GPScTiIqOjpHSH0F1TfSjF0M
+ tPfFi1p0M+CaYNCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BF10E139FD;
+ Tue, 21 Nov 2023 08:21:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id WbulLW9oXGVzBgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 21 Nov 2023 08:21:03 +0000
+Message-ID: <250b5d51-93f8-4d8c-8507-0c47adbf7237@suse.de>
+Date: Tue, 21 Nov 2023 09:21:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] accel/qaic: Expand DRM device lifecycle
-To: dri-devel@lists.freedesktop.org
-References: <20231117174337.20174-1-quic_jhugo@quicinc.com>
- <20231117174337.20174-3-quic_jhugo@quicinc.com>
+Subject: Re: [PATCH v3 00/16] drm: Convert to platform remove callback
+ returning void
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Alexey Brodkin <abrodkin@synopsys.com>, Russell King
+ <linux@armlinux.org.uk>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, Zhu Wang
+ <wangzhu9@huawei.com>, Rob Herring <robh@kernel.org>,
+ Lucas Stach <l.stach@pengutronix.de>, Inki Dae <inki.dae@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Thierry Reding <treding@nvidia.com>,
+ Dan Carpenter <error27@gmail.com>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Kevin Hilman <khilman@baylibre.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Deepak R Varma <drv@mailo.com>, Jani Nikula <jani.nikula@intel.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+References: <20231102165640.3307820-18-u.kleine-koenig@pengutronix.de>
+ <20231120120537.c22pbb2zovxvpdkf@pengutronix.de>
 Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20231117174337.20174-3-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20231120120537.c22pbb2zovxvpdkf@pengutronix.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------nqnrv9dXMHR4lITUuwdTooYm"
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -8.79
+X-Spamd-Result: default: False [-8.79 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ XM_UA_NO_VERSION(0.01)[]; TO_DN_SOME(0.00)[];
+ HAS_ATTACHMENT(0.00)[]; REPLY(-4.00)[];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_BASE64_TEXT(0.10)[];
+ RCPT_COUNT_GT_50(0.00)[62]; SIGNED_PGP(-2.00)[];
+ FREEMAIL_TO(0.00)[pengutronix.de,intel.com,linaro.org,kernel.org,linux.intel.com,gmail.com,ffwll.ch,ravnborg.org,collabora.com,synopsys.com,armlinux.org.uk,ti.com,redhat.com,huawei.com,samsung.com,oss.nxp.com,arm.com,nvidia.com,baylibre.com,linux.alibaba.com,ideasonboard.com,mailo.com,iki.fi];
+ FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
+ MID_RHS_MATCH_FROM(0.00)[]; BAYES_HAM(-3.00)[100.00%];
+ ARC_NA(0.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ TAGGED_RCPT(0.00)[etnaviv,renesas];
+ MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
+ TO_MATCH_ENVRCPT_SOME(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_COUNT_TWO(0.00)[2];
+ RCVD_TLS_ALL(0.00)[]; SUSPICIOUS_RECIPS(1.50)[];
+ FREEMAIL_CC(0.00)[vger.kernel.org, pengutronix.de, collabora.com, kwiboo.se,
+ googlemail.com, lists.freedesktop.org, gmail.com, nxp.com, lists.infradead.org,
+ samsung.com, armlinux.org.uk, baylibre.com, ideasonboard.com]
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,251 +150,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-samsung-soc@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ linux-mediatek@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>,
+ kernel@pengutronix.de, Russell King <linux+etnaviv@armlinux.org.uk>,
+ linux-amlogic@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------nqnrv9dXMHR4lITUuwdTooYm
+Content-Type: multipart/mixed; boundary="------------oJColUxlBAXTr0a7Klbx8daP";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Alexey Brodkin <abrodkin@synopsys.com>, Russell King
+ <linux@armlinux.org.uk>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, Zhu Wang
+ <wangzhu9@huawei.com>, Rob Herring <robh@kernel.org>,
+ Lucas Stach <l.stach@pengutronix.de>, Inki Dae <inki.dae@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Thierry Reding <treding@nvidia.com>,
+ Dan Carpenter <error27@gmail.com>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Kevin Hilman <khilman@baylibre.com>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Deepak R Varma <drv@mailo.com>, Jani Nikula <jani.nikula@intel.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: linux-samsung-soc@vger.kernel.org, kernel@pengutronix.de,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ nouveau@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, NXP Linux Team
+ <linux-imx@nxp.com>, Christian Gmeiner <christian.gmeiner@gmail.com>,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ linux-amlogic@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Message-ID: <250b5d51-93f8-4d8c-8507-0c47adbf7237@suse.de>
+Subject: Re: [PATCH v3 00/16] drm: Convert to platform remove callback
+ returning void
+References: <20231102165640.3307820-18-u.kleine-koenig@pengutronix.de>
+ <20231120120537.c22pbb2zovxvpdkf@pengutronix.de>
+In-Reply-To: <20231120120537.c22pbb2zovxvpdkf@pengutronix.de>
 
-On 17.11.2023 18:43, Jeffrey Hugo wrote:
-> From: Carl Vanderlip <quic_carlv@quicinc.com>
-> 
-> Currently the QAIC DRM device registers itself when the MHI QAIC_CONTROL
-> channel becomes available. This is when the device is able to process
-> workloads. However, the DRM driver also provides the debugfs interface
-> bootlog for the device. If the device fails to boot to the QSM (which
-> brings up the MHI QAIC_CONTROL channel), the bootlog won't be available for
-> debugging why it failed to boot.
-> 
-> Change when the DRM device registers itself from when QAIC_CONTROL is
-> available to when the card is first probed on the PCI bus. Additionally,
-> make the DRM driver persist through reset/error cases so the driver
-> doesn't have to be reloaded to access the card again. Send
-> KOBJ_ONLINE/OFFLINE uevents so userspace can know when DRM device is
-> ready to handle requests.
-> 
-> Signed-off-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
->  Documentation/accel/qaic/qaic.rst   |  9 +++++-
->  drivers/accel/qaic/mhi_controller.c |  2 +-
->  drivers/accel/qaic/qaic.h           |  2 +-
->  drivers/accel/qaic/qaic_drv.c       | 44 +++++++++++------------------
->  4 files changed, 27 insertions(+), 30 deletions(-)
-> 
-> diff --git a/Documentation/accel/qaic/qaic.rst b/Documentation/accel/qaic/qaic.rst
-> index f81020736ebf..efb7771273bb 100644
-> --- a/Documentation/accel/qaic/qaic.rst
-> +++ b/Documentation/accel/qaic/qaic.rst
-> @@ -93,8 +93,15 @@ commands (does not impact QAIC).
->  uAPI
->  ====
->  
-> +QAIC creates an accel device per phsyical PCIe device. This accel device exists
-> +for as long as the PCIe device is known to Linux.
-> +
-> +The PCIe device may not be in the state to accept requests from userspace at
-> +all times. QAIC will trigger KOBJ_ONLINE/OFFLINE uevents to advertise when the
-> +device can accept requests (ONLINE) and when the device is no longer accepting
-> +requests (OFFLINE) because of a reset or other state transition.
-> +
->  QAIC defines a number of driver specific IOCTLs as part of the userspace API.
-> -This section describes those APIs.
->  
->  DRM_IOCTL_QAIC_MANAGE
->    This IOCTL allows userspace to send a NNC request to the QSM. The call will
-> diff --git a/drivers/accel/qaic/mhi_controller.c b/drivers/accel/qaic/mhi_controller.c
-> index 5d3cc30009cc..832464f2833a 100644
-> --- a/drivers/accel/qaic/mhi_controller.c
-> +++ b/drivers/accel/qaic/mhi_controller.c
-> @@ -469,7 +469,7 @@ static void mhi_status_cb(struct mhi_controller *mhi_cntrl, enum mhi_callback re
->  		pci_err(qdev->pdev, "Fatal error received from device. Attempting to recover\n");
->  	/* this event occurs in non-atomic context */
->  	if (reason == MHI_CB_SYS_ERROR)
-> -		qaic_dev_reset_clean_local_state(qdev, true);
-> +		qaic_dev_reset_clean_local_state(qdev);
->  }
->  
->  static int mhi_reset_and_async_power_up(struct mhi_controller *mhi_cntrl)
-> diff --git a/drivers/accel/qaic/qaic.h b/drivers/accel/qaic/qaic.h
-> index bd0c884e6bf7..66f4abf6c4c4 100644
-> --- a/drivers/accel/qaic/qaic.h
-> +++ b/drivers/accel/qaic/qaic.h
-> @@ -283,7 +283,7 @@ void wakeup_dbc(struct qaic_device *qdev, u32 dbc_id);
->  void release_dbc(struct qaic_device *qdev, u32 dbc_id);
->  
->  void wake_all_cntl(struct qaic_device *qdev);
-> -void qaic_dev_reset_clean_local_state(struct qaic_device *qdev, bool exit_reset);
-> +void qaic_dev_reset_clean_local_state(struct qaic_device *qdev);
->  
->  struct drm_gem_object *qaic_gem_prime_import(struct drm_device *dev, struct dma_buf *dma_buf);
->  
-> diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
-> index 02fe23248da4..c19bc83b249c 100644
-> --- a/drivers/accel/qaic/qaic_drv.c
-> +++ b/drivers/accel/qaic/qaic_drv.c
-> @@ -8,6 +8,7 @@
->  #include <linux/idr.h>
->  #include <linux/interrupt.h>
->  #include <linux/list.h>
-> +#include <linux/kobject.h>
->  #include <linux/kref.h>
->  #include <linux/mhi.h>
->  #include <linux/module.h>
-> @@ -43,9 +44,6 @@ MODULE_PARM_DESC(datapath_polling, "Operate the datapath in polling mode");
->  static bool link_up;
->  static DEFINE_IDA(qaic_usrs);
->  
-> -static int qaic_create_drm_device(struct qaic_device *qdev, s32 partition_id);
-> -static void qaic_destroy_drm_device(struct qaic_device *qdev, s32 partition_id);
-> -
->  static void free_usr(struct kref *kref)
->  {
->  	struct qaic_user *usr = container_of(kref, struct qaic_user, ref_count);
-> @@ -183,13 +181,6 @@ static int qaic_create_drm_device(struct qaic_device *qdev, s32 partition_id)
->  
->  	qddev->partition_id = partition_id;
->  
-> -	/*
-> -	 * drm_dev_unregister() sets the driver data to NULL and
-> -	 * drm_dev_register() does not update the driver data. During a SOC
-> -	 * reset drm dev is unregistered and registered again leaving the
-> -	 * driver data to NULL.
-> -	 */
-> -	dev_set_drvdata(to_accel_kdev(qddev), drm->accel);
->  	ret = drm_dev_register(drm, 0);
->  	if (ret)
->  		pci_dbg(qdev->pdev, "drm_dev_register failed %d\n", ret);
-> @@ -203,7 +194,6 @@ static void qaic_destroy_drm_device(struct qaic_device *qdev, s32 partition_id)
->  	struct drm_device *drm = to_drm(qddev);
->  	struct qaic_user *usr;
->  
-> -	drm_dev_get(drm);
->  	drm_dev_unregister(drm);
->  	qddev->partition_id = 0;
->  	/*
-> @@ -232,7 +222,6 @@ static void qaic_destroy_drm_device(struct qaic_device *qdev, s32 partition_id)
->  		mutex_lock(&qddev->users_mutex);
->  	}
->  	mutex_unlock(&qddev->users_mutex);
-> -	drm_dev_put(drm);
->  }
->  
->  static int qaic_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_device_id *id)
-> @@ -254,8 +243,6 @@ static int qaic_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_device_id
->  
->  	qdev = pci_get_drvdata(to_pci_dev(mhi_dev->mhi_cntrl->cntrl_dev));
->  
-> -	qdev->reset_state = QAIC_ONLINE;
-> -
->  	dev_set_drvdata(&mhi_dev->dev, qdev);
->  	qdev->cntl_ch = mhi_dev;
->  
-> @@ -265,6 +252,7 @@ static int qaic_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_device_id
->  		return ret;
->  	}
->  
-> +	qdev->reset_state = QAIC_BOOT;
->  	ret = get_cntl_version(qdev, NULL, &major, &minor);
->  	if (ret || major != CNTL_MAJOR || minor > CNTL_MINOR) {
->  		pci_err(qdev->pdev, "%s: Control protocol version (%d.%d) not supported. Supported version is (%d.%d). Ret: %d\n",
-> @@ -272,8 +260,8 @@ static int qaic_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_device_id
->  		ret = -EINVAL;
->  		goto close_control;
->  	}
-> -
-> -	ret = qaic_create_drm_device(qdev, QAIC_NO_PARTITION);
-> +	qdev->reset_state = QAIC_ONLINE;
-> +	kobject_uevent(&(to_accel_kdev(qdev->qddev))->kobj, KOBJ_ONLINE);
->  
->  	return ret;
->  
-> @@ -291,6 +279,7 @@ static void qaic_notify_reset(struct qaic_device *qdev)
->  {
->  	int i;
->  
-> +	kobject_uevent(&(to_accel_kdev(qdev->qddev))->kobj, KOBJ_OFFLINE);
->  	qdev->reset_state = QAIC_OFFLINE;
->  	/* wake up any waiters to avoid waiting for timeouts at sync */
->  	wake_all_cntl(qdev);
-> @@ -299,21 +288,15 @@ static void qaic_notify_reset(struct qaic_device *qdev)
->  	synchronize_srcu(&qdev->dev_lock);
->  }
->  
-> -void qaic_dev_reset_clean_local_state(struct qaic_device *qdev, bool exit_reset)
-> +void qaic_dev_reset_clean_local_state(struct qaic_device *qdev)
->  {
->  	int i;
->  
->  	qaic_notify_reset(qdev);
->  
-> -	/* remove drmdevs to prevent new users from coming in */
-> -	qaic_destroy_drm_device(qdev, QAIC_NO_PARTITION);
-> -
->  	/* start tearing things down */
->  	for (i = 0; i < qdev->num_dbc; ++i)
->  		release_dbc(qdev, i);
-> -
-> -	if (exit_reset)
-> -		qdev->reset_state = QAIC_ONLINE;
->  }
->  
->  static void cleanup_qdev(struct qaic_device *qdev)
-> @@ -338,6 +321,7 @@ static struct qaic_device *create_qdev(struct pci_dev *pdev, const struct pci_de
->  	if (!qdev)
->  		return NULL;
->  
-> +	qdev->reset_state = QAIC_OFFLINE;
->  	if (id->device == PCI_DEV_AIC100) {
->  		qdev->num_dbc = 16;
->  		qdev->dbc = devm_kcalloc(&pdev->dev, qdev->num_dbc, sizeof(*qdev->dbc), GFP_KERNEL);
-> @@ -499,15 +483,21 @@ static int qaic_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  		goto cleanup_qdev;
->  	}
->  
-> +	ret = qaic_create_drm_device(qdev, QAIC_NO_PARTITION);
-> +	if (ret)
-> +		goto cleanup_qdev;
-> +
->  	qdev->mhi_cntrl = qaic_mhi_register_controller(pdev, qdev->bar_0, mhi_irq,
->  						       qdev->single_msi);
->  	if (IS_ERR(qdev->mhi_cntrl)) {
->  		ret = PTR_ERR(qdev->mhi_cntrl);
-> -		goto cleanup_qdev;
-> +		goto cleanup_drm_dev;
->  	}
->  
->  	return 0;
->  
-> +cleanup_drm_dev:
-> +	qaic_destroy_drm_device(qdev, QAIC_NO_PARTITION);
->  cleanup_qdev:
->  	cleanup_qdev(qdev);
->  	return ret;
-> @@ -520,7 +510,8 @@ static void qaic_pci_remove(struct pci_dev *pdev)
->  	if (!qdev)
->  		return;
->  
-> -	qaic_dev_reset_clean_local_state(qdev, false);
-> +	qaic_dev_reset_clean_local_state(qdev);
-> +	qaic_destroy_drm_device(qdev, QAIC_NO_PARTITION);
->  	qaic_mhi_free_controller(qdev->mhi_cntrl, link_up);
->  	cleanup_qdev(qdev);
->  }
-> @@ -543,14 +534,13 @@ static void qaic_pci_reset_prepare(struct pci_dev *pdev)
->  
->  	qaic_notify_reset(qdev);
->  	qaic_mhi_start_reset(qdev->mhi_cntrl);
-> -	qaic_dev_reset_clean_local_state(qdev, false);
-> +	qaic_dev_reset_clean_local_state(qdev);
->  }
->  
->  static void qaic_pci_reset_done(struct pci_dev *pdev)
->  {
->  	struct qaic_device *qdev = pci_get_drvdata(pdev);
->  
-> -	qdev->reset_state = QAIC_ONLINE;
->  	qaic_mhi_reset_done(qdev->mhi_cntrl);
->  }
->  
+--------------oJColUxlBAXTr0a7Klbx8daP
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+SGkNCg0KQW0gMjAuMTEuMjMgdW0gMTM6MDUgc2NocmllYiBVd2UgS2xlaW5lLUvDtm5pZzoN
+Cj4gW0Ryb3BwZWQgYSBmZXcgcGVvcGxlIGZyb20gVG8gdGhhdCByZXN1bHRlZCBpbiBib3Vu
+Y2VzIGJlZm9yZS5dDQo+IA0KPiBPbiBUaHUsIE5vdiAwMiwgMjAyMyBhdCAwNTo1Njo0MVBN
+ICswMTAwLCBVd2UgS2xlaW5lLUvDtm5pZyB3cm90ZToNCj4+IEhlbGxvLA0KPj4NCj4+IHRo
+aXMgc2VyaWVzIGNvbnZlcnRzIGFsbCBwbGF0Zm9ybSBkcml2ZXJzIGJlbG93IGRyaXZlcnMv
+Z3B1L2RybSB0byB1c2UNCj4+IC5yZW1vdmVfbmV3KCkuIEl0IHN0YXJ0cyB3aXRoIGEgZml4
+IGZvciBhIHByb2JsZW0gdGhhdCBwb3RlbnRpYWxseSBtaWdodA0KPj4gY3Jhc2ggdGhlIGtl
+cm5lbCB0aGF0IEkgc3R1bWJsZWQgb3ZlciB3aGlsZSBpbXBsZW1lbnRpbmcgdGhlIGNvbnZl
+cnNpb24uDQo+Pg0KPj4gU29tZSBvZiB0aGUgY29udmVyc2lvbiBwYXRjaGVzIGZvbGxvd2lu
+ZyB0aGlzIGZpeCB3ZXJlIGFscmVhZHkgc2VuZCBpbg0KPj4gZWFybGllciBzZXJpZXM6DQo+
+Pg0KPj4gCWh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2RyaS1kZXZlbC8yMDIzMDgwMTExMDIz
+OS44MzEwOTktMS11LmtsZWluZS1rb2VuaWdAcGVuZ3V0cm9uaXguZGUNCj4+IAlodHRwczov
+L2xvcmUua2VybmVsLm9yZy9kcmktZGV2ZWwvMjAyMzAzMTgxOTA4MDQuMjM0NjEwLTEtdS5r
+bGVpbmUta29lbmlnQHBlbmd1dHJvbml4LmRlDQo+Pg0KPj4gYW5kIHRocmVlIHBhdGNoZXMg
+KGJyaWRnZS90cGQxMnMwMTUsIGV4eW5vcyArIHRpbGNkYykgYXJlIG5ldy4gUGFydHMgb2YN
+Cj4+IHRoZSBhYm92ZSBzZXJpZXMgd2VyZSBwaWNrZWQgdXAsIHRoZSBwYXRjaGVzIHJlc2Vu
+ZCBoZXJlIGFyZSBub3QuDQo+IA0KPiBBcGFydCBmcm9tIGEgUmV2aWV3ZWQtYnk6IGJ5IFRv
+bmkgVmFsa2VpbmVuIGZvciBwYXRjaCAjMTYgYW5kIElua2kgRGFlDQo+IHdobyB3cm90ZSB0
+byBoYXZlIHRha2VuIHBhdGNoICM4IChidXQgdGhhdCBkaWRuJ3QgYXBwZWFyIGluIG5laXRo
+ZXIgbmV4dA0KPiBub3IgZHJtLW1pc2MtbmV4dCB5ZXQpLg0KPiANCj4gQWxzbyBpbiB2MiB0
+aGV5IGRpZG4ndCByZXN1bHQgaW4gZXVwaG9yaWMgcmVwbGllcy4NCj4gDQo+IENhbiBzb21l
+b25lIHdobyBjYXJlcyBhYm91dCBkcm0gYXMgYSB3aG9sZSBwbGVhc2UgY2FyZSBmb3IgdGhp
+cyBzZXJpZXMNCj4gYXBwbHkgaXQ/DQoNCkV4Y2VwdCBmb3IgcGF0Y2hlcyA4IGFuZCAxNiwg
+SSd2ZSBwdXNoZWQgdGhpcyBwYXRjaHNldCBpbnRvIGRybS1taXNjLW5leHQuDQoNCkJlc3Qg
+cmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IEJlc3QgcmVnYXJkcw0KPiBVd2UNCj4gICANCg0K
+LS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VT
+RSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYs
+IDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJz
+LCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVy
+bmJlcmcpDQo=
+
+--------------oJColUxlBAXTr0a7Klbx8daP--
+
+--------------nqnrv9dXMHR4lITUuwdTooYm
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVcaG4FAwAAAAAACgkQlh/E3EQov+AN
+KA//a9kAa/bdNI0Ai8/4/SH2OhY7AVHPXJdcQec7SKrNSi64hCplCI6zwvSrTKHdb6ViCONzvUPj
+Z/lLHxxOq2GXTjhiSLgqVEQKBIrJ7v5l8WAZfJ/2SLf5hWTncBM/TvrFLu0brzcYa93ZOnT6jMm0
+1Ybx4kfSN9INpiydrOCS5B2r7T/QIdhaBoDGgptMVE98gdjrHqoODVgcyiOEPNnkK/aCO/vnIEmr
+BmyCVSCD+AiSC/w6x8pu5/2FXrYuM6Ssz3duqJp6eL7LgJNOI7HBHXpY1wnmOwpUYw6OZVDSUZjX
+Rh2P73O8E4XeSem8ZnYZHwvqptO1pmtlnosL+sQQSjtQ1HdHnQfV0t2AmJg0e8qWycyDQNSVNRX4
+y6RnHdCk/fd0X2IGACvPw0Y8LuUhEbHwPeeGS3fQJr8RvRD7maMH5FduraKOgKjvxEJnIifX067n
+T28SJLqdlbTuB05QUz8004eCqrzjBzqF/s6FwfMVSHytCeGuMsrpb3GcSoBv8eXnbn1jCmoZh6TL
+PDXgAJEFmPHYe+oRoDrZnmOI/bXt7I3033iZZkvERz544Ts2QR1VUBOr0elo9GlxcLkFhvy53Bev
+8NTNzLjGJl++/klVQqBC2VS6MxE6NdTaNSMpOAygDVxoj4mBHFhPC1WfDYvm/T9s7YKdQQDSdQQC
+Q5s=
+=GPlo
+-----END PGP SIGNATURE-----
+
+--------------nqnrv9dXMHR4lITUuwdTooYm--
