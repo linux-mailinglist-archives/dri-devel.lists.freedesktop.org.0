@@ -1,48 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C09407F4AEB
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 16:37:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 627377F4B71
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 16:46:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E87710E672;
-	Wed, 22 Nov 2023 15:37:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66A3010E1A6;
+	Wed, 22 Nov 2023 15:46:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2851D10E672;
- Wed, 22 Nov 2023 15:37:12 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A3A3661E35;
- Wed, 22 Nov 2023 15:37:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A0BDC433CB;
- Wed, 22 Nov 2023 15:37:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700667431;
- bh=iqmGAQ90O89w0fdshBkivkNhkoMkooUfoJ/1xS+9voA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Dmy8jgGgeBuTJ9/5DjVbw46sbvEQuIJpXAEeqHoSVaEhhL8o8M1npYyfxKb0l9GpM
- iON2oqp8scpuwI57qkJ7yy+T8rOkM1cQRHN3GjIHlYwP/LbThbjaJGcWsjcazhB9jd
- Y6uHkpUuMaiF07FcD5gyF2A8ONE82JvrmB+MPmoi6vL9QTFNb+xn+3Nfp65B1pU/R3
- /e7zh2uccrWEdKuXx0qn2LvXYxewT1SG6Je4G4Lj0qKaQ3i/DYF6n3XFDYC2+RI3A6
- BOGs9nWpUYP0AdPKA0/vqx+fnUj7MIhV/iimNW1OO6dHZ7xtbGVP0Bvo4947K17YT3
- lz1MFcQ8+tMWA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 3/3] drm/amdgpu: correct chunk_ptr to a pointer
- to chunk.
-Date: Wed, 22 Nov 2023 10:36:55 -0500
-Message-ID: <20231122153658.853640-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231122153658.853640-1-sashal@kernel.org>
-References: <20231122153658.853640-1-sashal@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A43A10E1A2;
+ Wed, 22 Nov 2023 15:46:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1700667990; x=1732203990;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=xcGraPTZkkvyKVpMUbcsGGlFrsqMDx3ST4/8EWjkAdg=;
+ b=NFxnHADTq6F8Wu1sWMqsgTuodTkkTvqvMgytzskwci+7+h+9ze/nO0On
+ jr9fz9nuPnGAZ+0EYHnIbp/bjwyJQPfjuqeXhCx9inaSfAZV2o3Nst1p5
+ aaL04QdzTvV/YQTc344KRhbcEkyPdaF+4xPZwvwVCyD7jz+l1tTqckRJX
+ uK69TYzdRkRfvNNAuRURPuzzd/CbSE3nGHaXVRbwp3L3NAIIvc/uaSgEY
+ 2Nu0eKbY/7YqdR5rmpGCGO9TKtUpnxe7G7RVhtdUR2SOrpPKSOYg102p4
+ bjEc5U4A5dM/M7xNUGNf+6p3Y5Ya6gUfEt4WisbWM9huoFrcKBuZEYJfT g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="13623171"
+X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; d="scan'208";a="13623171"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Nov 2023 07:46:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; 
+   d="scan'208";a="8510507"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+ by fmviesa002.fm.intel.com with ESMTP; 22 Nov 2023 07:46:27 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1r5pQn-0000dh-0H;
+ Wed, 22 Nov 2023 15:46:25 +0000
+Date: Wed, 22 Nov 2023 23:45:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Subject: [drm-intel:for-linux-next-gt 1/6]
+ drivers/gpu/drm/i915/i915_drm_client.h:81:1: error: non-void function does
+ not return a value
+Message-ID: <202311222102.LhBe6KCX-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.14.330
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,43 +58,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, srinivasan.shanmugam@amd.com,
- guchun.chen@amd.com, YuanShang <YuanShang.Mao@amd.com>, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, luben.tuikov@amd.com,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: intel-gfx@lists.freedesktop.org, llvm@lists.linux.dev,
+ Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
+ dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: YuanShang <YuanShang.Mao@amd.com>
+tree:   git://anongit.freedesktop.org/drm-intel for-linux-next-gt
+head:   5032c607e886e0c40749a05d37b835c1757d38ff
+commit: e4ae85e364fc652ea15d85b0f3a6da304c9b5ce7 [1/6] drm/i915: Add ability for tracking buffer objects per client
+config: x86_64-buildonly-randconfig-006-20231122 (https://download.01.org/0day-ci/archive/20231122/202311222102.LhBe6KCX-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311222102.LhBe6KCX-lkp@intel.com/reproduce)
 
-[ Upstream commit 50d51374b498457c4dea26779d32ccfed12ddaff ]
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311222102.LhBe6KCX-lkp@intel.com/
 
-The variable "chunk_ptr" should be a pointer pointing
-to a struct drm_amdgpu_cs_chunk instead of to a pointer
-of that.
+Note: the drm-intel/for-linux-next-gt HEAD 5032c607e886e0c40749a05d37b835c1757d38ff builds fine.
+      It only hurts bisectability.
 
-Signed-off-by: YuanShang <YuanShang.Mao@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+All errors (new ones prefixed by >>):
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 7bad519aaae08..d24ef103471b9 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -113,7 +113,7 @@ static int amdgpu_cs_parser_init(struct amdgpu_cs_parser *p, void *data)
- 	}
- 
- 	for (i = 0; i < p->nchunks; i++) {
--		struct drm_amdgpu_cs_chunk __user **chunk_ptr = NULL;
-+		struct drm_amdgpu_cs_chunk __user *chunk_ptr = NULL;
- 		struct drm_amdgpu_cs_chunk user_chunk;
- 		uint32_t __user *cdata;
- 
+   In file included from drivers/gpu/drm/i915/selftests/igt_spinner.c:12:
+   In file included from drivers/gpu/drm/i915/selftests/igt_spinner.h:10:
+   In file included from drivers/gpu/drm/i915/gem/i915_gem_context.h:12:
+   In file included from drivers/gpu/drm/i915/gt/intel_context.h:14:
+   In file included from drivers/gpu/drm/i915/i915_drv.h:54:
+>> drivers/gpu/drm/i915/i915_drm_client.h:81:1: error: non-void function does not return a value [-Werror,-Wreturn-type]
+   }
+   ^
+   1 error generated.
+
+
+vim +81 drivers/gpu/drm/i915/i915_drm_client.h
+
+    78	
+    79	static inline bool i915_drm_client_remove_object(struct drm_i915_gem_object *obj)
+    80	{
+  > 81	}
+    82	#endif
+    83	
+
 -- 
-2.42.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
