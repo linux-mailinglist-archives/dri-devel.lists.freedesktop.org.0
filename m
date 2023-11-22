@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B427F4A97
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 16:34:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 306487F4A99
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 16:34:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45E1210E662;
-	Wed, 22 Nov 2023 15:34:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F2DA10E65F;
+	Wed, 22 Nov 2023 15:34:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4A3810E65F;
- Wed, 22 Nov 2023 15:34:27 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC97610E666;
+ Wed, 22 Nov 2023 15:34:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6098B61E2D;
- Wed, 22 Nov 2023 15:34:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E4FFC43391;
- Wed, 22 Nov 2023 15:34:25 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 36646B81002;
+ Wed, 22 Nov 2023 15:34:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE664C4339A;
+ Wed, 22 Nov 2023 15:34:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700667267;
- bh=mr81ezehLemTvgIgiEO/DegCCDj4ACKiftPeOfszEJw=;
+ s=k20201202; t=1700667271;
+ bh=V9TM/OMkLuxLfhclZv4Rme1w4T+7No7eD/k6a35PvrE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M7krRVi4RhCKRBXwho2cmLQUZ4+cLT3Q25enwbseQ8jl6Uhj787dxJUcWEUueDWl8
- fLandjjlLZtNCjU2VvOsws9VYJQ1jlMooaVdp4HMz5Ntt5qcIIEg1vuhtRe+yc1k0w
- Omwcwpm0bCVam/KqQjhhwcCky9GJR4rnb3x01u/WAOjUJSE9lvHrXTaf7jWS2ZCXLY
- a8D1/wGahiNZqxIspKa9KGDusvvDcorSEuc1TxbFibLmuYwgMIkDiXSYAUaj4O1clU
- aSBA50rFZaMyaCPGiaj57YERb5ztNX/CyuV02alEmEEEm6mLAv5Rr+hATuhRkwrcj8
- LjMkcaM9MN77Q==
+ b=ciFYdZNc7FWBWQhw/HeRPuiOC+DgNShxDVcSGWQJjRxNBwEeHxqICBzTvEMD2ciPi
+ tnX4oEPZMr5RS7cb/jFEtD08zV5V69T997lKuorXhs5uXCvo/PEUkDHyZMd0ss89Zc
+ sbT3bcxDnXjpQAwT06Eceq/lF9jYe4msA+qAssf6gSVIX67lMxLjXERZB94sIx6saB
+ OQV42x08PQiir0e64eJaesQtTf8kJt/AcXIqvRmQW/oQIvEtB6sCZVvqzICqEDc6Yo
+ iM1sGsRmxQT29xqDsGetJVuWhX6DQW9/JuDf8APfpoAt6vrjtSrc7cvkw5stL0L9vu
+ uSYbRACeavdCg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.5 13/15] drm/amdgpu: finalizing mem_partitions at
- the end of GMC v9 sw_fini
-Date: Wed, 22 Nov 2023 10:33:15 -0500
-Message-ID: <20231122153340.852434-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.5 14/15] drm/amdgpu: correct chunk_ptr to a pointer
+ to chunk.
+Date: Wed, 22 Nov 2023 10:33:16 -0500
+Message-ID: <20231122153340.852434-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231122153340.852434-1-sashal@kernel.org>
 References: <20231122153340.852434-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.5.12
@@ -55,51 +55,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, lijo.lazar@amd.com, Felix.Kuehling@amd.com,
- Xinhui.Pan@amd.com, rajneesh.bhardwaj@amd.com, amd-gfx@lists.freedesktop.org,
- Le Ma <le.ma@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, srinivasan.shanmugam@amd.com,
+ guchun.chen@amd.com, YuanShang <YuanShang.Mao@amd.com>, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, luben.tuikov@amd.com,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Le Ma <le.ma@amd.com>
+From: YuanShang <YuanShang.Mao@amd.com>
 
-[ Upstream commit bdb72185d310fc8049c7ea95221d640e9e7165e5 ]
+[ Upstream commit 50d51374b498457c4dea26779d32ccfed12ddaff ]
 
-The valid num_mem_partitions is required during ttm pool fini,
-thus move the cleanup at the end of the function.
+The variable "chunk_ptr" should be a pointer pointing
+to a struct drm_amdgpu_cs_chunk instead of to a pointer
+of that.
 
-Signed-off-by: Le Ma <le.ma@amd.com>
-Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
+Signed-off-by: YuanShang <YuanShang.Mao@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-index 67e669e0141cc..00c719b93c76e 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-@@ -2211,8 +2211,6 @@ static int gmc_v9_0_sw_fini(void *handle)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index 946d031d2520e..c66719a92e9ba 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -208,7 +208,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p,
+ 	}
  
- 	if (adev->ip_versions[GC_HWIP][0] == IP_VERSION(9, 4, 3))
- 		amdgpu_gmc_sysfs_fini(adev);
--	adev->gmc.num_mem_partitions = 0;
--	kfree(adev->gmc.mem_partitions);
- 
- 	amdgpu_gmc_ras_fini(adev);
- 	amdgpu_gem_force_release(adev);
-@@ -2226,6 +2224,9 @@ static int gmc_v9_0_sw_fini(void *handle)
- 	amdgpu_bo_free_kernel(&adev->gmc.pdb0_bo, NULL, &adev->gmc.ptr_pdb0);
- 	amdgpu_bo_fini(adev);
- 
-+	adev->gmc.num_mem_partitions = 0;
-+	kfree(adev->gmc.mem_partitions);
-+
- 	return 0;
- }
+ 	for (i = 0; i < p->nchunks; i++) {
+-		struct drm_amdgpu_cs_chunk __user **chunk_ptr = NULL;
++		struct drm_amdgpu_cs_chunk __user *chunk_ptr = NULL;
+ 		struct drm_amdgpu_cs_chunk user_chunk;
+ 		uint32_t __user *cdata;
  
 -- 
 2.42.0
