@@ -1,106 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF4357F43F3
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 11:33:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB497F43F7
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 11:33:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C084A10E2F3;
-	Wed, 22 Nov 2023 10:33:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F5CE10E5FB;
+	Wed, 22 Nov 2023 10:33:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6349210E2F3;
- Wed, 22 Nov 2023 10:32:59 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 4B4231F8D6;
- Wed, 22 Nov 2023 10:32:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1700649177; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tJKN/DYacO939d9eI1e6nYs3BMFm6SBNDHnKJ2nzhxQ=;
- b=OdZ0aBXd4jXL5+EeoOgk6/WdUwBeql2AiXWVVQZIyH25JyZbSKSnXnaI86WnEvSGUiCTeL
- 0jZNamye2j+uJuBvkxTkpEekiUhHD2g/oUL0pdbaDcDWK89tl2WbBICKBEHbhjJuhlZMOD
- EEAUES/Bw+RX17dzkopWuetaCqZLf64=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1700649177;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tJKN/DYacO939d9eI1e6nYs3BMFm6SBNDHnKJ2nzhxQ=;
- b=a/za/z5H2r5kzD7OUcWvPm5EoPVxvdi1SXZ0ZyqUfkj7Fy7ab5e+oFh1fTI6X7XZg1kxGM
- t6CXBhRL+aVRE9Bw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3385B139FD;
- Wed, 22 Nov 2023 10:32:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Hiu/C9nYXWXJFwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 22 Nov 2023 10:32:57 +0000
-Message-ID: <4393049d-6080-4de2-a4ba-bfb37db0706f@suse.de>
-Date: Wed, 22 Nov 2023 11:32:56 +0100
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4242210E5C8
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 10:33:26 +0000 (UTC)
+Received: from [100.107.97.3] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 364576607351;
+ Wed, 22 Nov 2023 10:33:24 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1700649204;
+ bh=LW60lqPVhl0HcdFitvYc/FI/s8B9ah3/L4d5OITngAc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=cHIXt3yGjJ3de3cpUqTsK2Y98ZcEXYHOKty7yHSKLnrNdAEasf96wcSMy/rbUrLOk
+ GRrzY57idyR6V90u8+y1iNTGMNlOrss9Ekl9x0IyC04Ke1W2/p/sP5hyZKEsokJspy
+ k/2qL8mLxfegCWjdY1UbMokc+MSDBTOLyDmDSStNouEO66w24aM6BGXnX4hqyVOIaT
+ /mHMvQ1d4F39dpRLCvu47EfKGYCtkPErhrfm53m3CGw81jDUYxTGP0bLksiaoob670
+ wW4JnW3SUxASzZBZvjlzj/acETgJRA85t53k2DTeW/LNELc390uTqDjNWIVAXxIzx5
+ IKqyMXtEK0JBQ==
+Message-ID: <1e196ad9-48b3-484f-ada5-83c56eea60ec@collabora.com>
+Date: Wed, 22 Nov 2023 11:33:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] drm/prime: Helper to export dmabuf without fd
+Subject: Re: [PATCH] drm/panfrost: Really power off GPU cores in
+ panfrost_gpu_power_off()
 Content-Language: en-US
-To: Felix Kuehling <Felix.Kuehling@amd.com>, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org
-References: <20231121231114.703478-1-Felix.Kuehling@amd.com>
- <20231121231114.703478-2-Felix.Kuehling@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20231121231114.703478-2-Felix.Kuehling@amd.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------PcQAm2HmxJyhy6d6PUpFtuKn"
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -9.29
-X-Spamd-Result: default: False [-9.29 / 50.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; XM_UA_NO_VERSION(0.01)[];
- FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
- TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
- HAS_ATTACHMENT(0.00)[]; REPLY(-4.00)[];
- MIME_BASE64_TEXT_BOGUS(1.00)[]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_BASE64_TEXT(0.10)[];
- SIGNED_PGP(-2.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
- RCVD_COUNT_TWO(0.00)[2]; RCVD_TLS_ALL(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]
-X-Spam-Flag: NO
+To: Steven Price <steven.price@arm.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+References: <20231102141507.73481-1-angelogioacchino.delregno@collabora.com>
+ <7928524a-b581-483b-b1a1-6ffd719ce650@arm.com>
+ <1c9838fb-7f2d-4752-b86a-95bcf504ac2f@linaro.org>
+ <6b7a4669-7aef-41a7-8201-c2cfe401bc43@collabora.com>
+ <20231121175531.085809f5@collabora.com>
+ <d95259b8-10cf-4ded-866c-47cbd2a44f84@linaro.org>
+ <4c73f67e-174c-497e-85a5-cb053ce657cb@collabora.com>
+ <cae4eebd-2aa2-4baf-8c9a-59eca114098d@arm.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <cae4eebd-2aa2-4baf-8c9a-59eca114098d@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,183 +62,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: christian.koenig@amd.com
+Cc: "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, mripard@kernel.org,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de, wenst@chromium.org,
+ kernel@collabora.com, Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------PcQAm2HmxJyhy6d6PUpFtuKn
-Content-Type: multipart/mixed; boundary="------------QTFgIECjWt7a0kPmXBxBQWcc";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Felix Kuehling <Felix.Kuehling@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: christian.koenig@amd.com
-Message-ID: <4393049d-6080-4de2-a4ba-bfb37db0706f@suse.de>
-Subject: Re: [PATCH v2 2/4] drm/prime: Helper to export dmabuf without fd
-References: <20231121231114.703478-1-Felix.Kuehling@amd.com>
- <20231121231114.703478-2-Felix.Kuehling@amd.com>
-In-Reply-To: <20231121231114.703478-2-Felix.Kuehling@amd.com>
+Il 22/11/23 10:48, Steven Price ha scritto:
+> On 22/11/2023 09:06, AngeloGioacchino Del Regno wrote:
+>> Il 21/11/23 18:08, Krzysztof Kozlowski ha scritto:
+>>> On 21/11/2023 17:55, Boris Brezillon wrote:
+>>>> On Tue, 21 Nov 2023 17:11:42 +0100
+>>>> AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>>> wrote:
+>>>>
+>>>>> Il 21/11/23 16:34, Krzysztof Kozlowski ha scritto:
+>>>>>> On 08/11/2023 14:20, Steven Price wrote:
+>>>>>>> On 02/11/2023 14:15, AngeloGioacchino Del Regno wrote:
+>>>>>>>> The layout of the registers {TILER,SHADER,L2}_PWROFF_LO, used to
+>>>>>>>> request
+>>>>>>>> powering off cores, is the same as the {TILER,SHADER,L2}_PWRON_LO
+>>>>>>>> ones:
+>>>>>>>> this means that in order to request poweroff of cores, we are
+>>>>>>>> supposed
+>>>>>>>> to write a bitmask of cores that should be powered off!
+>>>>>>>> This means that the panfrost_gpu_power_off() function has always
+>>>>>>>> been
+>>>>>>>> doing nothing.
+>>>>>>>>
+>>>>>>>> Fix powering off the GPU by writing a bitmask of the cores to
+>>>>>>>> poweroff
+>>>>>>>> to the relevant PWROFF_LO registers and then check that the
+>>>>>>>> transition
+>>>>>>>> (from ON to OFF) has finished by polling the relevant PWRTRANS_LO
+>>>>>>>> registers.
+>>>>>>>>
+>>>>>>>> While at it, in order to avoid code duplication, move the core mask
+>>>>>>>> logic from panfrost_gpu_power_on() to a new panfrost_get_core_mask()
+>>>>>>>> function, used in both poweron and poweroff.
+>>>>>>>>
+>>>>>>>> Fixes: f3ba91228e8e ("drm/panfrost: Add initial panfrost driver")
+>>>>>>>> Signed-off-by: AngeloGioacchino Del Regno
+>>>>>>>> <angelogioacchino.delregno@collabora.com>
+>>>>>>
+>>>>>>
+>>>>>> Hi,
+>>>>>>
+>>>>>> This commit was added to next recently but it causes "external
+>>>>>> abort on
+>>>>>> non-linefetch" during boot of my Odroid HC1 board.
+>>>>>>
+>>>>>> At least bisect points to it.
+>>>>>>
+>>>>>> If fixed, please add:
+>>>>>>
+>>>>>> Reported-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>>>>>
+>>>>>> [    4.861683] 8<--- cut here ---
+>>>>>> [    4.863429] Unhandled fault: external abort on non-linefetch
+>>>>>> (0x1008) at 0xf0c8802c
+>>>>>> [    4.871018] [f0c8802c] *pgd=433ed811, *pte=11800653, *ppte=11800453
+>>>>>> ...
+>>>>>> [    5.164010]  panfrost_gpu_irq_handler from
+>>>>>> __handle_irq_event_percpu+0xcc/0x31c
+>>>>>> [    5.171276]  __handle_irq_event_percpu from
+>>>>>> handle_irq_event+0x38/0x80
+>>>>>> [    5.177765]  handle_irq_event from handle_fasteoi_irq+0x9c/0x250
+>>>>>> [    5.183743]  handle_fasteoi_irq from
+>>>>>> generic_handle_domain_irq+0x28/0x38
+>>>>>> [    5.190417]  generic_handle_domain_irq from
+>>>>>> gic_handle_irq+0x88/0xa8
+>>>>>> [    5.196741]  gic_handle_irq from generic_handle_arch_irq+0x34/0x44
+>>>>>> [    5.202893]  generic_handle_arch_irq from __irq_svc+0x8c/0xd0
+>>>>>>
+>>>>>> Full log:
+>>>>>> https://krzk.eu/#/builders/21/builds/4392/steps/11/logs/serial0
+>>>>>>     
+>>>>>
+>>>>> Hey Krzysztof,
+>>>>>
+>>>>> This is interesting. It might be about the cores that are missing
+>>>>> from the partial
+>>>>> core_mask raising interrupts, but an external abort on non-linefetch
+>>>>> is strange to
+>>>>> see here.
+>>>>
+>>>> I've seen such external aborts in the past, and the fault type has
+>>>> often been misleading. It's unlikely to have anything to do with a
+>>>
+>>> Yeah, often accessing device with power or clocks gated.
+>>>
+>>
+>> Except my commit does *not* gate SoC power, nor SoC clocks 🙂
+>>
+>> What the "Really power off ..." commit does is to ask the GPU to
+>> internally power
+>> off the shaders, tilers and L2, that's why I say that it is strange to
+>> see that
+>> kind of abort.
+>>
+>> The GPU_INT_CLEAR GPU_INT_STAT, GPU_FAULT_STATUS and
+>> GPU_FAULT_ADDRESS_{HI/LO}
+>> registers should still be accessible even with shaders, tilers and cache
+>> OFF.
+>>
+>> Anyway, yes, synchronizing IRQs before calling the poweroff sequence
+>> would also
+>> work, but that'd add up quite a bit of latency on the runtime_suspend()
+>> call, so
+>> in this case I'd be more for avoiding to execute any register r/w in the
+>> handler
+>> by either checking if the GPU is supposed to be OFF, or clearing
+>> interrupts, which
+>> may not work if those are generated after the execution of the poweroff
+>> function.
+>> Or we could simply disable the irq after power_off, but that'd be hacky
+>> (as well).
+>>
+>>
+>> Let's see if asking to poweroff *everything* works:
+>>
+>>
+>> ---
+>>   drivers/gpu/drm/panfrost/panfrost_gpu.c | 14 +++++++++++---
+>>   1 file changed, 11 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> index 09f5e1563ebd..1c7276aaa182 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> @@ -429,21 +429,29 @@ void panfrost_gpu_power_off(struct panfrost_device
+>> *pfdev)
+>>       int ret;
+>>       u32 val;
+>>
+>> -    gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present &
+>> core_mask);
+>> +    gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present);
+> 
+> Hopefully this one line change, and...
+> 
+>> +    gpu_write(pfdev, SHADER_PWROFF_HI, U32_MAX);
+>>       ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_PWRTRANS_LO,
+>>                        val, !val, 1, 1000);
+>>       if (ret)
+>>           dev_err(pfdev->dev, "shader power transition timeout");
+>>
+>>       gpu_write(pfdev, TILER_PWROFF_LO, pfdev->features.tiler_present);
+>> +    gpu_write(pfdev, TILER_PWROFF_HI, U32_MAX);
+>>       ret = readl_relaxed_poll_timeout(pfdev->iomem + TILER_PWRTRANS_LO,
+>>                        val, !val, 1, 1000);
+>>       if (ret)
+>>           dev_err(pfdev->dev, "tiler power transition timeout");
+>>
+>> -    gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present &
+>> core_mask);
+>> +    gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present);
+> 
+> ... this one are all that are actually needed - the rest should be
+> ignored as they affect cores that aren't present.
+> 
 
---------------QTFgIECjWt7a0kPmXBxBQWcc
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Honestly - when I wrote that diff, I didn't care at all whether the HI registers
+were powering off cores that weren't present, because I knew that the GPU would
+have handled that gracefully anyway.
 
-SGksDQoNCm15IGFwb2xvZ2llcyBpZiB0aGlzIHNvdW5kcyBwaWNreSBvciBhbm5veWluZy4g
-VGhpcyBjaGFuZ2UgYXBwZWFycyB0byBiZSANCmdvaW5nIGluIHRoZSB3cm9uZyBkaXJlY3Rp
-b24uIFRoZSBnb2FsIG9mIHRoZSByZWZhY3RvcmluZyBpcyB0byBiZSBhYmxlIA0KdG8gdXNl
-IGRybV9kcml2ZXIuZ2VtX3ByaW1lX2ltcG9ydCBhbmQgZHJtX2dlbV9vYmplY3RfZnVuY3Mu
-ZXhwb3J0IGZvciANCnRoZSBhZGRpdGlvbmFsIGltcG9ydC9leHBvcnQgY29kZTsgYW5kIGhl
-bmNlIGtlZXAgdGhlIEdFTSBvYmplY3QgY29kZSBpbiANCmEgc2luZ2xlIHBsYWNlLiBLZWVw
-aW5nIHRoZSBwcmltZV9mZCBmaWxlIGRlc2NyaXB0b3Igd2l0aGluIGFtZGtmZCB3aWxsIA0K
-bGlrZWx5IGhlbHAgd2l0aCB0aGF0Lg0KDQpIZXJlJ3MgbXkgc3VnZ2VzdGlvbjoNCg0KICAx
-KSBQbGVhc2Uga2VlcCB0aGUgaW50ZXJuYWwgaW50ZXJmYWNlcyBkcm1fZ2VtX3ByaW1lX2hh
-bmRsZV90b19mZCgpIA0KYW5kIGRybV9nZW1fcHJpbWVfZmRfdG9faGFuZGxlKCkuIFRoZXkg
-c2hvdWxkIGJlIGNhbGxlZCBmcm9tIHRoZSBfaW9jdGwgDQplbnRyeSBmdW5jdGlvbnMgYXMg
-aXMuIFRoYXQgY291bGQgYmUgc3RyZWFtLWxpbmVkIGluIGEgbGF0ZXIgcGF0Y2ggc2V0Lg0K
-DQogIDIpIEZyb20gZHJtX2dlbV9wcmltZV9oYW5kbGVfdG9fZmQoKSBhbmQgZHJtX2dlbV9w
-cmltZV9mZF90b19oYW5kbGUoKSwgDQpjcmVhdGUgZHJtX2dlbV9wcmltZV9oYW5kbGVfdG9f
-ZG1hYnVmKCkgYW5kIA0KZHJtX2dlbV9wcmltZV9kbWFidWZfdG9faGFuZGxlKCkuIFRoZXkg
-c2hvdWxkIGJlIGV4cG9ydGVkLiBZb3UgY2FuIHRoZW4gDQprZWVwIHRoZSBmaWxlLWRlc2Ny
-aXB0b3IgY29kZSBpbiBhbWRrZmQgYW5kIG91dCBvZiB0aGUgUFJJTUUgaGVscGVycy4NCg0K
-ICAzKSBQYXRjaGVzIDEgYW5kIDIgc2hvdWxkIGJlIHNxdWFzaGVkIGludG8gb25lLg0KDQog
-IDQpIEFuZCBpZiBJJ20gbm90IG1pc3Rha2VuLCB0aGUgYWRkaXRpb25hbCBpbXBvcnQvZXhw
-b3J0IGNvZGUgY2FuIHRoZW4gDQpnbyBpbnRvIGRybV9kcml2ZXIuZ2VtX3ByaW1lX2ltcG9y
-dCBhbmQgZHJtX2dlbV9vYmplY3RfZnVuY3MuZXhwb3J0LCANCndoaWNoIGFyZSBiZWluZyBj
-YWxsZWQgZnJvbSB3aXRoaW4gdGhlIFBSSU1FIGhlbHBlcnMuDQoNClRoYXQncyBhZG1pdHRl
-ZGx5IHF1aXRlIGEgYml0IG9mIHJlZmFjdG9yaW5nLiBPUiBzaW1wbHkgZ28gYmFjayB0byB2
-MSBvZiANCnRoaXMgcGF0Y2ggc2V0LCB3aGljaCB3YXMgY29uc2lzdGVudCBhdCBsZWFzdC4N
-Cg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KDQpBbSAyMi4xMS4yMyB1bSAwMDoxMSBzY2hy
-aWViIEZlbGl4IEt1ZWhsaW5nOg0KPiBDaGFuZ2UgZHJtX2dlbV9wcmltZV9oYW5kbGVfdG9f
-ZmQgdG8gZHJtX2dlbV9wcmltZV9oYW5kbGVfdG9fZG1hYnVmIHRvDQo+IGV4cG9ydCBhIGRt
-YWJ1ZiB3aXRob3V0IGNyZWF0aW5nIGFuIEZEIGFzIGEgdXNlciBtb2RlIGhhbmRsZS4gVGhp
-cyBpcw0KPiBtb3JlIHVzZWZ1bCBmb3IgdXNlcnMgaW4ga2VybmVsIG1vZGUuDQo+IA0KPiBT
-dWdnZXN0ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0K
-PiBTaWduZWQtb2ZmLWJ5OiBGZWxpeCBLdWVobGluZyA8RmVsaXguS3VlaGxpbmdAYW1kLmNv
-bT4NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jIHwgNjMgKysrKysr
-KysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAgIGluY2x1ZGUvZHJtL2RybV9w
-cmltZS5oICAgICB8ICA2ICsrLS0NCj4gICAyIGZpbGVzIGNoYW5nZWQsIDMzIGluc2VydGlv
-bnMoKyksIDM2IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fcHJpbWUuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUuYw0KPiBpbmRl
-eCA4MzRhNWUyOGFiYmUuLmQ0OTFiNWY3M2VlYSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2RybV9wcmltZS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJpbWUu
-Yw0KPiBAQCAtNDEwLDI2ICs0MTAsMjUgQEAgc3RhdGljIHN0cnVjdCBkbWFfYnVmICpleHBv
-cnRfYW5kX3JlZ2lzdGVyX29iamVjdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0KPiAgIH0N
-Cj4gICANCj4gICAvKioNCj4gLSAqIGRybV9nZW1fcHJpbWVfaGFuZGxlX3RvX2ZkIC0gUFJJ
-TUUgZXhwb3J0IGZ1bmN0aW9uIGZvciBHRU0gZHJpdmVycw0KPiArICogZHJtX2dlbV9wcmlt
-ZV9oYW5kbGVfdG9fZG1hYnVmIC0gUFJJTUUgZXhwb3J0IGZ1bmN0aW9uIGZvciBHRU0gZHJp
-dmVycw0KPiAgICAqIEBkZXY6IGRldiB0byBleHBvcnQgdGhlIGJ1ZmZlciBmcm9tDQo+ICAg
-ICogQGZpbGVfcHJpdjogZHJtIGZpbGUtcHJpdmF0ZSBzdHJ1Y3R1cmUNCj4gICAgKiBAaGFu
-ZGxlOiBidWZmZXIgaGFuZGxlIHRvIGV4cG9ydA0KPiAgICAqIEBmbGFnczogZmxhZ3MgbGlr
-ZSBEUk1fQ0xPRVhFQw0KPiAtICogQHByaW1lX2ZkOiBwb2ludGVyIHRvIHN0b3JhZ2UgZm9y
-IHRoZSBmZCBpZCBvZiB0aGUgY3JlYXRlIGRtYS1idWYNCj4gKyAqIEBkbWFfYnVmOiBwb2lu
-dGVyIHRvIHN0b3JhZ2UgZm9yIHRoZSBkbWEtYnVmIHJlZmVyZW5jZQ0KPiAgICAqDQo+ICAg
-ICogVGhpcyBpcyB0aGUgUFJJTUUgZXhwb3J0IGZ1bmN0aW9uIHdoaWNoIG11c3QgYmUgdXNl
-ZCBtYW5kYXRvcmlseSBieSBHRU0NCj4gICAgKiBkcml2ZXJzIHRvIGVuc3VyZSBjb3JyZWN0
-IGxpZmV0aW1lIG1hbmFnZW1lbnQgb2YgdGhlIHVuZGVybHlpbmcgR0VNIG9iamVjdC4NCj4g
-ICAgKiBUaGUgYWN0dWFsIGV4cG9ydGluZyBmcm9tIEdFTSBvYmplY3QgdG8gYSBkbWEtYnVm
-IGlzIGRvbmUgdGhyb3VnaCB0aGUNCj4gICAgKiAmZHJtX2dlbV9vYmplY3RfZnVuY3MuZXhw
-b3J0IGNhbGxiYWNrLg0KPiAgICAqLw0KPiAtaW50IGRybV9nZW1fcHJpbWVfaGFuZGxlX3Rv
-X2ZkKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+IC0JCQkgICAgICAgc3RydWN0IGRybV9m
-aWxlICpmaWxlX3ByaXYsIHVpbnQzMl90IGhhbmRsZSwNCj4gLQkJCSAgICAgICB1aW50MzJf
-dCBmbGFncywNCj4gLQkJCSAgICAgICBpbnQgKnByaW1lX2ZkKQ0KPiArc3RydWN0IGRtYV9i
-dWYgKmRybV9nZW1fcHJpbWVfaGFuZGxlX3RvX2RtYWJ1ZihzdHJ1Y3QgZHJtX2RldmljZSAq
-ZGV2LA0KPiArCQkJCQkgICAgICAgc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYsDQo+ICsJ
-CQkJCSAgICAgICB1aW50MzJfdCBoYW5kbGUsIHVpbnQzMl90IGZsYWdzKQ0KPiAgIHsNCj4g
-ICAJc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmo7DQo+ICAgCWludCByZXQgPSAwOw0KPiAt
-CXN0cnVjdCBkbWFfYnVmICpkbWFidWY7DQo+ICsJc3RydWN0IGRtYV9idWYgKmRtYWJ1ZiA9
-IE5VTEw7DQo+ICAgDQo+ICAgCW11dGV4X2xvY2soJmZpbGVfcHJpdi0+cHJpbWUubG9jayk7
-DQo+ICAgCW9iaiA9IGRybV9nZW1fb2JqZWN0X2xvb2t1cChmaWxlX3ByaXYsIGhhbmRsZSk7
-DQo+IEBAIC00NDEsNyArNDQwLDcgQEAgaW50IGRybV9nZW1fcHJpbWVfaGFuZGxlX3RvX2Zk
-KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+ICAgCWRtYWJ1ZiA9IGRybV9wcmltZV9sb29r
-dXBfYnVmX2J5X2hhbmRsZSgmZmlsZV9wcml2LT5wcmltZSwgaGFuZGxlKTsNCj4gICAJaWYg
-KGRtYWJ1Zikgew0KPiAgIAkJZ2V0X2RtYV9idWYoZG1hYnVmKTsNCj4gLQkJZ290byBvdXRf
-aGF2ZV9oYW5kbGU7DQo+ICsJCWdvdG8gb3V0Ow0KPiAgIAl9DQo+ICAgDQo+ICAgCW11dGV4
-X2xvY2soJmRldi0+b2JqZWN0X25hbWVfbG9jayk7DQo+IEBAIC00NzksNDAgKzQ3OCwyMiBA
-QCBpbnQgZHJtX2dlbV9wcmltZV9oYW5kbGVfdG9fZmQoc3RydWN0IGRybV9kZXZpY2UgKmRl
-diwNCj4gICAJCQkJICAgICAgIGRtYWJ1ZiwgaGFuZGxlKTsNCj4gICAJbXV0ZXhfdW5sb2Nr
-KCZkZXYtPm9iamVjdF9uYW1lX2xvY2spOw0KPiAgIAlpZiAocmV0KQ0KPiAtCQlnb3RvIGZh
-aWxfcHV0X2RtYWJ1ZjsNCj4gLQ0KPiAtb3V0X2hhdmVfaGFuZGxlOg0KPiAtCXJldCA9IGRt
-YV9idWZfZmQoZG1hYnVmLCBmbGFncyk7DQo+IC0JLyoNCj4gLQkgKiBXZSBtdXN0IF9ub3Rf
-IHJlbW92ZSB0aGUgYnVmZmVyIGZyb20gdGhlIGhhbmRsZSBjYWNoZSBzaW5jZSB0aGUgbmV3
-bHkNCj4gLQkgKiBjcmVhdGVkIGRtYSBidWYgaXMgYWxyZWFkeSBsaW5rZWQgaW4gdGhlIGds
-b2JhbCBvYmotPmRtYV9idWYgcG9pbnRlciwNCj4gLQkgKiBhbmQgdGhhdCBpcyBpbnZhcmlh
-bnQgYXMgbG9uZyBhcyBhIHVzZXJzcGFjZSBnZW0gaGFuZGxlIGV4aXN0cy4NCj4gLQkgKiBD
-bG9zaW5nIHRoZSBoYW5kbGUgd2lsbCBjbGVhbiBvdXQgdGhlIGNhY2hlIGFueXdheSwgc28g
-d2UgZG9uJ3QgbGVhay4NCj4gLQkgKi8NCj4gLQlpZiAocmV0IDwgMCkgew0KPiAtCQlnb3Rv
-IGZhaWxfcHV0X2RtYWJ1ZjsNCj4gLQl9IGVsc2Ugew0KPiAtCQkqcHJpbWVfZmQgPSByZXQ7
-DQo+IC0JCXJldCA9IDA7DQo+IC0JfQ0KPiAtDQo+IC0JZ290byBvdXQ7DQo+IC0NCj4gLWZh
-aWxfcHV0X2RtYWJ1ZjoNCj4gLQlkbWFfYnVmX3B1dChkbWFidWYpOw0KPiArCQlkbWFfYnVm
-X3B1dChkbWFidWYpOw0KPiAgIG91dDoNCj4gICAJZHJtX2dlbV9vYmplY3RfcHV0KG9iaik7
-DQo+ICAgb3V0X3VubG9jazoNCj4gICAJbXV0ZXhfdW5sb2NrKCZmaWxlX3ByaXYtPnByaW1l
-LmxvY2spOw0KPiAgIA0KPiAtCXJldHVybiByZXQ7DQo+ICsJcmV0dXJuIHJldCA/IEVSUl9Q
-VFIocmV0KSA6IGRtYWJ1ZjsNCj4gICB9DQo+IC1FWFBPUlRfU1lNQk9MKGRybV9nZW1fcHJp
-bWVfaGFuZGxlX3RvX2ZkKTsNCj4gK0VYUE9SVF9TWU1CT0woZHJtX2dlbV9wcmltZV9oYW5k
-bGVfdG9fZG1hYnVmKTsNCj4gICANCj4gICBpbnQgZHJtX3ByaW1lX2hhbmRsZV90b19mZF9p
-b2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLA0KPiAgIAkJCQkgc3Ry
-dWN0IGRybV9maWxlICpmaWxlX3ByaXYpDQo+ICAgew0KPiAgIAlzdHJ1Y3QgZHJtX3ByaW1l
-X2hhbmRsZSAqYXJncyA9IGRhdGE7DQo+ICsJc3RydWN0IGRtYV9idWYgKmRtYWJ1ZjsNCj4g
-KwlpbnQgcmV0Ow0KPiAgIA0KPiAgIAkvKiBjaGVjayBmbGFncyBhcmUgdmFsaWQgKi8NCj4g
-ICAJaWYgKGFyZ3MtPmZsYWdzICYgfihEUk1fQ0xPRVhFQyB8IERSTV9SRFdSKSkNCj4gQEAg
-LTUyMyw4ICs1MDQsMjQgQEAgaW50IGRybV9wcmltZV9oYW5kbGVfdG9fZmRfaW9jdGwoc3Ry
-dWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwNCj4gICAJCQkJCQkgICAgICAgYXJn
-cy0+aGFuZGxlLCBhcmdzLT5mbGFncywNCj4gICAJCQkJCQkgICAgICAgJmFyZ3MtPmZkKTsN
-Cj4gICAJfQ0KPiAtCXJldHVybiBkcm1fZ2VtX3ByaW1lX2hhbmRsZV90b19mZChkZXYsIGZp
-bGVfcHJpdiwgYXJncy0+aGFuZGxlLA0KPiAtCQkJCQkgIGFyZ3MtPmZsYWdzLCAmYXJncy0+
-ZmQpOw0KPiArCWRtYWJ1ZiA9IGRybV9nZW1fcHJpbWVfaGFuZGxlX3RvX2RtYWJ1ZihkZXYs
-IGZpbGVfcHJpdiwgYXJncy0+aGFuZGxlLA0KPiArCQkJCQkJYXJncy0+ZmxhZ3MpOw0KPiAr
-CWlmIChJU19FUlIoZG1hYnVmKSkNCj4gKwkJcmV0dXJuIFBUUl9FUlIoZG1hYnVmKTsNCj4g
-KwlyZXQgPSBkbWFfYnVmX2ZkKGRtYWJ1ZiwgYXJncy0+ZmxhZ3MpOw0KPiArCS8qDQo+ICsJ
-ICogV2UgbXVzdCBfbm90XyByZW1vdmUgdGhlIGJ1ZmZlciBmcm9tIHRoZSBoYW5kbGUgY2Fj
-aGUgc2luY2UgdGhlIG5ld2x5DQo+ICsJICogY3JlYXRlZCBkbWEgYnVmIGlzIGFscmVhZHkg
-bGlua2VkIGluIHRoZSBnbG9iYWwgb2JqLT5kbWFfYnVmIHBvaW50ZXIsDQo+ICsJICogYW5k
-IHRoYXQgaXMgaW52YXJpYW50IGFzIGxvbmcgYXMgYSB1c2Vyc3BhY2UgZ2VtIGhhbmRsZSBl
-eGlzdHMuDQo+ICsJICogQ2xvc2luZyB0aGUgaGFuZGxlIHdpbGwgY2xlYW4gb3V0IHRoZSBj
-YWNoZSBhbnl3YXksIHNvIHdlIGRvbid0IGxlYWsuDQo+ICsJICovDQo+ICsJaWYgKHJldCA8
-IDApIHsNCj4gKwkJZG1hX2J1Zl9wdXQoZG1hYnVmKTsNCj4gKwl9IGVsc2Ugew0KPiArCQlh
-cmdzLT5mZCA9IHJldDsNCj4gKwkJcmV0ID0gMDsNCj4gKwl9DQo+ICsJcmV0dXJuIHJldDsN
-Cj4gICB9DQo+ICAgDQo+ICAgLyoqDQo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1f
-cHJpbWUuaCBiL2luY2x1ZGUvZHJtL2RybV9wcmltZS5oDQo+IGluZGV4IDJhMWQwMWU1YjU2
-Yi4uODllODM5MjkzZDE0IDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fcHJpbWUu
-aA0KPiArKysgYi9pbmNsdWRlL2RybS9kcm1fcHJpbWUuaA0KPiBAQCAtNjksOSArNjksOSBA
-QCB2b2lkIGRybV9nZW1fZG1hYnVmX3JlbGVhc2Uoc3RydWN0IGRtYV9idWYgKmRtYV9idWYp
-Ow0KPiAgIA0KPiAgIGludCBkcm1fZ2VtX3ByaW1lX2ZkX3RvX2hhbmRsZShzdHJ1Y3QgZHJt
-X2RldmljZSAqZGV2LA0KPiAgIAkJCSAgICAgICBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJp
-diwgaW50IHByaW1lX2ZkLCB1aW50MzJfdCAqaGFuZGxlKTsNCj4gLWludCBkcm1fZ2VtX3By
-aW1lX2hhbmRsZV90b19mZChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0KPiAtCQkJICAgICAg
-IHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2LCB1aW50MzJfdCBoYW5kbGUsIHVpbnQzMl90
-IGZsYWdzLA0KPiAtCQkJICAgICAgIGludCAqcHJpbWVfZmQpOw0KPiArc3RydWN0IGRtYV9i
-dWYgKmRybV9nZW1fcHJpbWVfaGFuZGxlX3RvX2RtYWJ1ZihzdHJ1Y3QgZHJtX2RldmljZSAq
-ZGV2LA0KPiArCQkJCQkgICAgICAgc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYsDQo+ICsJ
-CQkJCSAgICAgICB1aW50MzJfdCBoYW5kbGUsIHVpbnQzMl90IGZsYWdzKTsNCj4gICANCj4g
-ICAvKiBoZWxwZXIgZnVuY3Rpb25zIGZvciBleHBvcnRpbmcgKi8NCj4gICBpbnQgZHJtX2dl
-bV9tYXBfYXR0YWNoKHN0cnVjdCBkbWFfYnVmICpkbWFfYnVmLA0KDQotLSANClRob21hcyBa
-aW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNv
-bHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5i
-ZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0Rv
-bmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
+What I wanted to do was to reduce Krzysztof's testing effort to a minimum, actually
+preventing to send more than one patch to try... but with that, you bought me a bit
+of precious time that I would've spent with research, so, hats off! Thank you!
 
---------------QTFgIECjWt7a0kPmXBxBQWcc--
+> The Exynos 5422 SoC has a T628 MP6 - so two core groups which isn't a
+> particularly well supported configuration. But I'm not sure how we're
+> ending up with the second core group being powered up in the first
+> place. Even if it was left powered by something previous (e.g. the
+> bootloader) then the soft-reset during probe should cause them to power
+> down.
+> 
 
---------------PcQAm2HmxJyhy6d6PUpFtuKn
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+Hm. I didn't know that soft_reset is supposed to (and will) power down cores.
+This is clarifying some things I didn't really have an explanation for... so thanks
+again :-)
 
------BEGIN PGP SIGNATURE-----
+> But it seems like a good idea to power off everything when powering
+> down, even if we didn't expect the cores to be on.
+> 
+> Boris also has a point that before cutting the power/clocks we should
+> really be synchronising with the IRQs - but that affects the follow on
+> patches not this one.
+> 
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVd2NgFAwAAAAAACgkQlh/E3EQov+BN
-rBAAr2xfwhq6Tsax9R8FUA+cMTmMul9BOJSjqGP3LHo2QVYgUjTeGNExEIAHD13uB24oDHSOAISJ
-kntpDswEG8pbda4y3EfpYJLkoFI0kK9cLTFhXyMbUCDcCkMKRcnchNI4msGx799mTvTi4TWc3SJj
-XCOTjXO+8r0NBN7NUcqFlGdwhZcrJhop7TUjD+Dhc4pFaXpDMb2zXJjuj6H929sK58lfZPIDJiUO
-vaFXpCR0sh6lrEGmLZm3pyHW4IZeZ6IedEi/nCPij2ZSIIOKcftpeW+mP3httrRsxohwv1/jW4VL
-q1dklO4bLCeZpaKDwVt57L1UunEsu4Cyo4lkW78Go+/PF673q0LP7ViWyj4FZiRr7T7POPsF/IsC
-aj3toWY21x7jZiukyHbAP5x8EUgHpmSk3Q1s5JG6XrlbGyjtZIOT5zl/xPw3T1stQtryO0ioJ29i
-tHsKXAAmh/JrjDA/YloSoZTGpm8sTqZegK329/w1B6JZGMfsDjPqaUwW5UEbmJdhqxpJZ1UvttY3
-cBECVrBihkPFDydMMH+pxX/kxpL4SgXMdGAMxYFaZANlm1VGWHimT6KMmNKlZbyQYkT+/2WAB59J
-TMCO40oKeeLB76t3rF0k2oQAkVUHsHfPaZjv5i/AQCzuCJjwsqa09J1yV3GyRwKhDI3vD6bZcKOw
-06E=
-=L2Ev
------END PGP SIGNATURE-----
+...which gives me some more ideas to try... in the near future.
+But it's out of context for this fix anyway.
 
---------------PcQAm2HmxJyhy6d6PUpFtuKn--
+Cheers,
+Angelo
+
+> Steve
+> 
+>>       ret = readl_poll_timeout(pfdev->iomem + L2_PWRTRANS_LO,
+>> -                 val, !val, 0, 1000);
+>> +                     val, !val, 0, 1000);
+>> +    if (ret)
+>> +        dev_err(pfdev->dev, "l2_low power transition timeout");
+>> +
+>> +    gpu_write(pfdev, L2_PWROFF_HI, U32_MAX);
+>> +    ret = readl_poll_timeout(pfdev->iomem + L2_PWRTRANS_HI,
+>> +                     val, !val, 0, 1000);
+>>       if (ret)
+>>           dev_err(pfdev->dev, "l2 power transition timeout");
+>>   }
+> 
+
+
