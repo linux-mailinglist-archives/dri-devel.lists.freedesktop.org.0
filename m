@@ -1,81 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5AD27F3AEF
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 02:00:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CC4E7F3B0E
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 02:10:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9D8710E5C9;
-	Wed, 22 Nov 2023 01:00:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 080A810E5CE;
+	Wed, 22 Nov 2023 01:10:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3C7510E5C8;
- Wed, 22 Nov 2023 00:59:59 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3AM0OF2A019663; Wed, 22 Nov 2023 00:59:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=at4TJKe5/xTv1ywl/HVRKfJ6QkWba3i5SVFbw7qSANo=;
- b=DP+Ij6jz6i7SWdlWX2Ycn3q9vhHTRIYEMS9vWJ6rdqsytUWjTZBUZffecATHIkFMym9o
- MZqXRc9zEyTrMtS4synjiLtqe8u0jNa5XSnm9F/5ohvsiNI/9rn5u/AWyt74kQhTK7cP
- cxFSV0ASYwmHkJvsIEJBKC8Nky2ADlGCWpCl2ND7bPW2jLYoyTgd5CqnuOXgc4Mf1wG1
- Uk4L2mGDUbiK+MWJ+XWzffwZ4EEUnA510q3Zf+a1b5/cv5WbWHNg2k7+5GRNL/5NMR9K
- cZPz54natW2awGiiwjDAoN+wXPYmUmo7Zs7r8r1fY/b5EzF5Xk4wsvONR0X1mGXXOl6L FQ== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uh477gccj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Nov 2023 00:59:32 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AM0xWJ9008877
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Nov 2023 00:59:32 GMT
-Received: from [10.71.109.77] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 21 Nov
- 2023 16:59:31 -0800
-Message-ID: <191a3d1a-bcd3-4e0d-360d-61c1c2a61147@quicinc.com>
-Date: Tue, 21 Nov 2023 16:59:30 -0800
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7198410E5CA;
+ Wed, 22 Nov 2023 01:10:31 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id
+ a640c23a62f3a-a0039ea30e0so322335966b.2; 
+ Tue, 21 Nov 2023 17:10:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1700615430; x=1701220230; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=zRWGrawMSV+6Xgv01Y36HXSNYngChWCIAznOh5AjQlE=;
+ b=HvXhsNrd6plqcuoJfdOgkGa8DrG7sE0KvnjMv6eMdguaG1fxudO+rvjBtOCIUYJeuZ
+ urC47zc8DwjF7oK1mTjv/7f/RIGHxzJKrTxyrTHmVfLg7QxtTQSzr/R2Ar8ZUuFyJJ7h
+ uGMRUO9H8AWeAbYwjNAQRWJ5pcGOo1B7NNAlq5XAxaIakqxi+cMLnJM6iQ8YG/HGjj8V
+ YGwJpKhvfYgK1txmzJ2aqELD7MQ5EBUycyf6sEOSuhb3j0AQ6+kpTfeZauEp4aMwNGPa
+ sb+9o0RzUYISGBcTl9W0Ck+6PA5rMwEX8VjcVdFlXpSzLxURckBb9shjOPRBGwU8VGw8
+ AxQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700615430; x=1701220230;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=zRWGrawMSV+6Xgv01Y36HXSNYngChWCIAznOh5AjQlE=;
+ b=nFEpEfWpB1fQ+4fTKW4w0VN48qVyDyvFrE7pFLYWsb+p2sqeLnp0z4992FFpkdeNHB
+ eBRhZtxt1EGSBMLkxmQANJRq70sOG7xsyDWVN0/ox+bduqiem4uZShEyyYNRDept+GqA
+ tsJ8uRo3ovN6RQBf7lQqPIISFGk+3RzRodoTHsF4BV/Pomj93NdbRVi10uBX4glCd2dg
+ 5/UnmNYaBEzc0OWaOzZuM+mwTkh3vpYD2e2UG6byiyZtNg4z7MNHHaiV5MLbmmRXSR/g
+ s7lt4M97AlZamKOcKAq1mrn1YR/8zUDB9yBfcx0qHXzFwZ15vzK63waikxbIq+EnFyhC
+ n5RQ==
+X-Gm-Message-State: AOJu0Yzabi4XxnuD12Bn93Lnq2kx30652+/nmYMDjkDErCzbFfNMIVMX
+ GzSd7e4LZ7k87UdtXnjyjml8E5fzGgSh0/bSePFOXb5J
+X-Google-Smtp-Source: AGHT+IFFL9OvxNAARqb807A0CCGpwcpZ9g3tIy4bwCsMulCtjjtPtnLbO27xrODmZmgpkMF5FOSVnpyypEDVojOa5P4=
+X-Received: by 2002:a17:906:cec9:b0:9b2:b691:9b5f with SMTP id
+ si9-20020a170906cec900b009b2b6919b5fmr390800ejb.41.1700615429487; Tue, 21 Nov
+ 2023 17:10:29 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/msm/dpu: Fix encoder CRC to account for CTM enablement
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>
-References: <20231023221250.116500-1-robdclark@gmail.com>
- <CAA8EJpqVL5U7yaZsG5F=q7EFP1bsApySdjycywox6cZUd8JqdA@mail.gmail.com>
- <CAF6AEGvbKjHYU6qv4v3017DguEye23yMoYvTbEo=JZ+QW3=Atg@mail.gmail.com>
- <CAA8EJprRdezFBP=+aBinA-=tbTGWPcj-izOthA=cbehes0UYng@mail.gmail.com>
- <d003384d-3b4b-da05-f4b7-8497749fc843@quicinc.com>
- <dd928ef1-e329-37e0-d383-444a64ef2bc5@quicinc.com>
- <CAF6AEGuxoSaX67iYuhWiaoPQMwh_ggE0ZGbgmLZ-QhmS4FYxtg@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAF6AEGuxoSaX67iYuhWiaoPQMwh_ggE0ZGbgmLZ-QhmS4FYxtg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: crbydftlUTBVoJVWlAu6jMsxM9b4MI50
-X-Proofpoint-GUID: crbydftlUTBVoJVWlAu6jMsxM9b4MI50
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-21_16,2023-11-21_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 phishscore=0
- impostorscore=0 malwarescore=0 mlxlogscore=999 clxscore=1015
- suspectscore=0 spamscore=0 bulkscore=0 mlxscore=0 priorityscore=1501
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311220004
+References: <20231113221202.7203-1-dakr@redhat.com>
+In-Reply-To: <20231113221202.7203-1-dakr@redhat.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 22 Nov 2023 11:10:17 +1000
+Message-ID: <CAPM=9twd8FQUdSGFtz78iqwZ7SzWuXeJ5+hXtW4amm6nLkHWZw@mail.gmail.com>
+Subject: Re: [PATCH drm-misc-next] drm/nouveau: use GPUVM common infrastructure
+To: Danilo Krummrich <dakr@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,323 +66,485 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Kalyan Thota <quic_kalyant@quicinc.com>,
- linux-arm-msm@vger.kernel.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>, Arnaud Vrac <rawoul@gmail.com>,
- dri-devel@lists.freedesktop.org, Jeykumar
- Sankaran <quic_jeykumar@quicinc.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Sean Paul <sean@poorly.run>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>, freedreno@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kherbst@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 14 Nov 2023 at 08:12, Danilo Krummrich <dakr@redhat.com> wrote:
+>
+> GPUVM provides common infrastructure to track external and evicted GEM
+> objects as well as locking and validation helpers.
+>
+> Especially external and evicted object tracking is a huge improvement
+> compared to the current brute force approach of iterating all mappings
+> in order to lock and validate the GPUVM's GEM objects. Hence, make us of
+> it.
+>
+> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 
+Reviewed-by: Dave Airlie <airlied@redhat.com>
 
-On 11/21/2023 4:27 PM, Rob Clark wrote:
-> On Tue, Nov 21, 2023 at 4:41 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 10/24/2023 12:01 PM, Abhinav Kumar wrote:
->>>
->>>
->>> On 10/23/2023 4:03 PM, Dmitry Baryshkov wrote:
->>>> On Tue, 24 Oct 2023 at 01:36, Rob Clark <robdclark@gmail.com> wrote:
->>>>>
->>>>> On Mon, Oct 23, 2023 at 3:30 PM Dmitry Baryshkov
->>>>> <dmitry.baryshkov@linaro.org> wrote:
->>>>>>
->>>>>> On Tue, 24 Oct 2023 at 01:12, Rob Clark <robdclark@gmail.com> wrote:
->>>>>>>
->>>>>>> From: Rob Clark <robdclark@chromium.org>
->>>>>>>
->>>>>>> Seems like we need to pick INPUT_SEL=1 when CTM is enabled.  But not
->>>>>>> otherwise.
->>>>>>>
->>>>>>> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
->>>>>>> ---
->>>
->>> I cannot find anything in the docs which suggest this solution is correct.
->>>
->>> Different blocks in the DPU pipeline have their own CRC (MISR) registers
->>> like LM, intf etc.
->>>
->>> We dont need to change INPUT_SEL to tell DPU from which pipeline to take
->>> the CRC from as each of them have their own registers.
->>>
->>> INPUT_SEL is controlling whether the CRC needs to be calculated over the
->>> entire display timings or only the active pixels. I am unable to tell at
->>> the moment why this is making a difference in this use-case.
->>>
->>> Since I am unable to find any documentation proving this solution is
->>> correct so far, unfortunately I would hold this back till then.
->>>
->>> We will investigate this issue and report our findings on this thread on
->>> how to proceed.
->>>
->>
->> Alright, we debugged and also found some more answers.
->>
->> The correct solution is indeed to set INPUT_SEL = 1 but let me explain
->> why and what should be the correct way.
->>
->> INPUT_SEL was indeed telling whether to compute CRC over active pixels
->> or active pixels + timings like I wrote before but this behavior changed
->> since some chipsets.
->>
->> Now, INPUT_SEL = 0 means compute CRC *only* over timings and not the
->> active area (and not display + timings like before) and like mentioned
->> before this has nothing to do with what is the input to the CRC. Not
->> covering the active area will not change the CRC at all as Rob reported
->> but its not specific to CTM.
->>
->> Which means we should have been setting INPUT_SEL=1 whenever we use INTF
->> CRC irrespective of whether CTM is used or not.
->>
->> What this also means is INTF CRC was not working correctly at all so far
->> irrespecive of CTM or not because it was always computing CRC only on
->> the timings (non-active area).
->>
->> This was not caught so far because it looks like IGT's
->> kms_pipe_crc_basic test which was used to validate this only compares
->> CRC between two frames of the same content to match if they were equal
->> and not changing contents and comparing like kms_plane does. It will
->> pass as CRC would not have changed.
->>
->> Now coming to the fix, the reset value of this register INTF_MISR_CTRL
->> already sets the INPUT_SEL bit (or unsets it) correctly based on
->> whichever DPU version is used so we should just change the
->> dpu_hw_setup_misr() to a read on the register followed by ORing the
->> required bits without touching INPUT_SEL and write.
->>
->> That will address this issue and also cover version control since the
->> expected value of this bit has changed across DPU revisions.
-> 
-> Ok, thanks for following up on this.  Mind posting a patch to
-> supersede this one?
-> 
-> BR,
-> -R
-> 
-
-Yup, we will.
-
-Thanks
-
-Abhinav
->>>>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 2 +-
->>>>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 4 ++--
->>>>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h | 3 ++-
->>>>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c | 4 ++--
->>>>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h | 2 +-
->>>>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c   | 2 +-
->>>>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c | 5 ++++-
->>>>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h | 3 ++-
->>>>>>>    8 files changed, 15 insertions(+), 10 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>>>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>>>>>> index 2b83a13b3aa9..d93a92ffd5df 100644
->>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>>>>>> @@ -134,7 +134,7 @@ static void dpu_crtc_setup_encoder_misr(struct
->>>>>>> drm_crtc *crtc)
->>>>>>>           struct drm_encoder *drm_enc;
->>>>>>>
->>>>>>>           drm_for_each_encoder_mask(drm_enc, crtc->dev,
->>>>>>> crtc->state->encoder_mask)
->>>>>>> -               dpu_encoder_setup_misr(drm_enc);
->>>>>>> +               dpu_encoder_setup_misr(drm_enc, !!crtc->state->ctm);
->>>>>>>    }
->>>>>>>
->>>>>>>    static int dpu_crtc_set_crc_source(struct drm_crtc *crtc, const
->>>>>>> char *src_name)
->>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>>>>> index b0a7908418ed..12ee7acb5ea6 100644
->>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>>>>> @@ -241,7 +241,7 @@ int dpu_encoder_get_crc_values_cnt(const struct
->>>>>>> drm_encoder *drm_enc)
->>>>>>>           return num_intf;
->>>>>>>    }
->>>>>>>
->>>>>>> -void dpu_encoder_setup_misr(const struct drm_encoder *drm_enc)
->>>>>>> +void dpu_encoder_setup_misr(const struct drm_encoder *drm_enc,
->>>>>>> bool has_ctm)
->>>>>>>    {
->>>>>>>           struct dpu_encoder_virt *dpu_enc;
->>>>>>>
->>>>>>> @@ -255,7 +255,7 @@ void dpu_encoder_setup_misr(const struct
->>>>>>> drm_encoder *drm_enc)
->>>>>>>                   if (!phys->hw_intf || !phys->hw_intf->ops.setup_misr)
->>>>>>>                           continue;
->>>>>>>
->>>>>>> -               phys->hw_intf->ops.setup_misr(phys->hw_intf, true, 1);
->>>>>>> +               phys->hw_intf->ops.setup_misr(phys->hw_intf, true,
->>>>>>> 1, has_ctm);
->>>>>>>           }
->>>>>>>    }
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
->>>>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
->>>>>>> index 4c05fd5e9ed1..510783b2fb24 100644
->>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
->>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
->>>>>>> @@ -169,8 +169,9 @@ int dpu_encoder_get_crc_values_cnt(const struct
->>>>>>> drm_encoder *drm_enc);
->>>>>>>    /**
->>>>>>>     * dpu_encoder_setup_misr - enable misr calculations
->>>>>>>     * @drm_enc:    Pointer to previously created drm encoder structure
->>>>>>> + * @has_ctm:    Is CTM enabled
->>>>>>>     */
->>>>>>> -void dpu_encoder_setup_misr(const struct drm_encoder *drm_encoder);
->>>>>>> +void dpu_encoder_setup_misr(const struct drm_encoder *drm_encoder,
->>>>>>> bool has_ctm);
->>>>>>>
->>>>>>>    /**
->>>>>>>     * dpu_encoder_get_crc - get the crc value from interface blocks
->>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
->>>>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
->>>>>>> index e8b8908d3e12..cb06f80cc671 100644
->>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
->>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
->>>>>>> @@ -318,9 +318,9 @@ static u32 dpu_hw_intf_get_line_count(struct
->>>>>>> dpu_hw_intf *intf)
->>>>>>>           return DPU_REG_READ(c, INTF_LINE_COUNT);
->>>>>>>    }
->>>>>>>
->>>>>>> -static void dpu_hw_intf_setup_misr(struct dpu_hw_intf *intf, bool
->>>>>>> enable, u32 frame_count)
->>>>>>> +static void dpu_hw_intf_setup_misr(struct dpu_hw_intf *intf, bool
->>>>>>> enable, u32 frame_count, bool has_ctm)
->>>>>>>    {
->>>>>>> -       dpu_hw_setup_misr(&intf->hw, INTF_MISR_CTRL, enable,
->>>>>>> frame_count);
->>>>>>> +       dpu_hw_setup_misr(&intf->hw, INTF_MISR_CTRL, enable,
->>>>>>> frame_count, has_ctm);
->>>>>>
->>>>>> I'm not sure about the dpu_encoder and dpu_hw_intf interfaces. But
->>>>>> dpu_hw_setup_misr definitely needs the `u8 input_sel` parameter
->>>>>> instead of `bool has_ctm`.
->>>>>
->>>>> That seems a bit premature without knowing what the other values are.
->>>>> (And I also question a bit the whole abstraction layer thing if it is
->>>>> taking directly register bitfield enum's..)
->>>>
->>>> dpu_hw_intf and especially dpu_hw_util are not real abstractions. I
->>>> always viewed them as useful low-level helpers.
->>>>
->>>> I think that has_ctm is valid at the dpu_encoder level, which selects
->>>> which input to use. on the lower levels has_ctm doesn't make sense.
->>>> IOW dpu_hw_setup_misr can be used to setup MISR for other blocks,
->>>> where CTM doesn't exist.
->>>>
->>>>>
->>>>> BR,
->>>>> -R
->>>>>
->>>>>> Most likely, I'd use u8 for dpu_hw_intf operation too.
->>>>>>
->>>>>> Could you please adjust?
->>>>>>
->>>>>>>    }
->>>>>>>
->>>>>>>    static int dpu_hw_intf_collect_misr(struct dpu_hw_intf *intf, u32
->>>>>>> *misr_value)
->>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
->>>>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
->>>>>>> index c539025c418b..95aafc4cf58e 100644
->>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
->>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
->>>>>>> @@ -95,7 +95,7 @@ struct dpu_hw_intf_ops {
->>>>>>>
->>>>>>>           void (*bind_pingpong_blk)(struct dpu_hw_intf *intf,
->>>>>>>                           const enum dpu_pingpong pp);
->>>>>>> -       void (*setup_misr)(struct dpu_hw_intf *intf, bool enable,
->>>>>>> u32 frame_count);
->>>>>>> +       void (*setup_misr)(struct dpu_hw_intf *intf, bool enable,
->>>>>>> u32 frame_count, bool has_ctm);
->>>>>>>           int (*collect_misr)(struct dpu_hw_intf *intf, u32
->>>>>>> *misr_value);
->>>>>>>
->>>>>>>           // Tearcheck on INTF since DPU 5.0.0
->>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
->>>>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
->>>>>>> index d1c3bd8379ea..2efe29396c6a 100644
->>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
->>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
->>>>>>> @@ -83,7 +83,7 @@ static void dpu_hw_lm_setup_border_color(struct
->>>>>>> dpu_hw_mixer *ctx,
->>>>>>>
->>>>>>>    static void dpu_hw_lm_setup_misr(struct dpu_hw_mixer *ctx, bool
->>>>>>> enable, u32 frame_count)
->>>>>>>    {
->>>>>>> -       dpu_hw_setup_misr(&ctx->hw, LM_MISR_CTRL, enable,
->>>>>>> frame_count);
->>>>>>> +       dpu_hw_setup_misr(&ctx->hw, LM_MISR_CTRL, enable,
->>>>>>> frame_count, false);
->>>>>>>    }
->>>>>>>
->>>>>>>    static int dpu_hw_lm_collect_misr(struct dpu_hw_mixer *ctx, u32
->>>>>>> *misr_value)
->>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
->>>>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
->>>>>>> index 9d2273fd2fed..528b8439209f 100644
->>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
->>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
->>>>>>> @@ -483,7 +483,7 @@ void _dpu_hw_setup_qos_lut(struct
->>>>>>> dpu_hw_blk_reg_map *c, u32 offset,
->>>>>>>
->>>>>>>    void dpu_hw_setup_misr(struct dpu_hw_blk_reg_map *c,
->>>>>>>                   u32 misr_ctrl_offset,
->>>>>>> -               bool enable, u32 frame_count)
->>>>>>> +               bool enable, u32 frame_count, bool has_ctm)
->>>>>>>    {
->>>>>>>           u32 config = 0;
->>>>>>>
->>>>>>> @@ -496,6 +496,9 @@ void dpu_hw_setup_misr(struct
->>>>>>> dpu_hw_blk_reg_map *c,
->>>>>>>                   config = (frame_count & MISR_FRAME_COUNT_MASK) |
->>>>>>>                           MISR_CTRL_ENABLE | MISR_CTRL_FREE_RUN_MASK;
->>>>>>>
->>>>>>> +               if (!has_ctm)
->>>>>>> +                       config |= 1 << 24;
->>>>>>
->>>>>> Please define MISR_CTRL_INPUT_SEL instead.
->>>>>>
->>>>>>> +
->>>>>>>                   DPU_REG_WRITE(c, misr_ctrl_offset, config);
->>>>>>>           } else {
->>>>>>>                   DPU_REG_WRITE(c, misr_ctrl_offset, 0);
->>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
->>>>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
->>>>>>> index 1f6079f47071..e42d9d00e40e 100644
->>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
->>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
->>>>>>> @@ -360,7 +360,8 @@ void _dpu_hw_setup_qos_lut(struct
->>>>>>> dpu_hw_blk_reg_map *c, u32 offset,
->>>>>>>    void dpu_hw_setup_misr(struct dpu_hw_blk_reg_map *c,
->>>>>>>                   u32 misr_ctrl_offset,
->>>>>>>                   bool enable,
->>>>>>> -               u32 frame_count);
->>>>>>> +               u32 frame_count,
->>>>>>> +               bool has_ctm);
->>>>>>>
->>>>>>>    int dpu_hw_collect_misr(struct dpu_hw_blk_reg_map *c,
->>>>>>>                   u32 misr_ctrl_offset,
->>>>>>> --
->>>>>>> 2.41.0
->>>>>>>
->>>>>>
->>>>>>
->>>>>> --
->>>>>> With best wishes
->>>>>> Dmitry
->>>>
->>>>
->>>>
+> ---
+> Originally, this patch was part of [1]. However, while applying the series,
+> I noticed that this patch needs another iteration, hence I held it back to
+> rework it and send it separately.
+>
+> Changes since detached from [1]:
+> ================================
+> - Don't use drm_gpuvm_exec_lock() since it would, unnecessarily, lock all the
+>   backing buffer's dma-resv locks. Instead, lock only the GEMs affected by the
+>   requested mapping operations, directly or indirectly through map, remap or
+>   unmap.
+> - Validate backing buffers in drm_exec loop directly.
+>
+> [1] https://lore.kernel.org/dri-devel/20231108001259.15123-1-dakr@redhat.com/T/#u
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_bo.c    |   4 +-
+>  drivers/gpu/drm/nouveau/nouveau_exec.c  |  57 +++-------
+>  drivers/gpu/drm/nouveau/nouveau_exec.h  |   4 -
+>  drivers/gpu/drm/nouveau/nouveau_sched.c |   9 +-
+>  drivers/gpu/drm/nouveau/nouveau_sched.h |   7 +-
+>  drivers/gpu/drm/nouveau/nouveau_uvmm.c  | 134 +++++++++++++-----------
+>  6 files changed, 100 insertions(+), 115 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> index 7afad86da64b..b7dda486a7ea 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+> @@ -1061,17 +1061,18 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
+>  {
+>         struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
+>         struct nouveau_bo *nvbo = nouveau_bo(bo);
+> +       struct drm_gem_object *obj = &bo->base;
+>         struct ttm_resource *old_reg = bo->resource;
+>         struct nouveau_drm_tile *new_tile = NULL;
+>         int ret = 0;
+>
+> -
+>         if (new_reg->mem_type == TTM_PL_TT) {
+>                 ret = nouveau_ttm_tt_bind(bo->bdev, bo->ttm, new_reg);
+>                 if (ret)
+>                         return ret;
+>         }
+>
+> +       drm_gpuvm_bo_gem_evict(obj, evict);
+>         nouveau_bo_move_ntfy(bo, new_reg);
+>         ret = ttm_bo_wait_ctx(bo, ctx);
+>         if (ret)
+> @@ -1136,6 +1137,7 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
+>  out_ntfy:
+>         if (ret) {
+>                 nouveau_bo_move_ntfy(bo, bo->resource);
+> +               drm_gpuvm_bo_gem_evict(obj, !evict);
+>         }
+>         return ret;
+>  }
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_exec.c b/drivers/gpu/drm/nouveau/nouveau_exec.c
+> index bf6c12f4342a..9d9835fb5970 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_exec.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_exec.c
+> @@ -1,7 +1,5 @@
+>  // SPDX-License-Identifier: MIT
+>
+> -#include <drm/drm_exec.h>
+> -
+>  #include "nouveau_drv.h"
+>  #include "nouveau_gem.h"
+>  #include "nouveau_mem.h"
+> @@ -86,14 +84,12 @@
+>   */
+>
+>  static int
+> -nouveau_exec_job_submit(struct nouveau_job *job)
+> +nouveau_exec_job_submit(struct nouveau_job *job,
+> +                       struct drm_gpuvm_exec *vme)
+>  {
+>         struct nouveau_exec_job *exec_job = to_nouveau_exec_job(job);
+>         struct nouveau_cli *cli = job->cli;
+>         struct nouveau_uvmm *uvmm = nouveau_cli_uvmm(cli);
+> -       struct drm_exec *exec = &job->exec;
+> -       struct drm_gem_object *obj;
+> -       unsigned long index;
+>         int ret;
+>
+>         /* Create a new fence, but do not emit yet. */
+> @@ -102,52 +98,29 @@ nouveau_exec_job_submit(struct nouveau_job *job)
+>                 return ret;
+>
+>         nouveau_uvmm_lock(uvmm);
+> -       drm_exec_init(exec, DRM_EXEC_INTERRUPTIBLE_WAIT |
+> -                           DRM_EXEC_IGNORE_DUPLICATES);
+> -       drm_exec_until_all_locked(exec) {
+> -               struct drm_gpuva *va;
+> -
+> -               drm_gpuvm_for_each_va(va, &uvmm->base) {
+> -                       if (unlikely(va == &uvmm->base.kernel_alloc_node))
+> -                               continue;
+> -
+> -                       ret = drm_exec_prepare_obj(exec, va->gem.obj, 1);
+> -                       drm_exec_retry_on_contention(exec);
+> -                       if (ret)
+> -                               goto err_uvmm_unlock;
+> -               }
+> +       ret = drm_gpuvm_exec_lock(vme);
+> +       if (ret) {
+> +               nouveau_uvmm_unlock(uvmm);
+> +               return ret;
+>         }
+>         nouveau_uvmm_unlock(uvmm);
+>
+> -       drm_exec_for_each_locked_object(exec, index, obj) {
+> -               struct nouveau_bo *nvbo = nouveau_gem_object(obj);
+> -
+> -               ret = nouveau_bo_validate(nvbo, true, false);
+> -               if (ret)
+> -                       goto err_exec_fini;
+> +       ret = drm_gpuvm_exec_validate(vme);
+> +       if (ret) {
+> +               drm_gpuvm_exec_unlock(vme);
+> +               return ret;
+>         }
+>
+>         return 0;
+> -
+> -err_uvmm_unlock:
+> -       nouveau_uvmm_unlock(uvmm);
+> -err_exec_fini:
+> -       drm_exec_fini(exec);
+> -       return ret;
+> -
+>  }
+>
+>  static void
+> -nouveau_exec_job_armed_submit(struct nouveau_job *job)
+> +nouveau_exec_job_armed_submit(struct nouveau_job *job,
+> +                             struct drm_gpuvm_exec *vme)
+>  {
+> -       struct drm_exec *exec = &job->exec;
+> -       struct drm_gem_object *obj;
+> -       unsigned long index;
+> -
+> -       drm_exec_for_each_locked_object(exec, index, obj)
+> -               dma_resv_add_fence(obj->resv, job->done_fence, job->resv_usage);
+> -
+> -       drm_exec_fini(exec);
+> +       drm_gpuvm_exec_resv_add_fence(vme, job->done_fence,
+> +                                     job->resv_usage, job->resv_usage);
+> +       drm_gpuvm_exec_unlock(vme);
+>  }
+>
+>  static struct dma_fence *
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_exec.h b/drivers/gpu/drm/nouveau/nouveau_exec.h
+> index 778cacd90f65..b815de2428f3 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_exec.h
+> +++ b/drivers/gpu/drm/nouveau/nouveau_exec.h
+> @@ -3,16 +3,12 @@
+>  #ifndef __NOUVEAU_EXEC_H__
+>  #define __NOUVEAU_EXEC_H__
+>
+> -#include <drm/drm_exec.h>
+> -
+>  #include "nouveau_drv.h"
+>  #include "nouveau_sched.h"
+>
+>  struct nouveau_exec_job_args {
+>         struct drm_file *file_priv;
+>         struct nouveau_sched_entity *sched_entity;
+> -
+> -       struct drm_exec exec;
+>         struct nouveau_channel *chan;
+>
+>         struct {
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
+> index 1b2cc3f2e1c7..c0fa94db9972 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
+> @@ -263,6 +263,11 @@ nouveau_job_submit(struct nouveau_job *job)
+>  {
+>         struct nouveau_sched_entity *entity = to_nouveau_sched_entity(job->base.entity);
+>         struct dma_fence *done_fence = NULL;
+> +       struct drm_gpuvm_exec vm_exec = {
+> +               .vm = &nouveau_cli_uvmm(job->cli)->base,
+> +               .flags = DRM_EXEC_IGNORE_DUPLICATES,
+> +               .num_fences = 1,
+> +       };
+>         int ret;
+>
+>         ret = nouveau_job_add_deps(job);
+> @@ -282,7 +287,7 @@ nouveau_job_submit(struct nouveau_job *job)
+>          * successfully.
+>          */
+>         if (job->ops->submit) {
+> -               ret = job->ops->submit(job);
+> +               ret = job->ops->submit(job, &vm_exec);
+>                 if (ret)
+>                         goto err_cleanup;
+>         }
+> @@ -315,7 +320,7 @@ nouveau_job_submit(struct nouveau_job *job)
+>         set_bit(DRM_SCHED_FENCE_DONT_PIPELINE, &job->done_fence->flags);
+>
+>         if (job->ops->armed_submit)
+> -               job->ops->armed_submit(job);
+> +               job->ops->armed_submit(job, &vm_exec);
+>
+>         nouveau_job_fence_attach(job);
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.h b/drivers/gpu/drm/nouveau/nouveau_sched.h
+> index 27ac19792597..0f87697dbc9e 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_sched.h
+> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.h
+> @@ -5,7 +5,7 @@
+>
+>  #include <linux/types.h>
+>
+> -#include <drm/drm_exec.h>
+> +#include <drm/drm_gpuvm.h>
+>  #include <drm/gpu_scheduler.h>
+>
+>  #include "nouveau_drv.h"
+> @@ -54,7 +54,6 @@ struct nouveau_job {
+>         struct drm_file *file_priv;
+>         struct nouveau_cli *cli;
+>
+> -       struct drm_exec exec;
+>         enum dma_resv_usage resv_usage;
+>         struct dma_fence *done_fence;
+>
+> @@ -76,8 +75,8 @@ struct nouveau_job {
+>                 /* If .submit() returns without any error, it is guaranteed that
+>                  * armed_submit() is called.
+>                  */
+> -               int (*submit)(struct nouveau_job *);
+> -               void (*armed_submit)(struct nouveau_job *);
+> +               int (*submit)(struct nouveau_job *, struct drm_gpuvm_exec *);
+> +               void (*armed_submit)(struct nouveau_job *, struct drm_gpuvm_exec *);
+>                 struct dma_fence *(*run)(struct nouveau_job *);
+>                 void (*free)(struct nouveau_job *);
+>                 enum drm_gpu_sched_stat (*timeout)(struct nouveau_job *);
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> index eda7bb8624f1..90e6732ee9b5 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> @@ -438,8 +438,9 @@ nouveau_uvma_region_complete(struct nouveau_uvma_region *reg)
+>  static void
+>  op_map_prepare_unwind(struct nouveau_uvma *uvma)
+>  {
+> +       struct drm_gpuva *va = &uvma->va;
+>         nouveau_uvma_gem_put(uvma);
+> -       drm_gpuva_remove(&uvma->va);
+> +       drm_gpuva_remove(va);
+>         nouveau_uvma_free(uvma);
+>  }
+>
+> @@ -468,6 +469,7 @@ nouveau_uvmm_sm_prepare_unwind(struct nouveau_uvmm *uvmm,
+>                         break;
+>                 case DRM_GPUVA_OP_REMAP: {
+>                         struct drm_gpuva_op_remap *r = &op->remap;
+> +                       struct drm_gpuva *va = r->unmap->va;
+>
+>                         if (r->next)
+>                                 op_map_prepare_unwind(new->next);
+> @@ -475,7 +477,7 @@ nouveau_uvmm_sm_prepare_unwind(struct nouveau_uvmm *uvmm,
+>                         if (r->prev)
+>                                 op_map_prepare_unwind(new->prev);
+>
+> -                       op_unmap_prepare_unwind(r->unmap->va);
+> +                       op_unmap_prepare_unwind(va);
+>                         break;
+>                 }
+>                 case DRM_GPUVA_OP_UNMAP:
+> @@ -634,6 +636,7 @@ nouveau_uvmm_sm_prepare(struct nouveau_uvmm *uvmm,
+>                                         goto unwind;
+>                                 }
+>                         }
+> +
+>                         break;
+>                 }
+>                 case DRM_GPUVA_OP_REMAP: {
+> @@ -1135,12 +1138,53 @@ bind_link_gpuvas(struct bind_job_op *bop)
+>  }
+>
+>  static int
+> -nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
+> +bind_lock_validate(struct nouveau_job *job, struct drm_exec *exec,
+> +                  unsigned int num_fences)
+> +{
+> +       struct nouveau_uvmm_bind_job *bind_job = to_uvmm_bind_job(job);
+> +       struct bind_job_op *op;
+> +       int ret;
+> +
+> +       list_for_each_op(op, &bind_job->ops) {
+> +               struct drm_gpuva_op *va_op;
+> +
+> +               if (!op->ops)
+> +                       continue;
+> +
+> +               drm_gpuva_for_each_op(va_op, op->ops) {
+> +                       struct drm_gem_object *obj = op_gem_obj(va_op);
+> +
+> +                       if (unlikely(!obj))
+> +                               continue;
+> +
+> +                       ret = drm_exec_prepare_obj(exec, obj, num_fences);
+> +                       if (ret)
+> +                               return ret;
+> +
+> +                       /* Don't validate GEMs backing mappings we're about to
+> +                        * unmap, it's not worth the effort.
+> +                        */
+> +                       if (va_op->op == DRM_GPUVA_OP_UNMAP)
+> +                               continue;
+> +
+> +                       ret = nouveau_bo_validate(nouveau_gem_object(obj),
+> +                                                 true, false);
+> +                       if (ret)
+> +                               return ret;
+> +               }
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int
+> +nouveau_uvmm_bind_job_submit(struct nouveau_job *job,
+> +                            struct drm_gpuvm_exec *vme)
+>  {
+>         struct nouveau_uvmm *uvmm = nouveau_cli_uvmm(job->cli);
+>         struct nouveau_uvmm_bind_job *bind_job = to_uvmm_bind_job(job);
+>         struct nouveau_sched_entity *entity = job->entity;
+> -       struct drm_exec *exec = &job->exec;
+> +       struct drm_exec *exec = &vme->exec;
+>         struct bind_job_op *op;
+>         int ret;
+>
+> @@ -1157,6 +1201,8 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
+>                         dma_resv_unlock(obj->resv);
+>                         if (IS_ERR(op->vm_bo))
+>                                 return PTR_ERR(op->vm_bo);
+> +
+> +                       drm_gpuvm_bo_extobj_add(op->vm_bo);
+>                 }
+>
+>                 ret = bind_validate_op(job, op);
+> @@ -1179,6 +1225,7 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
+>          * unwind all GPU VA space changes on failure.
+>          */
+>         nouveau_uvmm_lock(uvmm);
+> +
+>         list_for_each_op(op, &bind_job->ops) {
+>                 switch (op->op) {
+>                 case OP_MAP_SPARSE:
+> @@ -1290,55 +1337,13 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
+>                 }
+>         }
+>
+> -       drm_exec_init(exec, DRM_EXEC_INTERRUPTIBLE_WAIT |
+> -                           DRM_EXEC_IGNORE_DUPLICATES);
+> +       drm_exec_init(exec, vme->flags);
+>         drm_exec_until_all_locked(exec) {
+> -               list_for_each_op(op, &bind_job->ops) {
+> -                       struct drm_gpuva_op *va_op;
+> -
+> -                       if (IS_ERR_OR_NULL(op->ops))
+> -                               continue;
+> -
+> -                       drm_gpuva_for_each_op(va_op, op->ops) {
+> -                               struct drm_gem_object *obj = op_gem_obj(va_op);
+> -
+> -                               if (unlikely(!obj))
+> -                                       continue;
+> -
+> -                               ret = drm_exec_prepare_obj(exec, obj, 1);
+> -                               drm_exec_retry_on_contention(exec);
+> -                               if (ret) {
+> -                                       op = list_last_op(&bind_job->ops);
+> -                                       goto unwind;
+> -                               }
+> -                       }
+> -               }
+> -       }
+> -
+> -       list_for_each_op(op, &bind_job->ops) {
+> -               struct drm_gpuva_op *va_op;
+> -
+> -               if (IS_ERR_OR_NULL(op->ops))
+> -                       continue;
+> -
+> -               drm_gpuva_for_each_op(va_op, op->ops) {
+> -                       struct drm_gem_object *obj = op_gem_obj(va_op);
+> -
+> -                       if (unlikely(!obj))
+> -                               continue;
+> -
+> -                       /* Don't validate GEMs backing mappings we're about to
+> -                        * unmap, it's not worth the effort.
+> -                        */
+> -                       if (unlikely(va_op->op == DRM_GPUVA_OP_UNMAP))
+> -                               continue;
+> -
+> -                       ret = nouveau_bo_validate(nouveau_gem_object(obj),
+> -                                                 true, false);
+> -                       if (ret) {
+> -                               op = list_last_op(&bind_job->ops);
+> -                               goto unwind;
+> -                       }
+> +               ret = bind_lock_validate(job, exec, vme->num_fences);
+> +               drm_exec_retry_on_contention(exec);
+> +               if (ret) {
+> +                       op = list_last_op(&bind_job->ops);
+> +                       goto unwind;
+>                 }
+>         }
+>
+> @@ -1413,21 +1418,17 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job)
+>         }
+>
+>         nouveau_uvmm_unlock(uvmm);
+> -       drm_exec_fini(exec);
+> +       drm_gpuvm_exec_unlock(vme);
+>         return ret;
+>  }
+>
+>  static void
+> -nouveau_uvmm_bind_job_armed_submit(struct nouveau_job *job)
+> +nouveau_uvmm_bind_job_armed_submit(struct nouveau_job *job,
+> +                                  struct drm_gpuvm_exec *vme)
+>  {
+> -       struct drm_exec *exec = &job->exec;
+> -       struct drm_gem_object *obj;
+> -       unsigned long index;
+> -
+> -       drm_exec_for_each_locked_object(exec, index, obj)
+> -               dma_resv_add_fence(obj->resv, job->done_fence, job->resv_usage);
+> -
+> -       drm_exec_fini(exec);
+> +       drm_gpuvm_exec_resv_add_fence(vme, job->done_fence,
+> +                                     job->resv_usage, job->resv_usage);
+> +       drm_gpuvm_exec_unlock(vme);
+>  }
+>
+>  static struct dma_fence *
+> @@ -1815,8 +1816,17 @@ nouveau_uvmm_free(struct drm_gpuvm *gpuvm)
+>         kfree(uvmm);
+>  }
+>
+> +static int
+> +nouveau_uvmm_bo_validate(struct drm_gpuvm_bo *vm_bo, struct drm_exec *exec)
+> +{
+> +       struct nouveau_bo *nvbo = nouveau_gem_object(vm_bo->obj);
+> +
+> +       return nouveau_bo_validate(nvbo, true, false);
+> +}
+> +
+>  static const struct drm_gpuvm_ops gpuvm_ops = {
+>         .vm_free = nouveau_uvmm_free,
+> +       .vm_bo_validate = nouveau_uvmm_bo_validate,
+>  };
+>
+>  int
+>
+> base-commit: 50c1a36f594bb3dd33f3f9386c5d960cd12327d8
+> --
+> 2.41.0
+>
