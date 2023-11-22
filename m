@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E41517F4AE6
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 16:37:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C09407F4AEB
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 16:37:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4678410E671;
-	Wed, 22 Nov 2023 15:37:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E87710E672;
+	Wed, 22 Nov 2023 15:37:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E155210E670;
- Wed, 22 Nov 2023 15:36:56 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2851D10E672;
+ Wed, 22 Nov 2023 15:37:12 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 3D950B81002;
- Wed, 22 Nov 2023 15:36:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44719C433C8;
- Wed, 22 Nov 2023 15:36:53 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A3A3661E35;
+ Wed, 22 Nov 2023 15:37:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A0BDC433CB;
+ Wed, 22 Nov 2023 15:37:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700667414;
- bh=o3f4VkGW0yexAr+VkV/QIhWOsoaxPdXTZYS43eG16rw=;
+ s=k20201202; t=1700667431;
+ bh=iqmGAQ90O89w0fdshBkivkNhkoMkooUfoJ/1xS+9voA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=j8slBQByNq+9jE7RBXIBevFFg5TlcKYh5jcipvPT7EFYxfP4+tsc6KIZplGVREhrK
- QdLDiWXVrRPPYwuqJdKqdyxlvtEZPbBSlUO0kt3nIQB4vwf1y+nMNd7HAWMxoH6MpK
- ACQhAsDtZQE8TbQbqNJkkBSpEB/mUBIAphEhNUezVkZhSKBTRRbShvXgv8DkowJ8Gy
- 4VNj7qWGQ05I11JPhooE+9z8DWyDaPfSZrZTlF7nGwzGXnZxmHX/BI7G2VLOkQQ0w5
- xH2Odk9BnE5zHrX8xInigwvRUU32o+rIgl/T+KAnxgKud1+BbSlpGa5T4+b2ee/zi2
- 5tyPpi34ko5fQ==
+ b=Dmy8jgGgeBuTJ9/5DjVbw46sbvEQuIJpXAEeqHoSVaEhhL8o8M1npYyfxKb0l9GpM
+ iON2oqp8scpuwI57qkJ7yy+T8rOkM1cQRHN3GjIHlYwP/LbThbjaJGcWsjcazhB9jd
+ Y6uHkpUuMaiF07FcD5gyF2A8ONE82JvrmB+MPmoi6vL9QTFNb+xn+3Nfp65B1pU/R3
+ /e7zh2uccrWEdKuXx0qn2LvXYxewT1SG6Je4G4Lj0qKaQ3i/DYF6n3XFDYC2+RI3A6
+ BOGs9nWpUYP0AdPKA0/vqx+fnUj7MIhV/iimNW1OO6dHZ7xtbGVP0Bvo4947K17YT3
+ lz1MFcQ8+tMWA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 6/6] drm/amdgpu: correct chunk_ptr to a pointer
+Subject: [PATCH AUTOSEL 4.14 3/3] drm/amdgpu: correct chunk_ptr to a pointer
  to chunk.
-Date: Wed, 22 Nov 2023 10:36:30 -0500
-Message-ID: <20231122153635.853495-6-sashal@kernel.org>
+Date: Wed, 22 Nov 2023 10:36:55 -0500
+Message-ID: <20231122153658.853640-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231122153635.853495-1-sashal@kernel.org>
-References: <20231122153635.853495-1-sashal@kernel.org>
+In-Reply-To: <20231122153658.853640-1-sashal@kernel.org>
+References: <20231122153658.853640-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.299
+X-stable-base: Linux 4.14.330
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,10 +80,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 70e446c2acf82..94b06c918e80d 100644
+index 7bad519aaae08..d24ef103471b9 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -147,7 +147,7 @@ static int amdgpu_cs_parser_init(struct amdgpu_cs_parser *p, union drm_amdgpu_cs
+@@ -113,7 +113,7 @@ static int amdgpu_cs_parser_init(struct amdgpu_cs_parser *p, void *data)
  	}
  
  	for (i = 0; i < p->nchunks; i++) {
