@@ -2,59 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 954187F40E9
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 10:01:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 046277F40FD
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 10:02:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8565210E5E9;
-	Wed, 22 Nov 2023 09:01:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2881410E5EC;
+	Wed, 22 Nov 2023 09:02:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
- [IPv6:2001:4860:4864:20::31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4132010E2EF;
- Wed, 22 Nov 2023 09:01:44 +0000 (UTC)
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-1ea82246069so3630615fac.3; 
- Wed, 22 Nov 2023 01:01:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700643703; x=1701248503; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=B0loSkyS8Q4JF6tOXkRoeRXujNUfgvT0hvtKpAV8emU=;
- b=Tn18baOqI5tHqjzvB7pDJEJDjOX1bp2rpp6KVKWmU/DCOdTMEZMCe80TBT1dKgGUA5
- Rbs3eHLVCLvl1tT8pxq7k3RL+EE9Rym0kPjQwRtzfaSAXoZOjh70e7WfO/7oifetuMAQ
- 83ag3x7/DsLvfTwC5fstz9ZSqO7JmbSC9T78Ue1LZdOas2Yhw2jNyaUGjmhFt/jGXEKr
- edod3K0GgksH4WjQBQVJzhqKNvBABXZTvJDEyu31dJqUnfH+y8bE4kalmZQWsc7XxLCn
- 7gqxt5yH/Yc7L0EHo2uIdQ5m/WZvO0gpsDFKTWn6xekPPI4py7RFaiw8WmtcQEALHGdt
- Q1zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700643703; x=1701248503;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=B0loSkyS8Q4JF6tOXkRoeRXujNUfgvT0hvtKpAV8emU=;
- b=PKgO3Mr4lE1TAs0jZPnjtSSaI7Q3xUrvIsG95vYqMemGdsse89jI9FEc7OTYZ0jFfA
- yRF7z2z04D3z9t1KO8xyeyA6qxqreA2zEKwwwDebtjWVy9kShJtPggoFMVV9pZwRNuwa
- W0iemN7tOIm0FTvjrCKr5UahpW9tWuHbDWouETHspYLx1MqYk3sxY3VP4uYMVSn2UiFn
- y4UnkaI04QaXxUoC18aDIGsT3Of9w7gT61AxiKDtITUh+xDrnk3m/LisgqtfDs3uDt/1
- /t2je7UEcw3Byq5I7CdCD7SxS3ofdQMCZ8Q8qcm4PPSnrGTkZQZqa28VRa+Xg7t3+1Mo
- lajg==
-X-Gm-Message-State: AOJu0Yx9/SEV1GhpobCdogSy8L0G8iqLpaszGI+ufChOsyiucggpUg2z
- uVKJj3xDZ1VZPGfFMv3WeUA65jQm4yA0NKCRWZA=
-X-Google-Smtp-Source: AGHT+IG+AQeKCJw3Ukd8i/zIrx+/UVseMXxynPD4JgoySfRf0Ua5e6jnUPyIUhPJ9xHEAvoz76S7MQveOn6+oNImOzU=
-X-Received: by 2002:a05:6870:ac0b:b0:1ea:2c8b:e18b with SMTP id
- kw11-20020a056870ac0b00b001ea2c8be18bmr2203709oab.35.1700643703182; Wed, 22
- Nov 2023 01:01:43 -0800 (PST)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72AC110E2EF
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 09:02:06 +0000 (UTC)
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 70A1B6602F2B;
+ Wed, 22 Nov 2023 09:02:04 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1700643725;
+ bh=G4M7wDZHayCxesxTfRg++DWT7lHVVmRMXfKWDXC3LAI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=aB52ZCl42Hv76P2sb3thYE2yjQO6Oyyh2aV3uNzvBv9fwR7jnFRTSv9LukLH017hT
+ xXMQAvN35fIqPUtUyErl4nm2C4LUnIzxfRXCQquoxfkuPTaT4lLdKEE4TmjZ8qCMCy
+ E354LdefcIAgS+jwr7SP5XDk2378Lp2obv+UibFjHUkxa116RZQ6ifJGhXZffsxkJq
+ 44v6vKyX5EDVKTM1GXVYCgziUjwCpzP9No2TIs8xtJcpMdx1v55pQZGoyvtbVSeMJi
+ 815ZI5w5eKjaCENJMkIlE6Id3C6iIO1fymbL1f8VSRAnQVh0c/97pmC2J4Poh2FmVd
+ Mp4hB7RRfm8IA==
+Date: Wed, 22 Nov 2023 10:02:01 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] drm/panfrost: Really power off GPU cores in
+ panfrost_gpu_power_off()
+Message-ID: <20231122100201.4e9952be@collabora.com>
+In-Reply-To: <d95259b8-10cf-4ded-866c-47cbd2a44f84@linaro.org>
+References: <20231102141507.73481-1-angelogioacchino.delregno@collabora.com>
+ <7928524a-b581-483b-b1a1-6ffd719ce650@arm.com>
+ <1c9838fb-7f2d-4752-b86a-95bcf504ac2f@linaro.org>
+ <6b7a4669-7aef-41a7-8201-c2cfe401bc43@collabora.com>
+ <20231121175531.085809f5@collabora.com>
+ <d95259b8-10cf-4ded-866c-47cbd2a44f84@linaro.org>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20231116140910.1613508-1-tomeu@tomeuvizoso.net>
- <20231121063300.2273522-1-tomeu@tomeuvizoso.net>
-In-Reply-To: <20231121063300.2273522-1-tomeu@tomeuvizoso.net>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Wed, 22 Nov 2023 10:01:31 +0100
-Message-ID: <CAH9NwWemgaUOByCKMC5PMN3q1f91DE0yxEE90hwjhic47fj+Lw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/etnaviv: Expose a few more chipspecs to userspace
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,207 +58,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, mripard@kernel.org,
+ Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, wenst@chromium.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>, kernel@collabora.com,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Di., 21. Nov. 2023 um 07:33 Uhr schrieb Tomeu Vizoso <tomeu@tomeuvizoso.net>:
->
-> These ones will be needed to make use fo the NN and TP units in the NPUs
-> based on Vivante IP.
->
-> Also fix the number of NN cores in the VIPNano-qi.
->
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
->
+On Tue, 21 Nov 2023 18:08:44 +0100
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-I have not checked all the new values but it looks fine to me.
+> > non-linefetch access, but it might be caused by a register access after
+> > the clock or power domain driving the register bank has been disabled.
+> > The following diff might help validate this theory. If that works, we
+> > probably want to make sure we synchronize IRQs before disabling in the
+> > suspend path.
+> >   
+> > --->8---  
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
+> > index 55ec807550b3..98df66e5cc9b 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_regs.h
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
+> > @@ -34,8 +34,6 @@
+> >           (GPU_IRQ_FAULT                        |\
+> >            GPU_IRQ_MULTIPLE_FAULT               |\
+> >            GPU_IRQ_RESET_COMPLETED              |\
+> > -          GPU_IRQ_POWER_CHANGED                |\
+> > -          GPU_IRQ_POWER_CHANGED_ALL            |\  
+> 
+> This helped, at least for this issue (next-20231121). Much later in
+> user-space boot I have lockups:
+> watchdog: BUG: soft lockup - CPU#4 stuck for 26s! [kworker/4:1:61]
 
-Acked-by: Christian Gmeiner <cgmeiner@igalia.com>
+Hm, if this doesn't happen with "drm/panfrost: Really power off GPU
+cores in panfrost_gpu_power_off()" reverted, it might be related to the
+issue Angelo was describing, though I'd expect it to lead to job
+timeouts, not the sort of soft lockup reported here.
 
-> ---
->
-> v2: Update a few chipspecs that I had missed before. (Christian)
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c  | 20 +++++++++++++++
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.h  | 12 +++++++++
->  drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 34 ++++++++++++++++++++++++++
->  include/uapi/drm/etnaviv_drm.h         |  5 ++++
->  4 files changed, 71 insertions(+)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index 9276756e1397..9055ed08cd7b 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -164,6 +164,26 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value)
->                 *value = gpu->identity.eco_id;
->                 break;
->
-> +       case ETNAVIV_PARAM_GPU_NN_CORE_COUNT:
-> +               *value = gpu->identity.nn_core_count;
-> +               break;
-> +
-> +       case ETNAVIV_PARAM_GPU_NN_MAD_PER_CORE:
-> +               *value = gpu->identity.nn_mad_per_core;
-> +               break;
-> +
-> +       case ETNAVIV_PARAM_GPU_TP_CORE_COUNT:
-> +               *value = gpu->identity.tp_core_count;
-> +               break;
-> +
-> +       case ETNAVIV_PARAM_GPU_ON_CHIP_SRAM_SIZE:
-> +               *value = gpu->identity.on_chip_sram_size;
-> +               break;
-> +
-> +       case ETNAVIV_PARAM_GPU_AXI_SRAM_SIZE:
-> +               *value = gpu->identity.axi_sram_size;
-> +               break;
-> +
->         default:
->                 DBG("%s: invalid param: %u", dev_name(gpu->dev), param);
->                 return -EINVAL;
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> index 197e0037732e..7d5e9158e13c 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> @@ -54,6 +54,18 @@ struct etnaviv_chip_identity {
->         /* Number of Neural Network cores. */
->         u32 nn_core_count;
->
-> +       /* Number of MAD units per Neural Network core. */
-> +       u32 nn_mad_per_core;
-> +
-> +       /* Number of Tensor Processing cores. */
-> +       u32 tp_core_count;
-> +
-> +       /* Size in bytes of the SRAM inside the NPU. */
-> +       u32 on_chip_sram_size;
-> +
-> +       /* Size in bytes of the SRAM across the AXI bus. */
-> +       u32 axi_sram_size;
-> +
->         /* Size of the vertex cache. */
->         u32 vertex_cache_size;
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> index 67201242438b..9eb8ca7c5034 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
-> @@ -17,6 +17,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->                 .thread_count = 128,
->                 .shader_core_count = 1,
->                 .nn_core_count = 0,
-> +               .nn_mad_per_core = 0,
-> +               .tp_core_count = 0,
-> +               .on_chip_sram_size = 0,
-> +               .axi_sram_size = 0,
->                 .vertex_cache_size = 8,
->                 .vertex_output_buffer_size = 1024,
->                 .pixel_pipes = 1,
-> @@ -48,6 +52,11 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->                 .register_max = 64,
->                 .thread_count = 256,
->                 .shader_core_count = 1,
-> +               .nn_core_count = 0,
-> +               .nn_mad_per_core = 0,
-> +               .tp_core_count = 0,
-> +               .on_chip_sram_size = 0,
-> +               .axi_sram_size = 0,
->                 .vertex_cache_size = 8,
->                 .vertex_output_buffer_size = 512,
->                 .pixel_pipes = 1,
-> @@ -80,6 +89,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->                 .thread_count = 512,
->                 .shader_core_count = 2,
->                 .nn_core_count = 0,
-> +               .nn_mad_per_core = 0,
-> +               .tp_core_count = 0,
-> +               .on_chip_sram_size = 0,
-> +               .axi_sram_size = 0,
->                 .vertex_cache_size = 16,
->                 .vertex_output_buffer_size = 1024,
->                 .pixel_pipes = 1,
-> @@ -112,6 +125,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->                 .thread_count = 512,
->                 .shader_core_count = 2,
->                 .nn_core_count = 0,
-> +               .nn_mad_per_core = 0,
-> +               .tp_core_count = 0,
-> +               .on_chip_sram_size = 0,
-> +               .axi_sram_size = 0,
->                 .vertex_cache_size = 16,
->                 .vertex_output_buffer_size = 1024,
->                 .pixel_pipes = 1,
-> @@ -143,6 +160,11 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->                 .register_max = 64,
->                 .thread_count = 512,
->                 .shader_core_count = 2,
-> +               .nn_core_count = 0,
-> +               .nn_mad_per_core = 0,
-> +               .tp_core_count = 0,
-> +               .on_chip_sram_size = 0,
-> +               .axi_sram_size = 0,
->                 .vertex_cache_size = 16,
->                 .vertex_output_buffer_size = 1024,
->                 .pixel_pipes = 1,
-> @@ -175,6 +197,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->                 .thread_count = 1024,
->                 .shader_core_count = 4,
->                 .nn_core_count = 0,
-> +               .nn_mad_per_core = 0,
-> +               .tp_core_count = 0,
-> +               .on_chip_sram_size = 0,
-> +               .axi_sram_size = 0,
->                 .vertex_cache_size = 16,
->                 .vertex_output_buffer_size = 1024,
->                 .pixel_pipes = 2,
-> @@ -207,6 +233,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->                 .thread_count = 256,
->                 .shader_core_count = 1,
->                 .nn_core_count = 8,
-> +               .nn_mad_per_core = 64,
-> +               .tp_core_count = 4,
-> +               .on_chip_sram_size = 524288,
-> +               .axi_sram_size = 1048576,
->                 .vertex_cache_size = 16,
->                 .vertex_output_buffer_size = 1024,
->                 .pixel_pipes = 1,
-> @@ -239,6 +269,10 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
->                 .thread_count = 256,
->                 .shader_core_count = 1,
->                 .nn_core_count = 6,
-> +               .nn_mad_per_core = 64,
-> +               .tp_core_count = 3,
-> +               .on_chip_sram_size = 262144,
-> +               .axi_sram_size = 0,
->                 .vertex_cache_size = 16,
->                 .vertex_output_buffer_size = 1024,
->                 .pixel_pipes = 1,
-> diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
-> index af024d90453d..d87410a8443a 100644
-> --- a/include/uapi/drm/etnaviv_drm.h
-> +++ b/include/uapi/drm/etnaviv_drm.h
-> @@ -77,6 +77,11 @@ struct drm_etnaviv_timespec {
->  #define ETNAVIV_PARAM_GPU_PRODUCT_ID                0x1c
->  #define ETNAVIV_PARAM_GPU_CUSTOMER_ID               0x1d
->  #define ETNAVIV_PARAM_GPU_ECO_ID                    0x1e
-> +#define ETNAVIV_PARAM_GPU_NN_CORE_COUNT             0x1f
-> +#define ETNAVIV_PARAM_GPU_NN_MAD_PER_CORE           0x20
-> +#define ETNAVIV_PARAM_GPU_TP_CORE_COUNT             0x21
-> +#define ETNAVIV_PARAM_GPU_ON_CHIP_SRAM_SIZE         0x22
-> +#define ETNAVIV_PARAM_GPU_AXI_SRAM_SIZE             0x23
->
->  #define ETNA_MAX_PIPES 4
->
-> --
-> 2.42.0
->
+> 
+> [   56.329224]  smp_call_function_single from
+> __sync_rcu_exp_select_node_cpus+0x29c/0x78c
+> [   56.337111]  __sync_rcu_exp_select_node_cpus from
+> sync_rcu_exp_select_cpus+0x334/0x878
+> [   56.344995]  sync_rcu_exp_select_cpus from wait_rcu_exp_gp+0xc/0x18
+> [   56.351231]  wait_rcu_exp_gp from process_one_work+0x20c/0x620
+> [   56.357038]  process_one_work from worker_thread+0x1d0/0x488
+> [   56.362668]  worker_thread from kthread+0x104/0x138
+> [   56.367521]  kthread from ret_from_fork+0x14/0x28
+> 
+> But anyway the external abort does not appear.
 
+Thanks for testing! As I said in my previous reply, I think the proper
+fix for this particular issue would be to mask all panfrost IRQs
+(writing 0 to xxx_INT_MASK) + call synchronize_irq() from
+panfrost_device_suspend(), to make sure pending interrupts are flushed
+and the handlers can't be called again (or at least not with real
+interrupts to process, if the IRQ line is shared) until the device is
+resumed.
 
--- 
-greets
---
-Christian Gmeiner, MSc
+FWIW, after fighting with annoying bugs in the interrupt handling logic
+and its interactions with runtime PM, I've decided to automate some of
+this in panthor [1]. Also made the power on/off logic generic [2], with
+macros to allow powering on/off specific blocks. Not saying we should
+do that in panfrost, just posting it as a reference, in case someone is
+interested.
 
-https://christian-gmeiner.info/privacypolicy
+[1]https://gitlab.freedesktop.org/bbrezillon/linux/-/blob/panthor-v3+rk3588/drivers/gpu/drm/panthor/panthor_device.h?ref_type=heads#L279
+[2]https://gitlab.freedesktop.org/bbrezillon/linux/-/blob/panthor-v3+rk3588/drivers/gpu/drm/panthor/panthor_gpu.c?ref_type=heads#L279
+[3]https://gitlab.freedesktop.org/bbrezillon/linux/-/blob/panthor-v3+rk3588/drivers/gpu/drm/panthor/panthor_gpu.h?ref_type=heads#L24
