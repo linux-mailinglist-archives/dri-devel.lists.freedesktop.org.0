@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5247F54C1
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 00:32:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 685DC7F54A7
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 00:31:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EBB710E31E;
-	Wed, 22 Nov 2023 23:32:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01B6D10E6B5;
+	Wed, 22 Nov 2023 23:31:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from DM4PR02CU002.outbound.protection.outlook.com
  (mail-centralusazon11013010.outbound.protection.outlook.com [52.101.64.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D22510E14C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A14810E031
  for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 23:31:28 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NIyEtPOzjHet0x2UuykGZhY8iT/zzw3uvVgXRqTJG07VVw1uow26paAEkoQAn/nuC7nusC2gPbkfQZ5uPeoX/nx6KY4TUD3R8CM5UlACJwIrmX//POr+9wJmK4UyrGGwmmC4LhxuZx0gpst2emEnH4NO/x4hm8kvzBZGT94nDWRtxi4U8/qlE+zXdlL7Vuf+Cl/vvFgUO/6tJcfPLDqsIWQpTdnQ5jT6/YXDumpi3ZnRkv3oA2ODF6hlAG74UtzXEz1t0YG1azUXtVHePqJ6k2QSmrYMWqlBCPa/1DA6Dr396QINFyL4hHzmF4nosrbnGEFDav8wZXgAGxc6IcZXTw==
+ b=CWwDobhykI4c82ESKu8MOQMYcI72cdW/wxFAkL+4LjR37MpttjaasZvGBWsMH9U0r/XrSSYmH7+n+7IMuZR1ZJlo0SHLpu96+r61OENfmemlIGGVqhS2dn4X/6YE6X0LB2Qkqn7CyW3e1ooR9OluWfz2z6E4H2OVRDS4b4XTf6vfOU75+qYsMB717Nf9Vt9NiXUt5G5bM3FOVAb0S74cJX86pzneRA5BqmEsemMPMUfo7aUd35p+c/HL3P4EYOOeWyUbaMyxM1zo9geal/XEidAchrhqnCFdzmaUezI3sM1vp58sSLjwoTdFzusn6JNNf4rIcJcb26H9uhd9EEcn0Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FzRNOgWnmwpHxYcLc3yQ1p3QI8GkO9/CsPYKHZtJL0s=;
- b=m1Tsi+Qyg8h4IHTiA50Qlg8Mg4E6oavlL8a2ZtRY/NUtQTOD1OPDR4/0GZme4kLFCC4ceWLKc8lbxgkoGPi8AO4DQsv9DBIDku/tA0WPE2uOvrDKeXN9oKkoeuIKf6Yowwu0+9v+MHrTmHsdXD5hTNfggsrG/kfOA6oNjzzm+JwOOFIsHesvmVu8LQ+ljSQf+A/R/T013TP36axUv6+UzyAAvJUECig1wAzY2HAx9dw7XTU4xYy5SH/1Je2LH4O5pd6ZVMpm32q5bvKdvjEcIG7+enLv87oAEBrUnIm+Xkd4a7du3Bze1yEjTrlGVQdNI+leXv5bh2ttLs2xp9QXMw==
+ bh=9X+iO1QmTuqf+eDzj8IyX2iYLWS7QsP/WGHqbRswu9c=;
+ b=SOPQs6SGTe2RrE1mUfPxLxYW2EPMcyEMKqD/Ja1bzIf+DOsfvKTdIepPfDkg7XKsqrG2M3tJT6yAii84yLq74n6z4YizcMtWTYVVE6NqfoTQQbYlXSV4GiFeT0Kv0XgumbnxqxLSafj/bFdqa58iJmG1HnI4G0gAaWa45n6EAJyRdzSdCtKt7nwZikx8BUtPfyxeiBHzz7PhIcWW44IJRmiltYBjTBzbfW5cWdoTLsOgUTxqPfwwHX20k9A/ZF087cKZIwM7a36Mm+Auz16DhsWdirajbi8T4y4G85y5j2ngLYHpiY43fwuAiiEhxGcf03l1H2V1ZQA7FfVl3aGDEw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
  dkim=pass header.d=vmware.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FzRNOgWnmwpHxYcLc3yQ1p3QI8GkO9/CsPYKHZtJL0s=;
- b=QtZpEhd2aZ0x0qr7oQo1hCCzmMoxrdPemOCXkH4uM9uSTi3hHo4dMM+S3sWclBcyS/qlB06Nk5T6JWofn2YHmf7V6Rf0DJ3AGlxi8h/jh9YlESRHlro3b/j8EBXfW+xllRAE+5/Uoruk1UouFSIf2Uwf6ARwS4fFfa6gUge6H4g=
+ bh=9X+iO1QmTuqf+eDzj8IyX2iYLWS7QsP/WGHqbRswu9c=;
+ b=RhssuDmZNUMGK803XQtWzvBfBEIx4m6/IMuF/48AsVtFE8Bryzk9KPu7po1UrPBCppOR7lOB4qRlilz4Zxhi7Zt3uZCckwOHNeu882fnB0Qhvu73PqUL6yTPBd10zfvXYc7ZMaPCLbk03DNYuVR1R9oWD4pJ5UQs77CW3kRnXSo=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=vmware.com;
 Received: from MWHPR05MB3648.namprd05.prod.outlook.com (2603:10b6:301:45::23)
  by BY3PR05MB8275.namprd05.prod.outlook.com (2603:10b6:a03:3b6::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.18; Wed, 22 Nov
- 2023 23:31:21 +0000
+ 2023 23:31:23 +0000
 Received: from MWHPR05MB3648.namprd05.prod.outlook.com
  ([fe80::10f0:590a:708:4ad7]) by MWHPR05MB3648.namprd05.prod.outlook.com
  ([fe80::10f0:590a:708:4ad7%2]) with mapi id 15.20.7025.019; Wed, 22 Nov 2023
- 23:31:21 +0000
+ 23:31:22 +0000
 From: Alexey Makhalov <amakhalov@vmware.com>
 To: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
  hpa@zytor.com, x86@kernel.org, dave.hansen@linux.intel.co, bp@alien8.d,
@@ -46,9 +46,9 @@ To: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
  timothym@vmware.com, dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
  airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com
-Subject: [PATCH 6/6] x86/vmware: Add TDX hypercall support
-Date: Wed, 22 Nov 2023 15:30:51 -0800
-Message-Id: <20231122233058.185601-7-amakhalov@vmware.com>
+Subject: [PATCH 0/6] VMware hypercalls enhancements
+Date: Wed, 22 Nov 2023 15:30:52 -0800
+Message-Id: <20231122233058.185601-8-amakhalov@vmware.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231122233058.185601-1-amakhalov@vmware.com>
 References: <20231122233058.185601-1-amakhalov@vmware.com>
@@ -60,53 +60,53 @@ X-ClientProxiedBy: BYAPR05CA0039.namprd05.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MWHPR05MB3648:EE_|BY3PR05MB8275:EE_
-X-MS-Office365-Filtering-Correlation-Id: c2970139-a825-4373-0777-08dbebb32288
+X-MS-Office365-Filtering-Correlation-Id: d60b3dd3-f95f-431d-9c4f-08dbebb3233f
 X-LD-Processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aBXyMGmKIvJrDeK99N4H2BXrIuazQUJ5y+vlunU3W2EW6J6e44Alr9sxUyhrIeAgv1QckjnDFK+CAFbJNhgUlHZOhoOBOnr6fHgtkMl8JxZvfxiDojg1ldnediBEVCuyDYbuhCtpqrvxo8RpaQ+bEI2cE1q69dHFyQcHi8dFtIf3YeUJXwk6irSVKR2T2yWnB/dehmkMnKAzb0e8bAMGIVP++LjBdI6mv9lxSALUl2uk6AoAp71gt2AXOX4Fp2GDCwrFdaCLvieB53EwVuMqmA+tPmQyam/40qkTiitjCyFL6EGTY2DxVQvG3y4r8/Ovj9GlM/JwH3+Nx9K7pr4HEBf48j3wWkR5MyUYrwfJQWd63+4SUnr4gzQrNBOVdwm2Soy+B4kOEs2I31zqmbXE32CR+LBtCxs3xGHrEzR0Ih6NxAHNSAOu6hKMa3NarqagyoZdNJ/oYmqK1cP5v7KFZgCZ6RlEgtwu6UmoVyd9mnuRlppVRfQmP+Ic24pl8sQ/oc6792JcskvW9i5jpspYHPVkAfJXnWl5vF4C4dgvwRatwgEm8B2RIKtUpW/xV53fjuiQZqhCXutrNZHcRNPwT6sUI8iRS9zi3PtKvGpVB4Hwu4VQkflVIdfd64Fshz2HNH0MCdabe4M+bPMjqOyS1l/dylnTCCtFttuymD49JkzROweeh2Gn8UHSmt1OUcFu
+X-Microsoft-Antispam-Message-Info: r6Z3tqK2D6JsjDvPQCE/Ten8CoACdn4xs7EQodYH6WkjpPkpyjz2ad5s3w1q81GPQHSWDU7qLrtzEfIhs5ZubNafzyamgsArIIbIATE4pni5N9AoeJHVeoZfNeUK/xORVQGqrNKKMUAOWZv1i107hK90/94/no3J+hjbOQCX4QCzPmQNFDeUFM8/gXc8a4XsCK5xxis/RaAtzNNXAEKC4eyAZ11k9gXzLVILCJrbPbY8FFtA9AEI2G3/YThN83C8fkak3wvCuAaE4ilASzsLneGbc/lFZgrN1bsCqh2pG+He9ivAypbhbP6wDQwMS5uZOEI1Mnlp4KTz2HIEVF/6j0oCP+dlOdZvuEK+x0C9Q7GUV49Nj0vPT0bJ5z4kz54oN1mlQeUDXquKlhOcRva4kVUtEuvabxLDhh89GmmTN+pcpY9csmGqJ7mqhyIwCVBfXO4xLcT9mFHuruBpTm4LH2NxkvjWFVFYp6tA0zCzFxTJMqkAdb4MArAi34MZGTtXOLCB9wkGHl5NaKB4lVXNN8yAE6+ONOd+jKGqSwvPpAKkpEPbSFO36B9K5/cmplDWHHqPODDadRbGYxMDTGEcKP7Q9i8NnnICAuUQ2zO3z7E/4zQMa/mwvOYzaGPI+sAjxGIDDBQl0jw5i+hEZJ/74e0/z8w6dlmP0pN70Rxi0RLPjk5nKkdMB6V4X37MvMSr
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MWHPR05MB3648.namprd05.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(366004)(376002)(136003)(39860400002)(346002)(230922051799003)(1800799012)(186009)(451199024)(64100799003)(6486002)(4326008)(8676002)(8936002)(5660300002)(7416002)(2616005)(107886003)(478600001)(38350700005)(6666004)(2906002)(66946007)(66556008)(66476007)(38100700002)(316002)(41300700001)(6506007)(6512007)(52116002)(26005)(36756003)(86362001)(921008)(1076003);
+ SFS:(13230031)(396003)(366004)(376002)(136003)(39860400002)(346002)(230922051799003)(1800799012)(186009)(451199024)(64100799003)(6486002)(4326008)(8676002)(8936002)(5660300002)(7416002)(2616005)(107886003)(478600001)(83380400001)(38350700005)(6666004)(2906002)(66946007)(66556008)(66476007)(38100700002)(316002)(41300700001)(6506007)(6512007)(52116002)(26005)(36756003)(86362001)(921008)(1076003);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IyAIthwmpJK2xq+OYxTl4DEDQ7r026qIdEmgblnPIDe0KlGKTbpt+P5MpDVi?=
- =?us-ascii?Q?6iQrwsJfh162B8oiZL96nr/B6gVRNM2D9OccdNE4TZZ3ZDxNIKuFWuwxJgbP?=
- =?us-ascii?Q?xV26egV17irxUHibEy+z14Q0TOtL2EYc61VrGAtqaPaA5XiH4TzPfvio9mHm?=
- =?us-ascii?Q?ZD+JME8Xed5LrjsbyAQf673C9y2C+7iwGcHZodjXitCkvL72FDO56E50Dw2/?=
- =?us-ascii?Q?acgmVUluYTsYoKd3lqSnMPjTIQ6lJfLayMtN+d1WQkVUNdfEukGIQlZXWxEd?=
- =?us-ascii?Q?i/eSXIhF5b+JVJoSw0UxfaWR6tMHLjOZIM5yON8gT2PSwFIBnQ7Ruy+tmUuK?=
- =?us-ascii?Q?NJoZvo/l+qu55Y0OB2G3z0KMgxeedLPWUXQdj+BVKjfVXFu9k1qmVScIbNMu?=
- =?us-ascii?Q?cbp7V1RGPR0PNKQK1SRadWVnIAPZGkCpSq4R3LvtPze9xfiLxaUiqTsS6D8q?=
- =?us-ascii?Q?SMf2NfyVj+3yWO3kTehS5iH8ohjPOhvES+sDqxWd3E/c8nfbbxdF/TOSaer7?=
- =?us-ascii?Q?I11xHWqH25oGg6mdn5EJ6p/iaQmDAvhiwavQYx9yDLEVlmsFu6WIQTJ/WH29?=
- =?us-ascii?Q?m8IRRdjb9tvTxv7c4z7w1A7lNQ1ceEaH/WZPlPEL5N2JIV+lQcxCd5bFsVe1?=
- =?us-ascii?Q?QP20Pwad3ssADnOB9S4m8AxSXNcmt76hDt4F45JgCGEBh7DRYEMK83zorQjC?=
- =?us-ascii?Q?wfw+kir6acFMeJCBuVfWo79vHNThC9cZqhLMx8ORNTum89V1f1/7veROpmK5?=
- =?us-ascii?Q?E3Sko1UQOKA0hOJ6oiXMvRl2xNdUcelwgq/yhjYD9HYWe4gSMtnWuWetGedU?=
- =?us-ascii?Q?Fp8XbC6bsWD9JBjtm5NN2cqEFWhfZ9BW7RyUW1374mLR/NrIe5yjH86TzvoM?=
- =?us-ascii?Q?7ZzX1v1GlJN128eVqf9YL5RV8jyEHSUBg5aFeuhGe+EIJz92mjou29cz3K/o?=
- =?us-ascii?Q?K031bKkcbp8/LS847cApdYeXh+wfosg56YQM2EFIIt1B1Snur0ZQzbxkT9qs?=
- =?us-ascii?Q?DfdMBFUvplcvOGb/teZp86mHtj3tBkEVY79oaR74Pgum38hSVuKOEdzxWy7m?=
- =?us-ascii?Q?68T5u1cFY4DRAngYgV86YVfmWqqIv5zlH/Z0gCkw9AShc2no4oO9htjJeGdn?=
- =?us-ascii?Q?VhhQlcLBBa0kgGnSiCu1v4uMx2RPQM2bAmZRlCSwkExjwa9+LMlgwE5eu9ud?=
- =?us-ascii?Q?U4Mim7jtIIr1iwdZiAMswzt08HZrZg+ui2LhtCWlinCe5XVS9/IoFj6QY1FM?=
- =?us-ascii?Q?K4lP7kcqhfFv28GnP4eo1qVMRMK91OSzpg94givNGd96qluU0uIQLzKg3zih?=
- =?us-ascii?Q?QDFT+YnQ3ljds2ElqRVznj7Jvxar4/ZrIdvgoE1jJNIDBwPzW5iaL+gyYVjr?=
- =?us-ascii?Q?s1ZIP0H42IqlKGfmFdYpDl+hhNsH5A382CfTvScrjdo9GZcO4d1P2G3xfFAl?=
- =?us-ascii?Q?dsh/GZaPnIvsWN1ozurhHBpZ8kMHe14hLeOwIt1471o3M7HTNoHkBcZvkoOf?=
- =?us-ascii?Q?6k/y0A6axJNYgrc11Yc/oMuX484tEyin8oOUEq1wK6Hvo1gMKb0Os8Fjk/Fp?=
- =?us-ascii?Q?svZ2Sud0RpL3Pk4LYdQEEtYmghZsIaCNrfpxZD7z?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jO2UjrnZrwXRopNAD3WaFlbDOod6Qp+HOHdf7kVn4LDrs5UuN5yXPgOCg17y?=
+ =?us-ascii?Q?UWunSr51I+P2Co5+MJNQfzzzth4bPMj6Jw3gDYKXk4S9oMrKkwdu+oEuU3ki?=
+ =?us-ascii?Q?kdTbQBE97t4MkYI5S0j66DfhIFv8Yl3EcO3UzU98VI0rlX7lgCSMSfrai+v2?=
+ =?us-ascii?Q?tecvZAkaFH+EsexmBBDSdMtCc4dQAn/NQUEHzK0l9jlgLKN/jZbl+HaOhlPq?=
+ =?us-ascii?Q?sfClsdfXuSnoCP46B8oN2GWq8FA7GXGK1deuuwKFiogfI6f7ssk2kmQqbuOL?=
+ =?us-ascii?Q?aWboscmOoVlzVO9ax3R8Ba0lAxRYjP47Me44NaxbCzRYzpqZz+qkb9o8fi1a?=
+ =?us-ascii?Q?AYcX+LtCeyp+x5Lgjb8WueJEj5bF8s2DWeIoRlVfDk0V9nJUNDVIP7hBawuP?=
+ =?us-ascii?Q?JAvCP8PW2mmurBQ4Tjm1CttyWGDNXmoRcflFiAHKS+/keCaR2yLZglTAD2Bw?=
+ =?us-ascii?Q?cx7p4dw4Y8Vi6X9KTxFRpSNSPORLjKwhsrZXtkq9gcgt+wvoYWs6QLWmsQVp?=
+ =?us-ascii?Q?xXxNkfJJdBufJaFlAkOtbJmBmP6lVoE53YqJKuNZRAFtmJV0MbXS7q2ud1m9?=
+ =?us-ascii?Q?IJWO/jJTt/xlTSK1C6IfJxGDVs8SFg6w8RxlOFdqg30tkxcIo3ZNxxsgteVX?=
+ =?us-ascii?Q?QpRGivZ6JJ952DqiwdrdtplUg4PibG/h3B8yznntuRFPP6FRXBoAbjjwY9fK?=
+ =?us-ascii?Q?rP7ITBkS0s7Bpw8VJNCEkvb6fRqdxhtCq+/QibCOelH9O3IGP1ABEL/xknI/?=
+ =?us-ascii?Q?5T2+o1Za3xwIIQZ9fXmdhj9/XOprZlAUpI0wbScRUIUO60XgH7ydkVxMydhx?=
+ =?us-ascii?Q?ShZ3KuAg0imCCXM0VBQZ2JaivoenEO3t24QHtJqAbuGzq6fxn9is3tdj1xWG?=
+ =?us-ascii?Q?jn1IhipGjGkgKouYWpztxCl01avELJq0uqWBjrMrKfl8ijXRlfq8IAePCrif?=
+ =?us-ascii?Q?oaHNpZuPVT/uPI39oxmeyrJGx0YZ8la7N3CSB5xc9VjsB4nke+jUz0pY+HI7?=
+ =?us-ascii?Q?cFrXpTeGlBleOiYSKa6WJ4lUlcxw5PniD6sQbSItvObGzg0abo5pjve6duf7?=
+ =?us-ascii?Q?1UUkwCfajjDgjtW/XAPiAXTGxVLKQWOXCRRLPuPcmy1tCNiHskLfe9Kxpwc0?=
+ =?us-ascii?Q?tljAk+EGS8BG5htsNdFfaylZC0OhzCr/o5lprzZ/bnn1GLOwuatHUdKKyyf+?=
+ =?us-ascii?Q?zBBolRhg4hy0VPqGQ7t+tI6B+VZdQXECks2YW5FB/RT6tUOaF1ctcQHcEkTn?=
+ =?us-ascii?Q?SruCiUEq8J6JZl9ySAi5MCNzUaKrO616pdI2NKGk8AZKxuUw0qxE7+WAnhxz?=
+ =?us-ascii?Q?23eqxNKkdaBX23Q8FOv8BtuPJutyuwiQDj/Q2dhctCZatAU2clglbAmgubNR?=
+ =?us-ascii?Q?HXptKsiBXQlulunmPuWvHw/JNd/engma9d+oPX/eNA+C2RLdRcII2jVbbm2y?=
+ =?us-ascii?Q?uhKOXbdIHFqN5i87wPwpx2NS6gEYRezoXVI1U6TIahGrQlR88V/7Od5p1o8E?=
+ =?us-ascii?Q?eJtuWeVm+6+JhPD3etQ6x9ukBO2s890bNa7YIR51fKwxj9uTJ4LGG0ffmZUp?=
+ =?us-ascii?Q?o461TM6iJ4TDXVDi3EHqSSO4QqkYWr9du9y8oFQ4?=
 X-OriginatorOrg: vmware.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2970139-a825-4373-0777-08dbebb32288
+X-MS-Exchange-CrossTenant-Network-Message-Id: d60b3dd3-f95f-431d-9c4f-08dbebb3233f
 X-MS-Exchange-CrossTenant-AuthSource: MWHPR05MB3648.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 23:31:21.7230 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 23:31:22.8824 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +y6PAigsyXOJNLutnlfU9C0CJE1QKpHcjiRR1cepe3facbjDP8BBvpbsc6vy+6NVXPh6c66PkotIMwOwe/Ep3g==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Q+/hnWadUhhW37UQD10d45gvblqBUUlnaR2URb+oftf/7iC4JBEV2fln060YEfx5yNxBl2Uv15/hmBCb2lXLRA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY3PR05MB8275
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -127,165 +127,44 @@ Cc: Alexey Makhalov <amakhalov@vmware.com>, pv-drivers@vmware.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VMware hypercalls use I/O port, VMCALL or VMMCALL instructions.
-Add __tdx_hypercall path to support TDX guests.
+VMware hypercalls invocations were all spread out across the kernel
+implementing same ABI as in-place asm-inline. With encrypted memory
+and confidential computing it became harder to maintain every changes
+in these hypercall implementations.
 
-No change in high bandwidth hypercalls, as only low bandwidth
-ones are supported for TDX guests.
+Intention of this patchset is to introduce arch independent VMware
+hypercall API layer other subsystems such as device drivers can call
+to, while hiding architecture specific implementation behind.
 
-Co-developed-by: Tim Merrifield <timothym@vmware.com>
-Signed-off-by: Tim Merrifield <timothym@vmware.com>
-Signed-off-by: Alexey Makhalov <amakhalov@vmware.com>
----
- arch/x86/include/asm/vmware.h | 72 +++++++++++++++++++++++++++++++++++
- arch/x86/kernel/cpu/vmware.c  |  9 +++++
- 2 files changed, 81 insertions(+)
+Second patch introduces the vmware_hypercall low and high bandwidth
+families of functions, with little enhancements there.
+Sixth patch adds tdx hypercall support
 
-diff --git a/arch/x86/include/asm/vmware.h b/arch/x86/include/asm/vmware.h
-index 17091eba68cb..cd58ff8ef1af 100644
---- a/arch/x86/include/asm/vmware.h
-+++ b/arch/x86/include/asm/vmware.h
-@@ -40,6 +40,54 @@
- 
- extern u8 vmware_hypercall_mode;
- 
-+#define VMWARE_TDX_VENDOR_LEAF 0x1AF7E4909ULL
-+#define VMWARE_TDX_HCALL_FUNC  1
-+
-+extern void vmware_tdx_hypercall_args(struct tdx_module_args *args);
-+
-+/*
-+ * TDCALL[TDG.VP.VMCALL] uses rax (arg0) and rcx (arg2), while the use of
-+ * rbp (arg6) is discouraged by the TDX specification. Therefore, we
-+ * remap those registers to r12, r13 and r14, respectively.
-+ */
-+static inline
-+unsigned long vmware_tdx_hypercall(unsigned long cmd, unsigned long in1,
-+				   unsigned long in3, unsigned long in4,
-+				   unsigned long in5, unsigned long in6,
-+				   uint32_t *out1, uint32_t *out2,
-+				   uint32_t *out3, uint32_t *out4,
-+				   uint32_t *out5, uint32_t *out6)
-+{
-+	struct tdx_module_args args = {
-+		.r10 = VMWARE_TDX_VENDOR_LEAF,
-+		.r11 = VMWARE_TDX_HCALL_FUNC,
-+		.r12 = VMWARE_HYPERVISOR_MAGIC,
-+		.r13 = cmd,
-+		.rbx = in1,
-+		.rdx = in3,
-+		.rsi = in4,
-+		.rdi = in5,
-+		.r14 = in6,
-+	};
-+
-+	vmware_tdx_hypercall_args(&args);
-+
-+	if (out1)
-+		*out1 = args.rbx;
-+	if (out2)
-+		*out2 = args.r13;
-+	if (out3)
-+		*out3 = args.rdx;
-+	if (out4)
-+		*out4 = args.rsi;
-+	if (out5)
-+		*out5 = args.rdi;
-+	if (out6)
-+		*out6 = args.r14;
-+
-+	return args.r12;
-+}
-+
- /*
-  * The low bandwidth call. The low word of edx is presumed to have OUT bit
-  * set. The high word of edx may contain input data from the caller.
-@@ -67,6 +115,10 @@ unsigned long vmware_hypercall1(unsigned long cmd, unsigned long in1)
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall(cmd, in1, 0, 0, 0, 0, NULL, NULL,
-+					    NULL, NULL, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -85,6 +137,10 @@ unsigned long vmware_hypercall3(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall(cmd, in1, 0, 0, 0, 0, out1, out2,
-+					    NULL, NULL, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=b" (*out1), "=c" (*out2)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -104,6 +160,10 @@ unsigned long vmware_hypercall4(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall(cmd, in1, 0, 0, 0, 0, out1, out2,
-+					    out3, NULL, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=b" (*out1), "=c" (*out2), "=d" (*out3)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -123,6 +183,10 @@ unsigned long vmware_hypercall5(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall(cmd, in1, in3, in4, in5, 0, NULL,
-+					    out2, NULL, NULL, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=c" (*out2)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-@@ -145,6 +209,10 @@ unsigned long vmware_hypercall6(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall(cmd, in1, in3, 0, 0, 0, NULL, out2,
-+					    out3, out4, out5, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=c" (*out2), "=d" (*out3), "=S" (*out4),
- 		  "=D" (*out5)
-@@ -166,6 +234,10 @@ unsigned long vmware_hypercall7(unsigned long cmd, unsigned long in1,
- {
- 	unsigned long out0;
- 
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+		return vmware_tdx_hypercall(cmd, in1, in3, in4, in5, 0, out1,
-+					    out2, out3, NULL, NULL, NULL);
-+
- 	asm_inline volatile (VMWARE_HYPERCALL
- 		: "=a" (out0), "=b" (*out1), "=c" (*out2), "=d" (*out3)
- 		: [port] "i" (VMWARE_HYPERVISOR_PORT),
-diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
-index 3aa1adaed18f..0207e8ced92c 100644
---- a/arch/x86/kernel/cpu/vmware.c
-+++ b/arch/x86/kernel/cpu/vmware.c
-@@ -428,6 +428,15 @@ static bool __init vmware_legacy_x2apic_available(void)
- 		(eax & BIT(VCPU_LEGACY_X2APIC));
- }
- 
-+#ifdef CONFIG_INTEL_TDX_GUEST
-+/* __tdx_hypercall() is not exported. So, export the wrapper */
-+void vmware_tdx_hypercall_args(struct tdx_module_args *args)
-+{
-+	__tdx_hypercall(args);
-+}
-+EXPORT_SYMBOL_GPL(vmware_tdx_hypercall_args);
-+#endif
-+
- #ifdef CONFIG_AMD_MEM_ENCRYPT
- static void vmware_sev_es_hcall_prepare(struct ghcb *ghcb,
- 					struct pt_regs *regs)
+arm64 implementation of vmware_hypercalls is in drivers/gpu/drm/
+vmwgfx/vmwgfx_msg_arm64.h and going to be moved to arch/arm64 with
+a separate patchset with the introduction of VMware Linux guest
+support for arm64.
+
+No functional changes in drivers/input/mouse/vmmouse.c and
+drivers/ptp/ptp_vmw.c
+
+Alexey Makhalov (6):
+  x86/vmware: Move common macros to vmware.h
+  x86/vmware: Introduce vmware_hypercall API
+  ptp/vmware: Use vmware_hypercall API
+  input/vmmouse: Use vmware_hypercall API
+  drm/vmwgfx: Use vmware_hypercall API
+  x86/vmware: Add TDX hypercall support
+
+ arch/x86/include/asm/vmware.h             | 327 ++++++++++++++++++++--
+ arch/x86/kernel/cpu/vmware.c              | 101 ++-----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c       | 173 ++++--------
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_arm64.h | 197 +++++++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h   | 185 ------------
+ drivers/input/mouse/vmmouse.c             |  76 ++---
+ drivers/ptp/ptp_vmw.c                     |  12 +-
+ 7 files changed, 551 insertions(+), 520 deletions(-)
+
 -- 
 2.39.0
 
