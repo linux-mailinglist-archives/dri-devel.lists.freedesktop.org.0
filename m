@@ -2,59 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B7BB7F4F9F
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 19:33:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49F817F4FAB
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 19:34:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7374210E0BD;
-	Wed, 22 Nov 2023 18:32:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D7C510E0DB;
+	Wed, 22 Nov 2023 18:34:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
- [IPv6:2607:f8b0:4864:20::1131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8964810E0BD
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 18:32:55 +0000 (UTC)
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-5cc60973b4aso487677b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 10:32:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700677974; x=1701282774; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=9evLgerhPexVHQkBogiwmvf7m2BOF4vHI4aXwGPPVJ4=;
- b=cZXdJZ3MSofFFzb2xXtUvETvnzpMqH7GEhLZb3SE0duMOsxxBYox6GU4SFjQaKrY7j
- jbT5NPIe/+XXZwFYlmYWvbHsnEDAGuL3uBLc0o/vxMyIFclHHKiiBRCw3dMm5PxdLJmZ
- 1xV2XlvhSwozVQexifxBF2liA+IyNh06hYmWNLYFGr5lQGCLzoE4JJoO9CLO6YFlJiMA
- 2TzEm0+lNcev+SVSi+0zMdA5qIWx0iHLzrvOj87hGfzrBT2jKEuholVXUQthmY+WgTCO
- 9QOqca44RnOnCrbddrDhbD09x3EiyAXqiBzlqiN7FvmJncWdzbKHB+Gk7Ep1iX7hbNM0
- v7Kw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0483610E0DB
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 18:34:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1700678061;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CSq4Z/8e2pXUHkDOJ7PPcDe9XGNiH9I/kXRfecMzXmE=;
+ b=HGvifG6F8g//GzGI9yGFCeOMq2bpgtkVLNCXLuBOOboTjxhyApwOJfieYO2GqzrIVZ26rk
+ i1vzE+LCLvSU87w3RnqVE/1+7sp6bJMH1t59WZfcTkbQK04hjJDQ0tqNwPGMleClnHiVu+
+ UgzImUUR6djt3hEr6CI1dIY/zc+p48w=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-148-JOG4GNqzP0SqAgXVnzDBog-1; Wed, 22 Nov 2023 13:34:19 -0500
+X-MC-Unique: JOG4GNqzP0SqAgXVnzDBog-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ 2adb3069b0e04-50aa6be164bso4747106e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 10:34:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700677974; x=1701282774;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9evLgerhPexVHQkBogiwmvf7m2BOF4vHI4aXwGPPVJ4=;
- b=KeJY7/Yxfb0M+H6KiAM+rIB0E8Hr3c17a2I74YQj2WrS1U08vkJISm3U20sHJp96Ws
- AIzGofKoyHGfR2exAjBR+tsEkJO3BP1VB1q60qxZLeZMOqI1RGbGNDzEPAEt3YxSlqJ+
- Us/p6Qy6BJRIymWOg7Z3xnmC1qCdvC1WpZE+0G0YRvOJBOlgyj743i6y5T/54AWKCJtl
- 5OUfMMavIQgc+e8csI4SSkUBvhuGPmJGL3S8IMM7WGtN+HYaNNtyo0MhNUlz16E+Nqww
- xtpkUY1oDNTSgnpV26iduCh5kPSyzFoHXV9dtp672oWGDlnFbJipGgXlXr+k5vI4K83M
- EkBA==
-X-Gm-Message-State: AOJu0Yx4SzCe4Gy+fBrj+eewr6O2rgkTX0m3s5uSHSPBxPZDHJ1qIL1+
- 0O5S40Cz0BFJqGdWQvOp6wtuFQC+tZYviqRK25quiQ==
-X-Google-Smtp-Source: AGHT+IHyhJSWiia3K3sWSqzs9R4jjq04Y+WIUYIc2Ttxdvr+Ys8bPby4u0SJWAcMZONs2xz0YHXI4buzX0cWSLoaSkQ=
-X-Received: by 2002:a0d:f245:0:b0:5c9:d64e:68c7 with SMTP id
- b66-20020a0df245000000b005c9d64e68c7mr3050822ywf.35.1700677974461; Wed, 22
- Nov 2023 10:32:54 -0800 (PST)
+ d=1e100.net; s=20230601; t=1700678058; x=1701282858;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=CSq4Z/8e2pXUHkDOJ7PPcDe9XGNiH9I/kXRfecMzXmE=;
+ b=YUQOhinlHQEf9+mcAqMrw3daOGBOauioMn6AA6Mn3DOAMDjtQy7HNzNQZ8b5dAu3+x
+ 92MbF1ewR4dqk43ONkuPWrhsfdcCEiN+3A87G4xeJyZVH+YzCghGMJ98uy8KRHGVuKIT
+ FuqAk54W6Mn2Ev1FttlurzCZRhN8CSSQICNEEyHBJdlKQek2bx91kYexSodtrT9e4wt6
+ YpFvCwY0cxyhxoBKAAQ/G7mIHTVxcqN7h45qKHVQZh3eL4hpaEMS4YF+14p//Yh9jVoJ
+ 6tRafdU7BOGTbfLyKmfYI/aoNH/a/qcBnIz1PuMjQWmpKfFx1h4fZdtISKhfQsvQS1UO
+ OulQ==
+X-Gm-Message-State: AOJu0YzWfJKrQu2vB/ZwIqZlFVjUsNVKCNSkSaAK7F1sj4EuflLCfXBJ
+ MmNyUm9PiIzklJewfoBx8dhn4Cj4QDblZirnD95aQLgI08lZ6N1RULEa/JyAqIjmZbsUw+O5kiZ
+ IaV0iEJbROd1JAILUvgbtWt0dYCtJ
+X-Received: by 2002:a05:6512:3b21:b0:507:c763:27b7 with SMTP id
+ f33-20020a0565123b2100b00507c76327b7mr3162717lfv.40.1700678057733; 
+ Wed, 22 Nov 2023 10:34:17 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFh59WQluakgPfC165eV+EpD7wmuDkQBJLEXSCOkuN9LT5IrE4iptKGqLO7vhOdGJJyfRH1LA==
+X-Received: by 2002:a05:6512:3b21:b0:507:c763:27b7 with SMTP id
+ f33-20020a0565123b2100b00507c76327b7mr3162697lfv.40.1700678057297; 
+ Wed, 22 Nov 2023 10:34:17 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
+ (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+ by smtp.gmail.com with ESMTPSA id
+ r18-20020aa7cfd2000000b0053f10da1105sm68825edy.87.2023.11.22.10.34.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Nov 2023 10:34:16 -0800 (PST)
+Message-ID: <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
+Date: Wed, 22 Nov 2023 19:34:15 +0100
 MIME-Version: 1.0
-References: <20231103230414.1483428-1-dmitry.baryshkov@linaro.org>
- <7a4a6698-0954-4225-82ff-02dd13bd64bb@linux.dev>
-In-Reply-To: <7a4a6698-0954-4225-82ff-02dd13bd64bb@linux.dev>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 22 Nov 2023 20:32:45 +0200
-Message-ID: <CAA8EJpoqfwyVYQy17QAOtrGr1AGzFkpKrOM5_F58=A95PoYncQ@mail.gmail.com>
-Subject: Re: [PATCH v6 0/6] drm: simplify support for transparent DRM bridges
-To: Sui Jingfeng <sui.jingfeng@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+To: Werner Sembach <wse@tuxedocomputers.com>, Pavel Machek <pavel@ucw.cz>,
+ Jani Nikula <jani.nikula@linux.intel.com>, jikos@kernel.org,
+ Jelle van der Waa <jelle@vdwaa.nl>
+References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
+ <ZSe1GYLplZo5fsAe@duo.ucw.cz>
+ <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
+ <ZSf9QneKO/8IzWhd@duo.ucw.cz>
+ <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
+ <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
+ <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
+ <ZSmg4tqXiYiX18K/@duo.ucw.cz>
+ <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
+ <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
+ <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
+ <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
+ <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,142 +100,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Robert Foss <rfoss@kernel.org>, dri-devel@lists.freedesktop.org,
- Jonas Karlman <jonas@kwiboo.se>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Andy Gross <agross@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, linux-arm-msm@vger.kernel.org,
- linux-phy@lists.infradead.org, freedreno@lists.freedesktop.org
+Cc: Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, linux-input@vger.kernel.org,
+ ojeda@kernel.org, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 22 Nov 2023 at 18:03, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
->
-> Hi,
->
->
-> On 2023/11/4 07:03, Dmitry Baryshkov wrote:
-> > Supporting DP/USB-C can result in a chain of several transparent
-> > bridges (PHY, redrivers, mux, etc). All attempts to implement DP support
-> > in a different way resulted either in series of hacks or in device tree
-> > not reflecting the actual hardware design. This results in drivers
-> > having similar boilerplate code for such bridges.
->
-> Please improve the written,  "resulted" -> "yield" ?
->
-> > Next, these drivers are susceptible to -EPROBE_DEFER loops: the next
-> > bridge can either be probed from the bridge->attach callback, when it is
-> > too late to return -EPROBE_DEFER, or from the probe() callback, when the
-> > next bridge might not yet be available, because it depends on the
-> > resources provided by the probing device. Device links can not fully
-> > solve this problem since there are mutual dependencies between adjancent
-> > devices.
-> >
-> > Last, but not least, this results in the the internal knowledge of DRM
->
-> There is a duplicated "the" word in this sentence.
->
-> As far as I can understand, nearly all of those troubles are because the display bridges
-> drivers are designed as a kernel module(.ko) instead of making them as static link-able
-> helpers. I means that a display bridge device can not work standalone, as it have to be
-> used with a display controller. So a display bridge is just a slave device or a auxiliary
-> device. My question is: if it can't works by itself, we probably shouldn't design them as
-> kernel modules style. Am I correct?
+Hi Werner,
 
-No. This has nothing to do with the driver being a kernel module or built-in.
+On 11/21/23 14:29, Werner Sembach wrote:
+> 
+> Am 21.11.23 um 13:20 schrieb Hans de Goede:
+>> Hi Werner,
+>>
+>> On 11/21/23 12:33, Werner Sembach wrote:
+>>> Hi,
+>>>
+>>> Am 20.11.23 um 21:52 schrieb Pavel Machek:
+>>>> Hi!
+>>>>
+>>>>>>> So... a bit of rationale. The keyboard does not really fit into the
+>>>>>>> LED subsystem; LEDs are expected to be independent ("hdd led") and not
+>>>>>>> a matrix of them.
+>>>>>> Makes sense.
+>>>>>>
+>>>>>>> We do see various strange displays these days -- they commonly have
+>>>>>>> rounded corners and holes in them. I'm not sure how that's currently
+>>>>>>> supported, but I believe it is reasonable to view keyboard as a
+>>>>>>> display with slightly weird placing of pixels.
+>>>>>>>
+>>>>>>> Plus, I'd really like to play tetris on one of those :-).
+>>>>>>>
+>>>>>>> So, would presenting them as auxdisplay be acceptable? Or are there
+>>>>>>> better options?
+>>>>>> It sounds like a fair use case -- auxdisplay are typically simple
+>>>>>> character-based or small graphical displays, e.g. 128x64, that may not
+>>>>>> be a "main" / usual screen as typically understood, but the concept is
+>>>>>> a bit fuzzy and we are a bit of a catch-all.
+>>>>>>
+>>>>>> And "keyboard backlight display with a pixel/color per-key" does not
+>>>>>> sound like a "main" screen, and having some cute effects displayed
+>>>>>> there are the kind of thing that one could do in the usual small
+>>>>>> graphical ones too. :)
+>>>>>>
+>>>>>> But if somebody prefers to create new categories (or subcategories
+>>>>>> within auxdisplay) to hold these, that could be nice too (in the
+>>>>>> latter case, I would perhaps suggest reorganizing all of the existing
+>>>>>> ones while at it).
+>>>>> One could also reasonably make the argument that controlling the
+>>>>> individual keyboard key backlights should be part of the input
+>>>>> subsystem. It's not a display per se. (Unless you actually have small
+>>>>> displays on the keycaps, and I think that's a thing too.)
+>>>> While it would not be completely crazy to do that... I believe the
+>>>> backlight is more of a display and less of a keyboard. Plus input
+>>>> subystem is very far away from supporting this, and we had no input
+>>>> from input people here.
+>>>>
+>>>> I don't think LED subsystem is right place for this, and I believe
+>>>> auxdisplay makes slightly more sense than input.
+>>>>
+>>>> Unless someone steps up, I'd suggest Werner tries to implement this as
+>>>> an auxdisplay. [And yes, this will not be simple task. RGB on LED is
+>>>> different from RGB on display. But there are other LED displays, so
+>>>> auxdisplay should handle this. Plus pixels are really funnily
+>>>> shaped. But displays with missing pixels -- aka holes for camera --
+>>>> are common in phones, and I believe we'll get variable pixel densities
+>>>> -- less dense over camera -- too. So displays will have to deal with
+>>>> these in the end.]
+>>> Another idea I want to throw in the mix:
+>>>
+>>> Maybe the kernel is not the right place to implement this at all. RGB stuff is not at all standardized and every vendor is doing completely different interfaces, which does not fit the kernel userpsace apis desire to be uniformal and fixed. e.g. Auxdisplay might fit static setting of RGB values, but it does not fit the snake-effect mode, or the raindrops mode, or the 4-different-colors-in-the-edges-breathing-and-color-cycling mode.
+>>>
+>>> So my current idea: Implement these keyboards as a single zone RGB kbd_backlight in the leds interface to have something functional out of the box, but make it runtime disable-able if something like https://gitlab.com/CalcProgrammer1/OpenRGB wants to take over more fine granular control from userspace via hidraw.
+>> That sounds like a good approach to me. We are seeing the same with game controllers where steam and wine/proton also sometimes use hidraw mode to get access to all the crazy^W interesting features.
+>>
+>> That would mean that all we need to standardize and the kernel <-> userspace API level is adding a standard way to disable the single zone RGB kbd_backlight support in the kernel.
+> 
+> I would suggest a simple "enable" entry. Default is 1. When set to 0 the kernel driver no longer does anything.
 
->
-> > subsystem slowly diffusing into other subsystems, like PHY or USB/TYPEC.
->
-> Yeah, this indeed a problem.
->
-> > To solve all these issues, define a separate DRM helper, which creates
-> > separate aux device just for the bridge.
->
-> I'm supporting you if want to solve all these problems, this is fine and thanks a lot.
-> But I want to ask a question, now that you are solving these problems by creating separate
-> devices, does this manner match the hardware design perfectly? which is the hardware units
-> you newly created device is corresponding to?
+I'm not in favor of using "enable" as sysfs attribute for this,
+I would like to see a more descriptive name, how about:
 
-Aux devices do not always follow the actual hardware internals. For
-example, see the TI sn65dsi86 driver, which also uses aux devices to
-split dependency and probing chains.
+"disable_kernel_kbd_backlight_support"
 
-> > During probe such aux device
-> > doesn't result in the EPROBE_DEFER loops. Instead it allows the device
-> > drivers to probe properly, according to the actual resource
-> > dependencies. The bridge auxdevs are then probed when the next bridge
-> > becomes available, sparing drivers from drm_bridge_attach() returning
-> > -EPROBE_DEFER.
->
-> OK, as far as I can understand,  in order to solve the mentioned problem
-> you are also retire the defer probe mechanism.
+And then maybe also have the driver actually unregister
+the LED class device ?
 
-No, I'm not retiring the probe deferral mechanism. Instead I'm
-splitting it into two chains. One going from the controller to the
-usb-c connector for the signal flow, another going from the connector
-back to the drm_encoder for the drm_bridge dependencies.
+Or just make the support inactive when writing 1 to
+this and allow re-enabling it by writing 0?
 
->
->
-> > Changes since v5:
-> >   - Removed extra semicolon in !DRM_AUX_HPD_BRIDGE stubs definition.
-> >
-> > Changes since v4:
-> >   - Added documentation for new API (Sima)
-> >   - Added generic code to handle "last mile" DP bridges implementing just
-> >     the HPD functionality.
-> >   - Rebased on top of linux-next to be able to drop #ifdef's around
-> >     drm_bridge->of_node
-> >
-> > Changes since v3:
-> >   - Moved bridge driver to gpu/drm/bridge (Neil Armstrong)
-> >   - Renamed it to aux-bridge (since there is already a simple_bridge driver)
-> >   - Made CONFIG_OF mandatory for this driver (Neil Armstrong)
-> >   - Added missing kfree and ida_free (Dan Carpenter)
-> >
-> > Changes since v2:
-> >   - ifdef'ed bridge->of_node access (LKP)
-> >
-> > Changes since v1:
-> >   - Added EXPORT_SYMBOL_GPL / MODULE_LICENSE / etc. to drm_simple_bridge
-> >
-> > Dmitry Baryshkov (6):
-> >    drm/bridge: add transparent bridge helper
-> >    phy: qcom: qmp-combo: switch to DRM_AUX_BRIDGE
-> >    usb: typec: nb7vpq904m: switch to DRM_AUX_BRIDGE
-> >    drm/bridge: implement generic DP HPD bridge
-> >    soc: qcom: pmic-glink: switch to DRM_AUX_HPD_BRIDGE
-> >    usb: typec: qcom-pmic-typec: switch to DRM_AUX_HPD_BRIDGE
-> >
-> >   drivers/gpu/drm/bridge/Kconfig                |  17 ++
-> >   drivers/gpu/drm/bridge/Makefile               |   2 +
-> >   drivers/gpu/drm/bridge/aux-bridge.c           | 140 +++++++++++++++
-> >   drivers/gpu/drm/bridge/aux-hpd-bridge.c       | 164 ++++++++++++++++++
-> >   drivers/phy/qualcomm/Kconfig                  |   2 +-
-> >   drivers/phy/qualcomm/phy-qcom-qmp-combo.c     |  44 +----
-> >   drivers/soc/qcom/Kconfig                      |   1 +
-> >   drivers/soc/qcom/pmic_glink_altmode.c         |  33 +---
-> >   drivers/usb/typec/mux/Kconfig                 |   2 +-
-> >   drivers/usb/typec/mux/nb7vpq904m.c            |  44 +----
-> >   drivers/usb/typec/tcpm/Kconfig                |   1 +
-> >   drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c |  41 +----
-> >   include/drm/bridge/aux-bridge.h               |  37 ++++
-> >   13 files changed, 383 insertions(+), 145 deletions(-)
-> >   create mode 100644 drivers/gpu/drm/bridge/aux-bridge.c
-> >   create mode 100644 drivers/gpu/drm/bridge/aux-hpd-bridge.c
-> >   create mode 100644 include/drm/bridge/aux-bridge.h
-> >
+> Questions:
+> 
+> - Should the driver try to reset the settings to boot default? Or just leave the device in the current state? With the former I could see issues that they keyboard is flashing when changing from kernelspace control to userspace control. With the later the burden on bringing the device to a know state lies with the userspace driver.
 
+My vote would go to leave the state as is. Even if the hw
+does not support state readback, then the userspace code
+can readback the state before writing 1 to
+"disable_kernel_kbd_backlight_support"
+
+> - Should this be a optional entry that only shows up on drivers supporting it, or could this implemented in a generic way affecting all current led entries?
+
+IMHO this should be optional. If we go with the variant
+where writing 1 to "disable_kernel_kbd_backlight_support"
+just disables support and 0 re-enables it then I guess
+we could have support for this in the LED-core, enabled
+by a flag set by the driver.
+
+If we go with unregistering the led class device,
+then this needs to be mostly handled in the driver.
+
+Either way the kernel driver should know about this even
+if it is mostly handled in the LED core so that e.g.
+it does not try to restore settings on resume from suspend.
+
+> - I guess UPower integration for the userspace driver could be archived with https://www.kernel.org/doc/html/latest/leds/uleds.html however this limited to brightness atm, so when accent colors actually come to UPower this would also need some expansion to be able to pass a preferred color to the userspace driver (regardless of what that driver is then doing with that information).
+
+Using uleds is an interesting suggestion, but upower atm
+does not support LED class kbd_backlight devices getting
+hot-plugged. It only scans for them once at boot.
+
+Jelle van der Waa (a colleague of mine, added to the Cc)
+has indicated he is interested in maybe working on fixing
+this upower short-coming as a side project, once his
+current side-projects are finished.
+
+> On a different note: This approach does currently not cover the older EC controlled 3 zone keyboards from clevo. Here only the kernel has access access to the device so the kernel driver has to expose all functionality somehow. Should this be done by an arbitrarily designed platform device?
+
+Interesting question, this reminds there was a discussion
+about how to handle zoned keyboards using plain LED class
+APIs here:
+
+https://lore.kernel.org/linux-leds/544484b9-c0ac-2fd0-1f41-8fa94cb94d4b@redhat.com/
+
+Basically the idea discussed there is to create
+separate multi-color LED sysfs devices for each zone,
+using :rgb:kbd_zoned_backlight-xxx as postfix, e.g. :
+
+ :rgb:kbd_zoned_backlight-left
+ :rgb:kbd_zoned_backlight-middle
+ :rgb:kbd_zoned_backlight-right
+ :rgb:kbd_zoned_backlight-wasd
+
+As postfixes for the 4 per zone LED class devices
+and then teach upower to just treat this as
+a single kbd-backlight for the existing upower
+DBUS API and maybe later extend the DBUS API.
+
+Would something like this work for the Clevo
+case you are describing?
+
+Unfortunately this was never implemented but
+I think that for simple zoned backlighting
+this still makes sense. Where as for per key
+controllable backlighting as mention in
+$subject I do believe that just using hidraw
+access directly from userspace is best.
+
+Regards,
+
+Hans
 
 
--- 
-With best wishes
-Dmitry
+
