@@ -1,121 +1,113 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE37A7F5008
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 19:58:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F777F503C
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 20:08:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D780D10E0BC;
-	Wed, 22 Nov 2023 18:58:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95D2310E0ED;
+	Wed, 22 Nov 2023 19:08:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2062b.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e8a::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12F1210E0BC;
- Wed, 22 Nov 2023 18:58:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hYA0m8RAFYrlEi2KSJQwcLcnbJvWhV0quu2Na8SIqSQHxkLGYc2cMxCH+js9Jm29FeHCHTk3lisrJg0MD0WGoUSKe73HnFEhVI+5vxaUMNcGyfsyDK70AfZydOCswtxRaUcu4BIpnwEwfSuqVZyJQiKFPGqhHI6Ie5A3pjqg3UUZdtUavtf2n9OWGedcKjs0bw2FMtMC4skYR9MK2jLU82NvC0Bf+khWi2R6mWmrZ3RI6oknTZ0e9R8e+s6OpluY9kvjhPeZuDOzdKvTmMCwYFSAfd5Q99Gf9L5EpS4RzjNFa42T8vM08suA4E/D2RGNMX/PVqgvA6ffYviIutUcJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UG62bpOSXNPnq8W0MEokfLx+N7IK/57iX9YjTdYeHNs=;
- b=igHJuk3KynjIQFw64RGfJdbE+jNsBCHAaC1lJHrqDj6KI4sNOgEiZ+b5EBd+pqcwfbgJEHi6IoaTl5tLywrHzw0QhHrNSt0jz3krwKWW5pwy6ZGTxgJajyL/EG4UusJcwDysnF/6E9RUmowHyPG+iZnGQE6mDtjWM0PjKui7Qp5qTuNFbnKpkfC2yDQhmNkLkhoWRkuLwa+vYRDeI3+4Yw9oDqtxNLSBmmtJjga830c1Xcr6Jt6sXYOG5YJ+Sk4KadswS2ycYfYL55/4TskVEwXhTdfAM1I1PTWOmiQ2l1AVj6bOawftTJSwq6qGzmXb8w1rOIVDBTjdO2xYa17NJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UG62bpOSXNPnq8W0MEokfLx+N7IK/57iX9YjTdYeHNs=;
- b=SfmhPXUWrHt3b76uO2RKE/Y9AacYTy2EfzVSQ7ha53Ukk7FwxUPIeLhYqi/MdKjKWAF8dwVWG3944p7Xi2Xubajs5YoxuJE8RJxc+WQQOLeuXwnMxRnieb9p9TuWUo8t4bZEAyy0tP8fXJ6w9mENHCZcs+wvIzcdRqxTat89SqE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SN7PR12MB7955.namprd12.prod.outlook.com (2603:10b6:806:34d::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.26; Wed, 22 Nov
- 2023 18:58:05 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3%7]) with mapi id 15.20.7025.019; Wed, 22 Nov 2023
- 18:58:05 +0000
-Message-ID: <c5ae3f32-0779-4583-8fe6-92f5dea5ede6@amd.com>
-Date: Wed, 22 Nov 2023 19:58:00 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: Correct the documentation of name and exp_name
- symbols
-Content-Language: en-US
-To: Ramesh Errabolu <Ramesh.Errabolu@amd.com>, amd-gfx@lists.freedesktop.org, 
- sumit.semwal@linaro.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org
-References: <20231122160556.24948-1-Ramesh.Errabolu@amd.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20231122160556.24948-1-Ramesh.Errabolu@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0015.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:c8::7) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB3D10E12F
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 19:08:01 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ 5b1f17b1804b1-40859dee28cso751475e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 11:08:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1700680080; x=1701284880; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ERkw8rzZcH5VQ4+E8lzR+R0WUOy2UMqbI/rVKSdow1Q=;
+ b=yrHbcx+aCzacAzhg3GfoYFaRQWKdSh9NrGltijHHH8T8Y1XzWF2uh7czdsHqb26KUm
+ +YwwnHV31LcRphKgsQxoAeJRGE6dfrYjUG2wNYa/c8JpVI7RwQM2pdP4dqe4QAHccCE/
+ zQLofGbTKatmN3aWKaZwcW/CRiO5CnAUeGpYrKi+TXJ/qx0w+rI4nhfh1fmGTEpxI4YN
+ twqiSMUtG9dN170B+FEtiKXErcXrtFyAWQHwVcggFXFawkKfOfYTB6tSfG8qAlwnkoym
+ HUubN+FSyi/BxKX5GJvbmgYBujUyPy8vu9VRJn+5YwCva8xqBrAf9tIA3FSLy6fmXV3A
+ kDFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700680080; x=1701284880;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ERkw8rzZcH5VQ4+E8lzR+R0WUOy2UMqbI/rVKSdow1Q=;
+ b=DWykyPNs2dWI9VhIQTxAs9kUFm9cn6/qbKiJijAburWbdQ4cxvdejz3tr/c3Sunufq
+ PNgQDgx+idRMqSyelaZDVkjOqHTkvtzng4kZ3i/IjRjIJQF0Av4Tdql8vcg9odHUJJhb
+ +ICz4XIP480tyh/fmPE/zBipqXmgRSQl9tb5kaoLX5iVtQFokvLPv5zLWQ8zpAzx4/lw
+ pJ+O/TUjQXxLErjwHCY5JsAaw8x39h+PBzvgJj5BXn4ClaltqB3YCGPwcPriN8cO93bL
+ mi5GCI2FMaJaq2RX9sYNUG8lsFpAcaPderryNS29jfV3XW+NK4NcXI+GkSyRUWiqnqNq
+ qaLA==
+X-Gm-Message-State: AOJu0Yw0vroKx6UAk3GuQXxZKyk3qUYdHF3kYvnRl/F7KJRvfW+IYf+6
+ xa53X8c0slyUSN4EujGrPweHng==
+X-Google-Smtp-Source: AGHT+IEYlaAUBJTYI4hE847qYf7C5VGEpYaECsCw4fzirfKY27NLvf7xnvij66qHu9oiuERgWUnGlg==
+X-Received: by 2002:a05:600c:511a:b0:40b:2b86:c88a with SMTP id
+ o26-20020a05600c511a00b0040b2b86c88amr1065729wms.2.1700680079847; 
+ Wed, 22 Nov 2023 11:07:59 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.100])
+ by smtp.gmail.com with ESMTPSA id
+ hg15-20020a05600c538f00b0040849ce7116sm320957wmb.43.2023.11.22.11.07.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Nov 2023 11:07:59 -0800 (PST)
+Message-ID: <e7693e9d-a46a-4dc2-9aee-36a2bbf74ade@linaro.org>
+Date: Wed, 22 Nov 2023 20:07:56 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SN7PR12MB7955:EE_
-X-MS-Office365-Filtering-Correlation-Id: a901da26-9356-4525-8f9f-08dbeb8cf5a6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FumYCVb9oDKeqwSysGFDRIk9NdaErTRHq+37S3Q5Xs4D5Uc3ZE414SDwCoOOeCzmt7cUEAxEsPYlbatZV1l9jzC9dr+heCcVYRD0UmIPnICYWNhmgXmN03zeDE8EyOPqwV63/mQaucHLyT9Cs5vybwuGuuJzqWFEVlaR6USYiILouGimPv0WjmYnKOX/V0WXx6y0f7wzWrYkE/PwEYxtoB8Rpw5jP1zH1V2UeJbbI763yXn21HBP9stMDm03DyMHyJuaxiW+hWm/c0hNgBTViBocT7quqjLZE5RlC9MSdJfjjUdPFfC4DrS8OAX1BJfnHn0dzEg3JZxI8BG/zBePOfGZpoKeLTFFqeEkDcLtLePX0tr2TBrU+asKpOelXqmejDGWVxuSZZlq10EjKEtMQwUqeNxROHnX+QYwL0+E0+C4IhdZZ20W+WgU7dg7mRq3ibG1G0xc4HAL5RkQ9Ex3ujt7Sz/xaQ5m5iAiIFdocuoWHWsw1aT26JEMRB6ny7R9Z54vRnXpwTYQTwu+BWuVsALM5qBJzTzrDXiEeY5s2JDM3olIbTuNJ1ajzQ4/MIeMhNd6b3hC4qHV5mJSL2wyDG9RLr+mEZoTaBnjkP70OYnsdLXzgsIrVAvrJIWiU+/Y5wDc3ffRQO1IpXjwU/y5nA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(346002)(136003)(396003)(39860400002)(376002)(366004)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(66574015)(2906002)(6506007)(26005)(5660300002)(41300700001)(6512007)(83380400001)(2616005)(38100700002)(8676002)(8936002)(478600001)(6486002)(36756003)(66476007)(66556008)(66946007)(316002)(6666004)(31696002)(86362001)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RXppNUhLY29wNVRqVEtHVjJhVy9OVitLdjgxWGxiM2t5Q2RwWEVCRDZSeVVN?=
- =?utf-8?B?NW9USGhyRjV1UWVoYXNiT1ZzdkpRSmUwYUVSNmxHVEN6d1NFb3IxaUtIeUxx?=
- =?utf-8?B?aVVLZWtPTWI2YXh1aUg4RGZpN2MrakpyMGhweUtKWE5lTjJaK0xodXNTZXNK?=
- =?utf-8?B?aVllL1NaUFZtZHNkWTRHVEZlTGI4eUtrc3A4cEREaHlKRTF1dS9qckptL2hO?=
- =?utf-8?B?THhxRmJwQ2MxZ3FSa3FBaXBQK1Vmbjk3ZlBMQk1XbkYyRWNya0tDcWZzSU1C?=
- =?utf-8?B?OEJGenp3aTE0dzZBS05sV1YyRWdWN1hRbFl1aHB3SFdFZXdjUGgybUFIekJZ?=
- =?utf-8?B?VGxUdmhQSzliUk45TkFNeEhnWjN3dXJncGxKZitETDZJRzlwTlZSeHR5akRv?=
- =?utf-8?B?VTBkVFRxMkRTMEkxMGY1cytHY0xwOUtLZG1EeWlrcmNnSm9ydSt2WmkwUFNL?=
- =?utf-8?B?bVJCMmNseGJyb1ZkU0ovZCtFVWRNakhrQUpGV1dsMitNMTY4bDFCbDlXeTVU?=
- =?utf-8?B?YnhXbCtQM3UyWmRHWGRZQzUyK05nbjI4dGJEaWFYeGtDNjVmYnVZc1A3NDh5?=
- =?utf-8?B?ei8zbUEzdTNmTC9ZQlFacm8wMVJmbkRTMnZLcGJoZk9GbEVIdy9zaVRNcjR0?=
- =?utf-8?B?ZlJOdjJMSXVQTnMwcCsvK25ZOXh4M1d4SHlVblJ2aG9iUXE0b2t4SWFtZ1pm?=
- =?utf-8?B?VGo4TkJkTFAzWmttRWlSK0tkSDBzeExYRUszNzZPZGdJNis0RDNmbmJBRHY0?=
- =?utf-8?B?ZkNiaHo4MkNVV2ZRK1dxc0xyT3Vqb1FCSDQ5ZjczMmFaWlF3eEFEUVliT1lU?=
- =?utf-8?B?WGJsWUJSdEJZVlVpWDM4alNSVmlFZnBDRzlldi9uR2Z6elYvY0xJY0Zpb2w0?=
- =?utf-8?B?YnVFRDB1NjVGNGEvU21MMm91SWU0Z2UvdjB6NVN4QlExR0J4MSs0bWphQVNa?=
- =?utf-8?B?dkNzRnA1QTFjSEliMWlwckhFOG9HMENkb0hTdG5pRXNUVlY0ZXhpSWsvbngy?=
- =?utf-8?B?T1dYMUs2dXE3bW1uZ3lZVmZCMWU5a2k5Q05wN2YyOUtVbjNCS0V0TWh0cGda?=
- =?utf-8?B?b2MwVGZlaVorNnZCTzlER0R6bEU0NDljeGtTVkM1VDB6b1VNR3JuMnNJeTds?=
- =?utf-8?B?blQ3MG10RVZzaTBrekJwcEpRMTJSZFBDQjZzZWV6bFQ4c2lqbFh6R2thYnNm?=
- =?utf-8?B?T21SNWdvZER3WGt3azExa0xmWDRXVlgrYjJYRCtvU054YkJtZk1qREJmdVZY?=
- =?utf-8?B?QnhMVGhwYTZ4bGdtaWFnWGNCVW5sUmRpSTlGelliQitraVdhdWFKQU1HaVl4?=
- =?utf-8?B?azFNMFdmckcvemlZRXpud2h1MldPWjJndnhHT3FuTTNLRWNxalRDZ3ZaSmxH?=
- =?utf-8?B?Z3RDN0VDcHFEbmJzT3dXbGU4T1AyZjhSMHB6Ly9rUldOd1UvbEhybWRGeDlU?=
- =?utf-8?B?SWlvb1FYVzcvTm9MajB6TGdDK2dGWGVPdUwzREQyVVY2T1RxbjREd1orb09l?=
- =?utf-8?B?QUxrTjY4U2VpUzFoZTBGbEkvZk44MzNiU3dERW4waG9VUnpydElHOEZpQUt3?=
- =?utf-8?B?QlpOOEpBUDNsMlZVS3RPU3NLMWx5a3JKZENwRGkvODdmSVRpTzE4WGNGWjdD?=
- =?utf-8?B?QW5MK2M3VGtEa2JLNmQvRTlPa0JNdUFTK09Sc1dQQUFyd3pZa1JPL0s4WnNk?=
- =?utf-8?B?SnJtWmNwUmRmY1BET2VrY1BiZkMxYTlHWWEwTkF4MWJXUkplUkczY2dEMHY5?=
- =?utf-8?B?QlRDTGtCeURtM0hnN2x0dlRLUXVlMW41VHZRdE1XYUxUZytnZWZiaW4wVnZT?=
- =?utf-8?B?QXZSY0xURWpmQWxkY0kyQm44VlNYcGd2RVVMMVpaNGwzV0RLdkRKREN1TG82?=
- =?utf-8?B?dVd0c0RUWUM4RzNtbFluNGpYYXlIMllkbFd0T3hzQVlrQTYrdGx6blJ1bTM4?=
- =?utf-8?B?a3ZQY1dpTVg4QWM5WDlOOFdPZHlLNEhYbm9xaFhQRG1lUFNJMGRlU1BJRWwy?=
- =?utf-8?B?K0w3WnY2azNSSGllRUV2c2dRTDFhRHZjb3ZnWWxnQ2lqMDhxVk0xWmRqeklL?=
- =?utf-8?B?M3RPemd2eEVWbnhVK3AvWVQrNkVqTzcvT3BPemlWZnNPU1Y3RHNXNDBRYm1C?=
- =?utf-8?Q?YbzhoflzHUJjkoysGYd6g0+md?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a901da26-9356-4525-8f9f-08dbeb8cf5a6
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 18:58:05.4384 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aKK1XNzlh9WuZiAvNf2luWdmMv6j+jc3urnvhCRG7Szt3hszuEZ4DzCRt7bLpMrc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7955
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 08/12] dt-bindings: display: vop2: Add rk3588 support
+Content-Language: en-US
+To: Andy Yan <andyshrk@163.com>, heiko@sntech.de
+References: <20231122125316.3454268-1-andyshrk@163.com>
+ <20231122125518.3454796-1-andyshrk@163.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231122125518.3454796-1-andyshrk@163.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,47 +120,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, s.hauer@pengutronix.de,
+ chris.obbard@collabora.com, hjc@rock-chips.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kever.yang@rock-chips.com, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ Andy Yan <andy.yan@rock-chips.com>, sebastian.reichel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 22.11.23 um 17:05 schrieb Ramesh Errabolu:
-> Fix the documentation of struct dma_buf members name and exp_name
-> as to how these members are to be used and accessed.
->
-> Signed-off-by: Ramesh Errabolu <Ramesh.Errabolu@amd.com>
-
-Reviewed-by: Christian König <christian.koenig@amd.com>
-
+On 22/11/2023 13:55, Andy Yan wrote:
+> From: Andy Yan <andy.yan@rock-chips.com>
+> 
+> The vop2 on rk3588 is similar to which on rk356x
+> but with 4 video ports and need to reference
+> more grf modules.
+> 
+> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> 
 > ---
->   include/linux/dma-buf.h | 11 +++++++----
->   1 file changed, 7 insertions(+), 4 deletions(-)
->
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index 3f31baa3293f..8ff4add71f88 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -343,16 +343,19 @@ struct dma_buf {
->   	/**
->   	 * @exp_name:
->   	 *
-> -	 * Name of the exporter; useful for debugging. See the
-> -	 * DMA_BUF_SET_NAME IOCTL.
-> +	 * Name of the exporter; useful for debugging. Must not be NULL
->   	 */
->   	const char *exp_name;
->   
->   	/**
->   	 * @name:
->   	 *
-> -	 * Userspace-provided name; useful for accounting and debugging,
-> -	 * protected by dma_resv_lock() on @resv and @name_lock for read access.
-> +	 * Userspace-provided name. Default value is NULL. If not NULL,
-> +	 * length cannot be longer than DMA_BUF_NAME_LEN, including NIL
-> +	 * char. Useful for accounting and debugging. Read/Write accesses
-> +	 * are protected by @name_lock
-> +	 *
-> +	 * See the IOCTLs DMA_BUF_SET_NAME or DMA_BUF_SET_NAME_A/B
->   	 */
->   	const char *name;
->   
+> 
+> Changes in v2:
+> - fix errors when running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> 
+>  .../display/rockchip/rockchip-vop2.yaml       | 27 +++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+> index b60b90472d42..24148d9b3b14 100644
+> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+> @@ -20,6 +20,7 @@ properties:
+>      enum:
+>        - rockchip,rk3566-vop
+>        - rockchip,rk3568-vop
+> +      - rockchip,rk3588-vop
+>  
+>    reg:
+>      items:
+> @@ -42,26 +43,47 @@ properties:
+>        frame start (VSYNC), line flag and other status interrupts.
+>  
+>    clocks:
+> +    minItems: 3
+>      items:
+>        - description: Clock for ddr buffer transfer.
+>        - description: Clock for the ahb bus to R/W the phy regs.
+>        - description: Pixel clock for video port 0.
+>        - description: Pixel clock for video port 1.
+>        - description: Pixel clock for video port 2.
+> +      - description: Pixel clock for video port 4.
+> +      - description: Peripheral clock for vop on rk3588.
+>  
+>    clock-names:
+> +    minItems: 3
+
+You relax requirements for all existing variants here which is not
+explained in commit msg. I assume this was not intentional, so you need
+to re-constrain them in allOf:if:then.
+
+See for example:
+https://elixir.bootlin.com/linux/v5.19-rc6/source/Documentation/devicetree/bindings/clock/samsung,exynos7-clock.yaml#L57
+for some ideas.
+
+>      items:
+>        - const: aclk
+>        - const: hclk
+>        - const: dclk_vp0
+>        - const: dclk_vp1
+>        - const: dclk_vp2
+> +      - const: dclk_vp3
+> +      - const: pclk_vop
+>  
+>    rockchip,grf:
+>      $ref: /schemas/types.yaml#/definitions/phandle
+>      description:
+>        Phandle to GRF regs used for misc control
+>  
+> +  rockchip,vo-grf:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      Phandle to VO GRF regs used for misc control, required for rk3588
+
+Drop last sentence, instead add it to required in allOf:if:then.
+
+Is this valid for other variants? If not, should be disallowed in
+allOf:if:then: for them.
+
+> +
+> +  rockchip,vop-grf:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      Phandle to VOP GRF regs used for misc control, required for rk3588
+> +
+> +  rockchip,pmu:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      Phandle to PMU regs used for misc control, required for rk3588
+
+For all these three: what is "misc control"? Way too vague. Everything
+is a misc and everything can be control. You must be here specific and
+much more descriptive.
+
+> +
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
+>  
+> @@ -81,6 +103,11 @@ properties:
+>          description:
+>            Output endpoint of VP2
+>  
+> +      port@3:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output endpoint of VP3
+
+Valid for other variants?
+
+Best regards,
+Krzysztof
 
