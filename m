@@ -1,79 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432F77F5415
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 00:02:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95A587F555D
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 01:34:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 337968918D;
-	Wed, 22 Nov 2023 23:02:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E70E10E004;
+	Thu, 23 Nov 2023 00:34:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
- [IPv6:2607:f8b0:4864:20::72e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 697CA10E031
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 23:02:34 +0000 (UTC)
-Received: by mail-qk1-x72e.google.com with SMTP id
- af79cd13be357-77bb668d941so13284885a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 15:02:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700694153; x=1701298953; darn=lists.freedesktop.org;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=713D/mr8FnZsqfiS5P5yxuAHBkWuO1zSh/aXnMAXq+c=;
- b=ZNod370MlYZWr8DvaZCesJ4nWp9++pLqvHDgYTv7C5kN89jo/aR9k2z5jL3LIFbdNd
- E/sSOGdNaotDFO0zspnIWTPgjuQn5umCwu59xpvQJL1P99GQijEBNmwl8AzUYmxpEIBY
- TfS64OD1y3ffmtvLF7mQUtQVCg9H+7cbOPCEYVd/qlEl3mjmIrw9BYuF8wJfZfr54QEi
- id3SEh921xIXesVqm/9Uyf/9ePV8dOCeY5lVJ0wPgdhyo60PGEuu5qvL32b2DbyOo2b0
- BEqpgwjpZnE+Kq3cwPSqFabeMzdSesDz1k2xLJrGk7JEPGbC1lz3vCByij8ZCEnXM1wA
- UpBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700694153; x=1701298953;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=713D/mr8FnZsqfiS5P5yxuAHBkWuO1zSh/aXnMAXq+c=;
- b=pl97sZk4vDbVDbfrcm2RXbiav6dhrTk+avTYpF67RBTSR+ym0KLp6iSTismvtXsFmp
- VrxQ7RmRIoZBXXoVA8dWviM9g3KUnS+JC1cMIhJ5tgB0Gb2/e0XKbaCEz4JxMHw7xo/r
- PNngf4IbZiJ9HezxdCA7b+g978CttpLKo8l5o6ZzOv1NbTxr53zEKIhiN2v8h75s8/je
- WrkEp240NL1kWAOZiCtfPmWlDVZVFFEpAt5/jKwQVObZh5JriLbYe6KncVJ5sDr+2OK+
- HrHysiaeHw93SifGN+jflcL6mU+G04EJVbJsf3UHk9Q3i/nSp/7nMBpWq4WtTZRU+ylh
- jBtA==
-X-Gm-Message-State: AOJu0Yy7UP3rPn0PqamFJMyNa3PpO6S2rPWK46XzKSZ6QABFxqlu/iGI
- G7Be72LhD8RrxCynkz34dDU=
-X-Google-Smtp-Source: AGHT+IEUDWvGnYTYcUAnaLKFreL8IRmmlG7fUaKzJixpcfuHUYa0eUH0HHPIqEM/b6eqfYMwZPjBqw==
-X-Received: by 2002:a05:6214:e8f:b0:679:e195:b071 with SMTP id
- hf15-20020a0562140e8f00b00679e195b071mr5129439qvb.9.1700694153301; 
- Wed, 22 Nov 2023 15:02:33 -0800 (PST)
-Received: from [192.168.2.14] ([76.65.20.140])
- by smtp.gmail.com with ESMTPSA id
- d15-20020a0cb2cf000000b0065af71585b5sm171391qvf.58.2023.11.22.15.02.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Nov 2023 15:02:32 -0800 (PST)
-Message-ID: <b2185acd-b5fb-4f60-b5f3-631d27c0396a@gmail.com>
-Date: Wed, 22 Nov 2023 18:02:23 -0500
+X-Greylist: delayed 1580 seconds by postgrey-1.36 at gabe;
+ Wed, 22 Nov 2023 21:31:16 UTC
+Received: from fallback21.i.mail.ru (fallback21.i.mail.ru [79.137.243.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0461810E0E3;
+ Wed, 22 Nov 2023 21:31:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com;
+ s=mailru; 
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
+ bh=jblfQLaXgN57NJdQHsW9Nwoj6gP8mAKnFa+pJM3/qeE=; 
+ t=1700688676;x=1700778676; 
+ b=I4ymifgTdKoyey6N62bi8ryMAuqmVaTzTSm/CT0aXVtNg2kl0vGN77/whsC/LkaAjtDgTqkHrkf/xgXaoNPSuhT3sDvCP3ej4x8zoWOxZNnzZOSA7xLnuIQZgKfaCPPH9RTZuHkGwwC6Fai7QAaoE0O+qclC0K0HgN8jtJ/bkt4=;
+Received: from [10.12.4.19] (port=52030 helo=smtp43.i.mail.ru)
+ by fallback21.i.mail.ru with esmtp (envelope-from <danila@jiaxyga.com>)
+ id 1r5uP0-000OZY-L6; Thu, 23 Nov 2023 00:04:54 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com
+ ; s=mailru;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Sender:Reply-To:To
+ :Cc:Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
+ List-Archive:X-Cloud-Ids:Disposition-Notification-To;
+ bh=jblfQLaXgN57NJdQHsW9Nwoj6gP8mAKnFa+pJM3/qeE=; t=1700687094; x=1700777094; 
+ b=hqrEwHolpOoPo/dkW79x+56p4PBtQVazew1OUW6OIPVAUslPCcLfnRyQNaUby3XuN/6iSF31KjW
+ WptItnjSM8BP28fjKf8KhWH8htAB/PJ3fcEJGHbgNj53UYhYfp/jdPasKsLtiqlFPuVoRaMQHDSiv
+ PEyUiyiUWi7zfO3MY2U=;
+Received: by smtp43.i.mail.ru with esmtpa (envelope-from <danila@jiaxyga.com>)
+ id 1r5uOc-008zQK-2j; Thu, 23 Nov 2023 00:04:31 +0300
+Message-ID: <99ffd03f-b888-4222-939b-603c10f2307b@jiaxyga.com>
+Date: Thu, 23 Nov 2023 00:03:56 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
- Thunderbird/115.5.0
-Subject: Re: drm scheduler redesign causes deadlocks [extended repost]
-Content-Language: en-CA, en-US
-To: Bert Karwatzki <spasswolf@web.de>, dri-devel@lists.freedesktop.org
-References: <36bece178ff5dc705065e53d1e5e41f6db6d87e4.camel@web.de>
-From: Luben Tuikov <ltuikov89@gmail.com>
-Autocrypt: addr=ltuikov89@gmail.com; keydata=
- xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
- Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
- eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
- AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
- JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
- cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
- 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
- aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
-In-Reply-To: <36bece178ff5dc705065e53d1e5e41f6db6d87e4.camel@web.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------ylOAiq8atcoddDDTzSS12wZw"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/1] drm/msm/adreno: Add support for SM7150 SoC machine
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, sean@poorly.run, marijn.suijten@somainline.org,
+ airlied@gmail.com, daniel@ffwll.ch, johan+linaro@kernel.org,
+ andersson@kernel.org, Akhil P Oommen <quic_akhilpo@quicinc.com>
+References: <20230926174243.161422-1-danila@jiaxyga.com>
+ <20230926174243.161422-2-danila@jiaxyga.com>
+ <42a1d0ab-4e8d-461d-bb2c-977a793e52b2@linaro.org>
+ <1695755445.902336096@f165.i.mail.ru>
+ <84e63b82-4fef-416b-8dbe-3838ad788824@linaro.org>
+ <c684d0a7-3336-48e3-9d2b-5c92f9132550@linaro.org>
+ <f76637f9-8242-4258-932e-b879145a5cfd@linaro.org>
+From: Danila Tikhonov <danila@jiaxyga.com>
+In-Reply-To: <f76637f9-8242-4258-932e-b879145a5cfd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Mailru-Src: smtp
+X-7564579A: EEAE043A70213CC8
+X-77F55803: 4F1203BC0FB41BD9FEA8E122FE2215F5F9A7F26A9461D4801668790ACF3513421867C24CE74E72BB5FE18E9CBFBE7C07241E1071E2B2D02006023B87ED3BEECD951DA7CF553926D1ACCB5262BB601CA2
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE701173C01F417A2A6EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637204D59D994DFFAD78638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8A85988B41A48817BB4090DA2F2DB256A117882F4460429724CE54428C33FAD305F5C1EE8F4F765FC8C7ADC89C2F0B2A5A471835C12D1D9774AD6D5ED66289B52BA9C0B312567BB23117882F446042972877693876707352033AC447995A7AD18E5D25F19253116ADD2E47CDBA5A96583BA9C0B312567BB2376E601842F6C81A19E625A9149C048EE140C956E756FBB7ABDB03A3F2A65D472D8FC6C240DEA76429C9F4D5AE37F343AA9539A8B242431040A6AB1C7CE11FEE3E753FA5741D1AD0203F1AB874ED89028C4224003CC836476E2F48590F00D11D6E2021AF6380DFAD1A18204E546F3947C1D471462564A2E192E808ACE2090B5E1725E5C173C3A84C3C5EA940A35A165FF2DBA43225CD8A89FD2A95C73FD1EFF45156CCFE7AF13BCA4B5C8C57E37DE458BEDA766A37F9254B7
+X-C1DE0DAB: 0D63561A33F958A558E0945AD6A1CE49C7D1B61F0E22AB3EDCD281A92BBA7DA0F87CCE6106E1FC07E67D4AC08A07B9B04E7D9683544204AFCB5012B2E24CD356
+X-C8649E89: 1C3962B70DF3F0ADE00A9FD3E00BEEDF77DD89D51EBB7742D3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CFD3107C73A4316D00DE5271C7D9B56E81DE88995E47143240567AF9FE9C99B2B0963129249CAA680A88AD3775A6B0C83443447918D0247561A0A6CFF861C8033909F6894F2AE002664C41F94D744909CE4BCAC77546666B612CC0CD5AA9A1B9887EE09F5AAA95A50543082AE146A756F3
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojGZhPsaRkbbk3fOmNk7fScw==
+X-Mailru-Sender: 9EB879F2C80682A09F26F806C73949813146EB258E4CBD74EB5277BAE3EB1823E9438CDA4132709F643683D8C0F3ED1CA3C71A376745D86BBE86167304C7680C3980CE5AAA35C7CD60F22E8815EDE5EAEAB4BC95F72C04283CDA0F3B3F5B9367
+X-Mras: Ok
+X-7564579A: 646B95376F6C166E
+X-77F55803: 6242723A09DB00B4C412E14AEF4742E1D915F33BAFA678CCA9926E5A99BFA133049FFFDB7839CE9E432D8BDF4FB0405F661F4097165CE4A672D8DF364A9363439C866DA6A8CBEA58
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5xhPKz0ZEsZ5k6NOOPWz5QAiZSCXKGQRq3/7KxbCLSB2ESzQkaOXqCBFZPLWFrEGlV1shfWe2EVcxl5toh0c/aCGOghz/frdRhzMe95NxDFdjNtV51DQSTDsvBazPo9aTw==
+X-Mailru-MI: C000000000000800
+X-Mras: Ok
+X-Mailman-Approved-At: Thu, 23 Nov 2023 00:34:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,227 +86,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@redhat.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------ylOAiq8atcoddDDTzSS12wZw
-Content-Type: multipart/mixed; boundary="------------Iet3ZESvxcq00dVfgOLUkS77";
- protected-headers="v1"
-From: Luben Tuikov <ltuikov89@gmail.com>
-To: Bert Karwatzki <spasswolf@web.de>, dri-devel@lists.freedesktop.org
-Cc: Danilo Krummrich <dakr@redhat.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Message-ID: <b2185acd-b5fb-4f60-b5f3-631d27c0396a@gmail.com>
-Subject: Re: drm scheduler redesign causes deadlocks [extended repost]
-References: <36bece178ff5dc705065e53d1e5e41f6db6d87e4.camel@web.de>
-In-Reply-To: <36bece178ff5dc705065e53d1e5e41f6db6d87e4.camel@web.de>
+sc7180/sm7125 (atoll) expects speedbins from atoll.dtsi:
+And has a parameter: /delete-property/ qcom,gpu-speed-bin;
+107 for 504Mhz max freq, pwrlevel 4
+130 for 610Mhz max freq, pwrlevel 3
+159 for 750Mhz max freq, pwrlevel 5
+169 for 800Mhz max freq, pwrlevel 2
+174 for 825Mhz max freq, pwrlevel 1 (Downstream says 172, but thats 
+probably typo)
+For rest of the speed bins, speed-bin value is calulated as
+FMAX/4.8MHz + 2 round up to zero decimal places.
 
---------------Iet3ZESvxcq00dVfgOLUkS77
-Content-Type: multipart/mixed; boundary="------------9hpX6lEjfBUAB3DPXPmFQYyb"
+sm7150 (sdmmagpie) expects speedbins from sdmmagpie-gpu.dtsi:
+128 for 610Mhz max freq, pwrlevel 3
+146 for 700Mhz max freq, pwrlevel 2
+167 for 800Mhz max freq, pwrlevel 4
+172 for 504Mhz max freq, pwrlevel 1
+For rest of the speed bins, speed-bin value is calulated as
+FMAX/4.8 MHz round up to zero decimal places.
 
---------------9hpX6lEjfBUAB3DPXPmFQYyb
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Creating a new entry does not make much sense.
+I can suggest expanding the standard entry:
 
-On 2023-11-21 04:00, Bert Karwatzki wrote:
-> Since linux-next-20231115 my linux system (debian sid on msi alpha 15 l=
-aptop)
-> suffers from random deadlocks which can occur after=C2=A0 30 - 180min o=
-f usage. These
-> deadlocks can be actively provoked by creating high system load (usuall=
-y by
-> compiling a kernel with make -j NRCPUS) and the opening instances of li=
-breoffice
-> --writer until the system GUI locks (the mouse cursor can still be move=
-d but the
-> screen is frozen). In this state ssh'ing into the machine is still poss=
-ible and
-> at least sometimes log messages about hung tasks appear in /var/log/ker=
-n.log.
->=20
-> More info can be found here:
-> https://gitlab.freedesktop.org/drm/amd/-/issues/2994
->=20
-> Using the method described to trigger the bug I bisected the problem in=
- the
-> linux-next and drm-misc trees to give commit f3123c2590005 as the probl=
-em.
-> As this simple patch fixes the problem
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> b/drivers/gpu/drm/scheduler/sched_main.c
-> index 044a8c4875ba..25b97db1b623 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -1029,9 +1029,8 @@ EXPORT_SYMBOL(drm_sched_job_cleanup);
-> =C2=A0void drm_sched_wakeup(struct drm_gpu_scheduler *sched,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_e=
-ntity *entity)
-> =C2=A0{
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (drm_sched_entity_is_ready(ent=
-ity))
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 if (drm_sched_can_queue(sched, entity))
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_ru=
-n_job_queue(sched);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (drm_sched_can_queue(sched, en=
-tity))
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 drm_sched_run_job_queue(sched);
-> =C2=A0}
-> =C2=A0
-> =C2=A0/**
->=20
-> there might be in the entity->dependency branch of drm_sched_entity_is_=
-ready
-> (some kind of circular dependencies ...).
->=20
-> To see if the change to drm_sched_wakeup is the actual cause of the pro=
-blem or
-> if this problem has been cause by the redesign of the drm scheduler in =
-linux
-> next-20231115+, I created the following patch for linux-6.6.0:
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
-> b/drivers/gpu/drm/scheduler/sched_entity.c
-> index a42763e1429d..dc2abd299aeb 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -358,7 +358,7 @@ static void drm_sched_entity_wakeup(struct dma_fenc=
-e *f,
->  container_of(cb, struct drm_sched_entity, cb);
->=20
->  drm_sched_entity_clear_dep(f, cb);
-> - drm_sched_wakeup_if_can_queue(entity->rq->sched);
-> + drm_sched_wakeup_if_can_queue(entity->rq->sched, entity);
->  }
->=20
->  /**
-> @@ -590,7 +590,7 @@ void drm_sched_entity_push_job(struct drm_sched_job=
+.speedbins = ADRENO_SPEEDBINS(
+     { 0, 0 },
+     /* sc7180/sm7125 */
+     { 107, 3 },
+     { 130, 4 },
+     { 159, 5 },
+     { 168, 1 }, has already
+     { 174, 2 }, has already
+     /* sm7150 */
+     { 128, 1 },
+     { 146, 2 },
+     { 167, 3 },
+     { 172, 4 }, ),
 
-> *sched_job)
->  if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
->  drm_sched_rq_update_fifo(entity, submit_ts);
->=20
-> - drm_sched_wakeup_if_can_queue(entity->rq->sched);
-> + drm_sched_wakeup_if_can_queue(entity->rq->sched, entity);
->  }
->  }
->  EXPORT_SYMBOL(drm_sched_entity_push_job);
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> b/drivers/gpu/drm/scheduler/sched_main.c
-> index 5a3a622fc672..bbe06403b33d 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -865,10 +865,11 @@ static bool drm_sched_can_queue(struct drm_gpu_sc=
-heduler
-> *sched)
->   *
->   * Wake up the scheduler if we can queue jobs.
->   */
-> -void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched)
-> +void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched, st=
-ruct
-> drm_sched_entity *entity)
->  {
-> - if (drm_sched_can_queue(sched))
-> - wake_up_interruptible(&sched->wake_up_worker);
-> + if(drm_sched_entity_is_ready(entity))
-> + if (drm_sched_can_queue(sched))
-> + wake_up_interruptible(&sched->wake_up_worker);
->  }
->=20
->  /**
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index ac65f0626cfc..6cfe3d193e69 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -548,7 +548,7 @@ void drm_sched_entity_modify_sched(struct drm_sched=
-_entity
-> *entity,
->                                     unsigned int num_sched_list);
->=20
->  void drm_sched_job_cleanup(struct drm_sched_job *job);
-> -void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched);
-> +void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched, st=
-ruct
-> drm_sched_entity *entity);
->  void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_=
-job
-> *bad);
->  void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recove=
-ry);
->  void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched);
->=20
-> This brings the extra check to the old scheduler and has so far not cau=
-sed any
-> trouble (using the same stress test described above), so chances are th=
-at the
-> error is somewhere else in redesigned scheduler.
->=20
->=20
-> Bert Karwatzki
+All the best,
+Danila
 
-Hi Bert,
+On 11/22/23 23:28, Konrad Dybcio wrote:
+>
+>
+> On 10/16/23 16:32, Dmitry Baryshkov wrote:
+>> On 26/09/2023 23:03, Konrad Dybcio wrote:
+>>> On 26.09.2023 21:10, Danila Tikhonov wrote:
+>>>>
+>>>> I think you mean by name downstream dt - sdmmagpie-gpu.dtsi
+>>>>
+>>>> You can see the forked version of the mainline here:
+>>>> https://github.com/sm7150-mainline/linux/blob/next/arch/arm64/boot/dts/qcom/sm7150.dtsi 
+>>>>
+>>>>
+>>>> All fdt that we got here, if it is useful for you:
+>>>> https://github.com/sm7150-mainline/downstream-fdt
+>>>>
+>>>> Best wishes, Danila
+>>> Taking a look at downstream, atoll.dtsi (SC7180) includes
+>>> sdmmagpie-gpu.dtsi.
+>>>
+>>> Bottom line is, they share the speed bins, so it should be
+>>> fine to just extend the existing entry.
+>>
+>> But then atoll.dtsi rewrites speed bins and pwrlevel bins. So they 
+>> are not shared.
+> +Akhil
+>
+> could you please check internally?
+>
+> Konrad
 
-Thanks for looking into this.
-
-As an afterthought, removing the "entity_is_ready()" qualifier in wake-up=
-, makes
-the scheduling more opportunistic, and I agree that that is the more corr=
-ect approach.
-Commit f3123c2590005, basically made the code as close to the way it func=
-tioned before
-the move to run-queues.
-
-Would you like to create a patch for this?
---=20
-Regards,
-Luben
-
---------------9hpX6lEjfBUAB3DPXPmFQYyb
-Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
-PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
-QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
-BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
-MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
-bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
-9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
-OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
-z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
-=3DqCaZ
------END PGP PUBLIC KEY BLOCK-----
-
---------------9hpX6lEjfBUAB3DPXPmFQYyb--
-
---------------Iet3ZESvxcq00dVfgOLUkS77--
-
---------------ylOAiq8atcoddDDTzSS12wZw
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZV6IfwUDAAAAAAAKCRBMFUeUMaM0r/i0
-AQCmlACn+7p6AJGvJ+9OwZ2rHCDmGdLEVxhNbxh62RhWmwEAhT/JGnccY3sfq4nMjsZREVhQeIwn
-XvfPwe4DMEUjBQ0=
-=QXdk
------END PGP SIGNATURE-----
-
---------------ylOAiq8atcoddDDTzSS12wZw--
