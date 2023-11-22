@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC5B47F49B6
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 16:05:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC4957F49CF
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 16:06:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAD7410E660;
-	Wed, 22 Nov 2023 15:05:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0A6010E65D;
+	Wed, 22 Nov 2023 15:06:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D759E10E65D
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 15:05:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D33110E65D
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 15:06:45 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8A0A721980;
- Wed, 22 Nov 2023 15:05:39 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E0A3621963;
+ Wed, 22 Nov 2023 15:06:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1700665539; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1700665603; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=mhP7e+31Z9+nB58srBCpzmS+Md5+Kp/dzX7wM4wK75A=;
- b=ZcrRoEFwpxJc4wiCEvI5Z6vwSDJRa19aPELohVHLwMcw/gKwapwnuXIaHRJa9vJ+tGL1AJ
- Ls/CVRotqPlYPG1beOQ8VFeXwe0gt0ftJwH4JcQAtaS9xH9WKxGamyRLuJd3y322CCYv9r
- qS0Bj5Pp3oItCpC7oV5QKyBTiYqDYO0=
+ bh=OrnR+VJ3e8KBiB9GJuzndO2GMUtaDExl7p2e9XDoJNY=;
+ b=I3VUEh0nmQg+RePNSu00a2BA3dlsre6v2YtGb07RjTtCKrjUi1ICIvIdzbKon9Yt4/fQBk
+ VJ9Wpf2K7cyzFS9zBCBUo6IIvILDDyL1bskUFqE+WQg5nj7WUeYGI/EZaADq7d9raLMLVq
+ j2J5KyiS0r9zuduA6j3dmaOBYhZXsr0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1700665539;
+ s=susede2_ed25519; t=1700665603;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=mhP7e+31Z9+nB58srBCpzmS+Md5+Kp/dzX7wM4wK75A=;
- b=LyVeT+mOky5Yb8PakQHBxFNY5YlaGwagm+iIpbHOizt4yAof2fpPH820159ugYTF4DZisp
- oyqigpl/uBuPcDAQ==
+ bh=OrnR+VJ3e8KBiB9GJuzndO2GMUtaDExl7p2e9XDoJNY=;
+ b=HaijsBJyT5xIphmfAgcIDItAfIvsHToSSGgn6ij0vk97n2OBQT7+g9z+2+NA7fWsCj8Wob
+ +nqu+eTHutvkdWDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5FF60139FD;
- Wed, 22 Nov 2023 15:05:39 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BEB1D139FD;
+ Wed, 22 Nov 2023 15:06:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id e0laF8MYXmVpGgAAMHmgww
- (envelope-from <jack@suse.cz>); Wed, 22 Nov 2023 15:05:39 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id ZtuBLgMZXmXgGgAAMHmgww
+ (envelope-from <jack@suse.cz>); Wed, 22 Nov 2023 15:06:43 +0000
 Received: by quack3.suse.cz (Postfix, from userid 1000)
- id F216FA07DC; Wed, 22 Nov 2023 16:05:38 +0100 (CET)
-Date: Wed, 22 Nov 2023 16:05:38 +0100
+ id 4E863A07DC; Wed, 22 Nov 2023 16:06:43 +0100 (CET)
+Date: Wed, 22 Nov 2023 16:06:43 +0100
 From: Jan Kara <jack@suse.cz>
 To: Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v2 3/4] eventfd: simplify eventfd_signal_mask()
-Message-ID: <20231122150538.6zwikm3tymnkcdxf@quack3>
+Subject: Re: [PATCH v2 4/4] eventfd: make eventfd_signal{_mask}() void
+Message-ID: <20231122150643.5b57p5yxhfuxa764@quack3>
 References: <20231122-vfs-eventfd-signal-v2-0-bd549b14ce0c@kernel.org>
- <20231122-vfs-eventfd-signal-v2-3-bd549b14ce0c@kernel.org>
+ <20231122-vfs-eventfd-signal-v2-4-bd549b14ce0c@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231122-vfs-eventfd-signal-v2-3-bd549b14ce0c@kernel.org>
+In-Reply-To: <20231122-vfs-eventfd-signal-v2-4-bd549b14ce0c@kernel.org>
 Authentication-Results: smtp-out1.suse.de;
 	none
 X-Spam-Level: 
@@ -129,104 +129,131 @@ Cc: linux-aio@kvack.org, linux-s390@vger.kernel.org, linux-usb@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed 22-11-23 13:48:24, Christian Brauner wrote:
-> The eventfd_signal_mask() helper was introduced for io_uring and similar
-> to eventfd_signal() it always passed 1 for @n. So don't bother with that
-> argument at all.
+On Wed 22-11-23 13:48:25, Christian Brauner wrote:
+> No caller care about the return value.
 > 
 > Signed-off-by: Christian Brauner <brauner@kernel.org>
 
-Nice. Feel free to add:
+Yup. Feel free to add:
 
 Reviewed-by: Jan Kara <jack@suse.cz>
 
 								Honza
 
 > ---
->  fs/eventfd.c            | 7 ++++---
->  include/linux/eventfd.h | 5 ++---
->  io_uring/io_uring.c     | 4 ++--
->  3 files changed, 8 insertions(+), 8 deletions(-)
+>  fs/eventfd.c            | 40 +++++++++++++++-------------------------
+>  include/linux/eventfd.h | 16 +++++++---------
+>  2 files changed, 22 insertions(+), 34 deletions(-)
 > 
 > diff --git a/fs/eventfd.c b/fs/eventfd.c
-> index dc9e01053235..a9a6de920fb4 100644
+> index a9a6de920fb4..13be2fb7fc96 100644
 > --- a/fs/eventfd.c
 > +++ b/fs/eventfd.c
-> @@ -43,9 +43,10 @@ struct eventfd_ctx {
+> @@ -43,10 +43,19 @@ struct eventfd_ctx {
 >  	int id;
 >  };
 >  
-> -__u64 eventfd_signal_mask(struct eventfd_ctx *ctx, __u64 n, __poll_t mask)
-> +__u64 eventfd_signal_mask(struct eventfd_ctx *ctx, __poll_t mask)
+> -__u64 eventfd_signal_mask(struct eventfd_ctx *ctx, __poll_t mask)
+> +/**
+> + * eventfd_signal - Adds @n to the eventfd counter.
+> + * @ctx: [in] Pointer to the eventfd context.
+> + * @mask: [in] poll mask
+> + *
+> + * This function is supposed to be called by the kernel in paths that do not
+> + * allow sleeping. In this function we allow the counter to reach the ULLONG_MAX
+> + * value, and we signal this as overflow condition by returning a EPOLLERR
+> + * to poll(2).
+> + */
+> +void eventfd_signal_mask(struct eventfd_ctx *ctx, __poll_t mask)
 >  {
 >  	unsigned long flags;
-> +	__u64 n = 1;
+> -	__u64 n = 1;
 >  
 >  	/*
 >  	 * Deadlock or stack overflow issues can happen if we recurse here
-> @@ -68,7 +69,7 @@ __u64 eventfd_signal_mask(struct eventfd_ctx *ctx, __u64 n, __poll_t mask)
+> @@ -57,37 +66,18 @@ __u64 eventfd_signal_mask(struct eventfd_ctx *ctx, __poll_t mask)
+>  	 * safe context.
+>  	 */
+>  	if (WARN_ON_ONCE(current->in_eventfd))
+> -		return 0;
+> +		return;
+>  
+>  	spin_lock_irqsave(&ctx->wqh.lock, flags);
+>  	current->in_eventfd = 1;
+> -	if (ULLONG_MAX - ctx->count < n)
+> -		n = ULLONG_MAX - ctx->count;
+> -	ctx->count += n;
+> +	if (ctx->count < ULLONG_MAX)
+> +		ctx->count++;
+>  	if (waitqueue_active(&ctx->wqh))
+>  		wake_up_locked_poll(&ctx->wqh, EPOLLIN | mask);
 >  	current->in_eventfd = 0;
 >  	spin_unlock_irqrestore(&ctx->wqh.lock, flags);
->  
-> -	return n;
-> +	return n == 1;
+> -
+> -	return n == 1;
+> -}
+> -
+> -/**
+> - * eventfd_signal - Adds @n to the eventfd counter.
+> - * @ctx: [in] Pointer to the eventfd context.
+> - *
+> - * This function is supposed to be called by the kernel in paths that do not
+> - * allow sleeping. In this function we allow the counter to reach the ULLONG_MAX
+> - * value, and we signal this as overflow condition by returning a EPOLLERR
+> - * to poll(2).
+> - *
+> - * Returns the amount by which the counter was incremented.
+> - */
+> -__u64 eventfd_signal(struct eventfd_ctx *ctx)
+> -{
+> -	return eventfd_signal_mask(ctx, 0);
 >  }
+> -EXPORT_SYMBOL_GPL(eventfd_signal);
+> +EXPORT_SYMBOL_GPL(eventfd_signal_mask);
 >  
->  /**
-> @@ -84,7 +85,7 @@ __u64 eventfd_signal_mask(struct eventfd_ctx *ctx, __u64 n, __poll_t mask)
->   */
->  __u64 eventfd_signal(struct eventfd_ctx *ctx)
+>  static void eventfd_free_ctx(struct eventfd_ctx *ctx)
 >  {
-> -	return eventfd_signal_mask(ctx, 1, 0);
-> +	return eventfd_signal_mask(ctx, 0);
->  }
->  EXPORT_SYMBOL_GPL(eventfd_signal);
->  
 > diff --git a/include/linux/eventfd.h b/include/linux/eventfd.h
-> index 562089431551..4f8aac7eb62a 100644
+> index 4f8aac7eb62a..fea7c4eb01d6 100644
 > --- a/include/linux/eventfd.h
 > +++ b/include/linux/eventfd.h
-> @@ -36,7 +36,7 @@ struct file *eventfd_fget(int fd);
+> @@ -35,8 +35,7 @@ void eventfd_ctx_put(struct eventfd_ctx *ctx);
+>  struct file *eventfd_fget(int fd);
 >  struct eventfd_ctx *eventfd_ctx_fdget(int fd);
 >  struct eventfd_ctx *eventfd_ctx_fileget(struct file *file);
->  __u64 eventfd_signal(struct eventfd_ctx *ctx);
-> -__u64 eventfd_signal_mask(struct eventfd_ctx *ctx, __u64 n, __poll_t mask);
-> +__u64 eventfd_signal_mask(struct eventfd_ctx *ctx, __poll_t mask);
+> -__u64 eventfd_signal(struct eventfd_ctx *ctx);
+> -__u64 eventfd_signal_mask(struct eventfd_ctx *ctx, __poll_t mask);
+> +void eventfd_signal_mask(struct eventfd_ctx *ctx, __poll_t mask);
 >  int eventfd_ctx_remove_wait_queue(struct eventfd_ctx *ctx, wait_queue_entry_t *wait,
 >  				  __u64 *cnt);
 >  void eventfd_ctx_do_read(struct eventfd_ctx *ctx, __u64 *cnt);
-> @@ -63,8 +63,7 @@ static inline int eventfd_signal(struct eventfd_ctx *ctx)
->  	return -ENOSYS;
+> @@ -58,14 +57,8 @@ static inline struct eventfd_ctx *eventfd_ctx_fdget(int fd)
+>  	return ERR_PTR(-ENOSYS);
 >  }
 >  
-> -static inline int eventfd_signal_mask(struct eventfd_ctx *ctx, __u64 n,
-> -				      unsigned mask)
-> +static inline int eventfd_signal_mask(struct eventfd_ctx *ctx, unsigned mask)
+> -static inline int eventfd_signal(struct eventfd_ctx *ctx)
+> +static inline void eventfd_signal_mask(struct eventfd_ctx *ctx, unsigned mask)
 >  {
->  	return -ENOSYS;
+> -	return -ENOSYS;
+> -}
+> -
+> -static inline int eventfd_signal_mask(struct eventfd_ctx *ctx, unsigned mask)
+> -{
+> -	return -ENOSYS;
 >  }
-> diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
-> index ed254076c723..70170a41eac4 100644
-> --- a/io_uring/io_uring.c
-> +++ b/io_uring/io_uring.c
-> @@ -558,7 +558,7 @@ static void io_eventfd_ops(struct rcu_head *rcu)
->  	int ops = atomic_xchg(&ev_fd->ops, 0);
 >  
->  	if (ops & BIT(IO_EVENTFD_OP_SIGNAL_BIT))
-> -		eventfd_signal_mask(ev_fd->cq_ev_fd, 1, EPOLL_URING_WAKE);
-> +		eventfd_signal_mask(ev_fd->cq_ev_fd, EPOLL_URING_WAKE);
+>  static inline void eventfd_ctx_put(struct eventfd_ctx *ctx)
+> @@ -91,5 +84,10 @@ static inline void eventfd_ctx_do_read(struct eventfd_ctx *ctx, __u64 *cnt)
 >  
->  	/* IO_EVENTFD_OP_FREE_BIT may not be set here depending on callback
->  	 * ordering in a race but if references are 0 we know we have to free
-> @@ -594,7 +594,7 @@ static void io_eventfd_signal(struct io_ring_ctx *ctx)
->  		goto out;
+>  #endif
 >  
->  	if (likely(eventfd_signal_allowed())) {
-> -		eventfd_signal_mask(ev_fd->cq_ev_fd, 1, EPOLL_URING_WAKE);
-> +		eventfd_signal_mask(ev_fd->cq_ev_fd, EPOLL_URING_WAKE);
->  	} else {
->  		atomic_inc(&ev_fd->refs);
->  		if (!atomic_fetch_or(BIT(IO_EVENTFD_OP_SIGNAL_BIT), &ev_fd->ops))
+> +static inline void eventfd_signal(struct eventfd_ctx *ctx)
+> +{
+> +	eventfd_signal_mask(ctx, 0);
+> +}
+> +
+>  #endif /* _LINUX_EVENTFD_H */
+>  
 > 
 > -- 
 > 2.42.0
