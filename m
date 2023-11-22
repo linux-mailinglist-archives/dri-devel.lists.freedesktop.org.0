@@ -1,46 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D1E7F5341
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 23:18:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E737F536A
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 23:30:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0019510E316;
-	Wed, 22 Nov 2023 22:18:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4937610E680;
+	Wed, 22 Nov 2023 22:30:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B52610E316
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 22:18:48 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 87566CE2600;
- Wed, 22 Nov 2023 22:18:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6237DC433B6;
- Wed, 22 Nov 2023 22:18:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700691524;
- bh=LxBGHdJ2v9bdua30Gg+KKEVoYaWNReAP/fHM99MgfLg=;
- h=From:To:Cc:Subject:Date:From;
- b=ZoJh6dBQME/k9NdDqkjJ5mDfVWRFJQhjrrCElROlyU1JHn/mAUQLFKfiCq2kfvfc/
- 9q1MHs7St+bQVxjHJMruozUyeIb7BIN2GtTtLetF6d55QUScqXGo/tXY+/Ob0JsyIi
- 4Q1Vp+3mUeIt2OZdnIOYyiGbH1f+VhHF7LqQxyNhkOlU10X8W3lFK6MoPmkjmvpDWR
- A/qmfrWGLZ4MMbMTZrlJj/Ucx/szFxhKP1YiJPjIHlcPuvQUYHxLTo0y6QeAOo6K8T
- cXcff1M3qSfsQrP9/Tw4785yc2oru+lW1H0Ho9jauIvK/X/IrDL1F++WlwD79Sr9q/
- Ti9tuiIdPxSDg==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Johan Jonker <jbx6244@gmail.com>
-Subject: [PATCH] drm/rockchip: rk3066_hdmi: include drm/drm_atomic.h
-Date: Wed, 22 Nov 2023 23:18:29 +0100
-Message-Id: <20231122221838.3164349-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0964610E680
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 22:30:30 +0000 (UTC)
+Received: from [10.3.2.161] (zone.collabora.co.uk [167.235.23.81])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 09F6666022D8;
+ Wed, 22 Nov 2023 22:30:26 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1700692228;
+ bh=JuqJLDT68MtrvZ6KemLJZfCj6oUfIaSyMp7JzlRd+Kw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=nF8dP092dwUTtl8L+2mnE2eSTtj69O5p4aconvCpeUO/RzH3dK/9/2kY30WVeqRGq
+ 8yhSxitPrC9iL0SOV/G5U6Z7erNubpppaxCT7RhHF4mtgY85VEWFiIHilnzkd2dj/b
+ aIde5qG4o75yWljtuR80MmF3sRAABZrss8YTN6zYFYnlBLpe9rkdQ8ynRiTmVBQ5bj
+ nAyE3IotT/v0q6IVC7IML14d28GQI0PbnRB7x93VJHOeZrZmN1YSZc+FrRp6h4n39z
+ kZrvQEZMJxAGT+hEP4f/foPQQJ6U96wKMaccl/ZxbhEn5kZZVFWySmtrCZdDRnDb4b
+ hn1n+SX3K2BnQ==
+Message-ID: <2faf1111-9646-21e3-feb3-f59c955bc719@collabora.com>
+Date: Thu, 23 Nov 2023 01:30:24 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v18 22/26] drm/shmem-helper: Don't free refcounted GEM
+Content-Language: en-US
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20231029230205.93277-1-dmitry.osipenko@collabora.com>
+ <20231029230205.93277-23-dmitry.osipenko@collabora.com>
+ <20231113105438.60896fdf@collabora.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20231113105438.60896fdf@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,53 +57,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kees Cook <keescook@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
- linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, Azeem Shaikh <azeemshaikh38@gmail.com>,
- linux-rockchip@lists.infradead.org,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
+ virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On 11/13/23 12:54, Boris Brezillon wrote:
+> On Mon, 30 Oct 2023 02:02:01 +0300
+> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+> 
+>> Don't free refcounted shmem object to prevent use-after-free bug that
+>> is worse than a memory leak.
+>>
+>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>> ---
+>>  drivers/gpu/drm/drm_gem_shmem_helper.c | 7 ++++---
+>>  1 file changed, 4 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> index 6dd087f19ea3..4253c367dc07 100644
+>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>> @@ -203,9 +203,10 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>>  	if (obj->import_attach)
+>>  		drm_prime_gem_destroy(obj, shmem->sgt);
+>>  
+>> -	drm_WARN_ON(obj->dev, refcount_read(&shmem->vmap_use_count));
+>> -	drm_WARN_ON(obj->dev, refcount_read(&shmem->pages_use_count));
+>> -	drm_WARN_ON(obj->dev, refcount_read(&shmem->pages_pin_count));
+>> +	if (drm_WARN_ON(obj->dev, refcount_read(&shmem->vmap_use_count)) ||
+>> +	    drm_WARN_ON(obj->dev, refcount_read(&shmem->pages_use_count)) ||
+>> +	    drm_WARN_ON(obj->dev, refcount_read(&shmem->pages_pin_count)))
+>> +		return;
+> 
+> I guess you're worried about ->sgt being referenced by the driver after
+> the GEM is destroyed. If we assume drivers don't cache the sgt and
+> always call get_pages_sgt() when they need it that shouldn't be an
+> issue. What we really don't want to release is the pages themselves,
+> but the GPU MMU might still have active mappings pointing to these
+> pages.
+> 
+> In any case, I'm not against leaking the GEM object when any of these
+> counters are not zero, but can we at least have a comment in the
+> code explaining why we're doing that, so people don't have to go look
+> at the git history to figure it out.
 
-Without this header, the newly added code fails to build:
+This patch is a minor improvement, it doesn't address any specific
+issue. This should be a common pattern in kernel. If you're giving a
+warning and know about the inevitable catastrophe, then avoid it if you can.
 
-drivers/gpu/drm/rockchip/rk3066_hdmi.c: In function 'rk3066_hdmi_encoder_enable':
-drivers/gpu/drm/rockchip/rk3066_hdmi.c:397:22: error: implicit declaration of function 'drm_atomic_get_new_connector_state'; did you mean 'drm_atomic_helper_connector_reset'? [-Werror=implicit-function-declaration]
-  397 |         conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
-      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      |                      drm_atomic_helper_connector_reset
-drivers/gpu/drm/rockchip/rk3066_hdmi.c:397:20: error: assignment to 'struct drm_connector_state *' from 'int' makes pointer from integer without a cast [-Werror=int-conversion]
-  397 |         conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
-      |                    ^
-drivers/gpu/drm/rockchip/rk3066_hdmi.c:401:22: error: implicit declaration of function 'drm_atomic_get_new_crtc_state'; did you mean 'drm_atomic_helper_swap_state'? [-Werror=implicit-function-declaration]
-  401 |         crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      |                      drm_atomic_helper_swap_state
-drivers/gpu/drm/rockchip/rk3066_hdmi.c:401:20: error: assignment to 'struct drm_crtc_state *' from 'int' makes pointer from integer without a cast [-Werror=int-conversion]
-  401 |         crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-      |                    ^
+Actually, there are other similar cases in drm-shmem that can be improved.
 
-Fixes: ae3436a5e7c2 ("drm/rockchip: rk3066_hdmi: Switch encoder hooks to atomic")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/gpu/drm/rockchip/rk3066_hdmi.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.c b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-index 0e7aae341960..7d561c5a650f 100644
---- a/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-+++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-@@ -4,6 +4,7 @@
-  *    Zheng Yang <zhengyang@rock-chips.com>
-  */
- 
-+#include <drm/drm_atomic.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_of.h>
- #include <drm/drm_probe_helper.h>
 -- 
-2.39.2
+Best regards,
+Dmitry
 
