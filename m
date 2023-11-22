@@ -1,152 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ADE67F3AAA
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 01:26:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DDE57F3AAD
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 01:27:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3042410E5B3;
-	Wed, 22 Nov 2023 00:26:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C38F010E5B8;
+	Wed, 22 Nov 2023 00:27:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99A9C10E5B4;
- Wed, 22 Nov 2023 00:26:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700612789; x=1732148789;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=8cHonnQXsxaRTitaO/M1ftdbGM9Evd9X7OQ7ml7HnCM=;
- b=mYmWVI/0ALXCDTldJe+9fgbDFNkxyZv5Yn/kWRyZUFZ2P/2ZDMsphBdX
- 6bfZFU6e7eJZVGT6u68YAMCjvmenrU5AQ+K8cy844sXenOtXHGUuklilN
- vbJuEXAzSUkWIWiBsJkLReCGvd+bQJ0+nICmhQZTDOkWX/Cfc3mZzGJs8
- ksjGzpCiv2xcipNfBAPXe8yJ12E+a9xNSOgJp1VpghDyY1VKxGdc9NV+H
- 9FgfbsXbAXYWndNrbDHElABwTe7viOplpAKkcta2fe1RtP4iAHOXHKL29
- iyj7UyAfI598bz3VgeRutpzWol3q6tAgWhRaIuMI5HoGxPREbcB3ycFp1 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="478159950"
-X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; d="scan'208";a="478159950"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2023 16:26:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="884369288"
-X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; d="scan'208";a="884369288"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 21 Nov 2023 16:26:28 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Tue, 21 Nov 2023 16:26:28 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Tue, 21 Nov 2023 16:26:27 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Tue, 21 Nov 2023 16:26:27 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Tue, 21 Nov 2023 16:26:27 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=STt6cxZxoTuc+q58oVFwTVZ5eqSdeAqwIXdBwDpRCHZ35+1CWDvd3ni4jqblxwVV6b/jq/rpm7eFgg1TwQyj/ynk+DbYAu4+X9Kbu6+jycMmhBlf5Fs6+tEC/bNF6EL1k81AxY7lQfuwdhvO+EFwMoWAaSSwgR+rzkdumpGfq+PVrcfO07txaacwPXAjbWKgcm4kHyvQbssGOtfAHO1yo0I0WPehZK7S/EhXnxptLSXoqKz54fajfVvl4he20m8soFQtpM+tufpi0M5mFCQX6nx71X6TCGdgqW/kGMxayTeAQ+0fBCMMeWZly2X75coSYNveb9aI0Wqq02gkSv+btw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XjiAt8RGk6AE8u3yeMUsAPEK5tCUaCaPIo8BVItPUhE=;
- b=ElBG9UfeqoG2UKBk532BFq0HXkyrTBUVlHBcFfhH/8DfP3HJ095tnJvKA641RQ7UiBSjxwlvd+xjHeG+6BWmy2mZO/T7dNV3Taberu/Ik4TeZPHbuEbkS7Ub/ywXa4NJ/g5gWfBjvzBn//E6SBxBYlkkr+DtgWXxiD7x+H4A6S9mbtWIdizbrJPV0LhvNcnGpR7V6Y1VD5mENC7ia3w1nVeFQmW/vKwSS9ZgzuNQ0AYIhD2j9AQ1h0RxciYdkTHUiE8mFg4CSF5nudx9f7gtVAPN4dwCh83c2XhhuUPN52daOaoVfoLfVSXA699bv2fHL48dyzMARGC6K7UfniYKug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
- by MW6PR11MB8365.namprd11.prod.outlook.com (2603:10b6:303:240::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.27; Wed, 22 Nov
- 2023 00:26:25 +0000
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::de08:93ac:5940:ec54]) by BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::de08:93ac:5940:ec54%4]) with mapi id 15.20.7002.028; Wed, 22 Nov 2023
- 00:26:25 +0000
-Message-ID: <e263a2de-79a7-4021-b739-239e98eef5c2@intel.com>
-Date: Tue, 21 Nov 2023 16:26:23 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] drm/i915/pxp: Add missing tag for Wa_14019159160
-Content-Language: en-GB
-To: Alan Previn <alan.previn.teres.alexis@intel.com>,
- <intel-gfx@lists.freedesktop.org>
-References: <20231121185556.45770-1-alan.previn.teres.alexis@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <20231121185556.45770-1-alan.previn.teres.alexis@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0242.namprd03.prod.outlook.com
- (2603:10b6:303:b4::7) To BY5PR11MB3911.namprd11.prod.outlook.com
- (2603:10b6:a03:18d::29)
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A2BF10E5B8;
+ Wed, 22 Nov 2023 00:27:46 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id
+ 4fb4d7f45d1cf-5482df11e73so6953996a12.0; 
+ Tue, 21 Nov 2023 16:27:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1700612864; x=1701217664; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NLXUXH+7qCuZ20fixxc7SEekg13SRZ5GDDOIEtjbwok=;
+ b=P2d3Emc2k67cXbBviNOAmUQ8xR56ijJUR26vVcXEI+22er90KOLtH9nGnRbG1IhPpt
+ v3MVQ1ehUbecA5lyxgblDFM5R6G5MN2/9ku8SSm5s7UmlBZZcysdKEgY5XqNVT2mXMDz
+ spWxK3Svx8e5DlSby6yceqlbt8afi9NWeuHeuomAQqjSJVkuaeGIGC5rORGliB2lOv7Z
+ Q47zhfONq0yinP2DkukwGwlT0QmYYBphRe0TK+C0PReC7X/nFvMygB5m+7UDPWoExLpf
+ WLRCr0jeDOKIoDN1RLtzU9iyw6YVHzZaOoY+4wCkPqMnw+7pExV7iXfIisMOs2wwDtEV
+ Om3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700612864; x=1701217664;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NLXUXH+7qCuZ20fixxc7SEekg13SRZ5GDDOIEtjbwok=;
+ b=BvhI1dbX1iD+7LLT0iZeMgzzBRC1R+UWOpkqfcyMSiKdizH2YZ2XT30lDJBcWrbgks
+ ElG3VGgX4vR0hjGmE5zgey1Kb7M9+oz0iJvu2DCcWqibQ+pWkBgDe0kJG0zMe4MY0JuO
+ 7SUAXBOpHhrMxzbNSq+keXZ15OzvVUYgfA3CMdtw6ND5o0+h1BRbVxIZuQrWexOUnYT9
+ 1/evl9e88z733NtLbGr7yCFBsxOJWnUL+29kC4s+8DxdYhCG1S4NloXDFNnYruGipyuG
+ z6b30PNLCBQzyX5kzcY7yGvjG9Un78NGjvyvIyWuNf6+CR3TxHNXUGaV4t5rVABYhLSJ
+ De2Q==
+X-Gm-Message-State: AOJu0Yxo7eOuL0O/OaTJKoqfIu5C1PHQ+g9BZlI125MNJT5aTkqBEeKv
+ gLlGUYxbsDBsjPE/2rvBgNBZhAupvy556qRiyo0=
+X-Google-Smtp-Source: AGHT+IH4QlBz9vR7ImcSMQlSfNJ2oKhijJNtonLY5ZBhI3jEsyhkhVwADQ8VbSAyTP7E7KujPWjL7HMMSeVYGWAmS30=
+X-Received: by 2002:aa7:c907:0:b0:543:cc90:cb8b with SMTP id
+ b7-20020aa7c907000000b00543cc90cb8bmr593854edt.2.1700612864077; Tue, 21 Nov
+ 2023 16:27:44 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_|MW6PR11MB8365:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc6b96b3-db0c-42bb-5e92-08dbeaf1a93b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /GZL0uOK+Qch5rKXHr7jdW6/9Nxwu76djzUKhsev++2Oh9CBE2z6ZlxFeTtueOOO0q3eHerOam7uCQuYzwY56CrLpjr6nZFnOiNR71dEQUdPUHQ5+dhglcTHTqfnJLhiigJ+XgJHPJDZzMAF0A4LQi/GqWomGHlhA7kcSj4x9RVpH2pRIOmh7a2kDmQ7WPGLXHKTaozfjOY6ioYqYwyeOGW4riRbDJRWLZIpxH1v8QL2PgbpRETeB+0+DhA3qDk/cCRlBCLfF0t5iLtcyP14Jrp/OHINa/Odhtnr6RGEq8xXm01kU6DobNHvffMCy0hTCLzaJ59jtIAbKWzyDSGBFOkZRQTo6WB19gAQq8r3Ug4h8irHYEM8MOUOmdqwHcaTP0BcuspHl1KGKDMxVwyJSxEzkm6GOTHXXTuc7PFI6fPU+iYGJYQYNH6uhrCTA6d8sr0gV8YxAfsfwBeb/GnDnQ8iY3eKd6hhTbKkvCT8WSNW++vCyoDVn1OTyy3CsaXAPX+2ZYglMAdywaAEuzKv28YONIbuzrkZh+9hxRAhKpbKyJHfB2x7OWFtRjv8zDZp51jn19mRygXj77dg1DAq010ycWnHHWpsipC6Ff01WssPZs2so92N3EM48alidrjui1Ih1JPtVXYB8FYa2b1r8A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(376002)(366004)(396003)(39860400002)(346002)(230922051799003)(451199024)(64100799003)(186009)(1800799012)(2906002)(450100002)(6512007)(53546011)(83380400001)(26005)(4326008)(8676002)(38100700002)(41300700001)(8936002)(5660300002)(478600001)(6486002)(6506007)(316002)(66556008)(66946007)(66476007)(36756003)(86362001)(82960400001)(31686004)(2616005)(31696002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eGJoc3dQVWo0YTIxcnpzRE1mWnNrTE95cmVyOXMvM25XN0tKU0dteVNZNVRo?=
- =?utf-8?B?eldEekhOZlFYcWxKM0dld0tyNU5ITHY4V3F0bm9kb0xSeVNiWE9OUXNCUmtU?=
- =?utf-8?B?NDhIL1dYNFN2UFA0eGFXbFVVaWdDKzhtdC9PNW5JdXRmbFprV2EwNHdsTENI?=
- =?utf-8?B?K3liY2pNVDJjcjJURHVRWU1udURDNCswUTZCVE9iYWgzLzExTDNZT25IdlA3?=
- =?utf-8?B?UThhMHhyTmxTUXhhdzV2R3ZUV2wwV2JzbnNRMVA3a1dxa0MzSWQxWkdwVjRI?=
- =?utf-8?B?OHo3NUZqZVpNOElhYUg2cG0xNE0xZU9mdHNkMjRSMU1JVHBaYTZHdGhBbDBq?=
- =?utf-8?B?Y1JvVERpT1VnUm1aQmRFYmdZems1b3l4NWFMSUpwaW85WDcwZHl1QVRNRXV1?=
- =?utf-8?B?eTUrNkZTWmFSSk5pTTFFME9CVGEwWHljNWNRRjM0amI2Zktwdll0VURTUVhv?=
- =?utf-8?B?RTdhbFVqd09Md2JkNk5MV2FtT2NacGJsWm1DOTFmd0I1bnA0VXcwTTk2SUp3?=
- =?utf-8?B?cHB1VWZnSTZDODJnb2FvMHJGZ28vOHZlRGQ0M3lPOUcwblJNelE4SUNabTB1?=
- =?utf-8?B?a3loVFZsSnRvYzIyKzA2S3ZoNHBtOUxCc0ZaSHhTa05ZWGtrVnhud3I3UGYz?=
- =?utf-8?B?SmlydUVJSTA3R2lZKzhLU2wzTWJCbXhqSUJnNFZnNmc2OGRUVXFkVUV5RHV5?=
- =?utf-8?B?NzdHTXI1OGhPdVpkNlZXSmJJTlk2TFJzNWEwOFpWbnJUcTh0R1cxVnhnNnJV?=
- =?utf-8?B?cy81bFJUUEZQQk1EVStmZmdxMU9ma3VxU0Nsa2dUeTNDVm9VaTRyUXEwRjRZ?=
- =?utf-8?B?cE0zaTdtd3lvUktpNXlSZEZSeFcrQmUxK1RYT3c4cEdKenVyRkJDZGdMQXlv?=
- =?utf-8?B?UWlmUkxNR2svSldjNGl3bmhVVmVQUVBCNEtkM0xmQy9LZ3dzU3JNeU9ZdFBY?=
- =?utf-8?B?UmJTczg5czlIMitQTEVSN2szTkh1UkNnUXJkY1BzQTRiMTlmVEsrTlNMaUNH?=
- =?utf-8?B?bVlqbVc5Q0VnUEhrY1ovaVBWaERiSk9HSFl2eHFKZXJ5bkZQYUZZd0l1Yk42?=
- =?utf-8?B?K3ZaeHJ0S3g4UWMrYzRPUDJiM0FsK0ZjT285aHFLNGdjM2t4VllTUzlBYld1?=
- =?utf-8?B?Z2tXNURhbVlXUHlSK1RkNkUxTWs1OEpKSVJoZ0pFUFJUVThYbmI0RWpzNEN0?=
- =?utf-8?B?MzNsL0R6Z3hoWDhFcnJrbHJZcU5XU3luZzhVZnJIQ1pHRjJkUGZOcUZQMitC?=
- =?utf-8?B?V2FobVRKbHByMGZ0cW8rK2R5OCtZTElBS05SckdOYnJtNmR3Y2JoODNaR3F1?=
- =?utf-8?B?MWh0bmtDdmQrVi9rTzlCNTQwSS9qTjRxSGNybHhITE5va3lYZmxkWDZWOVBy?=
- =?utf-8?B?S002TklJTll1UkxBRHhSUmd6SHBZWVdmV2pGZ0c2UjVvT2ZWanNmMWp4bElS?=
- =?utf-8?B?VnlnVHgrc1gxY0U3MzZkM0tJMkJtZzlBZGhwa0dDMFJUdGJILzB5a0xFWjA1?=
- =?utf-8?B?SS9ZS0dJSHpjWGZpMUgzL1V0K0ZxMG0xOTJaUmV4TThXUDVDbDJzSHFhZTdm?=
- =?utf-8?B?SzBqbU1zdkdJNmVHdFNSV3h2cTlOdUJjOCs4dWFBWkg2N3g3SVRHdEFObU5k?=
- =?utf-8?B?K0VzY2xpM3pXb2xRUVFYc010c0JuRnZmKzczdldlMmZHRmUvazN0QjEvNUtW?=
- =?utf-8?B?OUVzcE9GYmhFeDREYTdIa0xseVBBL2VDdjR0RWtia3NWQ0dWMXB0OFpyZkNx?=
- =?utf-8?B?WnpUN0oxVEFmaUxsb0wvWkFTU3NLNE9CdkQ3djdueVJvTGM0ckx0d1VLUjN5?=
- =?utf-8?B?LzFKSWgyazBYQ0wzS1QyUEZlVDhDc1cwbXY1Q1pFMVNqb21UUG9tNGVWMjNr?=
- =?utf-8?B?R20yTDJiTE8vcUs0ck44WkJWbkpha3VDVFJFbFlyTm8rdEtLNHIrTitsUExr?=
- =?utf-8?B?MlIvR0hIWm0vbGtwQlc4N2dpdDZZQlNVdVJIcmlsbnJOSTI2UWtGTnIwYlI0?=
- =?utf-8?B?UkVXeDNsd2Q2OXRTTXUxZzdWNTAxUWFiNElhVElQeWE5ZU5CNllrQ2RRZWVi?=
- =?utf-8?B?V0lIR2xoZlVrNThSU3pZUFZpbVlKcm5lY0tZYzE2c2lhSXE0WW1KQ25JL2N6?=
- =?utf-8?B?RmVSb0x2alBhc3JKTFVHN3hKaEQ0QzhLUGd3QS84KzlCQW91aG5acUo5eVhN?=
- =?utf-8?B?TUE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc6b96b3-db0c-42bb-5e92-08dbeaf1a93b
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 00:26:25.2260 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b0MGUTNt2DRo7M6Ngf0MVJbyel8+SYGcZETpY0Q42lh8KFoMgbpb83RifVvCIkPx3qZTGUOAJE3EU0QI9RwXOSTbuAUH8ELtxYO1r8roRlQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR11MB8365
-X-OriginatorOrg: intel.com
+References: <20231023221250.116500-1-robdclark@gmail.com>
+ <CAA8EJpqVL5U7yaZsG5F=q7EFP1bsApySdjycywox6cZUd8JqdA@mail.gmail.com>
+ <CAF6AEGvbKjHYU6qv4v3017DguEye23yMoYvTbEo=JZ+QW3=Atg@mail.gmail.com>
+ <CAA8EJprRdezFBP=+aBinA-=tbTGWPcj-izOthA=cbehes0UYng@mail.gmail.com>
+ <d003384d-3b4b-da05-f4b7-8497749fc843@quicinc.com>
+ <dd928ef1-e329-37e0-d383-444a64ef2bc5@quicinc.com>
+In-Reply-To: <dd928ef1-e329-37e0-d383-444a64ef2bc5@quicinc.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 21 Nov 2023 17:27:30 -0700
+Message-ID: <CAF6AEGuxoSaX67iYuhWiaoPQMwh_ggE0ZGbgmLZ-QhmS4FYxtg@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dpu: Fix encoder CRC to account for CTM enablement
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,48 +73,329 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, Kalyan Thota <quic_kalyant@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Jiasheng Jiang <jiasheng@iscas.ac.cn>, Arnaud Vrac <rawoul@gmail.com>,
+ dri-devel@lists.freedesktop.org, Jeykumar Sankaran <quic_jeykumar@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Sean Paul <sean@poorly.run>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>, freedreno@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/21/2023 10:55, Alan Previn wrote:
-> Add missing tag for "Wa_14019159160 - Case 2" (for existing
-> PXP code that ensures run alone mode bit is set to allow
-> PxP-decryption.
+On Tue, Nov 21, 2023 at 4:41=E2=80=AFPM Abhinav Kumar <quic_abhinavk@quicin=
+c.com> wrote:
 >
-> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_lrc.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> index 7c367ba8d9dc..c758fe4906a5 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> @@ -863,8 +863,10 @@ static bool ctx_needs_runalone(const struct intel_context *ce)
->   	bool ctx_is_protected = false;
->   
->   	/*
-> +	 * Wa_140191591606 - Case 2: mtl
-Too many sixes.
-
->   	 * On MTL and newer platforms, protected contexts require setting
-Probably better to say 'On some platforms'. The current wording implies 
-this is an intentional hardware change that will be carried forward 
-rather than a bug requiring a workaround which will (hopefully) be fixed 
-on some future platform.
-
-> -	 * the LRC run-alone bit or else the encryption will not happen.
-> +	 * the LRC run-alone bit or else the encryption/decryption will not happen.
-> +	 * NOTE: Case 2 only applies to PXP use-case of said workaround.
->   	 */
->   	if (GRAPHICS_VER_FULL(ce->engine->i915) >= IP_VER(12, 70) &&
-Likewise, this should only test for the explicit platforms listed in the 
-w/a definition rather than assume all future platforms.
-
-John.
-
->   	    (ce->engine->class == COMPUTE_CLASS || ce->engine->class == RENDER_CLASS)) {
 >
-> base-commit: dbdb47c227dc21b7bf98ada039bf42aac4b58b8b
+> On 10/24/2023 12:01 PM, Abhinav Kumar wrote:
+> >
+> >
+> > On 10/23/2023 4:03 PM, Dmitry Baryshkov wrote:
+> >> On Tue, 24 Oct 2023 at 01:36, Rob Clark <robdclark@gmail.com> wrote:
+> >>>
+> >>> On Mon, Oct 23, 2023 at 3:30=E2=80=AFPM Dmitry Baryshkov
+> >>> <dmitry.baryshkov@linaro.org> wrote:
+> >>>>
+> >>>> On Tue, 24 Oct 2023 at 01:12, Rob Clark <robdclark@gmail.com> wrote:
+> >>>>>
+> >>>>> From: Rob Clark <robdclark@chromium.org>
+> >>>>>
+> >>>>> Seems like we need to pick INPUT_SEL=3D1 when CTM is enabled.  But =
+not
+> >>>>> otherwise.
+> >>>>>
+> >>>>> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> >>>>> ---
+> >
+> > I cannot find anything in the docs which suggest this solution is corre=
+ct.
+> >
+> > Different blocks in the DPU pipeline have their own CRC (MISR) register=
+s
+> > like LM, intf etc.
+> >
+> > We dont need to change INPUT_SEL to tell DPU from which pipeline to tak=
+e
+> > the CRC from as each of them have their own registers.
+> >
+> > INPUT_SEL is controlling whether the CRC needs to be calculated over th=
+e
+> > entire display timings or only the active pixels. I am unable to tell a=
+t
+> > the moment why this is making a difference in this use-case.
+> >
+> > Since I am unable to find any documentation proving this solution is
+> > correct so far, unfortunately I would hold this back till then.
+> >
+> > We will investigate this issue and report our findings on this thread o=
+n
+> > how to proceed.
+> >
+>
+> Alright, we debugged and also found some more answers.
+>
+> The correct solution is indeed to set INPUT_SEL =3D 1 but let me explain
+> why and what should be the correct way.
+>
+> INPUT_SEL was indeed telling whether to compute CRC over active pixels
+> or active pixels + timings like I wrote before but this behavior changed
+> since some chipsets.
+>
+> Now, INPUT_SEL =3D 0 means compute CRC *only* over timings and not the
+> active area (and not display + timings like before) and like mentioned
+> before this has nothing to do with what is the input to the CRC. Not
+> covering the active area will not change the CRC at all as Rob reported
+> but its not specific to CTM.
+>
+> Which means we should have been setting INPUT_SEL=3D1 whenever we use INT=
+F
+> CRC irrespective of whether CTM is used or not.
+>
+> What this also means is INTF CRC was not working correctly at all so far
+> irrespecive of CTM or not because it was always computing CRC only on
+> the timings (non-active area).
+>
+> This was not caught so far because it looks like IGT's
+> kms_pipe_crc_basic test which was used to validate this only compares
+> CRC between two frames of the same content to match if they were equal
+> and not changing contents and comparing like kms_plane does. It will
+> pass as CRC would not have changed.
+>
+> Now coming to the fix, the reset value of this register INTF_MISR_CTRL
+> already sets the INPUT_SEL bit (or unsets it) correctly based on
+> whichever DPU version is used so we should just change the
+> dpu_hw_setup_misr() to a read on the register followed by ORing the
+> required bits without touching INPUT_SEL and write.
+>
+> That will address this issue and also cover version control since the
+> expected value of this bit has changed across DPU revisions.
 
+Ok, thanks for following up on this.  Mind posting a patch to
+supersede this one?
+
+BR,
+-R
+
+> >>>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 2 +-
+> >>>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 4 ++--
+> >>>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h | 3 ++-
+> >>>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c | 4 ++--
+> >>>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h | 2 +-
+> >>>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c   | 2 +-
+> >>>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c | 5 ++++-
+> >>>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h | 3 ++-
+> >>>>>   8 files changed, 15 insertions(+), 10 deletions(-)
+> >>>>>
+> >>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> >>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> >>>>> index 2b83a13b3aa9..d93a92ffd5df 100644
+> >>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> >>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> >>>>> @@ -134,7 +134,7 @@ static void dpu_crtc_setup_encoder_misr(struct
+> >>>>> drm_crtc *crtc)
+> >>>>>          struct drm_encoder *drm_enc;
+> >>>>>
+> >>>>>          drm_for_each_encoder_mask(drm_enc, crtc->dev,
+> >>>>> crtc->state->encoder_mask)
+> >>>>> -               dpu_encoder_setup_misr(drm_enc);
+> >>>>> +               dpu_encoder_setup_misr(drm_enc, !!crtc->state->ctm)=
+;
+> >>>>>   }
+> >>>>>
+> >>>>>   static int dpu_crtc_set_crc_source(struct drm_crtc *crtc, const
+> >>>>> char *src_name)
+> >>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> >>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> >>>>> index b0a7908418ed..12ee7acb5ea6 100644
+> >>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> >>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> >>>>> @@ -241,7 +241,7 @@ int dpu_encoder_get_crc_values_cnt(const struct
+> >>>>> drm_encoder *drm_enc)
+> >>>>>          return num_intf;
+> >>>>>   }
+> >>>>>
+> >>>>> -void dpu_encoder_setup_misr(const struct drm_encoder *drm_enc)
+> >>>>> +void dpu_encoder_setup_misr(const struct drm_encoder *drm_enc,
+> >>>>> bool has_ctm)
+> >>>>>   {
+> >>>>>          struct dpu_encoder_virt *dpu_enc;
+> >>>>>
+> >>>>> @@ -255,7 +255,7 @@ void dpu_encoder_setup_misr(const struct
+> >>>>> drm_encoder *drm_enc)
+> >>>>>                  if (!phys->hw_intf || !phys->hw_intf->ops.setup_mi=
+sr)
+> >>>>>                          continue;
+> >>>>>
+> >>>>> -               phys->hw_intf->ops.setup_misr(phys->hw_intf, true, =
+1);
+> >>>>> +               phys->hw_intf->ops.setup_misr(phys->hw_intf, true,
+> >>>>> 1, has_ctm);
+> >>>>>          }
+> >>>>>   }
+> >>>>>
+> >>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> >>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> >>>>> index 4c05fd5e9ed1..510783b2fb24 100644
+> >>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> >>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> >>>>> @@ -169,8 +169,9 @@ int dpu_encoder_get_crc_values_cnt(const struct
+> >>>>> drm_encoder *drm_enc);
+> >>>>>   /**
+> >>>>>    * dpu_encoder_setup_misr - enable misr calculations
+> >>>>>    * @drm_enc:    Pointer to previously created drm encoder structu=
+re
+> >>>>> + * @has_ctm:    Is CTM enabled
+> >>>>>    */
+> >>>>> -void dpu_encoder_setup_misr(const struct drm_encoder *drm_encoder)=
+;
+> >>>>> +void dpu_encoder_setup_misr(const struct drm_encoder *drm_encoder,
+> >>>>> bool has_ctm);
+> >>>>>
+> >>>>>   /**
+> >>>>>    * dpu_encoder_get_crc - get the crc value from interface blocks
+> >>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> >>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> >>>>> index e8b8908d3e12..cb06f80cc671 100644
+> >>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> >>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> >>>>> @@ -318,9 +318,9 @@ static u32 dpu_hw_intf_get_line_count(struct
+> >>>>> dpu_hw_intf *intf)
+> >>>>>          return DPU_REG_READ(c, INTF_LINE_COUNT);
+> >>>>>   }
+> >>>>>
+> >>>>> -static void dpu_hw_intf_setup_misr(struct dpu_hw_intf *intf, bool
+> >>>>> enable, u32 frame_count)
+> >>>>> +static void dpu_hw_intf_setup_misr(struct dpu_hw_intf *intf, bool
+> >>>>> enable, u32 frame_count, bool has_ctm)
+> >>>>>   {
+> >>>>> -       dpu_hw_setup_misr(&intf->hw, INTF_MISR_CTRL, enable,
+> >>>>> frame_count);
+> >>>>> +       dpu_hw_setup_misr(&intf->hw, INTF_MISR_CTRL, enable,
+> >>>>> frame_count, has_ctm);
+> >>>>
+> >>>> I'm not sure about the dpu_encoder and dpu_hw_intf interfaces. But
+> >>>> dpu_hw_setup_misr definitely needs the `u8 input_sel` parameter
+> >>>> instead of `bool has_ctm`.
+> >>>
+> >>> That seems a bit premature without knowing what the other values are.
+> >>> (And I also question a bit the whole abstraction layer thing if it is
+> >>> taking directly register bitfield enum's..)
+> >>
+> >> dpu_hw_intf and especially dpu_hw_util are not real abstractions. I
+> >> always viewed them as useful low-level helpers.
+> >>
+> >> I think that has_ctm is valid at the dpu_encoder level, which selects
+> >> which input to use. on the lower levels has_ctm doesn't make sense.
+> >> IOW dpu_hw_setup_misr can be used to setup MISR for other blocks,
+> >> where CTM doesn't exist.
+> >>
+> >>>
+> >>> BR,
+> >>> -R
+> >>>
+> >>>> Most likely, I'd use u8 for dpu_hw_intf operation too.
+> >>>>
+> >>>> Could you please adjust?
+> >>>>
+> >>>>>   }
+> >>>>>
+> >>>>>   static int dpu_hw_intf_collect_misr(struct dpu_hw_intf *intf, u32
+> >>>>> *misr_value)
+> >>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> >>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> >>>>> index c539025c418b..95aafc4cf58e 100644
+> >>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> >>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> >>>>> @@ -95,7 +95,7 @@ struct dpu_hw_intf_ops {
+> >>>>>
+> >>>>>          void (*bind_pingpong_blk)(struct dpu_hw_intf *intf,
+> >>>>>                          const enum dpu_pingpong pp);
+> >>>>> -       void (*setup_misr)(struct dpu_hw_intf *intf, bool enable,
+> >>>>> u32 frame_count);
+> >>>>> +       void (*setup_misr)(struct dpu_hw_intf *intf, bool enable,
+> >>>>> u32 frame_count, bool has_ctm);
+> >>>>>          int (*collect_misr)(struct dpu_hw_intf *intf, u32
+> >>>>> *misr_value);
+> >>>>>
+> >>>>>          // Tearcheck on INTF since DPU 5.0.0
+> >>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
+> >>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
+> >>>>> index d1c3bd8379ea..2efe29396c6a 100644
+> >>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
+> >>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
+> >>>>> @@ -83,7 +83,7 @@ static void dpu_hw_lm_setup_border_color(struct
+> >>>>> dpu_hw_mixer *ctx,
+> >>>>>
+> >>>>>   static void dpu_hw_lm_setup_misr(struct dpu_hw_mixer *ctx, bool
+> >>>>> enable, u32 frame_count)
+> >>>>>   {
+> >>>>> -       dpu_hw_setup_misr(&ctx->hw, LM_MISR_CTRL, enable,
+> >>>>> frame_count);
+> >>>>> +       dpu_hw_setup_misr(&ctx->hw, LM_MISR_CTRL, enable,
+> >>>>> frame_count, false);
+> >>>>>   }
+> >>>>>
+> >>>>>   static int dpu_hw_lm_collect_misr(struct dpu_hw_mixer *ctx, u32
+> >>>>> *misr_value)
+> >>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
+> >>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
+> >>>>> index 9d2273fd2fed..528b8439209f 100644
+> >>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
+> >>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
+> >>>>> @@ -483,7 +483,7 @@ void _dpu_hw_setup_qos_lut(struct
+> >>>>> dpu_hw_blk_reg_map *c, u32 offset,
+> >>>>>
+> >>>>>   void dpu_hw_setup_misr(struct dpu_hw_blk_reg_map *c,
+> >>>>>                  u32 misr_ctrl_offset,
+> >>>>> -               bool enable, u32 frame_count)
+> >>>>> +               bool enable, u32 frame_count, bool has_ctm)
+> >>>>>   {
+> >>>>>          u32 config =3D 0;
+> >>>>>
+> >>>>> @@ -496,6 +496,9 @@ void dpu_hw_setup_misr(struct
+> >>>>> dpu_hw_blk_reg_map *c,
+> >>>>>                  config =3D (frame_count & MISR_FRAME_COUNT_MASK) |
+> >>>>>                          MISR_CTRL_ENABLE | MISR_CTRL_FREE_RUN_MASK=
+;
+> >>>>>
+> >>>>> +               if (!has_ctm)
+> >>>>> +                       config |=3D 1 << 24;
+> >>>>
+> >>>> Please define MISR_CTRL_INPUT_SEL instead.
+> >>>>
+> >>>>> +
+> >>>>>                  DPU_REG_WRITE(c, misr_ctrl_offset, config);
+> >>>>>          } else {
+> >>>>>                  DPU_REG_WRITE(c, misr_ctrl_offset, 0);
+> >>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+> >>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+> >>>>> index 1f6079f47071..e42d9d00e40e 100644
+> >>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+> >>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+> >>>>> @@ -360,7 +360,8 @@ void _dpu_hw_setup_qos_lut(struct
+> >>>>> dpu_hw_blk_reg_map *c, u32 offset,
+> >>>>>   void dpu_hw_setup_misr(struct dpu_hw_blk_reg_map *c,
+> >>>>>                  u32 misr_ctrl_offset,
+> >>>>>                  bool enable,
+> >>>>> -               u32 frame_count);
+> >>>>> +               u32 frame_count,
+> >>>>> +               bool has_ctm);
+> >>>>>
+> >>>>>   int dpu_hw_collect_misr(struct dpu_hw_blk_reg_map *c,
+> >>>>>                  u32 misr_ctrl_offset,
+> >>>>> --
+> >>>>> 2.41.0
+> >>>>>
+> >>>>
+> >>>>
+> >>>> --
+> >>>> With best wishes
+> >>>> Dmitry
+> >>
+> >>
+> >>
