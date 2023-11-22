@@ -1,65 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F777F503C
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 20:08:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA09F7F503E
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 20:08:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95D2310E0ED;
-	Wed, 22 Nov 2023 19:08:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB03610E0DF;
+	Wed, 22 Nov 2023 19:08:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB3D10E12F
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 19:08:01 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-40859dee28cso751475e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 11:08:01 -0800 (PST)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4004410E0DF
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 19:08:54 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-40790b0a224so589895e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 11:08:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700680080; x=1701284880; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1700680132; x=1701284932; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ERkw8rzZcH5VQ4+E8lzR+R0WUOy2UMqbI/rVKSdow1Q=;
- b=yrHbcx+aCzacAzhg3GfoYFaRQWKdSh9NrGltijHHH8T8Y1XzWF2uh7czdsHqb26KUm
- +YwwnHV31LcRphKgsQxoAeJRGE6dfrYjUG2wNYa/c8JpVI7RwQM2pdP4dqe4QAHccCE/
- zQLofGbTKatmN3aWKaZwcW/CRiO5CnAUeGpYrKi+TXJ/qx0w+rI4nhfh1fmGTEpxI4YN
- twqiSMUtG9dN170B+FEtiKXErcXrtFyAWQHwVcggFXFawkKfOfYTB6tSfG8qAlwnkoym
- HUubN+FSyi/BxKX5GJvbmgYBujUyPy8vu9VRJn+5YwCva8xqBrAf9tIA3FSLy6fmXV3A
- kDFQ==
+ bh=vUckrcTu5m9Wg1zRq0QHYNErM4ZStAgnbZyWBRGzPOs=;
+ b=DHq1AwFJkZByfyYYF5A1JVJSQ/JFhASVjYCMCW5THQZeUxWk5D14aRZokk5oIQ/aZq
+ ds/x00/sDevhvd+x7Ct/ELTPGbkE85mooKV2UyvTEAUPcGbjTopG4sDljmQ+gtnF3nnq
+ oKPn/t0FaNzTR8osy6CYIWZnUUKb5CIpfaQpGHnCxEuE5uKjyLLXwCu1Z4cX0ISAUtHL
+ UwvI/9eIhCx205Y2kolRai8os/LpqVfn3e7c9N43vDjGH9ncH3/qUSw02sf/qtZFnPyL
+ yEDxmTF9dBUA53sksmFZ6tNN77O8DJBaC5Je+liZ8pMPmdWmZpItiEJzEQ8Xj3v5wQYM
+ bGtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700680080; x=1701284880;
+ d=1e100.net; s=20230601; t=1700680132; x=1701284932;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ERkw8rzZcH5VQ4+E8lzR+R0WUOy2UMqbI/rVKSdow1Q=;
- b=DWykyPNs2dWI9VhIQTxAs9kUFm9cn6/qbKiJijAburWbdQ4cxvdejz3tr/c3Sunufq
- PNgQDgx+idRMqSyelaZDVkjOqHTkvtzng4kZ3i/IjRjIJQF0Av4Tdql8vcg9odHUJJhb
- +ICz4XIP480tyh/fmPE/zBipqXmgRSQl9tb5kaoLX5iVtQFokvLPv5zLWQ8zpAzx4/lw
- pJ+O/TUjQXxLErjwHCY5JsAaw8x39h+PBzvgJj5BXn4ClaltqB3YCGPwcPriN8cO93bL
- mi5GCI2FMaJaq2RX9sYNUG8lsFpAcaPderryNS29jfV3XW+NK4NcXI+GkSyRUWiqnqNq
- qaLA==
-X-Gm-Message-State: AOJu0Yw0vroKx6UAk3GuQXxZKyk3qUYdHF3kYvnRl/F7KJRvfW+IYf+6
- xa53X8c0slyUSN4EujGrPweHng==
-X-Google-Smtp-Source: AGHT+IEYlaAUBJTYI4hE847qYf7C5VGEpYaECsCw4fzirfKY27NLvf7xnvij66qHu9oiuERgWUnGlg==
-X-Received: by 2002:a05:600c:511a:b0:40b:2b86:c88a with SMTP id
- o26-20020a05600c511a00b0040b2b86c88amr1065729wms.2.1700680079847; 
- Wed, 22 Nov 2023 11:07:59 -0800 (PST)
+ bh=vUckrcTu5m9Wg1zRq0QHYNErM4ZStAgnbZyWBRGzPOs=;
+ b=i/jJC1Moc1MY6NCHyusPoScLarw2cTRYDU6GUSAnoO7XMmx2by3Sr4pZT5Bp4VKJXt
+ RAjnbpw4NvNqtlV/YHUdAVxw5UD5F4j1UZJKOPYz4RnutnflAjo8BoHXM9t6N1P7q5In
+ 1rMgZ/odIRTECNNNBlV0z0ou5+v/6But573t202XAOmt4r5B9xcbQrgH7/ebspoQUReN
+ Gr0SwKWKxg5TdyJyxtA9nim3b0KtHeq4l0r0s8+MPvvyXnPyaxvoQ0ke9zeKSdZ4qeqF
+ i3HZ/dOPtM1+w2Q4je38d9Qvm/HpOAKzCuYGa5hyO05DZLVWzuH+o2xEOmB4XaH/6sJQ
+ I9Xw==
+X-Gm-Message-State: AOJu0YzxcNNtV6hdiN647fcWV0F6o39ycTJo61JhJKo8sXbQCq5WzjAU
+ fIUK5oFzpXfrr22yYQN9AztJQw==
+X-Google-Smtp-Source: AGHT+IH9jj+JYpXsKEgwtJxLZYqtCaXmOCQpITfCD9/OnmZeCd/rPcIHhpzRXF6IlilZwLn9zXfl5A==
+X-Received: by 2002:a05:600c:45d3:b0:408:5ba9:d707 with SMTP id
+ s19-20020a05600c45d300b004085ba9d707mr2760138wmo.16.1700680132722; 
+ Wed, 22 Nov 2023 11:08:52 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.100])
  by smtp.gmail.com with ESMTPSA id
- hg15-20020a05600c538f00b0040849ce7116sm320957wmb.43.2023.11.22.11.07.57
+ hg15-20020a05600c538f00b0040849ce7116sm320957wmb.43.2023.11.22.11.08.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Nov 2023 11:07:59 -0800 (PST)
-Message-ID: <e7693e9d-a46a-4dc2-9aee-36a2bbf74ade@linaro.org>
-Date: Wed, 22 Nov 2023 20:07:56 +0100
+ Wed, 22 Nov 2023 11:08:52 -0800 (PST)
+Message-ID: <a812898a-f791-4983-b460-dafac70bec64@linaro.org>
+Date: Wed, 22 Nov 2023 20:08:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 08/12] dt-bindings: display: vop2: Add rk3588 support
+Subject: Re: [PATCH v2 09/12] dt-bindings: soc: vop2: Add more endpoint
+ definition
 Content-Language: en-US
 To: Andy Yan <andyshrk@163.com>, heiko@sntech.de
 References: <20231122125316.3454268-1-andyshrk@163.com>
- <20231122125518.3454796-1-andyshrk@163.com>
+ <20231122125531.3454857-1-andyshrk@163.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -105,7 +106,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231122125518.3454796-1-andyshrk@163.com>
+In-Reply-To: <20231122125531.3454857-1-andyshrk@163.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -132,110 +133,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 22/11/2023 13:55, Andy Yan wrote:
 > From: Andy Yan <andy.yan@rock-chips.com>
 > 
-> The vop2 on rk3588 is similar to which on rk356x
-> but with 4 video ports and need to reference
-> more grf modules.
-> 
-> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-> 
-> ---
-> 
-> Changes in v2:
-> - fix errors when running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> 
->  .../display/rockchip/rockchip-vop2.yaml       | 27 +++++++++++++++++++
->  1 file changed, 27 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-> index b60b90472d42..24148d9b3b14 100644
-> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-> @@ -20,6 +20,7 @@ properties:
->      enum:
->        - rockchip,rk3566-vop
->        - rockchip,rk3568-vop
-> +      - rockchip,rk3588-vop
->  
->    reg:
->      items:
-> @@ -42,26 +43,47 @@ properties:
->        frame start (VSYNC), line flag and other status interrupts.
->  
->    clocks:
-> +    minItems: 3
->      items:
->        - description: Clock for ddr buffer transfer.
->        - description: Clock for the ahb bus to R/W the phy regs.
->        - description: Pixel clock for video port 0.
->        - description: Pixel clock for video port 1.
->        - description: Pixel clock for video port 2.
-> +      - description: Pixel clock for video port 4.
-> +      - description: Peripheral clock for vop on rk3588.
->  
->    clock-names:
-> +    minItems: 3
+> There are 2 HDMI, 2 DP, 2 eDP on rk3588, so add
+> corresponding endpoint definition for it.
 
-You relax requirements for all existing variants here which is not
-explained in commit msg. I assume this was not intentional, so you need
-to re-constrain them in allOf:if:then.
+Please wrap commit message according to Linux coding style / submission
+process (neither too early nor over the limit):
+https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
 
-See for example:
-https://elixir.bootlin.com/linux/v5.19-rc6/source/Documentation/devicetree/bindings/clock/samsung,exynos7-clock.yaml#L57
-for some ideas.
+Subject:
 
->      items:
->        - const: aclk
->        - const: hclk
->        - const: dclk_vp0
->        - const: dclk_vp1
->        - const: dclk_vp2
-> +      - const: dclk_vp3
-> +      - const: pclk_vop
->  
->    rockchip,grf:
->      $ref: /schemas/types.yaml#/definitions/phandle
->      description:
->        Phandle to GRF regs used for misc control
->  
-> +  rockchip,vo-grf:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      Phandle to VO GRF regs used for misc control, required for rk3588
+dt-bindings: soc: rockchip,vop2:
+or
+dt-bindings: rockchip,vop2:
 
-Drop last sentence, instead add it to required in allOf:if:then.
 
-Is this valid for other variants? If not, should be disallowed in
-allOf:if:then: for them.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> +
-> +  rockchip,vop-grf:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      Phandle to VOP GRF regs used for misc control, required for rk3588
-> +
-> +  rockchip,pmu:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      Phandle to PMU regs used for misc control, required for rk3588
 
-For all these three: what is "misc control"? Way too vague. Everything
-is a misc and everything can be control. You must be here specific and
-much more descriptive.
+---
 
-> +
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
->  
-> @@ -81,6 +103,11 @@ properties:
->          description:
->            Output endpoint of VP2
->  
-> +      port@3:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Output endpoint of VP3
+This is an automated instruction, just in case, because many review tags
+are being ignored. If you know the process, you can skip it (please do
+not feel offended by me posting it here - no bad intentions intended).
+If you do not know the process, here is a short explanation:
 
-Valid for other variants?
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions, under or above your Signed-off-by tag. Tag is "received", when
+provided in a message replied to you on the mailing list. Tools like b4
+can help here. However, there's no need to repost patches *only* to add
+the tags. The upstream maintainer will do that for tags received on the
+version they apply.
+
+https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
 
 Best regards,
 Krzysztof
