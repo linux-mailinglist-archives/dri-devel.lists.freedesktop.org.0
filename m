@@ -1,73 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04FC27F4C91
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 17:36:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1B067F4C87
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 17:35:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27E7910E695;
-	Wed, 22 Nov 2023 16:36:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0409B10E691;
+	Wed, 22 Nov 2023 16:35:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
  [185.132.180.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98F4C10E68E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36A3610E694
  for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 16:35:52 +0000 (UTC)
 Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
  by mx07-00376f01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 3AMCaKJG020106; Wed, 22 Nov 2023 16:35:29 GMT
+ 3AMCaKJH020106; Wed, 22 Nov 2023 16:35:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
  :content-transfer-encoding:content-type:mime-version; s=
- dk201812; bh=GxmfN8rVvd3YfGfz59gK/3JJGHhPU1f5MEvCTSmel8o=; b=ehx
- 7M3avAvtfnqHOe6XsO3/+Y+93XICn6SIIfQDQiw0sVcfEFBKhNEFmt7+AZdldBTq
- r8dx2FiWvih60q5OdvoZzUAaiThEPXzh7mKtkbhUJwWQOyHbJ7AfVfqLESnfJcFk
- hw2lQktcdLmA86XWELj0YvsuseYRkkkq3Zwo6L4+FxbR99/uk31tVYeiN5mkj/Q1
- ma9p2E6Cizd38TTVvEe3bIfthvHCQvDY4cgS1tJUfEKMGacPns1j3Gzww7AaR8ys
- m3UQd75J3F78aBNYT4rnym1oiZdlTAfVpfTxwwEDSyzFibk7d147tN2vmgFZ3DNq
- xp9dSiemPZHRWw/OHrQ==
+ dk201812; bh=oeSWkLOXL4Gj9kcUSGGBz3114+TRF4KC3NEcY26n9TM=; b=Ie/
+ jTfULhGHMPv92UIg5H4CW+tNEQYNlGN8/9WWfwWwPFyJClH7goEuCR82iCcF1Cn3
+ t1WL827A3R3MbXXW7Jz81u6KleOxZBEvRp4pRYiIKgiMhqdudjl7AYPqg5prtJCC
+ iTGPG3If5lt8l7r9VhxQRfERidi9Ah7du2v6YGWCjY3f214FHCcGNVF4qesbt1lq
+ n+VCIn2XeIlPLWxkSik2kVriRbLF2pq+9gD3MbFqjPDuGdzt6fs0gPG3SYp8XMn0
+ VehKB3hX+FaaLeeokP06k/U/HVZVRB6NPFIze8cDN1t4iEfEmFpaIoCjxvu4S6F6
+ Y9SffNCPMi7d3eDEX2g==
 Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
- by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3ug99g9m28-2
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3ug99g9m28-3
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Wed, 22 Nov 2023 16:35:28 +0000 (GMT)
+ Wed, 22 Nov 2023 16:35:29 +0000 (GMT)
 Received: from HHMAIL04.hh.imgtec.org (10.100.10.119) by
  HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Wed, 22 Nov 2023 16:35:27 +0000
+ 15.1.2507.34; Wed, 22 Nov 2023 16:35:28 +0000
 Received: from GBR01-LO4-obe.outbound.protection.outlook.com (104.47.85.105)
  by email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Wed, 22 Nov 2023 16:35:27 +0000
+ 15.1.2507.34 via Frontend Transport; Wed, 22 Nov 2023 16:35:28 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=H12vd9WxMKLCDAcy7R6V1W32ibzDmRj1ZcUYB2NzfODQWS3PuIEuyQncgBK7MbTVDOXkbSf+IapAybCvgDsp6FmXtE+ncCqEuv20zJ3dUzV95m3ypJ0RYpBhOOnK+RrboM2Y+FVsPsFEb/h30jTC2e6xclzUD83Z52gRZFLxTj8pgtIm3OSu19n40UURPcGlWhZ+7jYAkjxKf5y5x3V7tzSPJlf2agQ/57Rb5MMGqSLaUpl1UKp2msm/cX2P4ym4pc0G04nacvJEmtCXwwr1Fz7XRJSCjveZRNfY7r85THtvgQeZgmWPalLyvxyRZVXtqydpE5blkmthexKD7i9vkg==
+ b=dq7QnD9Aa0akpXvfbXivA+fcbZ2Ma8NnQj/gEkD0c7q/18u5IN8ftMrCAKccKVgR54hk3MS7vsvjQl52nU6861BX3tEbIszEOT/eFjMe9HSDnT23ysjURGtPSWhW/aQF9u3JzjCs0jePKOZkRIcvG7eodFbIkZySodxOBNMgiZ+mLiByC4OE3Keyiums4DIWRXFAQCejEgaTxcl3sIXHISB8mrjtHcNDJJ0DoyZnXbU6gsu5GtvjcqOm9pA+caSXKYC5extMKxMbFAfYk8hKwqlBw0In37XSX+UdwMUJmha1X4TaQ9ICbaGeExfCHmS5yTa462+7FsLfO8uEEmQriw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GxmfN8rVvd3YfGfz59gK/3JJGHhPU1f5MEvCTSmel8o=;
- b=JERmKX9QndMMrUYDNUtM+dVwElJSWn64wyapajtil8fX8hjXDghVznZ+9RXkVfeowGvHeQU4FHUVtXz+eQd864BIteTYBWgLRywHJXOwu2qwEbrwx0oeAhgbGqL4bNOgAnfikVuW4/CcaDHB052dJr2GBsT82tWouCVUj5avpCaMa7azkdQgi6qZFvbHWJhrfDm9eWFqZHhM+sIET8EE66jyjdQgLuEXVjzmSdzppfPyzwR9GUoe0ecZES2sm0tXReo/i3pc2xok8brPaNswHguDj+pwDWSFhu6m9+0csr+hnbFCXXQBWeVFKYQ1dkOfCmbEABKC1KMB1LIMQiq6Tg==
+ bh=oeSWkLOXL4Gj9kcUSGGBz3114+TRF4KC3NEcY26n9TM=;
+ b=I/7bh0zjObTOjIhHJaxaBcPQZ+Q93DYCkufB8usFqIMhuVKuIgpiBQz7AGzFWME1hnIWNO+cmh3xGm5goEVya+xp9AjV/ZI7wQNYphCkqzx6ja4mPLnXyyF5smT2aAiG1bkYYO08isqNejNFo7EDOsimic96ITlj7X4NjVBQxi/LxFE9B2p3rD73ZIwaVcz6UPo9GlgQib7E4sqcAnlH1HknePXuE3fwDxV7vz0NiicsGL/u3a5CcJXXIfzTrAnOht6ZQlzn126JVd9FlnMLpKreTkVWAlfuZWcYN2REYScUOjnJInrcdSRJqqFNSApN49tnEhJt4ii/eg+PG6fNgw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
  dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GxmfN8rVvd3YfGfz59gK/3JJGHhPU1f5MEvCTSmel8o=;
- b=lYBLSmqLxzPQNaGQnsC1bP6dOfLnA4EDkUb3Kgq5NvH27QzLHRC+YkNp+PYuVmonwFt31kAe+oO694/OW7FnHeMCn8skEEnsqI3cnPBuwCo7VvpYxK4bo85nGQGE/M0iu0ZQK4zmbpcMjSJnG5ypSRHo4lNDnJ1/1Fls8vprzEU=
+ bh=oeSWkLOXL4Gj9kcUSGGBz3114+TRF4KC3NEcY26n9TM=;
+ b=EwDVg/xpAp6BY4cwaZnb8+MHA6HOJMrcBd4xF6EA77YgL60LZvkPpj/h0/3c0bxo6DVew/wfK/HzV+4l7yp7mrEnjaMbParRWPGiCOohKVqLgRZFVj/3tzYJAQSp88NrnTUL/zXCUrNXUndHj7D7PCvr5j4GV/fsosKMrgMvHDI=
 Received: from CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1a0::8)
  by CWLP265MB6864.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1fe::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.19; Wed, 22 Nov
- 2023 16:35:24 +0000
+ 2023 16:35:25 +0000
 Received: from CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
  ([fe80::a85a:76f7:c085:2b34]) by CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
  ([fe80::a85a:76f7:c085:2b34%3]) with mapi id 15.20.7025.017; Wed, 22 Nov 2023
- 16:35:24 +0000
+ 16:35:25 +0000
 From: Donald Robson <donald.robson@imgtec.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v9 15/20] drm/imagination: Implement free list and HWRT create
- and destroy ioctls
-Date: Wed, 22 Nov 2023 16:34:36 +0000
-Message-Id: <919358c5887a7628da588c455a5bb7e3ea4b47ae.1700668843.git.donald.robson@imgtec.com>
+Subject: [PATCH v9 16/20] drm/imagination: Implement context
+ creation/destruction ioctls
+Date: Wed, 22 Nov 2023 16:34:37 +0000
+Message-Id: <ac474a1f7dda2582d290798e4837140a2989aa2a.1700668843.git.donald.robson@imgtec.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1700668843.git.donald.robson@imgtec.com>
 References: <cover.1700668843.git.donald.robson@imgtec.com>
@@ -79,57 +79,57 @@ X-ClientProxiedBy: LO4P265CA0273.GBRP265.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CWLP265MB5770:EE_|CWLP265MB6864:EE_
-X-MS-Office365-Filtering-Correlation-Id: 56d4ccd3-67c9-4779-8cbf-08dbeb79072a
+X-MS-Office365-Filtering-Correlation-Id: c69214a9-783e-4994-9bc2-08dbeb79079a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4+5nUV/fx6SI+igIyCs8YEbU4wbKkXpP6QV8Q5lOi3SqUWcP4x/JWvXUQJHe1DpX462zSzpmseqFd5603rLlDV/P0v0txBwDLgNJQatd8tUS0wvdNOAPGMkQH8VhymvB5cgH0oun2MBcZi0gBKo+LUTs0wVKbfn0NlWkKYX9Fa1W8YEmpujveSZg2jXoLWGMIIcMM4zQ/hlvqCLpncNrT60qx8VDcTrG6AWr6IK+ioVmZaxaJsafJcMdgLxb+Sg/DgrfqMXGaCqAhFJz5Ysdt6scui8Zzq5rfJv/HCEBcd87irTnR3x/ZHtvXMd6l9Y6wJ4hj5ptMkdSK87O+jL+E5bgrHQj8an3WyFsM/Up1LxR3P941G8ZdOxk/7B9mQvtZ7I3fF/bNzz9GRaMgUIojcQt+gsyrW5GpswEH2AqvgdcxVoJ5XfKNQQGlTh05M+8OSZTmPaPvhUI0oB/qTEyLrMd9c5b3QTEcDDBLKmveXJZUa2BirZ3m0hzRUEuB8A1OdHB098g5np+uH6ALuoz9esEKRlVOe9AsM0CnHewN2BvNoebV+FjxZKzHrPpj5ngAAw9zSIfNqap2OjPDb/ZRF6cVJKr9N3i60l0vjeDbT95pGMIFs4KSyJ8KLbLsvNK
+X-Microsoft-Antispam-Message-Info: RODkW1PJC/dkysPP6pZMbvffy0k6c72+uae+i9LpmkHsckzoJ6/oVeU5Mg4U7zn0SCoFTueheAw58OACdCZVkjTdsBaUJfZ/neLIG56OeGosj5pkYgXtA7z1aSFhyolaaF3DZNNcMaSp95UQ9XWGWT2TbsMcAJqTWf9sHXJ4dnTUORQvtatmE0mdWJzy6REf/y/S9gqF2DAD0bM7mu6OU7NrGODcifPIJOjytfS8+y6SELPg+BekxIcI8hsv6qk3+QlHjx5LPwFzSUwhGBgimZrJZKPEJub2LoIEAYdl4NBYe6hkQpXoPu3kuXQNrbgVAITM0q2OvNmrH9VhgJn4NElXHbznK0Tq3c/0hS/wXikyltDY1r7U2i5SAAo56XOV+DsT4cJCUDg1QbV3/7I/v72JpOlN9voEA6/RsUBZb7+RgpxYOj4fsUoAcD7ZZYUPLrYgZaKdej5RbN50RHWngbf9RZASzCf9rhIR7foj8TbNCZ40E876+B+4hRwYLp/pEgvPWG5WBdPMU83aULaq0C/bSE8TbBe/mrb8oCjBRWMwHpNoUIYAb/rs5nnA3ukywRhoqM3zXHN7+rg3Z/5OjJGdj4GDpHXe6Ft5UKv9WKJeLx2Ys6VqI3lZS0KEtAhV6bqmJAen8cFbvQ2oQwomtDxJtMB/014hc46hn6hNqUs=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(366004)(376002)(346002)(39850400004)(396003)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(52116002)(5660300002)(38350700005)(6666004)(6506007)(6512007)(2616005)(8936002)(8676002)(4326008)(83380400001)(2906002)(7416002)(478600001)(30864003)(66476007)(6916009)(66556008)(107886003)(316002)(26005)(66946007)(6486002)(44832011)(38100700002)(41300700001)(36756003)(86362001)(559001)(579004);
+ SFS:(13230031)(136003)(366004)(376002)(346002)(39850400004)(396003)(230173577357003)(230273577357003)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(52116002)(5660300002)(38350700005)(6666004)(6506007)(6512007)(2616005)(8936002)(8676002)(4326008)(83380400001)(2906002)(7416002)(478600001)(30864003)(66476007)(6916009)(66556008)(107886003)(316002)(26005)(66946007)(6486002)(44832011)(38100700002)(41300700001)(36756003)(86362001)(559001)(579004);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Hco9ibRWoW0C04zzhAnKSbqKpBOWiOqSz1lijSbrDmvODTOGWrA+35EchEU7?=
- =?us-ascii?Q?/0PPyT3vQp+ZXnyX4uDwVQFg0acAZtnZWzsDup/MdxiWq8zaVFiOg9pYWKSK?=
- =?us-ascii?Q?qCtjhFMt4+HFtJswusDa4C4xwh/EWto/AlnsvOAZo+EoDZUL78W3PAZg+XGJ?=
- =?us-ascii?Q?HoLPMXesYLc5oH8/7eECnlTtQHEGcTzJuCA+doxdr4Fq1lewd70eFYT7QkNg?=
- =?us-ascii?Q?qZe+r8XPep3KHPdrUd/PxaKarBAy5fTjIY8crgMZNwBYcJsa1pyJxc/2agBs?=
- =?us-ascii?Q?o7LgVj0CLZtsWW+MnPCRP8HyGjp/YIAvEHOpyfb8o8V06f1iuWA0rYqDdYQ9?=
- =?us-ascii?Q?yQH4TSHPHVP8QFWgi8rdVegtnxBbY8o5iyW7dVXiYkq1aqIo3TsU6tkfwRkO?=
- =?us-ascii?Q?FjoztKITA7denSxgEY1O8K6pfOmAQ1GLEa6gvlQlvEs8qfvB2Mk1kGIb9YN8?=
- =?us-ascii?Q?i8nps4Z5bL3+zQtA+Y4t5o5BE5JgLDDtlkMuKsYl52r2+0Ik7ZVhxnZXMzHv?=
- =?us-ascii?Q?HoL5RjuOxL0GCyikW19fK+aKLUh8kxOUwr5+zKMWPegDEfuTiCNlNUWkYvYC?=
- =?us-ascii?Q?2XHHeGX9tqI3f8AGVNQ1Ne3xUoZnL2MgwlhhqTX5m0yshMNk3zA7otwUSKKi?=
- =?us-ascii?Q?glpTxZZtzSykbW66YiglYt6pEtt/7K4YTyiNVza1aeToX612/FoK58Ff18+b?=
- =?us-ascii?Q?hG+8YRC2XDILvinPXSCS6haMaa/NXIS7GiogH0t4lfDMyi4i7o2tXVzvUvA4?=
- =?us-ascii?Q?Ggcjdz4mfdHfGvULVv/Co93MasDKhWXmB4giM9hwYa1PrX30kXhc5ZIfcRi+?=
- =?us-ascii?Q?rgRAPGukVR2bBet0KCipOyALGlJuWAbYpiUDRxguzBgB/Zs8deONeFd8fJq2?=
- =?us-ascii?Q?KftJVEq1JCNeKuCIljxfLEDPOGlExsIncL5gVbHyYo+q+JVBUydJ8WNuoKLq?=
- =?us-ascii?Q?3UlKRz+9IbJxWDuTYhDL1qMJu9WAPLQhXyoG26fZ2KPJrdME5TM85Df9lAU1?=
- =?us-ascii?Q?Pj2bk72TvU2YYQIfrMkw7QlvdQM+SXF1PwJGIyeBCs+QeoNjfvXcK2QrBzgo?=
- =?us-ascii?Q?Wp9VQu2e+EgBvKXI796WsXwCaOOzROxG4+Z1PjHhKd3b05RnQZ93TL8b1uAJ?=
- =?us-ascii?Q?X2VgMKNEqWSC4aFB+8thF3AcvT0NU/3t1DkfG6C1B0BXQ0/Qo/qX5KjdM+aJ?=
- =?us-ascii?Q?f/TpMXwtklkQxiCLBMKDH9kucWQ0KJIcnTD2AWp9kuttJs9thYBncsitrhbv?=
- =?us-ascii?Q?QaWks3TrpLQaUwF/AUkg3w0RGJ0FjkZkKcZ9BiuWkQ1l+ryYUyfVLN+QMyq2?=
- =?us-ascii?Q?pMtUih4FPMAtPfk5O4HXjGfhTIWTJ4WbA199pPNZTxutQdjaUzAZdCfUxdBf?=
- =?us-ascii?Q?OY6B0bPG+8mn7w+IrfKviSgE87eVEjZIZaSz5h9cotO9IwJrcd/sv6IqXjoE?=
- =?us-ascii?Q?VhOuTXLcfgnC+8Cb2zINmNv43A/2xMGQ2o/KpPCCsqkglUYPkPVuCFxmgcB4?=
- =?us-ascii?Q?C/LU6vsHE/9fkvY/FZLEr5YkkTYxMm45dn2B7014YLWc22DlkNaz0cpvSJjC?=
- =?us-ascii?Q?v9iRadfvF19gJ8OJIToSoLKuLNWPPmaZXIynClD83GhPF1eWwJ7+TGPhQups?=
- =?us-ascii?Q?pw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56d4ccd3-67c9-4779-8cbf-08dbeb79072a
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dUu3A81gwSy5TOSpfEmMl/ExBl166HGMZodPLrqNjBrLcbyJxeUAIVujV5ha?=
+ =?us-ascii?Q?k/Jr39SUrijUy2rP/qGaQO38Rlaq6hvop3obRaXJ1WbQtAUZ66xq22Ijx0FV?=
+ =?us-ascii?Q?aIJRab7m/qicDX71MZxvQjPNALAdzpcY7PBBgWSi1bSIqwhOyd8tpvmg6XOI?=
+ =?us-ascii?Q?NBdva97raWx1GMYxvoA+XhhbM3qV147Et87paeMNkNpqyANnGf+nmRZ21vHd?=
+ =?us-ascii?Q?71UETi+spA8Eu/6CQ3T5KQwmG6IBNFkXQgj1oUyxFqLL4+wRv5DXO6Fzdlza?=
+ =?us-ascii?Q?xbpmUgpAduhq5g2G+qo7QKni4ZJXt4xeQhwfsGq5AxXv50hQKs8BMKXi+T12?=
+ =?us-ascii?Q?UO7ODAsynHqZrYwgSCuSK6fXsGUzv4/fl9IZh/UCrRpeUd3KD9u3yKkREKjs?=
+ =?us-ascii?Q?htGCevmHrdu+Ky9rM3mv8xX3RKNMP23O0B/doB2eTIT09pE/8UbriA2SClRY?=
+ =?us-ascii?Q?i0Z4hpkkqlIPWOr1x0EdGYa2JHPoWn+ew2DvkYi0fZnyZ2IAoe4KPBcKt2Uj?=
+ =?us-ascii?Q?j6MUzbAOIX0c2koIA5EvL8O2tw9IuO1n23M5P9iQgKbcjA93WAfVowl7dofl?=
+ =?us-ascii?Q?DhxU4VZ9RM+m+g8IGKjwzuz3kI/s9sVrA6X6Va3pxZY33jcMHRqnl7563A8+?=
+ =?us-ascii?Q?HG9dm7dbF1qgUt1AejuCKaTIbstlGjUWD7SM3i3YFZzfOKejivtAYhx1JFit?=
+ =?us-ascii?Q?BWejY7ivUNfYGyQFiRUW8satvZxxhNeudWT2eQ7mBgjgNPwaaXvHiYT5xLak?=
+ =?us-ascii?Q?nuRTIK2R1KN5YEJog+GYLF8sjSoivE2BKEFWtuFYsWTpgJLdfZyK4gQFaPL3?=
+ =?us-ascii?Q?hRPja24GktwkZICF3I13eyVQFBUrE5tFDXVIpBqRP9fRnvyk38gq0DRzNoxF?=
+ =?us-ascii?Q?aA85OoEsr4ISdrJPDLcwYmSAw+10FWKzEHJm8KM7cU/UMajWHtjELoMDQHpk?=
+ =?us-ascii?Q?jPt5x3FRqBjQNLZ80J8hOBKheAxxVYsK8Nox9M0cJv4jZiB2T1tzP+oP5IE7?=
+ =?us-ascii?Q?ieqyTwK09XQ4o3xOtH5eY/xL1OIGJ9TPTNLhyzl+LPncGuN0aOzkSv4lIUbO?=
+ =?us-ascii?Q?52GEAgA/umUkHhBg0/99fxe+6575dh1yIVgnHYxnBDyQrWQyiU97i8Wre8zo?=
+ =?us-ascii?Q?WX/FANxZssZOCSQI0dryTtGSsDRO4weOQBK81RGnXoal4qIuWrjCyNt0Uicv?=
+ =?us-ascii?Q?oWasiLJM2WCw5h0Bmm/iYbS0beg2rqQ3s86DY44xx62cFumR6HLhFu2kOpOH?=
+ =?us-ascii?Q?ivKAYRJ0UK5wuCWJVixXEmQSfhKUHYM3mMG6wL+Ov5DRwPsXaFZAEI8yrz3N?=
+ =?us-ascii?Q?ee2dbf5VyiXskAi4+WSBdsLJLiQFZQctNOl8umqEonwZXTqtlM2+VLkuwo4Z?=
+ =?us-ascii?Q?NwfiOhkclViJCVllv553BXXFthlSuoeqC9hfHs/UMHd3dWHYUeY5ge6HxwUl?=
+ =?us-ascii?Q?m1yU9GzGbtgEBfTcFcOAe4ih0vvHioqXYRPd3/RY2rn+yI39mPOwJlIBesaM?=
+ =?us-ascii?Q?VVQpEc/5KG9D9CWIMbAw0abzojE0GlKO0meKRA6VhC9wtalevE81rHbh9AfG?=
+ =?us-ascii?Q?0bYCwgFIKm/JrNkVwTolQqINkJOzFKtjoFAxIe1oMSFPGmZoQbJ36sFxuSow?=
+ =?us-ascii?Q?1w=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c69214a9-783e-4994-9bc2-08dbeb79079a
 X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 16:35:24.8132 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 16:35:25.5588 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +Is7kBCnJ5P9IgBpQnB4Yac3eQTAWe4oUuxfL1KSIwxtsHVyZrc0+HqsEA0phdRNMVF8B0oUtYA9Zo1YnEOTSs0FsqALyD0u1Naa3YdtaQw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: mJLfQMiTJ8GMBu09CVDVpc+NNsIzfKI5Xed49CItgw0+2f367NCfkXXXQvyT4UEhZHJQMlJeENKlSskuzClE3KVrOA+9M01PVyWS1tz1c6I=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB6864
 X-OriginatorOrg: imgtec.com
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-ORIG-GUID: duFyLtQKil9fVgmZtD8ypigIe6iEp4dS
-X-Proofpoint-GUID: duFyLtQKil9fVgmZtD8ypigIe6iEp4dS
+X-Proofpoint-ORIG-GUID: XIevZ-kwsLFJSGEK_nyUMLBVB8fdex4l
+X-Proofpoint-GUID: XIevZ-kwsLFJSGEK_nyUMLBVB8fdex4l
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,1870 +154,1628 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sarah Walker <sarah.walker@imgtec.com>
 
-Implement ioctls to create and destroy free lists and HWRT datasets. Free
-lists are used for GPU-side memory allocation during geometry processing.
-HWRT datasets are the FW-side structures representing render targets.
+Implement ioctls for the creation and destruction of contexts. Contexts are
+used for job submission and each is associated with a particular job type.
 
 Changes since v8:
+- Fixed one error path in pvr_stream_process_1()
 - Corrected license identifiers
 
-Changes since v6:
-- Fix out-of-bounds shift in get_cr_multisamplectl_val()
-
-Changes since v4:
-- Remove use of drm_gem_shmem_get_pages()
+Changes since v5:
+- Fix context release in final error path in pvr_context_create()
 
 Changes since v3:
-- Support free list grow requests from FW
 - Use drm_dev_{enter,exit}
 
 Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Co-developed-by: Donald Robson <donald.robson@imgtec.com>
-Signed-off-by: Donald Robson <donald.robson@imgtec.com>
 Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
+Signed-off-by: Donald Robson <donald.robson@imgtec.com>
 ---
- drivers/gpu/drm/imagination/Makefile        |   2 +
- drivers/gpu/drm/imagination/pvr_ccb.c       |  10 +
- drivers/gpu/drm/imagination/pvr_device.h    |  24 +
- drivers/gpu/drm/imagination/pvr_drv.c       | 112 +++-
- drivers/gpu/drm/imagination/pvr_free_list.c | 625 ++++++++++++++++++++
- drivers/gpu/drm/imagination/pvr_free_list.h | 195 ++++++
- drivers/gpu/drm/imagination/pvr_hwrt.c      | 549 +++++++++++++++++
- drivers/gpu/drm/imagination/pvr_hwrt.h      | 165 ++++++
- 8 files changed, 1678 insertions(+), 4 deletions(-)
- create mode 100644 drivers/gpu/drm/imagination/pvr_free_list.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_free_list.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_hwrt.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_hwrt.h
+ drivers/gpu/drm/imagination/Makefile          |   4 +
+ drivers/gpu/drm/imagination/pvr_cccb.c        | 267 ++++++++++++++
+ drivers/gpu/drm/imagination/pvr_cccb.h        | 109 ++++++
+ drivers/gpu/drm/imagination/pvr_context.c     | 341 ++++++++++++++++++
+ drivers/gpu/drm/imagination/pvr_context.h     | 161 +++++++++
+ drivers/gpu/drm/imagination/pvr_device.h      |  21 ++
+ drivers/gpu/drm/imagination/pvr_drv.c         |  29 +-
+ drivers/gpu/drm/imagination/pvr_stream.c      | 285 +++++++++++++++
+ drivers/gpu/drm/imagination/pvr_stream.h      |  75 ++++
+ drivers/gpu/drm/imagination/pvr_stream_defs.c | 125 +++++++
+ drivers/gpu/drm/imagination/pvr_stream_defs.h |  16 +
+ 11 files changed, 1431 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/gpu/drm/imagination/pvr_cccb.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_cccb.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_context.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_context.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_stream.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_stream.h
+ create mode 100644 drivers/gpu/drm/imagination/pvr_stream_defs.c
+ create mode 100644 drivers/gpu/drm/imagination/pvr_stream_defs.h
 
 diff --git a/drivers/gpu/drm/imagination/Makefile b/drivers/gpu/drm/imagination/Makefile
-index 71dc36cc6b9d..2bd501018d5d 100644
+index 2bd501018d5d..7f7bea8c60c4 100644
 --- a/drivers/gpu/drm/imagination/Makefile
 +++ b/drivers/gpu/drm/imagination/Makefile
-@@ -8,12 +8,14 @@ powervr-y := \
+@@ -5,6 +5,8 @@ subdir-ccflags-y := -I$(srctree)/$(src)
+ 
+ powervr-y := \
+ 	pvr_ccb.o \
++	pvr_cccb.o \
++	pvr_context.o \
  	pvr_device.o \
  	pvr_device_info.o \
  	pvr_drv.o \
-+	pvr_free_list.o \
- 	pvr_fw.o \
- 	pvr_fw_meta.o \
- 	pvr_fw_mips.o \
- 	pvr_fw_startstop.o \
- 	pvr_fw_trace.o \
- 	pvr_gem.o \
-+	pvr_hwrt.o \
+@@ -18,6 +20,8 @@ powervr-y := \
+ 	pvr_hwrt.o \
  	pvr_mmu.o \
  	pvr_power.o \
++	pvr_stream.o \
++	pvr_stream_defs.o \
  	pvr_vm.o \
-diff --git a/drivers/gpu/drm/imagination/pvr_ccb.c b/drivers/gpu/drm/imagination/pvr_ccb.c
-index 48f06f58f3f1..4deeac7ed40a 100644
---- a/drivers/gpu/drm/imagination/pvr_ccb.c
-+++ b/drivers/gpu/drm/imagination/pvr_ccb.c
-@@ -4,6 +4,7 @@
- #include "pvr_ccb.h"
- #include "pvr_device.h"
- #include "pvr_drv.h"
-+#include "pvr_free_list.h"
- #include "pvr_fw.h"
- #include "pvr_gem.h"
- #include "pvr_power.h"
-@@ -139,6 +140,15 @@ process_fwccb_command(struct pvr_device *pvr_dev, struct rogue_fwif_fwccb_cmd *c
- 		pvr_power_reset(pvr_dev, false);
- 		break;
+ 	pvr_vm_mips.o
  
-+	case ROGUE_FWIF_FWCCB_CMD_FREELISTS_RECONSTRUCTION:
-+		pvr_free_list_process_reconstruct_req(pvr_dev,
-+						      &cmd->cmd_data.cmd_freelists_reconstruction);
-+		break;
-+
-+	case ROGUE_FWIF_FWCCB_CMD_FREELIST_GROW:
-+		pvr_free_list_process_grow_req(pvr_dev, &cmd->cmd_data.cmd_free_list_gs);
-+		break;
-+
- 	default:
- 		drm_info(from_pvr_device(pvr_dev), "Received unknown FWCCB command %x\n",
- 			 cmd->cmd_type);
-diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
-index 8853249f4884..f5b82b793566 100644
---- a/drivers/gpu/drm/imagination/pvr_device.h
-+++ b/drivers/gpu/drm/imagination/pvr_device.h
-@@ -152,6 +152,14 @@ struct pvr_device {
- 	 */
- 	atomic_t mmu_flush_cache_flags;
- 
-+	/**
-+	 * @free_list_ids: Array of free lists belonging to this device. Array members
-+	 *                 are of type "struct pvr_free_list *".
-+	 *
-+	 * This array is used to allocate IDs used by the firmware.
-+	 */
-+	struct xarray free_list_ids;
-+
- 	struct {
- 		/** @work: Work item for watchdog callback. */
- 		struct delayed_work work;
-@@ -247,6 +255,22 @@ struct pvr_file {
- 	 */
- 	struct pvr_device *pvr_dev;
- 
-+	/**
-+	 * @free_list_handles: Array of free lists belonging to this file. Array
-+	 * members are of type "struct pvr_free_list *".
-+	 *
-+	 * This array is used to allocate handles returned to userspace.
-+	 */
-+	struct xarray free_list_handles;
-+
-+	/**
-+	 * @hwrt_handles: Array of HWRT datasets belonging to this file. Array
-+	 * members are of type "struct pvr_hwrt_dataset *".
-+	 *
-+	 * This array is used to allocate handles returned to userspace.
-+	 */
-+	struct xarray hwrt_handles;
-+
- 	/**
- 	 * @vm_ctx_handles: Array of VM contexts belonging to this file. Array
- 	 * members are of type "struct pvr_vm_context *".
-diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
-index 33b38c0d79c8..f485e2cc60f9 100644
---- a/drivers/gpu/drm/imagination/pvr_drv.c
-+++ b/drivers/gpu/drm/imagination/pvr_drv.c
-@@ -3,7 +3,9 @@
- 
- #include "pvr_device.h"
- #include "pvr_drv.h"
-+#include "pvr_free_list.h"
- #include "pvr_gem.h"
-+#include "pvr_hwrt.h"
- #include "pvr_mmu.h"
- #include "pvr_power.h"
- #include "pvr_rogue_defs.h"
-@@ -711,7 +713,41 @@ static int
- pvr_ioctl_create_free_list(struct drm_device *drm_dev, void *raw_args,
- 			   struct drm_file *file)
- {
--	return -ENOTTY;
-+	struct drm_pvr_ioctl_create_free_list_args *args = raw_args;
-+	struct pvr_file *pvr_file = to_pvr_file(file);
-+	struct pvr_free_list *free_list;
-+	int idx;
-+	int err;
-+
-+	if (!drm_dev_enter(drm_dev, &idx))
-+		return -EIO;
-+
-+	free_list = pvr_free_list_create(pvr_file, args);
-+	if (IS_ERR(free_list)) {
-+		err = PTR_ERR(free_list);
-+		goto err_drm_dev_exit;
-+	}
-+
-+	/* Allocate object handle for userspace. */
-+	err = xa_alloc(&pvr_file->free_list_handles,
-+		       &args->handle,
-+		       free_list,
-+		       xa_limit_32b,
-+		       GFP_KERNEL);
-+	if (err < 0)
-+		goto err_cleanup;
-+
-+	drm_dev_exit(idx);
-+
-+	return 0;
-+
-+err_cleanup:
-+	pvr_free_list_put(free_list);
-+
-+err_drm_dev_exit:
-+	drm_dev_exit(idx);
-+
-+	return err;
- }
- 
- /**
-@@ -731,7 +767,19 @@ static int
- pvr_ioctl_destroy_free_list(struct drm_device *drm_dev, void *raw_args,
- 			    struct drm_file *file)
- {
--	return -ENOTTY;
-+	struct drm_pvr_ioctl_destroy_free_list_args *args = raw_args;
-+	struct pvr_file *pvr_file = to_pvr_file(file);
-+	struct pvr_free_list *free_list;
-+
-+	if (args->_padding_4)
-+		return -EINVAL;
-+
-+	free_list = xa_erase(&pvr_file->free_list_handles, args->handle);
-+	if (!free_list)
-+		return -EINVAL;
-+
-+	pvr_free_list_put(free_list);
-+	return 0;
- }
- 
- /**
-@@ -751,7 +799,41 @@ static int
- pvr_ioctl_create_hwrt_dataset(struct drm_device *drm_dev, void *raw_args,
- 			      struct drm_file *file)
- {
--	return -ENOTTY;
-+	struct drm_pvr_ioctl_create_hwrt_dataset_args *args = raw_args;
-+	struct pvr_file *pvr_file = to_pvr_file(file);
-+	struct pvr_hwrt_dataset *hwrt;
-+	int idx;
-+	int err;
-+
-+	if (!drm_dev_enter(drm_dev, &idx))
-+		return -EIO;
-+
-+	hwrt = pvr_hwrt_dataset_create(pvr_file, args);
-+	if (IS_ERR(hwrt)) {
-+		err = PTR_ERR(hwrt);
-+		goto err_drm_dev_exit;
-+	}
-+
-+	/* Allocate object handle for userspace. */
-+	err = xa_alloc(&pvr_file->hwrt_handles,
-+		       &args->handle,
-+		       hwrt,
-+		       xa_limit_32b,
-+		       GFP_KERNEL);
-+	if (err < 0)
-+		goto err_cleanup;
-+
-+	drm_dev_exit(idx);
-+
-+	return 0;
-+
-+err_cleanup:
-+	pvr_hwrt_dataset_put(hwrt);
-+
-+err_drm_dev_exit:
-+	drm_dev_exit(idx);
-+
-+	return err;
- }
- 
- /**
-@@ -771,7 +853,19 @@ static int
- pvr_ioctl_destroy_hwrt_dataset(struct drm_device *drm_dev, void *raw_args,
- 			       struct drm_file *file)
- {
--	return -ENOTTY;
-+	struct drm_pvr_ioctl_destroy_hwrt_dataset_args *args = raw_args;
-+	struct pvr_file *pvr_file = to_pvr_file(file);
-+	struct pvr_hwrt_dataset *hwrt;
-+
-+	if (args->_padding_4)
-+		return -EINVAL;
-+
-+	hwrt = xa_erase(&pvr_file->hwrt_handles, args->handle);
-+	if (!hwrt)
-+		return -EINVAL;
-+
-+	pvr_hwrt_dataset_put(hwrt);
-+	return 0;
- }
- 
- /**
-@@ -1195,6 +1289,8 @@ pvr_drm_driver_open(struct drm_device *drm_dev, struct drm_file *file)
- 	 */
- 	pvr_file->pvr_dev = pvr_dev;
- 
-+	xa_init_flags(&pvr_file->free_list_handles, XA_FLAGS_ALLOC1);
-+	xa_init_flags(&pvr_file->hwrt_handles, XA_FLAGS_ALLOC1);
- 	xa_init_flags(&pvr_file->vm_ctx_handles, XA_FLAGS_ALLOC1);
- 
- 	/*
-@@ -1223,6 +1319,8 @@ pvr_drm_driver_postclose(__always_unused struct drm_device *drm_dev,
- 	struct pvr_file *pvr_file = to_pvr_file(file);
- 
- 	/* Drop references on any remaining objects. */
-+	pvr_destroy_free_lists_for_file(pvr_file);
-+	pvr_destroy_hwrt_datasets_for_file(pvr_file);
- 	pvr_destroy_vm_contexts_for_file(pvr_file);
- 
- 	kfree(pvr_file);
-@@ -1281,6 +1379,8 @@ pvr_probe(struct platform_device *plat_dev)
- 	if (err)
- 		goto err_device_fini;
- 
-+	xa_init_flags(&pvr_dev->free_list_ids, XA_FLAGS_ALLOC1);
-+
- 	return 0;
- 
- err_device_fini:
-@@ -1298,6 +1398,10 @@ pvr_remove(struct platform_device *plat_dev)
- 	struct drm_device *drm_dev = platform_get_drvdata(plat_dev);
- 	struct pvr_device *pvr_dev = to_pvr_device(drm_dev);
- 
-+	WARN_ON(!xa_empty(&pvr_dev->free_list_ids));
-+
-+	xa_destroy(&pvr_dev->free_list_ids);
-+
- 	pm_runtime_suspend(drm_dev->dev);
- 	pvr_device_fini(pvr_dev);
- 	drm_dev_unplug(drm_dev);
-diff --git a/drivers/gpu/drm/imagination/pvr_free_list.c b/drivers/gpu/drm/imagination/pvr_free_list.c
+diff --git a/drivers/gpu/drm/imagination/pvr_cccb.c b/drivers/gpu/drm/imagination/pvr_cccb.c
 new file mode 100644
-index 000000000000..c61fd417edcb
+index 000000000000..4fabab41bea7
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_free_list.c
-@@ -0,0 +1,625 @@
++++ b/drivers/gpu/drm/imagination/pvr_cccb.c
+@@ -0,0 +1,267 @@
 +// SPDX-License-Identifier: GPL-2.0-only OR MIT
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+#include "pvr_free_list.h"
++#include "pvr_ccb.h"
++#include "pvr_cccb.h"
++#include "pvr_device.h"
 +#include "pvr_gem.h"
 +#include "pvr_hwrt.h"
-+#include "pvr_rogue_fwif.h"
-+#include "pvr_vm.h"
 +
-+#include <drm/drm_gem.h>
-+#include <linux/slab.h>
-+#include <linux/xarray.h>
-+#include <uapi/drm/pvr_drm.h>
++#include <linux/compiler.h>
++#include <linux/delay.h>
++#include <linux/jiffies.h>
++#include <linux/mutex.h>
++#include <linux/types.h>
 +
-+#define FREE_LIST_ENTRY_SIZE sizeof(u32)
++static __always_inline u32
++get_ccb_space(u32 w_off, u32 r_off, u32 ccb_size)
++{
++	return (((r_off) - (w_off)) + ((ccb_size) - 1)) & ((ccb_size) - 1);
++}
 +
-+#define FREE_LIST_ALIGNMENT \
-+	((ROGUE_BIF_PM_FREELIST_BASE_ADDR_ALIGNSIZE / FREE_LIST_ENTRY_SIZE) - 1)
++static void
++cccb_ctrl_init(void *cpu_ptr, void *priv)
++{
++	struct rogue_fwif_cccb_ctl *ctrl = cpu_ptr;
++	struct pvr_cccb *pvr_cccb = priv;
 +
-+#define FREE_LIST_MIN_PAGES 50
-+#define FREE_LIST_MIN_PAGES_BRN66011 40
-+#define FREE_LIST_MIN_PAGES_ROGUEXE 25
++	WRITE_ONCE(ctrl->write_offset, 0);
++	WRITE_ONCE(ctrl->read_offset, 0);
++	WRITE_ONCE(ctrl->dep_offset, 0);
++	WRITE_ONCE(ctrl->wrap_mask, pvr_cccb->wrap_mask);
++}
 +
 +/**
-+ * pvr_get_free_list_min_pages() - Get minimum free list size for this device
++ * pvr_cccb_init() - Initialise a Client CCB
 + * @pvr_dev: Device pointer.
-+ *
-+ * Returns:
-+ *  * Minimum free list size, in PM physical pages.
-+ */
-+u32
-+pvr_get_free_list_min_pages(struct pvr_device *pvr_dev)
-+{
-+	u32 value;
-+
-+	if (PVR_HAS_FEATURE(pvr_dev, roguexe)) {
-+		if (PVR_HAS_QUIRK(pvr_dev, 66011))
-+			value = FREE_LIST_MIN_PAGES_BRN66011;
-+		else
-+			value = FREE_LIST_MIN_PAGES_ROGUEXE;
-+	} else {
-+		value = FREE_LIST_MIN_PAGES;
-+	}
-+
-+	return value;
-+}
-+
-+static int
-+free_list_create_kernel_structure(struct pvr_file *pvr_file,
-+				  struct drm_pvr_ioctl_create_free_list_args *args,
-+				  struct pvr_free_list *free_list)
-+{
-+	struct pvr_gem_object *free_list_obj;
-+	struct pvr_vm_context *vm_ctx;
-+	u64 free_list_size;
-+	int err;
-+
-+	if (args->grow_threshold > 100 ||
-+	    args->initial_num_pages > args->max_num_pages ||
-+	    args->grow_num_pages > args->max_num_pages ||
-+	    args->max_num_pages == 0 ||
-+	    (args->initial_num_pages < args->max_num_pages && !args->grow_num_pages) ||
-+	    (args->initial_num_pages == args->max_num_pages && args->grow_num_pages))
-+		return -EINVAL;
-+
-+	if ((args->initial_num_pages & FREE_LIST_ALIGNMENT) ||
-+	    (args->max_num_pages & FREE_LIST_ALIGNMENT) ||
-+	    (args->grow_num_pages & FREE_LIST_ALIGNMENT))
-+		return -EINVAL;
-+
-+	vm_ctx = pvr_vm_context_lookup(pvr_file, args->vm_context_handle);
-+	if (!vm_ctx)
-+		return -EINVAL;
-+
-+	free_list_obj = pvr_vm_find_gem_object(vm_ctx, args->free_list_gpu_addr,
-+					       NULL, &free_list_size);
-+	if (!free_list_obj) {
-+		err = -EINVAL;
-+		goto err_put_vm_context;
-+	}
-+
-+	if ((free_list_obj->flags & DRM_PVR_BO_ALLOW_CPU_USERSPACE_ACCESS) ||
-+	    !(free_list_obj->flags & DRM_PVR_BO_PM_FW_PROTECT) ||
-+	    free_list_size < (args->max_num_pages * FREE_LIST_ENTRY_SIZE)) {
-+		err = -EINVAL;
-+		goto err_put_free_list_obj;
-+	}
-+
-+	free_list->pvr_dev = pvr_file->pvr_dev;
-+	free_list->current_pages = 0;
-+	free_list->max_pages = args->max_num_pages;
-+	free_list->grow_pages = args->grow_num_pages;
-+	free_list->grow_threshold = args->grow_threshold;
-+	free_list->obj = free_list_obj;
-+	free_list->free_list_gpu_addr = args->free_list_gpu_addr;
-+	free_list->initial_num_pages = args->initial_num_pages;
-+
-+	pvr_vm_context_put(vm_ctx);
-+
-+	return 0;
-+
-+err_put_free_list_obj:
-+	pvr_gem_object_put(free_list_obj);
-+
-+err_put_vm_context:
-+	pvr_vm_context_put(vm_ctx);
-+
-+	return err;
-+}
-+
-+static void
-+free_list_destroy_kernel_structure(struct pvr_free_list *free_list)
-+{
-+	WARN_ON(!list_empty(&free_list->hwrt_list));
-+
-+	pvr_gem_object_put(free_list->obj);
-+}
-+
-+/**
-+ * calculate_free_list_ready_pages_locked() - Function to work out the number of free
-+ *                                            list pages to reserve for growing within
-+ *                                            the FW without having to wait for the
-+ *                                            host to progress a grow request
-+ * @free_list: Pointer to free list.
-+ * @pages: Total pages currently in free list.
-+ *
-+ * If the threshold or grow size means less than the alignment size (4 pages on
-+ * Rogue), then the feature is not used.
-+ *
-+ * Caller must hold &free_list->lock.
-+ *
-+ * Return: number of pages to reserve.
-+ */
-+static u32
-+calculate_free_list_ready_pages_locked(struct pvr_free_list *free_list, u32 pages)
-+{
-+	u32 ready_pages;
-+
-+	lockdep_assert_held(&free_list->lock);
-+
-+	ready_pages = ((pages * free_list->grow_threshold) / 100);
-+
-+	/* The number of pages must be less than the grow size. */
-+	ready_pages = min(ready_pages, free_list->grow_pages);
-+
-+	/*
-+	 * The number of pages must be a multiple of the free list align size.
-+	 */
-+	ready_pages &= ~FREE_LIST_ALIGNMENT;
-+
-+	return ready_pages;
-+}
-+
-+static u32
-+calculate_free_list_ready_pages(struct pvr_free_list *free_list, u32 pages)
-+{
-+	u32 ret;
-+
-+	mutex_lock(&free_list->lock);
-+
-+	ret = calculate_free_list_ready_pages_locked(free_list, pages);
-+
-+	mutex_unlock(&free_list->lock);
-+
-+	return ret;
-+}
-+
-+static void
-+free_list_fw_init(void *cpu_ptr, void *priv)
-+{
-+	struct rogue_fwif_freelist *fw_data = cpu_ptr;
-+	struct pvr_free_list *free_list = priv;
-+	u32 ready_pages;
-+
-+	/* Fill out FW structure */
-+	ready_pages = calculate_free_list_ready_pages(free_list,
-+						      free_list->initial_num_pages);
-+
-+	fw_data->max_pages = free_list->max_pages;
-+	fw_data->current_pages = free_list->initial_num_pages - ready_pages;
-+	fw_data->grow_pages = free_list->grow_pages;
-+	fw_data->ready_pages = ready_pages;
-+	fw_data->freelist_id = free_list->fw_id;
-+	fw_data->grow_pending = false;
-+	fw_data->current_stack_top = fw_data->current_pages - 1;
-+	fw_data->freelist_dev_addr = free_list->free_list_gpu_addr;
-+	fw_data->current_dev_addr = (fw_data->freelist_dev_addr +
-+				     ((fw_data->max_pages - fw_data->current_pages) *
-+				      FREE_LIST_ENTRY_SIZE)) &
-+				    ~((u64)ROGUE_BIF_PM_FREELIST_BASE_ADDR_ALIGNSIZE - 1);
-+}
-+
-+static int
-+free_list_create_fw_structure(struct pvr_file *pvr_file,
-+			      struct drm_pvr_ioctl_create_free_list_args *args,
-+			      struct pvr_free_list *free_list)
-+{
-+	struct pvr_device *pvr_dev = pvr_file->pvr_dev;
-+
-+	/*
-+	 * Create and map the FW structure so we can initialise it. This is not
-+	 * accessed on the CPU side post-initialisation so the mapping lifetime
-+	 * is only for this function.
-+	 */
-+	free_list->fw_data = pvr_fw_object_create_and_map(pvr_dev, sizeof(*free_list->fw_data),
-+							  PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+							  free_list_fw_init, free_list,
-+							  &free_list->fw_obj);
-+	if (IS_ERR(free_list->fw_data))
-+		return PTR_ERR(free_list->fw_data);
-+
-+	return 0;
-+}
-+
-+static void
-+free_list_destroy_fw_structure(struct pvr_free_list *free_list)
-+{
-+	pvr_fw_object_unmap_and_destroy(free_list->fw_obj);
-+}
-+
-+static int
-+pvr_free_list_insert_pages_locked(struct pvr_free_list *free_list,
-+				  struct sg_table *sgt, u32 offset, u32 num_pages)
-+{
-+	struct sg_dma_page_iter dma_iter;
-+	u32 *page_list;
-+
-+	lockdep_assert_held(&free_list->lock);
-+
-+	page_list = pvr_gem_object_vmap(free_list->obj);
-+	if (IS_ERR(page_list))
-+		return PTR_ERR(page_list);
-+
-+	offset /= FREE_LIST_ENTRY_SIZE;
-+	/* clang-format off */
-+	for_each_sgtable_dma_page(sgt, &dma_iter, 0) {
-+		dma_addr_t dma_addr = sg_page_iter_dma_address(&dma_iter);
-+		u64 dma_pfn = dma_addr >>
-+			       ROGUE_BIF_PM_PHYSICAL_PAGE_ALIGNSHIFT;
-+		u32 dma_addr_offset;
-+
-+		BUILD_BUG_ON(ROGUE_BIF_PM_PHYSICAL_PAGE_SIZE > PAGE_SIZE);
-+
-+		for (dma_addr_offset = 0; dma_addr_offset < PAGE_SIZE;
-+		     dma_addr_offset += ROGUE_BIF_PM_PHYSICAL_PAGE_SIZE) {
-+			WARN_ON_ONCE(dma_pfn >> 32);
-+
-+			page_list[offset++] = (u32)dma_pfn;
-+			dma_pfn++;
-+
-+			num_pages--;
-+			if (!num_pages)
-+				break;
-+		}
-+
-+		if (!num_pages)
-+			break;
-+	};
-+	/* clang-format on */
-+
-+	/* Make sure our free_list update is flushed. */
-+	wmb();
-+
-+	pvr_gem_object_vunmap(free_list->obj);
-+
-+	return 0;
-+}
-+
-+static int
-+pvr_free_list_insert_node_locked(struct pvr_free_list_node *free_list_node)
-+{
-+	struct pvr_free_list *free_list = free_list_node->free_list;
-+	struct sg_table *sgt;
-+	u32 start_page;
-+	u32 offset;
-+	int err;
-+
-+	lockdep_assert_held(&free_list->lock);
-+
-+	start_page = free_list->max_pages - free_list->current_pages -
-+		     free_list_node->num_pages;
-+	offset = (start_page * FREE_LIST_ENTRY_SIZE) &
-+		  ~((u64)ROGUE_BIF_PM_FREELIST_BASE_ADDR_ALIGNSIZE - 1);
-+
-+	sgt = drm_gem_shmem_get_pages_sgt(&free_list_node->mem_obj->base);
-+	if (WARN_ON(IS_ERR(sgt)))
-+		return PTR_ERR(sgt);
-+
-+	err = pvr_free_list_insert_pages_locked(free_list, sgt,
-+						offset, free_list_node->num_pages);
-+	if (!err)
-+		free_list->current_pages += free_list_node->num_pages;
-+
-+	return err;
-+}
-+
-+static int
-+pvr_free_list_grow(struct pvr_free_list *free_list, u32 num_pages)
-+{
-+	struct pvr_device *pvr_dev = free_list->pvr_dev;
-+	struct pvr_free_list_node *free_list_node;
-+	int err;
-+
-+	mutex_lock(&free_list->lock);
-+
-+	if (num_pages & FREE_LIST_ALIGNMENT) {
-+		err = -EINVAL;
-+		goto err_unlock;
-+	}
-+
-+	free_list_node = kzalloc(sizeof(*free_list_node), GFP_KERNEL);
-+	if (!free_list_node) {
-+		err = -ENOMEM;
-+		goto err_unlock;
-+	}
-+
-+	free_list_node->num_pages = num_pages;
-+	free_list_node->free_list = free_list;
-+
-+	free_list_node->mem_obj = pvr_gem_object_create(pvr_dev,
-+							num_pages <<
-+							ROGUE_BIF_PM_PHYSICAL_PAGE_ALIGNSHIFT,
-+							PVR_BO_FW_FLAGS_DEVICE_CACHED);
-+	if (IS_ERR(free_list_node->mem_obj)) {
-+		err = PTR_ERR(free_list_node->mem_obj);
-+		goto err_free;
-+	}
-+
-+	err = pvr_free_list_insert_node_locked(free_list_node);
-+	if (err)
-+		goto err_destroy_gem_object;
-+
-+	list_add_tail(&free_list_node->node, &free_list->mem_block_list);
-+
-+	/*
-+	 * Reserve a number ready pages to allow the FW to process OOM quickly
-+	 * and asynchronously request a grow.
-+	 */
-+	free_list->ready_pages =
-+		calculate_free_list_ready_pages_locked(free_list,
-+						       free_list->current_pages);
-+	free_list->current_pages -= free_list->ready_pages;
-+
-+	mutex_unlock(&free_list->lock);
-+
-+	return 0;
-+
-+err_destroy_gem_object:
-+	pvr_gem_object_put(free_list_node->mem_obj);
-+
-+err_free:
-+	kfree(free_list_node);
-+
-+err_unlock:
-+	mutex_unlock(&free_list->lock);
-+
-+	return err;
-+}
-+
-+void pvr_free_list_process_grow_req(struct pvr_device *pvr_dev,
-+				    struct rogue_fwif_fwccb_cmd_freelist_gs_data *req)
-+{
-+	struct pvr_free_list *free_list = pvr_free_list_lookup_id(pvr_dev, req->freelist_id);
-+	struct rogue_fwif_kccb_cmd resp_cmd = {
-+		.cmd_type = ROGUE_FWIF_KCCB_CMD_FREELIST_GROW_UPDATE,
-+	};
-+	struct rogue_fwif_freelist_gs_data *resp = &resp_cmd.cmd_data.free_list_gs_data;
-+	u32 grow_pages = 0;
-+
-+	/* If we don't have a freelist registered for this ID, we can't do much. */
-+	if (WARN_ON(!free_list))
-+		return;
-+
-+	/* Since the FW made the request, it has already consumed the ready pages,
-+	 * update the host struct.
-+	 */
-+	free_list->current_pages += free_list->ready_pages;
-+	free_list->ready_pages = 0;
-+
-+	/* If the grow succeeds, update the grow_pages argument. */
-+	if (!pvr_free_list_grow(free_list, free_list->grow_pages))
-+		grow_pages = free_list->grow_pages;
-+
-+	/* Now prepare the response and send it back to the FW. */
-+	pvr_fw_object_get_fw_addr(free_list->fw_obj, &resp->freelist_fw_addr);
-+	resp->delta_pages = grow_pages;
-+	resp->new_pages = free_list->current_pages + free_list->ready_pages;
-+	resp->ready_pages = free_list->ready_pages;
-+	pvr_free_list_put(free_list);
-+
-+	WARN_ON(pvr_kccb_send_cmd(pvr_dev, &resp_cmd, NULL));
-+}
-+
-+static void
-+pvr_free_list_free_node(struct pvr_free_list_node *free_list_node)
-+{
-+	pvr_gem_object_put(free_list_node->mem_obj);
-+
-+	kfree(free_list_node);
-+}
-+
-+/**
-+ * pvr_free_list_create() - Create a new free list and return an object pointer
-+ * @pvr_file: Pointer to pvr_file structure.
-+ * @args: Creation arguments from userspace.
++ * @pvr_cccb: Pointer to Client CCB structure to initialise.
++ * @size_log2: Log2 size of Client CCB in bytes.
++ * @name: Name of owner of Client CCB. Used for fence context.
 + *
 + * Return:
-+ *  * Pointer to new free_list, or
-+ *  * ERR_PTR(-%ENOMEM) on out of memory.
++ *  * Zero on success, or
++ *  * Any error code returned by pvr_fw_object_create_and_map().
 + */
-+struct pvr_free_list *
-+pvr_free_list_create(struct pvr_file *pvr_file,
-+		     struct drm_pvr_ioctl_create_free_list_args *args)
++int
++pvr_cccb_init(struct pvr_device *pvr_dev, struct pvr_cccb *pvr_cccb,
++	      u32 size_log2, const char *name)
 +{
-+	struct pvr_free_list *free_list;
++	size_t size = 1 << size_log2;
 +	int err;
 +
-+	/* Create and fill out the kernel structure */
-+	free_list = kzalloc(sizeof(*free_list), GFP_KERNEL);
-+
-+	if (!free_list)
-+		return ERR_PTR(-ENOMEM);
-+
-+	kref_init(&free_list->ref_count);
-+	INIT_LIST_HEAD(&free_list->mem_block_list);
-+	INIT_LIST_HEAD(&free_list->hwrt_list);
-+	mutex_init(&free_list->lock);
-+
-+	err = free_list_create_kernel_structure(pvr_file, args, free_list);
-+	if (err < 0)
-+		goto err_free;
-+
-+	/* Allocate global object ID for firmware. */
-+	err = xa_alloc(&pvr_file->pvr_dev->free_list_ids,
-+		       &free_list->fw_id,
-+		       free_list,
-+		       xa_limit_32b,
-+		       GFP_KERNEL);
-+	if (err)
-+		goto err_destroy_kernel_structure;
-+
-+	err = free_list_create_fw_structure(pvr_file, args, free_list);
-+	if (err < 0)
-+		goto err_free_fw_id;
-+
-+	err = pvr_free_list_grow(free_list, args->initial_num_pages);
-+	if (err < 0)
-+		goto err_fw_struct_cleanup;
-+
-+	return free_list;
-+
-+err_fw_struct_cleanup:
-+	WARN_ON(pvr_fw_structure_cleanup(free_list->pvr_dev,
-+					 ROGUE_FWIF_CLEANUP_FREELIST,
-+					 free_list->fw_obj, 0));
-+
-+err_free_fw_id:
-+	xa_erase(&free_list->pvr_dev->free_list_ids, free_list->fw_id);
-+
-+err_destroy_kernel_structure:
-+	free_list_destroy_kernel_structure(free_list);
-+
-+err_free:
-+	mutex_destroy(&free_list->lock);
-+	kfree(free_list);
-+
-+	return ERR_PTR(err);
-+}
-+
-+static void
-+pvr_free_list_release(struct kref *ref_count)
-+{
-+	struct pvr_free_list *free_list =
-+		container_of(ref_count, struct pvr_free_list, ref_count);
-+	struct list_head *pos, *n;
-+	int err;
-+
-+	xa_erase(&free_list->pvr_dev->free_list_ids, free_list->fw_id);
-+
-+	err = pvr_fw_structure_cleanup(free_list->pvr_dev,
-+				       ROGUE_FWIF_CLEANUP_FREELIST,
-+				       free_list->fw_obj, 0);
-+	if (err == -EBUSY) {
-+		/* Flush the FWCCB to process any HWR or freelist reconstruction
-+		 * request that might keep the freelist busy, and try again.
-+		 */
-+		pvr_fwccb_process(free_list->pvr_dev);
-+		err = pvr_fw_structure_cleanup(free_list->pvr_dev,
-+					       ROGUE_FWIF_CLEANUP_FREELIST,
-+					       free_list->fw_obj, 0);
-+	}
-+
-+	WARN_ON(err);
-+
-+	/* clang-format off */
-+	list_for_each_safe(pos, n, &free_list->mem_block_list) {
-+		struct pvr_free_list_node *free_list_node =
-+			container_of(pos, struct pvr_free_list_node, node);
-+
-+		list_del(pos);
-+		pvr_free_list_free_node(free_list_node);
-+	}
-+	/* clang-format on */
-+
-+	free_list_destroy_kernel_structure(free_list);
-+	free_list_destroy_fw_structure(free_list);
-+	mutex_destroy(&free_list->lock);
-+	kfree(free_list);
-+}
-+
-+/**
-+ * pvr_destroy_free_lists_for_file: Destroy any free lists associated with the
-+ * given file.
-+ * @pvr_file: Pointer to pvr_file structure.
-+ *
-+ * Removes all free lists associated with @pvr_file from the device free_list
-+ * list and drops initial references. Free lists will then be destroyed once
-+ * all outstanding references are dropped.
-+ */
-+void pvr_destroy_free_lists_for_file(struct pvr_file *pvr_file)
-+{
-+	struct pvr_free_list *free_list;
-+	unsigned long handle;
-+
-+	xa_for_each(&pvr_file->free_list_handles, handle, free_list) {
-+		(void)free_list;
-+		pvr_free_list_put(xa_erase(&pvr_file->free_list_handles, handle));
-+	}
-+}
-+
-+/**
-+ * pvr_free_list_put() - Release reference on free list
-+ * @free_list: Pointer to list to release reference on
-+ */
-+void
-+pvr_free_list_put(struct pvr_free_list *free_list)
-+{
-+	if (free_list)
-+		kref_put(&free_list->ref_count, pvr_free_list_release);
-+}
-+
-+void pvr_free_list_add_hwrt(struct pvr_free_list *free_list, struct pvr_hwrt_data *hwrt_data)
-+{
-+	mutex_lock(&free_list->lock);
-+
-+	list_add_tail(&hwrt_data->freelist_node, &free_list->hwrt_list);
-+
-+	mutex_unlock(&free_list->lock);
-+}
-+
-+void pvr_free_list_remove_hwrt(struct pvr_free_list *free_list, struct pvr_hwrt_data *hwrt_data)
-+{
-+	mutex_lock(&free_list->lock);
-+
-+	list_del(&hwrt_data->freelist_node);
-+
-+	mutex_unlock(&free_list->lock);
-+}
-+
-+static void
-+pvr_free_list_reconstruct(struct pvr_device *pvr_dev, u32 freelist_id)
-+{
-+	struct pvr_free_list *free_list = pvr_free_list_lookup_id(pvr_dev, freelist_id);
-+	struct pvr_free_list_node *free_list_node;
-+	struct rogue_fwif_freelist *fw_data;
-+	struct pvr_hwrt_data *hwrt_data;
-+
-+	if (!free_list)
-+		return;
-+
-+	mutex_lock(&free_list->lock);
-+
-+	/* Rebuild the free list based on the memory block list. */
-+	free_list->current_pages = 0;
-+
-+	list_for_each_entry(free_list_node, &free_list->mem_block_list, node)
-+		WARN_ON(pvr_free_list_insert_node_locked(free_list_node));
++	pvr_cccb->size = size;
++	pvr_cccb->write_offset = 0;
++	pvr_cccb->wrap_mask = size - 1;
 +
 +	/*
-+	 * Remove the ready pages, which are reserved to allow the FW to process OOM quickly and
-+	 * asynchronously request a grow.
++	 * Map CCCB and control structure as uncached, so we don't have to flush
++	 * CPU cache repeatedly when polling for space.
 +	 */
-+	free_list->current_pages -= free_list->ready_pages;
++	pvr_cccb->ctrl = pvr_fw_object_create_and_map(pvr_dev, sizeof(*pvr_cccb->ctrl),
++						      PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
++						      cccb_ctrl_init, pvr_cccb,
++						      &pvr_cccb->ctrl_obj);
++	if (IS_ERR(pvr_cccb->ctrl))
++		return PTR_ERR(pvr_cccb->ctrl);
 +
-+	fw_data = free_list->fw_data;
-+	fw_data->current_stack_top = fw_data->current_pages - 1;
-+	fw_data->allocated_page_count = 0;
-+	fw_data->allocated_mmu_page_count = 0;
-+
-+	/* Reset the state of any associated HWRTs. */
-+	list_for_each_entry(hwrt_data, &free_list->hwrt_list, freelist_node) {
-+		struct rogue_fwif_hwrtdata *hwrt_fw_data = pvr_fw_object_vmap(hwrt_data->fw_obj);
-+
-+		if (!WARN_ON(IS_ERR(hwrt_fw_data))) {
-+			hwrt_fw_data->state = ROGUE_FWIF_RTDATA_STATE_HWR;
-+			hwrt_fw_data->hwrt_data_flags &= ~HWRTDATA_HAS_LAST_GEOM;
-+		}
-+
-+		pvr_fw_object_vunmap(hwrt_data->fw_obj);
++	pvr_cccb->cccb = pvr_fw_object_create_and_map(pvr_dev, size,
++						      PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
++						      NULL, NULL, &pvr_cccb->cccb_obj);
++	if (IS_ERR(pvr_cccb->cccb)) {
++		err = PTR_ERR(pvr_cccb->cccb);
++		goto err_free_ctrl;
 +	}
 +
-+	mutex_unlock(&free_list->lock);
++	pvr_fw_object_get_fw_addr(pvr_cccb->ctrl_obj, &pvr_cccb->ctrl_fw_addr);
++	pvr_fw_object_get_fw_addr(pvr_cccb->cccb_obj, &pvr_cccb->cccb_fw_addr);
 +
-+	pvr_free_list_put(free_list);
++	return 0;
++
++err_free_ctrl:
++	pvr_fw_object_unmap_and_destroy(pvr_cccb->ctrl_obj);
++
++	return err;
++}
++
++/**
++ * pvr_cccb_fini() - Release Client CCB structure
++ * @pvr_cccb: Client CCB to release.
++ */
++void
++pvr_cccb_fini(struct pvr_cccb *pvr_cccb)
++{
++	pvr_fw_object_unmap_and_destroy(pvr_cccb->cccb_obj);
++	pvr_fw_object_unmap_and_destroy(pvr_cccb->ctrl_obj);
++}
++
++/**
++ * pvr_cccb_cmdseq_fits() - Check if a command sequence fits in the CCCB
++ * @pvr_cccb: Target Client CCB.
++ * @size: Size of the command sequence.
++ *
++ * Check if a command sequence fits in the CCCB we have at hand.
++ *
++ * Return:
++ *  * true if the command sequence fits in the CCCB, or
++ *  * false otherwise.
++ */
++bool pvr_cccb_cmdseq_fits(struct pvr_cccb *pvr_cccb, size_t size)
++{
++	struct rogue_fwif_cccb_ctl *ctrl = pvr_cccb->ctrl;
++	u32 read_offset, remaining;
++	bool fits = false;
++
++	read_offset = READ_ONCE(ctrl->read_offset);
++	remaining = pvr_cccb->size - pvr_cccb->write_offset;
++
++	/* Always ensure we have enough room for a padding command at the end of the CCCB.
++	 * If our command sequence does not fit, reserve the remaining space for a padding
++	 * command.
++	 */
++	if (size + PADDING_COMMAND_SIZE > remaining)
++		size += remaining;
++
++	if (get_ccb_space(pvr_cccb->write_offset, read_offset, pvr_cccb->size) >= size)
++		fits = true;
++
++	return fits;
++}
++
++/**
++ * pvr_cccb_write_command_with_header() - Write a command + command header to a
++ *                                        Client CCB
++ * @pvr_cccb: Target Client CCB.
++ * @cmd_type: Client CCB command type. Must be one of %ROGUE_FWIF_CCB_CMD_TYPE_*.
++ * @cmd_size: Size of command in bytes.
++ * @cmd_data: Pointer to command to write.
++ * @ext_job_ref: External job reference.
++ * @int_job_ref: Internal job reference.
++ *
++ * Caller must make sure there's enough space in CCCB to queue this command. This
++ * can be done by calling pvr_cccb_cmdseq_fits().
++ *
++ * This function is not protected by any lock. The caller must ensure there's
++ * no concurrent caller, which should be guaranteed by the drm_sched model (job
++ * submission is serialized in drm_sched_main()).
++ */
++void
++pvr_cccb_write_command_with_header(struct pvr_cccb *pvr_cccb, u32 cmd_type, u32 cmd_size,
++				   void *cmd_data, u32 ext_job_ref, u32 int_job_ref)
++{
++	u32 sz_with_hdr = pvr_cccb_get_size_of_cmd_with_hdr(cmd_size);
++	struct rogue_fwif_ccb_cmd_header cmd_header = {
++		.cmd_type = cmd_type,
++		.cmd_size = ALIGN(cmd_size, 8),
++		.ext_job_ref = ext_job_ref,
++		.int_job_ref = int_job_ref,
++	};
++	struct rogue_fwif_cccb_ctl *ctrl = pvr_cccb->ctrl;
++	u32 remaining = pvr_cccb->size - pvr_cccb->write_offset;
++	u32 required_size, cccb_space, read_offset;
++
++	/*
++	 * Always ensure we have enough room for a padding command at the end of
++	 * the CCCB.
++	 */
++	if (remaining < sz_with_hdr + PADDING_COMMAND_SIZE) {
++		/*
++		 * Command would need to wrap, so we need to pad the remainder
++		 * of the CCCB.
++		 */
++		required_size = sz_with_hdr + remaining;
++	} else {
++		required_size = sz_with_hdr;
++	}
++
++	read_offset = READ_ONCE(ctrl->read_offset);
++	cccb_space = get_ccb_space(pvr_cccb->write_offset, read_offset, pvr_cccb->size);
++	if (WARN_ON(cccb_space < required_size))
++		return;
++
++	if (required_size != sz_with_hdr) {
++		/* Add padding command */
++		struct rogue_fwif_ccb_cmd_header pad_cmd = {
++			.cmd_type = ROGUE_FWIF_CCB_CMD_TYPE_PADDING,
++			.cmd_size = remaining - sizeof(pad_cmd),
++		};
++
++		memcpy(&pvr_cccb->cccb[pvr_cccb->write_offset], &pad_cmd, sizeof(pad_cmd));
++		pvr_cccb->write_offset = 0;
++	}
++
++	memcpy(&pvr_cccb->cccb[pvr_cccb->write_offset], &cmd_header, sizeof(cmd_header));
++	memcpy(&pvr_cccb->cccb[pvr_cccb->write_offset + sizeof(cmd_header)], cmd_data, cmd_size);
++	pvr_cccb->write_offset += sz_with_hdr;
++}
++
++static void fill_cmd_kick_data(struct pvr_cccb *cccb, u32 ctx_fw_addr,
++			       struct pvr_hwrt_data *hwrt,
++			       struct rogue_fwif_kccb_cmd_kick_data *k)
++{
++	k->context_fw_addr = ctx_fw_addr;
++	k->client_woff_update = cccb->write_offset;
++	k->client_wrap_mask_update = cccb->wrap_mask;
++
++	if (hwrt) {
++		u32 cleanup_state_offset = offsetof(struct rogue_fwif_hwrtdata, cleanup_state);
++
++		pvr_fw_object_get_fw_addr_offset(hwrt->fw_obj, cleanup_state_offset,
++						 &k->cleanup_ctl_fw_addr[k->num_cleanup_ctl++]);
++	}
++}
++
++/**
++ * pvr_cccb_send_kccb_kick: Send KCCB kick to trigger command processing
++ * @pvr_dev: Device pointer.
++ * @pvr_cccb: Pointer to CCCB to process.
++ * @cctx_fw_addr: FW virtual address for context owning this Client CCB.
++ * @hwrt: HWRT data set associated with this kick. May be %NULL.
++ *
++ * You must call pvr_kccb_reserve_slot() and wait for the returned fence to
++ * signal (if this function didn't return NULL) before calling
++ * pvr_cccb_send_kccb_kick().
++ */
++void
++pvr_cccb_send_kccb_kick(struct pvr_device *pvr_dev,
++			struct pvr_cccb *pvr_cccb, u32 cctx_fw_addr,
++			struct pvr_hwrt_data *hwrt)
++{
++	struct rogue_fwif_kccb_cmd cmd_kick = {
++		.cmd_type = ROGUE_FWIF_KCCB_CMD_KICK,
++	};
++
++	fill_cmd_kick_data(pvr_cccb, cctx_fw_addr, hwrt, &cmd_kick.cmd_data.cmd_kick_data);
++
++	/* Make sure the writes to the CCCB are flushed before sending the KICK. */
++	wmb();
++
++	pvr_kccb_send_cmd_reserved_powered(pvr_dev, &cmd_kick, NULL);
 +}
 +
 +void
-+pvr_free_list_process_reconstruct_req(struct pvr_device *pvr_dev,
-+				struct rogue_fwif_fwccb_cmd_freelists_reconstruction_data *req)
++pvr_cccb_send_kccb_combined_kick(struct pvr_device *pvr_dev,
++				 struct pvr_cccb *geom_cccb,
++				 struct pvr_cccb *frag_cccb,
++				 u32 geom_ctx_fw_addr,
++				 u32 frag_ctx_fw_addr,
++				 struct pvr_hwrt_data *hwrt,
++				 bool frag_is_pr)
 +{
-+	struct rogue_fwif_kccb_cmd resp_cmd = {
-+		.cmd_type = ROGUE_FWIF_KCCB_CMD_FREELISTS_RECONSTRUCTION_UPDATE,
++	struct rogue_fwif_kccb_cmd cmd_kick = {
++		.cmd_type = ROGUE_FWIF_KCCB_CMD_COMBINED_GEOM_FRAG_KICK,
 +	};
-+	struct rogue_fwif_freelists_reconstruction_data *resp =
-+		&resp_cmd.cmd_data.free_lists_reconstruction_data;
 +
-+	for (u32 i = 0; i < req->freelist_count; i++)
-+		pvr_free_list_reconstruct(pvr_dev, req->freelist_ids[i]);
++	fill_cmd_kick_data(geom_cccb, geom_ctx_fw_addr, hwrt,
++			   &cmd_kick.cmd_data.combined_geom_frag_cmd_kick_data.geom_cmd_kick_data);
 +
-+	resp->freelist_count = req->freelist_count;
-+	memcpy(resp->freelist_ids, req->freelist_ids,
-+	       req->freelist_count * sizeof(resp->freelist_ids[0]));
++	/* If this is a partial-render job, we don't attach resources to cleanup-ctl array,
++	 * because the resources are already retained by the geometry job.
++	 */
++	fill_cmd_kick_data(frag_cccb, frag_ctx_fw_addr, frag_is_pr ? NULL : hwrt,
++			   &cmd_kick.cmd_data.combined_geom_frag_cmd_kick_data.frag_cmd_kick_data);
 +
-+	WARN_ON(pvr_kccb_send_cmd(pvr_dev, &resp_cmd, NULL));
++	/* Make sure the writes to the CCCB are flushed before sending the KICK. */
++	wmb();
++
++	pvr_kccb_send_cmd_reserved_powered(pvr_dev, &cmd_kick, NULL);
 +}
-diff --git a/drivers/gpu/drm/imagination/pvr_free_list.h b/drivers/gpu/drm/imagination/pvr_free_list.h
+diff --git a/drivers/gpu/drm/imagination/pvr_cccb.h b/drivers/gpu/drm/imagination/pvr_cccb.h
 new file mode 100644
-index 000000000000..bfb4f5fc622c
+index 000000000000..f35b3d4c9575
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_free_list.h
-@@ -0,0 +1,195 @@
++++ b/drivers/gpu/drm/imagination/pvr_cccb.h
+@@ -0,0 +1,109 @@
 +/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+#ifndef PVR_FREE_LIST_H
-+#define PVR_FREE_LIST_H
++#ifndef PVR_CCCB_H
++#define PVR_CCCB_H
++
++#include "pvr_rogue_fwif.h"
++#include "pvr_rogue_fwif_shared.h"
++
++#include <linux/mutex.h>
++#include <linux/types.h>
++
++#define PADDING_COMMAND_SIZE sizeof(struct rogue_fwif_ccb_cmd_header)
++
++/* Forward declaration from pvr_device.h. */
++struct pvr_device;
++
++/* Forward declaration from pvr_gem.h. */
++struct pvr_fw_object;
++
++/* Forward declaration from pvr_hwrt.h. */
++struct pvr_hwrt_data;
++
++struct pvr_cccb {
++	/** @ctrl_obj: FW object representing CCCB control structure. */
++	struct pvr_fw_object *ctrl_obj;
++
++	/** @ccb_obj: FW object representing CCCB. */
++	struct pvr_fw_object *cccb_obj;
++
++	/**
++	 * @ctrl: Kernel mapping of CCCB control structure. @lock must be held
++	 *        when accessing.
++	 */
++	struct rogue_fwif_cccb_ctl *ctrl;
++
++	/** @cccb: Kernel mapping of CCCB. @lock must be held when accessing.*/
++	u8 *cccb;
++
++	/** @ctrl_fw_addr: FW virtual address of CCCB control structure. */
++	u32 ctrl_fw_addr;
++	/** @ccb_fw_addr: FW virtual address of CCCB. */
++	u32 cccb_fw_addr;
++
++	/** @size: Size of CCCB in bytes. */
++	size_t size;
++
++	/** @write_offset: CCCB write offset. */
++	u32 write_offset;
++
++	/** @wrap_mask: CCCB wrap mask. */
++	u32 wrap_mask;
++};
++
++int pvr_cccb_init(struct pvr_device *pvr_dev, struct pvr_cccb *cccb,
++		  u32 size_log2, const char *name);
++void pvr_cccb_fini(struct pvr_cccb *cccb);
++
++void pvr_cccb_write_command_with_header(struct pvr_cccb *pvr_cccb,
++					u32 cmd_type, u32 cmd_size, void *cmd_data,
++					u32 ext_job_ref, u32 int_job_ref);
++void pvr_cccb_send_kccb_kick(struct pvr_device *pvr_dev,
++			     struct pvr_cccb *pvr_cccb, u32 cctx_fw_addr,
++			     struct pvr_hwrt_data *hwrt);
++void pvr_cccb_send_kccb_combined_kick(struct pvr_device *pvr_dev,
++				      struct pvr_cccb *geom_cccb,
++				      struct pvr_cccb *frag_cccb,
++				      u32 geom_ctx_fw_addr,
++				      u32 frag_ctx_fw_addr,
++				      struct pvr_hwrt_data *hwrt,
++				      bool frag_is_pr);
++bool pvr_cccb_cmdseq_fits(struct pvr_cccb *pvr_cccb, size_t size);
++
++/**
++ * pvr_cccb_get_size_of_cmd_with_hdr() - Get the size of a command and its header.
++ * @cmd_size: Command size.
++ *
++ * Returns the size of the command and its header.
++ */
++static __always_inline u32
++pvr_cccb_get_size_of_cmd_with_hdr(u32 cmd_size)
++{
++	WARN_ON(!IS_ALIGNED(cmd_size, 8));
++	return sizeof(struct rogue_fwif_ccb_cmd_header) + ALIGN(cmd_size, 8);
++}
++
++/**
++ * pvr_cccb_cmdseq_can_fit() - Check if a command sequence can fit in the CCCB.
++ * @size: Command sequence size.
++ *
++ * Returns:
++ *  * true it the CCCB is big enough to contain a command sequence, or
++ *  * false otherwise.
++ */
++static __always_inline bool
++pvr_cccb_cmdseq_can_fit(struct pvr_cccb *pvr_cccb, size_t size)
++{
++	/* We divide the capacity by two to simplify our CCCB fencing logic:
++	 * we want to be sure that, no matter what we had queued before, we
++	 * are able to either queue our command sequence at the end or add a
++	 * padding command and queue the command sequence at the beginning
++	 * of the CCCB. If the command sequence size is bigger than half the
++	 * CCCB capacity, we'd have to queue the padding command and make sure
++	 * the FW is done processing it before queueing our command sequence.
++	 */
++	return size + PADDING_COMMAND_SIZE <= pvr_cccb->size / 2;
++}
++
++#endif /* PVR_CCCB_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_context.c b/drivers/gpu/drm/imagination/pvr_context.c
+new file mode 100644
+index 000000000000..6cec5aa5a759
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_context.c
+@@ -0,0 +1,341 @@
++// SPDX-License-Identifier: GPL-2.0-only OR MIT
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#include "pvr_cccb.h"
++#include "pvr_context.h"
++#include "pvr_device.h"
++#include "pvr_drv.h"
++#include "pvr_gem.h"
++#include "pvr_power.h"
++#include "pvr_rogue_fwif.h"
++#include "pvr_rogue_fwif_common.h"
++#include "pvr_rogue_fwif_resetframework.h"
++#include "pvr_stream_defs.h"
++#include "pvr_vm.h"
++
++#include <drm/drm_auth.h>
++#include <drm/drm_managed.h>
++#include <linux/errno.h>
++#include <linux/kernel.h>
++#include <linux/sched.h>
++#include <linux/slab.h>
++#include <linux/string.h>
++#include <linux/types.h>
++#include <linux/xarray.h>
++
++static int
++remap_priority(struct pvr_file *pvr_file, s32 uapi_priority,
++	       enum pvr_context_priority *priority_out)
++{
++	switch (uapi_priority) {
++	case DRM_PVR_CTX_PRIORITY_LOW:
++		*priority_out = PVR_CTX_PRIORITY_LOW;
++		break;
++	case DRM_PVR_CTX_PRIORITY_NORMAL:
++		*priority_out = PVR_CTX_PRIORITY_MEDIUM;
++		break;
++	case DRM_PVR_CTX_PRIORITY_HIGH:
++		if (!capable(CAP_SYS_NICE) && !drm_is_current_master(from_pvr_file(pvr_file)))
++			return -EACCES;
++		*priority_out = PVR_CTX_PRIORITY_HIGH;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int get_fw_obj_size(enum drm_pvr_ctx_type type)
++{
++	switch (type) {
++	case DRM_PVR_CTX_TYPE_RENDER:
++		return sizeof(struct rogue_fwif_fwrendercontext);
++	case DRM_PVR_CTX_TYPE_COMPUTE:
++		return sizeof(struct rogue_fwif_fwcomputecontext);
++	case DRM_PVR_CTX_TYPE_TRANSFER_FRAG:
++		return sizeof(struct rogue_fwif_fwtransfercontext);
++	}
++
++	return -EINVAL;
++}
++
++static int
++process_static_context_state(struct pvr_device *pvr_dev, const struct pvr_stream_cmd_defs *cmd_defs,
++			     u64 stream_user_ptr, u32 stream_size, void *dest)
++{
++	void *stream;
++	int err;
++
++	stream = kzalloc(stream_size, GFP_KERNEL);
++	if (!stream)
++		return -ENOMEM;
++
++	if (copy_from_user(stream, u64_to_user_ptr(stream_user_ptr), stream_size)) {
++		err = -EFAULT;
++		goto err_free;
++	}
++
++	err = pvr_stream_process(pvr_dev, cmd_defs, stream, stream_size, dest);
++	if (err)
++		goto err_free;
++
++	kfree(stream);
++
++	return 0;
++
++err_free:
++	kfree(stream);
++
++	return err;
++}
++
++static int init_render_fw_objs(struct pvr_context *ctx,
++			       struct drm_pvr_ioctl_create_context_args *args,
++			       void *fw_ctx_map)
++{
++	struct rogue_fwif_static_rendercontext_state *static_rendercontext_state;
++	struct rogue_fwif_fwrendercontext *fw_render_context = fw_ctx_map;
++
++	if (!args->static_context_state_len)
++		return -EINVAL;
++
++	static_rendercontext_state = &fw_render_context->static_render_context_state;
++
++	/* Copy static render context state from userspace. */
++	return process_static_context_state(ctx->pvr_dev,
++					    &pvr_static_render_context_state_stream,
++					    args->static_context_state,
++					    args->static_context_state_len,
++					    &static_rendercontext_state->ctxswitch_regs[0]);
++}
++
++static int init_compute_fw_objs(struct pvr_context *ctx,
++				struct drm_pvr_ioctl_create_context_args *args,
++				void *fw_ctx_map)
++{
++	struct rogue_fwif_fwcomputecontext *fw_compute_context = fw_ctx_map;
++	struct rogue_fwif_cdm_registers_cswitch *ctxswitch_regs;
++
++	if (!args->static_context_state_len)
++		return -EINVAL;
++
++	ctxswitch_regs = &fw_compute_context->static_compute_context_state.ctxswitch_regs;
++
++	/* Copy static render context state from userspace. */
++	return process_static_context_state(ctx->pvr_dev,
++					    &pvr_static_compute_context_state_stream,
++					    args->static_context_state,
++					    args->static_context_state_len,
++					    ctxswitch_regs);
++}
++
++static int init_transfer_fw_objs(struct pvr_context *ctx,
++				 struct drm_pvr_ioctl_create_context_args *args,
++				 void *fw_ctx_map)
++{
++	if (args->static_context_state_len)
++		return -EINVAL;
++
++	return 0;
++}
++
++static int init_fw_objs(struct pvr_context *ctx,
++			struct drm_pvr_ioctl_create_context_args *args,
++			void *fw_ctx_map)
++{
++	switch (ctx->type) {
++	case DRM_PVR_CTX_TYPE_RENDER:
++		return init_render_fw_objs(ctx, args, fw_ctx_map);
++	case DRM_PVR_CTX_TYPE_COMPUTE:
++		return init_compute_fw_objs(ctx, args, fw_ctx_map);
++	case DRM_PVR_CTX_TYPE_TRANSFER_FRAG:
++		return init_transfer_fw_objs(ctx, args, fw_ctx_map);
++	}
++
++	return -EINVAL;
++}
++
++static void
++ctx_fw_data_init(void *cpu_ptr, void *priv)
++{
++	struct pvr_context *ctx = priv;
++
++	memcpy(cpu_ptr, ctx->data, ctx->data_size);
++}
++
++/**
++ * pvr_context_create() - Create a context.
++ * @pvr_file: File to attach the created context to.
++ * @args: Context creation arguments.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * A negative error code on failure.
++ */
++int pvr_context_create(struct pvr_file *pvr_file, struct drm_pvr_ioctl_create_context_args *args)
++{
++	struct pvr_device *pvr_dev = pvr_file->pvr_dev;
++	struct pvr_context *ctx;
++	int ctx_size;
++	int err;
++
++	/* Context creation flags are currently unused and must be zero. */
++	if (args->flags)
++		return -EINVAL;
++
++	ctx_size = get_fw_obj_size(args->type);
++	if (ctx_size < 0)
++		return ctx_size;
++
++	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
++	if (!ctx)
++		return -ENOMEM;
++
++	ctx->data_size = ctx_size;
++	ctx->type = args->type;
++	ctx->flags = args->flags;
++	ctx->pvr_dev = pvr_dev;
++	kref_init(&ctx->ref_count);
++
++	err = remap_priority(pvr_file, args->priority, &ctx->priority);
++	if (err)
++		goto err_free_ctx;
++
++	ctx->vm_ctx = pvr_vm_context_lookup(pvr_file, args->vm_context_handle);
++	if (IS_ERR(ctx->vm_ctx)) {
++		err = PTR_ERR(ctx->vm_ctx);
++		goto err_free_ctx;
++	}
++
++	ctx->data = kzalloc(ctx_size, GFP_KERNEL);
++	if (!ctx->data) {
++		err = -ENOMEM;
++		goto err_put_vm;
++	}
++
++	err = init_fw_objs(ctx, args, ctx->data);
++	if (err)
++		goto err_free_ctx_data;
++
++	err = pvr_fw_object_create(pvr_dev, ctx_size, PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
++				   ctx_fw_data_init, ctx, &ctx->fw_obj);
++	if (err)
++		goto err_free_ctx_data;
++
++	err = xa_alloc(&pvr_dev->ctx_ids, &ctx->ctx_id, ctx, xa_limit_32b, GFP_KERNEL);
++	if (err)
++		goto err_destroy_fw_obj;
++
++	err = xa_alloc(&pvr_file->ctx_handles, &args->handle, ctx, xa_limit_32b, GFP_KERNEL);
++	if (err) {
++		/*
++		 * It's possible that another thread could have taken a reference on the context at
++		 * this point as it is in the ctx_ids xarray. Therefore instead of directly
++		 * destroying the context, drop a reference instead.
++		 */
++		pvr_context_put(ctx);
++		return err;
++	}
++
++	return 0;
++
++err_destroy_fw_obj:
++	pvr_fw_object_destroy(ctx->fw_obj);
++
++err_free_ctx_data:
++	kfree(ctx->data);
++
++err_put_vm:
++	pvr_vm_context_put(ctx->vm_ctx);
++
++err_free_ctx:
++	kfree(ctx);
++	return err;
++}
++
++static void
++pvr_context_release(struct kref *ref_count)
++{
++	struct pvr_context *ctx =
++		container_of(ref_count, struct pvr_context, ref_count);
++	struct pvr_device *pvr_dev = ctx->pvr_dev;
++
++	xa_erase(&pvr_dev->ctx_ids, ctx->ctx_id);
++	pvr_fw_object_destroy(ctx->fw_obj);
++	kfree(ctx->data);
++	pvr_vm_context_put(ctx->vm_ctx);
++	kfree(ctx);
++}
++
++/**
++ * pvr_context_put() - Release reference on context
++ * @ctx: Target context.
++ */
++void
++pvr_context_put(struct pvr_context *ctx)
++{
++	if (ctx)
++		kref_put(&ctx->ref_count, pvr_context_release);
++}
++
++/**
++ * pvr_context_destroy() - Destroy context
++ * @pvr_file: Pointer to pvr_file structure.
++ * @handle: Userspace context handle.
++ *
++ * Removes context from context list and drops initial reference. Context will
++ * then be destroyed once all outstanding references are dropped.
++ *
++ * Return:
++ *  * 0 on success, or
++ *  * -%EINVAL if context not in context list.
++ */
++int
++pvr_context_destroy(struct pvr_file *pvr_file, u32 handle)
++{
++	struct pvr_context *ctx = xa_erase(&pvr_file->ctx_handles, handle);
++
++	if (!ctx)
++		return -EINVAL;
++
++	/* Release the reference held by the handle set. */
++	pvr_context_put(ctx);
++
++	return 0;
++}
++
++/**
++ * pvr_destroy_contexts_for_file: Destroy any contexts associated with the given file
++ * @pvr_file: Pointer to pvr_file structure.
++ *
++ * Removes all contexts associated with @pvr_file from the device context list and drops initial
++ * references. Contexts will then be destroyed once all outstanding references are dropped.
++ */
++void pvr_destroy_contexts_for_file(struct pvr_file *pvr_file)
++{
++	struct pvr_context *ctx;
++	unsigned long handle;
++
++	xa_for_each(&pvr_file->ctx_handles, handle, ctx)
++		pvr_context_destroy(pvr_file, handle);
++}
++
++/**
++ * pvr_context_device_init() - Device level initialization for queue related resources.
++ * @pvr_dev: The device to initialize.
++ */
++void pvr_context_device_init(struct pvr_device *pvr_dev)
++{
++	xa_init_flags(&pvr_dev->ctx_ids, XA_FLAGS_ALLOC1);
++}
++
++/**
++ * pvr_context_device_fini() - Device level cleanup for queue related resources.
++ * @pvr_dev: The device to cleanup.
++ */
++void pvr_context_device_fini(struct pvr_device *pvr_dev)
++{
++	WARN_ON(!xa_empty(&pvr_dev->ctx_ids));
++	xa_destroy(&pvr_dev->ctx_ids);
++}
+diff --git a/drivers/gpu/drm/imagination/pvr_context.h b/drivers/gpu/drm/imagination/pvr_context.h
+new file mode 100644
+index 000000000000..502dfad113e4
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_context.h
+@@ -0,0 +1,161 @@
++/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#ifndef PVR_CONTEXT_H
++#define PVR_CONTEXT_H
++
++#include <drm/gpu_scheduler.h>
 +
 +#include <linux/compiler_attributes.h>
++#include <linux/dma-fence.h>
 +#include <linux/kref.h>
-+#include <linux/list.h>
-+#include <linux/mutex.h>
 +#include <linux/types.h>
 +#include <linux/xarray.h>
 +#include <uapi/drm/pvr_drm.h>
 +
++#include "pvr_cccb.h"
 +#include "pvr_device.h"
 +
 +/* Forward declaration from pvr_gem.h. */
 +struct pvr_fw_object;
 +
-+/* Forward declaration from pvr_gem.h. */
-+struct pvr_gem_object;
-+
-+/* Forward declaration from pvr_hwrt.h. */
-+struct pvr_hwrt_data;
-+
-+/**
-+ * struct pvr_free_list_node - structure representing an allocation in the free
-+ *                             list
-+ */
-+struct pvr_free_list_node {
-+	/** @node: List node for &pvr_free_list.mem_block_list. */
-+	struct list_head node;
-+
-+	/** @free_list: Pointer to owning free list. */
-+	struct pvr_free_list *free_list;
-+
-+	/** @num_pages: Number of pages in this node. */
-+	u32 num_pages;
-+
-+	/** @mem_obj: GEM object representing the pages in this node. */
-+	struct pvr_gem_object *mem_obj;
++enum pvr_context_priority {
++	PVR_CTX_PRIORITY_LOW = 0,
++	PVR_CTX_PRIORITY_MEDIUM,
++	PVR_CTX_PRIORITY_HIGH,
 +};
 +
 +/**
-+ * struct pvr_free_list - structure representing a free list
++ * struct pvr_context - Context data
 + */
-+struct pvr_free_list {
-+	/** @ref_count: Reference count of object. */
++struct pvr_context {
++	/** @ref_count: Refcount for context. */
 +	struct kref ref_count;
 +
-+	/** @pvr_dev: Pointer to device that owns this object. */
++	/** @pvr_dev: Pointer to owning device. */
 +	struct pvr_device *pvr_dev;
 +
-+	/** @obj: GEM object representing the free list. */
-+	struct pvr_gem_object *obj;
++	/** @vm_ctx: Pointer to associated VM context. */
++	struct pvr_vm_context *vm_ctx;
 +
-+	/** @fw_obj: FW object representing the FW-side structure. */
++	/** @type: Type of context. */
++	enum drm_pvr_ctx_type type;
++
++	/** @flags: Context flags. */
++	u32 flags;
++
++	/** @priority: Context priority*/
++	enum pvr_context_priority priority;
++
++	/** @fw_obj: FW object representing FW-side context data. */
 +	struct pvr_fw_object *fw_obj;
 +
-+	/** @fw_data: Pointer to CPU mapping of the FW-side structure. */
-+	struct rogue_fwif_freelist *fw_data;
++	/** @data: Pointer to local copy of FW context data. */
++	void *data;
 +
-+	/**
-+	 * @lock: Mutex protecting modification of the free list. Must be held when accessing any
-+	 *        of the members below.
-+	 */
-+	struct mutex lock;
++	/** @data_size: Size of FW context data, in bytes. */
++	u32 data_size;
 +
-+	/** @fw_id: Firmware ID for this object. */
-+	u32 fw_id;
-+
-+	/** @current_pages: Current number of pages in free list. */
-+	u32 current_pages;
-+
-+	/** @max_pages: Maximum number of pages in free list. */
-+	u32 max_pages;
-+
-+	/** @grow_pages: Pages to grow free list by per request. */
-+	u32 grow_pages;
-+
-+	/**
-+	 * @grow_threshold: Percentage of FL memory used that should trigger a
-+	 *                  new grow request.
-+	 */
-+	u32 grow_threshold;
-+
-+	/**
-+	 * @ready_pages: Number of pages reserved for FW to use while a grow
-+	 *               request is being processed.
-+	 */
-+	u32 ready_pages;
-+
-+	/** @mem_block_list: List of memory blocks in this free list. */
-+	struct list_head mem_block_list;
-+
-+	/** @hwrt_list: List of HWRTs using this free list. */
-+	struct list_head hwrt_list;
-+
-+	/** @initial_num_pages: Initial number of pages in free list. */
-+	u32 initial_num_pages;
-+
-+	/** @free_list_gpu_addr: Address of free list in GPU address space. */
-+	u64 free_list_gpu_addr;
++	/** @ctx_id: FW context ID. */
++	u32 ctx_id;
 +};
 +
-+struct pvr_free_list *
-+pvr_free_list_create(struct pvr_file *pvr_file,
-+		     struct drm_pvr_ioctl_create_free_list_args *args);
-+
-+void
-+pvr_destroy_free_lists_for_file(struct pvr_file *pvr_file);
-+
-+u32
-+pvr_get_free_list_min_pages(struct pvr_device *pvr_dev);
-+
-+static __always_inline struct pvr_free_list *
-+pvr_free_list_get(struct pvr_free_list *free_list)
++/**
++ * pvr_context_get() - Take additional reference on context.
++ * @ctx: Context pointer.
++ *
++ * Call pvr_context_put() to release.
++ *
++ * Returns:
++ *  * The requested context on success, or
++ *  * %NULL if no context pointer passed.
++ */
++static __always_inline struct pvr_context *
++pvr_context_get(struct pvr_context *ctx)
 +{
-+	if (free_list)
-+		kref_get(&free_list->ref_count);
++	if (ctx)
++		kref_get(&ctx->ref_count);
 +
-+	return free_list;
++	return ctx;
 +}
 +
 +/**
-+ * pvr_free_list_lookup() - Lookup free list pointer from handle and file
++ * pvr_context_lookup() - Lookup context pointer from handle and file.
 + * @pvr_file: Pointer to pvr_file structure.
-+ * @handle: Object handle.
++ * @handle: Context handle.
 + *
-+ * Takes reference on free list object. Call pvr_free_list_put() to release.
++ * Takes reference on context. Call pvr_context_put() to release.
 + *
-+ * Returns:
-+ *  * The requested object on success, or
-+ *  * %NULL on failure (object does not exist in list, is not a free list, or
-+ *    does not belong to @pvr_file)
++ * Return:
++ *  * The requested context on success, or
++ *  * %NULL on failure (context does not exist, or does not belong to @pvr_file).
 + */
-+static __always_inline struct pvr_free_list *
-+pvr_free_list_lookup(struct pvr_file *pvr_file, u32 handle)
++static __always_inline struct pvr_context *
++pvr_context_lookup(struct pvr_file *pvr_file, u32 handle)
 +{
-+	struct pvr_free_list *free_list;
++	struct pvr_context *ctx;
 +
-+	xa_lock(&pvr_file->free_list_handles);
-+	free_list = pvr_free_list_get(xa_load(&pvr_file->free_list_handles, handle));
-+	xa_unlock(&pvr_file->free_list_handles);
++	/* Take the array lock to protect against context removal.  */
++	xa_lock(&pvr_file->ctx_handles);
++	ctx = pvr_context_get(xa_load(&pvr_file->ctx_handles, handle));
++	xa_unlock(&pvr_file->ctx_handles);
 +
-+	return free_list;
++	return ctx;
 +}
 +
 +/**
-+ * pvr_free_list_lookup_id() - Lookup free list pointer from FW ID
++ * pvr_context_lookup_id() - Lookup context pointer from ID.
 + * @pvr_dev: Device pointer.
-+ * @id: FW object ID.
++ * @id: FW context ID.
 + *
-+ * Takes reference on free list object. Call pvr_free_list_put() to release.
++ * Takes reference on context. Call pvr_context_put() to release.
 + *
-+ * Returns:
-+ *  * The requested object on success, or
-+ *  * %NULL on failure (object does not exist in list, or is not a free list)
++ * Return:
++ *  * The requested context on success, or
++ *  * %NULL on failure (context does not exist).
 + */
-+static __always_inline struct pvr_free_list *
-+pvr_free_list_lookup_id(struct pvr_device *pvr_dev, u32 id)
++static __always_inline struct pvr_context *
++pvr_context_lookup_id(struct pvr_device *pvr_dev, u32 id)
 +{
-+	struct pvr_free_list *free_list;
++	struct pvr_context *ctx;
 +
-+	xa_lock(&pvr_dev->free_list_ids);
++	/* Take the array lock to protect against context removal.  */
++	xa_lock(&pvr_dev->ctx_ids);
 +
 +	/* Contexts are removed from the ctx_ids set in the context release path,
 +	 * meaning the ref_count reached zero before they get removed. We need
 +	 * to make sure we're not trying to acquire a context that's being
 +	 * destroyed.
 +	 */
-+	free_list = xa_load(&pvr_dev->free_list_ids, id);
-+	if (free_list && !kref_get_unless_zero(&free_list->ref_count))
-+		free_list = NULL;
-+	xa_unlock(&pvr_dev->free_list_ids);
++	ctx = xa_load(&pvr_dev->ctx_ids, id);
++	if (!kref_get_unless_zero(&ctx->ref_count))
++		ctx = NULL;
 +
-+	return free_list;
++	xa_unlock(&pvr_dev->ctx_ids);
++
++	return ctx;
 +}
 +
-+void
-+pvr_free_list_put(struct pvr_free_list *free_list);
++static __always_inline u32
++pvr_context_get_fw_addr(struct pvr_context *ctx)
++{
++	u32 ctx_fw_addr = 0;
 +
-+void
-+pvr_free_list_add_hwrt(struct pvr_free_list *free_list, struct pvr_hwrt_data *hwrt_data);
-+void
-+pvr_free_list_remove_hwrt(struct pvr_free_list *free_list, struct pvr_hwrt_data *hwrt_data);
++	pvr_fw_object_get_fw_addr(ctx->fw_obj, &ctx_fw_addr);
 +
-+void pvr_free_list_process_grow_req(struct pvr_device *pvr_dev,
-+				    struct rogue_fwif_fwccb_cmd_freelist_gs_data *req);
++	return ctx_fw_addr;
++}
 +
-+void
-+pvr_free_list_process_reconstruct_req(struct pvr_device *pvr_dev,
-+				struct rogue_fwif_fwccb_cmd_freelists_reconstruction_data *req);
++void pvr_context_put(struct pvr_context *ctx);
 +
-+#endif /* PVR_FREE_LIST_H */
-diff --git a/drivers/gpu/drm/imagination/pvr_hwrt.c b/drivers/gpu/drm/imagination/pvr_hwrt.c
++int pvr_context_create(struct pvr_file *pvr_file, struct drm_pvr_ioctl_create_context_args *args);
++
++int pvr_context_destroy(struct pvr_file *pvr_file, u32 handle);
++
++void pvr_destroy_contexts_for_file(struct pvr_file *pvr_file);
++
++void pvr_context_device_init(struct pvr_device *pvr_dev);
++
++void pvr_context_device_fini(struct pvr_device *pvr_dev);
++
++#endif /* PVR_CONTEXT_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
+index f5b82b793566..299f3e022c82 100644
+--- a/drivers/gpu/drm/imagination/pvr_device.h
++++ b/drivers/gpu/drm/imagination/pvr_device.h
+@@ -7,6 +7,8 @@
+ #include "pvr_ccb.h"
+ #include "pvr_device_info.h"
+ #include "pvr_fw.h"
++#include "pvr_rogue_fwif_stream.h"
++#include "pvr_stream.h"
+ 
+ #include <drm/drm_device.h>
+ #include <drm/drm_file.h>
+@@ -146,12 +148,23 @@ struct pvr_device {
+ 	/** @fw_dev: Firmware related data. */
+ 	struct pvr_fw_device fw_dev;
+ 
++	/** @stream_musthave_quirks: Bit array of "must-have" quirks for stream commands. */
++	u32 stream_musthave_quirks[PVR_STREAM_TYPE_MAX][PVR_STREAM_EXTHDR_TYPE_MAX];
++
+ 	/**
+ 	 * @mmu_flush_cache_flags: Records which MMU caches require flushing
+ 	 * before submitting the next job.
+ 	 */
+ 	atomic_t mmu_flush_cache_flags;
+ 
++	/**
++	 * @ctx_ids: Array of contexts belonging to this device. Array members
++	 *           are of type "struct pvr_context *".
++	 *
++	 * This array is used to allocate IDs used by the firmware.
++	 */
++	struct xarray ctx_ids;
++
+ 	/**
+ 	 * @free_list_ids: Array of free lists belonging to this device. Array members
+ 	 *                 are of type "struct pvr_free_list *".
+@@ -255,6 +268,14 @@ struct pvr_file {
+ 	 */
+ 	struct pvr_device *pvr_dev;
+ 
++	/**
++	 * @ctx_handles: Array of contexts belonging to this file. Array members
++	 *               are of type "struct pvr_context *".
++	 *
++	 * This array is used to allocate handles returned to userspace.
++	 */
++	struct xarray ctx_handles;
++
+ 	/**
+ 	 * @free_list_handles: Array of free lists belonging to this file. Array
+ 	 * members are of type "struct pvr_free_list *".
+diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
+index f485e2cc60f9..e76363f7dbf7 100644
+--- a/drivers/gpu/drm/imagination/pvr_drv.c
++++ b/drivers/gpu/drm/imagination/pvr_drv.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-only OR MIT
+ /* Copyright (c) 2023 Imagination Technologies Ltd. */
+ 
++#include "pvr_context.h"
+ #include "pvr_device.h"
+ #include "pvr_drv.h"
+ #include "pvr_free_list.h"
+@@ -673,7 +674,19 @@ static int
+ pvr_ioctl_create_context(struct drm_device *drm_dev, void *raw_args,
+ 			 struct drm_file *file)
+ {
+-	return -ENOTTY;
++	struct drm_pvr_ioctl_create_context_args *args = raw_args;
++	struct pvr_file *pvr_file = file->driver_priv;
++	int idx;
++	int ret;
++
++	if (!drm_dev_enter(drm_dev, &idx))
++		return -EIO;
++
++	ret = pvr_context_create(pvr_file, args);
++
++	drm_dev_exit(idx);
++
++	return ret;
+ }
+ 
+ /**
+@@ -693,7 +706,13 @@ static int
+ pvr_ioctl_destroy_context(struct drm_device *drm_dev, void *raw_args,
+ 			  struct drm_file *file)
+ {
+-	return -ENOTTY;
++	struct drm_pvr_ioctl_destroy_context_args *args = raw_args;
++	struct pvr_file *pvr_file = file->driver_priv;
++
++	if (args->_padding_4)
++		return -EINVAL;
++
++	return pvr_context_destroy(pvr_file, args->handle);
+ }
+ 
+ /**
+@@ -1289,6 +1308,7 @@ pvr_drm_driver_open(struct drm_device *drm_dev, struct drm_file *file)
+ 	 */
+ 	pvr_file->pvr_dev = pvr_dev;
+ 
++	xa_init_flags(&pvr_file->ctx_handles, XA_FLAGS_ALLOC1);
+ 	xa_init_flags(&pvr_file->free_list_handles, XA_FLAGS_ALLOC1);
+ 	xa_init_flags(&pvr_file->hwrt_handles, XA_FLAGS_ALLOC1);
+ 	xa_init_flags(&pvr_file->vm_ctx_handles, XA_FLAGS_ALLOC1);
+@@ -1318,6 +1338,9 @@ pvr_drm_driver_postclose(__always_unused struct drm_device *drm_dev,
+ {
+ 	struct pvr_file *pvr_file = to_pvr_file(file);
+ 
++	/* Kill remaining contexts. */
++	pvr_destroy_contexts_for_file(pvr_file);
++
+ 	/* Drop references on any remaining objects. */
+ 	pvr_destroy_free_lists_for_file(pvr_file);
+ 	pvr_destroy_hwrt_datasets_for_file(pvr_file);
+@@ -1363,6 +1386,7 @@ pvr_probe(struct platform_device *plat_dev)
+ 	drm_dev = &pvr_dev->base;
+ 
+ 	platform_set_drvdata(plat_dev, drm_dev);
++	pvr_context_device_init(pvr_dev);
+ 
+ 	devm_pm_runtime_enable(&plat_dev->dev);
+ 	pm_runtime_mark_last_busy(&plat_dev->dev);
+@@ -1406,6 +1430,7 @@ pvr_remove(struct platform_device *plat_dev)
+ 	pvr_device_fini(pvr_dev);
+ 	drm_dev_unplug(drm_dev);
+ 	pvr_watchdog_fini(pvr_dev);
++	pvr_context_device_fini(pvr_dev);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/imagination/pvr_stream.c b/drivers/gpu/drm/imagination/pvr_stream.c
 new file mode 100644
-index 000000000000..c4213c18489e
+index 000000000000..975336a4facf
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_hwrt.c
-@@ -0,0 +1,549 @@
++++ b/drivers/gpu/drm/imagination/pvr_stream.c
+@@ -0,0 +1,285 @@
 +// SPDX-License-Identifier: GPL-2.0-only OR MIT
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+#include "pvr_free_list.h"
-+#include "pvr_hwrt.h"
-+#include "pvr_gem.h"
-+#include "pvr_rogue_cr_defs_client.h"
-+#include "pvr_rogue_fwif.h"
++#include "pvr_device.h"
++#include "pvr_rogue_fwif_stream.h"
++#include "pvr_stream.h"
 +
-+#include <drm/drm_gem.h>
-+#include <linux/bitops.h>
-+#include <linux/math.h>
++#include <linux/align.h>
 +#include <linux/slab.h>
-+#include <linux/xarray.h>
++#include <linux/types.h>
 +#include <uapi/drm/pvr_drm.h>
 +
-+static_assert(ROGUE_FWIF_NUM_RTDATAS == 2);
-+static_assert(ROGUE_FWIF_NUM_GEOMDATAS == 1);
-+static_assert(ROGUE_FWIF_NUM_RTDATA_FREELISTS == 2);
++static __always_inline bool
++stream_def_is_supported(struct pvr_device *pvr_dev, const struct pvr_stream_def *stream_def)
++{
++	if (stream_def->feature == PVR_FEATURE_NONE)
++		return true;
 +
-+/*
-+ * struct pvr_rt_mtile_info - Render target macrotile information
-+ */
-+struct pvr_rt_mtile_info {
-+	u32 mtile_x[3];
-+	u32 mtile_y[3];
-+	u32 tile_max_x;
-+	u32 tile_max_y;
-+	u32 tile_size_x;
-+	u32 tile_size_y;
-+	u32 num_tiles_x;
-+	u32 num_tiles_y;
-+};
++	if (!(stream_def->feature & PVR_FEATURE_NOT) &&
++	    pvr_device_has_feature(pvr_dev, stream_def->feature)) {
++		return true;
++	}
 +
-+/* Size of Shadow Render Target Cache entry */
-+#define SRTC_ENTRY_SIZE sizeof(u32)
-+/* Size of Renders Accumulation Array entry */
-+#define RAA_ENTRY_SIZE sizeof(u32)
++	if ((stream_def->feature & PVR_FEATURE_NOT) &&
++	    !pvr_device_has_feature(pvr_dev, stream_def->feature & ~PVR_FEATURE_NOT)) {
++		return true;
++	}
++
++	return false;
++}
 +
 +static int
-+hwrt_init_kernel_structure(struct pvr_file *pvr_file,
-+			   struct drm_pvr_ioctl_create_hwrt_dataset_args *args,
-+			   struct pvr_hwrt_dataset *hwrt)
++pvr_stream_get_data(u8 *stream, u32 *stream_offset, u32 stream_size, u32 data_size, u32 align_size,
++		    void *dest)
 +{
-+	struct pvr_device *pvr_dev = pvr_file->pvr_dev;
-+	int err;
-+	int i;
++	*stream_offset = ALIGN(*stream_offset, align_size);
 +
-+	hwrt->pvr_dev = pvr_dev;
-+	hwrt->max_rts = args->layers;
++	if ((*stream_offset + data_size) > stream_size)
++		return -EINVAL;
 +
-+	/* Get pointers to the free lists */
-+	for (i = 0; i < ARRAY_SIZE(hwrt->free_lists); i++) {
-+		hwrt->free_lists[i] = pvr_free_list_lookup(pvr_file,  args->free_list_handles[i]);
-+		if (!hwrt->free_lists[i]) {
++	memcpy(dest, stream + *stream_offset, data_size);
++
++	(*stream_offset) += data_size;
++
++	return 0;
++}
++
++/**
++ * pvr_stream_process_1() - Process a single stream and fill destination structure
++ * @pvr_dev: Device pointer.
++ * @stream_def: Stream definition.
++ * @nr_entries: Number of entries in &stream_def.
++ * @stream: Pointer to stream.
++ * @stream_offset: Starting offset within stream.
++ * @stream_size: Size of input stream, in bytes.
++ * @dest: Pointer to destination structure.
++ * @dest_size: Size of destination structure.
++ * @stream_offset_out: Pointer to variable to write updated stream offset to. May be NULL.
++ *
++ * Returns:
++ *  * 0 on success, or
++ *  * -%EINVAL on malformed stream.
++ */
++static int
++pvr_stream_process_1(struct pvr_device *pvr_dev, const struct pvr_stream_def *stream_def,
++		     u32 nr_entries, u8 *stream, u32 stream_offset, u32 stream_size,
++		     u8 *dest, u32 dest_size, u32 *stream_offset_out)
++{
++	int err = 0;
++	u32 i;
++
++	for (i = 0; i < nr_entries; i++) {
++		if (stream_def[i].offset >= dest_size) {
 +			err = -EINVAL;
-+			goto err_put_free_lists;
++			break;
++		}
++
++		if (!stream_def_is_supported(pvr_dev, &stream_def[i]))
++			continue;
++
++		switch (stream_def[i].size) {
++		case PVR_STREAM_SIZE_8:
++			err = pvr_stream_get_data(stream, &stream_offset, stream_size, sizeof(u8),
++						  sizeof(u8), dest + stream_def[i].offset);
++			if (err)
++				return err;
++			break;
++
++		case PVR_STREAM_SIZE_16:
++			err = pvr_stream_get_data(stream, &stream_offset, stream_size, sizeof(u16),
++						  sizeof(u16), dest + stream_def[i].offset);
++			if (err)
++				return err;
++			break;
++
++		case PVR_STREAM_SIZE_32:
++			err = pvr_stream_get_data(stream, &stream_offset, stream_size, sizeof(u32),
++						  sizeof(u32), dest + stream_def[i].offset);
++			if (err)
++				return err;
++			break;
++
++		case PVR_STREAM_SIZE_64:
++			err = pvr_stream_get_data(stream, &stream_offset, stream_size, sizeof(u64),
++						  sizeof(u64), dest + stream_def[i].offset);
++			if (err)
++				return err;
++			break;
++
++		case PVR_STREAM_SIZE_ARRAY:
++			err = pvr_stream_get_data(stream, &stream_offset, stream_size,
++						  stream_def[i].array_size, sizeof(u64),
++						  dest + stream_def[i].offset);
++			if (err)
++				return err;
++			break;
 +		}
 +	}
 +
-+	if (hwrt->free_lists[ROGUE_FW_LOCAL_FREELIST]->current_pages <
-+	    pvr_get_free_list_min_pages(pvr_dev)) {
-+		err = -EINVAL;
-+		goto err_put_free_lists;
-+	}
-+
-+	return 0;
-+
-+err_put_free_lists:
-+	for (i = 0; i < ARRAY_SIZE(hwrt->free_lists); i++) {
-+		pvr_free_list_put(hwrt->free_lists[i]);
-+		hwrt->free_lists[i] = NULL;
-+	}
++	if (stream_offset_out)
++		*stream_offset_out = stream_offset;
 +
 +	return err;
 +}
 +
-+static void
-+hwrt_fini_kernel_structure(struct pvr_hwrt_dataset *hwrt)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(hwrt->free_lists); i++) {
-+		pvr_free_list_put(hwrt->free_lists[i]);
-+		hwrt->free_lists[i] = NULL;
-+	}
-+}
-+
-+static void
-+hwrt_fini_common_fw_structure(struct pvr_hwrt_dataset *hwrt)
-+{
-+	pvr_fw_object_destroy(hwrt->common_fw_obj);
-+}
-+
 +static int
-+get_cr_isp_mtile_size_val(struct pvr_device *pvr_dev, u32 samples,
-+			  struct pvr_rt_mtile_info *info, u32 *value_out)
++pvr_stream_process_ext_stream(struct pvr_device *pvr_dev,
++			      const struct pvr_stream_cmd_defs *cmd_defs, void *ext_stream,
++			      u32 stream_offset, u32 ext_stream_size, void *dest)
 +{
-+	u32 x = info->mtile_x[0];
-+	u32 y = info->mtile_y[0];
-+	u32 samples_per_pixel;
-+	int err;
-+
-+	err = PVR_FEATURE_VALUE(pvr_dev, isp_samples_per_pixel, &samples_per_pixel);
-+	if (err)
-+		return err;
-+
-+	if (samples_per_pixel == 1) {
-+		if (samples >= 4)
-+			x <<= 1;
-+		if (samples >= 2)
-+			y <<= 1;
-+	} else if (samples_per_pixel == 2) {
-+		if (samples >= 8)
-+			x <<= 1;
-+		if (samples >= 4)
-+			y <<= 1;
-+	} else if (samples_per_pixel == 4) {
-+		if (samples >= 8)
-+			y <<= 1;
-+	} else {
-+		WARN(true, "Unsupported ISP samples per pixel value");
-+		return -EINVAL;
-+	}
-+
-+	*value_out = ((x << ROGUE_CR_ISP_MTILE_SIZE_X_SHIFT) & ~ROGUE_CR_ISP_MTILE_SIZE_X_CLRMSK) |
-+		     ((y << ROGUE_CR_ISP_MTILE_SIZE_Y_SHIFT) & ~ROGUE_CR_ISP_MTILE_SIZE_Y_CLRMSK);
-+
-+	return 0;
-+}
-+
-+static int
-+get_cr_multisamplectl_val(u32 samples, bool y_flip, u64 *value_out)
-+{
-+	static const struct {
-+		u8 x[8];
-+		u8 y[8];
-+	} sample_positions[4] = {
-+		/* 1 sample */
-+		{
-+			.x = { 8 },
-+			.y = { 8 },
-+		},
-+		/* 2 samples */
-+		{
-+			.x = { 12, 4 },
-+			.y = { 12, 4 },
-+		},
-+		/* 4 samples */
-+		{
-+			.x = { 6, 14, 2, 10 },
-+			.y = { 2, 6, 10, 14 },
-+		},
-+		/* 8 samples */
-+		{
-+			.x = { 9, 7, 13, 5, 3, 1, 11, 15 },
-+			.y = { 5, 11, 9, 3, 13, 7, 15, 1 },
-+		},
-+	};
-+	const int idx = fls(samples) - 1;
-+	u64 value = 0;
-+
-+	if (idx < 0 || idx > 3)
-+		return -EINVAL;
-+
-+	for (u32 i = 0; i < 8; i++) {
-+		value |= ((u64)sample_positions[idx].x[i]) << (i * 8);
-+		if (y_flip)
-+			value |= (((u64)(16 - sample_positions[idx].y[i]) & 0xf)) << (i * 8 + 4);
-+		else
-+			value |= ((u64)sample_positions[idx].y[i]) << (i * 8 + 4);
-+	}
-+
-+	*value_out = value;
-+
-+	return 0;
-+}
-+
-+static int
-+get_cr_te_aa_val(struct pvr_device *pvr_dev, u32 samples, u32 *value_out)
-+{
-+	u32 samples_per_pixel;
-+	u32 value = 0;
++	u32 musthave_masks[PVR_STREAM_EXTHDR_TYPE_MAX];
++	u32 ext_header;
 +	int err = 0;
++	u32 i;
 +
-+	err = PVR_FEATURE_VALUE(pvr_dev, isp_samples_per_pixel, &samples_per_pixel);
-+	if (err)
-+		return err;
++	/* Copy "must have" mask from device. We clear this as we process the stream. */
++	memcpy(musthave_masks, pvr_dev->stream_musthave_quirks[cmd_defs->type],
++	       sizeof(musthave_masks));
 +
-+	switch (samples_per_pixel) {
-+	case 1:
-+		if (samples >= 2)
-+			value |= ROGUE_CR_TE_AA_Y_EN;
-+		if (samples >= 4)
-+			value |= ROGUE_CR_TE_AA_X_EN;
-+		break;
-+	case 2:
-+		if (samples >= 2)
-+			value |= ROGUE_CR_TE_AA_X2_EN;
-+		if (samples >= 4)
-+			value |= ROGUE_CR_TE_AA_Y_EN;
-+		if (samples >= 8)
-+			value |= ROGUE_CR_TE_AA_X_EN;
-+		break;
-+	case 4:
-+		if (samples >= 2)
-+			value |= ROGUE_CR_TE_AA_X2_EN;
-+		if (samples >= 4)
-+			value |= ROGUE_CR_TE_AA_Y2_EN;
-+		if (samples >= 8)
-+			value |= ROGUE_CR_TE_AA_Y_EN;
-+		break;
-+	default:
-+		WARN(true, "Unsupported ISP samples per pixel value");
-+		return -EINVAL;
-+	}
++	do {
++		const struct pvr_stream_ext_header *header;
++		u32 type;
++		u32 data;
 +
-+	*value_out = value;
-+
-+	return 0;
-+}
-+
-+static void
-+hwrtdata_common_init(void *cpu_ptr, void *priv)
-+{
-+	struct pvr_hwrt_dataset *hwrt = priv;
-+
-+	memcpy(cpu_ptr, &hwrt->common, sizeof(hwrt->common));
-+}
-+
-+static int
-+hwrt_init_common_fw_structure(struct pvr_file *pvr_file,
-+			      struct drm_pvr_ioctl_create_hwrt_dataset_args *args,
-+			      struct pvr_hwrt_dataset *hwrt)
-+{
-+	struct drm_pvr_create_hwrt_geom_data_args *geom_data_args = &args->geom_data_args;
-+	struct pvr_device *pvr_dev = pvr_file->pvr_dev;
-+	struct pvr_rt_mtile_info info;
-+	int err;
-+
-+	err = PVR_FEATURE_VALUE(pvr_dev, tile_size_x, &info.tile_size_x);
-+	if (WARN_ON(err))
-+		return err;
-+
-+	err = PVR_FEATURE_VALUE(pvr_dev, tile_size_y, &info.tile_size_y);
-+	if (WARN_ON(err))
-+		return err;
-+
-+	info.num_tiles_x = DIV_ROUND_UP(args->width, info.tile_size_x);
-+	info.num_tiles_y = DIV_ROUND_UP(args->height, info.tile_size_y);
-+
-+	if (PVR_HAS_FEATURE(pvr_dev, simple_parameter_format_version)) {
-+		u32 parameter_format;
-+
-+		err = PVR_FEATURE_VALUE(pvr_dev, simple_parameter_format_version,
-+					&parameter_format);
-+		if (WARN_ON(err))
++		err = pvr_stream_get_data(ext_stream, &stream_offset, ext_stream_size, sizeof(u32),
++					  sizeof(ext_header), &ext_header);
++		if (err)
 +			return err;
 +
-+		WARN_ON(parameter_format != 2);
++		type = (ext_header & PVR_STREAM_EXTHDR_TYPE_MASK) >> PVR_STREAM_EXTHDR_TYPE_SHIFT;
++		data = ext_header & PVR_STREAM_EXTHDR_DATA_MASK;
++
++		if (type >= cmd_defs->ext_nr_headers)
++			return -EINVAL;
++
++		header = &cmd_defs->ext_headers[type];
++		if (data & ~header->valid_mask)
++			return -EINVAL;
++
++		musthave_masks[type] &= ~data;
++
++		for (i = 0; i < header->ext_streams_num; i++) {
++			const struct pvr_stream_ext_def *ext_def = &header->ext_streams[i];
++
++			if (!(ext_header & ext_def->header_mask))
++				continue;
++
++			if (!pvr_device_has_uapi_quirk(pvr_dev, ext_def->quirk))
++				return -EINVAL;
++
++			err = pvr_stream_process_1(pvr_dev, ext_def->stream, ext_def->stream_len,
++						   ext_stream, stream_offset,
++						   ext_stream_size, dest,
++						   cmd_defs->dest_size, &stream_offset);
++			if (err)
++				return err;
++		}
++	} while (ext_header & PVR_STREAM_EXTHDR_CONTINUATION);
++
++	/*
++	 * Verify that "must have" mask is now zero. If it isn't then one of the "must have" quirks
++	 * for this command was not present.
++	 */
++	for (i = 0; i < cmd_defs->ext_nr_headers; i++) {
++		if (musthave_masks[i])
++			return -EINVAL;
++	}
++
++	return 0;
++}
++
++/**
++ * pvr_stream_process() - Build FW structure from stream
++ * @pvr_dev: Device pointer.
++ * @cmd_defs: Stream definition.
++ * @stream: Pointer to command stream.
++ * @stream_size: Size of command stream, in bytes.
++ * @dest_out: Pointer to destination buffer.
++ *
++ * Caller is responsible for freeing the output structure.
++ *
++ * Returns:
++ *  * 0 on success,
++ *  * -%ENOMEM on out of memory, or
++ *  * -%EINVAL on malformed stream.
++ */
++int
++pvr_stream_process(struct pvr_device *pvr_dev, const struct pvr_stream_cmd_defs *cmd_defs,
++		   void *stream, u32 stream_size, void *dest_out)
++{
++	u32 stream_offset = 0;
++	u32 main_stream_len;
++	u32 padding;
++	int err;
++
++	if (!stream || !stream_size)
++		return -EINVAL;
++
++	err = pvr_stream_get_data(stream, &stream_offset, stream_size, sizeof(u32),
++				  sizeof(u32), &main_stream_len);
++	if (err)
++		return err;
++
++	/*
++	 * u32 after stream length is padding to ensure u64 alignment, but may be used for expansion
++	 * in the future. Verify it's zero.
++	 */
++	err = pvr_stream_get_data(stream, &stream_offset, stream_size, sizeof(u32),
++				  sizeof(u32), &padding);
++	if (err)
++		return err;
++
++	if (main_stream_len < stream_offset || main_stream_len > stream_size || padding)
++		return -EINVAL;
++
++	err = pvr_stream_process_1(pvr_dev, cmd_defs->main_stream, cmd_defs->main_stream_len,
++				   stream, stream_offset, main_stream_len, dest_out,
++				   cmd_defs->dest_size, &stream_offset);
++	if (err)
++		return err;
++
++	if (stream_offset < stream_size) {
++		err = pvr_stream_process_ext_stream(pvr_dev, cmd_defs, stream, stream_offset,
++						    stream_size, dest_out);
++		if (err)
++			return err;
++	} else {
++		u32 i;
 +
 +		/*
-+		 * Set up 16 macrotiles with a multiple of 2x2 tiles per macrotile, which is
-+		 * aligned to a tile group.
++		 * If we don't have an extension stream then there must not be any "must have"
++		 * quirks for this command.
 +		 */
-+		info.mtile_x[0] = DIV_ROUND_UP(info.num_tiles_x, 8) * 2;
-+		info.mtile_y[0] = DIV_ROUND_UP(info.num_tiles_y, 8) * 2;
-+		info.mtile_x[1] = 0;
-+		info.mtile_y[1] = 0;
-+		info.mtile_x[2] = 0;
-+		info.mtile_y[2] = 0;
-+		info.tile_max_x = round_up(info.num_tiles_x, 2) - 1;
-+		info.tile_max_y = round_up(info.num_tiles_y, 2) - 1;
-+	} else {
-+		/* Set up 16 macrotiles with a multiple of 4x4 tiles per macrotile. */
-+		info.mtile_x[0] = round_up(DIV_ROUND_UP(info.num_tiles_x, 4), 4);
-+		info.mtile_y[0] = round_up(DIV_ROUND_UP(info.num_tiles_y, 4), 4);
-+		info.mtile_x[1] = info.mtile_x[0] * 2;
-+		info.mtile_y[1] = info.mtile_y[0] * 2;
-+		info.mtile_x[2] = info.mtile_x[0] * 3;
-+		info.mtile_y[2] = info.mtile_y[0] * 3;
-+		info.tile_max_x = info.num_tiles_x - 1;
-+		info.tile_max_y = info.num_tiles_y - 1;
++		for (i = 0; i < cmd_defs->ext_nr_headers; i++) {
++			if (pvr_dev->stream_musthave_quirks[cmd_defs->type][i])
++				return -EINVAL;
++		}
 +	}
-+
-+	hwrt->common.geom_caches_need_zeroing = false;
-+
-+	hwrt->common.isp_merge_lower_x = args->isp_merge_lower_x;
-+	hwrt->common.isp_merge_lower_y = args->isp_merge_lower_y;
-+	hwrt->common.isp_merge_upper_x = args->isp_merge_upper_x;
-+	hwrt->common.isp_merge_upper_y = args->isp_merge_upper_y;
-+	hwrt->common.isp_merge_scale_x = args->isp_merge_scale_x;
-+	hwrt->common.isp_merge_scale_y = args->isp_merge_scale_y;
-+
-+	err = get_cr_multisamplectl_val(args->samples, false,
-+					&hwrt->common.multi_sample_ctl);
-+	if (err)
-+		return err;
-+
-+	err = get_cr_multisamplectl_val(args->samples, true,
-+					&hwrt->common.flipped_multi_sample_ctl);
-+	if (err)
-+		return err;
-+
-+	hwrt->common.mtile_stride = info.mtile_x[0] * info.mtile_y[0];
-+
-+	err = get_cr_te_aa_val(pvr_dev, args->samples, &hwrt->common.teaa);
-+	if (err)
-+		return err;
-+
-+	hwrt->common.screen_pixel_max =
-+		(((args->width - 1) << ROGUE_CR_PPP_SCREEN_PIXXMAX_SHIFT) &
-+		 ~ROGUE_CR_PPP_SCREEN_PIXXMAX_CLRMSK) |
-+		(((args->height - 1) << ROGUE_CR_PPP_SCREEN_PIXYMAX_SHIFT) &
-+		 ~ROGUE_CR_PPP_SCREEN_PIXYMAX_CLRMSK);
-+
-+	hwrt->common.te_screen =
-+		((info.tile_max_x << ROGUE_CR_TE_SCREEN_XMAX_SHIFT) &
-+		 ~ROGUE_CR_TE_SCREEN_XMAX_CLRMSK) |
-+		((info.tile_max_y << ROGUE_CR_TE_SCREEN_YMAX_SHIFT) &
-+		 ~ROGUE_CR_TE_SCREEN_YMAX_CLRMSK);
-+	hwrt->common.te_mtile1 =
-+		((info.mtile_x[0] << ROGUE_CR_TE_MTILE1_X1_SHIFT) & ~ROGUE_CR_TE_MTILE1_X1_CLRMSK) |
-+		((info.mtile_x[1] << ROGUE_CR_TE_MTILE1_X2_SHIFT) & ~ROGUE_CR_TE_MTILE1_X2_CLRMSK) |
-+		((info.mtile_x[2] << ROGUE_CR_TE_MTILE1_X3_SHIFT) & ~ROGUE_CR_TE_MTILE1_X3_CLRMSK);
-+	hwrt->common.te_mtile2 =
-+		((info.mtile_y[0] << ROGUE_CR_TE_MTILE2_Y1_SHIFT) & ~ROGUE_CR_TE_MTILE2_Y1_CLRMSK) |
-+		((info.mtile_y[1] << ROGUE_CR_TE_MTILE2_Y2_SHIFT) & ~ROGUE_CR_TE_MTILE2_Y2_CLRMSK) |
-+		((info.mtile_y[2] << ROGUE_CR_TE_MTILE2_Y3_SHIFT) & ~ROGUE_CR_TE_MTILE2_Y3_CLRMSK);
-+
-+	err = get_cr_isp_mtile_size_val(pvr_dev, args->samples, &info,
-+					&hwrt->common.isp_mtile_size);
-+	if (err)
-+		return err;
-+
-+	hwrt->common.tpc_stride = geom_data_args->tpc_stride;
-+	hwrt->common.tpc_size = geom_data_args->tpc_size;
-+
-+	hwrt->common.rgn_header_size = args->region_header_size;
-+
-+	err = pvr_fw_object_create(pvr_dev, sizeof(struct rogue_fwif_hwrtdata_common),
-+				   PVR_BO_FW_FLAGS_DEVICE_UNCACHED, hwrtdata_common_init, hwrt,
-+				   &hwrt->common_fw_obj);
-+
-+	return err;
-+}
-+
-+static void
-+hwrt_fw_data_init(void *cpu_ptr, void *priv)
-+{
-+	struct pvr_hwrt_data *hwrt_data = priv;
-+
-+	memcpy(cpu_ptr, &hwrt_data->data, sizeof(hwrt_data->data));
-+}
-+
-+static int
-+hwrt_data_init_fw_structure(struct pvr_file *pvr_file,
-+			    struct pvr_hwrt_dataset *hwrt,
-+			    struct drm_pvr_ioctl_create_hwrt_dataset_args *args,
-+			    struct drm_pvr_create_hwrt_rt_data_args *rt_data_args,
-+			    struct pvr_hwrt_data *hwrt_data)
-+{
-+	struct drm_pvr_create_hwrt_geom_data_args *geom_data_args = &args->geom_data_args;
-+	struct pvr_device *pvr_dev = pvr_file->pvr_dev;
-+	struct rogue_fwif_rta_ctl *rta_ctl;
-+	int free_list_i;
-+	int err;
-+
-+	pvr_fw_object_get_fw_addr(hwrt->common_fw_obj,
-+				  &hwrt_data->data.hwrt_data_common_fw_addr);
-+
-+	for (free_list_i = 0; free_list_i < ARRAY_SIZE(hwrt->free_lists); free_list_i++) {
-+		pvr_fw_object_get_fw_addr(hwrt->free_lists[free_list_i]->fw_obj,
-+					  &hwrt_data->data.freelists_fw_addr[free_list_i]);
-+	}
-+
-+	hwrt_data->data.tail_ptrs_dev_addr = geom_data_args->tpc_dev_addr;
-+	hwrt_data->data.vheap_table_dev_addr = geom_data_args->vheap_table_dev_addr;
-+	hwrt_data->data.rtc_dev_addr = geom_data_args->rtc_dev_addr;
-+
-+	hwrt_data->data.pm_mlist_dev_addr = rt_data_args->pm_mlist_dev_addr;
-+	hwrt_data->data.macrotile_array_dev_addr = rt_data_args->macrotile_array_dev_addr;
-+	hwrt_data->data.rgn_header_dev_addr = rt_data_args->region_header_dev_addr;
-+
-+	rta_ctl = &hwrt_data->data.rta_ctl;
-+
-+	rta_ctl->render_target_index = 0;
-+	rta_ctl->active_render_targets = 0;
-+	rta_ctl->valid_render_targets_fw_addr = 0;
-+	rta_ctl->rta_num_partial_renders_fw_addr = 0;
-+	rta_ctl->max_rts = args->layers;
-+
-+	if (args->layers > 1) {
-+		err = pvr_fw_object_create(pvr_dev, args->layers * SRTC_ENTRY_SIZE,
-+					   PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+					   NULL, NULL, &hwrt_data->srtc_obj);
-+		if (err)
-+			return err;
-+		pvr_fw_object_get_fw_addr(hwrt_data->srtc_obj,
-+					  &rta_ctl->valid_render_targets_fw_addr);
-+
-+		err = pvr_fw_object_create(pvr_dev, args->layers * RAA_ENTRY_SIZE,
-+					   PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+					   NULL, NULL, &hwrt_data->raa_obj);
-+		if (err)
-+			goto err_put_shadow_rt_cache;
-+		pvr_fw_object_get_fw_addr(hwrt_data->raa_obj,
-+					  &rta_ctl->rta_num_partial_renders_fw_addr);
-+	}
-+
-+	err = pvr_fw_object_create(pvr_dev, sizeof(struct rogue_fwif_hwrtdata),
-+				   PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
-+				   hwrt_fw_data_init, hwrt_data, &hwrt_data->fw_obj);
-+	if (err)
-+		goto err_put_raa_obj;
-+
-+	pvr_free_list_add_hwrt(hwrt->free_lists[0], hwrt_data);
 +
 +	return 0;
-+
-+err_put_raa_obj:
-+	if (args->layers > 1)
-+		pvr_fw_object_destroy(hwrt_data->raa_obj);
-+
-+err_put_shadow_rt_cache:
-+	if (args->layers > 1)
-+		pvr_fw_object_destroy(hwrt_data->srtc_obj);
-+
-+	return err;
-+}
-+
-+static void
-+hwrt_data_fini_fw_structure(struct pvr_hwrt_dataset *hwrt, int hwrt_nr)
-+{
-+	struct pvr_hwrt_data *hwrt_data = &hwrt->data[hwrt_nr];
-+
-+	pvr_free_list_remove_hwrt(hwrt->free_lists[0], hwrt_data);
-+
-+	if (hwrt->max_rts > 1) {
-+		pvr_fw_object_destroy(hwrt_data->raa_obj);
-+		pvr_fw_object_destroy(hwrt_data->srtc_obj);
-+	}
-+
-+	pvr_fw_object_destroy(hwrt_data->fw_obj);
 +}
 +
 +/**
-+ * pvr_hwrt_dataset_create() - Create a new HWRT dataset
-+ * @pvr_file: Pointer to pvr_file structure.
-+ * @args: Creation arguments from userspace.
-+ *
-+ * Return:
-+ *  * Pointer to new HWRT, or
-+ *  * ERR_PTR(-%ENOMEM) on out of memory.
-+ */
-+struct pvr_hwrt_dataset *
-+pvr_hwrt_dataset_create(struct pvr_file *pvr_file,
-+			struct drm_pvr_ioctl_create_hwrt_dataset_args *args)
-+{
-+	struct pvr_hwrt_dataset *hwrt;
-+	int err;
-+
-+	/* Create and fill out the kernel structure */
-+	hwrt = kzalloc(sizeof(*hwrt), GFP_KERNEL);
-+
-+	if (!hwrt)
-+		return ERR_PTR(-ENOMEM);
-+
-+	kref_init(&hwrt->ref_count);
-+
-+	err = hwrt_init_kernel_structure(pvr_file, args, hwrt);
-+	if (err < 0)
-+		goto err_free;
-+
-+	err = hwrt_init_common_fw_structure(pvr_file, args, hwrt);
-+	if (err < 0)
-+		goto err_free;
-+
-+	for (int i = 0; i < ARRAY_SIZE(hwrt->data); i++) {
-+		err = hwrt_data_init_fw_structure(pvr_file, hwrt, args,
-+						  &args->rt_data_args[i],
-+						  &hwrt->data[i]);
-+		if (err < 0) {
-+			i--;
-+			/* Destroy already created structures. */
-+			for (; i >= 0; i--)
-+				hwrt_data_fini_fw_structure(hwrt, i);
-+			goto err_free;
-+		}
-+
-+		hwrt->data[i].hwrt_dataset = hwrt;
-+	}
-+
-+	return hwrt;
-+
-+err_free:
-+	pvr_hwrt_dataset_put(hwrt);
-+
-+	return ERR_PTR(err);
-+}
-+
-+static void
-+pvr_hwrt_dataset_release(struct kref *ref_count)
-+{
-+	struct pvr_hwrt_dataset *hwrt =
-+		container_of(ref_count, struct pvr_hwrt_dataset, ref_count);
-+
-+	for (int i = ARRAY_SIZE(hwrt->data) - 1; i >= 0; i--) {
-+		WARN_ON(pvr_fw_structure_cleanup(hwrt->pvr_dev, ROGUE_FWIF_CLEANUP_HWRTDATA,
-+						 hwrt->data[i].fw_obj, 0));
-+		hwrt_data_fini_fw_structure(hwrt, i);
-+	}
-+
-+	hwrt_fini_common_fw_structure(hwrt);
-+	hwrt_fini_kernel_structure(hwrt);
-+
-+	kfree(hwrt);
-+}
-+
-+/**
-+ * pvr_destroy_hwrt_datasets_for_file: Destroy any HWRT datasets associated
-+ * with the given file.
-+ * @pvr_file: Pointer to pvr_file structure.
-+ *
-+ * Removes all HWRT datasets associated with @pvr_file from the device
-+ * hwrt_dataset list and drops initial references. HWRT datasets will then be
-+ * destroyed once all outstanding references are dropped.
-+ */
-+void pvr_destroy_hwrt_datasets_for_file(struct pvr_file *pvr_file)
-+{
-+	struct pvr_hwrt_dataset *hwrt;
-+	unsigned long handle;
-+
-+	xa_for_each(&pvr_file->hwrt_handles, handle, hwrt) {
-+		(void)hwrt;
-+		pvr_hwrt_dataset_put(xa_erase(&pvr_file->hwrt_handles, handle));
-+	}
-+}
-+
-+/**
-+ * pvr_hwrt_dataset_put() - Release reference on HWRT dataset
-+ * @hwrt: Pointer to HWRT dataset to release reference on
++ * pvr_stream_create_musthave_masks() - Create "must have" masks for streams based on current device
++ *                                      quirks
++ * @pvr_dev: Device pointer.
 + */
 +void
-+pvr_hwrt_dataset_put(struct pvr_hwrt_dataset *hwrt)
++pvr_stream_create_musthave_masks(struct pvr_device *pvr_dev)
 +{
-+	if (hwrt)
-+		kref_put(&hwrt->ref_count, pvr_hwrt_dataset_release);
++	memset(pvr_dev->stream_musthave_quirks, 0, sizeof(pvr_dev->stream_musthave_quirks));
++
++	if (pvr_device_has_uapi_quirk(pvr_dev, 47217))
++		pvr_dev->stream_musthave_quirks[PVR_STREAM_TYPE_FRAG][0] |=
++			PVR_STREAM_EXTHDR_FRAG0_BRN47217;
++
++	if (pvr_device_has_uapi_quirk(pvr_dev, 49927)) {
++		pvr_dev->stream_musthave_quirks[PVR_STREAM_TYPE_GEOM][0] |=
++			PVR_STREAM_EXTHDR_GEOM0_BRN49927;
++		pvr_dev->stream_musthave_quirks[PVR_STREAM_TYPE_FRAG][0] |=
++			PVR_STREAM_EXTHDR_FRAG0_BRN49927;
++		pvr_dev->stream_musthave_quirks[PVR_STREAM_TYPE_COMPUTE][0] |=
++			PVR_STREAM_EXTHDR_COMPUTE0_BRN49927;
++	}
 +}
-diff --git a/drivers/gpu/drm/imagination/pvr_hwrt.h b/drivers/gpu/drm/imagination/pvr_hwrt.h
+diff --git a/drivers/gpu/drm/imagination/pvr_stream.h b/drivers/gpu/drm/imagination/pvr_stream.h
 new file mode 100644
-index 000000000000..76992948d047
+index 000000000000..d92acb3a61d7
 --- /dev/null
-+++ b/drivers/gpu/drm/imagination/pvr_hwrt.h
-@@ -0,0 +1,165 @@
++++ b/drivers/gpu/drm/imagination/pvr_stream.h
+@@ -0,0 +1,75 @@
 +/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
 +/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+#ifndef PVR_HWRT_H
-+#define PVR_HWRT_H
++#ifndef PVR_STREAM_H
++#define PVR_STREAM_H
 +
-+#include <linux/compiler_attributes.h>
-+#include <linux/kref.h>
-+#include <linux/list.h>
++#include <linux/bits.h>
++#include <linux/limits.h>
 +#include <linux/types.h>
-+#include <linux/xarray.h>
++
++struct pvr_device;
++
++struct pvr_job;
++
++enum pvr_stream_type {
++	PVR_STREAM_TYPE_GEOM = 0,
++	PVR_STREAM_TYPE_FRAG,
++	PVR_STREAM_TYPE_COMPUTE,
++	PVR_STREAM_TYPE_TRANSFER,
++	PVR_STREAM_TYPE_STATIC_RENDER_CONTEXT,
++	PVR_STREAM_TYPE_STATIC_COMPUTE_CONTEXT,
++
++	PVR_STREAM_TYPE_MAX
++};
++
++enum pvr_stream_size {
++	PVR_STREAM_SIZE_8 = 0,
++	PVR_STREAM_SIZE_16,
++	PVR_STREAM_SIZE_32,
++	PVR_STREAM_SIZE_64,
++	PVR_STREAM_SIZE_ARRAY,
++};
++
++#define PVR_FEATURE_NOT  BIT(31)
++#define PVR_FEATURE_NONE U32_MAX
++
++struct pvr_stream_def {
++	u32 offset;
++	enum pvr_stream_size size;
++	u32 array_size;
++	u32 feature;
++};
++
++struct pvr_stream_ext_def {
++	const struct pvr_stream_def *stream;
++	u32 stream_len;
++	u32 header_mask;
++	u32 quirk;
++};
++
++struct pvr_stream_ext_header {
++	const struct pvr_stream_ext_def *ext_streams;
++	u32 ext_streams_num;
++	u32 valid_mask;
++};
++
++struct pvr_stream_cmd_defs {
++	enum pvr_stream_type type;
++
++	const struct pvr_stream_def *main_stream;
++	u32 main_stream_len;
++
++	u32 ext_nr_headers;
++	const struct pvr_stream_ext_header *ext_headers;
++
++	size_t dest_size;
++};
++
++int
++pvr_stream_process(struct pvr_device *pvr_dev, const struct pvr_stream_cmd_defs *cmd_defs,
++		   void *stream, u32 stream_size, void *dest_out);
++void
++pvr_stream_create_musthave_masks(struct pvr_device *pvr_dev);
++
++#endif /* PVR_STREAM_H */
+diff --git a/drivers/gpu/drm/imagination/pvr_stream_defs.c b/drivers/gpu/drm/imagination/pvr_stream_defs.c
+new file mode 100644
+index 000000000000..59265a7accce
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_stream_defs.c
+@@ -0,0 +1,125 @@
++// SPDX-License-Identifier: GPL-2.0-only OR MIT
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
++
++#include "pvr_device_info.h"
++#include "pvr_rogue_fwif_client.h"
++#include "pvr_rogue_fwif_stream.h"
++#include "pvr_stream.h"
++#include "pvr_stream_defs.h"
++
++#include <linux/stddef.h>
 +#include <uapi/drm/pvr_drm.h>
 +
-+#include "pvr_device.h"
-+#include "pvr_rogue_fwif_shared.h"
++#define PVR_STREAM_DEF_SET(owner, member, _size, _array_size, _feature) \
++	{ .offset = offsetof(struct owner, member), \
++	  .size = (_size),  \
++	  .array_size = (_array_size), \
++	  .feature = (_feature) }
 +
-+/* Forward declaration from pvr_free_list.h. */
-+struct pvr_free_list;
++#define PVR_STREAM_DEF(owner, member, member_size)  \
++	PVR_STREAM_DEF_SET(owner, member, PVR_STREAM_SIZE_ ## member_size, 0, PVR_FEATURE_NONE)
 +
-+/* Forward declaration from pvr_gem.h. */
-+struct pvr_fw_object;
++#define PVR_STREAM_DEF_FEATURE(owner, member, member_size, feature) \
++	PVR_STREAM_DEF_SET(owner, member, PVR_STREAM_SIZE_ ## member_size, 0, feature)
 +
-+/**
-+ * struct pvr_hwrt_data - structure representing HWRT data
++#define PVR_STREAM_DEF_NOT_FEATURE(owner, member, member_size, feature)       \
++	PVR_STREAM_DEF_SET(owner, member, PVR_STREAM_SIZE_ ## member_size, 0, \
++			   (feature) | PVR_FEATURE_NOT)
++
++#define PVR_STREAM_DEF_ARRAY(owner, member)                                       \
++	PVR_STREAM_DEF_SET(owner, member, PVR_STREAM_SIZE_ARRAY,                  \
++			   sizeof(((struct owner *)0)->member), PVR_FEATURE_NONE)
++
++#define PVR_STREAM_DEF_ARRAY_FEATURE(owner, member, feature)            \
++	PVR_STREAM_DEF_SET(owner, member, PVR_STREAM_SIZE_ARRAY,         \
++			   sizeof(((struct owner *)0)->member), feature)
++
++#define PVR_STREAM_DEF_ARRAY_NOT_FEATURE(owner, member, feature)                             \
++	PVR_STREAM_DEF_SET(owner, member, PVR_STREAM_SIZE_ARRAY,                             \
++			   sizeof(((struct owner *)0)->member), (feature) | PVR_FEATURE_NOT)
++
++/*
++ * When adding new parameters to the stream definition, the new parameters must go after the
++ * existing parameters, to preserve order. As parameters are naturally aligned, care must be taken
++ * with respect to implicit padding in the stream; padding should be minimised as much as possible.
 + */
-+struct pvr_hwrt_data {
-+	/** @fw_obj: FW object representing the FW-side structure. */
-+	struct pvr_fw_object *fw_obj;
-+
-+	/** @data: Local copy of FW-side structure. */
-+	struct rogue_fwif_hwrtdata data;
-+
-+	/** @freelist_node: List node connecting this HWRT to the local freelist. */
-+	struct list_head freelist_node;
-+
-+	/**
-+	 * @srtc_obj: FW object representing shadow render target cache.
-+	 *
-+	 * Only valid if @max_rts > 1.
-+	 */
-+	struct pvr_fw_object *srtc_obj;
-+
-+	/**
-+	 * @raa_obj: FW object representing renders accumulation array.
-+	 *
-+	 * Only valid if @max_rts > 1.
-+	 */
-+	struct pvr_fw_object *raa_obj;
-+
-+	/** @hwrt_dataset: Back pointer to owning HWRT dataset. */
-+	struct pvr_hwrt_dataset *hwrt_dataset;
++static const struct pvr_stream_def rogue_fwif_static_render_context_state_stream[] = {
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_reg_vdm_context_state_base_addr, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_reg_vdm_context_state_resume_addr, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_reg_ta_context_state_base_addr, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_store_task0, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_store_task1, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_store_task2, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_store_task3, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_store_task4, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_resume_task0, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_resume_task1, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_resume_task2, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_resume_task3, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[0].geom_reg_vdm_context_resume_task4, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_store_task0, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_store_task1, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_store_task2, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_store_task3, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_store_task4, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_resume_task0, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_resume_task1, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_resume_task2, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_resume_task3, 64),
++	PVR_STREAM_DEF(rogue_fwif_geom_registers_caswitch,
++		       geom_state[1].geom_reg_vdm_context_resume_task4, 64),
 +};
 +
-+/**
-+ * struct pvr_hwrt_dataset - structure representing a HWRT data set.
-+ */
-+struct pvr_hwrt_dataset {
-+	/** @ref_count: Reference count of object. */
-+	struct kref ref_count;
++const struct pvr_stream_cmd_defs pvr_static_render_context_state_stream = {
++	.type = PVR_STREAM_TYPE_STATIC_RENDER_CONTEXT,
 +
-+	/** @pvr_dev: Pointer to device that owns this object. */
-+	struct pvr_device *pvr_dev;
++	.main_stream = rogue_fwif_static_render_context_state_stream,
++	.main_stream_len = ARRAY_SIZE(rogue_fwif_static_render_context_state_stream),
 +
-+	/** @common_fw_obj: FW object representing common FW-side structure. */
-+	struct pvr_fw_object *common_fw_obj;
++	.ext_nr_headers = 0,
 +
-+	struct rogue_fwif_hwrtdata_common common;
-+
-+	/** @data: HWRT data structures belonging to this set. */
-+	struct pvr_hwrt_data data[ROGUE_FWIF_NUM_RTDATAS];
-+
-+	/** @free_lists: Free lists used by HWRT data set. */
-+	struct pvr_free_list *free_lists[ROGUE_FWIF_NUM_RTDATA_FREELISTS];
-+
-+	/** @max_rts: Maximum render targets for this HWRT data set. */
-+	u16 max_rts;
++	.dest_size = sizeof(struct rogue_fwif_geom_registers_caswitch),
 +};
 +
-+struct pvr_hwrt_dataset *
-+pvr_hwrt_dataset_create(struct pvr_file *pvr_file,
-+			struct drm_pvr_ioctl_create_hwrt_dataset_args *args);
++static const struct pvr_stream_def rogue_fwif_static_compute_context_state_stream[] = {
++	PVR_STREAM_DEF(rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_context_pds0, 64),
++	PVR_STREAM_DEF(rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_context_pds1, 64),
++	PVR_STREAM_DEF(rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_terminate_pds, 64),
++	PVR_STREAM_DEF(rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_terminate_pds1, 64),
++	PVR_STREAM_DEF(rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_resume_pds0, 64),
++	PVR_STREAM_DEF(rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_context_pds0_b, 64),
++	PVR_STREAM_DEF(rogue_fwif_cdm_registers_cswitch, cdmreg_cdm_resume_pds0_b, 64),
++};
 +
-+void
-+pvr_destroy_hwrt_datasets_for_file(struct pvr_file *pvr_file);
++const struct pvr_stream_cmd_defs pvr_static_compute_context_state_stream = {
++	.type = PVR_STREAM_TYPE_STATIC_COMPUTE_CONTEXT,
 +
-+/**
-+ * pvr_hwrt_dataset_lookup() - Lookup HWRT dataset pointer from handle
-+ * @pvr_file: Pointer to pvr_file structure.
-+ * @handle: Object handle.
-+ *
-+ * Takes reference on dataset object. Call pvr_hwrt_dataset_put() to release.
-+ *
-+ * Returns:
-+ *  * The requested object on success, or
-+ *  * %NULL on failure (object does not exist in list, or is not a HWRT
-+ *    dataset)
-+ */
-+static __always_inline struct pvr_hwrt_dataset *
-+pvr_hwrt_dataset_lookup(struct pvr_file *pvr_file, u32 handle)
-+{
-+	struct pvr_hwrt_dataset *hwrt;
++	.main_stream = rogue_fwif_static_compute_context_state_stream,
++	.main_stream_len = ARRAY_SIZE(rogue_fwif_static_compute_context_state_stream),
 +
-+	xa_lock(&pvr_file->hwrt_handles);
-+	hwrt = xa_load(&pvr_file->hwrt_handles, handle);
++	.ext_nr_headers = 0,
 +
-+	if (hwrt)
-+		kref_get(&hwrt->ref_count);
++	.dest_size = sizeof(struct rogue_fwif_cdm_registers_cswitch),
++};
+diff --git a/drivers/gpu/drm/imagination/pvr_stream_defs.h b/drivers/gpu/drm/imagination/pvr_stream_defs.h
+new file mode 100644
+index 000000000000..f33b82165833
+--- /dev/null
++++ b/drivers/gpu/drm/imagination/pvr_stream_defs.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
++/* Copyright (c) 2023 Imagination Technologies Ltd. */
 +
-+	xa_unlock(&pvr_file->hwrt_handles);
++#ifndef PVR_STREAM_DEFS_H
++#define PVR_STREAM_DEFS_H
 +
-+	return hwrt;
-+}
++#include "pvr_stream.h"
 +
-+void
-+pvr_hwrt_dataset_put(struct pvr_hwrt_dataset *hwrt);
++extern const struct pvr_stream_cmd_defs pvr_cmd_geom_stream;
++extern const struct pvr_stream_cmd_defs pvr_cmd_frag_stream;
++extern const struct pvr_stream_cmd_defs pvr_cmd_compute_stream;
++extern const struct pvr_stream_cmd_defs pvr_cmd_transfer_stream;
++extern const struct pvr_stream_cmd_defs pvr_static_render_context_state_stream;
++extern const struct pvr_stream_cmd_defs pvr_static_compute_context_state_stream;
 +
-+/**
-+ * pvr_hwrt_data_lookup() - Lookup HWRT data pointer from handle and index
-+ * @pvr_file: Pointer to pvr_file structure.
-+ * @handle: Object handle.
-+ * @index: Index of RT data within dataset.
-+ *
-+ * Takes reference on dataset object. Call pvr_hwrt_data_put() to release.
-+ *
-+ * Returns:
-+ *  * The requested object on success, or
-+ *  * %NULL on failure (object does not exist in list, or is not a HWRT
-+ *    dataset, or index is out of range)
-+ */
-+static __always_inline struct pvr_hwrt_data *
-+pvr_hwrt_data_lookup(struct pvr_file *pvr_file, u32 handle, u32 index)
-+{
-+	struct pvr_hwrt_dataset *hwrt_dataset = pvr_hwrt_dataset_lookup(pvr_file, handle);
-+
-+	if (hwrt_dataset) {
-+		if (index < ARRAY_SIZE(hwrt_dataset->data))
-+			return &hwrt_dataset->data[index];
-+
-+		pvr_hwrt_dataset_put(hwrt_dataset);
-+	}
-+
-+	return NULL;
-+}
-+
-+/**
-+ * pvr_hwrt_data_put() - Release reference on HWRT data
-+ * @hwrt: Pointer to HWRT data to release reference on
-+ */
-+static __always_inline void
-+pvr_hwrt_data_put(struct pvr_hwrt_data *hwrt)
-+{
-+	if (hwrt)
-+		pvr_hwrt_dataset_put(hwrt->hwrt_dataset);
-+}
-+
-+static __always_inline struct pvr_hwrt_data *
-+pvr_hwrt_data_get(struct pvr_hwrt_data *hwrt)
-+{
-+	if (hwrt)
-+		kref_get(&hwrt->hwrt_dataset->ref_count);
-+
-+	return hwrt;
-+}
-+
-+#endif /* PVR_HWRT_H */
++#endif /* PVR_STREAM_DEFS_H */
 -- 
 2.25.1
 
