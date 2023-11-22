@@ -2,54 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99F4D7F441B
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 11:42:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2668B7F44E4
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 12:26:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9025510E5F2;
-	Wed, 22 Nov 2023 10:42:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B99E10E5FE;
+	Wed, 22 Nov 2023 11:26:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49F7C10E5F2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 10:42:13 +0000 (UTC)
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 69FCA6607359;
- Wed, 22 Nov 2023 10:42:11 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1700649732;
- bh=WfTQvbA1j86GwIsj9Oe5JMz0TJlJUgsfZVCjYFqjN20=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=S9ZxG94WkUixZsqVzVrRwI/ekHdd8DMfDqyHjXGfqYt4Cz3qu19rG20+xyc0OR9me
- N8Bkmc3kUVSTwsSybCjuz1n/0oQvImiVgENF8SIGsPQWGAtAYieOIoeOwZxkBa1Ag5
- Cawtosqh/52zRaD8I07pWkiw2a1eGu0oFVO8kPxOl/N/gm+AHfZ5jVsTi7+ckb7JAz
- 9UHemAH06xevqfjjhZs8780YyOVoZAwcTzHanhShkjQfs7i+CZ4j5F1rblu4Wq3O3v
- oqPyJuYDPd8ndwyY7pUiZkqC82NQhYzUhbeygvavNIEOD1a4QqNf0q3uUqF+60rvHx
- WrfRwqbsAj1xA==
-Date: Wed, 22 Nov 2023 11:42:08 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH] drm/panfrost: Really power off GPU cores in
- panfrost_gpu_power_off()
-Message-ID: <20231122114208.60271aa0@collabora.com>
-In-Reply-To: <ecea3676-5dc6-4633-9373-931cdb582190@collabora.com>
-References: <20231102141507.73481-1-angelogioacchino.delregno@collabora.com>
- <7928524a-b581-483b-b1a1-6ffd719ce650@arm.com>
- <1c9838fb-7f2d-4752-b86a-95bcf504ac2f@linaro.org>
- <6b7a4669-7aef-41a7-8201-c2cfe401bc43@collabora.com>
- <20231121175531.085809f5@collabora.com>
- <d95259b8-10cf-4ded-866c-47cbd2a44f84@linaro.org>
- <4c73f67e-174c-497e-85a5-cb053ce657cb@collabora.com>
- <20231122105419.69724739@collabora.com>
- <ecea3676-5dc6-4633-9373-931cdb582190@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2045.outbound.protection.outlook.com [40.107.244.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D87C210E616;
+ Wed, 22 Nov 2023 11:26:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Xi1KMQVEv/I9HtDk2iIKCQLEWlx18HjtLk802d0KLp+dpE+4BK3Av+utKJoBKn15NQTOkEUWtamg1vXflGJBCX/ADNMHYZmzMeYPOp0L3x+Hw3M2ZQo83Wz/LyAnleld3Nu9COdj2CaOYMagKshfsaKW6f1o/LksW+g5qdUZNqw01QsJFhPliZxVJhL4bgJddHG51EJTu2RUot1YCgnj1tcao484a7Hw7Ow9FaA0lCzXU56TmtVjCKqMByGEo1bG8Pg7PPQpFGzt4q9pjT1yxzeQRAJRSmJ++FKZVGf1YqASCidYtmnVE4NyWr5n1VG7x8wjv7ZMTRcWe3ZklNopjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hKZzOYdGkwEcj1X8BCU06lxd6U0NuSK4eDUpsEKNudU=;
+ b=OcWmgDFpuggnp+gj0F37wQh8hWaTJTvBucrzLIaFe+Fh3EnOT+UuuTqOpf+Pa3ea32N4+fBwA45hNZGTTxvQEuQo154SC4Ntrn+4Hr2AJxwZAVf88D12Msh3cxpbuHr+siEzNK9ZcDBlzFjXelgs2Mw2CPmFYgOmf61fSkBF4JU4Leb6TB39bs2KhyKseyNOdroj8/wy/kqgjgCiPmImXKUDTT93sPz9tS4sEzfHsY6iSx3s62UJL0iLpdsLTkm6jaBlO+V1dDXgX2j+HI2d550rG2F8dv94NXBo8Nb9RH7NbfgdJeNTqFoUimxz9QV09lGtmV8Lhmwkj2V6NywchA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hKZzOYdGkwEcj1X8BCU06lxd6U0NuSK4eDUpsEKNudU=;
+ b=atKsFZ0ixZJzDsgBfnWz+xH1uUvo9Ncy6cWW6eyvkeBwO9cXB1GFIRe97TLQuHpysBerGHC0bLifl2DQMj6eDOkwI2o3Uc4uao5fk/cP7/kHHgC3iUZscGa81h0RlHlGsRCseWk65Rf343CxhKPT2Nn3L6o3hmXTzmRiv1Gg21Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by CH2PR12MB4922.namprd12.prod.outlook.com (2603:10b6:610:65::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.18; Wed, 22 Nov
+ 2023 11:26:40 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::ca80:8f1c:c11:ded3%7]) with mapi id 15.20.7025.019; Wed, 22 Nov 2023
+ 11:26:39 +0000
+Message-ID: <8e0d44ee-e3f3-43f7-9f83-6a4349fc1dc7@amd.com>
+Date: Wed, 22 Nov 2023 12:26:35 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amdgpu: Fix cat debugfs amdgpu_regs_didt causes
+ kernel null pointer
+Content-Language: en-US
+To: Lu Yao <yaolu@kylinos.cn>, airlied@gmail.com, daniel@ffwll.ch
+References: <20231122093509.34302-1-yaolu@kylinos.cn>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20231122093509.34302-1-yaolu@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0068.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:49::13) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CH2PR12MB4922:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0ccca10d-4a3f-468e-2438-08dbeb4de54b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XiY7JcIpvVKo6an4EI4XcmhJn9TWQIPAlZATJTCZ8NAcqco/IkIdiOX/8PgrkA1w0URI3BOE4nf+1PBl+r7YMml5wOmFkzjHOlAcpOU7HYWTtMa/Xtvnr2Keg2od4XbufXViy8laluHLfODxsXbSw86dtA/FhdOgZ/z4OhMRJoq1eElIEJcjv7ViguG/S+axJ0FkuteQg+CHT83uz7YsYVf19K0pwBUgZfgV/siXty1WNWTv005khQlX96VGRej09H+GsNl9JAySjytCWQBce25yRa8/CSFayDyTYyXuIOH5FR5/DGk6+dvl+qnpx1CDMqDRV4xULLDKrX3F50HQ7aO/10+5Nnuc/OtZiS0IWDCc9IRyf0qna3B+cJQdxjuJwLCGDnVU2SyQualV3FSWg1iGJVnUp557MCV3i0r548bFuuWc6RCEr5NC3KOEyhIhjT2SB1uVEfPAtkwlqLQLZUMaQXW5CKFT7LfGFpKgU80Nxfypmjc3DmTIXR5sb4oQrUIvztgpsly2OQ5Hc+Dy+OGWnvCXUQVBZ5Ah4lVoyJsEjtS0rkNLcLjBFfT9VWXPWyW8hiEgPheaWQNsGwRfIQb4vs7FRi7lAq+TE1j1sY+efY48/Dho3NqSeJzyidokREnjvIf7b8RgAWLOzTph0A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(376002)(396003)(39860400002)(346002)(136003)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(36756003)(41300700001)(31696002)(5660300002)(2906002)(86362001)(26005)(6666004)(478600001)(6506007)(6486002)(2616005)(6512007)(8936002)(8676002)(83380400001)(4326008)(316002)(66946007)(66556008)(66476007)(38100700002)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VWhGSFVUV2hpdy9DSjNCcHAzMGNOOHNCUUhtQkd2cm1UUWxFZFV6ZkNwZElW?=
+ =?utf-8?B?SVBTR3JoTVBZcFdmV1YxSzZqVEsyYmlQbERUbnQwRVBFMjJJK01mZEVwMlNF?=
+ =?utf-8?B?VGd0bmd6bCtSTGNJaDY0aWVteUIzMmN4dzR4cmhYNzJFQlA4VkRYVmJzc1Zz?=
+ =?utf-8?B?UW1ISmRQZE1Td1ZqSFJtUzc3Sms0MHJYT0xlTUpZYUtHTU5tMHJoaUJudlRT?=
+ =?utf-8?B?aFQxbWQzdkJtVGk3UVo3THR6ak1WM053NERTZUNjNHdSSERKNXNVRXdMQmJM?=
+ =?utf-8?B?T1JQR1ZkUDFpWHpYQ0xMeDg2YUlnWkhld1dkWG1VZmZkZHlDY2V5TWMycGpR?=
+ =?utf-8?B?bzNCdmpDbDI1aDdmNXl1T256NjRWcEhFRGlhY1lpdXowSVNMVFc0TzEwbTcx?=
+ =?utf-8?B?NEVDZ25OcDhpVDNsT1VRUjkvWlo4VEdrOWY4TndwNzd6SlNJbmozVUVoR1Y3?=
+ =?utf-8?B?dkd0djJBRGVVeUY0cm93UTRSbVltS2E5NndCODdmeXN6Z0hZM05Vck9jQUEz?=
+ =?utf-8?B?MFNIY0k2bE0wQ2lBMFdhNndWeEhlbGdycVFsaXQxS2dpUzFuWWpNRmlJNG5W?=
+ =?utf-8?B?L2dxdXBCZE04c1M5bE90WUx0TXVOR0JEcG0rMlE0UXZBOVdoTU9uZk1SVldL?=
+ =?utf-8?B?YzFOVFh2T1JvRDhJbWlHc1ZMaGtvdFFldGZ6c0ZYMmhlQTdUVE5qak13VXZQ?=
+ =?utf-8?B?YkhsZTNyTEszaS90RFlIVXk0dGQyMFB2USt2MWkyRUQremt5cXdrSi8zWVIy?=
+ =?utf-8?B?OHFwcWVLTXU3QzhnV3RIbStiZjA0WjhBVWlWRzJ4eW1mZVZZWmxBbHgxNWdq?=
+ =?utf-8?B?c05lMFFSMzZJUXJIRitnV2Q3U1ZiZEs2c29WanZrUmk0YXpRbG02UHhVRHc4?=
+ =?utf-8?B?dzlxc0JtTDVXUUdCYlVwYjVJZWJmRkZUR0FpZnpPUmg0NzJwQXJLVEdlRjhn?=
+ =?utf-8?B?U0Yxd1ViemJrMGFCaWpXOUJITi9pTkdETWIyNTRsSTRHNHUyenhrYzZxc04y?=
+ =?utf-8?B?Q1QwTWh4RVAzR3RScHBsekdjQUVYbms2MWhuOVloRVkvbWRhS3VDQ210QmNV?=
+ =?utf-8?B?NFErb0FWb3VRNmpqM09EdllkSkVpQzlSU3JremdLL0xRM0t3eWo2cVlpNllL?=
+ =?utf-8?B?dzNpc3FNZHpPOCsyaUlNdFhKSFhSL1dXSEduSU1jY2RyK2dhRU1pVmlkNDEr?=
+ =?utf-8?B?NW4vYnZSdi9IYWxiQTBEZ2JRMkFUSDRXSTJkUG1uWnI3RjZUcWdFVUFQcjJV?=
+ =?utf-8?B?QWF4U3lxUnhjV2xxdm80TmgxT3BCRWZrQS82ZTljZHZxQ2NoK2IrM0Z2SU9L?=
+ =?utf-8?B?SzRSaHhKRW1aYVo4bGtMQkNPUXZOWjE0d051TC9nVEJNNmttc1VaOEFHaU1Y?=
+ =?utf-8?B?T3d1bDZIZmZUb2hFMFVuOHJtOUVoNzJpL1ZocVpTTFJyT1oyLzBIdkZ0MjRl?=
+ =?utf-8?B?ZUNPNnRPRmNTM0NLZ09KOWZ1dnFLb0c5MzRpYXM2aEpmeWsvR3FWN2hjYlNh?=
+ =?utf-8?B?d3VKak9rZG1FK2YrTnlLRkdwbis0OGFFSTR0c01IdDl1dUNPU29PTVc1ZnFm?=
+ =?utf-8?B?eDlzRVEyUVFBNVNUVjMvY3QyOGhjK05aZklyU0lJVUViOEYwaFNUL2x4cmt0?=
+ =?utf-8?B?ZVUvMzVTYUE1WFNHcTJ5c3VaVkQ3b09jdUNmNVp0OVV1RWhhSVZJVFRuM0Q5?=
+ =?utf-8?B?WlV2b2pNWnhtNFoyeEU2dEh4Mm5rK0lzMllLbDBBOGtpajQxanNQanh4Y3dM?=
+ =?utf-8?B?Tk5aVXJWYkM4RmFOUEtqMERwZXgvUkI2N3ZlNnhNNVhtZ3QzV0xtb0JTb1FR?=
+ =?utf-8?B?ck12V3FWNUtaRU13dW1IL005b3MwbUl1THZIZC9RZ2JvbDk1bjZmMmhHb0l0?=
+ =?utf-8?B?bCtGVlF3MW44bEFlazFkVXJVTnZVaU1UYU13cjlVZWxETkJXWHNYNEQ5c0FT?=
+ =?utf-8?B?TFd3Y2NVZlVWb0tiRjN2TXZlMnJrR3FPOTI0MC9QM0ZuUmlJcUNRMEo4bW1z?=
+ =?utf-8?B?VEZ6UHNoNDRKaGxFa05XUENNSmZLT3lGYzkwWHduSXNHaHhpMXJCcDZuME9p?=
+ =?utf-8?B?cUhuTGdCaXlvRUhGODdITEorY0wvekpkNU5XWlRpRnp3bWlaZ1pGWGRVdmJw?=
+ =?utf-8?Q?TTkqO1sLenQqcOZdfWwJjyahK?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ccca10d-4a3f-468e-2438-08dbeb4de54b
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 11:26:39.5882 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vmMSE2QA5SR3z/B/pZrZYBAWjxnpRCkkRUusuMdw175f9BhlaAWvtEMf7yeDrT0s
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4922
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,240 +124,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, mripard@kernel.org,
- Steven Price <steven.price@arm.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de, wenst@chromium.org,
- kernel@collabora.com, Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: alexander.deucher@amd.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 22 Nov 2023 11:23:05 +0100
-AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-wrote:
+Am 22.11.23 um 10:35 schrieb Lu Yao:
+> For 'AMDGPU_FAMILY_SI' family cards, in 'si_common_early_init' func, init
+> 'didt_rreg' and 'didt_wreg' to 'NULL'. But in func
+> 'amdgpu_debugfs_regs_didt_read/write', using 'RREG32_DIDT' 'WREG32_DIDT'
+> lacks of relevant judgment. And other 'amdgpu_ip_block_version' that use
+> these two definitions won't be added for 'AMDGPU_FAMILY_SI'.
+>
+> So, add null pointer judgment before calling.
+>
+> Signed-off-by: Lu Yao <yaolu@kylinos.cn>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> index a53f436fa9f1..797d7d3bfd50 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> @@ -638,6 +638,11 @@ static ssize_t amdgpu_debugfs_regs_didt_read(struct file *f, char __user *buf,
+>   	if (size & 0x3 || *pos & 0x3)
+>   		return -EINVAL;
+>   
+> +	if (adev->didt_rreg == NULL) {
+> +		dev_err(adev->dev, "%s adev->didt_rreg is null!\n", __FUNC__);
 
-> Il 22/11/23 10:54, Boris Brezillon ha scritto:
-> > Hi Angelo,
-> >=20
-> > On Wed, 22 Nov 2023 10:06:19 +0100
-> > AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> > wrote:
-> >  =20
-> >> Il 21/11/23 18:08, Krzysztof Kozlowski ha scritto: =20
-> >>> On 21/11/2023 17:55, Boris Brezillon wrote: =20
-> >>>> On Tue, 21 Nov 2023 17:11:42 +0100
-> >>>> AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> >>>> wrote:
-> >>>>    =20
-> >>>>> Il 21/11/23 16:34, Krzysztof Kozlowski ha scritto: =20
-> >>>>>> On 08/11/2023 14:20, Steven Price wrote: =20
-> >>>>>>> On 02/11/2023 14:15, AngeloGioacchino Del Regno wrote: =20
-> >>>>>>>> The layout of the registers {TILER,SHADER,L2}_PWROFF_LO, used to=
- request
-> >>>>>>>> powering off cores, is the same as the {TILER,SHADER,L2}_PWRON_L=
-O ones:
-> >>>>>>>> this means that in order to request poweroff of cores, we are su=
-pposed
-> >>>>>>>> to write a bitmask of cores that should be powered off!
-> >>>>>>>> This means that the panfrost_gpu_power_off() function has always=
- been
-> >>>>>>>> doing nothing.
-> >>>>>>>>
-> >>>>>>>> Fix powering off the GPU by writing a bitmask of the cores to po=
-weroff
-> >>>>>>>> to the relevant PWROFF_LO registers and then check that the tran=
-sition
-> >>>>>>>> (from ON to OFF) has finished by polling the relevant PWRTRANS_LO
-> >>>>>>>> registers.
-> >>>>>>>>
-> >>>>>>>> While at it, in order to avoid code duplication, move the core m=
-ask
-> >>>>>>>> logic from panfrost_gpu_power_on() to a new panfrost_get_core_ma=
-sk()
-> >>>>>>>> function, used in both poweron and poweroff.
-> >>>>>>>>
-> >>>>>>>> Fixes: f3ba91228e8e ("drm/panfrost: Add initial panfrost driver")
-> >>>>>>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delr=
-egno@collabora.com> =20
-> >>>>>>
-> >>>>>>
-> >>>>>> Hi,
-> >>>>>>
-> >>>>>> This commit was added to next recently but it causes "external abo=
-rt on
-> >>>>>> non-linefetch" during boot of my Odroid HC1 board.
-> >>>>>>
-> >>>>>> At least bisect points to it.
-> >>>>>>
-> >>>>>> If fixed, please add:
-> >>>>>>
-> >>>>>> Reported-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >>>>>>
-> >>>>>> [    4.861683] 8<--- cut here ---
-> >>>>>> [    4.863429] Unhandled fault: external abort on non-linefetch (0=
-x1008) at 0xf0c8802c
-> >>>>>> [    4.871018] [f0c8802c] *pgd=3D433ed811, *pte=3D11800653, *ppte=
-=3D11800453
-> >>>>>> ...
-> >>>>>> [    5.164010]  panfrost_gpu_irq_handler from __handle_irq_event_p=
-ercpu+0xcc/0x31c
-> >>>>>> [    5.171276]  __handle_irq_event_percpu from handle_irq_event+0x=
-38/0x80
-> >>>>>> [    5.177765]  handle_irq_event from handle_fasteoi_irq+0x9c/0x250
-> >>>>>> [    5.183743]  handle_fasteoi_irq from generic_handle_domain_irq+=
-0x28/0x38
-> >>>>>> [    5.190417]  generic_handle_domain_irq from gic_handle_irq+0x88=
-/0xa8
-> >>>>>> [    5.196741]  gic_handle_irq from generic_handle_arch_irq+0x34/0=
-x44
-> >>>>>> [    5.202893]  generic_handle_arch_irq from __irq_svc+0x8c/0xd0
-> >>>>>>
-> >>>>>> Full log:
-> >>>>>> https://krzk.eu/#/builders/21/builds/4392/steps/11/logs/serial0
-> >>>>>>        =20
-> >>>>>
-> >>>>> Hey Krzysztof,
-> >>>>>
-> >>>>> This is interesting. It might be about the cores that are missing f=
-rom the partial
-> >>>>> core_mask raising interrupts, but an external abort on non-linefetc=
-h is strange to
-> >>>>> see here. =20
-> >>>>
-> >>>> I've seen such external aborts in the past, and the fault type has
-> >>>> often been misleading. It's unlikely to have anything to do with a =
-=20
-> >>>
-> >>> Yeah, often accessing device with power or clocks gated.
-> >>>     =20
-> >>
-> >> Except my commit does *not* gate SoC power, nor SoC clocks =F0=9F=99=
-=82 =20
-> >=20
-> > It's not directly related to your commit, it's just a side effect.
-> >  =20
->=20
-> Indeed!
->=20
-> >>
-> >> What the "Really power off ..." commit does is to ask the GPU to inter=
-nally power
-> >> off the shaders, tilers and L2, that's why I say that it is strange to=
- see that
-> >> kind of abort.
-> >>
-> >> The GPU_INT_CLEAR GPU_INT_STAT, GPU_FAULT_STATUS and GPU_FAULT_ADDRESS=
-_{HI/LO}
-> >> registers should still be accessible even with shaders, tilers and cac=
-he OFF. =20
-> >=20
-> > It's not the power_off() call that's problematic, it's when it happens
-> > (the last thing called in panfrost_device_runtime_suspend()), and the
-> > fact it generates interrupts. Yes, you don't explicitly gate the clocks
-> > in panfrost_device_runtime_suspend(), but the PM layer does interact
-> > directly with power domains, and shutting down a power domain might
-> > result in other clks/components being gated, which might make the
-> > register bank inaccessible from the CPU.
-> >  =20
-> >>
-> >> Anyway, yes, synchronizing IRQs before calling the poweroff sequence w=
-ould also
-> >> work, but that'd add up quite a bit of latency on the runtime_suspend(=
-) call, =20
-> >=20
-> > Really? In practice I'd expect no pending interrupts, other than the
-> > power transition ones, which are purely and simply ignored by the
-> > handler. If we had any other pending interrupts on suspend, we would
-> > have faced this problem before. To sum-up, I'd expect the extra latency
-> > to just be the overhead of the synchronize_irq() call, which, after
-> > looking at the code, shouldn't be such a big deal.
-> >  =20
-> >> so
-> >> in this case I'd be more for avoiding to execute any register r/w in t=
-he handler
-> >> by either checking if the GPU is supposed to be OFF, =20
-> >=20
-> > Yes, that's an option, but I don't think that's enough (see below).
-> >  =20
-> >> or clearing interrupts, =20
-> >=20
-> > The handler might have been called already when you clear the
-> > interrupt, and you'd still need to make sure the handler has returned
-> > before returning from panfrost_device_runtime_suspend() if you want to
-> > guarantee no one is touching the registers when the power domains are
-> > shutdown.
-> >  =20
-> >> which
-> >> may not work if those are generated after the execution of the powerof=
-f function. =20
-> >=20
-> > They are generated while you poll the register, but that doesn't
-> > guarantee they will be processed by the time you return from your
-> > power_off() function, which I think is exactly the problem we're facing
-> > here.
-> >  =20
-> >> Or we could simply disable the irq after power_off, but that'd be hack=
-y (as well). =20
-> >=20
-> > If by disabling the interrupt you mean calling disable_irq(), that
-> > would work if the irq lines were not declared as shared (IRQF_SHARED
-> > flag passed at request time). Beside, the latency of disable_irq()
-> > should be pretty much the same as synchronize_irq(), given
-> > synchronize_irq() from there.
-> >=20
-> > If by disabling the interrupt, you mean masking it with _INT_MASK,
-> > then, as said above, that's not enough. You need to make sure any
-> > handler that may have been called as a result of this interrupt,
-> > returns before you return from the suspend function, so you need some
-> > kind of synchronization.
-> >  =20
->=20
-> Your reasons are totally valid and I see the point.
->=20
-> That's what I'll do as a follow-up Fixes patch:
->   - gpu_write(pfdev, GPU_INT_MASK, 0);
->   - gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
->   - synchronize_irq()
+Please drop the dev_err(), this is not a device error but rather 
+userspace using a functionality not applicable for this device type.
 
-More generally, I think we should have helpers that do that for the 3
-irqs we in panfrost (gpu, mmu and job), because ultimately, the problem
-exists for all of them.
+> +		return -EPERM;
 
->   - poweroff *all* shaders/tilers/l2 (without caring about core_mask)
+Maybe rather use EOPNOTSUPP here.
 
-Sounds good to me.
+Regards,
+Christian.
 
->   - *No* INT_MASK restore, as we rely on soft_reset() to do that for us
->     once we resume the GPU.
+> +	}
+> +
+>   	r = pm_runtime_get_sync(adev_to_drm(adev)->dev);
+>   	if (r < 0) {
+>   		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+> @@ -694,6 +699,11 @@ static ssize_t amdgpu_debugfs_regs_didt_write(struct file *f, const char __user
+>   	if (size & 0x3 || *pos & 0x3)
+>   		return -EINVAL;
+>   
+> +	if (adev->didt_wreg == NULL) {
+> +		dev_err(adev->dev, "%s adev->didt_wreg is null!\n", __FUNC__);
+> +		return -EPERM;
+> +	}
+> +
+>   	r = pm_runtime_get_sync(adev_to_drm(adev)->dev);
+>   	if (r < 0) {
+>   		pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
 
-Yeah, I didn't check, but if soft_reset() restores all the _INT_MASK
-properly, and it's called in the resume path, we're good.
-
->=20
->=20
-> >>
-> >>
-> >> Let's see if asking to poweroff *everything* works: =20
-> >=20
-> > It might slightly change the timing, making this problem disappear by
-> > chance (if the interrupt gets processed before power_off() returns),
-> > but it doesn't make the suspend logic more robust. We really have to
-> > guarantee that no one will touch the registers when we enter suspend,
-> > be it some interrupt handler, or any kind of deferred work.
-> >=20
-> > Again, none of this is a direct result of your patch, it's just that
-> > your patch uncovered the problem, and I think now is a good time to fix
-> > it properly.
-> >  =20
->=20
-> Yes, I am well aware of that and I was trying to make that clear in the f=
-irst
-> place - I'm sorry if I gave the impression of having any kind of doubt ar=
-ound
-> that, or any other.
-
-Not particularly, just wanted to insist on the fact there is no blame
-to be taken for this regression, and that's actually a good opportunity
-to fix the PM logic with regards to interrupt handling. I'm glad you're
-now volunteering for that :-).
