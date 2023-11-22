@@ -2,51 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DADB7F4BDF
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 17:03:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C9E7F4BE9
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 17:06:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8636810E2F4;
-	Wed, 22 Nov 2023 16:03:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAE6710E679;
+	Wed, 22 Nov 2023 16:06:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com
- [IPv6:2001:41d0:203:375::b7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1400010E679
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 16:03:10 +0000 (UTC)
-Message-ID: <7a4a6698-0954-4225-82ff-02dd13bd64bb@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1700668987;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+zG0kaVtnpV1mCBkeYtmeeP9ZdCmJp4PqJOO3u62dFQ=;
- b=Cb8BhfpIktRns14fQSXGAH/4j/9ZYiiVeI8I9z+nO7gzTFtcGXMu7ls0oNR2YJKx3dqopS
- kazLRJ/Gmk4zy4RUqS+Bfu+O4a28AZIAHj/lyNDOukN7UuVL1h/70fkno9SLme+g82q0NQ
- AFF4KmSe4DaIFbOdt2IHFnBxsnsORP0=
-Date: Thu, 23 Nov 2023 00:02:51 +0800
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02on2047.outbound.protection.outlook.com [40.107.96.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1029210E679;
+ Wed, 22 Nov 2023 16:06:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F75zKz2uyLa5jPpB1aeIuWyYIfeWsSqMQIqAcmW0nUCdDpfiUxu75f0thG5ebvOZcpeWuI+AONmJ/4MLyBXp6Vi+TPNfXYgCTzkEstbam3DzfaWrJZ6EguL0Cweqh+DMqxOjbQKtQ8FZ+RuNiumwQc/2sV1SUDy5chFLJ6yR2NkPGxyQtmA4D+7GgO7RAfe+rF5kT2LLQNlNslAvDZ03Ths+fOERuvSZiOYCq8eBZvnLDR0t7Mycxvo4GSBvF69iltvu50/y+MGPbp7huZMu8f4tlGxm7iX17AtUrulNndfKBvqp5GADU1mnxQ/1WW4WLjK14SOv8d4NFbTQQgVGRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ssQ4Yr7Ver3oTpMBl/KrUoFjnDijHLncadph/ptPiV0=;
+ b=R5OUM3GDlMcS4O3XRPZNRLL5dd3dAlSi+58/2mjVjuCdkKkPa58m299EIhTlOMPEmXKo+yV4GE0+g3zfTlvjmp2h7oYUKxQ3DZtro3XGX/ov3V3LrbJbCMrpgos9ZB7mgt74gnQJk9dmGnPOrHYbjL02H5AzEfeC2tBFPFcm7E1UnJ4lL2cRruNP0jWIibQegbS6xolRO71QVvnlm+i8F91kYsdhxAgfomnN7d3RCvT0pKdY771dpgTR6ESL+a4DMI8zHRE/LEr+GzJztJ8LGxvJOlLcyGYfKM4RxG2PIyoIue7t/IzVi3vSgkjECV26AQV3SU2f8vx6aIeDMPsf5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ssQ4Yr7Ver3oTpMBl/KrUoFjnDijHLncadph/ptPiV0=;
+ b=R+gNuEkmsX2UjLOVK7lCldTik7/WlAkiMvPDi4+UwpRpjMSUM81l8EWTFdr8KjVJEjQGBQ3D9ciBNUzr+7e7WlkJhbdnzScPgHuAAr6B+qH8feGhL4Dhg9ya8FUhF/E8YucsGC5PwECYsYMBkL6xxlgEVaSaXCyq0a4aVYn1WGg=
+Received: from DM6PR02CA0131.namprd02.prod.outlook.com (2603:10b6:5:1b4::33)
+ by MW6PR12MB9017.namprd12.prod.outlook.com (2603:10b6:303:23b::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.28; Wed, 22 Nov
+ 2023 16:06:07 +0000
+Received: from DS1PEPF00017096.namprd05.prod.outlook.com
+ (2603:10b6:5:1b4:cafe::4d) by DM6PR02CA0131.outlook.office365.com
+ (2603:10b6:5:1b4::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.19 via Frontend
+ Transport; Wed, 22 Nov 2023 16:06:07 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS1PEPF00017096.mail.protection.outlook.com (10.167.18.100) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7025.12 via Frontend Transport; Wed, 22 Nov 2023 16:06:07 +0000
+Received: from KfdLnx23.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Wed, 22 Nov
+ 2023 10:06:06 -0600
+From: Ramesh Errabolu <Ramesh.Errabolu@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <christian.koenig@amd.com>,
+ <sumit.semwal@linaro.org>, <linux-media@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH] dma-buf: Correct the documentation of name and exp_name
+ symbols
+Date: Wed, 22 Nov 2023 10:05:56 -0600
+Message-ID: <20231122160556.24948-1-Ramesh.Errabolu@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Subject: Re: [PATCH v6 0/6] drm: simplify support for transparent DRM bridges
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20231103230414.1483428-1-dmitry.baryshkov@linaro.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20231103230414.1483428-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF00017096:EE_|MW6PR12MB9017:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4d719f19-5872-4469-ae89-08dbeb74efa6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lDhYJdv/R0P45oUCt1aSWdGZQHUUqbdA7ao1p/TFSKlEb2ZaDghmS7FXrFC/ML3ccyehRFm8BuuG2IjJsIts7lvLM1+iage75S4b1Iv7XhYb3b+VATbkBTJYu+orZevYQWgYiDr99Bn/21gjx0H6aupAb41DntrXryvuc8ue+CdDOL++qRUPIgU2R0dlbwX53+nF1r4sixgYpvB2EQiJGEilS/VP4iDvYWvd0C2JtsXQsdCVyEFCXnFbdPZKCHTRaEqf97nncZmQnP1ySBD7IvSVTTuuiBYu2/9qw8etAYFgAAHMXHq0JegYH8urcjRKwlOQOMMA+AptnP/xEo+Om/U1AyvE7Ei9A7iA8KBKcAEYc4tJwD19UajHO4SziXwrNPsT6dlHWt6GmO0iXBk918r4ABXa5l1yVEcYZjwy5PhDSWCej8dOu1Mk/iK616hrFRcucIv2xWPuZBSDtrpuSUxJsRSQanFE9Wh1X5+y6sJO/GAuqPguAeYDg3mH+6z7qSIeWa5W9ou/5JL7SHWjyw8BZl/CQxdIsWsVBvDvAbnnYpCbDDwYUyEvS28xHOIiprQO/vqRHWdhXWbFHb+g8z5z1Rg6mHV7YsYSBkIIJ9+w17y1NLp2iUw6MhpRXkqR6AHF0Z68yeqZl/QZ5Z2GMxlsNnXsZfqv4OSHiTNHroWMyRT2UbKM5C4UcitkLam5SH6bYuso8Cv/qBnrE/doiZ3A/9l3Wzq3/uxgw+zpso3TtUxRTloenMwErysbGbOAbBSxJg9D1cz0YFMORfiVE9nXsddDofoTkgO7uQep/Bw=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230031)(4636009)(376002)(39860400002)(346002)(136003)(396003)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(82310400011)(40470700004)(36840700001)(46966006)(40480700001)(7696005)(6666004)(47076005)(82740400003)(478600001)(83380400001)(81166007)(70586007)(110136005)(316002)(70206006)(8676002)(8936002)(4326008)(36860700001)(16526019)(356005)(2616005)(426003)(26005)(336012)(86362001)(40460700003)(5660300002)(1076003)(41300700001)(36756003)(2906002)(36900700001)(2101003);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 16:06:07.1687 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d719f19-5872-4469-ae89-08dbeb74efa6
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF00017096.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB9017
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,112 +102,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-phy@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-usb@vger.kernel.org, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: Ramesh Errabolu <Ramesh.Errabolu@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Fix the documentation of struct dma_buf members name and exp_name
+as to how these members are to be used and accessed.
 
+Signed-off-by: Ramesh Errabolu <Ramesh.Errabolu@amd.com>
+---
+ include/linux/dma-buf.h | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-On 2023/11/4 07:03, Dmitry Baryshkov wrote:
-> Supporting DP/USB-C can result in a chain of several transparent
-> bridges (PHY, redrivers, mux, etc). All attempts to implement DP support
-> in a different way resulted either in series of hacks or in device tree
-> not reflecting the actual hardware design. This results in drivers
-> having similar boilerplate code for such bridges.
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index 3f31baa3293f..8ff4add71f88 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -343,16 +343,19 @@ struct dma_buf {
+ 	/**
+ 	 * @exp_name:
+ 	 *
+-	 * Name of the exporter; useful for debugging. See the
+-	 * DMA_BUF_SET_NAME IOCTL.
++	 * Name of the exporter; useful for debugging. Must not be NULL
+ 	 */
+ 	const char *exp_name;
+ 
+ 	/**
+ 	 * @name:
+ 	 *
+-	 * Userspace-provided name; useful for accounting and debugging,
+-	 * protected by dma_resv_lock() on @resv and @name_lock for read access.
++	 * Userspace-provided name. Default value is NULL. If not NULL,
++	 * length cannot be longer than DMA_BUF_NAME_LEN, including NIL
++	 * char. Useful for accounting and debugging. Read/Write accesses
++	 * are protected by @name_lock
++	 *
++	 * See the IOCTLs DMA_BUF_SET_NAME or DMA_BUF_SET_NAME_A/B
+ 	 */
+ 	const char *name;
+ 
+-- 
+2.34.1
 
-Please improve the written,  "resulted" -> "yield" ?
-
-> Next, these drivers are susceptible to -EPROBE_DEFER loops: the next
-> bridge can either be probed from the bridge->attach callback, when it is
-> too late to return -EPROBE_DEFER, or from the probe() callback, when the
-> next bridge might not yet be available, because it depends on the
-> resources provided by the probing device. Device links can not fully
-> solve this problem since there are mutual dependencies between adjancent
-> devices.
->
-> Last, but not least, this results in the the internal knowledge of DRM
-
-There is a duplicated "the" word in this sentence.
-
-As far as I can understand, nearly all of those troubles are because the display bridges
-drivers are designed as a kernel module(.ko) instead of making them as static link-able
-helpers. I means that a display bridge device can not work standalone, as it have to be
-used with a display controller. So a display bridge is just a slave device or a auxiliary
-device. My question is: if it can't works by itself, we probably shouldn't design them as
-kernel modules style. Am I correct?
-
-> subsystem slowly diffusing into other subsystems, like PHY or USB/TYPEC.
-
-Yeah, this indeed a problem.
-
-> To solve all these issues, define a separate DRM helper, which creates
-> separate aux device just for the bridge.
-
-I'm supporting you if want to solve all these problems, this is fine and thanks a lot.
-But I want to ask a question, now that you are solving these problems by creating separate
-devices, does this manner match the hardware design perfectly? which is the hardware units
-you newly created device is corresponding to?
-
-
-> During probe such aux device
-> doesn't result in the EPROBE_DEFER loops. Instead it allows the device
-> drivers to probe properly, according to the actual resource
-> dependencies. The bridge auxdevs are then probed when the next bridge
-> becomes available, sparing drivers from drm_bridge_attach() returning
-> -EPROBE_DEFER.
-
-OK, as far as I can understand,  in order to solve the mentioned problem
-you are also retire the defer probe mechanism.
-
-
-> Changes since v5:
->   - Removed extra semicolon in !DRM_AUX_HPD_BRIDGE stubs definition.
->
-> Changes since v4:
->   - Added documentation for new API (Sima)
->   - Added generic code to handle "last mile" DP bridges implementing just
->     the HPD functionality.
->   - Rebased on top of linux-next to be able to drop #ifdef's around
->     drm_bridge->of_node
->
-> Changes since v3:
->   - Moved bridge driver to gpu/drm/bridge (Neil Armstrong)
->   - Renamed it to aux-bridge (since there is already a simple_bridge driver)
->   - Made CONFIG_OF mandatory for this driver (Neil Armstrong)
->   - Added missing kfree and ida_free (Dan Carpenter)
->
-> Changes since v2:
->   - ifdef'ed bridge->of_node access (LKP)
->
-> Changes since v1:
->   - Added EXPORT_SYMBOL_GPL / MODULE_LICENSE / etc. to drm_simple_bridge
->
-> Dmitry Baryshkov (6):
->    drm/bridge: add transparent bridge helper
->    phy: qcom: qmp-combo: switch to DRM_AUX_BRIDGE
->    usb: typec: nb7vpq904m: switch to DRM_AUX_BRIDGE
->    drm/bridge: implement generic DP HPD bridge
->    soc: qcom: pmic-glink: switch to DRM_AUX_HPD_BRIDGE
->    usb: typec: qcom-pmic-typec: switch to DRM_AUX_HPD_BRIDGE
->
->   drivers/gpu/drm/bridge/Kconfig                |  17 ++
->   drivers/gpu/drm/bridge/Makefile               |   2 +
->   drivers/gpu/drm/bridge/aux-bridge.c           | 140 +++++++++++++++
->   drivers/gpu/drm/bridge/aux-hpd-bridge.c       | 164 ++++++++++++++++++
->   drivers/phy/qualcomm/Kconfig                  |   2 +-
->   drivers/phy/qualcomm/phy-qcom-qmp-combo.c     |  44 +----
->   drivers/soc/qcom/Kconfig                      |   1 +
->   drivers/soc/qcom/pmic_glink_altmode.c         |  33 +---
->   drivers/usb/typec/mux/Kconfig                 |   2 +-
->   drivers/usb/typec/mux/nb7vpq904m.c            |  44 +----
->   drivers/usb/typec/tcpm/Kconfig                |   1 +
->   drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c |  41 +----
->   include/drm/bridge/aux-bridge.h               |  37 ++++
->   13 files changed, 383 insertions(+), 145 deletions(-)
->   create mode 100644 drivers/gpu/drm/bridge/aux-bridge.c
->   create mode 100644 drivers/gpu/drm/bridge/aux-hpd-bridge.c
->   create mode 100644 include/drm/bridge/aux-bridge.h
->
