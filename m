@@ -2,108 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86B2B7F4115
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 10:03:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1D527F4130
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Nov 2023 10:06:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C99510E2EF;
-	Wed, 22 Nov 2023 09:03:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8055510E5ED;
+	Wed, 22 Nov 2023 09:06:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C31310E2EF
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 09:03:12 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 21AEA1F8D7;
- Wed, 22 Nov 2023 09:03:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1700643791; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=bu/xFHKOhmXOVvaSKH1V4mzwUoCc4YzAQ8Eec3NXTHY=;
- b=ouPCElbQdU1K08T5Vm6kceiHqBzA55CCTRPLGDV2wVIrhSFGpubqLzDYHCCvGa4PW94OHp
- a9cbj3K1dWWwOqJ3DbXV+lWkWPeXGhQlIPK/sC+jwAfeMJrt4LIJQSZfF7U91gDwoogQBa
- jDRQi4RCOjvg0XBDZ4CVDmSdeawf0A0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1700643791;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=bu/xFHKOhmXOVvaSKH1V4mzwUoCc4YzAQ8Eec3NXTHY=;
- b=IeUbDmc46il1zFcn7K1hpw9eDenY4foXXmDUyR3t0krb24uFDwzvhWE3wJ6Z3cv7PMv3eQ
- FPcp4S2Z5wTbz7Ag==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 00E6B139FD;
- Wed, 22 Nov 2023 09:03:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 5C3WOs7DXWWWaAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 22 Nov 2023 09:03:10 +0000
-Message-ID: <50dc2f5d-3065-4923-b2ef-789ac9c77676@suse.de>
-Date: Wed, 22 Nov 2023 10:03:09 +0100
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B854910E5EA
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 09:06:24 +0000 (UTC)
+Received: from [100.107.97.3] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id B168D6602F2B;
+ Wed, 22 Nov 2023 09:06:22 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1700643983;
+ bh=+6frr+ifTyvpSRQqcbHjfT1DwxvyGpG2yDaXM+9UwGg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=CVBu/rkb3GBYVQMzGejdK1ETSEu/H9Xw339jFIbwK+HXuMgcdtWfkeRVOqQkHmKjF
+ jyfzv/8zPf4RIN/hlElLrLpHO7hY+SFE4kyBZxMNE/SKPmkQunKdWAvSxKs2h2OX1E
+ 7gkpz5rTR3I0a4tzGLI4mmITtPFcA/ZuPxdnU1i9BbsoM4h8O8MILXaHxEU9pI912D
+ 8uxhSyj7JBrhU3Z1pn/m8s4dwQ9OM4ojmxb22HrDJrZQwV/Am8SkxLiqu3j5fSH91E
+ eMTPeMCnejusp5K9/raSjQCOMnk8JYRUwA31WEity1rxwDDvl5LT++Wmk9vNyHxo/E
+ 1u8FlghJEQ06w==
+Message-ID: <4c73f67e-174c-497e-85a5-cb053ce657cb@collabora.com>
+Date: Wed, 22 Nov 2023 10:06:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/32] auxdisplay/ht16k33: Set FBINFO_VIRTFB flag
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-References: <20231115102954.7102-1-tzimmermann@suse.de>
- <20231115102954.7102-10-tzimmermann@suse.de>
- <CANiq72m8=KMin6Hck1XouqC3bV3oBgBxj0Qb4HCXsOjgFdgKjA@mail.gmail.com>
+Subject: Re: [PATCH] drm/panfrost: Really power off GPU cores in
+ panfrost_gpu_power_off()
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+References: <20231102141507.73481-1-angelogioacchino.delregno@collabora.com>
+ <7928524a-b581-483b-b1a1-6ffd719ce650@arm.com>
+ <1c9838fb-7f2d-4752-b86a-95bcf504ac2f@linaro.org>
+ <6b7a4669-7aef-41a7-8201-c2cfe401bc43@collabora.com>
+ <20231121175531.085809f5@collabora.com>
+ <d95259b8-10cf-4ded-866c-47cbd2a44f84@linaro.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CANiq72m8=KMin6Hck1XouqC3bV3oBgBxj0Qb4HCXsOjgFdgKjA@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------ychpN35UL0xdWfVZfaOaIyyX"
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -4.72
-X-Spamd-Result: default: False [-4.72 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
- XM_UA_NO_VERSION(0.01)[]; TO_DN_SOME(0.00)[];
- HAS_ATTACHMENT(0.00)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- MIME_BASE64_TEXT(0.10)[]; RCPT_COUNT_SEVEN(0.00)[7];
- SIGNED_PGP(-2.00)[]; FREEMAIL_TO(0.00)[gmail.com];
- FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
- MID_RHS_MATCH_FROM(0.00)[]; BAYES_HAM(-2.93)[99.69%];
- ARC_NA(0.00)[]; FROM_HAS_DN(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; TAGGED_RCPT(0.00)[];
- MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_COUNT_TWO(0.00)[2];
- RCVD_TLS_ALL(0.00)[]; SUSPICIOUS_RECIPS(1.50)[];
- FREEMAIL_CC(0.00)[vger.kernel.org, protonic.nl, gmx.de, redhat.com,
- lists.freedesktop.org, kernel.org]
-X-Spam-Flag: NO
+In-Reply-To: <d95259b8-10cf-4ded-866c-47cbd2a44f84@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,69 +60,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Robin van der Gracht <robin@protonic.nl>,
- deller@gmx.de, javierm@redhat.com, dri-devel@lists.freedesktop.org,
- Miguel Ojeda <ojeda@kernel.org>
+Cc: "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, mripard@kernel.org,
+ Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, wenst@chromium.org, kernel@collabora.com,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------ychpN35UL0xdWfVZfaOaIyyX
-Content-Type: multipart/mixed; boundary="------------mpD7t1yPfxCPHb3X6bbvSvOt";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: linux-fbdev@vger.kernel.org, Robin van der Gracht <robin@protonic.nl>,
- deller@gmx.de, javierm@redhat.com, dri-devel@lists.freedesktop.org,
- Miguel Ojeda <ojeda@kernel.org>
-Message-ID: <50dc2f5d-3065-4923-b2ef-789ac9c77676@suse.de>
-Subject: Re: [PATCH 09/32] auxdisplay/ht16k33: Set FBINFO_VIRTFB flag
-References: <20231115102954.7102-1-tzimmermann@suse.de>
- <20231115102954.7102-10-tzimmermann@suse.de>
- <CANiq72m8=KMin6Hck1XouqC3bV3oBgBxj0Qb4HCXsOjgFdgKjA@mail.gmail.com>
-In-Reply-To: <CANiq72m8=KMin6Hck1XouqC3bV3oBgBxj0Qb4HCXsOjgFdgKjA@mail.gmail.com>
+Il 21/11/23 18:08, Krzysztof Kozlowski ha scritto:
+> On 21/11/2023 17:55, Boris Brezillon wrote:
+>> On Tue, 21 Nov 2023 17:11:42 +0100
+>> AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> wrote:
+>>
+>>> Il 21/11/23 16:34, Krzysztof Kozlowski ha scritto:
+>>>> On 08/11/2023 14:20, Steven Price wrote:
+>>>>> On 02/11/2023 14:15, AngeloGioacchino Del Regno wrote:
+>>>>>> The layout of the registers {TILER,SHADER,L2}_PWROFF_LO, used to request
+>>>>>> powering off cores, is the same as the {TILER,SHADER,L2}_PWRON_LO ones:
+>>>>>> this means that in order to request poweroff of cores, we are supposed
+>>>>>> to write a bitmask of cores that should be powered off!
+>>>>>> This means that the panfrost_gpu_power_off() function has always been
+>>>>>> doing nothing.
+>>>>>>
+>>>>>> Fix powering off the GPU by writing a bitmask of the cores to poweroff
+>>>>>> to the relevant PWROFF_LO registers and then check that the transition
+>>>>>> (from ON to OFF) has finished by polling the relevant PWRTRANS_LO
+>>>>>> registers.
+>>>>>>
+>>>>>> While at it, in order to avoid code duplication, move the core mask
+>>>>>> logic from panfrost_gpu_power_on() to a new panfrost_get_core_mask()
+>>>>>> function, used in both poweron and poweroff.
+>>>>>>
+>>>>>> Fixes: f3ba91228e8e ("drm/panfrost: Add initial panfrost driver")
+>>>>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>>>
+>>>>
+>>>> Hi,
+>>>>
+>>>> This commit was added to next recently but it causes "external abort on
+>>>> non-linefetch" during boot of my Odroid HC1 board.
+>>>>
+>>>> At least bisect points to it.
+>>>>
+>>>> If fixed, please add:
+>>>>
+>>>> Reported-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>>>
+>>>> [    4.861683] 8<--- cut here ---
+>>>> [    4.863429] Unhandled fault: external abort on non-linefetch (0x1008) at 0xf0c8802c
+>>>> [    4.871018] [f0c8802c] *pgd=433ed811, *pte=11800653, *ppte=11800453
+>>>> ...
+>>>> [    5.164010]  panfrost_gpu_irq_handler from __handle_irq_event_percpu+0xcc/0x31c
+>>>> [    5.171276]  __handle_irq_event_percpu from handle_irq_event+0x38/0x80
+>>>> [    5.177765]  handle_irq_event from handle_fasteoi_irq+0x9c/0x250
+>>>> [    5.183743]  handle_fasteoi_irq from generic_handle_domain_irq+0x28/0x38
+>>>> [    5.190417]  generic_handle_domain_irq from gic_handle_irq+0x88/0xa8
+>>>> [    5.196741]  gic_handle_irq from generic_handle_arch_irq+0x34/0x44
+>>>> [    5.202893]  generic_handle_arch_irq from __irq_svc+0x8c/0xd0
+>>>>
+>>>> Full log:
+>>>> https://krzk.eu/#/builders/21/builds/4392/steps/11/logs/serial0
+>>>>    
+>>>
+>>> Hey Krzysztof,
+>>>
+>>> This is interesting. It might be about the cores that are missing from the partial
+>>> core_mask raising interrupts, but an external abort on non-linefetch is strange to
+>>> see here.
+>>
+>> I've seen such external aborts in the past, and the fault type has
+>> often been misleading. It's unlikely to have anything to do with a
+> 
+> Yeah, often accessing device with power or clocks gated.
+> 
 
---------------mpD7t1yPfxCPHb3X6bbvSvOt
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Except my commit does *not* gate SoC power, nor SoC clocks 🙂
 
-SGkNCg0KQW0gMjIuMTEuMjMgdW0gMDA6NTAgc2NocmllYiBNaWd1ZWwgT2plZGE6DQo+IE9u
-IFdlZCwgTm92IDE1LCAyMDIzIGF0IDExOjMw4oCvQU0gVGhvbWFzIFppbW1lcm1hbm4gPHR6
-aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOg0KPj4NCj4+ICsgICAgICAgZmJkZXYtPmluZm8t
-PmZsYWdzIHw9IEZCSU5GT19WSVJURkI7DQo+IA0KPiBJcyB0aGUgYHw9YCAoaW5zdGVhZCBv
-ZiBqdXN0IGA9YCkgdXNlZCBpbiBjYXNlIHNvbWVvbmUgYWRkcyBzb21ldGhpbmcNCj4gdG8g
-dGhlIGZsYWdzIGJlZm9yZSAoZS5nLiBgZmJfYmxfZGVmYXVsdF9jdXJ2ZWApIG9yIGR1ZSB0
-byBzb21lIG90aGVyDQo+IHJlYXNvbj8gKE9uZSBvZiB0aGUgb3RoZXIgcGF0Y2hlcyB1c2Vz
-IGA9YCkuDQoNClllcywgaXQncyBpbnRlbnRpb25hbGx5Lg0KDQo+IA0KPiBJbiBhbnkgY2Fz
-ZSwgaWYgdGhhdCBpcyBpbnRlbmRlZDoNCj4gDQo+IEFja2VkLWJ5OiBNaWd1ZWwgT2plZGEg
-PG9qZWRhQGtlcm5lbC5vcmc+DQoNClRoYW5rcy4NCg0KPiANCj4gQ2hlZXJzLA0KPiBNaWd1
-ZWwNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Bl
-cg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNz
-ZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3
-IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChB
-RyBOdWVybmJlcmcpDQo=
+What the "Really power off ..." commit does is to ask the GPU to internally power
+off the shaders, tilers and L2, that's why I say that it is strange to see that
+kind of abort.
 
---------------mpD7t1yPfxCPHb3X6bbvSvOt--
+The GPU_INT_CLEAR GPU_INT_STAT, GPU_FAULT_STATUS and GPU_FAULT_ADDRESS_{HI/LO}
+registers should still be accessible even with shaders, tilers and cache OFF.
 
---------------ychpN35UL0xdWfVZfaOaIyyX
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+Anyway, yes, synchronizing IRQs before calling the poweroff sequence would also
+work, but that'd add up quite a bit of latency on the runtime_suspend() call, so
+in this case I'd be more for avoiding to execute any register r/w in the handler
+by either checking if the GPU is supposed to be OFF, or clearing interrupts, which
+may not work if those are generated after the execution of the poweroff function.
+Or we could simply disable the irq after power_off, but that'd be hacky (as well).
 
------BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVdw84FAwAAAAAACgkQlh/E3EQov+Av
-FQ//TqxfT5ZJnIXrhwqEKchKULvEqvosyvf6TN+vLKY/0YHt2C+8RRYtWcE/MuvJ7TMBEJ8niZ37
-zjsuB8XF5EN6FURmQYcjWduJIgLoiOPO4XXUMfr+oY1tdWgc+hSUsVLvXx51Ce5kwXcWIExsiINK
-wBVlZ/lwWFDSsZhR4V/oJ9vevRST3sUWtCRG9V9fkuLB/cuzuthNT4zkr3g7+YENff9yVYy9gdGv
-bkMW1WyAmKtbqnjWZd8tDbmVXUr4SjLAMrJiiqIrBre6JF42YZioXXJ4yYZqwoTSf02cfOo0khxZ
-7c2eNkgUarI7x5Nw7asKfUALlRf2lMRa6jYrSUYPHPoNGb3nRN4poXCAweIAtzixpwG6nUf1/QVK
-7x4LYNTdY2GLO0O8tUvMsOI+I/R3cFU6Jq4MNwCJO4g40JAUNAaqOAmHl50hRm/+dL9a/VzCqZQM
-DYIL30799AUuOoy7ve/pbRCvxHlP5LC5oqKKq+JJg1d36ywPCjRSn9dxlVT5WMUI5VuKoQZK6Rgm
-EvDCtlze94lzRyimCHFx3uHsBZ3KQjFUtItiSudq7MVVYZ+b6FYcArQpNllevN0NmMFfQS6ljzVJ
-tjOzGkIE+zIs9ypzhV8SVwwZk7BxC7D6jmgDeBxC/4FCWn1HCtLtRlFbydWvikmLHSvpTQt5hehp
-w+s=
-=KuOn
------END PGP SIGNATURE-----
+Let's see if asking to poweroff *everything* works:
 
---------------ychpN35UL0xdWfVZfaOaIyyX--
+
+---
+  drivers/gpu/drm/panfrost/panfrost_gpu.c | 14 +++++++++++---
+  1 file changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c 
+b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+index 09f5e1563ebd..1c7276aaa182 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+@@ -429,21 +429,29 @@ void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+      int ret;
+      u32 val;
+
+-    gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present & core_mask);
++    gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present);
++    gpu_write(pfdev, SHADER_PWROFF_HI, U32_MAX);
+      ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_PWRTRANS_LO,
+                       val, !val, 1, 1000);
+      if (ret)
+          dev_err(pfdev->dev, "shader power transition timeout");
+
+      gpu_write(pfdev, TILER_PWROFF_LO, pfdev->features.tiler_present);
++    gpu_write(pfdev, TILER_PWROFF_HI, U32_MAX);
+      ret = readl_relaxed_poll_timeout(pfdev->iomem + TILER_PWRTRANS_LO,
+                       val, !val, 1, 1000);
+      if (ret)
+          dev_err(pfdev->dev, "tiler power transition timeout");
+
+-    gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present & core_mask);
++    gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present);
+      ret = readl_poll_timeout(pfdev->iomem + L2_PWRTRANS_LO,
+-                 val, !val, 0, 1000);
++                     val, !val, 0, 1000);
++    if (ret)
++        dev_err(pfdev->dev, "l2_low power transition timeout");
++
++    gpu_write(pfdev, L2_PWROFF_HI, U32_MAX);
++    ret = readl_poll_timeout(pfdev->iomem + L2_PWRTRANS_HI,
++                     val, !val, 0, 1000);
+      if (ret)
+          dev_err(pfdev->dev, "l2 power transition timeout");
+  }
+-- 
+2.42.0
+
+Cheers,
+Angelo
+
+>> non-linefetch access, but it might be caused by a register access after
+>> the clock or power domain driving the register bank has been disabled.
+>> The following diff might help validate this theory. If that works, we
+>> probably want to make sure we synchronize IRQs before disabling in the
+>> suspend path.
+>>
+>> --->8---
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
+>> index 55ec807550b3..98df66e5cc9b 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_regs.h
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
+>> @@ -34,8 +34,6 @@
+>>            (GPU_IRQ_FAULT                        |\
+>>             GPU_IRQ_MULTIPLE_FAULT               |\
+>>             GPU_IRQ_RESET_COMPLETED              |\
+>> -          GPU_IRQ_POWER_CHANGED                |\
+>> -          GPU_IRQ_POWER_CHANGED_ALL            |\
+> 
+> This helped, at least for this issue (next-20231121). Much later in
+> user-space boot I have lockups:
+> watchdog: BUG: soft lockup - CPU#4 stuck for 26s! [kworker/4:1:61]
+> 
+> [   56.329224]  smp_call_function_single from
+> __sync_rcu_exp_select_node_cpus+0x29c/0x78c
+> [   56.337111]  __sync_rcu_exp_select_node_cpus from
+> sync_rcu_exp_select_cpus+0x334/0x878
+> [   56.344995]  sync_rcu_exp_select_cpus from wait_rcu_exp_gp+0xc/0x18
+> [   56.351231]  wait_rcu_exp_gp from process_one_work+0x20c/0x620
+> [   56.357038]  process_one_work from worker_thread+0x1d0/0x488
+> [   56.362668]  worker_thread from kthread+0x104/0x138
+> [   56.367521]  kthread from ret_from_fork+0x14/0x28
+> 
+> But anyway the external abort does not appear.
+> 
+> Best regards,
+> Krzysztof
+> 
+
+
