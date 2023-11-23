@@ -1,47 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A15B7F6402
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 17:34:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A3C7F64CC
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 18:04:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9560410E76C;
-	Thu, 23 Nov 2023 16:34:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B61610E098;
+	Thu, 23 Nov 2023 17:04:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD20710E08B;
- Thu, 23 Nov 2023 16:34:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700757256; x=1732293256;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=xill+ncGnJ1sIrcKvawmuAds9qveAxO/RramVec06P0=;
- b=JsyQ5z0mpZG3+2NvMRJNbKeAZ4WuKz3dg72abNp23JdQc+aQfp/r9i78
- XTiuZENtBQjCLabQAUni/5oD71vJeGkTTuCyF8DMDa9AQqbdWMPWt8Kg8
- MwG4eo2mN4yuiiBDOoRD8BMSXbedi8Tzz+Zq0DRo9m+EjBGtmFcjduBfs
- 1afba6HLMxlgwVoVcTs1/11Z2JqMi2NzmPIKRZyYrA6jH0IsfIWcTxCT6
- khyJMBZo+1S1aAgtuGGFxnpi/1asqQ2j2CBBUkYRk+HdYJ/E20EZH+SIv
- u5REBqy6xq/9lG54oN4ztb5n8wAN+a54YY1uikot+UwQNamOaHTH24vbl A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="456630054"
-X-IronPort-AV: E=Sophos;i="6.04,222,1695711600"; d="scan'208";a="456630054"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2023 08:34:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="1014669079"
-X-IronPort-AV: E=Sophos;i="6.04,222,1695711600"; d="scan'208";a="1014669079"
-Received: from unknown (HELO localhost) ([10.237.66.162])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2023 08:34:10 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-fixes
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Thu, 23 Nov 2023 18:34:06 +0200
-Message-ID: <87y1eol98h.fsf@intel.com>
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com
+ [IPv6:2001:41d0:203:375::ba])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74E9E10E098
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 17:04:50 +0000 (UTC)
+Message-ID: <77c3ad35-24e4-4bf4-87a1-f48e13a6b838@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1700759088;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t+oX6Z1R5D902d7QsFYgso+yPiFC9aIghMuoj3BGEfk=;
+ b=jQfW6O848KtMwh90BwxowE88Yb2tw+fOohmBQXIG8fxTKGnbKn2PtIDmXCf4nr6b33NCYX
+ 0e5e8sXTeNgxpDwySP5U7QKWB/PF2eUQjAWP0ZZ3z3DycIHjYqF/wHRzBzo66GoB5Ot3S2
+ TFre8bWupfsIEedGtc55MJAzC401+bU=
+Date: Fri, 24 Nov 2023 01:04:43 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
+Subject: Re: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
+ <20231114150130.497915-9-sui.jingfeng@linux.dev>
+ <CAA8EJprQq3aDhzE+yKGZ2-nsuHWcptzMvApsyOi9D63PgeiZ3w@mail.gmail.com>
+ <79301d04-c0cb-4740-8a6d-27a889b65daf@linux.dev>
+ <CAA8EJpom5kAbDkacOdqp6BR7YPfmCSXaQfDYRVcLf9eGmi64CQ@mail.gmail.com>
+ <121163c9-0d56-47ad-a12e-e67390fef2b4@linux.dev>
+ <CAA8EJpowjhX=LL-9cnQL4pfCei63zNkCGW5wGOeeFxcnFpNCVA@mail.gmail.com>
+ <00ba2245-0e48-4b21-bcd4-29dfb728e408@linux.dev>
+ <CAA8EJpoiehS2wS3ri_DggzxeEfLY4yK7X6c+bCFKvkwSce6r+A@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <CAA8EJpoiehS2wS3ri_DggzxeEfLY4yK7X6c+bCFKvkwSce6r+A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,52 +57,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Phong LE <ple@baylibre.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-Hi Dave & Sima -
 
-drm-intel-fixes-2023-11-23:
-drm/i915 fixes for v6.7-rc3:
-- Fix race between DP MST connectore registration and setup
-- Fix GT memory leak on probe error path
+On 2023/11/23 16:08, Dmitry Baryshkov wrote:
+>>> The host can not specify the
+>>> DRM_BRIDGE_ATTACH_NO_CONNECTOR flag, it will cause a warning here. And
+>>> it can not omit the flag (as otherwise the first bridge will create a
+>>> connector, without consulting the second bridge).
+>> The semantics of DRM_BRIDGE_ATTACH_NO_CONNECTOR flagare implement-defined,
+> No, they are not. Semantics are pretty simple: do not create the
+> drm_connector instance. Pass the flag to the next bridge in the chain.
+>
+>> for our case, I could just ignore it if their
+>> don't have a signal(DT or ACPI) tell me that there are multiple bridges
+>> in the chain. This depend on community's attitude.
+> Ignoring a flag is a bad idea.
 
-BR,
-Jani.
 
-The following changes since commit 98b1cc82c4affc16f5598d4fa14b1858671b2263:
+Can you also read the code in the bridge/lontium-lt8912.c please?
+when flags == 0 is true, the lt8912 driver will just create
+a drm_connector instance in the drm bridge drivers. The behavior
+is similar with this patch in the perspective of spirit.
 
-  Linux 6.7-rc2 (2023-11-19 15:02:14 -0800)
+And the most important thing is that no matter what the flag the upstream
+port is passed, lt8912 just always pass the DRM_BRIDGE_ATTACH_NO_CONNECTOR
+flags to the next bridge. Does this count as a kind of ignore? or
 
-are available in the Git repository at:
+This is to say that both the lt8912 and the tfp410 drm bridge drivers are
+allowing create a drm_connector manually in drm bridge drivers. They didn't
+being asked to move the drm_connector related code to display controller
+driver. I don't know why I can't follow this way?
 
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2023-11-23
+Do you really read the code before do comments or I failed to understand something?
 
-for you to fetch changes up to 0561794b6b642b84b879bf97061c4b4fa692839e:
-
-  drm/i915: do not clean GT table on error path (2023-11-20 11:06:53 +0200)
-
-----------------------------------------------------------------
-drm/i915 fixes for v6.7-rc3:
-- Fix race between DP MST connectore registration and setup
-- Fix GT memory leak on probe error path
-
-----------------------------------------------------------------
-Andrzej Hajda (1):
-      drm/i915: do not clean GT table on error path
-
-Imre Deak (1):
-      drm/i915/dp_mst: Fix race between connector registration and setup
-
- drivers/gpu/drm/i915/display/intel_dp_mst.c | 16 ++++++++--------
- drivers/gpu/drm/i915/gt/intel_gt.c          | 11 -----------
- drivers/gpu/drm/i915/i915_driver.c          |  4 +---
- 3 files changed, 9 insertions(+), 22 deletions(-)
-
--- 
-Jani Nikula, Intel
