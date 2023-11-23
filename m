@@ -2,63 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73DF37F5EFF
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 13:24:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E6B7F5EFC
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 13:24:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A3AA10E72A;
-	Thu, 23 Nov 2023 12:24:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE93910E725;
+	Thu, 23 Nov 2023 12:24:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
- [IPv6:2607:f8b0:4864:20::72e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B26AD10E72B
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 12:24:52 +0000 (UTC)
-Received: by mail-qk1-x72e.google.com with SMTP id
- af79cd13be357-77bcbc14899so44933585a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 04:24:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700742291; x=1701347091; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=RkqNFsJ4BgTtTqsnbn2ZGFyovgJBdJZm6RNGEaTIQI4=;
- b=VC9v7GQZ1V85cy3nJqM7jNpc8C3SrAcLDoNVnK+RMoUulHUd8S9ZgGuPp7+VjYY9Mz
- Kn6qN3TIONZBkiFlKWCSBsYnzf9KJBPTK56AdTEauoFOcoF3NGD08jhtMZFbI4ikPjdV
- tPUYz0KUEhIzOxwX6TMa3u2Ut6rzUo7geLD+D+iOUErFZMBxsStcO0gznFQ3c5lKceB1
- KVhI9VyPUoXKsO1S5XOws+Ajrt/Y4et3IetwNQy53vWxTk4PD/ln/4H/8DSGiIWCgbvn
- qicyfZQqMKOOwBHGtg8m/geOUWdYreEZYittWHym+6/n02zgCful2y4FhSTfmVu9vzHP
- Jwng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700742291; x=1701347091;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RkqNFsJ4BgTtTqsnbn2ZGFyovgJBdJZm6RNGEaTIQI4=;
- b=Y1Haq1m9mZUsCHXwKwy/WYMx6pIzeU/Q1l1VNHdemSKtrvIunGSwhSaXkd0FhZ5C/s
- BMUfIUAVG4kdgCFh8QFOB7AVQLZEgZkXulJRhQ1l1YWhSQ6HY0v3uCNdD3ugaVwq7LmT
- LVa0VxFTHPO/p71+FHUJ6V5k/P1FgTPPkAFC5HPZ+ofdza456Tju7iiNIQ6VBvGODHdm
- eebNfLEEpiYZTmd4Y9YEGmPJ+lCEdY7cR7zkF/o0RybNNS0EeQnFUD6EG/cJhyTLyrL4
- klRihqCXMKXkvNhOdx+b+pXQjewY0zXVbOAbGCVmIwSYH/CB/ExWFB0MknKqEpZd8mhf
- rwng==
-X-Gm-Message-State: AOJu0YyjbEaAN8qD2pIRPHhx0u4mb6DFh37PnkgmErGkskk9e9G3wUDZ
- OqVHozY2Lifdw4PxidNwfza8a8iuHBN2501ttsk=
-X-Google-Smtp-Source: AGHT+IHxE6mMLpb5zc8SDuzLU1MQp9st6LKe962S6d9X2fY9xibVEKeu2aidplKLH12VqRU+EicSfA==
-X-Received: by 2002:a05:620a:8888:b0:774:226b:c327 with SMTP id
- qk8-20020a05620a888800b00774226bc327mr4470764qkn.67.1700742291522; 
- Thu, 23 Nov 2023 04:24:51 -0800 (PST)
-Received: from localhost.localdomain ([76.65.20.140])
- by smtp.gmail.com with ESMTPSA id
- j8-20020a05620a410800b0077d622f22d3sm410953qko.127.2023.11.23.04.24.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Nov 2023 04:24:51 -0800 (PST)
-From: Luben Tuikov <ltuikov89@gmail.com>
-To: Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/sched: Fix bounds limiting when given a malformed entity
-Date: Thu, 23 Nov 2023 07:24:23 -0500
-Message-ID: <20231123122422.167832-2-ltuikov89@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E889F10E725
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 12:24:39 +0000 (UTC)
+Received: from [10.3.2.161] (zone.collabora.co.uk [167.235.23.81])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 0B0146601710;
+ Thu, 23 Nov 2023 12:24:36 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1700742278;
+ bh=8M7OgbZSaIpWXuFVFIaRp2fTZ+ArHXOEMptApVN8sP8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=fBIewKcIjj7pTwC8CWI+0K7YHnwVm/ZASFAZ9yCOQByK4uLaIkwcEbbzoN0cLfXUl
+ LbIDWE3X6Il9UCtKHQOFOdSoVKeeMMB1Ftlb+enJA2D5pUZ3qRr1BJzqZzp+Yc0ZpL
+ soqBQu21vXXRXi5yEmWoP07R11qTZqz8/b7O1ZAS7aRLz1ZXCR4s+LApnc+o1x1zbB
+ i3Df6i6JzyvU0BW9qg+fcTgiZAeP5iFxoqrZYAI86EXVwz/HouNZzTqqqVJi2Fdqqi
+ FbZeXAilAZyiOeEB+QUSkXerGTCc1KPzFjKYE9AIyF/aQG2qj98YepEbMRCt38h8Jr
+ endofMupZFq3w==
+Message-ID: <14113ca6-79af-e857-d9ee-b8cf7572abd5@collabora.com>
+Date: Thu, 23 Nov 2023 15:24:32 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v18 15/26] drm/panfrost: Explicitly get and put drm-shmem
+ pages
+Content-Language: en-US
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20231029230205.93277-1-dmitry.osipenko@collabora.com>
+ <20231029230205.93277-16-dmitry.osipenko@collabora.com>
+ <20231110115354.356c87f7@collabora.com>
+ <26890ba7-5e19-df0c-fce0-26af58e66266@collabora.com>
+ <20231123100557.05a49343@collabora.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20231123100557.05a49343@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,42 +60,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Luben Tuikov <ltuikov89@gmail.com>
+Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
+ virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If we're given a malformed entity in drm_sched_entity_init()--shouldn't
-happen, but we verify--with out-of-bounds priority value, we set it to an
-allowed value. Fix the expression which sets this limit.
+On 11/23/23 12:05, Boris Brezillon wrote:
+> On Thu, 23 Nov 2023 01:04:56 +0300
+> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+> 
+>> On 11/10/23 13:53, Boris Brezillon wrote:
+>>> Hm, there was no drm_gem_shmem_get_pages_sgt() call here, why should we
+>>> add a drm_gem_shmem_get_pages()? What we should do instead is add a
+>>> drm_gem_shmem_get_pages() for each drm_gem_shmem_get_pages_sgt() we
+>>> have in the driver (in panfrost_mmu_map()), and add
+>>> drm_gem_shmem_put_pages() calls where they are missing
+>>> (panfrost_mmu_unmap()).
+>>>   
+>>>> +		if (err)
+>>>> +			goto err_free;
+>>>> +	}
+>>>> +
+>>>>  	return bo;
+>>>> +
+>>>> +err_free:
+>>>> +	drm_gem_shmem_free(&bo->base);
+>>>> +
+>>>> +	return ERR_PTR(err);
+>>>>  }
+>>>>  
+>>>>  struct drm_gem_object *
+>>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+>>>> index 770dab1942c2..ac145a98377b 100644
+>>>> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+>>>> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+>>>> @@ -504,7 +504,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+>>>>  		if (IS_ERR(pages[i])) {
+>>>>  			ret = PTR_ERR(pages[i]);
+>>>>  			pages[i] = NULL;
+>>>> -			goto err_pages;
+>>>> +			goto err_unlock;
+>>>>  		}
+>>>>  	}
+>>>>  
+>>>> @@ -512,7 +512,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+>>>>  	ret = sg_alloc_table_from_pages(sgt, pages + page_offset,
+>>>>  					NUM_FAULT_PAGES, 0, SZ_2M, GFP_KERNEL);
+>>>>  	if (ret)
+>>>> -		goto err_pages;
+>>>> +		goto err_unlock;  
+>>> Feels like the panfrost_gem_mapping object should hold a ref on the BO
+>>> pages, not the BO itself, because, ultimately, the user of the BO is
+>>> the GPU. This matches what I was saying about moving get/put_pages() to
+>>> panfrost_mmu_map/unmap(): everytime a panfrost_gem_mapping becomes
+>>> active, to want to take a pages ref, every time it becomes inactive,
+>>> you should release the pages ref.  
+>>
+>> The panfrost_mmu_unmap() is also used by shrinker when BO is purged. I'm
+>> unhappy with how icky it all becomes if unmap is made to put pages.
+> 
+> Why, that's exactly what's supposed to happen. If you mmu_unmap(), that
+> means you no longer need the pages ref you got.
 
-Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
-Fixes: 56e449603f0ac5 ("drm/sched: Convert the GPU scheduler to variable number of run-queues")
----
- drivers/gpu/drm/scheduler/sched_entity.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+The drm_gem_shmem_purge() frees the pages. If mmu_unmap() frees pages too, then it becomes odd for drm_gem_shmem_purge() that it needs to free pages that were already freed.
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 4d42b1e4daa67f..20c9c561843ce1 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -84,9 +84,12 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
- 		/* The "priority" of an entity cannot exceed the number
- 		 * of run-queues of a scheduler.
- 		 */
--		if (entity->priority >= sched_list[0]->num_rqs)
--			entity->priority = max_t(u32, sched_list[0]->num_rqs,
--						 DRM_SCHED_PRIORITY_MIN);
-+		if (entity->priority >= sched_list[0]->num_rqs) {
-+			drm_err(sched_list[0], "entity with out-of-bounds priority:%u num_rqs:%u\n",
-+				entity->priority, sched_list[0]->num_rqs);
-+			entity->priority = max_t(s32, (s32) sched_list[0]->num_rqs - 1,
-+						 (s32) DRM_SCHED_PRIORITY_MIN);
-+		}
- 		entity->rq = sched_list[0]->sched_rq[entity->priority];
+>> Previously map() was implicitly allocating pages with get_sgt() and then
+>> pages were implicitly released by drm_gem_shmem_free(). A non-heap BO is
+>> mapped when it's created by Panfrost, hence the actual lifetime of pages
+>> is kept unchanged by this patch.
+> 
+> But the whole point of making it explicit is to control when pages are
+> needed or not, isn't it. The fact we mmu_map() the BO at open time, and
+> keep it mapped until it's not longer referenced is an implementation
+> choice, and I don't think having pages_put() in mmu_unmap() changes
+> that.
+
+Previously, when the last mmu_unmap() was done, the pages were not released.
+
+If you'll make unmap to put pages, then you can't map BO again because pages are released by the last put() of unmap. In order to keep the old pages allocation logic unchanged, the pages must be referenced while BO is alive, not while mapping is alive.
+
+Technically, the code can be changed to put pages on unmap. This requires adding special quirk to drm_gem_shmem_purge() and then for Panfrost pages should have the same lifetime as BO, hence why bother?
+
+
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 5ee98b6f0c94..5492610802a1 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -600,7 +600,9 @@ drm_gem_shmem_shrinker_put_pages_locked(struct drm_gem_shmem_object *shmem)
+ 	if (shmem->evicted)
+ 		return;
+ 
+-	drm_gem_shmem_free_pages(shmem);
++	if (refcount_read(&shmem->pages_use_count))
++		drm_gem_shmem_free_pages(shmem);
++
+ 	drm_vma_node_unmap(&obj->vma_node, dev->anon_inode->i_mapping);
+ }
+ 
+@@ -608,7 +610,8 @@ void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem)
+ {
+ 	struct drm_gem_object *obj = &shmem->base;
+ 
+-	drm_WARN_ON(obj->dev, !drm_gem_shmem_is_purgeable(shmem));
++	if (refcount_read(&shmem->pages_use_count))
++		drm_WARN_ON(obj->dev, !drm_gem_shmem_is_purgeable(shmem));
+ 
+ 	drm_gem_shmem_shrinker_put_pages_locked(shmem);
+ 	drm_gem_free_mmap_offset(obj);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+index a6128e32f303..499964c43a7b 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+@@ -41,9 +41,6 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
+ 		drm_gem_shmem_put_pages(&bo->base);
  	}
  
+-	if (!bo->is_heap && !obj->import_attach)
+-		drm_gem_shmem_put_pages(&bo->base);
+-
+ 	drm_gem_shmem_free(&bo->base);
+ }
+ 
+@@ -302,12 +299,6 @@ panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags)
+ 	bo->noexec = !!(flags & PANFROST_BO_NOEXEC);
+ 	bo->is_heap = !!(flags & PANFROST_BO_HEAP);
+ 
+-	if (!bo->is_heap) {
+-		err = drm_gem_shmem_get_pages(shmem);
+-		if (err)
+-			goto err_free;
+-	}
+-
+ 	return bo;
+ 
+ err_free:
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index 01cd97011ea5..4ed4ba5df420 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -335,9 +335,13 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
+ 		prot |= IOMMU_NOEXEC;
+ 
+ 	if (!obj->import_attach) {
+-		ret = drm_gem_shmem_pin(shmem);
++		ret = drm_gem_shmem_get_pages(shmem);
+ 		if (ret)
+ 			return ret;
++
++		ret = drm_gem_shmem_pin(shmem);
++		if (ret)
++			goto put_pages;
+ 	}
+ 
+ 	sgt = drm_gem_shmem_get_pages_sgt(shmem);
+@@ -349,9 +353,18 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
+ 	mmu_map_sg(pfdev, mapping->mmu, mapping->mmnode.start << PAGE_SHIFT,
+ 		   prot, sgt);
+ 	mapping->active = true;
++
++	if (!obj->import_attach)
++		drm_gem_shmem_unpin(shmem);
++
++	return 0;
++
+ unpin:
+ 	if (!obj->import_attach)
+ 		drm_gem_shmem_unpin(shmem);
++put_pages:
++	if (!obj->import_attach)
++		drm_gem_shmem_put_pages(shmem);
+ 
+ 	return ret;
+ }
+@@ -360,6 +373,7 @@ void panfrost_mmu_unmap(struct panfrost_gem_mapping *mapping)
+ {
+ 	struct panfrost_gem_object *bo = mapping->obj;
+ 	struct drm_gem_object *obj = &bo->base.base;
++	struct drm_gem_shmem_object *shmem = &bo->base;
+ 	struct panfrost_device *pfdev = to_panfrost_device(obj->dev);
+ 	struct io_pgtable_ops *ops = mapping->mmu->pgtbl_ops;
+ 	u64 iova = mapping->mmnode.start << PAGE_SHIFT;
+@@ -389,6 +403,9 @@ void panfrost_mmu_unmap(struct panfrost_gem_mapping *mapping)
+ 	panfrost_mmu_flush_range(pfdev, mapping->mmu,
+ 				 mapping->mmnode.start << PAGE_SHIFT, len);
+ 	mapping->active = false;
++
++	if (!bo->is_heap && !obj->import_attach)
++		drm_gem_shmem_put_pages_locked(shmem);
+ }
+ 
+ static void mmu_tlb_inv_context_s1(void *cookie)
 
-base-commit: b3c5a7de9aeb51cb19160f3f61343ed87487abde
+
 -- 
-2.43.0
+Best regards,
+Dmitry
 
