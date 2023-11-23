@@ -1,44 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A786D7F657E
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 18:33:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E7497F6587
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 18:35:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF74610E231;
-	Thu, 23 Nov 2023 17:33:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44D8710E2FE;
+	Thu, 23 Nov 2023 17:35:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90A3210E231
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 17:33:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id C2F8EB82EDB;
- Thu, 23 Nov 2023 17:33:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13EBEC433C7;
- Thu, 23 Nov 2023 17:33:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700760797;
- bh=woLJ62RYkt7tapNnqeAjaKeIkpTolDbLBY64GCRJz2A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Pgk6DEGHDHMD30MyZKcpHBIj2e4NiqNJ1+dNjOijT3YblPQbz8okp0NQtHY+MsU5R
- np1mse6z03lV4GlFofmHqkfRwFbF0JxdyaFfmNSwnrA3lTvkqn9b/OBB7zWU1+Bval
- LUAiz9hQO3g4erc5WkUpHpmyHdipBNAkEBUO6WcGj3AtiAOXtAMqGnm6/ldnMlaZVD
- tsnFBJ3XG1tpeBlXpzSJGnnA2ELEtFrwkLjKNFRanWSbInsgGy0d1i1aY9LwA4vang
- ppAnkWikW2OPCEHJiKOJ711+eyMFszHSdwr8hlPOkaKOLGPuS+g1FJ7AXL/XMAmBxG
- dxbDoNUx5LDLw==
-Date: Thu, 23 Nov 2023 17:33:11 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Michael Walle <mwalle@kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: display: simple: add Evervision
- VGG644804 panel
-Message-ID: <20231123-demote-landscape-4f49eea6f274@spud>
-References: <20231123102404.2022201-1-mwalle@kernel.org>
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3998210E31C
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 17:35:13 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id
+ 98e67ed59e1d1-27fe16e8e02so216620a91.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 09:35:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1700760913; x=1701365713; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=38QmMR5qWUUF3d4ez46gu28mY2bkSgtw/0YEKPuilA0=;
+ b=IBD8BiV8GhXr4+71o6eVrFOQy4TTSJXMHBvagOSnYFTyfof0qTN9Pe7UNpRcjdLcIx
+ e+zJVR5sRT/F2OAA0uTjiC0Qsn4IAgtApLW7fSrqHOzrss6J2+IfRBVnyEorjgc0XjPV
+ s3Cn6epGc5VHfPh9WQTl4yI+ZKECoNU5Iu+55HT4/nb/vnOn7bNMLbrz+QAl62OBTrSA
+ 8jZQaFwFWaJYu/r7bOU/1CpQD6AqymTnFlIYA2spskyZdq4IhaKQJdNAoBlkmOjymDf9
+ Jqq1X+TCpTdh9WWwxF3sbF4JNGZ/Vfs1DrEG7tm0rX9nh1qT1ejgXFujZ+VyQtccNCpp
+ T98A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700760913; x=1701365713;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=38QmMR5qWUUF3d4ez46gu28mY2bkSgtw/0YEKPuilA0=;
+ b=WDjcb2PKGtlFBsMw1jeXjnqzztfhBYbQ6Ilv7zUV1w6nUZm/DZ0YAulF6AQaFTr3Vi
+ jyw9PjPQsoyZpl0CrDWapekiuyslw/kWXKz/b5OK+OIw5RaJNIPnfqie//vXoFWTO+H9
+ dXlwQWfmliTN8ZsCiGd54SQsA4Fnz2yvns1gVwZHafNN+t6Ak/dCvf+m6DxiadzCIV5p
+ RqupX0J8N4uxeP/HTa1CDU3Kp2aXL39o9PCHLqvJFBwOK9XpvpST1Jaj6B/9d43oXrUU
+ 9LiHzbRvS4fQFvwy58hA0uFcrcoq+Ee+FtgxdcCUjnq3JgkB+YWHBmehVfDiWbPYw0XI
+ BiFw==
+X-Gm-Message-State: AOJu0YzX6Ij19YqDY9XzFHX2W87M+VBJu96zIvRxE2jeOLTaHTMeOecQ
+ /LZfJOCzBDQD21ueS0VzaV8H04c2AZLb4rVkNF8=
+X-Google-Smtp-Source: AGHT+IFGW/2gXJJfrwZoVQS9zLQTzpLwxsQQ8h9r+ECWZJzpIxMh+72P7SUi8H0TFJLCoVsNpbxuqQEjZn/Ptw0QR0Y=
+X-Received: by 2002:a17:90b:85:b0:285:8609:4974 with SMTP id
+ bb5-20020a17090b008500b0028586094974mr130618pjb.4.1700760912639; Thu, 23 Nov
+ 2023 09:35:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="v/MTmL7bd4PQXEjS"
-Content-Disposition: inline
-In-Reply-To: <20231123102404.2022201-1-mwalle@kernel.org>
+References: <20230928125536.1782715-1-l.stach@pengutronix.de>
+ <20230928125536.1782715-2-l.stach@pengutronix.de>
+In-Reply-To: <20230928125536.1782715-2-l.stach@pengutronix.de>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Thu, 23 Nov 2023 14:34:59 -0300
+Message-ID: <CAOMZO5CYX8ihTQ87zi3maARWzz+PmLKYBBJGVn69Xig2nAwqug@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] drm/bridge: imx: add driver for HDMI TX Parallel
+ Video Interface
+To: Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,64 +71,38 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org, Jessica Zhang <quic_jesszhan@quicinc.com>
+ Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
+ dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ patchwork-lst@pengutronix.de, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Lucas,
 
---v/MTmL7bd4PQXEjS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Sep 28, 2023 at 9:56=E2=80=AFAM Lucas Stach <l.stach@pengutronix.de=
+> wrote:
+>
+> This IP block is found in the HDMI subsystem of the i.MX8MP SoC. It has a
+> full timing generator and can switch between different video sources. On
+> the i.MX8MP however the only supported source is the LCDIF. The block
+> just needs to be powered up and told about the polarity of the video
+> sync signals to act in bypass mode.
+>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com> (v2)
+> Tested-by: Marek Vasut <marex@denx.de> (v1)
+> Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> (v2)
+> Tested-by: Richard Leitner <richard.leitner@skidata.com> (v2)
+> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> (v2)
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com> (v3)
 
-On Thu, Nov 23, 2023 at 11:24:03AM +0100, Michael Walle wrote:
-> Add Evervision VGG644804 5.7" 640x480 LVDS panel compatible string.
->=20
-> Signed-off-by: Michael Walle <mwalle@kernel.org>
+Tested-by: Fabio Estevam <festevam@gmail.com>
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-Cheers,
-Conor.
-
-> ---
->  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple=
-=2Eyaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> index 3ec9ee95045f..2471c99a0c96 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> @@ -144,6 +144,8 @@ properties:
->        - edt,etmv570g2dhu
->          # E Ink VB3300-KCA
->        - eink,vb3300-kca
-> +        # Evervision Electronics Co. Ltd. VGG644804 5.7" VGA TFT LCD Pan=
-el
-> +      - evervision,vgg644804
->          # Evervision Electronics Co. Ltd. VGG804821 5.0" WVGA TFT LCD Pa=
-nel
->        - evervision,vgg804821
->          # Foxlink Group 5" WVGA TFT LCD panel
-> --=20
-> 2.39.2
->=20
-
---v/MTmL7bd4PQXEjS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHQEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZV+M1wAKCRB4tDGHoIJi
-0g5bAP4msuYt8MvmnmtOl4e/iBRX83HejY8bhwJ5ev0kBk7raQD40yYCRbaIBDL3
-5u/TjYow9B+aexy90tzKAP86TVJqDA==
-=OH5m
------END PGP SIGNATURE-----
-
---v/MTmL7bd4PQXEjS--
+Could someone apply this series, please?
