@@ -1,48 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA7897F59C4
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 09:08:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48FD17F5995
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 08:49:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 224AF10E6D9;
-	Thu, 23 Nov 2023 08:08:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18F6E10E6D3;
+	Thu, 23 Nov 2023 07:48:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 352 seconds by postgrey-1.36 at gabe;
- Thu, 23 Nov 2023 07:42:10 UTC
-Received: from zg8tndyumtaxlji0oc4xnzya.icoremail.net
- (zg8tndyumtaxlji0oc4xnzya.icoremail.net [46.101.248.176])
- by gabe.freedesktop.org (Postfix) with ESMTP id 66B4410E6DB;
- Thu, 23 Nov 2023 07:42:10 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.190.64.46])
- by mail-app3 (Coremail) with SMTP id cC_KCgB3OOBjAF9l5MF0AQ--.22860S4;
- Thu, 23 Nov 2023 15:34:02 +0800 (CST)
-From: Dinghao Liu <dinghao.liu@zju.edu.cn>
-To: dinghao.liu@zju.edu.cn
-Subject: [PATCH] drm/amd/pm: fix a memleak in aldebaran_tables_init
-Date: Thu, 23 Nov 2023 15:33:22 +0800
-Message-Id: <20231123073325.16843-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cC_KCgB3OOBjAF9l5MF0AQ--.22860S4
-X-Coremail-Antispam: 1UD129KBjvdXoW7JFW7trW3uFW3WFy5Jr18Krg_yoWDurc_Wr
- y8X3sxZ3s5JFyDJF12yFsIqFyI9an3ur1kJw1vqasIgr1UJr48urW2qF1kuw4fZF17AF4q
- q3WkWw1rZrsxJjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbskFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
- wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
- vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4UJVW0owA2z4x0Y4vEx4A2
- jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
- x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWU
- GwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
- 8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCF04k20xvY
- 0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fKr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
- 1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
- 14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
- IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
- 87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73Uj
- IFyTuYvjfUoOJ5UUUUU
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgkMBmVKSCoDUABdsC
-X-Mailman-Approved-At: Thu, 23 Nov 2023 08:08:36 +0000
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
+ [IPv6:2607:f8b0:4864:20::1130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C26D410E6D3
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 07:48:55 +0000 (UTC)
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-5cc62cca0efso5992027b3.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Nov 2023 23:48:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1700725735; x=1701330535; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=AZuDoGFA7putUJgWlfVOXe88bYQ5FvndnL3N5E3T3jE=;
+ b=AYPVnKVCJEiNrtCVfqrhuvbHp+dLA72CXD4ulP2nK9xFWS1ekuWKASLLO1kei8cd1E
+ 2uj8WLbdRtGibUzmtxdKsT90Yj2RTF1JPQtyLtmBacw/Bn0jV/oVCiwevZc4vOio7646
+ lQqOwbzGE7RgLF9MyURyKaMRdUq/cHIDlxzV4TmN14XyjbdNabGiyd/aO5JkZAqBJvJG
+ f2boHUmX7drFzWC3o0nx4WA0d89TbryqI4g7e8HswBDK1o/RQ34v1wsIvxUOm0qCzy4c
+ Bf+hL2EeSuHEJpa20CYWPwnhlThpQ+qwV35D1iMlAn4Vw8f4qmHM88eeYJB0XA4Yloxw
+ F/qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700725735; x=1701330535;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=AZuDoGFA7putUJgWlfVOXe88bYQ5FvndnL3N5E3T3jE=;
+ b=hjm+U5fIGB4Ont6F1IBZ4Fh2JNbbp5K7ukPKdxT0Pqx09MQHyzHU+s27qT6FVVcwQX
+ QiCdysvWJJq9lOIOeYLTEzd1MPxaqLxua/ZToSwcP0PcM30jFQl7FDCo5QxGXwW0S/u/
+ zp6pf9ZCcqXsECs0RiqAh5NRqjt+xvuR8vlJzWd5vmTYKx7ycba5cB151jjf3LRXYkmS
+ 8t+7rXEw0omdzVWGsE8D+3sD8hLMrM+DX4ofY9oKn+XOIszxJ3j4d5fgvPyrRxHWJzGH
+ dsoRzbV5cdLV9ZZq2NDjwrH86rcmjZyBlTplGp+to77VG9Uwnb5/zyokBIuxJMkTzeib
+ pq/g==
+X-Gm-Message-State: AOJu0YxRBn3BKkJi/QUhWOx18z9W9vNFAnFtU0KpIP4HWobB7XShg7Se
+ J6Y+rx98esgdfsFT4CM04fJb/byMzSJ0J/k/95KRTg==
+X-Google-Smtp-Source: AGHT+IGQs1Zz4xv4MqLziquwF4tzIls2buBeoc4tpMEAv3UUaICO+vCtmYoZ5oLlaLIje4KrMpGp4MrgQ1+3GoOYF7k=
+X-Received: by 2002:a0d:d94d:0:b0:5ca:95ac:453b with SMTP id
+ b74-20020a0dd94d000000b005ca95ac453bmr5009443ywe.2.1700725734716; Wed, 22 Nov
+ 2023 23:48:54 -0800 (PST)
+MIME-Version: 1.0
+References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
+ <20231114150130.497915-6-sui.jingfeng@linux.dev>
+ <CAA8EJprkDpjuHEi5R01p4XNvFBr94BvXhr7AZCLr6dC8Mk=yPw@mail.gmail.com>
+ <7602cd83-0e05-4e11-9bd1-10eb1d48a507@linux.dev>
+ <CAA8EJprFjdrQtegJd5HyzGYQaMawwQOhvkE=SNqsdsBCrtfDTA@mail.gmail.com>
+ <14f859f2-6661-4955-932b-1ae22ae134fe@linux.dev>
+In-Reply-To: <14f859f2-6661-4955-932b-1ae22ae134fe@linux.dev>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 23 Nov 2023 09:48:43 +0200
+Message-ID: <CAA8EJppnB-FbnS20eJg1jwKP7pQwV_etYkQg2YW75SEO8kF9MA@mail.gmail.com>
+Subject: Re: [PATCH 5/8] drm/bridge: it66121: Add a helper function to read
+ chip id
+To: Sui Jingfeng <sui.jingfeng@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,45 +72,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yifan Zhang <yifan1.zhang@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
- Yang Wang <kevinyang.wang@amd.com>, dri-devel@lists.freedesktop.org, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Le Ma <le.ma@amd.com>,
- "Stanley.Yang" <Stanley.Yang@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Darren Powell <darren.powell@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Phong LE <ple@baylibre.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When kzalloc() for smu_table->ecc_table fails, we should free
-the previously allocated resources to prevent memleak.
+On Thu, 23 Nov 2023 at 07:37, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+>
+> Hi,
+>
+>
+> On 2023/11/16 21:00, Dmitry Baryshkov wrote:
+> > On Thu, 16 Nov 2023 at 14:18, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+> >> Hi,
+> >>
+> >>
+> >> On 2023/11/15 00:06, Dmitry Baryshkov wrote:
+> >>> On Tue, 14 Nov 2023 at 17:09, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+> >>>> From: Sui Jingfeng <suijingfeng@loongson.cn>
+> >>>>
+> >>>> Read the required chip id data back by calling regmap_bulk_read() once,
+> >>>> reduce the number of local variables needed in it66121_probe() function.
+> >>>> And store its values into struct it66121_ctx, as it will be used latter.
+> >>>>
+> >>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> >>>> ---
+> >>>>    drivers/gpu/drm/bridge/ite-it66121.c | 47 ++++++++++++++++++++--------
+> >>>>    1 file changed, 34 insertions(+), 13 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+> >>>> index 7e473beefc79..f36d05331f25 100644
+> >>>> --- a/drivers/gpu/drm/bridge/ite-it66121.c
+> >>>> +++ b/drivers/gpu/drm/bridge/ite-it66121.c
+> >>>> @@ -313,6 +313,9 @@ struct it66121_ctx {
+> >>>>                   bool auto_cts;
+> >>>>           } audio;
+> >>>>           const struct it66121_chip_info *info;
+> >>>> +       u16 vender_id;
+> >>>> +       u16 device_id;
+> >>>> +       u8 revision;
+> >>> There is no need to store them, they are not used by the driver anywhere.
+> >>>
+> >>>>    };
+> >>>>
+> >>>>    static inline struct it66121_ctx *bridge_to_it66121(struct drm_bridge *bridge)
+> >>>> @@ -399,6 +402,30 @@ static void it66121_hw_reset(struct it66121_ctx *ctx)
+> >>>>           gpiod_set_value(ctx->gpio_reset, 0);
+> >>>>    }
+> >>>>
+> >>>> +static int it66121_read_chip_id(struct it66121_ctx *ctx, bool verbose)
+> >>>> +{
+> >>>> +       u8 id[4];
+> >>>> +       int ret;
+> >>>> +
+> >>>> +       ret = regmap_bulk_read(ctx->regmap, IT66121_VENDOR_ID0_REG, id, 4);
+> >>>> +       if (ret < 0) {
+> >>>> +               dev_err(ctx->dev, "Failed to read chip ID: %d\n", ret);
+> >>>> +               return ret;
+> >>>> +       }
+> >>>> +
+> >>>> +       ctx->vender_id = (u16)id[1] << 8 | id[0];
+> >>>> +       ctx->device_id = ((u16)(id[3] & IT66121_DEVICE_ID1_MASK) << 8 | id[2]);
+> >>>> +       /* Revision is shared with DEVICE_ID1 */
+> >>>> +       ctx->revision = FIELD_GET(IT66121_REVISION_MASK, id[3]);
+> >>>> +
+> >>>> +       if (verbose) {
+> >>>> +               dev_info(ctx->dev, "Found ITE66121: 0x%x%x, revision: %u\n",
+> >>>> +                        ctx->vender_id, ctx->device_id, ctx->revision);
+> >>>> +       }
+> >>>> +
+> >>>> +       return 0;
+> >>>> +}
+> >>>> +
+> >>>>    static inline int it66121_preamble_ddc(struct it66121_ctx *ctx)
+> >>>>    {
+> >>>>           return regmap_write(ctx->regmap, IT66121_MASTER_SEL_REG, IT66121_MASTER_SEL_HOST);
+> >>>> @@ -1561,7 +1588,6 @@ static const char * const it66121_supplies[] = {
+> >>>>
+> >>>>    static int it66121_probe(struct i2c_client *client)
+> >>>>    {
+> >>>> -       u32 revision_id, vendor_ids[2] = { 0 }, device_ids[2] = { 0 };
+> >>>>           int ret;
+> >>>>           struct it66121_ctx *ctx;
+> >>>>           struct device *dev = &client->dev;
+> >>>> @@ -1603,19 +1629,13 @@ static int it66121_probe(struct i2c_client *client)
+> >>>>           if (IS_ERR(ctx->regmap))
+> >>>>                   return PTR_ERR(ctx->regmap);
+> >>>>
+> >>>> -       regmap_read(ctx->regmap, IT66121_VENDOR_ID0_REG, &vendor_ids[0]);
+> >>>> -       regmap_read(ctx->regmap, IT66121_VENDOR_ID1_REG, &vendor_ids[1]);
+> >>>> -       regmap_read(ctx->regmap, IT66121_DEVICE_ID0_REG, &device_ids[0]);
+> >>>> -       regmap_read(ctx->regmap, IT66121_DEVICE_ID1_REG, &device_ids[1]);
+> >>>> -
+> >>>> -       /* Revision is shared with DEVICE_ID1 */
+> >>>> -       revision_id = FIELD_GET(IT66121_REVISION_MASK, device_ids[1]);
+> >>>> -       device_ids[1] &= IT66121_DEVICE_ID1_MASK;
+> >>>> +       ret = it66121_read_chip_id(ctx, false);
+> >>>> +       if (ret)
+> >>>> +               return ret;
+> >>>>
+> >>>> -       if ((vendor_ids[1] << 8 | vendor_ids[0]) != ctx->info->vid ||
+> >>>> -           (device_ids[1] << 8 | device_ids[0]) != ctx->info->pid) {
+> >>>> +       if (ctx->vender_id != ctx->info->vid ||
+> >>>> +           ctx->device_id != ctx->info->pid)
+> >> Q: There is no need to store them, they are not used by the driver anywhere.
+> >>
+> >> A: Here it is used, it is also used by the 0007-patch to get the entity(instance)-specific data.
+> > And the patch 7 will be changed once you have proper i2c client struct
+> > registered.
+> >
+> >>
+> >> Since it6610 was introduced, this is used for chip identifying.
+> >> It can also be used with in debugfs context, to show who I am.
+> > I'd say, there is little point in whoami debugfs files. Debugfs is for
+> > the useful information.
+>
+> Sinceit6610 was introduced, how do you know what the device it66121 driver is
+> binding? Printing model specific information is common practice for a
+> large driver. Especially if you can only able to debug remotely where
+> only a SSH is given.
 
-Fixes: edd794208555 ("drm/amd/pm: add message smu to get ecc_table v2")
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
----
- drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+cat /sys/bus/i2c/devices/.../name
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-index 1a6675d70a4b..f1440869d1ce 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
-@@ -257,8 +257,11 @@ static int aldebaran_tables_init(struct smu_context *smu)
- 	}
- 
- 	smu_table->ecc_table = kzalloc(tables[SMU_TABLE_ECCINFO].size, GFP_KERNEL);
--	if (!smu_table->ecc_table)
-+	if (!smu_table->ecc_table) {
-+		kfree(smu_table->metrics_table);
-+		kfree(smu_table->gpu_metrics_table);
- 		return -ENOMEM;
-+	}
- 
- 	return 0;
- }
+> You could see debugfs of drm/etnaviv for a
+> reference. It is common to testing a large driver running on 20+
+> machines with various hardware model.
+>
+>
+> >>
+> >>>>                   return -ENODEV;
+> >>>> -       }
+> >>>>
+> >>>>           ctx->bridge.funcs = &it66121_bridge_funcs;
+> >>>>           ctx->bridge.of_node = dev->of_node;
+> >>>> @@ -1633,7 +1653,8 @@ static int it66121_probe(struct i2c_client *client)
+> >>>>
+> >>>>           drm_bridge_add(&ctx->bridge);
+> >>>>
+> >>>> -       dev_info(dev, "IT66121 revision %d probed\n", revision_id);
+> >>>> +       dev_info(dev, "IT66121 probed, chip id: 0x%x:0x%x, revision: %u\n",
+> >>>> +                ctx->vender_id, ctx->device_id, ctx->revision);
+> >>>>
+> >>>>           return 0;
+> >>>>    }
+> >>>> --
+> >>>> 2.34.1
+> >>>>
+> >
+> >
+
+
+
 -- 
-2.17.1
-
+With best wishes
+Dmitry
