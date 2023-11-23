@@ -1,69 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C21C87F5B55
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 10:41:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B58487F5B99
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 10:46:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF60A10E6FF;
-	Thu, 23 Nov 2023 09:41:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E870B10E708;
+	Thu, 23 Nov 2023 09:46:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5E1E10E6F3
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 09:41:02 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id
- a640c23a62f3a-a04196fc957so84141066b.2
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 01:41:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700732461; x=1701337261; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aq+Z35kBN2Z5WfXGmAWrEgYrcQFVHuODhyHjoCApg/g=;
- b=dKqhYi9LV+VrOVM5IsnSnU57FtMOfSLxeyJhO263uan538AqHdGAvyZgGPt20qPMo3
- geFJU3FEn2pqXppAI3fbYJaUlK7BqaBYdZ9Mhj/wButNejMo/S9sAx7Zg15wKXAhzTG5
- uBjXNiLeq7HwsTU4LSBSS0fM58398RIGux2wQKVnub31TInHGZjsSjRGp42TSnyo/KqC
- pHhPPfNYnOYLcfkcDXyhJRDTxFZEwrVs84nUW9Q6Z51yPArvPXzVZrMAqLa144yU2Vnt
- QRmCGI1BiAGz6x70Osd39hLL6hwmDDSMUmBGlLfc/l33SNI4CkALjraj+RpNYnoDYzNm
- 9gsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700732461; x=1701337261;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=aq+Z35kBN2Z5WfXGmAWrEgYrcQFVHuODhyHjoCApg/g=;
- b=pJYVBcyP/NzQn43s8QS5U80LMUYah57exmKNO6SdwtSO24xtdYN1eJ8LjyC1rnDZbQ
- uyFT3dAaN25WaUuVGfwic5fxEMJ+uGOSJZB6Lo97N6c12ycie8yle3pIIfjrrVm5a1mh
- Qoycg3ZtSk31xwaLcq1BcrCRu1z8ov6813ryvxdeE40jTejm1FJwF9WYT96zV65cdw6t
- Hv6orexPFRKT9EHXB2FfOPWcDZQ8JEnLHrQNYiRnLGjluxBcO/LfvD6EzOXHu37egcT5
- m1BvXM8Jpc+Dq409j4trNG1B2hM/t6Cq7p1g8Gkpe17xMp0PI7V1CWZOHK2R45nslxLQ
- XY+g==
-X-Gm-Message-State: AOJu0Yz7WDssaQ64eB0OnyZqb2CrUKdzya5ko//0Xcld64bl6RBnXw7P
- 5dZwbXPXTDF/CHly9uI1Zkg=
-X-Google-Smtp-Source: AGHT+IEV+7/puW0dt9JkKFWNyuf9FB8n8CqRgv0YKKalYf/l6B4ZXh/aBJaazGmziZBUrdXnlZahBA==
-X-Received: by 2002:a17:906:74c7:b0:a01:8957:7c75 with SMTP id
- z7-20020a17090674c700b00a0189577c75mr3683442ejl.11.1700732461099; 
- Thu, 23 Nov 2023 01:41:01 -0800 (PST)
-Received: from zotac.lan.
- (dynamic-2a01-0c23-c0f2-3200-2223-08ff-fe18-0310.c23.pool.telefonica.de.
- [2a01:c23:c0f2:3200:2223:8ff:fe18:310])
- by smtp.gmail.com with ESMTPSA id
- s9-20020a1709066c8900b009e5ce1acb01sm546199ejr.103.2023.11.23.01.41.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Nov 2023 01:41:00 -0800 (PST)
-From: Heiner Kallweit <hkallweit1@gmail.com>
-To: Wolfram Sang <wsa@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: [PATCH v5 19/20] drivers/gpu/drm/display: remove I2C_CLASS_DDC support
-Date: Thu, 23 Nov 2023 10:40:39 +0100
-Message-ID: <20231123094040.592-20-hkallweit1@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231123094040.592-1-hkallweit1@gmail.com>
-References: <20231123094040.592-1-hkallweit1@gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE8E010E708
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 09:46:46 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 554EB25A;
+ Thu, 23 Nov 2023 10:46:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1700732773;
+ bh=S0dnQIMNd5hdhiIJzmXIsW3xuGRNCsYSxY8qFC7m3KM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UsoyD3Z4wli11kOeNSOV9M2tKW3q7Gujo6dX2NQ8Z47XNp2grb06n7qVs3br9E1u/
+ 4g8BsIWQBIvgqt4MPeEsme3EOWZrvD5jmK30dMWULFH6crofw5EDmC9FPFuxkQP2yS
+ 7cLYx1drSF4wJnds/xU9b5zU4bfI0cAxSFMzT7wk=
+Date: Thu, 23 Nov 2023 11:46:52 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v3 101/108] drm/bridge: ti-sn65dsi86: Make use of
+ devm_pwmchip_alloc() function
+Message-ID: <20231123094652.GH15697@pendragon.ideasonboard.com>
+References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
+ <20231121134901.208535-102-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231121134901.208535-102-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,51 +49,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- linux-i2c@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ Maxime Ripard <mripard@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ linux-pwm@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After removal of the legacy EEPROM driver and I2C_CLASS_DDC support in
-olpc_dcon there's no i2c client driver left supporting I2C_CLASS_DDC.
-Class-based device auto-detection is a legacy mechanism and shouldn't
-be used in new code. So we can remove this class completely now.
+Hi Uwe,
 
-Preferably this series should be applied via the i2c tree.
+(CC'ing Bartosz)
 
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+Thank you for the patch.
 
----
- drivers/gpu/drm/display/drm_dp_helper.c       |    1 -
- drivers/gpu/drm/display/drm_dp_mst_topology.c |    1 -
- 2 files changed, 2 deletions(-)
+On Tue, Nov 21, 2023 at 02:50:43PM +0100, Uwe Kleine-König wrote:
+> This prepares the pwm driver of the ti-sn65dsi86 to further changes of
+> the pwm core outlined in the commit introducing devm_pwmchip_alloc().
+> There is no intended semantical change and the driver should behave as
+> before.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 25 ++++++++++++++++---------
+>  1 file changed, 16 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> index c45c07840f64..cd40530ffd71 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -197,7 +197,7 @@ struct ti_sn65dsi86 {
+>  	DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
+>  #endif
+>  #if defined(CONFIG_PWM)
+> -	struct pwm_chip			pchip;
+> +	struct pwm_chip			*pchip;
 
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index f3680f4e6..ac901f4b4 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -2102,7 +2102,6 @@ int drm_dp_aux_register(struct drm_dp_aux *aux)
- 	if (!aux->ddc.algo)
- 		drm_dp_aux_init(aux);
- 
--	aux->ddc.class = I2C_CLASS_DDC;
- 	aux->ddc.owner = THIS_MODULE;
- 	aux->ddc.dev.parent = aux->dev;
- 
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index 0e0d0e76d..4376e2c1f 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -5803,7 +5803,6 @@ static int drm_dp_mst_register_i2c_bus(struct drm_dp_mst_port *port)
- 	aux->ddc.algo_data = aux;
- 	aux->ddc.retries = 3;
- 
--	aux->ddc.class = I2C_CLASS_DDC;
- 	aux->ddc.owner = THIS_MODULE;
- 	/* FIXME: set the kdev of the port's connector as parent */
- 	aux->ddc.dev.parent = parent_dev;
+Dynamic allocation with devm_*() isn't the right solution for lifetime
+issues related to cdev. See my talk at LPC 2022
+(https://www.youtube.com/watch?v=kW8LHWlJPTU, slides at
+https://lpc.events/event/16/contributions/1227/attachments/1103/2115/20220914-lpc-devm_kzalloc.pdf),
+and Bartosz's talk at LPC 2023
+(https://lpc.events/event/17/contributions/1627/attachments/1258/2725/Linux%20Plumbers%20Conference%202023.pdf).
 
+>  	bool				pwm_enabled;
+>  	atomic_t			pwm_pin_busy;
+>  #endif
+> @@ -1372,7 +1372,8 @@ static void ti_sn_pwm_pin_release(struct ti_sn65dsi86 *pdata)
+>  
+>  static struct ti_sn65dsi86 *pwm_chip_to_ti_sn_bridge(struct pwm_chip *chip)
+>  {
+> -	return container_of(chip, struct ti_sn65dsi86, pchip);
+> +	struct ti_sn65dsi86 **pdata = pwmchip_priv(chip);
+> +	return *pdata;
+>  }
+>  
+>  static int ti_sn_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+> @@ -1585,22 +1586,28 @@ static const struct pwm_ops ti_sn_pwm_ops = {
+>  static int ti_sn_pwm_probe(struct auxiliary_device *adev,
+>  			   const struct auxiliary_device_id *id)
+>  {
+> +	struct pwm_chip *chip;
+>  	struct ti_sn65dsi86 *pdata = dev_get_drvdata(adev->dev.parent);
+>  
+> -	pdata->pchip.dev = pdata->dev;
+> -	pdata->pchip.ops = &ti_sn_pwm_ops;
+> -	pdata->pchip.npwm = 1;
+> -	pdata->pchip.of_xlate = of_pwm_single_xlate;
+> -	pdata->pchip.of_pwm_n_cells = 1;
+> +	/* XXX: should this better use adev->dev instead of pdata->dev? */
+> +	pdata->pchip = chip = devm_pwmchip_alloc(pdata->dev, 1, sizeof(&pdata));
+> +	if (IS_ERR(chip))
+> +		return PTR_ERR(chip);
+>  
+> -	return pwmchip_add(&pdata->pchip);
+> +	*(struct ti_sn65dsi86 **)pwmchip_priv(chip) = pdata;
+> +
+> +	chip->ops = &ti_sn_pwm_ops;
+> +	chip->of_xlate = of_pwm_single_xlate;
+> +	chip->of_pwm_n_cells = 1;
+> +
+> +	return pwmchip_add(chip);
+>  }
+>  
+>  static void ti_sn_pwm_remove(struct auxiliary_device *adev)
+>  {
+>  	struct ti_sn65dsi86 *pdata = dev_get_drvdata(adev->dev.parent);
+>  
+> -	pwmchip_remove(&pdata->pchip);
+> +	pwmchip_remove(pdata->pchip);
+>  
+>  	if (pdata->pwm_enabled)
+>  		pm_runtime_put_sync(pdata->dev);
+
+-- 
+Regards,
+
+Laurent Pinchart
