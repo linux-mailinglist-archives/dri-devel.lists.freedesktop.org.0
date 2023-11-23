@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C12C47F65CB
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 18:55:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 927677F65D0
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 18:55:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24AB510E002;
-	Thu, 23 Nov 2023 17:55:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 068B410E16C;
+	Thu, 23 Nov 2023 17:55:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC79910E002
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 17:55:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CCFF10E002
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 17:55:21 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1r6Duf-0004l5-I1; Thu, 23 Nov 2023 18:54:53 +0100
+ id 1r6Duf-0004l6-I0; Thu, 23 Nov 2023 18:54:53 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1r6Dud-00B5eK-6t; Thu, 23 Nov 2023 18:54:51 +0100
+ id 1r6Dud-00B5eN-FA; Thu, 23 Nov 2023 18:54:51 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1r6Duc-006rAy-TY; Thu, 23 Nov 2023 18:54:50 +0100
+ id 1r6Dud-006rB2-5d; Thu, 23 Nov 2023 18:54:51 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Bjorn Andersson <andersson@kernel.org>,
  Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH 1/3] drm/bridge: ti-sn65dsi86: Simplify using
- pm_runtime_resume_and_get()
-Date: Thu, 23 Nov 2023 18:54:27 +0100
-Message-ID: <20231123175425.496956-2-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 2/3] drm/bridge: ti-sn65dsi86: Change parameters of
+ ti_sn65dsi86_{read, write}_u16
+Date: Thu, 23 Nov 2023 18:54:28 +0100
+Message-ID: <20231123175425.496956-3-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
 In-Reply-To: <20231123175425.496956-1-u.kleine-koenig@pengutronix.de>
 References: <20231123175425.496956-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=921;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3216;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=M2F3whZ53fZeV1tkPUxtfCf5sLaynpDgHuGMcwfXfV8=;
- b=owGbwMvMwMXY3/A7olbonx/jabUkhtT4iZfS5jWmKrBqzhDl36/yRyfs83sjcff3PvNezlt/f
- 2Nj0RPBTkZjFgZGLgZZMUUW+8Y1mVZVcpGda/9dhhnEygQyhYGLUwAm8jKQ/Z9hkIYtR8xy29j9
- B5k/M+eJMk2tPb/E0y1k8lLGF1JNmrOa6/YmX93gP23+Pdd+M6Xu7KeJkvJM2ba60VurDOzU21v
- yZJQTla8azi6xvMLHY+nJLV/Csb1zRph+f+0jodmnlW4FP+WoTKqfqFgyU7pfTea2+a0y202d9z
- bUSN+/2rzx21I71ZWxKnFqYgJ2AQ5lKftjfJTiT3BuK6rl75GMMZj+Mq7tblK+deHCh/fU/m3Nb
- yg+N9G1JJTt9NGc5V+W1Zvv0hCNZ5TbW2LSWbCi/t9kJdd8f6ECiZNp1rmf1lcsnvjrS374gp+3
- sj+yWZ4vymSXT35Tf0FP8cG7jPdi194xb2V64WvvYAMA
+ bh=4IaKEJVQvlvALXvwbGHLW3bGwE/qyc/t2oNAws0WTmc=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlX5HUrzffS/nID9jwMclUhmU0RvTvLOZ3nw4Xo
+ RZosrZEXySJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZV+R1AAKCRCPgPtYfRL+
+ TgdlCACqxbd6gMsgjpDvYK5o2Aeh4uH1EjKx8M2It+t4Gi8Z8M4dPFjnqt1yWrqe++1Y9t5a8Fw
+ jthFooSztgroKnhs5MPBa0rUD+vOj4JENAMCWsvpkaqWafesmUU9sD9UUIfCHAL4tD6gcrY8aFS
+ +grA9qiTayWyeU0vSCmaUHwni5+rrKKc+wZSg0gk1v/rgvqdaLDwPW9JL/tU2EdEHlw5qPfnJVx
+ VS7eWp4exLq5FyfVjZmrU7zuXtiH3C2YThdMWcqfPBV6CMN20ZyuLKp0yuv8n5uITTddH35MX4a
+ vi+wS6KNxcY0rDgPZ5jYmV3Qp4fkkyIgX3uPBK9qXWwq7/L2
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -78,32 +78,87 @@ Cc: Maxime Ripard <mripard@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-pm_runtime_resume_and_get() already drops the runtime PM usage counter
-in the error case. So a call to pm_runtime_put_sync() can be dropped.
+This aligns the function's parameters to regmap_{read,write} and
+simplifies the next change that takes pwm driver data out of struct
+ti_sn65dsi86.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index c45c07840f64..5b8e1dfc458d 100644
+index 5b8e1dfc458d..d6e3b1280e38 100644
 --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
 +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -1413,11 +1413,9 @@ static int ti_sn_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+@@ -221,13 +221,13 @@ static const struct regmap_config ti_sn65dsi86_regmap_config = {
+ 	.max_register = 0xFF,
+ };
+ 
+-static int __maybe_unused ti_sn65dsi86_read_u16(struct ti_sn65dsi86 *pdata,
++static int __maybe_unused ti_sn65dsi86_read_u16(struct regmap *regmap,
+ 						unsigned int reg, u16 *val)
+ {
+ 	u8 buf[2];
  	int ret;
  
- 	if (!pdata->pwm_enabled) {
--		ret = pm_runtime_get_sync(pdata->dev);
--		if (ret < 0) {
--			pm_runtime_put_sync(pdata->dev);
-+		ret = pm_runtime_resume_and_get(pdata->dev);
-+		if (ret < 0)
- 			return ret;
--		}
+-	ret = regmap_bulk_read(pdata->regmap, reg, buf, ARRAY_SIZE(buf));
++	ret = regmap_bulk_read(regmap, reg, buf, ARRAY_SIZE(buf));
+ 	if (ret)
+ 		return ret;
+ 
+@@ -236,12 +236,12 @@ static int __maybe_unused ti_sn65dsi86_read_u16(struct ti_sn65dsi86 *pdata,
+ 	return 0;
+ }
+ 
+-static void ti_sn65dsi86_write_u16(struct ti_sn65dsi86 *pdata,
++static void ti_sn65dsi86_write_u16(struct regmap *regmap,
+ 				   unsigned int reg, u16 val)
+ {
+ 	u8 buf[2] = { val & 0xff, val >> 8 };
+ 
+-	regmap_bulk_write(pdata->regmap, reg, buf, ARRAY_SIZE(buf));
++	regmap_bulk_write(regmap, reg, buf, ARRAY_SIZE(buf));
+ }
+ 
+ static u32 ti_sn_bridge_get_dsi_freq(struct ti_sn65dsi86 *pdata)
+@@ -968,9 +968,9 @@ static void ti_sn_bridge_set_video_timings(struct ti_sn65dsi86 *pdata)
+ 	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+ 		vsync_polarity = CHA_VSYNC_POLARITY;
+ 
+-	ti_sn65dsi86_write_u16(pdata, SN_CHA_ACTIVE_LINE_LENGTH_LOW_REG,
++	ti_sn65dsi86_write_u16(pdata->regmap, SN_CHA_ACTIVE_LINE_LENGTH_LOW_REG,
+ 			       mode->hdisplay);
+-	ti_sn65dsi86_write_u16(pdata, SN_CHA_VERTICAL_DISPLAY_SIZE_LOW_REG,
++	ti_sn65dsi86_write_u16(pdata->regmap, SN_CHA_VERTICAL_DISPLAY_SIZE_LOW_REG,
+ 			       mode->vdisplay);
+ 	regmap_write(pdata->regmap, SN_CHA_HSYNC_PULSE_WIDTH_LOW_REG,
+ 		     (mode->hsync_end - mode->hsync_start) & 0xFF);
+@@ -1509,8 +1509,8 @@ static int ti_sn_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+ 			goto out;
+ 		}
+ 
+-		ti_sn65dsi86_write_u16(pdata, SN_BACKLIGHT_SCALE_REG, scale);
+-		ti_sn65dsi86_write_u16(pdata, SN_BACKLIGHT_REG, backlight);
++		ti_sn65dsi86_write_u16(pdata->regmap, SN_BACKLIGHT_SCALE_REG, scale);
++		ti_sn65dsi86_write_u16(pdata->regmap, SN_BACKLIGHT_REG, backlight);
  	}
  
- 	if (state->enabled) {
+ 	pwm_en_inv = FIELD_PREP(SN_PWM_EN_MASK, state->enabled) |
+@@ -1544,11 +1544,11 @@ static int ti_sn_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = ti_sn65dsi86_read_u16(pdata, SN_BACKLIGHT_SCALE_REG, &scale);
++	ret = ti_sn65dsi86_read_u16(pdata->regmap, SN_BACKLIGHT_SCALE_REG, &scale);
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = ti_sn65dsi86_read_u16(pdata, SN_BACKLIGHT_REG, &backlight);
++	ret = ti_sn65dsi86_read_u16(pdata->regmap, SN_BACKLIGHT_REG, &backlight);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
 2.42.0
 
