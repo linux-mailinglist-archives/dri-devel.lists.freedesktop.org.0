@@ -2,47 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF5D37F602A
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 14:25:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D56757F6043
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 14:30:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 266EC10E07F;
-	Thu, 23 Nov 2023 13:25:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C09310E743;
+	Thu, 23 Nov 2023 13:30:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BEA910E07F
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 13:25:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13CFC10E743
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 13:30:13 +0000 (UTC)
 Received: from [100.107.97.3] (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 511E866073AE;
- Thu, 23 Nov 2023 13:25:00 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 4326D66073B0;
+ Thu, 23 Nov 2023 13:30:11 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1700745901;
- bh=q/qh9Y0G0C6PaJAGrQxpJXazia6tayD76/VLLIh7ygE=;
+ s=mail; t=1700746211;
+ bh=No4AwEr9+WYWNJNrCyO6wx6nKeuAd+yn6/RES6HfB3U=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Hj0rhfA1AIkEXPBO4AadPcUNOqdvX7wTEihgra/ekQEVK+9NSZzaocHiJdpsL+Oz9
- e1bmS30rSGhl84cMrFM/+losPMlfQMbDu4PZ4DKixVzsXmvExvISv3dI7ixlczpW/Y
- f1urCdmZuV8h/7psppney8NjvWhLIOsUIN+ZUTCxOCr9nj98DPNSUd/y8T4NjLud/c
- ITz14jxA8i+0x0NIzYfka84nF23GJSSHrYV4BkKD+NHSp6DQTGVY91v3XJFUTvR+F8
- 3Wiy0axGQ5d3w24TpBFZ9NqQdHPcSX+cQESKXqK+ALUWe0CIhCYCY0yxBY0V3jULC/
- /42/CdUimesbQ==
-Message-ID: <5019af46-f5ae-4db5-979e-802b61025ba4@collabora.com>
-Date: Thu, 23 Nov 2023 14:24:57 +0100
+ b=JINr2fT5281CIaBcTcXBjXGEkWazrsDvmtSoe6M4uGJk6oo1Enei7dyHsS0Wz+OAh
+ 9OmAESXtmZMjae8z9jaT8LlVkV82/Jecb6iv6TpihD+7ZQh5ybqWO4QbbA5JNdZkt0
+ H4k6T6wC3Apqc92fp0t6fxN/etKCzf5fRJhSTFOiiwasoVmiRuclxmydp4x8nIVpHl
+ UQxYYnFky2RRJFqKPXA4p5tLdADHAfJHqXHPnHZG4AR97oIsHy78zcG+YI5k8b2Xh6
+ nJcwOA3FoZrTAywtT2cuPKbqwWLOWtJ6VIw48ZG00wIt7vTMg+ydtYIPvGkWspdYgv
+ eLS+zfJs0lbRA==
+Message-ID: <f27d53de-41c7-4841-9335-994b5a6c178a@collabora.com>
+Date: Thu, 23 Nov 2023 14:30:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panfrost: Ignore core_mask for poweroff and sync
+Subject: Re: [PATCH v3] drm/panfrost: Ignore core_mask for poweroff and sync
  interrupts
 Content-Language: en-US
 To: Boris Brezillon <boris.brezillon@collabora.com>
-References: <20231123095320.41433-1-angelogioacchino.delregno@collabora.com>
- <20231123113530.46191ded@collabora.com>
- <1740797f-f3ae-4868-924a-08d6d731e506@collabora.com>
- <20231123135933.34d643f7@collabora.com>
+References: <20231123120521.147695-1-angelogioacchino.delregno@collabora.com>
+ <20231123141308.3ba50409@collabora.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20231123135933.34d643f7@collabora.com>
+In-Reply-To: <20231123141308.3ba50409@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,249 +57,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
  krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, kernel@collabora.com
+ tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 23/11/23 13:59, Boris Brezillon ha scritto:
-> On Thu, 23 Nov 2023 12:15:01 +0100
+Il 23/11/23 14:13, Boris Brezillon ha scritto:
+> On Thu, 23 Nov 2023 13:05:21 +0100
 > AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > wrote:
 > 
->> Il 23/11/23 11:35, Boris Brezillon ha scritto:
->>> On Thu, 23 Nov 2023 10:53:20 +0100
->>> AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->>> wrote:
->>>    
->>>> Some SoCs may be equipped with a GPU containing two core groups
->>>> and this is exactly the case of Samsung's Exynos 5422 featuring
->>>> an ARM Mali-T628 MP6 GPU: the support for this GPU in Panfrost
->>>> is partial, as this driver currently supports using only one
->>>> core group and that's reflected on all parts of it, including
->>>> the power on (and power off, previously to this patch) function.
->>>>
->>>> The issue with this is that even though executing the soft reset
->>>> operation should power off all cores unconditionally, on at least
->>>> one platform we're seeing a crash that seems to be happening due
->>>> to an interrupt firing which may be because we are calling power
->>>> transition only on the first core group, leaving the second one
->>>> unchanged, or because ISR execution was pending before entering
->>>> the panfrost_gpu_power_off() function and executed after powering
->>>> off the GPU cores, or all of the above.
->>>>
->>>> Finally, solve this by changing the power off flow to
->>>>    1. Mask and clear all interrupts: we don't need nor want any, as
->>>>       we are polling PWRTRANS anyway;
->>>>    2. Call synchronize_irq() after that to make sure that any pending
->>>>       ISR is executed before powering off the GPU Shaders/Tilers/L2
->>>>       hence avoiding unpowered registers R/W; and
->>>>    3. Ignore the core_mask and ask the GPU to poweroff both core groups
->>>
->>> Could we split that in two patches? 1+2 in one patch, and 3 in another.
->>> These are two orthogonal fixes IMO.
->>>    
+>> Some SoCs may be equipped with a GPU containing two core groups
+>> and this is exactly the case of Samsung's Exynos 5422 featuring
+>> an ARM Mali-T628 MP6 GPU: the support for this GPU in Panfrost
+>> is partial, as this driver currently supports using only one
+>> core group and that's reflected on all parts of it, including
+>> the power on (and power off, previously to this patch) function.
 >>
->> My initial idea was exactly that, but I opted for one patch doing 'em all
->> because a "full fix" comprises all of 1+2+3: the third one without the
->> first two and vice-versa may not fully resolve the issue that was seen
->> on the HC1 board.
-> 
-> Guess it depends how you see it. I'd argue that these are 2 orthogonal
-> bugs, and the suspend fix might be worth backporting to older versions.
-> 
-
-Yes, but older versions are not affected by this regression because the GPU
-was never turned off for real... so this commit is really fixing just the
-issues that came out *because* of the "Really power off" commit, which is
-not worth backporting as we already saw one regression with that and doing
-such thing would be mostly dangerous.
-
-If your suggestion was to backport 1+2 instead, I disagree: there are no
-suspend instabilities in older kernel versions, so we'd be fixing something
-that anyway always worked fine for years.
-
-This is to say: the "Really power off" code should be treated like a commit
-that implements a new feature, rather than fixing an old one, *only* because
-there is a possibility to create regressions somehow (again, we already had
-one).
-
-At least IMO...
-
+>> The issue with this is that even though executing the soft reset
+>> operation should power off all cores unconditionally, on at least
+>> one platform we're seeing a crash that seems to be happening due
+>> to an interrupt firing which may be because we are calling power
+>> transition only on the first core group, leaving the second one
+>> unchanged, or because ISR execution was pending before entering
+>> the panfrost_gpu_power_off() function and executed after powering
+>> off the GPU cores, or all of the above.
 >>
->> So, while I agree that it'd be slightly more readable as a diff if those
->> were two different commits I do have reasons against splitting.....
-> 
-> If we just need a quick fix to avoid PWRTRANS interrupts from kicking
-> in when we power-off the cores, I think we'd be better off dropping
-> GPU_IRQ_POWER_CHANGED[_ALL] from the value we write to GPU_INT_MASK
-> at [re]initialization time, and then have a separate series that fixes
-> the problem more generically.
-> 
-
-But that didn't work:
-https://lore.kernel.org/all/d95259b8-10cf-4ded-866c-47cbd2a44f84@linaro.org/
-
-
-...while this "full" solution worked:
-https://lore.kernel.org/all/39e9514b-087c-42eb-8d0e-f75dc620e954@linaro.org/
-
-https://lore.kernel.org/all/5b24cc73-23aa-4837-abb9-b6d138b46426@linaro.org/
-
-
-...so this *is* a "quick fix" already... :-)
-
->>>> +	gpu_write(pfdev, GPU_INT_MASK, 0);
->>>> +	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
->>>> +
->>>> +	/*
->>>> +	 * Make sure that we don't have pending ISRs, otherwise we'll be
->>>> +	 * reading and/or writing registers while the GPU is powered off
->>>> +	 */
->>>> +	synchronize_irq(pfdev->irq);
->>>
->>> Could we move that to a panfrost_gpu_suspend_irq() helper? I'm also not
->>> sure making it part of panfrost_gpu_power_off() is a good idea. I'd
->>> rather have this panfrost_gpu_suspend_irq() helper called from
->>> panfrost_device_[runtime_]suspend(), along with
->>> panfrost_{mmu,job}_suspend_irq().
->>>    
+>> Finally, solve this by introducing a new panfrost_gpu_suspend_irq()
+>> helper function and changing the panfrost_device_suspend() flow to
+>>   1. Mask and clear all interrupts: we don't need nor want any, as
+>>      for power_off() we are polling PWRTRANS, but we anyway don't
+>>      want GPU IRQs to fire while it is suspended/powered off;
+>>   2. Call synchronize_irq() after that to make sure that any pending
+>>      ISR is executed before powering off the GPU Shaders/Tilers/L2
+>>      hence avoiding unpowered registers R/W; and
+>>   3. Ignore the core_mask and ask the GPU to poweroff both core groups
 >>
->> Okay I will move that to a helper, but I still want to clarify:
->>    - For JOB, we're checking if panfrost_job_is_idle() before trying
->>      to runtime_suspend() (hence before trying to power off cores),
->>      so implicitly no interrupt can fire I guess? Though there could
->>      still be a pending ISR there too.... mmh. Brain ticking :-)
-> 
-> There's indeed no reason to see job interrupts if we're asked to enter
-> suspend, but it's mostly a matter of safety/correctness. If, as
-> expected, there's no pending interrupt, the write(_INT_MASK) +
-> synchronize_irq() should be relatively cheap.
-> 
->>    - For MMU, we're not checking anything, but I guess that if there
->>      is no job, the mmu can't be doing anything at all?
->>      ...but then you also gave me the doubt about that one as well.
-> 
-> Same here, if we've properly flushed all jobs, and handled all pending
-> interrupts, we shouldn't end up with pending MMU irqs when we're asked
-> to suspend. But the extra mask+synchronize_irq() buys us extra safety.
-> 
+>> Of course it was also necessary to add a `irq` variable to `struct
+>> panfrost_device` as we need to get that in panfrost_gpu_power_off()
+>> for calling synchronize_irq() on it.
 >>
->> What I think that would be sensible to do is to get this commit as
->> a "clear" fix for the "Really power off" one, then have one or more
->> additional commit(s) without any fixes tag to improve the IRQ suspend
->> with the new mmu/job irq suspend helpers.
-> 
-> If you need a self-contained fix to avoid power transition interrupts
-> messing up with suspend, then, as I suggested, it might make more sense
-> to drop GPU_IRQ_POWER_CHANGED[_ALL] when writing GPU_INT_MASK, which
-> you want anyway, to avoid being interrupted when you do power
-> transitions.
-> 
+>> Fixes: 22aa1a209018 ("drm/panfrost: Really power off GPU cores in panfrost_gpu_power_off()")
+>> [Regression detected on Odroid HC1, Exynos5422, Mali-T628 MP6]
+>> Reported-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> ---
 >>
->> Of course *this* commit would introduce the panfrost_gpu_suspend_irq()
->> helper directly, instead of moving the logic to a helper in a later one.
+>> Changes in v3:
+>>   - Fix compile issue
 >>
->> Any reason against? :-)
+>> Changes in v2:
+>>   - Fixed the commit hash of "Really power off [...]"
+>>   - Actually based on a clean next-20231121
+>>   - Renamed "irq" to "gpu_irq" as per Boris' suggestion
+>>   - Moved the IRQ mask/clear/sync to a helper function and added
+>>     a call to that in panfrost_device.c instead of doing that in
+>>     panfrost_gpu_power_off().
 >>
->>>> +
->>>> +	/* Now it's safe to request poweroff for Shaders, Tilers and L2 */
->>>
->>> It was safe before too, it's just that we probably don't want to be
+>> NOTE: I didn't split 1+2 from 3 as suggested by Boris, and I'm sending
+>> this one without waiting for feedback on my reasons for that which I
+>> explained as a reply to v1 because the former couldn't be applied to
+>> linux-next, and I want to unblock Krzysztof ASAP to get this tested.
 >>
->> In theory yes, in practice the Odroid HC1 board crashed :-P
+>>   drivers/gpu/drm/panfrost/panfrost_device.c |  1 +
+>>   drivers/gpu/drm/panfrost/panfrost_device.h |  1 +
+>>   drivers/gpu/drm/panfrost/panfrost_gpu.c    | 28 +++++++++++++++-------
+>>   drivers/gpu/drm/panfrost/panfrost_gpu.h    |  1 +
+>>   4 files changed, 23 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+>> index c90ad5ee34e7..b0a4f3e513f4 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+>> @@ -421,6 +421,7 @@ static int panfrost_device_runtime_suspend(struct device *dev)
+>>   		return -EBUSY;
+>>   
+>>   	panfrost_devfreq_suspend(pfdev);
+>> +	panfrost_gpu_suspend_irq(pfdev);
+>>   	panfrost_gpu_power_off(pfdev);
+>>   
+>>   	return 0;
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+>> index 0fc558db6bfd..f2b1d4afb9e9 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+>> @@ -94,6 +94,7 @@ struct panfrost_device {
+>>   	struct device *dev;
+>>   	struct drm_device *ddev;
+>>   	struct platform_device *pdev;
+>> +	int gpu_irq;
+>>   
+>>   	void __iomem *iomem;
+>>   	struct clk *clock;
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> index 09f5e1563ebd..2c09aede0945 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> @@ -425,11 +425,10 @@ void panfrost_gpu_power_on(struct panfrost_device *pfdev)
+>>   
+>>   void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+>>   {
+>> -	u64 core_mask = panfrost_get_core_mask(pfdev);
+>>   	int ret;
+>>   	u32 val;
+>>   
+>> -	gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present & core_mask);
+>> +	gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present);
+>>   	ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_PWRTRANS_LO,
+>>   					 val, !val, 1, 1000);
+>>   	if (ret)
+>> @@ -441,16 +440,29 @@ void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+>>   	if (ret)
+>>   		dev_err(pfdev->dev, "tiler power transition timeout");
+>>   
+>> -	gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present & core_mask);
+>> +	gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present);
+>>   	ret = readl_poll_timeout(pfdev->iomem + L2_PWRTRANS_LO,
+>>   				 val, !val, 0, 1000);
+>>   	if (ret)
+>>   		dev_err(pfdev->dev, "l2 power transition timeout");
+>>   }
+>>   
+>> +void panfrost_gpu_suspend_irq(struct panfrost_device *pfdev)
+>> +{
+>> +	/* Disable all interrupts before suspending the GPU */
+>> +	gpu_write(pfdev, GPU_INT_MASK, 0);
+>> +	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
+>> +
+>> +	/*
+>> +	 * Make sure that we don't have pending ISRs, otherwise we'll be
+>> +	 * reading and/or writing registers while the GPU is powered off
 > 
-> Just to be clear, it's not the accesses to the PWROFF/PWRTRANS
-> registers in this function that were causing the crash, it's the fact we
-> were writing to those regs, and leaving the corresponding interrupt
-> unprocessed before returning from panfrost_device[_runtime]_suspend().
-> 
->>
->> P.S.: Joking! I understand what you're saying :-)
-> 
-> Okay, but the comment was still inaccurate :P.
+> I see this comment, plus the fact you call panfrost_gpu_suspend_irq()
+> before panfrost_gpu_power_off() and I realize there might still be a
+> misunderstanding. It's not the l2,shader,tiler-poweroff that causes the
+> invalid reg access, it's what happens in the PM core after we've
+> returned from panfrost_device_runtime_suspend() (power domain turned
+> off). The register bank is still accessible when the sub-blocks are off,
+> otherwise we wouldn't be able to power them on after a reset (which
+> automatically powers off all the blocks, IIRC).
 > 
 
-Hahaha! Fair! :-D
+Uhm, should I reword that? Suggestions about how?
 
->>
->>> interrupted, if all we do is ignore the interrupts we receive, hence
->>> the suggestion to not use GPU_IRQ_MASK_ALL, and only enable the
->>> IRQs we care about instead.
->>>    
->>>> +	gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present);
->>>>    	ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_PWRTRANS_LO,
->>>>    					 val, !val, 1, 1000);
->>>>    	if (ret)
->>>> @@ -441,7 +451,7 @@ void panfrost_gpu_power_off(struct panfrost_device *pfdev)
->>>>    	if (ret)
->>>>    		dev_err(pfdev->dev, "tiler power transition timeout");
->>>>    
->>>> -	gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present & core_mask);
->>>> +	gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present);
->>>
->>> I really think we should have a helper doing the 'write(PWROFF_{LO,HI} +
->>> poll(PWRTRANS_{LO,HI})' sequence, similar to what's done here [1][2],
->>> such that, once we got it right for one block, we have it working for
->>> all of them. And if there's a fix to apply, it automatically applies
->>> to all blocks without having to fix the same bug in each copy.
->>>    
->>
->> ...technically yes, but practically this driver doesn't currently support any
->> GPU that even fills the _LO registers.
-> 
-> Once we have a solution that works for all use cases, it can work for
-> the limited set we support at the moment :P.
-> 
->>
->> I guess that we can do that later?
-> 
-> Sure, that was more of a follow-up patch suggestion.
-> 
-
-Thanks for that.
-
->>
->> That's just to (paranoidly) avoid any risk to introduce other regressions in
->> this merge window, since we're fixing one that shouldn't have happened in the
->> first place...
-> 
-> Agreed, but if that's the goal, then I'd go for the simpler change I
-> suggested above (dropping GPU_IRQ_POWER_CHANGED[_ALL] from the
-> interrupt mask altogether). This way you don't have to worry about
-> receiving power transition interrupts in the first place, and you also
-> save interrupt context switching time when you power on the various
-> blocks.
-> 
-
-...but again, that wouldn't fully work, as per krzk's test.
-
->>
->>> Note that these panthor_gpu_block_power_{on,off}() helpers also handle
->>> the case where power transitions are already in progress when you ask a
->>> new power transition, which I don't think is checked in
->>> panfrost_gpu_power_{off,on}().
->>>    
->>
->> I admit I didn't analyze the panthor driver - but here, the only power transitions
->> that may happen are either because of panfrost_gpu_power_on(), or because of
->> panfrost_gpu_power_off(), and both are polling and blocking... so from what I
->> understand, there's no possibility to have "another" power transition happening
->> while calling poweron, or poweroff.
-> 
-> Well yes, in theory there's no reason to have more than one transition
-> happening at a given time (that's assuming power transition never time
-> out, or if they do, the system gets back to an idle state before we try
-> to do the next power transition). It's just that, if it ever happens,
-> for any reason, we'd be safe against this unexpected situation, for a
-> cost that's relatively low (just an extra register read if things are in
-> the expected idle state).
-> 
-> Definitely not saying we should do that in this patch, but I think we
-> should do anything we can do to improve robustness, assuming the cost
-> of these extra checks is acceptable (we're not really in a fastpath
-> here).
-
-There's a lot of room for improvement in Panfrost, on that I agree.
+There wasn't any misunderstanding, I did get that the issue can be about unclocked
+access or unpowered access (unpowered = vregs off or power domains off), but it is
+correct to mask and sync IRQs *before* calling shader/tiler/l2 poweroff (at least
+for how I see it), because if there's anything that we want to do in the ISR, we
+still have the GPU fully powered up and we're sure that, for example, if we want
+to read a debug register to get the reason of an error irq, we're sure that it did
+not get cleared.
 
 Cheers,
 Angelo
