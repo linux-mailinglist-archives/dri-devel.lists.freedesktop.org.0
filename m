@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B987F5F9D
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 13:59:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 554B37F5FAA
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 14:04:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ECF210E739;
-	Thu, 23 Nov 2023 12:59:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CAAF10E73E;
+	Thu, 23 Nov 2023 13:04:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E689910E73B
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 12:59:38 +0000 (UTC)
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id E4ECB66073A8;
- Thu, 23 Nov 2023 12:59:36 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1700744377;
- bh=3Xr5mtXjBYuvRtwd13TkgbpC2/XlGPdDSal/R57xmnw=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=lNVloRbfl5T9+GS9EOBtK5fMu0JfRdtOslfzqNB9xnHZLa+6Hm+mkQiJMAAaJaZ7X
- prBcRAP8FFRdNkyfqaZBmcZpuWtMMmAZ500Z5yNadLfhvc5z+FCz8yOI2ctWYOHrBI
- RBEKN/HkGAXIHBbkLM19hNZE1MmkI4UJOXfXh3qwKYkXJB/wO6OGHdI/BCJSl+rJNA
- Gi+ZLyF540hQsyTa3nscBlb4bo72oK4IIVEJrqsaYmFokjpkT3g6UU9xU8ZNd9KF14
- 6YIKB3rAukwLzVmFQ5l48Qqlcef0sJvWFxAaLESn066h4X/q+zmAE8o8NcctyvODov
- zTbE5xG19/gbg==
-Date: Thu, 23 Nov 2023 13:59:33 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH] drm/panfrost: Ignore core_mask for poweroff and sync
- interrupts
-Message-ID: <20231123135933.34d643f7@collabora.com>
-In-Reply-To: <1740797f-f3ae-4868-924a-08d6d731e506@collabora.com>
-References: <20231123095320.41433-1-angelogioacchino.delregno@collabora.com>
- <20231123113530.46191ded@collabora.com>
- <1740797f-f3ae-4868-924a-08d6d731e506@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com
+ [IPv6:2001:41d0:1004:224b::b7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C00310E73E
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 13:03:59 +0000 (UTC)
+Message-ID: <2a9fda42-0c7a-420b-81cc-653861a3dcd8@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1700744637;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4k0ixZay+gLfSmMuVIyaxBUa4dhlk5WLLLau0tHRBM8=;
+ b=wLbXBpiD+ljXahcZN+NxDMvTV6jSgBzfTJka4QlAr6sZXPxs0FnkVeRDinVPWw6Eqip17P
+ ctm10QBEINJ2Dk7U0Sar9J7SJG4lUrGaja5pi5wEq935YHwZfKyBlcYzM5CojY7vj9vrnP
+ iRzo+IbdTP9dcKWPQ3GdhPf1uJaegPQ=
+Date: Thu, 23 Nov 2023 21:03:48 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Subject: Re: [PATCH 5/8] drm/bridge: it66121: Add a helper function to read
+ chip id
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
+ <20231114150130.497915-6-sui.jingfeng@linux.dev>
+ <CAA8EJprkDpjuHEi5R01p4XNvFBr94BvXhr7AZCLr6dC8Mk=yPw@mail.gmail.com>
+ <7602cd83-0e05-4e11-9bd1-10eb1d48a507@linux.dev>
+ <CAA8EJprFjdrQtegJd5HyzGYQaMawwQOhvkE=SNqsdsBCrtfDTA@mail.gmail.com>
+ <14f859f2-6661-4955-932b-1ae22ae134fe@linux.dev>
+ <CAA8EJppnB-FbnS20eJg1jwKP7pQwV_etYkQg2YW75SEO8kF9MA@mail.gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <CAA8EJppnB-FbnS20eJg1jwKP7pQwV_etYkQg2YW75SEO8kF9MA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,205 +56,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
- krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, kernel@collabora.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Phong LE <ple@baylibre.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 23 Nov 2023 12:15:01 +0100
-AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-wrote:
+Hi,
 
-> Il 23/11/23 11:35, Boris Brezillon ha scritto:
-> > On Thu, 23 Nov 2023 10:53:20 +0100
-> > AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> > wrote:
-> >   
-> >> Some SoCs may be equipped with a GPU containing two core groups
-> >> and this is exactly the case of Samsung's Exynos 5422 featuring
-> >> an ARM Mali-T628 MP6 GPU: the support for this GPU in Panfrost
-> >> is partial, as this driver currently supports using only one
-> >> core group and that's reflected on all parts of it, including
-> >> the power on (and power off, previously to this patch) function.
-> >>
-> >> The issue with this is that even though executing the soft reset
-> >> operation should power off all cores unconditionally, on at least
-> >> one platform we're seeing a crash that seems to be happening due
-> >> to an interrupt firing which may be because we are calling power
-> >> transition only on the first core group, leaving the second one
-> >> unchanged, or because ISR execution was pending before entering
-> >> the panfrost_gpu_power_off() function and executed after powering
-> >> off the GPU cores, or all of the above.
-> >>
-> >> Finally, solve this by changing the power off flow to
-> >>   1. Mask and clear all interrupts: we don't need nor want any, as
-> >>      we are polling PWRTRANS anyway;
-> >>   2. Call synchronize_irq() after that to make sure that any pending
-> >>      ISR is executed before powering off the GPU Shaders/Tilers/L2
-> >>      hence avoiding unpowered registers R/W; and
-> >>   3. Ignore the core_mask and ask the GPU to poweroff both core groups  
-> > 
-> > Could we split that in two patches? 1+2 in one patch, and 3 in another.
-> > These are two orthogonal fixes IMO.
-> >   
-> 
-> My initial idea was exactly that, but I opted for one patch doing 'em all
-> because a "full fix" comprises all of 1+2+3: the third one without the
-> first two and vice-versa may not fully resolve the issue that was seen
-> on the HC1 board.
 
-Guess it depends how you see it. I'd argue that these are 2 orthogonal
-bugs, and the suspend fix might be worth backporting to older versions.
+On 2023/11/23 15:48, Dmitry Baryshkov wrote:
+> On Thu, 23 Nov 2023 at 07:37, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+>> Hi,
+>>
+>>
+>> On 2023/11/16 21:00, Dmitry Baryshkov wrote:
+>>> On Thu, 16 Nov 2023 at 14:18, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+>>>> Hi,
+>>>>
+>>>>
+>>>> On 2023/11/15 00:06, Dmitry Baryshkov wrote:
+>>>>> On Tue, 14 Nov 2023 at 17:09, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+>>>>>> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>>>>
+>>>>>> Read the required chip id data back by calling regmap_bulk_read() once,
+>>>>>> reduce the number of local variables needed in it66121_probe() function.
+>>>>>> And store its values into struct it66121_ctx, as it will be used latter.
+>>>>>>
+>>>>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>>>> ---
+>>>>>>     drivers/gpu/drm/bridge/ite-it66121.c | 47 ++++++++++++++++++++--------
+>>>>>>     1 file changed, 34 insertions(+), 13 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+>>>>>> index 7e473beefc79..f36d05331f25 100644
+>>>>>> --- a/drivers/gpu/drm/bridge/ite-it66121.c
+>>>>>> +++ b/drivers/gpu/drm/bridge/ite-it66121.c
+>>>>>> @@ -313,6 +313,9 @@ struct it66121_ctx {
+>>>>>>                    bool auto_cts;
+>>>>>>            } audio;
+>>>>>>            const struct it66121_chip_info *info;
+>>>>>> +       u16 vender_id;
+>>>>>> +       u16 device_id;
+>>>>>> +       u8 revision;
+>>>>> There is no need to store them, they are not used by the driver anywhere.
+>>>>>
+>>>>>>     };
+>>>>>>
+>>>>>>     static inline struct it66121_ctx *bridge_to_it66121(struct drm_bridge *bridge)
+>>>>>> @@ -399,6 +402,30 @@ static void it66121_hw_reset(struct it66121_ctx *ctx)
+>>>>>>            gpiod_set_value(ctx->gpio_reset, 0);
+>>>>>>     }
+>>>>>>
+>>>>>> +static int it66121_read_chip_id(struct it66121_ctx *ctx, bool verbose)
+>>>>>> +{
+>>>>>> +       u8 id[4];
+>>>>>> +       int ret;
+>>>>>> +
+>>>>>> +       ret = regmap_bulk_read(ctx->regmap, IT66121_VENDOR_ID0_REG, id, 4);
+>>>>>> +       if (ret < 0) {
+>>>>>> +               dev_err(ctx->dev, "Failed to read chip ID: %d\n", ret);
+>>>>>> +               return ret;
+>>>>>> +       }
+>>>>>> +
+>>>>>> +       ctx->vender_id = (u16)id[1] << 8 | id[0];
+>>>>>> +       ctx->device_id = ((u16)(id[3] & IT66121_DEVICE_ID1_MASK) << 8 | id[2]);
+>>>>>> +       /* Revision is shared with DEVICE_ID1 */
+>>>>>> +       ctx->revision = FIELD_GET(IT66121_REVISION_MASK, id[3]);
+>>>>>> +
+>>>>>> +       if (verbose) {
+>>>>>> +               dev_info(ctx->dev, "Found ITE66121: 0x%x%x, revision: %u\n",
+>>>>>> +                        ctx->vender_id, ctx->device_id, ctx->revision);
+>>>>>> +       }
+>>>>>> +
+>>>>>> +       return 0;
+>>>>>> +}
+>>>>>> +
+>>>>>>     static inline int it66121_preamble_ddc(struct it66121_ctx *ctx)
+>>>>>>     {
+>>>>>>            return regmap_write(ctx->regmap, IT66121_MASTER_SEL_REG, IT66121_MASTER_SEL_HOST);
+>>>>>> @@ -1561,7 +1588,6 @@ static const char * const it66121_supplies[] = {
+>>>>>>
+>>>>>>     static int it66121_probe(struct i2c_client *client)
+>>>>>>     {
+>>>>>> -       u32 revision_id, vendor_ids[2] = { 0 }, device_ids[2] = { 0 };
+>>>>>>            int ret;
+>>>>>>            struct it66121_ctx *ctx;
+>>>>>>            struct device *dev = &client->dev;
+>>>>>> @@ -1603,19 +1629,13 @@ static int it66121_probe(struct i2c_client *client)
+>>>>>>            if (IS_ERR(ctx->regmap))
+>>>>>>                    return PTR_ERR(ctx->regmap);
+>>>>>>
+>>>>>> -       regmap_read(ctx->regmap, IT66121_VENDOR_ID0_REG, &vendor_ids[0]);
+>>>>>> -       regmap_read(ctx->regmap, IT66121_VENDOR_ID1_REG, &vendor_ids[1]);
+>>>>>> -       regmap_read(ctx->regmap, IT66121_DEVICE_ID0_REG, &device_ids[0]);
+>>>>>> -       regmap_read(ctx->regmap, IT66121_DEVICE_ID1_REG, &device_ids[1]);
+>>>>>> -
+>>>>>> -       /* Revision is shared with DEVICE_ID1 */
+>>>>>> -       revision_id = FIELD_GET(IT66121_REVISION_MASK, device_ids[1]);
+>>>>>> -       device_ids[1] &= IT66121_DEVICE_ID1_MASK;
+>>>>>> +       ret = it66121_read_chip_id(ctx, false);
+>>>>>> +       if (ret)
+>>>>>> +               return ret;
+>>>>>>
+>>>>>> -       if ((vendor_ids[1] << 8 | vendor_ids[0]) != ctx->info->vid ||
+>>>>>> -           (device_ids[1] << 8 | device_ids[0]) != ctx->info->pid) {
+>>>>>> +       if (ctx->vender_id != ctx->info->vid ||
+>>>>>> +           ctx->device_id != ctx->info->pid)
+>>>> Q: There is no need to store them, they are not used by the driver anywhere.
+>>>>
+>>>> A: Here it is used, it is also used by the 0007-patch to get the entity(instance)-specific data.
+>>> And the patch 7 will be changed once you have proper i2c client struct
+>>> registered.
+>>>
+>>>> Since it6610 was introduced, this is used for chip identifying.
+>>>> It can also be used with in debugfs context, to show who I am.
+>>> I'd say, there is little point in whoami debugfs files. Debugfs is for
+>>> the useful information.
+>> Sinceit6610 was introduced, how do you know what the device it66121 driver is
+>> binding? Printing model specific information is common practice for a
+>> large driver. Especially if you can only able to debug remotely where
+>> only a SSH is given.
+> cat /sys/bus/i2c/devices/.../name
 
-> 
-> So, while I agree that it'd be slightly more readable as a diff if those
-> were two different commits I do have reasons against splitting.....
+No, this is not enough. This is also not straight-forward.
+Because the system will have multiple i2c device. This is
+a bit hard to find which one is corresponding to the it66121.
 
-If we just need a quick fix to avoid PWRTRANS interrupts from kicking
-in when we power-off the cores, I think we'd be better off dropping 
-GPU_IRQ_POWER_CHANGED[_ALL] from the value we write to GPU_INT_MASK
-at [re]initialization time, and then have a separate series that fixes
-the problem more generically.
+This is needed during the development and debug phase.
+We will also want to know the vendor id, device id and revision id.
+As those chip id are constant values, matching those chip id against
+the values in datasheet is a kind of sanity test. Which helps us to
+know if the i2c regmap(the communication channel) has been setup
+successfully or not.
 
-> >> +	gpu_write(pfdev, GPU_INT_MASK, 0);
-> >> +	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
-> >> +
-> >> +	/*
-> >> +	 * Make sure that we don't have pending ISRs, otherwise we'll be
-> >> +	 * reading and/or writing registers while the GPU is powered off
-> >> +	 */
-> >> +	synchronize_irq(pfdev->irq);  
-> > 
-> > Could we move that to a panfrost_gpu_suspend_irq() helper? I'm also not
-> > sure making it part of panfrost_gpu_power_off() is a good idea. I'd
-> > rather have this panfrost_gpu_suspend_irq() helper called from
-> > panfrost_device_[runtime_]suspend(), along with
-> > panfrost_{mmu,job}_suspend_irq().
-> >   
-> 
-> Okay I will move that to a helper, but I still want to clarify:
->   - For JOB, we're checking if panfrost_job_is_idle() before trying
->     to runtime_suspend() (hence before trying to power off cores),
->     so implicitly no interrupt can fire I guess? Though there could
->     still be a pending ISR there too.... mmh. Brain ticking :-)
 
-There's indeed no reason to see job interrupts if we're asked to enter
-suspend, but it's mostly a matter of safety/correctness. If, as
-expected, there's no pending interrupt, the write(_INT_MASK) +
-synchronize_irq() should be relatively cheap.
-
->   - For MMU, we're not checking anything, but I guess that if there
->     is no job, the mmu can't be doing anything at all?
->     ...but then you also gave me the doubt about that one as well.
-
-Same here, if we've properly flushed all jobs, and handled all pending
-interrupts, we shouldn't end up with pending MMU irqs when we're asked
-to suspend. But the extra mask+synchronize_irq() buys us extra safety.
-
-> 
-> What I think that would be sensible to do is to get this commit as
-> a "clear" fix for the "Really power off" one, then have one or more
-> additional commit(s) without any fixes tag to improve the IRQ suspend
-> with the new mmu/job irq suspend helpers.
-
-If you need a self-contained fix to avoid power transition interrupts
-messing up with suspend, then, as I suggested, it might make more sense
-to drop GPU_IRQ_POWER_CHANGED[_ALL] when writing GPU_INT_MASK, which
-you want anyway, to avoid being interrupted when you do power
-transitions.
-
-> 
-> Of course *this* commit would introduce the panfrost_gpu_suspend_irq()
-> helper directly, instead of moving the logic to a helper in a later one.
-> 
-> Any reason against? :-)
-> 
-> >> +
-> >> +	/* Now it's safe to request poweroff for Shaders, Tilers and L2 */  
-> > 
-> > It was safe before too, it's just that we probably don't want to be  
-> 
-> In theory yes, in practice the Odroid HC1 board crashed :-P
-
-Just to be clear, it's not the accesses to the PWROFF/PWRTRANS
-registers in this function that were causing the crash, it's the fact we
-were writing to those regs, and leaving the corresponding interrupt
-unprocessed before returning from panfrost_device[_runtime]_suspend().
-
-> 
-> P.S.: Joking! I understand what you're saying :-)
-
-Okay, but the comment was still inaccurate :P.
-
-> 
-> > interrupted, if all we do is ignore the interrupts we receive, hence
-> > the suggestion to not use GPU_IRQ_MASK_ALL, and only enable the
-> > IRQs we care about instead.
-> >   
-> >> +	gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present);
-> >>   	ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_PWRTRANS_LO,
-> >>   					 val, !val, 1, 1000);
-> >>   	if (ret)
-> >> @@ -441,7 +451,7 @@ void panfrost_gpu_power_off(struct panfrost_device *pfdev)
-> >>   	if (ret)
-> >>   		dev_err(pfdev->dev, "tiler power transition timeout");
-> >>   
-> >> -	gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present & core_mask);
-> >> +	gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present);  
-> > 
-> > I really think we should have a helper doing the 'write(PWROFF_{LO,HI} +
-> > poll(PWRTRANS_{LO,HI})' sequence, similar to what's done here [1][2],
-> > such that, once we got it right for one block, we have it working for
-> > all of them. And if there's a fix to apply, it automatically applies
-> > to all blocks without having to fix the same bug in each copy.
-> >   
-> 
-> ...technically yes, but practically this driver doesn't currently support any
-> GPU that even fills the _LO registers.
-
-Once we have a solution that works for all use cases, it can work for
-the limited set we support at the moment :P.
-
-> 
-> I guess that we can do that later?
-
-Sure, that was more of a follow-up patch suggestion.
-
-> 
-> That's just to (paranoidly) avoid any risk to introduce other regressions in
-> this merge window, since we're fixing one that shouldn't have happened in the
-> first place...
-
-Agreed, but if that's the goal, then I'd go for the simpler change I
-suggested above (dropping GPU_IRQ_POWER_CHANGED[_ALL] from the
-interrupt mask altogether). This way you don't have to worry about
-receiving power transition interrupts in the first place, and you also
-save interrupt context switching time when you power on the various
-blocks.
-
-> 
-> > Note that these panthor_gpu_block_power_{on,off}() helpers also handle
-> > the case where power transitions are already in progress when you ask a
-> > new power transition, which I don't think is checked in
-> > panfrost_gpu_power_{off,on}().
-> >   
-> 
-> I admit I didn't analyze the panthor driver - but here, the only power transitions
-> that may happen are either because of panfrost_gpu_power_on(), or because of
-> panfrost_gpu_power_off(), and both are polling and blocking... so from what I
-> understand, there's no possibility to have "another" power transition happening
-> while calling poweron, or poweroff.
-
-Well yes, in theory there's no reason to have more than one transition
-happening at a given time (that's assuming power transition never time
-out, or if they do, the system gets back to an idle state before we try
-to do the next power transition). It's just that, if it ever happens,
-for any reason, we'd be safe against this unexpected situation, for a
-cost that's relatively low (just an extra register read if things are in
-the expected idle state).
-
-Definitely not saying we should do that in this patch, but I think we
-should do anything we can do to improve robustness, assuming the cost
-of these extra checks is acceptable (we're not really in a fastpath
-here).
+>> You could see debugfs of drm/etnaviv for a
+>> reference. It is common to testing a large driver running on 20+
+>> machines with various hardware model.
+>>
+>>
+>>>>>>                    return -ENODEV;
+>>>>>> -       }
+>>>>>>
+>>>>>>            ctx->bridge.funcs = &it66121_bridge_funcs;
+>>>>>>            ctx->bridge.of_node = dev->of_node;
+>>>>>> @@ -1633,7 +1653,8 @@ static int it66121_probe(struct i2c_client *client)
+>>>>>>
+>>>>>>            drm_bridge_add(&ctx->bridge);
+>>>>>>
+>>>>>> -       dev_info(dev, "IT66121 revision %d probed\n", revision_id);
+>>>>>> +       dev_info(dev, "IT66121 probed, chip id: 0x%x:0x%x, revision: %u\n",
+>>>>>> +                ctx->vender_id, ctx->device_id, ctx->revision);
+>>>>>>
+>>>>>>            return 0;
+>>>>>>     }
+>>>>>> --
+>>>>>> 2.34.1
+>>>>>>
+>>>
+>
+>
