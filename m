@@ -1,50 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 709357F5EF3
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 13:22:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41FF47F5EF9
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 13:23:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A080110E07D;
-	Thu, 23 Nov 2023 12:22:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDF1A10E724;
+	Thu, 23 Nov 2023 12:23:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 901DF10E071;
- Thu, 23 Nov 2023 12:22:32 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E67510E071;
+ Thu, 23 Nov 2023 12:23:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700742152; x=1732278152;
- h=message-id:date:mime-version:from:to:cc:subject:
- content-transfer-encoding;
- bh=fnIvowgESj/1IKFwSce/blavN94I9Hoi7hYWboZGMdU=;
- b=EkZDpNT6m5vdHGRFu6ZRtHc8WwAsBovdYEpxZtpTsImQPFkY/2FskTOx
- 3w39jTs4byjp5+XRQbvnlOB0RBkX0LXhHlGapcI5XTSXrwp1doKwqqWrd
- mia+z6u9F9T4eGrtP17qqSnFB/1Ewi4glYiIQMEC1bjMzHFdgz5G7xUWf
- SaM/lacSj0bEycat3jBiGppLd1gGmRDhfPpbYPvh2gPFOLZCbFFhc8JA7
- V8rqvgd6fxOdI3qP4JXcOy5eqaqYx0MsWpLM7hdGvvi0IfF+ZBJL6jLlc
- J9G1PN1aNrX2h2K5FAxhwAZYngq2hdeiRzz7HZcuv4Yjf0cT8Ql+UqDmY Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="478456784"
-X-IronPort-AV: E=Sophos;i="6.04,221,1695711600"; d="scan'208";a="478456784"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2023 04:22:31 -0800
+ t=1700742201; x=1732278201;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=QC7cpid/5csa3GQXLuq8gqKTos0lZQprxC+qxrXogYA=;
+ b=m0sBHxTXjD1VRSIsvCDrIO4L428KEM39HsixMFqZNzJMRP9q+oBqS1E0
+ cQMaZ0bkb+ehrPSyhVBLBtdlq7owr+5K0dXeGdaX6Y4cBasgiPIbVRTxZ
+ RVHFU0RjW2tH+x+jog+n4GEX1TZQypRCXR0RLwdnxhkEMnPqaRAq+As5N
+ oQcMQp9Rh7QzFbNtLzOEuqINOU/TuLMfLKaLvxtMr3g4j5ALbSWDqOHSI
+ P4aaba828T+oYDKjpQqPWHyDP42ZVdqJM7iiBMsfKK/+48rY2DiHeSoWD
+ Q99dOV023t7vFf7bqw+tBoZPN5i2VCaE8U0ohszaMBqudFtLqKhf8CY+5 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="5460804"
+X-IronPort-AV: E=Sophos;i="6.04,221,1695711600"; 
+   d="scan'208";a="5460804"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2023 04:23:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,221,1695711600"; d="scan'208";a="15646159"
-Received: from dtanasex-mobl.ger.corp.intel.com (HELO [10.252.40.72])
- ([10.252.40.72])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2023 04:22:28 -0800
-Message-ID: <12322257-2e0c-43d3-8241-876aafc10e4a@linux.intel.com>
-Date: Thu, 23 Nov 2023 13:22:24 +0100
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="760653019"
+X-IronPort-AV: E=Sophos;i="6.04,221,1695711600"; d="scan'208";a="760653019"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga007.jf.intel.com with SMTP; 23 Nov 2023 04:23:16 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 23 Nov 2023 14:23:16 +0200
+Date: Thu, 23 Nov 2023 14:23:16 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Kunwu Chan <chentao@kylinos.cn>
+Subject: Re: [PATCH] drm/i915/display: Fix null pointer dereference in
+ intel_dp_aux_wait_done and intel_dp_aux_xfer
+Message-ID: <ZV9ENJIVKztrI2gs@intel.com>
+References: <20231123100431.34453-1-chentao@kylinos.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>
-Subject: [PULL] drm-misc-fixes
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231123100431.34453-1-chentao@kylinos.cn>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,81 +62,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: tvrtko.ursulin@linux.intel.com, kunwu.chan@hotmail.com,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+On Thu, Nov 23, 2023 at 06:04:31PM +0800, Kunwu Chan wrote:
+> kasprintf() returns a pointer to dynamically allocated memory
+> which can be NULL upon failure. When "intel_dp->aux.name" is NULL,
+>  these error messages will trigger the null pointer dereference issue.
 
-Lots of small fixes for various drivers.
+How did you reach that conclusion?
 
-Cheers,
-~Maarten
+> 
+> Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp_aux.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux.c b/drivers/gpu/drm/i915/display/intel_dp_aux.c
+> index 2e2af71bcd5a..398c9064eb09 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_aux.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux.c
+> @@ -67,7 +67,7 @@ intel_dp_aux_wait_done(struct intel_dp *intel_dp)
+>  	if (ret == -ETIMEDOUT)
+>  		drm_err(&i915->drm,
+>  			"%s: did not complete or timeout within %ums (status 0x%08x)\n",
+> -			intel_dp->aux.name, timeout_ms, status);
+> +			intel_dp->aux.name ? intel_dp->aux.name : "", timeout_ms, status);
+>  
+>  	return status;
+>  }
+> @@ -302,7 +302,7 @@ intel_dp_aux_xfer(struct intel_dp *intel_dp,
+>  		if (status != intel_dp->aux_busy_last_status) {
+>  			drm_WARN(&i915->drm, 1,
+>  				 "%s: not started (status 0x%08x)\n",
+> -				 intel_dp->aux.name, status);
+> +				 intel_dp->aux.name ? intel_dp->aux.name : "", status);
+>  			intel_dp->aux_busy_last_status = status;
+>  		}
+>  
+> @@ -362,7 +362,7 @@ intel_dp_aux_xfer(struct intel_dp *intel_dp,
+>  
+>  	if ((status & DP_AUX_CH_CTL_DONE) == 0) {
+>  		drm_err(&i915->drm, "%s: not done (status 0x%08x)\n",
+> -			intel_dp->aux.name, status);
+> +			intel_dp->aux.name ? intel_dp->aux.name : "", status);
+>  		ret = -EBUSY;
+>  		goto out;
+>  	}
+> @@ -374,7 +374,7 @@ intel_dp_aux_xfer(struct intel_dp *intel_dp,
+>  	 */
+>  	if (status & DP_AUX_CH_CTL_RECEIVE_ERROR) {
+>  		drm_err(&i915->drm, "%s: receive error (status 0x%08x)\n",
+> -			intel_dp->aux.name, status);
+> +			intel_dp->aux.name ? intel_dp->aux.name : "", status);
+>  		ret = -EIO;
+>  		goto out;
+>  	}
+> @@ -385,7 +385,7 @@ intel_dp_aux_xfer(struct intel_dp *intel_dp,
+>  	 */
+>  	if (status & DP_AUX_CH_CTL_TIME_OUT_ERROR) {
+>  		drm_dbg_kms(&i915->drm, "%s: timeout (status 0x%08x)\n",
+> -			    intel_dp->aux.name, status);
+> +			    intel_dp->aux.name ? intel_dp->aux.name : "", status);
+>  		ret = -ETIMEDOUT;
+>  		goto out;
+>  	}
+> @@ -401,7 +401,7 @@ intel_dp_aux_xfer(struct intel_dp *intel_dp,
+>  	if (recv_bytes == 0 || recv_bytes > 20) {
+>  		drm_dbg_kms(&i915->drm,
+>  			    "%s: Forbidden recv_bytes = %d on aux transaction\n",
+> -			    intel_dp->aux.name, recv_bytes);
+> +			    intel_dp->aux.name ? intel_dp->aux.name : "", recv_bytes);
+>  		ret = -EBUSY;
+>  		goto out;
+>  	}
+> -- 
+> 2.34.1
 
-drm-misc-fixes-2023-11-23:
-Fixes for v6.7-rc3:
-- Panel fixes for innolux and auo,b101uan08.3 panel.
-- Fix ivpu MMIO reset.
-- AST fix on connetor disconnection.
-- nouveau gsp fix.
-- rockchip color fix.
-- Fix Himax83102-j02 timings.
-The following changes since commit ae1aadb1eb8d3cbc52e42bee71d67bd4a71f9f07:
-
-   nouveau: don't fail driver load if no display hw present. (2023-11-15 
-18:23:31 +0100)
-
-are available in the Git repository at:
-
-   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-11-23
-
-for you to fetch changes up to ab93edb2f94c3c0d5965be3815782472adbe3f52:
-
-   nouveau/gsp: allocate enough space for all channel ids. (2023-11-21 
-22:28:01 +0100)
-
-----------------------------------------------------------------
-Fixes for v6.7-rc3:
-- Panel fixes for innolux and auo,b101uan08.3 panel.
-- Fix ivpu MMIO reset.
-- AST fix on connetor disconnection.
-- nouveau gsp fix.
-- rockchip color fix.
-- Fix Himax83102-j02 timings.
-
-----------------------------------------------------------------
-Cong Yang (1):
-       drm/panel: boe-tv101wum-nl6: Fine tune Himax83102-j02 panel HFP 
-and HBP
-
-Dave Airlie (1):
-       nouveau/gsp: allocate enough space for all channel ids.
-
-Jacek Lawrynowicz (1):
-       accel/ivpu/37xx: Fix hangs related to MMIO reset
-
-Jonas Karlman (1):
-       drm/rockchip: vop: Fix color for RGB888/BGR888 format on VOP full
-
-Marek Vasut (2):
-       drm/panel: simple: Fix Innolux G101ICE-L01 bus flags
-       drm/panel: simple: Fix Innolux G101ICE-L01 timings
-
-Thomas Zimmermann (1):
-       drm/ast: Disconnect BMC if physical connector is connected
-
-Xuxin Xiong (1):
-       drm/panel: auo,b101uan08.3: Fine tune the panel power sequence
-
-  drivers/accel/ivpu/ivpu_hw_37xx.c               | 46 +++++++++---------
-  drivers/gpu/drm/ast/ast_drv.h                   | 13 +++++-
-  drivers/gpu/drm/ast/ast_mode.c                  | 62 
-++++++++++++++++++++++---
-  drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c |  2 +-
-  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c  |  9 ++--
-  drivers/gpu/drm/panel/panel-simple.c            | 13 +++---
-  drivers/gpu/drm/rockchip/rockchip_drm_vop.c     | 14 ++++--
-  7 files changed, 113 insertions(+), 46 deletions(-)
+-- 
+Ville Syrjälä
+Intel
