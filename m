@@ -1,149 +1,116 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD21F7F58D4
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 08:07:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA947F58F8
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 08:16:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D935810E0CE;
-	Thu, 23 Nov 2023 07:07:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3CE810E0F3;
+	Thu, 23 Nov 2023 07:16:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B513210E07A;
- Thu, 23 Nov 2023 07:07:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700723226; x=1732259226;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=pTBF+AHw6dufTPopoWbnoPKSUvjupyzI+ijUaTrkM0s=;
- b=LxWK/EMTCj0jG80WJad88FbwQlpbcb9Zlos0+DJY8W9g55+S9/MGEjiO
- JclT1HceAYFRGfx8Uf3cDZejSfBVqtuO2tdayQQn7z4HPiDtMbetON4jw
- ArGOupwL+uWruP4yfRVoHT9NUjB9TG2oaVG5C8sC6yO1DwPSx4sjf/nIR
- eGrAv912cGitaFDTWIGc/iCrXyaMKQPChUzwbrIF/K9q07DFuLFXDqyiz
- F8fIUBHmRB2nCZ1ILjfo93hUYaOHcxzCdm0WbrbFkdArhkFM5uB8yenZH
- WXyvIzv/minjD5dhHxmIkgXfoEZSBJo/DMpG/Hdlyo8CkOHw4diqT9QFT w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="456547017"
-X-IronPort-AV: E=Sophos;i="6.04,220,1695711600"; d="scan'208";a="456547017"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2023 23:06:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="858036405"
-X-IronPort-AV: E=Sophos;i="6.04,220,1695711600"; d="scan'208";a="858036405"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by FMSMGA003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 22 Nov 2023 23:06:58 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Wed, 22 Nov 2023 23:06:57 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Wed, 22 Nov 2023 23:06:57 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Wed, 22 Nov 2023 23:06:57 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VyO1GW6eSU/oNwOODYv4wzSY6JcmHdF6uWMOwGhfObWeQfohs5XjNTeQNm12fwTzl/hts9X9OiwcQ/GHsAV9tetoikJxwA2cZJzbdVbtkzfutqtRO6Vj0UxD0Njfuwu0eAbWtNf1RofwBSVVS/ISmuABv93/vs6CPIYSZWUXuPVn3tvdqzGgj5ewakvTZqaMS0947L+bGbdw8em0xBXrQNqlXaz/ZzgPU/Ft7cNjkWa4jiEvG2s2wS34quosXU1R5IUJzfKaGy5mMmxVUZNwzh2M2l2IaNu+PlW2PZ4g4nqAFnVXpC7g8hhiIH05XtPYmovcSALXqnx3ZeI3ZJqqrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pTBF+AHw6dufTPopoWbnoPKSUvjupyzI+ijUaTrkM0s=;
- b=i2fEjQcgCuO+SL9uPFFwSzvKD0mGjX8k4y8tLIEXeDnIxO4Wed7zQfljRli1Yio+UG+O1nzIGovtnY9Kqitf23nQy28xPqooWOpLjAtyhFF4yI6L0OU5b6flAufOsvOscpgFBqTiM6+Gkl4PAxd3kiuBPso6R6GTh34P15QJfIcJjw3G2HUU1WxDxbLXC+BMY17eOCC0QFs1elElmdLIapdeg0ZHO67wUqCx7touMU246U6gqR0zf+F03TO1ojxU/R48qVLooD5WpL0vXOHlkDxne+pEv4qSPWzcxnkmqL8ljGhkyjrVJTPH8fVShirh5LqN/sNXGlzS2/E2N+S8zg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MW4PR11MB7054.namprd11.prod.outlook.com (2603:10b6:303:219::20)
- by DM4PR11MB6068.namprd11.prod.outlook.com (2603:10b6:8:64::6) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7025.18; Thu, 23 Nov 2023 07:06:50 +0000
-Received: from MW4PR11MB7054.namprd11.prod.outlook.com
- ([fe80::8b04:7396:7a40:f00d]) by MW4PR11MB7054.namprd11.prod.outlook.com
- ([fe80::8b04:7396:7a40:f00d%7]) with mapi id 15.20.7025.017; Thu, 23 Nov 2023
- 07:06:50 +0000
-From: "Kahola, Mika" <mika.kahola@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>, Jiapeng Chong
- <jiapeng.chong@linux.alibaba.com>
-Subject: RE: [PATCH] drm/i915/psr: Fix unsigned expression compared with zero
-Thread-Topic: [PATCH] drm/i915/psr: Fix unsigned expression compared with zero
-Thread-Index: AQHaHSFTCz84nhSLckCMX6bT1UDGq7CGDnaAgAFuG/A=
-Date: Thu, 23 Nov 2023 07:06:50 +0000
-Message-ID: <MW4PR11MB70543D88DB824C6C2821B2FBEFB9A@MW4PR11MB7054.namprd11.prod.outlook.com>
-References: <20231122085239.89046-1-jiapeng.chong@linux.alibaba.com>
- <87y1eqm9ny.fsf@intel.com>
-In-Reply-To: <87y1eqm9ny.fsf@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW4PR11MB7054:EE_|DM4PR11MB6068:EE_
-x-ms-office365-filtering-correlation-id: a02c9802-ba7f-48cd-9c2c-08dbebf2c404
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: x4GxHLcfQPlmD0BBGxdbmaoZd0irAirtkF9x4OU7A5Bb5UUKBfTQwh/+3hk/UNOQpdPuuOxOygOev7qag2gDpsqZgDuSUpWgKVPLj4kbsg/Vsid6/nezH70xoB3E1ELN/z2Skz3oxV2mgx22Tthkgokeu2AUpkBZ8findOKaVFcRStWKuT5ysyetG7n8/OlTUHVNj3oltfLCWPMeCHhxNTy9brYtJaNV0qDYEkMuWvBMD+ifKL8zs7RihJziRULlF5fsn9kE81jyxlgr4emfOrSOSGTMJ9SCgeTwtkBgyrjJBLIAUYe8bStPAp1fmStRJyG2Wzy65CcfoZ3deHqAU1yhgdUoQhokDUK7dXDk4xtFYqkIBKsnJFdexlwDk60o6CTQn4q7px8AaMDoqKCMMW2XDiboXIp12viXDxifpUe/vDZ09C9iXTccL7iKltDxwgDgciXzfUWyZ0AQL7kzcQBEVj+Q7m/OZF1zPFD0yvFtK5UjYcCDqD6xl/Lgw7hhWawglp+tJYXns4OgM24SK+e4ih1duh9lYMiW1NkorOpuOEygBFaYWgExMOY2xPwgFrUxRN7Ri0K44xtTJ63m+5vlmiFjnquPgUDm+f+DPnigQs+DN9fgEC4QnAx/Vo9gAggVUtYt5iVW8W1j6Mip+TlCJlen7P9UJrHHq8qmiqm0+v/4g+ZfFYKDrU8rRACU
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW4PR11MB7054.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(39860400002)(396003)(136003)(376002)(346002)(230922051799003)(230273577357003)(230173577357003)(451199024)(186009)(64100799003)(1800799012)(7416002)(86362001)(33656002)(5660300002)(2906002)(8936002)(4326008)(76116006)(8676002)(110136005)(66946007)(316002)(54906003)(66476007)(64756008)(66556008)(66446008)(52536014)(38070700009)(41300700001)(9686003)(82960400001)(26005)(83380400001)(55016003)(7696005)(53546011)(6506007)(71200400001)(38100700002)(122000001)(478600001)(966005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UTF6ZDdCajJpOEhXQjNkc1d1TGQ5VE44N2Y2bk96SmxTR0ZCM0xXMlZ6VkVB?=
- =?utf-8?B?cjBsUjBCWWJ1ME5tRVhXUTVuQXN0TEdRK1FhNHM3SHp6TzA5WkJqcFFtMzRC?=
- =?utf-8?B?M211TzFkak5DQUxpdnFKcEYvWTk2L3VYZWJac0hPdUo4VDdLZlR1SnlIUlIr?=
- =?utf-8?B?WUJWVVVHZ1ZtbG5RTkpMWnRjbzhMSHVyNjhIdVJMbnBOTTZac0xhQXJtbHF4?=
- =?utf-8?B?ZkhYMElITTU2SHBtMk1mOEhPb3BHeUtpVDZTaS81VnFtVURmQkIyeWpLOHdW?=
- =?utf-8?B?NE9TVkRpWWdPS3liSklGSWI5ajNhZDZBbnVaOTJ4WU90a1JGMXlReG95cnU4?=
- =?utf-8?B?TTZQeVZINE9OS1gyUWZNckZrZk9JUzhzVWw1REh6dUNlTk8rQzExeWZCWnk2?=
- =?utf-8?B?OEhra2lTZWFmK0k3VXhkTVcwWjFGbk9HRWUxR3VGSVl1MWc1MU4wV0s4OUx0?=
- =?utf-8?B?bDdFRjVJcXlsaklnS3RGMmdoYS9OTGNpN3FEYTB3OFBlL2Vlc3ZVQU8zYzVS?=
- =?utf-8?B?aFl1NVBMTm5HRjJNbW5WaXowSzd4bWg0djVoYXNkUEZyeHY1RFZOVjc0VFNj?=
- =?utf-8?B?cXNQN0VzVTkzSzN2VTRlbmtLallzZ2ZEcVNoVEVLelhjSkoxQk5wc2h3ZmZJ?=
- =?utf-8?B?SHpEcmt4dHQwMGxrUHZtNDdHK2JVMVBMZTBXM1BwZmw2dUJUaFhLN25wY2Rl?=
- =?utf-8?B?OFR3bm13b2ZBWmNtRXZoblVEc2FGNnZ0Rmp0R0grV2hPNFkxL0ZCcFRzYllp?=
- =?utf-8?B?bmlNcXlIVjBJOWV6bVpCTFRMQUk5SEZNekVmcnlsd2k3OTBpVmpIN1ZoaU1L?=
- =?utf-8?B?MEpjWVIyaDdGNFgyTGZqaXZnOThoZXRScnkvRXBQRTNpbmJYTi9uSkVxRm5D?=
- =?utf-8?B?bVpyczMyTDhBRWdDOUFVcEJ5WUJJS2l2ZEFlMmxUSWJFTzJIR0p2MmpLQWJD?=
- =?utf-8?B?a1JRa1JMMGZvSk5GOE11blc2Nm0wZjJjNUljcEpJK3BveVBwZ3dPb01qVk54?=
- =?utf-8?B?TU01NG1WbmZCRk9FbFNjVGpEQVpqOHpscjhud0dBNGZFTnN5dGR5bzZKQUNB?=
- =?utf-8?B?bHZ6Wk42M2xkVUpReW5WQmI0WkhiSDBKWU4wSjlHbTdOKzgrd1hTM2JoRHlE?=
- =?utf-8?B?ZUJrNHpkVmtXV1RsQjNtaUdrODdFdXl2cDRoRC9FYUJaSlhYZisrbkZRR3hl?=
- =?utf-8?B?YzlZblhmbmdBcHg1cEw5WjZrck9hQktER053WS9pZkFGa3U1TEdsbWRDR3Ey?=
- =?utf-8?B?dytXb2hGTi8yT3h5bzNWR1ZZeEYrRU1HZjFQemxQV3R1MU9OM1lCOG9IQloy?=
- =?utf-8?B?bFVwZDY0L1U4TXVzNlN3UXFsSFZKQUlQaGtsblJidnRhaW1acjBIY0paNEQ5?=
- =?utf-8?B?bmFkWjkyNUxEYTF6bWIxMUNwclFOYTNCVVVhU2pwcXBGZVpKazRkRW1nU1F4?=
- =?utf-8?B?dFd5VGRaM3dUeXV1aFJpUXhEVkRRVnpYRE1yVkhXZ0ZmRnF5NHFkYzRKd2Nn?=
- =?utf-8?B?elVHbTdkSG1XSHhLQS9jTzd2MUJNMCtPRUgrTnMyUU51aVVZSklBazBGK09i?=
- =?utf-8?B?N283Z2pabUg1dEZhNjZWTURNWmhaVDg0aGUwam9JRVlYWWFZQ3oxUUVmclJk?=
- =?utf-8?B?V2lHaC8rRHdsNExMVXRkbnRORVRocGtSUnFENFIrZXptSHV1azd5QndTNnJX?=
- =?utf-8?B?OG5NYWFtcUZYK2NZaDN6OHNPbXFmVDc0MlVLT3JqcjRvRjVsNnd3YldJSmk3?=
- =?utf-8?B?ZUlyK0NvelBpaGJWV1BiVFlEQmtvWWNNWm1lbnZ3NXRLOTkvaVZzYjFVcWJS?=
- =?utf-8?B?c3RHWVUrVmhBRFAzR0FxZmpUQWdFNkxKNHJKMXRSaWR5MGtnQ09LVU5KNWtL?=
- =?utf-8?B?NXRQTTE4MzJVcFgvVDl6TldvWmVuMGlvY3VLQW5yM1FPWnpBcm1ER1NUR0V3?=
- =?utf-8?B?Y1FuOUs5eFpNV3ZLbTVYeVJKbGVXcXVsWjlXRlVRK2s2Zi9UTDdqRUtkNnp6?=
- =?utf-8?B?eGhLMmlFUlhJMjFVcDJwYnhoMHJmYkR6Mk5Ua3NvWDlWV2R6S3dHZ0VIY1R2?=
- =?utf-8?B?NnBiSXg4RWo3OS9FSkpTMno3ck5uRmoxN1pGdUVMVlBPSEwraUZPS3FnUC80?=
- =?utf-8?Q?WNiV4Dm2rgnAYpncYYgdwwu/M?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 516BD10E0D8;
+ Thu, 23 Nov 2023 07:16:13 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id
+ 4fb4d7f45d1cf-5409bc907edso770247a12.0; 
+ Wed, 22 Nov 2023 23:16:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1700723772; x=1701328572; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=s1M3SJtzz5C3bUSDZkAmRVh+gZoP04r7fK3PelZP1IM=;
+ b=UsctvFQ+bOIVDS4otmPUTaa3YUyt8uG1AeR+UNlaX59eMDnl7IInHQZUipDV666924
+ /h8KjX7WiQwSTHjt6amVmzTXeTEvKyC44VLdj45O0T/iDtJzywR+WMUrLW6NdAiSJcbK
+ xUlKMr1fcSlvbAct024TIVyMr2EttNIuz+fRiszJgfyKGQPCh80DKNiR8HvoExHYXB+b
+ 3dY8Lm+11TkcMV8Ht9t/QiECHA7eMjTKfvaZZd1w83glJKfGOY6qwpWN2IBovivMIFL4
+ WtkDOfckQgBN7dDD4q2A+V8Y3eOQ0i2wI3drAvuoZIUq8A0O/safFs5ptD6w4e4B1kuE
+ oyQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700723772; x=1701328572;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=s1M3SJtzz5C3bUSDZkAmRVh+gZoP04r7fK3PelZP1IM=;
+ b=OfHu86BDS3GjoeSU+Q/f2Y6iJTFLYBSwGUOD72eisGn8/njuEhM2+QzZQtlYO53oJh
+ Htfqx0BdsSoiOEFHURBzxGtCqjFqBi6CAT5PKyQizgZH3dKmKddEhXVW1SesNnwLW5yW
+ de4DDNnzn5lOLtLR+53rVNfLNJrHoyREQO+O4v7rCUbOQvjHN/w7m4psHsiHZzeYIjLA
+ 6iY2EDOjxiIHB6Bijx5HeoNYjqzuO6uiLwTNDFPUyTwsQEfWeH9W/xtR/fpSOnHrLFTi
+ 0bKWt7fnLFbUwrut0PCdxI4h973sPVeD/ZFvK2peVtAhLcnUz8qOhXo4eX0nHDwR56KE
+ jHGw==
+X-Gm-Message-State: AOJu0YyTdt/pc3R86e5O4YI/evWyJ8yCxVxNf+S5djTdT63k8uR9e4j2
+ LcHK8AcTFIRQqth7LOXJMqY=
+X-Google-Smtp-Source: AGHT+IG2lzFXoBD5/YVWF8Wdre51d/r4yqSFQ+l4y0uTZy+JK3Ss3+SAA6KwfCsX+vsojVfzrw7Cfg==
+X-Received: by 2002:a05:6402:31fc:b0:548:6870:7b73 with SMTP id
+ dy28-20020a05640231fc00b0054868707b73mr1846198edb.41.1700723771352; 
+ Wed, 22 Nov 2023 23:16:11 -0800 (PST)
+Received: from ?IPV6:2a01:c23:c0f2:3200:59ae:788f:5985:cbec?
+ (dynamic-2a01-0c23-c0f2-3200-59ae-788f-5985-cbec.c23.pool.telefonica.de.
+ [2a01:c23:c0f2:3200:59ae:788f:5985:cbec])
+ by smtp.googlemail.com with ESMTPSA id
+ y26-20020aa7ccda000000b0053635409213sm328230edt.34.2023.11.22.23.16.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Nov 2023 23:16:10 -0800 (PST)
+Message-ID: <aeb96878-7ce0-48a9-b8f2-fdc9a3c0fc83@gmail.com>
+Date: Thu, 23 Nov 2023 08:16:11 +0100
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB7054.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a02c9802-ba7f-48cd-9c2c-08dbebf2c404
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Nov 2023 07:06:50.6263 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4gELYErSEEIoSrfuw4WTnnOwVm964SOQq4yoYrTW10/OJV2ryGXx2Sxw82gyXXZnK3owr5s/+0varTT7LaMnPA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6068
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/20] remove I2C_CLASS_DDC support
+To: Thomas Zimmermann <tzimmermann@suse.de>, Wolfram Sang <wsa@kernel.org>,
+ intel-gfx@lists.freedesktop.org
+References: <20231120214624.9378-1-hkallweit1@gmail.com>
+ <4e0cc556-a7eb-48ce-8226-0f5281f3ef0a@suse.de>
+Content-Language: en-US
+From: Heiner Kallweit <hkallweit1@gmail.com>
+Autocrypt: addr=hkallweit1@gmail.com; keydata=
+ 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
+In-Reply-To: <4e0cc556-a7eb-48ce-8226-0f5281f3ef0a@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,54 +123,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
- Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- Abaci Robot <abaci@linux.alibaba.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>
+Cc: Yongqin Liu <yongqin.liu@linaro.org>, freedreno@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ John Stultz <jstultz@google.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-rockchip@lists.infradead.org,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ linux-mediatek@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-i2c@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBKYW5pIE5pa3VsYSA8amFuaS5u
-aWt1bGFAbGludXguaW50ZWwuY29tPg0KPiBTZW50OiBXZWRuZXNkYXksIE5vdmVtYmVyIDIyLCAy
-MDIzIDExOjE1IEFNDQo+IFRvOiBKaWFwZW5nIENob25nIDxqaWFwZW5nLmNob25nQGxpbnV4LmFs
-aWJhYmEuY29tPg0KPiBDYzogam9vbmFzLmxhaHRpbmVuQGxpbnV4LmludGVsLmNvbTsgVml2aSwg
-Um9kcmlnbyA8cm9kcmlnby52aXZpQGludGVsLmNvbT47IHR2cnRrby51cnN1bGluQGxpbnV4Lmlu
-dGVsLmNvbTsgYWlybGllZEBnbWFpbC5jb207DQo+IGRhbmllbEBmZndsbC5jaDsgaW50ZWwtZ2Z4
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsg
-bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgSmlhcGVuZyBDaG9uZw0KPiA8amlhcGVuZy5j
-aG9uZ0BsaW51eC5hbGliYWJhLmNvbT47IEFiYWNpIFJvYm90IDxhYmFjaUBsaW51eC5hbGliYWJh
-LmNvbT47IEthaG9sYSwgTWlrYSA8bWlrYS5rYWhvbGFAaW50ZWwuY29tPg0KPiBTdWJqZWN0OiBS
-ZTogW1BBVENIXSBkcm0vaTkxNS9wc3I6IEZpeCB1bnNpZ25lZCBleHByZXNzaW9uIGNvbXBhcmVk
-IHdpdGggemVybw0KPiANCj4gT24gV2VkLCAyMiBOb3YgMjAyMywgSmlhcGVuZyBDaG9uZyA8amlh
-cGVuZy5jaG9uZ0BsaW51eC5hbGliYWJhLmNvbT4gd3JvdGU6DQo+ID4gVGhlIGVudHJ5X3NldHVw
-X2ZyYW1lcyBpcyBkZWZpbmVkIGFzIHU4IHR5cGUsIGVsc2UoZW50cnlfc2V0dXBfZnJhbWVzDQo+
-ID4gPCAwKSBpcyBpbnZhbGlkLiBBdCB0aGUgc2FtZSB0aW1lLCB0aGUgcmV0dXJuIHZhbHVlIG9m
-IGZ1bmN0aW9uDQo+ID4gaW50ZWxfcHNyX2VudHJ5X3NldHVwX2ZyYW1lcyBpcyBhbHNvIG9mIHR5
-cGUgaW50LiBzbyBtb2RpZmllZCBpdHMgdHlwZQ0KPiA+IHRvIGludC4NCj4gPg0KPiA+IC4vZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9wc3IuYzoxMzM2OjUtMjM6IFdBUk5JTkc6
-IFVuc2lnbmVkIGV4cHJlc3Npb24gY29tcGFyZWQgd2l0aCB6ZXJvOg0KPiBlbnRyeV9zZXR1cF9m
-cmFtZXMgPj0gMC4NCj4gPg0KPiA+IFJlcG9ydGVkLWJ5OiBBYmFjaSBSb2JvdCA8YWJhY2lAbGlu
-dXguYWxpYmFiYS5jb20+DQo+ID4gQ2xvc2VzOiBodHRwczovL2J1Z3ppbGxhLm9wZW5hbm9saXMu
-Y24vc2hvd19idWcuY2dpP2lkPTc2MTANCj4gPiBTaWduZWQtb2ZmLWJ5OiBKaWFwZW5nIENob25n
-IDxqaWFwZW5nLmNob25nQGxpbnV4LmFsaWJhYmEuY29tPg0KPiANCj4gVGhlcmUncyBhbHJlYWR5
-IGEgcGF0Y2guIE1pa2EsIHBsZWFzZSBmb2xsb3cgdXAgd2l0aCBpdC4NCj4gDQo+IGh0dHBzOi8v
-cGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC9tc2dpZC8yMDIzMTExNjA5MDUxMi40ODAz
-NzMtMS1taWthLmthaG9sYUBpbnRlbC5jb20NCg0KVGhlIHBhdGNoIGlzIG5vdyBtZXJnZWQuIFRo
-YW5rcyBmb3IgdGhlIHJldmlldy4NCg0KLU1pa2EtDQo+IA0KPiA+IC0tLQ0KPiA+ICBkcml2ZXJz
-L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3Bzci5jIHwgMiArLQ0KPiA+ICAxIGZpbGUgY2hh
-bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3Bzci5jDQo+ID4gYi9kcml2ZXJz
-L2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX3Bzci5jDQo+ID4gaW5kZXggOGQxODAxMzJhNzRi
-Li4yMDRkYTUwZTNmMjggMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
-cGxheS9pbnRlbF9wc3IuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
-aW50ZWxfcHNyLmMNCj4gPiBAQCAtMTMxOSw3ICsxMzE5LDcgQEAgc3RhdGljIGJvb2wgX3Bzcl9j
-b21wdXRlX2NvbmZpZyhzdHJ1Y3QgaW50ZWxfZHANCj4gPiAqaW50ZWxfZHAsICB7DQo+ID4gIAlz
-dHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYgPSBkcF90b19pOTE1KGludGVsX2RwKTsN
-Cj4gPiAgCWNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICphZGp1c3RlZF9tb2RlID0gJmNy
-dGNfc3RhdGUtPmh3LmFkanVzdGVkX21vZGU7DQo+ID4gLQl1OCBlbnRyeV9zZXR1cF9mcmFtZXM7
-DQo+ID4gKwlpbnQgZW50cnlfc2V0dXBfZnJhbWVzOw0KPiA+DQo+ID4gIAkvKg0KPiA+ICAJICog
-Q3VycmVudCBQU1IgcGFuZWxzIGRvbid0IHdvcmsgcmVsaWFibHkgd2l0aCBWUlIgZW5hYmxlZA0K
-PiANCj4gLS0NCj4gSmFuaSBOaWt1bGEsIEludGVsDQo=
+On 23.11.2023 07:56, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 20.11.23 um 22:46 schrieb Heiner Kallweit:
+>> After removal of the legacy EEPROM driver and I2C_CLASS_DDC support in
+>> olpc_dcon there's no i2c client driver left supporting I2C_CLASS_DDC.
+>> Class-based device auto-detection is a legacy mechanism and shouldn't
+>> be used in new code. So we can remove this class completely now.
+>>
+>> Preferably this series should be applied via the i2c tree.
+>>
+>> v2:
+>> - change tag in commit subject of patch 03
+>> - add ack tags
+>> v3:
+>> - fix a compile error in patch 5
+>> v4:
+>> - more ack and review tags
+>>
+>> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+> 
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+> for the patches that don't already have my r-b.
+> 
+This refers to which patches of the series?
+Patches 8, 16, 18 are the remaining ones w/o A-b or R-b.
+
+> Best regards
+> Thomas
+> 
+Thanks, Heiner
+
+>>
+>> ---
+>>
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c           |    1 -
+>>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |    1 -
+>>   drivers/gpu/drm/ast/ast_i2c.c                     |    1 -
+>>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c         |    1 -
+>>   drivers/gpu/drm/display/drm_dp_helper.c           |    1 -
+>>   drivers/gpu/drm/display/drm_dp_mst_topology.c     |    1 -
+>>   drivers/gpu/drm/gma500/cdv_intel_dp.c             |    1 -
+>>   drivers/gpu/drm/gma500/intel_gmbus.c              |    1 -
+>>   drivers/gpu/drm/gma500/oaktrail_hdmi_i2c.c        |    1 -
+>>   drivers/gpu/drm/gma500/psb_intel_sdvo.c           |    1 -
+>>   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c   |    1 -
+>>   drivers/gpu/drm/i915/display/intel_gmbus.c        |    1 -
+>>   drivers/gpu/drm/i915/display/intel_sdvo.c         |    1 -
+>>   drivers/gpu/drm/loongson/lsdc_i2c.c               |    1 -
+>>   drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c           |    1 -
+>>   drivers/gpu/drm/mgag200/mgag200_i2c.c             |    1 -
+>>   drivers/gpu/drm/msm/hdmi/hdmi_i2c.c               |    1 -
+>>   drivers/gpu/drm/radeon/radeon_i2c.c               |    1 -
+>>   drivers/gpu/drm/rockchip/inno_hdmi.c              |    1 -
+>>   drivers/gpu/drm/rockchip/rk3066_hdmi.c            |    1 -
+>>   drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c            |    1 -
+>>   drivers/video/fbdev/core/fb_ddc.c                 |    1 -
+>>   drivers/video/fbdev/cyber2000fb.c                 |    1 -
+>>   drivers/video/fbdev/i740fb.c                      |    1 -
+>>   drivers/video/fbdev/intelfb/intelfb_i2c.c         |   15 +++++----------
+>>   drivers/video/fbdev/matrox/i2c-matroxfb.c         |   12 ++++--------
+>>   drivers/video/fbdev/s3fb.c                        |    1 -
+>>   drivers/video/fbdev/tdfxfb.c                      |    1 -
+>>   drivers/video/fbdev/tridentfb.c                   |    1 -
+>>   drivers/video/fbdev/via/via_i2c.c                 |    1 -
+>>   include/linux/i2c.h                               |    1 -
+>>   31 files changed, 9 insertions(+), 47 deletions(-)
+> 
+
