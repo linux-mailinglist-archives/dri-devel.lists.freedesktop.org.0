@@ -2,49 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 485197F65C5
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 18:52:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 335487F65CD
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 18:55:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AC7E10E305;
-	Thu, 23 Nov 2023 17:52:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E4F310E127;
+	Thu, 23 Nov 2023 17:55:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com
- [95.215.58.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F7C310E320
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 17:52:36 +0000 (UTC)
-Message-ID: <10c4ae94-525f-4ac1-9d59-80bb4f7d362e@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1700761953;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xOb7IjDCHemslGdU76yEhf/PgAy4hmseLlpzuv6m1Uk=;
- b=rvDAMlYFJTRFccWgNKvskgLlDUt2EAgJ4/69cFY/PQwIb4RbG+p4JSMlgU56VNnRzt7Ej/
- XGTJwyXbrBl07dUi7GAgFTfAovsKn7cIWeKdVhlgQVsEFKFnEjGl2fuWQSpgeGHofR1A+m
- PZ13xFlJRMw+z7THsKTVSDQc9Bh/pyY=
-Date: Fri, 24 Nov 2023 01:52:26 +0800
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DA8C10E002
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 17:55:21 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r6Duf-0004l4-I5; Thu, 23 Nov 2023 18:54:53 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r6Duc-00B5eH-W8; Thu, 23 Nov 2023 18:54:51 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r6Duc-006rAv-Md; Thu, 23 Nov 2023 18:54:50 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Bjorn Andersson <andersson@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>
+Subject: [PATCH 0/3] drm/bridge: ti-sn65dsi86: Some updates
+Date: Thu, 23 Nov 2023 18:54:26 +0100
+Message-ID: <20231123175425.496956-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
 MIME-Version: 1.0
-Subject: Re: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
- <20231114150130.497915-9-sui.jingfeng@linux.dev>
- <CAA8EJprQq3aDhzE+yKGZ2-nsuHWcptzMvApsyOi9D63PgeiZ3w@mail.gmail.com>
- <79301d04-c0cb-4740-8a6d-27a889b65daf@linux.dev>
- <CAA8EJpom5kAbDkacOdqp6BR7YPfmCSXaQfDYRVcLf9eGmi64CQ@mail.gmail.com>
- <121163c9-0d56-47ad-a12e-e67390fef2b4@linux.dev>
- <CAA8EJpowjhX=LL-9cnQL4pfCei63zNkCGW5wGOeeFxcnFpNCVA@mail.gmail.com>
- <00ba2245-0e48-4b21-bcd4-29dfb728e408@linux.dev>
- <CAA8EJpoiehS2wS3ri_DggzxeEfLY4yK7X6c+bCFKvkwSce6r+A@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <CAA8EJpoiehS2wS3ri_DggzxeEfLY4yK7X6c+bCFKvkwSce6r+A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=789;
+ i=u.kleine-koenig@pengutronix.de; h=from:subject;
+ bh=UdqEyKWEhB8vKQSCQi5bxn4ek8oRwGkHlU56smh7UHQ=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlX5HRsQYySQSCSAHNfK2CmA13+F2cJ+FulOqBe
+ R4zLWzONp+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZV+R0QAKCRCPgPtYfRL+
+ TpsvB/42O7eajRHJVMezMW+o+JvV9MTWg5kAauLp/oRTgOMm8QK5N1ZL3xXH5/7Gmh30nusAQ8f
+ tLpRV2sGJIir7g3lFTQrtCQEc2Ru3a0gSpUfBUa09QdARGtEbwqJjUQwLB3EYO2k4N8pm5z33bf
+ B3KNZykAnC1/HabMGdXbf9QOmLfUfsLsQMSKJ6civ+m3vHwBq3KEJrKsvGRqSPESzChs2WNEb0f
+ VP7S+d5IEnG7Ye2D+5yzw5YK/hzioGXct013UUEp2SDuBahbjar7f1qbrMl1zfnn+xxthQSweZC
+ aB9exZl636sh8IO3c/lTNaSdRh4gHoz5vKLNFkoH6MDvSVKB
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,40 +65,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phong LE <ple@baylibre.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hello,
 
+this is a series I created while starring at the ti-sn65dsi86 driver in
+the context of my pwm-lifetime series.
 
-On 2023/11/23 16:08, Dmitry Baryshkov wrote:
->> I'm agree with the idea that drm bridges drivers involved toward to a direction
->> that support more complex design, but I think we should also leave a way for the
->> most frequent use case. Make it straight-forward as a canonical design.
-> Not having anything connector-related in the drm_bridge driver is a
-> canonical design.
+The first patch should be fine. The last one has a few rough edges, but
+maybe you like the direction this is going to? The 2nd patch probably
+only makes sense if you also take the third.
 
-What you said is just for the more complex uses case. I can't agree, sorry.
+Best regards
+Uwe
 
-By choosing the word "canonical design", I means that the most frequently used
-cases in practice are the canonical design, 95+% motherboards I have seen has
-only one *onboard* display bridges chip. For my driver, I abstract the internal
-(inside of the chip) encoder as drm_encoder and abstract the external TX chip as
-drm_bridge, this design still works very well.
+Uwe Kleine-König (3):
+  drm/bridge: ti-sn65dsi86: Simplify using pm_runtime_resume_and_get()
+  drm/bridge: ti-sn65dsi86: Change parameters of
+    ti_sn65dsi86_{read,write}_u16
+  drm/bridge: ti-sn65dsi86: Loosen coupling of PWM to ti-sn65dsi86 core
 
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 146 +++++++++++++++-----------
+ 1 file changed, 83 insertions(+), 63 deletions(-)
 
-Originally, I means that this is a concept of the hardware design.
-You are wrong even through in the software design context, the
-transparent simple drm bridge drivers(simple-bridge.c) also *allow*
-to create drm connector manually. I don't think I need to emulate
-more example, please read the code by youself.
-
-Canonical or not canonical is not a question to argue, if other programmers
-are allowed to do such kind of abstraction, I should also allowed too. Thanks.
-
+base-commit: 4e87148f80d198ba5febcbcc969c6b9471099a09
+-- 
+2.42.0
 
