@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D20D7F58DA
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 08:08:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2252A7F58DC
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 08:08:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5A7F10E6D4;
-	Thu, 23 Nov 2023 07:08:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE40C10E6D6;
+	Thu, 23 Nov 2023 07:08:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8481610E6CE
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 07:08:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DAEE10E6D3
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 07:08:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700723308; x=1732259308;
+ t=1700723309; x=1732259309;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Dk8F7Q/oBhEAmsAwkSHXM8PeNKfeERmLQrUShteflOg=;
- b=IWz4Gk8jpI+xIL5f05SkMrexOUWhKJI+me0nDBNtxvQnU87YXI0NbUZA
- a6voikDokwCid8B+mFGBdlYswHE7kGyFR3p5eHqVxWAbEeBFihFnDfKhk
- jVqnB0nG+pZlXrLeTDdZkLp+K0XhqzPH4TyJkdNCEpmHYezpzbQdiIcpl
- RFZylAwfUdjONuoWaE4KFDVayz/FR8XIA0yBOe62sFEosyssGjITEVJ2v
- gRklw1laIWcQ9GGopV9/0h9bSpC+DM7bN5FHhZuIOMY7rBAUuINVbn5EX
- tw9U0KZdBfKkbVOGgPCFZvs8HESyRUrGs54m5l15q/G5DPnHoskeFSXM6 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="382612342"
-X-IronPort-AV: E=Sophos;i="6.04,220,1695711600"; d="scan'208";a="382612342"
+ bh=JveC5J73AXuIFwcZCQaP9Gn0jICa/20AkT8Zw92eLmk=;
+ b=iMP4b4CJpA02vl90yrAQbo7TONq2fZKBFC5TewDFfkm1LKTC8hkKl6Us
+ jCNGEMJRsv8S75VIfQxoTVP0kBo0VLzFhrlQXoPgU2THYv5f/sPViJF7K
+ QoUkHcO1nquF1Nf4iU/4wzrYVmovBtYmjpX69y1F6VyDtxVXZDsRFSydK
+ lplQcrTul8zNeMWatUDj+P1PXKJub4WHbQITPld2JIMBOWZhg9SPf+nfI
+ KTEkMMmXV8cogRtyRsC5VuAzsuTgDvvrkLgoBnVZlsRdQABcFKPrUeptR
+ QNOXFAcvn9jLTJa39P6PrYuECKuW/ZJ/kA+VolCXvA5fLYzWjCLH95u3W w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="382612351"
+X-IronPort-AV: E=Sophos;i="6.04,220,1695711600"; d="scan'208";a="382612351"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2023 23:08:24 -0800
+ 22 Nov 2023 23:08:25 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,220,1695711600"; 
-   d="scan'208";a="8757720"
+   d="scan'208";a="8757723"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Nov 2023 23:08:23 -0800
+ 22 Nov 2023 23:08:24 -0800
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	linux-mm@kvack.org
-Subject: [PATCH v5 3/5] mm/gup: Introduce pin_user_pages_fd() for pinning
- shmem/hugetlbfs file pages (v5)
-Date: Wed, 22 Nov 2023 22:44:41 -0800
-Message-Id: <20231123064443.1035709-4-vivek.kasireddy@intel.com>
+Subject: [PATCH v5 4/5] udmabuf: Pin the pages using pin_user_pages_fd() API
+ (v3)
+Date: Wed, 22 Nov 2023 22:44:42 -0800
+Message-Id: <20231123064443.1035709-5-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231123064443.1035709-1-vivek.kasireddy@intel.com>
 References: <20231123064443.1035709-1-vivek.kasireddy@intel.com>
@@ -68,198 +68,158 @@ Cc: Dongwon Kim <dongwon.kim@intel.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For drivers that would like to longterm-pin the pages associated
-with a file, the pin_user_pages_fd() API provides an option to
-not only pin the pages via FOLL_PIN but also to check and migrate
-them if they reside in movable zone or CMA block. This API
-currently works with files that belong to either shmem or hugetlbfs.
-Files belonging to other filesystems are rejected for now.
+Using pin_user_pages_fd() will ensure that the pages are pinned
+correctly using FOLL_PIN. And, this also ensures that we don't
+accidentally break features such as memory hotunplug as it would
+not allow pinning pages in the movable zone.
 
-The pages need to be located first before pinning them via FOLL_PIN.
-If they are found in the page cache, they can be immediately pinned.
-Otherwise, they need to be allocated using the filesystem specific
-APIs and then pinned.
+Using this new API also simplifies the code as we no longer have
+to deal with extracting individual pages from their mappings. As
+a result, we can drop some of the local variables such as page,
+hpage, mapping, etc.
 
 v2:
-- Drop gup_flags and improve comments and commit message (David)
-- Allocate a page if we cannot find in page cache for the hugetlbfs
-  case as well (David)
-- Don't unpin pages if there is a migration related failure (David)
-- Drop the unnecessary nr_pages <= 0 check (Jason)
-- Have the caller of the API pass in file * instead of fd (Jason)
+- Adjust to the change in signature of pin_user_pages_fd() by
+  passing in file * instead of fd.
 
-v3: (David)
-- Enclose the huge page allocation code with #ifdef CONFIG_HUGETLB_PAGE
-  (Build error reported by kernel test robot <lkp@intel.com>)
-- Don't forget memalloc_pin_restore() on non-migration related errors
-- Improve the readability of the cleanup code associated with
-  non-migration related errors
-- Augment the comments by describing FOLL_LONGTERM like behavior
-- Include the R-b tag from Jason
-
-v4:
-- Remove the local variable "page" and instead use 3 return statements
-  in alloc_file_page() (David)
-- Add the R-b tag from David
-
-v5: (David)
-- For hugetlb case, ensure that we only obtain head pages from the
-  mapping by using __filemap_get_folio() instead of find_get_page_flags()
-- Handle -EEXIST when two or more potential users try to simultaneously
-  add a huge page to the mapping by forcing them to retry on failure
+v3:
+- Limit the changes in this patch only to those that are required
+  for using pin_user_pages_fd()
+- Slightly improve the commit message
 
 Cc: David Hildenbrand <david@redhat.com>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: Mike Kravetz <mike.kravetz@oracle.com>
 Cc: Hugh Dickins <hughd@google.com>
 Cc: Peter Xu <peterx@redhat.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Dongwon Kim <dongwon.kim@intel.com>
 Cc: Junxiao Chang <junxiao.chang@intel.com>
-Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com> (v2)
-Reviewed-by: David Hildenbrand <david@redhat.com> (v3)
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- include/linux/mm.h |   2 +
- mm/gup.c           | 114 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 116 insertions(+)
+ drivers/dma-buf/udmabuf.c | 61 ++++++++++++++-------------------------
+ 1 file changed, 22 insertions(+), 39 deletions(-)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 418d26608ece..1b675fa35059 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2472,6 +2472,8 @@ long get_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
- 		    struct page **pages, unsigned int gup_flags);
- long pin_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
- 		    struct page **pages, unsigned int gup_flags);
-+long pin_user_pages_fd(struct file *file, pgoff_t start,
-+		       unsigned long nr_pages, struct page **pages);
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index d77d119f4048..883bd97e4076 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -156,7 +156,8 @@ static void release_udmabuf(struct dma_buf *buf)
+ 		put_sg_table(dev, ubuf->sg, DMA_BIDIRECTIONAL);
  
- int get_user_pages_fast(unsigned long start, int nr_pages,
- 			unsigned int gup_flags, struct page **pages);
-diff --git a/mm/gup.c b/mm/gup.c
-index 231711efa390..ab1056b3e75b 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -3410,3 +3410,117 @@ long pin_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
- 				     &locked, gup_flags);
- }
- EXPORT_SYMBOL(pin_user_pages_unlocked);
+ 	for (pg = 0; pg < ubuf->pagecount; pg++)
+-		put_page(ubuf->pages[pg]);
++		unpin_user_page(ubuf->pages[pg]);
 +
-+static struct page *alloc_file_page(struct file *file, pgoff_t idx)
-+{
-+#ifdef CONFIG_HUGETLB_PAGE
-+	struct folio *folio;
-+	int err;
+ 	kfree(ubuf->subpgoff);
+ 	kfree(ubuf->pages);
+ 	kfree(ubuf);
+@@ -217,15 +218,13 @@ static long udmabuf_create(struct miscdevice *device,
+ {
+ 	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+ 	struct file *memfd = NULL;
+-	struct address_space *mapping = NULL;
+ 	struct udmabuf *ubuf;
+ 	struct dma_buf *buf;
+-	pgoff_t pgoff, pgcnt, pgidx, pgbuf = 0, pglimit;
+-	struct page *page, *hpage = NULL;
+-	struct folio *folio;
++	pgoff_t pgcnt, pgbuf = 0, pglimit, nr_pages;
+ 	pgoff_t mapidx, chunkoff, maxchunks;
+ 	struct hstate *hpstate;
+-	int seals, ret = -EINVAL;
++	long ret = -EINVAL;
++	int seals;
+ 	u32 i, flags;
+ 
+ 	ubuf = kzalloc(sizeof(*ubuf), GFP_KERNEL);
+@@ -259,8 +258,7 @@ static long udmabuf_create(struct miscdevice *device,
+ 		memfd = fget(list[i].memfd);
+ 		if (!memfd)
+ 			goto err;
+-		mapping = memfd->f_mapping;
+-		if (!shmem_mapping(mapping) && !is_file_hugepages(memfd))
++		if (!shmem_file(memfd) && !is_file_hugepages(memfd))
+ 			goto err;
+ 		seals = memfd_fcntl(memfd, F_GET_SEALS, 0);
+ 		if (seals == -EINVAL)
+@@ -269,7 +267,7 @@ static long udmabuf_create(struct miscdevice *device,
+ 		if ((seals & SEALS_WANTED) != SEALS_WANTED ||
+ 		    (seals & SEALS_DENIED) != 0)
+ 			goto err;
+-		pgoff = list[i].offset >> PAGE_SHIFT;
++		mapidx = list[i].offset >> PAGE_SHIFT;
+ 		pgcnt = list[i].size   >> PAGE_SHIFT;
+ 		if (is_file_hugepages(memfd)) {
+ 			if (!ubuf->subpgoff) {
+@@ -287,42 +285,26 @@ static long udmabuf_create(struct miscdevice *device,
+ 				    ~huge_page_mask(hpstate)) >> PAGE_SHIFT;
+ 			maxchunks = huge_page_size(hpstate) >> PAGE_SHIFT;
+ 		}
+-		for (pgidx = 0; pgidx < pgcnt; pgidx++) {
 +
-+	if (is_file_hugepages(file)) {
-+		folio = alloc_hugetlb_folio_nodemask(hstate_file(file),
-+						     NUMA_NO_NODE,
-+						     NULL,
-+						     GFP_USER);
-+		if (folio && folio_try_get(folio)) {
-+			err = hugetlb_add_to_page_cache(folio,
-+							file->f_mapping,
-+							idx);
-+			if (err) {
-+				folio_put(folio);
-+				free_huge_folio(folio);
-+				return ERR_PTR(err);
-+			}
-+			return &folio->page;
-+		}
-+		return ERR_PTR(-ENOMEM);
-+	}
-+#endif
-+	return shmem_read_mapping_page(file->f_mapping, idx);
-+}
-+
-+/**
-+ * pin_user_pages_fd() - pin user pages associated with a file
-+ * @file:       the file whose pages are to be pinned
-+ * @start:      starting file offset
-+ * @nr_pages:   number of pages from start to pin
-+ * @pages:      array that receives pointers to the pages pinned.
-+ *              Should be at-least nr_pages long.
-+ *
-+ * Attempt to pin pages associated with a file that belongs to either shmem
-+ * or hugetlb. The pages are either found in the page cache or allocated if
-+ * necessary. Once the pages are located, they are all pinned via FOLL_PIN.
-+ * And, these pinned pages need to be released either using unpin_user_pages()
-+ * or unpin_user_page().
-+ *
-+ * It must be noted that the pages may be pinned for an indefinite amount
-+ * of time. And, in most cases, the duration of time they may stay pinned
-+ * would be controlled by the userspace. This behavior is effectively the
-+ * same as using FOLL_LONGTERM with other GUP APIs.
-+ *
-+ * Returns number of pages pinned. This would be equal to the number of
-+ * pages requested. If no pages were pinned, it returns -errno.
-+ */
-+long pin_user_pages_fd(struct file *file, pgoff_t start,
-+		       unsigned long nr_pages, struct page **pages)
-+{
-+	struct page *page;
-+	struct folio *folio;
-+	unsigned int flags, i;
-+	long ret;
-+
-+	if (start < 0)
-+		return -EINVAL;
-+
-+	if (!file)
-+	    return -EINVAL;
-+
-+	if (!shmem_file(file) && !is_file_hugepages(file))
-+	    return -EINVAL;
-+
-+	flags = memalloc_pin_save();
-+	do {
-+		for (i = 0; i < nr_pages; i++) {
-+			/*
-+ 			 * In most cases, we should be able to find the page
-+			 * in the page cache. If we cannot find it, we try to
-+			 * allocate one and add it to the page cache.
-+			 */
-+retry:
-+			folio = __filemap_get_folio(file->f_mapping,
-+						    start + i,
-+						    FGP_ACCESSED, 0);
-+
-+			page = IS_ERR(folio) ? NULL: &folio->page;
-+			if (!page) {
-+				page = alloc_file_page(file, start + i);
-+				if (IS_ERR(page)) {
-+					ret = PTR_ERR(page);
-+					if (ret == -EEXIST)
-+						goto retry;
-+					goto err;
-+				}
-+			}
-+			ret = try_grab_page(page, FOLL_PIN);
-+			if (unlikely(ret))
++		do {
++			nr_pages = shmem_file(memfd) ? pgcnt : 1;
++			ret = pin_user_pages_fd(memfd, mapidx, nr_pages,
++						ubuf->pages + pgbuf);
++			if (ret < 0)
 +				goto err;
 +
-+			pages[i] = page;
-+			put_page(pages[i]);
-+		}
-+
-+		ret = check_and_migrate_movable_pages(nr_pages, pages);
-+	} while (ret == -EAGAIN);
-+
-+	memalloc_pin_restore(flags);
-+	return ret ? ret : nr_pages;
-+err:
-+	memalloc_pin_restore(flags);
-+	while (i-- > 0)
-+		if (pages[i])
-+			unpin_user_page(pages[i]);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(pin_user_pages_fd);
-+
+ 			if (is_file_hugepages(memfd)) {
+-				if (!hpage) {
+-					folio = __filemap_get_folio(mapping, mapidx,
+-								    FGP_ACCESSED, 0);
+-					hpage = IS_ERR(folio) ? NULL: &folio->page;
+-					if (!hpage) {
+-						ret = -EINVAL;
+-						goto err;
+-					}
+-				}
+-				get_page(hpage);
+-				ubuf->pages[pgbuf] = hpage;
+-				ubuf->subpgoff[pgbuf++] = chunkoff << PAGE_SHIFT;
++				ubuf->subpgoff[pgbuf] = chunkoff << PAGE_SHIFT;
+ 				if (++chunkoff == maxchunks) {
+-					put_page(hpage);
+-					hpage = NULL;
+ 					chunkoff = 0;
+ 					mapidx++;
+ 				}
+-			} else {
+-				mapidx = pgoff + pgidx;
+-				page = shmem_read_mapping_page(mapping, mapidx);
+-				if (IS_ERR(page)) {
+-					ret = PTR_ERR(page);
+-					goto err;
+-				}
+-				ubuf->pages[pgbuf++] = page;
+ 			}
+-		}
++			pgbuf += nr_pages;
++			pgcnt -= nr_pages;
++		} while (pgcnt > 0);
+ 		fput(memfd);
+ 		memfd = NULL;
+-		if (hpage) {
+-			put_page(hpage);
+-			hpage = NULL;
+-		}
+ 	}
+ 
+ 	exp_info.ops  = &udmabuf_ops;
+@@ -343,8 +325,9 @@ static long udmabuf_create(struct miscdevice *device,
+ 	return dma_buf_fd(buf, flags);
+ 
+ err:
+-	while (pgbuf > 0)
+-		put_page(ubuf->pages[--pgbuf]);
++	while (pgbuf-- > 0)
++		if (ubuf->pages[pgbuf])
++			unpin_user_page(ubuf->pages[pgbuf]);
+ 	if (memfd)
+ 		fput(memfd);
+ 	kfree(ubuf->subpgoff);
 -- 
 2.39.2
 
