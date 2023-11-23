@@ -2,48 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC7B47F63E6
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 17:26:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7ADD7F63F1
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 17:30:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FF1710E22D;
-	Thu, 23 Nov 2023 16:26:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1C2110E76E;
+	Thu, 23 Nov 2023 16:29:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2E0810E18B;
- Thu, 23 Nov 2023 16:26:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Xh7Y/mSBPq7BLBwAU3A4AIcxfgYXsUCEs3Q4NfhjiA0=; b=j0/hfm0yHCf3fHv4qsat0HpZ8x
- 0Py1vSmAUI3fdvMSLugeAxDOKJl2uoEUpCULBe2RyIoDfojyym1DZ7UneY7FeuOTOYYnHIWu+uz0Q
- bA32W0qOvSyb9EAKHAd5X7wZpEEMl2X69dqYsCc66oAh39tSZE9F6qBD2xptcHx2d+If75GT1ei+A
- bzjXOSdDrthlzMFRkHLDMiPUgXl7cwv8wyYv/GdJ4gi+b2XAMurzlvio8C/ZuBYIa4GLI40V3DDvN
- /GAvR+X8PhWjXmswA1GjbVHE8tyrIAzo1ubSGT3innw6+oTCOSQppCDhSzJxLq77ctvYLPeMxtic5
- 1z4C2IJQ==;
-Received: from 189-69-166-209.dial-up.telesp.net.br ([189.69.166.209]
- helo=[192.168.1.111]) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1r6CWq-006T2H-Pl; Thu, 23 Nov 2023 17:26:13 +0100
-Message-ID: <a7ed1b78-da8e-4893-9143-000a4a0e4e11@igalia.com>
-Date: Thu, 23 Nov 2023 13:26:07 -0300
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com
+ [95.215.58.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 637C810E76E
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 16:29:57 +0000 (UTC)
+Message-ID: <d3a6e1df-cb2c-4d8c-a4ad-c9df6f68dd6e@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1700756995;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OvZq7up+PPvAW4sGoG6+g/5iaMGk3fIhaBZ9sHchUQc=;
+ b=Q6vOvRswfZc7dJeYZkIP0jS8oUTNG3/pt6Sq/97jrBqjIVRqHFSUZqptOfPyzwIi5cc9Dc
+ tClFVBPLfMQ+YV1hZdb9+vpSwfE5nqjGezk5hJaDJMIZDsWv5oxMMrGMrn9x/9JLthu0M/
+ FbXZQRTGhgNX7mtSjcAtZsBc4HeyXpw=
+Date: Fri, 24 Nov 2023 00:29:49 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 0/4] drm: Add support for atomic async page-flip
+Subject: Re: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
 Content-Language: en-US
-To: Simon Ser <contact@emersion.fr>
-References: <20231122161941.320564-1-andrealmeid@igalia.com>
- <cc10f6b0-e26e-4021-85ca-33cb1e58e937@amd.com>
- <50ff86d4-5ce1-4ae5-aafb-ce3bc0069629@igalia.com>
- <WG-nBy-xqSEAQQX1ASB9Gw7Ra0aZ-qFYDQq1mXjQdOTwxlM1wEROginNiWbnM9CZE9idUyE6P5urNZ8q8kFMswbPt5ewbk3ocuIVnajQpAQ=@emersion.fr>
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <WG-nBy-xqSEAQQX1ASB9Gw7Ra0aZ-qFYDQq1mXjQdOTwxlM1wEROginNiWbnM9CZE9idUyE6P5urNZ8q8kFMswbPt5ewbk3ocuIVnajQpAQ=@emersion.fr>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
+ <20231114150130.497915-9-sui.jingfeng@linux.dev>
+ <CAA8EJprQq3aDhzE+yKGZ2-nsuHWcptzMvApsyOi9D63PgeiZ3w@mail.gmail.com>
+ <79301d04-c0cb-4740-8a6d-27a889b65daf@linux.dev>
+ <CAA8EJpom5kAbDkacOdqp6BR7YPfmCSXaQfDYRVcLf9eGmi64CQ@mail.gmail.com>
+ <121163c9-0d56-47ad-a12e-e67390fef2b4@linux.dev>
+ <CAA8EJpowjhX=LL-9cnQL4pfCei63zNkCGW5wGOeeFxcnFpNCVA@mail.gmail.com>
+ <00ba2245-0e48-4b21-bcd4-29dfb728e408@linux.dev>
+ <CAA8EJpoiehS2wS3ri_DggzxeEfLY4yK7X6c+bCFKvkwSce6r+A@mail.gmail.com>
+ <963d7722-738f-4e46-bfb7-131027ca5341@linux.dev>
+ <CAA8EJpoTWoSYjyZL7ARQiAeWabcXymy6f-tAzPM3YO=C_GOOZw@mail.gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <CAA8EJpoTWoSYjyZL7ARQiAeWabcXymy6f-tAzPM3YO=C_GOOZw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,25 +59,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com, dri-devel@lists.freedesktop.org,
- =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- intel-gfx@lists.freedesktop.org, Randy Dunlap <rdunlap@infradead.org>,
- xaver.hugl@gmail.com, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Pekka Paalanen <ppaalanen@gmail.com>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>, kernel-dev@igalia.com,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Phong LE <ple@baylibre.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em 23/11/2023 13:24, Simon Ser escreveu:
-> Thanks! This iteration of the first 3 patches LGTM, I've pushed them to
-> drm-misc-next. I've made two adjustments to make checkpatch.pl happy:
-> 
+Hi,
 
-Thank you!
+On 2023/11/24 00:06, Dmitry Baryshkov wrote:
+> On Thu, 23 Nov 2023 at 17:41, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+>> Hi,
+>>
+>>
+>> On 2023/11/23 16:08, Dmitry Baryshkov wrote:
+>>>> The semantics of DRM_BRIDGE_ATTACH_NO_CONNECTOR flag are implement-defined,
+>>> No, they are not. Semantics are pretty simple: do not create the
+>>> drm_connector instance. Pass the flag to the next bridge in the chain.
+>>
+>> Then, my problem is that do we allow create a drm_connector instance in drm bridge
+>> driver nowadays?
+> Yes, if there is no DRM_BRIDGE_ATTACH_NO_CONNECTOR. But that's deprecated IMO.
 
-> - s/uint64_t/u64/
-> - Fix indentation for a drm_dbg_atomic()
+Then can you read the code in bridge/ti-tfp410.c please?
+The tfp410_attach() function will create drm_connector instance manually
+if the conditional (flags == 0) is true.
 
-ops :)
