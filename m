@@ -2,48 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053537F5DB9
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 12:22:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAA467F5DED
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 12:37:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40E2210E71D;
-	Thu, 23 Nov 2023 11:22:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61F2F10E720;
+	Thu, 23 Nov 2023 11:37:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6A8B10E71E
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 11:22:49 +0000 (UTC)
-Received: from [100.107.97.3] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id C56506607399;
- Thu, 23 Nov 2023 11:22:47 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1700738568;
- bh=OkyzQvoiFclRgAoTM1AiGV82e8sHB39X1+ZjadvECzo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=R0khKwsWt3lwNKJWrAnDwzSZMGlJ2CZr1mfieF457KHg8M2u10AApdi7aCTdhWxia
- sR+b01+dEi4m335oJSFDxBu7pErCuPFIQJnd30nz2nQLH54PAv0TWSKcn5johqRKH/
- rjk7bFHkjlOoCKtDqj4ELeJFfXsXz0T72AO/VWIN4wboepHbx1yKLnOQGOWXhGrt7U
- 0DbUgn9wZq4z0v8pDNFfkXJJjyOg638V6EogkEm5OlkB6X4qRgqxtJ+7E1DWh7hjR3
- 2gr73sRiTiUMtH+aFOR0zobUbh64FMV1u4HljPYypautYh3aC/cHoW8Esh9mDbc19L
- og3Pr5e8WEf4w==
-Message-ID: <e3262533-b181-4b3c-9ac7-71fc0438f6db@collabora.com>
-Date: Thu, 23 Nov 2023 12:22:45 +0100
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61F8B10E008
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 11:37:39 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-50797cf5b69so987230e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 03:37:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1700739457; x=1701344257; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nm0hbEIAX6bA2MYwiGpkCXzOiz2e3i3AxzXDyzNcE4Q=;
+ b=BXNeSYyJYbosjI0lnPzUYw58D0hTukHZDUMkF/oRmfRjOJWq9AYFoSSt2pEreWXpM3
+ LSk/BEIhWVr6B/RMbELBxtqhGNrFir++ktlXSHazXCrdFU5rfbMvf1+LKYWM3DYzOKNE
+ BRHx5G6b7EwO6+msNJhjCl+EMKDOTDWzmPHJJuFr2uwgm4SGbSXCbRK9RTTd6Z0+EAbX
+ biHzfJreik3UmhVHnPdQ5jGvTEYlcdnD7FaWYpwIFx0MdIs6Z/Ikvwta4v7OWoHLz6CB
+ arQKP60VLQNh78Syj0DaGfuwA0XR/VENUAWmhSfUdCG09V9mJi08rXlfAv9OTo3E0oxF
+ s35g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700739457; x=1701344257;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nm0hbEIAX6bA2MYwiGpkCXzOiz2e3i3AxzXDyzNcE4Q=;
+ b=P0cJjXFcjh1OFvkXTJeWXXPzY3TZkLg9L5XLEY5PzbyrPE0Se81XKLUFEz83Rt75Zx
+ +d1FkRfge6YQ9DbbMtxARwEeZcT15qewIETVqESrahpiR1fuigGxFc4s1TZso8ITeJVG
+ n15kdGSrfISnj+QAaZns0GypjYujId0vTDFIkmGz6smD1hNyUIYvb4QMkTAHuwKfiOnM
+ 3cAQ1ue+n47Gg/mLxHA0svrKYRSrjkS2LganjxA1mYvtU2m3wHyjpl3nr6o/bosyDYyN
+ qeAsbJiryR9tEC7+EEV2RVmGhma9E2QrQgFoPl8ewgPkOLaCkIQBSbIPyA4rhEOGeMlg
+ CqLQ==
+X-Gm-Message-State: AOJu0Yz1NaNxpRdfZ1K/pfUBzJBHLsempa35XJVWSVp2doZrD48Ao5tX
+ 3RLOx9ZF7P+xv/2Fw77ME2wGyg==
+X-Google-Smtp-Source: AGHT+IGVn/cRKB4SR5kspsiZK5lcGwtL1/UJAwGrszDITZYjaYkgwg7kZEfFdYmBBnxpyjbBVu+e8A==
+X-Received: by 2002:ac2:43a5:0:b0:500:daec:2817 with SMTP id
+ t5-20020ac243a5000000b00500daec2817mr3796344lfl.54.1700739457263; 
+ Thu, 23 Nov 2023 03:37:37 -0800 (PST)
+Received: from [172.30.204.221] (UNUSED.212-182-62-129.lubman.net.pl.
+ [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
+ x15-20020a056512078f00b00507a96d17b3sm167232lfr.237.2023.11.23.03.37.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Nov 2023 03:37:36 -0800 (PST)
+Message-ID: <70836806-5228-4b32-be97-f00a476bbe47@linaro.org>
+Date: Thu, 23 Nov 2023 12:37:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] phy: mediatek: mipi: mt8183: fix minimal supported
- frequency
+Subject: Re: [PATCH] drm/msm/gpu: Fix null-pointer dereference in
+ zap_shader_load_mdt
+To: Kunwu Chan <chentao@kylinos.cn>, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org, sean@poorly.run,
+ marijn.suijten@somainline.org, airlied@gmail.com, daniel@ffwll.ch,
+ jordan@cosmicpenguin.net
+References: <20231123033329.27477-1-chentao@kylinos.cn>
 Content-Language: en-US
-To: Michael Walle <mwalle@kernel.org>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, CK Hu <ck.hu@mediatek.com>,
- Jitao Shi <jitao.shi@mediatek.com>
-References: <20231123110202.2025585-1-mwalle@kernel.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20231123110202.2025585-1-mwalle@kernel.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20231123033329.27477-1-chentao@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,20 +79,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-phy@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kunwu.chan@hotmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 23/11/23 12:02, Michael Walle ha scritto:
-> The lowest supported clock frequency of the PHY is 125MHz (see also
-> mtk_mipi_tx_pll_enable()), but the clamping in .round_rate() has the
-> wrong minimal value, which will make the .enable() op return -EINVAL on
-> low frequencies. Fix the minimal clamping value.
+
+
+On 11/23/23 04:33, Kunwu Chan wrote:
+> kasprintf() returns a pointer to dynamically allocated memory
+> which can be NULL upon failure. Ensure the allocation was successful
+> by checking the pointer validity.
 > 
-> Fixes: efda51a58b4a ("drm/mediatek: add mipi_tx driver for mt8183")
-> Signed-off-by: Michael Walle <mwalle@kernel.org>
+> Fixes: a9e2559c931d ("drm/msm/gpu: Move zap shader loading to adreno")
+> Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
+> ---
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
+Konrad
