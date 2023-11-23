@@ -1,50 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A3C7F64CC
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 18:04:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC8A7F64E2
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 18:08:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B61610E098;
-	Thu, 23 Nov 2023 17:04:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5C9910E165;
+	Thu, 23 Nov 2023 17:08:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com
- [IPv6:2001:41d0:203:375::ba])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74E9E10E098
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 17:04:50 +0000 (UTC)
-Message-ID: <77c3ad35-24e4-4bf4-87a1-f48e13a6b838@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1700759088;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t+oX6Z1R5D902d7QsFYgso+yPiFC9aIghMuoj3BGEfk=;
- b=jQfW6O848KtMwh90BwxowE88Yb2tw+fOohmBQXIG8fxTKGnbKn2PtIDmXCf4nr6b33NCYX
- 0e5e8sXTeNgxpDwySP5U7QKWB/PF2eUQjAWP0ZZ3z3DycIHjYqF/wHRzBzo66GoB5Ot3S2
- TFre8bWupfsIEedGtc55MJAzC401+bU=
-Date: Fri, 24 Nov 2023 01:04:43 +0800
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60F7410E165
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 17:08:14 +0000 (UTC)
+Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
+ by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1r6DBR-0001A4-My; Thu, 23 Nov 2023 18:08:09 +0100
+From: Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH 0/3] drm/panel: ilitek-ili9881c: Support Ampire AM8001280G LCD
+ panel
+Date: Thu, 23 Nov 2023 18:08:04 +0100
+Message-Id: <20231123-drm-panel-ili9881c-am8001280g-v1-0-fdf4d624c211@pengutronix.de>
 MIME-Version: 1.0
-Subject: Re: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20231114150130.497915-1-sui.jingfeng@linux.dev>
- <20231114150130.497915-9-sui.jingfeng@linux.dev>
- <CAA8EJprQq3aDhzE+yKGZ2-nsuHWcptzMvApsyOi9D63PgeiZ3w@mail.gmail.com>
- <79301d04-c0cb-4740-8a6d-27a889b65daf@linux.dev>
- <CAA8EJpom5kAbDkacOdqp6BR7YPfmCSXaQfDYRVcLf9eGmi64CQ@mail.gmail.com>
- <121163c9-0d56-47ad-a12e-e67390fef2b4@linux.dev>
- <CAA8EJpowjhX=LL-9cnQL4pfCei63zNkCGW5wGOeeFxcnFpNCVA@mail.gmail.com>
- <00ba2245-0e48-4b21-bcd4-29dfb728e408@linux.dev>
- <CAA8EJpoiehS2wS3ri_DggzxeEfLY4yK7X6c+bCFKvkwSce6r+A@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <CAA8EJpoiehS2wS3ri_DggzxeEfLY4yK7X6c+bCFKvkwSce6r+A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-B4-Tracking: v=1; b=H4sIAPSGX2UC/x2NQQrDIBBFrxJm3QEdu7C9Suli1EkyEG3QEgIhd
+ 2/s8vH47x/QpKo0eA4HVNm06adcYG8DxJnLJKjpYiBDzlpymGrGlYssqIs+vLcROXtjLHkzYSKh
+ 8R6cYRK4GoGbYKhc4twrfZy1RSyyf7tfq4y6//9f7/P8AYabI7mPAAAA
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+X-Mailer: b4 0.12-dev-aab37
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::54
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,45 +54,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Phong LE <ple@baylibre.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Marco Felsch <m.felsch@pengutronix.de>,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Add support for Ampire AM8001280G LCD panels to the Ilitek ILI9881C
+driver.
 
+Also set prepare_prev_first, to make sure that the DSI host controller
+is initialized to LP-11 before the panel is powered up. Tested to work
+with samsung-dsim on i.MX8MM after commit 0c14d3130654 ("drm: bridge:
+samsung-dsim: Fix i.MX8M enable flow to meet spec").
 
-On 2023/11/23 16:08, Dmitry Baryshkov wrote:
->>> The host can not specify the
->>> DRM_BRIDGE_ATTACH_NO_CONNECTOR flag, it will cause a warning here. And
->>> it can not omit the flag (as otherwise the first bridge will create a
->>> connector, without consulting the second bridge).
->> The semantics of DRM_BRIDGE_ATTACH_NO_CONNECTOR flagare implement-defined,
-> No, they are not. Semantics are pretty simple: do not create the
-> drm_connector instance. Pass the flag to the next bridge in the chain.
->
->> for our case, I could just ignore it if their
->> don't have a signal(DT or ACPI) tell me that there are multiple bridges
->> in the chain. This depend on community's attitude.
-> Ignoring a flag is a bad idea.
+To: Neil Armstrong <neil.armstrong@linaro.org>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Rob Herring <robh+dt@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+To: Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: Marco Felsch <m.felsch@pengutronix.de>
+Cc: kernel@pengutronix.de
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 
+---
+Marco Felsch (1):
+      drm/panel: ilitek-ili9881c: make use of prepare_prev_first
 
-Can you also read the code in the bridge/lontium-lt8912.c please?
-when flags == 0 is true, the lt8912 driver will just create
-a drm_connector instance in the drm bridge drivers. The behavior
-is similar with this patch in the perspective of spirit.
+Philipp Zabel (2):
+      dt-bindings: ili9881c: Add Ampire AM8001280G LCD panel
+      drm/panel: ilitek-ili9881c: Add Ampire AM8001280G LCD panel
 
-And the most important thing is that no matter what the flag the upstream
-port is passed, lt8912 just always pass the DRM_BRIDGE_ATTACH_NO_CONNECTOR
-flags to the next bridge. Does this count as a kind of ignore? or
+ .../bindings/display/panel/ilitek,ili9881c.yaml    |   1 +
+ drivers/gpu/drm/panel/panel-ilitek-ili9881c.c      | 225 +++++++++++++++++++++
+ 2 files changed, 226 insertions(+)
+---
+base-commit: e4d983acffff270ccee417445a69b9ed198658b1
+change-id: 20231123-drm-panel-ili9881c-am8001280g-d2e2f4b30a2e
 
-This is to say that both the lt8912 and the tfp410 drm bridge drivers are
-allowing create a drm_connector manually in drm bridge drivers. They didn't
-being asked to move the drm_connector related code to display controller
-driver. I don't know why I can't follow this way?
-
-Do you really read the code before do comments or I failed to understand something?
-
+Best regards,
+-- 
+Philipp Zabel <p.zabel@pengutronix.de>
