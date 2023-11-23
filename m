@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6D17F651D
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 18:18:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D8447F6522
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 18:19:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2A1C10E034;
-	Thu, 23 Nov 2023 17:18:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF3F110E08B;
+	Thu, 23 Nov 2023 17:19:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4D6410E034
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 17:18:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D972A10E08B
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 17:19:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1B92F62272;
- Thu, 23 Nov 2023 17:18:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B6FEC433C9;
- Thu, 23 Nov 2023 17:18:30 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5428A6238B;
+ Thu, 23 Nov 2023 17:19:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88CF7C433C7;
+ Thu, 23 Nov 2023 17:18:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700759914;
- bh=4uuYv4ivuEW0QNa8dUnLLuSPDWYlT69BIfr2llFRLnY=;
+ s=k20201202; t=1700759942;
+ bh=o2B91gSRao1cm4mdpvvnT+cSLBigCNcp+xOQKNDn4A4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VciWPKaDUoyUh1FepWZVBgnEAvCej2jGYm2TSGV21kR6rxT2wHdKYHWulmTMoEseV
- QJusH27Z2ZudBxQ1B7xUrUc9F4ScACAMaLstO7vxgwRI77pW+krMbgdRx0Rrp9b8Q1
- PNEsnqINMuYcAspPMGU0UN0hwXfgGqIxek4NNPZ/xITtRw2uXqBEuyw7S+v9NBAcFo
- L0HW1CeTZJra/bOWhtwwHUl9sKInrZ7VuduC4xYij7KkMbxYpWUawG84Z046Kzoo14
- R4WVMicENkQ6N3XbwHcxg/0VgPHaVVXdNT7du6iXWx1pXsOn8M4QQRqCGmpN4EhRX6
- VePnpFLDsd0nQ==
-Date: Thu, 23 Nov 2023 17:18:28 +0000
+ b=iahmJvGwt/0+ze9HXyRn6fXTXrsOTmscoofcYH5cE64Jn+7Zl8OLC1CsQeuehJrOY
+ 6Nj1HThnyqA4d+fAqJBUcrJxXD+QW0B5pIjUwP3GoYDMk0i2jNOWHXxCObeyDUEJPg
+ BK87uBg791nuLw0vqhA5LNrgFRDeXfzXCV28zeFMgyTI03tZoEtN5phBiD3/o1MaYP
+ bHJIRWj06VnuJSLrOEyQsSZGuoaf3eWlidsEtc1uc0u8MOPZOAt8EUGrYiwRaSEXjU
+ moXac9FzCSAkQ9lEp26WhADWaZJd124nbIfpyxM6Qqeo2RGdvvjSDZSG+dPnE3Kkhh
+ As2xxVshd2euA==
+Date: Thu, 23 Nov 2023 17:18:55 +0000
 From: Conor Dooley <conor@kernel.org>
 To: Michael Walle <mwalle@kernel.org>
-Subject: Re: [PATCH 1/4] dt-bindings: display: mediatek: dsi: add compatible
- for MediaTek MT8195
-Message-ID: <20231123-wipe-starch-741e674c1f54@spud>
+Subject: Re: [PATCH 2/4] dt-bindings: phy: add compatible for Mediatek MT8195
+Message-ID: <20231123-atypical-gradation-d98b95e9c416@spud>
 References: <20231123133749.2030661-1-mwalle@kernel.org>
- <20231123133749.2030661-2-mwalle@kernel.org>
+ <20231123133749.2030661-3-mwalle@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="gjaPXcNp/j7dUovY"
+ protocol="application/pgp-signature"; boundary="ji3UuPhd3xxexBJ5"
 Content-Disposition: inline
-In-Reply-To: <20231123133749.2030661-2-mwalle@kernel.org>
+In-Reply-To: <20231123133749.2030661-3-mwalle@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,28 +69,31 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---gjaPXcNp/j7dUovY
+--ji3UuPhd3xxexBJ5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 23, 2023 at 02:37:46PM +0100, Michael Walle wrote:
-> Add the compatible string for MediaTek MT8195 SoC, using the same DSI
-> block as the MT8183.
+On Thu, Nov 23, 2023 at 02:37:47PM +0100, Michael Walle wrote:
+> Add the compatible string for MediaTek MT8195 SoC, using the same MIPI
+> D-PHY block as the MT8183.
 >=20
 > Signed-off-by: Michael Walle <mwalle@kernel.org>
 
 Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
---gjaPXcNp/j7dUovY
+Cheers,
+Conor.
+
+--ji3UuPhd3xxexBJ5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZV+JYwAKCRB4tDGHoIJi
-0k5mAQDNhAGJgE8ZQcNenl97mgSMbjnMQQZT1j8Z6HsCMI1JeQEAm8dsDuvsCcp8
-mPJKmSYIoy4Aes//J8lAQpbhat4N6wY=
-=3Y9w
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZV+JfwAKCRB4tDGHoIJi
+0vWUAQCIxBJSBYQxfxnK0ADmbM0UaJC+Lie7AsTjs/2zhG8mjgEAjeZIyAzwtVtq
++xaFexacDMYRWoecls9a4vRISuN+1wE=
+=mQTP
 -----END PGP SIGNATURE-----
 
---gjaPXcNp/j7dUovY--
+--ji3UuPhd3xxexBJ5--
