@@ -1,46 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F217F60D4
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 14:51:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 279587F6106
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 15:07:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 085C210E752;
-	Thu, 23 Nov 2023 13:51:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17A0F10E75A;
+	Thu, 23 Nov 2023 14:07:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8587210E752
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 13:51:08 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F8B110E75A
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 14:07:25 +0000 (UTC)
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 9125266073B7;
- Thu, 23 Nov 2023 13:51:06 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 83DB666073BF;
+ Thu, 23 Nov 2023 14:07:23 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1700747467;
- bh=DnXF0OkfH2bcxKLu8PbitJNBwxB6hYevVnIxk2w5rOg=;
+ s=mail; t=1700748444;
+ bh=Xh7ItolyIMoAQKYgzvPHx2FNhsLQj3Hwraf4dBbfyHg=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=MnkCReTip92PjzcqXM0YUwuD6pn2ZdqyOpp+pyBYn/CaPkDMbztHNITo/pUQiinpa
- PDF0Qg8AeDQRR+anHyfExydNABXs4lPr+zcCmWwJ14xqF/5cFeZw7AV8HTVuYzfd7k
- 6SK+DWyrReXSeogqUKTac4BHw5e7paBAsuHyKwts19hGIdwkno3cMC1B2GK7Z/umFR
- 84EcrugR9Fex/SSRTgiXfzmmC19HpzAlOW5Vo+8/Xbrt/UVB0n9jEsBhG6n+Shwj/k
- 1yw92Cr/9DH58GSyt+zbE+Ah2oKgQ6QqdSlFd2MmYFZ63AkjEkaKPA2r0rk5GDVoVr
- nB4nyYInVryOw==
-Date: Thu, 23 Nov 2023 14:51:03 +0100
+ b=Ev1tzTd9M9Lz6R73YAzrEp8gE0HfO3AypSmzBPqhHhLY5MMmxTaYs8IQVqL28oubd
+ 64tr4x3cfGNRHOJQYWJsjzWc1DhDexbu18ce0GvyUtLNXP5M6HJp686QUf3F3ufdmu
+ 8q+AhHngIj14oV+/cxFOrQi3066FUnQtcmDG+nwidkM7yTr3UTSVpFmWD0aqjlH7Os
+ o1vVj3KoqLlg6Qk74qI4Up8rAxEulyGneapoqu11a/Zwe6fq8Qco08vqKZXqkO02Xw
+ 2fXwwA9U0OkQ9s2C4LdiDqVQ7vdY8N9KS9qoQqxXKgMXvu7SRiTRVi4HadGWBNQ2JL
+ 6iRPOA+2ph4UQ==
+Date: Thu, 23 Nov 2023 15:07:20 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH] drm/panfrost: Ignore core_mask for poweroff and sync
+Subject: Re: [PATCH v3] drm/panfrost: Ignore core_mask for poweroff and sync
  interrupts
-Message-ID: <20231123145103.23b6eac9@collabora.com>
-In-Reply-To: <5019af46-f5ae-4db5-979e-802b61025ba4@collabora.com>
-References: <20231123095320.41433-1-angelogioacchino.delregno@collabora.com>
- <20231123113530.46191ded@collabora.com>
- <1740797f-f3ae-4868-924a-08d6d731e506@collabora.com>
- <20231123135933.34d643f7@collabora.com>
- <5019af46-f5ae-4db5-979e-802b61025ba4@collabora.com>
+Message-ID: <20231123150720.07f33ada@collabora.com>
+In-Reply-To: <f27d53de-41c7-4841-9335-994b5a6c178a@collabora.com>
+References: <20231123120521.147695-1-angelogioacchino.delregno@collabora.com>
+ <20231123141308.3ba50409@collabora.com>
+ <f27d53de-41c7-4841-9335-994b5a6c178a@collabora.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -60,92 +57,167 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
  krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, kernel@collabora.com
+ tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 23 Nov 2023 14:24:57 +0100
+On Thu, 23 Nov 2023 14:30:08 +0100
 AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 wrote:
 
+> Il 23/11/23 14:13, Boris Brezillon ha scritto:
+> > On Thu, 23 Nov 2023 13:05:21 +0100
+> > AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> > wrote:
+> >   
+> >> Some SoCs may be equipped with a GPU containing two core groups
+> >> and this is exactly the case of Samsung's Exynos 5422 featuring
+> >> an ARM Mali-T628 MP6 GPU: the support for this GPU in Panfrost
+> >> is partial, as this driver currently supports using only one
+> >> core group and that's reflected on all parts of it, including
+> >> the power on (and power off, previously to this patch) function.
 > >>
-> >> So, while I agree that it'd be slightly more readable as a diff if those
-> >> were two different commits I do have reasons against splitting.....  
+> >> The issue with this is that even though executing the soft reset
+> >> operation should power off all cores unconditionally, on at least
+> >> one platform we're seeing a crash that seems to be happening due
+> >> to an interrupt firing which may be because we are calling power
+> >> transition only on the first core group, leaving the second one
+> >> unchanged, or because ISR execution was pending before entering
+> >> the panfrost_gpu_power_off() function and executed after powering
+> >> off the GPU cores, or all of the above.
+> >>
+> >> Finally, solve this by introducing a new panfrost_gpu_suspend_irq()
+> >> helper function and changing the panfrost_device_suspend() flow to
+> >>   1. Mask and clear all interrupts: we don't need nor want any, as
+> >>      for power_off() we are polling PWRTRANS, but we anyway don't
+> >>      want GPU IRQs to fire while it is suspended/powered off;
+> >>   2. Call synchronize_irq() after that to make sure that any pending
+> >>      ISR is executed before powering off the GPU Shaders/Tilers/L2
+> >>      hence avoiding unpowered registers R/W; and
+> >>   3. Ignore the core_mask and ask the GPU to poweroff both core groups
+> >>
+> >> Of course it was also necessary to add a `irq` variable to `struct
+> >> panfrost_device` as we need to get that in panfrost_gpu_power_off()
+> >> for calling synchronize_irq() on it.
+> >>
+> >> Fixes: 22aa1a209018 ("drm/panfrost: Really power off GPU cores in panfrost_gpu_power_off()")
+> >> [Regression detected on Odroid HC1, Exynos5422, Mali-T628 MP6]
+> >> Reported-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> >> ---
+> >>
+> >> Changes in v3:
+> >>   - Fix compile issue
+> >>
+> >> Changes in v2:
+> >>   - Fixed the commit hash of "Really power off [...]"
+> >>   - Actually based on a clean next-20231121
+> >>   - Renamed "irq" to "gpu_irq" as per Boris' suggestion
+> >>   - Moved the IRQ mask/clear/sync to a helper function and added
+> >>     a call to that in panfrost_device.c instead of doing that in
+> >>     panfrost_gpu_power_off().
+> >>
+> >> NOTE: I didn't split 1+2 from 3 as suggested by Boris, and I'm sending
+> >> this one without waiting for feedback on my reasons for that which I
+> >> explained as a reply to v1 because the former couldn't be applied to
+> >> linux-next, and I want to unblock Krzysztof ASAP to get this tested.
+> >>
+> >>   drivers/gpu/drm/panfrost/panfrost_device.c |  1 +
+> >>   drivers/gpu/drm/panfrost/panfrost_device.h |  1 +
+> >>   drivers/gpu/drm/panfrost/panfrost_gpu.c    | 28 +++++++++++++++-------
+> >>   drivers/gpu/drm/panfrost/panfrost_gpu.h    |  1 +
+> >>   4 files changed, 23 insertions(+), 8 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> >> index c90ad5ee34e7..b0a4f3e513f4 100644
+> >> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> >> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> >> @@ -421,6 +421,7 @@ static int panfrost_device_runtime_suspend(struct device *dev)
+> >>   		return -EBUSY;
+> >>   
+> >>   	panfrost_devfreq_suspend(pfdev);
+> >> +	panfrost_gpu_suspend_irq(pfdev);
+> >>   	panfrost_gpu_power_off(pfdev);
+> >>   
+> >>   	return 0;
+> >> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> >> index 0fc558db6bfd..f2b1d4afb9e9 100644
+> >> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> >> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> >> @@ -94,6 +94,7 @@ struct panfrost_device {
+> >>   	struct device *dev;
+> >>   	struct drm_device *ddev;
+> >>   	struct platform_device *pdev;
+> >> +	int gpu_irq;
+> >>   
+> >>   	void __iomem *iomem;
+> >>   	struct clk *clock;
+> >> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> >> index 09f5e1563ebd..2c09aede0945 100644
+> >> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> >> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> >> @@ -425,11 +425,10 @@ void panfrost_gpu_power_on(struct panfrost_device *pfdev)
+> >>   
+> >>   void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+> >>   {
+> >> -	u64 core_mask = panfrost_get_core_mask(pfdev);
+> >>   	int ret;
+> >>   	u32 val;
+> >>   
+> >> -	gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present & core_mask);
+> >> +	gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present);
+> >>   	ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_PWRTRANS_LO,
+> >>   					 val, !val, 1, 1000);
+> >>   	if (ret)
+> >> @@ -441,16 +440,29 @@ void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+> >>   	if (ret)
+> >>   		dev_err(pfdev->dev, "tiler power transition timeout");
+> >>   
+> >> -	gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present & core_mask);
+> >> +	gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present);
+> >>   	ret = readl_poll_timeout(pfdev->iomem + L2_PWRTRANS_LO,
+> >>   				 val, !val, 0, 1000);
+> >>   	if (ret)
+> >>   		dev_err(pfdev->dev, "l2 power transition timeout");
+> >>   }
+> >>   
+> >> +void panfrost_gpu_suspend_irq(struct panfrost_device *pfdev)
+> >> +{
+> >> +	/* Disable all interrupts before suspending the GPU */
+> >> +	gpu_write(pfdev, GPU_INT_MASK, 0);
+> >> +	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
+> >> +
+> >> +	/*
+> >> +	 * Make sure that we don't have pending ISRs, otherwise we'll be
+> >> +	 * reading and/or writing registers while the GPU is powered off  
 > > 
-> > If we just need a quick fix to avoid PWRTRANS interrupts from kicking
-> > in when we power-off the cores, I think we'd be better off dropping
-> > GPU_IRQ_POWER_CHANGED[_ALL] from the value we write to GPU_INT_MASK
-> > at [re]initialization time, and then have a separate series that fixes
-> > the problem more generically.
+> > I see this comment, plus the fact you call panfrost_gpu_suspend_irq()
+> > before panfrost_gpu_power_off() and I realize there might still be a
+> > misunderstanding. It's not the l2,shader,tiler-poweroff that causes the
+> > invalid reg access, it's what happens in the PM core after we've
+> > returned from panfrost_device_runtime_suspend() (power domain turned
+> > off). The register bank is still accessible when the sub-blocks are off,
+> > otherwise we wouldn't be able to power them on after a reset (which
+> > automatically powers off all the blocks, IIRC).
 > >   
 > 
-> But that didn't work:
-> https://lore.kernel.org/all/d95259b8-10cf-4ded-866c-47cbd2a44f84@linaro.org/
-
-I meant, your 'ignore-core_mask' fix + the
-'drop GPU_IRQ_POWER_CHANGED[_ALL] in GPU_INT_MASK' one.
-
-So,
-
-https://lore.kernel.org/all/4c73f67e-174c-497e-85a5-cb053ce657cb@collabora.com/
-+
-https://lore.kernel.org/all/d95259b8-10cf-4ded-866c-47cbd2a44f84@linaro.org/
-
+> Uhm, should I reword that? Suggestions about how?
 > 
-> 
-> ...while this "full" solution worked:
-> https://lore.kernel.org/all/39e9514b-087c-42eb-8d0e-f75dc620e954@linaro.org/
-> 
-> https://lore.kernel.org/all/5b24cc73-23aa-4837-abb9-b6d138b46426@linaro.org/
-> 
-> 
-> ...so this *is* a "quick fix" already... :-)
+> There wasn't any misunderstanding, I did get that the issue can be about unclocked
+> access or unpowered access (unpowered = vregs off or power domains off), but it is
+> correct to mask and sync IRQs *before* calling shader/tiler/l2 poweroff (at least
+> for how I see it), because if there's anything that we want to do in the ISR, we
+> still have the GPU fully powered up and we're sure that, for example, if we want
+> to read a debug register to get the reason of an error irq, we're sure that it did
+> not get cleared.
 
-It's a half-baked solution for the missing irq-synchronization-on-suspend
-issue IMHO. I understand why you want it all in one patch that can serve
-as a fix for 123b431f8a5c ("drm/panfrost: Really power off GPU cores in
-panfrost_gpu_power_off()"), which is why I'm suggesting to go for an
-even simpler diff (see below), and then fully address the
-irq-synhronization-on-suspend issue in a follow-up patchset.
-
---->8---
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-index 09f5e1563ebd..6e2d7650cc2b 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-@@ -78,7 +78,10 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev)
-        }
- 
-        gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
--       gpu_write(pfdev, GPU_INT_MASK, GPU_IRQ_MASK_ALL);
-+       gpu_write(pfdev, GPU_INT_MASK,
-+                 GPU_IRQ_MASK_ERROR |
-+                 GPU_IRQ_PERFCNT_SAMPLE_COMPLETED |
-+                 GPU_IRQ_CLEAN_CACHES_COMPLETED);
- 
-        /*
-         * All in-flight jobs should have released their cycle
-@@ -425,11 +428,10 @@ void panfrost_gpu_power_on(struct panfrost_device *pfdev)
- 
- void panfrost_gpu_power_off(struct panfrost_device *pfdev)
- {
--       u64 core_mask = panfrost_get_core_mask(pfdev);
-        int ret;
-        u32 val;
- 
--       gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present & core_mask);
-+       gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present);
-        ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_PWRTRANS_LO,
-                                         val, !val, 1, 1000);
-        if (ret)
-@@ -441,7 +443,7 @@ void panfrost_gpu_power_off(struct panfrost_device *pfdev)
-        if (ret)
-                dev_err(pfdev->dev, "tiler power transition timeout");
- 
--       gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present & core_mask);
-+       gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present);
-        ret = readl_poll_timeout(pfdev->iomem + L2_PWRTRANS_LO,
-                                 val, !val, 0, 1000);
-        if (ret)
-
-
+Which is also true after the l2,tiler,core poweroff happened AFAICT (at
+least for registers that are in the GPU_xxx range). My point is, just
+because some internal blocks are powered off, doesn't mean the
+registers exposed to the CPU are invalid, some are just unlikely to
+change after that point. And if you're worried about some registers
+having invalid content after a poweroff, it's also true for MMU and JOB
+registers, but you don't mask+synchronize those in this patch. That's
+what I'm talking about when I say it's a partial fix to a potentially
+wider issue, and the very reason I suggested going for simpler fix here,
+and then fix the irq-sync-on-suspend issue in another patch series.
