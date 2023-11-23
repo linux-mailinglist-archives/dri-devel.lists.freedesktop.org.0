@@ -1,44 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9427F6009
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 14:19:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5D37F602A
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 14:25:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02B8710E745;
-	Thu, 23 Nov 2023 13:19:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 266EC10E07F;
+	Thu, 23 Nov 2023 13:25:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A99FB10E743;
- Thu, 23 Nov 2023 13:18:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 11DDCCE2912;
- Thu, 23 Nov 2023 13:18:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FFAAC433C9;
- Thu, 23 Nov 2023 13:18:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700745532;
- bh=BJOuctG/jOXVT0hO6qxyVXBeYyH4TG/ylT0dyLa92yI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=r42g7gVEtjBJ5WfLPAfCypJTdeIZa9tza+98XErRLkZuJq42IHSNqt9TjDoS1u/dO
- mqRTO6hyOgRcqG5Vqi98sspSbfx6Ne64w0KZSaAUUdSmCRm0SeW9B8r2AffO7bhDq0
- voQrIzDl2Rys7kYNdpWCPkldE19sNixdWiKMUoa9j34EYG62L/DgZtbbaspmEPmu14
- PuPzBMdYXfPSBprGxxIV2rleVHq+xRFaQ7/X8REU4C8BYG2H4sP4+OADV7Tg2Ri8NY
- w8CXZUWWNJUaMlJH5PPc15vZ4ox/kvWZIeet2zBszz9qi15zBW/WlVu+mFthIg8ovM
- qoF7yc2VytIMg==
-Date: Thu, 23 Nov 2023 14:18:33 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v2 2/4] eventfd: simplify eventfd_signal()
-Message-ID: <20231123-portwein-geeignet-787b940c7d2d@brauner>
-References: <20231122-vfs-eventfd-signal-v2-0-bd549b14ce0c@kernel.org>
- <20231122-vfs-eventfd-signal-v2-2-bd549b14ce0c@kernel.org>
- <877cm9n7dh.fsf@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BEA910E07F
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 13:25:02 +0000 (UTC)
+Received: from [100.107.97.3] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 511E866073AE;
+ Thu, 23 Nov 2023 13:25:00 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1700745901;
+ bh=q/qh9Y0G0C6PaJAGrQxpJXazia6tayD76/VLLIh7ygE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Hj0rhfA1AIkEXPBO4AadPcUNOqdvX7wTEihgra/ekQEVK+9NSZzaocHiJdpsL+Oz9
+ e1bmS30rSGhl84cMrFM/+losPMlfQMbDu4PZ4DKixVzsXmvExvISv3dI7ixlczpW/Y
+ f1urCdmZuV8h/7psppney8NjvWhLIOsUIN+ZUTCxOCr9nj98DPNSUd/y8T4NjLud/c
+ ITz14jxA8i+0x0NIzYfka84nF23GJSSHrYV4BkKD+NHSp6DQTGVY91v3XJFUTvR+F8
+ 3Wiy0axGQ5d3w24TpBFZ9NqQdHPcSX+cQESKXqK+ALUWe0CIhCYCY0yxBY0V3jULC/
+ /42/CdUimesbQ==
+Message-ID: <5019af46-f5ae-4db5-979e-802b61025ba4@collabora.com>
+Date: Thu, 23 Nov 2023 14:24:57 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <877cm9n7dh.fsf@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panfrost: Ignore core_mask for poweroff and sync
+ interrupts
+Content-Language: en-US
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20231123095320.41433-1-angelogioacchino.delregno@collabora.com>
+ <20231123113530.46191ded@collabora.com>
+ <1740797f-f3ae-4868-924a-08d6d731e506@collabora.com>
+ <20231123135933.34d643f7@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20231123135933.34d643f7@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,49 +57,252 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-aio@kvack.org, linux-usb@vger.kernel.org, Jan Kara <jack@suse.cz>,
- Matthew Rosato <mjrosato@linux.ibm.com>, Paul Durrant <paul@xen.org>,
- Tom Rix <trix@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- Michal Hocko <mhocko@kernel.org>, linux-mm@kvack.org,
- Kirti Wankhede <kwankhede@nvidia.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Jens Axboe <axboe@kernel.dk>, Vineeth Vijayan <vneethv@linux.ibm.com>,
- Diana Craciun <diana.craciun@oss.nxp.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>, Christoph Hellwig <hch@lst.de>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shakeel Butt <shakeelb@google.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Leon Romanovsky <leon@kernel.org>,
- Harald Freudenberger <freude@linux.ibm.com>, Fei Li <fei1.li@intel.com>,
- x86@kernel.org, Roman Gushchin <roman.gushchin@linux.dev>,
- Halil Pasic <pasic@linux.ibm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Ingo Molnar <mingo@redhat.com>, intel-gfx@lists.freedesktop.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>, linux-fpga@vger.kernel.org,
- Zhi Wang <zhi.a.wang@intel.com>, Wu Hao <hao.wu@intel.com>,
- Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Andrew Donnellan <ajd@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
- linux-s390@vger.kernel.org, Heiko Carstens <hca@linux.ibm.com>,
- Johannes Weiner <hannes@cmpxchg.org>, linuxppc-dev@lists.ozlabs.org,
- Frederic Barrat <fbarrat@linux.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>, Borislav Petkov <bp@alien8.de>,
- kvm@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- cgroups@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- virtualization@lists.linux-foundation.org, intel-gvt-dev@lists.freedesktop.org,
- io-uring@vger.kernel.org, netdev@vger.kernel.org,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Pavel Begunkov <asml.silence@gmail.com>, Eric Auger <eric.auger@redhat.com>,
- Sean Christopherson <seanjc@google.com>, Oded Gabbay <ogabbay@kernel.org>,
- Muchun Song <muchun.song@linux.dev>,
- Peter Oberparleiter <oberpar@linux.ibm.com>, linux-kernel@vger.kernel.org,
- linux-rdma@vger.kernel.org, Benjamin LaHaise <bcrl@kvack.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Sven Schnelle <svens@linux.ibm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-fsdevel@vger.kernel.org,
- Moritz Fischer <mdf@kernel.org>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- David Woodhouse <dwmw2@infradead.org>, Xu Yilun <yilun.xu@intel.com>
+Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
+ krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, kernel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> >   * eventfd_signal - Adds @n to the eventfd counter.
+Il 23/11/23 13:59, Boris Brezillon ha scritto:
+> On Thu, 23 Nov 2023 12:15:01 +0100
+> AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> wrote:
 > 
-> This still refers to @n here, and in patch 4.
+>> Il 23/11/23 11:35, Boris Brezillon ha scritto:
+>>> On Thu, 23 Nov 2023 10:53:20 +0100
+>>> AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>> wrote:
+>>>    
+>>>> Some SoCs may be equipped with a GPU containing two core groups
+>>>> and this is exactly the case of Samsung's Exynos 5422 featuring
+>>>> an ARM Mali-T628 MP6 GPU: the support for this GPU in Panfrost
+>>>> is partial, as this driver currently supports using only one
+>>>> core group and that's reflected on all parts of it, including
+>>>> the power on (and power off, previously to this patch) function.
+>>>>
+>>>> The issue with this is that even though executing the soft reset
+>>>> operation should power off all cores unconditionally, on at least
+>>>> one platform we're seeing a crash that seems to be happening due
+>>>> to an interrupt firing which may be because we are calling power
+>>>> transition only on the first core group, leaving the second one
+>>>> unchanged, or because ISR execution was pending before entering
+>>>> the panfrost_gpu_power_off() function and executed after powering
+>>>> off the GPU cores, or all of the above.
+>>>>
+>>>> Finally, solve this by changing the power off flow to
+>>>>    1. Mask and clear all interrupts: we don't need nor want any, as
+>>>>       we are polling PWRTRANS anyway;
+>>>>    2. Call synchronize_irq() after that to make sure that any pending
+>>>>       ISR is executed before powering off the GPU Shaders/Tilers/L2
+>>>>       hence avoiding unpowered registers R/W; and
+>>>>    3. Ignore the core_mask and ask the GPU to poweroff both core groups
+>>>
+>>> Could we split that in two patches? 1+2 in one patch, and 3 in another.
+>>> These are two orthogonal fixes IMO.
+>>>    
+>>
+>> My initial idea was exactly that, but I opted for one patch doing 'em all
+>> because a "full fix" comprises all of 1+2+3: the third one without the
+>> first two and vice-versa may not fully resolve the issue that was seen
+>> on the HC1 board.
+> 
+> Guess it depends how you see it. I'd argue that these are 2 orthogonal
+> bugs, and the suspend fix might be worth backporting to older versions.
+> 
 
-Fixed and folded. Thanks!
+Yes, but older versions are not affected by this regression because the GPU
+was never turned off for real... so this commit is really fixing just the
+issues that came out *because* of the "Really power off" commit, which is
+not worth backporting as we already saw one regression with that and doing
+such thing would be mostly dangerous.
+
+If your suggestion was to backport 1+2 instead, I disagree: there are no
+suspend instabilities in older kernel versions, so we'd be fixing something
+that anyway always worked fine for years.
+
+This is to say: the "Really power off" code should be treated like a commit
+that implements a new feature, rather than fixing an old one, *only* because
+there is a possibility to create regressions somehow (again, we already had
+one).
+
+At least IMO...
+
+>>
+>> So, while I agree that it'd be slightly more readable as a diff if those
+>> were two different commits I do have reasons against splitting.....
+> 
+> If we just need a quick fix to avoid PWRTRANS interrupts from kicking
+> in when we power-off the cores, I think we'd be better off dropping
+> GPU_IRQ_POWER_CHANGED[_ALL] from the value we write to GPU_INT_MASK
+> at [re]initialization time, and then have a separate series that fixes
+> the problem more generically.
+> 
+
+But that didn't work:
+https://lore.kernel.org/all/d95259b8-10cf-4ded-866c-47cbd2a44f84@linaro.org/
+
+
+...while this "full" solution worked:
+https://lore.kernel.org/all/39e9514b-087c-42eb-8d0e-f75dc620e954@linaro.org/
+
+https://lore.kernel.org/all/5b24cc73-23aa-4837-abb9-b6d138b46426@linaro.org/
+
+
+...so this *is* a "quick fix" already... :-)
+
+>>>> +	gpu_write(pfdev, GPU_INT_MASK, 0);
+>>>> +	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
+>>>> +
+>>>> +	/*
+>>>> +	 * Make sure that we don't have pending ISRs, otherwise we'll be
+>>>> +	 * reading and/or writing registers while the GPU is powered off
+>>>> +	 */
+>>>> +	synchronize_irq(pfdev->irq);
+>>>
+>>> Could we move that to a panfrost_gpu_suspend_irq() helper? I'm also not
+>>> sure making it part of panfrost_gpu_power_off() is a good idea. I'd
+>>> rather have this panfrost_gpu_suspend_irq() helper called from
+>>> panfrost_device_[runtime_]suspend(), along with
+>>> panfrost_{mmu,job}_suspend_irq().
+>>>    
+>>
+>> Okay I will move that to a helper, but I still want to clarify:
+>>    - For JOB, we're checking if panfrost_job_is_idle() before trying
+>>      to runtime_suspend() (hence before trying to power off cores),
+>>      so implicitly no interrupt can fire I guess? Though there could
+>>      still be a pending ISR there too.... mmh. Brain ticking :-)
+> 
+> There's indeed no reason to see job interrupts if we're asked to enter
+> suspend, but it's mostly a matter of safety/correctness. If, as
+> expected, there's no pending interrupt, the write(_INT_MASK) +
+> synchronize_irq() should be relatively cheap.
+> 
+>>    - For MMU, we're not checking anything, but I guess that if there
+>>      is no job, the mmu can't be doing anything at all?
+>>      ...but then you also gave me the doubt about that one as well.
+> 
+> Same here, if we've properly flushed all jobs, and handled all pending
+> interrupts, we shouldn't end up with pending MMU irqs when we're asked
+> to suspend. But the extra mask+synchronize_irq() buys us extra safety.
+> 
+>>
+>> What I think that would be sensible to do is to get this commit as
+>> a "clear" fix for the "Really power off" one, then have one or more
+>> additional commit(s) without any fixes tag to improve the IRQ suspend
+>> with the new mmu/job irq suspend helpers.
+> 
+> If you need a self-contained fix to avoid power transition interrupts
+> messing up with suspend, then, as I suggested, it might make more sense
+> to drop GPU_IRQ_POWER_CHANGED[_ALL] when writing GPU_INT_MASK, which
+> you want anyway, to avoid being interrupted when you do power
+> transitions.
+> 
+>>
+>> Of course *this* commit would introduce the panfrost_gpu_suspend_irq()
+>> helper directly, instead of moving the logic to a helper in a later one.
+>>
+>> Any reason against? :-)
+>>
+>>>> +
+>>>> +	/* Now it's safe to request poweroff for Shaders, Tilers and L2 */
+>>>
+>>> It was safe before too, it's just that we probably don't want to be
+>>
+>> In theory yes, in practice the Odroid HC1 board crashed :-P
+> 
+> Just to be clear, it's not the accesses to the PWROFF/PWRTRANS
+> registers in this function that were causing the crash, it's the fact we
+> were writing to those regs, and leaving the corresponding interrupt
+> unprocessed before returning from panfrost_device[_runtime]_suspend().
+> 
+>>
+>> P.S.: Joking! I understand what you're saying :-)
+> 
+> Okay, but the comment was still inaccurate :P.
+> 
+
+Hahaha! Fair! :-D
+
+>>
+>>> interrupted, if all we do is ignore the interrupts we receive, hence
+>>> the suggestion to not use GPU_IRQ_MASK_ALL, and only enable the
+>>> IRQs we care about instead.
+>>>    
+>>>> +	gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present);
+>>>>    	ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_PWRTRANS_LO,
+>>>>    					 val, !val, 1, 1000);
+>>>>    	if (ret)
+>>>> @@ -441,7 +451,7 @@ void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+>>>>    	if (ret)
+>>>>    		dev_err(pfdev->dev, "tiler power transition timeout");
+>>>>    
+>>>> -	gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present & core_mask);
+>>>> +	gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present);
+>>>
+>>> I really think we should have a helper doing the 'write(PWROFF_{LO,HI} +
+>>> poll(PWRTRANS_{LO,HI})' sequence, similar to what's done here [1][2],
+>>> such that, once we got it right for one block, we have it working for
+>>> all of them. And if there's a fix to apply, it automatically applies
+>>> to all blocks without having to fix the same bug in each copy.
+>>>    
+>>
+>> ...technically yes, but practically this driver doesn't currently support any
+>> GPU that even fills the _LO registers.
+> 
+> Once we have a solution that works for all use cases, it can work for
+> the limited set we support at the moment :P.
+> 
+>>
+>> I guess that we can do that later?
+> 
+> Sure, that was more of a follow-up patch suggestion.
+> 
+
+Thanks for that.
+
+>>
+>> That's just to (paranoidly) avoid any risk to introduce other regressions in
+>> this merge window, since we're fixing one that shouldn't have happened in the
+>> first place...
+> 
+> Agreed, but if that's the goal, then I'd go for the simpler change I
+> suggested above (dropping GPU_IRQ_POWER_CHANGED[_ALL] from the
+> interrupt mask altogether). This way you don't have to worry about
+> receiving power transition interrupts in the first place, and you also
+> save interrupt context switching time when you power on the various
+> blocks.
+> 
+
+...but again, that wouldn't fully work, as per krzk's test.
+
+>>
+>>> Note that these panthor_gpu_block_power_{on,off}() helpers also handle
+>>> the case where power transitions are already in progress when you ask a
+>>> new power transition, which I don't think is checked in
+>>> panfrost_gpu_power_{off,on}().
+>>>    
+>>
+>> I admit I didn't analyze the panthor driver - but here, the only power transitions
+>> that may happen are either because of panfrost_gpu_power_on(), or because of
+>> panfrost_gpu_power_off(), and both are polling and blocking... so from what I
+>> understand, there's no possibility to have "another" power transition happening
+>> while calling poweron, or poweroff.
+> 
+> Well yes, in theory there's no reason to have more than one transition
+> happening at a given time (that's assuming power transition never time
+> out, or if they do, the system gets back to an idle state before we try
+> to do the next power transition). It's just that, if it ever happens,
+> for any reason, we'd be safe against this unexpected situation, for a
+> cost that's relatively low (just an extra register read if things are in
+> the expected idle state).
+> 
+> Definitely not saying we should do that in this patch, but I think we
+> should do anything we can do to improve robustness, assuming the cost
+> of these extra checks is acceptable (we're not really in a fastpath
+> here).
+
+There's a lot of room for improvement in Panfrost, on that I agree.
+
+Cheers,
+Angelo
+
