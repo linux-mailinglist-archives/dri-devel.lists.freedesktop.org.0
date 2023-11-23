@@ -2,69 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027077F5F9A
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 13:59:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B987F5F9D
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 13:59:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 104BA10E738;
-	Thu, 23 Nov 2023 12:58:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ECF210E739;
+	Thu, 23 Nov 2023 12:59:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC91C10E738
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 12:58:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1700744335;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=/7ObfiPqZ+LlSreBiTL2Aa55YSP6Ys8mNnpf4ICQ3I0=;
- b=IwNuTU1wYpuOzMcJw1ZXk9VCLoB6gEUeIfe4XKh/5RnzXqJJEMwKhQysC6Rj2v7pwfDhOn
- fuXonz8klpL+C5q5TPDYATZQM2/D5IzvdUMl2FLagyLe5k8u0CteP8oT3LqRNJ/xuOo4sk
- SeFhyKyUwHWaZ+pDW5ZBknEx0oL79GE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-584-7ntaEv5gMHCD6Vlo1NNqxw-1; Thu, 23 Nov 2023 07:58:53 -0500
-X-MC-Unique: 7ntaEv5gMHCD6Vlo1NNqxw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-40b357e2a01so3586905e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 04:58:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700744332; x=1701349132;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/7ObfiPqZ+LlSreBiTL2Aa55YSP6Ys8mNnpf4ICQ3I0=;
- b=BDAkcMDifKcHAplM3nIugVfUwB0H7DaT/BR+irPAC/aQeBeb5rjEbOJFuriUB+sApV
- VjSVXtSxBD4j6Dc9Wt0oi8N7AfF4NK2lVYlaJ7wuHzthnfqxyIhPJihXq9JIbWGSOvJ0
- B6AdioXA7RHsz+u3RLetKQ2weAtkxjmQ/rn1How9wRRzEHlB3B+FIyE5/Iv7mEkiXR23
- ZUFcX09mc1d6qsNpYxfB38np9VIb33uLQehcDVoUmU9uGyKf71lhnXSqruf9T419Nxs2
- esOJgQjjy0vaz/xgqmkoUiJ3IOTCc9dmkTfltVUJHXg4duEFUnfq9W38KdmIrSATJ7Lu
- HgMg==
-X-Gm-Message-State: AOJu0YwwU5nhcCrO0e08BaSJJBLtGrQ3TkcaCyUtI1pUVQiKhAO8sTLb
- gHzSn7qYJjnXBFHM2Y76stEtZZvtm+PvDmQO75cCtsknmrCZfFtTdErSlkWLYTpkpUDD6KBCUlX
- GzxaSFY39aMzyGiamGZGuHldalhmv
-X-Received: by 2002:adf:f78f:0:b0:32d:9d80:4039 with SMTP id
- q15-20020adff78f000000b0032d9d804039mr3633199wrp.34.1700744332281; 
- Thu, 23 Nov 2023 04:58:52 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGpWgSPYx8zY62FkgX2BZkJCBito0oBsQoboWfkrhEz4uFJxxqm8j/fIgNDjmQ49+9rxyGQog==
-X-Received: by 2002:adf:f78f:0:b0:32d:9d80:4039 with SMTP id
- q15-20020adff78f000000b0032d9d804039mr3633180wrp.34.1700744331836; 
- Thu, 23 Nov 2023 04:58:51 -0800 (PST)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- a4-20020a5d5704000000b00332c7d4a232sm1564569wrv.82.2023.11.23.04.58.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Nov 2023 04:58:51 -0800 (PST)
-Date: Thu, 23 Nov 2023 13:58:50 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next
-Message-ID: <drzvrbsej2txf6a6npc4ukkpadj3wio7edkjbgsfdm4l33szpe@fgwtdy5z5ev7>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E689910E73B
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 12:59:38 +0000 (UTC)
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id E4ECB66073A8;
+ Thu, 23 Nov 2023 12:59:36 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1700744377;
+ bh=3Xr5mtXjBYuvRtwd13TkgbpC2/XlGPdDSal/R57xmnw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=lNVloRbfl5T9+GS9EOBtK5fMu0JfRdtOslfzqNB9xnHZLa+6Hm+mkQiJMAAaJaZ7X
+ prBcRAP8FFRdNkyfqaZBmcZpuWtMMmAZ500Z5yNadLfhvc5z+FCz8yOI2ctWYOHrBI
+ RBEKN/HkGAXIHBbkLM19hNZE1MmkI4UJOXfXh3qwKYkXJB/wO6OGHdI/BCJSl+rJNA
+ Gi+ZLyF540hQsyTa3nscBlb4bo72oK4IIVEJrqsaYmFokjpkT3g6UU9xU8ZNd9KF14
+ 6YIKB3rAukwLzVmFQ5l48Qqlcef0sJvWFxAaLESn066h4X/q+zmAE8o8NcctyvODov
+ zTbE5xG19/gbg==
+Date: Thu, 23 Nov 2023 13:59:33 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH] drm/panfrost: Ignore core_mask for poweroff and sync
+ interrupts
+Message-ID: <20231123135933.34d643f7@collabora.com>
+In-Reply-To: <1740797f-f3ae-4868-924a-08d6d731e506@collabora.com>
+References: <20231123095320.41433-1-angelogioacchino.delregno@collabora.com>
+ <20231123113530.46191ded@collabora.com>
+ <1740797f-f3ae-4868-924a-08d6d731e506@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ma5tqxtnhq4wwnph"
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,379 +56,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
+ krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, kernel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 23 Nov 2023 12:15:01 +0100
+AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+wrote:
 
---ma5tqxtnhq4wwnph
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Il 23/11/23 11:35, Boris Brezillon ha scritto:
+> > On Thu, 23 Nov 2023 10:53:20 +0100
+> > AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> > wrote:
+> >   
+> >> Some SoCs may be equipped with a GPU containing two core groups
+> >> and this is exactly the case of Samsung's Exynos 5422 featuring
+> >> an ARM Mali-T628 MP6 GPU: the support for this GPU in Panfrost
+> >> is partial, as this driver currently supports using only one
+> >> core group and that's reflected on all parts of it, including
+> >> the power on (and power off, previously to this patch) function.
+> >>
+> >> The issue with this is that even though executing the soft reset
+> >> operation should power off all cores unconditionally, on at least
+> >> one platform we're seeing a crash that seems to be happening due
+> >> to an interrupt firing which may be because we are calling power
+> >> transition only on the first core group, leaving the second one
+> >> unchanged, or because ISR execution was pending before entering
+> >> the panfrost_gpu_power_off() function and executed after powering
+> >> off the GPU cores, or all of the above.
+> >>
+> >> Finally, solve this by changing the power off flow to
+> >>   1. Mask and clear all interrupts: we don't need nor want any, as
+> >>      we are polling PWRTRANS anyway;
+> >>   2. Call synchronize_irq() after that to make sure that any pending
+> >>      ISR is executed before powering off the GPU Shaders/Tilers/L2
+> >>      hence avoiding unpowered registers R/W; and
+> >>   3. Ignore the core_mask and ask the GPU to poweroff both core groups  
+> > 
+> > Could we split that in two patches? 1+2 in one patch, and 3 in another.
+> > These are two orthogonal fixes IMO.
+> >   
+> 
+> My initial idea was exactly that, but I opted for one patch doing 'em all
+> because a "full fix" comprises all of 1+2+3: the third one without the
+> first two and vice-versa may not fully resolve the issue that was seen
+> on the HC1 board.
 
-Hi,
+Guess it depends how you see it. I'd argue that these are 2 orthogonal
+bugs, and the suspend fix might be worth backporting to older versions.
 
-Here's this week drm-misc-next PR.
+> 
+> So, while I agree that it'd be slightly more readable as a diff if those
+> were two different commits I do have reasons against splitting.....
 
-It's been fairly calm, but there's one big change: the IMG GPU driver is
-now merged!
+If we just need a quick fix to avoid PWRTRANS interrupts from kicking
+in when we power-off the cores, I think we'd be better off dropping 
+GPU_IRQ_POWER_CHANGED[_ALL] from the value we write to GPU_INT_MASK
+at [re]initialization time, and then have a separate series that fixes
+the problem more generically.
 
-Maxime
+> >> +	gpu_write(pfdev, GPU_INT_MASK, 0);
+> >> +	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
+> >> +
+> >> +	/*
+> >> +	 * Make sure that we don't have pending ISRs, otherwise we'll be
+> >> +	 * reading and/or writing registers while the GPU is powered off
+> >> +	 */
+> >> +	synchronize_irq(pfdev->irq);  
+> > 
+> > Could we move that to a panfrost_gpu_suspend_irq() helper? I'm also not
+> > sure making it part of panfrost_gpu_power_off() is a good idea. I'd
+> > rather have this panfrost_gpu_suspend_irq() helper called from
+> > panfrost_device_[runtime_]suspend(), along with
+> > panfrost_{mmu,job}_suspend_irq().
+> >   
+> 
+> Okay I will move that to a helper, but I still want to clarify:
+>   - For JOB, we're checking if panfrost_job_is_idle() before trying
+>     to runtime_suspend() (hence before trying to power off cores),
+>     so implicitly no interrupt can fire I guess? Though there could
+>     still be a pending ISR there too.... mmh. Brain ticking :-)
 
-drm-misc-next-2023-11-23:
-drm-misc-next for 6.8:
+There's indeed no reason to see job interrupts if we're asked to enter
+suspend, but it's mostly a matter of safety/correctness. If, as
+expected, there's no pending interrupt, the write(_INT_MASK) +
+synchronize_irq() should be relatively cheap.
 
-UAPI Changes:
+>   - For MMU, we're not checking anything, but I guess that if there
+>     is no job, the mmu can't be doing anything at all?
+>     ...but then you also gave me the doubt about that one as well.
 
-Cross-subsystem Changes:
+Same here, if we've properly flushed all jobs, and handled all pending
+interrupts, we shouldn't end up with pending MMU irqs when we're asked
+to suspend. But the extra mask+synchronize_irq() buys us extra safety.
 
-Core Changes:
-  - Drop deprecated drm_kms_helper.edid_firmware module parameter
+> 
+> What I think that would be sensible to do is to get this commit as
+> a "clear" fix for the "Really power off" one, then have one or more
+> additional commit(s) without any fixes tag to improve the IRQ suspend
+> with the new mmu/job irq suspend helpers.
 
-Driver Changes:
-  - Convert platform drivers remove callback to return void
-  - imagination: Introduction of the Imagination GPU Support
-  - rockchip:
-    - rk3066_hdmi: Convert to atomic
-    - vop2: Support NV20 and NV30
-  - panel:
-    - elida-kd35t133: PM reworks
-    - New panels: Powkiddy RK2023
-The following changes since commit 3b434a3445fff3149128db0169da864d67057325:
+If you need a self-contained fix to avoid power transition interrupts
+messing up with suspend, then, as I suggested, it might make more sense
+to drop GPU_IRQ_POWER_CHANGED[_ALL] when writing GPU_INT_MASK, which
+you want anyway, to avoid being interrupted when you do power
+transitions.
 
-  accel/ivpu: Use threaded IRQ to handle JOB done messages (2023-11-16 13:4=
-1:49 +0100)
+> 
+> Of course *this* commit would introduce the panfrost_gpu_suspend_irq()
+> helper directly, instead of moving the logic to a helper in a later one.
+> 
+> Any reason against? :-)
+> 
+> >> +
+> >> +	/* Now it's safe to request poweroff for Shaders, Tilers and L2 */  
+> > 
+> > It was safe before too, it's just that we probably don't want to be  
+> 
+> In theory yes, in practice the Odroid HC1 board crashed :-P
 
-are available in the Git repository at:
+Just to be clear, it's not the accesses to the PWROFF/PWRTRANS
+registers in this function that were causing the crash, it's the fact we
+were writing to those regs, and leaving the corresponding interrupt
+unprocessed before returning from panfrost_device[_runtime]_suspend().
 
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2023-11-23
+> 
+> P.S.: Joking! I understand what you're saying :-)
 
-for you to fetch changes up to 815d8b0425ad1164e45953ac3d56a9f6f63792cc:
+Okay, but the comment was still inaccurate :P.
 
-  drm/imagination: Add driver documentation (2023-11-23 09:01:47 +0100)
+> 
+> > interrupted, if all we do is ignore the interrupts we receive, hence
+> > the suggestion to not use GPU_IRQ_MASK_ALL, and only enable the
+> > IRQs we care about instead.
+> >   
+> >> +	gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present);
+> >>   	ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_PWRTRANS_LO,
+> >>   					 val, !val, 1, 1000);
+> >>   	if (ret)
+> >> @@ -441,7 +451,7 @@ void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+> >>   	if (ret)
+> >>   		dev_err(pfdev->dev, "tiler power transition timeout");
+> >>   
+> >> -	gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present & core_mask);
+> >> +	gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present);  
+> > 
+> > I really think we should have a helper doing the 'write(PWROFF_{LO,HI} +
+> > poll(PWRTRANS_{LO,HI})' sequence, similar to what's done here [1][2],
+> > such that, once we got it right for one block, we have it working for
+> > all of them. And if there's a fix to apply, it automatically applies
+> > to all blocks without having to fix the same bug in each copy.
+> >   
+> 
+> ...technically yes, but practically this driver doesn't currently support any
+> GPU that even fills the _LO registers.
 
-----------------------------------------------------------------
-drm-misc-next for 6.8:
+Once we have a solution that works for all use cases, it can work for
+the limited set we support at the moment :P.
 
-UAPI Changes:
+> 
+> I guess that we can do that later?
 
-Cross-subsystem Changes:
+Sure, that was more of a follow-up patch suggestion.
 
-Core Changes:
-  - Drop deprecated drm_kms_helper.edid_firmware module parameter
+> 
+> That's just to (paranoidly) avoid any risk to introduce other regressions in
+> this merge window, since we're fixing one that shouldn't have happened in the
+> first place...
 
-Driver Changes:
-  - Convert platform drivers remove callback to return void
-  - imagination: Introduction of the Imagination GPU Support
-  - rockchip:
-    - rk3066_hdmi: Convert to atomic
-    - vop2: Support NV20 and NV30
-  - panel:
-    - elida-kd35t133: PM reworks
-    - New panels: Powkiddy RK2023
+Agreed, but if that's the goal, then I'd go for the simpler change I
+suggested above (dropping GPU_IRQ_POWER_CHANGED[_ALL] from the
+interrupt mask altogether). This way you don't have to worry about
+receiving power transition interrupts in the first place, and you also
+save interrupt context switching time when you power on the various
+blocks.
 
-----------------------------------------------------------------
-Abhinav Singh (1):
-      drm/nouveau/fence:: fix warning directly dereferencing a rcu pointer
+> 
+> > Note that these panthor_gpu_block_power_{on,off}() helpers also handle
+> > the case where power transitions are already in progress when you ask a
+> > new power transition, which I don't think is checked in
+> > panfrost_gpu_power_{off,on}().
+> >   
+> 
+> I admit I didn't analyze the panthor driver - but here, the only power transitions
+> that may happen are either because of panfrost_gpu_power_on(), or because of
+> panfrost_gpu_power_off(), and both are polling and blocking... so from what I
+> understand, there's no possibility to have "another" power transition happening
+> while calling poweron, or poweroff.
 
-Arnd Bergmann (1):
-      drm/rockchip: rk3066_hdmi: include drm/drm_atomic.h
+Well yes, in theory there's no reason to have more than one transition
+happening at a given time (that's assuming power transition never time
+out, or if they do, the system gets back to an idle state before we try
+to do the next power transition). It's just that, if it ever happens,
+for any reason, we'd be safe against this unexpected situation, for a
+cost that's relatively low (just an extra register read if things are in
+the expected idle state).
 
-Chris Morgan (8):
-      dt-bindings: display: nv3051d: Update NewVision NV3051D compatibles
-      drm/panel: nv3051d: Hold panel in reset for unprepare
-      drm/panel: nv3051d: Add Powkiddy RK2023 Panel Support
-      drm/panel-elida-kd35t133: trival: update panel size from 5.5 to 3.5
-      drm/panel-elida-kd35t133: hold panel in reset for unprepare
-      drm/panel-elida-kd35t133: drop drm_connector_set_orientation_from_pan=
-el
-      drm/panel-elida-kd35t133: Drop shutdown logic
-      drm/panel-elida-kd35t133: Drop prepare/unprepare logic
-
-Donald Robson (2):
-      drm/gpuvm: Helper to get range of unmap from a remap op.
-      drm/imagination: Add GEM and VM related code
-
-Jani Nikula (1):
-      drm/edid/firmware: drop drm_kms_helper.edid_firmware backward compat
-
-Jeffrey Hugo (1):
-      accel/qaic: Update MAX_ORDER use to be inclusive
-
-Johan Jonker (2):
-      drm/rockchip: rk3066_hdmi: Remove useless mode_fixup
-      drm/rockchip: rk3066_hdmi: Switch encoder hooks to atomic
-
-Jonas Karlman (1):
-      drm/rockchip: vop2: Add NV20 and NV30 support
-
-Kees Cook (1):
-      dma-buf: Replace strlcpy() with strscpy()
-
-Luben Tuikov (1):
-      drm/print: Handle NULL drm device in __drm_printk()
-
-Matt Coster (1):
-      sizes.h: Add entries between SZ_32G and SZ_64T
-
-Richard Acayan (1):
-      fbdev/simplefb: Suppress error on missing power domains
-
-Sarah Walker (17):
-      dt-bindings: gpu: Add Imagination Technologies PowerVR/IMG GPU
-      drm/imagination/uapi: Add PowerVR driver UAPI
-      drm/imagination: Add skeleton PowerVR driver
-      drm/imagination: Get GPU resources
-      drm/imagination: Add GPU register headers
-      drm/imagination: Add firmware and MMU related headers
-      drm/imagination: Add FWIF headers
-      drm/imagination: Add GPU ID parsing and firmware loading
-      drm/imagination: Implement power management
-      drm/imagination: Implement firmware infrastructure and META FW support
-      drm/imagination: Implement MIPS firmware processor and MMU support
-      drm/imagination: Implement free list and HWRT create and destroy ioct=
-ls
-      drm/imagination: Implement context creation/destruction ioctls
-      drm/imagination: Implement job submission and scheduling
-      drm/imagination: Add firmware trace header
-      drm/imagination: Add firmware trace to debugfs
-      drm/imagination: Add driver documentation
-
-Tomi Valkeinen (1):
-      drm/tilcdc: Fix irq free on unload
-
-Uwe Kleine-K=F6nig (14):
-      drm/bridge: tpd12s015: Drop buggy __exit annotation for remove functi=
-on
-      drm/arcpgu: Convert to platform remove callback returning void
-      drm/armada: Convert to platform remove callback returning void
-      drm/bridge: cdns-mhdp8546: Improve error reporting in remove callback
-      drm/bridge: cdns-mhdp8546: Convert to platform remove callback return=
-ing void
-      drm/bridge: tpd12s015: Convert to platform remove callback returning =
-void
-      drm/etnaviv: Convert to platform remove callback returning void
-      drm/imx/dcss: Convert to platform remove callback returning void
-      drm/imx: lcdc: Convert to platform remove callback returning void
-      drm/kmb: Convert to platform remove callback returning void
-      drm/mediatek: Convert to platform remove callback returning void
-      drm/meson: Convert to platform remove callback returning void
-      drm/nouveau: Convert to platform remove callback returning void
-      drm/sprd: Convert to platform remove callback returning void
-
-Yang Li (1):
-      drm/nouveau/fifo: Remove duplicated include in chan.c
-
- .../bindings/display/panel/newvision,nv3051d.yaml  |    2 +-
- .../devicetree/bindings/gpu/img,powervr.yaml       |   73 +
- Documentation/gpu/drivers.rst                      |    2 +
- Documentation/gpu/imagination/index.rst            |   13 +
- Documentation/gpu/imagination/uapi.rst             |  174 +
- MAINTAINERS                                        |   10 +
- drivers/accel/qaic/qaic_data.c                     |    2 +-
- drivers/dma-buf/dma-buf.c                          |    4 +-
- drivers/gpu/drm/Kconfig                            |    2 +
- drivers/gpu/drm/Makefile                           |    1 +
- drivers/gpu/drm/armada/armada_crtc.c               |    5 +-
- drivers/gpu/drm/armada/armada_drv.c                |    5 +-
- .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    |   26 +-
- drivers/gpu/drm/bridge/ti-tpd12s015.c              |    6 +-
- drivers/gpu/drm/drm_edid_load.c                    |   16 -
- drivers/gpu/drm/drm_kms_helper_common.c            |   32 -
- drivers/gpu/drm/etnaviv/etnaviv_drv.c              |    6 +-
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c              |    5 +-
- drivers/gpu/drm/imagination/Kconfig                |   18 +
- drivers/gpu/drm/imagination/Makefile               |   35 +
- drivers/gpu/drm/imagination/pvr_ccb.c              |  645 ++
- drivers/gpu/drm/imagination/pvr_ccb.h              |   71 +
- drivers/gpu/drm/imagination/pvr_cccb.c             |  267 +
- drivers/gpu/drm/imagination/pvr_cccb.h             |  109 +
- drivers/gpu/drm/imagination/pvr_context.c          |  464 ++
- drivers/gpu/drm/imagination/pvr_context.h          |  205 +
- drivers/gpu/drm/imagination/pvr_debugfs.c          |   53 +
- drivers/gpu/drm/imagination/pvr_debugfs.h          |   29 +
- drivers/gpu/drm/imagination/pvr_device.c           |  658 +++
- drivers/gpu/drm/imagination/pvr_device.h           |  710 +++
- drivers/gpu/drm/imagination/pvr_device_info.c      |  254 +
- drivers/gpu/drm/imagination/pvr_device_info.h      |  186 +
- drivers/gpu/drm/imagination/pvr_drv.c              | 1501 +++++
- drivers/gpu/drm/imagination/pvr_drv.h              |  129 +
- drivers/gpu/drm/imagination/pvr_free_list.c        |  625 ++
- drivers/gpu/drm/imagination/pvr_free_list.h        |  195 +
- drivers/gpu/drm/imagination/pvr_fw.c               | 1489 +++++
- drivers/gpu/drm/imagination/pvr_fw.h               |  508 ++
- drivers/gpu/drm/imagination/pvr_fw_info.h          |  135 +
- drivers/gpu/drm/imagination/pvr_fw_meta.c          |  554 ++
- drivers/gpu/drm/imagination/pvr_fw_meta.h          |   14 +
- drivers/gpu/drm/imagination/pvr_fw_mips.c          |  252 +
- drivers/gpu/drm/imagination/pvr_fw_mips.h          |   48 +
- drivers/gpu/drm/imagination/pvr_fw_startstop.c     |  306 +
- drivers/gpu/drm/imagination/pvr_fw_startstop.h     |   13 +
- drivers/gpu/drm/imagination/pvr_fw_trace.c         |  515 ++
- drivers/gpu/drm/imagination/pvr_fw_trace.h         |   78 +
- drivers/gpu/drm/imagination/pvr_gem.c              |  414 ++
- drivers/gpu/drm/imagination/pvr_gem.h              |  170 +
- drivers/gpu/drm/imagination/pvr_hwrt.c             |  549 ++
- drivers/gpu/drm/imagination/pvr_hwrt.h             |  165 +
- drivers/gpu/drm/imagination/pvr_job.c              |  788 +++
- drivers/gpu/drm/imagination/pvr_job.h              |  161 +
- drivers/gpu/drm/imagination/pvr_mmu.c              | 2637 +++++++++
- drivers/gpu/drm/imagination/pvr_mmu.h              |  108 +
- drivers/gpu/drm/imagination/pvr_params.c           |  147 +
- drivers/gpu/drm/imagination/pvr_params.h           |   72 +
- drivers/gpu/drm/imagination/pvr_power.c            |  433 ++
- drivers/gpu/drm/imagination/pvr_power.h            |   41 +
- drivers/gpu/drm/imagination/pvr_queue.c            | 1432 +++++
- drivers/gpu/drm/imagination/pvr_queue.h            |  169 +
- drivers/gpu/drm/imagination/pvr_rogue_cr_defs.h    | 6193 ++++++++++++++++=
-++++
- .../gpu/drm/imagination/pvr_rogue_cr_defs_client.h |  159 +
- drivers/gpu/drm/imagination/pvr_rogue_defs.h       |  179 +
- drivers/gpu/drm/imagination/pvr_rogue_fwif.h       | 2188 +++++++
- drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h |  493 ++
- .../gpu/drm/imagination/pvr_rogue_fwif_client.h    |  373 ++
- .../drm/imagination/pvr_rogue_fwif_client_check.h  |  133 +
- .../gpu/drm/imagination/pvr_rogue_fwif_common.h    |   60 +
- .../gpu/drm/imagination/pvr_rogue_fwif_dev_info.h  |  113 +
- .../imagination/pvr_rogue_fwif_resetframework.h    |   28 +
- drivers/gpu/drm/imagination/pvr_rogue_fwif_sf.h    | 1648 ++++++
- .../gpu/drm/imagination/pvr_rogue_fwif_shared.h    |  258 +
- .../drm/imagination/pvr_rogue_fwif_shared_check.h  |  108 +
- .../gpu/drm/imagination/pvr_rogue_fwif_stream.h    |   78 +
- .../gpu/drm/imagination/pvr_rogue_heap_config.h    |  113 +
- drivers/gpu/drm/imagination/pvr_rogue_meta.h       |  356 ++
- drivers/gpu/drm/imagination/pvr_rogue_mips.h       |  335 ++
- drivers/gpu/drm/imagination/pvr_rogue_mips_check.h |   58 +
- drivers/gpu/drm/imagination/pvr_rogue_mmu_defs.h   |  136 +
- drivers/gpu/drm/imagination/pvr_stream.c           |  285 +
- drivers/gpu/drm/imagination/pvr_stream.h           |   75 +
- drivers/gpu/drm/imagination/pvr_stream_defs.c      |  351 ++
- drivers/gpu/drm/imagination/pvr_stream_defs.h      |   16 +
- drivers/gpu/drm/imagination/pvr_sync.c             |  289 +
- drivers/gpu/drm/imagination/pvr_sync.h             |   84 +
- drivers/gpu/drm/imagination/pvr_vm.c               | 1107 ++++
- drivers/gpu/drm/imagination/pvr_vm.h               |   65 +
- drivers/gpu/drm/imagination/pvr_vm_mips.c          |  238 +
- drivers/gpu/drm/imagination/pvr_vm_mips.h          |   22 +
- drivers/gpu/drm/imx/dcss/dcss-drv.c                |    6 +-
- drivers/gpu/drm/imx/lcdc/imx-lcdc.c                |    6 +-
- drivers/gpu/drm/kmb/kmb_drv.c                      |    5 +-
- drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c    |    5 +-
- drivers/gpu/drm/mediatek/mtk_ethdr.c               |    5 +-
- drivers/gpu/drm/meson/meson_dw_mipi_dsi.c          |    6 +-
- drivers/gpu/drm/nouveau/nouveau_platform.c         |    5 +-
- drivers/gpu/drm/nouveau/nv04_fence.c               |    2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/chan.c    |    1 -
- drivers/gpu/drm/panel/panel-elida-kd35t133.c       |   37 +-
- drivers/gpu/drm/panel/panel-newvision-nv3051d.c    |   57 +-
- drivers/gpu/drm/rockchip/rk3066_hdmi.c             |   47 +-
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c       |    5 +
- drivers/gpu/drm/rockchip/rockchip_vop2_reg.c       |    2 +
- drivers/gpu/drm/sprd/sprd_dpu.c                    |    6 +-
- drivers/gpu/drm/sprd/sprd_drm.c                    |    5 +-
- drivers/gpu/drm/sprd/sprd_dsi.c                    |    6 +-
- drivers/gpu/drm/tilcdc/tilcdc_drv.c                |    2 +-
- drivers/gpu/drm/tiny/arcpgu.c                      |    6 +-
- drivers/video/fbdev/simplefb.c                     |    4 +
- include/drm/drm_edid.h                             |    5 -
- include/drm/drm_gpuvm.h                            |   28 +
- include/drm/drm_print.h                            |    2 +-
- include/linux/sizes.h                              |    9 +
- include/uapi/drm/pvr_drm.h                         | 1297 ++++
- 115 files changed, 34632 insertions(+), 204 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/gpu/img,powervr.yaml
- create mode 100644 Documentation/gpu/imagination/index.rst
- create mode 100644 Documentation/gpu/imagination/uapi.rst
- create mode 100644 drivers/gpu/drm/imagination/Kconfig
- create mode 100644 drivers/gpu/drm/imagination/Makefile
- create mode 100644 drivers/gpu/drm/imagination/pvr_ccb.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_ccb.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_cccb.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_cccb.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_context.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_context.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_debugfs.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_debugfs.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_device.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_device.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_device_info.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_device_info.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_drv.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_drv.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_free_list.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_free_list.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_info.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_meta.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_meta.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_mips.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_mips.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_startstop.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_startstop.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_trace.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_fw_trace.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_gem.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_gem.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_hwrt.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_hwrt.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_job.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_job.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_mmu.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_mmu.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_params.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_params.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_power.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_power.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_queue.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_queue.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_cr_defs.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_cr_defs_client.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_defs.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_client.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_client_check=
-=2Eh
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_common.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_dev_info.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_resetframewo=
-rk.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_sf.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_shared.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_shared_check=
-=2Eh
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_fwif_stream.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_heap_config.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_meta.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_mips.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_mips_check.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_rogue_mmu_defs.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_stream.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_stream.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_stream_defs.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_stream_defs.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_sync.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_sync.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_vm.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_vm.h
- create mode 100644 drivers/gpu/drm/imagination/pvr_vm_mips.c
- create mode 100644 drivers/gpu/drm/imagination/pvr_vm_mips.h
- create mode 100644 include/uapi/drm/pvr_drm.h
-
---ma5tqxtnhq4wwnph
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZV9MigAKCRDj7w1vZxhR
-xXiXAP9dxjET+Sh7/zVEidwWHFNbgw3MC9CGhoGwd0Gfj0dEDgD7B1b0CT5MHzyh
-KSoj4L/UivsPvTbBlpOtCA5Mc/pv0Qo=
-=09Nj
------END PGP SIGNATURE-----
-
---ma5tqxtnhq4wwnph--
-
+Definitely not saying we should do that in this patch, but I think we
+should do anything we can do to improve robustness, assuming the cost
+of these extra checks is acceptable (we're not really in a fastpath
+here).
