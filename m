@@ -1,51 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882627F7DA9
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 19:26:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E037F84E2
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 20:47:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DEF210E36E;
-	Fri, 24 Nov 2023 18:26:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5FB110E374;
+	Fri, 24 Nov 2023 19:46:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38A1710E36E
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 18:26:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1F8210E374
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 19:46:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 86DF9CE2806;
- Fri, 24 Nov 2023 18:26:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2CE95C433C9;
- Fri, 24 Nov 2023 18:26:21 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 2D62DCE2BDC;
+ Fri, 24 Nov 2023 19:46:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95A37C433C8;
+ Fri, 24 Nov 2023 19:46:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700850381;
- bh=+a17ORrYB958IpB4yDfi5dd5LZPIqWUCcXi520YmShw=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=aGyY7j3DqFh0SGT5m+nLArDi9DPFMAdvwoWiYzS0DRIIwwwNT/r+6vSWPUk4pehm5
- LuH/S1hWfxk4hv0WPB37dXJwaCJqHzutY5vQoBLlgvwKPxu9tHXhtdSRhpTDjqrY4m
- pqQjaCVuS9DXtx4y/B9dRLfIcqj7twCc7hFNT72hC8tYcYmmYfaae2C7D10BoqBvhD
- Gbt2mz1Y61gellOJDazwH+NS7mYHC5Tj1JenECcNIwAcmgjTe2t7zZ77gNk90Eqtgu
- JdbP+QJaLvp3BC6el8wo+5k4Q1DZu5A3gk3RhqhSE9Ny+sbA1HW0eO899QoP1CLAd5
- XffETUWguXurw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 19576EAA95E; Fri, 24 Nov 2023 18:26:21 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 6.7-rc3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9txezDxgPxV4UJ-RPVxuAqO4k2kdDj-oUAyFdP+CztJPzg@mail.gmail.com>
-References: <CAPM=9txezDxgPxV4UJ-RPVxuAqO4k2kdDj-oUAyFdP+CztJPzg@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9txezDxgPxV4UJ-RPVxuAqO4k2kdDj-oUAyFdP+CztJPzg@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2023-11-24
-X-PR-Tracked-Commit-Id: b3ca8a08d8ed0dc8a9e236d9294efd58554a7b05
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: afa0f6ee000abd220a8160f0375b5b8d3e4284f2
-Message-Id: <170085038109.12986.1037268827572530527.pr-tracker-bot@kernel.org>
-Date: Fri, 24 Nov 2023 18:26:21 +0000
-To: Dave Airlie <airlied@gmail.com>
+ s=k20201202; t=1700855213;
+ bh=Lh3HwY/b7OgZdLgEYvxR/BK2codpIRRolyXRRFsmkA4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Q1TeqK+R7WpZrlSDMwr2q5pUslqvDxUZQ/UjxaJG+a+2rZfxsGXQNrT1gBW/xcg3d
+ feK85zHpN7c7s/J3L4BZY4s2cA12sCo1tZooLL/uUINxBnte0yNzB5tKcEUnJIIzBE
+ dQnZNWfWK6iDwM+O19xWtf5vMHsVzVU2FWUEdS9fSdbjh6V1DsTH4k5fw+TRbQQ0nf
+ 1aXJ55F30UiQwH8Hn3BRQl8vU5RxrySYTod89qXmE3ZC/5x4zNd3j3XC96nr9aYH3H
+ FB7zwZ+dS2iFk0yunM1KYvxTWoySec2R9fGQCplSue259exrB4xj8nui3qSPromI0v
+ ZIx0g3lb7WiRQ==
+Date: Fri, 24 Nov 2023 19:46:46 +0000
+From: Simon Horman <horms@kernel.org>
+To: Alexey Makhalov <amakhalov@vmware.com>
+Subject: Re: [PATCH 4/6] input/vmmouse: Use vmware_hypercall API
+Message-ID: <20231124194646.GW50352@kernel.org>
+References: <20231122233058.185601-1-amakhalov@vmware.com>
+ <20231122233058.185601-5-amakhalov@vmware.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231122233058.185601-5-amakhalov@vmware.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,22 +51,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: pv-drivers@vmware.com, dri-devel@lists.freedesktop.org, namit@vmware.com,
+ hpa@zytor.com, timothym@vmware.com, dave.hansen@linux.intel.co, x86@kernel.org,
+ mingo@redhat.com, linux-graphics-maintainer@vmware.com,
+ linux-input@vger.kernel.org, richardcochran@gmail.com,
+ virtualization@lists.linux.dev, mripard@kernel.org, akaher@vmware.com,
+ jsipek@vmware.com, tglx@linutronix.de, netdev@vger.kernel.org,
+ dmitry.torokhov@gmail.com, linux-kernel@vger.kernel.org, bp@alien8.d,
+ tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 24 Nov 2023 11:38:52 +1000:
+On Wed, Nov 22, 2023 at 03:30:49PM -0800, Alexey Makhalov wrote:
+> Switch from VMWARE_HYPERCALL macro to vmware_hypercall API.
+> Eliminate arch specific code. No functional changes intended.
+> 
+> Signed-off-by: Alexey Makhalov <amakhalov@vmware.com>
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-11-24
+Hi Alexey,
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/afa0f6ee000abd220a8160f0375b5b8d3e4284f2
+it is not strictly related to this patch, but I notice than an x86_64
+allmodconfig build with W=1 using gcc-13 fails to compile this file.
 
-Thank you!
+It appears that the problem relates to both priv->phys and
+psmouse->ps2dev.serio->phys being 32 bytes.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+
+drivers/input/mouse/vmmouse.c: In function ‘vmmouse_init’:
+drivers/input/mouse/vmmouse.c:455:53: error: ‘/input1’ directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Werror=format-truncation=]
+  455 |         snprintf(priv->phys, sizeof(priv->phys), "%s/input1",
+      |                                                     ^~~~~~~
+drivers/input/mouse/vmmouse.c:455:9: note: ‘snprintf’ output between 8 and 39 bytes into a destination of size 32
+  455 |         snprintf(priv->phys, sizeof(priv->phys), "%s/input1",
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  456 |                  psmouse->ps2dev.serio->phys);
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+...
