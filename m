@@ -1,43 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C2D87F8193
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 19:59:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEC97F7D1E
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 19:21:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19D9B10E01F;
-	Fri, 24 Nov 2023 18:59:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CDA710E21E;
+	Fri, 24 Nov 2023 18:21:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF08810E01F
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 18:59:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 03053623D3;
- Fri, 24 Nov 2023 18:59:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57376C433C8;
- Fri, 24 Nov 2023 18:59:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1700852379;
- bh=weAAYLO37DhTk8Y6IZDu25vVE/7zMyHaotCMK8Frhn8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HUq4OypyDASVzIy/XOspnS8xvKUAfT+5E2sqMkKFIzuLsqxdU75dRXsI7PXYG3uYU
- 0SjloS4t8vDJFA6qnQ3kT4Hwjg1iSrwzENJTHh14hCSJwQN9z8uF1oAvQ1EaQtXxkE
- PNUwlx6Eyd7ZqhS93Fn50TwIaptPLfx2k31lV4Yg=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Subject: [PATCH 6.1 325/372] drm/mediatek/dp: fix memory leak on ->get_edid
- callback error path
-Date: Fri, 24 Nov 2023 17:51:52 +0000
-Message-ID: <20231124172021.215392068@linuxfoundation.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231124172010.413667921@linuxfoundation.org>
-References: <20231124172010.413667921@linuxfoundation.org>
-User-Agent: quilt/0.67
-X-stable: review
-X-Patchwork-Hint: ignore
+X-Greylist: delayed 87855 seconds by postgrey-1.36 at gabe;
+ Fri, 24 Nov 2023 18:21:28 UTC
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F78C10E21E
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 18:21:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+ s=protonmail3; t=1700850086; x=1701109286;
+ bh=tklqP5WlNBITcrrtu/7Y/rfccOvMrNe7OMku/6FP7Fg=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=ze0t5SXH0D78VhxmsUoc2hqfQBwhVcwlQIGmzqbfny3m6Ee49c2tjLhtAgPaqumoG
+ kLg5xDIC54atgcd/HVLICUc5LOuRs4lzDhaeYwPjOffkGh+0c+JvuEO20i++yznqRb
+ Yn4QK5qUvDeBVEd/HI+Wj24aNhF1GJJELcFL7NRwDio1tghapC4Xk9xAGVC0IAurKL
+ KMfWNDX/knJfS87kIezrtHhDRmxXYh/c1I6sgSXnjLE0LrMA6NAgrlKuJftgRf9lDr
+ 789c7+fFPriGp/hNbKeHx8srEb1VUEHDv1B8o0gChIEkJtuM4Hab4SLjAduMq7Js67
+ aGkQMLN84hQBA==
+Date: Fri, 24 Nov 2023 18:21:02 +0000
+To: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
+From: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+Subject: RE: [Intel-gfx] [PATCH] drm/i915/irq: Improve error logging for
+ unexpected DE Misc interrupts
+Message-ID: <gndV3G42eCsG2OKAR133siZZ7f4U37bHozvi7ygSJVBESVZFcu2l_wJNWoziEt58RELJBnVg2N7FJoYz3ZKXDuFBUMkqmTLH_BnDML7_8Ng=@protonmail.com>
+In-Reply-To: <SJ1PR11MB612918F5E101E35224C918FEB9B8A@SJ1PR11MB6129.namprd11.prod.outlook.com>
+References: <20231123175638.27650-1-sergeantsagara@protonmail.com>
+ <SJ1PR11MB612918F5E101E35224C918FEB9B8A@SJ1PR11MB6129.namprd11.prod.outlook.com>
+Feedback-ID: 26003777:user:proton
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,62 +51,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Guillaume Ranquet <granquet@baylibre.com>, Jani Nikula <jani.nikula@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Markus Schneider-Pargmann <msp@baylibre.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Bo-Chen Chen <rex-bc.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: "Nikula, Jani" <jani.nikula@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.1-stable review patch.  If anyone has any objections, please let me know.
+On Thursday, November 23rd, 2023 at 11:54 PM, Borah, Chaitanya Kumar <chait=
+anya.kumar.borah@intel.com> wrote:
+> > -----Original Message-----
+> > From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of =
+Rahul
+> > Rameshbabu
+> > Sent: Thursday, November 23, 2023 11:27 PM
+> > To: intel-gfx@lists.freedesktop.org
+> > Cc: Nikula, Jani <jani.nikula@intel.com>; dri-devel@lists.freedesktop.o=
+rg;
+> > Rahul Rameshbabu <sergeantsagara@protonmail.com>
+> > Subject: [Intel-gfx] [PATCH] drm/i915/irq: Improve error logging for
+> > unexpected DE Misc interrupts
+> >=20
+> > Dump the iir value in hex when the interrupt is unexpected.
+> >=20
+> > Link: https://gitlab.freedesktop.org/drm/intel/-/issues/9652#note_21785=
+01
+> > Cc: Jani Nikula <jani.nikula@intel.com>
+> > Signed-off-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+> > ---
+> > drivers/gpu/drm/i915/display/intel_display_irq.c | 2 +-
+> > 1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/i915/display/intel_display_irq.c
+> > b/drivers/gpu/drm/i915/display/intel_display_irq.c
+> > index bff4a76310c0..1a5a9e0fc01e 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_display_irq.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_display_irq.c
+> > @@ -896,7 +896,7 @@ gen8_de_misc_irq_handler(struct drm_i915_private
+> > *dev_priv, u32 iir)
+> > }
+> >=20
+> > if (!found)
+> > - drm_err(&dev_priv->drm, "Unexpected DE Misc
+> > interrupt\n");
+> > + drm_err(&dev_priv->drm, "Unexpected DE Misc interrupt:
+> > %#x\n", iir);
+>=20
+>=20
+> Nit: It could use a format specifier like "0x%08x" (like other instances =
+in the file) to maintain uniform width.
 
-------------------
+Agreed. I made this change initially for debugging without actually checkin=
+g the practices used in the file.
+Will send a v2 with this change and your Reviewed-by tag soon. Away from my=
+ development machine right now.
 
-From: Jani Nikula <jani.nikula@intel.com>
+> Other than that. LGTM.
+>=20
+> Reviewed-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 
-commit fcaf9761fd5884a64eaac48536f8c27ecfd2e6bc upstream.
+--
+Thanks,
 
-Setting new_edid to NULL leaks the buffer.
-
-Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver")
-Cc: Markus Schneider-Pargmann <msp@baylibre.com>
-Cc: Guillaume Ranquet <granquet@baylibre.com>
-Cc: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-Cc: CK Hu <ck.hu@mediatek.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-mediatek@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: <stable@vger.kernel.org> # v6.1+
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-Reviewed-by: Guillaume Ranquet <granquet@baylibre.com>
-Link: https://patchwork.kernel.org/project/dri-devel/patch/20230914131058.2472260-1-jani.nikula@intel.com/
-Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/mediatek/mtk_dp.c |    1 +
- 1 file changed, 1 insertion(+)
-
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -2005,6 +2005,7 @@ static struct edid *mtk_dp_get_edid(stru
- 	 */
- 	if (mtk_dp_parse_capabilities(mtk_dp)) {
- 		drm_err(mtk_dp->drm_dev, "Can't parse capabilities\n");
-+		kfree(new_edid);
- 		new_edid = NULL;
- 	}
- 
-
-
+Rahul Rameshbabu
