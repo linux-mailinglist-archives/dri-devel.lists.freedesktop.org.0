@@ -1,98 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2050D7F6F07
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 09:59:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CFE17F6F4B
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 10:17:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2AE10E196;
-	Fri, 24 Nov 2023 08:59:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75E9F10E7C7;
+	Fri, 24 Nov 2023 09:17:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A41510E196
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 08:59:11 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-40839652b97so11125215e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 00:59:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700816350; x=1701421150; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=yNqJMxRTGvnEbCK0XZ3LOOul2fJNuzup45SG/m7ppc4=;
- b=KRT5IofEI7SvvOhGVcwBOwgBTIqi8CAtv2HM/nbFmhpm4YMX1Y3DjWNClBnYf/xNSK
- ibV3DYS8/nhcthPyq9DRUm8OErEhym4Xoj25FFvz6Bd81VzvjZHBiaNbE/QhuC/YI4ZB
- HVxt4xucTSJozPfVn0DrZhGTa9AOfdS7N5WYWAzPJTaPXFpH58N/T1aEzCaID+uDm3Q5
- 9tzv+J7N2WpJ9z5kLMquEg4L3SYVxY82hmxWMbqLCAUuAT2Km4jMB+Xx9VBIH9sHtlpl
- v+KLIwvazu821cCmoz2/PGTqmcKZN0MiqOSHFSMc6e164nVsjDMe8hsZTRwi0sfDtGsu
- lV8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700816350; x=1701421150;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=yNqJMxRTGvnEbCK0XZ3LOOul2fJNuzup45SG/m7ppc4=;
- b=A8b7Rr62nr9G9q9DDIyGTKBUhhEHIJ4GPHuq/So5Mi/rA8u4BA1xfHT6QgKKyl+Da4
- hR2/3o580ng59oyRYvxMwo0SufZ5U6tuYlyvVD+rxDieDA3i4E3rLaauGpptwTQW3RJy
- rkAkN9KKCadtBRGFo5JzSgdvrLT1tgAjfYrDSC7gYt30/uhtk1Vk+OOMzv417V5kfRTI
- BS4EotDSkCc4JYBFTdvkcm8TTdKKG2noXQ2e5HjrcLYhp2XpGVztcOpk9uyeQrQQdtb0
- CQq/z/mKWON6zQmjxXV08xQDKjngbWYC8n+LAfCPk5LM7SLWuHUwdN7Hwgx+mUBw8YRU
- YbyQ==
-X-Gm-Message-State: AOJu0Yyo+cWp5C16a/HtG9cGtQUWWeLN8kkctWZ/b4YUNQjkqUawFTrK
- 9iC32hxn0sW8poYsWgbN7FrHiQ==
-X-Google-Smtp-Source: AGHT+IE+WGAbjdqPchseLbjHCBwIhcJmv857+lYNTnlyvxkbsuzTKkLV2SWWD+wTZfwtER2TEv0sAw==
-X-Received: by 2002:a5d:51c5:0:b0:332:ca67:b6a1 with SMTP id
- n5-20020a5d51c5000000b00332ca67b6a1mr1459067wrv.0.1700816349954; 
- Fri, 24 Nov 2023 00:59:09 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:4611:6dae:b5a3:b6a4?
- ([2a01:e0a:982:cbb0:4611:6dae:b5a3:b6a4])
- by smtp.gmail.com with ESMTPSA id
- a4-20020adfeec4000000b003196b1bb528sm3749226wrp.64.2023.11.24.00.59.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Nov 2023 00:59:09 -0800 (PST)
-Message-ID: <525f213c-6a4a-48fb-b29f-55fd49ec3c25@linaro.org>
-Date: Fri, 24 Nov 2023 09:59:08 +0100
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3B5410E7C7
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 09:17:33 +0000 (UTC)
+Received: from [100.107.97.3] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id ADB076607341;
+ Fri, 24 Nov 2023 09:17:31 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1700817452;
+ bh=jfNGllP778vYujaJKDb/B9ipiM15hlfBX7FsAcZ8aJU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=XHhMQg1jVFz37OKm/l5D/BhYa0YgRFKjGtcfhOU51GrE3si7b27fXKNAdJm51njjO
+ G/OQFBnMiGDfvYDHHtqdVRA4/xHB0DqM75ZWypZHj+oKeFYUMv9g10mvHnlY7DAOQU
+ 8Fe8zrP8ALDNYp9AgX7YYkzVlXOJYm685RAbsVpDHv/Cqm43yHaUdzOHdkGGsI9Ap/
+ YE2KxmPlSkkIwCcc7/6PmhYTbIR6seuwkMRslZosZUJMEd/pXQ9ojltw9Tn6zZfuBV
+ fO4X6cwGDJiDTlGv33SG8d4VmoYbQzXK3wieJzyIfqlk6dDa8fVHYr0AfjIRyjCh+1
+ ac0PFAXPYLhXw==
+Message-ID: <5e60f1d1-8e3a-42ca-af56-126faa67ea86@collabora.com>
+Date: Fri, 24 Nov 2023 10:17:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v4 2/2] drm/bridge: imx: add driver for HDMI TX Parallel
- Video Interface
-Content-Language: en-US, fr
-To: Lucas Stach <l.stach@pengutronix.de>, Fabio Estevam <festevam@gmail.com>
-References: <20230928125536.1782715-1-l.stach@pengutronix.de>
- <20230928125536.1782715-2-l.stach@pengutronix.de>
- <CAOMZO5CYX8ihTQ87zi3maARWzz+PmLKYBBJGVn69Xig2nAwqug@mail.gmail.com>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <CAOMZO5CYX8ihTQ87zi3maARWzz+PmLKYBBJGVn69Xig2nAwqug@mail.gmail.com>
+Subject: Re: [PATCH] drm/panfrost: Ignore core_mask for poweroff and sync
+ interrupts
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20231123095320.41433-1-angelogioacchino.delregno@collabora.com>
+ <20231123113530.46191ded@collabora.com>
+ <1740797f-f3ae-4868-924a-08d6d731e506@collabora.com>
+ <20231123135933.34d643f7@collabora.com>
+ <5019af46-f5ae-4db5-979e-802b61025ba4@collabora.com>
+ <20231123145103.23b6eac9@collabora.com>
+ <43cc8641-6a60-41d9-b8f2-32227235702a@collabora.com>
+ <20231123164019.629c91f9@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20231123164019.629c91f9@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,45 +61,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Robert Foss <rfoss@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
- dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- patchwork-lst@pengutronix.de, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
+Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
+ krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, kernel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/11/2023 18:34, Fabio Estevam wrote:
-> Hi Lucas,
+Il 23/11/23 16:40, Boris Brezillon ha scritto:
+> On Thu, 23 Nov 2023 16:14:12 +0100
+> AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> wrote:
 > 
-> On Thu, Sep 28, 2023 at 9:56 AM Lucas Stach <l.stach@pengutronix.de> wrote:
+>> Il 23/11/23 14:51, Boris Brezillon ha scritto:
+>>> On Thu, 23 Nov 2023 14:24:57 +0100
+>>> AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>> wrote:
+>>>    
+>>>>>>
+>>>>>> So, while I agree that it'd be slightly more readable as a diff if those
+>>>>>> were two different commits I do have reasons against splitting.....
+>>>>>
+>>>>> If we just need a quick fix to avoid PWRTRANS interrupts from kicking
+>>>>> in when we power-off the cores, I think we'd be better off dropping
+>>>>> GPU_IRQ_POWER_CHANGED[_ALL] from the value we write to GPU_INT_MASK
+>>>>> at [re]initialization time, and then have a separate series that fixes
+>>>>> the problem more generically.
+>>>>>       
+>>>>
+>>>> But that didn't work:
+>>>> https://lore.kernel.org/all/d95259b8-10cf-4ded-866c-47cbd2a44f84@linaro.org/
+>>>
+>>> I meant, your 'ignore-core_mask' fix + the
+>>> 'drop GPU_IRQ_POWER_CHANGED[_ALL] in GPU_INT_MASK' one.
+>>>
+>>> So,
+>>>
+>>> https://lore.kernel.org/all/4c73f67e-174c-497e-85a5-cb053ce657cb@collabora.com/
+>>> +
+>>> https://lore.kernel.org/all/d95259b8-10cf-4ded-866c-47cbd2a44f84@linaro.org/
+>>>    
+>>>>
+>>>>
+>>>> ...while this "full" solution worked:
+>>>> https://lore.kernel.org/all/39e9514b-087c-42eb-8d0e-f75dc620e954@linaro.org/
+>>>>
+>>>> https://lore.kernel.org/all/5b24cc73-23aa-4837-abb9-b6d138b46426@linaro.org/
+>>>>
+>>>>
+>>>> ...so this *is* a "quick fix" already... :-)
+>>>
+>>> It's a half-baked solution for the missing irq-synchronization-on-suspend
+>>> issue IMHO. I understand why you want it all in one patch that can serve
+>>> as a fix for 123b431f8a5c ("drm/panfrost: Really power off GPU cores in
+>>> panfrost_gpu_power_off()"), which is why I'm suggesting to go for an
+>>> even simpler diff (see below), and then fully address the
+>>> irq-synhronization-on-suspend issue in a follow-up patchset.
+>>>    
+>>> --->8---
+>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>>> index 09f5e1563ebd..6e2d7650cc2b 100644
+>>> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>>> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>>> @@ -78,7 +78,10 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev)
+>>>           }
+>>>    
+>>>           gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
+>>> -       gpu_write(pfdev, GPU_INT_MASK, GPU_IRQ_MASK_ALL);
+> 
+> We probably want a comment here:
+> 
+> 	/* Only enable the interrupts we care about. */
+> 
+>>> +       gpu_write(pfdev, GPU_INT_MASK,
+>>> +                 GPU_IRQ_MASK_ERROR |
+>>> +                 GPU_IRQ_PERFCNT_SAMPLE_COMPLETED |
+>>> +                 GPU_IRQ_CLEAN_CACHES_COMPLETED);
+>>>      
 >>
->> This IP block is found in the HDMI subsystem of the i.MX8MP SoC. It has a
->> full timing generator and can switch between different video sources. On
->> the i.MX8MP however the only supported source is the LCDIF. The block
->> just needs to be powered up and told about the polarity of the video
->> sync signals to act in bypass mode.
+>> ...but if we do that, the next patch(es) will contain a partial revert of this
+>> commit, putting back this to gpu_write(pfdev, GPU_INT_MASK, GPU_IRQ_MASK_ALL)...
+> 
+> Why should we revert it? We're not processing the PWRTRANS interrupts
+> in the interrupt handler, those should never have been enabled in the
+> first place. The only reason we'd want to revert that change is if we
+> decide to do have interrupt-based waits in the poweron/off
+> implementation, which, as far as I'm aware, is not something we intend
+> to do any time soon.
+> 
+
+You're right, yes. Okay, I'll push the new code soon.
+
+Cheers!
+
 >>
->> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
->> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com> (v2)
->> Tested-by: Marek Vasut <marex@denx.de> (v1)
->> Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> (v2)
->> Tested-by: Richard Leitner <richard.leitner@skidata.com> (v2)
->> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> (v2)
->> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com> (v3)
+>> I'm not sure that it's worth changing this like that, then changing it back right
+>> after :-\
+>>
+>> Anyway, if anyone else agrees with doing it and then partially revert, I have no
+>> issues going with this one instead; what I care about ultimately is resolving the
+>> regression ASAP :-)
+>>
+>> Cheers,
+>> Angelo
+>>
+>>>           /*
+>>>            * All in-flight jobs should have released their cycle
+>>> @@ -425,11 +428,10 @@ void panfrost_gpu_power_on(struct panfrost_device *pfdev)
+>>>    
+>>>    void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+>>>    {
+>>> -       u64 core_mask = panfrost_get_core_mask(pfdev);
+>>>           int ret;
+>>>           u32 val;
+>>>    
+>>> -       gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present & core_mask);
+>>> +       gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present);
+>>>           ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_PWRTRANS_LO,
+>>>                                            val, !val, 1, 1000);
+>>>           if (ret)
+>>> @@ -441,7 +443,7 @@ void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+>>>           if (ret)
+>>>                   dev_err(pfdev->dev, "tiler power transition timeout");
+>>>    
+>>> -       gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present & core_mask);
+>>> +       gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present);
+>>>           ret = readl_poll_timeout(pfdev->iomem + L2_PWRTRANS_LO,
+>>>                                    val, !val, 0, 1000);
+>>>           if (ret)
+>>>
+>>>    
+>>
 > 
-> Tested-by: Fabio Estevam <festevam@gmail.com>
-> 
-> Could someone apply this series, please?
 
-I can, but it seems there's some fixes needed in the bindings.
 
-Lucas, do you plan to send a v5 with the fixes ?
 
-Neil
