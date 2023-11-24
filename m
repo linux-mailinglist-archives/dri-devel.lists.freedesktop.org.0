@@ -2,61 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 121C47F6A0C
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 02:14:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 716047F6A34
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 02:39:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD9FD10E779;
-	Fri, 24 Nov 2023 01:14:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7ACD10E794;
+	Fri, 24 Nov 2023 01:39:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26AB510E775
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 01:14:40 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id
- 4fb4d7f45d1cf-548a2c20f50so1892159a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 17:14:40 -0800 (PST)
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6315410E794
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 01:39:06 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id
+ a640c23a62f3a-a00cbb83c80so201353166b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 17:39:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700788478; x=1701393278; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=63sQ1AH1I32ffRCwtEtkqR0j31IoAtIR8HssDvXhDlI=;
- b=mmhX87GjhttAkb+C9N9eyi/bmtS+L+bR0TnColw5ckGDYBtQZjaiZoEgYMSigWw/Xh
- yUFQxUgai8d7id5Qq9OhgEBEmtoosIwwo8XwCYNWPkGBjK57F4tj/cZDcLFluWZbc0yr
- kaVSGsM3VAaXtlE+3xdV5qbw7nsTaD4zakOjI/im/0us6pwINxelwvS+jEy99hlDwIQf
- gWMM3X+84nGB153XgQFo4LSFJ3hgg9jy5x0y/kVpw5S8ejVShdvRAkZ3jJkeXn7dASpb
- 2S7sKgMbbVZSlAQjn9gQ01q1I5P1Xuu0adks3IfG4/YYD5wHgxTwN9rTCGHgEcmIcPH1
- hbww==
+ d=gmail.com; s=20230601; t=1700789945; x=1701394745; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=MCjIjD8tavb0cbgjvIEQTL7WpfbPqahU1xHEzB2I5uM=;
+ b=jPHObpJkUzxrs0pC6UmCGzYRCi64IMFqNY5ZabwcMUD279pcusUoLDoyDP+Rcgn1sA
+ aXpcgshFoZrJzIPKFKuWpAxO0UPMrib9kerkGp/zFcySh0EhWiRUQQfxGzfe8Yj5X4jC
+ 4+DgH2ckWeWqhltsiRDhBE+hPRyKNQL+o3WjbJ805s44joC3/aHxq8D+Xnzt/nYtwmTC
+ LAXuV+YuNQm7XzP/IcBbCIAXVO6N3LcQeAUooR2n7RfQ9uwiNfSqo9v4ofCO1cheslBi
+ 5kgq4Yv2Z7QVJAcbXw1DOlskPdWCuW9zPv30Td8tZSIQUWoznWKDHygUUxj/MdIqDytC
+ JCzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700788478; x=1701393278;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=63sQ1AH1I32ffRCwtEtkqR0j31IoAtIR8HssDvXhDlI=;
- b=t6M3uZ9RJivGMyR2puR4f/GkEicTvw0AvL/GIn7H1ItBzwrYpC0pDQP2Hub3MRE6SC
- DOjLir38hu1MEgD417bES+C8ToM4hXygJtKjqXL0AaKBaJ59H/NftfnrR4yaQ7fJYBgg
- NzxNg1ZcxuZ0+BgzFKYyRqJakc1biWL7XAAxGG761T0MwNjwD6cMX6P+z+lCKK4hEpcK
- MUbbnPsDg5XCJtYahcH+kHjymBUutu+09RZ2RMRXGMPbVuWJFC9QvjEBGevTWEttiP85
- AiCv6tLCJURQO5fs46M+ZE4d2cUk8MW6OId8sSrEZ8emTmceDJkgx3W6fhHmvmfUki6q
- RiGg==
-X-Gm-Message-State: AOJu0YxfEMHsCWKPrZtwRpCHUTCyywJJkxAcLvcYFYVlv/0rcdRp9NUr
- 1q0ZWfb+lFs9Bgt0HC/rdqqSXE5yvr4x5im/28tBbAIaCo4=
-X-Google-Smtp-Source: AGHT+IHLIX9nFgHWswrxl4QhZA1sMO6aysJc8mE548EEq2zaQNtD+vtju8Lr3kfPZInT9eHY959lN4T9+2J71dDRGtk=
-X-Received: by 2002:a17:907:1310:b0:a04:8ee8:5e58 with SMTP id
- vj16-20020a170907131000b00a048ee85e58mr574460ejb.45.1700788477971; Thu, 23
- Nov 2023 17:14:37 -0800 (PST)
+ d=1e100.net; s=20230601; t=1700789945; x=1701394745;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=MCjIjD8tavb0cbgjvIEQTL7WpfbPqahU1xHEzB2I5uM=;
+ b=xHAvjfOAdjJoDbcaU5/V53d5LES4h9vQeGG9EtqnwaATl8ZcTaIqMT2dUZAeR9C9Cn
+ JyG/6UPhYJgem0V5C5b+fbKubVZnB4tS2K7S8+BMfbhnCc8Z/3+dzk1d1pDG/Aa6YhoW
+ f58Vg+4jgptELhU6GUCFq0RMF3Qms8m+SW1D8GGLG7FHG1lp06qWrfcFN2qv13FvgjCM
+ AK5DgP1h1BM1QcEFmNlPh25LnH9eTbwUxMq371oV5mUPbMC1lN0e1YTxo7ZSh+NerhgP
+ 9rKjqBN2xBiNwZVqSXhhMsCiUXQIeCZ1Ym+Med5uWN/zpg6fAaQ4AtwBAVe7+KU8gps8
+ nibA==
+X-Gm-Message-State: AOJu0Yw4XuqwMHSkO6dPusrCvkoAUeMBg5nm7Sj47K2Pzt82UmxJnq0s
+ myjJKBaTkTbFyAb2fjUQKJtn2yOgthwVTEWuEOvm0E21ofU=
+X-Google-Smtp-Source: AGHT+IFMWsDCoDTnUOis1NEZFxzHDDlNlqWsjIu1KiRS8KmbJxKLEmmKnV3HPDf4zStiqHzmYEqYOYCsUEvKAdWFLas=
+X-Received: by 2002:a17:906:b21a:b0:9ff:5b5c:12a6 with SMTP id
+ p26-20020a170906b21a00b009ff5b5c12a6mr753905ejz.40.1700789944473; Thu, 23 Nov
+ 2023 17:39:04 -0800 (PST)
 MIME-Version: 1.0
-References: <CGME20231120225538epcas1p205a656dfe9771fc992ee1a6756ca67d3@epcas1p2.samsung.com>
- <20231120225537.1270358-1-inki.dae@samsung.com>
-In-Reply-To: <20231120225537.1270358-1-inki.dae@samsung.com>
 From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 24 Nov 2023 11:14:26 +1000
-Message-ID: <CAPM=9txk2nqYykd5shh3Ux7Jff8hweQnhpNUtYmT9nbcKrHdsA@mail.gmail.com>
-Subject: Re: [GIT PULL] exynos-drm-fixes
-To: Inki Dae <inki.dae@samsung.com>
+Date: Fri, 24 Nov 2023 11:38:52 +1000
+Message-ID: <CAPM=9txezDxgPxV4UJ-RPVxuAqO4k2kdDj-oUAyFdP+CztJPzg@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.7-rc3
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,107 +64,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-samsung-soc@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 21 Nov 2023 at 09:00, Inki Dae <inki.dae@samsung.com> wrote:
->
-> Hi Dave and Daniel,
->
->    Two fixups - fixing a potential error pointer dereference and wrong
->    error checking.
-Hi Inki,
+Hi Linus,
 
-This fails to build on arm32, and it seems one of the fixes is wrong
+Back to regular scheduled fixes pull request, mainly a bunch of msm,
+some i915 and otherwise a few scattered, one memory crasher in the
+nouveau GSP paths is helping stabilise that work.
 
-[airlied@dreadlord drm-fixes]$ make ARCH=3Darm
-CROSS_COMPILE=3Darm-linux-gnu- O=3D../../arm-build-fixes/  -j16
-make[1]: Entering directory '/home/airlied/devel/kernel/arm-build-fixes'
-  GEN     Makefile
-      CALL    /home/airlied/devel/kernel/dim/drm-fixes/scripts/checksyscall=
-s.sh
-  CC [M]  drivers/gpu/drm/exynos/exynos_drm_dma.o
-/home/airlied/devel/kernel/dim/drm-fixes/drivers/gpu/drm/exynos/exynos_drm_=
-dma.c:
-In function =E2=80=98exynos_drm_register_dma=E2=80=99:
-/home/airlied/devel/kernel/dim/drm-fixes/drivers/gpu/drm/exynos/exynos_drm_=
-dma.c:119:40:
-error: passing argument 1 of =E2=80=98PTR_ERR=E2=80=99 makes pointer from i=
-nteger
-without a cast [-Werror=3Dint-conversion]
-  119 |                         return PTR_ERR(-ENODEV);
-In file included from
-/home/airlied/devel/kernel/dim/drm-fixes/include/linux/string.h:9,
-                 from
-/home/airlied/devel/kernel/dim/drm-fixes/include/linux/dma-mapping.h:7,
-                 from
-/home/airlied/devel/kernel/dim/drm-fixes/include/linux/dma-map-ops.h:9,
-                 from
-/home/airlied/devel/kernel/dim/drm-fixes/drivers/gpu/drm/exynos/exynos_drm_=
-dma.c:7:
-/home/airlied/devel/kernel/dim/drm-fixes/include/linux/err.h:49:61:
-note: expected =E2=80=98const void *=E2=80=99 but argument is of type =E2=
-=80=98int=E2=80=99
-   49 | static inline long __must_check PTR_ERR(__force const void *ptr)
-      |                                                 ~~~~~~~~~~~~^~~
-cc1: all warnings being treated as errors
-
-I think it should just be return -ENODEV, since the function returns an int=
-.
-
-Please fix it up and resend.
-
-Thanks,
+Regards,
 Dave.
 
+drm-fixes-2023-11-24:
+drm fixes for 6.7-rc3
 
+msm:
+- Fix the VREG_CTRL_1 for 4nm CPHY to match downstream
+- Remove duplicate call to drm_kms_helper_poll_init() in msm_drm_init()
+- Fix the safe_lut_tbl[] for sc8280xp to match downstream
+- Don't attach the drm_dp_set_subconnector_property() for eDP
+- Fix to attach drm_dp_set_subconnector_property() for DP. Otherwise
+  there is a bootup crash on multiple targets
+- Remove unnecessary NULL check left behind during cleanup
 
->
->    Ps. regarding the first patch, I had sent a GIT-PULL[1] but it seems
->        you missed.
->    [1] https://lore.kernel.org/dri-devel/20231006040950.4397-1-inki.dae@s=
-amsung.com/T/#u
->
->    Please kindly let me know if there is any problem.
->
-> Thanks,
-> Inki Dae
->
-> The following changes since commit 98b1cc82c4affc16f5598d4fa14b1858671b22=
-63:
->
->   Linux 6.7-rc2 (2023-11-19 15:02:14 -0800)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/e=
-xynos-drm-fixes-for-v6.7-rc3
->
-> for you to fetch changes up to a30ba4bd7cdb5726d86a557c5df8df71c7bc7fad:
->
->   drm/exynos: fix a wrong error checking (2023-11-21 07:41:11 +0900)
->
-> ----------------------------------------------------------------
-> Two fixups
-> - Fix a potential error pointer dereference by checking the return value
->   of exynos_drm_crtc_get_by_type() function before accessing to crtc
->   object.
-> - Fix a wrong error checking in exynos_drm_dma.c modules, which was repor=
-ted
->   by Dan[1]
->
-> [1] https://lore.kernel.org/all/33e52277-1349-472b-a55b-ab5c3462bfcf@moro=
-to.mountain/
->
-> ----------------------------------------------------------------
-> Inki Dae (1):
->       drm/exynos: fix a wrong error checking
->
-> Xiang Yang (1):
->       drm/exynos: fix a potential error pointer dereference
->
->  drivers/gpu/drm/exynos/exynos_drm_dma.c | 8 +++-----
->  drivers/gpu/drm/exynos/exynos_hdmi.c    | 2 ++
->  2 files changed, 5 insertions(+), 5 deletions(-)
+i915:
+- Fix race between DP MST connectore registration and setup
+- Fix GT memory leak on probe error path
+
+panel:
+- Fixes for innolux and auo,b101uan08.3 panel.
+- Fix Himax83102-j02 timings.
+
+ivpu:
+- Fix ivpu MMIO reset.
+
+ast:
+- AST fix on connetor disconnection.
+
+nouveau:
+- gsp memory corruption fix.
+
+rockchip:
+- color fix.
+The following changes since commit 98b1cc82c4affc16f5598d4fa14b1858671b2263:
+
+  Linux 6.7-rc2 (2023-11-19 15:02:14 -0800)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-11-24
+
+for you to fetch changes up to b3ca8a08d8ed0dc8a9e236d9294efd58554a7b05:
+
+  Merge tag 'drm-intel-fixes-2023-11-23' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2023-11-24
+11:18:29 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.7-rc3
+
+msm:
+- Fix the VREG_CTRL_1 for 4nm CPHY to match downstream
+- Remove duplicate call to drm_kms_helper_poll_init() in msm_drm_init()
+- Fix the safe_lut_tbl[] for sc8280xp to match downstream
+- Don't attach the drm_dp_set_subconnector_property() for eDP
+- Fix to attach drm_dp_set_subconnector_property() for DP. Otherwise
+  there is a bootup crash on multiple targets
+- Remove unnecessary NULL check left behind during cleanup
+
+i915:
+- Fix race between DP MST connectore registration and setup
+- Fix GT memory leak on probe error path
+
+panel:
+- Fixes for innolux and auo,b101uan08.3 panel.
+- Fix Himax83102-j02 timings.
+
+ivpu:
+- Fix ivpu MMIO reset.
+
+ast:
+- AST fix on connetor disconnection.
+
+nouveau:
+- gsp memory corruption fix.
+
+rockchip:
+- color fix.
+
+----------------------------------------------------------------
+Abel Vesa (1):
+      drm/msm/dp: don't touch DP subconnector property in eDP case
+
+Andrzej Hajda (1):
+      drm/i915: do not clean GT table on error path
+
+Bjorn Andersson (1):
+      drm/msm/dpu: Add missing safe_lut_tbl in sc8280xp catalog
+
+Cong Yang (1):
+      drm/panel: boe-tv101wum-nl6: Fine tune Himax83102-j02 panel HFP and HBP
+
+Dan Carpenter (1):
+      drm/msm: remove unnecessary NULL check
+
+Dave Airlie (4):
+      nouveau/gsp: allocate enough space for all channel ids.
+      Merge tag 'drm-msm-fixes-2023-11-21' of
+https://gitlab.freedesktop.org/drm/msm into drm-fixes
+      Merge tag 'drm-misc-fixes-2023-11-23' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'drm-intel-fixes-2023-11-23' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+
+Dmitry Baryshkov (2):
+      drm/msm: remove exra drm_kms_helper_poll_init() call
+      drm/msm/dp: attach the DP subconnector property
+
+Imre Deak (1):
+      drm/i915/dp_mst: Fix race between connector registration and setup
+
+Jacek Lawrynowicz (1):
+      accel/ivpu/37xx: Fix hangs related to MMIO reset
+
+Jonas Karlman (1):
+      drm/rockchip: vop: Fix color for RGB888/BGR888 format on VOP full
+
+Jonathan Marek (1):
+      drm/msm/dsi: use the correct VREG_CTRL_1 value for 4nm cphy
+
+Marek Vasut (2):
+      drm/panel: simple: Fix Innolux G101ICE-L01 bus flags
+      drm/panel: simple: Fix Innolux G101ICE-L01 timings
+
+Thomas Zimmermann (1):
+      drm/ast: Disconnect BMC if physical connector is connected
+
+Xuxin Xiong (1):
+      drm/panel: auo,b101uan08.3: Fine tune the panel power sequence
+
+ drivers/accel/ivpu/ivpu_hw_37xx.c                  | 46 ++++++++--------
+ drivers/gpu/drm/ast/ast_drv.h                      | 13 ++++-
+ drivers/gpu/drm/ast/ast_mode.c                     | 62 +++++++++++++++++++---
+ drivers/gpu/drm/i915/display/intel_dp_mst.c        | 16 +++---
+ drivers/gpu/drm/i915/gt/intel_gt.c                 | 11 ----
+ drivers/gpu/drm/i915/i915_driver.c                 |  4 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   |  1 +
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c           |  3 +-
+ drivers/gpu/drm/msm/dp/dp_display.c                | 15 ++++--
+ drivers/gpu/drm/msm/dp/dp_drm.c                    |  3 ++
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          |  2 +-
+ drivers/gpu/drm/msm/msm_drv.c                      |  2 -
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c    |  2 +-
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c     |  9 ++--
+ drivers/gpu/drm/panel/panel-simple.c               | 13 ++---
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c        | 14 +++--
+ 16 files changed, 138 insertions(+), 78 deletions(-)
