@@ -1,31 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA14F7F74AE
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 14:18:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 748ED7F74B4
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 14:19:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A46C810E7DC;
-	Fri, 24 Nov 2023 13:18:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C198010E7CE;
+	Fri, 24 Nov 2023 13:19:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88A0810E7CE
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 13:18:25 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEB8810E7CE
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 13:19:35 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3E9C362232;
- Fri, 24 Nov 2023 13:18:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96703C43395;
- Fri, 24 Nov 2023 13:18:23 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 8A625B8309A;
+ Fri, 24 Nov 2023 13:19:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94738C433C7;
+ Fri, 24 Nov 2023 13:19:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1700831903;
- bh=YhaSt4ZUxtT2RicGgxtWm94CumcGwYZCOKY/NPbxr+M=;
+ s=korg; t=1700831973;
+ bh=b6+ZzjeG4borfGY1kvHemgkFfC9490vTd32Ac19armw=;
  h=Subject:To:Cc:From:Date:From;
- b=Oy75uLUTVzHIZVzOeNv1l6cK0mjZqRbblQqoMU9S49TBCRFZ65HBRpuUr2enN+i36
- He+V2Osyq5R32z6KCQp/zvbO9HoVDgzSsTJmSlpyRMHhBtBBBp2QEXJ9a8mQL8MlKm
- Ipu/C1Hz0X1Ph9wOSnjQWJhJhjDl/JvMYs4WomW8=
+ b=TRgtwpFgaZ2Ka+okIIUnlTsG11sOaxC4G3KugTQF+gio8LpWY2Jyiv6/lm30hqNT5
+ UwbtWS9gIUPBZzNO+WP5RbGOYLG4No31wdfDtDoaoIaWBwVViKalY1dbb1q/t5ydkP
+ PryUu7HjyU4dxmXU+ncrbCgGaVWVXtTUmrAnlZC4=
 Subject: Patch "drm/mediatek/dp: fix memory leak on ->get_edid callback error
- path" has been added to the 6.1-stable tree
+ path" has been added to the 6.5-stable tree
 To: angelogioacchino.delregno@collabora.com, chunkuang.hu@kernel.org,
  ck.hu@mediatek.com, dmitry.osipenko@collabora.com,
  dri-devel@lists.freedesktop.org, granquet@baylibre.com,
@@ -34,8 +35,8 @@ To: angelogioacchino.delregno@collabora.com, chunkuang.hu@kernel.org,
  matthias.bgg@gmail.com, msp@baylibre.com, p.zabel@pengutronix.de,
  rex-bc.chen@mediatek.com
 From: <gregkh@linuxfoundation.org>
-Date: Fri, 24 Nov 2023 13:17:55 +0000
-Message-ID: <2023112454-defile-acetone-ff7e@gregkh>
+Date: Fri, 24 Nov 2023 13:18:42 +0000
+Message-ID: <2023112442-victory-lethargy-2c49@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -62,12 +63,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/mediatek/dp: fix memory leak on ->get_edid callback error path
 
-to the 6.1-stable tree which can be found at:
+to the 6.5-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-mediatek-dp-fix-memory-leak-on-get_edid-callback-error-path.patch
-and it can be found in the queue-6.1 subdirectory.
+and it can be found in the queue-6.5 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -122,7 +123,10 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from jani.nikula@intel.com are
 
-queue-6.1/drm-msm-dp-skip-validity-check-for-dp-cts-edid-check.patch
-queue-6.1/i915-perf-fix-null-deref-bugs-with-drm_dbg-calls.patch
-queue-6.1/drm-mediatek-dp-fix-memory-leak-on-get_edid-callback-error-path.patch
-queue-6.1/drm-mediatek-dp-fix-memory-leak-on-get_edid-callback-audio-detection.patch
+queue-6.5/drm-msm-dp-skip-validity-check-for-dp-cts-edid-check.patch
+queue-6.5/i915-perf-fix-null-deref-bugs-with-drm_dbg-calls.patch
+queue-6.5/drm-mediatek-dp-fix-memory-leak-on-get_edid-callback-error-path.patch
+queue-6.5/drm-edid-fixup-h-vsync_end-instead-of-h-vtotal.patch
+queue-6.5/drm-mediatek-dp-fix-memory-leak-on-get_edid-callback-audio-detection.patch
+queue-6.5/drm-i915-mtl-avoid-stringop-overflow-warning.patch
+queue-6.5/drm-i915-tc-fix-wformat-truncation-in-intel_tc_port_.patch
