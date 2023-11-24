@@ -1,121 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC94A7F7013
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 10:38:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E35197F701A
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 10:39:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A61A10E7C6;
-	Fri, 24 Nov 2023 09:38:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A560210E7AC;
+	Fri, 24 Nov 2023 09:39:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2055.outbound.protection.outlook.com [40.107.212.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B59E10E7AC;
- Fri, 24 Nov 2023 09:38:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OFu36Tc1ghnnKOEbaj4TTuZ3L6JFaiPRSrrOIZi/0Ev+VKRa27o2QnnW/1OTbVGBXE+1L0AGAEbgVtlRUqje8kfwZXzV33SL7UaRhHbhQOWm8aytuNGoqCo2oBx1M0gxAmjVElg1CfSHBNBqNNubAbLXCwPBE5LZnilVfjpzND7mchrVp65wX2+ArCWtZHlKUNm6d1GsPdze1QvVFgkuvdxLfDv8rWmJj4Dbljbfp7DLci20/Z++BJZiW+wwE1WQpd1gkYIzjJyIKk/9IRkqO1YzQJJ/ggNnFV/HC+Fjxj6GYYdNnmI5e/JU7vb6CE4XR6fj1F4G1UPfTAyp4tHsQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=28Bw10m8IYfBiCD4Aj6CmmtNER3ZvZpa9SlYqWSy+Kc=;
- b=Ed/t60Iqfg2r5xuGSR5D08tYWMU+0SVA1S84LYk4gTapVuFfppdjpKE28XNibruowQPDNpIcI5nrv3nJjhm99CGOiv/Rb+0FAaoUYTkytl+wxKxroy26LTDD1VJH9QJSmnb42/fiA+15DVbgg73dx1J1HoxTZ1yvv2qGtiC6ea7Egli20Hnbmqv49K1hEbV1O3DEc1X2UPK9t2VjOTYQO0cUtgIXRj7M28mOVGputdZEoiVvHbLpJYtzh8vr/JVa3KTEk+MuSmnGIfZfSni99ExthFZGGJoT61rGqXY+KNQ4vSqHjiHLFBMXDUfVL/kCMt4lawaMkMYz/oLU/6JsYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=28Bw10m8IYfBiCD4Aj6CmmtNER3ZvZpa9SlYqWSy+Kc=;
- b=gMkgSptussx+TGvxjUL/JqrFTxJWgIBYR0bvBxdVguYfnoJllPSofZnA9xb4AliD7BNwApns75LGVdpct8MRFoPgn0AZKwS4pBMxKrk4VwlH8z5YykcyBC96ijcmolWkuZLoCks8DSBmy6UNTTE9ZJ+kpp6nVxovwHDas06W45w=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SJ0PR12MB6685.namprd12.prod.outlook.com (2603:10b6:a03:478::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.21; Fri, 24 Nov
- 2023 09:38:13 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3%7]) with mapi id 15.20.7025.021; Fri, 24 Nov 2023
- 09:38:13 +0000
-Message-ID: <dbb91dbe-ef77-4d79-aaf9-2adb171c1d7a@amd.com>
-Date: Fri, 24 Nov 2023 10:38:09 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/sched: Reverse run-queue priority enumeration
-Content-Language: en-US
-To: Luben Tuikov <ltuikov89@gmail.com>,
- Direct Rendering Infrastructure - Development
- <dri-devel@lists.freedesktop.org>
-References: <20231124052752.6915-4-ltuikov89@gmail.com>
- <20231124052752.6915-6-ltuikov89@gmail.com>
- <9a56f3e7-3c4a-4c41-ac9c-768fc75bcec0@amd.com>
- <9226e1d4-82f6-4c14-9170-4449de36804e@gmail.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <9226e1d4-82f6-4c14-9170-4449de36804e@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0018.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:15::23) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mout.web.de (mout.web.de [212.227.15.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5F5110E7AC
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 09:39:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+ t=1700818719; x=1701423519; i=spasswolf@web.de;
+ bh=6ePSziEKIsnu6W26+QEv8KApAA7M4OnBSGyj1xQK2B8=;
+ h=X-UI-Sender-Class:Subject:From:To:Cc:Date:In-Reply-To:
+ References;
+ b=DslePlZLwyrpr0KKU6Ar+562Do2Zuhc6Owk3l1iZC4npfTcGbZ0aXQLWkH0xtz7Q
+ hAMlwpuXoKgp8pykV9hIJeTCntOmIylbBPkMRRY6RCi1Q4MwpNeNqtNt/CeVaZygI
+ TEcnhJ/XJgi/sbkGIotLl8s9FHRU2YLbvR1GfF+0YrWxJWbN+1opqnCeDvMdCCDkC
+ vO73gIzX3BkCiFKzYNRRCZQVEGnQp8joBYln2Jl3/hOCsweJ/DCCdvCi8bZ3abp9W
+ y5jCpJhZH99pcdWMEBHKeI81AHxSE2/sfFF9co/hMnBrkXeJKWMwTBRQ12J53DeeE
+ SECkpoB8o/9qrDfToQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.0.101] ([84.119.92.193]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MV2OY-1qhbTN23pG-00S85H; Fri, 24
+ Nov 2023 10:38:39 +0100
+Message-ID: <4ed1921c91c46ca2bb3877038aff27dc4ea0dab1.camel@web.de>
+Subject: Re: drm scheduler redesign causes deadlocks [extended repost]
+From: Bert Karwatzki <spasswolf@web.de>
+To: Luben Tuikov <ltuikov89@gmail.com>, dri-devel@lists.freedesktop.org
+Date: Fri, 24 Nov 2023 10:38:38 +0100
+In-Reply-To: <b2185acd-b5fb-4f60-b5f3-631d27c0396a@gmail.com>
+References: <36bece178ff5dc705065e53d1e5e41f6db6d87e4.camel@web.de>
+ <b2185acd-b5fb-4f60-b5f3-631d27c0396a@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.50.1-1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SJ0PR12MB6685:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce00f704-c11b-43ca-1388-08dbecd11410
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CvtZbodsnT73t3rduJzbZchriJef269UcsPpUXmpYCAVAGLEZRY8n4srdt4a7QDiGkwuVqSntJrICBpohxtZIV4PxzSp7Ec6mL22kgLxMoefApB7akbRyEC06BkNxuL18HD97UROI32KMBz5F8KsPSsuqQZj8WNghBZCOACY9EiYpQol5W+LDYJNCpGdF1r/ePuDRxW3v8gWASbocBXD4wKmy8RiCdNgFNpFcSUicTjFLGV/vXzgEJA054+fqW3HsfLs+T5o/sFL6oJtBg1g/m3jUh76BZPqKGKhEwOIThw2edc+TJXJ49Gk4oTx4espk8aEgb0JtjbDy3V2sPsSO0hYkspr0BkwQScKM3YXf2/IcCshJqJpCKFRLyWWmz1cBMP3sl+JqOqwLFDkGNi21Zfi+bdBmOhVIjidFrFNZ//i2ubgcC50p/3eMeNFhnLoki4YwJplmTJP5fNFA6layGriUTTmlTMWtytWuusdysWfu6MMrz96hXZps+VVnGQdtyo649yQ8S0ZcrHMzYGbY4eupOF1O3n59835QTKgGsjC2CSihJubCBn1BtJCeecw7CoLtYcI5/lQLkLQbSWk8vNFdNzFP0AfnDzZ4FuIufYI0LCwuQas0nF4JyWNE48d1VUVxaHFPlKeN4tJC5l3yA+HE6mPzY3KEdU6x8uG7Wrn9olr6iobs537URX+TCMu
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(376002)(396003)(346002)(366004)(136003)(230273577357003)(230173577357003)(230922051799003)(186009)(451199024)(1800799012)(64100799003)(6486002)(478600001)(31686004)(41300700001)(54906003)(316002)(38100700002)(6666004)(110136005)(6506007)(66946007)(86362001)(31696002)(36756003)(2616005)(66556008)(66476007)(4326008)(8676002)(2906002)(83380400001)(26005)(53546011)(8936002)(5660300002)(66574015)(6512007)(4001150100001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VDUvbW1DRC9yQ1pDWEI2U2Rrc0drTDk2SDRaTGZtcGV0UFErLzd5dVV4QXhl?=
- =?utf-8?B?ZW1wOVh4TTJ1N0JqRUZuaXZTU2hqRXo2c0l0bm5uN1pyODhIODR6RGNDS3Jt?=
- =?utf-8?B?VzNqVXdEdWJjY0EzVFBGZ1B6RVl5ZlR0QzB2by9EaTMvaStVNWtGbGhpK252?=
- =?utf-8?B?cHYzOWprSDh1RFJXdC9TMFk3RkdXcDF2WW5IZVVBaUg2aXpWeUJuNkRyL0ho?=
- =?utf-8?B?eEtTNXZjVVFxcEhEaHJ5bFBIUTM0d0ZKWVJZa1RMMXYvaCtrdTJoUC9pV3RS?=
- =?utf-8?B?aFBGM05kRlRIcnovckNsaEFpMEg1NVVhMW5iazVZcTFLZGhESkNIR3RtUGNv?=
- =?utf-8?B?cFVPNlpGQjlaQ2UzQU5GNzRLeHMrQis3MVZwanBHaEJUSlp3K2lQN1l0K3hy?=
- =?utf-8?B?QTNwaVQvOU5QQjVGcE0wWnI0SkpTN2x2NFRHVzhBOXE0Wm56S0ZzZGJlbkVU?=
- =?utf-8?B?d25oWENuVmRicEJwV1Z3QUd1VEVRdmNhSjB3UllMc0pHVkZYMDBGTjhGbllO?=
- =?utf-8?B?T0ZMUHNlQnZ6Y2kzYWVuOFBrd2JQYUI0cVVValZWOEg1MzJ4czZNbE9NM0xJ?=
- =?utf-8?B?aHMraTBNYnBNcjg5c241aUhZWitmclRRczdmSHVCNVFDYldQN2ZVNk5Cckk0?=
- =?utf-8?B?L2ZRWFhhQ1gwdWlScXZIeXp4ak0rZWp5bGlBS21tVmNKWHo4QWVjV0pocTVC?=
- =?utf-8?B?eEJ5UHpCMnVzSFZvVTZ1T3ZNUTVhelZvUXA4LzdvYStuSFloa1A5UHErZEx5?=
- =?utf-8?B?RmxMUXNHdFB6Z3NKT09UQVQ0MnhZVW9oRDdoY1ByNk41MmFKM3pJSE5ua2JG?=
- =?utf-8?B?WXNRR0JQcnpIeVRBYmNmQ2J1TE5VSHZxU1BrOHkvYWNKUXorempsUHNBc1FT?=
- =?utf-8?B?U1doQU1nZ28xTXQ0T0JGZ1V4OEIrZUpLaDFuamlTeGxiSjRtSVNNUmhmWWw1?=
- =?utf-8?B?SWtUbXdJVktQaDdKT1puSW5WNWhPY2ZEbitWWVRyY3p5a3lKdUlqMnJWTjJM?=
- =?utf-8?B?YWxxTW40d1p1MzB0alViN3ZqeWNmZEtXa2FiWVZOeml5U0RuSmNnTGhEQUIx?=
- =?utf-8?B?bWQ0MzZuM3pIb1AvVWhkZFIrWjBpRFNQTFcrZzkvR1NEcnpJNklTdUNxYVJm?=
- =?utf-8?B?VmdMazMvM2pWdC9ZbllSUWR0L0pZMHVzZkZ5K3NGci96YVQrRlJKa3ZKT0F5?=
- =?utf-8?B?WllYRjZFNHJaZndLOFFZL2lqbWpGWWlSRFN6L1hEamJpVyt6U1FBek5PWkxk?=
- =?utf-8?B?WFVnTUxZMG4zbEJEa2pBcEY0TmMvc1RBQlk2RFFZbFAvbndidm5WMWF2bzdy?=
- =?utf-8?B?YW9zRmhtTVFmclUvZytQZ2R5S0pSaVVuMlRIVmNtM0dQTXBHWklnUlUzN2g5?=
- =?utf-8?B?V1UvMlVtSmpIQVdWZ0ppb1M0dXJwK0krOTNnVjJJd1hKM2VYdnVrN0tKQitW?=
- =?utf-8?B?clR0RE43d0YvVmlUQlhkcjBISEVBV0tLQU5FQVZIUEJYZkFWNVhjcktpbU1x?=
- =?utf-8?B?Y0xnb1ZaaUdrUi9TaUJKZm5jT3hnYWV4aWxXSDJFRnBoajMvTERlN29VdW1w?=
- =?utf-8?B?ZE9KLzhiM3BSZXV1RWgvbVBjcnllZGlTdXlIOUdwM0o3cnBuUkhwZTVsV1Rp?=
- =?utf-8?B?d1ZjRHpHQTFYeGVweWd5bHQzK3JjMUpzSFJyWk1ienIxWlRxZk50ejZ1ajJO?=
- =?utf-8?B?Q2VBRzdUdUVnWENlUGQyTEZudFE4dVhmYlBSTWJoMEJKWlRERUh1UkFVcStV?=
- =?utf-8?B?cnMwTjQ1dlJSU0VxRXhXc3Jrek83VW0rcWFlTUFzRzZCdkIxOVk1bHRHdDdT?=
- =?utf-8?B?WWpwOGpwZGVuL1JtbEhhdVpOUEVPZVhQR1JMUDEwcXBkNjFhcGlFa0xBNTZt?=
- =?utf-8?B?WG1JcGUyKzdUZ1ZjdFlBTWVPbXFveS95OVVqZGVWVGFZdENBS0lTd3BZUm1s?=
- =?utf-8?B?YUZpbkUvSGdLUTcxdW5sVTY3UHNmaXUvZEhVa0NaUzNoR1VDbUdEOTY1S0xL?=
- =?utf-8?B?elRVMFZ6K3Q2NURCNTJUcE55dzlJVEdWVWdXaUs4cEV6MFhQbUgwbWhzS0JG?=
- =?utf-8?B?ZC9tRUcxdEk3Qk1GU0FhMkcvVkFreHhXY0lOemVMSVV1eUdVVGZ4SGZ1WXZF?=
- =?utf-8?Q?GSiY=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce00f704-c11b-43ca-1388-08dbecd11410
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2023 09:38:13.4063 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XxtlR/nZ8rWZvjLn7eEz8Cp4WsG5DDoQVPt9Lse382NGOXp8og6z8FZOiDx8NeXb
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6685
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:3pQ1xpWdJo67yVCqkq5fpAp5sr250nGBZMO3wiz6e4gtBdDiqJP
+ /WTikHWoIOFbtv0OunJ3CSnnsdbsbsVOh6CCr6YfyX6TRl6eN0NUAgmshbkz+jp90D+aKfD
+ 2Bkom6nmRrDZgYUg2kY1zI6eVBNrnwwNXD6ekNscYM2EnywfmEV+rNC/yKl6i3riEGk1IZl
+ U9l/+XHnRC68RsdnHwFPw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:IJWZWp6k3fI=;yNFElkiif0MtBAKQz1qglFQ5wNO
+ JCUEmSjyL75614GgEnPWffBGdadVLdP0sh6NIhuboCu1pRDJM4MbIOO/FVxNxnFfELO1WSfbB
+ ixSjbMRctIyQENBuG+rn8XIulmJyQjDExz8+5gGTm8U3i4+RYf/0up0S56tCpfWUZK8upw/0h
+ eoGpQCajvxpVcJQJkMUlbnAZSgO6mN05M/IVywx4ODrKtvXisdlgMXJKOaPy3N+JwBJpgxNB3
+ mfGMSD5unrMd9tpeAdQrRAOf+wxSlO4/hlCM/SSSJxlXeFv9aTZjLI9CQ1g3vkvGwrLTDIMGc
+ PzW9Kg04JIa6ONV+zNQBSzTgBbf0J9x/QefTAuLBWatNHOec9M2QUXHGRAM+hBbX9/TMVV1Z7
+ UQ9JrTFQybCynyg+HgwMjNZ/cc0zC/KcCeE+YkCwbU2G/bf2yW0lFZ2Abw+k8cJ/a4twF/CX5
+ TWC/aPopLHCVTr0hSIaeqi/5AGWkbZvXHHte8gMhoOv1EpDhC6gBCfbI3KoAvQE2xNGyOqpIp
+ Vm9g3hIhO2/Ldrp9Vok8DjLykVXsGcvRmWYP0toDF0ZK/E2Gqdi7mlmH3cSHv8MwBZEPaTRuL
+ m/K+iKZACQdQLls85sG//j7qLYsbr1p06uV7jKhfjiQUdM0gBn6bkhOlMGXUZDtUFYRgG9hVt
+ 2MSd6agrJPzPcgi7wKMFpO3HNHyBR2uXDU7MCutuW1skVJb7za8821cQc4E3rXtRwMWqwe4sm
+ d8w5KYsWz8KrK1qUy5lDn9SthCWRAkiMPFGSufic851ao2FDJExeRgFgwE0BoNln96GfdIgDE
+ 9r3G3EPm9N19++CFzjhc8ZGkqTp0m8XTrLvbjXKKoRHyL9mZS5VKznGP3Pjo+RCBm4/WX+GdQ
+ CexjxJXpOS+z2TmaxEe05YcxIu6IB6e7TogCP49Bqd4tfH9gVxJy1Gi8x0vPCXnrCBvweSi4q
+ +k9a2g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,120 +71,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Alex Deucher <alexander.deucher@amd.com>, Danilo Krummrich <dakr@redhat.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@redhat.com>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 24.11.23 um 09:22 schrieb Luben Tuikov:
-> On 2023-11-24 03:04, Christian König wrote:
->> Am 24.11.23 um 06:27 schrieb Luben Tuikov:
->>> Reverse run-queue priority enumeration such that the higest priority is now 0,
->>> and for each consecutive integer the prioirty diminishes.
->>>
->>> Run-queues correspond to priorities. To an external observer a scheduler
->>> created with a single run-queue, and another created with
->>> DRM_SCHED_PRIORITY_COUNT number of run-queues, should always schedule
->>> sched->sched_rq[0] with the same "priority", as that index run-queue exists in
->>> both schedulers, i.e. a scheduler with one run-queue or many. This patch makes
->>> it so.
->>>
->>> In other words, the "priority" of sched->sched_rq[n], n >= 0, is the same for
->>> any scheduler created with any allowable number of run-queues (priorities), 0
->>> to DRM_SCHED_PRIORITY_COUNT.
->>>
->>> Cc: Rob Clark <robdclark@gmail.com>
->>> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> Cc: Danilo Krummrich <dakr@redhat.com>
->>> Cc: Alex Deucher <alexander.deucher@amd.com>
->>> Cc: Christian König <christian.koenig@amd.com>
->>> Cc: linux-arm-msm@vger.kernel.org
->>> Cc: freedreno@lists.freedesktop.org
->>> Cc: dri-devel@lists.freedesktop.org
->>> Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
->>> ---
->>>    drivers/gpu/drm/amd/amdgpu/amdgpu_job.c  |  2 +-
->>>    drivers/gpu/drm/msm/msm_gpu.h            |  2 +-
->>>    drivers/gpu/drm/scheduler/sched_entity.c |  7 ++++---
->>>    drivers/gpu/drm/scheduler/sched_main.c   | 15 +++++++--------
->>>    include/drm/gpu_scheduler.h              |  6 +++---
->>>    5 files changed, 16 insertions(+), 16 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->>> index 1a25931607c514..71a5cf37b472d4 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
->>> @@ -325,7 +325,7 @@ void amdgpu_job_stop_all_jobs_on_sched(struct drm_gpu_scheduler *sched)
->>>    	int i;
->>>    
->>>    	/* Signal all jobs not yet scheduled */
->>> -	for (i = sched->num_rqs - 1; i >= DRM_SCHED_PRIORITY_LOW; i--) {
->>> +	for (i = DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++) {
->>>    		struct drm_sched_rq *rq = sched->sched_rq[i];
->>>    		spin_lock(&rq->lock);
->>>    		list_for_each_entry(s_entity, &rq->entities, list) {
->>> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
->>> index eb0c97433e5f8a..2bfcb222e35338 100644
->>> --- a/drivers/gpu/drm/msm/msm_gpu.h
->>> +++ b/drivers/gpu/drm/msm/msm_gpu.h
->>> @@ -347,7 +347,7 @@ struct msm_gpu_perfcntr {
->>>     * DRM_SCHED_PRIORITY_KERNEL priority level is treated specially in some
->>>     * cases, so we don't use it (no need for kernel generated jobs).
->>>     */
->>> -#define NR_SCHED_PRIORITIES (1 + DRM_SCHED_PRIORITY_HIGH - DRM_SCHED_PRIORITY_LOW)
->>> +#define NR_SCHED_PRIORITIES (1 + DRM_SCHED_PRIORITY_LOW - DRM_SCHED_PRIORITY_HIGH)
->>>    
->>>    /**
->>>     * struct msm_file_private - per-drm_file context
->>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
->>> index cb7445be3cbb4e..6e2b02e45e3a32 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->>> @@ -81,14 +81,15 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
->>>    		 */
->>>    		pr_warn("%s: called with uninitialized scheduler\n", __func__);
->>>    	} else if (num_sched_list) {
->>> -		/* The "priority" of an entity cannot exceed the number
->>> -		 * of run-queues of a scheduler.
->>> +		/* The "priority" of an entity cannot exceed the number of
->>> +		 * run-queues of a scheduler. Choose the lowest priority
->>> +		 * available.
->>>    		 */
->>>    		if (entity->priority >= sched_list[0]->num_rqs) {
->>>    			drm_err(sched_list[0], "entity with out-of-bounds priority:%u num_rqs:%u\n",
->>>    				entity->priority, sched_list[0]->num_rqs);
->>>    			entity->priority = max_t(s32, (s32) sched_list[0]->num_rqs - 1,
->>> -						 (s32) DRM_SCHED_PRIORITY_LOW);
->>> +						 (s32) DRM_SCHED_PRIORITY_KERNEL);
->> That seems to be a no-op. You basically say max_T(.., num_rqs - 1, 0),
->> this will always be num_rqs - 1
-> This protects against num_rqs being equal to 0, in which case we select KERNEL (0).
-
-Ah! That's also why convert it to signed! I was already wondering why 
-you do this.
-
+Am Mittwoch, dem 22.11.2023 um 18:02 -0500 schrieb Luben Tuikov:
+> On 2023-11-21 04:00, Bert Karwatzki wrote:
+> > Since linux-next-20231115 my linux system (debian sid on msi alpha 15
+> > laptop)
+> > suffers from random deadlocks which can occur after=C2=A0 30 - 180min =
+of usage.
+> > These
+> > deadlocks can be actively provoked by creating high system load (usual=
+ly by
+> > compiling a kernel with make -j NRCPUS) and the opening instances of
+> > libreoffice
+> > --writer until the system GUI locks (the mouse cursor can still be mov=
+ed but
+> > the
+> > screen is frozen). In this state ssh'ing into the machine is still pos=
+sible
+> > and
+> > at least sometimes log messages about hung tasks appear in
+> > /var/log/kern.log.
+> >
+> > More info can be found here:
+> > https://gitlab.freedesktop.org/drm/amd/-/issues/2994
+> >
+> > Using the method described to trigger the bug I bisected the problem i=
+n the
+> > linux-next and drm-misc trees to give commit f3123c2590005 as the prob=
+lem.
+> > As this simple patch fixes the problem
+> >
+> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > b/drivers/gpu/drm/scheduler/sched_main.c
+> > index 044a8c4875ba..25b97db1b623 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > @@ -1029,9 +1029,8 @@ EXPORT_SYMBOL(drm_sched_job_cleanup);
+> > =C2=A0void drm_sched_wakeup(struct drm_gpu_scheduler *sched,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched=
+_entity *entity)
+> > =C2=A0{
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (drm_sched_entity_is_ready(en=
+tity))
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 if (drm_sched_can_queue(sched, entity))
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_=
+run_job_queue(sched);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (drm_sched_can_queue(sched, e=
+ntity))
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 drm_sched_run_job_queue(sched);
+> > =C2=A0}
+> > =C2=A0
+> > =C2=A0/**
+> >
+> > there might be in the entity->dependency branch of drm_sched_entity_is=
+_ready
+> > (some kind of circular dependencies ...).
+> >
+> > To see if the change to drm_sched_wakeup is the actual cause of the pr=
+oblem
+> > or
+> > if this problem has been cause by the redesign of the drm scheduler in=
+ linux
+> > next-20231115+, I created the following patch for linux-6.6.0:
+> >
+> > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+> > b/drivers/gpu/drm/scheduler/sched_entity.c
+> > index a42763e1429d..dc2abd299aeb 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> > @@ -358,7 +358,7 @@ static void drm_sched_entity_wakeup(struct dma_fen=
+ce *f,
+> > =C2=A0container_of(cb, struct drm_sched_entity, cb);
+> >
+> > =C2=A0drm_sched_entity_clear_dep(f, cb);
+> > - drm_sched_wakeup_if_can_queue(entity->rq->sched);
+> > + drm_sched_wakeup_if_can_queue(entity->rq->sched, entity);
+> > =C2=A0}
+> >
+> > =C2=A0/**
+> > @@ -590,7 +590,7 @@ void drm_sched_entity_push_job(struct drm_sched_jo=
+b
+> > *sched_job)
+> > =C2=A0if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
+> > =C2=A0drm_sched_rq_update_fifo(entity, submit_ts);
+> >
+> > - drm_sched_wakeup_if_can_queue(entity->rq->sched);
+> > + drm_sched_wakeup_if_can_queue(entity->rq->sched, entity);
+> > =C2=A0}
+> > =C2=A0}
+> > =C2=A0EXPORT_SYMBOL(drm_sched_entity_push_job);
+> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > b/drivers/gpu/drm/scheduler/sched_main.c
+> > index 5a3a622fc672..bbe06403b33d 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > @@ -865,10 +865,11 @@ static bool drm_sched_can_queue(struct
+> > drm_gpu_scheduler
+> > *sched)
+> > =C2=A0 *
+> > =C2=A0 * Wake up the scheduler if we can queue jobs.
+> > =C2=A0 */
+> > -void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched)
+> > +void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched, s=
+truct
+> > drm_sched_entity *entity)
+> > =C2=A0{
+> > - if (drm_sched_can_queue(sched))
+> > - wake_up_interruptible(&sched->wake_up_worker);
+> > + if(drm_sched_entity_is_ready(entity))
+> > + if (drm_sched_can_queue(sched))
+> > + wake_up_interruptible(&sched->wake_up_worker);
+> > =C2=A0}
+> >
+> > =C2=A0/**
+> > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> > index ac65f0626cfc..6cfe3d193e69 100644
+> > --- a/include/drm/gpu_scheduler.h
+> > +++ b/include/drm/gpu_scheduler.h
+> > @@ -548,7 +548,7 @@ void drm_sched_entity_modify_sched(struct
+> > drm_sched_entity
+> > *entity,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsi=
+gned int num_sched_list);
+> >
+> > =C2=A0void drm_sched_job_cleanup(struct drm_sched_job *job);
+> > -void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched);
+> > +void drm_sched_wakeup_if_can_queue(struct drm_gpu_scheduler *sched, s=
+truct
+> > drm_sched_entity *entity);
+> > =C2=A0void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_=
+sched_job
+> > *bad);
+> > =C2=A0void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_=
+recovery);
+> > =C2=A0void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched);
+> >
+> > This brings the extra check to the old scheduler and has so far not ca=
+used
+> > any
+> > trouble (using the same stress test described above), so chances are t=
+hat
+> > the
+> > error is somewhere else in redesigned scheduler.
+> >
+> >
+> > Bert Karwatzki
 >
-> This comes from "[PATCH] drm/sched: Fix bounds limiting when given a malformed entity"
-> which I sent yesterday (Message-ID: <20231123122422.167832-2-ltuikov89@gmail.com>).
-
-I can't find that one in my inbox anywhere, but was able to find it in 
-patchwork.
-
-> Could you R-B that patch too?
-
-I would add a comment cause the intention of max_t(s32 is really not 
-obvious here.
-
-With that done feel free to add my rb to both patches.
-
-Regards,
-Christian.
-
-
+> Hi Bert,
 >
->> Apart from that looks good to me.
-> Okay, could you R-B this patch then.
+> Thanks for looking into this.
+>
+> As an afterthought, removing the "entity_is_ready()" qualifier in wake-u=
+p,
+> makes
+> the scheduling more opportunistic, and I agree that that is the more cor=
+rect
+> approach.
+> Commit f3123c2590005, basically made the code as close to the way it
+> functioned before
+> the move to run-queues.
+>
+> Would you like to create a patch for this?
 
+Should I create the patch (is a simple revert of f3123c.. + explaining com=
+mit
+message enough?) for the drm-misc tree?
+
+Also, I did a little more experimentation: I applied f3123c25900 on top
+of=C2=A0commit a6149f0393699 and commit 35963cf2cd25e to see where the pro=
+blems
+start. The result is that f3.. + a6.. leads to lock ups while f3.. + 35.. =
+seems
+to be fine so the problems starts with the move from kthread to work queue=
+.
+
+Bert Karwatzki
