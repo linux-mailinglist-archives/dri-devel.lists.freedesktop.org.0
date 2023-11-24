@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7CB17F6F00
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 09:57:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2050D7F6F07
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 09:59:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7A4210E7C0;
-	Fri, 24 Nov 2023 08:57:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2AE10E196;
+	Fri, 24 Nov 2023 08:59:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43DD310E7C0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 08:57:07 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-40b2ddab817so11513105e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 00:57:07 -0800 (PST)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A41510E196
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 08:59:11 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-40839652b97so11125215e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 00:59:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700816225; x=1701421025; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1700816350; x=1701421150; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=hEO/jFJwgKyM3tQLWMxdV5D1pjTcir1oc4pH4VxY8Ig=;
- b=fZn7ATWslDmSWgqRQvJqp/Dhmqk6k6I1XZ1bX19/Iz9XqqVbD9rnqQeOB0rPDmSqyR
- kfhsTLopjRAd728clWF7V7UV08M1BFm57jtAtOOqb5VBddvCwyM7iYTeuvXCOHxAfy9S
- H3pBTP9eHLXJz5PfoszI6837MDwGT7UP/UrWYw4Grj3LEPWl3WFjsN5uju5F/eCe149k
- 1cZqxsfK94/1OV6NdbHHmKJ8JqsT13AJ+2nzLty1LcjuziZqz0ZIbER89hLA4cV29t9P
- 45x28ZSzVxS/Idm6uQYVezBTDTwrIgt7LQdks3RIGNlximTqq9l0f208ufcgEeNjRAFX
- vKpQ==
+ :reply-to; bh=yNqJMxRTGvnEbCK0XZ3LOOul2fJNuzup45SG/m7ppc4=;
+ b=KRT5IofEI7SvvOhGVcwBOwgBTIqi8CAtv2HM/nbFmhpm4YMX1Y3DjWNClBnYf/xNSK
+ ibV3DYS8/nhcthPyq9DRUm8OErEhym4Xoj25FFvz6Bd81VzvjZHBiaNbE/QhuC/YI4ZB
+ HVxt4xucTSJozPfVn0DrZhGTa9AOfdS7N5WYWAzPJTaPXFpH58N/T1aEzCaID+uDm3Q5
+ 9tzv+J7N2WpJ9z5kLMquEg4L3SYVxY82hmxWMbqLCAUuAT2Km4jMB+Xx9VBIH9sHtlpl
+ v+KLIwvazu821cCmoz2/PGTqmcKZN0MiqOSHFSMc6e164nVsjDMe8hsZTRwi0sfDtGsu
+ lV8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700816225; x=1701421025;
+ d=1e100.net; s=20230601; t=1700816350; x=1701421150;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=hEO/jFJwgKyM3tQLWMxdV5D1pjTcir1oc4pH4VxY8Ig=;
- b=W7/Vi1AV6CH1FcJ3qz6HB7X5Y0VtSg1jZHZAIahGXAiWZtrBhtet4wIZmKg33bg+E8
- Zv4BAwsvVeYegDWUMPJ8hGyyqXq0g3uyGujCKPqPxoonkv7yVMb8yxocpF75xhWcxHTb
- 6gc1xDmwLcTzXzYCPc+f5V+el3w4sG1tEcxpiTsv8YpPgDO+h+rSbFljrkrkO6vfrvQA
- zl06DR0TlI0+SeUG77LVgywztF8l27OQyUaXPKoARYGfkSZA1KM85wPDIXoG/iRg1Olm
- wCmVFqUc02eVg0meyoVWauVQfSL9+tOLO+aRSnVPpqxvwvdF3y616fn6osSPgY1knnJ9
- hWFw==
-X-Gm-Message-State: AOJu0Yyn6UelCP/qpxbPAVrOEc1V/isdbfhJRLb6OqAO9Zuj619e7iVZ
- vHcQqF6jLMeRU/MJChsB4WyvDA==
-X-Google-Smtp-Source: AGHT+IFf6f7q2xm46erBQVVhuOlnAhzSkU4hyM4n9zuWs7qOnQVgcuT7GHFSNhPo4jd/4jNNzdidmA==
-X-Received: by 2002:a05:600c:3b16:b0:3fe:ba7:f200 with SMTP id
- m22-20020a05600c3b1600b003fe0ba7f200mr1737118wms.20.1700816225620; 
- Fri, 24 Nov 2023 00:57:05 -0800 (PST)
+ bh=yNqJMxRTGvnEbCK0XZ3LOOul2fJNuzup45SG/m7ppc4=;
+ b=A8b7Rr62nr9G9q9DDIyGTKBUhhEHIJ4GPHuq/So5Mi/rA8u4BA1xfHT6QgKKyl+Da4
+ hR2/3o580ng59oyRYvxMwo0SufZ5U6tuYlyvVD+rxDieDA3i4E3rLaauGpptwTQW3RJy
+ rkAkN9KKCadtBRGFo5JzSgdvrLT1tgAjfYrDSC7gYt30/uhtk1Vk+OOMzv417V5kfRTI
+ BS4EotDSkCc4JYBFTdvkcm8TTdKKG2noXQ2e5HjrcLYhp2XpGVztcOpk9uyeQrQQdtb0
+ CQq/z/mKWON6zQmjxXV08xQDKjngbWYC8n+LAfCPk5LM7SLWuHUwdN7Hwgx+mUBw8YRU
+ YbyQ==
+X-Gm-Message-State: AOJu0Yyo+cWp5C16a/HtG9cGtQUWWeLN8kkctWZ/b4YUNQjkqUawFTrK
+ 9iC32hxn0sW8poYsWgbN7FrHiQ==
+X-Google-Smtp-Source: AGHT+IE+WGAbjdqPchseLbjHCBwIhcJmv857+lYNTnlyvxkbsuzTKkLV2SWWD+wTZfwtER2TEv0sAw==
+X-Received: by 2002:a5d:51c5:0:b0:332:ca67:b6a1 with SMTP id
+ n5-20020a5d51c5000000b00332ca67b6a1mr1459067wrv.0.1700816349954; 
+ Fri, 24 Nov 2023 00:59:09 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:982:cbb0:4611:6dae:b5a3:b6a4?
  ([2a01:e0a:982:cbb0:4611:6dae:b5a3:b6a4])
  by smtp.gmail.com with ESMTPSA id
- l13-20020a5d480d000000b00332cb0937f4sm3757284wrq.33.2023.11.24.00.57.04
+ a4-20020adfeec4000000b003196b1bb528sm3749226wrp.64.2023.11.24.00.59.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Nov 2023 00:57:05 -0800 (PST)
-Message-ID: <192238a9-0715-452b-86e8-c6a988058ae7@linaro.org>
-Date: Fri, 24 Nov 2023 09:57:04 +0100
+ Fri, 24 Nov 2023 00:59:09 -0800 (PST)
+Message-ID: <525f213c-6a4a-48fb-b29f-55fd49ec3c25@linaro.org>
+Date: Fri, 24 Nov 2023 09:59:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 2/3] drm/bridge: ti-sn65dsi86: Change parameters of
- ti_sn65dsi86_{read,write}_u16
+Subject: Re: [PATCH v4 2/2] drm/bridge: imx: add driver for HDMI TX Parallel
+ Video Interface
 Content-Language: en-US, fr
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Bjorn Andersson <andersson@kernel.org>,
- Douglas Anderson <dianders@chromium.org>
-References: <20231123175425.496956-1-u.kleine-koenig@pengutronix.de>
- <20231123175425.496956-3-u.kleine-koenig@pengutronix.de>
+To: Lucas Stach <l.stach@pengutronix.de>, Fabio Estevam <festevam@gmail.com>
+References: <20230928125536.1782715-1-l.stach@pengutronix.de>
+ <20230928125536.1782715-2-l.stach@pengutronix.de>
+ <CAOMZO5CYX8ihTQ87zi3maARWzz+PmLKYBBJGVn69Xig2nAwqug@mail.gmail.com>
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
  GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
@@ -91,7 +90,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro Developer Services
-In-Reply-To: <20231123175425.496956-3-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <CAOMZO5CYX8ihTQ87zi3maARWzz+PmLKYBBJGVn69Xig2nAwqug@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,96 +106,44 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: neil.armstrong@linaro.org
-Cc: Maxime Ripard <mripard@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Robert Foss <rfoss@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
  dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
+ patchwork-lst@pengutronix.de, Rob Herring <robh+dt@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, kernel@pengutronix.de
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/11/2023 18:54, Uwe Kleine-König wrote:
-> This aligns the function's parameters to regmap_{read,write} and
-> simplifies the next change that takes pwm driver data out of struct
-> ti_sn65dsi86.
+On 23/11/2023 18:34, Fabio Estevam wrote:
+> Hi Lucas,
 > 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->   drivers/gpu/drm/bridge/ti-sn65dsi86.c | 20 ++++++++++----------
->   1 file changed, 10 insertions(+), 10 deletions(-)
+> On Thu, Sep 28, 2023 at 9:56 AM Lucas Stach <l.stach@pengutronix.de> wrote:
+>>
+>> This IP block is found in the HDMI subsystem of the i.MX8MP SoC. It has a
+>> full timing generator and can switch between different video sources. On
+>> the i.MX8MP however the only supported source is the LCDIF. The block
+>> just needs to be powered up and told about the polarity of the video
+>> sync signals to act in bypass mode.
+>>
+>> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+>> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com> (v2)
+>> Tested-by: Marek Vasut <marex@denx.de> (v1)
+>> Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> (v2)
+>> Tested-by: Richard Leitner <richard.leitner@skidata.com> (v2)
+>> Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de> (v2)
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com> (v3)
 > 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index 5b8e1dfc458d..d6e3b1280e38 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -221,13 +221,13 @@ static const struct regmap_config ti_sn65dsi86_regmap_config = {
->   	.max_register = 0xFF,
->   };
->   
-> -static int __maybe_unused ti_sn65dsi86_read_u16(struct ti_sn65dsi86 *pdata,
-> +static int __maybe_unused ti_sn65dsi86_read_u16(struct regmap *regmap,
->   						unsigned int reg, u16 *val)
->   {
->   	u8 buf[2];
->   	int ret;
->   
-> -	ret = regmap_bulk_read(pdata->regmap, reg, buf, ARRAY_SIZE(buf));
-> +	ret = regmap_bulk_read(regmap, reg, buf, ARRAY_SIZE(buf));
->   	if (ret)
->   		return ret;
->   
-> @@ -236,12 +236,12 @@ static int __maybe_unused ti_sn65dsi86_read_u16(struct ti_sn65dsi86 *pdata,
->   	return 0;
->   }
->   
-> -static void ti_sn65dsi86_write_u16(struct ti_sn65dsi86 *pdata,
-> +static void ti_sn65dsi86_write_u16(struct regmap *regmap,
->   				   unsigned int reg, u16 val)
->   {
->   	u8 buf[2] = { val & 0xff, val >> 8 };
->   
-> -	regmap_bulk_write(pdata->regmap, reg, buf, ARRAY_SIZE(buf));
-> +	regmap_bulk_write(regmap, reg, buf, ARRAY_SIZE(buf));
->   }
->   
->   static u32 ti_sn_bridge_get_dsi_freq(struct ti_sn65dsi86 *pdata)
-> @@ -968,9 +968,9 @@ static void ti_sn_bridge_set_video_timings(struct ti_sn65dsi86 *pdata)
->   	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
->   		vsync_polarity = CHA_VSYNC_POLARITY;
->   
-> -	ti_sn65dsi86_write_u16(pdata, SN_CHA_ACTIVE_LINE_LENGTH_LOW_REG,
-> +	ti_sn65dsi86_write_u16(pdata->regmap, SN_CHA_ACTIVE_LINE_LENGTH_LOW_REG,
->   			       mode->hdisplay);
-> -	ti_sn65dsi86_write_u16(pdata, SN_CHA_VERTICAL_DISPLAY_SIZE_LOW_REG,
-> +	ti_sn65dsi86_write_u16(pdata->regmap, SN_CHA_VERTICAL_DISPLAY_SIZE_LOW_REG,
->   			       mode->vdisplay);
->   	regmap_write(pdata->regmap, SN_CHA_HSYNC_PULSE_WIDTH_LOW_REG,
->   		     (mode->hsync_end - mode->hsync_start) & 0xFF);
-> @@ -1509,8 +1509,8 @@ static int ti_sn_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
->   			goto out;
->   		}
->   
-> -		ti_sn65dsi86_write_u16(pdata, SN_BACKLIGHT_SCALE_REG, scale);
-> -		ti_sn65dsi86_write_u16(pdata, SN_BACKLIGHT_REG, backlight);
-> +		ti_sn65dsi86_write_u16(pdata->regmap, SN_BACKLIGHT_SCALE_REG, scale);
-> +		ti_sn65dsi86_write_u16(pdata->regmap, SN_BACKLIGHT_REG, backlight);
->   	}
->   
->   	pwm_en_inv = FIELD_PREP(SN_PWM_EN_MASK, state->enabled) |
-> @@ -1544,11 +1544,11 @@ static int ti_sn_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
->   	if (ret)
->   		return ret;
->   
-> -	ret = ti_sn65dsi86_read_u16(pdata, SN_BACKLIGHT_SCALE_REG, &scale);
-> +	ret = ti_sn65dsi86_read_u16(pdata->regmap, SN_BACKLIGHT_SCALE_REG, &scale);
->   	if (ret)
->   		return ret;
->   
-> -	ret = ti_sn65dsi86_read_u16(pdata, SN_BACKLIGHT_REG, &backlight);
-> +	ret = ti_sn65dsi86_read_u16(pdata->regmap, SN_BACKLIGHT_REG, &backlight);
->   	if (ret)
->   		return ret;
->   
+> Tested-by: Fabio Estevam <festevam@gmail.com>
+> 
+> Could someone apply this series, please?
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+I can, but it seems there's some fixes needed in the bindings.
+
+Lucas, do you plan to send a v5 with the fixes ?
+
+Neil
