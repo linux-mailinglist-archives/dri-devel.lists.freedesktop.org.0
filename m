@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 247067F6A1A
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 02:27:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 944347F6A1C
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 02:27:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4B4110E780;
-	Fri, 24 Nov 2023 01:26:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DD1010E783;
+	Fri, 24 Nov 2023 01:27:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC9CC10E777
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 01:26:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9FBB10E777
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 01:26:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,24 +19,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=jgc2hrG025ZxAY0t7BkgHUgB7CFdI3jRKYYUoVmiEOQ=; b=IHaKLYQgifYypIVkquPr8zhAtD
- u82mmqhmxAdzqbos4RTTKoKQaKSqmPRNlBbNV+7BUVotocuA/5jxp6cUboG/TVc+i1eHXQm3JfYIj
- PhRjnwc/c8EhlcG8DvqbzdrSbpj56U6Th4ZvSpUfKVYgADYUwuD8nqxPl3DJaieBy1ZJhVWlAVebX
- dH7TLsSPvsjKxItaU17PCKWONgpg6xXxSuxhdVJVjpWjLfvhUurBXZZ7WSokPvbnx9rcHtcHE3Aj8
- uidD2f939Q5mHN0k0MHCi/DnMXgZN3J0P+5i5kEE+sn4NUk2cgPRVuTywhDMZFIon6K50W/HnLRf4
- 7cG7U72Q==;
+ bh=KT4rd5+CI6W1GyQhN7sEBY1leHqZ/wzMghc/KjsrTeM=; b=sG5qkT8ewbkCiwE/48TKtl2ZpM
+ ZBm6wfEr3I5cknJEpU+6ogmd2YY98ogTaKAODGK0kVu0HXRB4bBZkBQQ9NBtXIctA2CH9xJiyAn18
+ XkylbSKJ0bWekCp/0R3IviBygkOUVDHqQwhT9So31DpRF439mj2+Ka2Jley+1LWcU6q7jfQfbCxq9
+ UUVaNu5xx3dHgJK05NQvCt8mQRZOl6ieqt9ce/a82LB8MmSzvGSnBqN/tSBO+OTXOwxdnI4Tnu5u0
+ J+ggZk/fMZB9VdXd9uq4LOlX8SkKC6nSAfgnsu6xJ65/vJLhR0Hlp1q6COPMVnG7QOzerQfONflQP
+ +vtc1ehg==;
 Received: from [177.34.168.16] (helo=morissey..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1r6Kxu-006Zga-0Q; Fri, 24 Nov 2023 02:26:42 +0100
+ id 1r6Kxy-006Zga-PL; Fri, 24 Nov 2023 02:26:47 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 01/17] drm/v3d: Remove unused function header
-Date: Thu, 23 Nov 2023 21:46:57 -0300
-Message-ID: <20231124012548.772095-2-mcanal@igalia.com>
+Subject: [PATCH v2 02/17] drm/v3d: Move wait BO ioctl to the v3d_bo file
+Date: Thu, 23 Nov 2023 21:46:58 -0300
+Message-ID: <20231124012548.772095-3-mcanal@igalia.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231124012548.772095-1-mcanal@igalia.com>
 References: <20231124012548.772095-1-mcanal@igalia.com>
@@ -63,28 +63,125 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Melissa Wen <mwen@igalia.com>
 
-v3d_mmu_get_offset header was added but the function was never defined.
-Just remove it.
+IOCTLs related to BO operations reside on the file v3d_bo.c. The wait BO
+ioctl is the only IOCTL regarding BOs that is placed in a different file.
+So, move it to the v3d_bo.c file.
 
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/v3d/v3d_drv.h | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/v3d/v3d_bo.c  | 33 +++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/v3d/v3d_drv.h |  4 ++--
+ drivers/gpu/drm/v3d/v3d_gem.c | 33 ---------------------------------
+ 3 files changed, 35 insertions(+), 35 deletions(-)
 
+diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
+index 8b3229a37c6d..357a0da7e16a 100644
+--- a/drivers/gpu/drm/v3d/v3d_bo.c
++++ b/drivers/gpu/drm/v3d/v3d_bo.c
+@@ -233,3 +233,36 @@ int v3d_get_bo_offset_ioctl(struct drm_device *dev, void *data,
+ 	drm_gem_object_put(gem_obj);
+ 	return 0;
+ }
++
++int
++v3d_wait_bo_ioctl(struct drm_device *dev, void *data,
++		  struct drm_file *file_priv)
++{
++	int ret;
++	struct drm_v3d_wait_bo *args = data;
++	ktime_t start = ktime_get();
++	u64 delta_ns;
++	unsigned long timeout_jiffies =
++		nsecs_to_jiffies_timeout(args->timeout_ns);
++
++	if (args->pad != 0)
++		return -EINVAL;
++
++	ret = drm_gem_dma_resv_wait(file_priv, args->handle,
++				    true, timeout_jiffies);
++
++	/* Decrement the user's timeout, in case we got interrupted
++	 * such that the ioctl will be restarted.
++	 */
++	delta_ns = ktime_to_ns(ktime_sub(ktime_get(), start));
++	if (delta_ns < args->timeout_ns)
++		args->timeout_ns -= delta_ns;
++	else
++		args->timeout_ns = 0;
++
++	/* Asked to wait beyond the jiffie/scheduler precision? */
++	if (ret == -ETIME && args->timeout_ns)
++		ret = -EAGAIN;
++
++	return ret;
++}
 diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index 4c59fefaa0b4..d8b392494eba 100644
+index d8b392494eba..fc04372d5cbd 100644
 --- a/drivers/gpu/drm/v3d/v3d_drv.h
 +++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -420,8 +420,6 @@ void v3d_irq_disable(struct v3d_dev *v3d);
- void v3d_irq_reset(struct v3d_dev *v3d);
+@@ -385,6 +385,8 @@ int v3d_mmap_bo_ioctl(struct drm_device *dev, void *data,
+ 		      struct drm_file *file_priv);
+ int v3d_get_bo_offset_ioctl(struct drm_device *dev, void *data,
+ 			    struct drm_file *file_priv);
++int v3d_wait_bo_ioctl(struct drm_device *dev, void *data,
++		      struct drm_file *file_priv);
+ struct drm_gem_object *v3d_prime_import_sg_table(struct drm_device *dev,
+ 						 struct dma_buf_attachment *attach,
+ 						 struct sg_table *sgt);
+@@ -405,8 +407,6 @@ int v3d_submit_tfu_ioctl(struct drm_device *dev, void *data,
+ 			 struct drm_file *file_priv);
+ int v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
+ 			 struct drm_file *file_priv);
+-int v3d_wait_bo_ioctl(struct drm_device *dev, void *data,
+-		      struct drm_file *file_priv);
+ void v3d_job_cleanup(struct v3d_job *job);
+ void v3d_job_put(struct v3d_job *job);
+ void v3d_reset(struct v3d_dev *v3d);
+diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+index 9d2ac23c29e3..26f62a48d226 100644
+--- a/drivers/gpu/drm/v3d/v3d_gem.c
++++ b/drivers/gpu/drm/v3d/v3d_gem.c
+@@ -363,39 +363,6 @@ void v3d_job_put(struct v3d_job *job)
+ 	kref_put(&job->refcount, job->free);
+ }
  
- /* v3d_mmu.c */
--int v3d_mmu_get_offset(struct drm_file *file_priv, struct v3d_bo *bo,
--		       u32 *offset);
- int v3d_mmu_set_page_table(struct v3d_dev *v3d);
- void v3d_mmu_insert_ptes(struct v3d_bo *bo);
- void v3d_mmu_remove_ptes(struct v3d_bo *bo);
+-int
+-v3d_wait_bo_ioctl(struct drm_device *dev, void *data,
+-		  struct drm_file *file_priv)
+-{
+-	int ret;
+-	struct drm_v3d_wait_bo *args = data;
+-	ktime_t start = ktime_get();
+-	u64 delta_ns;
+-	unsigned long timeout_jiffies =
+-		nsecs_to_jiffies_timeout(args->timeout_ns);
+-
+-	if (args->pad != 0)
+-		return -EINVAL;
+-
+-	ret = drm_gem_dma_resv_wait(file_priv, args->handle,
+-				    true, timeout_jiffies);
+-
+-	/* Decrement the user's timeout, in case we got interrupted
+-	 * such that the ioctl will be restarted.
+-	 */
+-	delta_ns = ktime_to_ns(ktime_sub(ktime_get(), start));
+-	if (delta_ns < args->timeout_ns)
+-		args->timeout_ns -= delta_ns;
+-	else
+-		args->timeout_ns = 0;
+-
+-	/* Asked to wait beyond the jiffie/scheduler precision? */
+-	if (ret == -ETIME && args->timeout_ns)
+-		ret = -EAGAIN;
+-
+-	return ret;
+-}
+-
+ static int
+ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
+ 	     void **container, size_t size, void (*free)(struct kref *ref),
 -- 
 2.41.0
 
