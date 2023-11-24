@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E9B7F6E82
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 09:41:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE547F6E7D
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 09:41:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 526FA10E7AE;
-	Fri, 24 Nov 2023 08:41:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8791D10E7AD;
+	Fri, 24 Nov 2023 08:41:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BEB110E7AD
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 08:41:28 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id
- ffacd0b85a97d-3316ad2bee5so953933f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 00:41:28 -0800 (PST)
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33D0610E7AD
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 08:41:30 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id
+ 2adb3069b0e04-507975d34e8so2266571e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 00:41:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700815287; x=1701420087; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1700815288; x=1701420088; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=pmqHf7vG3OgSbkZDuoqTVPYV9KLNSSDAPn0Rr1mvHIw=;
- b=PNKjOrRUuqikK7MVnG7W3abzPMQ4nUREe6R+Qfo8XZDQVsOHEJYpzA4EJRqnttcC6r
- a68WboEtFcO8mpABvlYAUi6Nv4pfBRM8Etr71u2zOW86KuCWOh7GkxGblrkDeF23ZvDf
- UvHCIGEAKrHFXbcZ+I7YAy3b5W5PI319DfdBuegUtHX5B3XUUkVL9+SEpU+KTrN0nnY6
- 5xIjebqA7SHf893a5H55fKMddg1wagfNUke/RIqJ5oiKjuvb4AlXD+pLL0Yy2drE5c6N
- aYIG7O/5pjtMYWoDQeB3kAESXpxSHDKApZwpGG7+3JheS/Wj3nvZKufNDVMc7ifAzCsq
- 0UCw==
+ :reply-to; bh=m2ZTLCIzGtDzdo93FJ4l2pfkops6GMcXVN1dXIsoDYI=;
+ b=y56ekz2y6/PBfCrLDHw6L+TAS4HpDcYSvuMcDYlVAncKiUukZJTZkQdUQiS+nb7xba
+ Oc+AS+ZcTxTsSoNNXVpeABwipeQ7yUDS+bhSzvjhg2rEwsLi569kEmJx0vbQi7Vwo14k
+ s+RphdVFZIYTvz+on/A7MPPR7v7ktI2KsFOW1LUIwPV3g9jhkdk71sjqV8OKRyTbStKX
+ 2F1DuhIcUuUiUNCb3dmtfSsZFEogk1xBrIrY+ua+RgzFfgxlyArOO3KGuLP7c3HPUMBL
+ nlrV8r66WE3TMIR5Nti7QC2Q8Go7aNb96OeRNs5bOhvmAnYlKro0/AhE4aTThj97woo9
+ 7E5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700815287; x=1701420087;
+ d=1e100.net; s=20230601; t=1700815288; x=1701420088;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pmqHf7vG3OgSbkZDuoqTVPYV9KLNSSDAPn0Rr1mvHIw=;
- b=t+b3UDVfXvNwvtnEy3JEcU/Se95Ueis/5B43lH57I4ASMsk/Iqg1EntWa/h3J2qgTO
- iFj7FAdICy1o5FZEkeWjHgJmPJUpQB2dfD9t5ysJcD8ea5Z5aeFRFzrEvoJx13/C7WyN
- ZhvSD7FYAXqc9z5rYoCRSUvyEHo2PoPp0P5R/KoR8mloYgwO30WYwSLd9iKx/Hb6XL8k
- ALASdg4Bu/bYvgw1Iu8t0FjQAOAGZMekRnQjqk2W7AbJfwcWps+0Yk3s8s4phvZ8sp7R
- aUH6JrK6ys8rEiIBKsQhGCJgph+0hxi5mKdj2jg6TZKPH7ybKV/brduK/3v8yO6ZID4c
- AZRw==
-X-Gm-Message-State: AOJu0YwMSB/ocX9FzlpF4GHcUUbMnC2s1GW6jqECBw8D/0J7q1oW51px
- C/mjMgurgQ6BS6IY0yrkjIX6zA==
-X-Google-Smtp-Source: AGHT+IFPKfH4bRgwYLSScdIAX4eq/D8aF5dbD0VbyY0HPbjeV7slo9I4RmgXoBTePe/TnCrXi0Gj6g==
-X-Received: by 2002:adf:f10d:0:b0:331:6c3b:4f1b with SMTP id
- r13-20020adff10d000000b003316c3b4f1bmr1399602wro.6.1700815286963; 
- Fri, 24 Nov 2023 00:41:26 -0800 (PST)
+ bh=m2ZTLCIzGtDzdo93FJ4l2pfkops6GMcXVN1dXIsoDYI=;
+ b=KPqBh+swgVLMEjnx6JiF6G0Ilxu9K59shugM16fb+r3undalVr8VzdYygfzfK8d7Gz
+ nbstZS/a6F8ClH2vK5QDAF+4R36ct3QlDkQZvB+nYl0CYL5UnPpHdW1yHCDRX4ThHdjV
+ HKvMZPDlZ72h9oECSr9OyC+Khw/Pwe77kcQNC21QpxHg9Rtbur9hlnxfXaFKWhJ57e4p
+ x3D4dCoGegtEED7We/9eQbR6b1bd61xICqqaUCJG6L7Uvn46/vS166q1JD0t8lIxCEvD
+ aKrAoRv+7kVocZxSkADBc6LrMZGKtz9sm4ci8pfgmjWwp8fntiFf1dfSCiW+5Ut1UvBb
+ JhhQ==
+X-Gm-Message-State: AOJu0Ywc2ApmlGMi4sJFRKbG9LHH3UqM3KqSlq/K1q9cBP5henfPyfRy
+ ymgwQ1WnlIdHE4AXKlTQB8ST8g==
+X-Google-Smtp-Source: AGHT+IF7kjc01o/SSdybHjyNhj71mp3t5jB+vgaS6Zawv8K1Yz8ZO/SXKRCN8wCpxqC5dFcGrXnmPg==
+X-Received: by 2002:ac2:48b0:0:b0:50a:71d8:c94f with SMTP id
+ u16-20020ac248b0000000b0050a71d8c94fmr1135313lfg.60.1700815288264; 
+ Fri, 24 Nov 2023 00:41:28 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- c11-20020a5d4f0b000000b00332e67d6564sm2534562wru.67.2023.11.24.00.41.25
+ c11-20020a5d4f0b000000b00332e67d6564sm2534562wru.67.2023.11.24.00.41.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Nov 2023 00:41:26 -0800 (PST)
+ Fri, 24 Nov 2023 00:41:27 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Fri, 24 Nov 2023 09:41:13 +0100
-Subject: [PATCH v9 02/12] dt-bindings: soc: amlogic,meson-gx-hhi-sysctrl:
- add example covering meson-axg-hhi-sysctrl
+Date: Fri, 24 Nov 2023 09:41:14 +0100
+Subject: [PATCH v9 03/12] dt-bindings: phy:
+ amlogic,meson-axg-mipi-pcie-analog: drop text about parent syscon and drop
+ example
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-2-95256ed139e6@linaro.org>
+Message-Id: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-3-95256ed139e6@linaro.org>
 References: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-0-95256ed139e6@linaro.org>
 In-Reply-To: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-0-95256ed139e6@linaro.org>
 To: Jerome Brunet <jbrunet@baylibre.com>, 
@@ -74,20 +75,20 @@ To: Jerome Brunet <jbrunet@baylibre.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1847;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1573;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=KQGG1ytiHBIC5JgUp3eMPUlMvnricP4K9ae8Hqw91b4=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlYGGuRHAkz/o0FoARcM/nBhaSVY4S5HKY2Q4xPPDK
- g0HXtl+JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZWBhrgAKCRB33NvayMhJ0SoJD/
- 40QaN+xss8YhXmbPd7kcRXbNr00DUi9YXy17gL5d+nQzAJClUpXWM/LHE9EckZTKnrONy8hm8IyTsm
- +Q7v99Ma/k1BhRTuMLsWwfwFdFNoAm7OTDjKTKX3C8XSRZsYU+fUgVCAk9mLi0ILxo3unQMKEakNSO
- dE9rb6fvsHrXEVu4hEJRwGyxCKaj3v/DHp1F3CJPhnYNbdk+GJFAYD9mL6/Rquv7pfpR3IjTM6le/R
- CteRqtCWIuTLlnxJ2PR3bb6vtUGOpsAkWvdE95r40uUkhGJ5c4kZUY26dxnxstVIwWFeG2s7oL8t3S
- ZVlS1l/hLzSrpaeHiYKZfwxv5nccbZ/0qhpFqor44I2oPPA1T3HykRL+qs0mIMrBmmmK6W5gikOwrA
- GZifoZAOOG3AChGpZamhVtFHgvVgLP/SvPLmJamG2uSYLX4M7Wu2blhSuoHw/L2HdKB+d3880wK096
- fdWsEuUVgv8fRo95lxdriQPJb69/AHXgHKL4NQcNFjTNqOJ8YkkAquQwhf/yOaDIcnW3ERUKxybg5+
- 2lm/rhZbQ1IYLlYT1bip3o4J/rw6V6TvE6LtKHhjvs31uK1MH2UwobR7GUv+a6sJR+vtVHbwzC+9YM
- iNd8dCd57nIB+Awkk1LFT+YJgUoJCMyAh8AI+tTF+Y4Vrb1wSxd8bt5jIWKQ==
+ bh=8X7fhNCy/HvwIwzbk4yey3zcZzSI2bVpb2v4gVLXFlE=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlYGGu31exqQpuNJfZ3NjzAF/oHsRU6ubp/jrWqLQT
+ WaJLbsCJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZWBhrgAKCRB33NvayMhJ0VZEEA
+ CD9QWyKz5JqJKUffivHccIDuBx4b2ZX1upUOn4LYSEVYLaEcJbOEb6eAX5QsIvTezN2HvZAOD/TF9X
+ 9pmybusblHc3qqagjwruVann9xFjxmVQCB9SWYGaaQ0kQYjPaY5PMoVHthzTo9JWLHJSz24rKrbXDu
+ xLpfwHLzURD2kOC43HpN66RtC1etfxfHeGOidg6loQOI04C9jg8vbuQKk7i0kIDBhl8PiFEJ+wgw6L
+ D7M5mAuFYh9Tbd5Z5hbpNP6A+NahpX86HYi2TeKEMOMMCD92TqldpuV62F+Ry6VSJLYPVXi4i9FJ2y
+ BG4Ix/aRkBZrVNcPjfiOppcPJ0kO+XcRl3EUpuMo/bjnARyq7bqZoHTiJ+VMyLwNo/K5LsaelA5kmv
+ tA5YgY9gVsjAhiCEvOX8bGnkrRYLI6rINhOz1VqeVgbhFxOkYVfICfwTIaVpJmfniwQ4jOThbthyjO
+ CAAKJ0dXfO51MW7CDFudjjcdwaRBdjl0nEOEWQgIe/adFoJX+l1iF43Lq8JJYTIF2ignclF4V7fEdO
+ ihz9RrW4apafWFspszLmJDMa7hi6fS04cXDWU+4GidaAXBkpZmoJpvuwsx1qgdBLvOr6AlDgFvKXYk
+ z9mvyPn/fy3OaYQofJppI6cR8w4scLqA3Bd7v8qyOdKyjBKiNATHR5rXnrrA==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -110,56 +111,47 @@ Cc: devicetree@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a third example covering the meson-axg-hhi-sysctrl variant and more
-importantly the phy subnode.
+Since this bindings is referred from amlogic,meson-gx-hhi-sysctrl.yaml, drop the now
+useless description about the parent node and also drop the unnecessary example.
 
 Acked-by: Conor Dooley <conor.dooley@microchip.com>
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- .../soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml  | 33 ++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ .../phy/amlogic,meson-axg-mipi-pcie-analog.yaml         | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml b/Documentation/devicetree/bindings/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml
-index 16977e4e4357..c6bce40946d4 100644
---- a/Documentation/devicetree/bindings/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml
-+++ b/Documentation/devicetree/bindings/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml
-@@ -158,3 +158,36 @@ examples:
-             };
-         };
-     };
-+
-+  - |
-+    system-controller@ff63c000 {
-+        compatible = "amlogic,meson-axg-hhi-sysctrl", "simple-mfd", "syscon";
-+        reg = <0xff63c000 0x400>;
-+
-+        clock-controller {
-+            compatible = "amlogic,axg-clkc";
-+            #clock-cells = <1>;
-+            clocks = <&xtal>;
-+            clock-names = "xtal";
-+        };
-+
-+        power-controller {
-+           compatible = "amlogic,meson-axg-pwrc";
-+           #power-domain-cells = <1>;
-+           amlogic,ao-sysctrl = <&sysctrl_AO>;
-+
-+           resets = <&reset_viu>,
-+                    <&reset_venc>,
-+                    <&reset_vcbus>,
-+                    <&reset_vencl>,
-+                    <&reset_vid_lock>;
-+           reset-names = "viu", "venc", "vcbus", "vencl", "vid_lock";
-+           clocks = <&clk_vpu>, <&clk_vapb>;
-+           clock-names = "vpu", "vapb";
-+        };
-+
-+        phy {
-+           compatible = "amlogic,axg-mipi-pcie-analog-phy";
-+           #phy-cells = <0>;
-+        };
-+    };
+diff --git a/Documentation/devicetree/bindings/phy/amlogic,meson-axg-mipi-pcie-analog.yaml b/Documentation/devicetree/bindings/phy/amlogic,meson-axg-mipi-pcie-analog.yaml
+index 009a39808318..70def36e5688 100644
+--- a/Documentation/devicetree/bindings/phy/amlogic,meson-axg-mipi-pcie-analog.yaml
++++ b/Documentation/devicetree/bindings/phy/amlogic,meson-axg-mipi-pcie-analog.yaml
+@@ -9,16 +9,6 @@ title: Amlogic AXG shared MIPI/PCIE analog PHY
+ maintainers:
+   - Remi Pommarel <repk@triplefau.lt>
+ 
+-description: |+
+-  The Everything-Else Power Domains node should be the child of a syscon
+-  node with the required property:
+-
+-  - compatible: Should be the following:
+-                "amlogic,meson-gx-hhi-sysctrl", "simple-mfd", "syscon"
+-
+-  Refer to the bindings described in
+-  Documentation/devicetree/bindings/mfd/syscon.yaml
+-
+ properties:
+   compatible:
+     const: amlogic,axg-mipi-pcie-analog-phy
+@@ -31,10 +21,3 @@ required:
+   - "#phy-cells"
+ 
+ additionalProperties: false
+-
+-examples:
+-  - |
+-    mpphy: phy {
+-          compatible = "amlogic,axg-mipi-pcie-analog-phy";
+-          #phy-cells = <0>;
+-    };
 
 -- 
 2.34.1
