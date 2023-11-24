@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9FEA7F7194
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 11:35:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E338A7F7195
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 11:35:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82A2710E199;
-	Fri, 24 Nov 2023 10:35:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BECEB10E19C;
+	Fri, 24 Nov 2023 10:35:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7481010E199
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 10:35:03 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB2B10E19C
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 10:35:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D172E62123;
- Fri, 24 Nov 2023 10:35:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08F3BC433C7;
- Fri, 24 Nov 2023 10:35:01 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 55260CE0023;
+ Fri, 24 Nov 2023 10:35:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F50EC433C8;
+ Fri, 24 Nov 2023 10:35:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700822102;
- bh=bTOxPls9oEkOieAEKp1Eghoi+o3SdE6s04+l2qTLwmI=;
+ s=k20201202; t=1700822122;
+ bh=H+nXekQkf9XBvY1ESMqyZIEqP3DaxDh+lS5/L2SdOxA=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=F9d7m5tbfY6gNbZF9XgVO1y+R9k+ex3AqCRXvGShoG0t+9OreKJiWv3QNy9GnkyGk
- NGDNHUrOaTe4rDjTw4xY9KM1GlAVOLSn3tlsbIMr3QxYU3lhENxdFuqoLxREuNN97u
- zk65Ks5GpriKZOU+xFmBGVIZEhGeJ6HKo6gx1Ter+4tybGidopeB7aTm3vEnMtBu1N
- QTbztPv2jARzk6e74b4e3ElK4nzgl2V6CKJBuUNxAZyvEav1wQhYmmm3F/LqyVqL9a
- r/x9otF9P46BK96skhK4aQ96UVfbSoKBNUxOf7Y1zTB48LehKDNtDnCXCvcAS0aslF
- gniFuG49No6MQ==
-Message-ID: <18807000ad1d33a0925c5470faf20fca.mripard@kernel.org>
-Date: Fri, 24 Nov 2023 10:34:59 +0000
+ b=JeAVkrlT0JUtUSZHnsWzFlVtrXd1jk4LmmlEePsz4eSdJSF8ECxx6slpyiS7xTSOQ
+ XLVdMkamyEMILzaPLP9l2OoAPhYAMBum4iSEl40sOaT9Cd8mkbPHhsHnX6MXaeVNm1
+ pGrxLhUDuTpeFOMGoufKLUDNkMX8iFP4DS/O7HLe9OiDF5QQI//y3KLwfqtDIMdhSp
+ vLQAVDwnZm6KkPgHXLIAZ5oxN+WJhAz2gE9Yzro1Mv9UuqXZF2dbrXfpmtl87MvGuM
+ rSQr8NecK7JaxZ7HIzrdEFjEeCRY6mdY1Ww8G6aQ2tz5JQj6yGrUgDRuxbptA82BH3
+ dpyeIFuqI2h2Q==
+Message-ID: <a8383fc4d59952d74816b16a1a1c322a.mripard@kernel.org>
+Date: Fri, 24 Nov 2023 10:35:20 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Dmitry Osipenko" <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v18 01/26] drm/gem: Change locked/unlocked postfix of
- drm_gem_v/unmap() function names
-In-Reply-To: <20231029230205.93277-2-dmitry.osipenko@collabora.com>
-References: <20231029230205.93277-2-dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v18 02/26] drm/gem: Add _locked postfix to functions
+ that have unlocked counterpart
+In-Reply-To: <20231029230205.93277-3-dmitry.osipenko@collabora.com>
+References: <20231029230205.93277-3-dmitry.osipenko@collabora.com>
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,12 +60,12 @@ Cc: Maxime Ripard <mripard@kernel.org>, Thomas
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 Oct 2023 02:01:40 +0300, Dmitry Osipenko wrote:
-> Make drm/gem API function names consistent by having locked function
-> use the _locked postfix in the name, while the unlocked variants don't
-> use the _unlocked postfix. Rename drm_gem_v/unmap() function names to
-> make them consistent with the rest of the API functions.
+On Mon, 30 Oct 2023 02:01:41 +0300, Dmitry Osipenko wrote:
+> Add _locked postfix to drm_gem functions that have unlocked counterpart
+> functions to make GEM functions naming more consistent and intuitive in
+> regards to the locking requirements.
 > 
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 > 
 > [ ... ]
 
