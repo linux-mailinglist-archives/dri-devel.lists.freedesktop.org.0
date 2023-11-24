@@ -2,66 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D6F7F7714
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 16:01:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59DE17F779D
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 16:23:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD54210E7FB;
-	Fri, 24 Nov 2023 15:00:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A05B610E809;
+	Fri, 24 Nov 2023 15:23:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 341 seconds by postgrey-1.36 at gabe;
- Fri, 24 Nov 2023 15:00:49 UTC
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B206D10E7FB
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 15:00:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=s31663417; t=1700838047; x=1701442847; i=wahrenst@gmx.net;
- bh=MGJoLdIJ4b3gS02fNyae9jTdxCk07HvijAvt2pTRhQ4=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
- In-Reply-To;
- b=ZLh6xTZPzQGRNt6r3EfFNyi6xdXY08j1AgJ3OXPOsqWwWXoDgupuxPj4/TY7BuKA
- +Rk0cwYizzkwLV+C+UvjrdJ1G/gKK+oJl45psIby36RrFrT6AJhqgsMvg3L0hEf5f
- 4MSP7IMPTtBhC/hh4I0q2izcKFFu5W7Ls6Xq8m80OaMYlNkK0WmjDsvOHyN4K7C+g
- s3tWt1LuVS/RwhMyJEa1mrwewN1HgIzsGExPIB6QNsghx5gXYGAPQri0PY0Xtr9Uy
- JLxjxyiPC625GKc72U6LV/TWqjKTZ9bks0UkLKP4V6Kd1YUyZIRW+kKKTtMWL7vWa
- R0QHqHeSTXv9ADQXFg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1ML9uU-1qpYxF1cyg-00IBn6; Fri, 24
- Nov 2023 15:54:35 +0100
-Message-ID: <dab03c60-caa9-47e3-9dac-fa499227b67b@gmx.net>
-Date: Fri, 24 Nov 2023 15:54:32 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34D0610E20D;
+ Fri, 24 Nov 2023 15:23:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1700839386; x=1732375386;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=MkuEe7CRwbr3i+Uq46F6PerIEGxhcVI5cVv71fiHW+Q=;
+ b=dQ48vI/ou2qWo0Kbq8wyi+n+xbIzS+QMDyNAbXMjcZnRMkhkzJIbT3Y2
+ 8lCDz2iu9+ZZCx8yHQS5q44GZo11Pt6derre2bG2+5KPkb/rQwpk7AJEL
+ DYtrJY3tlrE7ebY1oPa4Qlyj9DgmgKoZKOI3bGE3pXgkgVHJT4liJL4J/
+ ExRy0NdnCbHjH+MguoZx0RJRSuzCMyj4MDBpWhehoUQVFxhb3c5Ho4Ojv
+ W+FMvu5HfI2p8bg2vPusTcaMSIXsNxkWykiVEg6Y+p2qdOkhEq309kqd8
+ ZnXyk+2V2JchGMiwyjnzHPKILr2teAapKU2vUtQ7JlvRgPu/1jEcBEKM2 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="389590517"
+X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; d="scan'208";a="389590517"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Nov 2023 07:23:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="833711295"
+X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; d="scan'208";a="833711295"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmsmga008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Nov 2023 07:23:04 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+ (envelope-from <andriy.shevchenko@intel.com>)
+ id 1r6XnY-0000000GkQh-3sLh; Fri, 24 Nov 2023 17:08:52 +0200
+Date: Fri, 24 Nov 2023 17:08:52 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 1/3] drm: Add new DRM_IOCTL_MODE_GETPLANE2
+Message-ID: <ZWC8hCurNztEwa-n@smile.fi.intel.com>
+References: <20170112005118.19146-1-ben@bwidawsk.net>
+ <20170112005118.19146-2-ben@bwidawsk.net>
+ <20170112102316.GT31595@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 0/2] Add waveshare 7inch touchscreen panel support
-Content-Language: en-US
-To: Shengyang Chen <shengyang.chen@starfivetech.com>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20231124104451.44271-1-shengyang.chen@starfivetech.com>
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20231124104451.44271-1-shengyang.chen@starfivetech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:XPJgdC3RB9K5a7xfMbmwhaguntSiG+JsdR8ThSlBVnEdHH7OlZ6
- GzgaDPFE6LuPGjCIfCnR7UC1WzYCxsice4aPbTwtl4G03axlVTqyJzMMi8gxsFKB93KKgOp
- RX3V7WhFXT1fnfBg/V8IOqPDWlcXnEbOQFOa2tNHhyyr6Za9Phr9eMsq8k7eBK1btzjz+Xb
- XG0HXHVFeOUMidjfTSswA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:eug/djeD5wQ=;SXh/q49vW1tB753xmqPCwORTb36
- PVbSE61Rumwn5tB8QmhuFOCkPeVQUUfrCVt0AYtWPBA5GvftEiA53dShiCzeSNgNAavg0Qw4U
- j1B99Ha7ZiiUo1It6ecJ6wL/JyODIaxQ/Gtwcwy4ukh6Apt88BUvS+LOJc3KJkvW+5oAEHU76
- j7NOHxWBXAGxUy4+NG4hR4vra4hnJA8SEqxY9xvEbZ9WRdCWugdvBmsywT2cYNnsXL3obNaDI
- w7CfP+YrogXi4U78TINmtK3T1b4IDAzu/Rvsv7QlVTwAnrlEDq8H6vMXPwvRILhmN8zsZGh6B
- 4tCVVBof9TaEUVmxUOa61GMCDDf1pBdDcmES1QK7KrVT46+iSbxc4ySRmnXLLHJG/OxPfaenc
- jhwHfxPezsw58zwDdFPv7meyvWEKuWgHNuLg2njyVoHdpYrbTqTheVwEZ+5dpz4mO4M8hwJ2p
- FhyOEuJiLrGdjz/DBlTQ/Scuur5xPsEc/ntR+b4ioC8p7cBtLBTob69xbP99s7dDlX4gfbfpM
- ZkOLngo9aK5J1MSXvnQj9D0w0bG/eZZl0bba23NnFX+vIajpukKH2l2io2EcLLWhwHhrn4Ctx
- NkbkDHB6/UEvACYcvxL73xHnY4OEKxOeP439T0REM4Aq08XTgNUHMdoKlVn+LXLL21attzzKV
- znhdrnr2ofh9kdBpU3+JtdlWUTD/j0xyizV1Y+eZpzLfdC7dRkWHy1oHE45A45DRsiSlbTIaf
- 8w4NAMp0YcciE7fwmiLC0wLTyFxT5mU4Pfd0c30LSAjLXtFgTLKzYbz3CYKu7lXSj8avFatNW
- AvcFQ4HE2NfrFQu6q7DgcS3mWLALn33Sdh23ODdB/3+lMyr/srXBD7LWYr6NEpF/5F5xeLrt/
- fLq1Yf3Ym0ioXwE6/PNkS+rnkIn54+rlLa4rrWKj4kK3RueRiC2rY/PG0u/BIgg3SC6CAxg6a
- qsQWxxczkk40q7W5DdV0Dpz8FOE=
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20170112102316.GT31595@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,78 +64,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thierry.reding@gmail.com, neil.armstrong@linaro.org, conor+dt@kernel.org,
- keith.zhao@starfivetech.com, tzimmermann@suse.de,
- krzysztof.kozlowski+dt@linaro.org, emma@anholt.net, sam@ravnborg.org,
- linux-kernel@vger.kernel.org, mripard@kernel.org, jack.zhu@starfivetech.com,
- robh+dt@kernel.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, florian.fainelli@broadcom.com,
- quic_jesszhan@quicinc.com, changhuang.liang@starfivetech.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Ben Widawsky <ben@bwidawsk.net>,
+ Intel GFX <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Shengyang,
+On Thu, Jan 12, 2017 at 12:23:16PM +0200, Ville Syrjälä wrote:
+> On Wed, Jan 11, 2017 at 04:51:16PM -0800, Ben Widawsky wrote:
 
-[fix address of Emma]
+...
 
-Am 24.11.23 um 11:44 schrieb Shengyang Chen:
-> This patchset adds waveshare 7inch touchscreen panel support
-> for the StarFive JH7110 SoC.
->
-> Patch 1 add new compatible for the raspberrypi panel driver and its dt-b=
-inding.
-> Patch 2 add new display mode and new probing process for raspberrypi pan=
-el driver.
->
-> Waveshare 7inch touchscreen panel is a kind of raspberrypi panel
-> which can be drived by raspberrypi panel driver.
->
-> The series has been tested on the VisionFive 2 board.
-surprisingly i was recently working on the official Raspberry Pi
-touchscreen and was able to get it running the new way.
+> > +	memcpy(plane->modifiers, format_modifiers,
+> > +	       format_modifier_count * sizeof(format_modifiers[0]));
+> 
+> Looks all right since we do the same for formats anyway. But it did
+> occur to me (twice at least) that a kmemdup_array() might a nice thing
+> to have for things like this. But that's a separate topic.
 
-What do i mean with the new way. There is almost nothing special to the
-Raspberry Pi touchscreen, so we should try to use/extend existing
-components like:
+JFYI:
+https://lore.kernel.org/all/20231017052322.2636-2-kkartik@nvidia.com/
 
-CONFIG_DRM_PANEL_SIMPLE
-CONFIG_TOUCHSCREEN_EDT_FT5X06
-CONFIG_DRM_TOSHIBA_TC358762
+-- 
+With Best Regards,
+Andy Shevchenko
 
-The only special part is the Attiny on the connector PCB which requires:
-
-CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY
-
-So the whole point is to avoid writing monolitic drivers for simple
-panel like that.
-
-There is a WIP branch based on top of Linux 6.7-rcX, which should
-demonstrate this approach [1]. Unfortunately it is not ready for
-upstreaming, but it has been tested on a Raspberry Pi 3 B Plus. Maybe
-this is helpful for your case.
-
-Actually i consider panel-raspberrypi-touchscreen.c as a dead end, which
-shouldn't be extended.
-
-Btw there are already DT overlays in mainline which seems to use the
-Raspberry Pi 7inch panel (without touch function yet) [2].
-
-[1] - https://github.com/lategoodbye/rpi-zero/commits/v6.7-7inch-ts
-[2] -
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/ar=
-ch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-rpidsi.dtso?h=3Dv6.6.2=
-&id=3D6b4da1354fd81adace0cda448c77d8f2a47d8474
-
->
-> Shengyang Chen (2):
->    dt-bindings: display: panel: raspberrypi: Add compatible property for
->      waveshare 7inch touchscreen panel
->    gpu: drm: panel: raspberrypi: add new display mode and new probing
->      process
->
->   .../panel/raspberrypi,7inch-touchscreen.yaml  |  4 +-
->   .../drm/panel/panel-raspberrypi-touchscreen.c | 99 ++++++++++++++++---
->   2 files changed, 91 insertions(+), 12 deletions(-)
->
 
