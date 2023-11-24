@@ -1,57 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59DE17F779D
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 16:23:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B4F17F77B4
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 16:24:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A05B610E809;
-	Fri, 24 Nov 2023 15:23:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 257FC10E807;
+	Fri, 24 Nov 2023 15:24:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34D0610E20D;
- Fri, 24 Nov 2023 15:23:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700839386; x=1732375386;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=MkuEe7CRwbr3i+Uq46F6PerIEGxhcVI5cVv71fiHW+Q=;
- b=dQ48vI/ou2qWo0Kbq8wyi+n+xbIzS+QMDyNAbXMjcZnRMkhkzJIbT3Y2
- 8lCDz2iu9+ZZCx8yHQS5q44GZo11Pt6derre2bG2+5KPkb/rQwpk7AJEL
- DYtrJY3tlrE7ebY1oPa4Qlyj9DgmgKoZKOI3bGE3pXgkgVHJT4liJL4J/
- ExRy0NdnCbHjH+MguoZx0RJRSuzCMyj4MDBpWhehoUQVFxhb3c5Ho4Ojv
- W+FMvu5HfI2p8bg2vPusTcaMSIXsNxkWykiVEg6Y+p2qdOkhEq309kqd8
- ZnXyk+2V2JchGMiwyjnzHPKILr2teAapKU2vUtQ7JlvRgPu/1jEcBEKM2 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="389590517"
-X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; d="scan'208";a="389590517"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Nov 2023 07:23:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="833711295"
-X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; d="scan'208";a="833711295"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmsmga008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Nov 2023 07:23:04 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
- (envelope-from <andriy.shevchenko@intel.com>)
- id 1r6XnY-0000000GkQh-3sLh; Fri, 24 Nov 2023 17:08:52 +0200
-Date: Fri, 24 Nov 2023 17:08:52 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 1/3] drm: Add new DRM_IOCTL_MODE_GETPLANE2
-Message-ID: <ZWC8hCurNztEwa-n@smile.fi.intel.com>
-References: <20170112005118.19146-1-ben@bwidawsk.net>
- <20170112005118.19146-2-ben@bwidawsk.net>
- <20170112102316.GT31595@intel.com>
+X-Greylist: delayed 599 seconds by postgrey-1.36 at gabe;
+ Fri, 24 Nov 2023 15:24:31 UTC
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com
+ [95.215.58.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79A8410E802
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 15:24:31 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pqrs.dk; s=key1;
+ t=1700838869;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=peq91xezvaQKWqcf4IslfnLpo00aDgps9HSfXps+xtk=;
+ b=uT8OLHRNdk68+oUdZqQn4HY5lfrInyAaLq7rpzCI1VqxaHE4YZV0SrdUAX47q6Nk64tp/V
+ qOtjqkhxqZv626Lnd7Gop6NVRUgiHOqSi2EfwENvKf1F0nesDQltPPOaEc2b4pmo41Pnp1
+ mZ7BkzsrO+/TsP+uejLgBTEPZr3Qt5XocnRdt+JkXYXPz7jJy2ZcIDI0VP/Bpq1zX6+eTW
+ cNtpdB6c59HkPgAA/EF/448k3PsyHwXD6baaGTolNLRIBWXnIRo0YN12QOjaRytLrBk4fj
+ 5MOUjdtSqvzkv7X+2ehPpN87OTU8h5vEXtlLrATfyKPj7ARfGZE+jMtVCy1rPQ==
+From: =?utf-8?q?Alvin_=C5=A0ipraga?= <alvin@pqrs.dk>
+Subject: [PATCH v2 0/2] drm/bridge: adv7511: get edid in hpd_work to update
+ CEC phys address
+Date: Fri, 24 Nov 2023 16:14:20 +0100
+Message-Id: <20231124-adv7511-cec-edid-v2-0-f0e5eeafdfc2@bang-olufsen.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20170112102316.GT31595@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-B4-Tracking: v=1; b=H4sIAMy9YGUC/32OQQrCMBBFr1Jm7UgmNcS68h7SRZpM7KC0kmhQS
+ u9u7AFcvg///b9A5iSc4dQskLhIlnmqoHcN+NFNV0YJlUEr3ZKiA7pQrCFCzx45SMAYrRlC63y
+ nO6i1R+Io70156SuPkp9z+mwLhX7pH1khJHTm6NmxGozl81BP4Hx/xczTPtygX9f1C/++WGu2A
+ AAA
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,29 +59,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ben Widawsky <ben@bwidawsk.net>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?utf-8?q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 12, 2017 at 12:23:16PM +0200, Ville Syrjälä wrote:
-> On Wed, Jan 11, 2017 at 04:51:16PM -0800, Ben Widawsky wrote:
+This series fixes a small bug where the CEC adapter could have an
+invalid CEC address even though we got a hotplug connect and could have
+read it.
 
-...
+Signed-off-by: Alvin Å ipraga <alsi@bang-olufsen.dk>
+---
+Changes in v2:
+- Rearrange driver code to avoid the previous prototype of
+  adv7511_get_edid(), per Laurent's feedback
+- Free the returned EDID to prevent a memory leak, per Jani's comment
+- Link to v1: https://lore.kernel.org/r/20231014-adv7511-cec-edid-v1-1-a58ceae0b57e@bang-olufsen.dk
 
-> > +	memcpy(plane->modifiers, format_modifiers,
-> > +	       format_modifier_count * sizeof(format_modifiers[0]));
-> 
-> Looks all right since we do the same for formats anyway. But it did
-> occur to me (twice at least) that a kmemdup_array() might a nice thing
-> to have for things like this. But that's a separate topic.
+---
+Alvin Å ipraga (2):
+      drm/bridge: adv7511: rearrange hotplug work code
+      drm/bridge: adv7511: get edid in hpd_work to update CEC phys address
 
-JFYI:
-https://lore.kernel.org/all/20231017052322.2636-2-kkartik@nvidia.com/
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 154 ++++++++++++++++-----------
+ 1 file changed, 90 insertions(+), 64 deletions(-)
+---
+base-commit: ab93edb2f94c3c0d5965be3815782472adbe3f52
+change-id: 20231014-adv7511-cec-edid-ff75bd3ac929
 
