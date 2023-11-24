@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A5B7F6EA8
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 09:42:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E6867F6EA6
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 09:42:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE11A10E7C1;
-	Fri, 24 Nov 2023 08:42:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CB4C10E7BF;
+	Fri, 24 Nov 2023 08:42:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E556010E7AE
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 08:41:32 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-50970c2115eso2181390e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 00:41:32 -0800 (PST)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A75C10E7B0
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 08:41:34 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-40b27b498c3so12150985e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 00:41:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700815291; x=1701420091; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1700815292; x=1701420092; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=szbyE8B5HmerWTS9QCGM8GNA9TtBAZ10zn0t2kxJOBs=;
- b=ZLlsG7EQ/wEQvFD8OE6l/s/UhPx5syKiwIV0/RPkD9O6l4xUa0tpBEg/07RP2SuynU
- oF+xEUKxcr6dv1o0KtYNfHw3llAp6bKazCv5mKn9vFM5rmJWcrLPrJ3EpzS859z1gYqw
- nxEo1aZr55z9M3Pj1WrjNJGPgF/CNG9pZKp3StxoWAqLdcwNfLtpqWpHhHxHXMZw7BWv
- u49iuddktD3dsJQXEjg82vkDtu2N3+EOaJsjpDDEZGO5XLcGXyLfyY4uPRpv8WgDz/Ja
- WbTe8ZTM21Yw6S3PaBDbRpj4wKEU6JrG+FuLc75PI7e1GErjEp16+3yOYX68eROMPkFM
- 3vXg==
+ :reply-to; bh=NufD4rIrXXVswDRLLGN1v8mzear6C88bLMu3144o0cg=;
+ b=KhH5sCz5gsIuIKQ3GhfIaxiWti4dfMu9j+DzEYLri6hBUXFh434Q78Z2FUCAlz4+z4
+ FE5KNYiEy5Tz5U12bAD3n9fcLjIeonRyodk05Os/7Qtttwox5mwztqoEYujgdTTSxuNd
+ XZAI35nSKLdKsrMxp4CowMjVtZGBhqqF1Td1yBlKJfnAbNeSWqua1fitFBbFJbOCx8aK
+ oYJF7aHvSkGSerKYby9qZLTyJWYdbz66gFAir2iCjDmbAKcHpPeJbuvMp4E/3OGXpGNm
+ W0aLCFRL3Q3W7v99ATZxeVhJixEczd7KfJUdQlFI+9OawYpoQLN1qGfUUVYcKfeM5bll
+ mSZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700815291; x=1701420091;
+ d=1e100.net; s=20230601; t=1700815292; x=1701420092;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=szbyE8B5HmerWTS9QCGM8GNA9TtBAZ10zn0t2kxJOBs=;
- b=rPFCusXWRe4l+6V8hRNoBTzABAtfAFuOJatLJ2RvAksW7Of2Q/mZaH/QJ+ipLc9hT2
- SXmUCdwff73PIx90le+4ojlk0KV9766zZ/7uHp1ygp99x80Sy8AoTrUWqJ2+Y7d8GR1r
- AyGHCvlMRlKlUHjzQujvCU5aSgpSVvWXR7nsiJHPKIAnLw+Gr9/1WERAAqPsZs8jZBEa
- ERJ4STZyct6Pp+VGM1JWuKuNAKXwGiJePoOomnXfVqHPHSY75T6fDZHkv53Yj5CV8qDZ
- MQBnF+6K5RzUgPjJ+prpo2QX6IKeCDd3OaIeVu1c+0xvZ5rJarU5dTw0T2e4NrXeCySu
- b0Gw==
-X-Gm-Message-State: AOJu0YxhtzuJMc+plhsrb/3bOdAZdO3MhOpHv7elpwx95/acwBHm6fDs
- 1yCUR8Yk8izlMK7RDypb72LGPA==
-X-Google-Smtp-Source: AGHT+IF8wC4ZbNV+iRqsapT1X1L6KArgTHWCtJUniE+JBLrichukip7x/MNUSFgjU69zSXGhwIYP9Q==
-X-Received: by 2002:a05:6512:2026:b0:509:4916:8b6f with SMTP id
- s6-20020a056512202600b0050949168b6fmr1088541lfs.37.1700815290893; 
- Fri, 24 Nov 2023 00:41:30 -0800 (PST)
+ bh=NufD4rIrXXVswDRLLGN1v8mzear6C88bLMu3144o0cg=;
+ b=pV8mipeoJthhgl66ZKUrP5cynOw4le4yHCbfxxFuUuY8QS65Sbq4lUS3giuLfWSAgn
+ Sbdg/Oto6RZW140c0KGu6CLTeEA64kHYKLgqMLkm8Ue2DDTRghZhr4hktJc8dtZ9/AsJ
+ SxmxchHPp01nw/Czfq5TGLz/K0U4LQ7nzk6CVOW8sWgtqNEF+op+UoB6+y+2Qcs47frM
+ tTQa43jVSNO3fxKyveblk13ACuJrHb5kv/xMngZzqWZUduAwF5+M/KsDeGGRT0x/hmGr
+ U8yFwbEV+bHsSIq979Wbt35HQyQsKj3VykLW6WeV6penzZchXObDdKdZKzl18TD5ok26
+ SdPg==
+X-Gm-Message-State: AOJu0YwXEXCsU5g7PeZxYVM7FYRdwi9JpTNctVvXEzyQOj/RMikzTLZI
+ TBnJyZ2HNgTZrIvRy+FZlDFdNw==
+X-Google-Smtp-Source: AGHT+IEUvqbt1DC0+uUVhVOjCpWlb1bksQ3RH9iprckyOqtqXcIRgR+VEHZE3xWFIFmSj+o95DaHUQ==
+X-Received: by 2002:a05:600c:1c81:b0:40b:3938:65fc with SMTP id
+ k1-20020a05600c1c8100b0040b393865fcmr1676370wms.4.1700815292199; 
+ Fri, 24 Nov 2023 00:41:32 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- c11-20020a5d4f0b000000b00332e67d6564sm2534562wru.67.2023.11.24.00.41.29
+ c11-20020a5d4f0b000000b00332e67d6564sm2534562wru.67.2023.11.24.00.41.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Nov 2023 00:41:30 -0800 (PST)
+ Fri, 24 Nov 2023 00:41:31 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Fri, 24 Nov 2023 09:41:16 +0100
-Subject: [PATCH v9 05/12] dt-bindings: arm: amlogic: Document the MNT
- Reform 2 CM4 adapter with a BPI-CM4 Module
+Date: Fri, 24 Nov 2023 09:41:17 +0100
+Subject: [PATCH v9 06/12] clk: meson: g12a: add CTS_ENCL & CTS_ENCL_SEL clocks
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-5-95256ed139e6@linaro.org>
+Message-Id: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-6-95256ed139e6@linaro.org>
 References: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-0-95256ed139e6@linaro.org>
 In-Reply-To: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-0-95256ed139e6@linaro.org>
 To: Jerome Brunet <jbrunet@baylibre.com>, 
@@ -74,20 +73,20 @@ To: Jerome Brunet <jbrunet@baylibre.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=886;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3966;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=dsHeljQP++qeke1zASpQ3YPnuH6eGTAu4r6z8mvmrbM=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlYGGv3r2urKVQCnv1GMSXAcUHF2wbzkyg1d49b8yI
- ncf0ylyJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZWBhrwAKCRB33NvayMhJ0VlcD/
- 4y1L+GLLwogkpqrR1xVtyGU3WNktnmQpmbhriYFVjc8mfDK6pfyBAzykOOFUyjcoCgKWxV1oJTuxod
- n2fNJepwZ3udvXq/phRAoM+JgB5VwPl02d66w6yh2mRT0xsuthdMpZ6GVLhbcP++Rm6wgxEcX9p/cl
- HRUp2NPx6OZGj49CiOwd4JQIe2nejmgGDUlTtfXBx0UrpPjamVyrNvMBGIIdLVH9mDQNONWT1rQM/L
- kSTuU57hLl926SrMVJ4DP3qFu/14HhsgOLiIPMgZjSVyiPWu3h2FGpFHOsXi8u4wUdJO1o/HOUy40V
- Mic7Q/lZFY39/kVxbZ4ICyg8QT9p5CzDwYXuLTYST5SCoBr7yLEBEraTke0toEJOpzx3meHPsl3ghp
- 9BOlz3g/+AVzEyoz3yjDqnifU8Z4ZCG/pVJ3VAH88P7pXL8LkGyqfrzZSnWg9tiDwRC9P34pFG0CPs
- vZQ+OaIsqPpSEN6et5R/tN/luhPgfUia87H5KA3QYFyemEKu037HhZcdomNkQnxU+uBNy377thMRdD
- BxLMWftl1gzwElohUV/HuoVhcZbLRQy3xkepA0QjbquW5+cKI4Jog/261FPx6rw2ZHOLpxSyh2BoTG
- AEQOfpbdxt+xlZIRW3QRefScRXlSnVfYvXehYP9LUfxILN5HJYzvwxQy0xeA==
+ bh=zJsrzxQnYGg+gnkYOtONfQmErbGuCQDfLn/cHrjnMZI=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlYGGw1r3vVBeENP9OV0j71X8URZHXlJ+d/mBHQQda
+ /IzcQvaJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZWBhsAAKCRB33NvayMhJ0QTzD/
+ 4vRZ2aynVoS5fO5ARDE67DKlHGKuGgLC9GXQRtRgIUs3Mu+COUAIcaRtlW6kEVlJCYprA696aSv17H
+ 4HeQfr7gr42wp4r5752yquCQmT3szcXqLGJXPhyrZIlSm7UzyO+ZAkUVsQgilHpsqdBySdzYs2+OZf
+ VnpNmODCpfZL8yRrbw5MFpWNu+cK6btltj1HbZ5i1mIO4gcPh59BmyDsA3MNjGnDDYJs5J9B/+Z55P
+ rhnZV6IJYrHKDfXS2TfvlsrBdq7zbCutti5zW2ZodDX97FPXqiLtw9fGTU1CNL9veh5UH1izbk3c33
+ EoL61SPGIFeX87mCtHhD6TBpaT0q3l14gfZMb9uLuAUoZIrL3zHmYK8CkZSaKobiIllK3pwXTeAT+8
+ 8JK/6AywyrQOKX17wq9vbVhYaZFDA7I0N5CL8mfNVv7qv1kBjgNa5mjjs9whc0QJ7fY8YGFhB3+BmP
+ 39NCJ4KwJaNC/DRbjSsHKaKUIaBmM/ysxcZ5Qq5QUcVzxCieZudSZNjjRmzhayMI2BfezwFpseU+nz
+ NMDusiOD4vRwgOCwgLnSSILP/d7eF89rrFWvFakLyrhqdIaKsEaZKEHEVJTqUQmSuTJ/A/tdHwhNyX
+ w4J61IQKvEPtgC4tNemh+iKu/uI4xTU2o+PO7pB4QBxmQ0TtV19P4BwInebw==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,33 +103,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Conor Dooley <conor.dooley@microchip.com>, linux-phy@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+ linux-phy@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MNT Reform 2 CM4 adapter can be populated with any Raspberry Pi CM4
-compatible module such as a BPI-CM4 Module, document that.
+Add new CTS_ENCL & CTS_ENCL_SEL clocks for the G12A compatible
+SoCs, they are used to feed the VPU LCD Pixel encoder used for
+DSI display purposes.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- Documentation/devicetree/bindings/arm/amlogic.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/clk/meson/g12a.c | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/amlogic.yaml b/Documentation/devicetree/bindings/arm/amlogic.yaml
-index caab7ceeda45..2154a4614fda 100644
---- a/Documentation/devicetree/bindings/arm/amlogic.yaml
-+++ b/Documentation/devicetree/bindings/arm/amlogic.yaml
-@@ -164,6 +164,7 @@ properties:
-         items:
-           - enum:
-               - bananapi,bpi-cm4io
-+              - mntre,reform2-cm4
-           - const: bananapi,bpi-cm4
-           - const: amlogic,a311d
-           - const: amlogic,g12b
+diff --git a/drivers/clk/meson/g12a.c b/drivers/clk/meson/g12a.c
+index f373a8d48b1d..cadd824336ad 100644
+--- a/drivers/clk/meson/g12a.c
++++ b/drivers/clk/meson/g12a.c
+@@ -3549,6 +3549,22 @@ static struct clk_regmap g12a_cts_encp_sel = {
+ 	},
+ };
+ 
++static struct clk_regmap g12a_cts_encl_sel = {
++	.data = &(struct clk_regmap_mux_data){
++		.offset = HHI_VIID_CLK_DIV,
++		.mask = 0xf,
++		.shift = 12,
++		.table = mux_table_cts_sel,
++	},
++	.hw.init = &(struct clk_init_data){
++		.name = "cts_encl_sel",
++		.ops = &clk_regmap_mux_ops,
++		.parent_hws = g12a_cts_parent_hws,
++		.num_parents = ARRAY_SIZE(g12a_cts_parent_hws),
++		.flags = CLK_SET_RATE_NO_REPARENT | CLK_GET_RATE_NOCACHE,
++	},
++};
++
+ static struct clk_regmap g12a_cts_vdac_sel = {
+ 	.data = &(struct clk_regmap_mux_data){
+ 		.offset = HHI_VIID_CLK_DIV,
+@@ -3628,6 +3644,22 @@ static struct clk_regmap g12a_cts_encp = {
+ 	},
+ };
+ 
++static struct clk_regmap g12a_cts_encl = {
++	.data = &(struct clk_regmap_gate_data){
++		.offset = HHI_VID_CLK_CNTL2,
++		.bit_idx = 3,
++	},
++	.hw.init = &(struct clk_init_data) {
++		.name = "cts_encl",
++		.ops = &clk_regmap_gate_ops,
++		.parent_hws = (const struct clk_hw *[]) {
++			&g12a_cts_encl_sel.hw
++		},
++		.num_parents = 1,
++		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
++	},
++};
++
+ static struct clk_regmap g12a_cts_vdac = {
+ 	.data = &(struct clk_regmap_gate_data){
+ 		.offset = HHI_VID_CLK_CNTL2,
+@@ -4407,10 +4439,12 @@ static struct clk_hw *g12a_hw_clks[] = {
+ 	[CLKID_VCLK2_DIV12]		= &g12a_vclk2_div12.hw,
+ 	[CLKID_CTS_ENCI_SEL]		= &g12a_cts_enci_sel.hw,
+ 	[CLKID_CTS_ENCP_SEL]		= &g12a_cts_encp_sel.hw,
++	[CLKID_CTS_ENCL_SEL]		= &g12a_cts_encl_sel.hw,
+ 	[CLKID_CTS_VDAC_SEL]		= &g12a_cts_vdac_sel.hw,
+ 	[CLKID_HDMI_TX_SEL]		= &g12a_hdmi_tx_sel.hw,
+ 	[CLKID_CTS_ENCI]		= &g12a_cts_enci.hw,
+ 	[CLKID_CTS_ENCP]		= &g12a_cts_encp.hw,
++	[CLKID_CTS_ENCL]		= &g12a_cts_encl.hw,
+ 	[CLKID_CTS_VDAC]		= &g12a_cts_vdac.hw,
+ 	[CLKID_HDMI_TX]			= &g12a_hdmi_tx.hw,
+ 	[CLKID_HDMI_SEL]		= &g12a_hdmi_sel.hw,
+@@ -4632,10 +4666,12 @@ static struct clk_hw *g12b_hw_clks[] = {
+ 	[CLKID_VCLK2_DIV12]		= &g12a_vclk2_div12.hw,
+ 	[CLKID_CTS_ENCI_SEL]		= &g12a_cts_enci_sel.hw,
+ 	[CLKID_CTS_ENCP_SEL]		= &g12a_cts_encp_sel.hw,
++	[CLKID_CTS_ENCL_SEL]		= &g12a_cts_encl_sel.hw,
+ 	[CLKID_CTS_VDAC_SEL]		= &g12a_cts_vdac_sel.hw,
+ 	[CLKID_HDMI_TX_SEL]		= &g12a_hdmi_tx_sel.hw,
+ 	[CLKID_CTS_ENCI]		= &g12a_cts_enci.hw,
+ 	[CLKID_CTS_ENCP]		= &g12a_cts_encp.hw,
++	[CLKID_CTS_ENCL]		= &g12a_cts_encl.hw,
+ 	[CLKID_CTS_VDAC]		= &g12a_cts_vdac.hw,
+ 	[CLKID_HDMI_TX]			= &g12a_hdmi_tx.hw,
+ 	[CLKID_HDMI_SEL]		= &g12a_hdmi_sel.hw,
+@@ -4892,10 +4928,12 @@ static struct clk_hw *sm1_hw_clks[] = {
+ 	[CLKID_VCLK2_DIV12]		= &g12a_vclk2_div12.hw,
+ 	[CLKID_CTS_ENCI_SEL]		= &g12a_cts_enci_sel.hw,
+ 	[CLKID_CTS_ENCP_SEL]		= &g12a_cts_encp_sel.hw,
++	[CLKID_CTS_ENCL_SEL]		= &g12a_cts_encl_sel.hw,
+ 	[CLKID_CTS_VDAC_SEL]		= &g12a_cts_vdac_sel.hw,
+ 	[CLKID_HDMI_TX_SEL]		= &g12a_hdmi_tx_sel.hw,
+ 	[CLKID_CTS_ENCI]		= &g12a_cts_enci.hw,
+ 	[CLKID_CTS_ENCP]		= &g12a_cts_encp.hw,
++	[CLKID_CTS_ENCL]		= &g12a_cts_encl.hw,
+ 	[CLKID_CTS_VDAC]		= &g12a_cts_vdac.hw,
+ 	[CLKID_HDMI_TX]			= &g12a_hdmi_tx.hw,
+ 	[CLKID_HDMI_SEL]		= &g12a_hdmi_sel.hw,
+@@ -5123,10 +5161,12 @@ static struct clk_regmap *const g12a_clk_regmaps[] = {
+ 	&g12a_vclk2_div12_en,
+ 	&g12a_cts_enci_sel,
+ 	&g12a_cts_encp_sel,
++	&g12a_cts_encl_sel,
+ 	&g12a_cts_vdac_sel,
+ 	&g12a_hdmi_tx_sel,
+ 	&g12a_cts_enci,
+ 	&g12a_cts_encp,
++	&g12a_cts_encl,
+ 	&g12a_cts_vdac,
+ 	&g12a_hdmi_tx,
+ 	&g12a_hdmi_sel,
 
 -- 
 2.34.1
