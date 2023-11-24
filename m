@@ -1,74 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D7D7F6E1E
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 09:28:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F457F6D15
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 08:46:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BBCD10E7A8;
-	Fri, 24 Nov 2023 08:28:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30B8110E195;
+	Fri, 24 Nov 2023 07:46:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2C4A10E0CC
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 07:44:11 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3AO6qvmS001154; Fri, 24 Nov 2023 07:44:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=date : from : to :
- cc : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=qcppdkim1; bh=AOSbb4daTpxrxU3WrCMyqVw2QhmIxxjBPjtfjLxuOUQ=;
- b=lP+mPFSG//FibxnUPYf6C6khE/CIzFLBl4cQJIuy5jMUgw/K/1WxhnlQrKcWXh7Azdnh
- F1QqbYZFB/akwCg+ufms8NdCgwMoJrDAJjYv2Z4DLB0fTWqWEFbbmhdcvGVWAVABWbGg
- rCmtYO2s4nmMtuyfLOrmdvjbYV06HADP/paCqjyoD0kaPKDtzqZ2u03kbAapGlZ9QiTg
- i3GzL+8gSltz/QqIwuAEBHkGpisPQq2k0VTQI/avDoaBaqycIeLjy472y3ElTaeNQTJ0
- dxvf46qTL7RD00vMvyHpQOZy+27XGeaerlfjD/wD93qQW/NYfLRZHg++7dAyo2QVpuOK mg== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uj4hwj18g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Nov 2023 07:44:03 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AO7i2FN027502
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Nov 2023 07:44:02 GMT
-Received: from hu-pkondeti-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 23 Nov 2023 23:43:58 -0800
-Date: Fri, 24 Nov 2023 13:13:55 +0530
-From: Pavan Kondeti <quic_pkondeti@quicinc.com>
-To: Pratyush Brahma <quic_pbrahma@quicinc.com>
-Subject: Re: [PATCH 1/2] dma-buf: heaps: secure_heap: Add secure ops for CMA
- heap
-Message-ID: <a5274efd-cd1b-4ee2-90f4-e0ad88329764@quicinc.com>
-References: <cover.1700544802.git.quic_vjitta@quicinc.com>
- <50efb85e259020cf011ba33cffc092e1115b1442.1700544802.git.quic_vjitta@quicinc.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E98FE10E195
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 07:46:34 +0000 (UTC)
+Received: from [100.124.219.30] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id CE18466022D8;
+ Fri, 24 Nov 2023 07:46:30 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1700811993;
+ bh=8LvJc8DaAgHeIHvOQk6AYJxeRlrV3q4wIVakxhIdGb8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Z9ihSIAdqUhMuQz9cCS/bwAmg2YL6c12FYaZKZOE5E7g8/LQH3vK7Z5qQiqUpBp7C
+ H/E0LW/5bWnBo0sXZAYEL6+5JpXKxm0emC+OR/R2hQTJBn/6lU7fl4ile4YO3aSwT2
+ BuR3+9KMeMjwQL09nvKxfl/kjb1Kc9He7tUmzKnVqZxBWehMdO1nmbNcTBxWAMkU+D
+ /5UN0N8+uUwJf1DC8gzc/BSCwMTmK01P379ZRX77WH8aFX3f4Qt4NQm9DFRPAIVrFg
+ yF0tNZWvbSZ0b+JbadNjsRbBorMOmlwMqYiO7pqx99IHuoyyl7xhdPkJkUO0GOw4e1
+ vVXd1rSFeLQxw==
+Message-ID: <92467afc-cd50-41aa-a3a5-481c9da30a4c@collabora.com>
+Date: Fri, 24 Nov 2023 13:16:26 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <50efb85e259020cf011ba33cffc092e1115b1442.1700544802.git.quic_vjitta@quicinc.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: CGJXYvJ3i1AXGkVxDpJom0OamVZHBYXa
-X-Proofpoint-ORIG-GUID: CGJXYvJ3i1AXGkVxDpJom0OamVZHBYXa
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-23_15,2023-11-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- malwarescore=0 priorityscore=1501 bulkscore=0 mlxscore=0 mlxlogscore=608
- suspectscore=0 phishscore=0 spamscore=0 lowpriorityscore=0 clxscore=1011
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311240059
-X-Mailman-Approved-At: Fri, 24 Nov 2023 08:28:27 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v5 9/9] drm: ci: Update xfails
+Content-Language: en-US
+To: Daniel Stone <daniel@fooishbar.org>
+References: <20231019070650.61159-1-vignesh.raman@collabora.com>
+ <20231019070650.61159-10-vignesh.raman@collabora.com>
+ <CAPj87rP=22Fw0h42U-p9fHd=6OHOu9Lj9kbpVMQVqL9U6BRE1A@mail.gmail.com>
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <CAPj87rP=22Fw0h42U-p9fHd=6OHOu9Lj9kbpVMQVqL9U6BRE1A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,34 +55,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: benjamin.gaignard@collabora.com, Vijayanand Jitta <quic_vjitta@quicinc.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- sumit.semwal@linaro.org, linaro-mm-sig@lists.linaro.org, jstultz@google.com,
- quic_guptap@quicinc.com, christian.koenig@amd.com, tjmercier@google.com,
- linux-media@vger.kernel.org
+Cc: daniels@collabora.com, emma@anholt.net, david.heidelberg@collabora.com,
+ linux-arm-msm@vger.kernel.org, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ gustavo.padovan@collabora.com, helen.koike@collabora.com,
+ linux-mediatek@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Pratyush,
+Hi Daniel,
 
-On Wed, Nov 22, 2023 at 07:17:46PM +0530, Pratyush Brahma wrote:
-> From: Vijayanand Jitta <quic_vjitta@quicinc.com>
+On 19/10/23 13:55, Daniel Stone wrote:
 > 
-> Add secure ops for CMA heap which would use qcom_scm_assign_mem
-> to assign the memory to VMID.
+> By the time we get this error, it indicates that there was previously
+> memory corruption, but it is only being noticed at a later point. The
+> skip lists here are way too big - stuff like drm_read is common
+> testing not affected by virtio at all - so we really need to isolate
+> the test which is actually breaking things.
 > 
-> Change-Id: I05aff9cb9b7b9668c4352a24bec163b52e38835a
-> Signed-off-by: Vijayanand Jitta <quic_vjitta@quicinc.com>
-> ---
->  drivers/dma-buf/heaps/secure_heap.c | 50 +++++++++++++++++++++++++++--
->  1 file changed, 47 insertions(+), 3 deletions(-)
-> 
+> The way to do this would be to use valgrind to detect where the memory
+> corruption is. VirtIO can be run locally so this is something you can
+> do on your machine.
 
-Please add your Signed-off-by line when sending patches. This is a
-requirement for accpeting patches in upstream. This applies even for the
-patches not authored by you. Given that you are sending the patches,
-your Signed-off-by line should be added after Vijay's. For more details 
-https://docs.kernel.org/process/submitting-patches.html
+Thank you for the hints and suggestions. This is now fixed in 
+igt-gpu-tools, and the patches are merged. I will uprev igt in drm-ci 
+and rerun the tests.
 
-Thanks,
-Pavan
+Also will drop the tests from virtio_gpu-none-skips.txt and send an 
+updated version.
+
+Regards,
+Vignesh
+
