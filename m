@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C1C77F6A25
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 02:27:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C90C37F6A26
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 02:27:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8E7010E78B;
-	Fri, 24 Nov 2023 01:27:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B973110E78E;
+	Fri, 24 Nov 2023 01:27:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A21AA10E788
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 01:27:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8461D10E78B
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 01:27:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,24 +19,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=4iIKqHVa/V5MAf/Wp0NPehmmuPVyG+7azsWc2BLxqjI=; b=TDIG72gWpDXvJcsgSd6M/W0Yll
- deJtsiEVNp6/L/WNe8B6b+B37+MORUQuuddQbqGCUeyvRk06FmoxwEjvbfPGBB+6v2LlkbafWoPZM
- WlL/KmcBbqj5shcgsdhdTXtvRj/uK3bMFMLtQisoDOcMjSCjBvE4uCUCsMs/5YARtHLg6C0q8tmXx
- BDIQMixQufvPNiC41t7Zb7L+Q3py/0I7Sz1+lWrmH5IA5G1EM+PDFlGtZaoaF/lCdHgRdJYKDNpBm
- 0mhg36LHVJIrDRaP/Mm7MEaNN6QYToUxwI6yTIis0kG88q2jo2umUDn0SmjZ4k2HHPPCjtOYS8bE0
- r27NxaBg==;
+ bh=Flja3r/zqwFL+JVleaMhq2DjEg2LZ/PznszMrtAzT8E=; b=nfGcEt1WyRVNwTK34PQi5grs+g
+ 6UV1A82hvmIM+IjRxZl9IMX0io2APn7LpKZRwPz9VXGs0s8YSegmaYeE9fI7EO6HbfqIxgxxii4e3
+ jwJ20XzgAuI+B1HxLqy7Xn4Vi1HnDOkOY2LD+dUAOzvXyXOC5nqmPeY5uVZ8zEOhdwdknzAr6v7rh
+ 2mDHKSXh0cRXcFzSWlxzMIjDUvFMxU47Z41dbn8AtLYYJZZHI0oyYN09SWTW3JX1xdJ7cPS24Bho6
+ pAJ3hhNbgpyUU9px0uY+CgEzD5rKWucIS7xFnCPOh2N2P7BfywultVYdDJdrndG4dMnqq6Wrfm2zX
+ YIij7K/A==;
 Received: from [177.34.168.16] (helo=morissey..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1r6KyY-006Zga-DU; Fri, 24 Nov 2023 02:27:23 +0100
+ id 1r6Kyc-006Zga-Lg; Fri, 24 Nov 2023 02:27:27 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 10/17] drm/v3d: Detach the CSD job BO setup
-Date: Thu, 23 Nov 2023 21:47:06 -0300
-Message-ID: <20231124012548.772095-11-mcanal@igalia.com>
+Subject: [PATCH v2 11/17] drm/v3d: Enable BO mapping
+Date: Thu, 23 Nov 2023 21:47:07 -0300
+Message-ID: <20231124012548.772095-12-mcanal@igalia.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231124012548.772095-1-mcanal@igalia.com>
 References: <20231124012548.772095-1-mcanal@igalia.com>
@@ -61,88 +61,81 @@ Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Melissa Wen <mwen@igalia.com>
+For the indirect CSD CPU job, we will need to access the internal
+contents of the BO with the dispatch parameters. Therefore, create
+methods to allow the mapping and unmapping of the BO.
 
-Detach CSD job setup from CSD submission ioctl to reuse it in CPU
-submission ioctl for indirect CSD job.
-
-Signed-off-by: Melissa Wen <mwen@igalia.com>
-Co-developed-by: Maíra Canal <mcanal@igalia.com>
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/v3d/v3d_submit.c | 52 +++++++++++++++++++++-----------
- 1 file changed, 34 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/v3d/v3d_bo.c  | 18 ++++++++++++++++++
+ drivers/gpu/drm/v3d/v3d_drv.h |  4 ++++
+ 2 files changed, 22 insertions(+)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-index 337a15b4b594..7900bc573b96 100644
---- a/drivers/gpu/drm/v3d/v3d_submit.c
-+++ b/drivers/gpu/drm/v3d/v3d_submit.c
-@@ -269,6 +269,37 @@ v3d_attach_fences_and_unlock_reservation(struct drm_file *file_priv,
- 	}
+diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
+index 357a0da7e16a..1bdfac8beafd 100644
+--- a/drivers/gpu/drm/v3d/v3d_bo.c
++++ b/drivers/gpu/drm/v3d/v3d_bo.c
+@@ -33,6 +33,9 @@ void v3d_free_object(struct drm_gem_object *obj)
+ 	struct v3d_dev *v3d = to_v3d_dev(obj->dev);
+ 	struct v3d_bo *bo = to_v3d_bo(obj);
+ 
++	if (bo->vaddr)
++		v3d_put_bo_vaddr(bo);
++
+ 	v3d_mmu_remove_ptes(bo);
+ 
+ 	mutex_lock(&v3d->bo_lock);
+@@ -134,6 +137,7 @@ struct v3d_bo *v3d_bo_create(struct drm_device *dev, struct drm_file *file_priv,
+ 	if (IS_ERR(shmem_obj))
+ 		return ERR_CAST(shmem_obj);
+ 	bo = to_v3d_bo(&shmem_obj->base);
++	bo->vaddr = NULL;
+ 
+ 	ret = v3d_bo_create_finish(&shmem_obj->base);
+ 	if (ret)
+@@ -167,6 +171,20 @@ v3d_prime_import_sg_table(struct drm_device *dev,
+ 	return obj;
  }
  
-+static int
-+v3d_setup_csd_jobs_and_bos(struct drm_file *file_priv,
-+			   struct v3d_dev *v3d,
-+			   struct drm_v3d_submit_csd *args,
-+			   struct v3d_csd_job **job,
-+			   struct v3d_job **clean_job,
-+			   struct v3d_submit_ext *se,
-+			   struct ww_acquire_ctx *acquire_ctx)
++void v3d_get_bo_vaddr(struct v3d_bo *bo)
 +{
-+	int ret;
++	struct drm_gem_shmem_object *obj = &bo->base;
 +
-+	ret = v3d_job_init(v3d, file_priv, (void *)job, sizeof(**job),
-+			   v3d_job_free, args->in_sync, se, V3D_CSD);
-+	if (ret)
-+		return ret;
-+
-+	ret = v3d_job_init(v3d, file_priv, (void *)clean_job, sizeof(**clean_job),
-+			   v3d_job_free, 0, NULL, V3D_CACHE_CLEAN);
-+	if (ret)
-+		return ret;
-+
-+	(*job)->args = *args;
-+
-+	ret = v3d_lookup_bos(&v3d->drm, file_priv, *clean_job,
-+			     args->bo_handles, args->bo_handle_count);
-+	if (ret)
-+		return ret;
-+
-+	return v3d_lock_bo_reservations(*clean_job, acquire_ctx);
++	bo->vaddr = vmap(obj->pages, obj->base.size >> PAGE_SHIFT, VM_MAP,
++			 pgprot_writecombine(PAGE_KERNEL));
 +}
 +
- static void
- v3d_put_multisync_post_deps(struct v3d_submit_ext *se)
++void v3d_put_bo_vaddr(struct v3d_bo *bo)
++{
++	vunmap(bo->vaddr);
++	bo->vaddr = NULL;
++}
++
+ int v3d_create_bo_ioctl(struct drm_device *dev, void *data,
+ 			struct drm_file *file_priv)
  {
-@@ -697,24 +728,9 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
- 		}
- 	}
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+index 010b146140ad..04e97989c442 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.h
++++ b/drivers/gpu/drm/v3d/v3d_drv.h
+@@ -202,6 +202,8 @@ struct v3d_bo {
+ 	 * v3d_render_job->unref_list
+ 	 */
+ 	struct list_head unref_head;
++
++	void *vaddr;
+ };
  
--	ret = v3d_job_init(v3d, file_priv, (void *)&job, sizeof(*job),
--			   v3d_job_free, args->in_sync, &se, V3D_CSD);
--	if (ret)
--		goto fail;
--
--	ret = v3d_job_init(v3d, file_priv, (void *)&clean_job, sizeof(*clean_job),
--			   v3d_job_free, 0, NULL, V3D_CACHE_CLEAN);
--	if (ret)
--		goto fail;
--
--	job->args = *args;
--
--	ret = v3d_lookup_bos(dev, file_priv, clean_job,
--			     args->bo_handles, args->bo_handle_count);
--	if (ret)
--		goto fail;
--
--	ret = v3d_lock_bo_reservations(clean_job, &acquire_ctx);
-+	ret = v3d_setup_csd_jobs_and_bos(file_priv, v3d, args,
-+					 &job, &clean_job, &se,
-+					 &acquire_ctx);
- 	if (ret)
- 		goto fail;
- 
+ static inline struct v3d_bo *
+@@ -389,6 +391,8 @@ struct drm_gem_object *v3d_create_object(struct drm_device *dev, size_t size);
+ void v3d_free_object(struct drm_gem_object *gem_obj);
+ struct v3d_bo *v3d_bo_create(struct drm_device *dev, struct drm_file *file_priv,
+ 			     size_t size);
++void v3d_get_bo_vaddr(struct v3d_bo *bo);
++void v3d_put_bo_vaddr(struct v3d_bo *bo);
+ int v3d_create_bo_ioctl(struct drm_device *dev, void *data,
+ 			struct drm_file *file_priv);
+ int v3d_mmap_bo_ioctl(struct drm_device *dev, void *data,
 -- 
 2.41.0
 
