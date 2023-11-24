@@ -1,77 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A1C7F68EA
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Nov 2023 23:13:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B5B7F69A4
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 01:00:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 015E710E361;
-	Thu, 23 Nov 2023 22:13:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AC6A10E069;
+	Fri, 24 Nov 2023 00:00:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 012BA10E35F
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 22:13:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1700777610;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7MuULYoz5ao+rLNA+YbUecP2cAJXv6WyavKrHjMaHS4=;
- b=Lw069V045Q40ZCCCf0olSpqv/078aPMnmerNylcMSLroA5fjVB1Yv8n3FtHY653WvI+Lhd
- rVksgz41qNMWKc9Y40PpcIaxHrRv6Zn3xohHB3FLpjMTfqYPHwWfHZNJu/ald3xGJMs0dV
- 9WZ/Evhp96TssYQsFjFhHGuIi3QT890=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-47-0ZzLWPzVMTGbIPEn8zFcrQ-1; Thu, 23 Nov 2023 17:13:28 -0500
-X-MC-Unique: 0ZzLWPzVMTGbIPEn8zFcrQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-332e2e0b98bso640084f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 14:13:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700777607; x=1701382407;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7MuULYoz5ao+rLNA+YbUecP2cAJXv6WyavKrHjMaHS4=;
- b=iC5uTCKnVlQn6dhG5/e9f5A9wcxXxQ+SeTtwybWgRnYkkA+39R6GLVWnBCHkWlxb5r
- nRM/gwNb+Ei3S42Cd2BoNxAiloWyJ9DYFC0iHH460A7arlWh8PP4zUvMAx1yBb/ZqixK
- dEPr7qbcnkO1X7XEdTTu2Hu8sJ2nsWkByL56b0BVuiuZ6C4Z7aqby6g5wRT5zUP3+5qR
- YMwa4xtMzzK2UkP3GHitKNttJ00ZBcDFW1JZMNNTZ+WEP5yVwkO27mq4Vfe6COrgCplN
- C3w+LptRDdKqObpy0jMxxe8rcIrhzcWqF+Piiq7Dyq9OO5ebcjplrTw9bHJ8Q4Wjx6Yl
- NdiQ==
-X-Gm-Message-State: AOJu0YwgWorvpV/bGNxtEdzW8HpegGbehHWVbMjzoxD7u8ni5UvAu7Cg
- CXGPtJM/5QPeT1iAqlfMTpbeubK/QrDzEKVPdPK9V9eHlJUKKMXdPH/MTP4iLNwYj3kywLzdq8/
- 7T3W4rKHXePyYwX/FKKnVpGJImwUP
-X-Received: by 2002:a5d:40c8:0:b0:332:e777:a8d4 with SMTP id
- b8-20020a5d40c8000000b00332e777a8d4mr565983wrq.36.1700777607605; 
- Thu, 23 Nov 2023 14:13:27 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFbblMAN+hzDoQaplfSW1Ls9XUsnDbl4YuadfKrIq6lj50fMHkQHToWy2rbRvbEJLq7TAFUoA==
-X-Received: by 2002:a5d:40c8:0:b0:332:e777:a8d4 with SMTP id
- b8-20020a5d40c8000000b00332e777a8d4mr565964wrq.36.1700777607350; 
- Thu, 23 Nov 2023 14:13:27 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- s7-20020a5d5107000000b00332c6a52040sm2681153wrt.100.2023.11.23.14.13.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Nov 2023 14:13:27 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v4 5/5] drm/todo: Add entry about implementing buffer age for
- damage tracking
-Date: Thu, 23 Nov 2023 23:13:04 +0100
-Message-ID: <20231123221315.3579454-6-javierm@redhat.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231123221315.3579454-1-javierm@redhat.com>
-References: <20231123221315.3579454-1-javierm@redhat.com>
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DFE610E069;
+ Fri, 24 Nov 2023 00:00:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1700784021;
+ bh=4u/I//7hjlJWABhYXJ8C7CRuJPSGckPXSpzxEFjRSXw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=J9heKbYiobAHKL07AHBp2Z+L1n2gM94suXGkBLEkY1bbUJP+aNRreu/xdPO1osc4k
+ 8L9mSRNyRCvXN4tiQXk3OCm0fX4V40wNx4rDArGONLrzotjAwKs7hd3LUWXTgx9DuX
+ yQYRlp4BZQA50GvoR4LM/eS+A3ZhI434aKBit9/rtwr/oD+1jKBO2Bd2pg8ShsaVoQ
+ kKI93tr5Q6fgF7DuxszoOgXnzaHV8VA5iZrurXtE1pfKrwLdANcYqx68XBliDBjfF6
+ wzcl/yye3ABFb3R2DbVCYIj/NtdfiGB+BLUNyqDgiobFqgB/klRLipN3Wv99XyQkET
+ 0B3U+E5zX/WUA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Sbw8z6FYPz4x1R;
+ Fri, 24 Nov 2023 11:00:19 +1100 (AEDT)
+Date: Fri, 24 Nov 2023 11:00:18 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Alex Deucher <alexdeucher@gmail.com>, Dave Airlie <airlied@redhat.com>
+Subject: Re: linux-next: manual merge of the drm-intel tree with the amdgpu
+ tree
+Message-ID: <20231124110018.33c10a48@canb.auug.org.au>
+In-Reply-To: <20231120122818.09bb6f35@canb.auug.org.au>
+References: <20231120122818.09bb6f35@canb.auug.org.au>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: multipart/signed; boundary="Sig_/cnA4g+gCkd46mEk0SGkmvNe";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,72 +52,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Jonathan Corbet <corbet@lwn.net>, Bilal Elmoussaoui <belmouss@redhat.com>,
- linux-doc@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Sima Vetter <daniel.vetter@ffwll.ch>,
- Erico Nunes <nunes.erico@gmail.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, Fangzhi Zuo <jerry.zuo@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, only damage tracking for frame damage is supported. If a driver
-needs to do buffer damage (e.g: the framebuffer attached to plane's state
-has changed since the last page-flip), the damage helpers just fallback to
-a full plane update.
+--Sig_/cnA4g+gCkd46mEk0SGkmvNe
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Add en entry in the TODO about implementing buffer age or any other damage
-accumulation algorithm for buffer damage handling.
+Hi all,
 
-Suggested-by: Simon Ser <contact@emersion.fr>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Simon Ser <contact@emersion.fr>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Zack Rusin <zackr@vmware.com>
-Acked-by: Sima Vetter <daniel.vetter@ffwll.ch>
----
+On Mon, 20 Nov 2023 12:28:18 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
+wrote:
+>=20
+> Today's linux-next merge of the drm-intel tree got a conflict in:
+>=20
+>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+>=20
+> between commits:
+>=20
+>   a58555359a9f ("drm/amd/display: Fix DSC not Enabled on Direct MST Sink")
+>   c29085d29562 ("drm/amd/display: Enable DSC Flag in MST Mode Validation")
+>=20
+> from the amdgpu tree and commit:
+>=20
+>   7707dd602259 ("drm/dp_mst: Fix fractional DSC bpp handling")
+>=20
+> from the drm-intel tree.
+>=20
+> I fixed it up (see below) and can carry the fix as necessary. This
+> is now fixed as far as linux-next is concerned, but any non trivial
+> conflicts should be mentioned to your upstream maintainer when your tree
+> is submitted for merging.  You may also want to consider cooperating
+> with the maintainer of the conflicting tree to minimise any particularly
+> complex conflicts.
+>=20
+> --=20
+> Cheers,
+> Stephen Rothwell
+>=20
+> diff --cc drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> index 8d7d4024f285,2afd1bc74978..000000000000
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> @@@ -1650,7 -1636,8 +1650,7 @@@ enum dc_status dm_dp_mst_is_port_suppor
+>   	} else {
+>   		/* check if mode could be supported within full_pbn */
+>   		bpp =3D convert_dc_color_depth_into_bpc(stream->timing.display_color_=
+depth) * 3;
+> - 		pbn =3D drm_dp_calc_pbn_mode(stream->timing.pix_clk_100hz / 10, bpp, =
+false);
+> + 		pbn =3D drm_dp_calc_pbn_mode(stream->timing.pix_clk_100hz / 10, bpp <=
+< 4);
+>  -
+>   		if (pbn > aconnector->mst_output_port->full_pbn)
+>   			return DC_FAIL_BANDWIDTH_VALIDATE;
+>   	}
 
-Changes in v4:
-- Reference the &drm_plane_state.ignore_damage_clips and the damage helpers
-  in the buffer damage TODO entry (Sima Vetter).
+This is now a conflict between the amdgpu tree and the drm tree.
 
- Documentation/gpu/todo.rst | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+--=20
+Cheers,
+Stephen Rothwell
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index b62c7fa0c2bc..503d57c75215 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -782,6 +782,29 @@ Contact: Hans de Goede
- 
- Level: Advanced
- 
-+Buffer age or other damage accumulation algorithm for buffer damage
-+===================================================================
-+
-+Drivers that do per-buffer uploads, need a buffer damage handling (rather than
-+frame damage like drivers that do per-plane or per-CRTC uploads), but there is
-+no support to get the buffer age or any other damage accumulation algorithm.
-+
-+For this reason, the damage helpers just fallback to a full plane update if the
-+framebuffer attached to a plane has changed since the last page-flip. Drivers
-+set &drm_plane_state.ignore_damage_clips to true as indication to
-+drm_atomic_helper_damage_iter_init() and drm_atomic_helper_damage_iter_next()
-+helpers that the damage clips should be ignored.
-+
-+This should be improved to get damage tracking properly working on drivers that
-+do per-buffer uploads.
-+
-+More information about damage tracking and references to learning materials can
-+be found in :ref:`damage_tracking_properties`.
-+
-+Contact: Javier Martinez Canillas <javierm@redhat.com>
-+
-+Level: Advanced
-+
- Outside DRM
- ===========
- 
--- 
-2.41.0
+--Sig_/cnA4g+gCkd46mEk0SGkmvNe
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmVf55IACgkQAVBC80lX
+0Gya3wf/Wu5hfPJD6u2XJMjFb6UEq7eNnLtimEME4lJwD9Byp/lIUzlV7O+8sspB
+Do/KMS8hZVtlBCzLMpbjCgMUt9nuYWVX7Kr1VSiSjmOChLd7NilCWJXcQxPvf6Td
+LX3Ebvi4uTeVh04da20nnlaK4Z367lf1ay+PexITtBnwHV/xN2twAibWEPBoeknW
+Y/UIPIVaadc9AquF9DOHBVEUqNhUiCidlY9oj/VFCYjLkjhd8bqUMaehSqWJXcfh
+vowpQI9NERRk2y5EBi2EbN5FU7bid32hN09gHnPoD7BfCVs7bgtO0V6k/A1mdLKv
+MYCh1jpETpRjp1b32sAhk3z5OVHWRg==
+=szxH
+-----END PGP SIGNATURE-----
+
+--Sig_/cnA4g+gCkd46mEk0SGkmvNe--
