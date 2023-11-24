@@ -1,61 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 671C37F70B1
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 11:01:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A9597F70C7
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 11:04:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47C9810E7C3;
-	Fri, 24 Nov 2023 10:01:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91D2910E7CF;
+	Fri, 24 Nov 2023 10:04:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D21410E7CB
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 10:01:00 +0000 (UTC)
-X-UUID: 5b79a7e48ab011ee8051498923ad61e6-20231124
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=SU7L7WaD7sBigt9DbsfsMwQVKx3h/ibBHRUjvMnQfYg=; 
- b=AwP9qZvX2pPhw8cUnWYeS3IJxtkgDvaGlO/At6XM+YGon0/CNqwaY/kscp511stCzzmaP/8SvICbdABS5UVgy84irX1N7S34H0R65h+Ipmq+SfCkPMrDnxrVkcw57T3EHaMwIirXkypJ4TypdvItXcIe69+zHy4n8Qioe/eFSTA=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.33, REQID:f575a636-b49d-4a3f-9899-2ebedf29c8a9, IP:0,
- U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:-5
-X-CID-META: VersionHash:364b77b, CLOUDID:a4d6e8fc-4a48-46e2-b946-12f04f20af8c,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
- DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 5b79a7e48ab011ee8051498923ad61e6-20231124
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by
- mailgw02.mediatek.com (envelope-from <shawn.sung@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 194510323; Fri, 24 Nov 2023 18:00:54 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 24 Nov 2023 18:00:53 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 24 Nov 2023 18:00:53 +0800
-From: Hsiao Chien Sung <shawn.sung@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v4 1/1] drm/mediatek: Fix errors when reporting rotation
- capability
-Date: Fri, 24 Nov 2023 18:00:52 +0800
-Message-ID: <20231124100052.18599-2-shawn.sung@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20231124100052.18599-1-shawn.sung@mediatek.com>
-References: <20231124100052.18599-1-shawn.sung@mediatek.com>
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C5C610E7CF
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 10:04:40 +0000 (UTC)
+Received: from lvc-arm12.ispras.local (unknown [83.149.199.78])
+ by mail.ispras.ru (Postfix) with ESMTPSA id E3AB240F1DC5;
+ Fri, 24 Nov 2023 10:04:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru E3AB240F1DC5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+ s=default; t=1700820277;
+ bh=bv7wrxAb8THNXxecm6v9BJx9SpSabyHKXEhGbn925+0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=TpzycoP6tkRg1Xo+5wm2DG/F1XZvBKTIuCe6gNC6tLzDVSOd7nIq8eLFaVKDNTMiT
+ XHLjeyW9Kf3e/w2Voyv9B2WVYULjdoUQKMU5Pt9PYGFXO+Twsmm8+09qn+c90nBAKN
+ TU2pzUc/EM/HGrL7bPTp+ImA1hqbLMbsisw4ePp4=
+From: Katya Orlova <e.orlova@ispras.ru>
+To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Subject: [PATCH v2] drm/stm: Avoid use-after-free issues with crtc and plane
+Date: Fri, 24 Nov 2023 13:04:15 +0300
+Message-Id: <20231124100415.21713-1-e.orlova@ispras.ru>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <8ec28237-8641-4c4c-b448-824ac01f313b@foss.st.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,131 +45,251 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sean Paul <seanpaul@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-mediatek@lists.infradead.org, Hsiao Chien Sung <shawn.sung@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Yannick Fertre <yannick.fertre@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Katya Orlova <e.orlova@ispras.ru>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
+ lvc-project@linuxtesting.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create rotation property according to the hardware capability.
-Since currently OVL of all chips support same rotation,
-no need to define it in the driver data.
+ltdc_load() calls functions drm_crtc_init_with_planes(),
+drm_universal_plane_init() and drm_encoder_init(). These functions
+should not be called with parameters allocated with devm_kzalloc()
+to avoid use-after-free issues [1].
 
-Fixes: 84d805753983 ("drm/mediatek: Support reflect-y plane rotation")
+Use allocations managed by the DRM framework.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
+Found by Linux Verification Center (linuxtesting.org).
+
+[1]
+https://lore.kernel.org/lkml/u366i76e3qhh3ra5oxrtngjtm2u5lterkekcz6y2jkndhuxzli@diujon4h7qwb/
+
+Signed-off-by: Katya Orlova <e.orlova@ispras.ru>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_drv.h        |  1 +
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c        | 18 ++++++------------
- .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c    |  9 +++++++++
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c    |  1 +
- drivers/gpu/drm/mediatek/mtk_drm_plane.c       |  2 +-
- 5 files changed, 18 insertions(+), 13 deletions(-)
+v2: use allocations managed by the DRM as
+Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com> suggested.
+Also add a fix for encoder.
+ drivers/gpu/drm/stm/drv.c  |  3 +-
+ drivers/gpu/drm/stm/ltdc.c | 68 +++++++++-----------------------------
+ 2 files changed, 18 insertions(+), 53 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-index 4d6e8b667bc3..c5afeb7c5527 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-@@ -127,6 +127,7 @@ void mtk_ovl_adaptor_register_vblank_cb(struct device *dev, void (*vblank_cb)(vo
- void mtk_ovl_adaptor_unregister_vblank_cb(struct device *dev);
- void mtk_ovl_adaptor_enable_vblank(struct device *dev);
- void mtk_ovl_adaptor_disable_vblank(struct device *dev);
-+unsigned int mtk_ovl_adaptor_supported_rotations(struct device *dev);
- void mtk_ovl_adaptor_start(struct device *dev);
- void mtk_ovl_adaptor_stop(struct device *dev);
- unsigned int mtk_ovl_adaptor_layer_nr(struct device *dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index ecc38932fd44..319bbfde5cf9 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -415,6 +415,10 @@ unsigned int mtk_ovl_layer_nr(struct device *dev)
-
- unsigned int mtk_ovl_supported_rotations(struct device *dev)
- {
-+	/*
-+	 * although currently OVL can only do reflection,
-+	 * reflect x + reflect y = rotate 180
-+	 */
- 	return DRM_MODE_ROTATE_0 | DRM_MODE_ROTATE_180 |
- 	       DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y;
+diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
+index e8523abef27a..152bec2c0238 100644
+--- a/drivers/gpu/drm/stm/drv.c
++++ b/drivers/gpu/drm/stm/drv.c
+@@ -25,6 +25,7 @@
+ #include <drm/drm_module.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_vblank.h>
++#include <drm/drm_managed.h>
+ 
+ #include "ltdc.h"
+ 
+@@ -75,7 +76,7 @@ static int drv_load(struct drm_device *ddev)
+ 
+ 	DRM_DEBUG("%s\n", __func__);
+ 
+-	ldev = devm_kzalloc(ddev->dev, sizeof(*ldev), GFP_KERNEL);
++	ldev = drmm_kzalloc(ddev, sizeof(*ldev), GFP_KERNEL);
+ 	if (!ldev)
+ 		return -ENOMEM;
+ 
+diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+index 5576fdae4962..02a7c8375f44 100644
+--- a/drivers/gpu/drm/stm/ltdc.c
++++ b/drivers/gpu/drm/stm/ltdc.c
+@@ -36,6 +36,7 @@
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
+ #include <drm/drm_vblank.h>
++#include <drm/drm_managed.h>
+ 
+ #include <video/videomode.h>
+ 
+@@ -1199,7 +1200,6 @@ static void ltdc_crtc_atomic_print_state(struct drm_printer *p,
  }
-@@ -423,27 +427,17 @@ int mtk_ovl_layer_check(struct device *dev, unsigned int idx,
- 			struct mtk_plane_state *mtk_state)
- {
- 	struct drm_plane_state *state = &mtk_state->base;
--	unsigned int rotation = 0;
-
--	rotation = drm_rotation_simplify(state->rotation,
--					 DRM_MODE_ROTATE_0 |
--					 DRM_MODE_REFLECT_X |
--					 DRM_MODE_REFLECT_Y);
--	rotation &= ~DRM_MODE_ROTATE_0;
--
--	/* We can only do reflection, not rotation */
--	if ((rotation & DRM_MODE_ROTATE_MASK) != 0)
-+	if (state->rotation & ~mtk_ovl_supported_rotations(dev))
- 		return -EINVAL;
-
- 	/*
- 	 * TODO: Rotating/reflecting YUV buffers is not supported at this time.
- 	 *	 Only RGB[AX] variants are supported.
- 	 */
--	if (state->fb->format->is_yuv && rotation != 0)
-+	if (state->fb->format->is_yuv && (state->rotation & ~DRM_MODE_ROTATE_0))
- 		return -EINVAL;
-
--	state->rotation = rotation;
--
- 	return 0;
- }
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-index 4398db9a6276..273c79d37bef 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-@@ -383,6 +383,15 @@ void mtk_ovl_adaptor_register_vblank_cb(struct device *dev, void (*vblank_cb)(vo
- 				     vblank_cb, vblank_cb_data);
- }
-
-+unsigned int mtk_ovl_adaptor_supported_rotations(struct device *dev)
-+{
-+	/*
-+	 * should still return DRM_MODE_ROTATE_0 if rotation is not supported,
-+	 * or IGT will fail.
-+	 */
-+	return DRM_MODE_ROTATE_0;
-+}
-+
- void mtk_ovl_adaptor_unregister_vblank_cb(struct device *dev)
- {
- 	struct mtk_disp_ovl_adaptor *ovl_adaptor = dev_get_drvdata(dev);
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index ffa4868b1222..206dd6f6f99e 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -422,6 +422,7 @@ static const struct mtk_ddp_comp_funcs ddp_ovl_adaptor = {
- 	.remove = mtk_ovl_adaptor_remove_comp,
- 	.get_formats = mtk_ovl_adaptor_get_formats,
- 	.get_num_formats = mtk_ovl_adaptor_get_num_formats,
-+	.supported_rotations = mtk_ovl_adaptor_supported_rotations,
+ 
+ static const struct drm_crtc_funcs ltdc_crtc_funcs = {
+-	.destroy = drm_crtc_cleanup,
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.page_flip = drm_atomic_helper_page_flip,
+ 	.reset = drm_atomic_helper_crtc_reset,
+@@ -1212,7 +1212,6 @@ static const struct drm_crtc_funcs ltdc_crtc_funcs = {
  };
-
- static const char * const mtk_ddp_comp_stem[MTK_DDP_COMP_TYPE_MAX] = {
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-index e2ec61b69618..894c39a38a58 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-@@ -344,7 +344,7 @@ int mtk_plane_init(struct drm_device *dev, struct drm_plane *plane,
- 		return err;
+ 
+ static const struct drm_crtc_funcs ltdc_crtc_with_crc_support_funcs = {
+-	.destroy = drm_crtc_cleanup,
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.page_flip = drm_atomic_helper_page_flip,
+ 	.reset = drm_atomic_helper_crtc_reset,
+@@ -1545,7 +1544,6 @@ static void ltdc_plane_atomic_print_state(struct drm_printer *p,
+ static const struct drm_plane_funcs ltdc_plane_funcs = {
+ 	.update_plane = drm_atomic_helper_update_plane,
+ 	.disable_plane = drm_atomic_helper_disable_plane,
+-	.destroy = drm_plane_cleanup,
+ 	.reset = drm_atomic_helper_plane_reset,
+ 	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
+@@ -1572,7 +1570,6 @@ static struct drm_plane *ltdc_plane_create(struct drm_device *ddev,
+ 	const u64 *modifiers = ltdc_format_modifiers;
+ 	u32 lofs = index * LAY_OFS;
+ 	u32 val;
+-	int ret;
+ 
+ 	/* Allocate the biggest size according to supported color formats */
+ 	formats = devm_kzalloc(dev, (ldev->caps.pix_fmt_nb +
+@@ -1613,14 +1610,10 @@ static struct drm_plane *ltdc_plane_create(struct drm_device *ddev,
+ 		}
  	}
-
--	if (supported_rotations & ~DRM_MODE_ROTATE_0) {
-+	if (supported_rotations) {
- 		err = drm_plane_create_rotation_property(plane,
- 							 DRM_MODE_ROTATE_0,
- 							 supported_rotations);
---
-2.39.2
+ 
+-	plane = devm_kzalloc(dev, sizeof(*plane), GFP_KERNEL);
+-	if (!plane)
+-		return NULL;
+-
+-	ret = drm_universal_plane_init(ddev, plane, possible_crtcs,
+-				       &ltdc_plane_funcs, formats, nb_fmt,
+-				       modifiers, type, NULL);
+-	if (ret < 0)
++	plane = drmm_universal_plane_alloc(ddev, struct drm_plane, dev,
++				       possible_crtcs, &ltdc_plane_funcs, formats, nb_fmt,
++				       modifiers, type, NULL);
++	if (IS_ERR(plane))
+ 		return NULL;
+ 
+ 	if (ldev->caps.ycbcr_input) {
+@@ -1643,15 +1636,6 @@ static struct drm_plane *ltdc_plane_create(struct drm_device *ddev,
+ 	return plane;
+ }
+ 
+-static void ltdc_plane_destroy_all(struct drm_device *ddev)
+-{
+-	struct drm_plane *plane, *plane_temp;
+-
+-	list_for_each_entry_safe(plane, plane_temp,
+-				 &ddev->mode_config.plane_list, head)
+-		drm_plane_cleanup(plane);
+-}
+-
+ static int ltdc_crtc_init(struct drm_device *ddev, struct drm_crtc *crtc)
+ {
+ 	struct ltdc_device *ldev = ddev->dev_private;
+@@ -1677,14 +1661,14 @@ static int ltdc_crtc_init(struct drm_device *ddev, struct drm_crtc *crtc)
+ 
+ 	/* Init CRTC according to its hardware features */
+ 	if (ldev->caps.crc)
+-		ret = drm_crtc_init_with_planes(ddev, crtc, primary, NULL,
++		ret = drmm_crtc_init_with_planes(ddev, crtc, primary, NULL,
+ 						&ltdc_crtc_with_crc_support_funcs, NULL);
+ 	else
+-		ret = drm_crtc_init_with_planes(ddev, crtc, primary, NULL,
++		ret = drmm_crtc_init_with_planes(ddev, crtc, primary, NULL,
+ 						&ltdc_crtc_funcs, NULL);
+ 	if (ret) {
+ 		DRM_ERROR("Can not initialize CRTC\n");
+-		goto cleanup;
++		return ret;
+ 	}
+ 
+ 	drm_crtc_helper_add(crtc, &ltdc_crtc_helper_funcs);
+@@ -1698,9 +1682,8 @@ static int ltdc_crtc_init(struct drm_device *ddev, struct drm_crtc *crtc)
+ 	for (i = 1; i < ldev->caps.nb_layers; i++) {
+ 		overlay = ltdc_plane_create(ddev, DRM_PLANE_TYPE_OVERLAY, i);
+ 		if (!overlay) {
+-			ret = -ENOMEM;
+ 			DRM_ERROR("Can not create overlay plane %d\n", i);
+-			goto cleanup;
++			return -ENOMEM;
+ 		}
+ 		if (ldev->caps.dynamic_zorder)
+ 			drm_plane_create_zpos_property(overlay, i, 0, ldev->caps.nb_layers - 1);
+@@ -1713,10 +1696,6 @@ static int ltdc_crtc_init(struct drm_device *ddev, struct drm_crtc *crtc)
+ 	}
+ 
+ 	return 0;
+-
+-cleanup:
+-	ltdc_plane_destroy_all(ddev);
+-	return ret;
+ }
+ 
+ static void ltdc_encoder_disable(struct drm_encoder *encoder)
+@@ -1776,23 +1755,19 @@ static int ltdc_encoder_init(struct drm_device *ddev, struct drm_bridge *bridge)
+ 	struct drm_encoder *encoder;
+ 	int ret;
+ 
+-	encoder = devm_kzalloc(ddev->dev, sizeof(*encoder), GFP_KERNEL);
+-	if (!encoder)
+-		return -ENOMEM;
++	encoder = drmm_simple_encoder_alloc(ddev, struct drm_encoder, dev,
++										DRM_MODE_ENCODER_DPI);
++	if (IS_ERR(encoder))
++		return PTR_ERR(encoder);
+ 
+ 	encoder->possible_crtcs = CRTC_MASK;
+ 	encoder->possible_clones = 0;	/* No cloning support */
+ 
+-	drm_simple_encoder_init(ddev, encoder, DRM_MODE_ENCODER_DPI);
+-
+ 	drm_encoder_helper_add(encoder, &ltdc_encoder_helper_funcs);
+ 
+ 	ret = drm_bridge_attach(encoder, bridge, NULL, 0);
+-	if (ret) {
+-		if (ret != -EPROBE_DEFER)
+-			drm_encoder_cleanup(encoder);
++	if (ret)
+ 		return ret;
+-	}
+ 
+ 	DRM_DEBUG_DRIVER("Bridge encoder:%d created\n", encoder->base.id);
+ 
+@@ -1962,8 +1937,7 @@ int ltdc_load(struct drm_device *ddev)
+ 			goto err;
+ 
+ 		if (panel) {
+-			bridge = drm_panel_bridge_add_typed(panel,
+-							    DRM_MODE_CONNECTOR_DPI);
++			bridge = drmm_panel_bridge_add(ddev, panel);
+ 			if (IS_ERR(bridge)) {
+ 				DRM_ERROR("panel-bridge endpoint %d\n", i);
+ 				ret = PTR_ERR(bridge);
+@@ -2045,7 +2019,7 @@ int ltdc_load(struct drm_device *ddev)
+ 		}
+ 	}
+ 
+-	crtc = devm_kzalloc(dev, sizeof(*crtc), GFP_KERNEL);
++	crtc = drmm_kzalloc(ddev, sizeof(*crtc), GFP_KERNEL);
+ 	if (!crtc) {
+ 		DRM_ERROR("Failed to allocate crtc\n");
+ 		ret = -ENOMEM;
+@@ -2072,8 +2046,6 @@ int ltdc_load(struct drm_device *ddev)
+ 
+ 	return 0;
+ err:
+-	for (i = 0; i < nb_endpoints; i++)
+-		drm_of_panel_bridge_remove(ddev->dev->of_node, 0, i);
+ 
+ 	clk_disable_unprepare(ldev->pixel_clk);
+ 
+@@ -2082,16 +2054,8 @@ int ltdc_load(struct drm_device *ddev)
+ 
+ void ltdc_unload(struct drm_device *ddev)
+ {
+-	struct device *dev = ddev->dev;
+-	int nb_endpoints, i;
+-
+ 	DRM_DEBUG_DRIVER("\n");
+ 
+-	nb_endpoints = of_graph_get_endpoint_count(dev->of_node);
+-
+-	for (i = 0; i < nb_endpoints; i++)
+-		drm_of_panel_bridge_remove(ddev->dev->of_node, 0, i);
+-
+ 	pm_runtime_disable(ddev->dev);
+ }
+ 
+-- 
+2.30.2
 
