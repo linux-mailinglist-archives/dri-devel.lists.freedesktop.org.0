@@ -1,40 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BB317F71C1
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 11:41:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C12F27F71C4
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 11:41:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB39C10E1AF;
-	Fri, 24 Nov 2023 10:41:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 274A210E1AB;
+	Fri, 24 Nov 2023 10:41:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 665BD10E1AB
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 10:41:11 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB1F810E1AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 10:41:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 69798B8165B;
- Fri, 24 Nov 2023 10:41:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DADEC433C8;
- Fri, 24 Nov 2023 10:41:08 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3077962158;
+ Fri, 24 Nov 2023 10:41:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80675C433C8;
+ Fri, 24 Nov 2023 10:41:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700822468;
- bh=B9wGFKlvp/YZEopRaAvdU1A2HubEm3DJLIXAlfjLLZA=;
+ s=k20201202; t=1700822486;
+ bh=mx8zbhH9XuRFKow8SMM4vIllq541PDHZLX4FbTHewh0=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=L69sDpmu9gMgz1zrB8/1oyyUf/W8N4ry1cjMHW049czR5sJm4eG5fugpYRBBKZuv4
- W88Pn8p+EOJyPbq8U3moFuVR220+C6w/WiP+epLu7J+0iNf7PDI0lwF2DcW3NIw39D
- oSuL+Rnu1jyCxKR9e8SbLyIpSdpje4k2huqZftU98Q51+pi9Y4JzU/DSGgcPO+RS0J
- oV+SH4b3cmrABZlj9GcxMMSueE17XDXq0dpYHnUQdXAXR3l2CjBuGCwc5DUEm2Arh1
- jc8FmE9NPKOLuuCHWVN5ectENAGY+uVpxn2/AWtRT/wbYAGkOC1qb4Wny7CPDFF+TH
- lHPyI9A+eZ8wA==
-Message-ID: <5b594d30e08b4acaf7aaf9b7a4419d2a.mripard@kernel.org>
-Date: Fri, 24 Nov 2023 10:41:05 +0000
+ b=qqxW+0tALhs6DPa50m/V0TDQBDRvKe6AVAWJNKYhn3V8Pyho0tFULZ7QAjdBeRiZs
+ z4IodWvCbcDaqeIplw2I2Xc2q8vxPJthU8sMsFBRxH84qNOAAcVKkvX+7I+Jf8Ayhk
+ xQgh62ZjZ6Pu++q35Yb86wsxRDAHjNS/zPkcvoe64CKbbrntFpNE8JAD2Dyi5zt8zc
+ 7p6INUCsxodERYJmS0t19p1m4z+XuNfeLutyVZAdO6sd+LhZ149p0PauBQOORB2tNT
+ B+99y/nbY4HyeN/CCRge+Hye2knoWDH8DTYY/DzC9J6G3gMVGVWo54JR8EPhmC80tf
+ YnE554xIeHfCA==
+Message-ID: <5ebb290e629a83f12525c2ddf0ca2082.mripard@kernel.org>
+Date: Fri, 24 Nov 2023 10:41:24 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Dmitry Osipenko" <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v18 06/26] drm/shmem-helper: Add and use pages_pin_count
-In-Reply-To: <20231029230205.93277-7-dmitry.osipenko@collabora.com>
-References: <20231029230205.93277-7-dmitry.osipenko@collabora.com>
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v18 07/26] drm/shmem-helper: Use refcount_t for
+ pages_use_count
+In-Reply-To: <20231029230205.93277-8-dmitry.osipenko@collabora.com>
+References: <20231029230205.93277-8-dmitry.osipenko@collabora.com>
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,15 +61,13 @@ Cc: Maxime Ripard <mripard@kernel.org>, Thomas
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 Oct 2023 02:01:45 +0300, Dmitry Osipenko wrote:
-> Add separate pages_pin_count for tracking of whether drm-shmem pages are
-> moveable or not. With the addition of memory shrinker support to drm-shme=
-m,
-> the pages_use_count will no longer determine whether pages are hard-pinned
-> in memory, but whether pages exist and are soft-pinned (and could be swap=
-ped
-> out). The pages_pin_count > 1 will hard-pin pages in memory.
->=20
+On Mon, 30 Oct 2023 02:01:46 +0300, Dmitry Osipenko wrote:
+> Use atomic refcount_t helper for pages_use_count to optimize pin/unpin
+> functions by skipping reservation locking while GEM's pin refcount > 1.
+> 
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
+> 
 > [ ... ]
 
 Acked-by: Maxime Ripard <mripard@kernel.org>
