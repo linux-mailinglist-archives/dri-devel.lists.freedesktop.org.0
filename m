@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E338A7F7195
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 11:35:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C927F7198
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 11:36:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BECEB10E19C;
-	Fri, 24 Nov 2023 10:35:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E36310E19F;
+	Fri, 24 Nov 2023 10:36:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB2B10E19C
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 10:35:27 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D6E410E19D
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 10:36:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 55260CE0023;
- Fri, 24 Nov 2023 10:35:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F50EC433C8;
- Fri, 24 Nov 2023 10:35:22 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 42E20B83008;
+ Fri, 24 Nov 2023 10:36:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4786EC433C7;
+ Fri, 24 Nov 2023 10:36:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700822122;
- bh=H+nXekQkf9XBvY1ESMqyZIEqP3DaxDh+lS5/L2SdOxA=;
+ s=k20201202; t=1700822187;
+ bh=dwvET0tU2J4anZFCWNw+ZZdWZ1IJPa1GnEWhl08aDOY=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=JeAVkrlT0JUtUSZHnsWzFlVtrXd1jk4LmmlEePsz4eSdJSF8ECxx6slpyiS7xTSOQ
- XLVdMkamyEMILzaPLP9l2OoAPhYAMBum4iSEl40sOaT9Cd8mkbPHhsHnX6MXaeVNm1
- pGrxLhUDuTpeFOMGoufKLUDNkMX8iFP4DS/O7HLe9OiDF5QQI//y3KLwfqtDIMdhSp
- vLQAVDwnZm6KkPgHXLIAZ5oxN+WJhAz2gE9Yzro1Mv9UuqXZF2dbrXfpmtl87MvGuM
- rSQr8NecK7JaxZ7HIzrdEFjEeCRY6mdY1Ww8G6aQ2tz5JQj6yGrUgDRuxbptA82BH3
- dpyeIFuqI2h2Q==
-Message-ID: <a8383fc4d59952d74816b16a1a1c322a.mripard@kernel.org>
-Date: Fri, 24 Nov 2023 10:35:20 +0000
+ b=MM9kpBK+yisLDCYJftMOvpfpu6pOA725LB5EXxmwkvXFqByoAqaB5X89kowP4w0yj
+ zb681yXDg8hPDrvyYZXlz+nWipEQ6BGPdt591lhsL/JTR6pU7IR/QBTw4RlUo3UEPm
+ vC/kRYKYyX83Sxk689k6xefJdd68JBlWNtrjZSm0ry5RNYhbAkWK9NQxctEyrvjMr4
+ xbnGOxoOeDpcJBhVIHprlpn+i0ZjjweSibtSihYi81RQOfNUP9N4xSSsnH+q/ioJtn
+ 8T5MLJWcclvP5CfJY/zAbPj04zqAUA2KCtIClU2XCyjdsjl0WzOhFsK6Bs5ZQJXnsu
+ xRJE8DkkXQncQ==
+Message-ID: <f27d3ba73b506111583b2a4f2471dfc9.mripard@kernel.org>
+Date: Fri, 24 Nov 2023 10:36:24 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Dmitry Osipenko" <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v18 02/26] drm/gem: Add _locked postfix to functions
- that have unlocked counterpart
-In-Reply-To: <20231029230205.93277-3-dmitry.osipenko@collabora.com>
-References: <20231029230205.93277-3-dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v18 03/26] drm/shmem-helper: Make all exported symbols GPL
+In-Reply-To: <20231029230205.93277-4-dmitry.osipenko@collabora.com>
+References: <20231029230205.93277-4-dmitry.osipenko@collabora.com>
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,12 +60,12 @@ Cc: Maxime Ripard <mripard@kernel.org>, Thomas
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 Oct 2023 02:01:41 +0300, Dmitry Osipenko wrote:
-> Add _locked postfix to drm_gem functions that have unlocked counterpart
-> functions to make GEM functions naming more consistent and intuitive in
-> regards to the locking requirements.
+On Mon, 30 Oct 2023 02:01:42 +0300, Dmitry Osipenko wrote:
+> Make all drm-shmem exported symbols GPL to make them consistent with
+> the rest of drm-shmem symbols.
 > 
 > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 > 
 > [ ... ]
 
