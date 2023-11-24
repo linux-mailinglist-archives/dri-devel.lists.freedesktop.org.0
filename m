@@ -2,151 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C537F6D3A
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 08:54:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A496A7F6D44
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 08:57:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E132E10E79B;
-	Fri, 24 Nov 2023 07:54:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 368F910E79E;
+	Fri, 24 Nov 2023 07:57:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99E0C10E79B;
- Fri, 24 Nov 2023 07:54:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1700812452; x=1732348452;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=7mrbbVhGhwuvi1O8Ybr2KRV6b7y0RQxPxSJRCfHqv0k=;
- b=gizs2KnuzkUJnpn3lFU+ZleIDejIFUIh0/uWGyR5nWvHqz+YDCvE8Tli
- Ti9uRCCKIsqZT5XNn8GlcXDRek/MwGvuJxV5/RJX3NoHZ7sOemakPkWCw
- +isJF/AQNsdF/SiJGbXmgZT0A/801maWzrwjOzklSuCuE1X/6q22ItNNF
- 31+LJN9SyaQsVln9ktLjZZY03WhqolhX/od8PS6YcEKhoyyhUznQ3hL7x
- gqT7lmJTW4+47QB+F47D0hse2XU7ax3Jnmq6TaxEfhtA8IX8op+La7Lwo
- JNJIeddeswW3hnMGypwVQ1Khc2JfS8BH9pRH7JrdzKLIC6vACmsJO3+SU w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="5599844"
-X-IronPort-AV: E=Sophos;i="6.04,223,1695711600"; 
-   d="scan'208";a="5599844"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2023 23:54:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="911369645"
-X-IronPort-AV: E=Sophos;i="6.04,223,1695711600"; d="scan'208";a="911369645"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmsmga001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 23 Nov 2023 23:54:10 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Thu, 23 Nov 2023 23:54:10 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Thu, 23 Nov 2023 23:54:10 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Thu, 23 Nov 2023 23:54:09 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2DEF10E79E;
+ Fri, 24 Nov 2023 07:57:35 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PSOIE8fQruKAZsDz31/llvoT7wiO416Mv93c43wFSB8xlm5Z1GctpLU32XkLyV3qK5wOtafeb+fmB+HTvPuAsRZiIsp9KrSeXEFWQYPWDozezlA1R0+Bqp2EpD6ZhrKSYXsWsRNIGXBghRh6NO6+tAlYDk4YYd1yz5Nlb8rjzz4yC0ZEgipba5tqWFykaxJ13VDZa90IH7hRKIuXgc2zwl/tax/mJn66V5DLpwdwv0xVn74Y6MTl4qmOiF2eKaDMtyrqdeaAzmzPjMozfG1+N6ozNsSV06O/WqarM1xJ7sLF1P21gdB4OJ0S1YvVjjqCOe+fqBcwzu8CLQJheNsRXg==
+ b=Ul1eAq5CVsiaY8oUUCWiQPql/bCotcQR8MGqybbPWHQntUdaDIyAsSc68igOZ7V6atfrLiM2uV0SmyTPmcunT1MjJlvgp79anRoWf+RDjCZtEAw9I2qbE2gQ/zoqtrlCSJ6P47i33fKhkH5PLr+cljeOQEEiNR/jyARswgMvNG4xXmudYAyaIkrHlvX7nQ2ZaYxIwhPO44hPz86FIv/+io/dVwhrih7pTANI1vukjCTSg4y1tw5mPhxkapC3hp5/N99cHaGsNe4LWFivFI/BzqbOmMcKUGtJNfA+RTEPUmX7XInRYhxAWRlr4fSjp9OreDC09J+a+j/T8aUk4GIQsA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7mrbbVhGhwuvi1O8Ybr2KRV6b7y0RQxPxSJRCfHqv0k=;
- b=ixpfAZoA4ATs5CBZfJYm0WyDTsusbAmBV8v4vgdQUe2mvZ4e8jsNFPc8240DJ+Q8fmzOTTMGIYsWcCPSBF8V1okZuX7L/N5o9QxT7+hRWEiVBfuKttwZx8X+nTJwGIyBgTow/zxH7vBynYbot1Ym6QFH/tRAbG4XE4eggQZyATiqKpLrSgajAKPI5I+f3M9NYSI8xlIlAOOx1c1L+8R7e3BGqeMAdrlXUMC4T5q3P1YkWhXHyDZKvysuF0XwiFHKGDZ1rc2cFZtWjPJ0mEEj9fveT3BuwgOkBRMeuema0wEH1VRac6qRSWg1xh0XRJGQIM332ps2469I0CXKrXJU+w==
+ bh=fqvLCVBSlTx61pZnp2MJifB/YzuNwGQ3JcK4Cz0VNOY=;
+ b=l5oJgZbfYzwrzfg3Eg2DaqHnH1ld6Ks+VGACNGHoZZLGCp4IQW3xmT9IxmofaLxE6xn7cXB13VMo+9kLZEywfW4+BG+LyEKfUL/6i/OnQf2+GQzPz/tSlSvCldELhjLKcu9kAh7lYaN1UU0Cr71Eeg2PEuTZuMZ2fL1v/bsbWhQQ7K7EUp4lwnQgVXpusi+gdpA7BQhqSUoYq8aP8lL+D9e8YylEw+gWInASVXLxL3jhj8eszXAauMGBtlxB2PCnz19t/I1GPNYjX4r62f8dgxia6bHg73QxZP0u/jIROzPwZ1UZrYz0jANLAqLYoiJnaGuUKZaeeJ/EsSN9XJKGzA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ1PR11MB6129.namprd11.prod.outlook.com (2603:10b6:a03:488::12)
- by CH3PR11MB8238.namprd11.prod.outlook.com (2603:10b6:610:155::11)
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fqvLCVBSlTx61pZnp2MJifB/YzuNwGQ3JcK4Cz0VNOY=;
+ b=nAfLkAeCB/eZWvuFuzPObLZsj2sDTXNStwoSUzYxxOA7az3Ej3wIfIKwsNt6nIlr96CX/cGOGcUflcUJKi3oig7q+30k8PFDnqyvEhCB7VIvqPZRPPpwkwEFZvmDmLnkV+kHS/9FTr7JGlp1mGSdyGVuTlokae+U9wNo/HRc3e0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by MN2PR12MB4552.namprd12.prod.outlook.com (2603:10b6:208:24f::17)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.20; Fri, 24 Nov
- 2023 07:54:08 +0000
-Received: from SJ1PR11MB6129.namprd11.prod.outlook.com
- ([fe80::b5bf:a968:5f25:945]) by SJ1PR11MB6129.namprd11.prod.outlook.com
- ([fe80::b5bf:a968:5f25:945%6]) with mapi id 15.20.7025.021; Fri, 24 Nov 2023
- 07:54:07 +0000
-From: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
-To: Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Subject: RE: [Intel-gfx] [PATCH] drm/i915/irq: Improve error logging for
- unexpected DE Misc interrupts
-Thread-Topic: [Intel-gfx] [PATCH] drm/i915/irq: Improve error logging for
- unexpected DE Misc interrupts
-Thread-Index: AQHaHlWx2ge4guZm/kK/ODQH6nKZMbCI94sA
-Date: Fri, 24 Nov 2023 07:54:07 +0000
-Message-ID: <SJ1PR11MB612918F5E101E35224C918FEB9B8A@SJ1PR11MB6129.namprd11.prod.outlook.com>
-References: <20231123175638.27650-1-sergeantsagara@protonmail.com>
-In-Reply-To: <20231123175638.27650-1-sergeantsagara@protonmail.com>
-Accept-Language: en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.21; Fri, 24 Nov
+ 2023 07:57:33 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::ca80:8f1c:c11:ded3%7]) with mapi id 15.20.7025.021; Fri, 24 Nov 2023
+ 07:57:33 +0000
+Message-ID: <76749276-dc73-4f6f-a467-aa8a721b0878@amd.com>
+Date: Fri, 24 Nov 2023 08:57:28 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/sched: Rename priority MIN to LOW
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ1PR11MB6129:EE_|CH3PR11MB8238:EE_
-x-ms-office365-filtering-correlation-id: 8548aa5b-c425-495e-94de-08dbecc2894d
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: aKb86mTcEP/dYGlDCZDlVvbLnNfIMCxhtISzwORlaIz8YTjwqzatBVaN6r/WS3uI82ux2Km6Oi2vKHmcxqet9rkhPXkePfDqfdal3Tjx4dwdObwRi2kBJL5fzv/2PxeSOEvewnSglNTMR/alt/ITlqKEpww8/vyZU2RvWivArwpdwFlckaqOEC7TeUUSSBdcX+OcnR004CEl84hg66JfiecKwiFlVJdlpqaZe2nCIg2h/LSEv9Nbzybcj51duf4bkQz3pGntsJ7ks27O/Osld4XlHWIhd0W8Py2i7l1EyANzMn4XoSZ3/iKsMKfn091FHAZjECkdO984392M56pHYD4gwuSnY2vxengBfhluYH91JlikcuOzjCJjPtvcH4HjbgF/4nIfZXLKl/N3k4q1fehnq59izzk9BR1I3HMMndmBIErLRo4O8zUoH6VjueQNxs5aCVXMYaccyyQVhTGt8tmelif7E1OewDKp2JCOyCPtYm4LB0uzlXq1Vu9TuNL5R+qtj3V6B93bvHyEyBdoXYUIfeO5ddAcbheYVQGKOi+zR4EQ3sF8AGHqxHSB5MgsuvrOB0iaSzoqW2fxXIaEayfnfyL0KsTB/XpNYvtDebs=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ1PR11MB6129.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(136003)(366004)(376002)(396003)(346002)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(55016003)(9686003)(26005)(82960400001)(122000001)(86362001)(33656002)(38070700009)(38100700002)(64756008)(83380400001)(5660300002)(2906002)(478600001)(6506007)(7696005)(71200400001)(53546011)(54906003)(316002)(66946007)(66446008)(66556008)(66476007)(4326008)(8936002)(6916009)(8676002)(966005)(52536014)(41300700001)(76116006);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R0dFdmFVTWQ3cGRnWTAvZkt6SHVoOW0ydVp1RDVEL2dmZUZnZlRoZUpsVUxL?=
- =?utf-8?B?ZlFySzg0T3IxaEp2c1FjYkVMb2JKUFB6djlHT2UzakIvSUpocDQyNHJ0ajR0?=
- =?utf-8?B?a1RENXRWUUVPZS9nZG50ZXA5di9VQVQ3SmpRVzJjWVF2TmVzSWhhdXpYMlFR?=
- =?utf-8?B?LzFvK0ltdEZwdGhGbi9PL21IYWV4YUpBV0JDSEtzcklGS1FlTEw0c2ExMWRF?=
- =?utf-8?B?dlJKdmh0V0QvM3dBWFFVYUg4Z01Ra2VmaWdNSGFtUGZKeVNJL2J0WFZoVXh4?=
- =?utf-8?B?Ti9GekdNcThVY3R3YWwxRDArMGl5NGhkekFIZ0lJSkpYV20yK1lic1kxWUx5?=
- =?utf-8?B?U3BCNE44UEFCWXRySGM0bTh4K3A2dXRwNENRdG85VVRkaDUrcW05bEVjV0tq?=
- =?utf-8?B?UUgySFgyU1ZaNGZONTFVUGZBR2d2TGdYM0dNVkFoNzlYeXR1ZGdnR1hxdUIv?=
- =?utf-8?B?U1YyV0FZRWlFa0tGUU0vU0srUjhWaERBa2ZUaFh5MGt0RnNSbjNCRFVsUWdZ?=
- =?utf-8?B?OFVjSHNNaUl6Wm81QlFlNHh4eW5aYng1K29UY245OEYxRFArNTdCNHFRbm1t?=
- =?utf-8?B?ZzZpYm1HcjNEVnFOdEdFc2J1c2tmbVBxa1QrSzRhaWhEeUl5ZTRsNmc5WXZ1?=
- =?utf-8?B?elVmVkFyZHFSRmRCZVlpZStjYzlZajF6RmM5dVJkZGZDcURyYjZTdWFQSFVa?=
- =?utf-8?B?VWpsUUVQL3JqVzlJMVNSa1J6VjhHTi9yQTMwSHkyWmJMZTFHc2xnUjRnVnVr?=
- =?utf-8?B?YUUzcExCY2h3Y0lDUXBMTGN2cW5zMzJQMjlkMWVXaERHNXdkVXd0RGFIT0d2?=
- =?utf-8?B?Ry81TlVkVGsreG9vZ1ZUaTBsNlBVR1VWWkNnN3RWSjNFTi9ZWjI3WDBtcmtS?=
- =?utf-8?B?ZUNuTGpvZHIzVEpRRjFwUmZqM3ZzMVg0K1pqTjAwSUZZNzFrM0M0NmxRZmxs?=
- =?utf-8?B?NWlGbEpxaWJFS05qUEs2NlBVUnJ6cXZNdktEZjNLOVVtbWZWbjkvcEhKZFdr?=
- =?utf-8?B?NWtTZytNMFFNUEJHWjBTSkorSlBhcDZzYnhmaGQ1N21MNWt4dWd3bEx4VHd3?=
- =?utf-8?B?N093bFVGbVhEZXN6Nk40eDRkYzFhUCtxYUlwYjBOcndJWVhyTytkVXFDcHNU?=
- =?utf-8?B?blNmZzhpdWtJdlpsYXRwMGhYZHNvUzlsekg0a3Z2cUZyQ0Y2Yjg3M0lVV3Js?=
- =?utf-8?B?aE5lcWdraXQ1Qld3dExYSFpyTGFtbSs1a1dsMlc0dW8zT3VmbzRRNEgzeDhp?=
- =?utf-8?B?dC9haElMU1BZc1dNbnUyQW9UU1NRb3p1RzVPdjhDOFYrK0NyQmYvLzZYaGM4?=
- =?utf-8?B?UDYzdSt0K3ZMMGZIeWhrcURJRVU2NHJSb1VkdTgrRkJNQ05TMzRDUVRkTU54?=
- =?utf-8?B?OEN0Y0hGdGNMeU5BUDNmT2w5TmNxenFrOWd3VW1yZENFdjd1S3JRUFRSeDdu?=
- =?utf-8?B?T0EzQ0dIMGlLTVhsMjBvdXhmc0k2bm5Gc0JqcVBZSWtPQ01ubmlsUWhBS290?=
- =?utf-8?B?YjNkTytyYk1RTlVLdnNVOElaVDhqQU5wVnA4SHJtdWkxbzY4S3FNOHVjbXdG?=
- =?utf-8?B?Zmg4OWZiZzY5dSt1L0pTS0VHOTBPUGc3dG9IVXNBK2tsVUhLMHd4bTdMcTQy?=
- =?utf-8?B?UlYvT3dmT0dQNFBRbDZMMVhxRk5wMXM3VTJtNXIwcEtEMXVxK1A1UGxGNi9E?=
- =?utf-8?B?U2JXdW1WclNvTlBDekVOTUNwWGg3MTNDVWEvZVNVSmowUFV1QlQ0U2lIdjJJ?=
- =?utf-8?B?NWpQU1N6U2tEM05za2pudWN3aTM0ZnZMVVVOa2dzaXNnMVRBbUxCaHQvcDRk?=
- =?utf-8?B?blhqTG41bExkd3JsbVJPUGZsVXBESTNXU0dKVktKcmcyRG9BTTlEamlEc0RF?=
- =?utf-8?B?NVE3TlpSb2Q0OGN5Z1lLcVBUOVlDbDdWTUM2WDN2N1g0Nk5TYmJFL3NZMjEv?=
- =?utf-8?B?U0V4Vzg4SmpvbnQrOStIQUNHN1NDQWNzbDQ4RjlmUmNlVmJMTzBNT2FKSFNB?=
- =?utf-8?B?UWkybXhrYjdqWk9SZHFsUTNBS2VWMCtUZW9wUHNrNFBDellnSDJHUzQ0cEh2?=
- =?utf-8?B?cklUQSsxallnYVJFOXJHNlJxYXFrQ3NXUk4xM3EyS2NqR2pnejNUdGdnd2RL?=
- =?utf-8?B?QjBPeCt3UkZ6K3RCd3UvYStXL3IxLzc3YVhqb3dXQ2FGQVBNaHpZWm9mOXZZ?=
- =?utf-8?B?b0E9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+To: Luben Tuikov <ltuikov89@gmail.com>,
+ Direct Rendering Infrastructure - Development
+ <dri-devel@lists.freedesktop.org>
+References: <20231124052752.6915-4-ltuikov89@gmail.com>
+ <20231124052752.6915-5-ltuikov89@gmail.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20231124052752.6915-5-ltuikov89@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0165.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ba::20) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MN2PR12MB4552:EE_
+X-MS-Office365-Filtering-Correlation-Id: e63a6ebe-76a9-43bf-0058-08dbecc303be
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Y+ksWNkWdBGo07wxiHrrABjAIQ4+xq/dxuPqhGOxjVNrQC3jL08vVlbOHd7kBub+p1ZGkWhFmI1Xxc4/qxv4FKesPI4mhNOduwaOZdCPmch/vYsFTQd4tw6Dqjhb4PQtETtUALeSd/y9hkzFPngOQ0w3c2BAAX2Q9oKUiSYD9VtB87PY+ue+TcnaP1wgO948OOi0R3Tul9M/UQpiKSijWB+1PpiDuTSrVK5KX5prVnbnN01JK9j5iXaMr0hWA1fo5/j+xuCvGY1m604GD0BTDseHFAgOo25o3BshJl/8C8GgAfRdoOfrz+EDZCRuF6TLzjTcq8ytr2u6Uclu5CwPIRlMowlkd9a117RZPBe8O6RETtsbIYHyKoyRiop+mkM/78mNnyPw0iNz2zw7bT51A/1oC7JFD8IBbLIefbvpYltFSpGkv3UwHPkygyCgcxIt85VYrbVUROhMM6CL9DJPk+7X8B1XZKv4zRcWA4rXRJFqzkP5u3oKSDTxNCEMTOsoYXh+xf6xI8lSXG1yuw5dToC7TkeFszKTYCx+wwOA7vpyPu6Fz1nNBFdzDPMsyyP6q+EzAaOYLSOuZgkIOMGcYWV2wxcwtb5ai0BAm2cEevQ/aAhMsR6cfy2catJoxevVG0t+8ta6r9+ZBPAcROZ9uA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(396003)(136003)(376002)(39860400002)(366004)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(83380400001)(66574015)(6506007)(26005)(31696002)(41300700001)(6512007)(2616005)(38100700002)(31686004)(36756003)(6486002)(478600001)(6666004)(110136005)(316002)(66946007)(66556008)(66476007)(54906003)(2906002)(8936002)(8676002)(4326008)(5660300002)(86362001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QWdjUXBmNXhTVEZ5UnpqWUNLekhMKzJnbzNZTFFkZnNENVVrNWNKeWxNNVVv?=
+ =?utf-8?B?U21QNHdtSUdidTRnRmlMcmVpV0FIYUFYSzRxK2xoTjF4NzJ3MzdlRFFxOEJj?=
+ =?utf-8?B?Qk01bGF3akRvNzlUVEpBUWlCTnF1cTYybUZlZyswbkFsUmMvaHhabHdHTDFM?=
+ =?utf-8?B?R1V3K0MwcjN0NWpCdEZka3pMS1R4UGxxRkI1SVEyL0xCQklxaXl5clVFUVpy?=
+ =?utf-8?B?dFdERUtzTXlCRmJmdmxQMDhTZkxFOVVad3dkelpDR0IxZkVseCsyS3lDbHUy?=
+ =?utf-8?B?YVNhcTNHRlo2NUJxY1hSa251a0FqaEM1MjMvamNsdUVtc2FTVS9rdWhSanJZ?=
+ =?utf-8?B?N1JybjlzTklpSVpDN2tJZFowbDdPalFDNGpsMnp1WU5mSXlBRERFQVppTXdp?=
+ =?utf-8?B?TWdDVWlNa1gwdkVjMURaeXJCV1ZnVFBTUGlyaXJYdnlhQ0JDREVadmN6Y2Zz?=
+ =?utf-8?B?dmF3ZkJWZDhoWTErcjB2U250dER4ZmwwS2VCeStwaFE2NlBDV0tnNlpVQWZC?=
+ =?utf-8?B?Q3VTVS80ZDczZk8zZG9leFIzb3ZmTVNaQ2tjdHIrbHV3TUduY0FMR1A3WS92?=
+ =?utf-8?B?c0swN1dRelpZU3pQVHB6Z3RxSEIxTWUrYlZGMmFGdlZzczVJd0tJeXVuSjlK?=
+ =?utf-8?B?Y0xCRkRSbUNoYmxiaWlYUmExeENhR29YaWRWS3VucXgyWlpxcmE5ZXNaUElD?=
+ =?utf-8?B?ZTE2MlNtWThBZUEyYi9WMU5XMTExd2E4dm9BOHRJZTJqaG5YNVliak90MFI5?=
+ =?utf-8?B?eFgyUWJseGkrVDZiQ3hrZmZRZjdDUWh0cEY3dERJUFV2ejBEa2c3dElqMW5Z?=
+ =?utf-8?B?dFF5MS9KZ0FqdytlNjM1NkpFeVlPVVlha1BYRmI2VUZDU3VGRDYralBqcjlC?=
+ =?utf-8?B?cFdteTFiZ1A4czJpbEttb3EzYUJLalc3SklBK3NNK1U2NURreXgybkdoR3lR?=
+ =?utf-8?B?azhiMUduV3BUUnpROWh1TUNoU0p0d3lsdE4rbFZpVkNraWwyQzFEZVZrMHJa?=
+ =?utf-8?B?S3kvak5iQWhHTzI2MGY0T0RFL1NUQTA3VllhN2MvSExESWRKVjNPL2FTTXIv?=
+ =?utf-8?B?MHBydzJ0dUUrYzBxUVByRmxBR2d5c2ZST0YyWVJwa1FtV2NJaktXOTZkaUZS?=
+ =?utf-8?B?eGpRZWJLQXF5dnVoRU54K2RHTUNjeXJlMmJXa3RJTXNvWWROTjQwU0ZGRmw5?=
+ =?utf-8?B?TklyT1hUQXN2VEVUNHlGbzNLeDJSZnk0STNFaDRBckJEaCtqVkw2ZUMzbU5F?=
+ =?utf-8?B?Q2JCQ0x5NDBSazlsUXI2V3A5azUwV1BaMnNENENGdEc1endxMHdJcTJQZTE1?=
+ =?utf-8?B?L091cExBTWdIbWpGZld0K1ZodW1kbWJ1bVltOGlNYzZXY2kyaTBIVlRvUVE3?=
+ =?utf-8?B?LzZQYU5IWWFuREF5Qm5mdWpJNjIxY05oU1JQNkE2eHd4RGtrU0pvaDhTZll2?=
+ =?utf-8?B?ZDMzZE9RcEhaeGs2ZUhGZGpELzFCdWdIZ1JoSVJIdjYrSm8wRjdENVNiUWVN?=
+ =?utf-8?B?cTVaSjAzcCszeW5BZ1lNQm9rYnFTUDBmbFduVnVKMExZNFZBVHVzYlRvSGM2?=
+ =?utf-8?B?cnJWZ081b0JydjJ2SU1tVGtDRWhEZHRIdHpJTUhyalI1c0krdjJJSmFYRUFn?=
+ =?utf-8?B?YTFadS9CUVhxVjNvMUdCUmw1YmhMN3hIYmp5MWlJMEw5ejV3WlN6WU1QQk93?=
+ =?utf-8?B?Q3FvcmZQQ0k0UGNqTUxvV0xrRDRudUVIK0tmYThoMWVPYVE4d01ndlg0V3E1?=
+ =?utf-8?B?UC9FQUFYaUx0bnFEL256UnVrQjdNRU82T3NhNlA3Q3ZXNGVaRmJKU1R0UDli?=
+ =?utf-8?B?WmVEdk1TdWNRcmE4R01EQVorUkthVW5QOVZhM3VMS3ZjTnlyeGhiY0ErbnZX?=
+ =?utf-8?B?MDJCZmlDN2wrVWFsVFNiZ084MGgrdlQzM05YWjY5cDlwRUtBUVc5NVlxRkE4?=
+ =?utf-8?B?SUgzcXI5SDQ4Z2FQQzBmZURrTlFoTU5YbXRmT1crOGZXNkpXREx4Q0dRTDFr?=
+ =?utf-8?B?ZjJYYUprdHlIeFlFUmlCOFEvbjgxZFdJNSszSFltd3R1eGd5QkNjMUhEeUdV?=
+ =?utf-8?B?eitxS3ZCMU9uRUMzUlN6b2xpTGRGZEJnSVUyc3BnelNwMXhrdzRoK0ZmbUZZ?=
+ =?utf-8?Q?y08q5RwB5k/9Fea9XjByUIVcV?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e63a6ebe-76a9-43bf-0058-08dbecc303be
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6129.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8548aa5b-c425-495e-94de-08dbecc2894d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Nov 2023 07:54:07.4100 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Hj2vmLs2ckw3kYiVlIeqST16wjhNHVDR/G9lCTDsvL6Y+cveiYDt24E1KGFwJooAymSVymWSxP61eYG0i2zAAlEJm4vYQvXGNsv+S0Vo770=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8238
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2023 07:57:32.9802 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Zkm4nDa4dpnw8PRJWJsNZdACEA/bCPdJG/hLAvfk+xDhujP1X22+1J3nvyTcCDNZ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4552
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,39 +126,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Nikula, Jani" <jani.nikula@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Danilo Krummrich <dakr@redhat.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBJbnRlbC1nZnggPGludGVsLWdm
-eC1ib3VuY2VzQGxpc3RzLmZyZWVkZXNrdG9wLm9yZz4gT24gQmVoYWxmIE9mIFJhaHVsDQo+IFJh
-bWVzaGJhYnUNCj4gU2VudDogVGh1cnNkYXksIE5vdmVtYmVyIDIzLCAyMDIzIDExOjI3IFBNDQo+
-IFRvOiBpbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+IENjOiBOaWt1bGEsIEphbmkg
-PGphbmkubmlrdWxhQGludGVsLmNvbT47IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7
-DQo+IFJhaHVsIFJhbWVzaGJhYnUgPHNlcmdlYW50c2FnYXJhQHByb3Rvbm1haWwuY29tPg0KPiBT
-dWJqZWN0OiBbSW50ZWwtZ2Z4XSBbUEFUQ0hdIGRybS9pOTE1L2lycTogSW1wcm92ZSBlcnJvciBs
-b2dnaW5nIGZvcg0KPiB1bmV4cGVjdGVkIERFIE1pc2MgaW50ZXJydXB0cw0KPiANCj4gRHVtcCB0
-aGUgaWlyIHZhbHVlIGluIGhleCB3aGVuIHRoZSBpbnRlcnJ1cHQgaXMgdW5leHBlY3RlZC4NCj4g
-DQo+IExpbms6IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9kcm0vaW50ZWwvLS9pc3N1
-ZXMvOTY1MiNub3RlXzIxNzg1MDENCj4gQ2M6IEphbmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBpbnRl
-bC5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IFJhaHVsIFJhbWVzaGJhYnUgPHNlcmdlYW50c2FnYXJh
-QHByb3Rvbm1haWwuY29tPg0KPiAtLS0NCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
-aW50ZWxfZGlzcGxheV9pcnEuYyB8IDIgKy0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
-bigrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9p
-OTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV9pcnEuYw0KPiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1
-L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV9pcnEuYw0KPiBpbmRleCBiZmY0YTc2MzEwYzAuLjFhNWE5
-ZTBmYzAxZSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRl
-bF9kaXNwbGF5X2lycS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50
-ZWxfZGlzcGxheV9pcnEuYw0KPiBAQCAtODk2LDcgKzg5Niw3IEBAIGdlbjhfZGVfbWlzY19pcnFf
-aGFuZGxlcihzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZQ0KPiAqZGV2X3ByaXYsIHUzMiBpaXIpDQo+
-ICAJfQ0KPiANCj4gIAlpZiAoIWZvdW5kKQ0KPiAtCQlkcm1fZXJyKCZkZXZfcHJpdi0+ZHJtLCAi
-VW5leHBlY3RlZCBERSBNaXNjDQo+IGludGVycnVwdFxuIik7DQo+ICsJCWRybV9lcnIoJmRldl9w
-cml2LT5kcm0sICJVbmV4cGVjdGVkIERFIE1pc2MgaW50ZXJydXB0Og0KPiAlI3hcbiIsIGlpcik7
-DQoNCk5pdDogSXQgY291bGQgdXNlIGEgZm9ybWF0IHNwZWNpZmllciBsaWtlICIweCUwOHgiIChs
-aWtlIG90aGVyIGluc3RhbmNlcyBpbiB0aGUgZmlsZSkgdG8gbWFpbnRhaW4gdW5pZm9ybSB3aWR0
-aC4NCg0KT3RoZXIgdGhhbiB0aGF0LiBMR1RNLg0KDQpSZXZpZXdlZC1ieTogQ2hhaXRhbnlhIEt1
-bWFyIEJvcmFoIDxjaGFpdGFueWEua3VtYXIuYm9yYWhAaW50ZWwuY29tPg0KDQoNCj4gIH0NCj4g
-DQo+ICBzdGF0aWMgdm9pZCBnZW4xMV9kc2lfdGVfaW50ZXJydXB0X2hhbmRsZXIoc3RydWN0IGRy
-bV9pOTE1X3ByaXZhdGUNCj4gKmRldl9wcml2LA0KPiAtLQ0KPiAyLjQwLjENCj4gDQoNCg==
+Am 24.11.23 um 06:27 schrieb Luben Tuikov:
+> Rename DRM_SCHED_PRIORITY_MIN to DRM_SCHED_PRIORITY_LOW.
+>
+> This mirrors DRM_SCHED_PRIORITY_HIGH, for a list of DRM scheduler priorities
+> in ascending order,
+>    DRM_SCHED_PRIORITY_LOW,
+>    DRM_SCHED_PRIORITY_NORMAL,
+>    DRM_SCHED_PRIORITY_HIGH,
+>    DRM_SCHED_PRIORITY_KERNEL.
+>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Danilo Krummrich <dakr@redhat.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: freedreno@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
+
+Reviewed-by: Christian König <christian.koenig@amd.com>
+
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c  |  4 ++--
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c  |  2 +-
+>   drivers/gpu/drm/msm/msm_gpu.h            |  2 +-
+>   drivers/gpu/drm/scheduler/sched_entity.c |  2 +-
+>   drivers/gpu/drm/scheduler/sched_main.c   | 10 +++++-----
+>   include/drm/gpu_scheduler.h              |  2 +-
+>   6 files changed, 11 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+> index e2ae9ba147ba97..5cb33ac99f7089 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+> @@ -73,10 +73,10 @@ amdgpu_ctx_to_drm_sched_prio(int32_t ctx_prio)
+>   		return DRM_SCHED_PRIORITY_NORMAL;
+>   
+>   	case AMDGPU_CTX_PRIORITY_VERY_LOW:
+> -		return DRM_SCHED_PRIORITY_MIN;
+> +		return DRM_SCHED_PRIORITY_LOW;
+>   
+>   	case AMDGPU_CTX_PRIORITY_LOW:
+> -		return DRM_SCHED_PRIORITY_MIN;
+> +		return DRM_SCHED_PRIORITY_LOW;
+>   
+>   	case AMDGPU_CTX_PRIORITY_NORMAL:
+>   		return DRM_SCHED_PRIORITY_NORMAL;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+> index 62bb7fc7448ad9..1a25931607c514 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+> @@ -325,7 +325,7 @@ void amdgpu_job_stop_all_jobs_on_sched(struct drm_gpu_scheduler *sched)
+>   	int i;
+>   
+>   	/* Signal all jobs not yet scheduled */
+> -	for (i = sched->num_rqs - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
+> +	for (i = sched->num_rqs - 1; i >= DRM_SCHED_PRIORITY_LOW; i--) {
+>   		struct drm_sched_rq *rq = sched->sched_rq[i];
+>   		spin_lock(&rq->lock);
+>   		list_for_each_entry(s_entity, &rq->entities, list) {
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+> index 4252e3839fbc83..eb0c97433e5f8a 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu.h
+> +++ b/drivers/gpu/drm/msm/msm_gpu.h
+> @@ -347,7 +347,7 @@ struct msm_gpu_perfcntr {
+>    * DRM_SCHED_PRIORITY_KERNEL priority level is treated specially in some
+>    * cases, so we don't use it (no need for kernel generated jobs).
+>    */
+> -#define NR_SCHED_PRIORITIES (1 + DRM_SCHED_PRIORITY_HIGH - DRM_SCHED_PRIORITY_MIN)
+> +#define NR_SCHED_PRIORITIES (1 + DRM_SCHED_PRIORITY_HIGH - DRM_SCHED_PRIORITY_LOW)
+>   
+>   /**
+>    * struct msm_file_private - per-drm_file context
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+> index 20c9c561843ce1..cb7445be3cbb4e 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -88,7 +88,7 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+>   			drm_err(sched_list[0], "entity with out-of-bounds priority:%u num_rqs:%u\n",
+>   				entity->priority, sched_list[0]->num_rqs);
+>   			entity->priority = max_t(s32, (s32) sched_list[0]->num_rqs - 1,
+> -						 (s32) DRM_SCHED_PRIORITY_MIN);
+> +						 (s32) DRM_SCHED_PRIORITY_LOW);
+>   		}
+>   		entity->rq = sched_list[0]->sched_rq[entity->priority];
+>   	}
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 044a8c4875ba64..b6d7bc49ff6ef4 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -1052,7 +1052,7 @@ drm_sched_select_entity(struct drm_gpu_scheduler *sched)
+>   	int i;
+>   
+>   	/* Kernel run queue has higher priority than normal run queue*/
+> -	for (i = sched->num_rqs - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
+> +	for (i = sched->num_rqs - 1; i >= DRM_SCHED_PRIORITY_LOW; i--) {
+>   		entity = drm_sched_policy == DRM_SCHED_POLICY_FIFO ?
+>   			drm_sched_rq_select_entity_fifo(sched, sched->sched_rq[i]) :
+>   			drm_sched_rq_select_entity_rr(sched, sched->sched_rq[i]);
+> @@ -1291,7 +1291,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+>   	if (!sched->sched_rq)
+>   		goto Out_free;
+>   	sched->num_rqs = num_rqs;
+> -	for (i = DRM_SCHED_PRIORITY_MIN; i < sched->num_rqs; i++) {
+> +	for (i = DRM_SCHED_PRIORITY_LOW; i < sched->num_rqs; i++) {
+>   		sched->sched_rq[i] = kzalloc(sizeof(*sched->sched_rq[i]), GFP_KERNEL);
+>   		if (!sched->sched_rq[i])
+>   			goto Out_unroll;
+> @@ -1312,7 +1312,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+>   	sched->ready = true;
+>   	return 0;
+>   Out_unroll:
+> -	for (--i ; i >= DRM_SCHED_PRIORITY_MIN; i--)
+> +	for (--i ; i >= DRM_SCHED_PRIORITY_LOW; i--)
+>   		kfree(sched->sched_rq[i]);
+>   Out_free:
+>   	kfree(sched->sched_rq);
+> @@ -1338,7 +1338,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
+>   
+>   	drm_sched_wqueue_stop(sched);
+>   
+> -	for (i = sched->num_rqs - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
+> +	for (i = sched->num_rqs - 1; i >= DRM_SCHED_PRIORITY_LOW; i--) {
+>   		struct drm_sched_rq *rq = sched->sched_rq[i];
+>   
+>   		spin_lock(&rq->lock);
+> @@ -1390,7 +1390,7 @@ void drm_sched_increase_karma(struct drm_sched_job *bad)
+>   	if (bad->s_priority != DRM_SCHED_PRIORITY_KERNEL) {
+>   		atomic_inc(&bad->karma);
+>   
+> -		for (i = DRM_SCHED_PRIORITY_MIN;
+> +		for (i = DRM_SCHED_PRIORITY_LOW;
+>   		     i < min_t(typeof(sched->num_rqs), sched->num_rqs, DRM_SCHED_PRIORITY_KERNEL);
+>   		     i++) {
+>   			struct drm_sched_rq *rq = sched->sched_rq[i];
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 9a50348bd5c04e..d8e2d84d9223e3 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -63,7 +63,7 @@ struct drm_file;
+>    * to an array, and as such should start at 0.
+>    */
+>   enum drm_sched_priority {
+> -	DRM_SCHED_PRIORITY_MIN,
+> +	DRM_SCHED_PRIORITY_LOW,
+>   	DRM_SCHED_PRIORITY_NORMAL,
+>   	DRM_SCHED_PRIORITY_HIGH,
+>   	DRM_SCHED_PRIORITY_KERNEL,
+
