@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23DD07F7041
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 10:43:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A48E77F708F
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 10:52:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7996A10E7C9;
-	Fri, 24 Nov 2023 09:43:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F0A210E7CC;
+	Fri, 24 Nov 2023 09:52:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C36BE10E7C9
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 09:42:59 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id
- 4fb4d7f45d1cf-5409bc907edso2399716a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 01:42:59 -0800 (PST)
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0617010E7CB
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 09:52:27 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id
+ 4fb4d7f45d1cf-544455a4b56so2312116a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 01:52:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1700818978; x=1701423778;
+ d=amarulasolutions.com; s=google; t=1700819546; x=1701424346;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=to4wr7o29hJLCsI5wEPXc4ZsMUCJc0r7+FdlNSU99fk=;
- b=itS4od9myNjpr5n2y8uMUuBC1ycweLkykkBEZsjxi/3e5GOBQfDTmnuryES0KqqCD+
- SBY/kaRoztFLqdCZL5sdTg7LzeWK61ne1VavXtRFh66l0lOwM9XeOwaqNdpd3FSyQJnQ
- rxnNbUJP+RwRc9YMAh9z6O8YeJTdTKt1ew1e4=
+ bh=lPiBn2j7nRC2ohY93oZwJpQOBSGsTTZbyG2+TlPFQiA=;
+ b=BT/MFflcyNCSN/Dp9lDy0EazX/TpALTxikUjJgmwyMXmjavXoTNY0rNvwkDThJVFqf
+ meWpGgcEWeBXzwvZW8p6A8xhKkNzp7FixwCEFlUFRId7rnj8l/B4qGZfQoi8t1UIfbqS
+ aQ/HAnn2TKubycVqcKkbbpYO1tSf+RBrY2LE0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700818978; x=1701423778;
+ d=1e100.net; s=20230601; t=1700819546; x=1701424346;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=to4wr7o29hJLCsI5wEPXc4ZsMUCJc0r7+FdlNSU99fk=;
- b=GrOJpgfDUMF1AMuyX4tSuUYCBRKwvBjR9ORp2sxpOqE075UVx/T5Ak/ykuA88iXgqw
- sniiajGDom8kAEXyUGBkP6dAEtDL/OHdNHKRAG1EgvCy49h4qyk62gMWaetzsg6Pzyiq
- XVdn0660Lnx+F+KXtnpCr8hv5ABhgJP0ULdpdC4FTZDoGFncdkac2L8w0+Xh07SK4QdY
- 9eILe8o+LvGJ9mmkT6ThgOZQc1ezWBExel5GvfEGf4TANnQ6qFnRWCMerVKxH20zaspI
- PfB6rMGGSq9CB6tajyOYUWCr0MVBrs/5hhIEMOFzVqtnIrax0RI2/ewv2pAVCCqebike
- f6vw==
-X-Gm-Message-State: AOJu0YxOIICyJeDiCT6z0ZiyzsNUtEUHhwVZjK49cL6x7XczLn7OsnS5
- aOdCZ7wE0ECwivsxs4P6EgoT4w==
-X-Google-Smtp-Source: AGHT+IH3EXSz81Q3iGLUIaX7f+Td5N1csaSiswyO7wzlBhBwY/rrd8Kphlgy1/Xz60elHfn9o/VmOQ==
-X-Received: by 2002:a17:906:2707:b0:a04:c9c4:8fc with SMTP id
- z7-20020a170906270700b00a04c9c408fcmr1544976ejc.18.1700818978131; 
- Fri, 24 Nov 2023 01:42:58 -0800 (PST)
+ bh=lPiBn2j7nRC2ohY93oZwJpQOBSGsTTZbyG2+TlPFQiA=;
+ b=sajlt1u4jL98OP/4jtihqTEDWzIl1g8MY8QYHzeJ7Vp1gPDClQFZvUV7lkkZTfknuo
+ 5hPqHtm8WCsPR9cmdcY1w9nFkkLpYRWeJDrBerU24aPHg+mMI4xbpEIr7mjLT/7jyL/a
+ NKw6ZqFerGZ/IqM/ZPrG+wodVwa3BcxYBxrjIAe7L+G4HR2Dm9R1Eq2/wrt5ybUsU+Lp
+ eCA7H7auJd1iczFqHSOWPwaeVt6rdsILufjFqwaX8AQRy34V7ZI2Zsmfss+oQTrUaxtu
+ XzbG9XoOEttpt/otSqcXtxaTVcoyraOGQf+ZhOvJ+1N8ekyxTNB46x7IAeEdXDFdARgj
+ 4Uqg==
+X-Gm-Message-State: AOJu0Yx0Jn0ErEO1f3S3kjEGTvWBgmRzKCSIFgCE6tpsvQtfy2aomUv1
+ mVCVTiqlvxe3wpSSCiZFGH9odw==
+X-Google-Smtp-Source: AGHT+IEBfhEmsD5EKPJl+/lEhxi4nG9SttIahQn1yPMeWAXJB+1krEHdfcyXCHFNF8KJVIk8quJgcQ==
+X-Received: by 2002:a50:d745:0:b0:543:5741:c9cd with SMTP id
+ i5-20020a50d745000000b005435741c9cdmr1359620edj.34.1700819546366; 
+ Fri, 24 Nov 2023 01:52:26 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6474:ebbf:7c18:b9c9:f303:f6bb])
  by smtp.gmail.com with ESMTPSA id
- h4-20020a170906398400b009fd541851f4sm1847685eje.198.2023.11.24.01.42.56
+ i7-20020aa7c9c7000000b0054855988fedsm1588384edt.37.2023.11.24.01.52.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Nov 2023 01:42:57 -0800 (PST)
+ Fri, 24 Nov 2023 01:52:26 -0800 (PST)
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/bridge: Fix typo in post_disable() description
-Date: Fri, 24 Nov 2023 10:42:30 +0100
-Message-ID: <20231124094253.658064-1-dario.binacchi@amarulasolutions.com>
+Subject: [PATCH] video: fbdev: mmp: Fix typo in code comment
+Date: Fri, 24 Nov 2023 10:52:11 +0100
+Message-ID: <20231124095221.659445-1-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -68,39 +68,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Archit Taneja <architt@codeaurora.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, Haojian Zhuang <haojian.zhuang@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ Zhou Zhu <zzhu3@marvell.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 s/singals/signals/
 
-Fixes: 199e4e967af4 ("drm: Extract drm_bridge.h")
+Fixes: 641b4b1b6a7c ("video: mmpdisp: add spi port in display controller")
 Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 ---
 
- include/drm/drm_bridge.h | 2 +-
+ drivers/video/fbdev/mmp/hw/mmp_spi.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index cfb7dcdb66c4..9ef461aa9b9e 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -194,7 +194,7 @@ struct drm_bridge_funcs {
- 	 * or &drm_encoder_helper_funcs.dpms hook.
- 	 *
- 	 * The bridge must assume that the display pipe (i.e. clocks and timing
--	 * singals) feeding it is no longer running when this callback is
-+	 * signals) feeding it is no longer running when this callback is
- 	 * called.
- 	 *
- 	 * The @post_disable callback is optional.
+diff --git a/drivers/video/fbdev/mmp/hw/mmp_spi.c b/drivers/video/fbdev/mmp/hw/mmp_spi.c
+index 16401eb95c6c..64e34b7e739e 100644
+--- a/drivers/video/fbdev/mmp/hw/mmp_spi.c
++++ b/drivers/video/fbdev/mmp/hw/mmp_spi.c
+@@ -91,7 +91,7 @@ static int lcd_spi_setup(struct spi_device *spi)
+ 	writel(tmp, reg_base + LCD_SPU_SPI_CTRL);
+ 
+ 	/*
+-	 * After set mode it need a time to pull up the spi singals,
++	 * After set mode it need a time to pull up the spi signals,
+ 	 * or it would cause the wrong waveform when send spi command,
+ 	 * especially on pxa910h
+ 	 */
 -- 
 2.42.0
 
