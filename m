@@ -1,42 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22EEE7F6AA2
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 03:25:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A561F7F6ADD
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 04:26:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 536B410E798;
-	Fri, 24 Nov 2023 02:25:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 223F010E11D;
+	Fri, 24 Nov 2023 03:26:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3A8110E798
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 02:25:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1700792748;
- bh=Mo4Vg0x4Tn1NUCtfTQlN1y65FYD9yKKHBRdITJKRr8M=;
- h=Date:From:To:Cc:Subject:From;
- b=MNFwLHZ8ZPZCtEEnNcb9Bf/Db/cAB9wZWBOQ66GN5sdys9bH9nO1nKqdptpOxHLT6
- /++Nh+9YPRx+T7WUO46uSY2oP3SBQdeDwQILrx7cNsuAo8W2Nnp4koZ+eQkjFyn0Mo
- mCAW/Rm2yafb5kdmfLgSrgLEAgM1PLt0f8fMs9pSZDMQ5wmlnxHNNRCTWW6TMEO+Pj
- t0CpTf5fnByCxaz0fE/K/lGFlwKHbscLvUH15CE+slFdQWFH8QdFecN1vyCHdGEIlO
- N3azyH9IpOUI6PFgrTcoaBy64ZxR35PFd4l7HDToD/TCgbJKgD0XMqmzcpNZClChUL
- D5O9Iziw8n5lQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4SbzNq6Nmvz4wcX;
- Fri, 24 Nov 2023 13:25:47 +1100 (AEDT)
-Date: Fri, 24 Nov 2023 13:25:47 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@redhat.com>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: build warning after merge of the drm tree
-Message-ID: <20231124132547.00f7e599@canb.auug.org.au>
+X-Greylist: delayed 555 seconds by postgrey-1.36 at gabe;
+ Fri, 24 Nov 2023 03:26:46 UTC
+Received: from mail-m6020.netease.com (mail-m6020.netease.com [210.79.60.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38D9D10E11D
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 03:26:45 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256;
+ b=TvyncbnD1BwJI/4WtgnViRmweaDkV2vAM3/hFiAU4Nyt29+2TQeCfuqnf4N8HNV2sO5Ne3GPGjJKeztV6pJAZYWQ2Ab38CxnMMWC5h3pJbJvcEL3P/cgTqejznrLaC0MKMdbGtMlcDqx2lIp2XlW+tMnSG2AoGrtx1b+TpjBMzg=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
+ bh=E1uwfkSjmCfXCZeYRdm+oiAgspLZgUeCqcA2/4m3/ts=;
+ h=date:mime-version:subject:message-id:from;
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+ by mail-m12762.qiye.163.com (Hmail) with ESMTPA id B16C75C0408;
+ Fri, 24 Nov 2023 11:17:24 +0800 (CST)
+Message-ID: <c373eff2-4a89-45b9-ba9f-10b7fc1a51d6@rock-chips.com>
+Date: Fri, 24 Nov 2023 11:17:23 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/QOy1sNj_Z7qHo9VKn37dU9+";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 3/4] drm/rockchip: rk3066_hdmi: Remove useless output
+ format
+Content-Language: en-US
+To: Johan Jonker <jbx6244@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
+ hjc@rock-chips.com
+References: <cda574be-4f33-b66d-eb14-92c2b31d241e@gmail.com>
+ <bb5cac77-a705-738e-13ae-667ea87f1cb1@gmail.com> <4308014.ejJDZkT8p0@phil>
+ <bff69815-1185-c74f-82ab-5b8f7faccfac@gmail.com>
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <bff69815-1185-c74f-82ab-5b8f7faccfac@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGk5KSVZIGkseSxkaQksYSxhVEwETFh
+ oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSUxOVUpLS1VKQk
+ tLWQY+
+X-HM-Tid: 0a8bff55093fb229kuuub16c75c0408
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PRw6KTo5ETw6LC8YMQs1EUoW
+ ISxPFCNVSlVKTEtLTEJOQ09OQ01KVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+ WUFZTkNVSUlVTFVKSk9ZV1kIAVlBQ0tMSzcG
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,50 +59,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sarah Walker <sarah.walker@imgtec.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Maxime Ripard <mripard@kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Matt Coster <matt.coster@imgtec.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Donald Robson <donald.robson@imgtec.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/QOy1sNj_Z7qHo9VKn37dU9+
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Johan:
 
-Hi all,
+some information bellow hope can help a bit.
 
-After merging the drm tree, today's linux-next build (htmldocs) produced
-this warning:
+On 11/23/23 20:54, Johan Jonker wrote:
+>
+> On 11/20/23 18:06, Heiko Stuebner wrote:
+>> Hi Johan,
+>>
+>> Am Donnerstag, 2. November 2023, 14:42:19 CET schrieb Johan Jonker:
+>>> The Rk3066 hdmi output format is hard coded to RGB. Remove
+>>> all useless code related to colorimetry and enc_out_format.
+>>>
+>>> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+>> I guess my first question is, is the hardcoding happening just because
+>> of missing functionality in the driver, or does the hardware only
+>> support RGB?
+> This driver can do so much more..., but is crippled by various causes.
+> If in need for a full functional rk3066 driver a little bit help/advise/action from other people is needed.
+>
+> 1:
+> Missing rk3066 TRM HDMI register info.
+> Could Rockchip (= Sandy Huang) disclose this info to the open source community?
 
-include/uapi/drm/pvr_drm.h:1: warning: 'Flags for DRM_PVR_DEV_QUERY_HEAP_IN=
-FO_GET.' not found
+The  HDMI on rk3066 is from a IP vendor, so the detail of this IP are not even
 
-Introduced by commit
+include in the TRM.
 
-  1088d89e5515 ("drm/imagination/uapi: Add PowerVR driver UAPI")
+As it is a chip which is more than 10 yeas old, I contacted the author of the bsp
 
---=20
-Cheers,
-Stephen Rothwell
+driver, got some information bellow:
 
---Sig_/QOy1sNj_Z7qHo9VKn37dU9+
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+This IP is almost the same with sh_mobile_hdmi, unfortunately, SH-Mobile HDMI drivers
 
------BEGIN PGP SIGNATURE-----
+is removed out of mainline in 2015[0], but with a quick look at it, the register definition
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmVgCasACgkQAVBC80lX
-0GwdZQf+J8wlWgeQszsEbsJAC8oGRCweif258C339Hc83kwzrGcvzs0dSnQUF2PX
-xJ6FC+zf6gJpexBwMHHXRYRv3KrVek56Jllo9BoHHHeXoNKowPlvfDNhga2IIxOc
-aa/P+PabhE5cGBE/NqsGRBSizNMa3xLrmR55kx5LcuVlj1OKj1pM8uuJErNeLekY
-Ep65b7+iXQinfj0W3G4sJCv6CLl6/QHFSUu9qxywPm+9LUFFE4KGMxa8CnDgs0AI
-99Qv/oKBwN7Oo1XisHMxK7EjSYaxWLoM5Xw0q6onUupFxKuR4Ttokc0SO30h7JLA
-hYrejy90N7C3hRjH+Ol8sQZ837hIBg==
-=q6XM
------END PGP SIGNATURE-----
+is the same as rk3066 hdmi and with more detail description.
 
---Sig_/QOy1sNj_Z7qHo9VKn37dU9+--
+
+[0]https://lkml.kernel.org/stable/20191122100825.930987859@linuxfoundation.org/
+
+>
+> As a way around we can look at older driver code and port to mainline.
+> More info gives better results.
+> rk30_hdmi_config_csc() function:
+> https://github.com/RockchipOpensourceCommunity/px2-android-kernel-3.0/blob/master/drivers/video/rockchip/hdmi/chips/rkpx2/rkpx2_hdmi_hw.c#L315
+>
+> 2:
+> Could DRM people show us examples for:
+> - How to advertise to the VOP driver what data formats (RGB, YCBCR) it can send to the HDMI driver or any other Rockchip DRM sub driver other then RGB.
+> - Advertise EDID data monitor modes RGB444, YCBCR444 and YCBCR422 to the HDMI driver.
+>
+> https://github.com/RockchipOpensourceCommunity/px2-android-kernel-3.0/blob/master/drivers/video/rockchip/hdmi/rk_hdmi_edid.c#L217C1-L218C41
+
+
+RK3066 vop can only output RGB full range to HDMI, so the full to limit rgb to yuv conversion is done by rk30_hdmi_config_csc.
+
+>
+> 3:
+> Advise when what Infoframe is needed for only RGB vs. the rest according to the specification.
+> https://engineering.purdue.edu/ece477/Archive/2012/Spring/S12-Grp10/Datasheets/CEC_HDMI_Specification.pdf
+>
+> rk3066 currently only sends avi info. Does it need vsi as well? Can anyone give some clarity here?
+> inno_hdime sends avi and vsi info.
+
+vsi is used for 3d and hdmi 1.4 format(4K24/25/30, not support by rk3066), or vendor specific data like timecode, dolby,
+
+so as a basic function, we don't need it.
+
+>
+> 4:
+> rk3066_hdmi and inno_hdmi are HDMI 1.4a drivers for DVI and HDMI.
+> Validated by drm_match_cea_mode() this function only gives us both HDMI + HDMI2 focus, but nothing for old DVI monitors.
+> How to improve?
+>
+> 5:
+> Sound support was submitted:
+> Re: [PATCH v6 2/5] drm: rockchip: add sound support to rk3066 hdmi driver
+> https://lore.kernel.org/linux-rockchip/48dbe9b7-0aa0-f459-301f-f380e2b7f2f8@gmail.com/
+>
+> No reply was given (by Heiko or others) on why it wasn't applied or what needs to be improved.
+>
+> Without reply no improvement.
+>
+> Johan
+>
+>
+>>
+>>> ---
+>>>   drivers/gpu/drm/rockchip/rk3066_hdmi.c | 20 +-------------------
+>>>   1 file changed, 1 insertion(+), 19 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.c b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
+>>> index 0e7aae341960..f2b1b2faa096 100644
+>>> --- a/drivers/gpu/drm/rockchip/rk3066_hdmi.c
+>>> +++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
+>>> @@ -23,8 +23,6 @@
+>>>
+>>>   struct hdmi_data_info {
+>>>   	int vic; /* The CEA Video ID (VIC) of the current drm display mode. */
+>>> -	unsigned int enc_out_format;
+>>> -	unsigned int colorimetry;
+>>>   };
+>>>
+>>>   struct rk3066_hdmi_i2c {
+>>> @@ -200,14 +198,7 @@ static int rk3066_hdmi_config_avi(struct rk3066_hdmi *hdmi,
+>>>   	rc = drm_hdmi_avi_infoframe_from_display_mode(&frame.avi,
+>>>   						      &hdmi->connector, mode);
+>>>
+>>> -	if (hdmi->hdmi_data.enc_out_format == HDMI_COLORSPACE_YUV444)
+>>> -		frame.avi.colorspace = HDMI_COLORSPACE_YUV444;
+>>> -	else if (hdmi->hdmi_data.enc_out_format == HDMI_COLORSPACE_YUV422)
+>>> -		frame.avi.colorspace = HDMI_COLORSPACE_YUV422;
+>>> -	else
+>>> -		frame.avi.colorspace = HDMI_COLORSPACE_RGB;
+>>> -
+>>> -	frame.avi.colorimetry = hdmi->hdmi_data.colorimetry;
+>>> +	frame.avi.colorspace = HDMI_COLORSPACE_RGB;
+>>>   	frame.avi.scan_mode = HDMI_SCAN_MODE_NONE;
+>>>
+>>>   	return rk3066_hdmi_upload_frame(hdmi, rc, &frame,
+>>> @@ -329,15 +320,6 @@ static int rk3066_hdmi_setup(struct rk3066_hdmi *hdmi,
+>>>   	struct drm_display_info *display = &hdmi->connector.display_info;
+>>>
+>>>   	hdmi->hdmi_data.vic = drm_match_cea_mode(mode);
+>>> -	hdmi->hdmi_data.enc_out_format = HDMI_COLORSPACE_RGB;
+>>> -
+>>> -	if (hdmi->hdmi_data.vic == 6 || hdmi->hdmi_data.vic == 7 ||
+>>> -	    hdmi->hdmi_data.vic == 21 || hdmi->hdmi_data.vic == 22 ||
+>>> -	    hdmi->hdmi_data.vic == 2 || hdmi->hdmi_data.vic == 3 ||
+>>> -	    hdmi->hdmi_data.vic == 17 || hdmi->hdmi_data.vic == 18)
+>>> -		hdmi->hdmi_data.colorimetry = HDMI_COLORIMETRY_ITU_601;
+>>> -	else
+>>> -		hdmi->hdmi_data.colorimetry = HDMI_COLORIMETRY_ITU_709;
+>> while I can understand the RGB output format, why does the colorimetry
+>> also get removed? This looks like it is dependent on the mode itself
+>> and not the output format?
+> >From the old driver these conditions apply whether csc is needed.
+> https://github.com/RockchipOpensourceCommunity/px2-android-kernel-3.0/blob/master/drivers/video/rockchip/hdmi/chips/rkpx2/rkpx2_hdmi_hw.c#L320C1-L324C3
+>
+> 	if( ((vpara->input_color == VIDEO_INPUT_COLOR_RGB) && (vpara->output_color == VIDEO_OUTPUT_RGB444)) ||
+> 		((vpara->input_color == VIDEO_INPUT_COLOR_YCBCR) && (vpara->output_color != VIDEO_OUTPUT_RGB444) ))
+> 	{
+> 		return;
+> 	}
+>
+>> Thanks
+>> Heiko
+>>
+>>
+> _______________________________________________
+> Linux-rockchip mailing list
+> Linux-rockchip@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-rockchip
