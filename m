@@ -1,61 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3E17F6B75
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 05:40:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F41087F6BAF
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 06:28:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C606010E17C;
-	Fri, 24 Nov 2023 04:40:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90E8510E134;
+	Fri, 24 Nov 2023 05:28:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44B5A10E17C
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 04:40:40 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-507c5249d55so2252723e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 20:40:40 -0800 (PST)
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com
+ [IPv6:2607:f8b0:4864:20::82f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ED7010E33A;
+ Fri, 24 Nov 2023 05:28:10 +0000 (UTC)
+Received: by mail-qt1-x82f.google.com with SMTP id
+ d75a77b69052e-41c157bbd30so7814481cf.0; 
+ Thu, 23 Nov 2023 21:28:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1700800838; x=1701405638;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6KekUES4QEaW3T6OzwXPRLAJ7BoFDfNAQJ2uK8ftZs4=;
- b=Mfo4m63Uvu4GybHl4fT5ses0dO+2bhK7X8oiRGMqa+2yyxXDR5S9yjks0/lp8kEUum
- W8Zs1A/8/ke06yCEvDDfkRCoNydW7fsV8WHoPVqHTxCm2KYVd7IoH9ugoaZuJ3mAhWb/
- gx/4HTVosgARjm9U8cqBzSAln1ZMBwSwMI/88=
+ d=gmail.com; s=20230601; t=1700803689; x=1701408489; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=A+g/jSytR8KV47uGGJN5Pp83HT1uHDIXM+AadWQ9RdY=;
+ b=Hjtvu/wCnuH2LAdsVK1l28MbhgBZYe5waVgfD8tW9cofnyui5fsTD/fqb3Ib7slkFR
+ hNoXbEx2dDu7VV4TVEzC4qkabUV9Wewvq4QdCUYbtE6LusD0VSgK2fwRwbV47mGpAWxi
+ Yaa6+c++2PDqDaDhOeH+Tz/80CW6cTOx3MIjT/RjuRwnBrgE2bz3pEeD/PCGMx9A5O4l
+ e/9cqzEPrQvlb5RM7B2560QAcxOdjB3b5plG/juK75gSrD2PGnuRm0UjW3qSAPApq0vv
+ l+xkS8WIu/j6A0Lg2GBtFoIu29XChgO3uVY9QbKX/CGElxQqvHc0cvtgbpc8E9nVxmaM
+ a5yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700800838; x=1701405638;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6KekUES4QEaW3T6OzwXPRLAJ7BoFDfNAQJ2uK8ftZs4=;
- b=j3bk7UnjWwnFQRyQaMo+BvP4nENcyWwQa+VSlAGO9P34a99Zof9Elnrxa45HYHVTQm
- GcBd/81338rIN+DyjM9U74WGNUu74qW1K3k/TEsD/hvIuTAWqSJEF9LlvEa435N8y4cO
- 1MO1X9ghctxrfYHOSCLYwQfxIVOfhVa3MPfXqwygOXZzUsKwbYeQXvTcYMyve5k5WAtH
- r85qb0q0CPctKlSyZPmgrRnCzTh4GTkNU7oWCoN2H1JFhghQ21loO0ZYFsmpLuZGjLmO
- 7c3aVO62yCjSYuONdtQTIeZ+o2qCiL1mYI3L8R6HvAZLHeZxcn61MFDiu6t/M4VDSkra
- aBAw==
-X-Gm-Message-State: AOJu0YxClAx5v8oTiAA3jxo0239yvNnCYIfkXTF/M1cfP3t5JgwVL/m6
- dVkZdKrSjJBmegfKv0rbtTFLbhkWFGiTONl8dfF4hJdsvN6qqRvU
-X-Google-Smtp-Source: AGHT+IGdD+/8ruJjlhlvRhWd1o7YaLznxCb2y1AN3J4cYgMXWOthMIC6kIZi9F0WtwbcSOzhaUMLEFUIHM/mmVrW99g=
-X-Received: by 2002:a05:6512:3b2c:b0:4fb:9f93:365f with SMTP id
- f44-20020a0565123b2c00b004fb9f93365fmr1155339lfv.38.1700800838386; Thu, 23
- Nov 2023 20:40:38 -0800 (PST)
+ d=1e100.net; s=20230601; t=1700803689; x=1701408489;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=A+g/jSytR8KV47uGGJN5Pp83HT1uHDIXM+AadWQ9RdY=;
+ b=AswvWPI+27MuP4j0cx1Ib4tFIza5BnK60xeKNWtC8Ln/Fmn886J1IawM00rH/vgAK9
+ ggg80NfgXj/o0VOeiFpjE+F5eSr66GNgSMKr497zYeg5+D36sdUaabNU1El/J6PncEPk
+ iZ/PZ2W0eu/4UCYHix2QFF/poyyLkfyfRVPmgMSqANnzXy217GsIJ5m/2TRT3qPxy0cT
+ tBfZD55ctT2st+zP+hPnTVo+CsQJYo6bVeSecEAxU7xMSNu8u7Ne6//tYKlr3sxbWTZ4
+ gTSTdg5x54uHGV7/y9hySQLQoJSdijRGWIJxGB9/+oVeTQvGw6ZDNUJPn28L2il0Fbra
+ kbEQ==
+X-Gm-Message-State: AOJu0YwzF48cCcvaRvp9VLW/bK0XLfQj180TsoDa6zZzujKeqOxW5zmj
+ d1H7spbP7fmALqcMdIn7rqa7Yv3ppETTEg==
+X-Google-Smtp-Source: AGHT+IGm+xtyokx8k4hy+Buxm8YsDEwOmKBEc5pdNoy78fxzknvd/uWSJkc4U3i0/iWZVl1V2Y3C7w==
+X-Received: by 2002:ac8:7c4b:0:b0:412:309f:c0fa with SMTP id
+ o11-20020ac87c4b000000b00412309fc0famr2158332qtv.64.1700803689185; 
+ Thu, 23 Nov 2023 21:28:09 -0800 (PST)
+Received: from localhost.localdomain ([76.65.20.140])
+ by smtp.gmail.com with ESMTPSA id
+ g11-20020ac842cb000000b004181c32dcc3sm1017819qtm.16.2023.11.23.21.28.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Nov 2023 21:28:08 -0800 (PST)
+From: Luben Tuikov <ltuikov89@gmail.com>
+To: Direct Rendering Infrastructure - Development
+ <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 0/2] Make scheduling of the same index, the same
+Date: Fri, 24 Nov 2023 00:27:53 -0500
+Message-ID: <20231124052752.6915-4-ltuikov89@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20230920090658.31181-1-jason-jh.lin@mediatek.com>
- <4b55632a4cc92932384844f94a7d237aa3f471e3.camel@mediatek.com>
-In-Reply-To: <4b55632a4cc92932384844f94a7d237aa3f471e3.camel@mediatek.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Fri, 24 Nov 2023 12:40:27 +0800
-Message-ID: <CAGXv+5GvOCOPkjxyhv-Wwwbosp1KrL1aFzSyoU_FhqKPk=evPQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/mediatek: Add spinlock for setting vblank event in
- atomic_begin
-To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,80 +72,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "amergnat@baylibre.com" <amergnat@baylibre.com>,
- =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
- =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- "fshao@chromium.org" <fshao@chromium.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- =?UTF-8?B?SmFzb24tY2ggQ2hlbiAo6Zmz5bu66LGqKQ==?= <Jason-ch.Chen@mediatek.com>,
- =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- =?UTF-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
- =?UTF-8?B?Sm9obnNvbiBXYW5nICjnjovogZbpkasp?= <Johnson.Wang@mediatek.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
+Cc: Luben Tuikov <ltuikov89@gmail.com>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Danilo Krummrich <dakr@redhat.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 8, 2023 at 3:27=E2=80=AFPM CK Hu (=E8=83=A1=E4=BF=8A=E5=85=89) =
-<ck.hu@mediatek.com> wrote:
->
-> Hi, Jason:
->
-> On Wed, 2023-09-20 at 17:06 +0800, Jason-JH.Lin wrote:
-> > Add spinlock protection to avoid race condition on vblank event
-> > between mtk_drm_crtc_atomic_begin() and mtk_drm_finish_page_flip().
->
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+The first patch renames priority MIN to LOW.
 
-Please also merge this for fixes so it lands sooner.
+The second patch makes the "priority" of the same run-queue index in any two
+schedulers, the same.
 
-> >
-> > Fixes: 119f5173628a ("drm/mediatek: Add DRM Driver for Mediatek SoC
-> > MT8173.")
-> > Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> > Suggested-by: AngeloGioacchino Del Regno <
-> > angelogioacchino.delregno@collabora.com>
-> > Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
-> > Reviewed-by: Fei Shao <fshao@chromium.org>
-> > Tested-by: Fei Shao <fshao@chromium.org>
-> > ---
-> >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > index b6fa4ad2f94d..cab4fe092f13 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> > @@ -744,6 +744,7 @@ static void mtk_drm_crtc_atomic_begin(struct
-> > drm_crtc *crtc,
-> >
-> >   crtc);
-> >       struct mtk_crtc_state *mtk_crtc_state =3D
-> > to_mtk_crtc_state(crtc_state);
-> >       struct mtk_drm_crtc *mtk_crtc =3D to_mtk_crtc(crtc);
-> > +     unsigned long flags;
-> >
-> >       if (mtk_crtc->event && mtk_crtc_state->base.event)
-> >               DRM_ERROR("new event while there is still a pending
-> > event\n");
-> > @@ -751,7 +752,11 @@ static void mtk_drm_crtc_atomic_begin(struct
-> > drm_crtc *crtc,
-> >       if (mtk_crtc_state->base.event) {
-> >               mtk_crtc_state->base.event->pipe =3D
-> > drm_crtc_index(crtc);
-> >               WARN_ON(drm_crtc_vblank_get(crtc) !=3D 0);
-> > +
-> > +             spin_lock_irqsave(&crtc->dev->event_lock, flags);
-> >               mtk_crtc->event =3D mtk_crtc_state->base.event;
-> > +             spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
-> > +
-> >               mtk_crtc_state->base.event =3D NULL;
-> >       }
-> >  }
+This series sits on top on this fix
+https://patchwork.freedesktop.org/patch/568723/ which I sent yesterday.
+
+Luben Tuikov (2):
+  drm/sched: Rename priority MIN to LOW
+  drm/sched: Reverse run-queue priority enumeration
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c  |  4 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c  |  2 +-
+ drivers/gpu/drm/msm/msm_gpu.h            |  2 +-
+ drivers/gpu/drm/scheduler/sched_entity.c |  7 ++++---
+ drivers/gpu/drm/scheduler/sched_main.c   | 15 +++++++--------
+ include/drm/gpu_scheduler.h              |  6 +++---
+ 6 files changed, 18 insertions(+), 18 deletions(-)
+
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Danilo Krummrich <dakr@redhat.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+
+base-commit: e4d983acffff270ccee417445a69b9ed198658b1
+prerequisite-patch-id: d0fec7c91768937b5e22ce9508017e5b9d462000
+-- 
+2.43.0
+
