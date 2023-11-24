@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90C37F6A26
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 02:27:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 800D37F6A27
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 02:27:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B973110E78E;
-	Fri, 24 Nov 2023 01:27:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B353A10E78D;
+	Fri, 24 Nov 2023 01:27:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8461D10E78B
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 01:27:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5022810E78F
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 01:27:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,24 +19,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=Flja3r/zqwFL+JVleaMhq2DjEg2LZ/PznszMrtAzT8E=; b=nfGcEt1WyRVNwTK34PQi5grs+g
- 6UV1A82hvmIM+IjRxZl9IMX0io2APn7LpKZRwPz9VXGs0s8YSegmaYeE9fI7EO6HbfqIxgxxii4e3
- jwJ20XzgAuI+B1HxLqy7Xn4Vi1HnDOkOY2LD+dUAOzvXyXOC5nqmPeY5uVZ8zEOhdwdknzAr6v7rh
- 2mDHKSXh0cRXcFzSWlxzMIjDUvFMxU47Z41dbn8AtLYYJZZHI0oyYN09SWTW3JX1xdJ7cPS24Bho6
- pAJ3hhNbgpyUU9px0uY+CgEzD5rKWucIS7xFnCPOh2N2P7BfywultVYdDJdrndG4dMnqq6Wrfm2zX
- YIij7K/A==;
+ bh=gJgNWkpttN7pqliiT0r4I46zpMJFFOBVkflxXBIrA3s=; b=AmGT73YWYrgCSaGddXGlV3i02w
+ 1Z5R4V/kbsrb2zCmyO4tjaM0tCm4gnHsQZCURfpdFVLlQty/Tas7ZwUehLATUyqy0cysgE4YybLly
+ BaNzExehIyiYtDThI+XTiA/1m+v5uTADRYr+ECsjqXmSSgXbvYZDeW8US1Am8GqrY2I15c+NjT0Gd
+ xTYHkZhmWCC2TznRGMosjUFvECmyaPRVgp1g7yfuR3MjbgvS3LxKBjugbtKO6z1/4mVlp5PGQdGAP
+ mfVZfbIuswiRBzk0PNs/klb9ir4fxMT4SQemrxIHo7G6XvAp/RiIGMdkmZMODBQZS6rV7LNVeQDlg
+ GvKTdLWQ==;
 Received: from [177.34.168.16] (helo=morissey..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1r6Kyc-006Zga-Lg; Fri, 24 Nov 2023 02:27:27 +0100
+ id 1r6Kyg-006Zga-TZ; Fri, 24 Nov 2023 02:27:31 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 11/17] drm/v3d: Enable BO mapping
-Date: Thu, 23 Nov 2023 21:47:07 -0300
-Message-ID: <20231124012548.772095-12-mcanal@igalia.com>
+Subject: [PATCH v2 12/17] drm/v3d: Create a CPU job extension for a indirect
+ CSD job
+Date: Thu, 23 Nov 2023 21:47:08 -0300
+Message-ID: <20231124012548.772095-13-mcanal@igalia.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231124012548.772095-1-mcanal@igalia.com>
 References: <20231124012548.772095-1-mcanal@igalia.com>
@@ -61,81 +62,348 @@ Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For the indirect CSD CPU job, we will need to access the internal
-contents of the BO with the dispatch parameters. Therefore, create
-methods to allow the mapping and unmapping of the BO.
+A CPU job is a type of job that performs operations that requires CPU
+intervention. An indirect CSD job is a job that, when executed in the
+queue, will map the indirect buffer, read the dispatch parameters, and
+submit a regular dispatch. Therefore, it is a job that needs CPU
+intervention.
 
+So, create a user extension for the CPU job that enables the creation
+of an indirect CSD. This user extension will allow the creation of a CSD
+job linked to a CPU job. The CPU job will wait for the indirect CSD job
+dependencies and, once they are signaled, it will update the CSD job
+parameters.
+
+Co-developed-by: Melissa Wen <mwen@igalia.com>
+Signed-off-by: Melissa Wen <mwen@igalia.com>
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/v3d/v3d_bo.c  | 18 ++++++++++++++++++
- drivers/gpu/drm/v3d/v3d_drv.h |  4 ++++
- 2 files changed, 22 insertions(+)
+ drivers/gpu/drm/v3d/v3d_drv.h    |  31 +++++++++-
+ drivers/gpu/drm/v3d/v3d_sched.c  |  41 ++++++++++++-
+ drivers/gpu/drm/v3d/v3d_submit.c | 100 ++++++++++++++++++++++++++++++-
+ include/uapi/drm/v3d_drm.h       |  37 +++++++++++-
+ 4 files changed, 205 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
-index 357a0da7e16a..1bdfac8beafd 100644
---- a/drivers/gpu/drm/v3d/v3d_bo.c
-+++ b/drivers/gpu/drm/v3d/v3d_bo.c
-@@ -33,6 +33,9 @@ void v3d_free_object(struct drm_gem_object *obj)
- 	struct v3d_dev *v3d = to_v3d_dev(obj->dev);
- 	struct v3d_bo *bo = to_v3d_bo(obj);
- 
-+	if (bo->vaddr)
-+		v3d_put_bo_vaddr(bo);
-+
- 	v3d_mmu_remove_ptes(bo);
- 
- 	mutex_lock(&v3d->bo_lock);
-@@ -134,6 +137,7 @@ struct v3d_bo *v3d_bo_create(struct drm_device *dev, struct drm_file *file_priv,
- 	if (IS_ERR(shmem_obj))
- 		return ERR_CAST(shmem_obj);
- 	bo = to_v3d_bo(&shmem_obj->base);
-+	bo->vaddr = NULL;
- 
- 	ret = v3d_bo_create_finish(&shmem_obj->base);
- 	if (ret)
-@@ -167,6 +171,20 @@ v3d_prime_import_sg_table(struct drm_device *dev,
- 	return obj;
- }
- 
-+void v3d_get_bo_vaddr(struct v3d_bo *bo)
-+{
-+	struct drm_gem_shmem_object *obj = &bo->base;
-+
-+	bo->vaddr = vmap(obj->pages, obj->base.size >> PAGE_SHIFT, VM_MAP,
-+			 pgprot_writecombine(PAGE_KERNEL));
-+}
-+
-+void v3d_put_bo_vaddr(struct v3d_bo *bo)
-+{
-+	vunmap(bo->vaddr);
-+	bo->vaddr = NULL;
-+}
-+
- int v3d_create_bo_ioctl(struct drm_device *dev, void *data,
- 			struct drm_file *file_priv)
- {
 diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index 010b146140ad..04e97989c442 100644
+index 04e97989c442..f665f3f5b65b 100644
 --- a/drivers/gpu/drm/v3d/v3d_drv.h
 +++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -202,6 +202,8 @@ struct v3d_bo {
- 	 * v3d_render_job->unref_list
- 	 */
- 	struct list_head unref_head;
-+
-+	void *vaddr;
+@@ -316,12 +316,41 @@ struct v3d_csd_job {
+ 	struct drm_v3d_submit_csd args;
  };
  
- static inline struct v3d_bo *
-@@ -389,6 +391,8 @@ struct drm_gem_object *v3d_create_object(struct drm_device *dev, size_t size);
- void v3d_free_object(struct drm_gem_object *gem_obj);
- struct v3d_bo *v3d_bo_create(struct drm_device *dev, struct drm_file *file_priv,
- 			     size_t size);
-+void v3d_get_bo_vaddr(struct v3d_bo *bo);
-+void v3d_put_bo_vaddr(struct v3d_bo *bo);
- int v3d_create_bo_ioctl(struct drm_device *dev, void *data,
- 			struct drm_file *file_priv);
- int v3d_mmap_bo_ioctl(struct drm_device *dev, void *data,
+-enum v3d_cpu_job_type {};
++enum v3d_cpu_job_type {
++	V3D_CPU_JOB_TYPE_INDIRECT_CSD = 1,
++};
++
++struct v3d_indirect_csd_info {
++	/* Indirect CSD */
++	struct v3d_csd_job *job;
++
++	/* Clean cache job associated to the Indirect CSD job */
++	struct v3d_job *clean_job;
++
++	/* Offset within the BO where the workgroup counts are stored */
++	u32 offset;
++
++	/* Workgroups size */
++	u32 wg_size;
++
++	/* Indices of the uniforms with the workgroup dispatch counts
++	 * in the uniform stream.
++	 */
++	u32 wg_uniform_offsets[3];
++
++	/* Indirect BO */
++	struct drm_gem_object *indirect;
++
++	/* Context of the Indirect CSD job */
++	struct ww_acquire_ctx acquire_ctx;
++};
+ 
+ struct v3d_cpu_job {
+ 	struct v3d_job base;
+ 
+ 	enum v3d_cpu_job_type job_type;
++
++	struct v3d_indirect_csd_info indirect_csd;
+ };
+ 
+ struct v3d_submit_outsync {
+diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+index 30a88e557217..a8ac46f70cee 100644
+--- a/drivers/gpu/drm/v3d/v3d_sched.c
++++ b/drivers/gpu/drm/v3d/v3d_sched.c
+@@ -25,6 +25,8 @@
+ #include "v3d_regs.h"
+ #include "v3d_trace.h"
+ 
++#define V3D_CSD_CFG012_WG_COUNT_SHIFT 16
++
+ static struct v3d_job *
+ to_v3d_job(struct drm_sched_job *sched_job)
+ {
+@@ -268,6 +270,41 @@ v3d_csd_job_run(struct drm_sched_job *sched_job)
+ 	return fence;
+ }
+ 
++static void
++v3d_rewrite_csd_job_wg_counts_from_indirect(struct v3d_cpu_job *job)
++{
++	struct v3d_indirect_csd_info *indirect_csd = &job->indirect_csd;
++	struct v3d_bo *bo = to_v3d_bo(job->base.bo[0]);
++	struct v3d_bo *indirect = to_v3d_bo(indirect_csd->indirect);
++	struct drm_v3d_submit_csd *args = &indirect_csd->job->args;
++	u32 *wg_counts;
++
++	v3d_get_bo_vaddr(bo);
++	v3d_get_bo_vaddr(indirect);
++
++	wg_counts = (uint32_t *) (bo->vaddr + indirect_csd->offset);
++
++	if (wg_counts[0] == 0 || wg_counts[1] == 0 || wg_counts[2] == 0)
++		return;
++
++	args->cfg[0] = wg_counts[0] << V3D_CSD_CFG012_WG_COUNT_SHIFT;
++	args->cfg[1] = wg_counts[1] << V3D_CSD_CFG012_WG_COUNT_SHIFT;
++	args->cfg[2] = wg_counts[2] << V3D_CSD_CFG012_WG_COUNT_SHIFT;
++	args->cfg[4] = DIV_ROUND_UP(indirect_csd->wg_size, 16) *
++		       (wg_counts[0] * wg_counts[1] * wg_counts[2]) - 1;
++
++	for (int i = 0; i < 3; i++) {
++		/* 0xffffffff indicates that the uniform rewrite is not needed */
++		if (indirect_csd->wg_uniform_offsets[i] != 0xffffffff) {
++			u32 uniform_idx = indirect_csd->wg_uniform_offsets[i];
++			((uint32_t *) indirect->vaddr)[uniform_idx] = wg_counts[i];
++		}
++	}
++
++	v3d_put_bo_vaddr(indirect);
++	v3d_put_bo_vaddr(bo);
++}
++
+ static struct dma_fence *
+ v3d_cpu_job_run(struct drm_sched_job *sched_job)
+ {
+@@ -276,7 +313,9 @@ v3d_cpu_job_run(struct drm_sched_job *sched_job)
+ 	struct v3d_file_priv *file = job->base.file->driver_priv;
+ 	u64 runtime;
+ 
+-	void (*v3d_cpu_job_fn[])(struct v3d_cpu_job *job) = { };
++	void (*v3d_cpu_job_fn[])(struct v3d_cpu_job *job) = {
++		[V3D_CPU_JOB_TYPE_INDIRECT_CSD] = v3d_rewrite_csd_job_wg_counts_from_indirect,
++	};
+ 
+ 	v3d->cpu_job = job;
+ 
+diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
+index 7900bc573b96..b6707ef42706 100644
+--- a/drivers/gpu/drm/v3d/v3d_submit.c
++++ b/drivers/gpu/drm/v3d/v3d_submit.c
+@@ -396,6 +396,48 @@ v3d_get_multisync_submit_deps(struct drm_file *file_priv,
+ 	return 0;
+ }
+ 
++/* Get data for the indirect CSD job submission. */
++static int
++v3d_get_cpu_indirect_csd_params(struct drm_file *file_priv,
++				struct drm_v3d_extension __user *ext,
++				struct v3d_cpu_job *job)
++{
++	struct v3d_file_priv *v3d_priv = file_priv->driver_priv;
++	struct v3d_dev *v3d = v3d_priv->v3d;
++	struct drm_v3d_indirect_csd indirect_csd;
++	struct v3d_indirect_csd_info *info = &job->indirect_csd;
++
++	if (!job) {
++		DRM_DEBUG("CPU job extension was attached to a GPU job.\n");
++		return -EINVAL;
++	}
++
++	if (job->job_type) {
++		DRM_DEBUG("Two CPU job extensions were added to the same CPU job.\n");
++		return -EINVAL;
++	}
++
++	if (copy_from_user(&indirect_csd, ext, sizeof(indirect_csd)))
++		return -EFAULT;
++
++	if (!v3d_has_csd(v3d)) {
++		DRM_DEBUG("Attempting CSD submit on non-CSD hardware.\n");
++		return -EINVAL;
++	}
++
++	job->job_type = V3D_CPU_JOB_TYPE_INDIRECT_CSD;
++	info->offset = indirect_csd.offset;
++	info->wg_size = indirect_csd.wg_size;
++	memcpy(&info->wg_uniform_offsets, &indirect_csd.wg_uniform_offsets,
++	       sizeof(indirect_csd.wg_uniform_offsets));
++
++	info->indirect = drm_gem_object_lookup(file_priv, indirect_csd.indirect);
++
++	return v3d_setup_csd_jobs_and_bos(file_priv, v3d, &indirect_csd.submit,
++					  &info->job, &info->clean_job,
++					  NULL, &info->acquire_ctx);
++}
++
+ /* Whenever userspace sets ioctl extensions, v3d_get_extensions parses data
+  * according to the extension id (name).
+  */
+@@ -421,6 +463,9 @@ v3d_get_extensions(struct drm_file *file_priv,
+ 		case DRM_V3D_EXT_ID_MULTI_SYNC:
+ 			ret = v3d_get_multisync_submit_deps(file_priv, user_ext, se);
+ 			break;
++		case DRM_V3D_EXT_ID_CPU_INDIRECT_CSD:
++			ret = v3d_get_cpu_indirect_csd_params(file_priv, user_ext, job);
++			break;
+ 		default:
+ 			DRM_DEBUG_DRIVER("Unknown extension id: %d\n", ext.id);
+ 			return -EINVAL;
+@@ -795,7 +840,10 @@ v3d_submit_cpu_ioctl(struct drm_device *dev, void *data,
+ 	struct v3d_dev *v3d = to_v3d_dev(dev);
+ 	struct drm_v3d_submit_cpu *args = data;
+ 	struct v3d_submit_ext se = {0};
++	struct v3d_submit_ext *out_se = NULL;
+ 	struct v3d_cpu_job *cpu_job = NULL;
++	struct v3d_csd_job *csd_job = NULL;
++	struct v3d_job *clean_job = NULL;
+ 	struct ww_acquire_ctx acquire_ctx;
+ 	int ret;
+ 
+@@ -829,6 +877,9 @@ v3d_submit_cpu_ioctl(struct drm_device *dev, void *data,
+ 	if (ret)
+ 		goto fail;
+ 
++	clean_job = cpu_job->indirect_csd.clean_job;
++	csd_job = cpu_job->indirect_csd.job;
++
+ 	if (args->bo_handle_count) {
+ 		ret = v3d_lookup_bos(dev, file_priv, &cpu_job->base,
+ 				     args->bo_handles, args->bo_handle_count);
+@@ -842,19 +893,66 @@ v3d_submit_cpu_ioctl(struct drm_device *dev, void *data,
+ 
+ 	mutex_lock(&v3d->sched_lock);
+ 	v3d_push_job(&cpu_job->base);
++
++	switch (cpu_job->job_type) {
++	case V3D_CPU_JOB_TYPE_INDIRECT_CSD:
++		ret = drm_sched_job_add_dependency(&csd_job->base.base,
++						   dma_fence_get(cpu_job->base.done_fence));
++		if (ret)
++			goto fail_unreserve;
++
++		v3d_push_job(&csd_job->base);
++
++		ret = drm_sched_job_add_dependency(&clean_job->base,
++						   dma_fence_get(csd_job->base.done_fence));
++		if (ret)
++			goto fail_unreserve;
++
++		v3d_push_job(clean_job);
++
++		break;
++	default:
++		break;
++	}
+ 	mutex_unlock(&v3d->sched_lock);
+ 
++	out_se = (cpu_job->job_type == V3D_CPU_JOB_TYPE_INDIRECT_CSD) ? NULL : &se;
++
+ 	v3d_attach_fences_and_unlock_reservation(file_priv,
+ 						 &cpu_job->base,
+ 						 &acquire_ctx, 0,
+-						 NULL, cpu_job->base.done_fence);
++						 out_se, cpu_job->base.done_fence);
++
++	switch (cpu_job->job_type) {
++	case V3D_CPU_JOB_TYPE_INDIRECT_CSD:
++		v3d_attach_fences_and_unlock_reservation(file_priv,
++							 clean_job,
++							 &cpu_job->indirect_csd.acquire_ctx,
++							 0, &se, clean_job->done_fence);
++		break;
++	default:
++		break;
++	}
+ 
+ 	v3d_job_put((void *)cpu_job);
++	v3d_job_put((void *)csd_job);
++	v3d_job_put(clean_job);
+ 
+ 	return 0;
+ 
++fail_unreserve:
++	mutex_unlock(&v3d->sched_lock);
++
++	drm_gem_unlock_reservations(cpu_job->base.bo, cpu_job->base.bo_count,
++				    &acquire_ctx);
++
++	drm_gem_unlock_reservations(clean_job->bo, clean_job->bo_count,
++				    &cpu_job->indirect_csd.acquire_ctx);
++
+ fail:
+ 	v3d_job_cleanup((void *)cpu_job);
++	v3d_job_cleanup((void *)csd_job);
++	v3d_job_cleanup(clean_job);
+ 	v3d_put_multisync_post_deps(&se);
+ 
+ 	return ret;
+diff --git a/include/uapi/drm/v3d_drm.h b/include/uapi/drm/v3d_drm.h
+index 00abef9d0db7..059b84984fb0 100644
+--- a/include/uapi/drm/v3d_drm.h
++++ b/include/uapi/drm/v3d_drm.h
+@@ -71,7 +71,8 @@ extern "C" {
+ struct drm_v3d_extension {
+ 	__u64 next;
+ 	__u32 id;
+-#define DRM_V3D_EXT_ID_MULTI_SYNC		0x01
++#define DRM_V3D_EXT_ID_MULTI_SYNC			0x01
++#define DRM_V3D_EXT_ID_CPU_INDIRECT_CSD		0x02
+ 	__u32 flags; /* mbz */
+ };
+ 
+@@ -365,6 +366,40 @@ struct drm_v3d_submit_csd {
+ 	__u32 pad;
+ };
+ 
++/**
++ * struct drm_v3d_indirect_csd - ioctl extension for the CPU job to create an
++ * indirect CSD
++ *
++ * When an extension of DRM_V3D_EXT_ID_CPU_INDIRECT_CSD id is defined, it
++ * points to this extension to define a indirect CSD submission. It creates a
++ * CPU job linked to a CSD job. The CPU job waits for the indirect CSD
++ * dependencies and, once they are signaled, it updates the CSD job config
++ * before allowing the CSD job execution.
++ */
++struct drm_v3d_indirect_csd {
++	struct drm_v3d_extension base;
++
++	/* Indirect CSD */
++	struct drm_v3d_submit_csd submit;
++
++	/* Handle of the indirect BO, that should be also attached to the
++	 * indirect CSD.
++	 */
++	__u32 indirect;
++
++	/* Offset within the BO where the workgroup counts are stored */
++	__u32 offset;
++
++	/* Workgroups size */
++	__u32 wg_size;
++
++	/* Indices of the uniforms with the workgroup dispatch counts
++	 * in the uniform stream. If the uniform rewrite is not needed,
++	 * the offset must be 0xffffffff.
++	 */
++	__u32 wg_uniform_offsets[3];
++};
++
+ struct drm_v3d_submit_cpu {
+ 	/* Pointer to a u32 array of the BOs that are referenced by the job. */
+ 	__u64 bo_handles;
 -- 
 2.41.0
 
