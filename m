@@ -2,78 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A239F7F7106
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 11:15:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 851447F7151
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 11:21:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DB1810E7D7;
-	Fri, 24 Nov 2023 10:15:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA96710E7CD;
+	Fri, 24 Nov 2023 10:21:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D17310E7CD
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 10:15:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1700820918;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TTq8+kCBsRfezDZUZNy6OCUhutJdQNVSX6U8E7Z+Kf8=;
- b=H8SXOa1DZZrG4peNW1udGd6J1/1yVoM/VXhGpTWXfyW7P2P04cKxDwd3MlzjWLv37/IUNV
- cL9j95QSFw9iKLNFnBI4adDWjNslv16iMGojyg3MZn78msSLb2Jo36qosQst3NXG2XKIFU
- oO1ciD50bXExse8KAPfCUZ2MwsS34uE=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-631-_eGOq4ysPau3u0q6PtI9Kw-1; Fri, 24 Nov 2023 05:15:16 -0500
-X-MC-Unique: _eGOq4ysPau3u0q6PtI9Kw-1
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-77d7bfcceaaso77994185a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 02:15:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700820916; x=1701425716;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TTq8+kCBsRfezDZUZNy6OCUhutJdQNVSX6U8E7Z+Kf8=;
- b=ncoQJc4M1xC1gX3r8plR/P6UrPncsMByS1SrsG9lloSpPovwnuLxS8Rlr6FUkH8iYZ
- hIPGQy27jvYGj4iKS9NZkpicaJ4OD7pjiJKpz5FcERwB69adm9c+4yIKNLKF3rXGieSB
- OfbqwICQPxt4eHXEF8+sNELOcCbnAQtWgvb8bFNuvJWLTdiLDJ89hJ73nX0NiKH3Helv
- yvzYUOo7zGWsPpSmh3+pwa5e5kflI/WBuNuU/QzDBmPIExoGXJb4lGJ/3uCMtahbdlw4
- SYeaNS9CljKlYCYnaTn3af2tyPAnAtbhk3fUL6s3lcF0OranuIvHccW8H608tWvMxBJ3
- CwIw==
-X-Gm-Message-State: AOJu0YwAluCaUnA5yxxZgTVUzdr9sbKz5jE4lw0BcwKTMpl94uFLPglt
- 5SemYTywTfeXirIKaVcGRhSgVXdlsik06BzdfBvWubZzh9ryUqRd6gEIKVdRZQLDTbLS6mnt3Qg
- 1b664ABQircnpZgPSlY7u8cdRU+8=
-X-Received: by 2002:a05:620a:294b:b0:774:d3f:c78c with SMTP id
- n11-20020a05620a294b00b007740d3fc78cmr2910555qkp.72.1700820916433; 
- Fri, 24 Nov 2023 02:15:16 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG3RJxpHx9XF5gTOs5+1q6RlhTFoQIQfE2hazERkN73qvfSSfainOz1S68urbbGGyVvjNRErA==
-X-Received: by 2002:a05:620a:294b:b0:774:d3f:c78c with SMTP id
- n11-20020a05620a294b00b007740d3fc78cmr2910528qkp.72.1700820916165; 
- Fri, 24 Nov 2023 02:15:16 -0800 (PST)
-Received: from [192.168.9.34] (net-2-34-24-178.cust.vodafonedsl.it.
- [2.34.24.178]) by smtp.gmail.com with ESMTPSA id
- b20-20020a05620a0cd400b00774830b40d4sm1131051qkj.47.2023.11.24.02.15.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Nov 2023 02:15:15 -0800 (PST)
-Message-ID: <9fb1cd9d-89cb-4f45-9d0c-9f0102e000e6@redhat.com>
-Date: Fri, 24 Nov 2023 11:15:12 +0100
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5620110E7CD
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 10:21:53 +0000 (UTC)
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 3A34B66073A8;
+ Fri, 24 Nov 2023 10:21:51 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1700821311;
+ bh=0UstT5q4XGqLhugf7BzP/6tcf1OIPQXVhYROpLfPmeg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=E8m+CKdVsUsF1G5OGRdCsKrrZW+LRi+CVh6lbl/tdwkzCZtajmPyZJuB8N+ZEOjwc
+ jKrNzEFNediRAs+okyNZfM8vfSJfSzaYWtc0dbDWAUG8C24mDncKKUqM0vhg/eegTA
+ RpvVx+URcsvGso2fab608xlkfGa4o2EpUA1dm+HMysDditQ4CygQOshoNHelFJtWLd
+ IOiiTR1RYJvfdJCBxv7QB19SWwK+35dV7P1vYkr1nLzNdcr4lXAteYh/sumOKQ+rqU
+ QtZU7WUDfyIR0E9XJMdp/3YIkp7JdgMEQzzFljpGSx1Ti6+BdmQiTMb4JxYXnzvaZf
+ w6g8swatrZHyA==
+Date: Fri, 24 Nov 2023 11:21:47 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH] drm/panfrost: Ignore core_mask for poweroff and sync
+ interrupts
+Message-ID: <20231124112147.19b6b6b7@collabora.com>
+In-Reply-To: <c4a8eb63-2d67-42c3-a6b4-c6ad3bd9ab8e@collabora.com>
+References: <20231123095320.41433-1-angelogioacchino.delregno@collabora.com>
+ <20231123113530.46191ded@collabora.com>
+ <1740797f-f3ae-4868-924a-08d6d731e506@collabora.com>
+ <20231123135933.34d643f7@collabora.com>
+ <5019af46-f5ae-4db5-979e-802b61025ba4@collabora.com>
+ <20231123145103.23b6eac9@collabora.com>
+ <43cc8641-6a60-41d9-b8f2-32227235702a@collabora.com>
+ <20231123164019.629c91f9@collabora.com>
+ <5e60f1d1-8e3a-42ca-af56-126faa67ea86@collabora.com>
+ <c4a8eb63-2d67-42c3-a6b4-c6ad3bd9ab8e@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] drm/test: add a test suite for GEM objects backed by
- shmem
-To: Maxime Ripard <mripard@kernel.org>
-References: <20231123100147.212645-1-marpagan@redhat.com>
- <dkh6t5cya7tw4wz5aqrgvnqqnyzzgvbyvezxexy6pyspju5qbd@cdl4vvs7kvnt>
-From: Marco Pagani <marpagan@redhat.com>
-In-Reply-To: <dkh6t5cya7tw4wz5aqrgvnqqnyzzgvbyvezxexy6pyspju5qbd@cdl4vvs7kvnt>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,54 +63,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
- Christian Koenig <christian.koenig@amd.com>, linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
+ krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, kernel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 24 Nov 2023 11:12:57 +0100
+AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+wrote:
 
+> Il 24/11/23 10:17, AngeloGioacchino Del Regno ha scritto:
+> > Il 23/11/23 16:40, Boris Brezillon ha scritto: =20
+> >> On Thu, 23 Nov 2023 16:14:12 +0100
+> >> AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> >> wrote:
+> >> =20
+> >>> Il 23/11/23 14:51, Boris Brezillon ha scritto: =20
+> >>>> On Thu, 23 Nov 2023 14:24:57 +0100
+> >>>> AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> >>>> wrote: =20
+> >>>>>>>
+> >>>>>>> So, while I agree that it'd be slightly more readable as a diff i=
+f those
+> >>>>>>> were two different commits I do have reasons against splitting...=
+.. =20
+> >>>>>>
+> >>>>>> If we just need a quick fix to avoid PWRTRANS interrupts from kick=
+ing
+> >>>>>> in when we power-off the cores, I think we'd be better off dropping
+> >>>>>> GPU_IRQ_POWER_CHANGED[_ALL] from the value we write to GPU_INT_MASK
+> >>>>>> at [re]initialization time, and then have a separate series that f=
+ixes
+> >>>>>> the problem more generically. =20
+> >>>>>
+> >>>>> But that didn't work:
+> >>>>> https://lore.kernel.org/all/d95259b8-10cf-4ded-866c-47cbd2a44f84@li=
+naro.org/ =20
+> >>>>
+> >>>> I meant, your 'ignore-core_mask' fix + the
+> >>>> 'drop GPU_IRQ_POWER_CHANGED[_ALL] in GPU_INT_MASK' one.
+> >>>>
+> >>>> So,
+> >>>>
+> >>>> https://lore.kernel.org/all/4c73f67e-174c-497e-85a5-cb053ce657cb@col=
+labora.com/
+> >>>> +
+> >>>> https://lore.kernel.org/all/d95259b8-10cf-4ded-866c-47cbd2a44f84@lin=
+aro.org/ =20
+> >>>>>
+> >>>>>
+> >>>>> ...while this "full" solution worked:
+> >>>>> https://lore.kernel.org/all/39e9514b-087c-42eb-8d0e-f75dc620e954@li=
+naro.org/
+> >>>>>
+> >>>>> https://lore.kernel.org/all/5b24cc73-23aa-4837-abb9-b6d138b46426@li=
+naro.org/
+> >>>>>
+> >>>>>
+> >>>>> ...so this *is* a "quick fix" already... :-) =20
+> >>>>
+> >>>> It's a half-baked solution for the missing irq-synchronization-on-su=
+spend
+> >>>> issue IMHO. I understand why you want it all in one patch that can s=
+erve
+> >>>> as a fix for 123b431f8a5c ("drm/panfrost: Really power off GPU cores=
+ in
+> >>>> panfrost_gpu_power_off()"), which is why I'm suggesting to go for an
+> >>>> even simpler diff (see below), and then fully address the
+> >>>> irq-synhronization-on-suspend issue in a follow-up patchset. =20
+> >>>> --->8--- =20
+> >>>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c=20
+> >>>> b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> >>>> index 09f5e1563ebd..6e2d7650cc2b 100644
+> >>>> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> >>>> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> >>>> @@ -78,7 +78,10 @@ int panfrost_gpu_soft_reset(struct panfrost_devic=
+e *pfdev)
+> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gpu_write(pfd=
+ev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
+> >>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gpu_write(pfdev, GPU_INT_MASK,=
+ GPU_IRQ_MASK_ALL); =20
+> >>
+> >> We probably want a comment here:
+> >>
+> >> =C2=A0=C2=A0=C2=A0=C2=A0/* Only enable the interrupts we care about. */
+> >> =20
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gpu_write(pfdev, GPU_INT_MASK,
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GPU_IRQ_MASK_ERROR |
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GPU_IRQ_PERFCNT_SAMPLE_COMPLETED |
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GPU_IRQ_CLEAN_CACHES_COMPLETED); =20
+> >>>
+> >>> ...but if we do that, the next patch(es) will contain a partial rever=
+t of this
+> >>> commit, putting back this to gpu_write(pfdev, GPU_INT_MASK, GPU_IRQ_M=
+ASK_ALL)... =20
+> >>
+> >> Why should we revert it? We're not processing the PWRTRANS interrupts
+> >> in the interrupt handler, those should never have been enabled in the
+> >> first place. The only reason we'd want to revert that change is if we
+> >> decide to do have interrupt-based waits in the poweron/off
+> >> implementation, which, as far as I'm aware, is not something we intend
+> >> to do any time soon.
+> >> =20
+> >=20
+> > You're right, yes. Okay, I'll push the new code soon.
+> >=20
+> > Cheers!
+> >  =20
+>=20
+> Update: I was running some (rather fast) tests here because I ... felt li=
+ke playing
+> with it, basically :-)
+>=20
+> So, I had an issue with MediaTek platforms being unable to cut power to t=
+he GPU or
+> disable clocks aggressively... and after trying "this and that" I couldn'=
+t get it
+> working (in runtime suspend).
+>=20
+> Long story short - after implementing `panfrost_{job,mmu,gpu}_suspend_irq=
+()` (only
+> gpu irq, as you said, is a half solution), I can not only turn off clocks=
+, but even
+> turn off GPU power supplies entirely, bringing the power consumption of t=
+he GPU
+> itself during *runtime* suspend to ... zero.
 
-On 2023-11-24 09:49, Maxime Ripard wrote:
-> Hi,
-> 
-> On Thu, Nov 23, 2023 at 11:01:46AM +0100, Marco Pagani wrote:
->> +static int drm_gem_shmem_test_init(struct kunit *test)
->> +{
->> +	struct device *dev;
->> +	struct fake_dev {
->> +		struct drm_device drm_dev;
->> +	} *fdev;
->> +
-> 
-> [...]
-> 
->> +
->> +	/*
->> +	 * The DRM core will automatically initialize the GEM core and create
->> +	 * a DRM Memory Manager object which provides an address space pool
->> +	 * for GEM objects allocation.
->> +	 */
->> +	fdev = drm_kunit_helper_alloc_drm_device(test, dev, struct fake_dev,
->> +						 drm_dev, DRIVER_GEM);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fdev);
-> 
-> Sorry I missed it earlier, but you don't need the intermediate structure
-> if you use
-> 
-> struct drm_device *drm;
-> 
-> drm = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0, DRIVER_GEM);
-> KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
->
+Very nice!
 
-I prefer to use drm_kunit_helper_alloc_drm_device() with the intermediate
-structure. It makes the code clearer, in my opinion. Initially, when
-developing the suite, I was using __drm_kunit_helper_alloc_drm_device()
-as most test suites do, but I feel the list of arguments including
-"sizeof(*drm), 0," is less straightforward to understand.
+>=20
+> The result of this test makes me truly happy, even though complete powerc=
+ut during
+> runtime suspend may not be feasible for other reasons (takes ~200000ns on=
+ AVG,
+> MIN ~160000ns, but the MAX is ~475000ns - and beware that I haven't run t=
+hat for
+> long, I'd suspect to get up to 1-1.5ms as max time, so that's a big no).
 
-Thanks,
-Marco
+Do you know what's taking so long? I'm disabling clks + the main power
+domain in panthor (I leave the regulators enabled), but I didn't get to
+measure the time it takes to enter/exit suspend. I might have to do
+what you did in panfrost and have different paths for system and RPM
+suspend.
 
+>=20
+> This means that I will take a day or two and I'll push both the "simple" =
+fix for
+> the Really-power-off and also some more commits to add the full irq sync.
+
+Thanks for working on that, and sorry if I've been picky in my previous
+reviews. Looking forward to review these new patches.
+
+Regards,
+
+Boris
