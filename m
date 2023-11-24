@@ -2,46 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 728947F769D
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 15:42:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC7E7F7699
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 15:41:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD9C110E223;
-	Fri, 24 Nov 2023 14:41:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B0AB10E7FA;
+	Fri, 24 Nov 2023 14:41:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DBC110E0F8
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 14:41:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id C5119B830EA;
- Fri, 24 Nov 2023 14:41:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C6B4C433CB;
- Fri, 24 Nov 2023 14:41:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700836911;
- bh=sN2GV7ooCULXSqP4A45dgDJT99C/q8vC8n4JoqkQwkc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tZlkN8TCzfmvQw+zzZzoOpOxWzQXubQmb+3KG6Pfqe6wOFk8DbHTn9r34srQLIBus
- +o2w6oBIEL2mjiwOjv0VeYMAp5wGtsfFjUkiw33gECaIJG5pcIV325wWOFM7uG03JI
- I9naTpaw78L/lfvDeYQT4Zg595YZXDZrCdsmCawd7Ej3YHUVAjUnpbQkzjy0iOVapE
- dzR3++E+TIqzu6LQo1qQxiRLZm1K1w/3o8hYpUzKgtg2TGzQssQQYd11Amp37xOs7a
- vA4DjYXZ/raNg4NI1JTeWa69+CkHTGEiuTWccZi0yl5rg7GPlGkQF4buv3e58zYSND
- CbXINWXgZKFGQ==
-Date: Fri, 24 Nov 2023 14:41:43 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v9 04/12] dt-bindings: phy:
- amlogic,g12a-mipi-dphy-analog: drop unneeded reg property and example
-Message-ID: <20231124-vowel-reversing-619f7c4e5060@spud>
-References: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-0-95256ed139e6@linaro.org>
- <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-4-95256ed139e6@linaro.org>
- <20231124-felt-tip-everybody-f2a6836e52af@spud>
- <c3a07912-07da-4965-94b8-3c0d8889ddc4@linaro.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA83F10E7F7
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 14:41:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1700836908;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=e3K50cOwL2e/Sm1/EHsvbvDxOsSWvo2nEBpLvx7bOk4=;
+ b=OgaXH2lNxWR1gBvmlfemE5YJRfMg/ei3nYx5R81wNllbgM6D0f2sDH+52oCS2K8D/6kGc7
+ dFtzpjALnycerIauog+iE8qOAEwa5+YnEkJ+lfIlhZRQTdh/5B9tcY55+lgbXaVy5yDkxs
+ V1KiWlOKQB+epLsw/JaKwwXHS7u8vKc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-619-xOF2S6KTNOiHDZoWHc4zUg-1; Fri, 24 Nov 2023 09:41:47 -0500
+X-MC-Unique: xOF2S6KTNOiHDZoWHc4zUg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-332e82bb756so595167f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 06:41:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1700836906; x=1701441706;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=e3K50cOwL2e/Sm1/EHsvbvDxOsSWvo2nEBpLvx7bOk4=;
+ b=MRfbum+ENAVcu8UiBu+CKKby6B4cJHlFWZIHq2Yld0xadFR657y8jSsLMgd6sSvaAY
+ Kgez9iI7FdlblzSrKJsDA4yHPO6qFLJyhnv9az7T3FtqLN7HwgdJ/5D68spnQkujpEpv
+ lmEhgmfCTJcuspbLU1NvqYoZGoHlNaUkRTblQle+zlDMjGFuuQ6q+FhFleig+oBf+xhY
+ LvtlMQY4xofB8y14u5mehTjximiXUHDosMlU7Tb6g3O15NmY+Bzq7ACl+aNtbXGpl0Ea
+ 4B87R/zG0UdLm2bKfpdkEMsuwP90LY1I57Je2VRcSH/XcxhT2OYpYhciGsZ6uFx38Woh
+ Zkiw==
+X-Gm-Message-State: AOJu0Yyhkw4GctB8Pwzl+Bghw80wxf0R1RBFXI0Gsr3Y7Y1ZMKb/1HHx
+ QF8E4uvbPkHmNVNb14+BQksn3K3nUpNYPuw9zum+Sg/fTLxWqE8snRjSiM7AwkvgEdA3CwQgWXT
+ Cm/Sli6ighiD8WBiV3Sp9g1lJ+7H7
+X-Received: by 2002:adf:ff92:0:b0:332:eacf:c9d7 with SMTP id
+ j18-20020adfff92000000b00332eacfc9d7mr2292962wrr.8.1700836906404; 
+ Fri, 24 Nov 2023 06:41:46 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE53BbITSRE5erDBMKhplTxbIjo+7N2xRO0vWBt96X5OYz91Q7KP0WC4vmV1rL31vNgSjrYww==
+X-Received: by 2002:adf:ff92:0:b0:332:eacf:c9d7 with SMTP id
+ j18-20020adfff92000000b00332eacfc9d7mr2292920wrr.8.1700836906054; 
+ Fri, 24 Nov 2023 06:41:46 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ s15-20020adf978f000000b00332d41f0798sm4514822wrb.29.2023.11.24.06.41.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Nov 2023 06:41:45 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Albert Esteve <aesteve@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 0/9] Fix cursor planes with virtualized drivers
+In-Reply-To: <20231023074613.41327-1-aesteve@redhat.com>
+References: <20231023074613.41327-1-aesteve@redhat.com>
+Date: Fri, 24 Nov 2023 15:41:44 +0100
+Message-ID: <87h6lbcixj.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xgsO/76B+uGPTN6M"
-Content-Disposition: inline
-In-Reply-To: <c3a07912-07da-4965-94b8-3c0d8889ddc4@linaro.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,88 +79,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-phy@lists.infradead.org, linux-clk@vger.kernel.org,
- Jerome Brunet <jbrunet@baylibre.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Kevin Hilman <khilman@baylibre.com>, Jagan Teki <jagan@amarulasolutions.com>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Maxime Ripard <mripard@kernel.org>, Remi Pommarel <repk@triplefau.lt>,
- linux-amlogic@lists.infradead.org, Nicolas Belin <nbelin@baylibre.com>,
- linux-arm-kernel@lists.infradead.org, Stephen Boyd <sboyd@kernel.org>,
- linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
- Rob Herring <robh+dt@kernel.org>
+Cc: Albert Esteve <aesteve@redhat.com>, linux-doc@vger.kernel.org,
+ banackm@vmware.com, virtualization@lists.linux-foundation.org,
+ Gerd Hoffmann <kraxel@redhat.com>, mombasawalam@vmware.com, iforbes@vmware.com,
+ Jonathan Corbet <corbet@lwn.net>,
+ VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+ David Airlie <airlied@redhat.com>, Maxime Ripard <mripard@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>, ppaalanen@gmail.com,
+ dri-devel@lists.freedesktop.org, spice-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Matt Roper <matthew.d.roper@intel.com>, linux-kernel@vger.kernel.org,
+ krastevm@vmware.com, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Albert Esteve <aesteve@redhat.com> writes:
 
---xgsO/76B+uGPTN6M
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> v6: Shift DRIVER_CURSOR_HOTSPOT flag bit to BIT(9), since BIT(8)
+> was already taken by DRIVER_GEM_GPUVA.
+>
+> v5: Add a change with documentation from Michael, based on his discussion
+> with Pekka and bump the kernel version DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT
+> might be introduced with to 6.6.
+>
+> v4: Make drm_plane_create_hotspot_properties static, rename
+> DRM_CLIENT_CAP_VIRTUALIZED_CURSOR_PLANE to DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT
+> and some minor stylistic fixes for things found by Javier and Pekka
+> in v3.
+>
+> v3: Renames, fixes and cleanups suggested by Daniel, Simon and Pekka
+> after v2. There's no major changes in functionality. Please let me know
+> if I missed anything, it's been a while since v2.
+>
+> Virtualized drivers have had a lot of issues with cursor support on top
+> of atomic modesetting. This set both fixes the long standing problems
+> with atomic kms and virtualized drivers and adds code to let userspace
+> use atomic kms on virtualized drivers while preserving functioning
+> seamless cursors between the host and guest.
+>
+> The first change in the set is one that should be backported as far as
+> possible, likely 5.4 stable, because earlier stable kernels do not have
+> virtualbox driver. The change makes virtualized drivers stop exposing
+> a cursor plane for atomic clients, this fixes mouse cursor on all well
+> formed compositors which will automatically fallback to software cursor.
+>
+> The rest of the changes until the last one ports the legacy hotspot code
+> to atomic plane properties.
+>
+> Finally the last change introduces userspace API to let userspace
+> clients advertise the fact that they are aware of additional restrictions
+> placed upon the cursor plane by virtualized drivers and lets them use
+> atomic kms with virtualized drivers (the clients are expected to set
+> hotspots correctly when advertising support for virtual cursor plane).
+>
+> Link to the IGT test covering this patch (already merged):
+> https://lists.freedesktop.org/archives/igt-dev/2023-July/058427.html
+>
+> Mutter patch:
+> https://lists.freedesktop.org/archives/igt-dev/2023-July/058427.html
+>
+> Michael Banack (1):
+>   drm: Introduce documentation for hotspot properties
+>
+> Zack Rusin (8):
+>   drm: Disable the cursor plane on atomic contexts with virtualized
+>     drivers
+>   drm/atomic: Add support for mouse hotspots
+>   drm/vmwgfx: Use the hotspot properties from cursor planes
+>   drm/qxl: Use the hotspot properties from cursor planes
+>   drm/vboxvideo: Use the hotspot properties from cursor planes
+>   drm/virtio: Use the hotspot properties from cursor planes
+>   drm: Remove legacy cursor hotspot code
+>   drm: Introduce DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT
+>
 
-On Fri, Nov 24, 2023 at 02:50:58PM +0100, Neil Armstrong wrote:
-> Hi Conor,
->=20
-> On 24/11/2023 13:36, Conor Dooley wrote:
-> > On Fri, Nov 24, 2023 at 09:41:15AM +0100, Neil Armstrong wrote:
-> > > The amlogic,g12a-mipi-dphy-analog is a feature of the simple-mfd
-> > > amlogic,meson-axg-hhi-sysctrl system control register zone which is an
-> > > intermixed registers zone, thus it's very hard to define clear ranges=
- for
-> > > each SoC controlled features even if possible.
-> > >=20
-> > > The amlogic,g12a-mipi-dphy-analog was wrongly documented as an indepe=
-ndent
-> > > register range, which is not the reality, thus fix the bindings by dr=
-opping
-> > > the reg property now it's referred from amlogic,meson-gx-hhi-sysctrl.=
-yaml
-> > > and documented as a subnode of amlogic,meson-axg-hhi-sysctrl.
-> > >=20
-> > > Also drop the unnecessary example, the top level bindings example sho=
-uld
-> > > be enough.
-> > >=20
-> > > Fixes: 76ab79f9726c ("dt-bindings: phy: add Amlogic G12A Analog MIPI =
-D-PHY bindings")
-> > > Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> >=20
-> > I feel like I left a tag on this one before, but I can't remember.
-> > Perhaps I missed the conclusion to the discussion to the discussion with
-> > Rob about whether having "reg" was desirable that lead to a tag being
-> > dropped?
->=20
-> I checked again and nope, not tag, but Rob's question was legitimate and =
-I reworded
-> and clarified the commit message following your reviews.
-> On the other side you suggested a Fixes tag, which I added.
->=20
-> The rewording is about why reg doesn't make sense on the nature of the me=
-mory
-> region and it doesn't make sense here like other similar nodes.
+Pushed to drm-misc (drm-misc-next). Thanks!
 
-Okay, I thought that I had given you one. Perhaps I forgot to send, or
-Rob's message came in between me asking about the Fixes tag & replying
-with an Ack. Sorry about that,
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+-- 
+Best regards,
 
-Cheers,
-Conor.
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
---xgsO/76B+uGPTN6M
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZWC2JwAKCRB4tDGHoIJi
-0rfLAQCNolGZjIZg5rXxw9C1OMazRjRDdxd0RzNgb5+TM66JZQD8CbqSE3MjrSJn
-SkJrWLo0HrWEEIlIb569LlFJT5w6QQ0=
-=UnJl
------END PGP SIGNATURE-----
-
---xgsO/76B+uGPTN6M--
