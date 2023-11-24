@@ -1,64 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FE547F6E7D
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 09:41:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 820E37F6EA1
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 09:42:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8791D10E7AD;
-	Fri, 24 Nov 2023 08:41:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D920010E7B4;
+	Fri, 24 Nov 2023 08:42:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33D0610E7AD
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 08:41:30 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id
- 2adb3069b0e04-507975d34e8so2266571e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 00:41:30 -0800 (PST)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EC8710E7AF
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 08:41:31 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id
+ ffacd0b85a97d-332c0c32d19so1071422f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 00:41:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700815288; x=1701420088; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1700815289; x=1701420089; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=m2ZTLCIzGtDzdo93FJ4l2pfkops6GMcXVN1dXIsoDYI=;
- b=y56ekz2y6/PBfCrLDHw6L+TAS4HpDcYSvuMcDYlVAncKiUukZJTZkQdUQiS+nb7xba
- Oc+AS+ZcTxTsSoNNXVpeABwipeQ7yUDS+bhSzvjhg2rEwsLi569kEmJx0vbQi7Vwo14k
- s+RphdVFZIYTvz+on/A7MPPR7v7ktI2KsFOW1LUIwPV3g9jhkdk71sjqV8OKRyTbStKX
- 2F1DuhIcUuUiUNCb3dmtfSsZFEogk1xBrIrY+ua+RgzFfgxlyArOO3KGuLP7c3HPUMBL
- nlrV8r66WE3TMIR5Nti7QC2Q8Go7aNb96OeRNs5bOhvmAnYlKro0/AhE4aTThj97woo9
- 7E5g==
+ :reply-to; bh=1vhZkFxLvuCZe0A7RVw31v//xJIvUsZb7i8/r2Jbnxg=;
+ b=inxnhcFJhxtp24ihXkcyNFEKiHv1VmvbXK0dZf4ebJ7Ph0REUCvu57FfbBW/bihR+C
+ uKxTSDybyynIy54oIskLQmh4GiTBiHKtZltJloaN9nKNlvwmMV0hFN7C8dF9u7kNtcO3
+ dy1ZF8Gstr/OPRq4fGbd3VQdDYCZ4v+AT9iR9eFz8IllMlcQtM+D1nX7gy6B5wnsCIkU
+ kC4NOkImkuOw0zsMpxMo4VOoADB+/OChC6w/QoefpqFrEyRLSdQPBEra7IGBGptrftQg
+ BFNhAQ+M1Msq3+3QMA80mZFO7JTV4ewh4tfeX+AnFgRukJRbo4LzYNzYuUH9JJljfQFg
+ 2uWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700815288; x=1701420088;
+ d=1e100.net; s=20230601; t=1700815289; x=1701420089;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=m2ZTLCIzGtDzdo93FJ4l2pfkops6GMcXVN1dXIsoDYI=;
- b=KPqBh+swgVLMEjnx6JiF6G0Ilxu9K59shugM16fb+r3undalVr8VzdYygfzfK8d7Gz
- nbstZS/a6F8ClH2vK5QDAF+4R36ct3QlDkQZvB+nYl0CYL5UnPpHdW1yHCDRX4ThHdjV
- HKvMZPDlZ72h9oECSr9OyC+Khw/Pwe77kcQNC21QpxHg9Rtbur9hlnxfXaFKWhJ57e4p
- x3D4dCoGegtEED7We/9eQbR6b1bd61xICqqaUCJG6L7Uvn46/vS166q1JD0t8lIxCEvD
- aKrAoRv+7kVocZxSkADBc6LrMZGKtz9sm4ci8pfgmjWwp8fntiFf1dfSCiW+5Ut1UvBb
- JhhQ==
-X-Gm-Message-State: AOJu0Ywc2ApmlGMi4sJFRKbG9LHH3UqM3KqSlq/K1q9cBP5henfPyfRy
- ymgwQ1WnlIdHE4AXKlTQB8ST8g==
-X-Google-Smtp-Source: AGHT+IF7kjc01o/SSdybHjyNhj71mp3t5jB+vgaS6Zawv8K1Yz8ZO/SXKRCN8wCpxqC5dFcGrXnmPg==
-X-Received: by 2002:ac2:48b0:0:b0:50a:71d8:c94f with SMTP id
- u16-20020ac248b0000000b0050a71d8c94fmr1135313lfg.60.1700815288264; 
- Fri, 24 Nov 2023 00:41:28 -0800 (PST)
+ bh=1vhZkFxLvuCZe0A7RVw31v//xJIvUsZb7i8/r2Jbnxg=;
+ b=KPSbHFaE9b6T0ztqU94Y5BdRJd18i2kfKmC3T0owgRWk30duxDoCGQd5jVB+YRk1y0
+ fuYEfchNjb7kITjs3HTPSVApQHNcX2aWcVai8LjhAdY1f7kzfmEKbn00vBENb87Sd2lD
+ JmOXkDyhiVlDzJj+3Cf2r8265ngGd0BsHyDcbnxVbYRAlqQSPJmFCLV9QHxIvXIjbXNU
+ IfQos0eSe209p5ejyKufV6civ3ArCa8z0ilWhvEiAS1m/a4kR8Wi/PHhCkPsLFrWiFGe
+ qEhlLHWc0oftrsqjbmgYtp5rumEsu4ZRrffAUfp2HiFKb3CdjRLSg6HMiL5q+JyInm8I
+ E/pw==
+X-Gm-Message-State: AOJu0Yz8xp+YguePGfnr6/vX4C3gjSbVmxn//p9ezYKfvMhL1w041iGl
+ Jow5Tj+g0a1USGBcbEb/BkP/GQ==
+X-Google-Smtp-Source: AGHT+IGommKInNd3FR31Z3mvyaSG7pswa9iifJaF+pYGzjLLSWEIzKdNop4bPbWiyyiCahf+KYNE1A==
+X-Received: by 2002:a05:6000:253:b0:332:d84e:7fc5 with SMTP id
+ m19-20020a056000025300b00332d84e7fc5mr1129911wrz.53.1700815289535; 
+ Fri, 24 Nov 2023 00:41:29 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- c11-20020a5d4f0b000000b00332e67d6564sm2534562wru.67.2023.11.24.00.41.27
+ c11-20020a5d4f0b000000b00332e67d6564sm2534562wru.67.2023.11.24.00.41.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Nov 2023 00:41:27 -0800 (PST)
+ Fri, 24 Nov 2023 00:41:29 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Fri, 24 Nov 2023 09:41:14 +0100
-Subject: [PATCH v9 03/12] dt-bindings: phy:
- amlogic,meson-axg-mipi-pcie-analog: drop text about parent syscon and drop
- example
+Date: Fri, 24 Nov 2023 09:41:15 +0100
+Subject: [PATCH v9 04/12] dt-bindings: phy: amlogic,g12a-mipi-dphy-analog:
+ drop unneeded reg property and example
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-3-95256ed139e6@linaro.org>
+Message-Id: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-4-95256ed139e6@linaro.org>
 References: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-0-95256ed139e6@linaro.org>
 In-Reply-To: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-0-95256ed139e6@linaro.org>
 To: Jerome Brunet <jbrunet@baylibre.com>, 
@@ -75,20 +74,20 @@ To: Jerome Brunet <jbrunet@baylibre.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1573;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1642;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=8X7fhNCy/HvwIwzbk4yey3zcZzSI2bVpb2v4gVLXFlE=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlYGGu31exqQpuNJfZ3NjzAF/oHsRU6ubp/jrWqLQT
- WaJLbsCJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZWBhrgAKCRB33NvayMhJ0VZEEA
- CD9QWyKz5JqJKUffivHccIDuBx4b2ZX1upUOn4LYSEVYLaEcJbOEb6eAX5QsIvTezN2HvZAOD/TF9X
- 9pmybusblHc3qqagjwruVann9xFjxmVQCB9SWYGaaQ0kQYjPaY5PMoVHthzTo9JWLHJSz24rKrbXDu
- xLpfwHLzURD2kOC43HpN66RtC1etfxfHeGOidg6loQOI04C9jg8vbuQKk7i0kIDBhl8PiFEJ+wgw6L
- D7M5mAuFYh9Tbd5Z5hbpNP6A+NahpX86HYi2TeKEMOMMCD92TqldpuV62F+Ry6VSJLYPVXi4i9FJ2y
- BG4Ix/aRkBZrVNcPjfiOppcPJ0kO+XcRl3EUpuMo/bjnARyq7bqZoHTiJ+VMyLwNo/K5LsaelA5kmv
- tA5YgY9gVsjAhiCEvOX8bGnkrRYLI6rINhOz1VqeVgbhFxOkYVfICfwTIaVpJmfniwQ4jOThbthyjO
- CAAKJ0dXfO51MW7CDFudjjcdwaRBdjl0nEOEWQgIe/adFoJX+l1iF43Lq8JJYTIF2ignclF4V7fEdO
- ihz9RrW4apafWFspszLmJDMa7hi6fS04cXDWU+4GidaAXBkpZmoJpvuwsx1qgdBLvOr6AlDgFvKXYk
- z9mvyPn/fy3OaYQofJppI6cR8w4scLqA3Bd7v8qyOdKyjBKiNATHR5rXnrrA==
+ bh=oOPbXDBk3aIjcohZAd4QtWQn75Ng6fL6sZ33nsFIHDg=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBlYGGvi+SK2D6szCKmhAOwxD/2QkmEkYDKCfLNt3LA
+ z+A/wj2JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZWBhrwAKCRB33NvayMhJ0ePwEA
+ CZkwqf2CNqmVAwhMX0mZ6T3o+S0SegeVMlwXXCEGDJEr4YPs+En7dabAcfzM+Cz06Vx9Zc/iok3MkR
+ 3l/Etm2uXi7mRQMPmkwioAgKInUhxH3cZikmdPzcDPpmofgII8wuYs7a6cYf5yTXw6pjEApR0HtiUK
+ YdDcEJUhCQVntgWFS7k4cYOHvojsRtTeBtAkFN5Juedqh+/k0QT00muBYoiaDzpv0I9zKIFwAkQBaw
+ +vjAo6H7OB7DxHTFN/rzL07P6VP0hKpn0A4wBml3xMm8pyzBrLTIeZrC/XNzMPnZMuEXc4xcLqcD0+
+ yYfCnlrWlC5RdOY9r3O739eRSaT1sFV+CdPSYlZfmNytYz3scHVC7lvOFy2amjLYR8cIj44XpVl/gq
+ nvCrQ0L+Np3xv3IAVNB+rgNWwA0Y6X+AdDc9WeR/N+tkIgVkRdOJbKwa+Tz5TQnyIlIn7H9+9kcxjr
+ x9kHQzecSDOjxwkeDxnQoFYjq2zLIAtazMFXw18qKpIHytQKCVIwesOCK0vmh8UhcLPht/tvo5jygg
+ 6GmyPFvso6780JXtf4XZgJtV4iJD0kRG9ADaiFmlhjAj2c8tE9QBNiE5JBHZ9HwatytJficQUuOMYC
+ fJV2oR4Qa4KbVzoK8OChR68Wmrx5JW1EE0Ye5nsmZzGraDCeBQaMd1wYGBkA==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,51 +104,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Conor Dooley <conor.dooley@microchip.com>, linux-phy@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+ linux-phy@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since this bindings is referred from amlogic,meson-gx-hhi-sysctrl.yaml, drop the now
-useless description about the parent node and also drop the unnecessary example.
+The amlogic,g12a-mipi-dphy-analog is a feature of the simple-mfd
+amlogic,meson-axg-hhi-sysctrl system control register zone which is an
+intermixed registers zone, thus it's very hard to define clear ranges for
+each SoC controlled features even if possible.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+The amlogic,g12a-mipi-dphy-analog was wrongly documented as an independent
+register range, which is not the reality, thus fix the bindings by dropping
+the reg property now it's referred from amlogic,meson-gx-hhi-sysctrl.yaml
+and documented as a subnode of amlogic,meson-axg-hhi-sysctrl.
+
+Also drop the unnecessary example, the top level bindings example should
+be enough.
+
+Fixes: 76ab79f9726c ("dt-bindings: phy: add Amlogic G12A Analog MIPI D-PHY bindings")
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- .../phy/amlogic,meson-axg-mipi-pcie-analog.yaml         | 17 -----------------
- 1 file changed, 17 deletions(-)
+ .../bindings/phy/amlogic,g12a-mipi-dphy-analog.yaml          | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/phy/amlogic,meson-axg-mipi-pcie-analog.yaml b/Documentation/devicetree/bindings/phy/amlogic,meson-axg-mipi-pcie-analog.yaml
-index 009a39808318..70def36e5688 100644
---- a/Documentation/devicetree/bindings/phy/amlogic,meson-axg-mipi-pcie-analog.yaml
-+++ b/Documentation/devicetree/bindings/phy/amlogic,meson-axg-mipi-pcie-analog.yaml
-@@ -9,16 +9,6 @@ title: Amlogic AXG shared MIPI/PCIE analog PHY
- maintainers:
-   - Remi Pommarel <repk@triplefau.lt>
+diff --git a/Documentation/devicetree/bindings/phy/amlogic,g12a-mipi-dphy-analog.yaml b/Documentation/devicetree/bindings/phy/amlogic,g12a-mipi-dphy-analog.yaml
+index c8c83acfb871..81c2654b7e57 100644
+--- a/Documentation/devicetree/bindings/phy/amlogic,g12a-mipi-dphy-analog.yaml
++++ b/Documentation/devicetree/bindings/phy/amlogic,g12a-mipi-dphy-analog.yaml
+@@ -16,20 +16,8 @@ properties:
+   "#phy-cells":
+     const: 0
  
--description: |+
--  The Everything-Else Power Domains node should be the child of a syscon
--  node with the required property:
+-  reg:
+-    maxItems: 1
 -
--  - compatible: Should be the following:
--                "amlogic,meson-gx-hhi-sysctrl", "simple-mfd", "syscon"
--
--  Refer to the bindings described in
--  Documentation/devicetree/bindings/mfd/syscon.yaml
--
- properties:
-   compatible:
-     const: amlogic,axg-mipi-pcie-analog-phy
-@@ -31,10 +21,3 @@ required:
+ required:
+   - compatible
+-  - reg
    - "#phy-cells"
  
  additionalProperties: false
 -
 -examples:
 -  - |
--    mpphy: phy {
--          compatible = "amlogic,axg-mipi-pcie-analog-phy";
+-    phy@0 {
+-          compatible = "amlogic,g12a-mipi-dphy-analog";
+-          reg = <0x0 0xc>;
 -          #phy-cells = <0>;
 -    };
 
