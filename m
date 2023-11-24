@@ -2,74 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEFD17F86C7
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Nov 2023 00:37:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 943127F86C1
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Nov 2023 00:37:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC4A10E376;
-	Fri, 24 Nov 2023 23:37:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BF8410E0EC;
+	Fri, 24 Nov 2023 23:37:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7180D10E376
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 23:37:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D9C210E0EC
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 23:37:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1700869029;
+ s=mimecast20190719; t=1700869023;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ooa83XnZj65XHeDd7bgPYl/MTM8ubdS8C8vvyOuquTY=;
- b=M870Swuu8lYdmL79OH+y8wWvjGgOUXbgMgNmFGKusV7h/0gAhyPD5l4WPC+HX+og2Jg7lO
- Zc4YBn7nPdNc8C+2WNOH1idwtLSolzhmxva8RjJJsAaUJffWnsej4XLwbdI1r0byq958EA
- rqwNn86azGRx8te5nmxelLvia5W80J8=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=auqPkghBUASB9YQ336TJ1HIAZATGxqMLyF8qUrxjjf4=;
+ b=gFfkzFnd9iFoSR2C9QOqNYjj0UGHKHjWm2pnbD0t78sbc8M6J+hFXPk/PxASE5nhnwrQMM
+ hHagAqDic/spNkpMIW4KioQKSJMD21eEm8IBQxesmefLR45bunciZ6aCzZNXv+xcSe5zAk
+ jbqc7tICr9fX9gSo+aMLrvfCXqnVxcU=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-688-VHWAjgcjOlSW_CDV4fU7jw-1; Fri, 24 Nov 2023 18:36:58 -0500
-X-MC-Unique: VHWAjgcjOlSW_CDV4fU7jw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-a018014e8e5so188819266b.2
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 15:36:57 -0800 (PST)
+ us-mta-464-QSdxVnbsNYSWNsnbYhHjmw-1; Fri, 24 Nov 2023 18:37:02 -0500
+X-MC-Unique: QSdxVnbsNYSWNsnbYhHjmw-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ 38308e7fff4ca-2c53ea92642so21217581fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 15:37:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700869017; x=1701473817;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ooa83XnZj65XHeDd7bgPYl/MTM8ubdS8C8vvyOuquTY=;
- b=GETs7s1lxRqWiqLaKKqKWvAXKh0DvGFH59AcZY5csLXBJ9XiEWUy8IBcZtNgSNN19K
- zLOKCv0LwEYGj3rBszAd3Arp1mkBfhCaAhTyTXSedWMxJSp2lfi+uUZT7z2OBACoOkaq
- RNaN7CQTNadiEnA2c+KBqSexZF7o5UZUIOQldBQ3crRDZPZatkvk9Q0tTHCSnkCc2fD4
- Fi43pDTj3EEuX2wSH6gJ1xi77Jdur7GFMWRb/KhGv9w/wAflVLvgxb8M0LmC3DB+3syI
- FfaQTlXiYRGt9r7D0rSENdAN2tMg6Dd3ASJUOC4pgROaAk0JBkpt/lJys+O51zOC0d0H
- Dkog==
-X-Gm-Message-State: AOJu0YwRE8zXMyocmLj4ja+xm/rnM9XNayexLgYAsuYrHLyIUDgb4PeL
- fLdwaOxs2vp9GYK0a6tB7Wvb5/nhmfL0s6wAPhaffjWjtKaZ4g0diszoXbGrWyoJjtdxar7h34Q
- tcoqm5TVkFO0Y5ER/UQsO/Zf1X0za
-X-Received: by 2002:a17:907:1c82:b0:9b2:cf77:a105 with SMTP id
- nb2-20020a1709071c8200b009b2cf77a105mr4022194ejc.15.1700869016939; 
- Fri, 24 Nov 2023 15:36:56 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE0CnBXqcfXTNkotvwAE2bu91Z/qUjDzY8ANBg3E/5DBlY7f4RMdUUzgTz20lXFJlJNuuFYAA==
-X-Received: by 2002:a17:907:1c82:b0:9b2:cf77:a105 with SMTP id
- nb2-20020a1709071c8200b009b2cf77a105mr4022180ejc.15.1700869016658; 
- Fri, 24 Nov 2023 15:36:56 -0800 (PST)
+ d=1e100.net; s=20230601; t=1700869020; x=1701473820;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=auqPkghBUASB9YQ336TJ1HIAZATGxqMLyF8qUrxjjf4=;
+ b=UAsOU7mPji7dbO2VENhgQcICD1cCLgePNRhoCaOYrkkSpiGfFHWr5PGVpp9I9u5Ql5
+ 0tpb0pKhX77OI9ruiXcOcZUqbj7DhzdOOcqzsjB1Lz9Jn8NLYyR/FBWQPXQxG3ikc8Lr
+ kRpHglQP4asuJ2LWeYm5gxrd9Y0ualLcTHCpBv0sSz7dliaX+m1aRsml7i8+4NQBVwaN
+ wKOpcL9ZytGUE9nulf7y7euKYhhPgj+HXdHh3bTaNVIa7Qao/avgcLFe0cqgcOayt11F
+ 7JoG/5REBIK0UbG7+3ItzAdvy0bVqp858yWlXN49HchQ1f/PtiC0ywjFx95wr+T7Y4eM
+ ZJAA==
+X-Gm-Message-State: AOJu0YxNzKT8zPy2Tofk81gA+AjM93gWkylWWOd/gXKblEaoIEL9gzhb
+ aK2T3MQFhIutdHDsge8dRCYl1xcOCG3GRiR69ssw/KOi3mbhUqASBPJRJErDNqdVPhY4tBEPKD5
+ dtjwElk+9hivxaJbFhp09hZADlDKZ
+X-Received: by 2002:a2e:9dd9:0:b0:2c5:183d:42bf with SMTP id
+ x25-20020a2e9dd9000000b002c5183d42bfmr3147722ljj.45.1700869020659; 
+ Fri, 24 Nov 2023 15:37:00 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEylly0/xjh3bd979MfjJPHjqJh2nTHcO1bCjYpiXsPXTwaA+GMEpL5vvLU6l2RLJIGMPK6VA==
+X-Received: by 2002:a2e:9dd9:0:b0:2c5:183d:42bf with SMTP id
+ x25-20020a2e9dd9000000b002c5183d42bfmr3147720ljj.45.1700869020366; 
+ Fri, 24 Nov 2023 15:37:00 -0800 (PST)
 Received: from pollux.. ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
  by smtp.gmail.com with ESMTPSA id
- a1-20020a1709064a4100b00a0b6b09b4cbsm150109ejv.8.2023.11.24.15.36.55
+ q22-20020a1709064c9600b009ae69c303aasm2631313eju.137.2023.11.24.15.36.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Nov 2023 15:36:56 -0800 (PST)
+ Fri, 24 Nov 2023 15:36:59 -0800 (PST)
 From: Danilo Krummrich <dakr@redhat.com>
 To: mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
  frank.binns@imgtec.com, donald.robson@imgtec.com, matt.coster@imgtec.com,
  sarah.walker@imgtec.com
-Subject: [PATCH drm-misc-next 0/5] PowerVR VM fixes
-Date: Sat, 25 Nov 2023 00:36:35 +0100
-Message-ID: <20231124233650.152653-1-dakr@redhat.com>
+Subject: [PATCH drm-misc-next 1/5] drm/imagination: vm: prevent duplicate
+ drm_gpuvm_bo instances
+Date: Sat, 25 Nov 2023 00:36:36 +0100
+Message-ID: <20231124233650.152653-2-dakr@redhat.com>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231124233650.152653-1-dakr@redhat.com>
+References: <20231124233650.152653-1-dakr@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,33 +91,47 @@ Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Use drm_gpuvm_bo_obtain() instead of drm_gpuvm_bo_create(). The latter
+should only be used in conjunction with drm_gpuvm_bo_obtain_prealloc().
 
-Some major GPUVM changes landed just before v8 of the PowerVR series. Since v8
-went in rather quickly (review process was finished otherwise) I haven't had the
-chance to review the subsequent code changes.
+drm_gpuvm_bo_obtain() re-uses existing instances of a given VM and BO
+combination, whereas drm_gpuvm_bo_create() would always create a new
+instance of struct drm_gpuvm_bo and hence leave us with duplicates.
 
-Hence, this series with a few fixes in this context. Plus a minor GPUVM patch to
-make the drm_gpuvm_prepare_* helpers useful for PowerVR.
+Fixes: ff5f643de0bf ("drm/imagination: Add GEM and VM related code")
+Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+---
+ drivers/gpu/drm/imagination/pvr_vm.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-- Danilo
-
-
-Danilo Krummrich (5):
-  drm/imagination: vm: prevent duplicate drm_gpuvm_bo instances
-  drm/imagination: vm: check for drm_gpuvm_range_valid()
-  drm/imagination: vm: fix drm_gpuvm reference count
-  drm/gpuvm: fall back to drm_exec_lock_obj()
-  drm/imagination: vm: make use of GPUVM's drm_exec helper
-
- drivers/gpu/drm/drm_gpuvm.c          | 36 ++++++++++++++++++++--
- drivers/gpu/drm/imagination/pvr_vm.c | 46 +++++++++++++++-------------
- drivers/gpu/drm/imagination/pvr_vm.h |  3 +-
- include/drm/drm_gpuvm.h              | 23 ++------------
- 4 files changed, 63 insertions(+), 45 deletions(-)
-
-
-base-commit: 46990918f35c1bf6e367cf8e0423e7344fec9fcb
+diff --git a/drivers/gpu/drm/imagination/pvr_vm.c b/drivers/gpu/drm/imagination/pvr_vm.c
+index 3ad1366294b9..09d481c575b0 100644
+--- a/drivers/gpu/drm/imagination/pvr_vm.c
++++ b/drivers/gpu/drm/imagination/pvr_vm.c
+@@ -224,6 +224,7 @@ pvr_vm_bind_op_map_init(struct pvr_vm_bind_op *bind_op,
+ 			struct pvr_gem_object *pvr_obj, u64 offset,
+ 			u64 device_addr, u64 size)
+ {
++	struct drm_gem_object *obj = gem_from_pvr_gem(pvr_obj);
+ 	const bool is_user = vm_ctx == vm_ctx->pvr_dev->kernel_vm_ctx;
+ 	const u64 pvr_obj_size = pvr_gem_object_size(pvr_obj);
+ 	struct sg_table *sgt;
+@@ -245,10 +246,11 @@ pvr_vm_bind_op_map_init(struct pvr_vm_bind_op *bind_op,
+ 
+ 	bind_op->type = PVR_VM_BIND_TYPE_MAP;
+ 
+-	bind_op->gpuvm_bo = drm_gpuvm_bo_create(&vm_ctx->gpuvm_mgr,
+-						gem_from_pvr_gem(pvr_obj));
+-	if (!bind_op->gpuvm_bo)
+-		return -ENOMEM;
++	dma_resv_lock(obj->resv, NULL);
++	bind_op->gpuvm_bo = drm_gpuvm_bo_obtain(&vm_ctx->gpuvm_mgr, obj);
++	dma_resv_unlock(obj->resv);
++	if (IS_ERR(bind_op->gpuvm_bo))
++		return PTR_ERR(bind_op->gpuvm_bo);
+ 
+ 	bind_op->new_va = kzalloc(sizeof(*bind_op->new_va), GFP_KERNEL);
+ 	bind_op->prev_va = kzalloc(sizeof(*bind_op->prev_va), GFP_KERNEL);
 -- 
 2.42.0
 
