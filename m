@@ -1,72 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889FB7F76C4
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 15:44:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0CD97F76CC
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 15:45:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA84710E7F7;
-	Fri, 24 Nov 2023 14:44:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2616010E7FE;
+	Fri, 24 Nov 2023 14:45:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 246BC10E7F7
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 14:44:02 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-40a4848c6e1so13693155e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 06:44:02 -0800 (PST)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 972A310E7FE
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 14:45:43 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id
+ ffacd0b85a97d-332e42469f0so1021294f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 06:45:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700837040; x=1701441840; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1700837142; x=1701441942; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=JUgLL7DRnYWbwIfG5gCXLaKp2PO1r1BS/La7eMtACoY=;
- b=kVYnRfnYlnNQYB2NwFLKvnS8r16wcMrh1AgYUqB3eGqKEUSk5n+Ky8isNXXkpkEnE/
- UPrXPGY/bfNEA96dexfMIVM5hRU2HWq5hgNTykiQ4VxbDV3tBHzMV2aVAKxbz/QHDpQA
- sqOyZNOc3JxgfEHaTLLqnCiqr6vBB0+b7VLq2v7aondvA95FQWLlt9uaPvPhGc9M4nv6
- DI1BcLlw/SX4ndrPh26TT7roK0oxWPFeocOjbn6cmE73lgV74Z6dkh6VCOTqifc/EVPb
- VCbukSAgUWsnVFQoYB8kvOoSc8rM0GnK7Jhulouo5vr7IOvOsKxOOFydkPM4hV1OmsMg
- ZtcQ==
+ :reply-to; bh=+rlwjJ/KXwyxOs4bJrCX4J/yUIaSw0CZF6vSsHNTewU=;
+ b=H5nBEIY2LAU0IQ1cJoj/b+yv+ucAeIjWNBLKCGbWtvqBtsATq4bld3jA5blYOzzxeY
+ gyh91BJo0pdjNRhSDdCIq+KFkIwMysr+h1dQIr7SqZ8y/lo+05l1+g5y6ytWLiaVbT6a
+ VTsd4Iiu4CjpvyzZgs8e2klnkgFGXzh6LMEwVD4aWL1OUtiXrO+uwJa9aJ47O8Q++7eD
+ O6O8cVGuryi4XEoj8bcfoxXPp2giDW43GVhpgjyUfZtXFfR0wwWPt00diW42AE9l7gfQ
+ 0dtiApu3ekXPOndCh7kgw0QF+LT6DCjAtXiM/WeYqeBI2cpFwWXbWBnYntpcycz+F4rm
+ xxLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700837040; x=1701441840;
+ d=1e100.net; s=20230601; t=1700837142; x=1701441942;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :references:cc:to:content-language:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=JUgLL7DRnYWbwIfG5gCXLaKp2PO1r1BS/La7eMtACoY=;
- b=nw5W+3/T/2LtB2Jaflx90jF7Q98qR5OcZIwTwlemc7+0300InWQwSR4iXVnh0mPIcl
- my+5CvxLDtP1whlBiq4p5Ezx8rOLLpsjUgNRCggTm/nJ3TicQjyCDI0SiboH6NNovo7Q
- 7plONg4BpR4swaxlcjXhDAC1b1gWA2JyNjd4NdEVRp+VYo+jIlAq88IcEOukwwM6aall
- qp8GGZqiZohQVGAPxw01+VcHVrYuveyenJOMF8PajgQPJPA7Pfh0mS6JyycbBaQ4qElW
- 1P6CV/dyHEC7p3x1WSKqONNXcPmOj7NFQQ3wZ6G8+QWswKjMTWjnHiXmxgIOYFsv8WeL
- XL0w==
-X-Gm-Message-State: AOJu0YxjcN6GWNVikDloKPMDJbH0NMqd2JWlbFByl9jiPGxaGoChkVMy
- Nii+TNQq8o9TiwSC0gEZQSPvFQ==
-X-Google-Smtp-Source: AGHT+IG4lHpHegujO0VJykD6EDhiniG+n+uhhSQbk7AaE6VVt77PJjj8KwqZ9FApeIjXsVryvPNchA==
-X-Received: by 2002:a5d:6a42:0:b0:32f:8a7f:f00f with SMTP id
- t2-20020a5d6a42000000b0032f8a7ff00fmr2494855wrw.60.1700837040476; 
- Fri, 24 Nov 2023 06:44:00 -0800 (PST)
+ bh=+rlwjJ/KXwyxOs4bJrCX4J/yUIaSw0CZF6vSsHNTewU=;
+ b=C1/4VcuFtw00vCa5RWLacVwx6NseJ/HrqlmMTZ7MMIPVxchowADcxx9NHw1goEbjYJ
+ 9InE/6mc641JbnjTVY/1+GDBHDES+/VrERHqfiA0DuA/8BCJVFtmk7NfdK0YnXVr9BWu
+ IAWk/XsZ55BheYk/+2dUe8AKpPwkXtBVygmrtcDvjqHZ+tKh3mzAdA+Xe7dC87AO9rBr
+ Q/QFuq0t/Bisr8LVSG0B3cTLjlGWkDhFXw64DpexYLNhZtRomkhn2xJZvhxt2VLQZyoR
+ R4WI6RausrczDZShPgupR5TWX5fRnx84SfIk+LTWt7MtuL8kXTT/VBnSAnUoWihMamZe
+ GB1A==
+X-Gm-Message-State: AOJu0Yy02ByK9CxFLgCMr0hijEiEiJPXH9t5UhedVbfU2yHl746JxXmW
+ sMe7p8OJ1Y/pIBc0Ee0YafaUnw==
+X-Google-Smtp-Source: AGHT+IGlqE3ztd4VccZrqzlaEyl8+aN4JopsoscrrQaRhl6IxnBq4wdAmomOGsmqb5zRiPTC+v5Seg==
+X-Received: by 2002:a05:6000:b4c:b0:332:ca0b:578e with SMTP id
+ dk12-20020a0560000b4c00b00332ca0b578emr2125621wrb.27.1700837141963; 
+ Fri, 24 Nov 2023 06:45:41 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:982:cbb0:4611:6dae:b5a3:b6a4?
  ([2a01:e0a:982:cbb0:4611:6dae:b5a3:b6a4])
  by smtp.gmail.com with ESMTPSA id
- i2-20020adffc02000000b00327de0173f6sm4511051wrr.115.2023.11.24.06.43.59
+ i2-20020adffc02000000b00327de0173f6sm4511051wrr.115.2023.11.24.06.45.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Nov 2023 06:44:00 -0800 (PST)
-Message-ID: <eb099811-8505-44c6-834a-2997c797ae13@linaro.org>
-Date: Fri, 24 Nov 2023 15:43:58 +0100
+ Fri, 24 Nov 2023 06:45:41 -0800 (PST)
+Message-ID: <5e1479e7-a353-4ccb-93eb-a74efc4bdb17@linaro.org>
+Date: Fri, 24 Nov 2023 15:45:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v9 04/12] dt-bindings: phy: amlogic, g12a-mipi-dphy-analog:
- drop unneeded reg property and example
+Subject: Re: [PATCH v9 11/12] DONOTMERGE: arm64: meson: khadas-vim3l: add DSI
+ panel
 Content-Language: en-US, fr
-To: Conor Dooley <conor@kernel.org>
+To: Maxime Ripard <mripard@kernel.org>
 References: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-0-95256ed139e6@linaro.org>
- <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-4-95256ed139e6@linaro.org>
- <20231124-felt-tip-everybody-f2a6836e52af@spud>
- <c3a07912-07da-4965-94b8-3c0d8889ddc4@linaro.org>
- <20231124-vowel-reversing-619f7c4e5060@spud>
+ <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-11-95256ed139e6@linaro.org>
+ <bn5tpzvohmgac4m46fruxbi6quja624tm2fefyj7f3ngo3enno@2ueiodd6qxbd>
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
  GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
@@ -92,7 +90,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro Developer Services
-In-Reply-To: <20231124-vowel-reversing-619f7c4e5060@spud>
+In-Reply-To: <bn5tpzvohmgac4m46fruxbi6quja624tm2fefyj7f3ngo3enno@2ueiodd6qxbd>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -109,67 +107,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: neil.armstrong@linaro.org
 Cc: Michael Turquette <mturquette@baylibre.com>,
- dri-devel@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-phy@lists.infradead.org, linux-clk@vger.kernel.org,
+ Nicolas Belin <nbelin@baylibre.com>, linux-clk@vger.kernel.org,
  Jerome Brunet <jbrunet@baylibre.com>,
  Kishon Vijay Abraham I <kishon@kernel.org>,
  Kevin Hilman <khilman@baylibre.com>, Jagan Teki <jagan@amarulasolutions.com>,
  devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Maxime Ripard <mripard@kernel.org>, Remi Pommarel <repk@triplefau.lt>,
- linux-amlogic@lists.infradead.org, Nicolas Belin <nbelin@baylibre.com>,
+ Remi Pommarel <repk@triplefau.lt>, linux-amlogic@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, Stephen Boyd <sboyd@kernel.org>,
  linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
  Rob Herring <robh+dt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/11/2023 15:41, Conor Dooley wrote:
-> On Fri, Nov 24, 2023 at 02:50:58PM +0100, Neil Armstrong wrote:
->> Hi Conor,
->>
->> On 24/11/2023 13:36, Conor Dooley wrote:
->>> On Fri, Nov 24, 2023 at 09:41:15AM +0100, Neil Armstrong wrote:
->>>> The amlogic,g12a-mipi-dphy-analog is a feature of the simple-mfd
->>>> amlogic,meson-axg-hhi-sysctrl system control register zone which is an
->>>> intermixed registers zone, thus it's very hard to define clear ranges for
->>>> each SoC controlled features even if possible.
->>>>
->>>> The amlogic,g12a-mipi-dphy-analog was wrongly documented as an independent
->>>> register range, which is not the reality, thus fix the bindings by dropping
->>>> the reg property now it's referred from amlogic,meson-gx-hhi-sysctrl.yaml
->>>> and documented as a subnode of amlogic,meson-axg-hhi-sysctrl.
->>>>
->>>> Also drop the unnecessary example, the top level bindings example should
->>>> be enough.
->>>>
->>>> Fixes: 76ab79f9726c ("dt-bindings: phy: add Amlogic G12A Analog MIPI D-PHY bindings")
->>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>
->>> I feel like I left a tag on this one before, but I can't remember.
->>> Perhaps I missed the conclusion to the discussion to the discussion with
->>> Rob about whether having "reg" was desirable that lead to a tag being
->>> dropped?
->>
->> I checked again and nope, not tag, but Rob's question was legitimate and I reworded
->> and clarified the commit message following your reviews.
->> On the other side you suggested a Fixes tag, which I added.
->>
->> The rewording is about why reg doesn't make sense on the nature of the memory
->> region and it doesn't make sense here like other similar nodes.
-> 
-> Okay, I thought that I had given you one. Perhaps I forgot to send, or
-> Rob's message came in between me asking about the Fixes tag & replying
-> with an Ack. Sorry about that,
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Hi,
 
-No problem thanks for your review.
+On 24/11/2023 11:52, Maxime Ripard wrote:
+> Hi,
+> 
+> On Fri, Nov 24, 2023 at 09:41:22AM +0100, Neil Armstrong wrote:
+>> This add nodes to support the Khadas TS050 panel on the
+>> Khadas VIM3 & VIM3L boards.
+>>
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> ---
+>>   .../boot/dts/amlogic/meson-g12b-khadas-vim3.dtsi   |  2 +-
+>>   arch/arm64/boot/dts/amlogic/meson-khadas-vim3.dtsi | 74 ++++++++++++++++++++++
+>>   .../boot/dts/amlogic/meson-sm1-khadas-vim3l.dts    |  2 +-
+>>   3 files changed, 76 insertions(+), 2 deletions(-)
+> 
+> Generally, those kind of patches still have value. Now that we are
+> accepting overlays, could this be converted to one and merged maybe?
+
+Yep I was thinking about that, I'll probably do that,
+some new boards will also need overlays for DSI panels.
+
+I'll probably switch to an overlay on v10.
 
 Neil
 
 > 
-> Cheers,
-> Conor.
+> Maxime
 
