@@ -2,56 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716047F6A34
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 02:39:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 579037F6A9A
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Nov 2023 03:17:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7ACD10E794;
-	Fri, 24 Nov 2023 01:39:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C61E10E09A;
+	Fri, 24 Nov 2023 02:17:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6315410E794
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 01:39:06 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id
- a640c23a62f3a-a00cbb83c80so201353166b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Nov 2023 17:39:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700789945; x=1701394745; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=MCjIjD8tavb0cbgjvIEQTL7WpfbPqahU1xHEzB2I5uM=;
- b=jPHObpJkUzxrs0pC6UmCGzYRCi64IMFqNY5ZabwcMUD279pcusUoLDoyDP+Rcgn1sA
- aXpcgshFoZrJzIPKFKuWpAxO0UPMrib9kerkGp/zFcySh0EhWiRUQQfxGzfe8Yj5X4jC
- 4+DgH2ckWeWqhltsiRDhBE+hPRyKNQL+o3WjbJ805s44joC3/aHxq8D+Xnzt/nYtwmTC
- LAXuV+YuNQm7XzP/IcBbCIAXVO6N3LcQeAUooR2n7RfQ9uwiNfSqo9v4ofCO1cheslBi
- 5kgq4Yv2Z7QVJAcbXw1DOlskPdWCuW9zPv30Td8tZSIQUWoznWKDHygUUxj/MdIqDytC
- JCzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700789945; x=1701394745;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=MCjIjD8tavb0cbgjvIEQTL7WpfbPqahU1xHEzB2I5uM=;
- b=xHAvjfOAdjJoDbcaU5/V53d5LES4h9vQeGG9EtqnwaATl8ZcTaIqMT2dUZAeR9C9Cn
- JyG/6UPhYJgem0V5C5b+fbKubVZnB4tS2K7S8+BMfbhnCc8Z/3+dzk1d1pDG/Aa6YhoW
- f58Vg+4jgptELhU6GUCFq0RMF3Qms8m+SW1D8GGLG7FHG1lp06qWrfcFN2qv13FvgjCM
- AK5DgP1h1BM1QcEFmNlPh25LnH9eTbwUxMq371oV5mUPbMC1lN0e1YTxo7ZSh+NerhgP
- 9rKjqBN2xBiNwZVqSXhhMsCiUXQIeCZ1Ym+Med5uWN/zpg6fAaQ4AtwBAVe7+KU8gps8
- nibA==
-X-Gm-Message-State: AOJu0Yw4XuqwMHSkO6dPusrCvkoAUeMBg5nm7Sj47K2Pzt82UmxJnq0s
- myjJKBaTkTbFyAb2fjUQKJtn2yOgthwVTEWuEOvm0E21ofU=
-X-Google-Smtp-Source: AGHT+IFMWsDCoDTnUOis1NEZFxzHDDlNlqWsjIu1KiRS8KmbJxKLEmmKnV3HPDf4zStiqHzmYEqYOYCsUEvKAdWFLas=
-X-Received: by 2002:a17:906:b21a:b0:9ff:5b5c:12a6 with SMTP id
- p26-20020a170906b21a00b009ff5b5c12a6mr753905ejz.40.1700789944473; Thu, 23 Nov
- 2023 17:39:04 -0800 (PST)
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C7AE10E09A
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Nov 2023 02:17:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1700792238;
+ bh=hVLznh1N/6w00XZWPeXHTEO2orW7OEONxjkwEONOiOQ=;
+ h=Date:From:To:Cc:Subject:From;
+ b=pcZOQSMQDRl/XIhLufCTaMrUfvYhta8I1mDlKR12veDD6pptND11R90w6DylFfhJ8
+ KcNKFH3jAKfOiRtmDYN4INYdWL7hC6RzZohlQwMMEmUVRIkogh6KGn1ZzBByLmGhwj
+ io/7eTtVbj6RAkanGS7H7EYHOMjNFbs3TArkCJZBs7mcpJXejrG8IetIY7OrV8iQnN
+ xmJrVRZUKdZqvSXs/ZP6Dp3TXxj+pUkedd6WnurUj1oPvEfr9b1KwVA1IiWr7R7gNy
+ Fh5RJUxCE2zYjotDUDrYVr47Vevi7EMwZ5ub9e1Y+Wot3oBHp8XRBkuc1inKUadDEf
+ vNJ614CL5z4Nw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4SbzC15Zkrz4wx7;
+ Fri, 24 Nov 2023 13:17:17 +1100 (AEDT)
+Date: Fri, 24 Nov 2023 13:17:16 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@redhat.com>
+Subject: linux-next: build warning after merge of the drm tree
+Message-ID: <20231124131716.13f6ec45@canb.auug.org.au>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 24 Nov 2023 11:38:52 +1000
-Message-ID: <CAPM=9txezDxgPxV4UJ-RPVxuAqO4k2kdDj-oUAyFdP+CztJPzg@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.7-rc3
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/iHKHr_3h.2UX98t0oNV=g3P";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,162 +49,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Sarah Walker <sarah.walker@imgtec.com>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Matt Coster <matt.coster@imgtec.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Donald Robson <donald.robson@imgtec.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+--Sig_/iHKHr_3h.2UX98t0oNV=g3P
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Back to regular scheduled fixes pull request, mainly a bunch of msm,
-some i915 and otherwise a few scattered, one memory crasher in the
-nouveau GSP paths is helping stabilise that work.
+Hi all,
 
-Regards,
-Dave.
+After merging the drm tree, today's linux-next build (htmldocs) produced
+this warning:
 
-drm-fixes-2023-11-24:
-drm fixes for 6.7-rc3
+Documentation/gpu/imagination/uapi.rst:124: WARNING: Title underline too sh=
+ort.
 
-msm:
-- Fix the VREG_CTRL_1 for 4nm CPHY to match downstream
-- Remove duplicate call to drm_kms_helper_poll_init() in msm_drm_init()
-- Fix the safe_lut_tbl[] for sc8280xp to match downstream
-- Don't attach the drm_dp_set_subconnector_property() for eDP
-- Fix to attach drm_dp_set_subconnector_property() for DP. Otherwise
-  there is a bootup crash on multiple targets
-- Remove unnecessary NULL check left behind during cleanup
+CREATE_HWRT_DATASET and DESTROY_HWRT_DATASET
+--------------------------------------
 
-i915:
-- Fix race between DP MST connectore registration and setup
-- Fix GT memory leak on probe error path
+Introduced by commit
 
-panel:
-- Fixes for innolux and auo,b101uan08.3 panel.
-- Fix Himax83102-j02 timings.
+  815d8b0425ad ("drm/imagination: Add driver documentation")
 
-ivpu:
-- Fix ivpu MMIO reset.
+--=20
+Cheers,
+Stephen Rothwell
 
-ast:
-- AST fix on connetor disconnection.
+--Sig_/iHKHr_3h.2UX98t0oNV=g3P
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-nouveau:
-- gsp memory corruption fix.
+-----BEGIN PGP SIGNATURE-----
 
-rockchip:
-- color fix.
-The following changes since commit 98b1cc82c4affc16f5598d4fa14b1858671b2263:
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmVgB6wACgkQAVBC80lX
+0GzDKgf+IX4nKfbuqQG7jQERrxtwKtKeBdKnPIhO6UDc+IMWRbySt4rEZy3Jm/oD
+Gy9/85oEQg2E4aXjpCVcYjZ5JG8iGwjWV8l21jVfomMAZg8IfVzIh+C9g9IlcsC+
+KlGjgdY6R84kct8ycKyWvBU0lwNuxm6NxRhkftABxjk6IEP52a72O1vpl1bd7+i0
+uWhwfcO2n3MZ3RZTwLJ0BIV+Rbdc0Ex3s2hmXTUyYsGWHTA/OySVSJNVcOJvmMEu
+lSFjOjYlm4X0mbYJaINpB6ut+0+hYTF6y3ESZ+JwR8hj2T9SiyozjjkipxmNzEqc
+RjXrzigw+Q0YANLzE1zXA5qpJIyyww==
+=o6i3
+-----END PGP SIGNATURE-----
 
-  Linux 6.7-rc2 (2023-11-19 15:02:14 -0800)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-11-24
-
-for you to fetch changes up to b3ca8a08d8ed0dc8a9e236d9294efd58554a7b05:
-
-  Merge tag 'drm-intel-fixes-2023-11-23' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2023-11-24
-11:18:29 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.7-rc3
-
-msm:
-- Fix the VREG_CTRL_1 for 4nm CPHY to match downstream
-- Remove duplicate call to drm_kms_helper_poll_init() in msm_drm_init()
-- Fix the safe_lut_tbl[] for sc8280xp to match downstream
-- Don't attach the drm_dp_set_subconnector_property() for eDP
-- Fix to attach drm_dp_set_subconnector_property() for DP. Otherwise
-  there is a bootup crash on multiple targets
-- Remove unnecessary NULL check left behind during cleanup
-
-i915:
-- Fix race between DP MST connectore registration and setup
-- Fix GT memory leak on probe error path
-
-panel:
-- Fixes for innolux and auo,b101uan08.3 panel.
-- Fix Himax83102-j02 timings.
-
-ivpu:
-- Fix ivpu MMIO reset.
-
-ast:
-- AST fix on connetor disconnection.
-
-nouveau:
-- gsp memory corruption fix.
-
-rockchip:
-- color fix.
-
-----------------------------------------------------------------
-Abel Vesa (1):
-      drm/msm/dp: don't touch DP subconnector property in eDP case
-
-Andrzej Hajda (1):
-      drm/i915: do not clean GT table on error path
-
-Bjorn Andersson (1):
-      drm/msm/dpu: Add missing safe_lut_tbl in sc8280xp catalog
-
-Cong Yang (1):
-      drm/panel: boe-tv101wum-nl6: Fine tune Himax83102-j02 panel HFP and HBP
-
-Dan Carpenter (1):
-      drm/msm: remove unnecessary NULL check
-
-Dave Airlie (4):
-      nouveau/gsp: allocate enough space for all channel ids.
-      Merge tag 'drm-msm-fixes-2023-11-21' of
-https://gitlab.freedesktop.org/drm/msm into drm-fixes
-      Merge tag 'drm-misc-fixes-2023-11-23' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-      Merge tag 'drm-intel-fixes-2023-11-23' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-
-Dmitry Baryshkov (2):
-      drm/msm: remove exra drm_kms_helper_poll_init() call
-      drm/msm/dp: attach the DP subconnector property
-
-Imre Deak (1):
-      drm/i915/dp_mst: Fix race between connector registration and setup
-
-Jacek Lawrynowicz (1):
-      accel/ivpu/37xx: Fix hangs related to MMIO reset
-
-Jonas Karlman (1):
-      drm/rockchip: vop: Fix color for RGB888/BGR888 format on VOP full
-
-Jonathan Marek (1):
-      drm/msm/dsi: use the correct VREG_CTRL_1 value for 4nm cphy
-
-Marek Vasut (2):
-      drm/panel: simple: Fix Innolux G101ICE-L01 bus flags
-      drm/panel: simple: Fix Innolux G101ICE-L01 timings
-
-Thomas Zimmermann (1):
-      drm/ast: Disconnect BMC if physical connector is connected
-
-Xuxin Xiong (1):
-      drm/panel: auo,b101uan08.3: Fine tune the panel power sequence
-
- drivers/accel/ivpu/ivpu_hw_37xx.c                  | 46 ++++++++--------
- drivers/gpu/drm/ast/ast_drv.h                      | 13 ++++-
- drivers/gpu/drm/ast/ast_mode.c                     | 62 +++++++++++++++++++---
- drivers/gpu/drm/i915/display/intel_dp_mst.c        | 16 +++---
- drivers/gpu/drm/i915/gt/intel_gt.c                 | 11 ----
- drivers/gpu/drm/i915/i915_driver.c                 |  4 +-
- .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   |  1 +
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c           |  3 +-
- drivers/gpu/drm/msm/dp/dp_display.c                | 15 ++++--
- drivers/gpu/drm/msm/dp/dp_drm.c                    |  3 ++
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          |  2 +-
- drivers/gpu/drm/msm/msm_drv.c                      |  2 -
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c    |  2 +-
- drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c     |  9 ++--
- drivers/gpu/drm/panel/panel-simple.c               | 13 ++---
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c        | 14 +++--
- 16 files changed, 138 insertions(+), 78 deletions(-)
+--Sig_/iHKHr_3h.2UX98t0oNV=g3P--
