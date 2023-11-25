@@ -1,80 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5877F89E1
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Nov 2023 11:07:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC66F7F8A26
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Nov 2023 12:17:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D1B210E15C;
-	Sat, 25 Nov 2023 10:06:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87CA510E0E8;
+	Sat, 25 Nov 2023 11:17:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [81.169.146.165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 264FC10E170
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 10:06:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1700906797; cv=none;
- d=strato.com; s=strato-dkim-0002;
- b=XNinLICU1K7MCbYNTs1mT1llCrKfO2gujtQ1R7N0JwFH3UDsbasdO9DoWmzNqgqAXD
- f0nQYqL8h9oXfGKBiJ9TOI4NGgdjMTSPXX/rMDCaBdo5997rAn1jE+UV3Yxl7ppJ0VKf
- b907vKF1Ws86xhphDdkpexUZGUhdALMalv577SxGTtPPOBnM8t4oZq6Koc0+SlJs3AxT
- YHVrZdQs/oXvjga8kwALiYv4DVktGMrsp1B6DdA49g+TpdDZ6wVhpfomjR2bNTzrZr9K
- wn7wzaq6548cOeRuRF/xWPOQ/C21OB6cW0qRcg9vfP6+mRUmphnaVd4zdI2rv0OqdCwe
- R60w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1700906797;
- s=strato-dkim-0002; d=strato.com;
- h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
- From:Subject:Sender;
- bh=QJUXeT/G7oE/8Y0b39Zjpc2uXnqV72pbi/a6a1IQmzk=;
- b=G5b4/6ZAG4Dwc0aFPW2/AVb+0tt73qAwgMT6VaHuSjs8Vh6z4ZtVMYBfw89SjxlM1j
- EEzTY9FslyH1ljx+OMw59GczCtztMN/6GMYL/HbmwVrf3Lj4bodSbRT8Wg5eLs4ioB38
- +j2blh9a/ayCY1Dkoj7d0YinEPhwwiS+OxzByFWSNmWN2HXnIa1dZ3V1O/2r6X9MaJrc
- t12oEGdzBH0jZJgeTQQfzyMGyK748gK1c+pmZvBp10pR2BGtdhaAE4pZQYfW0tRDyYaL
- yZsdlBNGayw5UcKxvbeldIZlRFFYno+vSxR8xBdE/Ma1NiuFU52DsWTH+AGzN38FeH7t
- LNVg==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1700906797;
- s=strato-dkim-0002; d=xenosoft.de;
- h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
- From:Subject:Sender;
- bh=QJUXeT/G7oE/8Y0b39Zjpc2uXnqV72pbi/a6a1IQmzk=;
- b=FdX64lTng3LTaWf4XPfAjfd1TdbKv60M9Gs2ra/KrT3hTMf9C4t1T4dd7dIpTdaRDx
- HK/CUN9KM7EAI7E1pn5bp/7mNOpbAkP7P/uCmMWSJ6nIQ4l5j4XVUKY+7WfaOWFz/+oy
- QZsFp+hpe4xpLkZEoovPlt4RqRU6Guo1s7uxxy1hQDtUixA//ofjfHcn372CpsI/EVwc
- S892waIsyB9oK1MYCtpq93b1j4VUjoem40u9LegbF0OSu3PFYzooyQn6BDZ+137VggRG
- Ei47jhRocHknkGe0HqBRRmcU+p2gTsJ13jO0ecA2zodMs86Z5cb+hwNyWUIw8qixiFJU
- bVPA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1700906797;
- s=strato-dkim-0003; d=xenosoft.de;
- h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
- From:Subject:Sender;
- bh=QJUXeT/G7oE/8Y0b39Zjpc2uXnqV72pbi/a6a1IQmzk=;
- b=TIm1Lfc+h2PjpmWRcoxeMAC+lCs5+dzw4/1RvzuylweJEm1FmWWcZyTAfmi7CjkU1t
- Bp3AS1ewxD1h/zmuRTCA==
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHfJ+Dkjp5DdBfi4XXBswJY1ymSyVTj2wKONxQss4byztTU3log=="
-Received: from [IPV6:2a02:8109:8984:5d00:1007:45f9:3fd1:2db6]
- by smtp.strato.de (RZmta 49.9.1 AUTH) with ESMTPSA id U060a4zAPA6anW8
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Sat, 25 Nov 2023 11:06:36 +0100 (CET)
-Message-ID: <37b9e5ab-e170-4071-a912-f3fec0d59d5c@xenosoft.de>
-Date: Sat, 25 Nov 2023 11:06:35 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+X-Greylist: delayed 435 seconds by postgrey-1.36 at gabe;
+ Sat, 25 Nov 2023 11:17:33 UTC
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
+ [130.133.4.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29CE510E0E8
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 11:17:33 +0000 (UTC)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+ by outpost.zedat.fu-berlin.de (Exim 4.95) with esmtps (TLS1.3)
+ tls TLS_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1r6qXx-002LA1-AU; Sat, 25 Nov 2023 12:10:01 +0100
+Received: from p5dc55299.dip0.t-ipconnect.de ([93.197.82.153]
+ helo=suse-laptop.fritz.box) by inpost2.zedat.fu-berlin.de (Exim 4.95)
+ with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@physik.fu-berlin.de>)
+ id 1r6qXx-0043jv-1z; Sat, 25 Nov 2023 12:10:01 +0100
+Message-ID: <ee75377ad22a3d07f272e17f53cabead7b43afcb.camel@physik.fu-berlin.de>
 Subject: Re: [PATCH v2] drm/virtio: Add suppport for non-native buffer formats
-To: Geert Uytterhoeven <geert@linux-m68k.org>
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Christian Zigotzky <chzigotzky@xenosoft.de>, Geert Uytterhoeven
+ <geert@linux-m68k.org>
+Date: Sat, 25 Nov 2023 12:09:59 +0100
+In-Reply-To: <37b9e5ab-e170-4071-a912-f3fec0d59d5c@xenosoft.de>
 References: <47a81d2e0e47b1715718779b6978a8b595cc7c5d.1700140609.git.geert@linux-m68k.org>
  <77c6gkquzq4sdtmrlko3lkxvcnipm2zfjem3kvhgslcellkefh@man7pbbzud47>
  <a9ade305-f90e-4250-a795-49ef4e29e0ac@xenosoft.de>
  <CAMuHMdXtUYJmEharJhBXx7D=fA3mQxg6uMP2=4Qgi==2a+kVQw@mail.gmail.com>
-Content-Language: de-DE
-From: Christian Zigotzky <chzigotzky@xenosoft.de>
-In-Reply-To: <CAMuHMdXtUYJmEharJhBXx7D=fA3mQxg6uMP2=4Qgi==2a+kVQw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ <37b9e5ab-e170-4071-a912-f3fec0d59d5c@xenosoft.de>
+Autocrypt: addr=glaubitz@physik.fu-berlin.de; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.1 
+MIME-Version: 1.0
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 93.197.82.153
+X-ZEDAT-Hint: PO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,71 +73,33 @@ Cc: Laurent Vivier <lvivier@redhat.com>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19 November 2023 at 07:33 pm, Geert Uytterhoeven wrote:
-> Hi Christian,
->
-> On Sun, Nov 19, 2023 at 5:28 PM Christian Zigotzky
-> <chzigotzky@xenosoft.de> wrote:
->> On 16 November 2023 at 03:44 pm, Gerd Hoffmann wrote:
->>> On Thu, Nov 16, 2023 at 02:16:54PM +0100, Geert Uytterhoeven wrote:
->>>> When using virtgpu on a big-endian machine, e.g. powerpc QEMU:
->>>>
->>>>       virtio-pci 0000:00:02.0: [drm] *ERROR* fbdev: Failed to setup generic emulation (ret=-2)
->>>>
->>>> or m68k/virt:
->>>>
->>>>       virtio-mmio virtio-mmio.125: [drm] *ERROR* fbdev: Failed to setup generic emulation (ret=-2)
->>>>
->>>> and the graphical display fails to come up.
->>>>
->>>> Before, the call to drm_mode_addfb() caused a translation from a fourcc
->>>> format (XR24) to a bpp/depth pair (32/24) to a potentially different fourcc
->>>> format (BX24 on big-endian), due to the quirk processing in
->>>> drm_driver_legacy_fb_format().  After, the original fourcc format (XR24)
->>>> is passed unmodified.
->>>>
->>>> However, the virtgpu DRM driver supports only a single format for its
->>>> main plane: DRM_FORMAT_HOST_XRGB8888, which is XR24 on little-endian,
->>>> and BX24 on big-endian.  I.e. on big-endian, virtgpu does not support
->>>> XR24, which is the default DRM format, and must be supported by all
->>>> drivers.  Before, this was reported, but didn't lead to a failure:
->>>>
->>>>       virtio-mmio virtio-mmio.125: [drm] bpp/depth value of 32/24 not supported
->>>>       virtio-mmio virtio-mmio.125: [drm] No compatible format found
->>>>
->>>> As the core virtgpu driver and device support both XR24 and BX24 on both
->>>> little-endian and big-endian just fine, fix this extending the list of
->>>> supported formats for main plane and cursor plane to XR24/BX24 resp.
->>>> AR24/BA24.
->>>>
->>>> Fixes: 6ae2ff23aa43a0c4 ("drm/client: Convert drm_client_buffer_addfb() to drm_mode_addfb2()")
->>>> Reported-by: Christian Zigotzky <chzigotzky@xenosoft.de>
->>>> Closes: https://lore.kernel.org/r/c47fba21-3ae9-4021-9f4a-09c2670ebdbc@xenosoft.de
->>>> Suggested-by: Gerd Hoffmann <kraxel@redhat.com>
->>>> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
->>> Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
->> The new patch works but I don't see the virtio-mouse-pci pointer
->> anymore. I see the pointer with -device usb-tablet. Please check the
->> second patch. I will use the first patch for the RC2 of kernel 6.7.
-> That's probably partially explained by commit 99748ab64fcc8578 ("drm:
-> virtio: fix virtio_gpu_cursor_formats"), which forced BA24 for the
-> cursor plane on big-endian, but unfortunately linked thread doesn't
-> contain the full picture.
->
-> Where is the default cursor format defined?
-> I see virtio_gpu_mode_dumb_create() still defaults to
-> DRM_FORMAT_HOST_XRGB8888.  However, that can't be the cause, as the
-> cursor formats require an alpha channel.
->
-> Gr{oetje,eeting}s,
->
->                          Geert
->
-Hi Geert,
+On Sat, 2023-11-25 at 11:06 +0100, Christian Zigotzky wrote:
+> Could you please revert the v2 patch because of the issue with the=20
+> virtio-mouse-pci cursor? I will try to use the v1 patch for the RC3 of=
+=20
+> kernel 6.7.
 
-Could you please revert the v2 patch because of the issue with the 
-virtio-mouse-pci cursor? I will try to use the v1 patch for the RC3 of 
-kernel 6.7.
+I don't understand why the v2 patch should yield any different results as
+the only change compared to v1 is the fixed patch subject. There are no
+functional differences, I just diffed the patches against each other:
 
-Thanks,
-Christian
+--- geert-patch-v1.patch        2023-11-25 12:09:19.122936658 +0100
++++ geert-patch-v2.patch        2023-11-25 12:09:36.313039085 +0100
+@@ -34,6 +34,9 @@
+ Suggested-by: Gerd Hoffmann <kraxel@redhat.com>
+ Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+ ---
++v2:
++  - Fix truncated one-line summary.
++---
+  drivers/gpu/drm/virtio/virtgpu_display.c | 11 +++++++++--
+  drivers/gpu/drm/virtio/virtgpu_plane.c   |  6 ++++--
+  2 files changed, 13 insertions(+), 4 deletions(-)
+
+Adrian
+
+--=20
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
