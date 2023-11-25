@@ -1,64 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD7E7F8DBE
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Nov 2023 20:12:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8CA57F8DE9
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Nov 2023 20:23:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 343A010E03F;
-	Sat, 25 Nov 2023 19:12:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BA9D10E038;
+	Sat, 25 Nov 2023 19:23:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
- [IPv6:2607:f8b0:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2208210E038;
- Sat, 25 Nov 2023 19:12:09 +0000 (UTC)
-Received: by mail-il1-x12e.google.com with SMTP id
- e9e14a558f8ab-35c690f6e00so5044905ab.1; 
- Sat, 25 Nov 2023 11:12:09 -0800 (PST)
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
+ [IPv6:2607:f8b0:4864:20::732])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 540D410E038
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 19:23:06 +0000 (UTC)
+Received: by mail-qk1-x732.google.com with SMTP id
+ af79cd13be357-77896da2118so169435585a.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 11:23:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1700939527; x=1701544327; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=InO944iGhkpnbZZ89M4jhM8BqOJsrw18SbpUTux2+2c=;
- b=UpypIZ7DjOF2B4XOpQpbeAhOKNkhss7c5pR6UBTZ7g/vk1E689eQAHl4FmsBd5yNhv
- m6qxLSfPAoj3GrUNJnF0C03ZFW3UwDk+iv+YOREvG4T4kogM42Gqnjyh+nWQR85B2wd2
- /2qCMu9MnWVgthigBh5P/xd1FmXfjew60Pk+kilCuYcggz0j8Y+qU4KYQb/cx8KcFviw
- zRfoP+Syse1ZI1NEvnDiYXzUQmYylIqy7inaEUIApj1cwFUneoupwE5OsV9DuOWEna5g
- oRRTVB1b5m6XP0TbXgimTkhTtJxh96M6BwXlzerFj9CFf5f+6flXyG0ObUDfnAWkcetx
- 4rqw==
+ d=gmail.com; s=20230601; t=1700940185; x=1701544985; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Lb+54asHpI2xznDeoR9SqIe43L0n7p5u/l/dRCvBZE8=;
+ b=aSuwJTJ3YOkNruqP0I6UF8UkQ2PMUvhzhEseOnzvbFc3k608RJ/XdsgDkwU3aOavqn
+ 25bwU0ZXwpF2x+nwZ+ToIBcWX37NbVyDcCu3UNZQE7pdq35Qo8SMrwSAlowbi+WiptX1
+ cdCMCFe4ifVGMgqQIEZKPN9qj9tyoTZyoW+ZjQwSeqb5uo10wvkHqedzgfMhYW51fy3w
+ 45pTwU/6E50NdmoiYHtO4kB8aPKuQVI2TBVUl5BggDEGzCgw+E11lPN3BZg+PAoiEB81
+ nRE5iS7yvi4huiFiJ2e995uL+jk17GXW9WK+8VhYeb5UeecIxJmTBTymhGN5+bftFQRE
+ GqNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700939527; x=1701544327;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=InO944iGhkpnbZZ89M4jhM8BqOJsrw18SbpUTux2+2c=;
- b=h8gHC/ktoJXV2NbvjYzU0RXofb5BHGuBhXWJqPwbOQcmuBYz4hA61XH8Zpx6O//39n
- oMD2Lxs1X6yXMdMPqEDIb0HzAqIq2lmLxZ/ow7wPh9WjQDqNyuZdk/0jRF2CkvwD3l3N
- MLGCB8/zIeI6L+VwnVil/xHk35LlzvYec2cl1nzz3rKIB/oCRE7p4skZm1ZVhdAb3fnN
- q6EFvg0ERlQxNlQW3CShq/JnLXNwkyE7/889ZJf63f2Ak2CrZIZpouLeZzDLDBYV5w3k
- EvTdJu/qSrRpSnWivpfLgp/1lpkeaRGvpnjyJv0M8Z/IAVlt/WDyDcKdjB3hlo4HhVZq
- 6S5w==
-X-Gm-Message-State: AOJu0Yy8Kavj5q/70IoJtgwr9wpreiY4qB2R5wDiPSUzWWFN44d8+gXf
- UWIr42sy5mkJUFQfWUZQlx1UQFFVJ7U=
-X-Google-Smtp-Source: AGHT+IFwE/dHHJzHe6umOUV9J8rWksNeOz/QBwxeptGGIiqOaT/t/oac6tTFX63Ey8kBhnkhJUYKeA==
-X-Received: by 2002:a05:6e02:2142:b0:35c:9577:dee with SMTP id
- d2-20020a056e02214200b0035c95770deemr2672154ilv.1.1700939527119; 
- Sat, 25 Nov 2023 11:12:07 -0800 (PST)
-Received: from localhost (c-73-37-105-206.hsd1.or.comcast.net. [73.37.105.206])
+ d=1e100.net; s=20230601; t=1700940185; x=1701544985;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Lb+54asHpI2xznDeoR9SqIe43L0n7p5u/l/dRCvBZE8=;
+ b=kTFoJ/9klYiAdVBqL8HUVaBUXvk5STIQ1fTGcxAjineWKFZgPez7Lqu5vSDLxnDM0+
+ 5mSKPjKsRaPm23Qlt5uAuA6R2LJGCLA8rcF/4PzXPoAcpKjYLNujDOGDB8CYzPXn05Uw
+ pnWMSp6rR/ZreijX0gkSi5II4copem+ff81PeKnRC6o5veHXvfUZ9lXxXYpYIMIB6yW1
+ q99EkwuMlruoq1B6ZgoxKPinkrHrQG5utWuX1qO8Y2X2++J7qZGzFhHS/LQ8btCoChBt
+ 10VpD1V8oXV1p8kuCA7pBjMPE3dCeJNCRLjX7XG2NwqcgjnA7YmORE3Neil1IU5R9Baj
+ dzqw==
+X-Gm-Message-State: AOJu0Yye72AVz3YGAMGiaeR4plB5kMRXs5xUJx5mPZTfsvZPu0vIP9Wp
+ SnAyVNuzbqQ+bp+8sstrVR4WNKMZmFZc+A==
+X-Google-Smtp-Source: AGHT+IF965vFeK4L2720NdhJFgHZITxOKxIL7H4Y4kD0GBlUHsq+Aj2Hx8q7vYJGWRpVuKKpBBi+PQ==
+X-Received: by 2002:a05:622a:5da6:b0:423:a0e1:c58f with SMTP id
+ fu38-20020a05622a5da600b00423a0e1c58fmr3290073qtb.59.1700940184605; 
+ Sat, 25 Nov 2023 11:23:04 -0800 (PST)
+Received: from localhost.localdomain ([76.65.20.140])
  by smtp.gmail.com with ESMTPSA id
- d25-20020aa78159000000b006cbae51f335sm4817092pfn.144.2023.11.25.11.12.06
+ hj5-20020a05622a620500b00423a073b525sm1189898qtb.72.2023.11.25.11.23.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Nov 2023 11:12:06 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/msm/a690: Fix reg values for a690
-Date: Sat, 25 Nov 2023 11:11:51 -0800
-Message-ID: <20231125191155.5375-2-robdclark@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231121162137.60488-1-robdclark@gmail.com>
-References: <20231121162137.60488-1-robdclark@gmail.com>
+ Sat, 25 Nov 2023 11:23:04 -0800 (PST)
+From: Luben Tuikov <ltuikov89@gmail.com>
+To: Direct Rendering Infrastructure - Development
+ <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/sched: Fix compilation issues with DRM priority rename
+Date: Sat, 25 Nov 2023 14:22:47 -0500
+Message-ID: <20231125192246.87268-2-ltuikov89@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,98 +71,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Douglas Anderson <dianders@chromium.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, Danylo Piliaiev <dpiliaiev@igalia.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
+Cc: kernel test robot <lkp@intel.com>, Luben Tuikov <ltuikov89@gmail.com>,
+ Matt Coster <matt.coster@imgtec.com>, Danilo Krummrich <dakr@redhat.com>,
+ Donald Robson <donald.robson@imgtec.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Danylo Piliaiev <dpiliaiev@igalia.com>
+Fix compilation issues with DRM scheduler priority rename MIN to LOW.
 
-KGSL doesn't support a690 so all reg values were the same as
-on a660. Now we know the values and they are different from the
-windows driver.
-
-This fixes hangs on D3D12 games and some CTS tests.
-
-Signed-off-by: Danylo Piliaiev <dpiliaiev@igalia.com>
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+Signed-off-by: Luben Tuikov <ltuikov89@gmail.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202311252109.WgbJsSkG-lkp@intel.com/
+Cc: Danilo Krummrich <dakr@redhat.com>
+Cc: Frank Binns <frank.binns@imgtec.com>
+Cc: Donald Robson <donald.robson@imgtec.com>
+Cc: Matt Coster <matt.coster@imgtec.com>
+Cc: Direct Rendering Infrastructure - Development <dri-devel@lists.freedesktop.org>
+Fixes: fe375c74806dbd ("drm/sched: Rename priority MIN to LOW")
+Fixes: 5f03a507b29e44 ("drm/nouveau: implement 1:1 scheduler - entity relationship")
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/imagination/pvr_queue.c | 2 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.c | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index d10b22eeda74..7784d7d39192 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1312,6 +1312,7 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
+diff --git a/drivers/gpu/drm/imagination/pvr_queue.c b/drivers/gpu/drm/imagination/pvr_queue.c
+index d65c3fbedf5ac4..5ed9c98fb599c8 100644
+--- a/drivers/gpu/drm/imagination/pvr_queue.c
++++ b/drivers/gpu/drm/imagination/pvr_queue.c
+@@ -1292,7 +1292,7 @@ struct pvr_queue *pvr_queue_create(struct pvr_context *ctx,
+ 		goto err_release_ufo;
  
- 	if (adreno_is_a650(adreno_gpu) ||
- 	    adreno_is_a660(adreno_gpu) ||
-+	    adreno_is_a690(adreno_gpu) ||
- 	    adreno_is_a730(adreno_gpu) ||
- 	    adreno_is_a740_family(adreno_gpu)) {
- 		/* TODO: get ddr type from bootloader and use 2 for LPDDR4 */
-@@ -1321,13 +1322,6 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
- 		uavflagprd_inv = 2;
- 	}
+ 	err = drm_sched_entity_init(&queue->entity,
+-				    DRM_SCHED_PRIORITY_MIN,
++				    DRM_SCHED_PRIORITY_KERNEL,
+ 				    &sched, 1, &ctx->faulty);
+ 	if (err)
+ 		goto err_sched_fini;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
+index 3393647bd94423..dd98f6910f9cab 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_sched.c
++++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
+@@ -18,7 +18,7 @@
+  * index to the run-queue array.
+  */
+ enum nouveau_sched_priority {
+-	NOUVEAU_SCHED_PRIORITY_SINGLE = DRM_SCHED_PRIORITY_MIN,
++	NOUVEAU_SCHED_PRIORITY_SINGLE = DRM_SCHED_PRIORITY_KERNEL,
+ 	NOUVEAU_SCHED_PRIORITY_COUNT,
+ };
  
--	if (adreno_is_a690(adreno_gpu)) {
--		hbb_lo = 2;
--		amsbc = 1;
--		rgb565_predicator = 1;
--		uavflagprd_inv = 2;
--	}
--
- 	if (adreno_is_7c3(adreno_gpu)) {
- 		hbb_lo = 1;
- 		amsbc = 1;
-@@ -1741,7 +1735,9 @@ static int hw_init(struct msm_gpu *gpu)
- 	/* Setting the primFifo thresholds default values,
- 	 * and vccCacheSkipDis=1 bit (0x200) for A640 and newer
- 	*/
--	if (adreno_is_a650(adreno_gpu) || adreno_is_a660(adreno_gpu) || adreno_is_a690(adreno_gpu))
-+	if (adreno_is_a690(adreno_gpu))
-+		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00800200);
-+	else if (adreno_is_a650(adreno_gpu) || adreno_is_a660(adreno_gpu))
- 		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00300200);
- 	else if (adreno_is_a640_family(adreno_gpu) || adreno_is_7c3(adreno_gpu))
- 		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00200200);
-@@ -1775,6 +1771,8 @@ static int hw_init(struct msm_gpu *gpu)
- 	if (adreno_is_a730(adreno_gpu) ||
- 	    adreno_is_a740_family(adreno_gpu))
- 		gpu_write(gpu, REG_A6XX_RBBM_INTERFACE_HANG_INT_CNTL, (1 << 30) | 0xcfffff);
-+	else if (adreno_is_a690(adreno_gpu))
-+		gpu_write(gpu, REG_A6XX_RBBM_INTERFACE_HANG_INT_CNTL, (1 << 30) | 0x4fffff);
- 	else if (adreno_is_a619(adreno_gpu))
- 		gpu_write(gpu, REG_A6XX_RBBM_INTERFACE_HANG_INT_CNTL, (1 << 30) | 0x3fffff);
- 	else if (adreno_is_a610(adreno_gpu))
-@@ -1808,12 +1806,17 @@ static int hw_init(struct msm_gpu *gpu)
- 	a6xx_set_cp_protect(gpu);
+@@ -423,7 +423,7 @@ nouveau_sched_init(struct nouveau_sched *sched, struct nouveau_drm *drm,
+ 	if (ret)
+ 		goto fail_wq;
  
- 	if (adreno_is_a660_family(adreno_gpu)) {
--		gpu_write(gpu, REG_A6XX_CP_CHICKEN_DBG, 0x1);
-+		if (adreno_is_a690(adreno_gpu))
-+			gpu_write(gpu, REG_A6XX_CP_CHICKEN_DBG, 0x00028801);
-+		else
-+			gpu_write(gpu, REG_A6XX_CP_CHICKEN_DBG, 0x1);
- 		gpu_write(gpu, REG_A6XX_RBBM_GBIF_CLIENT_QOS_CNTL, 0x0);
- 	}
- 
-+	if (adreno_is_a690(adreno_gpu))
-+		gpu_write(gpu, REG_A6XX_UCHE_CMDQ_CONFIG, 0x90);
- 	/* Set dualQ + disable afull for A660 GPU */
--	if (adreno_is_a660(adreno_gpu))
-+	else if (adreno_is_a660(adreno_gpu))
- 		gpu_write(gpu, REG_A6XX_UCHE_CMDQ_CONFIG, 0x66906);
- 	else if (adreno_is_a7xx(adreno_gpu))
- 		gpu_write(gpu, REG_A6XX_UCHE_CMDQ_CONFIG,
+-	/* Using DRM_SCHED_PRIORITY_MIN, since that's what we're required to use
++	/* Using DRM_SCHED_PRIORITY_KERNEL, since that's what we're required to use
+ 	 * when we want to have a single run-queue only.
+ 	 *
+ 	 * It's not documented, but one will find out when trying to use any
+@@ -433,7 +433,7 @@ nouveau_sched_init(struct nouveau_sched *sched, struct nouveau_drm *drm,
+ 	 * Can't use NOUVEAU_SCHED_PRIORITY_SINGLE either, because it's not
+ 	 * matching the enum type used in drm_sched_entity_init().
+ 	 */
+-	ret = drm_sched_entity_init(entity, DRM_SCHED_PRIORITY_MIN,
++	ret = drm_sched_entity_init(entity, DRM_SCHED_PRIORITY_KERNEL,
+ 				    &drm_sched, 1, NULL);
+ 	if (ret)
+ 		goto fail_sched;
+
+base-commit: 38f922a563aac3148ac73e73689805917f034cb5
 -- 
-2.42.0
+2.43.0
 
