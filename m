@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 577337F8B54
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Nov 2023 15:17:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 994377F8B5E
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Nov 2023 15:18:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9542B10E106;
-	Sat, 25 Nov 2023 14:17:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47C2E10E0E6;
+	Sat, 25 Nov 2023 14:18:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34A6610E106
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 14:17:52 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id
- a640c23a62f3a-9fd0059a967so741934866b.1
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 06:17:52 -0800 (PST)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFFA210E240
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 14:17:54 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id
+ 4fb4d7f45d1cf-5441305cbd1so3678775a12.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 06:17:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700921870; x=1701526670; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1700921873; x=1701526673; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=eqbb19oWFPD8qDhmzNJu7LExFvnUbJSOuyMJKMhlgUE=;
- b=R75CtYqfl6UjfKKWmOB+YbNM0pU7bRfUNmVFAbrEBP29VkIJZ4HHTrl5xt8RbWTuzW
- n43SW7vzWrXlflfwytfdYhyt9UIbzrxm8JDye8CYtLOr/Y5ILLdZeN25Bzx2LtMovLlM
- ELfTu9p5AyujUgnUvlyZRhvQvhbNIio4dOSoEs2MH6raux2jawk3zKYukP93UQSumHDk
- 4VHPsiMPFdCnkBVgpXf1mFDZlRzBf2rpfoomaqtrbLdUlTnQS+U9nQKpULOzmQYYTbyE
- YRSpZzQDR/JxlBRi/ud6JklmdH6JusWIF72rOECc2qY62k7SYkAeT5wjB6ZxeCAqaGZD
- xBSQ==
+ :reply-to; bh=oCxJjrmz0z+H04UIqC/ZDHtTQyFYGs6I+ck9k7G4Dco=;
+ b=ROqtgS3Tsji/oE3BgFE06L8l6OyL8znSsya5SxKFscHZLTwUeXK3i7oCcrxinjwbtZ
+ G6RSoArTtL0pDKSkVAZvY8GeuzWPDiReyyqHluSsrhU9uzwR96KrBmiEJfc/K3lzRd3l
+ vv6KWiO3roM0oj5BijY9dIGiY2jC+9FyUa73NnXkeRHV//DQOtEPOKL2GvsjUENYCSwx
+ hZIYsbH9x3hCtMPOG382DDQKNu2Dl5S5lWfDajEbuS4GDTTP1qMZ4tMzCwXIagV2eQje
+ 142nDyLhXdJuk52rRKA1CU3Fe60LNErovdHpaSjBPjbRAz1A+6Xs6DwdruQdwnqru6XE
+ Sptw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700921870; x=1701526670;
+ d=1e100.net; s=20230601; t=1700921873; x=1701526673;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=eqbb19oWFPD8qDhmzNJu7LExFvnUbJSOuyMJKMhlgUE=;
- b=U+AyOkoa5z1fTf6JS+KizkgePCpSis1/fW/BUR0dRbtg43Hs+AQ0MYCwwMITYrQjRB
- SjcqnHg+W+HtH+e7N67uL2QP1FiRyvY+jBOkPDZrhQDFSFLTJZxXF9wdlPTU8Duv5WSR
- ti2jIPLyDYGdE1qxF9HwuBFYlUaUnvvmr4Tnn509uyB6qxioocCCN3MbPE4p53ov2Mv+
- JdwtOIZy7HuxuvYvfOmE8YMscR6X4UY1WJAeCunzXF2GW5La12mBwPvSpuqDl9qirIsf
- Jndf4R3XuCAE6iyo/XA8LiXLUjVWklgCYRnllFVHugRzlo8LC2Iy1AeKyYiVHPU2jdrP
- c6QA==
-X-Gm-Message-State: AOJu0YytGh2CcP0IOgZ2wt/UlZrMNsXsZwCb19x4VgeVXByF9IBHP6gp
- KxIXq3h7P4ybhYUVMGi+r0dygw==
-X-Google-Smtp-Source: AGHT+IGR9tBJZuW4Oo7JUrMEGXAjwVM/uMciWDFiip2iKnRP19yE7RUhPP5bwCFjfp39Yo++2RfLfQ==
-X-Received: by 2002:a17:906:b298:b0:a06:dd05:d695 with SMTP id
- q24-20020a170906b29800b00a06dd05d695mr5854984ejz.12.1700921870758; 
- Sat, 25 Nov 2023 06:17:50 -0800 (PST)
+ bh=oCxJjrmz0z+H04UIqC/ZDHtTQyFYGs6I+ck9k7G4Dco=;
+ b=cP8IKF+f11ILD0QMJaT9a/1VH11j+K92SALMeZE0Ps8OVWsFiT/kZnbbG3qzhKFdY/
+ mjW3bPRnihjJ7IlPPU41QfyZTNP43Rpe92JdhVJV7YfWch/2RZnmBvFOaEwGda0o9rqN
+ A9+lvvbIjAT02c2srsc+GFgbqq1oS1kKNuN2d0gPr2uSJrDe9VzhE1g7rQNuELpYQaHW
+ cADMA2q6vb3uUSS1iykaSkQTbjx3M36AvlwO2/0jl2wgwq5MOcW+WeTcqCACRklRkwoK
+ W5i4HVDvSZ5z2P1HSPzkX1/czUlfUYSqdJ/ObIk3W9xOnKsotlblpHV3RCv6th8wC9CM
+ E8Tg==
+X-Gm-Message-State: AOJu0Yw1DZBomRn5jWWIij1zVV+0nQ8M75lR684TFH1tDQcK2ynbeaDU
+ OZIDmPi4MkWzfPjbb+xUNJtNCw==
+X-Google-Smtp-Source: AGHT+IEbr7GDBeTPnW9gDDdo6VkIGH/WLIKWJrPZjcT5euLmhj3AB5FHgBzeyAAMU2jqxkCAgOefqA==
+X-Received: by 2002:a17:906:b796:b0:9fe:57b3:bc08 with SMTP id
+ dt22-20020a170906b79600b009fe57b3bc08mr4394797ejb.41.1700921873218; 
+ Sat, 25 Nov 2023 06:17:53 -0800 (PST)
 Received: from [10.167.154.1]
  (178235187180.dynamic-4-waw-k-2-3-0.vectranet.pl. [178.235.187.180])
  by smtp.gmail.com with ESMTPSA id
- 19-20020a170906319300b00992b8d56f3asm3500345ejy.105.2023.11.25.06.17.47
+ 19-20020a170906319300b00992b8d56f3asm3500345ejy.105.2023.11.25.06.17.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Nov 2023 06:17:50 -0800 (PST)
+ Sat, 25 Nov 2023 06:17:52 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Sat, 25 Nov 2023 15:17:31 +0100
-Subject: [PATCH 03/12] dt-bindings: display: msm: qcm2290-mdss: Allow 2
+Date: Sat, 25 Nov 2023 15:17:32 +0100
+Subject: [PATCH 04/12] dt-bindings: display: msm: sm8450-mdss: Allow 3
  interconnects
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231125-topic-rb1_feat-v1-3-11d71b12b058@linaro.org>
+Message-Id: <20231125-topic-rb1_feat-v1-4-11d71b12b058@linaro.org>
 References: <20231125-topic-rb1_feat-v1-0-11d71b12b058@linaro.org>
 In-Reply-To: <20231125-topic-rb1_feat-v1-0-11d71b12b058@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -78,11 +78,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Krishna Manikandan <quic_mkrishn@quicinc.com>, 
  Robert Marko <robimarko@gmail.com>, Das Srinagesh <quic_gurus@quicinc.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1700921858; l=869;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1700921858; l=865;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=xDff6gIDu+CTWuVjzt1GPZpEINlhu/tSsPBU3gWPnHA=;
- b=YmejfvEjbhNqruT3MXv+XMo97zWiskf4GaKaxji8ggapDZtFzdQgC4kASqndzOWm+67Y8bFa6
- 0FF93EB3HtBAgsjYb/KgoXzUsvQdlOPj1tPFtCY7pLo2Hh+D+dYuzrA
+ bh=deb9D2Xe1g6rHblNJhukz7PgRHVCdj6e1NcVucThHsI=;
+ b=04VTSyTWm5dlypXw+GdRqYQamBFxd0dqxWXQAZG+T+kAWcdfLMeRvfERanmuPSleYxvb1DvOc
+ JNDbEQ+SZ00DtKtwDgvwPbS3PZP48Bpj+WwtQ3aYwSNN8E5K2QOT+y7
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,28 +105,28 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In addition to MDP0, the cpu-cfg interconnect is also necessary.
+In addition to MDP01, the cpu-cfg interconnect is also necessary.
 Allow it.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml | 4 ++--
+ Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
-index 3d82c00a9f85..51f3e9c34dfb 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
-@@ -36,10 +36,10 @@ properties:
-     maxItems: 2
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
+index 001b26e65301..e94e8630cc85 100644
+--- a/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
+@@ -30,10 +30,10 @@ properties:
+     maxItems: 1
  
    interconnects:
--    maxItems: 1
-+    maxItems: 2
+-    maxItems: 2
++    maxItems: 3
  
    interconnect-names:
--    maxItems: 1
-+    maxItems: 2
+-    maxItems: 2
++    maxItems: 3
  
  patternProperties:
    "^display-controller@[0-9a-f]+$":
