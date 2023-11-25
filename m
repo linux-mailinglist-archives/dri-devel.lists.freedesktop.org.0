@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D7C17F8FB6
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Nov 2023 23:19:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 287237F8FB8
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Nov 2023 23:20:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8880D10E05B;
-	Sat, 25 Nov 2023 22:19:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43AF310E05A;
+	Sat, 25 Nov 2023 22:20:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1684A10E05A
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 22:19:45 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id
- 2adb3069b0e04-50baa1ca01cso958864e87.2
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 14:19:45 -0800 (PST)
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF04710E05A
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 22:20:53 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-54b0310f536so2827159a12.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 14:20:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1700950784; x=1701555584; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1700950852; x=1701555652; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=q6SbKdQ7lQXf9800oYBDr332T2f2/hW1NVqkx7+W38M=;
- b=VuJAJAn1NIkGRe3KGTqsmbIfo4mtcmNxY6b+3dnTADVmxhW6lEpvou900hWEa4QhiV
- pe/8YUF8E1Z4FiTD/a/BJnfqnPpLaz3gV9RU4x9IiQOVmr1icV5bihwoCw0hAdZ3sl60
- ucSjuhTmb/XisSPTnBi6tEENQKoVTiUpsQBTKNTpYLYazVAFBtgS+FH1RH/3jhuvRvz4
- kNGyPN25LzkejxbdYh5b2dU/9sJNTt0xQ9nnE9lhqfG77psd52UY/ivfWV1ZhA5vJKmh
- W4nT8LP89s9e9eMC48R/qkx2XWV7Ss9E7rxS3w9SHEKd9OIOSvgV/grBSL4P+jgF3kTf
- k/oQ==
+ bh=pf1n7XsDSax3M30meganwiWWjObIiqG+Mom5DM5JoVo=;
+ b=ajPOUDwB1gqw4U+CeCxki92VBQ4vxgx+1TqCq8/QaoJ4/r5PbeRXe/hJfGHN7W7XOg
+ Rxt2LYj0LX7hTEaM1eKv+/SZnM0o/xeIgL13MR1vHLnwGNhdXrsda+8E/klWflPsiVrj
+ 6OSuF6wFT0kA2k2J3ev4Q+UfXXu0GxFUtl79ez2mTeL1etglljqkWW1B1M0joGL7U4ti
+ NGXwcOizLKHWTLLM9wwo6H0LEvhmBjCh3PL3PT+nSuUb49yfum/MEsfPrPHz1d1Aw5UD
+ dxfNIYCqVc04v6Ilek1RmqxdCGaIhIAnCKFCKoB4XJZLYkNLID3Iy8EAwr5bTTQBbx7t
+ Xtvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1700950784; x=1701555584;
+ d=1e100.net; s=20230601; t=1700950852; x=1701555652;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=q6SbKdQ7lQXf9800oYBDr332T2f2/hW1NVqkx7+W38M=;
- b=j2olMXfkvBKGCilmerdxEmRQ6U1rc9qvu2EZz/cGreqC8t8LOo9zsMeOxE3jxdK3LI
- a0Sb78viE0pP1hRjURKZR47fgsi5diCDQJ+h4Gy5Y8aBtY/+IQtjQms4z7SalKQl4/yF
- jwWJcnzlPLk1s0ow8iEfu7C1p8BOm1VII+1wSosTqtHrstHemmW0l/dDsPCzBHaLPziu
- ciDubFMFE4I0ye0V41tJl2h9HDTxY5QA+dcpzOrxWpcLRKR46O6M0Sz0hyyUbZNVg06f
- HmmgF6CkahZxcOKUr+Gyh0b6qi2KsO54MlDCjcJlbO9FWBFlLTR4K2FgVmTnKtegNkHw
- ONBA==
-X-Gm-Message-State: AOJu0YzbwNaO1Mdf6EohjdQrwwXa6HGFUj8VPjwflOpAtR90GOAkm7De
- tp/kUTd2srHdSR4QYR+AlJ/Xag==
-X-Google-Smtp-Source: AGHT+IHB4Ys5BBphGeNYSrirD0ZD/Br3ORRKCYPNfcsXTRgYRuytxPTCZDF8V/vxxlgYwR8m8BmhNA==
-X-Received: by 2002:ac2:4e08:0:b0:50b:ab5e:2083 with SMTP id
- e8-20020ac24e08000000b0050bab5e2083mr1490504lfr.21.1700950783900; 
- Sat, 25 Nov 2023 14:19:43 -0800 (PST)
+ bh=pf1n7XsDSax3M30meganwiWWjObIiqG+Mom5DM5JoVo=;
+ b=DxVExeYkc7I73q0qleTtALtsr6r8AHUShv7yShMs/VI42/2/5WUVSbu2Jz+SDDwB0D
+ 7ZLKbXuNCJwKhsievGLwVvp+a5QVx1qcMLb7oovjVOvWw93XvhpVVgUxqzrFx7Ro0DHP
+ ecIJlj1qOqdM5XVVAj0JlC5t3mONM9LddPVUpFb9t1rij9qLT8SOQFrLJ1j8Yu1XeQxW
+ 1mLW4v/RmnN95YO1KrhQJa8G5EhsK+CaiRtXELtoIlkrC1WTm7Vb/n+WVvmfiy3DV/ff
+ YKfOa75DolMV8TZ2+YX+kDC1fpqiJbVLh9HUUgPeNRduCOuL9ijusVp8Ip3IqBBU+BFy
+ +vtw==
+X-Gm-Message-State: AOJu0YzDICz8XyQmUMHaj6g5qxqWrbMXTry8Y7gkLRMJOGk7c3ArfUQp
+ J4wYfXqY1oJ5Qpg7kOeZI4Ic1A==
+X-Google-Smtp-Source: AGHT+IE9JK89KqkLkVFP6K5vwybNSSAe1kkdHHznfextHga8I21CzcQtHouaR6yHEqrhGm1TiqespQ==
+X-Received: by 2002:a50:f60c:0:b0:548:af20:1b7e with SMTP id
+ c12-20020a50f60c000000b00548af201b7emr6812586edn.8.1700950852108; 
+ Sat, 25 Nov 2023 14:20:52 -0800 (PST)
 Received: from [192.168.201.100]
  (178235187180.dynamic-4-waw-k-2-3-0.vectranet.pl. [178.235.187.180])
  by smtp.gmail.com with ESMTPSA id
- r12-20020aa7cb8c000000b0053deb97e8e6sm3461236edt.28.2023.11.25.14.19.42
+ r12-20020aa7cb8c000000b0053deb97e8e6sm3461236edt.28.2023.11.25.14.20.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 25 Nov 2023 14:19:43 -0800 (PST)
-Message-ID: <fc91cbb2-2c80-4467-873b-24d5ed606dd9@linaro.org>
-Date: Sat, 25 Nov 2023 23:19:41 +0100
+ Sat, 25 Nov 2023 14:20:51 -0800 (PST)
+Message-ID: <9d294c13-4d59-40a1-ab9f-3a1305395aa3@linaro.org>
+Date: Sat, 25 Nov 2023 23:20:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] drm/msm/a6xx: Add missing BIT(7) to
- REG_A6XX_UCHE_CLIENT_PF
+Subject: Re: [PATCH v2 2/2] drm/msm/a690: Fix reg values for a690
 Content-Language: en-US
 To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
 References: <20231121162137.60488-1-robdclark@gmail.com>
- <20231125191155.5375-1-robdclark@gmail.com>
+ <20231125191155.5375-2-robdclark@gmail.com>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -98,7 +97,7 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20231125191155.5375-1-robdclark@gmail.com>
+In-Reply-To: <20231125191155.5375-2-robdclark@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,6 +113,7 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>,
  Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
  Bjorn Andersson <andersson@kernel.org>, Danylo Piliaiev <dpiliaiev@igalia.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
@@ -126,15 +126,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 25.11.2023 20:11, Rob Clark wrote:
 > From: Danylo Piliaiev <dpiliaiev@igalia.com>
 > 
-> Downstream always set BIT(7)
+> KGSL doesn't support a690 so all reg values were the same as
+> on a660. Now we know the values and they are different from the
+> windows driver.
+> 
+> This fixes hangs on D3D12 games and some CTS tests.
 > 
 > Signed-off-by: Danylo Piliaiev <dpiliaiev@igalia.com>
 > Signed-off-by: Rob Clark <robdclark@chromium.org>
 > ---
-FWIW this was only introduced in:
+Looks sane
 
-https://git.codelinaro.org/clo/la/platform/vendor/qcom/opensource/graphics-kernel/-/commit/704575ac510a6de3ae7813a851c942d19fbcb20d
-
-(around msm-5.15 / sm8550)
+Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
 Konrad
