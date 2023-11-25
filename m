@@ -2,44 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE927F8F23
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Nov 2023 21:48:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4FFD7F8F4F
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Nov 2023 21:55:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21EE910E042;
-	Sat, 25 Nov 2023 20:48:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC84110E047;
+	Sat, 25 Nov 2023 20:55:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AEAC10E042
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 20:48:37 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 87E12B83459;
- Sat, 25 Nov 2023 20:48:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 487CBC433C8;
- Sat, 25 Nov 2023 20:48:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1700945313;
- bh=MP615DG3faCXFei6ez6/qbJ2Qn+AxlK3zXjwrEKNgcs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=V3H6UDq7A3kCMLfHpZpSX7FXfzHuWMOtsplTH0sNtXsZgArz+P0U4eBCtxi3NSFFd
- /Qh78hVGqFA0WqXtaEMTLiv8fodY0nCNwQemnzy2nkPIc8A948DHrbP8ShAHXs9JEh
- DZSd65o2b/ffSmFfCaSmhQJlMgtpbBWoxv52RCHkCAWexYJeYwHrGLN9suMTTHOnuk
- DdSGqivh1nxdaSurglxzzB29rEdm+mzoC6D5xHsCr4gfSyRMDlvOZaKdKmw5u63wzf
- fjwHu1uh7qGvuEyyEExZqT+BueoGfafWluF3pHxDvInU7XHZpnYl45oF6XMQNbYQcP
- bHLD2kxsjKD7g==
-Date: Sat, 25 Nov 2023 20:48:14 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 10/17] dt-bindings: iio: samsung,exynos-adc: add
- specific compatibles for existing SoC
-Message-ID: <20231125204814.10fe16fa@jic23-huawei>
-In-Reply-To: <20231108104343.24192-11-krzysztof.kozlowski@linaro.org>
-References: <20231108104343.24192-1-krzysztof.kozlowski@linaro.org>
- <20231108104343.24192-11-krzysztof.kozlowski@linaro.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0ED010E046
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 20:55:41 +0000 (UTC)
+Received: from sobremesa.fritz.box (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: alarumbe)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 54CB86602F2E;
+ Sat, 25 Nov 2023 20:55:39 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1700945740;
+ bh=d0hv3YyRAgqiF4M37fzP8Ro2Ds0NYvFuhF+NO43K8yo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=PYFXWcqlaFIhqfWxjCWnAqrGxvf9qhGqJWkGGEQX4Td2rhjSPojxrreqGZZFi0tLI
+ RbctpvuWVUwxujJ9HgRCI3NXBZ0qyJ69ESSr2SDrIZ/iQ2qhwRZ4x9mT+2q6PtIpV2
+ rdIWgNIs0HqP58e25YPkRPssTz+Qw6isU7+3unEj10slEORnM+CZKg4vv4u34/fNJo
+ E+1ZRaGoldtufBXk7aajVMx97naRox+rocY9BHcfpX4nj0Lk5mt3B0N3/dSHhx/bF1
+ 3IDz8TI3LR7PH2YvOAr6BVJQAXkQP74AsZyxERyreRQIh9dYzLs7YrBTezVAYPrFgj
+ 6YzksXs6X56EQ==
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH 0/2] Panfrost devfreq and GEM status fixes
+Date: Sat, 25 Nov 2023 20:52:01 +0000
+Message-ID: <20231125205438.375407-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,90 +56,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-pwm@vger.kernel.org,
- linux-iio@vger.kernel.org, Tomasz Figa <tomasz.figa@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, linux-i2c@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>, Jiri Slaby <jirislaby@kernel.org>,
- Andi Shyti <andi.shyti@kernel.org>, linux-rtc@vger.kernel.org,
- Lee Jones <lee@kernel.org>, Jaehoon Chung <jh80.chung@samsung.com>,
- linux-samsung-soc@vger.kernel.org, linux-serial@vger.kernel.org,
- Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- alsa-devel@alsa-project.org, Maxime Ripard <mripard@kernel.org>,
- linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-sound@vger.kernel.org, Sam Protsenko <semen.protsenko@linaro.org>,
- linux-arm-kernel@lists.infradead.org, Alessandro Zummo <a.zummo@towertech.it>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mmc@vger.kernel.org,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed,  8 Nov 2023 11:43:36 +0100
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+During recent development of the Mali CSF GPU Panthor driver, a user
+noticed that GPU frequency values as reported by fdinfo were
+incorrect. This was traced back to incorrect handling of frequency value
+updates. The same problem was seen in Panfrost.
 
-> Samsung Exynos SoC reuses several devices from older designs, thus
-> historically we kept the old (block's) compatible only.  This works fine
-> and there is no bug here, however guidelines expressed in
-> Documentation/devicetree/bindings/writing-bindings.rst state that:
-> 1. Compatibles should be specific.
-> 2. We should add new compatibles in case of bugs or features.
-> 
-> Add compatibles specific to each SoC in front of all old-SoC-like
-> compatibles.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> 
-> ---
-> 
-> I propose to take the patch through Samsung SoC (me). See cover letter
-> for explanation.
-> ---
->  .../bindings/iio/adc/samsung,exynos-adc.yaml  | 29 +++++++++++--------
->  1 file changed, 17 insertions(+), 12 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.yaml b/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.yaml
-> index 582d0a03b814..4e40f6bed5db 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/samsung,exynos-adc.yaml
-> @@ -11,18 +11,23 @@ maintainers:
->  
->  properties:
->    compatible:
-> -    enum:
-> -      - samsung,exynos-adc-v1                 # Exynos5250
-> -      - samsung,exynos-adc-v2
-> -      - samsung,exynos3250-adc
-> -      - samsung,exynos4212-adc                # Exynos4212 and Exynos4412
-> -      - samsung,exynos7-adc
-> -      - samsung,s3c2410-adc
-> -      - samsung,s3c2416-adc
-> -      - samsung,s3c2440-adc
-> -      - samsung,s3c2443-adc
-> -      - samsung,s3c6410-adc
-> -      - samsung,s5pv210-adc
-> +    oneOf:
-> +      - enum:
-> +          - samsung,exynos-adc-v1                 # Exynos5250
-> +          - samsung,exynos-adc-v2
-> +          - samsung,exynos3250-adc
-> +          - samsung,exynos4212-adc                # Exynos4212 and Exynos4412
-> +          - samsung,exynos7-adc
-> +          - samsung,s3c2410-adc
-> +          - samsung,s3c2416-adc
-> +          - samsung,s3c2440-adc
-> +          - samsung,s3c2443-adc
-> +          - samsung,s3c6410-adc
-> +          - samsung,s5pv210-adc
-> +      - items:
-> +          - enum:
-> +              - samsung,exynos5433-adc
-> +          - const: samsung,exynos7-adc
->  
->    reg:
->      maxItems: 1
+Also one should consider GEM objects from a dma-buf import as being
+resident in system memory, so that this can be reflected on fdinfo.
+
+Adrián Larumbe (2):
+  drm/panfrost: Consider dma-buf imported objects as resident
+  drm/panfrost: Fix incorrect updating of current device frequency
+
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c | 17 +++++++++++++++--
+ drivers/gpu/drm/panfrost/panfrost_gem.c     |  2 +-
+ 2 files changed, 16 insertions(+), 3 deletions(-)
+
+
+base-commit: 38f922a563aac3148ac73e73689805917f034cb5
+-- 
+2.42.0
 
