@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B2467F8FC7
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Nov 2023 23:25:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC3D7F8FC8
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Nov 2023 23:25:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F0BD10E061;
-	Sat, 25 Nov 2023 22:25:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8692510E062;
+	Sat, 25 Nov 2023 22:25:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3E1110E061
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 22:25:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 321C310E062
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 22:25:49 +0000 (UTC)
 Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 569BD8708D;
- Sat, 25 Nov 2023 23:25:16 +0100 (CET)
+ by phobos.denx.de (Postfix) with ESMTPSA id 43E3E8708D;
+ Sat, 25 Nov 2023 23:25:47 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1700951117;
- bh=DiT57hUoYSN3U8Tkk7Pbx8uMvcqoZ5wc1mpLdcuXvno=;
+ s=phobos-20191101; t=1700951147;
+ bh=o4l2cZR2NqUOARa40siZZkK9Q1acG/raQs61/qKQxvQ=;
  h=From:To:Cc:Subject:Date:From;
- b=fNCJ3VdQ+FueNzx3Gd9LvDXL7YdNzRgnzMp765UXUrFh74w/HGZZxqpAQwcWyEkFj
- uB1HDtaSW3xwKGn0MNpKR75ZbnO3w77A0XxLSjNC0cJJvUy/3+qKHFUHOdwMozAvq+
- /nU4ZARMqcdtDWmOrgfUtyi+e/se2UyVgymj50LRQjPir6VSpC48Nz4xkdyyYKdS+o
- McL5hyy6VWz+3KsZvh70SUWkp3lOFBMJnWetvw9amZaxixLMEAryqLdjg3wRCzBuH7
- tVHUx1u7OHnyFF6kLtD1VK9fCtQ8JQGoq0lN0aqWAWiJq6pE6cGvQs4zux3zHqzGw6
- sm5DnTncQDwTA==
+ b=IBzx5mA9eTL4qM9rtPZkGngh/AhfdDGB6PrOaFr+fCtpgIDhCE64dHEFUBeDD9u82
+ SZGmZOt0xUuSOI6whFkLln5Eaz0MbQSVONQKtegNuT2yqgdxLjcDfTYrgZyDNBLEAG
+ aqsHknJXbvz+4qzTG2RvA/Fl294R3+by+i16nfURRM3d0ncNbVFwSMkArg993hPe+n
+ efb11YaqGjR1nBzbWzjPCuW72a7k62tXTAQ7HeNLajfuUqBjZYVHZYvkYw828TVBAh
+ /MQFw7kdrM3Mo1x4Jz9F2FaJhsuRX28Dk/rSX+hzkOFDHPAaNw4mlaiB2f9eb+4DBM
+ 9ovRa0TBpHsug==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/mxsfb: Drop extra space in request_irq args
-Date: Sat, 25 Nov 2023 23:24:41 +0100
-Message-ID: <20231125222504.97744-1-marex@denx.de>
+Subject: [PATCH] drm/mxsfb: Switch to drmm_mode_config_init
+Date: Sat, 25 Nov 2023 23:25:20 +0100
+Message-ID: <20231125222536.97769-1-marex@denx.de>
 X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -59,7 +59,8 @@ Cc: Marek Vasut <marex@denx.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop extra space, no functional change.
+Switch from deprecated unmanaged drm_mode_config_init() to
+managed drmm_mode_config_init(). No functional change.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
@@ -77,22 +78,26 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: dri-devel@lists.freedesktop.org
 Cc: linux-arm-kernel@lists.infradead.org
 ---
- drivers/gpu/drm/mxsfb/mxsfb_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index 625c1bfc41733..3bfa369b2507e 100644
+index 3bfa369b2507e..9f746852b8ff2 100644
 --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
 +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -197,7 +197,7 @@ static int mxsfb_irq_install(struct drm_device *dev, int irq)
+@@ -248,7 +248,11 @@ static int mxsfb_load(struct drm_device *drm,
+ 	pm_runtime_enable(drm->dev);
  
- 	mxsfb_irq_disable(dev);
+ 	/* Modeset init */
+-	drm_mode_config_init(drm);
++	ret = drmm_mode_config_init(drm);
++	if (ret) {
++		dev_err(drm->dev, "Failed to initialize mode config\n");
++		goto err_vblank;
++	}
  
--	return request_irq(irq, mxsfb_irq_handler, 0,  dev->driver->name, dev);
-+	return request_irq(irq, mxsfb_irq_handler, 0, dev->driver->name, dev);
- }
- 
- static void mxsfb_irq_uninstall(struct drm_device *dev)
+ 	ret = mxsfb_kms_init(mxsfb);
+ 	if (ret < 0) {
 -- 
 2.42.0
 
