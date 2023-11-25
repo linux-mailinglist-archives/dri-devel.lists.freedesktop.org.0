@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 843D87F896C
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Nov 2023 09:57:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC2C7F896E
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Nov 2023 09:57:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C3B010E125;
-	Sat, 25 Nov 2023 08:57:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D4DB10E140;
+	Sat, 25 Nov 2023 08:57:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C85FE10E125
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 08:56:59 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7237410E140
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 08:57:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1700902612; x=1701507412; i=deller@gmx.de;
- bh=xGxWfDL6iPcS1KThu3UcrWwZIREKMiaDHhBVBMgghjI=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
- In-Reply-To;
- b=d9POGsLtiljwm3pksbf6jk5oS9Lmb3twBWYMOZV+KR8BnikmW4+z5G6isJ7Peh4T
- 2N4FAQOrp4bpoXxIqeXFp7HlKoXNOFaDHfiTKJrI2gOK4IgPEO6ngc1C2B6UZtNjV
- VQrGhNr+ECRFYPuiAz3M1mzKI+mUA3uFgomiWzjh3ICYoURjogKLjYF2qFlSrVDmJ
- XARfo7zlvCLH5AD8aPTFNumsBrQsXGVZuCtj66kbK6lob9tjoO/Nbc20f03UGtjKE
- Aai8TE89RBqlW75/XAuG4iVX2vfwOafYgox+8DlZijFe2e8QBURTFe03ArMW83hTk
- IU3mPei/H3A3tSjrWA==
+ t=1700902666; x=1701507466; i=deller@gmx.de;
+ bh=AUosW9V3IxDxK2liiMeEPjrj2fM3ItCOEQ5c6OvqZPk=;
+ h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
+ b=WxaaOn7bIBcWueoAWMsiRCJEHyE7k8avIvZiWX/oRyLUVCGuzlqZwieH8MQ97jb9
+ XWvE7QnR9VawuL4deiiM7CaCJpxg0N8ZrPWxJ/juwe0MdBp3g0Li16kwNL7XaIvsh
+ zJUDw15nU6BOFYX5w4Thkva26NJXNcJX9OwcygFwJrE9FfFDxzRAzR8sz/WeJXrTj
+ KYf3Olo6G9jYQvknoZP8+bPEM5JkDBxbLV1ZRW5WhCxBFUmap7xH02IwBRWdQwG2r
+ pVC5xAhx90J6dlMNoxnRI/va/5eofeMfi9jPzfnLePRCyAbRRSCn6mSe5ltN1WAhY
+ k2Sy28OSZDsc4RgeCQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.20.60] ([94.134.159.47]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MPokD-1qtwHP10QF-00MrYs; Sat, 25
- Nov 2023 09:56:52 +0100
-Message-ID: <c0272fa5-6415-4f78-9a05-d7e0621db5e6@gmx.de>
-Date: Sat, 25 Nov 2023 09:56:51 +0100
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MG9gE-1r5fMs1aua-00GZvV; Sat, 25
+ Nov 2023 09:57:46 +0100
+Message-ID: <8dfad83f-20b1-49c9-bab8-ff5259ab85d0@gmx.de>
+Date: Sat, 25 Nov 2023 09:57:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] video: fbdev: mmp: Fix typo in code comment
+Subject: Re: [PATCH v2] fbdev/fsl-diu-fb: Fix srapse warning due to
+ virt_to_phys() prototype change
 Content-Language: en-US
-To: Randy Dunlap <rdunlap@infradead.org>,
- Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- linux-kernel@vger.kernel.org
-References: <20231124095221.659445-1-dario.binacchi@amarulasolutions.com>
- <de706c0c-d6dc-45d4-a316-56ff56be5c25@infradead.org>
+To: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+ timur@kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <170052488691.21532.13211751644917367476.stgit@skinsburskii.>
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
  xsFNBF3Ia3MBEAD3nmWzMgQByYAWnb9cNqspnkb2GLVKzhoH2QD4eRpyDLA/3smlClbeKkWT
@@ -82,29 +81,29 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <de706c0c-d6dc-45d4-a316-56ff56be5c25@infradead.org>
+In-Reply-To: <170052488691.21532.13211751644917367476.stgit@skinsburskii.>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:3tCff3RyjUO6LGAGHQXfb3+gZRmSXzAacFpuCN0zICtoZqsQ0jT
- RY4lAsoH7jTog6NrEwMktmt0XfHsiIYCt5ZjHVAkzpT41TQ0dnmZ6FlCxu3VrEhEXLIwLZK
- jwAdGiOzmtnyx87oTmQx6eiNDfEV49k2PpWj2ricP0U0ntmWZCmlKUmfhpLK6Px7sgaY7rq
- aKDFh3D+srKK0LdJKsGRg==
+X-Provags-ID: V03:K1:4lzMUy2YNes4bzPay43m9jOyqRjehRDiEyApuWC1KSIzYRTWqrm
+ B/TrNJQirdGlwWz+/vFfLer5+9QfrAghleMeIf1wT7UuAfgcUIN7co0AXAhAu1HXB8sTDEU
+ Qh5A6CB2tvshUgWnbR+2nSn/dOX4wVxzf0Fr/Axo/Tt09jLh5aSkVhrsmmNyVoDLXXIaAKk
+ VdJuC3Wiq/u1OR5W6wocQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:VikTtrgkpx0=;794JxiwjxoZuIaJCBUT1mWBr9Yv
- hR+dvJUJ1wVkbF18f1sqltaC1W8rBw3dOTwKRR9mr8qx/JqE+MpfjNrCKSV3t7dPljCzZrMkD
- XH7BAPhtgr+5ngI2aKmJFwhoeQkHNCzxksA0+n5t2D7SHLsw6pX/R8HUdgiPJ2nsC+vy5b09X
- p3dxAeFo7ggUynJSi6kdS/GusxN89NSIwDv8QHNThY6WMjOkmjZa83+bUblDAhpdEz8k/YPVf
- rEK/Ny8IKV0doEsDf9wx6n95BYTBSPzct5H2qcBOSwv0wkZsAUH9u1MT69OdVzjR7i0ET7YGl
- 8xFRH8I+9a/GOTGuQnkxLdCTJXcaZDExIEhgGN/VMFkQcUxBhJUrxY+x+krFdmlFjLDPMf4JX
- NEj5aJkn7ZpmLt+s2cl4SFUXKdaPS0St+2oBco1PCd+ug4OyrkVQce1PJP2tsy25oPkuqxM6t
- vvnTRTewSTmad1bcCv698Kwaizc7hFk8hOVhafXhrgJNs8qHdh5/7uHXlXEREe6H0kUYapAyk
- JVCopjlrq0FKzxfYur/eY+OwbZZ0uQb2vswyuZYJCmbC7Bp50XEXYQBofuRpXYI8vIwNBTch5
- nEb/Y0mhx4tD29g9Z/UiMIPr4lTDWxkJLEI8ywUMzD4GtyyV/Ng2mSvmuyL4p65z1QJJRcQ3j
- GOEHHeVIMpmNHrklSGiHRz3KdwxZLTnAMlVwpkqisCaJWwPTcZ61O19PuPHL9EhRUVtFdExHb
- bC37AONAgnCnI3OzO0fJ6dscyAwBtDSmbc/9OqsTVvUBc95cXHdpNi7plhc6mhABFJJBBG/DW
- mdlz8+PvOBqZXAVDZmvKwpFr0JZ9wZjXZXSW2FXBaLku2d49PMSIJAXEcxBGrSg+cdoxdfBo3
- sV1Z5+8VpoHcxDaRVo5RMBcAemH2qZ9Hng/GkJpyK9YWsj47sq/t0CI3EXPAv9KUtlpn2GbfZ
- YTZJ2fo2bR40zHxkewH+TFUgLc4=
+UI-OutboundReport: notjunk:1;M01:P0:vJNe/opcLO4=;cjGPSWMCoIY0iRlfq3od+qepdBO
+ D316Yt6UGVQZ0BqwBEf6bTmAHnLSQmLtWLZTEjY8FRr7hPY2Ms+DrAxsZlvcaekO9G/+ESwCX
+ rjEaBT5Ya1o2HY/J5JiZzevzJQqhjJyedrqWw5h9i/6R9K0QTchO8dVgrHC55Gp7nZ/d+Vd59
+ 9wyGFbxdPrmV0UjZX9xIAY0fOUwmAiOIGuDGxeAykLDictCh/Ej6fvOEJ5GKeLzdyE3735RcH
+ 5TtT8wk9K6Wa7Z2aqKOk/bceu541b5rhxiPRQhLib1RLcYG48RgmJMdU5wQRNFNM3+hrvD9tP
+ +yMJItz/j3mzSxhOPBCdmtd2jTwhgp7txYbYFYJkSo4Ov0OPKdIxv0zNh2fXBSpzIYbx1yqab
+ exYvY20cyz0+HAG5sKsCpKtMGxQ5XavigUyc9w+vyp7fK4/g7ZPNCGrdOOAoD30nG1pYpEvSi
+ gwByHjx34cHd4E7442LuFxmc9buwhOqPJ8IHDohno/2OjusQEkREBkbHT9slpTDYww3wYJzVW
+ fYNxfKSBa5YdlJlszErXm1wzaWJ3lasstl7EfjG46TtIkf4N40BDYhatb7ZH7kmZH4mKbjPxb
+ 9R92a8Q1gQgn8KVdPn3SjjwN3kJEph5N6ulcXJxS38P2N8JZIrmdu6JQvXVmru1vLKlaqQcWP
+ kUsxiKPcViXzUO7wfGOZGyE5oZWyhu0yBukIKp5A6kfteiQIqgg4UZeAzym61VCHX4XYbA/th
+ 1eqBWTxj+MW3mpM1J7VJ2E16jIvSh7h7k0uVv8haGTG71y2J1SuO1acT3zuEh79kVorj8kSHl
+ MJLwG/pf8uQmb/7arhVParyOtIwwjGaxyJUVBdbOGhK6rHHWatknX74EOED7LCWo3yMZUdFMu
+ JX31gchl1SfPu2W9RDO9l92ReoAkE/P/JWW3a8jCXErtKdqXcLshHRB0WXrOQ5FUQS4rIXAuc
+ IT9bLlBAAWEBdP484jgpCJelMA4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,45 +116,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Haojian Zhuang <haojian.zhuang@gmail.com>,
- Zhou Zhu <zzhu3@marvell.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/24/23 16:34, Randy Dunlap wrote:
-> Hi,
+On 11/21/23 01:01, Stanislav Kinsburskii wrote:
+> Explicitly cast __iomem pointer to const void* with __force to fix the
+> following warning:
 >
-> On 11/24/23 01:52, Dario Binacchi wrote:
->> s/singals/signals/
->>
->> Fixes: 641b4b1b6a7c ("video: mmpdisp: add spi port in display controlle=
-r")
->> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
->> ---
->>
->>   drivers/video/fbdev/mmp/hw/mmp_spi.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/video/fbdev/mmp/hw/mmp_spi.c b/drivers/video/fbdev=
-/mmp/hw/mmp_spi.c
->> index 16401eb95c6c..64e34b7e739e 100644
->> --- a/drivers/video/fbdev/mmp/hw/mmp_spi.c
->> +++ b/drivers/video/fbdev/mmp/hw/mmp_spi.c
->> @@ -91,7 +91,7 @@ static int lcd_spi_setup(struct spi_device *spi)
->>   	writel(tmp, reg_base + LCD_SPU_SPI_CTRL);
->>
->>   	/*
->> -	 * After set mode it need a time to pull up the spi singals,
->> +	 * After set mode it need a time to pull up the spi signals,
+>     incorrect type in argument 1 (different address spaces)
+>        expected void const volatile *address
+>        got char [noderef] __iomem *screen_base
 >
-> Also:
-> 	                  it needs time
-> or
-> 	                  it needs some time
+> Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202311161120.BgyxTBMQ-lkp@=
+intel.com/
+> ---
+>   drivers/video/fbdev/fsl-diu-fb.c |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/video/fbdev/fsl-diu-fb.c b/drivers/video/fbdev/fsl-=
+diu-fb.c
+> index 7fbd9f069ac2..b0fda5bd1964 100644
+> --- a/drivers/video/fbdev/fsl-diu-fb.c
+> +++ b/drivers/video/fbdev/fsl-diu-fb.c
+> @@ -877,7 +877,7 @@ static int map_video_memory(struct fb_info *info)
+>   	}
+>   	mutex_lock(&info->mm_lock);
+>   	info->screen_base =3D p;
+> -	info->fix.smem_start =3D virt_to_phys(info->screen_base);
+> +	info->fix.smem_start =3D virt_to_phys((__force const void *)info->scre=
+en_base);
+>   	info->fix.smem_len =3D smem_len;
+>   	mutex_unlock(&info->mm_lock);
+>   	info->screen_size =3D info->fix.smem_len;
 
-I've fixed it up and applied that patch to fbdev git tree.
+applied to fbdev git tree (with some typos corrected).
 
-Thanks!
 Helge
 
