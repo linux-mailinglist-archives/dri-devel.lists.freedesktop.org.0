@@ -2,41 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA4C7F9582
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Nov 2023 22:32:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D7DA7F9591
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Nov 2023 22:42:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE00B10E03A;
-	Sun, 26 Nov 2023 21:32:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A72CC10E141;
+	Sun, 26 Nov 2023 21:42:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD7B410E03A;
- Sun, 26 Nov 2023 21:32:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1701034344;
- bh=m4c3MMaM5Jb7y6O4jt1oh7KB9TXWPcvGPoYTaAvC0B8=;
- h=Date:From:To:Cc:Subject:From;
- b=SzyGJoTLFpWl6ZtOWy5XSVpRhF0kxQbLmQCcOwunKR4x48vZDuCHejxKAk/ihRGDb
- ieFkZTlUSEOuTIM+Z4NHeZCxMIrHXEjFXPYcAra5ltQoY15e6b70CmL4ivOHnCSkqW
- tBrVpFSmYaG21ujFXIVHNKQZrW57Ry2E8BtnZfPH29yZ+8DSUvMXjAze+TB7VvEPwb
- w0WD0meVuy3z3BiQoFPpzNkTokCwitPgWyKD5tX6Ra54EfhKRhiz7jXmyNKUOW23C3
- KOB4JZTtpsb28HIk0BUVz/Qw4uh2ssZXb6rRV27H91gELqHq2f1RfiUrNhVk6ZUS5w
- lJJVaJ8b3Gftg==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Sdhkv0QBJz4wc8;
- Mon, 27 Nov 2023 08:32:22 +1100 (AEDT)
-Date: Mon, 27 Nov 2023 08:32:05 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: linux-next: build failure after merge of the drm-misc-fixes tree
-Message-ID: <20231127083205.44b25fa8@canb.auug.org.au>
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AB7B10E141;
+ Sun, 26 Nov 2023 21:42:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+ s=protonmail3; t=1701034933; x=1701294133;
+ bh=dL78TmTJretyAnQzWvm7zDVHx7kCj0XwyD/7fGgw/O4=;
+ h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=Qh6BtUByRqYH/QLMxTSPSyv3KeQcnaZu3ZIh4ZpOvMo92ve3As4JehNE9LoBFiBS8
+ 3GoMOqoKt5FwnzVG8RxOPivVBiJrPlKlF0YQf5GKJi1qyZ3RRVDwbpExmuoosId/zV
+ d4hP5i4YVF8MzuWVmrJfoHEAWgP61lxLq09a1p5xhBztahZeW9SMo7HWUor91WzV0I
+ dm0SIpUArNhrXyadnshOmh7vgZ865RmjvC1kn9QMjFibHlL3+fPUcnH/cc99oWYvpa
+ BAjhsKzPypP24guPet3dHXgiRH1sM2RG+IIu0igFAEJ0DpF5/zsL56oRQWOGncyuFg
+ nRgus22TVwBmw==
+Date: Sun, 26 Nov 2023 21:42:01 +0000
+To: intel-gfx@lists.freedesktop.org
+From: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+Subject: [PATCH v2] drm/i915/irq: Improve error logging for unexpected DE Misc
+ interrupts
+Message-ID: <20231126214142.102106-1-sergeantsagara@protonmail.com>
+Feedback-ID: 26003777:user:proton
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/hIMrf_P/ckwsQ.=GozpjKyq";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,51 +45,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Liu Ying <victor.liu@nxp.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Rahul Rameshbabu <sergeantsagara@protonmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/hIMrf_P/ckwsQ.=GozpjKyq
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Dump the iir value in hex when the interrupt is unexpected.
 
-Hi all,
+Link: https://gitlab.freedesktop.org/drm/intel/-/issues/9652#note_2178501
+Cc: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
+Reviewed-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+---
 
-After merging the drm-misc-fixes tree, today's linux-next build (x86_64
-allmodconfig) failed like this:
+Notes:
+    Changes:
+   =20
+      v1->v2:
+        - Change format specifier to pad minimum width
+        - https://lore.kernel.org/intel-gfx/20231123175638.27650-1-sergeant=
+sagara@protonmail.com/
 
-ERROR: modpost: "device_is_dependent" [drivers/gpu/drm/drm_kms_helper.ko] u=
-ndefined!
+ drivers/gpu/drm/i915/display/intel_display_irq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Caused by commit
-
-  39d5b6a64ace ("drm/bridge: panel: Check device dependency before managing=
- device link")
-
-I have used the drm-misc-fixes tree from next-20231124 for today.
-
+diff --git a/drivers/gpu/drm/i915/display/intel_display_irq.c b/drivers/gpu=
+/drm/i915/display/intel_display_irq.c
+index bff4a76310c0..7c6f20cd951e 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_irq.c
++++ b/drivers/gpu/drm/i915/display/intel_display_irq.c
+@@ -896,7 +896,7 @@ gen8_de_misc_irq_handler(struct drm_i915_private *dev_p=
+riv, u32 iir)
+ =09}
+=20
+ =09if (!found)
+-=09=09drm_err(&dev_priv->drm, "Unexpected DE Misc interrupt\n");
++=09=09drm_err(&dev_priv->drm, "Unexpected DE Misc interrupt: 0x%08x\n", ii=
+r);
+ }
+=20
+ static void gen11_dsi_te_interrupt_handler(struct drm_i915_private *dev_pr=
+iv,
 --=20
-Cheers,
-Stephen Rothwell
+2.40.1
 
---Sig_/hIMrf_P/ckwsQ.=GozpjKyq
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmVjuVUACgkQAVBC80lX
-0GyZ8Qf/QyUqgY9MYX9H3CKy5c82Isrenp7R03/3/+WZDEg0qyGKST7nbmdXMuqo
-gYIS9KqTd7NDY/S/D+cBHq/7ih8U1cwPLZwDPONhWMkGTuGAYKb2lHAORvVG34f8
-v2IFY0337RvARAO+tg2sRZSCS9y0xZRAls6sx9q3zeT0MIMw3tn/z46aZrSCxta4
-rIZhRvNXby0/zG2IIUt3CaD8keFjJAP7foNVyXWMpqjc9BCO5VfS8eRvgyEzARVR
-6BCTWs0P7oMsBxTyGd/Q0PVZqm0lhOuVNuaW9fSAfpSI8W3cH1/2Amt+23XyXycg
-4Q5kCiernY7N5w4NSh+mx+RlwJXHPg==
-=y/AT
------END PGP SIGNATURE-----
-
---Sig_/hIMrf_P/ckwsQ.=GozpjKyq--
