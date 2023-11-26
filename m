@@ -2,83 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639DB7F9309
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Nov 2023 15:17:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04BFE7F933C
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Nov 2023 15:57:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57F7510E0C7;
-	Sun, 26 Nov 2023 14:17:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCB3810E0C6;
+	Sun, 26 Nov 2023 14:57:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFEFC10E0C7
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 14:17:36 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-40838915cecso23569295e9.2
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 06:17:36 -0800 (PST)
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F97810E0C6;
+ Sun, 26 Nov 2023 14:57:37 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id
+ d9443c01a7336-1cfa7be5650so4568585ad.0; 
+ Sun, 26 Nov 2023 06:57:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701008255; x=1701613055; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=QcndzPm7z338RHK94VwEZXvnKMZos/UvhLkmjn4xC/Q=;
- b=kL7nrL+emRswmKsNq9ITp4O/Eb3/Ay6oYEs4Zfhh6GgOenzbGTBbxz3Zt8LbLeQwya
- f8tQJDH7xx3L0ap4yFj0665no0p3L9xGzLueBX1/P3PwevvvhwAu9mB7kuaSnQvR0Utt
- Blu/OhrJKEWdrOkm9nM4suo7JSPUyOvn7xlRPBeS/qF0c6NjurEoiV5noeW16k1INW1c
- ihSNrLi5uvG0MbhSSoSONHhFmkjWDe2Kutupcg19Zs8L18XqBcb+Bugyk6ef2KJHxVYG
- OCfcVmYaR6Tu5sXxbBPJCvc79faB3HSuE5kCw/xQWGe3YlOdzPrJKqbOaJSpuOiqtbjG
- qFmA==
+ d=gmail.com; s=20230601; t=1701010657; x=1701615457; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ds6jz8XiqF0ADftYJN+hp07WDKExgCoZRBZ98zeNhK8=;
+ b=g/RvzruNJCaCAwwDmpiKOCxii/oz3clpC0xFUQC+b/8A9/q9nDhNa59vweD+gIpfGZ
+ Plmxm0bbdxhi91JZ7VoigRZMsFgs08ZidXv5isAE3QQeMjAK4UxK8VHXhm1ryhn2nYAd
+ k32NckLsK9ZGagBghTUdt5h0w6nUxoHejtqK9KkBseUVR5kJSmHzKwpwmI2bdk2aH2bk
+ btJqIgzIoO8vTSDbn2o4Cy/Z900Li4wJ2JcYg0vK/hkvZlQc4XDV9l9KBf59Qz83h1B2
+ y+gLj4siYgk16jHvLCOaI2/6AfRp9rWGLRRBgTRK8JNBdC5E0TCbpst0ueYw65lzwzdj
+ DkqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701008255; x=1701613055;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QcndzPm7z338RHK94VwEZXvnKMZos/UvhLkmjn4xC/Q=;
- b=tyoKu71QPnxJKx3sNcUatAULJDPoHot7+KIYRcxDhuMOwaOwsvWl6y4Focn7Z9Ljfo
- pSkP3/VYyqHs4HXv3p4BSniSXngN5irrL9+ZoHVLANXgX5wZma6OLtPcrDHrAojHn83K
- 2/ord8D+7Mr389PS//HdVvp2tOk09rxLci3dCCM396gbgaEJJhhAxiyNl0GB7TljIBgJ
- LNQdPdyoAY+aDvtOUMnEQq2HLgTqSQiPGTt05GC4eN69hWUeGBy/qqnJO8Dc1aHsz26q
- zi9NcgKPGYyum+xcZ1Zt2kaDMyATD5yNfFMukdK+8m9LMEY7CWGXXybEChnz08J6sUSD
- dqMQ==
-X-Gm-Message-State: AOJu0YzvNWunYzE/cN3wUbLXLC3tTJ8qNMw/BRJ9UaBZxHsjq6y9pthc
- UGTqlxvbhNjL7P9aKLVynXWR6w==
-X-Google-Smtp-Source: AGHT+IGkk9pdn9r7g1J1o/fcsxC78jPge+mZy3lXPIb8wrgrQCxYQ08bQdBSvKnCzAF2mipxLo0QBg==
-X-Received: by 2002:a05:600c:154f:b0:40b:3dbf:f39 with SMTP id
- f15-20020a05600c154f00b0040b3dbf0f39mr2924922wmg.37.1701008254426; 
- Sun, 26 Nov 2023 06:17:34 -0800 (PST)
-Received: from [192.168.100.102] ([37.228.218.3])
- by smtp.gmail.com with ESMTPSA id
- u17-20020a05600c19d100b004064cd71aa8sm10565101wmq.34.2023.11.26.06.17.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Nov 2023 06:17:33 -0800 (PST)
-Message-ID: <1dce7a79-be67-4d44-b03f-63ef5cbb78e3@linaro.org>
-Date: Sun, 26 Nov 2023 14:17:31 +0000
+ d=1e100.net; s=20230601; t=1701010657; x=1701615457;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ds6jz8XiqF0ADftYJN+hp07WDKExgCoZRBZ98zeNhK8=;
+ b=EFj+u1TDofpnpKLk80S++9+hMAKDJcH0NTnWHUfrq+84J9he53/14b8wX/3hH3CJ3B
+ Es1nGY8ndHEnm8q+xVY5Xsq9IL5bVNkHFIQFmVRqBXjE6L259/YaZ/BxmVua0zKn+maX
+ 9b7KMNQJY27JqFPxpgOdf5ww/0qeKdofF45XXSY4yKVSJQQjk4ETF0y91LOWXs6KcegK
+ I/Oa9W/YMoqOlSUmp8aUungogvhMNeMEiDqh1mOIY3AeP2s3XAODSRI9pc2KlxqqB+KM
+ m9WQloFHrBgwyzIS6OZQdp0rVHi5faz7v1qbOV3Mqn48BxedlcZvUcbRC6ShbU9nWIhB
+ 8JHw==
+X-Gm-Message-State: AOJu0YxzrQ6DTEEcO2yolZHoMpU6jz1JK02hlIwJsFUFrRkn5B30jd8s
+ HuKJN2IFq7pSDbw4MaITa3w=
+X-Google-Smtp-Source: AGHT+IHfTmf4escnImpLTzKE4gnb2lDqdXKrQ5LQmUVS/atAbTu2PTrA6K046ATTWXWsoyAbE4pjZQ==
+X-Received: by 2002:a17:903:183:b0:1ce:5b6e:bae1 with SMTP id
+ z3-20020a170903018300b001ce5b6ebae1mr10929057plg.3.1701010657137; 
+ Sun, 26 Nov 2023 06:57:37 -0800 (PST)
+Received: from abhinav.. ([103.75.161.210]) by smtp.gmail.com with ESMTPSA id
+ t8-20020a170902bc4800b001cc131c65besm6470070plz.168.2023.11.26.06.57.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 26 Nov 2023 06:57:36 -0800 (PST)
+From: Abhinav Singh <singhabhinav9051571833@gmail.com>
+To: kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com, airlied@gmail.com,
+ daniel@ffwll.ch
+Subject: [PATCH] driver: gpu: Fix warning directly dereferencing a rcu pointer
+Date: Sun, 26 Nov 2023 20:27:23 +0530
+Message-Id: <20231126145723.388162-1-singhabhinav9051571833@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/12] dt-bindings: display: msm: qcm2290-mdss: Use the
- non-deprecated DSI compat
-Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Loic Poulain <loic.poulain@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Georgi Djakov <djakov@kernel.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Robert Marko <robimarko@gmail.com>, Das Srinagesh <quic_gurus@quicinc.com>
-References: <20231125-topic-rb1_feat-v1-0-11d71b12b058@linaro.org>
- <20231125-topic-rb1_feat-v1-1-11d71b12b058@linaro.org>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20231125-topic-rb1_feat-v1-1-11d71b12b058@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,41 +70,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: nouveau@lists.freedesktop.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ dri-devel@lists.freedesktop.org,
+ Abhinav Singh <singhabhinav9051571833@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/11/2023 14:17, Konrad Dybcio wrote:
-> The "qcom,dsi-ctrl-6g-qcm2290" has been deprecated in commit 0c0f65c6dd44
-> ("dt-bindings: msm: dsi-controller-main: Add compatible strings for every
-> current SoC"), but the example hasn't been updated to reflect that.
-> 
-> Fix that.
-> 
-> Fixes: 0c0f65c6dd44 ("dt-bindings: msm: dsi-controller-main: Add compatible strings for every current SoC")
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->   Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
-> index 5ad155612b6c..3d82c00a9f85 100644
-> --- a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
-> @@ -56,7 +56,9 @@ patternProperties:
->   
->       properties:
->         compatible:
-> -        const: qcom,dsi-ctrl-6g-qcm2290
-> +        items:
-> +          - const: qcom,qcm2290-dsi-ctrl
-> +          - const: qcom,mdss-dsi-ctrl
->   
->     "^phy@[0-9a-f]+$":
->       type: object
-> 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Fix a sparse warning with this message
+"warning:dereference of noderef expression". In this context it means we
+are dereferencing a __rcu tagged pointer directly.
+
+We should not be directly dereferencing a rcu pointer. To get a normal
+(non __rcu tagged pointer) from a __rcu tagged pointer we are using the
+function unrcu_pointer(...). The non __rcu tagged pointer then can be
+dereferenced just like a normal pointer.
+
+I tested with qemu with this command 
+qemu-system-x86_64 \
+	-m 2G \
+	-smp 2 \
+	-kernel bzImage \
+	-append "console=ttyS0 root=/dev/sda earlyprintk=serial net.ifnames=0" \
+	-drive file=bullseye.img,format=raw \
+	-net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 \
+	-net nic,model=e1000 \
+	-enable-kvm \
+	-nographic \
+	-pidfile vm.pid \
+	2>&1 | tee vm.log
+with lockdep enabled.
+
+Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
+---
+ drivers/gpu/drm/nouveau/nv10_fence.c | 2 +-
+ drivers/gpu/drm/nouveau/nv84_fence.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nv10_fence.c b/drivers/gpu/drm/nouveau/nv10_fence.c
+index c6a0db5b9e21..845b64c079ed 100644
+--- a/drivers/gpu/drm/nouveau/nv10_fence.c
++++ b/drivers/gpu/drm/nouveau/nv10_fence.c
+@@ -32,7 +32,7 @@
+ int
+ nv10_fence_emit(struct nouveau_fence *fence)
+ {
+-	struct nvif_push *push = fence->channel->chan.push;
++	struct nvif_push *push = unrcu_pointer(fence->channel)->chan.push;
+ 	int ret = PUSH_WAIT(push, 2);
+ 	if (ret == 0) {
+ 		PUSH_MTHD(push, NV06E, SET_REFERENCE, fence->base.seqno);
+diff --git a/drivers/gpu/drm/nouveau/nv84_fence.c b/drivers/gpu/drm/nouveau/nv84_fence.c
+index 812b8c62eeba..d42e72e23dec 100644
+--- a/drivers/gpu/drm/nouveau/nv84_fence.c
++++ b/drivers/gpu/drm/nouveau/nv84_fence.c
+@@ -85,7 +85,7 @@ nv84_fence_chid(struct nouveau_channel *chan)
+ static int
+ nv84_fence_emit(struct nouveau_fence *fence)
+ {
+-	struct nouveau_channel *chan = fence->channel;
++	struct nouveau_channel *chan = unrcu_pointer(fence->channel);
+ 	struct nv84_fence_chan *fctx = chan->fence;
+ 	u64 addr = fctx->vma->addr + nv84_fence_chid(chan) * 16;
+ 
+-- 
+2.39.2
+
