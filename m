@@ -1,60 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4819F7F9274
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Nov 2023 12:21:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 639DB7F9309
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Nov 2023 15:17:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D298910E0FC;
-	Sun, 26 Nov 2023 11:21:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57F7510E0C7;
+	Sun, 26 Nov 2023 14:17:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 320 seconds by postgrey-1.36 at gabe;
- Sat, 25 Nov 2023 10:06:22 UTC
-Received: from forward501b.mail.yandex.net (forward501b.mail.yandex.net
- [178.154.239.145])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8525710E2AF
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Nov 2023 10:06:22 +0000 (UTC)
-Received: from mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net
- (mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net
- [IPv6:2a02:6b8:c14:6e01:0:640:627f:0])
- by forward501b.mail.yandex.net (Yandex) with ESMTP id DB35C60FAE;
- Sat, 25 Nov 2023 13:00:58 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net
- (smtp/Yandex) with ESMTPSA id q0Owa29FViE0-sB5ZypyC; 
- Sat, 25 Nov 2023 13:00:57 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.com; s=mail;
- t=1700906457; bh=3CNf1YUwxPcXKoagyMGFPDxulGH1Yq2+32NGw4WJ5MU=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=DHHfCL7iGm5GVPbUq82yaVHggXkMmPsxE/T3itgPUjMM9Qc8MuvqC5nawCxZdSsw1
- yRwAAYQAaPfRihZvyhcAXNT57r2XEHlYFvgsbbFmkV4/IxHE5jZUKmIppWvxnMABNz
- 94DFUYxjCcq10vL19DtPAJ6AV3anLqh4JDOEICLA=
-Authentication-Results: mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net;
- dkim=pass header.i=@yandex.com
-Message-ID: <52b232e4-7ffa-1d01-efa6-a0af84729483@yandex.com>
-Date: Sat, 25 Nov 2023 11:00:52 +0100
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFEFC10E0C7
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 14:17:36 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-40838915cecso23569295e9.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 06:17:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701008255; x=1701613055; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=QcndzPm7z338RHK94VwEZXvnKMZos/UvhLkmjn4xC/Q=;
+ b=kL7nrL+emRswmKsNq9ITp4O/Eb3/Ay6oYEs4Zfhh6GgOenzbGTBbxz3Zt8LbLeQwya
+ f8tQJDH7xx3L0ap4yFj0665no0p3L9xGzLueBX1/P3PwevvvhwAu9mB7kuaSnQvR0Utt
+ Blu/OhrJKEWdrOkm9nM4suo7JSPUyOvn7xlRPBeS/qF0c6NjurEoiV5noeW16k1INW1c
+ ihSNrLi5uvG0MbhSSoSONHhFmkjWDe2Kutupcg19Zs8L18XqBcb+Bugyk6ef2KJHxVYG
+ OCfcVmYaR6Tu5sXxbBPJCvc79faB3HSuE5kCw/xQWGe3YlOdzPrJKqbOaJSpuOiqtbjG
+ qFmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701008255; x=1701613055;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QcndzPm7z338RHK94VwEZXvnKMZos/UvhLkmjn4xC/Q=;
+ b=tyoKu71QPnxJKx3sNcUatAULJDPoHot7+KIYRcxDhuMOwaOwsvWl6y4Focn7Z9Ljfo
+ pSkP3/VYyqHs4HXv3p4BSniSXngN5irrL9+ZoHVLANXgX5wZma6OLtPcrDHrAojHn83K
+ 2/ord8D+7Mr389PS//HdVvp2tOk09rxLci3dCCM396gbgaEJJhhAxiyNl0GB7TljIBgJ
+ LNQdPdyoAY+aDvtOUMnEQq2HLgTqSQiPGTt05GC4eN69hWUeGBy/qqnJO8Dc1aHsz26q
+ zi9NcgKPGYyum+xcZ1Zt2kaDMyATD5yNfFMukdK+8m9LMEY7CWGXXybEChnz08J6sUSD
+ dqMQ==
+X-Gm-Message-State: AOJu0YzvNWunYzE/cN3wUbLXLC3tTJ8qNMw/BRJ9UaBZxHsjq6y9pthc
+ UGTqlxvbhNjL7P9aKLVynXWR6w==
+X-Google-Smtp-Source: AGHT+IGkk9pdn9r7g1J1o/fcsxC78jPge+mZy3lXPIb8wrgrQCxYQ08bQdBSvKnCzAF2mipxLo0QBg==
+X-Received: by 2002:a05:600c:154f:b0:40b:3dbf:f39 with SMTP id
+ f15-20020a05600c154f00b0040b3dbf0f39mr2924922wmg.37.1701008254426; 
+ Sun, 26 Nov 2023 06:17:34 -0800 (PST)
+Received: from [192.168.100.102] ([37.228.218.3])
+ by smtp.gmail.com with ESMTPSA id
+ u17-20020a05600c19d100b004064cd71aa8sm10565101wmq.34.2023.11.26.06.17.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 26 Nov 2023 06:17:33 -0800 (PST)
+Message-ID: <1dce7a79-be67-4d44-b03f-63ef5cbb78e3@linaro.org>
+Date: Sun, 26 Nov 2023 14:17:31 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH RFC v3 22/37] drm/rockchip: inno_hdmi: Remove useless
- output format
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-References: <20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org>
- <20231031-kms-hdmi-connector-state-v3-22-328b0fae43a7@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/12] dt-bindings: display: msm: qcm2290-mdss: Use the
+ non-deprecated DSI compat
 Content-Language: en-US
-From: Johan Jonker <jbx6244@yandex.com>
-In-Reply-To: <20231031-kms-hdmi-connector-state-v3-22-328b0fae43a7@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 26 Nov 2023 11:21:42 +0000
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Loic Poulain <loic.poulain@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Georgi Djakov <djakov@kernel.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Robert Marko <robimarko@gmail.com>, Das Srinagesh <quic_gurus@quicinc.com>
+References: <20231125-topic-rb1_feat-v1-0-11d71b12b058@linaro.org>
+ <20231125-topic-rb1_feat-v1-1-11d71b12b058@linaro.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20231125-topic-rb1_feat-v1-1-11d71b12b058@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,130 +91,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-In stead of further cripplingRockchip HDMI drivers one could also make it functional based  on EDID info.
-
-To start with the output could you turn RGB888 input and switch between
-
-RGB444, YCBCR444 and YCBCR422 output.
-
-Johan
-
-On 10/31/23 17:48, Maxime Ripard wrote:
-> Similarly to the input format, the driver has a lot of code to deal with
-> various output format, but the driver hardcodes it to RGB always.
->
-> Let's get rid of the dead code.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+On 25/11/2023 14:17, Konrad Dybcio wrote:
+> The "qcom,dsi-ctrl-6g-qcm2290" has been deprecated in commit 0c0f65c6dd44
+> ("dt-bindings: msm: dsi-controller-main: Add compatible strings for every
+> current SoC"), but the example hasn't been updated to reflect that.
+> 
+> Fix that.
+> 
+> Fixes: 0c0f65c6dd44 ("dt-bindings: msm: dsi-controller-main: Add compatible strings for every current SoC")
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->  drivers/gpu/drm/rockchip/inno_hdmi.c | 57 ++++--------------------------------
->  1 file changed, 6 insertions(+), 51 deletions(-)
->
-> diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-> index e0696ab16da3..0c6c550e0ce7 100644
-> --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
-> +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-> @@ -28,7 +28,6 @@
->  #include "inno_hdmi.h"
->  
->  struct hdmi_data_info {
-> -	unsigned int enc_out_format;
->  	unsigned int colorimetry;
->  };
->  
-> @@ -296,26 +295,14 @@ static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
->  	rc = drm_hdmi_avi_infoframe_from_display_mode(&frame.avi,
->  						      &hdmi->connector,
->  						      mode);
-> -
-> -	if (hdmi->hdmi_data.enc_out_format == HDMI_COLORSPACE_YUV444)
-> -		frame.avi.colorspace = HDMI_COLORSPACE_YUV444;
-> -	else if (hdmi->hdmi_data.enc_out_format == HDMI_COLORSPACE_YUV422)
-> -		frame.avi.colorspace = HDMI_COLORSPACE_YUV422;
-> -	else
-> -		frame.avi.colorspace = HDMI_COLORSPACE_RGB;
-> +	frame.avi.colorspace = HDMI_COLORSPACE_RGB;
->  
->  	return inno_hdmi_upload_frame(hdmi, rc, &frame, INFOFRAME_AVI, 0, 0, 0);
->  }
->  
->  static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
->  {
-> -	struct hdmi_data_info *data = &hdmi->hdmi_data;
-> -	int c0_c2_change = 0;
-> -	int csc_enable = 0;
-> -	int csc_mode = 0;
-> -	int auto_csc = 0;
->  	int value;
-> -	int i;
->  
->  	/* Input video mode is SDR RGB24bit, data enable signal from external */
->  	hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL1, v_DE_EXTERNAL |
-> @@ -327,43 +314,13 @@ static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
->  		v_VIDEO_INPUT_CSP(0);
->  	hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL2, value);
->  
-> -	if (HDMI_COLORSPACE_RGB == data->enc_out_format) {
-> -		value = v_SOF_DISABLE | v_COLOR_DEPTH_NOT_INDICATED(1);
-> -		hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL3, value);
-> -
-> -		hdmi_modb(hdmi, HDMI_VIDEO_CONTRL,
-> -			  m_VIDEO_AUTO_CSC | m_VIDEO_C0_C2_SWAP,
-> -			  v_VIDEO_AUTO_CSC(AUTO_CSC_DISABLE) |
-> -			  v_VIDEO_C0_C2_SWAP(C0_C2_CHANGE_DISABLE));
-> -		return 0;
-> -	}
-> -
-> -	if (data->colorimetry == HDMI_COLORIMETRY_ITU_601) {
-> -		if (data->enc_out_format == HDMI_COLORSPACE_YUV444) {
-> -			csc_mode = CSC_RGB_0_255_TO_ITU601_16_235_8BIT;
-> -			auto_csc = AUTO_CSC_DISABLE;
-> -			c0_c2_change = C0_C2_CHANGE_DISABLE;
-> -			csc_enable = v_CSC_ENABLE;
-> -		}
-> -	} else {
-> -		if (data->enc_out_format == HDMI_COLORSPACE_YUV444) {
-> -			csc_mode = CSC_RGB_0_255_TO_ITU709_16_235_8BIT;
-> -			auto_csc = AUTO_CSC_DISABLE;
-> -			c0_c2_change = C0_C2_CHANGE_DISABLE;
-> -			csc_enable = v_CSC_ENABLE;
-> -		}
-> -	}
-> -
-> -	for (i = 0; i < 24; i++)
-> -		hdmi_writeb(hdmi, HDMI_VIDEO_CSC_COEF + i,
-> -			    coeff_csc[csc_mode][i]);
-> -
-> -	value = v_SOF_DISABLE | csc_enable | v_COLOR_DEPTH_NOT_INDICATED(1);
-> +	value = v_SOF_DISABLE | v_COLOR_DEPTH_NOT_INDICATED(1);
->  	hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL3, value);
-> -	hdmi_modb(hdmi, HDMI_VIDEO_CONTRL, m_VIDEO_AUTO_CSC |
-> -		  m_VIDEO_C0_C2_SWAP, v_VIDEO_AUTO_CSC(auto_csc) |
-> -		  v_VIDEO_C0_C2_SWAP(c0_c2_change));
->  
-> +	hdmi_modb(hdmi, HDMI_VIDEO_CONTRL,
-> +		  m_VIDEO_AUTO_CSC | m_VIDEO_C0_C2_SWAP,
-> +		  v_VIDEO_AUTO_CSC(AUTO_CSC_DISABLE) |
-> +		  v_VIDEO_C0_C2_SWAP(C0_C2_CHANGE_DISABLE));
->  	return 0;
->  }
->  
-> @@ -425,8 +382,6 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
->  	struct drm_display_info *display = &hdmi->connector.display_info;
->  	u8 vic = drm_match_cea_mode(mode);
->  
-> -	hdmi->hdmi_data.enc_out_format = HDMI_COLORSPACE_RGB;
-> -
->  	if ((vic == 6) || (vic == 7) ||
->  	    (vic == 21) || (vic == 22) ||
->  	    (vic == 2) || (vic == 3) ||
->
+>   Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
+> index 5ad155612b6c..3d82c00a9f85 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
+> @@ -56,7 +56,9 @@ patternProperties:
+>   
+>       properties:
+>         compatible:
+> -        const: qcom,dsi-ctrl-6g-qcm2290
+> +        items:
+> +          - const: qcom,qcm2290-dsi-ctrl
+> +          - const: qcom,mdss-dsi-ctrl
+>   
+>     "^phy@[0-9a-f]+$":
+>       type: object
+> 
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
