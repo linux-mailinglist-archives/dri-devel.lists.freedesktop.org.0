@@ -2,57 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D0317F950B
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Nov 2023 20:30:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AA4C7F9582
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Nov 2023 22:32:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A93310E0FB;
-	Sun, 26 Nov 2023 19:30:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE00B10E03A;
+	Sun, 26 Nov 2023 21:32:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com
- [209.85.167.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C2D610E0FB
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 19:30:14 +0000 (UTC)
-Received: by mail-oi1-f182.google.com with SMTP id
- 5614622812f47-3b83398cfc7so2272497b6e.3
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 11:30:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701027013; x=1701631813;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cF5iPL+UoN0pmz/Mf8oI3xqxZwEF9KwzO7lwyRU7zig=;
- b=QAkO3OcF4iosUSjhdwt/sOBx/XPVGfARZHbVQc6IsxqhyB1z4ZsphVa/XQmIAiBhZb
- q4dSPKYkPdZM3AhD30ttDNfAUHXJVqE1AHAenEta99VThjLfktuxIyca6tecpALWU37F
- J2/yPuWElziNiFji4aoh3XcjmidDu69IuyKu7DIerKEYYRqmAewF5RvM6n5QdAAIqysN
- WBascXeld0t9azTUVoCQ3CAZVLNwQHfJr0gK9M3mrv0jrPd/HVJqtD5aIm7+8yE9zedY
- ShqHSuPQMF5jDa3ETxfMgi8v0+iifOMfcvHr2VhwoRPwsoeglhHXBnB5jm/Dkp5Ro5OY
- TKvQ==
-X-Gm-Message-State: AOJu0Yw+af6ah7FcaU3Pc/VISvNyscUUJ9/57eq5oeXzfxTHt09vU2kf
- I6AcZ2D+utZbzTFn3nDY/Q==
-X-Google-Smtp-Source: AGHT+IFN9FkllIs8NwE5M+5eMxZJDjxYTM7WvxpxuS0JRkvWMdLvzypLXD2zs6vmagC6jGp16eXjRQ==
-X-Received: by 2002:a05:6808:1250:b0:3b5:6533:d2cb with SMTP id
- o16-20020a056808125000b003b56533d2cbmr9895625oiv.46.1701027013354; 
- Sun, 26 Nov 2023 11:30:13 -0800 (PST)
-Received: from herring.priv ([2607:fb91:9e5:15e5:aee2:7746:1955:d879])
- by smtp.gmail.com with ESMTPSA id
- w13-20020a0568080d4d00b003b85bd22147sm642373oik.49.2023.11.26.11.30.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Nov 2023 11:30:12 -0800 (PST)
-Received: (nullmailer pid 76358 invoked by uid 1000);
- Sun, 26 Nov 2023 19:30:05 -0000
-Date: Sun, 26 Nov 2023 12:30:05 -0700
-From: Rob Herring <robh@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v9 04/12] dt-bindings: phy:
- amlogic,g12a-mipi-dphy-analog: drop unneeded reg property and example
-Message-ID: <170102700475.76284.1528867317482713371.robh@kernel.org>
-References: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-0-95256ed139e6@linaro.org>
- <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-4-95256ed139e6@linaro.org>
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD7B410E03A;
+ Sun, 26 Nov 2023 21:32:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1701034344;
+ bh=m4c3MMaM5Jb7y6O4jt1oh7KB9TXWPcvGPoYTaAvC0B8=;
+ h=Date:From:To:Cc:Subject:From;
+ b=SzyGJoTLFpWl6ZtOWy5XSVpRhF0kxQbLmQCcOwunKR4x48vZDuCHejxKAk/ihRGDb
+ ieFkZTlUSEOuTIM+Z4NHeZCxMIrHXEjFXPYcAra5ltQoY15e6b70CmL4ivOHnCSkqW
+ tBrVpFSmYaG21ujFXIVHNKQZrW57Ry2E8BtnZfPH29yZ+8DSUvMXjAze+TB7VvEPwb
+ w0WD0meVuy3z3BiQoFPpzNkTokCwitPgWyKD5tX6Ra54EfhKRhiz7jXmyNKUOW23C3
+ KOB4JZTtpsb28HIk0BUVz/Qw4uh2ssZXb6rRV27H91gELqHq2f1RfiUrNhVk6ZUS5w
+ lJJVaJ8b3Gftg==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Sdhkv0QBJz4wc8;
+ Mon, 27 Nov 2023 08:32:22 +1100 (AEDT)
+Date: Mon, 27 Nov 2023 08:32:05 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: linux-next: build failure after merge of the drm-misc-fixes tree
+Message-ID: <20231127083205.44b25fa8@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-4-95256ed139e6@linaro.org>
+Content-Type: multipart/signed; boundary="Sig_/hIMrf_P/ckwsQ.=GozpjKyq";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,44 +49,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-phy@lists.infradead.org, linux-clk@vger.kernel.org,
- Jerome Brunet <jbrunet@baylibre.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Kevin Hilman <khilman@baylibre.com>, Jagan Teki <jagan@amarulasolutions.com>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Maxime Ripard <mripard@kernel.org>, Remi Pommarel <repk@triplefau.lt>,
- linux-amlogic@lists.infradead.org, Nicolas Belin <nbelin@baylibre.com>,
- linux-arm-kernel@lists.infradead.org, Stephen Boyd <sboyd@kernel.org>,
- linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Liu Ying <victor.liu@nxp.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/hIMrf_P/ckwsQ.=GozpjKyq
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 24 Nov 2023 09:41:15 +0100, Neil Armstrong wrote:
-> The amlogic,g12a-mipi-dphy-analog is a feature of the simple-mfd
-> amlogic,meson-axg-hhi-sysctrl system control register zone which is an
-> intermixed registers zone, thus it's very hard to define clear ranges for
-> each SoC controlled features even if possible.
-> 
-> The amlogic,g12a-mipi-dphy-analog was wrongly documented as an independent
-> register range, which is not the reality, thus fix the bindings by dropping
-> the reg property now it's referred from amlogic,meson-gx-hhi-sysctrl.yaml
-> and documented as a subnode of amlogic,meson-axg-hhi-sysctrl.
-> 
-> Also drop the unnecessary example, the top level bindings example should
-> be enough.
-> 
-> Fixes: 76ab79f9726c ("dt-bindings: phy: add Amlogic G12A Analog MIPI D-PHY bindings")
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  .../bindings/phy/amlogic,g12a-mipi-dphy-analog.yaml          | 12 ------------
->  1 file changed, 12 deletions(-)
-> 
+Hi all,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+After merging the drm-misc-fixes tree, today's linux-next build (x86_64
+allmodconfig) failed like this:
 
+ERROR: modpost: "device_is_dependent" [drivers/gpu/drm/drm_kms_helper.ko] u=
+ndefined!
+
+Caused by commit
+
+  39d5b6a64ace ("drm/bridge: panel: Check device dependency before managing=
+ device link")
+
+I have used the drm-misc-fixes tree from next-20231124 for today.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/hIMrf_P/ckwsQ.=GozpjKyq
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmVjuVUACgkQAVBC80lX
+0GyZ8Qf/QyUqgY9MYX9H3CKy5c82Isrenp7R03/3/+WZDEg0qyGKST7nbmdXMuqo
+gYIS9KqTd7NDY/S/D+cBHq/7ih8U1cwPLZwDPONhWMkGTuGAYKb2lHAORvVG34f8
+v2IFY0337RvARAO+tg2sRZSCS9y0xZRAls6sx9q3zeT0MIMw3tn/z46aZrSCxta4
+rIZhRvNXby0/zG2IIUt3CaD8keFjJAP7foNVyXWMpqjc9BCO5VfS8eRvgyEzARVR
+6BCTWs0P7oMsBxTyGd/Q0PVZqm0lhOuVNuaW9fSAfpSI8W3cH1/2Amt+23XyXycg
+4Q5kCiernY7N5w4NSh+mx+RlwJXHPg==
+=y/AT
+-----END PGP SIGNATURE-----
+
+--Sig_/hIMrf_P/ckwsQ.=GozpjKyq--
