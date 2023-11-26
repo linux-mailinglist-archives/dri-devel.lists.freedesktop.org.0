@@ -1,70 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91C3D7F93C7
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Nov 2023 17:30:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 160A17F93F2
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Nov 2023 17:39:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB68710E128;
-	Sun, 26 Nov 2023 16:30:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3706C10E129;
+	Sun, 26 Nov 2023 16:39:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0708710E128
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 16:30:03 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-50abb83866bso4660799e87.3
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 08:30:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1701016202; x=1701621002;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=sSJ+yeqxuvutnkpSkcqAmI5LAVDWcSBce0PQad7lFBQ=;
- b=gIb9dC0KpaHlQc/4Ea/btQbZWtAi14SShJIEiTMqhQbZt7OMDS0S15OOE1Wyil5Bu1
- uGBKZTkox4OW/FOIp2JGvCgS6+QcV4Rbl57NLWD+Uc4XJZQBW0uD86sargULYs7KOixf
- qVZNgGxexuANyt61BJH/y1ftA32puEr6IVhzE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701016202; x=1701621002;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sSJ+yeqxuvutnkpSkcqAmI5LAVDWcSBce0PQad7lFBQ=;
- b=FUVRX1ly6jZo+ro8Vv9WXDrNeoDdmqa9ZfkK4WtdjSiaBuiv3Blh9QlIq47urz5FeL
- vXqY9U7+0Ll8bquhyDbZBhxPyjXS87SYhrZNA0MFckNnLiDd4TfMptvR0YB/JszVY8ag
- bB0v8RSOhMuzlFXY0phqH4AWKP/ZHTQRupbwPLzVuI1I20J3d0ej7qj0rslDfCXZjQT2
- BFTkKd/VcNuZj9vLr8hIJP2tiJWPK0uOWmZ5q8c1hOLu2nT9xrHFaBjjZTSppo01uhak
- +ntIS2mxqqH9F1fmyrp2Bzspk+XenyDdfKI+PvjMzAxOJdmjEiffuO1chKuU8LLgnLq3
- Ttig==
-X-Gm-Message-State: AOJu0YzYl89ubm7WAFoyUljgITW35FRAaTCtrGnhop3pA5P9QSGevDiI
- 9lLlF13AV3rC/Hq5GgGlt2xX7cRQ7CgGNM1oFy99CN8a
-X-Google-Smtp-Source: AGHT+IHgILqmjiJbGEd3zZtWzYRqciXUTuP5pDaOlekeJLe5rTY7sZMnAXomBp0j5L8cOxTILr/5dA==
-X-Received: by 2002:a05:6512:2245:b0:50a:40b6:2d37 with SMTP id
- i5-20020a056512224500b0050a40b62d37mr7833830lfu.40.1701016201590; 
- Sun, 26 Nov 2023 08:30:01 -0800 (PST)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com.
- [209.85.167.41]) by smtp.gmail.com with ESMTPSA id
- er10-20020a05651248ca00b0050ab6109b48sm1234549lfb.193.2023.11.26.08.30.00
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Nov 2023 08:30:00 -0800 (PST)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-50abb83866bso4660765e87.3
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 08:30:00 -0800 (PST)
-X-Received: by 2002:a19:5e03:0:b0:509:dec:9f3c with SMTP id
- s3-20020a195e03000000b005090dec9f3cmr4999914lfb.50.1701016200246; Sun, 26 Nov
- 2023 08:30:00 -0800 (PST)
+X-Greylist: delayed 329 seconds by postgrey-1.36 at gabe;
+ Sun, 26 Nov 2023 16:39:15 UTC
+Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7BDB10E130
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 16:39:15 +0000 (UTC)
+Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
+ by mail5.25mail.st (Postfix) with ESMTPSA id 19C386044A;
+ Sun, 26 Nov 2023 16:32:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
+ s=25mailst; t=1701016425;
+ bh=71ibKMM9DOpdFN+a6X/3dcd9slUwLcDlPWzmSrWFgV0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=lSnz8z8xKloMjctrV+6oAOGgUr4m6GCC2n2O9iAgoVuhbmkUd8ca/Cyykaykwjt1K
+ QwLD3o8y9ekMGVIzJah5C7ummdcMULRvG90ynyTeULkJBbwZxVwTPWJnaaFBiLJa+w
+ oQ03uc2ZH6G2QdSd+jZBZRUDSt+vaew/72iKJmj9+CUwaqMWU1IHcN8ZijoUgKENJd
+ pSXAHX91sTLUO/IkF5sgoQA19dlL1EaRJj3SwY6QKWb4zzAFC8MCbDkcR9VzcHeH7V
+ zqkNJkLMknptGhil1wYDPc5G9pjTHZ9HJsqBnosYuwskR45PifY6Wm9QVL6k6lNKXr
+ j3EVN2PnuWDjA==
+From: Tony Lindgren <tony@atomide.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Simha BN <simhavcs@gmail.com>
+Subject: [PATCH 1/6] dt-bindings: tc358775: Add support for tc358765
+Date: Sun, 26 Nov 2023 18:32:36 +0200
+Message-ID: <20231126163247.10131-1-tony@atomide.com>
+X-Mailer: git-send-email 2.42.1
 MIME-Version: 1.0
-References: <ZWLsgGku7j_7_eVE@ls3530>
-In-Reply-To: <ZWLsgGku7j_7_eVE@ls3530>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sun, 26 Nov 2023 08:29:43 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wiR5yLK6-n5p=F97unF1bf3DuPdGcv0MZcO51aiik4T0w@mail.gmail.com>
-Message-ID: <CAHk-=wiR5yLK6-n5p=F97unF1bf3DuPdGcv0MZcO51aiik4T0w@mail.gmail.com>
-Subject: Re: [GIT PULL] fbdev fixes and updates for v6.7-rc3
-To: Helge Deller <deller@gmx.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,17 +56,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Carl Philipp Klemm <philipp@uvos.xyz>, devicetree@vger.kernel.org,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Merlijn Wajer <merlijn@wizzup.org>, Sebastian Reichel <sre@kernel.org>,
+ dri-devel@lists.freedesktop.org, Pavel Machek <pavel@ucw.cz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 25 Nov 2023 at 22:58, Helge Deller <deller@gmx.de> wrote:
->
-> please pull some small fbdev fixes for 6.7-rc3.
+The tc358765 is similar to tc358775 except for the stdby-gpios.
 
-These all seem to be pure cleanups, not bug fixes.
+Signed-off-by: Tony Lindgren <tony@atomide.com>
+---
+ .../display/bridge/toshiba,tc358775.yaml        | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
-Please resend during the merge window.
-
-            Linus
+diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+--- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+@@ -10,7 +10,7 @@ maintainers:
+   - Vinay Simha BN <simhavcs@gmail.com>
+ 
+ description: |
+-  This binding supports DSI to LVDS bridge TC358775
++  This binding supports DSI to LVDS bridges TC358765 and TC358775
+ 
+   MIPI DSI-RX Data 4-lane, CLK 1-lane with data rates up to 800 Mbps/lane.
+   Video frame size:
+@@ -21,7 +21,9 @@ description: |
+ 
+ properties:
+   compatible:
+-    const: toshiba,tc358775
++    enum:
++      - toshiba,tc358765
++      - toshiba,tc358775
+ 
+   reg:
+     maxItems: 1
+@@ -70,12 +72,21 @@ required:
+   - reg
+   - vdd-supply
+   - vddio-supply
+-  - stby-gpios
+   - reset-gpios
+   - ports
+ 
+ additionalProperties: false
+ 
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: toshiba,tc358775
++    then:
++      required:
++        - stby-gpios
++
+ examples:
+   - |
+     #include <dt-bindings/gpio/gpio.h>
+-- 
+2.42.1
