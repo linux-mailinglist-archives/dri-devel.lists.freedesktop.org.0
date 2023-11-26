@@ -1,47 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160A17F93F2
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Nov 2023 17:39:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D57CC7F940F
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Nov 2023 17:44:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3706C10E129;
-	Sun, 26 Nov 2023 16:39:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A69310E131;
+	Sun, 26 Nov 2023 16:44:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 329 seconds by postgrey-1.36 at gabe;
- Sun, 26 Nov 2023 16:39:15 UTC
 Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7BDB10E130
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 16:39:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E03BA10E131
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 16:44:15 +0000 (UTC)
 Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
- by mail5.25mail.st (Postfix) with ESMTPSA id 19C386044A;
- Sun, 26 Nov 2023 16:32:55 +0000 (UTC)
+ by mail5.25mail.st (Postfix) with ESMTPSA id 13C0B60461;
+ Sun, 26 Nov 2023 16:33:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
- s=25mailst; t=1701016425;
- bh=71ibKMM9DOpdFN+a6X/3dcd9slUwLcDlPWzmSrWFgV0=;
- h=From:To:Cc:Subject:Date:From;
- b=lSnz8z8xKloMjctrV+6oAOGgUr4m6GCC2n2O9iAgoVuhbmkUd8ca/Cyykaykwjt1K
- QwLD3o8y9ekMGVIzJah5C7ummdcMULRvG90ynyTeULkJBbwZxVwTPWJnaaFBiLJa+w
- oQ03uc2ZH6G2QdSd+jZBZRUDSt+vaew/72iKJmj9+CUwaqMWU1IHcN8ZijoUgKENJd
- pSXAHX91sTLUO/IkF5sgoQA19dlL1EaRJj3SwY6QKWb4zzAFC8MCbDkcR9VzcHeH7V
- zqkNJkLMknptGhil1wYDPc5G9pjTHZ9HJsqBnosYuwskR45PifY6Wm9QVL6k6lNKXr
- j3EVN2PnuWDjA==
+ s=25mailst; t=1701016472;
+ bh=9i8b9tXyh1uDR+OQA6gU/NAtE3k4V7XC10gl799vQqU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=IMfnWViolujDn0MfZMj3UnLY4R85WyrD+34DaiXlvGbPvIN9SLLra4j0TtlgeECUs
+ OWkjzSx2y+p3I6nj2ojMY6OtT7cnGlwAUIYHFkbTXQJ28p1F+bMI+I7rgUhuboreB9
+ PwsTrRbCJOwMA7K8tt53Wl9SxOkOSN7l8epGwCe3wYXDWVhUe8cVTDiTzTHF7BQH8u
+ ue6n4R7XD7IAIccB2D+v48MRACMVBUrkOc4cI6/U72ENN0Z9k+J/43oWmYIkWJDUkA
+ dSGAFBzzLqPggezTXrRH+ZcK2fnyrESOmqvKr+ER0KgA1j6FmYmrA/YfOhIW+yCeqw
+ OGjN4djTnuPEQ==
 From: Tony Lindgren <tony@atomide.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Simha BN <simhavcs@gmail.com>
-Subject: [PATCH 1/6] dt-bindings: tc358775: Add support for tc358765
-Date: Sun, 26 Nov 2023 18:32:36 +0200
-Message-ID: <20231126163247.10131-1-tony@atomide.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
+ Vinay Simha BN <simhavcs@gmail.com>
+Subject: [PATCH 2/6] drm/bridge: tc358775: Fix getting dsi host data lanes
+Date: Sun, 26 Nov 2023 18:32:37 +0200
+Message-ID: <20231126163247.10131-2-tony@atomide.com>
 X-Mailer: git-send-email 2.42.1
+In-Reply-To: <20231126163247.10131-1-tony@atomide.com>
+References: <20231126163247.10131-1-tony@atomide.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,58 +62,49 @@ Cc: Carl Philipp Klemm <philipp@uvos.xyz>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The tc358765 is similar to tc358775 except for the stdby-gpios.
+The current code assume hardcoded dsi host endpoint 1, which may not
+be the case. Let's fix that and simplify the code by getting the dsi
+endpoint with of_graph_get_remote_endpoint() that does not assume any
+endpoint numbering.
 
+Fixes: b26975593b17 ("display/drm/bridge: TC358775 DSI/LVDS driver")
 Signed-off-by: Tony Lindgren <tony@atomide.com>
 ---
- .../display/bridge/toshiba,tc358775.yaml        | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/tc358775.c | 16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
---- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
-@@ -10,7 +10,7 @@ maintainers:
-   - Vinay Simha BN <simhavcs@gmail.com>
+diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
+--- a/drivers/gpu/drm/bridge/tc358775.c
++++ b/drivers/gpu/drm/bridge/tc358775.c
+@@ -528,25 +528,17 @@ tc_mode_valid(struct drm_bridge *bridge,
+ static int tc358775_parse_dt(struct device_node *np, struct tc_data *tc)
+ {
+ 	struct device_node *endpoint;
+-	struct device_node *parent;
+ 	struct device_node *remote;
+ 	int dsi_lanes = -1;
  
- description: |
--  This binding supports DSI to LVDS bridge TC358775
-+  This binding supports DSI to LVDS bridges TC358765 and TC358775
+-	/*
+-	 * To get the data-lanes of dsi, we need to access the dsi0_out of port1
+-	 *  of dsi0 endpoint from bridge port0 of d2l_in
+-	 */
+ 	endpoint = of_graph_get_endpoint_by_regs(tc->dev->of_node,
+ 						 TC358775_DSI_IN, -1);
+ 	if (endpoint) {
+-		/* dsi0_out node */
+-		parent = of_graph_get_remote_port_parent(endpoint);
++		/* Get the configured data lanes on the dsi host side */
++		remote = of_graph_get_remote_endpoint(endpoint);
+ 		of_node_put(endpoint);
+-		if (parent) {
+-			/* dsi0 port 1 */
+-			dsi_lanes = drm_of_get_data_lanes_count_ep(parent, 1, -1, 1, 4);
+-			of_node_put(parent);
+-		}
++		dsi_lanes = drm_of_get_data_lanes_count(remote, 1, 4);
++		of_node_put(remote);
+ 	}
  
-   MIPI DSI-RX Data 4-lane, CLK 1-lane with data rates up to 800 Mbps/lane.
-   Video frame size:
-@@ -21,7 +21,9 @@ description: |
- 
- properties:
-   compatible:
--    const: toshiba,tc358775
-+    enum:
-+      - toshiba,tc358765
-+      - toshiba,tc358775
- 
-   reg:
-     maxItems: 1
-@@ -70,12 +72,21 @@ required:
-   - reg
-   - vdd-supply
-   - vddio-supply
--  - stby-gpios
-   - reset-gpios
-   - ports
- 
- additionalProperties: false
- 
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: toshiba,tc358775
-+    then:
-+      required:
-+        - stby-gpios
-+
- examples:
-   - |
-     #include <dt-bindings/gpio/gpio.h>
+ 	if (dsi_lanes < 0)
 -- 
 2.42.1
