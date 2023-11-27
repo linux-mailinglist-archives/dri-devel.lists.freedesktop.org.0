@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6837FA106
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 14:27:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8BC67FA10B
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 14:27:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C6C910E29E;
-	Mon, 27 Nov 2023 13:27:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 056AB10E29F;
+	Mon, 27 Nov 2023 13:27:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AF1910E29E
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 13:27:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 291D310E29E
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 13:27:27 +0000 (UTC)
 Received: from [100.107.97.3] (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 6D4BD6605835;
- Mon, 27 Nov 2023 13:27:23 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 5F6506606F9A;
+ Mon, 27 Nov 2023 13:27:24 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1701091645;
- bh=DvdTt/2joGjmSG0un+grPJz1gQ9C99woeiwQLvx7PIk=;
+ s=mail; t=1701091646;
+ bh=0nSsPbuXWoKk+7HdWPzZrhSats/9dt9HQTUocoSOMIY=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ace0jcUMaaLGzfJzHjPcsPWpVDpK61lQJqlhON6SE7GegzdsUn9vpO+Z9u1MI5rId
- 1vtulJdlAyIsPGpiW5q+PnkJmR3phB4bqhdb8wLz5wO8XRfckZFk76iONud5D2ea2c
- JCRrx87PpeqCgmT+bMDxeKGUb5XwZIRnf7/z8otHa8CuxabDO+HxOWIPdpbKCqazo1
- 1pOmwdm9ZayP4qnNV1RDPygEGag9iiiYiqXbOVwFna0+KNmlE1odL4/4gVKrH2vdvP
- zNZv5Try393NNMHGSByfDITJbKle6eCPibneDaIPvIn3HMTCsvJIeTdPE+9VHcIbIF
- wCZ1f0J5ctnuA==
-Message-ID: <18516d3d-f866-41de-9045-ed9b4da94697@collabora.com>
-Date: Mon, 27 Nov 2023 14:27:20 +0100
+ b=NY6yzBH3sKjPxQTJT5ebh3Se22W0/dlmKhnUn1O0aAKxsXe9bEi4GoN5b3EVp5arc
+ Ql/SfTE6/hEqW3Y19Xlw7OWj/s5KUbgUx1gXf7faihZDIajCLY+MDkuwBy7GYkZtvq
+ kOkxKgiZJ8oJMJ+xHkXxJNsFgS6V11S/lD/VGuEiI0eo3+XdwdmrJzX5fHdZBU/bBh
+ a21FOE/CdSyQL1J3SWLM4L7mb/eEGGe6X8lqw1qdXEANjhM9Akyb9T2yfP4dGgycxs
+ eT+V46AHpfzv4O6Ml/otF6PJRI0SLG5/e1L6NVq7wyl2TGHP3X+WhelzTtelr/uJgJ
+ IQxkB/cwdINHg==
+Message-ID: <8ef6d57f-0320-4f2d-a75e-c078168b0087@collabora.com>
+Date: Mon, 27 Nov 2023 14:27:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] arm64: dts: mediatek: mt8195: add DSI and MIPI DPHY
- nodes
+Subject: Re: [PATCH 1/4] dt-bindings: display: mediatek: dsi: add compatible
+ for MediaTek MT8195
 Content-Language: en-US
 To: Michael Walle <mwalle@kernel.org>, Chun-Kuang Hu
  <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
@@ -48,9 +48,9 @@ To: Michael Walle <mwalle@kernel.org>, Chun-Kuang Hu
  Matthias Brugger <matthias.bgg@gmail.com>, Jitao Shi
  <jitao.shi@mediatek.com>, Xinlei Lee <xinlei.lee@mediatek.com>
 References: <20231123133749.2030661-1-mwalle@kernel.org>
- <20231123133749.2030661-4-mwalle@kernel.org>
+ <20231123133749.2030661-2-mwalle@kernel.org>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20231123133749.2030661-4-mwalle@kernel.org>
+In-Reply-To: <20231123133749.2030661-2-mwalle@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,10 +72,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 23/11/23 14:37, Michael Walle ha scritto:
-> Add the two DSI controller node and the associated DPHY nodes.
-> Individual boards have to enable them in the board device tree.
+> Add the compatible string for MediaTek MT8195 SoC, using the same DSI
+> block as the MT8183.
 > 
 > Signed-off-by: Michael Walle <mwalle@kernel.org>
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
 
