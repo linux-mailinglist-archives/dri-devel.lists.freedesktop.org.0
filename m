@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1337FA5C1
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 17:10:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A817FA5D6
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 17:13:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD5910E097;
-	Mon, 27 Nov 2023 16:10:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 916B810E12E;
+	Mon, 27 Nov 2023 16:13:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F45A10E097
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 16:10:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1701101423; x=1701706223; i=spasswolf@web.de;
- bh=v69e0NN8QuLMJHbHd33vhcu/7dHByHjNt77Tzz0SvME=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
- References;
- b=NIaFKxnZMM5x9nYWKQkEVpfNOg9yvmtHluGY4SAxwM7MUZ9cZvbvuhfhr+rZWgxs
- KOl8XxIezubR6V0AkMLTqxIhOUklOQ0prkm/hki43w0TfStzwVnZRJcRZrVKvRzz1
- TDRA7XcA9kJ/4O3/o2tLjPcw0qzjkaqvIpBw9gs07oq0L81C29mpl+k1IwijDTwMx
- pF1xhaG3baoTsrmAMqb1soWEutK4mwQAUTLtUpAsa+pCaT3OxgXHK7HnyozmWWchX
- DT9cidvZh7pnbrsyVPuV7gMOjdI2MwfDuh7URBOqsrsESITHMi6/qMCO/98v435oZ
- rptBv5OLp10hz4oxVA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from lisa.home ([84.119.92.193]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MiMEW-1rkXBB0mec-00fP5g; Mon, 27
- Nov 2023 17:10:23 +0100
-From: Bert Karwatzki <spasswolf@web.de>
-To: ltuikov89@gmail.com
-Subject: [PATCH] drm/sched: Partial revert of "Qualify drm_sched_wakeup() by
- drm_sched_entity_is_ready()"
-Date: Mon, 27 Nov 2023 17:09:55 +0100
-Message-ID: <20231127160955.87879-1-spasswolf@web.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <c5292d06-2e37-4715-96dc-699f369111fa@gmail.com>
-References: <c5292d06-2e37-4715-96dc-699f369111fa@gmail.com>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5E1110E0C3
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 16:13:04 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <auto@pengutronix.de>)
+ id 1r7eEI-0001PL-89; Mon, 27 Nov 2023 17:13:02 +0100
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <auto@pengutronix.de>)
+ id 1r7eEF-00Bz1D-Jd; Mon, 27 Nov 2023 17:12:59 +0100
+Received: from rhi by dude04.red.stw.pengutronix.de with local (Exim 4.96)
+ (envelope-from <auto@pengutronix.de>) id 1r7eEF-00D7aH-1f;
+ Mon, 27 Nov 2023 17:12:59 +0100
+From: Roland Hieber <rhi@pengutronix.de>
+Subject: [PATCH 0/2] ARM: dts: imx7: add MIPI-DSI support
+Date: Mon, 27 Nov 2023 17:12:27 +0100
+Message-Id: <20231127-b4-imx7-mipi-dsi-v1-0-7d22eee70c67@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:XBxeukHpt5FvMtRBVVC8cI9/u0dzQoEAtEOU/PlWMXvQd2Xjsc+
- Tim6ORjeV2CTuXe6nNQ+THPkOgQCSgJVTPdCsZoMpJvMBgA5Pr82kR3pD2JAdUa+8wePNsi
- eOU6Us/j78IBRenYrl1PtiyptIYJLzn85WoIt7mpktV3RR17Q8OGGOJT1WT6SwLMDcuUNs1
- 3BF/i1neIvEuNwdWFUp0Q==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:sAGJA6frhGY=;uXwbfxkvaG52C5hWT58O1HYgEnf
- HIWhtgYxnzvOdNVy1oXhaFMsXAZzhFNQinUEMMMYg0hiJeXN1mXi4nqXHGfdX1Cgs3lwhLon6
- m5v0wVhlNcuYtjNMDwjA9WQO5+fRR5Z3kx/0jLp+ZTL6Y8g4fYN93fRTtN2NPiizzCPdRj2Sb
- mq5E2p70E1sF91b6LpBzfVv21O+jhf2hHONczu1AWxcLAjmBUXCleGo3L3tAeJ0g0EnFBZ8EY
- PYBdHnsVn2bT+jBChCdiKn/bhHWzGavGSAFogxkyB8CBUoXH/L0PdoApzaqnb0Os7IebFfUgs
- bqqrWzj/e3bMLuzoAQsMPK9eQeXtgk9g5pQpMwn5XEHNsQE9I1UrWNCz0ewza1x4Oe16IXeFL
- bzhYOd0aglIL1YXPItLv3AVzUTASQGKDip7WQR6oWy4bPYBJOO3S5sKtjztYvl8tnJQm4zPMe
- QtCtRq8I2MrPY90ZVD9POdtrtbJV8Jgapatzl1ERXOWVFNgCvhI5RH5I8fhzSgGCppYXj2deu
- IwdpKu/99U1aDlxQb/scuZfZIZIox6azoUCBJRWCUyXjdF7U+86z1GwzN2THkFh/19d34a97U
- /mYsTtpnIC42Hq78UCD7le7DrG8BVO55TxzWbEJ8wS6xohiHocm+z3+Ajw8tC/c2dtqSHRBWy
- hXkHONv3LUW652ffbns+FvI63GKrX+feJg/13KqU0rOekNmaP2DrogFNsxRlqG7jEH6iq95hH
- ARipt5Dc1j57yfC32GlWX3PISaGkPaloyqSBx6jVWkGm/kvh10zuKLkIKhD9OZy3RjQb9sqec
- h2M4NU+9lsJri7qQ3H/sRyTd1AN3TXNt/dQ04mp92A6wY1F1cqZ32w0pzjfrSMaXXPttUojOC
- 11SFKO2fYVEvmXtMYioTwbOeUNVU97OhRTnVe9ySKX1t8S6l0DdeusLKmrvVnYTqY1c8Y20vo
- hUkdhBhejgvAU5sUAMGJOdFqlB4=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOu/ZGUC/x2NQQqDQAwAvyI5N2Cywkq/UnrY1agB3cqGiiD+v
+ aHHGRjmApOqYvBsLqhyqOmnONCjgWFJZRbU0Rm45UDEEXOHup0RN90VR1PsWwqRhbuJAniWkwn
+ mmsqweFi+6+pyrzLp+f+83vf9A8STsgp3AAAA
+To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>
+X-Mailer: b4 0.12.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: auto@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,48 +69,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, tvrtko.ursulin@intel.com,
- dri-devel@lists.freedesktop.org, dakr@redhat.com, spasswolf@web.de,
- christian.koenig@amd.com
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Marco Felsch <m.felsch@pengutronix.de>,
+ Roland Hieber <rhi@pengutronix.de>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit f3123c2590005c, in combination with the use of work queues by the G=
-PU
-scheduler, leads to random lock-ups of the GUI.
+Signed-off-by: Roland Hieber <rhi@pengutronix.de>
+---
+Marco Felsch (1):
+      ARM: dts: imx7: add MIPI-DSI support
 
-This is a partial revert of of commit f3123c2590005c since drm_sched_wakeu=
-p() still
-needs its entity argument to pass it to drm_sched_can_queue().
+Philipp Zabel (1):
+      dt-bindings: display: bridge: samsung-dsim: Add i.MX7D support
 
-Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2994
-Link: https://lists.freedesktop.org/archives/dri-devel/2023-November/43160=
-6.html
-Fixes: f3123c2590005c ("drm/sched: Qualify drm_sched_wakeup() by drm_sched=
-_entity_is_ready()")
+ .../bindings/display/bridge/samsung,mipi-dsim.yaml |  4 +-
+ arch/arm/boot/dts/nxp/imx/imx7s.dtsi               | 46 ++++++++++++++++++++++
+ 2 files changed, 49 insertions(+), 1 deletion(-)
+---
+base-commit: 2cc14f52aeb78ce3f29677c2de1f06c0e91471ab
+change-id: 20231127-b4-imx7-mipi-dsi-801372e24f13
 
-Signed-off-by: Bert Karwatzki <spasswolf@web.de>
-=2D--
- drivers/gpu/drm/scheduler/sched_main.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sche=
-duler/sched_main.c
-index 682aebe96db7..550492a7a031 100644
-=2D-- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -1029,9 +1029,8 @@ EXPORT_SYMBOL(drm_sched_job_cleanup);
- void drm_sched_wakeup(struct drm_gpu_scheduler *sched,
- 		      struct drm_sched_entity *entity)
- {
--	if (drm_sched_entity_is_ready(entity))
--		if (drm_sched_can_queue(sched, entity))
--			drm_sched_run_job_queue(sched);
-+	if (drm_sched_can_queue(sched, entity))
-+		drm_sched_run_job_queue(sched);
- }
-
- /**
-=2D-
-2.43.0
+Best regards,
+-- 
+Roland Hieber, Pengutronix e.K.          | rhi@pengutronix.de          |
+Steuerwalder Str. 21                     | https://www.pengutronix.de/ |
+31137 Hildesheim, Germany                | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686         | Fax:   +49-5121-206917-5555 |
 
