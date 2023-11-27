@@ -2,81 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA977FA435
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 16:14:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D57E7FA46A
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 16:28:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 381B910E2C7;
-	Mon, 27 Nov 2023 15:14:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C4C210E2DA;
+	Mon, 27 Nov 2023 15:28:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
- [IPv6:2607:f8b0:4864:20::733])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5570F10E2BF;
- Mon, 27 Nov 2023 15:14:43 +0000 (UTC)
-Received: by mail-qk1-x733.google.com with SMTP id
- af79cd13be357-77d631aab99so229350385a.2; 
- Mon, 27 Nov 2023 07:14:43 -0800 (PST)
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 098CF10E2DA
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 15:28:50 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-54b0310f536so5337972a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 07:28:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701098082; x=1701702882; darn=lists.freedesktop.org;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=O878JpoRHxeRwNhXeIv1tIn5S4Ozam1aEyPWG/9lcJw=;
- b=W2GzW+t5y+KD7VQlptOTH4FRooEDlekzgzsI0AE0OnxL8kZZjxOfukM/K4pWaByOXz
- D2WeXqADG8Psalvt95mRj1meIffpSE64ToqojUnfGCaUa91GQiLlKC+8GMjWjuy7GFkt
- cJFKrMZKTCwRNstitFKik2LGcanMOuLRAZmJ9nygXaZ6lC9elJ7wIs0W1jQO7mS/hyJ3
- f8vReklh12UuQ2ANiGsvTBUYZLpo1xDpMFvJQwt7PFYaGmV9332OZG8IO3JQnFfNuSvN
- w0rO2Tgw3NWB2mTWJ/b8+bV1azOUOMtnZveSwPdNgxlu/N9HqdPNFSciF2nNpZImR4Zl
- wsqA==
+ d=linaro.org; s=google; t=1701098929; x=1701703729; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=xH7djIzH2lWtg+ZnnlMA49TMMB9EdHS+GmuOJoHr84A=;
+ b=p6aytW/jQe4M3KBYEaPOz8xS2pxerukj3xI22P9PL7nhpUMPpkVWpjeEvsUzw5YNGa
+ oPvqRDheqWirEDf1u/Iq2rCaTuk7EmyZJqmqx/eec4URKcMVck+z9XlgQ7nsU3UnRLUQ
+ 13sj8HjSINyJOxtMYEo9ZZsh18jvpz8JJE11hPwf/ppOhzXo6ym/VYxS6wzugAjP9XBf
+ TSAyBJ3uvhE1vrJyWbtVLHmTJrYpEY9X2nmRIX/lpaQtU9lrZ4eoLZEfTyrk1mIh4VTj
+ xH7p0VPUXjW6Mcb4EZ8P7L2OzYkd4sXW0Szsl8gRWUxjtObdSJILRFxK2cpAkRDjRb+c
+ xuBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701098082; x=1701702882;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=O878JpoRHxeRwNhXeIv1tIn5S4Ozam1aEyPWG/9lcJw=;
- b=GNP/q5ByJv70+/akcjLDdRLzTgBHhq4Ru55zsJVJponNFQHaM1wDF2Bah1Iy5agith
- CInmIeGT2h0eipXlGziQc5Ev86DuH/SuxFKg3+1oYg9fiLNQbSLu3+Q22NsA141tMi7H
- p7guw6sehNnG/StB6UXJVslTmHrdKEx0FLInIW2G5mY+FcCs9UEvvKv3N0KUbnbwRI7/
- uMC8p8IYpT+iHcWFb39kwhYBoatLUHWdKNjCUFqRnti9BZlhYyWML8afS/AlGWOfn+N2
- T7y9/yJcgej8HdM5CJGjC3BoptnXyWyGLHheLSXTY5mXanGCkpt7ZY6pLnj33vfTZuoh
- AsdA==
-X-Gm-Message-State: AOJu0YyBLjnnfl0SAIyHF4D9xREf9/wQ3cRPE3wouwjooeYYRIqPvcZs
- rivDjMnxOtnBTku4TqPfORQ=
-X-Google-Smtp-Source: AGHT+IECrvEs9JmQw9eETtf30jFCJS5oQcK+/ZA8utEVwDzSmKxMrbB/8o7ccSUYW0LLbjGOuZZAyw==
-X-Received: by 2002:a05:620a:3d10:b0:778:b029:100c with SMTP id
- tq16-20020a05620a3d1000b00778b029100cmr11213254qkn.66.1701098082326; 
- Mon, 27 Nov 2023 07:14:42 -0800 (PST)
-Received: from [192.168.2.14]
- (bras-base-toroon0964w-grc-76-76-65-20-140.dsl.bell.ca. [76.65.20.140])
+ d=1e100.net; s=20230601; t=1701098929; x=1701703729;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xH7djIzH2lWtg+ZnnlMA49TMMB9EdHS+GmuOJoHr84A=;
+ b=eagNUIrSxLgttQvoGlu4PQuBeYqrJKHkKlMnFaAKNNhRP6scH1k/xJETJPUbNfUJSb
+ 1uznJ6Nhq8Af97yLLk7f9MuLHLUQZk0xoStrFWRowPadg563nnNp7wUsxl+LSMfpCiCV
+ H6dxIIPS+gcLL86YTA/gEFusGNPX6HtVBPWc1B7jFJB2SThI4sifLWh18dBz8wWLK5t0
+ biRXNPGclIlgwqwmT11yZJqQWAds28JP6lbdG2EW00pLrGebMdAE43buxw4447b7797P
+ D/7zUh0O17l1R2j7NZqqBsBsX768qCms7VwZek7riHCO+uru4b2aFGr5352sf1EiJ1p3
+ x73Q==
+X-Gm-Message-State: AOJu0YwewxLYXzWHKyJJ70Ncgg/ifV0NOd7AIveJzporDkHHhdRv3Pti
+ x8FzDZn+weLpJ81aLtGHsea0pg==
+X-Google-Smtp-Source: AGHT+IFVq8VVBBAB+9CYcFJYQtXvol9+Oolg8Bycg8P4iRm8ZI2RLM5GY7iy8CP/g/zrCxgD8BoRag==
+X-Received: by 2002:aa7:c401:0:b0:54b:3bba:8372 with SMTP id
+ j1-20020aa7c401000000b0054b3bba8372mr5619318edq.5.1701098929327; 
+ Mon, 27 Nov 2023 07:28:49 -0800 (PST)
+Received: from [10.167.154.1]
+ (178235187180.dynamic-4-waw-k-2-3-0.vectranet.pl. [178.235.187.180])
  by smtp.gmail.com with ESMTPSA id
- z4-20020a05620a260400b0077d84f46d65sm2684245qko.37.2023.11.27.07.14.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Nov 2023 07:14:41 -0800 (PST)
-Message-ID: <a210a487-77bf-469a-a4de-b4ebd15bbd5b@gmail.com>
-Date: Mon, 27 Nov 2023 10:14:40 -0500
+ e7-20020a056402104700b00542db304680sm5321002edu.63.2023.11.27.07.28.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Nov 2023 07:28:48 -0800 (PST)
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: [PATCH v2 00/12] RB1/QCM2290 features
+Date: Mon, 27 Nov 2023 16:28:40 +0100
+Message-Id: <20231125-topic-rb1_feat-v2-0-979b28f35e4a@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
- Thunderbird/115.5.0
-Subject: Re: [PATCH] Revert "drm/sched: Qualify drm_sched_wakeup() by
- drm_sched_entity_is_ready()"
-Content-Language: en-CA, en-US
-To: Bert Karwatzki <spasswolf@web.de>
-References: <6273fadf-267a-4965-82ab-89c5b3f28cf2@gmail.com>
- <20231127133015.104165-1-spasswolf@web.de>
-From: Luben Tuikov <ltuikov89@gmail.com>
-Autocrypt: addr=ltuikov89@gmail.com; keydata=
- xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
- Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
- eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
- AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
- JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
- cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
- 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
- aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
-In-Reply-To: <20231127133015.104165-1-spasswolf@web.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------zx3uNX1Z4mxQyNHHEEHLWJqW"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKm1ZGUC/3WNQQqDMBBFryJZNyUzkrZ01XuIlMSMOiCJTKy0i
+ Hdv6r7L9+D/t6lMwpTVvdqU0MqZUyyAp0p1o4sDaQ6FFRqsAdDqJc3cafHw7MktOgQLxtZ4QfC
+ qjLzLpL242I1lFl/TVOQs1PP7qDRt4ZHzkuRzRFf42b//K2ijAcIVPKA39vaYODpJ5ySDavd9/
+ wI0+5IFwgAAAA==
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Loic Poulain <loic.poulain@linaro.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Georgi Djakov <djakov@kernel.org>, Will Deacon <will@kernel.org>, 
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ Robert Marko <robimarko@gmail.com>, Das Srinagesh <quic_gurus@quicinc.com>, 
+ cros-qcom-dts-watchers@chromium.org
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1701098925; l=2755;
+ i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
+ bh=yZgEzYKRpKaQPQoGOfb7ONUfzFPf2ls77sgBQdDr3ME=;
+ b=V5UwjbXyluYT3sCqyhvxMPLK7n4ewU5ni508NwKZPVwcvivC25/OkbkbE+ilYnCDD3fCiiOod
+ mruf6Ot8p8aBmYMfhBp209eYwgjnXewqW2wsmN8WL5VleHqw0qEtTZV
+X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,149 +99,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, robdclark@chromium.org, sarah.walker@imgtec.com,
- tvrtko.ursulin@linux.intel.com, ketil.johnsen@arm.com, lina@asahilina.net,
- mcanal@igalia.com, Liviu.Dudau@arm.com, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, boris.brezillon@collabora.com, dakr@redhat.com,
- donald.robson@imgtec.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ iommu@lists.linux.dev, Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------zx3uNX1Z4mxQyNHHEEHLWJqW
-Content-Type: multipart/mixed; boundary="------------nLBwBxTGqHZVB5RNeF06VmU6";
- protected-headers="v1"
-From: Luben Tuikov <ltuikov89@gmail.com>
-To: Bert Karwatzki <spasswolf@web.de>
-Cc: Liviu.Dudau@arm.com, boris.brezillon@collabora.com,
- christian.koenig@amd.com, dakr@redhat.com, donald.robson@imgtec.com,
- dri-devel@lists.freedesktop.org, faith.ekstrand@collabora.com,
- intel-xe@lists.freedesktop.org, ketil.johnsen@arm.com, lina@asahilina.net,
- matthew.brost@intel.com, mcanal@igalia.com, robdclark@chromium.org,
- sarah.walker@imgtec.com, tvrtko.ursulin@linux.intel.com
-Message-ID: <a210a487-77bf-469a-a4de-b4ebd15bbd5b@gmail.com>
-Subject: Re: [PATCH] Revert "drm/sched: Qualify drm_sched_wakeup() by
- drm_sched_entity_is_ready()"
-References: <6273fadf-267a-4965-82ab-89c5b3f28cf2@gmail.com>
- <20231127133015.104165-1-spasswolf@web.de>
-In-Reply-To: <20231127133015.104165-1-spasswolf@web.de>
+This series brings:
+- interconnect plumbing
+- display setup
 
---------------nLBwBxTGqHZVB5RNeF06VmU6
-Content-Type: multipart/mixed; boundary="------------ePZjEnhYDcZhkq5gy0KA0StK"
+for QCM2290/QRB2210 and
 
---------------ePZjEnhYDcZhkq5gy0KA0StK
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+- CAN bus controller
+- HDMI display
+- wifi fw variant name
 
-Hi Bert,
+for QTI RB1
 
-# The title of the patch should be:
+and the necessary bindings changes
 
-drm/sched: Partial revert of "Qualify drm_sched_wakeup() by drm_sched_ent=
-ity_is_ready()"
+Patch 1-2 is for Dmitry/freedreno
+Patch 3 for Georgi/icc
+Patch 5 for Will/iommu
+the rest are for Bjorn/qcom
 
-On 2023-11-27 08:30, Bert Karwatzki wrote:
-> Commit f3123c25 (in combination with the use of work queues by the gpu
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+---
+Changes in v2:
+- Fix up the bindings example in "qcm2290-mdss: Use the non-deprecated DSI compat" (krzk)
+- Fix up sc7180 & sc7280 DTs as a result of the bindings changes
+- Pick up rbs where it makes sense
+- Link to v1: https://lore.kernel.org/r/20231125-topic-rb1_feat-v1-0-11d71b12b058@linaro.org
 
-Commit f3123c2590005c, in combination with the use of work queues by the =
-GPU
-scheduler, leads to random lock-ups of the GUI.
+---
+Dmitry Baryshkov (1):
+      arm64: dts: qcom: qrb2210-rb1: add wifi variant property
 
-> scheduler) leads to random lock ups of the GUI [1,2].
->=20
-> This is not a complete revert of commit f3123c25 as drm_sched_wakeup
+Konrad Dybcio (11):
+      dt-bindings: display: msm: qcm2290-mdss: Use the non-deprecated DSI compat
+      dt-bindings: display: msm: Add reg bus and rotator interconnects
+      dt-bindings: interconnect: qcom,msm8998-bwmon: Add QCM2290 bwmon instance
+      dt-bindings: firmware: qcom,scm: Allow interconnect for everyone
+      iommu/arm-smmu-qcom: Add QCM2290 DPU compatible
+      arm64: dts: qcom: sc7180: Add the missing MDSS icc path
+      arm64: dts: qcom: sc7280: Add the missing MDSS icc path
+      arm64: dts: qcom: qcm2290: Add display nodes
+      arm64: dts: qcom: qcm2290: Hook up interconnects
+      arm64: dts: qcom: qrb2210-rb1: Set up HDMI
+      arm64: dts: qcom: qrb2210-rb1: Enable CAN bus controller
 
-This is a partial revert of of commit f3123c2590005c since drm_sched_wake=
-up()
+ .../bindings/display/msm/mdss-common.yaml          |  18 +-
+ .../bindings/display/msm/qcom,qcm2290-mdss.yaml    |  21 +-
+ .../bindings/display/msm/qcom,sc7180-mdss.yaml     |  14 +-
+ .../bindings/display/msm/qcom,sc7280-mdss.yaml     |  14 +-
+ .../bindings/display/msm/qcom,sm6115-mdss.yaml     |  10 +
+ .../bindings/display/msm/qcom,sm6125-mdss.yaml     |   8 +-
+ .../bindings/display/msm/qcom,sm6350-mdss.yaml     |   8 +-
+ .../bindings/display/msm/qcom,sm6375-mdss.yaml     |   8 +-
+ .../bindings/display/msm/qcom,sm8450-mdss.yaml     |  13 +-
+ .../devicetree/bindings/firmware/qcom,scm.yaml     |  15 -
+ .../bindings/interconnect/qcom,msm8998-bwmon.yaml  |   1 +
+ arch/arm64/boot/dts/qcom/qcm2290.dtsi              | 462 +++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/qrb2210-rb1.dts           | 109 +++++
+ arch/arm64/boot/dts/qcom/sc7180.dtsi               |   8 +-
+ arch/arm64/boot/dts/qcom/sc7280.dtsi               |   9 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c         |   1 +
+ 16 files changed, 671 insertions(+), 48 deletions(-)
+---
+base-commit: 48bbaf8b793e0770798519f8ee1ea2908ff0943a
+change-id: 20231125-topic-rb1_feat-dd510532621b
 
-> still needs its entity argument to pass it to drm_sched_can_queue.
+Best regards,
+-- 
+Konrad Dybcio <konrad.dybcio@linaro.org>
 
-=2E.. drm_sched_can_queue().
-
-# Don't forget a SoB line!
-
-Signed-off-by: Bert ...
-
->> [1] https://gitlab.freedesktop.org/drm/amd/-/issues/2994
-
-# Use a Link: tag instead, like this:
-Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2994
-
-> [2] https://lists.freedesktop.org/archives/dri-devel/2023-November/4316=
-06.html
-
-# Use a Link: tag instead, like this:
-Link: https://lists.freedesktop.org/archives/dri-devel/2023-November/4316=
-06.html
-
->=20
-> This reverts commit f3123c2590005c5ff631653d31428e40cd10c618.
-
-# The line above is *not* necessary, since this is a partial commit. Inst=
-ead we need
-# a Fixes: line, like this:
-
-Fixes: f3123c2590005c ("drm/sched: Qualify drm_sched_wakeup() by drm_sche=
-d_entity_is_ready()")
-
-#######---
-
-Then after you do "git format-patch", post it like this:
-
-git send-email \
-    --in-reply-to=3Dc5292d06-2e37-4715-96dc-699f369111fa@gmail.com \
-    --to=3Dltuikov89@gmail.com \
-    --cc=3Dchristian.koenig@amd.com \
-    --cc=3Ddakr@redhat.com \
-    --cc=3Ddri-devel@lists.freedesktop.org \
-    --cc=3Dmatthew.brost@intel.com \
-    --cc=3Dspasswolf@web.de \
-    --cc=3Dtvrtko.ursulin@intel.com \
-    /path/to/PATCH
-
-This follows your thread where all the information is stored.
-
-Thanks!
---=20
-Regards,
-Luben
-
---------------ePZjEnhYDcZhkq5gy0KA0StK
-Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
-PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
-QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
-BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
-MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
-bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
-9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
-OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
-z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
-=3DqCaZ
------END PGP PUBLIC KEY BLOCK-----
-
---------------ePZjEnhYDcZhkq5gy0KA0StK--
-
---------------nLBwBxTGqHZVB5RNeF06VmU6--
-
---------------zx3uNX1Z4mxQyNHHEEHLWJqW
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZWSyYAUDAAAAAAAKCRBMFUeUMaM0r8qt
-AP9VaL0mVYM02IAGJfquuJvVCHcJfM/LoqaHqXOyLHJ+dwEA5fa4R0vTR6Wi0vvfW4eDjG4YhpkO
-NGD/A7tLs+JH8wc=
-=kvjX
------END PGP SIGNATURE-----
-
---------------zx3uNX1Z4mxQyNHHEEHLWJqW--
