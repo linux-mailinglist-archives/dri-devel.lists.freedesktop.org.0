@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F07967FA056
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 14:08:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEB657FA05A
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 14:10:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF57710E08D;
-	Mon, 27 Nov 2023 13:08:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F82610E26C;
+	Mon, 27 Nov 2023 13:10:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2FFF10E08D
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 13:08:38 +0000 (UTC)
-Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
- by mail5.25mail.st (Postfix) with ESMTPSA id B09F1604AC;
- Mon, 27 Nov 2023 13:07:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
- s=25mailst; t=1701090517;
- bh=cgT3yGEsBF6QOKQZf/lmHN1DxtY/WoY3R7KwVz7L6Cc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cFvblgh1AjwkswjQyhQqYHOCXtRVsYR6TKEZW1dcSX8lQZ3F4h1W7+9+5EIpKbcb3
- Uh2TEI2YD5yVkFY6SjZE0UcwzK+04yUYq3FFSuMo+vnRBOx/NmhddUNLZ5v8jGYBx2
- 5vnngIgzCK1veFjC1rc7qxPZBLZxac6xPgNkzATgr61LaYoPB3pnCi5dy9mC2IK0WO
- 0bJ8XHfDQJcgeOl7OpTWwuYH26sK3bSN5I25YbEtgNeqGXsEBiRSc0rBHTpQA/kn+1
- hgqOiDKxZcM/jxWeiejkwM8w3o653t6/o1o8qdtbDDnNx6FGHJGZWKUzel+72eYJVR
- KAeOLdQ6TxUpA==
-Date: Mon, 27 Nov 2023 15:07:46 +0200
-From: Tony Lindgren <tony@atomide.com>
-To: Michael Walle <mwalle@kernel.org>, Andreas Kemnade <andreas@kemnade.info>
-Subject: Re: [PATCH 1/6] dt-bindings: tc358775: Add support for tc358765
-Message-ID: <20231127130746.GD5166@atomide.com>
-References: <20231126163247.10131-1-tony@atomide.com>
- <20231127124430.2153227-1-mwalle@kernel.org>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21AFB10E264
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 13:10:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id D7A0ACE11AA;
+ Mon, 27 Nov 2023 13:09:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4DBEC433C8;
+ Mon, 27 Nov 2023 13:09:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1701090592;
+ bh=hn/nFHNO6noKdfVoji+3Pl4wibL57tAHB+fliYROVyo=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=WF3aHs9x4Zc+rvOcto/hyfmdkfCLu4mkpGnvsot5LqHStGLJXV2YGthyyjWPWydaF
+ EPx9fNHCDB5VetZoQUV1E+DL5rXKphgK3XpslUjwKKLn28XqZxuI/aQhbQ7Ri7RRFm
+ 2PPBhuxJveF630ObsUgIV1NonaQyMtjyeUPAc/pVmDadgkn37HrBF/ogD+SjGdT0oo
+ p7SmQMSh9PifltgDbHigHW2lMP6IRrmrG8lYNYz4CcKg63Mh0cZk5nFktUgdz5JGnP
+ D0zErqbReW7XpK37axw4glPw+vjXbFrI6r4zgB9QXkzWq5EpN30/Q7OuWU/40pDTGg
+ FgoJOfIFIGAdg==
+From: Michael Walle <mwalle@kernel.org>
+To: tony@atomide.com
+Subject: Re: [PATCH 2/6] drm/bridge: tc358775: Fix getting dsi host data lanes
+Date: Mon, 27 Nov 2023 14:09:41 +0100
+Message-Id: <20231127130941.2154871-1-mwalle@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231126163247.10131-2-tony@atomide.com>
+References: <20231126163247.10131-2-tony@atomide.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231127124430.2153227-1-mwalle@kernel.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,60 +49,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: krzysztof.kozlowski+dt@linaro.org, dri-devel@lists.freedesktop.org,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- ivo.g.dimitrov.75@gmail.com, rfoss@kernel.org, jernej.skrabec@gmail.com,
- simhavcs@gmail.com, merlijn@wizzup.org, devicetree@vger.kernel.org,
- conor+dt@kernel.org, jonas@kwiboo.se, pavel@ucw.cz, mripard@kernel.org,
- robh+dt@kernel.org, philipp@uvos.xyz, neil.armstrong@linaro.org,
- sre@kernel.org, tzimmermann@suse.de
+Cc: mripard@kernel.org, devicetree@vger.kernel.org,
+ Michael Walle <mwalle@kernel.org>, ivo.g.dimitrov.75@gmail.com,
+ rfoss@kernel.org, andrzej.hajda@intel.com, tzimmermann@suse.de,
+ jonas@kwiboo.se, pavel@ucw.cz, sam@ravnborg.org, merlijn@wizzup.org,
+ neil.armstrong@linaro.org, sre@kernel.org, dri-devel@lists.freedesktop.org,
+ jernej.skrabec@gmail.com, Laurent.pinchart@ideasonboard.com,
+ simhavcs@gmail.com, philipp@uvos.xyz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Michael Walle <mwalle@kernel.org> [231127 12:44]:
-> Hi,
+> The current code assume hardcoded dsi host endpoint 1, which may not
+> be the case. Let's fix that and simplify the code by getting the dsi
+> endpoint with of_graph_get_remote_endpoint() that does not assume any
+> endpoint numbering.
 > 
-> > The tc358765 is similar to tc358775 except for the stdby-gpios.
+> Fixes: b26975593b17 ("display/drm/bridge: TC358775 DSI/LVDS driver")
+> Signed-off-by: Tony Lindgren <tony@atomide.com>
+> ---
+>  drivers/gpu/drm/bridge/tc358775.c | 16 ++++------------
+>  1 file changed, 4 insertions(+), 12 deletions(-)
 > 
-> Bad timing (for me). I'm about to send a bigger patch series for the
-> tc358775 which fixes the (completely) broken initialialization. And also
-> contains some of your fixes.
+> diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
+> --- a/drivers/gpu/drm/bridge/tc358775.c
+> +++ b/drivers/gpu/drm/bridge/tc358775.c
+> @@ -528,25 +528,17 @@ tc_mode_valid(struct drm_bridge *bridge,
+>  static int tc358775_parse_dt(struct device_node *np, struct tc_data *tc)
+>  {
+>  	struct device_node *endpoint;
+> -	struct device_node *parent;
+>  	struct device_node *remote;
+>  	int dsi_lanes = -1;
+>  
+> -	/*
+> -	 * To get the data-lanes of dsi, we need to access the dsi0_out of port1
+> -	 *  of dsi0 endpoint from bridge port0 of d2l_in
+> -	 */
+>  	endpoint = of_graph_get_endpoint_by_regs(tc->dev->of_node,
+>  						 TC358775_DSI_IN, -1);
+>  	if (endpoint) {
+> -		/* dsi0_out node */
+> -		parent = of_graph_get_remote_port_parent(endpoint);
+> +		/* Get the configured data lanes on the dsi host side */
+> +		remote = of_graph_get_remote_endpoint(endpoint);
+>  		of_node_put(endpoint);
+> -		if (parent) {
+> -			/* dsi0 port 1 */
+> -			dsi_lanes = drm_of_get_data_lanes_count_ep(parent, 1, -1, 1, 4);
+> -			of_node_put(parent);
+> -		}
+> +		dsi_lanes = drm_of_get_data_lanes_count(remote, 1, 4);
 
-OK cool, let's merge patches as needed then. Maybe ack the patches that
-can already be merged, and put together some merged set for the rest of
-the patches? Or let me know what you prefer, I'll be glad to test and
-tweak as needed for tc358765.
+I actually have the same fix, but with one additional detail, which I'm
+unsure about though: This looks at the data-lanes property of the *remote*
+endpoint whereas other bridge drivers (see tc358767, ti-sn65dsi83, lt8912b,
+anx7625) look at the local endpoint and I'm not sure what is correct.
 
-> That being said, I intend to make the standby gpio optional also for the
-> tc358755, because it might just be hardwired on the board.
-
-OK that sounds good to me.
-
-> But second, I'm really curious if this bridge is working for you correctly
-> as it is at the moment. One particular thing I've noticed is that you must
-> release the reset while both the clock and the data lanes are in LP11 mode.
-> Otherwise, the bridge won't work properly (i.e. horizontally shifted
-> picture, or no picture at all).
-
-Yes things are working for me. But then again the bridge is initialized
-by the bootloader, and then Android kernel, and then I kexec to the
-mainline kernel. And this is with a tc358765 if that might make a
-difference.
-
-So I have not seen your reset issue. Andreas may be seeing it on another
-tc bridge variant though, so adding Andreas to the loop also.
-
-> What DSI host controller are you using?
-
-This is an old motorola mz617 tablet with a tc358765 bridge, so omapdrm.
-I do have one pending patch for omapdrm dsi to change the init order a
-bit so tc358765 probes reliably. But seems that's a separate issue from
-your reset issue, I'll post that to the lists too to discuss.
-
-What's the dsi host you have? Do you also have some separate i2c eeprom
-that's needed for initializing something or is that lcd panel specific?
-No idea what the eeprom is really doing here..
-
-Regards,
-
-Tony
+-michael
