@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8AD97F9A57
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 07:57:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16CB07F9A5E
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 07:57:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9569D10E1B4;
-	Mon, 27 Nov 2023 06:57:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE29B10E1C9;
+	Mon, 27 Nov 2023 06:57:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7AA510E1B6
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 06:57:11 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id
- a640c23a62f3a-a00191363c1so557975366b.0
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 22:57:11 -0800 (PST)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7188A10E1B9
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 06:57:30 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id
+ a640c23a62f3a-9ffef4b2741so505271466b.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 22:57:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701068230; x=1701673030; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701068249; x=1701673049; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=VuIVUuCMjH58N1a1ccT/SdI7fcyozDb9GMuo7ZSvjfU=;
- b=gNdJCONxX3X5xET48D3kXWDq3U6iU30A/nonFE12uA5eHsAUSVG5PyMGyZtcDVuGV8
- wdQWBUnc03/y3ste9qV7HWZQJKcWr6eFr+l5Hdasrf4OdRW3hXI9NprO5jI4CWtm6Z/x
- mRCIfHxH2Gj9N6rYBuGlWmt3U71OZXZnAKG5j4o0jVcwpTqbqNWab898TqK4Da6XzdxU
- n2i8C/WyO2iaWTirxuxiliBSSGtAHLRSqPigfRSJMR5BZUZUaDQ/nSURyejyRoNbfAJM
- +1rrM++wsCKlmkYYqq8eBAHVWt/Pjr/LQLFV7L65Wief0Q3fCC9aVbxRGMHesVcrjmF/
- zsGg==
+ bh=fQWfitv18ORc9/USvUJVF1huPbml9HkmehHEfqgU8EA=;
+ b=M6lF1Xz7b013ygnp91q9lQ1S+PMNc1+HFC/hFWO++4SAA6+z5jMrGgG8o7TYJYzPZ2
+ 8Wp++VeS59QAnRyL8P3js6BmTHntw9fjAAV2JWd4h+l+zPjzCtzrN+GjOjYi5EMafeSp
+ kRCzgQmSA+PfsrmGyvfonZsosuchwlDsjT9RCsgHPgeAR3MdJ/lGhk0h5VUPH6XYLS0L
+ +K/1qApr06I1ytDGJ4uDMIdruAy/T8ENYAYvtyeEkFtmEdYV5buO9LgzIy648NpByqNE
+ u0KJV5AkzWkNBz8EHURcjKDpGuVqjKAnKXHC5xMFGOCkmA/DjzHN7vfEAZkflFtxrRCm
+ GZow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701068230; x=1701673030;
+ d=1e100.net; s=20230601; t=1701068249; x=1701673049;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VuIVUuCMjH58N1a1ccT/SdI7fcyozDb9GMuo7ZSvjfU=;
- b=hH/6W9psAQi1wUbcPaxKkArT30Nr4JaqqKLGeGt+qzy/OsUMbyhcpwOEorl+GZ+gxO
- VTTyr1dtkLRkZYYBoXQtQuzfWbUwZ4D4rtLaYpasF6NGuCHNimzmLhHkTzPfyCktRyJK
- eumH9SqOpIzDIX4KXC+aCHjxzOFazF9Rrpxw7iorycP/X01lUayn4yLVR8/GbPTgPvR4
- ZtCHvIHzOD/Q8NyChapTS/J0h4hLuTwO4VnQK/aBzeyfUuszgBCH6w+qhHTstfs9dmYI
- zTgy1Fkr7kqmDLEx+TWRMvlruLcd316mjN9VGo87e3qfWPV1IBv1B6Kdp1sLwTyC84wk
- qUjA==
-X-Gm-Message-State: AOJu0YxgWp35ojStkMdu1qmLK21sWXM3eN86Id/Qv5agvR5sy1WLA/0q
- SJ5HcE3FDixJO7A54RERxkolAw==
-X-Google-Smtp-Source: AGHT+IG8RtLhMG2Sr4SqheG5mM8Bnomh46e4LO/JyEf6BoBKf05JikGVgxzZ7YEhPukJeTzPVAm34A==
-X-Received: by 2002:a17:907:d30c:b0:9bf:d65d:dc0f with SMTP id
- vg12-20020a170907d30c00b009bfd65ddc0fmr9814964ejc.4.1701068230340; 
- Sun, 26 Nov 2023 22:57:10 -0800 (PST)
+ bh=fQWfitv18ORc9/USvUJVF1huPbml9HkmehHEfqgU8EA=;
+ b=p5/WW4X3YmWa8hiTsW9E0DJElR8pDgjdQkcJZu7Pji4EwtyH60Dmz5t8AQgc2airDL
+ HZwuSsOfmvDvONu323mNV/uva4dF2N8uRsA36CnrjZV5dj1PmmlpLf4G1vOApOXWwAa2
+ xXt710sLMee/MDEHSIAQfL+IIx7AD/ffl+svqub8Jxzx9kLinNGYhiohIsrknwYFpMIA
+ OgkjNteNuWAHpkOR0L43ldRCy4eCtXYY5kZt0ZssqeSJ7rnrHiYmPRWRtOIRsejXrJaJ
+ U1fbPhkIofkD4774/KLmA1d5xBmK+tZFQhcWKgDn0tlJyPmAk5yLXTUnTvkss1NLF/24
+ bY3w==
+X-Gm-Message-State: AOJu0Yx+/wqTHqw1LlXZDgTSNUNBDWkuVAPvAfwATC//O7jQW7HjW9nB
+ LMFc4QemS7FzAuZCQF8UUbCMXQ==
+X-Google-Smtp-Source: AGHT+IGnaOY6UqqkGlohuWVoBLraQEN9HQbTV+4TI7Mwks3kyfEukG+HVT/DEcFn43jttfy/0rDkVw==
+X-Received: by 2002:a17:906:40ca:b0:9dc:2291:d384 with SMTP id
+ a10-20020a17090640ca00b009dc2291d384mr7756720ejk.22.1701068248854; 
+ Sun, 26 Nov 2023 22:57:28 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.109])
  by smtp.gmail.com with ESMTPSA id
- a19-20020a170906469300b009ade1a4f795sm5291000ejr.168.2023.11.26.22.57.07
+ a19-20020a170906469300b009ade1a4f795sm5291000ejr.168.2023.11.26.22.57.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Nov 2023 22:57:09 -0800 (PST)
-Message-ID: <6228cda4-8918-4ae8-ab25-5e40ec966809@linaro.org>
-Date: Mon, 27 Nov 2023 07:57:06 +0100
+ Sun, 26 Nov 2023 22:57:28 -0800 (PST)
+Message-ID: <456b2f76-f4c3-4d51-8a07-7d14bd89ba53@linaro.org>
+Date: Mon, 27 Nov 2023 07:57:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/12] dt-bindings: display: msm: qcm2290-mdss: Allow 2
- interconnects
+Subject: Re: [PATCH 05/12] dt-bindings: interconnect: qcom, msm8998-bwmon: Add
+ QCM2290 bwmon instance
 Content-Language: en-US
 To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
  <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -74,7 +74,7 @@ To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
  Krishna Manikandan <quic_mkrishn@quicinc.com>,
  Robert Marko <robimarko@gmail.com>, Das Srinagesh <quic_gurus@quicinc.com>
 References: <20231125-topic-rb1_feat-v1-0-11d71b12b058@linaro.org>
- <20231125-topic-rb1_feat-v1-3-11d71b12b058@linaro.org>
+ <20231125-topic-rb1_feat-v1-5-11d71b12b058@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -120,7 +120,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231125-topic-rb1_feat-v1-3-11d71b12b058@linaro.org>
+In-Reply-To: <20231125-topic-rb1_feat-v1-5-11d71b12b058@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -144,34 +144,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 25/11/2023 15:17, Konrad Dybcio wrote:
-> In addition to MDP0, the cpu-cfg interconnect is also necessary.
-> Allow it.
+> QCM2290 has a single BWMONv4 intance for CPU. Document it.
 > 
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->  Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
-> index 3d82c00a9f85..51f3e9c34dfb 100644
-> --- a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
-> @@ -36,10 +36,10 @@ properties:
->      maxItems: 2
->  
->    interconnects:
-> -    maxItems: 1
-> +    maxItems: 2
->  
->    interconnect-names:
-> -    maxItems: 1
-> +    maxItems: 2
 
-You should describe the items in interconnects and interconnect-names in
-such case.
-
-The same for all other variants having two items here. Then this and
-other such patches should be squashed with previous.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
