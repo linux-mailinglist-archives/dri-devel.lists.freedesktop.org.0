@@ -2,109 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F181F7F98B1
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 06:32:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A55017F9A42
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 07:54:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BF6A10E197;
-	Mon, 27 Nov 2023 05:32:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EF4310E1A8;
+	Mon, 27 Nov 2023 06:54:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2061b.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7d00::61b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C2FB10E074;
- Mon, 27 Nov 2023 05:32:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ltqPj4WLpDJYdHT+4WInqH0aeLOAU/A9zmy130O2JM8r7rASJoAza+t/WpU66tgyAkFAHKJnAzA/Z2NBeHD/lyWsIL20qz3DdE37S+WcZIZgGfP5Qf89g3e/V99gHhyRFqbwdVHZiGGty1mC3w+46eKpRo9mE1LRS4RW9cvRqPRKttFFsFqpbNNgWoP4lNVsUodj6irVKcqioPFW0lRwclrluBBWJYMxO3zE4aUMlfm9sfh4HEiNbgg7DZZRMI6GcP3kBmT1jVmCDih8XQrBM2haPFO04FZr++pkEru8dAvkzqhroOo83ddFAADgCZ5LK0c1r3bbLdcZM7tUqXtHRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/moDtIKrLaEZ9O+P3MvoWR50Uhy9gWuNEO3gkDsOIqY=;
- b=WhpsvMht4JMGN8ehxNBmY+Q5X/aWln7p21um1HdNByrAWrqSpR2z9DzU7PbVxxp8/zgVY+wUiWK9dHg6Q6o5y6kWtQnXSisB+oKBgBMmo3l3tDM+ZB2L1QjVXJKu0LAM/W6BkiSyZWFdhIm4Q0gUXZPNVV6fAvW3rwLljI1EH4r++LACOai/ekv3ghm5HehFd9TP3r3u1z63NI3BB72ZwEI+ljShG70DPHGRGEiv6KFTH1v5Tu+4YFxf1UEm7jyVqruGiDciCoCollt6cjpAd/Lo1XOqB48yj9FM3sRvbq0TGJnTn6oLFjknqkGxCAW+2k8KNk95uort1zTY8WTnKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/moDtIKrLaEZ9O+P3MvoWR50Uhy9gWuNEO3gkDsOIqY=;
- b=RT4Z3AR5OfO+Stn4eQClr3PA61YcdaTdL6vVZ0OEABNT5K2Ooo0il619JPR+o3vyRhrns2+nzwi3aZoS923eC57li2zQyGrQi6JZhiP0G06I/HOFo16wkujjeWeI6njMRrWxG1+exup24+pG3uvo/+FaJ40OBL9kK3NOUz4NxtE=
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by DBAPR04MB7302.eurprd04.prod.outlook.com (2603:10a6:10:1a5::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.19; Mon, 27 Nov
- 2023 05:32:02 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d99:f43f:65a3:9bf]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d99:f43f:65a3:9bf%7]) with mapi id 15.20.7046.015; Mon, 27 Nov 2023
- 05:32:02 +0000
-From: Ying Liu <victor.liu@nxp.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>, Daniel Vetter
- <daniel.vetter@ffwll.ch>
-Subject: RE: linux-next: build failure after merge of the drm-misc-fixes tree
-Thread-Topic: linux-next: build failure after merge of the drm-misc-fixes tree
-Thread-Index: AQHaILAPih4tujf4ZkeAQQ148k8/RrCNoPhg
-Date: Mon, 27 Nov 2023 05:32:02 +0000
-Message-ID: <AM7PR04MB704669C9C5471A309F8F72B198BDA@AM7PR04MB7046.eurprd04.prod.outlook.com>
-References: <20231127083205.44b25fa8@canb.auug.org.au>
-In-Reply-To: <20231127083205.44b25fa8@canb.auug.org.au>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM7PR04MB7046:EE_|DBAPR04MB7302:EE_
-x-ms-office365-filtering-correlation-id: b29317dd-989b-44aa-4442-08dbef0a2f44
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: IFUbNvIN6yE8DzgMWJj3u5uMduP8nsQDWf//NezNkWJgLkeasZejE9uqIIYLfvKb17JW8XgYzG9aOQOdJv+vGbYWmxRFmk8jo6I+wys1rR5DCcjTHmCwdkpow60J9ItVKPCvc/Yix1dilKHFjq666RmPqCyoO8Bqc7N8bbIpzJNIx0l3NB8Vnz5GmQE+/nY0ihypBg1pNS0MWBXiCUdfD9NSYERjdZOJzdOKiZYbRrdsEAklYME69mfP66TLk1xWXzrOPhHXE+ZOYIq9W1xAgXXMwSLHQ6VktOOwI+OLGH5UqkY90QJ/06JyECHBCU3b8s0oY5xDxUaIjoYRlwIineAofZbbdZ0+343zWZnyUehzZ75wIQ8AbcfDZX5ukehczXckZEjh0YG0azBODadGgQcrLxNhl6glBWdlck5iQrzsLJLZaXRpCAM7Q5QYGGYsOWrcghyHIYiQ+52Y/+haVuT782OdZVt+91AbOTJBidwd6cpstHwiLCk83Iwyd8noEL98UvRjM3SLCkkefF0SdQVFYFv6p3w25PxjKpp/Yhz2W8R6oJ3nYjAsCSkzvF0+rqRTuXA5ij9tHwdB2DTV0NTQjD2f78JTtw9b+5UEeTc=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(396003)(376002)(366004)(136003)(346002)(39860400002)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(6506007)(53546011)(966005)(478600001)(9686003)(7696005)(71200400001)(4744005)(83380400001)(2906002)(5660300002)(41300700001)(66946007)(76116006)(66556008)(66446008)(64756008)(110136005)(54906003)(66476007)(316002)(4326008)(52536014)(8936002)(8676002)(38100700002)(38070700009)(86362001)(122000001)(33656002)(55016003)(26005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Tv4fPJ2YyZqweooepek4ymKf3SPqGxK8kuj6C3f5ZJHTF78z4bNs8Ozcn0AJ?=
- =?us-ascii?Q?2lSvwFldAsj5sEWZb4o8ovYXQibUR/0XD6ytJMhW/OEdf8/xPRTTYdy+FLKt?=
- =?us-ascii?Q?YUJjtDyyuoJSG6VguaMBRmk/yKubQUTuCShefLYQUGTePgAT8RyOzu2rVGTD?=
- =?us-ascii?Q?yZYpR3ObkYUGQ2f+XGOZLGPLCDJRDhjZAym+tfsdzMUlVHpSmv6WH7g6PAq2?=
- =?us-ascii?Q?HGusCgGCgM8epbeg5Do3IeYvM4VivKSZh0p3JhQjc8l2ev3BpI+2W9axzsTU?=
- =?us-ascii?Q?OrA2VdYiCV1VTks9YaI8Pgg5BjlZ22OcTnIFowc6U9WFtjPW+A3ZLJrD1ro2?=
- =?us-ascii?Q?MBgCEIB3C3MYJAnWv9rGU4GJcbdC+ZyJDQ1L5q6yVkZUxrMVBsxU+z+GfehC?=
- =?us-ascii?Q?Luv6aHUypjzn9JTl1d9E9RtbJyLBdYA8Vr9fjmLx9qe72Jf8RCZZzvkadjRb?=
- =?us-ascii?Q?TDDnS0nPxlu/b5ixhAY0S5pHADFMb+fKGconHhZ4DMIoYJ58FyFBZY3wij97?=
- =?us-ascii?Q?0H4336wRo57MV/ojgHfWGnpG9dPNfQB+e0Jd/V03jk39YoMyWVnt/HM1jF6z?=
- =?us-ascii?Q?IhnvLxcaQv5tt+KaJwrjYsrozOvN55vRWLIdhDki7bqGcUvu5EO47eCUTfAf?=
- =?us-ascii?Q?LZUDyXFijvXrAXhvrtDi+LauvwDbNobEs/mnXxy0eBYlMSmyCwKABBs8P2Km?=
- =?us-ascii?Q?m4nm4F1rIrDdh4lzl2y+VC3XpIGC3dT8wbgRobFh64gR7Xwuk6ccg94ryBeR?=
- =?us-ascii?Q?CItSEZrShGw7gauAMBQ/fIhbRBfCxHvYugGT2LebV5cH40Uv64NAg4+dulPb?=
- =?us-ascii?Q?/Mcl2qSj6JfS3cJQnFo6MJIO0+apVCeLSoOu03JbIVJaI6wk6E3faPuIGjR3?=
- =?us-ascii?Q?1QRCtlVjPH5xW+eF5XQjQKgRna9SKFdsWf7BNkyEN17IAy+BYY2fIHnJWNSE?=
- =?us-ascii?Q?ht2ckujx3nveB9c7uqkMGaoeGx2uFM0O0RxJtZ++ebWVZEjNkoE1n9jT8YD7?=
- =?us-ascii?Q?uXXcCDcqymqUkgFAgg8icyVM8rtJu2+rY1P8VKh+SNjUac9/AYmzh0Gh3iq9?=
- =?us-ascii?Q?tdW7cDh/8rebGPcInaMHM9sZKaH2OqEO5FIhes817mzvdsHopzQGRPyOgtYv?=
- =?us-ascii?Q?vO0QthtjITVwxmJgw7NcFG3uN8fFrhImSMC1C6YBg2oiwnEFORY8OVoxZhzd?=
- =?us-ascii?Q?Y1s7XiHQLupNGz4Yrf4y2Fof536Xu3u1KRHgESh3dBIS4zlT16aLTd3aja/o?=
- =?us-ascii?Q?QzRujaSjsQYsF1RCSG887L7VQIzXxMChKfaGb1JYbThXQAVeMWxMkd1HUXTd?=
- =?us-ascii?Q?C6QDHwvtcp2kPCkhUhtr9pyI0EOBpGlnfFJ0APbUK9wFvrdTyDPVSn2aS5Au?=
- =?us-ascii?Q?+D8V4D3uXlkh5lQc/aAREkcGbchECShvA15jPgpxWBubYeZQFxoJsSeqvjop?=
- =?us-ascii?Q?jFnfEtAalyFWZl6nGlZOZ0bOWUupvJaSCKzZ01mIbMi9l3UW6yb5YWzIPTb9?=
- =?us-ascii?Q?ocAm2/KpDHSIIR3zFU+pfoxshjiZCup9Il9ks4aCJz99RfNrDW3PZGlOD7Mi?=
- =?us-ascii?Q?s9TXPWmJhgSOGhY0QHM=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB04A10E1A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 06:54:08 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id
+ 38308e7fff4ca-2c875207626so47192621fa.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 22:54:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701068047; x=1701672847; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=g7O18zBiTgze+LVcu41zvOHt3KDlXKTRguomVeb/Thw=;
+ b=OkbjTRkpsN7qMHq89gBfh14o5L0fVWNczI/GZISxlPTW5gb5q4lNhpDu1C9zi2PkOy
+ 9XrhCCzQSVkM7BLPVROCj7i9o1pc4b7/UAvNB6XXNbaSs3cH2au4xF3LZkmQDVPun4OF
+ e/Ljg0fVpij+br7DCgebUFUa63zoJUzxIaVzomeuaYrrL9FnUKMDWJSChshIrFR44v+t
+ zthPD0r8FaqpeWvBEtoApg1Ku99ZQUOrQale81+N27hH5TlQTpC2meNAJGDAgkbNkFKK
+ 3wzamhiKe7q9BkISndrLmwkpvri/MhO59hwGKlp78xRh5UBDx5tHvuwCZG/d9HPR/pT9
+ uZFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701068047; x=1701672847;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=g7O18zBiTgze+LVcu41zvOHt3KDlXKTRguomVeb/Thw=;
+ b=caIhEmHRvWlk9EzVUezmI20WfuZ5Zpi7jlo3bCl+d5k9LguVG6r29WHqsDPL6Oi3ep
+ +uZxUKPqBNqYBdGG+NjoYeV2+y7n4afAuiUyH2XYUR9hEco1yuVAK0U64SbfBu/VH2LW
+ Vy4Pry4Uh8i3LmgnZ7uVxx4wYtMR9wCHvEp++IXgSETlKsNSwQPXzVsMH8yHu3zUfw9u
+ xWUo3sfNKQ04O5naDaxvi1ScsavcEMceS4joOxgU1gv94YRey+u45MdQXNpTdLxLNuHH
+ FH7zTg9CMtkFfxop24VBcgX7eWWu0xysOUD8a78tFrpQ0uA1WyH8gp5oegZuI8njm/6Q
+ cUaQ==
+X-Gm-Message-State: AOJu0YwbQmc58D4hLG1zvgXFmrekt55wALoTntw9OW/EasikPmmNiT37
+ 9Nqky+DiPJ2CqWxjU8Wyg3IXOA==
+X-Google-Smtp-Source: AGHT+IGySsVCaGz+BUtPFjXidV9mOz6tbh6cIk6Zv9lyxPI3Wu3V0ZesH3rLnRic2lXgw0/WByl3Zw==
+X-Received: by 2002:a05:6512:12c8:b0:50a:7575:1339 with SMTP id
+ p8-20020a05651212c800b0050a75751339mr9573201lfg.18.1701068046576; 
+ Sun, 26 Nov 2023 22:54:06 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.223.109])
+ by smtp.gmail.com with ESMTPSA id
+ c15-20020a05640227cf00b0054b564d04e8sm1258290ede.85.2023.11.26.22.54.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 26 Nov 2023 22:54:06 -0800 (PST)
+Message-ID: <d1113c4f-cb67-4850-bd46-9ed2ec97ff08@linaro.org>
+Date: Mon, 27 Nov 2023 07:54:02 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b29317dd-989b-44aa-4442-08dbef0a2f44
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Nov 2023 05:32:02.4330 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9l78jUn8FsP4wc5nZzyOnQavRHunZz3DmH/7DYCZDRjz2i3eduDTp+AKeN/F3N6koQxC3qv7tNRmD48koSQMvw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR04MB7302
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/12] dt-bindings: display: msm: qcm2290-mdss: Use the
+ non-deprecated DSI compat
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Loic Poulain <loic.poulain@linaro.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Andy Gross
+ <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Georgi Djakov <djakov@kernel.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Robert Marko <robimarko@gmail.com>, Das Srinagesh <quic_gurus@quicinc.com>
+References: <20231125-topic-rb1_feat-v1-0-11d71b12b058@linaro.org>
+ <20231125-topic-rb1_feat-v1-1-11d71b12b058@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231125-topic-rb1_feat-v1-1-11d71b12b058@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,40 +135,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, November 27, 2023 5:32 AM, Stephen Rothwell <sfr@canb.auug.org.a=
-u> wrote:
-> Hi all,
->=20
-> After merging the drm-misc-fixes tree, today's linux-next build (x86_64
-> allmodconfig) failed like this:
->=20
-> ERROR: modpost: "device_is_dependent"
-> [drivers/gpu/drm/drm_kms_helper.ko] undefined!
+On 25/11/2023 15:17, Konrad Dybcio wrote:
+> The "qcom,dsi-ctrl-6g-qcm2290" has been deprecated in commit 0c0f65c6dd44
+> ("dt-bindings: msm: dsi-controller-main: Add compatible strings for every
+> current SoC"), but the example hasn't been updated to reflect that.
+> 
+> Fix that.
+> 
+> Fixes: 0c0f65c6dd44 ("dt-bindings: msm: dsi-controller-main: Add compatible strings for every current SoC")
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>  Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
+> index 5ad155612b6c..3d82c00a9f85 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
+> @@ -56,7 +56,9 @@ patternProperties:
+>  
+>      properties:
+>        compatible:
+> -        const: qcom,dsi-ctrl-6g-qcm2290
+> +        items:
+> +          - const: qcom,qcm2290-dsi-ctrl
+> +          - const: qcom,mdss-dsi-ctrl
 
-I've sent a new patch series to address the build failure.
-It includes a new patch to export device_is_dependent and then
-adds the offending commit.
-https://lore.kernel.org/all/20231127051414.3783108-1-victor.liu@nxp.com/T/#=
-t
+You must also update the example here.
 
-Regards,
-Liu Ying
+Best regards,
+Krzysztof
 
->=20
-> Caused by commit
->=20
->   39d5b6a64ace ("drm/bridge: panel: Check device dependency before
-> managing device link")
->=20
-> I have used the drm-misc-fixes tree from next-20231124 for today.
->=20
-> --
-> Cheers,
-> Stephen Rothwell
