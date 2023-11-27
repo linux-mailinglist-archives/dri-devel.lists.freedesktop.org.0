@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB897FA7CA
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 18:14:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A047FA7F5
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 18:31:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11F8910E067;
-	Mon, 27 Nov 2023 17:14:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6FC710E3B7;
+	Mon, 27 Nov 2023 17:31:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1395610E067
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 17:14:47 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC53410E3B7
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 17:31:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id D0569B836CD;
- Mon, 27 Nov 2023 17:14:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05BE1C433C7;
- Mon, 27 Nov 2023 17:14:38 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 6C507CE10C8;
+ Mon, 27 Nov 2023 17:31:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F713C433C7;
+ Mon, 27 Nov 2023 17:31:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701105284;
- bh=94eA5a3oVs1VTguMTV9OICnFtDjCrfp2/1bumD9OBZQ=;
+ s=k20201202; t=1701106271;
+ bh=1f6++Sut+qyUgzlRDFrOoLD82uHFLjkr49VW132tP6g=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Fa/wQuX929+5dckPfYpUstS/A0PYi6ycn5TAH8wdbjF3R0MA8NWtU2JDzQKolgyvt
- LIdAMaLbIwy2Zu22qZ4AiKrl8xoGIPudfiWX3PEkYFK+QtJlKtkfzTYluMf0QWdGOV
- rRTYnLkT4j+kxALg0gAOSgRNdV+e0XLBSwO3fFds8seHEL31R3+4wLr/nnS1QEkDFF
- EnLkTCojnQeygYnmU1SUSfHV50HWG3zRY+jFN0sYWexHhR1217i5PnnTN5KT3Urdo4
- Ua+TSAMOSCqB4LApFdAHQX6MJDa5+Mr46b8GfdKndENulAzNbrtsz1vXe+k9m+NNO1
- 1ybXs76rFt0fA==
-Date: Mon, 27 Nov 2023 17:14:36 +0000
+ b=U077nLMrvZvoNfq8uUMQhgonYGE3ddOcfxi7Oz/sLdbF18qsYWLQLFjftP6jN8Btv
+ NprKf48THKk98Xs46KXuWhcfEw7Lp8xc4YBB7RwIgU82YueDzfLQQRJs1/hH4oZX+n
+ vKbqvlaA+wa2wFQ7Ns6gjRwqD53NR2vnbUotSr8VensCvo/k7X45B6C3zBMu9xLHKQ
+ qtzGPFlTDEFiy6icdg/JYxCMoI2k4Lp4DjM8Wu1EPcFPcjQCLUNOjqLkq0Hw9h4NjE
+ UfeNo05hPz19oU7krzwKDN4ww8/QWEwBoECOHZ20OcNJvIViKljUN+IACnDwWx0X7c
+ yqP87R/FNUUDg==
+Date: Mon, 27 Nov 2023 17:31:05 +0000
 From: Conor Dooley <conor@kernel.org>
 To: Roland Hieber <rhi@pengutronix.de>
-Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: samsung-dsim: Add
- i.MX7D support
-Message-ID: <20231127-sessions-publisher-d15b28966646@spud>
-References: <20231127-b4-imx7-mipi-dsi-v1-0-7d22eee70c67@pengutronix.de>
- <20231127-b4-imx7-mipi-dsi-v1-1-7d22eee70c67@pengutronix.de>
+Subject: Re: [PATCH] dt-bindings: mxsfb: Remove power-domains requirements
+ for i.MX7D
+Message-ID: <20231127-education-skilled-9814c6fe4998@spud>
+References: <20231127-b4-dt-bindings-mxsfb-v1-1-922e4e71c838@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="eEkdIYeTY4jIHAux"
+ protocol="application/pgp-signature"; boundary="eRsFMvFDjL10ksWa"
 Content-Disposition: inline
-In-Reply-To: <20231127-b4-imx7-mipi-dsi-v1-1-7d22eee70c67@pengutronix.de>
+In-Reply-To: <20231127-b4-dt-bindings-mxsfb-v1-1-922e4e71c838@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,79 +52,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+Cc: Marek Vasut <marex@denx.de>, Conor Dooley <conor+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Robert Foss <rfoss@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Jagan Teki <jagan@amarulasolutions.com>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonas Karlman <jonas@kwiboo.se>, Sascha Hauer <s.hauer@pengutronix.de>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
- Shawn Guo <shawnguo@kernel.org>
+ devicetree@vger.kernel.org, Liu Ying <victor.liu@nxp.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---eEkdIYeTY4jIHAux
+--eRsFMvFDjL10ksWa
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 27, 2023 at 05:12:28PM +0100, Roland Hieber wrote:
+On Mon, Nov 27, 2023 at 04:35:56PM +0100, Roland Hieber wrote:
 > From: Philipp Zabel <p.zabel@pengutronix.de>
 >=20
-> Add support for the "fsl,imx7d-mipi-dsim" compatible used on i.MX7D.
->=20
-> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> Signed-off-by: Roland Hieber <rhi@pengutronix.de>
+> i.MX7D is documented as compatible with i.MX6SX, but it doesn't have the
+> power-domain requirement. Limit the i.MX6SX power-domains requirement to
+> i.MX6SX only.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+I dont like this commit message tbh, I shouldn't have to go and dig out the
+file to be able to understand what you are doing here - it should really be
+explained that the imx7d falls back to the imx6sx, as otherwise this looks
+like nothing at all to do with with imx7d.
 
-Cheers,
+Thanks,
 Conor.
 
+>=20
+> Fixes: f62678a77d58 ("dt-bindings: mxsfb: Document i.MX8M/i.MX6SX/i.MX6SL=
+ power-domains property")
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+> Signed-off-by: Roland Hieber <rhi@pengutronix.de>
 > ---
->  .../devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml         | =
-4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  Documentation/devicetree/bindings/display/fsl,lcdif.yaml | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/Documentation/devicetree/bindings/display/bridge/samsung,mip=
-i-dsim.yaml b/Documentation/devicetree/bindings/display/bridge/samsung,mipi=
--dsim.yaml
-> index 4ed7a799ba26..e43fec560941 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.=
-yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.=
-yaml
-> @@ -27,7 +27,9 @@ properties:
->            - fsl,imx8mm-mipi-dsim
->            - fsl,imx8mp-mipi-dsim
->        - items:
-> -          - const: fsl,imx8mn-mipi-dsim
-> +          - enum:
-> +              - fsl,imx7d-mipi-dsim
-> +              - fsl,imx8mn-mipi-dsim
->            - const: fsl,imx8mm-mipi-dsim
-> =20
->    reg:
+> diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/D=
+ocumentation/devicetree/bindings/display/fsl,lcdif.yaml
+> index fc11ab5fc465..83532959e51c 100644
+> --- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> +++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+> @@ -117,13 +117,19 @@ allOf:
+>            maxItems: 1
+>          clock-names:
+>            maxItems: 1
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          const: fsl,imx6sx-lcdif
+> +    then:
+> +      required:
+> +        - power-domains
+>    - if:
+>        properties:
+>          compatible:
+>            contains:
+>              enum:
+>                - fsl,imx6sl-lcdif
+> -              - fsl,imx6sx-lcdif
+>                - fsl,imx8mm-lcdif
+>                - fsl,imx8mn-lcdif
+>                - fsl,imx8mp-lcdif
 >=20
+> ---
+> base-commit: 2cc14f52aeb78ce3f29677c2de1f06c0e91471ab
+> change-id: 20231127-b4-dt-bindings-mxsfb-9a0676d08b4c
+>=20
+> Best regards,
 > --=20
-> 2.39.2
+> Roland Hieber, Pengutronix e.K.          | rhi@pengutronix.de          |
+> Steuerwalder Str. 21                     | https://www.pengutronix.de/ |
+> 31137 Hildesheim, Germany                | Phone: +49-5121-206917-0    |
+> Amtsgericht Hildesheim, HRA 2686         | Fax:   +49-5121-206917-5555 |
+>=20
 >=20
 
---eEkdIYeTY4jIHAux
+--eRsFMvFDjL10ksWa
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZWTOfAAKCRB4tDGHoIJi
-0gR3AQC/uU0C6yQnjFTOi3VAkiumHD8Z665Xqv9I+8g62eUrFgEAyZ2kzmH3FFHh
-D1CWuyb+hcb2UhlGWyV3b4HuLNpq8QQ=
-=ysHQ
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZWTSWQAKCRB4tDGHoIJi
+0h6OAQCM77zuKX5T/URD5xbri5KHdxypFWxTlRPjFWgoKcyH+AEAntIf1h5TsGP7
+2ZsAPySWu/fjFf5kS+R8djJIA1Vppg0=
+=Dmgj
 -----END PGP SIGNATURE-----
 
---eEkdIYeTY4jIHAux--
+--eRsFMvFDjL10ksWa--
