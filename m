@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96BDB7FAD5A
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 23:20:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2BA17FAD81
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 23:34:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E06AA10E0CF;
-	Mon, 27 Nov 2023 22:20:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D44510E1A7;
+	Mon, 27 Nov 2023 22:34:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
- [IPv6:2001:4860:4864:20::2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69F6210E0CF;
- Mon, 27 Nov 2023 22:20:50 +0000 (UTC)
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-1fa1c3755afso1183078fac.1; 
- Mon, 27 Nov 2023 14:20:50 -0800 (PST)
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com
+ [IPv6:2607:f8b0:4864:20::1133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DE8310E1A7
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 22:34:16 +0000 (UTC)
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-5cc55b82ee5so44803297b3.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 14:34:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701123649; x=1701728449; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701124455; x=1701729255; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uOCoZok9ZC4QmtYsZ8TfeK+iIljTTrbyrnD/jz9we80=;
- b=Nx+O1DHoS3UgnDS+dDbVpQGWPpm+e//cr/cHEHIGsXVR3wEWzb9GO4X+qYFmkrcQJE
- YP1oP1x3BgRcfgLxkbMKIVRHI+6jMR1bj3sp5X2nUfR/HpJdQgn0IHH/NkyQc5smjx30
- pF7lBWLRfN1gXJ9g92l1e8x0IU1xCJu414YuV7o8kyvQF5Xko7nluFfLPBpWJIiVAdFA
- +E5m1eYVKfcDAnW/mQs0KmS4Fs0P01jEYJU/RtTuE6FASwAlOlAsw45dElpBlt9FBBpE
- AU0ihchpEoNvdHoz3cg/CMVh/NKAYz7qBX9m3lxbaQzikidHGBvFdWUDxZkVT4ChWcVc
- e8wQ==
+ bh=3vGzcsQmOQggKxvH47Tmuwqz8+t2HhA4WbAiv2DPY8Y=;
+ b=FXp6kwqtDELduPTTWP68P3TeE1nC2xuS4AqK6ilUpXXv7wgLdYFxUkdTmrqHPL1Hgk
+ q7BzEYLjhY0BKBGNvCLizEC5r5q7bTwPltM8wJwaT5h2iaDTAIjc4IZilBny+yXm4BIe
+ m90tW7O4ExywJL92rladB2lL+oA5yPR1TOpBGfXphz5jmqSzMG1vs6oijD6kcOniprwl
+ tNnwgcu/r8bVjJa1A2OII8ncoUj8I29t1FOQOG3Xh+pQwX8KY1z2zSdxQv8nMnoaUKat
+ ZbaI1/QwpDCtMgT1YCZXlHXPU6gtCEJFGUSu7jPp1Fd8+1H/gKuQEVtZ2Z4V2bHaWeFr
+ GFfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701123649; x=1701728449;
+ d=1e100.net; s=20230601; t=1701124455; x=1701729255;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uOCoZok9ZC4QmtYsZ8TfeK+iIljTTrbyrnD/jz9we80=;
- b=HKyDBoyriSu+P/A9FNttCcFdMh/DAx6sKzznsxe8Yk79NsGo2GypN1T/949vEHudv6
- lBRH7uwfkPRKU4OW4Md4mztu+hI6IhppTSlRMy4p7iEqFw3wc4AXsTTHFiVZ4uKLs2T/
- dqJDiMotohWDHuaNHlGTZ5EjNL8Zy9f+tEms1I3qFQB3lzNahghGBKsDgr5E10UKqF1w
- rr1bpWZ3cx8YABW9XK2Pe0qdgheUCOfyG4RxljMebSCTqsz13jbbVmCA9CZadl57o3Eq
- z9X2zvVsV2tHeCbxIgLpikd6NcPrSPdyMhuOc9rlUkIk2/jyGK304DhVpRVP58CARBxO
- 1k6g==
-X-Gm-Message-State: AOJu0YzLYAi3NkF0gCV24jKlAUoqlSk06lPGOtZJYqTUASI4CnO5B+hl
- KFlQu8em3CZgOEpaw8/PRvZOmPM6ZNqiYLKwu68=
-X-Google-Smtp-Source: AGHT+IG606uGqVxVZUsnYhGnoio+vCyrTchzuHhHlW4YCPROWTyaN9UgJO6ZL1UuPP5MxYL7nL/3g2frkr9mEuro9o0=
-X-Received: by 2002:a05:6870:1603:b0:1f9:eb7e:6621 with SMTP id
- b3-20020a056870160300b001f9eb7e6621mr6732690oae.18.1701123649584; Mon, 27 Nov
- 2023 14:20:49 -0800 (PST)
+ bh=3vGzcsQmOQggKxvH47Tmuwqz8+t2HhA4WbAiv2DPY8Y=;
+ b=wsA2NYH4PKAxp7jXIJ+RP9WJiWuS+FxKMWFbzyoHVQ3yObnqtlvN5K9nJ1CjXURYi/
+ PZlXxbnPMSeOsf5fozGvxWVF4ZTfIngE9BYioorJvGARfvqlF6kCCjrEMb0MX/YP2wM3
+ v5+o6B0TP+ExSSD0Eb4P+TJ5dUlIzxksx3APTPb2Aw6/I2lKcHwSR0N/p6A6fT4PiPdh
+ kBMygrUvEFC7rUtQ9CJ7BMK+GMyRzNWBTii7Ctu3Y8WrL62ACfXCW13UT2aYIAbnUzhl
+ y2rYFpHCQ2U/eZQUscO04ptVAXShryumjmu148OSaneGUMj6E5TurwpaGhffV+VfQgjb
+ Sepw==
+X-Gm-Message-State: AOJu0Yw5kUJDqw1FccWOsV/pwvQKS/+UAad2p97TI8OoofJo0n9tRnmp
+ cGSyxbVwH22orm7+4S6hkw6cXuuJkhzJETUveQvvqw==
+X-Google-Smtp-Source: AGHT+IEYWPEuZyZ69QjYMb0/vc3v6nEVmOOn24SzLtwWBbFeT4Ij5VfP4VJMQXY3IVaHPqBsT/A9Cy+DjHMdZR5nfa4=
+X-Received: by 2002:a81:ac5b:0:b0:5d0:b0e7:929e with SMTP id
+ z27-20020a81ac5b000000b005d0b0e7929emr3605101ywj.42.1701124455238; Mon, 27
+ Nov 2023 14:34:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20231122093509.34302-1-yaolu@kylinos.cn>
- <20231123012234.5783-1-yaolu@kylinos.cn>
- <80ea6067-c531-4765-8576-265e565525fa@amd.com>
-In-Reply-To: <80ea6067-c531-4765-8576-265e565525fa@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 27 Nov 2023 17:20:38 -0500
-Message-ID: <CADnq5_M7TjyM5n7X1mvxRzrckd4meVsvJMrMyt-BpciEPcqC-Q@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/amdgpu: Fix cat debugfs amdgpu_regs_didt causes
- kernel null pointer
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20231127051414.3783108-1-victor.liu@nxp.com>
+ <20231127051414.3783108-2-victor.liu@nxp.com>
+ <v6rthnruba5xaxazsn4jsptn6catso5qwuyf5xxbf4ml25b6eo@snttjo7oqlod>
+ <2023112739-willing-sighing-6bdd@gregkh>
+In-Reply-To: <2023112739-willing-sighing-6bdd@gregkh>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 27 Nov 2023 23:34:00 +0100
+Message-ID: <CACRpkdbZvUMy7PzqnPSsM+SmMv5Z0mnVq_GU9_9HbBWXkg21zA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] driver core: Export device_is_dependent() to
+ modules
+To: Greg KH <gregkh@linuxfoundation.org>, Liu Ying <victor.liu@nxp.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,71 +72,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Lu Yao <yaolu@kylinos.cn>, dri-devel@lists.freedesktop.org,
- alexander.deucher@amd.com
+Cc: sfr@canb.auug.org.au, ulf.hansson@linaro.org, jernej.skrabec@gmail.com,
+ rfoss@kernel.org, tzimmermann@suse.de, rafael@kernel.org,
+ neil.armstrong@linaro.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, jonas@kwiboo.se, linux-next@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, andrzej.hajda@intel.com,
+ angelogioacchino.delregno@collabora.com, Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Mon, Nov 27, 2023 at 7:20=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
 
-Alex
+[Maxime]
+> > So, a committer just applied this to drm-misc-fixes without your
+> > approval.
 
-On Thu, Nov 23, 2023 at 3:22=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
+That was me, mea culpa.
+I learned a lesson. Or two.
+
+> Wait, why exactly is this needed?  Nothing outside of the driver core
+> should be needing this function, it shouldn't be public at all (I missed
+> that before.)
 >
-> Am 23.11.23 um 02:22 schrieb Lu Yao:
-> > For 'AMDGPU_FAMILY_SI' family cards, in 'si_common_early_init' func, in=
-it
-> > 'didt_rreg' and 'didt_wreg' to 'NULL'. But in func
-> > 'amdgpu_debugfs_regs_didt_read/write', using 'RREG32_DIDT' 'WREG32_DIDT=
-'
-> > lacks of relevant judgment. And other 'amdgpu_ip_block_version' that us=
-e
-> > these two definitions won't be added for 'AMDGPU_FAMILY_SI'.
-> >
-> > So, add null pointer judgment before calling.
-> >
-> > Signed-off-by: Lu Yao <yaolu@kylinos.cn>
->
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->
-> > ---
-> > Changes in v2:
-> >    1. Drop dev_err message.
-> >    2. Change error code from 'EPERM' to 'EOPNOTSUPP'
-> > Link to v1: https://lore.kernel.org/all/20231122093509.34302-1-yaolu@ky=
-linos.cn/
-> > Thanks Christian for his comments.
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 6 ++++++
-> >   1 file changed, 6 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/=
-drm/amd/amdgpu/amdgpu_debugfs.c
-> > index a53f436fa9f1..e098cd66fa2a 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-> > @@ -638,6 +638,9 @@ static ssize_t amdgpu_debugfs_regs_didt_read(struct=
- file *f, char __user *buf,
-> >       if (size & 0x3 || *pos & 0x3)
-> >               return -EINVAL;
-> >
-> > +     if (adev->didt_rreg =3D=3D NULL)
-> > +             return -EOPNOTSUPP;
-> > +
-> >       r =3D pm_runtime_get_sync(adev_to_drm(adev)->dev);
-> >       if (r < 0) {
-> >               pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
-> > @@ -694,6 +697,9 @@ static ssize_t amdgpu_debugfs_regs_didt_write(struc=
-t file *f, const char __user
-> >       if (size & 0x3 || *pos & 0x3)
-> >               return -EINVAL;
-> >
-> > +     if (adev->didt_wreg =3D=3D NULL)
-> > +             return -EOPNOTSUPP;
-> > +
-> >       r =3D pm_runtime_get_sync(adev_to_drm(adev)->dev);
-> >       if (r < 0) {
-> >               pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
->
+> So please, revert it for now, let's figure out why DRM thinks this is
+> needed for it's devices, and yet no other bus/subsystem does.
+
+I'm preparing a revert series back to the original patch causing
+the issue so we can clear the original bug out of the way, take
+a step back and fix this properly.
+
+Yours,
+Linus Walleij
