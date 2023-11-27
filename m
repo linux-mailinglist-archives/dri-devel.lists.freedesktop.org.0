@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7D77FA664
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 17:29:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6401A7FA69F
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 17:38:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22A0B10E1A0;
-	Mon, 27 Nov 2023 16:29:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7D8810E3A3;
+	Mon, 27 Nov 2023 16:38:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A28E10E1A0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 16:29:24 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16CB710E3A3
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 16:38:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id ED76BB8369A;
- Mon, 27 Nov 2023 16:29:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD38BC433C8;
- Mon, 27 Nov 2023 16:29:21 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 76515CE0FB9;
+ Mon, 27 Nov 2023 16:38:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F78FC433C7;
+ Mon, 27 Nov 2023 16:38:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701102562;
- bh=P7uKPy4Si6jMYdiV0VL4sw0N58VgoAw1ff3tv2+3244=;
+ s=k20201202; t=1701103096;
+ bh=Jc3uA/l1xBlBTvWQCweF4LiIVoRMESPYgni0yWyW2Fs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LXdwtQOF7BnXpOlbUFB89Bi1/Kb2wgfZDgIP/NF5Niu9ydpnkXFWQWKDxIYNc5nz3
- GU8X1Uy03kciMgch481+XBWKf67cuWngkaLOseWgtMlwOCphm68okTEpom47c7n5N4
- 8w1JYt2EURLmxXAW35oQiFWqb1SP39fErzz2PbLXJyq9q1sGaIpCIF9+wdNCR0/MVt
- q04N1k+tCXrR6whXPcf4100JBh1nWr7FA0EMBvKW8j286EBDhfOdGVsUJjvfeBR2YY
- B8aD9GJqYiOd+r+ctcB+YTLkqdiO9In5fl38oezRAYxdj7AERlMS4ZuB0ifX3kAgOj
- GPbONkeWZU/bQ==
-Date: Mon, 27 Nov 2023 17:29:19 +0100
+ b=RTQIm9VH39NKodbZyyDvRXxu01IHJDuYFiSXB4jaBnPiFhXMweVgff7c7Ccb6CS/F
+ LnM3e6/tBcAaiZUxblFUn6aj9+y55YxbyqHf32ns3pwKhPRxDBOHY51UCo6QxclrTB
+ faIMrxb/8qLlPrMx7z6Pi4ppFSX5Zqo/sR0uEDxTb7xgsFOFqSUVszxMpSu8QMvFNw
+ Cph8H3g+F+BZzwmh/K0i3MIMjzxYI85fQ/0vrnLEeWtAFhcBwB6EnIgiLYbVYfKyG0
+ /N2EPflRHlJAso6QDwGSjJVgRFmyhkYoeJWlLxO/9eIZwiEBRJNsyUGE+x1qB1l0ZH
+ I27k7+m89VOGw==
+Date: Mon, 27 Nov 2023 17:38:13 +0100
 From: Maxime Ripard <mripard@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v2 0/2] drm/bridge: panel: Check device dependency before
- managing device link
-Message-ID: <k65hxlckssjd46nsrlly6vjrr5nnkrakouzw5pmxgbf6ui3mdl@5ny7j7blkwyj>
+To: rafael@kernel.org, gregkh@linuxfoundation.org
+Subject: Re: [PATCH v2 1/2] driver core: Export device_is_dependent() to
+ modules
+Message-ID: <v6rthnruba5xaxazsn4jsptn6catso5qwuyf5xxbf4ml25b6eo@snttjo7oqlod>
 References: <20231127051414.3783108-1-victor.liu@nxp.com>
- <CACRpkdZAtxh5muhbPKvmUQGtQogs3UhGxNZqnSGWoWQNUL7=9g@mail.gmail.com>
+ <20231127051414.3783108-2-victor.liu@nxp.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ww6pvplr3hkztgem"
+ protocol="application/pgp-signature"; boundary="qtwx6kzcm62expan"
 Content-Disposition: inline
-In-Reply-To: <CACRpkdZAtxh5muhbPKvmUQGtQogs3UhGxNZqnSGWoWQNUL7=9g@mail.gmail.com>
+In-Reply-To: <20231127051414.3783108-2-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,66 +53,59 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: sfr@canb.auug.org.au, ulf.hansson@linaro.org, jernej.skrabec@gmail.com,
- rfoss@kernel.org, tzimmermann@suse.de, rafael@kernel.org,
- Liu Ying <victor.liu@nxp.com>, gregkh@linuxfoundation.org,
- neil.armstrong@linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, jonas@kwiboo.se, linux-next@vger.kernel.org,
+ rfoss@kernel.org, tzimmermann@suse.de, neil.armstrong@linaro.org,
+ Liu Ying <victor.liu@nxp.com>, jonas@kwiboo.se, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-next@vger.kernel.org,
  Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
  angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---ww6pvplr3hkztgem
-Content-Type: text/plain; charset=utf-8
+--qtwx6kzcm62expan
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 27, 2023 at 05:03:53PM +0100, Linus Walleij wrote:
-> On Mon, Nov 27, 2023 at 6:10=E2=80=AFAM Liu Ying <victor.liu@nxp.com> wro=
-te:
->=20
-> > This series aims to check panel device dependency upon DRM device before
-> > managing device link between them.  It fixes eariler patches in v6.7-rc1
-> > which tried to manage the link.  Without this series, the link fails to
-> > be added for dependent panel devices and hence relevant panel bridges
-> > fail to be attached.  A real broken panel is "novatek,nt35510" defined
-> > in arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dts as reported by
-> > Linus Walleij.
-> >
-> > Patch 1 exports device_is_dependent() to modules as needed by patch 2.
-> > Patch 2 checks device dependency before managing the device link.
-> >
-> > Note that patch 2 is already in drm-misc/drm-misc-fixes and
-> > drm-misc/for-linux-next-fixes.  Patch 1 needs to be reviewed and picked=
- up.
-> >
-> > v2:
-> > * Introduce patch 1 to export device_is_dependent() to modules as neede=
-d by
-> >   patch 2.
-> >
-> > Liu Ying (2):
-> >   driver core: Export device_is_dependent() to modules
-> >   drm/bridge: panel: Check device dependency before managing device link
->=20
-> I just applied patch 1 directly to the drm-misc-fixes so we don't have to
-> revert and then re-apply patches, because that is a bigger evil. (We can't
-> rebase these branches...)
+Greg, Rafael,
 
-Erm, you did wait for GKH or Rafael's ACK to do that, right?
+On Mon, Nov 27, 2023 at 01:14:13PM +0800, Liu Ying wrote:
+> Export device_is_dependent() since the drm_kms_helper module is starting
+> to use it.
+>=20
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+> v2:
+> * Newly introduced as needed by patch 2.
+>=20
+>  drivers/base/core.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index 67ba592afc77..bfd2bf0364b7 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -328,6 +328,7 @@ int device_is_dependent(struct device *dev, void *tar=
+get)
+>  	}
+>  	return ret;
+>  }
+> +EXPORT_SYMBOL_GPL(device_is_dependent);
+
+So, a committer just applied this to drm-misc-fixes without your
+approval. Could you ack it? If you don't want to, we'll fix it.
 
 Maxime
 
---ww6pvplr3hkztgem
+--qtwx6kzcm62expan
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWTD3wAKCRDj7w1vZxhR
-xevGAP4/iVJ2RG/YQlUAysxXeBnGz+ZVYH2/pWpD304wlxPcAQEA5qk/iH4bHDC5
-ZVb/u/aTM589OM9H4d1Kr0Tv3Ib7TAM=
-=pSsr
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWTF9QAKCRDj7w1vZxhR
+xb0rAP48ijAtHc/miJhU3dvSZ7sHTokRzAIYyqw7KRtdReE2hwD/ahQdxB+702cR
+W49SZmDCxK5raw/Hq4Pk4Xi/s7ICwA4=
+=B8s7
 -----END PGP SIGNATURE-----
 
---ww6pvplr3hkztgem--
+--qtwx6kzcm62expan--
