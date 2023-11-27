@@ -2,55 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3B57FA85B
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 18:53:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB4327FA8DC
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 19:21:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1737810E0C1;
-	Mon, 27 Nov 2023 17:53:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D20C610E0D4;
+	Mon, 27 Nov 2023 18:21:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com
- [209.85.161.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7052110E0C1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 17:53:13 +0000 (UTC)
-Received: by mail-oo1-f53.google.com with SMTP id
- 006d021491bc7-58d54612d9cso1220578eaf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 09:53:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701107592; x=1701712392;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gXEZGcv8bSxQjKfcCrALAvNXAs+CKpToCxY7DnKjWaE=;
- b=SZsfnR+vblyJwcwQTSey2pyzGTH+oBDdqLhwmf7Emz5lqSJ3xPgfuWehFF5Gsl8NL+
- FuOY5lTedOmWdu32dIpVonJ4NNRzP4qptOOnpTVk7TTMFkV6SyiVFnNnzKuOwMuMEazg
- 48tC4UkP2sbmYxm36QOjisasRzJ6atRta1haOBmIfOp+xBkezjqah4jO5S70dIqnleCx
- +LKqrU22hLDYwnefL3L+edRxpZ+mLCNt+xopoU+Mz0dMd7wRZpvu2l7KcozSDyjUYW+K
- DfIp577DLVvWCIKXyHki8HbG4N7rniq36Ccj1gioOWtTgG2/bwhOfr0yLrbpW3R0XIaI
- v8Jg==
-X-Gm-Message-State: AOJu0YywF3kI+vMaqyCTgD3v3NFxXzplhWUm0JX3WIIJfZTkwr29XTng
- 8ESPPF50DzNZGOcggsHnSQ==
-X-Google-Smtp-Source: AGHT+IHqCcFjtcM7hpVFdO1GU5tjNNQyP+pOeAzsBXWkues29+89h8GwQNH+gICSaOfRfB6G2/lWGA==
-X-Received: by 2002:a05:6820:514:b0:58d:9d79:abc with SMTP id
- m20-20020a056820051400b0058d9d790abcmr2490913ooj.1.1701107592638; 
- Mon, 27 Nov 2023 09:53:12 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- i14-20020a4aab0e000000b0057327cecdd8sm1545477oon.10.2023.11.27.09.53.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Nov 2023 09:53:11 -0800 (PST)
-Received: (nullmailer pid 1865094 invoked by uid 1000);
- Mon, 27 Nov 2023 17:53:10 -0000
-Date: Mon, 27 Nov 2023 11:53:10 -0600
-From: Rob Herring <robh@kernel.org>
-To: Michael Walle <mwalle@kernel.org>
-Subject: Re: [PATCH] dt-bindings: display: mediatek: dsi: remove Xinlei's mail
-Message-ID: <170110758909.1864817.4462999891137574457.robh@kernel.org>
-References: <20231123134927.2034024-1-mwalle@kernel.org>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFB2D10E0D4
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 18:21:00 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 9ED1BB83707;
+ Mon, 27 Nov 2023 18:20:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AA2DC433C9;
+ Mon, 27 Nov 2023 18:20:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1701109258;
+ bh=BPEZYswnHtTaDhuMtTBDQ96uRSzMIQ5kvejeliwaiw0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cbYCKymX+5I0u4bFW2dSOUBGffKJZEu4kdzCzL23Kk94zcTnWWAca+/slwSlhBAYt
+ 4BTNz2Dbl6Hl6QFHfVyiEaintVNanLQNjr6r+l+ruFJhY663j1FjPtzt8Vu3k621z+
+ yL31ybOwTuhQpyAY9zO4VMWvlOt6zTZ70PKG5CBE=
+Date: Mon, 27 Nov 2023 18:20:55 +0000
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v2 1/2] driver core: Export device_is_dependent() to
+ modules
+Message-ID: <2023112739-willing-sighing-6bdd@gregkh>
+References: <20231127051414.3783108-1-victor.liu@nxp.com>
+ <20231127051414.3783108-2-victor.liu@nxp.com>
+ <v6rthnruba5xaxazsn4jsptn6catso5qwuyf5xxbf4ml25b6eo@snttjo7oqlod>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231123134927.2034024-1-mwalle@kernel.org>
+In-Reply-To: <v6rthnruba5xaxazsn4jsptn6catso5qwuyf5xxbf4ml25b6eo@snttjo7oqlod>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,33 +49,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jitao Shi <jitao.shi@mediatek.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Maxime Ripard <mripard@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: sfr@canb.auug.org.au, ulf.hansson@linaro.org, jernej.skrabec@gmail.com,
+ rfoss@kernel.org, tzimmermann@suse.de, rafael@kernel.org,
+ Liu Ying <victor.liu@nxp.com>, neil.armstrong@linaro.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, jonas@kwiboo.se,
+ linux-next@vger.kernel.org, Laurent.pinchart@ideasonboard.com,
+ andrzej.hajda@intel.com, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Nov 27, 2023 at 05:38:13PM +0100, Maxime Ripard wrote:
+> Greg, Rafael,
+> 
+> On Mon, Nov 27, 2023 at 01:14:13PM +0800, Liu Ying wrote:
+> > Export device_is_dependent() since the drm_kms_helper module is starting
+> > to use it.
+> > 
+> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> > ---
+> > v2:
+> > * Newly introduced as needed by patch 2.
+> > 
+> >  drivers/base/core.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/base/core.c b/drivers/base/core.c
+> > index 67ba592afc77..bfd2bf0364b7 100644
+> > --- a/drivers/base/core.c
+> > +++ b/drivers/base/core.c
+> > @@ -328,6 +328,7 @@ int device_is_dependent(struct device *dev, void *target)
+> >  	}
+> >  	return ret;
+> >  }
+> > +EXPORT_SYMBOL_GPL(device_is_dependent);
+> 
+> So, a committer just applied this to drm-misc-fixes without your
+> approval. Could you ack it? If you don't want to, we'll fix it.
 
-On Thu, 23 Nov 2023 14:49:27 +0100, Michael Walle wrote:
-> Xinlei Lee's mail is bouncing:
-> 
-> <xinlei.lee@mediatek.com>: host mailgw02.mediatek.com[216.200.240.185] said:
->     550 Relaying mail to xinlei.lee@mediatek.com is not allowed (in reply to
->     RCPT TO command)
-> 
-> Remove it.
-> 
-> Signed-off-by: Michael Walle <mwalle@kernel.org>
-> ---
->  .../devicetree/bindings/display/mediatek/mediatek,dsi.yaml       | 1 -
->  1 file changed, 1 deletion(-)
-> 
+Wait, why exactly is this needed?  Nothing outside of the driver core
+should be needing this function, it shouldn't be public at all (I missed
+that before.)
 
-Applied, thanks!
+So please, revert it for now, let's figure out why DRM thinks this is
+needed for it's devices, and yet no other bus/subsystem does.
 
+thanks,
+
+greg k-h
