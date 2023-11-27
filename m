@@ -1,91 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70797FA4A6
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 16:29:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D8C27FA4B5
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 16:29:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F04B910E383;
-	Mon, 27 Nov 2023 15:29:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B88BC10E390;
+	Mon, 27 Nov 2023 15:29:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BE4910E38C
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 15:29:33 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id
- 4fb4d7f45d1cf-54af4f2838dso4182453a12.2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 07:29:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701098972; x=1701703772; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=6AuHxZr8x/Uk1Y12/gMeKhnjQeN0t/qZ6GCe7PtBack=;
- b=tnNRbS+tIvO4Z4nr9Z7FzO7sDSj93LQuRPLE5DeC1e1LLj1kQkDFoTndvghbJf+czx
- 6YaZ8MbPAvZSbDaAzX5nhPUKqJu0JKAJAPXiZbc0IvEsEBHG71RgmHB+krQzK4qPkbt8
- 9DaH8ZrFGauulGO0gutd7/eGpS5RR8aMytdDCDZisf4f1y4UnFigVc9fFjGOX4wuC1gR
- l0wcpH1C8+l7HR9l7eIXnocKSYKqu8m4sZddyWOx923n6223YTbUnImFdRcDqqBodPna
- xdScUM+JOIlED+JnJVdCKoXhTvd6uJQRhP3tJd3mDuunES+ilrnyMHk+dNVRnJOotuLS
- 6xHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701098972; x=1701703772;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6AuHxZr8x/Uk1Y12/gMeKhnjQeN0t/qZ6GCe7PtBack=;
- b=lF/perL9sVM4yXttzRZ5QtU4WiH2Gt9kT3XkwBLJjmgaNRlzuZ2HJWnCFfzgjCT6JA
- AzWaeNw7YbpT9bGf0FEIdECQqk06DvzpPuH3Y1sVyvc0ZW7ztn1Mu9fX97dpOtL5sYCC
- CNmV1tFpofLJw65jLmCQJf+5a/+xQkthnSrpjGHnfVLahIebS3717nCcDDfu4/y5w89J
- tuijdr/4uBd4QnR8GDUYBK2MMgHAVNlovAuKPk483HrdBv8U3OnaHymkUNhLGUpKtV/E
- peRDX5SuZBMHuDH4h19rQbmMa3FgevjTVjGuki6K8K3hCNzwlbHj0tam7uK9AeiB8WE6
- NfUw==
-X-Gm-Message-State: AOJu0YwXMdqaCkfPROkQw2zGHnmRYm7YzgaUn9FsyiX9a4OG9qVsp5ox
- 5grzs7tycPvaVp3+BMzNS1Zxhg==
-X-Google-Smtp-Source: AGHT+IEjg8fNoQ7pGDMxE5+HZKEN6r9zGLEH/tW3tKBdtUVnvRcZMMfRiedeZ6EJ8qo8zRPeowbcFw==
-X-Received: by 2002:a50:bb63:0:b0:548:55f0:b5f2 with SMTP id
- y90-20020a50bb63000000b0054855f0b5f2mr8631879ede.6.1701098971847; 
- Mon, 27 Nov 2023 07:29:31 -0800 (PST)
-Received: from [10.167.154.1]
- (178235187180.dynamic-4-waw-k-2-3-0.vectranet.pl. [178.235.187.180])
- by smtp.gmail.com with ESMTPSA id
- e7-20020a056402104700b00542db304680sm5321002edu.63.2023.11.27.07.29.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Nov 2023 07:29:31 -0800 (PST)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Mon, 27 Nov 2023 16:28:52 +0100
-Subject: [PATCH v2 12/12] arm64: dts: qcom: qrb2210-rb1: add wifi variant
- property
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A23910E38D
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 15:29:50 +0000 (UTC)
+Received: from i53875bf8.versanet.de ([83.135.91.248] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1r7dYQ-0003UD-D8; Mon, 27 Nov 2023 16:29:46 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Andy Yan <andyshrk@163.com>
+Subject: Re: [PATCH v2 10/12] drm/rockchip: vop2: Add support for rk3588
+Date: Mon, 27 Nov 2023 16:29:45 +0100
+Message-ID: <4788319.uZKlY2gecq@diego>
+In-Reply-To: <20231122125544.3454918-1-andyshrk@163.com>
+References: <20231122125316.3454268-1-andyshrk@163.com>
+ <20231122125544.3454918-1-andyshrk@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231125-topic-rb1_feat-v2-12-979b28f35e4a@linaro.org>
-References: <20231125-topic-rb1_feat-v2-0-979b28f35e4a@linaro.org>
-In-Reply-To: <20231125-topic-rb1_feat-v2-0-979b28f35e4a@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Loic Poulain <loic.poulain@linaro.org>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Georgi Djakov <djakov@kernel.org>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, 
- Krishna Manikandan <quic_mkrishn@quicinc.com>, 
- Robert Marko <robimarko@gmail.com>, Das Srinagesh <quic_gurus@quicinc.com>, 
- cros-qcom-dts-watchers@chromium.org
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1701098925; l=1845;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=F+2+KPEjbmpD3TQ3tmcuJpeM3OLd440fgCNNO64cW48=;
- b=bLy6ijre+9R3R+FKK/1GG7JMsEi9kVICNx6m8/ep2irrVHKiERIRYGcphHFdybjbbOBmXg5y7
- ne+m1DehqnJCCueb5BUTJg2eKDJXfBoj0gZYp5ymD7+HN2P2QtRbnl4
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,56 +40,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- iommu@lists.linux.dev, Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, s.hauer@pengutronix.de,
+ chris.obbard@collabora.com, hjc@rock-chips.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kever.yang@rock-chips.com, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ Andy Yan <andy.yan@rock-chips.com>, sebastian.reichel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Hi Andy,
 
-The RB1 platform doesn't have board-specific board-id programmed, it uses
-generic 0xff. Thus add the property with the 'variant' of the
-calibration data.
+Am Mittwoch, 22. November 2023, 13:55:44 CET schrieb Andy Yan:
+> From: Andy Yan <andy.yan@rock-chips.com>
+> 
+> VOP2 on rk3588:
+> 
+> Four video ports:
+> VP0 Max 4096x2160
+> VP1 Max 4096x2160
+> VP2 Max 4096x2160
+> VP3 Max 2048x1080
+> 
+> 4 4K Cluster windows with AFBC/line RGB and AFBC-only YUV support
+> 4 4K Esmart windows with line RGB/YUV support
+> 
+> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> 
+> ---
+> 
+> Changes in v2:
+> - add rk3588_ prefix for functions which are rk3588 only
+> - make some calculation as fixed value and keep calculation formula as
+>   comment
+> - check return value for some cru calculation functions.
+> - check return value for syscon_regmap_lookup_by_phandle
+> - add NV20/NV30 for esmart plane
+> 
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 381 ++++++++++++++++++-
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  66 ++++
+>  drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 221 +++++++++++
+>  3 files changed, 660 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> index 4bcc405bcf11..9eecbe1f71f9 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 
-Note: the driver will check for the calibration data for the following
-IDs, so existing board-2.bin files will continue to work.
+> @@ -271,9 +282,12 @@ static bool vop2_cluster_window(const struct vop2_win *win)
+>  static void vop2_cfg_done(struct vop2_video_port *vp)
+>  {
+>  	struct vop2 *vop2 = vp->vop2;
+> +	u32 val;
+> +
+> +	val = BIT(vp->id) | (BIT(vp->id) << 16) |
+> +		RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN;
+>  
+> -	regmap_set_bits(vop2->map, RK3568_REG_CFG_DONE,
+> -			BIT(vp->id) | RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN);
+> +	regmap_set_bits(vop2->map, RK3568_REG_CFG_DONE, val);
 
-- 'bus=snoc,qmi-board-id=ff,qmi-chip-id=120,variant=Thundercomm_RB1'
-- 'bus=snoc,qmi-board-id=ff,qmi-chip-id=120'
-- 'bus=snoc,qmi-board-id=ff'
+I don't fully understand that code:
+(1) the write mask is also present on the rk3568, so should this change
+    be a separate patch with a fixes tag?
+(2) RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN does not contain the part for
+    the write-mask
 
-For the reference, the board is identified by the driver in the
-following way:
+	#define RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN     BIT(15)
 
-ath10k_snoc c800000.wifi: qmi chip_id 0x120 chip_family 0x4007 board_id 0xff soc_id 0x40670000
-ath10k_snoc c800000.wifi: qmi fw_version 0x337302d3 fw_build_timestamp 2023-01-06 01:50 fw_build_id QC_IMAGE_VERSION_STRING=WLAN.HL.3.3.7.c2-00723-QCAHLSWMTPLZ-1
-ath10k_snoc c800000.wifi: wcn3990 hw1.0 target 0x00000008 chip_id 0x00000000 sub 0000:0000
-ath10k_snoc c800000.wifi: kconfig debug 0 debugfs 0 tracing 0 dfs 0 testmode 0
-ath10k_snoc c800000.wifi: firmware ver  api 5 features wowlan,mgmt-tx-by-reference,non-bmi crc32 b3d4b790
-ath10k_snoc c800000.wifi: htt-ver 3.114 wmi-op 4 htt-op 3 cal file max-sta 32 raw 0 hwcrypto 1
+    why is this working then?
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
- arch/arm64/boot/dts/qcom/qrb2210-rb1.dts | 1 +
- 1 file changed, 1 insertion(+)
+>  }
+>  
+>  static void vop2_win_disable(struct vop2_win *win)
 
-diff --git a/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts b/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
-index ac597eb3fe9d..bd7bcf803654 100644
---- a/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
-+++ b/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
-@@ -535,6 +535,7 @@ &wifi {
- 	vdd-1.8-xo-supply = <&pm2250_l13>;
- 	vdd-1.3-rfa-supply = <&pm2250_l10>;
- 	vdd-3.3-ch0-supply = <&pm2250_l22>;
-+	qcom,ath10k-calibration-variant = "Thundercomm_RB1";
- 	status = "okay";
- };
- 
+[...]
 
--- 
-2.43.0
+> @@ -1298,7 +1346,11 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+>  			vop2_win_write(win, VOP2_WIN_AFBC_ENABLE, 1);
+>  		vop2_win_write(win, VOP2_WIN_AFBC_FORMAT, afbc_format);
+>  		vop2_win_write(win, VOP2_WIN_AFBC_UV_SWAP, uv_swap);
+> -		vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 0);
+> +		if (vop2->data->soc_id == 3566 || vop2->data->soc_id == 3568)
+> +			vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 0);
+> +		else
+> +			vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 1);
+> +
+
+I think this at least warrants a comment, what is happening here. Also,
+can you already see how future vop2-users are behaving - aka are all new
+socs in the "else" part of the conditional, or would a switch-case better
+represent future socs?
+
+
+>  		vop2_win_write(win, VOP2_WIN_AFBC_BLOCK_SPLIT_EN, 0);
+>  		transform_offset = vop2_afbc_transform_offset(pstate, half_block_en);
+>  		vop2_win_write(win, VOP2_WIN_AFBC_HDR_PTR, yrgb_mst);
+
+
+> @@ -1627,9 +1937,17 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
+>  	drm_for_each_encoder_mask(encoder, crtc->dev, crtc_state->encoder_mask) {
+>  		struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
+>  
+> -		rk3568_set_intf_mux(vp, rkencoder->crtc_endpoint_id, polflags);
+> +		/*
+> +		 * for drive a high resolution(4KP120, 8K), vop on rk3588/rk3576 need
+> +		 * process multi(1/2/4/8) pixels per cycle, so the dclk feed by the
+> +		 * system cru may be the 1/2 or 1/4 of mode->clock.
+> +		 */
+> +		clock = vop2_set_intf_mux(vp, rkencoder->crtc_endpoint_id, polflags);
+>  	}
+>  
+> +	if (!clock)
+> +		return;
+> +
+
+hmm, shouldn't the check for the validity of a mode happen before
+atomic_enable is run? So this shouldn't error out in the middle of the
+function?
+
+
+>  	if (vcstate->output_mode == ROCKCHIP_OUT_MODE_AAAA &&
+>  	    !(vp_data->feature & VOP_FEATURE_OUTPUT_10BIT))
+>  		out_mode = ROCKCHIP_OUT_MODE_P888;
+
+
+Thanks
+Heiko
+
 
