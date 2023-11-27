@@ -1,29 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB1937FA57A
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 17:00:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 675917FA594
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 17:04:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEB8A10E388;
-	Mon, 27 Nov 2023 16:00:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 697ED10E306;
+	Mon, 27 Nov 2023 16:04:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mblankhorst.nl (lankhorst.se
- [IPv6:2a02:2308:0:7ec:e79c:4e97:b6c4:f0ae])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1846410E2FA;
- Mon, 27 Nov 2023 16:00:42 +0000 (UTC)
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/i915: Use the same vblank worker for atomic unpin
-Date: Mon, 27 Nov 2023 17:00:34 +0100
-Message-Id: <20231127160034.215372-3-maarten.lankhorst@linux.intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231127160034.215372-1-maarten.lankhorst@linux.intel.com>
-References: <20231127160034.215372-1-maarten.lankhorst@linux.intel.com>
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com
+ [IPv6:2607:f8b0:4864:20::1129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E553B10E306
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 16:04:06 +0000 (UTC)
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-5cc5988f85eso44455427b3.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 08:04:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701101046; x=1701705846; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=C7kfcTFnc1EIcTrfufgAiSWZaBI8ZkU3ldDxmrr3WA8=;
+ b=OE/f81dAXnv8yJBbN+Mvu1g/vrqxB85WN3yEJ9n7Bfc53i01JE+Fwi4kmzahf09oIt
+ lcvmXlRz8vNVcn1xkay/UCW1j8S2YehcOTaZSfkaGIBMH4keqd7dmxHS1Oe4MQFzFOgp
+ AA53sAdWKYzAiRKavUCgGTuHCLM3IVraPL4eBHfNRgGZ121C7W0SlNPzB1EEVXksZadS
+ 4H+HGaNILoh5JBMsObm8/CJxV/G/fZcn44cr03QznK/MSDKkG2lG1Kpou+5FdzISDaY+
+ cTtKRogHycGxOwPerS8OAnEoX6M58fiCP4YwGFCUe1043MucmO7ypOgI+bba7bgtfoiO
+ ygeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701101046; x=1701705846;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=C7kfcTFnc1EIcTrfufgAiSWZaBI8ZkU3ldDxmrr3WA8=;
+ b=AHYzrEDOqYF4YlIR39/pyM/rgDaw3rc5xL6Mx5job2tvXwmXduRiOJVNrJWq+97uzn
+ hvqHzTvYODMU9J+Z1DEJF13cNKJKJllG7IJUJla0Xe4xaj1oMROaU1rnGnCoDZ+iuXbo
+ OzMrzxeX9WZZ/lbMORiF7efG8AtlquET9mUkZfgErP7+iDxbQPCl9snxNzzhfHNBtNB6
+ K33jQWZrhS4vS793FceBW3X/PK21R1du5n20BQVLny9FlFutr18dsmYibMMrbplBQ2Vp
+ B+vIZlB2w03UjXDRg6frY0T+uJcOPhi3QyDLLZ1ps6b2KyrjcrgRI2qSy4ou+s7HdZmJ
+ 8rbQ==
+X-Gm-Message-State: AOJu0YzHkIpO/bD5Sw332nndmr/HXKFHxIP6yt/3u+xl2bZE0ZSmck22
+ QOzCa0v6ArL92h5vHmwbGpQtS4OHJ4VGecDRpMJt5A==
+X-Google-Smtp-Source: AGHT+IH34yJLIkZJKXuCRnBcCqV+kUWFq5pvwWNuBFGfgw8Ppgvz1en2RopG7eerUDrKPKL790hzAPbQaxQoDiQvtbQ=
+X-Received: by 2002:a25:ea45:0:b0:db3:9994:119b with SMTP id
+ o5-20020a25ea45000000b00db39994119bmr10785589ybe.50.1701101046011; Mon, 27
+ Nov 2023 08:04:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231127051414.3783108-1-victor.liu@nxp.com>
+In-Reply-To: <20231127051414.3783108-1-victor.liu@nxp.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 27 Nov 2023 17:03:53 +0100
+Message-ID: <CACRpkdZAtxh5muhbPKvmUQGtQogs3UhGxNZqnSGWoWQNUL7=9g@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] drm/bridge: panel: Check device dependency before
+ managing device link
+To: Liu Ying <victor.liu@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -36,167 +69,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: mripard@kernel.org, sfr@canb.auug.org.au, ulf.hansson@linaro.org,
+ jernej.skrabec@gmail.com, rfoss@kernel.org, tzimmermann@suse.de,
+ rafael@kernel.org, gregkh@linuxfoundation.org, neil.armstrong@linaro.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, jonas@kwiboo.se,
+ linux-next@vger.kernel.org, Laurent.pinchart@ideasonboard.com,
+ andrzej.hajda@intel.com, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In case of legacy cursor update, the cursor VMA needs to be unpinned
-only after vblank. This exceeds the lifetime of the whole atomic commit.
+On Mon, Nov 27, 2023 at 6:10=E2=80=AFAM Liu Ying <victor.liu@nxp.com> wrote=
+:
 
-Any trick I attempted to keep the atomic commit alive didn't work, as
-drm_atomic_helper_setup_commit() force throttles on any old commit that
-wasn't cleaned up.
+> This series aims to check panel device dependency upon DRM device before
+> managing device link between them.  It fixes eariler patches in v6.7-rc1
+> which tried to manage the link.  Without this series, the link fails to
+> be added for dependent panel devices and hence relevant panel bridges
+> fail to be attached.  A real broken panel is "novatek,nt35510" defined
+> in arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dts as reported by
+> Linus Walleij.
+>
+> Patch 1 exports device_is_dependent() to modules as needed by patch 2.
+> Patch 2 checks device dependency before managing the device link.
+>
+> Note that patch 2 is already in drm-misc/drm-misc-fixes and
+> drm-misc/for-linux-next-fixes.  Patch 1 needs to be reviewed and picked u=
+p.
+>
+> v2:
+> * Introduce patch 1 to export device_is_dependent() to modules as needed =
+by
+>   patch 2.
+>
+> Liu Ying (2):
+>   driver core: Export device_is_dependent() to modules
+>   drm/bridge: panel: Check device dependency before managing device link
 
-The only option remaining is to remove the plane from the atomic commit,
-and use the same path as the legacy cursor update to clean the state
-after vblank.
+I just applied patch 1 directly to the drm-misc-fixes so we don't have to
+revert and then re-apply patches, because that is a bigger evil. (We can't
+rebase these branches...)
 
-Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
----
- .../gpu/drm/i915/display/intel_atomic_plane.c | 28 ++++++++++++++++++-
- .../gpu/drm/i915/display/intel_atomic_plane.h |  2 ++
- drivers/gpu/drm/i915/display/intel_crtc.c     | 28 +++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_cursor.c   |  2 +-
- drivers/gpu/drm/i915/display/intel_cursor.h   |  3 ++
- 5 files changed, 61 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-index 06c2455bdd78..cb4153ca1867 100644
---- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-+++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-@@ -42,6 +42,7 @@
- #include "i915_reg.h"
- #include "intel_atomic_plane.h"
- #include "intel_cdclk.h"
-+#include "intel_cursor.h"
- #include "intel_display_rps.h"
- #include "intel_display_trace.h"
- #include "intel_display_types.h"
-@@ -1163,7 +1164,21 @@ intel_cleanup_plane_fb(struct drm_plane *plane,
- 
- 	intel_display_rps_mark_interactive(dev_priv, state, false);
- 
--	/* Should only be called after a successful intel_prepare_plane_fb()! */
-+	/*
-+	 * This branch can only ever be called after plane update is succesful,
-+	 * the error path will not cause unpin_work to be set.
-+	 */
-+	if (old_plane_state->unpin_work.vblank) {
-+		int i = drm_plane_index(old_plane_state->uapi.plane);
-+
-+		/*
-+		 * Remove plane from atomic commit,
-+		 * free is done from vblank worker
-+		 */
-+		memset(&state->base.planes[i], 0, sizeof(*state->base.planes));
-+		return;
-+	}
-+
- 	intel_plane_unpin_fb(old_plane_state);
- }
- 
-@@ -1176,3 +1191,14 @@ void intel_plane_helper_add(struct intel_plane *plane)
- {
- 	drm_plane_helper_add(&plane->base, &intel_plane_helper_funcs);
- }
-+
-+void intel_plane_init_cursor_vblank_work(struct intel_plane_state *old_plane_state,
-+					 struct intel_plane_state *new_plane_state)
-+{
-+	if (!old_plane_state->ggtt_vma ||
-+	    old_plane_state->ggtt_vma == new_plane_state->ggtt_vma)
-+		return;
-+
-+	drm_vblank_work_init(&old_plane_state->unpin_work, old_plane_state->uapi.crtc,
-+			     intel_cursor_unpin_work);
-+}
-diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.h b/drivers/gpu/drm/i915/display/intel_atomic_plane.h
-index 191dad0efc8e..5a897cf6fa02 100644
---- a/drivers/gpu/drm/i915/display/intel_atomic_plane.h
-+++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.h
-@@ -66,5 +66,7 @@ int intel_plane_check_src_coordinates(struct intel_plane_state *plane_state);
- void intel_plane_set_invisible(struct intel_crtc_state *crtc_state,
- 			       struct intel_plane_state *plane_state);
- void intel_plane_helper_add(struct intel_plane *plane);
-+void intel_plane_init_cursor_vblank_work(struct intel_plane_state *old_plane_state,
-+					 struct intel_plane_state *new_plane_state);
- 
- #endif /* __INTEL_ATOMIC_PLANE_H__ */
-diff --git a/drivers/gpu/drm/i915/display/intel_crtc.c b/drivers/gpu/drm/i915/display/intel_crtc.c
-index 1fd068e6e26c..755c40fd0ac1 100644
---- a/drivers/gpu/drm/i915/display/intel_crtc.c
-+++ b/drivers/gpu/drm/i915/display/intel_crtc.c
-@@ -559,6 +559,19 @@ void intel_pipe_update_start(struct intel_atomic_state *state,
- 	if (intel_crtc_needs_vblank_work(new_crtc_state))
- 		intel_crtc_vblank_work_init(new_crtc_state);
- 
-+	if (state->base.legacy_cursor_update) {
-+		struct intel_plane *plane;
-+		struct intel_plane_state *old_plane_state, *new_plane_state;
-+		int i;
-+
-+		for_each_oldnew_intel_plane_in_state(state, plane, old_plane_state,
-+						     new_plane_state, i) {
-+			if (old_plane_state->uapi.crtc == &crtc->base)
-+				intel_plane_init_cursor_vblank_work(old_plane_state,
-+								    new_plane_state);
-+		}
-+	}
-+
- 	intel_crtc_vblank_evade_scanlines(state, crtc, &min, &max, &vblank_start);
- 	if (min <= 0 || max <= 0)
- 		goto irq_disable;
-@@ -721,6 +734,21 @@ void intel_pipe_update_end(struct intel_atomic_state *state,
- 		new_crtc_state->uapi.event = NULL;
- 	}
- 
-+	if (state->base.legacy_cursor_update) {
-+		struct intel_plane *plane;
-+		struct intel_plane_state *old_plane_state;
-+		int i;
-+
-+		for_each_old_intel_plane_in_state(state, plane, old_plane_state, i) {
-+			if (old_plane_state->uapi.crtc == &crtc->base &&
-+			    old_plane_state->unpin_work.vblank) {
-+				drm_vblank_work_schedule(&old_plane_state->unpin_work,
-+							 drm_crtc_accurate_vblank_count(&crtc->base) + 1,
-+							 false);
-+			}
-+		}
-+	}
-+
- 	/*
- 	 * Send VRR Push to terminate Vblank. If we are already in vblank
- 	 * this has to be done _after_ sampling the frame counter, as
-diff --git a/drivers/gpu/drm/i915/display/intel_cursor.c b/drivers/gpu/drm/i915/display/intel_cursor.c
-index e38ea7311047..1ad199a5e45d 100644
---- a/drivers/gpu/drm/i915/display/intel_cursor.c
-+++ b/drivers/gpu/drm/i915/display/intel_cursor.c
-@@ -633,7 +633,7 @@ static bool intel_cursor_format_mod_supported(struct drm_plane *_plane,
- 	return format == DRM_FORMAT_ARGB8888;
- }
- 
--static void intel_cursor_unpin_work(struct kthread_work *base)
-+void intel_cursor_unpin_work(struct kthread_work *base)
- {
- 	struct drm_vblank_work *work = to_drm_vblank_work(base);
- 	struct intel_plane_state *plane_state =
-diff --git a/drivers/gpu/drm/i915/display/intel_cursor.h b/drivers/gpu/drm/i915/display/intel_cursor.h
-index ce333bf4c2d5..e2d9ec710a86 100644
---- a/drivers/gpu/drm/i915/display/intel_cursor.h
-+++ b/drivers/gpu/drm/i915/display/intel_cursor.h
-@@ -9,9 +9,12 @@
- enum pipe;
- struct drm_i915_private;
- struct intel_plane;
-+struct kthread_work;
- 
- struct intel_plane *
- intel_cursor_plane_create(struct drm_i915_private *dev_priv,
- 			  enum pipe pipe);
- 
-+void intel_cursor_unpin_work(struct kthread_work *base);
-+
- #endif
--- 
-2.40.1
-
+Yours,
+Linus Walleij
