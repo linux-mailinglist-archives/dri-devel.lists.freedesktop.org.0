@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D517FAD21
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 23:13:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96BDB7FAD5A
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 23:20:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA75710E31A;
-	Mon, 27 Nov 2023 22:13:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E06AA10E0CF;
+	Mon, 27 Nov 2023 22:20:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ED8D10E31A
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 22:13:45 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id
- 3f1490d57ef6-daf7ed42ea6so4579680276.0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 14:13:45 -0800 (PST)
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
+ [IPv6:2001:4860:4864:20::2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69F6210E0CF;
+ Mon, 27 Nov 2023 22:20:50 +0000 (UTC)
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-1fa1c3755afso1183078fac.1; 
+ Mon, 27 Nov 2023 14:20:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701123224; x=1701728024; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1701123649; x=1701728449; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uKi3mY9gEWYH12Kzcguh8/xdDNFjc2yj/HRXk8xcrl0=;
- b=dMWKpk9eggaTOtDOihvu6tjxtpRf4T7AxU2sLriVqkJLwm0B8BrjHFS7M+YsmMmERT
- anK7NpjHv324YFqawKOipPXhiIhD7NqxTq3o9Yl7/cbSI6DL18+mt3hw3pm0swliTI3T
- pAZodHVeH6LYwhp1Vy0OnQVtoeKZJ1fLAdHzyvTNFWb4h33muzgl1X5vEBZSvUnkbz8i
- qCWp35mOK0uc6Y/6YVO9uZIi2wzifAyJzELZXAlD7hpMRkAfbQJGbBcB+Nontg0ch9xS
- 9vpSUQGgD73R5VphGtiaP2Uz02FEL2HeSyfGgNPfQGVhC+NZ1QDDi65W8LdM3kXYxkXY
- bbiA==
+ bh=uOCoZok9ZC4QmtYsZ8TfeK+iIljTTrbyrnD/jz9we80=;
+ b=Nx+O1DHoS3UgnDS+dDbVpQGWPpm+e//cr/cHEHIGsXVR3wEWzb9GO4X+qYFmkrcQJE
+ YP1oP1x3BgRcfgLxkbMKIVRHI+6jMR1bj3sp5X2nUfR/HpJdQgn0IHH/NkyQc5smjx30
+ pF7lBWLRfN1gXJ9g92l1e8x0IU1xCJu414YuV7o8kyvQF5Xko7nluFfLPBpWJIiVAdFA
+ +E5m1eYVKfcDAnW/mQs0KmS4Fs0P01jEYJU/RtTuE6FASwAlOlAsw45dElpBlt9FBBpE
+ AU0ihchpEoNvdHoz3cg/CMVh/NKAYz7qBX9m3lxbaQzikidHGBvFdWUDxZkVT4ChWcVc
+ e8wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701123224; x=1701728024;
+ d=1e100.net; s=20230601; t=1701123649; x=1701728449;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uKi3mY9gEWYH12Kzcguh8/xdDNFjc2yj/HRXk8xcrl0=;
- b=dq1D4dB5Hamf68gpNAMtR0ABNiBoa7PO9INQkVKmGJ6xHEvnbEAj1UW+7eblzFnLVI
- iGfsuZNjDDpyft6uKPPkAuf+QzwF1sD6F4TJ7Q9vj9hZGavTYa8NuhIrxdIF6x2L4FBH
- GKGNy6P4tx4KMffTrFxiwUUMacrGKpxIYvdXfM8h2vgF9QaB293N2hj1MbGdmOD2sgOr
- DLOizHLf8i9y0qem+2KW27gEe13O8HLxiG6Lx+tLKvYewRGEgWUgUk3sDDm9e0xOJ8Vv
- pMYW9yvxZsob1FNPcW+IAmZ038mz85VvKl1o0mHM921ZWhJHcu/J7i5KwJpOWWe3kEmG
- y+jg==
-X-Gm-Message-State: AOJu0YwKZ1WcSts1C5o3PwLbu22SMgKVppOjAasBDFPFkE3KRv92SunC
- oqQZXqGJ779tYpzvsRm9xL34MtmTlQjh749KQzRNXQ==
-X-Google-Smtp-Source: AGHT+IFgZ18g6DnXLy7RFiYscXNiAu4gCNhHYaxDE8NSduVNzVKpXKWsD8UbOdacoRARcYAA9beD8h6cHEgYoT90gZo=
-X-Received: by 2002:a05:6902:49:b0:d9a:cd50:b99a with SMTP id
- m9-20020a056902004900b00d9acd50b99amr12883192ybh.12.1701123224146; Mon, 27
- Nov 2023 14:13:44 -0800 (PST)
+ bh=uOCoZok9ZC4QmtYsZ8TfeK+iIljTTrbyrnD/jz9we80=;
+ b=HKyDBoyriSu+P/A9FNttCcFdMh/DAx6sKzznsxe8Yk79NsGo2GypN1T/949vEHudv6
+ lBRH7uwfkPRKU4OW4Md4mztu+hI6IhppTSlRMy4p7iEqFw3wc4AXsTTHFiVZ4uKLs2T/
+ dqJDiMotohWDHuaNHlGTZ5EjNL8Zy9f+tEms1I3qFQB3lzNahghGBKsDgr5E10UKqF1w
+ rr1bpWZ3cx8YABW9XK2Pe0qdgheUCOfyG4RxljMebSCTqsz13jbbVmCA9CZadl57o3Eq
+ z9X2zvVsV2tHeCbxIgLpikd6NcPrSPdyMhuOc9rlUkIk2/jyGK304DhVpRVP58CARBxO
+ 1k6g==
+X-Gm-Message-State: AOJu0YzLYAi3NkF0gCV24jKlAUoqlSk06lPGOtZJYqTUASI4CnO5B+hl
+ KFlQu8em3CZgOEpaw8/PRvZOmPM6ZNqiYLKwu68=
+X-Google-Smtp-Source: AGHT+IG606uGqVxVZUsnYhGnoio+vCyrTchzuHhHlW4YCPROWTyaN9UgJO6ZL1UuPP5MxYL7nL/3g2frkr9mEuro9o0=
+X-Received: by 2002:a05:6870:1603:b0:1f9:eb7e:6621 with SMTP id
+ b3-20020a056870160300b001f9eb7e6621mr6732690oae.18.1701123649584; Mon, 27 Nov
+ 2023 14:20:49 -0800 (PST)
 MIME-Version: 1.0
-References: <20231127051414.3783108-1-victor.liu@nxp.com>
- <CACRpkdZAtxh5muhbPKvmUQGtQogs3UhGxNZqnSGWoWQNUL7=9g@mail.gmail.com>
- <k65hxlckssjd46nsrlly6vjrr5nnkrakouzw5pmxgbf6ui3mdl@5ny7j7blkwyj>
-In-Reply-To: <k65hxlckssjd46nsrlly6vjrr5nnkrakouzw5pmxgbf6ui3mdl@5ny7j7blkwyj>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 27 Nov 2023 23:13:31 +0100
-Message-ID: <CACRpkdbKwycpjuhMfnriqMUcbmwCTb3vJzgzCF7+ARax54q7WQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] drm/bridge: panel: Check device dependency before
- managing device link
-To: Maxime Ripard <mripard@kernel.org>
+References: <20231122093509.34302-1-yaolu@kylinos.cn>
+ <20231123012234.5783-1-yaolu@kylinos.cn>
+ <80ea6067-c531-4765-8576-265e565525fa@amd.com>
+In-Reply-To: <80ea6067-c531-4765-8576-265e565525fa@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 27 Nov 2023 17:20:38 -0500
+Message-ID: <CADnq5_M7TjyM5n7X1mvxRzrckd4meVsvJMrMyt-BpciEPcqC-Q@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/amdgpu: Fix cat debugfs amdgpu_regs_didt causes
+ kernel null pointer
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,39 +71,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sfr@canb.auug.org.au, ulf.hansson@linaro.org, jernej.skrabec@gmail.com,
- rfoss@kernel.org, tzimmermann@suse.de, rafael@kernel.org,
- Liu Ying <victor.liu@nxp.com>, gregkh@linuxfoundation.org,
- neil.armstrong@linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, jonas@kwiboo.se, linux-next@vger.kernel.org,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- angelogioacchino.delregno@collabora.com
+Cc: linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Lu Yao <yaolu@kylinos.cn>, dri-devel@lists.freedesktop.org,
+ alexander.deucher@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 27, 2023 at 5:29=E2=80=AFPM Maxime Ripard <mripard@kernel.org> =
-wrote:
-> On Mon, Nov 27, 2023 at 05:03:53PM +0100, Linus Walleij wrote:
+Applied.  Thanks!
 
-> > > Liu Ying (2):
-> > >   driver core: Export device_is_dependent() to modules
-> > >   drm/bridge: panel: Check device dependency before managing device l=
-ink
-> >
-> > I just applied patch 1 directly to the drm-misc-fixes so we don't have =
-to
-> > revert and then re-apply patches, because that is a bigger evil. (We ca=
-n't
-> > rebase these branches...)
+Alex
+
+On Thu, Nov 23, 2023 at 3:22=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> Erm, you did wait for GKH or Rafael's ACK to do that, right?
-
-No.
-
-It is a bigger evil to leave the tree broken than to enforce formal process=
-,
-and it is pretty self-evident. If any of them get annoyed about it we can
-revert the patch, or both.
-
-Yours,
-Linus Walleij
+> Am 23.11.23 um 02:22 schrieb Lu Yao:
+> > For 'AMDGPU_FAMILY_SI' family cards, in 'si_common_early_init' func, in=
+it
+> > 'didt_rreg' and 'didt_wreg' to 'NULL'. But in func
+> > 'amdgpu_debugfs_regs_didt_read/write', using 'RREG32_DIDT' 'WREG32_DIDT=
+'
+> > lacks of relevant judgment. And other 'amdgpu_ip_block_version' that us=
+e
+> > these two definitions won't be added for 'AMDGPU_FAMILY_SI'.
+> >
+> > So, add null pointer judgment before calling.
+> >
+> > Signed-off-by: Lu Yao <yaolu@kylinos.cn>
+>
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>
+> > ---
+> > Changes in v2:
+> >    1. Drop dev_err message.
+> >    2. Change error code from 'EPERM' to 'EOPNOTSUPP'
+> > Link to v1: https://lore.kernel.org/all/20231122093509.34302-1-yaolu@ky=
+linos.cn/
+> > Thanks Christian for his comments.
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 6 ++++++
+> >   1 file changed, 6 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/=
+drm/amd/amdgpu/amdgpu_debugfs.c
+> > index a53f436fa9f1..e098cd66fa2a 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> > @@ -638,6 +638,9 @@ static ssize_t amdgpu_debugfs_regs_didt_read(struct=
+ file *f, char __user *buf,
+> >       if (size & 0x3 || *pos & 0x3)
+> >               return -EINVAL;
+> >
+> > +     if (adev->didt_rreg =3D=3D NULL)
+> > +             return -EOPNOTSUPP;
+> > +
+> >       r =3D pm_runtime_get_sync(adev_to_drm(adev)->dev);
+> >       if (r < 0) {
+> >               pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+> > @@ -694,6 +697,9 @@ static ssize_t amdgpu_debugfs_regs_didt_write(struc=
+t file *f, const char __user
+> >       if (size & 0x3 || *pos & 0x3)
+> >               return -EINVAL;
+> >
+> > +     if (adev->didt_wreg =3D=3D NULL)
+> > +             return -EOPNOTSUPP;
+> > +
+> >       r =3D pm_runtime_get_sync(adev_to_drm(adev)->dev);
+> >       if (r < 0) {
+> >               pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+>
