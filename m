@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16CB07F9A5E
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 07:57:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A9447F9A66
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 07:58:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE29B10E1C9;
-	Mon, 27 Nov 2023 06:57:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFE1210E1B8;
+	Mon, 27 Nov 2023 06:58:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7188A10E1B9
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 06:57:30 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id
- a640c23a62f3a-9ffef4b2741so505271466b.3
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 22:57:30 -0800 (PST)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C373410E1B8
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 06:58:24 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id
+ a640c23a62f3a-a00a9c6f283so512610266b.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 22:58:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701068249; x=1701673049; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701068303; x=1701673103; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=fQWfitv18ORc9/USvUJVF1huPbml9HkmehHEfqgU8EA=;
- b=M6lF1Xz7b013ygnp91q9lQ1S+PMNc1+HFC/hFWO++4SAA6+z5jMrGgG8o7TYJYzPZ2
- 8Wp++VeS59QAnRyL8P3js6BmTHntw9fjAAV2JWd4h+l+zPjzCtzrN+GjOjYi5EMafeSp
- kRCzgQmSA+PfsrmGyvfonZsosuchwlDsjT9RCsgHPgeAR3MdJ/lGhk0h5VUPH6XYLS0L
- +K/1qApr06I1ytDGJ4uDMIdruAy/T8ENYAYvtyeEkFtmEdYV5buO9LgzIy648NpByqNE
- u0KJV5AkzWkNBz8EHURcjKDpGuVqjKAnKXHC5xMFGOCkmA/DjzHN7vfEAZkflFtxrRCm
- GZow==
+ bh=W77NnNP4ZVuW1WjW6wyi/bvlo3XiP3nnrA4RIS+7zUs=;
+ b=PwhSpr5ez2GhwWr3OSxytCaPvhTa/vpjHZOIMeVN2JDSE4KE3XsXfpEIKJA21opVqc
+ Vvzo72lhZhRkwDL0El3raqCetFXOzFSd7ut+Nmw8eIwLWtC6T5/uiTPT2gQ94wufVvOe
+ Fp50Rlmhuo3TecuJzdXRxp1X/RoxpuicFrTRPYtVO3JUPmb4CzORZRx4Se1hxkbW4+rt
+ JwtHyrhQukqN0dIWSnW82YglPIpmgi+ORClQaJttvekKCyTPKYzAr7JL21qo+4J86RcM
+ uPYlulwb3ny6LEse9MlLAf76M39YesXBxv3xdpx3NjMUgbkrQLqjnsVYOFcAf9cRKJdY
+ uh7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701068249; x=1701673049;
+ d=1e100.net; s=20230601; t=1701068303; x=1701673103;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fQWfitv18ORc9/USvUJVF1huPbml9HkmehHEfqgU8EA=;
- b=p5/WW4X3YmWa8hiTsW9E0DJElR8pDgjdQkcJZu7Pji4EwtyH60Dmz5t8AQgc2airDL
- HZwuSsOfmvDvONu323mNV/uva4dF2N8uRsA36CnrjZV5dj1PmmlpLf4G1vOApOXWwAa2
- xXt710sLMee/MDEHSIAQfL+IIx7AD/ffl+svqub8Jxzx9kLinNGYhiohIsrknwYFpMIA
- OgkjNteNuWAHpkOR0L43ldRCy4eCtXYY5kZt0ZssqeSJ7rnrHiYmPRWRtOIRsejXrJaJ
- U1fbPhkIofkD4774/KLmA1d5xBmK+tZFQhcWKgDn0tlJyPmAk5yLXTUnTvkss1NLF/24
- bY3w==
-X-Gm-Message-State: AOJu0Yx+/wqTHqw1LlXZDgTSNUNBDWkuVAPvAfwATC//O7jQW7HjW9nB
- LMFc4QemS7FzAuZCQF8UUbCMXQ==
-X-Google-Smtp-Source: AGHT+IGnaOY6UqqkGlohuWVoBLraQEN9HQbTV+4TI7Mwks3kyfEukG+HVT/DEcFn43jttfy/0rDkVw==
-X-Received: by 2002:a17:906:40ca:b0:9dc:2291:d384 with SMTP id
- a10-20020a17090640ca00b009dc2291d384mr7756720ejk.22.1701068248854; 
- Sun, 26 Nov 2023 22:57:28 -0800 (PST)
+ bh=W77NnNP4ZVuW1WjW6wyi/bvlo3XiP3nnrA4RIS+7zUs=;
+ b=a9Uwd7K6K8xY1YrOBzkH2MNvpvl2yLB3xmHkL1N5pYRmdr5wpT7JFn8ss0KADEdFFT
+ Su8RRUczmm7YDSA03/IVz1G/psHS7tkbo7ebflGx4lI7J+Kw7dJkJEYvvnXa04sAFnVB
+ idMI4XJqUw7Hp4htKHicMuic5k7UqunwiceHsQeFZh4QXektOIeE5xQaZ7/TisAuAagC
+ pCenvqorm9z3cfY48SGGUaRUae/X5BCQy5lR3q6ikCXnkuwT7XXXDIp7FwwyELT1nEmL
+ 5eF/b0+R5xok/BCFvcp3qJX+Izx+pX3n6IIG2klQ5wIwPaUfuzttjgdLMqu4SP9MfVme
+ OR0w==
+X-Gm-Message-State: AOJu0YzaPoiROMgJQL0MHmVO92VNYYA4bdSlD/EHhlWSwhuozbb7EIbu
+ vRgYa7nwsc2CwILCMRXZ7ZS9Zg==
+X-Google-Smtp-Source: AGHT+IEk87xVB4hyXdESdrJNTz2Nm6jp02qaDjknNezspe+31fk+3LxEo3WZ7eXbjjYHZOOvg5oM/g==
+X-Received: by 2002:a17:906:a1c9:b0:9be:2b53:ac4d with SMTP id
+ bx9-20020a170906a1c900b009be2b53ac4dmr7352566ejb.74.1701068303185; 
+ Sun, 26 Nov 2023 22:58:23 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.109])
  by smtp.gmail.com with ESMTPSA id
- a19-20020a170906469300b009ade1a4f795sm5291000ejr.168.2023.11.26.22.57.25
+ a19-20020a170906469300b009ade1a4f795sm5291000ejr.168.2023.11.26.22.58.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Nov 2023 22:57:28 -0800 (PST)
-Message-ID: <456b2f76-f4c3-4d51-8a07-7d14bd89ba53@linaro.org>
-Date: Mon, 27 Nov 2023 07:57:25 +0100
+ Sun, 26 Nov 2023 22:58:22 -0800 (PST)
+Message-ID: <c0de6206-daf5-4dcc-8a61-cc1ff7d6efc8@linaro.org>
+Date: Mon, 27 Nov 2023 07:58:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/12] dt-bindings: interconnect: qcom, msm8998-bwmon: Add
- QCM2290 bwmon instance
+Subject: Re: [PATCH 06/12] dt-bindings: firmware: qcom, scm: Allow interconnect
+ for everyone
 Content-Language: en-US
 To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
  <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -74,7 +74,7 @@ To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
  Krishna Manikandan <quic_mkrishn@quicinc.com>,
  Robert Marko <robimarko@gmail.com>, Das Srinagesh <quic_gurus@quicinc.com>
 References: <20231125-topic-rb1_feat-v1-0-11d71b12b058@linaro.org>
- <20231125-topic-rb1_feat-v1-5-11d71b12b058@linaro.org>
+ <20231125-topic-rb1_feat-v1-6-11d71b12b058@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -120,7 +120,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231125-topic-rb1_feat-v1-5-11d71b12b058@linaro.org>
+In-Reply-To: <20231125-topic-rb1_feat-v1-6-11d71b12b058@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -144,7 +144,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 25/11/2023 15:17, Konrad Dybcio wrote:
-> QCM2290 has a single BWMONv4 intance for CPU. Document it.
+> Every Qualcomm SoC physically has a "CRYPTO0<->DDR" interconnect lane.
+> Allow this property to be present, no matter the SoC.
 > 
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
