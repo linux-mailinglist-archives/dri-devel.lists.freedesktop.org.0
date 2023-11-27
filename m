@@ -2,71 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC3A7F9C7B
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 10:17:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D5A47F9C58
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 10:06:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5943E10E13A;
-	Mon, 27 Nov 2023 09:17:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82C1710E1F1;
+	Mon, 27 Nov 2023 09:05:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C542410E13A
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 09:17:30 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id
- 38308e7fff4ca-2c6b30aca06so48174761fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 01:17:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1701076649; x=1701681449;
- darn=lists.freedesktop.org; 
- h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
- :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
- bh=bEIoGh5O/BzqSyDdvmfvLEUiDH4K1xP/uQvVNiufgcU=;
- b=ge/jqEpCgc8JTYid++Bc50clGtFy0i61mR7xLTBdTcWg6S6GqWYQu1TF4q/gwmt5/g
- +jrvMimH4FIhtNFCs2MbQbZo2NP0gyQ2pKke/BS8P0PBe8qepK7LCjlyExh2IfHZHzEE
- q+KIasfwdSui1E+z06APWLGc9d9NUwjaHqC+eYWq29tkvce2t9QJ6kMnCyO9F5pjuhbo
- HEFCuSocDw6W9hyKY7gl85sXiA0fPzr3uIelSrWHJK31taM/P4RGDBwK7QimL3hpj6lH
- hRq1HWWvTaLRabKM/OqxcD6UMXGHSLEk/254D+8QM4L79D6Qlz4IgGprpTxKv5WVr1jW
- pAlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701076649; x=1701681449;
- h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
- :user-agent:references:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bEIoGh5O/BzqSyDdvmfvLEUiDH4K1xP/uQvVNiufgcU=;
- b=aq8xN855f2NwyeW3cO1IUeS+2/sLjWpVR4P1cIhHySZg7JR4y/Q2dcUwlS8gqEUJyv
- dxVWHQb57OodnMiwWFIyv+YbhfWgCPewoOTx+Wint/6CI56apS+8NZl/yYkdei8LQ1i1
- wK513KlnSqkp18hnzP4B1eQzCl+OUsruX/2+OU5nxu/DSnFdWXdhwNeYw/xk2siNKOoO
- a5gXo47eBSIS0tQaddu4WX4UfVMHb9B+VtvAIub6YJ1FRs4IMmTYKajELyDxFWBBnh0o
- XPmInmMUKGJ91NbMCJGB6whfiCsjhrFGnRVG6S7vRgljtYhqmNjSttRQHKZkvcQww6ke
- tsEg==
-X-Gm-Message-State: AOJu0YzGxbokTfJY9aDLsPB7LBlNxefhyrQ4YjRdkVN2Jgoc/b1krRsa
- yt4AMQndIXHAMQP1iCILIvHI4A==
-X-Google-Smtp-Source: AGHT+IGy/JmtaB1RId0/b5RlEgolNkKFgTxdlq7MWzbR6GDUGon0doGnidwbBevghTckT6+7ygTSrA==
-X-Received: by 2002:a2e:8387:0:b0:2c8:8745:8f0b with SMTP id
- x7-20020a2e8387000000b002c887458f0bmr6234114ljg.47.1701076648575; 
- Mon, 27 Nov 2023 01:17:28 -0800 (PST)
-Received: from localhost ([2a01:e0a:3c5:5fb1:fd31:fff0:e26c:d593])
- by smtp.gmail.com with ESMTPSA id
- dm16-20020a0560000bd000b0032d09f7a713sm11439739wrb.18.2023.11.27.01.17.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Nov 2023 01:17:28 -0800 (PST)
-References: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-0-95256ed139e6@linaro.org>
- <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-8-95256ed139e6@linaro.org>
- <1jbkbjdxk8.fsf@starbuckisacylon.baylibre.com>
- <b23ddc3b-d995-4cd6-91f2-3efa59d345a5@linaro.org>
- <1j34wvdtux.fsf@starbuckisacylon.baylibre.com>
- <41a1246e-c885-460a-8208-16844e95e1ae@linaro.org>
-User-agent: mu4e 1.10.8; emacs 29.1
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH v9 08/12] clk: meson: g12a: make VCLK2 and ENCL clock
- path configurable by CCF
-Date: Mon, 27 Nov 2023 09:38:28 +0100
-In-reply-to: <41a1246e-c885-460a-8208-16844e95e1ae@linaro.org>
-Message-ID: <1jjzq3zhaw.fsf@starbuckisacylon.baylibre.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de
+ [IPv6:2a07:de40:b251:101:10:150:64:2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D78A10E1F1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 09:05:56 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 6BBC02028A;
+ Mon, 27 Nov 2023 09:05:54 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 2F048132A6;
+ Mon, 27 Nov 2023 09:05:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id f38ECvJbZGXEZQAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Mon, 27 Nov 2023 09:05:54 +0000
+Message-ID: <31000e40-61a2-46df-b3cc-b6e08a5c63b8@suse.de>
+Date: Mon, 27 Nov 2023 10:05:53 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/mxsfb: Switch to drmm_mode_config_init
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+References: <20231125222536.97769-1-marex@denx.de>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20231125222536.97769-1-marex@denx.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------aUB8G0f35ZGBfDKyXK7wKd3u"
+X-Spamd-Bar: +++++
+X-Spam-Score: 5.11
+X-Rspamd-Server: rspamd1
+X-Spam-Level: *****
+X-Rspamd-Queue-Id: 6BBC02028A
+X-Spam-Flag: NO
+Authentication-Results: smtp-out2.suse.de; dkim=none;
+ dmarc=fail reason="No valid SPF, No valid DKIM" header.from=suse.de
+ (policy=none); 
+ spf=softfail (smtp-out2.suse.de: 2a07:de40:b281:104:10:150:64:98 is neither
+ permitted nor denied by domain of tzimmermann@suse.de)
+ smtp.mailfrom=tzimmermann@suse.de
+X-Spamd-Result: default: False [5.11 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ XM_UA_NO_VERSION(0.01)[]; TO_DN_SOME(0.00)[];
+ HAS_ATTACHMENT(0.00)[]; R_SPF_SOFTFAIL(4.60)[~all:c];
+ MIME_BASE64_TEXT_BOGUS(1.00)[]; RCVD_COUNT_THREE(0.00)[3];
+ MX_GOOD(-0.01)[]; MIME_BASE64_TEXT(0.10)[];
+ RCPT_COUNT_SEVEN(0.00)[8]; SIGNED_PGP(-2.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; R_DKIM_NA(2.20)[];
+ MIME_TRACE(0.00)[0:+,1:+,2:+,3:~]; MID_RHS_MATCH_FROM(0.00)[];
+ BAYES_HAM(-3.00)[100.00%]; ARC_NA(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; NEURAL_HAM_LONG(-0.16)[-0.158];
+ MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
+ NEURAL_SPAM_SHORT(2.97)[0.989];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ RCVD_IN_DNSWL_HI(-0.50)[2a07:de40:b281:104:10:150:64:98:from];
+ RCVD_TLS_ALL(0.00)[];
+ DMARC_POLICY_SOFTFAIL(0.10)[suse.de : No valid SPF, No valid DKIM,none]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,85 +108,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-phy@lists.infradead.org, linux-clk@vger.kernel.org,
- Jerome Brunet <jbrunet@baylibre.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Kevin Hilman <khilman@baylibre.com>, Jagan Teki <jagan@amarulasolutions.com>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Maxime Ripard <mripard@kernel.org>, Remi Pommarel <repk@triplefau.lt>,
- linux-amlogic@lists.infradead.org, Nicolas Belin <nbelin@baylibre.com>,
- linux-arm-kernel@lists.infradead.org, Stephen Boyd <sboyd@kernel.org>,
- linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
- Rob Herring <robh+dt@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>, Maxime Ripard <mripard@kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------aUB8G0f35ZGBfDKyXK7wKd3u
+Content-Type: multipart/mixed; boundary="------------pwEQBhnFtkrQqhiROqD0m4qp";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Maxime Ripard <mripard@kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
+Message-ID: <31000e40-61a2-46df-b3cc-b6e08a5c63b8@suse.de>
+Subject: Re: [PATCH] drm/mxsfb: Switch to drmm_mode_config_init
+References: <20231125222536.97769-1-marex@denx.de>
+In-Reply-To: <20231125222536.97769-1-marex@denx.de>
 
->> 
->>>
->>> I suspect mipi_dsi_pxclk_div was added to achieve fractional vclk/bitclk ratios,
->>> since it doesn't exist on AXG. Not sure we would ever need it... and none
->>> of the other upstream DSI drivers supports such setups.
->>>
->>> The main reasons I set only mipi_dsi_pxclk in DT is because :
->>> 1) the DSI controller requires a bitclk to respond, pclk is not enough
->>> 2) GP0 is disabled with an invalid config at cold boot, thus we cannot
->>> rely on a default/safe rate on an initial prepare_enable().
->>> This permits setting initial valid state for the DSI controller, while
->>> the actual bitclk and vclk are calculated dynamically with panel/bridge
->>> runtime parameters.
->> Nothing against setting rate in DT when it is static. Setting it then
->> overriding it is not easy to follow.
->
-> Yup, would be simpler to only have parenting set in DT, since it must
-> stay static, I'm fine trying to move rate setup to code.
->
->> To work around GP0 not being set, assuming you want to keep rate
->> propagation as it is, you could call clk_set_rate() on cts_encl (possibly w/o
->> enabling it) to force a setup on gp0 then clk_prepare_enable() on
->> pxclk. You'd get a your safe rate on GP0 and the clock you need on pxclk.
->> It is a bit hackish. Might be better to claim gp0 in your driver to
->> manage it directly, cutting rate propagation above it to control each
->> branch of the subtree as you need. It seems you need to have control over
->> that anyway and it would be clear GP0 is expected to belong to DSI.
->
-> Controlling the PLL from the DSI controller seems violating too much layers,
-> DSI controller driver is not feed directly by the PLL so it's a non-sense
-> regarding DT properties.
+--------------pwEQBhnFtkrQqhiROqD0m4qp
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Not sure what you mean by this. You have shown in your the commit
-message that the DSI clocks make significant subtree. I don't see a
-problem if you need to manage the root of that subtree. I'd be great if
-you didn't need to, but it is what it is ...
+SGkNCg0KQW0gMjUuMTEuMjMgdW0gMjM6MjUgc2NocmllYiBNYXJlayBWYXN1dDoNCj4gU3dp
+dGNoIGZyb20gZGVwcmVjYXRlZCB1bm1hbmFnZWQgZHJtX21vZGVfY29uZmlnX2luaXQoKSB0
+bw0KPiBtYW5hZ2VkIGRybW1fbW9kZV9jb25maWdfaW5pdCgpLiBObyBmdW5jdGlvbmFsIGNo
+YW5nZS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IE1hcmVrIFZhc3V0IDxtYXJleEBkZW54LmRl
+Pg0KPiAtLS0NCj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4NCj4gQ2M6
+IERhdmlkIEFpcmxpZSA8YWlybGllZEBnbWFpbC5jb20+DQo+IENjOiBGYWJpbyBFc3RldmFt
+IDxmZXN0ZXZhbUBnbWFpbC5jb20+DQo+IENjOiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRl
+bi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPg0KPiBDYzogTWF4aW1lIFJpcGFyZCA8bXJp
+cGFyZEBrZXJuZWwub3JnPg0KPiBDYzogTlhQIExpbnV4IFRlYW0gPGxpbnV4LWlteEBueHAu
+Y29tPg0KPiBDYzogUGVuZ3V0cm9uaXggS2VybmVsIFRlYW0gPGtlcm5lbEBwZW5ndXRyb25p
+eC5kZT4NCj4gQ2M6IFNhc2NoYSBIYXVlciA8cy5oYXVlckBwZW5ndXRyb25peC5kZT4NCj4g
+Q2M6IFNoYXduIEd1byA8c2hhd25ndW9Aa2VybmVsLm9yZz4NCj4gQ2M6IFN0ZWZhbiBBZ25l
+ciA8c3RlZmFuQGFnbmVyLmNoPg0KPiBDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJt
+YW5uQHN1c2UuZGU+DQo+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+
+IENjOiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcNCj4gLS0tDQo+ICAg
+ZHJpdmVycy9ncHUvZHJtL214c2ZiL214c2ZiX2Rydi5jIHwgNiArKysrKy0NCj4gICAxIGZp
+bGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL214c2ZiL214c2ZiX2Rydi5jIGIvZHJpdmVycy9n
+cHUvZHJtL214c2ZiL214c2ZiX2Rydi5jDQo+IGluZGV4IDNiZmEzNjliMjUwN2UuLjlmNzQ2
+ODUyYjhmZjIgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9teHNmYi9teHNmYl9k
+cnYuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbXhzZmIvbXhzZmJfZHJ2LmMNCj4gQEAg
+LTI0OCw3ICsyNDgsMTEgQEAgc3RhdGljIGludCBteHNmYl9sb2FkKHN0cnVjdCBkcm1fZGV2
+aWNlICpkcm0sDQo+ICAgCXBtX3J1bnRpbWVfZW5hYmxlKGRybS0+ZGV2KTsNCj4gICANCj4g
+ICAJLyogTW9kZXNldCBpbml0ICovDQo+IC0JZHJtX21vZGVfY29uZmlnX2luaXQoZHJtKTsN
+Cg0KVGhlIGNvcnJlc3BvbmRpbmcgY2FsbCB0byBkcm1fbW9kZV9jb25maWdfY2xlYW51cCgp
+IG5lZWRzIHRvIGJlIHJlbW92ZWQgDQphcyB3ZWxsLg0KDQpCZXN0IHJlZ2FyZHMNClRob21h
+cw0KDQo+ICsJcmV0ID0gZHJtbV9tb2RlX2NvbmZpZ19pbml0KGRybSk7DQo+ICsJaWYgKHJl
+dCkgew0KPiArCQlkZXZfZXJyKGRybS0+ZGV2LCAiRmFpbGVkIHRvIGluaXRpYWxpemUgbW9k
+ZSBjb25maWdcbiIpOw0KPiArCQlnb3RvIGVycl92Ymxhbms7DQo+ICsJfQ0KPiAgIA0KPiAg
+IAlyZXQgPSBteHNmYl9rbXNfaW5pdChteHNmYik7DQo+ICAgCWlmIChyZXQgPCAwKSB7DQoN
+Ci0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNV
+U0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2
+LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVy
+cywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVl
+cm5iZXJnKQ0K
 
->
-> Setting a safe clock from the DSI controller probe is an idea, but again I
-> don't know which value I should use...
+--------------pwEQBhnFtkrQqhiROqD0m4qp--
 
-You mentionned that the problem comes DSI bridges that needs to change
-at runtime. I don't know much about those TBH, but is there
-anyway you can come up with a static GP0 rate that would then be able to
-divide to serve all the rates bridge would need in your use case ?
+--------------aUB8G0f35ZGBfDKyXK7wKd3u
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
-GP0 can go a lot higher than ~100MHz and there are dividers unused in the
-tree it seems.
+-----BEGIN PGP SIGNATURE-----
 
-I suppose there is a finite number of required rate for each use case ?
-If there are not too many and there is a common divider that allows a
-common rate GP0 can do, it would solve your problem. It's a lot of if
-but It is worth checking.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVkW/EFAwAAAAAACgkQlh/E3EQov+A9
+zg//QUPYMb7ZzW07Bj6bGXrFBlskFFywHK1m9gvn8leiN7W88h9ITtT5274G/BVOHH43pVRndADq
+DhyYf2yrbTrQMgu1uEfUTWSCVbTJ6S5rqBVNs/F2zmTEWIgLucLz3JaNoDLK+G10qeKslHbiQqsC
+33NaIJsWg9zUPigXbuavD71qqRXl/nPM75vLT4EKoqJ2yxtgLGSbP9P1TpCUdsFirtTfvx0/faby
+fcgHQfs4AIkPOk44skGhbmZzcp06XdCcHSdDkT+4ZsYiW5tqXpPdx6BNFarKsHIHLG+i6xsF9MbS
+9T0v/614yTA6w2XPDAdKiIm8PyyBETioA2BgAHygalsjImZNxyYGtZepyLhvrOrVJHa2m/eNPBbW
+n1wJU+rLsnKsVpdk0sU3E5AJTdM/EjzaYiy9ohT3euZ/patMo7q3eOFq0lS2PymSKvIllRo1OSbs
+fSL3DsiKzbH5CvSB2GeNC9enfGGfIcI+eTl/xAWFBYb/cScTQA93x8DklPxeckas05QAyDqQmkq5
+jfUpFMTIRXg7j5rRiN1mMWvMCQbH80Tv5QAobjvw5ztChFckziXS1EJ8Jx/RG7kD3sFYNm8NoT24
+X3H0GDvrdeanweP8DIthC8gNOmkrxbNwG//4FEKjqDnXaoewLmPQtmjz9m83kBwacZOVGtd/nkT/
+2dw=
+=xqrI
+-----END PGP SIGNATURE-----
 
-This is how audio works and DT assigned rate is a good match in this case.
-
->
-> I'll review the clk parenting flags and try to hack something.
->
-> Thanks,
-> Neil
->
->
+--------------aUB8G0f35ZGBfDKyXK7wKd3u--
