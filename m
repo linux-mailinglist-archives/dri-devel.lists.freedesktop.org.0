@@ -1,50 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5507F9B64
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 09:13:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EFDC7F9B81
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 09:19:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E46A710E1BB;
-	Mon, 27 Nov 2023 08:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A36D410E1CD;
+	Mon, 27 Nov 2023 08:19:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A694310E1BB
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 08:12:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=AhS+IOdw6kZ/pQHX+37zeloXZrDy8eZYO6ALBvmHMmU=; b=M67Lzxlmtg6dZhkX5EQqfoSJUg
- BE4uRujj6y2gXwGLlNjibjtmM7rzBg+QIVz+V0HzqyGTFJMjtNGLKJQ8jmtfV5SUY4sLnSQaylfRk
- A/wKAgXCSTyqT6ZhAtlAmvnh5H7ruXLTR1N0N3H74pD+wxXVHMfKxJlCieBvLtaQt1SpMAya78zvs
- 7Xhdrhrt8O8awgO1ZU3kKaDivyeQXAxJEMI2/HI0Nc483F+on/aSOof6KWZks7oYXjFTS+cKUviN4
- vsPo3hqdp6VEK8xnDEg60Dt08LXNcGhOcAUoqZ8mvVTaOF68yUaNfQ+OAy/XEKGhlGrazj70weJg/
- DClEtyjA==;
-Received: from 21.49.60.213.dynamic.reverse-mundo-r.com ([213.60.49.21]
- helo=[192.168.0.100]) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1r7WjU-007UtW-0j; Mon, 27 Nov 2023 09:12:44 +0100
-Message-ID: <cc668d3f010e0dbc8076c9bdc8d6dc66c4d7f579.camel@igalia.com>
-Subject: Re: [PATCH v2 06/17] drm/v3d: Decouple job allocation from job
- initiation
-From: Iago Toral <itoral@igalia.com>
-To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
- <mwen@igalia.com>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Date: Mon, 27 Nov 2023 09:12:43 +0100
-In-Reply-To: <20231124012548.772095-7-mcanal@igalia.com>
-References: <20231124012548.772095-1-mcanal@igalia.com>
- <20231124012548.772095-7-mcanal@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.48.1-0ubuntu1 
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72C6110E1CD
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 08:19:03 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id
+ 38308e7fff4ca-2c9947f488fso22560611fa.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 00:19:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701073141; x=1701677941; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=y2uKGv73n9zPoCLwWnUxIRJtwy7BLdOeRGasRuwlLaI=;
+ b=pXgake1i3Sglwk6XXYyi06FPyHWZ4LEv/5QKTcr8w6Exbvt9lqkFY8LutDfPL57dE2
+ cp1LEiXioaaMSi5TwIIKqnNZ84c2li7zwgwQ68rzNw1Tcnv6yXAHR6+H08CLiqtNHXTB
+ d2rXhmbuIDEMsY914ve4kPIH3D2+F+QmqSsI4/+/BWdhB4cW60/vEHZwmMtRw5TXpwPu
+ /IppwPY9cqMjoHTxWazz5QccazhvOH/byW46MTJfcJ+udXQWUMiGDGmoC8cHdgicCIUZ
+ oCJyhLSBmzLOWq6XlK3i3LbYCVOkrEsJ1NbmMSWAxdoaS/sVsHyBEZy4LHUUuIepX2CH
+ 1AuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701073141; x=1701677941;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=y2uKGv73n9zPoCLwWnUxIRJtwy7BLdOeRGasRuwlLaI=;
+ b=H3WMzXQaqRHfs3CyBQ+7KBN3ksk37w9pBRAkKl9lsTClempalsMvLaetrdkQWvAq6m
+ 7vG1mDUCd7MKKFPzyVQrSGg+DQ1pNd9nQ2sad9aGlzAh6T7fBlSRhYfahFZEtr67Gp1q
+ 4IpUOpb2CI6475G3FAh+6tnJ6K3okm3mlX8wF36Q/lGNV3X2F3sCjo1JbTUKUZmLos/O
+ sjfQCipl+BBrz9hnNDDMlWU1vtDPZj+ecM4/2fmU1dHmKJX/gap/hdhbpXb3wAr3B3Gz
+ rCEhBCkFXdJ7SeyielOoFnD6Dk0oKnmnBUFDvOtcw7BCdbEvgat3aQP27v/JmYIQ+Tta
+ NlAw==
+X-Gm-Message-State: AOJu0YwImC4MZw+r9TEJ5hkyo3TlrrJEZS39pGAqpGVwCyZoHMEworLw
+ eA8eqcD62P7VXd/TOuI3UtJzSw==
+X-Google-Smtp-Source: AGHT+IF1gTyhMEF3F7i1LRqkM6Hdwo5CzhiNmHsO3on2+Ni4UBjAsOeQokHh2iH61R/I1gEzM9biJw==
+X-Received: by 2002:a2e:b5d3:0:b0:2c9:a05c:547d with SMTP id
+ g19-20020a2eb5d3000000b002c9a05c547dmr1718714ljn.34.1701073141585; 
+ Mon, 27 Nov 2023 00:19:01 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ be7-20020a05600c1e8700b00405442edc69sm13516568wmb.14.2023.11.27.00.19.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Nov 2023 00:19:01 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Jerome Brunet <jbrunet@baylibre.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Jagan Teki <jagan@amarulasolutions.com>, 
+ Nicolas Belin <nbelin@baylibre.com>, Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Remi Pommarel <repk@triplefau.lt>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+In-Reply-To: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-0-95256ed139e6@linaro.org>
+References: <20231124-amlogic-v6-4-upstream-dsi-ccf-vim3-v9-0-95256ed139e6@linaro.org>
+Subject: Re: (subset) [PATCH v9 00/12] drm/meson: add support for MIPI DSI
+ Display
+Message-Id: <170107314034.1083800.1585049254380328915.b4-ty@linaro.org>
+Date: Mon, 27 Nov 2023 09:19:00 +0100
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,53 +88,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-dev@igalia.com, Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org, Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Conor Dooley <conor.dooley@microchip.com>,
+ "Lukas F. Hartmann" <lukas@mntre.com>, linux-phy@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RWwganVlLCAyMy0xMS0yMDIzIGEgbGFzIDIxOjQ3IC0wMzAwLCBNYcOtcmEgQ2FuYWwgZXNjcmli
-acOzOgo+IFdlIHdhbnQgdG8gYWxsb3cgdGhlIElPQ1RMcyB0byBhbGxvY2F0ZSB0aGUgam9iIHdp
-dGhvdXQgaW5pdGlhdGluZwo+IGl0Lgo+IFRoaXMgd2lsbCBiZSB1c2VmdWwgZm9yIHRoZSBDUFUg
-am9iIHN1Ym1pc3Npb24gSU9DVEwsIGFzIHRoZSBDUFUgam9iCj4gaGFzCj4gdGhlIG5lZWQgdG8g
-dXNlIGluZm9ybWF0aW9uIGZyb20gdGhlIHVzZXIgZXh0ZW5zaW9ucy4gQ3VycmVudGx5LCB0aGUK
-PiB1c2VyIGV4dGVuc2lvbnMgYXJlIHBhcnNlZCBiZWZvcmUgdGhlIGpvYiBhbGxvY2F0aW9uLCBt
-YWtpbmcgaXQKPiBpbXBvc3NpYmxlIHRvIGZpbGwgdGhlIENQVSBqb2Igd2hlbiBwYXJzaW5nIHRo
-ZSB1c2VyIGV4dGVuc2lvbnMuCj4gVGhlcmVmb3JlLCBkZWNvdXBsZSB0aGUgam9iIGFsbG9jYXRp
-b24gZnJvbSB0aGUgam9iIGluaXRpYXRpb24uCj4gCj4gU2lnbmVkLW9mZi1ieTogTWHDrXJhIENh
-bmFsIDxtY2FuYWxAaWdhbGlhLmNvbT4KPiAtLS0KPiDCoGRyaXZlcnMvZ3B1L2RybS92M2QvdjNk
-X3N1Ym1pdC5jIHwgMjMgKysrKysrKysrKysrKysrKysrLS0tLS0KPiDCoDEgZmlsZSBjaGFuZ2Vk
-LCAxOCBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vdjNkL3YzZF9zdWJtaXQuYwo+IGIvZHJpdmVycy9ncHUvZHJtL3YzZC92M2Rf
-c3VibWl0LmMKPiBpbmRleCBmZTQ2ZGQzMTZjYTAuLmVkMWEzMTBiYmQyZiAxMDA2NDQKPiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9zdWJtaXQuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS92M2QvdjNkX3N1Ym1pdC5jCj4gQEAgLTEzNSw2ICsxMzUsMjEgQEAgdm9pZCB2M2Rfam9iX3B1
-dChzdHJ1Y3QgdjNkX2pvYiAqam9iKQo+IMKgwqDCoMKgwqDCoMKgwqBrcmVmX3B1dCgmam9iLT5y
-ZWZjb3VudCwgam9iLT5mcmVlKTsKPiDCoH0KPiDCoAo+ICtzdGF0aWMgaW50Cj4gK3YzZF9qb2Jf
-YWxsb2NhdGUodm9pZCAqKmNvbnRhaW5lciwgc2l6ZV90IHNpemUpCj4gK3sKPiArwqDCoMKgwqDC
-oMKgwqBpZiAoKmNvbnRhaW5lcikKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0
-dXJuIDA7CgpNbW0uLi4gaXMgdGhpcyByZWFsbHkgd2hhdCB3ZSB3YW50PyBBdCBsZWFzdCByaWdo
-dCBub3cgd2UgZXhwZWN0CnYzZF9qb2JfYWxsb2NhdGUgdG8gYWx3YXlzIGFsbG9jYXRlIG1lbW9y
-eSwgaXMgdGhlcmUgYW55IHNjZW5hcmlvIGluCndoaWNoIHdlIHdvdWxkIGV4cGVjdCB0byBjYWxs
-IHRoaXMgd2l0aCBhbiBhbHJlYWR5IGFsbG9jYXRlZCBjb250YWluZXI/CgpJYWdvCgo+ICsKPiAr
-wqDCoMKgwqDCoMKgwqAqY29udGFpbmVyID0ga2NhbGxvYygxLCBzaXplLCBHRlBfS0VSTkVMKTsK
-PiArwqDCoMKgwqDCoMKgwqBpZiAoISpjb250YWluZXIpIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgRFJNX0VSUk9SKCJDYW5ub3QgYWxsb2NhdGUgbWVtb3J5IGZvciBWM0Qgam9i
-LlxuIik7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiAtRU5PTUVNOwo+
-ICvCoMKgwqDCoMKgwqDCoH0KPiArCj4gK8KgwqDCoMKgwqDCoMKgcmV0dXJuIDA7Cj4gK30KPiAr
-Cj4gwqBzdGF0aWMgaW50Cj4gwqB2M2Rfam9iX2luaXQoc3RydWN0IHYzZF9kZXYgKnYzZCwgc3Ry
-dWN0IGRybV9maWxlICpmaWxlX3ByaXYsCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHZvaWQg
-Kipjb250YWluZXIsIHNpemVfdCBzaXplLCB2b2lkICgqZnJlZSkoc3RydWN0IGtyZWYKPiAqcmVm
-KSwKPiBAQCAtMTQ1LDExICsxNjAsOSBAQCB2M2Rfam9iX2luaXQoc3RydWN0IHYzZF9kZXYgKnYz
-ZCwgc3RydWN0Cj4gZHJtX2ZpbGUgKmZpbGVfcHJpdiwKPiDCoMKgwqDCoMKgwqDCoMKgYm9vbCBo
-YXNfbXVsdGlzeW5jID0gc2UgJiYgKHNlLT5mbGFncyAmCj4gRFJNX1YzRF9FWFRfSURfTVVMVElf
-U1lOQyk7Cj4gwqDCoMKgwqDCoMKgwqDCoGludCByZXQsIGk7Cj4gwqAKPiAtwqDCoMKgwqDCoMKg
-wqAqY29udGFpbmVyID0ga2NhbGxvYygxLCBzaXplLCBHRlBfS0VSTkVMKTsKPiAtwqDCoMKgwqDC
-oMKgwqBpZiAoISpjb250YWluZXIpIHsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-RFJNX0VSUk9SKCJDYW5ub3QgYWxsb2NhdGUgbWVtb3J5IGZvciB2M2Qgam9iLiIpOwo+IC3CoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gLUVOT01FTTsKPiAtwqDCoMKgwqDCoMKg
-wqB9Cj4gK8KgwqDCoMKgwqDCoMKgcmV0ID0gdjNkX2pvYl9hbGxvY2F0ZShjb250YWluZXIsIHNp
-emUpOwo+ICvCoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoHJldHVybiByZXQ7Cj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgam9iID0gKmNvbnRhaW5l
-cjsKPiDCoMKgwqDCoMKgwqDCoMKgam9iLT52M2QgPSB2M2Q7Cgo=
+Hi,
+
+On Fri, 24 Nov 2023 09:41:11 +0100, Neil Armstrong wrote:
+> The Amlogic G12A, G12B & SM1 SoCs embeds a Synopsys DW-MIPI-DSI transceiver (ver 1.21a),
+> with a custom glue managing the IP resets, clock and data input similar to the DW-HDMI
+> glue on the same Amlogic SoCs.
+> 
+> This is a follow-up of v5  now the DRM patches are applied, the clk & DT changes
+> remains for a full DSI support on G12A & SM1 platforms.
+> 
+> [...]
+
+Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git (v6.8/arm64-dt)
+
+[02/12] dt-bindings: soc: amlogic,meson-gx-hhi-sysctrl: add example covering meson-axg-hhi-sysctrl
+        https://git.kernel.org/amlogic/c/beb9c30ba4188e481991d91124c554f61a7ec121
+
+These changes has been applied on the intermediate git tree [1].
+
+The v6.8/arm64-dt branch will then be sent via a formal Pull Request to the Linux SoC maintainers
+for inclusion in their intermediate git branches in order to be sent to Linus during
+the next merge window, or sooner if it's a set of fixes.
+
+In the cases of fixes, those will be merged in the current release candidate
+kernel and as soon they appear on the Linux master branch they will be
+backported to the previous Stable and Long-Stable kernels [2].
+
+The intermediate git branches are merged daily in the linux-next tree [3],
+people are encouraged testing these pre-release kernels and report issues on the
+relevant mailing-lists.
+
+If problems are discovered on those changes, please submit a signed-off-by revert
+patch followed by a corrective changeset.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+
+-- 
+Neil
 
