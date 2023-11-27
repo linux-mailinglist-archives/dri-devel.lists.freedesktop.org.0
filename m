@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E70B27F9A4A
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 07:55:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8AD97F9A57
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 07:57:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9928E10E1B5;
-	Mon, 27 Nov 2023 06:55:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9569D10E1B4;
+	Mon, 27 Nov 2023 06:57:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9CEA10E1B4
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 06:55:25 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id
- 4fb4d7f45d1cf-5441305cbd1so5048779a12.2
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 22:55:25 -0800 (PST)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7AA510E1B6
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 06:57:11 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id
+ a640c23a62f3a-a00191363c1so557975366b.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Nov 2023 22:57:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701068124; x=1701672924; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701068230; x=1701673030; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=fvoDgA0KUEavMZgSwz2q0okOEwjLaa+M4rFji12SNTI=;
- b=qOu1ppG2nGTwtGu+nXiW9l20lgNH4mZoVf9nYWYg6YdEHWT5hplOzT1PkP4y7nPYAb
- 3UVEvs5is0U3EzoPdUm85CIEuvh6y4h3IZZsz5mW7jjxTY3z6yFoplXeOgcJupUPGSeG
- Eg95LsYbGHWRmZHUWK27F04LjN1b77560zaME7iegiylZ+91J7h1mu0IE07bNlVapW0A
- zvXeZqGhl7nk6CBx47sWNCXmxGkKHqjAddqlfvFCOZ317fU/5w1tfojpNzwVzusj9gAM
- C5INAnjJMPOgM2fKyFGEvPxSpEt23wUsuzDt5PSx/Ws6Rcwdyf2EEFo51YluFsdY3o9w
- +dJg==
+ bh=VuIVUuCMjH58N1a1ccT/SdI7fcyozDb9GMuo7ZSvjfU=;
+ b=gNdJCONxX3X5xET48D3kXWDq3U6iU30A/nonFE12uA5eHsAUSVG5PyMGyZtcDVuGV8
+ wdQWBUnc03/y3ste9qV7HWZQJKcWr6eFr+l5Hdasrf4OdRW3hXI9NprO5jI4CWtm6Z/x
+ mRCIfHxH2Gj9N6rYBuGlWmt3U71OZXZnAKG5j4o0jVcwpTqbqNWab898TqK4Da6XzdxU
+ n2i8C/WyO2iaWTirxuxiliBSSGtAHLRSqPigfRSJMR5BZUZUaDQ/nSURyejyRoNbfAJM
+ +1rrM++wsCKlmkYYqq8eBAHVWt/Pjr/LQLFV7L65Wief0Q3fCC9aVbxRGMHesVcrjmF/
+ zsGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701068124; x=1701672924;
+ d=1e100.net; s=20230601; t=1701068230; x=1701673030;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fvoDgA0KUEavMZgSwz2q0okOEwjLaa+M4rFji12SNTI=;
- b=dxPfKZlK85z98qWei+WtcEDvLBuAyCsEwroQgiQ5PFrJex0UpiA6S4aZVtuA0v5/z3
- 8cUcAPMrjm17xCh2aCzSNBPpiz4Ewdfpt4DYvt5tmwrKNUWzLgveOddU4yevO+bj8JIB
- du/0p6MMRkK3UVfAJ9+3qhLx8C+8KTBXwAm90Oskg84u0nlm7YlYBbSlvXJx/KgOkcPd
- ZR2iFUW4YdeCJ7R1F4I0boHONQ9GPL6hiYawfoJhckMT1tHHvD0McHJc18HutlgTPMHX
- yUvpw1FZBFmAHU3bunYcXvyTLhsFGcDNfdRtWT985b2Bf/tIoF/wN5pNHgUwiqlHEY3B
- X3Zw==
-X-Gm-Message-State: AOJu0Yyr+T7Ll68qDM40Npu+r0nril/fi3GVPLGlRD2YJCUAGdQ8TaBR
- AgGZBDTE8Ba/L+WcK9tTlZ286Q==
-X-Google-Smtp-Source: AGHT+IH3uL19TulhmqPpzsz8xj7/gK1xsaMeXYzhDs1LLK/qqzEwTdegJjUqfJKBktgeMffAI+Y04Q==
-X-Received: by 2002:a05:6402:5152:b0:54b:5f8:2df with SMTP id
- n18-20020a056402515200b0054b05f802dfmr6025025edd.9.1701068124075; 
- Sun, 26 Nov 2023 22:55:24 -0800 (PST)
+ bh=VuIVUuCMjH58N1a1ccT/SdI7fcyozDb9GMuo7ZSvjfU=;
+ b=hH/6W9psAQi1wUbcPaxKkArT30Nr4JaqqKLGeGt+qzy/OsUMbyhcpwOEorl+GZ+gxO
+ VTTyr1dtkLRkZYYBoXQtQuzfWbUwZ4D4rtLaYpasF6NGuCHNimzmLhHkTzPfyCktRyJK
+ eumH9SqOpIzDIX4KXC+aCHjxzOFazF9Rrpxw7iorycP/X01lUayn4yLVR8/GbPTgPvR4
+ ZtCHvIHzOD/Q8NyChapTS/J0h4hLuTwO4VnQK/aBzeyfUuszgBCH6w+qhHTstfs9dmYI
+ zTgy1Fkr7kqmDLEx+TWRMvlruLcd316mjN9VGo87e3qfWPV1IBv1B6Kdp1sLwTyC84wk
+ qUjA==
+X-Gm-Message-State: AOJu0YxgWp35ojStkMdu1qmLK21sWXM3eN86Id/Qv5agvR5sy1WLA/0q
+ SJ5HcE3FDixJO7A54RERxkolAw==
+X-Google-Smtp-Source: AGHT+IG8RtLhMG2Sr4SqheG5mM8Bnomh46e4LO/JyEf6BoBKf05JikGVgxzZ7YEhPukJeTzPVAm34A==
+X-Received: by 2002:a17:907:d30c:b0:9bf:d65d:dc0f with SMTP id
+ vg12-20020a170907d30c00b009bfd65ddc0fmr9814964ejc.4.1701068230340; 
+ Sun, 26 Nov 2023 22:57:10 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.109])
  by smtp.gmail.com with ESMTPSA id
- c15-20020a05640227cf00b0054b564d04e8sm1258290ede.85.2023.11.26.22.55.21
+ a19-20020a170906469300b009ade1a4f795sm5291000ejr.168.2023.11.26.22.57.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Nov 2023 22:55:23 -0800 (PST)
-Message-ID: <72202fa6-6f0a-4f63-bfdc-36afe14207fd@linaro.org>
-Date: Mon, 27 Nov 2023 07:55:21 +0100
+ Sun, 26 Nov 2023 22:57:09 -0800 (PST)
+Message-ID: <6228cda4-8918-4ae8-ab25-5e40ec966809@linaro.org>
+Date: Mon, 27 Nov 2023 07:57:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/12] dt-bindings: display: msm: Add reg bus and rotator
+Subject: Re: [PATCH 03/12] dt-bindings: display: msm: qcm2290-mdss: Allow 2
  interconnects
 Content-Language: en-US
 To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
@@ -74,7 +74,7 @@ To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
  Krishna Manikandan <quic_mkrishn@quicinc.com>,
  Robert Marko <robimarko@gmail.com>, Das Srinagesh <quic_gurus@quicinc.com>
 References: <20231125-topic-rb1_feat-v1-0-11d71b12b058@linaro.org>
- <20231125-topic-rb1_feat-v1-2-11d71b12b058@linaro.org>
+ <20231125-topic-rb1_feat-v1-3-11d71b12b058@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -120,7 +120,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231125-topic-rb1_feat-v1-2-11d71b12b058@linaro.org>
+In-Reply-To: <20231125-topic-rb1_feat-v1-3-11d71b12b058@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -144,22 +144,34 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 25/11/2023 15:17, Konrad Dybcio wrote:
-> Apart from the already handled data bus (MAS_MDP_Pn<->DDR), there are
-> other connection paths:
-> - a path that connects rotator block to the DDR.
-> - a path that needs to be handled to ensure MDSS register access
->   functions properly, namely the "reg bus", a.k.a the CPU-MDSS CFG
->   interconnect.
+> In addition to MDP0, the cpu-cfg interconnect is also necessary.
+> Allow it.
 > 
-> Describe these paths bindings to allow using them in device trees and in
-> the driver
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> [Konrad: rework for one vs two MDP paths]
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
+>  Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
+> index 3d82c00a9f85..51f3e9c34dfb 100644
+> --- a/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,qcm2290-mdss.yaml
+> @@ -36,10 +36,10 @@ properties:
+>      maxItems: 2
+>  
+>    interconnects:
+> -    maxItems: 1
+> +    maxItems: 2
+>  
+>    interconnect-names:
+> -    maxItems: 1
+> +    maxItems: 2
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+You should describe the items in interconnects and interconnect-names in
+such case.
+
+The same for all other variants having two items here. Then this and
+other such patches should be squashed with previous.
 
 Best regards,
 Krzysztof
