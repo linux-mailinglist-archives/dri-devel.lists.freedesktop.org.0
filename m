@@ -2,53 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F9B7FA125
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 14:36:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D023D7FA138
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 14:41:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD9C210E023;
-	Mon, 27 Nov 2023 13:36:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB39710E292;
+	Mon, 27 Nov 2023 13:41:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B5AC10E023
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 13:36:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701092176; x=1732628176;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=5Qao0lQmJBBg9XCG1scfystufVdrrOGqO8bhlKqTeYA=;
- b=Vjh+F2BsDLfS0kMIyC/2zC7Htfv/xRHTC0Vzo2CrgRNdhd9gztfQP20a
- 8XILUDSKmZuFlB12C++Qw9rLlFZFBpmb/l7LOV+an8kHZnjzYLo0lV4oc
- aXTz7PsOUZdpMwcllzBZLTXY6tjyTa25y0lu6Z6EfTEbVptJ28Asw2Q38
- M0+1jj+bjwxJHEKwe7J2ElvCNG3UM0omyzAo71NVCwoZ2XpAkROnk+Wfl
- Lv3FJlx8IHQqnFJ0dCI266g58fBXsopKHow6BVoF/TSUTsIr71YegDdm8
- dAGrsosaOef3U2jDayddggsbr6e8SVIjZqnD53Q/8QfAOHznGGvIX4LZk w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="391578810"
-X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; d="scan'208";a="391578810"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2023 05:35:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="761601320"
-X-IronPort-AV: E=Sophos;i="6.04,231,1695711600"; d="scan'208";a="761601320"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga007.jf.intel.com with SMTP; 27 Nov 2023 05:35:39 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 27 Nov 2023 15:35:38 +0200
-Date: Mon, 27 Nov 2023 15:35:38 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH] drm/bridge: panel: Check device dependency before
- managing device link
-Message-ID: <ZWSbKkgs8V4sdy8T@intel.com>
-References: <20231123032615.3760488-1-victor.liu@nxp.com>
+Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A87910E292
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 13:41:02 +0000 (UTC)
+Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
+ by mail5.25mail.st (Postfix) with ESMTPSA id 1C4CB604AC;
+ Mon, 27 Nov 2023 13:40:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
+ s=25mailst; t=1701092461;
+ bh=5anW9CqulIPzphyCFeqF9JxMOsTBzuZMj1q71pQ7lV0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hSFC4/U4hY3Xo6C8TViAAXv35nVJXtdvFlWTx/+1HC4wIGw6FGmHVI+dJBnh41crm
+ OY8q0ehJJQwos9i1wm0p3+CCsyx2o5tKb5RFcqbL3Zx9lUUOmQ+z0E9bWtTrQTY6J0
+ hIv1I+oxXDvjPZGbIPqSLQdGA78nvMQlMD0GrrLPTmOQcrow8b0c0FDZOlmTUSomWp
+ 46rQzrBVoMFv7cF/HHHyffhlhEh0z3SWOVCr+zZKa8CnEk9WZXF+M1Wy96kqe1DTNh
+ fvrfRKErAETcvnW9jRqCUAsXdAPaHSUMSF1eodi4bCMYgRTImizkcau7mMy8V6iFNq
+ j+jIXnNNt0LTA==
+Date: Mon, 27 Nov 2023 15:40:16 +0200
+From: Tony Lindgren <tony@atomide.com>
+To: Michael Walle <mwalle@kernel.org>
+Subject: Re: [PATCH 3/6] drm/bridge: tc358775: Add jeida-24 support
+Message-ID: <20231127134016.GG5166@atomide.com>
+References: <20231126171837.GK5169@atomide.com>
+ <20231127132525.2156089-1-mwalle@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231123032615.3760488-1-victor.liu@nxp.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <20231127132525.2156089-1-mwalle@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,109 +48,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, ulf.hansson@linaro.org, jernej.skrabec@gmail.com,
- rfoss@kernel.org, andrzej.hajda@intel.com, jonas@kwiboo.se,
- linux-kernel@vger.kernel.org, mripard@kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- angelogioacchino.delregno@collabora.com, Laurent.pinchart@ideasonboard.com
+Cc: mripard@kernel.org, devicetree@vger.kernel.org, ivo.g.dimitrov.75@gmail.com,
+ rfoss@kernel.org, andrzej.hajda@intel.com, tzimmermann@suse.de,
+ jonas@kwiboo.se, pavel@ucw.cz, sam@ravnborg.org, merlijn@wizzup.org,
+ neil.armstrong@linaro.org, sre@kernel.org, dri-devel@lists.freedesktop.org,
+ jernej.skrabec@gmail.com, Laurent.pinchart@ideasonboard.com,
+ simhavcs@gmail.com, philipp@uvos.xyz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 23, 2023 at 11:26:15AM +0800, Liu Ying wrote:
-> Some panel devices already depend on DRM device, like the panel in
-> arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dts, because DRM device is
-> the ancestor of those panel devices.  device_link_add() would fail by
-> returning a NULL pointer for those panel devices because of the existing
-> dependency.  So, check the dependency by calling device_is_dependent()
-> before adding or deleting device link between panel device and DRM device
-> so that the link is managed only for independent panel devices.
+* Michael Walle <mwalle@kernel.org> [231127 13:25]:
+> > The jeida-24 register values are the default hardware settings, but they
+> > not listed in the driver. Let's add them.
 > 
-> Fixes: 887878014534 ("drm/bridge: panel: Fix device link for DRM_BRIDGE_ATTACH_NO_CONNECTOR")
-> Fixes: 199cf07ebd2b ("drm/bridge: panel: Add a device link between drm device and panel device")
-> Reported-by: Linus Walleij <linus.walleij@linaro.org>
-> Closes: https://lore.kernel.org/lkml/CACRpkdaGzXD6HbiX7mVUNJAJtMEPG00Pp6+nJ1P0JrfJ-ArMvQ@mail.gmail.com/T/
-> Tested-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> jeida-24 and jeida-18 should have the same mapping, jeida-18 is broken in
+> this driver. could you test this patch:
+
+Yes great works for me with the tc358765 patches:
+
+Tested-by: Tony Lindgren <tony@atomide.com>
+
+> --snip--
+> 
+> From 46da1d76d4908e5879ed746cce1faeacd69c432e Mon Sep 17 00:00:00 2001
+> From: Michael Walle <mwalle@kernel.org>
+> Date: Wed, 4 Oct 2023 13:52:57 +0200
+> Subject: [PATCH] drm/bridge: tc358775: fix support for jeida-18 and jeida-24
+> 
+> The bridge always uses 24bpp internally. Therefore, for jeida-18
+> mapping we need to discard the lowest two bits for each channel and thus
+> starting with LV_[RGB]2. jeida-24 has the same mapping but uses four
+> lanes instead of three, with the forth pair transmitting the lowest two
+> bits of each channel. Thus, the mapping between jeida-18 and jeida-24
+> is actually the same, except that one channel is turned off (by
+> selecting the RGB666 format in VPCTRL).
+> 
+> While at it, remove the bogus comment about the hardware default because
+> the default is overwritten in any case.
+> 
+> Tested with a jeida-18 display (Evervision VGG644804).
+> 
+> Fixes: b26975593b17 ("display/drm/bridge: TC358775 DSI/LVDS driver")
+> Signed-off-by: Michael Walle <mwalle@kernel.org>
 > ---
->  drivers/gpu/drm/bridge/panel.c | 27 ++++++++++++++++++---------
->  1 file changed, 18 insertions(+), 9 deletions(-)
+>  drivers/gpu/drm/bridge/tc358775.c | 21 +++++++++------------
+>  1 file changed, 9 insertions(+), 12 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-> index e48823a4f1ed..5e8980023407 100644
-> --- a/drivers/gpu/drm/bridge/panel.c
-> +++ b/drivers/gpu/drm/bridge/panel.c
-> @@ -23,6 +23,7 @@ struct panel_bridge {
->  	struct drm_panel *panel;
->  	struct device_link *link;
->  	u32 connector_type;
-> +	bool is_independent;
->  };
->  
->  static inline struct panel_bridge *
-> @@ -67,12 +68,17 @@ static int panel_bridge_attach(struct drm_bridge *bridge,
->  	struct drm_device *drm_dev = bridge->dev;
->  	int ret;
->  
-> -	panel_bridge->link = device_link_add(drm_dev->dev, panel->dev,
-> -					     DL_FLAG_STATELESS);
-> -	if (!panel_bridge->link) {
-> -		DRM_ERROR("Failed to add device link between %s and %s\n",
-> -			  dev_name(drm_dev->dev), dev_name(panel->dev));
-> -		return -EINVAL;
-> +	panel_bridge->is_independent = !device_is_dependent(drm_dev->dev,
-> +							    panel->dev);
-
-This broke the build. Looks like device_is_dependent() is not even exported.
-ERROR: modpost: "device_is_dependent" [drivers/gpu/drm/drm_kms_helper.ko] undefined!
-
-The recommended defconfigs in rerere-cache do seem to have CONFIG_DRM_KMS_HELPER=m
-so this should have been caught before pushing. How did it slip through?
-
-> +
-> +	if (panel_bridge->is_independent) {
-> +		panel_bridge->link = device_link_add(drm_dev->dev, panel->dev,
-> +						     DL_FLAG_STATELESS);
-> +		if (!panel_bridge->link) {
-> +			DRM_ERROR("Failed to add device link between %s and %s\n",
-> +				  dev_name(drm_dev->dev), dev_name(panel->dev));
-> +			return -EINVAL;
-> +		}
+> diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
+> index 90a89d70d832..592c69c2aedc 100644
+> --- a/drivers/gpu/drm/bridge/tc358775.c
+> +++ b/drivers/gpu/drm/bridge/tc358775.c
+> @@ -454,10 +454,6 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
+>  	dev_dbg(tc->dev, "bus_formats %04x bpc %d\n",
+>  		connector->display_info.bus_formats[0],
+>  		tc->bpc);
+> -	/*
+> -	 * Default hardware register settings of tc358775 configured
+> -	 * with MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA jeida-24 format
+> -	 */
+>  	if (connector->display_info.bus_formats[0] ==
+>  		MEDIA_BUS_FMT_RGB888_1X7X4_SPWG) {
+>  		/* VESA-24 */
+> @@ -468,14 +464,15 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
+>  		d2l_write(tc->i2c, LV_MX1619, LV_MX(LVI_B6, LVI_B7, LVI_B1, LVI_B2));
+>  		d2l_write(tc->i2c, LV_MX2023, LV_MX(LVI_B3, LVI_B4, LVI_B5, LVI_L0));
+>  		d2l_write(tc->i2c, LV_MX2427, LV_MX(LVI_HS, LVI_VS, LVI_DE, LVI_R6));
+> -	} else { /*  MEDIA_BUS_FMT_RGB666_1X7X3_SPWG - JEIDA-18 */
+> -		d2l_write(tc->i2c, LV_MX0003, LV_MX(LVI_R0, LVI_R1, LVI_R2, LVI_R3));
+> -		d2l_write(tc->i2c, LV_MX0407, LV_MX(LVI_R4, LVI_L0, LVI_R5, LVI_G0));
+> -		d2l_write(tc->i2c, LV_MX0811, LV_MX(LVI_G1, LVI_G2, LVI_L0, LVI_L0));
+> -		d2l_write(tc->i2c, LV_MX1215, LV_MX(LVI_G3, LVI_G4, LVI_G5, LVI_B0));
+> -		d2l_write(tc->i2c, LV_MX1619, LV_MX(LVI_L0, LVI_L0, LVI_B1, LVI_B2));
+> -		d2l_write(tc->i2c, LV_MX2023, LV_MX(LVI_B3, LVI_B4, LVI_B5, LVI_L0));
+> -		d2l_write(tc->i2c, LV_MX2427, LV_MX(LVI_HS, LVI_VS, LVI_DE, LVI_L0));
+> +	} else {
+> +		/* JEIDA-18 and JEIDA-24 */
+> +		d2l_write(tc->i2c, LV_MX0003, LV_MX(LVI_R2, LVI_R3, LVI_R4, LVI_R5));
+> +		d2l_write(tc->i2c, LV_MX0407, LV_MX(LVI_R6, LVI_R1, LVI_R7, LVI_G2));
+> +		d2l_write(tc->i2c, LV_MX0811, LV_MX(LVI_G3, LVI_G4, LVI_G0, LVI_G1));
+> +		d2l_write(tc->i2c, LV_MX1215, LV_MX(LVI_G5, LVI_G6, LVI_G7, LVI_B2));
+> +		d2l_write(tc->i2c, LV_MX1619, LV_MX(LVI_B0, LVI_B1, LVI_B3, LVI_B4));
+> +		d2l_write(tc->i2c, LV_MX2023, LV_MX(LVI_B5, LVI_B6, LVI_B7, LVI_L0));
+> +		d2l_write(tc->i2c, LV_MX2427, LV_MX(LVI_HS, LVI_VS, LVI_DE, LVI_R0));
 >  	}
 >  
->  	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
-> @@ -80,7 +86,8 @@ static int panel_bridge_attach(struct drm_bridge *bridge,
->  
->  	if (!bridge->encoder) {
->  		DRM_ERROR("Missing encoder\n");
-> -		device_link_del(panel_bridge->link);
-> +		if (panel_bridge->is_independent)
-> +			device_link_del(panel_bridge->link);
->  		return -ENODEV;
->  	}
->  
-> @@ -92,7 +99,8 @@ static int panel_bridge_attach(struct drm_bridge *bridge,
->  				 panel_bridge->connector_type);
->  	if (ret) {
->  		DRM_ERROR("Failed to initialize connector\n");
-> -		device_link_del(panel_bridge->link);
-> +		if (panel_bridge->is_independent)
-> +			device_link_del(panel_bridge->link);
->  		return ret;
->  	}
->  
-> @@ -115,7 +123,8 @@ static void panel_bridge_detach(struct drm_bridge *bridge)
->  	struct panel_bridge *panel_bridge = drm_bridge_to_panel_bridge(bridge);
->  	struct drm_connector *connector = &panel_bridge->connector;
->  
-> -	device_link_del(panel_bridge->link);
-> +	if (panel_bridge->is_independent)
-> +		device_link_del(panel_bridge->link);
->  
->  	/*
->  	 * Cleanup the connector if we know it was initialized.
+>  	d2l_write(tc->i2c, VFUEN, VFUEN_EN);
 > -- 
-> 2.37.1
-
--- 
-Ville Syrjälä
-Intel
+> 2.39.2
+> 
