@@ -2,61 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89067F9E08
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 12:00:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6445D7F9E6D
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 12:22:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16B1010E19A;
-	Mon, 27 Nov 2023 10:59:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB6AF10E240;
+	Mon, 27 Nov 2023 11:22:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
- [157.90.84.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CCBA10E19A
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 10:59:53 +0000 (UTC)
-Received: from [192.168.42.20] (p5b164862.dip0.t-ipconnect.de [91.22.72.98])
- (Authenticated sender: wse@tuxedocomputers.com)
- by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 87C812FC0048;
- Mon, 27 Nov 2023 11:59:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
- s=default; t=1701082792;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nbU2k/kMmm5ocGXjEMeXuk5Iu3qkqA+oEUDAkRMSimM=;
- b=OAUKknIa2UDNliD87gXDT6W74PHafjt8zUK/lu6NMT30uriZOF8aVJAWTLI3lyQgt+ec9e
- rTkrJoVuy0dKiLck4tJAe8COvY9PcSh1pDBI8KPZnuRKrmnmrtsNRbCQiNY8gDqKaqeYbL
- y0b+TPtX0SDSMpmj7mGgZkE3RuaTunY=
-Authentication-Results: mail.tuxedocomputers.com;
- auth=pass smtp.auth=wse@tuxedocomputers.com
- smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <ac02143c-d417-49e5-9c6e-150cbda71ba7@tuxedocomputers.com>
-Date: Mon, 27 Nov 2023 11:59:51 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Implement per-key keyboard backlight as auxdisplay?
+X-Greylist: delayed 1641 seconds by postgrey-1.36 at gabe;
+ Mon, 27 Nov 2023 11:22:48 UTC
+Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
+ [185.132.180.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ECAF10E240
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 11:22:48 +0000 (UTC)
+Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
+ by mx07-00376f01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 3AR8ZCFU025105; Mon, 27 Nov 2023 10:55:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
+ from:to:cc:subject:date:message-id:references:in-reply-to
+ :content-type:content-id:content-transfer-encoding:mime-version;
+ s=dk201812; bh=vjSa1CUybrkgcG2syf5u3tTfvKybOtBcNaJMFgip16I=; b=
+ ApV36aasI+FqWbgg1C2FjLrfRiP+6r1aHAh4kehlO8MsHQ0oXRbESP6xTq8f1dwS
+ BE413+nGIplyGQ2wPua0E+8YgBah6Loku5/dSIgF7ve+EEX+ibXMJt9SsruRDV1r
+ JgMF1MLNgP82o5myn6XTJeNd2cnNaykVJdvrgkQ9WdMXklkMK98G5yIH31sDczeO
+ r7tXI55zWbjRyvDoDYTchqpJY21r54h7pNp6bne1WyLJfDCjK8OuavlLn0MP22of
+ 05foxZMd30tFSlQl13cyl78NOlfItDc8AdEjWbvFKis1oKinr/+KSJ3TVU6ySZnY
+ CDgjBnWCHpZdpQ3hMWWi6A==
+Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3uk9vwhet2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Mon, 27 Nov 2023 10:53:56 +0000 (GMT)
+Received: from HHMAIL04.hh.imgtec.org (10.100.10.119) by
+ HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Mon, 27 Nov 2023 10:53:55 +0000
+Received: from GBR01-LO4-obe.outbound.protection.outlook.com (104.47.85.104)
+ by email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Mon, 27 Nov 2023 10:53:55 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Vg4p/CCByYI7bXLpHWZebBGshwW87GAg9mDcOr5SWwg1pMmKDEuaF51Vjm9I/R70CSaaS/+2kvY7uDIe+BlC8Ix8RawdYvm+UaeIH7wC4xZWavoNG+UdnujSAwxAwfueFqYxfgZXpJVRoQ5G4xykrr5KlaVyk13/fmVA07wl+XiKmlvJIdC27WVebJ7pDcv6GvtInabgBFWXlyhy49gGDT9ZBMeDocHdVG0YIk51oll93PnM68/ZoDx/FOgP+jUH7yNW2EkThB1DWy/Y8qmV6O9PeRt/x0UPX9IAK+sARoINxk/JDxSa+1y6P794qtDWUIB76hW44ogvQ9NO1pTwOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vjSa1CUybrkgcG2syf5u3tTfvKybOtBcNaJMFgip16I=;
+ b=lzwTe9iTs8Ggf/GUf8lsa727q+3Ny/qR438HESURRJk1GFw9jnSVbK54MACy0s6cdyP38r3r86KdfDNQUOBWlqwMCoA15WlGXmIRVuPV6xmAixoSEtKg9f85zzNI+sV2uGzTcIKxRzYXXEwPquQwD6MWmIpO+LbTBcdB4jti8BoP1SzGf9Cc9iYQ0tE0AWxfPW1JvrECh27pVPm0wepuT9q9kTD0dPuK/vBd3j6Bb0BTdLhh2CxhOA8QmF06nZkMPpNJxHG06Lj9DwOdCxAGyHiaU2kcv25e6LL82KGE1zSPLwOgISf+5NlCcWGlfAuXft/baJ/0xBGjd/0wf06EIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
+ dkim=pass header.d=imgtec.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vjSa1CUybrkgcG2syf5u3tTfvKybOtBcNaJMFgip16I=;
+ b=qatn3YnLZPseuigvQiZvKxrNGee/pKml/oh1LYcId0VHzEc+HgdxQge2QlQNhVc2H+ngw1PtmVtaHYDDJxTyGNz5zX0UKAR1mkED8BKk8iUsIrsPMG+QDapkL0hM4J/v6VxWARkMV6lvih/GFVZ///zuPpHIx9yaGNb+jUKVVi8=
+Received: from LO6P265MB6032.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2a5::14)
+ by CWXP265MB1798.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:40::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.29; Mon, 27 Nov
+ 2023 10:53:54 +0000
+Received: from LO6P265MB6032.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::3ca3:d6ce:efeb:31ba]) by LO6P265MB6032.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::3ca3:d6ce:efeb:31ba%3]) with mapi id 15.20.7025.022; Mon, 27 Nov 2023
+ 10:53:54 +0000
+From: Frank Binns <Frank.Binns@imgtec.com>
+To: "daniel@ffwll.ch" <daniel@ffwll.ch>, Donald Robson
+ <Donald.Robson@imgtec.com>, Matt Coster <Matt.Coster@imgtec.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "airlied@gmail.com"
+ <airlied@gmail.com>, "dakr@redhat.com" <dakr@redhat.com>
+Subject: Re: [PATCH drm-misc-next 0/5] PowerVR VM fixes
+Thread-Topic: [PATCH drm-misc-next 0/5] PowerVR VM fixes
+Thread-Index: AQHaISADvHcUg42BTUax9WtHfhp3EQ==
+Date: Mon, 27 Nov 2023 10:53:54 +0000
+Message-ID: <d8c45d6c1b4ecbb182c4a16cb06def520450efa4.camel@imgtec.com>
+References: <20231124233650.152653-1-dakr@redhat.com>
+In-Reply-To: <20231124233650.152653-1-dakr@redhat.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-To: Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>,
- Jani Nikula <jani.nikula@linux.intel.com>, jikos@kernel.org,
- Jelle van der Waa <jelle@vdwaa.nl>
-References: <20231011190017.1230898-1-wse@tuxedocomputers.com>
- <ZSe1GYLplZo5fsAe@duo.ucw.cz>
- <0440ed38-c53b-4aa1-8899-969e5193cfef@tuxedocomputers.com>
- <ZSf9QneKO/8IzWhd@duo.ucw.cz>
- <a244a00d-6be4-44bc-9d41-6f9df14de8ee@tuxedocomputers.com>
- <ZSk16iTBmZ2fLHZ0@duo.ucw.cz>
- <aac81702-df1e-43a2-bfe9-28e9cb8d2282@tuxedocomputers.com>
- <ZSmg4tqXiYiX18K/@duo.ucw.cz>
- <CANiq72mfP+dOLFR352O0UNVF8m8yTi_VmOY1zzQdTBjPWCRowg@mail.gmail.com>
- <87sf61bm8t.fsf@intel.com> <ZVvHG/Q+V6kCnfKZ@duo.ucw.cz>
- <f4137e34-c7fb-4f21-bc93-1496cbf61fdf@tuxedocomputers.com>
- <8096a042-83bd-4b9f-b633-79e86995c9b8@redhat.com>
- <f416fbca-589b-4f6a-aad6-323b66398273@tuxedocomputers.com>
- <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <4222268b-ff44-4b7d-bf11-e350594bbe24@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.36.5-0ubuntu1 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LO6P265MB6032:EE_|CWXP265MB1798:EE_
+x-ms-office365-filtering-correlation-id: 703f0f35-70c3-4ad3-ac0b-08dbef372646
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ZtBBuwDJ633z/jkF8xmBgLtGNVtfzFGn72emx1d3y/UnzVyd50nuWnhuO0HCbU4hTsqGmnJys0PYcdp7EyzImYzSm90ImNpjYbkUWB/oOdIdG2lGa0Tl+sWNJgfd9wgFK4+0/uhcMMLDcVd8+Ccq55vsjHbxL+PVKWSPaz99Kk4MXYpTrIBsh6M6dvKC2V3dP98W5uF8E8Rc6Au4bm4hNG7iH/m/Vwi5p4v6VHi2jkaXF9StIIVNzZjDxOPa3nU1rTRNZBl5nq2NCJT4XSewQ1703MUlCfx5nVAPOR5CDF1j3TrMLqbOBCfPlaViIBAdBYU2FB8allyxKxjPHinR4bnhR8bKnF86egUdgkjL1alVNiQfpd9c7z6yQIOF7gvIIXXeJaMCcO16ib0V+2Kp5SLVpScyWMq6pj43VBRxIU6yWnAfYgBoE7taWRphRMsRc0HBO9mZWH8uhcbQQoDZ4Trd+yWH+vJmQHy/C+wxsR0BaCXCtCfBRBgpxCb4xrZIOCAx4J29YRyA2Zs93xYBn6nUWN/9IoaRWdszlMBNXVBsu5eUZAf6mE3UDyunfpLvU8sDSD3NBrjryqkJojNX0rW+6kwY4XnIBoQJVq0c+teIC7sUmR1G4iDWVQ6Ez99D
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LO6P265MB6032.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(366004)(396003)(376002)(136003)(39840400004)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(2616005)(71200400001)(26005)(478600001)(6506007)(6512007)(122000001)(38100700002)(38070700009)(86362001)(36756003)(4326008)(5660300002)(4001150100001)(2906002)(41300700001)(83380400001)(76116006)(110136005)(6486002)(66946007)(66556008)(66476007)(66446008)(64756008)(54906003)(316002)(8936002)(8676002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Zm9Cc0ZNM01kS280MVozSFAyM2dHNlVNd0hsRk1tSjVEaHh1MDhMVDE0WHda?=
+ =?utf-8?B?SGpVd0luWkRRcUFlcHlrYXp0TGNDMW5XeWcycjdtbnl6NkxnUWptZ0pJMHhJ?=
+ =?utf-8?B?YUQ1dDQyWEFTVXFxVlVTUk9lOGZwQTAyR09TaWpjK2ZHV0ZqRDJTU3JnYzFs?=
+ =?utf-8?B?SElWazVVTnduNDRQMmdjdEJHWXNnOVRKaEhEL3ZsajVHdUZjb3pibC85eU1Z?=
+ =?utf-8?B?UkUxNDJLbUFJNVE2SUxDMWlmcXhMM3d5dkdlREpIeE1VcjFYWFdsbTRqQzln?=
+ =?utf-8?B?TXNrTWozUHAzbkJ1YWJ5THlRMDZxcit5UDZxYnJrMnVXSGNyQWt4S1R1MXhO?=
+ =?utf-8?B?d2YydE93YlU1Ri9TUCs4bVhhdjQxRG8xbWxkQUY3Z2FweEtlQkoyMVJMZ1lh?=
+ =?utf-8?B?NkJEUWY1VU15RG5sS1Q1UTZxN3ZITmVFb2xaN2FYZXpSbzdpalVYQzM3K3dI?=
+ =?utf-8?B?aHI2cHBvVGRUVXpUOXVaK2s4VmNqM2NJaGx5ZWkrRjEyYmZmNmdXOWpYTnBT?=
+ =?utf-8?B?UWt4TjVWbDVBWkN0UEQ4aXp4b2NaWk9jNVZtOU9wL1hmYVJCM3d4QzFnWjZl?=
+ =?utf-8?B?R0dUUWFxOGY1dFRUaHNtb1BuaStacVFZR2tPdndUaEpVSXRXU0JhSWxtUFFV?=
+ =?utf-8?B?UTQ1RlBwb28vK1J2Q0N6UC9OQ3NqcDlmQWZKT3FDR2R6NlZ3YmJXVnRGWEZx?=
+ =?utf-8?B?VXAvRXlwV0kzaG1kT2FvMVBwNjUyNXk3UWhpWWdMYlZNNDVnYUhKWXQyK0xT?=
+ =?utf-8?B?N3lMVUZHUDhxU21TT2RGVk02cGc5b3g5YXpPYU5xM0podUV5bTF0Y1Fhcnl1?=
+ =?utf-8?B?bEppYzgxYndNYnBmSDAxeFE0NWNzOHRnWk1pZVpKU29tblhIUTB3SUt1Wk5l?=
+ =?utf-8?B?aHNMMnBoU1pkRU9DS3UyNG14WncxOXBiUXJXaW85Z0Y0NWcvemtWSk04c3Uv?=
+ =?utf-8?B?N3dLYXBucU1sYmlyc3o5QmtOSUVMQlNvMUpBQlBPbk1NazFBekZqNVNvZ3lP?=
+ =?utf-8?B?VTBaZkRsREJhVnJXV3lZakVCY3IzUW9jT2ZDaXNpZVFCQ25zL2ZJeGFCeTU2?=
+ =?utf-8?B?c0dIaW1ja0I3SUlVbThVUnFuZmZ4TmFMMFYrTnJIZGZ1ODNTU3NXRDB3V0s5?=
+ =?utf-8?B?MzFrZnFpT2NkVHFGcTc3Mm82Z2M5VmVHZGRxcm5lc00ra3A1Y3RpVzZ1VkVl?=
+ =?utf-8?B?MUd5YWROWXVyaUJLck1kTlQyakNqd1c4aE5odWdad0VMN2EzeGF6TS80bTY3?=
+ =?utf-8?B?OFNNWVVwMVRJYmpNYlB6TzhYOXV6VGdCQ0tPNHo5dERJOGpFYm9CWGY1OUIz?=
+ =?utf-8?B?dm5lbjZkMmsrUG5KZWl2RWtUVmRkMStGTWNjMEhGSUwrMFlWSmI2NWR6UFpu?=
+ =?utf-8?B?aHIwS05CeUVnR3Btd0FLdStkRWg3TWIxZVZOUFBaRkdaaVJXRWR3cDJ6SDFM?=
+ =?utf-8?B?OStnRXVFY1NHbkRFbCt3Tmxlc0ZnYXErY29nREUrbzlWdzc1OCtsSUV0MW9U?=
+ =?utf-8?B?cFlzLzRLQjY5azc2d05xK2plM0RFc2J5U3dkWXNKUUtrdHFnTXdvdDhBVDAy?=
+ =?utf-8?B?clpLa2NLK01mTVdaTEpuMS9OTVU2L1kydU0xSTF2WmxhMTEyYWhaVE5qNzFv?=
+ =?utf-8?B?OHpVem94T2RRa3BkVDd1am9IUGFqSFM2YnlPOUZCbkpPUjZFbVlBVnl4ZGZi?=
+ =?utf-8?B?N052OU5EdkduVW1ZMWpJUlNUYkxxRnh5UXM1Q2RLVUpFT0pXbnhoMGNFbEk5?=
+ =?utf-8?B?WStYaG1rMzZXbmQxeUNSNUJpMkdyLzlrbmVTVldCUDRMT2JNNHhGa0NRUWVM?=
+ =?utf-8?B?czR3SFB4ZEQwaVZ3YmtMUFh6SEVYc0tpbHkvdjEyS1Z3UFpYV0lNc3RXVnEy?=
+ =?utf-8?B?T2FBQ2R0YTNua3IvK2Z2czJLTzY0Z214bjc4ay8rSnV2UWw1YmVrM2NmSzBG?=
+ =?utf-8?B?UU5Qc0MwTFp6aDE3dlU5U2dpU3Vyc0pzVzFSSW43NVZ6MUkrZFd0RDM0QUxG?=
+ =?utf-8?B?eFNTelNCN1ZBVXN6Z29JR25GOWVUWGZMOHVaUXIzaG93cHIzVTZaM2FZakJz?=
+ =?utf-8?B?QkhHakF6WDVJaXpvV3RqM0NNaVVGa05peFlvZDJRUHZYUmloL09CNHRNa1lk?=
+ =?utf-8?B?QmxIazNobmVpY0R2YWJtOXNlTjFMeUZXM0pwQWluRDVjMTMyNnBUOTg0Mjcz?=
+ =?utf-8?B?K3c9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <087F9FAF2FDD1544B0D2060EC772673B@GBRP265.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LO6P265MB6032.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 703f0f35-70c3-4ad3-ac0b-08dbef372646
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Nov 2023 10:53:54.7088 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +9khHGJJB/MQv2vllYcYuqNyzg7FwVBoVUOWhxOv/CIIYRhGR0C3GrXF4yiHe3qS1oE6i46ugrcNGepJW01F2Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB1798
+X-OriginatorOrg: imgtec.com
+X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
+X-Proofpoint-GUID: Ds-_0mafw5leQZS3VHss0VYEJ2MFRZXS
+X-Proofpoint-ORIG-GUID: Ds-_0mafw5leQZS3VHss0VYEJ2MFRZXS
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,191 +159,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, linux-input@vger.kernel.org,
- ojeda@kernel.org, linux-leds@vger.kernel.org
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hans,
-
-Am 22.11.23 um 19:34 schrieb Hans de Goede:
-> Hi Werner,
-[snip]
->>>> Another idea I want to throw in the mix:
->>>>
->>>> Maybe the kernel is not the right place to implement this at all. RGB stuff is not at all standardized and every vendor is doing completely different interfaces, which does not fit the kernel userpsace apis desire to be uniformal and fixed. e.g. Auxdisplay might fit static setting of RGB values, but it does not fit the snake-effect mode, or the raindrops mode, or the 4-different-colors-in-the-edges-breathing-and-color-cycling mode.
->>>>
->>>> So my current idea: Implement these keyboards as a single zone RGB kbd_backlight in the leds interface to have something functional out of the box, but make it runtime disable-able if something like https://gitlab.com/CalcProgrammer1/OpenRGB wants to take over more fine granular control from userspace via hidraw.
->>> That sounds like a good approach to me. We are seeing the same with game controllers where steam and wine/proton also sometimes use hidraw mode to get access to all the crazy^W interesting features.
->>>
->>> That would mean that all we need to standardize and the kernel <-> userspace API level is adding a standard way to disable the single zone RGB kbd_backlight support in the kernel.
->> I would suggest a simple "enable" entry. Default is 1. When set to 0 the kernel driver no longer does anything.
-> I'm not in favor of using "enable" as sysfs attribute for this,
-> I would like to see a more descriptive name, how about:
->
-> "disable_kernel_kbd_backlight_support"
->
-> And then maybe also have the driver actually unregister
-> the LED class device ?
->
-> Or just make the support inactive when writing 1 to
-> this and allow re-enabling it by writing 0?
-
-Unregistering would mean that it can't be reenabled without module reload/reboot?
-
-I would prefer that the userspace driver could easily give back control to the 
-leds interface.
-
->
->> Questions:
->>
->> - Should the driver try to reset the settings to boot default? Or just leave the device in the current state? With the former I could see issues that they keyboard is flashing when changing from kernelspace control to userspace control. With the later the burden on bringing the device to a know state lies with the userspace driver.
-> My vote would go to leave the state as is. Even if the hw
-> does not support state readback, then the userspace code
-> can readback the state before writing 1 to
-> "disable_kernel_kbd_backlight_support"
-ack
->
->> - Should this be a optional entry that only shows up on drivers supporting it, or could this implemented in a generic way affecting all current led entries?
-> IMHO this should be optional. If we go with the variant
-> where writing 1 to "disable_kernel_kbd_backlight_support"
-> just disables support and 0 re-enables it then I guess
-> we could have support for this in the LED-core, enabled
-> by a flag set by the driver.
->
-> If we go with unregistering the led class device,
-> then this needs to be mostly handled in the driver.
->
-> Either way the kernel driver should know about this even
-> if it is mostly handled in the LED core so that e.g.
-> it does not try to restore settings on resume from suspend.
-
-So a generic implementation would still require all current led drivers to be 
-touched?
-
-For the sake of simplicity I would then prefer the optional variant.
-
->
->> - I guess UPower integration for the userspace driver could be archived with https://www.kernel.org/doc/html/latest/leds/uleds.html however this limited to brightness atm, so when accent colors actually come to UPower this would also need some expansion to be able to pass a preferred color to the userspace driver (regardless of what that driver is then doing with that information).
-> Using uleds is an interesting suggestion, but upower atm
-> does not support LED class kbd_backlight devices getting
-> hot-plugged. It only scans for them once at boot.
->
-> Jelle van der Waa (a colleague of mine, added to the Cc)
-> has indicated he is interested in maybe working on fixing
-> this upower short-coming as a side project, once his
-> current side-projects are finished.
-Nice to hear.
->
->> On a different note: This approach does currently not cover the older EC controlled 3 zone keyboards from clevo. Here only the kernel has access access to the device so the kernel driver has to expose all functionality somehow. Should this be done by an arbitrarily designed platform device?
-> Interesting question, this reminds there was a discussion
-> about how to handle zoned keyboards using plain LED class
-> APIs here:
->
-> https://lore.kernel.org/linux-leds/544484b9-c0ac-2fd0-1f41-8fa94cb94d4b@redhat.com/
->
-> Basically the idea discussed there is to create
-> separate multi-color LED sysfs devices for each zone,
-> using :rgb:kbd_zoned_backlight-xxx as postfix, e.g. :
->
->   :rgb:kbd_zoned_backlight-left
->   :rgb:kbd_zoned_backlight-middle
->   :rgb:kbd_zoned_backlight-right
->   :rgb:kbd_zoned_backlight-wasd
->
-> As postfixes for the 4 per zone LED class devices
-> and then teach upower to just treat this as
-> a single kbd-backlight for the existing upower
-> DBUS API and maybe later extend the DBUS API.
->
-> Would something like this work for the Clevo
-> case you are describing?
-
-Not entirely as some concept for the special modes would still be required.
-
-Also it would be nice to be able to set the whole keyboard with a singular file 
-access so that the keyboard changes at once and not zone by zone.
-
->
-> Unfortunately this was never implemented but
-> I think that for simple zoned backlighting
-> this still makes sense. Where as for per key
-> controllable backlighting as mention in
-> $subject I do believe that just using hidraw
-> access directly from userspace is best.
->
-> Regards,
->
-> Hans
-I also stumbled across a new Problem:
-
-We have an upcoming device that has a per-key keyboard backlight, but does the 
-control completely via a wmi/acpi interface. So no usable hidraw here for a 
-potential userspace driver implementation ...
-
-So a quick summary for the ideas floating in this thread so far:
-
-1. Expand leds interface allowing arbitrary modes with semi arbitrary optional 
-attributes:
-
-     - Pro:
-
-         - Still offers all default attributes for use with UPower
-
-         - Fairly simple to implement from the preexisting codebase
-
-         - Could be implemented for all (to me) known internal keyboard backlights
-
-     - Con:
-
-         - Violates the simplicity paradigm of the leds interface (e.g. with 
-this one leds entry controls possible multiple leds)
-
-2. Implement per-key keyboards as auxdisplay
-
-     - Pro:
-
-         - Already has a concept for led positions
-
-         - Is conceptually closer to "multiple leds forming a singular entity"
-
-     - Con:
-
-         - No preexisting UPower support
-
-         - No concept for special hardware lightning modes
-
-         - No support for arbitrary led outlines yet (e.g. ISO style enter-key)
-
-3. Implement in input subsystem
-
-     - Pro:
-
-         - Preexisting concept for keys and key purpose
-
-     - Con:
-
-         - Not in scope for subsystem
-
-         - No other preexisting light infrastructure
-
-4. Implement a simple leds driver only supporting a small subset of the 
-capabilities and make it disable-able for a userspace driver to take over
-
-     - Pro:
-
-         - Most simple to implement basic support
-
-         - In scope for led subsystem simplicity paradigm
-
-     - Con:
-
-         - Not all built in keyboard backlights can be implemented in a 
-userspace only driver
-
-Kind Regards,
-
-Werner
-
+SGksDQoNClRoYW5rIHlvdSBmb3IgdGhlIHBhdGNoZXMuDQoNCk9uIFNhdCwgMjAyMy0xMS0yNSBh
+dCAwMDozNiArMDEwMCwgRGFuaWxvIEtydW1tcmljaCB3cm90ZToNCj4gSGksDQo+IA0KPiBTb21l
+IG1ham9yIEdQVVZNIGNoYW5nZXMgbGFuZGVkIGp1c3QgYmVmb3JlIHY4IG9mIHRoZSBQb3dlclZS
+IHNlcmllcy4gU2luY2UgdjgNCj4gd2VudCBpbiByYXRoZXIgcXVpY2tseSAocmV2aWV3IHByb2Nl
+c3Mgd2FzIGZpbmlzaGVkIG90aGVyd2lzZSkgSSBoYXZlbid0IGhhZCB0aGUNCj4gY2hhbmNlIHRv
+IHJldmlldyB0aGUgc3Vic2VxdWVudCBjb2RlIGNoYW5nZXMuDQo+IA0KPiBIZW5jZSwgdGhpcyBz
+ZXJpZXMgd2l0aCBhIGZldyBmaXhlcyBpbiB0aGlzIGNvbnRleHQuIFBsdXMgYSBtaW5vciBHUFVW
+TSBwYXRjaCB0bw0KPiBtYWtlIHRoZSBkcm1fZ3B1dm1fcHJlcGFyZV8qIGhlbHBlcnMgdXNlZnVs
+IGZvciBQb3dlclZSLg0KPiANCj4gLSBEYW5pbG8NCj4gDQo+IA0KPiBEYW5pbG8gS3J1bW1yaWNo
+ICg1KToNCj4gICBkcm0vaW1hZ2luYXRpb246IHZtOiBwcmV2ZW50IGR1cGxpY2F0ZSBkcm1fZ3B1
+dm1fYm8gaW5zdGFuY2VzDQo+ICAgZHJtL2ltYWdpbmF0aW9uOiB2bTogY2hlY2sgZm9yIGRybV9n
+cHV2bV9yYW5nZV92YWxpZCgpDQo+ICAgZHJtL2ltYWdpbmF0aW9uOiB2bTogZml4IGRybV9ncHV2
+bSByZWZlcmVuY2UgY291bnQNCj4gICBkcm0vZ3B1dm06IGZhbGwgYmFjayB0byBkcm1fZXhlY19s
+b2NrX29iaigpDQo+ICAgZHJtL2ltYWdpbmF0aW9uOiB2bTogbWFrZSB1c2Ugb2YgR1BVVk0ncyBk
+cm1fZXhlYyBoZWxwZXINCj4gDQo+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2dwdXZtLmMgICAgICAg
+ICAgfCAzNiArKysrKysrKysrKysrKysrKysrKy0tDQo+ICBkcml2ZXJzL2dwdS9kcm0vaW1hZ2lu
+YXRpb24vcHZyX3ZtLmMgfCA0NiArKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tDQo+ICBkcml2
+ZXJzL2dwdS9kcm0vaW1hZ2luYXRpb24vcHZyX3ZtLmggfCAgMyArLQ0KPiAgaW5jbHVkZS9kcm0v
+ZHJtX2dwdXZtLmggICAgICAgICAgICAgIHwgMjMgKystLS0tLS0tLS0tLS0NCj4gIDQgZmlsZXMg
+Y2hhbmdlZCwgNjMgaW5zZXJ0aW9ucygrKSwgNDUgZGVsZXRpb25zKC0pDQo+IA0KPiANCj4gYmFz
+ZS1jb21taXQ6IDQ2OTkwOTE4ZjM1YzFiZjZlMzY3Y2Y4ZTA0MjNlNzM0NGZlYzlmY2INCg0KRm9y
+IHRoZSBzZXJpZXM6DQoNClRlc3RlZC1ieTogRnJhbmsgQmlubnMgPGZyYW5rLmJpbm5zQGltZ3Rl
+Yy5jb20+DQoNCkknbGwgbGVhdmUgaXQgdG8gRG9uYWxkIHRvIGRvIHRoZSByZXZpZXcuDQoNClRo
+YW5rcw0KRnJhbmsNCg==
