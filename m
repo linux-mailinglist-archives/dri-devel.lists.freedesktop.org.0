@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6CC7FA978
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 20:01:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1BB7FA977
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 20:00:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29A9810E3EF;
-	Mon, 27 Nov 2023 19:00:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 287FB10E3EB;
+	Mon, 27 Nov 2023 19:00:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CFD110E3EE
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 19:00:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FBE810E3F0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 19:00:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,25 +19,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=n3z6/OmNltRLmJdYsIrfAJ0puP2fWFFVAr41jeR3Tjc=; b=L8ElCum/z3CO1KOCf9nj5FV9jm
- YjExcPizQ0PkbIsaH5lgUNmThYrIKR93Gw7pWy7tcgkgSz8lm4sflLm/3zhBR0+7bBhi6X2RnxcKd
- lm4m7bxHqeNfli9OjcJPgmGhiefVPHv45vGHzAabaS+z2slrfJQ6k6XdJgNmueNKPFUqOgxE5OV4f
- QS/qtSQX7gr+DwXgV29tMymkwq4NCAhT6VTGTTVHADFFgMDmqPqFSFG26pkTAV0KiFRmvpzNcSt1/
- vM9jBLwskS1bN7u1W0hTkvSEup5EedxaORUqh+BxIRw4WM3Mo31HCVxEZMYc7FluD6hiWhjiNiJGS
- frqmlPbg==;
+ bh=ObzC/3SX+nS+wOkkXQ/jYYbF80eiNaCoXzJj8BrLUbw=; b=BcDrLTOit4/g38BwwK5hNW642o
+ daQ1QqalfsLhR2EcOeWmlxNhxi383xZbmcTUfROKFFM64n5an4yCCYeALYW3KjkBwPlq77KcBugEI
+ loy7TnI2kQeehXAkREqluLRw00LlJAOReOd6+VPnD2UbOVkJwyh7e0BZ4UOAUgOfN7ejUNiyQz6qd
+ RcCXkZ2Mt7mwCV2GUY4ItB8FNssVNjWa4wZpB7fC34VjFkQrlmQd//MvhoRAoT9ZNmXmHjPPgJYH7
+ 8MBS0+grkJr6/T4K4ruC778kl6s2CRe4JToKC6IPPP8rfiF8jCNyIXjv87rqBsl7k0tWcPULQZEYO
+ 17xw4wrA==;
 Received: from [177.34.168.16] (helo=morissey..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1r7gqT-007jiM-UG; Mon, 27 Nov 2023 20:00:38 +0100
+ id 1r7gqY-007jiM-7d; Mon, 27 Nov 2023 20:00:42 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 16/17] drm/v3d: Create a CPU job extension for the reset
+Subject: [PATCH v3 17/17] drm/v3d: Create a CPU job extension for the copy
  performance query job
-Date: Mon, 27 Nov 2023 15:48:34 -0300
-Message-ID: <20231127185723.10348-18-mcanal@igalia.com>
+Date: Mon, 27 Nov 2023 15:48:35 -0300
+Message-ID: <20231127185723.10348-19-mcanal@igalia.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231127185723.10348-2-mcanal@igalia.com>
 References: <20231127185723.10348-2-mcanal@igalia.com>
@@ -63,145 +63,107 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 A CPU job is a type of job that performs operations that requires CPU
-intervention. A reset performance query job is a job that resets the
-performance queries by resetting the values of the perfmons. Moreover,
-we also reset the syncobjs related to the availability of the query.
+intervention. A copy performance query job is a job that copy the complete
+or partial result of a query to a buffer. In order to copy the result of
+a performance query to a buffer, we need to get the values from the
+performance monitors.
 
 So, create a user extension for the CPU job that enables the creation
-of a reset performance job. This user extension will allow the creation of
-a CPU job that resets the perfmons values and resets the availability syncobj.
+of a copy performance query job. This user extension will allow the creation
+of a CPU job that copy the results of a performance query to a BO with the
+possibility to indicate the availability with a availability bit.
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/v3d/v3d_drv.h    | 28 ++++++++++++
- drivers/gpu/drm/v3d/v3d_sched.c  | 37 ++++++++++++++++
- drivers/gpu/drm/v3d/v3d_submit.c | 73 ++++++++++++++++++++++++++++++++
- include/uapi/drm/v3d_drm.h       | 30 +++++++++++++
- 4 files changed, 168 insertions(+)
+ drivers/gpu/drm/v3d/v3d_drv.h    |  1 +
+ drivers/gpu/drm/v3d/v3d_sched.c  | 66 +++++++++++++++++++++++++
+ drivers/gpu/drm/v3d/v3d_submit.c | 82 ++++++++++++++++++++++++++++++++
+ include/uapi/drm/v3d_drm.h       | 50 +++++++++++++++++++
+ 4 files changed, 199 insertions(+)
 
 diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index 5058a354fffd..0f7f80ad8d88 100644
+index 0f7f80ad8d88..3c7d58866570 100644
 --- a/drivers/gpu/drm/v3d/v3d_drv.h
 +++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -321,6 +321,7 @@ enum v3d_cpu_job_type {
- 	V3D_CPU_JOB_TYPE_TIMESTAMP_QUERY,
+@@ -322,6 +322,7 @@ enum v3d_cpu_job_type {
  	V3D_CPU_JOB_TYPE_RESET_TIMESTAMP_QUERY,
  	V3D_CPU_JOB_TYPE_COPY_TIMESTAMP_QUERY,
-+	V3D_CPU_JOB_TYPE_RESET_PERFORMANCE_QUERY,
+ 	V3D_CPU_JOB_TYPE_RESET_PERFORMANCE_QUERY,
++	V3D_CPU_JOB_TYPE_COPY_PERFORMANCE_QUERY,
  };
  
  struct v3d_timestamp_query {
-@@ -331,6 +332,18 @@ struct v3d_timestamp_query {
- 	struct drm_syncobj *syncobj;
- };
- 
-+/* Number of perfmons required to handle all supported performance counters */
-+#define V3D_MAX_PERFMONS DIV_ROUND_UP(V3D_PERFCNT_NUM, \
-+				      DRM_V3D_MAX_PERF_COUNTERS)
-+
-+struct v3d_performance_query {
-+	/* Performance monitor IDs for this query */
-+	u32 kperfmon_ids[V3D_MAX_PERFMONS];
-+
-+	/* Syncobj that indicates the query availability */
-+	struct drm_syncobj *syncobj;
-+};
-+
- struct v3d_indirect_csd_info {
- 	/* Indirect CSD */
- 	struct v3d_csd_job *job;
-@@ -362,6 +375,19 @@ struct v3d_timestamp_query_info {
- 	u32 count;
- };
- 
-+struct v3d_performance_query_info {
-+	struct v3d_performance_query *queries;
-+
-+	/* Number of performance queries */
-+	u32 count;
-+
-+	/* Number of performance monitors related to that query pool */
-+	u32 nperfmons;
-+
-+	/* Number of performance counters related to that query pool */
-+	u32 ncounters;
-+};
-+
- struct v3d_copy_query_results_info {
- 	/* Define if should write to buffer using 64 or 32 bits */
- 	bool do_64bit;
-@@ -389,6 +415,8 @@ struct v3d_cpu_job {
- 	struct v3d_timestamp_query_info timestamp_query;
- 
- 	struct v3d_copy_query_results_info copy;
-+
-+	struct v3d_performance_query_info performance_query;
- };
- 
- typedef void (*v3d_cpu_job_fn)(struct v3d_cpu_job *);
 diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-index 07c897cd3423..452c4a1db52e 100644
+index 452c4a1db52e..203c32ed99d4 100644
 --- a/drivers/gpu/drm/v3d/v3d_sched.c
 +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-@@ -78,6 +78,7 @@ v3d_cpu_job_free(struct drm_sched_job *sched_job)
- {
- 	struct v3d_cpu_job *job = to_cpu_job(sched_job);
- 	struct v3d_timestamp_query_info *timestamp_query = &job->timestamp_query;
-+	struct v3d_performance_query_info *performance_query = &job->performance_query;
- 
- 	if (timestamp_query->queries) {
- 		for (int i = 0; i < timestamp_query->count; i++)
-@@ -85,6 +86,12 @@ v3d_cpu_job_free(struct drm_sched_job *sched_job)
- 		kvfree(timestamp_query->queries);
+@@ -450,12 +450,78 @@ v3d_reset_performance_queries(struct v3d_cpu_job *job)
  	}
- 
-+	if (performance_query->queries) {
-+		for (int i = 0; i < performance_query->count; i++)
-+			drm_syncobj_put(performance_query->queries[i].syncobj);
-+		kvfree(performance_query->queries);
-+	}
-+
- 	v3d_job_cleanup(&job->base);
- }
- 
-@@ -361,6 +368,7 @@ v3d_reset_timestamp_queries(struct v3d_cpu_job *job)
- 
- 	v3d_put_bo_vaddr(bo);
- }
-+
- static void
- write_to_buffer(void *dst, u32 idx, bool do_64bit, u64 value)
- {
-@@ -414,11 +422,40 @@ v3d_copy_query_results(struct v3d_cpu_job *job)
- 	v3d_put_bo_vaddr(bo);
  }
  
 +static void
-+v3d_reset_performance_queries(struct v3d_cpu_job *job)
++v3d_write_performance_query_result(struct v3d_cpu_job *job, void *data, u32 query)
 +{
 +	struct v3d_performance_query_info *performance_query = &job->performance_query;
++	struct v3d_copy_query_results_info *copy = &job->copy;
 +	struct v3d_file_priv *v3d_priv = job->base.file->driver_priv;
 +	struct v3d_dev *v3d = job->base.v3d;
 +	struct v3d_perfmon *perfmon;
++	u64 counter_values[V3D_PERFCNT_NUM];
 +
-+	for (int i = 0; i < performance_query->count; i++) {
-+		for (int j = 0; j < performance_query->nperfmons; j++) {
-+			perfmon = v3d_perfmon_find(v3d_priv,
-+						   performance_query->queries[i].kperfmon_ids[j]);
-+			if (!perfmon) {
-+				DRM_DEBUG("Failed to find perfmon.");
-+				continue;
-+			}
-+
-+			v3d_perfmon_stop(v3d, perfmon, false);
-+
-+			memset(perfmon->values, 0, perfmon->ncounters * sizeof(u64));
-+
-+			v3d_perfmon_put(perfmon);
++	for (int i = 0; i < performance_query->nperfmons; i++) {
++		perfmon = v3d_perfmon_find(v3d_priv,
++					   performance_query->queries[query].kperfmon_ids[i]);
++		if (!perfmon) {
++			DRM_DEBUG("Failed to find perfmon.");
++			continue;
 +		}
 +
-+		drm_syncobj_replace_fence(performance_query->queries[i].syncobj, NULL);
++		v3d_perfmon_stop(v3d, perfmon, true);
++
++		memcpy(&counter_values[i * DRM_V3D_MAX_PERF_COUNTERS], perfmon->values,
++		       perfmon->ncounters * sizeof(u64));
++
++		v3d_perfmon_put(perfmon);
 +	}
++
++	for (int i = 0; i < performance_query->ncounters; i++)
++		write_to_buffer(data, i, copy->do_64bit, counter_values[i]);
++}
++
++
++static void
++v3d_copy_performance_query(struct v3d_cpu_job *job)
++{
++	struct v3d_performance_query_info *performance_query = &job->performance_query;
++	struct v3d_copy_query_results_info *copy = &job->copy;
++	struct v3d_bo *bo = to_v3d_bo(job->base.bo[0]);
++	struct dma_fence *fence;
++	bool available, write_result;
++	u8 *data;
++
++	v3d_get_bo_vaddr(bo);
++
++	data = ((u8 *) bo->vaddr) + copy->offset;
++
++	for (int i = 0; i < performance_query->count; i++) {
++		fence = drm_syncobj_fence_get(performance_query->queries[i].syncobj);
++		available = fence ? dma_fence_is_signaled(fence) : false;
++
++		write_result = available || copy->do_partial;
++		if (write_result)
++			v3d_write_performance_query_result(job, data, i);
++
++		if (copy->availability_bit)
++			write_to_buffer(data, performance_query->ncounters,
++					copy->do_64bit, available ? 1u : 0u);
++
++		data += copy->stride;
++
++		dma_fence_put(fence);
++	}
++
++	v3d_put_bo_vaddr(bo);
 +}
 +
  static const v3d_cpu_job_fn cpu_job_function[] = {
@@ -209,26 +171,27 @@ index 07c897cd3423..452c4a1db52e 100644
  	[V3D_CPU_JOB_TYPE_TIMESTAMP_QUERY] = v3d_timestamp_query,
  	[V3D_CPU_JOB_TYPE_RESET_TIMESTAMP_QUERY] = v3d_reset_timestamp_queries,
  	[V3D_CPU_JOB_TYPE_COPY_TIMESTAMP_QUERY] = v3d_copy_query_results,
-+	[V3D_CPU_JOB_TYPE_RESET_PERFORMANCE_QUERY] = v3d_reset_performance_queries,
+ 	[V3D_CPU_JOB_TYPE_RESET_PERFORMANCE_QUERY] = v3d_reset_performance_queries,
++	[V3D_CPU_JOB_TYPE_COPY_PERFORMANCE_QUERY] = v3d_copy_performance_query,
  };
  
  static struct dma_fence *
 diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-index bafd49c6440c..20af8ae14831 100644
+index 20af8ae14831..d7a9da2484fd 100644
 --- a/drivers/gpu/drm/v3d/v3d_submit.c
 +++ b/drivers/gpu/drm/v3d/v3d_submit.c
-@@ -604,6 +604,74 @@ v3d_get_cpu_copy_query_results_params(struct drm_file *file_priv,
+@@ -672,6 +672,84 @@ v3d_get_cpu_reset_performance_params(struct drm_file *file_priv,
  	return 0;
  }
  
 +static int
-+v3d_get_cpu_reset_performance_params(struct drm_file *file_priv,
-+				     struct drm_v3d_extension __user *ext,
-+				     struct v3d_cpu_job *job)
++v3d_get_cpu_copy_performance_query_params(struct drm_file *file_priv,
++					  struct drm_v3d_extension __user *ext,
++					  struct v3d_cpu_job *job)
 +{
 +	u32 __user *syncs;
 +	u64 __user *kperfmon_ids;
-+	struct drm_v3d_reset_performance_query reset;
++	struct drm_v3d_copy_performance_query copy;
 +
 +	if (!job) {
 +		DRM_DEBUG("CPU job extension was attached to a GPU job.\n");
@@ -240,21 +203,24 @@ index bafd49c6440c..20af8ae14831 100644
 +		return -EINVAL;
 +	}
 +
-+	if (copy_from_user(&reset, ext, sizeof(reset)))
++	if (copy_from_user(&copy, ext, sizeof(copy)))
 +		return -EFAULT;
 +
-+	job->job_type = V3D_CPU_JOB_TYPE_RESET_PERFORMANCE_QUERY;
++	if (copy.pad)
++		return -EINVAL;
 +
-+	job->performance_query.queries = kvmalloc_array(reset.count,
++	job->job_type = V3D_CPU_JOB_TYPE_COPY_PERFORMANCE_QUERY;
++
++	job->performance_query.queries = kvmalloc_array(copy.count,
 +							sizeof(struct v3d_performance_query),
 +							GFP_KERNEL);
 +	if (!job->performance_query.queries)
 +		return -ENOMEM;
 +
-+	syncs = u64_to_user_ptr(reset.syncs);
-+	kperfmon_ids = u64_to_user_ptr(reset.kperfmon_ids);
++	syncs = u64_to_user_ptr(copy.syncs);
++	kperfmon_ids = u64_to_user_ptr(copy.kperfmon_ids);
 +
-+	for (int i = 0; i < reset.count; i++) {
++	for (int i = 0; i < copy.count; i++) {
 +		u32 sync;
 +		u64 ids;
 +		u32 __user *ids_pointer;
@@ -274,7 +240,7 @@ index bafd49c6440c..20af8ae14831 100644
 +
 +		ids_pointer = u64_to_user_ptr(ids);
 +
-+		for (int j = 0; j < reset.nperfmons; j++) {
++		for (int j = 0; j < copy.nperfmons; j++) {
 +			if (copy_from_user(&id, ids_pointer++, sizeof(id))) {
 +				kvfree(job->performance_query.queries);
 +				return -EFAULT;
@@ -283,8 +249,15 @@ index bafd49c6440c..20af8ae14831 100644
 +			job->performance_query.queries[i].kperfmon_ids[j] = id;
 +		}
 +	}
-+	job->performance_query.count = reset.count;
-+	job->performance_query.nperfmons = reset.nperfmons;
++	job->performance_query.count = copy.count;
++	job->performance_query.nperfmons = copy.nperfmons;
++	job->performance_query.ncounters = copy.ncounters;
++
++	job->copy.do_64bit = copy.do_64bit;
++	job->copy.do_partial = copy.do_partial;
++	job->copy.availability_bit = copy.availability_bit;
++	job->copy.offset = copy.offset;
++	job->copy.stride = copy.stride;
 +
 +	return 0;
 +}
@@ -292,69 +265,81 @@ index bafd49c6440c..20af8ae14831 100644
  /* Whenever userspace sets ioctl extensions, v3d_get_extensions parses data
   * according to the extension id (name).
   */
-@@ -641,6 +709,9 @@ v3d_get_extensions(struct drm_file *file_priv,
- 		case DRM_V3D_EXT_ID_CPU_COPY_TIMESTAMP_QUERY:
- 			ret = v3d_get_cpu_copy_query_results_params(file_priv, user_ext, job);
+@@ -712,6 +790,9 @@ v3d_get_extensions(struct drm_file *file_priv,
+ 		case DRM_V3D_EXT_ID_CPU_RESET_PERFORMANCE_QUERY:
+ 			ret = v3d_get_cpu_reset_performance_params(file_priv, user_ext, job);
  			break;
-+		case DRM_V3D_EXT_ID_CPU_RESET_PERFORMANCE_QUERY:
-+			ret = v3d_get_cpu_reset_performance_params(file_priv, user_ext, job);
++		case DRM_V3D_EXT_ID_CPU_COPY_PERFORMANCE_QUERY:
++			ret = v3d_get_cpu_copy_performance_query_params(file_priv, user_ext, job);
 +			break;
  		default:
  			DRM_DEBUG_DRIVER("Unknown extension id: %d\n", ext.id);
  			return -EINVAL;
-@@ -1020,6 +1091,7 @@ static const unsigned int cpu_job_bo_handle_count[] = {
- 	[V3D_CPU_JOB_TYPE_TIMESTAMP_QUERY] = 1,
+@@ -1092,6 +1173,7 @@ static const unsigned int cpu_job_bo_handle_count[] = {
  	[V3D_CPU_JOB_TYPE_RESET_TIMESTAMP_QUERY] = 1,
  	[V3D_CPU_JOB_TYPE_COPY_TIMESTAMP_QUERY] = 2,
-+	[V3D_CPU_JOB_TYPE_RESET_PERFORMANCE_QUERY] = 0,
+ 	[V3D_CPU_JOB_TYPE_RESET_PERFORMANCE_QUERY] = 0,
++	[V3D_CPU_JOB_TYPE_COPY_PERFORMANCE_QUERY] = 1,
  };
  
  /**
-@@ -1158,6 +1230,7 @@ v3d_submit_cpu_ioctl(struct drm_device *dev, void *data,
- 	v3d_job_cleanup(clean_job);
- 	v3d_put_multisync_post_deps(&se);
- 	kvfree(cpu_job->timestamp_query.queries);
-+	kvfree(cpu_job->performance_query.queries);
- 
- 	return ret;
- }
 diff --git a/include/uapi/drm/v3d_drm.h b/include/uapi/drm/v3d_drm.h
-index a3ae1f220291..76a02d2c01e6 100644
+index 76a02d2c01e6..9b99d554ef9c 100644
 --- a/include/uapi/drm/v3d_drm.h
 +++ b/include/uapi/drm/v3d_drm.h
-@@ -76,6 +76,7 @@ struct drm_v3d_extension {
- #define DRM_V3D_EXT_ID_CPU_TIMESTAMP_QUERY		0x03
+@@ -77,6 +77,7 @@ struct drm_v3d_extension {
  #define DRM_V3D_EXT_ID_CPU_RESET_TIMESTAMP_QUERY	0x04
  #define DRM_V3D_EXT_ID_CPU_COPY_TIMESTAMP_QUERY	0x05
-+#define DRM_V3D_EXT_ID_CPU_RESET_PERFORMANCE_QUERY	0x06
+ #define DRM_V3D_EXT_ID_CPU_RESET_PERFORMANCE_QUERY	0x06
++#define DRM_V3D_EXT_ID_CPU_COPY_PERFORMANCE_QUERY	0x07
  	__u32 flags; /* mbz */
  };
  
-@@ -492,6 +493,32 @@ struct drm_v3d_copy_timestamp_query {
- 	__u64 syncs;
+@@ -519,6 +520,52 @@ struct drm_v3d_reset_performance_query {
+ 	__u64 kperfmon_ids;
  };
  
 +/**
-+ * struct drm_v3d_reset_performance_query - ioctl extension for the CPU job to
-+ * reset performance queries
++ * struct drm_v3d_copy_performance_query - ioctl extension for the CPU job to copy
++ * performance query results to a buffer
 + *
-+ * When an extension DRM_V3D_EXT_ID_CPU_RESET_PERFORMANCE_QUERY is defined, it
-+ * points to this extension to define a reset performance submission. This CPU
-+ * job will reset the performance queries by resetting the values of the
-+ * performance monitors. Moreover, it will reset the syncobj to reset query
-+ * availability.
++ * When an extension DRM_V3D_EXT_ID_CPU_COPY_PERFORMANCE_QUERY is defined, it
++ * points to this extension to define a copy performance query submission. This
++ * CPU job will copy the performance queries results to a BO with the offset
++ * and stride defined in the extension.
 + */
-+struct drm_v3d_reset_performance_query {
++struct drm_v3d_copy_performance_query {
 +	struct drm_v3d_extension base;
 +
-+	/* Array of performance queries's syncobjs to indicate its availability */
-+	__u64 syncs;
++	/* Define if should write to buffer using 64 or 32 bits */
++	__u8 do_64bit;
++
++	/* Define if it can write to buffer even if the query is not available */
++	__u8 do_partial;
++
++	/* Define if it should write availability bit to buffer */
++	__u8 availability_bit;
++
++	/* mbz */
++	__u8 pad;
++
++	/* Offset of the buffer in the BO */
++	__u32 offset;
++
++	/* Stride of the buffer in the BO */
++	__u32 stride;
++
++	/* Number of performance monitors */
++	__u32 nperfmons;
++
++	/* Number of performance counters related to this query pool */
++	__u32 ncounters;
 +
 +	/* Number of queries */
 +	__u32 count;
 +
-+	/* Number of performance monitors */
-+	__u32 nperfmons;
++	/* Array of performance queries's syncobjs to indicate its availability */
++	__u64 syncs;
 +
 +	/* Array of u64 user-pointers that point to an array of kperfmon_ids */
 +	__u64 kperfmon_ids;
@@ -363,13 +348,13 @@ index a3ae1f220291..76a02d2c01e6 100644
  struct drm_v3d_submit_cpu {
  	/* Pointer to a u32 array of the BOs that are referenced by the job.
  	 *
-@@ -507,6 +534,9 @@ struct drm_v3d_submit_cpu {
- 	 * For DRM_V3D_EXT_ID_CPU_COPY_TIMESTAMP_QUERY, it must contain two
- 	 * BOs. The first is the BO for which the timestamp queries results
- 	 * will be written to. The second is the BO that contains the timestamp.
+@@ -537,6 +584,9 @@ struct drm_v3d_submit_cpu {
+ 	 *
+ 	 * For DRM_V3D_EXT_ID_CPU_RESET_PERFORMANCE_QUERY, it must contain no
+ 	 * BOs.
 +	 *
-+	 * For DRM_V3D_EXT_ID_CPU_RESET_PERFORMANCE_QUERY, it must contain no
-+	 * BOs.
++	 * For DRM_V3D_EXT_ID_CPU_COPY_PERFORMANCE_QUERY, it must contain one
++	 * BO, for which the performance queries will be written to.
  	 */
  	__u64 bo_handles;
  
