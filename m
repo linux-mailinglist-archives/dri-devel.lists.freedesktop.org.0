@@ -1,48 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A188F7FA0D1
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 14:22:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F127FA0D9
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 14:22:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F04B610E295;
-	Mon, 27 Nov 2023 13:22:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B336A10E296;
+	Mon, 27 Nov 2023 13:22:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 268B710E295
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 13:22:08 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 896AE10E298
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 13:22:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 424E160FC5;
- Mon, 27 Nov 2023 13:22:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E204C433C8;
- Mon, 27 Nov 2023 13:22:02 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 26FB1CE0EBC;
+ Mon, 27 Nov 2023 13:22:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 756C5C433C8;
+ Mon, 27 Nov 2023 13:22:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701091326;
- bh=Vwhxnt4f22Jqm2f+no8vVvfxwUzvv6b9URiNaYVC1Z4=;
+ s=k20201202; t=1701091347;
+ bh=2JKjpQ+5QKANLP+xGmPCkybvq6kf6sMCsdtq+PhVm3o=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=RpTMTTF6H5EZOoQo5s387IJVl+0oeBUdDVeSUuFoNbGG2A0Cc6+NH6nOaBJSfZZYt
- GAZE9fh3lBe8TC1kOSdIcInp7kY6VNXTbxXscaP+EJdlTc0TUMSs5rLQTqYz4cT2hf
- JisWVOaGzuDff8PWoXHjRbFkmanTQAihWGKe22Sre8Uxa4T8luPRRD4lGv1n0mSsAo
- 0gkhDeg4QQHDagB+mCkZBjTycS+ya9qCNKa80SS4GeWTEZ2ZzRYKACdS6wdWmwnsVq
- oWOvW/utbVfXf1yBQqIJcB86J4CahpI5/+YXDutlZv92VQRvE1jyL8xuvWnS4UudsS
- gzu/ujqknBwbA==
+ b=bCbLnI25DgO/3NhVtGI6COesZn76ioTqblgX0vP1w6UCsafKA1UsKw7/uB3q5Si7E
+ p3Kwxii8gLbZ2pI48nGZ95j7tCxkjRhPDeDT7MIb1pu3byNgX7F9a4EJOuREIhO0KE
+ omLxzqv8kaY+/4fjVKkhTbtcao3YOMTD+yEee7TTDbDD0gN9sSx0tOisOzv+002ZU9
+ NSNR9SnqbE5j0LVkbDbzY9ZBG53CmO/nLruMScsiR115l2tUbzLKTvIGkd4MoZGRKI
+ eyfyZQWOIpSFd+X71z4OeyFouedfd4sC93e34la6eVNuzs3w8/gDNq1j5lW7DL4YbT
+ QcrR/GgjDKUdg==
 From: Vinod Koul <vkoul@kernel.org>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Chunfeng Yun <chunfeng.yun@mediatek.com>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- CK Hu <ck.hu@mediatek.com>, Jitao Shi <jitao.shi@mediatek.com>, 
- Michael Walle <mwalle@kernel.org>
-In-Reply-To: <20231123110202.2025585-1-mwalle@kernel.org>
-References: <20231123110202.2025585-1-mwalle@kernel.org>
-Subject: Re: [PATCH] phy: mediatek: mipi: mt8183: fix minimal supported
- frequency
-Message-Id: <170109132204.42536.9999917712237405775.b4-ty@kernel.org>
-Date: Mon, 27 Nov 2023 18:52:02 +0530
+To: Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Lee Jones <lee@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Alex Bee <knaerzche@gmail.com>
+In-Reply-To: <20230829171647.187787-1-knaerzche@gmail.com>
+References: <20230829171647.187787-1-knaerzche@gmail.com>
+Subject: Re: (subset) [PATCH 00/31] Fix and improve Rockchip RK3128 support
+Message-Id: <170109134007.42627.12929766893521974712.b4-ty@kernel.org>
+Date: Mon, 27 Nov 2023 18:52:20 +0530
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -59,25 +57,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-phy@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+ Elaine Zhang <zhangqing@rock-chips.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-phy@lists.infradead.org, Johan Jonker <jbx6244@gmail.com>,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Thu, 23 Nov 2023 12:02:02 +0100, Michael Walle wrote:
-> The lowest supported clock frequency of the PHY is 125MHz (see also
-> mtk_mipi_tx_pll_enable()), but the clamping in .round_rate() has the
-> wrong minimal value, which will make the .enable() op return -EINVAL on
-> low frequencies. Fix the minimal clamping value.
+On Tue, 29 Aug 2023 19:16:16 +0200, Alex Bee wrote:
+> this series fixes some issues I found when testing my "new" RK3128 board
+> with the mainline kernel and adds some core functionality like SMP bringup,
+> usb and networking.
 > 
+> The propably most distinctive change is the split up of the DTs for the
+> different SoCs of this platform: RK3126 and RK3128. Even if I'm not adding
+> a RK3126 board in this series: I think this change should be done as early
+> as possible in order to avoid issues in future.
+> Actually it should have been done like that in the first place.
 > 
+> [...]
 
 Applied, thanks!
 
-[1/1] phy: mediatek: mipi: mt8183: fix minimal supported frequency
-      commit: 06f76e464ac81c6915430b7155769ea4ef16efe4
+[08/31] phy: rockchip-inno-usb2: Split ID interrupt phy registers
+        commit: 2fda59099462ee700e424ba3ac928d13ad6389a8
+[09/31] phy: phy-rockchip-inno-usb2: Add RK3128 support
+        commit: 62ff41017e147472b07de6125c3be82ce02a8dd7
 
 Best regards,
 -- 
