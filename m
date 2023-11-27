@@ -1,68 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A1E7FA0F7
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 14:24:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D65A7FA0FD
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 14:25:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D33710E29A;
-	Mon, 27 Nov 2023 13:24:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9DE510E29C;
+	Mon, 27 Nov 2023 13:25:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2C9A10E29A
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 13:24:25 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-40a4848c6e1so29263705e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 05:24:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701091464; x=1701696264; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:references:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FH0s3pNKOJxZQ6z+iEoKI4AAtRx5ZhF+IIxrjC4hS7Y=;
- b=Vmg/Y8oPkF5fvYyLfGDe74IIzFQVJSw5jyD4h2G0FZsr9zydtyV8FsWHt21oysfWea
- AqFvUdkKABXlAR7RDq7kl3D0dzOoMh21WfX6347Me17i9fmwiAK0lTkXWblHbVu1NObN
- ksN3im1xWvs9RDZfzKInMuNOb5Tdp4HTh4I8oeLwQnw7hC3tMjDa0Q5q8gmkIhR6ahOP
- vtio4qt4daL1TgFeZjq4Ao3/RAE+0viw838oTHxrFNquVFxI6nRZnrI95E2nwMWCpBrZ
- jCBfoiFMgPmCkpw8/4IKoe05Ds0NyGb9/wVix5PWprbJJzs0wG7uU3zoYEg9xJEQF4Ip
- O3MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701091464; x=1701696264;
- h=content-transfer-encoding:in-reply-to:references:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FH0s3pNKOJxZQ6z+iEoKI4AAtRx5ZhF+IIxrjC4hS7Y=;
- b=co3kWPbbMMa5LclEV44qUeBKfCXJBK4dVWcDC9RftlfK8j5jw2QIZtFH1wikpQLhn0
- 25Rua9i0Y9oYyDuggRwYYEGLlMlvYGHY677dH5HG5O19+7axy7Nup1JG1c+evKWsIdp+
- CN1bkox0JLufqTRsnAiCig9Nk/Ct/K6dWi1tMBO232BXN5EYTUu+woWYXmI1N574cLX+
- uH7VLsr32w//FCHCzURElf88+H5vHj630qtbdAsug3znMTqmb5zseaszp6aPsYR9nrgB
- I5jrKRXPYbXAsHJBK4Ow1pEAvPf+nFAWYicMuoFaV2PPRmImgLyg/+RH5t0M6IbVGCrg
- JUow==
-X-Gm-Message-State: AOJu0YwlFOEAmOnx6DZ0pW1PI6Ce+8ad7d1TqrK6fH88ufBs5Bekfurk
- eyfgRCXkIQkMnYJ9tgNgwdI=
-X-Google-Smtp-Source: AGHT+IEkgZi6dHQenViMLORQ+BGP+Cu5JcNbxI8Ky4tY3ox+8USr6NjXaEho/GBtYPZe71+Kc5fs3g==
-X-Received: by 2002:a05:600c:3106:b0:40b:3df2:c5f8 with SMTP id
- g6-20020a05600c310600b0040b3df2c5f8mr5896949wmo.36.1701091463940; 
- Mon, 27 Nov 2023 05:24:23 -0800 (PST)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- e25-20020a5d5959000000b00332eb96cb73sm8652933wri.73.2023.11.27.05.24.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Nov 2023 05:24:19 -0800 (PST)
-Message-ID: <e35e67dd-fd96-4ac5-a6ba-f351f12a146c@gmail.com>
-Date: Mon, 27 Nov 2023 14:24:13 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D037810E29C
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 13:25:46 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id EA7C661207;
+ Mon, 27 Nov 2023 13:25:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C93D0C433C7;
+ Mon, 27 Nov 2023 13:25:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1701091544;
+ bh=Umygg2yHRdjm+EZVjaEnqKXeTQXJLjvWgCeoV3Q0X1k=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=NbCCcEDeYKgeOSSEh+j9VE8puG3hnVMHs37nBertaUtwAbRna82aXErSIsj0PuKzq
+ I2xLL0Vibg9XO4VDMp44YWRf0GeSwor8DZpkdAk2mr4Pi9AqrOjuIfC1OrSEo9HYH9
+ IEg4J4Fk3uhzreUvXOn74UbJs0nyT6OApg3p+3t9/Yh1COJZ0FmjvA2RwOIwvorcVM
+ C5pEn+qi8galpFbtiBrAedApvV8kQMgPot+IubxT6cLOG/BHF15Qi9OSi/kqi6kAGr
+ 84bimbC4v7GlZ/6Lj3j0r4D9LNf/oqNcFh70OVFUEz/G1l+pof4x1AIZqqdDc6Aec7
+ tGiI7cqoR5LZg==
+From: Michael Walle <mwalle@kernel.org>
+To: tony@atomide.com
+Subject: Re: [PATCH 3/6] drm/bridge: tc358775: Add jeida-24 support
+Date: Mon, 27 Nov 2023 14:25:25 +0100
+Message-Id: <20231127132525.2156089-1-mwalle@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231126171837.GK5169@atomide.com>
+References: <20231126171837.GK5169@atomide.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: fix check in dma_resv_add_fence
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-To: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Alex Deucher <Alexander.Deucher@amd.com>
-References: <20231115093035.1889-1-christian.koenig@amd.com>
-In-Reply-To: <20231115093035.1889-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,63 +50,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: mripard@kernel.org, devicetree@vger.kernel.org,
+ Michael Walle <mwalle@kernel.org>, ivo.g.dimitrov.75@gmail.com,
+ rfoss@kernel.org, andrzej.hajda@intel.com, tzimmermann@suse.de,
+ jonas@kwiboo.se, pavel@ucw.cz, sam@ravnborg.org, merlijn@wizzup.org,
+ neil.armstrong@linaro.org, sre@kernel.org, dri-devel@lists.freedesktop.org,
+ jernej.skrabec@gmail.com, Laurent.pinchart@ideasonboard.com,
+ simhavcs@gmail.com, philipp@uvos.xyz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ping? Can I get an rb or acked-by for that?
+> The jeida-24 register values are the default hardware settings, but they
+> not listed in the driver. Let's add them.
 
-Thanks,
-Christian.
+jeida-24 and jeida-18 should have the same mapping, jeida-18 is broken in
+this driver. could you test this patch:
 
-Am 15.11.23 um 10:30 schrieb Christian König:
-> It's valid to add the same fence multiple times to a dma-resv object and
-> we shouldn't need one extra slot for each.
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Fixes: a3f7c10a269d5 ("dma-buf/dma-resv: check if the new fence is really later")
-> Cc: stable@vger.kernel.org # v5.19+
-> ---
->   drivers/dma-buf/dma-resv.c |  2 +-
->   include/linux/dma-fence.h  | 15 +++++++++++++++
->   2 files changed, 16 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index 38b4110378de..eb8b733065b2 100644
-> --- a/drivers/dma-buf/dma-resv.c
-> +++ b/drivers/dma-buf/dma-resv.c
-> @@ -301,7 +301,7 @@ void dma_resv_add_fence(struct dma_resv *obj, struct dma_fence *fence,
->   
->   		dma_resv_list_entry(fobj, i, obj, &old, &old_usage);
->   		if ((old->context == fence->context && old_usage >= usage &&
-> -		     dma_fence_is_later(fence, old)) ||
-> +		     dma_fence_is_later_or_same(fence, old)) ||
->   		    dma_fence_is_signaled(old)) {
->   			dma_resv_list_set(fobj, i, fence, usage);
->   			dma_fence_put(old);
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index ebe78bd3d121..b3772edca2e6 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -498,6 +498,21 @@ static inline bool dma_fence_is_later(struct dma_fence *f1,
->   	return __dma_fence_is_later(f1->seqno, f2->seqno, f1->ops);
->   }
->   
-> +/**
-> + * dma_fence_is_later_or_same - return true if f1 is later or same as f2
-> + * @f1: the first fence from the same context
-> + * @f2: the second fence from the same context
-> + *
-> + * Returns true if f1 is chronologically later than f2 or the same fence. Both
-> + * fences must be from the same context, since a seqno is not re-used across
-> + * contexts.
-> + */
-> +static inline bool dma_fence_is_later_or_same(struct dma_fence *f1,
-> +					      struct dma_fence *f2)
-> +{
-> +	return f1 == f2 || dma_fence_is_later(f1, f2);
-> +}
-> +
->   /**
->    * dma_fence_later - return the chronologically later fence
->    * @f1:	the first fence from the same context
+--snip--
+
+From 46da1d76d4908e5879ed746cce1faeacd69c432e Mon Sep 17 00:00:00 2001
+From: Michael Walle <mwalle@kernel.org>
+Date: Wed, 4 Oct 2023 13:52:57 +0200
+Subject: [PATCH] drm/bridge: tc358775: fix support for jeida-18 and jeida-24
+
+The bridge always uses 24bpp internally. Therefore, for jeida-18
+mapping we need to discard the lowest two bits for each channel and thus
+starting with LV_[RGB]2. jeida-24 has the same mapping but uses four
+lanes instead of three, with the forth pair transmitting the lowest two
+bits of each channel. Thus, the mapping between jeida-18 and jeida-24
+is actually the same, except that one channel is turned off (by
+selecting the RGB666 format in VPCTRL).
+
+While at it, remove the bogus comment about the hardware default because
+the default is overwritten in any case.
+
+Tested with a jeida-18 display (Evervision VGG644804).
+
+Fixes: b26975593b17 ("display/drm/bridge: TC358775 DSI/LVDS driver")
+Signed-off-by: Michael Walle <mwalle@kernel.org>
+---
+ drivers/gpu/drm/bridge/tc358775.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
+index 90a89d70d832..592c69c2aedc 100644
+--- a/drivers/gpu/drm/bridge/tc358775.c
++++ b/drivers/gpu/drm/bridge/tc358775.c
+@@ -454,10 +454,6 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
+ 	dev_dbg(tc->dev, "bus_formats %04x bpc %d\n",
+ 		connector->display_info.bus_formats[0],
+ 		tc->bpc);
+-	/*
+-	 * Default hardware register settings of tc358775 configured
+-	 * with MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA jeida-24 format
+-	 */
+ 	if (connector->display_info.bus_formats[0] ==
+ 		MEDIA_BUS_FMT_RGB888_1X7X4_SPWG) {
+ 		/* VESA-24 */
+@@ -468,14 +464,15 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
+ 		d2l_write(tc->i2c, LV_MX1619, LV_MX(LVI_B6, LVI_B7, LVI_B1, LVI_B2));
+ 		d2l_write(tc->i2c, LV_MX2023, LV_MX(LVI_B3, LVI_B4, LVI_B5, LVI_L0));
+ 		d2l_write(tc->i2c, LV_MX2427, LV_MX(LVI_HS, LVI_VS, LVI_DE, LVI_R6));
+-	} else { /*  MEDIA_BUS_FMT_RGB666_1X7X3_SPWG - JEIDA-18 */
+-		d2l_write(tc->i2c, LV_MX0003, LV_MX(LVI_R0, LVI_R1, LVI_R2, LVI_R3));
+-		d2l_write(tc->i2c, LV_MX0407, LV_MX(LVI_R4, LVI_L0, LVI_R5, LVI_G0));
+-		d2l_write(tc->i2c, LV_MX0811, LV_MX(LVI_G1, LVI_G2, LVI_L0, LVI_L0));
+-		d2l_write(tc->i2c, LV_MX1215, LV_MX(LVI_G3, LVI_G4, LVI_G5, LVI_B0));
+-		d2l_write(tc->i2c, LV_MX1619, LV_MX(LVI_L0, LVI_L0, LVI_B1, LVI_B2));
+-		d2l_write(tc->i2c, LV_MX2023, LV_MX(LVI_B3, LVI_B4, LVI_B5, LVI_L0));
+-		d2l_write(tc->i2c, LV_MX2427, LV_MX(LVI_HS, LVI_VS, LVI_DE, LVI_L0));
++	} else {
++		/* JEIDA-18 and JEIDA-24 */
++		d2l_write(tc->i2c, LV_MX0003, LV_MX(LVI_R2, LVI_R3, LVI_R4, LVI_R5));
++		d2l_write(tc->i2c, LV_MX0407, LV_MX(LVI_R6, LVI_R1, LVI_R7, LVI_G2));
++		d2l_write(tc->i2c, LV_MX0811, LV_MX(LVI_G3, LVI_G4, LVI_G0, LVI_G1));
++		d2l_write(tc->i2c, LV_MX1215, LV_MX(LVI_G5, LVI_G6, LVI_G7, LVI_B2));
++		d2l_write(tc->i2c, LV_MX1619, LV_MX(LVI_B0, LVI_B1, LVI_B3, LVI_B4));
++		d2l_write(tc->i2c, LV_MX2023, LV_MX(LVI_B5, LVI_B6, LVI_B7, LVI_L0));
++		d2l_write(tc->i2c, LV_MX2427, LV_MX(LVI_HS, LVI_VS, LVI_DE, LVI_R0));
+ 	}
+ 
+ 	d2l_write(tc->i2c, VFUEN, VFUEN_EN);
+-- 
+2.39.2
 
