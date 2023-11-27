@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A33D47FAC35
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 22:05:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59F557FAC36
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 22:06:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6BD710E312;
-	Mon, 27 Nov 2023 21:05:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6D0F10E3F6;
+	Mon, 27 Nov 2023 21:06:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
- [IPv6:2001:4860:4864:20::31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A2BC10E312
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 21:05:37 +0000 (UTC)
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-1fa289a3b6aso1434130fac.3
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 13:05:37 -0800 (PST)
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF75610E3C5
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 21:06:03 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-1fa1ec476f1so1677829fac.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 13:06:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701119136; x=1701723936; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1701119163; x=1701723963; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0P9RWcGc2R6PZqHUAo55hk/yFOkyrs5iAMuj/DazDmU=;
- b=C6i1dvTWnkiedmD6z/uBDmiOs9G2GLft8WqzI8rBnbTwdsj9vIXUiSXJpRyvCnvV0W
- CpxkP5Ft6sy6SqyMf0Db6oyly01eASaYycbb9HC7z8rtO950GbvqHMf3WBKeWm+0YZR6
- DPZWTg4cKJc7qaVFe299d8Yxjj+PztcGeSO42OA/9nLmgVm3RnsnjOTp6cUpdgAiK6cA
- tqYKd0JvcMbsdBC/U7BK6fLwdpoBO5fM4gAOeMylDcVw+fFAn7ciU4nvAj/v12eCp4Es
- 9zQWJWzhWv+KJ8ulreNlN/MuIPnVqLhui4mgngBCNWG0BoJNUS4Qq6pbu/961778GsxD
- 77DQ==
+ bh=t9/UWsX1mLIrdnCN2kgzp4miGSGL5hAGEZ7AwjlRB+0=;
+ b=cOTL7mq8Rl/g8NHmvyfdCIdcPxohb+sA+iWJWtzqmRSkY+rnqwBy8Jqx1pjRj4+Pfc
+ AwRrRJOe9oYK5NHibh1b9HPngqYQxUeTKSGcdVHvsCFvpGd5n4VR/mdUP43t5Lf0PwIr
+ IS565XwG0LbqPD8EMuwrMumBCBYD+EGRcy40Tm+jFCOGZh1YLHMmdmIHXRP82gBq2oTw
+ OaG8q3WoOPjmK4La+FqhIYez+5KjGWciVLhAokkVqhhVMjaW6fRMe/J8d2b9+qE3sJxM
+ PyjfTY4hR1Lbw6vTP3gsgaQeduZzA362giJzwD5FDY1v9hxh0UPIzJ0amwsnnAgDo8uF
+ 82Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701119136; x=1701723936;
+ d=1e100.net; s=20230601; t=1701119163; x=1701723963;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0P9RWcGc2R6PZqHUAo55hk/yFOkyrs5iAMuj/DazDmU=;
- b=cJaBc6L8SOKz+g2zB41rptqxonw/m2OtyPfqkKynMw6+xY3K9yr75N1S5vrvVUu4uB
- LLhnjfGyIvnpEsgGeNvkPiMAbuc5pG//Yyvj75PC4wvIsee0YpJWW+NG/cgiUtwN+YlF
- 06Vmfcc04WSVAGVfXsKGd0jGHX8Qo9T/XU890Kfoq+a9wo3Zd7VZ8EfzgLYiLqrbyxOt
- WR+8PugGeVQw8gom+K2VMzCWCryH31CgzbgdQnzZpsNrw+5KqhcVKIlsQ3FW/N0JOnHV
- a+EsRg6YbIGffkepTS8J1nbVcfhNjLyHydv6W9mJPNAnz9jXOHTA56MNWQGZrXKCHP8l
- sKkg==
-X-Gm-Message-State: AOJu0YyHIv+DJIQ1olwykK1QxQn8GWIs7dwUNvAlA1qh3IHGz2TSMlkH
- tpJ5Qe6z7QSpChj4ivNNg5IW2mauO3E82VNjLvU=
-X-Google-Smtp-Source: AGHT+IEXJdZyg/RzACeEjCfN60In1ADh5jfMKu0BZxnXHy4MyPOIrN4TxqX4ERKOJkPJuk2rknFKczab7WFWnnBo1mQ=
-X-Received: by 2002:a05:6871:4e97:b0:1f9:fd01:e003 with SMTP id
- uk23-20020a0568714e9700b001f9fd01e003mr12645205oab.22.1701119136269; Mon, 27
- Nov 2023 13:05:36 -0800 (PST)
+ bh=t9/UWsX1mLIrdnCN2kgzp4miGSGL5hAGEZ7AwjlRB+0=;
+ b=wAyirH7M5H0M4LPC7idUbIx8W2A3c0uh+FjT2QVK7rv99DF/7CecuvF6tv3EKKDLIr
+ Cn9sb49mtfruzJeXSOsvHpwaCfg9vkTXAkpKk0Xonzd9UHsoZq6/EJr8+LiYEIKPOijp
+ tSdA8FgjsY7BSPm2P6gLLlCK9e9fSJRCcXgme/lslot0c9Q/j6JJzY3Y2R6r/iu/iXMG
+ UB53yiR3h7yl5r4HZutQv9wA1UXJDpM5rXi6DKMhFlY68po/KufoqAV6t7M2L08ZO99x
+ bCfKrPvlHRHGTFvDciPYGHZ7lXI5n8NaVsvL+h5K+tAjUr2cp8UFLhi2pkg352B/x7gW
+ ofOw==
+X-Gm-Message-State: AOJu0Yzh2JVvNNu/bFx/9AWcE3PuqqQWvrwhjHVAtzJ1bwH4nzYWhBU6
+ 6A2tq36pDcI0Zv9V8VEEuFh81TiCiiOU5fT32uA=
+X-Google-Smtp-Source: AGHT+IEQXyjVp3uUE7UqAToyZxZ9fJgQpadluncJ/DIMh+Xk9pSz29tAQc0Fw2uIr1QOQXgacctIF4vrptHL+eY3mP0=
+X-Received: by 2002:a05:6870:d911:b0:1f9:48fb:1835 with SMTP id
+ gq17-20020a056870d91100b001f948fb1835mr19020764oab.46.1701119163115; Mon, 27
+ Nov 2023 13:06:03 -0800 (PST)
 MIME-Version: 1.0
 References: <20231122122449.11588-1-tzimmermann@suse.de>
- <20231122122449.11588-11-tzimmermann@suse.de>
-In-Reply-To: <20231122122449.11588-11-tzimmermann@suse.de>
+ <20231122122449.11588-12-tzimmermann@suse.de>
+In-Reply-To: <20231122122449.11588-12-tzimmermann@suse.de>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 27 Nov 2023 16:05:25 -0500
-Message-ID: <CADnq5_Mhpn3r_U4y4rmkO5mJCpA8XjuZhmjHRDYrCGt3FzRh8Q@mail.gmail.com>
-Subject: Re: [PATCH 10/14] drm: Remove support for legacy drivers
+Date: Mon, 27 Nov 2023 16:05:51 -0500
+Message-ID: <CADnq5_OMZbNOD-GY8aek+4sL6fKqTbHpoU81cS3vtb6GAC3pHw@mail.gmail.com>
+Subject: Re: [PATCH 11/14] drm: Remove locking for legacy ioctls and
+ DRM_UNLOCKED
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -76,347 +77,114 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Wed, Nov 22, 2023 at 7:25=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
 .de> wrote:
 >
-> Remove all hooks and calls into code for user-space mode setting from
-> the DRM core. Without the drivers and ioctl entry points, none of this
-> is required any longer.
+> Modern DRM drivers acquire ioctl locks by themselves. Legacy ioctls
+> for user-space mode setting used to acquire drm_global_mutex. After
+> removing the ioctl entry points, also remove the locking code. The only
+> legacy ioctl without global locking was VBLANK_WAIT, which has been
+> removed as well. Hence remove the related DRM_UNLOCKED flag.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
 > ---
->  drivers/gpu/drm/drm_auth.c   |  8 +----
->  drivers/gpu/drm/drm_drv.c    | 17 ----------
->  drivers/gpu/drm/drm_file.c   | 64 ++----------------------------------
->  drivers/gpu/drm/drm_vblank.c | 19 -----------
->  4 files changed, 3 insertions(+), 105 deletions(-)
+>  drivers/gpu/drm/drm_ioc32.c |  2 +-
+>  drivers/gpu/drm/drm_ioctl.c | 23 +++++++----------------
+>  include/drm/drm_ioctl.h     | 11 -----------
+>  3 files changed, 8 insertions(+), 28 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-> index 2ed2585ded378..252c105d614ff 100644
-> --- a/drivers/gpu/drm/drm_auth.c
-> +++ b/drivers/gpu/drm/drm_auth.c
-> @@ -37,13 +37,12 @@
->  #include <drm/drm_print.h>
+> diff --git a/drivers/gpu/drm/drm_ioc32.c b/drivers/gpu/drm/drm_ioc32.c
+> index 910cadf14756e..129e2b91dbfe7 100644
+> --- a/drivers/gpu/drm/drm_ioc32.c
+> +++ b/drivers/gpu/drm/drm_ioc32.c
+> @@ -273,7 +273,7 @@ static int compat_drm_wait_vblank(struct file *file, =
+unsigned int cmd,
+>         req.request.type =3D req32.request.type;
+>         req.request.sequence =3D req32.request.sequence;
+>         req.request.signal =3D req32.request.signal;
+> -       err =3D drm_ioctl_kernel(file, drm_wait_vblank_ioctl, &req, DRM_U=
+NLOCKED);
+> +       err =3D drm_ioctl_kernel(file, drm_wait_vblank_ioctl, &req, 0);
 >
->  #include "drm_internal.h"
-> -#include "drm_legacy.h"
+>         req32.reply.type =3D req.reply.type;
+>         req32.reply.sequence =3D req.reply.sequence;
+> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+> index 9c6326b908e74..1cf1de342d6aa 100644
+> --- a/drivers/gpu/drm/drm_ioctl.c
+> +++ b/drivers/gpu/drm/drm_ioctl.c
+> @@ -583,7 +583,7 @@ static const struct drm_ioctl_desc drm_ioctls[] =3D {
 >
->  /**
->   * DOC: master and authentication
->   *
->   * &struct drm_master is used to track groups of clients with open
-> - * primary/legacy device nodes. For every &struct drm_file which has had=
- at
-> + * primary device nodes. For every &struct drm_file which has had at
->   * least once successfully became the device master (either through the
->   * SET_MASTER IOCTL, or implicitly through opening the primary device no=
-de when
->   * no one else is the current master that time) there exists one &drm_ma=
-ster.
-> @@ -139,7 +138,6 @@ struct drm_master *drm_master_create(struct drm_devic=
-e *dev)
->                 return NULL;
+>         DRM_IOCTL_DEF(DRM_IOCTL_FINISH, drm_noop, DRM_AUTH),
 >
->         kref_init(&master->refcount);
-> -       drm_master_legacy_init(master);
->         idr_init_base(&master->magic_map, 1);
->         master->dev =3D dev;
+> -       DRM_IOCTL_DEF(DRM_IOCTL_WAIT_VBLANK, drm_wait_vblank_ioctl, DRM_U=
+NLOCKED),
+> +       DRM_IOCTL_DEF(DRM_IOCTL_WAIT_VBLANK, drm_wait_vblank_ioctl, 0),
 >
-> @@ -365,8 +363,6 @@ void drm_master_release(struct drm_file *file_priv)
->         if (!drm_is_current_master_locked(file_priv))
->                 goto out;
+>         DRM_IOCTL_DEF(DRM_IOCTL_UPDATE_DRAW, drm_noop, DRM_AUTH|DRM_MASTE=
+R|DRM_ROOT_ONLY),
 >
-> -       drm_legacy_lock_master_cleanup(dev, master);
-> -
->         if (dev->master =3D=3D file_priv->master)
->                 drm_drop_master(dev, file_priv);
->  out:
-> @@ -429,8 +425,6 @@ static void drm_master_destroy(struct kref *kref)
->         if (drm_core_check_feature(dev, DRIVER_MODESET))
->                 drm_lease_destroy(master);
->
-> -       drm_legacy_master_rmmaps(dev, master);
-> -
->         idr_destroy(&master->magic_map);
->         idr_destroy(&master->leases);
->         idr_destroy(&master->lessee_idr);
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 535f16e7882e7..979366e68dbb8 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -48,7 +48,6 @@
->
->  #include "drm_crtc_internal.h"
->  #include "drm_internal.h"
-> -#include "drm_legacy.h"
->
->  MODULE_AUTHOR("Gareth Hughes, Leif Delgass, Jos=C3=A9 Fonseca, Jon Smirl=
-");
->  MODULE_DESCRIPTION("DRM shared core routines");
-> @@ -585,8 +584,6 @@ static void drm_fs_inode_free(struct inode *inode)
->
->  static void drm_dev_init_release(struct drm_device *dev, void *res)
+> @@ -716,7 +716,7 @@ long drm_ioctl_kernel(struct file *file, drm_ioctl_t =
+*func, void *kdata,
 >  {
-> -       drm_legacy_ctxbitmap_cleanup(dev);
-> -       drm_legacy_remove_map_hash(dev);
->         drm_fs_inode_free(dev->anon_inode);
+>         struct drm_file *file_priv =3D file->private_data;
+>         struct drm_device *dev =3D file_priv->minor->dev;
+> -       int retcode;
+> +       int ret;
 >
->         put_device(dev->dev);
-> @@ -597,7 +594,6 @@ static void drm_dev_init_release(struct drm_device *d=
-ev, void *res)
->         mutex_destroy(&dev->clientlist_mutex);
->         mutex_destroy(&dev->filelist_mutex);
->         mutex_destroy(&dev->struct_mutex);
-> -       drm_legacy_destroy_members(dev);
->  }
+>         /* Update drm_file owner if fd was passed along. */
+>         drm_file_update_pid(file_priv);
+> @@ -724,20 +724,11 @@ long drm_ioctl_kernel(struct file *file, drm_ioctl_=
+t *func, void *kdata,
+>         if (drm_dev_is_unplugged(dev))
+>                 return -ENODEV;
 >
->  static int drm_dev_init(struct drm_device *dev,
-> @@ -632,7 +628,6 @@ static int drm_dev_init(struct drm_device *dev,
->                 return -EINVAL;
->         }
->
-> -       drm_legacy_init_members(dev);
->         INIT_LIST_HEAD(&dev->filelist);
->         INIT_LIST_HEAD(&dev->filelist_internal);
->         INIT_LIST_HEAD(&dev->clientlist);
-> @@ -673,12 +668,6 @@ static int drm_dev_init(struct drm_device *dev,
->                         goto err;
->         }
->
-> -       ret =3D drm_legacy_create_map_hash(dev);
-> -       if (ret)
-> -               goto err;
+> -       retcode =3D drm_ioctl_permit(flags, file_priv);
+> -       if (unlikely(retcode))
+> -               return retcode;
 > -
-> -       drm_legacy_ctxbitmap_init(dev);
-> -
->         if (drm_core_check_feature(dev, DRIVER_GEM)) {
->                 ret =3D drm_gem_init(dev);
->                 if (ret) {
-> @@ -990,9 +979,6 @@ EXPORT_SYMBOL(drm_dev_register);
->   */
->  void drm_dev_unregister(struct drm_device *dev)
->  {
-> -       if (drm_core_check_feature(dev, DRIVER_LEGACY))
-> -               drm_lastclose(dev);
-> -
->         dev->registered =3D false;
->
->         drm_client_dev_unregister(dev);
-> @@ -1003,9 +989,6 @@ void drm_dev_unregister(struct drm_device *dev)
->         if (dev->driver->unload)
->                 dev->driver->unload(dev);
->
-> -       drm_legacy_pci_agp_destroy(dev);
-> -       drm_legacy_rmmaps(dev);
-> -
->         remove_compat_control_link(dev);
->         drm_minor_unregister(dev, DRM_MINOR_ACCEL);
->         drm_minor_unregister(dev, DRM_MINOR_PRIMARY);
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index 5ddaffd325865..987c1a5d1773b 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -47,21 +47,12 @@
->
->  #include "drm_crtc_internal.h"
->  #include "drm_internal.h"
-> -#include "drm_legacy.h"
->
->  /* from BKL pushdown */
->  DEFINE_MUTEX(drm_global_mutex);
->
->  bool drm_dev_needs_global_mutex(struct drm_device *dev)
->  {
-> -       /*
-> -        * Legacy drivers rely on all kinds of BKL locking semantics, don=
-'t
-> -        * bother. They also still need BKL locking for their ioctls, so =
-better
-> -        * safe than sorry.
-> -        */
-> -       if (drm_core_check_feature(dev, DRIVER_LEGACY))
-> -               return true;
-> -
->         /*
->          * The deprecated ->load callback must be called after the driver=
- is
->          * already registered. This means such drivers rely on the BKL to=
- make
-> @@ -107,9 +98,7 @@ bool drm_dev_needs_global_mutex(struct drm_device *dev=
-)
->   * drm_send_event() as the main starting points.
->   *
->   * The memory mapping implementation will vary depending on how the driv=
-er
-> - * manages memory. Legacy drivers will use the deprecated drm_legacy_mma=
-p()
-> - * function, modern drivers should use one of the provided memory-manage=
-r
-> - * specific implementations. For GEM-based drivers this is drm_gem_mmap(=
-).
-> + * manages memory. For GEM-based drivers this is drm_gem_mmap().
->   *
->   * No other file operations are supported by the DRM userspace API. Over=
-all the
->   * following is an example &file_operations structure::
-> @@ -254,18 +243,6 @@ void drm_file_free(struct drm_file *file)
->                      (long)old_encode_dev(file->minor->kdev->devt),
->                      atomic_read(&dev->open_count));
->
-> -#ifdef CONFIG_DRM_LEGACY
-> -       if (drm_core_check_feature(dev, DRIVER_LEGACY) &&
-> -           dev->driver->preclose)
-> -               dev->driver->preclose(dev, file);
-> -#endif
-> -
-> -       if (drm_core_check_feature(dev, DRIVER_LEGACY))
-> -               drm_legacy_lock_release(dev, file->filp);
-> -
-> -       if (drm_core_check_feature(dev, DRIVER_HAVE_DMA))
-> -               drm_legacy_reclaim_buffers(dev, file);
-> -
->         drm_events_release(file);
->
->         if (drm_core_check_feature(dev, DRIVER_MODESET)) {
-> @@ -279,8 +256,6 @@ void drm_file_free(struct drm_file *file)
->         if (drm_core_check_feature(dev, DRIVER_GEM))
->                 drm_gem_release(dev, file);
->
-> -       drm_legacy_ctxbitmap_flush(dev, file);
-> -
->         if (drm_is_primary_client(file))
->                 drm_master_release(file);
->
-> @@ -367,29 +342,6 @@ int drm_open_helper(struct file *filp, struct drm_mi=
-nor *minor)
->         list_add(&priv->lhead, &dev->filelist);
->         mutex_unlock(&dev->filelist_mutex);
->
-> -#ifdef CONFIG_DRM_LEGACY
-> -#ifdef __alpha__
-> -       /*
-> -        * Default the hose
-> -        */
-> -       if (!dev->hose) {
-> -               struct pci_dev *pci_dev;
-> -
-> -               pci_dev =3D pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, NUL=
-L);
-> -               if (pci_dev) {
-> -                       dev->hose =3D pci_dev->sysdata;
-> -                       pci_dev_put(pci_dev);
-> -               }
-> -               if (!dev->hose) {
-> -                       struct pci_bus *b =3D list_entry(pci_root_buses.n=
-ext,
-> -                               struct pci_bus, node);
-> -                       if (b)
-> -                               dev->hose =3D b->sysdata;
-> -               }
-> -       }
-> -#endif
-> -#endif
-> -
->         return 0;
->  }
->
-> @@ -411,7 +363,6 @@ int drm_open(struct inode *inode, struct file *filp)
->         struct drm_device *dev;
->         struct drm_minor *minor;
->         int retcode;
-> -       int need_setup =3D 0;
->
->         minor =3D drm_minor_acquire(iminor(inode));
->         if (IS_ERR(minor))
-> @@ -421,8 +372,7 @@ int drm_open(struct inode *inode, struct file *filp)
->         if (drm_dev_needs_global_mutex(dev))
->                 mutex_lock(&drm_global_mutex);
->
-> -       if (!atomic_fetch_inc(&dev->open_count))
-> -               need_setup =3D 1;
-> +       atomic_fetch_inc(&dev->open_count);
->
->         /* share address_space across all char-devs of a single device */
->         filp->f_mapping =3D dev->anon_inode->i_mapping;
-> @@ -430,13 +380,6 @@ int drm_open(struct inode *inode, struct file *filp)
->         retcode =3D drm_open_helper(filp, minor);
->         if (retcode)
->                 goto err_undo;
-> -       if (need_setup) {
-> -               retcode =3D drm_legacy_setup(dev);
-> -               if (retcode) {
-> -                       drm_close_helper(filp);
-> -                       goto err_undo;
-> -               }
-> -       }
->
->         if (drm_dev_needs_global_mutex(dev))
->                 mutex_unlock(&drm_global_mutex);
-> @@ -460,9 +403,6 @@ void drm_lastclose(struct drm_device * dev)
->                 dev->driver->lastclose(dev);
->         drm_dbg_core(dev, "driver lastclose completed\n");
->
-> -       if (drm_core_check_feature(dev, DRIVER_LEGACY))
-> -               drm_legacy_dev_reinit(dev);
-> -
->         drm_client_dev_restore(dev);
->  }
->
-> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-> index a11f164b2384f..702a12bc93bd9 100644
-> --- a/drivers/gpu/drm/drm_vblank.c
-> +++ b/drivers/gpu/drm/drm_vblank.c
-> @@ -210,11 +210,6 @@ static u32 __get_vblank_counter(struct drm_device *d=
-ev, unsigned int pipe)
->                 if (crtc->funcs->get_vblank_counter)
->                         return crtc->funcs->get_vblank_counter(crtc);
->         }
-> -#ifdef CONFIG_DRM_LEGACY
-> -       else if (dev->driver->get_vblank_counter) {
-> -               return dev->driver->get_vblank_counter(dev, pipe);
-> -       }
-> -#endif
->
->         return drm_vblank_no_hw_counter(dev, pipe);
->  }
-> @@ -433,11 +428,6 @@ static void __disable_vblank(struct drm_device *dev,=
- unsigned int pipe)
->                 if (crtc->funcs->disable_vblank)
->                         crtc->funcs->disable_vblank(crtc);
->         }
-> -#ifdef CONFIG_DRM_LEGACY
+> -       /* Enforce sane locking for modern driver ioctls. */
+> -       if (likely(!drm_core_check_feature(dev, DRIVER_LEGACY)) ||
+> -           (flags & DRM_UNLOCKED))
+> -               retcode =3D func(dev, kdata, file_priv);
 > -       else {
-> -               dev->driver->disable_vblank(dev, pipe);
+> -               mutex_lock(&drm_global_mutex);
+> -               retcode =3D func(dev, kdata, file_priv);
+> -               mutex_unlock(&drm_global_mutex);
 > -       }
-> -#endif
+> -       return retcode;
+> +       ret =3D drm_ioctl_permit(flags, file_priv);
+> +       if (unlikely(ret))
+> +               return ret;
+> +
+> +       return func(dev, kdata, file_priv);
 >  }
+>  EXPORT_SYMBOL(drm_ioctl_kernel);
 >
->  /*
-> @@ -1151,11 +1141,6 @@ static int __enable_vblank(struct drm_device *dev,=
- unsigned int pipe)
->                 if (crtc->funcs->enable_vblank)
->                         return crtc->funcs->enable_vblank(crtc);
->         }
-> -#ifdef CONFIG_DRM_LEGACY
-> -       else if (dev->driver->enable_vblank) {
-> -               return dev->driver->enable_vblank(dev, pipe);
-> -       }
-> -#endif
->
->         return -EINVAL;
->  }
-> @@ -1698,10 +1683,6 @@ static void drm_wait_vblank_reply(struct drm_devic=
-e *dev, unsigned int pipe,
->
->  static bool drm_wait_vblank_supported(struct drm_device *dev)
->  {
-> -#if IS_ENABLED(CONFIG_DRM_LEGACY)
-> -       if (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)))
-> -               return dev->irq_enabled;
-> -#endif
->         return drm_dev_has_vblank(dev);
->  }
->
+> diff --git a/include/drm/drm_ioctl.h b/include/drm/drm_ioctl.h
+> index 6ed61c371f6ce..171760b6c4a14 100644
+> --- a/include/drm/drm_ioctl.h
+> +++ b/include/drm/drm_ioctl.h
+> @@ -109,17 +109,6 @@ enum drm_ioctl_flags {
+>          * This is equivalent to callers with the SYSADMIN capability.
+>          */
+>         DRM_ROOT_ONLY           =3D BIT(2),
+> -       /**
+> -        * @DRM_UNLOCKED:
+> -        *
+> -        * Whether &drm_ioctl_desc.func should be called with the DRM BKL=
+ held
+> -        * or not. Enforced as the default for all modern drivers, hence =
+there
+> -        * should never be a need to set this flag.
+> -        *
+> -        * Do not use anywhere else than for the VBLANK_WAIT IOCTL, which=
+ is the
+> -        * only legacy IOCTL which needs this.
+> -        */
+> -       DRM_UNLOCKED            =3D BIT(4),
+>         /**
+>          * @DRM_RENDER_ALLOW:
+>          *
 > --
 > 2.42.1
 >
