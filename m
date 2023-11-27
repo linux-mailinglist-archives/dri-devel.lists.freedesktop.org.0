@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A5977FA5B2
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 17:08:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA1337FA5C1
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 17:10:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21FEC10E1A2;
-	Mon, 27 Nov 2023 16:08:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD5910E097;
+	Mon, 27 Nov 2023 16:10:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com
- [IPv6:2607:f8b0:4864:20::1135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BB1710E3A1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 16:08:53 +0000 (UTC)
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-5cc66213a34so44022637b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 08:08:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701101332; x=1701706132; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=D0s3YKSI0CCDl7Ip7+d2J2fh8HjXs5+Z5vnehpex76E=;
- b=sqUML/11EDwwTgc/KensHMOwTv+r/D4IRgjcDS/Xf7V4JItcjdXkKq40zg6a2M9FHP
- 4MaSAaPxZSImRQgrSA96qwrSBFaf2fSRtwqSEpRD4qM5joebhY1QYggdIx/Bo2erp26O
- ArTfCtVlM/iIv1HR+E9Bh0zCa6dKMNaZdmtvLB6o6Xx8jDzWqTlT9YXvK/bPsPL0GzuB
- ihfYpW33FIAieexio+DvY8sJl3wB3vfMQsyLOOsa6G1tPhR1o8WTg3MuYSB+d3esPq/c
- fgSmKyJzMBbPuy5C6+rHI3x55B2sId23/jaeXs03dxURmb7VQsRGKhntGzPhP8rZKB2w
- 2S/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701101332; x=1701706132;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=D0s3YKSI0CCDl7Ip7+d2J2fh8HjXs5+Z5vnehpex76E=;
- b=pdoqJMuTPK+Yqf9e0vw70O/EGGx49UUlCQqLzSI/saT4+Jmmh+QakASNgxM3jV6OAp
- Ow7SU6dYrdKvT8cMSepxhJFo8yyMqRIzQc26fujy1bQdXIfz+ptT7bvXraCVYzCw8ta8
- Hb9ZaJL0VYGCRxTOFse209eJcslRDqZNlY7r09QqlmxRkTBA7cvIQmi1De2e0RgYKWmn
- nLJllZsAvpcYAPJKrLGJ5m7Dz4eifXL6UFMUEudbBpApQ0BDflD4dpCj+l0IEAV7cAn4
- i7oS/q1IZ6bOgFeSsDw0GXCVzzv8C+CvUsLnxJV02mO7QXZQX/LIxiY9k7n9vIVl5JCL
- BtPQ==
-X-Gm-Message-State: AOJu0Yz3Y2HrpJkOv2W1qNVY8lKeRJEpQzE4eJxRgz3WfzupG4pLKUkV
- mBUWAf5CLWwi53RsSAE9WWRXZCJALBI4ogICTaF5Ag==
-X-Google-Smtp-Source: AGHT+IFzV7gAuBBlDiQ5hhcXqWBkE8td2GRohFvyvwsIY5ZRT0pwgUEhXPC3sHKmGhubSogJiQBVdEnyKAqOWo2j9kc=
-X-Received: by 2002:a0d:d756:0:b0:5c1:8075:5a80 with SMTP id
- z83-20020a0dd756000000b005c180755a80mr7766008ywd.30.1701101331996; Mon, 27
- Nov 2023 08:08:51 -0800 (PST)
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F45A10E097
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 16:10:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+ t=1701101423; x=1701706223; i=spasswolf@web.de;
+ bh=v69e0NN8QuLMJHbHd33vhcu/7dHByHjNt77Tzz0SvME=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
+ References;
+ b=NIaFKxnZMM5x9nYWKQkEVpfNOg9yvmtHluGY4SAxwM7MUZ9cZvbvuhfhr+rZWgxs
+ KOl8XxIezubR6V0AkMLTqxIhOUklOQ0prkm/hki43w0TfStzwVnZRJcRZrVKvRzz1
+ TDRA7XcA9kJ/4O3/o2tLjPcw0qzjkaqvIpBw9gs07oq0L81C29mpl+k1IwijDTwMx
+ pF1xhaG3baoTsrmAMqb1soWEutK4mwQAUTLtUpAsa+pCaT3OxgXHK7HnyozmWWchX
+ DT9cidvZh7pnbrsyVPuV7gMOjdI2MwfDuh7URBOqsrsESITHMi6/qMCO/98v435oZ
+ rptBv5OLp10hz4oxVA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from lisa.home ([84.119.92.193]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MiMEW-1rkXBB0mec-00fP5g; Mon, 27
+ Nov 2023 17:10:23 +0100
+From: Bert Karwatzki <spasswolf@web.de>
+To: ltuikov89@gmail.com
+Subject: [PATCH] drm/sched: Partial revert of "Qualify drm_sched_wakeup() by
+ drm_sched_entity_is_ready()"
+Date: Mon, 27 Nov 2023 17:09:55 +0100
+Message-ID: <20231127160955.87879-1-spasswolf@web.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <c5292d06-2e37-4715-96dc-699f369111fa@gmail.com>
+References: <c5292d06-2e37-4715-96dc-699f369111fa@gmail.com>
 MIME-Version: 1.0
-References: <20231123032615.3760488-1-victor.liu@nxp.com>
- <ZWSbKkgs8V4sdy8T@intel.com>
-In-Reply-To: <ZWSbKkgs8V4sdy8T@intel.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 27 Nov 2023 17:08:40 +0100
-Message-ID: <CACRpkdZG+8KPWGNcp1jGXnSodXqS0qXiwXDPqf1yqoDZw1aS8w@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: panel: Check device dependency before
- managing device link
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:XBxeukHpt5FvMtRBVVC8cI9/u0dzQoEAtEOU/PlWMXvQd2Xjsc+
+ Tim6ORjeV2CTuXe6nNQ+THPkOgQCSgJVTPdCsZoMpJvMBgA5Pr82kR3pD2JAdUa+8wePNsi
+ eOU6Us/j78IBRenYrl1PtiyptIYJLzn85WoIt7mpktV3RR17Q8OGGOJT1WT6SwLMDcuUNs1
+ 3BF/i1neIvEuNwdWFUp0Q==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:sAGJA6frhGY=;uXwbfxkvaG52C5hWT58O1HYgEnf
+ HIWhtgYxnzvOdNVy1oXhaFMsXAZzhFNQinUEMMMYg0hiJeXN1mXi4nqXHGfdX1Cgs3lwhLon6
+ m5v0wVhlNcuYtjNMDwjA9WQO5+fRR5Z3kx/0jLp+ZTL6Y8g4fYN93fRTtN2NPiizzCPdRj2Sb
+ mq5E2p70E1sF91b6LpBzfVv21O+jhf2hHONczu1AWxcLAjmBUXCleGo3L3tAeJ0g0EnFBZ8EY
+ PYBdHnsVn2bT+jBChCdiKn/bhHWzGavGSAFogxkyB8CBUoXH/L0PdoApzaqnb0Os7IebFfUgs
+ bqqrWzj/e3bMLuzoAQsMPK9eQeXtgk9g5pQpMwn5XEHNsQE9I1UrWNCz0ewza1x4Oe16IXeFL
+ bzhYOd0aglIL1YXPItLv3AVzUTASQGKDip7WQR6oWy4bPYBJOO3S5sKtjztYvl8tnJQm4zPMe
+ QtCtRq8I2MrPY90ZVD9POdtrtbJV8Jgapatzl1ERXOWVFNgCvhI5RH5I8fhzSgGCppYXj2deu
+ IwdpKu/99U1aDlxQb/scuZfZIZIox6azoUCBJRWCUyXjdF7U+86z1GwzN2THkFh/19d34a97U
+ /mYsTtpnIC42Hq78UCD7le7DrG8BVO55TxzWbEJ8wS6xohiHocm+z3+Ajw8tC/c2dtqSHRBWy
+ hXkHONv3LUW652ffbns+FvI63GKrX+feJg/13KqU0rOekNmaP2DrogFNsxRlqG7jEH6iq95hH
+ ARipt5Dc1j57yfC32GlWX3PISaGkPaloyqSBx6jVWkGm/kvh10zuKLkIKhD9OZy3RjQb9sqec
+ h2M4NU+9lsJri7qQ3H/sRyTd1AN3TXNt/dQ04mp92A6wY1F1cqZ32w0pzjfrSMaXXPttUojOC
+ 11SFKO2fYVEvmXtMYioTwbOeUNVU97OhRTnVe9ySKX1t8S6l0DdeusLKmrvVnYTqY1c8Y20vo
+ hUkdhBhejgvAU5sUAMGJOdFqlB4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,41 +70,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, ulf.hansson@linaro.org, jernej.skrabec@gmail.com,
- rfoss@kernel.org, andrzej.hajda@intel.com, jonas@kwiboo.se,
- Liu Ying <victor.liu@nxp.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, mripard@kernel.org, tzimmermann@suse.de,
- angelogioacchino.delregno@collabora.com, Laurent.pinchart@ideasonboard.com
+Cc: matthew.brost@intel.com, tvrtko.ursulin@intel.com,
+ dri-devel@lists.freedesktop.org, dakr@redhat.com, spasswolf@web.de,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 27, 2023 at 2:36=E2=80=AFPM Ville Syrj=C3=A4l=C3=A4
-<ville.syrjala@linux.intel.com> wrote:
+Commit f3123c2590005c, in combination with the use of work queues by the G=
+PU
+scheduler, leads to random lock-ups of the GUI.
 
-> > +     panel_bridge->is_independent =3D !device_is_dependent(drm_dev->de=
-v,
-> > +                                                         panel->dev);
->
-> This broke the build. Looks like device_is_dependent() is not even export=
-ed.
-> ERROR: modpost: "device_is_dependent" [drivers/gpu/drm/drm_kms_helper.ko]=
- undefined!
+This is a partial revert of of commit f3123c2590005c since drm_sched_wakeu=
+p() still
+needs its entity argument to pass it to drm_sched_can_queue().
 
-Yep Ying made a fix, I just applied and pushed it because it was obviously
-correct.
+Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2994
+Link: https://lists.freedesktop.org/archives/dri-devel/2023-November/43160=
+6.html
+Fixes: f3123c2590005c ("drm/sched: Qualify drm_sched_wakeup() by drm_sched=
+_entity_is_ready()")
 
-> The recommended defconfigs in rerere-cache do seem to have CONFIG_DRM_KMS=
-_HELPER=3Dm
-> so this should have been caught before pushing. How did it slip through?
+Signed-off-by: Bert Karwatzki <spasswolf@web.de>
+=2D--
+ drivers/gpu/drm/scheduler/sched_main.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-My neglect.
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sche=
+duler/sched_main.c
+index 682aebe96db7..550492a7a031 100644
+=2D-- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -1029,9 +1029,8 @@ EXPORT_SYMBOL(drm_sched_job_cleanup);
+ void drm_sched_wakeup(struct drm_gpu_scheduler *sched,
+ 		      struct drm_sched_entity *entity)
+ {
+-	if (drm_sched_entity_is_ready(entity))
+-		if (drm_sched_can_queue(sched, entity))
+-			drm_sched_run_job_queue(sched);
++	if (drm_sched_can_queue(sched, entity))
++		drm_sched_run_job_queue(sched);
+ }
 
-Neglect may have something to do with my desktop being 10 years+
-old. Building random defconfigs on this machine takes so long time
-that invariably other stuff has been pushed to the branch before
-the compiles even complete.
+ /**
+=2D-
+2.43.0
 
-Yeah I know. I should buy a better computer.
-
-Yours,
-Linus Walleij
