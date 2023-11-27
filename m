@@ -2,43 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B19D7FA5A7
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 17:07:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A5977FA5B2
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 17:08:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F30010E396;
-	Mon, 27 Nov 2023 16:07:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21FEC10E1A2;
+	Mon, 27 Nov 2023 16:08:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 235A910E396;
- Mon, 27 Nov 2023 16:07:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id CBDAECE127E;
- Mon, 27 Nov 2023 16:07:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 071E7C433C8;
- Mon, 27 Nov 2023 16:07:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701101236;
- bh=CAVT3JTOqdhtMpmyz9hZHgwDT59aK+uHYtnwfXlCXjI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=neC+N+L85KemwluYfyC3P9D8ihbrOkVoCvJ1GV+ZCiqo+YeGQ+HY4hTVBV3Lgst1c
- 9cRWM9QUolfeC7sLFu6CjfnGHEDCD91cdhkG28ea4OXjfhYrvhX5ZHfsYnRlg6ZUiA
- k5CiTAic0qf0jfdGSnB0j/vVsSAOKia85mq/DgzEfOhmXZMDihTqw1oFDrM9Z5aHch
- ky2TtMRPtTg3TjuAT89xXCSoa61vxHGKzsrk1bl/q17DIUsoctaErgIcTVn0Dsc2IP
- dh+C+nnHqZTChSA4mHWgVcFt7UPRn6r2KKG0p0K8s/8KfvDTrB8/EIIjr5+uu8DELK
- fnKjh5PjHfbmw==
-From: Michael Walle <mwalle@kernel.org>
-To: dmitry.baryshkov@linaro.org
-Subject: Re: [RFC PATCH 03/10] drm/mipi-dsi: add API for manual control over
- the DSI link power state
-Date: Mon, 27 Nov 2023 17:06:58 +0100
-Message-Id: <20231127160658.2164612-1-mwalle@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <CAA8EJpozZkEswnioKjRCqBg4fcjVHFwGivoFNTNHVwyocKprQw@mail.gmail.com>
-References: <CAA8EJpozZkEswnioKjRCqBg4fcjVHFwGivoFNTNHVwyocKprQw@mail.gmail.com>
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com
+ [IPv6:2607:f8b0:4864:20::1135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BB1710E3A1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 16:08:53 +0000 (UTC)
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-5cc66213a34so44022637b3.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 08:08:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701101332; x=1701706132; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=D0s3YKSI0CCDl7Ip7+d2J2fh8HjXs5+Z5vnehpex76E=;
+ b=sqUML/11EDwwTgc/KensHMOwTv+r/D4IRgjcDS/Xf7V4JItcjdXkKq40zg6a2M9FHP
+ 4MaSAaPxZSImRQgrSA96qwrSBFaf2fSRtwqSEpRD4qM5joebhY1QYggdIx/Bo2erp26O
+ ArTfCtVlM/iIv1HR+E9Bh0zCa6dKMNaZdmtvLB6o6Xx8jDzWqTlT9YXvK/bPsPL0GzuB
+ ihfYpW33FIAieexio+DvY8sJl3wB3vfMQsyLOOsa6G1tPhR1o8WTg3MuYSB+d3esPq/c
+ fgSmKyJzMBbPuy5C6+rHI3x55B2sId23/jaeXs03dxURmb7VQsRGKhntGzPhP8rZKB2w
+ 2S/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701101332; x=1701706132;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=D0s3YKSI0CCDl7Ip7+d2J2fh8HjXs5+Z5vnehpex76E=;
+ b=pdoqJMuTPK+Yqf9e0vw70O/EGGx49UUlCQqLzSI/saT4+Jmmh+QakASNgxM3jV6OAp
+ Ow7SU6dYrdKvT8cMSepxhJFo8yyMqRIzQc26fujy1bQdXIfz+ptT7bvXraCVYzCw8ta8
+ Hb9ZaJL0VYGCRxTOFse209eJcslRDqZNlY7r09QqlmxRkTBA7cvIQmi1De2e0RgYKWmn
+ nLJllZsAvpcYAPJKrLGJ5m7Dz4eifXL6UFMUEudbBpApQ0BDflD4dpCj+l0IEAV7cAn4
+ i7oS/q1IZ6bOgFeSsDw0GXCVzzv8C+CvUsLnxJV02mO7QXZQX/LIxiY9k7n9vIVl5JCL
+ BtPQ==
+X-Gm-Message-State: AOJu0Yz3Y2HrpJkOv2W1qNVY8lKeRJEpQzE4eJxRgz3WfzupG4pLKUkV
+ mBUWAf5CLWwi53RsSAE9WWRXZCJALBI4ogICTaF5Ag==
+X-Google-Smtp-Source: AGHT+IFzV7gAuBBlDiQ5hhcXqWBkE8td2GRohFvyvwsIY5ZRT0pwgUEhXPC3sHKmGhubSogJiQBVdEnyKAqOWo2j9kc=
+X-Received: by 2002:a0d:d756:0:b0:5c1:8075:5a80 with SMTP id
+ z83-20020a0dd756000000b005c180755a80mr7766008ywd.30.1701101331996; Mon, 27
+ Nov 2023 08:08:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231123032615.3760488-1-victor.liu@nxp.com>
+ <ZWSbKkgs8V4sdy8T@intel.com>
+In-Reply-To: <ZWSbKkgs8V4sdy8T@intel.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 27 Nov 2023 17:08:40 +0100
+Message-ID: <CACRpkdZG+8KPWGNcp1jGXnSodXqS0qXiwXDPqf1yqoDZw1aS8w@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: panel: Check device dependency before
+ managing device link
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,71 +70,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Walle <mwalle@kernel.org>, tony@atomide.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- marijn.suijten@somainline.org, marex@denx.de, rfoss@kernel.org,
- dave.stevenson@raspberrypi.com, jernej.skrabec@gmail.com,
- alexander.stein@ew.tq-group.com, quic_jesszhan@quicinc.com, jonas@kwiboo.se,
- linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com, mripard@kernel.org,
- sean@poorly.run, neil.armstrong@linaro.org, dianders@chromium.org,
- konrad.dybcio@linaro.org, tzimmermann@suse.de, freedreno@lists.freedesktop.org
+Cc: neil.armstrong@linaro.org, ulf.hansson@linaro.org, jernej.skrabec@gmail.com,
+ rfoss@kernel.org, andrzej.hajda@intel.com, jonas@kwiboo.se,
+ Liu Ying <victor.liu@nxp.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, mripard@kernel.org, tzimmermann@suse.de,
+ angelogioacchino.delregno@collabora.com, Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, Nov 27, 2023 at 2:36=E2=80=AFPM Ville Syrj=C3=A4l=C3=A4
+<ville.syrjala@linux.intel.com> wrote:
 
-> DSI device lifetime has three different stages:
-> 1. before the DSI link being powered up and clocking,
-> 2. when the DSI link is in LP state (for the purpose of this question,
-> this is the time between the DSI link being powered up and the video
-> stream start)
-> 3. when the DSI link is in HS state (while streaming the video).
+> > +     panel_bridge->is_independent =3D !device_is_dependent(drm_dev->de=
+v,
+> > +                                                         panel->dev);
+>
+> This broke the build. Looks like device_is_dependent() is not even export=
+ed.
+> ERROR: modpost: "device_is_dependent" [drivers/gpu/drm/drm_kms_helper.ko]=
+ undefined!
 
-It's not clear to me what (2) is. What is the state of the clock and
-data lanes?
+Yep Ying made a fix, I just applied and pushed it because it was obviously
+correct.
 
-I'm facing similar issues with the tc358775 bridge. This bridge needs
-to release its reset while both clock and data lanes are in LP-11 mode.
-But then it needs to be configured (via I2C) while the clock lane is
-in enabled (HS mode), but the data lanes are still in LP-11 mode.
+> The recommended defconfigs in rerere-cache do seem to have CONFIG_DRM_KMS=
+_HELPER=3Dm
+> so this should have been caught before pushing. How did it slip through?
 
-To me it looks like there is a fouth case then:
-1. unpowered
-2. DSI clock and data are in LP-11
-3. DSI clock is in HS and data are in LP-11
-4. DSI clock is in HS and data is in HS
+My neglect.
 
-(And of course the bridge needs continuous clock mode).
+Neglect may have something to do with my desktop being 10 years+
+old. Building random defconfigs on this machine takes so long time
+that invariably other stuff has been pushed to the branch before
+the compiles even complete.
 
-> Different DSI bridges have different requirements with respect to the
-> code being executed at stages 1 and 2. For example several DSI-to-eDP
-> bridges (ps8640, tc358767 require for the link to be quiet during
-> reset time.
-> The DSI-controlled bridges and DSI panels need to send some commands
-> in stage 2, before starting up video
-> 
-> In the DRM subsystem stage 3 naturally maps to the
-> drm_bridge_funcs::enable, stage 1 also naturally maps to the
-> drm_bridge_funcs::pre_enable. Stage 2 doesn't have its own place in
-> the DRM call chain.
-> Earlier we attempted to solve that using the pre_enable_prev_first,
-> which remapped pre-enable callback execution order. However it has led
-> us to the two issues. First, at the DSI host driver we do not know
-> whether the panel / bridge were updated to use pre_enable_prev_first
-> or not. Second, if the bridge has to perform steps during both stages
-> 1 and 2, it can not do that.
-> 
-> I'm trying to find a way to express the difference between stages 1
-> and 2 in the generic code, so that we do not to worry about particular
-> DSI host and DSI bridge / panel peculiarities when implementing the
-> DSI host and/or DSI panel driver.
+Yeah I know. I should buy a better computer.
 
-For now, I have a rather hacky ".dsi_lp11_notify" callback in
-drm_bridge_funcs which is supposed to be called by the DSI host while the
-clock and data lanes are in LP-11 mode. But that is rather an RFC and me
-needing something to get the driver for this bridge working. Because it's
-badly broken. FWIW, you can find my work-in-progress patches at
-https://github.com/mwalle/linux/tree/feature-tc358775-fixes
-
--michael
+Yours,
+Linus Walleij
