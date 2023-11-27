@@ -2,89 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E3A7F9CA9
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 10:32:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE6917F9CAC
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 10:33:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EA2D10E20F;
-	Mon, 27 Nov 2023 09:32:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 110F810E210;
+	Mon, 27 Nov 2023 09:33:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0EF810E20F
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 09:32:25 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi
- [91.158.149.209])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A7B1E512;
- Mon, 27 Nov 2023 10:31:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1701077509;
- bh=jhf4KXoptT0XH2cqzSg3CMZgZ/yFJmm/cEK7xdgCBKU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=pCCYnJpgFm2rvGOiyntRLLaeiKi2t+G5R5+aw/zI9DOe4TjSLrAXBuqWH9s7nzm9i
- qCvUBaeZvrZM8SK6tqt3eqB/1MQ0V/bt5SMD7GTJkbHuvUOXyw9WT/3CALx3bilW+H
- 9uM8gETJXJkOyEYa07PIGR8tNB6nF29Hc1QC0qqY=
-Message-ID: <fea7e8a9-385a-4a51-8f66-4e92e14684ea@ideasonboard.com>
-Date: Mon, 27 Nov 2023 11:32:19 +0200
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2964C10E210
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 09:33:13 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r7Xz6-0003V4-JK; Mon, 27 Nov 2023 10:32:56 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r7Xz4-00BuSQ-CC; Mon, 27 Nov 2023 10:32:54 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r7Xz4-009BX7-2D; Mon, 27 Nov 2023 10:32:54 +0100
+Date: Mon, 27 Nov 2023 10:32:53 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Doug Anderson <dianders@chromium.org>,
+ Bjorn Andersson <andersson@kernel.org>
+Subject: Re: [PATCH v3 101/108] drm/bridge: ti-sn65dsi86: Make use of
+ devm_pwmchip_alloc() function
+Message-ID: <20231127093253.wz4kf7nmvkvgt3ow@pengutronix.de>
+References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
+ <20231121134901.208535-102-u.kleine-koenig@pengutronix.de>
+ <CAD=FV=Vz7TuUH=U8t0XVhj5rzoci9KBjSZXJruMQyXiARY+Z_Q@mail.gmail.com>
+ <20231121160514.feveiq2cyemwvqni@pengutronix.de>
+ <CAD=FV=VK9Lz9dMFDETHyGLQRG6bWkOcF20TdnTd_jWr1u81NFw@mail.gmail.com>
+ <20231123091715.ywv6otvthlqagvny@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] Add DSS support for TI AM62A7 SoC
-To: Aradhya Bhatia <a-bhatia1@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <20231108171619.978438-1-a-bhatia1@ti.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20231108171619.978438-1-a-bhatia1@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="iwj3hs2zxfpxbnhz"
+Content-Disposition: inline
+In-Reply-To: <20231123091715.ywv6otvthlqagvny@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,67 +61,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Maxime Ripard <mripard@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ linux-pwm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, kernel@pengutronix.de,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 08/11/2023 19:16, Aradhya Bhatia wrote:
-> This patch series adds a new compatible for the Display SubSystem (DSS)
-> controller on TI's AM62A7 SoC. It further adds the required support, for
-> the same, in the tidss driver.
-> 
-> The DSS controller is similar to the recently added AM625 DSS, with the
-> key difference being the absence of VP1 output on the SoC. The VP1 in
-> AM62A7 DSS is tied off and cannot be used, unlike in AM625, where the
-> VP1 was connected to 2 OLDI TXes. The video pipeline that corresponds to
-> VP1 still exists and can be used to overlay planes on the VP2's primary
-> plane. This can be done using the overlay managers inside the SoC.
-> Moreover, DSS VP2 can output Full-HD RGB888 DPI video signals.
-> 
-> I have tested these patches on AM62A7 SK-EVM, which converts DPI signals
-> to HDMI on the platform using the Sil9022A HDMI transmitter. All the
-> patches, required to enable display on AM62A7-SK, can be found on my
-> github fork[0] in the branch "next_am62a-v3".
-> 
-> Regards
-> Aradhya
-> 
-> [0]: https://github.com/aradhya07/linux-ab/tree/next_am62a-v3
-> 
-> Change Log:
-> V2 -> V3:
->    - Add Krzysztof Kozlowski's R-b in patch 1/2.
->    - Add new DISPC_VP_TIED_OFF for tied-off video-ports in patch 2/2.
-> 
-> V1 -> V2:
->    - Correctly sort DISPC_AM62A7 macro after DISPC_AM625 in patch 2/2.
-> 
-> Previous Versions:
-> V1: https://lore.kernel.org/all/20230818131750.4779-1-a-bhatia1@ti.com/
-> V2: https://lore.kernel.org/all/20230818142124.8561-1-a-bhatia1@ti.com/
-> 
-> Aradhya Bhatia (2):
->    dt-bindings: display: ti: Add support for am62a7 dss
->    drivers/tidss: Add support for AM62A7 DSS
-> 
->   .../bindings/display/ti/ti,am65x-dss.yaml     | 14 +++++
->   drivers/gpu/drm/tidss/tidss_dispc.c           | 59 +++++++++++++++++++
->   drivers/gpu/drm/tidss/tidss_dispc.h           |  3 +
->   drivers/gpu/drm/tidss/tidss_drv.c             |  1 +
->   4 files changed, 77 insertions(+)
-> 
-> 
-> base-commit: 2220f68f4504aa1ccce0fac721ccdb301e9da32f
+--iwj3hs2zxfpxbnhz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-For the series:
+Hello,
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+On Thu, Nov 23, 2023 at 10:17:15AM +0100, Uwe Kleine-K=C3=B6nig wrote:
+> On Tue, Nov 21, 2023 at 08:14:14AM -0800, Doug Anderson wrote:
+> > On Tue, Nov 21, 2023 at 8:05=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+> > <u.kleine-koenig@pengutronix.de> wrote:
+> > > On Tue, Nov 21, 2023 at 07:15:51AM -0800, Doug Anderson wrote:
+> > > > > @@ -1585,22 +1586,28 @@ static const struct pwm_ops ti_sn_pwm_ops=
+ =3D {
+> > > > >  static int ti_sn_pwm_probe(struct auxiliary_device *adev,
+> > > > >                            const struct auxiliary_device_id *id)
+> > > > >  {
+> > > > > +       struct pwm_chip *chip;
+> > > > >         struct ti_sn65dsi86 *pdata =3D dev_get_drvdata(adev->dev.=
+parent);
+> > > > >
+> > > > > -       pdata->pchip.dev =3D pdata->dev;
+> > > > > -       pdata->pchip.ops =3D &ti_sn_pwm_ops;
+> > > > > -       pdata->pchip.npwm =3D 1;
+> > > > > -       pdata->pchip.of_xlate =3D of_pwm_single_xlate;
+> > > > > -       pdata->pchip.of_pwm_n_cells =3D 1;
+> > > > > +       /* XXX: should this better use adev->dev instead of pdata=
+->dev? */
+> > > > > +       pdata->pchip =3D chip =3D devm_pwmchip_alloc(pdata->dev, =
+1, sizeof(&pdata));
+> > > >
+> > > > Yes, it should be "adev->dev". See recent commits like commit
+> > > > 7b821db95140 ("drm/bridge: ti-sn65dsi86: Associate DSI device lifet=
+ime
+> > > > with auxiliary device").
+> > >
+> > > I'd do that in a separate commit and not change that hidden in patch
+> > > like this one. Agree? Then I'd keep that as is and not address this in
+> > > this series. Maybe it will take another cycle until this patch goes in
+> > > anyhow ...
+> >=20
+> > You could do it in a commit _before_ this one, but not a commit after
+> > this one. Specifically before "${SUBJECT}" commit I think it was
+> > benign to set pdata->pchip.dev to pdata->dev. Now you're starting to
+> > use it for devm and the incorrect lifetime is worse, I think. Do you
+> > agree?
+>=20
+> I considered suggesting:
+>=20
+> ------>8------
+> From 35e5050084737070686fc3e293e88e50276f0eeb Mon Sep 17 00:00:00 2001
+> From: =3D?UTF-8?q?Uwe=3D20Kleine-K=3DC3=3DB6nig?=3D <u.kleine-koenig@peng=
+utronix.de>
+> Date: Thu, 23 Nov 2023 09:55:13 +0100
+> Subject: [PATCH] drm/bridge: ti-sn65dsi86: Associate PWM device to auxili=
+ary
+>  device
+>=20
+> It's the ti_sn65dsi86.pwm auxiliary driver that creates the pwmchip, so
+> let the auxiliary device be the parent of the pwm device.
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/brid=
+ge/ti-sn65dsi86.c
+> index c45c07840f64..b5d4c30c28b7 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -1587,7 +1587,7 @@ static int ti_sn_pwm_probe(struct auxiliary_device =
+*adev,
+>  {
+>  	struct ti_sn65dsi86 *pdata =3D dev_get_drvdata(adev->dev.parent);
+> =20
+> -	pdata->pchip.dev =3D pdata->dev;
+> +	pdata->pchip.dev =3D &adev->dev;
+>  	pdata->pchip.ops =3D &ti_sn_pwm_ops;
+>  	pdata->pchip.npwm =3D 1;
+>  	pdata->pchip.of_xlate =3D of_pwm_single_xlate;
+>=20
+> base-commit: 815d8b0425ad1164e45953ac3d56a9f6f63792cc
+> ------>8------
+>=20
+> But I wonder if pwm lookup (e.g. in
+> arch/arm64/boot/dts/qcom/sc7180-acer-aspire1.dts for &backlight) still
+> works then?
 
-  Tomi
+I checked the source and I think it works fine because
+ti_sn65dsi86_add_aux_device() calls
+device_set_of_node_from_dev(&aux->dev, dev); and so the
+auxiliary_device's of_node points to the node with the #pwm-cells
+property. I'll send a proper patch.
 
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--iwj3hs2zxfpxbnhz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVkYkUACgkQj4D7WH0S
+/k5HOAgAiavlP6Cf0z9RNm6AMMC4AQrv14uK68V5AUS9u6hSFpQu0GXFQ3SCZT5v
+qCaV6sJ7oMZ6XxPMpnbd+jY1LPA9KV4xdPVziusr0lx+5VIPIAQ35dxsUQ5ksrxJ
+jUoaZKTzn93jUAvuJjaHDA5bnmjHPjO/MYh6d0BcA8SA55e1OCgsr7arvfpFLFjK
+iTJb8wsJgtUMaTJy0jG7QKa9LFvEgYqq0BvcUM+LxsgBCrbp5daltsv76QuWraG3
+TkQbMcYmt0H5TDKgNLaZtBLTVBELrFqLus2JCQs5UM3A8/wgm6cQ9DVIfMe2FPK3
+zJNhdgYq9aL11hijfgv6/pL0cWYa7Q==
+=aw2U
+-----END PGP SIGNATURE-----
+
+--iwj3hs2zxfpxbnhz--
