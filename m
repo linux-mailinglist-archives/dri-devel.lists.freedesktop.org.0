@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905887F9F76
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 13:22:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3F1F7F9F7B
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Nov 2023 13:23:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8DCE10E24E;
-	Mon, 27 Nov 2023 12:22:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 494D310E250;
+	Mon, 27 Nov 2023 12:23:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19C4C10E24E
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 12:22:41 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id
- a640c23a62f3a-a00a9c6f283so559640566b.0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 04:22:41 -0800 (PST)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C35210E250
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 12:23:48 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id
+ a640c23a62f3a-a0b7f793b8aso239272066b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 04:23:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701087759; x=1701692559; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=hv36pFrC9iwIIrIeqnS3hg7W1baMIzE64/BZBTQINrM=;
- b=RKh6P5JrO2RRdZOsoiscTt373UfvXR1zxelIpMpL1VatJ6NIaQWghV8ilO9pFqz+go
- uFCKJOoB8V14G7MBcsiW/gUjtfZtV/6+xAUXOs5g/0Skwva2/RJoQ7qgSZmsAkhW73dc
- QjpFbjoh57FdYfaa+0hx+89/mVyWNWEaMoXuYUVq/cfBAER7cWuDsoXHd4tElEynADPs
- 85aLBBCW1sDY2RskQ1vbSB9TjwuhJNhsBzb2DQu5qC6izzgxmnQSKQqxndqdqusSSL7V
- zQuWFw10lyPyNoyymk0f8rOaKDUXYa7lvlMZektmpMxc6YOOfUtF8s+XoTck9rceAhrU
- jK6w==
+ d=linaro.org; s=google; t=1701087827; x=1701692627; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=M7CygS/PO90G4qc/2mRV1YYszBcCYh2ZWUTNhxvwvtc=;
+ b=JDzZXwO7tLn0g+iqN9c/WRgpbC3H/u8A6ATIJPipSA2ni9y3IszUbgi1OMh5rEG/5n
+ HnLu563dUKFUFAPZAl5OfQ0ufOt429Trd0dICxSeunYJlVVqPYs8c/1Wd3czhAL85osU
+ Yz79G0loAqoR+TGZkzzdafjKPhhkLz1vWSTJ2i8h1teHgFkvJqPMpHb6s6Jqr0mPtJuW
+ j7yUQfa5lJ6N0TjrsKsmZg/Ee5wSO960DBE9X96YdxlbODvC/e1hCdIJ6vlGfnkrV6FU
+ Bb+hUh+hT79AsehMuTrqHHWrD0oBXTDRa8UqNnBUQq53zYdDGnh2wepte9FlGP1ZJhNi
+ vhwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701087759; x=1701692559;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hv36pFrC9iwIIrIeqnS3hg7W1baMIzE64/BZBTQINrM=;
- b=hmy5xcqikte2G4QYvusoAEB9A6r58lqbP+MNPBnEfA3q4UWeOX6Dp5ZpJTnLCTIu0u
- NIBNjmVa8Wo3c+3WKye0owT6oa69c6jJVlJV4Io/iYVjLiLK+bzjkG4mexWC8mQZt+kB
- fnNBJOQomZ35Ejw4aZvPsNRbldbPUDmR2jWR7PX5ggpf98PkraYB5eeOnU5E31onc4V1
- PjyITA2B94TGoNR8OrSRJejkWWj8QtldmnbePLEQEqQVH6fgv4mcPURuP8nZ+w0Jg+Nn
- fKanwKQYxj0u9ZJY89Vx/V4nMcDuT3H5yp0Gdh1HQy2Uo7EOWTApClZrm3TRNNoY3j9U
- 3pTQ==
-X-Gm-Message-State: AOJu0YxCGQhO6glbZ8ODKFhOyCPh1Z6agSRjgOeKuuXz+jKc3w5DKp1t
- pmkU4GkrHJU3w27rxJNuu+Szlg==
-X-Google-Smtp-Source: AGHT+IHbFr2oqMFhNbE9oWHoGNr5fDq+adeMmNIddD4KZ2qAEI2P0+w9sRE8EYvtoorvYCZWFOWoOA==
-X-Received: by 2002:a17:907:1a42:b0:9be:77cd:4c2c with SMTP id
- mf2-20020a1709071a4200b009be77cd4c2cmr6357210ejc.28.1701087759414; 
- Mon, 27 Nov 2023 04:22:39 -0800 (PST)
+ d=1e100.net; s=20230601; t=1701087827; x=1701692627;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=M7CygS/PO90G4qc/2mRV1YYszBcCYh2ZWUTNhxvwvtc=;
+ b=b5p9dNTzn1m3tpqrRTJgoR46jEDfM7AqKjVDDIeaZRag+579uSZKGMq4x4FvJW+vxl
+ qVnhN6wNL495de5bNONEMIYszsOHCWjIAaSpTmLoMDx7C3mRoP+SxHYas7chFOmbcqY6
+ vcUe2efSqu+iS8mkUNFTU/Sby5DCn5XbGZjbUB2jS05ohTBHnhp+Jx9lS9YWrM1pkphy
+ S3xROlmgGRavFUn3lPjy3MIPZC7BsfXD6asV6fh+vUR7TSjo9JLYsFRd3rmKxpZxgXRn
+ OU0CcpwhsnzNsgWH9p3pv55nUB+LVkjeBzUvHswgeUPI+xxAML/9oLQXwJNj9yptdUnv
+ 3FYg==
+X-Gm-Message-State: AOJu0YyexbVqtr7WyssgJn5WHC4pjKHqpJc90+di2BZzphl0U4XFPONM
+ LlZcxhiNXPRr6jqikPLWa7LuUA==
+X-Google-Smtp-Source: AGHT+IFbTET+o7uLkv685HeoQk9Gn2PXTnWD7L7z89QwhnGciSV+re+d+ZcJ8XhQAbxJZs8QalRXNQ==
+X-Received: by 2002:a17:906:194f:b0:a01:3df:a93a with SMTP id
+ b15-20020a170906194f00b00a0103dfa93amr9299948eje.23.1701087826795; 
+ Mon, 27 Nov 2023 04:23:46 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.109])
  by smtp.gmail.com with ESMTPSA id
- x24-20020a170906135800b009fc8233fb66sm5625190ejb.36.2023.11.27.04.22.37
+ x24-20020a170906135800b009fc8233fb66sm5625190ejb.36.2023.11.27.04.23.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Nov 2023 04:22:38 -0800 (PST)
-Message-ID: <a1c651a3-31ed-4ee0-a7bf-a9f5e107bd33@linaro.org>
-Date: Mon, 27 Nov 2023 13:22:35 +0100
+ Mon, 27 Nov 2023 04:23:46 -0800 (PST)
+Message-ID: <7bba5723-97c2-4301-9864-353d8bfda752@linaro.org>
+Date: Mon, 27 Nov 2023 13:23:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v1 1/2] dt-bindings: display: bridge: cdns: Add properties
  to support StarFive JH7110 SoC
+Content-Language: en-US
 To: Shengyang Chen <shengyang.chen@starfivetech.com>,
  devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
 References: <20231127113436.57361-1-shengyang.chen@starfivetech.com>
  <20231127113436.57361-2-shengyang.chen@starfivetech.com>
-Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -155,64 +154,8 @@ On 27/11/2023 12:34, Shengyang Chen wrote:
 >        - ti,j721e-dsi
 > +      - starfive,cdns-dsi
 
-Keep alphabetical order.
-
->  
->    reg:
->      minItems: 1
-> @@ -27,14 +28,20 @@ properties:
->            Register block for wrapper settings registers in case of TI J7 SoCs.
->  
->    clocks:
-> +    minItems: 2
->      items:
->        - description: PSM clock, used by the IP
->        - description: sys clock, used by the IP
-> +      - description: apb clock, used by the IP
-> +      - description: txesc clock, used by the IP
->  
->    clock-names:
-> +    minItems: 2
->      items:
->        - const: dsi_p_clk
->        - const: dsi_sys_clk
-> +      - const: apb
-> +      - const: txesc
->  
->    phys:
->      maxItems: 1
-> @@ -46,10 +53,21 @@ properties:
->      maxItems: 1
->  
->    resets:
-> -    maxItems: 1
-> +    minItems: 1
-> +    items:
-> +      - description: dsi sys reset line
-> +      - description: dsi dpi reset line
-> +      - description: dsi apb reset line
-> +      - description: dsi txesc reset line
-> +      - description: dsi txbytehs reset line
->  
->    reset-names:
-> -    const: dsi_p_rst
-> +    items:
-> +      - const: dsi_p_rst
-> +      - const: dsi_dpi
-> +      - const: dsi_apb
-> +      - const: dsi_txesc
-> +      - const: dsi_txbytehs
->  
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
-> @@ -90,6 +108,22 @@ allOf:
->          reg:
->            maxItems: 1
->  
-
-You need to restrict other variants, because you just relaxed several
-properties for everyone...
-
+BTW, one more thing, I really doubt that starfive created "cdns" block.
+"cdns" is vendor prefix. Use SoCs-specific compatibles.
 
 Best regards,
 Krzysztof
