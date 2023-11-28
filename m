@@ -1,109 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9DF7FB5D3
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 10:31:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E4BE7FB61D
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 10:43:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC85710E469;
-	Tue, 28 Nov 2023 09:31:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 198D810E46D;
+	Tue, 28 Nov 2023 09:43:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80A7110E469
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 09:31:14 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 36ADA21989;
- Tue, 28 Nov 2023 09:31:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1701163871; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=CxnslxgsQDZ0yNYNWQHF8/y7lmNcof7qD6h6S5Wk6ro=;
- b=e892FWTY9xnYxtcnxuLVFBaKIcAQW9kr2Fx2JsvWP2dCXDDI4kTSDnGSe0ghwXZwukch78
- +KNFHTt9P5YfPMUCFrjZKJMvBPYZs+NA8p5Rmfy5dw1oBpgNaaj8fmKURiGVWfrEK2wzMS
- cYkUwtQvSlG/bfgrOccxLS86vZ+V+LU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1701163871;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=CxnslxgsQDZ0yNYNWQHF8/y7lmNcof7qD6h6S5Wk6ro=;
- b=8ibmHYYcjBQqnSEqDAr8PRt4DH0kFvHOluknfqFsswiNildda4Y/K2RMb9D9XzxCivStxX
- vO/xvdsbC3TlNLAg==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id D361A139FC;
- Tue, 28 Nov 2023 09:31:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap2.dmz-prg2.suse.org with ESMTPSA id GWbiMV6zZWUPUwAAn2gu4w
- (envelope-from <tzimmermann@suse.de>); Tue, 28 Nov 2023 09:31:10 +0000
-Message-ID: <0dd95ae0-1d33-4fbc-9393-0f93e59c0141@suse.de>
-Date: Tue, 28 Nov 2023 10:31:10 +0100
+X-Greylist: delayed 645 seconds by postgrey-1.36 at gabe;
+ Tue, 28 Nov 2023 09:43:47 UTC
+Received: from mail-m92233.xmail.ntesmail.com (mail-m92233.xmail.ntesmail.com
+ [103.126.92.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5807C10E46D
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 09:43:47 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256;
+ b=DcLVgxkd4hRXhqcF3LFgwFiUkuAPVte4HOriks3qtqli+asr6UfOwv7yHAFzmCNlUz7Bf3c5/Bmhnrj/qEbFnUGyFThMExb+W/upEMTqz1W3kNPPB6p7lrjOUYeOjkn1+C2+dgJdnfIgDi8o8qSP0fKbohNU2w8kwVZMuLUenaQ=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+ bh=W++6O1OO0uiQqmpaiWwyK1zsoZBp0YmOXKt4LJxyAwk=;
+ h=date:mime-version:subject:message-id:from;
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+ by mail-m12762.qiye.163.com (Hmail) with ESMTPA id 7DFB25C03E3;
+ Tue, 28 Nov 2023 17:32:55 +0800 (CST)
+Message-ID: <f179e9ae-b2cd-4f6c-badc-4d76d8a3ba0d@rock-chips.com>
+Date: Tue, 28 Nov 2023 17:32:55 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/mxsfb: Switch to drmm_mode_config_init
+Subject: Re: [PATCH v2 10/12] drm/rockchip: vop2: Add support for rk3588
 Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>, Marek Vasut <marex@denx.de>
-References: <20231127212612.77667-1-marex@denx.de>
- <viqwqsyiymnlx6rbt6grpzeac5sdac3wn54xt32p42y3vigopw@gte4gbsiwjt6>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <viqwqsyiymnlx6rbt6grpzeac5sdac3wn54xt32p42y3vigopw@gte4gbsiwjt6>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------HIvdoJZYmgjOmOH0aOKT9wFF"
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -9.09
-X-Spamd-Result: default: False [-9.09 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
- XM_UA_NO_VERSION(0.01)[]; TO_DN_SOME(0.00)[];
- HAS_ATTACHMENT(0.00)[]; REPLY(-4.00)[];
- MIME_BASE64_TEXT_BOGUS(1.00)[]; RCVD_COUNT_THREE(0.00)[3];
- MIME_BASE64_TEXT(0.10)[]; SIGNED_PGP(-2.00)[];
- FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
- MID_RHS_MATCH_FROM(0.00)[]; BAYES_HAM(-3.00)[100.00%];
- ARC_NA(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCPT_COUNT_TWELVE(0.00)[13];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,denx.de:email];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- FREEMAIL_CC(0.00)[lists.freedesktop.org,ffwll.ch,gmail.com,linux.intel.com,nxp.com,pengutronix.de,kernel.org,agner.ch,lists.infradead.org];
- RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
+To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andyshrk@163.com>
+References: <20231122125316.3454268-1-andyshrk@163.com>
+ <20231122125544.3454918-1-andyshrk@163.com> <4788319.uZKlY2gecq@diego>
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <4788319.uZKlY2gecq@diego>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGkpDTlZPHk1CQ0MZH0sdHh5VEwETFh
+ oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5JVUpLS1VKQl
+ kG
+X-HM-Tid: 0a8c15464494b229kuuu7dfb25c03e3
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NBA6Qjo4Mzw#Dh45Gi81ERw8
+ QjgwFAJVSlVKTEtKSk1IQkxNT0xNVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+ WUFZTkNVSUlVTFVKSk9ZV1kIAVlBTUJPSjcG
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,88 +58,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org,
- NXP Linux Team <linux-imx@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, s.hauer@pengutronix.de,
+ chris.obbard@collabora.com, hjc@rock-chips.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kever.yang@rock-chips.com, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ sebastian.reichel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------HIvdoJZYmgjOmOH0aOKT9wFF
-Content-Type: multipart/mixed; boundary="------------eKxjLyXPsOgv1ENtdp0FsEcc";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <mripard@kernel.org>, Marek Vasut <marex@denx.de>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Stefan Agner <stefan@agner.ch>, linux-arm-kernel@lists.infradead.org
-Message-ID: <0dd95ae0-1d33-4fbc-9393-0f93e59c0141@suse.de>
-Subject: Re: [PATCH v2] drm/mxsfb: Switch to drmm_mode_config_init
-References: <20231127212612.77667-1-marex@denx.de>
- <viqwqsyiymnlx6rbt6grpzeac5sdac3wn54xt32p42y3vigopw@gte4gbsiwjt6>
-In-Reply-To: <viqwqsyiymnlx6rbt6grpzeac5sdac3wn54xt32p42y3vigopw@gte4gbsiwjt6>
+Hi Heiko:
 
---------------eKxjLyXPsOgv1ENtdp0FsEcc
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Thanks for you review.
 
-SGkNCg0KQW0gMjguMTEuMjMgdW0gMDk6Mjcgc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBI
-aSwNCj4gDQo+IE9uIE1vbiwgTm92IDI3LCAyMDIzIGF0IDEwOjI1OjM4UE0gKzAxMDAsIE1h
-cmVrIFZhc3V0IHdyb3RlOg0KPj4gU3dpdGNoIGZyb20gZGVwcmVjYXRlZCB1bm1hbmFnZWQg
-ZHJtX21vZGVfY29uZmlnX2luaXQoKSB0bw0KPj4gbWFuYWdlZCBkcm1tX21vZGVfY29uZmln
-X2luaXQoKS4gTm8gZnVuY3Rpb25hbCBjaGFuZ2UuDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTog
-TWFyZWsgVmFzdXQgPG1hcmV4QGRlbnguZGU+DQo+PiAtLS0NCj4+IENjOiBEYW5pZWwgVmV0
-dGVyIDxkYW5pZWxAZmZ3bGwuY2g+DQo+PiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGdt
-YWlsLmNvbT4NCj4+IENjOiBGYWJpbyBFc3RldmFtIDxmZXN0ZXZhbUBnbWFpbC5jb20+DQo+
-PiBDYzogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVs
-LmNvbT4NCj4+IENjOiBNYXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+DQo+PiBD
-YzogTlhQIExpbnV4IFRlYW0gPGxpbnV4LWlteEBueHAuY29tPg0KPj4gQ2M6IFBlbmd1dHJv
-bml4IEtlcm5lbCBUZWFtIDxrZXJuZWxAcGVuZ3V0cm9uaXguZGU+DQo+PiBDYzogU2FzY2hh
-IEhhdWVyIDxzLmhhdWVyQHBlbmd1dHJvbml4LmRlPg0KPj4gQ2M6IFNoYXduIEd1byA8c2hh
-d25ndW9Aa2VybmVsLm9yZz4NCj4+IENjOiBTdGVmYW4gQWduZXIgPHN0ZWZhbkBhZ25lci5j
-aD4NCj4+IENjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+
-IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+PiBDYzogbGludXgtYXJt
-LWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnDQo+IA0KPiBUaGlzIGlzIG9ubHkgc29tZXdo
-YXQgcmVsYXRlZCB0byB0aGF0IHBhdGNoLCBidXQgbWtzZmJfZHJtX3ByaXZhdGUgaXMNCj4g
-YWxsb2NhdGVkIHdpdGggZGV2bSBhbmQgaG9sZHMgdGhlIHBsYW5lcywgY3J0Y3MgYW5kIGVu
-Y29kZXJzLiBUaGlzIGlzDQo+IHVuc2FmZSwgbGVhZHMgdG8gVUFGLCBhbmQgc2hvdWxkIGJl
-IGNvbnZlcnRlZCB0byBhIGRybW0gYWxsb2NhdGlvbiB0b28NCj4gKGluIGFub3RoZXIgcGF0
-Y2ggb2YgY291cnNlKQ0KDQpUbyBhZGQgdG8gdGhpcywgdGhlIHdob2xlIGRyaXZlcidzIHBy
-b2JlL3JlbW92ZSBzaG91bGQgYmUgY29udmVydGVkIHRvIA0KbWFuYWdlZCBjb2RlLiBUaGVy
-ZSdzIGlycSBhbmQgcG0gY29kZSB0aGF0IGNvdWxkIGxpa2VseSBiZSB1cGRhdGVkLiANCk1h
-cmVrLCBpZiB5b3UgaGF2ZSB0aGUgbWVhbnMsIHBhdGNoZXMgYXJlIHdlbGNvbWUuDQoNCkJl
-c3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IE1heGltZQ0KDQotLSANClRob21hcyBaaW1t
-ZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0
-aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJn
-LCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFs
-ZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
+On 11/27/23 23:29, Heiko Stübner wrote:
+> Hi Andy,
+>
+> Am Mittwoch, 22. November 2023, 13:55:44 CET schrieb Andy Yan:
+>> From: Andy Yan <andy.yan@rock-chips.com>
+>>
+>> VOP2 on rk3588:
+>>
+>> Four video ports:
+>> VP0 Max 4096x2160
+>> VP1 Max 4096x2160
+>> VP2 Max 4096x2160
+>> VP3 Max 2048x1080
+>>
+>> 4 4K Cluster windows with AFBC/line RGB and AFBC-only YUV support
+>> 4 4K Esmart windows with line RGB/YUV support
+>>
+>> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+>>
+>> ---
+>>
+>> Changes in v2:
+>> - add rk3588_ prefix for functions which are rk3588 only
+>> - make some calculation as fixed value and keep calculation formula as
+>>    comment
+>> - check return value for some cru calculation functions.
+>> - check return value for syscon_regmap_lookup_by_phandle
+>> - add NV20/NV30 for esmart plane
+>>
+>>   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 381 ++++++++++++++++++-
+>>   drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  66 ++++
+>>   drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 221 +++++++++++
+>>   3 files changed, 660 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>> index 4bcc405bcf11..9eecbe1f71f9 100644
+>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>> @@ -271,9 +282,12 @@ static bool vop2_cluster_window(const struct vop2_win *win)
+>>   static void vop2_cfg_done(struct vop2_video_port *vp)
+>>   {
+>>   	struct vop2 *vop2 = vp->vop2;
+>> +	u32 val;
+>> +
+>> +	val = BIT(vp->id) | (BIT(vp->id) << 16) |
+>> +		RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN;
+>>   
+>> -	regmap_set_bits(vop2->map, RK3568_REG_CFG_DONE,
+>> -			BIT(vp->id) | RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN);
+>> +	regmap_set_bits(vop2->map, RK3568_REG_CFG_DONE, val);
+> I don't fully understand that code:
+> (1) the write mask is also present on the rk3568, so should this change
+>      be a separate patch with a fixes tag?
 
---------------eKxjLyXPsOgv1ENtdp0FsEcc--
+The write mask of VP config done on rk356x is missing, that means
 
---------------HIvdoJZYmgjOmOH0aOKT9wFF
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+you can write the corresponding mask bit, but it has no effect.
 
------BEGIN PGP SIGNATURE-----
+I once considered making it a separate patch,  I can split it as a separate patch if
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVls14FAwAAAAAACgkQlh/E3EQov+Cd
-hBAAiXCWzF5rlJw/rVeubyZnMm5TxIk0jAS1ipwWOCdSKeryC69kBmujJU8AnOnEnVNqMJUcxNC1
-kRD3evGSmm//dDH8OzHQwzEALuklI38fUYX59OOqu1B1H/Lgs27RGmWtRdKp7xKsSV71Y5I82El3
-+LgRcxyWVF78A7oPH+NRaK8rJ02DaUivi8nK8FUBVPLsQ2XkUx+JBVbxRZiY1GD6P7RunnypwUT8
-mex84nr7G4Mfy6Lz5AplUbl1ux+2z5/4tzBkvKaOn/4FPdz/D1g0NQbWD3ni96CIjklWvknZiGV8
-jlWQjiss6KX8zkS7/9ltkTN0QkeHwpH0/2WYGizGaX6fF+aIgwBXnFGMU8YwRIa/L8jXZq9YMBaz
-2EOJmZVpejJb+b3i/VTle/fabxUgEj0E4JZH3rr2JnyajXXoawL699W5RD+kGpIwpDP2mRkY0Va3
-z0a4Hja06U0Zar499FhIgqowXrIdSfj8l16Vx1KGxGA8gUEclP1/JT+vHljENUzL50PphdFXyixy
-aVB298/WZbLuqa5/OZUyusPc60hg1D0vI1DMOJVctpq6wUBOcCfLY+CySD0CBjHG7miGqO1WvPcf
-Ergg1ZjiEoMvOIweq7J74gZdNBxnD2ZreRz4DQG9fjf5yPze7E9cQNOPizRD1Fb5op04R++JhnSu
-oAE=
-=nBJf
------END PGP SIGNATURE-----
+you like.
 
---------------HIvdoJZYmgjOmOH0aOKT9wFF--
+> (2) RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN does not contain the part for
+>      the write-mask
+>
+> 	#define RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN     BIT(15)
+>
+>      why is this working then?
+
+
+Actually this bit has no write-mask bit. 🙂
+
+>
+>>   }
+>>   
+>>   static void vop2_win_disable(struct vop2_win *win)
+> [...]
+>
+>> @@ -1298,7 +1346,11 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+>>   			vop2_win_write(win, VOP2_WIN_AFBC_ENABLE, 1);
+>>   		vop2_win_write(win, VOP2_WIN_AFBC_FORMAT, afbc_format);
+>>   		vop2_win_write(win, VOP2_WIN_AFBC_UV_SWAP, uv_swap);
+>> -		vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 0);
+>> +		if (vop2->data->soc_id == 3566 || vop2->data->soc_id == 3568)
+>> +			vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 0);
+>> +		else
+>> +			vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 1);
+>> +
+> I think this at least warrants a comment, what is happening here. Also,
+> can you already see how future vop2-users are behaving - aka are all new
+> socs in the "else" part of the conditional, or would a switch-case better
+> represent future socs?
+
+
+On rk356x, this bit is auto gating enable, but this function is not work well so
+
+we need to disable this function.
+
+On rk3588, and the following new soc(rk3528/rk3576), this bit is gating disable,
+
+we should write 1 to disable gating when enable a cluster window.
+
+
+Maybe i add some comments in next version ?
+
+
+
+>
+>>   		vop2_win_write(win, VOP2_WIN_AFBC_BLOCK_SPLIT_EN, 0);
+>>   		transform_offset = vop2_afbc_transform_offset(pstate, half_block_en);
+>>   		vop2_win_write(win, VOP2_WIN_AFBC_HDR_PTR, yrgb_mst);
+>
+>> @@ -1627,9 +1937,17 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
+>>   	drm_for_each_encoder_mask(encoder, crtc->dev, crtc_state->encoder_mask) {
+>>   		struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
+>>   
+>> -		rk3568_set_intf_mux(vp, rkencoder->crtc_endpoint_id, polflags);
+>> +		/*
+>> +		 * for drive a high resolution(4KP120, 8K), vop on rk3588/rk3576 need
+>> +		 * process multi(1/2/4/8) pixels per cycle, so the dclk feed by the
+>> +		 * system cru may be the 1/2 or 1/4 of mode->clock.
+>> +		 */
+>> +		clock = vop2_set_intf_mux(vp, rkencoder->crtc_endpoint_id, polflags);
+>>   	}
+>>   
+>> +	if (!clock)
+>> +		return;
+>> +
+> hmm, shouldn't the check for the validity of a mode happen before
+> atomic_enable is run? So this shouldn't error out in the middle of the
+> function?
+>
+>
+>>   	if (vcstate->output_mode == ROCKCHIP_OUT_MODE_AAAA &&
+>>   	    !(vp_data->feature & VOP_FEATURE_OUTPUT_10BIT))
+>>   		out_mode = ROCKCHIP_OUT_MODE_P888;
+>
+> Thanks
+> Heiko
+>
+>
+>
+> _______________________________________________
+> Linux-rockchip mailing list
+> Linux-rockchip@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-rockchip
