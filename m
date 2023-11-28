@@ -1,46 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9AC67FBAAD
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 14:00:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1285A7FBAB1
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 14:01:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A5FA10E509;
-	Tue, 28 Nov 2023 13:00:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E62E10E512;
+	Tue, 28 Nov 2023 13:01:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2B0E10E509
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 13:00:54 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BB3110E50A
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 13:00:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 1FB8BB83657;
- Tue, 28 Nov 2023 13:00:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28271C433C8;
- Tue, 28 Nov 2023 13:00:51 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id E498EB8399D;
+ Tue, 28 Nov 2023 13:00:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E407EC433C7;
+ Tue, 28 Nov 2023 13:00:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701176452;
- bh=iQY4bJQiN3c6pMqgOKt7BcxpAUaqyamtlGBhvbZfDco=;
+ s=k20201202; t=1701176455;
+ bh=hJBdeKQ+RZ6xDdb/WPig3f/tNF0FMweb3romdDHpWBo=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=F7j6DxAAvfbSz1ShjmsAJbPvKAhHvGylm9giBbGWCDU/Xnbk/BH0+rlZmOfel/UQ7
- zHLA3nw1PmaOckhJnAiw5+q06b4TonZU76jkmts2JEQVCE+cboKi/F8cXnY5sH3Oe1
- znEWErND0IH7bv9nzn1Yg3EzdHPvFLH9KyXx2xEY3mZXZMUeEdZRuzAW3WzvGKdlUQ
- /HsMVUW3BIKIFDWCuiP7UGPN0tIZJlzH045j1VhpK6BZfJBp4D5WxfbSrsvXAgaD6L
- nR46WYDOTy0pVx4oZpVdduR4XsIcxnobfKabOLwTPpdDCp4qQu1B/gh+xAsNmE0bgG
- T4vW7ldjP7rjQ==
+ b=Sq32Bh4AVEfRR2OVKWMCO0yrVJTPJIEEtqJwC9dD6hCKullwIfHzvyp+HgVX4P0Rr
+ lCaSweHfCoE0O9QnuxoMufE4qHnS4o8JRJss3dYryMwqQTZviZifAx+KuvBHIRFhxU
+ fOnESc9vCIpONw+HjD6npmR4ZMdNk8fuIIg4v9pHBe8MF1KMs9GHkLMyCH38LvBhAe
+ yARuYpj6DFiEKyQ1Pteb2IqNjtjIvmx0WoK9X6x4FHQT9svH+f/UapU+8v3xPWBh85
+ Nm49HO5USXLe8csiMIFty3aYjvpOqnlBSR8v1ysvugpxIY/apdA+Ya8msCn3yJO9tw
+ X56CjZqfDhueQ==
 From: Maxime Ripard <mripard@kernel.org>
-To: Frank Binns <frank.binns@imgtec.com>, 
- Donald Robson <donald.robson@imgtec.com>, 
- Matt Coster <matt.coster@imgtec.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, 
- Colin Ian King <colin.i.king@gmail.com>
-In-Reply-To: <20231124163917.300685-1-colin.i.king@gmail.com>
-References: <20231124163917.300685-1-colin.i.king@gmail.com>
-Subject: Re: (subset) [PATCH][next] drm/imagination: Fix a couple of
- spelling mistakes in literal strings
-Message-Id: <170117645007.2825698.11061509087464086760.b4-ty@kernel.org>
-Date: Tue, 28 Nov 2023 14:00:50 +0100
+To: airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de, 
+ Yang Li <yang.lee@linux.alibaba.com>
+In-Reply-To: <20231127010430.119666-1-yang.lee@linux.alibaba.com>
+References: <20231127010430.119666-1-yang.lee@linux.alibaba.com>
+Subject: Re: (subset) [PATCH -next] drm/imagination: Remove unneeded semicolon
+Message-Id: <170117645284.2825698.5291536239401902497.b4-ty@kernel.org>
+Date: Tue, 28 Nov 2023 14:00:52 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -57,13 +52,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, matt.coster@imgtec.com,
+ donald.robson@imgtec.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 24 Nov 2023 16:39:17 +0000, Colin Ian King wrote:
-> There are a couple of spelling mistakes in literal strings in the
-> stid_fmts array. Fix these.
+On Mon, 27 Nov 2023 09:04:30 +0800, Yang Li wrote:
+> ./drivers/gpu/drm/imagination/pvr_free_list.c:258:2-3: Unneeded semicolon
 > 
 > 
 
