@@ -2,63 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B4B67FBCB3
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 15:28:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F4F7FBD89
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 15:59:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2704F10E551;
-	Tue, 28 Nov 2023 14:28:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C21810E564;
+	Tue, 28 Nov 2023 14:58:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
- [IPv6:2001:4860:4864:20::35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BA7E10E551;
- Tue, 28 Nov 2023 14:28:23 +0000 (UTC)
-Received: by mail-oa1-x35.google.com with SMTP id
- 586e51a60fabf-1fa1c3755afso1495601fac.1; 
- Tue, 28 Nov 2023 06:28:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701181703; x=1701786503; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1tmejyirwISX4dtXX4YWaEBQtRgR13R/FrRlHHYvz9E=;
- b=CCh1Egy6ZwlsFjbmxCLlNIHCw/DvczY5fe1SdvkSNcvS8BwwYhhGhTGh8EMD3hFXOA
- IkUnDhwnxJX6rcWsZG9u8tZaHi14UitQ35K5zdmxOhqitns0rhkvrgfEoAyxzKWh9RC7
- XiehEweHhN6GKksJdL7LPOKmRRapuJeG4tnrY/WmHmNA0yzLcqrUoLhEc5BcjA5eOgSu
- RHDLhwNwDOtr78LCIxuEph7eV+8Wwp4SZMf2IXtODlC69HzcNAs7H3Xt1wzARIT6CgEX
- 3fEHDBmInpmWdU/59VeR6F6U5+hp0eAADibpJPDm/PT1vXuJ+JT/dfZEjBXBJ3kVUXpV
- 6i4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701181703; x=1701786503;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1tmejyirwISX4dtXX4YWaEBQtRgR13R/FrRlHHYvz9E=;
- b=uF9zlnR09gv/RQuTZyG0NFZ9yiX+bXew+635Pfq2qjLawInQ038A63eSICdu2im8IO
- kvaBAyAzguo60bhS6bXNbudFcNcS30HpRGuviBiJ3ualYC7KHCHi9RKEyPmmAr8wqkAg
- cfUXq9lKuzujlry2czm7QxTKHEj2rWc/AT9pBlb7lROvLOiH4tCHpsUVEADCyAMkQynM
- 2EVm4kz7N/N3sYanCHEWGddExDX4nqoLY7Hl/g9O7B5QQkc6jfJLkozsBHgTzLUOkNha
- 6pkyefLf0OLbsXLHOVZuJZxSzzNCg4YgEbg1ep27kus8niPZJYVkMSw0Ioi66O/zxVDA
- HxqQ==
-X-Gm-Message-State: AOJu0YyEmvt0qxxCRQ5KtP8G5vFREfwL55q0m1DFfVxMIH+0hcnLgGIu
- My4WIHHpxzedkTFi+OR5F/H9MxlPMDaDWOa2nfo=
-X-Google-Smtp-Source: AGHT+IHqvv5vkT2KyCNQ9HDx6yVhLVzpq+34e4q3Z60lsALZ2oCr3sOI+M40yctwzPkYJsqvJprCy82Lb0EPxBoUqlE=
-X-Received: by 2002:a05:6870:b510:b0:1fa:25d6:9010 with SMTP id
- v16-20020a056870b51000b001fa25d69010mr5653711oap.18.1701181702740; Tue, 28
- Nov 2023 06:28:22 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E996210E560
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 14:58:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701183534; x=1732719534;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=MmtHq2AXw3e0z60hXa4rJ0joKeClbwyrFO4/JVmK7So=;
+ b=PccI+YI3N1mm44qQU+wycSimB5raUL8a6nQHFpBJ17RI+hjkbalBMmuN
+ ipVudIaI9K9FbZ3YBnfYx2ZKPOVPoarHuT7fiutXBtakj5EzUgEZFdfbk
+ 8E25CI4PtFF53SfdavibM73fPVioPr7SFt7Top4v4R5nQf2Nv4s0BHfiL
+ B7fLsoJQcN2u0E9rLvE0JtbEQSUHDglyUWqtmTQcvTw/70LttrayZn4+N
+ mExHmTa7F/SBWFCC47wJIisEvchqQb3zXyIEHuxuvl0vc1L71asZraR+m
+ +bGlYHKpWGwEx3J12bhnavhj/BVDRgZ7I7v85gCu0XsBcYPHpw4VZTV7z g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="459442640"
+X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; d="scan'208";a="459442640"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Nov 2023 06:58:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
+   d="scan'208";a="9971128"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+ by orviesa002.jf.intel.com with ESMTP; 28 Nov 2023 06:58:48 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1r7zXy-0007eq-14;
+ Tue, 28 Nov 2023 14:58:46 +0000
+Date: Tue, 28 Nov 2023 22:57:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v4 03/45] drm/tests: Add helper to create mock plane
+Message-ID: <202311282223.mefGp1S5-lkp@intel.com>
+References: <20231128-kms-hdmi-connector-state-v4-3-c7602158306e@kernel.org>
 MIME-Version: 1.0
-References: <20231117195626.13599-1-alexander.deucher@amd.com>
- <a42a4321-9dce-4c76-9578-8ea665b874f8@gmail.com>
-In-Reply-To: <a42a4321-9dce-4c76-9578-8ea665b874f8@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 28 Nov 2023 09:28:11 -0500
-Message-ID: <CADnq5_NiHRhDJt+bkdy35GPfTaTUdSRrf_aVVQobfFgayHP2hw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: add shared fdinfo stats
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- Rob Clark <robdclark@gmail.com>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231128-kms-hdmi-connector-state-v4-3-c7602158306e@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,129 +67,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org
+Cc: linux-doc@vger.kernel.org, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org,
+ Maxime Ripard <mripard@kernel.org>, oe-kbuild-all@lists.linux.dev,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 28, 2023 at 9:17=E2=80=AFAM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Am 17.11.23 um 20:56 schrieb Alex Deucher:
-> > Add shared stats.  Useful for seeing shared memory.
-> >
-> > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  4 ++++
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 11 +++++++++++
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  6 ++++++
-> >   3 files changed, 21 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c b/drivers/gpu/d=
-rm/amd/amdgpu/amdgpu_fdinfo.c
-> > index 5706b282a0c7..c7df7fa3459f 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> > @@ -97,6 +97,10 @@ void amdgpu_show_fdinfo(struct drm_printer *p, struc=
-t drm_file *file)
-> >                  stats.requested_visible_vram/1024UL);
-> >       drm_printf(p, "amd-requested-gtt:\t%llu KiB\n",
-> >                  stats.requested_gtt/1024UL);
-> > +     drm_printf(p, "drm-shared-vram:\t%llu KiB\n", stats.vram_shared/1=
-024UL);
-> > +     drm_printf(p, "drm-shared-gtt:\t%llu KiB\n", stats.gtt_shared/102=
-4UL);
-> > +     drm_printf(p, "drm-shared-cpu:\t%llu KiB\n", stats.cpu_shared/102=
-4UL);
-> > +
-> >       for (hw_ip =3D 0; hw_ip < AMDGPU_HW_IP_NUM; ++hw_ip) {
-> >               if (!usage[hw_ip])
-> >                       continue;
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/d=
-rm/amd/amdgpu/amdgpu_object.c
-> > index d79b4ca1ecfc..c24f7b2c04c1 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > @@ -1287,25 +1287,36 @@ void amdgpu_bo_get_memory(struct amdgpu_bo *bo,
-> >                         struct amdgpu_mem_stats *stats)
-> >   {
-> >       uint64_t size =3D amdgpu_bo_size(bo);
-> > +     struct drm_gem_object *obj;
-> >       unsigned int domain;
-> > +     bool shared;
-> >
-> >       /* Abort if the BO doesn't currently have a backing store */
-> >       if (!bo->tbo.resource)
-> >               return;
-> >
-> > +     obj =3D &bo->tbo.base;
-> > +     shared =3D obj->handle_count > 1;
->
-> Interesting approach but I don't think that this is correct.
->
-> The handle_count is basically how many GEM handles are there for BO, so
-> for example it doesn't catch sharing things with V4L.
->
-> What we should probably rather do is to take a look if
-> bo->tbo.base.dma_buf is NULL or not.
+Hi Maxime,
 
-+Rob, dri-devel
+kernel test robot noticed the following build warnings:
 
-This is what the generic drm helper code does.  See
-drm_show_memory_stats().  If that is not correct that code should
-probably be fixed too.
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on sunxi/sunxi/for-next drm/drm-next linus/master v6.7-rc3 next-20231128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Alex
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-tests-helpers-Add-atomic-helpers/20231128-193409
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231128-kms-hdmi-connector-state-v4-3-c7602158306e%40kernel.org
+patch subject: [PATCH v4 03/45] drm/tests: Add helper to create mock plane
+config: i386-buildonly-randconfig-002-20231128 (https://download.01.org/0day-ci/archive/20231128/202311282223.mefGp1S5-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231128/202311282223.mefGp1S5-lkp@intel.com/reproduce)
 
->
-> Regards,
-> Christian.
->
->
-> > +
-> >       domain =3D amdgpu_mem_type_to_domain(bo->tbo.resource->mem_type);
-> >       switch (domain) {
-> >       case AMDGPU_GEM_DOMAIN_VRAM:
-> >               stats->vram +=3D size;
-> >               if (amdgpu_bo_in_cpu_visible_vram(bo))
-> >                       stats->visible_vram +=3D size;
-> > +             if (shared)
-> > +                     stats->vram_shared +=3D size;
-> >               break;
-> >       case AMDGPU_GEM_DOMAIN_GTT:
-> >               stats->gtt +=3D size;
-> > +             if (shared)
-> > +                     stats->gtt_shared +=3D size;
-> >               break;
-> >       case AMDGPU_GEM_DOMAIN_CPU:
-> >       default:
-> >               stats->cpu +=3D size;
-> > +             if (shared)
-> > +                     stats->cpu_shared +=3D size;
-> >               break;
-> >       }
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/d=
-rm/amd/amdgpu/amdgpu_object.h
-> > index d28e21baef16..0503af75dc26 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> > @@ -138,12 +138,18 @@ struct amdgpu_bo_vm {
-> >   struct amdgpu_mem_stats {
-> >       /* current VRAM usage, includes visible VRAM */
-> >       uint64_t vram;
-> > +     /* current shared VRAM usage, includes visible VRAM */
-> > +     uint64_t vram_shared;
-> >       /* current visible VRAM usage */
-> >       uint64_t visible_vram;
-> >       /* current GTT usage */
-> >       uint64_t gtt;
-> > +     /* current shared GTT usage */
-> > +     uint64_t gtt_shared;
-> >       /* current system memory usage */
-> >       uint64_t cpu;
-> > +     /* current shared system memory usage */
-> > +     uint64_t cpu_shared;
-> >       /* sum of evicted buffers, includes visible VRAM */
-> >       uint64_t evicted_vram;
-> >       /* sum of evicted buffers due to CPU access */
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311282223.mefGp1S5-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/tests/drm_kunit_helpers.c:290: warning: Function parameter or member 'num_formats' not described in 'drm_kunit_helper_create_primary_plane'
+>> drivers/gpu/drm/tests/drm_kunit_helpers.c:290: warning: Excess function parameter 'format_count' description in 'drm_kunit_helper_create_primary_plane'
+
+
+vim +290 drivers/gpu/drm/tests/drm_kunit_helpers.c
+
+   257	
+   258	/**
+   259	 * drm_kunit_helper_create_primary_plane - Creates a mock primary plane for a KUnit test
+   260	 * @test: The test context object
+   261	 * @drm: The device to alloc the plane for
+   262	 * @funcs: Callbacks for the new plane. Optional.
+   263	 * @helper_funcs: Helpers callbacks for the new plane. Optional.
+   264	 * @formats: array of supported formats (DRM_FORMAT\_\*). Optional.
+   265	 * @format_count: number of elements in @formats
+   266	 * @modifiers: array of struct drm_format modifiers terminated by
+   267	 *             DRM_FORMAT_MOD_INVALID. Optional.
+   268	 *
+   269	 * This allocates and initializes a mock struct &drm_plane meant to be
+   270	 * part of a mock device for a KUnit test.
+   271	 *
+   272	 * Resources will be cleaned up automatically.
+   273	 *
+   274	 * @funcs will default to the default helpers implementations.
+   275	 * @helper_funcs will default to an empty implementation. @formats will
+   276	 * default to XRGB8888 only. @modifiers will default to a linear
+   277	 * modifier only.
+   278	 *
+   279	 * Returns:
+   280	 * A pointer to the new plane, or an ERR_PTR() otherwise.
+   281	 */
+   282	struct drm_plane *
+   283	drm_kunit_helper_create_primary_plane(struct kunit *test,
+   284					      struct drm_device *drm,
+   285					      const struct drm_plane_funcs *funcs,
+   286					      const struct drm_plane_helper_funcs *helper_funcs,
+   287					      const uint32_t *formats,
+   288					      unsigned int num_formats,
+   289					      const uint64_t *modifiers)
+ > 290	{
+   291		struct drm_plane *plane;
+   292	
+   293		if (!funcs)
+   294			funcs = &default_plane_funcs;
+   295	
+   296		if (!helper_funcs)
+   297			helper_funcs = &default_plane_helper_funcs;
+   298	
+   299		if (!formats || !num_formats) {
+   300			formats = default_plane_formats;
+   301			num_formats = ARRAY_SIZE(default_plane_formats);
+   302		}
+   303	
+   304		if (!modifiers)
+   305			modifiers = default_plane_modifiers;
+   306	
+   307		plane = __drmm_universal_plane_alloc(drm,
+   308						     sizeof(struct drm_plane), 0,
+   309						     0,
+   310						     funcs,
+   311						     formats,
+   312						     num_formats,
+   313						     default_plane_modifiers,
+   314						     DRM_PLANE_TYPE_PRIMARY,
+   315						     NULL);
+   316		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane);
+   317	
+   318		drm_plane_helper_add(plane, helper_funcs);
+   319	
+   320		return plane;
+   321	}
+   322	EXPORT_SYMBOL_GPL(drm_kunit_helper_create_primary_plane);
+   323	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
