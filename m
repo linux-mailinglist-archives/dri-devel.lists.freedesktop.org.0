@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEF447FB75A
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 11:25:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AEA57FB76C
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 11:26:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED4CD10E494;
-	Tue, 28 Nov 2023 10:25:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0603610E498;
+	Tue, 28 Nov 2023 10:26:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A7CF10E48F
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E923E10E48F
  for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 10:25:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 00EBBCE1ABE;
- Tue, 28 Nov 2023 10:25:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB250C433B7;
- Tue, 28 Nov 2023 10:25:25 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7118261659;
+ Tue, 28 Nov 2023 10:25:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CDF2C433C9;
+ Tue, 28 Nov 2023 10:25:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701167126;
- bh=T7BGbpPZ3AlM96tkJBI+UFTFXx2WsbuihikI0ttB014=;
+ s=k20201202; t=1701167128;
+ bh=O2ArSsFw7SF4g7FuBBWi6vHwa0go+wIZPFZlnlzeBPY=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=f/Bpu358TNzYIPG5mpFwKYmtNrkcMtijeR/lWbQf23dFAxrkGAY6QUZr6Oju6+603
- +pgJFt8oUqVt7m+zeVuvqKhXooUoZRm7QeBzshDJAqwvJjwwq+nNGeaAF8gNZsGCn0
- NUz5wuozBrE09q4FXj/TJGaniH925vhwVhimQaTsg3fyAFxBjXSVhGbSChbKRztjeD
- 7VP129ivYXCeS5tO8/tKf3C6BxL+B29NrQ4R3rgO8DmhVIOq0siqqsMJpLuv9IqiEo
- txzV/R2rUjWEB2rX+YPybp78LczMd08j2/aGpf/PckoIMH1xtyUJYeH1Uwzu2nXqXo
- 3oky2fjdPLB3g==
+ b=rhNhqYW08F4FzAD4keWd51QVik61u3OklgUf//4B4UrBmsOiixFAFHqRKoBRz9nu6
+ 7X2H9Lu0qWMw6kG8fFKCyxCiI2X3ncJLIEvcWVfoTvtqX3xcFFsRqmKjB8mwFmqo/G
+ JZSydJ4rjSZ/CiJf6IXKaB1IFh6IAUIbnN9/kz8ZopE7N5AP+UAaFaT763aEYF2chL
+ 7xoy22TabrdRwj5cp3lxqhz0D6eFkxC3l2MbiAsWBDnhQrDMAO0ss5xA71nOPHfuzg
+ wl242lbtXwaAiJY/mMUXKBN+OCVuU9iUveA+D11kGNjuSNFRKakCX6w8NUDQshq6B+
+ SMvczfQvNtL6Q==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 28 Nov 2023 11:24:33 +0100
-Subject: [PATCH v4 22/45] drm/vc4: tests: Convert to plane creation helper
+Date: Tue, 28 Nov 2023 11:24:34 +0100
+Subject: [PATCH v4 23/45] drm/rockchip: inno_hdmi: Remove useless
+ mode_fixup
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231128-kms-hdmi-connector-state-v4-22-c7602158306e@kernel.org>
+Message-Id: <20231128-kms-hdmi-connector-state-v4-23-c7602158306e@kernel.org>
 References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
 In-Reply-To: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -45,12 +46,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Samuel Holland <samuel@sholland.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2025; i=mripard@kernel.org;
- h=from:subject:message-id; bh=T7BGbpPZ3AlM96tkJBI+UFTFXx2WsbuihikI0ttB014=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmp+y+xmf458dT/1RwJHv2u3WfWfF/O8vviLRbXR0kZY
- n7akjfrO0pZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjAR7nBGhnfajw78nOJ3c2Pt
- 4mkHeiveGlioz126dtnJ3Tw9a7TXLpNn+MXUMWNuxeSDq1I7s8o0lgpOD/u5ZKto0cPTN+LKpj8
- 3FmcBAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1301; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=O2ArSsFw7SF4g7FuBBWi6vHwa0go+wIZPFZlnlzeBPY=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmp+y+JL1Rp87p3vUtntqruhCf9P9+lfLpytUDi25I5e
+ 5yEg5686ShlYRDjYpAVU2SJETZfEndq1utONr55MHNYmUCGMHBxCsBE+KYw/GbVjnt+L+WCKdMB
+ RdeQKZWFl24etvqq907RIe5S3/2sF80M/4NkzBfpH3ooqKP2NmluplG1rb7U6pKs13tfKk1rTog
+ v5QcA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,70 +74,40 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have a plane create helper for kunit mocked drivers, let's
-convert to it in vc4.
+The mode_fixup implementation doesn't do anything, so we can simply
+remove it.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/vc4/tests/vc4_mock_plane.c | 34 +++++++-----------------------
- 1 file changed, 8 insertions(+), 26 deletions(-)
+ drivers/gpu/drm/rockchip/inno_hdmi.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c b/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c
-index 973f5f929097..14357db82238 100644
---- a/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c
-+++ b/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c
-@@ -1,43 +1,25 @@
- // SPDX-License-Identifier: GPL-2.0
- 
--#include <drm/drm_atomic_state_helper.h>
--#include <drm/drm_fourcc.h>
--#include <drm/drm_modeset_helper_vtables.h>
-+#include <drm/drm_kunit_helpers.h>
- #include <drm/drm_plane.h>
- 
- #include <kunit/test.h>
- 
- #include "vc4_mock.h"
- 
--static const struct drm_plane_helper_funcs vc4_dummy_plane_helper_funcs = {
--};
--
--static const struct drm_plane_funcs vc4_dummy_plane_funcs = {
--	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
--	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
--	.reset			= drm_atomic_helper_plane_reset,
--};
--
--static const uint32_t vc4_dummy_plane_formats[] = {
--	DRM_FORMAT_XRGB8888,
--};
--
- struct drm_plane *vc4_dummy_plane(struct kunit *test, struct drm_device *drm,
- 				  enum drm_plane_type type)
- {
- 	struct drm_plane *plane;
- 
--	plane = __drmm_universal_plane_alloc(drm, sizeof(struct drm_plane), 0,
--						 0,
--						 &vc4_dummy_plane_funcs,
--						 vc4_dummy_plane_formats,
--						 ARRAY_SIZE(vc4_dummy_plane_formats),
--						 NULL,
--						 DRM_PLANE_TYPE_PRIMARY,
--						 NULL);
-+	KUNIT_ASSERT_EQ(test, type, DRM_PLANE_TYPE_PRIMARY);
-+
-+	plane = drm_kunit_helper_create_primary_plane(test, drm,
-+						      NULL,
-+						      NULL,
-+						      NULL, 0,
-+						      NULL);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane);
- 
--	drm_plane_helper_add(plane, &vc4_dummy_plane_helper_funcs);
--
- 	return plane;
+diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
+index 6e5b922a121e..cc48cbf85f31 100644
+--- a/drivers/gpu/drm/rockchip/inno_hdmi.c
++++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
+@@ -517,13 +517,6 @@ static void inno_hdmi_encoder_disable(struct drm_encoder *encoder)
+ 	inno_hdmi_set_pwr_mode(hdmi, LOWER_PWR);
  }
+ 
+-static bool inno_hdmi_encoder_mode_fixup(struct drm_encoder *encoder,
+-					 const struct drm_display_mode *mode,
+-					 struct drm_display_mode *adj_mode)
+-{
+-	return true;
+-}
+-
+ static int
+ inno_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
+ 			       struct drm_crtc_state *crtc_state,
+@@ -540,7 +533,6 @@ inno_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
+ static struct drm_encoder_helper_funcs inno_hdmi_encoder_helper_funcs = {
+ 	.enable     = inno_hdmi_encoder_enable,
+ 	.disable    = inno_hdmi_encoder_disable,
+-	.mode_fixup = inno_hdmi_encoder_mode_fixup,
+ 	.mode_set   = inno_hdmi_encoder_mode_set,
+ 	.atomic_check = inno_hdmi_encoder_atomic_check,
+ };
 
 -- 
 2.41.0
