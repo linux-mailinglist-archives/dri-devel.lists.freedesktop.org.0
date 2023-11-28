@@ -1,48 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77C57FBDD8
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 16:12:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5AC77FBE15
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 16:26:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C752110E572;
-	Tue, 28 Nov 2023 15:12:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0550110E56D;
+	Tue, 28 Nov 2023 15:25:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6FE410E571
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 15:12:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 14AD9B82CA4;
- Tue, 28 Nov 2023 15:12:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A308C433C7;
- Tue, 28 Nov 2023 15:12:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701184353;
- bh=EreEuo3ByevFdxyj2xZ343mwDCOQFDjI9HUYNeB8qMM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZEoh+vW0OQftZ9iSM+pSRAtdLZ0zQ9uW00oeELJA6Y7FXtS9IFsTAMfDp1e8MqDMm
- SrvZogELxuM10C8TdtH40z3Syt8/4hvtAqMY8M4S5hXbFUQh70GveTisFE361PR5ef
- 9LyW9XZD3lle+hXXX2BOLP9/NdtjvmiMUgisVwbQ5xcwxMygeeHkRZ6QBM5EHwAGFv
- Hd034FjlzqIzlXhYzThgIT4KBpDpLWJa8fmO83/8gxrz21ctQ7XdaTFVa+00p/eZAb
- BsjBOgdTwEjcIpORqR+G0wtCwZ4cEzYM32eqYzeItQDoRyveZO3vfzuKK8fhrj1OBr
- WHHZZI5RpX61g==
-Date: Tue, 28 Nov 2023 16:12:31 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [RFC] drm/tests: annotate intentional stack trace in
- drm_test_rect_calc_hscale()
-Message-ID: <pqaahxdy4lk3kof3z6p5balhkjb7zkcodfbvofoxpuwuspmu77@4b2zkf3odalp>
-References: <02546e59-1afe-4b08-ba81-d94f3b691c9a@moroto.mountain>
- <CA+G9fYuA643RHHpPnz9Ww7rr3zV5a0y=7_uFcybBSL=QP_sQvQ@mail.gmail.com>
- <7b58926a-a7c3-4ad0-b8a3-56baf36939ca@kadam.mountain>
- <s4blvjs4ipcqdzodmgsbvgegqh2kxgdnoerpwthvc57hpsulu5@gb2kh7vbv7nq>
- <8489c4db-6639-43f5-b6c4-8598652cdce6@suswa.mountain>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8441410E56D
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 15:25:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701185157; x=1732721157;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=d168n8zWh0HllQmMYOVdN/NLrpY/UHDXaJIOeUe2dkU=;
+ b=d2I1nyYw7a2yYe6iokAJI4cu6BzkfacHpkZrt2krDG2TSzZPdHf9Ck4V
+ JIbZ7QoBfZUro3tF6yFhc+86czjSLsZpedj+n1Ylo+H+pGiLSDDUjnyjE
+ 4KdjvgLApcOFgzwujoh3BrL3dA6Q9O85qab/sZSzqLi/lG5Z7PCWh6tML
+ phCSXNTqjY1eXXmyKNUc4CPWgYRh002Mn5BPumjwYOlXfHCIYsfW19vGN
+ 0dyqsJdKuSugBet6IG/eUycaiZkyhJrRjsp35r7H+iaqwOODmJQNnpIQc
+ 35BQ3ZqhhKv+Kt380H4wToZ5/wNS7iQiOTdfhlQ5eRTqkAC+NpqZxLwDq w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="377969261"
+X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; d="scan'208";a="377969261"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Nov 2023 07:25:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="718412782"
+X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; d="scan'208";a="718412782"
+Received: from sgruszka-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.252.59.234])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Nov 2023 07:25:55 -0800
+Date: Tue, 28 Nov 2023 16:25:52 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Karolina Stolarek <karolina.stolarek@intel.com>
+Subject: Re: [PATCH v7 3/8] drm/ttm/tests: Add tests for ttm_bo functions
+Message-ID: <ZWYGU2EynFBAqNBK@ashyti-mobl2.lan>
+References: <cover.1700207346.git.karolina.stolarek@intel.com>
+ <61e723d67ebf8eaec226eea176fa19da1994a3b7.1700207346.git.karolina.stolarek@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="f3ytx2rrawo75fs2"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8489c4db-6639-43f5-b6c4-8598652cdce6@suswa.mountain>
+In-Reply-To: <61e723d67ebf8eaec226eea176fa19da1994a3b7.1700207346.git.karolina.stolarek@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,65 +59,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel =?utf-8?B?RMOtYXo=?= <daniel.diaz@linaro.org>,
- Kees Cook <keescook@chromium.org>, kernel-janitors@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Naresh Kamboju <naresh.kamboju@linaro.org>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Brendan Higgins <brendan.higgins@linux.dev>,
- Richard Fitzgerald <rf@opensource.cirrus.com>, kv-team <kv-team@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Gow <davidgow@google.com>,
- Arthur Grillo <arthurgrillo@riseup.net>, kunit-dev@googlegroups.com
+Cc: Amaranath Somalapuram <Amaranath.Somalapuram@amd.com>,
+ Nirmoy Das <nirmoy.das@intel.com>,
+ Christian =?iso-8859-15?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Karolina,
 
---f3ytx2rrawo75fs2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> +/*
+> + * A test case heavily inspired by ww_test_edeadlk_normal(). Checks
+> + * if -EDEADLK is properly propagated by ttm_bo_reserve()
+> + */
+> +static void ttm_bo_reserve_deadlock(struct kunit *test)
+> +{
+> +	struct ttm_buffer_object *bo1, *bo2;
+> +	struct ww_acquire_ctx ctx1, ctx2;
+> +	bool interruptible = false;
+> +	bool no_wait = false;
+> +	int err;
+> +
+> +	bo1 = ttm_bo_kunit_init(test, test->priv, BO_SIZE);
+> +	bo2 = ttm_bo_kunit_init(test, test->priv, BO_SIZE);
+> +
+> +	ww_acquire_init(&ctx1, &reservation_ww_class);
+> +	mutex_lock(&bo2->base.resv->lock.base);
+> +
+> +	/* The deadlock will be caught by WW mutex, don't warn about it */
+> +	lock_release(&bo2->base.resv->lock.base.dep_map, 1);
 
-Hi Dan,
+OK... by motidfying the lock map, you avoid lockdep to complain.
 
-On Wed, Nov 15, 2023 at 05:42:17PM -0500, Dan Carpenter wrote:
-> On Mon, Nov 06, 2023 at 02:58:12PM +0100, mripard@kernel.org wrote:
-> > > But a similar thing is happening here where we have so many bogus
-> > > warnings that we missed a real bug.
-> >=20
-> > IIRC, there was a similar discussion for lockdep issues. IMO, any
-> > (unintended) warning should trigger a test failure.
-> >=20
-> > I guess that would require adding some intrumentation to __WARN somehow,
-> > and also allowing tests to check whether a warning had been generated
-> > during their execution for tests that want to trigger one.
->=20
-> I think this is a good idea.  I was looking at how lockdep prints
-> warnings (see print_circular_bug_header()).  It doesn't use WARN() it
-> prints a bunch of pr_warn() statements and then a stack trace.  We would
-> have to have a increment the counter manually in that situation.
->=20
-> I'm writing a script to parse a dmesg and collect Oopses.
+> +	bo2->base.resv->lock.ctx = &ctx2;
+> +	ctx2 = ctx1;
+> +	ctx2.stamp--; /* Make the context holding the lock younger */
+> +	err = ttm_bo_reserve(bo1, interruptible, no_wait, &ctx1);
+> +	KUNIT_ASSERT_EQ(test, err, 0);
+> +
+> +	err = ttm_bo_reserve(bo2, interruptible, no_wait, &ctx1);
+> +	KUNIT_ASSERT_EQ(test, err, -EDEADLK);
+> +
+> +	dma_resv_unlock(bo1->base.resv);
+> +	ww_acquire_fini(&ctx1);
+> +}
 
-Do we need to? I was only expecting a boolean to be set or kunit_fail to
-be called in the WARN/lockdep warning code path if a test is running?
+so... what you're doing here is swapping the lock timing and
+catch and report the deadlock... Could you please add some more
+comment to better explain the idea behind this test and its
+implementation?
 
-> So now I know to look for WARN(), lockdep, and KASAN. What other bugs
-> formats do we have? Probably someone like the syzbot devs have already
-> has written a script like this?
+Anyway, looks good to me and you can add my:
 
-I think you got most of it covered, I can't think of any other source of
-failure right now.
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
-Maxime
-
---f3ytx2rrawo75fs2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWYDXgAKCRDj7w1vZxhR
-xe+PAQCPKkPfBpRK1+qczjNj3c+A6ZhufldsIRpm3uIfqbui9wD+Jyk05rhSakGj
-+srHLHnrqrGTmcbIXi4CaSax0l0TDQg=
-=YA0J
------END PGP SIGNATURE-----
-
---f3ytx2rrawo75fs2--
+Andi
