@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E60397FBEAA
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 16:54:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 183E37FBEAF
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 16:55:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2951910E57F;
-	Tue, 28 Nov 2023 15:54:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0746010E581;
+	Tue, 28 Nov 2023 15:55:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0059210E515;
- Tue, 28 Nov 2023 13:07:15 +0000 (UTC)
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9E4110E066;
+ Tue, 28 Nov 2023 13:09:20 +0000 (UTC)
 Received: from kwepemm000018.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Sfj3X4tZmzvRGs;
- Tue, 28 Nov 2023 20:50:16 +0800 (CST)
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Sfhyb0vfNzMnS3;
+ Tue, 28 Nov 2023 20:45:59 +0800 (CST)
 Received: from DESKTOP-RAUQ1L5.china.huawei.com (10.174.179.172) by
  kwepemm000018.china.huawei.com (7.193.23.4) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 28 Nov 2023 20:50:45 +0800
+ 15.1.2507.35; Tue, 28 Nov 2023 20:50:47 +0800
 From: Weixi Zhu <weixi.zhu@huawei.com>
 To: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
  <akpm@linux-foundation.org>
-Subject: [RFC PATCH 4/6] mm/gmem: add new syscall hmadvise() to issue memory
- hints for heterogeneous NUMA nodes
-Date: Tue, 28 Nov 2023 20:50:23 +0800
-Message-ID: <20231128125025.4449-5-weixi.zhu@huawei.com>
+Subject: [RFC PATCH 5/6] mm/gmem: resolve VMA conflicts for attached peer
+ devices
+Date: Tue, 28 Nov 2023 20:50:24 +0800
+Message-ID: <20231128125025.4449-6-weixi.zhu@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231128125025.4449-1-weixi.zhu@huawei.com>
 References: <20231128125025.4449-1-weixi.zhu@huawei.com>
@@ -61,380 +61,398 @@ Cc: dri-devel@lists.freedesktop.org, leonro@nvidia.com, apopple@nvidia.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds a new syscall, hmadvise(), to issue memory hints for
-heterogeneous NUMA nodes. The new syscall effectively extends madvise()
-with one additional argument that indicates the NUMA id of a heterogeneous
-device, which is not necessarily accessible by the CPU.
+This patch resolves potential VMA conflicts when
+mmap(MAP_PRIVATE | MAP_PEER_SHARED) is invoked. Note that the semantic of
+mmap(MAP_PRIVATE | MAP_PEER_SHARED) is to provide a coherent view of memory
+through the allocated virtual addresses between the CPU and all attached
+devices. However, an attached device may create its own computing context
+that does not necessarily share the same address space layout with the CPU
+process. Therefore, the mmap() syscall must return virtual addresses that
+are guaranteed to be valid across all attached peer devices.
 
-The implemented memory hint is MADV_PREFETCH, which guarantees that the
-physical data of the given VMA [VA, VA+size) is migrated to a designated
-NUMA id, so subsequent accesses from the corresponding device can obtain
-local memory access speed. This prefetch hint is internally parallized with
-multiple workqueue threads, allowing the page table management to be
-overlapped. In a test with Huawei's Ascend NPU card, the MADV_PREFETCH is
-able to saturate the host-device bandwidth if the given VMA size is larger
-than 16MB.
+In current implementation, if a candidate VMA is detected to be
+conflicting, it will be temporarily blacklisted. The mmap_region()
+function will retry other VMA candidates for a predefined number of
+iterations.
 
 Signed-off-by: Weixi Zhu <weixi.zhu@huawei.com>
 ---
- arch/arm64/include/asm/unistd.h         |   2 +-
- arch/arm64/include/asm/unistd32.h       |   2 +
- include/linux/gmem.h                    |   9 +
- include/uapi/asm-generic/mman-common.h  |   3 +
- include/uapi/asm-generic/unistd.h       |   5 +-
- kernel/sys_ni.c                         |   2 +
- mm/gmem.c                               | 222 ++++++++++++++++++++++++
- tools/include/uapi/asm-generic/unistd.h |   5 +-
- 8 files changed, 247 insertions(+), 3 deletions(-)
+ fs/proc/task_mmu.c                     |  3 ++
+ include/linux/gmem.h                   | 26 +++++++++++++++-
+ include/linux/mm.h                     |  8 +++++
+ include/uapi/asm-generic/mman-common.h |  1 +
+ kernel/fork.c                          |  4 +++
+ mm/gmem.c                              | 38 ++++++++++++++++++++++++
+ mm/mempolicy.c                         |  4 +++
+ mm/mmap.c                              | 38 ++++++++++++++++++++++--
+ mm/vm_object.c                         | 41 ++++++++++++++++++++++++++
+ 9 files changed, 159 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm64/include/asm/unistd.h b/arch/arm64/include/asm/unistd.h
-index 531effca5f1f..298313d2e0af 100644
---- a/arch/arm64/include/asm/unistd.h
-+++ b/arch/arm64/include/asm/unistd.h
-@@ -39,7 +39,7 @@
- #define __ARM_NR_compat_set_tls		(__ARM_NR_COMPAT_BASE + 5)
- #define __ARM_NR_COMPAT_END		(__ARM_NR_COMPAT_BASE + 0x800)
- 
--#define __NR_compat_syscalls		457
-+#define __NR_compat_syscalls		458
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index ef2eb12906da..5af03d8f0319 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -701,6 +701,9 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
+ #endif /* CONFIG_HAVE_ARCH_USERFAULTFD_MINOR */
+ #ifdef CONFIG_X86_USER_SHADOW_STACK
+ 		[ilog2(VM_SHADOW_STACK)] = "ss",
++#endif
++#ifdef CONFIG_GMEM
++		[ilog2(VM_PEER_SHARED)]	= "ps",
  #endif
- 
- #define __ARCH_WANT_SYS_CLONE
-diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
-index 9f7c1bf99526..0d44383b98be 100644
---- a/arch/arm64/include/asm/unistd32.h
-+++ b/arch/arm64/include/asm/unistd32.h
-@@ -919,6 +919,8 @@ __SYSCALL(__NR_futex_wake, sys_futex_wake)
- __SYSCALL(__NR_futex_wait, sys_futex_wait)
- #define __NR_futex_requeue 456
- __SYSCALL(__NR_futex_requeue, sys_futex_requeue)
-+#define __NR_hmadvise 457
-+__SYSCALL(__NR_hmadvise, sys_hmadvise)
- 
- /*
-  * Please add new compat syscalls above this comment and update
+ 	};
+ 	size_t i;
 diff --git a/include/linux/gmem.h b/include/linux/gmem.h
-index f424225daa03..97186f29638d 100644
+index 97186f29638d..82d88df5ce44 100644
 --- a/include/linux/gmem.h
 +++ b/include/linux/gmem.h
-@@ -22,6 +22,11 @@ static inline bool gmem_is_enabled(void)
- 	return static_branch_likely(&gmem_status);
+@@ -24,7 +24,10 @@ static inline bool gmem_is_enabled(void)
+ 
+ static inline bool vma_is_peer_shared(struct vm_area_struct *vma)
+ {
+-	return false;
++	if (!gmem_is_enabled())
++		return false;
++
++	return !!(vma->vm_flags & VM_PEER_SHARED);
  }
  
-+static inline bool vma_is_peer_shared(struct vm_area_struct *vma)
-+{
-+	return false;
-+}
-+
  struct gm_dev {
- 	int id;
+@@ -130,6 +133,8 @@ void unmap_gm_mappings_range(struct vm_area_struct *vma, unsigned long start,
+ 			     unsigned long end);
+ void munmap_in_peer_devices(struct mm_struct *mm, unsigned long start,
+ 			    unsigned long end);
++void gm_reserve_vma(struct vm_area_struct *value, struct list_head *head);
++void gm_release_vma(struct mm_struct *mm, struct list_head *head);
  
-@@ -280,6 +285,10 @@ int gm_as_attach(struct gm_as *as, struct gm_dev *dev, enum gm_mmu_mode mode,
+ /* core gmem */
+ enum gm_ret {
+@@ -283,6 +288,10 @@ int gm_as_create(unsigned long begin, unsigned long end, struct gm_as **new_as);
+ int gm_as_destroy(struct gm_as *as);
+ int gm_as_attach(struct gm_as *as, struct gm_dev *dev, enum gm_mmu_mode mode,
  		 bool activate, struct gm_context **out_ctx);
++
++int gm_alloc_va_in_peer_devices(struct mm_struct *mm,
++				struct vm_area_struct *vma, unsigned long addr,
++				unsigned long len, vm_flags_t vm_flags);
  #else
  static inline bool gmem_is_enabled(void) { return false; }
-+static inline bool vma_is_peer_shared(struct vm_area_struct *vma)
-+{
-+	return false;
-+}
- static inline void hnuma_init(void) {}
- static inline void __init vm_object_init(void)
+ static inline bool vma_is_peer_shared(struct vm_area_struct *vma)
+@@ -339,6 +348,21 @@ int gm_as_attach(struct gm_as *as, struct gm_dev *dev, enum gm_mmu_mode mode,
  {
-diff --git a/include/uapi/asm-generic/mman-common.h b/include/uapi/asm-generic/mman-common.h
-index 6ce1f1ceb432..49b22a497c5d 100644
---- a/include/uapi/asm-generic/mman-common.h
-+++ b/include/uapi/asm-generic/mman-common.h
-@@ -79,6 +79,9 @@
- 
- #define MADV_COLLAPSE	25		/* Synchronous hugepage collapse */
- 
-+/* for hmadvise */
-+#define MADV_PREFETCH	26		/* prefetch pages for hNUMA node */
-+
- /* compatibility flags */
- #define MAP_FILE	0
- 
-diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
-index 756b013fb832..a0773d4f7fa5 100644
---- a/include/uapi/asm-generic/unistd.h
-+++ b/include/uapi/asm-generic/unistd.h
-@@ -829,8 +829,11 @@ __SYSCALL(__NR_futex_wait, sys_futex_wait)
- #define __NR_futex_requeue 456
- __SYSCALL(__NR_futex_requeue, sys_futex_requeue)
- 
-+#define __NR_hmadvise 453
-+__SYSCALL(__NR_hmadvise, sys_hmadvise)
-+
- #undef __NR_syscalls
--#define __NR_syscalls 457
-+#define __NR_syscalls 458
- 
- /*
-  * 32 bit systems traditionally used different
-diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
-index e1a6e3c675c0..73bc1b35b8c6 100644
---- a/kernel/sys_ni.c
-+++ b/kernel/sys_ni.c
-@@ -374,3 +374,5 @@ COND_SYSCALL(setuid16);
- 
- /* restartable sequence */
- COND_SYSCALL(rseq);
-+
-+COND_SYSCALL(hmadvise);
-diff --git a/mm/gmem.c b/mm/gmem.c
-index b95b6b42ed6d..4eb522026a0d 100644
---- a/mm/gmem.c
-+++ b/mm/gmem.c
-@@ -9,6 +9,8 @@
- #include <linux/mm.h>
- #include <linux/gmem.h>
- #include <linux/dma-mapping.h>
-+#include <linux/syscalls.h>
-+#include <linux/mman.h>
- 
- DEFINE_STATIC_KEY_FALSE(gmem_status);
- EXPORT_SYMBOL_GPL(gmem_status);
-@@ -484,3 +486,223 @@ int gm_as_attach(struct gm_as *as, struct gm_dev *dev, enum gm_mmu_mode mode,
- 	return GM_RET_SUCCESS;
+ 	return 0;
  }
- EXPORT_SYMBOL_GPL(gm_as_attach);
-+
-+struct prefetch_data {
-+	struct mm_struct *mm;
-+	struct gm_dev *dev;
-+	unsigned long addr;
-+	size_t size;
-+	struct work_struct work;
-+	int *res;
-+};
-+
-+static void prefetch_work_cb(struct work_struct *work)
++static inline void gm_reserve_vma(struct vm_area_struct *value,
++				  struct list_head *head)
 +{
-+	struct prefetch_data *d =
-+		container_of(work, struct prefetch_data, work);
-+	unsigned long addr = d->addr, end = d->addr + d->size;
-+	int page_size = HPAGE_SIZE;
-+	int ret;
-+
-+	do {
-+		/*
-+		 * Pass a hint to tell gm_dev_fault() to invoke peer_map anyways
-+		 * and implicitly mark the mapped physical page as recently-used.
-+		 */
-+		ret = gm_dev_fault(d->mm, addr, d->dev, GM_FAULT_HINT_MARK_HOT);
-+		if (ret == GM_RET_PAGE_EXIST) {
-+			pr_info("%s: device has done page fault, ignore prefetch\n", __func__);
-+		} else if (ret != GM_RET_SUCCESS) {
-+			*d->res = -EFAULT;
-+			pr_err("%s: call dev fault error %d\n", __func__, ret);
-+		}
-+	} while (addr += page_size, addr != end);
-+
-+	kfree(d);
 +}
-+
-+static int hmadvise_do_prefetch(struct gm_dev *dev, unsigned long addr, size_t size)
++static inline void gm_release_vma(struct mm_struct *mm, struct list_head *head)
 +{
-+	unsigned long start, end, per_size;
-+	int page_size = HPAGE_SIZE;
-+	struct prefetch_data *data;
-+	struct vm_area_struct *vma;
-+	int res = GM_RET_SUCCESS;
-+
-+	end = round_up(addr + size, page_size);
-+	start = round_down(addr, page_size);
-+	size = end - start;
-+
-+	mmap_read_lock(current->mm);
-+	vma = find_vma(current->mm, start);
-+	if (!vma || start < vma->vm_start || end > vma->vm_end) {
-+		mmap_read_unlock(current->mm);
-+		return GM_RET_FAILURE_UNKNOWN;
-+	}
-+	mmap_read_unlock(current->mm);
-+
-+	per_size = (size / GM_WORK_CONCURRENCY) & ~(page_size - 1);
-+
-+	while (start < end) {
-+		data = kzalloc(sizeof(struct prefetch_data), GFP_KERNEL);
-+		if (!data) {
-+			flush_workqueue(prefetch_wq);
-+			return GM_RET_NOMEM;
-+		}
-+
-+		INIT_WORK(&data->work, prefetch_work_cb);
-+		data->mm = current->mm;
-+		data->dev = dev;
-+		data->addr = start;
-+		data->res = &res;
-+		if (per_size == 0)
-+			data->size = size;
-+		else
-+			data->size = (end - start < 2 * per_size) ? (end - start) : per_size;
-+		queue_work(prefetch_wq, &data->work);
-+		start += data->size;
-+	}
-+
-+	flush_workqueue(prefetch_wq);
-+	return res;
 +}
-+
-+static int gm_unmap_page_range(struct vm_area_struct *vma, unsigned long start,
-+			       unsigned long end, int page_size)
++static inline int gm_alloc_va_in_peer_devices(struct mm_struct *mm,
++					      struct vm_area_struct *vma,
++					      unsigned long addr,
++					      unsigned long len,
++					      vm_flags_t vm_flags)
 +{
-+	struct gm_fault_t gmf = {
-+		.mm = current->mm,
-+		.size = page_size,
-+		.copy = false,
-+	};
-+	struct gm_mapping *gm_mapping;
-+	struct vm_object *obj;
-+	int ret;
-+
-+	obj = current->mm->vm_obj;
-+	if (!obj) {
-+		pr_err("gmem: peer-shared vma should have vm_object\n");
-+		return -EINVAL;
-+	}
-+
-+	for (; start < end; start += page_size) {
-+		xa_lock(obj->logical_page_table);
-+		gm_mapping = vm_object_lookup(obj, start);
-+		if (!gm_mapping) {
-+			xa_unlock(obj->logical_page_table);
-+			continue;
-+		}
-+		xa_unlock(obj->logical_page_table);
-+		mutex_lock(&gm_mapping->lock);
-+		if (gm_mapping_nomap(gm_mapping)) {
-+			mutex_unlock(&gm_mapping->lock);
-+			continue;
-+		} else if (gm_mapping_cpu(gm_mapping)) {
-+			zap_page_range_single(vma, start, page_size, NULL);
-+		} else {
-+			gmf.va = start;
-+			gmf.dev = gm_mapping->dev;
-+			ret = gm_mapping->dev->mmu->peer_unmap(&gmf);
-+			if (ret) {
-+				pr_err("gmem: peer_unmap failed. ret %d\n",
-+				       ret);
-+				mutex_unlock(&gm_mapping->lock);
-+				continue;
-+			}
-+		}
-+		gm_mapping_flags_set(gm_mapping, GM_PAGE_NOMAP);
-+		mutex_unlock(&gm_mapping->lock);
-+	}
-+
 +	return 0;
 +}
+ #endif
+ 
+ #endif /* _GMEM_H */
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 418d26608ece..8837624e4c66 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -320,14 +320,22 @@ extern unsigned int kobjsize(const void *objp);
+ #define VM_HIGH_ARCH_BIT_3	35	/* bit only usable on 64-bit architectures */
+ #define VM_HIGH_ARCH_BIT_4	36	/* bit only usable on 64-bit architectures */
+ #define VM_HIGH_ARCH_BIT_5	37	/* bit only usable on 64-bit architectures */
++#define VM_HIGH_ARCH_BIT_6	38	/* bit only usable on 64-bit architectures */
+ #define VM_HIGH_ARCH_0	BIT(VM_HIGH_ARCH_BIT_0)
+ #define VM_HIGH_ARCH_1	BIT(VM_HIGH_ARCH_BIT_1)
+ #define VM_HIGH_ARCH_2	BIT(VM_HIGH_ARCH_BIT_2)
+ #define VM_HIGH_ARCH_3	BIT(VM_HIGH_ARCH_BIT_3)
+ #define VM_HIGH_ARCH_4	BIT(VM_HIGH_ARCH_BIT_4)
+ #define VM_HIGH_ARCH_5	BIT(VM_HIGH_ARCH_BIT_5)
++#define VM_HIGH_ARCH_6	BIT(VM_HIGH_ARCH_BIT_6)
+ #endif /* CONFIG_ARCH_USES_HIGH_VMA_FLAGS */
+ 
++#ifdef CONFIG_GMEM
++#define VM_PEER_SHARED	VM_HIGH_ARCH_6
++#else
++#define VM_PEER_SHARED	VM_NONE
++#endif
 +
-+static int hmadvise_do_eagerfree(unsigned long addr, size_t size)
+ #ifdef CONFIG_ARCH_HAS_PKEYS
+ # define VM_PKEY_SHIFT	VM_HIGH_ARCH_BIT_0
+ # define VM_PKEY_BIT0	VM_HIGH_ARCH_0	/* A protection key is a 4-bit value */
+diff --git a/include/uapi/asm-generic/mman-common.h b/include/uapi/asm-generic/mman-common.h
+index 49b22a497c5d..eebdbb2375f8 100644
+--- a/include/uapi/asm-generic/mman-common.h
++++ b/include/uapi/asm-generic/mman-common.h
+@@ -32,6 +32,7 @@
+ 
+ #define MAP_UNINITIALIZED 0x4000000	/* For anonymous mmap, memory could be
+ 					 * uninitialized */
++#define MAP_PEER_SHARED		0x8000000	/* Coherent memory available for both CPU and attached devices. */
+ 
+ /*
+  * Flags for mlock
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 10917c3e1f03..eab96cdb25a6 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -99,6 +99,7 @@
+ #include <linux/stackprotector.h>
+ #include <linux/user_events.h>
+ #include <linux/iommu.h>
++#include <linux/gmem.h>
+ 
+ #include <asm/pgalloc.h>
+ #include <linux/uaccess.h>
+@@ -1692,6 +1693,9 @@ static struct mm_struct *dup_mm(struct task_struct *tsk,
+ 	if (err)
+ 		goto free_pt;
+ 
++#ifdef CONFIG_GMEM
++	mm->vm_obj = NULL;
++#endif
+ 	mm->hiwater_rss = get_mm_rss(mm);
+ 	mm->hiwater_vm = mm->total_vm;
+ 
+diff --git a/mm/gmem.c b/mm/gmem.c
+index 4eb522026a0d..5f4f26030163 100644
+--- a/mm/gmem.c
++++ b/mm/gmem.c
+@@ -617,6 +617,44 @@ static int gm_unmap_page_range(struct vm_area_struct *vma, unsigned long start,
+ 	return 0;
+ }
+ 
++int gm_alloc_va_in_peer_devices(struct mm_struct *mm,
++				struct vm_area_struct *vma, unsigned long addr,
++				unsigned long len, vm_flags_t vm_flags)
 +{
-+	unsigned long start, end, i_start, i_end;
-+	int page_size = HPAGE_SIZE;
-+	struct vm_area_struct *vma;
-+	int ret = GM_RET_SUCCESS;
-+	unsigned long old_start;
++	struct gm_context *ctx, *tmp;
++	int ret;
 +
-+	if (check_add_overflow(addr, size, &end))
-+		return -EINVAL;
++	pr_debug("gmem: start mmap, as %p\n", mm->gm_as);
++	if (!mm->gm_as)
++		return -ENODEV;
 +
-+	old_start = addr;
++	if (!mm->vm_obj)
++		mm->vm_obj = vm_object_create(mm);
++	if (!mm->vm_obj)
++		return -ENOMEM;
++	/*
++	 * TODO: solve the race condition if a device is concurrently attached
++	 * to mm->gm_as.
++	 */
++	list_for_each_entry_safe(ctx, tmp, &mm->gm_as->gm_ctx_list, gm_as_link) {
++		if (!gm_dev_is_peer(ctx->dev))
++			continue;
 +
-+	end = round_down(addr + size, page_size);
-+	start = round_up(addr, page_size);
-+	if (start >= end)
-+		return ret;
-+
-+	mmap_read_lock(current->mm);
-+	do {
-+		vma = find_vma_intersection(current->mm, start, end);
-+		if (!vma) {
-+			pr_info("gmem: there is no valid vma\n");
-+			break;
-+		}
-+
-+		if (!vma_is_peer_shared(vma)) {
-+			pr_debug("gmem: not peer-shared vma, skip dontneed\n");
-+			start = vma->vm_end;
++		if (!ctx->dev->mmu->peer_va_alloc_fixed) {
++			pr_debug("gmem: mmu ops has no alloc_vma\n");
 +			continue;
 +		}
 +
-+		i_start = start > vma->vm_start ? start : vma->vm_start;
-+		i_end = end < vma->vm_end ? end : vma->vm_end;
-+		ret = gm_unmap_page_range(vma, i_start, i_end, page_size);
-+		if (ret)
-+			break;
-+
-+		start = vma->vm_end;
-+	} while (start < end);
-+
-+	mmap_read_unlock(current->mm);
-+	return ret;
-+}
-+
-+static bool check_hmadvise_behavior(int behavior)
-+{
-+	return behavior == MADV_DONTNEED;
-+}
-+
-+SYSCALL_DEFINE4(hmadvise, int, hnid, unsigned long, start, size_t, len_in, int, behavior)
-+{
-+	int error = -EINVAL;
-+	struct hnode *node;
-+
-+	if (hnid == -1) {
-+		if (check_hmadvise_behavior(behavior)) {
-+			goto no_hnid;
-+		} else {
-+			pr_err("hmadvise: behavior %d need hnid or is invalid\n",
-+				behavior);
-+			return error;
++		ret = ctx->dev->mmu->peer_va_alloc_fixed(mm, addr, len, vm_flags);
++		if (ret != GM_RET_SUCCESS) {
++			pr_debug("gmem: alloc_vma ret %d\n", ret);
++			return ret;
 +		}
 +	}
 +
-+	if (hnid < 0)
-+		return error;
-+
-+	if (!is_hnode(hnid) || !is_hnode_allowed(hnid))
-+		return error;
-+
-+	node = get_hnode(hnid);
-+	if (!node) {
-+		pr_err("hmadvise: hnode id %d is invalid\n", hnid);
-+		return error;
-+	}
-+
-+no_hnid:
-+	switch (behavior) {
-+	case MADV_PREFETCH:
-+		return hmadvise_do_prefetch(node->dev, start, len_in);
-+	case MADV_DONTNEED:
-+		return hmadvise_do_eagerfree(start, len_in);
-+	default:
-+		pr_err("hmadvise: unsupported behavior %d\n", behavior);
-+	}
-+
-+	return error;
++	return GM_RET_SUCCESS;
 +}
-diff --git a/tools/include/uapi/asm-generic/unistd.h b/tools/include/uapi/asm-generic/unistd.h
-index 76d946445391..6d28d7a4096c 100644
---- a/tools/include/uapi/asm-generic/unistd.h
-+++ b/tools/include/uapi/asm-generic/unistd.h
-@@ -823,8 +823,11 @@ __SYSCALL(__NR_cachestat, sys_cachestat)
- #define __NR_fchmodat2 452
- __SYSCALL(__NR_fchmodat2, sys_fchmodat2)
- 
-+#define __NR_hmadvise 453
-+__SYSCALL(__NR_hmadvise, sys_hmadvise)
 +
- #undef __NR_syscalls
--#define __NR_syscalls 453
-+#define __NR_syscalls 454
+ static int hmadvise_do_eagerfree(unsigned long addr, size_t size)
+ {
+ 	unsigned long start, end, i_start, i_end;
+diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+index 10a590ee1c89..9fc298480498 100644
+--- a/mm/mempolicy.c
++++ b/mm/mempolicy.c
+@@ -1719,7 +1719,11 @@ SYSCALL_DEFINE5(get_mempolicy, int __user *, policy,
  
- /*
-  * 32 bit systems traditionally used different
+ bool vma_migratable(struct vm_area_struct *vma)
+ {
++#ifdef CONFIG_GMEM
++	if (vma->vm_flags & (VM_IO | VM_PFNMAP | VM_PEER_SHARED))
++#else
+ 	if (vma->vm_flags & (VM_IO | VM_PFNMAP))
++#endif
+ 		return false;
+ 
+ 	/*
+diff --git a/mm/mmap.c b/mm/mmap.c
+index 1971bfffcc03..55d43763ea49 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -47,6 +47,7 @@
+ #include <linux/oom.h>
+ #include <linux/sched/mm.h>
+ #include <linux/ksm.h>
++#include <linux/gmem.h>
+ 
+ #include <linux/uaccess.h>
+ #include <asm/cacheflush.h>
+@@ -1376,6 +1377,9 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
+ 			vm_flags |= VM_NORESERVE;
+ 	}
+ 
++	if (gmem_is_enabled() && (flags & MAP_PEER_SHARED))
++		vm_flags |= VM_PEER_SHARED;
++
+ 	addr = mmap_region(file, addr, len, vm_flags, pgoff, uf);
+ 	if (!IS_ERR_VALUE(addr) &&
+ 	    ((vm_flags & VM_LOCKED) ||
+@@ -1832,6 +1836,7 @@ get_unmapped_area(struct file *file, unsigned long addr, unsigned long len,
+ 	}
+ 
+ 	addr = get_area(file, addr, len, pgoff, flags);
++
+ 	if (IS_ERR_VALUE(addr))
+ 		return addr;
+ 
+@@ -2756,7 +2761,10 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
+ 	pgoff_t vm_pgoff;
+ 	int error;
+ 	VMA_ITERATOR(vmi, mm, addr);
++	unsigned int retry_times = 0;
++	LIST_HEAD(reserve_list);
+ 
++retry:
+ 	/* Check against address space limit. */
+ 	if (!may_expand_vm(mm, vm_flags, len >> PAGE_SHIFT)) {
+ 		unsigned long nr_pages;
+@@ -2768,21 +2776,27 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
+ 		nr_pages = count_vma_pages_range(mm, addr, end);
+ 
+ 		if (!may_expand_vm(mm, vm_flags,
+-					(len >> PAGE_SHIFT) - nr_pages))
++					(len >> PAGE_SHIFT) - nr_pages)) {
++			gm_release_vma(mm, &reserve_list);
+ 			return -ENOMEM;
++		}
+ 	}
+ 
+ 	/* Unmap any existing mapping in the area */
+-	if (do_vmi_munmap(&vmi, mm, addr, len, uf, false))
++	if (do_vmi_munmap(&vmi, mm, addr, len, uf, false)) {
++		gm_release_vma(mm, &reserve_list);
+ 		return -ENOMEM;
++	}
+ 
+ 	/*
+ 	 * Private writable mapping: check memory availability
+ 	 */
+ 	if (accountable_mapping(file, vm_flags)) {
+ 		charged = len >> PAGE_SHIFT;
+-		if (security_vm_enough_memory_mm(mm, charged))
++		if (security_vm_enough_memory_mm(mm, charged)) {
++			gm_release_vma(mm, &reserve_list);
+ 			return -ENOMEM;
++		}
+ 		vm_flags |= VM_ACCOUNT;
+ 	}
+ 
+@@ -2945,6 +2959,21 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
+ 	file = vma->vm_file;
+ 	ksm_add_vma(vma);
+ expanded:
++	if (vma_is_peer_shared(vma)) {
++		int ret = gm_alloc_va_in_peer_devices(mm, vma, addr, len, vm_flags);
++
++		if (ret == GM_RET_NOMEM && retry_times < GMEM_MMAP_RETRY_TIMES) {
++			retry_times++;
++			addr = get_unmapped_area(file, addr, len, pgoff, 0);
++			gm_reserve_vma(vma, &reserve_list);
++			goto retry;
++		} else if (ret != GM_RET_SUCCESS) {
++			pr_debug("gmem: alloc_vma ret %d\n", ret);
++			error = -ENOMEM;
++			goto free_vma;
++		}
++		gm_release_vma(mm, &reserve_list);
++	}
+ 	perf_event_mmap(vma);
+ 
+ 	vm_stat_account(mm, vm_flags, len >> PAGE_SHIFT);
+@@ -2995,6 +3024,7 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
+ unacct_error:
+ 	if (charged)
+ 		vm_unacct_memory(charged);
++	gm_release_vma(mm, &reserve_list);
+ 	validate_mm(mm);
+ 	return error;
+ }
+@@ -3336,6 +3366,8 @@ void exit_mmap(struct mm_struct *mm)
+ 
+ 	BUG_ON(count != mm->map_count);
+ 
++	vm_object_drop_locked(mm);
++
+ 	trace_exit_mmap(mm);
+ 	__mt_destroy(&mm->mm_mt);
+ 	mmap_write_unlock(mm);
+diff --git a/mm/vm_object.c b/mm/vm_object.c
+index 4e76737e0ca1..5432930d1226 100644
+--- a/mm/vm_object.c
++++ b/mm/vm_object.c
+@@ -163,6 +163,9 @@ void unmap_gm_mappings_range(struct vm_area_struct *vma, unsigned long start,
+ 	struct gm_mapping *gm_mapping;
+ 	struct page *page = NULL;
+ 
++	if (!vma_is_peer_shared(vma))
++		return;
++
+ 	if (!vma->vm_mm->vm_obj)
+ 		return;
+ 
+@@ -182,3 +185,41 @@ void unmap_gm_mappings_range(struct vm_area_struct *vma, unsigned long start,
+ 	}
+ 	xa_unlock(logical_page_table);
+ }
++
++struct gm_vma_list {
++	struct vm_area_struct *vma;
++	struct list_head list;
++};
++
++void gm_reserve_vma(struct vm_area_struct *value, struct list_head *head)
++{
++	struct gm_vma_list *node;
++
++	if (!gmem_is_enabled())
++		return;
++
++	node = kmalloc(sizeof(struct gm_vma_list), GFP_KERNEL);
++	if (!node)
++		return;
++
++	node->vma = value;
++	list_add_tail(&node->list, head);
++}
++
++void gm_release_vma(struct mm_struct *mm, struct list_head *head)
++{
++	struct gm_vma_list *node, *next;
++
++	if (!gmem_is_enabled())
++		return;
++
++	list_for_each_entry_safe(node, next, head, list) {
++		struct vm_area_struct *vma = node->vma;
++
++		if (vma != NULL)
++			vm_area_free(vma);
++
++		list_del(&node->list);
++		kfree(node);
++	}
++}
 -- 
 2.25.1
 
