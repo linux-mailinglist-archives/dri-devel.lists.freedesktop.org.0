@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40A57FC012
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 18:12:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEDC77FC038
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 18:22:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 578B210E15F;
-	Tue, 28 Nov 2023 17:12:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DD0410E58C;
+	Tue, 28 Nov 2023 17:22:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
- [IPv6:2607:f8b0:4864:20::b2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2499710E15F
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 17:12:41 +0000 (UTC)
-Received: by mail-yb1-xb2d.google.com with SMTP id
- 3f1490d57ef6-da7ea62e76cso5582475276.3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 09:12:41 -0800 (PST)
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
+ [IPv6:2001:4860:4864:20::29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E52D310E18B;
+ Tue, 28 Nov 2023 17:22:35 +0000 (UTC)
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-1ef36a04931so3756746fac.2; 
+ Tue, 28 Nov 2023 09:22:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701191560; x=1701796360; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=mgBZ8Y+rNOoLuSl7x3moNxTVYzOfvoDEGWK6S2+IbSQ=;
- b=ABuPd7sxaKKLoLbQFkLl+RJ26c6sOuWEzgvjV1hv1oahmBz8BWyhL6pxi2eEoOj9SD
- miTVbjGARB6jPLplOUlsZHgVgxvE2jShRgHLz+uBUqSLcEirFl9CLIzp8tL480jI2XTH
- bH962ojtQ747k9WnVrPWNkd3noeQkebS+edD3jcqzl7kVq4Na+bdcZHdqa60WRDjQp0Z
- BAxHWBr/KPDrvazh0K9DLHskWJ+Uf1owaT5t8e8egG6mtaWNo6JLatmlb1BrPy3yWOsO
- c4K5mBic1h+B3S7iKzGxGxvijQiZMb8DLZaqhdj+ObSIgf/Jw7Xp/3N/Q7rxpgbg8s2y
- FwUw==
+ d=gmail.com; s=20230601; t=1701192155; x=1701796955; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SzkeMKrJwAap8TpqgWRyHUD01UHrQB9D2F34aPGr/tU=;
+ b=Pwt6Z5CftBV3+osWqApRBbddOfgFKPoE+GmglMu3fVqZuPD4173s5iXg6d8/XXfjND
+ 6bCJeD2thn9omjHYPqXo4YYd/RatX1gmG9lyPja3exzSyBTGhTZ7KsRYQGUQhMAEGj14
+ W7GMV3JHjRelES9KgQFCu31ee6xl4q/M8sdGMtByuKw8woIwIQyNcWd356oq47klVvW9
+ f1Hq+tO9VAcO4ZvskGLdyU2VtoS94eupg3Hjt8OQ4mty0Ml2AArX+mV8ys1I49boLvJQ
+ 4xn+5NWY/rMSQLJSi1abu4CVgmTp80D9zXaqxg4jAPxDX8YXigkR9iMWe5qUqfq+8IYg
+ kgMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701191560; x=1701796360;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mgBZ8Y+rNOoLuSl7x3moNxTVYzOfvoDEGWK6S2+IbSQ=;
- b=lPjuO7oLpMhbdctmTzgT+rGw6dFfyda/YRiNuJQs1RmXX3O6LC/zUqoUO3PUvUwyOf
- J0x7V0d+/BmlCuUxcCEMpaBGVU+EwlDraXCJyhldDh6vcdqlKBXol5DVtdEg0hc+Q9Zt
- dh+vPYpytyWB9KJPc40AqQKfldYmvE4gxlwCyVgzCAugBcJEdy8ntEKOhE9CEVQxF4mQ
- h0c/DQjulh/oxekRegMgBGziUeHNEQ6IsYarBBMWQozryg9DDQbuozxRuZDQpsNiWZ9k
- NW20MH10NqGxruS7WYuZ3rOX9/RugagmN80YHh2NSfIdyfqyOzTBw9sPjOnCJsRDPs67
- MT8g==
-X-Gm-Message-State: AOJu0YwnFYYiVsxP2qhKNe0en6uDljW60t+OBeu5cfAnb+/x0g8sHDr2
- DbEveZoHOX36TNbNpvRVQW9QIXWe4J8pCOEaGRKgMQ==
-X-Google-Smtp-Source: AGHT+IGeEkp7jRoTTCguYASiA5X3yJvWFiHTpeQCCzm04ulwl10C5sz2jB4Pa75elxnx/YrTQRyoZ1k8B5sJyf3OsLA=
-X-Received: by 2002:a25:fc04:0:b0:d9a:6855:14cd with SMTP id
- v4-20020a25fc04000000b00d9a685514cdmr16604075ybd.39.1701191560067; Tue, 28
- Nov 2023 09:12:40 -0800 (PST)
+ d=1e100.net; s=20230601; t=1701192155; x=1701796955;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=SzkeMKrJwAap8TpqgWRyHUD01UHrQB9D2F34aPGr/tU=;
+ b=oKKAu+GjBjxQ6VTlSEVMX5IX+5pWEYA78fxgf/8CmeTSbBa3Rirr4ud4oB2Ffj+Oad
+ rt3DEkHqp8sID3Wn47f7ncg8Ti5f4dhtd3/LQ9ylNfRfy9DulgLwfH/ASunr2ObhcKDu
+ ta1pePFl+0LfnJm+2mKIa/Sr3NVnrRO0GpP+K0gvxlbOLeEsBrNEdK3a9Lun7LK6Objo
+ QypVg1Azyra6NsJTE3p0ZVRdDnQnS8XJy13OaPEskpcC3U05Dyy3aW3/VyychQRz5+wI
+ YYVG84a9f8P9gxnB1DbCMxo3mBJOjd+BNwEKzd3jdLGu8Qz3Q6FgRXjNLCIiMYJIKBjD
+ 8mPA==
+X-Gm-Message-State: AOJu0YzKvqQHWLSGDBtJX1Nmhru8FglhOR/0d4DgcymnxkXkpy1nN0i9
+ wIAV0hB7wyMEm49fDkcw+6dQ3EveRJ58vtrI9B4=
+X-Google-Smtp-Source: AGHT+IHx7OJmyQW4PfkOMGg+fvIN+/N2DSbzoe5jpapEq1fRxK1caMtkCHOIlaExdJWvHsPN4UjuHdlfPAH1AwXvqqA=
+X-Received: by 2002:a05:6870:5e48:b0:1fa:14e9:43ce with SMTP id
+ ne8-20020a0568705e4800b001fa14e943cemr16091904oac.50.1701192154984; Tue, 28
+ Nov 2023 09:22:34 -0800 (PST)
 MIME-Version: 1.0
-References: <CAA8EJpozZkEswnioKjRCqBg4fcjVHFwGivoFNTNHVwyocKprQw@mail.gmail.com>
- <20231127160658.2164612-1-mwalle@kernel.org>
- <CAA8EJpphwXoKnzDkY3cBqzsDZwdw+nze-Ev2toPBJm-2VJvY_g@mail.gmail.com>
- <dce76a6e1321a6374ad39125bead56b3@kernel.org>
-In-Reply-To: <dce76a6e1321a6374ad39125bead56b3@kernel.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 28 Nov 2023 19:12:29 +0200
-Message-ID: <CAA8EJpr9PDgSrTpP2-joQ09fxmJKZB1B+ESbDbMjkLNiqZ1m3A@mail.gmail.com>
-Subject: Re: [RFC PATCH 03/10] drm/mipi-dsi: add API for manual control over
- the DSI link power state
-To: Michael Walle <mwalle@kernel.org>
+References: <20231117214419.418556-1-Felix.Kuehling@amd.com>
+ <4293cfca-6775-44bb-b6f6-81c98491941b@amd.com>
+In-Reply-To: <4293cfca-6775-44bb-b6f6-81c98491941b@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 28 Nov 2023 12:22:23 -0500
+Message-ID: <CADnq5_Noy86ts4y3a2pns7U=biiFdLFjbYtq9sLaEsiXhLnNzQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] Revert "drm/prime: Unexport helpers for fd/handle
+ conversion"
+To: Felix Kuehling <felix.kuehling@amd.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,115 +70,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tony@atomide.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Laurent.pinchart@ideasonboard.com,
- andrzej.hajda@intel.com, marijn.suijten@somainline.org, marex@denx.de,
- rfoss@kernel.org, dave.stevenson@raspberrypi.com, jernej.skrabec@gmail.com,
- alexander.stein@ew.tq-group.com, quic_jesszhan@quicinc.com, jonas@kwiboo.se,
- linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com, mripard@kernel.org,
- sean@poorly.run, neil.armstrong@linaro.org, dianders@chromium.org,
- konrad.dybcio@linaro.org, tzimmermann@suse.de, freedreno@lists.freedesktop.org
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 28 Nov 2023 at 18:56, Michael Walle <mwalle@kernel.org> wrote:
+On Thu, Nov 23, 2023 at 6:12=E2=80=AFPM Felix Kuehling <felix.kuehling@amd.=
+com> wrote:
 >
-> >> > DSI device lifetime has three different stages:
-> >> > 1. before the DSI link being powered up and clocking,
-> >> > 2. when the DSI link is in LP state (for the purpose of this question,
-> >> > this is the time between the DSI link being powered up and the video
-> >> > stream start)
-> >> > 3. when the DSI link is in HS state (while streaming the video).
-> >>
-> >> It's not clear to me what (2) is. What is the state of the clock and
-> >> data lanes?
+> [+Alex]
+>
+> On 2023-11-17 16:44, Felix Kuehling wrote:
+>
+> > This reverts commit 71a7974ac7019afeec105a54447ae1dc7216cbb3.
 > >
-> > Clk an Data0 should be in the LP mode, ready for LP Data Transfer.
+> > These helper functions are needed for KFD to export and import DMABufs
+> > the right way without duplicating the tracking of DMABufs associated wi=
+th
+> > GEM objects while ensuring that move notifier callbacks are working as
+> > intended.
+> >
+> > CC: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > CC: Thomas Zimmermann <tzimmermann@suse.de>
+> > Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
 >
-> Then this is somehow missing
-> https://docs.kernel.org/gpu/drm-kms-helpers.html#mipi-dsi-bridge-operation
+> Re: our discussion about v2 of this patch: If this version is
+> acceptable, can I get an R-b or A-b?
 >
->    A DSI host should keep the PHY powered down until the pre_enable
-> operation
->    is called. All lanes are in an undefined idle state up to this point,
-> and
->    it must not be assumed that it is LP-11. pre_enable should initialise
-> the
->    PHY, set the data lanes to LP-11, and the clock lane to either LP-11
-> or HS
->    depending on the mode_flag MIPI_DSI_CLOCK_NON_CONTINUOUS.
+> I would like to get this patch into drm-next as a prerequisite for
+> patches 2 and 3. I cannot submit it to the current amd-staging-drm-next
+> because the patch I'm reverting doesn't exist there yet.
 >
-> So I don't think these three states are sufficient, see below, that
-> there
-> should be at least four.
+> Patch 2 and 3 could go into drm-next as well, or go through Alex's
+> amd-staging-drm-next branch once patch 1 is in drm-next. Alex, how do
+> you prefer to coordinate this?
 
-Which one is #4?
+I guess ideally this would go through my drm-next tree since your
+other patches depend on it unless others feel strongly that it should
+go through drm-misc.
 
->
-> -michael
->
-> >
-> > I don't think we support ULPS currently.
-> >
-> >
-> >>
-> >> I'm facing similar issues with the tc358775 bridge. This bridge needs
-> >> to release its reset while both clock and data lanes are in LP-11
-> >> mode.
-> >> But then it needs to be configured (via I2C) while the clock lane is
-> >> in enabled (HS mode), but the data lanes are still in LP-11 mode.
-> >>
-> >> To me it looks like there is a fouth case then:
-> >> 1. unpowered
-> >> 2. DSI clock and data are in LP-11
-> >> 3. DSI clock is in HS and data are in LP-11
-> >> 4. DSI clock is in HS and data is in HS
-> >>
-> >> (And of course the bridge needs continuous clock mode).
-> >>
-> >> > Different DSI bridges have different requirements with respect to the
-> >> > code being executed at stages 1 and 2. For example several DSI-to-eDP
-> >> > bridges (ps8640, tc358767 require for the link to be quiet during
-> >> > reset time.
-> >> > The DSI-controlled bridges and DSI panels need to send some commands
-> >> > in stage 2, before starting up video
-> >> >
-> >> > In the DRM subsystem stage 3 naturally maps to the
-> >> > drm_bridge_funcs::enable, stage 1 also naturally maps to the
-> >> > drm_bridge_funcs::pre_enable. Stage 2 doesn't have its own place in
-> >> > the DRM call chain.
-> >> > Earlier we attempted to solve that using the pre_enable_prev_first,
-> >> > which remapped pre-enable callback execution order. However it has led
-> >> > us to the two issues. First, at the DSI host driver we do not know
-> >> > whether the panel / bridge were updated to use pre_enable_prev_first
-> >> > or not. Second, if the bridge has to perform steps during both stages
-> >> > 1 and 2, it can not do that.
-> >> >
-> >> > I'm trying to find a way to express the difference between stages 1
-> >> > and 2 in the generic code, so that we do not to worry about particular
-> >> > DSI host and DSI bridge / panel peculiarities when implementing the
-> >> > DSI host and/or DSI panel driver.
-> >>
-> >> For now, I have a rather hacky ".dsi_lp11_notify" callback in
-> >> drm_bridge_funcs which is supposed to be called by the DSI host while
-> >> the
-> >> clock and data lanes are in LP-11 mode. But that is rather an RFC and
-> >> me
-> >> needing something to get the driver for this bridge working. Because
-> >> it's
-> >> badly broken. FWIW, you can find my work-in-progress patches at
-> >> https://github.com/mwalle/linux/tree/feature-tc358775-fixes
-> >>
-> >> -michael
-> >>
-> >
-> >
-> > --
-> > With best wishes
-> > Dmitry
+Alex
 
 
-
--- 
-With best wishes
-Dmitry
+>
+> Regards,
+>    Felix
+>
+>
+> > ---
+> >   drivers/gpu/drm/drm_prime.c | 33 ++++++++++++++++++---------------
+> >   include/drm/drm_prime.h     |  7 +++++++
+> >   2 files changed, 25 insertions(+), 15 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> > index 63b709a67471..834a5e28abbe 100644
+> > --- a/drivers/gpu/drm/drm_prime.c
+> > +++ b/drivers/gpu/drm/drm_prime.c
+> > @@ -278,7 +278,7 @@ void drm_gem_dmabuf_release(struct dma_buf *dma_buf=
+)
+> >   }
+> >   EXPORT_SYMBOL(drm_gem_dmabuf_release);
+> >
+> > -/*
+> > +/**
+> >    * drm_gem_prime_fd_to_handle - PRIME import function for GEM drivers
+> >    * @dev: drm_device to import into
+> >    * @file_priv: drm file-private structure
+> > @@ -292,9 +292,9 @@ EXPORT_SYMBOL(drm_gem_dmabuf_release);
+> >    *
+> >    * Returns 0 on success or a negative error code on failure.
+> >    */
+> > -static int drm_gem_prime_fd_to_handle(struct drm_device *dev,
+> > -                                   struct drm_file *file_priv, int pri=
+me_fd,
+> > -                                   uint32_t *handle)
+> > +int drm_gem_prime_fd_to_handle(struct drm_device *dev,
+> > +                            struct drm_file *file_priv, int prime_fd,
+> > +                            uint32_t *handle)
+> >   {
+> >       struct dma_buf *dma_buf;
+> >       struct drm_gem_object *obj;
+> > @@ -360,6 +360,7 @@ static int drm_gem_prime_fd_to_handle(struct drm_de=
+vice *dev,
+> >       dma_buf_put(dma_buf);
+> >       return ret;
+> >   }
+> > +EXPORT_SYMBOL(drm_gem_prime_fd_to_handle);
+> >
+> >   int drm_prime_fd_to_handle_ioctl(struct drm_device *dev, void *data,
+> >                                struct drm_file *file_priv)
+> > @@ -408,7 +409,7 @@ static struct dma_buf *export_and_register_object(s=
+truct drm_device *dev,
+> >       return dmabuf;
+> >   }
+> >
+> > -/*
+> > +/**
+> >    * drm_gem_prime_handle_to_fd - PRIME export function for GEM drivers
+> >    * @dev: dev to export the buffer from
+> >    * @file_priv: drm file-private structure
+> > @@ -421,10 +422,10 @@ static struct dma_buf *export_and_register_object=
+(struct drm_device *dev,
+> >    * The actual exporting from GEM object to a dma-buf is done through =
+the
+> >    * &drm_gem_object_funcs.export callback.
+> >    */
+> > -static int drm_gem_prime_handle_to_fd(struct drm_device *dev,
+> > -                                   struct drm_file *file_priv, uint32_=
+t handle,
+> > -                                   uint32_t flags,
+> > -                                   int *prime_fd)
+> > +int drm_gem_prime_handle_to_fd(struct drm_device *dev,
+> > +                            struct drm_file *file_priv, uint32_t handl=
+e,
+> > +                            uint32_t flags,
+> > +                            int *prime_fd)
+> >   {
+> >       struct drm_gem_object *obj;
+> >       int ret =3D 0;
+> > @@ -506,6 +507,7 @@ static int drm_gem_prime_handle_to_fd(struct drm_de=
+vice *dev,
+> >
+> >       return ret;
+> >   }
+> > +EXPORT_SYMBOL(drm_gem_prime_handle_to_fd);
+> >
+> >   int drm_prime_handle_to_fd_ioctl(struct drm_device *dev, void *data,
+> >                                struct drm_file *file_priv)
+> > @@ -864,9 +866,9 @@ EXPORT_SYMBOL(drm_prime_get_contiguous_size);
+> >    * @obj: GEM object to export
+> >    * @flags: flags like DRM_CLOEXEC and DRM_RDWR
+> >    *
+> > - * This is the implementation of the &drm_gem_object_funcs.export func=
+tions
+> > - * for GEM drivers using the PRIME helpers. It is used as the default =
+for
+> > - * drivers that do not set their own.
+> > + * This is the implementation of the &drm_gem_object_funcs.export func=
+tions for GEM drivers
+> > + * using the PRIME helpers. It is used as the default in
+> > + * drm_gem_prime_handle_to_fd().
+> >    */
+> >   struct dma_buf *drm_gem_prime_export(struct drm_gem_object *obj,
+> >                                    int flags)
+> > @@ -962,9 +964,10 @@ EXPORT_SYMBOL(drm_gem_prime_import_dev);
+> >    * @dev: drm_device to import into
+> >    * @dma_buf: dma-buf object to import
+> >    *
+> > - * This is the implementation of the gem_prime_import functions for GE=
+M
+> > - * drivers using the PRIME helpers. It is the default for drivers that=
+ do
+> > - * not set their own &drm_driver.gem_prime_import.
+> > + * This is the implementation of the gem_prime_import functions for GE=
+M drivers
+> > + * using the PRIME helpers. Drivers can use this as their
+> > + * &drm_driver.gem_prime_import implementation. It is used as the defa=
+ult
+> > + * implementation in drm_gem_prime_fd_to_handle().
+> >    *
+> >    * Drivers must arrange to call drm_prime_gem_destroy() from their
+> >    * &drm_gem_object_funcs.free hook when using this function.
+> > diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h
+> > index a7abf9f3e697..2a1d01e5b56b 100644
+> > --- a/include/drm/drm_prime.h
+> > +++ b/include/drm/drm_prime.h
+> > @@ -60,12 +60,19 @@ enum dma_data_direction;
+> >
+> >   struct drm_device;
+> >   struct drm_gem_object;
+> > +struct drm_file;
+> >
+> >   /* core prime functions */
+> >   struct dma_buf *drm_gem_dmabuf_export(struct drm_device *dev,
+> >                                     struct dma_buf_export_info *exp_inf=
+o);
+> >   void drm_gem_dmabuf_release(struct dma_buf *dma_buf);
+> >
+> > +int drm_gem_prime_fd_to_handle(struct drm_device *dev,
+> > +                            struct drm_file *file_priv, int prime_fd, =
+uint32_t *handle);
+> > +int drm_gem_prime_handle_to_fd(struct drm_device *dev,
+> > +                            struct drm_file *file_priv, uint32_t handl=
+e, uint32_t flags,
+> > +                            int *prime_fd);
+> > +
+> >   /* helper functions for exporting */
+> >   int drm_gem_map_attach(struct dma_buf *dma_buf,
+> >                      struct dma_buf_attachment *attach);
