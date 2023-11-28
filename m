@@ -1,60 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C4A77FB919
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 12:12:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 895087FB927
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 12:14:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7454F10E4DD;
-	Tue, 28 Nov 2023 11:12:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEEBC10E4E1;
+	Tue, 28 Nov 2023 11:14:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4381B10E4C2;
- Tue, 28 Nov 2023 11:12:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701169934; x=1732705934;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=4sQGMsoKH4XsBlVx0DVZlFut2gRlSwx7PwBvuuYhn4w=;
- b=T4GeaJRcTTUh1WW5b/5jF4CdjVS3X9agR4DO1qaSweyFEpChyjEWUiYs
- IGrYtkH1p7mAUAMlH5nn5LVmvhL55v8ChIaTuKQD6NohAwEuNcJy+TTxm
- PKReP7qzlOq9wM8e6kPA7/9P3jwihuhobGbAfXEIM7EtKYOKFaSnZpqWR
- niRBTUzrZ0Z5PVHN+Y4vR6n3aomu/3qzIlOntzmOpOgOR94tUsoHDpEmP
- nNt3AJEEtRCcWncLCBFDrjxouJJGo0IMXvMDyvHi6RpXatViKsuKyXIMg
- Hh0KUcoz3PNxysbkm1gUA+LGg8ZA0vDeHt8WLJD3lkv/2sjcqGfe1Ay18 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="14460255"
-X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; d="scan'208";a="14460255"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2023 03:12:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="859398036"
-X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; d="scan'208";a="859398036"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.14.21])
- ([10.213.14.21])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2023 03:12:10 -0800
-Message-ID: <51baffb9-2249-4080-a245-eb1e03c02b9b@intel.com>
-Date: Tue, 28 Nov 2023 12:12:08 +0100
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5805710E4E1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 11:14:47 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 685CFB839A0;
+ Tue, 28 Nov 2023 11:14:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70CABC433C7;
+ Tue, 28 Nov 2023 11:14:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1701170084;
+ bh=ghXHN0aqKTTETA6By+7Mc0o8Xy5WxEMUZIlYt+T2S2k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RMsIKIwU5rCX0ZEd0AknFuQtsCuGZOd+UAdrNrElQLX+FzsvWwmnGzu/13zFTjv8S
+ 1sEGdUq+2Bh4u+xNBIkrOOA8OSDB/8dEVr+Q56+9wc6pXUozr4s9v+fIFf75ETOlF8
+ XzZ2CFbTXGZyPhcJTLNeLIW2fjYac22oBY/+Br5aBCc6IHjl+TkO83cOKk+1da8jxN
+ kcv0PqsiaEZGa6Py7G5TSKYyFsk91CQK+QFXFSva2vpwwhI8R7/GtaB6DiMrQG0oCq
+ vpfDbnOoEWH7qtaUuEpPX6SypVnAweYMwsC1Zn+ukA5U3TbtvvX/W9MFchbO8JwdGt
+ XHotEI5pg4ayg==
+Date: Tue, 28 Nov 2023 12:14:42 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH v18 04/26] drm/shmem-helper: Refactor locked/unlocked
+ functions
+Message-ID: <kw5bho3jx73d3glvtewmjvqt4qty4khju6dcwypuh25ya3gi4b@7slmijjqdi4p>
+References: <20231029230205.93277-1-dmitry.osipenko@collabora.com>
+ <20231029230205.93277-5-dmitry.osipenko@collabora.com>
+ <wboljiwogeus7pwgaqzxaltt3xdavy2dzisygn6pdpoiwlnwgc@mwaiukjguzat>
+ <20231124115911.79ab24af@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/display: Fix phys_base to be
- relative not absolute
-Content-Language: en-US
-To: Paz Zcharya <pazz@chromium.org>
-References: <20231105172718.18673-1-pazz@chromium.org>
- <ZVQ3d8FFqxsy0OX7@intel.com> <ZVfw3ghfBLdHB7uk@google.com>
- <8dd6f4da-dcc9-4ea3-8395-bf048b0dbc93@intel.com>
- <6f08cfee-a60b-4f6e-b69a-20517c563259@intel.com>
- <ZWVizpRkf5iJ2LnQ@google.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <ZWVizpRkf5iJ2LnQ@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="4o4oj77z6epqtcan"
+Content-Disposition: inline
+In-Reply-To: <20231124115911.79ab24af@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,94 +54,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Subrata Banik <subratabanik@google.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, intel-gfx@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
- matthew.auld@intel.com, Marcin Wojtas <mwojtas@chromium.org>,
- Drew Davenport <ddavenport@chromium.org>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: kernel@collabora.com, Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Emma Anholt <emma@anholt.net>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ Melissa Wen <mwen@igalia.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Steven Price <steven.price@arm.com>, virtualization@lists.linux-foundation.org,
+ Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28.11.2023 04:47, Paz Zcharya wrote:
-> 
-> On Mon, Nov 27, 2023 at 8:20 PM Paz Zcharya <pazz@chromium.org> wrote:
->>
->> On 21.11.2023 13:06, Andrzej Hajda wrote:
->>> On 18.11.2023 00:01, Paz Zcharya wrote:
->>>> On Tue, Nov 14, 2023 at 10:13:59PM -0500, Rodrigo Vivi wrote:
->>>>> On Sun, Nov 05, 2023 at 05:27:03PM +0000, Paz Zcharya wrote:
->>>>
->>>> Hi Rodrigo, thanks for the great comments.
->>>>
->>>> Apologies for using a wrong/confusing terminology. I think 'phys_base'
->>>> is supposed to be the offset in the GEM BO, where base (or
->>>> "Surface Base Address") is supposed to be the GTT offset.
->>>
->>> Since base is taken from PLANE_SURF register it should be resolvable via
->>> GGTT to physical address pointing to actual framebuffer.
->>> I couldn't find anything in the specs.
->>
->> It was quite cryptic. I meant I have not found anything about assumption
->> from commit history that for iGPU there should be 1:1 mapping, this is why
->> there was an assignment "phys_base = base". Possibly the assumption is not
->> valid anymore for MTL(?).
->> Without the assumption we need to check GGTT to determine phys address.
->>
->>> The simplest approach would be then do the same as in case of DGFX:
->>>           gen8_pte_t __iomem *gte = to_gt(i915)->ggtt->gsm;
->>>           gen8_pte_t pte;
->>>
->>>           gte += base / I915_GTT_PAGE_SIZE;
->>>
->>>           pte = ioread64(gte);
->>>           phys_base = pte & I915_GTT_PAGE_MASK;
->>>
->>> Regards
->>> Andrzej
-> 
-> Hey Andrzej,
-> 
-> On a second thought, what do you think about something like
-> 
-> +               gen8_pte_t __iomem *gte = to_gt(i915)->ggtt->gsm;
-> +               gen8_pte_t pte;
-> +               gte += base / I915_GTT_PAGE_SIZE;
-> +               pte = ioread64(gte);
-> +               pte = pte & I915_GTT_PAGE_MASK;
-> +               phys_base = pte - i915->mm.stolen_region->region.start;
-> 
-> The only difference is the last line.
 
-Bingo :) It seems to be generic algorithm to get phys_base for all 
-platforms:
-- on older platforms stolen_region points to system memory which starts 
-at 0,
-- on DG2 it uses lmem region which starts at 0 as well,
-- on MTL stolen_region points to stolen-local which starts at 0x800000.
+--4o4oj77z6epqtcan
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So this whole "if (IS_DGFX(i915)) {...} else {...}" could be replaced
-with sth generic.
-1. Find pte.
-2. if(IS_DGFX(i915) && pte & GEN12_GGTT_PTE_LM) mem = 
-i915->mm.regions[INTEL_REGION_LMEM_0] else mem = i915->mm.stolen_region
-3. phys_base = (pte & I915_GTT_PAGE_MASK) - mem->region.start;
+Hi,
 
-Regards
-Andrzej
+On Fri, Nov 24, 2023 at 11:59:11AM +0100, Boris Brezillon wrote:
+> On Fri, 24 Nov 2023 11:40:06 +0100
+> Maxime Ripard <mripard@kernel.org> wrote:
+>=20
+> > On Mon, Oct 30, 2023 at 02:01:43AM +0300, Dmitry Osipenko wrote:
+> > > Add locked and remove unlocked postfixes from drm-shmem function name=
+s,
+> > > making names consistent with the drm/gem core code.
+> > >=20
+> > > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com> =20
+> >=20
+> > This contradicts my earlier ack on a patch but...
+> >=20
+> > > ---
+> > >  drivers/gpu/drm/drm_gem_shmem_helper.c        | 64 +++++++++--------=
+--
+> > >  drivers/gpu/drm/lima/lima_gem.c               |  8 +--
+> > >  drivers/gpu/drm/panfrost/panfrost_drv.c       |  2 +-
+> > >  drivers/gpu/drm/panfrost/panfrost_gem.c       |  6 +-
+> > >  .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |  2 +-
+> > >  drivers/gpu/drm/panfrost/panfrost_mmu.c       |  2 +-
+> > >  drivers/gpu/drm/v3d/v3d_bo.c                  |  4 +-
+> > >  drivers/gpu/drm/virtio/virtgpu_object.c       |  4 +-
+> > >  include/drm/drm_gem_shmem_helper.h            | 36 +++++------
+> > >  9 files changed, 64 insertions(+), 64 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm=
+/drm_gem_shmem_helper.c
+> > > index 0d61f2b3e213..154585ddae08 100644
+> > > --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> > > +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> > > @@ -43,8 +43,8 @@ static const struct drm_gem_object_funcs drm_gem_sh=
+mem_funcs =3D {
+> > >  	.pin =3D drm_gem_shmem_object_pin,
+> > >  	.unpin =3D drm_gem_shmem_object_unpin,
+> > >  	.get_sg_table =3D drm_gem_shmem_object_get_sg_table,
+> > > -	.vmap =3D drm_gem_shmem_object_vmap,
+> > > -	.vunmap =3D drm_gem_shmem_object_vunmap,
+> > > +	.vmap =3D drm_gem_shmem_object_vmap_locked,
+> > > +	.vunmap =3D drm_gem_shmem_object_vunmap_locked, =20
+> >=20
+> > While I think we should indeed be consistent with the names, I would
+> > also expect helpers to get the locking right by default.
+>=20
+> Wait, actually I think this patch does what you suggest already. The
+> _locked() prefix tells the caller: "you should take care of the locking,
+> I expect the lock to be held when this is hook/function is called". So
+> helpers without the _locked() prefix take care of the locking (which I
+> guess matches your 'helpers get the locking right' expectation), and
+> those with the _locked() prefix don't.
 
+What I meant by "getting the locking right" is indeed a bit ambiguous,
+sorry. What I'm trying to say I guess is that, in this particular case,
+I don't think you can expect the vmap implementation to be called with
+or without the locks held. The doc for that function will say that it's
+either one or the other, but not both.
 
-> 
-> Based on what I wrote before, I think `phys_base` is named incorrectly and
-> that it does not reflect the physical address, but the start offset of
-> i915->mm.stolen_region. So if we offset the start value of the stolen
-> region, this code looks correct to me (and it also works on my
-> MeteorLake device).
-> 
-> What do you think?
-> 
-> 
-> Many thanks,
-> Paz
-> 
+So helpers should follow what is needed to provide a default vmap/vunmap
+implementation, including what locking is expected from a vmap/vunmap
+implementation.
 
+If that means that vmap is always called with the locks taken, then
+drm_gem_shmem_object_vmap can just assume that it will be called with
+the locks taken and there's no need to mention it in the name (and you
+can probably sprinkle a couple of lockdep assertion to make sure the
+locking is indeed consistent).
+
+> > I'm not sure how reasonable it is, but I think I'd prefer to turn this
+> > around and keep the drm_gem_shmem_object_vmap/unmap helpers name, and
+> > convert whatever function needs to be converted to the unlock suffix so
+> > we get a consistent naming.
+>=20
+> That would be an _unlocked() prefix if we do it the other way around. I
+> think the main confusion comes from the names of the hooks in
+> drm_gem_shmem_funcs. Some of them, like drm_gem_shmem_funcs::v[un]map()
+> are called with the GEM resv lock held, and locking is handled by the
+> core, others, like drm_gem_shmem_funcs::[un]pin() are called
+> without the GEM resv lock held, and locking is deferred to the
+> implementation. As I said, I don't mind prefixing hooks/helpers with
+> _unlocked() for those that take care of the locking, and no prefix for
+> those that expects locks to be held, as long as it's consistent, but I
+> just wanted to make sure we're on the same page :-).
+
+What about _nolock then? It's the same number of characters than
+_locked, plus it expresses what the function is (not) doing, not what
+context it's supposed to be called in?
+
+Maxime
+
+--4o4oj77z6epqtcan
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWXLogAKCRDj7w1vZxhR
+xdPLAP0bk4jcd19Kcw1HVEeKM+/ZsKBusXZ3qgtT2fHoMh5QUQEAsOV0Jvb2c6uk
+6hLo3uAZKWG2e93N+kwfw1XjMKiwpQA=
+=DFKK
+-----END PGP SIGNATURE-----
+
+--4o4oj77z6epqtcan--
