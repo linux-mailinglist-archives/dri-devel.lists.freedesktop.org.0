@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C23A67FB3F8
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 09:23:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0C17FB3FB
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 09:23:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5174D10E44D;
-	Tue, 28 Nov 2023 08:23:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B95BA10E10A;
+	Tue, 28 Nov 2023 08:23:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A02D10E467
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 08:23:09 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id
- 4fb4d7f45d1cf-5488bf9e193so7031972a12.2
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 00:23:09 -0800 (PST)
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A58010E10A
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 08:23:48 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id
+ 4fb4d7f45d1cf-54b0e553979so4363506a12.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 00:23:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701159788; x=1701764588; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701159827; x=1701764627; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=coVxxRvKmyhaCH6G8RxJ1YJH2PseX2AUV8csYjv/pKg=;
- b=pwED3iEv+6gEMWZYzUAh1KSOH63AVCcCF74FdWxfv1zt6oUjLyVnm7AFMfb4yelkvv
- 174aScm1O7OkzqOSSHnAPxxSdh199Q856lpKEGGjlsx7Az8rSBFGOnwkjXSp0C/giR2f
- Z9f+RuQbPEqWmKwlrASstwawIH7RLkfT4e9B43zbnz/8V30p7F9MFN79nkaiiGWr10xO
- FqwjwmJthrpDEKL6wL1YdUjJtJMSrno2DaVNwi6XCbgu4KDd5AdYa+D0STDee4bouHg9
- IcHGyIYROUQWK4nmIwy2GlHXj9rFqVTHN0YHkk7z/QnsXnLWChO/nz2I0VcQh68vhoCS
- fhPw==
+ bh=1UOlh2DBPRlglTZsxnljR4k/aNf8IkPiVHCesZDf2rE=;
+ b=iZGhHjYbBM0yJnEklIxQMr6z0D4oZIq0pKPzXkisS8qDZAqz/szmwqTZI4/ZraZfGG
+ 8H4+LxKzKFCkqou2u91RzunqQuUEQRXghWWGEF+W1HNEAMNpPp5Ntqp023qhRVRIn0/H
+ TesJzG3KC9nEd/ph43M13B05hyIUYYLByG3o5QQSOfCCsqFmO5JaqUiI0Ht8NIm3qJ36
+ xu8zjsQjFBwAel1EJA81x6yFcsFpGDo2c3QSYl8uOhWLs50vjzEKc8pREsmA7Apy5sG4
+ 9WTTx0gW9vgqMLpwze4ozGOKZqC3JHsgkNq8GJE2tuUDz6Bowtmrs0Tchf1MIVYPmkPV
+ ezpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701159788; x=1701764588;
+ d=1e100.net; s=20230601; t=1701159827; x=1701764627;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=coVxxRvKmyhaCH6G8RxJ1YJH2PseX2AUV8csYjv/pKg=;
- b=pKrVW3Jq9BtTPycZ3vZZ93k7G8vXcc9G7Nbchb4emqtHh+Phj0dDaEnYgabHHprPwC
- RLjuXqWIyNIaNC0kxcJMuG3Sj0U4bk8RUcYg9218msV8eWpdQ3oOSpawTHDIf86BB3M7
- wn4+A2uEfoM14zPp7lrzd2c0Y/lEHGppuVTro0iCJfkvVnLNZs5Ej1kusJ3piFVQo/PF
- fxVdvhFK8m/HtXwVJKM0L58O6RFgX66T7fqmKgr0GLdOiatqup4Q42HauMszsHE4KMQU
- j+acabTqTDloQEBc8EmhTxkQuo/ARgY5m7BW96+Q+KfMPkfsXe6KUssiRjAoW7cymvZd
- a1WQ==
-X-Gm-Message-State: AOJu0Yw7yia0cE43GzXUk1WYh8r0wGoH7Ymgqg36pQsQoGEOD8LWbnj/
- jtY5KDll0fQ+WEOMRaXawn4hhQ==
-X-Google-Smtp-Source: AGHT+IEgMh/OBItu88G3t9aQ2Zwzb8hKRW87qL5/jTOsepyznXcGoQuNepBzzWmCjKnpVCRBxkGYaQ==
-X-Received: by 2002:a50:cd15:0:b0:54b:20a7:cf82 with SMTP id
- z21-20020a50cd15000000b0054b20a7cf82mr8455451edi.24.1701159787840; 
- Tue, 28 Nov 2023 00:23:07 -0800 (PST)
+ bh=1UOlh2DBPRlglTZsxnljR4k/aNf8IkPiVHCesZDf2rE=;
+ b=kjBdv5LsgPQG9nF9r1a8zJER4Qk9gsqhL6fmjiYt5tbXAH9gFiRZ+CCEI5VVlzbdBP
+ BIUf5Axm3txT0EcLm/1kptpp+74nDE5Trv5SbMhj9Eo2HUfYxQZK7m0Ssque78q0VRnj
+ EVHWUprjmyXo0+LSB9A8IMUT52pNwTAL437ltvna1cXMkc144HDSaKRxyvAOu79RWdSm
+ BStn0Emz1YuEfkKo23fPoPpDTJwWX5RWlX2sbt/tdAo/+i6+Pny6ONYcNts2Mq0D5SbZ
+ Wi3gsv4aMkWyFg9jI4HsrItPw99gtJCn87t4TLh5MdiP2fULZ3y9W8jv495fc3CsG0GM
+ rJfw==
+X-Gm-Message-State: AOJu0YzdBpHzc+nBENYsKYRPmVSrWltMEGvtF6PccBY9qN+xGocE29SQ
+ U1b8nuRq3YFcUbhtiTcOlvYVTw==
+X-Google-Smtp-Source: AGHT+IEWSLfSH2rm0ZeDonvf6plZljG4gTf78THbXKuJ5NkitUThcGz4eAHzdOYzRW5mLVZYsC0kWQ==
+X-Received: by 2002:a05:6402:42c5:b0:54a:ed2a:fa7e with SMTP id
+ i5-20020a05640242c500b0054aed2afa7emr13330706edc.24.1701159827034; 
+ Tue, 28 Nov 2023 00:23:47 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.109])
  by smtp.gmail.com with ESMTPSA id
- x1-20020aa7d381000000b00548ab1abc75sm6180302edq.51.2023.11.28.00.23.04
+ x1-20020aa7d381000000b00548ab1abc75sm6180302edq.51.2023.11.28.00.23.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Nov 2023 00:23:07 -0800 (PST)
-Message-ID: <2164e693-875a-44c1-9bf5-9fa192dc589a@linaro.org>
-Date: Tue, 28 Nov 2023 09:23:03 +0100
+ Tue, 28 Nov 2023 00:23:46 -0800 (PST)
+Message-ID: <79916a3e-70c2-4eaa-b4eb-9375c859f53e@linaro.org>
+Date: Tue, 28 Nov 2023 09:23:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/12] dt-bindings: display: msm: qcm2290-mdss: Use the
- non-deprecated DSI compat
+Subject: Re: [PATCH v2 02/12] dt-bindings: display: msm: Add reg bus and
+ rotator interconnects
 Content-Language: en-US
 To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
  <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -75,7 +75,7 @@ To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
  Robert Marko <robimarko@gmail.com>, Das Srinagesh <quic_gurus@quicinc.com>,
  cros-qcom-dts-watchers@chromium.org
 References: <20231125-topic-rb1_feat-v2-0-979b28f35e4a@linaro.org>
- <20231125-topic-rb1_feat-v2-1-979b28f35e4a@linaro.org>
+ <20231125-topic-rb1_feat-v2-2-979b28f35e4a@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -121,7 +121,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231125-topic-rb1_feat-v2-1-979b28f35e4a@linaro.org>
+In-Reply-To: <20231125-topic-rb1_feat-v2-2-979b28f35e4a@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -145,11 +145,23 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 27/11/2023 16:28, Konrad Dybcio wrote:
-> The "qcom,dsi-ctrl-6g-qcm2290" has been deprecated in commit 0c0f65c6dd44
-> ("dt-bindings: msm: dsi-controller-main: Add compatible strings for every
-> current SoC"), but the example hasn't been updated to reflect that.
+> Apart from the already handled data bus (MAS_MDP_Pn<->DDR), there are
+> other connection paths:
+> - a path that connects rotator block to the DDR.
+> - a path that needs to be handled to ensure MDSS register access
+>   functions properly, namely the "reg bus", a.k.a the CPU-MDSS CFG
+>   interconnect.
 > 
-> Fix that.
+> Describe these paths to allow using them in device trees and in the
+> driver.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> [Konrad: rework for one vs two MDP paths, update examples]
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+
+Thanks, looks good.
+
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
