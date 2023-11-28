@@ -1,62 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16D9A7FB065
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 04:17:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3100A7FB0AC
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 04:47:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92A6110E418;
-	Tue, 28 Nov 2023 03:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA7B10E41D;
+	Tue, 28 Nov 2023 03:47:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AE5810E418
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 03:17:33 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-507bd19eac8so6826429e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 19:17:32 -0800 (PST)
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
+ [IPv6:2607:f8b0:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0674210E41D
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 03:47:29 +0000 (UTC)
+Received: by mail-oi1-x22e.google.com with SMTP id
+ 5614622812f47-3b85c88710eso1709484b6e.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 19:47:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1701141451; x=1701746251;
+ d=chromium.org; s=google; t=1701143248; x=1701748048;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9wp5HnTgZ7ZLaUo9Q/M6nPjzjSUwa62T1Maa/se+gxo=;
- b=JNpJccKwgNmJraFv3lS6amjits7vqvVAK9O85qEYIEeLo9huaPtFEQEN4qz4gh5ACd
- 7sHL2vsruub/+x3Bg6/O3sJdjLhp/majqTiYZb3haGD73+My4VApCoD9uHhJYK4/VGbP
- 1rrk10AH3FzhEtUXiLzdrPaJSrFT9g7OKuU+g=
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=GVpyKgOAQAjrhknJpFAGo50iMbjyJYlCx/CCVK+Isf8=;
+ b=G2w87gRxe6cAv3IcYclbW9R4aP3qBlq8Ppu8ceCUq845HVOKe1v/4NPInMW4E3kL6m
+ EiwEASuapy7RPXEypX3AzeFDZsVtCgPQn/fL3NWtw4V8NhqhTmDs9uUyV4C7NduWtZKh
+ C1SdLYlWN0cqLVxPmD4orUz9qLkpd7aeP60M4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701141451; x=1701746251;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9wp5HnTgZ7ZLaUo9Q/M6nPjzjSUwa62T1Maa/se+gxo=;
- b=m/rInmDYuJ1V3RiCyHze25+pfR2BHK4YNcaXHCga5EhDx7G2z+OjhH0k62TMFZOw4u
- h4E/IHLEqaIDVz6j5kqdkN0EqYIKk3MrIFunzyhUZqFfnCMmKoidsEMVx5SoiITVBqPG
- 2SLW/ebu5H6UxJBK7VZrjyy68LPd22ZYDqdm13IvifE7oQ+dwpGhGHCcrEVlhYvI3rqb
- Di56hg6j6c+RlB6uU6dEUq8S3BfoXA+UJWio73zHW2eKwXynZtQPL5dm3N2KwBC+jmi7
- 89YFV6FUQd5BgrKxjh0TieiQTmfS2BePlDQrHvX+qo6pnnoGUNKozXvfN1m5pHX8reVD
- jXkA==
-X-Gm-Message-State: AOJu0YyRQ3gd3c3ki3QMl9EhsCKQ6vGcnyicvfpDujofrYKaX+uogqLc
- GpgNdk731YPqw7WYI5laoKQg1VODFfSN160/I+sK6w==
-X-Google-Smtp-Source: AGHT+IGSvCVqHokq1V085rudx0pq9tIghj1AHgkp2YjyyUW/OKHrDERsAUTAxkQUm4r6WUQntkQt94tB1L8sdCreRbM=
-X-Received: by 2002:a05:6512:3585:b0:500:d4d9:25b5 with SMTP id
- m5-20020a056512358500b00500d4d925b5mr7469216lfr.56.1701141451084; Mon, 27 Nov
- 2023 19:17:31 -0800 (PST)
+ d=1e100.net; s=20230601; t=1701143248; x=1701748048;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GVpyKgOAQAjrhknJpFAGo50iMbjyJYlCx/CCVK+Isf8=;
+ b=upDIVWsWop49nEcyXMslAKHIkCgG7IIVEPplIk3bHluCRsIPpx/NEBlrr9mA8S42sX
+ M12OaL0TZ7g/wzBqbC2f9tdCQJE0GVb8Q5DSliyT1hAlzhwUOWU97jztSeVhBg2nDjn5
+ ceny1XTNJeexzTcBOfET6Uvs8JUFrDbHTmfOZ1YXudAc2BD6aLWAFZUwcvm+xF/k9Gbz
+ HKjvreiXGuffXtZq3M4DkB6fA6rCVnA52obB9sp/1Pt5Noo6ALw6OedNwcLXfoZw/32J
+ LY8EvAFwrZYNepAHhG126q1Y6fYY6S0VrqBaOlyIHne4Y4RA1RjCO6H3qaa3VXS1MkbK
+ T1nQ==
+X-Gm-Message-State: AOJu0YyEG3tEohRmlChRriOe9nVvOMSgiVwGZ7jUjl+m3OwdTdXniXAi
+ OzSRrPEP27hTpG5rm9cxQgItVQ==
+X-Google-Smtp-Source: AGHT+IEBjnPiJn6iWJLu7YX98L4ojQv3g8KXQa8fjJb4ZSIU2ly5q9i5nliKZY6K4o7RjmpmG+uNzQ==
+X-Received: by 2002:a05:6358:724c:b0:16d:fb29:d78 with SMTP id
+ i12-20020a056358724c00b0016dfb290d78mr13055265rwa.2.1701143248083; 
+ Mon, 27 Nov 2023 19:47:28 -0800 (PST)
+Received: from google.com (193.132.150.34.bc.googleusercontent.com.
+ [34.150.132.193]) by smtp.gmail.com with ESMTPSA id
+ q2-20020ac84502000000b00423829b6d91sm4242296qtn.8.2023.11.27.19.47.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Nov 2023 19:47:27 -0800 (PST)
+Date: Tue, 28 Nov 2023 03:47:26 +0000
+From: Paz Zcharya <pazz@chromium.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/display: Fix phys_base to be
+ relative not absolute
+Message-ID: <ZWVizpRkf5iJ2LnQ@google.com>
+References: <20231105172718.18673-1-pazz@chromium.org>
+ <ZVQ3d8FFqxsy0OX7@intel.com> <ZVfw3ghfBLdHB7uk@google.com>
+ <8dd6f4da-dcc9-4ea3-8395-bf048b0dbc93@intel.com>
+ <6f08cfee-a60b-4f6e-b69a-20517c563259@intel.com>
 MIME-Version: 1.0
-References: <20230730180803.22570-1-jiaxin.yu@mediatek.com>
- <20230730180803.22570-4-jiaxin.yu@mediatek.com>
- <c35ef2d8-ab40-484b-9a4c-38f2f3e7d99c@collabora.com>
-In-Reply-To: <c35ef2d8-ab40-484b-9a4c-38f2f3e7d99c@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 28 Nov 2023 11:17:20 +0800
-Message-ID: <CAGXv+5G2tP9i8VrUc6-xs2d72_nL9XH9iSCeixzA2AM7X5fXOQ@mail.gmail.com>
-Subject: Re: [v3 3/3] drm/bridge: it6505: Add audio support
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Jiaxin Yu <jiaxin.yu@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6f08cfee-a60b-4f6e-b69a-20517c563259@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,91 +76,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, alsa-devel@alsa-project.org,
- chunxu.li@mediatek.com, nfraprado@collabora.com,
- kuninori.morimoto.gx@renesas.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, robert.foss@linaro.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, broonie@kernel.org,
- linux-mediatek@lists.infradead.org, Laurent.pinchart@ideasonboard.com,
- andrzej.hajda@intel.com, ajye_huang@compal.corp-partner.google.com,
- linux-arm-kernel@lists.infradead.org, allen-kh.cheng@mediatek.com
+Cc: Subrata Banik <subratabanik@google.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, intel-gfx@lists.freedesktop.org,
+ Marcin Wojtas <mwojtas@chromium.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+ matthew.auld@intel.com, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Drew Davenport <ddavenport@chromium.org>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 21, 2023 at 8:54=E2=80=AFPM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Il 30/07/23 20:08, Jiaxin Yu ha scritto:
-> > Add audio support for it6505
-> >
-> > 1. Bridge to hdmi-codec to support audio feature. At the same time,
-> >     the function of automatically detecting audio is removed.
-> > 2. It is observed that some DP-to-HDMI dongles will get into bad
-> >     states if sending InfoFrame without audio data. Defer to enable
-> >     it6505's audio feature when PCM triggers START or RESUME.
-> >
-> > Signed-off-by: Jiaxin Yu <jiaxin.yu@mediatek.com>
->
-> Hello Jiaxin,
-> this patch doesn't apply anymore (and it won't build anymore) upstream.
->
-> > ---
-> >   drivers/gpu/drm/bridge/ite-it6505.c | 81 ++++++++++++++++++++++++++--=
--
-> >   1 file changed, 75 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/brid=
-ge/ite-it6505.c
-> > index 504d51c42f79..1cfcb0731288 100644
-> > --- a/drivers/gpu/drm/bridge/ite-it6505.c
-> > +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-> > @@ -2162,7 +2162,6 @@ static void it6505_stop_link_train(struct it6505 =
-*it6505)
-> >
-> >   static void it6505_link_train_ok(struct it6505 *it6505)
-> >   {
-> > -     struct device *dev =3D &it6505->client->dev;
->
-> This is because this changed to `struct device *dev =3D it6505->dev;`
->
-> >
-> >       it6505->link_state =3D LINK_OK;
-> >       /* disalbe mute enable avi info frame */
-> > @@ -2170,11 +2169,6 @@ static void it6505_link_train_ok(struct it6505 *=
-it6505)
-> >       it6505_set_bits(it6505, REG_INFOFRAME_CTRL,
-> >                       EN_VID_CTRL_PKT, EN_VID_CTRL_PKT);
-> >
-> > -     if (it6505_audio_input(it6505)) {
-> > -             DRM_DEV_DEBUG_DRIVER(dev, "Enable audio!");
-> > -             it6505_enable_audio(it6505);
-> > -     }
-> > -
-> >       if (it6505->hdcp_desired)
-> >               it6505_start_hdcp(it6505);
-> >   }
-> > @@ -2846,6 +2840,45 @@ static void __maybe_unused it6505_audio_shutdown=
-(struct device *dev, void *data)
-> >               it6505_disable_audio(it6505);
-> >   }
-> >
-> > +static int it6505_audio_hw_params(struct device *dev, void *data,
-> > +                               struct hdmi_codec_daifmt *daifmt,
-> > +                               struct hdmi_codec_params *params)
-> > +{
-> > +     struct it6505 *it6505 =3D dev_get_drvdata(dev);
-> > +
-> > +     return it6505_audio_setup_hw_params(it6505, params);
-> > +}
-> > +
-> > +static int it6505_audio_setup_trigger(struct it6505 *it6505, int cmd)
-> > +{
-> > +     struct device *dev =3D &it6505->client->dev;
->
-> ...and because you'll have to change this one, and other occurrences of t=
-hat
-> as well.
->
-> Can you please respin this series?
 
-Please also add a patch adding #sound-dai-cells to the it6505 binding.
+On Mon, Nov 27, 2023 at 8:20 PM Paz Zcharya <pazz@chromium.org> wrote:
+>
+> On 21.11.2023 13:06, Andrzej Hajda wrote:
+> > On 18.11.2023 00:01, Paz Zcharya wrote:
+> > > On Tue, Nov 14, 2023 at 10:13:59PM -0500, Rodrigo Vivi wrote:
+> > > > On Sun, Nov 05, 2023 at 05:27:03PM +0000, Paz Zcharya wrote:
+> > >
+> > > Hi Rodrigo, thanks for the great comments.
+> > >
+> > > Apologies for using a wrong/confusing terminology. I think 'phys_base'
+> > > is supposed to be the offset in the GEM BO, where base (or
+> > > "Surface Base Address") is supposed to be the GTT offset.
+> >
+> > Since base is taken from PLANE_SURF register it should be resolvable via
+> > GGTT to physical address pointing to actual framebuffer.
+> > I couldn't find anything in the specs.
+>
+> It was quite cryptic. I meant I have not found anything about assumption
+> from commit history that for iGPU there should be 1:1 mapping, this is why
+> there was an assignment "phys_base = base". Possibly the assumption is not
+> valid anymore for MTL(?).
+> Without the assumption we need to check GGTT to determine phys address.
+>
+> > The simplest approach would be then do the same as in case of DGFX:
+> >          gen8_pte_t __iomem *gte = to_gt(i915)->ggtt->gsm;
+> >          gen8_pte_t pte;
+> >
+> >          gte += base / I915_GTT_PAGE_SIZE;
+> >
+> >          pte = ioread64(gte);
+> >          phys_base = pte & I915_GTT_PAGE_MASK;
+> >
+> > Regards
+> > Andrzej
+
+Hey Andrzej,
+
+On a second thought, what do you think about something like
+
++               gen8_pte_t __iomem *gte = to_gt(i915)->ggtt->gsm;
++               gen8_pte_t pte;
++               gte += base / I915_GTT_PAGE_SIZE;
++               pte = ioread64(gte);
++               pte = pte & I915_GTT_PAGE_MASK;
++               phys_base = pte - i915->mm.stolen_region->region.start;
+
+The only difference is the last line.
+
+Based on what I wrote before, I think `phys_base` is named incorrectly and
+that it does not reflect the physical address, but the start offset of
+i915->mm.stolen_region. So if we offset the start value of the stolen
+region, this code looks correct to me (and it also works on my
+MeteorLake device).
+
+What do you think?
+
+
+Many thanks,
+Paz
+
