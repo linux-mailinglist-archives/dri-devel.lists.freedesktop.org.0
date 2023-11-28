@@ -2,46 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B914D7FBAB6
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 14:01:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B89D7FBAD5
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 14:03:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D947210E50A;
-	Tue, 28 Nov 2023 13:01:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5055210E50D;
+	Tue, 28 Nov 2023 13:03:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EA1110E50A
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 13:01:04 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D99A5616C9;
- Tue, 28 Nov 2023 13:01:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55219C433C7;
- Tue, 28 Nov 2023 13:01:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701176463;
- bh=cno0wrTciQcAWVSsnIZ43dCdMCLvNvzuyANDvYgnksw=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=aXVlGl515Dfgo5/K1KozTP82iuF3KvDFwv+ZDaBUl+zAblgkAnP4MYltZlGXrQX4S
- GHKUtwhG8dEviY9RQEO/ECqcW/ICgiIstWLe4kdomhHILClEBjQ49mmkY0Jzi6O0ue
- X5qzBMKUs2wDqPwjoFRT7Vb1/bvzuRfaJcbV0CLri3FQjJ9KsWzeHfmcXXY/lHRk3w
- VNQqE3waXpplg99R7nRF0RNF+eIMnf2pZOK2ls7jYED82nCFda0xS9LYWBi2B0Vhjm
- 0d/ikYHDDRsSBfYwtPr5uv5qWvzgjTmU5dMeWH7Vyo9AXBECKvGq2QtdwcOMD6bvmp
- aajCxQJuF4gFg==
-From: Maxime Ripard <mripard@kernel.org>
-To: airlied@gmail.com, daniel@ffwll.ch, frank.binns@imgtec.com, 
- donald.robson@imgtec.com, matt.coster@imgtec.com, sarah.walker@imgtec.com, 
- Danilo Krummrich <dakr@redhat.com>
-In-Reply-To: <20231124233650.152653-4-dakr@redhat.com>
-References: <20231124233650.152653-1-dakr@redhat.com>
- <20231124233650.152653-4-dakr@redhat.com>
-Subject: Re: (subset) [PATCH drm-misc-next 3/5] drm/imagination: vm: fix
- drm_gpuvm reference count
-Message-Id: <170117646120.2825698.16047207632231408028.b4-ty@kernel.org>
-Date: Tue, 28 Nov 2023 14:01:01 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E07CE10E50D;
+ Tue, 28 Nov 2023 13:03:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701176597; x=1732712597;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=midxsr58CJMynt/rWAtXeOEPw0fxKfRU09ocjNn1cBA=;
+ b=OW1EKTLBrKixDtF0BWevJx9M8ZClFyAyeM9DH35FlAFh81evFILRt+7y
+ ZDAGx2vkbhmrVVtplAyrDRu+98CTYgUC0dyQgR9Sa/mPBwFfq2jiVdkaS
+ nETrlzZ8YReqmT7Cuh2jQAtZMiymhm1DldTD8N8Zu5s3x1E67fBkIgPNb
+ V9LUDigYcEbHYdePWKlM4jsiH0OrgaU1Nd4EC5kEYttjsJD4hc6gJpf93
+ 0B5h+Ks5ORA822acjfbCa9RnX87b56VqVeodGmcCSIoXpZho2yZfs39Zp
+ dTSQ14Z4+5RB6+Iw9WEJ+wCWCeAXPr6g2OAeWGrL2PXN1SOLhxpvV5cY0 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="396823578"
+X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; d="scan'208";a="396823578"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Nov 2023 05:03:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="1100092423"
+X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; d="scan'208";a="1100092423"
+Received: from mravivx-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.42.57])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Nov 2023 05:03:05 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Vignesh Raman <vignesh.raman@collabora.com>, Manivannan Sadhasivam
+ <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH] PCI: qcom: Fix compile error
+In-Reply-To: <06719894-7acd-9bfb-bdf7-4aa9eba21f2f@collabora.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231128042026.130442-1-vignesh.raman@collabora.com>
+ <20231128051456.GA3088@thinkpad>
+ <50a9f061-e1d3-6aca-b528-56dbb6c729d9@collabora.com>
+ <20231128065104.GK3088@thinkpad>
+ <06719894-7acd-9bfb-bdf7-4aa9eba21f2f@collabora.com>
+Date: Tue, 28 Nov 2023 15:03:03 +0200
+Message-ID: <87edga6neg.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.3
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,24 +63,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: daniels@collabora.com, intel-gfx@lists.freedesktop.org,
+ swati2.sharma@intel.com, helen.koike@collabora.com,
+ dri-devel@lists.freedesktop.org, david.e.box@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 25 Nov 2023 00:36:38 +0100, Danilo Krummrich wrote:
-> The driver specific reference count indicates whether the VM should be
-> teared down, whereas GPUVM's reference count indicates whether the VM
-> structure can finally be freed.
-> 
-> Hence, free the VM structure in pvr_gpuvm_free() and drop the last
-> GPUVM reference after tearing down the VM. Generally, this prevents
-> lifetime issues such as the VM being freed as long as drm_gpuvm_bo
-> structures still hold references to the VM.
-> 
-> [...]
+On Tue, 28 Nov 2023, Vignesh Raman <vignesh.raman@collabora.com> wrote:
+> On 28/11/23 12:21, Manivannan Sadhasivam wrote:
+>> On Tue, Nov 28, 2023 at 11:44:26AM +0530, Vignesh Raman wrote:
+>>> Hi Mani,
+>>>
+>>> On 28/11/23 10:44, Manivannan Sadhasivam wrote:
+>>>> On Tue, Nov 28, 2023 at 09:50:26AM +0530, Vignesh Raman wrote:
+>>>>> Commit a2458d8f618a ("PCI/ASPM: pci_enable_link_state: Add argument
+>>>>> to acquire bus lock") has added an argument to acquire bus lock
+>>>>> in pci_enable_link_state, but qcom_pcie_enable_aspm calls it
+>>>>> without this argument, resulting in below build error.
+>>>>>
+>>>>
+>>>> Where do you see this error? That patch is not even merged. Looks like you are
+>>>> sending the patch against some downstream tree.
+>>>
+>>> I got this error with drm-tip - git://anongit.freedesktop.org/drm-tip
+>>>
+>>> This commit is merged in drm-intel/topic/core-for-CI -
+>>> https://cgit.freedesktop.org/drm-intel/log/?h=topic/core-for-CI
+>>>
+>> 
+>> Okay. Since this patch is just for CI, please do not CC linux-pci as it causes
+>> confusion.
+>
+> Sure, thank you.
+>
+> Jani, is this fix required for topic/core-for-CI ?
 
-Applied to drm/drm-misc (drm-misc-next).
+Done. Please double check drm-tip works for you now.
 
-Thanks!
-Maxime
+BR,
+Jani.
 
+
+>
+> Regards,
+> Vignesh
+
+-- 
+Jani Nikula, Intel
