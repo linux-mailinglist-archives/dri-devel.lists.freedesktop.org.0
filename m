@@ -1,152 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A0337FB87E
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 11:47:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E05D7FB887
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 11:48:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64E4910E4C5;
-	Tue, 28 Nov 2023 10:47:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77D6410E4CE;
+	Tue, 28 Nov 2023 10:48:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
- [91.207.212.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08F8510E4C4
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 10:47:34 +0000 (UTC)
-Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
- by mx08-00376f01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
- 3AS5sBKn023885; Tue, 28 Nov 2023 10:47:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
- from:to:cc:subject:date:message-id:references:in-reply-to
- :content-type:content-id:content-transfer-encoding:mime-version;
- s=dk201812; bh=IOQT4JvzDOqWXOh3VVmQTyWoOGJISAfDk0otqwFVWc0=; b=
- cP9P5p3b19sxpkJ6cEyXJKBGDyDLkyVruzVKLbi9nBbp54EzhXvAHcgDLiBPCAIP
- 05Rc3Wqk1feOk3wcTWpM0iiN0MEOWEBxck8SkXaUw9SFSeia/Nri/ARu3XTa0xRE
- msdWjh3Vs3KFTDjDm4Y9X7c5f2HQPQuFdlRF7tszBvkis31JZ7cOHIB+4LU4/eQy
- oNf3n5fvbWSD/1JFNFhWLAQDM6Jx00szbBnif3vvI/TG+HZjTxYHPca7BkKYOx0p
- UGNmhJCqYMqS2GHbTwkw+n3F6ZUe6xBC9hkpAi7P4o1Qt5SDJK7uxWEZyvyFg+dz
- fnz9tVhqMMrYRbiNtkzrjg==
-Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
- by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3uk82sj1pe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Tue, 28 Nov 2023 10:47:21 +0000 (GMT)
-Received: from HHMAIL04.hh.imgtec.org (10.100.10.119) by
- HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Tue, 28 Nov 2023 10:47:20 +0000
-Received: from GBR01-LO4-obe.outbound.protection.outlook.com (104.47.85.105)
- by email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Tue, 28 Nov 2023 10:47:20 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BIlfCeoDMKo/NckFGBWLLvJnElohVjt8jrayfXb29jGidmBuXgBESeIyfQiuQG84eKXy/sTAsr4GCip6YXdJBY3p7NW/ZN+/kCksvY8XoQY+fIdsB5EoXQmGhXSmirDJoM9S1pEgtIWrL17TEDHJUh5uc3NAnakXjywxE/X7iTNA8OhQSPKCodwBIjsbWMI+/EnjUPY2d7nEh0ADreZEErONCECG56bIjD+GvbQAgEtjVkmeAxHWxTjO45ZrTdjsgw9wOanwm9yX4Rjutzrje5g/DJGU8SQEpmlDynlezz22awbTE0Gkr1m8lAg2c7kb10y6d1fHicr1yfiRevwYxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IOQT4JvzDOqWXOh3VVmQTyWoOGJISAfDk0otqwFVWc0=;
- b=JbPL5LhAida522V9qEDgWCNkALKDA8TzdcbRXaPsvflgw/QTMIyXwJyeMF754//zUJFPVacDdodfgDXVz8Yul2SE/odghYT/0W4ogGGwkqjcrhBpQKyhrmkH1UB00VOwm0YX4GmM328E9+qAQV7X5cwI4yTlXBQfjS0dLhAUEWGz9cGZfudLDieeAjeI4olwbRkHZtZFVqk++oIISRlK3+FFSQ8Syws6L2VXmmqZQQKFogr/Yj8Rw6EwayZfpxFQ1fqya9+3AqEeEHZiWvZdPJiSDUJ5/VSkaM2XaFp/7HIGQyp3Clk9Sp6OvA7QtZSoOR8tgQQnT/kh6TbWnURz3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
- dkim=pass header.d=imgtec.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IOQT4JvzDOqWXOh3VVmQTyWoOGJISAfDk0otqwFVWc0=;
- b=pbMZXgt25uwDXb06llKMy+BO3tlXof2k0kNCdbtupiqQ6BCAzctdc9pwZDagQGgACQEaWqUPAwFmnCvMu5p4J7upbeee9+Z9nnbheUw4o8X/lfVG1+G9b7Dju/MbX/vLghK5n1JHVK/DzXEjj9KLD19I0hdds/8Sk800Ci54uOU=
-Received: from CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1a0::8)
- by CWLP265MB1762.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:5d::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.28; Tue, 28 Nov
- 2023 10:47:19 +0000
-Received: from CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
- ([fe80::a85a:76f7:c085:2b34]) by CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
- ([fe80::a85a:76f7:c085:2b34%3]) with mapi id 15.20.7025.022; Tue, 28 Nov 2023
- 10:47:19 +0000
-From: Donald Robson <Donald.Robson@imgtec.com>
-To: "daniel@ffwll.ch" <daniel@ffwll.ch>, Frank Binns <Frank.Binns@imgtec.com>, 
- Matt Coster <Matt.Coster@imgtec.com>, "mripard@kernel.org"
- <mripard@kernel.org>, "airlied@gmail.com" <airlied@gmail.com>,
- "dakr@redhat.com" <dakr@redhat.com>, Sarah Walker <Sarah.Walker@imgtec.com>
-Subject: Re: [EXTERNAL] [PATCH drm-misc-next 5/5] drm/imagination: vm: make
- use of GPUVM's drm_exec helper
-Thread-Topic: [EXTERNAL] [PATCH drm-misc-next 5/5] drm/imagination: vm: make
- use of GPUVM's drm_exec helper
-Thread-Index: AQHaHy8tlqqfENA3HEmgWsNuuiCs57CPkiUA
-Date: Tue, 28 Nov 2023 10:47:19 +0000
-Message-ID: <3582c630ee753db6ef1370612e69f36287536912.camel@imgtec.com>
-References: <20231124233650.152653-1-dakr@redhat.com>
- <20231124233650.152653-6-dakr@redhat.com>
-In-Reply-To: <20231124233650.152653-6-dakr@redhat.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CWLP265MB5770:EE_|CWLP265MB1762:EE_
-x-ms-office365-filtering-correlation-id: 3fd46f67-6eee-405a-9fdd-08dbefff64ec
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: JfjBwXxN1inx/bxUb2lYlPLvSZeJX6WBbKirVRVV6CZHgKaqonNz9I8GmvZODndMluP1F6bZqSgPkjqNirv9FvtCgwBCx7wpeqilTXWq/FTKETFbPxjdOVkVF++fzyQMG1GeX644jbFCQ+sssVnnw0EdkMhYJCiZ/YlKzh/u4vvJywRfUQRZjGJKlDq5/ztgohgTxp49/YjOsJVmXjWD6IKSc/MSRQzbhFisFTAzsRYhQW9F725M7zm1IUFMuwOc6b3MuEMAAhMCmPcqaE8OhUDXSF4etYUkrHzNjX2IY67kTtavTLTLiPJ4DkqLI3kcXNQnWR3WfLcLEypEaUHmnHwxaMmvRNV2Fl6cpSAI5qEMX63SZc+ZflMLrUB7ydVwXqducZ77WI9d7CA6CrMR6ulBboilqelqgmdI9SEBt1TBfJ3JeAE4hngcYM/WJPzlEJCLu+sAuwvt59Uua8v2oer605ly+yl4fiytHzncEXj707KzvmhB10L7UvoGwuuRaS5Ie5srUU9SuQRLF+QrhXexuFIIZpHhAJu/LjwmGU89E/tT5yYlsqh740Dw+aKca12OPtcWgL+GCEiJjxwd3Sx2gPk8WWg8uVh3VRgNFYgNjdtuUW5VLqcvLPsUYMx8iQs0eBoEL6S89KfwxMV3uSHWfIWPu6vvApY4+1h9B3Y=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(396003)(346002)(376002)(39850400004)(136003)(230173577357003)(230922051799003)(230273577357003)(186009)(64100799003)(451199024)(1800799012)(71200400001)(2616005)(478600001)(26005)(6506007)(6512007)(5660300002)(83380400001)(2906002)(4001150100001)(4326008)(41300700001)(64756008)(54906003)(66446008)(66476007)(66556008)(66946007)(316002)(6486002)(6636002)(8676002)(8936002)(91956017)(110136005)(76116006)(38070700009)(122000001)(38100700002)(86362001)(36756003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?a3hKc2RQbUFSd3FFd1VjRENESWRZekEwZlh4VEgydnNuZHR1enZKYUUxeFRS?=
- =?utf-8?B?SXFuUHYwVWI3UDdZSms5SWovOUwzZXhjQWt5Mzd1Qmp2YVg1NTFhZzJpK1Bk?=
- =?utf-8?B?WHFhWnZkdWdIWDRCMEFzWEx0OHJxNmdJUU5HQjVYNmoweTdNUzJlZ0JaWEc3?=
- =?utf-8?B?ZlpRTU1Tb1FJNkhUaTUreFUxd0tHZVU1TTdGUXJiODBXcitaZ0hFOFV2a29k?=
- =?utf-8?B?K05CRTBqdzcrNGV0VlVLMjhONCtWcEpqWU91WTlTM09Dakt4eEVwT21qc3VS?=
- =?utf-8?B?UGtvSjViNHZRb0RDVW51U1R6cnlQeGhtSlkvWWpYRiswRlEvYlpUR2tDS3Nz?=
- =?utf-8?B?dUpJZTVxNnJFTG5VczJDRit2b1RseEJUSldpaVFYSTlUNWpVRWhjTE5ldjht?=
- =?utf-8?B?ellhUDFYdTlMaEpSMFFiQnM1U2lHaW1GbTNTQngrbEdDY2E5WXJvWkxSWXVz?=
- =?utf-8?B?MDllVzROYmIrdkJqZ1lzVEpFY2hpTk9oaDZ3TzI4TkhIVWNRN3Z2SllNRGRh?=
- =?utf-8?B?Q21vM0d6dXZ3SWVVbVRGbWhSZHVZR0tObm9vdWkzTUZNU1cvZGM4OHAvOVBD?=
- =?utf-8?B?dCtjalJ3TTlaaS9CQWdMY2NmUEVtSUZ3Q2lCSEllbUdEWHZvNGowZ25NVDA3?=
- =?utf-8?B?L3Ezd0s0V1JSaElLeHBrSTZ3SUtlelpHU09SdFlaNEgrQitpaXd0Q2x1SUh3?=
- =?utf-8?B?SFFDcVQxUllOM1k2RWUvU0tSS2ozRUJQT2VoMVdMLzRrYVlhYXh0Q2p1SjlU?=
- =?utf-8?B?VDRWMWhGUDJ6UlhZb2gxVGFjZEZnSnJva0hXQmxDTnVpdEk3Yk1qNlRLMWpr?=
- =?utf-8?B?VExWZzUwZHFjY05wTFREbDk4UEQ0Vi84Y1Y1SGlLL001VzEvcnpwNHU2bHYr?=
- =?utf-8?B?aElGcDVjalpVbGNzd3padjJsNWZ1UlNLUit3cXNyUjFOZVB3RGxhblF6VE96?=
- =?utf-8?B?V3ZKQWhUeEpUVkFWaUR4dWJOem5nbVF0cFVHV2ZWTE9NZlhBTENhd1JQRmNS?=
- =?utf-8?B?SFl1NzRHNjlldSs4elE1V2tKWVdZUkpUc0pEdXdNbGhDVlM4RlJqN3pEOE5V?=
- =?utf-8?B?YlB3cDIzTWlYdndkMkJOeDBCZ1BjVFpVL1NIMGxGUFYrM3p6OENTUVhlUmI4?=
- =?utf-8?B?dWlxUTNlWkhBdGpkcURXakt3c2JaU0JDZlBWZlVxVjEyeVZveGVxZktyMzZl?=
- =?utf-8?B?Q3hQSkExdFV4bjRtWm9zb0dtdXRBdHMwZ0d2azJ2aDU1TzdLRDNHOWN5MUlT?=
- =?utf-8?B?QW1XM2UxRXlmVmVvdWxyajhUenpMOFRRRlovTERJdHlnVHMyTE8vcG81djF0?=
- =?utf-8?B?M2QwQUJuZTA2MzN6djk4ZTZ0SVZHQ3hBb1cxdGdnckoyZ1Q0RDIxdVlnMWVu?=
- =?utf-8?B?d0Npd0srbnY3VmdMZldoajYrS3NCT1k0VEphNnVXSnUxdGdETXFTMHFsVU5H?=
- =?utf-8?B?OG5uSnBpUWxOallWYkwyWHdpK0Ezbm9ZQ3h4MkUrRHJVcFNFKzFjUWpRUmNF?=
- =?utf-8?B?azA3RTZicUFsV25RTmlYRnk2aXRod0x5RTdQZ09qbjNzbWNmcUg2bGExeHo3?=
- =?utf-8?B?OG5wOGtsYVBzRVhoQWdVNDZKWDZnbnhYQXpBeEo0TmVPbUFHc3IxQnJpNjd6?=
- =?utf-8?B?M2tQWXBhYitSb3orbHVEMmI5RXpJMlhkRkE0Q1oxQzEwdGE0UlQrWHZxWFlQ?=
- =?utf-8?B?UGNsbGhhWkJJTWh1ZkZWQTJod0ZFamtrVUVBM2s2S05zMTFWU0VXczIya0Zp?=
- =?utf-8?B?QU1aUGJWcHZaTHBnc2wwT1oyc3pSdUFzNU9QU2pPM1grTi9EZC9JVmp5V1dI?=
- =?utf-8?B?YUp3d1VpbURZMytDRHBaSG1LakhPa05MWDNTUXFGeXFxMXk3aDRhZ2hIZ0VH?=
- =?utf-8?B?UVl6NzAxWnRvZ3l5U25rR3NrM3V2QkpRQWx6Y1ltUUx4UHdjQ2hvNkJBOTZn?=
- =?utf-8?B?Mkl6Nk4zUVlrcUlnNnhWS3Faa1F6bHdWNmUwWHVpWUFwY3VpQ1l2WWpRK0Rv?=
- =?utf-8?B?NWdqQkxSQ2VCa0FxekptYUJoaFlJUnl1ZEhvdFpZM04zMDNXa1NxWHBrakJj?=
- =?utf-8?B?ZzVXSjNRSUxTUHhUdUV2bjExMVZTRENpTldQaDZyeStjMys0RW11RzNGYXEx?=
- =?utf-8?B?RVR5VEpwdHRqTTJEWm4rLzlwbVdMT1dFenY0U2d5Qmxkc0hXK09HWElEMDZk?=
- =?utf-8?B?TEE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <32C15F50D12F6F419D3337BBF190C27E@GBRP265.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 535DA10E4CE
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 10:48:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=+kK2HCd+4n2Q4e4NylBvrv5NIfyLfbrnhoEWU+eXk1k=; b=A4KK7hLHRI0eMS7/k4IhbS3z8p
+ yslkqNAvugD1FleOMFCRyE40w57XqqtbH4l5rJo2lPTW/AfOI8YLCwxWXuwR647aHdIWJmzth963u
+ jOAqlsr5Gyaf/EPg0G71Fg8vpPjmNIYRu1jQun/OANd6e0c8m0JzxIyfuzLGjDWLIXXDkCxLden6j
+ S+OQ3MiDxMGed/0SGCCUjVvrt4DfeSVLPZK8+jYxae8R1Tesp9AQHzkZfC3468LZoJWUvjdY1z6gy
+ BXY2UQTLWC568DlrhspRb5okauhFdCp5dNsUaV0ymJUAmv10oPRm5QZ1F61Iw/URT621IHK2Bcex0
+ ewb7fxVw==;
+Received: from [177.34.168.16] (helo=[192.168.0.8])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1r7vd8-007zs1-T3; Tue, 28 Nov 2023 11:47:51 +0100
+Message-ID: <0c8c25e6-b74d-319a-9556-6dd42d7f7e8d@igalia.com>
+Date: Tue, 28 Nov 2023 07:47:38 -0300
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3fd46f67-6eee-405a-9fdd-08dbefff64ec
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Nov 2023 10:47:19.1667 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wa2QbSs1eGvPJ+ZYo75xnBmeo3W3SQm79V8GyR1A2TgX85bgPpENcVHw4187yTHxABTP5nXL5qxX+Z5IkSOzBHNBVlIrkisH8SgkLn7HVHY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB1762
-X-OriginatorOrg: imgtec.com
-X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-ORIG-GUID: kTvIEiHVho1FDSiwbapebhmmky5GVuPr
-X-Proofpoint-GUID: kTvIEiHVho1FDSiwbapebhmmky5GVuPr
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v3 10/17] drm/v3d: Detach the CSD job BO setup
+To: Iago Toral <itoral@igalia.com>, Melissa Wen <mwen@igalia.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20231127185723.10348-2-mcanal@igalia.com>
+ <20231127185723.10348-12-mcanal@igalia.com>
+ <a8cdbe3f24a9887c606fb0c6204f082d98cc6e66.camel@igalia.com>
+Content-Language: en-US
+From: Maira Canal <mcanal@igalia.com>
+In-Reply-To: <a8cdbe3f24a9887c606fb0c6204f082d98cc6e66.camel@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,52 +59,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, kernel-dev@igalia.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGFuaWxvLA0KDQpBcG9sb2dpZXMgLSBJIGd1ZXNzIEkgc2hvdWxkIGhhdmUgc3VibWl0dGVk
-IGEgcGF0Y2ggdG8gaGFuZGxlIHplcm8gZmVuY2VzIGluIHlvdXINCmxvY2tpbmcgZnVuY3Rpb25z
-IHdpdGggdGhlIGZpbmFsIHBhdGNoIHNlcmllcy4NCg0KT24gU2F0LCAyMDIzLTExLTI1IGF0IDAw
-OjM2ICswMTAwLCBEYW5pbG8gS3J1bW1yaWNoIHdyb3RlOg0KPiAqKiogQ0FVVElPTjogVGhpcyBl
-bWFpbCBvcmlnaW5hdGVzIGZyb20gYSBzb3VyY2Ugbm90IGtub3duIHRvIEltYWdpbmF0aW9uIFRl
-Y2hub2xvZ2llcy4gVGhpbmsgYmVmb3JlIHlvdSBjbGljayBhIGxpbmsgb3Igb3BlbiBhbiBhdHRh
-Y2htZW50ICoqKg0KPiANCj4gTWFrZSB1c2Ugb2YgR1BVVk0ncyBkcm1fZXhlYyBoZWxwZXIgZnVu
-Y3Rpb25zIHByZXZlbnRpbmcgZGlyZWN0IGFjY2Vzcw0KPiB0byBHUFVWTSBpbnRlcm5hbCBkYXRh
-IHN0cnVjdHVyZXMsIHN1Y2ggYXMgdGhlIGV4dGVybmFsIG9iamVjdCBsaXN0Lg0KPiANCj4gVGhp
-cyBpcyBlc3BlY2lhbGx5IGltcG9ydGFudCB0byBlbnN1cmUgZm9sbG93aW5nIHRoZSBsb2NraW5n
-IHJ1bGVzDQo+IGFyb3VuZCB0aGUgR1BVVk0gZXh0ZXJuYWwgb2JqZWN0IGxpc3QuDQo+IA0KPiBG
-aXhlczogZmY1ZjY0M2RlMGJmICgiZHJtL2ltYWdpbmF0aW9uOiBBZGQgR0VNIGFuZCBWTSByZWxh
-dGVkIGNvZGUiKQ0KPiBTaWduZWQtb2ZmLWJ5OiBEYW5pbG8gS3J1bW1yaWNoIDxkYWtyQHJlZGhh
-dC5jb20+DQo+IC0tLQ0KPiAgZHJpdmVycy9ncHUvZHJtL2ltYWdpbmF0aW9uL3B2cl92bS5jIHwg
-MTYgKysrKystLS0tLS0tLS0tLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwg
-MTEgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2ltYWdp
-bmF0aW9uL3B2cl92bS5jIGIvZHJpdmVycy9ncHUvZHJtL2ltYWdpbmF0aW9uL3B2cl92bS5jDQo+
-IGluZGV4IGUwZDc0ZDlhNjE5MC4uM2Y3ODg4ZjVjYzUzIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vaW1hZ2luYXRpb24vcHZyX3ZtLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2lt
-YWdpbmF0aW9uL3B2cl92bS5jDQo+IEBAIC0zMzcsMjcgKzMzNywyMSBAQCBzdGF0aWMgaW50DQo+
-ICBwdnJfdm1fYmluZF9vcF9sb2NrX3Jlc3ZzKHN0cnVjdCBkcm1fZXhlYyAqZXhlYywgc3RydWN0
-IHB2cl92bV9iaW5kX29wICpiaW5kX29wKQ0KPiAgew0KPiAgCWRybV9leGVjX3VudGlsX2FsbF9s
-b2NrZWQoZXhlYykgew0KPiAtCQlzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKnJfb2JqID0gJmJpbmRf
-b3AtPnZtX2N0eC0+ZHVtbXlfZ2VtOw0KPiAgCQlzdHJ1Y3QgZHJtX2dwdXZtICpncHV2bSA9ICZi
-aW5kX29wLT52bV9jdHgtPmdwdXZtX21ncjsNCj4gIAkJc3RydWN0IHB2cl9nZW1fb2JqZWN0ICpw
-dnJfb2JqID0gYmluZF9vcC0+cHZyX29iajsNCj4gLQkJc3RydWN0IGRybV9ncHV2bV9ibyAqZ3B1
-dm1fYm87DQo+ICANCj4gIAkJLyogQWNxdWlyZSBsb2NrIG9uIHRoZSB2bV9jb250ZXh0J3MgcmVz
-ZXJ2ZSBvYmplY3QuICovDQo+IC0JCWludCBlcnIgPSBkcm1fZXhlY19sb2NrX29iaihleGVjLCBy
-X29iaik7DQo+ICsJCWludCBlcnIgPSBkcm1fZ3B1dm1fcHJlcGFyZV92bShncHV2bSwgZXhlYywg
-MCk7DQo+ICANCj4gIAkJZHJtX2V4ZWNfcmV0cnlfb25fY29udGVudGlvbihleGVjKTsNCj4gIAkJ
-aWYgKGVycikNCj4gIAkJCXJldHVybiBlcnI7DQo+ICANCj4gIAkJLyogQWNxdWlyZSBsb2NrIG9u
-IGFsbCBCT3MgaW4gdGhlIGNvbnRleHQuICovDQo+IC0JCWxpc3RfZm9yX2VhY2hfZW50cnkoZ3B1
-dm1fYm8sICZncHV2bS0+ZXh0b2JqLmxpc3QsDQo+IC0JCQkJICAgIGxpc3QuZW50cnkuZXh0b2Jq
-KSB7DQo+IC0JCQllcnIgPSBkcm1fZXhlY19sb2NrX29iaihleGVjLCBncHV2bV9iby0+b2JqKTsN
-Cj4gLQ0KPiAtCQkJZHJtX2V4ZWNfcmV0cnlfb25fY29udGVudGlvbihleGVjKTsNCj4gLQkJCWlm
-IChlcnIpDQo+IC0JCQkJcmV0dXJuIGVycjsNCj4gLQkJfQ0KPiArCQllcnIgPSBkcm1fZ3B1dm1f
-cHJlcGFyZV9vYmplY3RzKGdwdXZtLCBleGVjLCAwKTsNCj4gKwkJZHJtX2V4ZWNfcmV0cnlfb25f
-Y29udGVudGlvbihleGVjKTsNCj4gKwkJaWYgKGVycikNCj4gKwkJCXJldHVybiBlcnI7DQoNCkJl
-Zm9yZSBJIGRpc2NvdmVyZWQgdGhlIHByb2JsZW0gd2hlbiBub3QgcmVzZXJ2aW5nIGZlbmNlcywg
-SSB3YXMgdHJ5aW5nIHRvIHVzZQ0KZHJtX2dwdXZtX2V4ZWNfbG9jaygpIHdpdGggdm1fZXhlYy0+
-ZXh0cmEuZm4oKSBmb3IgdGhlIHBhcnQgYmVsb3cuICBJcyB0aGVyZQ0KYSByZWFzb24gbm90IHRv
-IGRvIHRoYXQgbm93Pw0KDQpNYW55IHRoYW5rcywNCkRvbmFsZA0KDQo+ICANCj4gIAkJLyogVW5t
-YXAgb3BlcmF0aW9ucyBkb24ndCBoYXZlIGFuIG9iamVjdCB0byBsb2NrLiAqLw0KPiAgCQlpZiAo
-IXB2cl9vYmopDQo=
+Hi Iago,
+
+On 11/28/23 05:42, Iago Toral wrote:
+> El lun, 27-11-2023 a las 15:48 -0300, Maíra Canal escribió:
+>> From: Melissa Wen <mwen@igalia.com>
+>>
+>> Detach CSD job setup from CSD submission ioctl to reuse it in CPU
+>> submission ioctl for indirect CSD job.
+>>
+>> Signed-off-by: Melissa Wen <mwen@igalia.com>
+>> Co-developed-by: Maíra Canal <mcanal@igalia.com>
+>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>> ---
+>>   drivers/gpu/drm/v3d/v3d_submit.c | 68 ++++++++++++++++++++----------
+>> --
+>>   1 file changed, 42 insertions(+), 26 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c
+>> b/drivers/gpu/drm/v3d/v3d_submit.c
+>> index c134b113b181..eb26fe1e27e3 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_submit.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_submit.c
+>> @@ -256,6 +256,45 @@ v3d_attach_fences_and_unlock_reservation(struct
+>> drm_file *file_priv,
+>>          }
+>>   }
+>>   
+>> +static int
+>> +v3d_setup_csd_jobs_and_bos(struct drm_file *file_priv,
+>> +                          struct v3d_dev *v3d,
+>> +                          struct drm_v3d_submit_csd *args,
+>> +                          struct v3d_csd_job **job,
+>> +                          struct v3d_job **clean_job,
+>> +                          struct v3d_submit_ext *se,
+>> +                          struct ww_acquire_ctx *acquire_ctx)
+>> +{
+>> +       int ret;
+>> +
+>> +       ret = v3d_job_allocate((void *)job, sizeof(**job));
+>> +       if (ret)
+>> +               return ret;
+>> +
+>> +       ret = v3d_job_init(v3d, file_priv, &(*job)->base,
+>> +                          v3d_job_free, args->in_sync, se, V3D_CSD);
+>> +       if (ret)
+> 
+> 
+> We should free the job here.
+> 
+>> +               return ret;
+>> +
+>> +       ret = v3d_job_allocate((void *)clean_job,
+>> sizeof(**clean_job));
+>> +       if (ret)
+>> +               return ret;
+>> +
+>> +       ret = v3d_job_init(v3d, file_priv, *clean_job,
+>> +                          v3d_job_free, 0, NULL, V3D_CACHE_CLEAN);
+>> +       if (ret)
+> 
+> We should free job and clean_job here.
+> 
+>> +               return ret;
+>> +
+>> +       (*job)->args = *args;
+>> +
+>> +       ret = v3d_lookup_bos(&v3d->drm, file_priv, *clean_job,
+>> +                            args->bo_handles, args-
+>>> bo_handle_count);
+>> +       if (ret)
+> 
+> Same here.
+> 
+> I think we probably want to have a fail label where we do this and just
+> jump there from all the paths I mentioned above.
+
+Actually, we are freeing the job in `v3d_submit_csd_ioctl`. Take a look
+here:
+
+   48         ret = v3d_setup_csd_jobs_and_bos(file_priv, v3d, args,
+   47                                          &job, &clean_job, &se,
+   46                                          &acquire_ctx);
+   45         if (ret)
+   44                 goto fail;
+
+If `v3d_setup_csd_jobs_and_bos` fails, we go to fail.
+
+   43
+   42         if (args->perfmon_id) {
+   41                 job->base.perfmon = v3d_perfmon_find(v3d_priv,
+   40 
+args->perfmon_id);
+   39                 if (!job->base.perfmon) {
+   38                         ret = -ENOENT;
+   37                         goto fail_perfmon;
+   36                 }
+   35         }
+   34
+   33         mutex_lock(&v3d->sched_lock);
+   32         v3d_push_job(&job->base);
+   31
+   30         ret = drm_sched_job_add_dependency(&clean_job->base,
+   29 
+dma_fence_get(job->base.done_fence));
+   28         if (ret)
+   27                 goto fail_unreserve;
+   26
+   25         v3d_push_job(clean_job);
+   24         mutex_unlock(&v3d->sched_lock);
+   23
+   22         v3d_attach_fences_and_unlock_reservation(file_priv,
+   21                                                  clean_job,
+   20                                                  &acquire_ctx,
+   19                                                  args->out_sync,
+   18                                                  &se,
+   17 
+clean_job->done_fence);
+   16
+   15         v3d_job_put(&job->base);
+   14         v3d_job_put(clean_job);
+   13
+   12         return 0;
+   11
+   10 fail_unreserve:
+    9         mutex_unlock(&v3d->sched_lock);
+    8 fail_perfmon:
+    7         drm_gem_unlock_reservations(clean_job->bo, 
+clean_job->bo_count,
+    6                                     &acquire_ctx);
+    5 fail:
+    4         v3d_job_cleanup((void *)job);
+    3         v3d_job_cleanup(clean_job);
+
+Here we cleanup `job` and `clean_job`. This will call `v3d_job_free` and
+free the jobs.
+
+Best Regards,
+- Maíra
+
+    2         v3d_put_multisync_post_deps(&se);
+    1
+1167         return ret;
+
+> 
+>> +               return ret;
+>> +
+>> +       return v3d_lock_bo_reservations(*clean_job, acquire_ctx);
+>> +}
+>> +
+>>   static void
+>>   v3d_put_multisync_post_deps(struct v3d_submit_ext *se)
+>>   {
+>> @@ -700,32 +739,9 @@ v3d_submit_csd_ioctl(struct drm_device *dev,
+>> void *data,
+>>                  }
+>>          }
+>>   
+>> -       ret = v3d_job_allocate((void *)&job, sizeof(*job));
+>> -       if (ret)
+>> -               return ret;
+>> -
+>> -       ret = v3d_job_init(v3d, file_priv, &job->base,
+>> -                          v3d_job_free, args->in_sync, &se,
+>> V3D_CSD);
+>> -       if (ret)
+>> -               goto fail;
+>> -
+>> -       ret = v3d_job_allocate((void *)&clean_job,
+>> sizeof(*clean_job));
+>> -       if (ret)
+>> -               goto fail;
+>> -
+>> -       ret = v3d_job_init(v3d, file_priv, clean_job,
+>> -                          v3d_job_free, 0, NULL, V3D_CACHE_CLEAN);
+>> -       if (ret)
+>> -               goto fail;
+>> -
+>> -       job->args = *args;
+>> -
+>> -       ret = v3d_lookup_bos(dev, file_priv, clean_job,
+>> -                            args->bo_handles, args-
+>>> bo_handle_count);
+>> -       if (ret)
+>> -               goto fail;
+>> -
+>> -       ret = v3d_lock_bo_reservations(clean_job, &acquire_ctx);
+>> +       ret = v3d_setup_csd_jobs_and_bos(file_priv, v3d, args,
+>> +                                        &job, &clean_job, &se,
+>> +                                        &acquire_ctx);
+>>          if (ret)
+>>                  goto fail;
+>>   
+> 
