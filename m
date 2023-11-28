@@ -2,47 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31DE7FB50E
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 09:59:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BDAE7FB523
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 10:02:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0D7610E462;
-	Tue, 28 Nov 2023 08:59:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C1E810E465;
+	Tue, 28 Nov 2023 09:02:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF4E610E463
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 08:59:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=FI2ZvN6quGwqt7r0NB7aPQ1cdgNFB/lTj2QjRp07WN8=; b=DSndbvxAggJ2RGGoOUkYP77szq
- 9iaWnv33CSut9UZhGXOkVK6jUmmGqYgeQxRWE9+w/9NUZ2Pb1vaoXYMdXmPZ0AtiSGJsjV+mc/OwB
- TIuZSUg2xYrXsEvaUsYi0ii9teCa5mu2FDsOMTsRv0XfZFOF1yx6MElQchmemmXc7RxikEoC1TMbW
- SmEs5x9PYM26Pr4ns+t9Xt0UKPNYU9/Bv77GVbLEMUxt87RLk7kvCrGB2gmA1EoYSLMTr1LGQ5O42
- mLI5G394epEioZ9lZ5vwIiAI3hq0f2ad5paql/NTH/QfdAU1aoUq2KOqZ+uvlSl9/83dnKZbRbtc7
- 5BYthvWg==;
-Received: from 93.49.60.213.dynamic.reverse-mundo-r.com ([213.60.49.93]
- helo=[192.168.0.100]) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1r7twB-007xuO-SL; Tue, 28 Nov 2023 09:59:23 +0100
-Message-ID: <c702cdbc0004b1c5a92b73192e334db3ecfe3e8a.camel@igalia.com>
-Subject: Re: [PATCH v3 00/17] drm/v3d: Introduce CPU jobs
-From: Iago Toral <itoral@igalia.com>
-To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
- <mwen@igalia.com>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Date: Tue, 28 Nov 2023 09:59:23 +0100
-In-Reply-To: <20231127185723.10348-2-mcanal@igalia.com>
-References: <20231127185723.10348-2-mcanal@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+Received: from smtp-out2.suse.de (smtp-out2.suse.de
+ [IPv6:2a07:de40:b251:101:10:150:64:2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A93910E465
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 09:02:02 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 93A861F6E6;
+ Tue, 28 Nov 2023 09:02:00 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 4FFC5139FC;
+ Tue, 28 Nov 2023 09:02:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id mfIpEoisZWWMSQAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Tue, 28 Nov 2023 09:02:00 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ hi@alyssa.is, daniel@ffwll.ch, javierm@redhat.com
+Subject: [PATCH v3] drm/atomic-helpers: Invoke end_fb_access while owning
+ plane state
+Date: Tue, 28 Nov 2023 10:01:53 +0100
+Message-ID: <20231128090158.15564-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: ++++++++++++
+X-Spam-Score: 12.18
+X-Rspamd-Server: rspamd1
+Authentication-Results: smtp-out2.suse.de; dkim=none;
+ spf=softfail (smtp-out2.suse.de: 2a07:de40:b281:104:10:150:64:98 is neither
+ permitted nor denied by domain of tzimmermann@suse.de)
+ smtp.mailfrom=tzimmermann@suse.de; 
+ dmarc=fail reason="No valid SPF,
+ No valid DKIM" header.from=suse.de (policy=none)
+X-Rspamd-Queue-Id: 93A861F6E6
+X-Spam-Flag: NO
+X-Spam-Level: ************
+X-Spamd-Result: default: False [12.18 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+ TO_DN_SOME(0.00)[]; R_MISSING_CHARSET(2.50)[];
+ BROKEN_CONTENT_TYPE(1.50)[]; R_SPF_SOFTFAIL(4.60)[~all:c];
+ RCVD_COUNT_THREE(0.00)[3]; MX_GOOD(-0.01)[];
+ NEURAL_HAM_SHORT(-0.11)[-0.573]; RCPT_COUNT_SEVEN(0.00)[9];
+ FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,gmail.com,alyssa.is,ffwll.ch,redhat.com];
+ FROM_EQ_ENVFROM(0.00)[]; R_DKIM_NA(2.20)[];
+ MIME_TRACE(0.00)[0:+]; BAYES_HAM(-3.00)[100.00%];
+ ARC_NA(0.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ NEURAL_SPAM_LONG(3.50)[1.000]; MID_CONTAINS_FROM(1.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[];
+ DMARC_POLICY_SOFTFAIL(0.10)[suse.de : No valid SPF, No valid DKIM,none]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,212 +79,230 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, kernel-dev@igalia.com,
+Cc: stable@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ma=C3=ADra,
+Invoke drm_plane_helper_funcs.end_fb_access before
+drm_atomic_helper_commit_hw_done(). The latter function hands over
+ownership of the plane state to the following commit, which might
+free it. Releasing resources in end_fb_access then operates on undefined
+state. This bug has been observed with non-blocking commits when they
+are being queued up quickly.
 
-El lun, 27-11-2023 a las 15:48 -0300, Ma=C3=ADra Canal escribi=C3=B3:
-> This patchset implements the basic infrastructure for a new type of
-> V3D job, a CPU job. A CPU job is a job that requires CPU
-> intervention.
-> It would be nice to perform this operations on the kernel space as we
-> can attach multiple in/out syncobjs to it.
->=20
-> Why we want a CPU job on the kernel?
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> There are some Vulkan commands that cannot be performed by the GPU,
-> so
-> we implement those as CPU jobs on Mesa. But to synchronize a CPU job
-> in the user space, we need to hold part of the command submission
-> flow
-> in order to correctly synchronize their execution.
->=20
-> By moving the CPU job to the kernel, we can make use of the DRM
-> schedule queues and all the advantages it brings with it. This way,
-> instead of stalling the submission thread, we can use syncobjs to
-> synchronize the job, providing a more effective management.
->=20
-> About the implementation
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> After we decided that we would like to have a CPU job implementation
-> in the kernel, we could think about two possible implementations for
-> this job: creating an IOCTL for each type of CPU job or using an user
-> extension to provide a polymorphic behavior to a single CPU job
-> IOCTL.
-> We decided for the latter one.
->=20
-> We have different types of CPU jobs (indirect CSD jobs, timestamp
-> query jobs, copy query results jobs...) and each of them have a
-> common
-> infrastructure, but perform different operations. Therefore, by using
-> a single IOCTL that is extended by an user extension, we can reuse
-> the
-> common infrastructure - avoiding code repetition - and yet use the
-> user extension ID to identify the type of job and depending on the
-> type of job, perform a certain operation.
->=20
-> About the patchset
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> This patchset introduces the basic infrastructure of a CPU job with a
-> new V3D queue (V3D_CPU) e new tracers. Moreover, it introduces six
-> types of CPU jobs: an indirect CSD job, a timestamp query job, a
-> reset timestamp queries job, a copy timestamp query results job, a
-> reset
-> performance queries job, and a copy performance query results job.
->=20
-> An indirect CSD job is a job that, when executed in the queue, will
-> map the indirect buffer, read the dispatch parameters, and submit a
-> regular dispatch. So, the CSD job depends on the CPU job execution.
-> We
-> attach the wait dependencies to the CPU job and once they are
-> satisfied,
-> we read the dispatch parameters, rewrite the uniforms (if needed) and
-> enable the CSD job execution, which depends on the completion of the
-> CPU job.
->=20
-> A timestamp query job is a job that calculates the value of the
-> timestamp query and updates the availability of the query. In order
-> to
-> implement this job, we had to change the Mesa implementation of the
-> timestamp. Now, the timestamp query value is tracked in a BO, instead
-> of using a memory address. Moreover, the timestamp query availability
-> is
-> tracked with a syncobj, which is signaled when the query is
-> available.
->=20
-> A reset timestamp queries job is a job that resets the timestamp
-> queries by
-> zeroing the timestamp BO in the right positions. The right position
-> on
-> the timestamp BO is found through the offset of the first query.
->=20
-> A reset performance queries job is a job that zeros the values of the
-> performance monitors associated to that query. Moreover, it resets
-> the
-> availability syncobj related to that query.
->=20
-> A copy query results job is a job that copy the results of a query to
-> a
-> BO in a given offset with a given stride.
->=20
-> The patchset is divided as such:
-> =C2=A0* #1 - #4: refactoring operations to prepare for the introduction o=
-f
-> the
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CPU jo=
-b
-> =C2=A0* #5: addressing a vulnerability in the multisync extension
-> =C2=A0* #6: decouple job allocation from job initiation
-> =C2=A0* #7 - #9: introduction of the CPU job
-> =C2=A0* #10 - #11: refactoring operations to prepare for the introduction
-> of the
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 indirect CSD job
-> =C2=A0* #12: introduction of the indirect CSD job
-> =C2=A0* #13: introduction of the timestamp query job
-> =C2=A0* #14: introduction of the reset timestamp queries job
-> =C2=A0* #15: introduction of the copy timestamp query results job
-> =C2=A0* #16: introduction of the reset performance queries job
-> =C2=A0* #17: introduction of the copy performance query results job
->=20
-> This patchset has its Mesa counterpart, which is available on [1].
->=20
-> Both the kernel and Mesa implementation were tested with
->=20
-> =C2=A0* `dEQP-VK.compute.pipeline.indirect_dispatch.*`,
-> =C2=A0* `dEQP-VK.pipeline.monolithic.timestamp.*`,
-> =C2=A0* `dEQP-VK.synchronization.*`,
-> =C2=A0* `dEQP-VK.query_pool.*`
-> =C2=A0* and `dEQP-VK.multiview.*`.
->=20
-> [1]
-> https://gitlab.freedesktop.org/mairacanal/mesa/-/tree/v3dv/v5/cpu-job
->=20
-> Changelog
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> v1 -> v2:
-> https://lore.kernel.org/dri-devel/20230904175019.1172713-1-mcanal@igalia.=
-com/
->=20
-> * Rebase on top of drm-misc-next.
-> * Add GPU stats to the CPU queue.
->=20
-> v2 -> v3:
-> https://lore.kernel.org/dri-devel/20231124012548.772095-1-mcanal@igalia.c=
-om/
->=20
-> * Don't cast struct v3d_*_job to void *, use &job->base (Iago Toral)
-> * Completely decouple job allocation from initialization (Iago Toral
-> & Melissa Wen)
-> * s/externsion/extension (Iago Toral)
-> * Declare all CPU job functions as static const outside of the
-> function (Iago Toral)
-> * Document how many BOs are expected for each CPU job extension (Iago
-> Toral)
-> * Check if the number of BOs in the IOCTL matches the expectation
-> (Iago Toral)
->=20
-> Best Regards,
-> - Ma=C3=ADra
->=20
-> Ma=C3=ADra Canal (11):
-> =C2=A0 drm/v3d: Don't allow two multisync extensions in the same job
-> =C2=A0 drm/v3d: Decouple job allocation from job initiation
-> =C2=A0 drm/v3d: Use v3d_get_extensions() to parse CPU job data
-> =C2=A0 drm/v3d: Create tracepoints to track the CPU job
-> =C2=A0 drm/v3d: Enable BO mapping
-> =C2=A0 drm/v3d: Create a CPU job extension for a indirect CSD job
-> =C2=A0 drm/v3d: Create a CPU job extension for the timestamp query job
-> =C2=A0 drm/v3d: Create a CPU job extension for the reset timestamp job
-> =C2=A0 drm/v3d: Create a CPU job extension to copy timestamp query to a
-> buffer
-> =C2=A0 drm/v3d: Create a CPU job extension for the reset performance quer=
-y
-> job
-> =C2=A0 drm/v3d: Create a CPU job extension for the copy performance query
-> job
->=20
-> Melissa Wen (6):
-> =C2=A0 drm/v3d: Remove unused function header
-> =C2=A0 drm/v3d: Move wait BO ioctl to the v3d_bo file
-> =C2=A0 drm/v3d: Detach job submissions IOCTLs to a new specific file
-> =C2=A0 drm/v3d: Simplify job refcount handling
-> =C2=A0 drm/v3d: Add a CPU job submission
-> =C2=A0 drm/v3d: Detach the CSD job BO setup
->=20
-> =C2=A0drivers/gpu/drm/v3d/Makefile=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=
-=C2=A0 3 +-
-> =C2=A0drivers/gpu/drm/v3d/v3d_bo.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 =
-51 ++
-> =C2=A0drivers/gpu/drm/v3d/v3d_drv.c=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=
- 4 +
-> =C2=A0drivers/gpu/drm/v3d/v3d_drv.h=C2=A0=C2=A0=C2=A0 |=C2=A0 134 ++-
-> =C2=A0drivers/gpu/drm/v3d/v3d_gem.c=C2=A0=C2=A0=C2=A0 |=C2=A0 768 -------=
-----------
-> =C2=A0drivers/gpu/drm/v3d/v3d_sched.c=C2=A0 |=C2=A0 315 +++++++
-> =C2=A0drivers/gpu/drm/v3d/v3d_submit.c | 1318
-> ++++++++++++++++++++++++++++++
-> =C2=A0drivers/gpu/drm/v3d/v3d_trace.h=C2=A0 |=C2=A0=C2=A0 57 ++
-> =C2=A0include/uapi/drm/v3d_drm.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 240 +++++-
-> =C2=A09 files changed, 2110 insertions(+), 780 deletions(-)
-> =C2=A0create mode 100644 drivers/gpu/drm/v3d/v3d_submit.c
->=20
-> --
-> 2.42.0
+Here is an example stack trace from the bug report. The plane state has
+been free'd already, so the pages for drm_gem_fb_vunmap() are gone.
 
-I shared a few minor nits but otherwise I think this looks good. With
-those nits fixed the series is:
+Unable to handle kernel paging request at virtual address 0000000100000049
+[...]
+ drm_gem_fb_vunmap+0x18/0x74
+ drm_gem_end_shadow_fb_access+0x1c/0x2c
+ drm_atomic_helper_cleanup_planes+0x58/0xd8
+ drm_atomic_helper_commit_tail+0x90/0xa0
+ commit_tail+0x15c/0x188
+ commit_work+0x14/0x20
 
-Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
+Fix this by running end_fb_access immediately after updating all planes
+in drm_atomic_helper_commit_planes(). The existing clean-up helper
+drm_atomic_helper_cleanup_planes() now only handles cleanup_fb.
 
-Thanks!
-Iago
+For aborted commits, roll back from drm_atomic_helper_prepare_planes()
+in the new helper drm_atomic_helper_unprepare_planes(). This case is
+different from regular cleanup, as we have to release the new state;
+regular cleanup releases the old state. The new helper also invokes
+cleanup_fb for all planes.
+
+The changes mostly involve DRM's atomic helpers. Only two drivers, i915
+and nouveau, implement their own commit function. Update them to invoke
+drm_atomic_helper_unprepare_planes(). Drivers with custom commit_tail
+function do not require changes.
+
+v3:
+	* add drm_atomic_helper_unprepare_planes() for rolling back
+	* use correct state for end_fb_access
+v2:
+	* fix test in drm_atomic_helper_cleanup_planes()
+
+Reported-by: Alyssa Ross <hi@alyssa.is>
+Closes: https://lore.kernel.org/dri-devel/87leazm0ya.fsf@alyssa.is/
+Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+Fixes: 94d879eaf7fb ("drm/atomic-helper: Add {begin,end}_fb_access to plane helpers")
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: <stable@vger.kernel.org> # v6.2+
+---
+ drivers/gpu/drm/drm_atomic_helper.c          | 78 +++++++++++++-------
+ drivers/gpu/drm/i915/display/intel_display.c |  2 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c      |  2 +-
+ include/drm/drm_atomic_helper.h              |  2 +
+ 4 files changed, 56 insertions(+), 28 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index c3f677130def0..9adec3eb78563 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -2012,7 +2012,7 @@ int drm_atomic_helper_commit(struct drm_device *dev,
+ 			return ret;
+ 
+ 		drm_atomic_helper_async_commit(dev, state);
+-		drm_atomic_helper_cleanup_planes(dev, state);
++		drm_atomic_helper_unprepare_planes(dev, state);
+ 
+ 		return 0;
+ 	}
+@@ -2072,7 +2072,7 @@ int drm_atomic_helper_commit(struct drm_device *dev,
+ 	return 0;
+ 
+ err:
+-	drm_atomic_helper_cleanup_planes(dev, state);
++	drm_atomic_helper_unprepare_planes(dev, state);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_commit);
+@@ -2650,6 +2650,39 @@ int drm_atomic_helper_prepare_planes(struct drm_device *dev,
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_prepare_planes);
+ 
++/**
++ * drm_atomic_helper_unprepare_planes - release plane resources on aborts
++ * @dev: DRM device
++ * @old_state: atomic state object with old state structures
++ *
++ * This function cleans up plane state, specifically framebuffers, from the
++ * atomic state. It undoes the effects of drm_atomic_helper_prepare_planes()
++ * when aborting an atomic commit. For cleaning up after a successful commit
++ * use drm_atomic_helper_cleanup_planes().
++ */
++void drm_atomic_helper_unprepare_planes(struct drm_device *dev,
++					struct drm_atomic_state *state)
++{
++	struct drm_plane *plane;
++	struct drm_plane_state *new_plane_state;
++	int i;
++
++	for_each_new_plane_in_state(state, plane, new_plane_state, i) {
++		const struct drm_plane_helper_funcs *funcs = plane->helper_private;
++
++		if (funcs->end_fb_access)
++			funcs->end_fb_access(plane, new_plane_state);
++	}
++
++	for_each_new_plane_in_state(state, plane, new_plane_state, i) {
++		const struct drm_plane_helper_funcs *funcs = plane->helper_private;
++
++		if (funcs->cleanup_fb)
++			funcs->cleanup_fb(plane, new_plane_state);
++	}
++}
++EXPORT_SYMBOL(drm_atomic_helper_unprepare_planes);
++
+ static bool plane_crtc_active(const struct drm_plane_state *state)
+ {
+ 	return state->crtc && state->crtc->state->active;
+@@ -2784,6 +2817,17 @@ void drm_atomic_helper_commit_planes(struct drm_device *dev,
+ 
+ 		funcs->atomic_flush(crtc, old_state);
+ 	}
++
++	/*
++	 * Signal end of framebuffer access here before hw_done. After hw_done,
++	 * a later commit might have already released the plane state.
++	 */
++	for_each_old_plane_in_state(old_state, plane, old_plane_state, i) {
++		const struct drm_plane_helper_funcs *funcs = plane->helper_private;
++
++		if (funcs->end_fb_access)
++			funcs->end_fb_access(plane, old_plane_state);
++	}
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_commit_planes);
+ 
+@@ -2911,40 +2955,22 @@ EXPORT_SYMBOL(drm_atomic_helper_disable_planes_on_crtc);
+  * configuration. Hence the old configuration must be perserved in @old_state to
+  * be able to call this function.
+  *
+- * This function must also be called on the new state when the atomic update
+- * fails at any point after calling drm_atomic_helper_prepare_planes().
++ * This function may not be called on the new state when the atomic update
++ * fails at any point after calling drm_atomic_helper_prepare_planes(). Use
++ * drm_atomic_helper_unprepare_planes() in this case.
+  */
+ void drm_atomic_helper_cleanup_planes(struct drm_device *dev,
+ 				      struct drm_atomic_state *old_state)
+ {
+ 	struct drm_plane *plane;
+-	struct drm_plane_state *old_plane_state, *new_plane_state;
++	struct drm_plane_state *old_plane_state;
+ 	int i;
+ 
+-	for_each_oldnew_plane_in_state(old_state, plane, old_plane_state, new_plane_state, i) {
++	for_each_old_plane_in_state(old_state, plane, old_plane_state, i) {
+ 		const struct drm_plane_helper_funcs *funcs = plane->helper_private;
+ 
+-		if (funcs->end_fb_access)
+-			funcs->end_fb_access(plane, new_plane_state);
+-	}
+-
+-	for_each_oldnew_plane_in_state(old_state, plane, old_plane_state, new_plane_state, i) {
+-		const struct drm_plane_helper_funcs *funcs;
+-		struct drm_plane_state *plane_state;
+-
+-		/*
+-		 * This might be called before swapping when commit is aborted,
+-		 * in which case we have to cleanup the new state.
+-		 */
+-		if (old_plane_state == plane->state)
+-			plane_state = new_plane_state;
+-		else
+-			plane_state = old_plane_state;
+-
+-		funcs = plane->helper_private;
+-
+ 		if (funcs->cleanup_fb)
+-			funcs->cleanup_fb(plane, plane_state);
++			funcs->cleanup_fb(plane, old_plane_state);
+ 	}
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_cleanup_planes);
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 5cf162628b95e..ace834c9e8f9f 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -7354,7 +7354,7 @@ int intel_atomic_commit(struct drm_device *dev, struct drm_atomic_state *_state,
+ 		for_each_new_intel_crtc_in_state(state, crtc, new_crtc_state, i)
+ 			intel_color_cleanup_commit(new_crtc_state);
+ 
+-		drm_atomic_helper_cleanup_planes(dev, &state->base);
++		drm_atomic_helper_unprepare_planes(dev, &state->base);
+ 		intel_runtime_pm_put(&dev_priv->runtime_pm, state->wakeref);
+ 		return ret;
+ 	}
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index 11fe75b68e95c..8d37a694b7724 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -2476,7 +2476,7 @@ nv50_disp_atomic_commit(struct drm_device *dev,
+ 
+ err_cleanup:
+ 	if (ret)
+-		drm_atomic_helper_cleanup_planes(dev, state);
++		drm_atomic_helper_unprepare_planes(dev, state);
+ done:
+ 	pm_runtime_put_autosuspend(dev->dev);
+ 	return ret;
+diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+index 536a0b0091c3a..006b5c977ad77 100644
+--- a/include/drm/drm_atomic_helper.h
++++ b/include/drm/drm_atomic_helper.h
+@@ -97,6 +97,8 @@ void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
+ 
+ int drm_atomic_helper_prepare_planes(struct drm_device *dev,
+ 				     struct drm_atomic_state *state);
++void drm_atomic_helper_unprepare_planes(struct drm_device *dev,
++					struct drm_atomic_state *state);
+ 
+ #define DRM_PLANE_COMMIT_ACTIVE_ONLY			BIT(0)
+ #define DRM_PLANE_COMMIT_NO_DISABLE_AFTER_MODESET	BIT(1)
+-- 
+2.43.0
+
