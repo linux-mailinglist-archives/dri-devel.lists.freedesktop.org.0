@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BF547FBBBE
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 14:38:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 598657FBBC5
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 14:39:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EA5310E52B;
-	Tue, 28 Nov 2023 13:38:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 283BB10E52D;
+	Tue, 28 Nov 2023 13:38:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8006010E1B7
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C351D10E52A
  for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 13:38:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1701178723; x=1732714723;
+ t=1701178724; x=1732714724;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=D/sNCrvlra+VtI/Lc09EQk4mxqF/z5n74L5LWANBngA=;
- b=EXTU8VbfKIP/Q1aQ/C5Vtc2EnGmrR1e6NQwTAA5mrrFlpTWzncxqfZKb
- uL0rDM2xo1HDHQvXTkvN+nD3GhJr/RbLUaSlEIB5vDxMhFZjOoxhhy/TW
- KJMrVQXgTXoRoetVnn+fY9izIyyDkEbT31RiSDyo+bC2jIYxDyR/LJqvV
- kZywTAXdU5pBVXMw0pCpyK9m6ZiHh69ogjWR5pr6oUbrCCGX9L6mFp0x1
- k4iQ9qJ0xOOW9azIBYDSS+AQtcwZnTY9JAtADt+vZQmf3Iy8qpJfOI7cg
- EjKw11asqEik0kGt0SLxsxR6yQZqTt31QgknFgGangLB/3b7zUXEXGmd4 g==;
-X-IronPort-AV: E=Sophos;i="6.04,233,1695679200"; d="scan'208";a="34216293"
+ bh=+ggi/ULongfPVWUQdXBftc2EajZULXCXyibftwlewqo=;
+ b=IvLO/+M2KxOeRYFGtqQ37YHajRLBTITB1j8tgOLsQ1yQUcEEANXPv6Zy
+ qJoxI8KjyO7NEBHDeZDRaHCyYJwQxpPVgd+GpZ3A7juzAQOsLvgVRgYqL
+ crLbY0mUbM2U13I3YqGM6NGxE9Zk3u75E6yfF6twloHwGRXBCsyxDlSWK
+ a4ao7MkuAzejWRiFBga8keS1uPwi0yJPpcYuOi1y+0eyCrfuXIuOmyd16
+ brpp/q+22ZHiZGZgk35nEkgcgtaDrC/cJniWm9MN73G4b13gKnsJyEVsy
+ RQ40xociuYSUfqvDwbV8BjXtwDLEUK92oFHaQHroQ7KuHoLSPqb66P+fW w==;
+X-IronPort-AV: E=Sophos;i="6.04,233,1695679200"; d="scan'208";a="34216294"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
  by mx1.tq-group.com with ESMTP; 28 Nov 2023 14:38:40 +0100
 Received: from steina-w.tq-net.de (steina-w.tq-net.de [10.123.53.18])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 273B1280084;
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 5780C280075;
  Tue, 28 Nov 2023 14:38:40 +0100 (CET)
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -39,9 +39,9 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 5/7] drm/bridge: tc358767: Add more volatile registers
-Date: Tue, 28 Nov 2023 14:38:34 +0100
-Message-Id: <20231128133836.2923081-6-alexander.stein@ew.tq-group.com>
+Subject: [PATCH v2 6/7] drm/bridge: tc358767: Add precious register SYSSTAT
+Date: Tue, 28 Nov 2023 14:38:35 +0100
+Message-Id: <20231128133836.2923081-7-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231128133836.2923081-1-alexander.stein@ew.tq-group.com>
 References: <20231128133836.2923081-1-alexander.stein@ew.tq-group.com>
@@ -64,34 +64,41 @@ Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These registers might change their value without any host write operation.
+This is the single register which clears its value upon read operation.
 
 Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
- drivers/gpu/drm/bridge/tc358767.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/bridge/tc358767.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index bbe1f9ac47c22..c2d74ca586627 100644
+index c2d74ca586627..a279eab77c36c 100644
 --- a/drivers/gpu/drm/bridge/tc358767.c
 +++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -2057,9 +2057,16 @@ static bool tc_readable_reg(struct device *dev, unsigned int reg)
- }
+@@ -2078,6 +2078,15 @@ static const struct regmap_access_table tc_volatile_table = {
+ 	.n_yes_ranges = ARRAY_SIZE(tc_volatile_ranges),
+ };
  
- static const struct regmap_range tc_volatile_ranges[] = {
-+	regmap_reg_range(PPI_BUSYPPI, PPI_BUSYPPI),
-+	regmap_reg_range(DSI_BUSYDSI, DSI_BUSYDSI),
-+	regmap_reg_range(DSI_LANESTATUS0, DSI_INTSTATUS),
-+	regmap_reg_range(DSIERRCNT, DSIERRCNT),
- 	regmap_reg_range(VFUEN0, VFUEN0),
++static const struct regmap_range tc_precious_ranges[] = {
 +	regmap_reg_range(SYSSTAT, SYSSTAT),
- 	regmap_reg_range(GPIOI, GPIOI),
- 	regmap_reg_range(INTSTS_G, INTSTS_G),
-+	regmap_reg_range(DP0_VMNGENSTATUS, DP0_VMNGENSTATUS),
-+	regmap_reg_range(DP0_AMNGENSTATUS, DP0_AMNGENSTATUS),
- 	regmap_reg_range(DP0_AUXWDATA(0), DP0_AUXSTATUS),
- 	regmap_reg_range(DP0_LTSTAT, DP0_SNKLTCHGREQ),
- 	regmap_reg_range(DP_PHY_CTRL, DP_PHY_CTRL),
++};
++
++static const struct regmap_access_table tc_precious_table = {
++	.yes_ranges = tc_precious_ranges,
++	.n_yes_ranges = ARRAY_SIZE(tc_precious_ranges),
++};
++
+ static const struct regmap_range tc_non_writeable_ranges[] = {
+ 	regmap_reg_range(PPI_BUSYPPI, PPI_BUSYPPI),
+ 	regmap_reg_range(DSI_BUSYDSI, DSI_BUSYDSI),
+@@ -2101,6 +2110,7 @@ static const struct regmap_config tc_regmap_config = {
+ 	.cache_type = REGCACHE_RBTREE,
+ 	.readable_reg = tc_readable_reg,
+ 	.volatile_table = &tc_volatile_table,
++	.precious_table = &tc_precious_table,
+ 	.wr_table = &tc_writeable_table,
+ 	.reg_format_endian = REGMAP_ENDIAN_BIG,
+ 	.val_format_endian = REGMAP_ENDIAN_LITTLE,
 -- 
 2.34.1
 
