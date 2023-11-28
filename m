@@ -2,61 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32D697FB6A6
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 11:04:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49CFD7FB6D5
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 11:11:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D72D10E476;
-	Tue, 28 Nov 2023 10:04:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 622AD10E47B;
+	Tue, 28 Nov 2023 10:11:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com
- [209.85.128.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68B4310E476;
- Tue, 28 Nov 2023 10:04:43 +0000 (UTC)
-Received: by mail-yw1-f177.google.com with SMTP id
- 00721157ae682-5cc66213a34so53236567b3.1; 
- Tue, 28 Nov 2023 02:04:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701165882; x=1701770682;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=sVYbGk8nOx+pxSV84i/1qbnW/GNJF1Gu7ctCWCcQoto=;
- b=pXkmJQ2l75C2mk5IlU3UzqAtbq+tO/LjY1yPkKE5OLuBkk7N0QUHibbigU9p12A8Yp
- e31D7UfBilS/GAud1jbnqdRS2NN9QELB+IlQnjoVBb2OLjlBvkugqOfqqcjYQ83/snSb
- 8066+gMwJN49Y/Vlb1J63JlPkMhLlyDTNR5P4nKvGx6fv0kHY0SE8A/RwWqASoawyCtn
- UDswf7jp1T0KnSVdJuW5/qqJgIELlt9o2YJfoU78FwERbibGoIq5fuMS/1N99Rvh0ma5
- 2WJOiyPQbd+YrHY1AgG3KWE7x0Y0+kJRdemy8uurklpHrO12GvXibe/JUpcy8aKLfDmS
- xL1A==
-X-Gm-Message-State: AOJu0YyXK2alkdz3Pr0J4yCIUagt54jdTPrq60XXkcg/pppP2InEwpVO
- S25GBDFzBUOsPoDX26lLQMi8wPZyrzqc7A==
-X-Google-Smtp-Source: AGHT+IGJJPYQjZoJsbrUif/mHqN0ICLSyAPZX/tlMDhLOPa/luG1ulkjHEPMe/sWXVewMmKLKALFPw==
-X-Received: by 2002:a81:8686:0:b0:5ce:f683:cd3 with SMTP id
- w128-20020a818686000000b005cef6830cd3mr10244183ywf.13.1701165882246; 
- Tue, 28 Nov 2023 02:04:42 -0800 (PST)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com.
- [209.85.128.177]) by smtp.gmail.com with ESMTPSA id
- x126-20020a814a84000000b005ca7a00a9b0sm3797009ywa.64.2023.11.28.02.04.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Nov 2023 02:04:41 -0800 (PST)
-Received: by mail-yw1-f177.google.com with SMTP id
- 00721157ae682-5cece20f006so31746427b3.3; 
- Tue, 28 Nov 2023 02:04:41 -0800 (PST)
-X-Received: by 2002:a81:9282:0:b0:5a7:afcc:80fe with SMTP id
- j124-20020a819282000000b005a7afcc80femr9012513ywg.3.1701165881168; Tue, 28
- Nov 2023 02:04:41 -0800 (PST)
+Received: from mail-m12829.netease.com (mail-m12829.netease.com
+ [103.209.128.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52FCC10E47B
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 10:11:50 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256;
+ b=Kv4h4ezaY2IFPxMQ+PRFA0A72grSJmM3w9FxR0roZprWLmUgFKpm/R54b+N4A7P3UXL1BDBEAIoumNnhy3BSfMQHcC5IlOVVfibR78U7QcFV4n+X+t2l1sb+p8Pu6xfoyaahKOdYogpIhPfkJASrjlzP8R6qs3H4ma/pQsuMFT0=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+ bh=7JTD2+HcWsQ2R6pCShDzTLWMGQXPh84DvuG0l3o9KdE=;
+ h=date:mime-version:subject:message-id:from;
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+ by mail-m12762.qiye.163.com (Hmail) with ESMTPA id E7F885C0306;
+ Tue, 28 Nov 2023 18:11:46 +0800 (CST)
+Message-ID: <16644455-d7a1-445e-8b48-ae22577a2627@rock-chips.com>
+Date: Tue, 28 Nov 2023 18:11:46 +0800
 MIME-Version: 1.0
-References: <20231122112930.5e7c7bcd@canb.auug.org.au>
-In-Reply-To: <20231122112930.5e7c7bcd@canb.auug.org.au>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 28 Nov 2023 11:04:30 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW_6rU3uVuBBKh2nMWPC0tPOpxhf9xhD2L6T5frsF=q3w@mail.gmail.com>
-Message-ID: <CAMuHMdW_6rU3uVuBBKh2nMWPC0tPOpxhf9xhD2L6T5frsF=q3w@mail.gmail.com>
-Subject: Re: linux-next: manual merge of the drm tree with the drm-misc-fixes
- tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 10/12] drm/rockchip: vop2: Add support for rk3588
+Content-Language: en-US
+To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andyshrk@163.com>
+References: <20231122125316.3454268-1-andyshrk@163.com>
+ <4788319.uZKlY2gecq@diego>
+ <f179e9ae-b2cd-4f6c-badc-4d76d8a3ba0d@rock-chips.com>
+ <4339687.HovnAMPojK@diego>
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <4339687.HovnAMPojK@diego>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGhgdTFYaSkJMT0seGkNPSh9VEwETFh
+ oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5JVUpLS1VKQl
+ kG
+X-HM-Tid: 0a8c1569d7d1b229kuuue7f885c0306
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6M006Aww5Czw8Gh4WCCMOMioQ
+ HwpPCipVSlVKTEtKSk1NSEtMQktJVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+ WUFZTkNVSUlVTFVKSk9ZV1kIAVlBQ0hKTDcG
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,114 +58,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
- Dave Airlie <airlied@redhat.com>
+Cc: devicetree@vger.kernel.org, s.hauer@pengutronix.de,
+ chris.obbard@collabora.com, hjc@rock-chips.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kever.yang@rock-chips.com, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ sebastian.reichel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stephen,
+Hi Heiko:
 
-On Wed, Nov 22, 2023 at 1:29=E2=80=AFAM Stephen Rothwell <sfr@canb.auug.org=
-.au> wrote:
-> Today's linux-next merge of the drm tree got a conflict in:
+On 11/28/23 17:44, Heiko Stübner wrote:
+> Hi Andy,
 >
->   drivers/accel/ivpu/ivpu_hw_37xx.c
+> Am Dienstag, 28. November 2023, 10:32:55 CET schrieb Andy Yan:
+>> On 11/27/23 23:29, Heiko Stübner wrote:
+>>> Am Mittwoch, 22. November 2023, 13:55:44 CET schrieb Andy Yan:
+>>>> From: Andy Yan <andy.yan@rock-chips.com>
+>>>>
+>>>> VOP2 on rk3588:
+>>>>
+>>>> Four video ports:
+>>>> VP0 Max 4096x2160
+>>>> VP1 Max 4096x2160
+>>>> VP2 Max 4096x2160
+>>>> VP3 Max 2048x1080
+>>>>
+>>>> 4 4K Cluster windows with AFBC/line RGB and AFBC-only YUV support
+>>>> 4 4K Esmart windows with line RGB/YUV support
+>>>>
+>>>> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+>>>>
+>>>> ---
+>>>>
+>>>> Changes in v2:
+>>>> - add rk3588_ prefix for functions which are rk3588 only
+>>>> - make some calculation as fixed value and keep calculation formula as
+>>>>     comment
+>>>> - check return value for some cru calculation functions.
+>>>> - check return value for syscon_regmap_lookup_by_phandle
+>>>> - add NV20/NV30 for esmart plane
+>>>>
+>>>>    drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 381 ++++++++++++++++++-
+>>>>    drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  66 ++++
+>>>>    drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 221 +++++++++++
+>>>>    3 files changed, 660 insertions(+), 8 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>>>> index 4bcc405bcf11..9eecbe1f71f9 100644
+>>>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>>>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>>>> @@ -271,9 +282,12 @@ static bool vop2_cluster_window(const struct vop2_win *win)
+>>>>    static void vop2_cfg_done(struct vop2_video_port *vp)
+>>>>    {
+>>>>    	struct vop2 *vop2 = vp->vop2;
+>>>> +	u32 val;
+>>>> +
+>>>> +	val = BIT(vp->id) | (BIT(vp->id) << 16) |
+>>>> +		RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN;
+>>>>    
+>>>> -	regmap_set_bits(vop2->map, RK3568_REG_CFG_DONE,
+>>>> -			BIT(vp->id) | RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN);
+>>>> +	regmap_set_bits(vop2->map, RK3568_REG_CFG_DONE, val);
+>>> I don't fully understand that code:
+>>> (1) the write mask is also present on the rk3568, so should this change
+>>>       be a separate patch with a fixes tag?
+>> The write mask of VP config done on rk356x is missing, that means
+>> you can write the corresponding mask bit, but it has no effect.
+>>
+>> I once considered making it a separate patch,  I can split it as a separate patch if
+>> you like.
+> I think I'd like it to be a separate patch please.
 >
-> between commit:
 >
->   3f7c0634926d ("accel/ivpu/37xx: Fix hangs related to MMIO reset")
+>>> (2) RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN does not contain the part for
+>>>       the write-mask
+>>>
+>>> 	#define RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN     BIT(15)
+>>>
+>>>       why is this working then?
+>>
+>> Actually this bit has no write-mask bit. 🙂
+> when doing that separate patch mentioned above, could you also add a
+> comment to the code stating that RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN
+> doesn't have a write mask bit please?
 >
-> from the drm-misc-fixes tree and commits:
+> Because the TRM is not clear and ideally I'd not forget this fact for
+> the future :-) .
 >
->   3de6d9597892 ("accel/ivpu: Pass D0i3 residency time to the VPU firmware=
-")
->   cc19fedab8bd ("accel/ivpu/37xx: Print warning when VPUIP is not idle du=
-ring power down")
+
+Okay, will do both above.
+
+>>>>    }
+>>>>    
+>>>>    static void vop2_win_disable(struct vop2_win *win)
+>>> [...]
+>>>
+>>>> @@ -1298,7 +1346,11 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+>>>>    			vop2_win_write(win, VOP2_WIN_AFBC_ENABLE, 1);
+>>>>    		vop2_win_write(win, VOP2_WIN_AFBC_FORMAT, afbc_format);
+>>>>    		vop2_win_write(win, VOP2_WIN_AFBC_UV_SWAP, uv_swap);
+>>>> -		vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 0);
+>>>> +		if (vop2->data->soc_id == 3566 || vop2->data->soc_id == 3568)
+>>>> +			vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 0);
+>>>> +		else
+>>>> +			vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 1);
+>>>> +
+>>> I think this at least warrants a comment, what is happening here. Also,
+>>> can you already see how future vop2-users are behaving - aka are all new
+>>> socs in the "else" part of the conditional, or would a switch-case better
+>>> represent future socs?
+>>
+>> On rk356x, this bit is auto gating enable, but this function is not work well so
+>> we need to disable this function.
+>> On rk3588, and the following new soc(rk3528/rk3576), this bit is gating disable,
+>> we should write 1 to disable gating when enable a cluster window.
+>>
+>>
+>> Maybe i add some comments in next version ?
+> Yep that comment would be helpful. And with your explanation the code
+> itself can stay as it is :-)
+
+
+will do.
+
+> Thanks
+> Heiko
 >
-> from the drm tree.
 >
-> I fixed it up (see below) and can carry the fix as necessary. This
-> is now fixed as far as linux-next is concerned, but any non trivial
-> conflicts should be mentioned to your upstream maintainer when your tree
-> is submitted for merging.  You may also want to consider cooperating
-> with the maintainer of the conflicting tree to minimise any particularly
-> complex conflicts.
+>>>>    		vop2_win_write(win, VOP2_WIN_AFBC_BLOCK_SPLIT_EN, 0);
+>>>>    		transform_offset = vop2_afbc_transform_offset(pstate, half_block_en);
+>>>>    		vop2_win_write(win, VOP2_WIN_AFBC_HDR_PTR, yrgb_mst);
+>>>> @@ -1627,9 +1937,17 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
+>>>>    	drm_for_each_encoder_mask(encoder, crtc->dev, crtc_state->encoder_mask) {
+>>>>    		struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
+>>>>    
+>>>> -		rk3568_set_intf_mux(vp, rkencoder->crtc_endpoint_id, polflags);
+>>>> +		/*
+>>>> +		 * for drive a high resolution(4KP120, 8K), vop on rk3588/rk3576 need
+>>>> +		 * process multi(1/2/4/8) pixels per cycle, so the dclk feed by the
+>>>> +		 * system cru may be the 1/2 or 1/4 of mode->clock.
+>>>> +		 */
+>>>> +		clock = vop2_set_intf_mux(vp, rkencoder->crtc_endpoint_id, polflags);
+>>>>    	}
+>>>>    
+>>>> +	if (!clock)
+>>>> +		return;
+>>>> +
+>>> hmm, shouldn't the check for the validity of a mode happen before
+>>> atomic_enable is run? So this shouldn't error out in the middle of the
+>>> function?
 
-Thanks for your resolution!
 
-> --- a/drivers/accel/ivpu/ivpu_hw_37xx.c
-> +++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
-> @@@ -720,14 -731,19 +733,14 @@@ static int ivpu_hw_37xx_power_down(stru
->   {
->         int ret =3D 0;
+Actually it is a check like the check of clk_prepares_enable at the beginning,
+
+maybe one place can do this is at crtc_atomic_check ? But we really don't need to
+
+do the calculate and enable the related interface at every frame commit.
+
+with a grep i can find many platforms do this kind of check in crtc_atomic_enable(ade/meson/vc4/omap/malidp/tidss_crtc_atomic_enable, etc...)
+
+so maybe just let it as it is now?
+
+>>>
+>>>
+>>>>    	if (vcstate->output_mode == ROCKCHIP_OUT_MODE_AAAA &&
+>>>>    	    !(vp_data->feature & VOP_FEATURE_OUTPUT_10BIT))
+>>>>    		out_mode = ROCKCHIP_OUT_MODE_P888;
+>>> Thanks
+>>> Heiko
+>>>
+>>>
+>>>
+>>> _______________________________________________
+>>> Linux-rockchip mailing list
+>>> Linux-rockchip@lists.infradead.org
+>>> http://lists.infradead.org/mailman/listinfo/linux-rockchip
 >
-> -       if (!ivpu_hw_37xx_is_idle(vdev))
-> -               ivpu_warn(vdev, "VPU not idle during power down\n");
-> +       ivpu_hw_37xx_save_d0i3_entry_timestamp(vdev);
 >
-> -       if (ivpu_hw_37xx_reset(vdev)) {
-> -               ivpu_err(vdev, "Failed to reset VPU\n");
-> -               ret =3D -EIO;
-> +       if (!ivpu_hw_37xx_is_idle(vdev)) {
-> +               ivpu_warn(vdev, "VPU not idle during power down\n");
-> +               if (ivpu_hw_37xx_reset(vdev))
-> +                       ivpu_warn(vdev, "Failed to reset the VPU\n");
->         }
 >
->  -      if (ivpu_pll_disable(vdev)) {
->  -              ivpu_err(vdev, "Failed to disable PLL\n");
->  -              ret =3D -EIO;
->  -      }
->  -
->         if (ivpu_hw_37xx_d0i3_enable(vdev)) {
->                 ivpu_err(vdev, "Failed to enter D0I3\n");
->                 ret =3D -EIO;
-
-I've just run into the same conflict, and I think you lost the split
-into two if-statements in the last hunk of commit 3f7c0634926d
-("accel/ivpu/37xx: Fix hangs related to MMIO reset")?
-
-My resolution is:
-
---- a/drivers/accel/ivpu/ivpu_hw_37xx.c
-+++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
-@@@ -720,11 -731,16 +733,13 @@@ static int ivpu_hw_37xx_power_down(stru
-  {
-        int ret =3D 0;
-
-+       ivpu_hw_37xx_save_d0i3_entry_timestamp(vdev);
-+
- -      if (!ivpu_hw_37xx_is_idle(vdev)) {
- +      if (!ivpu_hw_37xx_is_idle(vdev))
-                ivpu_warn(vdev, "VPU not idle during power down\n");
- -              if (ivpu_hw_37xx_reset(vdev))
- -                      ivpu_warn(vdev, "Failed to reset the VPU\n");
- -      }
-
- -      if (ivpu_pll_disable(vdev)) {
- -              ivpu_err(vdev, "Failed to disable PLL\n");
- +      if (ivpu_hw_37xx_reset(vdev)) {
- +              ivpu_err(vdev, "Failed to reset VPU\n");
-                ret =3D -EIO;
-        }
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
