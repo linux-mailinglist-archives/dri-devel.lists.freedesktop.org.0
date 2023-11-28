@@ -2,72 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C29BD7FAF42
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 01:47:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D13C7FAF69
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 02:12:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BA9710E14C;
-	Tue, 28 Nov 2023 00:47:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DFE210E31E;
+	Tue, 28 Nov 2023 01:12:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D790A10E14C
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 00:47:13 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id
- a640c23a62f3a-a04196fc957so707825766b.2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 16:47:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1701132431; x=1701737231;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Wo0vSPweV0gJ8MYIRlcQuXT/7Sqytc2uBehA7YwL1bs=;
- b=QDWnDQR0z6fFCeYHfqX6nLk0S+XLcy+N2uS61/2GnjIUPaElqe3C3MBN8S2wcIYUoc
- prtjBmN6cu/U3Qpf3nhf5VYh3uZZshDot/ITdLEl7tJBXE3//6Stx6sgWB0sJWda/Kpt
- fFGbIqWnMCQvXBaTEIhNbvsewhyzcIDKhqzDM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701132431; x=1701737231;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Wo0vSPweV0gJ8MYIRlcQuXT/7Sqytc2uBehA7YwL1bs=;
- b=lWJbCk10GP3esFV8PjxGnahEqxce5K6Q4yj7fZ8YXmpgM4ANHdNuKt7a8wV+SHFn/9
- 1RBGQNFFCXqge2tdHIMkjS/AcPwDZTUsFzh1PW/nIUfyIQwTn5Mt4FdhPA5h/e2TWvV9
- DYJXEDjMoCbtD7tTkCC+5pcvg9DpVSXXCid+kYzejKMm34Xd+ctHeiNkBxP5G0mkgtKI
- wHVm1RspUjM5X7rAzWlbEw/g2ih9CYATLEIVzUXyDrXpfnX3XHQnUfgVz7L8KLMd2Bh2
- AZqdYu+AWsRfm2LzT9DAy6aVn6zKo6jZaJPxkCkG72PFJAT3YeCouxly2ANtyKL8MEyQ
- S1dA==
-X-Gm-Message-State: AOJu0YxTbVf0bFQXuYfq7luETmRlAniwlW/1rQbevNzIDSoWUbCEeCMp
- Bd8VTZcfNLnqR5b4UQLPkcWPwoQL9Ui6yUGfJMqcJA==
-X-Google-Smtp-Source: AGHT+IHf5iRupDZCiopx8xPCPBQ4ocs/25nqq5o1ivRh2jmq3rJ1JGRWfkpAHMRDKevWkSy3YGR3hA==
-X-Received: by 2002:a17:906:b6c5:b0:a02:35d9:fbc3 with SMTP id
- ec5-20020a170906b6c500b00a0235d9fbc3mr8011737ejb.45.1701132431276; 
- Mon, 27 Nov 2023 16:47:11 -0800 (PST)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com.
- [209.85.128.51]) by smtp.gmail.com with ESMTPSA id
- me22-20020a170906aed600b009dd8473559dsm6193807ejb.110.2023.11.27.16.47.10
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Nov 2023 16:47:10 -0800 (PST)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-40b367a0a12so3375e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 16:47:10 -0800 (PST)
-X-Received: by 2002:a05:600c:4e0a:b0:40a:4c7d:f300 with SMTP id
- b10-20020a05600c4e0a00b0040a4c7df300mr745925wmq.6.1701132430281; Mon, 27 Nov
- 2023 16:47:10 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB5510E004;
+ Tue, 28 Nov 2023 01:12:09 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3AS0uuH1028511; Tue, 28 Nov 2023 01:12:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=4O9nT9qrVkrTkIAh9FoKyL3NTb7WlObxESj18pHOOiE=;
+ b=fwwgMQpZY6QTyUANzgsNmlGlTJXaoGN7XMIoL6CtYoGma2UevL9CgSj+JIVCKmsTJ8ne
+ f+aNbPrZtsi5KKmjhBtB1nrm22ncUW3gvAKUZ5vGGKCjwgSO1qgMxuDUYbKElOlR4NV2
+ iQTaVS8HMQlj9ATednmMejCynWt44yRZBas38xJKyIIygNnq3DkpG5kNtGOxRKAOzrPp
+ wWCEVMoK8s7II5suWyxIuheoUENolkH75O3w59spy3OYp4mDWFCDN+FFpemmkY/WRAlo
+ 1fllO4+bxAp93C3LRk9QXPx9iHyu6QhetnK8W7x1OO7/4iGc+u8pw4SWd4s5OrZqbVyj 2w== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3umwn5sac4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Nov 2023 01:12:05 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AS1C5DT024493
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Nov 2023 01:12:05 GMT
+Received: from hu-parellan-lv.qualcomm.com (10.49.16.6) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Mon, 27 Nov 2023 17:12:04 -0800
+From: Paloma Arellano <quic_parellan@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+Subject: [PATCH] drm/msm/dpu: Capture dpu snapshot when frame_done_timer
+ timeouts
+Date: Mon, 27 Nov 2023 17:11:17 -0800
+Message-ID: <20231128011122.14711-1-quic_parellan@quicinc.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20231127101547.734061-2-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20231127101547.734061-2-u.kleine-koenig@pengutronix.de>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 27 Nov 2023 16:46:55 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UPTLV1kRz76q9dUMwLOCQum3mjyJG4KPJgwFP5vM4ZGQ@mail.gmail.com>
-Message-ID: <CAD=FV=UPTLV1kRz76q9dUMwLOCQum3mjyJG4KPJgwFP5vM4ZGQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Associate PWM device to
- auxiliary device
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 6KAe7elOGMvnSlo6GzDQOLnXgEP8RFjx
+X-Proofpoint-GUID: 6KAe7elOGMvnSlo6GzDQOLnXgEP8RFjx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-28_01,2023-11-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ adultscore=0 mlxlogscore=999 mlxscore=0 spamscore=0 bulkscore=0
+ lowpriorityscore=0 malwarescore=0 impostorscore=0 clxscore=1011
+ suspectscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2311060000 definitions=main-2311280007
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,57 +79,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Jonas Karlman <jonas@kwiboo.se>, Bjorn Andersson <andersson@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, kernel@pengutronix.de
+Cc: neil.armstrong@linaro.org, marijn.suijten@somainline.org,
+ linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ quic_jesszhan@quicinc.com, dmitry.baryshkov@linaro.org,
+ Paloma Arellano <quic_parellan@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Trigger a devcoredump to dump dpu registers and capture the drm atomic
+state when the frame_done_timer timeouts.
 
-On Mon, Nov 27, 2023 at 2:15=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
->
-> It's the ti_sn65dsi86.pwm auxiliary driver that creates the pwmchip, so
-> let the auxiliary device be the parent of the pwm device.
->
-> Note that getting a reference to the ti-sn65dsi86's pwm using pwm_get()
-> isn't affected by this change as ti_sn65dsi86_add_aux_device() sets the
-> auxiliary device's of_node to that of the main device.
->
-> Also change PM runtime tracking and diagnostic messages to use that one.
-> As the PM runtime functions also handle parent devices this should work
-> fine, too.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
-> Hello,
->
-> this patch has an (easy to resolve) conflict with a patch I sent earlier
-> "drm/bridge: ti-sn65dsi86: Simplify using pm_runtime_resume_and_get()"
-> (https://lore.kernel.org/dri-devel/20231123175425.496956-2-u.kleine-koeni=
-g@pengutronix.de).
-> I was unsure if I should base this new patch on that older one.
->
-> While I think the patch is fine, I'd have a better feeling about it if
-> someone could give feedback that the PWM still works as intended with
-> this change.
->
-> Best regards
-> Uwe
->
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
+Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-This looks right to me.
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 1cf7ff6caff4..5cf7594feb5a 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -191,6 +191,7 @@ struct dpu_encoder_virt {
+ 	void *crtc_frame_event_cb_data;
+ 
+ 	atomic_t frame_done_timeout_ms;
++	atomic_t frame_done_timeout_cnt;
+ 	struct timer_list frame_done_timer;
+ 
+ 	struct msm_display_info disp_info;
+@@ -1204,6 +1205,8 @@ static void dpu_encoder_virt_atomic_enable(struct drm_encoder *drm_enc,
+ 
+ 	dpu_enc->dsc = dpu_encoder_get_dsc_config(drm_enc);
+ 
++	atomic_set(&dpu_enc->frame_done_timeout_cnt, 0);
++
+ 	if (disp_info->intf_type == INTF_DP)
+ 		dpu_enc->wide_bus_en = msm_dp_wide_bus_available(priv->dp[index]);
+ 	else if (disp_info->intf_type == INTF_DSI)
+@@ -2115,11 +2118,12 @@ static int _dpu_encoder_status_show(struct seq_file *s, void *data)
+ 	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+ 		struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
+ 
+-		seq_printf(s, "intf:%d  wb:%d  vsync:%8d     underrun:%8d    ",
++		seq_printf(s, "intf:%d  wb:%d  vsync:%8d     underrun:%8d    frame_done_cnt:%d",
+ 				phys->hw_intf ? phys->hw_intf->idx - INTF_0 : -1,
+ 				phys->hw_wb ? phys->hw_wb->idx - WB_0 : -1,
+ 				atomic_read(&phys->vsync_cnt),
+-				atomic_read(&phys->underrun_cnt));
++				atomic_read(&phys->underrun_cnt),
++				atomic_read(&dpu_enc->frame_done_timeout_cnt));
+ 
+ 		seq_printf(s, "mode: %s\n", dpu_encoder_helper_get_intf_type(phys->intf_mode));
+ 	}
+@@ -2341,6 +2345,10 @@ static void dpu_encoder_frame_done_timeout(struct timer_list *t)
+ 
+ 	DPU_ERROR_ENC(dpu_enc, "frame done timeout\n");
+ 
++	atomic_inc(&dpu_enc->frame_done_timeout_cnt);
++	if (atomic_read(&dpu_enc->frame_done_timeout_cnt) == 1)
++		msm_disp_snapshot_state(drm_enc->dev);
++
+ 	event = DPU_ENCODER_FRAME_EVENT_ERROR;
+ 	trace_dpu_enc_frame_done_timeout(DRMID(drm_enc), event);
+ 	dpu_enc->crtc_frame_event_cb(dpu_enc->crtc_frame_event_cb_data, event);
+@@ -2392,6 +2400,7 @@ struct drm_encoder *dpu_encoder_init(struct drm_device *dev,
+ 		goto fail;
+ 
+ 	atomic_set(&dpu_enc->frame_done_timeout_ms, 0);
++	atomic_set(&dpu_enc->frame_done_timeout_cnt, 0);
+ 	timer_setup(&dpu_enc->frame_done_timer,
+ 			dpu_encoder_frame_done_timeout, 0);
+ 
+-- 
+2.41.0
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
-For now, I'll wait for Bjorn (or someone else who uses this PWM) to
-give a Tested-by before applying.
-
--Doug
