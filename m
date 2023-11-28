@@ -2,36 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CE357FCA0D
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 23:58:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4834C7FC95A
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 23:20:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F2BE10E361;
-	Tue, 28 Nov 2023 22:58:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9AB510E34D;
+	Tue, 28 Nov 2023 22:20:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC8C210E048;
- Tue, 28 Nov 2023 22:18:08 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 9F0EDB8068A;
- Tue, 28 Nov 2023 22:18:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 360DEC433C8;
- Tue, 28 Nov 2023 22:17:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701209886;
- bh=ScPqrKrr5fwcMadOaUcl+bJfC6DSW+eVwIqo4WXnKe4=;
- h=Date:From:To:Subject:In-Reply-To:References:From;
- b=lsXwK+xD3UehOuoCUwSS4p5SvzngiI8XAETgZtnybHgrhVQGBRwM1q11YID8gS3UZ
- wfuMAaWOsddOLngX07am9vMnrqO81sJlYE0/TEyxc2OmVg4GZmqDfZ8OmDixIRrPvn
- AXCMmJOUk/Jv9oQm1rdJmgQFIhLiryBKssmFVDQHWmvyQcs82vyvCrOlGKLwKiLo3K
- wONyauGHa5O9zGKbgiYMKVqTj8xmfzYEIeuN+Z5Q1YzDs+K9ItcnAllj/P28tk6XeX
- nYuD88rXyq+BUpa32RNLvkFbFrrc0rbOsjAxEO6NEiUIVmfmzetZpPks5DiST/k7SU
- GtwwFpJp+L+uQ==
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6B0510E048;
+ Tue, 28 Nov 2023 22:20:08 +0000 (UTC)
+Received: from 3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.3ffe.de (Postfix) with ESMTPSA id C6D4D323;
+ Tue, 28 Nov 2023 23:20:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
+ s=mail2022082101; t=1701210006;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CAhOARmmFIxR/7vfxpNQzi/gksLmIWRxnp/mV78NkOY=;
+ b=y9z7I1r89PEvv8K1QY9l1riaX3zGYgIH11IFbg6n600hOOTUVRCGBLkWg6ASyeF0Zxnix7
+ RdJ6lL3qhWn/R/f6d5ZsLjguB8gg8GamTVvfOGUB9F6jAv3qwccpms68k0M9zx4oZE2kFm
+ /D3KdAbdtlrRbQpl0IRWO47jGxnLAZ50QPGWKRbfTjyeSj8UaspqqnB6uLC3NQNa2bxg4n
+ BVzwleYlKT3mjFGTADsL/COYr0nOxs/xDDfOgHP1nQXMFmKSZ9ZlfAk0fhALX8G9FswAHw
+ vQOIZer5vMBr1k30MVkgBBM7FM9y7YzvmNxVEyRHlE1Ai1sIlt8a4XGGqAlVYA==
 MIME-Version: 1.0
-Date: Tue, 28 Nov 2023 23:17:55 +0100
-From: Michael Walle <mwalle@kernel.org>
-To: undisclosed-recipients:;
+Date: Tue, 28 Nov 2023 23:20:06 +0100
+From: Michael Walle <michael@walle.cc>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Subject: Re: [RFC PATCH 03/10] drm/mipi-dsi: add API for manual control over
  the DSI link power state
 In-Reply-To: <CAA8EJpoYkH-0onMmNRk1iO5YeLN+5hpZMsfvtNo-7p6y2mjZwg@mail.gmail.com>
@@ -42,12 +44,11 @@ References: <CAA8EJpozZkEswnioKjRCqBg4fcjVHFwGivoFNTNHVwyocKprQw@mail.gmail.com>
  <CAA8EJpr9PDgSrTpP2-joQ09fxmJKZB1B+ESbDbMjkLNiqZ1m3A@mail.gmail.com>
  <14D9F495-425D-47FA-AD0D-F7299285936F@walle.cc>
  <CAA8EJpoYkH-0onMmNRk1iO5YeLN+5hpZMsfvtNo-7p6y2mjZwg@mail.gmail.com>
-Message-ID: <1293a05c596d92da15bb6076d5046c93@kernel.org>
-X-Sender: mwalle@kernel.org
+Message-ID: <5eeade839ad3f71e8976965ce6cf3ed2@walle.cc>
+X-Sender: michael@walle.cc
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Tue, 28 Nov 2023 22:58:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,8 +61,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Michael Walle <mwalle@kernel.org>, tony@atomide.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
+ marijn.suijten@somainline.org, marex@denx.de, rfoss@kernel.org,
+ dave.stevenson@raspberrypi.com, jernej.skrabec@gmail.com,
+ alexander.stein@ew.tq-group.com, quic_jesszhan@quicinc.com, jonas@kwiboo.se,
+ linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com, mripard@kernel.org,
+ sean@poorly.run, neil.armstrong@linaro.org, dianders@chromium.org,
+ konrad.dybcio@linaro.org, tzimmermann@suse.de, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+
+[sorry I fat fingered my former reply and converted all CCs to BCCs..]
 
 >> >> >> > DSI device lifetime has three different stages:
 >> >> >> > 1. before the DSI link being powered up and clocking,
