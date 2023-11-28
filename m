@@ -2,63 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E907FC10D
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 19:10:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 720727FC325
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 19:29:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE12510E5A7;
-	Tue, 28 Nov 2023 18:10:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12A6A10E127;
+	Tue, 28 Nov 2023 18:29:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com
- [IPv6:2607:f8b0:4864:20::835])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5089C10E5A7
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 18:10:13 +0000 (UTC)
-Received: by mail-qt1-x835.google.com with SMTP id
- d75a77b69052e-41cd97d7272so31791421cf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 10:10:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701195012; x=1701799812; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=f2GMrLcGcuPvxGptutNWB7kt5k9GOKF04a50so4967s=;
- b=oe/sUvAITqeAWRL2Ad/H2Br7Jq34RCWg6NPHc0wYCLGfotTRUBGxFTe9ZZEYcnCSuf
- h2Gbmp8QDvEPBXPUbMbihBFbkzluU7GBCUmTyEPQgMaAG4GCLPH/IA/9sSx0X3hcxoG4
- pVf4t07X3SX8EAcJV8jV7bjVMBYKr4k9l7XGIg0a1RUHFPqDahw2qNqZmdpVNtSfD68o
- U+xajglUfqNRlZoIdTKPcCcMSgG4K/eAobzLnEy5zd7EOkmvbsuC6ZtrIA4E1tqVdAen
- nIQhMndJaYGWnGvkOi9pvfQB1BQf3DqCHbxzrbr+rQF55Zvn0nY1kZq6tZ694IzXRjdJ
- lwiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701195012; x=1701799812;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=f2GMrLcGcuPvxGptutNWB7kt5k9GOKF04a50so4967s=;
- b=PZc/uQdNC+eF5iVADVdsesXrIbnYUDUUCPih/ttficLl6GsW+9/K3xUKAY9Bx3bzSl
- YC/YXXxV6YTOJuqrMjpWlmgJmNWoh5s2t+ZXSO/7ODLnODNi1Z79P9uH6y+epnyMVreR
- KVoMPqAxpeMz0nfSJzym2GNKNitFxrbql5ysnYDCflykoLiKatBW5I8A8hUR82EUllnU
- tEWn15TNPZF7e9Nzj/cTb7wr8HYt+IseXTEIuVBBnZgdOirbNBQ5D+atLw3GNi3eUjOG
- QVIc2BxyKTnF/M7HWWZmacbQOJ3OkO+JtqepO8i3Ishr5PgzUs4MTWrdR90yAHTwuN+C
- YqzQ==
-X-Gm-Message-State: AOJu0Ywe1RZLRww+1CwP71E0G97zkIACP5D8kI6wt9I8/gExdFEmslu6
- 0Xgt66dxoJCUs6WkyMMeyM1/RQ==
-X-Google-Smtp-Source: AGHT+IEcJ1uAsb80kR1B3aJuT1IUjjgas87J8p1OJjPxsDlwIaK05wTXQ3zKeNcgXFK4baOeAFiQ6A==
-X-Received: by 2002:a0c:ec4d:0:b0:67a:3efd:d6f6 with SMTP id
- n13-20020a0cec4d000000b0067a3efdd6f6mr8466084qvq.50.1701195012288; 
- Tue, 28 Nov 2023 10:10:12 -0800 (PST)
-Received: from aspen.lan ([209.120.180.235]) by smtp.gmail.com with ESMTPSA id
- t15-20020a05621421af00b0067a4452d459sm2164807qvc.116.2023.11.28.10.10.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Nov 2023 10:10:11 -0800 (PST)
-Date: Tue, 28 Nov 2023 13:10:07 -0500
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Flavio Suligoi <f.suligoi@asem.it>
-Subject: Re: [PATCH] backlight: mp3309c: fix uninitialized local variable
-Message-ID: <20231128181007.GA4431@aspen.lan>
-References: <20231128150839.2605003-1-f.suligoi@asem.it>
+Received: from albert.telenet-ops.be (albert.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:1a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA5AB10E127
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 18:29:25 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:f4d4:eef9:4487:4eb1])
+ by albert.telenet-ops.be with bizsmtp
+ id FuVG2B00N2jytoH06uVGS7; Tue, 28 Nov 2023 19:29:23 +0100
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtp (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1r82pQ-00AHWu-6F;
+ Tue, 28 Nov 2023 19:29:16 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1r82pg-00B9ob-7K;
+ Tue, 28 Nov 2023 19:29:16 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Frank Binns <frank.binns@imgtec.com>,
+ Donald Robson <donald.robson@imgtec.com>,
+ Matt Coster <matt.coster@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sarah Walker <sarah.walker@imgtec.com>
+Subject: [PATCH] drm/imagination: DRM_POWERVR should depend on ARCH_K3
+Date: Tue, 28 Nov 2023 19:29:12 +0100
+Message-Id: <b9360c2044a1001b9a5bcb5914611711d040d4fe.1701196029.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231128150839.2605003-1-f.suligoi@asem.it>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,31 +49,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Tero Kristo <kristo@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 28, 2023 at 04:08:39PM +0100, Flavio Suligoi wrote:
-> In the function "pm3309c_parse_dt_node", when the dimming analog control
-> mode (by I2C messages) is enabled, the local variable "prop_levels" is
-> tested without any initialization, as indicated by the following smatch
-> warning (thanks to Dan Carpenter for the report):
+The Imagination Technologies PowerVR Series 6 GPU is currently only
+supported on Texas Instruments K3 AM62x SoCs.  Hence add a dependency on
+ARCH_K3, to prevent asking the user about this driver when configuring a
+kernel without Texas Instruments K3 Multicore SoC support.
 
-Good to see credit for the reporter but please use a "Reported-by:" tag
-for that. There should probably be a "Fixed:" tag too.
+Fixes: 4babef0708656c54 ("drm/imagination: Add skeleton PowerVR driver")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/gpu/drm/imagination/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/drivers/gpu/drm/imagination/Kconfig b/drivers/gpu/drm/imagination/Kconfig
+index 3bfa2ac212dccb73..af492dbd9afd4ed9 100644
+--- a/drivers/gpu/drm/imagination/Kconfig
++++ b/drivers/gpu/drm/imagination/Kconfig
+@@ -6,6 +6,7 @@ config DRM_POWERVR
+ 	depends on ARM64
+ 	depends on DRM
+ 	depends on PM
++	depends on ARCH_K3 || COMPILE_TEST
+ 	select DRM_EXEC
+ 	select DRM_GEM_SHMEM_HELPER
+ 	select DRM_SCHED
+-- 
+2.34.1
 
-> drivers/video/backlight/mp3309c.c:279 pm3309c_parse_dt_node() error: uninitialized symbol 'prop_levels'.
->
-> To avoid any problem in case of undefined behavior, we need to initialize
-> it to "NULL".
-> For consistency, I also initialize the other similar variable
-> "prop_pwms" in the same way.
-
-I don't love redundant initializations... but I can live with it ;-) .
-
-
-Daniel.
