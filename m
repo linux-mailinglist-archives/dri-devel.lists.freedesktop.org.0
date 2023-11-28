@@ -1,52 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5AC77FBE15
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 16:26:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 581437FBE3F
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 16:38:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0550110E56D;
-	Tue, 28 Nov 2023 15:25:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 770C210E08A;
+	Tue, 28 Nov 2023 15:38:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8441410E56D
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 15:25:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701185157; x=1732721157;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=d168n8zWh0HllQmMYOVdN/NLrpY/UHDXaJIOeUe2dkU=;
- b=d2I1nyYw7a2yYe6iokAJI4cu6BzkfacHpkZrt2krDG2TSzZPdHf9Ck4V
- JIbZ7QoBfZUro3tF6yFhc+86czjSLsZpedj+n1Ylo+H+pGiLSDDUjnyjE
- 4KdjvgLApcOFgzwujoh3BrL3dA6Q9O85qab/sZSzqLi/lG5Z7PCWh6tML
- phCSXNTqjY1eXXmyKNUc4CPWgYRh002Mn5BPumjwYOlXfHCIYsfW19vGN
- 0dyqsJdKuSugBet6IG/eUycaiZkyhJrRjsp35r7H+iaqwOODmJQNnpIQc
- 35BQ3ZqhhKv+Kt380H4wToZ5/wNS7iQiOTdfhlQ5eRTqkAC+NpqZxLwDq w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="377969261"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; d="scan'208";a="377969261"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2023 07:25:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="718412782"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; d="scan'208";a="718412782"
-Received: from sgruszka-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.252.59.234])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2023 07:25:55 -0800
-Date: Tue, 28 Nov 2023 16:25:52 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Karolina Stolarek <karolina.stolarek@intel.com>
-Subject: Re: [PATCH v7 3/8] drm/ttm/tests: Add tests for ttm_bo functions
-Message-ID: <ZWYGU2EynFBAqNBK@ashyti-mobl2.lan>
-References: <cover.1700207346.git.karolina.stolarek@intel.com>
- <61e723d67ebf8eaec226eea176fa19da1994a3b7.1700207346.git.karolina.stolarek@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E10F510E092
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 15:38:14 +0000 (UTC)
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id A262166072A4;
+ Tue, 28 Nov 2023 15:38:12 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1701185893;
+ bh=e3/Otsn1/ydHmK3ZLy1j3aRBbnocPdislrB6Lz/3Vdw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=UjZ0Ytd9SiIanKYDGY7MzM5P6pEnBsDiqsLMMtinBbLUiSEjJaZHAImPnbkVMb4+I
+ Bgta0s7aSFiMh4Epgvfqv8CN/cfOlir6X/quf4qa6PB5m4sCkBvkzi8D9GIreKhiBg
+ ceTQunXrTRR1YTg7kfzAMNwdBARculIARFLz/UJIZxTdOIs+nG4YoMgJRe5gVeL5d8
+ LxnegcTPmfZnp5sRXKO8nDQ23qSPCox8QKHb+m02yBJqHT7RUeKma3g+2K8NFehQqD
+ QhOpop85A4G0rzExQaC4VYRX2Xf8Ys/PdD71e2cVKzXcs4iaxTaIDtQgifKapALuq4
+ q7HlG13fxSUjQ==
+Date: Tue, 28 Nov 2023 16:38:08 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v2 3/3] drm/panfrost: Synchronize and disable interrupts
+ before powering off
+Message-ID: <20231128163808.094a8afa@collabora.com>
+In-Reply-To: <6c14d90f-f9e1-4af7-877e-f000b7fa1e08@collabora.com>
+References: <20231128124510.391007-1-angelogioacchino.delregno@collabora.com>
+ <20231128124510.391007-4-angelogioacchino.delregno@collabora.com>
+ <20231128150612.17f6a095@collabora.com>
+ <6c14d90f-f9e1-4af7-877e-f000b7fa1e08@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <61e723d67ebf8eaec226eea176fa19da1994a3b7.1700207346.git.karolina.stolarek@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,58 +57,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Amaranath Somalapuram <Amaranath.Somalapuram@amd.com>,
- Nirmoy Das <nirmoy.das@intel.com>,
- Christian =?iso-8859-15?Q?K=F6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
+ krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, kernel@collabora.com, m.szyprowski@samsung.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Karolina,
+On Tue, 28 Nov 2023 16:10:43 +0100
+AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+wrote:
 
-> +/*
-> + * A test case heavily inspired by ww_test_edeadlk_normal(). Checks
-> + * if -EDEADLK is properly propagated by ttm_bo_reserve()
-> + */
-> +static void ttm_bo_reserve_deadlock(struct kunit *test)
-> +{
-> +	struct ttm_buffer_object *bo1, *bo2;
-> +	struct ww_acquire_ctx ctx1, ctx2;
-> +	bool interruptible = false;
-> +	bool no_wait = false;
-> +	int err;
-> +
-> +	bo1 = ttm_bo_kunit_init(test, test->priv, BO_SIZE);
-> +	bo2 = ttm_bo_kunit_init(test, test->priv, BO_SIZE);
-> +
-> +	ww_acquire_init(&ctx1, &reservation_ww_class);
-> +	mutex_lock(&bo2->base.resv->lock.base);
-> +
-> +	/* The deadlock will be caught by WW mutex, don't warn about it */
-> +	lock_release(&bo2->base.resv->lock.base.dep_map, 1);
+> Il 28/11/23 15:06, Boris Brezillon ha scritto:
+> > On Tue, 28 Nov 2023 13:45:10 +0100
+> > AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> > wrote:
+> >   
+> >> To make sure that we don't unintentionally perform any unclocked and/or
+> >> unpowered R/W operation on GPU registers, before turning off clocks and
+> >> regulators we must make sure that no GPU, JOB or MMU ISR execution is
+> >> pending: doing that required to add a mechanism to synchronize the
+> >> interrupts on suspend.
+> >>
+> >> Add functions panfrost_{gpu,job,mmu}_suspend_irq() which will perform
+> >> interrupts masking and ISR execution synchronization, and then call
+> >> those in the panfrost_device_runtime_suspend() handler in the exact
+> >> sequence of job (may require mmu!) -> mmu -> gpu.
+> >>
+> >> As a side note, JOB and MMU suspend_irq functions needed some special
+> >> treatment: as their interrupt handlers will unmask interrupts, it was
+> >> necessary to add a bitmap for "is_suspending" which is used to address
+> >> the possible corner case of unintentional IRQ unmasking because of ISR
+> >> execution after a call to synchronize_irq().
+> >>
+> >> Of course, unmasking the interrupts is being done as part of the reset
+> >> happening during runtime_resume(): since we're anyway resuming all of
+> >> GPU, JOB, MMU, the only additional action is to zero out the newly
+> >> introduced `is_suspending` bitmap directly in the resume handler, as
+> >> to avoid adding panfrost_{job,mmu}_resume_irq() function just for
+> >> clearing own bits, especially because it currently makes way more sense
+> >> to just zero out the bitmap.
+> >>
+> >> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> >> ---
+> >>   drivers/gpu/drm/panfrost/panfrost_device.c |  4 ++++
+> >>   drivers/gpu/drm/panfrost/panfrost_device.h |  7 +++++++
+> >>   drivers/gpu/drm/panfrost/panfrost_gpu.c    |  7 +++++++
+> >>   drivers/gpu/drm/panfrost/panfrost_gpu.h    |  1 +
+> >>   drivers/gpu/drm/panfrost/panfrost_job.c    | 18 +++++++++++++++---
+> >>   drivers/gpu/drm/panfrost/panfrost_job.h    |  1 +
+> >>   drivers/gpu/drm/panfrost/panfrost_mmu.c    | 17 ++++++++++++++---
+> >>   drivers/gpu/drm/panfrost/panfrost_mmu.h    |  1 +
+> >>   8 files changed, 50 insertions(+), 6 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> >> index c90ad5ee34e7..ed34aa55a7da 100644
+> >> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> >> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> >> @@ -407,6 +407,7 @@ static int panfrost_device_runtime_resume(struct device *dev)
+> >>   {
+> >>   	struct panfrost_device *pfdev = dev_get_drvdata(dev);
+> >>   
+> >> +	bitmap_zero(pfdev->is_suspending, PANFROST_COMP_BIT_MAX);  
+> > 
+> > I would let each sub-block clear their bit in the reset path, since
+> > that's where the IRQs are effectively unmasked.
+> >   
+> 
+> 
+> Honestly I wouldn't like seeing that: the reason is that this is something that
+> is done *for* suspend/resume and only for that, while reset may be called out of
+> the suspend/resume handlers.
+> 
+> I find clearing the suspend bits in the HW reset path a bit confusing, especially
+> when it is possible to avoid doing it there...
 
-OK... by motidfying the lock map, you avoid lockdep to complain.
+Well, I do think it's preferable to keep the irq_is_no_longer_suspended
+state update where the interrupt is effectively unmasked. Note that
+when you do a reset, the IRQ is silently suspended just after the
+reset happens, because the xxx_INT_MASKs are restored to their default
+value, so I do consider that clearing this bit in the reset path makes
+sense.
 
-> +	bo2->base.resv->lock.ctx = &ctx2;
-> +	ctx2 = ctx1;
-> +	ctx2.stamp--; /* Make the context holding the lock younger */
-> +	err = ttm_bo_reserve(bo1, interruptible, no_wait, &ctx1);
-> +	KUNIT_ASSERT_EQ(test, err, 0);
-> +
-> +	err = ttm_bo_reserve(bo2, interruptible, no_wait, &ctx1);
-> +	KUNIT_ASSERT_EQ(test, err, -EDEADLK);
-> +
-> +	dma_resv_unlock(bo1->base.resv);
-> +	ww_acquire_fini(&ctx1);
-> +}
+> 
+> >>   	panfrost_device_reset(pfdev);
+> >>   	panfrost_devfreq_resume(pfdev);
+> >>   
+> >> @@ -421,6 +422,9 @@ static int panfrost_device_runtime_suspend(struct device *dev)
+> >>   		return -EBUSY;
+> >>   
+> >>   	panfrost_devfreq_suspend(pfdev);
+> >> +	panfrost_job_suspend_irq(pfdev);
+> >> +	panfrost_mmu_suspend_irq(pfdev);
+> >> +	panfrost_gpu_suspend_irq(pfdev);
+> >>   	panfrost_gpu_power_off(pfdev);
+> >>   
+> >>   	return 0;
+> >> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> >> index 54a8aad54259..29f89f2d3679 100644
+> >> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> >> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> >> @@ -25,6 +25,12 @@ struct panfrost_perfcnt;
+> >>   #define NUM_JOB_SLOTS 3
+> >>   #define MAX_PM_DOMAINS 5
+> >>   
+> >> +enum panfrost_drv_comp_bits {
+> >> +	PANFROST_COMP_BIT_MMU,
+> >> +	PANFROST_COMP_BIT_JOB,
+> >> +	PANFROST_COMP_BIT_MAX
+> >> +};
+> >> +
+> >>   /**
+> >>    * enum panfrost_gpu_pm - Supported kernel power management features
+> >>    * @GPU_PM_CLK_DIS:  Allow disabling clocks during system suspend
+> >> @@ -109,6 +115,7 @@ struct panfrost_device {
+> >>   
+> >>   	struct panfrost_features features;
+> >>   	const struct panfrost_compatible *comp;
+> >> +	DECLARE_BITMAP(is_suspending, PANFROST_COMP_BIT_MAX);  
+> > 
+> > nit: Maybe s/is_suspending/suspended_irqs/, given the state remains
+> > until the device is resumed.  
+> 
+> If we keep the `is_suspending` name, we can use this one more generically in
+> case we ever need to, what do you think?
 
-so... what you're doing here is swapping the lock timing and
-catch and report the deadlock... Could you please add some more
-comment to better explain the idea behind this test and its
-implementation?
-
-Anyway, looks good to me and you can add my:
-
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-
-Andi
+I'm lost. Why would we want to reserve a name for something we don't
+know about? My comment was mostly relating to the fact this bitmap
+doesn't reflect the is_suspending state, but rather is_suspended,
+because it remains set until the device is resumed. And we actually want
+it to reflect the is_suspended state, so we can catch interrupts that
+are not for us without reading regs in the hard irq handler, when the
+GPU is suspended.
