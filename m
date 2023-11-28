@@ -2,76 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B3E7FC43D
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 20:27:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECDCE7FC496
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 21:03:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7164C10E172;
-	Tue, 28 Nov 2023 19:26:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40A8B10E323;
+	Tue, 28 Nov 2023 20:03:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A119310E172
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 19:26:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1701199614;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MS3bSC/lh7WFrp63LfDhGI9l2oiNjApvavz8PpRiwhM=;
- b=Ui53o74e3cph4AxCFPNAowm/eVVtFNsaQYyqUmtwQ6A9770EGkvk7h5XydO9b4jcHG4U/V
- em2n0PPK+QnmUXklIV2UqL9aYCsi7GCqC4oDXUme64SWUDMfy+56FMMOPcajcNFlrJP1bb
- f+JTzX40Ejd4adACwMoiie5xuVqPuxA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-193-j7PLfpo-OUyHvqjxdwy7iA-1; Tue, 28 Nov 2023 14:26:53 -0500
-X-MC-Unique: j7PLfpo-OUyHvqjxdwy7iA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-40b23aef363so38174805e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 11:26:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701199612; x=1701804412;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MS3bSC/lh7WFrp63LfDhGI9l2oiNjApvavz8PpRiwhM=;
- b=sQx5a1AW4v3xqFV2g3QKQlRdcHdxePe/scA+/WCmC2KsDbhffJKjbh7R9KVtg0WZ8h
- UOA++2MJkSzXjQZImKyMfqEVsRoZm9K9KpiB2Zw6fcp5RMd66C/HApId+cngu6zJXqZ9
- CkZQbMY0rFY/WnGFgSsRM0s+ux6lIJHmD/fk7tys78yLMUUM89OBt1hlYZJkTBaPtxQX
- U28m75GOAnDEtHwiiXV4lrxSwsYDoIewCS3lBImFO3OyZuflV+GHkSQ/HCAk47GEdnFR
- /jxGJyipEOD7wfG29//EU4yMkBQja/IsUkUz76NQntJfah7hGtqLIdh+ZJNMe+GxZF/a
- aYHA==
-X-Gm-Message-State: AOJu0YyQadVEAmlNceDTbuy4ILn1JXDMKcmQwRdl3lSc23BgpdypqVLe
- 2ZkDQPCUXRauxuK/pRoem9OZR6m6cTMRJ7IkApYZZrtqEcQbm4sMVvcXGR8EH5zYnuGWmdhoJVf
- LEkher9OOgROWpPFYMqvJ4OCAHyY6
-X-Received: by 2002:a5d:698f:0:b0:333:a30:1084 with SMTP id
- g15-20020a5d698f000000b003330a301084mr2562152wru.36.1701199612456; 
- Tue, 28 Nov 2023 11:26:52 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFgXVVnlAR7W0JMvI7O0Q/Or9OcgM4j86TTiRG31fyoyYCrlzYqVF+Thl0Tirl17AB6LtZAoQ==
-X-Received: by 2002:a5d:698f:0:b0:333:a30:1084 with SMTP id
- g15-20020a5d698f000000b003330a301084mr2562142wru.36.1701199612107; 
- Tue, 28 Nov 2023 11:26:52 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- s18-20020a5d6a92000000b00332eaede976sm12668449wru.86.2023.11.28.11.26.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Nov 2023 11:26:51 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH] drm/imagination: DRM_POWERVR should depend on ARCH_K3
-In-Reply-To: <CAMuHMdUhuO++ZSxh+_TX_6DHHxjPYY20jTppbNZ4FnuBvxxinQ@mail.gmail.com>
-References: <b9360c2044a1001b9a5bcb5914611711d040d4fe.1701196029.git.geert+renesas@glider.be>
- <87o7fdbszs.fsf@minerva.mail-host-address-is-not-set>
- <CAMuHMdUhuO++ZSxh+_TX_6DHHxjPYY20jTppbNZ4FnuBvxxinQ@mail.gmail.com>
-Date: Tue, 28 Nov 2023 20:26:51 +0100
-Message-ID: <87il5lbrwk.fsf@minerva.mail-host-address-is-not-set>
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3B7810E323
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 20:03:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Subject:References:Cc:To:Message-ID:From:
+ Content-Transfer-Encoding:Content-Type:Date:MIME-Version:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=F1i1qOexnD29UNSaoUftfhPgutwj/s+He7Ab8qarSNo=; b=FJpP0NRyGZhbrOEjE5kzL2h+bS
+ FRvTd+FDTvXD4ch51QGHbDsUrBywJX/QiOQlgu9y1lr/ofjAublGXwhAmn6V4rm+hRk5RemEgzXIO
+ Ep52FEkmkQnnzRuTaMMGEJrPU6R9z/+BYhWBG87EE8xf84pkyGusCYfg5vu4rCKVrhNAgjBykq7PA
+ 14mmV4dRF3eFHLQsFfd1acfHGRtjSM+OyLPCGO45qV3sQEpKJmWt49uDoarkXht/UVQ7uEOqV74Sj
+ D4Q6xRuhyj+p2FQaJ8Sjh7fs212NwYySNiJ1rzuYjgPDZYN/xlP9LZ5eu7ApB0NfI+V0wqmj4luL9
+ tilJwk2w==;
+Received: from [2001:67c:1be8::200] (helo=rainloop.kapsi.fi)
+ by mail.kapsi.fi with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <jyri.sarha@iki.fi>) id 1r842v-005u6O-2I;
+ Tue, 28 Nov 2023 21:47:01 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Date: Tue, 28 Nov 2023 19:47:01 +0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+From: jyri.sarha@iki.fi
+Message-ID: <e27da7c3a2e19c52ada232b81fa7b8fb75c1960d@iki.fi>
+To: "=?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?="
+ <u.kleine-koenig@pengutronix.de>, "Jyri Sarha" <jyri.sarha@iki.fi>, "Tomi
+ Valkeinen" <tomi.valkeinen@ideasonboard.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>
+References: undefined
+ <20231102165640.3307820-18-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2001:67c:1be8::200
+X-SA-Exim-Mail-From: jyri.sarha@iki.fi
+X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on mail
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+ T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=4.0.0
+Subject: Re: [PATCH v3 16/16] drm/tilcdc: Convert to platform remove
+ callback returning void
+X-SA-Exim-Version: 4.2.1 (built Wed, 06 Jul 2022 17:57:39 +0000)
+X-SA-Exim-Scanned: Yes (on mail.kapsi.fi)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,82 +65,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Sarah Walker <sarah.walker@imgtec.com>,
- Tero Kristo <kristo@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Matt Coster <matt.coster@imgtec.com>, Donald Robson <donald.robson@imgtec.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org,
- Vignesh Raghavendra <vigneshr@ti.com>
+Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Geert Uytterhoeven <geert@linux-m68k.org> writes:
+November 2, 2023 at 6:56 PM, "Uwe Kleine-K=C3=B6nig" <u.kleine-koenig@pen=
+gutronix.de mailto:u.kleine-koenig@pengutronix.de?to=3D%22Uwe%20Kleine-K%=
+C3%B6nig%22%20%3Cu.kleine-koenig%40pengutronix.de%3E > wrote:
 
-> Hi Javier,
->
-> On Tue, Nov 28, 2023 at 8:03=E2=80=AFPM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
->> Geert Uytterhoeven <geert+renesas@glider.be> writes:
->> > The Imagination Technologies PowerVR Series 6 GPU is currently only
->> > supported on Texas Instruments K3 AM62x SoCs.  Hence add a dependency =
-on
->> > ARCH_K3, to prevent asking the user about this driver when configuring=
- a
->> > kernel without Texas Instruments K3 Multicore SoC support.
->> >
->> > Fixes: 4babef0708656c54 ("drm/imagination: Add skeleton PowerVR driver=
-")
->> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->> > ---
->>
->> Indeed. Although I wonder what is the supposed policy since for example
->> the DRM_PANFROST symbol only depends on ARM || ARM64 and others such as
->
-> I think ARM Mali is sufficiently ubiquitous on ARM/ARM64 systems to
-> have just an ARM/ARM64 dependency...
->
+>=20
+>=20The .remove() callback for a platform driver returns an int which mak=
+es
+> many driver authors wrongly assume it's possible to do error handling b=
+y
+> returning an error code. However the value returned is (mostly) ignored
+> and this typically results in resource leaks. To improve here there is =
+a
+> quest to make the remove callback return void. In the first step of thi=
+s
+> quest all drivers are converted to .remove_new() which already returns
+> void.
+>=20
+>=20There is one error path in tilcdc_pdev_remove() that potentially coul=
+d
+> yield a non-zero return code. In this case an error message describing
+> the failure is emitted now instead of
+>=20
+>=20 remove callback returned a non-zero value. This will be ignored.
+>=20
+>=20before. Otherwise there is no difference. Also note that currently
+> tilcdc_get_external_components() doesn't return negative values.
+>=20
+>=20Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-Fair.
+Applied this on top of drm-misc-next, dug up my good old Beaglebone-Black=
+,and tested that everything still works, so:
 
->> DRM_ETNAVIV don't even have an SoC or architecture dependency.
->
-> Vivante GPUs are found in DTS files on at least 4 architectures.
-> Might be worthwhile to add some dependencies, though...
->
+Tested-by: Jyri Sarha <jyri.sarha@iki.fi>
 
-Yeah, that's what I was thinking.
+I'll apply this shortly to drm-misc-next.
 
->> In any case, I agree with you that restricting to only K3 makes sense.
->
-> I am looking forward to adding || SOC_AM33XX || ARCH_RENESAS || ...,
-> eventually ;-)
->
-
-Same! :)
-
->> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->
-> Thanks!
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --=20
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
->
-
---=20
 Best regards,
+Jyri
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+> ---
+> drivers/gpu/drm/tilcdc/tilcdc_drv.c | 9 ++++-----
+> 1 file changed, 4 insertions(+), 5 deletions(-)
+>=20
+>=20diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/ti=
+lcdc/tilcdc_drv.c
+> index 8ebd7134ee21..137cd9f62e9f 100644
+> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> @@ -570,19 +570,18 @@ static int tilcdc_pdev_probe(struct platform_devi=
+ce *pdev)
+>  match);
+> }
+>=20
+>=20-static int tilcdc_pdev_remove(struct platform_device *pdev)
+> +static void tilcdc_pdev_remove(struct platform_device *pdev)
+> {
+>  int ret;
+>=20
+>=20 ret =3D tilcdc_get_external_components(&pdev->dev, NULL);
+>  if (ret < 0)
+> - return ret;
+> + dev_err(&pdev->dev, "tilcdc_get_external_components() failed (%pe)\n"=
+,
+> + ERR_PTR(ret));
+>  else if (ret =3D=3D 0)
+>  tilcdc_fini(platform_get_drvdata(pdev));
+>  else
+>  component_master_del(&pdev->dev, &tilcdc_comp_ops);
+> -
+> - return 0;
+> }
+>=20
+>=20static void tilcdc_pdev_shutdown(struct platform_device *pdev)
+> @@ -599,7 +598,7 @@ MODULE_DEVICE_TABLE(of, tilcdc_of_match);
+>=20
+>=20static struct platform_driver tilcdc_platform_driver =3D {
+>  .probe =3D tilcdc_pdev_probe,
+> - .remove =3D tilcdc_pdev_remove,
+> + .remove_new =3D tilcdc_pdev_remove,
+>  .shutdown =3D tilcdc_pdev_shutdown,
+>  .driver =3D {
+>  .name =3D "tilcdc",
+> --=20
+>=202.42.0
+>
