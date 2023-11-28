@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B23367FB79B
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 11:26:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B49977FB7A3
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 11:27:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50ECD10E49B;
-	Tue, 28 Nov 2023 10:26:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EB6210E4AF;
+	Tue, 28 Nov 2023 10:27:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05A1910E49B
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 10:26:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F6D810E49C
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 10:26:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 07691CE193B;
- Tue, 28 Nov 2023 10:26:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9340C433CA;
- Tue, 28 Nov 2023 10:26:18 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 4753FCE1AD1;
+ Tue, 28 Nov 2023 10:26:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FD74C433C9;
+ Tue, 28 Nov 2023 10:26:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701167179;
- bh=c0jADGC6TjAEj2UIRZa0xYYM+pIDgthxehFYDaZ1tpk=;
+ s=k20201202; t=1701167181;
+ bh=jSpZuOH1RdsM4aSPqCaZdH7lflfIrdCTw/BW9GZsfMs=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=IIEdA55PNmhCheulDzBMd2sY6UaWH7VjNyg5ce7UwwH0X9L9VdnXWHHAODiBPFyLO
- qMUxJ0DUGEUD9vX1+sGre4jRZniTk+fzgdmApQDW1kLlFsxZG9hwymMhAzkzc4SxfE
- QMk3EQhKZk73AZWIkdOphc2M4xofwU/uLie2TRr4/XBkzc93NcOKDM/y4PkN6b5pF+
- TUCG4htx7qsmv7ooxbO6Hawcb3NmoKmdc9J0STAv1RA4qc85xMnnAWiivG5V6NOVht
- UIsdMgntR5Nxkryl9bS3dD+Qv/Caggty0KnB3pJWTr0vh3QIt7bnJmbDN8CSJENvoA
- Jev6I47PRoEWg==
+ b=LD9odYMb8xkmfFHtuzo7/Atp+jNyi9GjjKUwj41qzOJOGo8Bs/YVw6j/ycHdLbyMY
+ AxgmB+N75LHNGLOKmGors6DAbmH4678IrE5oJduYyx5Vb7zTRsoqbo/Pbr1X0Tm/Ri
+ zmLdWL/+3+36z81zuGZ6YMgXheXJ+RwAOx9RD9fo9YWqZKaE6WOU6S95B0UpBC45/9
+ tcjm0cPSZm6KC7OZCVjiczXqKRN0BgjXcU/yvqdaNa4zCEhVpwkHkTwpBRyrMyOWtO
+ 2omU4qypbjs5GgG0I81R9ZdilOJ4thWeeAzOU7WY4wqXJvvvfQFCBdWD3OghIAfUlw
+ 5cous/EkXlEmg==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 28 Nov 2023 11:24:52 +0100
-Subject: [PATCH v4 41/45] drm/sun4i: hdmi: Convert encoder to atomic
+Date: Tue, 28 Nov 2023 11:24:53 +0100
+Subject: [PATCH v4 42/45] drm/sun4i: hdmi: Move mode_set into enable
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231128-kms-hdmi-connector-state-v4-41-c7602158306e@kernel.org>
+Message-Id: <20231128-kms-hdmi-connector-state-v4-42-c7602158306e@kernel.org>
 References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
 In-Reply-To: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -44,12 +44,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Samuel Holland <samuel@sholland.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2311; i=mripard@kernel.org;
- h=from:subject:message-id; bh=c0jADGC6TjAEj2UIRZa0xYYM+pIDgthxehFYDaZ1tpk=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmp+y87KHwJErVqbnpsNFWhyERp+zTliKxwkXu/NxxrL
- NRlUpDqKGVhEONikBVTZIkRNl8Sd2rW6042vnkwc1iZQIYwcHEKwETOZzP8z77gc+b6/Lx2K1Ob
- Jb5rWZs2/v55TH3KG6aQf/dWR3JM52b4p+BzXP9golbWhKMH7zX0Tn7q9v6yj83s9ly9J5nzdLj
- n8QMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2808; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=jSpZuOH1RdsM4aSPqCaZdH7lflfIrdCTw/BW9GZsfMs=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmp+y8/NdksrL1KXD5lh++zKCaTEPESUdGL5ztF5z2fI
+ reUa9LljlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEzkHgcjw8ewjfb3Pzp1pZmz
+ 9h7nrHr3Y8medWFiu1885rU2bTcW82BkaE2LY1Ro+aRocH2ZfzbT+8PM6g0ymX4fl8zhOmDUMte
+ OGQA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,61 +72,78 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The sun4i_hdmi driver still uses the non-atomic variants of the encoder
-hooks, so let's convert to their atomic equivalents.
+We're not doing anything special in atomic_mode_set so we can simply
+merge it into atomic_enable.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 38 +++++++++++++---------------------
+ 1 file changed, 14 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index 152375f3de2e..799a26215cc2 100644
+index 799a26215cc2..bae69d696765 100644
 --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
 +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -82,7 +82,8 @@ static int sun4i_hdmi_atomic_check(struct drm_encoder *encoder,
- 	return 0;
- }
- 
--static void sun4i_hdmi_disable(struct drm_encoder *encoder)
-+static void sun4i_hdmi_disable(struct drm_encoder *encoder,
-+			       struct drm_atomic_state *state)
- {
- 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
- 	u32 val;
-@@ -96,7 +97,8 @@ static void sun4i_hdmi_disable(struct drm_encoder *encoder)
- 	clk_disable_unprepare(hdmi->tmds_clk);
- }
- 
--static void sun4i_hdmi_enable(struct drm_encoder *encoder)
-+static void sun4i_hdmi_enable(struct drm_encoder *encoder,
-+			      struct drm_atomic_state *state)
- {
+@@ -103,33 +103,11 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
  	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
  	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
-@@ -120,9 +122,10 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder)
+ 	struct drm_display_info *display = &hdmi->connector.display_info;
++	unsigned int x, y;
+ 	u32 val = 0;
+ 
+ 	DRM_DEBUG_DRIVER("Enabling the HDMI Output\n");
+ 
+-	clk_prepare_enable(hdmi->tmds_clk);
+-
+-	sun4i_hdmi_setup_avi_infoframes(hdmi, mode);
+-	val |= SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
+-	val |= SUN4I_HDMI_PKT_CTRL_TYPE(1, SUN4I_HDMI_PKT_END);
+-	writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
+-
+-	val = SUN4I_HDMI_VID_CTRL_ENABLE;
+-	if (display->is_hdmi)
+-		val |= SUN4I_HDMI_VID_CTRL_HDMI_MODE;
+-
+-	writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
+-}
+-
+-static void sun4i_hdmi_mode_set(struct drm_encoder *encoder,
+-				struct drm_crtc_state *crtc_state,
+-				struct drm_connector_state *conn_state)
+-{
+-	const struct drm_display_mode *mode = &crtc_state->mode;
+-	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
+-	unsigned int x, y;
+-	u32 val;
+-
+ 	clk_set_rate(hdmi->mod_clk, mode->crtc_clock * 1000);
+ 	clk_set_rate(hdmi->tmds_clk, mode->crtc_clock * 1000);
+ 
+@@ -181,6 +159,19 @@ static void sun4i_hdmi_mode_set(struct drm_encoder *encoder,
+ 		val |= SUN4I_HDMI_VID_TIMING_POL_VSYNC;
+ 
+ 	writel(val, hdmi->base + SUN4I_HDMI_VID_TIMING_POL_REG);
++
++	clk_prepare_enable(hdmi->tmds_clk);
++
++	sun4i_hdmi_setup_avi_infoframes(hdmi, mode);
++	val |= SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
++	val |= SUN4I_HDMI_PKT_CTRL_TYPE(1, SUN4I_HDMI_PKT_END);
++	writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
++
++	val = SUN4I_HDMI_VID_CTRL_ENABLE;
++	if (display->is_hdmi)
++		val |= SUN4I_HDMI_VID_CTRL_HDMI_MODE;
++
++	writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
  }
  
- static void sun4i_hdmi_mode_set(struct drm_encoder *encoder,
--				struct drm_display_mode *mode,
--				struct drm_display_mode *adjusted_mode)
-+				struct drm_crtc_state *crtc_state,
-+				struct drm_connector_state *conn_state)
- {
-+	const struct drm_display_mode *mode = &crtc_state->mode;
- 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
- 	unsigned int x, y;
- 	u32 val;
-@@ -201,9 +204,9 @@ static enum drm_mode_status sun4i_hdmi_mode_valid(struct drm_encoder *encoder,
- 
- static const struct drm_encoder_helper_funcs sun4i_hdmi_helper_funcs = {
+ static enum drm_mode_status sun4i_hdmi_mode_valid(struct drm_encoder *encoder,
+@@ -206,7 +197,6 @@ static const struct drm_encoder_helper_funcs sun4i_hdmi_helper_funcs = {
  	.atomic_check	= sun4i_hdmi_atomic_check,
--	.disable	= sun4i_hdmi_disable,
--	.enable		= sun4i_hdmi_enable,
--	.mode_set	= sun4i_hdmi_mode_set,
-+	.atomic_disable	= sun4i_hdmi_disable,
-+	.atomic_enable	= sun4i_hdmi_enable,
-+	.atomic_mode_set	= sun4i_hdmi_mode_set,
+ 	.atomic_disable	= sun4i_hdmi_disable,
+ 	.atomic_enable	= sun4i_hdmi_enable,
+-	.atomic_mode_set	= sun4i_hdmi_mode_set,
  	.mode_valid	= sun4i_hdmi_mode_valid,
  };
  
