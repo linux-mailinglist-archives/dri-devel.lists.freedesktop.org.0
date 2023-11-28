@@ -2,68 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3100A7FB0AC
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 04:47:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77D067FB0C6
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 05:01:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA7B10E41D;
-	Tue, 28 Nov 2023 03:47:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD92A10E41F;
+	Tue, 28 Nov 2023 04:01:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0674210E41D
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 03:47:29 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id
- 5614622812f47-3b85c88710eso1709484b6e.3
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Nov 2023 19:47:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1701143248; x=1701748048;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=GVpyKgOAQAjrhknJpFAGo50iMbjyJYlCx/CCVK+Isf8=;
- b=G2w87gRxe6cAv3IcYclbW9R4aP3qBlq8Ppu8ceCUq845HVOKe1v/4NPInMW4E3kL6m
- EiwEASuapy7RPXEypX3AzeFDZsVtCgPQn/fL3NWtw4V8NhqhTmDs9uUyV4C7NduWtZKh
- C1SdLYlWN0cqLVxPmD4orUz9qLkpd7aeP60M4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701143248; x=1701748048;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GVpyKgOAQAjrhknJpFAGo50iMbjyJYlCx/CCVK+Isf8=;
- b=upDIVWsWop49nEcyXMslAKHIkCgG7IIVEPplIk3bHluCRsIPpx/NEBlrr9mA8S42sX
- M12OaL0TZ7g/wzBqbC2f9tdCQJE0GVb8Q5DSliyT1hAlzhwUOWU97jztSeVhBg2nDjn5
- ceny1XTNJeexzTcBOfET6Uvs8JUFrDbHTmfOZ1YXudAc2BD6aLWAFZUwcvm+xF/k9Gbz
- HKjvreiXGuffXtZq3M4DkB6fA6rCVnA52obB9sp/1Pt5Noo6ALw6OedNwcLXfoZw/32J
- LY8EvAFwrZYNepAHhG126q1Y6fYY6S0VrqBaOlyIHne4Y4RA1RjCO6H3qaa3VXS1MkbK
- T1nQ==
-X-Gm-Message-State: AOJu0YyEG3tEohRmlChRriOe9nVvOMSgiVwGZ7jUjl+m3OwdTdXniXAi
- OzSRrPEP27hTpG5rm9cxQgItVQ==
-X-Google-Smtp-Source: AGHT+IEBjnPiJn6iWJLu7YX98L4ojQv3g8KXQa8fjJb4ZSIU2ly5q9i5nliKZY6K4o7RjmpmG+uNzQ==
-X-Received: by 2002:a05:6358:724c:b0:16d:fb29:d78 with SMTP id
- i12-20020a056358724c00b0016dfb290d78mr13055265rwa.2.1701143248083; 
- Mon, 27 Nov 2023 19:47:28 -0800 (PST)
-Received: from google.com (193.132.150.34.bc.googleusercontent.com.
- [34.150.132.193]) by smtp.gmail.com with ESMTPSA id
- q2-20020ac84502000000b00423829b6d91sm4242296qtn.8.2023.11.27.19.47.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Nov 2023 19:47:27 -0800 (PST)
-Date: Tue, 28 Nov 2023 03:47:26 +0000
-From: Paz Zcharya <pazz@chromium.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/display: Fix phys_base to be
- relative not absolute
-Message-ID: <ZWVizpRkf5iJ2LnQ@google.com>
-References: <20231105172718.18673-1-pazz@chromium.org>
- <ZVQ3d8FFqxsy0OX7@intel.com> <ZVfw3ghfBLdHB7uk@google.com>
- <8dd6f4da-dcc9-4ea3-8395-bf048b0dbc93@intel.com>
- <6f08cfee-a60b-4f6e-b69a-20517c563259@intel.com>
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 184FF10E41F
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 04:01:07 +0000 (UTC)
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20231128040105epoutp037973fa41f7cb5a192ea9098a25dc22b2~brYPIfryy0838208382epoutp03X
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 04:01:05 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20231128040105epoutp037973fa41f7cb5a192ea9098a25dc22b2~brYPIfryy0838208382epoutp03X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1701144065;
+ bh=2CQYwk/nE4R4mCEWJnb86tuvgXui34+hbqn83BIQbPM=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=tZfn8sKTTNdJsSSQzo2kmX577Yq4ObNABQbEON1wmssJfqHxx9Kf5tI+D1flVMQU/
+ DBmnc/nfX2ppro6705U7G6U4xza5lJ7RUrOBZMXu0s3UW5O4jTHMOrlHJagAJoJhRl
+ RFaYxTNKApRgtyAGGE1NrdDLHtaZ6n+hRnt2WFr8=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+ epcas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20231128040105epcas1p1f556c2b934dd3d0a87fab4c3b615f7c0~brYOy5DOr3269032690epcas1p1v;
+ Tue, 28 Nov 2023 04:01:05 +0000 (GMT)
+Received: from epsmgec1p1.samsung.com (unknown [182.195.36.134]) by
+ epsnrtp4.localdomain (Postfix) with ESMTP id 4SfTJw3CzDz4x9Q2; Tue, 28 Nov
+ 2023 04:01:04 +0000 (GMT)
+Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
+ epsmgec1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+ C4.9A.09731.DF565656; Tue, 28 Nov 2023 13:01:01 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20231128040101epcas1p2d3be87354205dd7b1156cdff58ab9a96~brYLC6yCc1194511945epcas1p20;
+ Tue, 28 Nov 2023 04:01:01 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20231128040101epsmtrp1185867be1011386faa25e6e9428d6cf1~brYLCTHb_0296102961epsmtrp11;
+ Tue, 28 Nov 2023 04:01:01 +0000 (GMT)
+X-AuditID: b6c32a36-cebfd70000002603-e6-656565fd19bd
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ A2.B7.08817.DF565656; Tue, 28 Nov 2023 13:01:01 +0900 (KST)
+Received: from localhost.localdomain (unknown [10.113.221.211]) by
+ epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20231128040100epsmtip17de68f9fd579a11f5936edb94885c925~brYJ6fYHA3234432344epsmtip1z;
+ Tue, 28 Nov 2023 04:00:59 +0000 (GMT)
+From: Inki Dae <inki.dae@samsung.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/exynos: fix a wrong error checking
+Date: Tue, 28 Nov 2023 13:00:58 +0900
+Message-Id: <20231128040058.1825205-1-inki.dae@samsung.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6f08cfee-a60b-4f6e-b69a-20517c563259@intel.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrEKsWRmVeSWpSXmKPExsWy7bCmge7f1NRUg9+X9S2ufH3PZjHp/gQW
+ ixnn9zE5MHvc7z7O5NG3ZRWjx+dNcgHMUdk2GamJKalFCql5yfkpmXnptkrewfHO8aZmBoa6
+ hpYW5koKeYm5qbZKLj4Bum6ZOUCLlBTKEnNKgUIBicXFSvp2NkX5pSWpChn5xSW2SqkFKTkF
+ pgV6xYm5xaV56Xp5qSVWhgYGRqZAhQnZGe8+nWMs+MVTcf/ZOeYGxldcXYwcHBICJhL/lnt1
+ MXJyCAnsYJRYeNaui5ELyP7EKLF7QRMLhPONUaLt7z9WkCqQhnWHPjNDJPYySkzrmwTlfGGU
+ OPFtBjtIFZuAqsTEFffZQGwRAWWJvxNXMYLYzAJuEotPL2cBsYUFrCT2bt8OZrMA1W+7OQes
+ nlfAWmLL6mfsENvkJWZe+s4OEReUODnzCQvEHHmJ5q2zwRZLCCxil1iwtoUZosFFYsvbzWwQ
+ trDEq+NboAZJSbzsb2OHaJjMKHHn+goWCGcGo8Thn9cZIaqMJfYvncwEChlmAU2J9bv0IcKK
+ Ejt/z4X6gE/i3dceVkjg8Up0tAlBlChJHLt4A2qKhMSFJROhbvCQeHbtKhskgGMlzp7rZ5vA
+ KD8LyT+zkPwzC2HxAkbmVYxiqQXFuempxYYFRvBYTc7P3cQITmxaZjsYJ739oHeIkYmD8RCj
+ BAezkgiv3sfkVCHelMTKqtSi/Pii0pzU4kOMpsAQnsgsJZqcD0yteSXxhiaWBiZmRsYmFoZm
+ hkrivHMe96YICaQnlqRmp6YWpBbB9DFxcEo1MPGcmbCu9Y8bn9uOH7xN7uzG1yYd3Tf56E31
+ a59VTA/lTjTS5mT/+TlHu2KbeYtx7J7H5YrnEi5oCncmOj+MerDpHwvT24vKTpMSX026UsWl
+ fPm3/9yGmWkXDHQ/3Cv8V5HQ067v62Azb29ml5i5p63kNGFmjs5LbG/3XH/xNEpvL5994P3g
+ DTd/Vdz1dn723/L3e5+U4pTDlqr1DBoLJvBNK9N5tOBt74OpP2v/VzS7cu6MmHx23z7xPU9t
+ Q7bXlr3pfav507J6FWO48wmrtFNz4+Lkt9Wue9e43f1Nwv4JTQ91HVJvnvqed+BYo9p/i/UB
+ 0zZk/X4JjJJXG25vZf2sOHX3Bw2hfImj7IwsYkosxRmJhlrMRcWJAAnlAaf1AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnluLIzCtJLcpLzFFi42LZdlhJTvdvamqqwcsFIhZXvr5ns5h0fwKL
+ xYzz+5gcmD3udx9n8ujbsorR4/MmuQDmKC6blNSczLLUIn27BK6Md5/OMRb84qm4/+wccwPj
+ K64uRk4OCQETiXWHPjN3MXJxCAnsZpS4tfowUxcjB1BCQmLLVg4IU1ji8OFiiJJPjBI7N1xl
+ BullE1CVmLjiPhuILSKgLPF34ipGEJtZwEPi1KufYDXCAlYSe7dvZwGxWYDqt92cA1bPK2At
+ sWX1M3aIG+QlZl76zg4RF5Q4OfMJC8QceYnmrbOZJzDyzUKSmoUktYCRaRWjZGpBcW56brFh
+ gVFearlecWJucWleul5yfu4mRnCYaWntYNyz6oPeIUYmDsZDjBIczEoivHofk1OFeFMSK6tS
+ i/Lji0pzUosPMUpzsCiJ83573ZsiJJCeWJKanZpakFoEk2Xi4JRqYDovannU+azQvR2Pjkpx
+ 6tlYOXR/XR+0uuxLurjaXqnWF37iy+apzT2u9+2OrUN5mPqH2T94ZnqyNaj8i+/r2vOirVJw
+ VnYnz8HXB/0LIn6YfQzLOiDl6350a+tbnqCVDpzzXhT0zqqICXr/f27/S7cdMenrPMt2vvb9
+ VHpZ+LroPuHbKlHlrx2TV5+52bK4uy9v+/afeRMmJQnd39v+PKMg+MrDM18d3Y9mPVbXUnL0
+ 8fs5tTVIkp2xK8o+d3PjuYnPd3/Puhpzam75uq2Ndzglj9a7bxT48/xhS4doaUhjoahd5LfV
+ WQzsAhv+y/Qsb6t/3KB9uMdFQ93/EePNDdc7uTIOrfuwI3euuIXXOSWW4oxEQy3mouJEAGu8
+ fv6iAgAA
+X-CMS-MailID: 20231128040101epcas1p2d3be87354205dd7b1156cdff58ab9a96
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231128040101epcas1p2d3be87354205dd7b1156cdff58ab9a96
+References: <CGME20231128040101epcas1p2d3be87354205dd7b1156cdff58ab9a96@epcas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,73 +110,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Subrata Banik <subratabanik@google.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, intel-gfx@lists.freedesktop.org,
- Marcin Wojtas <mwojtas@chromium.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
- matthew.auld@intel.com, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Drew Davenport <ddavenport@chromium.org>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: linux-samsung-soc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Fix a wrong error checking in exynos_drm_dma.c module.
 
-On Mon, Nov 27, 2023 at 8:20 PM Paz Zcharya <pazz@chromium.org> wrote:
->
-> On 21.11.2023 13:06, Andrzej Hajda wrote:
-> > On 18.11.2023 00:01, Paz Zcharya wrote:
-> > > On Tue, Nov 14, 2023 at 10:13:59PM -0500, Rodrigo Vivi wrote:
-> > > > On Sun, Nov 05, 2023 at 05:27:03PM +0000, Paz Zcharya wrote:
-> > >
-> > > Hi Rodrigo, thanks for the great comments.
-> > >
-> > > Apologies for using a wrong/confusing terminology. I think 'phys_base'
-> > > is supposed to be the offset in the GEM BO, where base (or
-> > > "Surface Base Address") is supposed to be the GTT offset.
-> >
-> > Since base is taken from PLANE_SURF register it should be resolvable via
-> > GGTT to physical address pointing to actual framebuffer.
-> > I couldn't find anything in the specs.
->
-> It was quite cryptic. I meant I have not found anything about assumption
-> from commit history that for iGPU there should be 1:1 mapping, this is why
-> there was an assignment "phys_base = base". Possibly the assumption is not
-> valid anymore for MTL(?).
-> Without the assumption we need to check GGTT to determine phys address.
->
-> > The simplest approach would be then do the same as in case of DGFX:
-> >          gen8_pte_t __iomem *gte = to_gt(i915)->ggtt->gsm;
-> >          gen8_pte_t pte;
-> >
-> >          gte += base / I915_GTT_PAGE_SIZE;
-> >
-> >          pte = ioread64(gte);
-> >          phys_base = pte & I915_GTT_PAGE_MASK;
-> >
-> > Regards
-> > Andrzej
+In the exynos_drm_register_dma function, both arm_iommu_create_mapping()
+and iommu_get_domain_for_dev() functions are expected to return NULL as
+an error.
 
-Hey Andrzej,
+However, the error checking is performed using the statement
+if(IS_ERR(mapping)), which doesn't provide a suitable error value.
+So check if 'mapping' is NULL, and if it is, return -ENODEV.
 
-On a second thought, what do you think about something like
+This issue[1] was reported by Dan.
 
-+               gen8_pte_t __iomem *gte = to_gt(i915)->ggtt->gsm;
-+               gen8_pte_t pte;
-+               gte += base / I915_GTT_PAGE_SIZE;
-+               pte = ioread64(gte);
-+               pte = pte & I915_GTT_PAGE_MASK;
-+               phys_base = pte - i915->mm.stolen_region->region.start;
+Changelog v1:
+- fix build warning.
 
-The only difference is the last line.
+[1] https://lore.kernel.org/all/33e52277-1349-472b-a55b-ab5c3462bfcf@moroto.mountain/
 
-Based on what I wrote before, I think `phys_base` is named incorrectly and
-that it does not reflect the physical address, but the start offset of
-i915->mm.stolen_region. So if we offset the start value of the stolen
-region, this code looks correct to me (and it also works on my
-MeteorLake device).
+Reported-by : Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Inki Dae <inki.dae@samsung.com>
+---
+ drivers/gpu/drm/exynos/exynos_drm_dma.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-What do you think?
-
-
-Many thanks,
-Paz
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_dma.c b/drivers/gpu/drm/exynos/exynos_drm_dma.c
+index a971590b8132..e2c7373f20c6 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_dma.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_dma.c
+@@ -107,18 +107,16 @@ int exynos_drm_register_dma(struct drm_device *drm, struct device *dev,
+ 		return 0;
+ 
+ 	if (!priv->mapping) {
+-		void *mapping;
++		void *mapping = NULL;
+ 
+ 		if (IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU))
+ 			mapping = arm_iommu_create_mapping(&platform_bus_type,
+ 				EXYNOS_DEV_ADDR_START, EXYNOS_DEV_ADDR_SIZE);
+ 		else if (IS_ENABLED(CONFIG_IOMMU_DMA))
+ 			mapping = iommu_get_domain_for_dev(priv->dma_dev);
+-		else
+-			mapping = ERR_PTR(-ENODEV);
+ 
+-		if (IS_ERR(mapping))
+-			return PTR_ERR(mapping);
++		if (!mapping)
++			return -ENODEV;
+ 		priv->mapping = mapping;
+ 	}
+ 
+-- 
+2.25.1
 
