@@ -2,53 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 591117FBE8A
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 16:52:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3913D7FBE92
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 16:52:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40E6710E57C;
-	Tue, 28 Nov 2023 15:52:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72F2610E57E;
+	Tue, 28 Nov 2023 15:52:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6420610E57C;
- Tue, 28 Nov 2023 15:52:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701186723; x=1732722723;
- h=message-id:subject:from:to:cc:in-reply-to:references:
- content-transfer-encoding:mime-version:date;
- bh=G6WuKwckF5V3NRC/1N7CGXl15yQ58N1giIylX483ywI=;
- b=C3e341XCyrYHEtGowdrHkyYfnNf6eMxjH7b3chqjHiRDd5ozaVWexk7C
- vY0VZJ8qXTCdfkDCdoFuytaWZzEBvREbZ08JBFm5q+UvLj24uDRD2gNuf
- yhva0NNnRSWCeNvN1EagP2249FOyL7JVH8BltesWQ64mk3MKHMLEDLts8
- MT7qpozJJDNsXYjLM6XCzPmPuSpMkuiAXu9iiNNfoyBDQoqIAiwRkb3ff
- p+0pD9RBrt7k6770hKJwlK6cLmTuG2ipM3JaTp5Or1jRZNI9UNEGzt8F0
- CvJKHV4YngTZf7YetucSxUCSlcw9KmWOkJyN3LiuwXy29PdJMkvkKw9Y/ Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="372323269"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; d="scan'208";a="372323269"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2023 07:51:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="802983212"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; d="scan'208";a="802983212"
-Received: from lapeders-mobl1.ger.corp.intel.com (HELO [10.249.254.81])
- ([10.249.254.81])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2023 07:51:49 -0800
-Message-ID: <03712311650b5fcf7162309f13a18dbd240e8a9f.camel@linux.intel.com>
-Subject: Re: [Intel-xe] [PATCH v5] Documentation/gpu: VM_BIND locking document
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-In-Reply-To: <ZWTvohD9rTx9aAWa@intel.com>
-References: <20231121104046.3201-1-thomas.hellstrom@linux.intel.com>
- <ZWTvohD9rTx9aAWa@intel.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
+ [209.85.210.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EB9410E57F
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 15:52:24 +0000 (UTC)
+Received: by mail-ot1-f52.google.com with SMTP id
+ 46e09a7af769-6ce2fc858feso3137240a34.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 07:52:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701186744; x=1701791544;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NpwcFU+v81rNX9yOoWEAEytDSoMoPOtVuaO4Q23AamM=;
+ b=RNnMGCVWVSdv2Cn9bKpz3G7bCBFwejqawaGDZuQsGsnQvhHzsCxVE9zqOvSLU15SVF
+ Jk/euXGFpK/JLJpDmMANX9SxNHq6thE3by/eFK5rMmGarPTzGfUg5b81SPVi3pCCaW7A
+ dMcQNZer1kUcXxuqCeD094CfTD1W6hza0euKecHhVtGmY8/NSUi/6UOneJnB/erL3K3C
+ Ct09XeTc4zXvjsGjlCJwg1njB00EC+eVsq8i1VqpwcG5z63Ex+4TtNsmcbkNTWvGx+cF
+ D7H+X1K0heqYc/EGE+49DM+JQeInr5v5vesWvHSZhJy5Cs7HC9Qu5W0+ln/Xzhe9Cgbc
+ uw/A==
+X-Gm-Message-State: AOJu0Yw72ywXCjx9WroxBeVFY1/j6oKQ7d6Wmy1QrHCxPujp96TpO6Xf
+ 6OGnmB84euPpZzw4Zmy7ag==
+X-Google-Smtp-Source: AGHT+IGOObQFuIpAGX2qh0tH048w+P8whX0JpMfwqHCw3+gilpnx0P4tozSWhUirRDG3Lyt6B3Q1jA==
+X-Received: by 2002:a05:6871:453:b0:1f4:dd99:b07 with SMTP id
+ e19-20020a056871045300b001f4dd990b07mr17030773oag.49.1701186744081; 
+ Tue, 28 Nov 2023 07:52:24 -0800 (PST)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ js4-20020a056870bac400b001fa3757b80esm1517332oab.5.2023.11.28.07.52.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Nov 2023 07:52:23 -0800 (PST)
+Received: (nullmailer pid 3332019 invoked by uid 1000);
+ Tue, 28 Nov 2023 15:52:22 -0000
+Date: Tue, 28 Nov 2023 09:52:22 -0600
+From: Rob Herring <robh@kernel.org>
+To: Shengyang Chen <shengyang.chen@starfivetech.com>
+Subject: Re: [PATCH v1 1/2] dt-bindings: display: bridge: cdns: Add
+ properties to support StarFive JH7110 SoC
+Message-ID: <20231128155222.GA3319844-robh@kernel.org>
+References: <20231127113436.57361-1-shengyang.chen@starfivetech.com>
+ <20231127113436.57361-2-shengyang.chen@starfivetech.com>
 MIME-Version: 1.0
-Date: Tue, 28 Nov 2023 16:51:25 +0100
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231127113436.57361-2-shengyang.chen@starfivetech.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,77 +65,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, Francois Dugast <francois.dugast@intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Danilo Krummrich <dakr@redhat.com>, intel-xe@lists.freedesktop.org
+Cc: andrzej.hajda@intel.com, tomi.valkeinen@ideasonboard.com,
+ dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com,
+ krzysztof.kozlowski+dt@linaro.org, r-ravikumar@ti.com, rfoss@kernel.org,
+ jernej.skrabec@gmail.com, u.kleine-koenig@pengutronix.de,
+ devicetree@vger.kernel.org, conor+dt@kernel.org, jonas@kwiboo.se,
+ mripard@kernel.org, neil.armstrong@linaro.org, keith.zhao@starfivetech.com,
+ bbrezillon@kernel.org, rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+ jack.zhu@starfivetech.com, tzimmermann@suse.de,
+ changhuang.liang@starfivetech.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2023-11-27 at 14:36 -0500, Rodrigo Vivi wrote:
-> On Tue, Nov 21, 2023 at 11:40:46AM +0100, Thomas Hellstr=C3=B6m wrote:
-> > Add the first version of the VM_BIND locking document which is
-> > intended to be part of the xe driver upstreaming agreement.
-> >=20
-> > The document describes and discuss the locking used during exec-
-> > functions, evicton and for userptr gpu-vmas. Intention is to be
-> > using the
-> > same nomenclature as the drm-vm-bind-async.rst.
-> >=20
-> > v2:
-> > - s/gvm/gpu_vm/g (Rodrigo Vivi)
-> > - Clarify the userptr seqlock with a pointer to mm/mmu_notifier.c
-> > =C2=A0 (Rodrigo Vivi)
-> > - Adjust commit message accordingly.
-> > - Add SPDX license header.
-> >=20
-> > v3:
-> > - Large update to align with the drm_gpuvm manager locking
-> > - Add "Efficient userptr gpu_vma exec function iteration" section
-> > - Add "Locking at bind- and unbind time" section.
-> >=20
-> > v4:
-> > - Fix tabs vs space errors by untabifying (Rodrigo Vivi)
-> > - Minor style fixes and typos (Rodrigo Vivi)
-> > - Clarify situations where stale GPU mappings are occurring and how
-> > =C2=A0 access through these mappings are blocked. (Rodrigo Vivi)
-> > - Insert into the toctree in implementation_guidelines.rst
-> >=20
-> > v5:
-> > - Add a section about recoverable page-faults.
-> > - Use local references to other documentation where possible
-> > =C2=A0 (Bagas Sanjaya)
-> > - General documentation fixes and typos (Danilo Krummrich and
-> > =C2=A0 Boris Brezillon)
-> > - Improve the documentation around locks that need to be grabbed
-> > from the
-> > =C2=A0 dm-fence critical section (Boris Brezillon)
-> > - Add more references to the DRM GPUVM helpers (Danilo Krummrich
-> > and
-> > =C2=A0 Boriz Brezillon)
-> > - Update the rfc/xe.rst document.
-> >=20
-> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
->=20
-> First of all, with Bagas and Boris latest suggestions, already few
-> free to use:
->=20
-> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
->=20
-> But a few minor comments below. Mostly trying to address Boris
-> feeling
-> of long sentences. However, take them with a grain of salt since I'm
-> not
-> a native english speaker. :)=20
+On Mon, Nov 27, 2023 at 07:34:35PM +0800, Shengyang Chen wrote:
+> From: Keith Zhao <keith.zhao@starfivetech.com>
+> 
+> Add properties in CDNS DSI yaml file to match with
+> CDNS DSI module in StarFive JH7110 SoC.
+> 
+> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
+> ---
+>  .../bindings/display/bridge/cdns,dsi.yaml     | 38 ++++++++++++++++++-
+>  1 file changed, 36 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
+> index 23060324d16e..3f02ee383aad 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
+> @@ -17,6 +17,7 @@ properties:
+>      enum:
+>        - cdns,dsi
+>        - ti,j721e-dsi
+> +      - starfive,cdns-dsi
+>  
+>    reg:
+>      minItems: 1
+> @@ -27,14 +28,20 @@ properties:
+>            Register block for wrapper settings registers in case of TI J7 SoCs.
+>  
+>    clocks:
+> +    minItems: 2
+>      items:
+>        - description: PSM clock, used by the IP
+>        - description: sys clock, used by the IP
+> +      - description: apb clock, used by the IP
+> +      - description: txesc clock, used by the IP
+>  
+>    clock-names:
+> +    minItems: 2
+>      items:
+>        - const: dsi_p_clk
+>        - const: dsi_sys_clk
+> +      - const: apb
+> +      - const: txesc
+>  
+>    phys:
+>      maxItems: 1
+> @@ -46,10 +53,21 @@ properties:
+>      maxItems: 1
+>  
+>    resets:
+> -    maxItems: 1
+> +    minItems: 1
+> +    items:
+> +      - description: dsi sys reset line
+> +      - description: dsi dpi reset line
+> +      - description: dsi apb reset line
+> +      - description: dsi txesc reset line
+> +      - description: dsi txbytehs reset line
+>  
+>    reset-names:
+> -    const: dsi_p_rst
+> +    items:
+> +      - const: dsi_p_rst
+> +      - const: dsi_dpi
+> +      - const: dsi_apb
+> +      - const: dsi_txesc
+> +      - const: dsi_txbytehs
 
-Hi, Rodrigo.
+Let's not continue the redundant 'dsi_' prefix. We're stuck with it for 
+the first one, but not the new ones.
 
-Thanks for the reviewing. I've added most but not all of the
-suggestions in v6. Regarding the comment about "zapping", that's used
-by the core mm for the process of unmapping page-table entries;
-zap_vma_ptes() etc. Merely following that, although I'm not really
-against using unmapping etc.
-
-/Thomas
-
+Rob
