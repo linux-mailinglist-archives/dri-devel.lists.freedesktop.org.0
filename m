@@ -2,67 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254BE7FC931
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 23:13:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CE357FCA0D
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 23:58:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 884F410E193;
-	Tue, 28 Nov 2023 22:13:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F2BE10E361;
+	Tue, 28 Nov 2023 22:58:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 222FC10E193;
- Tue, 28 Nov 2023 22:13:15 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- 46e09a7af769-6ce2988d62eso3659708a34.1; 
- Tue, 28 Nov 2023 14:13:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701209594; x=1701814394; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bzkua+PtowZpetcv1vSwzhlAqYyVuNpPQqTrqldHUFg=;
- b=eKEH6jI+2YRKZHo6GkbT1bne1JxumQrvUPdv/rO/cJ1Xmlo++r+P5T5IDoOZTdIKii
- hSpGCrBZhyHez3M79gzeTP5er53HHFLdsqXpcwnnsmZHrb1Sx2kMtsmKcuX+go3EcKkA
- yJodKvJgk1c4jGJUtT2ezMEwt1+WvD229Iqk1NFtJ7QLZJesZUaIIxyWG19CRzW2grlo
- m6+8MmF67nAtngKRmO0fn3+Ey4p5Q1yKkG6+XIFHjBdNOoxyRBUhtcVEyZD6GVVKwv4h
- 8QBJU8M61YX3kxaat6JXTe+9545q5LxfeIRcHvSC9SZaXMmUR0dsHSmUWHC4VqqfTG4t
- EcQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701209594; x=1701814394;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bzkua+PtowZpetcv1vSwzhlAqYyVuNpPQqTrqldHUFg=;
- b=fUQmVJqv6qkZhZv5ATn6LBcLCQW2QRv0SlGleJEl3wWKido3TaEC6iegk/jxbWkw1a
- eVXPBpiw4qs62sBdBDGupFWnib6vN/ChcImZW+fSxSv/FardljHmsePYEiSfArgfjpAu
- EzfALPsxM8G7m1qdH9TlfiMJJnVt/ErwRvp9OreZ//Z7toqz3HvD0OCT1uwYFTZG8itN
- EPR0TmP4yx2utW+L5ZEGDIPWH/LgUgeWJuSA4bWw1m1mKR4+oRfO8n9KY7NxiA68Z4Yh
- 7X4N0wGrTR0/Vy0WK1v0SErYTIrwI72ALDHypEu11Bw5Llx4DYzLDC1SU4yy18SX9XpP
- 3r8w==
-X-Gm-Message-State: AOJu0YyPjoMCKe1SyiWRfFJ+Ig+CALsQjnLOomGeNIn+TnjDOYvdctRs
- LygeyEgHhCexUon1L7RwOt0oiPJM3RL4hS2PwV8=
-X-Google-Smtp-Source: AGHT+IFbrCgwO30ksnJPK0vfsHqHO0Uot3qklNhA8h4Ae+35H6kZ7mEYmIQO0afjWRq/2USC0OYc3UiMQOZSlgVxD34=
-X-Received: by 2002:a05:6870:ebca:b0:1e9:9989:33a5 with SMTP id
- cr10-20020a056870ebca00b001e9998933a5mr23314739oab.5.1701209594307; Tue, 28
- Nov 2023 14:13:14 -0800 (PST)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC8C210E048;
+ Tue, 28 Nov 2023 22:18:08 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 9F0EDB8068A;
+ Tue, 28 Nov 2023 22:18:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 360DEC433C8;
+ Tue, 28 Nov 2023 22:17:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1701209886;
+ bh=ScPqrKrr5fwcMadOaUcl+bJfC6DSW+eVwIqo4WXnKe4=;
+ h=Date:From:To:Subject:In-Reply-To:References:From;
+ b=lsXwK+xD3UehOuoCUwSS4p5SvzngiI8XAETgZtnybHgrhVQGBRwM1q11YID8gS3UZ
+ wfuMAaWOsddOLngX07am9vMnrqO81sJlYE0/TEyxc2OmVg4GZmqDfZ8OmDixIRrPvn
+ AXCMmJOUk/Jv9oQm1rdJmgQFIhLiryBKssmFVDQHWmvyQcs82vyvCrOlGKLwKiLo3K
+ wONyauGHa5O9zGKbgiYMKVqTj8xmfzYEIeuN+Z5Q1YzDs+K9ItcnAllj/P28tk6XeX
+ nYuD88rXyq+BUpa32RNLvkFbFrrc0rbOsjAxEO6NEiUIVmfmzetZpPks5DiST/k7SU
+ GtwwFpJp+L+uQ==
 MIME-Version: 1.0
-References: <87edgv4x3i.fsf@vps.thesusis.net>
- <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
- <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
- <bdb238b6-60c7-4f26-81d0-9e62cd5dd326@gmail.com>
- <CADnq5_NVGS1XykxGxpcu_bpPbzboCUJQkcCF3r+0N9a23KUgiQ@mail.gmail.com>
- <96e2e13c-f01c-4baf-a9a3-cbaa48fb10c7@amd.com>
- <CADnq5_NBfeAXEyQw0gnSd67=tR-bUKg8w=10+4z9pGGuRnP9uw@mail.gmail.com>
- <87jzq2ixtm.fsf@vps.thesusis.net>
-In-Reply-To: <87jzq2ixtm.fsf@vps.thesusis.net>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 28 Nov 2023 17:13:03 -0500
-Message-ID: <CADnq5_Ou-MVVm0rdWDmDnJNLkWUayXzO26uCEtz3ucNa4Ghy2w@mail.gmail.com>
-Subject: Re: Radeon regression in 6.6 kernel
-To: Phillip Susi <phill@thesusis.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Tue, 28 Nov 2023 23:17:55 +0100
+From: Michael Walle <mwalle@kernel.org>
+To: undisclosed-recipients:;
+Subject: Re: [RFC PATCH 03/10] drm/mipi-dsi: add API for manual control over
+ the DSI link power state
+In-Reply-To: <CAA8EJpoYkH-0onMmNRk1iO5YeLN+5hpZMsfvtNo-7p6y2mjZwg@mail.gmail.com>
+References: <CAA8EJpozZkEswnioKjRCqBg4fcjVHFwGivoFNTNHVwyocKprQw@mail.gmail.com>
+ <20231127160658.2164612-1-mwalle@kernel.org>
+ <CAA8EJpphwXoKnzDkY3cBqzsDZwdw+nze-Ev2toPBJm-2VJvY_g@mail.gmail.com>
+ <dce76a6e1321a6374ad39125bead56b3@kernel.org>
+ <CAA8EJpr9PDgSrTpP2-joQ09fxmJKZB1B+ESbDbMjkLNiqZ1m3A@mail.gmail.com>
+ <14D9F495-425D-47FA-AD0D-F7299285936F@walle.cc>
+ <CAA8EJpoYkH-0onMmNRk1iO5YeLN+5hpZMsfvtNo-7p6y2mjZwg@mail.gmail.com>
+Message-ID: <1293a05c596d92da15bb6076d5046c93@kernel.org>
+X-Sender: mwalle@kernel.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Tue, 28 Nov 2023 22:58:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,36 +60,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- linux-kernel@vger.kernel.org,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- Luben Tuikov <luben.tuikov@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 27, 2023 at 6:24=E2=80=AFPM Phillip Susi <phill@thesusis.net> w=
-rote:
->
-> Alex Deucher <alexdeucher@gmail.com> writes:
->
-> >> In that case those are the already known problems with the scheduler
-> >> changes, aren't they?
-> >
-> > Yes.  Those changes went into 6.7 though, not 6.6 AFAIK.  Maybe I'm
-> > misunderstanding what the original report was actually testing.  If it
-> > was 6.7, then try reverting:
-> > 56e449603f0ac580700621a356d35d5716a62ce5
-> > b70438004a14f4d0f9890b3297cd66248728546c
->
-> At some point it was suggested that I file a gitlab issue, but I took
-> this to mean it was already known and being worked on.  -rc3 came out
-> today and still has the problem.  Is there a known issue I could track?
->
+>> >> >> > DSI device lifetime has three different stages:
+>> >> >> > 1. before the DSI link being powered up and clocking,
+>> >> >> > 2. when the DSI link is in LP state (for the purpose of this question,
+>> >> >> > this is the time between the DSI link being powered up and the video
+>> >> >> > stream start)
+>> >> >> > 3. when the DSI link is in HS state (while streaming the video).
+>> >> >>
+>> >> >> It's not clear to me what (2) is. What is the state of the clock and
+>> >> >> data lanes?
+>> >> >
+>> >> > Clk an Data0 should be in the LP mode, ready for LP Data Transfer.
+>> >>
+>> >> Then this is somehow missing
+>> >> https://docs.kernel.org/gpu/drm-kms-helpers.html#mipi-dsi-bridge-operation
+>> >>
+>> >>    A DSI host should keep the PHY powered down until the pre_enable
+>> >> operation
+>> >>    is called. All lanes are in an undefined idle state up to this point,
+>> >> and
+>> >>    it must not be assumed that it is LP-11. pre_enable should initialise
+>> >> the
+>> >>    PHY, set the data lanes to LP-11, and the clock lane to either LP-11
+>> >> or HS
+>> >>    depending on the mode_flag MIPI_DSI_CLOCK_NON_CONTINUOUS.
+>> >>
+>> >> So I don't think these three states are sufficient, see below, that
+>> >> there
+>> >> should be at least four.
+>> >
+>> >Which one is #4?
+>> 
+>> enabled clock lane (HS mode), data lanes in LP-11
+> 
+> What is the purpose of such a mode?
 
-At this point, unless there are any objections, I think we should just
-revert the two patches.
+To repeat my first mail:
 
-Alex
+I'm facing similar issues with the tc358775 bridge. This bridge needs
+to release its reset while both clock and data lanes are in LP-11
+mode.
+But then it needs to be configured (via I2C) while the clock lane is
+in enabled (HS mode), but the data lanes are still in LP-11 mode.
+
+Therefore, for the correct init sequence is:
+(1) dsi host enables lanes, that is clock and data are in lp-11
+(2) dsi bridge driver releases reset of the bridge
+(3) dsi host enables clock lane, leaves data lanes in lp-11
+(4) dsi bridge driver configures the bridge
+(5) dsi host enables the video stream
+(6) dsi bridge enables the output port of the bridge
+
+-michael
+
+>> >> > I don't think we support ULPS currently.
+>> >> >
+>> >> >
+>> >> >>
+>> >> >> I'm facing similar issues with the tc358775 bridge. This bridge needs
+>> >> >> to release its reset while both clock and data lanes are in LP-11
+>> >> >> mode.
+>> >> >> But then it needs to be configured (via I2C) while the clock lane is
+>> >> >> in enabled (HS mode), but the data lanes are still in LP-11 mode.
+>> >> >>
+>> >> >> To me it looks like there is a fouth case then:
+>> >> >> 1. unpowered
+>> >> >> 2. DSI clock and data are in LP-11
+>> >> >> 3. DSI clock is in HS and data are in LP-11
+>> >> >> 4. DSI clock is in HS and data is in HS
+>> >> >>
+>> >> >> (And of course the bridge needs continuous clock mode).
+>> >> >>
+>> >> >> > Different DSI bridges have different requirements with respect to the
+>> >> >> > code being executed at stages 1 and 2. For example several DSI-to-eDP
+>> >> >> > bridges (ps8640, tc358767 require for the link to be quiet during
+>> >> >> > reset time.
+>> >> >> > The DSI-controlled bridges and DSI panels need to send some commands
+>> >> >> > in stage 2, before starting up video
+>> >> >> >
+>> >> >> > In the DRM subsystem stage 3 naturally maps to the
+>> >> >> > drm_bridge_funcs::enable, stage 1 also naturally maps to the
+>> >> >> > drm_bridge_funcs::pre_enable. Stage 2 doesn't have its own place in
+>> >> >> > the DRM call chain.
+>> >> >> > Earlier we attempted to solve that using the pre_enable_prev_first,
+>> >> >> > which remapped pre-enable callback execution order. However it has led
+>> >> >> > us to the two issues. First, at the DSI host driver we do not know
+>> >> >> > whether the panel / bridge were updated to use pre_enable_prev_first
+>> >> >> > or not. Second, if the bridge has to perform steps during both stages
+>> >> >> > 1 and 2, it can not do that.
+>> >> >> >
+>> >> >> > I'm trying to find a way to express the difference between stages 1
+>> >> >> > and 2 in the generic code, so that we do not to worry about particular
+>> >> >> > DSI host and DSI bridge / panel peculiarities when implementing the
+>> >> >> > DSI host and/or DSI panel driver.
+>> >> >>
+>> >> >> For now, I have a rather hacky ".dsi_lp11_notify" callback in
+>> >> >> drm_bridge_funcs which is supposed to be called by the DSI host while
+>> >> >> the
+>> >> >> clock and data lanes are in LP-11 mode. But that is rather an RFC and
+>> >> >> me
+>> >> >> needing something to get the driver for this bridge working. Because
+>> >> >> it's
+>> >> >> badly broken. FWIW, you can find my work-in-progress patches at
+>> >> >> https://github.com/mwalle/linux/tree/feature-tc358775-fixes
+>> >> >>
+>> >> >> -michael
+>> >> >>
+>> >> >
+>> >> >
+>> >> > --
+>> >> > With best wishes
+>> >> > Dmitry
+>> >
+>> >
+>> >
+>> 
