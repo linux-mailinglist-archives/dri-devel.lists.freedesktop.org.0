@@ -1,69 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DFDD7FBBDB
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 14:51:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78ACA7FBC02
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 14:57:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D01A310E533;
-	Tue, 28 Nov 2023 13:51:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 661E010E545;
+	Tue, 28 Nov 2023 13:57:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CB4810E533
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 13:51:53 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id
- 38308e7fff4ca-2c87acba73bso73449591fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 05:51:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701179511; x=1701784311; darn=lists.freedesktop.org;
- h=in-reply-to:from:references:cc:to:content-language:subject
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5RP4kTNeZL9/ihWdolwURP2YWvwCR1X7zqbmbW0d9rI=;
- b=i+gTSximXX1vWsnWKzrPNOnCqCHW3q9+m5VUtXtmk8BLsbCNGs/BWDe0IYk6poWRNZ
- /NrzFiKqoUI/9FtUsjrXhCZiDimGtJW7xCh8dwveAWEj2B4rJh2DkmJkKYFyKD54kS58
- oW5Ng1oAwu1QQ9KGj0gEPUjZ8unGhBLnKSHfijyvLUFcgycJBTSuKdqcnckqdZuzl4Dz
- /eoY+6smfZPyvT9IodF6I6XxqZ5fsNiNv6REqexlobsUvBoIeWXRIieRmD3SRyXJwhwh
- IZTPWAsx+iOsEKkWMpTpRtl+dZ+bcRVsO6H5FoJR3HLmtAmderEOolyWGs73vujgD2Pd
- zPBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701179511; x=1701784311;
- h=in-reply-to:from:references:cc:to:content-language:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=5RP4kTNeZL9/ihWdolwURP2YWvwCR1X7zqbmbW0d9rI=;
- b=Qh8Nij3ixriMFcW4i50vMD2Oa5b0ISfJ5N0p0jQcpj2Yk+zcGYHp1O0Dfk5lEvRHFP
- ZCn8qhtWWWo43kStF7LIg7M8dgenlF0H8555mUlAmu6qOtDn5QVC1+Ci9fH7RegUi1KG
- V3YEK4orAbUX0ee2WigJVrsTshoK3/OzoUX630o5Ys5Plfy806uXW1IYaI1EChA4gY7/
- IGfbtSUNbeZoaMQvmAvhmxBsKhpjlm2K7aLBqqhsOLSC/rZszNZxOLW9pcLT4vpV7p+6
- AqBZ5VShWwEilS1WPQkOLaWgrp0MVrpj0O1TAbE3bK/SZukHa1K6+7gne5z3UHE2JnAe
- JxfA==
-X-Gm-Message-State: AOJu0Ywmft64qkjafASaiwM9K/fvpZmk16fKOLQbiTsF8Kor8MET4Ovg
- 7+InluSml233cbJWY8slq1I=
-X-Google-Smtp-Source: AGHT+IEK+jPZamsVBmlgzrz0CRw1l1pIr2uQtSPQcmwpuco3eUQ9Z1daBCtM4wklf6kGadoWeHHfKw==
-X-Received: by 2002:a2e:b707:0:b0:2c8:8b7c:c77a with SMTP id
- j7-20020a2eb707000000b002c88b7cc77amr9686888ljo.24.1701179511189; 
- Tue, 28 Nov 2023 05:51:51 -0800 (PST)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- d5-20020a05600c34c500b0040b349c91acsm18290414wmq.16.2023.11.28.05.51.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Nov 2023 05:51:50 -0800 (PST)
-Content-Type: multipart/alternative;
- boundary="------------CvPwMZXt5GpnNO0xFkzxMuvn"
-Message-ID: <fdd6d197-2985-4f08-8293-4fddfe48833f@gmail.com>
-Date: Tue, 28 Nov 2023 14:51:49 +0100
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF6610E545
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 13:57:18 +0000 (UTC)
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 13F3F660170E;
+ Tue, 28 Nov 2023 13:57:16 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1701179836;
+ bh=YBejDDHKEDVBfhOMZMTFCHvjiKJ4YtU6R+59KN5Lhso=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Ifvu1sBXRfOVDqtFeoaurwYscT3GBNkVLBaQZ7gMyKfViosvIqDqwaWq4dUXLEM0S
+ IZtqZ6e+IoPUNbQzMPkdXNh6ULC2ekeEHJP1CMzgm8XuMgSfJOSzrkuklHl052FpoY
+ ZVt+LHVikKMyBhdV8m9CCnbxRuyahgVbNpchAyTtLHN/bjoY0fvYiDzFpprGSd029h
+ IauvEINCdfE/vVkno49YjLNZh8slO0L68qaEJFfCGHEIOEM0zb+vi6jfT7/wi+Rdft
+ JHw+GSrWO+ODtcM6LqH8tACgf97nDi1xWL88145+5EBZoeAhVY4/7L3arFfKYkyzjU
+ CK+1DTDFRnLiA==
+Date: Tue, 28 Nov 2023 14:57:12 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v2 3/3] drm/panfrost: Synchronize and disable interrupts
+ before powering off
+Message-ID: <20231128145712.3f4d3f74@collabora.com>
+In-Reply-To: <20231128124510.391007-4-angelogioacchino.delregno@collabora.com>
+References: <20231128124510.391007-1-angelogioacchino.delregno@collabora.com>
+ <20231128124510.391007-4-angelogioacchino.delregno@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/scheduler: improve GPU scheduler documentation v2
-Content-Language: en-US
-To: Danilo Krummrich <dakr@redhat.com>, ltuikov89@gmail.com, daniel@ffwll.ch
-References: <20231116141547.206695-1-christian.koenig@amd.com>
- <ZVaWVH+mX+PXKqfD@pollux>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <ZVaWVH+mX+PXKqfD@pollux>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,185 +55,231 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, dri-devel@lists.freedesktop.org,
- boris.brezillon@collabora.com, alexander.deucher@amd.com,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
+ krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, kernel@collabora.com, m.szyprowski@samsung.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------CvPwMZXt5GpnNO0xFkzxMuvn
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On Tue, 28 Nov 2023 13:45:10 +0100
+AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+wrote:
 
-Am 16.11.23 um 23:23 schrieb Danilo Krummrich:
-> [SNIP]
->> + *
->> + * The lifetime of the scheduler is managed by the driver using it. Before
->> + * destroying the scheduler the driver must ensure that all hardware processing
->> + * involving this scheduler object has finished by calling for example
->> + * disable_irq(). It is *not* sufficient to wait for the hardware fence here
->> + * since this doesn't guarantee that all callback processing has finished.
-> This is the part I'm most concerned about, since I feel like we leave drivers
-> "up in the air" entirely. Hence, I think here we need to be more verbose and
-> detailed about the options drivers have to ensure that.
->
-> For instance, let's assume we have the single-entity-per-scheduler topology
-> because the driver only uses the GPU scheduler to feed a firmware scheduler with
-> dynamically allocated ring buffers.
->
-> In this case the entity, scheduler and ring buffer are bound to the lifetime of
-> a userspace process.
->
-> What do we expect the driver to do if the userspace process is killed? As you
-> mentioned, only waiting for the ring to be idle (which implies all HW fences
-> are signalled) is not enough. This doesn't guarantee all the free_job()
-> callbacks have been called yet and hence stopping the scheduler before the
-> pending_list is actually empty would leak the memory of the jobs on the
-> pending_list waiting to be freed.
->
-> I already brought this up when we were discussing Matt's Xe inspired scheduler
-> patch series and it seems there was no interest to provide drivers with some
-> common mechanism that gurantees that the pending_list is empty. Hence, I really
-> think we should at least give recommendations how drivers should deal with that.
+> To make sure that we don't unintentionally perform any unclocked and/or
+> unpowered R/W operation on GPU registers, before turning off clocks and
+> regulators we must make sure that no GPU, JOB or MMU ISR execution is
+> pending: doing that required to add a mechanism to synchronize the
+> interrupts on suspend.
+> 
+> Add functions panfrost_{gpu,job,mmu}_suspend_irq() which will perform
+> interrupts masking and ISR execution synchronization, and then call
+> those in the panfrost_device_runtime_suspend() handler in the exact
+> sequence of job (may require mmu!) -> mmu -> gpu.
+> 
+> As a side note, JOB and MMU suspend_irq functions needed some special
+> treatment: as their interrupt handlers will unmask interrupts, it was
+> necessary to add a bitmap for "is_suspending" which is used to address
+> the possible corner case of unintentional IRQ unmasking because of ISR
+> execution after a call to synchronize_irq().
+> 
+> Of course, unmasking the interrupts is being done as part of the reset
+> happening during runtime_resume(): since we're anyway resuming all of
+> GPU, JOB, MMU, the only additional action is to zero out the newly
+> introduced `is_suspending` bitmap directly in the resume handler, as
+> to avoid adding panfrost_{job,mmu}_resume_irq() function just for
+> clearing own bits, especially because it currently makes way more sense
+> to just zero out the bitmap.
+> 
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_device.c |  4 ++++
+>  drivers/gpu/drm/panfrost/panfrost_device.h |  7 +++++++
+>  drivers/gpu/drm/panfrost/panfrost_gpu.c    |  7 +++++++
+>  drivers/gpu/drm/panfrost/panfrost_gpu.h    |  1 +
+>  drivers/gpu/drm/panfrost/panfrost_job.c    | 18 +++++++++++++++---
+>  drivers/gpu/drm/panfrost/panfrost_job.h    |  1 +
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c    | 17 ++++++++++++++---
+>  drivers/gpu/drm/panfrost/panfrost_mmu.h    |  1 +
+>  8 files changed, 50 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> index c90ad5ee34e7..ed34aa55a7da 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> @@ -407,6 +407,7 @@ static int panfrost_device_runtime_resume(struct device *dev)
+>  {
+>  	struct panfrost_device *pfdev = dev_get_drvdata(dev);
+>  
+> +	bitmap_zero(pfdev->is_suspending, PANFROST_COMP_BIT_MAX);
+>  	panfrost_device_reset(pfdev);
+>  	panfrost_devfreq_resume(pfdev);
+>  
+> @@ -421,6 +422,9 @@ static int panfrost_device_runtime_suspend(struct device *dev)
+>  		return -EBUSY;
+>  
+>  	panfrost_devfreq_suspend(pfdev);
+> +	panfrost_job_suspend_irq(pfdev);
+> +	panfrost_mmu_suspend_irq(pfdev);
+> +	panfrost_gpu_suspend_irq(pfdev);
+>  	panfrost_gpu_power_off(pfdev);
+>  
+>  	return 0;
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> index 54a8aad54259..29f89f2d3679 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> @@ -25,6 +25,12 @@ struct panfrost_perfcnt;
+>  #define NUM_JOB_SLOTS 3
+>  #define MAX_PM_DOMAINS 5
+>  
+> +enum panfrost_drv_comp_bits {
+> +	PANFROST_COMP_BIT_MMU,
+> +	PANFROST_COMP_BIT_JOB,
+> +	PANFROST_COMP_BIT_MAX
+> +};
+> +
+>  /**
+>   * enum panfrost_gpu_pm - Supported kernel power management features
+>   * @GPU_PM_CLK_DIS:  Allow disabling clocks during system suspend
+> @@ -109,6 +115,7 @@ struct panfrost_device {
+>  
+>  	struct panfrost_features features;
+>  	const struct panfrost_compatible *comp;
+> +	DECLARE_BITMAP(is_suspending, PANFROST_COMP_BIT_MAX);
+>  
+>  	spinlock_t as_lock;
+>  	unsigned long as_in_use_mask;
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> index 7adc4441fa14..2bf645993ab4 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> @@ -452,6 +452,13 @@ void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+>  		dev_err(pfdev->dev, "l2 power transition timeout");
+>  }
+>  
+> +void panfrost_gpu_suspend_irq(struct panfrost_device *pfdev)
+> +{
+> +	gpu_write(pfdev, GPU_INT_MASK, 0);
+> +	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
 
-I put this work on hold to have time looking deeper into this and trying 
-to find alternative ways for the handling.
+Shouldn't the synchronize_irq() guarantee that all monitored interrupts
+are cleared before you return?
 
-I think this is another good reason why the scheduler should really not 
-be involved in freeing jobs, but let's first discuss another issue with 
-this.
+> +	synchronize_irq(pfdev->gpu_irq);
+> +}
+> +
+>  int panfrost_gpu_init(struct panfrost_device *pfdev)
+>  {
+>  	int err;
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.h b/drivers/gpu/drm/panfrost/panfrost_gpu.h
+> index 876fdad9f721..d841b86504ea 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.h
+> @@ -15,6 +15,7 @@ u32 panfrost_gpu_get_latest_flush_id(struct panfrost_device *pfdev);
+>  int panfrost_gpu_soft_reset(struct panfrost_device *pfdev);
+>  void panfrost_gpu_power_on(struct panfrost_device *pfdev);
+>  void panfrost_gpu_power_off(struct panfrost_device *pfdev);
+> +void panfrost_gpu_suspend_irq(struct panfrost_device *pfdev);
+>  
+>  void panfrost_cycle_counter_get(struct panfrost_device *pfdev);
+>  void panfrost_cycle_counter_put(struct panfrost_device *pfdev);
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index f9446e197428..e8de44cc56e2 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -413,6 +413,14 @@ void panfrost_job_enable_interrupts(struct panfrost_device *pfdev)
+>  	job_write(pfdev, JOB_INT_MASK, irq_mask);
+>  }
+>  
+> +void panfrost_job_suspend_irq(struct panfrost_device *pfdev)
+> +{
+> +	set_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspending);
+> +
+> +	job_write(pfdev, JOB_INT_MASK, 0);
+> +	synchronize_irq(pfdev->js->irq);
+> +}
+> +
+>  static void panfrost_job_handle_err(struct panfrost_device *pfdev,
+>  				    struct panfrost_job *job,
+>  				    unsigned int js)
+> @@ -792,9 +800,13 @@ static irqreturn_t panfrost_job_irq_handler_thread(int irq, void *data)
+>  	struct panfrost_device *pfdev = data;
+>  
+>  	panfrost_job_handle_irqs(pfdev);
+> -	job_write(pfdev, JOB_INT_MASK,
+> -		  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
+> -		  GENMASK(NUM_JOB_SLOTS - 1, 0));
+> +
+> +	/* Enable interrupts only if we're not about to get suspended */
+> +	if (!test_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspending))
 
-It goes far down into the underlying dma_fence mechanism which gives you 
-guarantees that hardware operations have finished, but not that the 
-associated software callbacks are done.
+The irq-line is requested with IRQF_SHARED, meaning the line might be
+shared between all three GPU IRQs, but also with other devices. I think
+if we want to be totally safe, we need to also check this is_suspending
+field in the hard irq handlers before accessing the xxx_INT_yyy
+registers.
 
-So what happens is that components like the scheduler can't just wait 
-for dma_fences to be sure that a registered callback are not executed on 
-another CPU.
+> +		job_write(pfdev, JOB_INT_MASK,
+> +			  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
+> +			  GENMASK(NUM_JOB_SLOTS - 1, 0));
+> +
+>  	return IRQ_HANDLED;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
+> index 17ff808dba07..ec581b97852b 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
+> @@ -47,6 +47,7 @@ int panfrost_job_get_slot(struct panfrost_job *job);
+>  int panfrost_job_push(struct panfrost_job *job);
+>  void panfrost_job_put(struct panfrost_job *job);
+>  void panfrost_job_enable_interrupts(struct panfrost_device *pfdev);
+> +void panfrost_job_suspend_irq(struct panfrost_device *pfdev);
+>  int panfrost_job_is_idle(struct panfrost_device *pfdev);
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> index ac4296c1e54b..6ccf0a65b8fb 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+> @@ -744,9 +744,12 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(int irq, void *data)
+>  			status = mmu_read(pfdev, MMU_INT_RAWSTAT) & ~pfdev->as_faulty_mask;
+>  	}
+>  
+> -	spin_lock(&pfdev->as_lock);
+> -	mmu_write(pfdev, MMU_INT_MASK, ~pfdev->as_faulty_mask);
+> -	spin_unlock(&pfdev->as_lock);
+> +	/* Enable interrupts only if we're not about to get suspended */
+> +	if (!test_bit(PANFROST_COMP_BIT_MMU, pfdev->is_suspending)) {
+> +		spin_lock(&pfdev->as_lock);
+> +		mmu_write(pfdev, MMU_INT_MASK, ~pfdev->as_faulty_mask);
+> +		spin_unlock(&pfdev->as_lock);
+> +	}
+>  
+>  	return IRQ_HANDLED;
+>  };
+> @@ -777,3 +780,11 @@ void panfrost_mmu_fini(struct panfrost_device *pfdev)
+>  {
+>  	mmu_write(pfdev, MMU_INT_MASK, 0);
+>  }
+> +
+> +void panfrost_mmu_suspend_irq(struct panfrost_device *pfdev)
+> +{
+> +	set_bit(PANFROST_COMP_BIT_MMU, pfdev->is_suspending);
+> +
+> +	mmu_write(pfdev, MMU_INT_MASK, 0);
+> +	synchronize_irq(pfdev->mmu_irq);
+> +}
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.h b/drivers/gpu/drm/panfrost/panfrost_mmu.h
+> index cc2a0d307feb..022a9a74a114 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.h
+> @@ -14,6 +14,7 @@ void panfrost_mmu_unmap(struct panfrost_gem_mapping *mapping);
+>  int panfrost_mmu_init(struct panfrost_device *pfdev);
+>  void panfrost_mmu_fini(struct panfrost_device *pfdev);
+>  void panfrost_mmu_reset(struct panfrost_device *pfdev);
+> +void panfrost_mmu_suspend_irq(struct panfrost_device *pfdev);
+>  
+>  u32 panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_mmu *mmu);
+>  void panfrost_mmu_as_put(struct panfrost_device *pfdev, struct panfrost_mmu *mmu);
 
-See this patch here for another example where this totally bites us in 
-drivers, completely independent of the GPU scheduler:
-
-commit 7c703a7d3f2b50a6187267420a4d3d7e62fa3206
-Author: xinhui pan <xinhui.pan@amd.com>
-Date:   Tue Apr 12 19:52:16 2022 +0800
-
-     drm/amdgpu: Fix one use-after-free of VM
-
-Basically the solution amdgpu came up with is to take and drop the 
-spinlock of the underlying dma_fence context:
-
-/* Make sure that all fence callbacks have completed */
-spin_lock_irqsave(vm->last_tlb_flush->lock, flags);
-spin_unlock_irqrestore(vm->last_tlb_flush->lock, flags);
-
-But this is just a hack only works because amdgpu knows the internals of 
-his own dma_fence implementation.
-
-For the scheduler this is not applicable. I've mentioned this problem to 
-Daniel before, but at least at this time he thought that this is a 
-complete driver problem.
-
-Ideas?
-
-Regards,
-Christian.
-
---------------CvPwMZXt5GpnNO0xFkzxMuvn
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    Am 16.11.23 um 23:23 schrieb Danilo Krummrich:<br>
-    <blockquote type="cite" cite="mid:ZVaWVH+mX+PXKqfD@pollux">[SNIP]<span
-      style="white-space: pre-wrap">
-</span>
-      <pre class="moz-quote-pre" wrap=""></pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">+ *
-+ * The lifetime of the scheduler is managed by the driver using it. Before
-+ * destroying the scheduler the driver must ensure that all hardware processing
-+ * involving this scheduler object has finished by calling for example
-+ * disable_irq(). It is *not* sufficient to wait for the hardware fence here
-+ * since this doesn't guarantee that all callback processing has finished.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-This is the part I'm most concerned about, since I feel like we leave drivers
-"up in the air" entirely. Hence, I think here we need to be more verbose and
-detailed about the options drivers have to ensure that.
-
-For instance, let's assume we have the single-entity-per-scheduler topology
-because the driver only uses the GPU scheduler to feed a firmware scheduler with
-dynamically allocated ring buffers.
-
-In this case the entity, scheduler and ring buffer are bound to the lifetime of
-a userspace process.
-
-What do we expect the driver to do if the userspace process is killed? As you
-mentioned, only waiting for the ring to be idle (which implies all HW fences
-are signalled) is not enough. This doesn't guarantee all the free_job()
-callbacks have been called yet and hence stopping the scheduler before the
-pending_list is actually empty would leak the memory of the jobs on the
-pending_list waiting to be freed.
-
-I already brought this up when we were discussing Matt's Xe inspired scheduler
-patch series and it seems there was no interest to provide drivers with some
-common mechanism that gurantees that the pending_list is empty. Hence, I really
-think we should at least give recommendations how drivers should deal with that.
-</pre>
-    </blockquote>
-    <br>
-    I put this work on hold to have time looking deeper into this and
-    trying to find alternative ways for the handling.<br>
-    <br>
-    I think this is another good reason why the scheduler should really
-    not be involved in freeing jobs, but let's first discuss another
-    issue with this.<br>
-    <br>
-    It goes far down into the underlying dma_fence mechanism which gives
-    you guarantees that hardware operations have finished, but not that
-    the associated software callbacks are done.<br>
-    <br>
-    So what happens is that components like the scheduler can't just
-    wait for dma_fences to be sure that a registered callback are not
-    executed on another CPU.<br>
-    <br>
-    See this patch here for another example where this totally bites us
-    in drivers, completely independent of the GPU scheduler:<br>
-    <br>
-    commit 7c703a7d3f2b50a6187267420a4d3d7e62fa3206<br>
-    Author: xinhui pan <a class="moz-txt-link-rfc2396E" href="mailto:xinhui.pan@amd.com">&lt;xinhui.pan@amd.com&gt;</a><br>
-    Date:   Tue Apr 12 19:52:16 2022 +0800<br>
-    <br>
-        drm/amdgpu: Fix one use-after-free of VM<br>
-    <br>
-    Basically the solution amdgpu came up with is to take and drop the
-    spinlock of the underlying dma_fence context:<br>
-    <br>
-    /* Make sure that all fence callbacks have completed */<br>
-    spin_lock_irqsave(vm-&gt;last_tlb_flush-&gt;lock, flags);<br>
-    spin_unlock_irqrestore(vm-&gt;last_tlb_flush-&gt;lock, flags);<br>
-    <br>
-    But this is just a hack only works because amdgpu knows the
-    internals of his own dma_fence implementation.<br>
-    <br>
-    For the scheduler this is not applicable. I've mentioned this
-    problem to Daniel before, but at least at this time he thought that
-    this is a complete driver problem.<br>
-    <br>
-    Ideas?<br>
-    <br>
-    Regards,<br>
-    Christian.<br>
-    <br>
-  </body>
-</html>
-
---------------CvPwMZXt5GpnNO0xFkzxMuvn--
