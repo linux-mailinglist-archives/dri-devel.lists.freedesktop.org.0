@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 072807FC9BA
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 23:43:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9CF27FC9BC
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 23:43:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3718E10E34E;
-	Tue, 28 Nov 2023 22:43:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF81610E357;
+	Tue, 28 Nov 2023 22:43:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E493A10E34E
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 22:43:08 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id
- a640c23a62f3a-9fcfd2a069aso840115666b.1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 14:43:08 -0800 (PST)
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75A0410E5B0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 22:43:16 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-54a945861c6so8374862a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 14:43:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1701211387; x=1701816187;
+ d=chromium.org; s=google; t=1701211394; x=1701816194;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NMaZbAerACdlkvgT9TKXxbixHEibkUu2cUgc5bnvXQo=;
- b=M98frUbx8b3F84mPjYSF0b7xshvrVS9sVh1adJVj642FUvC2ceZOYIH+IZqHJdSBjA
- T6wCqLtNxg9Ovy/lDVCFvnzdzaCCuGstCI0wp72RUxjv5nNP2Rg2Lb/FAXf0EIGuGu4o
- EvJr+uwV24DlAI861+OKzP6DXUrRsoDjL9h2M=
+ bh=d6v70Jfc8nqkrgav4bbcQA6HZL6P4J2VUNvwOzUy5eU=;
+ b=i5MMmqoA1S/a3+HnfRZgLVIO51sJlh6c8tCIXEnqfwOhzJC3Pjf30ZEXpPUoIhwsAw
+ Cnte7vamZKVs1O3XFb/WVCOnNAj30rJYcLFyXPJgf85MQkaW/jDC5TOZ3AzvB1YmVOI+
+ Iy6oX32UfIv6zFvPqQYbR9BMamn/MzdhM45xo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701211387; x=1701816187;
+ d=1e100.net; s=20230601; t=1701211394; x=1701816194;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NMaZbAerACdlkvgT9TKXxbixHEibkUu2cUgc5bnvXQo=;
- b=uF10Dbw3dtYPwZRXdG+6d42uoQQYWUfgqvDCPaRIz1ReKs0koQQcS7uyqMAp6m7p6G
- zX+LhbaFzFlOaFuUxJPyy+QWS1tQnqsGTdTKcUmDrrXvw4+ijOtGvgxHYeKX5QZ7aq6K
- Bbemxvzw+ImPWFolHjqMWiAlcwCrUciGEimHzNdywDdfJDboPpWF5KvrgfuzDr82tpZW
- eQsju5fDw7tvpU4wo0cU8qle+HHt3RULOsIBm6KwdaMxcKd2taXfth34TTgrZ2bjlZNe
- dR8pw07vqjXfkK2FheokZG07mOb12C5ChlFPVyK2e8BlMVWaOMpKC77/WwUUdemZ1u67
- KZ8Q==
-X-Gm-Message-State: AOJu0YyrB1XyD8Hbge6mqUUVqeiJPSthUnDOAtuVOVrVvHfBfkBaCXxH
- 3CTns8Zu72AC1ktPrraCIAqPZ+WXj7bBXVllLFP87omo
-X-Google-Smtp-Source: AGHT+IGGI8E4YAhhID+VwbPHyIsslcomqod3982xUi/iB6Nr4bL0SjQRb/OJiyARZYqdGzlY/4uuMw==
-X-Received: by 2002:a17:906:69c9:b0:a03:69e:f616 with SMTP id
- g9-20020a17090669c900b00a03069ef616mr10418192ejs.57.1701211387119; 
- Tue, 28 Nov 2023 14:43:07 -0800 (PST)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com.
- [209.85.128.54]) by smtp.gmail.com with ESMTPSA id
- v5-20020a170906488500b0099cc3c7ace2sm7391104ejq.140.2023.11.28.14.43.06
+ bh=d6v70Jfc8nqkrgav4bbcQA6HZL6P4J2VUNvwOzUy5eU=;
+ b=tDRGkNmpwPqoyHbBUa/E48LkUpPDOu30+msDhmQwBeqV7vj2/8D7j+4QXWdZdYjzX4
+ jvXQOM3HqcVTudy3xms9TckFUu92m9iKRMTgxs0PTY3TWTNU5QNtv/JNw6xmcwn89xsN
+ a0JtAT5hCMvCgVidcMC3IX0ETapzhx3WrP1Qj3qc+UXF3OSbqs+fZf6br7XRLR1FkX3V
+ 7dq8gguflvSRp0p9wG5iMqndZ8wA6lVAODUBG95dHNeALma83CzO+Ja8QAnTQEEHYrzp
+ Vms3RnbZ+K5skGmnW3U3a2/SWdL6gH1n41lPfIHCuEgjZM9Ryp4b4DhT9hIl3EJuME6R
+ rcYQ==
+X-Gm-Message-State: AOJu0YwNkXLKiWPFCqtn/6GeLzjpPt4BK9XWEKAopDcUjvfk9XFCoPyN
+ rmxZVMBJKP60PGQJ7szCeXPfM7PGUQ5ilUM7dB1pGL1H
+X-Google-Smtp-Source: AGHT+IFtcHG91pIdnDJAuyWYbzl9kdTo4FxVOWWuNXe5+x5skApD6kpWj0AnCe4kM27FPUZA8Giq2g==
+X-Received: by 2002:a50:a693:0:b0:54a:8e8c:80a8 with SMTP id
+ e19-20020a50a693000000b0054a8e8c80a8mr12549351edc.29.1701211394186; 
+ Tue, 28 Nov 2023 14:43:14 -0800 (PST)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com.
+ [209.85.128.49]) by smtp.gmail.com with ESMTPSA id
+ f11-20020a056402354b00b0054b59096da4sm2995200edd.13.2023.11.28.14.43.12
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Nov 2023 14:43:06 -0800 (PST)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-40b35199f94so27315e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 14:43:06 -0800 (PST)
-X-Received: by 2002:a05:600c:3b03:b0:40b:33aa:a2b9 with SMTP id
- m3-20020a05600c3b0300b0040b33aaa2b9mr799601wms.4.1701211386445; Tue, 28 Nov
- 2023 14:43:06 -0800 (PST)
+ Tue, 28 Nov 2023 14:43:13 -0800 (PST)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-40b51e26a7aso8645e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 14:43:12 -0800 (PST)
+X-Received: by 2002:a05:600c:206:b0:40b:443d:9b78 with SMTP id
+ 6-20020a05600c020600b0040b443d9b78mr400913wmi.0.1701211392581; Tue, 28 Nov
+ 2023 14:43:12 -0800 (PST)
 MIME-Version: 1.0
 References: <20231117215056.1883314-1-hsinyi@chromium.org>
- <20231117215056.1883314-3-hsinyi@chromium.org>
-In-Reply-To: <20231117215056.1883314-3-hsinyi@chromium.org>
+ <20231117215056.1883314-4-hsinyi@chromium.org>
+In-Reply-To: <20231117215056.1883314-4-hsinyi@chromium.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 28 Nov 2023 14:42:51 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=VwFNjfem-pEqqfqQ70uLkOFOftpJY5K5jTOdPsiTRt+Q@mail.gmail.com>
-Message-ID: <CAD=FV=VwFNjfem-pEqqfqQ70uLkOFOftpJY5K5jTOdPsiTRt+Q@mail.gmail.com>
-Subject: Re: [PATCH v7 2/3] drm/panel-edp: Add auo_b116xa3_mode
+Date: Tue, 28 Nov 2023 14:43:00 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=V33tTjKYvaqUayNh81ksFf2SkUsS0oB0SrfsFe38triQ@mail.gmail.com>
+Message-ID: <CAD=FV=V33tTjKYvaqUayNh81ksFf2SkUsS0oB0SrfsFe38triQ@mail.gmail.com>
+Subject: Re: [PATCH v7 3/3] drm/panel-edp: Avoid adding multiple preferred
+ modes
 To: Hsin-Yi Wang <hsinyi@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -92,17 +93,21 @@ Hi,
 On Fri, Nov 17, 2023 at 1:51=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org> =
 wrote:
 >
-> Add auo_b116xa3_mode to override the original modes parsed from edid
-> of the panels 0x405c B116XAK01.0 and 0x615c B116XAN06.1 which result
-> in glitches on panel.
+> If a non generic edp-panel is under aux-bus, the mode read from edid woul=
+d
+> still be selected as preferred and results in multiple preferred modes,
+> which is ambiguous.
+>
+> If both hard-coded mode and edid exists, only add mode from hard-coded.
 >
 > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
 > ---
-> v6->v7: split usecase to another patch.
+> v6->v7: no change
 > ---
->  drivers/gpu/drm/panel/panel-edp.c | 19 +++++++++++++++++--
->  1 file changed, 17 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/panel/panel-edp.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 
 Pushed to drm-misc-next:
 
-70e0d5550f5c drm/panel-edp: Add auo_b116xa3_mode
+fb3f43d50d9b drm/panel-edp: Avoid adding multiple preferred modes
