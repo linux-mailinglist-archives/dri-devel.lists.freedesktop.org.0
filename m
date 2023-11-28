@@ -2,57 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECDCE7FC496
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 21:03:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C97B7FC481
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 20:58:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40A8B10E323;
-	Tue, 28 Nov 2023 20:03:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60E8010E31C;
+	Tue, 28 Nov 2023 19:58:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3B7810E323
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 20:03:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Subject:References:Cc:To:Message-ID:From:
- Content-Transfer-Encoding:Content-Type:Date:MIME-Version:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=F1i1qOexnD29UNSaoUftfhPgutwj/s+He7Ab8qarSNo=; b=FJpP0NRyGZhbrOEjE5kzL2h+bS
- FRvTd+FDTvXD4ch51QGHbDsUrBywJX/QiOQlgu9y1lr/ofjAublGXwhAmn6V4rm+hRk5RemEgzXIO
- Ep52FEkmkQnnzRuTaMMGEJrPU6R9z/+BYhWBG87EE8xf84pkyGusCYfg5vu4rCKVrhNAgjBykq7PA
- 14mmV4dRF3eFHLQsFfd1acfHGRtjSM+OyLPCGO45qV3sQEpKJmWt49uDoarkXht/UVQ7uEOqV74Sj
- D4Q6xRuhyj+p2FQaJ8Sjh7fs212NwYySNiJ1rzuYjgPDZYN/xlP9LZ5eu7ApB0NfI+V0wqmj4luL9
- tilJwk2w==;
-Received: from [2001:67c:1be8::200] (helo=rainloop.kapsi.fi)
- by mail.kapsi.fi with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <jyri.sarha@iki.fi>) id 1r842v-005u6O-2I;
- Tue, 28 Nov 2023 21:47:01 +0200
+X-Greylist: delayed 434 seconds by postgrey-1.36 at gabe;
+ Tue, 28 Nov 2023 19:58:05 UTC
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEC8210E31C;
+ Tue, 28 Nov 2023 19:58:05 +0000 (UTC)
+Received: from [127.0.0.1] (ip-109-43-115-169.web.vodafone.de [109.43.115.169])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.3ffe.de (Postfix) with ESMTPSA id 599866E;
+ Tue, 28 Nov 2023 20:50:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
+ s=mail2022082101; t=1701201049;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qx987Q56BapeU8URf5u34Lr6fDvrB7kSuGpcq8K1euU=;
+ b=Qp0qDmXd2IqE5XgI3pEBnzHX+/g3nh2g2B0lcDHawAXQegtpC4VaW+7oamRtInuiIS8Rvu
+ ZvAfRngg6Nz3U26uxMyW5yzuWX46LLtDWTOe6fqsy9tdZjaZ+g8xpoWZRD/fZnRqgCIfZV
+ oY3hfXpkTF+zgjOg/pbgsdCJg6KUHOPmvi9bAF0kq21OkWkkLFr0BARBXs5TiSQHmSN28I
+ f7Kng8/jSs/4d4wmQpHa1LSy0RT1xruILL3Zvzl0q9kZUY2WfJumMh9r3dEzcJ0phMcdTS
+ RFsCubLpaucYl+8YFAoHxnwD5NNtWwSbi4i772nyyDcpJhdcOoWrffo+VxOtvA==
+Date: Tue, 28 Nov 2023 20:50:50 +0100
+From: Michael Walle <michael@walle.cc>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Michael Walle <mwalle@kernel.org>
+Subject: =?US-ASCII?Q?Re=3A_=5BRFC_PATCH_03/10=5D_drm/mipi-dsi=3A_add_API_fo?=
+ =?US-ASCII?Q?r_manual_control_over_the_DSI_link_power_state?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CAA8EJpr9PDgSrTpP2-joQ09fxmJKZB1B+ESbDbMjkLNiqZ1m3A@mail.gmail.com>
+References: <CAA8EJpozZkEswnioKjRCqBg4fcjVHFwGivoFNTNHVwyocKprQw@mail.gmail.com>
+ <20231127160658.2164612-1-mwalle@kernel.org>
+ <CAA8EJpphwXoKnzDkY3cBqzsDZwdw+nze-Ev2toPBJm-2VJvY_g@mail.gmail.com>
+ <dce76a6e1321a6374ad39125bead56b3@kernel.org>
+ <CAA8EJpr9PDgSrTpP2-joQ09fxmJKZB1B+ESbDbMjkLNiqZ1m3A@mail.gmail.com>
+Message-ID: <14D9F495-425D-47FA-AD0D-F7299285936F@walle.cc>
 MIME-Version: 1.0
-Date: Tue, 28 Nov 2023 19:47:01 +0000
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-From: jyri.sarha@iki.fi
-Message-ID: <e27da7c3a2e19c52ada232b81fa7b8fb75c1960d@iki.fi>
-To: "=?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?="
- <u.kleine-koenig@pengutronix.de>, "Jyri Sarha" <jyri.sarha@iki.fi>, "Tomi
- Valkeinen" <tomi.valkeinen@ideasonboard.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>
-References: undefined
- <20231102165640.3307820-18-u.kleine-koenig@pengutronix.de>
-X-SA-Exim-Connect-IP: 2001:67c:1be8::200
-X-SA-Exim-Mail-From: jyri.sarha@iki.fi
-X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on mail
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
- T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=4.0.0
-Subject: Re: [PATCH v3 16/16] drm/tilcdc: Convert to platform remove
- callback returning void
-X-SA-Exim-Version: 4.2.1 (built Wed, 06 Jul 2022 17:57:39 +0000)
-X-SA-Exim-Scanned: Yes (on mail.kapsi.fi)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,92 +62,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
+Cc: tony@atomide.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Laurent.pinchart@ideasonboard.com,
+ andrzej.hajda@intel.com, marijn.suijten@somainline.org, marex@denx.de,
+ rfoss@kernel.org, dave.stevenson@raspberrypi.com, jernej.skrabec@gmail.com,
+ alexander.stein@ew.tq-group.com, quic_jesszhan@quicinc.com, jonas@kwiboo.se,
+ linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com, mripard@kernel.org,
+ sean@poorly.run, neil.armstrong@linaro.org, dianders@chromium.org,
+ konrad.dybcio@linaro.org, tzimmermann@suse.de, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-November 2, 2023 at 6:56 PM, "Uwe Kleine-K=C3=B6nig" <u.kleine-koenig@pen=
-gutronix.de mailto:u.kleine-koenig@pengutronix.de?to=3D%22Uwe%20Kleine-K%=
-C3%B6nig%22%20%3Cu.kleine-koenig%40pengutronix.de%3E > wrote:
-
->=20
->=20The .remove() callback for a platform driver returns an int which mak=
-es
-> many driver authors wrongly assume it's possible to do error handling b=
-y
-> returning an error code. However the value returned is (mostly) ignored
-> and this typically results in resource leaks. To improve here there is =
-a
-> quest to make the remove callback return void. In the first step of thi=
-s
-> quest all drivers are converted to .remove_new() which already returns
-> void.
->=20
->=20There is one error path in tilcdc_pdev_remove() that potentially coul=
-d
-> yield a non-zero return code. In this case an error message describing
-> the failure is emitted now instead of
->=20
->=20 remove callback returned a non-zero value. This will be ignored.
->=20
->=20before. Otherwise there is no difference. Also note that currently
-> tilcdc_get_external_components() doesn't return negative values.
->=20
->=20Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-
-Applied this on top of drm-misc-next, dug up my good old Beaglebone-Black=
-,and tested that everything still works, so:
-
-Tested-by: Jyri Sarha <jyri.sarha@iki.fi>
-
-I'll apply this shortly to drm-misc-next.
-
-Best regards,
-Jyri
-
-> ---
-> drivers/gpu/drm/tilcdc/tilcdc_drv.c | 9 ++++-----
-> 1 file changed, 4 insertions(+), 5 deletions(-)
->=20
->=20diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/ti=
-lcdc/tilcdc_drv.c
-> index 8ebd7134ee21..137cd9f62e9f 100644
-> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-> @@ -570,19 +570,18 @@ static int tilcdc_pdev_probe(struct platform_devi=
-ce *pdev)
->  match);
-> }
->=20
->=20-static int tilcdc_pdev_remove(struct platform_device *pdev)
-> +static void tilcdc_pdev_remove(struct platform_device *pdev)
-> {
->  int ret;
->=20
->=20 ret =3D tilcdc_get_external_components(&pdev->dev, NULL);
->  if (ret < 0)
-> - return ret;
-> + dev_err(&pdev->dev, "tilcdc_get_external_components() failed (%pe)\n"=
-,
-> + ERR_PTR(ret));
->  else if (ret =3D=3D 0)
->  tilcdc_fini(platform_get_drvdata(pdev));
->  else
->  component_master_del(&pdev->dev, &tilcdc_comp_ops);
-> -
-> - return 0;
-> }
->=20
->=20static void tilcdc_pdev_shutdown(struct platform_device *pdev)
-> @@ -599,7 +598,7 @@ MODULE_DEVICE_TABLE(of, tilcdc_of_match);
->=20
->=20static struct platform_driver tilcdc_platform_driver =3D {
->  .probe =3D tilcdc_pdev_probe,
-> - .remove =3D tilcdc_pdev_remove,
-> + .remove_new =3D tilcdc_pdev_remove,
->  .shutdown =3D tilcdc_pdev_shutdown,
->  .driver =3D {
->  .name =3D "tilcdc",
-> --=20
->=202.42.0
+>> >> > DSI device lifetime has three different stages:
+>> >> > 1=2E before the DSI link being powered up and clocking,
+>> >> > 2=2E when the DSI link is in LP state (for the purpose of this que=
+stion,
+>> >> > this is the time between the DSI link being powered up and the vid=
+eo
+>> >> > stream start)
+>> >> > 3=2E when the DSI link is in HS state (while streaming the video)=
+=2E
+>> >>
+>> >> It's not clear to me what (2) is=2E What is the state of the clock a=
+nd
+>> >> data lanes?
+>> >
+>> > Clk an Data0 should be in the LP mode, ready for LP Data Transfer=2E
+>>
+>> Then this is somehow missing
+>> https://docs=2Ekernel=2Eorg/gpu/drm-kms-helpers=2Ehtml#mipi-dsi-bridge-=
+operation
+>>
+>>    A DSI host should keep the PHY powered down until the pre_enable
+>> operation
+>>    is called=2E All lanes are in an undefined idle state up to this poi=
+nt,
+>> and
+>>    it must not be assumed that it is LP-11=2E pre_enable should initial=
+ise
+>> the
+>>    PHY, set the data lanes to LP-11, and the clock lane to either LP-11
+>> or HS
+>>    depending on the mode_flag MIPI_DSI_CLOCK_NON_CONTINUOUS=2E
+>>
+>> So I don't think these three states are sufficient, see below, that
+>> there
+>> should be at least four=2E
 >
+>Which one is #4?
+
+enabled clock lane (HS mode), data lanes in LP-11
+
+-michael
+
+>>
+>> >
+>> > I don't think we support ULPS currently=2E
+>> >
+>> >
+>> >>
+>> >> I'm facing similar issues with the tc358775 bridge=2E This bridge ne=
+eds
+>> >> to release its reset while both clock and data lanes are in LP-11
+>> >> mode=2E
+>> >> But then it needs to be configured (via I2C) while the clock lane is
+>> >> in enabled (HS mode), but the data lanes are still in LP-11 mode=2E
+>> >>
+>> >> To me it looks like there is a fouth case then:
+>> >> 1=2E unpowered
+>> >> 2=2E DSI clock and data are in LP-11
+>> >> 3=2E DSI clock is in HS and data are in LP-11
+>> >> 4=2E DSI clock is in HS and data is in HS
+>> >>
+>> >> (And of course the bridge needs continuous clock mode)=2E
+>> >>
+>> >> > Different DSI bridges have different requirements with respect to =
+the
+>> >> > code being executed at stages 1 and 2=2E For example several DSI-t=
+o-eDP
+>> >> > bridges (ps8640, tc358767 require for the link to be quiet during
+>> >> > reset time=2E
+>> >> > The DSI-controlled bridges and DSI panels need to send some comman=
+ds
+>> >> > in stage 2, before starting up video
+>> >> >
+>> >> > In the DRM subsystem stage 3 naturally maps to the
+>> >> > drm_bridge_funcs::enable, stage 1 also naturally maps to the
+>> >> > drm_bridge_funcs::pre_enable=2E Stage 2 doesn't have its own place=
+ in
+>> >> > the DRM call chain=2E
+>> >> > Earlier we attempted to solve that using the pre_enable_prev_first=
+,
+>> >> > which remapped pre-enable callback execution order=2E However it h=
+as led
+>> >> > us to the two issues=2E First, at the DSI host driver we do not kn=
+ow
+>> >> > whether the panel / bridge were updated to use pre_enable_prev_fir=
+st
+>> >> > or not=2E Second, if the bridge has to perform steps during both s=
+tages
+>> >> > 1 and 2, it can not do that=2E
+>> >> >
+>> >> > I'm trying to find a way to express the difference between stages =
+1
+>> >> > and 2 in the generic code, so that we do not to worry about partic=
+ular
+>> >> > DSI host and DSI bridge / panel peculiarities when implementing th=
+e
+>> >> > DSI host and/or DSI panel driver=2E
+>> >>
+>> >> For now, I have a rather hacky "=2Edsi_lp11_notify" callback in
+>> >> drm_bridge_funcs which is supposed to be called by the DSI host whil=
+e
+>> >> the
+>> >> clock and data lanes are in LP-11 mode=2E But that is rather an RFC =
+and
+>> >> me
+>> >> needing something to get the driver for this bridge working=2E Becau=
+se
+>> >> it's
+>> >> badly broken=2E FWIW, you can find my work-in-progress patches at
+>> >> https://github=2Ecom/mwalle/linux/tree/feature-tc358775-fixes
+>> >>
+>> >> -michael
+>> >>
+>> >
+>> >
+>> > --
+>> > With best wishes
+>> > Dmitry
+>
+>
+>
+
