@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BEB7FB4FA
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 09:57:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E31DE7FB50E
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 09:59:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A314A10E461;
-	Tue, 28 Nov 2023 08:57:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0D7610E462;
+	Tue, 28 Nov 2023 08:59:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DE2110E461
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 08:57:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF4E610E463
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 08:59:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
@@ -19,30 +19,28 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=faLCFG7Hlh95wRgOovEuFL2qnIO+HFTKo8+I0D8coQ0=; b=bFA7TIwqBrn8BgwbL3lyOYt/am
- 4XUeuBU0cLMFO3U07p+Js1f/b3TVBzRREwyks2j8M3xtZi3TjpRHlxi+oBo38w0sqZufFLPqegcKz
- yJCg6Y9XAs1xuOZWyH/PFsiZW9O6oql/IMDra3VDT1RifEYCAjjWJCf+WAYh0pmN42TKnpabmxUpU
- inMlHduncay27FEQOpdV7g2lG++bSBLVKbsHMFBqE4hKnFcAG7Uo+zq8MAyPBH4krZfgX2HoR85vF
- VIpx+p2w20WZ4K7MtbrMQZhkzgOgzghIgHY6o3SMSrYlFItCw3xuH02bwtfEbBhvI0E0frSmZ63gW
- LjilXwcA==;
+ bh=FI2ZvN6quGwqt7r0NB7aPQ1cdgNFB/lTj2QjRp07WN8=; b=DSndbvxAggJ2RGGoOUkYP77szq
+ 9iaWnv33CSut9UZhGXOkVK6jUmmGqYgeQxRWE9+w/9NUZ2Pb1vaoXYMdXmPZ0AtiSGJsjV+mc/OwB
+ TIuZSUg2xYrXsEvaUsYi0ii9teCa5mu2FDsOMTsRv0XfZFOF1yx6MElQchmemmXc7RxikEoC1TMbW
+ SmEs5x9PYM26Pr4ns+t9Xt0UKPNYU9/Bv77GVbLEMUxt87RLk7kvCrGB2gmA1EoYSLMTr1LGQ5O42
+ mLI5G394epEioZ9lZ5vwIiAI3hq0f2ad5paql/NTH/QfdAU1aoUq2KOqZ+uvlSl9/83dnKZbRbtc7
+ 5BYthvWg==;
 Received: from 93.49.60.213.dynamic.reverse-mundo-r.com ([213.60.49.93]
  helo=[192.168.0.100]) by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1r7tu3-007xse-2J; Tue, 28 Nov 2023 09:57:11 +0100
-Message-ID: <cd92870928a5187b607b02b217dd96a1faa34ac3.camel@igalia.com>
-Subject: Re: [PATCH v3 17/17] drm/v3d: Create a CPU job extension for the
- copy performance query job
+ id 1r7twB-007xuO-SL; Tue, 28 Nov 2023 09:59:23 +0100
+Message-ID: <c702cdbc0004b1c5a92b73192e334db3ecfe3e8a.camel@igalia.com>
+Subject: Re: [PATCH v3 00/17] drm/v3d: Introduce CPU jobs
 From: Iago Toral <itoral@igalia.com>
 To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
  <mwen@igalia.com>, David Airlie <airlied@gmail.com>, Daniel Vetter
  <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Date: Tue, 28 Nov 2023 09:57:10 +0100
-In-Reply-To: <20231127185723.10348-19-mcanal@igalia.com>
+Date: Tue, 28 Nov 2023 09:59:23 +0100
+In-Reply-To: <20231127185723.10348-2-mcanal@igalia.com>
 References: <20231127185723.10348-2-mcanal@igalia.com>
- <20231127185723.10348-19-mcanal@igalia.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,252 +60,207 @@ Cc: Boris Brezillon <boris.brezillon@collabora.com>, kernel-dev@igalia.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RWwgbHVuLCAyNy0xMS0yMDIzIGEgbGFzIDE1OjQ4IC0wMzAwLCBNYcOtcmEgQ2FuYWwgZXNjcmli
-acOzOgo+IEEgQ1BVIGpvYiBpcyBhIHR5cGUgb2Ygam9iIHRoYXQgcGVyZm9ybXMgb3BlcmF0aW9u
-cyB0aGF0IHJlcXVpcmVzIENQVQo+IGludGVydmVudGlvbi4gQSBjb3B5IHBlcmZvcm1hbmNlIHF1
-ZXJ5IGpvYiBpcyBhIGpvYiB0aGF0IGNvcHkgdGhlCj4gY29tcGxldGUKPiBvciBwYXJ0aWFsIHJl
-c3VsdCBvZiBhIHF1ZXJ5IHRvIGEgYnVmZmVyLiBJbiBvcmRlciB0byBjb3B5IHRoZSByZXN1bHQK
-PiBvZgo+IGEgcGVyZm9ybWFuY2UgcXVlcnkgdG8gYSBidWZmZXIsIHdlIG5lZWQgdG8gZ2V0IHRo
-ZSB2YWx1ZXMgZnJvbSB0aGUKPiBwZXJmb3JtYW5jZSBtb25pdG9ycy4KPiAKPiBTbywgY3JlYXRl
-IGEgdXNlciBleHRlbnNpb24gZm9yIHRoZSBDUFUgam9iIHRoYXQgZW5hYmxlcyB0aGUgY3JlYXRp
-b24KPiBvZiBhIGNvcHkgcGVyZm9ybWFuY2UgcXVlcnkgam9iLiBUaGlzIHVzZXIgZXh0ZW5zaW9u
-IHdpbGwgYWxsb3cgdGhlCj4gY3JlYXRpb24KPiBvZiBhIENQVSBqb2IgdGhhdCBjb3B5IHRoZSBy
-ZXN1bHRzIG9mIGEgcGVyZm9ybWFuY2UgcXVlcnkgdG8gYSBCTwo+IHdpdGggdGhlCj4gcG9zc2li
-aWxpdHkgdG8gaW5kaWNhdGUgdGhlIGF2YWlsYWJpbGl0eSB3aXRoIGEgYXZhaWxhYmlsaXR5IGJp
-dC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBNYcOtcmEgQ2FuYWwgPG1jYW5hbEBpZ2FsaWEuY29tPgo+
-IC0tLQo+IMKgZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfZHJ2LmjCoMKgwqAgfMKgIDEgKwo+IMKg
-ZHJpdmVycy9ncHUvZHJtL3YzZC92M2Rfc2NoZWQuY8KgIHwgNjYgKysrKysrKysrKysrKysrKysr
-KysrKysrKwo+IMKgZHJpdmVycy9ncHUvZHJtL3YzZC92M2Rfc3VibWl0LmMgfCA4Mgo+ICsrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrCj4gwqBpbmNsdWRlL3VhcGkvZHJtL3YzZF9kcm0u
-aMKgwqDCoMKgwqDCoCB8IDUwICsrKysrKysrKysrKysrKysrKysKPiDCoDQgZmlsZXMgY2hhbmdl
-ZCwgMTk5IGluc2VydGlvbnMoKykKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Yz
-ZC92M2RfZHJ2LmgKPiBiL2RyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2Rydi5oCj4gaW5kZXggMGY3
-ZjgwYWQ4ZDg4Li4zYzdkNTg4NjY1NzAgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Yz
-ZC92M2RfZHJ2LmgKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9kcnYuaAo+IEBAIC0z
-MjIsNiArMzIyLDcgQEAgZW51bSB2M2RfY3B1X2pvYl90eXBlIHsKPiDCoMKgwqDCoMKgwqDCoMKg
-VjNEX0NQVV9KT0JfVFlQRV9SRVNFVF9USU1FU1RBTVBfUVVFUlksCj4gwqDCoMKgwqDCoMKgwqDC
-oFYzRF9DUFVfSk9CX1RZUEVfQ09QWV9USU1FU1RBTVBfUVVFUlksCj4gwqDCoMKgwqDCoMKgwqDC
-oFYzRF9DUFVfSk9CX1RZUEVfUkVTRVRfUEVSRk9STUFOQ0VfUVVFUlksCj4gK8KgwqDCoMKgwqDC
-oMKgVjNEX0NQVV9KT0JfVFlQRV9DT1BZX1BFUkZPUk1BTkNFX1FVRVJZLAo+IMKgfTsKPiDCoAo+
-IMKgc3RydWN0IHYzZF90aW1lc3RhbXBfcXVlcnkgewo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vdjNkL3YzZF9zY2hlZC5jCj4gYi9kcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9zY2hlZC5j
-Cj4gaW5kZXggNDUyYzRhMWRiNTJlLi4yMDNjMzJlZDk5ZDQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL3YzZC92M2Rfc2NoZWQuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92M2QvdjNk
-X3NjaGVkLmMKPiBAQCAtNDUwLDEyICs0NTAsNzggQEAgdjNkX3Jlc2V0X3BlcmZvcm1hbmNlX3F1
-ZXJpZXMoc3RydWN0Cj4gdjNkX2NwdV9qb2IgKmpvYikKPiDCoMKgwqDCoMKgwqDCoMKgfQo+IMKg
-fQo+IMKgCj4gK3N0YXRpYyB2b2lkCj4gK3YzZF93cml0ZV9wZXJmb3JtYW5jZV9xdWVyeV9yZXN1
-bHQoc3RydWN0IHYzZF9jcHVfam9iICpqb2IsIHZvaWQKPiAqZGF0YSwgdTMyIHF1ZXJ5KQo+ICt7
-Cj4gK8KgwqDCoMKgwqDCoMKgc3RydWN0IHYzZF9wZXJmb3JtYW5jZV9xdWVyeV9pbmZvICpwZXJm
-b3JtYW5jZV9xdWVyeSA9ICZqb2ItCj4gPnBlcmZvcm1hbmNlX3F1ZXJ5Owo+ICvCoMKgwqDCoMKg
-wqDCoHN0cnVjdCB2M2RfY29weV9xdWVyeV9yZXN1bHRzX2luZm8gKmNvcHkgPSAmam9iLT5jb3B5
-Owo+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCB2M2RfZmlsZV9wcml2ICp2M2RfcHJpdiA9IGpvYi0+
-YmFzZS5maWxlLT5kcml2ZXJfcHJpdjsKPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgdjNkX2RldiAq
-djNkID0gam9iLT5iYXNlLnYzZDsKPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgdjNkX3BlcmZtb24g
-KnBlcmZtb247Cj4gK8KgwqDCoMKgwqDCoMKgdTY0IGNvdW50ZXJfdmFsdWVzW1YzRF9QRVJGQ05U
-X05VTV07Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoGZvciAoaW50IGkgPSAwOyBpIDwgcGVyZm9ybWFu
-Y2VfcXVlcnktPm5wZXJmbW9uczsgaSsrKSB7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoHBlcmZtb24gPSB2M2RfcGVyZm1vbl9maW5kKHYzZF9wcml2LAo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIHBlcmZvcm1hbmNlX3F1ZXJ5LQo+ID5xdWVyaWVzW3F1ZXJ5XS5rcGVyZm1v
-bl9pZHNbaV0pOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoIXBlcmZtb24p
-IHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoERSTV9E
-RUJVRygiRmFpbGVkIHRvIGZpbmQgcGVyZm1vbi4iKTsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGNvbnRpbnVlOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqB9Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB2M2RfcGVy
-Zm1vbl9zdG9wKHYzZCwgcGVyZm1vbiwgdHJ1ZSk7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqBtZW1jcHkoJmNvdW50ZXJfdmFsdWVzW2kgKgo+IERSTV9WM0RfTUFYX1BFUkZf
-Q09VTlRFUlNdLCBwZXJmbW9uLT52YWx1ZXMsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCBwZXJmbW9uLT5uY291bnRlcnMgKiBzaXplb2YodTY0KSk7Cj4gKwo+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB2M2RfcGVyZm1vbl9wdXQocGVyZm1vbik7
-Cj4gK8KgwqDCoMKgwqDCoMKgfQo+ICsKPiArwqDCoMKgwqDCoMKgwqBmb3IgKGludCBpID0gMDsg
-aSA8IHBlcmZvcm1hbmNlX3F1ZXJ5LT5uY291bnRlcnM7IGkrKykKPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgd3JpdGVfdG9fYnVmZmVyKGRhdGEsIGksIGNvcHktPmRvXzY0Yml0LAo+
-IGNvdW50ZXJfdmFsdWVzW2ldKTsKPiArfQo+ICsKPiArCj4gK3N0YXRpYyB2b2lkCj4gK3YzZF9j
-b3B5X3BlcmZvcm1hbmNlX3F1ZXJ5KHN0cnVjdCB2M2RfY3B1X2pvYiAqam9iKQo+ICt7Cj4gK8Kg
-wqDCoMKgwqDCoMKgc3RydWN0IHYzZF9wZXJmb3JtYW5jZV9xdWVyeV9pbmZvICpwZXJmb3JtYW5j
-ZV9xdWVyeSA9ICZqb2ItCj4gPnBlcmZvcm1hbmNlX3F1ZXJ5Owo+ICvCoMKgwqDCoMKgwqDCoHN0
-cnVjdCB2M2RfY29weV9xdWVyeV9yZXN1bHRzX2luZm8gKmNvcHkgPSAmam9iLT5jb3B5Owo+ICvC
-oMKgwqDCoMKgwqDCoHN0cnVjdCB2M2RfYm8gKmJvID0gdG9fdjNkX2JvKGpvYi0+YmFzZS5ib1sw
-XSk7Cj4gK8KgwqDCoMKgwqDCoMKgc3RydWN0IGRtYV9mZW5jZSAqZmVuY2U7Cj4gK8KgwqDCoMKg
-wqDCoMKgYm9vbCBhdmFpbGFibGUsIHdyaXRlX3Jlc3VsdDsKPiArwqDCoMKgwqDCoMKgwqB1OCAq
-ZGF0YTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgdjNkX2dldF9ib192YWRkcihibyk7Cj4gKwo+ICvC
-oMKgwqDCoMKgwqDCoGRhdGEgPSAoKHU4ICopIGJvLT52YWRkcikgKyBjb3B5LT5vZmZzZXQ7Cj4g
-Kwo+ICvCoMKgwqDCoMKgwqDCoGZvciAoaW50IGkgPSAwOyBpIDwgcGVyZm9ybWFuY2VfcXVlcnkt
-PmNvdW50OyBpKyspIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZmVuY2UgPSBk
-cm1fc3luY29ial9mZW5jZV9nZXQocGVyZm9ybWFuY2VfcXVlcnktCj4gPnF1ZXJpZXNbaV0uc3lu
-Y29iaik7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGF2YWlsYWJsZSA9IGZlbmNl
-ID8gZG1hX2ZlbmNlX2lzX3NpZ25hbGVkKGZlbmNlKSA6Cj4gZmFsc2U7Cj4gKwo+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB3cml0ZV9yZXN1bHQgPSBhdmFpbGFibGUgfHwgY29weS0+
-ZG9fcGFydGlhbDsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKHdyaXRlX3Jl
-c3VsdCkKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHYz
-ZF93cml0ZV9wZXJmb3JtYW5jZV9xdWVyeV9yZXN1bHQoam9iLCBkYXRhLAo+IGkpOwo+ICsKPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYgKGNvcHktPmF2YWlsYWJpbGl0eV9iaXQp
-Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB3cml0ZV90
-b19idWZmZXIoZGF0YSwgcGVyZm9ybWFuY2VfcXVlcnktCj4gPm5jb3VudGVycywKPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgY29weS0+ZG9fNjRiaXQsIGF2YWlsYWJsZSA/Cj4gMXUgOiAwdSk7Cj4g
-Kwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkYXRhICs9IGNvcHktPnN0cmlkZTsK
-PiArCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRtYV9mZW5jZV9wdXQoZmVuY2Up
-Owo+ICvCoMKgwqDCoMKgwqDCoH0KPiArCj4gK8KgwqDCoMKgwqDCoMKgdjNkX3B1dF9ib192YWRk
-cihibyk7Cj4gK30KPiArCj4gwqBzdGF0aWMgY29uc3QgdjNkX2NwdV9qb2JfZm4gY3B1X2pvYl9m
-dW5jdGlvbltdID0gewo+IMKgwqDCoMKgwqDCoMKgwqBbVjNEX0NQVV9KT0JfVFlQRV9JTkRJUkVD
-VF9DU0RdID0KPiB2M2RfcmV3cml0ZV9jc2Rfam9iX3dnX2NvdW50c19mcm9tX2luZGlyZWN0LAo+
-IMKgwqDCoMKgwqDCoMKgwqBbVjNEX0NQVV9KT0JfVFlQRV9USU1FU1RBTVBfUVVFUlldID0gdjNk
-X3RpbWVzdGFtcF9xdWVyeSwKPiDCoMKgwqDCoMKgwqDCoMKgW1YzRF9DUFVfSk9CX1RZUEVfUkVT
-RVRfVElNRVNUQU1QX1FVRVJZXSA9Cj4gdjNkX3Jlc2V0X3RpbWVzdGFtcF9xdWVyaWVzLAo+IMKg
-wqDCoMKgwqDCoMKgwqBbVjNEX0NQVV9KT0JfVFlQRV9DT1BZX1RJTUVTVEFNUF9RVUVSWV0gPQo+
-IHYzZF9jb3B5X3F1ZXJ5X3Jlc3VsdHMsCj4gwqDCoMKgwqDCoMKgwqDCoFtWM0RfQ1BVX0pPQl9U
-WVBFX1JFU0VUX1BFUkZPUk1BTkNFX1FVRVJZXSA9Cj4gdjNkX3Jlc2V0X3BlcmZvcm1hbmNlX3F1
-ZXJpZXMsCj4gK8KgwqDCoMKgwqDCoMKgW1YzRF9DUFVfSk9CX1RZUEVfQ09QWV9QRVJGT1JNQU5D
-RV9RVUVSWV0gPQo+IHYzZF9jb3B5X3BlcmZvcm1hbmNlX3F1ZXJ5LAo+IMKgfTsKPiDCoAo+IMKg
-c3RhdGljIHN0cnVjdCBkbWFfZmVuY2UgKgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-djNkL3YzZF9zdWJtaXQuYwo+IGIvZHJpdmVycy9ncHUvZHJtL3YzZC92M2Rfc3VibWl0LmMKPiBp
-bmRleCAyMGFmOGFlMTQ4MzEuLmQ3YTlkYTI0ODRmZCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vdjNkL3YzZF9zdWJtaXQuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92M2QvdjNkX3N1
-Ym1pdC5jCj4gQEAgLTY3Miw2ICs2NzIsODQgQEAgdjNkX2dldF9jcHVfcmVzZXRfcGVyZm9ybWFu
-Y2VfcGFyYW1zKHN0cnVjdAo+IGRybV9maWxlICpmaWxlX3ByaXYsCj4gwqDCoMKgwqDCoMKgwqDC
-oHJldHVybiAwOwo+IMKgfQo+IMKgCj4gK3N0YXRpYyBpbnQKPiArdjNkX2dldF9jcHVfY29weV9w
-ZXJmb3JtYW5jZV9xdWVyeV9wYXJhbXMoc3RydWN0IGRybV9maWxlCj4gKmZpbGVfcHJpdiwKPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGRybV92M2RfZXh0ZW5zaW9uCj4gX191c2Vy
-ICpleHQsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCB2M2RfY3B1X2pvYiAqam9i
-KQo+ICt7Cj4gK8KgwqDCoMKgwqDCoMKgdTMyIF9fdXNlciAqc3luY3M7Cj4gK8KgwqDCoMKgwqDC
-oMKgdTY0IF9fdXNlciAqa3BlcmZtb25faWRzOwo+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBkcm1f
-djNkX2NvcHlfcGVyZm9ybWFuY2VfcXVlcnkgY29weTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgaWYg
-KCFqb2IpIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgRFJNX0RFQlVHKCJDUFUg
-am9iIGV4dGVuc2lvbiB3YXMgYXR0YWNoZWQgdG8gYSBHUFUKPiBqb2IuXG4iKTsKPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIC1FSU5WQUw7Cj4gK8KgwqDCoMKgwqDCoMKg
-fQo+ICsKPiArwqDCoMKgwqDCoMKgwqBpZiAoam9iLT5qb2JfdHlwZSkgewo+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqBEUk1fREVCVUcoIlR3byBDUFUgam9iIGV4dGVuc2lvbnMgd2Vy
-ZSBhZGRlZCB0byB0aGUKPiBzYW1lIENQVSBqb2IuXG4iKTsKPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgcmV0dXJuIC1FSU5WQUw7Cj4gK8KgwqDCoMKgwqDCoMKgfQo+ICsKPiArwqDC
-oMKgwqDCoMKgwqBpZiAoY29weV9mcm9tX3VzZXIoJmNvcHksIGV4dCwgc2l6ZW9mKGNvcHkpKSkK
-PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIC1FRkFVTFQ7Cj4gKwo+ICvC
-oMKgwqDCoMKgwqDCoGlmIChjb3B5LnBhZCkKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgcmV0dXJuIC1FSU5WQUw7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoGpvYi0+am9iX3R5cGUgPSBW
-M0RfQ1BVX0pPQl9UWVBFX0NPUFlfUEVSRk9STUFOQ0VfUVVFUlk7Cj4gKwo+ICvCoMKgwqDCoMKg
-wqDCoGpvYi0+cGVyZm9ybWFuY2VfcXVlcnkucXVlcmllcyA9IGt2bWFsbG9jX2FycmF5KGNvcHku
-Y291bnQsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgc2l6ZW9mKHN0cnVjdAo+IHYzZF9wZXJmb3JtYW5jZV9xdWVyeSksCj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgR0ZQX0tFUk5FTCk7
-Cj4gK8KgwqDCoMKgwqDCoMKgaWYgKCFqb2ItPnBlcmZvcm1hbmNlX3F1ZXJ5LnF1ZXJpZXMpCj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiAtRU5PTUVNOwo+ICsKPiArwqDC
-oMKgwqDCoMKgwqBzeW5jcyA9IHU2NF90b191c2VyX3B0cihjb3B5LnN5bmNzKTsKPiArwqDCoMKg
-wqDCoMKgwqBrcGVyZm1vbl9pZHMgPSB1NjRfdG9fdXNlcl9wdHIoY29weS5rcGVyZm1vbl9pZHMp
-Owo+ICsKPiArwqDCoMKgwqDCoMKgwqBmb3IgKGludCBpID0gMDsgaSA8IGNvcHkuY291bnQ7IGkr
-Kykgewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB1MzIgc3luYzsKPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdTY0IGlkczsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgdTMyIF9fdXNlciAqaWRzX3BvaW50ZXI7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoHUzMiBpZDsKPiArCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlm
-IChjb3B5X2Zyb21fdXNlcigmc3luYywgc3luY3MrKywgc2l6ZW9mKHN5bmMpKSkgewo+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKga3ZmcmVlKGpvYi0+cGVy
-Zm9ybWFuY2VfcXVlcnkucXVlcmllcyk7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gLUVGQVVMVDsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgfQo+ICsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgam9iLT5wZXJm
-b3JtYW5jZV9xdWVyeS5xdWVyaWVzW2ldLnN5bmNvYmogPQo+IGRybV9zeW5jb2JqX2ZpbmQoZmls
-ZV9wcml2LCBzeW5jKTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlmIChj
-b3B5X2Zyb21fdXNlcigmaWRzLCBrcGVyZm1vbl9pZHMrKywKPiBzaXplb2YoaWRzKSkpIHsKPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGt2ZnJlZShqb2It
-PnBlcmZvcm1hbmNlX3F1ZXJ5LnF1ZXJpZXMpOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIC1FRkFVTFQ7Cj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoH0KPiArCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlkc19w
-b2ludGVyID0gdTY0X3RvX3VzZXJfcHRyKGlkcyk7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqBmb3IgKGludCBqID0gMDsgaiA8IGNvcHkubnBlcmZtb25zOyBqKyspIHsKPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlmIChjb3B5X2Zy
-b21fdXNlcigmaWQsIGlkc19wb2ludGVyKyssCj4gc2l6ZW9mKGlkKSkpIHsKPiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBrdmZy
-ZWUoam9iLQo+ID5wZXJmb3JtYW5jZV9xdWVyeS5xdWVyaWVzKTsKPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gLUVG
-QVVMVDsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoH0K
-PiArCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBqb2It
-Cj4gPnBlcmZvcm1hbmNlX3F1ZXJ5LnF1ZXJpZXNbaV0ua3BlcmZtb25faWRzW2pdID0gaWQ7Cj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoH0KPiArwqDCoMKgwqDCoMKgwqB9Cj4gK8Kg
-wqDCoMKgwqDCoMKgam9iLT5wZXJmb3JtYW5jZV9xdWVyeS5jb3VudCA9IGNvcHkuY291bnQ7Cj4g
-K8KgwqDCoMKgwqDCoMKgam9iLT5wZXJmb3JtYW5jZV9xdWVyeS5ucGVyZm1vbnMgPSBjb3B5Lm5w
-ZXJmbW9uczsKPiArwqDCoMKgwqDCoMKgwqBqb2ItPnBlcmZvcm1hbmNlX3F1ZXJ5Lm5jb3VudGVy
-cyA9IGNvcHkubmNvdW50ZXJzOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBqb2ItPmNvcHkuZG9fNjRi
-aXQgPSBjb3B5LmRvXzY0Yml0Owo+ICvCoMKgwqDCoMKgwqDCoGpvYi0+Y29weS5kb19wYXJ0aWFs
-ID0gY29weS5kb19wYXJ0aWFsOwo+ICvCoMKgwqDCoMKgwqDCoGpvYi0+Y29weS5hdmFpbGFiaWxp
-dHlfYml0ID0gY29weS5hdmFpbGFiaWxpdHlfYml0Owo+ICvCoMKgwqDCoMKgwqDCoGpvYi0+Y29w
-eS5vZmZzZXQgPSBjb3B5Lm9mZnNldDsKPiArwqDCoMKgwqDCoMKgwqBqb2ItPmNvcHkuc3RyaWRl
-ID0gY29weS5zdHJpZGU7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoHJldHVybiAwOwo+ICt9Cj4gKwo+
-IMKgLyogV2hlbmV2ZXIgdXNlcnNwYWNlIHNldHMgaW9jdGwgZXh0ZW5zaW9ucywgdjNkX2dldF9l
-eHRlbnNpb25zCj4gcGFyc2VzIGRhdGEKPiDCoCAqIGFjY29yZGluZyB0byB0aGUgZXh0ZW5zaW9u
-IGlkIChuYW1lKS4KPiDCoCAqLwo+IEBAIC03MTIsNiArNzkwLDkgQEAgdjNkX2dldF9leHRlbnNp
-b25zKHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2LAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgY2FzZSBEUk1fVjNEX0VYVF9JRF9DUFVfUkVTRVRfUEVSRk9STUFOQ0VfUVVFUlk6
-Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0ID0K
-PiB2M2RfZ2V0X2NwdV9yZXNldF9wZXJmb3JtYW5jZV9wYXJhbXMoZmlsZV9wcml2LCB1c2VyX2V4
-dCwgam9iKTsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqBicmVhazsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgY2FzZSBEUk1fVjNEX0VY
-VF9JRF9DUFVfQ09QWV9QRVJGT1JNQU5DRV9RVUVSWToKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldCA9Cj4gdjNkX2dldF9jcHVfY29weV9wZXJmb3Jt
-YW5jZV9xdWVyeV9wYXJhbXMoZmlsZV9wcml2LCB1c2VyX2V4dCwgam9iKTsKPiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGJyZWFrOwo+IMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgZGVmYXVsdDoKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBEUk1fREVCVUdfRFJJVkVSKCJVbmtub3duIGV4dGVuc2lv
-biBpZDoKPiAlZFxuIiwgZXh0LmlkKTsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gLUVJTlZBTDsKPiBAQCAtMTA5Miw2ICsxMTczLDcgQEAg
-c3RhdGljIGNvbnN0IHVuc2lnbmVkIGludAo+IGNwdV9qb2JfYm9faGFuZGxlX2NvdW50W10gPSB7
-Cj4gwqDCoMKgwqDCoMKgwqDCoFtWM0RfQ1BVX0pPQl9UWVBFX1JFU0VUX1RJTUVTVEFNUF9RVUVS
-WV0gPSAxLAo+IMKgwqDCoMKgwqDCoMKgwqBbVjNEX0NQVV9KT0JfVFlQRV9DT1BZX1RJTUVTVEFN
-UF9RVUVSWV0gPSAyLAo+IMKgwqDCoMKgwqDCoMKgwqBbVjNEX0NQVV9KT0JfVFlQRV9SRVNFVF9Q
-RVJGT1JNQU5DRV9RVUVSWV0gPSAwLAo+ICvCoMKgwqDCoMKgwqDCoFtWM0RfQ1BVX0pPQl9UWVBF
-X0NPUFlfUEVSRk9STUFOQ0VfUVVFUlldID0gMSwKPiDCoH07Cj4gwqAKPiDCoC8qKgo+IGRpZmYg
-LS1naXQgYS9pbmNsdWRlL3VhcGkvZHJtL3YzZF9kcm0uaCBiL2luY2x1ZGUvdWFwaS9kcm0vdjNk
-X2RybS5oCj4gaW5kZXggNzZhMDJkMmMwMWU2Li45Yjk5ZDU1NGVmOWMgMTAwNjQ0Cj4gLS0tIGEv
-aW5jbHVkZS91YXBpL2RybS92M2RfZHJtLmgKPiArKysgYi9pbmNsdWRlL3VhcGkvZHJtL3YzZF9k
-cm0uaAo+IEBAIC03Nyw2ICs3Nyw3IEBAIHN0cnVjdCBkcm1fdjNkX2V4dGVuc2lvbiB7Cj4gwqAj
-ZGVmaW5lIERSTV9WM0RfRVhUX0lEX0NQVV9SRVNFVF9USU1FU1RBTVBfUVVFUlnCoMKgwqDCoMKg
-wqDCoDB4MDQKPiDCoCNkZWZpbmUgRFJNX1YzRF9FWFRfSURfQ1BVX0NPUFlfVElNRVNUQU1QX1FV
-RVJZwqDCoMKgwqDCoMKgwqDCoDB4MDUKPiDCoCNkZWZpbmUgRFJNX1YzRF9FWFRfSURfQ1BVX1JF
-U0VUX1BFUkZPUk1BTkNFX1FVRVJZwqDCoMKgwqDCoDB4MDYKPiArI2RlZmluZSBEUk1fVjNEX0VY
-VF9JRF9DUFVfQ09QWV9QRVJGT1JNQU5DRV9RVUVSWcKgwqDCoMKgwqDCoDB4MDcKPiDCoMKgwqDC
-oMKgwqDCoMKgX191MzIgZmxhZ3M7IC8qIG1ieiAqLwo+IMKgfTsKPiDCoAo+IEBAIC01MTksNiAr
-NTIwLDUyIEBAIHN0cnVjdCBkcm1fdjNkX3Jlc2V0X3BlcmZvcm1hbmNlX3F1ZXJ5IHsKPiDCoMKg
-wqDCoMKgwqDCoMKgX191NjQga3BlcmZtb25faWRzOwo+IMKgfTsKPiDCoAo+ICsvKioKPiArICog
-c3RydWN0IGRybV92M2RfY29weV9wZXJmb3JtYW5jZV9xdWVyeSAtIGlvY3RsIGV4dGVuc2lvbiBm
-b3IgdGhlCj4gQ1BVIGpvYiB0byBjb3B5Cj4gKyAqIHBlcmZvcm1hbmNlIHF1ZXJ5IHJlc3VsdHMg
-dG8gYSBidWZmZXIKPiArICoKPiArICogV2hlbiBhbiBleHRlbnNpb24gRFJNX1YzRF9FWFRfSURf
-Q1BVX0NPUFlfUEVSRk9STUFOQ0VfUVVFUlkgaXMKPiBkZWZpbmVkLCBpdAo+ICsgKiBwb2ludHMg
-dG8gdGhpcyBleHRlbnNpb24gdG8gZGVmaW5lIGEgY29weSBwZXJmb3JtYW5jZSBxdWVyeQo+IHN1
-Ym1pc3Npb24uIFRoaXMKPiArICogQ1BVIGpvYiB3aWxsIGNvcHkgdGhlIHBlcmZvcm1hbmNlIHF1
-ZXJpZXMgcmVzdWx0cyB0byBhIEJPIHdpdGgKPiB0aGUgb2Zmc2V0Cj4gKyAqIGFuZCBzdHJpZGUg
-ZGVmaW5lZCBpbiB0aGUgZXh0ZW5zaW9uLgo+ICsgKi8KPiArc3RydWN0IGRybV92M2RfY29weV9w
-ZXJmb3JtYW5jZV9xdWVyeSB7Cj4gK8KgwqDCoMKgwqDCoMKgc3RydWN0IGRybV92M2RfZXh0ZW5z
-aW9uIGJhc2U7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoC8qIERlZmluZSBpZiBzaG91bGQgd3JpdGUg
-dG8gYnVmZmVyIHVzaW5nIDY0IG9yIDMyIGJpdHMgKi8KPiArwqDCoMKgwqDCoMKgwqBfX3U4IGRv
-XzY0Yml0Owo+ICsKPiArwqDCoMKgwqDCoMKgwqAvKiBEZWZpbmUgaWYgaXQgY2FuIHdyaXRlIHRv
-IGJ1ZmZlciBldmVuIGlmIHRoZSBxdWVyeSBpcyBub3QKPiBhdmFpbGFibGUgKi8KPiArwqDCoMKg
-wqDCoMKgwqBfX3U4IGRvX3BhcnRpYWw7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoC8qIERlZmluZSBp
-ZiBpdCBzaG91bGQgd3JpdGUgYXZhaWxhYmlsaXR5IGJpdCB0byBidWZmZXIgKi8KPiArwqDCoMKg
-wqDCoMKgwqBfX3U4IGF2YWlsYWJpbGl0eV9iaXQ7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoC8qIG1i
-eiAqLwo+ICvCoMKgwqDCoMKgwqDCoF9fdTggcGFkOwo+ICsKPiArwqDCoMKgwqDCoMKgwqAvKiBP
-ZmZzZXQgb2YgdGhlIGJ1ZmZlciBpbiB0aGUgQk8gKi8KPiArwqDCoMKgwqDCoMKgwqBfX3UzMiBv
-ZmZzZXQ7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoC8qIFN0cmlkZSBvZiB0aGUgYnVmZmVyIGluIHRo
-ZSBCTyAqLwo+ICvCoMKgwqDCoMKgwqDCoF9fdTMyIHN0cmlkZTsKPiArCj4gK8KgwqDCoMKgwqDC
-oMKgLyogTnVtYmVyIG9mIHBlcmZvcm1hbmNlIG1vbml0b3JzICovCj4gK8KgwqDCoMKgwqDCoMKg
-X191MzIgbnBlcmZtb25zOwo+ICsKPiArwqDCoMKgwqDCoMKgwqAvKiBOdW1iZXIgb2YgcGVyZm9y
-bWFuY2UgY291bnRlcnMgcmVsYXRlZCB0byB0aGlzIHF1ZXJ5IHBvb2wKPiAqLwo+ICvCoMKgwqDC
-oMKgwqDCoF9fdTMyIG5jb3VudGVyczsKPiArCj4gK8KgwqDCoMKgwqDCoMKgLyogTnVtYmVyIG9m
-IHF1ZXJpZXMgKi8KPiArwqDCoMKgwqDCoMKgwqBfX3UzMiBjb3VudDsKPiArCj4gK8KgwqDCoMKg
-wqDCoMKgLyogQXJyYXkgb2YgcGVyZm9ybWFuY2UgcXVlcmllcydzIHN5bmNvYmpzIHRvIGluZGlj
-YXRlIGl0cwo+IGF2YWlsYWJpbGl0eSAqLwo+ICvCoMKgwqDCoMKgwqDCoF9fdTY0IHN5bmNzOwo+
-ICsKPiArwqDCoMKgwqDCoMKgwqAvKiBBcnJheSBvZiB1NjQgdXNlci1wb2ludGVycyB0aGF0IHBv
-aW50IHRvIGFuIGFycmF5IG9mCj4ga3BlcmZtb25faWRzICovCj4gK8KgwqDCoMKgwqDCoMKgX191
-NjQga3BlcmZtb25faWRzOwo+ICt9Owo+ICsKPiDCoHN0cnVjdCBkcm1fdjNkX3N1Ym1pdF9jcHUg
-ewo+IMKgwqDCoMKgwqDCoMKgwqAvKiBQb2ludGVyIHRvIGEgdTMyIGFycmF5IG9mIHRoZSBCT3Mg
-dGhhdCBhcmUgcmVmZXJlbmNlZCBieQo+IHRoZSBqb2IuCj4gwqDCoMKgwqDCoMKgwqDCoCAqCj4g
-QEAgLTUzNyw2ICs1ODQsOSBAQCBzdHJ1Y3QgZHJtX3YzZF9zdWJtaXRfY3B1IHsKPiDCoMKgwqDC
-oMKgwqDCoMKgICoKPiDCoMKgwqDCoMKgwqDCoMKgICogRm9yIERSTV9WM0RfRVhUX0lEX0NQVV9S
-RVNFVF9QRVJGT1JNQU5DRV9RVUVSWSwgaXQgbXVzdAo+IGNvbnRhaW4gbm8KPiDCoMKgwqDCoMKg
-wqDCoMKgICogQk9zLgo+ICvCoMKgwqDCoMKgwqDCoCAqCj4gK8KgwqDCoMKgwqDCoMKgICogRm9y
-IERSTV9WM0RfRVhUX0lEX0NQVV9DT1BZX1BFUkZPUk1BTkNFX1FVRVJZLCBpdCBtdXN0Cj4gY29u
-dGFpbiBvbmUKPiArwqDCoMKgwqDCoMKgwqAgKiBCTywgZm9yIHdoaWNoIHRoZSBwZXJmb3JtYW5j
-ZSBxdWVyaWVzIHdpbGwgYmUgd3JpdHRlbiB0by4KCiguLi4pLCB3aGVyZSB0aGUgcGVyZm9ybWFu
-Y2UgcXVlcmllcyB3aWxsIGJlIHdyaXR0ZW4uKC4uLikKCklhZ28KPiDCoMKgwqDCoMKgwqDCoMKg
-ICovCj4gwqDCoMKgwqDCoMKgwqDCoF9fdTY0IGJvX2hhbmRsZXM7Cj4gwqAKCg==
+Hi Ma=C3=ADra,
 
+El lun, 27-11-2023 a las 15:48 -0300, Ma=C3=ADra Canal escribi=C3=B3:
+> This patchset implements the basic infrastructure for a new type of
+> V3D job, a CPU job. A CPU job is a job that requires CPU
+> intervention.
+> It would be nice to perform this operations on the kernel space as we
+> can attach multiple in/out syncobjs to it.
+>=20
+> Why we want a CPU job on the kernel?
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> There are some Vulkan commands that cannot be performed by the GPU,
+> so
+> we implement those as CPU jobs on Mesa. But to synchronize a CPU job
+> in the user space, we need to hold part of the command submission
+> flow
+> in order to correctly synchronize their execution.
+>=20
+> By moving the CPU job to the kernel, we can make use of the DRM
+> schedule queues and all the advantages it brings with it. This way,
+> instead of stalling the submission thread, we can use syncobjs to
+> synchronize the job, providing a more effective management.
+>=20
+> About the implementation
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> After we decided that we would like to have a CPU job implementation
+> in the kernel, we could think about two possible implementations for
+> this job: creating an IOCTL for each type of CPU job or using an user
+> extension to provide a polymorphic behavior to a single CPU job
+> IOCTL.
+> We decided for the latter one.
+>=20
+> We have different types of CPU jobs (indirect CSD jobs, timestamp
+> query jobs, copy query results jobs...) and each of them have a
+> common
+> infrastructure, but perform different operations. Therefore, by using
+> a single IOCTL that is extended by an user extension, we can reuse
+> the
+> common infrastructure - avoiding code repetition - and yet use the
+> user extension ID to identify the type of job and depending on the
+> type of job, perform a certain operation.
+>=20
+> About the patchset
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> This patchset introduces the basic infrastructure of a CPU job with a
+> new V3D queue (V3D_CPU) e new tracers. Moreover, it introduces six
+> types of CPU jobs: an indirect CSD job, a timestamp query job, a
+> reset timestamp queries job, a copy timestamp query results job, a
+> reset
+> performance queries job, and a copy performance query results job.
+>=20
+> An indirect CSD job is a job that, when executed in the queue, will
+> map the indirect buffer, read the dispatch parameters, and submit a
+> regular dispatch. So, the CSD job depends on the CPU job execution.
+> We
+> attach the wait dependencies to the CPU job and once they are
+> satisfied,
+> we read the dispatch parameters, rewrite the uniforms (if needed) and
+> enable the CSD job execution, which depends on the completion of the
+> CPU job.
+>=20
+> A timestamp query job is a job that calculates the value of the
+> timestamp query and updates the availability of the query. In order
+> to
+> implement this job, we had to change the Mesa implementation of the
+> timestamp. Now, the timestamp query value is tracked in a BO, instead
+> of using a memory address. Moreover, the timestamp query availability
+> is
+> tracked with a syncobj, which is signaled when the query is
+> available.
+>=20
+> A reset timestamp queries job is a job that resets the timestamp
+> queries by
+> zeroing the timestamp BO in the right positions. The right position
+> on
+> the timestamp BO is found through the offset of the first query.
+>=20
+> A reset performance queries job is a job that zeros the values of the
+> performance monitors associated to that query. Moreover, it resets
+> the
+> availability syncobj related to that query.
+>=20
+> A copy query results job is a job that copy the results of a query to
+> a
+> BO in a given offset with a given stride.
+>=20
+> The patchset is divided as such:
+> =C2=A0* #1 - #4: refactoring operations to prepare for the introduction o=
+f
+> the
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CPU jo=
+b
+> =C2=A0* #5: addressing a vulnerability in the multisync extension
+> =C2=A0* #6: decouple job allocation from job initiation
+> =C2=A0* #7 - #9: introduction of the CPU job
+> =C2=A0* #10 - #11: refactoring operations to prepare for the introduction
+> of the
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 indirect CSD job
+> =C2=A0* #12: introduction of the indirect CSD job
+> =C2=A0* #13: introduction of the timestamp query job
+> =C2=A0* #14: introduction of the reset timestamp queries job
+> =C2=A0* #15: introduction of the copy timestamp query results job
+> =C2=A0* #16: introduction of the reset performance queries job
+> =C2=A0* #17: introduction of the copy performance query results job
+>=20
+> This patchset has its Mesa counterpart, which is available on [1].
+>=20
+> Both the kernel and Mesa implementation were tested with
+>=20
+> =C2=A0* `dEQP-VK.compute.pipeline.indirect_dispatch.*`,
+> =C2=A0* `dEQP-VK.pipeline.monolithic.timestamp.*`,
+> =C2=A0* `dEQP-VK.synchronization.*`,
+> =C2=A0* `dEQP-VK.query_pool.*`
+> =C2=A0* and `dEQP-VK.multiview.*`.
+>=20
+> [1]
+> https://gitlab.freedesktop.org/mairacanal/mesa/-/tree/v3dv/v5/cpu-job
+>=20
+> Changelog
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> v1 -> v2:
+> https://lore.kernel.org/dri-devel/20230904175019.1172713-1-mcanal@igalia.=
+com/
+>=20
+> * Rebase on top of drm-misc-next.
+> * Add GPU stats to the CPU queue.
+>=20
+> v2 -> v3:
+> https://lore.kernel.org/dri-devel/20231124012548.772095-1-mcanal@igalia.c=
+om/
+>=20
+> * Don't cast struct v3d_*_job to void *, use &job->base (Iago Toral)
+> * Completely decouple job allocation from initialization (Iago Toral
+> & Melissa Wen)
+> * s/externsion/extension (Iago Toral)
+> * Declare all CPU job functions as static const outside of the
+> function (Iago Toral)
+> * Document how many BOs are expected for each CPU job extension (Iago
+> Toral)
+> * Check if the number of BOs in the IOCTL matches the expectation
+> (Iago Toral)
+>=20
+> Best Regards,
+> - Ma=C3=ADra
+>=20
+> Ma=C3=ADra Canal (11):
+> =C2=A0 drm/v3d: Don't allow two multisync extensions in the same job
+> =C2=A0 drm/v3d: Decouple job allocation from job initiation
+> =C2=A0 drm/v3d: Use v3d_get_extensions() to parse CPU job data
+> =C2=A0 drm/v3d: Create tracepoints to track the CPU job
+> =C2=A0 drm/v3d: Enable BO mapping
+> =C2=A0 drm/v3d: Create a CPU job extension for a indirect CSD job
+> =C2=A0 drm/v3d: Create a CPU job extension for the timestamp query job
+> =C2=A0 drm/v3d: Create a CPU job extension for the reset timestamp job
+> =C2=A0 drm/v3d: Create a CPU job extension to copy timestamp query to a
+> buffer
+> =C2=A0 drm/v3d: Create a CPU job extension for the reset performance quer=
+y
+> job
+> =C2=A0 drm/v3d: Create a CPU job extension for the copy performance query
+> job
+>=20
+> Melissa Wen (6):
+> =C2=A0 drm/v3d: Remove unused function header
+> =C2=A0 drm/v3d: Move wait BO ioctl to the v3d_bo file
+> =C2=A0 drm/v3d: Detach job submissions IOCTLs to a new specific file
+> =C2=A0 drm/v3d: Simplify job refcount handling
+> =C2=A0 drm/v3d: Add a CPU job submission
+> =C2=A0 drm/v3d: Detach the CSD job BO setup
+>=20
+> =C2=A0drivers/gpu/drm/v3d/Makefile=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=
+=C2=A0 3 +-
+> =C2=A0drivers/gpu/drm/v3d/v3d_bo.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 =
+51 ++
+> =C2=A0drivers/gpu/drm/v3d/v3d_drv.c=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=
+ 4 +
+> =C2=A0drivers/gpu/drm/v3d/v3d_drv.h=C2=A0=C2=A0=C2=A0 |=C2=A0 134 ++-
+> =C2=A0drivers/gpu/drm/v3d/v3d_gem.c=C2=A0=C2=A0=C2=A0 |=C2=A0 768 -------=
+----------
+> =C2=A0drivers/gpu/drm/v3d/v3d_sched.c=C2=A0 |=C2=A0 315 +++++++
+> =C2=A0drivers/gpu/drm/v3d/v3d_submit.c | 1318
+> ++++++++++++++++++++++++++++++
+> =C2=A0drivers/gpu/drm/v3d/v3d_trace.h=C2=A0 |=C2=A0=C2=A0 57 ++
+> =C2=A0include/uapi/drm/v3d_drm.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 240 +++++-
+> =C2=A09 files changed, 2110 insertions(+), 780 deletions(-)
+> =C2=A0create mode 100644 drivers/gpu/drm/v3d/v3d_submit.c
+>=20
+> --
+> 2.42.0
+
+I shared a few minor nits but otherwise I think this looks good. With
+those nits fixed the series is:
+
+Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
+
+Thanks!
+Iago
