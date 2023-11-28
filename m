@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78ACA7FBC02
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 14:57:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49AB67FBC2A
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 15:06:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 661E010E545;
-	Tue, 28 Nov 2023 13:57:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B44B10E546;
+	Tue, 28 Nov 2023 14:06:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF6610E545
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 13:57:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A97110E546
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 14:06:17 +0000 (UTC)
 Received: from localhost (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 13F3F660170E;
- Tue, 28 Nov 2023 13:57:16 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 203FF66020EE;
+ Tue, 28 Nov 2023 14:06:15 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1701179836;
- bh=YBejDDHKEDVBfhOMZMTFCHvjiKJ4YtU6R+59KN5Lhso=;
+ s=mail; t=1701180375;
+ bh=BeGFMXqQNnwSAvSoTab+xhTNp0QLj8WV+WogQaN7kgo=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Ifvu1sBXRfOVDqtFeoaurwYscT3GBNkVLBaQZ7gMyKfViosvIqDqwaWq4dUXLEM0S
- IZtqZ6e+IoPUNbQzMPkdXNh6ULC2ekeEHJP1CMzgm8XuMgSfJOSzrkuklHl052FpoY
- ZVt+LHVikKMyBhdV8m9CCnbxRuyahgVbNpchAyTtLHN/bjoY0fvYiDzFpprGSd029h
- IauvEINCdfE/vVkno49YjLNZh8slO0L68qaEJFfCGHEIOEM0zb+vi6jfT7/wi+Rdft
- JHw+GSrWO+ODtcM6LqH8tACgf97nDi1xWL88145+5EBZoeAhVY4/7L3arFfKYkyzjU
- CK+1DTDFRnLiA==
-Date: Tue, 28 Nov 2023 14:57:12 +0100
+ b=fITqgi3xuq9T2gdBtj2+QArt1iPmNMtSQkyY+P/0N95XzzSdFbY6V3zHR2PI5LpeW
+ 9gQc9Ni9AzXSv6E/K4N1XUz5+DTJoR9SpjTxdWWXtSrXwa5/Eyy3z1Xxbi3Lrx4Ex1
+ QC7Oh8thJT+Mo5PWsNVJrXcng5tWUj4cwlgBogto4sEcpbLCUGMd03i+E+UKbMK42B
+ 8cOsI44kcUSTamVkvcFOLkw/6xsoyxmyflcXsWEkxzkwONnd4vc0WVV3u9qO5aY/ce
+ PHqyU3GHbY2wNE5lB9VQheKfnZVDMDe1dAiLw9p6udVoNnXR+Tce+I1jVPdJRPVY+3
+ LpyKuI73jhBiw==
+Date: Tue, 28 Nov 2023 15:06:12 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Subject: Re: [PATCH v2 3/3] drm/panfrost: Synchronize and disable interrupts
  before powering off
-Message-ID: <20231128145712.3f4d3f74@collabora.com>
+Message-ID: <20231128150612.17f6a095@collabora.com>
 In-Reply-To: <20231128124510.391007-4-angelogioacchino.delregno@collabora.com>
 References: <20231128124510.391007-1-angelogioacchino.delregno@collabora.com>
  <20231128124510.391007-4-angelogioacchino.delregno@collabora.com>
@@ -111,6 +111,10 @@ wrote:
 >  	struct panfrost_device *pfdev = dev_get_drvdata(dev);
 >  
 > +	bitmap_zero(pfdev->is_suspending, PANFROST_COMP_BIT_MAX);
+
+I would let each sub-block clear their bit in the reset path, since
+that's where the IRQs are effectively unmasked.
+
 >  	panfrost_device_reset(pfdev);
 >  	panfrost_devfreq_resume(pfdev);
 >  
@@ -146,140 +150,6 @@ wrote:
 >  	struct panfrost_features features;
 >  	const struct panfrost_compatible *comp;
 > +	DECLARE_BITMAP(is_suspending, PANFROST_COMP_BIT_MAX);
->  
->  	spinlock_t as_lock;
->  	unsigned long as_in_use_mask;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> index 7adc4441fa14..2bf645993ab4 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> @@ -452,6 +452,13 @@ void panfrost_gpu_power_off(struct panfrost_device *pfdev)
->  		dev_err(pfdev->dev, "l2 power transition timeout");
->  }
->  
-> +void panfrost_gpu_suspend_irq(struct panfrost_device *pfdev)
-> +{
-> +	gpu_write(pfdev, GPU_INT_MASK, 0);
-> +	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
 
-Shouldn't the synchronize_irq() guarantee that all monitored interrupts
-are cleared before you return?
-
-> +	synchronize_irq(pfdev->gpu_irq);
-> +}
-> +
->  int panfrost_gpu_init(struct panfrost_device *pfdev)
->  {
->  	int err;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.h b/drivers/gpu/drm/panfrost/panfrost_gpu.h
-> index 876fdad9f721..d841b86504ea 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.h
-> @@ -15,6 +15,7 @@ u32 panfrost_gpu_get_latest_flush_id(struct panfrost_device *pfdev);
->  int panfrost_gpu_soft_reset(struct panfrost_device *pfdev);
->  void panfrost_gpu_power_on(struct panfrost_device *pfdev);
->  void panfrost_gpu_power_off(struct panfrost_device *pfdev);
-> +void panfrost_gpu_suspend_irq(struct panfrost_device *pfdev);
->  
->  void panfrost_cycle_counter_get(struct panfrost_device *pfdev);
->  void panfrost_cycle_counter_put(struct panfrost_device *pfdev);
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index f9446e197428..e8de44cc56e2 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -413,6 +413,14 @@ void panfrost_job_enable_interrupts(struct panfrost_device *pfdev)
->  	job_write(pfdev, JOB_INT_MASK, irq_mask);
->  }
->  
-> +void panfrost_job_suspend_irq(struct panfrost_device *pfdev)
-> +{
-> +	set_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspending);
-> +
-> +	job_write(pfdev, JOB_INT_MASK, 0);
-> +	synchronize_irq(pfdev->js->irq);
-> +}
-> +
->  static void panfrost_job_handle_err(struct panfrost_device *pfdev,
->  				    struct panfrost_job *job,
->  				    unsigned int js)
-> @@ -792,9 +800,13 @@ static irqreturn_t panfrost_job_irq_handler_thread(int irq, void *data)
->  	struct panfrost_device *pfdev = data;
->  
->  	panfrost_job_handle_irqs(pfdev);
-> -	job_write(pfdev, JOB_INT_MASK,
-> -		  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
-> -		  GENMASK(NUM_JOB_SLOTS - 1, 0));
-> +
-> +	/* Enable interrupts only if we're not about to get suspended */
-> +	if (!test_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspending))
-
-The irq-line is requested with IRQF_SHARED, meaning the line might be
-shared between all three GPU IRQs, but also with other devices. I think
-if we want to be totally safe, we need to also check this is_suspending
-field in the hard irq handlers before accessing the xxx_INT_yyy
-registers.
-
-> +		job_write(pfdev, JOB_INT_MASK,
-> +			  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
-> +			  GENMASK(NUM_JOB_SLOTS - 1, 0));
-> +
->  	return IRQ_HANDLED;
->  }
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
-> index 17ff808dba07..ec581b97852b 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
-> @@ -47,6 +47,7 @@ int panfrost_job_get_slot(struct panfrost_job *job);
->  int panfrost_job_push(struct panfrost_job *job);
->  void panfrost_job_put(struct panfrost_job *job);
->  void panfrost_job_enable_interrupts(struct panfrost_device *pfdev);
-> +void panfrost_job_suspend_irq(struct panfrost_device *pfdev);
->  int panfrost_job_is_idle(struct panfrost_device *pfdev);
->  
->  #endif
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> index ac4296c1e54b..6ccf0a65b8fb 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> @@ -744,9 +744,12 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(int irq, void *data)
->  			status = mmu_read(pfdev, MMU_INT_RAWSTAT) & ~pfdev->as_faulty_mask;
->  	}
->  
-> -	spin_lock(&pfdev->as_lock);
-> -	mmu_write(pfdev, MMU_INT_MASK, ~pfdev->as_faulty_mask);
-> -	spin_unlock(&pfdev->as_lock);
-> +	/* Enable interrupts only if we're not about to get suspended */
-> +	if (!test_bit(PANFROST_COMP_BIT_MMU, pfdev->is_suspending)) {
-> +		spin_lock(&pfdev->as_lock);
-> +		mmu_write(pfdev, MMU_INT_MASK, ~pfdev->as_faulty_mask);
-> +		spin_unlock(&pfdev->as_lock);
-> +	}
->  
->  	return IRQ_HANDLED;
->  };
-> @@ -777,3 +780,11 @@ void panfrost_mmu_fini(struct panfrost_device *pfdev)
->  {
->  	mmu_write(pfdev, MMU_INT_MASK, 0);
->  }
-> +
-> +void panfrost_mmu_suspend_irq(struct panfrost_device *pfdev)
-> +{
-> +	set_bit(PANFROST_COMP_BIT_MMU, pfdev->is_suspending);
-> +
-> +	mmu_write(pfdev, MMU_INT_MASK, 0);
-> +	synchronize_irq(pfdev->mmu_irq);
-> +}
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.h b/drivers/gpu/drm/panfrost/panfrost_mmu.h
-> index cc2a0d307feb..022a9a74a114 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.h
-> @@ -14,6 +14,7 @@ void panfrost_mmu_unmap(struct panfrost_gem_mapping *mapping);
->  int panfrost_mmu_init(struct panfrost_device *pfdev);
->  void panfrost_mmu_fini(struct panfrost_device *pfdev);
->  void panfrost_mmu_reset(struct panfrost_device *pfdev);
-> +void panfrost_mmu_suspend_irq(struct panfrost_device *pfdev);
->  
->  u32 panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_mmu *mmu);
->  void panfrost_mmu_as_put(struct panfrost_device *pfdev, struct panfrost_mmu *mmu);
-
+nit: Maybe s/is_suspending/suspended_irqs/, given the state remains
+until the device is resumed.
