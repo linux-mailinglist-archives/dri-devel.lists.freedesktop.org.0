@@ -2,63 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3CC7FB8EC
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 12:05:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C4A77FB919
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 12:12:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8B0A10E4D3;
-	Tue, 28 Nov 2023 11:05:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7454F10E4DD;
+	Tue, 28 Nov 2023 11:12:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
- [209.85.219.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D25D10E4D3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 11:05:19 +0000 (UTC)
-Received: by mail-yb1-f171.google.com with SMTP id
- 3f1490d57ef6-db3a09e96daso4739938276.3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 03:05:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701169518; x=1701774318;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oy+o1kVweIOL0AWQDo7Tqifh29KAZj1zX09r8Nx2UH4=;
- b=b3cvdt7kl1ZOdzqZR+DslGInqCdEKmNX0BSh1yL0eqGnaCx/Ndn2hRUXCYXD9IaeoI
- g874vrjqSW6T4aeWR5MYg24uHrucHgKgRdod2LAj6m17zRd/Q/KknrR1CVA0ibGzt0Ny
- dOWqZBfU82CqU7CCxiUBmoramG0M0hVCmFt2HTKEBTJwAZAYxMpSLCnYpDh+RMS850jt
- +HbogsGKhus9vo4vPOm19b4PwNUp7eFnu+Nvnhe7/CHXXIU8GWgekVOGxHDTUTi5Wrm7
- qxWqn8Uj1I+EhfIHTfJpkdQEXx8XyGe5ed/ljb3ALpiQ710/b+687Al97fUfBpdkReYb
- oYwQ==
-X-Gm-Message-State: AOJu0YyYlRsVjmviE96e06a/l3Y/x11MrVABNvuquhV3626QHhwqalRk
- DjB8Lk3omOtisD+exI2mBGzveHhuT3zUtg==
-X-Google-Smtp-Source: AGHT+IGap7iIOpioGdgh/SRXVoPNfjYx3uR5NS3Qplal6VrHJduLkf8UslOMmNruimFSJ8rLgCNV+w==
-X-Received: by 2002:a25:b222:0:b0:d9a:ede4:7126 with SMTP id
- i34-20020a25b222000000b00d9aede47126mr14502446ybj.44.1701169518279; 
- Tue, 28 Nov 2023 03:05:18 -0800 (PST)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com.
- [209.85.128.182]) by smtp.gmail.com with ESMTPSA id
- j85-20020a252358000000b00db3fdaaa4fasm3599292ybj.1.2023.11.28.03.05.16
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Nov 2023 03:05:16 -0800 (PST)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-5c8c26cf056so54492287b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 03:05:16 -0800 (PST)
-X-Received: by 2002:a05:690c:2e10:b0:5cf:809e:6b64 with SMTP id
- et16-20020a05690c2e1000b005cf809e6b64mr7788821ywb.48.1701169515975; Tue, 28
- Nov 2023 03:05:15 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4381B10E4C2;
+ Tue, 28 Nov 2023 11:12:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701169934; x=1732705934;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=4sQGMsoKH4XsBlVx0DVZlFut2gRlSwx7PwBvuuYhn4w=;
+ b=T4GeaJRcTTUh1WW5b/5jF4CdjVS3X9agR4DO1qaSweyFEpChyjEWUiYs
+ IGrYtkH1p7mAUAMlH5nn5LVmvhL55v8ChIaTuKQD6NohAwEuNcJy+TTxm
+ PKReP7qzlOq9wM8e6kPA7/9P3jwihuhobGbAfXEIM7EtKYOKFaSnZpqWR
+ niRBTUzrZ0Z5PVHN+Y4vR6n3aomu/3qzIlOntzmOpOgOR94tUsoHDpEmP
+ nNt3AJEEtRCcWncLCBFDrjxouJJGo0IMXvMDyvHi6RpXatViKsuKyXIMg
+ Hh0KUcoz3PNxysbkm1gUA+LGg8ZA0vDeHt8WLJD3lkv/2sjcqGfe1Ay18 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="14460255"
+X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; d="scan'208";a="14460255"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Nov 2023 03:12:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="859398036"
+X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; d="scan'208";a="859398036"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.14.21])
+ ([10.213.14.21])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Nov 2023 03:12:10 -0800
+Message-ID: <51baffb9-2249-4080-a245-eb1e03c02b9b@intel.com>
+Date: Tue, 28 Nov 2023 12:12:08 +0100
 MIME-Version: 1.0
-References: <20231128105129.161121-1-biju.das.jz@bp.renesas.com>
- <20231128105129.161121-5-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20231128105129.161121-5-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 28 Nov 2023 12:05:04 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVZGmP9Q3vahYaMWFqi0w4GWdSY1pxiunWtobn5RR1_PA@mail.gmail.com>
-Message-ID: <CAMuHMdVZGmP9Q3vahYaMWFqi0w4GWdSY1pxiunWtobn5RR1_PA@mail.gmail.com>
-Subject: Re: [PATCH v15 4/5] MAINTAINERS: Update entries for Renesas DRM
- drivers
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/display: Fix phys_base to be
+ relative not absolute
+Content-Language: en-US
+To: Paz Zcharya <pazz@chromium.org>
+References: <20231105172718.18673-1-pazz@chromium.org>
+ <ZVQ3d8FFqxsy0OX7@intel.com> <ZVfw3ghfBLdHB7uk@google.com>
+ <8dd6f4da-dcc9-4ea3-8395-bf048b0dbc93@intel.com>
+ <6f08cfee-a60b-4f6e-b69a-20517c563259@intel.com>
+ <ZWVizpRkf5iJ2LnQ@google.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <ZWVizpRkf5iJ2LnQ@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,38 +67,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Biju Das <biju.das.au@gmail.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- dri-devel@lists.freedesktop.org,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Maxime Ripard <mripard@kernel.org>, linux-renesas-soc@vger.kernel.org,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Subrata Banik <subratabanik@google.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, intel-gfx@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+ matthew.auld@intel.com, Marcin Wojtas <mwojtas@chromium.org>,
+ Drew Davenport <ddavenport@chromium.org>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 28, 2023 at 11:52=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.c=
-om> wrote:
-> The rcar-du has never been maintained in drm-misc. So exclude only
-> this driver from drm-misc. Also, add the tree entry for sh_mobile.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+On 28.11.2023 04:47, Paz Zcharya wrote:
+> 
+> On Mon, Nov 27, 2023 at 8:20 PM Paz Zcharya <pazz@chromium.org> wrote:
+>>
+>> On 21.11.2023 13:06, Andrzej Hajda wrote:
+>>> On 18.11.2023 00:01, Paz Zcharya wrote:
+>>>> On Tue, Nov 14, 2023 at 10:13:59PM -0500, Rodrigo Vivi wrote:
+>>>>> On Sun, Nov 05, 2023 at 05:27:03PM +0000, Paz Zcharya wrote:
+>>>>
+>>>> Hi Rodrigo, thanks for the great comments.
+>>>>
+>>>> Apologies for using a wrong/confusing terminology. I think 'phys_base'
+>>>> is supposed to be the offset in the GEM BO, where base (or
+>>>> "Surface Base Address") is supposed to be the GTT offset.
+>>>
+>>> Since base is taken from PLANE_SURF register it should be resolvable via
+>>> GGTT to physical address pointing to actual framebuffer.
+>>> I couldn't find anything in the specs.
+>>
+>> It was quite cryptic. I meant I have not found anything about assumption
+>> from commit history that for iGPU there should be 1:1 mapping, this is why
+>> there was an assignment "phys_base = base". Possibly the assumption is not
+>> valid anymore for MTL(?).
+>> Without the assumption we need to check GGTT to determine phys address.
+>>
+>>> The simplest approach would be then do the same as in case of DGFX:
+>>>           gen8_pte_t __iomem *gte = to_gt(i915)->ggtt->gsm;
+>>>           gen8_pte_t pte;
+>>>
+>>>           gte += base / I915_GTT_PAGE_SIZE;
+>>>
+>>>           pte = ioread64(gte);
+>>>           phys_base = pte & I915_GTT_PAGE_MASK;
+>>>
+>>> Regards
+>>> Andrzej
+> 
+> Hey Andrzej,
+> 
+> On a second thought, what do you think about something like
+> 
+> +               gen8_pte_t __iomem *gte = to_gt(i915)->ggtt->gsm;
+> +               gen8_pte_t pte;
+> +               gte += base / I915_GTT_PAGE_SIZE;
+> +               pte = ioread64(gte);
+> +               pte = pte & I915_GTT_PAGE_MASK;
+> +               phys_base = pte - i915->mm.stolen_region->region.start;
+> 
+> The only difference is the last line.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be> # shmob_drm
+Bingo :) It seems to be generic algorithm to get phys_base for all 
+platforms:
+- on older platforms stolen_region points to system memory which starts 
+at 0,
+- on DG2 it uses lmem region which starts at 0 as well,
+- on MTL stolen_region points to stolen-local which starts at 0x800000.
 
-Gr{oetje,eeting}s,
+So this whole "if (IS_DGFX(i915)) {...} else {...}" could be replaced
+with sth generic.
+1. Find pte.
+2. if(IS_DGFX(i915) && pte & GEN12_GGTT_PTE_LM) mem = 
+i915->mm.regions[INTEL_REGION_LMEM_0] else mem = i915->mm.stolen_region
+3. phys_base = (pte & I915_GTT_PAGE_MASK) - mem->region.start;
 
-                        Geert
+Regards
+Andrzej
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> 
+> Based on what I wrote before, I think `phys_base` is named incorrectly and
+> that it does not reflect the physical address, but the start offset of
+> i915->mm.stolen_region. So if we offset the start value of the stolen
+> region, this code looks correct to me (and it also works on my
+> MeteorLake device).
+> 
+> What do you think?
+> 
+> 
+> Many thanks,
+> Paz
+> 
+
