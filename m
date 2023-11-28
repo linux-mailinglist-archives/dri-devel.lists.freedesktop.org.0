@@ -2,50 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E4BE7FB61D
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 10:43:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 888D67FB5ED
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Nov 2023 10:35:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 198D810E46D;
-	Tue, 28 Nov 2023 09:43:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2ECF10E46E;
+	Tue, 28 Nov 2023 09:35:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 645 seconds by postgrey-1.36 at gabe;
- Tue, 28 Nov 2023 09:43:47 UTC
-Received: from mail-m92233.xmail.ntesmail.com (mail-m92233.xmail.ntesmail.com
- [103.126.92.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5807C10E46D
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 09:43:47 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256;
- b=DcLVgxkd4hRXhqcF3LFgwFiUkuAPVte4HOriks3qtqli+asr6UfOwv7yHAFzmCNlUz7Bf3c5/Bmhnrj/qEbFnUGyFThMExb+W/upEMTqz1W3kNPPB6p7lrjOUYeOjkn1+C2+dgJdnfIgDi8o8qSP0fKbohNU2w8kwVZMuLUenaQ=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
- bh=W++6O1OO0uiQqmpaiWwyK1zsoZBp0YmOXKt4LJxyAwk=;
- h=date:mime-version:subject:message-id:from;
-Received: from [172.16.12.141] (unknown [58.22.7.114])
- by mail-m12762.qiye.163.com (Hmail) with ESMTPA id 7DFB25C03E3;
- Tue, 28 Nov 2023 17:32:55 +0800 (CST)
-Message-ID: <f179e9ae-b2cd-4f6c-badc-4d76d8a3ba0d@rock-chips.com>
-Date: Tue, 28 Nov 2023 17:32:55 +0800
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
+ [IPv6:2607:f8b0:4864:20::b33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFEDE10E46D
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 09:35:11 +0000 (UTC)
+Received: by mail-yb1-xb33.google.com with SMTP id
+ 3f1490d57ef6-da077db5145so4753667276.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 01:35:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701164110; x=1701768910; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rBMv/wA3lNFrWGMX6+56IOyhOxT06+Dvulg5J77uN3Y=;
+ b=ZiHyOJS9/m4KHRvtw/VJscDjqLPE5nHoa2GrOZO3j3fmW4CM1c82C7RXCw4k5P2HnB
+ OsT9MtD2AB7NMEHfU2nWhvwfB5/txu3WOfljCGEnmRk44DyHZnTDS+fhkyRMwfkq7l07
+ +5temBvzysDo8bzQbagBa+XIVez1xkVCU6JvBfgQ+Ovxh/0nzrTgm7j+J/0Z8HEVGdqI
+ svfUjNNLdIPpxNGO8AaERP5LZhOmiJ4Zf36axSQZZYwbKNzbcQP5J8CETMMsJi8JHpBt
+ xvRYYimjNFXGfFN96KI4B7H/ccXS1IelbbHMS3t4/gBmpSrBVBX2HRygn2bMb0o9JVrJ
+ wOrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701164111; x=1701768911;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rBMv/wA3lNFrWGMX6+56IOyhOxT06+Dvulg5J77uN3Y=;
+ b=nEFCjawlztBzlStbr2+yR7dJJHMSQmCv25ZyS4Z5UeqpwvNm35Tq8vCXg4Lk2Q9kK/
+ X2vqpBa8HdGafAhG8kTV7LWuJF/nysITnMHEvMjJvHfUbBJwtHmALU/0VbU6M49zTOYw
+ abkheAtogVeeZc15ThXTWMw9XKZSOs81svg856oKMNY/6qOLyiaFi/b4dCgD0ojooqsa
+ bd/9ZKYQbCNsa4fOCHGYAMVoVu3+LWoDPuDVALBNtOubY5conVj3F7PTuf7wl70GvxVO
+ 9DijRO74ozZDCyOOAFQxSY0kid0ccBEhF39Mz0LwV6TXJc2I35X/shAxOO+nCAKHTeIz
+ 9uKQ==
+X-Gm-Message-State: AOJu0YzfUiWOpr/oHFcpgibV0s+oJJOX032PG491qhzMVr3lvtouXREk
+ Syxk51kwXfJULFNgPXEi0eIchvAgx9Q4gQOuS3IO2g==
+X-Google-Smtp-Source: AGHT+IG//mF/Mgu+rXsQ4abhmBG1HAacPL2F14QYFPta7ZOzDia7ZILCE9dR/tAtxG02TGkTbCFAp2UKsb8hRCDJ0d8=
+X-Received: by 2002:a05:690c:288f:b0:5cf:4e73:9444 with SMTP id
+ ee15-20020a05690c288f00b005cf4e739444mr8498457ywb.42.1701164110732; Tue, 28
+ Nov 2023 01:35:10 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/12] drm/rockchip: vop2: Add support for rk3588
-Content-Language: en-US
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andyshrk@163.com>
-References: <20231122125316.3454268-1-andyshrk@163.com>
- <20231122125544.3454918-1-andyshrk@163.com> <4788319.uZKlY2gecq@diego>
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <4788319.uZKlY2gecq@diego>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGkpDTlZPHk1CQ0MZH0sdHh5VEwETFh
- oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5JVUpLS1VKQl
- kG
-X-HM-Tid: 0a8c15464494b229kuuu7dfb25c03e3
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NBA6Qjo4Mzw#Dh45Gi81ERw8
- QjgwFAJVSlVKTEtKSk1IQkxNT0xNVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBTUJPSjcG
+References: <20231128-revert-panel-fix-v1-0-69bb05048dae@linaro.org>
+ <20231127232542.GB25590@pendragon.ideasonboard.com>
+ <CACRpkdYWjHbgWQc46hGM3bg+5nf4NiveEZJmHrnx0X-=XsUDLA@mail.gmail.com>
+ <80be087e-0341-487f-b6d9-8772d7c6128a@linaro.org>
+In-Reply-To: <80be087e-0341-487f-b6d9-8772d7c6128a@linaro.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 28 Nov 2023 10:34:58 +0100
+Message-ID: <CACRpkdZmowhDhCgnEYokjQC8T0930ZKEr18f5ZsM=ZmD0PDGig@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Revert panel fixes and original buggy patch
+To: neil.armstrong@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,162 +71,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, s.hauer@pengutronix.de,
- chris.obbard@collabora.com, hjc@rock-chips.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kever.yang@rock-chips.com, linux-rockchip@lists.infradead.org,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- sebastian.reichel@collabora.com
+Cc: Maxime Ripard <mripard@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Liu Ying <victor.liu@nxp.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Heiko:
+On Tue, Nov 28, 2023 at 9:30=E2=80=AFAM Neil Armstrong
+<neil.armstrong@linaro.org> wrote:
 
-Thanks for you review.
+> You can apply them now, or tell me if you want me to apply them.
 
-On 11/27/23 23:29, Heiko Stübner wrote:
-> Hi Andy,
->
-> Am Mittwoch, 22. November 2023, 13:55:44 CET schrieb Andy Yan:
->> From: Andy Yan <andy.yan@rock-chips.com>
->>
->> VOP2 on rk3588:
->>
->> Four video ports:
->> VP0 Max 4096x2160
->> VP1 Max 4096x2160
->> VP2 Max 4096x2160
->> VP3 Max 2048x1080
->>
->> 4 4K Cluster windows with AFBC/line RGB and AFBC-only YUV support
->> 4 4K Esmart windows with line RGB/YUV support
->>
->> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
->>
->> ---
->>
->> Changes in v2:
->> - add rk3588_ prefix for functions which are rk3588 only
->> - make some calculation as fixed value and keep calculation formula as
->>    comment
->> - check return value for some cru calculation functions.
->> - check return value for syscon_regmap_lookup_by_phandle
->> - add NV20/NV30 for esmart plane
->>
->>   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 381 ++++++++++++++++++-
->>   drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  66 ++++
->>   drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 221 +++++++++++
->>   3 files changed, 660 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->> index 4bcc405bcf11..9eecbe1f71f9 100644
->> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->> @@ -271,9 +282,12 @@ static bool vop2_cluster_window(const struct vop2_win *win)
->>   static void vop2_cfg_done(struct vop2_video_port *vp)
->>   {
->>   	struct vop2 *vop2 = vp->vop2;
->> +	u32 val;
->> +
->> +	val = BIT(vp->id) | (BIT(vp->id) << 16) |
->> +		RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN;
->>   
->> -	regmap_set_bits(vop2->map, RK3568_REG_CFG_DONE,
->> -			BIT(vp->id) | RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN);
->> +	regmap_set_bits(vop2->map, RK3568_REG_CFG_DONE, val);
-> I don't fully understand that code:
-> (1) the write mask is also present on the rk3568, so should this change
->      be a separate patch with a fixes tag?
+Please apply them Neil (to drm-misc-fixes) order 2, 1, 3 for bisectability.
 
-The write mask of VP config done on rk356x is missing, that means
-
-you can write the corresponding mask bit, but it has no effect.
-
-I once considered making it a separate patch,  I can split it as a separate patch if
-
-you like.
-
-> (2) RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN does not contain the part for
->      the write-mask
->
-> 	#define RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN     BIT(15)
->
->      why is this working then?
-
-
-Actually this bit has no write-mask bit. 🙂
-
->
->>   }
->>   
->>   static void vop2_win_disable(struct vop2_win *win)
-> [...]
->
->> @@ -1298,7 +1346,11 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
->>   			vop2_win_write(win, VOP2_WIN_AFBC_ENABLE, 1);
->>   		vop2_win_write(win, VOP2_WIN_AFBC_FORMAT, afbc_format);
->>   		vop2_win_write(win, VOP2_WIN_AFBC_UV_SWAP, uv_swap);
->> -		vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 0);
->> +		if (vop2->data->soc_id == 3566 || vop2->data->soc_id == 3568)
->> +			vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 0);
->> +		else
->> +			vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 1);
->> +
-> I think this at least warrants a comment, what is happening here. Also,
-> can you already see how future vop2-users are behaving - aka are all new
-> socs in the "else" part of the conditional, or would a switch-case better
-> represent future socs?
-
-
-On rk356x, this bit is auto gating enable, but this function is not work well so
-
-we need to disable this function.
-
-On rk3588, and the following new soc(rk3528/rk3576), this bit is gating disable,
-
-we should write 1 to disable gating when enable a cluster window.
-
-
-Maybe i add some comments in next version ?
-
-
-
->
->>   		vop2_win_write(win, VOP2_WIN_AFBC_BLOCK_SPLIT_EN, 0);
->>   		transform_offset = vop2_afbc_transform_offset(pstate, half_block_en);
->>   		vop2_win_write(win, VOP2_WIN_AFBC_HDR_PTR, yrgb_mst);
->
->> @@ -1627,9 +1937,17 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
->>   	drm_for_each_encoder_mask(encoder, crtc->dev, crtc_state->encoder_mask) {
->>   		struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
->>   
->> -		rk3568_set_intf_mux(vp, rkencoder->crtc_endpoint_id, polflags);
->> +		/*
->> +		 * for drive a high resolution(4KP120, 8K), vop on rk3588/rk3576 need
->> +		 * process multi(1/2/4/8) pixels per cycle, so the dclk feed by the
->> +		 * system cru may be the 1/2 or 1/4 of mode->clock.
->> +		 */
->> +		clock = vop2_set_intf_mux(vp, rkencoder->crtc_endpoint_id, polflags);
->>   	}
->>   
->> +	if (!clock)
->> +		return;
->> +
-> hmm, shouldn't the check for the validity of a mode happen before
-> atomic_enable is run? So this shouldn't error out in the middle of the
-> function?
->
->
->>   	if (vcstate->output_mode == ROCKCHIP_OUT_MODE_AAAA &&
->>   	    !(vp_data->feature & VOP_FEATURE_OUTPUT_10BIT))
->>   		out_mode = ROCKCHIP_OUT_MODE_P888;
->
-> Thanks
-> Heiko
->
->
->
-> _______________________________________________
-> Linux-rockchip mailing list
-> Linux-rockchip@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-rockchip
+Yours,
+Linus Walleij
