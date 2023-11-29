@@ -1,47 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 687927FCD34
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 04:09:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD327FCD37
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 04:10:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F59510E5E8;
-	Wed, 29 Nov 2023 03:09:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D210F10E5EB;
+	Wed, 29 Nov 2023 03:10:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFC7710E1E9;
- Wed, 29 Nov 2023 03:09:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96F6B10E5E9;
+ Wed, 29 Nov 2023 03:10:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701227371; x=1732763371;
+ t=1701227409; x=1732763409;
  h=message-id:date:mime-version:cc:subject:to:references:
  from:in-reply-to:content-transfer-encoding;
- bh=0uRT7eby29KrVItGuX/TtqLsIa8b48zVBs2iq6+uLQA=;
- b=aEPPtdvNddUsSeI4EDrcpbZuwbIpH12e/DmeeY3C62V1so82duFj7lcw
- 6BPVNfVUF5+RRth8yVRGJ0sP6h5GsmXFp247m+NKdbMGgyIK2dq5vTA7k
- XL4t8BukLmYA271uGzJ0qoDcv3TnCh56L2sLsdmECx+mnVzCggvFBfjad
- +i5fMYGhdYzbMjFin6N2DVFCHg+wDVM9jk/1k20TQMvT6xCeSGL0Nsb1d
- lkiHVTx7U7xoHSuTUGd2lByk1i6XVYlbdEckQQxVHjYxoIntWPM6yL6Q7
- t8woleWLzNAoB7CwrFQggaZv9n16hP06qMF37+RqtMVoxlvcfZLXv11cY A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="383475868"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; d="scan'208";a="383475868"
+ bh=/oHCgdh4MFWTPl52b3Uz+kSnxHOlCRQcvvMII2RxnKA=;
+ b=Z15j4HaBDL0CXlHU7WENGJ/+qiDrAJgBle+8QumVoCA61ihN9nwqAuy4
+ edXmTsg9/DM1HKiGyVcA1uXBw8Nfp8mPzc77wo3s4u9ijtZHZRSdShGcZ
+ vlsVJ5jrNudj0w+pAMQSNCKEP6vrO6SdjbatTAVLBFf6/M62SVMO+gtqJ
+ g4bLYsY1p4vp7OC3ZKb9a4meG0DgWYJLBq056G+mSqkrcjKEvKCjC7RO0
+ QBiKVOozBnPHZP32J5i0TMegV3+O9c1sxJTlYF1j196Vna2d0d7KH/ecj
+ 9ZIBa72Vs4yQhhylf+9mGq0en2BYFgasZXHi9SNcu0BS2ilnVz+lt0YW2 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="383475961"
+X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; d="scan'208";a="383475961"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2023 19:09:30 -0800
+ 28 Nov 2023 19:10:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="834859498"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; d="scan'208";a="834859498"
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="834859717"
+X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; d="scan'208";a="834859717"
 Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.254.211.119])
  ([10.254.211.119])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2023 19:09:17 -0800
-Message-ID: <d42fb7b6-58ad-435d-ab11-985d5dd154c2@linux.intel.com>
-Date: Wed, 29 Nov 2023 11:09:14 +0800
+ 28 Nov 2023 19:09:55 -0800
+Message-ID: <01c92fc2-40b0-43a8-b7c2-6f7f7b05b4a7@linux.intel.com>
+Date: Wed, 29 Nov 2023 11:09:55 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/10] iommmu/of: Do not return struct iommu_ops from
- of_iommu_configure()
+Subject: Re: [PATCH 07/10] acpi: Do not return struct iommu_ops from
+ acpi_iommu_configure_id()
+Content-Language: en-US
 To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@gmail.com>,
  Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
  asahi@lists.linux.dev, Catalin Marinas <catalin.marinas@arm.com>,
@@ -71,10 +72,9 @@ To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@gmail.com>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
  Vineet Gupta <vgupta@kernel.org>, Vinod Koul <vkoul@kernel.org>,
  Wei Liu <wei.liu@kernel.org>, Will Deacon <will@kernel.org>
-References: <2-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
-Content-Language: en-US
+References: <7-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
 From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <2-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
+In-Reply-To: <7-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,19 +97,17 @@ Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023/11/29 8:47, Jason Gunthorpe wrote:
+On 2023/11/29 8:48, Jason Gunthorpe wrote:
 > Nothing needs this pointer. Return a normal error code with the usual
 > IOMMU semantic that ENODEV means 'there is no IOMMU driver'.
 > 
+> Acked-by: Rafael J. Wysocki<rafael.j.wysocki@intel.com>
 > Reviewed-by: Jerry Snitselaar<jsnitsel@redhat.com>
-> Acked-by: Rob Herring<robh@kernel.org>
 > Tested-by: Hector Martin<marcan@marcan.st>
 > Signed-off-by: Jason Gunthorpe<jgg@nvidia.com>
 > ---
->   drivers/iommu/of_iommu.c | 31 +++++++++++++++++++------------
->   drivers/of/device.c      | 22 +++++++++++++++-------
->   include/linux/of_iommu.h | 13 ++++++-------
->   3 files changed, 40 insertions(+), 26 deletions(-)
+>   drivers/acpi/scan.c | 29 +++++++++++++++++------------
+>   1 file changed, 17 insertions(+), 12 deletions(-)
 
 Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 
