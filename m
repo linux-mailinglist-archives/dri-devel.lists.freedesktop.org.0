@@ -1,69 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 576427FD3BC
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 11:13:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C99F57FD434
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 11:33:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 548F810E45B;
-	Wed, 29 Nov 2023 10:13:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1A8E88E45;
+	Wed, 29 Nov 2023 10:32:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AAAD10E45B
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 10:13:19 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id
- 2adb3069b0e04-50bba1dd05fso2536741e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 02:13:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701252797; x=1701857597; darn=lists.freedesktop.org;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=gCZTkTf5gNqH/rsoLk7etD6DwWJwR710k5LJwshNSuI=;
- b=b3d8k/tu006bXcg+iOKous/B7aUDAP1bSMHIhs1oEVHRqMrxHfNoBB19GjMqCiBSvG
- aeji+Nxvat4a9gybedzcEuHxzCvLtqbRDIRkIueaaI33lOK2SC2OjCdSEktOC+6TYdRj
- 5Oot8RP46QRSeL9UmgB60gRPIjyfdNTvdlQFGQzaRPmoDcqcBK3ZDgJ0V0nnESsRy87L
- 7fC3IZaoD2PDqfQnKgBlQDM5b14xO2owTtRq1CQIAfhk7kKSyppwhttV3dB4cV+KwOSV
- AUynfuIVjDjWGTCKOs1IOQipSfOA2ixHgkYRaKcUNEF3wjsE1tMkAwaDu9UCNUVyjEHG
- krDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701252797; x=1701857597;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gCZTkTf5gNqH/rsoLk7etD6DwWJwR710k5LJwshNSuI=;
- b=CaMfTfv3koOSJ3uao3FteFU2XbcNB+59xtdHpk+yTzUdfCnHajZdbdfXsPZu3fWgZG
- gTLWjCPJ19XxbvFBGG2IfBXohqObrekOyR/9N3XU3HPq/DZy5OksdjMWSrxGTZoOfT4T
- 8W4lvnV9/XiJd7bJjKzwX1zWAilbE+26HsGZO0/Rw5G+mW9Oglu7hWZcjOsEKl8CtlHA
- OcV2ZvPqSGItclx8u2EsxvTp52m+M52SnRXKqUylYnz/1CQyVkYOID0lwDgCO3xSsYiN
- 9j0tZe/ZQ6w22FD6Nt8QdIkRZNk/+Ap67p+Q7en/OnH2rTok6+DQlqSc2sOe5LPFPAjg
- DUjg==
-X-Gm-Message-State: AOJu0YwJVEcHTadnrzeJKsoWzkmpDZfWmV/PyJO9/wAMYolRrPdZEvbW
- GXQtDS6vUT/Tjo7R7IkXNqY=
-X-Google-Smtp-Source: AGHT+IEqoByK4nUUfepBkFUQYGj/+qIG7mkFMGeDo/wE/qhqodU6sLdPk1cmUua5FNVdwpoUj02mkQ==
-X-Received: by 2002:a19:f60e:0:b0:507:cfbc:bf8d with SMTP id
- x14-20020a19f60e000000b00507cfbcbf8dmr11730596lfe.16.1701252797196; 
- Wed, 29 Nov 2023 02:13:17 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- q9-20020a0565123a8900b0050abbda2c52sm2140292lfu.157.2023.11.29.02.13.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Nov 2023 02:13:16 -0800 (PST)
-Date: Wed, 29 Nov 2023 12:12:59 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+X-Greylist: delayed 425 seconds by postgrey-1.36 at gabe;
+ Wed, 29 Nov 2023 10:32:53 UTC
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B78F88E45
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 10:32:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701253973; x=1732789973;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=PAI5mu2vOQLNfBq6uCf/1RnujVA0d7SiwZnOV/K8ThI=;
+ b=C9p3Xxp4HggG8W7mMBIksIUI7bp7n1MwqTIDNoPWi5hws/cskYYy1b8H
+ K6ndznknv7yeZyUkoWRbh79CehsKLsq9YRqRoiXK8cQk0016UYpS0R9yt
+ iUAJA+qACOCMPiA21bsSQAFjA++zksNV+cfgK8LrWxTqW0Wk5WYQedEg1
+ Pd68Crwsm+VkJGqHKKDoTpahHsJ93Fla1FaKbuyuFTPpWIubmdx2HyTPs
+ SSGQqxPujPcJzaOpqbXTxjg9dkubfS3y/I+tzASm4AYi0fZ3nXfG4e904
+ +2uB5NBJa5wqLblbnVi41mx4yVqtw9QRNXasxoAphA9KGw3qQPSaFU25m w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="121912"
+X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
+   d="scan'208";a="121912"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Nov 2023 02:25:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="762269751"
+X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; d="scan'208";a="762269751"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by orsmga007.jf.intel.com with SMTP; 29 Nov 2023 02:25:38 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 29 Nov 2023 12:25:37 +0200
+Date: Wed, 29 Nov 2023 12:25:37 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
 Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
  pointers arguments
-Message-ID: <20231129121259.47746996@eldfell>
-In-Reply-To: <ZWXv1Oi_sH0BRWao@intel.com>
+Message-ID: <ZWcRoTJ9VgOqZ3ts@intel.com>
 References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
  <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
  <87h6l66nth.fsf@intel.com>
  <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
- <ZWXv1Oi_sH0BRWao@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+ <ZWXv1Oi_sH0BRWao@intel.com> <20231129121259.47746996@eldfell>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231129121259.47746996@eldfell>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,49 +79,26 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Emma Anholt <emma@anholt.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Wed, Nov 29, 2023 at 12:12:59PM +0200, Pekka Paalanen wrote:
+> On Tue, 28 Nov 2023 15:49:08 +0200
+> Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
+> 
+> > Should we perhaps start to use the (arguably hideous)
+> >  - void f(struct foo *bar)
+> >  + void f(struct foo bar[static 1])
+> > syntax to tell the compiler we don't accept NULL pointers?
+> > 
+> > Hmm. Apparently that has the same problem as using any
+> > other kind of array syntax in the prototype. That is,
+> > the compiler demands to know the definition of 'struct foo'
+> > even though we're passing in effectively a pointer. Sigh.
+> 
+> 
+> __attribute__((nonnull)) ?
 
-On Tue, 28 Nov 2023 15:49:08 +0200
-Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
+I guess that would work, though the syntax is horrible when
+you need to flag specific arguments.
 
-> Should we perhaps start to use the (arguably hideous)
->  - void f(struct foo *bar)
->  + void f(struct foo bar[static 1])
-> syntax to tell the compiler we don't accept NULL pointers?
->=20
-> Hmm. Apparently that has the same problem as using any
-> other kind of array syntax in the prototype. That is,
-> the compiler demands to know the definition of 'struct foo'
-> even though we're passing in effectively a pointer. Sigh.
-
-
-__attribute__((nonnull)) ?
-
-
-Thanks,
-pq
-
---Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVnDqsACgkQI1/ltBGq
-qqde7A/+LfG5e8v6ABH2JqANkfijej4EDU9sSC3ZWBaUspi3UJEY1U0ZrDHgQd27
-lLSoxs0tguK5Dtehhk/Mn4S1XmyDtRrKNB/2L/rNqilREqQa5ciQG9OFjpqnepS2
-3kONuuooZchgnujkUjmgCg+L1X05peA166I3R9MkD4N3eqBH++XmohBaeUJDpUnN
-n1OATmnWyX2df7p/qBpOhVaNT+zu8HCgsIZq//PDNTxQxmHP5CPqbxbxuBjcwFHt
-bX1coZ602jx16CsrwaVYgVsHehXW0ru901OSPJ4flgpx/EyAjA4hHuVg+lJIZKqs
-wQRR4p/QdyBRULqGl/+4VML92ccuHFCedEtbLyH+RXSTlM547Q9nwtUPw1lB7tYQ
-Zx0BchNXyqKGnYvQUx5rTpJlTjwwq/IqkGkXnzpc3tIuj7hNTXEE1+3voPqNlnlU
-J16Lt49s2r4J2ufAykGzgqC19HM5baSykl006GFCpzLrH6iETMejOymRxAFlnE8m
-NdVHVD2YMPW9c21sJ+UjfbGrvF3H6E6MYZLDQLRnL44aHuYkCK6uSBfpgF1ugEqP
-Tzqd5wGEhEeH6OmzYEiwWHBkNJdiGnA4yo1dzpLdgdGaEKHRfdcGePGcNlLdtNcI
-AQZwl9NR+mk0zozfoa9HsXTUv+Su0TXpgD/prZ7PyqzSeM/SmkE=
-=Sfat
------END PGP SIGNATURE-----
-
---Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz--
+-- 
+Ville Syrjälä
+Intel
