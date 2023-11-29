@@ -2,41 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5326A7FD37A
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 11:03:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D03B7FD33F
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 10:51:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97D4F10E3F4;
-	Wed, 29 Nov 2023 10:03:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF39F10E3F3;
+	Wed, 29 Nov 2023 09:51:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 915 seconds by postgrey-1.36 at gabe;
- Wed, 29 Nov 2023 10:03:42 UTC
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.199])
- by gabe.freedesktop.org (Postfix) with ESMTP id 74C7510E3F4
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 10:03:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=cFhWHU+t6DMgtDwgJl
- Z5+l4vJs2Iv3SA9Vi8myA7sUY=; b=nJ8bLVUQzElbyTd75mz7qF6ggFYzxuCUE9
- rBzRKyvQdch5T5D6mR4xhhP+d6+RUhzH/Ve+sJjkYI+bdLN0YciVROJkuUQA/lwT
- p5/mQSV9f85FtJAkKAFMdSS3apiD58njLT3GHLYp3Ur2C4XReiMxHLyNMQX99Vgi
- njhPVc+m0=
-Received: from localhost.localdomain (unknown [39.144.190.126])
- by zwqz-smtp-mta-g3-4 (Coremail) with SMTP id _____wDn79nRCGdl0DYUBQ--.7696S2; 
- Wed, 29 Nov 2023 17:48:02 +0800 (CST)
-From: Haoran Liu <liuhaoran14@163.com>
-To: alain.volmat@foss.st.com
-Subject: [PATCH] [drm/sti] sti_compositor: Add error handlingin
- sti_compositor_bind
-Date: Wed, 29 Nov 2023 01:47:59 -0800
-Message-Id: <20231129094759.32799-1-liuhaoran14@163.com>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: _____wDn79nRCGdl0DYUBQ--.7696S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7Jr1rKFy8Jw47Xr4rCw4rZrb_yoWkuwb_uw
- 1qyrn7Grs8CF1jvw12kr4fAFyvvrs7ua10934ktas8t3yUX3ZxZFyvgF9xZayUZ347JFnI
- qw4xWFnxury7CjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRt6wuUUUUUU==
-X-Originating-IP: [39.144.190.126]
-X-CM-SenderInfo: xolxxtxrud0iqu6rljoofrz/xtbBchI3gletj5ACowACsT
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9483110E3F3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 09:51:41 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r8HEJ-0005df-KK; Wed, 29 Nov 2023 10:51:39 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r8HEH-00CNFl-Po; Wed, 29 Nov 2023 10:51:37 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1r8HEH-00Akd7-GF; Wed, 29 Nov 2023 10:51:37 +0100
+Date: Wed, 29 Nov 2023 10:51:37 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 1/3] drm/bridge: ti-sn65dsi86: Simplify using
+ pm_runtime_resume_and_get()
+Message-ID: <20231129095137.of52hb7bc3ht3t6j@pengutronix.de>
+References: <20231123175425.496956-1-u.kleine-koenig@pengutronix.de>
+ <20231123175425.496956-2-u.kleine-koenig@pengutronix.de>
+ <20231129003955.GB8171@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="5q63my4qu5atbldb"
+Content-Disposition: inline
+In-Reply-To: <20231129003955.GB8171@pendragon.ideasonboard.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,47 +57,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haoran Liu <liuhaoran14@163.com>, tzimmermann@suse.de,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- mripard@kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Previously, the function sti_compositor_bind did not properly
-handle potential failure scenarios of drm_vblank_init, which could
-lead to unexpected behavior. This update adds a check for the
-return value of drm_vblank_init.
 
-Signed-off-by: Haoran Liu <liuhaoran14@163.com>
----
- drivers/gpu/drm/sti/sti_compositor.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+--5q63my4qu5atbldb
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/sti/sti_compositor.c b/drivers/gpu/drm/sti/sti_compositor.c
-index 33487a1fed8f..beddbd1c48eb 100644
---- a/drivers/gpu/drm/sti/sti_compositor.c
-+++ b/drivers/gpu/drm/sti/sti_compositor.c
-@@ -69,6 +69,7 @@ static int sti_compositor_bind(struct device *dev,
- 	struct drm_plane *primary = NULL;
- 	struct sti_compositor_subdev_descriptor *desc = compo->data.subdev_desc;
- 	unsigned int array_size = compo->data.nb_subdev;
-+	int ret;
- 
- 	dev_priv->compo = compo;
- 
-@@ -145,7 +146,11 @@ static int sti_compositor_bind(struct device *dev,
- 		}
- 	}
- 
--	drm_vblank_init(drm_dev, crtc_id);
-+	ret = drm_vblank_init(drm_dev, crtc_id);
-+	if (ret) {
-+		DRM_ERROR("Failed to initialize vblank\n");
-+		return ret;
-+	}
- 
- 	return 0;
- }
--- 
-2.17.1
+Hello Laurent,
 
+On Wed, Nov 29, 2023 at 02:39:55AM +0200, Laurent Pinchart wrote:
+> On Thu, Nov 23, 2023 at 06:54:27PM +0100, Uwe Kleine-K=F6nig wrote:
+> > pm_runtime_resume_and_get() already drops the runtime PM usage counter
+> > in the error case. So a call to pm_runtime_put_sync() can be dropped.
+> >=20
+> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+>=20
+> I wonder if checkpatch should warn about usage of pm_runtime_get_sync().
+
+It should not warn in general. There are cases where
+pm_runtime_get_sync() is the right function to use. See for example
+commit aec488051633 ("crypto: stm32 - Properly handle pm_runtime_get
+failing").
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--5q63my4qu5atbldb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVnCagACgkQj4D7WH0S
+/k7WiQf/fN9Xs5W02kuxq+1RF/lLRHhOAyvMNo19radEY2KAH+lLtkLWGJV8934M
+51VMxBrWAtzOpLmsPODimvQoQSEwRDpjp3F6cTCbOahYoCUuttN4ErzcFHVyeNBq
+no+A8ugCKuFRzYgoxoo9P9EqHdb3jjBvhtnzpaxgu+GCQnQl+N3dQigPc8MS11MU
+8XqTGQR/siqW/brXKU2+P/w/ObMGZVKxVDTpZLhw+sc88HSc+AnKgmqf6zkGgDLK
+PfoYDBisk+K7dBDmIc9QpL0DqAkrXN4GHw0TyVDlDKAtsYMMjYZ9IFYOb/V/v1B+
+1/DqA0O8zMuMBtD8rUZkAJ3gMFdz3Q==
+=8rue
+-----END PGP SIGNATURE-----
+
+--5q63my4qu5atbldb--
