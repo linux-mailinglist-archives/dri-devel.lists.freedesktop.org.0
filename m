@@ -1,49 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 862887FCF64
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 07:53:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60DB27FCF85
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 07:57:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1413710E0C0;
-	Wed, 29 Nov 2023 06:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6894010E5FE;
+	Wed, 29 Nov 2023 06:57:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m12783.qiye.163.com (mail-m12783.qiye.163.com
- [115.236.127.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 274C510E0C0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 06:53:08 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256;
- b=BGYVZATQB6lTahhv420xh9G/Uxq5CQrrNTWhRt7vbpKAoczsUpZwYQ2N3vDEJfKqV+pdvlC4UKyIcyrtTnmPT+It97feALmocPJgXkwViY181JJaSyFTMPC0hsdWUkvPucVkNtKCK5HnVeGe2DiByNVJDQ7dl3NAXjCfcOBeYdM=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
- bh=Kp7KhheW6iIZn3I5ex3GwoD360GOF4bAbDlX84aX464=;
- h=date:mime-version:subject:message-id:from;
-Received: from [172.16.12.141] (unknown [58.22.7.114])
- by mail-m12779.qiye.163.com (Hmail) with ESMTPA id 0F87B780201;
- Wed, 29 Nov 2023 14:52:56 +0800 (CST)
-Message-ID: <9cdedbb6-67c0-4c43-9f82-629504aae933@rock-chips.com>
-Date: Wed, 29 Nov 2023 14:52:55 +0800
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C3E710E41E
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 06:57:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=dNOHC4Mn3WqLXntOI345ZTzHCe6smU2ebNIH1GPMILI=; b=VELj//EZ/asc7zYjZ7B5qLjSA9
+ JItsSpltHqeI/ynl6qa0Z0PZpcLP7k2Se83tiatWHHXYmw4USUvixm1MPAgMF/AV30ZrSRrU17TNU
+ XPGr4exnjkOvqgyUKV56fXEPf4Ndc34abKnXgs7nKb2zpG0hh6e10WsVRm3PCvMucrxVikIdu6NXx
+ xcPt8KGU8Z34WqdncnnAP10/bsgKTOVcKq0pJpdcP8flHwpzJQjum4bNnMT3FW+x6n7sI9mtmz87R
+ v7gmLUvHqWUm9jfqe6OoZBmQ5ENfB1JpWhINxz9ZL0im2/x8HPAzTFlAZw2QiXA1qBpAWZSINooic
+ 50Xa99cA==;
+Received: from 215.48.60.213.dynamic.reverse-mundo-r.com ([213.60.48.215]
+ helo=[192.168.0.34]) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1r8EVX-008Jmn-2K; Wed, 29 Nov 2023 07:57:15 +0100
+Message-ID: <dc71a20f82a944be7ef3127f5dc760f9c6a6998d.camel@igalia.com>
+Subject: Re: [PATCH v3 10/17] drm/v3d: Detach the CSD job BO setup
+From: Iago Toral <itoral@igalia.com>
+To: Maira Canal <mcanal@igalia.com>, Melissa Wen <mwen@igalia.com>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>
+Date: Wed, 29 Nov 2023 07:57:14 +0100
+In-Reply-To: <0c8c25e6-b74d-319a-9556-6dd42d7f7e8d@igalia.com>
+References: <20231127185723.10348-2-mcanal@igalia.com>
+ <20231127185723.10348-12-mcanal@igalia.com>
+ <a8cdbe3f24a9887c606fb0c6204f082d98cc6e66.camel@igalia.com>
+ <0c8c25e6-b74d-319a-9556-6dd42d7f7e8d@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/12] drm/rockchip: vop2: Set YUV/RGB overlay mode
-Content-Language: en-US
-To: Sascha Hauer <s.hauer@pengutronix.de>, Andy Yan <andyshrk@163.com>
-References: <20231122125316.3454268-1-andyshrk@163.com>
- <20231122125438.3454608-1-andyshrk@163.com>
- <20231127141632.GF977968@pengutronix.de>
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <20231127141632.GF977968@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGRkYQlZLHU5KTENDTR8ZShhVEwETFh
- oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5JVUpLS1VKQl
- kG
-X-HM-Tid: 0a8c19da26c7b24fkuuu0f87b780201
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6ME06PDo4CDwxSxw8HRcKODoL
- HQgaCjxVSlVKTEtKSU9LTExNQkJOVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBTUpOQzcG
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,135 +58,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, chris.obbard@collabora.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- hjc@rock-chips.com, kever.yang@rock-chips.com,
- linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, sebastian.reichel@collabora.com
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, kernel-dev@igalia.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sasha:
+RWwgbWFyLCAyOC0xMS0yMDIzIGEgbGFzIDA3OjQ3IC0wMzAwLCBNYWlyYSBDYW5hbCBlc2NyaWJp
+w7M6Cj4gSGkgSWFnbywKPiAKPiBPbiAxMS8yOC8yMyAwNTo0MiwgSWFnbyBUb3JhbCB3cm90ZToK
+PiA+IEVsIGx1biwgMjctMTEtMjAyMyBhIGxhcyAxNTo0OCAtMDMwMCwgTWHDrXJhIENhbmFsIGVz
+Y3JpYmnDszoKPiA+ID4gRnJvbTogTWVsaXNzYSBXZW4gPG13ZW5AaWdhbGlhLmNvbT4KPiA+ID4g
+Cj4gPiA+IERldGFjaCBDU0Qgam9iIHNldHVwIGZyb20gQ1NEIHN1Ym1pc3Npb24gaW9jdGwgdG8g
+cmV1c2UgaXQgaW4gQ1BVCj4gPiA+IHN1Ym1pc3Npb24gaW9jdGwgZm9yIGluZGlyZWN0IENTRCBq
+b2IuCj4gPiA+IAo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBNZWxpc3NhIFdlbiA8bXdlbkBpZ2FsaWEu
+Y29tPgo+ID4gPiBDby1kZXZlbG9wZWQtYnk6IE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5j
+b20+Cj4gPiA+IFNpZ25lZC1vZmYtYnk6IE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+
+Cj4gPiA+IC0tLQo+ID4gPiDCoMKgZHJpdmVycy9ncHUvZHJtL3YzZC92M2Rfc3VibWl0LmMgfCA2
+OCArKysrKysrKysrKysrKysrKysrKy0tLS0tCj4gPiA+IC0tLS0tCj4gPiA+IC0tCj4gPiA+IMKg
+wqAxIGZpbGUgY2hhbmdlZCwgNDIgaW5zZXJ0aW9ucygrKSwgMjYgZGVsZXRpb25zKC0pCj4gPiA+
+IAo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3YzZC92M2Rfc3VibWl0LmMKPiA+
+ID4gYi9kcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9zdWJtaXQuYwo+ID4gPiBpbmRleCBjMTM0YjEx
+M2IxODEuLmViMjZmZTFlMjdlMyAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Yz
+ZC92M2Rfc3VibWl0LmMKPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3YzZC92M2Rfc3VibWl0
+LmMKPiA+ID4gQEAgLTI1Niw2ICsyNTYsNDUgQEAKPiA+ID4gdjNkX2F0dGFjaF9mZW5jZXNfYW5k
+X3VubG9ja19yZXNlcnZhdGlvbihzdHJ1Y3QKPiA+ID4gZHJtX2ZpbGUgKmZpbGVfcHJpdiwKPiA+
+ID4gwqDCoMKgwqDCoMKgwqDCoMKgfQo+ID4gPiDCoMKgfQo+ID4gPiDCoCAKPiA+ID4gK3N0YXRp
+YyBpbnQKPiA+ID4gK3YzZF9zZXR1cF9jc2Rfam9ic19hbmRfYm9zKHN0cnVjdCBkcm1fZmlsZSAq
+ZmlsZV9wcml2LAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgc3RydWN0IHYzZF9kZXYgKnYzZCwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBkcm1fdjNkX3N1Ym1pdF9j
+c2QgKmFyZ3MsCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBzdHJ1Y3QgdjNkX2NzZF9qb2IgKipqb2IsCj4gPiA+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgdjNkX2pvYiAqKmNs
+ZWFuX2pvYiwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIHN0cnVjdCB2M2Rfc3VibWl0X2V4dCAqc2UsCj4gPiA+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3Qgd3dfYWNxdWlyZV9j
+dHggKmFjcXVpcmVfY3R4KQo+ID4gPiArewo+ID4gPiArwqDCoMKgwqDCoMKgwqBpbnQgcmV0Owo+
+ID4gPiArCj4gPiA+ICvCoMKgwqDCoMKgwqDCoHJldCA9IHYzZF9qb2JfYWxsb2NhdGUoKHZvaWQg
+Kilqb2IsIHNpemVvZigqKmpvYikpOwo+ID4gPiArwqDCoMKgwqDCoMKgwqBpZiAocmV0KQo+ID4g
+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIHJldDsKPiA+ID4gKwo+ID4g
+PiArwqDCoMKgwqDCoMKgwqByZXQgPSB2M2Rfam9iX2luaXQodjNkLCBmaWxlX3ByaXYsICYoKmpv
+YiktPmJhc2UsCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCB2M2Rfam9iX2ZyZWUsIGFyZ3MtPmluX3N5bmMsIHNlLAo+ID4gPiBWM0RfQ1NE
+KTsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgaWYgKHJldCkKPiA+IAo+ID4gCj4gPiBXZSBzaG91bGQg
+ZnJlZSB0aGUgam9iIGhlcmUuCj4gPiAKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoHJldHVybiByZXQ7Cj4gPiA+ICsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgcmV0ID0gdjNkX2pv
+Yl9hbGxvY2F0ZSgodm9pZCAqKWNsZWFuX2pvYiwKPiA+ID4gc2l6ZW9mKCoqY2xlYW5fam9iKSk7
+Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqByZXR1cm4gcmV0Owo+ID4gPiArCj4gPiA+ICvCoMKgwqDCoMKgwqDCoHJldCA9
+IHYzZF9qb2JfaW5pdCh2M2QsIGZpbGVfcHJpdiwgKmNsZWFuX2pvYiwKPiA+ID4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHYzZF9qb2JfZnJlZSwg
+MCwgTlVMTCwKPiA+ID4gVjNEX0NBQ0hFX0NMRUFOKTsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgaWYg
+KHJldCkKPiA+IAo+ID4gV2Ugc2hvdWxkIGZyZWUgam9iIGFuZCBjbGVhbl9qb2IgaGVyZS4KPiA+
+IAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIHJldDsKPiA+ID4g
+Kwo+ID4gPiArwqDCoMKgwqDCoMKgwqAoKmpvYiktPmFyZ3MgPSAqYXJnczsKPiA+ID4gKwo+ID4g
+PiArwqDCoMKgwqDCoMKgwqByZXQgPSB2M2RfbG9va3VwX2JvcygmdjNkLT5kcm0sIGZpbGVfcHJp
+diwgKmNsZWFuX2pvYiwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBhcmdzLT5ib19oYW5kbGVzLCBhcmdzLQo+ID4gPiA+IGJvX2hh
+bmRsZV9jb3VudCk7Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gPiAKPiA+IFNhbWUg
+aGVyZS4KPiA+IAo+ID4gSSB0aGluayB3ZSBwcm9iYWJseSB3YW50IHRvIGhhdmUgYSBmYWlsIGxh
+YmVsIHdoZXJlIHdlIGRvIHRoaXMgYW5kCj4gPiBqdXN0Cj4gPiBqdW1wIHRoZXJlIGZyb20gYWxs
+IHRoZSBwYXRocyBJIG1lbnRpb25lZCBhYm92ZS4KPiAKPiBBY3R1YWxseSwgd2UgYXJlIGZyZWVp
+bmcgdGhlIGpvYiBpbiBgdjNkX3N1Ym1pdF9jc2RfaW9jdGxgLiBUYWtlIGEKPiBsb29rCj4gaGVy
+ZToKPiAKPiDCoMKgIDQ4wqDCoMKgwqDCoMKgwqDCoCByZXQgPSB2M2Rfc2V0dXBfY3NkX2pvYnNf
+YW5kX2JvcyhmaWxlX3ByaXYsIHYzZCwgYXJncywKPiDCoMKgIDQ3wqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCAmam9iLCAmY2xlYW5fam9iLCAmc2UsCj4gwqDCoCA0NsKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgJmFjcXVpcmVfY3R4KTsKPiDCoMKgIDQ1wqDCoMKgwqDCoMKgwqDCoCBpZiAocmV0
+KQo+IMKgwqAgNDTCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBnb3RvIGZhaWw7Cj4g
+Cj4gSWYgYHYzZF9zZXR1cF9jc2Rfam9ic19hbmRfYm9zYCBmYWlscywgd2UgZ28gdG8gZmFpbC4K
+PiAKPiDCoMKgIDQzCj4gwqDCoCA0MsKgwqDCoMKgwqDCoMKgwqAgaWYgKGFyZ3MtPnBlcmZtb25f
+aWQpIHsKPiDCoMKgIDQxwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgam9iLT5iYXNl
+LnBlcmZtb24gPSB2M2RfcGVyZm1vbl9maW5kKHYzZF9wcml2LAo+IMKgwqAgNDAgCj4gYXJncy0+
+cGVyZm1vbl9pZCk7Cj4gwqDCoCAzOcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlm
+ICgham9iLT5iYXNlLnBlcmZtb24pIHsKPiDCoMKgIDM4wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldCA9IC1FTk9FTlQ7Cj4gwqDCoCAzN8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBnb3RvIGZhaWxfcGVyZm1v
+bjsKPiDCoMKgIDM2wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfQo+IMKgwqAgMzXC
+oMKgwqDCoMKgwqDCoMKgIH0KPiDCoMKgIDM0Cj4gwqDCoCAzM8KgwqDCoMKgwqDCoMKgwqAgbXV0
+ZXhfbG9jaygmdjNkLT5zY2hlZF9sb2NrKTsKPiDCoMKgIDMywqDCoMKgwqDCoMKgwqDCoCB2M2Rf
+cHVzaF9qb2IoJmpvYi0+YmFzZSk7Cj4gwqDCoCAzMQo+IMKgwqAgMzDCoMKgwqDCoMKgwqDCoMKg
+IHJldCA9IGRybV9zY2hlZF9qb2JfYWRkX2RlcGVuZGVuY3koJmNsZWFuX2pvYi0+YmFzZSwKPiDC
+oMKgIDI5IAo+IGRtYV9mZW5jZV9nZXQoam9iLT5iYXNlLmRvbmVfZmVuY2UpKTsKPiDCoMKgIDI4
+wqDCoMKgwqDCoMKgwqDCoCBpZiAocmV0KQo+IMKgwqAgMjfCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBnb3RvIGZhaWxfdW5yZXNlcnZlOwo+IMKgwqAgMjYKPiDCoMKgIDI1wqDCoMKg
+wqDCoMKgwqDCoCB2M2RfcHVzaF9qb2IoY2xlYW5fam9iKTsKPiDCoMKgIDI0wqDCoMKgwqDCoMKg
+wqDCoCBtdXRleF91bmxvY2soJnYzZC0+c2NoZWRfbG9jayk7Cj4gwqDCoCAyMwo+IMKgwqAgMjLC
+oMKgwqDCoMKgwqDCoMKgIHYzZF9hdHRhY2hfZmVuY2VzX2FuZF91bmxvY2tfcmVzZXJ2YXRpb24o
+ZmlsZV9wcml2LAo+IMKgwqAgMjHCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBjbGVhbl9qb2IsCj4gwqDCoCAyMMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgICZhY3F1aXJlX2N0eCwKPiDCoMKgIDE5wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgYXJncy0KPiA+b3V0X3N5bmMsCj4gwqDCoCAxOMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICZzZSwKPiDCoMKgIDE3IAo+IGNsZWFuX2pv
+Yi0+ZG9uZV9mZW5jZSk7Cj4gwqDCoCAxNgo+IMKgwqAgMTXCoMKgwqDCoMKgwqDCoMKgIHYzZF9q
+b2JfcHV0KCZqb2ItPmJhc2UpOwo+IMKgwqAgMTTCoMKgwqDCoMKgwqDCoMKgIHYzZF9qb2JfcHV0
+KGNsZWFuX2pvYik7Cj4gwqDCoCAxMwo+IMKgwqAgMTLCoMKgwqDCoMKgwqDCoMKgIHJldHVybiAw
+Owo+IMKgwqAgMTEKPiDCoMKgIDEwIGZhaWxfdW5yZXNlcnZlOgo+IMKgwqDCoCA5wqDCoMKgwqDC
+oMKgwqDCoCBtdXRleF91bmxvY2soJnYzZC0+c2NoZWRfbG9jayk7Cj4gwqDCoMKgIDggZmFpbF9w
+ZXJmbW9uOgo+IMKgwqDCoCA3wqDCoMKgwqDCoMKgwqDCoCBkcm1fZ2VtX3VubG9ja19yZXNlcnZh
+dGlvbnMoY2xlYW5fam9iLT5ibywgCj4gY2xlYW5fam9iLT5ib19jb3VudCwKPiDCoMKgwqAgNsKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCAmYWNxdWlyZV9jdHgpOwo+IMKgwqDCoCA1IGZhaWw6Cj4gwqDCoMKgIDTC
+oMKgwqDCoMKgwqDCoMKgIHYzZF9qb2JfY2xlYW51cCgodm9pZCAqKWpvYik7Cj4gwqDCoMKgIDPC
+oMKgwqDCoMKgwqDCoMKgIHYzZF9qb2JfY2xlYW51cChjbGVhbl9qb2IpOwo+IAo+IEhlcmUgd2Ug
+Y2xlYW51cCBgam9iYCBhbmQgYGNsZWFuX2pvYmAuIFRoaXMgd2lsbCBjYWxsIGB2M2Rfam9iX2Zy
+ZWVgCj4gYW5kCj4gZnJlZSB0aGUgam9icy4KCgpBaCwgeWVzLCBpZ25vcmUgbXkgcHJldmlvdXMg
+Y29tbWVudCB0aGVuLgoKSWFnbwoKPiAKPiBCZXN0IFJlZ2FyZHMsCj4gLSBNYcOtcmEKPiAKPiDC
+oMKgwqAgMsKgwqDCoMKgwqDCoMKgwqAgdjNkX3B1dF9tdWx0aXN5bmNfcG9zdF9kZXBzKCZzZSk7
+Cj4gwqDCoMKgIDEKPiAxMTY3wqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gcmV0Owo+IAo+ID4gCj4g
+PiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gcmV0Owo+ID4gPiArCj4g
+PiA+ICvCoMKgwqDCoMKgwqDCoHJldHVybiB2M2RfbG9ja19ib19yZXNlcnZhdGlvbnMoKmNsZWFu
+X2pvYiwgYWNxdWlyZV9jdHgpOwo+ID4gPiArfQo+ID4gPiArCj4gPiA+IMKgwqBzdGF0aWMgdm9p
+ZAo+ID4gPiDCoMKgdjNkX3B1dF9tdWx0aXN5bmNfcG9zdF9kZXBzKHN0cnVjdCB2M2Rfc3VibWl0
+X2V4dCAqc2UpCj4gPiA+IMKgwqB7Cj4gPiA+IEBAIC03MDAsMzIgKzczOSw5IEBAIHYzZF9zdWJt
+aXRfY3NkX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gPiA+IHZvaWQgKmRhdGEsCj4g
+PiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Cj4gPiA+IMKgwqDCoMKgwqDC
+oMKgwqDCoH0KPiA+ID4gwqAgCj4gPiA+IC3CoMKgwqDCoMKgwqDCoHJldCA9IHYzZF9qb2JfYWxs
+b2NhdGUoKHZvaWQgKikmam9iLCBzaXplb2YoKmpvYikpOwo+ID4gPiAtwqDCoMKgwqDCoMKgwqBp
+ZiAocmV0KQo+ID4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIHJldDsK
+PiA+ID4gLQo+ID4gPiAtwqDCoMKgwqDCoMKgwqByZXQgPSB2M2Rfam9iX2luaXQodjNkLCBmaWxl
+X3ByaXYsICZqb2ItPmJhc2UsCj4gPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCB2M2Rfam9iX2ZyZWUsIGFyZ3MtPmluX3N5bmMsICZzZSwKPiA+
+ID4gVjNEX0NTRCk7Cj4gPiA+IC3CoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gPiA+IC3CoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvIGZhaWw7Cj4gPiA+IC0KPiA+ID4gLcKgwqDCoMKg
+wqDCoMKgcmV0ID0gdjNkX2pvYl9hbGxvY2F0ZSgodm9pZCAqKSZjbGVhbl9qb2IsCj4gPiA+IHNp
+emVvZigqY2xlYW5fam9iKSk7Cj4gPiA+IC3CoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gPiA+IC3C
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvIGZhaWw7Cj4gPiA+IC0KPiA+ID4gLcKg
+wqDCoMKgwqDCoMKgcmV0ID0gdjNkX2pvYl9pbml0KHYzZCwgZmlsZV9wcml2LCBjbGVhbl9qb2Is
+Cj4gPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCB2M2Rfam9iX2ZyZWUsIDAsIE5VTEwsCj4gPiA+IFYzRF9DQUNIRV9DTEVBTik7Cj4gPiA+IC3C
+oMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqBnb3RvIGZhaWw7Cj4gPiA+IC0KPiA+ID4gLcKgwqDCoMKgwqDCoMKgam9iLT5hcmdzID0gKmFy
+Z3M7Cj4gPiA+IC0KPiA+ID4gLcKgwqDCoMKgwqDCoMKgcmV0ID0gdjNkX2xvb2t1cF9ib3MoZGV2
+LCBmaWxlX3ByaXYsIGNsZWFuX2pvYiwKPiA+ID4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBhcmdzLT5ib19oYW5kbGVzLCBhcmdzLQo+ID4g
+PiA+IGJvX2hhbmRsZV9jb3VudCk7Cj4gPiA+IC3CoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gPiA+
+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvIGZhaWw7Cj4gPiA+IC0KPiA+ID4g
+LcKgwqDCoMKgwqDCoMKgcmV0ID0gdjNkX2xvY2tfYm9fcmVzZXJ2YXRpb25zKGNsZWFuX2pvYiwg
+JmFjcXVpcmVfY3R4KTsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgcmV0ID0gdjNkX3NldHVwX2NzZF9q
+b2JzX2FuZF9ib3MoZmlsZV9wcml2LCB2M2QsIGFyZ3MsCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgJmpvYiwgJmNsZWFuX2pvYiwgJnNlLAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+ICZhY3F1aXJlX2N0eCk7Cj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gPiA+IMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvIGZhaWw7Cj4gPiA+IMKgIAo+ID4g
+Cj4gCgo=
 
-On 11/27/23 22:16, Sascha Hauer wrote:
-> On Wed, Nov 22, 2023 at 08:54:38PM +0800, Andy Yan wrote:
->> From: Andy Yan <andy.yan@rock-chips.com>
->>
->> Set overlay mode register according to the
->> output mode is yuv or rgb.
->>
->> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
->> ---
->>
->> (no changes since v1)
->>
->>   drivers/gpu/drm/rockchip/rockchip_drm_drv.h  |  1 +
->>   drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 19 ++++++++++++++++---
->>   2 files changed, 17 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
->> index 3d8ab2defa1b..7a58c5c9d4ec 100644
->> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
->> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
->> @@ -51,6 +51,7 @@ struct rockchip_crtc_state {
->>   	u32 bus_format;
->>   	u32 bus_flags;
->>   	int color_space;
->> +	bool yuv_overlay;
-> This struct already contains a bool type variable. Please add this one
-> next to it to keep the struct size smaller.
-
-
-Okay, will do.
-
->
->>   };
->>   #define to_rockchip_crtc_state(s) \
->>   		container_of(s, struct rockchip_crtc_state, base)
->> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->> index a019cc9bbd54..b32a291c5caa 100644
->> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->> @@ -1612,6 +1612,8 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
->>   
->>   	vop2->enable_count++;
->>   
->> +	vcstate->yuv_overlay = is_yuv_output(vcstate->bus_format);
->> +
->>   	vop2_crtc_enable_irq(vp, VP_INT_POST_BUF_EMPTY);
->>   
->>   	polflags = 0;
->> @@ -1639,7 +1641,7 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
->>   	if (vop2_output_uv_swap(vcstate->bus_format, vcstate->output_mode))
->>   		dsp_ctrl |= RK3568_VP_DSP_CTRL__DSP_RB_SWAP;
->>   
->> -	if (is_yuv_output(vcstate->bus_format))
->> +	if (vcstate->yuv_overlay)
->>   		dsp_ctrl |= RK3568_VP_DSP_CTRL__POST_DSP_OUT_R2Y;
->>   
->>   	vop2_dither_setup(crtc, &dsp_ctrl);
->> @@ -1948,10 +1950,12 @@ static void vop2_setup_layer_mixer(struct vop2_video_port *vp)
->>   	u16 hdisplay;
->>   	u32 bg_dly;
->>   	u32 pre_scan_dly;
->> +	u32 ovl_ctrl;
->>   	int i;
->>   	struct vop2_video_port *vp0 = &vop2->vps[0];
->>   	struct vop2_video_port *vp1 = &vop2->vps[1];
->>   	struct vop2_video_port *vp2 = &vop2->vps[2];
->> +	struct rockchip_crtc_state *vcstate = to_rockchip_crtc_state(vp->crtc.state);
->>   
->>   	adjusted_mode = &vp->crtc.state->adjusted_mode;
->>   	hsync_len = adjusted_mode->crtc_hsync_end - adjusted_mode->crtc_hsync_start;
->> @@ -1964,7 +1968,14 @@ static void vop2_setup_layer_mixer(struct vop2_video_port *vp)
->>   	pre_scan_dly = ((bg_dly + (hdisplay >> 1) - 1) << 16) | hsync_len;
->>   	vop2_vp_write(vp, RK3568_VP_PRE_SCAN_HTIMING, pre_scan_dly);
->>   
->> -	vop2_writel(vop2, RK3568_OVL_CTRL, 0);
->> +	ovl_ctrl = vop2_readl(vop2, RK3568_OVL_CTRL);
->> +	if (vcstate->yuv_overlay)
->> +		ovl_ctrl |= BIT(vp->id);
->> +	else
->> +		ovl_ctrl &= ~BIT(vp->id);
-> Some
->
-> #define RK3568_OVL_CTRL__YUV_MODE(vp)	BIT(vp)
->
-> Would be nice.
-
-
-Okay, will do.
-
->> +
->> +	vop2_writel(vop2, RK3568_OVL_CTRL, ovl_ctrl);
-> Is it necessary to write this register twice?
-
-I don't think so. Just follow the original code write it here.
-
-Anyway, I will just write once in next version.
-
-
-And would you please check my response about debugfs patch[0] when it is convenient for you?
-
-I want to know what you think, and prepare the next version.
-
-
-[0]https://patchwork.kernel.org/project/dri-devel/patch/20231122125601.3455031-1-andyshrk@163.com/
-
->
->> +
->>   	port_sel = vop2_readl(vop2, RK3568_OVL_PORT_SEL);
->>   	port_sel &= RK3568_OVL_PORT_SEL__SEL_PORT;
->>   
->> @@ -2036,9 +2047,11 @@ static void vop2_setup_layer_mixer(struct vop2_video_port *vp)
->>   		layer_sel |= RK3568_OVL_LAYER_SEL__LAYER(nlayer + ofs, 5);
->>   	}
->>   
->> +	ovl_ctrl |= RK3568_OVL_CTRL__LAYERSEL_REGDONE_IMD;
->> +
->>   	vop2_writel(vop2, RK3568_OVL_LAYER_SEL, layer_sel);
->>   	vop2_writel(vop2, RK3568_OVL_PORT_SEL, port_sel);
->> -	vop2_writel(vop2, RK3568_OVL_CTRL, RK3568_OVL_CTRL__LAYERSEL_REGDONE_IMD);
->> +	vop2_writel(vop2, RK3568_OVL_CTRL, ovl_ctrl);
-> Sascha
->
