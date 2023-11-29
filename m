@@ -1,51 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F317FD10A
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 09:38:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F84C7FD104
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 09:35:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F33DD10E08E;
-	Wed, 29 Nov 2023 08:38:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FDF710E05D;
+	Wed, 29 Nov 2023 08:35:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 591 seconds by postgrey-1.36 at gabe;
- Wed, 29 Nov 2023 08:38:16 UTC
-Received: from mail-m17207.xmail.ntesmail.com (mail-m17207.xmail.ntesmail.com
- [45.195.17.207])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67DBD10E08E
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 08:38:16 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256;
- b=Qq6K9775/nBsiVQJ4BXZyTcD+50uTadoc3TZZYEurfENxFZWeUb6lsMbFlNQp19V2GWZYA4CR7hxCQq3OvlIcAU0vPsd4ja89GOqSDcbXGJKP4X37H5560HXSOmA0wNL7k8Zx7j62d7Jjn8f/YsuEsW8GUfnrtAFFvW5iYDHnQY=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
- bh=aGpoJTy0YujP1OdkZ9q++euEDnLzMZVFRb/6ZJxkj40=;
- h=date:mime-version:subject:message-id:from;
-Received: from [172.16.12.141] (unknown [58.22.7.114])
- by mail-m12779.qiye.163.com (Hmail) with ESMTPA id 934D97801C2;
- Wed, 29 Nov 2023 16:28:19 +0800 (CST)
-Message-ID: <40b9e4cf-620c-4c7c-8e70-8959dec755c8@rock-chips.com>
-Date: Wed, 29 Nov 2023 16:28:19 +0800
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72EFF10E05D
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 08:35:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id AF277B835BF;
+ Wed, 29 Nov 2023 08:35:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C97AC433C8;
+ Wed, 29 Nov 2023 08:35:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1701246926;
+ bh=UyWVj6bbpMmgMhEJPGFtZp+drl9Kr0KS/AbbpRwNBTs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QNT3LWMCxoKcbCmQvEchFQWIOvU1Jm4SCQYnCDeefZD7g6sO1bHr9rNGbKeewfuCg
+ TfbOV8W4DCwZFd1pZyfX0hc+YKzvVas5N/P6RPIdkWDWen5pW57yQ5D815dqZZqSsS
+ ptq49cTrMR8QGvp6gEmUJG6uwmFMeKH7BmL33BAVaVQuFSWkZ/fXHJgq1I8B7FDqrB
+ P/F27eJt3Ui0RSaWTw8LEySbvNwTU41Bmoj8XroISmKurYBrHrVQ3Hw3iKghpoArU7
+ MYJGZoUfN6sPFG8n6dnLfIIearJsr1sdefwnKeLXQHeBu8o/mTuG4HlVunXKi5wbxa
+ nboghSzhIJ9qQ==
+Date: Wed, 29 Nov 2023 09:35:23 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH] drm/imagination: DRM_POWERVR should depend on ARCH_K3
+Message-ID: <7hee65pmdl5pajm2kgqld22xfi4iox4s2psswu2mdlfk6u6f7x@w4ecogdx6uj6>
+References: <b9360c2044a1001b9a5bcb5914611711d040d4fe.1701196029.git.geert+renesas@glider.be>
+ <87o7fdbszs.fsf@minerva.mail-host-address-is-not-set>
+ <CAMuHMdUhuO++ZSxh+_TX_6DHHxjPYY20jTppbNZ4FnuBvxxinQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/12] drm/rockchip: vop2: Add support for rk3588
-Content-Language: en-US
-To: Sascha Hauer <s.hauer@pengutronix.de>, Andy Yan <andyshrk@163.com>
-References: <20231122125316.3454268-1-andyshrk@163.com>
- <20231122125544.3454918-1-andyshrk@163.com>
- <20231127111937.GW3359458@pengutronix.de>
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <20231127111937.GW3359458@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ0waS1YYHRhOSR1IQkxLH0xVEwETFh
- oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk5MSUpJVUpLS1VKQl
- kG
-X-HM-Tid: 0a8c1a317c5cb24fkuuu934d97801c2
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Mxg6SAw5Pzw#LBNRVhRPUTEw
- Sz4wCyxVSlVKTEtKSU9NTktLTktDVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBT0lNSjcG
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="753wc6rfmeqxfjjh"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUhuO++ZSxh+_TX_6DHHxjPYY20jTppbNZ4FnuBvxxinQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,68 +52,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, chris.obbard@collabora.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- hjc@rock-chips.com, kever.yang@rock-chips.com,
- linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, sebastian.reichel@collabora.com
+Cc: Nishanth Menon <nm@ti.com>, Sarah Walker <sarah.walker@imgtec.com>,
+ Tero Kristo <kristo@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Matt Coster <matt.coster@imgtec.com>, Donald Robson <donald.robson@imgtec.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org,
+ Vignesh Raghavendra <vigneshr@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sascha,
 
-On 11/27/23 19:19, Sascha Hauer wrote:
-> Hi Andy,
->
-> Looks good overall, two small things inside.
->
-> On Wed, Nov 22, 2023 at 08:55:44PM +0800, Andy Yan wrote:
->>   
->> +#define vop2_output_if_is_hdmi(x)	(x == ROCKCHIP_VOP2_EP_HDMI0 || x == ROCKCHIP_VOP2_EP_HDMI1)
->> +#define vop2_output_if_is_dp(x)		(x == ROCKCHIP_VOP2_EP_DP0 || x == ROCKCHIP_VOP2_EP_DP1)
->> +#define vop2_output_if_is_edp(x)	(x == ROCKCHIP_VOP2_EP_EDP0 || x == ROCKCHIP_VOP2_EP_EDP1)
->> +#define vop2_output_if_is_mipi(x)	(x == ROCKCHIP_VOP2_EP_MIPI0 || x == ROCKCHIP_VOP2_EP_MIPI1)
->> +#define vop2_output_if_is_lvds(x)	(x == ROCKCHIP_VOP2_EP_LVDS0 || x == ROCKCHIP_VOP2_EP_LVDS1)
->> +#define vop2_output_if_is_dpi(x)	(x == ROCKCHIP_VOP2_EP_RGB0)
-> Not that it matters in practice here, but you should add braces around
-> the x argument in the macros usage, i.e. ((x) == ROCKCHIP_VOP2_EP_RGB0)
-Okay , will do.
->> +static unsigned long rk3588_set_intf_mux(struct vop2_video_port *vp, int id, u32 polflags)
->> +{
->> +	struct vop2 *vop2 = vp->vop2;
->> +	int dclk_core_div, dclk_out_div, if_pixclk_div, if_dclk_div;
->> +	unsigned long clock;
->> +	u32 die, dip, div, vp_clk_div, val;
->> +
->> +	clock = rk3588_calc_cru_cfg(vp, id, &dclk_core_div, &dclk_out_div,
->> +				    &if_pixclk_div, &if_dclk_div);
->> +	if (!clock)
->> +		return 0;
->> +
->> +	vp_clk_div = FIELD_PREP(RK3588_VP_CLK_CTRL__DCLK_CORE_DIV, dclk_core_div);
->> +	vp_clk_div |= FIELD_PREP(RK3588_VP_CLK_CTRL__DCLK_OUT_DIV, dclk_out_div);
->> +
->> +	die = vop2_readl(vop2, RK3568_DSP_IF_EN);
->> +	dip = vop2_readl(vop2, RK3568_DSP_IF_POL);
->> +	div = vop2_readl(vop2, RK3568_DSP_IF_CTRL);
->> +
->> +	switch (id) {
->> +	case ROCKCHIP_VOP2_EP_HDMI0:
->> +		div |= FIELD_PREP(RK3588_DSP_IF_EDP_HDMI0_DCLK_DIV, if_dclk_div);
-> you should clear the bits of a mask before setting them again. The same
-> goes for several other bits modified in this switch/case.
+--753wc6rfmeqxfjjh
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
-Thanks for catching this, will fixed in next version.
+On Tue, Nov 28, 2023 at 08:16:18PM +0100, Geert Uytterhoeven wrote:
+> On Tue, Nov 28, 2023 at 8:03=E2=80=AFPM Javier Martinez Canillas
+> <javierm@redhat.com> wrote:
+> > Geert Uytterhoeven <geert+renesas@glider.be> writes:
+> > > The Imagination Technologies PowerVR Series 6 GPU is currently only
+> > > supported on Texas Instruments K3 AM62x SoCs.  Hence add a dependency=
+ on
+> > > ARCH_K3, to prevent asking the user about this driver when configurin=
+g a
+> > > kernel without Texas Instruments K3 Multicore SoC support.
+> > >
+> > > Fixes: 4babef0708656c54 ("drm/imagination: Add skeleton PowerVR drive=
+r")
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> >
+> > Indeed. Although I wonder what is the supposed policy since for example
+> > the DRM_PANFROST symbol only depends on ARM || ARM64 and others such as
+>=20
+> I think ARM Mali is sufficiently ubiquitous on ARM/ARM64 systems to
+> have just an ARM/ARM64 dependency...
+>=20
+> > DRM_ETNAVIV don't even have an SoC or architecture dependency.
+>=20
+> Vivante GPUs are found in DTS files on at least 4 architectures.
+> Might be worthwhile to add some dependencies, though...
+>=20
+> > In any case, I agree with you that restricting to only K3 makes sense.
+>=20
+> I am looking forward to adding || SOC_AM33XX || ARCH_RENESAS || ...,
+> eventually ;-)
 
->
->> +		div |= FIELD_PREP(RK3588_DSP_IF_EDP_HDMI0_PCLK_DIV, if_pixclk_div);
->> +		die &= ~RK3588_SYS_DSP_INFACE_EN_EDP_HDMI0_MUX;
->> +		die |= RK3588_SYS_DSP_INFACE_EN_HDMI0 |
->> +			    FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_EDP_HDMI0_MUX, vp->id);
->> +		val = rk3588_get_hdmi_pol(polflags);
->> +		regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, HIWORD_UPDATE(1, 1, 1));
->> +		regmap_write(vop2->vo1_grf, RK3588_GRF_VO1_CON0, HIWORD_UPDATE(val, 6, 5));
->> +		break;
-> Sascha
->
+I disagree. This is to handle a generic IP, just like panfrost, lima, or
+etnaviv, and we certaintly don't want to maintain the Kconfig list of
+every possible architecture and SoC family it might or might not be
+found.
+
+GPUs supposed to be handled are spread across 4 architectures (x86,
+riscv, arm, arm64, mips?), and in arm/arm64 alone we have at least 5
+platforms that might use it (allwinner, ti, mediatek, renesas, rockchip)
+
+It didn't make sense for panfrost, or etnaviv. It doesn't make sense for
+that driver either. Especially for something that olddefconfig can
+handle just fine.
+
+Maxime
+
+--753wc6rfmeqxfjjh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWb3ygAKCRDj7w1vZxhR
+xSzQAP9lznhhHr2F5gTKfl3cW+5jN5/LKK8tc/SurLuznqLJ1wD/fcF+ZyviLO/O
+xBOmROvOixmLQ2KcKiTO1gbodbPMqQE=
+=7EPk
+-----END PGP SIGNATURE-----
+
+--753wc6rfmeqxfjjh--
