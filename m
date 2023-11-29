@@ -2,86 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B69857FCE08
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 05:45:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E557F7FCE2A
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 06:15:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB75B10E5EF;
-	Wed, 29 Nov 2023 04:45:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6C2B10E5F5;
+	Wed, 29 Nov 2023 05:15:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com
- [IPv6:2607:f8b0:4864:20::f2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CFE310E5EF;
- Wed, 29 Nov 2023 04:45:08 +0000 (UTC)
-Received: by mail-qv1-xf2d.google.com with SMTP id
- 6a1803df08f44-679da764efdso34930526d6.2; 
- Tue, 28 Nov 2023 20:45:08 -0800 (PST)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65E7410E17C;
+ Wed, 29 Nov 2023 05:15:12 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id
+ a640c23a62f3a-9fa45e75ed9so856448766b.1; 
+ Tue, 28 Nov 2023 21:15:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701233107; x=1701837907; darn=lists.freedesktop.org;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=d7Y0qZNLFICjLrmGifWVjYtYxOxOp0Zj6BSl0M+oReQ=;
- b=M57qEJjHELKP8ht17hv4Uj0qA6K1tCfm/M0/bPXAy4GN0eopa1w/RdOmz2RTK6QktQ
- 5Mg9RCNCvTM0pCJmrYadB/YAG8Rh6nASKEe0AaUV1SD2ivaGpTCkzsw6eyb8Lz6RvAZp
- Jl+QSo4BinBXcq8VLtWxkU79Hb1ITjobgdhO3UlO0GMVocBPG0K6Nm9MsvzT7UOvdJ4w
- cOGe8Fd8TkM8YuIBnJNq6XmlzvkT122KT8yojsQEccJisUAdmc8Os5Ov6n54ePEHAp8K
- s3ZqnslWnLYLsKhrcz+mtPsfeioZPUnGetgeE4n8/PJhhkjfRuDEVRAH/0NWPmbjMGWs
- IROA==
+ d=gmail.com; s=20230601; t=1701234911; x=1701839711; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7Q9CRtsR/lkt7Cw/fHi7bDvZN/itsXqjiup0ZTmySxA=;
+ b=Du02PcJLivS87nM16v2WxQfdJB63pi7B0nNrCnpgBFn0OYI/9YG6yeABNlD94+fxUK
+ PRGBEghXReSKgKSFSnN/DLHfKZrIIsJtCcw3I4XDYzUbJCKwa5otjnyQK1O4owClE0Il
+ oyymHEbs/I0KICo0NkowwEUE+vD8m9SFXem8mLzTdtgq2DgPbWtY/pJYkQlqLctnJ5QC
+ 1pGuYOG0yuNONzQZtwfKrV07HaZ/h5USHA4dWSpFbSCjEz0BeDEXIWwCosvRxgUEri8b
+ rBmnJyw4oS+yYKXt4AZgK3lYioQgKxGtoMsPrqQMgOC15Ty2tuXQropwgn5+UXQoJYmJ
+ J4Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701233107; x=1701837907;
- h=in-reply-to:autocrypt:from:references:cc:to:content-language
- :subject:user-agent:mime-version:date:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=d7Y0qZNLFICjLrmGifWVjYtYxOxOp0Zj6BSl0M+oReQ=;
- b=LTQL4CS4BCjdWiIMmV4pJ/EX+pOB6WKXPzEXmh/L76tWXDDSsrqYzIAiE5DcKx0JdL
- T0zv5Qp9RAbeehRaH16vebxx/kn4mQi0JSXqkz/N2p3ZG/VwU8Z7OpZQZHSZBg/VF1m1
- DeJFTkG3D7WS2gwxb27a+PWqEMJerh8Zf9Th5K//XigbCOVR1whY+XxQCkHMMyJKT6R0
- v8fkmHkuA9zcs23BJ2dt+Os/T4VM8pie7NsIg5nOO6pW9HIHv68zPdc9lVNDlPrTM4If
- 0CEKwQpwhaKRxxnGuinzHTO6NQEjNi3swbU/ALibvWRL9qOZsT1pfVhwgPLWwtCE7rz/
- ItJw==
-X-Gm-Message-State: AOJu0YxyHcKRbH00B8/HTjWz0BQFh2cCMvUatixIC3u1oqykKm3Qb69r
- 7yuGL6RCQ5qJDkf8MyVkYSo=
-X-Google-Smtp-Source: AGHT+IGuTwbMcogkXsTn/hgaHHthLzunhkCa/ta+F0yax0RoSK2iaf26YLDOyUGXPYctUebz/mtuJA==
-X-Received: by 2002:a05:6214:104f:b0:67a:f89:22e5 with SMTP id
- l15-20020a056214104f00b0067a0f8922e5mr19243475qvr.3.1701233107388; 
- Tue, 28 Nov 2023 20:45:07 -0800 (PST)
-Received: from [192.168.2.14] ([76.65.20.140])
- by smtp.gmail.com with ESMTPSA id
- y10-20020a056214016a00b0067a53aa6df2sm1604358qvs.46.2023.11.28.20.45.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Nov 2023 20:45:06 -0800 (PST)
-Message-ID: <95fe9b5b-05ce-4462-9973-9aca306bc44f@gmail.com>
-Date: Tue, 28 Nov 2023 23:44:57 -0500
+ d=1e100.net; s=20230601; t=1701234911; x=1701839711;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7Q9CRtsR/lkt7Cw/fHi7bDvZN/itsXqjiup0ZTmySxA=;
+ b=u/vqGmJSEozfzxeBixenW/sZ/DXEWQJ2Bh6fXTxw1J6TcsXEqp+dhW/FgSUUDmFlEp
+ oYbRVT9Vq2mck2HcqhkrxIftE6PanTI+T3uWAiwzn4dROlKmOinODvYQlQEXibN3M1fJ
+ xVL0aZJJgSC/voteI33xOlEB4NBnVrgf7W0lR+M++0RWYbrmWAaPvpa7JNf4rgDjE6Io
+ RYHPP3jPqtE/+NeSNvM4hmyeRbj8oy3uRGJbI8Ngr1tN3KAGcGjvboPqTt9QWV7/G7rv
+ 5i5790BdiZVlhvGBJKGTt7m/Ep3LmKRXMUg/Wps1Ng/SWvQzZeOiX8npKm8yce/UWvm4
+ bbKw==
+X-Gm-Message-State: AOJu0YyFK+/VAtnZL4OSKY2jvgJtBLoh0YsTzme3+dw+uGuX61/uJX+Q
+ 1nXI+MS0cM1xK+REDARaA94yOZxRhTHrJ43X4eU=
+X-Google-Smtp-Source: AGHT+IF8BQbzvC8JUMcPZoTIvdOo/gY/kUL91mdf8zioqThU2TU+yw6ExoLa9toWLp2NMd4yrs5b7C6bb/cyNxAjx+o=
+X-Received: by 2002:a17:906:5299:b0:a00:8706:c82e with SMTP id
+ c25-20020a170906529900b00a008706c82emr13477614ejm.18.1701234910430; Tue, 28
+ Nov 2023 21:15:10 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
- Thunderbird/115.5.0
-Subject: Re: Radeon regression in 6.6 kernel
-Content-Language: en-CA, en-US
-To: Alex Deucher <alexdeucher@gmail.com>, Phillip Susi <phill@thesusis.net>
-References: <87edgv4x3i.fsf@vps.thesusis.net>
- <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
- <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
- <bdb238b6-60c7-4f26-81d0-9e62cd5dd326@gmail.com>
- <CADnq5_NVGS1XykxGxpcu_bpPbzboCUJQkcCF3r+0N9a23KUgiQ@mail.gmail.com>
- <96e2e13c-f01c-4baf-a9a3-cbaa48fb10c7@amd.com>
- <CADnq5_NBfeAXEyQw0gnSd67=tR-bUKg8w=10+4z9pGGuRnP9uw@mail.gmail.com>
- <87jzq2ixtm.fsf@vps.thesusis.net>
- <CADnq5_Ou-MVVm0rdWDmDnJNLkWUayXzO26uCEtz3ucNa4Ghy2w@mail.gmail.com>
-From: Luben Tuikov <ltuikov89@gmail.com>
-Autocrypt: addr=ltuikov89@gmail.com; keydata=
- xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
- Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
- eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
- AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
- JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
- cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
- 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
- aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
-In-Reply-To: <CADnq5_Ou-MVVm0rdWDmDnJNLkWUayXzO26uCEtz3ucNa4Ghy2w@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------B9KvWMDdbyeGAXg0IZipz9I3"
+References: <20231128125025.4449-1-weixi.zhu@huawei.com>
+ <9308a79d-e312-4e6d-98fe-75dc6d0fbeda@amd.com>
+In-Reply-To: <9308a79d-e312-4e6d-98fe-75dc6d0fbeda@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 29 Nov 2023 15:14:58 +1000
+Message-ID: <CAPM=9tx-d-Au_bjX0vYxv6OwqiSjmbbMC7ebWpTsQgFNddWDuw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/6] Supporting GMEM (generalized memory management)
+ for external memory devices
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,136 +70,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- ltuikov89@gmail.com,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org, leonro@nvidia.com,
+ apopple@nvidia.com, amd-gfx@lists.freedesktop.org, mgorman@suse.de,
+ ziy@nvidia.com, zhi.a.wang@intel.com, rcampbell@nvidia.com, jgg@nvidia.com,
+ weixi.zhu@openeuler.sh, jhubbard@nvidia.com, intel-gfx@lists.freedesktop.org,
+ mhairgrove@nvidia.com, jglisse@redhat.com, Weixi Zhu <weixi.zhu@huawei.com>,
+ rodrigo.vivi@intel.com, intel-gvt-dev@lists.freedesktop.org,
+ tvrtko.ursulin@linux.intel.com, Felix.Kuehling@amd.com, Xinhui.Pan@amd.com,
+ linux-kernel@vger.kernel.org, alexander.deucher@amd.com,
+ akpm@linux-foundation.org, ogabbay@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------B9KvWMDdbyeGAXg0IZipz9I3
-Content-Type: multipart/mixed; boundary="------------zdhIbyuVIrAPRu0RHztAccg6";
- protected-headers="v1"
-From: Luben Tuikov <ltuikov89@gmail.com>
-To: Alex Deucher <alexdeucher@gmail.com>, Phillip Susi <phill@thesusis.net>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- linux-kernel@vger.kernel.org,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- ltuikov89@gmail.com
-Message-ID: <95fe9b5b-05ce-4462-9973-9aca306bc44f@gmail.com>
-Subject: Re: Radeon regression in 6.6 kernel
-References: <87edgv4x3i.fsf@vps.thesusis.net>
- <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
- <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
- <bdb238b6-60c7-4f26-81d0-9e62cd5dd326@gmail.com>
- <CADnq5_NVGS1XykxGxpcu_bpPbzboCUJQkcCF3r+0N9a23KUgiQ@mail.gmail.com>
- <96e2e13c-f01c-4baf-a9a3-cbaa48fb10c7@amd.com>
- <CADnq5_NBfeAXEyQw0gnSd67=tR-bUKg8w=10+4z9pGGuRnP9uw@mail.gmail.com>
- <87jzq2ixtm.fsf@vps.thesusis.net>
- <CADnq5_Ou-MVVm0rdWDmDnJNLkWUayXzO26uCEtz3ucNa4Ghy2w@mail.gmail.com>
-In-Reply-To: <CADnq5_Ou-MVVm0rdWDmDnJNLkWUayXzO26uCEtz3ucNa4Ghy2w@mail.gmail.com>
-
---------------zdhIbyuVIrAPRu0RHztAccg6
-Content-Type: multipart/mixed; boundary="------------sNB7zEQc118Idxyi1MymNAMe"
-
---------------sNB7zEQc118Idxyi1MymNAMe
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On 2023-11-28 17:13, Alex Deucher wrote:
-> On Mon, Nov 27, 2023 at 6:24=E2=80=AFPM Phillip Susi <phill@thesusis.ne=
-t> wrote:
->>
->> Alex Deucher <alexdeucher@gmail.com> writes:
->>
->>>> In that case those are the already known problems with the scheduler=
-
->>>> changes, aren't they?
->>>
->>> Yes.  Those changes went into 6.7 though, not 6.6 AFAIK.  Maybe I'm
->>> misunderstanding what the original report was actually testing.  If i=
-t
->>> was 6.7, then try reverting:
->>> 56e449603f0ac580700621a356d35d5716a62ce5
->>> b70438004a14f4d0f9890b3297cd66248728546c
->>
->> At some point it was suggested that I file a gitlab issue, but I took
->> this to mean it was already known and being worked on.  -rc3 came out
->> today and still has the problem.  Is there a known issue I could track=
-?
->>
->=20
-> At this point, unless there are any objections, I think we should just
-> revert the two patches
-Uhm, no.
-
-Why "the two" patches?
-
-This email, part of this thread,
-
-https://lore.kernel.org/all/87r0kircdo.fsf@vps.thesusis.net/
-
-clearly states that reverting *only* this commit,
-56e449603f0ac5 drm/sched: Convert the GPU scheduler to variable number of=
- run-queues
-*does not* mitigate the failed suspend. (Furthermore, this commit doesn't=
- really change
-anything operational, other than using an allocated array, instead of a s=
-tatic one, in DRM,
-while the 2nd patch is solely contained within the amdgpu driver code.)
-
-Leaving us with only this change,
-b70438004a14f4 drm/amdgpu: move buffer funcs setting up a level
-to be at fault, as the kernel log attached in the linked email above show=
+On Tue, 28 Nov 2023 at 23:07, Christian K=C3=B6nig <christian.koenig@amd.co=
+m> wrote:
+>
+> Am 28.11.23 um 13:50 schrieb Weixi Zhu:
+> > The problem:
+> >
+> > Accelerator driver developers are forced to reinvent external MM subsys=
+tems
+> > case by case, because Linux core MM only considers host memory resource=
 s.
+> > These reinvented MM subsystems have similar orders of magnitude of LoC =
+as
+> > Linux MM (80K), e.g. Nvidia-UVM has 70K, AMD GPU has 14K and Huawei NPU=
+ has
+> > 30K. Meanwhile, more and more vendors are implementing their own
+> > accelerators, e.g. Microsoft's Maia 100. At the same time,
+> > application-level developers suffer from poor programmability -- they m=
+ust
+> > consider parallel address spaces and be careful about the limited devic=
+e
+> > DRAM capacity. This can be alleviated if a malloc()-ed virtual address =
+can
+> > be shared by the accelerator, or the abundant host DRAM can further
+> > transparently backup the device local memory.
+> >
+> > These external MM systems share similar mechanisms except for the
+> > hardware-dependent part, so reinventing them is effectively introducing
+> > redundant code (14K~70K for each case). Such developing/maintaining is =
+not
+> > cheap. Furthermore, to share a malloc()-ed virtual address, device driv=
+ers
+> > need to deeply interact with Linux MM via low-level MM APIs, e.g. MMU
+> > notifiers/HMM. This raises the bar for driver development, since develo=
+pers
+> > must understand how Linux MM works. Further, it creates code maintenanc=
+e
+> > problems -- any changes to Linux MM potentially require coordinated cha=
+nges
+> > to accelerator drivers using low-level MM APIs.
+> >
+> > Putting a cache-coherent bus between host and device will not make thes=
+e
+> > external MM subsystems disappear. For example, a throughput-oriented
+> > accelerator will not tolerate executing heavy memory access workload wi=
+th
+> > a host MMU/IOMMU via a remote bus. Therefore, devices will still have
+> > their own MMU and pick a simpler page table format for lower address
+> > translation overhead, requiring external MM subsystems.
+> >
+> > --------------------
+> >
+> > What GMEM (Generalized Memory Management [1]) does:
+> >
+> > GMEM extends Linux MM to share its machine-independent MM code. Only
+> > high-level interface is provided for device drivers. This prevents
+> > accelerator drivers from reinventing the wheel, but relies on drivers t=
+o
+> > implement their hardware-dependent functions declared by GMEM. GMEM's k=
+ey
+> > interface include gm_dev_create(), gm_as_create(), gm_as_attach() and
+> > gm_dev_register_physmem(). Here briefly describe how a device driver
+> > utilizes them:
+> > 1. At boot time, call gm_dev_create() and registers the implementation =
+of
+> >     hardware-dependent functions as declared in struct gm_mmu.
+> >       - If the device has local DRAM, call gm_dev_register_physmem() to
+> >         register available physical addresses.
+> > 2. When a device context is initialized (e.g. triggered by ioctl), chec=
+k if
+> >     the current CPU process has been attached to a gmem address space
+> >     (struct gm_as). If not, call gm_as_create() and point current->mm->=
+gm_as
+> >     to it.
+> > 3. Call gm_as_attach() to attach the device context to a gmem address s=
+pace.
+> > 4. Invoke gm_dev_fault() to resolve a page fault or prepare data before
+> >     device computation happens.
+> >
+> > GMEM has changed the following assumptions in Linux MM:
+> >    1. An mm_struct not only handle a single CPU context, but may also h=
+andle
+> >       external memory contexts encapsulated as gm_context listed in
+> >       mm->gm_as. An external memory context can include a few or all of=
+ the
+> >       following parts: an external MMU (that requires TLB invalidation)=
+, an
+> >       external page table (that requires PTE manipulation) and external=
+ DRAM
+> >       (that requires physical memory management).
+>
+> Well that is pretty much exactly what AMD has already proposed with KFD
+> and was rejected for rather good reasons.
 
-The conclusion is that only b70438004a14f4 needs reverting.
---=20
-Regards,
-Luben
+> >
+> > MMU functions
+> > The MMU functions peer_map() and peer_unmap() overlap other functions,
+> > leaving a question if the MMU functions should be decoupled as more bas=
+ic
+> > operations. Decoupling them could potentially prevent device drivers
+> > coalescing these basic steps within a single host-device communication
+> > operation, while coupling them makes it more difficult for device drive=
+rs
+> > to utilize GMEM interface.
+>
+> Well to be honest all of this sounds like history to me. We have already
+> seen the same basic approach in KFD, HMM and to some extend in TTM as wel=
+l.
+>
+> And all of them more or less failed. Why should this here be different?
 
---------------sNB7zEQc118Idxyi1MymNAMe
-Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+Any info we have on why this has failed to work in the past would be
+useful to provide. This is one of those cases where we may not have
+documented the bad ideas to stop future developers from thinking they
+are bad.
 
-xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
-PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
-QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
-BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
-MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
-bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
-9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
-OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
-z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
-=3DqCaZ
------END PGP PUBLIC KEY BLOCK-----
+I do think we would want more common code in this area, but I would
+think we'd have it more on the driver infrastructure side, than in the
+core mm.
 
---------------sNB7zEQc118Idxyi1MymNAMe--
-
---------------zdhIbyuVIrAPRu0RHztAccg6--
-
---------------B9KvWMDdbyeGAXg0IZipz9I3
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZWbByQUDAAAAAAAKCRBMFUeUMaM0r6jz
-AP4zTPvRhz6Cv17QqsLz2rphQRnP0Y53BGjckIVgs/JMUAD/R/QYTr1qhzapp2VOHTym3teg3yR4
-P0cKURfARvAUOw0=
-=1QtL
------END PGP SIGNATURE-----
-
---------------B9KvWMDdbyeGAXg0IZipz9I3--
+Dave.
