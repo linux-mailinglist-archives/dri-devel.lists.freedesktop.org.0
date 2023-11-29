@@ -2,53 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B12D7FCB86
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 01:38:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F300E7FCB8D
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 01:39:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E36510E5B2;
-	Wed, 29 Nov 2023 00:38:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31DE610E5AA;
+	Wed, 29 Nov 2023 00:39:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org
- [IPv6:2001:67c:2050:0:465::101])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 366D510E36C;
- Wed, 29 Nov 2023 00:38:10 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Sg0mG3rxFz9sWP;
- Wed, 29 Nov 2023 01:38:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=owenh.net; s=MBO0001; 
- t=1701218286;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HDQWK+L4QLJnAgN2GgVFGTEwc8e2Mtybcb9ST9HqB+8=;
- b=WnY1Ruo4L5LiWWP1gUvFZ0Ed0EvP7ttGZp4KMHb+r6kf232wgjRhDWjeBViDhPLSFS638k
- 8e0waub8mZfgTf/6dJ8+REQuYXbEuwkn7LgpX9IbmUkD2a+NcMkcsGvEveBdRcvLH0PPRa
- QaQA82l1TpaampBfToUXdEYL53D8QqbSLFP/UB6DhQwIe5NgwLw7DScRnwAsGmub1UCYAO
- BxJFUikjRgiV9/7KeQWSvrdde5QTt0aVvv5sGCV3jDh3zvTI6zhwAWBXZ68Y5QkbLrmgAf
- n3U8we9aiWiqCQ6R+nkBF3vs/2H9pe6sNvWGf3qx5I3tdbAUvhEFGl1EY7j3Rg==
-Message-ID: <c1dd675d-cb3e-4c4c-8dc4-dd561ef4950b@owenh.net>
-Date: Tue, 28 Nov 2023 18:37:58 -0600
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C226F10E5AA
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 00:39:50 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 14EA09DE;
+ Wed, 29 Nov 2023 01:39:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1701218354;
+ bh=fLSRHWJ9LglpWCRHAytva/xvauRTbkrBBqtDLyov6T0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=djosKzIXowYoaysSo5SHvDzPbMNxQvDsSNaZacAj47KKaJCjVHWj1dSQkRsJQCoqG
+ XKdREiau31Shg/KQ9rXGv7p55JO3FtyMO8v7nblWIKLDxXW7HCBDZjHLp+BRIHFBio
+ T9BL9HBU8CvSzMqFXHg4Mli4h50OgIZxeC+gOOEw=
+Date: Wed, 29 Nov 2023 02:39:55 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH 1/3] drm/bridge: ti-sn65dsi86: Simplify using
+ pm_runtime_resume_and_get()
+Message-ID: <20231129003955.GB8171@pendragon.ideasonboard.com>
+References: <20231123175425.496956-1-u.kleine-koenig@pengutronix.de>
+ <20231123175425.496956-2-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Subject: Re: [REGRESSION]: nouveau: Asynchronous wait on fence
-From: "Owen T. Heisler" <writer@owenh.net>
-To: Linux regressions mailing list <regressions@lists.linux.dev>,
- stable@vger.kernel.org
-References: <6f027566-c841-4415-bc85-ce11a5832b14@owenh.net>
- <5ecf0eac-a089-4da9-b76e-b45272c98393@leemhuis.info>
- <6b7a71b4-c8a2-46f4-a995-0c63e7745ca3@owenh.net>
- <c72ca99e-8657-4ed8-9999-5702ebeb5b8c@leemhuis.info>
- <9bce5d00-8db6-4c8b-9817-06502492b44a@owenh.net>
-Content-Language: en-US
-In-Reply-To: <9bce5d00-8db6-4c8b-9817-06502492b44a@owenh.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 4Sg0mG3rxFz9sWP
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231123175425.496956-2-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,34 +49,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Karol Herbst <kherbst@redhat.com>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Danilo Krummrich <dakr@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonas Karlman <jonas@kwiboo.se>, Bjorn Andersson <andersson@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/21/23 14:23, Owen T. Heisler wrote:
-> On 11/21/23 09:16, Linux regression tracking (Thorsten Leemhuis) wrote:
->> On 15.11.23 07:19, Owen T. Heisler wrote:
->>> On 10/31/23 04:18, Linux regression tracking (Thorsten Leemhuis) wrote:
->>>> On 28.10.23 04:46, Owen T. Heisler wrote:
->>>>> #regzbot introduced: d386a4b54607cf6f76e23815c2c9a3abc1d66882
->>>>> #regzbot link: https://gitlab.freedesktop.org/drm/nouveau/-/issues/180
->>>>>
->>>>> 3. Suddenly the secondary Nvidia-connected display turns off and X 
->>>>> stops responding to keyboard/mouse input.
+Hi Uwe,
 
-> I am currently testing v6.6 with the culprit commit reverted.
+Thank you for the patch.
 
-- v6.6: fails
-- v6.6 with the culprit commit reverted: works
+On Thu, Nov 23, 2023 at 06:54:27PM +0100, Uwe Kleine-König wrote:
+> pm_runtime_resume_and_get() already drops the runtime PM usage counter
+> in the error case. So a call to pm_runtime_put_sync() can be dropped.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-See <https://gitlab.freedesktop.org/drm/nouveau/-/issues/180> for full 
-details including a decoded kernel log.
+I wonder if checkpatch should warn about usage of pm_runtime_get_sync().
 
-Thanks,
-Owen
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
---
-Owen T. Heisler
-<https://owenh.net>
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> index c45c07840f64..5b8e1dfc458d 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -1413,11 +1413,9 @@ static int ti_sn_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+>  	int ret;
+>  
+>  	if (!pdata->pwm_enabled) {
+> -		ret = pm_runtime_get_sync(pdata->dev);
+> -		if (ret < 0) {
+> -			pm_runtime_put_sync(pdata->dev);
+> +		ret = pm_runtime_resume_and_get(pdata->dev);
+> +		if (ret < 0)
+>  			return ret;
+> -		}
+>  	}
+>  
+>  	if (state->enabled) {
+
+-- 
+Regards,
+
+Laurent Pinchart
