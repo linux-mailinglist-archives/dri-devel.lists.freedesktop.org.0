@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00A687FDA1D
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 15:44:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 420597FDA2E
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 15:45:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF2F010E60A;
-	Wed, 29 Nov 2023 14:44:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97A6310E576;
+	Wed, 29 Nov 2023 14:45:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D518E10E608
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 14:44:46 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id
- 4fb4d7f45d1cf-543456dbd7bso1845854a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 06:44:46 -0800 (PST)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA91B10E605
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 14:44:50 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-50abbb23122so8934515e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 06:44:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701269085; x=1701873885; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701269089; x=1701873889; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=YptWvF1sLLHvvXfICRwlDYacILHWf1Qs1ovKRND9MmY=;
- b=Zd+TgkEWsycfriSqgibCMiFBUSKtXrQLJnBNI2Jw7DDmmaHUiEXRHdjxiXXKL1sRdP
- VRYDRJZ/2UxTjZcRgFeAUCqtng1M1vyjnJ5QbzNy5d1tU6B6u8lcQJBgVPcFJyZGogEf
- w1BZSIjrrwDL5eIXhEbrJF2rdceKzNZTIDJKWWS4U9lcavIyZT5pmJrv9VSi+9PBEcAH
- Q5Y6U0y7bgHEYKWq55qg0IEQg6voDuAK0YKFjzBSK/jw5wn+kOesvz/n4vWwB5ARaY+z
- hMjAKFetMj5ga14COv5BzdCdfPM7WXOCjsHqBOglFIyBRqTACekEgYtGAMHOB1F3Xn9z
- 1dzA==
+ :reply-to; bh=x8Ud0RYAeHgIKaviw6GV2Mnmt4ajtcz1/Tj2KEhmPX4=;
+ b=LR61LaJQneB/bvGZbZ13ImD1RN8gYLDi3PRTUIMIincjdJCCSp+FYJEv00xSjXXXhd
+ 7gyqwxfznl9Tek/nvjGeG2lIRt6TXFfCs5fSLQLrFaYvgXGenhqTINENjsRcid6JaaR7
+ Fy9rNnOQ1x4IIyhuGWo3zILE8YFS5k/7vWu+vold9nQKks3oguWz/AXN/A25sp5tdJsV
+ 3Bunc2oBtzmKL7SSwiwpokd1XgbYbAGGVYd9kXP41ls83ltDlwiuFEnX4PZ7oqg8QzgA
+ EGujeudoFwNG0vwBFosWYFyMPclPq8jAr2JzwC9j0a88YuJpTAlVYX1hzOoJ2qwAo50I
+ Z8vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701269085; x=1701873885;
+ d=1e100.net; s=20230601; t=1701269089; x=1701873889;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YptWvF1sLLHvvXfICRwlDYacILHWf1Qs1ovKRND9MmY=;
- b=BZ+OzPBt4252NsVfzN2jjy0EQiiutjGSZbbmHjmKvHCpwFz7o3+kuefAjN8A0Bu8lu
- 4/5SdVrBjSH+MsEjo/xhQNLeEk9YeRjs5KS1faHcNO7cpYWtaEUv7fUP+jV5j/lrDGCE
- FggOkhy0czkGOMCph08U53QFqvEysQflmykx/BBHXc51WjkCaw29C4OU0AI54Mbj2CKS
- uO4Nu34w2ZDyHrF1puLM2hr1qsY8NjQMCHkHTb+X0JpyN9l4wq7rq9s7y9dGgbJCQa8n
- jAdx9oCjNGq+Utoh+0l7ogPVrlytvNk31ggv1vaFBOTK8ClHTbcYVE0zu8vq5OVPNjV+
- 67AQ==
-X-Gm-Message-State: AOJu0YxOM5OOIynWBiMY9Yd39BPNxnK21JNFj49AGodHMa0755O57EJu
- NXNTDq1HVTAPmD79yW0ZBTIOeQ==
-X-Google-Smtp-Source: AGHT+IHQRlhcQ4Xhxel2Db1u9eLdX03sF0JKF2E6dy/nhsMH+wCLpi6lTlVLrpKh4WFPfJSzdrFp7Q==
-X-Received: by 2002:a17:906:8d2:b0:9b2:be5e:3674 with SMTP id
- o18-20020a17090608d200b009b2be5e3674mr15978536eje.36.1701269085321; 
- Wed, 29 Nov 2023 06:44:45 -0800 (PST)
+ bh=x8Ud0RYAeHgIKaviw6GV2Mnmt4ajtcz1/Tj2KEhmPX4=;
+ b=dOKPnPGXmK8LgC4r9/WinarfvOju/vaVm/IlWtuOzq4pb79mirsVbSps9eY8CweBkl
+ Gngn27ke9sqUQ4CcgORYa9eiuJk0xSPj10t+UgMFTekJ2mV0uOQXmtkL6mZ1Dk05P6tQ
+ db7/M+jgznsYlfdroVeodi+9wWKTaUxOC9uhwzoMhYRw2A2cCVJMkuyPcF44Grbybp80
+ S296xWb1qyYGw9H/xXRaAgrLmx4idZSV2Qa3v22R/cnRCpfPttOy3IUVYt+vX4KwkwKF
+ zPZzyKvdObuOKakoFPqkcX45X0wG0zMXuzy4J/Au3J6+VkeRnHmVAijZ3XD5OoqqA31I
+ KE+w==
+X-Gm-Message-State: AOJu0Yw6CtO5E4Y1zeiaLT0T8RMhijwrQj+Xjf1yC/CxOFlf19NT/e67
+ njCS+ldpe1Ja4tkpofCB2OwR/g==
+X-Google-Smtp-Source: AGHT+IEucXvhP6CZlLyjmhm2eErpw/rjkI+AVAy2NrjVrl9sMS9FNrRYfvXWv/KyNqVzhsUfV8Y3cw==
+X-Received: by 2002:a05:6512:11eb:b0:50a:a6b4:de4f with SMTP id
+ p11-20020a05651211eb00b0050aa6b4de4fmr10377057lfs.36.1701269089155; 
+ Wed, 29 Nov 2023 06:44:49 -0800 (PST)
 Received: from [10.167.154.1]
  (178235187166.dynamic-4-waw-k-2-3-0.vectranet.pl. [178.235.187.166])
  by smtp.gmail.com with ESMTPSA id
- e27-20020a1709062c1b00b009fda627abd9sm7913738ejh.79.2023.11.29.06.44.41
+ e27-20020a1709062c1b00b009fda627abd9sm7913738ejh.79.2023.11.29.06.44.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Nov 2023 06:44:44 -0800 (PST)
+ Wed, 29 Nov 2023 06:44:48 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Wed, 29 Nov 2023 15:44:08 +0100
-Subject: [PATCH v3 11/12] arm64: dts: qcom: qrb2210-rb1: Enable CAN bus
- controller
+Date: Wed, 29 Nov 2023 15:44:09 +0100
+Subject: [PATCH v3 12/12] arm64: dts: qcom: qrb2210-rb1: add wifi variant
+ property
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231125-topic-rb1_feat-v3-11-4cbb567743bb@linaro.org>
+Message-Id: <20231125-topic-rb1_feat-v3-12-4cbb567743bb@linaro.org>
 References: <20231125-topic-rb1_feat-v3-0-4cbb567743bb@linaro.org>
 In-Reply-To: <20231125-topic-rb1_feat-v3-0-4cbb567743bb@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -79,11 +79,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Robert Marko <robimarko@gmail.com>, Das Srinagesh <quic_gurus@quicinc.com>, 
  cros-qcom-dts-watchers@chromium.org
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1701269042; l=1186;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1701269042; l=1902;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=JMbrDi2bxn7DXN0vpomcpuwaGp6goPBlt7d60Jxny0w=;
- b=BwcOBwxvzLQvrUT6iIEDih2wIhizpUwF+XLbqSeggY3684UhOG00isvkcv7zRCld6lwYa+yjL
- 8/XdtyJutinAGhQFhwpzXPF2oeqAXXSMLBA43kgRU0151AxtzVbkS8V
+ bh=1sgurZzJDT6Mn40jAYTNDegr3ChD6TId8sRBg0GBQe8=;
+ b=cvzdQPMDO1F9MJyUcHFhovdEgAZaKe0knG3gwp2ASXtsecxDnq1fzPtkf1NxnntN9lGnvr+4o
+ HRe4f+YzatxCdTcA3W9nOqNu8vqMZKGisf58bgSH/Wc7Zvb5uMJJ/lr
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,53 +106,48 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable the Microchip mcp2518fd hosted on the SPI5 bus.
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
+The RB1 platform doesn't have board-specific board-id programmed, it uses
+generic 0xff. Thus add the property with the 'variant' of the
+calibration data.
+
+Note: the driver will check for the calibration data for the following
+IDs, so existing board-2.bin files will continue to work.
+
+- 'bus=snoc,qmi-board-id=ff,qmi-chip-id=120,variant=Thundercomm_RB1'
+- 'bus=snoc,qmi-board-id=ff,qmi-chip-id=120'
+- 'bus=snoc,qmi-board-id=ff'
+
+For the reference, the board is identified by the driver in the
+following way:
+
+ath10k_snoc c800000.wifi: qmi chip_id 0x120 chip_family 0x4007 board_id 0xff soc_id 0x40670000
+ath10k_snoc c800000.wifi: qmi fw_version 0x337302d3 fw_build_timestamp 2023-01-06 01:50 fw_build_id QC_IMAGE_VERSION_STRING=WLAN.HL.3.3.7.c2-00723-QCAHLSWMTPLZ-1
+ath10k_snoc c800000.wifi: wcn3990 hw1.0 target 0x00000008 chip_id 0x00000000 sub 0000:0000
+ath10k_snoc c800000.wifi: kconfig debug 0 debugfs 0 tracing 0 dfs 0 testmode 0
+ath10k_snoc c800000.wifi: firmware ver  api 5 features wowlan,mgmt-tx-by-reference,non-bmi crc32 b3d4b790
+ath10k_snoc c800000.wifi: htt-ver 3.114 wmi-op 4 htt-op 3 cal file max-sta 32 raw 0 hwcrypto 1
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/qrb2210-rb1.dts | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ arch/arm64/boot/dts/qcom/qrb2210-rb1.dts | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts b/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
-index ac6584164058..ac597eb3fe9d 100644
+index ac597eb3fe9d..bd7bcf803654 100644
 --- a/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
 +++ b/arch/arm64/boot/dts/qcom/qrb2210-rb1.dts
-@@ -23,6 +23,14 @@ chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
- 
-+	clocks {
-+		clk40M: can-clk {
-+			compatible = "fixed-clock";
-+			clock-frequency = <40000000>;
-+			#clock-cells = <0>;
-+		};
-+	};
-+
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 		label = "gpio-keys";
-@@ -449,6 +457,20 @@ &sdhc_2 {
+@@ -535,6 +535,7 @@ &wifi {
+ 	vdd-1.8-xo-supply = <&pm2250_l13>;
+ 	vdd-1.3-rfa-supply = <&pm2250_l10>;
+ 	vdd-3.3-ch0-supply = <&pm2250_l22>;
++	qcom,ath10k-calibration-variant = "Thundercomm_RB1";
  	status = "okay";
  };
  
-+&spi5 {
-+	status = "okay";
-+
-+	can@0 {
-+		compatible = "microchip,mcp2518fd";
-+		reg = <0>;
-+		interrupts-extended = <&tlmm 39 IRQ_TYPE_LEVEL_LOW>;
-+		clocks = <&clk40M>;
-+		spi-max-frequency = <10000000>;
-+		vdd-supply = <&vdc_5v>;
-+		xceiver-supply = <&vdc_5v>;
-+	};
-+};
-+
- &tlmm {
- 	lt9611_rst_pin: lt9611-rst-state {
- 		pins = "gpio41";
 
 -- 
 2.43.0
