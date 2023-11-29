@@ -1,44 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A357FD3A3
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 11:11:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E98E57FD3B2
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 11:13:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E37610E422;
-	Wed, 29 Nov 2023 10:11:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8638610E46B;
+	Wed, 29 Nov 2023 10:13:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3A2C10E422
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 10:11:44 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7F74F842;
- Wed, 29 Nov 2023 11:11:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1701252667;
- bh=UAq64tnhRNBUFgU8ndx/VvDw0WukacATk8WX1eZzGxA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OxBixTmi8exSwhKhpYHM7/AlkxwV4siRkelIHmr/3qFQ3s5oJy2QN3qkmKwh9C0IU
- gqvbMjbj8KEAUxN3CfmaF6Nn/+CPiN/omI4t2iEYtfetfAHc72Rhqk/4ai5QDeQt5Z
- wfaoL7mZTJtFg5n09El1nf8lXgfoiRTML9h+7Qdw=
-Date: Wed, 29 Nov 2023 12:11:50 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 1/3] drm/bridge: ti-sn65dsi86: Simplify using
- pm_runtime_resume_and_get()
-Message-ID: <20231129101150.GC18109@pendragon.ideasonboard.com>
-References: <20231123175425.496956-1-u.kleine-koenig@pengutronix.de>
- <20231123175425.496956-2-u.kleine-koenig@pengutronix.de>
- <20231129003955.GB8171@pendragon.ideasonboard.com>
- <20231129095137.of52hb7bc3ht3t6j@pengutronix.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A693B10E45B
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 10:13:00 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 217F761583;
+ Wed, 29 Nov 2023 10:13:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B439C433C8;
+ Wed, 29 Nov 2023 10:12:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1701252779;
+ bh=q2xGuBe/5ZtaWEz1wA9oSCyNuPYE42N2DoH03gk6/gY=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=YqtqYUD/JfGojXzIQTyJ9lhWdfjyhz/SJhgTJtf5/iozoBXPaaQPr6POy6Glgm1Hu
+ 5Z80l54woH7ByXaEvj6HeaMjpVOXsY4Hk2ckq7iRJrLEAeMkl3cDoz3T9j8uCBTx17
+ 1wnQh0pX9ncdfY9Fk1PSZvdMExv9w7YnivwHOaDJUecZJBpEr935Qi4NVPHOzG66Xm
+ LhHVPqP5iqOO3R47smHvySOT/GhxsgfWP0RJeRJAhHUg5a5UNk0se/iLdVBHmcCI5g
+ jCqS6yxF655mutzF6FkVl+lpxlV+t168rIeyYTsoipdGCUN6tUDclND9yGuZ5SLLns
+ Dyw5HN3+CRwpg==
+From: Robert Foss <rfoss@kernel.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Xin Ji <xji@analogixsemi.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Maxime Ripard <mripard@kernel.org>
+In-Reply-To: <20231120091038.284825-1-xji@analogixsemi.com>
+References: <20231120091038.284825-1-xji@analogixsemi.com>
+Subject: Re: [PATCH 1/2] Revert "drm/bridge: Add 200ms delay to wait FW HPD
+ status stable"
+Message-Id: <170125277615.1206640.720870356698186996.b4-ty@kernel.org>
+Date: Wed, 29 Nov 2023 11:12:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231129095137.of52hb7bc3ht3t6j@pengutronix.de>
+X-Mailer: b4 0.10.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,44 +58,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- Bjorn Andersson <andersson@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, kernel@pengutronix.de
+Cc: qwen@analogixsemi.com, bliang@analogixsemi.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ hsinyi@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Uwe,
-
-On Wed, Nov 29, 2023 at 10:51:37AM +0100, Uwe Kleine-König wrote:
-> On Wed, Nov 29, 2023 at 02:39:55AM +0200, Laurent Pinchart wrote:
-> > On Thu, Nov 23, 2023 at 06:54:27PM +0100, Uwe Kleine-König wrote:
-> > > pm_runtime_resume_and_get() already drops the runtime PM usage counter
-> > > in the error case. So a call to pm_runtime_put_sync() can be dropped.
-> > > 
-> > > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> > 
-> > I wonder if checkpatch should warn about usage of pm_runtime_get_sync().
+On Mon, 20 Nov 2023 17:10:36 +0800, Xin Ji wrote:
+> This reverts commit 330140d7319fcc4ec68bd924ea212e476bf12275
 > 
-> It should not warn in general. There are cases where
-> pm_runtime_get_sync() is the right function to use. See for example
+> 200ms delay will cause panel display image later than backlight
+> turn on, revert this patch.
+> 
+> 
 
-Sure, the function most likely has some valid use cases (otherwise it
-should just be removed), but I think those are are a minority. I was
-just thinking out loud anyway.
+Applied, thanks!
 
-> commit aec488051633 ("crypto: stm32 - Properly handle pm_runtime_get
-> failing").
+[1/2] Revert "drm/bridge: Add 200ms delay to wait FW HPD status stable"
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=af3145aa142c
+[2/2] drm/bridge: anx7625: Fix Set HPD irq detect window to 2ms
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=e3af7053de3f
 
-I don't know much about that device, but wouldn't the best option be to
-avoid resuming the device at remove time ? In any case, that's getting
-out of topic for the sn65dsi86 :-)
 
--- 
-Regards,
 
-Laurent Pinchart
+Rob
+
