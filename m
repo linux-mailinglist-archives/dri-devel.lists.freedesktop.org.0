@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E557F7FCE2A
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 06:15:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 197D87FCEC8
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 07:05:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6C2B10E5F5;
-	Wed, 29 Nov 2023 05:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A88D10E33F;
+	Wed, 29 Nov 2023 06:05:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65E7410E17C;
- Wed, 29 Nov 2023 05:15:12 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-9fa45e75ed9so856448766b.1; 
- Tue, 28 Nov 2023 21:15:12 -0800 (PST)
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com
+ [IPv6:2607:f8b0:4864:20::1149])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FBF210E33F
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 06:05:04 +0000 (UTC)
+Received: by mail-yw1-x1149.google.com with SMTP id
+ 00721157ae682-5ccaa0da231so84971877b3.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 22:05:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701234911; x=1701839711; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7Q9CRtsR/lkt7Cw/fHi7bDvZN/itsXqjiup0ZTmySxA=;
- b=Du02PcJLivS87nM16v2WxQfdJB63pi7B0nNrCnpgBFn0OYI/9YG6yeABNlD94+fxUK
- PRGBEghXReSKgKSFSnN/DLHfKZrIIsJtCcw3I4XDYzUbJCKwa5otjnyQK1O4owClE0Il
- oyymHEbs/I0KICo0NkowwEUE+vD8m9SFXem8mLzTdtgq2DgPbWtY/pJYkQlqLctnJ5QC
- 1pGuYOG0yuNONzQZtwfKrV07HaZ/h5USHA4dWSpFbSCjEz0BeDEXIWwCosvRxgUEri8b
- rBmnJyw4oS+yYKXt4AZgK3lYioQgKxGtoMsPrqQMgOC15Ty2tuXQropwgn5+UXQoJYmJ
- J4Yw==
+ d=google.com; s=20230601; t=1701237903; x=1701842703;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=WO7CXB1mNGxZSEafQP2SArLxdW3co4lj0A5pbLIXeXc=;
+ b=0UPru3BvwJY1cYQE7ai99hbarbn5JLyYYKmCdK+14pj+Ndq1iTo2yk5rSvKxvO8kDz
+ 9i2mFb3+qnNJvqRJZjKaE8bI6Hcyj1c9QrfbrL1/0lW1+5Vo+WTqfDxfN1dgm0eU6upu
+ h/m3XOeXDZ54SE5Vh4GzKJ2Z7wPycrd+EaFy5aFUsfGssslG+9pJitzNtldSiBJHVfzv
+ z7/NDHPutdzgn4ddErxKvQ+JNkSFsFV9KzzWBOzsKzfunCc3H0chhdFQqIgcGq1CKVIU
+ gJ57PdV7oPGPoD5/fmsegmn0HL52D51ED15yxsNKABU7rqZaJ2vnIzSp3njopAnyJX7f
+ 3XIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701234911; x=1701839711;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7Q9CRtsR/lkt7Cw/fHi7bDvZN/itsXqjiup0ZTmySxA=;
- b=u/vqGmJSEozfzxeBixenW/sZ/DXEWQJ2Bh6fXTxw1J6TcsXEqp+dhW/FgSUUDmFlEp
- oYbRVT9Vq2mck2HcqhkrxIftE6PanTI+T3uWAiwzn4dROlKmOinODvYQlQEXibN3M1fJ
- xVL0aZJJgSC/voteI33xOlEB4NBnVrgf7W0lR+M++0RWYbrmWAaPvpa7JNf4rgDjE6Io
- RYHPP3jPqtE/+NeSNvM4hmyeRbj8oy3uRGJbI8Ngr1tN3KAGcGjvboPqTt9QWV7/G7rv
- 5i5790BdiZVlhvGBJKGTt7m/Ep3LmKRXMUg/Wps1Ng/SWvQzZeOiX8npKm8yce/UWvm4
- bbKw==
-X-Gm-Message-State: AOJu0YyFK+/VAtnZL4OSKY2jvgJtBLoh0YsTzme3+dw+uGuX61/uJX+Q
- 1nXI+MS0cM1xK+REDARaA94yOZxRhTHrJ43X4eU=
-X-Google-Smtp-Source: AGHT+IF8BQbzvC8JUMcPZoTIvdOo/gY/kUL91mdf8zioqThU2TU+yw6ExoLa9toWLp2NMd4yrs5b7C6bb/cyNxAjx+o=
-X-Received: by 2002:a17:906:5299:b0:a00:8706:c82e with SMTP id
- c25-20020a170906529900b00a008706c82emr13477614ejm.18.1701234910430; Tue, 28
- Nov 2023 21:15:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20231128125025.4449-1-weixi.zhu@huawei.com>
- <9308a79d-e312-4e6d-98fe-75dc6d0fbeda@amd.com>
-In-Reply-To: <9308a79d-e312-4e6d-98fe-75dc6d0fbeda@amd.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 29 Nov 2023 15:14:58 +1000
-Message-ID: <CAPM=9tx-d-Au_bjX0vYxv6OwqiSjmbbMC7ebWpTsQgFNddWDuw@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/6] Supporting GMEM (generalized memory management)
- for external memory devices
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ d=1e100.net; s=20230601; t=1701237903; x=1701842703;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WO7CXB1mNGxZSEafQP2SArLxdW3co4lj0A5pbLIXeXc=;
+ b=OILT0QKnXIBkWgoXEVKMczj6YvdSWuMo46Wc3ULrlLUXBK0y3PJmaIp/V8fQEyZ1uS
+ T0guSpS8HO+cn3QAEMivtLMgFW+ZKB9UYltEDLlqm48H++IjABD8Y9O+7KzfCX+qJysV
+ 9y5CArJdj3QWxVg+Ly973uZ5s/DlNGp3M8c0RVlrcSnzyivNQaAYXvkFnl9Eg9d/v9Uo
+ R4yLpuLvUk094dnpNYivwVHkCpflRB+LVNkyF6J8vIC0V3a7bf0NVis5Xq1rp7t2qPWx
+ Q1T8zY2tXiCZVW6wKxwW9FuE+zbEoD3uWwH3TwcgVuynilNdm32KygNxYY2lECo8EUqQ
+ WfCA==
+X-Gm-Message-State: AOJu0YzA1Z5wbkfCl6C0zWqkm2SHLfMOuM92nyyRWiqN5lrr6+wZnHF8
+ qE9hRuQBn3SJ7rw/aTyPQCXR/d5LePR8
+X-Google-Smtp-Source: AGHT+IHL7hgboFJ1jDI8fHK0ttAzMEfTsQjA7vmjwBnF03SxrfXdHuhYyFsTgeIfr3cTonrW5FaGXfJVhISd
+X-Received: from morats.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:d9e])
+ (user=moritzf job=sendgmr) by 2002:a05:690c:903:b0:59b:eb63:4beb
+ with SMTP id
+ cb3-20020a05690c090300b0059beb634bebmr584543ywb.7.1701237903050; Tue, 28 Nov
+ 2023 22:05:03 -0800 (PST)
+Date: Wed, 29 Nov 2023 06:04:59 +0000
+In-Reply-To: <3-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
+Mime-Version: 1.0
+References: <0-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
+ <3-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
+Message-ID: <20231129060459.gcunam3msksainng@google.com>
+Subject: Re: [PATCH 03/10] iommu/of: Use -ENODEV consistently in
+ of_iommu_configure()
+From: Moritz Fischer <moritzf@google.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,136 +70,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org, leonro@nvidia.com,
- apopple@nvidia.com, amd-gfx@lists.freedesktop.org, mgorman@suse.de,
- ziy@nvidia.com, zhi.a.wang@intel.com, rcampbell@nvidia.com, jgg@nvidia.com,
- weixi.zhu@openeuler.sh, jhubbard@nvidia.com, intel-gfx@lists.freedesktop.org,
- mhairgrove@nvidia.com, jglisse@redhat.com, Weixi Zhu <weixi.zhu@huawei.com>,
- rodrigo.vivi@intel.com, intel-gvt-dev@lists.freedesktop.org,
- tvrtko.ursulin@linux.intel.com, Felix.Kuehling@amd.com, Xinhui.Pan@amd.com,
- linux-kernel@vger.kernel.org, alexander.deucher@amd.com,
- akpm@linux-foundation.org, ogabbay@kernel.org
+Cc: linux-hyperv@vger.kernel.org, Karol Herbst <kherbst@redhat.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Jerry Snitselaar <jsnitsel@redhat.com>, dri-devel@lists.freedesktop.org,
+ patches@lists.linux.dev, Laxman Dewangan <ldewangan@nvidia.com>,
+ Hanjun Guo <guohanjun@huawei.com>, linux-riscv@lists.infradead.org,
+ "K. Y. Srinivasan" <kys@microsoft.com>, Frank Rowand <frowand.list@gmail.com>,
+ Christoph Hellwig <hch@lst.de>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Wei Liu <wei.liu@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Dexuan Cui <decui@microsoft.com>, Russell King <linux@armlinux.org.uk>,
+ Jon Hunter <jonathanh@nvidia.com>, linux-acpi@vger.kernel.org,
+ iommu@lists.linux.dev, Danilo Krummrich <dakr@redhat.com>,
+ nouveau@lists.freedesktop.org, linux-snps-arc@lists.infradead.org,
+ Len Brown <lenb@kernel.org>, devicetree@vger.kernel.org,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Will Deacon <will@kernel.org>, Sven Peter <sven@svenpeter.dev>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Vineet Gupta <vgupta@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Moritz Fischer <mdf@kernel.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Robin Murphy <robin.murphy@arm.com>, Hector Martin <marcan@marcan.st>,
+ linux-mips@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ asahi@lists.linux.dev, Sudeep Holla <sudeep.holla@arm.com>,
+ dmaengine@vger.kernel.org, David Woodhouse <dwmw2@infradead.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 28 Nov 2023 at 23:07, Christian K=C3=B6nig <christian.koenig@amd.co=
-m> wrote:
->
-> Am 28.11.23 um 13:50 schrieb Weixi Zhu:
-> > The problem:
-> >
-> > Accelerator driver developers are forced to reinvent external MM subsys=
-tems
-> > case by case, because Linux core MM only considers host memory resource=
-s.
-> > These reinvented MM subsystems have similar orders of magnitude of LoC =
-as
-> > Linux MM (80K), e.g. Nvidia-UVM has 70K, AMD GPU has 14K and Huawei NPU=
- has
-> > 30K. Meanwhile, more and more vendors are implementing their own
-> > accelerators, e.g. Microsoft's Maia 100. At the same time,
-> > application-level developers suffer from poor programmability -- they m=
-ust
-> > consider parallel address spaces and be careful about the limited devic=
-e
-> > DRAM capacity. This can be alleviated if a malloc()-ed virtual address =
-can
-> > be shared by the accelerator, or the abundant host DRAM can further
-> > transparently backup the device local memory.
-> >
-> > These external MM systems share similar mechanisms except for the
-> > hardware-dependent part, so reinventing them is effectively introducing
-> > redundant code (14K~70K for each case). Such developing/maintaining is =
-not
-> > cheap. Furthermore, to share a malloc()-ed virtual address, device driv=
-ers
-> > need to deeply interact with Linux MM via low-level MM APIs, e.g. MMU
-> > notifiers/HMM. This raises the bar for driver development, since develo=
-pers
-> > must understand how Linux MM works. Further, it creates code maintenanc=
-e
-> > problems -- any changes to Linux MM potentially require coordinated cha=
-nges
-> > to accelerator drivers using low-level MM APIs.
-> >
-> > Putting a cache-coherent bus between host and device will not make thes=
-e
-> > external MM subsystems disappear. For example, a throughput-oriented
-> > accelerator will not tolerate executing heavy memory access workload wi=
-th
-> > a host MMU/IOMMU via a remote bus. Therefore, devices will still have
-> > their own MMU and pick a simpler page table format for lower address
-> > translation overhead, requiring external MM subsystems.
-> >
-> > --------------------
-> >
-> > What GMEM (Generalized Memory Management [1]) does:
-> >
-> > GMEM extends Linux MM to share its machine-independent MM code. Only
-> > high-level interface is provided for device drivers. This prevents
-> > accelerator drivers from reinventing the wheel, but relies on drivers t=
-o
-> > implement their hardware-dependent functions declared by GMEM. GMEM's k=
-ey
-> > interface include gm_dev_create(), gm_as_create(), gm_as_attach() and
-> > gm_dev_register_physmem(). Here briefly describe how a device driver
-> > utilizes them:
-> > 1. At boot time, call gm_dev_create() and registers the implementation =
-of
-> >     hardware-dependent functions as declared in struct gm_mmu.
-> >       - If the device has local DRAM, call gm_dev_register_physmem() to
-> >         register available physical addresses.
-> > 2. When a device context is initialized (e.g. triggered by ioctl), chec=
-k if
-> >     the current CPU process has been attached to a gmem address space
-> >     (struct gm_as). If not, call gm_as_create() and point current->mm->=
-gm_as
-> >     to it.
-> > 3. Call gm_as_attach() to attach the device context to a gmem address s=
-pace.
-> > 4. Invoke gm_dev_fault() to resolve a page fault or prepare data before
-> >     device computation happens.
-> >
-> > GMEM has changed the following assumptions in Linux MM:
-> >    1. An mm_struct not only handle a single CPU context, but may also h=
-andle
-> >       external memory contexts encapsulated as gm_context listed in
-> >       mm->gm_as. An external memory context can include a few or all of=
- the
-> >       following parts: an external MMU (that requires TLB invalidation)=
-, an
-> >       external page table (that requires PTE manipulation) and external=
- DRAM
-> >       (that requires physical memory management).
->
-> Well that is pretty much exactly what AMD has already proposed with KFD
-> and was rejected for rather good reasons.
+On Tue, Nov 28, 2023 at 08:47:59PM -0400, Jason Gunthorpe wrote:
+> Instead of returning 1 and trying to handle positive error codes just
+> stick to the convention of returning -ENODEV. Remove references to ops
+> from of_iommu_configure(), a NULL ops will already generate an error code.
 
-> >
-> > MMU functions
-> > The MMU functions peer_map() and peer_unmap() overlap other functions,
-> > leaving a question if the MMU functions should be decoupled as more bas=
-ic
-> > operations. Decoupling them could potentially prevent device drivers
-> > coalescing these basic steps within a single host-device communication
-> > operation, while coupling them makes it more difficult for device drive=
-rs
-> > to utilize GMEM interface.
->
-> Well to be honest all of this sounds like history to me. We have already
-> seen the same basic approach in KFD, HMM and to some extend in TTM as wel=
-l.
->
-> And all of them more or less failed. Why should this here be different?
+> There is no reason to check dev->bus, if err=0 at this point then the
+> called configure functions thought there was an iommu and we should try to
+> probe it. Remove it.
+
+> Reviewed-by: Jerry Snitselaar <jsnitsel@redhat.com>
+> Tested-by: Hector Martin <marcan@marcan.st>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>   drivers/iommu/of_iommu.c | 49 ++++++++++++----------------------------
+>   1 file changed, 15 insertions(+), 34 deletions(-)
+
+> diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
+> index c6510d7e7b241b..164317bfb8a81f 100644
+> --- a/drivers/iommu/of_iommu.c
+> +++ b/drivers/iommu/of_iommu.c
+> @@ -17,8 +17,6 @@
+>   #include <linux/slab.h>
+>   #include <linux/fsl/mc.h>
+
+> -#define NO_IOMMU	1
+> -
+>   static int of_iommu_xlate(struct device *dev,
+>   			  struct of_phandle_args *iommu_spec)
+>   {
+> @@ -29,7 +27,7 @@ static int of_iommu_xlate(struct device *dev,
+>   	ops = iommu_ops_from_fwnode(fwnode);
+>   	if ((ops && !ops->of_xlate) ||
+>   	    !of_device_is_available(iommu_spec->np))
+> -		return NO_IOMMU;
+> +		return -ENODEV;
+
+>   	ret = iommu_fwspec_init(dev, &iommu_spec->np->fwnode, ops);
+>   	if (ret)
+> @@ -61,7 +59,7 @@ static int of_iommu_configure_dev_id(struct device_node  
+> *master_np,
+>   			 "iommu-map-mask", &iommu_spec.np,
+>   			 iommu_spec.args);
+>   	if (err)
+> -		return err == -ENODEV ? NO_IOMMU : err;
+> +		return err;
+
+>   	err = of_iommu_xlate(dev, &iommu_spec);
+>   	of_node_put(iommu_spec.np);
+> @@ -72,7 +70,7 @@ static int of_iommu_configure_dev(struct device_node  
+> *master_np,
+>   				  struct device *dev)
+>   {
+>   	struct of_phandle_args iommu_spec;
+> -	int err = NO_IOMMU, idx = 0;
+> +	int err = -ENODEV, idx = 0;
+
+>   	while (!of_parse_phandle_with_args(master_np, "iommus",
+>   					   "#iommu-cells",
+> @@ -117,9 +115,8 @@ static int of_iommu_configure_device(struct  
+> device_node *master_np,
+>   int of_iommu_configure(struct device *dev, struct device_node *master_np,
+>   		       const u32 *id)
+>   {
+> -	const struct iommu_ops *ops = NULL;
+>   	struct iommu_fwspec *fwspec;
+> -	int err = NO_IOMMU;
+> +	int err;
+
+>   	if (!master_np)
+>   		return -ENODEV;
+> @@ -153,37 +150,21 @@ int of_iommu_configure(struct device *dev, struct  
+> device_node *master_np,
+>   	} else {
+>   		err = of_iommu_configure_device(master_np, dev, id);
+>   	}
+> -
+> -	/*
+> -	 * Two success conditions can be represented by non-negative err here:
+> -	 * >0 : there is no IOMMU, or one was unavailable for non-fatal reasons
+> -	 *  0 : we found an IOMMU, and dev->fwspec is initialised appropriately
+> -	 * <0 : any actual error
+> -	 */
+> -	if (!err) {
+> -		/* The fwspec pointer changed, read it again */
+> -		fwspec = dev_iommu_fwspec_get(dev);
+> -		ops    = fwspec->ops;
+> -	}
+>   	mutex_unlock(&iommu_probe_device_lock);
+
+> -	/*
+> -	 * If we have reason to believe the IOMMU driver missed the initial
+> -	 * probe for dev, replay it to get things in order.
+> -	 */
+> -	if (!err && dev->bus)
+> -		err = iommu_probe_device(dev);
+> -
+> -	/* Ignore all other errors apart from EPROBE_DEFER */
+> -	if (err < 0) {
+> -		if (err == -EPROBE_DEFER)
+> -			return err;
+> -		dev_dbg(dev, "Adding to IOMMU failed: %pe\n", ERR_PTR(err));
+> +	if (err == -ENODEV || err == -EPROBE_DEFER)
+>   		return err;
+> -	}
+> -	if (!ops)
+> -		return -ENODEV;
+> +	if (err)
+> +		goto err_log;
+> +
+> +	err = iommu_probe_device(dev);
+> +	if (err)
+> +		goto err_log;
+>   	return 0;
+> +
+> +err_log:
+> +	dev_dbg(dev, "Adding to IOMMU failed: %pe\n", ERR_PTR(err));
+> +	return err;
+>   }
+
+>   static enum iommu_resv_type __maybe_unused
+> --
+> 2.42.0
 
 
-Any info we have on why this has failed to work in the past would be
-useful to provide. This is one of those cases where we may not have
-documented the bad ideas to stop future developers from thinking they
-are bad.
-
-I do think we would want more common code in this area, but I would
-think we'd have it more on the driver infrastructure side, than in the
-core mm.
-
-Dave.
+Reviewed-by: Moritz Fischer <moritzf@google.com>
