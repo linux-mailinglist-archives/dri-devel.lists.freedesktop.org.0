@@ -2,53 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE087FD888
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 14:46:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C63E77FD89B
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 14:49:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 121A410E1D2;
-	Wed, 29 Nov 2023 13:46:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE86A10E1DD;
+	Wed, 29 Nov 2023 13:49:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 208CD10E1D2
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 13:46:15 +0000 (UTC)
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 8F4F96602F2A;
- Wed, 29 Nov 2023 13:46:12 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1701265573;
- bh=cPrdHiYFM6hWb9ovweIlhFYJQT5IeERY0rZ3lJOJTdI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=AZLgQ56oeWFfTMEJAqzBGdw1QGd8KK96rkEqcbEe4trdn7Thr5oXG8Z8qHYVDZmAi
- 3MBMxJNUN7QwJXWBYAO664A7Vwq0jD6rA1MmHtk+TRWCHaXA0lAUaurZZ3apSpRzUr
- I+J4gx5wXcZWHgCGBwLgWw1FDBAd3AhLRHJ/zthC+ef5/dvhw0A97tTg7SXyAVHrWG
- VFERw1C71DayL5JOrmQZEi9ngMZiOwT8iy69rXsm9oNyrMxrQgbFGADdfNTlE02cxu
- X4NOWc3raSu3iRIGepfYoQtiRB5k4/bGt8irN9Pa72PglH4Ay8VTPjmrqeIDQ0cqlh
- HyVuNUKZ8Nqgg==
-Date: Wed, 29 Nov 2023 14:46:09 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v18 04/26] drm/shmem-helper: Refactor locked/unlocked
- functions
-Message-ID: <20231129144609.7544e773@collabora.com>
-In-Reply-To: <ioqghyaeftyo7tuyfecn252ykxwgltrkhh2pwktjejqhewntbb@bym3rsjxnxfp>
-References: <20231029230205.93277-1-dmitry.osipenko@collabora.com>
- <20231029230205.93277-5-dmitry.osipenko@collabora.com>
- <wboljiwogeus7pwgaqzxaltt3xdavy2dzisygn6pdpoiwlnwgc@mwaiukjguzat>
- <20231124115911.79ab24af@collabora.com>
- <kw5bho3jx73d3glvtewmjvqt4qty4khju6dcwypuh25ya3gi4b@7slmijjqdi4p>
- <20231128133712.53a6f6cb@collabora.com>
- <37208c72-7908-0a78-fc89-2fa9b8d756a5@collabora.com>
- <20231129085330.7ccb35d3@collabora.com>
- <ioqghyaeftyo7tuyfecn252ykxwgltrkhh2pwktjejqhewntbb@bym3rsjxnxfp>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 566A310E1DD
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 13:49:48 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id D9EAF3200B89;
+ Wed, 29 Nov 2023 08:49:44 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Wed, 29 Nov 2023 08:49:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alyssa.is; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1701265784; x=1701352184; bh=AY
+ qR2FYNis+6ueG4BiHliUkj1RWJ5ay7P8i59rrCpAg=; b=ile7QmuUZmWrI3cizj
+ d1ghvvS1eN9S7laIFLS2dxvGN7XzQm2kxREyuAVjR4KVronGybkMW6RWh9DhFMw5
+ Dov3BaQ9TLMyGT7RsTmAoJDJ8LJklLldBx5tH1wekA+sS7KhhsMOSNKHXZNlwCmW
+ NLV8ItJvAemgGNMa4L2EUGuhKY0xjMJuMj3bXPwCidTRGNVIc3vzCI0y8aaYXeaw
+ duuwBV5E5WcV2+f995w2EjG3IF5OfHebxX58NNqzTUEezHc8IPwjB8JGz4wcJ0fW
+ NuThq8IScaDIK6eBdf9SJMZS/A3DAtS8mhksQouEubA3orjmJ1jsx1PpW0MG+IHj
+ ZqyA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1701265784; x=1701352184; bh=AYqR2FYNis+6u
+ eG4BiHliUkj1RWJ5ay7P8i59rrCpAg=; b=nXDxsk1ZZUBEWtNL9NEaiDLOzuMva
+ RcQlwA5K/nEJatpZ4xF/pk3VUNsI2BeMVp9b6mbZ8HRVMyKiMP6Nit6npe+5s2rI
+ UlLhoW/LnkYxDSVckOUlI0bNga7RjcsCLg1R+vI2uAW+y+AnAYLiCiQhNuzZzDho
+ eWogFDuXbBkI4FACd30OnGlrlIEGzx/cwDS5bwLgSrf9h3xWtoJT8JvCWvDRTGTP
+ LXQn0sw2T3RUQYUGMaJBW/JvkWBgOXslsKso9Qjyu7lXqkbCFUfFemgdXxgsTGXd
+ bH2fj2CAmu2IoEU6gwyCscOQzfN6GAArVVUX7dSC0xQInIfyQ26EtrX4w==
+X-ME-Sender: <xms:eEFnZSrMVTJXUdy6oB07k5M_A0xcealI40sVL8jqNFzScoJovEtXug>
+ <xme:eEFnZQrGo245rWPHAnkiOZEpzMjygQtETrBGOd_KZ-4CHXSENm8KJkOX8hWJWJUGz
+ Gboj6wuBRp2Qxc1bw>
+X-ME-Received: <xmr:eEFnZXOmQHSA2eVzLjnBGZJjBIAEp1qa3EJlexy5VvU7BMo77VLxpb11WvR9HC-r_m56oy8T2QZZf2xnlmCd7B05_ACI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudeihedgheehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvefujghffffkgggtsehgtderredttdejnecuhfhrohhmpeetlhihshhs
+ rgcutfhoshhsuceohhhisegrlhihshhsrgdrihhsqeenucggtffrrghtthgvrhhnpedtke
+ dvfedvvdetheehueeifeelieeggeefgedtvefgvdfhvdethedvkedtheevvdenucffohhm
+ rghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+ hmpehmrghilhhfrhhomhephhhisegrlhihshhsrgdrihhs
+X-ME-Proxy: <xmx:eEFnZR6d-QXR5jcV9TFoLBmWP-t5jtgeP9ecX984nyv5ykaMBiAkqw>
+ <xmx:eEFnZR6eXObcDA3Ki7qM0_XY6SGAkkjqZhUbB-Hfb5OyT17OMXEyWg>
+ <xmx:eEFnZRjjDJRclFSDX054GDvolDsnMhcim84TO4YXWPpT4QAIqWLnRA>
+ <xmx:eEFnZbmT1bYU1QkL6WGAdpfPEMn9E1eqzXT-NRdNz6G45S4NOkASZw>
+Feedback-ID: i12284293:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Nov 2023 08:49:43 -0500 (EST)
+Received: by mbp.qyliss.net (Postfix, from userid 1000)
+ id 73FC56216; Wed, 29 Nov 2023 14:49:42 +0100 (CET)
+From: Alyssa Ross <hi@alyssa.is>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2] drm/atomic-helpers: Invoke end_fb_access while
+ owning plane state
+In-Reply-To: <1093023d-1e9a-422f-bb5d-e716c0789f70@suse.de>
+References: <20231127142042.17815-1-tzimmermann@suse.de>
+ <874jh740zb.fsf@alyssa.is> <1093023d-1e9a-422f-bb5d-e716c0789f70@suse.de>
+Date: Wed, 29 Nov 2023 14:49:36 +0100
+Message-ID: <87r0k8vfdb.fsf@alyssa.is>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,192 +86,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Emma Anholt <emma@anholt.net>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
- Melissa Wen <mwen@igalia.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Steven Price <steven.price@arm.com>, virtualization@lists.linux-foundation.org,
- Qiang Yu <yuq825@gmail.com>
+Cc: mripard@kernel.org, stable@vger.kernel.org, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 29 Nov 2023 14:09:47 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
+--=-=-=
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-> On Wed, Nov 29, 2023 at 08:53:30AM +0100, Boris Brezillon wrote:
-> > On Wed, 29 Nov 2023 01:05:14 +0300
-> > Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
-> >   
-> > > On 11/28/23 15:37, Boris Brezillon wrote:  
-> > > > On Tue, 28 Nov 2023 12:14:42 +0100
-> > > > Maxime Ripard <mripard@kernel.org> wrote:
-> > > >     
-> > > >> Hi,
-> > > >>
-> > > >> On Fri, Nov 24, 2023 at 11:59:11AM +0100, Boris Brezillon wrote:    
-> > > >>> On Fri, 24 Nov 2023 11:40:06 +0100
-> > > >>> Maxime Ripard <mripard@kernel.org> wrote:
-> > > >>>       
-> > > >>>> On Mon, Oct 30, 2023 at 02:01:43AM +0300, Dmitry Osipenko wrote:      
-> > > >>>>> Add locked and remove unlocked postfixes from drm-shmem function names,
-> > > >>>>> making names consistent with the drm/gem core code.
-> > > >>>>>
-> > > >>>>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > >>>>> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > >>>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>        
-> > > >>>>
-> > > >>>> This contradicts my earlier ack on a patch but...
-> > > >>>>       
-> > > >>>>> ---
-> > > >>>>>  drivers/gpu/drm/drm_gem_shmem_helper.c        | 64 +++++++++----------
-> > > >>>>>  drivers/gpu/drm/lima/lima_gem.c               |  8 +--
-> > > >>>>>  drivers/gpu/drm/panfrost/panfrost_drv.c       |  2 +-
-> > > >>>>>  drivers/gpu/drm/panfrost/panfrost_gem.c       |  6 +-
-> > > >>>>>  .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |  2 +-
-> > > >>>>>  drivers/gpu/drm/panfrost/panfrost_mmu.c       |  2 +-
-> > > >>>>>  drivers/gpu/drm/v3d/v3d_bo.c                  |  4 +-
-> > > >>>>>  drivers/gpu/drm/virtio/virtgpu_object.c       |  4 +-
-> > > >>>>>  include/drm/drm_gem_shmem_helper.h            | 36 +++++------
-> > > >>>>>  9 files changed, 64 insertions(+), 64 deletions(-)
-> > > >>>>>
-> > > >>>>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > > >>>>> index 0d61f2b3e213..154585ddae08 100644
-> > > >>>>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > > >>>>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > > >>>>> @@ -43,8 +43,8 @@ static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
-> > > >>>>>  	.pin = drm_gem_shmem_object_pin,
-> > > >>>>>  	.unpin = drm_gem_shmem_object_unpin,
-> > > >>>>>  	.get_sg_table = drm_gem_shmem_object_get_sg_table,
-> > > >>>>> -	.vmap = drm_gem_shmem_object_vmap,
-> > > >>>>> -	.vunmap = drm_gem_shmem_object_vunmap,
-> > > >>>>> +	.vmap = drm_gem_shmem_object_vmap_locked,
-> > > >>>>> +	.vunmap = drm_gem_shmem_object_vunmap_locked,        
-> > > >>>>
-> > > >>>> While I think we should indeed be consistent with the names, I would
-> > > >>>> also expect helpers to get the locking right by default.      
-> > > >>>
-> > > >>> Wait, actually I think this patch does what you suggest already. The
-> > > >>> _locked() prefix tells the caller: "you should take care of the locking,
-> > > >>> I expect the lock to be held when this is hook/function is called". So
-> > > >>> helpers without the _locked() prefix take care of the locking (which I
-> > > >>> guess matches your 'helpers get the locking right' expectation), and
-> > > >>> those with the _locked() prefix don't.      
-> > > >>
-> > > >> What I meant by "getting the locking right" is indeed a bit ambiguous,
-> > > >> sorry. What I'm trying to say I guess is that, in this particular case,
-> > > >> I don't think you can expect the vmap implementation to be called with
-> > > >> or without the locks held. The doc for that function will say that it's
-> > > >> either one or the other, but not both.
-> > > >>
-> > > >> So helpers should follow what is needed to provide a default vmap/vunmap
-> > > >> implementation, including what locking is expected from a vmap/vunmap
-> > > >> implementation.    
-> > > > 
-> > > > Hm, yeah, I think that's a matter of taste. When locking is often
-> > > > deferrable, like it is in DRM, I find it beneficial for funcions and
-> > > > function pointers to reflect the locking scheme, rather than relying on
-> > > > people properly reading the doc, especially when this is the only
-> > > > outlier in the group of drm_gem_object_funcs we already have, and it's
-> > > > not event documented at the drm_gem_object_funcs level [1] :P.
-> > > >     
-> > > >>
-> > > >> If that means that vmap is always called with the locks taken, then
-> > > >> drm_gem_shmem_object_vmap can just assume that it will be called with
-> > > >> the locks taken and there's no need to mention it in the name (and you
-> > > >> can probably sprinkle a couple of lockdep assertion to make sure the
-> > > >> locking is indeed consistent).    
-> > > > 
-> > > > Things get very confusing when you end up having drm_gem_shmem helpers
-> > > > that are suffixed with _locked() to encode the fact locking is the
-> > > > caller's responsibility and no suffix for the
-> > > > callee-takes-care-of-the-locking semantics, while other helpers that are
-> > > > not suffixed at all actually implement the
-> > > > caller-should-take-care-of-the-locking semantics.
-> > > >     
-> > > >>    
-> > > >>>> I'm not sure how reasonable it is, but I think I'd prefer to turn this
-> > > >>>> around and keep the drm_gem_shmem_object_vmap/unmap helpers name, and
-> > > >>>> convert whatever function needs to be converted to the unlock suffix so
-> > > >>>> we get a consistent naming.      
-> > > >>>
-> > > >>> That would be an _unlocked() prefix if we do it the other way around. I
-> > > >>> think the main confusion comes from the names of the hooks in
-> > > >>> drm_gem_shmem_funcs. Some of them, like drm_gem_shmem_funcs::v[un]map()
-> > > >>> are called with the GEM resv lock held, and locking is handled by the
-> > > >>> core, others, like drm_gem_shmem_funcs::[un]pin() are called
-> > > >>> without the GEM resv lock held, and locking is deferred to the
-> > > >>> implementation. As I said, I don't mind prefixing hooks/helpers with
-> > > >>> _unlocked() for those that take care of the locking, and no prefix for
-> > > >>> those that expects locks to be held, as long as it's consistent, but I
-> > > >>> just wanted to make sure we're on the same page :-).      
-> > > >>
-> > > >> What about _nolock then? It's the same number of characters than
-> > > >> _locked, plus it expresses what the function is (not) doing, not what
-> > > >> context it's supposed to be called in?    
-> > > > 
-> > > > Just did a quick
-> > > > 
-> > > >   git grep _nolock drivers/gpu/drm
-> > > > 
-> > > > and it returns zero result, where the _locked/_unlocked pattern seems
-> > > > to already be widely used. Not saying we shouldn't change that, but it
-> > > > doesn't feel like a change we should do as part of this series.
-> > > > 
-> > > > Regards,
-> > > > 
-> > > > Boris
-> > > > 
-> > > > [1]https://elixir.bootlin.com/linux/v6.7-rc3/source/include/drm/drm_gem.h#L155    
-> > > 
-> > > I'm fine with dropping the _locked() postfix from the common GEM helpers
-> > > and documenting the locking rule in drm_gem. Thank you all for the
-> > > suggestions :)  
-> > 
-> > Sorry to disagree, but I think a proper function name/suffix is
-> > sometimes worth a few lines of doc. Not saying we should do one or the
-> > other, I think we should do both. But when I see a function suffixed
-> > _locked, _unlocked or _nolock, I can immediately tell if this function
-> > defers the locking to the caller or not, and then go check which lock
-> > in the function doc.
-> > 
-> > And the second thing I'm not happy with, is the fact we go back to an
-> > inconsistent naming in drm_gem_shmem_helper.c, where some functions
-> > deferring the locking to the caller are suffixed _locked and others are
-> > not, because ultimately, you need a different name when you expose the
-> > two variants...  
-> 
-> I guess one of the point I was trying to make was also: why do you need
-> both?
-> 
-> If one is better than the other (whatever better means here), then all
-> drivers should use it.
-> 
-> The counterpart being that if provided a choice, you can be sure that a
-> lot of people will get it wrong. The one example I have in mind for
-> example was the drm_atomic_helper_commit_tail vs
-> drm_atomic_helper_commit_tail_rpm. The latter is now widely used, and
-> most of it is cargo-cult.
-> 
-> I think you were referring to the locks being deferred vs taken right
-> now before, why do we need to have the choice between the two?
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Because DRM locking is complex, and you sometimes have to call some
-helpers in a context where you already hold the GEM dma_resv lock.
-That's not the case for _v[un]map(), because the core always takes the
-lock for us if we call drm_gem_vmap_unlocked(). Now, let's assume we
-drop the _locked() suffix on drm_gem_shmem_v[un]map(), but keep it on
-other helpers that need both variants. This results in an inconsistent
-naming scheme inside the same source file, which I find utterly
-confusing.
+> Hi
+>
+> Am 27.11.23 um 17:25 schrieb Alyssa Ross:
+>> Thomas Zimmermann <tzimmermann@suse.de> writes:
+>>=20
+>>> Invoke drm_plane_helper_funcs.end_fb_access before
+>>> drm_atomic_helper_commit_hw_done(). The latter function hands over
+>>> ownership of the plane state to the following commit, which might
+>>> free it. Releasing resources in end_fb_access then operates on undefined
+>>> state. This bug has been observed with non-blocking commits when they
+>>> are being queued up quickly.
+>>>
+>>> Here is an example stack trace from the bug report. The plane state has
+>>> been free'd already, so the pages for drm_gem_fb_vunmap() are gone.
+>>>
+>>> Unable to handle kernel paging request at virtual address 0000000100000=
+049
+>>> [...]
+>>>   drm_gem_fb_vunmap+0x18/0x74
+>>>   drm_gem_end_shadow_fb_access+0x1c/0x2c
+>>>   drm_atomic_helper_cleanup_planes+0x58/0xd8
+>>>   drm_atomic_helper_commit_tail+0x90/0xa0
+>>>   commit_tail+0x15c/0x188
+>>>   commit_work+0x14/0x20
+>>>
+>>> For aborted commits, it is still ok to run end_fb_access as part of the
+>>> plane's cleanup. Add a test to drm_atomic_helper_cleanup_planes().
+>>>
+>>> v2:
+>>> 	* fix test in drm_atomic_helper_cleanup_planes()
+>>>
+>>> Reported-by: Alyssa Ross <hi@alyssa.is>
+>>> Closes: https://lore.kernel.org/dri-devel/87leazm0ya.fsf@alyssa.is/
+>>> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+>>> Fixes: 94d879eaf7fb ("drm/atomic-helper: Add {begin,end}_fb_access to p=
+lane helpers")
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Cc: <stable@vger.kernel.org> # v6.2+
+>>> ---
+>>>   drivers/gpu/drm/drm_atomic_helper.c | 17 +++++++++++++++++
+>>>   1 file changed, 17 insertions(+)
+>>=20
+>> Got this basically immediately. :(
+>
+> I've never seen such problems on other systems. Is there anything=20
+> different about the Mac systems? How do you trigger these errors?
 
-Note that the initial reason I asked Dmitry if he could add the
-_locked suffix to drm_gem_shmem_vmap() is because I started using
-drm_gem_shmem_vmap() in powervr, before realizing this version wasn't
-taking the lock, and I should have used drm_gem_vmap_unlocked()
-instead, so this is not something I'm making up. Not saying the
-confusion only comes from the naming, because the various layers of
-indirection we have clearly don't help, but having a name reflecting
-the fact the locking is deferred to the caller would have helped, I
-think.
+My understanding is that all sorts of things are different, but I don't
+know too much about the details.  There's of course a chance that there
+could be some other change in the Asahi Linux kernel that causes this
+problem to surface =E2=80=94 as I said, I reviewed the diff with mainline a=
+nd
+didn't see anything that looked relevant, but I could well have missed
+something.  I don't think I can test mainline directly, as it doesn't
+yet support enough of the hardware =E2=80=94 for slightly older Apple Silic=
+on
+Mac models, I think enough is upstream that this would be possible, but
+I don't have access to any.
+
+I started off encountering these errors every few days.  I noticed them
+because they would sometimes result in my system either starting to
+freeze for 10 seconds at a time, or until I switched VT.  They seem to
+correlate with the system being under high CPU load.  I was also able to
+substantially increase the frequency with which they occurred by adding
+logging to the kernel =E2=80=94 even just drm.debug=3D0x10 makes a big diff=
+erence,
+and when I also added a few dump_backtrace() calls when I was trying to
+understand the code and diagnose the problem, I would relatively
+consistently encounter an Oops within a few minutes of load.
+
+BTW: v3 is looking good so far.  I've only been testing it since this
+morning, though, so I'll keep trying it out for a bit longer before I
+declare the problem to have been solved and send a Tested-by.
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEH9wgcxqlHM/ARR3h+dvtSFmyccAFAmVnQXAACgkQ+dvtSFmy
+ccBLew/9EYgQ+cjqBKHE8We3AvbqEotI3p2kF/38oLy9MCQ7jw3tCgtVZy7KEvd/
+jAgvU7tk0iaP9Ob9RiybckA5vxpHU+xWQqnx1vSzNp29g1jhkYiX0uBZI0ZpH5pi
++g2R1b2i4kleqNRtfxZcUVY0zaajWzVp+Fw3qHjtygN61mRRabti/l5HVgeOmROk
+qTJ9XfKwQsocnkMq1pPq1NOhlJFgblZohXwnCdgacFo+vt0bBL31aTe+ydYXY3HY
+0tdoOVV8md1ejlm5ObSzL0oiN8On4Mm3NbmiEKBCqCA1mZ8JFwSbqAVo8PnlF9h0
+L3jexx/DND92hmLet6XvxlbRMZFPu5Rn9UGIMnv31b6A4n/Le3mTmD7Z33ozE8wr
+0Ioft2cVC3qZVSPR7K2d5Anfp5v+TqNtEuKwj2DgFIdOJlBeKGjBchy+QGFbaSV8
+/XYgpfNXUaowBGzIxN+veJgSO2GmT8xLP3+OkXCyOZ9mewEi8Yfy3UOTxp72yjcs
+fO0QBR6Vor+mOpmdGWwPEP89cS9qJlwfcha6BBgCEoHL/LIhruC1ITFqDfZ3oZmN
+XxhmAsXctPqdBL/MjMLWn4GQXEtBvly/movEpe7H91Y4iyrQELkdVag52Akj1rQA
+ljqZ2t3ueswHvgCKT9UjzHU+8zBp2KdHIIHp12Ptl58MJG+CqU4=
+=CtLf
+-----END PGP SIGNATURE-----
+--=-=-=--
