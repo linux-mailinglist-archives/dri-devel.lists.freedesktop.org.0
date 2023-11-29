@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8585F7FDA1B
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 15:44:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D507FDA17
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 15:44:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E62710E5FB;
-	Wed, 29 Nov 2023 14:44:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3AD310E5F8;
+	Wed, 29 Nov 2023 14:44:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D11710E5F8
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 14:44:26 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-50bc59115c2so931985e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 06:44:26 -0800 (PST)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF1B410E600
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 14:44:29 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id
+ a640c23a62f3a-9fa45e75ed9so931824166b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 06:44:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701269065; x=1701873865; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701269068; x=1701873868; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=wo1sJJZHw7KBTaKmEN30ScvrIwX30d4f2jOhkPUqxBM=;
- b=xmG9Iz0rGVMcD6G79O7b/RljWiscFdl2ygl6xMAv4rMTzN439xX+C/aJOB4vlORj8O
- BH/5+oQquqV5LKjeToDop1U/upqx573QORx9WlCPVEkIWyl5GQ1R3Y9LJAohmJdm06HB
- gjZ+Y4ComlA0hp7gcZgNUONQaj5TXML6niP7BKJ06RlKW9Lfl9XCxEwu4uDbKEHtpHwC
- rejq+2kZa5NnYNrC4uA4KuH0Mmd1PMDG/lZ0IeYna9z2/Ss5Oq/uI0Tu8+Nq9PmAjORJ
- wc+VmjZC+Z9kTg4pYBRxRyZhWXgoMKkYsV6AcdOO2DMMFoY2lj9wEC5KMo3vCkBEkuDj
- 3kyA==
+ :reply-to; bh=3WME6ubitd3vxaAOMdHVezdwhed8qbighnDEBO169Ec=;
+ b=BgToPNetsx8KF1G9GYHezR+jtgDPRPaZA3is+tg9Z15T/rHSwQuL6iV8LEYwkk7cxG
+ /6wUD27LlE7hdwHd2uxhvPhQ2ddxM9DSot2mk5IMI1vamaEeiAoU6WWULilNKmglJSPz
+ HrV4jBmTuwe6gI6bypU8ALjUExEusoTmoz7rzHdLjNTH/3vh0Xl0wowVPydYInbtiH/e
+ bRcSW1Mugn93O92SqmgAAIZL6cdaJy7+kaTlAGSILNcYI0aypQUEw/Jp0AozNMNBNHTG
+ 2QwBGs1SO+SCUG+2GPtwQDDyeTNFkflKyg0JnBKA6ebKNsC3xIQBXx7rUsmoc6Fl5phd
+ tE2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701269065; x=1701873865;
+ d=1e100.net; s=20230601; t=1701269068; x=1701873868;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wo1sJJZHw7KBTaKmEN30ScvrIwX30d4f2jOhkPUqxBM=;
- b=j7ENH12/NPmeF1qYDSdK6n4G0x5pRzKmohWRsJTF15Mduf9GHR+0Dgu1tRUu160AyC
- LiKEZD7v1hNy68jwT0Og+5g69QRTtJz6VG318QDgBOFphhSLcxf3Oo/Tkcx7kdq3R6b0
- fOwsjcqVIAlqTXJEXkzGgvIElOhR7nocdXK+4EKVedUuI5AncCEZklfTztlKQzuOEMB/
- +QotCObSqzKmAfB8S1xwkVlmhM1naAVVWcM78sSGr/r3n0y0DpdawNL6pBvktBVNDD9c
- zrG8jOwiizUneL32wD5aYOItgXcMHUoawLQ2+ue8bgM2Z4JuewgmKZ1bLtJEai2Z2qhL
- 4DwA==
-X-Gm-Message-State: AOJu0Yy8pp8qvlgoLcc41Ti3C3RT1ko1URLD2ro9eB4Z8xtK+VPeLP5i
- 9bPZ6ZiMVn07Zv3XnM09vWA5sA==
-X-Google-Smtp-Source: AGHT+IHIFF7EvttkvKqxTdo7EUCkiD1rO8UjhJ/NykBDp9vXAQKIDUWYvgiQY1lP0nrgP7lsgpW8vw==
-X-Received: by 2002:a05:6512:3d94:b0:507:9a66:3577 with SMTP id
- k20-20020a0565123d9400b005079a663577mr11819960lfv.5.1701269064766; 
- Wed, 29 Nov 2023 06:44:24 -0800 (PST)
+ bh=3WME6ubitd3vxaAOMdHVezdwhed8qbighnDEBO169Ec=;
+ b=SIEDjnzKf/U8UYzL6+yRqbNMg0qxfpakCx3DBPc8uCgbM8hWKdktXjtUPq1NK6f4n3
+ oDPrhEIdMRor7ZulpoknYRYexchLkKEG2/khwKnPQVA4Ja6obIrxewcpx6vAlF47HyvP
+ QNCdDjlA6vHVruUG6C38avENRLjGDBlnMXxS4IifzaDpwZyD4A7aJoWrL479MIGV4HOl
+ W6Rz7itScv9Z8/ZN1Zq34rYthSJllXH2tfU7+ozmDSeEBmREH4jjvsCDyh8GWluJZWtp
+ lX/fJqPjtf8h5WeZpls8Sod1WPX5i1qJ34Sj0pOsjbwg1YjzWHfGHbxUhrIYpQEKrkCD
+ 8ZWA==
+X-Gm-Message-State: AOJu0YzLezm16jA6b+cw0h89qrnoAjXk4Za8XC5HH4d9n7pw5ionJKki
+ AFzsrHbTHquWpZXMIuYPl/Jkkg==
+X-Google-Smtp-Source: AGHT+IH+RwsuXNKo7mRRSs5QfH4RQDMAsxgT6mJOUDi04ruodSJZaS3PyYqxW9aAR+nUNX0ZJcUxXA==
+X-Received: by 2002:a17:906:fcce:b0:9f8:2b44:7b7f with SMTP id
+ qx14-20020a170906fcce00b009f82b447b7fmr13038742ejb.70.1701269068288; 
+ Wed, 29 Nov 2023 06:44:28 -0800 (PST)
 Received: from [10.167.154.1]
  (178235187166.dynamic-4-waw-k-2-3-0.vectranet.pl. [178.235.187.166])
  by smtp.gmail.com with ESMTPSA id
- e27-20020a1709062c1b00b009fda627abd9sm7913738ejh.79.2023.11.29.06.44.21
+ e27-20020a1709062c1b00b009fda627abd9sm7913738ejh.79.2023.11.29.06.44.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Nov 2023 06:44:24 -0800 (PST)
+ Wed, 29 Nov 2023 06:44:27 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Wed, 29 Nov 2023 15:44:02 +0100
-Subject: [PATCH v3 05/12] iommu/arm-smmu-qcom: Add QCM2290 MDSS compatible
+Date: Wed, 29 Nov 2023 15:44:03 +0100
+Subject: [PATCH v3 06/12] arm64: dts: qcom: sc7180: Add the missing MDSS
+ icc path
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231125-topic-rb1_feat-v3-5-4cbb567743bb@linaro.org>
+Message-Id: <20231125-topic-rb1_feat-v3-6-4cbb567743bb@linaro.org>
 References: <20231125-topic-rb1_feat-v3-0-4cbb567743bb@linaro.org>
 In-Reply-To: <20231125-topic-rb1_feat-v3-0-4cbb567743bb@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -78,11 +79,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Robert Marko <robimarko@gmail.com>, Das Srinagesh <quic_gurus@quicinc.com>, 
  cros-qcom-dts-watchers@chromium.org
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1701269042; l=938;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1701269042; l=1145;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=ZKnU1eVaZSjTBiyHSPh2Tjy7o0Kv51jXq1kQ7e4q0JU=;
- b=0+UJnE/UFmA357lPZt/AVpOt+TH32uQu3LcDEhl3VCvws5BJst6hotge8OV/5/cQmoLRQIEVm
- h3sFcW4Ar/GDlhsMpOlDPsgg2azmr+u1A/lG/dy/MwcPNnwfEdJT2bg
+ bh=QxbVxThi6gj4JqQP8V9LpJsjR/myuVOnIJbwHX7amYU=;
+ b=sYPUfm+T2CO9HyMoVEn+/8/AzljQnlW0jC9XeZnrz01woxrBDGuDswi+m+bEgPSkuiCtZLp8N
+ BR3hZTS03LmDYMTViL/cCS/WJooBooB/al2zibrNvM1dONg09omgSvQ
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,27 +106,36 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the QCM2290 MDSS compatible to clients compatible list, as it also
-needs the workarounds.
+MDSS, aside from the MDP-MEM path, also requires the CPU-DISP_CFG one.
+Failing to provide it may result in register accesses failing and that's
+never good.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Add the missing path.
+
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/qcom/sc7180.dtsi | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-index 549ae4dba3a6..aea5e85b20ff 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-@@ -245,6 +245,7 @@ static const struct of_device_id qcom_smmu_client_of_match[] __maybe_unused = {
- 	{ .compatible = "qcom,adreno" },
- 	{ .compatible = "qcom,mdp4" },
- 	{ .compatible = "qcom,mdss" },
-+	{ .compatible = "qcom,qcm2290-mdss" },
- 	{ .compatible = "qcom,sc7180-mdss" },
- 	{ .compatible = "qcom,sc7180-mss-pil" },
- 	{ .compatible = "qcom,sc7280-mdss" },
+diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+index 11f353d416b4..9664e42faeb1 100644
+--- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+@@ -3100,8 +3100,12 @@ mdss: display-subsystem@ae00000 {
+ 			interrupt-controller;
+ 			#interrupt-cells = <1>;
+ 
+-			interconnects = <&mmss_noc MASTER_MDP0 0 &mc_virt SLAVE_EBI1 0>;
+-			interconnect-names = "mdp0-mem";
++			interconnects = <&mmss_noc MASTER_MDP0 QCOM_ICC_TAG_ALWAYS
++					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
++					<&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ALWAYS
++					 &config_noc SLAVE_DISPLAY_CFG QCOM_ICC_TAG_ALWAYS>;
++			interconnect-names = "mdp0-mem",
++					     "cpu-cfg";
+ 
+ 			iommus = <&apps_smmu 0x800 0x2>;
+ 
 
 -- 
 2.43.0
