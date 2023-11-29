@@ -1,108 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9D687FDE66
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 18:31:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 379A97FDE68
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 18:32:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0267710E641;
-	Wed, 29 Nov 2023 17:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66D9410E221;
+	Wed, 29 Nov 2023 17:32:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0405F10E641
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 17:31:25 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20231129173122euoutp015e7bfd2307bba6afbee4c6a5cb96a849~cKE-f5nJF1331513315euoutp01a
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 17:31:22 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20231129173122euoutp015e7bfd2307bba6afbee4c6a5cb96a849~cKE-f5nJF1331513315euoutp01a
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1701279082;
- bh=+CPd+5TEbyJhr/GPUZmG7dH8aXuuHaI2jxwvUn/b3HM=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=VGoq6RYxzG6XCpasklkABnF3myXkd3NuMoozXIzI5lE4j5YA6N3Dv6YsNPTXt/NAa
- yLqsikxOnI3sdEWz9jzHTXtZNraSQM9N66pS3X3rOzL/xVV2FZ1U9jXQLXrQVwIDAe
- C4RkywaJOFaSvS+uXtW7UVAiV0aqseAhsaK7WygI=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20231129173122eucas1p2d1b4abb1aee6e1b3ba9e4308f2aaa2f0~cKE-QNx9u2212122121eucas1p2D;
- Wed, 29 Nov 2023 17:31:22 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 7E.7E.09814.A6577656; Wed, 29
- Nov 2023 17:31:22 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20231129173122eucas1p151aaa125942f156e788ea7af9437b467~cKE_3LhZy1811418114eucas1p19;
- Wed, 29 Nov 2023 17:31:22 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20231129173122eusmtrp1057422e4990e6b7d3fa67c4072d51eac~cKE_1WVoF0987209872eusmtrp1V;
- Wed, 29 Nov 2023 17:31:22 +0000 (GMT)
-X-AuditID: cbfec7f4-727ff70000002656-9a-6567756a71a3
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 12.F9.09146.96577656; Wed, 29
- Nov 2023 17:31:21 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20231129173121eusmtip250b2123500def79312c4ad636ede2d6b~cKE9_kfLy1107511075eusmtip2C;
- Wed, 29 Nov 2023 17:31:21 +0000 (GMT)
-Message-ID: <8a4b80dc-0841-48f8-81ad-7486bc57f3d7@samsung.com>
-Date: Wed, 29 Nov 2023 18:31:21 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14EB810E221;
+ Wed, 29 Nov 2023 17:32:26 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3AT2jijC002989; Wed, 29 Nov 2023 17:32:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=ouJrtsBUiyFi4oBjRWqRYF1n/5TG9j6kA7+J7ZNnf0E=;
+ b=fG2pNw7Jf/+zW8oEo4pYjzCcWK040JFxNJnuKmKCg0eVrDzuzBtlBC752K8loCMntUlt
+ UTrA01B/nJzJEtiS8j0xFfGUVzLooxenjrPZtvL/QlRmTuqI/q19htrdngcPQMhrIyuQ
+ aqj8Dhv6ofVFsmK6ort4QSKL/lG9NaGSWF1LyMSBEs5GnVv5M8JhEVWisnUX7qPvzM5C
+ WqjR+g7ZeBmKjJg8T8luqeI2nMrz1bQdH1qPR+dgYi2D0Jywupqqd8jfbaUgRNZOOnVu
+ fsx6M6z1xibZ4mBWsj6G1p6US/Cz5GMPx280W37XjhNAzclmY1wAv3ST0/PnmiZNUFwX ZA== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3unnpeu48t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Nov 2023 17:32:24 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ATHWNhl006509
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Nov 2023 17:32:23 GMT
+Received: from [10.71.111.96] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 29 Nov
+ 2023 09:32:22 -0800
+Message-ID: <6a5a466a-0799-6538-429e-2fd8d862247c@quicinc.com>
+Date: Wed, 29 Nov 2023 09:32:22 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] drm/panfrost: Fix poweroff and sync IRQs for
- suspend
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] drm/msm/dpu: Capture dpu snapshot when frame_done_timer
+ timeouts
 Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- boris.brezillon@collabora.com
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20231128124510.391007-1-angelogioacchino.delregno@collabora.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20231128011122.14711-1-quic_parellan@quicinc.com>
+ <CAA8EJpprP7mQLm47d07AtNRjLtpQCSAw5PuXjwGXNO2rXVUPZw@mail.gmail.com>
+ <cf850520-0906-0291-fd21-be8cd687bcde@quicinc.com>
+ <CAA8EJpqj5nPPxK=AzS=owURRZEgO3zdQZEMcJ8XjHOJfQrUEwg@mail.gmail.com>
+From: Paloma Arellano <quic_parellan@quicinc.com>
+In-Reply-To: <CAA8EJpqj5nPPxK=AzS=owURRZEgO3zdQZEMcJ8XjHOJfQrUEwg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMKsWRmVeSWpSXmKPExsWy7djP87pZpempBrvvSVqcuL6IyeLSSgmL
- 02dOMVn83zaR2eLK1/dsFpvP9bBa7H29ld3i8q45bBYLP25lsWjrXMZq8X/PDnaLxiNAJVve
- TGR14PVYM28No8eOu0sYPfZ+W8DisXPWXXaPTas62TzuXNvD5jHvZKDH/e7jTB6bT1d7fN4k
- F8AVxWWTkpqTWZZapG+XwJVx8m83a8EvnorXF04wNjBe5upi5OSQEDCROLT/PnsXIxeHkMAK
- RolNe44zQThfGCXaV81khHA+M0os+PqBDaZl7/X3UInljBJvzt1kg3A+MkrMvPOTCaSKV8BO
- 4vLph2AdLAKqEpM3H2GGiAtKnJz5hAXEFhWQl7h/awY7iC0sECSxZMp8RhCbWUBc4taT+WBz
- RAQyJR7NeAl2ILPANCaJvYcegxWxCRhKdL3tAlrAwcEp4Cex+60lRK+8xPa3c5hB6iUEVnNK
- TOrbC3W2i8StGZNYIGxhiVfHt7BD2DISpyf3sEA0tAP9+fs+E4QzgVGi4fktRogqa4k7536B
- bWMW0JRYv0sfIuwosfbGZmaQsIQAn8SNt4IQR/BJTNo2HSrMK9HRJgRRrSYx6/g6uLUHL1xi
- nsCoNAspWGYheX8WkndmIexdwMiyilE8tbQ4Nz212CgvtVyvODG3uDQvXS85P3cTIzDdnf53
- /MsOxuWvPuodYmTiYDzEKMHBrCTCq/cxOVWINyWxsiq1KD++qDQntfgQozQHi5I4r2qKfKqQ
- QHpiSWp2ampBahFMlomDU6qBqdz5LUOh7tIb+czrFr5p/zRLY7/gJZPDrE9OyllL7fHTn/U7
- lI9vKjvb9m9Ct/4cr1R451V0si9y9vtbgaySTRd7jE7n/xdUijoobcf9WWrr3U0RGZsLml4r
- MG36foRh7UUJAaVZtVde/0/Su79o6bpV/UcYJvdKBa0S4Ne8e+J/QW2xVPLz3iA/hohsIYEQ
- fkUu02scHBpL+Tt5Gyev3tYS9++S24kNCgqiE2a+uZOm8EzAj/1pfuK8lWuajgud/mRoLbBR
- /YlzflHRufpAbpOPack135ek2aZy93uueasZYm2cf+ho7o1Axpx/r+d/Fdhaq+xmaDMp8QjP
- wedncg/prPBhkbNhKamfY1atxFKckWioxVxUnAgADc0+7uYDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKIsWRmVeSWpSXmKPExsVy+t/xe7qZpempBn//mVucuL6IyeLSSgmL
- 02dOMVn83zaR2eLK1/dsFpvP9bBa7H29ld3i8q45bBYLP25lsWjrXMZq8X/PDnaLxiNAJVve
- TGR14PVYM28No8eOu0sYPfZ+W8DisXPWXXaPTas62TzuXNvD5jHvZKDH/e7jTB6bT1d7fN4k
- F8AVpWdTlF9akqqQkV9cYqsUbWhhpGdoaaFnZGKpZ2hsHmtlZKqkb2eTkpqTWZZapG+XoJdx
- 8m83a8EvnorXF04wNjBe5upi5OSQEDCR2Hv9PWMXIxeHkMBSRomdxxoYIRIyEienNbBC2MIS
- f651sUEUvWeU2DapDayIV8BO4vLph2wgNouAqsTkzUeYIeKCEidnPmEBsUUF5CXu35rBDmIL
- CwRJLJkyH6yXWUBc4taT+UwgtohApsTL6dfYQRYwC0xhkni04y0zxLaFjBKbH58Gq2ITMJTo
- egtyBgcHp4CfxO63lhCDzCS6tnZBDZWX2P52DvMERqFZSO6YhWTfLCQts5C0LGBkWcUoklpa
- nJueW2yoV5yYW1yal66XnJ+7iREY39uO/dy8g3Heq496hxiZOBgPMUpwMCuJ8Op9TE4V4k1J
- rKxKLcqPLyrNSS0+xGgKDIyJzFKiyfnABJNXEm9oZmBqaGJmaWBqaWasJM7rWdCRKCSQnliS
- mp2aWpBaBNPHxMEp1cBkuqT9fSTrT6NArW9/2rx3rNWataDscMtbfRuXqZdfBSR+vBOxlLfq
- uduJQ+JmU228j/WwNaZZXJAx2BLF39srzxSofefDbOnEls6kh51T/1+bqbXvb9Mmq52ac06t
- k6rp1+p4m16oy/d4mvUPzdK7oZ83mNsvCee16On/Oq/ryW4d8bIv0Uv3mz7cntDDz6f78tid
- aCH/JBsuhvpHF7fzTD8702ZX6jeDmIPyb1buN8+UaOjUO3WyUNxENnLfk5fHpL9sW1bWG9z3
- eGqFDOMapQRFL/tt+VueH5RTZlDO9dy488hKplXFnK/v7dukvJP9lajNpms9XdOduW5cZDPl
- cbqqfTmZYc5KEXHzSc+UWIozEg21mIuKEwGP6RoBeAMAAA==
-X-CMS-MailID: 20231129173122eucas1p151aaa125942f156e788ea7af9437b467
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20231128124521eucas1p203694ed4721b9ffcde6f7f1d1933d56a
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20231128124521eucas1p203694ed4721b9ffcde6f7f1d1933d56a
-References: <CGME20231128124521eucas1p203694ed4721b9ffcde6f7f1d1933d56a@eucas1p2.samsung.com>
- <20231128124510.391007-1-angelogioacchino.delregno@collabora.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: b7wQJ5d4ZBlS4NaVfgNTvr9pd3oM1Ugz
+X-Proofpoint-ORIG-GUID: b7wQJ5d4ZBlS4NaVfgNTvr9pd3oM1Ugz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-29_15,2023-11-29_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0
+ mlxscore=0 phishscore=0 mlxlogscore=999 priorityscore=1501 adultscore=0
+ clxscore=1015 bulkscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311060000
+ definitions=main-2311290133
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,50 +86,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
- krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, kernel@collabora.com
+Cc: neil.armstrong@linaro.org, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, seanpaul@chromium.org, marijn.suijten@somainline.org,
+ quic_jesszhan@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 28.11.2023 13:45, AngeloGioacchino Del Regno wrote:
-> This series contains a fast fix for the basic GPU poweroff functionality
-> and goes further by implementing interrupt masking and synchronization
-> before suspend.
+On 11/28/2023 12:24 PM, Dmitry Baryshkov wrote:
+> On Tue, 28 Nov 2023 at 19:43, Paloma Arellano <quic_parellan@quicinc.com> wrote:
+>>
+>> On 11/27/2023 5:48 PM, Dmitry Baryshkov wrote:
+>>> On Tue, 28 Nov 2023 at 03:12, Paloma Arellano <quic_parellan@quicinc.com> wrote:
+>>>> Trigger a devcoredump to dump dpu registers and capture the drm atomic
+>>>> state when the frame_done_timer timeouts.
+>>>>
+>>>> Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
+>>>> ---
+>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 13 +++++++++++--
+>>>>    1 file changed, 11 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>> index 1cf7ff6caff4..5cf7594feb5a 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>> @@ -191,6 +191,7 @@ struct dpu_encoder_virt {
+>>>>           void *crtc_frame_event_cb_data;
+>>>>
+>>>>           atomic_t frame_done_timeout_ms;
+>>>> +       atomic_t frame_done_timeout_cnt;
+>>>>           struct timer_list frame_done_timer;
+>>>>
+>>>>           struct msm_display_info disp_info;
+>>>> @@ -1204,6 +1205,8 @@ static void dpu_encoder_virt_atomic_enable(struct drm_encoder *drm_enc,
+>>>>
+>>>>           dpu_enc->dsc = dpu_encoder_get_dsc_config(drm_enc);
+>>>>
+>>>> +       atomic_set(&dpu_enc->frame_done_timeout_cnt, 0);
+>>>> +
+>>>>           if (disp_info->intf_type == INTF_DP)
+>>>>                   dpu_enc->wide_bus_en = msm_dp_wide_bus_available(priv->dp[index]);
+>>>>           else if (disp_info->intf_type == INTF_DSI)
+>>>> @@ -2115,11 +2118,12 @@ static int _dpu_encoder_status_show(struct seq_file *s, void *data)
+>>>>           for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+>>>>                   struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
+>>>>
+>>>> -               seq_printf(s, "intf:%d  wb:%d  vsync:%8d     underrun:%8d    ",
+>>>> +               seq_printf(s, "intf:%d  wb:%d  vsync:%8d     underrun:%8d    frame_done_cnt:%d",
+>>>>                                   phys->hw_intf ? phys->hw_intf->idx - INTF_0 : -1,
+>>>>                                   phys->hw_wb ? phys->hw_wb->idx - WB_0 : -1,
+>>>>                                   atomic_read(&phys->vsync_cnt),
+>>>> -                               atomic_read(&phys->underrun_cnt));
+>>>> +                               atomic_read(&phys->underrun_cnt),
+>>>> +                               atomic_read(&dpu_enc->frame_done_timeout_cnt));
+>>>>
+>>>>                   seq_printf(s, "mode: %s\n", dpu_encoder_helper_get_intf_type(phys->intf_mode));
+>>>>           }
+>>>> @@ -2341,6 +2345,10 @@ static void dpu_encoder_frame_done_timeout(struct timer_list *t)
+>>>>
+>>>>           DPU_ERROR_ENC(dpu_enc, "frame done timeout\n");
+>>>>
+>>>> +       atomic_inc(&dpu_enc->frame_done_timeout_cnt);
+>>>> +       if (atomic_read(&dpu_enc->frame_done_timeout_cnt) == 1)
+>>>> +               msm_disp_snapshot_state(drm_enc->dev);
+>>> atomic_inc_and_test(), please
+>> Hi Dmitry,
+>>
+>> We only want to create a snapshot for the first instance in which the
+>> timer timeouts. atomic_int_and_test() increments the value and then
+>> returns whether it has a value of zero or not. FWIW I think I should
+>> change it to 'atomic_add_return(1, &dpu_enc->frame_done_timeout_cnt)' so
+>> that we can check only when this value equals one.
+> Works for me too.
 >
-> For more information, please look at the conversation at [1], which
-> explains the regression seen with the poweroff commit and the initial
-> approaches taken to solve that.
+> I suggested atomic_inc_test() because then we can let devcoredump take
+> care of duplicate events.
 
-Just to let You know, as there is still some discussion about 
-beautifying the final code, I've tested this version on my test hardware 
-and everything works fine again! Thanks!
+Ack
 
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+-Paloma
 
-
-> Cheers!
 >
-> [1]: https://lore.kernel.org/all/20231123095320.41433-1-angelogioacchino.delregno@collabora.com/
+>> Thank you,
+>>
+>> Paloma
+>>
+>>>> +
+>>>>           event = DPU_ENCODER_FRAME_EVENT_ERROR;
+>>>>           trace_dpu_enc_frame_done_timeout(DRMID(drm_enc), event);
+>>>>           dpu_enc->crtc_frame_event_cb(dpu_enc->crtc_frame_event_cb_data, event);
+>>>> @@ -2392,6 +2400,7 @@ struct drm_encoder *dpu_encoder_init(struct drm_device *dev,
+>>>>                   goto fail;
+>>>>
+>>>>           atomic_set(&dpu_enc->frame_done_timeout_ms, 0);
+>>>> +       atomic_set(&dpu_enc->frame_done_timeout_cnt, 0);
+>>>>           timer_setup(&dpu_enc->frame_done_timer,
+>>>>                           dpu_encoder_frame_done_timeout, 0);
+>>>>
+>>>> --
+>>>> 2.41.0
+>>>>
 >
-> AngeloGioacchino Del Regno (3):
->    drm/panfrost: Ignore core_mask for poweroff and disable PWRTRANS irq
->    drm/panfrost: Add gpu_irq, mmu_irq to struct panfrost_device
->    drm/panfrost: Synchronize and disable interrupts before powering off
 >
->   drivers/gpu/drm/panfrost/panfrost_device.c |  4 +++
->   drivers/gpu/drm/panfrost/panfrost_device.h |  9 +++++++
->   drivers/gpu/drm/panfrost/panfrost_gpu.c    | 29 +++++++++++++++-------
->   drivers/gpu/drm/panfrost/panfrost_gpu.h    |  1 +
->   drivers/gpu/drm/panfrost/panfrost_job.c    | 18 +++++++++++---
->   drivers/gpu/drm/panfrost/panfrost_job.h    |  1 +
->   drivers/gpu/drm/panfrost/panfrost_mmu.c    | 27 ++++++++++++++------
->   drivers/gpu/drm/panfrost/panfrost_mmu.h    |  1 +
->   8 files changed, 70 insertions(+), 20 deletions(-)
->
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
