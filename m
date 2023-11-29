@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60DB27FCF85
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 07:57:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3007FD021
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 08:53:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6894010E5FE;
-	Wed, 29 Nov 2023 06:57:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ED5110E073;
+	Wed, 29 Nov 2023 07:53:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C3E710E41E
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 06:57:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=dNOHC4Mn3WqLXntOI345ZTzHCe6smU2ebNIH1GPMILI=; b=VELj//EZ/asc7zYjZ7B5qLjSA9
- JItsSpltHqeI/ynl6qa0Z0PZpcLP7k2Se83tiatWHHXYmw4USUvixm1MPAgMF/AV30ZrSRrU17TNU
- XPGr4exnjkOvqgyUKV56fXEPf4Ndc34abKnXgs7nKb2zpG0hh6e10WsVRm3PCvMucrxVikIdu6NXx
- xcPt8KGU8Z34WqdncnnAP10/bsgKTOVcKq0pJpdcP8flHwpzJQjum4bNnMT3FW+x6n7sI9mtmz87R
- v7gmLUvHqWUm9jfqe6OoZBmQ5ENfB1JpWhINxz9ZL0im2/x8HPAzTFlAZw2QiXA1qBpAWZSINooic
- 50Xa99cA==;
-Received: from 215.48.60.213.dynamic.reverse-mundo-r.com ([213.60.48.215]
- helo=[192.168.0.34]) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1r8EVX-008Jmn-2K; Wed, 29 Nov 2023 07:57:15 +0100
-Message-ID: <dc71a20f82a944be7ef3127f5dc760f9c6a6998d.camel@igalia.com>
-Subject: Re: [PATCH v3 10/17] drm/v3d: Detach the CSD job BO setup
-From: Iago Toral <itoral@igalia.com>
-To: Maira Canal <mcanal@igalia.com>, Melissa Wen <mwen@igalia.com>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>
-Date: Wed, 29 Nov 2023 07:57:14 +0100
-In-Reply-To: <0c8c25e6-b74d-319a-9556-6dd42d7f7e8d@igalia.com>
-References: <20231127185723.10348-2-mcanal@igalia.com>
- <20231127185723.10348-12-mcanal@igalia.com>
- <a8cdbe3f24a9887c606fb0c6204f082d98cc6e66.camel@igalia.com>
- <0c8c25e6-b74d-319a-9556-6dd42d7f7e8d@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.48.1-0ubuntu1 
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2837810E073
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 07:53:37 +0000 (UTC)
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 74A4E66072B4;
+ Wed, 29 Nov 2023 07:53:34 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1701244415;
+ bh=XkmLRTHhwkpDeiBdgys6ZY0vdei/VhUADifyqniIuRA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=NfoE20/0jqky+pPakm5WtafclQpN+6ZbId1ksG7Pg2dJ8d6O4I//CKyRi514MvpyA
+ bP23X0xkwZV84YDilQeh1f5d95KpvaYywuEAN0lw+wYyJAbjAOb5+F7wmpJ6/HRw3X
+ ytEo370hP9Eq+Vd02/0R930dVjhXWA29q25v98RpmeTJajnw7ERQY3uegUbIZeIwYD
+ De6zGsKH4kLJ2k/PIfl3ekhe8kW/ylmlMwV1lxJt2L8qP6si8Ny+VnQ9Y+QLk3Lozi
+ 3kLS9O/fDrPntLtlaPteOTQuEzbobQuXt5g+rYr9EzvHPusPTZy+NgKh1Xf3GYzOpT
+ Aqkcv+j05BJwQ==
+Date: Wed, 29 Nov 2023 08:53:30 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v18 04/26] drm/shmem-helper: Refactor locked/unlocked
+ functions
+Message-ID: <20231129085330.7ccb35d3@collabora.com>
+In-Reply-To: <37208c72-7908-0a78-fc89-2fa9b8d756a5@collabora.com>
+References: <20231029230205.93277-1-dmitry.osipenko@collabora.com>
+ <20231029230205.93277-5-dmitry.osipenko@collabora.com>
+ <wboljiwogeus7pwgaqzxaltt3xdavy2dzisygn6pdpoiwlnwgc@mwaiukjguzat>
+ <20231124115911.79ab24af@collabora.com>
+ <kw5bho3jx73d3glvtewmjvqt4qty4khju6dcwypuh25ya3gi4b@7slmijjqdi4p>
+ <20231128133712.53a6f6cb@collabora.com>
+ <37208c72-7908-0a78-fc89-2fa9b8d756a5@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,153 +59,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, kernel-dev@igalia.com,
- dri-devel@lists.freedesktop.org
+Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
+ virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RWwgbWFyLCAyOC0xMS0yMDIzIGEgbGFzIDA3OjQ3IC0wMzAwLCBNYWlyYSBDYW5hbCBlc2NyaWJp
-w7M6Cj4gSGkgSWFnbywKPiAKPiBPbiAxMS8yOC8yMyAwNTo0MiwgSWFnbyBUb3JhbCB3cm90ZToK
-PiA+IEVsIGx1biwgMjctMTEtMjAyMyBhIGxhcyAxNTo0OCAtMDMwMCwgTWHDrXJhIENhbmFsIGVz
-Y3JpYmnDszoKPiA+ID4gRnJvbTogTWVsaXNzYSBXZW4gPG13ZW5AaWdhbGlhLmNvbT4KPiA+ID4g
-Cj4gPiA+IERldGFjaCBDU0Qgam9iIHNldHVwIGZyb20gQ1NEIHN1Ym1pc3Npb24gaW9jdGwgdG8g
-cmV1c2UgaXQgaW4gQ1BVCj4gPiA+IHN1Ym1pc3Npb24gaW9jdGwgZm9yIGluZGlyZWN0IENTRCBq
-b2IuCj4gPiA+IAo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBNZWxpc3NhIFdlbiA8bXdlbkBpZ2FsaWEu
-Y29tPgo+ID4gPiBDby1kZXZlbG9wZWQtYnk6IE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5j
-b20+Cj4gPiA+IFNpZ25lZC1vZmYtYnk6IE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+
-Cj4gPiA+IC0tLQo+ID4gPiDCoMKgZHJpdmVycy9ncHUvZHJtL3YzZC92M2Rfc3VibWl0LmMgfCA2
-OCArKysrKysrKysrKysrKysrKysrKy0tLS0tCj4gPiA+IC0tLS0tCj4gPiA+IC0tCj4gPiA+IMKg
-wqAxIGZpbGUgY2hhbmdlZCwgNDIgaW5zZXJ0aW9ucygrKSwgMjYgZGVsZXRpb25zKC0pCj4gPiA+
-IAo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3YzZC92M2Rfc3VibWl0LmMKPiA+
-ID4gYi9kcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9zdWJtaXQuYwo+ID4gPiBpbmRleCBjMTM0YjEx
-M2IxODEuLmViMjZmZTFlMjdlMyAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Yz
-ZC92M2Rfc3VibWl0LmMKPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3YzZC92M2Rfc3VibWl0
-LmMKPiA+ID4gQEAgLTI1Niw2ICsyNTYsNDUgQEAKPiA+ID4gdjNkX2F0dGFjaF9mZW5jZXNfYW5k
-X3VubG9ja19yZXNlcnZhdGlvbihzdHJ1Y3QKPiA+ID4gZHJtX2ZpbGUgKmZpbGVfcHJpdiwKPiA+
-ID4gwqDCoMKgwqDCoMKgwqDCoMKgfQo+ID4gPiDCoMKgfQo+ID4gPiDCoCAKPiA+ID4gK3N0YXRp
-YyBpbnQKPiA+ID4gK3YzZF9zZXR1cF9jc2Rfam9ic19hbmRfYm9zKHN0cnVjdCBkcm1fZmlsZSAq
-ZmlsZV9wcml2LAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgc3RydWN0IHYzZF9kZXYgKnYzZCwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBkcm1fdjNkX3N1Ym1pdF9j
-c2QgKmFyZ3MsCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBzdHJ1Y3QgdjNkX2NzZF9qb2IgKipqb2IsCj4gPiA+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgdjNkX2pvYiAqKmNs
-ZWFuX2pvYiwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIHN0cnVjdCB2M2Rfc3VibWl0X2V4dCAqc2UsCj4gPiA+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3Qgd3dfYWNxdWlyZV9j
-dHggKmFjcXVpcmVfY3R4KQo+ID4gPiArewo+ID4gPiArwqDCoMKgwqDCoMKgwqBpbnQgcmV0Owo+
-ID4gPiArCj4gPiA+ICvCoMKgwqDCoMKgwqDCoHJldCA9IHYzZF9qb2JfYWxsb2NhdGUoKHZvaWQg
-Kilqb2IsIHNpemVvZigqKmpvYikpOwo+ID4gPiArwqDCoMKgwqDCoMKgwqBpZiAocmV0KQo+ID4g
-PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIHJldDsKPiA+ID4gKwo+ID4g
-PiArwqDCoMKgwqDCoMKgwqByZXQgPSB2M2Rfam9iX2luaXQodjNkLCBmaWxlX3ByaXYsICYoKmpv
-YiktPmJhc2UsCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCB2M2Rfam9iX2ZyZWUsIGFyZ3MtPmluX3N5bmMsIHNlLAo+ID4gPiBWM0RfQ1NE
-KTsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgaWYgKHJldCkKPiA+IAo+ID4gCj4gPiBXZSBzaG91bGQg
-ZnJlZSB0aGUgam9iIGhlcmUuCj4gPiAKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoHJldHVybiByZXQ7Cj4gPiA+ICsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgcmV0ID0gdjNkX2pv
-Yl9hbGxvY2F0ZSgodm9pZCAqKWNsZWFuX2pvYiwKPiA+ID4gc2l6ZW9mKCoqY2xlYW5fam9iKSk7
-Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqByZXR1cm4gcmV0Owo+ID4gPiArCj4gPiA+ICvCoMKgwqDCoMKgwqDCoHJldCA9
-IHYzZF9qb2JfaW5pdCh2M2QsIGZpbGVfcHJpdiwgKmNsZWFuX2pvYiwKPiA+ID4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHYzZF9qb2JfZnJlZSwg
-MCwgTlVMTCwKPiA+ID4gVjNEX0NBQ0hFX0NMRUFOKTsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgaWYg
-KHJldCkKPiA+IAo+ID4gV2Ugc2hvdWxkIGZyZWUgam9iIGFuZCBjbGVhbl9qb2IgaGVyZS4KPiA+
-IAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIHJldDsKPiA+ID4g
-Kwo+ID4gPiArwqDCoMKgwqDCoMKgwqAoKmpvYiktPmFyZ3MgPSAqYXJnczsKPiA+ID4gKwo+ID4g
-PiArwqDCoMKgwqDCoMKgwqByZXQgPSB2M2RfbG9va3VwX2JvcygmdjNkLT5kcm0sIGZpbGVfcHJp
-diwgKmNsZWFuX2pvYiwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBhcmdzLT5ib19oYW5kbGVzLCBhcmdzLQo+ID4gPiA+IGJvX2hh
-bmRsZV9jb3VudCk7Cj4gPiA+ICvCoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gPiAKPiA+IFNhbWUg
-aGVyZS4KPiA+IAo+ID4gSSB0aGluayB3ZSBwcm9iYWJseSB3YW50IHRvIGhhdmUgYSBmYWlsIGxh
-YmVsIHdoZXJlIHdlIGRvIHRoaXMgYW5kCj4gPiBqdXN0Cj4gPiBqdW1wIHRoZXJlIGZyb20gYWxs
-IHRoZSBwYXRocyBJIG1lbnRpb25lZCBhYm92ZS4KPiAKPiBBY3R1YWxseSwgd2UgYXJlIGZyZWVp
-bmcgdGhlIGpvYiBpbiBgdjNkX3N1Ym1pdF9jc2RfaW9jdGxgLiBUYWtlIGEKPiBsb29rCj4gaGVy
-ZToKPiAKPiDCoMKgIDQ4wqDCoMKgwqDCoMKgwqDCoCByZXQgPSB2M2Rfc2V0dXBfY3NkX2pvYnNf
-YW5kX2JvcyhmaWxlX3ByaXYsIHYzZCwgYXJncywKPiDCoMKgIDQ3wqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCAmam9iLCAmY2xlYW5fam9iLCAmc2UsCj4gwqDCoCA0NsKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgJmFjcXVpcmVfY3R4KTsKPiDCoMKgIDQ1wqDCoMKgwqDCoMKgwqDCoCBpZiAocmV0
-KQo+IMKgwqAgNDTCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBnb3RvIGZhaWw7Cj4g
-Cj4gSWYgYHYzZF9zZXR1cF9jc2Rfam9ic19hbmRfYm9zYCBmYWlscywgd2UgZ28gdG8gZmFpbC4K
-PiAKPiDCoMKgIDQzCj4gwqDCoCA0MsKgwqDCoMKgwqDCoMKgwqAgaWYgKGFyZ3MtPnBlcmZtb25f
-aWQpIHsKPiDCoMKgIDQxwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgam9iLT5iYXNl
-LnBlcmZtb24gPSB2M2RfcGVyZm1vbl9maW5kKHYzZF9wcml2LAo+IMKgwqAgNDAgCj4gYXJncy0+
-cGVyZm1vbl9pZCk7Cj4gwqDCoCAzOcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlm
-ICgham9iLT5iYXNlLnBlcmZtb24pIHsKPiDCoMKgIDM4wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldCA9IC1FTk9FTlQ7Cj4gwqDCoCAzN8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBnb3RvIGZhaWxfcGVyZm1v
-bjsKPiDCoMKgIDM2wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfQo+IMKgwqAgMzXC
-oMKgwqDCoMKgwqDCoMKgIH0KPiDCoMKgIDM0Cj4gwqDCoCAzM8KgwqDCoMKgwqDCoMKgwqAgbXV0
-ZXhfbG9jaygmdjNkLT5zY2hlZF9sb2NrKTsKPiDCoMKgIDMywqDCoMKgwqDCoMKgwqDCoCB2M2Rf
-cHVzaF9qb2IoJmpvYi0+YmFzZSk7Cj4gwqDCoCAzMQo+IMKgwqAgMzDCoMKgwqDCoMKgwqDCoMKg
-IHJldCA9IGRybV9zY2hlZF9qb2JfYWRkX2RlcGVuZGVuY3koJmNsZWFuX2pvYi0+YmFzZSwKPiDC
-oMKgIDI5IAo+IGRtYV9mZW5jZV9nZXQoam9iLT5iYXNlLmRvbmVfZmVuY2UpKTsKPiDCoMKgIDI4
-wqDCoMKgwqDCoMKgwqDCoCBpZiAocmV0KQo+IMKgwqAgMjfCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBnb3RvIGZhaWxfdW5yZXNlcnZlOwo+IMKgwqAgMjYKPiDCoMKgIDI1wqDCoMKg
-wqDCoMKgwqDCoCB2M2RfcHVzaF9qb2IoY2xlYW5fam9iKTsKPiDCoMKgIDI0wqDCoMKgwqDCoMKg
-wqDCoCBtdXRleF91bmxvY2soJnYzZC0+c2NoZWRfbG9jayk7Cj4gwqDCoCAyMwo+IMKgwqAgMjLC
-oMKgwqDCoMKgwqDCoMKgIHYzZF9hdHRhY2hfZmVuY2VzX2FuZF91bmxvY2tfcmVzZXJ2YXRpb24o
-ZmlsZV9wcml2LAo+IMKgwqAgMjHCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBjbGVhbl9qb2IsCj4gwqDCoCAyMMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgICZhY3F1aXJlX2N0eCwKPiDCoMKgIDE5wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgYXJncy0KPiA+b3V0X3N5bmMsCj4gwqDCoCAxOMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICZzZSwKPiDCoMKgIDE3IAo+IGNsZWFuX2pv
-Yi0+ZG9uZV9mZW5jZSk7Cj4gwqDCoCAxNgo+IMKgwqAgMTXCoMKgwqDCoMKgwqDCoMKgIHYzZF9q
-b2JfcHV0KCZqb2ItPmJhc2UpOwo+IMKgwqAgMTTCoMKgwqDCoMKgwqDCoMKgIHYzZF9qb2JfcHV0
-KGNsZWFuX2pvYik7Cj4gwqDCoCAxMwo+IMKgwqAgMTLCoMKgwqDCoMKgwqDCoMKgIHJldHVybiAw
-Owo+IMKgwqAgMTEKPiDCoMKgIDEwIGZhaWxfdW5yZXNlcnZlOgo+IMKgwqDCoCA5wqDCoMKgwqDC
-oMKgwqDCoCBtdXRleF91bmxvY2soJnYzZC0+c2NoZWRfbG9jayk7Cj4gwqDCoMKgIDggZmFpbF9w
-ZXJmbW9uOgo+IMKgwqDCoCA3wqDCoMKgwqDCoMKgwqDCoCBkcm1fZ2VtX3VubG9ja19yZXNlcnZh
-dGlvbnMoY2xlYW5fam9iLT5ibywgCj4gY2xlYW5fam9iLT5ib19jb3VudCwKPiDCoMKgwqAgNsKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCAmYWNxdWlyZV9jdHgpOwo+IMKgwqDCoCA1IGZhaWw6Cj4gwqDCoMKgIDTC
-oMKgwqDCoMKgwqDCoMKgIHYzZF9qb2JfY2xlYW51cCgodm9pZCAqKWpvYik7Cj4gwqDCoMKgIDPC
-oMKgwqDCoMKgwqDCoMKgIHYzZF9qb2JfY2xlYW51cChjbGVhbl9qb2IpOwo+IAo+IEhlcmUgd2Ug
-Y2xlYW51cCBgam9iYCBhbmQgYGNsZWFuX2pvYmAuIFRoaXMgd2lsbCBjYWxsIGB2M2Rfam9iX2Zy
-ZWVgCj4gYW5kCj4gZnJlZSB0aGUgam9icy4KCgpBaCwgeWVzLCBpZ25vcmUgbXkgcHJldmlvdXMg
-Y29tbWVudCB0aGVuLgoKSWFnbwoKPiAKPiBCZXN0IFJlZ2FyZHMsCj4gLSBNYcOtcmEKPiAKPiDC
-oMKgwqAgMsKgwqDCoMKgwqDCoMKgwqAgdjNkX3B1dF9tdWx0aXN5bmNfcG9zdF9kZXBzKCZzZSk7
-Cj4gwqDCoMKgIDEKPiAxMTY3wqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gcmV0Owo+IAo+ID4gCj4g
-PiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gcmV0Owo+ID4gPiArCj4g
-PiA+ICvCoMKgwqDCoMKgwqDCoHJldHVybiB2M2RfbG9ja19ib19yZXNlcnZhdGlvbnMoKmNsZWFu
-X2pvYiwgYWNxdWlyZV9jdHgpOwo+ID4gPiArfQo+ID4gPiArCj4gPiA+IMKgwqBzdGF0aWMgdm9p
-ZAo+ID4gPiDCoMKgdjNkX3B1dF9tdWx0aXN5bmNfcG9zdF9kZXBzKHN0cnVjdCB2M2Rfc3VibWl0
-X2V4dCAqc2UpCj4gPiA+IMKgwqB7Cj4gPiA+IEBAIC03MDAsMzIgKzczOSw5IEBAIHYzZF9zdWJt
-aXRfY3NkX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gPiA+IHZvaWQgKmRhdGEsCj4g
-PiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Cj4gPiA+IMKgwqDCoMKgwqDC
-oMKgwqDCoH0KPiA+ID4gwqAgCj4gPiA+IC3CoMKgwqDCoMKgwqDCoHJldCA9IHYzZF9qb2JfYWxs
-b2NhdGUoKHZvaWQgKikmam9iLCBzaXplb2YoKmpvYikpOwo+ID4gPiAtwqDCoMKgwqDCoMKgwqBp
-ZiAocmV0KQo+ID4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIHJldDsK
-PiA+ID4gLQo+ID4gPiAtwqDCoMKgwqDCoMKgwqByZXQgPSB2M2Rfam9iX2luaXQodjNkLCBmaWxl
-X3ByaXYsICZqb2ItPmJhc2UsCj4gPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCB2M2Rfam9iX2ZyZWUsIGFyZ3MtPmluX3N5bmMsICZzZSwKPiA+
-ID4gVjNEX0NTRCk7Cj4gPiA+IC3CoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gPiA+IC3CoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvIGZhaWw7Cj4gPiA+IC0KPiA+ID4gLcKgwqDCoMKg
-wqDCoMKgcmV0ID0gdjNkX2pvYl9hbGxvY2F0ZSgodm9pZCAqKSZjbGVhbl9qb2IsCj4gPiA+IHNp
-emVvZigqY2xlYW5fam9iKSk7Cj4gPiA+IC3CoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gPiA+IC3C
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvIGZhaWw7Cj4gPiA+IC0KPiA+ID4gLcKg
-wqDCoMKgwqDCoMKgcmV0ID0gdjNkX2pvYl9pbml0KHYzZCwgZmlsZV9wcml2LCBjbGVhbl9qb2Is
-Cj4gPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCB2M2Rfam9iX2ZyZWUsIDAsIE5VTEwsCj4gPiA+IFYzRF9DQUNIRV9DTEVBTik7Cj4gPiA+IC3C
-oMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqBnb3RvIGZhaWw7Cj4gPiA+IC0KPiA+ID4gLcKgwqDCoMKgwqDCoMKgam9iLT5hcmdzID0gKmFy
-Z3M7Cj4gPiA+IC0KPiA+ID4gLcKgwqDCoMKgwqDCoMKgcmV0ID0gdjNkX2xvb2t1cF9ib3MoZGV2
-LCBmaWxlX3ByaXYsIGNsZWFuX2pvYiwKPiA+ID4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBhcmdzLT5ib19oYW5kbGVzLCBhcmdzLQo+ID4g
-PiA+IGJvX2hhbmRsZV9jb3VudCk7Cj4gPiA+IC3CoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gPiA+
-IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvIGZhaWw7Cj4gPiA+IC0KPiA+ID4g
-LcKgwqDCoMKgwqDCoMKgcmV0ID0gdjNkX2xvY2tfYm9fcmVzZXJ2YXRpb25zKGNsZWFuX2pvYiwg
-JmFjcXVpcmVfY3R4KTsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgcmV0ID0gdjNkX3NldHVwX2NzZF9q
-b2JzX2FuZF9ib3MoZmlsZV9wcml2LCB2M2QsIGFyZ3MsCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgJmpvYiwgJmNsZWFuX2pvYiwgJnNlLAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-ICZhY3F1aXJlX2N0eCk7Cj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gPiA+IMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvIGZhaWw7Cj4gPiA+IMKgIAo+ID4g
-Cj4gCgo=
+On Wed, 29 Nov 2023 01:05:14 +0300
+Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+
+> On 11/28/23 15:37, Boris Brezillon wrote:
+> > On Tue, 28 Nov 2023 12:14:42 +0100
+> > Maxime Ripard <mripard@kernel.org> wrote:
+> >   
+> >> Hi,
+> >>
+> >> On Fri, Nov 24, 2023 at 11:59:11AM +0100, Boris Brezillon wrote:  
+> >>> On Fri, 24 Nov 2023 11:40:06 +0100
+> >>> Maxime Ripard <mripard@kernel.org> wrote:
+> >>>     
+> >>>> On Mon, Oct 30, 2023 at 02:01:43AM +0300, Dmitry Osipenko wrote:    
+> >>>>> Add locked and remove unlocked postfixes from drm-shmem function names,
+> >>>>> making names consistent with the drm/gem core code.
+> >>>>>
+> >>>>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> >>>>> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
+> >>>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>      
+> >>>>
+> >>>> This contradicts my earlier ack on a patch but...
+> >>>>     
+> >>>>> ---
+> >>>>>  drivers/gpu/drm/drm_gem_shmem_helper.c        | 64 +++++++++----------
+> >>>>>  drivers/gpu/drm/lima/lima_gem.c               |  8 +--
+> >>>>>  drivers/gpu/drm/panfrost/panfrost_drv.c       |  2 +-
+> >>>>>  drivers/gpu/drm/panfrost/panfrost_gem.c       |  6 +-
+> >>>>>  .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |  2 +-
+> >>>>>  drivers/gpu/drm/panfrost/panfrost_mmu.c       |  2 +-
+> >>>>>  drivers/gpu/drm/v3d/v3d_bo.c                  |  4 +-
+> >>>>>  drivers/gpu/drm/virtio/virtgpu_object.c       |  4 +-
+> >>>>>  include/drm/drm_gem_shmem_helper.h            | 36 +++++------
+> >>>>>  9 files changed, 64 insertions(+), 64 deletions(-)
+> >>>>>
+> >>>>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> >>>>> index 0d61f2b3e213..154585ddae08 100644
+> >>>>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> >>>>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> >>>>> @@ -43,8 +43,8 @@ static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
+> >>>>>  	.pin = drm_gem_shmem_object_pin,
+> >>>>>  	.unpin = drm_gem_shmem_object_unpin,
+> >>>>>  	.get_sg_table = drm_gem_shmem_object_get_sg_table,
+> >>>>> -	.vmap = drm_gem_shmem_object_vmap,
+> >>>>> -	.vunmap = drm_gem_shmem_object_vunmap,
+> >>>>> +	.vmap = drm_gem_shmem_object_vmap_locked,
+> >>>>> +	.vunmap = drm_gem_shmem_object_vunmap_locked,      
+> >>>>
+> >>>> While I think we should indeed be consistent with the names, I would
+> >>>> also expect helpers to get the locking right by default.    
+> >>>
+> >>> Wait, actually I think this patch does what you suggest already. The
+> >>> _locked() prefix tells the caller: "you should take care of the locking,
+> >>> I expect the lock to be held when this is hook/function is called". So
+> >>> helpers without the _locked() prefix take care of the locking (which I
+> >>> guess matches your 'helpers get the locking right' expectation), and
+> >>> those with the _locked() prefix don't.    
+> >>
+> >> What I meant by "getting the locking right" is indeed a bit ambiguous,
+> >> sorry. What I'm trying to say I guess is that, in this particular case,
+> >> I don't think you can expect the vmap implementation to be called with
+> >> or without the locks held. The doc for that function will say that it's
+> >> either one or the other, but not both.
+> >>
+> >> So helpers should follow what is needed to provide a default vmap/vunmap
+> >> implementation, including what locking is expected from a vmap/vunmap
+> >> implementation.  
+> > 
+> > Hm, yeah, I think that's a matter of taste. When locking is often
+> > deferrable, like it is in DRM, I find it beneficial for funcions and
+> > function pointers to reflect the locking scheme, rather than relying on
+> > people properly reading the doc, especially when this is the only
+> > outlier in the group of drm_gem_object_funcs we already have, and it's
+> > not event documented at the drm_gem_object_funcs level [1] :P.
+> >   
+> >>
+> >> If that means that vmap is always called with the locks taken, then
+> >> drm_gem_shmem_object_vmap can just assume that it will be called with
+> >> the locks taken and there's no need to mention it in the name (and you
+> >> can probably sprinkle a couple of lockdep assertion to make sure the
+> >> locking is indeed consistent).  
+> > 
+> > Things get very confusing when you end up having drm_gem_shmem helpers
+> > that are suffixed with _locked() to encode the fact locking is the
+> > caller's responsibility and no suffix for the
+> > callee-takes-care-of-the-locking semantics, while other helpers that are
+> > not suffixed at all actually implement the
+> > caller-should-take-care-of-the-locking semantics.
+> >   
+> >>  
+> >>>> I'm not sure how reasonable it is, but I think I'd prefer to turn this
+> >>>> around and keep the drm_gem_shmem_object_vmap/unmap helpers name, and
+> >>>> convert whatever function needs to be converted to the unlock suffix so
+> >>>> we get a consistent naming.    
+> >>>
+> >>> That would be an _unlocked() prefix if we do it the other way around. I
+> >>> think the main confusion comes from the names of the hooks in
+> >>> drm_gem_shmem_funcs. Some of them, like drm_gem_shmem_funcs::v[un]map()
+> >>> are called with the GEM resv lock held, and locking is handled by the
+> >>> core, others, like drm_gem_shmem_funcs::[un]pin() are called
+> >>> without the GEM resv lock held, and locking is deferred to the
+> >>> implementation. As I said, I don't mind prefixing hooks/helpers with
+> >>> _unlocked() for those that take care of the locking, and no prefix for
+> >>> those that expects locks to be held, as long as it's consistent, but I
+> >>> just wanted to make sure we're on the same page :-).    
+> >>
+> >> What about _nolock then? It's the same number of characters than
+> >> _locked, plus it expresses what the function is (not) doing, not what
+> >> context it's supposed to be called in?  
+> > 
+> > Just did a quick
+> > 
+> >   git grep _nolock drivers/gpu/drm
+> > 
+> > and it returns zero result, where the _locked/_unlocked pattern seems
+> > to already be widely used. Not saying we shouldn't change that, but it
+> > doesn't feel like a change we should do as part of this series.
+> > 
+> > Regards,
+> > 
+> > Boris
+> > 
+> > [1]https://elixir.bootlin.com/linux/v6.7-rc3/source/include/drm/drm_gem.h#L155  
+> 
+> I'm fine with dropping the _locked() postfix from the common GEM helpers
+> and documenting the locking rule in drm_gem. Thank you all for the
+> suggestions :)
+
+Sorry to disagree, but I think a proper function name/suffix is
+sometimes worth a few lines of doc. Not saying we should do one or the
+other, I think we should do both. But when I see a function suffixed
+_locked, _unlocked or _nolock, I can immediately tell if this function
+defers the locking to the caller or not, and then go check which lock
+in the function doc.
+
+And the second thing I'm not happy with, is the fact we go back to an
+inconsistent naming in drm_gem_shmem_helper.c, where some functions
+deferring the locking to the caller are suffixed _locked and others are
+not, because ultimately, you need a different name when you expose the
+two variants...
 
