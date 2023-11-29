@@ -1,79 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C63E77FD89B
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 14:49:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 678037FD8A0
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 14:51:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE86A10E1DD;
-	Wed, 29 Nov 2023 13:49:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D33A510E1DE;
+	Wed, 29 Nov 2023 13:51:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 566A310E1DD
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 13:49:48 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id D9EAF3200B89;
- Wed, 29 Nov 2023 08:49:44 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 29 Nov 2023 08:49:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alyssa.is; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1701265784; x=1701352184; bh=AY
- qR2FYNis+6ueG4BiHliUkj1RWJ5ay7P8i59rrCpAg=; b=ile7QmuUZmWrI3cizj
- d1ghvvS1eN9S7laIFLS2dxvGN7XzQm2kxREyuAVjR4KVronGybkMW6RWh9DhFMw5
- Dov3BaQ9TLMyGT7RsTmAoJDJ8LJklLldBx5tH1wekA+sS7KhhsMOSNKHXZNlwCmW
- NLV8ItJvAemgGNMa4L2EUGuhKY0xjMJuMj3bXPwCidTRGNVIc3vzCI0y8aaYXeaw
- duuwBV5E5WcV2+f995w2EjG3IF5OfHebxX58NNqzTUEezHc8IPwjB8JGz4wcJ0fW
- NuThq8IScaDIK6eBdf9SJMZS/A3DAtS8mhksQouEubA3orjmJ1jsx1PpW0MG+IHj
- ZqyA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1701265784; x=1701352184; bh=AYqR2FYNis+6u
- eG4BiHliUkj1RWJ5ay7P8i59rrCpAg=; b=nXDxsk1ZZUBEWtNL9NEaiDLOzuMva
- RcQlwA5K/nEJatpZ4xF/pk3VUNsI2BeMVp9b6mbZ8HRVMyKiMP6Nit6npe+5s2rI
- UlLhoW/LnkYxDSVckOUlI0bNga7RjcsCLg1R+vI2uAW+y+AnAYLiCiQhNuzZzDho
- eWogFDuXbBkI4FACd30OnGlrlIEGzx/cwDS5bwLgSrf9h3xWtoJT8JvCWvDRTGTP
- LXQn0sw2T3RUQYUGMaJBW/JvkWBgOXslsKso9Qjyu7lXqkbCFUfFemgdXxgsTGXd
- bH2fj2CAmu2IoEU6gwyCscOQzfN6GAArVVUX7dSC0xQInIfyQ26EtrX4w==
-X-ME-Sender: <xms:eEFnZSrMVTJXUdy6oB07k5M_A0xcealI40sVL8jqNFzScoJovEtXug>
- <xme:eEFnZQrGo245rWPHAnkiOZEpzMjygQtETrBGOd_KZ-4CHXSENm8KJkOX8hWJWJUGz
- Gboj6wuBRp2Qxc1bw>
-X-ME-Received: <xmr:eEFnZXOmQHSA2eVzLjnBGZJjBIAEp1qa3EJlexy5VvU7BMo77VLxpb11WvR9HC-r_m56oy8T2QZZf2xnlmCd7B05_ACI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudeihedgheehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefujghffffkgggtsehgtderredttdejnecuhfhrohhmpeetlhihshhs
- rgcutfhoshhsuceohhhisegrlhihshhsrgdrihhsqeenucggtffrrghtthgvrhhnpedtke
- dvfedvvdetheehueeifeelieeggeefgedtvefgvdfhvdethedvkedtheevvdenucffohhm
- rghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
- hmpehmrghilhhfrhhomhephhhisegrlhihshhsrgdrihhs
-X-ME-Proxy: <xmx:eEFnZR6d-QXR5jcV9TFoLBmWP-t5jtgeP9ecX984nyv5ykaMBiAkqw>
- <xmx:eEFnZR6eXObcDA3Ki7qM0_XY6SGAkkjqZhUbB-Hfb5OyT17OMXEyWg>
- <xmx:eEFnZRjjDJRclFSDX054GDvolDsnMhcim84TO4YXWPpT4QAIqWLnRA>
- <xmx:eEFnZbmT1bYU1QkL6WGAdpfPEMn9E1eqzXT-NRdNz6G45S4NOkASZw>
-Feedback-ID: i12284293:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 29 Nov 2023 08:49:43 -0500 (EST)
-Received: by mbp.qyliss.net (Postfix, from userid 1000)
- id 73FC56216; Wed, 29 Nov 2023 14:49:42 +0100 (CET)
-From: Alyssa Ross <hi@alyssa.is>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2] drm/atomic-helpers: Invoke end_fb_access while
- owning plane state
-In-Reply-To: <1093023d-1e9a-422f-bb5d-e716c0789f70@suse.de>
-References: <20231127142042.17815-1-tzimmermann@suse.de>
- <874jh740zb.fsf@alyssa.is> <1093023d-1e9a-422f-bb5d-e716c0789f70@suse.de>
-Date: Wed, 29 Nov 2023 14:49:36 +0100
-Message-ID: <87r0k8vfdb.fsf@alyssa.is>
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D7A010E1DE;
+ Wed, 29 Nov 2023 13:51:09 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-1f055438492so3887670fac.3; 
+ Wed, 29 Nov 2023 05:51:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1701265868; x=1701870668; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KD1muJiPB8+lXdz9QAzcQerA6N3IurpNa/FCWjvcTTA=;
+ b=CKzhVE3V05daVzk5j6TyLZ91gGi2pQJggehZj1Pl1fg+KJYyT/5VD2ZUwFjC0BfydG
+ wxDzit6DhTP+XPR+R+JQSsHZo21sxXDMoz300cul6MXBN1c56wHncHZOizawElK7NZ35
+ 7vc/QlAV1+rFn6uxEnDaRd1mJ+O2k9S12FrLeZQTmaNuv28xTaLVD0sfPEXYG2xoKML5
+ VCrdyoYTJzWT5+mjKKE+epEHoyMC5+iTO/sceYsXt3s6GYXkwCFZLk63HFHN5AO4n+tt
+ NFoEopLBHFLvrxRCyclDKiCf2rWAzTGI8SYoBVNTb1BnTcezjnLXM6FR8hLqU4JCmS54
+ JI/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701265868; x=1701870668;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KD1muJiPB8+lXdz9QAzcQerA6N3IurpNa/FCWjvcTTA=;
+ b=YWspyT/W/Ds9aotdhTOY5o62ox64lIEEjArzDOoI+ZEy28kzPYDbI3h0P4jYh+S7qX
+ lSwhvRs1rFXXg1tfbQNZk8l+T3T8rDswrHKBggtYuKy6y6y9JvTh+09F+DmtPw70d939
+ Me+XRAQLD0tP6CgWwwj/WCnoP48kiahErLfuS6z6dkIyEHCSCqGB/7ladN1LtJQjR1+S
+ dwaxu9kCPmyVZCQ/2+3BFfkpmFu8L/GO0cHzeLCzPvnPRUbSaA2fS57wd0S6R1O722dg
+ 03RKP7lgqJL5QSV85OZUA52lxG7Kvv7KENCXHx4WaQSbB2O4mJMSREppziZmvmoepBrS
+ rpeg==
+X-Gm-Message-State: AOJu0Yx8MKSD8l5I8IQT/tdt1CLaz2MMCdt8v3BHIlJ5alQ7QbbiYQwU
+ t9R0KLBeBPnuP9OFarETh9JKuwJPwUzMn1Ny5ZFB/CW4cHg=
+X-Google-Smtp-Source: AGHT+IF/P408lEGrdFVoOU8I1AP/p9OaFI9E1g6cnVNM5pbGGA7QD9y6ObERwISbTugNJXoU+G8fLgVOFsGaG1BgagU=
+X-Received: by 2002:a05:6870:e99a:b0:1fa:126:2b27 with SMTP id
+ r26-20020a056870e99a00b001fa01262b27mr20000238oao.50.1701265868318; Wed, 29
+ Nov 2023 05:51:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
+References: <87edgv4x3i.fsf@vps.thesusis.net>
+ <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
+ <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
+ <bdb238b6-60c7-4f26-81d0-9e62cd5dd326@gmail.com>
+ <CADnq5_NVGS1XykxGxpcu_bpPbzboCUJQkcCF3r+0N9a23KUgiQ@mail.gmail.com>
+ <96e2e13c-f01c-4baf-a9a3-cbaa48fb10c7@amd.com>
+ <CADnq5_NBfeAXEyQw0gnSd67=tR-bUKg8w=10+4z9pGGuRnP9uw@mail.gmail.com>
+ <87jzq2ixtm.fsf@vps.thesusis.net>
+ <CADnq5_Ou-MVVm0rdWDmDnJNLkWUayXzO26uCEtz3ucNa4Ghy2w@mail.gmail.com>
+ <95fe9b5b-05ce-4462-9973-9aca306bc44f@gmail.com>
+In-Reply-To: <95fe9b5b-05ce-4462-9973-9aca306bc44f@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 29 Nov 2023 08:50:56 -0500
+Message-ID: <CADnq5_MYEWx=e1LBLeVs0UbR5_xEScjDyw_-75mLe8RAMnqh6g@mail.gmail.com>
+Subject: Re: Radeon regression in 6.6 kernel
+To: Luben Tuikov <ltuikov89@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,108 +77,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mripard@kernel.org, stable@vger.kernel.org, javierm@redhat.com,
- dri-devel@lists.freedesktop.org
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Phillip Susi <phill@thesusis.net>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---=-=-=
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-Thomas Zimmermann <tzimmermann@suse.de> writes:
-
-> Hi
+On Tue, Nov 28, 2023 at 11:45=E2=80=AFPM Luben Tuikov <ltuikov89@gmail.com>=
+ wrote:
 >
-> Am 27.11.23 um 17:25 schrieb Alyssa Ross:
->> Thomas Zimmermann <tzimmermann@suse.de> writes:
->>=20
->>> Invoke drm_plane_helper_funcs.end_fb_access before
->>> drm_atomic_helper_commit_hw_done(). The latter function hands over
->>> ownership of the plane state to the following commit, which might
->>> free it. Releasing resources in end_fb_access then operates on undefined
->>> state. This bug has been observed with non-blocking commits when they
->>> are being queued up quickly.
->>>
->>> Here is an example stack trace from the bug report. The plane state has
->>> been free'd already, so the pages for drm_gem_fb_vunmap() are gone.
->>>
->>> Unable to handle kernel paging request at virtual address 0000000100000=
-049
->>> [...]
->>>   drm_gem_fb_vunmap+0x18/0x74
->>>   drm_gem_end_shadow_fb_access+0x1c/0x2c
->>>   drm_atomic_helper_cleanup_planes+0x58/0xd8
->>>   drm_atomic_helper_commit_tail+0x90/0xa0
->>>   commit_tail+0x15c/0x188
->>>   commit_work+0x14/0x20
->>>
->>> For aborted commits, it is still ok to run end_fb_access as part of the
->>> plane's cleanup. Add a test to drm_atomic_helper_cleanup_planes().
->>>
->>> v2:
->>> 	* fix test in drm_atomic_helper_cleanup_planes()
->>>
->>> Reported-by: Alyssa Ross <hi@alyssa.is>
->>> Closes: https://lore.kernel.org/dri-devel/87leazm0ya.fsf@alyssa.is/
->>> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
->>> Fixes: 94d879eaf7fb ("drm/atomic-helper: Add {begin,end}_fb_access to p=
-lane helpers")
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> Cc: <stable@vger.kernel.org> # v6.2+
->>> ---
->>>   drivers/gpu/drm/drm_atomic_helper.c | 17 +++++++++++++++++
->>>   1 file changed, 17 insertions(+)
->>=20
->> Got this basically immediately. :(
+> On 2023-11-28 17:13, Alex Deucher wrote:
+> > On Mon, Nov 27, 2023 at 6:24=E2=80=AFPM Phillip Susi <phill@thesusis.ne=
+t> wrote:
+> >>
+> >> Alex Deucher <alexdeucher@gmail.com> writes:
+> >>
+> >>>> In that case those are the already known problems with the scheduler
+> >>>> changes, aren't they?
+> >>>
+> >>> Yes.  Those changes went into 6.7 though, not 6.6 AFAIK.  Maybe I'm
+> >>> misunderstanding what the original report was actually testing.  If i=
+t
+> >>> was 6.7, then try reverting:
+> >>> 56e449603f0ac580700621a356d35d5716a62ce5
+> >>> b70438004a14f4d0f9890b3297cd66248728546c
+> >>
+> >> At some point it was suggested that I file a gitlab issue, but I took
+> >> this to mean it was already known and being worked on.  -rc3 came out
+> >> today and still has the problem.  Is there a known issue I could track=
+?
+> >>
+> >
+> > At this point, unless there are any objections, I think we should just
+> > revert the two patches
+> Uhm, no.
 >
-> I've never seen such problems on other systems. Is there anything=20
-> different about the Mac systems? How do you trigger these errors?
+> Why "the two" patches?
+>
+> This email, part of this thread,
+>
+> https://lore.kernel.org/all/87r0kircdo.fsf@vps.thesusis.net/
+>
+> clearly states that reverting *only* this commit,
+> 56e449603f0ac5 drm/sched: Convert the GPU scheduler to variable number of=
+ run-queues
+> *does not* mitigate the failed suspend. (Furthermore, this commit doesn't=
+ really change
+> anything operational, other than using an allocated array, instead of a s=
+tatic one, in DRM,
+> while the 2nd patch is solely contained within the amdgpu driver code.)
+>
+> Leaving us with only this change,
+> b70438004a14f4 drm/amdgpu: move buffer funcs setting up a level
+> to be at fault, as the kernel log attached in the linked email above show=
+s.
+>
+> The conclusion is that only b70438004a14f4 needs reverting.
 
-My understanding is that all sorts of things are different, but I don't
-know too much about the details.  There's of course a chance that there
-could be some other change in the Asahi Linux kernel that causes this
-problem to surface =E2=80=94 as I said, I reviewed the diff with mainline a=
-nd
-didn't see anything that looked relevant, but I could well have missed
-something.  I don't think I can test mainline directly, as it doesn't
-yet support enough of the hardware =E2=80=94 for slightly older Apple Silic=
-on
-Mac models, I think enough is upstream that this would be possible, but
-I don't have access to any.
+b70438004a14f4 was a fix for 56e449603f0ac5.  Without b70438004a14f4,
+56e449603f0ac5 breaks amdgpu.
 
-I started off encountering these errors every few days.  I noticed them
-because they would sometimes result in my system either starting to
-freeze for 10 seconds at a time, or until I switched VT.  They seem to
-correlate with the system being under high CPU load.  I was also able to
-substantially increase the frequency with which they occurred by adding
-logging to the kernel =E2=80=94 even just drm.debug=3D0x10 makes a big diff=
-erence,
-and when I also added a few dump_backtrace() calls when I was trying to
-understand the code and diagnose the problem, I would relatively
-consistently encounter an Oops within a few minutes of load.
-
-BTW: v3 is looking good so far.  I've only been testing it since this
-morning, though, so I'll keep trying it out for a bit longer before I
-declare the problem to have been solved and send a Tested-by.
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEH9wgcxqlHM/ARR3h+dvtSFmyccAFAmVnQXAACgkQ+dvtSFmy
-ccBLew/9EYgQ+cjqBKHE8We3AvbqEotI3p2kF/38oLy9MCQ7jw3tCgtVZy7KEvd/
-jAgvU7tk0iaP9Ob9RiybckA5vxpHU+xWQqnx1vSzNp29g1jhkYiX0uBZI0ZpH5pi
-+g2R1b2i4kleqNRtfxZcUVY0zaajWzVp+Fw3qHjtygN61mRRabti/l5HVgeOmROk
-qTJ9XfKwQsocnkMq1pPq1NOhlJFgblZohXwnCdgacFo+vt0bBL31aTe+ydYXY3HY
-0tdoOVV8md1ejlm5ObSzL0oiN8On4Mm3NbmiEKBCqCA1mZ8JFwSbqAVo8PnlF9h0
-L3jexx/DND92hmLet6XvxlbRMZFPu5Rn9UGIMnv31b6A4n/Le3mTmD7Z33ozE8wr
-0Ioft2cVC3qZVSPR7K2d5Anfp5v+TqNtEuKwj2DgFIdOJlBeKGjBchy+QGFbaSV8
-/XYgpfNXUaowBGzIxN+veJgSO2GmT8xLP3+OkXCyOZ9mewEi8Yfy3UOTxp72yjcs
-fO0QBR6Vor+mOpmdGWwPEP89cS9qJlwfcha6BBgCEoHL/LIhruC1ITFqDfZ3oZmN
-XxhmAsXctPqdBL/MjMLWn4GQXEtBvly/movEpe7H91Y4iyrQELkdVag52Akj1rQA
-ljqZ2t3ueswHvgCKT9UjzHU+8zBp2KdHIIHp12Ptl58MJG+CqU4=
-=CtLf
------END PGP SIGNATURE-----
---=-=-=--
+Alex
