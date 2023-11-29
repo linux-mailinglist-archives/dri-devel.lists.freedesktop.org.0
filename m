@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C1FC7FE2B2
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 23:08:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08B6A7FE2B3
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 23:08:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8D7510E692;
-	Wed, 29 Nov 2023 22:08:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F13C10E68E;
+	Wed, 29 Nov 2023 22:08:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1290D10E68C
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 22:08:47 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CB1510E68E
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 22:08:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1701295726;
+ s=mimecast20190719; t=1701295730;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vGiagwJ2QXQmUNFvzSgzzUq8CCfFk3E2XxM+sjcf29A=;
- b=Xngk/ky+8mv4SCtozcPiJgFm84AD/7h9yajPX8YGgG9X31CfLWEV5H/xQpElKCgQP3PFBu
- TKHBaD7L+7cN9WfLuhM7B9gFbT9Lgl6cHlUVvF4GM/rnqGcNh2u6+3SS+z4mX7Q1CFVfW3
- gXmxwXPeONPvLZKLRPZtpOQNatK2Xj4=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=sZsbNG0hXjCmfhlzaR1Ertu6cdbyq3FJ35PdLNAoDWc=;
+ b=dxY/1+rPSkiuNcJnitT9QOW3xs2wJF2VrQdvWNY/s0QqFYIMaPmpC6N+WiwHCt1Hlk+T5A
+ kQX866tN4HX625SYWMhFTfA0byYfiBQ9n6cqL2JaaQc4OHu09GIAY0kjhEQjTkhAg1QkRZ
+ UgMXPFjKqGqDl0PxUsydFhx8Nsi62oQ=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-35-GgHBhd_DMxGqIc4Q3l9Tmw-1; Wed, 29 Nov 2023 17:08:44 -0500
-X-MC-Unique: GgHBhd_DMxGqIc4Q3l9Tmw-1
-Received: by mail-lf1-f69.google.com with SMTP id
- 2adb3069b0e04-50bca4c8dd7so393309e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 14:08:44 -0800 (PST)
+ us-mta-210-D96SPKA3N0Glm9KHWly3zA-1; Wed, 29 Nov 2023 17:08:47 -0500
+X-MC-Unique: D96SPKA3N0Glm9KHWly3zA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a640c23a62f3a-a047f347c1cso216461266b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 14:08:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701295723; x=1701900523;
+ d=1e100.net; s=20230601; t=1701295726; x=1701900526;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vGiagwJ2QXQmUNFvzSgzzUq8CCfFk3E2XxM+sjcf29A=;
- b=lzZI4/v4JEgnryQqAHlhrUBE34LCEaxcBYpITfxxhLQZCYqOGsafiNR4ofdR1D5jqP
- 2ziW9+4ytHsGS00uUGmobtdxTaLczrPRMQPqoBnkVfaRoy0VOxKJC5ycbPUHZTsfVSmg
- l5SuPzJgVPjU4wCODxL4taWngTcHBaAoPtVLiTHaHz1RTeVNMz5v4vBK3o0CCSj372tE
- Gch1d3p0nuy/vAH8NRH44+SGkEOWbvWnsFAq8PIpdVN6ApHiTCQxdYPuRWOVIgiMHpHU
- Hn2aZ5/TwfNMahck40sIOBR0K/2XL+enrPBBgWwI9YiG+1hfZr4qDHPqxciLXA5XalTf
- gMXw==
-X-Gm-Message-State: AOJu0YyS6kiXMb9UkR2/SAwYPaalk+6JAF1hafRqYWZSdkZaYJtUzqCe
- Qdlv+R0WgiOhTG63/uVBNSd7pUyjDxb0iy4vCIBaURWXOxBPK236XVntL/P2VkO237PtwaND1uT
- DV8n5jveIghV2A6+6unROvQmBjC/k
-X-Received: by 2002:a05:6512:114f:b0:50b:acab:d3c0 with SMTP id
- m15-20020a056512114f00b0050bacabd3c0mr10137101lfg.18.1701295723241; 
- Wed, 29 Nov 2023 14:08:43 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHeyC9IMElL+vOPB8g3/9qh7d1L6d1hkRdPe6bAmXpNcCKYE3IQGxTbErhhuCVZykJz7VgHqw==
-X-Received: by 2002:a05:6512:114f:b0:50b:acab:d3c0 with SMTP id
- m15-20020a056512114f00b0050bacabd3c0mr10137088lfg.18.1701295722882; 
- Wed, 29 Nov 2023 14:08:42 -0800 (PST)
+ bh=sZsbNG0hXjCmfhlzaR1Ertu6cdbyq3FJ35PdLNAoDWc=;
+ b=ph0KBNp4aODWI8AS7jdhNyRn4doNyMyTR+1+yZsQ9aIcW5Z4Zpk2y5T9pNunzMJ7QT
+ vV6zzsxtA2zovDqPdl+JbpCiFnNaqqeBQqDMS2v9vE2W6d/Awpf6SziQJxicl1yttY5U
+ +SLBWLzFWyoQOBTPJi9mTVMfBeJeTgyBvBs8iiYC64XAGDik9S/6B2Kpk7fbbzrMZ84A
+ Qwa7rTME0MWmFmhYBVVuPA0DWx7sxt7aRvJRIziLxg30aX7OwJ2Et87bxtzCvX5dIarW
+ tgcsfoqRfZBWfChwf7g0cW8M7q9fO3eG6h5L0lwYGvb4HoppAjfZ3BR9VmZUedJtrWWv
+ lnCg==
+X-Gm-Message-State: AOJu0Yys+7Il7+bkwf/TVOVGpfd9lK6rqQGFIuwIoIToDFDakS6921Et
+ eydEy72E4xaAjO9x5LaAFy8fssEa5NaYZuscmUqg5FJL3FnrexSXK04lvWExsoeKJyZFxka7pmV
+ YG2Xi8svVQwtPQfAB2F6gRRIebvjC
+X-Received: by 2002:a17:906:74dc:b0:a17:89f4:72b2 with SMTP id
+ z28-20020a17090674dc00b00a1789f472b2mr2674188ejl.25.1701295726685; 
+ Wed, 29 Nov 2023 14:08:46 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IErZMEl95C/mObJREtgYANzyUW/rQCMPiswfAw+zx+W2F/ECoZf/nZrFQmDsXvJlSBqiqwHfA==
+X-Received: by 2002:a17:906:74dc:b0:a17:89f4:72b2 with SMTP id
+ z28-20020a17090674dc00b00a1789f472b2mr2674178ejl.25.1701295726518; 
+ Wed, 29 Nov 2023 14:08:46 -0800 (PST)
 Received: from pollux.. ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
  by smtp.gmail.com with ESMTPSA id
- bm2-20020a0564020b0200b005487d3fb436sm7823433edb.90.2023.11.29.14.08.41
+ r22-20020a170906351600b00a0c01560bdfsm5514821eja.139.2023.11.29.14.08.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Nov 2023 14:08:42 -0800 (PST)
+ Wed, 29 Nov 2023 14:08:46 -0800 (PST)
 From: Danilo Krummrich <dakr@redhat.com>
 To: mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
  frank.binns@imgtec.com, donald.robson@imgtec.com, matt.coster@imgtec.com,
  sarah.walker@imgtec.com
-Subject: [PATCH drm-misc-next v2 1/2] drm/gpuvm: fall back to
- drm_exec_lock_obj()
-Date: Wed, 29 Nov 2023 23:08:00 +0100
-Message-ID: <20231129220835.297885-2-dakr@redhat.com>
+Subject: [PATCH drm-misc-next v2 2/2] drm/imagination: vm: make use of GPUVM's
+ drm_exec helper
+Date: Wed, 29 Nov 2023 23:08:01 +0100
+Message-ID: <20231129220835.297885-3-dakr@redhat.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231129220835.297885-1-dakr@redhat.com>
 References: <20231129220835.297885-1-dakr@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,147 +87,170 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fall back to drm_exec_lock_obj() if num_fences is zero for the
-drm_gpuvm_prepare_* function family.
+Make use of GPUVM's drm_exec helper functions preventing direct access
+to GPUVM internal data structures, such as the external object list.
 
-Otherwise dma_resv_reserve_fences() would actually allocate slots even
-though num_fences is zero.
+This is especially important to ensure following the locking rules
+around the GPUVM external object list.
 
-Cc: Christian König <christian.koenig@amd.com>
+Fixes: ff5f643de0bf ("drm/imagination: Add GEM and VM related code")
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/drm_gpuvm.c | 43 ++++++++++++++++++++++++++++++++-----
- include/drm/drm_gpuvm.h     | 23 +++-----------------
- 2 files changed, 41 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/imagination/pvr_vm.c | 91 +++++++++++-----------------
+ 1 file changed, 36 insertions(+), 55 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-index 54f5e8851de5..07a6676bc4f9 100644
---- a/drivers/gpu/drm/drm_gpuvm.c
-+++ b/drivers/gpu/drm/drm_gpuvm.c
-@@ -1085,6 +1085,37 @@ drm_gpuvm_put(struct drm_gpuvm *gpuvm)
+diff --git a/drivers/gpu/drm/imagination/pvr_vm.c b/drivers/gpu/drm/imagination/pvr_vm.c
+index e0d74d9a6190..c6ab1581d509 100644
+--- a/drivers/gpu/drm/imagination/pvr_vm.c
++++ b/drivers/gpu/drm/imagination/pvr_vm.c
+@@ -333,48 +333,6 @@ pvr_vm_bind_op_unmap_init(struct pvr_vm_bind_op *bind_op,
+ 	return err;
  }
- EXPORT_SYMBOL_GPL(drm_gpuvm_put);
+ 
+-static int
+-pvr_vm_bind_op_lock_resvs(struct drm_exec *exec, struct pvr_vm_bind_op *bind_op)
+-{
+-	drm_exec_until_all_locked(exec) {
+-		struct drm_gem_object *r_obj = &bind_op->vm_ctx->dummy_gem;
+-		struct drm_gpuvm *gpuvm = &bind_op->vm_ctx->gpuvm_mgr;
+-		struct pvr_gem_object *pvr_obj = bind_op->pvr_obj;
+-		struct drm_gpuvm_bo *gpuvm_bo;
+-
+-		/* Acquire lock on the vm_context's reserve object. */
+-		int err = drm_exec_lock_obj(exec, r_obj);
+-
+-		drm_exec_retry_on_contention(exec);
+-		if (err)
+-			return err;
+-
+-		/* Acquire lock on all BOs in the context. */
+-		list_for_each_entry(gpuvm_bo, &gpuvm->extobj.list,
+-				    list.entry.extobj) {
+-			err = drm_exec_lock_obj(exec, gpuvm_bo->obj);
+-
+-			drm_exec_retry_on_contention(exec);
+-			if (err)
+-				return err;
+-		}
+-
+-		/* Unmap operations don't have an object to lock. */
+-		if (!pvr_obj)
+-			break;
+-
+-		/* Acquire lock on the GEM being mapped. */
+-		err = drm_exec_lock_obj(exec,
+-					gem_from_pvr_gem(bind_op->pvr_obj));
+-
+-		drm_exec_retry_on_contention(exec);
+-		if (err)
+-			return err;
+-	}
+-
+-	return 0;
+-}
+-
+ /**
+  * pvr_vm_gpuva_map() - Insert a mapping into a memory context.
+  * @op: gpuva op containing the remap details.
+@@ -731,6 +689,20 @@ void pvr_destroy_vm_contexts_for_file(struct pvr_file *pvr_file)
+ 	}
+ }
  
 +static int
-+exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object *obj,
-+		 unsigned int num_fences)
++pvr_vm_lock_extra(struct drm_gpuvm_exec *vm_exec)
 +{
-+	return num_fences ? drm_exec_prepare_obj(exec, obj, num_fences) :
-+			    drm_exec_lock_obj(exec, obj);
++	struct pvr_vm_bind_op *bind_op = vm_exec->extra.priv;
++	struct pvr_gem_object *pvr_obj = bind_op->pvr_obj;
++
++	/* Unmap operations don't have an object to lock. */
++	if (!pvr_obj)
++		return 0;
++
++	/* Acquire lock on the GEM being mapped. */
++	return drm_exec_lock_obj(&vm_exec->exec, gem_from_pvr_gem(pvr_obj));
 +}
 +
-+/**
-+ * drm_gpuvm_prepare_vm() - prepare the GPUVMs common dma-resv
-+ * @gpuvm: the &drm_gpuvm
-+ * @exec: the &drm_exec context
-+ * @num_fences: the amount of &dma_fences to reserve
-+ *
-+ * Calls drm_exec_prepare_obj() for the GPUVMs dummy &drm_gem_object; if
-+ * @num_fences is zero drm_exec_lock_obj() is called instead.
-+ *
-+ * Using this function directly, it is the drivers responsibility to call
-+ * drm_exec_init() and drm_exec_fini() accordingly.
-+ *
-+ * Returns: 0 on success, negative error code on failure.
-+ */
-+int
-+drm_gpuvm_prepare_vm(struct drm_gpuvm *gpuvm,
-+		     struct drm_exec *exec,
-+		     unsigned int num_fences)
-+{
-+	return exec_prepare_obj(exec, gpuvm->r_obj, num_fences);
-+}
-+EXPORT_SYMBOL_GPL(drm_gpuvm_prepare_vm);
-+
- static int
- __drm_gpuvm_prepare_objects(struct drm_gpuvm *gpuvm,
- 			    struct drm_exec *exec,
-@@ -1095,7 +1126,7 @@ __drm_gpuvm_prepare_objects(struct drm_gpuvm *gpuvm,
- 	int ret = 0;
+ /**
+  * pvr_vm_map() - Map a section of physical memory into a section of
+  * device-virtual memory.
+@@ -758,7 +730,15 @@ pvr_vm_map(struct pvr_vm_context *vm_ctx, struct pvr_gem_object *pvr_obj,
+ 	   u64 pvr_obj_offset, u64 device_addr, u64 size)
+ {
+ 	struct pvr_vm_bind_op bind_op = {0};
+-	struct drm_exec exec;
++	struct drm_gpuvm_exec vm_exec = {
++		.vm = &vm_ctx->gpuvm_mgr,
++		.flags = DRM_EXEC_INTERRUPTIBLE_WAIT |
++			 DRM_EXEC_IGNORE_DUPLICATES,
++		.extra = {
++			.fn = pvr_vm_lock_extra,
++			.priv = &bind_op,
++		},
++	};
  
- 	for_each_vm_bo_in_list(gpuvm, extobj, &extobjs, vm_bo) {
--		ret = drm_exec_prepare_obj(exec, vm_bo->obj, num_fences);
-+		ret = exec_prepare_obj(exec, vm_bo->obj, num_fences);
- 		if (ret)
- 			break;
- 	}
-@@ -1116,7 +1147,7 @@ drm_gpuvm_prepare_objects_locked(struct drm_gpuvm *gpuvm,
+ 	int err = pvr_vm_bind_op_map_init(&bind_op, vm_ctx, pvr_obj,
+ 					  pvr_obj_offset, device_addr,
+@@ -767,18 +747,15 @@ pvr_vm_map(struct pvr_vm_context *vm_ctx, struct pvr_gem_object *pvr_obj,
+ 	if (err)
+ 		return err;
  
- 	drm_gpuvm_resv_assert_held(gpuvm);
- 	list_for_each_entry(vm_bo, &gpuvm->extobj.list, list.entry.extobj) {
--		ret = drm_exec_prepare_obj(exec, vm_bo->obj, num_fences);
-+		ret = exec_prepare_obj(exec, vm_bo->obj, num_fences);
- 		if (ret)
- 			break;
+-	drm_exec_init(&exec,
+-		      DRM_EXEC_INTERRUPTIBLE_WAIT | DRM_EXEC_IGNORE_DUPLICATES);
+-
+ 	pvr_gem_object_get(pvr_obj);
  
-@@ -1134,7 +1165,8 @@ drm_gpuvm_prepare_objects_locked(struct drm_gpuvm *gpuvm,
-  * @num_fences: the amount of &dma_fences to reserve
-  *
-  * Calls drm_exec_prepare_obj() for all &drm_gem_objects the given
-- * &drm_gpuvm contains mappings of.
-+ * &drm_gpuvm contains mappings of; if @num_fences is zero drm_exec_lock_obj()
-+ * is called instead.
-  *
-  * Using this function directly, it is the drivers responsibility to call
-  * drm_exec_init() and drm_exec_fini() accordingly.
-@@ -1171,7 +1203,8 @@ EXPORT_SYMBOL_GPL(drm_gpuvm_prepare_objects);
-  * @num_fences: the amount of &dma_fences to reserve
-  *
-  * Calls drm_exec_prepare_obj() for all &drm_gem_objects mapped between @addr
-- * and @addr + @range.
-+ * and @addr + @range; if @num_fences is zero drm_exec_lock_obj() is called
-+ * instead.
-  *
-  * Returns: 0 on success, negative error code on failure.
-  */
-@@ -1186,7 +1219,7 @@ drm_gpuvm_prepare_range(struct drm_gpuvm *gpuvm, struct drm_exec *exec,
- 	drm_gpuvm_for_each_va_range(va, gpuvm, addr, end) {
- 		struct drm_gem_object *obj = va->gem.obj;
+-	err = pvr_vm_bind_op_lock_resvs(&exec, &bind_op);
++	err = drm_gpuvm_exec_lock(&vm_exec);
+ 	if (err)
+ 		goto err_cleanup;
  
--		ret = drm_exec_prepare_obj(exec, obj, num_fences);
-+		ret = exec_prepare_obj(exec, obj, num_fences);
- 		if (ret)
- 			return ret;
- 	}
-diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-index f94fec9a8517..b3f82ec7fb17 100644
---- a/include/drm/drm_gpuvm.h
-+++ b/include/drm/drm_gpuvm.h
-@@ -544,26 +544,9 @@ struct drm_gpuvm_exec {
- 	} extra;
- };
+ 	err = pvr_vm_bind_op_exec(&bind_op);
  
--/**
-- * drm_gpuvm_prepare_vm() - prepare the GPUVMs common dma-resv
-- * @gpuvm: the &drm_gpuvm
-- * @exec: the &drm_exec context
-- * @num_fences: the amount of &dma_fences to reserve
-- *
-- * Calls drm_exec_prepare_obj() for the GPUVMs dummy &drm_gem_object.
-- *
-- * Using this function directly, it is the drivers responsibility to call
-- * drm_exec_init() and drm_exec_fini() accordingly.
-- *
-- * Returns: 0 on success, negative error code on failure.
-- */
--static inline int
--drm_gpuvm_prepare_vm(struct drm_gpuvm *gpuvm,
--		     struct drm_exec *exec,
--		     unsigned int num_fences)
--{
--	return drm_exec_prepare_obj(exec, gpuvm->r_obj, num_fences);
--}
-+int drm_gpuvm_prepare_vm(struct drm_gpuvm *gpuvm,
-+			 struct drm_exec *exec,
-+			 unsigned int num_fences);
+-	drm_exec_fini(&exec);
++	drm_gpuvm_exec_unlock(&vm_exec);
  
- int drm_gpuvm_prepare_objects(struct drm_gpuvm *gpuvm,
- 			      struct drm_exec *exec,
+ err_cleanup:
+ 	pvr_vm_bind_op_fini(&bind_op);
+@@ -804,24 +781,28 @@ int
+ pvr_vm_unmap(struct pvr_vm_context *vm_ctx, u64 device_addr, u64 size)
+ {
+ 	struct pvr_vm_bind_op bind_op = {0};
+-	struct drm_exec exec;
++	struct drm_gpuvm_exec vm_exec = {
++		.vm = &vm_ctx->gpuvm_mgr,
++		.flags = DRM_EXEC_INTERRUPTIBLE_WAIT |
++			 DRM_EXEC_IGNORE_DUPLICATES,
++		.extra = {
++			.fn = pvr_vm_lock_extra,
++			.priv = &bind_op,
++		},
++	};
+ 
+ 	int err = pvr_vm_bind_op_unmap_init(&bind_op, vm_ctx, device_addr,
+ 					    size);
+-
+ 	if (err)
+ 		return err;
+ 
+-	drm_exec_init(&exec,
+-		      DRM_EXEC_INTERRUPTIBLE_WAIT | DRM_EXEC_IGNORE_DUPLICATES);
+-
+-	err = pvr_vm_bind_op_lock_resvs(&exec, &bind_op);
++	err = drm_gpuvm_exec_lock(&vm_exec);
+ 	if (err)
+ 		goto err_cleanup;
+ 
+ 	err = pvr_vm_bind_op_exec(&bind_op);
+ 
+-	drm_exec_fini(&exec);
++	drm_gpuvm_exec_unlock(&vm_exec);
+ 
+ err_cleanup:
+ 	pvr_vm_bind_op_fini(&bind_op);
 -- 
 2.43.0
 
