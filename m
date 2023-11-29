@@ -1,45 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F84C7FD104
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 09:35:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B9AD7FD127
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 09:41:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FDF710E05D;
-	Wed, 29 Nov 2023 08:35:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8B9A10E0AA;
+	Wed, 29 Nov 2023 08:41:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72EFF10E05D
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 08:35:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id AF277B835BF;
- Wed, 29 Nov 2023 08:35:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C97AC433C8;
- Wed, 29 Nov 2023 08:35:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701246926;
- bh=UyWVj6bbpMmgMhEJPGFtZp+drl9Kr0KS/AbbpRwNBTs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QNT3LWMCxoKcbCmQvEchFQWIOvU1Jm4SCQYnCDeefZD7g6sO1bHr9rNGbKeewfuCg
- TfbOV8W4DCwZFd1pZyfX0hc+YKzvVas5N/P6RPIdkWDWen5pW57yQ5D815dqZZqSsS
- ptq49cTrMR8QGvp6gEmUJG6uwmFMeKH7BmL33BAVaVQuFSWkZ/fXHJgq1I8B7FDqrB
- P/F27eJt3Ui0RSaWTw8LEySbvNwTU41Bmoj8XroISmKurYBrHrVQ3Hw3iKghpoArU7
- MYJGZoUfN6sPFG8n6dnLfIIearJsr1sdefwnKeLXQHeBu8o/mTuG4HlVunXKi5wbxa
- nboghSzhIJ9qQ==
-Date: Wed, 29 Nov 2023 09:35:23 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH] drm/imagination: DRM_POWERVR should depend on ARCH_K3
-Message-ID: <7hee65pmdl5pajm2kgqld22xfi4iox4s2psswu2mdlfk6u6f7x@w4ecogdx6uj6>
-References: <b9360c2044a1001b9a5bcb5914611711d040d4fe.1701196029.git.geert+renesas@glider.be>
- <87o7fdbszs.fsf@minerva.mail-host-address-is-not-set>
- <CAMuHMdUhuO++ZSxh+_TX_6DHHxjPYY20jTppbNZ4FnuBvxxinQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="753wc6rfmeqxfjjh"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUhuO++ZSxh+_TX_6DHHxjPYY20jTppbNZ4FnuBvxxinQ@mail.gmail.com>
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
+ [IPv6:2607:f8b0:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1FA910E0AA
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 08:41:28 +0000 (UTC)
+Received: by mail-pf1-x42a.google.com with SMTP id
+ d2e1a72fcca58-6cdd584591eso216136b3a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 00:41:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1701247288; x=1701852088; darn=lists.freedesktop.org; 
+ h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oDNpb1kX9Q5D1FTRF5Xg6UxOao23a7KP3eBk4wJ9fv4=;
+ b=pJi2euA53966vjcZcpeu2jsimTENMBYLUeltqnNDIS2YSyFIhjlSC35kWA1mGuRVaS
+ ICF1YX62S9ttE1JV+y2e7TjEQOnthADI+wgtEKGZnzgi1Gp49OSuTjr4jOTkHaSDwO+A
+ +xtriDCIlbb2/X1BkOcqbqMYoFf4+DoRdjCJ1unAyQHmumk7NT4rCj4Oyj+KoJGEDVUA
+ ejXn3KsNFfRxlHBa04nk0K6cEJvhXWFrNlbVdDCzAHHdvJf3n6c6TEQhzN+ET2EWeOZ4
+ VpeJrIyanRjtyIt5bsXlhFsbsFmdPbDkZ7fpSMwWmk5KAsOxI+Ws1Jbe1A7SQxdbkGd8
+ jM+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701247288; x=1701852088;
+ h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oDNpb1kX9Q5D1FTRF5Xg6UxOao23a7KP3eBk4wJ9fv4=;
+ b=J1ZFnWfpk/DrmcQFd/9/a5fyEoJvaffE9YWab0TV/SVNxKq8iez5X7vqNxXdDpC2RT
+ R9JJ/DQTNN5e0ccJEjipEm/4NjrAvop0d5GhVtfms+8M3IHEsvdG8yxExdYgHKgtVD+b
+ 8F/jvUXQtlnEcFsVb5tGyJQjbQrap9lE82kmGudXWt0AeHPrCNcUVj6APa7DNPKsQFmk
+ KEn3uhZ5puNFbun3ubv1BuY4VLCfLEAUd0RlY4xZoUESNCRQ1rfSCKVZ1cPETf+kpTtr
+ WEN7tlo6W5W/6wTx9iLbpysVfoBoMIPJhFER2YcW4dPCCtOtD5fxvVb/G+JtcEbMZ5Ln
+ TfSA==
+X-Gm-Message-State: AOJu0Yzwi1mGijugtc9Rarxb/FLrDJr1lQ0t4F9DFvYooh95z72emHoU
+ Z+nONjJZqu+YZMFctVNOE0o7hhvQp/vnAAODjuo=
+X-Google-Smtp-Source: AGHT+IFnmBuy8UZMdr06KgTPqDrbJ/BCRK6FtSwx8+sJZqtK1bI1u1VFDMCVbD+pyD+NOKGy/rw2AA==
+X-Received: by 2002:a05:6a21:a59b:b0:18c:2ce6:ae9b with SMTP id
+ gd27-20020a056a21a59b00b0018c2ce6ae9bmr15459485pzc.48.1701247287924; 
+ Wed, 29 Nov 2023 00:41:27 -0800 (PST)
+Received: from ubuntu.huaqin.com ([116.66.212.162])
+ by smtp.gmail.com with ESMTPSA id
+ l14-20020a170903120e00b001c613b4aa33sm11584753plh.287.2023.11.29.00.41.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Nov 2023 00:41:27 -0800 (PST)
+From: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
+To: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 RESEND] drm/panel: starry-2081101qfh032011-53g: Fine tune
+ the panel power sequence
+Date: Wed, 29 Nov 2023 16:41:15 +0800
+Message-Id: <20231129084115.7918-1-xiazhengqiao@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,79 +70,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Sarah Walker <sarah.walker@imgtec.com>,
- Tero Kristo <kristo@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Matt Coster <matt.coster@imgtec.com>, Donald Robson <donald.robson@imgtec.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org,
- Vignesh Raghavendra <vigneshr@ti.com>
+Cc: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>,
+ neil.armstrong@linaro.org, mripard@kernel.org, dianders@google.com,
+ tzimmermann@suse.de, quic_jesszhan@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+For the "starry, 2081101qfh032011-53g" panel, it is stipulated in the
+panel spec that MIPI needs to keep the LP11 state before the
+lcm_reset pin is pulled high.
 
---753wc6rfmeqxfjjh
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: 6069b66cd962 ("drm/panel: support for STARRY 2081101QFH032011-53G MIPI-DSI panel")
+Signed-off-by: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+---
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Hi,
+diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+index 4f370bc6dca8..4ed8c2e28d37 100644
+--- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
++++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+@@ -1765,6 +1765,7 @@ static const struct panel_desc starry_qfh032011_53g_desc = {
+ 	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
+ 		      MIPI_DSI_MODE_LPM,
+ 	.init_cmds = starry_qfh032011_53g_init_cmd,
++	.lp11_before_reset = true,
+ };
+ 
+ static const struct drm_display_mode starry_himax83102_j02_default_mode = {
+-- 
+2.17.1
 
-On Tue, Nov 28, 2023 at 08:16:18PM +0100, Geert Uytterhoeven wrote:
-> On Tue, Nov 28, 2023 at 8:03=E2=80=AFPM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
-> > Geert Uytterhoeven <geert+renesas@glider.be> writes:
-> > > The Imagination Technologies PowerVR Series 6 GPU is currently only
-> > > supported on Texas Instruments K3 AM62x SoCs.  Hence add a dependency=
- on
-> > > ARCH_K3, to prevent asking the user about this driver when configurin=
-g a
-> > > kernel without Texas Instruments K3 Multicore SoC support.
-> > >
-> > > Fixes: 4babef0708656c54 ("drm/imagination: Add skeleton PowerVR drive=
-r")
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ---
-> >
-> > Indeed. Although I wonder what is the supposed policy since for example
-> > the DRM_PANFROST symbol only depends on ARM || ARM64 and others such as
->=20
-> I think ARM Mali is sufficiently ubiquitous on ARM/ARM64 systems to
-> have just an ARM/ARM64 dependency...
->=20
-> > DRM_ETNAVIV don't even have an SoC or architecture dependency.
->=20
-> Vivante GPUs are found in DTS files on at least 4 architectures.
-> Might be worthwhile to add some dependencies, though...
->=20
-> > In any case, I agree with you that restricting to only K3 makes sense.
->=20
-> I am looking forward to adding || SOC_AM33XX || ARCH_RENESAS || ...,
-> eventually ;-)
-
-I disagree. This is to handle a generic IP, just like panfrost, lima, or
-etnaviv, and we certaintly don't want to maintain the Kconfig list of
-every possible architecture and SoC family it might or might not be
-found.
-
-GPUs supposed to be handled are spread across 4 architectures (x86,
-riscv, arm, arm64, mips?), and in arm/arm64 alone we have at least 5
-platforms that might use it (allwinner, ti, mediatek, renesas, rockchip)
-
-It didn't make sense for panfrost, or etnaviv. It doesn't make sense for
-that driver either. Especially for something that olddefconfig can
-handle just fine.
-
-Maxime
-
---753wc6rfmeqxfjjh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWb3ygAKCRDj7w1vZxhR
-xSzQAP9lznhhHr2F5gTKfl3cW+5jN5/LKK8tc/SurLuznqLJ1wD/fcF+ZyviLO/O
-xBOmROvOixmLQ2KcKiTO1gbodbPMqQE=
-=7EPk
------END PGP SIGNATURE-----
-
---753wc6rfmeqxfjjh--
