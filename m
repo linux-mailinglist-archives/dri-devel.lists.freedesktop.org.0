@@ -2,73 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 056427FCC0D
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 01:51:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A602A7FCC1F
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 02:01:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23C7F10E5CC;
-	Wed, 29 Nov 2023 00:51:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F37B710E5D6;
+	Wed, 29 Nov 2023 01:01:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C899110E5CC
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 00:51:34 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id
- 38308e7fff4ca-2c9bd3ec4f6so3547391fa.2
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 16:51:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1701219092; x=1701823892;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cbBlrfGSO/xQoxTcCm/pGg3z+WqlMkl6csJrstxDGRU=;
- b=RiNaYRIkJLcWJ27MxC/fnX5/gh1a4F54j4YL1GHamikTu4g9VdC5y9mx31G5pXkcnh
- A11ox1chvCaWZScweHNiSQOuabCTKb81BdOWGRkn74QuAc4jxwZnY4YWRfRSMoEwt9NB
- 1cAApd9XedwZ+Qdq7owEKyj3oPt5xaFz+6ocA=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3A6910E5D4
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 01:01:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1701219690;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GSGCciYfFxwIPQRFv+/e0JSlg77OghN2r+cuBAMmVKU=;
+ b=Ba3UZdr0ViBX0EW5P1G8waoDJ9p4kFWRF/L5B88n7UIGdshqfhVafTPZVknFwOdIyMONTj
+ 6cFuflTuS/ys08ix/QtnBcMU0180ashAM3iTNeD88xRsfc7m1Cjcz6Dnuru+Mqs9fC5ukJ
+ Zezdb7I7QSGUPLt/cNN9L3yc3GLMYI4=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-440-dcDlmEnQPNOWTKHCmy7SvQ-1; Tue, 28 Nov 2023 20:01:28 -0500
+X-MC-Unique: dcDlmEnQPNOWTKHCmy7SvQ-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-a01c7b09335so496844166b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 17:01:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701219092; x=1701823892;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cbBlrfGSO/xQoxTcCm/pGg3z+WqlMkl6csJrstxDGRU=;
- b=j4afYmn9OXH7Qny/9dxYKlzKIpuL+v+W6v6xzIB6uc6kQxSTbZOSIbRn455jFZmVzB
- uQy1jLqS1ktK0p0vl8EvX1HvglKccCeT7nn+kmJNN9iCLPRstvDjgp7oVGldnWjbUKqg
- q8R0/Tb8ThjJDFag0SMWXOdGSIOIrAyISHvQwL+ouJLMVNEN93nyqEGFh/v1amCoyLMd
- PhpcYmy7vQ7qYJBd5YlhqSvoWn36LgIhPJtq6Jxmpng/umHRO3pqMN84PYhCpMzmwf6k
- W9lTny5GvvYFPzTjZWpaO98HALq//FRQP/tAllK/xFUE4ovxAH0eWueMRo5IBacyo/5Y
- M2Xg==
-X-Gm-Message-State: AOJu0YzHUqP1UwYNWbIF+YwWG6MDrXuw5xrfccw3HEixRgV3IOPuBGLu
- FurKBCzPd1yJOkUbod8v6uIpkO/b4lxYz0Hv1NoXepJr
-X-Google-Smtp-Source: AGHT+IE54hIe7SByWV3VNf1Vaivtm17GMDltkotEdoUO8lpRk7ICOwjUrAg7UBg6RKXnP7tqqr3Zfw==
-X-Received: by 2002:a2e:8813:0:b0:2c9:b7c1:a57 with SMTP id
- x19-20020a2e8813000000b002c9b7c10a57mr1881930ljh.13.1701219091731; 
- Tue, 28 Nov 2023 16:51:31 -0800 (PST)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com.
- [209.85.167.53]) by smtp.gmail.com with ESMTPSA id
- t11-20020a2e9d0b000000b002c99895d8c7sm1164107lji.5.2023.11.28.16.51.31
- for <dri-devel@lists.freedesktop.org>
+ d=1e100.net; s=20230601; t=1701219687; x=1701824487;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=GSGCciYfFxwIPQRFv+/e0JSlg77OghN2r+cuBAMmVKU=;
+ b=GpVCTwYRDtp8TNUWOv5Do2RLP9UTNQIeyWmg7sYi7O11lH5yV+LfXTWKNPVRJq/BSH
+ IVII44VvzPpWtrVUFtutXbWYCQP39+YqBbPehOXa+FB8dXkS9TIxEg+pGyU5agxnyEUo
+ E5SM5JF5nwS7I9mKgIYo8wKtsBVRlpdev/gvceDSIZnnEAAT5lp9I5PmOsXCkUs1kxNn
+ 6f9LpMfrM6zsSrVYQ+A/PRkKtY9R9FOrJ88jcJLwpvRAOa3wCJM5Sj9uYxf5+QLup4BY
+ iZuwRTA0+A2aqJ+DdMArQxp2mV9v5iXWRh1/N67EgQB22MG/TIlnMOYne30RM7Ph7IvD
+ MEvQ==
+X-Gm-Message-State: AOJu0YwDUgfZj4w0uy6qGwU0qBGOwZao90OdClaYqHUPCGxV2ClJeYLU
+ BiPh1/c12i3/BPWbAbkO0HJ3vqBRshsJ2GPASO0l2oHb9QuFKs7dPfSPR2XD38mLhhwWSOmtHok
+ J6/kpnnawqHmn+Ea5iVNBansG/MAU
+X-Received: by 2002:a17:906:2886:b0:9fd:1cd7:f68d with SMTP id
+ o6-20020a170906288600b009fd1cd7f68dmr12528226ejd.67.1701219687673; 
+ Tue, 28 Nov 2023 17:01:27 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGQeFU/7OCm3a5OIDfphx7EB9HRSJKIcJpYxpSBNBkpXwboirjbwJAVpjyUf3WaykM2UmUoVQ==
+X-Received: by 2002:a17:906:2886:b0:9fd:1cd7:f68d with SMTP id
+ o6-20020a170906288600b009fd1cd7f68dmr12528216ejd.67.1701219687427; 
+ Tue, 28 Nov 2023 17:01:27 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ o12-20020a1709064f8c00b00a01892903d6sm7264891eju.47.2023.11.28.17.01.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Nov 2023 16:51:31 -0800 (PST)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-50ba8177c9fso832e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Nov 2023 16:51:31 -0800 (PST)
-X-Received: by 2002:a05:6512:6ce:b0:4fe:ffbc:ac98 with SMTP id
- u14-20020a05651206ce00b004feffbcac98mr774517lff.4.1701219090872; Tue, 28 Nov
- 2023 16:51:30 -0800 (PST)
+ Tue, 28 Nov 2023 17:01:26 -0800 (PST)
+Message-ID: <4b10068c-4285-41df-b4bb-4c61ac70a30b@redhat.com>
+Date: Wed, 29 Nov 2023 02:01:25 +0100
 MIME-Version: 1.0
-References: <20231123175425.496956-1-u.kleine-koenig@pengutronix.de>
- <20231123175425.496956-2-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20231123175425.496956-2-u.kleine-koenig@pengutronix.de>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 28 Nov 2023 16:51:18 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=VxtJH2y=n1tdGpz=nCqZtcHWn7hN0_Xw-bFs_rVBtLxg@mail.gmail.com>
-Message-ID: <CAD=FV=VxtJH2y=n1tdGpz=nCqZtcHWn7hN0_Xw-bFs_rVBtLxg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm/bridge: ti-sn65dsi86: Simplify using
- pm_runtime_resume_and_get()
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Nouveau] [PATCH][next] nouveau/gsp: replace zero-length array
+ with flex-array member and use __counted_by
+To: Timur Tabi <ttabi@nvidia.com>,
+ "gustavoars@kernel.org" <gustavoars@kernel.org>
+References: <ZVZbX7C5suLMiBf+@work> <ZVZxXiXYIzEwUE3N@pollux>
+ <6517a6a41eb72d16596c913dc56467e0390287a3.camel@nvidia.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <6517a6a41eb72d16596c913dc56467e0390287a3.camel@nvidia.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,31 +90,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Jonas Karlman <jonas@kwiboo.se>, Bjorn Andersson <andersson@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, kernel@pengutronix.de
+Cc: "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 11/16/23 20:55, Timur Tabi wrote:
+> On Thu, 2023-11-16 at 20:45 +0100, Danilo Krummrich wrote:
+>> As I already mentioned for Timur's patch [2], I'd prefer to get a fix
+>> upstream
+>> (meaning [1] in this case). Of course, that's probably more up to Timur to
+>> tell
+>> if this will work out.
+> 
+> Don't count on it.
 
-On Thu, Nov 23, 2023 at 9:54=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
->
-> pm_runtime_resume_and_get() already drops the runtime PM usage counter
-> in the error case. So a call to pm_runtime_put_sync() can be dropped.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+I see. Well, I think it's fine. Once we implement a decent abstraction we likely
+don't need those header files in the kernel anymore.
 
-Pushed this patch to drm-misc-next:
+@Gustavo, if you agree I will discard the indentation change when applying the
+patch to keep the diff as small as possible.
 
-c9d99c73940e drm/bridge: ti-sn65dsi86: Simplify using
-pm_runtime_resume_and_get()
+- Danilo
+
+> 
+> Even if I did change [0] to [], I'm not going to be able to add the
+> "__counted_by(numEntries);" because that's just not something that our build
+> system uses.
+> 
+> And even then, I would need to change all [0] to [].
+> 
+> You're not going to be able to use RM's header files as-is anyway in the
+> long term.  If we changed the layout of PACKED_REGISTRY_TABLE, we're not
+> going to create a PACKED_REGISTRY_TABLE2 and keep both around.  We're just
+> going to change PACKED_REGISTRY_TABLE and pretend the previous version never
+> existed.  You will then have to manually copy the new struct to your header
+> files and and maintain two versions yourself.
+> 
+> 
+> 
+
