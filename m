@@ -1,84 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB947FD1D8
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 10:14:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46DE07FD1D5
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 10:13:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EAEF10E2CB;
-	Wed, 29 Nov 2023 09:14:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E6D210E231;
+	Wed, 29 Nov 2023 09:13:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D911610E2CB;
- Wed, 29 Nov 2023 09:13:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
- t=1701249237; bh=KpBkbH+c4Cv+OYyJKsCXnXYg/xvIBdkcAJWnSuSnKrM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M30rwnixhv13h8+/ERJDrsNVaznn2rItRDRIPIYbgj28apd1/+p2DKuvW9td0A2uE
- aCd2BOh7PTQGa7Px3QkE603hRw68WehKlSBubCh2NgUYMtcpq3JghEUOai8mXhLOl2
- YZJcMoJir/r8/RLmdXaPf8lonUzI5Lc0tKMhVuSQ+SWZ/iaAQM17TI0RJG6Dx9Mtym
- i1hysL6bpFnqxRaQf2NvJHKg0iq5j2xbYQeVKpuhvDAlrNJBHU2tnz3FxK/XcXpEex
- B/OdwnXub1JdC2trzrLpHHLejyhoUQdmiZ25G7CK5ZyCO7qqVTXRFdMNWGywZPi1JJ
- aB0Jl+HmnLUGQ==
-Received: by gofer.mess.org (Postfix, from userid 501)
- id 5536B1002A0; Wed, 29 Nov 2023 09:13:57 +0000 (GMT)
-X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on gofer.mess.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-3.0 required=5.0 tests=ALL_TRUSTED,BAYES_00,
- DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,URIBL_BLOCKED
- autolearn=unavailable autolearn_force=no version=4.0.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
- t=1701249228; bh=KpBkbH+c4Cv+OYyJKsCXnXYg/xvIBdkcAJWnSuSnKrM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SexUUXmKGZMDHdT5eX6AGHRNxooQwTa82cvWWFpLmWnV3zJMgmp+Jx4f+PaIgpxW+
- OmU7tpy7wOS0irUBFrI2UjGwcRRxbLBffQNxZjXn8KbeLa5tFGgYg29yonApbJJl9j
- uc/ZlqzSC6ayZAyFuDsuw08EX/c4QAgTaiiKaVPl/mJnBnP2+rPq8sTfkg2lA7t3Xk
- 6OgNXlK7wPMP9kOI8ZNk9+aIALpQ6Mv3diOOVgo9dgl2+cpNpab3kQKYhF+uQyyyG2
- fTyWBVmG/Uaqs+aG/sLP0LBZQ3mHKfs2HhZtXzZIG+L/Cf6lnSRTLOzc9oNoGFI+Za
- 31kBZf4h0Pnvg==
-Received: from localhost.localdomain (bigcore-99.local
- [IPv6:2a02:8011:d000:212:ca7f:54ff:fe51:14d6])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by gofer.mess.org (Postfix) with ESMTPSA id 9C1A8100100;
- Wed, 29 Nov 2023 09:13:48 +0000 (GMT)
-From: Sean Young <sean@mess.org>
-To: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>,
- Support Opensource <support.opensource@diasemi.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee@kernel.org>, Sean Young <sean@mess.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Mark Gross <markgross@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Subject: [PATCH v6 1/4] pwm: rename pwm_apply_state() to
- pwm_apply_might_sleep()
-Date: Wed, 29 Nov 2023 09:13:34 +0000
-Message-ID: <37090c1d8d8f42f1e12fa84942027d995189a99e.1701248996.git.sean@mess.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1701248996.git.sean@mess.org>
-References: <cover.1701248996.git.sean@mess.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C944B10E231
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 09:13:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1701249225;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/uDZQFgyX8mhP1euyePINbxQgL+bh5j5l6Xm7X/l4RM=;
+ b=SjH6tPQVwZnyDr1BbVlJjcXsnG2/qXz92LTWItIZpLlnvYZhmDLMsWMsDP81P6xKZKH/UI
+ kMYQ4jrfrbY0ZBC2RvNdThXDg8CE2Lucurge9cAf4v7iybQzhxQg6ENQsDtvSCNMPuXRCK
+ QWakYsMeKDd1TPZ+FauAQ0agWg+6OZk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-474-3fVohPTPOFeMiy20wR6z6g-1; Wed, 29 Nov 2023 04:13:44 -0500
+X-MC-Unique: 3fVohPTPOFeMiy20wR6z6g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-332fcd4b871so481146f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 01:13:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701249223; x=1701854023;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kIYj+dPIHz9wh4jZWRbFtDazrWkkAFhwhKwEoYrxKL0=;
+ b=DFnRmmkET5UMV9dKEoTC6tEClY39GDp9FDj9ku2deUCU+fWvcP681hlkEkyk4ceONg
+ i0yJg8+Q9Qdnmgv9DrdCQhoFfqIg0qOJXFhCqLTIqR3iMN3j0AHd8YtoQg1pEYW1I1DH
+ vhmlfxaNJdTKAQfmPv5El5I+gicavELafzJQvHM6f5D6YzzK0/79B0sluRrVEVzwW7fs
+ EYKd4rA/6lkQu4WatXVOfGJn4fTo0ULQlK5/6O3LYVf/0Paiq4ADGtUyUwbTGfSQcSjB
+ dXBAZRkcIn3djymyJN4dj0wFqFeQB8yR8U2psNHVakgwueeytkwH6jy09f0qdMN90BDG
+ gY8g==
+X-Gm-Message-State: AOJu0YyTwiN2SQbK9qnXXk51GyJQSGZOhVNzJ3HE67IRujxmZS/RPhFj
+ +uYBy6ExAncP1gQ1ncN3XRzo+MVpNC/6pBuNdeMCYxWl9Rhxv545BWYOxuLNbvhgMmeUekvNOq2
+ 5ekN1JCHIgOx5/6qu3ojBBastM/Qh
+X-Received: by 2002:adf:ea8e:0:b0:332:e697:3a71 with SMTP id
+ s14-20020adfea8e000000b00332e6973a71mr13333906wrm.6.1701249223143; 
+ Wed, 29 Nov 2023 01:13:43 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHvyYHuJQs5X4V3XyuYjwI49kog32cJUAVoY1DIBgpPDUYBZhyF5OcuS+STu+1xnZIf6CDspg==
+X-Received: by 2002:adf:ea8e:0:b0:332:e697:3a71 with SMTP id
+ s14-20020adfea8e000000b00332e6973a71mr13333879wrm.6.1701249222789; 
+ Wed, 29 Nov 2023 01:13:42 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ r5-20020a5d6c65000000b00332f6202b82sm11783958wrz.9.2023.11.29.01.13.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Nov 2023 01:13:42 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard
+ <mripard@kernel.org>
+Subject: Re: [PATCH] drm/imagination: DRM_POWERVR should depend on ARCH_K3
+In-Reply-To: <CAMuHMdVTZ8LT1yU3e1bbJODecy96TaMX1hq_swqmT6L+mbH3aQ@mail.gmail.com>
+References: <b9360c2044a1001b9a5bcb5914611711d040d4fe.1701196029.git.geert+renesas@glider.be>
+ <87o7fdbszs.fsf@minerva.mail-host-address-is-not-set>
+ <CAMuHMdUhuO++ZSxh+_TX_6DHHxjPYY20jTppbNZ4FnuBvxxinQ@mail.gmail.com>
+ <7hee65pmdl5pajm2kgqld22xfi4iox4s2psswu2mdlfk6u6f7x@w4ecogdx6uj6>
+ <CAMuHMdVTZ8LT1yU3e1bbJODecy96TaMX1hq_swqmT6L+mbH3aQ@mail.gmail.com>
+Date: Wed, 29 Nov 2023 10:13:41 +0100
+Message-ID: <87cyvsc46y.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,682 +87,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
- linux-leds@vger.kernel.org
+Cc: Nishanth Menon <nm@ti.com>, Sarah Walker <sarah.walker@imgtec.com>,
+ Tero Kristo <kristo@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Matt Coster <matt.coster@imgtec.com>,
+ Donald Robson <donald.robson@imgtec.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org,
+ Vignesh Raghavendra <vigneshr@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to introduce a pwm api which can be used from atomic context,
-we will need two functions for applying pwm changes:
+Geert Uytterhoeven <geert@linux-m68k.org> writes:
 
-	int pwm_apply_might_sleep(struct pwm *, struct pwm_state *);
-	int pwm_apply_atomic(struct pwm *, struct pwm_state *);
+Hello Geert,
 
-This commit just deals with renaming pwm_apply_state(), a following
-commit will introduce the pwm_apply_atomic() function.
+> Hi Maxime,
+>
+> On Wed, Nov 29, 2023 at 9:35=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
+> wrote:
+>> On Tue, Nov 28, 2023 at 08:16:18PM +0100, Geert Uytterhoeven wrote:
+>> > On Tue, Nov 28, 2023 at 8:03=E2=80=AFPM Javier Martinez Canillas
+>> > <javierm@redhat.com> wrote:
+>> > > Geert Uytterhoeven <geert+renesas@glider.be> writes:
+>> > > > The Imagination Technologies PowerVR Series 6 GPU is currently onl=
+y
+>> > > > supported on Texas Instruments K3 AM62x SoCs.  Hence add a depende=
+ncy on
+>> > > > ARCH_K3, to prevent asking the user about this driver when configu=
+ring a
+>> > > > kernel without Texas Instruments K3 Multicore SoC support.
+>> > > >
+>> > > > Fixes: 4babef0708656c54 ("drm/imagination: Add skeleton PowerVR dr=
+iver")
+>> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+>> > > In any case, I agree with you that restricting to only K3 makes sens=
+e.
+>> >
+>> > I am looking forward to adding || SOC_AM33XX || ARCH_RENESAS || ...,
+>> > eventually ;-)
+>>
+>> I disagree. This is to handle a generic IP, just like panfrost, lima, or
+>> etnaviv, and we certaintly don't want to maintain the Kconfig list of
+>> every possible architecture and SoC family it might or might not be
+>> found.
+>
+> While PowerVR is a generic IP, I believe it needs a non-generic
+> firmware, which is currently only available for AM62x SoCs.
+> Once it becomes truly generic, I'm happy to drop all platform
+> dependencies.  Until then, there is no point in asking everyone who
+> configures an arm64 kernel about this driver, unless they also enabled
+> K3 support.
+>
 
-Acked-by: Hans de Goede <hdegoede@redhat.com>
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-Acked-by: Lee Jones <lee@kernel.org>
-Signed-off-by: Sean Young <sean@mess.org>
----
- Documentation/driver-api/pwm.rst              |  8 +++---
- .../gpu/drm/i915/display/intel_backlight.c    |  6 ++--
- drivers/gpu/drm/solomon/ssd130x.c             |  2 +-
- drivers/hwmon/pwm-fan.c                       |  8 +++---
- drivers/input/misc/da7280.c                   |  4 +--
- drivers/input/misc/pwm-beeper.c               |  4 +--
- drivers/input/misc/pwm-vibra.c                |  8 +++---
- drivers/leds/leds-pwm.c                       |  2 +-
- drivers/leds/rgb/leds-pwm-multicolor.c        |  4 +--
- drivers/media/rc/pwm-ir-tx.c                  |  4 +--
- drivers/platform/x86/lenovo-yogabook.c        |  2 +-
- drivers/pwm/core.c                            | 18 ++++++------
- drivers/pwm/pwm-twl-led.c                     |  2 +-
- drivers/pwm/pwm-vt8500.c                      |  2 +-
- drivers/pwm/sysfs.c                           | 10 +++----
- drivers/regulator/pwm-regulator.c             |  4 +--
- drivers/video/backlight/lm3630a_bl.c          |  2 +-
- drivers/video/backlight/lp855x_bl.c           |  2 +-
- drivers/video/backlight/pwm_bl.c              | 12 ++++----
- drivers/video/fbdev/ssd1307fb.c               |  2 +-
- include/linux/pwm.h                           | 28 +++++++++----------
- 21 files changed, 67 insertions(+), 67 deletions(-)
+That's true but it will require a Kconfig patch every time that there is a
+design with a different SoC using this generic IP.
 
-diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/pwm.rst
-index bb264490a87a..f1d8197c8c43 100644
---- a/Documentation/driver-api/pwm.rst
-+++ b/Documentation/driver-api/pwm.rst
-@@ -41,7 +41,7 @@ the getter, devm_pwm_get() and devm_fwnode_pwm_get(), also exist.
- 
- After being requested, a PWM has to be configured using::
- 
--	int pwm_apply_state(struct pwm_device *pwm, struct pwm_state *state);
-+	int pwm_apply_might_sleep(struct pwm_device *pwm, struct pwm_state *state);
- 
- This API controls both the PWM period/duty_cycle config and the
- enable/disable state.
-@@ -57,13 +57,13 @@ If supported by the driver, the signal can be optimized, for example to improve
- EMI by phase shifting the individual channels of a chip.
- 
- The pwm_config(), pwm_enable() and pwm_disable() functions are just wrappers
--around pwm_apply_state() and should not be used if the user wants to change
-+around pwm_apply_might_sleep() and should not be used if the user wants to change
- several parameter at once. For example, if you see pwm_config() and
- pwm_{enable,disable}() calls in the same function, this probably means you
--should switch to pwm_apply_state().
-+should switch to pwm_apply_might_sleep().
- 
- The PWM user API also allows one to query the PWM state that was passed to the
--last invocation of pwm_apply_state() using pwm_get_state(). Note this is
-+last invocation of pwm_apply_might_sleep() using pwm_get_state(). Note this is
- different to what the driver has actually implemented if the request cannot be
- satisfied exactly with the hardware in use. There is currently no way for
- consumers to get the actually implemented settings.
-diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu/drm/i915/display/intel_backlight.c
-index 2e8f17c04522..ff9b9918b0a1 100644
---- a/drivers/gpu/drm/i915/display/intel_backlight.c
-+++ b/drivers/gpu/drm/i915/display/intel_backlight.c
-@@ -274,7 +274,7 @@ static void ext_pwm_set_backlight(const struct drm_connector_state *conn_state,
- 	struct intel_panel *panel = &to_intel_connector(conn_state->connector)->panel;
- 
- 	pwm_set_relative_duty_cycle(&panel->backlight.pwm_state, level, 100);
--	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
-+	pwm_apply_might_sleep(panel->backlight.pwm, &panel->backlight.pwm_state);
- }
- 
- static void
-@@ -427,7 +427,7 @@ static void ext_pwm_disable_backlight(const struct drm_connector_state *old_conn
- 	intel_backlight_set_pwm_level(old_conn_state, level);
- 
- 	panel->backlight.pwm_state.enabled = false;
--	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
-+	pwm_apply_might_sleep(panel->backlight.pwm, &panel->backlight.pwm_state);
- }
- 
- void intel_backlight_disable(const struct drm_connector_state *old_conn_state)
-@@ -749,7 +749,7 @@ static void ext_pwm_enable_backlight(const struct intel_crtc_state *crtc_state,
- 
- 	pwm_set_relative_duty_cycle(&panel->backlight.pwm_state, level, 100);
- 	panel->backlight.pwm_state.enabled = true;
--	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
-+	pwm_apply_might_sleep(panel->backlight.pwm, &panel->backlight.pwm_state);
- }
- 
- static void __intel_backlight_enable(const struct intel_crtc_state *crtc_state,
-diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index e0174f82e353..cce043a4a1dc 100644
---- a/drivers/gpu/drm/solomon/ssd130x.c
-+++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -319,7 +319,7 @@ static int ssd130x_pwm_enable(struct ssd130x_device *ssd130x)
- 
- 	pwm_init_state(ssd130x->pwm, &pwmstate);
- 	pwm_set_relative_duty_cycle(&pwmstate, 50, 100);
--	pwm_apply_state(ssd130x->pwm, &pwmstate);
-+	pwm_apply_might_sleep(ssd130x->pwm, &pwmstate);
- 
- 	/* Enable the PWM */
- 	pwm_enable(ssd130x->pwm);
-diff --git a/drivers/hwmon/pwm-fan.c b/drivers/hwmon/pwm-fan.c
-index 6e4516c2ab89..b67bc9e833c0 100644
---- a/drivers/hwmon/pwm-fan.c
-+++ b/drivers/hwmon/pwm-fan.c
-@@ -151,7 +151,7 @@ static int pwm_fan_power_on(struct pwm_fan_ctx *ctx)
- 	}
- 
- 	state->enabled = true;
--	ret = pwm_apply_state(ctx->pwm, state);
-+	ret = pwm_apply_might_sleep(ctx->pwm, state);
- 	if (ret) {
- 		dev_err(ctx->dev, "failed to enable PWM\n");
- 		goto disable_regulator;
-@@ -181,7 +181,7 @@ static int pwm_fan_power_off(struct pwm_fan_ctx *ctx)
- 
- 	state->enabled = false;
- 	state->duty_cycle = 0;
--	ret = pwm_apply_state(ctx->pwm, state);
-+	ret = pwm_apply_might_sleep(ctx->pwm, state);
- 	if (ret) {
- 		dev_err(ctx->dev, "failed to disable PWM\n");
- 		return ret;
-@@ -207,7 +207,7 @@ static int  __set_pwm(struct pwm_fan_ctx *ctx, unsigned long pwm)
- 
- 		period = state->period;
- 		state->duty_cycle = DIV_ROUND_UP(pwm * (period - 1), MAX_PWM);
--		ret = pwm_apply_state(ctx->pwm, state);
-+		ret = pwm_apply_might_sleep(ctx->pwm, state);
- 		if (ret)
- 			return ret;
- 		ret = pwm_fan_power_on(ctx);
-@@ -278,7 +278,7 @@ static int pwm_fan_update_enable(struct pwm_fan_ctx *ctx, long val)
- 						    state,
- 						    &enable_regulator);
- 
--			pwm_apply_state(ctx->pwm, state);
-+			pwm_apply_might_sleep(ctx->pwm, state);
- 			pwm_fan_switch_power(ctx, enable_regulator);
- 			pwm_fan_update_state(ctx, 0);
- 		}
-diff --git a/drivers/input/misc/da7280.c b/drivers/input/misc/da7280.c
-index ce82548916bb..c1fa75c0f970 100644
---- a/drivers/input/misc/da7280.c
-+++ b/drivers/input/misc/da7280.c
-@@ -352,7 +352,7 @@ static int da7280_haptic_set_pwm(struct da7280_haptic *haptics, bool enabled)
- 		state.duty_cycle = period_mag_multi;
- 	}
- 
--	error = pwm_apply_state(haptics->pwm_dev, &state);
-+	error = pwm_apply_might_sleep(haptics->pwm_dev, &state);
- 	if (error)
- 		dev_err(haptics->dev, "Failed to apply pwm state: %d\n", error);
- 
-@@ -1175,7 +1175,7 @@ static int da7280_probe(struct i2c_client *client)
- 		/* Sync up PWM state and ensure it is off. */
- 		pwm_init_state(haptics->pwm_dev, &state);
- 		state.enabled = false;
--		error = pwm_apply_state(haptics->pwm_dev, &state);
-+		error = pwm_apply_might_sleep(haptics->pwm_dev, &state);
- 		if (error) {
- 			dev_err(dev, "Failed to apply PWM state: %d\n", error);
- 			return error;
-diff --git a/drivers/input/misc/pwm-beeper.c b/drivers/input/misc/pwm-beeper.c
-index 1e731d8397c6..5b9aedf4362f 100644
---- a/drivers/input/misc/pwm-beeper.c
-+++ b/drivers/input/misc/pwm-beeper.c
-@@ -39,7 +39,7 @@ static int pwm_beeper_on(struct pwm_beeper *beeper, unsigned long period)
- 	state.period = period;
- 	pwm_set_relative_duty_cycle(&state, 50, 100);
- 
--	error = pwm_apply_state(beeper->pwm, &state);
-+	error = pwm_apply_might_sleep(beeper->pwm, &state);
- 	if (error)
- 		return error;
- 
-@@ -138,7 +138,7 @@ static int pwm_beeper_probe(struct platform_device *pdev)
- 	/* Sync up PWM state and ensure it is off. */
- 	pwm_init_state(beeper->pwm, &state);
- 	state.enabled = false;
--	error = pwm_apply_state(beeper->pwm, &state);
-+	error = pwm_apply_might_sleep(beeper->pwm, &state);
- 	if (error) {
- 		dev_err(dev, "failed to apply initial PWM state: %d\n",
- 			error);
-diff --git a/drivers/input/misc/pwm-vibra.c b/drivers/input/misc/pwm-vibra.c
-index acac79c488aa..3e5ed685ed8f 100644
---- a/drivers/input/misc/pwm-vibra.c
-+++ b/drivers/input/misc/pwm-vibra.c
-@@ -56,7 +56,7 @@ static int pwm_vibrator_start(struct pwm_vibrator *vibrator)
- 	pwm_set_relative_duty_cycle(&state, vibrator->level, 0xffff);
- 	state.enabled = true;
- 
--	err = pwm_apply_state(vibrator->pwm, &state);
-+	err = pwm_apply_might_sleep(vibrator->pwm, &state);
- 	if (err) {
- 		dev_err(pdev, "failed to apply pwm state: %d\n", err);
- 		return err;
-@@ -67,7 +67,7 @@ static int pwm_vibrator_start(struct pwm_vibrator *vibrator)
- 		state.duty_cycle = vibrator->direction_duty_cycle;
- 		state.enabled = true;
- 
--		err = pwm_apply_state(vibrator->pwm_dir, &state);
-+		err = pwm_apply_might_sleep(vibrator->pwm_dir, &state);
- 		if (err) {
- 			dev_err(pdev, "failed to apply dir-pwm state: %d\n", err);
- 			pwm_disable(vibrator->pwm);
-@@ -160,7 +160,7 @@ static int pwm_vibrator_probe(struct platform_device *pdev)
- 	/* Sync up PWM state and ensure it is off. */
- 	pwm_init_state(vibrator->pwm, &state);
- 	state.enabled = false;
--	err = pwm_apply_state(vibrator->pwm, &state);
-+	err = pwm_apply_might_sleep(vibrator->pwm, &state);
- 	if (err) {
- 		dev_err(&pdev->dev, "failed to apply initial PWM state: %d\n",
- 			err);
-@@ -174,7 +174,7 @@ static int pwm_vibrator_probe(struct platform_device *pdev)
- 		/* Sync up PWM state and ensure it is off. */
- 		pwm_init_state(vibrator->pwm_dir, &state);
- 		state.enabled = false;
--		err = pwm_apply_state(vibrator->pwm_dir, &state);
-+		err = pwm_apply_might_sleep(vibrator->pwm_dir, &state);
- 		if (err) {
- 			dev_err(&pdev->dev, "failed to apply initial PWM state: %d\n",
- 				err);
-diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
-index 2b3bf1353b70..4e3936a39d0e 100644
---- a/drivers/leds/leds-pwm.c
-+++ b/drivers/leds/leds-pwm.c
-@@ -54,7 +54,7 @@ static int led_pwm_set(struct led_classdev *led_cdev,
- 
- 	led_dat->pwmstate.duty_cycle = duty;
- 	led_dat->pwmstate.enabled = true;
--	return pwm_apply_state(led_dat->pwm, &led_dat->pwmstate);
-+	return pwm_apply_might_sleep(led_dat->pwm, &led_dat->pwmstate);
- }
- 
- __attribute__((nonnull))
-diff --git a/drivers/leds/rgb/leds-pwm-multicolor.c b/drivers/leds/rgb/leds-pwm-multicolor.c
-index 46cd062b8b24..e1a81e0109e8 100644
---- a/drivers/leds/rgb/leds-pwm-multicolor.c
-+++ b/drivers/leds/rgb/leds-pwm-multicolor.c
-@@ -51,8 +51,8 @@ static int led_pwm_mc_set(struct led_classdev *cdev,
- 
- 		priv->leds[i].state.duty_cycle = duty;
- 		priv->leds[i].state.enabled = duty > 0;
--		ret = pwm_apply_state(priv->leds[i].pwm,
--				      &priv->leds[i].state);
-+		ret = pwm_apply_might_sleep(priv->leds[i].pwm,
-+					    &priv->leds[i].state);
- 		if (ret)
- 			break;
- 	}
-diff --git a/drivers/media/rc/pwm-ir-tx.c b/drivers/media/rc/pwm-ir-tx.c
-index c5f37c03af9c..cf51e2760975 100644
---- a/drivers/media/rc/pwm-ir-tx.c
-+++ b/drivers/media/rc/pwm-ir-tx.c
-@@ -68,7 +68,7 @@ static int pwm_ir_tx(struct rc_dev *dev, unsigned int *txbuf,
- 
- 	for (i = 0; i < count; i++) {
- 		state.enabled = !(i % 2);
--		pwm_apply_state(pwm, &state);
-+		pwm_apply_might_sleep(pwm, &state);
- 
- 		edge = ktime_add_us(edge, txbuf[i]);
- 		delta = ktime_us_delta(edge, ktime_get());
-@@ -77,7 +77,7 @@ static int pwm_ir_tx(struct rc_dev *dev, unsigned int *txbuf,
- 	}
- 
- 	state.enabled = false;
--	pwm_apply_state(pwm, &state);
-+	pwm_apply_might_sleep(pwm, &state);
- 
- 	return count;
- }
-diff --git a/drivers/platform/x86/lenovo-yogabook.c b/drivers/platform/x86/lenovo-yogabook.c
-index b8d0239192cb..fd62bf746ebd 100644
---- a/drivers/platform/x86/lenovo-yogabook.c
-+++ b/drivers/platform/x86/lenovo-yogabook.c
-@@ -435,7 +435,7 @@ static int yogabook_pdev_set_kbd_backlight(struct yogabook_data *data, u8 level)
- 		.enabled = level,
- 	};
- 
--	pwm_apply_state(data->kbd_bl_pwm, &state);
-+	pwm_apply_might_sleep(data->kbd_bl_pwm, &state);
- 	gpiod_set_value(data->kbd_bl_led_enable, level ? 1 : 0);
- 	return 0;
- }
-diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-index 29078486534d..fc92ba622e56 100644
---- a/drivers/pwm/core.c
-+++ b/drivers/pwm/core.c
-@@ -356,8 +356,8 @@ struct pwm_device *pwm_request_from_chip(struct pwm_chip *chip,
- }
- EXPORT_SYMBOL_GPL(pwm_request_from_chip);
- 
--static void pwm_apply_state_debug(struct pwm_device *pwm,
--				  const struct pwm_state *state)
-+static void pwm_apply_debug(struct pwm_device *pwm,
-+			    const struct pwm_state *state)
- {
- 	struct pwm_state *last = &pwm->last;
- 	struct pwm_chip *chip = pwm->chip;
-@@ -463,11 +463,11 @@ static void pwm_apply_state_debug(struct pwm_device *pwm,
- }
- 
- /**
-- * pwm_apply_state() - atomically apply a new state to a PWM device
-+ * pwm_apply_might_sleep() - atomically apply a new state to a PWM device
-  * @pwm: PWM device
-  * @state: new state to apply
-  */
--int pwm_apply_state(struct pwm_device *pwm, const struct pwm_state *state)
-+int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state *state)
- {
- 	struct pwm_chip *chip;
- 	int err;
-@@ -475,7 +475,7 @@ int pwm_apply_state(struct pwm_device *pwm, const struct pwm_state *state)
- 	/*
- 	 * Some lowlevel driver's implementations of .apply() make use of
- 	 * mutexes, also with some drivers only returning when the new
--	 * configuration is active calling pwm_apply_state() from atomic context
-+	 * configuration is active calling pwm_apply_might_sleep() from atomic context
- 	 * is a bad idea. So make it explicit that calling this function might
- 	 * sleep.
- 	 */
-@@ -505,11 +505,11 @@ int pwm_apply_state(struct pwm_device *pwm, const struct pwm_state *state)
- 	 * only do this after pwm->state was applied as some
- 	 * implementations of .get_state depend on this
- 	 */
--	pwm_apply_state_debug(pwm, state);
-+	pwm_apply_debug(pwm, state);
- 
- 	return 0;
- }
--EXPORT_SYMBOL_GPL(pwm_apply_state);
-+EXPORT_SYMBOL_GPL(pwm_apply_might_sleep);
- 
- /**
-  * pwm_capture() - capture and report a PWM signal
-@@ -567,7 +567,7 @@ int pwm_adjust_config(struct pwm_device *pwm)
- 		state.period = pargs.period;
- 		state.polarity = pargs.polarity;
- 
--		return pwm_apply_state(pwm, &state);
-+		return pwm_apply_might_sleep(pwm, &state);
- 	}
- 
- 	/*
-@@ -590,7 +590,7 @@ int pwm_adjust_config(struct pwm_device *pwm)
- 		state.duty_cycle = state.period - state.duty_cycle;
- 	}
- 
--	return pwm_apply_state(pwm, &state);
-+	return pwm_apply_might_sleep(pwm, &state);
- }
- EXPORT_SYMBOL_GPL(pwm_adjust_config);
- 
-diff --git a/drivers/pwm/pwm-twl-led.c b/drivers/pwm/pwm-twl-led.c
-index 625233f4703a..70eec1c66747 100644
---- a/drivers/pwm/pwm-twl-led.c
-+++ b/drivers/pwm/pwm-twl-led.c
-@@ -172,7 +172,7 @@ static int twl4030_pwmled_apply(struct pwm_chip *chip, struct pwm_device *pwm,
- 	 * We cannot skip calling ->config even if state->period ==
- 	 * pwm->state.period && state->duty_cycle == pwm->state.duty_cycle
- 	 * because we might have exited early in the last call to
--	 * pwm_apply_state because of !state->enabled and so the two values in
-+	 * pwm_apply_might_sleep because of !state->enabled and so the two values in
- 	 * pwm->state might not be configured in hardware.
- 	 */
- 	ret = twl4030_pwmled_config(pwm->chip, pwm,
-diff --git a/drivers/pwm/pwm-vt8500.c b/drivers/pwm/pwm-vt8500.c
-index 5568d5312d3c..3d1d11062558 100644
---- a/drivers/pwm/pwm-vt8500.c
-+++ b/drivers/pwm/pwm-vt8500.c
-@@ -206,7 +206,7 @@ static int vt8500_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
- 	 * We cannot skip calling ->config even if state->period ==
- 	 * pwm->state.period && state->duty_cycle == pwm->state.duty_cycle
- 	 * because we might have exited early in the last call to
--	 * pwm_apply_state because of !state->enabled and so the two values in
-+	 * pwm_apply_might_sleep because of !state->enabled and so the two values in
- 	 * pwm->state might not be configured in hardware.
- 	 */
- 	err = vt8500_pwm_config(pwm->chip, pwm, state->duty_cycle, state->period);
-diff --git a/drivers/pwm/sysfs.c b/drivers/pwm/sysfs.c
-index 8d1254761e4d..052ccadbdabf 100644
---- a/drivers/pwm/sysfs.c
-+++ b/drivers/pwm/sysfs.c
-@@ -62,7 +62,7 @@ static ssize_t period_store(struct device *child,
- 	mutex_lock(&export->lock);
- 	pwm_get_state(pwm, &state);
- 	state.period = val;
--	ret = pwm_apply_state(pwm, &state);
-+	ret = pwm_apply_might_sleep(pwm, &state);
- 	mutex_unlock(&export->lock);
- 
- 	return ret ? : size;
-@@ -97,7 +97,7 @@ static ssize_t duty_cycle_store(struct device *child,
- 	mutex_lock(&export->lock);
- 	pwm_get_state(pwm, &state);
- 	state.duty_cycle = val;
--	ret = pwm_apply_state(pwm, &state);
-+	ret = pwm_apply_might_sleep(pwm, &state);
- 	mutex_unlock(&export->lock);
- 
- 	return ret ? : size;
-@@ -144,7 +144,7 @@ static ssize_t enable_store(struct device *child,
- 		goto unlock;
- 	}
- 
--	ret = pwm_apply_state(pwm, &state);
-+	ret = pwm_apply_might_sleep(pwm, &state);
- 
- unlock:
- 	mutex_unlock(&export->lock);
-@@ -194,7 +194,7 @@ static ssize_t polarity_store(struct device *child,
- 	mutex_lock(&export->lock);
- 	pwm_get_state(pwm, &state);
- 	state.polarity = polarity;
--	ret = pwm_apply_state(pwm, &state);
-+	ret = pwm_apply_might_sleep(pwm, &state);
- 	mutex_unlock(&export->lock);
- 
- 	return ret ? : size;
-@@ -401,7 +401,7 @@ static int pwm_class_apply_state(struct pwm_export *export,
- 				 struct pwm_device *pwm,
- 				 struct pwm_state *state)
- {
--	int ret = pwm_apply_state(pwm, state);
-+	int ret = pwm_apply_might_sleep(pwm, state);
- 
- 	/* release lock taken in pwm_class_get_state */
- 	mutex_unlock(&export->lock);
-diff --git a/drivers/regulator/pwm-regulator.c b/drivers/regulator/pwm-regulator.c
-index 2aff6db748e2..698c420e0869 100644
---- a/drivers/regulator/pwm-regulator.c
-+++ b/drivers/regulator/pwm-regulator.c
-@@ -90,7 +90,7 @@ static int pwm_regulator_set_voltage_sel(struct regulator_dev *rdev,
- 	pwm_set_relative_duty_cycle(&pstate,
- 			drvdata->duty_cycle_table[selector].dutycycle, 100);
- 
--	ret = pwm_apply_state(drvdata->pwm, &pstate);
-+	ret = pwm_apply_might_sleep(drvdata->pwm, &pstate);
- 	if (ret) {
- 		dev_err(&rdev->dev, "Failed to configure PWM: %d\n", ret);
- 		return ret;
-@@ -216,7 +216,7 @@ static int pwm_regulator_set_voltage(struct regulator_dev *rdev,
- 
- 	pwm_set_relative_duty_cycle(&pstate, dutycycle, duty_unit);
- 
--	ret = pwm_apply_state(drvdata->pwm, &pstate);
-+	ret = pwm_apply_might_sleep(drvdata->pwm, &pstate);
- 	if (ret) {
- 		dev_err(&rdev->dev, "Failed to configure PWM: %d\n", ret);
- 		return ret;
-diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
-index 8fcb62be597b..a3412c936ca2 100644
---- a/drivers/video/backlight/lm3630a_bl.c
-+++ b/drivers/video/backlight/lm3630a_bl.c
-@@ -180,7 +180,7 @@ static int lm3630a_pwm_ctrl(struct lm3630a_chip *pchip, int br, int br_max)
- 
- 	pchip->pwmd_state.enabled = pchip->pwmd_state.duty_cycle ? true : false;
- 
--	return pwm_apply_state(pchip->pwmd, &pchip->pwmd_state);
-+	return pwm_apply_might_sleep(pchip->pwmd, &pchip->pwmd_state);
- }
- 
- /* update and get brightness */
-diff --git a/drivers/video/backlight/lp855x_bl.c b/drivers/video/backlight/lp855x_bl.c
-index da1f124db69c..7075bfab59c4 100644
---- a/drivers/video/backlight/lp855x_bl.c
-+++ b/drivers/video/backlight/lp855x_bl.c
-@@ -234,7 +234,7 @@ static int lp855x_pwm_ctrl(struct lp855x *lp, int br, int max_br)
- 	state.duty_cycle = div_u64(br * state.period, max_br);
- 	state.enabled = state.duty_cycle;
- 
--	return pwm_apply_state(lp->pwm, &state);
-+	return pwm_apply_might_sleep(lp->pwm, &state);
- }
- 
- static int lp855x_bl_update_status(struct backlight_device *bl)
-diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
-index 289bd9ce4d36..35c716e9043c 100644
---- a/drivers/video/backlight/pwm_bl.c
-+++ b/drivers/video/backlight/pwm_bl.c
-@@ -103,7 +103,7 @@ static int pwm_backlight_update_status(struct backlight_device *bl)
- 		pwm_get_state(pb->pwm, &state);
- 		state.duty_cycle = compute_duty_cycle(pb, brightness, &state);
- 		state.enabled = true;
--		pwm_apply_state(pb->pwm, &state);
-+		pwm_apply_might_sleep(pb->pwm, &state);
- 
- 		pwm_backlight_power_on(pb);
- 	} else {
-@@ -120,7 +120,7 @@ static int pwm_backlight_update_status(struct backlight_device *bl)
- 		 * inactive output.
- 		 */
- 		state.enabled = !pb->power_supply && !pb->enable_gpio;
--		pwm_apply_state(pb->pwm, &state);
-+		pwm_apply_might_sleep(pb->pwm, &state);
- 	}
- 
- 	if (pb->notify_after)
-@@ -528,7 +528,7 @@ static int pwm_backlight_probe(struct platform_device *pdev)
- 	if (!state.period && (data->pwm_period_ns > 0))
- 		state.period = data->pwm_period_ns;
- 
--	ret = pwm_apply_state(pb->pwm, &state);
-+	ret = pwm_apply_might_sleep(pb->pwm, &state);
- 	if (ret) {
- 		dev_err(&pdev->dev, "failed to apply initial PWM state: %d\n",
- 			ret);
-@@ -633,7 +633,7 @@ static void pwm_backlight_remove(struct platform_device *pdev)
- 	pwm_get_state(pb->pwm, &state);
- 	state.duty_cycle = 0;
- 	state.enabled = false;
--	pwm_apply_state(pb->pwm, &state);
-+	pwm_apply_might_sleep(pb->pwm, &state);
- 
- 	if (pb->exit)
- 		pb->exit(&pdev->dev);
-@@ -649,7 +649,7 @@ static void pwm_backlight_shutdown(struct platform_device *pdev)
- 	pwm_get_state(pb->pwm, &state);
- 	state.duty_cycle = 0;
- 	state.enabled = false;
--	pwm_apply_state(pb->pwm, &state);
-+	pwm_apply_might_sleep(pb->pwm, &state);
- }
- 
- #ifdef CONFIG_PM_SLEEP
-@@ -673,7 +673,7 @@ static int pwm_backlight_suspend(struct device *dev)
- 	pwm_get_state(pb->pwm, &state);
- 	state.duty_cycle = 0;
- 	state.enabled = false;
--	pwm_apply_state(pb->pwm, &state);
-+	pwm_apply_might_sleep(pb->pwm, &state);
- 
- 	if (pb->notify_after)
- 		pb->notify_after(pb->dev, 0);
-diff --git a/drivers/video/fbdev/ssd1307fb.c b/drivers/video/fbdev/ssd1307fb.c
-index 5ae48e36fccb..1a4f90ea7d5a 100644
---- a/drivers/video/fbdev/ssd1307fb.c
-+++ b/drivers/video/fbdev/ssd1307fb.c
-@@ -347,7 +347,7 @@ static int ssd1307fb_init(struct ssd1307fb_par *par)
- 
- 		pwm_init_state(par->pwm, &pwmstate);
- 		pwm_set_relative_duty_cycle(&pwmstate, 50, 100);
--		pwm_apply_state(par->pwm, &pwmstate);
-+		pwm_apply_might_sleep(par->pwm, &pwmstate);
- 
- 		/* Enable the PWM */
- 		pwm_enable(par->pwm);
-diff --git a/include/linux/pwm.h b/include/linux/pwm.h
-index cda3597b84f2..5c5c456948a4 100644
---- a/include/linux/pwm.h
-+++ b/include/linux/pwm.h
-@@ -93,8 +93,8 @@ struct pwm_device {
-  * @state: state to fill with the current PWM state
-  *
-  * The returned PWM state represents the state that was applied by a previous call to
-- * pwm_apply_state(). Drivers may have to slightly tweak that state before programming it to
-- * hardware. If pwm_apply_state() was never called, this returns either the current hardware
-+ * pwm_apply_might_sleep(). Drivers may have to slightly tweak that state before programming it to
-+ * hardware. If pwm_apply_might_sleep() was never called, this returns either the current hardware
-  * state (if supported) or the default settings.
-  */
- static inline void pwm_get_state(const struct pwm_device *pwm,
-@@ -158,20 +158,20 @@ static inline void pwm_get_args(const struct pwm_device *pwm,
- }
- 
- /**
-- * pwm_init_state() - prepare a new state to be applied with pwm_apply_state()
-+ * pwm_init_state() - prepare a new state to be applied with pwm_apply_might_sleep()
-  * @pwm: PWM device
-  * @state: state to fill with the prepared PWM state
-  *
-  * This functions prepares a state that can later be tweaked and applied
-- * to the PWM device with pwm_apply_state(). This is a convenient function
-+ * to the PWM device with pwm_apply_might_sleep(). This is a convenient function
-  * that first retrieves the current PWM state and the replaces the period
-  * and polarity fields with the reference values defined in pwm->args.
-  * Once the function returns, you can adjust the ->enabled and ->duty_cycle
-- * fields according to your needs before calling pwm_apply_state().
-+ * fields according to your needs before calling pwm_apply_might_sleep().
-  *
-  * ->duty_cycle is initially set to zero to avoid cases where the current
-  * ->duty_cycle value exceed the pwm_args->period one, which would trigger
-- * an error if the user calls pwm_apply_state() without adjusting ->duty_cycle
-+ * an error if the user calls pwm_apply_might_sleep() without adjusting ->duty_cycle
-  * first.
-  */
- static inline void pwm_init_state(const struct pwm_device *pwm,
-@@ -227,7 +227,7 @@ pwm_get_relative_duty_cycle(const struct pwm_state *state, unsigned int scale)
-  *
-  * pwm_init_state(pwm, &state);
-  * pwm_set_relative_duty_cycle(&state, 50, 100);
-- * pwm_apply_state(pwm, &state);
-+ * pwm_apply_might_sleep(pwm, &state);
-  *
-  * This functions returns -EINVAL if @duty_cycle and/or @scale are
-  * inconsistent (@scale == 0 or @duty_cycle > @scale).
-@@ -307,7 +307,7 @@ struct pwm_chip {
- 
- #if IS_ENABLED(CONFIG_PWM)
- /* PWM user APIs */
--int pwm_apply_state(struct pwm_device *pwm, const struct pwm_state *state);
-+int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state *state);
- int pwm_adjust_config(struct pwm_device *pwm);
- 
- /**
-@@ -335,7 +335,7 @@ static inline int pwm_config(struct pwm_device *pwm, int duty_ns,
- 
- 	state.duty_cycle = duty_ns;
- 	state.period = period_ns;
--	return pwm_apply_state(pwm, &state);
-+	return pwm_apply_might_sleep(pwm, &state);
- }
- 
- /**
-@@ -356,7 +356,7 @@ static inline int pwm_enable(struct pwm_device *pwm)
- 		return 0;
- 
- 	state.enabled = true;
--	return pwm_apply_state(pwm, &state);
-+	return pwm_apply_might_sleep(pwm, &state);
- }
- 
- /**
-@@ -375,7 +375,7 @@ static inline void pwm_disable(struct pwm_device *pwm)
- 		return;
- 
- 	state.enabled = false;
--	pwm_apply_state(pwm, &state);
-+	pwm_apply_might_sleep(pwm, &state);
- }
- 
- /* PWM provider APIs */
-@@ -406,8 +406,8 @@ struct pwm_device *devm_fwnode_pwm_get(struct device *dev,
- 				       struct fwnode_handle *fwnode,
- 				       const char *con_id);
- #else
--static inline int pwm_apply_state(struct pwm_device *pwm,
--				  const struct pwm_state *state)
-+static inline int pwm_apply_might_sleep(struct pwm_device *pwm,
-+					const struct pwm_state *state)
- {
- 	might_sleep();
- 	return -ENOTSUPP;
-@@ -524,7 +524,7 @@ static inline void pwm_apply_args(struct pwm_device *pwm)
- 	state.period = pwm->args.period;
- 	state.usage_power = false;
- 
--	pwm_apply_state(pwm, &state);
-+	pwm_apply_might_sleep(pwm, &state);
- }
- 
- struct pwm_lookup {
--- 
-2.43.0
+So when should be added? Once there's an upstream DTS that has a GPU device=
+?
+Once there's a firmware for it in linux-firmware?
+
+I like the guideline of not having a depends on for generic IP and only hav=
+e
+for IP that can only be used in designs with a SoC from the same vendor.
+
+--=20
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
