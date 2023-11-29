@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30A977FD5FB
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 12:47:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A59A47FD5FC
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 12:48:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF7B110E1BF;
-	Wed, 29 Nov 2023 11:47:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1332F10E1B1;
+	Wed, 29 Nov 2023 11:48:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 425 seconds by postgrey-1.36 at gabe;
- Wed, 29 Nov 2023 11:47:53 UTC
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 247B210E1B1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 11:47:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701258473; x=1732794473;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=w91TqZU/Sz95TBAtE+lLgPRTyMnYI3/7ak+ZXvIxwqY=;
- b=bo7f2LEgV0mBD3AP7x4Ihoo28NMmydC0Z+FywPyTRoYVRUc09tVTX+xA
- Tn8nDrqrek12Ak8Du+sKA8YTZurQL+MkG7o16B1U7eSnGxs4khCWDnOVG
- D7a3JJy15+plo18VxPxH6V1ewi0lTCeeVnJS7At3aBr71RAwoX1EFH/eL
- vav7j/Cl+Wj0LwSuFM/KhnqrTmscz9+rH7gqOir2BJTuE84TvVO21+o9F
- uAPdn8g4naaEk7QJqUnQFo4Pv3gaswcgNx0IvERuAAfxhp5pRYQfi8HTj
- 89rvss1l54TzcU9FnyxcIraawRrQXZK5YsHyf5cLNjQEWg95eUBPUchH2 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="35041"
-X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="35041"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Nov 2023 03:40:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="942291528"
-X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; d="scan'208";a="942291528"
-Received: from dstavrak-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.60.61])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Nov 2023 03:40:40 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
- pointers arguments
-In-Reply-To: <kygezdrfz56zj6lmq6l5s5yyys2urgq3id7r5n4mb3afn5kc5q@eswnd6a2ihqc>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
- <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
- <87h6l66nth.fsf@intel.com>
- <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
- <ZWXv1Oi_sH0BRWao@intel.com>
- <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
- <8734wo7vbx.fsf@intel.com>
- <kygezdrfz56zj6lmq6l5s5yyys2urgq3id7r5n4mb3afn5kc5q@eswnd6a2ihqc>
-Date: Wed, 29 Nov 2023 13:40:38 +0200
-Message-ID: <87ttp46b49.fsf@intel.com>
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4326210E1B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 11:48:30 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id
+ ffacd0b85a97d-32f8441dfb5so4462005f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 03:48:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701258508; x=1701863308; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=zyIdnLill5s8Gi6A6aB8bdGt72IFodHpeawcy9JUzjs=;
+ b=WAQGuov5lSQtNM3T/6GQQb3ic4dfr42qGMiAVxw2FrEOV71UjfBqmJJ0IknUrHCxfd
+ Qo1Lwj2KfGnikDlHmtDKJYimwKX2WjPbns0iAcphjjXj6wTk2RGiDbZR9WNEH02sGylV
+ o2cMckhOSwQmaKiLQuKWcfetzi35U43MzgW/9DXUAhwb7pHr3EjLTRm99esx1u2e4r0W
+ XZRRWYRpZUPi1+xLh59bEUnMODvnFBqrj94QwMnQJoexuH55ivO/cHFPu9AaTFrWrJGr
+ wY+rU9tBytzT6WVRlZnj54pK97BvtYaELtmehm7QRahhoN0D3etT9vFN2kgDM+jcSwxy
+ e7rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701258508; x=1701863308;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zyIdnLill5s8Gi6A6aB8bdGt72IFodHpeawcy9JUzjs=;
+ b=vjNgpP77zj+RePBmKbStM5ggHvEgy6UHfNcNQ422ZXA/cJwI3z+VEXmt3hpwk4FJyE
+ /fXgCT0gsBVfspuNiIEfzrdhRxsStdH/fqt/nbKawlCtnssL9PNa3NRXCbvHk3ERmpGJ
+ GWU46Ju5oYeqgtLEi4p7uk/80PY+qAXtW3yRf/9mqr8mpnZJIcePKXcU6OllbwiG/su3
+ YvXJyty1QzHdBdAbkutw4Quyh0SBxLpg4ISQV7HSgXh0rK4kehXY7opL33Q7juYb8kvo
+ /uQDbC/89K7JkeWfOFy7uprqT1hfK/pXsC8Q7GdoIsx7d9LTPDBX6UbWhVnkDlkGs0bX
+ mO7Q==
+X-Gm-Message-State: AOJu0YxFdCEHkbNcBIFIo1udVhvpls4deVqJKujuB0Jev0asOI01nVPI
+ KljxJmvVsNDiHvZqIJwLli4lmg==
+X-Google-Smtp-Source: AGHT+IHqk0HGROPXHktYqeT8mu1hMpdiuhwSv3EOOX+B9Ih8lGnKQeDyYOVJ8FAhH9H8exOKx2IMNw==
+X-Received: by 2002:a5d:698d:0:b0:333:79d:d10e with SMTP id
+ g13-20020a5d698d000000b00333079dd10emr5387764wru.31.1701258508641; 
+ Wed, 29 Nov 2023 03:48:28 -0800 (PST)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ w3-20020a5d5443000000b003140f47224csm17716026wrv.15.2023.11.29.03.48.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Nov 2023 03:48:28 -0800 (PST)
+Date: Wed, 29 Nov 2023 14:48:25 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Flavio Suligoi <f.suligoi@asem.it>
+Subject: Re: [bug report] backlight: mp3309c: Add support for MPS MP3309C
+Message-ID: <2ce08b63-b31a-4a8b-8856-5a246a67b855@suswa.mountain>
+References: <af0a1870-693b-442f-9b11-0503cfcd944a@moroto.mountain>
+ <DU2PR01MB8034E29BB2ECDAF13972F484F9BCA@DU2PR01MB8034.eurprd01.prod.exchangelabs.com>
+ <DU2PR01MB8034C4DEA3CC0BC7FD76A0AEF983A@DU2PR01MB8034.eurprd01.prod.exchangelabs.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DU2PR01MB8034C4DEA3CC0BC7FD76A0AEF983A@DU2PR01MB8034.eurprd01.prod.exchangelabs.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,148 +73,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, Emma Anholt <emma@anholt.net>,
- Samuel Holland <samuel@sholland.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org,
- Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-sunxi@lists.linux.dev,
- linux-media@vger.kernel.org
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> On Wed, Nov 29, 2023 at 11:38:42AM +0200, Jani Nikula wrote:
->> On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
->> > Hi Ville,
->> >
->> > On Tue, Nov 28, 2023 at 03:49:08PM +0200, Ville Syrj=C3=A4l=C3=A4 wrot=
-e:
->> >> On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
->> >> > On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
->> >> > > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
->> >> > > > All the drm_connector_init variants take at least a pointer to =
-the
->> >> > > > device, connector and hooks implementation.
->> >> > > >
->> >> > > > However, none of them check their value before dereferencing th=
-ose
->> >> > > > pointers which can lead to a NULL-pointer dereference if the au=
-thor
->> >> > > > isn't careful.
->> >> > >=20
->> >> > > Arguably oopsing on the spot is preferrable when this can't be ca=
-used by
->> >> > > user input. It's always a mistake that should be caught early dur=
-ing
->> >> > > development.
->> >> > >=20
->> >> > > Not everyone checks the return value of drm_connector_init and fr=
-iends,
->> >> > > so those cases will lead to more mysterious bugs later. And proba=
-bly
->> >> > > oopses as well.
->> >> >=20
->> >> > So maybe we can do both then, with something like
->> >> >=20
->> >> > if (WARN_ON(!dev))
->> >> >    return -EINVAL
->> >> >=20
->> >> > if (drm_WARN_ON(dev, !connector || !funcs))
->> >> >    return -EINVAL;
->> >> >=20
->> >> > I'd still like to check for this, so we can have proper testing, an=
-d we
->> >> > already check for those pointers in some places (like funcs in
->> >> > drm_connector_init), so if we don't cover everything we're inconsis=
-tent.
->> >>=20
->> >> People will invariably cargo-cult this kind of stuff absolutely
->> >> everywhere and then all your functions will have tons of dead
->> >> code to check their arguments.
->> >
->> > And that's a bad thing because... ?
->> >
->> > Also, are you really saying that checking that your arguments make sen=
-se
->> > is cargo-cult?
->>=20
->> It's a powerful thing to be able to assume a NULL argument is always a
->> fatal programming error on the caller's side, and should oops and get
->> caught immediately. It's an assertion.
->
-> Yeah, but we're not really doing that either. We have no explicit
-> assertion anywhere. We take a pointer in, and just hope that it will be
-> dereferenced later on and that the kernel will crash. The pointer to the
-> functions especially is only deferenced very later on.
->
-> And assertions might be powerful, but being able to notice errors and
-> debug them is too. A panic takes away basically any remote access to
-> debug. If you don't have a console, you're done.
->
->> We're not talking about user input or anything like that here.
->>=20
->> If you start checking for things that can't happen, and return errors
->> for them, you start gracefully handling things that don't have anything
->> graceful about them.
->
-> But there's nothing graceful to do here: you just return from your probe
-> function that you couldn't probe and that's it. Just like you do when
-> you can't map your registers, or get your interrupt, or register into
-> any framework (including drm_dev_register that pretty much every driver
-> handles properly if it returns an error, without being graceful about
-> it).
+On Wed, Nov 29, 2023 at 11:12:29AM +0000, Flavio Suligoi wrote:
+> Hi Dan,
+> 
+> Can I add the "Reported-by" tag, with your name, in my 2nd vers of
+> the commit to fix this bug?
 
-Those are all dynamic things that can fail.
+Yeah.  Thanks!  If the bug report is sent to a public mailing list then
+there is no need to ask.
 
-Quite different from passing NULL dev, connector, or funcs to
-drm_connector_init() and friends.
+regards,
+dan carpenter
 
-I think it's wrong to set the example that everything needs to be
-checked, everything needs to return an error, every call needs to check
-for error return, all the time, everywhere. People absolutely will cargo
-cult that, and that's what Ville is referring to.
-
-If you pass NULL dev, connector, or funcs to drm_connector_init() I
-think you absolutely deserve to get an oops.
-
-For dev, you could possibly not have reached the function with NULL
-dev. (And __drm_connector_init() has dev->mode_config before the check,
-so you'll get a static analyzer warning about dereference before the
-check.) If you have NULL connector, you didn't check for allocation
-failure earlier. If you have NULL funcs, you just passed NULL, because
-it's generally supposed to be a pointer to a static const struct.
-
->> Having such checks in place trains people to think they *may* happen.
->
-> In most cases, kmalloc can't fail. We seem to have a very different
-> policy towards it.
-
-Again, dynamic in nature and can fail.
-
->> While it should fail fast and loud at the developer's first smoke test,
->> and get fixed then and there.
->
-> Returning an error + a warning also qualifies for "fail fast and loud".
-> But keeps the system alive for someone to notice in any case.
-
-But where do you draw the line? If we keep adding these checks to things
-that actually can't happen, we teach developers we need to check for
-impossible things. And we teach them not to trust anything.
-
-I scroll down the file and reach
-drm_connector_attach_edid_property(). Should we NULL check connector?
-Should we change the function to int and return a value? Should the
-caller check the value? Then there's drm_connector_attach_encoder(). And
-drm_connector_has_possible_encoder(). And so on and so forth.
-
-Where do you draw the line?
-
-
-BR,
-Jani.
-
-
---=20
-Jani Nikula, Intel
