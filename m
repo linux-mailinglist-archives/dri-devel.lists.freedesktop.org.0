@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 512B07FDEC2
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 18:47:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FB8D7FDEC0
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 18:47:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 016C210E658;
-	Wed, 29 Nov 2023 17:47:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 951D610E656;
+	Wed, 29 Nov 2023 17:47:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C0FB10E654;
- Wed, 29 Nov 2023 17:47:24 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AD3A10E649;
+ Wed, 29 Nov 2023 17:47:26 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3ATEwuvU027586; Wed, 29 Nov 2023 17:47:18 GMT
+ 3ATEK6QZ014748; Wed, 29 Nov 2023 17:47:19 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=Wql9WTsNbtsOPZBnVj7JlrnD+fnpp9JNuh1IzpzpV/c=;
- b=mG5E5R4RxaLh+nY35CF5xNsSlC8HS5CJ6JDWMS+YN71yUrKuMK9Uwg5TqAkRoxF6tGWG
- rIqnkncQ1l84rrYpRInFxJBmMfwA0MbCu3RSB66OlG7kyotIICYbh/CHw5CO+/7aKA1i
- aa+tb0fRNhlli4vuHwX7cM3ezgVBMThA5GIo0nK4U5yL2W23hR9fIQCwDpDjSfuP0eqk
- hoOLwns4objC3TFd6oKpUHY3CfI49pGX8lT1rGbyFJnHVf91A0qXLYNU05adPdO5zScd
- q7TPLP9vgWvN7Nd97ZI9ISvyIRce/4jYK1fc5S+nSwbUZCDSQnZvuPTWaai42dUoTi0U zw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=uIxf+ZKLGL7g2ELKPG4AkNXCOvEGLX2PrXKPG5Fuh8U=;
+ b=a9L1OYFlhWZzd9BjJaF67t+G/svlSf//VMFVy7Bb33Y23rWxziQkHbT0c2UshpAGlGDb
+ o62nm/xD/l6ifdOhHAIPZJ19PkDKXReW1nsjvhZZv+R9ghj+PJLv6vCCla2CTPxudfJR
+ rvEFoRmPQCe9PCNRlkM9rMjkwe8Mqeaa9NKK3p8rHTBmh7WEv6SyB3LaQlaTnvM9bIki
+ M9JEZAn6zjusDrfm6ahYQG5ze6bDuhplorB8Sj5MwS7+O7TPUELT4NiVpbTbPXV1jdwj
+ DO4bwvdRpsFYiIdYAWAYsr36LG2paAQDU5VXJwGz9q/PMZzMy+kVMMkAQqTWyi9RYT+n GQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3up02xssy9-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3unmrab90a-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Nov 2023 17:47:18 +0000
+ Wed, 29 Nov 2023 17:47:19 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ATHlGdY027229
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ATHlIor030343
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Nov 2023 17:47:17 GMT
+ Wed, 29 Nov 2023 17:47:18 GMT
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Wed, 29 Nov 2023 09:47:16 -0800
+ 15.2.1118.40; Wed, 29 Nov 2023 09:47:17 -0800
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
  <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
  <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v8 6/7] drm/msm/dp: delete EV_HPD_INIT_SETUP
-Date: Wed, 29 Nov 2023 09:46:49 -0800
-Message-ID: <1701280010-32476-7-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v8 7/7] drm/msm/dp: move of_dp_aux_populate_bus() to eDP
+ probe()
+Date: Wed, 29 Nov 2023 09:46:50 -0800
+Message-ID: <1701280010-32476-8-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1701280010-32476-1-git-send-email-quic_khsieh@quicinc.com>
 References: <1701280010-32476-1-git-send-email-quic_khsieh@quicinc.com>
@@ -59,16 +60,16 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: 3i9C4EFQMYDP0jn9eLdyCHM5SPhVdpF2
-X-Proofpoint-GUID: 3i9C4EFQMYDP0jn9eLdyCHM5SPhVdpF2
+X-Proofpoint-GUID: jrJ2Lk_wETXBPOMFc--QE-c4VuyBKUnk
+X-Proofpoint-ORIG-GUID: jrJ2Lk_wETXBPOMFc--QE-c4VuyBKUnk
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-11-29_15,2023-11-29_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- suspectscore=0 phishscore=0 adultscore=0 lowpriorityscore=0 spamscore=0
- priorityscore=1501 impostorscore=0 mlxlogscore=999 clxscore=1015
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ impostorscore=0
+ malwarescore=0 priorityscore=1501 suspectscore=0 mlxscore=0 clxscore=1015
+ lowpriorityscore=0 bulkscore=0 adultscore=0 spamscore=0 phishscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2311060000 definitions=main-2311290135
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,114 +90,199 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-EV_HPD_INIT_SETUP flag is used to trigger the initialization of external
-DP host controller. Since external DP host controller initialization had
-been incorporated into pm_runtime_resume(), this flag became obsolete.
-msm_dp_irq_postinstall() which triggers EV_HPD_INIT_SETUP event is
-obsoleted accordingly.
+Currently eDP population is done at msm_dp_modeset_init() which happen
+at binding time. Move eDP population to be done at display probe time
+so that probe deferral cases can be handled effectively.
+wait_for_hpd_asserted callback is added during drm_dp_aux_init()
+to ensure eDP's HPD is up before proceeding eDP population.
+
+Changes in v5:
+-- inline dp_display_auxbus_population() and delete it
 
 Changes in v4:
--- reworded commit text
--- drop EV_HPD_INIT_SETUP
--- drop msm_dp_irq_postinstall()
+-- delete duplicate initialize code to dp_aux before drm_dp_aux_register()
+-- delete of_get_child_by_name(dev->of_node, "aux-bus") and inline the
+   function
+-- not initialize rc = 0
 
 Changes in v3:
--- drop EV_HPD_INIT_SETUP and msm_dp_irq_postinstall()
+-- add done_probing callback into devm_of_dp_aux_populate_bus()
 
 Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |  4 ----
- drivers/gpu/drm/msm/dp/dp_display.c     | 16 ----------------
- drivers/gpu/drm/msm/msm_drv.h           |  5 -----
- 3 files changed, 25 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_aux.c     | 34 ++++++++++++++++-----
+ drivers/gpu/drm/msm/dp/dp_display.c | 59 +++++++++++++++----------------------
+ 2 files changed, 51 insertions(+), 42 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index fe7267b..5d5a045 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -856,7 +856,6 @@ static int dpu_irq_postinstall(struct msm_kms *kms)
+diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
+index 10b6eeb..03f4951 100644
+--- a/drivers/gpu/drm/msm/dp/dp_aux.c
++++ b/drivers/gpu/drm/msm/dp/dp_aux.c
+@@ -479,7 +479,6 @@ void dp_aux_deinit(struct drm_dp_aux *dp_aux)
+ 
+ int dp_aux_register(struct drm_dp_aux *dp_aux)
  {
- 	struct msm_drm_private *priv;
- 	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
--	int i;
+-	struct dp_aux_private *aux;
+ 	int ret;
  
- 	if (!dpu_kms || !dpu_kms->dev)
+ 	if (!dp_aux) {
+@@ -487,12 +486,7 @@ int dp_aux_register(struct drm_dp_aux *dp_aux)
  		return -EINVAL;
-@@ -865,9 +864,6 @@ static int dpu_irq_postinstall(struct msm_kms *kms)
- 	if (!priv)
- 		return -EINVAL;
+ 	}
  
--	for (i = 0; i < ARRAY_SIZE(priv->dp); i++)
--		msm_dp_irq_postinstall(priv->dp[i]);
+-	aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
 -
- 	return 0;
+-	aux->dp_aux.name = "dpu_dp_aux";
+-	aux->dp_aux.dev = aux->dev;
+-	aux->dp_aux.transfer = dp_aux_transfer;
+-	ret = drm_dp_aux_register(&aux->dp_aux);
++	ret = drm_dp_aux_register(dp_aux);
+ 	if (ret) {
+ 		DRM_ERROR("%s: failed to register drm aux: %d\n", __func__,
+ 				ret);
+@@ -507,6 +501,21 @@ void dp_aux_unregister(struct drm_dp_aux *dp_aux)
+ 	drm_dp_aux_unregister(dp_aux);
+ }
+ 
++static int dp_wait_hpd_asserted(struct drm_dp_aux *dp_aux,
++				 unsigned long wait_us)
++{
++	int ret;
++	struct dp_aux_private *aux;
++
++	aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
++
++	pm_runtime_get_sync(aux->dev);
++	ret = dp_catalog_aux_wait_for_hpd_connect_state(aux->catalog);
++	pm_runtime_put_sync(aux->dev);
++
++	return ret;
++}
++
+ struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
+ 			      bool is_edp)
+ {
+@@ -530,6 +539,17 @@ struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
+ 	aux->catalog = catalog;
+ 	aux->retry_cnt = 0;
+ 
++	/*
++	 * Use the drm_dp_aux_init() to use the aux adapter
++	 * before registering AUX with the DRM device so that
++	 * msm eDP panel can be detected by generic_dep_panel_probe().
++	 */
++	aux->dp_aux.name = "dpu_dp_aux";
++	aux->dp_aux.dev = dev;
++	aux->dp_aux.transfer = dp_aux_transfer;
++	aux->dp_aux.wait_hpd_asserted = dp_wait_hpd_asserted;
++	drm_dp_aux_init(&aux->dp_aux);
++
+ 	return &aux->dp_aux;
  }
  
 diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 9520d83..6693582 100644
+index 6693582..cfbc610 100644
 --- a/drivers/gpu/drm/msm/dp/dp_display.c
 +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -54,7 +54,6 @@ enum {
- enum {
- 	EV_NO_EVENT,
- 	/* hpd events */
--	EV_HPD_INIT_SETUP,
- 	EV_HPD_PLUG_INT,
- 	EV_IRQ_HPD_INT,
- 	EV_HPD_UNPLUG_INT,
-@@ -1079,8 +1078,6 @@ static int hpd_event_thread(void *data)
- 		spin_unlock_irqrestore(&dp_priv->event_lock, flag);
- 
- 		switch (todo->event_id) {
--		case EV_HPD_INIT_SETUP:
--			break;
- 		case EV_HPD_PLUG_INT:
- 			dp_hpd_plug_handle(dp_priv, todo->data);
- 			break;
-@@ -1360,19 +1357,6 @@ void __exit msm_dp_unregister(void)
- 	platform_driver_unregister(&dp_display_driver);
+@@ -1199,6 +1199,17 @@ static const struct msm_dp_desc *dp_display_get_desc(struct platform_device *pde
+ 	return NULL;
  }
  
--void msm_dp_irq_postinstall(struct msm_dp *dp_display)
--{
--	struct dp_display_private *dp;
--
--	if (!dp_display)
--		return;
--
--	dp = container_of(dp_display, struct dp_display_private, dp_display);
--
--	if (!dp_display->is_edp)
--		dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 0);
--}
--
- bool msm_dp_wide_bus_available(const struct msm_dp *dp_display)
++static int dp_auxbus_done_probe(struct drm_dp_aux *aux)
++{
++	int rc;
++
++	rc = component_add(aux->dev, &dp_display_comp_ops);
++	if (rc)
++		DRM_ERROR("eDP component add failed, rc=%d\n", rc);
++
++	return rc;
++}
++
+ static int dp_display_probe(struct platform_device *pdev)
  {
- 	struct dp_display_private *dp;
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index cd5bf65..e79b93b 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -386,7 +386,6 @@ int __init msm_dp_register(void);
- void __exit msm_dp_unregister(void);
- int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
- 			 struct drm_encoder *encoder);
--void msm_dp_irq_postinstall(struct msm_dp *dp_display);
- void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp_display);
+ 	int rc = 0;
+@@ -1264,10 +1275,18 @@ static int dp_display_probe(struct platform_device *pdev)
+ 	if (rc)
+ 		goto err;
  
- void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor);
-@@ -407,10 +406,6 @@ static inline int msm_dp_modeset_init(struct msm_dp *dp_display,
- 	return -EINVAL;
- }
+-	rc = component_add(&pdev->dev, &dp_display_comp_ops);
+-	if (rc) {
+-		DRM_ERROR("component add failed, rc=%d\n", rc);
+-		goto err;
++	if (dp->dp_display.is_edp) {
++		rc = devm_of_dp_aux_populate_bus(dp->aux, dp_auxbus_done_probe);
++		if (rc) {
++			DRM_ERROR("eDP auxbus population failed, rc=%d\n", rc);
++			goto err;
++		}
++	} else {
++		rc = component_add(&pdev->dev, &dp_display_comp_ops);
++		if (rc) {
++			DRM_ERROR("component add failed, rc=%d\n", rc);
++			goto err;
++		}
+ 	}
  
--static inline void msm_dp_irq_postinstall(struct msm_dp *dp_display)
--{
--}
+ 	return rc;
+@@ -1283,7 +1302,6 @@ static void dp_display_remove(struct platform_device *pdev)
+ 
+ 	component_del(&pdev->dev, &dp_display_comp_ops);
+ 	dp_display_deinit_sub_modules(dp);
 -
- static inline void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp_display)
- {
+ 	platform_set_drvdata(pdev, NULL);
  }
+ 
+@@ -1389,29 +1407,8 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
+ {
+ 	int rc;
+ 	struct dp_display_private *dp_priv;
+-	struct device_node *aux_bus;
+-	struct device *dev;
+ 
+ 	dp_priv = container_of(dp, struct dp_display_private, dp_display);
+-	dev = &dp_priv->dp_display.pdev->dev;
+-	aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
+-
+-	if (aux_bus && dp->is_edp) {
+-		/*
+-		 * The code below assumes that the panel will finish probing
+-		 * by the time devm_of_dp_aux_populate_ep_devices() returns.
+-		 * This isn't a great assumption since it will fail if the
+-		 * panel driver is probed asynchronously but is the best we
+-		 * can do without a bigger driver reorganization.
+-		 */
+-		rc = of_dp_aux_populate_bus(dp_priv->aux, NULL);
+-		of_node_put(aux_bus);
+-		if (rc)
+-			goto error;
+-	} else if (dp->is_edp) {
+-		DRM_ERROR("eDP aux_bus not found\n");
+-		return -ENODEV;
+-	}
+ 
+ 	/*
+ 	 * External bridges are mandatory for eDP interfaces: one has to
+@@ -1424,17 +1421,9 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
+ 	if (!dp->is_edp && rc == -ENODEV)
+ 		return 0;
+ 
+-	if (!rc) {
++	if (!rc)
+ 		dp->next_bridge = dp_priv->parser->next_bridge;
+-		return 0;
+-	}
+ 
+-error:
+-	if (dp->is_edp) {
+-		of_dp_aux_depopulate_bus(dp_priv->aux);
+-		dp_display_host_phy_exit(dp_priv);
+-		dp_display_host_deinit(dp_priv);
+-	}
+ 	return rc;
+ }
+ 
 -- 
 2.7.4
 
