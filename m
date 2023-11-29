@@ -2,47 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B6D7FD6CD
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 13:32:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4ACE7FD70C
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 13:46:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9799F10E082;
-	Wed, 29 Nov 2023 12:32:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9FD910E1C2;
+	Wed, 29 Nov 2023 12:46:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 942BC10E082
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 12:32:51 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39D3210E1C2
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 12:46:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E718E61AF9;
- Wed, 29 Nov 2023 12:32:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CF37C433C9;
- Wed, 29 Nov 2023 12:32:49 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 62198CE1E8B;
+ Wed, 29 Nov 2023 12:45:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9B43C433C8;
+ Wed, 29 Nov 2023 12:45:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701261170;
- bh=3rg6InLFJYoj0t56EbSzonGCmEtUIs3+UyoC8G9109k=;
+ s=k20201202; t=1701261958;
+ bh=7GpH+TiBsb7ZTMyTnWn4bb0sTawrJWl0/1Vu8evdraI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vJlY2rBoX/wUunC8QosbeZWCaearH7/13ya1mqQXLqYSRWaNk6vTPX37FlaTuOvQw
- pJmuZ46UWl8lXat1EEuUg7gYCOJSdxSTEvbZyk8s/mD0FiuGmP0Bor0304jfbMox+M
- BbU7LXd/o7peBNq++BKgkUhipr1dnlmBktw89Ba8mbX2AJqgKTh1udfDED5bjSVao4
- /qD84HoSYXilbTniRywx3EEd2Tz21kPJqDwKgQu9pF47KtIGyGkoV4m+XL9SNfk9a5
- RVn+4Sa+xqJM4IPKiFenquD5EbVP1r9VAMex54H7sCexwXz9sTTmGBxa5/cL1AwEPF
- Q2tzV0QoCberA==
-Date: Wed, 29 Nov 2023 13:32:48 +0100
+ b=VHSu3G/5wnK0O9WDSlMDlZZ0Z9qwb3ViotdfoUimo8BlACWOSI5ZFRacIn5GH2BvV
+ xhq2pje8iMPRz4bqlt/kDrhpWJS2iqFjuHfWHCtUwePgI5hK8rx+595IO2Z64nnZx2
+ vza8+5Pl01NNvAh6hSiL5UWLkMZMhtHuiUJykuPJyZV/4vEgqVWRAMFVm0Ak671beI
+ eEtazxGxJK3XI+PYXC+EOWnz+O/S9JvWp0kVTaFC0NDr3PCghJuLHyAD18Iaj7HIqc
+ LIqhPuyiOCq1hB+50lZ7IsI7aeZBM77QnwNqiKM+LJ7rNC2TfSJFH8N9A9shU2X9wT
+ cnGPar3tUtD4g==
+Date: Wed, 29 Nov 2023 13:45:55 +0100
 From: Maxime Ripard <mripard@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>, daniel@ffwll.ch
-Subject: Re: [PATCH v2 0/2] drm/bridge: panel: Check device dependency before
- managing device link
-Message-ID: <d33ovl3ox2u74jbik2bcraeqiqplqoc57p4quapdyydqlyzrf5@vlhszortxfio>
-References: <20231127051414.3783108-1-victor.liu@nxp.com>
- <CACRpkdZAtxh5muhbPKvmUQGtQogs3UhGxNZqnSGWoWQNUL7=9g@mail.gmail.com>
- <k65hxlckssjd46nsrlly6vjrr5nnkrakouzw5pmxgbf6ui3mdl@5ny7j7blkwyj>
- <CACRpkdbKwycpjuhMfnriqMUcbmwCTb3vJzgzCF7+ARax54q7WQ@mail.gmail.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [RFC PATCH 2/2] vc4: introduce DMA-BUF heap
+Message-ID: <wsdxippxzmtjujlcpp5t2tp2dvr2xmhwtogrvvhj3huyj73yj7@cg2uniryh2co>
+References: <20231109074545.148149-1-contact@emersion.fr>
+ <20231109074545.148149-2-contact@emersion.fr>
+ <SsSohScL3nokTnLEzO0FXd2Mhxq9IYM3_qjKhHD8-rynieR_0otvP-WmHQ18UNJuf1Dp7u4iaRB-XPZU4eAxZADSFODzbXxYPFuoJNJ6GcU=@emersion.fr>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="yrzhzqk3x47g4p6g"
+ protocol="application/pgp-signature"; boundary="o6ndupujo4ptkqde"
 Content-Disposition: inline
-In-Reply-To: <CACRpkdbKwycpjuhMfnriqMUcbmwCTb3vJzgzCF7+ARax54q7WQ@mail.gmail.com>
+In-Reply-To: <SsSohScL3nokTnLEzO0FXd2Mhxq9IYM3_qjKhHD8-rynieR_0otvP-WmHQ18UNJuf1Dp7u4iaRB-XPZU4eAxZADSFODzbXxYPFuoJNJ6GcU=@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,78 +53,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sfr@canb.auug.org.au, ulf.hansson@linaro.org, jernej.skrabec@gmail.com,
- rfoss@kernel.org, tzimmermann@suse.de, rafael@kernel.org,
- Liu Ying <victor.liu@nxp.com>, gregkh@linuxfoundation.org,
- neil.armstrong@linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, jonas@kwiboo.se, linux-next@vger.kernel.org,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- angelogioacchino.delregno@collabora.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Iago Toral Quiroga <itoral@igalia.com>, dri-devel@lists.freedesktop.org,
+ "T.J. Mercier" <tjmercier@google.com>, Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---yrzhzqk3x47g4p6g
-Content-Type: text/plain; charset=utf-8
+--o6ndupujo4ptkqde
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Linus,
+Hi,
 
-On Mon, Nov 27, 2023 at 11:13:31PM +0100, Linus Walleij wrote:
-> On Mon, Nov 27, 2023 at 5:29=E2=80=AFPM Maxime Ripard <mripard@kernel.org=
-> wrote:
-> > On Mon, Nov 27, 2023 at 05:03:53PM +0100, Linus Walleij wrote:
+Thanks for writing this down
+
+On Thu, Nov 16, 2023 at 03:53:20PM +0000, Simon Ser wrote:
+> On Thursday, November 9th, 2023 at 08:45, Simon Ser <contact@emersion.fr>=
+ wrote:
 >=20
-> > > > Liu Ying (2):
-> > > >   driver core: Export device_is_dependent() to modules
-> > > >   drm/bridge: panel: Check device dependency before managing device=
- link
-> > >
-> > > I just applied patch 1 directly to the drm-misc-fixes so we don't hav=
-e to
-> > > revert and then re-apply patches, because that is a bigger evil. (We =
-can't
-> > > rebase these branches...)
-> >
-> > Erm, you did wait for GKH or Rafael's ACK to do that, right?
+> > User-space sometimes needs to allocate scanout-capable memory for
+> > GPU rendering purposes. On a vc4/v3d split render/display SoC, this
+> > is achieved via DRM dumb buffers: the v3d user-space driver opens
+> > the primary vc4 node, allocates a DRM dumb buffer there, exports it
+> > as a DMA-BUF, imports it into the v3d render node, and renders to it.
+> >=20
+> > However, DRM dumb buffers are only meant for CPU rendering, they are
+> > not intended to be used for GPU rendering. Primary nodes should only
+> > be used for mode-setting purposes, other programs should not attempt
+> > to open it. Moreover, opening the primary node is already broken on
+> > some setups: systemd grants permission to open primary nodes to
+> > physically logged in users, but this breaks when the user is not
+> > physically logged in (e.g. headless setup) and when the distribution
+> > is using a different init (e.g. Alpine Linux uses openrc).
+> >=20
+> > We need an alternate way for v3d to allocate scanout-capable memory.
+> > Leverage DMA heaps for this purpose: expose a CMA heap to user-space.
 >=20
-> No.
+> So we've discussed about this patch on IRC [1] [2]. Some random notes:
 >=20
-> It is a bigger evil to leave the tree broken than to enforce formal proce=
-ss,
-> and it is pretty self-evident. If any of them get annoyed about it we can
-> revert the patch, or both.
+> - We shouldn't create per-DRM-device heaps in general. Instead, we should=
+ try
+>   using centralized heaps like the existing system and cma ones. That way=
+ other
+>   drivers (video, render, etc) can also link to these heaps without depen=
+ding
+>   on the display driver.
+> - We can't generically link to heaps in core DRM, however we probably pro=
+vide
+>   a default for shmem and cma helpers.
+> - We're missing a bunch of heaps, e.g. sometimes there are multiple cma a=
+reas
+>   but only a single cma heap is created right now.
+> - Some hw needs the memory to be in a specific region for scanout (e.g. l=
+ower
+>   256MB of RAM for Allwinner). We could create one heap per such region (=
+but is
+>   it fine to have overlapping heaps?).
 
-Yeah, I definitely understand why you did it, but I don't think it's
-something we would encourage in drm-misc.
+Just for reference, it's not the scanout itself that has that
+requirement on Allwinner SoCs, it's the HW codec. But if you want to
+display the decoded frame directly using dma-buf, you'll still need to
+either allocate a scanout buffer and hope it'll be in the lower 256MB,
+or allocate a buffer from the codec in the lower 256MB and then hope
+it's scanout-capable (which it is, so that's we do, but there's no
+guarantee about it).
 
-We've discussed it with Sima yesterday, and I think we would even need
-the extra check in dim to make sure that a committer shouldn't do that
-without dim complaining.
+I think the logicvc is a much better example for this, since it requires
+framebuffers to be in a specific area, with each plane having a
+dedicated area.
 
-Sima played a bit with it, and it should be doable to get something
-fairly reliable if you use get_maintainers.pl to retrieve the git tree
-(through scripts/get_maintainer.pl --no-email --no-l --scm) and figuring
-out if only drm.git, drm-intel.git or drm-misc.git is involved.
+AFAIK that's the most extreme example we have upstream.
 
-If it isn't, then we should check that there's the ack of one of the
-maintainers.
-
-Could you write a patch to do so?
-
-Thanks!
 Maxime
 
---yrzhzqk3x47g4p6g
+--o6ndupujo4ptkqde
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWcvbwAKCRDj7w1vZxhR
-xXfXAQD+NPkwoY0m8+ozRhmrZbtB+qRlugYpDd5BPUriECj8VgEAk7LOfR+2wGYS
-hf8XQcHi0BQQjrr2sfXIgq5DKevijgI=
-=CWHT
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWcyggAKCRDj7w1vZxhR
+xRCKAQDQKOd4QWVKD5GriesGWdvu0uc262krnyecwhnq5YiswgEAv3Llb7a6bNBd
+iLEpAwfAtAhkdP53JXFDWJ++Fh1JwQE=
+=HIqQ
 -----END PGP SIGNATURE-----
 
---yrzhzqk3x47g4p6g--
+--o6ndupujo4ptkqde--
