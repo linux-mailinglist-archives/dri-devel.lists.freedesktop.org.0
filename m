@@ -1,51 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD6A7FD5D1
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 12:34:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A977FD5FB
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 12:47:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 911E510E1AA;
-	Wed, 29 Nov 2023 11:34:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF7B110E1BF;
+	Wed, 29 Nov 2023 11:47:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 449EB10E1AA
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 11:34:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 75C80B83E0A;
- Wed, 29 Nov 2023 11:34:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5986AC433C7;
- Wed, 29 Nov 2023 11:34:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701257681;
- bh=mMRbTqSRjry27OZzSlJAoNjsdNzC39AmCY+m+oQr4gc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VpB32sqNW0ZtA4L2yZOPMG26ppig0sEA1px0EX6eQm+3/RhyNhgVKYJG31gFn//qh
- 2BCCJuDmC6jV9q3V9YvHZY3L8evCSvqFyz1dCpoWs43itGw/PSTCjfM/JXO6jFPRFe
- eHs1z8tqv3gmy4sWdl06Ic1lGrmKIC9+5k6NRZVv9CKJBMqUlvbtgQjw+qrRpHfK6H
- w4tkQs3NMBzHbVqSa2m6HkQsgjOxWmamNWf/ZQMrkwGc8iqpHtwihKDGX3F6Kk4EKM
- sl8+WVx5z4/xiop1rtFlRvEfWqSQOoIoZMCvOJt62hOQ2JYNaRAB3F5hLPmIr6vO23
- zvNYZUMDyVuEg==
-Date: Wed, 29 Nov 2023 12:34:39 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH] drm/imagination: DRM_POWERVR should depend on ARCH_K3
-Message-ID: <mqi7tvvtkgeqxbdyas7cjzzssfjcskfdiigv4owztsuz6a2nrn@sgmkhj4ljefq>
-References: <b9360c2044a1001b9a5bcb5914611711d040d4fe.1701196029.git.geert+renesas@glider.be>
- <87o7fdbszs.fsf@minerva.mail-host-address-is-not-set>
- <CAMuHMdUhuO++ZSxh+_TX_6DHHxjPYY20jTppbNZ4FnuBvxxinQ@mail.gmail.com>
- <7hee65pmdl5pajm2kgqld22xfi4iox4s2psswu2mdlfk6u6f7x@w4ecogdx6uj6>
- <CAMuHMdVTZ8LT1yU3e1bbJODecy96TaMX1hq_swqmT6L+mbH3aQ@mail.gmail.com>
- <sw5e3mdtbmywbeo6sok4ul5qe72bb5ltsg5ago2vliqxlahvpl@rcivlupw77a5>
- <CAMuHMdVVb2VfEAgh+59juyTH28EvRMPHEsxT-MUiEQcmJHTD+Q@mail.gmail.com>
- <u42osuikwzf372mb5xkhiyaycxpmduc5ntyanjlauqca6roeh4@i7zqwu36lzko>
- <CAMuHMdW2wCeHU+4HRoT_CM6noMzQjanmvMk5=Wg0t98tg9o1Qw@mail.gmail.com>
+X-Greylist: delayed 425 seconds by postgrey-1.36 at gabe;
+ Wed, 29 Nov 2023 11:47:53 UTC
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 247B210E1B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 11:47:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701258473; x=1732794473;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=w91TqZU/Sz95TBAtE+lLgPRTyMnYI3/7ak+ZXvIxwqY=;
+ b=bo7f2LEgV0mBD3AP7x4Ihoo28NMmydC0Z+FywPyTRoYVRUc09tVTX+xA
+ Tn8nDrqrek12Ak8Du+sKA8YTZurQL+MkG7o16B1U7eSnGxs4khCWDnOVG
+ D7a3JJy15+plo18VxPxH6V1ewi0lTCeeVnJS7At3aBr71RAwoX1EFH/eL
+ vav7j/Cl+Wj0LwSuFM/KhnqrTmscz9+rH7gqOir2BJTuE84TvVO21+o9F
+ uAPdn8g4naaEk7QJqUnQFo4Pv3gaswcgNx0IvERuAAfxhp5pRYQfi8HTj
+ 89rvss1l54TzcU9FnyxcIraawRrQXZK5YsHyf5cLNjQEWg95eUBPUchH2 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="35041"
+X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
+   d="scan'208";a="35041"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Nov 2023 03:40:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="942291528"
+X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; d="scan'208";a="942291528"
+Received: from dstavrak-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.60.61])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Nov 2023 03:40:40 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
+ pointers arguments
+In-Reply-To: <kygezdrfz56zj6lmq6l5s5yyys2urgq3id7r5n4mb3afn5kc5q@eswnd6a2ihqc>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
+ <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
+ <87h6l66nth.fsf@intel.com>
+ <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
+ <ZWXv1Oi_sH0BRWao@intel.com>
+ <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
+ <8734wo7vbx.fsf@intel.com>
+ <kygezdrfz56zj6lmq6l5s5yyys2urgq3id7r5n4mb3afn5kc5q@eswnd6a2ihqc>
+Date: Wed, 29 Nov 2023 13:40:38 +0200
+Message-ID: <87ttp46b49.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="fed6eofzqbwoj437"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdW2wCeHU+4HRoT_CM6noMzQjanmvMk5=Wg0t98tg9o1Qw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,245 +70,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Sarah Walker <sarah.walker@imgtec.com>,
- Tero Kristo <kristo@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Matt Coster <matt.coster@imgtec.com>, Donald Robson <donald.robson@imgtec.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org,
- Vignesh Raghavendra <vigneshr@ti.com>
+Cc: linux-arm-kernel@lists.infradead.org, Emma Anholt <emma@anholt.net>,
+ Samuel Holland <samuel@sholland.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org,
+ Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-sunxi@lists.linux.dev,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
+> On Wed, Nov 29, 2023 at 11:38:42AM +0200, Jani Nikula wrote:
+>> On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
+>> > Hi Ville,
+>> >
+>> > On Tue, Nov 28, 2023 at 03:49:08PM +0200, Ville Syrj=C3=A4l=C3=A4 wrot=
+e:
+>> >> On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
+>> >> > On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
+>> >> > > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
+>> >> > > > All the drm_connector_init variants take at least a pointer to =
+the
+>> >> > > > device, connector and hooks implementation.
+>> >> > > >
+>> >> > > > However, none of them check their value before dereferencing th=
+ose
+>> >> > > > pointers which can lead to a NULL-pointer dereference if the au=
+thor
+>> >> > > > isn't careful.
+>> >> > >=20
+>> >> > > Arguably oopsing on the spot is preferrable when this can't be ca=
+used by
+>> >> > > user input. It's always a mistake that should be caught early dur=
+ing
+>> >> > > development.
+>> >> > >=20
+>> >> > > Not everyone checks the return value of drm_connector_init and fr=
+iends,
+>> >> > > so those cases will lead to more mysterious bugs later. And proba=
+bly
+>> >> > > oopses as well.
+>> >> >=20
+>> >> > So maybe we can do both then, with something like
+>> >> >=20
+>> >> > if (WARN_ON(!dev))
+>> >> >    return -EINVAL
+>> >> >=20
+>> >> > if (drm_WARN_ON(dev, !connector || !funcs))
+>> >> >    return -EINVAL;
+>> >> >=20
+>> >> > I'd still like to check for this, so we can have proper testing, an=
+d we
+>> >> > already check for those pointers in some places (like funcs in
+>> >> > drm_connector_init), so if we don't cover everything we're inconsis=
+tent.
+>> >>=20
+>> >> People will invariably cargo-cult this kind of stuff absolutely
+>> >> everywhere and then all your functions will have tons of dead
+>> >> code to check their arguments.
+>> >
+>> > And that's a bad thing because... ?
+>> >
+>> > Also, are you really saying that checking that your arguments make sen=
+se
+>> > is cargo-cult?
+>>=20
+>> It's a powerful thing to be able to assume a NULL argument is always a
+>> fatal programming error on the caller's side, and should oops and get
+>> caught immediately. It's an assertion.
+>
+> Yeah, but we're not really doing that either. We have no explicit
+> assertion anywhere. We take a pointer in, and just hope that it will be
+> dereferenced later on and that the kernel will crash. The pointer to the
+> functions especially is only deferenced very later on.
+>
+> And assertions might be powerful, but being able to notice errors and
+> debug them is too. A panic takes away basically any remote access to
+> debug. If you don't have a console, you're done.
+>
+>> We're not talking about user input or anything like that here.
+>>=20
+>> If you start checking for things that can't happen, and return errors
+>> for them, you start gracefully handling things that don't have anything
+>> graceful about them.
+>
+> But there's nothing graceful to do here: you just return from your probe
+> function that you couldn't probe and that's it. Just like you do when
+> you can't map your registers, or get your interrupt, or register into
+> any framework (including drm_dev_register that pretty much every driver
+> handles properly if it returns an error, without being graceful about
+> it).
 
---fed6eofzqbwoj437
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Those are all dynamic things that can fail.
 
-On Wed, Nov 29, 2023 at 12:08:17PM +0100, Geert Uytterhoeven wrote:
-> Hi Maxime,
->=20
-> On Wed, Nov 29, 2023 at 11:50=E2=80=AFAM Maxime Ripard <mripard@kernel.or=
-g> wrote:
-> > On Wed, Nov 29, 2023 at 11:10:51AM +0100, Geert Uytterhoeven wrote:
-> > > On Wed, Nov 29, 2023 at 10:23=E2=80=AFAM Maxime Ripard <mripard@kerne=
-l.org> wrote:
-> > > > On Wed, Nov 29, 2023 at 09:58:12AM +0100, Geert Uytterhoeven wrote:
-> > > > > On Wed, Nov 29, 2023 at 9:35=E2=80=AFAM Maxime Ripard <mripard@ke=
-rnel.org> wrote:
-> > > > > > On Tue, Nov 28, 2023 at 08:16:18PM +0100, Geert Uytterhoeven wr=
-ote:
-> > > > > > > On Tue, Nov 28, 2023 at 8:03=E2=80=AFPM Javier Martinez Canil=
-las
-> > > > > > > <javierm@redhat.com> wrote:
-> > > > > > > > Geert Uytterhoeven <geert+renesas@glider.be> writes:
-> > > > > > > > > The Imagination Technologies PowerVR Series 6 GPU is curr=
-ently only
-> > > > > > > > > supported on Texas Instruments K3 AM62x SoCs.  Hence add =
-a dependency on
-> > > > > > > > > ARCH_K3, to prevent asking the user about this driver whe=
-n configuring a
-> > > > > > > > > kernel without Texas Instruments K3 Multicore SoC support.
-> > > > > > > > >
-> > > > > > > > > Fixes: 4babef0708656c54 ("drm/imagination: Add skeleton P=
-owerVR driver")
-> > > > > > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.b=
-e>
-> > > > >
-> > > > > > > > In any case, I agree with you that restricting to only K3 m=
-akes sense.
-> > > > > > >
-> > > > > > > I am looking forward to adding || SOC_AM33XX || ARCH_RENESAS =
-|| ...,
-> > > > > > > eventually ;-)
-> > > > > >
-> > > > > > I disagree. This is to handle a generic IP, just like panfrost,=
- lima, or
-> > > > > > etnaviv, and we certaintly don't want to maintain the Kconfig l=
-ist of
-> > > > > > every possible architecture and SoC family it might or might no=
-t be
-> > > > > > found.
-> > > > >
-> > > > > While PowerVR is a generic IP, I believe it needs a non-generic
-> > > > > firmware, which is currently only available for AM62x SoCs.
-> >
-> > I just asked, it's not true in most cases. There's some exceptions
-> > (GX6250 for example) that could require different firmwares depending on
-> > the SoC it's used in, but it's not the case here.
->=20
-> OK, please tell me how to use it on e.g. R-Car Gen3.
+Quite different from passing NULL dev, connector, or funcs to
+drm_connector_init() and friends.
 
-I'm not very familiar with the R-Car family of SoCs.
+I think it's wrong to set the example that everything needs to be
+checked, everything needs to return an error, every call needs to check
+for error return, all the time, everywhere. People absolutely will cargo
+cult that, and that's what Ville is referring to.
 
-However, if I'm to trust that page: https://www.renesas.com/us/en/products/=
-automotive-products/automotive-system-chips-socs
+If you pass NULL dev, connector, or funcs to drm_connector_init() I
+think you absolutely deserve to get an oops.
 
-None of them feature the same GPU than the AM62x, so that question is
-completely different?
+For dev, you could possibly not have reached the function with NULL
+dev. (And __drm_connector_init() has dev->mode_config before the check,
+so you'll get a static analyzer warning about dereference before the
+check.) If you have NULL connector, you didn't check for allocation
+failure earlier. If you have NULL funcs, you just passed NULL, because
+it's generally supposed to be a pointer to a static const struct.
 
-> > > > I'm not sure it's actually true, but let's consider it is. Then wha=
-t? If
-> > > > the firmware isn't there and/or the DT bits too, then nothing will
-> > > > happen. We would have wasted a couple of 100kB on a system that is
-> > > > taking somewhere in the 100MB-10GB range, and that's pretty much it.
-> > >
-> > > I am talking about posing the question to the user to enable the driv=
-er
-> > > or not.  Which applies to everyone who configures a kernel.
-> >
-> > If that user doesn't use a defconfig, doesn't use any variant of
-> > *defconfig make target. Plus, the driver still isn't enabled by default.
-> >
-> > > > If you have we take that patch in though, we have:
-> > > >
-> > > >   - To keep merging patches as firmwares become available.
-> > >
-> > > You need to keep merging patches to update DT bindings, DTS,
-> > > SoC-specific drivers, the DRM driver itself, ... too.
-> >
-> > The DT binding and DRM driver is already there, the SoC specific drivers
->=20
-> The DT binding only lists "ti,am62-gpu" with "img,img-axe" as a fallback.
+>> Having such checks in place trains people to think they *may* happen.
+>
+> In most cases, kmalloc can't fail. We seem to have a very different
+> policy towards it.
 
-Sure. And the driver matches on img,img-axe, so it would probe fine even
-with a different first compatible.
+Again, dynamic in nature and can fail.
 
-> > are probably already there by the time you reach GPU enablement, and the
-> > DT doesn't have to be upstream.
->=20
-> And getting it upstream requires updating the bindings...
+>> While it should fail fast and loud at the developer's first smoke test,
+>> and get fixed then and there.
+>
+> Returning an error + a warning also qualifies for "fail fast and loud".
+> But keeps the system alive for someone to notice in any case.
 
-Right. And you still don't have to put it upstream, so the binding isn't
-a requirement either.
+But where do you draw the line? If we keep adding these checks to things
+that actually can't happen, we teach developers we need to check for
+impossible things. And we teach them not to trust anything.
 
-> > > >   - If we update linux-firmware only, then the driver is still not
-> > > >     loading even though it could.
-> > > >
-> > > >   - If we have gotten our firmware through some other mean, then the
-> > > >     driver is still not loading even though it could.
-> > >
-> > > You will still need to update parts of the kernel, too.
-> >
-> > Not really, no. We can use the AM62x as an example. The only thing that
-> > was required to enable the driver (excluding the driver itself of
-> > course) was a single DT patch, without anything you've mentioned so far.
->=20
-> Who added:
->=20
-> Documentation/devicetree/bindings/gpu/img,powervr.yaml-          - ti,am6=
-2-gpu
-> Documentation/devicetree/bindings/gpu/img,powervr.yaml:      - const:
-> img,img-axe # IMG AXE GPU model/revision is fully discoverable
->=20
-> ?
+I scroll down the file and reach
+drm_connector_attach_edid_property(). Should we NULL check connector?
+Should we change the function to int and return a value? Should the
+caller check the value? Then there's drm_connector_attach_encoder(). And
+drm_connector_has_possible_encoder(). And so on and so forth.
 
-Which is a formality, part of the upstreaming process, but not required
-at all from a technical point of view to make a driver probe.
+Where do you draw the line?
 
-> > > As long as none of that has happened, asking about the PowerVR driver
-> > > on non-AM62x hardware is futile...
-> >
-> > Maybe. Just like asking whether you want to enable the UMS driver on
-> > platforms that don't have a USB controller. Or, closer to us, whether
-> > you want to enable AMDGPU on platforms without a PCIe bus.
-> >
-> > We *never* do that.
->=20
-> Thanks for not checking ;-)
->=20
->     if USB
->     [...]
->     source "drivers/usb/storage/Kconfig"
->=20
->     config DRM_AMDGPU
->             tristate "AMD GPU"
->             depends on DRM && PCI && MMU
 
-I'm not seeing any platform Kconfig option there.
+BR,
+Jani.
 
-Most importantly, you were arguing that the GPU should be enabled only
-on systems where the GPU is in the SoC, with a firmware in
-linux-firmware, and the DT bits in.
 
-And you're now making it equivalent to "the framework handling that
-device is compiled in", which I fully agree with: of course a USB device
-driver should only be compiled if the USB framework is there.
-
-But "having the framework compiled" and "a controller is functional on a
-platform" is completely different, and you know that very well otherwise
-you wouldn't have sent that patch in the first place.
-
-> > If only because we can't. We don't have a per-SoC Kconfig option, so
-> > even if we were to merge your patch, we would still ask about the
-> > PowerVR driver on, let's say, the AM69 that isn't an AM62x and is just
-> > as futile according to you. Or for the TDA4VM, or...
->=20
-> That's why we use per-family options.  It's the next best thing we have.
->=20
-> > The other reason is that it's just impossible to maintain. You wouldn't
-> > expect everyone, once they got their USB support in, to amend the
-> > Kconfig dependencies for every USB driver out there, would you?
->=20
-> USB devices are (usually) truly generic, and can be plugged in
-> everywhere you see a USB port.
->=20
-> > > > It makes life harder for everyone: maintainers, users, devs, based =
-on
-> > > > the state of some external project that might or might not be updat=
-ed in
-> > > > sync.
-> > > >
-> > > > > Once it becomes truly generic, I'm happy to drop all platform
-> > > > > dependencies.  Until then, there is no point in asking everyone w=
-ho
-> > > > > configures an arm64 kernel about this driver, unless they also en=
-abled
-> > > > > K3 support.
-> > > >
-> > > > Whether it's truly generic, whatever that means, is irrelevant here.
-> > >
-> > > It is.
-> > >
-> > > BTW, playing the devil's advocate: why is there a dependency on ARM64?
-> > > PowerVR GPUs are also present on (at least) arm32 and Intel?
-> >
-> > I would welcome any patch extending that requirement, or droping that
-> > requirement.
-> >
-> > > Oh, dropping that would expose this question to Linus, causing his
-> > > wrath to come down on you... ;-)
-> >
-> > Don't threaten me with a good time.
-> >
-> > Also, it's already the case for AMDGPU or etnaviv, so I'm not sure what
-> > Linus would have to say about it exactly.
->=20
-> AMDGPU is a PCI device, and can be plugged everywhere you see a PCI
-> slot.  Etnaviv could indeed use some dependencies...
-
-It might be plugged in any PCIe slot. It will not work with any PCIe
-controller.
-
-Anyway, there's no point in discussing it further. We're at the point of
-sending blank threats so it's not super productive anyway.
-
-As far as I'm concerned, and if there's no new actual technical
-argument,
-
-NAK.
-
-Maxime
-
---fed6eofzqbwoj437
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWchzgAKCRDj7w1vZxhR
-xfe+AQDAyI5LhJvTB+kK8baNCUxM061urbuCKhPG9XEwpGdMFQEA8x6djUM2dozz
-t1VDKHthZnyEvfxZOT00SqTtRniaiw0=
-=PeKO
------END PGP SIGNATURE-----
-
---fed6eofzqbwoj437--
+--=20
+Jani Nikula, Intel
