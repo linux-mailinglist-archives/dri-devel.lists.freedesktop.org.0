@@ -1,48 +1,95 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463DF7FD25A
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 10:23:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFB5D7FD27B
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 10:27:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 908C310E392;
-	Wed, 29 Nov 2023 09:23:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61F9D10E196;
+	Wed, 29 Nov 2023 09:27:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D33510E196
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 09:23:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 16A98618C7;
- Wed, 29 Nov 2023 09:23:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63D3AC433C7;
- Wed, 29 Nov 2023 09:22:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701249779;
- bh=EzFjw7idQptv1qfyUwLm9/Zx/1lzbs/31vkDl/YdmpM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=G41YjMqsqEVdWf++jrJ1PV3Reea5PMr5GlgKCi8FKDp+njIin/DvJUlCRNqnQIXVt
- 7pelXS1MLbgUeFUjjFBwxfB+FOlcEpoiO/qzzG0YUV1jHPX1Yto9UYhr4C/+TeKivx
- Al5GOghL/Yj4whPJamcEfIRqLqintvGYKEIwNimq/n21ySUBj00sdRwMOs56Ucnwv0
- OOevlMvntIM138/v73SPTAbhxHbuTnsuhEk/74QbhRiq5aKkmSeyb1BVrAzWpIT4WM
- gJU0P1qiHu2EEAYmctKMQcUhsYgFhNVO6h5XwXyBgDj4zul8LisgQeCPTukmnGLign
- Uzi0hrs3SFuQg==
-Date: Wed, 29 Nov 2023 10:22:57 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH] drm/imagination: DRM_POWERVR should depend on ARCH_K3
-Message-ID: <sw5e3mdtbmywbeo6sok4ul5qe72bb5ltsg5ago2vliqxlahvpl@rcivlupw77a5>
-References: <b9360c2044a1001b9a5bcb5914611711d040d4fe.1701196029.git.geert+renesas@glider.be>
- <87o7fdbszs.fsf@minerva.mail-host-address-is-not-set>
- <CAMuHMdUhuO++ZSxh+_TX_6DHHxjPYY20jTppbNZ4FnuBvxxinQ@mail.gmail.com>
- <7hee65pmdl5pajm2kgqld22xfi4iox4s2psswu2mdlfk6u6f7x@w4ecogdx6uj6>
- <CAMuHMdVTZ8LT1yU3e1bbJODecy96TaMX1hq_swqmT6L+mbH3aQ@mail.gmail.com>
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9951010E196
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 09:27:15 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id
+ ffacd0b85a97d-3331752d2b9so326493f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 01:27:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701250034; x=1701854834; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=wSWOGihLbvWd/HkTOnjJVlcVTUALnSb3Os9ZzOpVteY=;
+ b=LU1unYMXTh7uY6wcDe7/IOz4PkYs0moeXiQnbsdAP4ZfzqR7SScVWtPS8l6WKpurt5
+ ZMo9wOONKBdKlDunp5YCQ5Ct29lPeVBeu1KY8u3mnX/p3qwa8cYE6DwBALFGYHOzN+TH
+ EXa1Ka8vCBc5Vqqc+Yd472oY+aKvwic+uzBTfTpL8WJluZ50XGBTyqjg7JzE9egPaimz
+ PWbBXMBzLZDZ0YV+pBVIfs0pSpgWvzgK4sX/MbBIt4qBdqKvIR5Yd4zLJ+bg8fNuQ06K
+ 6LKxT7C6yKVeBOebWrEtkvFCFBLb0AVzKpSDaQUr1QJkygKLdIIr6/YT2pkoEGIKFdPm
+ cHPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701250034; x=1701854834;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :references:cc:to:content-language:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=wSWOGihLbvWd/HkTOnjJVlcVTUALnSb3Os9ZzOpVteY=;
+ b=w+RzSzfqOsL0qvZU2n71i0bDiBE5b2tu6eMdCq9J4uz5QKw5kvvaXMysiqKCIDYdxj
+ og/mwXXnlpGFjd6Pu3+n8bMvgE7u25SW7OdDpVb2uphrRBMDXBSSV8juQs1w85lDvYai
+ IMapwrzgaqpRtVFD76buzh6qb86sxG3S1InDcpwBeYRNPh5RjF36DENI2UNdKFSZqb2y
+ it6YX8ef7U2Movrucp8AKKdZHerFqOtl6aiLkZOMFTyzG+ME/WhBxWBEmuRzJPGE7N+R
+ KaDTmfJxGIpipAY7wR6dFK4tKwDJfJirJjZRXK0hZjr/98mB2nJSSurgj6pf9Vc825Ng
+ iD7Q==
+X-Gm-Message-State: AOJu0YyTZKxvGL3vO1DGRPWKHGdnH3MLoo9H0nukKJL/03nIhTId8YXv
+ qieMNaTZ1H5KRc2/Ak02tujdyA==
+X-Google-Smtp-Source: AGHT+IEvFDFRW8z6E5TlMnajfmGUr1GR7ySAnhV1pJPndQQNOYzuf0vOlVDE22biyX9j9hGxRzwgvQ==
+X-Received: by 2002:a5d:6309:0:b0:333:85e:a11c with SMTP id
+ i9-20020a5d6309000000b00333085ea11cmr4770557wru.16.1701250033770; 
+ Wed, 29 Nov 2023 01:27:13 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:31d3:eea3:8f97:6a2c?
+ ([2a01:e0a:982:cbb0:31d3:eea3:8f97:6a2c])
+ by smtp.gmail.com with ESMTPSA id
+ l12-20020a5d4bcc000000b00332fbc183ebsm9798399wrt.76.2023.11.29.01.27.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Nov 2023 01:27:13 -0800 (PST)
+Message-ID: <e7a2db20-4d6c-4fd0-ba0e-d8a2057cfbfc@linaro.org>
+Date: Wed, 29 Nov 2023 10:27:11 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="r3qnhn4k5yvcspbm"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVTZ8LT1yU3e1bbJODecy96TaMX1hq_swqmT6L+mbH3aQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH] [drm/meson] meson_plane: Add error handling
+Content-Language: en-US, fr
+To: Haoran Liu <liuhaoran14@163.com>, maarten.lankhorst@linux.intel.com
+References: <20231129092113.32630-1-liuhaoran14@163.com>
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro Developer Services
+In-Reply-To: <20231129092113.32630-1-liuhaoran14@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,93 +102,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Sarah Walker <sarah.walker@imgtec.com>,
- Tero Kristo <kristo@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Matt Coster <matt.coster@imgtec.com>, Donald Robson <donald.robson@imgtec.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org,
- Vignesh Raghavendra <vigneshr@ti.com>
+Reply-To: neil.armstrong@linaro.org
+Cc: tzimmermann@suse.de, martin.blumenstingl@googlemail.com,
+ khilman@baylibre.com, linux-kernel@vger.kernel.org, mripard@kernel.org,
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, jbrunet@baylibre.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---r3qnhn4k5yvcspbm
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for your patch!
 
-On Wed, Nov 29, 2023 at 09:58:12AM +0100, Geert Uytterhoeven wrote:
-> Hi Maxime,
->=20
-> On Wed, Nov 29, 2023 at 9:35=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
-> wrote:
-> > On Tue, Nov 28, 2023 at 08:16:18PM +0100, Geert Uytterhoeven wrote:
-> > > On Tue, Nov 28, 2023 at 8:03=E2=80=AFPM Javier Martinez Canillas
-> > > <javierm@redhat.com> wrote:
-> > > > Geert Uytterhoeven <geert+renesas@glider.be> writes:
-> > > > > The Imagination Technologies PowerVR Series 6 GPU is currently on=
-ly
-> > > > > supported on Texas Instruments K3 AM62x SoCs.  Hence add a depend=
-ency on
-> > > > > ARCH_K3, to prevent asking the user about this driver when config=
-uring a
-> > > > > kernel without Texas Instruments K3 Multicore SoC support.
-> > > > >
-> > > > > Fixes: 4babef0708656c54 ("drm/imagination: Add skeleton PowerVR d=
-river")
-> > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->=20
-> > > > In any case, I agree with you that restricting to only K3 makes sen=
-se.
-> > >
-> > > I am looking forward to adding || SOC_AM33XX || ARCH_RENESAS || ...,
-> > > eventually ;-)
-> >
-> > I disagree. This is to handle a generic IP, just like panfrost, lima, or
-> > etnaviv, and we certaintly don't want to maintain the Kconfig list of
-> > every possible architecture and SoC family it might or might not be
-> > found.
->=20
-> While PowerVR is a generic IP, I believe it needs a non-generic
-> firmware, which is currently only available for AM62x SoCs.
+On 29/11/2023 10:21, Haoran Liu wrote:
+> This patch adds robust error handling to the meson_plane_create
+> function in drivers/gpu/drm/meson/meson_plane.c. The function
+> previously lacked proper handling for potential failure scenarios
+> of the drm_universal_plane_init call.
+> 
+> Signed-off-by: Haoran Liu <liuhaoran14@163.com>
+> ---
+>   drivers/gpu/drm/meson/meson_plane.c | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/meson/meson_plane.c b/drivers/gpu/drm/meson/meson_plane.c
+> index 815dfe30492b..67b36398f146 100644
+> --- a/drivers/gpu/drm/meson/meson_plane.c
+> +++ b/drivers/gpu/drm/meson/meson_plane.c
+> @@ -534,6 +534,7 @@ int meson_plane_create(struct meson_drm *priv)
+>   	struct meson_plane *meson_plane;
+>   	struct drm_plane *plane;
+>   	const uint64_t *format_modifiers = format_modifiers_default;
+> +	int ret;
+>   
+>   	meson_plane = devm_kzalloc(priv->drm->dev, sizeof(*meson_plane),
+>   				   GFP_KERNEL);
+> @@ -548,12 +549,16 @@ int meson_plane_create(struct meson_drm *priv)
+>   	else if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A))
+>   		format_modifiers = format_modifiers_afbc_g12a;
+>   
+> -	drm_universal_plane_init(priv->drm, plane, 0xFF,
+> +	ret = drm_universal_plane_init(priv->drm, plane, 0xFF,
+>   				 &meson_plane_funcs,
+>   				 supported_drm_formats,
+>   				 ARRAY_SIZE(supported_drm_formats),
+>   				 format_modifiers,
+>   				 DRM_PLANE_TYPE_PRIMARY, "meson_primary_plane");
 
-I'm not sure it's actually true, but let's consider it is. Then what? If
-the firmware isn't there and/or the DT bits too, then nothing will
-happen. We would have wasted a couple of 100kB on a system that is
-taking somewhere in the 100MB-10GB range, and that's pretty much it.
+Could you re-align those lines aswell ?
 
-If you have we take that patch in though, we have:
+> +	if (ret) {
+> +		devm_kfree(priv->drm->dev, meson_plane);
+> +		return ret;
+> +	}
+>   
+>   	drm_plane_helper_add(plane, &meson_plane_helper_funcs);
+>   
 
-  - To keep merging patches as firmwares become available.
-
-  - If we update linux-firmware only, then the driver is still not
-    loading even though it could.
-
-  - If we have gotten our firmware through some other mean, then the
-    driver is still not loading even though it could.
-
-It makes life harder for everyone: maintainers, users, devs, based on
-the state of some external project that might or might not be updated in
-sync.
-
-> Once it becomes truly generic, I'm happy to drop all platform
-> dependencies.  Until then, there is no point in asking everyone who
-> configures an arm64 kernel about this driver, unless they also enabled
-> K3 support.
-
-Whether it's truly generic, whatever that means, is irrelevant here.
-
-Maxime
-
---r3qnhn4k5yvcspbm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWcC8AAKCRDj7w1vZxhR
-xZTtAP47Cg/+oHf3QN6f+1dfblO7GrIo9jYf5v/2E2Td43d4yQD+KlTDLfp7k2TU
-+LBGSzyfqu7qT7Lo//1XyokUzh5SZQY=
-=BGY8
------END PGP SIGNATURE-----
-
---r3qnhn4k5yvcspbm--
+Thanks,
+Neil
