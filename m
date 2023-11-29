@@ -1,38 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FC357FDB63
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 16:28:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02D3F7FDB1C
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 16:23:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A94B010E612;
-	Wed, 29 Nov 2023 15:28:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FAD010E4F8;
+	Wed, 29 Nov 2023 15:23:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8007B10E612;
- Wed, 29 Nov 2023 15:28:03 +0000 (UTC)
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.159) with Microsoft SMTP Server (TLS) id 14.3.498.0; Wed, 29 Nov
- 2023 18:22:34 +0300
-Received: from localhost (10.0.253.138) by Ex16-01.fintech.ru (10.0.10.18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Wed, 29 Nov
- 2023 18:22:34 +0300
-From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH] drm/radeon/r600_cs: Fix possible int overflows in
- r600_cs_check_reg()
-Date: Wed, 29 Nov 2023 07:22:30 -0800
-Message-ID: <20231129152230.7931-1-n.zhandarovich@fintech.ru>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
+ [IPv6:2001:4860:4864:20::33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2C8110E4F8;
+ Wed, 29 Nov 2023 15:23:09 +0000 (UTC)
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-1f066fc2a2aso3432082fac.0; 
+ Wed, 29 Nov 2023 07:23:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1701271389; x=1701876189; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eCUywg88tT8nR8OAzlEKxFmQomFdBEbseNCKYUwF6z0=;
+ b=L4/39amR5c0zyGpc59TLGqOLk9Be596NCTRxj0aCrLx3kuQLevfSy3506/CrdQ8wPJ
+ Iqi/yRRhc7RDH1JIGYPPvreQqY6kR7rhxnqm3lA6px4qfrztDGCWpwXeoN+goFOrrr5K
+ oylATs+t5uOfxD7SwzpxotBzo3oYlQ0c67X6lgeiOBW9LcKHXXkM3CuvS8tsSTAIBfLZ
+ x2tDvV4qwh2GQQ6/R6LxtndbWhEr1CNvhjvzVmk2PEhVAW31Xv4Smra/t0c5GuJnHv/f
+ OJdq928+ZG1pO/0+U9bGM0efxucCzS5FrxmhrFMJZkfaVYYOnrHPRHOUpxCwA/jKMrc8
+ zkpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701271389; x=1701876189;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=eCUywg88tT8nR8OAzlEKxFmQomFdBEbseNCKYUwF6z0=;
+ b=YMBBlJUV+lz4OHwzArrlOrl76B5N9rCrJPbh3yuoeICaYT7sMnMmcF90KiHiemYGaT
+ svMeGA85tLFWsVGI66MadVcafiwMkQpkSOx06jbErhVSGug+8qq63AGf0WryUxqBApm8
+ /mmuwHwhbUIyrvhG6ESquaT57QujRWA0reBDfn1RJyOnBR63HaTjklFKP+p+cdwZTAzZ
+ rc9EkwbqwuopzGYyAgECmzrtsu2Dp5wnUqwZFpgD30Ht//YtP4BLY4pfbFh6MZy9rWjH
+ 2qnX1I3vIyj3SA10ARJxLlzwzdyGaTnB9jVcXA7IdItUO3P6fzVm7Qq8g26rtcuAkRMP
+ W3wQ==
+X-Gm-Message-State: AOJu0YxYj0tWykhZW/Rhs/IOoptObSkcJE8YiYsVmHwcd+k4zKlVN0JD
+ KWxo7WgW4THxUpukf4y+Vj8Sa65mIgW9XaonzIc=
+X-Google-Smtp-Source: AGHT+IGbi8FXFb8iIYdiAjppd2yUdKIHbDEmAip93Ro7/8+qtzvhgxIyR0+q8J5YJuIzV7KOp/r4TqyhsH8NZT9HSAc=
+X-Received: by 2002:a05:6870:c45:b0:1fa:345e:5e15 with SMTP id
+ lf5-20020a0568700c4500b001fa345e5e15mr15412255oab.13.1701271389082; Wed, 29
+ Nov 2023 07:23:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.0.253.138]
-X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
- (10.0.10.18)
+References: <87edgv4x3i.fsf@vps.thesusis.net>
+ <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
+ <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
+ <bdb238b6-60c7-4f26-81d0-9e62cd5dd326@gmail.com>
+ <CADnq5_NVGS1XykxGxpcu_bpPbzboCUJQkcCF3r+0N9a23KUgiQ@mail.gmail.com>
+ <96e2e13c-f01c-4baf-a9a3-cbaa48fb10c7@amd.com>
+ <CADnq5_NBfeAXEyQw0gnSd67=tR-bUKg8w=10+4z9pGGuRnP9uw@mail.gmail.com>
+ <87jzq2ixtm.fsf@vps.thesusis.net>
+ <CADnq5_Ou-MVVm0rdWDmDnJNLkWUayXzO26uCEtz3ucNa4Ghy2w@mail.gmail.com>
+ <95fe9b5b-05ce-4462-9973-9aca306bc44f@gmail.com>
+ <CADnq5_MYEWx=e1LBLeVs0UbR5_xEScjDyw_-75mLe8RAMnqh6g@mail.gmail.com>
+In-Reply-To: <CADnq5_MYEWx=e1LBLeVs0UbR5_xEScjDyw_-75mLe8RAMnqh6g@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 29 Nov 2023 10:22:57 -0500
+Message-ID: <CADnq5_OC=JFpGcN0oGbTF5xYEt4X3r0=jEY6hJ12W8CzYq1+cA@mail.gmail.com>
+Subject: Re: Radeon regression in 6.6 kernel
+To: Luben Tuikov <ltuikov89@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,49 +78,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nikita Zhandarovich <n.zhandarovich@fintech.ru>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Phillip Susi <phill@thesusis.net>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While improbable, there may be a chance of hitting integer
-overflow when the result of radeon_get_ib_value() gets shifted
-left.
+On Wed, Nov 29, 2023 at 8:50=E2=80=AFAM Alex Deucher <alexdeucher@gmail.com=
+> wrote:
+>
+> On Tue, Nov 28, 2023 at 11:45=E2=80=AFPM Luben Tuikov <ltuikov89@gmail.co=
+m> wrote:
+> >
+> > On 2023-11-28 17:13, Alex Deucher wrote:
+> > > On Mon, Nov 27, 2023 at 6:24=E2=80=AFPM Phillip Susi <phill@thesusis.=
+net> wrote:
+> > >>
+> > >> Alex Deucher <alexdeucher@gmail.com> writes:
+> > >>
+> > >>>> In that case those are the already known problems with the schedul=
+er
+> > >>>> changes, aren't they?
+> > >>>
+> > >>> Yes.  Those changes went into 6.7 though, not 6.6 AFAIK.  Maybe I'm
+> > >>> misunderstanding what the original report was actually testing.  If=
+ it
+> > >>> was 6.7, then try reverting:
+> > >>> 56e449603f0ac580700621a356d35d5716a62ce5
+> > >>> b70438004a14f4d0f9890b3297cd66248728546c
+> > >>
+> > >> At some point it was suggested that I file a gitlab issue, but I too=
+k
+> > >> this to mean it was already known and being worked on.  -rc3 came ou=
+t
+> > >> today and still has the problem.  Is there a known issue I could tra=
+ck?
+> > >>
+> > >
+> > > At this point, unless there are any objections, I think we should jus=
+t
+> > > revert the two patches
+> > Uhm, no.
+> >
+> > Why "the two" patches?
+> >
+> > This email, part of this thread,
+> >
+> > https://lore.kernel.org/all/87r0kircdo.fsf@vps.thesusis.net/
+> >
+> > clearly states that reverting *only* this commit,
+> > 56e449603f0ac5 drm/sched: Convert the GPU scheduler to variable number =
+of run-queues
+> > *does not* mitigate the failed suspend. (Furthermore, this commit doesn=
+'t really change
+> > anything operational, other than using an allocated array, instead of a=
+ static one, in DRM,
+> > while the 2nd patch is solely contained within the amdgpu driver code.)
+> >
+> > Leaving us with only this change,
+> > b70438004a14f4 drm/amdgpu: move buffer funcs setting up a level
+> > to be at fault, as the kernel log attached in the linked email above sh=
+ows.
+> >
+> > The conclusion is that only b70438004a14f4 needs reverting.
+>
+> b70438004a14f4 was a fix for 56e449603f0ac5.  Without b70438004a14f4,
+> 56e449603f0ac5 breaks amdgpu.
 
-Avoid it by casting one of the operands to larger data type (u64).
+We can try and re-enable it in the next kernel.  I'm just not sure
+we'll be able to fix this in time for 6.7 with the holidays and all
+and I don't want to cause a lot of scheduler churn at the end of the
+6.7 cycle if we hold off and try and fix it.  Reverting seems like the
+best short term solution.
 
-Found by Linux Verification Center (linuxtesting.org) with static
-analysis tool SVACE.
+Alex
 
-Fixes: 1729dd33d20b ("drm/radeon/kms: r600 CS parser fixes")
-Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
----
- drivers/gpu/drm/radeon/r600_cs.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/radeon/r600_cs.c b/drivers/gpu/drm/radeon/r600_cs.c
-index 638f861af80f..6cf54a747749 100644
---- a/drivers/gpu/drm/radeon/r600_cs.c
-+++ b/drivers/gpu/drm/radeon/r600_cs.c
-@@ -1275,7 +1275,7 @@ static int r600_cs_check_reg(struct radeon_cs_parser *p, u32 reg, u32 idx)
- 			return -EINVAL;
- 		}
- 		tmp = (reg - CB_COLOR0_BASE) / 4;
--		track->cb_color_bo_offset[tmp] = radeon_get_ib_value(p, idx) << 8;
-+		track->cb_color_bo_offset[tmp] = (u64)radeon_get_ib_value(p, idx) << 8;
- 		ib[idx] += (u32)((reloc->gpu_offset >> 8) & 0xffffffff);
- 		track->cb_color_base_last[tmp] = ib[idx];
- 		track->cb_color_bo[tmp] = reloc->robj;
-@@ -1302,7 +1302,7 @@ static int r600_cs_check_reg(struct radeon_cs_parser *p, u32 reg, u32 idx)
- 					"0x%04X\n", reg);
- 			return -EINVAL;
- 		}
--		track->htile_offset = radeon_get_ib_value(p, idx) << 8;
-+		track->htile_offset = (u64)radeon_get_ib_value(p, idx) << 8;
- 		ib[idx] += (u32)((reloc->gpu_offset >> 8) & 0xffffffff);
- 		track->htile_bo = reloc->robj;
- 		track->db_dirty = true;
--- 
-2.25.1
-
+>
+> Alex
