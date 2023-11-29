@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 634BA7FD680
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 13:19:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E7D37FD67D
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 13:19:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DCFD10E50E;
-	Wed, 29 Nov 2023 12:19:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3652610E524;
+	Wed, 29 Nov 2023 12:19:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBBF210E4F6
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 12:19:03 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E813C10E50E
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 12:19:07 +0000 (UTC)
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: vignesh)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 0A61D6606F5E;
- Wed, 29 Nov 2023 12:18:58 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 22BC86602F24;
+ Wed, 29 Nov 2023 12:19:02 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1701260342;
- bh=iVQlnoApz3+5OFOGw6ohoOfrRDJ0cvAnaV8c4J5qgY8=;
+ s=mail; t=1701260346;
+ bh=jtOx/7NoZzqOMAnpBtB9GJItxRHHHlEm6yj66jXJL6A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GbaZwbYA8Uq6ZKv/xn14sY/5aCVd+Bk7z0foT2YA3d/cGCarIEiIlpdvRUZo9LfC5
- 8bjjLQUmWm8TRVz1+hsFRqFDlhinXT+oyVi9rOdIXfvpgjR1hAwnq3cIVBkNrjJksr
- 9zweSoMc/A5QapF7Ghr+6nbDpWSkYaDBF6L4O/sYXGeXdn3pGGUaQRNc+X2I0w/2o+
- fsO6myRDSzmeP7x7QP9RqiAXTk9vw8DEVKgElGCXQWKXg/Q6tuCF1VpRrf6csQV5+q
- vwdHNlMHFCeYVrO9nNRQJ+GqXM/3tU4XlkaZdIC+TXq+JAix50jdJIS45tb5FLb1BS
- K/bMeIy3WmTKA==
+ b=cESTV4V42mPAKCChVMQlOKBvZnr5RUqPtiSeZcNslr5Eq+AxJMuxPERH+C7xtlPnW
+ dPVqExtF+ejvtER9rbMHr3G4rNwNAg21bw8xK8dFddqpduHkonsvjfMFOownugQodp
+ 8L37fo5S9JOvGp8l5oqEi+RzHHaj1fWegtX3dlgGYj+mfVFz6uGfFhLRV+9mBtTYYG
+ JyMD0KI9DSeYL4g2/ZqheCJIBDdx9Og9rjaDSxHd3wl4JE8LfvLASY62b9TbmH0ar8
+ XbL06cPJP1rO7IHo2+Q12XMGHe6bN+/b/tSSCS2Cad6bB3EEFL7kyL4ZGrvYcIC20j
+ y/FTJ7V5AP5IQ==
 From: Vignesh Raman <vignesh.raman@collabora.com>
 To: helen.koike@collabora.com,
 	airlied@gmail.com,
 	daniel@ffwll.ch
-Subject: [PATCH v6 02/10] drm: ci: Force db410c to host mode
-Date: Wed, 29 Nov 2023 17:48:33 +0530
-Message-Id: <20231129121841.253223-3-vignesh.raman@collabora.com>
+Subject: [PATCH v6 03/10] drm: ci: arm64.config: Enable DA9211 regulator
+Date: Wed, 29 Nov 2023 17:48:34 +0530
+Message-Id: <20231129121841.253223-4-vignesh.raman@collabora.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231129121841.253223-1-vignesh.raman@collabora.com>
 References: <20231129121841.253223-1-vignesh.raman@collabora.com>
@@ -61,64 +62,45 @@ Cc: daniels@collabora.com, emma@anholt.net, gustavo.padovan@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Force db410c to host mode to fix network issue which results in failure
-to mount root fs via NFS.
-See https://gitlab.freedesktop.org/gfx-ci/linux/-/commit/cb72a629b8c15c80a54dda510743cefd1c4b65b8
-
-Use apq8016-sbc-usb-host.dtb which allows the USB controllers
-to work in host mode.
+Mediatek mt8173 board fails to boot with DA9211 regulator disabled.
+Enable CONFIG_REGULATOR_DA9211=y in arm64.config to fix mt8173 boot
+issue.
 
 Acked-by: Helen Koike <helen.koike@collabora.com>
 Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
 ---
 
 v2:
-  - Use fdtoverlay command to merge overlay dtbo with the base dtb instead of modifying the kernel sources
+  - No changes
 
 v3:
-  - drm-ci scripts to use device tree overlay from arch/arm64/boot/dts/qcom and compile base device tree with overlay support
+  - Remove CONFIG_RTC_DRV_MT6397=y as it is already enabled in defconfig
 
 v4:
-  - Use apq8016-sbc-usb-host.dtb which allows the USB controllers to work in host mode.
-    This patch depends on https://lore.kernel.org/lkml/20230911161518.650726-1-vignesh.raman@collabora.com/
+  - No changes
 
 v5:
   - No changes
 
 v6:
-  - No changes
+  - Updated commit message
 
 ---
- drivers/gpu/drm/ci/build.sh | 2 +-
- drivers/gpu/drm/ci/test.yml | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/ci/arm64.config | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
-index e5c5dcedd108..e2260b4a1c67 100644
---- a/drivers/gpu/drm/ci/build.sh
-+++ b/drivers/gpu/drm/ci/build.sh
-@@ -19,7 +19,7 @@ if [[ "$KERNEL_ARCH" = "arm64" ]]; then
-     DEVICE_TREES+=" arch/arm64/boot/dts/amlogic/meson-gxl-s805x-libretech-ac.dtb"
-     DEVICE_TREES+=" arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dtb"
-     DEVICE_TREES+=" arch/arm64/boot/dts/amlogic/meson-gxm-khadas-vim2.dtb"
--    DEVICE_TREES+=" arch/arm64/boot/dts/qcom/apq8016-sbc.dtb"
-+    DEVICE_TREES+=" arch/arm64/boot/dts/qcom/apq8016-sbc-usb-host.dtb"
-     DEVICE_TREES+=" arch/arm64/boot/dts/qcom/apq8096-db820c.dtb"
-     DEVICE_TREES+=" arch/arm64/boot/dts/amlogic/meson-g12b-a311d-khadas-vim3.dtb"
-     DEVICE_TREES+=" arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb"
-diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-index f285ed67eb3d..4af10f0ff82d 100644
---- a/drivers/gpu/drm/ci/test.yml
-+++ b/drivers/gpu/drm/ci/test.yml
-@@ -102,7 +102,7 @@ msm:apq8016:
-   stage: msm
-   variables:
-     DRIVER_NAME: msm
--    BM_DTB: https://${PIPELINE_ARTIFACTS_BASE}/arm64/apq8016-sbc.dtb
-+    BM_DTB: https://${PIPELINE_ARTIFACTS_BASE}/arm64/apq8016-sbc-usb-host.dtb
-     GPU_VERSION: apq8016
-     BM_CMDLINE: "ip=dhcp console=ttyMSM0,115200n8 $BM_KERNEL_EXTRA_ARGS root=/dev/nfs rw nfsrootdebug nfsroot=,tcp,nfsvers=4.2 init=/init $BM_KERNELARGS"
-     RUNNER_TAG: google-freedreno-db410c
+diff --git a/drivers/gpu/drm/ci/arm64.config b/drivers/gpu/drm/ci/arm64.config
+index b4f653417883..8dbce9919a57 100644
+--- a/drivers/gpu/drm/ci/arm64.config
++++ b/drivers/gpu/drm/ci/arm64.config
+@@ -186,6 +186,7 @@ CONFIG_HW_RANDOM_MTK=y
+ CONFIG_MTK_DEVAPC=y
+ CONFIG_PWM_MTK_DISP=y
+ CONFIG_MTK_CMDQ=y
++CONFIG_REGULATOR_DA9211=y
+ 
+ # For nouveau.  Note that DRM must be a module so that it's loaded after NFS is up to provide the firmware.
+ CONFIG_ARCH_TEGRA=y
 -- 
 2.40.1
 
