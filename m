@@ -1,59 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8A1E7FD23C
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 10:18:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A68D37FD2EA
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 10:38:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64B0410E37F;
-	Wed, 29 Nov 2023 09:18:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA92B10E3CA;
+	Wed, 29 Nov 2023 09:38:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F08B10E37F
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 09:18:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701249513; x=1732785513;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=fg/SG84dFmw5xtLeQyneQ3hhwKW3Ii9jSwQZ6X2juJ0=;
- b=hqVj1xgzrgkYSs4PlbV1lm40Tq2cDdKErq6O7EWmoUZUkTQ9zAGi4f3X
- CCmbpxpqd+x5eC3KuOEo4SHTrbc4/Sbrwy3Z6MzkP+Z44XIFWChJxmwq3
- 9frTtMm+s7e7de7Oevjnn9MEt+SsbnvLEcvL3nidzMloyBEHUHmkibqzl
- qcIXKhMkLgVQgJ+L3gYMYcuTjza9Vp3vVIfZQMhHTFR/imnGuokAD170/
- 8kUaseonEjosu012ahtS2a8ACUtSgBXrElaPa3lnLPC4ULmFnuvZi7puJ
- UMFDEcJ75UbDGHl+SiFdo62G9T8SL0uSmoUSW1r3N2Tm3l0JLpPhCRBH7 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="392876807"
-X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; d="scan'208";a="392876807"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Nov 2023 01:18:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="762242261"
-X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; d="scan'208";a="762242261"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga007.jf.intel.com with SMTP; 29 Nov 2023 01:18:25 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 29 Nov 2023 11:18:24 +0200
-Date: Wed, 29 Nov 2023 11:18:24 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
- pointers arguments
-Message-ID: <ZWcB4Ak8QnwkhObR@intel.com>
-References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
- <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
- <87h6l66nth.fsf@intel.com>
- <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
- <ZWXv1Oi_sH0BRWao@intel.com>
- <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
-X-Patchwork-Hint: comment
+X-Greylist: delayed 920 seconds by postgrey-1.36 at gabe;
+ Wed, 29 Nov 2023 09:38:08 UTC
+Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.220])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9BD0410E3CA
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 09:38:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id; bh=RYl3c6WXzDrRpbjIfV
+ dIreOF56KOfXk0Od7xbr0Mo5Y=; b=pLbcSYTqLdumG+FJD/65/z0maKYMqRzJSY
+ /FpnmpMZlTxnZzDQLOKDusWc6Gtt4KQcKj3V6rmC+x7V/sl8mMjRuIihX8kGEA5q
+ HgTtrw82wtg/OG6NvIg/zZo4SnSZxwSTp3z1I6BrFRuQFJsaJYy+3n0jSjrq1WPH
+ kb6lGdgRg=
+Received: from localhost.localdomain (unknown [39.144.190.126])
+ by zwqz-smtp-mta-g0-2 (Coremail) with SMTP id _____wA3X+CMAmdlXBT+CQ--.41354S2;
+ Wed, 29 Nov 2023 17:21:17 +0800 (CST)
+From: Haoran Liu <liuhaoran14@163.com>
+To: maarten.lankhorst@linux.intel.com
+Subject: [PATCH] [drm/meson] meson_plane: Add error handling
+Date: Wed, 29 Nov 2023 01:21:13 -0800
+Message-Id: <20231129092113.32630-1-liuhaoran14@163.com>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: _____wA3X+CMAmdlXBT+CQ--.41354S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WrWfWryftry3Gr48Kr4DJwb_yoW8Wr1xpF
+ 4UCF1Y9r17Aa15t347AF4YyFZxWw4fGFyUuFy8twnYkwnxKFy7CFy3KFZrCF4UXFW5u3Z3
+ Kr13Cr4DCF17AF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pi5EfUUUUUU=
+X-Originating-IP: [39.144.190.126]
+X-CM-SenderInfo: xolxxtxrud0iqu6rljoofrz/xtbBchI3gletj5ACogAAsQ
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,82 +48,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Samuel Holland <samuel@sholland.org>,
- dri-devel@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Sandy Huang <hjc@rock-chips.com>, Hans Verkuil <hverkuil@xs4all.nl>,
- linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: neil.armstrong@linaro.org, Haoran Liu <liuhaoran14@163.com>,
+ tzimmermann@suse.de, martin.blumenstingl@googlemail.com, khilman@baylibre.com,
+ linux-kernel@vger.kernel.org, mripard@kernel.org,
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, jbrunet@baylibre.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 29, 2023 at 10:11:26AM +0100, Maxime Ripard wrote:
-> Hi Ville,
-> 
-> On Tue, Nov 28, 2023 at 03:49:08PM +0200, Ville Syrjälä wrote:
-> > On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
-> > > On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
-> > > > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> > > > > All the drm_connector_init variants take at least a pointer to the
-> > > > > device, connector and hooks implementation.
-> > > > >
-> > > > > However, none of them check their value before dereferencing those
-> > > > > pointers which can lead to a NULL-pointer dereference if the author
-> > > > > isn't careful.
-> > > > 
-> > > > Arguably oopsing on the spot is preferrable when this can't be caused by
-> > > > user input. It's always a mistake that should be caught early during
-> > > > development.
-> > > > 
-> > > > Not everyone checks the return value of drm_connector_init and friends,
-> > > > so those cases will lead to more mysterious bugs later. And probably
-> > > > oopses as well.
-> > > 
-> > > So maybe we can do both then, with something like
-> > > 
-> > > if (WARN_ON(!dev))
-> > >    return -EINVAL
-> > > 
-> > > if (drm_WARN_ON(dev, !connector || !funcs))
-> > >    return -EINVAL;
-> > > 
-> > > I'd still like to check for this, so we can have proper testing, and we
-> > > already check for those pointers in some places (like funcs in
-> > > drm_connector_init), so if we don't cover everything we're inconsistent.
-> > 
-> > People will invariably cargo-cult this kind of stuff absolutely
-> > everywhere and then all your functions will have tons of dead
-> > code to check their arguments.
-> 
-> And that's a bad thing because... ?
-> 
-> Also, are you really saying that checking that your arguments make sense
-> is cargo-cult?
-> 
-> We're already doing it in some parts of KMS, so we have to be
-> consistent, and the answer to "most drivers don't check the error"
-> cannot be "let's just give on error checking then".
-> 
-> > I'd prefer not to go there usually.
-> > 
-> > Should we perhaps start to use the (arguably hideous)
-> >  - void f(struct foo *bar)
-> >  + void f(struct foo bar[static 1])
-> > syntax to tell the compiler we don't accept NULL pointers?
-> > 
-> > Hmm. Apparently that has the same problem as using any
-> > other kind of array syntax in the prototype. That is,
-> > the compiler demands to know the definition of 'struct foo'
-> > even though we're passing in effectively a pointer. Sigh.
-> 
-> Honestly, I don't care as long as it's something we can unit-test to
-> make sure we make it consistent. We can't unit test a complete kernel
-> crash.
+This patch adds robust error handling to the meson_plane_create
+function in drivers/gpu/drm/meson/meson_plane.c. The function
+previously lacked proper handling for potential failure scenarios
+of the drm_universal_plane_init call.
 
-Why do you want to put utterly broken code into a unit test?
+Signed-off-by: Haoran Liu <liuhaoran14@163.com>
+---
+ drivers/gpu/drm/meson/meson_plane.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/meson/meson_plane.c b/drivers/gpu/drm/meson/meson_plane.c
+index 815dfe30492b..67b36398f146 100644
+--- a/drivers/gpu/drm/meson/meson_plane.c
++++ b/drivers/gpu/drm/meson/meson_plane.c
+@@ -534,6 +534,7 @@ int meson_plane_create(struct meson_drm *priv)
+ 	struct meson_plane *meson_plane;
+ 	struct drm_plane *plane;
+ 	const uint64_t *format_modifiers = format_modifiers_default;
++	int ret;
+ 
+ 	meson_plane = devm_kzalloc(priv->drm->dev, sizeof(*meson_plane),
+ 				   GFP_KERNEL);
+@@ -548,12 +549,16 @@ int meson_plane_create(struct meson_drm *priv)
+ 	else if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A))
+ 		format_modifiers = format_modifiers_afbc_g12a;
+ 
+-	drm_universal_plane_init(priv->drm, plane, 0xFF,
++	ret = drm_universal_plane_init(priv->drm, plane, 0xFF,
+ 				 &meson_plane_funcs,
+ 				 supported_drm_formats,
+ 				 ARRAY_SIZE(supported_drm_formats),
+ 				 format_modifiers,
+ 				 DRM_PLANE_TYPE_PRIMARY, "meson_primary_plane");
++	if (ret) {
++		devm_kfree(priv->drm->dev, meson_plane);
++		return ret;
++	}
+ 
+ 	drm_plane_helper_add(plane, &meson_plane_helper_funcs);
+ 
 -- 
-Ville Syrjälä
-Intel
+2.17.1
+
