@@ -2,53 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E53C47FDE81
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 18:37:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0E977FDEAC
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 18:47:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3B3710E644;
-	Wed, 29 Nov 2023 17:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F8DB10E64A;
+	Wed, 29 Nov 2023 17:47:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02D9A10E644;
- Wed, 29 Nov 2023 17:37:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701279448; x=1732815448;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=un2pqzgXqiJEa07g1HptOb4P01cfdzdlVQihNRd8ix8=;
- b=LyqDmfcnV4zKUKIsZiKlRrFdIcTqcAq+kwcTyw75UqmA3kROsaCrEkei
- vAYTdIv5kZSFlo7cbDQbh9qvAv4HQiZScZE6+Xy5/LPANruiOQeloyV+X
- 3c8+itLF6BNOS5FKzUfEdb03yAJW6Khu+IgHYR7miTyeomaruUgUIOT7Y
- LCBSVloW3dHDhs5scsoJxeD35HngPncCn6jIcxFE4lKxGSgymoXBd/sdb
- /TQmL3RGwlTbAr7xnYjza8k6VFP1lQj2I7Otl1XvYsD9DG5EwwFV7wbK4
- jcsoe240vt2sytB8JG51wZUNBUsBV/JrNzYbzfvfgSBeynNBnrto3ASFC Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="390361313"
-X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; d="scan'208";a="390361313"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Nov 2023 09:37:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="942401674"
-X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; d="scan'208";a="942401674"
-Received: from dstavrak-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.60.61])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Nov 2023 09:37:20 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: =?utf-8?B?5L2V5pWP57qi?= <heminhong@kylinos.cn>, "ville.syrjala"
- <ville.syrjala@linux.intel.com>, "uma.shankar" <uma.shankar@intel.com>
-Subject: Re: =?utf-8?B?5Zue5aSNOg==?= [PATCH v2] drm/i915: correct the input
- parameter on _intel_dsb_commit()
-In-Reply-To: <1lagfvi0ner-1laizr4ur2c@nsmail7.0.0--kylin--1>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <1lagfvi0ner-1laizr4ur2c@nsmail7.0.0--kylin--1>
-Date: Wed, 29 Nov 2023 19:37:17 +0200
-Message-ID: <87cyvs5ulu.fsf@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2184F10E648;
+ Wed, 29 Nov 2023 17:47:14 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3AT2DFD0003183; Wed, 29 Nov 2023 17:47:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=9D/c0zYcD6qyD3co2fDOOrez7t4+DKIKuMSCZDqtPTY=;
+ b=RfdP2G+9ABoRS1Vmt7mzdtlxK8vfCWrU01NNJSrtKnfzTj5yqbUgfpSFt7HJ0JqScNRG
+ eBLjs5wXRI22U9DbMEiJG28fU0M5+XgnqwTiqBBXAt++llymhbzd8cjFa8pRLppMBIIb
+ bqqRf8lg9FYinAREcbCN3zwI5wF09882WP+UQMqvh9sd1mtGPABst8ssbpXlNX205TkK
+ QseTRfJ2j50ZQATRqQAuZyudBite05cXLXGPFZrxpBAHl2x2FavDVpGBrND3au6Tjx8g
+ G/oMadktyudKM5zr61LiF1QmPAHp5W6cN9q6+c99+8cizoQpDf0RupfuHO5UxO93J4jb Cw== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3unnpeu5ed-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Nov 2023 17:47:08 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ATHl7P3001378
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Nov 2023 17:47:07 GMT
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Wed, 29 Nov 2023 09:47:06 -0800
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
+ <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
+Subject: [PATCH v8 0/7] incorporate pm runtime framework and eDP clean up
+Date: Wed, 29 Nov 2023 09:46:43 -0800
+Message-ID: <1701280010-32476-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: CYX9_UL5BXvbZj7UiSiuKUBwm2wd9Mgl
+X-Proofpoint-ORIG-GUID: CYX9_UL5BXvbZj7UiSiuKUBwm2wd9Mgl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-29_15,2023-11-29_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0
+ mlxscore=0 phishscore=0 mlxlogscore=786 priorityscore=1501 adultscore=0
+ clxscore=1011 bulkscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311060000
+ definitions=main-2311290135
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,64 +79,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "tvrtko.ursulin" <tvrtko.ursulin@linux.intel.com>,
- kernel test robot <lkp@intel.com>, "animesh.manna" <animesh.manna@intel.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "rodrigo.vivi" <rodrigo.vivi@intel.com>,
- "ankit.k.nautiyal" <ankit.k.nautiyal@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 29 Nov 2023, =E4=BD=95=E6=95=8F=E7=BA=A2 <heminhong@kylinos.cn> wro=
-te:
-> Friendly ping. I think this patch was forgotten.
+The purpose of this patch series is to incorporate pm runtime framework
+into MSM eDP/DP driver so that eDP panel can be detected by DRM eDP panel
+driver during system probe time. During incorporating procedure, original
+customized pm realted fucntions, such as dp_pm_prepare(), dp_pm_suspend(),
+dp_pm_resume() and dp_pm_prepare(), are removed and replaced with functions
+provided by pm runtiem framework such as pm_runtime_force_suspend() and
+pm_runtime_force_resume(). In addition, both eDP aux-bus and irq handler
+are bound at system probe time too.
 
-Pushed, thanks for the patch.
+Please be noted that v8 patches is rebase on top of latest msm-next branch
 
->
-> ----
->
-> =E4=B8=BB=E3=80=80=E9=A2=98=EF=BC=9A[PATCH v2] drm/i915: correct the inpu=
-t parameter on _intel_dsb_commit()=20
-> =E6=97=A5=E3=80=80=E6=9C=9F=EF=BC=9A2023-11-14 10:43=20
-> =E5=8F=91=E4=BB=B6=E4=BA=BA=EF=BC=9A=E4=BD=95=E6=95=8F=E7=BA=A2=20
-> =E6=94=B6=E4=BB=B6=E4=BA=BA=EF=BC=9A=E4=BD=95=E6=95=8F=E7=BA=A2;
->
-> Current, the dewake_scanline variable is defined as unsigned int,
-> an unsigned int variable that is always greater than or equal to 0.
-> when _intel_dsb_commit function is called by intel_dsb_commit function,
-> the dewake_scanline variable may have an int value.
-> So the dewake_scanline variable is necessary to defined as an int.
->
-> Fixes: f83b94d23770 ("drm/i915/dsb: Use DEwake to combat PkgC latency")
-> Reported-by: kernel test robot=20
-> Closes: https://lore.kernel.org/oe-kbuild-all/202310052201.AnVbpgPr-lkp@i=
-ntel.com/
-> Cc: Ville Syrj=C3=A4l=C3=A4=20
-> Cc: Uma Shankar=20
->
-> Signed-off-by: heminhong=20
-> ---
-> drivers/gpu/drm/i915/display/intel_dsb.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_dsb.c b/drivers/gpu/drm/i=
-915/display/intel_dsb.c
-> index 78b6fe24dcd8..7fd6280c54a7 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dsb.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dsb.c
-> @@ -340,7 +340,7 @@ static int intel_dsb_dewake_scanline(const struct int=
-el_crtc_state *crtc_state)
-> }
->
-> static void _intel_dsb_commit(struct intel_dsb *dsb, u32 ctrl,
-> - unsigned int dewake_scanline)
-> + int dewake_scanline)
-> {
-> struct intel_crtc *crtc =3D dsb->crtc;
-> struct drm_i915_private *dev_priv =3D to_i915(crtc->base.dev);
+Kuogee Hsieh (7):
+  drm/msm/dp: tie dp_display_irq_handler() with dp driver
+  drm/msm/dp: rename is_connected with link_ready
+  drm/msm/dp: use drm_bridge_hpd_notify() to report HPD status changes
+  drm/msm/dp: move parser->parse() and dp_power_client_init() to probe
+  drm/msm/dp: incorporate pm_runtime framework into DP driver
+  drm/msm/dp: delete EV_HPD_INIT_SETUP
+  drm/msm/dp: move of_dp_aux_populate_bus() to eDP probe()
 
---=20
-Jani Nikula, Intel
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c |   4 -
+ drivers/gpu/drm/msm/dp/dp_aux.c         |  39 +++-
+ drivers/gpu/drm/msm/dp/dp_display.c     | 337 ++++++++++++--------------------
+ drivers/gpu/drm/msm/dp/dp_display.h     |   3 +-
+ drivers/gpu/drm/msm/dp/dp_drm.c         |  14 +-
+ drivers/gpu/drm/msm/dp/dp_power.c       |  16 --
+ drivers/gpu/drm/msm/dp/dp_power.h       |  11 --
+ drivers/gpu/drm/msm/msm_drv.h           |   5 -
+ 8 files changed, 164 insertions(+), 265 deletions(-)
+
+-- 
+2.7.4
+
