@@ -2,72 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F33037FDFB5
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 19:52:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0D57FE018
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 20:04:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0202610E337;
-	Wed, 29 Nov 2023 18:52:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5471210E372;
+	Wed, 29 Nov 2023 19:04:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
- [IPv6:2001:4860:4864:20::32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CF2110E237;
- Wed, 29 Nov 2023 18:52:38 +0000 (UTC)
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-1fa235f8026so348fac.3; 
- Wed, 29 Nov 2023 10:52:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701283958; x=1701888758; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GKCMdliecR8K3FRKmMsgrRyyz7+kEtWPm4FIJ7dTiTY=;
- b=X6gFAvQAy46oMGwOXsbPV2+o20Qcsd1ueGCtBfH6F9ZpAaEuz1MDI7hvc5adme60bR
- +Gw2SbLY2AtT3dZX5T5onU6v0JsBugrVqurkIjw/sMOpRdvji/NpNC8h/LZcSiRKV8J1
- Gth/qkUcNQIfWtFm8iH8srmFDEwUkEN1JSRMADF4TgJJds8/6zXRcqG+jbc2mkFg512+
- EOQBsR5CLw8MKn5pxJN+PNqk4uTk3fZcPKogEBrctWOSgrkFdz5GlD9UzePIctFjaUKb
- BIsKACRi1EnNr4eWOIjJToCcAmzdvp7X+lJRGf9c6A2bBDzSO62rUL0sm9F00yv1ndr+
- M1Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701283958; x=1701888758;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GKCMdliecR8K3FRKmMsgrRyyz7+kEtWPm4FIJ7dTiTY=;
- b=HH0rPo9GjWQNM0rCPxWtWZ76Q5bI7P6fXRjkqlTdZPbF6NxKeIrc2QM22SUz8/J4Dh
- c8aAgPBdAZpHqseBLTZLKVp449T2pnUzCzZHpANrQC9VcieYsDWx5oDx2Sy1WgcAd7mp
- S1PYp3E4WROJCmoMwASQp+SK+ijwwhMe90naFMymkiwnPFN+mtWhOxEaiDun/ZfKtz85
- ynX7HhCl68JMiIscuTaZ5mkt92EGmvXM08YWiVuTi3pF2jQik5f36D5ZOqIG+IB+Vy0A
- L1GuaNnz2ZJPf8yN05V9zIIistNboL091mK0uKXNUp+6lsVEbMDCRXDHbc+5vi8HG49p
- EhPg==
-X-Gm-Message-State: AOJu0YyCEUNHR87Ux/NHTOlFP2YUP3NiKzL39VDRHpHSzW0SZi25ZTw1
- p2j3SDyySSLGEaW6JU7DCNUY/ghIDpvoQydqyLs=
-X-Google-Smtp-Source: AGHT+IF3oOywhpirX3+AP8XTM3+9p+TwpPLHbDmBIZTRg15hZZxmdOFhzj4n/rOsFaUbFqEpr1x9fgbgQl7aRBPDypc=
-X-Received: by 2002:a05:6870:7a09:b0:1e9:f0fe:6ba4 with SMTP id
- hf9-20020a0568707a0900b001e9f0fe6ba4mr28988964oab.11.1701283957735; Wed, 29
- Nov 2023 10:52:37 -0800 (PST)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2074.outbound.protection.outlook.com [40.107.244.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7099310E67C;
+ Wed, 29 Nov 2023 19:04:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nQn+n75YyQqwgtUyJN4Z7tqwUm2afev+zaDmQV4YvYiF3e25rDyjXDHyrXokDxP6buOsZTthZrwqWkuFwiTKAljWQIof6hquzOCSlI3tn09CYVW/JSgWg5aVnCQ+1IQiecGZLJ/pS7VyCBR1eSY4PuTOY98McS96FiQdYGHGK3ueuKrH4/HTZgr0AN8GgkmZFELxFgRNl2DHzgDLsgqAERnhzvaKWICp6Ie2k0hNIu12a9TqhpCxJsKljLPPlwDvWKSnhbfoAWg7FR9JvaSehripW/wyJIADsBsMH3LYtmA1kJe+NzvsesRwPW7OCtTC/4NrKn0gRn6ohaVLdY48gA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UnJz3rd9akWljR03xoJWxhQ9viEtvd0BRZBs/NFeJvo=;
+ b=T28tlhhz0cb+am/Y6oRCEEOYrYesdtQW8BZucCSmvm4Gf6hzYxlyy0C3qSSkpvZkk36u3ObMhVudYa5AwZpAhioskM7f0ZFdKDHwIwrENABpDt8kqiobOVKSgj3VDo6ZTUW2yCUWlB4rtaztLOyhASMqMpjA1s3JX2nfi0ffvEk3+osdm7qfwEMxS3ovQOVKrVM4YReWD9RsOQEdBEhh89JjOuGsisyDkhXyFclK12+z8mVF2AkYy+1QVNlpEkwzWBd2qbfb7iclbxPNC0sUaF6ng/GUKGLVCFkilLCMRXCV1RDxNO8CeqBQVkgYAe5SnBL9LTF1TDbskVWC6ox78A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UnJz3rd9akWljR03xoJWxhQ9viEtvd0BRZBs/NFeJvo=;
+ b=QrGFMQA4iMP8Wck1b/iPqzTcGcmS4t5rBcAlzK711TkvJwwHidjAG5EPQROoKQ70wwIgOb4lGilrvEPl9YDagGaB9Ik3rgqCR6KpIDCc3esCEkvNuUdOc1Pg1OohfjiwECiT933iyU0DL0vP8wcBm9fjdBcnvoftgLyfsgHJkdumaZhgA0XUFzMObh7VeQuCcsp+pAZH1wXrd3g9yH3OaNRaDsLfB1MRAb6/HI5PWN4tqqjgIWN4yVdRgG4BoDmG+TiuhJXqARJQS7E9/8iRbL1VSXziSe+41HkZuYUf+PAITAke5T/mluRYaxLuaxrzTG9nNRgNPO8L7H+pW4rkhw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by CH2PR12MB4875.namprd12.prod.outlook.com (2603:10b6:610:35::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.29; Wed, 29 Nov
+ 2023 19:04:24 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::60d4:c1e3:e1aa:8f93]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::60d4:c1e3:e1aa:8f93%4]) with mapi id 15.20.7046.015; Wed, 29 Nov 2023
+ 19:04:24 +0000
+Date: Wed, 29 Nov 2023 15:04:23 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 06/10] iommu: Replace iommu_device_lock with
+ iommu_probe_device_lock
+Message-ID: <20231129190423.GY436702@nvidia.com>
+References: <6-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
+ <788519ac-9ad7-459c-a57d-bfe1ec96db3e@arm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <788519ac-9ad7-459c-a57d-bfe1ec96db3e@arm.com>
+X-ClientProxiedBy: DM6PR13CA0033.namprd13.prod.outlook.com
+ (2603:10b6:5:bc::46) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-References: <87edgv4x3i.fsf@vps.thesusis.net>
- <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
- <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
- <bdb238b6-60c7-4f26-81d0-9e62cd5dd326@gmail.com>
- <CADnq5_NVGS1XykxGxpcu_bpPbzboCUJQkcCF3r+0N9a23KUgiQ@mail.gmail.com>
- <96e2e13c-f01c-4baf-a9a3-cbaa48fb10c7@amd.com>
- <CADnq5_NBfeAXEyQw0gnSd67=tR-bUKg8w=10+4z9pGGuRnP9uw@mail.gmail.com>
- <87jzq2ixtm.fsf@vps.thesusis.net>
- <CADnq5_Ou-MVVm0rdWDmDnJNLkWUayXzO26uCEtz3ucNa4Ghy2w@mail.gmail.com>
- <95fe9b5b-05ce-4462-9973-9aca306bc44f@gmail.com>
- <CADnq5_MYEWx=e1LBLeVs0UbR5_xEScjDyw_-75mLe8RAMnqh6g@mail.gmail.com>
- <CADnq5_OC=JFpGcN0oGbTF5xYEt4X3r0=jEY6hJ12W8CzYq1+cA@mail.gmail.com>
- <9595b8bf-e64d-4926-9263-97e18bcd7d05@gmail.com>
-In-Reply-To: <9595b8bf-e64d-4926-9263-97e18bcd7d05@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 29 Nov 2023 13:52:26 -0500
-Message-ID: <CADnq5_N6DF-huOzgaVygvS5N_j_oNUEC1aa4zRsZTzx8GOD_aw@mail.gmail.com>
-Subject: Re: Radeon regression in 6.6 kernel
-To: Luben Tuikov <ltuikov89@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|CH2PR12MB4875:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0a526538-107f-4943-f967-08dbf10e0069
+X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VVmDavWiyQxxlsJUv56RzJ2UQIyjdgSyookmaLSqP8AGbnModIyi0BvWZIM5nyvAtassCobmSjERp1HP0AuY+CV3k3e2e3RusTU+0ExlxBPCkTJjumTmBNyzUASsEJ1KFkiAEdGSG7yEEbwjx1nt8Y9YUTuUoZiH7KMEr5b3GiWj2begTA1RiUN9YGutkZC1tDbkIaDIvJYm48K4pt/I0dzewwBJ9Q71CH+zdsN4Xm+7be2z5wza+D0ZwhTtGTD3BW11O2jdm6yDo7053btxMZ4zKzvtPjUIrOCWBdWbML4W+SADDL/mJcPY1KM4mZV24VCre4yEJ+jR3az3keqkfR4rpILYEB5uOGdhRqlXM2rEJDIVklDMdWmOKtVdYPEfINkbinA6qwfZKWG4Oo7NbDTX9IRZX2MdMQ0k8wM9Q6RsyCxuBfMSU6///bGbzin7c2AAd3mpWoNkVPmhUxH/7wWEOkUfCu9Yjbm+W49i8o6ES4DFUYo2yAWpRyE35w2cNVhPIQn2yhAM01gUNEuKe7ufO8aMR7boPjZAm3duMaHjoobsl3JHr1oZgbnJ2PvVGN4tDXtc9dKkUXHia+dJ5+QDqdJSzNlkCM2uWt+vCsn2BHJoCgEqv0P6FsZXc1r8
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(366004)(376002)(39860400002)(396003)(136003)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(26005)(1076003)(2616005)(8676002)(6506007)(7366002)(7406005)(8936002)(86362001)(5660300002)(53546011)(4326008)(478600001)(6486002)(66476007)(6916009)(66946007)(54906003)(316002)(66556008)(7416002)(38100700002)(83380400001)(2906002)(6512007)(41300700001)(33656002)(36756003)(27376004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JvDSgHIZJl9L23pkRsSE8MXrYjjlQg4+8vOE3HMOQTe8eACJscZ5o2vkDp+R?=
+ =?us-ascii?Q?XQ/GBD59Qvp9iT0g394o40HCZ7iyatkSx2FTD76fu7yhdxyf4vttn6Bcduvm?=
+ =?us-ascii?Q?PPCjnUbMWO1wRV49vaRkZsT3ZenGlkaRLO11hJO3priALurDqmDitjATau+B?=
+ =?us-ascii?Q?LOPl2YiWZRcwgB+X+CH33G1HGGr6kILVO6HhqQvTUkV0p+o8h5ZxryFpCUS/?=
+ =?us-ascii?Q?8hOOIO1AuEhCwvyIIh3A0nXrQqFhw1o4TjSI6HVwtNHI5VjHME7uWlEVgYoW?=
+ =?us-ascii?Q?/+9OkNjnmirIxnWGCpgMTqjkteq4loUOYQpiRW3UMwBxbMmbUWVdaSh5y3/V?=
+ =?us-ascii?Q?pgyPorR+IdD7GNBHBhuO+5PuRFY+Ru6GZp/a4FiErCeh6Z5VOG4czpy4bRFb?=
+ =?us-ascii?Q?CZK3F2bCzyqfsu2AiOIAkRqyQgtmKS5ne0bgcDOuCtETQ00k8f6X6CW+qmzR?=
+ =?us-ascii?Q?RWPrN0/qnGZo6EdI9hvIuA3jsJ3cr3gcT7bk/cQh7jlwaReFFDuq/tCr+D56?=
+ =?us-ascii?Q?EGMt4m6Izyl1dZUn5T1NlPhC1KJAmQuibyrV/L3oWQ5A67b/glJLQYZyi2wS?=
+ =?us-ascii?Q?Ywjk0foY+LnrHituiv6+PWi6anvoH6t8bBkzkbGanZRNuj4U60ha9kLLw9QM?=
+ =?us-ascii?Q?bCU9TZrDn5MQRPTXGQyleVwTMwx8scjFsx007APtZGgOczIJG0CnPwzCl6c7?=
+ =?us-ascii?Q?WeEe/sKjre/mNs51kHyHxMSy8w3gF1DxjYCxoCv2XdngxPZJHsXFsd9hvj7p?=
+ =?us-ascii?Q?e8qpEzcrYmbiXAHvMWy4FDUWb40/skd3KSINg6r8rnkPkCFFrNt9xkSShpv5?=
+ =?us-ascii?Q?fFxwjNvV5ANW9uKT4wV5SLs1JmZHDi57oKyn3Lzip/T7GYiFhRvFnc+fd+uN?=
+ =?us-ascii?Q?3bqrOE/YXpJ0DicCpXJd6c4bdAhO/YkrsGrlFzIgBFBk7TAYWsm9Ng+svZ01?=
+ =?us-ascii?Q?aQlIwqk15XEVo81C4xKzQ5aPp5YEcesT1mBAwZCLio1lMbAU8zONrIfPQzgz?=
+ =?us-ascii?Q?yqNVx6hGJnVOkkCT5aMgKKw/Pg2eAOIuUrTpbPYXYmnIS6qYuwvhV9s+EBJS?=
+ =?us-ascii?Q?gsVon+tPplThuubGQppTLAJ4xMhNwW8zZLV4C2GgA6HA5isrZQvoMecE8n00?=
+ =?us-ascii?Q?B2i+uf86enF0OQISjRrYe12299UAS46M/VpY3XE7HGh+dyEe8CzjjtFndM7S?=
+ =?us-ascii?Q?d/SNzjCO+q+TOv5aGlqRAjHIMSge9FvgSRIeU0ITCweonxYJ1VEQxJ0Xdp9U?=
+ =?us-ascii?Q?UmGKCZTfNNqn9bunpcR/uwKecn8y7bpt5nXuswu3m8T6LKEJ/ZK2SZZdBmV2?=
+ =?us-ascii?Q?A+7ULBrU3Qy+5YqwhVIekPHSBbf4rC8NTKavIoa9CkwS0ZmQjp4ZlTFpcRPu?=
+ =?us-ascii?Q?OZmbMo1zLmYfz8KD4Q+Vh3G+6FlzP3KN19eneWsqjqz+Zto6Af+yl1fmNwvE?=
+ =?us-ascii?Q?hnQ9tvvpMLy2QFFC3psZCskM+zpfZ2cF0i6sKAfNFppevBftAcatEvIRXCM0?=
+ =?us-ascii?Q?B5C3BR+NRZHwtLp/zCJof3QgEHO2/hz2Nz+d4hhzoNT+gjxWE016hvCUgSyS?=
+ =?us-ascii?Q?isGgNNck2OsNEuCO4FWAv8pf+BjBDqOefL5ApNRb?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a526538-107f-4943-f967-08dbf10e0069
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2023 19:04:24.3875 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oOzgwny9Glf/bwrIspiQt3TeF+85jcAvrLkFqH0+YnEgg/8/kROnD1ILWM7/gA8A
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4875
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,115 +116,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Danilo Krummrich <dakr@redhat.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- Phillip Susi <phill@thesusis.net>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-hyperv@vger.kernel.org, Karol Herbst <kherbst@redhat.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Jerry Snitselaar <jsnitsel@redhat.com>, dri-devel@lists.freedesktop.org,
+ patches@lists.linux.dev, Laxman Dewangan <ldewangan@nvidia.com>,
+ Hanjun Guo <guohanjun@huawei.com>, linux-riscv@lists.infradead.org,
+ "K. Y. Srinivasan" <kys@microsoft.com>, Frank Rowand <frowand.list@gmail.com>,
+ Christoph Hellwig <hch@lst.de>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Wei Liu <wei.liu@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Dexuan Cui <decui@microsoft.com>, Russell King <linux@armlinux.org.uk>,
+ Jon Hunter <jonathanh@nvidia.com>, linux-acpi@vger.kernel.org,
+ iommu@lists.linux.dev, Danilo Krummrich <dakr@redhat.com>,
+ nouveau@lists.freedesktop.org, linux-snps-arc@lists.infradead.org,
+ Len Brown <lenb@kernel.org>, devicetree@vger.kernel.org,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Will Deacon <will@kernel.org>, Sven Peter <sven@svenpeter.dev>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Vineet Gupta <vgupta@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Moritz Fischer <mdf@kernel.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Hector Martin <marcan@marcan.st>, linux-mips@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ asahi@lists.linux.dev, Sudeep Holla <sudeep.holla@arm.com>,
+ dmaengine@vger.kernel.org, David Woodhouse <dwmw2@infradead.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 29, 2023 at 11:41=E2=80=AFAM Luben Tuikov <ltuikov89@gmail.com>=
- wrote:
->
-> On 2023-11-29 10:22, Alex Deucher wrote:
-> > On Wed, Nov 29, 2023 at 8:50=E2=80=AFAM Alex Deucher <alexdeucher@gmail=
-.com> wrote:
-> >>
-> >> On Tue, Nov 28, 2023 at 11:45=E2=80=AFPM Luben Tuikov <ltuikov89@gmail=
-.com> wrote:
-> >>>
-> >>> On 2023-11-28 17:13, Alex Deucher wrote:
-> >>>> On Mon, Nov 27, 2023 at 6:24=E2=80=AFPM Phillip Susi <phill@thesusis=
-.net> wrote:
-> >>>>>
-> >>>>> Alex Deucher <alexdeucher@gmail.com> writes:
-> >>>>>
-> >>>>>>> In that case those are the already known problems with the schedu=
-ler
-> >>>>>>> changes, aren't they?
-> >>>>>>
-> >>>>>> Yes.  Those changes went into 6.7 though, not 6.6 AFAIK.  Maybe I'=
-m
-> >>>>>> misunderstanding what the original report was actually testing.  I=
-f it
-> >>>>>> was 6.7, then try reverting:
-> >>>>>> 56e449603f0ac580700621a356d35d5716a62ce5
-> >>>>>> b70438004a14f4d0f9890b3297cd66248728546c
-> >>>>>
-> >>>>> At some point it was suggested that I file a gitlab issue, but I to=
-ok
-> >>>>> this to mean it was already known and being worked on.  -rc3 came o=
-ut
-> >>>>> today and still has the problem.  Is there a known issue I could tr=
-ack?
-> >>>>>
-> >>>>
-> >>>> At this point, unless there are any objections, I think we should ju=
-st
-> >>>> revert the two patches
-> >>> Uhm, no.
-> >>>
-> >>> Why "the two" patches?
-> >>>
-> >>> This email, part of this thread,
-> >>>
-> >>> https://lore.kernel.org/all/87r0kircdo.fsf@vps.thesusis.net/
-> >>>
-> >>> clearly states that reverting *only* this commit,
-> >>> 56e449603f0ac5 drm/sched: Convert the GPU scheduler to variable numbe=
-r of run-queues
-> >>> *does not* mitigate the failed suspend. (Furthermore, this commit doe=
-sn't really change
-> >>> anything operational, other than using an allocated array, instead of=
- a static one, in DRM,
-> >>> while the 2nd patch is solely contained within the amdgpu driver code=
-.)
-> >>>
-> >>> Leaving us with only this change,
-> >>> b70438004a14f4 drm/amdgpu: move buffer funcs setting up a level
-> >>> to be at fault, as the kernel log attached in the linked email above =
-shows.
-> >>>
-> >>> The conclusion is that only b70438004a14f4 needs reverting.
-> >>
-> >> b70438004a14f4 was a fix for 56e449603f0ac5.  Without b70438004a14f4,
-> >> 56e449603f0ac5 breaks amdgpu.
-> >
-> > We can try and re-enable it in the next kernel.  I'm just not sure
-> > we'll be able to fix this in time for 6.7 with the holidays and all
-> > and I don't want to cause a lot of scheduler churn at the end of the
-> > 6.7 cycle if we hold off and try and fix it.  Reverting seems like the
-> > best short term solution.
->
-> A lot of subsequent code has come in since commit 56e449603f0ac5, as it o=
-pened
-> the opportunity for a 1-to-1 relationship between an entity and a schedul=
-er.
-> (Should've always been the case, from the outset. Not sure why it was cod=
-ed as
-> a fixed-size array.)
->
-> Given that commit 56e449603f0ac5 has nothing to do with amdgpu, and the p=
-roblem
-> is wholly contained in amdgpu, and no other driver has this problem, ther=
-e is
-> no reason to have to "churn", i.e. go back and forth in DRM, only to cove=
-r up
-> an init bug in amdgpu. See the response I just sent in @this thread:
-> https://lore.kernel.org/r/05007cb0-871e-4dc7-af58-1351f4ba43e2@gmail.com
->
-> And it's not like this issue is unknown. I first posted about it on 2023-=
-10-16.
->
-> Ideally, amdgpu would just fix their init code.
+On Wed, Nov 29, 2023 at 05:58:08PM +0000, Robin Murphy wrote:
+> On 29/11/2023 12:48 am, Jason Gunthorpe wrote:
+> > The iommu_device_lock protects the iommu_device_list which is only read by
+> > iommu_ops_from_fwnode().
+> > 
+> > This is now always called under the iommu_probe_device_lock, so we don't
+> > need to double lock the linked list. Use the iommu_probe_device_lock on
+> > the write side too.
+> 
+> Please no, iommu_probe_device_lock() is a hack and we need to remove the
+> *reason* it exists at all.
 
-You can't make changes to core code that break other drivers.
-Arguably 56e449603f0ac5 should not have gone in in the first place if
-it broke amdgpu.  b70438004a14f4 was the code to fix amdgpu's init
-code, but as a side effect it seems to have broken suspend for some
-users.
+Yes, I agree that goal is good
 
-Alex
+However, it is doing a lot of things, removing it is not so easy.
+
+One thing it is quietly doing is keeping the ops and iommu_device
+pointers alive during the entire probe process against(deeply broken,
+but whatever) concurrent iommu driver removal.
+
+It is also protecting access to dev->iommu_group during the group
+formation process.
+
+So, it is a little more complex. My specific interest was to make it
+not a spinlock.
+
+> And IMO just because iommu_present() is
+> deprecated doesn't justify making it look utterly nonsensical - in no way
+> does that have any relationship with probe_device, much less need to
+> serialise against it!
+
+The naming is poor now, I agree, but it is not nonsensical since it
+still holds the correct lock for the data it is accessing.
+
+Thanks,
+Jason
