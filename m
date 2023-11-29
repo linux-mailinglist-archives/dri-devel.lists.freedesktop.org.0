@@ -2,52 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535E47FCD4B
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 04:13:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B69857FCE08
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 05:45:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22F1310E09A;
-	Wed, 29 Nov 2023 03:13:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB75B10E5EF;
+	Wed, 29 Nov 2023 04:45:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3FF9310E09A
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 03:13:33 +0000 (UTC)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
- (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
- (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
- by ex01.ufhost.com (Postfix) with ESMTP id 54B7D24E29D;
- Wed, 29 Nov 2023 11:13:28 +0800 (CST)
-Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 29 Nov
- 2023 11:13:28 +0800
-Received: from [192.168.1.115] (180.164.60.184) by EXMBX061.cuchost.com
- (172.16.6.61) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 29 Nov
- 2023 11:13:27 +0800
-Message-ID: <20502c84-c3af-4a60-9f5f-d8cc05743866@starfivetech.com>
-Date: Wed, 29 Nov 2023 11:13:26 +0800
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com
+ [IPv6:2607:f8b0:4864:20::f2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CFE310E5EF;
+ Wed, 29 Nov 2023 04:45:08 +0000 (UTC)
+Received: by mail-qv1-xf2d.google.com with SMTP id
+ 6a1803df08f44-679da764efdso34930526d6.2; 
+ Tue, 28 Nov 2023 20:45:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1701233107; x=1701837907; darn=lists.freedesktop.org;
+ h=in-reply-to:autocrypt:from:references:cc:to:content-language
+ :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=d7Y0qZNLFICjLrmGifWVjYtYxOxOp0Zj6BSl0M+oReQ=;
+ b=M57qEJjHELKP8ht17hv4Uj0qA6K1tCfm/M0/bPXAy4GN0eopa1w/RdOmz2RTK6QktQ
+ 5Mg9RCNCvTM0pCJmrYadB/YAG8Rh6nASKEe0AaUV1SD2ivaGpTCkzsw6eyb8Lz6RvAZp
+ Jl+QSo4BinBXcq8VLtWxkU79Hb1ITjobgdhO3UlO0GMVocBPG0K6Nm9MsvzT7UOvdJ4w
+ cOGe8Fd8TkM8YuIBnJNq6XmlzvkT122KT8yojsQEccJisUAdmc8Os5Ov6n54ePEHAp8K
+ s3ZqnslWnLYLsKhrcz+mtPsfeioZPUnGetgeE4n8/PJhhkjfRuDEVRAH/0NWPmbjMGWs
+ IROA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701233107; x=1701837907;
+ h=in-reply-to:autocrypt:from:references:cc:to:content-language
+ :subject:user-agent:mime-version:date:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=d7Y0qZNLFICjLrmGifWVjYtYxOxOp0Zj6BSl0M+oReQ=;
+ b=LTQL4CS4BCjdWiIMmV4pJ/EX+pOB6WKXPzEXmh/L76tWXDDSsrqYzIAiE5DcKx0JdL
+ T0zv5Qp9RAbeehRaH16vebxx/kn4mQi0JSXqkz/N2p3ZG/VwU8Z7OpZQZHSZBg/VF1m1
+ DeJFTkG3D7WS2gwxb27a+PWqEMJerh8Zf9Th5K//XigbCOVR1whY+XxQCkHMMyJKT6R0
+ v8fkmHkuA9zcs23BJ2dt+Os/T4VM8pie7NsIg5nOO6pW9HIHv68zPdc9lVNDlPrTM4If
+ 0CEKwQpwhaKRxxnGuinzHTO6NQEjNi3swbU/ALibvWRL9qOZsT1pfVhwgPLWwtCE7rz/
+ ItJw==
+X-Gm-Message-State: AOJu0YxyHcKRbH00B8/HTjWz0BQFh2cCMvUatixIC3u1oqykKm3Qb69r
+ 7yuGL6RCQ5qJDkf8MyVkYSo=
+X-Google-Smtp-Source: AGHT+IGuTwbMcogkXsTn/hgaHHthLzunhkCa/ta+F0yax0RoSK2iaf26YLDOyUGXPYctUebz/mtuJA==
+X-Received: by 2002:a05:6214:104f:b0:67a:f89:22e5 with SMTP id
+ l15-20020a056214104f00b0067a0f8922e5mr19243475qvr.3.1701233107388; 
+ Tue, 28 Nov 2023 20:45:07 -0800 (PST)
+Received: from [192.168.2.14] ([76.65.20.140])
+ by smtp.gmail.com with ESMTPSA id
+ y10-20020a056214016a00b0067a53aa6df2sm1604358qvs.46.2023.11.28.20.45.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Nov 2023 20:45:06 -0800 (PST)
+Message-ID: <95fe9b5b-05ce-4462-9973-9aca306bc44f@gmail.com>
+Date: Tue, 28 Nov 2023 23:44:57 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/6] dt-bindings: display: Add yamls for JH7110 display
- system
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>
-References: <20231025103957.3776-1-keith.zhao@starfivetech.com>
- <20231025103957.3776-2-keith.zhao@starfivetech.com>
- <cb7395a9-71e8-415e-90d5-866a2aeadf28@linaro.org>
-From: Keith Zhao <keith.zhao@starfivetech.com>
-In-Reply-To: <cb7395a9-71e8-415e-90d5-866a2aeadf28@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX061.cuchost.com
- (172.16.6.61)
-X-YovoleRuleAgent: yovoleflag
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:115.0) Gecko/20100101
+ Thunderbird/115.5.0
+Subject: Re: Radeon regression in 6.6 kernel
+Content-Language: en-CA, en-US
+To: Alex Deucher <alexdeucher@gmail.com>, Phillip Susi <phill@thesusis.net>
+References: <87edgv4x3i.fsf@vps.thesusis.net>
+ <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
+ <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
+ <bdb238b6-60c7-4f26-81d0-9e62cd5dd326@gmail.com>
+ <CADnq5_NVGS1XykxGxpcu_bpPbzboCUJQkcCF3r+0N9a23KUgiQ@mail.gmail.com>
+ <96e2e13c-f01c-4baf-a9a3-cbaa48fb10c7@amd.com>
+ <CADnq5_NBfeAXEyQw0gnSd67=tR-bUKg8w=10+4z9pGGuRnP9uw@mail.gmail.com>
+ <87jzq2ixtm.fsf@vps.thesusis.net>
+ <CADnq5_Ou-MVVm0rdWDmDnJNLkWUayXzO26uCEtz3ucNa4Ghy2w@mail.gmail.com>
+From: Luben Tuikov <ltuikov89@gmail.com>
+Autocrypt: addr=ltuikov89@gmail.com; keydata=
+ xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1APnbnnRHN
+ Ikx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoAQRYhBJkj7+VmFO9b
+ eaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheA
+ AAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlTMqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfy
+ JwktF7REl1yt7IU2Sye1qmQMfJxdt9JMbMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSP
+ cCE8uGe7FWo8C+nTSyWPXKTx9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl
+ 10wVR5QxozSvBQJlOiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKo
+ aMDzO9eGz69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA==
+In-Reply-To: <CADnq5_Ou-MVVm0rdWDmDnJNLkWUayXzO26uCEtz3ucNa4Ghy2w@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------B9KvWMDdbyeGAXg0IZipz9I3"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,286 +94,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Emil Renner Berthing <kernel@esmil.dk>,
- Shengyang
- Chen <shengyang.chen@starfivetech.com>, Conor Dooley <conor+dt@kernel.org>,
- Albert Ou <aou@eecs.berkeley.edu>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>, Jagan Teki <jagan@edgeble.ai>, Rob
- Herring <robh+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Changhuang Liang <changhuang.liang@starfivetech.com>,
- Jack Zhu <jack.zhu@starfivetech.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Shawn Guo <shawnguo@kernel.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
+ ltuikov89@gmail.com,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------B9KvWMDdbyeGAXg0IZipz9I3
+Content-Type: multipart/mixed; boundary="------------zdhIbyuVIrAPRu0RHztAccg6";
+ protected-headers="v1"
+From: Luben Tuikov <ltuikov89@gmail.com>
+To: Alex Deucher <alexdeucher@gmail.com>, Phillip Susi <phill@thesusis.net>
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ linux-kernel@vger.kernel.org,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ ltuikov89@gmail.com
+Message-ID: <95fe9b5b-05ce-4462-9973-9aca306bc44f@gmail.com>
+Subject: Re: Radeon regression in 6.6 kernel
+References: <87edgv4x3i.fsf@vps.thesusis.net>
+ <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
+ <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
+ <bdb238b6-60c7-4f26-81d0-9e62cd5dd326@gmail.com>
+ <CADnq5_NVGS1XykxGxpcu_bpPbzboCUJQkcCF3r+0N9a23KUgiQ@mail.gmail.com>
+ <96e2e13c-f01c-4baf-a9a3-cbaa48fb10c7@amd.com>
+ <CADnq5_NBfeAXEyQw0gnSd67=tR-bUKg8w=10+4z9pGGuRnP9uw@mail.gmail.com>
+ <87jzq2ixtm.fsf@vps.thesusis.net>
+ <CADnq5_Ou-MVVm0rdWDmDnJNLkWUayXzO26uCEtz3ucNa4Ghy2w@mail.gmail.com>
+In-Reply-To: <CADnq5_Ou-MVVm0rdWDmDnJNLkWUayXzO26uCEtz3ucNa4Ghy2w@mail.gmail.com>
 
+--------------zdhIbyuVIrAPRu0RHztAccg6
+Content-Type: multipart/mixed; boundary="------------sNB7zEQc118Idxyi1MymNAMe"
 
-On 2023/10/25 20:50, Krzysztof Kozlowski wrote:
-> On 25/10/2023 12:39, Keith Zhao wrote:
->> StarFive SoCs JH7110 display system:
-> 
-> A nit, subject: drop second/last, redundant "yamls for". The
-> "dt-bindings" prefix is already stating that these are bindings, so
-> format is fixed.
-> 
->> lcd-controller bases verisilicon dc8200 IP,
->> and hdmi bases Innosilicon IP. Add bindings for them.
-> 
-> Please make it a proper sentences, with proper wrapping.
-> 
->> 
->> also update MAINTAINERS for dt-bindings
-> 
-> Not a sentence, but also not really needed.ok I see.
-> 
->> 
->> about this patch, I tested the dtbs_check and dt_binding_check
->> with the result pass.
->> Based on the feedback of the previous version, the corresponding arrangement is made
-> 
-> Not relevant, so not really suitable for commit msg.
-> 
->> 
->> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
->> ---
->>  .../starfive/starfive,display-subsystem.yaml  |  41 +++++++
->>  .../starfive/starfive,jh7110-dc8200.yaml      | 109 ++++++++++++++++++
->>  .../starfive/starfive,jh7110-inno-hdmi.yaml   |  85 ++++++++++++++
->>  MAINTAINERS                                   |   7 ++
->>  4 files changed, 242 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.yaml
->>  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml
->>  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml
->> 
->> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.yaml b/Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.yaml
->> new file mode 100644
->> index 000000000..f45b97b08
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.yaml
->> @@ -0,0 +1,41 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/starfive/starfive,display-subsystem.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Starfive DRM master device
-> 
-> What is DRM in hardware? I know Digital Rights Management, but then
-> subsystem seems wrong. If you mean Linux DRM, then Linux is not a
-> hardware, so drop all Linuxisms and describe hardware.
-ok , will only keep hardware describe in my next version
-> 
-> 
->> +
->> +maintainers:
->> +  - Keith Zhao <keith.zhao@starfivetech.com>
->> +  - ShengYang Chen <shengyang.chen@starfivetech.com>
->> +
->> +description:
->> +  The Starfive DRM master device is a virtual device needed to list all
-> 
-> Virtual device? Then not suitable for bindings, sorry.
-> 
->> +  display controller or other display interface nodes that comprise the
->> +  graphics subsystem.
->> +
->> +properties:
->> +  compatible:
->> +    const: starfive,display-subsystem
->> +
->> +  ports:
->> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> 
-> No, ports is not phandle-array. ports is object, always.
-> 
->> +    description:
->> +      Should contain a list of phandles pointing to display interface ports
->> +      of display controller devices. Display controller definitions as defined
->> +      in Documentation/devicetree/bindings/display/starfive/
->> +      starfive,jh7110-dc8200.yaml
-> 
-> Use standard graph ports, not some own, custom property.
-> 
-> Anyway, entire binding should be dropped. You do not need it even.
-Hi Krzysztof:
-Virtual device is not suitable for bindings, matbe I need associate it with the real hardware.
-such as the top clocks & reset , irq , etc.
-Currently I configure them in another yaml file. Logically speaking, this is more suitable.
+--------------sNB7zEQc118Idxyi1MymNAMe
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Can adding the corresponding hardware description change its fate of being deleted?
- 
-> 
->> +
->> +required:
->> +  - compatible
->> +  - ports
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    display-subsystem {
->> +        compatible = "starfive,display-subsystem";
->> +        ports = <&dc_out>;
->> +    };
->> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml
->> new file mode 100644
->> index 000000000..87051cddf
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml
->> @@ -0,0 +1,109 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/starfive/starfive,jh7110-dc8200.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: StarFive display controller
->> +
->> +description:
->> +  The StarFive SoC uses the display controller based on Verisilicon IP
->> +  to transfer the image data from a video memory buffer to an external
->> +  LCD interface.
->> +
->> +maintainers:
->> +  - Keith Zhao <keith.zhao@starfivetech.com>
->> +
->> +properties:
->> +  compatible:
->> +    const: starfive,jh7110-dc8200
->> +
->> +  reg:
->> +    minItems: 1
->> +    items:
->> +      - description:
->> +          host interface
-> 
-> In one line.
->  - description: host interface
-> 
->> +      - description:
->> +          display physical base address and length.
-> 
-> Drop redundant parts: base address and length. Everything in reg for
-> MMIO would have it...
-> 
->> +
->> +  interrupts:
->> +    items:
->> +      - description: The interrupt will be generated when DC finish one frame
->> +
->> +  clocks:
->> +    items:
->> +      - description: Clock for display system noc bus.
->> +      - description: Pixel clock for display channel 0.
->> +      - description: Pixel clock for display channel 1.
->> +      - description: Core clock for display controller.
->> +      - description: Clock for axi bus to access ddr.
->> +      - description: Clock for ahb bus to R/W the phy regs.
->> +      - description: External HDMI pixel clock.
->> +      - description: Parent clock for pixel clock
->> +
->> +  clock-names:
->> +    items:
->> +      - const: noc_bus
->> +      - const: channel0
->> +      - const: channel1
->> +      - const: dc_core
->> +      - const: axi_core
->> +      - const: ahb
->> +      - const: hdmi_tx
->> +      - const: dc_parent
->> +
->> +  resets:
->> +    items:
->> +      - description: Reset for axi bus.
->> +      - description: Reset for ahb bus.
->> +      - description: Core reset of display controller.
->> +
->> +  reset-names:
->> +    items:
->> +      - const: axi
->> +      - const: ahb
->> +      - const: core
->> +
->> +  port:
->> +    $ref: /schemas/graph.yaml#/properties/port
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupts
->> +  - clocks
->> +  - clock-names
->> +  - resets
->> +  - reset-names
->> +  - port
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    dc8200: lcd-controller@29400000 {
->> +        compatible = "starfive,jh7110-dc8200";
->> +        reg = <0x29400000 0x100>, <0x29400800 0x2000>;
->> +        interrupts = <95>;
->> +        clocks = <&syscrg 60>,
->> +               <&voutcrg 7>,
->> +               <&voutcrg 8>,
->> +               <&voutcrg 4>,
->> +               <&voutcrg 5>,
->> +               <&voutcrg 6>,
->> +               <&hdmitx0_pixelclk>,
->> +               <&voutcrg 1>;
->> +        clock-names = "noc_bus", "channel0", "channel1",
->> +                      "dc_core", "axi_core", "ahb",
->> +                      "hdmi_tx","dc_parent";
->> +        resets = <&voutcrg 0>, <&voutcrg 1>, <&voutcrg 2>;
->> +        reset-names = "axi", "ahb", "core";
->> +        dc_out: port {
->> +            #address-cells = <1>;
->> +            #size-cells = <0>;
->> +            dc_out_hdmi: endpoint@0 {
->> +                reg = <0>;
->> +                remote-endpoint = <&hdmi_in_dc>;
->> +            };
->> +        };
->> +    };
->> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml
->> new file mode 100644
->> index 000000000..f6c473a10
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml
->> @@ -0,0 +1,85 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/starfive/starfive,jh7110-inno-hdmi.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Starfive JH7110 HDMI controller
->> +
->> +description:
->> +  The StarFive JH7110 SoC uses the HDMI signal transmiter based on innosilicon IP
->> +  to generate HDMI signal from its input and transmit the signal to the screen.
->> +
->> +maintainers:
->> +  - Keith Zhao <keith.zhao@starfivetech.com>
->> +
->> +properties:
->> +  compatible:
->> +    const: "starfive,jh7110-inno-hdmi"
-> 
-> It does not look like you tested the bindings, at least after quick
-> look. Please run `make dt_binding_check` (see
-> Documentation/devicetree/bindings/writing-schema.rst for instructions).
-> Maybe you need to update your dtschema and yamllint.
-> 
-> Best regards,
-> Krzysztof
-> 
+On 2023-11-28 17:13, Alex Deucher wrote:
+> On Mon, Nov 27, 2023 at 6:24=E2=80=AFPM Phillip Susi <phill@thesusis.ne=
+t> wrote:
+>>
+>> Alex Deucher <alexdeucher@gmail.com> writes:
+>>
+>>>> In that case those are the already known problems with the scheduler=
+
+>>>> changes, aren't they?
+>>>
+>>> Yes.  Those changes went into 6.7 though, not 6.6 AFAIK.  Maybe I'm
+>>> misunderstanding what the original report was actually testing.  If i=
+t
+>>> was 6.7, then try reverting:
+>>> 56e449603f0ac580700621a356d35d5716a62ce5
+>>> b70438004a14f4d0f9890b3297cd66248728546c
+>>
+>> At some point it was suggested that I file a gitlab issue, but I took
+>> this to mean it was already known and being worked on.  -rc3 came out
+>> today and still has the problem.  Is there a known issue I could track=
+?
+>>
+>=20
+> At this point, unless there are any objections, I think we should just
+> revert the two patches
+Uhm, no.
+
+Why "the two" patches?
+
+This email, part of this thread,
+
+https://lore.kernel.org/all/87r0kircdo.fsf@vps.thesusis.net/
+
+clearly states that reverting *only* this commit,
+56e449603f0ac5 drm/sched: Convert the GPU scheduler to variable number of=
+ run-queues
+*does not* mitigate the failed suspend. (Furthermore, this commit doesn't=
+ really change
+anything operational, other than using an allocated array, instead of a s=
+tatic one, in DRM,
+while the 2nd patch is solely contained within the amdgpu driver code.)
+
+Leaving us with only this change,
+b70438004a14f4 drm/amdgpu: move buffer funcs setting up a level
+to be at fault, as the kernel log attached in the linked email above show=
+s.
+
+The conclusion is that only b70438004a14f4 needs reverting.
+--=20
+Regards,
+Luben
+
+--------------sNB7zEQc118Idxyi1MymNAMe
+Content-Type: application/pgp-keys; name="OpenPGP_0x4C15479431A334AF.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x4C15479431A334AF.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xjMEZTohOhYJKwYBBAHaRw8BAQdAWSq76k+GsENjDTMVCy9Vr4fAO9Rb57/bPT1A
+PnbnnRHNIkx1YmVuIFR1aWtvdiA8bHR1aWtvdjg5QGdtYWlsLmNvbT7CmQQTFgoA
+QRYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJlOiE6AhsDBQkJZgGABQsJCAcCAiIC
+BhUKCQgLAgQWAgMBAh4HAheAAAoJEEwVR5QxozSvSm4BAOwCpX53DTQhE20FBGlT
+MqKCOQyJqlMcIQ9SO1qPWX1iAQCv3vfyJwktF7REl1yt7IU2Sye1qmQMfJxdt9JM
+bMNNBs44BGU6IToSCisGAQQBl1UBBQEBB0BT9wSPcCE8uGe7FWo8C+nTSyWPXKTx
+9F0gpEnlqReRBwMBCAfCfgQYFgoAJhYhBJkj7+VmFO9beaAl10wVR5QxozSvBQJl
+OiE6AhsMBQkJZgGAAAoJEEwVR5QxozSvSsYA/2LIFjbxQ2ikbU5S0pKoaMDzO9eG
+z69uNhNWJcvIKJK6AQC9228Mqc1JeZMIyjYWr2HKYHi8S2q2/zHrSZwAWYYwDA=3D=3D
+=3DqCaZ
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------sNB7zEQc118Idxyi1MymNAMe--
+
+--------------zdhIbyuVIrAPRu0RHztAccg6--
+
+--------------B9KvWMDdbyeGAXg0IZipz9I3
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSZI+/lZhTvW3mgJddMFUeUMaM0rwUCZWbByQUDAAAAAAAKCRBMFUeUMaM0r6jz
+AP4zTPvRhz6Cv17QqsLz2rphQRnP0Y53BGjckIVgs/JMUAD/R/QYTr1qhzapp2VOHTym3teg3yR4
+P0cKURfARvAUOw0=
+=1QtL
+-----END PGP SIGNATURE-----
+
+--------------B9KvWMDdbyeGAXg0IZipz9I3--
