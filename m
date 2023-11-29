@@ -1,52 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EABAD7FD805
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 14:26:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CE087FD888
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 14:46:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1429010E1DA;
-	Wed, 29 Nov 2023 13:26:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 121A410E1D2;
+	Wed, 29 Nov 2023 13:46:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0942F10E1DA
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 13:26:09 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 684C461B57;
- Wed, 29 Nov 2023 13:26:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB338C433C7;
- Wed, 29 Nov 2023 13:26:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701264368;
- bh=TUtFqUYMxnqyBPs9bbVQmVM4vqhJdSRfDfGOD1whTY4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=udDTPg/QJRBP5QkpTiMeh9UGd3LbkIMJ6OSPtVr20lXV2I0dSmD487VSLmr4+dqmS
- vJlRP0vpDsNw7Iwl4FU3MqaW+PIcEuvFqVcO5vM7Om6rCkZ8ccS7B5TBf3SnzFQ+lx
- Gb+zwkl+A0q2bPQy4qnxPBJdhuZ16ezAceq6u74P8hwadHT3y+T6sS2sBzEVBkkbZv
- ZYMnNWDnUJgkFyAN0fyACMe9PDIsBSIDt/UK+Bu+rGG8Nalg/o+G3M2fn/JbbzNtC6
- 6jCaKByn83ISVpSAPlJHtjfOUqJQyuN2HnQzcer9cY8HAL4qMIm9SG9Vsl/PCPUywk
- G7B81I+QbUNpQ==
-Date: Wed, 29 Nov 2023 14:26:05 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
- pointers arguments
-Message-ID: <xnhbd52q3sicro6heheu6fb3zo3g342njbz67dki44wumhy57i@aaovlbqhojan>
-References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
- <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
- <87h6l66nth.fsf@intel.com>
- <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
- <ZWXv1Oi_sH0BRWao@intel.com>
- <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
- <8734wo7vbx.fsf@intel.com>
- <kygezdrfz56zj6lmq6l5s5yyys2urgq3id7r5n4mb3afn5kc5q@eswnd6a2ihqc>
- <87ttp46b49.fsf@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 208CD10E1D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 13:46:15 +0000 (UTC)
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 8F4F96602F2A;
+ Wed, 29 Nov 2023 13:46:12 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1701265573;
+ bh=cPrdHiYFM6hWb9ovweIlhFYJQT5IeERY0rZ3lJOJTdI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=AZLgQ56oeWFfTMEJAqzBGdw1QGd8KK96rkEqcbEe4trdn7Thr5oXG8Z8qHYVDZmAi
+ 3MBMxJNUN7QwJXWBYAO664A7Vwq0jD6rA1MmHtk+TRWCHaXA0lAUaurZZ3apSpRzUr
+ I+J4gx5wXcZWHgCGBwLgWw1FDBAd3AhLRHJ/zthC+ef5/dvhw0A97tTg7SXyAVHrWG
+ VFERw1C71DayL5JOrmQZEi9ngMZiOwT8iy69rXsm9oNyrMxrQgbFGADdfNTlE02cxu
+ X4NOWc3raSu3iRIGepfYoQtiRB5k4/bGt8irN9Pa72PglH4Ay8VTPjmrqeIDQ0cqlh
+ HyVuNUKZ8Nqgg==
+Date: Wed, 29 Nov 2023 14:46:09 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v18 04/26] drm/shmem-helper: Refactor locked/unlocked
+ functions
+Message-ID: <20231129144609.7544e773@collabora.com>
+In-Reply-To: <ioqghyaeftyo7tuyfecn252ykxwgltrkhh2pwktjejqhewntbb@bym3rsjxnxfp>
+References: <20231029230205.93277-1-dmitry.osipenko@collabora.com>
+ <20231029230205.93277-5-dmitry.osipenko@collabora.com>
+ <wboljiwogeus7pwgaqzxaltt3xdavy2dzisygn6pdpoiwlnwgc@mwaiukjguzat>
+ <20231124115911.79ab24af@collabora.com>
+ <kw5bho3jx73d3glvtewmjvqt4qty4khju6dcwypuh25ya3gi4b@7slmijjqdi4p>
+ <20231128133712.53a6f6cb@collabora.com>
+ <37208c72-7908-0a78-fc89-2fa9b8d756a5@collabora.com>
+ <20231129085330.7ccb35d3@collabora.com>
+ <ioqghyaeftyo7tuyfecn252ykxwgltrkhh2pwktjejqhewntbb@bym3rsjxnxfp>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="7y6ja2ijtruwy6p6"
-Content-Disposition: inline
-In-Reply-To: <87ttp46b49.fsf@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,185 +61,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, Emma Anholt <emma@anholt.net>,
- Samuel Holland <samuel@sholland.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org,
- Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-sunxi@lists.linux.dev,
- linux-media@vger.kernel.org
+Cc: kernel@collabora.com, Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Emma Anholt <emma@anholt.net>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ Melissa Wen <mwen@igalia.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Steven Price <steven.price@arm.com>, virtualization@lists.linux-foundation.org,
+ Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 29 Nov 2023 14:09:47 +0100
+Maxime Ripard <mripard@kernel.org> wrote:
 
---7y6ja2ijtruwy6p6
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Wed, Nov 29, 2023 at 08:53:30AM +0100, Boris Brezillon wrote:
+> > On Wed, 29 Nov 2023 01:05:14 +0300
+> > Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+> >   
+> > > On 11/28/23 15:37, Boris Brezillon wrote:  
+> > > > On Tue, 28 Nov 2023 12:14:42 +0100
+> > > > Maxime Ripard <mripard@kernel.org> wrote:
+> > > >     
+> > > >> Hi,
+> > > >>
+> > > >> On Fri, Nov 24, 2023 at 11:59:11AM +0100, Boris Brezillon wrote:    
+> > > >>> On Fri, 24 Nov 2023 11:40:06 +0100
+> > > >>> Maxime Ripard <mripard@kernel.org> wrote:
+> > > >>>       
+> > > >>>> On Mon, Oct 30, 2023 at 02:01:43AM +0300, Dmitry Osipenko wrote:      
+> > > >>>>> Add locked and remove unlocked postfixes from drm-shmem function names,
+> > > >>>>> making names consistent with the drm/gem core code.
+> > > >>>>>
+> > > >>>>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > >>>>> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > >>>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>        
+> > > >>>>
+> > > >>>> This contradicts my earlier ack on a patch but...
+> > > >>>>       
+> > > >>>>> ---
+> > > >>>>>  drivers/gpu/drm/drm_gem_shmem_helper.c        | 64 +++++++++----------
+> > > >>>>>  drivers/gpu/drm/lima/lima_gem.c               |  8 +--
+> > > >>>>>  drivers/gpu/drm/panfrost/panfrost_drv.c       |  2 +-
+> > > >>>>>  drivers/gpu/drm/panfrost/panfrost_gem.c       |  6 +-
+> > > >>>>>  .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |  2 +-
+> > > >>>>>  drivers/gpu/drm/panfrost/panfrost_mmu.c       |  2 +-
+> > > >>>>>  drivers/gpu/drm/v3d/v3d_bo.c                  |  4 +-
+> > > >>>>>  drivers/gpu/drm/virtio/virtgpu_object.c       |  4 +-
+> > > >>>>>  include/drm/drm_gem_shmem_helper.h            | 36 +++++------
+> > > >>>>>  9 files changed, 64 insertions(+), 64 deletions(-)
+> > > >>>>>
+> > > >>>>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> > > >>>>> index 0d61f2b3e213..154585ddae08 100644
+> > > >>>>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> > > >>>>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> > > >>>>> @@ -43,8 +43,8 @@ static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
+> > > >>>>>  	.pin = drm_gem_shmem_object_pin,
+> > > >>>>>  	.unpin = drm_gem_shmem_object_unpin,
+> > > >>>>>  	.get_sg_table = drm_gem_shmem_object_get_sg_table,
+> > > >>>>> -	.vmap = drm_gem_shmem_object_vmap,
+> > > >>>>> -	.vunmap = drm_gem_shmem_object_vunmap,
+> > > >>>>> +	.vmap = drm_gem_shmem_object_vmap_locked,
+> > > >>>>> +	.vunmap = drm_gem_shmem_object_vunmap_locked,        
+> > > >>>>
+> > > >>>> While I think we should indeed be consistent with the names, I would
+> > > >>>> also expect helpers to get the locking right by default.      
+> > > >>>
+> > > >>> Wait, actually I think this patch does what you suggest already. The
+> > > >>> _locked() prefix tells the caller: "you should take care of the locking,
+> > > >>> I expect the lock to be held when this is hook/function is called". So
+> > > >>> helpers without the _locked() prefix take care of the locking (which I
+> > > >>> guess matches your 'helpers get the locking right' expectation), and
+> > > >>> those with the _locked() prefix don't.      
+> > > >>
+> > > >> What I meant by "getting the locking right" is indeed a bit ambiguous,
+> > > >> sorry. What I'm trying to say I guess is that, in this particular case,
+> > > >> I don't think you can expect the vmap implementation to be called with
+> > > >> or without the locks held. The doc for that function will say that it's
+> > > >> either one or the other, but not both.
+> > > >>
+> > > >> So helpers should follow what is needed to provide a default vmap/vunmap
+> > > >> implementation, including what locking is expected from a vmap/vunmap
+> > > >> implementation.    
+> > > > 
+> > > > Hm, yeah, I think that's a matter of taste. When locking is often
+> > > > deferrable, like it is in DRM, I find it beneficial for funcions and
+> > > > function pointers to reflect the locking scheme, rather than relying on
+> > > > people properly reading the doc, especially when this is the only
+> > > > outlier in the group of drm_gem_object_funcs we already have, and it's
+> > > > not event documented at the drm_gem_object_funcs level [1] :P.
+> > > >     
+> > > >>
+> > > >> If that means that vmap is always called with the locks taken, then
+> > > >> drm_gem_shmem_object_vmap can just assume that it will be called with
+> > > >> the locks taken and there's no need to mention it in the name (and you
+> > > >> can probably sprinkle a couple of lockdep assertion to make sure the
+> > > >> locking is indeed consistent).    
+> > > > 
+> > > > Things get very confusing when you end up having drm_gem_shmem helpers
+> > > > that are suffixed with _locked() to encode the fact locking is the
+> > > > caller's responsibility and no suffix for the
+> > > > callee-takes-care-of-the-locking semantics, while other helpers that are
+> > > > not suffixed at all actually implement the
+> > > > caller-should-take-care-of-the-locking semantics.
+> > > >     
+> > > >>    
+> > > >>>> I'm not sure how reasonable it is, but I think I'd prefer to turn this
+> > > >>>> around and keep the drm_gem_shmem_object_vmap/unmap helpers name, and
+> > > >>>> convert whatever function needs to be converted to the unlock suffix so
+> > > >>>> we get a consistent naming.      
+> > > >>>
+> > > >>> That would be an _unlocked() prefix if we do it the other way around. I
+> > > >>> think the main confusion comes from the names of the hooks in
+> > > >>> drm_gem_shmem_funcs. Some of them, like drm_gem_shmem_funcs::v[un]map()
+> > > >>> are called with the GEM resv lock held, and locking is handled by the
+> > > >>> core, others, like drm_gem_shmem_funcs::[un]pin() are called
+> > > >>> without the GEM resv lock held, and locking is deferred to the
+> > > >>> implementation. As I said, I don't mind prefixing hooks/helpers with
+> > > >>> _unlocked() for those that take care of the locking, and no prefix for
+> > > >>> those that expects locks to be held, as long as it's consistent, but I
+> > > >>> just wanted to make sure we're on the same page :-).      
+> > > >>
+> > > >> What about _nolock then? It's the same number of characters than
+> > > >> _locked, plus it expresses what the function is (not) doing, not what
+> > > >> context it's supposed to be called in?    
+> > > > 
+> > > > Just did a quick
+> > > > 
+> > > >   git grep _nolock drivers/gpu/drm
+> > > > 
+> > > > and it returns zero result, where the _locked/_unlocked pattern seems
+> > > > to already be widely used. Not saying we shouldn't change that, but it
+> > > > doesn't feel like a change we should do as part of this series.
+> > > > 
+> > > > Regards,
+> > > > 
+> > > > Boris
+> > > > 
+> > > > [1]https://elixir.bootlin.com/linux/v6.7-rc3/source/include/drm/drm_gem.h#L155    
+> > > 
+> > > I'm fine with dropping the _locked() postfix from the common GEM helpers
+> > > and documenting the locking rule in drm_gem. Thank you all for the
+> > > suggestions :)  
+> > 
+> > Sorry to disagree, but I think a proper function name/suffix is
+> > sometimes worth a few lines of doc. Not saying we should do one or the
+> > other, I think we should do both. But when I see a function suffixed
+> > _locked, _unlocked or _nolock, I can immediately tell if this function
+> > defers the locking to the caller or not, and then go check which lock
+> > in the function doc.
+> > 
+> > And the second thing I'm not happy with, is the fact we go back to an
+> > inconsistent naming in drm_gem_shmem_helper.c, where some functions
+> > deferring the locking to the caller are suffixed _locked and others are
+> > not, because ultimately, you need a different name when you expose the
+> > two variants...  
+> 
+> I guess one of the point I was trying to make was also: why do you need
+> both?
+> 
+> If one is better than the other (whatever better means here), then all
+> drivers should use it.
+> 
+> The counterpart being that if provided a choice, you can be sure that a
+> lot of people will get it wrong. The one example I have in mind for
+> example was the drm_atomic_helper_commit_tail vs
+> drm_atomic_helper_commit_tail_rpm. The latter is now widely used, and
+> most of it is cargo-cult.
+> 
+> I think you were referring to the locks being deferred vs taken right
+> now before, why do we need to have the choice between the two?
 
-On Wed, Nov 29, 2023 at 01:40:38PM +0200, Jani Nikula wrote:
-> On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> > On Wed, Nov 29, 2023 at 11:38:42AM +0200, Jani Nikula wrote:
-> >> On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> >> > Hi Ville,
-> >> >
-> >> > On Tue, Nov 28, 2023 at 03:49:08PM +0200, Ville Syrj=E4l=E4 wrote:
-> >> >> On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
-> >> >> > On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
-> >> >> > > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> >> >> > > > All the drm_connector_init variants take at least a pointer t=
-o the
-> >> >> > > > device, connector and hooks implementation.
-> >> >> > > >
-> >> >> > > > However, none of them check their value before dereferencing =
-those
-> >> >> > > > pointers which can lead to a NULL-pointer dereference if the =
-author
-> >> >> > > > isn't careful.
-> >> >> > >=20
-> >> >> > > Arguably oopsing on the spot is preferrable when this can't be =
-caused by
-> >> >> > > user input. It's always a mistake that should be caught early d=
-uring
-> >> >> > > development.
-> >> >> > >=20
-> >> >> > > Not everyone checks the return value of drm_connector_init and =
-friends,
-> >> >> > > so those cases will lead to more mysterious bugs later. And pro=
-bably
-> >> >> > > oopses as well.
-> >> >> >=20
-> >> >> > So maybe we can do both then, with something like
-> >> >> >=20
-> >> >> > if (WARN_ON(!dev))
-> >> >> >    return -EINVAL
-> >> >> >=20
-> >> >> > if (drm_WARN_ON(dev, !connector || !funcs))
-> >> >> >    return -EINVAL;
-> >> >> >=20
-> >> >> > I'd still like to check for this, so we can have proper testing, =
-and we
-> >> >> > already check for those pointers in some places (like funcs in
-> >> >> > drm_connector_init), so if we don't cover everything we're incons=
-istent.
-> >> >>=20
-> >> >> People will invariably cargo-cult this kind of stuff absolutely
-> >> >> everywhere and then all your functions will have tons of dead
-> >> >> code to check their arguments.
-> >> >
-> >> > And that's a bad thing because... ?
-> >> >
-> >> > Also, are you really saying that checking that your arguments make s=
-ense
-> >> > is cargo-cult?
-> >>=20
-> >> It's a powerful thing to be able to assume a NULL argument is always a
-> >> fatal programming error on the caller's side, and should oops and get
-> >> caught immediately. It's an assertion.
-> >
-> > Yeah, but we're not really doing that either. We have no explicit
-> > assertion anywhere. We take a pointer in, and just hope that it will be
-> > dereferenced later on and that the kernel will crash. The pointer to the
-> > functions especially is only deferenced very later on.
-> >
-> > And assertions might be powerful, but being able to notice errors and
-> > debug them is too. A panic takes away basically any remote access to
-> > debug. If you don't have a console, you're done.
-> >
-> >> We're not talking about user input or anything like that here.
-> >>=20
-> >> If you start checking for things that can't happen, and return errors
-> >> for them, you start gracefully handling things that don't have anything
-> >> graceful about them.
-> >
-> > But there's nothing graceful to do here: you just return from your probe
-> > function that you couldn't probe and that's it. Just like you do when
-> > you can't map your registers, or get your interrupt, or register into
-> > any framework (including drm_dev_register that pretty much every driver
-> > handles properly if it returns an error, without being graceful about
-> > it).
->=20
-> Those are all dynamic things that can fail.
->=20
-> Quite different from passing NULL dev, connector, or funcs to
-> drm_connector_init() and friends.
->=20
-> I think it's wrong to set the example that everything needs to be
-> checked, everything needs to return an error, every call needs to check
-> for error return, all the time, everywhere. People absolutely will cargo
-> cult that, and that's what Ville is referring to.
->=20
-> If you pass NULL dev, connector, or funcs to drm_connector_init() I
-> think you absolutely deserve to get an oops.
->=20
-> For dev, you could possibly not have reached the function with NULL
-> dev. (And __drm_connector_init() has dev->mode_config before the check,
-> so you'll get a static analyzer warning about dereference before the
-> check.) If you have NULL connector, you didn't check for allocation
-> failure earlier. If you have NULL funcs, you just passed NULL, because
-> it's generally supposed to be a pointer to a static const struct.
->=20
-> >> Having such checks in place trains people to think they *may* happen.
-> >
-> > In most cases, kmalloc can't fail. We seem to have a very different
-> > policy towards it.
->=20
-> Again, dynamic in nature and can fail.
->=20
-> >> While it should fail fast and loud at the developer's first smoke test,
-> >> and get fixed then and there.
-> >
-> > Returning an error + a warning also qualifies for "fail fast and loud".
-> > But keeps the system alive for someone to notice in any case.
->=20
-> But where do you draw the line?
+Because DRM locking is complex, and you sometimes have to call some
+helpers in a context where you already hold the GEM dma_resv lock.
+That's not the case for _v[un]map(), because the core always takes the
+lock for us if we call drm_gem_vmap_unlocked(). Now, let's assume we
+drop the _locked() suffix on drm_gem_shmem_v[un]map(), but keep it on
+other helpers that need both variants. This results in an inconsistent
+naming scheme inside the same source file, which I find utterly
+confusing.
 
-This also applies to static things then.
-drm_connector_attach_scaling_mode_property() or
-drm_mode_create_colorspace_property() (or plenty of others) will check
-on the value of the supported scaling modes colorspaces, even though
-they are static.
-
-It looks like we have that policy of "just assert and roll with it" for
-pointers, but not for other static values passed to those initialization
-functions.
-
-> If we keep adding these checks to things that actually can't happen,
-> we teach developers we need to check for impossible things. And we
-> teach them not to trust anything.
-
-Well, I certainly don't trust drivers to get things right.
-
-> I scroll down the file and reach drm_connector_attach_edid_property().
-> Should we NULL check connector? Should we change the function to int
-> and return a value? Should the caller check the value? Then there's
-> drm_connector_attach_encoder(). And
-> drm_connector_has_possible_encoder(). And so on and so forth.
->=20
-> Where do you draw the line?
-
-If things can fail, we should expect the caller to handle the failure
-somehow. The documentation of drm_connector_attach_encoder() states that
-it can fail, so we should expect it.
-drm_connector_has_possible_encoder() doesn't so we can assume it can't
-fail.
-
-If the function can fail but wasn't designed or documented as such, then
-it's on the function. If it was but the caller didn't handle the error
-case, then that's on the caller.
-
-Maxime
-
---7y6ja2ijtruwy6p6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWc77AAKCRDj7w1vZxhR
-xcPrAQDQgezjaCRFLrm1ci7OMYB0pviCvKKwSrlxIJ/UMQY1KAEA8KhoH2NL0IXS
-+jKammOWS5C+nAavD5K9RVEDaU4Cpw8=
-=E2qM
------END PGP SIGNATURE-----
-
---7y6ja2ijtruwy6p6--
+Note that the initial reason I asked Dmitry if he could add the
+_locked suffix to drm_gem_shmem_vmap() is because I started using
+drm_gem_shmem_vmap() in powervr, before realizing this version wasn't
+taking the lock, and I should have used drm_gem_vmap_unlocked()
+instead, so this is not something I'm making up. Not saying the
+confusion only comes from the naming, because the various layers of
+indirection we have clearly don't help, but having a name reflecting
+the fact the locking is deferred to the caller would have helped, I
+think.
