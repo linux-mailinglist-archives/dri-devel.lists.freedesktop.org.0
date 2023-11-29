@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D507FDA17
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 15:44:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 588937FDA04
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 15:44:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3AD310E5F8;
-	Wed, 29 Nov 2023 14:44:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2A7610E601;
+	Wed, 29 Nov 2023 14:44:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF1B410E600
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 14:44:29 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id
- a640c23a62f3a-9fa45e75ed9so931824166b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 06:44:29 -0800 (PST)
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5251C10E602
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 14:44:33 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id
+ 4fb4d7f45d1cf-54af2498e85so7554810a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 06:44:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701269068; x=1701873868; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701269072; x=1701873872; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=3WME6ubitd3vxaAOMdHVezdwhed8qbighnDEBO169Ec=;
- b=BgToPNetsx8KF1G9GYHezR+jtgDPRPaZA3is+tg9Z15T/rHSwQuL6iV8LEYwkk7cxG
- /6wUD27LlE7hdwHd2uxhvPhQ2ddxM9DSot2mk5IMI1vamaEeiAoU6WWULilNKmglJSPz
- HrV4jBmTuwe6gI6bypU8ALjUExEusoTmoz7rzHdLjNTH/3vh0Xl0wowVPydYInbtiH/e
- bRcSW1Mugn93O92SqmgAAIZL6cdaJy7+kaTlAGSILNcYI0aypQUEw/Jp0AozNMNBNHTG
- 2QwBGs1SO+SCUG+2GPtwQDDyeTNFkflKyg0JnBKA6ebKNsC3xIQBXx7rUsmoc6Fl5phd
- tE2g==
+ :reply-to; bh=9K/KL6rUHA7mDcBMrrqIFDkXaVSeDD2iYf5D2W8YBIg=;
+ b=plE1xjGb724mgSt+pOjxjwD33k8a13d+e8wIKKxMkSVei/K77RV+Iy/KNsZcmKmORn
+ VXREx1IsD25fau5+iXkhZ47Jyzja/pH7MeRi7z2+4YOC5K1mwTold3HXCiXhNyqNAVQs
+ It3JsxG2MHA3ZgeClyb7HTI+RStODa1r7eN+yWjJKAYByGenjBSlpVjrTqNbktr+/05q
+ bsPdPhhX3qW9GumRBIXzbJdWGjVk+9fF8tQQrJZz18qVrvhfzqN+UMy8DCBnxsZC5Q2x
+ Z2Rj9hbG1nE4n+WGmIp/PhOZgjt8pRaigXv1fhqnphZFSO4U/wOuzwCw90kj+ElPJL9M
+ zZGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701269068; x=1701873868;
+ d=1e100.net; s=20230601; t=1701269072; x=1701873872;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3WME6ubitd3vxaAOMdHVezdwhed8qbighnDEBO169Ec=;
- b=SIEDjnzKf/U8UYzL6+yRqbNMg0qxfpakCx3DBPc8uCgbM8hWKdktXjtUPq1NK6f4n3
- oDPrhEIdMRor7ZulpoknYRYexchLkKEG2/khwKnPQVA4Ja6obIrxewcpx6vAlF47HyvP
- QNCdDjlA6vHVruUG6C38avENRLjGDBlnMXxS4IifzaDpwZyD4A7aJoWrL479MIGV4HOl
- W6Rz7itScv9Z8/ZN1Zq34rYthSJllXH2tfU7+ozmDSeEBmREH4jjvsCDyh8GWluJZWtp
- lX/fJqPjtf8h5WeZpls8Sod1WPX5i1qJ34Sj0pOsjbwg1YjzWHfGHbxUhrIYpQEKrkCD
- 8ZWA==
-X-Gm-Message-State: AOJu0YzLezm16jA6b+cw0h89qrnoAjXk4Za8XC5HH4d9n7pw5ionJKki
- AFzsrHbTHquWpZXMIuYPl/Jkkg==
-X-Google-Smtp-Source: AGHT+IH+RwsuXNKo7mRRSs5QfH4RQDMAsxgT6mJOUDi04ruodSJZaS3PyYqxW9aAR+nUNX0ZJcUxXA==
-X-Received: by 2002:a17:906:fcce:b0:9f8:2b44:7b7f with SMTP id
- qx14-20020a170906fcce00b009f82b447b7fmr13038742ejb.70.1701269068288; 
- Wed, 29 Nov 2023 06:44:28 -0800 (PST)
+ bh=9K/KL6rUHA7mDcBMrrqIFDkXaVSeDD2iYf5D2W8YBIg=;
+ b=B/xoeHG20sIhBCUSoZ+Jyw6xWbfRWWYAH+bi59QbUKuEQlPiHNOOkRjrR2aDK7EGXO
+ iNydYH8aV3vP4frGksqwF5cACp3TlMCAleLd8k7f2yHMcuBIm9Qu0wa9sDH+AIUQXGcg
+ neu49JPm6TQIRPawWFrvreRuW3eZhenIFhP2/DYtc4ugsX2ywh65W8OV6PWn0ZpFWJ1j
+ HTv25Vo7uwyPuovQ7JSAE4aP76UbkdgUO1VI+ziDa4ActgSwOSCY9ifiC7fF90JmApVL
+ y0n/ojV/JfJZVRRocrWO87zqMCL2HDg//49tJ3IRayV4fbE8zoETiH8LZziFD5jh8g+M
+ GjYQ==
+X-Gm-Message-State: AOJu0Yy93rQmMOXVlyCJKkV70hDUFWpz652hUr+Nvc/m9/V/E7tcprUi
+ ZXm9EpK/zWPmAmbP5ugiXfQWpQ==
+X-Google-Smtp-Source: AGHT+IGjVdN7cz5padHg+T+KRoFbmsMzhIWory1lFuWkxTuEmzq2syYeBQUInK/9FTSsztA+J2jYow==
+X-Received: by 2002:a17:906:2219:b0:a16:8d1b:5b13 with SMTP id
+ s25-20020a170906221900b00a168d1b5b13mr3159519ejs.73.1701269071739; 
+ Wed, 29 Nov 2023 06:44:31 -0800 (PST)
 Received: from [10.167.154.1]
  (178235187166.dynamic-4-waw-k-2-3-0.vectranet.pl. [178.235.187.166])
  by smtp.gmail.com with ESMTPSA id
- e27-20020a1709062c1b00b009fda627abd9sm7913738ejh.79.2023.11.29.06.44.24
+ e27-20020a1709062c1b00b009fda627abd9sm7913738ejh.79.2023.11.29.06.44.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Nov 2023 06:44:27 -0800 (PST)
+ Wed, 29 Nov 2023 06:44:31 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Wed, 29 Nov 2023 15:44:03 +0100
-Subject: [PATCH v3 06/12] arm64: dts: qcom: sc7180: Add the missing MDSS
+Date: Wed, 29 Nov 2023 15:44:04 +0100
+Subject: [PATCH v3 07/12] arm64: dts: qcom: sc7280: Add the missing MDSS
  icc path
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231125-topic-rb1_feat-v3-6-4cbb567743bb@linaro.org>
+Message-Id: <20231125-topic-rb1_feat-v3-7-4cbb567743bb@linaro.org>
 References: <20231125-topic-rb1_feat-v3-0-4cbb567743bb@linaro.org>
 In-Reply-To: <20231125-topic-rb1_feat-v3-0-4cbb567743bb@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -79,11 +79,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Robert Marko <robimarko@gmail.com>, Das Srinagesh <quic_gurus@quicinc.com>, 
  cros-qcom-dts-watchers@chromium.org
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1701269042; l=1145;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1701269042; l=1493;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=QxbVxThi6gj4JqQP8V9LpJsjR/myuVOnIJbwHX7amYU=;
- b=sYPUfm+T2CO9HyMoVEn+/8/AzljQnlW0jC9XeZnrz01woxrBDGuDswi+m+bEgPSkuiCtZLp8N
- BR3hZTS03LmDYMTViL/cCS/WJooBooB/al2zibrNvM1dONg09omgSvQ
+ bh=RpzLMWuMbYjvqQjs1yjMVMPj1VmkWicMXA9dO0pSXPQ=;
+ b=idb266kdiffZu3Aqa8UlqEsL6fRd558KK+7szhEZHwR5Nruiw3g141r8j8bfrnqsrqdUyCE8W
+ EO6Zzca5zhMB+0xwj+IunhA6686/xhyDdRSJIxzzge1Fic1shg6vvOS
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,14 +114,22 @@ Add the missing path.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sc7180.dtsi | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/qcom/sc7280.dtsi | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-index 11f353d416b4..9664e42faeb1 100644
---- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-@@ -3100,8 +3100,12 @@ mdss: display-subsystem@ae00000 {
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index 04bf85b0399a..41d327b1f1b6 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -15,6 +15,7 @@
+ #include <dt-bindings/dma/qcom-gpi.h>
+ #include <dt-bindings/firmware/qcom,scm.h>
+ #include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/interconnect/qcom,icc.h>
+ #include <dt-bindings/interconnect/qcom,osm-l3.h>
+ #include <dt-bindings/interconnect/qcom,sc7280.h>
+ #include <dt-bindings/interrupt-controller/arm-gic.h>
+@@ -3958,8 +3959,12 @@ mdss: display-subsystem@ae00000 {
  			interrupt-controller;
  			#interrupt-cells = <1>;
  
@@ -130,11 +138,11 @@ index 11f353d416b4..9664e42faeb1 100644
 +			interconnects = <&mmss_noc MASTER_MDP0 QCOM_ICC_TAG_ALWAYS
 +					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
 +					<&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ALWAYS
-+					 &config_noc SLAVE_DISPLAY_CFG QCOM_ICC_TAG_ALWAYS>;
++					 &cnoc2 SLAVE_DISPLAY_CFG QCOM_ICC_TAG_ALWAYS>;
 +			interconnect-names = "mdp0-mem",
 +					     "cpu-cfg";
  
- 			iommus = <&apps_smmu 0x800 0x2>;
+ 			iommus = <&apps_smmu 0x900 0x402>;
  
 
 -- 
