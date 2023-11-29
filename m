@@ -1,73 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B93307FDC18
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 16:59:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 390037FDC16
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 16:59:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E63FF10E628;
-	Wed, 29 Nov 2023 15:59:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D116210E624;
+	Wed, 29 Nov 2023 15:59:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de
- [IPv6:2a07:de40:b251:101:10:150:64:1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 368EF10E628
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1774610E624
  for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 15:59:07 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:98])
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id BBF36219CC;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B82501F8BD;
  Wed, 29 Nov 2023 15:59:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1701273545; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HiGO4MfGjQq5sX5wdWEfZICvx6DCduc0T5/sj5ADado=;
+ b=TIfxyWPV/teg/tJ8DN0yV4wysvL2ozT4OWvl5XQRpbNyDyg0kIQpDd4DBoUNcFpr5GTy90
+ j7uXN6cDqY0hh0ED28ETjRwfZ81nTFdbUrEVGHZDOCJPoIHehhtOlMcw6JBUcQMbbmD2Lp
+ 0n1lUToFL5IgAF88Y7n6VV+b77gWaFI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1701273545;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HiGO4MfGjQq5sX5wdWEfZICvx6DCduc0T5/sj5ADado=;
+ b=5+V05/qCDIrABejERGutt+DwYFQdrEQtYe0tsCQxkQ9EevrlGh4K47Y/ogX+Dvduev3kBp
+ 4JeKGKxjJqywBiAA==
 Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 930851376F;
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id C871913B48;
  Wed, 29 Nov 2023 15:52:24 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
- by imap2.dmz-prg2.suse.org with ESMTPSA id oG6wIjheZ2XzWAAAn2gu4w
+ by imap2.dmz-prg2.suse.org with ESMTPSA id cO+2LzheZ2XzWAAAn2gu4w
  (envelope-from <tzimmermann@suse.de>); Wed, 29 Nov 2023 15:52:24 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com,
 	deller@gmx.de,
 	pjones@redhat.com
-Subject: [PATCH 2/4] fbdev/efifb: Use screen_info pointer from device
-Date: Wed, 29 Nov 2023 16:48:02 +0100
-Message-ID: <20231129155218.3475-3-tzimmermann@suse.de>
+Subject: [PATCH 3/4] fbdev/vesafb: Replace references to global screen_info by
+ local pointer
+Date: Wed, 29 Nov 2023 16:48:03 +0100
+Message-ID: <20231129155218.3475-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231129155218.3475-1-tzimmermann@suse.de>
 References: <20231129155218.3475-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: +++++++++++++
-X-Spam-Score: 13.83
-X-Rspamd-Server: rspamd1
-Authentication-Results: smtp-out1.suse.de; dkim=none;
- spf=softfail (smtp-out1.suse.de: 2a07:de40:b281:104:10:150:64:98 is neither
- permitted nor denied by domain of tzimmermann@suse.de)
- smtp.mailfrom=tzimmermann@suse.de; 
- dmarc=fail reason="No valid SPF,
- No valid DKIM" header.from=suse.de (policy=none)
-X-Rspamd-Queue-Id: BBF36219CC
-X-Spam-Flag: NO
-X-Spam-Level: *************
-X-Spamd-Result: default: False [13.83 / 50.00]; ARC_NA(0.00)[];
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: ***
+X-Spam-Score: 3.90
+X-Spamd-Result: default: False [3.90 / 50.00]; ARC_NA(0.00)[];
  RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmx.de];
+ TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
  R_MISSING_CHARSET(2.50)[]; MIME_GOOD(-0.10)[text/plain];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; BROKEN_CONTENT_TYPE(1.50)[];
- R_SPF_SOFTFAIL(4.60)[~all:c]; RCPT_COUNT_FIVE(0.00)[6];
- NEURAL_HAM_LONG(-0.96)[-0.964]; RCVD_COUNT_THREE(0.00)[3];
- NEURAL_SPAM_SHORT(3.00)[1.000]; MX_GOOD(-0.01)[];
+ FREEMAIL_ENVRCPT(0.00)[gmx.de]; BROKEN_CONTENT_TYPE(1.50)[];
+ RCPT_COUNT_FIVE(0.00)[6]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ RCVD_COUNT_THREE(0.00)[3];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  MID_CONTAINS_FROM(1.00)[];
  FREEMAIL_TO(0.00)[redhat.com,gmx.de];
  FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- R_DKIM_NA(2.20)[]; MIME_TRACE(0.00)[0:+];
- RCVD_IN_DNSWL_FAIL(0.00)[2a07:de40:b281:104:10:150:64:98:server fail];
- RCVD_TLS_ALL(0.00)[];
- DMARC_POLICY_SOFTFAIL(0.10)[suse.de : No valid SPF, No valid DKIM,none]
+ MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,43 +92,148 @@ Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the screen_info instance from the device instead of dereferencing
-the global screen_info state. Decouples the driver from per-architecture
-code. Duplicated the screen_info data, so that efifb can modify it at
-will.
+Get the global screen_info's address once and access the data via
+this pointer. Limits the use of global state.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/efifb.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ drivers/video/fbdev/vesafb.c | 66 +++++++++++++++++++-----------------
+ 1 file changed, 35 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-index 6cbb65bbe1110..d0ce357ff2684 100644
---- a/drivers/video/fbdev/efifb.c
-+++ b/drivers/video/fbdev/efifb.c
-@@ -358,7 +358,7 @@ static u64 bar_offset;
+diff --git a/drivers/video/fbdev/vesafb.c b/drivers/video/fbdev/vesafb.c
+index c0edceea0a793..ea89accbec385 100644
+--- a/drivers/video/fbdev/vesafb.c
++++ b/drivers/video/fbdev/vesafb.c
+@@ -243,6 +243,7 @@ static int vesafb_setup(char *options)
  
- static int efifb_probe(struct platform_device *dev)
+ static int vesafb_probe(struct platform_device *dev)
  {
--	struct screen_info *si = &screen_info;
-+	struct screen_info *si;
++	struct screen_info *si = &screen_info;
  	struct fb_info *info;
- 	struct efifb_par *par;
- 	int err, orientation;
-@@ -368,6 +368,13 @@ static int efifb_probe(struct platform_device *dev)
- 	char *option = NULL;
- 	efi_memory_desc_t md;
+ 	struct vesafb_par *par;
+ 	int i, err;
+@@ -255,17 +256,17 @@ static int vesafb_probe(struct platform_device *dev)
+ 	fb_get_options("vesafb", &option);
+ 	vesafb_setup(option);
  
-+	si = dev_get_platdata(&dev->dev);
-+	if (!si)
-+		return -ENODEV;
-+	si = devm_kmemdup(&dev->dev, si, sizeof(*si), GFP_KERNEL);
-+	if (!si)
-+		return -ENOMEM;
-+
- 	if (si->orig_video_isVGA != VIDEO_TYPE_EFI || pci_dev_disabled)
+-	if (screen_info.orig_video_isVGA != VIDEO_TYPE_VLFB)
++	if (si->orig_video_isVGA != VIDEO_TYPE_VLFB)
  		return -ENODEV;
  
+-	vga_compat = (screen_info.capabilities & 2) ? 0 : 1;
+-	vesafb_fix.smem_start = screen_info.lfb_base;
+-	vesafb_defined.bits_per_pixel = screen_info.lfb_depth;
++	vga_compat = (si->capabilities & 2) ? 0 : 1;
++	vesafb_fix.smem_start = si->lfb_base;
++	vesafb_defined.bits_per_pixel = si->lfb_depth;
+ 	if (15 == vesafb_defined.bits_per_pixel)
+ 		vesafb_defined.bits_per_pixel = 16;
+-	vesafb_defined.xres = screen_info.lfb_width;
+-	vesafb_defined.yres = screen_info.lfb_height;
+-	vesafb_fix.line_length = screen_info.lfb_linelength;
++	vesafb_defined.xres = si->lfb_width;
++	vesafb_defined.yres = si->lfb_height;
++	vesafb_fix.line_length = si->lfb_linelength;
+ 	vesafb_fix.visual   = (vesafb_defined.bits_per_pixel == 8) ?
+ 		FB_VISUAL_PSEUDOCOLOR : FB_VISUAL_TRUECOLOR;
+ 
+@@ -277,7 +278,7 @@ static int vesafb_probe(struct platform_device *dev)
+ 	/*   size_total -- all video memory we have. Used for mtrr
+ 	 *                 entries, resource allocation and bounds
+ 	 *                 checking. */
+-	size_total = screen_info.lfb_size * 65536;
++	size_total = si->lfb_size * 65536;
+ 	if (vram_total)
+ 		size_total = vram_total * 1024 * 1024;
+ 	if (size_total < size_vmode)
+@@ -297,7 +298,7 @@ static int vesafb_probe(struct platform_device *dev)
+ 	vesafb_fix.smem_len = size_remap;
+ 
+ #ifndef __i386__
+-	screen_info.vesapm_seg = 0;
++	si->vesapm_seg = 0;
+ #endif
+ 
+ 	if (!request_mem_region(vesafb_fix.smem_start, size_total, "vesafb")) {
+@@ -317,23 +318,26 @@ static int vesafb_probe(struct platform_device *dev)
+ 	par = info->par;
+ 	info->pseudo_palette = par->pseudo_palette;
+ 
+-	par->base = screen_info.lfb_base;
++	par->base = si->lfb_base;
+ 	par->size = size_total;
+ 
+ 	printk(KERN_INFO "vesafb: mode is %dx%dx%d, linelength=%d, pages=%d\n",
+-	       vesafb_defined.xres, vesafb_defined.yres, vesafb_defined.bits_per_pixel, vesafb_fix.line_length, screen_info.pages);
++	       vesafb_defined.xres, vesafb_defined.yres, vesafb_defined.bits_per_pixel,
++	       vesafb_fix.line_length, si->pages);
+ 
+-	if (screen_info.vesapm_seg) {
++	if (si->vesapm_seg) {
+ 		printk(KERN_INFO "vesafb: protected mode interface info at %04x:%04x\n",
+-		       screen_info.vesapm_seg,screen_info.vesapm_off);
++		       si->vesapm_seg, si->vesapm_off);
+ 	}
+ 
+-	if (screen_info.vesapm_seg < 0xc000)
++	if (si->vesapm_seg < 0xc000)
+ 		ypan = pmi_setpal = 0; /* not available or some DOS TSR ... */
+ 
+ 	if (ypan || pmi_setpal) {
++		unsigned long pmi_phys;
+ 		unsigned short *pmi_base;
+-		pmi_base  = (unsigned short*)phys_to_virt(((unsigned long)screen_info.vesapm_seg << 4) + screen_info.vesapm_off);
++		pmi_phys  = ((unsigned long)si->vesapm_seg << 4) + si->vesapm_off;
++		pmi_base  = (unsigned short *)phys_to_virt(pmi_phys);
+ 		pmi_start = (void*)((char*)pmi_base + pmi_base[1]);
+ 		pmi_pal   = (void*)((char*)pmi_base + pmi_base[2]);
+ 		printk(KERN_INFO "vesafb: pmi: set display start = %p, set palette = %p\n",pmi_start,pmi_pal);
+@@ -377,14 +381,14 @@ static int vesafb_probe(struct platform_device *dev)
+ 	vesafb_defined.left_margin  = (vesafb_defined.xres / 8) & 0xf8;
+ 	vesafb_defined.hsync_len    = (vesafb_defined.xres / 8) & 0xf8;
+ 
+-	vesafb_defined.red.offset    = screen_info.red_pos;
+-	vesafb_defined.red.length    = screen_info.red_size;
+-	vesafb_defined.green.offset  = screen_info.green_pos;
+-	vesafb_defined.green.length  = screen_info.green_size;
+-	vesafb_defined.blue.offset   = screen_info.blue_pos;
+-	vesafb_defined.blue.length   = screen_info.blue_size;
+-	vesafb_defined.transp.offset = screen_info.rsvd_pos;
+-	vesafb_defined.transp.length = screen_info.rsvd_size;
++	vesafb_defined.red.offset    = si->red_pos;
++	vesafb_defined.red.length    = si->red_size;
++	vesafb_defined.green.offset  = si->green_pos;
++	vesafb_defined.green.length  = si->green_size;
++	vesafb_defined.blue.offset   = si->blue_pos;
++	vesafb_defined.blue.length   = si->blue_size;
++	vesafb_defined.transp.offset = si->rsvd_pos;
++	vesafb_defined.transp.length = si->rsvd_size;
+ 
+ 	if (vesafb_defined.bits_per_pixel <= 8) {
+ 		depth = vesafb_defined.green.length;
+@@ -399,14 +403,14 @@ static int vesafb_probe(struct platform_device *dev)
+ 	       (vesafb_defined.bits_per_pixel > 8) ?
+ 	       "Truecolor" : (vga_compat || pmi_setpal) ?
+ 	       "Pseudocolor" : "Static Pseudocolor",
+-	       screen_info.rsvd_size,
+-	       screen_info.red_size,
+-	       screen_info.green_size,
+-	       screen_info.blue_size,
+-	       screen_info.rsvd_pos,
+-	       screen_info.red_pos,
+-	       screen_info.green_pos,
+-	       screen_info.blue_pos);
++	       si->rsvd_size,
++	       si->red_size,
++	       si->green_size,
++	       si->blue_size,
++	       si->rsvd_pos,
++	       si->red_pos,
++	       si->green_pos,
++	       si->blue_pos);
+ 
+ 	vesafb_fix.ypanstep  = ypan     ? 1 : 0;
+ 	vesafb_fix.ywrapstep = (ypan>1) ? 1 : 0;
 -- 
 2.43.0
 
