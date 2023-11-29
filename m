@@ -1,54 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B957FE0A5
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 20:58:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 603B77FE0CC
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Nov 2023 21:10:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 893C210E65C;
-	Wed, 29 Nov 2023 19:58:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CA5010E65B;
+	Wed, 29 Nov 2023 20:10:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
- Wed, 29 Nov 2023 19:58:24 UTC
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AE5010E079;
- Wed, 29 Nov 2023 19:58:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701287904; x=1732823904;
- h=message-id:date:mime-version:from:to:cc:subject:
- content-transfer-encoding;
- bh=QyW5HyGpIaGRy7E9j+XFj6/NRukJa5SLs0nyg0hu3pI=;
- b=n6hIYQlpejSQIzn4FyJyIPuzQx0hxRqW4CgFYnwvsWtLblK1M4ytEQHt
- q7Rkw3jYX9XNpBXgxfPLwXzB3jDj2HAl86j0zqYLl+86mEhOAiqiOdNWP
- nPbs4gmlOf+u56if/20Y9vv9BUFYC0T4SPvlkXX5xmDLzhLim7+TB7mq0
- Vve4rdkOnBzcNPVboy5l0fJdcTKza4Bcu9qWcQQveprQc/y6uucLBxtPO
- hV5fKbIvHK8GZX4FhRHzzsFmG+9yY3QuBIKXmK4na694nfdVE0bHDBIM6
- ZsiPF4WcsO7wUZxqlK0LL+T27/G5mjBEZQ8J4/xBMdI9ghzmi7tNpfLSK w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="86211"
-X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="86211"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Nov 2023 11:51:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="1100651076"
-X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; d="scan'208";a="1100651076"
-Received: from johnypau-mobl1.ger.corp.intel.com (HELO [10.251.221.130])
- ([10.251.221.130])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Nov 2023 11:51:14 -0800
-Message-ID: <561f807e-f9d3-43c1-80d3-8b41ba83c9ec@linux.intel.com>
-Date: Wed, 29 Nov 2023 20:51:12 +0100
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
+ [IPv6:2001:4860:4864:20::2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 750D310E65B;
+ Wed, 29 Nov 2023 20:10:26 +0000 (UTC)
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-1fa37df6da8so48671fac.2; 
+ Wed, 29 Nov 2023 12:10:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1701288625; x=1701893425; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kY1GN59hmbEJaNOpwQAxi652Fp3hiuaW7jARiW8zew8=;
+ b=lXTD8pNR6gZIApkE1Fv4xe2ecHI9ndUKeMTnKU/mdj1c+QtG0Rf2+VIu+mwjZSGYT8
+ SvYvSWbwXSeCmaQmZMzKgYgulFC/nEJZW60nVp3+hJv7NIy+YhHbL/gpmtzHMEKnOQAb
+ cp4EQAFq+Za/H1bkT8NZ2tBkcYL8zneugp9QCeBEv1/hw5AlWwQcUww2c4Mc/dfG0R6L
+ ReYdG8gg5Ht5kYFWdBHwRk4gGPSNGs886Cbqx4A1l16VNGisaQsyaWijMm0062QukgO0
+ UBYupRzyanbMDH8fxTZxSUAWAb9E+t6U7E2qAFaXolIC+FDSslp0b07dmdastINAUKfe
+ uzgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701288625; x=1701893425;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kY1GN59hmbEJaNOpwQAxi652Fp3hiuaW7jARiW8zew8=;
+ b=ukwoiaRMISlZkLKfdNuQzKLt9pnY4aPDyRh5PESCZEroMtktYD+jOcyP+U4iEV7Xkw
+ vgCh7nE/bHImnEJNRQAq9eRJeMlvy9IQsEMD7PtQuJeLLgUNQbsbg/PYCsgIotYXYsvZ
+ pIDrxxZoeHjA6g6c6nwbYdTjbmG8K4GyFfMJ18+TgZzwwISg/ihOwmHIhpGznyeUeW+e
+ PSPlfCBQ5L/+Ax7cYwjikB9vKeF2fVr3Ksvekh8gxAqi2O16bOVhmriJ+aVbJnNIkSQu
+ TZ09nkCgAv7WRcic0VVjAG4YW1SY4oYAk7/I3VIaZvbiDIvunH6hZfqLFyQGrlZLEdt7
+ PHXA==
+X-Gm-Message-State: AOJu0YzOmfj0o0+zcg3SGmQTWu9bEBvi0Tc7pesxnXUJy5/a8DvW9B46
+ BQLqqWVnSNUlBZgHUEV6/vO1BEj+UP2GD0lthJo=
+X-Google-Smtp-Source: AGHT+IFF/qP3ukLLaH5SkwRpcG5Rn/G/+5CcGHEnukHZQgqdbv6oOYgnqOot/gbgWz4i5R1mWdpkT+sWBSqNGDxsaho=
+X-Received: by 2002:a05:6870:2248:b0:1fa:a6d4:3b10 with SMTP id
+ j8-20020a056870224800b001faa6d43b10mr3117415oaf.50.1701288625588; Wed, 29 Nov
+ 2023 12:10:25 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>
-Subject: [PULL] drm-misc-fixes
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <87edgv4x3i.fsf@vps.thesusis.net>
+ <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
+ <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
+ <bdb238b6-60c7-4f26-81d0-9e62cd5dd326@gmail.com>
+ <CADnq5_NVGS1XykxGxpcu_bpPbzboCUJQkcCF3r+0N9a23KUgiQ@mail.gmail.com>
+ <96e2e13c-f01c-4baf-a9a3-cbaa48fb10c7@amd.com>
+ <CADnq5_NBfeAXEyQw0gnSd67=tR-bUKg8w=10+4z9pGGuRnP9uw@mail.gmail.com>
+ <87jzq2ixtm.fsf@vps.thesusis.net>
+ <CADnq5_Ou-MVVm0rdWDmDnJNLkWUayXzO26uCEtz3ucNa4Ghy2w@mail.gmail.com>
+ <95fe9b5b-05ce-4462-9973-9aca306bc44f@gmail.com>
+ <CADnq5_MYEWx=e1LBLeVs0UbR5_xEScjDyw_-75mLe8RAMnqh6g@mail.gmail.com>
+ <CADnq5_OC=JFpGcN0oGbTF5xYEt4X3r0=jEY6hJ12W8CzYq1+cA@mail.gmail.com>
+ <9595b8bf-e64d-4926-9263-97e18bcd7d05@gmail.com>
+ <CADnq5_N6DF-huOzgaVygvS5N_j_oNUEC1aa4zRsZTzx8GOD_aw@mail.gmail.com>
+In-Reply-To: <CADnq5_N6DF-huOzgaVygvS5N_j_oNUEC1aa4zRsZTzx8GOD_aw@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 29 Nov 2023 15:10:14 -0500
+Message-ID: <CADnq5_PgMxoW=4iabtgeHydwye-6DvwvCyETdfBToEpuYWocmA@mail.gmail.com>
+Subject: Re: Radeon regression in 6.6 kernel
+To: Luben Tuikov <ltuikov89@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,96 +81,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Danilo Krummrich <dakr@redhat.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Phillip Susi <phill@thesusis.net>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+Actually I think I see the problem.  I'll try and send out a patch
+later today to test.
 
-This pull request is a bit confusing, as it first adds the panel fixes 
-and a driver/core change, then immediately revert it.
+Alex
 
-Cheers,
-~Maarten
-
-drm-misc-fixes-2023-11-29:
-Fixes for v6.7-rc4:
-- Revert panel fixes as they require exporting device_is_dependent.
-- Do not double add fences in dma_resv_add_fence.
-- Fix GPUVM license identifier.
-- Assorted nouveau fixes.
-- Fix error check for nt36523.
-The following changes since commit ab93edb2f94c3c0d5965be3815782472adbe3f52:
-
-   nouveau/gsp: allocate enough space for all channel ids. (2023-11-21 
-22:28:01 +0100)
-
-are available in the Git repository at:
-
-   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-11-29
-
-for you to fetch changes up to fb18fe0fdf22a2f4512a8b644bb5ea1473829cda:
-
-   drm/panel: nt36523: fix return value check in nt36523_probe() 
-(2023-11-29 16:54:23 +0100)
-
-----------------------------------------------------------------
-Fixes for v6.7-rc4:
-- Revert panel fixes as they require exporting device_is_dependent.
-- Do not double add fences in dma_resv_add_fence.
-- Fix GPUVM license identifier.
-- Assorted nouveau fixes.
-- Fix error check for nt36523.
-
-----------------------------------------------------------------
-Christian König (1):
-       dma-buf: fix check in dma_resv_add_fence
-
-Dan Carpenter (1):
-       nouveau/gsp/r535: remove a stray unlock in r535_gsp_rpc_send()
-
-Dave Airlie (1):
-       nouveau: find the smallest page allocation to cover a buffer alloc.
-
-Gustavo A. R. Silva (1):
-       nouveau/gsp: replace zero-length array with flex-array member and 
-use __counted_by
-
-Linus Walleij (3):
-       Revert "drm/bridge: panel: Check device dependency before 
-managing device link"
-       Revert "driver core: Export device_is_dependent() to modules"
-       Revert "drm/bridge: panel: Add a device link between drm device 
-and panel device"
-
-Liu Ying (2):
-       drm/bridge: panel: Check device dependency before managing device 
-link
-       driver core: Export device_is_dependent() to modules
-
-Thomas Hellström (1):
-       drm/gpuvm: Fix deprecated license identifier
-
-Yang Yingliang (1):
-       drm/panel: nt36523: fix return value check in nt36523_probe()
-
-xiazhengqiao (1):
-       drm/panel: starry-2081101qfh032011-53g: Fine tune the panel power 
-sequence
-
-  drivers/dma-buf/dma-resv.c                              |  2 +-
-  drivers/gpu/drm/bridge/panel.c                          | 17 
------------------
-  drivers/gpu/drm/drm_gpuvm.c                             |  2 +-
-  .../nvrm/535.113.01/nvidia/generated/g_os_nvoc.h        |  2 +-
-  drivers/gpu/drm/nouveau/nouveau_bo.c                    |  5 +++--
-  drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c          |  6 ++----
-  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c          |  1 +
-  drivers/gpu/drm/panel/panel-novatek-nt36523.c           |  4 ++--
-  include/drm/drm_gpuvm.h                                 |  2 +-
-  include/linux/dma-fence.h                               | 15 
-+++++++++++++++
-  10 files changed, 27 insertions(+), 29 deletions(-)
+On Wed, Nov 29, 2023 at 1:52=E2=80=AFPM Alex Deucher <alexdeucher@gmail.com=
+> wrote:
+>
+> On Wed, Nov 29, 2023 at 11:41=E2=80=AFAM Luben Tuikov <ltuikov89@gmail.co=
+m> wrote:
+> >
+> > On 2023-11-29 10:22, Alex Deucher wrote:
+> > > On Wed, Nov 29, 2023 at 8:50=E2=80=AFAM Alex Deucher <alexdeucher@gma=
+il.com> wrote:
+> > >>
+> > >> On Tue, Nov 28, 2023 at 11:45=E2=80=AFPM Luben Tuikov <ltuikov89@gma=
+il.com> wrote:
+> > >>>
+> > >>> On 2023-11-28 17:13, Alex Deucher wrote:
+> > >>>> On Mon, Nov 27, 2023 at 6:24=E2=80=AFPM Phillip Susi <phill@thesus=
+is.net> wrote:
+> > >>>>>
+> > >>>>> Alex Deucher <alexdeucher@gmail.com> writes:
+> > >>>>>
+> > >>>>>>> In that case those are the already known problems with the sche=
+duler
+> > >>>>>>> changes, aren't they?
+> > >>>>>>
+> > >>>>>> Yes.  Those changes went into 6.7 though, not 6.6 AFAIK.  Maybe =
+I'm
+> > >>>>>> misunderstanding what the original report was actually testing. =
+ If it
+> > >>>>>> was 6.7, then try reverting:
+> > >>>>>> 56e449603f0ac580700621a356d35d5716a62ce5
+> > >>>>>> b70438004a14f4d0f9890b3297cd66248728546c
+> > >>>>>
+> > >>>>> At some point it was suggested that I file a gitlab issue, but I =
+took
+> > >>>>> this to mean it was already known and being worked on.  -rc3 came=
+ out
+> > >>>>> today and still has the problem.  Is there a known issue I could =
+track?
+> > >>>>>
+> > >>>>
+> > >>>> At this point, unless there are any objections, I think we should =
+just
+> > >>>> revert the two patches
+> > >>> Uhm, no.
+> > >>>
+> > >>> Why "the two" patches?
+> > >>>
+> > >>> This email, part of this thread,
+> > >>>
+> > >>> https://lore.kernel.org/all/87r0kircdo.fsf@vps.thesusis.net/
+> > >>>
+> > >>> clearly states that reverting *only* this commit,
+> > >>> 56e449603f0ac5 drm/sched: Convert the GPU scheduler to variable num=
+ber of run-queues
+> > >>> *does not* mitigate the failed suspend. (Furthermore, this commit d=
+oesn't really change
+> > >>> anything operational, other than using an allocated array, instead =
+of a static one, in DRM,
+> > >>> while the 2nd patch is solely contained within the amdgpu driver co=
+de.)
+> > >>>
+> > >>> Leaving us with only this change,
+> > >>> b70438004a14f4 drm/amdgpu: move buffer funcs setting up a level
+> > >>> to be at fault, as the kernel log attached in the linked email abov=
+e shows.
+> > >>>
+> > >>> The conclusion is that only b70438004a14f4 needs reverting.
+> > >>
+> > >> b70438004a14f4 was a fix for 56e449603f0ac5.  Without b70438004a14f4=
+,
+> > >> 56e449603f0ac5 breaks amdgpu.
+> > >
+> > > We can try and re-enable it in the next kernel.  I'm just not sure
+> > > we'll be able to fix this in time for 6.7 with the holidays and all
+> > > and I don't want to cause a lot of scheduler churn at the end of the
+> > > 6.7 cycle if we hold off and try and fix it.  Reverting seems like th=
+e
+> > > best short term solution.
+> >
+> > A lot of subsequent code has come in since commit 56e449603f0ac5, as it=
+ opened
+> > the opportunity for a 1-to-1 relationship between an entity and a sched=
+uler.
+> > (Should've always been the case, from the outset. Not sure why it was c=
+oded as
+> > a fixed-size array.)
+> >
+> > Given that commit 56e449603f0ac5 has nothing to do with amdgpu, and the=
+ problem
+> > is wholly contained in amdgpu, and no other driver has this problem, th=
+ere is
+> > no reason to have to "churn", i.e. go back and forth in DRM, only to co=
+ver up
+> > an init bug in amdgpu. See the response I just sent in @this thread:
+> > https://lore.kernel.org/r/05007cb0-871e-4dc7-af58-1351f4ba43e2@gmail.co=
+m
+> >
+> > And it's not like this issue is unknown. I first posted about it on 202=
+3-10-16.
+> >
+> > Ideally, amdgpu would just fix their init code.
+>
+> You can't make changes to core code that break other drivers.
+> Arguably 56e449603f0ac5 should not have gone in in the first place if
+> it broke amdgpu.  b70438004a14f4 was the code to fix amdgpu's init
+> code, but as a side effect it seems to have broken suspend for some
+> users.
+>
+> Alex
