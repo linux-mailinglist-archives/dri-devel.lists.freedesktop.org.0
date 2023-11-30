@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 952127FF18F
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 15:17:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D55F7FF190
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 15:17:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 499FD10E70B;
-	Thu, 30 Nov 2023 14:17:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F35610E712;
+	Thu, 30 Nov 2023 14:17:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28AF110E71A
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 14:17:23 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-50bbfad8758so1357475e87.3
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F71B10E709
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 14:17:24 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id
+ 4fb4d7f45d1cf-54acdd65c88so1068018a12.2
  for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 06:17:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1701353841; x=1701958641;
+ d=amarulasolutions.com; s=google; t=1701353842; x=1701958642;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BB+8tiThrQ8A3cvAQ5Ca0/LgocfETriGMEf/l26sW2A=;
- b=J1qUmedh0akAPrripR7Klj6Bpn92RVWqHCUB7lJwPbKm8Bx6O7JcEyw8Od4T0w1Rkf
- Ur/xB/X/pP+WfBcb0MsOj7I2HdMb6L2ZDQ6OQhYu7vRGRbXlRvmz4stqcV/X2wm88V/X
- rcKwPOTorFK6+TAI7OMIhOHp9443Ay6Cr72B4=
+ bh=iaOjjsreRhqLG2eeFhkZ0z2jBZuyXeD7iIf15AVT+Us=;
+ b=idUbxRJlTWCkO+UphlEBaGF2uoLedogamXURrHqVnnjU0tBkTAh1osR61RLMFsEYeg
+ ogShtx700rdI3zk6n7bQEnOgVtc4EzQSmk3odrA435P/llHoNvklAUWr0YNSsE06ff2x
+ H6nBYe80rGCwOxIx6NhCUikMcu9o7nIAI92pA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701353841; x=1701958641;
+ d=1e100.net; s=20230601; t=1701353842; x=1701958642;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BB+8tiThrQ8A3cvAQ5Ca0/LgocfETriGMEf/l26sW2A=;
- b=bnywrpQHqYPPUpCm5URBPj9jwvd9vtBFVHhMiOCQo8uYyRLJy2iyC3mjmSLJt7noe8
- QqrUn+bWIhikJIsdZHSz8kd+8mkYHVTwZp8vnOzCR5LN6zO446ZfPhQ/6awymnUzbG0r
- Xo4bqiF0rfTYQl7qgNxS/d5WKJbKHXiksFHbknO2OF4zIERh7EJXpni1QR7sZh/s4n7z
- OQilQmQ9amaDBsVnJ0tvnmwFsXsnT6dsk/B9Of61RSmPIShP5Im2RTRRe2d6ZVU0sFdq
- WJEiz2CMFeyH3jD4MGGJ89BralDBLybaUsHXv3GmwHYzPRMqu3ya/vTv6MO39LxYSnlx
- zSEQ==
-X-Gm-Message-State: AOJu0YyE912kENUx1kZ16iVLTWaWgFNiOImzGPNZRKWXTr/ow34XmEJe
- seo4dPCqq4sWBGinDrELhkQ4Pw==
-X-Google-Smtp-Source: AGHT+IGrc0qcwfMNTRrs4s1Akv0heDmyJi5pjW8pI29JTi2OuAS5N9E0ocxIYEWXbuJaXwQFUC/zqw==
-X-Received: by 2002:ac2:546e:0:b0:50b:bf92:dd7e with SMTP id
- e14-20020ac2546e000000b0050bbf92dd7emr5050173lfn.35.1701353841276; 
- Thu, 30 Nov 2023 06:17:21 -0800 (PST)
+ bh=iaOjjsreRhqLG2eeFhkZ0z2jBZuyXeD7iIf15AVT+Us=;
+ b=kpEAtAyUzoYsfyeZ692hVahkOLVY55LewsqrvARFWNJPG+ANC0D5IijbtdZAyidHf8
+ GZ0QCBlq+3ynOtOvS9sT1vvpJY2n7ID9i1AC7AMF7qHgRz3ETldZXkDcl/QPU1nubq+A
+ XHPPcwo2m8xmrhvgScn/nuxz7IGMQnRPoPsjT/6/Q3FQ1FmCkJTtlL/Udy5bD3efdSfM
+ c5k/M4sQyyvmcisnXphiMjUAmMqDaxpQBVE6Cal/zDz/0bhBNfvVENqXQSRlydCalIaO
+ BZ8xJoUnlrsdDZVeiVG9562TAokuovzvdqK+b016nEbngW5ddflDh2c5LJrhRPoWEM/3
+ 8l5g==
+X-Gm-Message-State: AOJu0YymVBlsHk1ImWHPMMMurp3nTJFBw/t3+/vUypaQHaJA6ZmgATh0
+ O4FQ6oOjpcupZ0CHgmKP25rnig==
+X-Google-Smtp-Source: AGHT+IF6RKovQQ9aR3sj/MtWo+qCffcSgX+8LVBA8oYQK+LDLy9/izTzq6IYmC4r8MD53qOXfxBbLA==
+X-Received: by 2002:a17:906:221c:b0:a19:34e1:990a with SMTP id
+ s28-20020a170906221c00b00a1934e1990amr413692ejs.22.1701353842474; 
+ Thu, 30 Nov 2023 06:17:22 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6474:ebbf:d1eb:b106:516d:db0a])
  by smtp.gmail.com with ESMTPSA id
- my18-20020a1709065a5200b009f28db2b702sm716064ejc.209.2023.11.30.06.17.20
+ my18-20020a1709065a5200b009f28db2b702sm716064ejc.209.2023.11.30.06.17.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Nov 2023 06:17:20 -0800 (PST)
+ Thu, 30 Nov 2023 06:17:22 -0800 (PST)
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3 06/10] drm/panel: Add Synaptics R63353 panel driver
-Date: Thu, 30 Nov 2023 15:16:23 +0100
-Message-ID: <20231130141705.1796672-7-dario.binacchi@amarulasolutions.com>
+Subject: [PATCH v3 07/10] dt-bindings: display: panel: Add Ilitek ili9805
+ panel controller
+Date: Thu, 30 Nov 2023 15:16:24 +0100
+Message-ID: <20231130141705.1796672-8-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231130141705.1796672-1-dario.binacchi@amarulasolutions.com>
 References: <20231130141705.1796672-1-dario.binacchi@amarulasolutions.com>
@@ -72,466 +73,107 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
  Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, devicetree@vger.kernel.org,
  Amarula patchwork <linux-amarula@amarulasolutions.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, michael@amarulasolutions.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Michael Trimarchi <michael@amarulasolutions.com>
 
-The LS068B3SX02 panel is based on the Synaptics R63353 Controller.
-Add a driver for it.
+Add documentation for "ilitek,ili9805" panel.
 
 Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
 Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 
 ---
 
-(no changes since v2)
+Changes in v3:
+- Drop power-supply
 
 Changes in v2:
-- Adjust the timings of the panel reset
+- Add $ref to panel-common.yaml
+- Drop port, reset-gpios, and backlight
+- Set port and backlight ad required
+- Replace additionalProperties with unevaluatedProperties
 
- MAINTAINERS                                   |   6 +
- drivers/gpu/drm/panel/Kconfig                 |   9 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- .../gpu/drm/panel/panel-synaptics-r63353.c    | 375 ++++++++++++++++++
- 4 files changed, 391 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-synaptics-r63353.c
+ .../display/panel/ilitek,ili9805.yaml         | 62 +++++++++++++++++++
+ 1 file changed, 62 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9805.yaml
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 012df8ccf34e..c373764b6e64 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6875,6 +6875,12 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	Documentation/devicetree/bindings/display/ste,mcde.yaml
- F:	drivers/gpu/drm/mcde/
- 
-+DRM DRIVER FOR SYNAPTICS R63353 PANELS
-+M:	Michael Trimarchi <michael@amarulasolutions.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/panel/synaptics,r63353.yaml
-+F:	drivers/gpu/drm/panel/panel-synaptics-r63353.c
-+
- DRM DRIVER FOR TI DLPC3433 MIPI DSI TO DMD BRIDGE
- M:	Jagan Teki <jagan@amarulasolutions.com>
- S:	Maintained
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 99e14dc212ec..d018702be3dc 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -735,6 +735,15 @@ config DRM_PANEL_SITRONIX_ST7789V
- 	  Say Y here if you want to enable support for the Sitronix
- 	  ST7789V controller for 240x320 LCD panels
- 
-+config DRM_PANEL_SYNAPTICS_R63353
-+	tristate "Synaptics R63353-based panels"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  Say Y if you want to enable support for panels based on the
-+	  Synaptics R63353 controller.
-+
- config DRM_PANEL_SONY_ACX565AKM
- 	tristate "Sony ACX565AKM panel"
- 	depends on GPIOLIB && OF && SPI
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index d10c3de51c6d..f267d932c2b5 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -74,6 +74,7 @@ obj-$(CONFIG_DRM_PANEL_SHARP_LS060T1SX01) += panel-sharp-ls060t1sx01.o
- obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7701) += panel-sitronix-st7701.o
- obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7703) += panel-sitronix-st7703.o
- obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7789V) += panel-sitronix-st7789v.o
-+obj-$(CONFIG_DRM_PANEL_SYNAPTICS_R63353) += panel-synaptics-r63353.o
- obj-$(CONFIG_DRM_PANEL_SONY_ACX565AKM) += panel-sony-acx565akm.o
- obj-$(CONFIG_DRM_PANEL_SONY_TD4353_JDI) += panel-sony-td4353-jdi.o
- obj-$(CONFIG_DRM_PANEL_SONY_TULIP_TRULY_NT35521) += panel-sony-tulip-truly-nt35521.o
-diff --git a/drivers/gpu/drm/panel/panel-synaptics-r63353.c b/drivers/gpu/drm/panel/panel-synaptics-r63353.c
+diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9805.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9805.yaml
 new file mode 100644
-index 000000000000..d45373de7c9f
+index 000000000000..f4f91f93f490
 --- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-synaptics-r63353.c
-@@ -0,0 +1,375 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Synaptics R63353 Controller driver
-+ *
-+ * Copyright (C) 2020 BSH Hausgerate GmbH
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/device.h>
-+#include <linux/err.h>
-+#include <linux/errno.h>
-+#include <linux/fb.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/of_device.h>
-+#include <linux/media-bus-format.h>
-+
-+#include <linux/gpio/consumer.h>
-+#include <linux/regulator/consumer.h>
-+
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+
-+#include <video/mipi_display.h>
-+
-+#define R63353_INSTR(...) { \
-+		.len = sizeof((u8[]) {__VA_ARGS__}), \
-+		.data = (u8[]){__VA_ARGS__} \
-+	}
-+
-+struct r63353_instr {
-+	size_t len;
-+	const u8 *data;
-+};
-+
-+static const struct r63353_instr sharp_ls068b3sx02_init[] = {
-+	R63353_INSTR(0x51, 0xff),
-+	R63353_INSTR(0x53, 0x0c),
-+	R63353_INSTR(0x55, 0x00),
-+	R63353_INSTR(0x84, 0x00),
-+	R63353_INSTR(0x29),
-+};
-+
-+struct r63353_desc {
-+	const char *name;
-+	const struct r63353_instr *init;
-+	const size_t init_length;
-+	const struct drm_display_mode *mode;
-+	u32 width_mm;
-+	u32 height_mm;
-+};
-+
-+struct r63353_panel {
-+	struct drm_panel base;
-+	struct mipi_dsi_device *dsi;
-+
-+	struct gpio_desc *reset_gpio;
-+	struct regulator *dvdd;
-+	struct regulator *avdd;
-+
-+	bool prepared;
-+	struct r63353_desc *pdata;
-+};
-+
-+static inline struct r63353_panel *to_r63353_panel(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct r63353_panel, base);
-+}
-+
-+static int r63353_panel_power_on(struct r63353_panel *rpanel)
-+{
-+	struct mipi_dsi_device *dsi = rpanel->dsi;
-+	struct device *dev = &dsi->dev;
-+	int ret;
-+
-+	ret = regulator_enable(rpanel->avdd);
-+	if (ret) {
-+		dev_err(dev, "Failed to enable avdd regulator (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	usleep_range(15000, 25000);
-+
-+	ret = regulator_enable(rpanel->dvdd);
-+	if (ret) {
-+		dev_err(dev, "Failed to enable dvdd regulator (%d)\n", ret);
-+		regulator_disable(rpanel->avdd);
-+		return ret;
-+	}
-+
-+	usleep_range(300000, 350000);
-+	gpiod_set_value(rpanel->reset_gpio, 1);
-+	usleep_range(15000, 25000);
-+
-+	return 0;
-+}
-+
-+static int r63353_panel_power_off(struct r63353_panel *rpanel)
-+{
-+	gpiod_set_value(rpanel->reset_gpio, 0);
-+	regulator_disable(rpanel->dvdd);
-+	regulator_disable(rpanel->avdd);
-+
-+	return 0;
-+}
-+
-+static int r63353_panel_activate(struct r63353_panel *rpanel)
-+{
-+	struct mipi_dsi_device *dsi = rpanel->dsi;
-+	struct device *dev = &dsi->dev;
-+	int i, ret;
-+
-+	ret = mipi_dsi_dcs_soft_reset(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to do Software Reset (%d)\n", ret);
-+		goto fail;
-+	}
-+
-+	usleep_range(15000, 17000);
-+
-+	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to enter sleep mode (%d)\n", ret);
-+		goto fail;
-+	}
-+
-+	for (i = 0; i < rpanel->pdata->init_length; i++) {
-+		const struct r63353_instr *instr = &rpanel->pdata->init[i];
-+
-+		ret = mipi_dsi_dcs_write_buffer(dsi, instr->data, instr->len);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	msleep(120);
-+
-+	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to exit sleep mode (%d)\n", ret);
-+		goto fail;
-+	}
-+
-+	usleep_range(5000, 10000);
-+
-+	ret = mipi_dsi_dcs_set_display_on(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set display ON (%d)\n", ret);
-+		goto fail;
-+	}
-+
-+	return 0;
-+
-+fail:
-+	gpiod_set_value(rpanel->reset_gpio, 0);
-+
-+	return ret;
-+}
-+
-+static int r63353_panel_prepare(struct drm_panel *panel)
-+{
-+	struct r63353_panel *rpanel = to_r63353_panel(panel);
-+	struct mipi_dsi_device *dsi = rpanel->dsi;
-+	struct device *dev = &dsi->dev;
-+	int ret;
-+
-+	if (rpanel->prepared)
-+		return 0;
-+
-+	dev_dbg(dev, "Preparing\n");
-+
-+	ret = r63353_panel_power_on(rpanel);
-+	if (ret)
-+		return ret;
-+
-+	ret = r63353_panel_activate(rpanel);
-+	if (ret) {
-+		r63353_panel_power_off(rpanel);
-+		return ret;
-+	}
-+
-+	rpanel->prepared = true;
-+
-+	dev_dbg(dev, "Prepared\n");
-+	return 0;
-+}
-+
-+static int r63353_panel_deactivate(struct r63353_panel *rpanel)
-+{
-+	struct mipi_dsi_device *dsi = rpanel->dsi;
-+	struct device *dev = &dsi->dev;
-+	int ret;
-+
-+	ret = mipi_dsi_dcs_set_display_off(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set display OFF (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	usleep_range(5000, 10000);
-+
-+	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to enter sleep mode (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int r63353_panel_unprepare(struct drm_panel *panel)
-+{
-+	struct r63353_panel *rpanel = to_r63353_panel(panel);
-+
-+	if (!rpanel->prepared)
-+		return 0;
-+
-+	r63353_panel_deactivate(rpanel);
-+	r63353_panel_power_off(rpanel);
-+
-+	rpanel->prepared = false;
-+
-+	return 0;
-+}
-+
-+static const struct drm_display_mode sharp_ls068b3sx02_timing = {
-+	.clock = 70000,
-+	.hdisplay = 640,
-+	.hsync_start = 640 + 35,
-+	.hsync_end = 640 + 35 + 2,
-+	.htotal = 640 + 35 + 2 + 150,
-+	.vdisplay = 1280,
-+	.vsync_start = 1280 + 2,
-+	.vsync_end = 1280 + 2 + 4,
-+	.vtotal = 1280 + 2 + 4 + 0,
-+};
-+
-+static int r63353_panel_get_modes(struct drm_panel *panel,
-+				  struct drm_connector *connector)
-+{
-+	struct r63353_panel *rpanel = to_r63353_panel(panel);
-+	struct drm_display_mode *mode;
-+	static const u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-+
-+	mode = drm_mode_duplicate(connector->dev, rpanel->pdata->mode);
-+	if (!mode)
-+		return -ENOMEM;
-+
-+	drm_mode_set_name(mode);
-+	drm_mode_probed_add(connector, mode);
-+
-+	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-+	connector->display_info.width_mm = rpanel->pdata->width_mm;
-+	connector->display_info.height_mm = rpanel->pdata->height_mm;
-+
-+	drm_display_info_set_bus_formats(&connector->display_info,
-+					 &bus_format, 1);
-+
-+	return 1;
-+}
-+
-+static const struct drm_panel_funcs r63353_panel_funcs = {
-+	.prepare = r63353_panel_prepare,
-+	.unprepare = r63353_panel_unprepare,
-+	.get_modes = r63353_panel_get_modes,
-+};
-+
-+static int r63353_panel_probe(struct mipi_dsi_device *dsi)
-+{
-+	int ret = 0;
-+	struct device *dev = &dsi->dev;
-+	struct r63353_panel *panel;
-+
-+	panel = devm_kzalloc(&dsi->dev, sizeof(*panel), GFP_KERNEL);
-+	if (!panel)
-+		return -ENOMEM;
-+
-+	mipi_dsi_set_drvdata(dsi, panel);
-+	panel->dsi = dsi;
-+	panel->pdata = (struct r63353_desc *)of_device_get_match_data(dev);
-+
-+	dev_info(dev, "Panel %s\n", panel->pdata->name);
-+
-+	dsi->lanes = 2;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
-+			  MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM |
-+			  MIPI_DSI_MODE_VIDEO_SYNC_PULSE | MIPI_DSI_MODE_NO_EOT_PACKET;
-+
-+	panel->dvdd = devm_regulator_get(dev, "dvdd");
-+	if (IS_ERR(panel->dvdd))
-+		return PTR_ERR(panel->dvdd);
-+	panel->avdd = devm_regulator_get(dev, "avdd");
-+	if (IS_ERR(panel->avdd))
-+		return PTR_ERR(panel->avdd);
-+
-+	panel->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(panel->reset_gpio)) {
-+		dev_err(dev, "failed to get RESET GPIO\n");
-+		return PTR_ERR(panel->reset_gpio);
-+	}
-+	gpiod_set_value(panel->reset_gpio, 0);
-+
-+	drm_panel_init(&panel->base, dev, &r63353_panel_funcs,
-+		       DRM_MODE_CONNECTOR_DSI);
-+
-+	panel->base.prepare_prev_first = true;
-+	ret = drm_panel_of_backlight(&panel->base);
-+	if (ret)
-+		return ret;
-+
-+	drm_panel_add(&panel->base);
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "mipi_dsi_attach failed: %d\n", ret);
-+		drm_panel_remove(&panel->base);
-+		return ret;
-+	}
-+
-+	return ret;
-+}
-+
-+static void r63353_panel_remove(struct mipi_dsi_device *dsi)
-+{
-+	struct r63353_panel *rpanel = mipi_dsi_get_drvdata(dsi);
-+	struct device *dev = &dsi->dev;
-+	int ret;
-+
-+	ret = mipi_dsi_detach(dsi);
-+	if (ret < 0)
-+		dev_err(dev, "Failed to detach from host (%d)\n", ret);
-+
-+	drm_panel_remove(&rpanel->base);
-+}
-+
-+static void r63353_panel_shutdown(struct mipi_dsi_device *dsi)
-+{
-+	struct r63353_panel *rpanel = mipi_dsi_get_drvdata(dsi);
-+
-+	r63353_panel_unprepare(&rpanel->base);
-+}
-+
-+static const struct r63353_desc sharp_ls068b3sx02_data = {
-+	.name = "Sharp LS068B3SX02",
-+	.mode = &sharp_ls068b3sx02_timing,
-+	.init = sharp_ls068b3sx02_init,
-+	.init_length = ARRAY_SIZE(sharp_ls068b3sx02_init),
-+	.width_mm = 68,
-+	.height_mm = 159,
-+};
-+
-+static const struct of_device_id r63353_of_match[] = {
-+	{ .compatible = "sharp,ls068b3sx02", .data = &sharp_ls068b3sx02_data },
-+	{ }
-+};
-+
-+MODULE_DEVICE_TABLE(of, r63353_of_match);
-+
-+static struct mipi_dsi_driver r63353_panel_driver = {
-+	.driver = {
-+		   .name = "r63353-dsi",
-+		   .of_match_table = r63353_of_match,
-+	},
-+	.probe = r63353_panel_probe,
-+	.remove = r63353_panel_remove,
-+	.shutdown = r63353_panel_shutdown,
-+};
-+
-+module_mipi_dsi_driver(r63353_panel_driver);
-+
-+MODULE_AUTHOR("Matthias Proske <Matthias.Proske@bshg.com>");
-+MODULE_AUTHOR("Michael Trimarchi <michael@amarulasolutions.com>");
-+MODULE_DESCRIPTION("Synaptics R63353 Controller Driver");
-+MODULE_LICENSE("GPL");
++++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9805.yaml
+@@ -0,0 +1,62 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/ilitek,ili9805.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Ilitek ILI9805 based MIPI-DSI panels
++
++maintainers:
++  - Michael Trimarchi <michael@amarulasolutions.com>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - giantplus,gpm1790a0
++          - tianma,tm041xdhg01
++      - const: ilitek,ili9805
++
++  avdd-supply: true
++  dvdd-supply: true
++  reg: true
++
++required:
++  - compatible
++  - avdd-supply
++  - dvdd-supply
++  - reg
++  - reset-gpios
++  - port
++  - backlight
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "giantplus,gpm1790a0", "ilitek,ili9805";
++            reg = <0>;
++            avdd-supply = <&avdd_display>;
++            dvdd-supply = <&dvdd_display>;
++            reset-gpios = <&r_pio 0 5 GPIO_ACTIVE_LOW>; /* PL05 */
++            backlight = <&backlight>;
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&mipi_dsi_out>;
++                };
++            };
++        };
++    };
++
++...
 -- 
 2.43.0
 
