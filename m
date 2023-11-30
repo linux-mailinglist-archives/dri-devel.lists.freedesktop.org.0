@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB76D7FF419
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 16:56:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C727FF424
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 16:57:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D60710E710;
-	Thu, 30 Nov 2023 15:56:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F5DA10E71C;
+	Thu, 30 Nov 2023 15:56:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C41AF10E010
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 15:56:38 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id
- 46e09a7af769-6d858670630so698511a34.0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 07:56:38 -0800 (PST)
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
+ [IPv6:2607:f8b0:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9205410E010
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 15:56:39 +0000 (UTC)
+Received: by mail-ot1-x335.google.com with SMTP id
+ 46e09a7af769-6d80245b6easo647519a34.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 07:56:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701359798; x=1701964598; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1701359799; x=1701964599; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YkS0F614/zYSCaqFBeaQwkOCeCxZ+aA+0mnevTE93Gw=;
- b=EZKEh1auSMfcG+aFJB2ECDSMJ9CFcheyixcnr4HrId+QEZpy4BQgqfoeAB4syra/SM
- YaGuqEbz+Z3nGj8CMeS66hUC2LzhxEuDGXnaFZA20ZrTWq7t6PH/s6JmnbWAJOJFcQFl
- fni6IgbIRF1+l898+YA/4p4gXxMCnkwn8SkfINMbMz2K38SBsvQn59YKRnX325gQgTyO
- UMESeDeWLLhIYHnYRyymi3tzTAC69Jp4zJdO1ZifYGtl4L/1BeUJ5dp1MkDBZpZzMMs0
- PxrlpC4fCBMKkn9rCs9mMndZvR/ax/qv2xZABwcwg8rFmYohjuiXUHXs3vnMlzvsHA4f
- wN8A==
+ bh=cqG2snvAFFOieKorYhuNC1Brzfr2ap7NECEbi10aNlw=;
+ b=Aese5bMriPxYSt2SrJDqTStFBLYtiHTtVvegk/2wkwbW7ed6V+DCZj8RZqdcRt+D2s
+ Fi91Oo8KNFd7+kqFVwnPrfyjhgo2+x78D7yBQG3C1f9GULPvN+P07dr6Wtv90yg/0JOz
+ grOo6DbdIbPGNSDUeMt9h0PWHCCERZPrAD+1MbOoJ1V/H7mpgHCk5EBA0fNzZcIf+kgO
+ rTNi4TaMNOYcYc+qU6q9Fa04ehiyUDTYFgGWoTdatcdTxfMo1S3K02ijln53QeYUQxTn
+ 8V1xgu5LusTV5DZPkhKpmtnyixhOrN+UOny61AwWQzVQjkoA1sn+vt669+0Nwjn7uw2/
+ Z33g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701359798; x=1701964598;
+ d=1e100.net; s=20230601; t=1701359799; x=1701964599;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YkS0F614/zYSCaqFBeaQwkOCeCxZ+aA+0mnevTE93Gw=;
- b=Mq60CkAbROwQeyDL93jgWmRXtaVo4hOzNRppdMkPilNekz47gjVhz+OcZY4xJFZ2SS
- zKPsAKi6ZrAV8NeY2SX5EZpHHxqEqcRhMS/XUSvRRF1vIkMzLs1IARH2B9QWxOwHS+Wy
- Jx44xChqAyzY3V6VZ5YayK2SuTwUKavYQJBwCaiDBMRxg9K3LwvQNLLgcv7SemfU8hCT
- 5SqVyF4ZyyTnpC6+9PMnXb1xYM7sWyAhTU/zyTuMRJnRG9eiGgQiTLPxr6+itDUtByeL
- oWqi1mxh3GrlQc0BB2+SFYKHN3/1wStlrN8+ewpDGtNlti+RFxz+IVAhVDAybPhm/K57
- dByQ==
-X-Gm-Message-State: AOJu0YwMsMb9tmmO2pDC9MsfW1mXGMpyL13rozpSbE9CfI5xLV73hqak
- DBf5mmsIanvMgpFB/xRogms=
-X-Google-Smtp-Source: AGHT+IGYwEDgb2oRRJdUhgFlR+f+8NClC5+pTm0V8TeeHR8MPP8qJH+kd/qwXxUEZ1fod/sk372crg==
-X-Received: by 2002:a05:6830:4783:b0:6d4:726f:6899 with SMTP id
- df3-20020a056830478300b006d4726f6899mr21447899otb.1.1701359798063; 
+ bh=cqG2snvAFFOieKorYhuNC1Brzfr2ap7NECEbi10aNlw=;
+ b=IZYRwiHxKtMZfpAhI6+7YS/gJM9KlDkFfefyGA+xfxvQ1irqCawmBTm9fLjadEkr7Q
+ AZ6n1MT9tgwT8HBhvh9aOarTlJNJE097BaUcFHOWf1uZFRX3T5GVNQIcTntv8xTEYKPk
+ Blr9xmnfJ9KFW93+fxOsUVgWHZve+GmlJ4QfrgL8j8Yj131M0ePFCan4aZ1d/wdY/Jwb
+ O/5VgGjErQdpkbU2MtCRz4p37p4T9GXbqE4NUgYZCHMsuWZIl1KF7+yiJ7j22RfY415k
+ didD+TANuWBye3Ij+qu1nxqO4t/r97JKOKYIX2Z4XZRFl2yBf4sGnn3Fi9BJGko6BDKc
+ 2KpA==
+X-Gm-Message-State: AOJu0YyVEw5ZyX0BhnpbeCt9Tc5XU+PbFzDXpX+QZnPEYWoyDjgIPQq0
+ XJZgA11XwQEtaE0m2LBipNE=
+X-Google-Smtp-Source: AGHT+IF5jM0pqDMvI16N6bFujnbVlKLkC7G5DaqBhEmXPRDkOyCV7zG2glIlQbuFemOOUGzoI3p2mQ==
+X-Received: by 2002:a9d:6b18:0:b0:6d8:2883:cb5a with SMTP id
+ g24-20020a9d6b18000000b006d82883cb5amr14210032otp.24.1701359798769; 
  Thu, 30 Nov 2023 07:56:38 -0800 (PST)
 Received: from localhost.localdomain ([75.28.21.198])
  by smtp.gmail.com with ESMTPSA id
- n25-20020a9d6f19000000b006d7ff27a47esm187852otq.77.2023.11.30.07.56.37
+ n25-20020a9d6f19000000b006d7ff27a47esm187852otq.77.2023.11.30.07.56.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Nov 2023 07:56:37 -0800 (PST)
+ Thu, 30 Nov 2023 07:56:38 -0800 (PST)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-rockchip@lists.infradead.org
-Subject: [PATCH 3/9] dt-bindings: display: Document Himax HX8394 panel rotation
-Date: Thu, 30 Nov 2023 09:56:18 -0600
-Message-Id: <20231130155624.405575-4-macroalpha82@gmail.com>
+Subject: [PATCH 4/9] drm/panel: himax-hx8394: Add Panel Rotation Support
+Date: Thu, 30 Nov 2023 09:56:19 -0600
+Message-Id: <20231130155624.405575-5-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231130155624.405575-1-macroalpha82@gmail.com>
 References: <20231130155624.405575-1-macroalpha82@gmail.com>
@@ -84,26 +84,60 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Document panel rotation for Himax HX8394 display panel.
+Add support for setting the rotation property for the Himax HX8394
+panel.
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- .../devicetree/bindings/display/panel/himax,hx8394.yaml         | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/panel/panel-himax-hx8394.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml b/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
-index ffb35288ffbb..3096debca55c 100644
---- a/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
-@@ -31,6 +31,8 @@ properties:
+diff --git a/drivers/gpu/drm/panel/panel-himax-hx8394.c b/drivers/gpu/drm/panel/panel-himax-hx8394.c
+index d8e590d5e1da..b68ea09f4725 100644
+--- a/drivers/gpu/drm/panel/panel-himax-hx8394.c
++++ b/drivers/gpu/drm/panel/panel-himax-hx8394.c
+@@ -68,6 +68,7 @@ struct hx8394 {
+ 	struct gpio_desc *reset_gpio;
+ 	struct regulator *vcc;
+ 	struct regulator *iovcc;
++	enum drm_panel_orientation orientation;
  
-   backlight: true
+ 	const struct hx8394_panel_desc *desc;
+ };
+@@ -324,12 +325,20 @@ static int hx8394_get_modes(struct drm_panel *panel,
+ 	return 1;
+ }
  
-+  rotation: true
++static enum drm_panel_orientation hx8394_get_orientation(struct drm_panel *panel)
++{
++	struct hx8394 *ctx = panel_to_hx8394(panel);
 +
-   port: true
++	return ctx->orientation;
++}
++
+ static const struct drm_panel_funcs hx8394_drm_funcs = {
+ 	.disable   = hx8394_disable,
+ 	.unprepare = hx8394_unprepare,
+ 	.prepare   = hx8394_prepare,
+ 	.enable	   = hx8394_enable,
+ 	.get_modes = hx8394_get_modes,
++	.get_orientation = hx8394_get_orientation,
+ };
  
-   vcc-supply:
+ static int hx8394_probe(struct mipi_dsi_device *dsi)
+@@ -347,6 +356,12 @@ static int hx8394_probe(struct mipi_dsi_device *dsi)
+ 		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
+ 				     "Failed to get reset gpio\n");
+ 
++	ret = of_drm_get_panel_orientation(dev->of_node, &ctx->orientation);
++	if (ret < 0) {
++		dev_err(dev, "%pOF: failed to get orientation %d\n", dev->of_node, ret);
++		return ret;
++	}
++
+ 	mipi_dsi_set_drvdata(dsi, ctx);
+ 
+ 	ctx->dev = dev;
 -- 
 2.34.1
 
