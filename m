@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67DA37FF415
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 16:56:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB76D7FF419
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 16:56:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1522410E377;
-	Thu, 30 Nov 2023 15:56:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D60710E710;
+	Thu, 30 Nov 2023 15:56:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
- [IPv6:2607:f8b0:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DAC110E010
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C41AF10E010
  for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 15:56:38 +0000 (UTC)
-Received: by mail-ot1-x329.google.com with SMTP id
- 46e09a7af769-6d7e51638e7so662655a34.1
+Received: by mail-ot1-x330.google.com with SMTP id
+ 46e09a7af769-6d858670630so698511a34.0
  for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 07:56:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701359797; x=1701964597; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1701359798; x=1701964598; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pRNLoGhO2BMO9ciLNfM1W1rhqOoDcDjvlbAJTebh+yo=;
- b=JKscnewpHwupgOs2AkyTnOlCukYsVXZYuwvSjnOPFzwNttLXPoZPBh9tIfwwBIUsNU
- 3qxFsvy5608BwvcjC4y1q+8wmv6K2Ta9o+MXMlYcicPi4Huy3sii0d7JJBk7dX1hcvCa
- 2dxtB/oyM3Er/TtSkYa3YYGoFNGcLumm+ugPHVUSZB26o7cx69O05kLXbuyChCF8j3EL
- hb24lXlAbp3zSxStWHUrMDEkS3A5FUsqG0C25YZTdjagKhjKHQnu8aoq67ytGXCbD3sb
- Dcqu8xzaOhmqcQHYnmG1L0W83X4NIP38fHfFrHsqBq3FaJ13bbmR33/INwX1GD2GVuiQ
- hpmw==
+ bh=YkS0F614/zYSCaqFBeaQwkOCeCxZ+aA+0mnevTE93Gw=;
+ b=EZKEh1auSMfcG+aFJB2ECDSMJ9CFcheyixcnr4HrId+QEZpy4BQgqfoeAB4syra/SM
+ YaGuqEbz+Z3nGj8CMeS66hUC2LzhxEuDGXnaFZA20ZrTWq7t6PH/s6JmnbWAJOJFcQFl
+ fni6IgbIRF1+l898+YA/4p4gXxMCnkwn8SkfINMbMz2K38SBsvQn59YKRnX325gQgTyO
+ UMESeDeWLLhIYHnYRyymi3tzTAC69Jp4zJdO1ZifYGtl4L/1BeUJ5dp1MkDBZpZzMMs0
+ PxrlpC4fCBMKkn9rCs9mMndZvR/ax/qv2xZABwcwg8rFmYohjuiXUHXs3vnMlzvsHA4f
+ wN8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701359797; x=1701964597;
+ d=1e100.net; s=20230601; t=1701359798; x=1701964598;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pRNLoGhO2BMO9ciLNfM1W1rhqOoDcDjvlbAJTebh+yo=;
- b=RnrCl1OjV1VFFHzJPnL1MCAVHvinmVx6Z5qqwM7bQjhrM8vhryLdws3B8noKGUnaLW
- tGhNMBhD3jXHPL1EVyjqOvY515ne8SStJmFaLU3ckCVUECe5G5hY29NED4lkftJVBcjN
- xTWUUcxdrgJLQrgV+MHnP1mb4+QbuPb08OkPkdXvnaRX/D2ZGYxkY/l2Dw+v59y9mZkB
- TOaOrACvNtrWnuCbcfG3V1eWWh4GZJWovVan+sBip3MoP142KB9k+MXvrDxUn3o7qP1c
- +G0dwEkisQ7Q0UFQJoSLCw07Sd2Z8o04CmyoXj9dzsmWyGy1TFz2rR9uj+fVQc53g7SM
- SozA==
-X-Gm-Message-State: AOJu0YyQ7ArfozE50FWfDDrbiOwfqgqcja8nE6ksPjw2CRn7ZBiJS3Uj
- JskqQliefXCUIYWxyChJifo=
-X-Google-Smtp-Source: AGHT+IFDN2KO5mhmb9kkTeoiK/iTdFDlSusXFHxnNmaSKuAZ/ISuF82jXLCkerZAI+gGVdXWyroc9A==
-X-Received: by 2002:a05:6830:2047:b0:6d8:4a96:e4db with SMTP id
- f7-20020a056830204700b006d84a96e4dbmr7537200otp.31.1701359797425; 
- Thu, 30 Nov 2023 07:56:37 -0800 (PST)
+ bh=YkS0F614/zYSCaqFBeaQwkOCeCxZ+aA+0mnevTE93Gw=;
+ b=Mq60CkAbROwQeyDL93jgWmRXtaVo4hOzNRppdMkPilNekz47gjVhz+OcZY4xJFZ2SS
+ zKPsAKi6ZrAV8NeY2SX5EZpHHxqEqcRhMS/XUSvRRF1vIkMzLs1IARH2B9QWxOwHS+Wy
+ Jx44xChqAyzY3V6VZ5YayK2SuTwUKavYQJBwCaiDBMRxg9K3LwvQNLLgcv7SemfU8hCT
+ 5SqVyF4ZyyTnpC6+9PMnXb1xYM7sWyAhTU/zyTuMRJnRG9eiGgQiTLPxr6+itDUtByeL
+ oWqi1mxh3GrlQc0BB2+SFYKHN3/1wStlrN8+ewpDGtNlti+RFxz+IVAhVDAybPhm/K57
+ dByQ==
+X-Gm-Message-State: AOJu0YwMsMb9tmmO2pDC9MsfW1mXGMpyL13rozpSbE9CfI5xLV73hqak
+ DBf5mmsIanvMgpFB/xRogms=
+X-Google-Smtp-Source: AGHT+IGYwEDgb2oRRJdUhgFlR+f+8NClC5+pTm0V8TeeHR8MPP8qJH+kd/qwXxUEZ1fod/sk372crg==
+X-Received: by 2002:a05:6830:4783:b0:6d4:726f:6899 with SMTP id
+ df3-20020a056830478300b006d4726f6899mr21447899otb.1.1701359798063; 
+ Thu, 30 Nov 2023 07:56:38 -0800 (PST)
 Received: from localhost.localdomain ([75.28.21.198])
  by smtp.gmail.com with ESMTPSA id
- n25-20020a9d6f19000000b006d7ff27a47esm187852otq.77.2023.11.30.07.56.36
+ n25-20020a9d6f19000000b006d7ff27a47esm187852otq.77.2023.11.30.07.56.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 30 Nov 2023 07:56:37 -0800 (PST)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-rockchip@lists.infradead.org
-Subject: [PATCH 2/9] drm/panel: himax-hx8394: Drop shutdown logic
-Date: Thu, 30 Nov 2023 09:56:17 -0600
-Message-Id: <20231130155624.405575-3-macroalpha82@gmail.com>
+Subject: [PATCH 3/9] dt-bindings: display: Document Himax HX8394 panel rotation
+Date: Thu, 30 Nov 2023 09:56:18 -0600
+Message-Id: <20231130155624.405575-4-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231130155624.405575-1-macroalpha82@gmail.com>
 References: <20231130155624.405575-1-macroalpha82@gmail.com>
@@ -84,55 +84,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-The driver shutdown is duplicate as it calls drm_unprepare and
-drm_disable which are called anyway when associated drivers are
-shutdown/removed.
+Document panel rotation for Himax HX8394 display panel.
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- drivers/gpu/drm/panel/panel-himax-hx8394.c | 17 -----------------
- 1 file changed, 17 deletions(-)
+ .../devicetree/bindings/display/panel/himax,hx8394.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-himax-hx8394.c b/drivers/gpu/drm/panel/panel-himax-hx8394.c
-index 3823ff388b96..d8e590d5e1da 100644
---- a/drivers/gpu/drm/panel/panel-himax-hx8394.c
-+++ b/drivers/gpu/drm/panel/panel-himax-hx8394.c
-@@ -390,27 +390,11 @@ static int hx8394_probe(struct mipi_dsi_device *dsi)
- 	return 0;
- }
+diff --git a/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml b/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
+index ffb35288ffbb..3096debca55c 100644
+--- a/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
++++ b/Documentation/devicetree/bindings/display/panel/himax,hx8394.yaml
+@@ -31,6 +31,8 @@ properties:
  
--static void hx8394_shutdown(struct mipi_dsi_device *dsi)
--{
--	struct hx8394 *ctx = mipi_dsi_get_drvdata(dsi);
--	int ret;
--
--	ret = drm_panel_disable(&ctx->panel);
--	if (ret < 0)
--		dev_err(&dsi->dev, "Failed to disable panel: %d\n", ret);
--
--	ret = drm_panel_unprepare(&ctx->panel);
--	if (ret < 0)
--		dev_err(&dsi->dev, "Failed to unprepare panel: %d\n", ret);
--}
--
- static void hx8394_remove(struct mipi_dsi_device *dsi)
- {
- 	struct hx8394 *ctx = mipi_dsi_get_drvdata(dsi);
- 	int ret;
+   backlight: true
  
--	hx8394_shutdown(dsi);
--
- 	ret = mipi_dsi_detach(dsi);
- 	if (ret < 0)
- 		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
-@@ -427,7 +411,6 @@ MODULE_DEVICE_TABLE(of, hx8394_of_match);
- static struct mipi_dsi_driver hx8394_driver = {
- 	.probe	= hx8394_probe,
- 	.remove = hx8394_remove,
--	.shutdown = hx8394_shutdown,
- 	.driver = {
- 		.name = DRV_NAME,
- 		.of_match_table = hx8394_of_match,
++  rotation: true
++
+   port: true
+ 
+   vcc-supply:
 -- 
 2.34.1
 
