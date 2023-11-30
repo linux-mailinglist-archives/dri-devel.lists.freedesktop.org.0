@@ -2,67 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208007FFE33
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 23:00:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6731B7FFE97
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 23:41:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21A3810E04E;
-	Thu, 30 Nov 2023 22:00:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57CE910E05B;
+	Thu, 30 Nov 2023 22:41:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com
- [IPv6:2607:f8b0:4864:20::c30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D348B10E04E
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 22:00:51 +0000 (UTC)
-Received: by mail-oo1-xc30.google.com with SMTP id
- 006d021491bc7-58d06bfadf8so867320eaf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 14:00:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1701381651; x=1701986451;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3bHceCWW/FNIBqL0qlF7bzPuAbLJU4rZ5dawH7WmBGM=;
- b=AUmYv99/4FrU6P3BW+czHFKD/JjFx43Kz6ANsfTVs0GuxQ/fRutSAFSASPSs+oktOJ
- xAGzcQT6f4SlUQFHiNB2f45x8hXjVNUmR3xiKyBIG6dKFrMW7hcaTXbZa392g4LNvrlN
- Fjy6dk/gAP38wGfMFbY6OMP0i/xzTz2+i5wvo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701381651; x=1701986451;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3bHceCWW/FNIBqL0qlF7bzPuAbLJU4rZ5dawH7WmBGM=;
- b=k/GaXqZHLAaCpLAS27l5d8OXuyLf9ZYqEfLl9hEZ1cZtdRGHk7ijtx1DCW6Vmq+VfE
- GhD6r9sgU/qML9dIJAHXSg+dcEzozUIm2EQvEi0R6TQotCvloOSiUbNW98MARHHANOO3
- N2N5DiVuPoWfklixPXLhy8extDlpkLgG8GuQdadiM7WnLcWk2sQyUbDhMyvmtSqDrFej
- 6WgzwdJ9hC/t6Q+pQbiN7k7ANlzA7UAF7lqufiYX+z8wAUp5VCwSxDH6IOGruhp4Rlia
- iWA8fd3teLawag/rf8Buq6lsiTPMP1RZ5ISuOaj66LkHldpKITSG61ppYc8uzBjwei8M
- 707w==
-X-Gm-Message-State: AOJu0Yx65HX6Mywncus9Ve71SqYEoLx+9blt7rX+S4WV4eUGe13oyBmi
- XeSm28h8iqeB2ORh0EnQLoUXUw==
-X-Google-Smtp-Source: AGHT+IEQFIZgsvOW9B+t/qw8hIsRW20br2f9U2lUT1U8gzzUQdVBFmGZapUJihQN+NpvBHrzAyjJ0w==
-X-Received: by 2002:a05:6358:7206:b0:16b:f555:4c34 with SMTP id
- h6-20020a056358720600b0016bf5554c34mr29347624rwa.1.1701381650901; 
- Thu, 30 Nov 2023 14:00:50 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
- [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
- 1-20020a631541000000b0059ce3d1def5sm1748288pgv.45.2023.11.30.14.00.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Nov 2023 14:00:50 -0800 (PST)
-From: Kees Cook <keescook@chromium.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Justin Stitt <justinstitt@google.com>
-Subject: Re: [PATCH v2] drm/modes: replace deprecated strncpy with strscpy_pad
-Date: Thu, 30 Nov 2023 14:00:40 -0800
-Message-Id: <170138163824.3649248.18015700667277399745.b4-ty@chromium.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231016-strncpy-drivers-gpu-drm-drm_modes-c-v2-1-d0b60686e1c6@google.com>
-References: <20231016-strncpy-drivers-gpu-drm-drm_modes-c-v2-1-d0b60686e1c6@google.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BC2E10E05A;
+ Thu, 30 Nov 2023 22:41:35 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3AUMRq33024023; Thu, 30 Nov 2023 22:41:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=Vexax5Lwygt2DRmCytzPYqLZ+7assqLIoKPkyKRQ7aM=;
+ b=Z9eIZFd2WMiD98YStG9Nf9TvaTl+y/KTHpI3re6kt6/rkLbALcbw4C/NcDxHKCWDQwZ5
+ GXaCa2G3RTIfcckNqEOiBu4EyV4Cdg7ijN+w5FxxGLYTtGhQ5DJeVzSmrDSePJYrViw9
+ JKxtmZDOQVCY62BeINGvsjtbXQmdqITzMnqh2K6wbe7lDkkDHIq57RhTMF5ZnY3gtscU
+ 1REs90aLxt+3GTXPPgsDwzoiH83I/RbZG4spCNRreEVK/GzU/acne136s1TL8br8kM4s
+ JRpCpH68wZHI9TmoZVOHkd+2hYC57wGU7vQuvQ3AXLtF+/CcEkUoimWtCDHpCW3NpHdQ Wg== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3upv4818t0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 30 Nov 2023 22:41:33 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AUMfHVw016661
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 30 Nov 2023 22:41:17 GMT
+Received: from [10.71.109.77] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 30 Nov
+ 2023 14:41:17 -0800
+Message-ID: <f990043a-eb17-dc5d-3257-ed95efcee8e3@quicinc.com>
+Date: Thu, 30 Nov 2023 14:41:16 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 04/16] drm/msm/dpu: add cdm blocks to sc7280 dpu_hw_catalog
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230830224910.8091-1-quic_abhinavk@quicinc.com>
+ <20230830224910.8091-5-quic_abhinavk@quicinc.com>
+ <CAA8EJpoQ0L_b=KDQxuXEL4KbaP1DACq1Qpw6m_ot6m+UYsHZWg@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJpoQ0L_b=KDQxuXEL4KbaP1DACq1Qpw6m_ot6m+UYsHZWg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: dbBQUbkUqIScm6kbF2VdY5kc44p9WIKO
+X-Proofpoint-ORIG-GUID: dbBQUbkUqIScm6kbF2VdY5kc44p9WIKO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-30_22,2023-11-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 malwarescore=0
+ spamscore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0 mlxscore=0
+ phishscore=0 suspectscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311060000
+ definitions=main-2311300167
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,36 +84,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xu Panda <xu.panda@zte.com.cn>, linux-hardening@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, quic_parellan@quicinc.com,
+ Marijn Suijten <marijn.suijten@somainline.org>, quic_jesszhan@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 16 Oct 2023 22:38:20 +0000, Justin Stitt wrote:
-> `strncpy` is deprecated for use on NUL-terminated destination strings
-> [1] and as such we should prefer more robust and less ambiguous string
-> interfaces.
+
+
+On 8/30/2023 3:57 PM, Dmitry Baryshkov wrote:
+> On Thu, 31 Aug 2023 at 01:49, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>
+>> Add CDM blocks to the sc7280 dpu_hw_catalog to support
+>> YUV format output from writeback block.
+>>
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> ---
+>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h  |  9 +++++++++
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h      | 13 +++++++++++++
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h         |  5 +++++
+>>   3 files changed, 27 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+>> index 3b5061c4402a..5252170f216d 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+>> @@ -251,10 +251,19 @@ static const struct dpu_mdss_version sc7280_mdss_ver = {
+>>          .core_minor_ver = 2,
+>>   };
+>>
+>> +static const struct dpu_cdm_cfg sc7280_cdm = {
+>> +       .name = "cdm_0",
+>> +       .id = CDM_0,
+>> +       .len = 0x228,
+>> +       .base = 0x79200,
+>> +       .features = 0,
 > 
-> We should NUL-pad as there are full struct copies happening in places:
-> |       struct drm_mode_modeinfo umode;
-> |
-> |       ...
-> |               struct drm_property_blob *blob;
-> |
-> |               drm_mode_convert_to_umode(&umode, mode);
-> |               blob = drm_property_create_blob(crtc->dev,
-> |                                               sizeof(umode), &umode);
+> No need to.
+> Also, as the CDM block seems to be common to all existing platforms,
+> what about moving this definition to dpu_hw_catalog.c next to VBIF
+> settings?
 > 
-> [...]
 
-Applied to for-next/hardening, thanks!
+Thanks for the feedback and sorry for the delay in getting back to this 
+feature.
 
-[1/1] drm/modes: replace deprecated strncpy with strscpy_pad
-      https://git.kernel.org/kees/c/d8d273c595db
+Ack. Yes lets move it to dpu_hw_catalog.c and remove explicit 0 
+assignment for features.
 
-Take care,
-
--- 
-Kees Cook
-
+>> +};
+>> +
+>>   const struct dpu_mdss_cfg dpu_sc7280_cfg = {
+>>          .mdss_ver = &sc7280_mdss_ver,
+>>          .caps = &sc7280_dpu_caps,
+>>          .mdp = &sc7280_mdp,
+>> +       .cdm = &sc7280_cdm,
+>>          .ctl_count = ARRAY_SIZE(sc7280_ctl),
+>>          .ctl = sc7280_ctl,
+>>          .sspp_count = ARRAY_SIZE(sc7280_sspp),
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>> index 6c9634209e9f..4ea7c3f85a95 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>> @@ -693,6 +693,17 @@ struct dpu_vbif_cfg {
+>>          u32 memtype[MAX_XIN_COUNT];
+>>   };
+>>
+>> +/**
+>> + * struct dpu_cdm_cfg - information of chroma down blocks
+>> + * @name               string name for debug purposes
+>> + * @id                 enum identifying this block
+>> + * @base               register offset of this block
+>> + * @features           bit mask identifying sub-blocks/features
+>> + */
+>> +struct dpu_cdm_cfg {
+>> +       DPU_HW_BLK_INFO;
+>> +};
+>> +
+>>   /**
+>>    * Define CDP use cases
+>>    * @DPU_PERF_CDP_UDAGE_RT: real-time use cases
+>> @@ -816,6 +827,8 @@ struct dpu_mdss_cfg {
+>>          u32 wb_count;
+>>          const struct dpu_wb_cfg *wb;
+>>
+>> +       const struct dpu_cdm_cfg *cdm;
+>> +
+>>          u32 ad_count;
+>>
+>>          u32 dspp_count;
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+>> index d85157acfbf8..4d6dba18caf0 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+>> @@ -185,6 +185,11 @@ enum dpu_dsc {
+>>          DSC_MAX
+>>   };
+>>
+>> +enum dpu_cdm {
+>> +       CDM_0 = 1,
+>> +       CDM_MAX
+>> +};
+>> +
+>>   enum dpu_pingpong {
+>>          PINGPONG_NONE,
+>>          PINGPONG_0,
+>> --
+>> 2.40.1
+>>
+> 
+> 
