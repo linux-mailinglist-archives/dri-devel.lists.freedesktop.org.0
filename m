@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D83C27FEEF1
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 13:24:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D3F87FEEF4
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 13:24:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2934510E6F2;
-	Thu, 30 Nov 2023 12:24:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8094C10E6ED;
+	Thu, 30 Nov 2023 12:24:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
- by gabe.freedesktop.org (Postfix) with ESMTP id BA02F10E6ED
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 12:24:03 +0000 (UTC)
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.199])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 732D110E6EE
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 12:24:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=CidyQ
- kcUSbONLGLqzG4G3Rj/C0GIJ8owu1w28R+5hkg=; b=gcmVx4gBcr5urmN8Ub31R
- FGl507aEjl6z0nnX/cvJkv4Og8mUzcq+NGQeH5JsEbiNaTqfbTkY/ieZjnhNtJWZ
- iD6N/8MpTcAYbRC5ebu9XGnyDt1xaPNf1isJs8NISjams4TeJnGPMb9P2nlj7QCh
- r0RuPKFO6k6TcOTgBFkecA=
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=sit8y
+ AQ8spW7AEygxvycNPffHdr8vkm1m0j7wyi3JYE=; b=TKewiM/VHXRysrhhCf1dX
+ vuHE+DqEnEjl0SXrr+NWMqbXo9+Uoe04m54QQvb39CgXAS1LGh0gLSjVjMxDiVHz
+ fQLmvcx72Pg4jom8l2javh3z9HrBntMJ2HCltOkRWHkFst5W0GxdPH1/K3qenrF2
+ SoemEmoPTlSsAQoKxdGojQ=
 Received: from ProDesk.. (unknown [58.22.7.114])
- by zwqz-smtp-mta-g1-3 (Coremail) with SMTP id _____wD3PxjQfmhlDnD1BA--.61445S2;
- Thu, 30 Nov 2023 20:23:47 +0800 (CST)
+ by zwqz-smtp-mta-g3-3 (Coremail) with SMTP id _____wD3HxndfmhlydF7Cw--.52237S2;
+ Thu, 30 Nov 2023 20:24:00 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: heiko@sntech.de
-Subject: [PATCH v3 06/14] drm/rockchip: vop2: Set YUV/RGB overlay mode
-Date: Thu, 30 Nov 2023 20:23:42 +0800
-Message-Id: <20231130122342.13072-1-andyshrk@163.com>
+Subject: [PATCH v3 07/14] drm/rockchip: vop2: rename grf to sys_grf
+Date: Thu, 30 Nov 2023 20:23:56 +0800
+Message-Id: <20231130122356.13141-1-andyshrk@163.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231130122001.12474-1-andyshrk@163.com>
 References: <20231130122001.12474-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wD3PxjQfmhlDnD1BA--.61445S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxXr18XrWkAFyrWFW3Ww47XFb_yoWrAw1kpw
- n7ZryYqrWDKF4qqw1kAF98ZF4Skw4Iyay7GFn7Gasxua4vgryDWwnxuas8AFnrXF17urWj
- yrZrCrW5AF4Ivr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jo5lbUUUUU=
+X-CM-TRANSID: _____wD3HxndfmhlydF7Cw--.52237S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7AFW7tFy3Ww43Zw15tw1xGrg_yoW8Zr1fpa
+ sxAFW29r47GrZFgF1vkFs8uFWakws7CayIk3WxC3WS9347tr98KFs8Wa45JrW3JrnruF4a
+ q3yqyry3CFy7Ar7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jSOJnUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqBU4XmVOAquTBAAAsO
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqAU4XmVOAquT1wAAsN
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,7 +50,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, chris.obbard@collabora.com, hjc@rock-chips.com,
+Cc: devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
+ chris.obbard@collabora.com, hjc@rock-chips.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  kever.yang@rock-chips.com, linux-rockchip@lists.infradead.org,
  robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
@@ -60,111 +61,54 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-Set overlay mode register according to the
-output mode is yuv or rgb.
+The vop2 need to reference more grf(system grf, vop grf, vo0/1 grf,etc)
+in the upcoming rk3588.
+
+So we rename the current system grf to sys_grf.
 
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-
+Reviewed-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
 
-Changes in v3:
-- put bool variable yuv_overlay next to other bool variable
-- define macro for RK3568_OVL_CTRL__YUV_MODE
-- just write RK3568_OVL_CTRL register once in function
-  vop2_setup_layer_mixer
+(no changes since v1)
 
- drivers/gpu/drm/rockchip/rockchip_drm_drv.h  |  1 +
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 18 +++++++++++++++---
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  1 +
- 3 files changed, 17 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-index 3d8ab2defa1b..bbb9e0bf6804 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-@@ -48,6 +48,7 @@ struct rockchip_crtc_state {
- 	int output_bpc;
- 	int output_flags;
- 	bool enable_afbc;
-+	bool yuv_overlay;
- 	u32 bus_format;
- 	u32 bus_flags;
- 	int color_space;
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 25c1f33c5622..40b5c5ca4864 100644
+index 40b5c5ca4864..e21e7284db4d 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -1623,6 +1623,8 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
+@@ -190,7 +190,7 @@ struct vop2 {
+ 	void __iomem *regs;
+ 	struct regmap *map;
  
- 	vop2->enable_count++;
+-	struct regmap *grf;
++	struct regmap *sys_grf;
  
-+	vcstate->yuv_overlay = is_yuv_output(vcstate->bus_format);
-+
- 	vop2_crtc_enable_irq(vp, VP_INT_POST_BUF_EMPTY);
- 
- 	polflags = 0;
-@@ -1650,7 +1652,7 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
- 	if (vop2_output_uv_swap(vcstate->bus_format, vcstate->output_mode))
- 		dsp_ctrl |= RK3568_VP_DSP_CTRL__DSP_RB_SWAP;
- 
--	if (is_yuv_output(vcstate->bus_format))
-+	if (vcstate->yuv_overlay)
- 		dsp_ctrl |= RK3568_VP_DSP_CTRL__POST_DSP_OUT_R2Y;
- 
- 	vop2_dither_setup(crtc, &dsp_ctrl);
-@@ -1959,10 +1961,12 @@ static void vop2_setup_layer_mixer(struct vop2_video_port *vp)
- 	u16 hdisplay;
- 	u32 bg_dly;
- 	u32 pre_scan_dly;
-+	u32 ovl_ctrl;
- 	int i;
- 	struct vop2_video_port *vp0 = &vop2->vps[0];
- 	struct vop2_video_port *vp1 = &vop2->vps[1];
- 	struct vop2_video_port *vp2 = &vop2->vps[2];
-+	struct rockchip_crtc_state *vcstate = to_rockchip_crtc_state(vp->crtc.state);
- 
- 	adjusted_mode = &vp->crtc.state->adjusted_mode;
- 	hsync_len = adjusted_mode->crtc_hsync_end - adjusted_mode->crtc_hsync_start;
-@@ -1975,7 +1979,15 @@ static void vop2_setup_layer_mixer(struct vop2_video_port *vp)
- 	pre_scan_dly = ((bg_dly + (hdisplay >> 1) - 1) << 16) | hsync_len;
- 	vop2_vp_write(vp, RK3568_VP_PRE_SCAN_HTIMING, pre_scan_dly);
- 
--	vop2_writel(vop2, RK3568_OVL_CTRL, 0);
-+	ovl_ctrl = vop2_readl(vop2, RK3568_OVL_CTRL);
-+	ovl_ctrl |= RK3568_OVL_CTRL__LAYERSEL_REGDONE_IMD;
-+	if (vcstate->yuv_overlay)
-+		ovl_ctrl |= RK3568_OVL_CTRL__YUV_MODE(vp->id);
-+	else
-+		ovl_ctrl &= ~RK3568_OVL_CTRL__YUV_MODE(vp->id);
-+
-+	vop2_writel(vop2, RK3568_OVL_CTRL, ovl_ctrl);
-+
- 	port_sel = vop2_readl(vop2, RK3568_OVL_PORT_SEL);
- 	port_sel &= RK3568_OVL_PORT_SEL__SEL_PORT;
- 
-@@ -2047,9 +2059,9 @@ static void vop2_setup_layer_mixer(struct vop2_video_port *vp)
- 		layer_sel |= RK3568_OVL_LAYER_SEL__LAYER(nlayer + ofs, 5);
+ 	/* physical map length of vop2 register */
+ 	u32 len;
+@@ -1514,9 +1514,9 @@ static void rk3568_set_intf_mux(struct vop2_video_port *vp, int id,
+ 		dip &= ~RK3568_DSP_IF_POL__RGB_LVDS_PIN_POL;
+ 		dip |= FIELD_PREP(RK3568_DSP_IF_POL__RGB_LVDS_PIN_POL, polflags);
+ 		if (polflags & POLFLAG_DCLK_INV)
+-			regmap_write(vop2->grf, RK3568_GRF_VO_CON1, BIT(3 + 16) | BIT(3));
++			regmap_write(vop2->sys_grf, RK3568_GRF_VO_CON1, BIT(3 + 16) | BIT(3));
+ 		else
+-			regmap_write(vop2->grf, RK3568_GRF_VO_CON1, BIT(3 + 16));
++			regmap_write(vop2->sys_grf, RK3568_GRF_VO_CON1, BIT(3 + 16));
+ 		break;
+ 	case ROCKCHIP_VOP2_EP_HDMI0:
+ 		die &= ~RK3568_SYS_DSP_INFACE_EN_HDMI_MUX;
+@@ -2774,7 +2774,7 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
+ 			return PTR_ERR(vop2->lut_regs);
  	}
  
-+
- 	vop2_writel(vop2, RK3568_OVL_LAYER_SEL, layer_sel);
- 	vop2_writel(vop2, RK3568_OVL_PORT_SEL, port_sel);
--	vop2_writel(vop2, RK3568_OVL_CTRL, RK3568_OVL_CTRL__LAYERSEL_REGDONE_IMD);
- }
+-	vop2->grf = syscon_regmap_lookup_by_phandle(dev->of_node, "rockchip,grf");
++	vop2->sys_grf = syscon_regmap_lookup_by_phandle(dev->of_node, "rockchip,grf");
  
- static void vop2_setup_dly_for_windows(struct vop2 *vop2)
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-index 7175f46a2014..8d7ff52523fb 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-@@ -401,6 +401,7 @@ enum dst_factor_mode {
- #define VOP2_COLOR_KEY_MASK				BIT(31)
- 
- #define RK3568_OVL_CTRL__LAYERSEL_REGDONE_IMD		BIT(28)
-+#define RK3568_OVL_CTRL__YUV_MODE(vp)			BIT(vp)
- 
- #define RK3568_VP_BG_MIX_CTRL__BG_DLY			GENMASK(31, 24)
- 
+ 	vop2->hclk = devm_clk_get(vop2->dev, "hclk");
+ 	if (IS_ERR(vop2->hclk)) {
 -- 
 2.34.1
 
