@@ -1,77 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE7E7FF7D7
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 18:14:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B27B77FF9B0
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 19:42:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EFAA10E749;
-	Thu, 30 Nov 2023 17:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9F2A10E75D;
+	Thu, 30 Nov 2023 18:42:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AECA210E749
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 17:14:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1701364475;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=sdJLGFUsBvRPgmsAPdEnB3Yq8nzOIqNpJn9wW0/735U=;
- b=crPhz60FKGOeK9FnUkoz3XrwGAp7MpRLvTlybX5ZwKEQkLMNjNpWaRM9WQL+d0bBVnrFLg
- VPRVv05CHmnTP3oqnVAtPj4ilE6Dr0AIp3FfreCeqR3jecaRjRif4OlLaonkkPFaI72ER9
- hHJZu/5DKez5Sl3phWk/gG0IDX2tK6s=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-455-dHsKYJLaM5qfYlHjN6pWoQ-1; Thu, 30 Nov 2023 12:14:33 -0500
-X-MC-Unique: dHsKYJLaM5qfYlHjN6pWoQ-1
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-67800577545so48317056d6.0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 09:14:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701364473; x=1701969273;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sdJLGFUsBvRPgmsAPdEnB3Yq8nzOIqNpJn9wW0/735U=;
- b=XmCmyrBMJuXQ+afvAUPfC0M9ZpPKbEEPxK2KjXMo4bnh1wcgapVk/o8f4knWAHEheG
- /zNpX22B6LKG3DcbgVes7mjJtC8Soh9/BSoos4azxVv8KYN8w8IUoMT1ee8ohx6IlKcC
- pI/C4LNjbILOHDboo3YVjdya6DzDvnh2VCdYmLOzc3tE+7KgmXIShjXEORg53j4rM33q
- mYvsqgnEk/s8Xm/g7nNdwAAs4bP1ViRUDY9fLE6pLj9uj4NmkqTZLyJvHqTylxF8xbsx
- Q5UHoVDqEdfShaGKlEguTB81IB4iG7gb9wnGH6eQ9mDROYXzQ7cjB0ExDFlaTA8+mKzS
- MUrQ==
-X-Gm-Message-State: AOJu0Yyg7IJ3Ekr2MXf3fZuVBpGDzDxhFerqK7YIgopymSdvnx6b2wsY
- vvXGzsVuoIuXKwyYaJF2VWqjDLdnNJFp9BzCJ7tnGk/f/cEtaoKRYT6QmbJEs8JeNqQTCjCQrFG
- 9dmY4APo3W4oqgSSovVAfbqK3bmc=
-X-Received: by 2002:a05:6214:d0c:b0:67a:542a:dba1 with SMTP id
- 12-20020a0562140d0c00b0067a542adba1mr19722585qvh.17.1701364473133; 
- Thu, 30 Nov 2023 09:14:33 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGj2Bf1J8SDqB0wuqLQHTMYnj3qEz2o57Mqa6dPV3K7TvyTfFtsgHvGRGXfYxFzIcG4opxh9w==
-X-Received: by 2002:a05:6214:d0c:b0:67a:542a:dba1 with SMTP id
- 12-20020a0562140d0c00b0067a542adba1mr19722523qvh.17.1701364472771; 
- Thu, 30 Nov 2023 09:14:32 -0800 (PST)
-Received: from klayman.redhat.com (net-2-34-30-38.cust.vodafonedsl.it.
- [2.34.30.38]) by smtp.gmail.com with ESMTPSA id
- r12-20020a0ce28c000000b0067a24f5b432sm169478qvl.62.2023.11.30.09.14.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Nov 2023 09:14:32 -0800 (PST)
-From: Marco Pagani <marpagan@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian Koenig <christian.koenig@amd.com>
-Subject: [PATCH v5] drm/test: add a test suite for GEM objects backed by shmem
-Date: Thu, 30 Nov 2023 18:14:16 +0100
-Message-ID: <20231130171417.74162-1-marpagan@redhat.com>
-X-Mailer: git-send-email 2.43.0
+X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
+ Thu, 30 Nov 2023 18:42:42 UTC
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 234458826D;
+ Thu, 30 Nov 2023 18:42:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701369762; x=1732905762;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=IGGS3ZJAvVbvSqfCChebVYd+/KpvmrRDEwYOg0wlBwM=;
+ b=ePaWEdBErl9ekJfnr8KBCzXBEwi7jOs1RrVZBYXwrMBnNqSmzNpuaEDt
+ hYtdF17jWbmgFoNd64Vwbhmym3SIcwHx74A6hPVZpZMyuktQ8TAUcUqnv
+ XEz2a3KDCXME8aLvBHcIx/FEm4CovmmLCydLOmG6wbVQdihNCU3rTz7PD
+ 4xWecQC/PPWEIkVoHGiKOsatAT9JOU8pUKqPhX2OX/pcu5Vt7XvYbeTNi
+ SzguAwfQ7X0/e69Ol10ulz46DpqYy9Ui0if66bGqNG4+I/Z7pGZNuilXy
+ j8b/jXVmg42H8ImVc8TbEk+OSxtQ7EZkl8TKMRK19NLeVF++Hy/QV/BqY g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="228351"
+X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
+   d="scan'208";a="228351"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Nov 2023 10:35:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="887337506"
+X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; d="scan'208";a="887337506"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+ by fmsmga002.fm.intel.com with ESMTP; 30 Nov 2023 10:35:31 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1r8lsn-0002YR-1T;
+ Thu, 30 Nov 2023 18:35:29 +0000
+Date: Fri, 1 Dec 2023 02:35:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Paloma Arellano <quic_parellan@quicinc.com>,
+ freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v2] drm/msm/dpu: Capture dpu snapshot when
+ frame_done_timer timeouts
+Message-ID: <202312010225.2OJWLKmA-lkp@intel.com>
+References: <20231129184159.24216-1-quic_parellan@quicinc.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231129184159.24216-1-quic_parellan@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,459 +64,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Marco Pagani <marpagan@redhat.com>, linaro-mm-sig@lists.linaro.org,
- Javier Martinez Canillas <javierm@redhat.com>, linux-media@vger.kernel.org
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
+ linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev,
+ Paloma Arellano <quic_parellan@quicinc.com>, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ oe-kbuild-all@lists.linux.dev, dmitry.baryshkov@linaro.org,
+ marijn.suijten@somainline.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch introduces an initial KUnit test suite for GEM objects
-backed by shmem buffers.
+Hi Paloma,
 
-Suggested-by: Javier Martinez Canillas <javierm@redhat.com>
-Signed-off-by: Marco Pagani <marpagan@redhat.com>
+kernel test robot noticed the following build warnings:
 
-v5:
-- using __drm_kunit_helper_alloc_drm_device() to avoid local struct
-v4:
-- Add missing MMU dependency for DRM_GEM_SHMEM_HELPER (kernel test robot)
-v3:
-- Explicitly cast pointers in the helpers
-- Removed unused pointer to parent dev in struct fake_dev
-- Test entries reordering in Kconfig and Makefile sent as a separate patch
-v2:
-- Improved description of test cases
-- Cleaner error handling using KUnit actions
-- Alphabetical order in Kconfig and Makefile
----
- drivers/gpu/drm/Kconfig                    |   3 +-
- drivers/gpu/drm/tests/Makefile             |   1 +
- drivers/gpu/drm/tests/drm_gem_shmem_test.c | 383 +++++++++++++++++++++
- 3 files changed, 386 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/tests/drm_gem_shmem_test.c
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.7-rc3 next-20231130]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 740c1c0bd068..b7abd436455f 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -74,12 +74,13 @@ config DRM_KUNIT_TEST_HELPERS
- 
- config DRM_KUNIT_TEST
- 	tristate "KUnit tests for DRM" if !KUNIT_ALL_TESTS
--	depends on DRM && KUNIT
-+	depends on DRM && KUNIT && MMU
- 	select DRM_BUDDY
- 	select DRM_DISPLAY_DP_HELPER
- 	select DRM_DISPLAY_HELPER
- 	select DRM_EXEC
- 	select DRM_EXPORT_FOR_TESTS if m
-+	select DRM_GEM_SHMEM_HELPER
- 	select DRM_KMS_HELPER
- 	select DRM_KUNIT_TEST_HELPERS
- 	select DRM_LIB_RANDOM
-diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
-index 2645af241ff0..d6183b3d7688 100644
---- a/drivers/gpu/drm/tests/Makefile
-+++ b/drivers/gpu/drm/tests/Makefile
-@@ -13,6 +13,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST) += \
- 	drm_format_helper_test.o \
- 	drm_format_test.o \
- 	drm_framebuffer_test.o \
-+	drm_gem_shmem_test.o \
- 	drm_managed_test.o \
- 	drm_mm_test.o \
- 	drm_modes_test.o \
-diff --git a/drivers/gpu/drm/tests/drm_gem_shmem_test.c b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-new file mode 100644
-index 000000000000..91202e40cde9
---- /dev/null
-+++ b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-@@ -0,0 +1,383 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * KUnit test suite for GEM objects backed by shmem buffers
-+ *
-+ * Copyright (C) 2023 Red Hat, Inc.
-+ *
-+ * Author: Marco Pagani <marpagan@redhat.com>
-+ */
-+
-+#include <linux/dma-buf.h>
-+#include <linux/iosys-map.h>
-+#include <linux/sizes.h>
-+
-+#include <kunit/test.h>
-+
-+#include <drm/drm_device.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_gem.h>
-+#include <drm/drm_gem_shmem_helper.h>
-+#include <drm/drm_kunit_helpers.h>
-+
-+#define TEST_SIZE		SZ_1M
-+#define TEST_BYTE		0xae
-+
-+/*
-+ * Wrappers to avoid an explicit type casting when passing action
-+ * functions to kunit_add_action().
-+ */
-+static void kfree_wrapper(void *ptr)
-+{
-+	const void *obj = ptr;
-+
-+	kfree(obj);
-+}
-+
-+static void sg_free_table_wrapper(void *ptr)
-+{
-+	struct sg_table *sgt = ptr;
-+
-+	sg_free_table(sgt);
-+}
-+
-+static void drm_gem_shmem_free_wrapper(void *ptr)
-+{
-+	struct drm_gem_shmem_object *shmem = ptr;
-+
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/*
-+ * Test creating a shmem GEM object backed by shmem buffer. The test
-+ * case succeeds if the GEM object is successfully allocated with the
-+ * shmem file node and object functions attributes set, and the size
-+ * attribute is equal to the correct size.
-+ */
-+static void drm_gem_shmem_test_obj_create(struct kunit *test)
-+{
-+	struct drm_device *drm_dev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+
-+	shmem = drm_gem_shmem_create(drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+	KUNIT_EXPECT_EQ(test, shmem->base.size, TEST_SIZE);
-+	KUNIT_EXPECT_NOT_NULL(test, shmem->base.filp);
-+	KUNIT_EXPECT_NOT_NULL(test, shmem->base.funcs);
-+
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/*
-+ * Test creating a shmem GEM object from a scatter/gather table exported
-+ * via a DMA-BUF. The test case succeed if the GEM object is successfully
-+ * created with the shmem file node attribute equal to NULL and the sgt
-+ * attribute pointing to the scatter/gather table that has been imported.
-+ */
-+static void drm_gem_shmem_test_obj_create_private(struct kunit *test)
-+{
-+	struct drm_device *drm_dev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct drm_gem_object *gem_obj;
-+	struct dma_buf buf_mock;
-+	struct dma_buf_attachment attach_mock;
-+	struct sg_table *sgt;
-+	char *buf;
-+	int ret;
-+
-+	/* Create a mock scatter/gather table */
-+	buf = kunit_kzalloc(test, TEST_SIZE, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, buf);
-+
-+	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, sgt);
-+
-+	ret = kunit_add_action_or_reset(test, kfree_wrapper, sgt);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = kunit_add_action_or_reset(test, sg_free_table_wrapper, sgt);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	sg_init_one(sgt->sgl, buf, TEST_SIZE);
-+
-+	/* Init a mock DMA-BUF */
-+	buf_mock.size = TEST_SIZE;
-+	attach_mock.dmabuf = &buf_mock;
-+
-+	gem_obj = drm_gem_shmem_prime_import_sg_table(drm_dev, &attach_mock, sgt);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, gem_obj);
-+	KUNIT_EXPECT_EQ(test, gem_obj->size, TEST_SIZE);
-+	KUNIT_EXPECT_NULL(test, gem_obj->filp);
-+	KUNIT_EXPECT_NOT_NULL(test, gem_obj->funcs);
-+
-+	/* The scatter/gather table will be freed by drm_gem_shmem_free */
-+	kunit_remove_action(test, sg_free_table_wrapper, sgt);
-+	kunit_remove_action(test, kfree_wrapper, sgt);
-+
-+	shmem = to_drm_gem_shmem_obj(gem_obj);
-+	KUNIT_EXPECT_PTR_EQ(test, shmem->sgt, sgt);
-+
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/*
-+ * Test pinning backing pages for a shmem GEM object. The test case
-+ * succeeds if a suitable number of backing pages are allocated, and
-+ * the pages table counter attribute is increased by one.
-+ */
-+static void drm_gem_shmem_test_pin_pages(struct kunit *test)
-+{
-+	struct drm_device *drm_dev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	int i, ret;
-+
-+	shmem = drm_gem_shmem_create(drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+	KUNIT_EXPECT_NULL(test, shmem->pages);
-+	KUNIT_EXPECT_EQ(test, shmem->pages_use_count, 0);
-+
-+	ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = drm_gem_shmem_pin(shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	KUNIT_ASSERT_NOT_NULL(test, shmem->pages);
-+	KUNIT_EXPECT_EQ(test, shmem->pages_use_count, 1);
-+
-+	for (i = 0; i < (shmem->base.size >> PAGE_SHIFT); i++)
-+		KUNIT_ASSERT_NOT_NULL(test, shmem->pages[i]);
-+
-+	drm_gem_shmem_unpin(shmem);
-+	KUNIT_EXPECT_NULL(test, shmem->pages);
-+	KUNIT_EXPECT_EQ(test, shmem->pages_use_count, 0);
-+}
-+
-+/*
-+ * Test creating a virtual mapping for a shmem GEM object. The test
-+ * case succeeds if the backing memory is mapped and the reference
-+ * counter for virtual mapping is increased by one. Moreover, the test
-+ * case writes and then reads a test pattern over the mapped memory.
-+ */
-+static void drm_gem_shmem_test_vmap(struct kunit *test)
-+{
-+	struct drm_device *drm_dev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct iosys_map map;
-+	int ret, i;
-+
-+	shmem = drm_gem_shmem_create(drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+	KUNIT_EXPECT_NULL(test, shmem->vaddr);
-+	KUNIT_EXPECT_EQ(test, shmem->vmap_use_count, 0);
-+
-+	ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = drm_gem_shmem_vmap(shmem, &map);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	KUNIT_ASSERT_NOT_NULL(test, shmem->vaddr);
-+	KUNIT_ASSERT_FALSE(test, iosys_map_is_null(&map));
-+	KUNIT_EXPECT_EQ(test, shmem->vmap_use_count, 1);
-+
-+	iosys_map_memset(&map, 0, TEST_BYTE, TEST_SIZE);
-+	for (i = 0; i < TEST_SIZE; i++)
-+		KUNIT_EXPECT_EQ(test, iosys_map_rd(&map, i, u8), TEST_BYTE);
-+
-+	drm_gem_shmem_vunmap(shmem, &map);
-+	KUNIT_EXPECT_NULL(test, shmem->vaddr);
-+	KUNIT_EXPECT_EQ(test, shmem->vmap_use_count, 0);
-+}
-+
-+/*
-+ * Test exporting a scatter/gather table of pinned pages suitable for
-+ * PRIME usage from a shmem GEM object. The test case succeeds if a
-+ * scatter/gather table large enough to accommodate the backing memory
-+ * is successfully exported.
-+ */
-+static void drm_gem_shmem_test_get_pages_sgt(struct kunit *test)
-+{
-+	struct drm_device *drm_dev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct sg_table *sgt;
-+	struct scatterlist *sg;
-+	unsigned int si, len = 0;
-+	int ret;
-+
-+	shmem = drm_gem_shmem_create(drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+
-+	ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = drm_gem_shmem_pin(shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	sgt = drm_gem_shmem_get_sg_table(shmem);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
-+	KUNIT_EXPECT_NULL(test, shmem->sgt);
-+
-+	ret = kunit_add_action_or_reset(test, sg_free_table_wrapper, sgt);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	for_each_sgtable_sg(sgt, sg, si) {
-+		KUNIT_EXPECT_NOT_NULL(test, sg);
-+		len += sg->length;
-+	}
-+
-+	KUNIT_EXPECT_GE(test, len, TEST_SIZE);
-+}
-+
-+/*
-+ * Test pinning pages and exporting a scatter/gather table suitable for
-+ * driver usage from a shmem GEM object. The test case succeeds if the
-+ * backing pages are pinned and a scatter/gather table large enough to
-+ * accommodate the backing memory is successfully exported.
-+ */
-+static void drm_gem_shmem_test_get_sg_table(struct kunit *test)
-+{
-+	struct drm_device *drm_dev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct sg_table *sgt;
-+	struct scatterlist *sg;
-+	unsigned int si, ret, len = 0;
-+
-+	shmem = drm_gem_shmem_create(drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+
-+	ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	/* The scatter/gather table will be freed by drm_gem_shmem_free */
-+	sgt = drm_gem_shmem_get_pages_sgt(shmem);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
-+	KUNIT_ASSERT_NOT_NULL(test, shmem->pages);
-+	KUNIT_EXPECT_EQ(test, shmem->pages_use_count, 1);
-+	KUNIT_EXPECT_PTR_EQ(test, sgt, shmem->sgt);
-+
-+	for_each_sgtable_sg(sgt, sg, si) {
-+		KUNIT_EXPECT_NOT_NULL(test, sg);
-+		len += sg->length;
-+	}
-+
-+	KUNIT_EXPECT_GE(test, len, TEST_SIZE);
-+}
-+
-+/*
-+ * Test updating the madvise state of a shmem GEM object. The test
-+ * case checks that the function for setting madv updates it only if
-+ * its current value is greater or equal than zero and returns false
-+ * if it has a negative value.
-+ */
-+static void drm_gem_shmem_test_madvise(struct kunit *test)
-+{
-+	struct drm_device *drm_dev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	int ret;
-+
-+	shmem = drm_gem_shmem_create(drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+	KUNIT_ASSERT_EQ(test, shmem->madv, 0);
-+
-+	ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = drm_gem_shmem_madvise(shmem, 1);
-+	KUNIT_EXPECT_TRUE(test, ret);
-+	KUNIT_ASSERT_EQ(test, shmem->madv, 1);
-+
-+	/* Set madv to a negative value */
-+	ret = drm_gem_shmem_madvise(shmem, -1);
-+	KUNIT_EXPECT_FALSE(test, ret);
-+	KUNIT_ASSERT_EQ(test, shmem->madv, -1);
-+
-+	/* Check that madv cannot be set back to a positive value */
-+	ret = drm_gem_shmem_madvise(shmem, 0);
-+	KUNIT_EXPECT_FALSE(test, ret);
-+	KUNIT_ASSERT_EQ(test, shmem->madv, -1);
-+}
-+
-+/*
-+ * Test purging a shmem GEM object. First, assert that a newly created
-+ * shmem GEM object is not purgeable. Then, set madvise to a positive
-+ * value and call drm_gem_shmem_get_pages_sgt() to pin and dma-map the
-+ * backing pages. Finally, assert that the shmem GEM object is now
-+ * purgeable and purge it.
-+ */
-+static void drm_gem_shmem_test_purge(struct kunit *test)
-+{
-+	struct drm_device *drm_dev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct sg_table *sgt;
-+	int ret;
-+
-+	shmem = drm_gem_shmem_create(drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+
-+	ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = drm_gem_shmem_is_purgeable(shmem);
-+	KUNIT_EXPECT_FALSE(test, ret);
-+
-+	ret = drm_gem_shmem_madvise(shmem, 1);
-+	KUNIT_EXPECT_TRUE(test, ret);
-+
-+	/* The scatter/gather table will be freed by drm_gem_shmem_free */
-+	sgt = drm_gem_shmem_get_pages_sgt(shmem);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
-+
-+	ret = drm_gem_shmem_is_purgeable(shmem);
-+	KUNIT_EXPECT_TRUE(test, ret);
-+
-+	drm_gem_shmem_purge(shmem);
-+	KUNIT_EXPECT_NULL(test, shmem->pages);
-+	KUNIT_EXPECT_NULL(test, shmem->sgt);
-+	KUNIT_EXPECT_EQ(test, shmem->madv, -1);
-+}
-+
-+static int drm_gem_shmem_test_init(struct kunit *test)
-+{
-+	struct device *dev;
-+	struct drm_device *drm_dev;
-+
-+	/* Allocate a parent device */
-+	dev = drm_kunit_helper_alloc_device(test);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+
-+	/*
-+	 * The DRM core will automatically initialize the GEM core and create
-+	 * a DRM Memory Manager object which provides an address space pool
-+	 * for GEM objects allocation.
-+	 */
-+	drm_dev = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm_dev),
-+						      0, DRIVER_GEM);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm_dev);
-+
-+	test->priv = drm_dev;
-+
-+	return 0;
-+}
-+
-+static struct kunit_case drm_gem_shmem_test_cases[] = {
-+	KUNIT_CASE(drm_gem_shmem_test_obj_create),
-+	KUNIT_CASE(drm_gem_shmem_test_obj_create_private),
-+	KUNIT_CASE(drm_gem_shmem_test_pin_pages),
-+	KUNIT_CASE(drm_gem_shmem_test_vmap),
-+	KUNIT_CASE(drm_gem_shmem_test_get_pages_sgt),
-+	KUNIT_CASE(drm_gem_shmem_test_get_sg_table),
-+	KUNIT_CASE(drm_gem_shmem_test_madvise),
-+	KUNIT_CASE(drm_gem_shmem_test_purge),
-+	{}
-+};
-+
-+static struct kunit_suite drm_gem_shmem_suite = {
-+	.name = "drm_gem_shmem",
-+	.init = drm_gem_shmem_test_init,
-+	.test_cases = drm_gem_shmem_test_cases
-+};
-+
-+kunit_test_suite(drm_gem_shmem_suite);
-+
-+MODULE_LICENSE("GPL");
+url:    https://github.com/intel-lab-lkp/linux/commits/Paloma-Arellano/drm-msm-dpu-Capture-dpu-snapshot-when-frame_done_timer-timeouts/20231130-055033
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231129184159.24216-1-quic_parellan%40quicinc.com
+patch subject: [PATCH v2] drm/msm/dpu: Capture dpu snapshot when frame_done_timer timeouts
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20231201/202312010225.2OJWLKmA-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231201/202312010225.2OJWLKmA-lkp@intel.com/reproduce)
 
-base-commit: a13fee31f56449fc600d9e064c7b32302f92dcef
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312010225.2OJWLKmA-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:211: warning: Function parameter or member 'frame_done_timeout_cnt' not described in 'dpu_encoder_virt'
+
+
+vim +211 drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  114  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  115  /**
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  116   * struct dpu_encoder_virt - virtual encoder. Container of one or more physical
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  117   *	encoders. Virtual encoder manages one "logical" display. Physical
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  118   *	encoders manage one intf block, tied to a specific panel/sub-panel.
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  119   *	Virtual encoder defers as much as possible to the physical encoders.
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  120   *	Virtual encoder registers itself with the DRM Framework as the encoder.
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  121   * @base:		drm_encoder base class for registration with DRM
+585b3f9472eea8 Sean Paul         2018-11-16  122   * @enc_spinlock:	Virtual-Encoder-Wide Spin Lock for IRQ purposes
+fba7427eb59496 Sean Paul         2018-11-16  123   * @enabled:		True if the encoder is active, protected by enc_lock
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  124   * @num_phys_encs:	Actual number of physical encoders contained.
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  125   * @phys_encs:		Container of physical encoders managed.
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  126   * @cur_master:		Pointer to the current master in this mode. Optimization
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  127   *			Only valid after enable. Cleared as disable.
+cca5ff947c7c6e Lee Jones         2020-11-23  128   * @cur_slave:		As above but for the slave encoder.
+cca5ff947c7c6e Lee Jones         2020-11-23  129   * @hw_pp:		Handle to the pingpong blocks used for the display. No.
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  130   *			pingpong blocks can be different than num_phys_encs.
+58dca981074948 Vinod Koul        2022-04-06  131   * @hw_dsc:		Handle to the DSC blocks used for the display.
+58dca981074948 Vinod Koul        2022-04-06  132   * @dsc_mask:		Bitmask of used DSC blocks.
+cca5ff947c7c6e Lee Jones         2020-11-23  133   * @intfs_swapped:	Whether or not the phys_enc interfaces have been swapped
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  134   *			for partial update right-only cases, such as pingpong
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  135   *			split where virtual pingpong does not generate IRQs
+e4914867ac99ca Sean Paul         2018-11-16  136   * @crtc:		Pointer to the currently assigned crtc. Normally you
+e4914867ac99ca Sean Paul         2018-11-16  137   *			would use crtc->state->encoder_mask to determine the
+e4914867ac99ca Sean Paul         2018-11-16  138   *			link between encoder/crtc. However in this case we need
+e4914867ac99ca Sean Paul         2018-11-16  139   *			to track crtc in the disable() hook which is called
+e4914867ac99ca Sean Paul         2018-11-16  140   *			_after_ encoder_mask is cleared.
+6b6921e5537d0f Dmitry Baryshkov  2022-02-17  141   * @connector:		If a mode is set, cached pointer to the active connector
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  142   * @crtc_kickoff_cb:		Callback into CRTC that will flush & start
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  143   *				all CTL paths
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  144   * @crtc_kickoff_cb_data:	Opaque user data given to crtc_kickoff_cb
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  145   * @debugfs_root:		Debug file system root file node
+fba7427eb59496 Sean Paul         2018-11-16  146   * @enc_lock:			Lock around physical encoder
+fba7427eb59496 Sean Paul         2018-11-16  147   *				create/destroy/enable/disable
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  148   * @frame_busy_mask:		Bitmask tracking which phys_enc we are still
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  149   *				busy processing current command.
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  150   *				Bit0 = phys_encs[0] etc.
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  151   * @crtc_frame_event_cb:	callback handler for frame event
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  152   * @crtc_frame_event_cb_data:	callback handler private data
+70df9610de0fd3 Sean Paul         2019-01-28  153   * @frame_done_timeout_ms:	frame done timeout in ms
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  154   * @frame_done_timer:		watchdog timer for frame done event
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  155   * @disp_info:			local copy of msm_display_info struct
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  156   * @idle_pc_supported:		indicate if idle power collaps is supported
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  157   * @rc_lock:			resource control mutex lock to protect
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  158   *				virt encoder over various state changes
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  159   * @rc_state:			resource controller state
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  160   * @delayed_off_work:		delayed worker to schedule disabling of
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  161   *				clks and resources after IDLE_TIMEOUT time.
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  162   * @topology:                   topology of the display
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  163   * @idle_timeout:		idle timeout duration in milliseconds
+4b27f469b155bd Dmitry Baryshkov  2023-01-18  164   * @wide_bus_en:		wide bus is enabled on this interface
+46dd0c0658ff57 Dmitry Baryshkov  2022-07-11  165   * @dsc:			drm_dsc_config pointer, for DSC-enabled encoders
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  166   */
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  167  struct dpu_encoder_virt {
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  168  	struct drm_encoder base;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  169  	spinlock_t enc_spinlock;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  170  
+fba7427eb59496 Sean Paul         2018-11-16  171  	bool enabled;
+fba7427eb59496 Sean Paul         2018-11-16  172  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  173  	unsigned int num_phys_encs;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  174  	struct dpu_encoder_phys *phys_encs[MAX_PHYS_ENCODERS_PER_VIRTUAL];
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  175  	struct dpu_encoder_phys *cur_master;
+86b89080368b46 Jeykumar Sankaran 2018-09-05  176  	struct dpu_encoder_phys *cur_slave;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  177  	struct dpu_hw_pingpong *hw_pp[MAX_CHANNELS_PER_ENC];
+58dca981074948 Vinod Koul        2022-04-06  178  	struct dpu_hw_dsc *hw_dsc[MAX_CHANNELS_PER_ENC];
+58dca981074948 Vinod Koul        2022-04-06  179  
+58dca981074948 Vinod Koul        2022-04-06  180  	unsigned int dsc_mask;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  181  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  182  	bool intfs_swapped;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  183  
+e4914867ac99ca Sean Paul         2018-11-16  184  	struct drm_crtc *crtc;
+6b6921e5537d0f Dmitry Baryshkov  2022-02-17  185  	struct drm_connector *connector;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  186  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  187  	struct dentry *debugfs_root;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  188  	struct mutex enc_lock;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  189  	DECLARE_BITMAP(frame_busy_mask, MAX_PHYS_ENCODERS_PER_VIRTUAL);
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  190  	void (*crtc_frame_event_cb)(void *, u32 event);
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  191  	void *crtc_frame_event_cb_data;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  192  
+70df9610de0fd3 Sean Paul         2019-01-28  193  	atomic_t frame_done_timeout_ms;
+ccd5957a0bacc2 Paloma Arellano   2023-11-29  194  	atomic_t frame_done_timeout_cnt;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  195  	struct timer_list frame_done_timer;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  196  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  197  	struct msm_display_info disp_info;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  198  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  199  	bool idle_pc_supported;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  200  	struct mutex rc_lock;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  201  	enum dpu_enc_rc_states rc_state;
+e077fe752cd344 Jeykumar Sankaran 2018-12-14  202  	struct delayed_work delayed_off_work;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  203  	struct msm_display_topology topology;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  204  
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  205  	u32 idle_timeout;
+3309a75639718c Kuogee Hsieh      2022-02-25  206  
+3309a75639718c Kuogee Hsieh      2022-02-25  207  	bool wide_bus_en;
+58dca981074948 Vinod Koul        2022-04-06  208  
+58dca981074948 Vinod Koul        2022-04-06  209  	/* DSC configuration */
+46dd0c0658ff57 Dmitry Baryshkov  2022-07-11  210  	struct drm_dsc_config *dsc;
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27 @211  };
+25fdd5933e4c0f Jeykumar Sankaran 2018-06-27  212  
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
