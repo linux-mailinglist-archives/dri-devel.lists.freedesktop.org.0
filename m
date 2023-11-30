@@ -1,48 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14DA7FFC8E
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 21:33:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 997F17FFD06
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 21:46:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B3BE10E03F;
-	Thu, 30 Nov 2023 20:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF8C910E04D;
+	Thu, 30 Nov 2023 20:46:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46A5210E03F
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 20:33:22 +0000 (UTC)
-Received: by mail-pg1-f199.google.com with SMTP id
- 41be03b00d2f7-5c5c8ece6c4so1445899a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 12:33:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701376402; x=1701981202;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=L258qVuIGHgWoHiECHCMmxMTI0Hx+i1Rf1bCGRcL74E=;
- b=VJJUXCmzwZR82Xa/aElkdNgJmo85EPbah0r/aVHP3GQc2NI6PaN9TmrCFGToMBLkIG
- lBM+9yPR9z9B3kNBjpCdQLIYO2Ah5EGuNXN0GqzjUMzKMgVn8o868L5KIYhkMNZgkJwM
- w9ao0ZqnymSvx1vrYwN1HkJX97uWaK1KS6zd1bbCjXLKrDAwJp7V6WEcpuiPMU7a/Xic
- BEKScCrcACWw+R54YfOrEGRWuoKLNEKnQekeiRPOw6lQrEVSBH3i6PHG/56LemleoYlf
- Ko4D3s+oFLnPLJRdJV488iya4BNeHrlgCjccm3ABIFFNYRO0xADZCmxBQ+62B378FibT
- S7Xg==
-X-Gm-Message-State: AOJu0Yz0n9JX49y8yuc6aswwSFiSgOP8MkyYA8cSHAu8/0hbMY8UNifl
- e79cXhz6WvY0ICFi8CGSAB56naiqICRG+kYVw/AlHr2+0JjdGRc=
-X-Google-Smtp-Source: AGHT+IH8sO+9FZLxYxiE+GpmmsIFqHx7Il0WOqcM+68SaX3qaI3ttL74mtfTcRtyrwrAdF+V6TrNkxwwGnmjaR1azijuIFxetvkB
+Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E3A810E04D;
+ Thu, 30 Nov 2023 20:46:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
+ t=1701376551; bh=AfUfFkZlUVV8xnA1PoNR+te0G++zGye/8BENKSIEvPs=;
+ h=From:Subject:Date:To:Cc;
+ b=S64T9aAZQ/Y0yXhmFaL8xcNLp6L+jqL5h5lAEpxWZ9qqzowKOb3UObrMgWnFiFGfF
+ hzmUeQ9PcyDcUIgWGZwTPn03S1EpsojK16kGmwlVZj2TCIqxCB+I3onx4WZ95yUG8Q
+ dvM1AODbTmJVL5MtxwMj/lPX+SUbV9XgBpSUuMJo=
+From: Luca Weiss <luca@z3ntu.xyz>
+Subject: [PATCH 0/3] Add GPU support for MSM8226 (Adreno A305B)
+Date: Thu, 30 Nov 2023 21:35:17 +0100
+Message-Id: <20231130-msm8226-gpu-v1-0-6bb2f1b29e49@z3ntu.xyz>
 MIME-Version: 1.0
-X-Received: by 2002:a17:902:e743:b0:1cf:9dcf:e53a with SMTP id
- p3-20020a170902e74300b001cf9dcfe53amr5158726plf.2.1701376401923; Thu, 30 Nov
- 2023 12:33:21 -0800 (PST)
-Date: Thu, 30 Nov 2023 12:33:21 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000010e52f060b649095@google.com>
-Subject: [syzbot] Monthly dri report (Nov 2023)
-From: syzbot <syzbot+list56bd6e58d9eedc56d72d@syzkaller.appspotmail.com>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAXyaGUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI2NDQ2MD3dziXAsjIzPd9IJS3WSjtDQLE3PjRMu0NCWgjoKi1LTMCrBp0bG
+ 1tQASSii6XQAAAA==
+To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Andy Gross <agross@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=860; i=luca@z3ntu.xyz;
+ h=from:subject:message-id; bh=AfUfFkZlUVV8xnA1PoNR+te0G++zGye/8BENKSIEvPs=;
+ b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBlaPIX4qWS7sr58b9UMT9Pnw41UlYig//AX8prq
+ MGX0XqPg0aJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCZWjyFwAKCRBy2EO4nU3X
+ ViqxD/0QXEuGfMIQ8ksMhfE+hjDJ2k4hub4zyzhOzFTU33niAmwPkSxHI1bvfOlNdYGzjeqMz5s
+ hb8OKR0WCGJwEvqDUoCHyx/H+p++pz6FnSHfzkY19nec4uoo0jdIgM+m+tEwudIt+yqa2Vw5KJh
+ ysdFh+Tq9Osk6hMY0SPuEGMrPpmS6RO0FXsk7D+6uBRbmUQoas7DNtkYIhwLSky3t/rBGrccgj8
+ aH5SbYIJrU+It8v/yYrNThPpcy0meGqX5h12moUxgS0DMuazitdLBs4rmh+v3v9UblOkm4NKqCi
+ 1Z3rb6vyvy3aXQwoANEDVPAwZqmWs0t4n8DgT/laDQz+PdG8MGNY4lAmC8irjxWx7UGy1Q0+w+2
+ nafqOQvMnxoJOX3oYlrogxiRtvB/GZlaJq4snkBfVTaqVrlOX2To/0xmn9zC5a3IyuXhRk9Yw/7
+ JqQzuhrZY3EOQHhYZ6ry73NqU0Uej3Yu/is0UfapQXrlI4MjSgqS1PhS92ZwsnTFugyLxirKxYo
+ opr7+JM+iLKBo15zNyE+Re4UNN63qutzh0R7KKTmz9qwKkF7y3JEJ2gPb3JcwoW01covleYfw67
+ +77P6N7lTj7Pz+Y3mHeFKgHLhhKbYJwMQdg9y3iVSEKb1u+1bMpTmVQMAgRK/ev6XK+xt2UQsQC
+ JtPMcpvmyKOgecA==
+X-Developer-Key: i=luca@z3ntu.xyz; a=openpgp;
+ fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,47 +69,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Luca Weiss <luca@z3ntu.xyz>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello dri maintainers/developers,
+Add the necessary bits to bring up the GPU on msm8226.
 
-This is a 31-day syzbot report for the dri subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/dri
+Tested on apq8026-lg-lenok.
 
-During the period, 1 new issues were detected and 0 were fixed.
-In total, 15 issues are still open and 30 have been fixed so far.
-
-Some of the still happening issues:
-
-Ref Crashes Repro Title
-<1> 375     Yes   WARNING in drm_wait_one_vblank
-                  https://syzkaller.appspot.com/bug?extid=6f7fe2dbc479dca0ed17
-<2> 129     Yes   WARNING in vkms_get_vblank_timestamp (2)
-                  https://syzkaller.appspot.com/bug?extid=93bd128a383695391534
-<3> 116     Yes   WARNING in drm_syncobj_array_find
-                  https://syzkaller.appspot.com/bug?extid=95416f957d84e858b377
-<4> 72      Yes   inconsistent lock state in sync_timeline_debug_remove
-                  https://syzkaller.appspot.com/bug?extid=7dcd254b8987a29f6450
-<5> 40      Yes   KMSAN: uninit-value in drm_mode_setcrtc
-                  https://syzkaller.appspot.com/bug?extid=4fad2e57beb6397ab2fc
-<6> 36      Yes   inconsistent lock state in sync_info_debugfs_show
-                  https://syzkaller.appspot.com/bug?extid=007bfe0f3330f6e1e7d1
-<7> 9       Yes   kernel BUG in vmf_insert_pfn_prot (2)
-                  https://syzkaller.appspot.com/bug?extid=398e17b61dab22cc56bc
-<8> 5       Yes   divide error in drm_mode_vrefresh
-                  https://syzkaller.appspot.com/bug?extid=622bba18029bcde672e1
-
+Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Luca Weiss (3):
+      dt-bindings: display/msm: gpu: Allow multiple digits for patchid
+      drm/msm/adreno: Add A305B support
+      ARM: dts: qcom: msm8226: Add GPU
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+ .../devicetree/bindings/display/msm/gpu.yaml       |  6 ++--
+ arch/arm/boot/dts/qcom/qcom-msm8226.dtsi           | 40 ++++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c              | 15 ++++++--
+ drivers/gpu/drm/msm/adreno/adreno_device.c         | 15 +++++---
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  5 +++
+ 5 files changed, 71 insertions(+), 10 deletions(-)
+---
+base-commit: 32bbbdc6dbe6ca65a3e3e2ed2ca3c562793e7797
+change-id: 20231130-msm8226-gpu-c2ff8473a9ff
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
+Best regards,
+-- 
+Luca Weiss <luca@z3ntu.xyz>
 
-You may send multiple commands in a single email message.
