@@ -1,46 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC117FEBCE
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 10:26:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E2147FEBD4
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 10:28:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A29410E6C9;
-	Thu, 30 Nov 2023 09:26:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B83410E174;
+	Thu, 30 Nov 2023 09:28:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF7B710E6C9
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 09:26:27 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E294810E174
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 09:28:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0ACB361E0B;
- Thu, 30 Nov 2023 09:26:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C120C433C8;
- Thu, 30 Nov 2023 09:26:26 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 482B6B841F2;
+ Thu, 30 Nov 2023 09:28:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FF0BC433C8;
+ Thu, 30 Nov 2023 09:28:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701336386;
- bh=Fo0Pio3QZLXVJiyMZvAR93mM+9bLzpr7O6m3p7tFXVM=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=JGHM3KmMqmQn9ypX6vtyIaO67Rg22LUUwJduPHMI3VzXFwh9INwXPoy7oCW61HxF1
- fCy898LsZu93EhWv5YHrIPb8CHsjnfZ7UX4aLQ9Pyr0pzL8TCB3JGNSs4+VPrOJgRg
- wyX/zby9KDyvEkv1/sGp5GKV/dOQdeB2jRBpaaAxUF/L1nFaOzLOB1i9dBI3il2DV+
- 8N+sXjHQz44DzUEwBZzewj7Lf4nVMqXOnyPmYXo0nRPBnH/8kg+Ynbv3KMPElmThcl
- ba2U1n61pmXsue249N3mysSWdtbkMrP5BOUDmce3SPr4wBjxgOrne0T83HjE+H8Y0N
- 5x5pvzWn2dVVg==
+ s=k20201202; t=1701336488;
+ bh=Y40c7C5K4pqWqN0+ur797YDI/9mVEZ6Ks1ldvsmx7Xw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lSmW7sAIr40qs7sVpiByKw3836RtLyslE4Z2pCVp3ew1G0O1xzzAsFv4yur2AXeyx
+ sXP+tyITN0rH4VVwwj07rJQMQqgZHYVE5dP4QVUa0VcZmX2RZGLgfkM/feLGuQ9lOx
+ 1c0dLsarzcFBOlZGBwJg8kX15ElE/1TcrEB4X3E9uiYvuVMxW5yUp9XZyFnGorT7r/
+ np56DQaUUst/8Kp3878aen7ewEQrTWEevW0RVYwLcdBO5jqS9grXW64J8x3ZzNcXNY
+ eekN+VtCQ3H7pWBk0NeOO7e6HN24GuVu41fRuJ9H7gXv5ATVSIevXADeREdTktXfXI
+ 2+N3DUq05FyEw==
+Date: Thu, 30 Nov 2023 10:28:05 +0100
 From: Maxime Ripard <mripard@kernel.org>
-To: Sarah Walker <sarah.walker@imgtec.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>
-In-Reply-To: <a2d3210b-290f-4397-9c3e-efdcca94d8ac@moroto.mountain>
-References: <a2d3210b-290f-4397-9c3e-efdcca94d8ac@moroto.mountain>
-Subject: Re: (subset) [PATCH] drm/imagination: fix off by one in
- pvr_vm_mips_init() error handling
-Message-Id: <170133638383.3077649.18368811865734250360.b4-ty@kernel.org>
-Date: Thu, 30 Nov 2023 10:26:23 +0100
+To: Donald Robson <donald.robson@imgtec.com>
+Subject: Re: [PATCH 1/5] drm/imagination: Fixed warning due to implicit cast
+ to bool
+Message-ID: <lb5weoobtasmrj2iknhstdphvflapum4mqjuiu4vlkn6qn2n5a@fssce52lpkeu>
+References: <20231129153703.162642-1-donald.robson@imgtec.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.3
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ochkfrngyobckdx7"
+Content-Disposition: inline
+In-Reply-To: <20231129153703.162642-1-donald.robson@imgtec.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,26 +51,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Matt Coster <matt.coster@imgtec.com>,
- Donald Robson <donald.robson@imgtec.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ matt.coster@imgtec.com, boris.brezillon@collabora.com, tzimmermann@suse.de,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 30 Nov 2023 10:27:15 +0300, Dan Carpenter wrote:
-> If the call to vmap() fails the "page_nr" is one element beyond the end
-> of the mips_data->pt_dma_addr[] and mips_data->pt_pages[] arrays.
-> 
-> The way that this is traditionally written is that we clean up the
-> partial loop iteration before the goto and then we can say
-> while (--i >= 0).  At that point we know that all the elements thus
-> far are initialized so we don't need to have NULL checks.
-> 
-> [...]
 
-Applied to drm/drm-misc (drm-misc-next).
+--ochkfrngyobckdx7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Donald,
+
+It looks better, thanks :)
+
+On Wed, Nov 29, 2023 at 03:36:59PM +0000, Donald Robson wrote:
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202311241752.3iLyyFcA-lkp@intel.com/
+> Fixes: 1ff76f7a5b45 ("drm/imagination: Add GPU ID parsing and firmware loading")
+> Signed-off-by: Donald Robson <donald.robson@imgtec.com>
+
+However, we'll want some commit logs for all of these. You can have a
+look at Arnd's which are very good example of what we expect, but some
+small description of the issue, the fix and the warning from the
+compiler is usually what we go for.
 
 Thanks!
 Maxime
 
+--ochkfrngyobckdx7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWhVpQAKCRDj7w1vZxhR
+xaS3AQDeq06UyHiu9THDsZTzr/zSZGHR12FDZ6s2HLy2D8THJAEAri1zu23eIU61
+pAxOLvvYxy90pzq5U0RpJXweNGo/HwI=
+=Naf4
+-----END PGP SIGNATURE-----
+
+--ochkfrngyobckdx7--
