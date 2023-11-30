@@ -1,47 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2AEB7FF0B3
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 14:51:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5EB7FF15D
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 15:11:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A060F10E12B;
-	Thu, 30 Nov 2023 13:51:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BAE810E6FD;
+	Thu, 30 Nov 2023 14:10:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C846810E12B
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 13:50:59 +0000 (UTC)
-Received: from [100.124.219.30] (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 037796607345;
- Thu, 30 Nov 2023 13:50:54 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1701352258;
- bh=HGnD8bUQWOaK+6RFgKTsVFZmO6HTrfFGIJlJrDox4v8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=H58wh8CHNeyKhFKLgOKBi4cHe/A5GWRrfro7BiyeAt4Jr5iSpHtao56/5Xpa0WFNt
- iL9p94K8uIyTXndAwxXyrdNoIHY9sXoa5oBmnefTqKNP3R0jrZm8Swjg7huYA2KQi2
- qA2dhqdwQ0MRA5G3Od4dScyaTjrYKG0aYkBzU0D3kIBfKadg5E9uG5RT6kHtSoFYVf
- 4V0V4odklj4B0h1o/kAGP/l1KaQWj1PwW92dO9KW8DxzbwFbO/+nUqH7C+XFTFeJ/d
- 058/Sgc7SGQkJBFyU3cqme3tnGtkMBUFdWLM7lBBh92rCW62iY4m/GSvtgeOyxYAOI
- yAE7gIc4P+R8w==
-Message-ID: <893192db-0431-4d1f-7281-952da9979345@collabora.com>
-Date: Thu, 30 Nov 2023 19:20:50 +0530
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1E30A10E6FF;
+ Thu, 30 Nov 2023 14:10:57 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 168201042;
+ Thu, 30 Nov 2023 06:11:43 -0800 (PST)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 107D53F5A1;
+ Thu, 30 Nov 2023 06:10:49 -0800 (PST)
+Message-ID: <2e0f0aac-6287-45d1-ae96-6549c15a8418@arm.com>
+Date: Thu, 30 Nov 2023 14:10:48 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v6 06/10] drm: ci: mediatek: Set IGT_FORCE_DRIVER for
- mt8173
-Content-Language: en-US
-To: Daniel Stone <daniel@fooishbar.org>
-References: <20231129121841.253223-1-vignesh.raman@collabora.com>
- <20231129121841.253223-7-vignesh.raman@collabora.com>
- <CAPj87rPKywWa8KxTCeJQz4vvgTwhPzL+y4aCX9zxZDkkfrvsoQ@mail.gmail.com>
-From: Vignesh Raman <vignesh.raman@collabora.com>
-In-Reply-To: <CAPj87rPKywWa8KxTCeJQz4vvgTwhPzL+y4aCX9zxZDkkfrvsoQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 10/10] ACPI: IORT: Allow COMPILE_TEST of IORT
+Content-Language: en-GB
+To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@gmail.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
+ asahi@lists.linux.dev, Catalin Marinas <catalin.marinas@arm.com>,
+ Danilo Krummrich <dakr@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Dexuan Cui <decui@microsoft.com>, devicetree@vger.kernel.org,
+ dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ David Woodhouse <dwmw2@infradead.org>, Frank Rowand
+ <frowand.list@gmail.com>, Hanjun Guo <guohanjun@huawei.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, iommu@lists.linux.dev,
+ Jon Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ Karol Herbst <kherbst@redhat.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Laxman Dewangan <ldewangan@nvidia.com>, Len Brown <lenb@kernel.org>,
+ linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-hyperv@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-snps-arc@lists.infradead.org,
+ linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, nouveau@lists.freedesktop.org,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Sven Peter <sven@svenpeter.dev>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Vineet Gupta <vgupta@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Wei Liu <wei.liu@kernel.org>, Will Deacon <will@kernel.org>
+References: <10-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <10-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,34 +69,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniels@collabora.com, emma@anholt.net, david.heidelberg@collabora.com,
- linux-arm-msm@vger.kernel.org, guilherme.gallo@collabora.com,
- sergi.blanch.torne@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- gustavo.padovan@collabora.com, helen.koike@collabora.com,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
+Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Hector Martin <marcan@marcan.st>, Jerry Snitselaar <jsnitsel@redhat.com>,
+ patches@lists.linux.dev, Thierry Reding <thierry.reding@gmail.com>,
+ Moritz Fischer <mdf@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
-
-On 29/11/23 18:52, Daniel Stone wrote:
-> Hi Vignesh,
+On 29/11/2023 12:48 am, Jason Gunthorpe wrote:
+> The arm-smmu driver can COMPILE_TEST on x86, so expand this to also
+> enable the IORT code so it can be COMPILE_TEST'd too.
 > 
-> On Wed, 29 Nov 2023 at 12:19, Vignesh Raman <vignesh.raman@collabora.com> wrote:
->> Expected driver for mt8173 is "mediatek" and for mt8183
->> it is "panfrost". Set IGT_FORCE_DRIVER to 'mediatek' as
->> the expected driver for mt8173.
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>   drivers/acpi/Kconfig        | 2 --
+>   drivers/acpi/Makefile       | 2 +-
+>   drivers/acpi/arm64/Kconfig  | 1 +
+>   drivers/acpi/arm64/Makefile | 2 +-
+>   drivers/iommu/Kconfig       | 1 +
+>   5 files changed, 4 insertions(+), 4 deletions(-)
 > 
-> Actually, for mt8183 it's both. And for mt8173 it will probably be
-> mediatek+pvr pretty soon. Each of these SoCs (like most Arm devices)
-> have a separate display controller and GPU, with different drivers for
-> each. They'll run different tests with different xfails. So we should
-> figure out a way to support igt running for both devices on the one
-> system.
+> diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
+> index f819e760ff195a..3b7f77b227d13a 100644
+> --- a/drivers/acpi/Kconfig
+> +++ b/drivers/acpi/Kconfig
+> @@ -541,9 +541,7 @@ config ACPI_PFRUT
+>   	  To compile the drivers as modules, choose M here:
+>   	  the modules will be called pfr_update and pfr_telemetry.
+>   
+> -if ARM64
+>   source "drivers/acpi/arm64/Kconfig"
+> -endif
+>   
+>   config ACPI_PPTT
+>   	bool
+> diff --git a/drivers/acpi/Makefile b/drivers/acpi/Makefile
+> index eaa09bf52f1760..4e77ae37b80726 100644
+> --- a/drivers/acpi/Makefile
+> +++ b/drivers/acpi/Makefile
+> @@ -127,7 +127,7 @@ obj-y				+= pmic/
+>   video-objs			+= acpi_video.o video_detect.o
+>   obj-y				+= dptf/
+>   
+> -obj-$(CONFIG_ARM64)		+= arm64/
+> +obj-y				+= arm64/
+>   
+>   obj-$(CONFIG_ACPI_VIOT)		+= viot.o
+>   
+> diff --git a/drivers/acpi/arm64/Kconfig b/drivers/acpi/arm64/Kconfig
+> index b3ed6212244c1e..537d49d8ace69e 100644
+> --- a/drivers/acpi/arm64/Kconfig
+> +++ b/drivers/acpi/arm64/Kconfig
+> @@ -11,6 +11,7 @@ config ACPI_GTDT
+>   
+>   config ACPI_AGDI
+>   	bool "Arm Generic Diagnostic Dump and Reset Device Interface"
+> +	depends on ARM64
+>   	depends on ARM_SDE_INTERFACE
+>   	help
+>   	  Arm Generic Diagnostic Dump and Reset Device Interface (AGDI) is
+> diff --git a/drivers/acpi/arm64/Makefile b/drivers/acpi/arm64/Makefile
+> index 143debc1ba4a9d..71d0e635599390 100644
+> --- a/drivers/acpi/arm64/Makefile
+> +++ b/drivers/acpi/arm64/Makefile
+> @@ -4,4 +4,4 @@ obj-$(CONFIG_ACPI_IORT) 	+= iort.o
+>   obj-$(CONFIG_ACPI_GTDT) 	+= gtdt.o
+>   obj-$(CONFIG_ACPI_APMT) 	+= apmt.o
+>   obj-$(CONFIG_ARM_AMBA)		+= amba.o
+> -obj-y				+= dma.o init.o
+> +obj-$(CONFIG_ARM64)		+= dma.o init.o
+> diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+> index 7673bb82945b6c..309378e76a9bc9 100644
+> --- a/drivers/iommu/Kconfig
+> +++ b/drivers/iommu/Kconfig
+> @@ -318,6 +318,7 @@ config ARM_SMMU
+>   	select IOMMU_API
+>   	select IOMMU_IO_PGTABLE_LPAE
+>   	select ARM_DMA_USE_IOMMU if ARM
+> +	select ACPI_IORT if ACPI
 
-Agree. Will work on separate patch to test both the drivers for these 
-devices.
+This is incomplete. If you want the driver to be responsible for 
+enabling its own probing mechanisms then you need to select OF and ACPI 
+too. And all the other drivers which probe from IORT should surely also 
+select ACPI_IORT, and thus ACPI as well. And maybe the PCI core should 
+as well because there are general properties of PCI host bridges and 
+devices described in there?
 
-Regards,
-Vignesh
+But of course that's clearly backwards nonsense, because drivers do not 
+and should not do that, so this change is not appropriate either. The 
+IORT code may not be *functionally* arm64-specific, but logically it 
+very much is - it serves a specification which is tied to the Arm 
+architecture and describes Arm-architecture-specific concepts, within 
+the wider context of ACPI on Arm itself only supporting AArch64, and not 
+AArch32. It's also not like it's driver code that someone might use as 
+an example and copy to a similar driver which could then run on 
+different architectures where a latent theoretical bug becomes real. 
+There's really no practical value to be had from compile-testing IORT.
+
+Thanks,
+Robin.
