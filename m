@@ -1,17 +1,17 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 649657FF6A0
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 17:45:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5C9A7FF69D
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 17:45:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D22810E73D;
-	Thu, 30 Nov 2023 16:45:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D740210E735;
+	Thu, 30 Nov 2023 16:45:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5135310E738
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 16:45:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A80710E73A
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 16:45:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,24 +19,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=mwXdrsbgDHD0VIynQhVTxyfGMeNZw7DDN8X3NddOLNs=; b=aKj2nuxcMJWIEVMbHOnXL6fW4j
- CSjOUXIF4TbX0VJnc8joJWK/kgnK0RkGqgAcILjtJjkToe9S4LJpTIa0R/L8wMIwfT+zrYv6olqtP
- 7PADodY6QZhXjxLwMy4M3IbN8Zv+smaA2VGT40ucvFjfbXuZ9OOTx1PsFXMy+w1AHLZERTu8pPrNR
- Jfrxuo0fLV3AA8HIxXx25z+r6lE7PjzoHDRHLqWL7LPAuxK3eTFcjJkSiUjSeRlN7AzW+0oFm3Dl4
- FYVw/SrWEylGqYKAtfT3Sq444ttpOJ9/od18t006fZUIKffKpStFeB8XfXF5pedwdc3dsHW6Db1YC
- yAyVngsA==;
+ bh=z9pQd6xkTS6aJE+aFf0TjetFbhZxKU8C6UJLNKmF8so=; b=mBdjyKyR5pREarqEhw2qNwBToY
+ muEkl238HQ3+TmdfA1yLY3SeUtp8zkc9hBAj9dBsAQk/1FMI3ZXhlEXenlh3tlqb38lz6olONmpfc
+ n83W2It3OoqqjpfyXrFM5cEPUABjJ25xFoj9QK6duIrh1uuGHLvq+vD7s5PrlEOOiRC+JdLPf0Mnn
+ ABPdxsnh6cOMp2y01U+QO9sjqIqSCgH6qkzld+r/6CEjBXKf3esHK92L79QLwcAZtQ6xJQk3r83LL
+ ok84mDhVKsw2T3/L0KN4MFEOh1EdMphB6tZIqx/O5pukaX7i2/tMQE3GAVh/grDIAIz2GBmeMDhrP
+ WVCrI3AQ==;
 Received: from [177.34.169.138] (helo=localhost.localdomain)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1r8kAI-008scY-MB; Thu, 30 Nov 2023 17:45:27 +0100
+ id 1r8kAM-008scY-PB; Thu, 30 Nov 2023 17:45:31 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v4 07/17] drm/v3d: Add a CPU job submission
-Date: Thu, 30 Nov 2023 13:40:30 -0300
-Message-ID: <20231130164420.932823-9-mcanal@igalia.com>
+Subject: [PATCH v4 08/17] drm/v3d: Use v3d_get_extensions() to parse CPU job
+ data
+Date: Thu, 30 Nov 2023 13:40:31 -0300
+Message-ID: <20231130164420.932823-10-mcanal@igalia.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231130164420.932823-2-mcanal@igalia.com>
 References: <20231130164420.932823-2-mcanal@igalia.com>
@@ -60,347 +61,112 @@ Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, kernel-dev@igalia.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Melissa Wen <mwen@igalia.com>
+Currently, v3d_get_extensions() only parses multisync data and assigns
+it to the `struct v3d_submit_ext`. But, to implement the CPU job with
+user extensions, we want v3d_get_extensions() to be able to parse CPU
+job data and assign it to the `struct v3d_cpu_job`.
 
-Create a new type of job, a CPU job. A CPU job is a type of job that
-performs operations that requires CPU intervention. The overall idea is
-to use user extensions to enable different types of CPU job, allowing the
-CPU job to perform different operations according to the type of user
-extension. The user extension ID identify the type of CPU job that must
-be dealt.
+Therefore, allow the function v3d_get_extensions() to use `struct v3d_cpu_job *`
+as a parameter. If the `struct v3d_cpu_job *` is assigned to NULL, it means
+that the job is a GPU job and CPU job extensions should be rejected.
 
-Having a CPU job is interesting for synchronization purposes as a CPU
-job has a queue like any other V3D job and can be synchoronized by the
-multisync extension.
-
-Signed-off-by: Melissa Wen <mwen@igalia.com>
-Co-developed-by: Maíra Canal <mcanal@igalia.com>
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
 ---
- drivers/gpu/drm/v3d/v3d_drv.c    |  4 ++
- drivers/gpu/drm/v3d/v3d_drv.h    | 16 +++++-
- drivers/gpu/drm/v3d/v3d_sched.c  | 57 +++++++++++++++++++++
- drivers/gpu/drm/v3d/v3d_submit.c | 86 ++++++++++++++++++++++++++++++++
- include/uapi/drm/v3d_drm.h       | 17 +++++++
- 5 files changed, 179 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/v3d/v3d_submit.c | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index 44a1ca57d6a4..3debf37e7d9b 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.c
-+++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -91,6 +91,9 @@ static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
- 	case DRM_V3D_PARAM_SUPPORTS_MULTISYNC_EXT:
- 		args->value = 1;
- 		return 0;
-+	case DRM_V3D_PARAM_SUPPORTS_CPU_QUEUE:
-+		args->value = 1;
-+		return 0;
- 	default:
- 		DRM_DEBUG("Unknown parameter %d\n", args->param);
- 		return -EINVAL;
-@@ -189,6 +192,7 @@ static const struct drm_ioctl_desc v3d_drm_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(V3D_PERFMON_CREATE, v3d_perfmon_create_ioctl, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(V3D_PERFMON_DESTROY, v3d_perfmon_destroy_ioctl, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(V3D_PERFMON_GET_VALUES, v3d_perfmon_get_values_ioctl, DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(V3D_SUBMIT_CPU, v3d_submit_cpu_ioctl, DRM_RENDER_ALLOW | DRM_AUTH),
- };
- 
- static const struct drm_driver v3d_drm_driver = {
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index 4db9ace66024..2246a0e29955 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -19,7 +19,7 @@ struct reset_control;
- 
- #define GMP_GRANULARITY (128 * 1024)
- 
--#define V3D_MAX_QUEUES (V3D_CACHE_CLEAN + 1)
-+#define V3D_MAX_QUEUES (V3D_CPU + 1)
- 
- static inline char *v3d_queue_to_string(enum v3d_queue queue)
- {
-@@ -29,6 +29,7 @@ static inline char *v3d_queue_to_string(enum v3d_queue queue)
- 	case V3D_TFU: return "tfu";
- 	case V3D_CSD: return "csd";
- 	case V3D_CACHE_CLEAN: return "cache_clean";
-+	case V3D_CPU: return "cpu";
- 	}
- 	return "UNKNOWN";
- }
-@@ -122,6 +123,7 @@ struct v3d_dev {
- 	struct v3d_render_job *render_job;
- 	struct v3d_tfu_job *tfu_job;
- 	struct v3d_csd_job *csd_job;
-+	struct v3d_cpu_job *cpu_job;
- 
- 	struct v3d_queue_state queue[V3D_MAX_QUEUES];
- 
-@@ -312,6 +314,16 @@ struct v3d_csd_job {
- 	struct drm_v3d_submit_csd args;
- };
- 
-+enum v3d_cpu_job_type {};
-+
-+struct v3d_cpu_job {
-+	struct v3d_job base;
-+
-+	enum v3d_cpu_job_type job_type;
-+};
-+
-+typedef void (*v3d_cpu_job_fn)(struct v3d_cpu_job *);
-+
- struct v3d_submit_outsync {
- 	struct drm_syncobj *syncobj;
- };
-@@ -414,6 +426,8 @@ int v3d_submit_tfu_ioctl(struct drm_device *dev, void *data,
- 			 struct drm_file *file_priv);
- int v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
- 			 struct drm_file *file_priv);
-+int v3d_submit_cpu_ioctl(struct drm_device *dev, void *data,
-+			 struct drm_file *file_priv);
- 
- /* v3d_irq.c */
- int v3d_irq_init(struct v3d_dev *v3d);
-diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-index fccbea2a5f2e..c89e92fc614c 100644
---- a/drivers/gpu/drm/v3d/v3d_sched.c
-+++ b/drivers/gpu/drm/v3d/v3d_sched.c
-@@ -55,6 +55,12 @@ to_csd_job(struct drm_sched_job *sched_job)
- 	return container_of(sched_job, struct v3d_csd_job, base.base);
- }
- 
-+static struct v3d_cpu_job *
-+to_cpu_job(struct drm_sched_job *sched_job)
-+{
-+	return container_of(sched_job, struct v3d_cpu_job, base.base);
-+}
-+
- static void
- v3d_sched_job_free(struct drm_sched_job *sched_job)
- {
-@@ -262,6 +268,42 @@ v3d_csd_job_run(struct drm_sched_job *sched_job)
- 	return fence;
- }
- 
-+static const v3d_cpu_job_fn cpu_job_function[] = { };
-+
-+static struct dma_fence *
-+v3d_cpu_job_run(struct drm_sched_job *sched_job)
-+{
-+	struct v3d_cpu_job *job = to_cpu_job(sched_job);
-+	struct v3d_dev *v3d = job->base.v3d;
-+	struct v3d_file_priv *file = job->base.file->driver_priv;
-+	u64 runtime;
-+
-+	v3d->cpu_job = job;
-+
-+	if (job->job_type >= ARRAY_SIZE(cpu_job_function)) {
-+		DRM_DEBUG_DRIVER("Unknown CPU job: %d\n", job->job_type);
-+		return NULL;
-+	}
-+
-+	file->start_ns[V3D_CPU] = local_clock();
-+	v3d->queue[V3D_CPU].start_ns = file->start_ns[V3D_CPU];
-+
-+	cpu_job_function[job->job_type](job);
-+
-+	runtime = local_clock() - file->start_ns[V3D_CPU];
-+
-+	file->enabled_ns[V3D_CPU] += runtime;
-+	v3d->queue[V3D_CPU].enabled_ns += runtime;
-+
-+	file->jobs_sent[V3D_CPU]++;
-+	v3d->queue[V3D_CPU].jobs_sent++;
-+
-+	file->start_ns[V3D_CPU] = 0;
-+	v3d->queue[V3D_CPU].start_ns = 0;
-+
-+	return NULL;
-+}
-+
- static struct dma_fence *
- v3d_cache_clean_job_run(struct drm_sched_job *sched_job)
- {
-@@ -416,6 +458,12 @@ static const struct drm_sched_backend_ops v3d_cache_clean_sched_ops = {
- 	.free_job = v3d_sched_job_free
- };
- 
-+static const struct drm_sched_backend_ops v3d_cpu_sched_ops = {
-+	.run_job = v3d_cpu_job_run,
-+	.timedout_job = v3d_generic_job_timedout,
-+	.free_job = v3d_sched_job_free
-+};
-+
- int
- v3d_sched_init(struct v3d_dev *v3d)
- {
-@@ -471,6 +519,15 @@ v3d_sched_init(struct v3d_dev *v3d)
- 			goto fail;
- 	}
- 
-+	ret = drm_sched_init(&v3d->queue[V3D_CPU].sched,
-+			     &v3d_cpu_sched_ops, NULL,
-+			     DRM_SCHED_PRIORITY_COUNT,
-+			     1, job_hang_limit,
-+			     msecs_to_jiffies(hang_limit_ms), NULL,
-+			     NULL, "v3d_cpu", v3d->drm.dev);
-+	if (ret)
-+		goto fail;
-+
- 	return 0;
- 
- fail:
 diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-index 148900283c2a..918e28b1d00a 100644
+index 918e28b1d00a..124935547f17 100644
 --- a/drivers/gpu/drm/v3d/v3d_submit.c
 +++ b/drivers/gpu/drm/v3d/v3d_submit.c
-@@ -772,3 +772,89 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
+@@ -323,10 +323,9 @@ v3d_get_multisync_post_deps(struct drm_file *file_priv,
+ static int
+ v3d_get_multisync_submit_deps(struct drm_file *file_priv,
+ 			      struct drm_v3d_extension __user *ext,
+-			      void *data)
++			      struct v3d_submit_ext *se)
+ {
+ 	struct drm_v3d_multi_sync multisync;
+-	struct v3d_submit_ext *se = data;
+ 	int ret;
  
- 	return ret;
- }
-+
-+static const unsigned int cpu_job_bo_handle_count[] = { };
-+
-+/**
-+ * v3d_submit_cpu_ioctl() - Submits a CPU job to the V3D.
-+ * @dev: DRM device
-+ * @data: ioctl argument
-+ * @file_priv: DRM file for this fd
-+ *
-+ * Userspace specifies the CPU job type and data required to perform its
-+ * operations through the drm_v3d_extension struct.
-+ */
-+int
-+v3d_submit_cpu_ioctl(struct drm_device *dev, void *data,
-+		     struct drm_file *file_priv)
-+{
-+	struct v3d_dev *v3d = to_v3d_dev(dev);
-+	struct drm_v3d_submit_cpu *args = data;
-+	struct v3d_submit_ext se = {0};
-+	struct v3d_cpu_job *cpu_job = NULL;
-+	struct ww_acquire_ctx acquire_ctx;
-+	int ret;
-+
-+	if (args->flags && !(args->flags & DRM_V3D_SUBMIT_EXTENSION)) {
-+		DRM_INFO("Invalid flags: %d\n", args->flags);
-+		return -EINVAL;
-+	}
-+
-+	ret = v3d_job_allocate((void *)&cpu_job, sizeof(*cpu_job));
-+	if (ret)
-+		return ret;
-+
-+	if (args->flags & DRM_V3D_SUBMIT_EXTENSION) {
-+		ret = v3d_get_extensions(file_priv, args->extensions, &se);
-+		if (ret) {
-+			DRM_DEBUG("Failed to get extensions.\n");
-+			goto fail;
-+		}
-+	}
-+
-+	/* Every CPU job must have a CPU job user extension */
-+	if (!cpu_job->job_type) {
-+		DRM_DEBUG("CPU job must have a CPU job user extension.\n");
-+		goto fail;
-+	}
-+
-+	if (args->bo_handle_count != cpu_job_bo_handle_count[cpu_job->job_type]) {
-+		DRM_DEBUG("This CPU job was not submitted with the proper number of BOs.\n");
-+		goto fail;
-+	}
-+
-+	ret = v3d_job_init(v3d, file_priv, &cpu_job->base,
-+			   v3d_job_free, 0, &se, V3D_CPU);
-+	if (ret)
-+		goto fail;
-+
-+	if (args->bo_handle_count) {
-+		ret = v3d_lookup_bos(dev, file_priv, &cpu_job->base,
-+				     args->bo_handles, args->bo_handle_count);
+ 	if (se->in_sync_count || se->out_sync_count) {
+@@ -340,7 +339,7 @@ v3d_get_multisync_submit_deps(struct drm_file *file_priv,
+ 	if (multisync.pad)
+ 		return -EINVAL;
+ 
+-	ret = v3d_get_multisync_post_deps(file_priv, data, multisync.out_sync_count,
++	ret = v3d_get_multisync_post_deps(file_priv, se, multisync.out_sync_count,
+ 					  multisync.out_syncs);
+ 	if (ret)
+ 		return ret;
+@@ -359,7 +358,8 @@ v3d_get_multisync_submit_deps(struct drm_file *file_priv,
+ static int
+ v3d_get_extensions(struct drm_file *file_priv,
+ 		   u64 ext_handles,
+-		   void *data)
++		   struct v3d_submit_ext *se,
++		   struct v3d_cpu_job *job)
+ {
+ 	struct drm_v3d_extension __user *user_ext;
+ 	int ret;
+@@ -375,15 +375,16 @@ v3d_get_extensions(struct drm_file *file_priv,
+ 
+ 		switch (ext.id) {
+ 		case DRM_V3D_EXT_ID_MULTI_SYNC:
+-			ret = v3d_get_multisync_submit_deps(file_priv, user_ext, data);
+-			if (ret)
+-				return ret;
++			ret = v3d_get_multisync_submit_deps(file_priv, user_ext, se);
+ 			break;
+ 		default:
+ 			DRM_DEBUG_DRIVER("Unknown extension id: %d\n", ext.id);
+ 			return -EINVAL;
+ 		}
+ 
 +		if (ret)
-+			goto fail;
++			return ret;
 +
-+		ret = v3d_lock_bo_reservations(&cpu_job->base, &acquire_ctx);
-+		if (ret)
-+			goto fail;
-+	}
-+
-+	mutex_lock(&v3d->sched_lock);
-+	v3d_push_job(&cpu_job->base);
-+	mutex_unlock(&v3d->sched_lock);
-+
-+	v3d_attach_fences_and_unlock_reservation(file_priv,
-+						 &cpu_job->base,
-+						 &acquire_ctx, 0,
-+						 NULL, cpu_job->base.done_fence);
-+
-+	v3d_job_put(&cpu_job->base);
-+
-+	return 0;
-+
-+fail:
-+	v3d_job_cleanup((void *)cpu_job);
-+	v3d_put_multisync_post_deps(&se);
-+
-+	return ret;
-+}
-diff --git a/include/uapi/drm/v3d_drm.h b/include/uapi/drm/v3d_drm.h
-index 1a7d7a689de3..00abef9d0db7 100644
---- a/include/uapi/drm/v3d_drm.h
-+++ b/include/uapi/drm/v3d_drm.h
-@@ -41,6 +41,7 @@ extern "C" {
- #define DRM_V3D_PERFMON_CREATE                    0x08
- #define DRM_V3D_PERFMON_DESTROY                   0x09
- #define DRM_V3D_PERFMON_GET_VALUES                0x0a
-+#define DRM_V3D_SUBMIT_CPU                        0x0b
+ 		user_ext = u64_to_user_ptr(ext.next);
+ 	}
  
- #define DRM_IOCTL_V3D_SUBMIT_CL           DRM_IOWR(DRM_COMMAND_BASE + DRM_V3D_SUBMIT_CL, struct drm_v3d_submit_cl)
- #define DRM_IOCTL_V3D_WAIT_BO             DRM_IOWR(DRM_COMMAND_BASE + DRM_V3D_WAIT_BO, struct drm_v3d_wait_bo)
-@@ -56,6 +57,7 @@ extern "C" {
- 						   struct drm_v3d_perfmon_destroy)
- #define DRM_IOCTL_V3D_PERFMON_GET_VALUES  DRM_IOWR(DRM_COMMAND_BASE + DRM_V3D_PERFMON_GET_VALUES, \
- 						   struct drm_v3d_perfmon_get_values)
-+#define DRM_IOCTL_V3D_SUBMIT_CPU          DRM_IOW(DRM_COMMAND_BASE + DRM_V3D_SUBMIT_CPU, struct drm_v3d_submit_cpu)
+@@ -430,7 +431,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
+ 	}
  
- #define DRM_V3D_SUBMIT_CL_FLUSH_CACHE             0x01
- #define DRM_V3D_SUBMIT_EXTENSION		  0x02
-@@ -93,6 +95,7 @@ enum v3d_queue {
- 	V3D_TFU,
- 	V3D_CSD,
- 	V3D_CACHE_CLEAN,
-+	V3D_CPU,
- };
+ 	if (args->flags & DRM_V3D_SUBMIT_EXTENSION) {
+-		ret = v3d_get_extensions(file_priv, args->extensions, &se);
++		ret = v3d_get_extensions(file_priv, args->extensions, &se, NULL);
+ 		if (ret) {
+ 			DRM_DEBUG("Failed to get extensions.\n");
+ 			return ret;
+@@ -585,7 +586,7 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *data,
+ 	}
  
- /**
-@@ -276,6 +279,7 @@ enum drm_v3d_param {
- 	DRM_V3D_PARAM_SUPPORTS_CACHE_FLUSH,
- 	DRM_V3D_PARAM_SUPPORTS_PERFMON,
- 	DRM_V3D_PARAM_SUPPORTS_MULTISYNC_EXT,
-+	DRM_V3D_PARAM_SUPPORTS_CPU_QUEUE,
- };
+ 	if (args->flags & DRM_V3D_SUBMIT_EXTENSION) {
+-		ret = v3d_get_extensions(file_priv, args->extensions, &se);
++		ret = v3d_get_extensions(file_priv, args->extensions, &se, NULL);
+ 		if (ret) {
+ 			DRM_DEBUG("Failed to get extensions.\n");
+ 			return ret;
+@@ -692,7 +693,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
+ 	}
  
- struct drm_v3d_get_param {
-@@ -361,6 +365,19 @@ struct drm_v3d_submit_csd {
- 	__u32 pad;
- };
+ 	if (args->flags & DRM_V3D_SUBMIT_EXTENSION) {
+-		ret = v3d_get_extensions(file_priv, args->extensions, &se);
++		ret = v3d_get_extensions(file_priv, args->extensions, &se, NULL);
+ 		if (ret) {
+ 			DRM_DEBUG("Failed to get extensions.\n");
+ 			return ret;
+@@ -805,7 +806,7 @@ v3d_submit_cpu_ioctl(struct drm_device *dev, void *data,
+ 		return ret;
  
-+struct drm_v3d_submit_cpu {
-+	/* Pointer to a u32 array of the BOs that are referenced by the job. */
-+	__u64 bo_handles;
-+
-+	/* Number of BO handles passed in (size is that times 4). */
-+	__u32 bo_handle_count;
-+
-+	__u32 flags;
-+
-+	/* Pointer to an array of ioctl extensions*/
-+	__u64 extensions;
-+};
-+
- enum {
- 	V3D_PERFCNT_FEP_VALID_PRIMTS_NO_PIXELS,
- 	V3D_PERFCNT_FEP_VALID_PRIMS,
+ 	if (args->flags & DRM_V3D_SUBMIT_EXTENSION) {
+-		ret = v3d_get_extensions(file_priv, args->extensions, &se);
++		ret = v3d_get_extensions(file_priv, args->extensions, &se, cpu_job);
+ 		if (ret) {
+ 			DRM_DEBUG("Failed to get extensions.\n");
+ 			goto fail;
 -- 
 2.42.0
 
