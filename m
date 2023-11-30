@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A26C27FEBB4
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 10:18:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A547FEBB9
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 10:19:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E464910E6CB;
-	Thu, 30 Nov 2023 09:18:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6951C10E6CE;
+	Thu, 30 Nov 2023 09:18:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86B5D10E1BD
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 09:18:50 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57AF010E1BD
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 09:18:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 07A9FB842A8;
- Thu, 30 Nov 2023 09:18:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F31FC433C7;
- Thu, 30 Nov 2023 09:18:47 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A7BF261E09;
+ Thu, 30 Nov 2023 09:18:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01383C433C7;
+ Thu, 30 Nov 2023 09:18:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701335928;
- bh=2DEa1oTeYKzcAD8G7sQTs3Ut9U8iyHfVccBu5egHOjI=;
+ s=k20201202; t=1701335931;
+ bh=nT9nGRfMfU4zgEHa6fXZDXZZdiT3bkcMygf58AsjxvA=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=o8wRZOhEkeRvlklnE4tOYqWrtRs3q162YaAbPlJInXH/gblUtFqSU9ZX4j9Pw5LxC
- r4WdQ8NrZrpFTrypDvOoMHiaaxmbte2641LIsXqylz5noP7Cw7azIWhAOSq+ae49dy
- Lj4PSYlotWGs5klPsoL3LWQJOkDXU90iap26FZiImBB5m2PsF7OM10WrtbBflOPjIV
- Z7LGjjNVJlnWmFrbcjSSHmg0xJOS0hhpfwXPz5oq3plcgySXhk2ytwkID3vtbhc8dp
- JLceUBMAkcgOuT7pnsND6OgXAtxSqrossnpU5qq4v6Ap5AP1AnBR/7CeFxK3QTiIgH
- GbtYIh5g/0xVg==
+ b=oT/IMeHMhtHPp9SwiakrtnQOomaEbeQQ3MX+Z0Sn3gUXDHeHrtiLnSG05innsBON0
+ 363PAMnvstx3bi1dB/K428ltGi+X4HJDHPWZ2U8bPNz1NpU/oPhyS7xlcS2eVCiR7w
+ 0IQfMIvRxEXO3tLgM6McOwxcOG9p3UL0gMHmAmq+f39el5JimFxEgunEkftfkrtWIq
+ ghdz5FAwkmw9XUSPCuguHbXn04F/fHy1cjDeYjcvVof3wZ+ABgVqpJQau1xJFG4G1z
+ QHhd5pH3d6vzWwl6p7r1cFWG/T42/PYOciAtLMXkL9fj7LzilePHbLXlNdJwAZZkYL
+ b4A/R6UBi7lOg==
 From: Maxime Ripard <mripard@kernel.org>
 To: Sarah Walker <sarah.walker@imgtec.com>, 
  Dan Carpenter <dan.carpenter@linaro.org>
-In-Reply-To: <1649c66b-3eea-40d2-9687-592124f968cf@moroto.mountain>
-References: <1649c66b-3eea-40d2-9687-592124f968cf@moroto.mountain>
-Subject: Re: (subset) [PATCH 1/2] drm/imagination: Fix error codes in
- pvr_device_clk_init()
-Message-Id: <170133592547.3076107.13433304764452948026.b4-ty@kernel.org>
-Date: Thu, 30 Nov 2023 10:18:45 +0100
+In-Reply-To: <384288de-a779-46c7-869d-b3c63462e12b@moroto.mountain>
+References: <384288de-a779-46c7-869d-b3c63462e12b@moroto.mountain>
+Subject: Re: (subset) [PATCH 2/2] drm/imagination: Fix IS_ERR() vs NULL bug
+ in pvr_request_firmware()
+Message-Id: <170133592874.3076107.12823287713812257230.b4-ty@kernel.org>
+Date: Thu, 30 Nov 2023 10:18:48 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -60,8 +59,9 @@ Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 30 Nov 2023 10:26:29 +0300, Dan Carpenter wrote:
-> There is a cut and paste error so this code returns the wrong variable.
+On Thu, 30 Nov 2023 10:27:01 +0300, Dan Carpenter wrote:
+> The pvr_build_firmware_filename() function returns NULL on error.  It
+> doesn't return error pointers.
 > 
 > 
 
