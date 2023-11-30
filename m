@@ -1,56 +1,109 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E3B47FF353
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 16:19:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6A477FF3A8
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 16:36:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57DE210E106;
-	Thu, 30 Nov 2023 15:19:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A82010E713;
+	Thu, 30 Nov 2023 15:36:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA6BE10E106;
- Thu, 30 Nov 2023 15:19:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701357572; x=1732893572;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=U1czIfNA4D3gx8gU9pJKm9VcLb9EwJu5hgmJqa8H1ug=;
- b=ndroGyu+sIOLpEGRWvo8ROj4RNdKQ4+OExPojjc0r+PMnezx6w0LAHEq
- MvfZp9Fi/P1goaDM6RJzDZqIn/ooVh0MtYgakjFpALrjyAWtUKtg3JyCs
- x5UDPy2ovY6ptlkZYnxzFx+KDa2VujjJz+ZquL0VWyeH+iaDs+j2PFKgs
- HPBC7ldWx3JbHU+qPqM/dHyC02K1RvUX2/qpIFAMtF0VNCCAPiCkBJFTh
- hgViKsu0od3wX7QITzf9CMUkFQR2YttkYaCRrFZMXzXSz99m2RI0inYmD
- u2cOVANFjpHqXJztwEF2ORBLqKsMrQ5de/mjSRndYLJY6VuxfHYhcM47x w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="383734235"
-X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; d="scan'208";a="383734235"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2023 07:19:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="860229613"
-X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; d="scan'208";a="860229613"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
- by FMSMGA003.fm.intel.com with ESMTP; 30 Nov 2023 07:19:26 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1r8ip2-0002AP-2I;
- Thu, 30 Nov 2023 15:19:24 +0000
-Date: Thu, 30 Nov 2023 23:18:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
- robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
- dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch,
- airlied@gmail.com, agross@kernel.org, dmitry.baryshkov@linaro.org,
- andersson@kernel.org
-Subject: Re: [PATCH v1] drm/msm/dpu: improve DSC allocation
-Message-ID: <202311302309.NPRFDAWm-lkp@intel.com>
-References: <1701289898-12235-1-git-send-email-quic_khsieh@quicinc.com>
-MIME-Version: 1.0
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2060b.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe5a::60b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85A8910E71E;
+ Thu, 30 Nov 2023 15:36:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QrP3cCKO8O71SL7p/MXN0qrKCJPKw4rIGWpdjK+k1jAMj26xzPVnoJMqtlUVNy0eY2kGpvo31+/e9ANxarwpYv3U9XfyRm5Zy0BMsjHvdxcSYGC1hDY6VcXWVAs1btwWg7ekytuAZIpFYveaK0byj8BJ7+/1R9ndcg6v3+vRv2xHn7kMXMnIktEi/HpxnwAOO9vXZ1++hzDGi4dwqOM6xyp5VrH7UxZTWpwcj5/qzE8siD9z2m6gjeGfpbr8xazPqETPWpshJsdxNpCVc40iddol6NFEjBk2F+7LEP6qbHwgytfybr4EPgny4uWJ4zbMjHTtfWphHwzig0W1/2WdoA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Yg+iGpeFsD329cG0CVnQudByMeC7keQFt7dotbkdYDc=;
+ b=iL858/IN1JSH/hl7GNcNhLLAC/8NeaVUGnbX+bWwy3VZCX9IGYZKgYg9Byd+BQSLIuxjLwtzLHZvIK+52JomGquV5+pIMG7ROdSxRnFHi13kDaPosIKwwCoWmzT4fAvirKfAQNvV2pPx6+saMpCzhF5aWETSwrilL7ueaAagAY9W1hudNpNw8djK8t8eJGBXMDZWJLjbE5GiHy93Xy78KIFtn8P3+mHtWWLMtqLd/BpmvjTZKgDybSlZ3M8kC/1Y6QW9gKA0hOlv/qXSW8PleUPbdVz7Oq07ygnq5uc1s1CM+z6lpfq71/ft/KxPcuK/81184pCXc0Bj12kaylA7OA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Yg+iGpeFsD329cG0CVnQudByMeC7keQFt7dotbkdYDc=;
+ b=YdUFck0v/wQP/dQh2YzHV+D9N71jIQTMMuO0OWmwdTX2brvjeclF2u+Trd1zteOQZl5t8WRD92nbsANdYCSIWRvOfxy+LuKl5ZPnXtgv5cqFGiGb/nhBJg7HaXUmcVlAWn2q194KeDQmQ2XSXzIoUu/IHAS2Zk0KaRsVxHJqCqgFl6QtaOxnXcvpRxuhVMRx1/DgHxVU8A56lmtwCbFb6fakdnvOGJBunQhcO2ibAx/8UrgDbtIECEDZOFC3BxpFUO9ZRqiz7QE+PPv5XOKIrT74Nq3iACUswq11eqx0yXmaxMsWmcbiZsMpDigPbBIY+Htmi6iGoJYjg/7JYDNXXQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by BY5PR12MB4999.namprd12.prod.outlook.com (2603:10b6:a03:1da::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.24; Thu, 30 Nov
+ 2023 15:36:02 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::60d4:c1e3:e1aa:8f93]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::60d4:c1e3:e1aa:8f93%4]) with mapi id 15.20.7046.015; Thu, 30 Nov 2023
+ 15:36:02 +0000
+Date: Thu, 30 Nov 2023 11:36:00 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 10/10] ACPI: IORT: Allow COMPILE_TEST of IORT
+Message-ID: <20231130153600.GI1389974@nvidia.com>
+References: <10-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
+ <2e0f0aac-6287-45d1-ae96-6549c15a8418@arm.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1701289898-12235-1-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <2e0f0aac-6287-45d1-ae96-6549c15a8418@arm.com>
+X-ClientProxiedBy: SA1P222CA0150.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:3c2::20) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|BY5PR12MB4999:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6b55249c-1995-414b-dc14-08dbf1ba0f1b
+X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qxL5KGbETW+8VNAFa+yAFxiHNsxzKTkhEa1mtpquu4qbY4dj/oWdidOguAA+zraXx8AiH9qDvzSPTYib4QTECykhbAWOPnmLlANTEuXR7+e49oYaBEyhsMXw3JK0qJCTKdiKcIOhkbOZa4jK01K7eqqB1lzJ3jnxxCf/ZGEZMn5ka8CR/WTblJwU5q5SDQnoGEaN0pt5N+Izb8Y5KnWAX/bsCTqnRLVf6V/v2j6stqqJzNzt4J9YO3rXZ8O8NG2wCRbIaWAd63rHuJQhfwg8axjebcQZlEj/4AjDPE9paYsAOvWe4EKQIUxhwSFaT7VFgcMQQJAuZPdymtbSFm43MOsVsx86nj1+fN3MWgBOepfnCWaFMa1KeT45AwpHYZHpD27c0ZTfbYoyLa7ujPnVa5856MARpyT91E4C5S/ouYY3BUUSvY3cNIRt1AtPGw2m2YHTyL7ogXwKzFFOolWafF0C0AEtkOeADjjhLgvRfiqiMIcbpfSMTvQDl12tC3RYZqDpmyzMCA0O1rd8vHlgWJBEWFEgruJio/nFZxnYdYzX7eO0dJjSVbd3USXY40i0
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(136003)(366004)(396003)(376002)(39860400002)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(86362001)(66946007)(54906003)(66476007)(6916009)(33656002)(38100700002)(36756003)(1076003)(26005)(6506007)(2616005)(6512007)(2906002)(316002)(66556008)(6486002)(8676002)(5660300002)(7406005)(478600001)(41300700001)(4326008)(7366002)(7416002)(8936002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?caei0Cy5UF+TDyu1d/BtLe0eaGTnF0CTgxbf1uVSWylnu4MeOPu0sDqE5OVp?=
+ =?us-ascii?Q?b5bHBmW3h3fCQq66Ma6qYMWJ53Zvyc8w64EvByrXIa1UgYU7wvD9XWaDWdSK?=
+ =?us-ascii?Q?DlsyxkAyfwBgxysPu942dNosJ9vkV1c9S8uPo8gEV7ETDuyOlLMHoDzVO3mm?=
+ =?us-ascii?Q?M3zl1WMxshhtJt5OKBths+QAM/kKDd0tO0Qv0kmwEMUL3Lo/HhQeb78DSwuV?=
+ =?us-ascii?Q?OZcZWWa0wXA6Ajvt37Q9HLH9IeHwqx+qzFmbxFN0V9+CWHARSsHv/cjmLVlK?=
+ =?us-ascii?Q?fpWruoAwztyPxdN1x5B9YMfofd8jZYszKpUfJThKdEPItXSnpzpm6bKLT4hI?=
+ =?us-ascii?Q?//QDTT25yFdoYmVRySDotuiIKxMSJyqrIZeks5GSeE8C17DvyvmLhE4hz10U?=
+ =?us-ascii?Q?7IoEYcW5xAAETSiMGEk9uOkiuC8/QIqeglYq61ymiA65I1Vt4EwZDtqT97Qb?=
+ =?us-ascii?Q?/6IAVyqcmL0PXtiihKS6ntyF9zDWq4+lh+HVHbFNE99IkZodDYIyEoP15hSK?=
+ =?us-ascii?Q?57H1UYklF0el1o6YvMhosjfZkMbaBIW3Fb4oirt9cvlzNQJ/tj+ipaCyjnjv?=
+ =?us-ascii?Q?IKNTFHvRU0vhM6wAlXYezy2rRmhYCjHWrLC4ycT5JfZaG/4WlayVulJ6NycM?=
+ =?us-ascii?Q?aJbsPz80zYxjvRhIFUEJ8Fzk8Rs4+2VGloDDnZcyOuRzqETB7G2S+nIJmdI3?=
+ =?us-ascii?Q?OeOncIOdeNRc2wSdMGi7TYQxcQMwmItWW9bZuC4QX/PWeej/alDurMixs1uH?=
+ =?us-ascii?Q?bcLGm4DRe8Yia1GgW2PnidAQS518vkG0GdSVsM1ZKJOslfofaPubfysNMjkR?=
+ =?us-ascii?Q?9LXlEyC2R86ngKC08R6oFLEVAY8SByH8wUt0V0IpXXiJUFcftJA3XxvTidsy?=
+ =?us-ascii?Q?ATm/8IAzU4FfhUjf0DoJA1JpT3DrIJ2smRKcbb5ELYGq0DgR9hdbCU/RryVK?=
+ =?us-ascii?Q?ihxKd4qOfeVOHcBcUUMjEWT3xdB3E2XADvaVxZxq7iOp8aNfP+jat/4wQ87t?=
+ =?us-ascii?Q?ITtve5Xy3G9lrAZ4kRJK1c3bSx+2Ci9SpyBbZ8egJ9pq64HN+z6AQ5LEVhBi?=
+ =?us-ascii?Q?+/koQlHHuTL8dnKwPD5R5z9r2XoxzJizhTTA+mJpkMlzKKa4RsZvnoPgwvfi?=
+ =?us-ascii?Q?nUxcY6uhNjPSKzV1F6TtAYopBQcvNoOBJal4tbjagTR+QTtDC84j0ckJomIQ?=
+ =?us-ascii?Q?EK0W7soDBkooK0Ky1/4kGuG7HVHxv/xuS51begtclSYfg86B5TZdPUzL1UEJ?=
+ =?us-ascii?Q?LfrJyK0z9nPKcqT37K8/ZxM1IVhGZA3R6QpAFJXgF417qjrBGJyiMPysrJ2+?=
+ =?us-ascii?Q?MI+vDqMHQ875DkbhjlrIAZXUjehJ8SvF6Ok3O1o5Sz5HmlppNcoIEwMuW1mN?=
+ =?us-ascii?Q?hGleadb8PtQfaVuRbFBNVlP9TKjcMaxwxIdBc4YXjSlaokshC5KxdPwHCCsT?=
+ =?us-ascii?Q?JlY6HcT1zSOmt2XRDLUNSGW1jl34faPcm16PpVESd94xaoGbj1+ag6BaJE14?=
+ =?us-ascii?Q?6jt0fUtQ0fnMaX4qhpeN/+I+1yh9bMhxQichFiiYwF3SZE2V6SC8juSKjYoW?=
+ =?us-ascii?Q?1gPexDaeTVW1GX1I996PWwFN1n6GVufExkN4COyW?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b55249c-1995-414b-dc14-08dbf1ba0f1b
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2023 15:36:02.5907 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5LTnlNz9icLXiTZJDWxS9wuH1D8XRDWGsPtXpCwOpV1tmhns5DhDddp3Q4CbplUF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4999
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,146 +116,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, quic_jesszhan@quicinc.com,
- linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev, quic_abhinavk@quicinc.com,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, oe-kbuild-all@lists.linux.dev,
- marijn.suijten@somainline.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: linux-hyperv@vger.kernel.org, Karol Herbst <kherbst@redhat.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Jerry Snitselaar <jsnitsel@redhat.com>, dri-devel@lists.freedesktop.org,
+ patches@lists.linux.dev, Laxman Dewangan <ldewangan@nvidia.com>,
+ Hanjun Guo <guohanjun@huawei.com>, linux-riscv@lists.infradead.org,
+ "K. Y. Srinivasan" <kys@microsoft.com>, Frank Rowand <frowand.list@gmail.com>,
+ Christoph Hellwig <hch@lst.de>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Wei Liu <wei.liu@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Dexuan Cui <decui@microsoft.com>, Russell King <linux@armlinux.org.uk>,
+ Jon Hunter <jonathanh@nvidia.com>, linux-acpi@vger.kernel.org,
+ iommu@lists.linux.dev, Danilo Krummrich <dakr@redhat.com>,
+ nouveau@lists.freedesktop.org, linux-snps-arc@lists.infradead.org,
+ Len Brown <lenb@kernel.org>, devicetree@vger.kernel.org,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Will Deacon <will@kernel.org>, Sven Peter <sven@svenpeter.dev>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Vineet Gupta <vgupta@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Moritz Fischer <mdf@kernel.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Hector Martin <marcan@marcan.st>, linux-mips@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ asahi@lists.linux.dev, Sudeep Holla <sudeep.holla@arm.com>,
+ dmaengine@vger.kernel.org, David Woodhouse <dwmw2@infradead.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kuogee,
+On Thu, Nov 30, 2023 at 02:10:48PM +0000, Robin Murphy wrote:
+> > diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+> > index 7673bb82945b6c..309378e76a9bc9 100644
+> > --- a/drivers/iommu/Kconfig
+> > +++ b/drivers/iommu/Kconfig
+> > @@ -318,6 +318,7 @@ config ARM_SMMU
+> >   	select IOMMU_API
+> >   	select IOMMU_IO_PGTABLE_LPAE
+> >   	select ARM_DMA_USE_IOMMU if ARM
+> > +	select ACPI_IORT if ACPI
+> 
+> This is incomplete. If you want the driver to be responsible for enabling
+> its own probing mechanisms then you need to select OF and ACPI too. 
 
-kernel test robot noticed the following build errors:
+Well, yes, we do have that minor issue today that drivers can be
+compiled without any way to parse any FW and are thus completely
+useless.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7-rc3 next-20231130]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Certainly one could make the case this should be
+   depends on OF || ACPI
+   select ACPI_IORT if ACPI
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuogee-Hsieh/drm-msm-dpu-improve-DSC-allocation/20231130-064646
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/1701289898-12235-1-git-send-email-quic_khsieh%40quicinc.com
-patch subject: [PATCH v1] drm/msm/dpu: improve DSC allocation
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20231130/202311302309.NPRFDAWm-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311302309.NPRFDAWm-lkp@intel.com/reproduce)
+And similar in other drivers so they have the minimum dependencies to
+actually be able to work. This would be the correct way to use
+kconfig.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311302309.NPRFDAWm-lkp@intel.com/
+But who cares? I'm not trying to fix everything here, I'm trying to
+allow COMPILE_TEST for more sub components of this one driver.
 
-All errors (new ones prefixed by >>):
+> And all the other drivers which probe from IORT should surely also
+> select ACPI_IORT, and thus ACPI as well. And maybe the PCI core
+> should as well because there are general properties of PCI host
+> bridges and devices described in there?
 
->> drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:537:24: error: incompatible pointer to integer conversion assigning to 'uint32_t' (aka 'unsigned int') from 'void *' [-Wint-conversion]
-     537 |                 pp_to_enc_id[pp_idx] = NULL;
-         |                                      ^ ~~~~
-   1 error generated.
+Now you are just arguring to an absurdity.
 
+> But of course that's clearly backwards nonsense, because drivers do not and
+> should not do that, so this change is not appropriate either.
 
-vim +537 drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+This patch is about COMPILE_TEST.
 
-   463	
-   464	static int _dpu_rm_reserve_dsc(struct dpu_rm *rm,
-   465				       struct dpu_global_state *global_state,
-   466				       struct drm_encoder *enc,
-   467				       const struct msm_display_topology *top)
-   468	{
-   469		int num_dsc = 0;
-   470		int i, pp_idx;
-   471		bool pair = false;
-   472		int dsc_idx[DSC_MAX - DSC_0];
-   473		uint32_t pp_to_enc_id[PINGPONG_MAX - PINGPONG_0];
-   474		int pp_max = PINGPONG_MAX - PINGPONG_0;
-   475	
-   476		if (!top->num_dsc || !top->num_intf)
-   477			return 0;
-   478	
-   479		/*
-   480		 * Truth:
-   481		 * 1) every layer mixer only connects to one pingpong
-   482		 * 2) no pingpong split -- two layer mixers shared one pingpong
-   483		 * 3) each DSC engine contains two dsc encoders
-   484		 *    -- index(0,1), index (2,3),... etc
-   485		 * 4) dsc pair can only happens with same DSC engine except 4 dsc
-   486		 *    merge mode application (8k) which need two DSC engines
-   487		 * 5) odd pingpong connect to odd dsc
-   488		 * 6) even pingpong connect even dsc
-   489		 */
-   490	
-   491		/* num_dsc should be either 1, 2 or 4 */
-   492		if (top->num_dsc > top->num_intf)	/* merge mode */
-   493			pair = true;
-   494	
-   495		/* fill working copy with pingpong list */
-   496		memcpy(pp_to_enc_id, global_state->pingpong_to_enc_id, sizeof(pp_to_enc_id));
-   497	
-   498		for (i = 0; i < ARRAY_SIZE(rm->dsc_blks); i++) {
-   499			if (!rm->dsc_blks[i])	/* end of dsc list */
-   500				break;
-   501	
-   502			if (global_state->dsc_to_enc_id[i]) {	/* used */
-   503				/* consective dsc index to be paired */
-   504				if (pair && num_dsc) {	/* already start pairing, re start */
-   505					num_dsc = 0;
-   506					/* fill working copy with pingpong list */
-   507					memcpy(pp_to_enc_id, global_state->pingpong_to_enc_id,
-   508									sizeof(pp_to_enc_id));
-   509				}
-   510				continue;
-   511			}
-   512	
-   513			/* odd index can not become start of pairing */
-   514			if (pair && (i & 0x01) && !num_dsc)
-   515				continue;
-   516	
-   517			/*
-   518			 * find the pingpong index which had been reserved
-   519			 * previously at layer mixer allocation
-   520			 */
-   521			for (pp_idx = 0; pp_idx < pp_max; pp_idx++) {
-   522				if (pp_to_enc_id[pp_idx] == enc->base.id)
-   523					break;
-   524			}
-   525	
-   526			/*
-   527			 * dsc even index must map to pingpong even index
-   528			 * dsc odd index must map to pingpong odd index
-   529			 */
-   530			if ((i & 0x01) != (pp_idx & 0x01))
-   531				continue;
-   532	
-   533			/*
-   534			 * delete pp_idx so that it can not be found at next search
-   535			 * in the case of pairing
-   536			 */
- > 537			pp_to_enc_id[pp_idx] = NULL;
-   538	
-   539			dsc_idx[num_dsc++] = i;
-   540			if (num_dsc >= top->num_dsc)
-   541				break;
-   542		}
-   543	
-   544		if (num_dsc < top->num_dsc) {
-   545			DPU_ERROR("DSC allocation failed num_dsc=%d required=%d\n",
-   546							num_dsc, top->num_dsc );
-   547			return -ENAVAIL;
-   548		}
-   549	
-   550		/* reserve dsc */
-   551		for (i = 0; i < top->num_dsc; i++) {
-   552			int j;
-   553	
-   554			j = dsc_idx[i];
-   555			global_state->dsc_to_enc_id[j] = enc->base.id;
-   556		}
-   557	
-   558		return 0;
-   559	}
-   560	
+> theoretical bug becomes real. There's really no practical value to be had
+> from compile-testing IORT.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+COMPILE_TEST is to make it easier to maintain the kernel code by
+reducing the neccessary combinations required to get complete compile
+coverage. 100% compile test is a laudible goal on its own.
+
+I have no idea what you are talking about with "no practical value"
+just because you don't use COMPILE_TEST doesn't mean it has "no
+practical value". It exists, people like me use, we can make it
+better. Why is this even a point of debate? :(
+
+Jason
