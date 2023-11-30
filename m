@@ -2,40 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 988F07FEECA
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 13:20:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 292087FEED6
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 13:21:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBDB010E0E8;
-	Thu, 30 Nov 2023 12:20:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 983AE10E325;
+	Thu, 30 Nov 2023 12:21:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.220])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1669F10E0E8
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 12:20:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=62A33
- cf5Af2cRWDLxsHpxRpMh1AsaOXYK73nIWVv3Jc=; b=jN2Msd0ypXsyxZfwnIQ78
- BVr1StiSjinLOGpr16iu0Cwe84MmB2B5n07nCO1GDV3RovIf+LYgXuD0vwVMYbX5
- p/zg3UH/TEiISMo8hcE/XhTpysK0kHaDDpw7Aq2BVt+EtHP6BW021Vn07q8h3GxG
- 8eO/J63j79rLZj8qrSAq2Q=
-Received: from ProDesk.. (unknown [58.22.7.114])
- by zwqz-smtp-mta-g1-0 (Coremail) with SMTP id _____wDXn9LyfWhl2DkWBg--.29823S2;
- Thu, 30 Nov 2023 20:20:07 +0800 (CST)
-From: Andy Yan <andyshrk@163.com>
-To: heiko@sntech.de
-Subject: [PATCH v3 00/14] Add VOP2 support on rk3588
-Date: Thu, 30 Nov 2023 20:20:01 +0800
-Message-Id: <20231130122001.12474-1-andyshrk@163.com>
-X-Mailer: git-send-email 2.34.1
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on20625.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e8b::625])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4871710E0F7;
+ Thu, 30 Nov 2023 12:21:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SbrYtRd/m7aeL7wxtVSgoWxcla1sgjQ3evd/MJvNCzpiBdA4Ipvu84YG0TW189c5MjZnX27ErQR7j3/eh0UrzfeuvSeJlwfeeyADJt2WNAGbro08aDH/GNszDzFMHf4DNC0xH9vdB8RuMnrXxhni8iJZt+MZWEaXIHxBr5joU+HNx/d8/0A7X+Efjps48cVyYU3z5H529YEtKtrIZIQ+lZF37r94KGkoPrQxIhuQVgob06HuMLuSAglSXuSK382hZHtmh0LHMzkYAwbZTwZNFBTKo7wHeYGdNpLDx+axmNpR/K+80bX4ixvuRpPYcOXjHR4WzkK1wUe1p2CEw3tT0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LJixQ+w47ibikbkMDvSQCF2sK7jVRhZawzlwIjz7Jh8=;
+ b=FVYrwI3BqFs6O8JvmQaavPBE2kfDcLYc6T70rQH64s8L0vKSIsyjMjIb60f1hpAJcXm0gYREzNG2NEhQDDrw/GXSFXcea7LKzVJvwPJ7bD75zwXZaQKOo/8ZRs0zouEZiNoCs64MeLQMyqVt0fj2Q5GcBaQKFTlZKdJvhdXsAV8Y4JxpoMcRpXOHfHuhlt6dJ6pOVW+5QT/UdVRztShK78USMwNmzeloEDE1O0vtvaRXIKkx/lfEjSDe1ggTt3CRXbFAVxF8iCLWL7U/mvtqeA7FFrM7A65wzqzz9IGePT6EVrqAdoK+sS5Tcwgm6nOa0e0+VaEQUKBUvXkw4bRt2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LJixQ+w47ibikbkMDvSQCF2sK7jVRhZawzlwIjz7Jh8=;
+ b=AiT86x1sH4H83A1T+sAtqjfSfze+2wc9rFhL6g6CKdJFbZxaG8ljv3u3rj8RKBVeDtqma7DE+IT6Fw+6Cq1v1TDFOG0EPJkWNVqgIynm8o5m182yR5oRsi7APEcy3XhwQmTI5UktxK1YM18HhwBJp1Xvbg28WUcqcLRsKrcfCSCas1aRxGmKtyHRL+zH9THeMhUt5rSv5VfjgU08zEEQz3sX7P7l1VudS/t7p2X7amc+eEKo1gnBwpUFghy3kDMLjPHfvb/4n1eqen0Eiaz+tdR7V1MVYtkSEJUyerzwnJQ5MIW0lmnNJTy4dq314xGvXAjLSk8K8qFSPqdDGLHtsg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by SN7PR12MB6839.namprd12.prod.outlook.com (2603:10b6:806:265::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.23; Thu, 30 Nov
+ 2023 12:21:37 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::60d4:c1e3:e1aa:8f93]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::60d4:c1e3:e1aa:8f93%4]) with mapi id 15.20.7046.015; Thu, 30 Nov 2023
+ 12:21:37 +0000
+Date: Thu, 30 Nov 2023 08:21:35 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Subject: Re: [PATCH 10/10] ACPI: IORT: Allow COMPILE_TEST of IORT
+Message-ID: <20231130122135.GG1389974@nvidia.com>
+References: <0-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
+ <10-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
+ <ZWc0qPWzNWPkL8vt@lpieralisi> <20231129191240.GZ436702@nvidia.com>
+ <ZWhuGl1l5V5b+w4P@lpieralisi>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZWhuGl1l5V5b+w4P@lpieralisi>
+X-ClientProxiedBy: SN7PR04CA0044.namprd04.prod.outlook.com
+ (2603:10b6:806:120::19) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wDXn9LyfWhl2DkWBg--.29823S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxCrW7tr4UAr4UXF48Wr4fuFg_yoWrGF4fp3
- 95CryYqrWxCFW2qrs3tw1rCrWftan7Aay3K393JanIv3W3KFyUKwnIg3Z5Zr9xWr1xZFy2
- kF45J347Wr42vr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jrcTPUUUUU=
-X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEBQ4XmVOAqtRyAABs4
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SN7PR12MB6839:EE_
+X-MS-Office365-Filtering-Correlation-Id: c56a3fcf-77c8-480d-4e3a-08dbf19ee5ee
+X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 39FFJvs4blwieyKepVr5RR0vYatdHBvCBb9hFrGowdz0BtQ0tVmCh3QDzaU54xor4zGD/pG3D5aQB3M9uOCicc4qbN2RUTajGFko2au/K19O3GcVhgW9R5FD4BAuF0jRNbir+o5GRQ+ZkB073U+MdMAan8BHs14AJjN4fUU3Da/34Jn4CaYyncmyGOxKyFu4Z6vwDGmhO5HsoP4UZfSC8Rt9FYXvh/NbzOcRw7eCODzcJbYzEYumoJ0RJswjWRAgQTrNBILXLSnVCSzTAbnJwMVYuJH1gdzPoHNaw6hlj6aSqPRyTf4/K8ATMyetMq3srP19UEZS7vLLYJ3UCyW8RY2LphTvuA3RjS3FCDzGYzire27e4vaoCFyAE+Fb71YwDpDE3gaeOux2G4k71O4C9/01y5TGhjDQ2LVG1FHY6fM6cg0JLQSlbB/3uDKIk90wv0XOOJOqhgYxXSZ3ua4jbsrVYi7kspkV/N0ai4AeZTXfc34MFcVeYZeefScV+v0IiPD9kGrtRfWmZOWpfanv7EhVzrZIQjMs3gKQOvJTL4sSVHdy4awo1KXRh+m3DimbxQ4nBlsCLvs2bs0wteRNCOnxwI8RPKaKKCdV5XDhy9Ymxjb0pyhQyaYnw1f6pa0C
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(376002)(366004)(136003)(346002)(39860400002)(396003)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(26005)(1076003)(2616005)(66476007)(66946007)(54906003)(66556008)(7406005)(7366002)(316002)(6916009)(7416002)(2906002)(8676002)(4326008)(8936002)(86362001)(5660300002)(41300700001)(6506007)(6512007)(36756003)(33656002)(478600001)(6486002)(202311291699003)(38100700002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7Q7CRmLAOPiTqvKa4MushueP6OP8H9hIZQ6Te0DL2gWMKU/iv6R82N5TRtvk?=
+ =?us-ascii?Q?SvnkdJ4yaOqIrtrsCOZL/c/tk9ffutF/khz0rtIuTu19sTZVkyHocI7uFRyb?=
+ =?us-ascii?Q?g91G7Gbx3QSi5ip0eIs8pz7GIp0yAsjXqpTGQI+Ns5SqnLDPSNPtb8Hz4tiL?=
+ =?us-ascii?Q?+oR+1VRcZb6S+j+gXxyeRHwGUyPtxpSrlfSwVfRb5Z9pAhuWmRRk/hokCgyQ?=
+ =?us-ascii?Q?SnPhvdu7hFXD9LI4p6bdYYLgQa4TIKe6RyLh3JflHX24/oGEtcAlCELdaDlH?=
+ =?us-ascii?Q?7usCpFs/wbHteN6xLSUCokxDJ0IYOiVpXO1APUE+uwAHHMDgIkhL7pa5/58F?=
+ =?us-ascii?Q?IoV9HZFlQVSZrIyhqwF1/BfBBMjJqJ+ZaYo8kWBuxyt4A61RL4lo6AHkKUz/?=
+ =?us-ascii?Q?WATqc988SA13uf8+JL1eh2Yg4g3HlqUXZyshb+x6nYxDEh2MkYau7JJ8YwP/?=
+ =?us-ascii?Q?9mxVVODNoM0umEJWXT0KN6a1mPCRPlp7AWzbYU8YzLVunPMyYInZ3Re3VIXU?=
+ =?us-ascii?Q?knglSLO6mG4K5gVMYxujP3prkuRBzk7IZOFbBTfob4ypYF8Imtbxhza7jgUs?=
+ =?us-ascii?Q?N7arU1R2GuluqVmK2g1QGzGCkRCF+zpm2E8H7s/GKrvI0qlKimlEqd5TM5mC?=
+ =?us-ascii?Q?b3YutF8/PRG0Otip9tn1O79Z2j6Q17hxUmMgU4+UP4khMHwPKfxOhIltdgRS?=
+ =?us-ascii?Q?0uq/TyvfY/NsaZoVKvR31r9JTDbS6KwL87eIKfJ5A6pSb0+9E+lWT5E+Jekh?=
+ =?us-ascii?Q?k0DVzfvseOTBtwnscMzZnz2iSVDAmRfK9lK/BWyYq/T60M62YnxX4khhOazm?=
+ =?us-ascii?Q?1UBoavCZX2OKHzPDc3BmQPNcTsCmg7eL0n51J8MPLL9hZJ/ijF5EISHqsSB2?=
+ =?us-ascii?Q?WwwUnCNNsM18EL+S6Nrg8LWbTCKzVYeGqG58R1Beh0TXT1ZrrZcOW/tzOuI5?=
+ =?us-ascii?Q?xl65s89OdshmQ2Z+26vu03QJRbWWiSpZp7NBBiEQRO6nnFdsNrnPRQx1isn4?=
+ =?us-ascii?Q?h/cyVO7k2oJ34gxD1dJ7HDeZvRULCwmcNuAAP0629F7yw+vGOnhsVL7wL8p3?=
+ =?us-ascii?Q?RrUIYS4ITjjF6SYKdKXpqswOwY3stNsz3Aaw0nuxznHMHRYRY3Rc8sGlUnxk?=
+ =?us-ascii?Q?HJAC7RFdIKTWOdURMx2KhMXsb+0r3fE85TQ9TtbzTS0DoyIgxg0IcCKcuGiU?=
+ =?us-ascii?Q?Z9K3ShSiXVqXrckwtBMDteA+v2/+4+jBDaR4TJY5vfDPn2ZiyV4m0nGoqzuS?=
+ =?us-ascii?Q?fTY6cPUK39xNePVTBG9+wQR82ac9m86kcn18hex8XB5yN1HctG1mFkv9vcnQ?=
+ =?us-ascii?Q?hF+oV8S7AcsGjjUF8rE6vCulz8Ns0v1gGUEbOVpDotqn9nM/u77L5rKbqZic?=
+ =?us-ascii?Q?e9/GW7NiAM3M64unOzbRAsaydlqqzg6pZnLAiEJz+miFRaBEh+G03zb/JF8J?=
+ =?us-ascii?Q?s35/S8NfrhoyrgjAobq/CKyMIqp5e5mquTexI5teWFjP66fQSbETceSq2hal?=
+ =?us-ascii?Q?6gHQTIYilnNCustLzHFAJhF+Ri2bNcHmjfPOcFcmLhGdQvIZwCdLkVosY8TK?=
+ =?us-ascii?Q?VsgDO12aG5oWGjMoOPTmcuvxZNCjeOS7R9o4RSRS?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c56a3fcf-77c8-480d-4e3a-08dbf19ee5ee
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2023 12:21:36.8906 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Tr94XYyL/1BPueDwYPWzJnAyAKGBEQmBCWZ46SEOUfaMp2CKrqq1JyDvvSPchVYF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6839
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,106 +118,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, chris.obbard@collabora.com, hjc@rock-chips.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kever.yang@rock-chips.com, linux-rockchip@lists.infradead.org,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- Andy Yan <andy.yan@rock-chips.com>, sebastian.reichel@collabora.com
+Cc: linux-hyperv@vger.kernel.org, Karol Herbst <kherbst@redhat.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Jerry Snitselaar <jsnitsel@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Laxman Dewangan <ldewangan@nvidia.com>, Hanjun Guo <guohanjun@huawei.com>,
+ linux-riscv@lists.infradead.org, "K. Y. Srinivasan" <kys@microsoft.com>,
+ Frank Rowand <frowand.list@gmail.com>, Christoph Hellwig <hch@lst.de>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Wei Liu <wei.liu@kernel.org>,
+ Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Dexuan Cui <decui@microsoft.com>, Russell King <linux@armlinux.org.uk>,
+ Jon Hunter <jonathanh@nvidia.com>, linux-acpi@vger.kernel.org,
+ iommu@lists.linux.dev, Danilo Krummrich <dakr@redhat.com>,
+ nouveau@lists.freedesktop.org, linux-snps-arc@lists.infradead.org,
+ Len Brown <lenb@kernel.org>, devicetree@vger.kernel.org,
+ Albert Ou <aou@eecs.berkeley.edu>, Sven Peter <sven@svenpeter.dev>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Vineet Gupta <vgupta@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Moritz Fischer <mdf@kernel.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ David Woodhouse <dwmw2@infradead.org>, Hector Martin <marcan@marcan.st>,
+ patches@lists.linux.dev, Vinod Koul <vkoul@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ asahi@lists.linux.dev, Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Sudeep Holla <sudeep.holla@arm.com>, dmaengine@vger.kernel.org,
+ Robin Murphy <robin.murphy@arm.com>, Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andy Yan <andy.yan@rock-chips.com>
+On Thu, Nov 30, 2023 at 12:12:26PM +0100, Lorenzo Pieralisi wrote:
+> On Wed, Nov 29, 2023 at 03:12:40PM -0400, Jason Gunthorpe wrote:
+> > On Wed, Nov 29, 2023 at 01:55:04PM +0100, Lorenzo Pieralisi wrote:
+> > 
+> > > I don't think it should be done this way. Is the goal compile testing
+> > > IORT code ? 
+> > 
+> > Yes
+> > 
+> > > If so, why are we forcing it through the SMMU (only because
+> > > it can be compile tested while eg SMMUv3 driver can't ?) menu entry ?
+> > 
+> > Because something needs to select it, and SMMU is one of the places
+> > that are implicitly using it.
+> > 
+> > It isn't (and shouldn't be) a user selectable kconfig. Currently the
+> > only thing that selects it is the ARM64 master kconfig.
+> 
+> I never said it should be a user selectable kconfig. I said that
+> I don't like using the SMMU entry (only) to select it just because
+> that entry allows COMPILE_TEST.
 
-This patch sets aims at enable the VOP2 support on rk3588.
+So you would like each of the drivers that use it to select it?
 
-Main feature of VOP2 on rk3588:
-Four video ports:
-VP0 Max 4096x2160
-VP1 Max 4096x2160
-VP2 Max 4096x2160
-VP3 Max 2048x1080
+> > SMMUv3 doesn't COMPILE_TEST so it picks up the dependency transitivity
+> > through ARM64. I'm not sure why IORT was put as a global ARM64 kconfig
+> > dependency and not put in the places that directly need it.
+> 
+> Because IORT is used by few ARM64 system IPs (that are enabled by
+> default, eg GIC), it makes sense to have a generic ARM64 select (if ACPI).
 
-4 4K Cluster windows with AFBC/line RGB and AFBC-only YUV support
-4 4K Esmart windows with line RGB/YUV support
+IMHO that is not a good way to use kconfig, it is obfuscating and
+doesn't support things like COMPILE_TEST.
 
-The current version support all the 8 windows with all the suppported
-plane format.
+> > > Maybe we can move IORT code into drivers/acpi and add a silent config
+> > > option there with a dependency on ARM64 || COMPILE_TEST.
+> > 
+> > That seems pretty weird to me, this is the right way to approach it,
+> > IMHO. Making an entire directory condition is pretty incompatible with
+> > COMPILE_TEST as a philosophy.
+> 
+> That's not what I was suggesting. I was suggesting to move iort.c (or
+> some portions of it) into drivers/acpi if we care enough to compile test
+> it on arches !ARM64.
+> 
+> It is also weird to have a file in drivers/acpi/arm64 that you want
+> to compile test on other arches IMO (and I don't think it is very useful
+> to compile test it either).
 
-And we don't have a upstreamed encoder/connector(HDMI/DP) for rk3588
-yet, Cristian from collabora is working on adding upstream support for
-HDMI on rk3588.
+Why? Just because the directory is named "arm64" doesn't mean it
+should be excluded from COMPILE_TEST. arch/arm64 yes, but not random
+directories in the driver tree.
 
-My current test(1080P/4KP60) is runing with a HDMI driver pick from
-downstream bsp kernel.
+Stuff under drivers/ should strive to get 100% COMPILE_TEST coverage
+as much as practical. This makes everyone else's life easier.
 
-A branch based on linux-6.7 rc3 containing all the series and
-HDMI driver(not compatible with mainline rk3568 hdmi) picked
-from downstream bsp kernel is available [0].
-
-[0]https://github.com/andyshrk/linux/tree/rk3588-vop2-hdmi-upstream-linux-6.7-rc3-2023-11-30
-
-Changes in v3:
-- split confg one patch from the vop2 driver patch
-- put bool variable yuv_overlay next to other bool variable
-- define macro for RK3568_OVL_CTRL__YUV_MODE
-- just write RK3568_OVL_CTRL register once in function
-  vop2_setup_layer_mixer
-- constrain properties in allOf:if:then
-- some description updates
-- change the subject as Krzysztof suggested, and add his ACK
-- add braces for x in macro vop2_output_if_is_yyy(x)
-- clear the bits of a mask before setting it in rk3588_set_intf_mux
-- add more comments.
-- put regs dump info in vop2_data
-
-Changes in v2:
-- fix errors when running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-- split form vop driver patch
-- add rk3588_ prefix for functions which are rk3588 only
-- make some calculation as fixed value and keep calculation formula as
-  comment
-- check return value for some cru calculation functions.
-- check return value for syscon_regmap_lookup_by_phandle
-- add NV20/NV30 for esmart plane
-
-Andy Yan (14):
-  drm/rockchip: move output interface related definition to
-    rockchip_drm_drv.h
-  Revert "drm/rockchip: vop2: Use regcache_sync() to fix suspend/resume"
-  drm/rockchip: vop2: set half_block_en bit in all mode
-  drm/rockchip: vop2: clear afbc en and transform bit for cluster window
-    at linear mode
-  drm/rockchip: vop2: Add write mask for VP config done
-  drm/rockchip: vop2: Set YUV/RGB overlay mode
-  drm/rockchip: vop2: rename grf to sys_grf
-  dt-bindings: soc: rockchip: add rk3588 vop/vo syscon
-  dt-bindings: display: vop2: Add rk3588 support
-  dt-bindings: rockchip,vop2: Add more endpoint definition
-  drm/rockchip: vop2: Add support for rk3588
-  drm/rockchip: vop2: Add debugfs support
-  dt-bindings: iommu: rockchip: Add Rockchip RK3588
-  arm64: dts: rockchip: Add vop on rk3588
-
- .../display/rockchip/rockchip-vop2.yaml       | 118 ++-
- .../bindings/iommu/rockchip,iommu.yaml        |   1 +
- .../devicetree/bindings/soc/rockchip/grf.yaml |   2 +
- arch/arm64/boot/dts/rockchip/rk3588s.dtsi     |  96 +++
- .../gpu/drm/rockchip/analogix_dp-rockchip.c   |   1 -
- drivers/gpu/drm/rockchip/cdn-dp-core.c        |   1 -
- .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   |   1 -
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c   |   1 -
- drivers/gpu/drm/rockchip/inno_hdmi.c          |   1 -
- drivers/gpu/drm/rockchip/rk3066_hdmi.c        |   1 -
- drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |  18 +
- drivers/gpu/drm/rockchip/rockchip_drm_vop.h   |  12 +-
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c  | 749 +++++++++++++++++-
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.h  | 109 ++-
- drivers/gpu/drm/rockchip/rockchip_lvds.c      |   1 -
- drivers/gpu/drm/rockchip/rockchip_rgb.c       |   1 -
- drivers/gpu/drm/rockchip/rockchip_vop2_reg.c  | 412 ++++++++++
- include/dt-bindings/soc/rockchip,vop2.h       |   4 +
- 18 files changed, 1452 insertions(+), 77 deletions(-)
-
--- 
-2.34.1
-
+Jason
