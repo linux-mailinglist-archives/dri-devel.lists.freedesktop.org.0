@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E7E97FF428
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 16:57:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5546E7FF425
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 16:57:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED3E010E71E;
-	Thu, 30 Nov 2023 15:56:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCB7D10E71D;
+	Thu, 30 Nov 2023 15:56:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9082D10E710
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 15:56:41 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id
- 46e09a7af769-6d7f3a4bbc6so616175a34.2
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 07:56:41 -0800 (PST)
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D9ED10E710
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 15:56:42 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ 46e09a7af769-6ce322b62aeso629653a34.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 07:56:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1701359801; x=1701964601; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Yvbtfdc0ukYgjaMnQaR3gnU2LYirrG4L32lYa3jmGOs=;
- b=nebmK3RbML2hYy+4PxMkHLx/2A41BlmZxkFjsQUxpynQwhQDYP8rPKMxxWDEBBgbQu
- yKoSPOcyuXkL3bLf1nJelS7AOx6NHmZDV2QJKiHF33n/cFA+wM3ChxPB1tEw1DninrVk
- SeExmndQwEme0xgKQpqqzYTD1ySj8LiMVzDqJTWYgmea/bwNzkyobG19jY7rTpQ7ikuU
- 3Mq9lNGpgTo7QLE61IeCPMnH4yyzdIVggT+wTSzrMi4b3HSQE0iNq7YjgLpcppz+/sKF
- akIqOuwmRB8iCVDFFcfQ6crdFcd9qMcDlYE8MuWN/jpM5s/rWuM3SQTfbgLAYE5r4orX
- fzTw==
+ bh=0sWTB9BvFGB6WA60MMINgbzw8nAjuQT9CcbxWGyQD3o=;
+ b=As5ECIGffKKTHPAPlChoFu/j2YlHia8tpyl0eE88APmqQokXv2BZl5PcNpfpFIclFj
+ E6UBzztoumsMYYTRFrPllSuxJ5iT8Xs9tQ79GLo7gfIMOE8BDz3ePeV0qX3zBDD/wiPu
+ YjQ1Uroag4kYDd0AQ2daQuKb5jajp1in66VYBbm+nQtbmpD87H+Veuc55aCafDCsRGpu
+ wB3lZGRb6v4G2+QLPN/0m366SR4U1dbIDpzQlLagZ2C6GJs/LRpeoDahse7yczDAnuv/
+ dVnOibM9FjH6I9Wg2P1OzPfFUa6kDUP6mY2KgAWffbEKrpqe0YlYEcIpLtYwwvL78pzy
+ 0iww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1701359801; x=1701964601;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Yvbtfdc0ukYgjaMnQaR3gnU2LYirrG4L32lYa3jmGOs=;
- b=d5LCo9mZbO7TB5sXp2Hlpl2si6yf599LkA6crQLA0nmiHuyQL4Kpr2T6+MoofgCBFl
- BwURbG14+lyIveCcS/w/Cau8nb0J7L/3O66VszUaxKUAUaF5PlBUvZGPRSrs4pz9H622
- QeNXQdMOSt5TcAck5W6Yqm8BaNt7g8luIfBv6DltwP+TSmCi93yQ9iQcz5kUEKdP+KVa
- umbr3tLS6IM8eiB/kOtkcFlBf8jQgLmjpL3o39/HM8O4OjLSZF35wSE23+tIRkRckZbE
- APzdsSOKhQ72dDP8H5dpSYT+li5s5jALSUCSeNZ+WF+tpRRjEdRlSk94p+FI4KOJVN2p
- s1qw==
-X-Gm-Message-State: AOJu0YwuRfn0DVqqvH/ONZ+aLc9ItuczamGzs0nv8WQrlgf1+5bebY3g
- sJZOviwfZZVM6zEdQkmoRso=
-X-Google-Smtp-Source: AGHT+IGsSEdgmXvkMLWehieUnhkz5DRkyYhpKW9XKjn9lAcA+W/k0ia8pgSLGSBCNZTbWh63UjUhNw==
-X-Received: by 2002:a9d:66c6:0:b0:6d8:480f:7abf with SMTP id
- t6-20020a9d66c6000000b006d8480f7abfmr8615169otm.8.1701359800828; 
- Thu, 30 Nov 2023 07:56:40 -0800 (PST)
+ bh=0sWTB9BvFGB6WA60MMINgbzw8nAjuQT9CcbxWGyQD3o=;
+ b=YqbL5de1stYX3omyZp3efk3J5Kl7/IiGahMML55hIzU3o9bsfzLhGLWkg61NdxZeQw
+ yJHf/nIYB5albJNzoL4eQamXVlPz7mKQpZa14ZXTK6Ra/47Pn8YKscYKapV/kKpU44EJ
+ dk9R0/NBcGstHRpp8lNR6ylP7wCClTzfwNCcvVKDKaLcmgm6R2/V9kKJydVKotmqy21I
+ JJ2vK61iCJ3wEAKX5Dnp5QyiimwkvKeQFzBvy3NTItqWDGA5ooBg91ntA8lJZ/wc00h3
+ YtOrhYReEN+FqurI8W46c+5kBL2tZvSKaKo8llbJ1MaZvq5tqTSsNTqFGXOmJlGnYKVc
+ LRxg==
+X-Gm-Message-State: AOJu0YykbC8JOVR2qhsiOIT/iiUpmvO1e7cuSCLn3Nf4jNVXWYrnugwr
+ 7SmSBMJ3eTWxMomtrSFvsXv5l3/UZRE=
+X-Google-Smtp-Source: AGHT+IGhpeCC7WDuUm5wiohpgqJLZBDERA+sjaUEm5YoAWSiC2xyMiO8MrsIn2UVXz1odmuZv6XxQg==
+X-Received: by 2002:a05:6830:16d9:b0:6d8:57d9:23cd with SMTP id
+ l25-20020a05683016d900b006d857d923cdmr4029693otr.22.1701359801533; 
+ Thu, 30 Nov 2023 07:56:41 -0800 (PST)
 Received: from localhost.localdomain ([75.28.21.198])
  by smtp.gmail.com with ESMTPSA id
  n25-20020a9d6f19000000b006d7ff27a47esm187852otq.77.2023.11.30.07.56.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Nov 2023 07:56:40 -0800 (PST)
+ Thu, 30 Nov 2023 07:56:41 -0800 (PST)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-rockchip@lists.infradead.org
-Subject: [PATCH 7/9] clk: rockchip: Mark pclk_usb as critical on rk3568
-Date: Thu, 30 Nov 2023 09:56:22 -0600
-Message-Id: <20231130155624.405575-8-macroalpha82@gmail.com>
+Subject: [PATCH 8/9] dt-bindings: arm: rockchip: Add Powkiddy X55
+Date: Thu, 30 Nov 2023 09:56:23 -0600
+Message-Id: <20231130155624.405575-9-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231130155624.405575-1-macroalpha82@gmail.com>
 References: <20231130155624.405575-1-macroalpha82@gmail.com>
@@ -84,31 +84,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-In the reference manual under "2.8.6 NIU Clock gating reliance"
-it is stated that pclk_usb_niu has a dependency on hclk_usb_niu.
+The Powkiddy RK2023 is a handheld gaming device made by Powkiddy and
+powered by the Rockchip RK3566 SoC. This device is somewhat similar
+to the existing Powkiddy RK3566 devices, which have been grouped
+together with a previous commit[1].
 
-While the manual does not state that this is a bi-directional
-relationship it was noted that the sdmmc2 failed to operate for me in
-mmc mode if the pclk_usb was not marked as critical. The parent clock
-of the hclk_sdmmc2 is hclk_usb.
+[1] https://lore.kernel.org/linux-rockchip/20231117202536.1387815-1-macroalpha82@gmail.com/T/#m4764997cfafaca22fe677200de96caa5fb8f0005
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- drivers/clk/rockchip/clk-rk3568.c | 1 +
+ Documentation/devicetree/bindings/arm/rockchip.yaml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/clk/rockchip/clk-rk3568.c b/drivers/clk/rockchip/clk-rk3568.c
-index a8457b17bc41..0e0b7b396682 100644
---- a/drivers/clk/rockchip/clk-rk3568.c
-+++ b/drivers/clk/rockchip/clk-rk3568.c
-@@ -1596,6 +1596,7 @@ static const char *const rk3568_cru_critical_clocks[] __initconst = {
- 	"pclk_php",
- 	"hclk_usb",
- 	"hclk_vo",
-+	"pclk_usb",
- };
+diff --git a/Documentation/devicetree/bindings/arm/rockchip.yaml b/Documentation/devicetree/bindings/arm/rockchip.yaml
+index 021a0e95ba62..5e22f247ee6e 100644
+--- a/Documentation/devicetree/bindings/arm/rockchip.yaml
++++ b/Documentation/devicetree/bindings/arm/rockchip.yaml
+@@ -681,6 +681,7 @@ properties:
+           - enum:
+               - powkiddy,rgb30
+               - powkiddy,rk2023
++              - powkiddy,x55
+           - const: rockchip,rk3566
  
- static const char *const rk3568_pmucru_critical_clocks[] __initconst = {
+       - description: Radxa Compute Module 3(CM3)
 -- 
 2.34.1
 
