@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52B7E7FEC7B
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 11:05:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 482897FEC80
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 11:07:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 021FE10E6DB;
-	Thu, 30 Nov 2023 10:05:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7720A10E6DD;
+	Thu, 30 Nov 2023 10:07:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A339710E6DB
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 10:05:47 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 692E710E6D2;
+ Thu, 30 Nov 2023 10:06:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 061D061118;
- Thu, 30 Nov 2023 10:05:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32EEAC433C9;
- Thu, 30 Nov 2023 10:05:46 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id F1F87B842AF;
+ Thu, 30 Nov 2023 10:06:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04515C433C8;
+ Thu, 30 Nov 2023 10:06:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701338746;
- bh=O2WWoxTEi44H1URmj3ZurepyAkSwNGHn9e5XUr9Kk2E=;
+ s=k20201202; t=1701338816;
+ bh=GqVhB6Ga/yPMnfrjB9iHw/UqfCoHiZzrRR7jvkGXzUo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GO3DnmRXyD+X+wrA5UhtLCTd4I2x6wWVpYZg1JWHbxw4m7OYujjvNEjQhxBod6gZi
- zJ34SdZ91eQCPpsfA3A/Ds/pniN7YuNOQo6pEpAOlXUbHykcIllhtvzZvdqJHsJ6wH
- noSmUGDd1719TwiSX5gzGMyzj6QcaZ0RK8wxtZ4yIFO+ELn8Z5ncS5k0Az5qsd7G6o
- 3cap8LKytjF9hFciuap2Uk22V17c0kxgbZaboKDCJWDGNxqxsMva+T+m1sVdiBoQ7Q
- SV+1iLCPzyzRXGH9mHU46EzgnTs4fP+/ujcAa+C+KxUViqEz1mywLi/om/KBTRYdIK
- cgwCE1C5wanww==
-Date: Thu, 30 Nov 2023 11:05:43 +0100
+ b=sXUwBd4bnphyzv73uwUBVd15m1ceTPjF/onJ5HQD5GcfSi6lndyBuHghCYZCm9HGp
+ zAE9cNnhUAvFrfHW3GyIzNzQDVKvhwAXN8uajtjI3COZ/d/Wz7NIpyHf0BrEOivryt
+ jNRIpa9/ZBd19A5h2DoaJL9pPKmrFHVwjvT0ZhfNn+gilpIwsqFQw19lwsQyG6tPyp
+ J1unB6Mi9qFMXQMg4KqE62NJKfXnVjVF8QwxKQL2KAzyukn4ZifA6x0aZFadp/ARg5
+ ShonGjGP7YmcGnT1F3xV9TWMP366ANTZ4XqeWZKcUsQll/w1pa3sEuiZ+yLizFwi7c
+ SPXpyOu0dcoTg==
+Date: Thu, 30 Nov 2023 11:06:53 +0100
 From: Maxime Ripard <mripard@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v2 0/2] drm/bridge: panel: Check device dependency before
- managing device link
-Message-ID: <cmebtbqvckxlscimbtwgkyf4bkqqmr6uprqaadakz2kcvwxx4t@kj3gvgopezyy>
-References: <20231127051414.3783108-1-victor.liu@nxp.com>
- <CACRpkdZAtxh5muhbPKvmUQGtQogs3UhGxNZqnSGWoWQNUL7=9g@mail.gmail.com>
- <k65hxlckssjd46nsrlly6vjrr5nnkrakouzw5pmxgbf6ui3mdl@5ny7j7blkwyj>
- <CACRpkdbKwycpjuhMfnriqMUcbmwCTb3vJzgzCF7+ARax54q7WQ@mail.gmail.com>
- <d33ovl3ox2u74jbik2bcraeqiqplqoc57p4quapdyydqlyzrf5@vlhszortxfio>
- <CACRpkdb1DmH2NJ2nBRtGaB+9Tmbn1tzXafDSpZVxjCFnexz=3g@mail.gmail.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [RFC] drm: enable W=1 warnings by default across the subsystem
+Message-ID: <goc5tlbszvqy6kcduzllylsscvtolknhgbfpes43xvfve5ia6s@dpsgpa42poth>
+References: <20231129181219.1237887-1-jani.nikula@intel.com>
+ <72248f22-6337-487a-9979-a0d79e37a9ed@amd.com>
+ <874jh362ta.fsf@intel.com>
+ <eba23oyf4i3j6sdyqljjtgaz27brz4dxfrbtoddestjxwp5lr5@qxfj2b6szigc>
+ <87zfyva8qg.fsf@minerva.mail-host-address-is-not-set>
+ <87y1ef4lrb.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="b5ujbigdloignsuu"
+ protocol="application/pgp-signature"; boundary="l5v43uaob62lojdr"
 Content-Disposition: inline
-In-Reply-To: <CACRpkdb1DmH2NJ2nBRtGaB+9Tmbn1tzXafDSpZVxjCFnexz=3g@mail.gmail.com>
+In-Reply-To: <87y1ef4lrb.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,82 +56,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sfr@canb.auug.org.au, ulf.hansson@linaro.org, jernej.skrabec@gmail.com,
- rfoss@kernel.org, andrzej.hajda@intel.com, tzimmermann@suse.de,
- rafael@kernel.org, Liu Ying <victor.liu@nxp.com>, gregkh@linuxfoundation.org,
- neil.armstrong@linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, jonas@kwiboo.se, linux-next@vger.kernel.org,
- Laurent.pinchart@ideasonboard.com, angelogioacchino.delregno@collabora.com
+Cc: Pan@freedesktop.org, Karol Herbst <kherbst@redhat.com>,
+ intel-gfx@lists.freedesktop.org, Xinhui <Xinhui.Pan@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Danilo Krummrich <dakr@redhat.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---b5ujbigdloignsuu
-Content-Type: text/plain; charset=utf-8
+--l5v43uaob62lojdr
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Linus,
-
-On Wed, Nov 29, 2023 at 03:38:35PM +0100, Linus Walleij wrote:
-> On Wed, Nov 29, 2023 at 1:32=E2=80=AFPM Maxime Ripard <mripard@kernel.org=
-> wrote:
-> [Me]
-> > > It is a bigger evil to leave the tree broken than to enforce formal p=
-rocess,
-> > > and it is pretty self-evident. If any of them get annoyed about it we=
- can
-> > > revert the patch, or both.
+On Thu, Nov 30, 2023 at 11:46:00AM +0200, Jani Nikula wrote:
+> On Thu, 30 Nov 2023, Javier Martinez Canillas <javierm@redhat.com> wrote:
+> > Maxime Ripard <mripard@kernel.org> writes:
 > >
-> > Yeah, I definitely understand why you did it, but I don't think it's
-> > something we would encourage in drm-misc.
+> >> Hi,
+> >>
+> >> On Thu, Nov 30, 2023 at 10:52:17AM +0200, Jani Nikula wrote:
+> >>> On Wed, 29 Nov 2023, Hamza Mahfooz <hamza.mahfooz@amd.com> wrote:
+> >>> > Cc: Nathan Chancellor <nathan@kernel.org>
+> >>> >
+> >>> > On 11/29/23 13:12, Jani Nikula wrote:
+> >>> >> At least the i915 and amd drivers enable a bunch more compiler war=
+nings
+> >>> >> than the kernel defaults.
+> >>> >>=20
+> >>> >> Extend the W=3D1 warnings to the entire drm subsystem by default. =
+Use the
+> >>> >> copy-pasted warnings from scripts/Makefile.extrawarn with
+> >>> >> s/KBUILD_CFLAGS/subdir-ccflags-y/ to make it easier to compare and=
+ keep
+> >>> >> up with them in the future.
+> >>> >>=20
+> >>> >> This is similar to the approach currently used in i915.
+> >>> >>=20
+> >>> >> Some of the -Wextra warnings do need to be disabled, just like in
+> >>> >> Makefile.extrawarn, but take care to not disable them for W=3D2 or=
+ W=3D3
+> >>> >> builds, depending on the warning.
+> >>> >
+> >>> > I think this should go in after drm-misc-next has a clean build (for
+> >>> > COMPILE_TEST builds) with this patch applied. Otherwise, it will br=
+eak a
+> >>> > lot of build configs.
+> >>>=20
+> >>> Oh, I'm absolutely not suggesting this should be merged before known
+> >>> warnings have been addressed one way or another. Either by fixing them
+> >>> or by disabling said warning in driver local Makefiles, depending on =
+the
+> >>> case.
+> >>
+> >> I'm all for it, but yeah, we need some easy way to opt-in/opt-out. Some
+> >> drivers are pretty much unmaintained now and are likely to never fix
+> >> those warnings.
 >=20
-> Hm OK I guess, it can be debated but no point in debating it either.
+> Then I'd go for enabling in drm level and disabling individual warnings
+> in the driver Makefile level if they won't get fixed.
 >=20
-> > We've discussed it with Sima yesterday, and I think we would even need
-> > the extra check in dim to make sure that a committer shouldn't do that
-> > without dim complaining.
-> (...)
-> > Sima played a bit with it, and it should be doable to get something
-> > fairly reliable if you use get_maintainers.pl to retrieve the git tree
-> > (through scripts/get_maintainer.pl --no-email --no-l --scm) and figuring
-> > out if only drm.git, drm-intel.git or drm-misc.git is involved.
+> > Maybe add a Kconfig symbol for it instead of making unconditional?
 > >
-> > If it isn't, then we should check that there's the ack of one of the
-> > maintainers.
+> > Something like:
+> >
+> > +# Unconditionally enable W=3D1 warnings locally
+> > +# --- begin copy-paste W=3D1 warnings from scripts/Makefile.extrawarn
+> > +subdir-ccflags-$(CONFIG_DRM_EXTRA_CHECKS)  +=3D -Wextra -Wunused -Wno-=
+unused-parameter
+> > ...
 >=20
-> So check for any code that is hitting namespaces outside drivers/gpu/*
-> Documentation/gpu/* or include/[uapi/]drm/* that it is ACKed by the respe=
-ctive
-> maintainer for that area of the kernel?
-
-We can have something more reliable if we just check the git tree listed
-in MAINTAINERS (and returned by get_maintainers --scm). That way we
-don't have to whitelist anything, and it will always by in sync with
-MAINTAINERS.
-
-And if it's not one of drm trees, then it requires an ack from someone
-else get_maintainers will also tell you about.
-
-> > Could you write a patch to do so?
+> Then we'll have a ping pong of people not using W=3D1 or
+> CONFIG_DRM_EXTRA_CHECKS introducing warnings, and people using them
+> fixing the warnings...
 >=20
-> Patch dim? Well my bash skills are a bit so-so. But I guess I could
-> learn it. But did you say there is already a prototype?
+> I really do think making it unconditional is the only way.
 
-My shell skills are also fairly limited, so we just discussed the
-solution but didn't do a prototype yet :)
+Yeah, I agree.
+
+Plus, if we need to have an extra Kconfig option, it's pretty equivalent
+to using W=3D1
 
 Maxime
 
---b5ujbigdloignsuu
+--l5v43uaob62lojdr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWhedwAKCRDj7w1vZxhR
-xVJyAQC/BB7GistGp1TFQsAJh1CdMKlI3ncYUBM1Gp2WoVScbQEAjJ9ZU7eizhiQ
-9g0i2RZGyKnuCldJMbMjRSH6RTnYcAM=
-=WW3o
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWhevQAKCRDj7w1vZxhR
+xa0vAQD6fJNa4FE8kEV07V3ldJ9iCAtokfo8ej0NeGXCLUFJIAEApdLSDmZuQduU
+n1Ee05SRKejcP0ZEVbBiT8pmIpDGjA8=
+=I3xF
 -----END PGP SIGNATURE-----
 
---b5ujbigdloignsuu--
+--l5v43uaob62lojdr--
