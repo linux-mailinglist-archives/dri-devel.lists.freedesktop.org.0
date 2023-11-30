@@ -2,71 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2107FF010
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 14:26:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2AEB7FF0B3
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 14:51:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 794F510E2FF;
-	Thu, 30 Nov 2023 13:26:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A060F10E12B;
+	Thu, 30 Nov 2023 13:51:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B2CC10E2FF;
- Thu, 30 Nov 2023 13:26:22 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-40b4a8db331so7721775e9.3; 
- Thu, 30 Nov 2023 05:26:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701350780; x=1701955580; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kMjMwDQeJ7U3HaJX4ZxhNthwT8vrdAeuzz7BaoFMnjY=;
- b=JAhl2sDTvuoabwWpyFNweBEIpafGo7b5e6Y5EaSqnbvFoVijFm/zVr9jrt+euDbOns
- 9ycp/0V0Y5bG3QZtXkjx75/hFzr0cOHMqzwyTVaEsHsK/YgQeUkvKtEsICmRu7f/8ZMA
- ItQd/QGpumq/zAy0fwwamiGUIiFWBrCZeUwAoOwkGRkoIC6srLzoB2SWKMsZEu2JP8Ns
- Dah/CIQQucyIFt1jNCGNoIdOHvtgXhUFrTnvlO/FECqWCeU73TVXT3hjJ7JWAHtAVj9M
- yF9esZ2ItuNGYcppqqxbdduGjjuELSPoLoT408xKpCA2+YKqyGC05AZ9vMcFGivaC9z3
- WX5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701350780; x=1701955580;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kMjMwDQeJ7U3HaJX4ZxhNthwT8vrdAeuzz7BaoFMnjY=;
- b=Rpl6L/WbV2bKXS8199WtXxn8OV7K2szm6UnXAdQnG0A65xiUWQsiSSJqbQRvONCQ9z
- sKdoSaqCEFSjwISoJa/7GYNIidv8895CPycFC+RqxNOKXO0F0rzxStXOQztKUBwkddPs
- hyrdmadwUVmunqf1azaexXJPQLl8S4G4YwSA2l9kIaPFHyyU9rrJ8tABB1DynQtyzMWu
- 3XqoJLERofq1WaFaM4aoZTYiSW5Uzf0q/mN9JbNp5vPoURR7NtvEFblpdv85Wz9o9Gnl
- sLLjI6AHXFqgOwNtQroY0GuDJltZV9G/iQX6zG5RWB2h089erPXp+6c5brPVOyKd4QdL
- PfSA==
-X-Gm-Message-State: AOJu0Yw6v5ar1hmRUBjmiPLczjQf05K3SKAa64MGa07bFCam/loYVYot
- L9gCnomvXeE9ird2wZKkOUw=
-X-Google-Smtp-Source: AGHT+IF4VK2RMM99vHoNOTjMS8JYwZng9oa3EJPG40jI+yusE7jKXL9SAsLKU4Q7PP0rLS8URV59NA==
-X-Received: by 2002:a05:600c:a04:b0:40b:47f0:66b5 with SMTP id
- z4-20020a05600c0a0400b0040b47f066b5mr8748485wmp.26.1701350780275; 
- Thu, 30 Nov 2023 05:26:20 -0800 (PST)
-Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
- by smtp.gmail.com with ESMTPSA id
- v9-20020a05600c470900b004063cd8105csm5706905wmo.22.2023.11.30.05.26.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Nov 2023 05:26:19 -0800 (PST)
-Message-ID: <1e10c821-1981-4c9c-8243-dc4592bf9102@gmail.com>
-Date: Thu, 30 Nov 2023 14:26:18 +0100
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C846810E12B
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 13:50:59 +0000 (UTC)
+Received: from [100.124.219.30] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 037796607345;
+ Thu, 30 Nov 2023 13:50:54 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1701352258;
+ bh=HGnD8bUQWOaK+6RFgKTsVFZmO6HTrfFGIJlJrDox4v8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=H58wh8CHNeyKhFKLgOKBi4cHe/A5GWRrfro7BiyeAt4Jr5iSpHtao56/5Xpa0WFNt
+ iL9p94K8uIyTXndAwxXyrdNoIHY9sXoa5oBmnefTqKNP3R0jrZm8Swjg7huYA2KQi2
+ qA2dhqdwQ0MRA5G3Od4dScyaTjrYKG0aYkBzU0D3kIBfKadg5E9uG5RT6kHtSoFYVf
+ 4V0V4odklj4B0h1o/kAGP/l1KaQWj1PwW92dO9KW8DxzbwFbO/+nUqH7C+XFTFeJ/d
+ 058/Sgc7SGQkJBFyU3cqme3tnGtkMBUFdWLM7lBBh92rCW62iY4m/GSvtgeOyxYAOI
+ yAE7gIc4P+R8w==
+Message-ID: <893192db-0431-4d1f-7281-952da9979345@collabora.com>
+Date: Thu, 30 Nov 2023 19:20:50 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-buf: Correct the documentation of
- name and exp_name symbols
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v6 06/10] drm: ci: mediatek: Set IGT_FORCE_DRIVER for
+ mt8173
 Content-Language: en-US
-To: Alex Deucher <alexdeucher@gmail.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-References: <20231122160556.24948-1-Ramesh.Errabolu@amd.com>
- <c5ae3f32-0779-4583-8fe6-92f5dea5ede6@amd.com>
- <CADnq5_OJbURbVzXVypohp7gCjE+ckHkEnDD67H7KTDJZt_e3HA@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <CADnq5_OJbURbVzXVypohp7gCjE+ckHkEnDD67H7KTDJZt_e3HA@mail.gmail.com>
+To: Daniel Stone <daniel@fooishbar.org>
+References: <20231129121841.253223-1-vignesh.raman@collabora.com>
+ <20231129121841.253223-7-vignesh.raman@collabora.com>
+ <CAPj87rPKywWa8KxTCeJQz4vvgTwhPzL+y4aCX9zxZDkkfrvsoQ@mail.gmail.com>
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <CAPj87rPKywWa8KxTCeJQz4vvgTwhPzL+y4aCX9zxZDkkfrvsoQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,64 +56,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Ramesh Errabolu <Ramesh.Errabolu@amd.com>,
- dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org,
- linux-media@vger.kernel.org
+Cc: daniels@collabora.com, emma@anholt.net, david.heidelberg@collabora.com,
+ linux-arm-msm@vger.kernel.org, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ gustavo.padovan@collabora.com, helen.koike@collabora.com,
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 29.11.23 um 22:18 schrieb Alex Deucher:
-> On Wed, Nov 22, 2023 at 1:58 PM Christian König
-> <christian.koenig@amd.com> wrote:
->> Am 22.11.23 um 17:05 schrieb Ramesh Errabolu:
->>> Fix the documentation of struct dma_buf members name and exp_name
->>> as to how these members are to be used and accessed.
->>>
->>> Signed-off-by: Ramesh Errabolu <Ramesh.Errabolu@amd.com>
->> Reviewed-by: Christian König <christian.koenig@amd.com>
-> Please apply this to drm-misc.
+Hi Daniel,
 
-Done, thanks for the reminder.
+On 29/11/23 18:52, Daniel Stone wrote:
+> Hi Vignesh,
+> 
+> On Wed, 29 Nov 2023 at 12:19, Vignesh Raman <vignesh.raman@collabora.com> wrote:
+>> Expected driver for mt8173 is "mediatek" and for mt8183
+>> it is "panfrost". Set IGT_FORCE_DRIVER to 'mediatek' as
+>> the expected driver for mt8173.
+> 
+> Actually, for mt8183 it's both. And for mt8173 it will probably be
+> mediatek+pvr pretty soon. Each of these SoCs (like most Arm devices)
+> have a separate display controller and GPU, with different drivers for
+> each. They'll run different tests with different xfails. So we should
+> figure out a way to support igt running for both devices on the one
+> system.
 
-Christian.
+Agree. Will work on separate patch to test both the drivers for these 
+devices.
 
->
-> Alex
->
->>> ---
->>>    include/linux/dma-buf.h | 11 +++++++----
->>>    1 file changed, 7 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
->>> index 3f31baa3293f..8ff4add71f88 100644
->>> --- a/include/linux/dma-buf.h
->>> +++ b/include/linux/dma-buf.h
->>> @@ -343,16 +343,19 @@ struct dma_buf {
->>>        /**
->>>         * @exp_name:
->>>         *
->>> -      * Name of the exporter; useful for debugging. See the
->>> -      * DMA_BUF_SET_NAME IOCTL.
->>> +      * Name of the exporter; useful for debugging. Must not be NULL
->>>         */
->>>        const char *exp_name;
->>>
->>>        /**
->>>         * @name:
->>>         *
->>> -      * Userspace-provided name; useful for accounting and debugging,
->>> -      * protected by dma_resv_lock() on @resv and @name_lock for read access.
->>> +      * Userspace-provided name. Default value is NULL. If not NULL,
->>> +      * length cannot be longer than DMA_BUF_NAME_LEN, including NIL
->>> +      * char. Useful for accounting and debugging. Read/Write accesses
->>> +      * are protected by @name_lock
->>> +      *
->>> +      * See the IOCTLs DMA_BUF_SET_NAME or DMA_BUF_SET_NAME_A/B
->>>         */
->>>        const char *name;
->>>
->> _______________________________________________
->> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
->> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
-
+Regards,
+Vignesh
