@@ -1,53 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C95B27FE9E5
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 08:46:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9522F7FEA73
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 09:26:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C48DF10E0D2;
-	Thu, 30 Nov 2023 07:46:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F22110E116;
+	Thu, 30 Nov 2023 08:26:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53A7210E0D2
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 07:46:20 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.93.142])
- by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4SgpCn2lQnz4f3kL2;
- Thu, 30 Nov 2023 15:46:13 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
- by mail.maildlp.com (Postfix) with ESMTP id 465B31A021E;
- Thu, 30 Nov 2023 15:46:16 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.175.103.91])
- by APP1 (Coremail) with SMTP id cCh0CgDHyhC_PWhlro9ZCQ--.33759S4;
- Thu, 30 Nov 2023 15:46:16 +0800 (CST)
-From: Yang Yingliang <yangyingliang@huaweicloud.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FE1B10E116
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 08:26:07 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id CED65CE20F8;
+ Thu, 30 Nov 2023 08:26:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFA02C433C8;
+ Thu, 30 Nov 2023 08:26:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1701332763;
+ bh=QgVPutbqyRUDhDO+g/5fzn+HvfLglkD5XuWkKhqIotE=;
+ h=From:To:Cc:Subject:Date:From;
+ b=DNdXQu4TbQK+FkfP0IcS07UXpMJNwMr1GKUWjCopK2SfSX1eMERjCBC7NcOlqi/N1
+ WfEBA0V0+1S5Mcg98nFafVgGLiqTTWx//NdWikqSEvmG5FP8XD/QSAjUQhf22RJpAO
+ N/hrtMfYs1l+8aIyBUWDFutLosqQIkFGvFZ/WEb79zf2fn2CpkY8JMrZGbqwjMj0gF
+ hOsvSu1t1kPj40NJcc5A29ysGlcwmqkn1/vNTNqSzNnHlNuCVFbs4dsA1wMx+lEI7a
+ Q+lnqsuXsb4xrwUdevtEFoNoEd+Yuxqrn+/XWm4sEcUoZfPZq4dJKzMX+OJum+uqMT
+ cimG+Zm8Vdt2Q==
+From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/radeon: check the alloc_workqueue return value in
- radeon_crtc_init()
-Date: Thu, 30 Nov 2023 15:50:16 +0800
-Message-Id: <20231130075016.2784376-1-yangyingliang@huaweicloud.com>
-X-Mailer: git-send-email 2.25.1
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] accel/habanalabs/gaudi2: use correct registers to dump QM
+ CQ info
+Date: Thu, 30 Nov 2023 10:25:56 +0200
+Message-Id: <20231130082557.1783532-1-ogabbay@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: cCh0CgDHyhC_PWhlro9ZCQ--.33759S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZF1ruF15ur4kAF1UGryxAFb_yoW8JF43pr
- W3Gr9FvrZ3KwsFka47AFW7tF15Ca1fGayxZr47Cw15uw15Ar13GFyfuwnF9rykXrWfXw4j
- vF1xGw45Ar10vaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUgEb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
- 6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
- vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
- xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
- 0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
- 6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
- Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCj
- c4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4
- CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1x
- MIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJV
- Cq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIY
- CTnIWIevJa73UjIFyTuYvjxUOyCJDUUUU
-X-CM-SenderInfo: 51dqw5xlqjzxhdqjqx5xdzvxpfor3voofrz/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,44 +50,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, yangyingliang@huawei.com, alexander.deucher@amd.com,
- airlied@redhat.com, christian.koenig@amd.com
+Cc: Tomer Tayar <ttayar@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yang Yingliang <yangyingliang@huawei.com>
+From: Tomer Tayar <ttayar@habana.ai>
 
-check the alloc_workqueue return value in radeon_crtc_init()
-to avoid null-ptr-deref.
+The QM CQ PTR_LO/PTR_HI/TSIZE registers are for pushing a CQ entry, and
+although they are updated by HW even when descriptors are fetched by PQ
+and CB addresses are fed into CQ, the correct registers to use when
+dumping the CQ info are the ones with the _STS suffix.
 
-Fixes: fa7f517cb26e ("drm/radeon: rework page flip handling v4")
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+Signed-off-by: Tomer Tayar <ttayar@habana.ai>
+Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
+Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/gpu/drm/radeon/radeon_display.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/accel/habanalabs/gaudi2/gaudi2.c             | 12 ++++++------
+ .../habanalabs/include/gaudi2/asic_reg/gaudi2_regs.h | 12 ++++++------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
-index 901e75ec70ff..efd18c8d84c8 100644
---- a/drivers/gpu/drm/radeon/radeon_display.c
-+++ b/drivers/gpu/drm/radeon/radeon_display.c
-@@ -687,11 +687,16 @@ static void radeon_crtc_init(struct drm_device *dev, int index)
- 	if (radeon_crtc == NULL)
- 		return;
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index 77c480725a84..bf537c2082cd 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -7868,15 +7868,15 @@ static void handle_lower_qman_data_on_err(struct hl_device *hdev, u64 qman_base,
+ 	is_arc_cq = FIELD_GET(PDMA0_QM_CP_STS_CUR_CQ_MASK, cp_sts); /* 0 - legacy CQ, 1 - ARC_CQ */
  
-+	radeon_crtc->flip_queue = alloc_workqueue("radeon-crtc", WQ_HIGHPRI, 0);
-+	if (!radeon_crtc->flip_queue) {
-+		kfree(radeon_crtc);
-+		return;
-+	}
-+
- 	drm_crtc_init(dev, &radeon_crtc->base, &radeon_crtc_funcs);
+ 	if (is_arc_cq) {
+-		lo = RREG32(qman_base + QM_ARC_CQ_PTR_LO_OFFSET);
+-		hi = RREG32(qman_base + QM_ARC_CQ_PTR_HI_OFFSET);
++		lo = RREG32(qman_base + QM_ARC_CQ_PTR_LO_STS_OFFSET);
++		hi = RREG32(qman_base + QM_ARC_CQ_PTR_HI_STS_OFFSET);
+ 		cq_ptr = ((u64) hi) << 32 | lo;
+-		cq_ptr_size = RREG32(qman_base + QM_ARC_CQ_TSIZE_OFFSET);
++		cq_ptr_size = RREG32(qman_base + QM_ARC_CQ_TSIZE_STS_OFFSET);
+ 	} else {
+-		lo = RREG32(qman_base + QM_CQ_PTR_LO_4_OFFSET);
+-		hi = RREG32(qman_base + QM_CQ_PTR_HI_4_OFFSET);
++		lo = RREG32(qman_base + QM_CQ_PTR_LO_STS_4_OFFSET);
++		hi = RREG32(qman_base + QM_CQ_PTR_HI_STS_4_OFFSET);
+ 		cq_ptr = ((u64) hi) << 32 | lo;
+-		cq_ptr_size = RREG32(qman_base + QM_CQ_TSIZE_4_OFFSET);
++		cq_ptr_size = RREG32(qman_base + QM_CQ_TSIZE_STS_4_OFFSET);
+ 	}
  
- 	drm_mode_crtc_set_gamma_size(&radeon_crtc->base, 256);
- 	radeon_crtc->crtc_id = index;
--	radeon_crtc->flip_queue = alloc_workqueue("radeon-crtc", WQ_HIGHPRI, 0);
- 	rdev->mode_info.crtcs[index] = radeon_crtc;
+ 	lo = RREG32(qman_base + QM_CP_CURRENT_INST_LO_4_OFFSET);
+diff --git a/drivers/accel/habanalabs/include/gaudi2/asic_reg/gaudi2_regs.h b/drivers/accel/habanalabs/include/gaudi2/asic_reg/gaudi2_regs.h
+index 8018214a7b59..d21fcd3880b4 100644
+--- a/drivers/accel/habanalabs/include/gaudi2/asic_reg/gaudi2_regs.h
++++ b/drivers/accel/habanalabs/include/gaudi2/asic_reg/gaudi2_regs.h
+@@ -242,13 +242,13 @@
+ #define QM_FENCE2_OFFSET		(mmPDMA0_QM_CP_FENCE2_RDATA_0 - mmPDMA0_QM_BASE)
+ #define QM_SEI_STATUS_OFFSET		(mmPDMA0_QM_SEI_STATUS - mmPDMA0_QM_BASE)
  
- 	if (rdev->family >= CHIP_BONAIRE) {
+-#define QM_CQ_PTR_LO_4_OFFSET		(mmPDMA0_QM_CQ_PTR_LO_4 - mmPDMA0_QM_BASE)
+-#define QM_CQ_PTR_HI_4_OFFSET		(mmPDMA0_QM_CQ_PTR_HI_4 - mmPDMA0_QM_BASE)
+-#define QM_CQ_TSIZE_4_OFFSET		(mmPDMA0_QM_CQ_TSIZE_4 - mmPDMA0_QM_BASE)
++#define QM_CQ_TSIZE_STS_4_OFFSET	(mmPDMA0_QM_CQ_TSIZE_STS_4 - mmPDMA0_QM_BASE)
++#define QM_CQ_PTR_LO_STS_4_OFFSET	(mmPDMA0_QM_CQ_PTR_LO_STS_4 - mmPDMA0_QM_BASE)
++#define QM_CQ_PTR_HI_STS_4_OFFSET	(mmPDMA0_QM_CQ_PTR_HI_STS_4 - mmPDMA0_QM_BASE)
+ 
+-#define QM_ARC_CQ_PTR_LO_OFFSET		(mmPDMA0_QM_ARC_CQ_PTR_LO - mmPDMA0_QM_BASE)
+-#define QM_ARC_CQ_PTR_HI_OFFSET		(mmPDMA0_QM_ARC_CQ_PTR_HI - mmPDMA0_QM_BASE)
+-#define QM_ARC_CQ_TSIZE_OFFSET		(mmPDMA0_QM_ARC_CQ_TSIZE - mmPDMA0_QM_BASE)
++#define QM_ARC_CQ_TSIZE_STS_OFFSET	(mmPDMA0_QM_ARC_CQ_TSIZE_STS - mmPDMA0_QM_BASE)
++#define QM_ARC_CQ_PTR_LO_STS_OFFSET	(mmPDMA0_QM_ARC_CQ_PTR_LO_STS - mmPDMA0_QM_BASE)
++#define QM_ARC_CQ_PTR_HI_STS_OFFSET	(mmPDMA0_QM_ARC_CQ_PTR_HI_STS - mmPDMA0_QM_BASE)
+ 
+ #define QM_CP_STS_4_OFFSET		(mmPDMA0_QM_CP_STS_4 - mmPDMA0_QM_BASE)
+ #define QM_CP_CURRENT_INST_LO_4_OFFSET	(mmPDMA0_QM_CP_CURRENT_INST_LO_4 - mmPDMA0_QM_BASE)
 -- 
-2.25.1
+2.34.1
 
