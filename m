@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 255AE7FF7BC
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 18:06:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EEC27FF7C5
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 18:10:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B66810E737;
-	Thu, 30 Nov 2023 17:06:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A04110E036;
+	Thu, 30 Nov 2023 17:10:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5347610E74B;
- Thu, 30 Nov 2023 17:06:31 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id
- 46e09a7af769-6d7e56f6845so715133a34.0; 
- Thu, 30 Nov 2023 09:06:31 -0800 (PST)
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
+ [IPv6:2001:4860:4864:20::29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A74EB10E033;
+ Thu, 30 Nov 2023 17:10:51 +0000 (UTC)
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-1f060e059a3so569728fac.1; 
+ Thu, 30 Nov 2023 09:10:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701363990; x=1701968790; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1701364251; x=1701969051; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MlJsnM9X8S1R1QU50aDaUxRnifVbK+6ZZXWm1jW3cRo=;
- b=cF1NmBpQDCG0jfNtr8Kp0dninWSZ02eUNlP84URbYOqZRGsCXNgRYT/JwW3QZAk2CU
- 3ycA1YPw9oca0g3lHd/yuelb8+jt519PRS87lUeH1cXErv1yEibtHcjyhOlfMu3E8QSJ
- Xl73bimkHfo87QKGYpxFl2OhYzk+xP4Ep4LeTTewqNiy1Y+o3zFtCOVz8N+sP8RkgMSh
- Ge8M0Gv26YmHTKhExY7YgL4XoE0mKbOkwyoNg0IPNWPCzesm1/CVsuSrD8xOAQgd4pnd
- u2h94MYmtpbRbJY6bhu3WM+ZLHQdt8nof4uVXVEoFsdomdazoQhF4vVrEKnvL5By8Urh
- qaaA==
+ bh=P9iOH6Yd9Atg7CwHEtCTfnbvOXuGr9JGPZU/okAPF2U=;
+ b=Irrj3L86QzJyNMPYlbq6D8EXWuf2o/6KvrzOJFtWaoXPsqIEBpUoVpG+3KvhEp4HIO
+ iu3E/1NnF4Df/NlyKwj8eR3/BnmFY38gEuzH8Bq0c7WQUvraQkGcSvHSGHeQcZ6j5Axb
+ rwwy5Y7TfWyA3US1/6TSWFDnA1Gl1R/82f3nfpoaBUCd/AqO+cUE70dlNSm9KQDomj0B
+ woTcZEidcqCDUK1oAcmfrF6Sv3UEGYpWkMyKZ4+PXfaXAwfsjQowYFVUaLAIxCwG3zc3
+ AZ3PT6SaAKErigsCueAsyq7XXJYKGc+yb/7AWbgWDCHjhN61TwLG0w4/Shw298OZlBed
+ Ft6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701363990; x=1701968790;
+ d=1e100.net; s=20230601; t=1701364251; x=1701969051;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MlJsnM9X8S1R1QU50aDaUxRnifVbK+6ZZXWm1jW3cRo=;
- b=PtBGsK/gy+XTPXoYm/B5Um1TAcOYCax+1PalKjxEe4jO0BgwirdsmCs4At3SMQuEsz
- cewViEixTrQRAHFQDwEmAvseVS9Oq37jl+me44mez7wtg3ixDOhlhKzkDyWEPii9NuCP
- S8hjfCTzEDOFd9pKZOwKeZ9RbeoSVcuiSsrXTCVf3/1gkLkzqsDJNpCtzXCOlg3gR3df
- j/6kaTeJzKpmjr4Tk4y+EPdRElP35PErml8RewkdzifeRORJ5kK9n9m7fw5RARny1x5C
- aCaj9R1DCU4yxyMsxNfwGp25JZxEAUr5fZOxqi+W6Le7g2JYHLd5i5IjWKiWiHpGKQdf
- LaXA==
-X-Gm-Message-State: AOJu0Yx4kWGmUGDq7D5KZ7ltARB+CL6W/s2Be1C1hWsUixcua400wKvq
- 1MjUHgDYZORppxvX2zSdAXr32Pzh5yS90Np8JA8=
-X-Google-Smtp-Source: AGHT+IEKdlosNmIQ5WeWVkNt7+fGwMIv0iwX5QXmSbUiiJUhBwH4O/QquYnAvbeL0qpC1g0R62JMDvqxfN7qssEs27Y=
-X-Received: by 2002:a05:6870:2888:b0:1fa:1c34:98e9 with SMTP id
- gy8-20020a056870288800b001fa1c3498e9mr25202035oab.30.1701363990540; Thu, 30
- Nov 2023 09:06:30 -0800 (PST)
+ bh=P9iOH6Yd9Atg7CwHEtCTfnbvOXuGr9JGPZU/okAPF2U=;
+ b=cvunCaNxuCVQINyu5/jQ/wwD1Rtpfkz+gqvStwLBG7AcKqcWCMC653iI+dT4Z/f2Mv
+ QwUoU7YZRlUxdZ2+7Z75+30btKGxf5ZdQZhN2jeT6Id9r2SWj1H11rHu4h4aZsY1/nzh
+ sAleF5mWLPaVXW2pk89aYQylrOCipFwCYwzG3845cK8s2FsS7AsBTq7KIy/h7G2r1kKu
+ VV3Kia2EhoIUyrcQ0v5WRkTukJc94CyqIZatX1qVhXTBxdYYnFYSiqXQ+OL4iQ/OfYJQ
+ fRhuJJ8WI1QOfx4aEp1KVph+Q8+SzQ4wDX5whCzEmteTTbeRAq0AdIyLAbJrsLY1Vp48
+ hFPA==
+X-Gm-Message-State: AOJu0YwUZ3Hy+YaD7rrM5cVDNLw8xrYw0S0CXpKeR/oZwApbD2uchYzO
+ 3Gy6z5ch0gOGmhrP9YmcVcjRxbd8FpTC0BnUdrPHTUXy
+X-Google-Smtp-Source: AGHT+IFga0LIgTJHbHwZ6AI3Nebtjpu1/mE6pEvvOWdhSB39jbFHga03BX1yiAShKg5YAMwBtiEtTsJM7ArB+zNs1Mg=
+X-Received: by 2002:a05:6870:219a:b0:1fa:e115:ef6c with SMTP id
+ l26-20020a056870219a00b001fae115ef6cmr114192oae.38.1701364250763; Thu, 30 Nov
+ 2023 09:10:50 -0800 (PST)
 MIME-Version: 1.0
-References: <20231129152230.7931-1-n.zhandarovich@fintech.ru>
-In-Reply-To: <20231129152230.7931-1-n.zhandarovich@fintech.ru>
+References: <20231129152212.7879-1-n.zhandarovich@fintech.ru>
+In-Reply-To: <20231129152212.7879-1-n.zhandarovich@fintech.ru>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 30 Nov 2023 12:06:19 -0500
-Message-ID: <CADnq5_O+O-395Brq+OHR3YEDaeTwQsMseJynv4Mm3L-KotO-5g@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon/r600_cs: Fix possible int overflows in
- r600_cs_check_reg()
+Date: Thu, 30 Nov 2023 12:10:39 -0500
+Message-ID: <CADnq5_MZSG=g9UiYxWd0dAoqrkA7Bj-yVK0ExSMpsrcj8ML00A@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon/r100: Fix integer overflow issues in
+ r100_cs_track_check()
 To: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -81,51 +81,53 @@ Applied.  Thanks!
 On Wed, Nov 29, 2023 at 10:28=E2=80=AFAM Nikita Zhandarovich
 <n.zhandarovich@fintech.ru> wrote:
 >
-> While improbable, there may be a chance of hitting integer
-> overflow when the result of radeon_get_ib_value() gets shifted
-> left.
+> It may be possible, albeit unlikely, to encounter integer overflow
+> during the multiplication of several unsigned int variables, the
+> result being assigned to a variable 'size' of wider type.
 >
-> Avoid it by casting one of the operands to larger data type (u64).
+> Prevent this potential behaviour by converting one of the multiples
+> to unsigned long.
 >
 > Found by Linux Verification Center (linuxtesting.org) with static
 > analysis tool SVACE.
 >
-> Fixes: 1729dd33d20b ("drm/radeon/kms: r600 CS parser fixes")
+> Fixes: 0242f74d29df ("drm/radeon: clean up CS functions in r100.c")
 > Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
 > ---
->  drivers/gpu/drm/radeon/r600_cs.c | 4 ++--
+>  drivers/gpu/drm/radeon/r100.c | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/radeon/r600_cs.c b/drivers/gpu/drm/radeon/r6=
-00_cs.c
-> index 638f861af80f..6cf54a747749 100644
-> --- a/drivers/gpu/drm/radeon/r600_cs.c
-> +++ b/drivers/gpu/drm/radeon/r600_cs.c
-> @@ -1275,7 +1275,7 @@ static int r600_cs_check_reg(struct radeon_cs_parse=
-r *p, u32 reg, u32 idx)
->                         return -EINVAL;
->                 }
->                 tmp =3D (reg - CB_COLOR0_BASE) / 4;
-> -               track->cb_color_bo_offset[tmp] =3D radeon_get_ib_value(p,=
- idx) << 8;
-> +               track->cb_color_bo_offset[tmp] =3D (u64)radeon_get_ib_val=
-ue(p, idx) << 8;
->                 ib[idx] +=3D (u32)((reloc->gpu_offset >> 8) & 0xffffffff)=
-;
->                 track->cb_color_base_last[tmp] =3D ib[idx];
->                 track->cb_color_bo[tmp] =3D reloc->robj;
-> @@ -1302,7 +1302,7 @@ static int r600_cs_check_reg(struct radeon_cs_parse=
-r *p, u32 reg, u32 idx)
->                                         "0x%04X\n", reg);
->                         return -EINVAL;
->                 }
-> -               track->htile_offset =3D radeon_get_ib_value(p, idx) << 8;
-> +               track->htile_offset =3D (u64)radeon_get_ib_value(p, idx) =
-<< 8;
->                 ib[idx] +=3D (u32)((reloc->gpu_offset >> 8) & 0xffffffff)=
-;
->                 track->htile_bo =3D reloc->robj;
->                 track->db_dirty =3D true;
+> diff --git a/drivers/gpu/drm/radeon/r100.c b/drivers/gpu/drm/radeon/r100.=
+c
+> index affa9e0309b2..cfeca2694d5f 100644
+> --- a/drivers/gpu/drm/radeon/r100.c
+> +++ b/drivers/gpu/drm/radeon/r100.c
+> @@ -2321,7 +2321,7 @@ int r100_cs_track_check(struct radeon_device *rdev,=
+ struct r100_cs_track *track)
+>         switch (prim_walk) {
+>         case 1:
+>                 for (i =3D 0; i < track->num_arrays; i++) {
+> -                       size =3D track->arrays[i].esize * track->max_indx=
+ * 4;
+> +                       size =3D track->arrays[i].esize * track->max_indx=
+ * 4UL;
+>                         if (track->arrays[i].robj =3D=3D NULL) {
+>                                 DRM_ERROR("(PW %u) Vertex array %u no buf=
+fer "
+>                                           "bound\n", prim_walk, i);
+> @@ -2340,7 +2340,7 @@ int r100_cs_track_check(struct radeon_device *rdev,=
+ struct r100_cs_track *track)
+>                 break;
+>         case 2:
+>                 for (i =3D 0; i < track->num_arrays; i++) {
+> -                       size =3D track->arrays[i].esize * (nverts - 1) * =
+4;
+> +                       size =3D track->arrays[i].esize * (nverts - 1) * =
+4UL;
+>                         if (track->arrays[i].robj =3D=3D NULL) {
+>                                 DRM_ERROR("(PW %u) Vertex array %u no buf=
+fer "
+>                                           "bound\n", prim_walk, i);
 > --
 > 2.25.1
 >
