@@ -1,61 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0AF47FF411
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 16:56:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F187FF40C
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 16:56:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C55E210E010;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A67F910E311;
 	Thu, 30 Nov 2023 15:56:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E05F310E010
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 15:56:36 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- 46e09a7af769-6cd0963c61cso692042a34.0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 07:56:36 -0800 (PST)
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CDC410E010
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 15:56:37 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ 46e09a7af769-6d81580d696so631165a34.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 07:56:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1701359796; x=1701964596; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=TvmqJO0ppzl3rJXfbHdcHrgR5dQ8u3NxPpJslKQqqYw=;
- b=TQbmUcC74Qu42RIUdokxznzLfXMknNWbHXeUZ1vcBG1s9bYqazYAjNcpxBkKp1PuqN
- XZtgYGC8YYrWrEfg27ttKGgQ5W7crF1QTjKu9oCPFQirzlMXCVk4nr4nOBG3SDRXBo2v
- 7wv+zy+zD5r+ffHP1XcdtQzL3z++vyJxGPmvd88D0y6nA+210riNcS3qXRRf290Jc/AL
- 7T0eIwzvBRDVO69xM8Q7kJeZo8m6FRiqlgJYj6bgo0mbU09L0JX+HwmrOGzHEdSw1iVo
- 4MfYLAtwTO+T51L4sg0NgrYOScqnP5BfDJdr7IuJNH4LBEf0uMDqhyF/+hZ5yajoCku8
- i8fw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6rgTeL5s3ofedwZl2YbFthmW9shcLKv1EiL+fVf829g=;
+ b=U4RqpfC9fEJPE9+XDHgR7wElzEwAakMvV7KyYoXPWMA5g8sU3TkUivo9H8ECZVH0PJ
+ DbuFXL+jbMe7RVd9taAS5+dW0iF8MgzHtmZzSwMcbtT0TMtYs0fvyQqoZCikiWJNwtiJ
+ SmmwpO8FGoN61b6qNCa9vMoVqeA7gO0P1QM8pbZmXpUsrdmflo7Aqjq7W8j8sLoRHpV/
+ Re3iMId7o9tJ4cY9uQcWeHkfCNv1UAQurzMbELC2JM6tLlmwM4JIvPZPlwPZ1nQg4l6L
+ 3Wh16nmm8oegS7e3qecbP1FyGxR/hHVA4SWpbt3KRGUYGhRf7GxcsGnx9vLSFBWOULRN
+ q9sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1701359796; x=1701964596;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TvmqJO0ppzl3rJXfbHdcHrgR5dQ8u3NxPpJslKQqqYw=;
- b=XZ6T7Tg2G8kfp9BS6KNnFUIXDdpeqnjlqwUKzjsnzfnsvQ86rZZhWzn9G+rZqpHnJ5
- PJlEl7OsLhTII1hcBplE3Bo07TqjFfVZb/fkZYZSXrTZ71I7mBnTWedYogJgoD1dJRJF
- nxAKvWTCekvvNTT02S3N5XxpqniJ2ntgd2b/lPLO9HDzoRzZByUJrI7DM+0HnFNgLLDn
- 2h0t/ToV1Y/pL4QmRBQeT8g96uBwlNiCVsrAVPnlmDo/7MyYW6UGzymxpKqcfW7bz7He
- P5YBk2TlABq5Zsxx8WjxgvszBirb1VtWC11MhbNBEUu66VTj0PAXRKruADGpKoC/2Z/s
- dL9w==
-X-Gm-Message-State: AOJu0YxjjCxEhpSJZ0GVAYvzf6U503esX3SPmbt4MuXEXw8WDk7XjfPa
- 2VFqV47juA+6U7l9iAjGxy4=
-X-Google-Smtp-Source: AGHT+IGETl/gTp4AkG0pVc3uLa1QNZZM4WQtChA8x1bd0u1DJ9TEu3j4YaOt3w6rwoz7iauW3gsExw==
-X-Received: by 2002:a9d:7416:0:b0:6d8:17ea:e48e with SMTP id
- n22-20020a9d7416000000b006d817eae48emr16937254otk.30.1701359795998; 
- Thu, 30 Nov 2023 07:56:35 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6rgTeL5s3ofedwZl2YbFthmW9shcLKv1EiL+fVf829g=;
+ b=ktmlr1aDlrZ1GsttzxVxS0tMa8GWYGHvjbsY/lkbh1z6BHWKO9ZSz1ETWYty2+kJTg
+ PQa0MsBmkTrKYGnpNfGqt/W7lxIhXGcG2GDbi7A5IJ1B+BHiulaezy9dlvtJhq0Nw5W3
+ MaEmHpEE3nt4kdhH9pEgtGO4I0Qezrkpcong4hAk4uLpVG8ZOK1iPv0CWq5N7xDRg4Wu
+ MPf0fR75aBQr6kOwsrQ3p/oMWUxdfS3JbFwsO9aqPRJ9bou4h1EkOewaPUJcnncazU7q
+ 1g1xUOkWpQaCbwTYOIKG7PNBItUvslKPZOOfdgroh+LGzSNXHXXCJJkKwRlsy5TAK8cg
+ /kDw==
+X-Gm-Message-State: AOJu0YyZECRzHjnCj7chj398P9WOYjZS8vbElNyfT+lM2XRWcXEvH3Ck
+ S/zTQfJuzoBT9+XhyVwIGPU=
+X-Google-Smtp-Source: AGHT+IGIpq0HDFW1aPCXeHwe/OsY5YBOo1MLLv/ekDphC3bLN7juAg1D5RuJGsNdYUMwqF8OYWLbzA==
+X-Received: by 2002:a9d:7743:0:b0:6d8:328e:faa2 with SMTP id
+ t3-20020a9d7743000000b006d8328efaa2mr12216049otl.26.1701359796668; 
+ Thu, 30 Nov 2023 07:56:36 -0800 (PST)
 Received: from localhost.localdomain ([75.28.21.198])
  by smtp.gmail.com with ESMTPSA id
- n25-20020a9d6f19000000b006d7ff27a47esm187852otq.77.2023.11.30.07.56.35
+ n25-20020a9d6f19000000b006d7ff27a47esm187852otq.77.2023.11.30.07.56.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Nov 2023 07:56:35 -0800 (PST)
+ Thu, 30 Nov 2023 07:56:36 -0800 (PST)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-rockchip@lists.infradead.org
-Subject: [PATCH 0/9] rockchip: Add Powkiddy X55
-Date: Thu, 30 Nov 2023 09:56:15 -0600
-Message-Id: <20231130155624.405575-1-macroalpha82@gmail.com>
+Subject: [PATCH 1/9] drm/panel: himax-hx8394: Drop prepare/unprepare tracking
+Date: Thu, 30 Nov 2023 09:56:16 -0600
+Message-Id: <20231130155624.405575-2-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231130155624.405575-1-macroalpha82@gmail.com>
+References: <20231130155624.405575-1-macroalpha82@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,29 +84,65 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Add support for the Rockchip RK3566 based Powkiddy X55 handheld gaming
-console.
+Drop the panel specific prepare/unprepare logic. This is now tracked
+by the DRM stack [1].
 
-Chris Morgan (9):
-  drm/panel: himax-hx8394: Drop prepare/unprepare tracking
-  drm/panel: himax-hx8394: Drop shutdown logic
-  dt-bindings: display: Document Himax HX8394 panel rotation
-  drm/panel: himax-hx8394: Add Panel Rotation Support
-  dt-bindings: display: himax-hx8394: Add Powkiddy X55 panel
-  drm/panel: himax-hx8394: Add Support for Powkiddy X55 panel
-  clk: rockchip: Mark pclk_usb as critical on rk3568
-  dt-bindings: arm: rockchip: Add Powkiddy X55
-  arm64: dts: rockchip: Add Powkiddy X55
+[1] commit d2aacaf07395 ("drm/panel: Check for already prepared/enabled in
+drm_panel")
 
- .../devicetree/bindings/arm/rockchip.yaml     |   1 +
- .../bindings/display/panel/himax,hx8394.yaml  |   3 +
- arch/arm64/boot/dts/rockchip/Makefile         |   1 +
- .../boot/dts/rockchip/rk3566-powkiddy-x55.dts | 926 ++++++++++++++++++
- drivers/clk/rockchip/clk-rk3568.c             |   1 +
- drivers/gpu/drm/panel/panel-himax-hx8394.c    | 180 +++-
- 6 files changed, 1084 insertions(+), 28 deletions(-)
- create mode 100644 arch/arm64/boot/dts/rockchip/rk3566-powkiddy-x55.dts
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+---
+ drivers/gpu/drm/panel/panel-himax-hx8394.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
+diff --git a/drivers/gpu/drm/panel/panel-himax-hx8394.c b/drivers/gpu/drm/panel/panel-himax-hx8394.c
+index c73243d85de7..3823ff388b96 100644
+--- a/drivers/gpu/drm/panel/panel-himax-hx8394.c
++++ b/drivers/gpu/drm/panel/panel-himax-hx8394.c
+@@ -68,7 +68,6 @@ struct hx8394 {
+ 	struct gpio_desc *reset_gpio;
+ 	struct regulator *vcc;
+ 	struct regulator *iovcc;
+-	bool prepared;
+ 
+ 	const struct hx8394_panel_desc *desc;
+ };
+@@ -262,16 +261,11 @@ static int hx8394_unprepare(struct drm_panel *panel)
+ {
+ 	struct hx8394 *ctx = panel_to_hx8394(panel);
+ 
+-	if (!ctx->prepared)
+-		return 0;
+-
+ 	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+ 
+ 	regulator_disable(ctx->iovcc);
+ 	regulator_disable(ctx->vcc);
+ 
+-	ctx->prepared = false;
+-
+ 	return 0;
+ }
+ 
+@@ -280,9 +274,6 @@ static int hx8394_prepare(struct drm_panel *panel)
+ 	struct hx8394 *ctx = panel_to_hx8394(panel);
+ 	int ret;
+ 
+-	if (ctx->prepared)
+-		return 0;
+-
+ 	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+ 
+ 	ret = regulator_enable(ctx->vcc);
+@@ -301,8 +292,6 @@ static int hx8394_prepare(struct drm_panel *panel)
+ 
+ 	msleep(180);
+ 
+-	ctx->prepared = true;
+-
+ 	return 0;
+ 
+ disable_vcc:
 -- 
 2.34.1
 
