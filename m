@@ -1,81 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B0857FE48F
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 01:09:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEEC17FE4BE
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 01:20:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99D6B10E387;
-	Thu, 30 Nov 2023 00:09:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 045E610E6A4;
+	Thu, 30 Nov 2023 00:20:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF06510E387
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 00:09:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1701302944;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dCyXRa/HRcuMhxSELQ2U4bOOtsV2/Jacvl5LozlvP7c=;
- b=EjkN/RxMx2V8Ex7eFv7xej5HT4UKQ/Dp06w9rMxdw1WeBMxSUCGrjbEDpdOWQLqc3YoyUo
- 76Ip42Af/F+ji8T79IhxMRu8FNqzEGknqtsYStHgnx342zf5HCU7q8TAObMxjVT6ArTdK2
- 2fnTM7aUCh8zX7HhIknQZv2bAq56nZs=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-345-IkNLwX2jNeetwprvDctUXw-1; Wed, 29 Nov 2023 19:09:00 -0500
-X-MC-Unique: IkNLwX2jNeetwprvDctUXw-1
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-a177760d469so33897766b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Nov 2023 16:09:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701302939; x=1701907739;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dCyXRa/HRcuMhxSELQ2U4bOOtsV2/Jacvl5LozlvP7c=;
- b=Cu9TJcOr4KCFkbz9K1cST7VvQJyB4NT32nEOERYct7i648d2PQcU5MFNnyaAgZ2Uav
- 6oEnvGEDT3WNVsCY9arcs4bYNJCpA57O6RtOgbG9iVNLcRrhljOkkX33I2iB0IYXvUth
- Ln7RzX6gipj/JA3bs42LMZUi8SxaBfJdjQONApqWi8ozc/Scl5Q5nmwcb4HCYvRZU113
- nyZyzWEnuMkI38AJ1fzqIE6USjN8/PsX842lDGqW5kPLLbPOHjnxfy13VbJ6k95Fa3+h
- 9NhX3XXBP8k2J2HXq2FIA+Z0Nd15Y0TgWgkUbH8k9R3ySpRBGYBSIBYO1926FNZGywkj
- Em0g==
-X-Gm-Message-State: AOJu0YzYNSa/xAfvBtu7gzC3uFwnqyvl8Cx3QdcLFP3RLNLe+c3PKox/
- NrBPykq3pGiRdjrI1N+lISl2dOjpkJpb66rSlaPFWBK0fwa0NowhwxdnH478udwt1M8XY0jN4Y/
- bv60VbW0ZTOXuySvRHJXYoWTfwHe+
-X-Received: by 2002:a17:906:a8d:b0:9fe:1681:22c7 with SMTP id
- y13-20020a1709060a8d00b009fe168122c7mr13130036ejf.26.1701302939157; 
- Wed, 29 Nov 2023 16:08:59 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHtKQWiKVVfzSK2WurxuaaT+/mGIK3WRsRM0Q64/jn5Kal8vzUIheow6+DDV7rwbMg1GSX59w==
-X-Received: by 2002:a17:906:a8d:b0:9fe:1681:22c7 with SMTP id
- y13-20020a1709060a8d00b009fe168122c7mr13130025ejf.26.1701302938899; 
- Wed, 29 Nov 2023 16:08:58 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b?
- ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- ay19-20020a170906d29300b00a0c3b122a1esm26634ejb.63.2023.11.29.16.08.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Nov 2023 16:08:58 -0800 (PST)
-Message-ID: <feefd689-780c-4314-a020-00826e09472a@redhat.com>
-Date: Thu, 30 Nov 2023 01:08:57 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8084010E69B;
+ Thu, 30 Nov 2023 00:20:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701303625; x=1732839625;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=boBeUfVI6vHUqsc+PUzRFA1/WjZoBgeWQi3YhxBQiNU=;
+ b=cESvlrja1U27lXBfq199YAEHk7CQjvM7PqAx8uoXNgYVmF4Wr5AJEVXv
+ x9P24yHNRgj/WJF/ZnG5POUhrpeegiUFMrAGnkxhfinrNaW98aZS8XFX4
+ K7yTL7m730Rq+owCf22fUJtFKayxQtkX9zubVmFx9rdsc/fXM4Hkyu9Zi
+ UrSxSa3FzZplGl+clgkVlPhd8moH8v9BPpg4ukvHSObVicfU8QqBMjKw0
+ 1blLLfpQcvi9DPKtSvw07lNQUVGbe9H1+soCaCBy5XP8XpihnhLK9jWO9
+ UayexQUBxdehCI1f8HkW3RLp0+nn25w3xVlGnYC77ZejztgnfvlotrC7E A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="373429289"
+X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; d="scan'208";a="373429289"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Nov 2023 16:20:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="798099354"
+X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; d="scan'208";a="798099354"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by orsmga008.jf.intel.com with ESMTP; 29 Nov 2023 16:20:15 -0800
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v7 0/2] Resolve suspend-resume racing with GuC
+ destroy-context-worker
+Date: Wed, 29 Nov 2023 16:20:11 -0800
+Message-Id: <20231130002013.282804-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/nouveau: Removes unnecessary args check in
- nouveau_uvmm_sm_prepare
-To: Yuran Pereira <yuran.pereira@hotmail.com>
-References: <GV1PR10MB65637F4BAABFE2D8E261E1DCE8B0A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <GV1PR10MB65637F4BAABFE2D8E261E1DCE8B0A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,54 +55,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kherbst@redhat.com, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Anshuman Gupta <anshuman.gupta@intel.com>, dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/16/23 21:52, Yuran Pereira wrote:
-> Checking `args` after calling `op_map_prepare` is unnecessary since
-> if `op_map_prepare` was to be called with  NULL args, it would lead
-> to a NULL pointer dereference, thus never hitting that check.
-> 
-> Hence this check can be removed, and a note added to remind users of
-> this function to ensure that args != NULL when calling this function
-> for a map operation as it was suggested  by Danilo [1]
-> 
-> [1] https://lore.kernel.org/lkml/6a1ebcef-bade-45a0-9bd9-c05f0226eb88@redhat.com
-> 
-> Suggested-by: Danilo Krummrich <dakr@redhat.com>
-> Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+This series is the result of debugging issues root caused to
+races between the GuC's destroyed_worker_func being triggered
+vs repeating suspend-resume cycles with concurrent delayed
+fence signals for engine-freeing.
 
-Applied to drm-misc-next.
+The reproduction steps require that an app is launched right
+before the start of the suspend cycle where it creates a
+new gem context and submits a tiny workload that would
+complete in the middle of the suspend cycle. However this
+app uses dma-buffer sharing or dma-fence with non-GPU
+objects or signals that eventually triggers a FENCE_FREE
+via__i915_sw_fence_notify that connects to engines_notify ->
+free_engines_rcu -> intel_context_put ->
+kref_put(&ce->ref..) that queues the worker after the GuCs
+CTB has been disabled (i.e. after i915-gem's suspend-late).
 
-> ---
->   drivers/gpu/drm/nouveau/nouveau_uvmm.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-> index 5cf892c50f43..c8c3f1b1b604 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-> @@ -604,6 +604,10 @@ op_unmap_prepare(struct drm_gpuva_op_unmap *u)
->   	drm_gpuva_unmap(u);
->   }
->   
-> +/*
-> + * Note: @args should not be NULL when calling for
-> + * a map operation.
-> + */
->   static int
->   nouveau_uvmm_sm_prepare(struct nouveau_uvmm *uvmm,
->   			struct nouveau_uvma_prealloc *new,
-> @@ -624,7 +628,7 @@ nouveau_uvmm_sm_prepare(struct nouveau_uvmm *uvmm,
->   			if (ret)
->   				goto unwind;
->   
-> -			if (args && vmm_get_range) {
-> +			if (vmm_get_range) {
->   				ret = nouveau_uvmm_vmm_get(uvmm, vmm_get_start,
->   							   vmm_get_range);
->   				if (ret) {
+This sequence is a corner-case and required repeating this
+app->suspend->resume cycle ~1500 times across 4 identical
+systems to see it once. That said, based on above callstack,
+it is clear that merely flushing the context destruction worker,
+which is obviously missing and needed, isn't sufficient.
+
+Because of that, this series adds additional patches besides
+the obvious (Patch #1) flushing of the worker during the
+suspend flows. It also includes (Patch #2) closing a race
+between sending the context-deregistration H2G vs the CTB
+getting disabled in the midst of it (by detecing the failure
+and unrolling the guc-lrc-unpin flow) and adding an additional
+rcu_barrier in the gem-suspend flow to purge outstanding
+rcu defered tasks that may include context destruction.
+
+This patch was tested and confirmed to be reliably working
+after running ~1500 suspend resume cycles on 4 concurrent
+machines.
+
+Changes from prior revs:
+   v6: - Dont hold the spinlock while calling deregister_context
+         which can take a longer time. (Rodrigo)
+       - Fix / improve of comments. (Rodrigo)
+       - Release the ce->guc_state.lock before calling
+         deregister_context and retake it if we fail. (John/Daniele).
+   v5: - Remove Patch #3 which doesnt solve this exact bug
+         but can be a separate patch(Tvrtko).
+   v4: - In Patch #2, change the position of the calls into
+         rcu_barrier based on latest testing data. (Alan/Anshuman).
+       - In Patch #3, fix the timeout value selection for the
+         final gt-pm idle-wait that was incorrectly using a 'ns'
+         #define as a milisec timeout.
+   v3: - In Patch #3, when deregister_context fails, instead
+         of calling intel_gt_pm_put(that might sleep), call
+         __intel_wakeref_put (without ASYNC flag) (Rodrigo/Anshuman).
+       - In wait_for_suspend add an rcu_barrier before we
+         proceed to wait for idle. (Anshuman)
+   v2: - Patch #2 Restructure code in guc_lrc_desc_unpin so
+         it's more readible to differentiate (1)direct guc-id
+         cleanup ..vs (2) sending the H2G ctx-destroy action ..
+         vs (3) the unrolling steps if the H2G fails.
+       - Patch #2 Add a check to close the race sooner by checking
+         for intel_guc_is_ready from destroyed_worker_func.
+       - Patch #2 When guc_submission_send_busy_loop gets a
+         failure from intel_guc_send_busy_loop, we need to undo
+         i.e. decrement the outstanding_submission_g2h.
+       - Patch #3 In wait_for_suspend, fix checking of return from
+         intel_gt_pm_wait_timeout_for_idle to now use -ETIMEDOUT
+         and add documentation for intel_wakeref_wait_for_idle.
+         (Rodrigo).
+
+Alan Previn (2):
+  drm/i915/guc: Flush context destruction worker at suspend
+  drm/i915/guc: Close deregister-context race against CT-loss
+
+ drivers/gpu/drm/i915/gem/i915_gem_pm.c        | 10 +++
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 78 +++++++++++++++++--
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.h |  2 +
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  2 +
+ 4 files changed, 87 insertions(+), 5 deletions(-)
+
+
+base-commit: 436cb0ff9f20fadc99ec3b70c4d2ac6cb2e4410a
+-- 
+2.39.0
 
