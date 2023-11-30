@@ -1,65 +1,133 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE9B7FF42D
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 16:58:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D40247FF439
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 17:01:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2451F10E725;
-	Thu, 30 Nov 2023 15:58:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 107D210E723;
+	Thu, 30 Nov 2023 16:01:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B603710E720;
- Thu, 30 Nov 2023 15:58:53 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id
- 38308e7fff4ca-2c9c82a976bso13194971fa.3; 
- Thu, 30 Nov 2023 07:58:53 -0800 (PST)
+Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
+ [185.132.180.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2E7C10E723
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 16:01:22 +0000 (UTC)
+Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
+ by mx07-00376f01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 3AUDP2tJ019919; Thu, 30 Nov 2023 16:01:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
+ from:to:cc:subject:date:message-id:content-transfer-encoding
+ :content-type:mime-version; s=dk201812; bh=EYK1KqUTDTPl4Z7U8TQ5r
+ WJ9PaZ//BMXEk0Dmej3Mv0=; b=brB+2qiMjxuIGZ8OwyGA1sIEz72wk5X9cneAw
+ nj+mhDptvTxO1AqHWBaGNjAhw3KY9krQZwoKvyaRo8t8vC3usbfakNblbJqi/cgR
+ qadxpDkvGeWgBpdX2jxCRmZ2qDPt43qUb6kKcZEp2Fewinw7bn2YCURlIs0ijNiq
+ 7TwKZ/QNQ7skRQSZv2myOBbSoEO2KOB5i0RNSMpSeVG+PB9/cCarEQP3UbwLy38R
+ pHwDCCTkooKClP7bAupGnF+yVVXiWJ1RQYOeBQKZ60Af9RcLgP40wZgIr3KbgYXr
+ k3ncmPkkPnbXSaZuhrCFvuQwK5vybhSNg6UyXHotaBCWPnrww==
+Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3upgr70nh9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Thu, 30 Nov 2023 16:01:02 +0000 (GMT)
+Received: from HHMAIL05.hh.imgtec.org (10.100.10.120) by
+ HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 30 Nov 2023 16:01:01 +0000
+Received: from GBR01-CWX-obe.outbound.protection.outlook.com (104.47.85.40) by
+ email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
+ (version=TLS1_2, 
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
+ Transport; Thu, 30 Nov 2023 16:01:01 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y7GtfIBnrWx8AKfaGyM/sZEY+lK+GneWubR9/USTX28HD+FMzZ5HLXJGtlZegwWHAaHYNoBUU/4GWwRGOwcdrxdRk0PXe0hbTHrj4ECPnRzWCsQFalv7cUknq+mTygeZOs0/hWl0McNf1q59zuNpFKh0250VZA/fd/4MpTnzpOaDoBTxwgs9C31DAozxE0PqXhl69EpSYtA/mSxGTroNtT2A6uOH0VXcLU1o8aiR4tlKr6vL6xIB1+j7Etu13fivMAv09aJkUqeGYpZMxVquFk5YSGz2BBztgY6+hP29njStrRdrLuo+H9UY3fQCw5H6y7gP2iPs660d5KSNxcOWVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EYK1KqUTDTPl4Z7U8TQ5rWJ9PaZ//BMXEk0Dmej3Mv0=;
+ b=BxMsQKgJCi6L8EQDBw8jY5HngNUyja8QEoAo6XvMY1gq+gCKXqDlX/Gf54bv/u6WBOo7KAwlkgdHZYn36n8zTxdOcDcvxkzn5Q5kbsgJj7oupabMq161qK0o0uFiR3Y3BXOkbHhLWs9MPjx6DHX1BhxbQ3SHSWQ+0Y6hwGXLZyxXUyiyvdoAgSlgPqmVmK1Zj+Km54CTYQ+KDE+uYVEPZnZvy5u50QUgI13H7U0vMa1XWsUWcFLOV+vbmiNnh2F7fdU05IRWiaryfX/kOnAels5sCzHDXzorh/Ntxc9JKE/dgCFBeC/9jr+bf2lKFeOhMRotMCXR1lgPUcN6arASgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
+ dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701359932; x=1701964732; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dMfpPWvvOS/pqqTijpiTUrfaw4nNKBiKYLTOjNXXmQM=;
- b=ENMuqosXixRRwUDdF3OomG1xC2Lut6c+Lae6U7Pc/Ea6ZofJEw+Y8H8x0q2aNT4XzD
- dX0arxOgmep+tSkl7IRxWaD0lBknh3PcJip/Hkhd7qcIwzXNaCwnjAqbgEQ2Ngmh2F4K
- irkl7ksX82i8OEBqWK+IiBEnkAdOjFjXqfC30AA/03KebaUXJlZZAQD1wZkQqjSWDTdI
- WDM9OLIeYMapzh6PUJyljwejQrcXRgEpzpitQgg5DCuAWQK+tBvc8ep6Fp+M15WX3/Mp
- ad7R7ULGXNWe/0sJuV2SaPTU/XP+7DIC5xDAD/hJ/mckFvt4PW0zBFBGkIK37VmKIEF7
- zjEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701359932; x=1701964732;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dMfpPWvvOS/pqqTijpiTUrfaw4nNKBiKYLTOjNXXmQM=;
- b=wSfYPDeqNplY+IWMyaFcPKslW5bxrIN+z61as9MADiIzpZxPURjP0YpmXukIuh6Fir
- h3brM9lH/8OiSA+XLxUwVi1mEtsBMWNDb6hsMcF5gqCLAZuTtnrB4mB1vCBoTLH2d5qf
- +woc6twnIO07QD1kT1G1XhK2OwH4kHptoHf7PpFecnIql0TcdqTIX4ERZU/0+R9cPHcY
- J2Cixgse9KxgzjMw9JVweMolZgeE1FTyBEfRL6jBiGvqIhAUu9mk7bcawJDxjkaQkjHD
- O33xs0RTe/Rf6U1NVB45v5CzXTXw6wx/YrJ2XC3XPzvAFhg7To9xXSDsQc49VrlViyhP
- JHKw==
-X-Gm-Message-State: AOJu0YykqY6k8RNur12kqLCfNTLbgLI8kpDg2V8esivwoNu45KJT1F6t
- US3NXsxaD9u+783dU0HTmRea/lQt66I4oPLnQU6F0MmG
-X-Google-Smtp-Source: AGHT+IH2AjCWu6xpohb9lGVdGtan2lRuEIdIaB760syTV7hgBQ9rT+fD5P5Wca9J9sqwNrI6WWsQUm+/KOJ6TaK6rQM=
-X-Received: by 2002:ac2:55ad:0:b0:50b:bfaa:317b with SMTP id
- y13-20020ac255ad000000b0050bbfaa317bmr5044312lfg.11.1701359931507; Thu, 30
- Nov 2023 07:58:51 -0800 (PST)
+ d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EYK1KqUTDTPl4Z7U8TQ5rWJ9PaZ//BMXEk0Dmej3Mv0=;
+ b=c39FrDSpG9m6hh9cUiNuGcg9CQt+Hj5gfYA8Xzv7m6pN6WyWfi54TO3tqDpPK1MUQ1K4GnAJqadHuN8TdUchdT5bqM9fEtH0lUm0e555tRZW/uhaBjjyhEhNBH1H843eX0vh4wUOgvn9BUxl/slMVH2426Tl81JHWFK0osmpqaU=
+Received: from CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1a0::8)
+ by LO3P265MB2410.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:be::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.23; Thu, 30 Nov
+ 2023 16:00:59 +0000
+Received: from CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::a85a:76f7:c085:2b34]) by CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::a85a:76f7:c085:2b34%3]) with mapi id 15.20.7046.024; Thu, 30 Nov 2023
+ 16:00:59 +0000
+From: Donald Robson <donald.robson@imgtec.com>
+To: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 1/5] drm/imagination: Fixed warning due to implicit cast to
+ bool
+Date: Thu, 30 Nov 2023 16:00:13 +0000
+Message-Id: <20231130160017.259902-1-donald.robson@imgtec.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO3P123CA0033.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:388::11) To CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:400:1a0::8)
 MIME-Version: 1.0
-References: <20231117195626.13599-1-alexander.deucher@amd.com>
- <a42a4321-9dce-4c76-9578-8ea665b874f8@gmail.com>
- <CADnq5_NiHRhDJt+bkdy35GPfTaTUdSRrf_aVVQobfFgayHP2hw@mail.gmail.com>
- <CAF6AEGvVdnTsj1DZjOYn6YaygEqsJDkAUzbF_thgAw2CTLfBxA@mail.gmail.com>
- <9853f121-be57-4be1-9fc6-247254a12653@gmail.com>
-In-Reply-To: <9853f121-be57-4be1-9fc6-247254a12653@gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 30 Nov 2023 07:58:38 -0800
-Message-ID: <CAF6AEGtvB0Cf=c==TOaYFYWHUDQg5x8TuJNUHm--Nz5x786cdw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: add shared fdinfo stats
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP265MB5770:EE_|LO3P265MB2410:EE_
+X-MS-Office365-Filtering-Correlation-Id: 248372c1-1e13-456d-173f-08dbf1bd8b94
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FMPyjV6qRfpCbdiGlydpIPlCrCebRK/zeGUw3Od1KzBWC6m7inobQHZFiOW1iXFROMrNO/1NnjRqHzHgBizKAbocINjxyzVwRlJ7RCSzdp937d9mpngfXV6TnS4FSZu4nHO6gdIMmp12ZQtnhJC7iAlXk/Mkj7fuNEC7Sb4oc69j0eGDVMYOn5AU3JK/fzLBHmuEe/tFu4Ox3E+1vKmGbF4uEJ/uHvYKHH/5FCHb0I696MBqcysFZctYzlsXB2eoqZQnJZSNE/n/kqtz7u0f0HlDTgCTR9QeXsryr2iZD+BFQFgBptKFZ52LXvDbeiM6FduRmqnGlFSsD0bF0mEo/0mlV6tZO2HCa22gs343iAvAOvUkGsf2BG2U6Y+tGh9sRum8RfB/BWOXaCJdjwQ2hLleDhb7cCMyMBby6aUARiZ1B6+qSBd8Eqqr9ommhsKVgBcDla6Ohk8k/Sr0OxBcy45fwBbOw3JobT8FcO4vJP1HarwtT/sDzXVaoOY/lb11Bs51/z5WRewDmz/DQHH+ocWrxalbxy/oymiIZCLhtLOo3mOXr/zsGELE+vM4pK0pm/fqtHt4hURWkCop1/i4Nr/uEZ6P6niVqjAXbnzYM3WPAyNVAf+RBAhObF2fwgCQjxDjoX+AZshC7SFjq10X2g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(376002)(136003)(39850400004)(346002)(396003)(230922051799003)(230173577357003)(230273577357003)(186009)(64100799003)(451199024)(1800799012)(83380400001)(26005)(1076003)(2616005)(38350700005)(66946007)(316002)(66476007)(66556008)(2906002)(5660300002)(4326008)(44832011)(8936002)(8676002)(86362001)(478600001)(6506007)(52116002)(6512007)(36756003)(41300700001)(6486002)(966005)(6666004)(38100700002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rvFEvx1ENBv2d2XnrV+ydSRxxaxFiJ788T/MrE8Vk8CDiKMGH6kAG8keF33X?=
+ =?us-ascii?Q?BNTITO374YgG/jN1xK/0zHI1LnI7SZ0UfWfSu7E6vMrNpZEbp/eNSR7vSDuZ?=
+ =?us-ascii?Q?JlV7i3Q/f+oY8GoMTEwPEzC6RMJEyW9BrsOatHmkGlMHszXCdgpYKrL1g7oe?=
+ =?us-ascii?Q?e+HugB/ESVVMzuvhatV+VChGGWHkLiswN3cBjqarQSj+0eNJh36X0zmm2dOq?=
+ =?us-ascii?Q?/UJGPI4TR59vX1IIHempiwX8GVr1uFDEq5Qt6uGQ0M/T0WTbi1oCQZsRprc3?=
+ =?us-ascii?Q?DvE7MI76FlvGeDwvIjGWmL35Oi0td9JzbnVSh1rbSvjptZo8YtIzjYIoxees?=
+ =?us-ascii?Q?sO3ry5v2VBYj46+K6QSgUza32kNjNQ7RmIavE0IVsUWh307aqACDGVPdqPf6?=
+ =?us-ascii?Q?5XPepfaYM5m7cZmHe0gnbrLI+bKFr3GDuXkbhd8/oXc6YMapLmrVJi+6rUvb?=
+ =?us-ascii?Q?f7ApzlxdytrcYNiz7aO1pkFnvnzfGuCgscCT2Bsmsjl6PlIZsRrD23gKINBL?=
+ =?us-ascii?Q?gOzWV7qTqVT+/4Q7+zlbBJDtxJwzh1I/KNVZK0pbIkOFtXKbEPi7xg99oOdq?=
+ =?us-ascii?Q?DL77gDUkKomCGPb1Asa1gLA+w9bf333ZSwBbcMExtOmicQKVVZ8f5XZyNO85?=
+ =?us-ascii?Q?jztxn0VKWYPNqQ5o9K2XonqhPQdbx94+643S281UbH9GkU4/GvaRhbZMmmbb?=
+ =?us-ascii?Q?HQNTb4h7qrdZ4vHqIaGtQwfLQuryGCdOi4ViG4NMgFGmgW/Klz8IKKTVrY4T?=
+ =?us-ascii?Q?H04AtSU/2SPy6FoSufndryQhd9fmLLAikeRybyVBui7MKsaODRcQIV0Deh7m?=
+ =?us-ascii?Q?waUMb4xArco8Fcq8u487NZOl5iypEUv/HinJ0goK9koVrSMUoVLeaebkfghs?=
+ =?us-ascii?Q?6BfNs+nAx8EXnwlrsmb1WJD8EjnsihNQGppu/LtlHtIFH2jpYOg8tY0rFAxF?=
+ =?us-ascii?Q?3PNlndTVyHMZ6n7qQnG9J34YlrARKJNe65IZkOXC/tIXyP1Fgy37OiBrz+tS?=
+ =?us-ascii?Q?OoBftmH/Swxx0oDhNddvEMrUjPusi7xnGH37lUi6qDpS20tZcrDeVOoUUYA6?=
+ =?us-ascii?Q?PeTOj0Br7dd0zO7NCLdoNNDs1OFw5Agc64gfS7HfekAvKfKZzw3p7cAGWYSP?=
+ =?us-ascii?Q?/SU6cbeiFcvZNU73HUXc/8kV8JZs6wkmTo/qnjRuSo0FjgrKM9YmMwv+nJw7?=
+ =?us-ascii?Q?vIbHjIfU5yjXSJYxN7KPdpzq4vxz2CL/wKp+1dIVH8DstfNGzrWr9eA5kDlF?=
+ =?us-ascii?Q?JcyBbuxXUrLNt86APvT54ukUMleAKuUVy28IV+Arhpv21RNo90o0g/X4v+XW?=
+ =?us-ascii?Q?6iMW8Kh+tVJXZ0ms7L/WktX1Q/+450XDOFAjVVY7EOHJpaLjnTcmgevLqFjx?=
+ =?us-ascii?Q?SZqyPQCpkyqY+IvmE+pqZW+fBwpAuZWwB2yGWlO31ntXHHZ13OMYMThEYyDD?=
+ =?us-ascii?Q?yUb+LZ/NWk6GSUlFeMAwPGpKwREC01BqFrFg0J/Z45v4IM8XmVbcu704oPzk?=
+ =?us-ascii?Q?kAr9qE+6z2aXPwYeNUFK3vtvaauXAzj1rwnBv/9T197mnKQkmrpnJTCZCQLE?=
+ =?us-ascii?Q?e8gETSPS1WiovJWja6cPM8eNv4mJd/3mvqgVRkdg5JB8slPpSdTLIbbmiGuY?=
+ =?us-ascii?Q?QA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 248372c1-1e13-456d-173f-08dbf1bd8b94
+X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2023 16:00:59.7579 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JF7Uc0WMzcRkDpOMzvCEFOEMzGwlnYjX2/wKkQ0vgMNIeG50IrOP9ZJnQF5gOhbel/tk44ErFWfmsuVHuowm4UhQrzT/rTwIuNKrKX78YEQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO3P265MB2410
+X-OriginatorOrg: imgtec.com
+X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
+X-Proofpoint-ORIG-GUID: rLKPciWTK4LyM_Akzqp-J86nkaU1v3da
+X-Proofpoint-GUID: rLKPciWTK4LyM_Akzqp-J86nkaU1v3da
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,181 +140,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Rob Clark <robdclark@chromium.org>, amd-gfx@lists.freedesktop.org,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: mripard@kernel.org, matt.coster@imgtec.com, boris.brezillon@collabora.com,
+ donald.robson@imgtec.com, tzimmermann@suse.de,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 30, 2023 at 5:13=E2=80=AFAM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Am 28.11.23 um 18:52 schrieb Rob Clark:
-> > On Tue, Nov 28, 2023 at 6:28=E2=80=AFAM Alex Deucher <alexdeucher@gmail=
-.com> wrote:
-> >> On Tue, Nov 28, 2023 at 9:17=E2=80=AFAM Christian K=C3=B6nig
-> >> <ckoenig.leichtzumerken@gmail.com> wrote:
-> >>> Am 17.11.23 um 20:56 schrieb Alex Deucher:
-> >>>> Add shared stats.  Useful for seeing shared memory.
-> >>>>
-> >>>> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> >>>> ---
-> >>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c |  4 ++++
-> >>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 11 +++++++++++
-> >>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  6 ++++++
-> >>>>    3 files changed, 21 insertions(+)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c b/drivers/gp=
-u/drm/amd/amdgpu/amdgpu_fdinfo.c
-> >>>> index 5706b282a0c7..c7df7fa3459f 100644
-> >>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> >>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c
-> >>>> @@ -97,6 +97,10 @@ void amdgpu_show_fdinfo(struct drm_printer *p, st=
-ruct drm_file *file)
-> >>>>                   stats.requested_visible_vram/1024UL);
-> >>>>        drm_printf(p, "amd-requested-gtt:\t%llu KiB\n",
-> >>>>                   stats.requested_gtt/1024UL);
-> >>>> +     drm_printf(p, "drm-shared-vram:\t%llu KiB\n", stats.vram_share=
-d/1024UL);
-> >>>> +     drm_printf(p, "drm-shared-gtt:\t%llu KiB\n", stats.gtt_shared/=
-1024UL);
-> >>>> +     drm_printf(p, "drm-shared-cpu:\t%llu KiB\n", stats.cpu_shared/=
-1024UL);
-> >>>> +
-> >>>>        for (hw_ip =3D 0; hw_ip < AMDGPU_HW_IP_NUM; ++hw_ip) {
-> >>>>                if (!usage[hw_ip])
-> >>>>                        continue;
-> >>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gp=
-u/drm/amd/amdgpu/amdgpu_object.c
-> >>>> index d79b4ca1ecfc..c24f7b2c04c1 100644
-> >>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> >>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> >>>> @@ -1287,25 +1287,36 @@ void amdgpu_bo_get_memory(struct amdgpu_bo *=
-bo,
-> >>>>                          struct amdgpu_mem_stats *stats)
-> >>>>    {
-> >>>>        uint64_t size =3D amdgpu_bo_size(bo);
-> >>>> +     struct drm_gem_object *obj;
-> >>>>        unsigned int domain;
-> >>>> +     bool shared;
-> >>>>
-> >>>>        /* Abort if the BO doesn't currently have a backing store */
-> >>>>        if (!bo->tbo.resource)
-> >>>>                return;
-> >>>>
-> >>>> +     obj =3D &bo->tbo.base;
-> >>>> +     shared =3D obj->handle_count > 1;
-> >>> Interesting approach but I don't think that this is correct.
-> >>>
-> >>> The handle_count is basically how many GEM handles are there for BO, =
-so
-> >>> for example it doesn't catch sharing things with V4L.
-> >>>
-> >>> What we should probably rather do is to take a look if
-> >>> bo->tbo.base.dma_buf is NULL or not.
-> >> +Rob, dri-devel
-> >>
-> >> This is what the generic drm helper code does.  See
-> >> drm_show_memory_stats().  If that is not correct that code should
-> >> probably be fixed too.
-> > OTOH, v4l doesn't expose fdinfo.  What "shared" is telling you is
-> > whether the BO is counted multiple times when you look at all
-> > processes fdinfo.
->
-> Oh, then that's not fully correct either.
->
-> You can have multiple handles for the same GEM object in a single client
-> as well.
->
-> This for example happens when you interact with KMS to get an handle for
-> a displayed BO.
+This line appears to confuse the compiler and had been noticed previously in
+clang-tidy output. There isn't anything fundamentally wrong that I can see.
+I suspect that it just looks like a mistake - hence the first note.  By making
+the second operand an actual bool result, const correctness can be preserved
+while silencing the warning.
 
-so, the handle is unique per drm_file which is (at least usually)
-unique per process.  The handle_count is agnostic to _how_ you got the
-handle (ie. via flink or dma-buf)
+>> drivers/gpu/drm/imagination/pvr_device_info.c:230:47: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+     230 |         } else if (features_size == mapping_max_size && (mapping_max & 63)) {
+         |                                                      ^  ~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/imagination/pvr_device_info.c:230:47: note: use '&' for a bitwise operation
+     230 |         } else if (features_size == mapping_max_size && (mapping_max & 63)) {
+         |                                                      ^~
+         |                                                      &
+   drivers/gpu/drm/imagination/pvr_device_info.c:230:47: note: remove constant to silence this warning
+     230 |         } else if (features_size == mapping_max_size && (mapping_max & 63)) {
+         |                                                     ~^~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
-> DRM flink was one of the major other reasons, but I hope we are not
-> using that widely any more.
->
-> What exactly is the purpose? To avoid counting a BO multiple times
-> because you go over the handles in the common code?
->
-> If yes than I would say use obj->handle_count in the common code and
-> ob->dma_buf in amdgpu because that is certainly unique.
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202311241752.3iLyyFcA-lkp@intel.com/
+Fixes: 1ff76f7a5b45 ("drm/imagination: Add GPU ID parsing and firmware loading")
+Signed-off-by: Donald Robson <donald.robson@imgtec.com>
+---
+ drivers/gpu/drm/imagination/pvr_device_info.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Because the drm_file is (usually) unique per process, the purpose was
-to show the amount of memory that is getting counted against multiple
-processes.  The intention behind using handle_count was just that it
-didn't care _how_ the buffer was shared, just that it is mapped into
-more than a single drm_file.
+diff --git a/drivers/gpu/drm/imagination/pvr_device_info.c b/drivers/gpu/drm/imagination/pvr_device_info.c
+index 11e6bef52ecd..d3301cde7d11 100644
+--- a/drivers/gpu/drm/imagination/pvr_device_info.c
++++ b/drivers/gpu/drm/imagination/pvr_device_info.c
+@@ -227,7 +227,8 @@ int pvr_device_info_set_features(struct pvr_device *pvr_dev, const u64 *features
+ 	/* Verify no unsupported values in the bitmask. */
+ 	if (features_size > mapping_max_size) {
+ 		drm_warn(from_pvr_device(pvr_dev), "Unsupported features in firmware image");
+-	} else if (features_size == mapping_max_size && (mapping_max & 63)) {
++	} else if (features_size == mapping_max_size &&
++		   ((mapping_max & 63) != 0)) {
+ 		u64 invalid_mask = ~0ull << (mapping_max & 63);
+ 
+ 		if (features[features_size - 1] & invalid_mask)
+-- 
+2.25.1
 
-Maybe amd userspace is doing something unique that I'm not aware of?
-
-BR,
--R
-
-> Regards,
-> Christian.
->
-> >
-> > But I guess it would be ok to look for obj->handle_count > 1 || obj->dm=
-a_buf
-> >
-> > BR,
-> > -R
-> >
-> >> Alex
-> >>
-> >>> Regards,
-> >>> Christian.
-> >>>
-> >>>
-> >>>> +
-> >>>>        domain =3D amdgpu_mem_type_to_domain(bo->tbo.resource->mem_ty=
-pe);
-> >>>>        switch (domain) {
-> >>>>        case AMDGPU_GEM_DOMAIN_VRAM:
-> >>>>                stats->vram +=3D size;
-> >>>>                if (amdgpu_bo_in_cpu_visible_vram(bo))
-> >>>>                        stats->visible_vram +=3D size;
-> >>>> +             if (shared)
-> >>>> +                     stats->vram_shared +=3D size;
-> >>>>                break;
-> >>>>        case AMDGPU_GEM_DOMAIN_GTT:
-> >>>>                stats->gtt +=3D size;
-> >>>> +             if (shared)
-> >>>> +                     stats->gtt_shared +=3D size;
-> >>>>                break;
-> >>>>        case AMDGPU_GEM_DOMAIN_CPU:
-> >>>>        default:
-> >>>>                stats->cpu +=3D size;
-> >>>> +             if (shared)
-> >>>> +                     stats->cpu_shared +=3D size;
-> >>>>                break;
-> >>>>        }
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gp=
-u/drm/amd/amdgpu/amdgpu_object.h
-> >>>> index d28e21baef16..0503af75dc26 100644
-> >>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> >>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
-> >>>> @@ -138,12 +138,18 @@ struct amdgpu_bo_vm {
-> >>>>    struct amdgpu_mem_stats {
-> >>>>        /* current VRAM usage, includes visible VRAM */
-> >>>>        uint64_t vram;
-> >>>> +     /* current shared VRAM usage, includes visible VRAM */
-> >>>> +     uint64_t vram_shared;
-> >>>>        /* current visible VRAM usage */
-> >>>>        uint64_t visible_vram;
-> >>>>        /* current GTT usage */
-> >>>>        uint64_t gtt;
-> >>>> +     /* current shared GTT usage */
-> >>>> +     uint64_t gtt_shared;
-> >>>>        /* current system memory usage */
-> >>>>        uint64_t cpu;
-> >>>> +     /* current shared system memory usage */
-> >>>> +     uint64_t cpu_shared;
-> >>>>        /* sum of evicted buffers, includes visible VRAM */
-> >>>>        uint64_t evicted_vram;
-> >>>>        /* sum of evicted buffers due to CPU access */
->
