@@ -2,57 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5A17FEE09
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 12:35:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 988F07FEECA
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 13:20:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 285C210E504;
-	Thu, 30 Nov 2023 11:34:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBDB010E0E8;
+	Thu, 30 Nov 2023 12:20:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61B3010E6DF
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 11:34:50 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id
- 5614622812f47-3b85d97a529so130249b6e.0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 03:34:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1701344089; x=1701948889; darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=XHw80n538+Gx5ghn40vIbarPIkmDFhTkXdjB2fzx/LU=;
- b=TvgH8inO0MW7ptFVPd5w1Qp9Gl9fv1cMJQW9jXY63e5EC5mn7pAA8bLv3dVIJYFF10
- GK8AJ3P+Nb9RXlDB0yngpYWDz+xt1UAgrUC1SnTI19mZKjQW7nGsdoRPse0i73Pj6yjC
- WuaBeSUawLmINqu8o1V7zh+jng55HknVB4SIA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701344089; x=1701948889;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XHw80n538+Gx5ghn40vIbarPIkmDFhTkXdjB2fzx/LU=;
- b=qGWcb62RbH1yJ5O8sBNdNNRSH26hUFNgRVHRx0pAJTRz1nebMFJtKkheqS3GP3KC80
- PcKODnOWCBssb8REevv3shMlRALnUVK3v7xzEQw2hMiV+KFfafEltUEDfJ0XUJTyYwKq
- blEuaC379UeEjMKJX4uTkTonymL2+hUcNYrL4vRmMJMYwl2HtS0e15+wlacsssugHxM+
- sNoxF1QxRVcUA6uTizS/nlNFoW2465V+9odgcnbXrr5roFKT+7McSrxDBPQFhgeYjLU2
- MbcGbwmVA1VDl6uz67BY5JEP5yHNMiRTxjMuRbqlXVrpAYW7pJxpZoXUuNr1IufYhpGJ
- tLpg==
-X-Gm-Message-State: AOJu0Ywuu4+ybKY8TvDvjs3w/KQNGg2bDOj6Fz+GyNPzS1/6PNzoNLwa
- j1W0UcQnXc1ILg3PbxWxRL8DH0lFNRRq+zQiuSSbWA==
-X-Google-Smtp-Source: AGHT+IH0N/VIzZwe567QMp3cIDizl5ebBnGHUsjq9IIB8lLm8pqaq5ZetdamDtbtwXmfJNw703wAjffh1A9ZXlOIsCM=
-X-Received: by 2002:a05:6870:168d:b0:1fa:132a:ad11 with SMTP id
- j13-20020a056870168d00b001fa132aad11mr23165211oae.2.1701344089322; Thu, 30
- Nov 2023 03:34:49 -0800 (PST)
+Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.220])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1669F10E0E8
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 12:20:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=62A33
+ cf5Af2cRWDLxsHpxRpMh1AsaOXYK73nIWVv3Jc=; b=jN2Msd0ypXsyxZfwnIQ78
+ BVr1StiSjinLOGpr16iu0Cwe84MmB2B5n07nCO1GDV3RovIf+LYgXuD0vwVMYbX5
+ p/zg3UH/TEiISMo8hcE/XhTpysK0kHaDDpw7Aq2BVt+EtHP6BW021Vn07q8h3GxG
+ 8eO/J63j79rLZj8qrSAq2Q=
+Received: from ProDesk.. (unknown [58.22.7.114])
+ by zwqz-smtp-mta-g1-0 (Coremail) with SMTP id _____wDXn9LyfWhl2DkWBg--.29823S2;
+ Thu, 30 Nov 2023 20:20:07 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: heiko@sntech.de
+Subject: [PATCH v3 00/14] Add VOP2 support on rk3588
+Date: Thu, 30 Nov 2023 20:20:01 +0800
+Message-Id: <20231130122001.12474-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20231116195812.906115-1-mwen@igalia.com>
- <bc60a7fd-8de7-4856-b5ed-e1172b9b79f7@amd.com>
-In-Reply-To: <bc60a7fd-8de7-4856-b5ed-e1172b9b79f7@amd.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 30 Nov 2023 12:34:37 +0100
-Message-ID: <CAKMK7uH1BPhEm8vM=rFfAho06T-f+osjKX4ofOkjMazrhSouKw@mail.gmail.com>
-Subject: Re: [PATCH v5 00/32] drm/amd/display: add AMD driver-specific
- properties for color mgmt
-To: Harry Wentland <harry.wentland@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wDXn9LyfWhl2DkWBg--.29823S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCrW7tr4UAr4UXF48Wr4fuFg_yoWrGF4fp3
+ 95CryYqrWxCFW2qrs3tw1rCrWftan7Aay3K393JanIv3W3KFyUKwnIg3Z5Zr9xWr1xZFy2
+ kF45J347Wr42vr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jrcTPUUUUU=
+X-Originating-IP: [58.22.7.114]
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEBQ4XmVOAqtRyAABs4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,110 +48,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
- Sebastian Wick <sebastian.wick@redhat.com>,
- Shashank Sharma <Shashank.Sharma@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
- Alex Hung <alex.hung@amd.com>, kernel-dev@igalia.com, sunpeng.li@amd.com,
- mripard@kernel.org, Melissa Wen <mwen@igalia.com>, sungjoon.kim@amd.com,
- Pekka Paalanen <pekka.paalanen@collabora.com>, Xinhui.Pan@amd.com,
- Xaver Hugl <xaver.hugl@gmail.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, tzimmermann@suse.de,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
- Joshua Ashton <joshua@froggi.es>
+Cc: devicetree@vger.kernel.org, chris.obbard@collabora.com, hjc@rock-chips.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kever.yang@rock-chips.com, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ Andy Yan <andy.yan@rock-chips.com>, sebastian.reichel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 28 Nov 2023 at 23:11, Harry Wentland <harry.wentland@amd.com> wrote:
->
-> On 2023-11-16 14:57, Melissa Wen wrote:
-> > Hello,
-> >
-> > This series extends the current KMS color management API with AMD
-> > driver-specific properties to enhance the color management support on
-> > AMD Steam Deck. The key additions to the color pipeline include:
-> >
->
-> snip
->
-> > Melissa Wen (18):
-> >   drm/drm_mode_object: increase max objects to accommodate new color
-> >     props
-> >   drm/drm_property: make replace_property_blob_from_id a DRM helper
-> >   drm/drm_plane: track color mgmt changes per plane
->
-> If all patches are merged through amd-staging-drm-next I worry that
-> conflicts creep in if any code around replace_property_blob_from_id
-> changes in DRM.
->
-> My plan is to merge DRM patches through drm-misc-next, as well
-> as include them in the amd-staging-drm-next merge. They should then
-> fall out at the next amd-staging-drm-next pull and (hopefully)
-> ensure that there is no conflict.
->
-> If no objections I'll go ahead with that later this week.
+From: Andy Yan <andy.yan@rock-chips.com>
 
-Double-merging tends to be the worst because git doesn't realize the
-commits match, which actually makes the conflicts worse when they
-happen (because the 3-way merge diff gets absolute confused by all the
-changed context and misplaces everything to the max). So please don't,
-_only_ every cherry-pick when a patch in -next is also needed in
--fixes, and we didn't put it into the right tree. But even that is a
-bit tricky and should only be done by maintainers (using dim
-cherry-pick if it's drm-misc) because the conflicts tend to be bad and
-need to be sorted out with backmerges sooner than later.
+This patch sets aims at enable the VOP2 support on rk3588.
 
-For this case merge everything through one tree with the right acks,
-pull to drm-next asap and then backmerge into the other tree. Here
-probably amdgpu-next with drm-misc maintainer acks for the 3 core
-patches. Or if amdgpu-next pull won't come for a while, put them into
-drm-misc-next and just wait a week until it's in drm-next, then
-forward amdgpu-next.
+Main feature of VOP2 on rk3588:
+Four video ports:
+VP0 Max 4096x2160
+VP1 Max 4096x2160
+VP2 Max 4096x2160
+VP3 Max 2048x1080
 
-Cheers, Sima
+4 4K Cluster windows with AFBC/line RGB and AFBC-only YUV support
+4 4K Esmart windows with line RGB/YUV support
 
-> Harry
->
-> >   drm/amd/display: add driver-specific property for plane degamma LUT
-> >   drm/amd/display: explicitly define EOTF and inverse EOTF
-> >   drm/amd/display: document AMDGPU pre-defined transfer functions
-> >   drm/amd/display: add plane 3D LUT driver-specific properties
-> >   drm/amd/display: add plane shaper LUT and TF driver-specific
-> >     properties
-> >   drm/amd/display: add CRTC gamma TF driver-specific property
-> >   drm/amd/display: add comments to describe DM crtc color mgmt behavior
-> >   drm/amd/display: encapsulate atomic regamma operation
-> >   drm/amd/display: decouple steps for mapping CRTC degamma to DC plane
-> >   drm/amd/display: reject atomic commit if setting both plane and CRTC
-> >     degamma
-> >   drm/amd/display: add plane shaper LUT support
-> >   drm/amd/display: add plane shaper TF support
-> >   drm/amd/display: add plane 3D LUT support
-> >   drm/amd/display: add plane CTM driver-specific property
-> >   drm/amd/display: add plane CTM support
-> >
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  91 ++
-> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  34 +-
-> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 108 +++
-> >  .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 818 ++++++++++++++++--
-> >  .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    |  72 ++
-> >  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 232 ++++-
-> >  .../gpu/drm/amd/display/include/fixed31_32.h  |  12 +
-> >  drivers/gpu/drm/arm/malidp_crtc.c             |   2 +-
-> >  drivers/gpu/drm/drm_atomic.c                  |   1 +
-> >  drivers/gpu/drm/drm_atomic_state_helper.c     |   1 +
-> >  drivers/gpu/drm/drm_atomic_uapi.c             |  43 +-
-> >  drivers/gpu/drm/drm_property.c                |  49 ++
-> >  include/drm/drm_mode_object.h                 |   2 +-
-> >  include/drm/drm_plane.h                       |   7 +
-> >  include/drm/drm_property.h                    |   6 +
-> >  include/uapi/drm/drm_mode.h                   |   8 +
-> >  16 files changed, 1377 insertions(+), 109 deletions(-)
-> >
->
+The current version support all the 8 windows with all the suppported
+plane format.
 
+And we don't have a upstreamed encoder/connector(HDMI/DP) for rk3588
+yet, Cristian from collabora is working on adding upstream support for
+HDMI on rk3588.
+
+My current test(1080P/4KP60) is runing with a HDMI driver pick from
+downstream bsp kernel.
+
+A branch based on linux-6.7 rc3 containing all the series and
+HDMI driver(not compatible with mainline rk3568 hdmi) picked
+from downstream bsp kernel is available [0].
+
+[0]https://github.com/andyshrk/linux/tree/rk3588-vop2-hdmi-upstream-linux-6.7-rc3-2023-11-30
+
+Changes in v3:
+- split confg one patch from the vop2 driver patch
+- put bool variable yuv_overlay next to other bool variable
+- define macro for RK3568_OVL_CTRL__YUV_MODE
+- just write RK3568_OVL_CTRL register once in function
+  vop2_setup_layer_mixer
+- constrain properties in allOf:if:then
+- some description updates
+- change the subject as Krzysztof suggested, and add his ACK
+- add braces for x in macro vop2_output_if_is_yyy(x)
+- clear the bits of a mask before setting it in rk3588_set_intf_mux
+- add more comments.
+- put regs dump info in vop2_data
+
+Changes in v2:
+- fix errors when running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+- split form vop driver patch
+- add rk3588_ prefix for functions which are rk3588 only
+- make some calculation as fixed value and keep calculation formula as
+  comment
+- check return value for some cru calculation functions.
+- check return value for syscon_regmap_lookup_by_phandle
+- add NV20/NV30 for esmart plane
+
+Andy Yan (14):
+  drm/rockchip: move output interface related definition to
+    rockchip_drm_drv.h
+  Revert "drm/rockchip: vop2: Use regcache_sync() to fix suspend/resume"
+  drm/rockchip: vop2: set half_block_en bit in all mode
+  drm/rockchip: vop2: clear afbc en and transform bit for cluster window
+    at linear mode
+  drm/rockchip: vop2: Add write mask for VP config done
+  drm/rockchip: vop2: Set YUV/RGB overlay mode
+  drm/rockchip: vop2: rename grf to sys_grf
+  dt-bindings: soc: rockchip: add rk3588 vop/vo syscon
+  dt-bindings: display: vop2: Add rk3588 support
+  dt-bindings: rockchip,vop2: Add more endpoint definition
+  drm/rockchip: vop2: Add support for rk3588
+  drm/rockchip: vop2: Add debugfs support
+  dt-bindings: iommu: rockchip: Add Rockchip RK3588
+  arm64: dts: rockchip: Add vop on rk3588
+
+ .../display/rockchip/rockchip-vop2.yaml       | 118 ++-
+ .../bindings/iommu/rockchip,iommu.yaml        |   1 +
+ .../devicetree/bindings/soc/rockchip/grf.yaml |   2 +
+ arch/arm64/boot/dts/rockchip/rk3588s.dtsi     |  96 +++
+ .../gpu/drm/rockchip/analogix_dp-rockchip.c   |   1 -
+ drivers/gpu/drm/rockchip/cdn-dp-core.c        |   1 -
+ .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   |   1 -
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c   |   1 -
+ drivers/gpu/drm/rockchip/inno_hdmi.c          |   1 -
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c        |   1 -
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |  18 +
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.h   |  12 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c  | 749 +++++++++++++++++-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h  | 109 ++-
+ drivers/gpu/drm/rockchip/rockchip_lvds.c      |   1 -
+ drivers/gpu/drm/rockchip/rockchip_rgb.c       |   1 -
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c  | 412 ++++++++++
+ include/dt-bindings/soc/rockchip,vop2.h       |   4 +
+ 18 files changed, 1452 insertions(+), 77 deletions(-)
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.34.1
+
