@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A547FEBB9
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 10:19:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC117FEBCE
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Nov 2023 10:26:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6951C10E6CE;
-	Thu, 30 Nov 2023 09:18:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A29410E6C9;
+	Thu, 30 Nov 2023 09:26:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57AF010E1BD
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 09:18:52 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF7B710E6C9
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 09:26:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A7BF261E09;
- Thu, 30 Nov 2023 09:18:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01383C433C7;
- Thu, 30 Nov 2023 09:18:50 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0ACB361E0B;
+ Thu, 30 Nov 2023 09:26:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C120C433C8;
+ Thu, 30 Nov 2023 09:26:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701335931;
- bh=nT9nGRfMfU4zgEHa6fXZDXZZdiT3bkcMygf58AsjxvA=;
+ s=k20201202; t=1701336386;
+ bh=Fo0Pio3QZLXVJiyMZvAR93mM+9bLzpr7O6m3p7tFXVM=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=oT/IMeHMhtHPp9SwiakrtnQOomaEbeQQ3MX+Z0Sn3gUXDHeHrtiLnSG05innsBON0
- 363PAMnvstx3bi1dB/K428ltGi+X4HJDHPWZ2U8bPNz1NpU/oPhyS7xlcS2eVCiR7w
- 0IQfMIvRxEXO3tLgM6McOwxcOG9p3UL0gMHmAmq+f39el5JimFxEgunEkftfkrtWIq
- ghdz5FAwkmw9XUSPCuguHbXn04F/fHy1cjDeYjcvVof3wZ+ABgVqpJQau1xJFG4G1z
- QHhd5pH3d6vzWwl6p7r1cFWG/T42/PYOciAtLMXkL9fj7LzilePHbLXlNdJwAZZkYL
- b4A/R6UBi7lOg==
+ b=JGHM3KmMqmQn9ypX6vtyIaO67Rg22LUUwJduPHMI3VzXFwh9INwXPoy7oCW61HxF1
+ fCy898LsZu93EhWv5YHrIPb8CHsjnfZ7UX4aLQ9Pyr0pzL8TCB3JGNSs4+VPrOJgRg
+ wyX/zby9KDyvEkv1/sGp5GKV/dOQdeB2jRBpaaAxUF/L1nFaOzLOB1i9dBI3il2DV+
+ 8N+sXjHQz44DzUEwBZzewj7Lf4nVMqXOnyPmYXo0nRPBnH/8kg+Ynbv3KMPElmThcl
+ ba2U1n61pmXsue249N3mysSWdtbkMrP5BOUDmce3SPr4wBjxgOrne0T83HjE+H8Y0N
+ 5x5pvzWn2dVVg==
 From: Maxime Ripard <mripard@kernel.org>
 To: Sarah Walker <sarah.walker@imgtec.com>, 
  Dan Carpenter <dan.carpenter@linaro.org>
-In-Reply-To: <384288de-a779-46c7-869d-b3c63462e12b@moroto.mountain>
-References: <384288de-a779-46c7-869d-b3c63462e12b@moroto.mountain>
-Subject: Re: (subset) [PATCH 2/2] drm/imagination: Fix IS_ERR() vs NULL bug
- in pvr_request_firmware()
-Message-Id: <170133592874.3076107.12823287713812257230.b4-ty@kernel.org>
-Date: Thu, 30 Nov 2023 10:18:48 +0100
+In-Reply-To: <a2d3210b-290f-4397-9c3e-efdcca94d8ac@moroto.mountain>
+References: <a2d3210b-290f-4397-9c3e-efdcca94d8ac@moroto.mountain>
+Subject: Re: (subset) [PATCH] drm/imagination: fix off by one in
+ pvr_vm_mips_init() error handling
+Message-Id: <170133638383.3077649.18368811865734250360.b4-ty@kernel.org>
+Date: Thu, 30 Nov 2023 10:26:23 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -59,11 +60,16 @@ Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 30 Nov 2023 10:27:01 +0300, Dan Carpenter wrote:
-> The pvr_build_firmware_filename() function returns NULL on error.  It
-> doesn't return error pointers.
+On Thu, 30 Nov 2023 10:27:15 +0300, Dan Carpenter wrote:
+> If the call to vmap() fails the "page_nr" is one element beyond the end
+> of the mips_data->pt_dma_addr[] and mips_data->pt_pages[] arrays.
 > 
+> The way that this is traditionally written is that we clean up the
+> partial loop iteration before the goto and then we can say
+> while (--i >= 0).  At that point we know that all the elements thus
+> far are initialized so we don't need to have NULL checks.
 > 
+> [...]
 
 Applied to drm/drm-misc (drm-misc-next).
 
