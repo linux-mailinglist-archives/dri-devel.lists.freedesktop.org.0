@@ -1,39 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432FB800AF8
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 13:34:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A90E2800B86
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 14:13:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7644F10E10E;
-	Fri,  1 Dec 2023 12:34:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0328210E863;
+	Fri,  1 Dec 2023 13:13:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 578F010E0FC
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 12:34:43 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 71F85143D;
- Fri,  1 Dec 2023 04:35:29 -0800 (PST)
-Received: from [10.1.28.20] (e122027.cambridge.arm.com [10.1.28.20])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E22573F5A1;
- Fri,  1 Dec 2023 04:34:40 -0800 (PST)
-Message-ID: <5cad3d21-5485-49aa-ae97-589dcb831925@arm.com>
-Date: Fri, 1 Dec 2023 12:34:39 +0000
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEB7289798
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 13:13:25 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-332fd78fa9dso1519448f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Dec 2023 05:13:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701436404; x=1702041204; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=bnGsvicGZc72MghsLvLQ88ck4/4r2jZIgUAyLD1bRfU=;
+ b=SAsv8LJDFgmUVpeE7+ob+Kl1a9imCUwvmQE8qWt5UklfpJPRsi8z+tPdeJyJrahLXV
+ dazsFpGci8Jjt59+bxewhKHH2xPB72X6anH0O3t5lkOY7ZRn51vTfLsiqUiij0SwO5OB
+ VCJc6TDb48q75Rd16JhOtujufkW4JiqAtmSM3fGlrZS1XRk0KZiiYlI2tXlkMvM0TI6q
+ l7wgyNeL1qmA3IgiJuHfActtTkDGdUtBw2wIKnAQcbiJLnQQ2Ov20E3vKT65BjgduRfk
+ JqgnVsF//SW1bbeAtvbW+XoX7bbU4GHgIf8Rc9GAZZCiwurY8rWleaU59za+rOW6Nt5v
+ L4ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701436404; x=1702041204;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bnGsvicGZc72MghsLvLQ88ck4/4r2jZIgUAyLD1bRfU=;
+ b=Hy1SAJnYQsLkci3GEcy/c55qNE5GEBd/LDNLfWAcmN9hs49d1UnfRLyQbHgtwQwB4u
+ /VpOtn9BXxCWd7ZxlESJsA2DRbhQtGcvD5xm33jzEH7tmihfl9D9qxXFLxqB2Y7WlIew
+ RMKXDzBflMNl8tDuqdznCEy86SJxFBeDtsZYzEK7bpBcSQkBPOJmP2ewSNvHnWnbAsuf
+ D8pV2JAMVh507UlWHGg+d8GkAVvNiVAuR8Fi0SyY5kYY125jcFAGxNdaDTtWJhpa1CXm
+ dxhXcwe8xMr1hqiMPVlQnVEWUMJPx0SZ0uUYOcmDM84T/7esUe6U5AXXZ3mW1bj1BUJS
+ 2Z5Q==
+X-Gm-Message-State: AOJu0YzqstyfxDYIWfED8sCWMeMzS0PrpWNwgGuPy1ZC0swM8myCVihv
+ xmgAjbOl/4j2F37ShBCSOlL0Hg==
+X-Google-Smtp-Source: AGHT+IFgpB/zaa+hPymuzYotAdMvmq7wzEGxAZLM2pkIi4GEXLudxb6GUoWbgsIMqsulIThnbt1BIA==
+X-Received: by 2002:adf:fe07:0:b0:32d:ad4a:bced with SMTP id
+ n7-20020adffe07000000b0032dad4abcedmr465248wrr.23.1701436404142; 
+ Fri, 01 Dec 2023 05:13:24 -0800 (PST)
+Received: from [127.0.1.1] ([82.77.85.67]) by smtp.gmail.com with ESMTPSA id
+ i19-20020a05600c355300b0040b3867a297sm5333550wmq.36.2023.12.01.05.13.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Dec 2023 05:13:23 -0800 (PST)
+From: Abel Vesa <abel.vesa@linaro.org>
+Date: Fri, 01 Dec 2023 15:13:12 +0200
+Subject: [PATCH] drm/panel-edp: Add SDC ATNA45AF01
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] drm/panfrost: Synchronize and disable interrupts
- before powering off
-Content-Language: en-GB
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-References: <20231201104027.35273-1-angelogioacchino.delregno@collabora.com>
- <20231201104027.35273-4-angelogioacchino.delregno@collabora.com>
- <20231201121437.7d5cdefb@collabora.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20231201121437.7d5cdefb@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20231201-x1e80100-drm-panel-edp-v1-1-ef9def711d8a@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAOjbaWUC/x2NzQrCMBAGX6Xs2YVNVKi+injIz6ddiDEkKIXSd
+ 3fxOAPDbDTQFYOu00YdXx36rgbuMFFaQn2CNRuTF390XhyvDrM4Ec79xS1UFEZujMsppzz7syC
+ SxTEMcOyhpsXy+inFZOt46Pq/3e77/gOuNsj+fQAAAA==
+To: Douglas Anderson <dianders@chromium.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=914; i=abel.vesa@linaro.org;
+ h=from:subject:message-id; bh=Fu2shfYoG0HO7jjuIrpFa+x1f8tH/a5L8jGuumIndac=;
+ b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBladvxfyRIJw8WA17MbH9nTInGECkTMZHdlFr1V
+ oyR1lRJGfSJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZWnb8QAKCRAbX0TJAJUV
+ VlOnEAC/9TdLPYnWFfzUt4V0p9vmqMMQ/5kdCOqcqhcdjt1YpFlqX1nEtbDvY9h8rC7J2P9TmRv
+ KBNXD+9XKvum2sCVn0npc0k7QKalSakoznoC+igCDgV15HMYiHQMuFoUgC/1v9ccIFeONybGlYO
+ q0r9Wx/MtnzRux03S8MK7XFXeItqeQy73NFWQOJxGTyYmdFUJ/N/76DvicHOKhh9mVgxKxx8Nu5
+ jY7gmg8hfa/inYCEHsSEc3rojkvnW3jjj8UPo1o+xoEZ8k6kuj1pnBVgcC4B701MJnGJzy5o/Rz
+ tSnIXl5QznotQDNa3hmai1DcPa779EFYm2gXwYEk+FI9IM7NH0FBhZi6CY/u7cXTWdTHVEEmnqH
+ ZKRAq/ouXaP9kHNSn28qzfyGdcmAFEpYaY09pWIj/W+TUuGJ1EXoxy2SflGFEFNZ5ZrPNDXqF+Q
+ UEzZKhjYwJlM2bzwAywfT3mtCEl89kQEPUeWXm4HvMfXl7NcgRIqHXB8nTr5AAWDGrUzKcSGxEM
+ r4zpOU7TWWYHoqh3PHAHShGy4sp/VLpZNOZQ6nq5DZbpVM5xXxJpfRp6elrcoZ16GyRpOQMLkZC
+ kbJQF/eHsdWb54wbF6tawz2j49lkylFAqKGHXNcCq94Rq9b8eiN5Ixggq2JKECPJz7f0JSGVxax
+ Q79YHLs+vrPQdGA==
+X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
+ fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,80 +94,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, linux-kernel@vger.kernel.org, mripard@kernel.org,
- krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
- kernel@collabora.com, m.szyprowski@samsung.com
+Cc: Abel Vesa <abel.vesa@linaro.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/12/2023 11:14, Boris Brezillon wrote:
-> On Fri,  1 Dec 2023 11:40:27 +0100
-> AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> wrote:
-> 
->> To make sure that we don't unintentionally perform any unclocked and/or
->> unpowered R/W operation on GPU registers, before turning off clocks and
->> regulators we must make sure that no GPU, JOB or MMU ISR execution is
->> pending: doing that required to add a mechanism to synchronize the
-> 
->                       ^ requires the addition of a mechanism...
-> 
->> interrupts on suspend.
->>
->> Add functions panfrost_{gpu,job,mmu}_suspend_irq() which will perform
->> interrupts masking and ISR execution synchronization, and then call
->> those in the panfrost_device_runtime_suspend() handler in the exact
->> sequence of job (may require mmu!) -> mmu -> gpu.
->>
->> As a side note, JOB and MMU suspend_irq functions needed some special
->> treatment: as their interrupt handlers will unmask interrupts, it was
->> necessary to add a bitmap for `is_suspended` which is used to address
-> 
->             to add an `is_suspended` bitmap which is used...
-> 
->> the possible corner case of unintentional IRQ unmasking because of ISR
->> execution after a call to synchronize_irq().
-> 
-> Also fixes the case where the interrupt handler is called when the
-> device is suspended because the IRQ line is shared with another device.
-> No need to update the commit message for that though.
-> 
->>
->> At resume, clear each is_suspended bit in the reset path of JOB/MMU
->> to allow unmasking the interrupts.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
+Add support for the SDC ATNA45AF01 panel.
 
-<snip>
+Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+---
+ drivers/gpu/drm/panel/panel-edp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
->>  static void panfrost_job_handle_err(struct panfrost_device *pfdev,
->>  				    struct panfrost_job *job,
->>  				    unsigned int js)
->> @@ -792,9 +802,13 @@ static irqreturn_t panfrost_job_irq_handler_thread(int irq, void *data)
->>  	struct panfrost_device *pfdev = data;
->>  
->>  	panfrost_job_handle_irqs(pfdev);
->> -	job_write(pfdev, JOB_INT_MASK,
->> -		  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
->> -		  GENMASK(NUM_JOB_SLOTS - 1, 0));
->> +
->> +	/* Enable interrupts only if we're not about to get suspended */
->> +	if (!test_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended))
->> +		job_write(pfdev, JOB_INT_MASK,
->> +			  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
->> +			  GENMASK(NUM_JOB_SLOTS - 1, 0));
->> +
-> 
-> Missing if (test_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended)) in
-> panfrost_job_irq_handler(), to make sure you don't access the registers
-> if the GPU is suspended.
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 825fa2a0d8a5..467a42eddbe9 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1988,6 +1988,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x154c, &delay_200_500_p2e100, "LQ116M1JW10"),
+ 
+ 	EDP_PANEL_ENTRY('S', 'T', 'A', 0x0100, &delay_100_500_e200, "2081116HHD028001-51D"),
++	EDP_PANEL_ENTRY('S', 'D', 'C', 0x416d, &delay_100_500_e200, "ATNA45AF01"),
+ 
+ 	{ /* sentinal */ }
+ };
 
-I think generally these IRQ handler functions should simply check the
-is_suspended flag and early out if the flag is set. It's not the
-re-enabling of the interrupts specifically that we want to gate - it's
-any access to the hardware as in the shared-IRQ case the GPU might
-already have been powered down/unclocked.
+---
+base-commit: 5eda217cee887e595ba2265435862d585d399769
+change-id: 20231201-x1e80100-drm-panel-edp-e94dcd8250eb
 
-Steve
+Best regards,
+-- 
+Abel Vesa <abel.vesa@linaro.org>
 
