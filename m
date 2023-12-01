@@ -1,40 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9BD800768
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 10:47:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10D20800792
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 10:52:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C65510E831;
-	Fri,  1 Dec 2023 09:47:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0F2210E830;
+	Fri,  1 Dec 2023 09:52:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48DE510E82B
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 09:47:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52DE810E830
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 09:52:23 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi
  [91.158.149.209])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 49864D52;
- Fri,  1 Dec 2023 10:46:41 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F5F8D52;
+ Fri,  1 Dec 2023 10:51:44 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1701424001;
- bh=sGOmHRHvL/BapzPSylBybPfKNcDvouT8hH1hH24PyM4=;
+ s=mail; t=1701424305;
+ bh=J4yAZVRMRNvNFIq6OJVR1XbRD8IPLkqCPRNc1euUS3o=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=gr3CtMkyrGL7o9zgsbQ3lwkknSwAp3epPFPSXcOP+mnUJtg+4EELjakpYNxFMWUpt
- +944LXKeNi3Zg508ZHtStsM1A3wHkvRLEL4J/wjGTJDpMa3lOLJel6dQEZl+36Q3On
- i1ALqPFVCTLyzvfUVW43SoWYTefPIbVd2+M5KsZA=
-Message-ID: <0c2e0f85-0a35-43b2-ba78-4aebbaa2b379@ideasonboard.com>
-Date: Fri, 1 Dec 2023 11:47:15 +0200
+ b=Gk9sySZma9Ps6BOg14ppr2LkywZhexltsAmTsL0JezqPT5T9fsZ5f7JTi1ttfWU1r
+ lu8bVD+X8qot/IlRPV73ednrj4WcA/k5i2TX8fUXLbQpB8sO+egzUeFUPSNYr2BpS5
+ OVSFt66Bg7P2iOMAnc0fG+2taaWiiK+88VBAUkww=
+Message-ID: <f229619d-5b1c-475f-9e7f-42190c142af6@ideasonboard.com>
+Date: Fri, 1 Dec 2023 11:52:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm: omapdrm: Improve check for contiguous buffers
+Subject: Re: [PATCH v3 0/2] Add DSS support for TI AM62A7 SoC
 Content-Language: en-US
-To: Andrew Davis <afd@ti.com>,
+To: Aradhya Bhatia <a-bhatia1@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20231113205501.616927-1-afd@ti.com>
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+References: <20231108171619.978438-1-a-bhatia1@ti.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -79,7 +82,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20231113205501.616927-1-afd@ti.com>
+In-Reply-To: <20231108171619.978438-1-a-bhatia1@ti.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,81 +97,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
+ Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/11/2023 22:55, Andrew Davis wrote:
-> While a scatter-gather table having only 1 entry does imply it is
-> contiguous, it is a logic error to assume the inverse. Tables can have
-> more than 1 entry and still be contiguous. Use a proper check here.
+On 08/11/2023 19:16, Aradhya Bhatia wrote:
+> This patch series adds a new compatible for the Display SubSystem (DSS)
+> controller on TI's AM62A7 SoC. It further adds the required support, for
+> the same, in the tidss driver.
 > 
-> Signed-off-by: Andrew Davis <afd@ti.com>
-> ---
+> The DSS controller is similar to the recently added AM625 DSS, with the
+> key difference being the absence of VP1 output on the SoC. The VP1 in
+> AM62A7 DSS is tied off and cannot be used, unlike in AM625, where the
+> VP1 was connected to 2 OLDI TXes. The video pipeline that corresponds to
+> VP1 still exists and can be used to overlay planes on the VP2's primary
+> plane. This can be done using the overlay managers inside the SoC.
+> Moreover, DSS VP2 can output Full-HD RGB888 DPI video signals.
+> 
+> I have tested these patches on AM62A7 SK-EVM, which converts DPI signals
+> to HDMI on the platform using the Sil9022A HDMI transmitter. All the
+> patches, required to enable display on AM62A7-SK, can be found on my
+> github fork[0] in the branch "next_am62a-v3".
+> 
+> Regards
+> Aradhya
+> 
+> [0]: https://github.com/aradhya07/linux-ab/tree/next_am62a-v3
+> 
+> Change Log:
+> V2 -> V3:
+>    - Add Krzysztof Kozlowski's R-b in patch 1/2.
+>    - Add new DISPC_VP_TIED_OFF for tied-off video-ports in patch 2/2.
+> 
+> V1 -> V2:
+>    - Correctly sort DISPC_AM62A7 macro after DISPC_AM625 in patch 2/2.
+> 
+> Previous Versions:
+> V1: https://lore.kernel.org/all/20230818131750.4779-1-a-bhatia1@ti.com/
+> V2: https://lore.kernel.org/all/20230818142124.8561-1-a-bhatia1@ti.com/
+> 
+> Aradhya Bhatia (2):
+>    dt-bindings: display: ti: Add support for am62a7 dss
+>    drivers/tidss: Add support for AM62A7 DSS
+> 
+>   .../bindings/display/ti/ti,am65x-dss.yaml     | 14 +++++
+>   drivers/gpu/drm/tidss/tidss_dispc.c           | 59 +++++++++++++++++++
+>   drivers/gpu/drm/tidss/tidss_dispc.h           |  3 +
+>   drivers/gpu/drm/tidss/tidss_drv.c             |  1 +
+>   4 files changed, 77 insertions(+)
+> 
+> 
+> base-commit: 2220f68f4504aa1ccce0fac721ccdb301e9da32f
 
-Thanks, I'll pick this up.
+Thanks, I'm applying to drm-misc.
 
   Tomi
-
-> Changes from v2:
->   - Double check that these multi-segment SGTs are handled correctly elsewhere in the driver
->   - Rebase on v6.7-rc1
-> 
-> Changes from v1:
->   - Sent correct version of patch :)
-> 
->   drivers/gpu/drm/omapdrm/omap_gem.c | 14 ++++++++++----
->   1 file changed, 10 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/omap_gem.c b/drivers/gpu/drm/omapdrm/omap_gem.c
-> index c48fa531ca321..3421e8389222a 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_gem.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_gem.c
-> @@ -48,7 +48,7 @@ struct omap_gem_object {
->   	 *   OMAP_BO_MEM_DMA_API flag set)
->   	 *
->   	 * - buffers imported from dmabuf (with the OMAP_BO_MEM_DMABUF flag set)
-> -	 *   if they are physically contiguous (when sgt->orig_nents == 1)
-> +	 *   if they are physically contiguous
->   	 *
->   	 * - buffers mapped through the TILER when pin_cnt is not zero, in which
->   	 *   case the DMA address points to the TILER aperture
-> @@ -148,12 +148,18 @@ u64 omap_gem_mmap_offset(struct drm_gem_object *obj)
->   	return drm_vma_node_offset_addr(&obj->vma_node);
->   }
->   
-> +static bool omap_gem_sgt_is_contiguous(struct sg_table *sgt, size_t size)
-> +{
-> +	return !(drm_prime_get_contiguous_size(sgt) < size);
-> +}
-> +
->   static bool omap_gem_is_contiguous(struct omap_gem_object *omap_obj)
->   {
->   	if (omap_obj->flags & OMAP_BO_MEM_DMA_API)
->   		return true;
->   
-> -	if ((omap_obj->flags & OMAP_BO_MEM_DMABUF) && omap_obj->sgt->nents == 1)
-> +	if ((omap_obj->flags & OMAP_BO_MEM_DMABUF) &&
-> +	    omap_gem_sgt_is_contiguous(omap_obj->sgt, omap_obj->base.size))
->   		return true;
->   
->   	return false;
-> @@ -1385,7 +1391,7 @@ struct drm_gem_object *omap_gem_new_dmabuf(struct drm_device *dev, size_t size,
->   	union omap_gem_size gsize;
->   
->   	/* Without a DMM only physically contiguous buffers can be supported. */
-> -	if (sgt->orig_nents != 1 && !priv->has_dmm)
-> +	if (!omap_gem_sgt_is_contiguous(sgt, size) && !priv->has_dmm)
->   		return ERR_PTR(-EINVAL);
->   
->   	gsize.bytes = PAGE_ALIGN(size);
-> @@ -1399,7 +1405,7 @@ struct drm_gem_object *omap_gem_new_dmabuf(struct drm_device *dev, size_t size,
->   
->   	omap_obj->sgt = sgt;
->   
-> -	if (sgt->orig_nents == 1) {
-> +	if (omap_gem_sgt_is_contiguous(sgt, size)) {
->   		omap_obj->dma_addr = sg_dma_address(sgt->sgl);
->   	} else {
->   		/* Create pages list from sgt */
 
