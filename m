@@ -2,71 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1B3B80101A
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 17:29:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5F3801099
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 17:56:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91CC410E124;
-	Fri,  1 Dec 2023 16:29:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D829310E8DA;
+	Fri,  1 Dec 2023 16:56:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EA3610E124;
- Fri,  1 Dec 2023 16:29:03 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3B1BLifl029255; Fri, 1 Dec 2023 16:28:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=date : from : to :
- cc : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=qcppdkim1; bh=G5hw65bwWWTIpsT+/2eFCiG3XyYCVlrTUm4AMs1wZ7A=;
- b=WWzOL5lfofL8I3wPyemWXmmaSGA/ZZbIUR/Wuxq9Q+AbDCmFieK9QmuVCeOHl8hR5sX6
- YRguArpxmCYu9HF9dSsjoNhLgn5q221NJWQ6X0lRmmNOss+Pq3v9kuq2YIQ9Uti2eVKd
- nrulIwLUjTYwEtRj47qld06pWX1T5IiaMHcp5HMwyIxFJQ7N7JjC/SerWLhPmpAvUScb
- PAN0Y6wX/sMkSGwtDG9WGkCJrnrBaUmaKN0GPd9nVu6I3LpPItsT5QkxCjvBzHlguySz
- Q81EPCE91YWgb8JLb72glzW94esiPDKqPzV6nRsb5grw7GIGs0y4MEcpoIpxhLHcuXqQ +w== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uq3r2j9jn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 01 Dec 2023 16:28:57 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B1GSuKA015439
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 1 Dec 2023 16:28:56 GMT
-Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 1 Dec 2023 08:28:56 -0800
-Date: Fri, 1 Dec 2023 08:28:55 -0800
-From: Bjorn Andersson <quic_bjorande@quicinc.com>
-To: Johan Hovold <johan@kernel.org>
-Subject: Re: [PATCH] drm/msm/dpu: Add missing safe_lut_tbl in sc8180x catalog
-Message-ID: <20231201162855.GH1766637@hu-bjorande-lv.qualcomm.com>
-References: <20231130-sc8180x-dpu-safe-lut-v1-1-a8a6bbac36b8@quicinc.com>
- <ZWmUFdWif3QGrqQc@hovoldconsulting.com>
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 315EF10E918;
+ Fri,  1 Dec 2023 16:55:49 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id
+ 46e09a7af769-6ce2ea3a944so459846a34.1; 
+ Fri, 01 Dec 2023 08:55:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1701449749; x=1702054549; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NWhV56djU95aQfLVNm7Soh/hXtQRCsN2ft0VIHAER8A=;
+ b=L65dTN2F1nj40cIfV6PQY1YUJWy2md1OLCCgluXsN18+1HIyyCZ72ds6DyL2ZvS6hm
+ Z4bouw/JJ4sqBb44NtvgDSbyhVIKlsjM/z4YQgl7DZrypjg1skUZbVDp+ZUuOdTVBVxa
+ ULVIaYTyi2pzXaJiw7CsUmueBR+qVnQH6jqo6WAguxwiW23RARbepi8RRtOX2Mt3RtQX
+ 3FwBIERa7RN+PW2LEfK5VMA0kTHZAoXOtBZdWG9KmPxtFtLiyUbD0imgFddC/tJzfTIo
+ SDoz7J5mwY63QQM+K3xsKh3Mna5dEgPFxSRPGo5AL9JOApOV9n4UWl6EOEMJXcNG34Zr
+ ngxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701449749; x=1702054549;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NWhV56djU95aQfLVNm7Soh/hXtQRCsN2ft0VIHAER8A=;
+ b=gr4zIfl9ObTQvbWh/i7yL3Q0N792UM1bTqhbxeNRpngtycvXauSPIUgDm0NWUGHaqJ
+ rRCDdw5HPNYRXKRuLWOF0IDXro21WLKn0FpvFpldMxxUmBXpxYyNeL37KNYKIZSzBE3V
+ td9UNOdjU5lJ1BKWbvhi9XyZlTBC/SMpG40Ef5aXJsBkrDtZTh/dWBHjJPJjBzYEcYdK
+ al9o4aJ7CjGhH8sdm1ssR2KC3VrFUtUnbwdDPSYnahE7uDG2Ot2pmS8scmoPzL72t0E+
+ nBfq21z7yhXc23d3lZHu3SQA4rE8QHG0HQjrb1McbNyvwFeoZ5N37rnGYF48R4UcEigi
+ eT4A==
+X-Gm-Message-State: AOJu0YwZiNNd6iukIvch87bX4IZjjWbDxMGDAjAEmHSr35dDPHIyJZEq
+ 7EIsYiLbrJlwRRMCODFdcy6X3GIBbWiJEhn4FYCzHson
+X-Google-Smtp-Source: AGHT+IFcxTbgF9xXKMxzTnObK/CQ9MvvfivvyKXOzVzXQNvJW4i8otQvmBPx8yuN1coi/2TEmdpNoBi0J9sKp8BZ7gk=
+X-Received: by 2002:a05:6870:2182:b0:1f9:8f1b:86f7 with SMTP id
+ l2-20020a056870218200b001f98f1b86f7mr29208291oae.42.1701449748697; Fri, 01
+ Dec 2023 08:55:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <ZWmUFdWif3QGrqQc@hovoldconsulting.com>
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 8GGEN6E7BHYpaJCRSd15h9IvrK6-n_Rm
-X-Proofpoint-ORIG-GUID: 8GGEN6E7BHYpaJCRSd15h9IvrK6-n_Rm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-01_14,2023-11-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015
- malwarescore=0 lowpriorityscore=0 suspectscore=0 adultscore=0
- mlxlogscore=903 bulkscore=0 spamscore=0 priorityscore=1501 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2312010112
+References: <87edgv4x3i.fsf@vps.thesusis.net>
+ <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
+ <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
+ <bdb238b6-60c7-4f26-81d0-9e62cd5dd326@gmail.com>
+ <CADnq5_NVGS1XykxGxpcu_bpPbzboCUJQkcCF3r+0N9a23KUgiQ@mail.gmail.com>
+ <96e2e13c-f01c-4baf-a9a3-cbaa48fb10c7@amd.com>
+ <CADnq5_NBfeAXEyQw0gnSd67=tR-bUKg8w=10+4z9pGGuRnP9uw@mail.gmail.com>
+ <87jzq2ixtm.fsf@vps.thesusis.net>
+ <CADnq5_Ou-MVVm0rdWDmDnJNLkWUayXzO26uCEtz3ucNa4Ghy2w@mail.gmail.com>
+ <95fe9b5b-05ce-4462-9973-9aca306bc44f@gmail.com>
+ <CADnq5_MYEWx=e1LBLeVs0UbR5_xEScjDyw_-75mLe8RAMnqh6g@mail.gmail.com>
+ <CADnq5_OC=JFpGcN0oGbTF5xYEt4X3r0=jEY6hJ12W8CzYq1+cA@mail.gmail.com>
+ <9595b8bf-e64d-4926-9263-97e18bcd7d05@gmail.com>
+ <CADnq5_N6DF-huOzgaVygvS5N_j_oNUEC1aa4zRsZTzx8GOD_aw@mail.gmail.com>
+ <CADnq5_PgMxoW=4iabtgeHydwye-6DvwvCyETdfBToEpuYWocmA@mail.gmail.com>
+ <CADnq5_P0S7Jem0e4K6mG2+bboG8P56nELaGC1p4Pfx-8eV-BjQ@mail.gmail.com>
+In-Reply-To: <CADnq5_P0S7Jem0e4K6mG2+bboG8P56nELaGC1p4Pfx-8eV-BjQ@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 1 Dec 2023 11:55:36 -0500
+Message-ID: <CADnq5_Oy6RMyJ52TbsxVjZ=0p=wYJHduE4X8B3DiYnqHYJUAvw@mail.gmail.com>
+Subject: Re: Radeon regression in 6.6 kernel
+To: Luben Tuikov <ltuikov89@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,38 +83,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org, Bjorn
- Andersson <andersson@kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Danilo Krummrich <dakr@redhat.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Phillip Susi <phill@thesusis.net>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 01, 2023 at 09:06:45AM +0100, Johan Hovold wrote:
-> On Thu, Nov 30, 2023 at 04:35:01PM -0800, Bjorn Andersson wrote:
-> > Similar to SC8280XP, the misconfigured SAFE logic causes rather
-> > significant delays in __arm_smmu_tlb_sync(), resulting in poor
-> > performance for things such as USB.
-> > 
-> > Introduce appropriate SAFE values for SC8180X to correct this.
-> > 
-> > Fixes: f3af2d6ee9ab ("drm/msm/dpu: Add SC8180x to hw catalog")
-> 
-> Missing CC stable tag?
-> 
+Phillip,
 
-I figured it doesn't matter in practice, there's still a few issues left
-preventing people from just running a stable kernel on this platform.
+Can you test this patch?  I was not able to repro the issue on the
+navi2x card I had handy, but I think it should fix it.
 
-But it would be the right thing to do...
+Thanks,
 
-Cc: stable@vger.kernel.org
+Alex
 
-Regards,
-Bjorn
-
-> > Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
-> 
-> Johan
-> 
+On Wed, Nov 29, 2023 at 3:49=E2=80=AFPM Alex Deucher <alexdeucher@gmail.com=
+> wrote:
+>
+> On Wed, Nov 29, 2023 at 3:10=E2=80=AFPM Alex Deucher <alexdeucher@gmail.c=
+om> wrote:
+> >
+> > Actually I think I see the problem.  I'll try and send out a patch
+> > later today to test.
+>
+> Does the attached patch fix it?
+>
+> Alex
+>
+> >
+> > Alex
+> >
+> > On Wed, Nov 29, 2023 at 1:52=E2=80=AFPM Alex Deucher <alexdeucher@gmail=
+.com> wrote:
+> > >
+> > > On Wed, Nov 29, 2023 at 11:41=E2=80=AFAM Luben Tuikov <ltuikov89@gmai=
+l.com> wrote:
+> > > >
+> > > > On 2023-11-29 10:22, Alex Deucher wrote:
+> > > > > On Wed, Nov 29, 2023 at 8:50=E2=80=AFAM Alex Deucher <alexdeucher=
+@gmail.com> wrote:
+> > > > >>
+> > > > >> On Tue, Nov 28, 2023 at 11:45=E2=80=AFPM Luben Tuikov <ltuikov89=
+@gmail.com> wrote:
+> > > > >>>
+> > > > >>> On 2023-11-28 17:13, Alex Deucher wrote:
+> > > > >>>> On Mon, Nov 27, 2023 at 6:24=E2=80=AFPM Phillip Susi <phill@th=
+esusis.net> wrote:
+> > > > >>>>>
+> > > > >>>>> Alex Deucher <alexdeucher@gmail.com> writes:
+> > > > >>>>>
+> > > > >>>>>>> In that case those are the already known problems with the =
+scheduler
+> > > > >>>>>>> changes, aren't they?
+> > > > >>>>>>
+> > > > >>>>>> Yes.  Those changes went into 6.7 though, not 6.6 AFAIK.  Ma=
+ybe I'm
+> > > > >>>>>> misunderstanding what the original report was actually testi=
+ng.  If it
+> > > > >>>>>> was 6.7, then try reverting:
+> > > > >>>>>> 56e449603f0ac580700621a356d35d5716a62ce5
+> > > > >>>>>> b70438004a14f4d0f9890b3297cd66248728546c
+> > > > >>>>>
+> > > > >>>>> At some point it was suggested that I file a gitlab issue, bu=
+t I took
+> > > > >>>>> this to mean it was already known and being worked on.  -rc3 =
+came out
+> > > > >>>>> today and still has the problem.  Is there a known issue I co=
+uld track?
+> > > > >>>>>
+> > > > >>>>
+> > > > >>>> At this point, unless there are any objections, I think we sho=
+uld just
+> > > > >>>> revert the two patches
+> > > > >>> Uhm, no.
+> > > > >>>
+> > > > >>> Why "the two" patches?
+> > > > >>>
+> > > > >>> This email, part of this thread,
+> > > > >>>
+> > > > >>> https://lore.kernel.org/all/87r0kircdo.fsf@vps.thesusis.net/
+> > > > >>>
+> > > > >>> clearly states that reverting *only* this commit,
+> > > > >>> 56e449603f0ac5 drm/sched: Convert the GPU scheduler to variable=
+ number of run-queues
+> > > > >>> *does not* mitigate the failed suspend. (Furthermore, this comm=
+it doesn't really change
+> > > > >>> anything operational, other than using an allocated array, inst=
+ead of a static one, in DRM,
+> > > > >>> while the 2nd patch is solely contained within the amdgpu drive=
+r code.)
+> > > > >>>
+> > > > >>> Leaving us with only this change,
+> > > > >>> b70438004a14f4 drm/amdgpu: move buffer funcs setting up a level
+> > > > >>> to be at fault, as the kernel log attached in the linked email =
+above shows.
+> > > > >>>
+> > > > >>> The conclusion is that only b70438004a14f4 needs reverting.
+> > > > >>
+> > > > >> b70438004a14f4 was a fix for 56e449603f0ac5.  Without b70438004a=
+14f4,
+> > > > >> 56e449603f0ac5 breaks amdgpu.
+> > > > >
+> > > > > We can try and re-enable it in the next kernel.  I'm just not sur=
+e
+> > > > > we'll be able to fix this in time for 6.7 with the holidays and a=
+ll
+> > > > > and I don't want to cause a lot of scheduler churn at the end of =
+the
+> > > > > 6.7 cycle if we hold off and try and fix it.  Reverting seems lik=
+e the
+> > > > > best short term solution.
+> > > >
+> > > > A lot of subsequent code has come in since commit 56e449603f0ac5, a=
+s it opened
+> > > > the opportunity for a 1-to-1 relationship between an entity and a s=
+cheduler.
+> > > > (Should've always been the case, from the outset. Not sure why it w=
+as coded as
+> > > > a fixed-size array.)
+> > > >
+> > > > Given that commit 56e449603f0ac5 has nothing to do with amdgpu, and=
+ the problem
+> > > > is wholly contained in amdgpu, and no other driver has this problem=
+, there is
+> > > > no reason to have to "churn", i.e. go back and forth in DRM, only t=
+o cover up
+> > > > an init bug in amdgpu. See the response I just sent in @this thread=
+:
+> > > > https://lore.kernel.org/r/05007cb0-871e-4dc7-af58-1351f4ba43e2@gmai=
+l.com
+> > > >
+> > > > And it's not like this issue is unknown. I first posted about it on=
+ 2023-10-16.
+> > > >
+> > > > Ideally, amdgpu would just fix their init code.
+> > >
+> > > You can't make changes to core code that break other drivers.
+> > > Arguably 56e449603f0ac5 should not have gone in in the first place if
+> > > it broke amdgpu.  b70438004a14f4 was the code to fix amdgpu's init
+> > > code, but as a side effect it seems to have broken suspend for some
+> > > users.
+> > >
+> > > Alex
