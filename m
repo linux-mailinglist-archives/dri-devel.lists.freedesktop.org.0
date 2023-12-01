@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46FCC800825
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 11:25:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0CEA8008A3
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 11:41:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1193A10E0C5;
-	Fri,  1 Dec 2023 10:25:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD46910E0E0;
+	Fri,  1 Dec 2023 10:41:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 344CC10E0D1
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 10:25:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1701426309; x=1701685509;
- bh=bgyglF9ayxa/RKpdlocwZSsZ3zpKoAyjXW1dDPrXAGw=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=bcHl5BOWYJk0TNt+h0a9dSc7hrj5VR3v/kDHbFw4D6qQ43nZkZsUCZJZcDlef95K8
- GrGLErUWOXrEp8Vne614IgeuIvN+x+S2s5Y5ItC1PQ9WgGl+oaCYuauaxRNckBO0Wq
- 130Q+aUQIMLyDdDnTQMgd/2YIlOKfZ7rFkaAOJyL/lrFKEuko+hGFW0sdSBsnQ2xWI
- GLQLeWNgrT9RLZeZxmJ/2RETDuDnXOg/D3UV9Sf9QCki5U48+LC9C7aOXh1AcAvDgl
- qQDWfQixyh9cvr8ALnbfagtkRR3Zy6xePdY76/MGM1z7XYbxYjaYP2wlrm8eSeYJbV
- qaPa7yxtL95Rg==
-Date: Fri, 01 Dec 2023 10:25:03 +0000
-To: Pekka Paalanen <pekka.paalanen@collabora.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm/doc: Define KMS atomic state set
-Message-ID: <SdYVz-02vwuB23Xyjr6J15D4E50DBpqfdXP9QTROngMmiV2RBmXIjp2fizBEIA_iQssaVpiqwvhDhSZbc9hdQm5Hp1-I8EK3_lGnwELZkT0=@emersion.fr>
-In-Reply-To: <20231201115709.61c0817e.pekka.paalanen@collabora.com>
-References: <20231130200740.53454-1-andrealmeid@igalia.com>
- <40gonZRoP7FjDn_ugL_LpXsqwoSCZtypIe7jiWg0t8lkTx94-gESc60Cuu5eWxivJoZCNg3i-cUG9kNpKQZeYdCJPawDpTSIXivJ_t_a87E=@emersion.fr>
- <20231201115709.61c0817e.pekka.paalanen@collabora.com>
-Feedback-ID: 1358184:user:proton
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23CB510E883
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 10:40:34 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com
+ [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 6D4B5660739C;
+ Fri,  1 Dec 2023 10:40:32 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1701427233;
+ bh=0ug+U8+oATYsYs/JNbMT9HWVGshpUjmLXOajcBgeZ74=;
+ h=From:To:Cc:Subject:Date:From;
+ b=fqg8YB6RGLAsGa67XEUsNhDp8AHj54O5bU0RVByN0367O1tABKjV9kZy1ejTTwgV8
+ 9kMQO7/BNfnkoWB9tT9sy+5aejcGWn8vT0OpFrZbDwhAPxA1tC8Jaxdx6ybkHIYslo
+ REwtYtxhRRe3r6xjMuGH82Ofe4zSf+3SxjMnxaea93o4ROSiZKFhi38y/n3oLpCB8/
+ icYHMkQ16LYYje6YYoRhmZqvGJhqlRFxcLBe6malYYF1sW0WwCfobZ+F6x9bBsH7u7
+ KNkq3CdqRAFbHpFBNE7NbQxZOWc4UcN4UmNTkpfMx5IF1eyF9C8Vdtie+zIJAEluwD
+ pGOzObXQyMsQw==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: boris.brezillon@collabora.com
+Subject: [PATCH v3 0/3] drm/panfrost: Fix poweroff and sync IRQs for suspend
+Date: Fri,  1 Dec 2023 11:40:24 +0100
+Message-ID: <20231201104027.35273-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,180 +49,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- =?utf-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- =?utf-8?Q?=27Marek_Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
- =?utf-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Randy Dunlap <rdunlap@infradead.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
+ krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, m.szyprowski@samsung.com, kernel@collabora.com,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, December 1st, 2023 at 10:57, Pekka Paalanen <pekka.paalanen@coll=
-abora.com> wrote:
+Changes in v3:
+ - Removed useless GPU_INT_CLEAR write in suspend path
+ - Changed to clear suspend bits in job/mmu reset path
 
-> > > +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, whic=
-h means the =20
-> >=20
-> > It would be nice to link DRM_MODE_ATOMIC_TEST_ONLY to the actual docs h=
-ere.
-> > This can be done with markup such as:
-> >=20
-> >     :c:macro:`DRM_MODE_ATOMIC_TEST_ONLY`
-> >=20
-> > Same applies to other #defines.
-> >=20
-> > > +complete state change is validated but not applied.  Userspace shoul=
-d use this =20
-> >=20
-> > I'd s/should/can/ here, because there are valid cases where user-space =
-doesn't
-> > really need to test before applying. Applying a state first validates i=
-t in the
-> > kernel anwyays.
->=20
-> Those cases a very much an exception. If you want to explain in what
-> cases testing is not necessary, that's fine to add, but without it I do
-> want to always recommend testing first. There is no harm in testing too
-> much, but there is harm in not testing which implies that there is
-> likely no fallback either. Without fallbacks, the kernel developers
-> have less room to change things, and the userspace itself is probably
-> too fragile to be generally useful.
->=20
-> Or, if you think this concern is moot, then why would userspace ever
-> use testing?
->=20
-> However, I have understood from past kernel discussions that userspace
-> really does need to test and fall back on test failure in almost all
-> cases. Otherwise userspace becomes too driver/hardware dependent.
->=20
-> In general, I think recommending best practices with "should" is a good
-> idea.
+This series contains a fast fix for the basic GPU poweroff functionality
+and goes further by implementing interrupt masking and synchronization
+before suspend.
 
-I was mostly thinking about very simple KMS clients that only use the most
-basic configuration (full-screen buffer with no scaling/cropping). That's
-actually a quite common case.
+For more information, please look at the conversation at [1], which
+explains the regression seen with the poweroff commit and the initial
+approaches taken to solve that.
 
-But I see what you mean here, I don't mind keeping the current wording.
+Cheers!
 
-> > > +flag to validate any state change before asking to apply it. If vali=
-dation fails
-> > > +for any reason, userspace should attempt to fall back to another, pe=
-rhaps
-> > > +simpler, final state.  This allows userspace to probe for various co=
-nfigurations
-> > > +without causing visible glitches on screen and without the need to u=
-ndo a
-> > > +probing change.
-> > > +
-> > > +The changes recorded in an atomic commit apply on top the current KM=
-S state in
-> > > +the kernel. Hence, the complete new KMS state is the complete old KM=
-S state with
-> > > +the committed property settings done on top. The kernel will try to =
-avoid
-> > > +no-operation changes, so it is safe for userspace to send redundant =
-property
-> > > +settings.  However, not every situation allows for no-op changes, du=
-e to the
-> > > +need to acquire locks for some attributes. Userspace needs to be awa=
-re that some
-> > > +redundant information might result in oversynchronization issues.  N=
-o-operation
-> > > +changes do not count towards actually needed changes, e.g.  setting =
-MODE_ID to a
-> > > +different blob with identical contents as the current KMS state shal=
-l not be a
-> > > +modeset on its own. As a special exception for VRR needs, explicitly=
- setting
-> > > +FB_ID to its current value is not a no-op. =20
-> >=20
-> > I'm not sure talking about FB_ID is the right thing to do here. There i=
-s
-> > nothing special about FB_ID in particular. For instance, setting CRTC_I=
-D to the
-> > same value as before has the same effect. Talking specifically about FB=
-_ID here
-> > can be surprising for user-space: reading these docs, I'd assume settin=
-g
-> > CRTC_ID to the same value as before is a no-op, but in reality it's not=
-.
->=20
-> Whoa, I never knew that! That's a big surprise!
+[1]: https://lore.kernel.org/all/20231123095320.41433-1-angelogioacchino.delregno@collabora.com/
 
-Aha! Seems like KMS always has a trick up its sleeve to surprise user-space
-devs :)
+AngeloGioacchino Del Regno (3):
+  drm/panfrost: Ignore core_mask for poweroff and disable PWRTRANS irq
+  drm/panfrost: Add gpu_irq, mmu_irq to struct panfrost_device
+  drm/panfrost: Synchronize and disable interrupts before powering off
 
-> People have always been talking only about FB_ID so far.
->=20
-> > Instead, I'd suggest explaining how referencing a plane/CRTC/connector =
-in an
-> > atomic commit adds it to the new state, even if there are no effective =
-property
-> > value changes.
->=20
-> So, if a CRTC object is pulled into drm_atomic_state(?) at all, on VRR
-> it will trigger a new scanout cycle always, avoiding the front porch
-> timeout?
->=20
-> Yikes.
+ drivers/gpu/drm/panfrost/panfrost_device.c |  3 +++
+ drivers/gpu/drm/panfrost/panfrost_device.h |  9 +++++++
+ drivers/gpu/drm/panfrost/panfrost_gpu.c    | 28 ++++++++++++++-------
+ drivers/gpu/drm/panfrost/panfrost_gpu.h    |  1 +
+ drivers/gpu/drm/panfrost/panfrost_job.c    | 20 ++++++++++++---
+ drivers/gpu/drm/panfrost/panfrost_job.h    |  1 +
+ drivers/gpu/drm/panfrost/panfrost_mmu.c    | 29 ++++++++++++++++------
+ drivers/gpu/drm/panfrost/panfrost_mmu.h    |  1 +
+ 8 files changed, 72 insertions(+), 20 deletions(-)
 
-Yeah, I believe so. Any property (regardless of whether the value actually
-changed or not) included in the atomic commit may directly (applied on a CR=
-TC
-object) or indirectly (applied on a plane/connector linked to a CRTC) pull =
-in
-a CRTC and have side-effects. (Also, as noted on IRC, a driver might pull i=
-n a
-CRTC on its own, e.g. when reconfiguring a DP-MST tree.)
+-- 
+2.43.0
 
-> > > +A "modeset" is a change in KMS state that might enable, disable, or =
-temporarily
-> > > +disrupt the emitted video signal, possibly causing visible glitches =
-on screen. A
-> > > +modeset may also take considerably more time to complete than other =
-kinds of
-> > > +changes, and the video sink might also need time to adapt to the new=
- signal
-> > > +properties. Therefore a modeset must be explicitly allowed with the =
-flag
-> > > +DRM_MODE_ATOMIC_ALLOW_MODESET.  This in combination with
-> > > +DRM_MODE_ATOMIC_TEST_ONLY allows userspace to determine if a state c=
-hange is
-> > > +likely to cause visible disruption on screen and avoid such changes =
-when end
-> > > +users do not expect them.
-> > > +
-> > > +An atomic commit with the flag DRM_MODE_PAGE_FLIP_ASYNC is allowed t=
-o
-> > > +effectively change only the FB_ID property on any planes. No-operati=
-on changes
-> > > +are ignored as always. Changing any other property will cause the co=
-mmit to be
-> > > +rejected. Each driver may relax this restriction if they have guaran=
-tees that
-> > > +such property change doesn't cause modesets. Userspace can use TEST_=
-ONLY commits
-> > > +to query the driver about this. =20
-> >=20
-> > This doesn't 100% match reality at the moment, because core DRM now rej=
-ects any
-> > async commit which changes FB_ID on a non-primary plane. And there is n=
-o way
-> > for drivers to relax this currently.
-> >=20
-> > I'm not sure this is a good place to state such a rule. In the end, it'=
-s the
-> > same as always: the kernel will reject commits it can't perform.
-> > DRM_MODE_PAGE_FLIP_ASYNC does not need to be a special case here. Even =
-when
-> > changing only FB_ID, the kernel might reject the commit (e.g. i915 does=
- in some
-> > cases).
->=20
-> I think the paragraph is good to drop here, if it's documented in a
-> more appropriate place.
-
-Yeah, maybe we should expand the DRM_MODE_PAGE_FLIP_ASYNC docs a bit.
