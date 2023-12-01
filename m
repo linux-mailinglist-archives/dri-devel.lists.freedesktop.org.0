@@ -1,80 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA4380081A
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 11:21:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46FCC800825
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 11:25:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FD7610E099;
-	Fri,  1 Dec 2023 10:21:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1193A10E0C5;
+	Fri,  1 Dec 2023 10:25:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D67410E0C5
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 10:21:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1701426068;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+Bh0vGQqG6k9jMrVj2KcvFrOUEDKVV6QIbcGZMpO/NE=;
- b=J1+V+4W4LLmIbxtTmtBzIj7pq3d36TYPKa/DX9rNj/0CK1A6T81LTubmJGE20qiK+e9mT7
- ZrZQyYHR2lnBabqkTHmNbuGRr+Fo5zqGnr2eFqqyofiEc3FYyfEnbGTz9daEzZ+UQRUArZ
- 6TfbwplsIubmtY25J2Uf0UD++NrGKno=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-508-EfVsTJhROlyJVN7mtr1-5Q-1; Fri, 01 Dec 2023 05:21:04 -0500
-X-MC-Unique: EfVsTJhROlyJVN7mtr1-5Q-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-40b443d698eso12965485e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Dec 2023 02:21:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701426064; x=1702030864;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+Bh0vGQqG6k9jMrVj2KcvFrOUEDKVV6QIbcGZMpO/NE=;
- b=MmqRSX/1s/lUvzXM5wrpCOoF8g9CmPhRhx3kBtmLv+g01RBU6oAZW8U2WViVOpGSXu
- cg2Boh1rKjV9ggeS1L4o4keiyVr1hXt3meyftUlI6XOnu2kO7b/io+yYKeVZ85sxnkaQ
- 5wIJ0N+TKJdEIUjaK3AeHgKyp3b5g4NsU9xum9slTdi1996H82mC5v8q7yl7/HuxX0bM
- yM2AA4GYDjBx3h+ymT7L7B0PPFaO2r2cRazhdzsyUvVBHYOqp6YM+qfjX8wtHjXr2XMo
- NpPEJ25oqWXfj5F4le/pDEwFv84RIMLFMsl/kxe1zQfk+gjLHeYeQ9x4x4/TFeYGlcGN
- CrSA==
-X-Gm-Message-State: AOJu0YxjKQ9VlEkSjagTZsli2/iNQ1vrrBP9lrZXH431dHwYLdrWlpMG
- GgqcquXmxy1J4lXErUSgMHhYvoaw18JORt/NSzl3thLO0Iw0jjp6r7TVGppiqBpaRZ3Kmls4cnw
- IOrfxEmVa2FPlgcMtpiw+w/rY5yk9
-X-Received: by 2002:a05:600c:4504:b0:40b:5e21:d366 with SMTP id
- t4-20020a05600c450400b0040b5e21d366mr314301wmo.111.1701426063770; 
- Fri, 01 Dec 2023 02:21:03 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH48dNlPqlwgO2N+pjIvLSQ7hASCsvohHOe8o2Sdt8EJlyAAewTySsrbSEPww2SelJYsI4ukw==
-X-Received: by 2002:a05:600c:4504:b0:40b:5e21:d366 with SMTP id
- t4-20020a05600c450400b0040b5e21d366mr314294wmo.111.1701426063464; 
- Fri, 01 Dec 2023 02:21:03 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- h7-20020adf9cc7000000b0032d8eecf901sm3859764wre.3.2023.12.01.02.21.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Dec 2023 02:21:03 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Ard Biesheuvel
- <ardb@kernel.org>, Rob Herring <robh@kernel.org>
-Subject: Re: [RFC PATCH] of/platform: Disable sysfb if a simple-framebuffer
- node is found
-In-Reply-To: <58672ab8-99bf-4a2a-af79-031d1e8fcba0@suse.de>
-References: <20231113085305.1823455-1-javierm@redhat.com>
- <CAL_JsqKHTN5hfd4qpg5RXbmQLKZNVywDkSj9mxvfGmjrcChQQg@mail.gmail.com>
- <87jzqi59bt.fsf@minerva.mail-host-address-is-not-set>
- <CAL_JsqJM9+cbNviwuKGB5+3YbyAP3UH+TxCxsU5nUtX-iRGP2w@mail.gmail.com>
- <CAMj1kXG7Xyk0ys9j-XRo7Rr8gYz1qJE8fFSixBOwVbm-pjeX+A@mail.gmail.com>
- <874jhj1fm3.fsf@minerva.mail-host-address-is-not-set>
- <58672ab8-99bf-4a2a-af79-031d1e8fcba0@suse.de>
-Date: Fri, 01 Dec 2023 11:21:02 +0100
-Message-ID: <87fs0mxlyp.fsf@minerva.mail-host-address-is-not-set>
+Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 344CC10E0D1
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 10:25:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1701426309; x=1701685509;
+ bh=bgyglF9ayxa/RKpdlocwZSsZ3zpKoAyjXW1dDPrXAGw=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=bcHl5BOWYJk0TNt+h0a9dSc7hrj5VR3v/kDHbFw4D6qQ43nZkZsUCZJZcDlef95K8
+ GrGLErUWOXrEp8Vne614IgeuIvN+x+S2s5Y5ItC1PQ9WgGl+oaCYuauaxRNckBO0Wq
+ 130Q+aUQIMLyDdDnTQMgd/2YIlOKfZ7rFkaAOJyL/lrFKEuko+hGFW0sdSBsnQ2xWI
+ GLQLeWNgrT9RLZeZxmJ/2RETDuDnXOg/D3UV9Sf9QCki5U48+LC9C7aOXh1AcAvDgl
+ qQDWfQixyh9cvr8ALnbfagtkRR3Zy6xePdY76/MGM1z7XYbxYjaYP2wlrm8eSeYJbV
+ qaPa7yxtL95Rg==
+Date: Fri, 01 Dec 2023 10:25:03 +0000
+To: Pekka Paalanen <pekka.paalanen@collabora.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm/doc: Define KMS atomic state set
+Message-ID: <SdYVz-02vwuB23Xyjr6J15D4E50DBpqfdXP9QTROngMmiV2RBmXIjp2fizBEIA_iQssaVpiqwvhDhSZbc9hdQm5Hp1-I8EK3_lGnwELZkT0=@emersion.fr>
+In-Reply-To: <20231201115709.61c0817e.pekka.paalanen@collabora.com>
+References: <20231130200740.53454-1-andrealmeid@igalia.com>
+ <40gonZRoP7FjDn_ugL_LpXsqwoSCZtypIe7jiWg0t8lkTx94-gESc60Cuu5eWxivJoZCNg3i-cUG9kNpKQZeYdCJPawDpTSIXivJ_t_a87E=@emersion.fr>
+ <20231201115709.61c0817e.pekka.paalanen@collabora.com>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,118 +49,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sergio Lopez <slp@redhat.com>,
- Sima Vetter <daniel.vetter@ffwll.ch>, Hector Martin <marcan@marcan.st>,
- Andrew Worsley <amworsley@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ =?utf-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ =?utf-8?Q?=27Marek_Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
+ =?utf-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+On Friday, December 1st, 2023 at 10:57, Pekka Paalanen <pekka.paalanen@coll=
+abora.com> wrote:
 
-> Hi
->
-> Am 18.11.23 um 12:10 schrieb Javier Martinez Canillas:
->> Ard Biesheuvel <ardb@kernel.org> writes:
->> 
->> Hello Ard,
->> 
->>> On Fri, 17 Nov 2023 at 00:09, Rob Herring <robh@kernel.org> wrote:
->> 
->> [...]
->> 
->>>>>>
->>>>>> This could also lead to an interesting scenario. As simple-framebuffer
->>>>>> can define its memory in a /reserved-memory node, but that is ignored
->>>>>> in EFI boot. Probably would work, but only because EFI probably
->>>>>> generates its memory map table from the /reserved-memory nodes.
->>>>>>
->>>>>
->>>>> I see. So what would be the solution then? Ignoring creating a platform
->>>>> device for "simple-framebuffer" if booted using EFI and have an EFI-GOP?
->>>>
->>>> Shrug. I don't really know anything more about EFI FB, but I would
->>>> guess it can't support handling resources like clocks, power domains,
->>>> regulators, etc. that simple-fb can. So if a platform needs those, do
->>>> we say they should not setup EFI-GOP? Or is there a use case for
->>>> having both? Clients that don't muck with resources can use EFI-GOP
->>>> and those that do use simple-fb. For example, does/can grub use
->>>> EFI-GOP, but not simple-fb?
->>>>
->>>
->>> The EFI GOP is just a dumb framebuffer, and it is not even generally
->>> possible to cross reference the GOP with a particular device in the
->>> device hierarchy unless you e.g., compare the BARs of each device with
->>> the region described by the GOP protocol.
->>>
->>> GRUB for EFI will use the GOP and nothing else, but only at boot time
->>> (the GOP protocol is more than a magic linear memory region, it also
->>> implements a Blt() abstraction that permits the use of framebuffers
->>> that are not mapped linearly into the address space at all, and GRUB
->>> makes use of this)
->>>
->>> The EFI stub will only expose GOPs to the kernel if they are in fact
->>> linear framebuffers, but has zero insight into whether the hardware
->>> needs clocks and regulators, and whether or not the framebuffer needs
->>> IOMMU pass through (which might be the case if the scanout is using
->>> DMA into system memory)
->>>
->>> So calling EFI GOP 'source of truth' is rather generous, and I think
->>> it makes sense to prioritize more accurate descriptions of the
->>> underlying framebuffer over EFI GOP.
->>>
->> 
->> That was my opinion as well and the reason why I called the DTB the
->> single source of truth.
->> 
->>> However, making 'simple-framebuffer' magic in this regard doesn't seem
->>> like a great approach to me. Is there a better way we could get the
->>> resource conflict to be decided in a way where the EFI GOP gets
->>> superseded if its resources are claimed by another device?
->>>
->> 
->> There is an aperture [0] framework that is used by the fbdev and DRM
->> subsystems to allow native drivers to remove any conflicting devices
->> that share the same framebuffer aperture.
->> 
->> But it only makes sense for native drivers to use that I think, but
->> in this case is about two drivers that attempt to use the same frame
->> buffer provided by the firmware but getting it from different places.
->> 
->> I don't have a better idea than this patch but maybe Thomas or Sima do?
->
-> At SUSE, we've carried such a patch in our repos for some time. It works 
-> around the double-framebuffer problem in a similar way. [1]
->
+> > > +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, whic=
+h means the =20
+> >=20
+> > It would be nice to link DRM_MODE_ATOMIC_TEST_ONLY to the actual docs h=
+ere.
+> > This can be done with markup such as:
+> >=20
+> >     :c:macro:`DRM_MODE_ATOMIC_TEST_ONLY`
+> >=20
+> > Same applies to other #defines.
+> >=20
+> > > +complete state change is validated but not applied.  Userspace shoul=
+d use this =20
+> >=20
+> > I'd s/should/can/ here, because there are valid cases where user-space =
+doesn't
+> > really need to test before applying. Applying a state first validates i=
+t in the
+> > kernel anwyays.
+>=20
+> Those cases a very much an exception. If you want to explain in what
+> cases testing is not necessary, that's fine to add, but without it I do
+> want to always recommend testing first. There is no harm in testing too
+> much, but there is harm in not testing which implies that there is
+> likely no fallback either. Without fallbacks, the kernel developers
+> have less room to change things, and the userspace itself is probably
+> too fragile to be generally useful.
+>=20
+> Or, if you think this concern is moot, then why would userspace ever
+> use testing?
+>=20
+> However, I have understood from past kernel discussions that userspace
+> really does need to test and fall back on test failure in almost all
+> cases. Otherwise userspace becomes too driver/hardware dependent.
+>=20
+> In general, I think recommending best practices with "should" is a good
+> idea.
 
-Thanks for the information. I see that your patch is basically mine but
-doing it unconditionally while this one only does the sysfb_disable() if
-a "simple-framebuffer" DT node has been found.
+I was mostly thinking about very simple KMS clients that only use the most
+basic configuration (full-screen buffer with no scaling/cropping). That's
+actually a quite common case.
 
-> As Javier mentioned, we do track the framebuffer ranges for EFI/VESA/OF 
-> framebuffers in the graphics aperture helpers. Fbdev has done this for 
-> decades, and the current codebase extends and harmonizes this 
-> functionality among fbdev and DRM drivers.
->
-> WRT DT vs EFI: AFAIK the EFI support on affected platforms looks at the 
-> DT to set up the EFI framebuffer. So IMHO the DT is the authoritative 
-> source on the framebuffer.
->
+But I see what you mean here, I don't mind keeping the current wording.
 
-Agreed. Sima Vetter also mentioned on IRC that they think this patch is
-the least bad option. Rob, Ard any thoughts? Maybe we can land this as
-a fix and then figure how this could be better handled in the long term?
+> > > +flag to validate any state change before asking to apply it. If vali=
+dation fails
+> > > +for any reason, userspace should attempt to fall back to another, pe=
+rhaps
+> > > +simpler, final state.  This allows userspace to probe for various co=
+nfigurations
+> > > +without causing visible glitches on screen and without the need to u=
+ndo a
+> > > +probing change.
+> > > +
+> > > +The changes recorded in an atomic commit apply on top the current KM=
+S state in
+> > > +the kernel. Hence, the complete new KMS state is the complete old KM=
+S state with
+> > > +the committed property settings done on top. The kernel will try to =
+avoid
+> > > +no-operation changes, so it is safe for userspace to send redundant =
+property
+> > > +settings.  However, not every situation allows for no-op changes, du=
+e to the
+> > > +need to acquire locks for some attributes. Userspace needs to be awa=
+re that some
+> > > +redundant information might result in oversynchronization issues.  N=
+o-operation
+> > > +changes do not count towards actually needed changes, e.g.  setting =
+MODE_ID to a
+> > > +different blob with identical contents as the current KMS state shal=
+l not be a
+> > > +modeset on its own. As a special exception for VRR needs, explicitly=
+ setting
+> > > +FB_ID to its current value is not a no-op. =20
+> >=20
+> > I'm not sure talking about FB_ID is the right thing to do here. There i=
+s
+> > nothing special about FB_ID in particular. For instance, setting CRTC_I=
+D to the
+> > same value as before has the same effect. Talking specifically about FB=
+_ID here
+> > can be surprising for user-space: reading these docs, I'd assume settin=
+g
+> > CRTC_ID to the same value as before is a no-op, but in reality it's not=
+.
+>=20
+> Whoa, I never knew that! That's a big surprise!
 
-> Best regards
-> Thomas
->
-> [1] https://bugzilla.suse.com/show_bug.cgi?id=1204315
->
+Aha! Seems like KMS always has a trick up its sleeve to surprise user-space
+devs :)
 
--- 
-Best regards,
+> People have always been talking only about FB_ID so far.
+>=20
+> > Instead, I'd suggest explaining how referencing a plane/CRTC/connector =
+in an
+> > atomic commit adds it to the new state, even if there are no effective =
+property
+> > value changes.
+>=20
+> So, if a CRTC object is pulled into drm_atomic_state(?) at all, on VRR
+> it will trigger a new scanout cycle always, avoiding the front porch
+> timeout?
+>=20
+> Yikes.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Yeah, I believe so. Any property (regardless of whether the value actually
+changed or not) included in the atomic commit may directly (applied on a CR=
+TC
+object) or indirectly (applied on a plane/connector linked to a CRTC) pull =
+in
+a CRTC and have side-effects. (Also, as noted on IRC, a driver might pull i=
+n a
+CRTC on its own, e.g. when reconfiguring a DP-MST tree.)
 
+> > > +A "modeset" is a change in KMS state that might enable, disable, or =
+temporarily
+> > > +disrupt the emitted video signal, possibly causing visible glitches =
+on screen. A
+> > > +modeset may also take considerably more time to complete than other =
+kinds of
+> > > +changes, and the video sink might also need time to adapt to the new=
+ signal
+> > > +properties. Therefore a modeset must be explicitly allowed with the =
+flag
+> > > +DRM_MODE_ATOMIC_ALLOW_MODESET.  This in combination with
+> > > +DRM_MODE_ATOMIC_TEST_ONLY allows userspace to determine if a state c=
+hange is
+> > > +likely to cause visible disruption on screen and avoid such changes =
+when end
+> > > +users do not expect them.
+> > > +
+> > > +An atomic commit with the flag DRM_MODE_PAGE_FLIP_ASYNC is allowed t=
+o
+> > > +effectively change only the FB_ID property on any planes. No-operati=
+on changes
+> > > +are ignored as always. Changing any other property will cause the co=
+mmit to be
+> > > +rejected. Each driver may relax this restriction if they have guaran=
+tees that
+> > > +such property change doesn't cause modesets. Userspace can use TEST_=
+ONLY commits
+> > > +to query the driver about this. =20
+> >=20
+> > This doesn't 100% match reality at the moment, because core DRM now rej=
+ects any
+> > async commit which changes FB_ID on a non-primary plane. And there is n=
+o way
+> > for drivers to relax this currently.
+> >=20
+> > I'm not sure this is a good place to state such a rule. In the end, it'=
+s the
+> > same as always: the kernel will reject commits it can't perform.
+> > DRM_MODE_PAGE_FLIP_ASYNC does not need to be a special case here. Even =
+when
+> > changing only FB_ID, the kernel might reject the commit (e.g. i915 does=
+ in some
+> > cases).
+>=20
+> I think the paragraph is good to drop here, if it's documented in a
+> more appropriate place.
+
+Yeah, maybe we should expand the DRM_MODE_PAGE_FLIP_ASYNC docs a bit.
