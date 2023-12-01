@@ -1,76 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA58D801788
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Dec 2023 00:21:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB7A801793
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Dec 2023 00:23:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1571F10E98C;
-	Fri,  1 Dec 2023 23:21:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 627BC10E97E;
+	Fri,  1 Dec 2023 23:23:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FB9C10E97E;
- Fri,  1 Dec 2023 23:20:19 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3B1MBksX011689; Fri, 1 Dec 2023 23:20:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=uIxf+ZKLGL7g2ELKPG4AkNXCOvEGLX2PrXKPG5Fuh8U=;
- b=hHGGzzdODdvDZ1ZomTXFaBTH6TN7m3M+dRNurYXLOrVKLhsGEn0c9SbnkW1aMex2dDWA
- ylX8gy+rnpbc7zHmONFtppC8fnakl32zltIVb4LwcOZrv+EZLRb482Wur4E8Q5bMzStm
- N093pvwfmuqrENGWuKe8DEn1cTXEaatGSvsL/bGLYwgZ4hHPowjhZ+tzIZHjP+6qO1uX
- WACP/fRZmhj+NnwP5kB/RSzkeU1jBr59C3g3OZySjXbMiO+vo26GGOFMCzh41tWwVL1Z
- 0lLR0aURA57NxILfYKQZXznvlovO8Ax3vNmZmeZhSq0p1v1yTp+zK/10mOv1/aMh1iPP ew== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uq79hapqt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 01 Dec 2023 23:20:13 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B1NKCGB014135
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 1 Dec 2023 23:20:12 GMT
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 1 Dec 2023 15:20:11 -0800
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v9 7/7] drm/msm/dp: move of_dp_aux_populate_bus() to eDP
- probe()
-Date: Fri, 1 Dec 2023 15:19:49 -0800
-Message-ID: <1701472789-25951-8-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1701472789-25951-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1701472789-25951-1-git-send-email-quic_khsieh@quicinc.com>
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E277810E987
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 23:23:01 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id
+ 38308e7fff4ca-2c9b9191722so36408141fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Dec 2023 15:23:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701472980; x=1702077780; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/mPB8J9KOLgFvXqw1rydMIKNrEURsJRhisRvaGx5Qvo=;
+ b=ONXyDMycn5lU8wrVgcLKqp5bP44zbgejKdDCTiXgNC5yj+NyQvBfb+aqv9yqou7gGX
+ gByI4NkBYR7MtAbp+smYltVn/EAM8KY4HzQdpS3YPOWiIaz5FGbhm0qwWQ78jMPoups8
+ vM/vtv6E4R8+1lZYJEbiHfLEkS5BFbcYQkW7gu9jAWmJ7LPXNUagqIxNkwp3U/8hJ232
+ Q5iW2gAsI3b4tFeXbDEkJMreGvC12aGPo1Mkj/pRWgXqL53gMryMm0DXwpx8MpXQQ9qO
+ iBEUe3JCeQyFnfXlTH+NNJilQFxtiEjnuWJ7laWYn6/Q7F7buXsdRn3xXUD7b+xEyQ/S
+ +A3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701472980; x=1702077780;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/mPB8J9KOLgFvXqw1rydMIKNrEURsJRhisRvaGx5Qvo=;
+ b=ev4n5oz6PHx5n30Q2rYKiaZFdktqa1ZFBkvmw0OAe7xhQi1oaKAmGL4+8ER3aFAf2t
+ aKIO/wYtoGN9YkUj3bIXFewFpjrpZr+CZVYP1J4WYfiPuYdu5H8eHm7Yb3vqiO6HkAjz
+ gFdYEbXnbzIbPkG28ZQfC36mvuPVUTV7LuYH+WU1Q4PehfYBTKJQv4HrJcXV6Yc5/Zfe
+ i310L7m4QYJTN2P9C1AeKMjA2IllDqBhIDZBs9oUdv2kylPDJj/2e3ZqJaNf8TX+a+ii
+ 0aWd2zNFHiYYqOSu/9Fgjm8Xgq2NXDcff4vGRWEMXAzelbDC+0zLGaCdu8TlMkZw7rE3
+ cWzA==
+X-Gm-Message-State: AOJu0YxRXFjBeyss16a5kf4jxflcvrETENmuaNFPYPgZRzH9l86axa2p
+ w3dBHIGXz1CobFhM9YVNlsBcyBWgg/u+PQzuuKMSJMElN6M=
+X-Google-Smtp-Source: AGHT+IEwZ3nkP64SLpV3NkvgH1lRsLPyZfl7SpQBWnCAVSDtZo0FcR829DhEkezYz+K6KxEhUMKjIw==
+X-Received: by 2002:a05:6512:313c:b0:50b:c768:d347 with SMTP id
+ p28-20020a056512313c00b0050bc768d347mr1292282lfd.18.1701472979687; 
+ Fri, 01 Dec 2023 15:22:59 -0800 (PST)
+Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a0db:1f00::8a5]) by smtp.gmail.com with ESMTPSA id
+ k10-20020ac24f0a000000b0050bcb5b443dsm549662lfr.171.2023.12.01.15.22.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Dec 2023 15:22:59 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: dri-devel@lists.freedesktop.org,
+	Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v9 0/3] dma-fence: Deadline awareness (uabi edition)
+Date: Sat,  2 Dec 2023 01:22:56 +0200
+Message-ID: <170147278460.2064169.18443996473333750316.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20230823215458.203366-1-robdclark@gmail.com>
+References: <20230823215458.203366-1-robdclark@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: aVGODPesL2FyZjrf8L1GQ1a3FclQfP_8
-X-Proofpoint-GUID: aVGODPesL2FyZjrf8L1GQ1a3FclQfP_8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-01_22,2023-11-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0
- impostorscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501
- adultscore=0 mlxscore=0 phishscore=0 suspectscore=0 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2312010144
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,206 +75,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, linux-pm@vger.kernel.org,
+ Gustavo Padovan <gustavo@padovan.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Xaver Hugl <xaver.hugl@gmail.com>, linux-kernel@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, freedreno@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently eDP population is done at msm_dp_modeset_init() which happen
-at binding time. Move eDP population to be done at display probe time
-so that probe deferral cases can be handled effectively.
-wait_for_hpd_asserted callback is added during drm_dp_aux_init()
-to ensure eDP's HPD is up before proceeding eDP population.
 
-Changes in v5:
--- inline dp_display_auxbus_population() and delete it
+On Wed, 23 Aug 2023 14:54:53 -0700, Rob Clark wrote:
+> This is a re-post of the remaining patches from:
+> https://patchwork.freedesktop.org/series/114490/
+> 
+> Part of the hold-up of the remaining uabi patches was compositor
+> support, but now an MR for kwin exists:
+> 
+>   https://invent.kde.org/plasma/kwin/-/merge_requests/4358
+> 
+> [...]
 
-Changes in v4:
--- delete duplicate initialize code to dp_aux before drm_dp_aux_register()
--- delete of_get_child_by_name(dev->of_node, "aux-bus") and inline the
-   function
--- not initialize rc = 0
+Applied to drm-misc-next, thanks!
 
-Changes in v3:
--- add done_probing callback into devm_of_dp_aux_populate_bus()
+[1/3] drm/syncobj: Add deadline support for syncobj waits
+      commit: 8570c27932e132d2663e8120311891deb2a853de
+[2/3] dma-buf/sync_file: Add SET_DEADLINE ioctl
+      commit: 63ee44540205d993854f143a5ab1d7d9e63ffcf1
+[3/3] dma-buf/sw_sync: Add fence deadline support
+      commit: 70e67aaec2f4706df0006423eebca813b00f5840
 
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dp/dp_aux.c     | 34 ++++++++++++++++-----
- drivers/gpu/drm/msm/dp/dp_display.c | 59 +++++++++++++++----------------------
- 2 files changed, 51 insertions(+), 42 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
-index 10b6eeb..03f4951 100644
---- a/drivers/gpu/drm/msm/dp/dp_aux.c
-+++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-@@ -479,7 +479,6 @@ void dp_aux_deinit(struct drm_dp_aux *dp_aux)
- 
- int dp_aux_register(struct drm_dp_aux *dp_aux)
- {
--	struct dp_aux_private *aux;
- 	int ret;
- 
- 	if (!dp_aux) {
-@@ -487,12 +486,7 @@ int dp_aux_register(struct drm_dp_aux *dp_aux)
- 		return -EINVAL;
- 	}
- 
--	aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
--
--	aux->dp_aux.name = "dpu_dp_aux";
--	aux->dp_aux.dev = aux->dev;
--	aux->dp_aux.transfer = dp_aux_transfer;
--	ret = drm_dp_aux_register(&aux->dp_aux);
-+	ret = drm_dp_aux_register(dp_aux);
- 	if (ret) {
- 		DRM_ERROR("%s: failed to register drm aux: %d\n", __func__,
- 				ret);
-@@ -507,6 +501,21 @@ void dp_aux_unregister(struct drm_dp_aux *dp_aux)
- 	drm_dp_aux_unregister(dp_aux);
- }
- 
-+static int dp_wait_hpd_asserted(struct drm_dp_aux *dp_aux,
-+				 unsigned long wait_us)
-+{
-+	int ret;
-+	struct dp_aux_private *aux;
-+
-+	aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
-+
-+	pm_runtime_get_sync(aux->dev);
-+	ret = dp_catalog_aux_wait_for_hpd_connect_state(aux->catalog);
-+	pm_runtime_put_sync(aux->dev);
-+
-+	return ret;
-+}
-+
- struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
- 			      bool is_edp)
- {
-@@ -530,6 +539,17 @@ struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
- 	aux->catalog = catalog;
- 	aux->retry_cnt = 0;
- 
-+	/*
-+	 * Use the drm_dp_aux_init() to use the aux adapter
-+	 * before registering AUX with the DRM device so that
-+	 * msm eDP panel can be detected by generic_dep_panel_probe().
-+	 */
-+	aux->dp_aux.name = "dpu_dp_aux";
-+	aux->dp_aux.dev = dev;
-+	aux->dp_aux.transfer = dp_aux_transfer;
-+	aux->dp_aux.wait_hpd_asserted = dp_wait_hpd_asserted;
-+	drm_dp_aux_init(&aux->dp_aux);
-+
- 	return &aux->dp_aux;
- }
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 6693582..cfbc610 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -1199,6 +1199,17 @@ static const struct msm_dp_desc *dp_display_get_desc(struct platform_device *pde
- 	return NULL;
- }
- 
-+static int dp_auxbus_done_probe(struct drm_dp_aux *aux)
-+{
-+	int rc;
-+
-+	rc = component_add(aux->dev, &dp_display_comp_ops);
-+	if (rc)
-+		DRM_ERROR("eDP component add failed, rc=%d\n", rc);
-+
-+	return rc;
-+}
-+
- static int dp_display_probe(struct platform_device *pdev)
- {
- 	int rc = 0;
-@@ -1264,10 +1275,18 @@ static int dp_display_probe(struct platform_device *pdev)
- 	if (rc)
- 		goto err;
- 
--	rc = component_add(&pdev->dev, &dp_display_comp_ops);
--	if (rc) {
--		DRM_ERROR("component add failed, rc=%d\n", rc);
--		goto err;
-+	if (dp->dp_display.is_edp) {
-+		rc = devm_of_dp_aux_populate_bus(dp->aux, dp_auxbus_done_probe);
-+		if (rc) {
-+			DRM_ERROR("eDP auxbus population failed, rc=%d\n", rc);
-+			goto err;
-+		}
-+	} else {
-+		rc = component_add(&pdev->dev, &dp_display_comp_ops);
-+		if (rc) {
-+			DRM_ERROR("component add failed, rc=%d\n", rc);
-+			goto err;
-+		}
- 	}
- 
- 	return rc;
-@@ -1283,7 +1302,6 @@ static void dp_display_remove(struct platform_device *pdev)
- 
- 	component_del(&pdev->dev, &dp_display_comp_ops);
- 	dp_display_deinit_sub_modules(dp);
--
- 	platform_set_drvdata(pdev, NULL);
- }
- 
-@@ -1389,29 +1407,8 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
- {
- 	int rc;
- 	struct dp_display_private *dp_priv;
--	struct device_node *aux_bus;
--	struct device *dev;
- 
- 	dp_priv = container_of(dp, struct dp_display_private, dp_display);
--	dev = &dp_priv->dp_display.pdev->dev;
--	aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
--
--	if (aux_bus && dp->is_edp) {
--		/*
--		 * The code below assumes that the panel will finish probing
--		 * by the time devm_of_dp_aux_populate_ep_devices() returns.
--		 * This isn't a great assumption since it will fail if the
--		 * panel driver is probed asynchronously but is the best we
--		 * can do without a bigger driver reorganization.
--		 */
--		rc = of_dp_aux_populate_bus(dp_priv->aux, NULL);
--		of_node_put(aux_bus);
--		if (rc)
--			goto error;
--	} else if (dp->is_edp) {
--		DRM_ERROR("eDP aux_bus not found\n");
--		return -ENODEV;
--	}
- 
- 	/*
- 	 * External bridges are mandatory for eDP interfaces: one has to
-@@ -1424,17 +1421,9 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
- 	if (!dp->is_edp && rc == -ENODEV)
- 		return 0;
- 
--	if (!rc) {
-+	if (!rc)
- 		dp->next_bridge = dp_priv->parser->next_bridge;
--		return 0;
--	}
- 
--error:
--	if (dp->is_edp) {
--		of_dp_aux_depopulate_bus(dp_priv->aux);
--		dp_display_host_phy_exit(dp_priv);
--		dp_display_host_deinit(dp_priv);
--	}
- 	return rc;
- }
- 
+Best regards,
 -- 
-2.7.4
-
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
