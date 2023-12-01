@@ -1,128 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BBF58006C6
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 10:23:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E41CC8006CF
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 10:25:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32D5A10E82F;
-	Fri,  1 Dec 2023 09:23:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5660510E0A5;
+	Fri,  1 Dec 2023 09:25:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F320010E82A
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 09:23:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1701422623;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=J/HNsGBAY9tCftPYDhpctNf5+8xRFRhgnlekGos4DSM=;
- b=aYXbPUjWch9Wgrvr8vPs8c1TJTA/hWj4C44aDYwXyFPmfI0yFx0sAB8rm70nOxQkGpixJS
- QCRlNxT4NFC40eLUCYhG9MK6XIKHY7orLqUl7Qrzl5gLUrezanXaJsGOCx5wJAiXD+onpx
- Rsa4zwJKJvoJucYSby0F98fc55QvA5Q=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-682-NuKJR5LrOmO3bRiE2S7wrw-1; Fri, 01 Dec 2023 04:23:41 -0500
-X-MC-Unique: NuKJR5LrOmO3bRiE2S7wrw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-407d3e55927so16068885e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Dec 2023 01:23:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701422620; x=1702027420;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=J/HNsGBAY9tCftPYDhpctNf5+8xRFRhgnlekGos4DSM=;
- b=RCXBxErXLmYEb6b7xwWXEoSEGbX0ZFeG9zYZZ8bJfUfg0F6Ps+kFtLEc8kSGPZAWyf
- 6KlDmzBuIjw3TTGesU4u13YBG6/trlsMrf1JQSPNyNSQzUzWyjh/p4+32KnWYKc2O5v0
- /h8sgsOkm3MlsjFgAECngPY3gvoX8Z7EWBlSx3uKfX5UyqKgGDWRHr6J9/iI9GXvx2b1
- MmdftLbQXSPfiy4pOPi/QfoXP/29/ZNbbo2590XW6tTO/AfCyKAnyi2VjSrdHGu1Uwo7
- +sFv4Unp86IoaFqKqNfKT/tuhtck5DcS395SGB8UuBYvRgT9LT0bs4fV+tjYX6UNG1XP
- HmAg==
-X-Gm-Message-State: AOJu0YysRo8kOFRnevWOLGoYB6JnfFOxVl2Nk7Cg+u2rwnmKzchIxdyc
- Ybal6rRr8AtiIP+HjFibZmS7vV5DK+RHeK6eJQw2PvcTcQP+/d0X26RI298rL6OmFD0rC8FKeVA
- GMIsu5CD1Ylr8btX/dJznw9kBYFg2
-X-Received: by 2002:a05:600c:1da7:b0:40b:5e59:cca0 with SMTP id
- p39-20020a05600c1da700b0040b5e59cca0mr256593wms.129.1701422620576; 
- Fri, 01 Dec 2023 01:23:40 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFbj59aKrdp1bwC45vVYTH//o6ADwu3HnhrokcgPLEaEt76aIWUxif6MnQKy43m6yymBTuLpg==
-X-Received: by 2002:a05:600c:1da7:b0:40b:5e59:cca0 with SMTP id
- p39-20020a05600c1da700b0040b5e59cca0mr256570wms.129.1701422620020; 
- Fri, 01 Dec 2023 01:23:40 -0800 (PST)
-Received: from ?IPV6:2003:cb:c726:4100:c308:78e3:8f80:52ac?
- (p200300cbc7264100c30878e38f8052ac.dip0.t-ipconnect.de.
- [2003:cb:c726:4100:c308:78e3:8f80:52ac])
- by smtp.gmail.com with ESMTPSA id
- k18-20020a05600c1c9200b0040b38292253sm8469404wms.30.2023.12.01.01.23.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Dec 2023 01:23:39 -0800 (PST)
-Message-ID: <e4eb5a24-e9cf-4944-9614-df5f5f3a7163@redhat.com>
-Date: Fri, 1 Dec 2023 10:23:37 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 804DB10E0A5
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 09:25:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id D115E620D4;
+ Fri,  1 Dec 2023 09:25:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31B11C433C7;
+ Fri,  1 Dec 2023 09:25:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1701422711;
+ bh=pap0dJ7Aexs0KGqqAq0I3SAp6oVPIn/53vGN/L16G3g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jo++edaPYGu5OZ3NsMc3O5H4BNhyyZ9oJWhGoph0k8VwwbGjUrW9s+S3aWmGKv3TK
+ tfmjJOXp+s2tOMRp0+i5zNc2qKUo6nR/8WlTHdIY9GQgD8Xo0x8K7hDcrhV7XNJyIF
+ VhdoK7wcxtifKlWhm7zF6cOYvqC+Sg1lMZZ/ymyaksY8fWl4p06Ec5cKcJSgmbhZuH
+ bDpwONi70lo4fRUn615W0ON2hrV2ANvFhJ6gRYfPEWWXl7tixuBiqWVmZgbV6skciq
+ vM+D+rrq4EFPxbs4WePG6eXoPiSshuvlniyhdU7aAufwkBAD+tZgS+3D2QeMp4MEn/
+ 28RjKeylLLpeg==
+Date: Fri, 1 Dec 2023 10:25:09 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH] drm/doc: Define KMS atomic state set
+Message-ID: <bry3w6w32uy2jlmbkcmbtthw6w6nwux7dwlcju5iuxac2wphku@md6njxjtsbvm>
+References: <20231130200740.53454-1-andrealmeid@igalia.com>
+ <x6cqert2tadgc46w3u2rfgcfaw6evxdeerl2mxvh2peycr4i7q@qf6oqymcti4j>
+ <20231201110616.30ad1468.pekka.paalanen@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 2/6] mm/gmem: add arch-independent abstraction to
- track address mapping status
-To: Weixi Zhu <weixi.zhu@huawei.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, akpm@linux-foundation.org
-References: <20231128125025.4449-1-weixi.zhu@huawei.com>
- <20231128125025.4449-3-weixi.zhu@huawei.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <20231128125025.4449-3-weixi.zhu@huawei.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="3qxpsltzimgkb2dd"
+Content-Disposition: inline
+In-Reply-To: <20231201110616.30ad1468.pekka.paalanen@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,131 +53,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, leonro@nvidia.com, apopple@nvidia.com,
- amd-gfx@lists.freedesktop.org, mgorman@suse.de, ziy@nvidia.com,
- zhi.a.wang@intel.com, rcampbell@nvidia.com, jgg@nvidia.com,
- weixi.zhu@openeuler.sh, jhubbard@nvidia.com, intel-gfx@lists.freedesktop.org,
- mhairgrove@nvidia.com, jglisse@redhat.com, rodrigo.vivi@intel.com,
- intel-gvt-dev@lists.freedesktop.org, tvrtko.ursulin@linux.intel.com,
- Felix.Kuehling@amd.com, Xinhui.Pan@amd.com, christian.koenig@amd.com,
- alexander.deucher@amd.com, ogabbay@kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
+ =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
+ 'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
+ Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Pekka Paalanen <ppaalanen@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com, alexander.deucher@amd.com,
+ Thomas Zimmermann <tzimmermann@suse.de>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28.11.23 13:50, Weixi Zhu wrote:
-> This patch adds an abstraction layer, struct vm_object, that maintains
-> per-process virtual-to-physical mapping status stored in struct gm_mapping.
-> For example, a virtual page may be mapped to a CPU physical page or to a
-> device physical page. Struct vm_object effectively maintains an
-> arch-independent page table, which is defined as a "logical page table".
-> While arch-dependent page table used by a real MMU is named a "physical
-> page table". The logical page table is useful if Linux core MM is extended
-> to handle a unified virtual address space with external accelerators using
-> customized MMUs.
 
-Which raises the question why we are dealing with anonymous memory at 
-all? Why not go for shmem if you are already only special-casing VMAs 
-with a MMAP flag right now?
+--3qxpsltzimgkb2dd
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-That would maybe avoid having to introduce controversial BSD design 
-concepts into Linux, that feel like going a step backwards in time to me 
-and adding *more* MM complexity.
+On Fri, Dec 01, 2023 at 11:06:16AM +0200, Pekka Paalanen wrote:
+> On Fri, 1 Dec 2023 09:29:05 +0100
+> Maxime Ripard <mripard@kernel.org> wrote:
+>=20
+> > Hi,
+> >=20
+> > On Thu, Nov 30, 2023 at 05:07:40PM -0300, Andr=E9 Almeida wrote:
+> > > From: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > >=20
+> > > Specify how the atomic state is maintained between userspace and
+> > > kernel, plus the special case for async flips.
+> > >=20
+> > > Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > > Signed-off-by: Andr=E9 Almeida <andrealmeid@igalia.com>
+> > > ---
+> > >=20
+> > > This is a standalone patch from the following serie, the other patche=
+s are
+> > > already merged:
+> > > https://lore.kernel.org/lkml/20231122161941.320564-1-andrealmeid@igal=
+ia.com/
+> > >=20
+> > >  Documentation/gpu/drm-uapi.rst | 47 ++++++++++++++++++++++++++++++++=
+++
+> > >  1 file changed, 47 insertions(+)
+> > >=20
+> > > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-u=
+api.rst
+> > > index 370d820be248..d0693f902a5c 100644
+> > > --- a/Documentation/gpu/drm-uapi.rst
+> > > +++ b/Documentation/gpu/drm-uapi.rst
+> > > @@ -570,3 +570,50 @@ dma-buf interoperability
+> > > =20
+> > >  Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
+> > >  information on how dma-buf is integrated and exposed within DRM.
+> > > +
+> > > +KMS atomic state
+> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > +
+> > > +An atomic commit can change multiple KMS properties in an atomic fas=
+hion,
+> > > +without ever applying intermediate or partial state changes.  Either=
+ the whole
+> > > +commit succeeds or fails, and it will never be applied partially. Th=
+is is the
+> > > +fundamental improvement of the atomic API over the older non-atomic =
+API which is
+> > > +referred to as the "legacy API".  Applying intermediate state could =
+unexpectedly
+> > > +fail, cause visible glitches, or delay reaching the final state.
+> > > +
+> > > +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, whic=
+h means the
+> > > +complete state change is validated but not applied.  Userspace shoul=
+d use this
+> > > +flag to validate any state change before asking to apply it. If vali=
+dation fails
+> > > +for any reason, userspace should attempt to fall back to another, pe=
+rhaps
+> > > +simpler, final state.  This allows userspace to probe for various co=
+nfigurations
+> > > +without causing visible glitches on screen and without the need to u=
+ndo a
+> > > +probing change.
+> > > +
+> > > +The changes recorded in an atomic commit apply on top the current KM=
+S state in
+> > > +the kernel. Hence, the complete new KMS state is the complete old KM=
+S state with
+> > > +the committed property settings done on top. The kernel will try to =
+avoid =20
+> >=20
+> > That part is pretty confusing to me.
+> >=20
+> > What are you calling the current and old KMS state?
+>=20
+> Current =3D old, if you read that "current" is the KMS state before
+> considering the atomic commit at hand.
+>=20
+> > What's confusing to me is that, yes, what you're saying is true for a
+> > given object: if it was part of the commit, the new state is the old
+> > state + whatever the new state changed.
+> >=20
+> > However, if that object wasn't part of the commit at all, then it's
+> > completely out of the old or new global KMS state.
+>=20
+> This is not talking about kernel data structures at all. This is
+> talking about how KMS looks from the userspace point of view.
 
-> 
-> In this patch, struct vm_object utilizes a radix
-> tree (xarray) to track where a virtual page is mapped to. This adds extra
-> memory consumption from xarray, but provides a nice abstraction to isolate
-> mapping status from the machine-dependent layer (PTEs). Besides supporting
-> accelerators with external MMUs, struct vm_object is planned to further
-> union with i_pages in struct address_mapping for file-backed memory.
+I mean, that's also true from the userspace point of view. You can very
+well commit only a single property on a single object, and only that
+object will be part of the "global KMS state".
 
-A file already has a tree structure (pagecache) to manage the pages that 
-are theoretically mapped. It's easy to translate from a VMA to a page 
-inside that tree structure that is currently not present in page tables.
+> All objects are always part of the device KMS state as referred to
+> in this doc, whether they were mentioned in the atomic commit state set
+> or not. That's the whole point: all state that was not explicitly
+> modified remains as it was, and is actively used state by the driver
+> and hardware. The practical end result state is the same as if all
+> objects were (redundantly) mentioned.
+>=20
+> For example, if you change properties of CRTC 31, it has no effect on
+> the behaviour of CRTC 54. If CRTC 54 was active, it remains active. If
+> CRTC 54 had certain property values, it continues to have those
+> property values.
 
-Why the need for that tree structure if you can just remove anon memory 
-from the picture?
+I'm not quite sure I followed your previous paragraph, sorry, but we
+agree here and it's kind of my point really: CRTC-54 would not be part
+of the new KMS state, so claiming that it is complete is confusing.
 
-> 
-> The idea of struct vm_object is originated from FreeBSD VM design, which
-> provides a unified abstraction for anonymous memory, file-backed memory,
-> page cache and etc[1].
+It's not complete to me precisely because it doesn't contain the state
+of all objects.
 
-:/
+> This is opposed to something else; the UAPI could have
+> been designed to e.g. reset all unmentioned objects to defaults/off by
+> the atomic commit. Obviously that's not how it works today, so we need
+> to mention how things do work.
 
-> Currently, Linux utilizes a set of hierarchical page walk functions to
-> abstract page table manipulations of different CPU architecture. The
-> problem happens when a device wants to reuse Linux MM code to manage its
-> page table -- the device page table may not be accessible to the CPU.
-> Existing solution like Linux HMM utilizes the MMU notifier mechanisms to
-> invoke device-specific MMU functions, but relies on encoding the mapping
-> status on the CPU page table entries. This entangles machine-independent
-> code with machine-dependent code, and also brings unnecessary restrictions.
+Sure, I'm not claiming we should change anything but the wording of that
+doc.
 
-Why? we have primitives to walk arch page tables in a non-arch specific 
-fashion and are using them all over the place.
+> >=20
+> > So yeah, individual object KMS state are indeed complete, but
+> > drm_atomic_state definitely isn't. And it's the whole point of functions
+> > like drm_atomic_get_crtc_state() vs drm_atomic_get_old/new_crtc_state:
+> > the old/new variants only return a state if it was part of
+> > drm_atomic_state to begin with. drm_atomic_get_crtc_state() brings the
+> > crtc state into drm_atomic_state if it wasn't part of it.
+>=20
+> At no point the text is referring to drm_atomic_state or any other
+> kernel data structure.
 
-We even have various mechanisms to map something into the page tables 
-and get the CPU to fault on it, as if it is inaccessible (PROT_NONE as 
-used for NUMA balancing, fake swap entries).
+Then it's even more confusing, because the sentence I was quoting was
+"The changes recorded in an atomic commit apply on top the current KMS
+state *in the kernel*", which is ambiguous then.
 
-> The PTE size and format vary arch by arch, which harms the extensibility.
+Maxime
 
-Not really.
+--3qxpsltzimgkb2dd
+Content-Type: application/pgp-signature; name="signature.asc"
 
-We might have some features limited to some architectures because of the 
-lack of PTE bits. And usually the problem is that people don't care 
-enough about enabling these features on older architectures.
+-----BEGIN PGP SIGNATURE-----
 
-If we ever *really* need more space for sw-defined data, it would be 
-possible to allocate auxiliary data for page tables only where required 
-(where the features apply), instead of crafting a completely new, 
-auxiliary datastructure with it's own locking.
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWmmdAAKCRDj7w1vZxhR
+xb0MAQChGpVdOkDehNkhy/zPifFcMHagclQcoMKLY4C8FwZgeQEAgnPy7SCG7WNB
+JIf40ACZLG5Jj13QUwGmz10Ul888HQQ=
+=0SXM
+-----END PGP SIGNATURE-----
 
-So far it was not required to enable the feature we need on the 
-architectures we care about.
-
-> 
-> [1] https://docs.freebsd.org/en/articles/vm-design/
-
-In the cover letter you have:
-
-"The future plan of logical page table is to provide a generic 
-abstraction layer that support common anonymous memory (I am looking at 
-you, transparent huge pages) and file-backed memory."
-
-Which I doubt will happen; there is little interest in making anonymous 
-memory management slower, more serialized, and wasting more memory on 
-metadata.
-
-Note that you won't make many friends around here with statements like 
-"To be honest, not using a logical page table for anonymous memory is 
-why Linux THP fails compared with FreeBSD's superpage".
-
-I read one paper that makes such claims (I'm curious how you define 
-"winning"), and am aware of some shortcomings. But I am not convinced 
-that a second datastructure "is why Linux THP fails". It just requires 
-some more work to get it sorted under Linux (e.g., allocate THP, PTE-map 
-it and map inaccessible parts PROT_NONE, later collapse it in-place into 
-a PMD), and so far, there was not a lot of interest that I am ware of to 
-even start working on that.
-
-So if there is not enough pain for companies to even work on that in 
-Linux, maybe FreeBSD superpages are "winning" "on paper" only? Remember 
-that the target audience here are Linux developers.
-
-
-But yeah, this here is all designed around the idea "core MM is extended 
-to handle a unified virtual address space with external accelerators 
-using customized MMUs." and then trying to find other arguments why it's 
-a good idea, without going too much into detail why it's all unsolvable 
-without that.
-
-The first thing to sort out if we even want that, and some discussions 
-here already went into the direction of "likely not". Let's see.
-
--- 
-Cheers,
-
-David / dhildenb
-
+--3qxpsltzimgkb2dd--
