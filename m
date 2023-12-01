@@ -2,101 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D241B8006D0
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 10:26:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6328006F9
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 10:29:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 075D910E0BB;
-	Fri,  1 Dec 2023 09:26:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8734C10E0F6;
+	Fri,  1 Dec 2023 09:29:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B080210E0BB
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 09:26:22 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:98])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id BE8C01FD63;
- Fri,  1 Dec 2023 09:26:20 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 9556B13928;
- Fri,  1 Dec 2023 09:26:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap2.dmz-prg2.suse.org with ESMTPSA id mZAXI7ymaWWvZQAAn2gu4w
- (envelope-from <tzimmermann@suse.de>); Fri, 01 Dec 2023 09:26:20 +0000
-Message-ID: <cf8d6ea2-e725-4794-a40c-206e53785a29@suse.de>
-Date: Fri, 1 Dec 2023 10:26:19 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A54B610E0DD
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 09:29:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1701422979;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=aHQs+9zlQ8PVnO/IT7ptVfgOYh9mlV/hOr1XHdCyFZs=;
+ b=Lpc1Jc5f7WSUV+B0vMtEImyO+DPX+l5mNETGpXzCrBMJQBfuv62dIPWvZyLcVPJVO13ikg
+ hlIz7VpkuEWrUlKT4leT5MxLow+bgFniQPC0Dwi7kNb2IDQcKznvsvcHHMIyAJFwCDwAk8
+ aH/hsINh+6vx+GXSNn1qkS3eEmwiuLk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-343-HDbu4Z5yNPGBfE6Xza7xEg-1; Fri, 01 Dec 2023 04:29:38 -0500
+X-MC-Unique: HDbu4Z5yNPGBfE6Xza7xEg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-332e899b927so1527212f8f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Dec 2023 01:29:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701422977; x=1702027777;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt:from
+ :references:cc:to:content-language:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aHQs+9zlQ8PVnO/IT7ptVfgOYh9mlV/hOr1XHdCyFZs=;
+ b=Wh63RL6Du3HWs5CEk0XHUKMHVTJ0sdSDcTCAngeEGMN9SltZiW3TtB2W6O37qcViVB
+ 9vM80jF9Z1B/xUHfdb7ZTWpOrUTMnfwKirns7HaxdYtM+mjDFxF1Of5E5yad/xLd3dbD
+ Nk+k8KZrgDO4C8eLBQddsM7JltJGV7E0cjVfYCBb2uLgz1A3m89wuz1WWytO1kWEwNu7
+ IfPH9m9Bl9WHa569Sik2+7qyaG4niGtmxZTDMZuBPtDYFlJZgOkiQfzFF8V3ipZG8oW/
+ 8rfq3fqcxO/TsCfnTjIi0qLFxeeWIK7pxZ6nIS64bz8Hsl1VoPRGr+bGTuyXjn9/7iUK
+ lP/g==
+X-Gm-Message-State: AOJu0YyEdVE2rVXOpnSQJJz/26tC0+V7SAgybFRGsjXVrbIfSpYWoepK
+ jP1RDTV8gymVHf2idrV0VJvZio1wc70+RjvtO75mzbF/tdZZyBlwtevDgQTvmVKIusbbu+bxSI9
+ pumaKusl1ohri5NdlTvcirQ6gzOhT
+X-Received: by 2002:a05:6000:1a45:b0:333:2fd2:6f4e with SMTP id
+ t5-20020a0560001a4500b003332fd26f4emr645126wry.88.1701422977205; 
+ Fri, 01 Dec 2023 01:29:37 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH6bydnphRGhaq+ilbhxPmQBEgxvJKTbvX6HdXyxqISzaG1u0FQwN4zQjzt0whtGPIn363OgA==
+X-Received: by 2002:a05:6000:1a45:b0:333:2fd2:6f4e with SMTP id
+ t5-20020a0560001a4500b003332fd26f4emr645087wry.88.1701422976743; 
+ Fri, 01 Dec 2023 01:29:36 -0800 (PST)
+Received: from ?IPV6:2003:cb:c726:4100:c308:78e3:8f80:52ac?
+ (p200300cbc7264100c30878e38f8052ac.dip0.t-ipconnect.de.
+ [2003:cb:c726:4100:c308:78e3:8f80:52ac])
+ by smtp.gmail.com with ESMTPSA id
+ y17-20020adfee11000000b003330a1d35b6sm3708872wrn.115.2023.12.01.01.29.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Dec 2023 01:29:36 -0800 (PST)
+Message-ID: <135306b4-2f94-4266-8f72-90315bb846b4@redhat.com>
+Date: Fri, 1 Dec 2023 10:29:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] fbdev/efifb: Use screen_info pointer from device
+Subject: Re: [RFC PATCH 0/6] Supporting GMEM (generalized memory management)
+ for external memory devices
+To: zhuweixi <weixi.zhu@huawei.com>, Dave Airlie <airlied@gmail.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20231128125025.4449-1-weixi.zhu@huawei.com>
+ <9308a79d-e312-4e6d-98fe-75dc6d0fbeda@amd.com>
+ <CAPM=9tx-d-Au_bjX0vYxv6OwqiSjmbbMC7ebWpTsQgFNddWDuw@mail.gmail.com>
+ <a07fd33c6f9e44418c528de06f89707e@huawei.com>
+ <188814aa-4f55-40c6-961c-6105c89d76f3@redhat.com>
+ <f4ec70345800432caa94d662f49370f6@huawei.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <f4ec70345800432caa94d662f49370f6@huawei.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, deller@gmx.de,
- pjones@redhat.com
-References: <20231129155218.3475-1-tzimmermann@suse.de>
- <20231129155218.3475-3-tzimmermann@suse.de>
- <87v89il2vj.fsf@minerva.mail-host-address-is-not-set>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <87v89il2vj.fsf@minerva.mail-host-address-is-not-set>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------WFQQryQFMgqxUihN6DLvn8Ow"
-X-Spamd-Bar: ++++++++++++
-X-Spam-Score: 12.30
-X-Rspamd-Server: rspamd1
-Authentication-Results: smtp-out2.suse.de; dkim=none;
- spf=softfail (smtp-out2.suse.de: 2a07:de40:b281:104:10:150:64:98 is neither
- permitted nor denied by domain of tzimmermann@suse.de)
- smtp.mailfrom=tzimmermann@suse.de; 
- dmarc=fail reason="No valid SPF,
- No valid DKIM" header.from=suse.de (policy=none)
-X-Rspamd-Queue-Id: BE8C01FD63
-X-Spam-Flag: NO
-X-Spam-Level: ************
-X-Spamd-Result: default: False [12.30 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
- XM_UA_NO_VERSION(0.01)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
- TO_DN_SOME(0.00)[]; HAS_ATTACHMENT(0.00)[];
- R_SPF_SOFTFAIL(4.60)[~all:c]; MIME_BASE64_TEXT_BOGUS(1.00)[];
- RCPT_COUNT_FIVE(0.00)[5]; RCVD_COUNT_THREE(0.00)[3];
- MX_GOOD(-0.01)[]; MIME_BASE64_TEXT(0.10)[];
- SIGNED_PGP(-2.00)[]; FREEMAIL_TO(0.00)[redhat.com,gmx.de];
- FROM_EQ_ENVFROM(0.00)[]; R_DKIM_NA(2.20)[];
- MIME_TRACE(0.00)[0:+,1:+,2:+,3:~]; MID_RHS_MATCH_FROM(0.00)[];
- BAYES_HAM(-0.00)[32.79%]; ARC_NA(0.00)[]; FROM_HAS_DN(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmx.de]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
- NEURAL_SPAM_SHORT(3.00)[1.000]; NEURAL_SPAM_LONG(3.50)[1.000];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[];
- DMARC_POLICY_SOFTFAIL(0.10)[suse.de : No valid SPF, No valid DKIM,none]
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,82 +139,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "leonro@nvidia.com" <leonro@nvidia.com>,
+ "apopple@nvidia.com" <apopple@nvidia.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "mgorman@suse.de" <mgorman@suse.de>, "ziy@nvidia.com" <ziy@nvidia.com>,
+ "zhi.a.wang@intel.com" <zhi.a.wang@intel.com>,
+ "rcampbell@nvidia.com" <rcampbell@nvidia.com>,
+ "jgg@nvidia.com" <jgg@nvidia.com>,
+ "weixi.zhu@openeuler.sh" <weixi.zhu@openeuler.sh>,
+ "jhubbard@nvidia.com" <jhubbard@nvidia.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "mhairgrove@nvidia.com" <mhairgrove@nvidia.com>,
+ "jglisse@redhat.com" <jglisse@redhat.com>,
+ "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
+ "Felix.Kuehling@amd.com" <Felix.Kuehling@amd.com>,
+ "Xinhui.Pan@amd.com" <Xinhui.Pan@amd.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Zeng,
+ Oak" <oak.zeng@intel.com>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "ogabbay@kernel.org" <ogabbay@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------WFQQryQFMgqxUihN6DLvn8Ow
-Content-Type: multipart/mixed; boundary="------------4twTXFBuHkqFb2FrGxbdWcKQ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>, deller@gmx.de,
- pjones@redhat.com
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <cf8d6ea2-e725-4794-a40c-206e53785a29@suse.de>
-Subject: Re: [PATCH 2/4] fbdev/efifb: Use screen_info pointer from device
-References: <20231129155218.3475-1-tzimmermann@suse.de>
- <20231129155218.3475-3-tzimmermann@suse.de>
- <87v89il2vj.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <87v89il2vj.fsf@minerva.mail-host-address-is-not-set>
+On 01.12.23 03:44, zhuweixi wrote:
+> Thanks!
 
---------------4twTXFBuHkqFb2FrGxbdWcKQ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I hope you understood that that was a joke :)
 
-SGkgSmF2aWVyDQoNCkFtIDAxLjEyLjIzIHVtIDA5OjU0IHNjaHJpZWIgSmF2aWVyIE1hcnRp
-bmV6IENhbmlsbGFzOg0KPiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5k
-ZT4gd3JpdGVzOg0KPiANCj4+IFVzZSB0aGUgc2NyZWVuX2luZm8gaW5zdGFuY2UgZnJvbSB0
-aGUgZGV2aWNlIGluc3RlYWQgb2YgZGVyZWZlcmVuY2luZw0KPj4gdGhlIGdsb2JhbCBzY3Jl
-ZW5faW5mbyBzdGF0ZS4gRGVjb3VwbGVzIHRoZSBkcml2ZXIgZnJvbSBwZXItYXJjaGl0ZWN0
-dXJlDQo+PiBjb2RlLiBEdXBsaWNhdGVkIHRoZSBzY3JlZW5faW5mbyBkYXRhLCBzbyB0aGF0
-IGVmaWZiIGNhbiBtb2RpZnkgaXQgYXQNCj4+IHdpbGwuDQo+Pg0KPj4gU2lnbmVkLW9mZi1i
-eTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+PiAtLS0NCj4g
-DQo+IFsuLi5dDQo+IA0KPj4gKwlzaSA9IGRldl9nZXRfcGxhdGRhdGEoJmRldi0+ZGV2KTsN
-Cj4+ICsJaWYgKCFzaSkNCj4gDQo+IEkgd291bGQgYWRkIGEgY29tbWVudCB0aGF0IHRoaXMg
-cGxhdGZvcm0gZGF0YSBpcyBzZXQgd2hlbiB0aGUgZGV2aWNlIGlzDQo+IHJlZ2lzdGVyZWQg
-Ynkgc3lzZmIuDQo+IA0KPj4gKwkJcmV0dXJuIC1FTk9ERVY7DQo+PiArCXNpID0gZGV2bV9r
-bWVtZHVwKCZkZXYtPmRldiwgc2ksIHNpemVvZigqc2kpLCBHRlBfS0VSTkVMKTsNCj4+ICsJ
-aWYgKCFzaSkNCj4+ICsJCXJldHVybiAtRU5PTUVNOw0KPj4gKw0KPiANCj4gV2h5IGEgY29w
-eT8gSW4gYW55IGNhc2UgbWF5YmUgdGhlIGdsb2JhbCBzY3JlZW5faW5mbyBzaG91bGQgYmUg
-ZHVwbGljYXRlZA0KPiB3aGVuIGlzIHNldCBhcyB0aGUgZGV2aWNlIHBsYXRmb3JtIGRhdGEg
-aW4gc3lzZmJfaW5pdCgpID8NCg0KV2UgZ2V0IG91ciBvd24gY29weSBvZiB0aGUgZ2xvYmFs
-IHNjcmVlbl9pbmZvIGFzIHBsYXRmb3JtLWRldmljZSBkYXRhLiANCkVmaWZiIG1vZGlmaWVz
-IHNvbWUgb2YgdGhlIHZhbHVlcyBpbiBvdXIgY29weSBpbiBlZmlmYl9zZXR1cCgpLiBJZiAN
-CnByb2JpbmcgYWZ0ZXJ3YXJkcyBmYWlscywgdGhlIGtlcm5lbCBtaWdodCB0cnkgYSBkaWZm
-ZXJlbnQgZHJpdmVyLCB3aGljaCANCndvdWxkIHRoZW4gb3BlcmF0ZSBvbiB0aGUgdmFsdWVz
-IG1vZGlmaWVkIGJ5IGVmaWZiLiBIZW5jZSwgdGhlcmUncyB0aGlzIA0KaW50ZXJuYWwgY29w
-eS4gVGhlIHNpdHVhdGlvbiB3aXRoIHZlc2FmYiBpcyBzaW1pbGFyLg0KDQpCZXN0IHJlZ2Fy
-ZHMNClRob21hcw0KDQo+IA0KPiBJIGFncmVlIHdpdGggdGhlIGRpcmVjdGlvbiBvZiB0aGUg
-cGF0Y2ggdGhvdWdoLCBzbyB3aGF0ZXZlciB5b3UgZGVjaWRlOg0KPiANCj4gUmV2aWV3ZWQt
-Ynk6IEphdmllciBNYXJ0aW5leiBDYW5pbGxhcyA8amF2aWVybUByZWRoYXQuY29tPg0KPiAN
-Cg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0K
-U1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAx
-NDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15
-ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBO
-dWVybmJlcmcpDQo=
+> I am planning to present GMEM in Linux MM Alignment Sessions so I can collect more input from the mm developers.
 
---------------4twTXFBuHkqFb2FrGxbdWcKQ--
+Sounds good. But please try inviting key HMM/driver developer as well.
 
---------------WFQQryQFMgqxUihN6DLvn8Ow
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+Most of the core-mm folks attending that meeting are not that familiar 
+with these concepts and they are usually not happy about:
 
------BEGIN PGP SIGNATURE-----
+(1) More core-MM complexity for things that can be neatly handled in
+     separate subsystems with the existing infrastructure already.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVpprwFAwAAAAAACgkQlh/E3EQov+Cb
-kRAAsrfMi+qEC105L2birLEU5AzxhREt4c5mr77JZ9Ur9TJybSlHfoiEkhMFRpUm918HvvlJ4J1G
-yJKedsSCvgzkmcRjlntf3nWFvfV5DvBgebecFHlc8G5YG++MCTpIF+tM95NJ/UJokkupvf5s02Zy
-Y+om0aJffo4la2p8L68mp6CRIWZHFuX4G37LSzu/LG7T4aPWqCKJQb43ZFZ/tTxL6BOgxRxHjfIs
-l/rDTiJXOVQXm0zYaO6o2kJwTdN8j456y5GBh4knPG1rrLblWH/XsAN4objt309q+q9GHwp8WbkX
-VCCZ8QG5SVBSB6JXZccSJTuZNwYUR2mFI2gjnE/1cFPYeAr6mYuomvq4uUBAfRoCXXp4a6V7GirH
-8ltCLCgaS48xGS3xlJ1I9HK8vndIEFpSZpeB4rfyCSr9fCGvWzxweHEFY7GvHlqtIZspK8330NEa
-OnD2/x8bASEv36B2hFmkpxnLcTwkGLhlgYre3hIlf1BSKc8+LRWhLvxP9GC8zR3qrkR/kJWi+iJb
-NsnCug0ADG0/ZwpBOIXy8Gh2sxapESuwbtxxq3Q1vE0FDL2K7aoq6xyhJCWYcydPoK0oVHm307ez
-bXNdh0r5IZ2OvZrciFcwXEcpTKgPMRY5IxcydZdqWaiJLVJC6cDQuqftAb3q+xUInwZ8xEqn88FI
-fpw=
-=KtVt
------END PGP SIGNATURE-----
+(2) One new way of doing things why the other things remain in place.
 
---------------WFQQryQFMgqxUihN6DLvn8Ow--
+(3) New MMAP flags. Usually you have a hard time getting this in.
+     Sometimes, there are other ways (e.g., special-purpose file-
+     systems).
+
+(4) Changing controversial core-mm design decisions to handle corner
+     cases.
+
+-- 
+Cheers,
+
+David / dhildenb
+
