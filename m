@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001A58005D1
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 09:37:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F1528005D7
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 09:38:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABB7110E818;
-	Fri,  1 Dec 2023 08:37:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BC3610E817;
+	Fri,  1 Dec 2023 08:38:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2E0C10E80F
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 08:37:45 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D9A110E814
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 08:37:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 49B81CE22FA;
- Fri,  1 Dec 2023 08:37:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 381EAC433C8;
- Fri,  1 Dec 2023 08:37:42 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C34056209D;
+ Fri,  1 Dec 2023 08:37:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28DAFC433AD;
+ Fri,  1 Dec 2023 08:37:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701419862;
- bh=q6uyK3KduoHE8Rp2A1HWjw0i+9QdOkbCcHpv3VuzKnY=;
+ s=k20201202; t=1701419868;
+ bh=bh85U6qN+NrzkHALJLdBDTWd6uulN/hrqM1AYU0gOBg=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=s4GxHUbAKKrXLvZe3ST3qpBvL3RTor6PdTIMHw9UOwvaSIu9tECHqjjclSIEYSNkg
- 7MVAtaMtUsUGDWyPw7vr0bEwQlaT1z+tF/P8xClmd409WFNKm64kyVM8xRLCqLFNg2
- zgPWLcNExCoXIpNdnfLMFcEOQNhIUxjn6RyzPbzWWrEIsRnQrT1JN/ADcKHFsVlMvk
- JvC1YSxJIfgBriYyHhFRa5atIeJ8QEtt0pzR58PS7hLDucW/jYbEcDPy7Yy+VXDKCl
- QpiPULE0NW6ARKPvk3RB0tFxVUON8WS1RFuSgpCrbYTVuM7sRUJ5Y13JMKGQ92/+d4
- gw9nNwnn4KjQQ==
+ b=ISHSQGMzW++hzOPN4QdItD7NV5eW5IO8efyUg1rRCBw1eJvEcUYJWuj+RLY39Q2FW
+ xvPRi7C1moOHe1ziCAQTJJYP/Mqfg6FQ/WRuNqMCLG9+azMHajN7vuOT9ieV/n11xh
+ Fa61TXxgsQ0mWwq39/X2nyDXOYMGRh9SZpxsOiFxu5BBJj3axAaoiVHKL5CbtECmDj
+ heNDpgCH4hRxz5ssaTjC9qJv7IixunS8BWgDQGuHVhv76nOmsOPnkbTT7VJ8n80+O7
+ 6Kuo58z2wRajfaX2ZOxA5kMdItdvAQfsXfQSq3bnXQ0mhsVZpR9M2DZ+jzEE1/p3l2
+ EvsKlZKZ98kxQ==
 From: Maxime Ripard <mripard@kernel.org>
 To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Donald Robson <donald.robson@imgtec.com>
-In-Reply-To: <20231130160017.259902-1-donald.robson@imgtec.com>
+In-Reply-To: <20231130160017.259902-2-donald.robson@imgtec.com>
 References: <20231130160017.259902-1-donald.robson@imgtec.com>
-Subject: Re: (subset) [PATCH v2 1/5] drm/imagination: Fixed warning due to
- implicit cast to bool
-Message-Id: <170141985986.3198881.16310139541433130875.b4-ty@kernel.org>
-Date: Fri, 01 Dec 2023 09:37:39 +0100
+ <20231130160017.259902-2-donald.robson@imgtec.com>
+Subject: Re: (subset) [PATCH v2 2/5] drm/imagination: Fixed missing header
+ in pvr_fw_meta
+Message-Id: <170141986571.3198881.12603407007353117665.b4-ty@kernel.org>
+Date: Fri, 01 Dec 2023 09:37:45 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -53,28 +53,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matt.coster@imgtec.com, boris.brezillon@collabora.com, tzimmermann@suse.de,
+Cc: Arnd Bergmann <arnd@arndb.de>, matt.coster@imgtec.com,
+ boris.brezillon@collabora.com, tzimmermann@suse.de,
  kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 30 Nov 2023 16:00:13 +0000, Donald Robson wrote:
-> This line appears to confuse the compiler and had been noticed previously in
-> clang-tidy output. There isn't anything fundamentally wrong that I can see.
-> I suspect that it just looks like a mistake - hence the first note.  By making
-> the second operand an actual bool result, const correctness can be preserved
-> while silencing the warning.
+On Thu, 30 Nov 2023 16:00:14 +0000, Donald Robson wrote:
+> A missing header causes the compiler to warn that the function below is not
+> forward declared.
 > 
-> >> drivers/gpu/drm/imagination/pvr_device_info.c:230:47: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
->      230 |         } else if (features_size == mapping_max_size && (mapping_max & 63)) {
->          |                                                      ^  ~~~~~~~~~~~~~~~~~~
->    drivers/gpu/drm/imagination/pvr_device_info.c:230:47: note: use '&' for a bitwise operation
->      230 |         } else if (features_size == mapping_max_size && (mapping_max & 63)) {
->          |                                                      ^~
->          |                                                      &
->    drivers/gpu/drm/imagination/pvr_device_info.c:230:47: note: remove constant to silence this warning
->      230 |         } else if (features_size == mapping_max_size && (mapping_max & 63)) {
->          |                                                     ~^~~~~~~~~~~~~~~~~~~~~
+> >> drivers/gpu/drm/imagination/pvr_fw_meta.c:33:1: warning: no previous prototype for function 'pvr_meta_cr_read32' [-Wmissing-prototypes]
+>       33 | pvr_meta_cr_read32(struct pvr_device *pvr_dev, u32 reg_addr, u32 *reg_value_out)
+>          | ^
+>    drivers/gpu/drm/imagination/pvr_fw_meta.c:32:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+>       32 | int
+>          | ^
+>          | static
 >    1 warning generated.
 > 
 > [...]
