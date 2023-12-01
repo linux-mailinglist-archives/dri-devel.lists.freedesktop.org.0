@@ -1,50 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23618800CA2
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 14:54:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CAF4800CA9
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 14:57:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D688710E102;
-	Fri,  1 Dec 2023 13:54:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 800A389B12;
+	Fri,  1 Dec 2023 13:57:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5558210E102
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 13:54:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=W/gQuARnGEQvJRg/Tx7uTyn3ciJTiu0kU0S0SRCukyQ=; b=FXFevFEC3h2Uz3B55dE8TCNLpn
- W/gsVAu+Y2FYrceldaavWTIRHUATwK5Smr43KPpNAWR5nAEOcz4Lpcn0rFDpzGdSG1hLvlZiTBzKc
- 3MjbqnjrvqjnHDQDa6Mk0lDgRVqDiex2kdPGWG7S9gK8LyYA3mRTyKrkEdGsVx831bO84pfcp00c5
- JZ0saUKw+SfI+FL9ARLgWu9ZqSLX4pUf+/qomC/UMIEMDY3F4A2AI/I5mp8fiSaeR+1sq1e/xx+f0
- XELDE0JBLom+Q1oaSNq6JoBuRtO29cXtOGE1hjOTSqXRJxnPBKgvVLHSlEkgkC9CiwvKS9tQZD75t
- cx4hVlZw==;
-Received: from [177.34.169.138] (helo=[192.168.0.139])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1r93yQ-009DaU-3A; Fri, 01 Dec 2023 14:54:30 +0100
-Message-ID: <40865d30-42b7-639c-d15a-1977e884d38f@igalia.com>
-Date: Fri, 1 Dec 2023 10:54:22 -0300
+Received: from out-184.mta1.migadu.com (out-184.mta1.migadu.com
+ [IPv6:2001:41d0:203:375::b8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3397610E8B0
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 13:57:41 +0000 (UTC)
+Message-ID: <af7717b2-cd10-491f-99c1-285016fabf84@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1701439059;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TpJd6OhPomyp5ChF2rTctC6wWRE0tLx+lrrgumMFAT8=;
+ b=APm60MBJHMnUhRiRKzDRTK23FqD7Zh9GRI880BxjRs+qjL+MmWWRUQCsaA6MFa7BoqauHz
+ QuMJU/oNucHzFVhcHfWh6vcrc/B7VtcarG+072r+Q3jvs7xfqtFECZsxGtghHtUIKgqdq5
+ Cg1kztA9PqCJNsJvgm1L6ByCEnqPUrM=
+Date: Fri, 1 Dec 2023 21:57:26 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v4 00/17] drm/v3d: Introduce CPU jobs
+Subject: Re: [1/8] drm/plane-helper: Move drm_plane_helper_atomic_check() into
+ udl
+To: Thomas Zimmermann <tzimmermann@suse.de>, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, daniel@ffwll.ch, airlied@gmail.com
+References: <20231128104723.20622-2-tzimmermann@suse.de>
+ <9a741d8d-a699-4fe8-af59-f90c91014d01@linux.dev>
+ <038bc33b-1bc9-4dbc-bea3-d17a3d37abf0@suse.de>
 Content-Language: en-US
-To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <20231130164420.932823-2-mcanal@igalia.com>
-From: Maira Canal <mcanal@igalia.com>
-In-Reply-To: <20231130164420.932823-2-mcanal@igalia.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <038bc33b-1bc9-4dbc-bea3-d17a3d37abf0@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,51 +53,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ laurent.pinchart@ideasonboard.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/30/23 13:40, Maíra Canal wrote:
-> 
-> Maíra Canal (11):
->    drm/v3d: Don't allow two multisync extensions in the same job
->    drm/v3d: Decouple job allocation from job initiation
->    drm/v3d: Use v3d_get_extensions() to parse CPU job data
->    drm/v3d: Create tracepoints to track the CPU job
->    drm/v3d: Enable BO mapping
->    drm/v3d: Create a CPU job extension for a indirect CSD job
->    drm/v3d: Create a CPU job extension for the timestamp query job
->    drm/v3d: Create a CPU job extension for the reset timestamp job
->    drm/v3d: Create a CPU job extension to copy timestamp query to a buffer
->    drm/v3d: Create a CPU job extension for the reset performance query job
->    drm/v3d: Create a CPU job extension for the copy performance query job
-> 
-> Melissa Wen (6):
->    drm/v3d: Remove unused function header
->    drm/v3d: Move wait BO ioctl to the v3d_bo file
->    drm/v3d: Detach job submissions IOCTLs to a new specific file
->    drm/v3d: Simplify job refcount handling
->    drm/v3d: Add a CPU job submission
->    drm/v3d: Detach the CSD job BO setup
-> 
+Hi,
 
-Pushed to drm-misc/drm-misc-next!
 
-Best Regards,
-- Maíra
+On 2023/12/1 16:22, Thomas Zimmermann wrote:
+> Hi
+>
+> Am 01.12.23 um 03:36 schrieb Sui Jingfeng:
+>> Hi,
+>>
+>>
+>> On 2023/11/28 18:45, Thomas Zimmermann wrote:
+>>> The udl driver is the only caller of drm_plane_helper_atomic_check().
+>>> Move the function into the driver. No functional changes.
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> ---
+>>>   drivers/gpu/drm/drm_plane_helper.c | 32 
+>>> ------------------------------
+>>>   drivers/gpu/drm/udl/udl_modeset.c  | 19 ++++++++++++++++--
+>>>   include/drm/drm_plane_helper.h     |  2 --
+>>>   3 files changed, 17 insertions(+), 36 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_plane_helper.c 
+>>> b/drivers/gpu/drm/drm_plane_helper.c
+>>> index 5e95089676ff8..7982be4b0306d 100644
+>>> --- a/drivers/gpu/drm/drm_plane_helper.c
+>>> +++ b/drivers/gpu/drm/drm_plane_helper.c
+>>> @@ -279,35 +279,3 @@ void drm_plane_helper_destroy(struct drm_plane 
+>>> *plane)
+>>>       kfree(plane);
+>>>   }
+>>>   EXPORT_SYMBOL(drm_plane_helper_destroy);
+>>> -
+>>> -/**
+>>> - * drm_plane_helper_atomic_check() - Helper to check plane 
+>>> atomic-state
+>>> - * @plane: plane to check
+>>> - * @state: atomic state object
+>>> - *
+>>> - * Provides a default plane-state check handler for planes whose 
+>>> atomic-state
+>>> - * scale and positioning are not expected to change since the plane 
+>>> is always
+>>> - * a fullscreen scanout buffer.
+>>> - *
+>>> - * This is often the case for the primary plane of simple 
+>>> framebuffers. See
+>>> - * also drm_crtc_helper_atomic_check() for the respective 
+>>> CRTC-state check
+>>> - * helper function.
+>>> - *
+>>> - * RETURNS:
+>>> - * Zero on success, or an errno code otherwise.
+>>> - */
+>>> -int drm_plane_helper_atomic_check(struct drm_plane *plane, struct 
+>>> drm_atomic_state *state)
+>>> -{
+>>> -    struct drm_plane_state *new_plane_state = 
+>>> drm_atomic_get_new_plane_state(state, plane);
+>>> -    struct drm_crtc *new_crtc = new_plane_state->crtc;
+>>> -    struct drm_crtc_state *new_crtc_state = NULL;
+>>> -
+>>> -    if (new_crtc)
+>>> -        new_crtc_state = drm_atomic_get_new_crtc_state(state, 
+>>> new_crtc);
+>>> -
+>>> -    return drm_atomic_helper_check_plane_state(new_plane_state, 
+>>> new_crtc_state,
+>>> -                           DRM_PLANE_NO_SCALING,
+>>> -                           DRM_PLANE_NO_SCALING,
+>>> -                           false, false);
+>>> -}
+>>> -EXPORT_SYMBOL(drm_plane_helper_atomic_check);
+>>
+>>
+>> Since this function is removed, does the comments of the 
+>> drm_crtc_helper_atomic_check()
+>> function (in the drm_crtc_helper.c) need to update as well? I'm ask 
+>> because I see the
+>> comments of the drm_crtc_helper_atomic_check() still referencing this 
+>> function.
+>
+> Good point. I'll update that comment. Thanks for reviewing.
+>
+OK,  with this trivial problem solved:
 
->   drivers/gpu/drm/v3d/Makefile     |    3 +-
->   drivers/gpu/drm/v3d/v3d_bo.c     |   51 ++
->   drivers/gpu/drm/v3d/v3d_drv.c    |    4 +
->   drivers/gpu/drm/v3d/v3d_drv.h    |  134 ++-
->   drivers/gpu/drm/v3d/v3d_gem.c    |  768 -----------------
->   drivers/gpu/drm/v3d/v3d_sched.c  |  315 +++++++
->   drivers/gpu/drm/v3d/v3d_submit.c | 1318 ++++++++++++++++++++++++++++++
->   drivers/gpu/drm/v3d/v3d_trace.h  |   57 ++
->   include/uapi/drm/v3d_drm.h       |  240 +++++-
->   9 files changed, 2110 insertions(+), 780 deletions(-)
->   create mode 100644 drivers/gpu/drm/v3d/v3d_submit.c
-> 
-> --
-> 2.42.0
-> 
+
+Acked-by: Sui Jingfeng <suijingfeng@loongson.cn>
+
+
+> Best regards
+> Thomas
+>
+>>
+>>
+>>> diff --git a/drivers/gpu/drm/udl/udl_modeset.c 
+>>> b/drivers/gpu/drm/udl/udl_modeset.c
+>>> index 40876bcdd79a4..7702359c90c22 100644
+>>> --- a/drivers/gpu/drm/udl/udl_modeset.c
+>>> +++ b/drivers/gpu/drm/udl/udl_modeset.c
+>>> @@ -21,7 +21,6 @@
+>>>   #include <drm/drm_gem_framebuffer_helper.h>
+>>>   #include <drm/drm_gem_shmem_helper.h>
+>>>   #include <drm/drm_modeset_helper_vtables.h>
+>>> -#include <drm/drm_plane_helper.h>
+>>>   #include <drm/drm_probe_helper.h>
+>>>   #include <drm/drm_vblank.h>
+>>> @@ -261,6 +260,22 @@ static const uint64_t 
+>>> udl_primary_plane_fmtmods[] = {
+>>>       DRM_FORMAT_MOD_INVALID
+>>>   };
+>>> +static int udl_primary_plane_helper_atomic_check(struct drm_plane 
+>>> *plane,
+>>> +                         struct drm_atomic_state *state)
+>>> +{
+>>> +    struct drm_plane_state *new_plane_state = 
+>>> drm_atomic_get_new_plane_state(state, plane);
+>>> +    struct drm_crtc *new_crtc = new_plane_state->crtc;
+>>> +    struct drm_crtc_state *new_crtc_state = NULL;
+>>> +
+>>> +    if (new_crtc)
+>>> +        new_crtc_state = drm_atomic_get_new_crtc_state(state, 
+>>> new_crtc);
+>>> +
+>>> +    return drm_atomic_helper_check_plane_state(new_plane_state, 
+>>> new_crtc_state,
+>>> +                           DRM_PLANE_NO_SCALING,
+>>> +                           DRM_PLANE_NO_SCALING,
+>>> +                           false, false);
+>>> +}
+>>> +
+>>>   static void udl_primary_plane_helper_atomic_update(struct 
+>>> drm_plane *plane,
+>>>                              struct drm_atomic_state *state)
+>>>   {
+>>> @@ -296,7 +311,7 @@ static void 
+>>> udl_primary_plane_helper_atomic_update(struct drm_plane *plane,
+>>>   static const struct drm_plane_helper_funcs 
+>>> udl_primary_plane_helper_funcs = {
+>>>       DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+>>> -    .atomic_check = drm_plane_helper_atomic_check,
+>>> +    .atomic_check = udl_primary_plane_helper_atomic_check,
+>>>       .atomic_update = udl_primary_plane_helper_atomic_update,
+>>>   };
+>>> diff --git a/include/drm/drm_plane_helper.h 
+>>> b/include/drm/drm_plane_helper.h
+>>> index 3a574e8cd22f4..75f9c4830564a 100644
+>>> --- a/include/drm/drm_plane_helper.h
+>>> +++ b/include/drm/drm_plane_helper.h
+>>> @@ -26,7 +26,6 @@
+>>>   #include <linux/types.h>
+>>> -struct drm_atomic_state;
+>>>   struct drm_crtc;
+>>>   struct drm_framebuffer;
+>>>   struct drm_modeset_acquire_ctx;
+>>> @@ -42,7 +41,6 @@ int drm_plane_helper_update_primary(struct 
+>>> drm_plane *plane, struct drm_crtc *cr
+>>>   int drm_plane_helper_disable_primary(struct drm_plane *plane,
+>>>                        struct drm_modeset_acquire_ctx *ctx);
+>>>   void drm_plane_helper_destroy(struct drm_plane *plane);
+>>> -int drm_plane_helper_atomic_check(struct drm_plane *plane, struct 
+>>> drm_atomic_state *state);
+>>>   /**
+>>>    * DRM_PLANE_NON_ATOMIC_FUNCS - Default plane functions for 
+>>> non-atomic drivers
+>
