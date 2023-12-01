@@ -1,46 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CAF4800CA9
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 14:57:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DBD9800CF8
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 15:17:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 800A389B12;
-	Fri,  1 Dec 2023 13:57:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46C6310E8B0;
+	Fri,  1 Dec 2023 14:17:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-184.mta1.migadu.com (out-184.mta1.migadu.com
- [IPv6:2001:41d0:203:375::b8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3397610E8B0
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 13:57:41 +0000 (UTC)
-Message-ID: <af7717b2-cd10-491f-99c1-285016fabf84@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1701439059;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TpJd6OhPomyp5ChF2rTctC6wWRE0tLx+lrrgumMFAT8=;
- b=APm60MBJHMnUhRiRKzDRTK23FqD7Zh9GRI880BxjRs+qjL+MmWWRUQCsaA6MFa7BoqauHz
- QuMJU/oNucHzFVhcHfWh6vcrc/B7VtcarG+072r+Q3jvs7xfqtFECZsxGtghHtUIKgqdq5
- Cg1kztA9PqCJNsJvgm1L6ByCEnqPUrM=
-Date: Fri, 1 Dec 2023 21:57:26 +0800
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A90E910E8B0
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 14:16:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 682BBCE26A1
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 14:16:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7ED5C433C7
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 14:16:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1701440210;
+ bh=MJQPrjEbwnWoXRgfWZMLIA19K+UrEYt4GGLLJInlnkw=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=VAoqrfB2+2J4i4OGNP/3tHLhCaStYAJg2OWwtGZ7ghy+SXR5LCpWIcvdBLm90tp9f
+ 8Wfa2u30Z7n4sxrmBwmQCx2493wxi7ZGRgKpacU9qPTk9yevf/brhE7u+stHfyEfUD
+ lFN2R6uGZ6At7QK6/13kngH7xGIMMQ92/VyI1zrtez5/SIgbF346XmhW/3CPUT8s4K
+ 73u41AZzdgvO9CKY7IqyKhCGzqQcbHc5ELkb/xLM15CrhdbVGEiqNWXgxTcIS3BxTy
+ jrvlzpxi/hybq4kv2iOI6hzr/CtbAIgotLHRbb3uBw3IfxqCGQENFPMMiFTnyMf7Lk
+ x3gtHSaJ7IwWA==
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-50bdebb1786so281411e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Dec 2023 06:16:50 -0800 (PST)
+X-Gm-Message-State: AOJu0Yx/okhNl85RtD6Y18ilk+r/iNLwbAgnxtaidLuQOdOj8Z3RCGtN
+ WmzW4P6lwl8Qs3dFJFaiY0Kh25dB3XsscFStEg==
+X-Google-Smtp-Source: AGHT+IFvdXLlccvsGinrIBKW4A0GOxFYg+cmQXKwotpjG+QcEogIvSJGIwTd8+Y3Cma0S4B2G66D47ghVfowf1JtDjU=
+X-Received: by 2002:a19:430d:0:b0:50b:e03b:ebc7 with SMTP id
+ q13-20020a19430d000000b0050be03bebc7mr83514lfa.20.1701440208798; Fri, 01 Dec
+ 2023 06:16:48 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [1/8] drm/plane-helper: Move drm_plane_helper_atomic_check() into
- udl
-To: Thomas Zimmermann <tzimmermann@suse.de>, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, daniel@ffwll.ch, airlied@gmail.com
-References: <20231128104723.20622-2-tzimmermann@suse.de>
- <9a741d8d-a699-4fe8-af59-f90c91014d01@linux.dev>
- <038bc33b-1bc9-4dbc-bea3-d17a3d37abf0@suse.de>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <038bc33b-1bc9-4dbc-bea3-d17a3d37abf0@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20231113085305.1823455-1-javierm@redhat.com>
+ <CAL_JsqKHTN5hfd4qpg5RXbmQLKZNVywDkSj9mxvfGmjrcChQQg@mail.gmail.com>
+ <87jzqi59bt.fsf@minerva.mail-host-address-is-not-set>
+ <CAL_JsqJM9+cbNviwuKGB5+3YbyAP3UH+TxCxsU5nUtX-iRGP2w@mail.gmail.com>
+ <CAMj1kXG7Xyk0ys9j-XRo7Rr8gYz1qJE8fFSixBOwVbm-pjeX+A@mail.gmail.com>
+ <874jhj1fm3.fsf@minerva.mail-host-address-is-not-set>
+ <58672ab8-99bf-4a2a-af79-031d1e8fcba0@suse.de>
+ <87fs0mxlyp.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <87fs0mxlyp.fsf@minerva.mail-host-address-is-not-set>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 1 Dec 2023 08:16:36 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJbZ736iV+bRbSNNaimkbJLpB9MbeKLSct16Yi67ttFcw@mail.gmail.com>
+Message-ID: <CAL_JsqJbZ736iV+bRbSNNaimkbJLpB9MbeKLSct16Yi67ttFcw@mail.gmail.com>
+Subject: Re: [RFC PATCH] of/platform: Disable sysfb if a simple-framebuffer
+ node is found
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,175 +67,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- laurent.pinchart@ideasonboard.com, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Sergio Lopez <slp@redhat.com>,
+ Sima Vetter <daniel.vetter@ffwll.ch>, Hector Martin <marcan@marcan.st>,
+ Andrew Worsley <amworsley@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Frank Rowand <frowand.list@gmail.com>, Ard Biesheuvel <ardb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-
-On 2023/12/1 16:22, Thomas Zimmermann wrote:
-> Hi
+On Fri, Dec 1, 2023 at 4:21=E2=80=AFAM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
 >
-> Am 01.12.23 um 03:36 schrieb Sui Jingfeng:
->> Hi,
->>
->>
->> On 2023/11/28 18:45, Thomas Zimmermann wrote:
->>> The udl driver is the only caller of drm_plane_helper_atomic_check().
->>> Move the function into the driver. No functional changes.
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> ---
->>>   drivers/gpu/drm/drm_plane_helper.c | 32 
->>> ------------------------------
->>>   drivers/gpu/drm/udl/udl_modeset.c  | 19 ++++++++++++++++--
->>>   include/drm/drm_plane_helper.h     |  2 --
->>>   3 files changed, 17 insertions(+), 36 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_plane_helper.c 
->>> b/drivers/gpu/drm/drm_plane_helper.c
->>> index 5e95089676ff8..7982be4b0306d 100644
->>> --- a/drivers/gpu/drm/drm_plane_helper.c
->>> +++ b/drivers/gpu/drm/drm_plane_helper.c
->>> @@ -279,35 +279,3 @@ void drm_plane_helper_destroy(struct drm_plane 
->>> *plane)
->>>       kfree(plane);
->>>   }
->>>   EXPORT_SYMBOL(drm_plane_helper_destroy);
->>> -
->>> -/**
->>> - * drm_plane_helper_atomic_check() - Helper to check plane 
->>> atomic-state
->>> - * @plane: plane to check
->>> - * @state: atomic state object
->>> - *
->>> - * Provides a default plane-state check handler for planes whose 
->>> atomic-state
->>> - * scale and positioning are not expected to change since the plane 
->>> is always
->>> - * a fullscreen scanout buffer.
->>> - *
->>> - * This is often the case for the primary plane of simple 
->>> framebuffers. See
->>> - * also drm_crtc_helper_atomic_check() for the respective 
->>> CRTC-state check
->>> - * helper function.
->>> - *
->>> - * RETURNS:
->>> - * Zero on success, or an errno code otherwise.
->>> - */
->>> -int drm_plane_helper_atomic_check(struct drm_plane *plane, struct 
->>> drm_atomic_state *state)
->>> -{
->>> -    struct drm_plane_state *new_plane_state = 
->>> drm_atomic_get_new_plane_state(state, plane);
->>> -    struct drm_crtc *new_crtc = new_plane_state->crtc;
->>> -    struct drm_crtc_state *new_crtc_state = NULL;
->>> -
->>> -    if (new_crtc)
->>> -        new_crtc_state = drm_atomic_get_new_crtc_state(state, 
->>> new_crtc);
->>> -
->>> -    return drm_atomic_helper_check_plane_state(new_plane_state, 
->>> new_crtc_state,
->>> -                           DRM_PLANE_NO_SCALING,
->>> -                           DRM_PLANE_NO_SCALING,
->>> -                           false, false);
->>> -}
->>> -EXPORT_SYMBOL(drm_plane_helper_atomic_check);
->>
->>
->> Since this function is removed, does the comments of the 
->> drm_crtc_helper_atomic_check()
->> function (in the drm_crtc_helper.c) need to update as well? I'm ask 
->> because I see the
->> comments of the drm_crtc_helper_atomic_check() still referencing this 
->> function.
+> Thomas Zimmermann <tzimmermann@suse.de> writes:
 >
-> Good point. I'll update that comment. Thanks for reviewing.
+> > Hi
+> >
+> > Am 18.11.23 um 12:10 schrieb Javier Martinez Canillas:
+> >> Ard Biesheuvel <ardb@kernel.org> writes:
+> >>
+> >> Hello Ard,
+> >>
+> >>> On Fri, 17 Nov 2023 at 00:09, Rob Herring <robh@kernel.org> wrote:
+> >>
+> >> [...]
+> >>
+> >>>>>>
+> >>>>>> This could also lead to an interesting scenario. As simple-framebu=
+ffer
+> >>>>>> can define its memory in a /reserved-memory node, but that is igno=
+red
+> >>>>>> in EFI boot. Probably would work, but only because EFI probably
+> >>>>>> generates its memory map table from the /reserved-memory nodes.
+> >>>>>>
+> >>>>>
+> >>>>> I see. So what would be the solution then? Ignoring creating a plat=
+form
+> >>>>> device for "simple-framebuffer" if booted using EFI and have an EFI=
+-GOP?
+> >>>>
+> >>>> Shrug. I don't really know anything more about EFI FB, but I would
+> >>>> guess it can't support handling resources like clocks, power domains=
+,
+> >>>> regulators, etc. that simple-fb can. So if a platform needs those, d=
+o
+> >>>> we say they should not setup EFI-GOP? Or is there a use case for
+> >>>> having both? Clients that don't muck with resources can use EFI-GOP
+> >>>> and those that do use simple-fb. For example, does/can grub use
+> >>>> EFI-GOP, but not simple-fb?
+> >>>>
+> >>>
+> >>> The EFI GOP is just a dumb framebuffer, and it is not even generally
+> >>> possible to cross reference the GOP with a particular device in the
+> >>> device hierarchy unless you e.g., compare the BARs of each device wit=
+h
+> >>> the region described by the GOP protocol.
+> >>>
+> >>> GRUB for EFI will use the GOP and nothing else, but only at boot time
+> >>> (the GOP protocol is more than a magic linear memory region, it also
+> >>> implements a Blt() abstraction that permits the use of framebuffers
+> >>> that are not mapped linearly into the address space at all, and GRUB
+> >>> makes use of this)
+> >>>
+> >>> The EFI stub will only expose GOPs to the kernel if they are in fact
+> >>> linear framebuffers, but has zero insight into whether the hardware
+> >>> needs clocks and regulators, and whether or not the framebuffer needs
+> >>> IOMMU pass through (which might be the case if the scanout is using
+> >>> DMA into system memory)
+> >>>
+> >>> So calling EFI GOP 'source of truth' is rather generous, and I think
+> >>> it makes sense to prioritize more accurate descriptions of the
+> >>> underlying framebuffer over EFI GOP.
+> >>>
+> >>
+> >> That was my opinion as well and the reason why I called the DTB the
+> >> single source of truth.
+> >>
+> >>> However, making 'simple-framebuffer' magic in this regard doesn't see=
+m
+> >>> like a great approach to me. Is there a better way we could get the
+> >>> resource conflict to be decided in a way where the EFI GOP gets
+> >>> superseded if its resources are claimed by another device?
+> >>>
+> >>
+> >> There is an aperture [0] framework that is used by the fbdev and DRM
+> >> subsystems to allow native drivers to remove any conflicting devices
+> >> that share the same framebuffer aperture.
+> >>
+> >> But it only makes sense for native drivers to use that I think, but
+> >> in this case is about two drivers that attempt to use the same frame
+> >> buffer provided by the firmware but getting it from different places.
+> >>
+> >> I don't have a better idea than this patch but maybe Thomas or Sima do=
+?
+> >
+> > At SUSE, we've carried such a patch in our repos for some time. It work=
+s
+> > around the double-framebuffer problem in a similar way. [1]
+> >
 >
-OK,  with this trivial problem solved:
-
-
-Acked-by: Sui Jingfeng <suijingfeng@loongson.cn>
-
-
-> Best regards
-> Thomas
+> Thanks for the information. I see that your patch is basically mine but
+> doing it unconditionally while this one only does the sysfb_disable() if
+> a "simple-framebuffer" DT node has been found.
 >
->>
->>
->>> diff --git a/drivers/gpu/drm/udl/udl_modeset.c 
->>> b/drivers/gpu/drm/udl/udl_modeset.c
->>> index 40876bcdd79a4..7702359c90c22 100644
->>> --- a/drivers/gpu/drm/udl/udl_modeset.c
->>> +++ b/drivers/gpu/drm/udl/udl_modeset.c
->>> @@ -21,7 +21,6 @@
->>>   #include <drm/drm_gem_framebuffer_helper.h>
->>>   #include <drm/drm_gem_shmem_helper.h>
->>>   #include <drm/drm_modeset_helper_vtables.h>
->>> -#include <drm/drm_plane_helper.h>
->>>   #include <drm/drm_probe_helper.h>
->>>   #include <drm/drm_vblank.h>
->>> @@ -261,6 +260,22 @@ static const uint64_t 
->>> udl_primary_plane_fmtmods[] = {
->>>       DRM_FORMAT_MOD_INVALID
->>>   };
->>> +static int udl_primary_plane_helper_atomic_check(struct drm_plane 
->>> *plane,
->>> +                         struct drm_atomic_state *state)
->>> +{
->>> +    struct drm_plane_state *new_plane_state = 
->>> drm_atomic_get_new_plane_state(state, plane);
->>> +    struct drm_crtc *new_crtc = new_plane_state->crtc;
->>> +    struct drm_crtc_state *new_crtc_state = NULL;
->>> +
->>> +    if (new_crtc)
->>> +        new_crtc_state = drm_atomic_get_new_crtc_state(state, 
->>> new_crtc);
->>> +
->>> +    return drm_atomic_helper_check_plane_state(new_plane_state, 
->>> new_crtc_state,
->>> +                           DRM_PLANE_NO_SCALING,
->>> +                           DRM_PLANE_NO_SCALING,
->>> +                           false, false);
->>> +}
->>> +
->>>   static void udl_primary_plane_helper_atomic_update(struct 
->>> drm_plane *plane,
->>>                              struct drm_atomic_state *state)
->>>   {
->>> @@ -296,7 +311,7 @@ static void 
->>> udl_primary_plane_helper_atomic_update(struct drm_plane *plane,
->>>   static const struct drm_plane_helper_funcs 
->>> udl_primary_plane_helper_funcs = {
->>>       DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
->>> -    .atomic_check = drm_plane_helper_atomic_check,
->>> +    .atomic_check = udl_primary_plane_helper_atomic_check,
->>>       .atomic_update = udl_primary_plane_helper_atomic_update,
->>>   };
->>> diff --git a/include/drm/drm_plane_helper.h 
->>> b/include/drm/drm_plane_helper.h
->>> index 3a574e8cd22f4..75f9c4830564a 100644
->>> --- a/include/drm/drm_plane_helper.h
->>> +++ b/include/drm/drm_plane_helper.h
->>> @@ -26,7 +26,6 @@
->>>   #include <linux/types.h>
->>> -struct drm_atomic_state;
->>>   struct drm_crtc;
->>>   struct drm_framebuffer;
->>>   struct drm_modeset_acquire_ctx;
->>> @@ -42,7 +41,6 @@ int drm_plane_helper_update_primary(struct 
->>> drm_plane *plane, struct drm_crtc *cr
->>>   int drm_plane_helper_disable_primary(struct drm_plane *plane,
->>>                        struct drm_modeset_acquire_ctx *ctx);
->>>   void drm_plane_helper_destroy(struct drm_plane *plane);
->>> -int drm_plane_helper_atomic_check(struct drm_plane *plane, struct 
->>> drm_atomic_state *state);
->>>   /**
->>>    * DRM_PLANE_NON_ATOMIC_FUNCS - Default plane functions for 
->>> non-atomic drivers
+> > As Javier mentioned, we do track the framebuffer ranges for EFI/VESA/OF
+> > framebuffers in the graphics aperture helpers. Fbdev has done this for
+> > decades, and the current codebase extends and harmonizes this
+> > functionality among fbdev and DRM drivers.
+> >
+> > WRT DT vs EFI: AFAIK the EFI support on affected platforms looks at the
+> > DT to set up the EFI framebuffer. So IMHO the DT is the authoritative
+> > source on the framebuffer.
+> >
 >
+> Agreed. Sima Vetter also mentioned on IRC that they think this patch is
+> the least bad option. Rob, Ard any thoughts? Maybe we can land this as
+> a fix and then figure how this could be better handled in the long term?
+
+What about moving the DT setup code here to sysfb? Then we just setup
+the right thing up front.
+
+However, there might be one other issue with that and this fix. The DT
+simplefb can have resources such as clocks and regulators. With
+fw_devlink, the driver won't probe until those dependencies are met.
+So if you want the framebuffer console up early, then you may want to
+register the EFI framebuffer first and then handoff to the DT simplefb
+when it probes (rather than registering the device).
+
+But I agree, probably better to take this patch now and have those
+quirks instead of flat out not working.
+
+Rob
