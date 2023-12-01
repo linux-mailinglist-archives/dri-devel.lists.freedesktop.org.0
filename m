@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57ADA8005DA
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 09:38:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8081C8005D9
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 09:38:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4930510E822;
-	Fri,  1 Dec 2023 08:38:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33AC510E819;
+	Fri,  1 Dec 2023 08:38:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF10C10E80F
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 08:37:56 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72BF810E814
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 08:37:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 2B743B843E6;
- Fri,  1 Dec 2023 08:37:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30553C433C8;
- Fri,  1 Dec 2023 08:37:54 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id D8E8462099;
+ Fri,  1 Dec 2023 08:37:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37415C433CA;
+ Fri,  1 Dec 2023 08:37:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701419874;
- bh=vitW7sTDA72AlBoRjwnKcCCRY9cZK5Zt7DNCu14No5U=;
+ s=k20201202; t=1701419877;
+ bh=rWGsZEZIR1EQpORLK+Bl7woMovPPcwnfUDDgud9gyiA=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=tDHcFeSlBHWn+bZNPU1CgK0TyZSiRCjEqzxPacSXeURlJ+qVZBZCbLvlfnshtfhmx
- Lt9d7Rayz86N8yxBWjOoApzR1qq589RQem7zc8gHoz52yq/9frAbsiWVaErqSXGVLZ
- Nuu1WI0972T+7DcoDaQwMxM/BSSs3iPCS45So2p3IZ1xoo/WLXBIv7I+BTFswzbt3A
- W4TFB4cw4khfob8lWSV2IlWyg6oeNBumX3kLRCVI8nhoD2gM6KOdLx9cuxDkLOWNog
- 4/F9BvWW7RQ7cpXbGxNxYuMi70qzxWLWW6r+hyypU2W7M7mYkFUsZ0MdYP2Otdz1nb
- 0H8Z8CD0IGH0Q==
+ b=KT5LQD3Q8kgWWWRfyE38tdXGgiMfqQ+WNTDm9b+APrpt7/+D4Ok7xTlDWjwUvKj4n
+ 6yMT4UutwPHwW7EXughSVMOz/B4xpc+RElRGj24khVA1E5t3MrsWLlCuBCaR9NJK5q
+ D+qooPaTU7oxWvuTBnbsCZEIfUIU/Ii3KPECGqpsrNTsmh+P6lAV0P+rAl0sHAEuC3
+ QHD9Up8rgEjrIzz2nb39T+whTo1Hv0MtbumRVge1qpb8ocdq+6lbD7II4YwUiwZ54R
+ jkPDqDiX0w7QzXdgEgrBfPjipwOaeDelE7x4W90aiucECQ8i7GQARjKSXFRM6ZNd3u
+ f1Gav4Vae6kZw==
 From: Maxime Ripard <mripard@kernel.org>
 To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Donald Robson <donald.robson@imgtec.com>
-In-Reply-To: <20231130160017.259902-4-donald.robson@imgtec.com>
+In-Reply-To: <20231130160017.259902-5-donald.robson@imgtec.com>
 References: <20231130160017.259902-1-donald.robson@imgtec.com>
- <20231130160017.259902-4-donald.robson@imgtec.com>
-Subject: Re: (subset) [PATCH v2 4/5] drm/imagination: pvr_gpuvm_free() now
- static
-Message-Id: <170141987169.3198881.5941706864545367309.b4-ty@kernel.org>
-Date: Fri, 01 Dec 2023 09:37:51 +0100
+ <20231130160017.259902-5-donald.robson@imgtec.com>
+Subject: Re: (subset) [PATCH v2 5/5] drm/imagination: Removed unused
+ function to_pvr_vm_gpuva()
+Message-Id: <170141987488.3198881.129685975104737563.b4-ty@kernel.org>
+Date: Fri, 01 Dec 2023 09:37:54 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -53,19 +53,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, matt.coster@imgtec.com,
- boris.brezillon@collabora.com, tzimmermann@suse.de,
+Cc: matt.coster@imgtec.com, boris.brezillon@collabora.com, tzimmermann@suse.de,
  kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 30 Nov 2023 16:00:16 +0000, Donald Robson wrote:
-> The function below is used only within this source file, but is not static.
+On Thu, 30 Nov 2023 16:00:17 +0000, Donald Robson wrote:
+> This function is now unused, hence it causes a compiler warning.
 > 
-> drivers/gpu/drm/imagination/pvr_vm.c:542:6: error: no previous prototype for 'pvr_gpuvm_free' [-Werror=missing-prototypes]
->   542 | void pvr_gpuvm_free(struct drm_gpuvm *gpuvm)
+>    drivers/gpu/drm/imagination/pvr_vm.c:112:22: warning: unused function 'to_pvr_vm_gpuva' [-Wunused-function]
+>      112 | struct pvr_vm_gpuva *to_pvr_vm_gpuva(struct drm_gpuva *gpuva)
+>          |                      ^
 > 
-> Make it static.
+> Remove the function for now.
 > 
 > [...]
 
