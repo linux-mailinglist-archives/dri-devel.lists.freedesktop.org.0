@@ -2,43 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C139800590
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 09:29:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 104B18005B7
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 09:35:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8744710E08C;
-	Fri,  1 Dec 2023 08:29:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0302710E80B;
+	Fri,  1 Dec 2023 08:35:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0D8210E08C
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 08:29:09 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D8D4C6201A;
- Fri,  1 Dec 2023 08:29:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34BEAC433C7;
- Fri,  1 Dec 2023 08:29:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701419348;
- bh=PnBJTUzXr7trutbP5JjWc1usFAZdvAOna/UdT9PCGkE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=q6qm3KCURWENxNbXN6B1mbytWuCWGTQyQhrJ67zFwzeYnJd6hEV5h0Od3bvRQ7ZOa
- dcuyzKQ8qwRGv4lPZPy5YeFuP5n08bn8nGmmhK5hO0C0vsL2zezxWq3Zu8vn/NKOz2
- fl+P6EG1r9jkVEEY+KDdULI9BSQj6v6XSMX0g0pbru0tQiDQKHzFqoDL8+JZpDYURa
- hoi0ljEiDQ5MsncIicG1ELRVunjp26/ahPh5J20TbMxibtbV7iq/nK7SoLB333UDrF
- T/XGGMDQOA+aBGdmiPppWsnBmhPo7eUPdDsU0734BU98CDaUhSoaWhEn7VlX4Pyn0O
- KphjgnoKiV40Q==
-Date: Fri, 1 Dec 2023 09:29:05 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
-Subject: Re: [PATCH] drm/doc: Define KMS atomic state set
-Message-ID: <x6cqert2tadgc46w3u2rfgcfaw6evxdeerl2mxvh2peycr4i7q@qf6oqymcti4j>
-References: <20231130200740.53454-1-andrealmeid@igalia.com>
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DDDF10E80B
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 08:35:02 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-5d34d85e610so17132787b3.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Dec 2023 00:35:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701419701; x=1702024501; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=0vyyy44HJ0PCg/k+e1EPUHLw7C4zTOZSquNZFbC/lLQ=;
+ b=xBDv2PqnSZnCBqmhJD5H81Fz2f6e58C2+DEfrImfdIKpsBkeskwanzSoi051p4pQ8O
+ cYMbcYqmsApY+aBJEFEcMsCV6uSGevPRxf+k1XkG41QQvyD2a1l19n60uDwN+rsq+TUR
+ 08pSo5k9GvW2aI7XggMKMTG72wyNraImT0rchvKd8qEVw4vzjvVWu92gwTR1liUqIz9G
+ ekqe+QUZwgFqI4bscy+y9Q9FSV7AeqWXSpklHp5nqOjWrxTpDtLcIl7PC33+ql1XoJCD
+ cjdD3e86YOQXfsbkgMWeve7fGHCHl0azCMQK3EMMzz4NrucJshZPNQLcURCetreDplsh
+ Bohg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701419701; x=1702024501;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0vyyy44HJ0PCg/k+e1EPUHLw7C4zTOZSquNZFbC/lLQ=;
+ b=mX5/jjo3lrTcFL7AZFkwsLt6XBky957zZJP0tI89FE0LCXWAXdmsJKdstkQy2kbp5L
+ qqNUoZDdqh4jfk7ofJjJw5xsu5eYUUV0BBQVrwyxtXEIBJhxDiFDzw5VJL5fjMSxh1V+
+ ddqCXFzixeM+fzNq1zVysuuog3FRqVGKNzB5/xRWQK0nX76Xyh7tsNCSbbwTerj3XOkv
+ a5+KgDq0zxOHSkAK+9kbfXZ5QWK4fSbwP7eAGYCMkV1HF+Je2XU1Ff0E/VG1D2Z25Mx0
+ /PvqZfALgEcYulmD9H3Sn3sIuUgb2wF2GvwjBIH9bYLOVdKH/hEsOSYJLh/nFvxtGfqF
+ Dw9w==
+X-Gm-Message-State: AOJu0YxVIt0O3LK3YgsQfJAOIqcu1dKpD2hPDQXtIlogzTeafU1+vTid
+ Y4MktwL+AG8E4G0Ojm5ClC2wECOIwmHOnYNZ26qbEA==
+X-Google-Smtp-Source: AGHT+IHsluDiR7TEy0JFz35RPDBZDAZGfERlf830bZCq3ZaKdNXxvA2SrojV1Ox4NklHZlOsNBsTriMfTwHWENQDftA=
+X-Received: by 2002:a05:690c:dd2:b0:5d3:9bc7:57d1 with SMTP id
+ db18-20020a05690c0dd200b005d39bc757d1mr4087419ywb.10.1701419701383; Fri, 01
+ Dec 2023 00:35:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="rfhua6m3ln4gsubv"
-Content-Disposition: inline
-In-Reply-To: <20231130200740.53454-1-andrealmeid@igalia.com>
+References: <20231201014101.15802-1-quic_parellan@quicinc.com>
+ <20231201014101.15802-3-quic_parellan@quicinc.com>
+ <20231201034710.GB1766637@hu-bjorande-lv.qualcomm.com>
+In-Reply-To: <20231201034710.GB1766637@hu-bjorande-lv.qualcomm.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 1 Dec 2023 10:34:50 +0200
+Message-ID: <CAA8EJpqFya5H+4PPZ8A3CqqqRJXsJ3KKbbcfS=C13QTr1vAtSw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/msm/dpu: Add mutex lock in control vblank irq
+To: Bjorn Andersson <quic_bjorande@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,115 +68,204 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Pekka Paalanen <ppaalanen@gmail.com>,
- 'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
- Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com, alexander.deucher@amd.com,
- Thomas Zimmermann <tzimmermann@suse.de>, christian.koenig@amd.com
+Cc: marijn.suijten@somainline.org, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, seanpaul@chromium.org, steev@kali.org,
+ quic_jesszhan@quicinc.com, Paloma Arellano <quic_parellan@quicinc.com>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 1 Dec 2023 at 05:47, Bjorn Andersson <quic_bjorande@quicinc.com> wrote:
+>
+> On Thu, Nov 30, 2023 at 05:40:55PM -0800, Paloma Arellano wrote:
+> > Add a missing mutex lock to control vblank irq. Thus prevent race
+> > conditions when registering/unregistering the irq callback.
+> >
+>
+> I'm guessing that the mutex is needed because vblank_refcount, while
+> being an atomic_t, doesn't actually provide any protection during
+> concurrency?
+>
+> I also tried to follow the calls backwards, but I'm uncertain how you
+> end up here concurrently.
+>
+> When wrapped in proper mutual exclusion, can't vblank_refcount just be
+> turned into an "int"...given that you're not actually able to rely on
+> it's atomic behavior anyways...
+>
+>
+> So, please rewrite the commit message with a detailed description of how
+> the concurrency happens, and please review if vblank_refcount should be
+> an atomic at all...
+>
+> > v2: Slightly changed wording of commit message
+> > v3: Mistakenly did not change wording in last version. It is done now.
+> >
+> > Signed-off-by: Paloma Arellano <quic_parellan@quicinc.com>
+> > ---
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c          | 6 ++++++
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h     | 6 ++++++
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 2 ++
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 2 ++
+> >  4 files changed, 16 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > index 1cf7ff6caff4e..19ff7d1d5ccad 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > @@ -119,6 +119,8 @@ enum dpu_enc_rc_states {
+> >   *   Virtual encoder defers as much as possible to the physical encoders.
+> >   *   Virtual encoder registers itself with the DRM Framework as the encoder.
+> >   * @base:            drm_encoder base class for registration with DRM
+> > + * @vblank_ctl_lock: Vblank ctl mutex lock to protect physical encoder
+> > + *                                           for IRQ purposes
+>
+> I think this protects vblank_refcount, so state that instead of the
+> vague "for IRQ purposes".
+>
+> >   * @enc_spinlock:    Virtual-Encoder-Wide Spin Lock for IRQ purposes
+> >   * @enabled:         True if the encoder is active, protected by enc_lock
+> >   * @num_phys_encs:   Actual number of physical encoders contained.
+> > @@ -166,6 +168,7 @@ enum dpu_enc_rc_states {
+> >   */
+> >  struct dpu_encoder_virt {
+> >       struct drm_encoder base;
+> > +     struct mutex vblank_ctl_lock;
+> >       spinlock_t enc_spinlock;
+> >
+> >       bool enabled;
+> > @@ -2255,6 +2258,7 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
+> >       phys_params.dpu_kms = dpu_kms;
+> >       phys_params.parent = &dpu_enc->base;
+> >       phys_params.enc_spinlock = &dpu_enc->enc_spinlock;
+> > +     phys_params.vblank_ctl_lock = &dpu_enc->vblank_ctl_lock;
+> >
+> >       WARN_ON(disp_info->num_of_h_tiles < 1);
+> >
+> > @@ -2386,6 +2390,7 @@ struct drm_encoder *dpu_encoder_init(struct drm_device *dev,
+> >       dpu_enc->enabled = false;
+> >       mutex_init(&dpu_enc->enc_lock);
+> >       mutex_init(&dpu_enc->rc_lock);
+> > +     mutex_init(&dpu_enc->vblank_ctl_lock);
+>
+> Is this somehow propagated to multiple different dpu_encoder_phys
+> instances, or why do you need to initialize it here and pass the pointer
+> through 2 different intermediate structures before assigning it to
+> phys_enc->vblank_ctl_lock below?
 
---rfhua6m3ln4gsubv
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes, there can be two phys_enc instances for a single encoder, so this
+part is fine.
 
-Hi,
+>
+> >
+> >       ret = dpu_encoder_setup_display(dpu_enc, dpu_kms, disp_info);
+> >       if (ret)
+> > @@ -2495,6 +2500,7 @@ void dpu_encoder_phys_init(struct dpu_encoder_phys *phys_enc,
+> >       phys_enc->dpu_kms = p->dpu_kms;
+> >       phys_enc->split_role = p->split_role;
+> >       phys_enc->enc_spinlock = p->enc_spinlock;
+> > +     phys_enc->vblank_ctl_lock = p->vblank_ctl_lock;
+>
+> Could you not just mutex_init() the one and only vblank_ctl_lock here?
+>
+> >       phys_enc->enable_state = DPU_ENC_DISABLED;
+> >
+> >       atomic_set(&phys_enc->vblank_refcount, 0);
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> > index 6f04c3d56e77c..5691bf6b82ee6 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> > @@ -155,6 +155,8 @@ enum dpu_intr_idx {
+> >   * @hw_wb:           Hardware interface to the wb registers
+> >   * @dpu_kms:         Pointer to the dpu_kms top level
+> >   * @cached_mode:     DRM mode cached at mode_set time, acted on in enable
+> > + * @vblank_ctl_lock: Vblank ctl mutex lock to protect physical encoder
+> > + *                                           for IRQ purposes
+>
+> Same here.
+>
+> >   * @enabled:         Whether the encoder has enabled and running a mode
+> >   * @split_role:              Role to play in a split-panel configuration
+> >   * @intf_mode:               Interface mode
+> > @@ -183,6 +185,7 @@ struct dpu_encoder_phys {
+> >       struct dpu_hw_wb *hw_wb;
+> >       struct dpu_kms *dpu_kms;
+> >       struct drm_display_mode cached_mode;
+> > +     struct mutex *vblank_ctl_lock;
+> >       enum dpu_enc_split_role split_role;
+> >       enum dpu_intf_mode intf_mode;
+> >       spinlock_t *enc_spinlock;
+> > @@ -253,6 +256,8 @@ struct dpu_encoder_phys_cmd {
+> >   * @split_role:              Role to play in a split-panel configuration
+> >   * @hw_intf:         Hardware interface to the intf registers
+> >   * @hw_wb:           Hardware interface to the wb registers
+> > + * @vblank_ctl_lock: Vblank ctl mutex lock to protect physical encoder
+> > + *                                           for IRQ purposes
+>
+> And here...
+>
+> Regards,
+> Bjorn
+>
+> >   * @enc_spinlock:    Virtual-Encoder-Wide Spin Lock for IRQ purposes
+> >   */
+> >  struct dpu_enc_phys_init_params {
+> > @@ -261,6 +266,7 @@ struct dpu_enc_phys_init_params {
+> >       enum dpu_enc_split_role split_role;
+> >       struct dpu_hw_intf *hw_intf;
+> >       struct dpu_hw_wb *hw_wb;
+> > +     struct mutex *vblank_ctl_lock;
+> >       spinlock_t *enc_spinlock;
+> >  };
+> >
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> > index 25babfe1f001a..dcf1f6a18ad6e 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> > @@ -244,6 +244,7 @@ static int dpu_encoder_phys_cmd_control_vblank_irq(
+> >               return -EINVAL;
+> >       }
+> >
+> > +     mutex_lock(phys_enc->vblank_ctl_lock);
+> >       refcount = atomic_read(&phys_enc->vblank_refcount);
+> >
+> >       /* Slave encoders don't report vblank */
+> > @@ -275,6 +276,7 @@ static int dpu_encoder_phys_cmd_control_vblank_irq(
+> >       }
+> >
+> >  end:
+> > +     mutex_unlock(phys_enc->vblank_ctl_lock);
+> >       if (ret) {
+> >               DRM_ERROR("vblank irq err id:%u pp:%d ret:%d, enable %s/%d\n",
+> >                         DRMID(phys_enc->parent),
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> > index 8e905d7267f9f..87bb49763785d 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+> > @@ -364,6 +364,7 @@ static int dpu_encoder_phys_vid_control_vblank_irq(
+> >       int ret = 0;
+> >       int refcount;
+> >
+> > +     mutex_lock(phys_enc->vblank_ctl_lock);
+> >       refcount = atomic_read(&phys_enc->vblank_refcount);
+> >
+> >       /* Slave encoders don't report vblank */
+> > @@ -394,6 +395,7 @@ static int dpu_encoder_phys_vid_control_vblank_irq(
+> >       }
+> >
+> >  end:
+> > +     mutex_unlock(phys_enc->vblank_ctl_lock);
+> >       if (ret) {
+> >               DRM_ERROR("failed: id:%u intf:%d ret:%d enable:%d refcnt:%d\n",
+> >                         DRMID(phys_enc->parent),
+> > --
+> > 2.41.0
+> >
+> >
 
-On Thu, Nov 30, 2023 at 05:07:40PM -0300, Andr=E9 Almeida wrote:
-> From: Pekka Paalanen <pekka.paalanen@collabora.com>
->=20
-> Specify how the atomic state is maintained between userspace and
-> kernel, plus the special case for async flips.
->=20
-> Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Signed-off-by: Andr=E9 Almeida <andrealmeid@igalia.com>
-> ---
->=20
-> This is a standalone patch from the following serie, the other patches are
-> already merged:
-> https://lore.kernel.org/lkml/20231122161941.320564-1-andrealmeid@igalia.c=
-om/
->=20
->  Documentation/gpu/drm-uapi.rst | 47 ++++++++++++++++++++++++++++++++++
->  1 file changed, 47 insertions(+)
->=20
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.=
-rst
-> index 370d820be248..d0693f902a5c 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -570,3 +570,50 @@ dma-buf interoperability
-> =20
->  Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
->  information on how dma-buf is integrated and exposed within DRM.
-> +
-> +KMS atomic state
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +An atomic commit can change multiple KMS properties in an atomic fashion,
-> +without ever applying intermediate or partial state changes.  Either the=
- whole
-> +commit succeeds or fails, and it will never be applied partially. This i=
-s the
-> +fundamental improvement of the atomic API over the older non-atomic API =
-which is
-> +referred to as the "legacy API".  Applying intermediate state could unex=
-pectedly
-> +fail, cause visible glitches, or delay reaching the final state.
-> +
-> +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, which me=
-ans the
-> +complete state change is validated but not applied.  Userspace should us=
-e this
-> +flag to validate any state change before asking to apply it. If validati=
-on fails
-> +for any reason, userspace should attempt to fall back to another, perhaps
-> +simpler, final state.  This allows userspace to probe for various config=
-urations
-> +without causing visible glitches on screen and without the need to undo a
-> +probing change.
-> +
-> +The changes recorded in an atomic commit apply on top the current KMS st=
-ate in
-> +the kernel. Hence, the complete new KMS state is the complete old KMS st=
-ate with
-> +the committed property settings done on top. The kernel will try to avoid
 
-That part is pretty confusing to me.
 
-What are you calling the current and old KMS state?
-
-What's confusing to me is that, yes, what you're saying is true for a
-given object: if it was part of the commit, the new state is the old
-state + whatever the new state changed.
-
-However, if that object wasn't part of the commit at all, then it's
-completely out of the old or new global KMS state.
-
-So yeah, individual object KMS state are indeed complete, but
-drm_atomic_state definitely isn't. And it's the whole point of functions
-like drm_atomic_get_crtc_state() vs drm_atomic_get_old/new_crtc_state:
-the old/new variants only return a state if it was part of
-drm_atomic_state to begin with. drm_atomic_get_crtc_state() brings the
-crtc state into drm_atomic_state if it wasn't part of it.
-
-Maxime
-
---rfhua6m3ln4gsubv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHQEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWmZUQAKCRDj7w1vZxhR
-xS0HAP90i/BOMmRuVrjPxnOxAXZYyqDfs9rubl1YOTWN6l7MnQD3eKv6YT4StIim
-5Q/WsvPjodwnqiSTSEiN57YWIo13Dg==
-=rh3S
------END PGP SIGNATURE-----
-
---rfhua6m3ln4gsubv--
+-- 
+With best wishes
+Dmitry
