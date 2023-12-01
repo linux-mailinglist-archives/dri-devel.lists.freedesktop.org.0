@@ -2,59 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9349B800E66
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 16:17:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2759D800E6E
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 16:19:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE56F10E8D2;
-	Fri,  1 Dec 2023 15:17:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CD9510E0B0;
+	Fri,  1 Dec 2023 15:19:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E18888A72
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 15:17:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701443862; x=1732979862;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=wYPSx9+wbY4jC6jNQkQIxE7XoYAMfQUsgyw8T5lmYsg=;
- b=BSk1eTp8KH6vv/xHR/hqBvxjsmTmsyXdzRXG1Wo/L7e7G5SfwQylPMG+
- YkXtbigEZsO5w1S2iweiDGXZE3iSHwiy2hGcke9MzRQ/Wf7+7RbPJQ0yB
- d5mUl2JYLwlSiJrwkHCENgayWrszw5EjLyyMilpOztM5ZkiPV97WaZgEB
- gc1xMQicCyPCHH5B7GT7jFQ5weEzDjCf6ukWsA9WbX9GbpQp1Sn42gvk5
- 4GkvCDs2urtN9tMD9T1hSlgCLTLIcZiQkznmc4o0i9HFLq0MGqG2C3/Kv
- uxzckUkozpf2PnDJddt/I/gU8IcgbWVvio6fga4qiMB/dCuJZVeDyDUHJ Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="362671"
-X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
-   d="scan'208";a="362671"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2023 07:17:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="763178004"
-X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; d="scan'208";a="763178004"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga007.jf.intel.com with SMTP; 01 Dec 2023 07:17:36 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 01 Dec 2023 17:17:35 +0200
-Date: Fri, 1 Dec 2023 17:17:35 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
- pointers arguments
-Message-ID: <ZWn5D387DYmsh1sa@intel.com>
-References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
- <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
- <87h6l66nth.fsf@intel.com>
- <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
- <ZWXv1Oi_sH0BRWao@intel.com> <20231129121259.47746996@eldfell>
- <ZWcRoTJ9VgOqZ3ts@intel.com>
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3D0F10E0B0
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 15:19:41 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id
+ a640c23a62f3a-a195a1474easo191189766b.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Dec 2023 07:19:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1701443979; x=1702048779;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YGODWC2uJcvDQZ7EY2xJVvkyTzj74X5vd6Vn8ASvgDA=;
+ b=CNVActxoB7gs/3zNeZiYT/zyp8Z5oTJA64jOjZOxWHkfxz+kPalt4rQPL1m9f5Yz6Z
+ g36lYdEv9bUFShv8v3F5+17nCcnoZNbxrIqZZeIuFcEcOoCzN1ecXmIDDzoI2CXmhepU
+ RvKLX5XwGqDkm/5tWR+T+twxMTbWIr5cRGxtM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701443979; x=1702048779;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YGODWC2uJcvDQZ7EY2xJVvkyTzj74X5vd6Vn8ASvgDA=;
+ b=iCHbQbzRU+OyNX1l95YUYF42sAzfohn6YP0zKleDPS/6KtsjyBHYr0JD5BgLlGWXJe
+ hOYDyYCcr6Cb5mSE+Ohw+/K5vncC35VmDpVYTrjffBqCjRVaPpvvVRwbO92vW4TsMm06
+ /vDaIxyC5xC/tnF3QWyi1EgjRPQ/Jj29c5JoyavgMqJH5Y/9wp0QKETzN/owNZMIA1c5
+ 2cy5+7Rt72Ioh1GmNAsjwGWVFJDseM/q9EfPrmxBGARs1In9Rpdi7f4BOUb5zxgQ7821
+ tSW79eO1Jl0lZMp1+gStG7RLqfguHbcUxrnQCc93Xom2BN1qLxZnxrXc0vNO765iHy/m
+ zzzA==
+X-Gm-Message-State: AOJu0YwPvaNNldvkjfuM8xnuRpl57ilEOQ+DMqNrs8ItEvYPnPdL1SVE
+ 3lFEawvt7jFx4ohfYJrtuEN1T5BMDwz8kaC5kYqARg==
+X-Google-Smtp-Source: AGHT+IEEFU9VOzKg8cu+KpXLJ9B7mD/+HfP82WATTjK+jQpfJUdMAK29JXziCzsVwxOkf3MZ1APvXw==
+X-Received: by 2002:a17:906:3550:b0:9ff:6257:1b4c with SMTP id
+ s16-20020a170906355000b009ff62571b4cmr1936917eja.37.1701443979575; 
+ Fri, 01 Dec 2023 07:19:39 -0800 (PST)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com.
+ [209.85.128.47]) by smtp.gmail.com with ESMTPSA id
+ u8-20020a170906c40800b00a0029289961sm2004950ejz.190.2023.12.01.07.19.39
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Dec 2023 07:19:39 -0800 (PST)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-40b422a274dso75815e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Dec 2023 07:19:39 -0800 (PST)
+X-Received: by 2002:a05:600c:3ca3:b0:40b:5972:f56b with SMTP id
+ bg35-20020a05600c3ca300b0040b5972f56bmr137725wmb.3.1701443978762; Fri, 01 Dec
+ 2023 07:19:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZWcRoTJ9VgOqZ3ts@intel.com>
-X-Patchwork-Hint: comment
+References: <20231201-x1e80100-drm-panel-edp-v1-1-ef9def711d8a@linaro.org>
+In-Reply-To: <20231201-x1e80100-drm-panel-edp-v1-1-ef9def711d8a@linaro.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 1 Dec 2023 07:19:22 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XLbuOwtYiP7w+dqRK3p0QM3maumQ2TOL7+N1SXqi9f0A@mail.gmail.com>
+Message-ID: <CAD=FV=XLbuOwtYiP7w+dqRK3p0QM3maumQ2TOL7+N1SXqi9f0A@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Add SDC ATNA45AF01
+To: Abel Vesa <abel.vesa@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,59 +79,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Emma Anholt <emma@anholt.net>, Samuel Holland <samuel@sholland.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sandy Huang <hjc@rock-chips.com>,
- Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 29, 2023 at 12:25:37PM +0200, Ville Syrjälä wrote:
-> On Wed, Nov 29, 2023 at 12:12:59PM +0200, Pekka Paalanen wrote:
-> > On Tue, 28 Nov 2023 15:49:08 +0200
-> > Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> > 
-> > > Should we perhaps start to use the (arguably hideous)
-> > >  - void f(struct foo *bar)
-> > >  + void f(struct foo bar[static 1])
-> > > syntax to tell the compiler we don't accept NULL pointers?
-> > > 
-> > > Hmm. Apparently that has the same problem as using any
-> > > other kind of array syntax in the prototype. That is,
-> > > the compiler demands to know the definition of 'struct foo'
-> > > even though we're passing in effectively a pointer. Sigh.
-> > 
-> > 
-> > __attribute__((nonnull)) ?
-> 
-> I guess that would work, though the syntax is horrible when
-> you need to flag specific arguments.
+Hi,
 
-I played around with this a bit (blindly cocci'd tons of
-drm and i915 function declarations with the nonnull attribute)
-and it's somewhat underwhelming unfortunately.
+On Fri, Dec 1, 2023 at 5:13=E2=80=AFAM Abel Vesa <abel.vesa@linaro.org> wro=
+te:
+>
+> Add support for the SDC ATNA45AF01 panel.
+>
+> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> ---
+>  drivers/gpu/drm/panel/panel-edp.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/pa=
+nel-edp.c
+> index 825fa2a0d8a5..467a42eddbe9 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -1988,6 +1988,7 @@ static const struct edp_panel_entry edp_panels[] =
+=3D {
+>         EDP_PANEL_ENTRY('S', 'H', 'P', 0x154c, &delay_200_500_p2e100, "LQ=
+116M1JW10"),
+>
+>         EDP_PANEL_ENTRY('S', 'T', 'A', 0x0100, &delay_100_500_e200, "2081=
+116HHD028001-51D"),
+> +       EDP_PANEL_ENTRY('S', 'D', 'C', 0x416d, &delay_100_500_e200, "ATNA=
+45AF01"),
 
-It will trip only if the compiler is 100% sure you're passing
-in a NULL. There is no way to eg. tell the compiler that a
-function can return a NULL and thus anything coming from it
-should be checked by the caller before passing it on to
-something with the nonnull attribute. And I suppose error
-pointers would also screw that idea over anyway.
+'SDC' should sort above 'STA' (and 'SHP'). Each of the manufacturers
+have their own "block". Since this is the first 'SDC' it should get
+its own block (with a blank line before and after) between 'KDB' and
+'SHP'.
 
-Additionally the NULL device checks being being done in 
-the drm_err/dbg macros trip this up left right and center.
-And hiding that check inside a function (instead of having
-it in the macro) is also ruined by the fact that we apparently
-pass different types of pointers to these macros :( Generics
-could be used to sort out that type mess I suppose, or the
-code that passes the wrong type (DSI code at least) should
-just be changed to not do that. But not sure if there's enough
-benefit to warrant the work.
-
--- 
-Ville Syrjälä
-Intel
+-Doug
