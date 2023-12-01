@@ -1,66 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47C128005FD
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 09:41:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 755D4800604
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 09:41:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C54510E838;
-	Fri,  1 Dec 2023 08:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D431810E825;
+	Fri,  1 Dec 2023 08:41:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EE1110E81C
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 08:40:14 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id
- 4fb4d7f45d1cf-54bfd4546fbso2094168a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Dec 2023 00:40:14 -0800 (PST)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A039710E81D
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 08:40:22 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id
+ 4fb4d7f45d1cf-54c61fac35bso237318a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Dec 2023 00:40:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701420012; x=1702024812; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701420021; x=1702024821; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=cXvE7uk6PyU7Rxu1RaVxP8Z6ufZ2yG7HxnXPbBZglvs=;
- b=P4rjOACG1Q41j1Mm7mY8kj2WpcPWBuFjRbrCmKguRJBBCtbJKHuKvzdkqXYDg5txs7
- KaD0Y082VHu+kBzHtgEyMQGEgkUK81WOW/ysUH/iBlOsSOHHYCkd2mgxnaRbnIYbB++U
- xjDy8Pe1PZQifsBwjd8tPmgKf5xtO/VHFsW5MreoQT+2R347h6IaJcqV3/63hSF3hyCy
- iXFpSD8lamb67IL4ZWxTjkb3cQ2APWMH7r6WyvEprPPk+CHYX2Z8o+s90Brnaqva+0Cb
- F+bAF4iKzyNSSLjZF2UmJH40vgjesKF58L8IFgFrT3d7DNyKtIfdZngCpbIOLe/Ricng
- uGTA==
+ bh=LwaPHpx2wWsuOyVI07qURLSlvWI5FU/Wj3kBq4ULRv0=;
+ b=daPlx21ckBqidStlFYPGG7ghJUquK9Hq8OUIiOZ0K4DdwfyQL8PUmZetqtpSBMgyap
+ URLl6p/N+tn9oGN/naw5A8L3dPvFu6Yr+lRqhDfwHx0jwnNO1XFLkVYvIVvf90y7xIZo
+ AK2DFvVi9yeHII3mYOG8/xttyU2hOfeXNnhx/xQ3W1jJEBqxjz57lvFxKgoPfsdA1CsO
+ Q5whpNmFvsxWie29cp3vU7+1RrzkajKgezoabyKk5rsbDh3UGJbs5yXVQtnbivPr3Kuh
+ h5UltFmPkPJEb6Uk/lvl+ciZttVFSNwgD6Pmaho8cK5ILPx8rsUtel0EiflySoBmfFdK
+ FLFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701420012; x=1702024812;
+ d=1e100.net; s=20230601; t=1701420021; x=1702024821;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cXvE7uk6PyU7Rxu1RaVxP8Z6ufZ2yG7HxnXPbBZglvs=;
- b=B9/DtLnlmGb4w0Q+NoELYXmX7JI01qwz9vY/q1mwK35TAnMYMb0hxLOMRt0em9cf3q
- HANXQ0RS3xPzRv+Bm/iW0vZrpAPEA/t35UNUT9hNPbFxJ428fG52r9LHhqXzF2NL8JcC
- +TYaSfOAQFXmW4NAJc4j/SGbyPuXPY7yqRbn4AfYJ3qYxFb+IRoRzMNDe3yFxNlYlc5h
- GyP8leewak+8QtQeJRry17qekJk/IgekmaF4sR+dj5xnK+wdwL+keUKs0XH9geXCyoej
- VPkWQJzGaZs1rKw2Lzynv0sgL+CkC3rBdah9O6RfE//ufahMf/Pceir7neVA/fsJ3ivi
- nMpg==
-X-Gm-Message-State: AOJu0YzlFzO9GvEatY/1SSrX2ZOa/FRXQMU4R1lk3zG+5kAbVU+EuwJh
- Av8yE0Hu4vdf3s3h8ZVaf1WurQ==
-X-Google-Smtp-Source: AGHT+IEjRKf4OuFEqvFgEnFt+G/eH1ajatw4aKBgJzm1Sx9eQ+OjrBuTKnVsZo/BubzaCjwkkF1zTw==
-X-Received: by 2002:a50:950c:0:b0:54c:4837:8b82 with SMTP id
- u12-20020a50950c000000b0054c48378b82mr499279eda.80.1701420012641; 
- Fri, 01 Dec 2023 00:40:12 -0800 (PST)
+ bh=LwaPHpx2wWsuOyVI07qURLSlvWI5FU/Wj3kBq4ULRv0=;
+ b=vPxQmAnxw5AmDZRTLb41bi6E7LWyRIMWU3mCdjynWVH1fhSKwi9JEGIhf2nC8ksZSu
+ eyhkgBj7kPro4IDDJ/lE892NxKlcSOq/SDeNyNDzrF0nRAubBwhXpO1ZZ6Sz3EjbLutB
+ n47gZZwybAETpRkwx4N6btVq6aXXO8nR39oPsuLWAaNDoekQE8BGY/u7oG9pq6D0pIfP
+ /Ve0oD0rM1jcXNO5zWomuq9iCmh3nAD7Ue//mjkHbfnNOILkO/26XEnVbsCTrJpSC4Dj
+ Z/2kxn8pV1Vs1zN6cUWl0PcKx3YO1y9D0ckb1hfbid3l15h7Tn8xtydRA9ajeQbOauKk
+ +n4w==
+X-Gm-Message-State: AOJu0YzqKIRy7pslrciy4f85LwqRADSd9ygyhsjPKZeAkY/tXyoLOWa5
+ 0vNjdpEmWYmS0nAqA37PucA8hw==
+X-Google-Smtp-Source: AGHT+IF7iFz+LKE3JmsMvP41zSKP9g7iazn0xsToG2XKGvVAHD9TgKSe8LlYA0lG1ll5X1H53LpT7A==
+X-Received: by 2002:a17:906:bcdc:b0:a17:781f:20bb with SMTP id
+ lw28-20020a170906bcdc00b00a17781f20bbmr579745ejb.1.1701420020742; 
+ Fri, 01 Dec 2023 00:40:20 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.109])
  by smtp.gmail.com with ESMTPSA id
- bt15-20020a0564020a4f00b0054c63ebfa15sm135663edb.83.2023.12.01.00.40.10
+ bt15-20020a0564020a4f00b0054c63ebfa15sm135663edb.83.2023.12.01.00.40.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Dec 2023 00:40:12 -0800 (PST)
-Message-ID: <0c7c4868-4302-4d03-9a9b-3dbb4b98eb9f@linaro.org>
-Date: Fri, 1 Dec 2023 09:40:10 +0100
+ Fri, 01 Dec 2023 00:40:20 -0800 (PST)
+Message-ID: <2a16422e-5b3a-49be-ba7d-de870a9d82ff@linaro.org>
+Date: Fri, 1 Dec 2023 09:40:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/9] dt-bindings: display: Document Himax HX8394 panel
- rotation
+Subject: Re: [PATCH 5/9] dt-bindings: display: himax-hx8394: Add Powkiddy X55
+ panel
 Content-Language: en-US
 To: Chris Morgan <macroalpha82@gmail.com>, linux-rockchip@lists.infradead.org
 References: <20231130155624.405575-1-macroalpha82@gmail.com>
- <20231130155624.405575-4-macroalpha82@gmail.com>
+ <20231130155624.405575-6-macroalpha82@gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -106,7 +106,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231130155624.405575-4-macroalpha82@gmail.com>
+In-Reply-To: <20231130155624.405575-6-macroalpha82@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -133,10 +133,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 30/11/2023 16:56, Chris Morgan wrote:
 > From: Chris Morgan <macromorgan@hotmail.com>
 > 
-> Document panel rotation for Himax HX8394 display panel.
+> Add compatible string for the Powkiddy X55 panel.
 > 
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> ---
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
