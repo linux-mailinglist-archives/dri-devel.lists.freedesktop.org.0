@@ -1,71 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B48C80053E
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 09:15:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE9B800455
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 08:06:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B60A210E087;
-	Fri,  1 Dec 2023 08:15:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F2A510E7F6;
+	Fri,  1 Dec 2023 07:06:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com
- [IPv6:2607:f8b0:4864:20::f30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F335610E7AB
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 03:19:43 +0000 (UTC)
-Received: by mail-qv1-xf30.google.com with SMTP id
- 6a1803df08f44-67a8a745c43so8757846d6.0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 19:19:43 -0800 (PST)
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
+ [IPv6:2607:f8b0:4864:20::1132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C96E10E7F6
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 07:05:51 +0000 (UTC)
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-5d05ff42db0so20776127b3.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 23:05:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701400783; x=1702005583; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:reply-to
- :content-language:subject:references:cc:to:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=w1yLxxT5KsdGuu3GRJZZLxdc6kDna2jefgX1rczCN6k=;
- b=OAfncZx/SmYAAj+pzeXjBSePi3V0OhUVJEjvnjg26J76KBbxBIHF3MlY7MGswXj/qJ
- XurSr6tqMnAbxDfxXJje1HjNtn/9plJH3NKmAsQbiKJG2hPaeFvonrSakDbf185x95hv
- brK7XCBQSmUjeKObxnjngpk5K4xQH7FHAC/xkJ/MTwOstvYUF5z8HQPCtGJAdRjrj+ag
- 4t1eEViWoFoJu7FN88rGOnXXAaRyLc4o1YqG40cxA6Z/q+FgsnmCnb42MTphdfPSVbXY
- Unc1R0D6qWj0BaDRLpUq7iwZAF1rsVbuYEsGddwqiZ2h7Dh1oyHUGAipg0X2bMOJKWar
- mCrA==
+ d=linaro.org; s=google; t=1701414350; x=1702019150; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Uq0o4Jzv060/CIGWfNwClaO6KwnNc51kzCIq/4hD56Y=;
+ b=BIN7gw2p3Iz8iOOBWevsgqYVq4JSsAyd03F3TvTnflWGNS7fr8mzK5ZNaTMeikXA74
+ s6EJgqAqXy/dIc1tdULg1UFSpWyxcgEaqlJtqYYTYlOE3CCepci1uu25uZ3GhyOIsgyW
+ R9y/BQIQbmJ9AZ8QLYOk7msTUF3udeAqn/gEuIu3XjJ6qqDR6/XxZInLy8iJoYqo4okT
+ sDf/X+J82Kp8NQDenQZb4i/7lxpr2IcfQtK2rR2QjBVZYpdTxvpaujHQwNgWKrCISJi3
+ sCTkM+1r7EjAZq2AP0MpumopkdwXoyHPQv8tJfHhOZ0wUzZONoPGsFrGySPqVz7DuBVv
+ 6vrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701400783; x=1702005583;
- h=content-transfer-encoding:in-reply-to:from:reply-to
- :content-language:subject:references:cc:to:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=w1yLxxT5KsdGuu3GRJZZLxdc6kDna2jefgX1rczCN6k=;
- b=G0E9rYGB/RfOrRfmtwuJFW0/xpV9pOwh6O+BjoGSHDLjtVvQZnqSs8ldnLYUdNAuZX
- vjrvepiXFIvv+9GkqUCscfBIzUwGXAqsQtT7GO+GIXFOLSnLUBlolznj0k2t8UhpIHzW
- eGrchJaDEXtmXF+sBSc2pSpvlzErEf8HXoRRd5O1JQQ7UM6/V/HhUG7tLOppK6S6GgWE
- gBm7gxIGXcnyohVf3eo1Kkmy8H5H92zVk941SpoW6p7ndF7mEJsP8Rjh0leVR8GE6qnQ
- Le/RxQZqne0KUOwCiGW9jnLms+5WLcRQEEg2rx2irFFJXWCWNiSPHikyh+rOLyjKkQEM
- IU4A==
-X-Gm-Message-State: AOJu0Yw73w/aGYQcrs9vgxDZWFjNUUpPLOHE4vo8vurNRzOTCzvYofUC
- QvohUft90ZlwlrtgTOGmhCg=
-X-Google-Smtp-Source: AGHT+IHOiqqxjUtKvmkmSLEgSgHdXq9FR9qvjq3PYWE8VyCQxJoW5+tku2zDkZ0kzRxFNhwAyV155g==
-X-Received: by 2002:a0c:ecc4:0:b0:67a:9826:8ef6 with SMTP id
- o4-20020a0cecc4000000b0067a98268ef6mr1009241qvq.16.1701400782754; 
- Thu, 30 Nov 2023 19:19:42 -0800 (PST)
-Received: from [192.168.50.160] (174-080-102-187.res.spectrum.com.
- [174.80.102.187]) by smtp.gmail.com with ESMTPSA id
- n17-20020a0cdc91000000b0067a4a0a7e6fsm1061714qvk.108.2023.11.30.19.19.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Nov 2023 19:19:42 -0800 (PST)
-Message-ID: <f8ae78a0-f329-457a-8a53-b1725f9e2e20@gmail.com>
-Date: Thu, 30 Nov 2023 21:19:40 -0600
+ d=1e100.net; s=20230601; t=1701414350; x=1702019150;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Uq0o4Jzv060/CIGWfNwClaO6KwnNc51kzCIq/4hD56Y=;
+ b=NjLf+Y+3n3ZAlOB+6fxHQ/SWGxB1rFrL6jRZAE+zSjkd0drLvaDCfkS10tkBVdKgfF
+ OeJy1PQ+Q/TXPmSEc8EtqhihFeZ1tgOz7TLhz+FarKw1ekQdIM2SMEvVgyFqFwbCWcQF
+ GKeA5MqM62cWWSmCXpj4IwkTw6zjrWkU0tSZAl3nUFh8CgxPakfWGQyreqyw68t5bN4i
+ fCDEa/Cz+igQC3QXDHrBDtFJOd0vOq6wy3e3CJw/5yYYbK916DFUkbUHIIZ172rvgNa7
+ qeyEnjFIAVUZTXBV5AchhFmKjUz5zMwYhBtthYcvhAo10PgeBmM8bZ2KCgGs3xtDDAf0
+ KBxQ==
+X-Gm-Message-State: AOJu0YwHPy8aIqFwqdA99SKXLI3k52Kb181DpmiSUjwYRs+70KB80Bvx
+ pj9FTW8np+z3WunoEalKYXOAe0mhgJXaUenBseItVw==
+X-Google-Smtp-Source: AGHT+IGwaOjPJO/K0RzW4XZFivflOYIsV8YT7sPLlz1EcaoZl5lNuv/3mh9LC+cbICFT3d1yAXsDfPPwhkmE0aBuCfw=
+X-Received: by 2002:a05:690c:3588:b0:5d3:37fe:54ce with SMTP id
+ fr8-20020a05690c358800b005d337fe54cemr4925920ywb.8.1701414350166; Thu, 30 Nov
+ 2023 23:05:50 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: macroalpha82@gmail.com
-References: <20231130155624.405575-7-macroalpha82@gmail.com>
-Subject: Re: [PATCH 6/9] drm/panel: himax-hx8394: Add Support for Powkiddy X55
- panel
-Content-Language: en-US
-From: Kendrick Curry <notime2d8@gmail.com>
-In-Reply-To: <20231130155624.405575-7-macroalpha82@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 01 Dec 2023 08:15:13 +0000
+References: <20230830224910.8091-1-quic_abhinavk@quicinc.com>
+ <20230830224910.8091-7-quic_abhinavk@quicinc.com>
+ <CAA8EJpowk1veNE1z_gwzkF2o9whz7XjCViTaXKR36nu9Gkc+OQ@mail.gmail.com>
+ <98d13044-06d2-7752-b08c-e2c322534025@quicinc.com>
+In-Reply-To: <98d13044-06d2-7752-b08c-e2c322534025@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 1 Dec 2023 09:05:38 +0200
+Message-ID: <CAA8EJponr1khFMivD_RuK_V6sO9+OPz+LaaBMM4yc6iBNaK62w@mail.gmail.com>
+Subject: Re: [PATCH 06/16] drm/msm/dpu: add dpu_hw_cdm abstraction for CDM
+ block
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,234 +70,587 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: 20231130155624.405575-7-macroalpha82@gmail.com
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, macromorgan@hotmail.com,
- krzysztof.kozlowski+dt@linaro.org, neil.armstrong@linaro.org, sboyd@kernel.org,
- sam@ravnborg.org, mturquette@baylibre.com, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- robh+dt@kernel.org, mripard@kernel.org, quic_jesszhan@quicinc.com,
- linux-clk@vger.kernel.org, tzimmermann@suse.de
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, quic_parellan@quicinc.com, quic_jesszhan@quicinc.com,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 30, 2023 at 09:56:21AM -0600, Chris Morgan wrote:
- > From: Chris Morgan <macromorgan@hotmail.com>
- >
- > Add support for the Powkiddy X55 panel as used on the Powkiddy X55
- > handheld gaming console. This panel uses a Himax HX8394 display
- > controller and requires a vendor provided init sequence. The display
- > resolution is 720x1280 and is 67mm by 121mm as measured with calipers.
- >
- > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
- > ---
- >  drivers/gpu/drm/panel/panel-himax-hx8394.c | 137 +++++++++++++++++++++
- >  1 file changed, 137 insertions(+)
- >
- > diff --git a/drivers/gpu/drm/panel/panel-himax-hx8394.c 
-b/drivers/gpu/drm/panel/panel-himax-hx8394.c
- > index b68ea09f4725..4807ab1c10fe 100644
- > --- a/drivers/gpu/drm/panel/panel-himax-hx8394.c
- > +++ b/drivers/gpu/drm/panel/panel-himax-hx8394.c
- > @@ -38,6 +38,7 @@
- >  #define HX8394_CMD_SETMIPI      0xba
- >  #define HX8394_CMD_SETOTP      0xbb
- >  #define HX8394_CMD_SETREGBANK      0xbd
- > +#define HX8394_CMD_UNKNOWN5      0xbf
- >  #define HX8394_CMD_UNKNOWN1      0xc0
- >  #define HX8394_CMD_SETDGCLUT      0xc1
- >  #define HX8394_CMD_SETID      0xc3
- > @@ -52,6 +53,7 @@
- >  #define HX8394_CMD_SETGIP1      0xd5
- >  #define HX8394_CMD_SETGIP2      0xd6
- >  #define HX8394_CMD_SETGPO      0xd6
- > +#define HX8394_CMD_UNKNOWN4      0xd8
- >  #define HX8394_CMD_SETSCALING      0xdd
- >  #define HX8394_CMD_SETIDLE      0xdf
- >  #define HX8394_CMD_SETGAMMA      0xe0
- > @@ -203,6 +205,140 @@ static const struct hx8394_panel_desc 
-hsd060bhw4_desc = {
- >      .init_sequence = hsd060bhw4_init_sequence,
- >  };
- >
- > +static int powkiddy_x55_init_sequence(struct hx8394 *ctx)
- > +{
- > +    struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
- > +
- > +    /* 5.19.8 SETEXTC: Set extension command (B9h) */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETEXTC,
- > +                   0xff, 0x83, 0x94);
- > +
- > +    /* 5.19.9 SETMIPI: Set MIPI control (BAh) */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETMIPI,
- > +                   0x63, 0x03, 0x68, 0x6b, 0xb2, 0xc0);
- > +
- > +    /* 5.19.2 SETPOWER: Set power (B1h) */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPOWER,
- > +                   0x48, 0x12, 0x72, 0x09, 0x32, 0x54, 0x71, 0x71, 
-0x57, 0x47);
- > +
- > +    /* 5.19.3 SETDISP: Set display related register (B2h) */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETDISP,
- > +                   0x00, 0x80, 0x64, 0x0c, 0x0d, 0x2f);
- > +
- > +    /* 5.19.4 SETCYC: Set display waveform cycles (B4h) */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETCYC,
- > +                   0x73, 0x74, 0x73, 0x74, 0x73, 0x74, 0x01, 0x0c, 
-0x86, 0x75,
- > +                   0x00, 0x3f, 0x73, 0x74, 0x73, 0x74, 0x73, 0x74, 
-0x01, 0x0c,
- > +                   0x86);
- > +
- > +    /* 5.19.5 SETVCOM: Set VCOM voltage (B6h) */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETVCOM,
- > +                   0x6e, 0x6e);
- > +
- > +    /* 5.19.19 SETGIP0: Set GIP Option0 (D3h) */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP0,
- > +                   0x00, 0x00, 0x07, 0x07, 0x40, 0x07, 0x0c, 0x00, 
-0x08, 0x10,
- > +                   0x08, 0x00, 0x08, 0x54, 0x15, 0x0a, 0x05, 0x0a, 
-0x02, 0x15,
- > +                   0x06, 0x05, 0x06, 0x47, 0x44, 0x0a, 0x0a, 0x4b, 
-0x10, 0x07,
- > +                   0x07, 0x0c, 0x40);
- > +
- > +    /* 5.19.20 Set GIP Option1 (D5h) */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP1,
- > +                   0x1c, 0x1c, 0x1d, 0x1d, 0x00, 0x01, 0x02, 0x03, 
-0x04, 0x05,
- > +                   0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x24, 0x25, 
-0x18, 0x18,
- > +                   0x26, 0x27, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 
-0x18, 0x18,
- > +                   0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 
-0x20, 0x21,
- > +                   0x18, 0x18, 0x18, 0x18);
- > +
- > +    /* 5.19.21 Set GIP Option2 (D6h) */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP2,
- > +                   0x1c, 0x1c, 0x1d, 0x1d, 0x07, 0x06, 0x05, 0x04, 
-0x03, 0x02,
- > +                   0x01, 0x00, 0x0b, 0x0a, 0x09, 0x08, 0x21, 0x20, 
-0x18, 0x18,
- > +                   0x27, 0x26, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 
-0x18, 0x18,
- > +                   0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 
-0x25, 0x24,
- > +                   0x18, 0x18, 0x18, 0x18);
- > +
- > +    /* 5.19.25 SETGAMMA: Set gamma curve related setting (E0h) */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGAMMA,
- > +                   0x00, 0x0a, 0x15, 0x1b, 0x1e, 0x21, 0x24, 0x22, 
-0x47, 0x56,
- > +                   0x65, 0x66, 0x6e, 0x82, 0x88, 0x8b, 0x9a, 0x9d, 
-0x98, 0xa8,
- > +                   0xb9, 0x5d, 0x5c, 0x61, 0x66, 0x6a, 0x6f, 0x7f, 
-0x7f, 0x00,
- > +                   0x0a, 0x15, 0x1b, 0x1e, 0x21, 0x24, 0x22, 0x47, 
-0x56, 0x65,
- > +                   0x65, 0x6e, 0x81, 0x87, 0x8b, 0x98, 0x9d, 0x99, 
-0xa8, 0xba,
- > +                   0x5d, 0x5d, 0x62, 0x67, 0x6b, 0x72, 0x7f, 0x7f);
- > +
- > +    /* Unknown command, not listed in the HX8394-F datasheet */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN1,
- > +                   0x1f, 0x31);
- > +
- > +    /* 5.19.17 SETPANEL (CCh) */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPANEL,
- > +                   0x0b);
- > +
- > +    /* Unknown command, not listed in the HX8394-F datasheet */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN3,
- > +                   0x02);
- > +
- > +    /* 5.19.11 Set register bank (BDh) */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
- > +                   0x02);
- > +
- > +    /* Unknown command, not listed in the HX8394-F datasheet */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN4,
- > +                   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
-0xff, 0xff,
- > +                   0xff, 0xff);
- > +
- > +    /* 5.19.11 Set register bank (BDh) */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
- > +                   0x00);
- > +
- > +    /* 5.19.11 Set register bank (BDh) */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
- > +                   0x01);
- > +
- > +    /* 5.19.2 SETPOWER: Set power (B1h) */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPOWER,
- > +                   0x00);
- > +
- > +    /* 5.19.11 Set register bank (BDh) */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
- > +                   0x00);
- > +
- > +    /* Unknown command, not listed in the HX8394-F datasheet */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN5,
- > +                   0x40, 0x81, 0x50, 0x00, 0x1a, 0xfc, 0x01);
- > +
- > +    /* Unknown command, not listed in the HX8394-F datasheet */
- > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN2,
- > +                   0xed);
- > +
- > +    return 0;
- > +}
- > +
- > +static const struct drm_display_mode powkiddy_x55_mode = {
- > +    .hdisplay    = 720,
- > +    .hsync_start    = 720 + 24,
- > +    .hsync_end    = 720 + 24 + 4,
- > +    .htotal        = 720 + 24 + 4 + 20,
- > +    .vdisplay    = 1280,
- > +    .vsync_start    = 1280 + 8,
- > +    .vsync_end    = 1280 + 8 + 4,
- > +    .vtotal        = 1280 + 8 + 4 + 8,
- > +    .clock        = 59904,
- > +    .flags        = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
- > +    .width_mm    = 67,
- > +    .height_mm    = 121,
- > +};
- > +
- > +static const struct hx8394_panel_desc powkiddy_x55_desc = {
- > +    .mode = &powkiddy_x55_mode,
- > +    .lanes = 4,
- > +    .mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+On Fri, 1 Dec 2023 at 01:36, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 8/30/2023 5:00 PM, Dmitry Baryshkov wrote:
+> > On Thu, 31 Aug 2023 at 01:50, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >>
+> >> CDM block comes with its own set of registers and operations
+> >> which can be done. In-line with other hardware sub-blocks, this
+> >> change adds the dpu_hw_cdm abstraction for the CDM block.
+> >>
+> >> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> >> ---
+> >>   drivers/gpu/drm/msm/Makefile                |   1 +
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c  | 272 ++++++++++++++++++++
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h  | 135 ++++++++++
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |   1 +
+> >>   4 files changed, 409 insertions(+)
+> >>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c
+> >>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+> >> index 8d02d8c33069..2010cb1ca995 100644
+> >> --- a/drivers/gpu/drm/msm/Makefile
+> >> +++ b/drivers/gpu/drm/msm/Makefile
+> >> @@ -63,6 +63,7 @@ msm-$(CONFIG_DRM_MSM_DPU) += \
+> >>          disp/dpu1/dpu_encoder_phys_wb.o \
+> >>          disp/dpu1/dpu_formats.o \
+> >>          disp/dpu1/dpu_hw_catalog.o \
+> >> +       disp/dpu1/dpu_hw_cdm.o \
+> >>          disp/dpu1/dpu_hw_ctl.o \
+> >>          disp/dpu1/dpu_hw_dsc.o \
+> >>          disp/dpu1/dpu_hw_dsc_1_2.o \
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c
+> >> new file mode 100644
+> >> index 000000000000..a2f7ee8f54e4
+> >> --- /dev/null
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c
+> >> @@ -0,0 +1,272 @@
+> >> +// SPDX-License-Identifier: GPL-2.0-only
+> >> +/*
+> >> + * Copyright (c) 2023, The Linux Foundation. All rights reserved.
+> >> + */
+> >> +
+> >> +#include <drm/drm_managed.h>
+> >> +
+> >> +#include "dpu_hw_mdss.h"
+> >> +#include "dpu_hw_util.h"
+> >> +#include "dpu_hw_catalog.h"
+> >> +#include "dpu_hw_cdm.h"
+> >> +#include "dpu_kms.h"
+> >> +
+> >> +#define CDM_CSC_10_OPMODE                  0x000
+> >> +#define CDM_CSC_10_BASE                    0x004
+> >> +
+> >> +#define CDM_CDWN2_OP_MODE                  0x100
+> >> +#define CDM_CDWN2_CLAMP_OUT                0x104
+> >> +#define CDM_CDWN2_PARAMS_3D_0              0x108
+> >> +#define CDM_CDWN2_PARAMS_3D_1              0x10C
+> >> +#define CDM_CDWN2_COEFF_COSITE_H_0         0x110
+> >> +#define CDM_CDWN2_COEFF_COSITE_H_1         0x114
+> >> +#define CDM_CDWN2_COEFF_COSITE_H_2         0x118
+> >> +#define CDM_CDWN2_COEFF_OFFSITE_H_0        0x11C
+> >> +#define CDM_CDWN2_COEFF_OFFSITE_H_1        0x120
+> >> +#define CDM_CDWN2_COEFF_OFFSITE_H_2        0x124
+> >> +#define CDM_CDWN2_COEFF_COSITE_V           0x128
+> >> +#define CDM_CDWN2_COEFF_OFFSITE_V          0x12C
+> >> +#define CDM_CDWN2_OUT_SIZE                 0x130
+> >> +
+> >> +#define CDM_HDMI_PACK_OP_MODE              0x200
+> >> +#define CDM_CSC_10_MATRIX_COEFF_0          0x004
+> >> +
+> >> +#define CDM_MUX                            0x224
+> >> +
+> >> +/**
+> >> + * Horizontal coefficients for cosite chroma downscale
+> >> + * s13 representation of coefficients
+> >> + */
+> >> +static u32 cosite_h_coeff[] = {0x00000016, 0x000001cc, 0x0100009e};
+> >> +
+> >> +/**
+> >> + * Horizontal coefficients for offsite chroma downscale
+> >> + */
+> >> +static u32 offsite_h_coeff[] = {0x000b0005, 0x01db01eb, 0x00e40046};
+> >> +
+> >> +/**
+> >> + * Vertical coefficients for cosite chroma downscale
+> >> + */
+> >> +static u32 cosite_v_coeff[] = {0x00080004};
+> >> +/**
+> >> + * Vertical coefficients for offsite chroma downscale
+> >> + */
+> >> +static u32 offsite_v_coeff[] = {0x00060002};
+> >> +
+> >> +static int dpu_hw_cdm_setup_csc_10bit(struct dpu_hw_cdm *ctx, struct dpu_csc_cfg *data)
+> >> +{
+> >> +       dpu_hw_csc_setup(&ctx->hw, CDM_CSC_10_MATRIX_COEFF_0, data, true);
+> >
+> > Where was this defined?
+> >
+>
+> Its in this file itself
+>
+> +#define CDM_CSC_10_MATRIX_COEFF_0          0x004
+>
+> >> +
+> >> +       return 0;
+> >> +}
+> >> +
+> >> +static int dpu_hw_cdm_setup_cdwn(struct dpu_hw_cdm *ctx, struct dpu_hw_cdm_cfg *cfg)
+> >> +{
+> >> +       struct dpu_hw_blk_reg_map *c = &ctx->hw;
+> >> +       u32 opmode = 0;
+> >> +       u32 out_size = 0;
+> >> +
+> >> +       if (cfg->output_bit_depth == CDM_CDWN_OUTPUT_10BIT)
+> >> +               opmode &= ~BIT(7);
+> >> +       else
+> >> +               opmode |= BIT(7);
+> >> +
+> >> +       /* ENABLE DWNS_H bit */
+> >> +       opmode |= BIT(1);
+> >> +
+> >> +       switch (cfg->h_cdwn_type) {
+> >> +       case CDM_CDWN_DISABLE:
+> >> +               /* CLEAR METHOD_H field */
+> >> +               opmode &= ~(0x18);
+> >> +               /* CLEAR DWNS_H bit */
+> >> +               opmode &= ~BIT(1);
+> >> +               break;
+> >> +       case CDM_CDWN_PIXEL_DROP:
+> >> +               /* Clear METHOD_H field (pixel drop is 0) */
+> >> +               opmode &= ~(0x18);
+> >> +               break;
+> >> +       case CDM_CDWN_AVG:
+> >> +               /* Clear METHOD_H field (Average is 0x1) */
+> >> +               opmode &= ~(0x18);
+> >> +               opmode |= (0x1 << 0x3);
+> >> +               break;
+> >> +       case CDM_CDWN_COSITE:
+> >> +               /* Clear METHOD_H field (Average is 0x2) */
+> >> +               opmode &= ~(0x18);
+> >> +               opmode |= (0x2 << 0x3);
+> >> +               /* Co-site horizontal coefficients */
+> >> +               DPU_REG_WRITE(c, CDM_CDWN2_COEFF_COSITE_H_0,
+> >> +                               cosite_h_coeff[0]);
+> >> +               DPU_REG_WRITE(c, CDM_CDWN2_COEFF_COSITE_H_1,
+> >> +                               cosite_h_coeff[1]);
+> >> +               DPU_REG_WRITE(c, CDM_CDWN2_COEFF_COSITE_H_2,
+> >> +                               cosite_h_coeff[2]);
+> >> +               break;
+> >> +       case CDM_CDWN_OFFSITE:
+> >> +               /* Clear METHOD_H field (Average is 0x3) */
+> >> +               opmode &= ~(0x18);
+> >> +               opmode |= (0x3 << 0x3);
+> >> +
+> >> +               /* Off-site horizontal coefficients */
+> >> +               DPU_REG_WRITE(c, CDM_CDWN2_COEFF_OFFSITE_H_0,
+> >> +                               offsite_h_coeff[0]);
+> >> +               DPU_REG_WRITE(c, CDM_CDWN2_COEFF_OFFSITE_H_1,
+> >> +                               offsite_h_coeff[1]);
+> >> +               DPU_REG_WRITE(c, CDM_CDWN2_COEFF_OFFSITE_H_2,
+> >> +                               offsite_h_coeff[2]);
+> >> +               break;
+> >> +       default:
+> >> +               pr_err("%s invalid horz down sampling type\n", __func__);
+> >> +               return -EINVAL;
+> >> +       }
+> >> +
+> >> +       /* ENABLE DWNS_V bit */
+> >> +       opmode |= BIT(2);
+> >> +
+> >> +       switch (cfg->v_cdwn_type) {
+> >> +       case CDM_CDWN_DISABLE:
+> >> +               /* CLEAR METHOD_V field */
+> >> +               opmode &= ~(0x60);
+> >
+> > #define, GENMASK
+> >
+> >> +               /* CLEAR DWNS_V bit */
+> >> +               opmode &= ~BIT(2);
+> >> +               break;
+> >> +       case CDM_CDWN_PIXEL_DROP:
+> >> +               /* Clear METHOD_V field (pixel drop is 0) */
+> >> +               opmode &= ~(0x60);
+> >> +               break;
+> >> +       case CDM_CDWN_AVG:
+> >> +               /* Clear METHOD_V field (Average is 0x1) */
+> >> +               opmode &= ~(0x60);
+> >> +               opmode |= (0x1 << 0x5);
+> >
+> > #define
+> >
+> >> +               break;
+> >> +       case CDM_CDWN_COSITE:
+> >> +               /* Clear METHOD_V field (Average is 0x2) */
+> >> +               opmode &= ~(0x60);
+> >> +               opmode |= (0x2 << 0x5);
+> >> +               /* Co-site vertical coefficients */
+> >> +               DPU_REG_WRITE(c,
+> >> +                               CDM_CDWN2_COEFF_COSITE_V,
+> >> +                               cosite_v_coeff[0]);
+> >
+> > align to opening bracket
+> >
+> >> +               break;
+> >> +       case CDM_CDWN_OFFSITE:
+> >> +               /* Clear METHOD_V field (Average is 0x3) */
+> >> +               opmode &= ~(0x60);
+> >> +               opmode |= (0x3 << 0x5);
+> >> +
+> >> +               /* Off-site vertical coefficients */
+> >> +               DPU_REG_WRITE(c,
+> >> +                               CDM_CDWN2_COEFF_OFFSITE_V,
+> >> +                               offsite_v_coeff[0]);
+> >
+> > align to opening bracket
+> >
+> >> +               break;
+> >> +       default:
+> >> +               return -EINVAL;
+> >> +       }
+> >> +
+> >> +       if (cfg->v_cdwn_type || cfg->h_cdwn_type)
+> >> +               opmode |= BIT(0); /* EN CDWN module */
+> >
+> > #define
+> >
+>
+> Ack to all comments about GENMASK and #define
+>
+> >> +       else
+> >> +               opmode &= ~BIT(0);
+> >> +
+> >> +       out_size = (cfg->output_width & 0xFFFF) |
+> >> +               ((cfg->output_height & 0xFFFF) << 16);
+> >> +       DPU_REG_WRITE(c, CDM_CDWN2_OUT_SIZE, out_size);
+> >> +       DPU_REG_WRITE(c, CDM_CDWN2_OP_MODE, opmode);
+> >> +       DPU_REG_WRITE(c, CDM_CDWN2_CLAMP_OUT,
+> >> +                       ((0x3FF << 16) | 0x0));
+> >> +
+> >> +       return 0;
+> >> +}
+> >> +
+> >> +int dpu_hw_cdm_enable(struct dpu_hw_cdm *ctx, struct dpu_hw_cdm_cfg *cdm)
+> >> +{
+> >> +       struct dpu_hw_blk_reg_map *c = &ctx->hw;
+> >> +       const struct dpu_format *fmt;
+> >> +       u32 opmode = 0;
+> >> +       u32 csc = 0;
+> >> +
+> >> +       if (!ctx || !cdm)
+> >> +               return -EINVAL;
+> >> +
+> >> +       fmt = cdm->output_fmt;
+> >> +
+> >> +       if (!DPU_FORMAT_IS_YUV(fmt))
+> >> +               return -EINVAL;
+> >> +
+> >> +       if (cdm->output_type == CDM_CDWN_OUTPUT_HDMI) {
+> >> +               if (fmt->chroma_sample != DPU_CHROMA_H1V2)
+> >> +                       return -EINVAL; /*unsupported format */
+> >> +               opmode = BIT(0);
+> >> +               opmode |= (fmt->chroma_sample << 1);
+> >> +       }
+> >> +
+> >> +       csc |= BIT(2);
+> >> +       csc &= ~BIT(1);
+> >> +       csc |= BIT(0);
+> >
+> > Can we get some sensible #defines for all this magic, please?
+> >
+>
+> Ack, will do.
+>
+> >> +
+> >> +       if (ctx && ctx->ops.bind_pingpong_blk)
+> >> +               ctx->ops.bind_pingpong_blk(ctx, true,
+> >> +                               cdm->pp_id);
+> >> +
+> >> +       DPU_REG_WRITE(c, CDM_CSC_10_OPMODE, csc);
+> >> +       DPU_REG_WRITE(c, CDM_HDMI_PACK_OP_MODE, opmode);
+> >> +       return 0;
+> >> +}
+> >> +
+> >> +void dpu_hw_cdm_disable(struct dpu_hw_cdm *ctx)
+> >> +{
+> >> +       if (!ctx)
+> >> +               return;
+> >> +
+> >> +       if (ctx && ctx->ops.bind_pingpong_blk)
+> >> +               ctx->ops.bind_pingpong_blk(ctx, false, 0);
+> >
+> > PINGPONG_NONE.
+> >
+> >> +}
+> >> +
+> >> +static void dpu_hw_cdm_bind_pingpong_blk(struct dpu_hw_cdm *ctx, bool enable,
+> >> +                                        const enum dpu_pingpong pp)
+> >> +{
+> >> +       struct dpu_hw_blk_reg_map *c;
+> >> +       int mux_cfg = 0xF;
+> >> +
+> >> +       if (!ctx || (enable && (pp < PINGPONG_0 || pp >= PINGPONG_MAX)))
+> >> +               return;
+> >
+> > I'd say, this is useless. We don't have such checks in other
+> > bind_pingpong_blk() callbacks.
+> >
+> > Also there should be a guarding check for DPU >= 5.0 either here or at
+> > the ops init.
+> >
+>
+> Will add it at ops init
+>
+> >> +
+> >> +       c = &ctx->hw;
+> >> +
+> >> +       if (enable)
+> >> +               mux_cfg = (pp - PINGPONG_0) & 0x7;
+> >> +
+> >> +       DPU_REG_WRITE(c, CDM_MUX, mux_cfg);
+> >> +}
+> >> +
+> >> +static void _setup_cdm_ops(struct dpu_hw_cdm_ops *ops, unsigned long features)
+> >
+> > Please inline
+> >
+>
+> OK
+>
+> >> +{
+> >> +       ops->setup_csc_data = dpu_hw_cdm_setup_csc_10bit;
+> >> +       ops->setup_cdwn = dpu_hw_cdm_setup_cdwn;
+> >> +       ops->enable = dpu_hw_cdm_enable;
+> >> +       ops->disable = dpu_hw_cdm_disable;
+> >> +       ops->bind_pingpong_blk = dpu_hw_cdm_bind_pingpong_blk;
+> >
+> > As you seem to call this function directly, we might as well drop the
+> > callback from the ops.
+> >
+>
+> There are two paths for the bind_pingpong_blk(). One is absorbed within
+> cdm_enable and cdm_disable calls to bind and unbind the pingpong resp.
+> And yes, for that we dont need a separate ops as its within the same file.
+>
+> This will handle cases where we transition from YUV to non-YUV cases and
+> vice-versa without an encoder disable in between which I believe happens
+> in the IGT cases.
+>
+> But the dpu_encoder_helper_phys_cleanup() path is only in the encoder
+> disable() path without a non-YUV frame in the middle so lets say we were
+> in YUV mode but then just disabled the encoder we do need the cleanup
+> there and since thats outside of the dpu_hw_cdm, we do need this op.
+>
+> I agree we need to protect this with the DPU revision check.
+>
+> >> +}
+> >> +
+> >> +struct dpu_hw_cdm *dpu_hw_cdm_init(const struct dpu_cdm_cfg *cfg, void __iomem *addr)
+> >> +{
+> >> +       struct dpu_hw_cdm *c;
+> >> +
+> >> +       c = kzalloc(sizeof(*c), GFP_KERNEL);
+> >> +       if (!c)
+> >> +               return ERR_PTR(-ENOMEM);
+> >> +
+> >> +       c->hw.blk_addr = addr + cfg->base;
+> >> +       c->hw.log_mask = DPU_DBG_MASK_CDM;
+> >> +
+> >> +       /* Assign ops */
+> >> +       c->idx = cfg->id;
+> >> +       c->caps = cfg;
+> >> +       _setup_cdm_ops(&c->ops, c->caps->features);
+> >> +
+> >> +       return c;
+> >> +}
+> >> +
+> >> +void dpu_hw_cdm_destroy(struct dpu_hw_cdm *cdm)
+> >> +{
+> >> +       kfree(cdm);
+> >
+> > I'd prefer not to introduce another manual kzalloc/kfree pair, see
+> > https://patchwork.freedesktop.org/series/120366/
+> >
+>
+> I recall I did not want to have a manual kzalloc/kfree pair. But the
+> issue was I think this series was not merged that time (and is isnt
+> merged now either)
 
- > +                     MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_NO_EOT_PACKET,
+No response, no reviews since 15th August. Today is the 1st of December.
+
+I'm close to deciding that unreviewed series have no issues and start
+showing them to -next after a grace period of 1 month.
+
+> and this is the one which passes drm_dev to
+> dpu_rm_init. I thought maybe it was easier for you to absorb this change
+> into that series instead of me pulling that whole series to make this
+> one compile as we will not be adding new HW blocks after this for the
+> next 2 cycles. It will only be using existing ones.
+>
+> If its too much trouble for you, I will rebase on top of that series but
+> I am pretty sure you will have to rebase and post that again anyway on
+> top of the current msm-next.
+>
+> I am also going to do the same thing now with this series.
+>
+> So we can just decide that in whose rebase we will handle it.
+>
+> >> +}
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h
+> >> new file mode 100644
+> >> index 000000000000..da60893a5c02
+> >> --- /dev/null
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h
+> >> @@ -0,0 +1,135 @@
+> >> +/* SPDX-License-Identifier: GPL-2.0-only */
+> >> +/*
+> >> + * Copyright (c) 2023, The Linux Foundation. All rights reserved.
+> >> + */
+> >> +
+> >> +#ifndef _DPU_HW_CDM_H
+> >> +#define _DPU_HW_CDM_H
+> >> +
+> >> +#include "dpu_hw_mdss.h"
+> >> +#include "dpu_hw_top.h"
+> >> +
+> >> +struct dpu_hw_cdm;
+> >> +
+> >> +struct dpu_hw_cdm_cfg {
+> >> +       u32 output_width;
+> >> +       u32 output_height;
+> >> +       u32 output_bit_depth;
+> >> +       u32 h_cdwn_type;
+> >> +       u32 v_cdwn_type;
+> >> +       const struct dpu_format *output_fmt;
+> >> +       u32 output_type;
+> >> +       int pp_id;
+> >> +};
+> >> +
+> >> +enum dpu_hw_cdwn_type {
+> >> +       CDM_CDWN_DISABLE,
+> >> +       CDM_CDWN_PIXEL_DROP,
+> >> +       CDM_CDWN_AVG,
+> >> +       CDM_CDWN_COSITE,
+> >> +       CDM_CDWN_OFFSITE,
+> >> +};
+> >> +
+> >> +enum dpu_hw_cdwn_output_type {
+> >> +       CDM_CDWN_OUTPUT_HDMI,
+> >> +       CDM_CDWN_OUTPUT_WB,
+> >> +};
+> >> +
+> >> +enum dpu_hw_cdwn_output_bit_depth {
+> >> +       CDM_CDWN_OUTPUT_8BIT,
+> >> +       CDM_CDWN_OUTPUT_10BIT,
+> >> +};
+> >> +
+> >> +/**
+> >> + * struct dpu_hw_cdm_ops : Interface to the chroma down Hw driver functions
+> >> + *                         Assumption is these functions will be called after
+> >> + *                         clocks are enabled
+> >> + *  @setup_csc:            Programs the csc matrix
+> >> + *  @setup_cdwn:           Sets up the chroma down sub module
+> >> + *  @enable:               Enables the output to interface and programs the
+> >> + *                         output packer
+> >> + *  @disable:              Puts the cdm in bypass mode
+> >> + *  @bind_pingpong_blk:    enable/disable the connection with pingpong which
+> >> + *                         will feed pixels to this cdm
+> >> + */
+> >> +struct dpu_hw_cdm_ops {
+> >> +       /**
+> >> +        * Programs the CSC matrix for conversion from RGB space to YUV space,
+> >> +        * it is optional to call this function as this matrix is automatically
+> >> +        * set during initialization, user should call this if it wants
+> >> +        * to program a different matrix than default matrix.
+> >> +        * @cdm:          Pointer to the chroma down context structure
+> >> +        * @data          Pointer to CSC configuration data
+> >> +        * return:        0 if success; error code otherwise
+> >> +        */
+> >> +       int (*setup_csc_data)(struct dpu_hw_cdm *cdm, struct dpu_csc_cfg *data);
+> >> +
+> >> +       /**
+> >> +        * Programs the Chroma downsample part.
+> >> +        * @cdm         Pointer to chroma down context
+> >> +        * @cfg         Pointer to the cdm configuration data
+> >> +        */
+> >> +       int (*setup_cdwn)(struct dpu_hw_cdm *cdm, struct dpu_hw_cdm_cfg *cfg);
+> >> +
+> >> +       /**
+> >> +        * Enable the CDM module
+> >> +        * @cdm         Pointer to chroma down context
+> >> +        */
+> >> +       int (*enable)(struct dpu_hw_cdm *cdm, struct dpu_hw_cdm_cfg *cfg);
+> >> +
+> >> +       /**
+> >> +        * Disable the CDM module
+> >> +        * @cdm         Pointer to chroma down context
+> >> +        */
+> >> +       void (*disable)(struct dpu_hw_cdm *cdm);
+> >> +
+> >> +       /**
+> >> +        * Enable/disable the connection with pingpong
+> >> +        * @cdm         Pointer to chroma down context
+> >> +        * @enable      Enable/disable control
+> >> +        * @pp          pingpong block id.
+> >> +        */
+> >> +       void (*bind_pingpong_blk)(struct dpu_hw_cdm *cdm, bool enable,
+> >> +                                 const enum dpu_pingpong pp);
+> >> +};
+> >> +
+> >> +/**
+> >> + * struct dpu_hw_cdm - cdm description
+> >> + * @base: Hardware block base structure
+> >> + * @hw: Block hardware details
+> >> + * @idx: CDM index
+> >> + * @caps: Pointer to cdm_cfg
+> >> + * @ops: handle to operations possible for this CDM
+> >> + */
+> >> +struct dpu_hw_cdm {
+> >> +       struct dpu_hw_blk base;
+> >> +       struct dpu_hw_blk_reg_map hw;
+> >> +
+> >> +       /* chroma down */
+> >> +       const struct dpu_cdm_cfg *caps;
+> >> +       enum  dpu_cdm  idx;
+> >> +
+> >> +       /* ops */
+> >> +       struct dpu_hw_cdm_ops ops;
+> >> +};
+> >> +
+> >> +/**
+> >> + * dpu_hw_cdm_init - initializes the cdm hw driver object.
+> >> + * should be called once before accessing every cdm.
+> >> + * @cdm: CDM catalog entry for which driver object is required
+> >> + * @addr :   mapped register io address of MDSS
+> >> + */
+> >> +struct dpu_hw_cdm *dpu_hw_cdm_init(const struct dpu_cdm_cfg *cdm, void __iomem *addr);
+> >> +
+> >> +/**
+> >> + * dpu_hw_cdm_destroy - destroys cdm driver context
+> >> + * @cdm:   Pointer to cdm driver context returned by dpu_hw_cdm_init
+> >> + */
+> >> +void dpu_hw_cdm_destroy(struct dpu_hw_cdm *cdm);
+> >> +
+> >> +static inline struct dpu_hw_cdm *to_dpu_hw_cdm(struct dpu_hw_blk *hw)
+> >> +{
+> >> +       return container_of(hw, struct dpu_hw_cdm, base);
+> >> +}
+> >> +
+> >> +#endif /*_DPU_HW_CDM_H */
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> >> index 4d6dba18caf0..34f943102499 100644
+> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> >> @@ -463,6 +463,7 @@ struct dpu_mdss_color {
+> >>   #define DPU_DBG_MASK_ROT      (1 << 9)
+> >>   #define DPU_DBG_MASK_DSPP     (1 << 10)
+> >>   #define DPU_DBG_MASK_DSC      (1 << 11)
+> >> +#define DPU_DBG_MASK_CDM      (1 << 12)
+> >>
+> >>   /**
+> >>    * struct dpu_hw_tear_check - Struct contains parameters to configure
+> >> --
+> >> 2.40.1
+> >>
+> >
+> >
+> > --
+> > With best wishes
+> > Dmitry
 
 
-It looks like a mode flag is set twice. The line above should be this below:
 
-                          MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET,
-
-
- > +    .format = MIPI_DSI_FMT_RGB888,
- > +    .init_sequence = powkiddy_x55_init_sequence,
- > +};
- > +
- >  static int hx8394_enable(struct drm_panel *panel)
- >  {
- >      struct hx8394 *ctx = panel_to_hx8394(panel);
- > @@ -419,6 +555,7 @@ static void hx8394_remove(struct mipi_dsi_device 
-*dsi)
- >
- >  static const struct of_device_id hx8394_of_match[] = {
- >      { .compatible = "hannstar,hsd060bhw4", .data = &hsd060bhw4_desc },
- > +    { .compatible = "powkiddy,x55-panel", .data = &powkiddy_x55_desc },
- >      { /* sentinel */ }
- >  };
- >  MODULE_DEVICE_TABLE(of, hx8394_of_match);
- > --
- > 2.34.1
- >
- >
- > _______________________________________________
- > Linux-rockchip mailing list
- > Linux-rockchip@lists.infradead.org
- > http://lists.infradead.org/mailman/listinfo/linux-rockchip
+-- 
+With best wishes
+Dmitry
