@@ -1,48 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1C4B8007E4
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 11:07:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA4380081A
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 11:21:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7DB210E0AC;
-	Fri,  1 Dec 2023 10:06:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FD7610E099;
+	Fri,  1 Dec 2023 10:21:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60C4D10E0AC
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 10:06:54 +0000 (UTC)
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested) (Authenticated sender: pq)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id A9EC966003B9;
- Fri,  1 Dec 2023 10:06:51 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1701425212;
- bh=6WWOVpafYoUXOtbV/gIxloanlnjCVTDsutvvOB5R06k=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=eSqNbW/vcMm8gefKx26+RTZNe45vOqDDJId4LeIpzjizuRblOupMr56FPiyAO8cJI
- HoP3M/JHDlWCJtUXAkO9E+3pvapouu4f9kzZrZS1ByBVvLObKNuVz/EjsXdJng/Iqe
- pEUMP+ukzHGOoiK0MjyHaQPqmBtkuSxYys47iZKWV2sZn9ubB1OX7Ybr3kZeFM7mxC
- E552xNCRvIvEqR/05QqkYVsmNBAOC+kh6K2dK2fvoI0mpUjx/8FCZXN+RtkOFLYkhM
- l03l4l3YoAD317l4jwxcmhJYkwDd07Qh6HBrBn5h/pKyIWilKC/9DL/UTzK6ioqOhQ
- OP98HRBqNdR1A==
-Date: Fri, 1 Dec 2023 12:06:48 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH] drm/doc: Define KMS atomic state set
-Message-ID: <20231201120648.2ba706e1.pekka.paalanen@collabora.com>
-In-Reply-To: <bry3w6w32uy2jlmbkcmbtthw6w6nwux7dwlcju5iuxac2wphku@md6njxjtsbvm>
-References: <20231130200740.53454-1-andrealmeid@igalia.com>
- <x6cqert2tadgc46w3u2rfgcfaw6evxdeerl2mxvh2peycr4i7q@qf6oqymcti4j>
- <20231201110616.30ad1468.pekka.paalanen@collabora.com>
- <bry3w6w32uy2jlmbkcmbtthw6w6nwux7dwlcju5iuxac2wphku@md6njxjtsbvm>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D67410E0C5
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 10:21:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1701426068;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+Bh0vGQqG6k9jMrVj2KcvFrOUEDKVV6QIbcGZMpO/NE=;
+ b=J1+V+4W4LLmIbxtTmtBzIj7pq3d36TYPKa/DX9rNj/0CK1A6T81LTubmJGE20qiK+e9mT7
+ ZrZQyYHR2lnBabqkTHmNbuGRr+Fo5zqGnr2eFqqyofiEc3FYyfEnbGTz9daEzZ+UQRUArZ
+ 6TfbwplsIubmtY25J2Uf0UD++NrGKno=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-508-EfVsTJhROlyJVN7mtr1-5Q-1; Fri, 01 Dec 2023 05:21:04 -0500
+X-MC-Unique: EfVsTJhROlyJVN7mtr1-5Q-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-40b443d698eso12965485e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Dec 2023 02:21:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701426064; x=1702030864;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+Bh0vGQqG6k9jMrVj2KcvFrOUEDKVV6QIbcGZMpO/NE=;
+ b=MmqRSX/1s/lUvzXM5wrpCOoF8g9CmPhRhx3kBtmLv+g01RBU6oAZW8U2WViVOpGSXu
+ cg2Boh1rKjV9ggeS1L4o4keiyVr1hXt3meyftUlI6XOnu2kO7b/io+yYKeVZ85sxnkaQ
+ 5wIJ0N+TKJdEIUjaK3AeHgKyp3b5g4NsU9xum9slTdi1996H82mC5v8q7yl7/HuxX0bM
+ yM2AA4GYDjBx3h+ymT7L7B0PPFaO2r2cRazhdzsyUvVBHYOqp6YM+qfjX8wtHjXr2XMo
+ NpPEJ25oqWXfj5F4le/pDEwFv84RIMLFMsl/kxe1zQfk+gjLHeYeQ9x4x4/TFeYGlcGN
+ CrSA==
+X-Gm-Message-State: AOJu0YxjKQ9VlEkSjagTZsli2/iNQ1vrrBP9lrZXH431dHwYLdrWlpMG
+ GgqcquXmxy1J4lXErUSgMHhYvoaw18JORt/NSzl3thLO0Iw0jjp6r7TVGppiqBpaRZ3Kmls4cnw
+ IOrfxEmVa2FPlgcMtpiw+w/rY5yk9
+X-Received: by 2002:a05:600c:4504:b0:40b:5e21:d366 with SMTP id
+ t4-20020a05600c450400b0040b5e21d366mr314301wmo.111.1701426063770; 
+ Fri, 01 Dec 2023 02:21:03 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH48dNlPqlwgO2N+pjIvLSQ7hASCsvohHOe8o2Sdt8EJlyAAewTySsrbSEPww2SelJYsI4ukw==
+X-Received: by 2002:a05:600c:4504:b0:40b:5e21:d366 with SMTP id
+ t4-20020a05600c450400b0040b5e21d366mr314294wmo.111.1701426063464; 
+ Fri, 01 Dec 2023 02:21:03 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ h7-20020adf9cc7000000b0032d8eecf901sm3859764wre.3.2023.12.01.02.21.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Dec 2023 02:21:03 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Ard Biesheuvel
+ <ardb@kernel.org>, Rob Herring <robh@kernel.org>
+Subject: Re: [RFC PATCH] of/platform: Disable sysfb if a simple-framebuffer
+ node is found
+In-Reply-To: <58672ab8-99bf-4a2a-af79-031d1e8fcba0@suse.de>
+References: <20231113085305.1823455-1-javierm@redhat.com>
+ <CAL_JsqKHTN5hfd4qpg5RXbmQLKZNVywDkSj9mxvfGmjrcChQQg@mail.gmail.com>
+ <87jzqi59bt.fsf@minerva.mail-host-address-is-not-set>
+ <CAL_JsqJM9+cbNviwuKGB5+3YbyAP3UH+TxCxsU5nUtX-iRGP2w@mail.gmail.com>
+ <CAMj1kXG7Xyk0ys9j-XRo7Rr8gYz1qJE8fFSixBOwVbm-pjeX+A@mail.gmail.com>
+ <874jhj1fm3.fsf@minerva.mail-host-address-is-not-set>
+ <58672ab8-99bf-4a2a-af79-031d1e8fcba0@suse.de>
+Date: Fri, 01 Dec 2023 11:21:02 +0100
+Message-ID: <87fs0mxlyp.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/=bSmbDZcOhdjv3iZ1XwQta1";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,206 +87,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
- 'Marek =?UTF-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel.daenzer@mailbox.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com, alexander.deucher@amd.com,
- Thomas Zimmermann <tzimmermann@suse.de>, christian.koenig@amd.com
+Cc: devicetree@vger.kernel.org, Sergio Lopez <slp@redhat.com>,
+ Sima Vetter <daniel.vetter@ffwll.ch>, Hector Martin <marcan@marcan.st>,
+ Andrew Worsley <amworsley@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/=bSmbDZcOhdjv3iZ1XwQta1
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-On Fri, 1 Dec 2023 10:25:09 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
+> Hi
+>
+> Am 18.11.23 um 12:10 schrieb Javier Martinez Canillas:
+>> Ard Biesheuvel <ardb@kernel.org> writes:
+>> 
+>> Hello Ard,
+>> 
+>>> On Fri, 17 Nov 2023 at 00:09, Rob Herring <robh@kernel.org> wrote:
+>> 
+>> [...]
+>> 
+>>>>>>
+>>>>>> This could also lead to an interesting scenario. As simple-framebuffer
+>>>>>> can define its memory in a /reserved-memory node, but that is ignored
+>>>>>> in EFI boot. Probably would work, but only because EFI probably
+>>>>>> generates its memory map table from the /reserved-memory nodes.
+>>>>>>
+>>>>>
+>>>>> I see. So what would be the solution then? Ignoring creating a platform
+>>>>> device for "simple-framebuffer" if booted using EFI and have an EFI-GOP?
+>>>>
+>>>> Shrug. I don't really know anything more about EFI FB, but I would
+>>>> guess it can't support handling resources like clocks, power domains,
+>>>> regulators, etc. that simple-fb can. So if a platform needs those, do
+>>>> we say they should not setup EFI-GOP? Or is there a use case for
+>>>> having both? Clients that don't muck with resources can use EFI-GOP
+>>>> and those that do use simple-fb. For example, does/can grub use
+>>>> EFI-GOP, but not simple-fb?
+>>>>
+>>>
+>>> The EFI GOP is just a dumb framebuffer, and it is not even generally
+>>> possible to cross reference the GOP with a particular device in the
+>>> device hierarchy unless you e.g., compare the BARs of each device with
+>>> the region described by the GOP protocol.
+>>>
+>>> GRUB for EFI will use the GOP and nothing else, but only at boot time
+>>> (the GOP protocol is more than a magic linear memory region, it also
+>>> implements a Blt() abstraction that permits the use of framebuffers
+>>> that are not mapped linearly into the address space at all, and GRUB
+>>> makes use of this)
+>>>
+>>> The EFI stub will only expose GOPs to the kernel if they are in fact
+>>> linear framebuffers, but has zero insight into whether the hardware
+>>> needs clocks and regulators, and whether or not the framebuffer needs
+>>> IOMMU pass through (which might be the case if the scanout is using
+>>> DMA into system memory)
+>>>
+>>> So calling EFI GOP 'source of truth' is rather generous, and I think
+>>> it makes sense to prioritize more accurate descriptions of the
+>>> underlying framebuffer over EFI GOP.
+>>>
+>> 
+>> That was my opinion as well and the reason why I called the DTB the
+>> single source of truth.
+>> 
+>>> However, making 'simple-framebuffer' magic in this regard doesn't seem
+>>> like a great approach to me. Is there a better way we could get the
+>>> resource conflict to be decided in a way where the EFI GOP gets
+>>> superseded if its resources are claimed by another device?
+>>>
+>> 
+>> There is an aperture [0] framework that is used by the fbdev and DRM
+>> subsystems to allow native drivers to remove any conflicting devices
+>> that share the same framebuffer aperture.
+>> 
+>> But it only makes sense for native drivers to use that I think, but
+>> in this case is about two drivers that attempt to use the same frame
+>> buffer provided by the firmware but getting it from different places.
+>> 
+>> I don't have a better idea than this patch but maybe Thomas or Sima do?
+>
+> At SUSE, we've carried such a patch in our repos for some time. It works 
+> around the double-framebuffer problem in a similar way. [1]
+>
 
-> On Fri, Dec 01, 2023 at 11:06:16AM +0200, Pekka Paalanen wrote:
-> > On Fri, 1 Dec 2023 09:29:05 +0100
-> > Maxime Ripard <mripard@kernel.org> wrote:
-> >  =20
-> > > Hi,
-> > >=20
-> > > On Thu, Nov 30, 2023 at 05:07:40PM -0300, Andr=C3=A9 Almeida wrote: =
-=20
-> > > > From: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > >=20
-> > > > Specify how the atomic state is maintained between userspace and
-> > > > kernel, plus the special case for async flips.
-> > > >=20
-> > > > Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > > Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
-> > > > ---
-> > > >=20
-> > > > This is a standalone patch from the following serie, the other patc=
-hes are
-> > > > already merged:
-> > > > https://lore.kernel.org/lkml/20231122161941.320564-1-andrealmeid@ig=
-alia.com/
-> > > >=20
-> > > >  Documentation/gpu/drm-uapi.rst | 47 ++++++++++++++++++++++++++++++=
-++++
-> > > >  1 file changed, 47 insertions(+)
-> > > >=20
-> > > > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm=
--uapi.rst
-> > > > index 370d820be248..d0693f902a5c 100644
-> > > > --- a/Documentation/gpu/drm-uapi.rst
-> > > > +++ b/Documentation/gpu/drm-uapi.rst
-> > > > @@ -570,3 +570,50 @@ dma-buf interoperability
-> > > > =20
-> > > >  Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst =
-for
-> > > >  information on how dma-buf is integrated and exposed within DRM.
-> > > > +
-> > > > +KMS atomic state
-> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > +
-> > > > +An atomic commit can change multiple KMS properties in an atomic f=
-ashion,
-> > > > +without ever applying intermediate or partial state changes.  Eith=
-er the whole
-> > > > +commit succeeds or fails, and it will never be applied partially. =
-This is the
-> > > > +fundamental improvement of the atomic API over the older non-atomi=
-c API which is
-> > > > +referred to as the "legacy API".  Applying intermediate state coul=
-d unexpectedly
-> > > > +fail, cause visible glitches, or delay reaching the final state.
-> > > > +
-> > > > +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, wh=
-ich means the
-> > > > +complete state change is validated but not applied.  Userspace sho=
-uld use this
-> > > > +flag to validate any state change before asking to apply it. If va=
-lidation fails
-> > > > +for any reason, userspace should attempt to fall back to another, =
-perhaps
-> > > > +simpler, final state.  This allows userspace to probe for various =
-configurations
-> > > > +without causing visible glitches on screen and without the need to=
- undo a
-> > > > +probing change.
-> > > > +
-> > > > +The changes recorded in an atomic commit apply on top the current =
-KMS state in
-> > > > +the kernel. Hence, the complete new KMS state is the complete old =
-KMS state with
-> > > > +the committed property settings done on top. The kernel will try t=
-o avoid   =20
-> > >=20
-> > > That part is pretty confusing to me.
-> > >=20
-> > > What are you calling the current and old KMS state? =20
-> >=20
-> > Current =3D old, if you read that "current" is the KMS state before
-> > considering the atomic commit at hand.
-> >  =20
-> > > What's confusing to me is that, yes, what you're saying is true for a
-> > > given object: if it was part of the commit, the new state is the old
-> > > state + whatever the new state changed.
-> > >=20
-> > > However, if that object wasn't part of the commit at all, then it's
-> > > completely out of the old or new global KMS state. =20
-> >=20
-> > This is not talking about kernel data structures at all. This is
-> > talking about how KMS looks from the userspace point of view. =20
->=20
-> I mean, that's also true from the userspace point of view. You can very
-> well commit only a single property on a single object, and only that
-> object will be part of the "global KMS state".
+Thanks for the information. I see that your patch is basically mine but
+doing it unconditionally while this one only does the sysfb_disable() if
+a "simple-framebuffer" DT node has been found.
 
-What is "global KMS state"?
+> As Javier mentioned, we do track the framebuffer ranges for EFI/VESA/OF 
+> framebuffers in the graphics aperture helpers. Fbdev has done this for 
+> decades, and the current codebase extends and harmonizes this 
+> functionality among fbdev and DRM drivers.
+>
+> WRT DT vs EFI: AFAIK the EFI support on affected platforms looks at the 
+> DT to set up the EFI framebuffer. So IMHO the DT is the authoritative 
+> source on the framebuffer.
+>
 
-As a userspace developer, the global KMS state is the complete, total,
-hardware and driver instance state. It's not any kind of data
-structure, but it is all the condition and all the programming of the
-whole device (hardware + driver instance) at any specific time instant.
-It is not related to any atomic commit or UAPI call, it is how the
-hardware is currently programmed.
+Agreed. Sima Vetter also mentioned on IRC that they think this patch is
+the least bad option. Rob, Ard any thoughts? Maybe we can land this as
+a fix and then figure how this could be better handled in the long term?
 
-How can we make that clear?
+> Best regards
+> Thomas
+>
+> [1] https://bugzilla.suse.com/show_bug.cgi?id=1204315
+>
 
-Should "KMS state" be replaced with "complete device state" or
-something similar?
+-- 
+Best regards,
 
-> > All objects are always part of the device KMS state as referred to
-> > in this doc, whether they were mentioned in the atomic commit state set
-> > or not. That's the whole point: all state that was not explicitly
-> > modified remains as it was, and is actively used state by the driver
-> > and hardware. The practical end result state is the same as if all
-> > objects were (redundantly) mentioned.
-> >=20
-> > For example, if you change properties of CRTC 31, it has no effect on
-> > the behaviour of CRTC 54. If CRTC 54 was active, it remains active. If
-> > CRTC 54 had certain property values, it continues to have those
-> > property values. =20
->=20
-> I'm not quite sure I followed your previous paragraph, sorry, but we
-> agree here and it's kind of my point really: CRTC-54 would not be part
-> of the new KMS state, so claiming that it is complete is confusing.
->=20
-> It's not complete to me precisely because it doesn't contain the state
-> of all objects.
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-Did my explanation of what "KMS state" means from userspace perspective
-above help?
-
-> > This is opposed to something else; the UAPI could have
-> > been designed to e.g. reset all unmentioned objects to defaults/off by
-> > the atomic commit. Obviously that's not how it works today, so we need
-> > to mention how things do work. =20
->=20
-> Sure, I'm not claiming we should change anything but the wording of that
-> doc.
->=20
-> > >=20
-> > > So yeah, individual object KMS state are indeed complete, but
-> > > drm_atomic_state definitely isn't. And it's the whole point of functi=
-ons
-> > > like drm_atomic_get_crtc_state() vs drm_atomic_get_old/new_crtc_state:
-> > > the old/new variants only return a state if it was part of
-> > > drm_atomic_state to begin with. drm_atomic_get_crtc_state() brings the
-> > > crtc state into drm_atomic_state if it wasn't part of it. =20
-> >=20
-> > At no point the text is referring to drm_atomic_state or any other
-> > kernel data structure. =20
->=20
-> Then it's even more confusing, because the sentence I was quoting was
-> "The changes recorded in an atomic commit apply on top the current KMS
-> state *in the kernel*", which is ambiguous then.
-
-It's perhaps a misguided attempt to say that the kernel maintains the
-complete device state, and that the complete device state is modified
-in the kernel. If it helps, the "in the kernel" can be dropped.
-
-
-Thanks,
-pq
-
---Sig_/=bSmbDZcOhdjv3iZ1XwQta1
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVpsDgACgkQI1/ltBGq
-qqeTfQ//Tx1aj3ET5ljpFzO8+v0bqwcdE10/JnjR54V/GWhcVEFfyL40b7MLpX4K
-AcPjb2BWg3F6DiGMIIM+yl2QAPudYPCXn6pyGFWugEyu+H5MeMSQe3TpwyXKrvse
-lq5mBtN8gxjPz/4hq1U13g4Qrr3ogeuSchDdL8GkvaDadsRBaveQ/vjxHh/XRoVx
-wDdZQQ/ukV1xzstILk64XxSJIXUWFqzwFIAxMNHNjdBhc3h1g/6ccvRbsTLG9k9w
-tumPW0TENqBzTUcKdyknpPrs6pM5GILrNLOBrByrpIL1EOMH8M5tMB4qmqNVsuTg
-TLJ1uANUjgBPvSKJhHrgllY/5KVMWfzR37uDLfXZTAGLgWekTLqvtEkWSb+8dANW
-8LDkNu8kEWYimCk1EoC4lTYoxa/Gv238wzd/QKWAqLqqGyTyzOf1AFnpk2it6Xce
-iIQFTI+g3PYxeQIxHI9tc+523pVqwtVLEXh73Cr8l7fO6NTgOpog/uR7KO2TEVIc
-75G/ho7GxIpyJjnVLeijU/5bL46C5kXNAqE1Nvm4S5BKOt4I7NGSWGSRHlABrMyC
-HLx/0/U3Is5x0JlrR9VUN4BB3/RVKyKyVdfvbRROKYPdHRb4WSaBxMPG2TwtGYNH
-29o1yD9N5yiVM0+7a6/7h/pGM2G4lBppk/KZ9133JgtvOUi71kM=
-=u5wp
------END PGP SIGNATURE-----
-
---Sig_/=bSmbDZcOhdjv3iZ1XwQta1--
