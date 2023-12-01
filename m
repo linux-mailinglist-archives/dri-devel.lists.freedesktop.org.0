@@ -1,76 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5F3801099
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 17:56:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD6C801101
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 18:18:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D829310E8DA;
-	Fri,  1 Dec 2023 16:56:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8E0D10E8EC;
+	Fri,  1 Dec 2023 17:18:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 315EF10E918;
- Fri,  1 Dec 2023 16:55:49 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- 46e09a7af769-6ce2ea3a944so459846a34.1; 
- Fri, 01 Dec 2023 08:55:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701449749; x=1702054549; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NWhV56djU95aQfLVNm7Soh/hXtQRCsN2ft0VIHAER8A=;
- b=L65dTN2F1nj40cIfV6PQY1YUJWy2md1OLCCgluXsN18+1HIyyCZ72ds6DyL2ZvS6hm
- Z4bouw/JJ4sqBb44NtvgDSbyhVIKlsjM/z4YQgl7DZrypjg1skUZbVDp+ZUuOdTVBVxa
- ULVIaYTyi2pzXaJiw7CsUmueBR+qVnQH6jqo6WAguxwiW23RARbepi8RRtOX2Mt3RtQX
- 3FwBIERa7RN+PW2LEfK5VMA0kTHZAoXOtBZdWG9KmPxtFtLiyUbD0imgFddC/tJzfTIo
- SDoz7J5mwY63QQM+K3xsKh3Mna5dEgPFxSRPGo5AL9JOApOV9n4UWl6EOEMJXcNG34Zr
- ngxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701449749; x=1702054549;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NWhV56djU95aQfLVNm7Soh/hXtQRCsN2ft0VIHAER8A=;
- b=gr4zIfl9ObTQvbWh/i7yL3Q0N792UM1bTqhbxeNRpngtycvXauSPIUgDm0NWUGHaqJ
- rRCDdw5HPNYRXKRuLWOF0IDXro21WLKn0FpvFpldMxxUmBXpxYyNeL37KNYKIZSzBE3V
- td9UNOdjU5lJ1BKWbvhi9XyZlTBC/SMpG40Ef5aXJsBkrDtZTh/dWBHjJPJjBzYEcYdK
- al9o4aJ7CjGhH8sdm1ssR2KC3VrFUtUnbwdDPSYnahE7uDG2Ot2pmS8scmoPzL72t0E+
- nBfq21z7yhXc23d3lZHu3SQA4rE8QHG0HQjrb1McbNyvwFeoZ5N37rnGYF48R4UcEigi
- eT4A==
-X-Gm-Message-State: AOJu0YwZiNNd6iukIvch87bX4IZjjWbDxMGDAjAEmHSr35dDPHIyJZEq
- 7EIsYiLbrJlwRRMCODFdcy6X3GIBbWiJEhn4FYCzHson
-X-Google-Smtp-Source: AGHT+IFcxTbgF9xXKMxzTnObK/CQ9MvvfivvyKXOzVzXQNvJW4i8otQvmBPx8yuN1coi/2TEmdpNoBi0J9sKp8BZ7gk=
-X-Received: by 2002:a05:6870:2182:b0:1f9:8f1b:86f7 with SMTP id
- l2-20020a056870218200b001f98f1b86f7mr29208291oae.42.1701449748697; Fri, 01
- Dec 2023 08:55:48 -0800 (PST)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10olkn2101.outbound.protection.outlook.com [40.92.40.101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B4C810E919
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 17:18:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e3biYDSTXSn2VZ158+BGTTZA5khuVj1kh0GPUnAxQNvfyZMm90loD4dp70LLg8zQweO0z8pe0SdJDCMTQR6/ScPe/do0QDVNYGgfH+OFBurGgwJTqex/EQ/9TJ82xhTAadh3IJRpZAohinFp3MAC2wTfZIJrILRwQhyjVRYQUPYEX3wScT+FrRDDu82+j66Qj4zNTZUu/mTLfIdUzgNwa+Ny/dzA5wBmem8NfSrScVc7AKYxYUowXaJ7TKUZE/L/0iki45zjlgGOS/S5AyBrH78hqxXCxsnJ5tTUhhfetp4VMy05Kmvu2ba4VREx1Sxi8gLcbxwElGjY32UdrMAo2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=t9HQacYxeSMBYpsGk3lAZDejcu8xr9ZdiZbH7KTMJyE=;
+ b=L1mmEU5yXmJMbPSYyJHg/IZ4e1FXkbkTEjayA2xLhwtIi/sx/44iAwbWqh6D1w0Y4+ahPJr5ntlkTzQR5Bn47ALGsCC8exWoA1+rb7SqBMvShV0xOQF6dYmUDXFQQvTTRnSSNzanohDkd/ZjJljK/7op3STlv0lXJjRd1zx50iTYYsmSyTkjS5OdAOL5orj88u617uO3Ewfn7Rgu9L1O6rgN7YQUF7RVWCDAThAF4/uObfDZ/ZWCeWUZcrEpaA/bsutb/knw68ISkaj7ga0MEIre2xACM5jVoL11oxnIRRYya799jWyGhCpryZxNq9vo5ElGpc2G2bvnPrx9VLZTuw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t9HQacYxeSMBYpsGk3lAZDejcu8xr9ZdiZbH7KTMJyE=;
+ b=HSmOVFBi8QgBOh2cZLRz6LRGlZoaQPsLju949xvMmdqN8ktR1ubjfuF5xRIS7e90jIcegxs9ecD0tfVRRpWRpZbaRPtgRXfSG/IJK0uWIWDKpwyzmPaD9nKLQQ66Br9a227oyf5FovKX7Xbr02C7+bMgnqn90XVwCT29GaJnbp4RLD00U4GB8xcT7/go/yxq7ampo0LHVaQBwebaK7YRB8SY8ikNEQn9AiYQZLQAjnOg7X+04nGRmlQjrpvt5zhZDrLBGdFilGn6ZDruXqWZ/1FCPd0PV6iVU+7WsbaBfhcKCfDW6NdbYJIqgipYacA0Dr8s22BBduPawPBjJ+cQzQ==
+Received: from SN6PR06MB5342.namprd06.prod.outlook.com (2603:10b6:805:f9::31)
+ by MW5PR06MB8906.namprd06.prod.outlook.com (2603:10b6:303:1c3::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.27; Fri, 1 Dec
+ 2023 17:18:23 +0000
+Received: from SN6PR06MB5342.namprd06.prod.outlook.com
+ ([fe80::3fca:a39b:c9d2:c834]) by SN6PR06MB5342.namprd06.prod.outlook.com
+ ([fe80::3fca:a39b:c9d2:c834%2]) with mapi id 15.20.7046.024; Fri, 1 Dec 2023
+ 17:18:22 +0000
+Date: Fri, 1 Dec 2023 11:18:18 -0600
+From: Chris Morgan <macromorgan@hotmail.com>
+To: 20231130155624.405575-7-macroalpha82@gmail.com
+Subject: Re: [PATCH 6/9] drm/panel: himax-hx8394: Add Support for Powkiddy
+ X55 panel
+Message-ID: <SN6PR06MB53428549B09E09187E5057DFA581A@SN6PR06MB5342.namprd06.prod.outlook.com>
+References: <20231130155624.405575-7-macroalpha82@gmail.com>
+ <f8ae78a0-f329-457a-8a53-b1725f9e2e20@gmail.com>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f8ae78a0-f329-457a-8a53-b1725f9e2e20@gmail.com>
+X-TMN: [RAA/6pYnbj9BcmAxAvaSnPZMzlIHEK7Q]
+X-ClientProxiedBy: SN7PR04CA0189.namprd04.prod.outlook.com
+ (2603:10b6:806:126::14) To SN6PR06MB5342.namprd06.prod.outlook.com
+ (2603:10b6:805:f9::31)
+X-Microsoft-Original-Message-ID: <ZWoVWpL3U1q/1ZtP@wintermute.localhost.fail>
 MIME-Version: 1.0
-References: <87edgv4x3i.fsf@vps.thesusis.net>
- <559d0fa5-953a-4a97-b03b-5eb1287c83d8@leemhuis.info>
- <CAPM=9tw-8pQWFso0zuLqpsqd5BSHWtc4As9ttdjY-DDr70EMqQ@mail.gmail.com>
- <bdb238b6-60c7-4f26-81d0-9e62cd5dd326@gmail.com>
- <CADnq5_NVGS1XykxGxpcu_bpPbzboCUJQkcCF3r+0N9a23KUgiQ@mail.gmail.com>
- <96e2e13c-f01c-4baf-a9a3-cbaa48fb10c7@amd.com>
- <CADnq5_NBfeAXEyQw0gnSd67=tR-bUKg8w=10+4z9pGGuRnP9uw@mail.gmail.com>
- <87jzq2ixtm.fsf@vps.thesusis.net>
- <CADnq5_Ou-MVVm0rdWDmDnJNLkWUayXzO26uCEtz3ucNa4Ghy2w@mail.gmail.com>
- <95fe9b5b-05ce-4462-9973-9aca306bc44f@gmail.com>
- <CADnq5_MYEWx=e1LBLeVs0UbR5_xEScjDyw_-75mLe8RAMnqh6g@mail.gmail.com>
- <CADnq5_OC=JFpGcN0oGbTF5xYEt4X3r0=jEY6hJ12W8CzYq1+cA@mail.gmail.com>
- <9595b8bf-e64d-4926-9263-97e18bcd7d05@gmail.com>
- <CADnq5_N6DF-huOzgaVygvS5N_j_oNUEC1aa4zRsZTzx8GOD_aw@mail.gmail.com>
- <CADnq5_PgMxoW=4iabtgeHydwye-6DvwvCyETdfBToEpuYWocmA@mail.gmail.com>
- <CADnq5_P0S7Jem0e4K6mG2+bboG8P56nELaGC1p4Pfx-8eV-BjQ@mail.gmail.com>
-In-Reply-To: <CADnq5_P0S7Jem0e4K6mG2+bboG8P56nELaGC1p4Pfx-8eV-BjQ@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 1 Dec 2023 11:55:36 -0500
-Message-ID: <CADnq5_Oy6RMyJ52TbsxVjZ=0p=wYJHduE4X8B3DiYnqHYJUAvw@mail.gmail.com>
-Subject: Re: Radeon regression in 6.6 kernel
-To: Luben Tuikov <ltuikov89@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR06MB5342:EE_|MW5PR06MB8906:EE_
+X-MS-Office365-Filtering-Correlation-Id: 651b9758-de59-4a8f-7f4a-08dbf29184b2
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8vRhSCbTRSpz/Le+26UC9MywPUHTWumvVsIfJfRFdI3PerESjI2gl8WR+0EiOLyORlABdgMnjZa5boWeIOKKX+TRqHnPG9AL48aGZ5DDr90+oBM4tYql5ySWM9ndoecTA3UkoHSe4yeqlUN7QaGM3wKcv9f8sceQznSx6dwbc3bI765/x6m7DC2NeN+9lurRCdOaLxGFoB0LoVvujXV1eGI2uHdLaVahA7vTI8Ft3DsQvIeQrko6DFN/e677iDx3k/sKotS5gy5SstbP8ADaA9X86USKswGSJ9mdFRLUOXMHByzPdSTIxFHVpiwdUGjQZFYgDKba+d0ztSS4R+3uxXEk+N+X69eoWCAzKB7YpIirksMJAAM3qpnqWoZImalpSTpaO7ru9odzFXIyHYKxqswQSgEL07VLNXp7AXaAGUHTe33JeHsfp5q4EUtI/hDvSwo9/f5MIQqSzyVOPPIEzhgyTjQXLNHflG4bHIQ6fZYq5aSdkJp7tmtq8b6VZW2e/PvJ63fkyFon707j+R5IP3i5QAEy+FhgSAcNbmEJtMtgZaXzlrq3nF16neKGdActSBMHxhkH7ROf+VHFnmjfOzNti5Z8IG/pDRPa4VHCVPE=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?ypbBZBrjaPxTCDJjUfByoD3G/2HnaQLtykKBu6Ynl0HxqpI5kHMcrJMrf1?=
+ =?iso-8859-1?Q?Ho+TDuVNtyXv4RYMBQtwAW7aFHjqiGMenVKEyQFpK1lQp+zeFMlptls4/l?=
+ =?iso-8859-1?Q?VgmiC6K5URFNEma6/y3OlQB0vnqjRhFYP1FV5JvL0cLJ5V76fbOK+xDvKu?=
+ =?iso-8859-1?Q?rl3DPXjc2RfL70+tu2+SKKoq4DJcBKzsaqolL4rkpAE1tKbwCOqUlmx2GQ?=
+ =?iso-8859-1?Q?bI6Z0vvvRz/7IxI4U0aWW76quoDIFTmyCqD/82NdYY2Aw4W+ddHFIaZG0H?=
+ =?iso-8859-1?Q?YGOdto4fz9L6vxJxW92SP6PovVrDdi80Y5aFq5Y6+l2tlfgAXRqCoQ04lb?=
+ =?iso-8859-1?Q?mgdtjZmMBgphFYPn0pCgQEmaqorXKxsWKv6n4gcftrNVegFL+cRWpmlldp?=
+ =?iso-8859-1?Q?8sTEMf+pO+KUC2o/RGU+fssnuc353S109gcFhf0KDgKNsZeMGpbP5XESXm?=
+ =?iso-8859-1?Q?e3t0P/hnXgXPog//f8Z5RAITCtQ4qJd20D63IZpynSa8V1BYcHoqNujUp8?=
+ =?iso-8859-1?Q?K9QtXk5zWkaChpgPla8onmxapF92OC4zPguHcGmqQJHV3whgm2FBRJa5PO?=
+ =?iso-8859-1?Q?6UwHaecDtJ0r8CJrrRT0MbpS9ws5uVIdk9kxY8P5VyGWbItOuivfRe8nmP?=
+ =?iso-8859-1?Q?m9ALCmvsjOvlIlQs3AZfRgHbQXCCH0OUqi8zxHwjjaNbqS8W7I5NQH13MQ?=
+ =?iso-8859-1?Q?ghvdPuMF/TxT6eGccbKllQGgMSloj2lYMn2ibdwMEbqUAWvZpXr0fV2ll7?=
+ =?iso-8859-1?Q?6f870N2Lfb3fIzi5pLM1OOGyFZBqAJbzv0KWQ8pYj6CwyXO+zdd5GBB2ae?=
+ =?iso-8859-1?Q?1r9TH6ICDE6ZenbXmQD/GBXt6NhRsmXWxP2XrZ/Qf6kN7xL+k27Wld7SNC?=
+ =?iso-8859-1?Q?I76yfvBJmsxIaDoejgDCBQmJL/rMgAUCcwJowtUnTrcEk4Rb2/2njACgRb?=
+ =?iso-8859-1?Q?rcpez58NC4mOJxv3hCJY75Lr30rZlQZvh5vl105PdmVDg3+vQ7uwLvULMD?=
+ =?iso-8859-1?Q?X4pFs13svVvrsd3eSGZmarZI3rSD+jJrAAyXyLxKqeDr2WZ51c1erAyTx5?=
+ =?iso-8859-1?Q?rmcWRk3vaFLcZONhVWS6GT08KprnaYFz4LtUvXCUQPbSnVOHA+jst1+qJE?=
+ =?iso-8859-1?Q?J5DsKLgYyy0+2aBhzQXzgsZItgKPaF0GzdkyclLe3++SO8qV78fFx9wSq6?=
+ =?iso-8859-1?Q?s+q/QraoomsiON0eWoKsQkr+fNk5rphMO6Fne6l7lI5RvfmGZF2hOPpeat?=
+ =?iso-8859-1?Q?ZOds6bXr4vBvy7me1gtCQJAwgdOPygqt4e5a2eynE=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-89723.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 651b9758-de59-4a8f-7f4a-08dbf29184b2
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR06MB5342.namprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2023 17:18:22.7572 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR06MB8906
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,150 +104,240 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Danilo Krummrich <dakr@redhat.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- Phillip Susi <phill@thesusis.net>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, neil.armstrong@linaro.org, sboyd@kernel.org,
+ sam@ravnborg.org, mturquette@baylibre.com, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, macroalpha82@gmail.com,
+ linux-rockchip@lists.infradead.org, robh+dt@kernel.org, mripard@kernel.org,
+ quic_jesszhan@quicinc.com, linux-clk@vger.kernel.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Phillip,
-
-Can you test this patch?  I was not able to repro the issue on the
-navi2x card I had handy, but I think it should fix it.
-
-Thanks,
-
-Alex
-
-On Wed, Nov 29, 2023 at 3:49=E2=80=AFPM Alex Deucher <alexdeucher@gmail.com=
-> wrote:
->
-> On Wed, Nov 29, 2023 at 3:10=E2=80=AFPM Alex Deucher <alexdeucher@gmail.c=
-om> wrote:
+On Thu, Nov 30, 2023 at 09:19:40PM -0600, Kendrick Curry wrote:
+> On Thu, Nov 30, 2023 at 09:56:21AM -0600, Chris Morgan wrote:
+> > From: Chris Morgan <macromorgan@hotmail.com>
 > >
-> > Actually I think I see the problem.  I'll try and send out a patch
-> > later today to test.
->
-> Does the attached patch fix it?
->
-> Alex
->
+> > Add support for the Powkiddy X55 panel as used on the Powkiddy X55
+> > handheld gaming console. This panel uses a Himax HX8394 display
+> > controller and requires a vendor provided init sequence. The display
+> > resolution is 720x1280 and is 67mm by 121mm as measured with calipers.
 > >
-> > Alex
+> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > ---
+> >  drivers/gpu/drm/panel/panel-himax-hx8394.c | 137 +++++++++++++++++++++
+> >  1 file changed, 137 insertions(+)
 > >
-> > On Wed, Nov 29, 2023 at 1:52=E2=80=AFPM Alex Deucher <alexdeucher@gmail=
-.com> wrote:
-> > >
-> > > On Wed, Nov 29, 2023 at 11:41=E2=80=AFAM Luben Tuikov <ltuikov89@gmai=
-l.com> wrote:
-> > > >
-> > > > On 2023-11-29 10:22, Alex Deucher wrote:
-> > > > > On Wed, Nov 29, 2023 at 8:50=E2=80=AFAM Alex Deucher <alexdeucher=
-@gmail.com> wrote:
-> > > > >>
-> > > > >> On Tue, Nov 28, 2023 at 11:45=E2=80=AFPM Luben Tuikov <ltuikov89=
-@gmail.com> wrote:
-> > > > >>>
-> > > > >>> On 2023-11-28 17:13, Alex Deucher wrote:
-> > > > >>>> On Mon, Nov 27, 2023 at 6:24=E2=80=AFPM Phillip Susi <phill@th=
-esusis.net> wrote:
-> > > > >>>>>
-> > > > >>>>> Alex Deucher <alexdeucher@gmail.com> writes:
-> > > > >>>>>
-> > > > >>>>>>> In that case those are the already known problems with the =
-scheduler
-> > > > >>>>>>> changes, aren't they?
-> > > > >>>>>>
-> > > > >>>>>> Yes.  Those changes went into 6.7 though, not 6.6 AFAIK.  Ma=
-ybe I'm
-> > > > >>>>>> misunderstanding what the original report was actually testi=
-ng.  If it
-> > > > >>>>>> was 6.7, then try reverting:
-> > > > >>>>>> 56e449603f0ac580700621a356d35d5716a62ce5
-> > > > >>>>>> b70438004a14f4d0f9890b3297cd66248728546c
-> > > > >>>>>
-> > > > >>>>> At some point it was suggested that I file a gitlab issue, bu=
-t I took
-> > > > >>>>> this to mean it was already known and being worked on.  -rc3 =
-came out
-> > > > >>>>> today and still has the problem.  Is there a known issue I co=
-uld track?
-> > > > >>>>>
-> > > > >>>>
-> > > > >>>> At this point, unless there are any objections, I think we sho=
-uld just
-> > > > >>>> revert the two patches
-> > > > >>> Uhm, no.
-> > > > >>>
-> > > > >>> Why "the two" patches?
-> > > > >>>
-> > > > >>> This email, part of this thread,
-> > > > >>>
-> > > > >>> https://lore.kernel.org/all/87r0kircdo.fsf@vps.thesusis.net/
-> > > > >>>
-> > > > >>> clearly states that reverting *only* this commit,
-> > > > >>> 56e449603f0ac5 drm/sched: Convert the GPU scheduler to variable=
- number of run-queues
-> > > > >>> *does not* mitigate the failed suspend. (Furthermore, this comm=
-it doesn't really change
-> > > > >>> anything operational, other than using an allocated array, inst=
-ead of a static one, in DRM,
-> > > > >>> while the 2nd patch is solely contained within the amdgpu drive=
-r code.)
-> > > > >>>
-> > > > >>> Leaving us with only this change,
-> > > > >>> b70438004a14f4 drm/amdgpu: move buffer funcs setting up a level
-> > > > >>> to be at fault, as the kernel log attached in the linked email =
-above shows.
-> > > > >>>
-> > > > >>> The conclusion is that only b70438004a14f4 needs reverting.
-> > > > >>
-> > > > >> b70438004a14f4 was a fix for 56e449603f0ac5.  Without b70438004a=
-14f4,
-> > > > >> 56e449603f0ac5 breaks amdgpu.
-> > > > >
-> > > > > We can try and re-enable it in the next kernel.  I'm just not sur=
-e
-> > > > > we'll be able to fix this in time for 6.7 with the holidays and a=
-ll
-> > > > > and I don't want to cause a lot of scheduler churn at the end of =
-the
-> > > > > 6.7 cycle if we hold off and try and fix it.  Reverting seems lik=
-e the
-> > > > > best short term solution.
-> > > >
-> > > > A lot of subsequent code has come in since commit 56e449603f0ac5, a=
-s it opened
-> > > > the opportunity for a 1-to-1 relationship between an entity and a s=
-cheduler.
-> > > > (Should've always been the case, from the outset. Not sure why it w=
-as coded as
-> > > > a fixed-size array.)
-> > > >
-> > > > Given that commit 56e449603f0ac5 has nothing to do with amdgpu, and=
- the problem
-> > > > is wholly contained in amdgpu, and no other driver has this problem=
-, there is
-> > > > no reason to have to "churn", i.e. go back and forth in DRM, only t=
-o cover up
-> > > > an init bug in amdgpu. See the response I just sent in @this thread=
-:
-> > > > https://lore.kernel.org/r/05007cb0-871e-4dc7-af58-1351f4ba43e2@gmai=
-l.com
-> > > >
-> > > > And it's not like this issue is unknown. I first posted about it on=
- 2023-10-16.
-> > > >
-> > > > Ideally, amdgpu would just fix their init code.
-> > >
-> > > You can't make changes to core code that break other drivers.
-> > > Arguably 56e449603f0ac5 should not have gone in in the first place if
-> > > it broke amdgpu.  b70438004a14f4 was the code to fix amdgpu's init
-> > > code, but as a side effect it seems to have broken suspend for some
-> > > users.
-> > >
-> > > Alex
+> > diff --git a/drivers/gpu/drm/panel/panel-himax-hx8394.c
+> b/drivers/gpu/drm/panel/panel-himax-hx8394.c
+> > index b68ea09f4725..4807ab1c10fe 100644
+> > --- a/drivers/gpu/drm/panel/panel-himax-hx8394.c
+> > +++ b/drivers/gpu/drm/panel/panel-himax-hx8394.c
+> > @@ -38,6 +38,7 @@
+> >  #define HX8394_CMD_SETMIPI      0xba
+> >  #define HX8394_CMD_SETOTP      0xbb
+> >  #define HX8394_CMD_SETREGBANK      0xbd
+> > +#define HX8394_CMD_UNKNOWN5      0xbf
+> >  #define HX8394_CMD_UNKNOWN1      0xc0
+> >  #define HX8394_CMD_SETDGCLUT      0xc1
+> >  #define HX8394_CMD_SETID      0xc3
+> > @@ -52,6 +53,7 @@
+> >  #define HX8394_CMD_SETGIP1      0xd5
+> >  #define HX8394_CMD_SETGIP2      0xd6
+> >  #define HX8394_CMD_SETGPO      0xd6
+> > +#define HX8394_CMD_UNKNOWN4      0xd8
+> >  #define HX8394_CMD_SETSCALING      0xdd
+> >  #define HX8394_CMD_SETIDLE      0xdf
+> >  #define HX8394_CMD_SETGAMMA      0xe0
+> > @@ -203,6 +205,140 @@ static const struct hx8394_panel_desc
+> hsd060bhw4_desc = {
+> >      .init_sequence = hsd060bhw4_init_sequence,
+> >  };
+> >
+> > +static int powkiddy_x55_init_sequence(struct hx8394 *ctx)
+> > +{
+> > +    struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+> > +
+> > +    /* 5.19.8 SETEXTC: Set extension command (B9h) */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETEXTC,
+> > +                   0xff, 0x83, 0x94);
+> > +
+> > +    /* 5.19.9 SETMIPI: Set MIPI control (BAh) */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETMIPI,
+> > +                   0x63, 0x03, 0x68, 0x6b, 0xb2, 0xc0);
+> > +
+> > +    /* 5.19.2 SETPOWER: Set power (B1h) */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPOWER,
+> > +                   0x48, 0x12, 0x72, 0x09, 0x32, 0x54, 0x71, 0x71, 0x57,
+> 0x47);
+> > +
+> > +    /* 5.19.3 SETDISP: Set display related register (B2h) */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETDISP,
+> > +                   0x00, 0x80, 0x64, 0x0c, 0x0d, 0x2f);
+> > +
+> > +    /* 5.19.4 SETCYC: Set display waveform cycles (B4h) */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETCYC,
+> > +                   0x73, 0x74, 0x73, 0x74, 0x73, 0x74, 0x01, 0x0c, 0x86,
+> 0x75,
+> > +                   0x00, 0x3f, 0x73, 0x74, 0x73, 0x74, 0x73, 0x74, 0x01,
+> 0x0c,
+> > +                   0x86);
+> > +
+> > +    /* 5.19.5 SETVCOM: Set VCOM voltage (B6h) */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETVCOM,
+> > +                   0x6e, 0x6e);
+> > +
+> > +    /* 5.19.19 SETGIP0: Set GIP Option0 (D3h) */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP0,
+> > +                   0x00, 0x00, 0x07, 0x07, 0x40, 0x07, 0x0c, 0x00, 0x08,
+> 0x10,
+> > +                   0x08, 0x00, 0x08, 0x54, 0x15, 0x0a, 0x05, 0x0a, 0x02,
+> 0x15,
+> > +                   0x06, 0x05, 0x06, 0x47, 0x44, 0x0a, 0x0a, 0x4b, 0x10,
+> 0x07,
+> > +                   0x07, 0x0c, 0x40);
+> > +
+> > +    /* 5.19.20 Set GIP Option1 (D5h) */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP1,
+> > +                   0x1c, 0x1c, 0x1d, 0x1d, 0x00, 0x01, 0x02, 0x03, 0x04,
+> 0x05,
+> > +                   0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x24, 0x25, 0x18,
+> 0x18,
+> > +                   0x26, 0x27, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+> 0x18,
+> > +                   0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x20,
+> 0x21,
+> > +                   0x18, 0x18, 0x18, 0x18);
+> > +
+> > +    /* 5.19.21 Set GIP Option2 (D6h) */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP2,
+> > +                   0x1c, 0x1c, 0x1d, 0x1d, 0x07, 0x06, 0x05, 0x04, 0x03,
+> 0x02,
+> > +                   0x01, 0x00, 0x0b, 0x0a, 0x09, 0x08, 0x21, 0x20, 0x18,
+> 0x18,
+> > +                   0x27, 0x26, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+> 0x18,
+> > +                   0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x25,
+> 0x24,
+> > +                   0x18, 0x18, 0x18, 0x18);
+> > +
+> > +    /* 5.19.25 SETGAMMA: Set gamma curve related setting (E0h) */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGAMMA,
+> > +                   0x00, 0x0a, 0x15, 0x1b, 0x1e, 0x21, 0x24, 0x22, 0x47,
+> 0x56,
+> > +                   0x65, 0x66, 0x6e, 0x82, 0x88, 0x8b, 0x9a, 0x9d, 0x98,
+> 0xa8,
+> > +                   0xb9, 0x5d, 0x5c, 0x61, 0x66, 0x6a, 0x6f, 0x7f, 0x7f,
+> 0x00,
+> > +                   0x0a, 0x15, 0x1b, 0x1e, 0x21, 0x24, 0x22, 0x47, 0x56,
+> 0x65,
+> > +                   0x65, 0x6e, 0x81, 0x87, 0x8b, 0x98, 0x9d, 0x99, 0xa8,
+> 0xba,
+> > +                   0x5d, 0x5d, 0x62, 0x67, 0x6b, 0x72, 0x7f, 0x7f);
+> > +
+> > +    /* Unknown command, not listed in the HX8394-F datasheet */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN1,
+> > +                   0x1f, 0x31);
+> > +
+> > +    /* 5.19.17 SETPANEL (CCh) */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPANEL,
+> > +                   0x0b);
+> > +
+> > +    /* Unknown command, not listed in the HX8394-F datasheet */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN3,
+> > +                   0x02);
+> > +
+> > +    /* 5.19.11 Set register bank (BDh) */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
+> > +                   0x02);
+> > +
+> > +    /* Unknown command, not listed in the HX8394-F datasheet */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN4,
+> > +                   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> 0xff,
+> > +                   0xff, 0xff);
+> > +
+> > +    /* 5.19.11 Set register bank (BDh) */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
+> > +                   0x00);
+> > +
+> > +    /* 5.19.11 Set register bank (BDh) */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
+> > +                   0x01);
+> > +
+> > +    /* 5.19.2 SETPOWER: Set power (B1h) */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPOWER,
+> > +                   0x00);
+> > +
+> > +    /* 5.19.11 Set register bank (BDh) */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
+> > +                   0x00);
+> > +
+> > +    /* Unknown command, not listed in the HX8394-F datasheet */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN5,
+> > +                   0x40, 0x81, 0x50, 0x00, 0x1a, 0xfc, 0x01);
+> > +
+> > +    /* Unknown command, not listed in the HX8394-F datasheet */
+> > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN2,
+> > +                   0xed);
+> > +
+> > +    return 0;
+> > +}
+> > +
+> > +static const struct drm_display_mode powkiddy_x55_mode = {
+> > +    .hdisplay    = 720,
+> > +    .hsync_start    = 720 + 24,
+> > +    .hsync_end    = 720 + 24 + 4,
+> > +    .htotal        = 720 + 24 + 4 + 20,
+> > +    .vdisplay    = 1280,
+> > +    .vsync_start    = 1280 + 8,
+> > +    .vsync_end    = 1280 + 8 + 4,
+> > +    .vtotal        = 1280 + 8 + 4 + 8,
+> > +    .clock        = 59904,
+> > +    .flags        = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+> > +    .width_mm    = 67,
+> > +    .height_mm    = 121,
+> > +};
+> > +
+> > +static const struct hx8394_panel_desc powkiddy_x55_desc = {
+> > +    .mode = &powkiddy_x55_mode,
+> > +    .lanes = 4,
+> > +    .mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+> 
+> > +                     MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_NO_EOT_PACKET,
+> 
+> 
+> It looks like a mode flag is set twice. The line above should be this below:
+> 
+>                          MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET,
+
+Thank you, you are correct. I've since fixed this and it caused the
+image on the panel to shift slightly, so I've had to adjust the
+timings somewhat. I'll fix this with the V2 (I'll also have to add
+a new clock frequency for the PLL_VPLL so we can run this panel
+at 60hz).
+
+> 
+> 
+> > +    .format = MIPI_DSI_FMT_RGB888,
+> > +    .init_sequence = powkiddy_x55_init_sequence,
+> > +};
+> > +
+> >  static int hx8394_enable(struct drm_panel *panel)
+> >  {
+> >      struct hx8394 *ctx = panel_to_hx8394(panel);
+> > @@ -419,6 +555,7 @@ static void hx8394_remove(struct mipi_dsi_device *dsi)
+> >
+> >  static const struct of_device_id hx8394_of_match[] = {
+> >      { .compatible = "hannstar,hsd060bhw4", .data = &hsd060bhw4_desc },
+> > +    { .compatible = "powkiddy,x55-panel", .data = &powkiddy_x55_desc },
+> >      { /* sentinel */ }
+> >  };
+> >  MODULE_DEVICE_TABLE(of, hx8394_of_match);
+> > --
+> > 2.34.1
+> >
+> >
+> > _______________________________________________
+> > Linux-rockchip mailing list
+> > Linux-rockchip@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-rockchip
