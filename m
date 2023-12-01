@@ -2,51 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2F9800DD1
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 16:01:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BCC1800E5C
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 16:16:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D179410E121;
-	Fri,  1 Dec 2023 15:01:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E7B910E8BC;
+	Fri,  1 Dec 2023 15:16:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF29510E8E1
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 15:00:41 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC39410E0B0
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 15:15:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701442868; x=1732978868;
+ t=1701443752; x=1732979752;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=neT4Hf+obtBf9p4YDRJKGw0EfyhXIRhgDs2UETBnJqQ=;
- b=alojJozc6TlZRDo8HA7SHBqiWfV4dX6WCzAMm/1hao5e0xFMncvdX/LE
- DXaHYlO3NCArMd/BJM6qzWkqoA3XrmdZlAj0AzzIoVoAGdDyoj0U2/RbC
- pW+8PuQ7/JpvtYu16C7N90RfX3JtD2nCWojCLu3U+7Mt3yIWt3xoZZo/p
- S0IK7XJAbjwsnVzgmzDLqgO0Ct8e9rBtQtEiE2mRMOYcFHiMGHsKCpOSX
- OxcCgc1uqZe3vkeJ97M5JuHrwewKwhaWDH/vA+AMWfbA2HvABpfkCILJ5
- B20AInC7XCsb47EpWwVLYJbm6PGz8eK7odismiuxojZ3/SeE7KHXwKiZa w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="383903040"
-X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; d="scan'208";a="383903040"
+ bh=tWb4VPgidAHQe+HcKW5PIOVqtBQKyGJANuwYhvqD8Tg=;
+ b=FBJ+jYgMJ1+WDw1uRM/6T+wPJTvMh93beqa8wXk4RUB4YH8tg3PDKsOJ
+ 5b0Ke8bq/u1WhsZAskLacT9XaUdQ2KiObpkfD7RWcLI3GFBdO3d3Us+st
+ w8n+yJ3iaReOy3SP6nsy9BqWiwJ1270J+/sSf45pxJ09exkh4LVLkHVXb
+ 0pTxZ38ac+yNj+57E+kxh4kNlBEhLGLLF6tlYZexS0Uyxzegcjm8nFLpZ
+ fK6WuID+t8HJm/YXMGv08QI8/jecIuxhJ4nw4LeZ2M32475sLaVEpe3TU
+ 7/6xOLifigdReah6Jy30Qp3sPZVFZXsz9azhjFisunBoGP+0mwShXTd3j g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="362391"
+X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
+   d="scan'208";a="362391"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2023 07:00:41 -0800
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2023 07:15:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="763166038"
-X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; d="scan'208";a="763166038"
+X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="763176400"
+X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; d="scan'208";a="763176400"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by orsmga007.jf.intel.com with SMTP; 01 Dec 2023 07:00:33 -0800
+ by orsmga007.jf.intel.com with SMTP; 01 Dec 2023 07:15:26 -0800
 Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 01 Dec 2023 17:00:32 +0200
-Date: Fri, 1 Dec 2023 17:00:32 +0200
+ Fri, 01 Dec 2023 17:15:25 +0200
+Date: Fri, 1 Dec 2023 17:15:25 +0200
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Subject: Re: [PATCH] drm/doc: Define KMS atomic state set
-Message-ID: <ZWn1EC04wBSN9hu2@intel.com>
-References: <20231130200740.53454-1-andrealmeid@igalia.com>
+To: Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
+ pointers arguments
+Message-ID: <ZWn4jUsVgjubVPvB@intel.com>
+References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
+ <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
+ <87h6l66nth.fsf@intel.com>
+ <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
+ <ZWXv1Oi_sH0BRWao@intel.com>
+ <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
+ <ZWcB4Ak8QnwkhObR@intel.com>
+ <2lbs5dkpusow72koxknoautcfb6e2ygq5wledim4i572ya5xlc@stc4koneykhm>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231130200740.53454-1-andrealmeid@igalia.com>
+In-Reply-To: <2lbs5dkpusow72koxknoautcfb6e2ygq5wledim4i572ya5xlc@stc4koneykhm>
 X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,96 +69,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
- Pekka Paalanen <pekka.paalanen@collabora.com>, kernel-dev@igalia.com,
- 'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
+Cc: Emma Anholt <emma@anholt.net>, Samuel Holland <samuel@sholland.org>,
+ dri-devel@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Pekka Paalanen <ppaalanen@gmail.com>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- alexander.deucher@amd.com, christian.koenig@amd.com
+ Sandy Huang <hjc@rock-chips.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+ linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 30, 2023 at 05:07:40PM -0300, André Almeida wrote:
-> From: Pekka Paalanen <pekka.paalanen@collabora.com>
+On Fri, Dec 01, 2023 at 10:01:49AM +0100, Maxime Ripard wrote:
+> On Wed, Nov 29, 2023 at 11:18:24AM +0200, Ville Syrjälä wrote:
+> > On Wed, Nov 29, 2023 at 10:11:26AM +0100, Maxime Ripard wrote:
+> > > Hi Ville,
+> > > 
+> > > On Tue, Nov 28, 2023 at 03:49:08PM +0200, Ville Syrjälä wrote:
+> > > > On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
+> > > > > On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
+> > > > > > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
+> > > > > > > All the drm_connector_init variants take at least a pointer to the
+> > > > > > > device, connector and hooks implementation.
+> > > > > > >
+> > > > > > > However, none of them check their value before dereferencing those
+> > > > > > > pointers which can lead to a NULL-pointer dereference if the author
+> > > > > > > isn't careful.
+> > > > > > 
+> > > > > > Arguably oopsing on the spot is preferrable when this can't be caused by
+> > > > > > user input. It's always a mistake that should be caught early during
+> > > > > > development.
+> > > > > > 
+> > > > > > Not everyone checks the return value of drm_connector_init and friends,
+> > > > > > so those cases will lead to more mysterious bugs later. And probably
+> > > > > > oopses as well.
+> > > > > 
+> > > > > So maybe we can do both then, with something like
+> > > > > 
+> > > > > if (WARN_ON(!dev))
+> > > > >    return -EINVAL
+> > > > > 
+> > > > > if (drm_WARN_ON(dev, !connector || !funcs))
+> > > > >    return -EINVAL;
+> > > > > 
+> > > > > I'd still like to check for this, so we can have proper testing, and we
+> > > > > already check for those pointers in some places (like funcs in
+> > > > > drm_connector_init), so if we don't cover everything we're inconsistent.
+> > > > 
+> > > > People will invariably cargo-cult this kind of stuff absolutely
+> > > > everywhere and then all your functions will have tons of dead
+> > > > code to check their arguments.
+> > > 
+> > > And that's a bad thing because... ?
+> > > 
+> > > Also, are you really saying that checking that your arguments make sense
+> > > is cargo-cult?
+> > > 
+> > > We're already doing it in some parts of KMS, so we have to be
+> > > consistent, and the answer to "most drivers don't check the error"
+> > > cannot be "let's just give on error checking then".
+> > > 
+> > > > I'd prefer not to go there usually.
+> > > > 
+> > > > Should we perhaps start to use the (arguably hideous)
+> > > >  - void f(struct foo *bar)
+> > > >  + void f(struct foo bar[static 1])
+> > > > syntax to tell the compiler we don't accept NULL pointers?
+> > > > 
+> > > > Hmm. Apparently that has the same problem as using any
+> > > > other kind of array syntax in the prototype. That is,
+> > > > the compiler demands to know the definition of 'struct foo'
+> > > > even though we're passing in effectively a pointer. Sigh.
+> > > 
+> > > Honestly, I don't care as long as it's something we can unit-test to
+> > > make sure we make it consistent. We can't unit test a complete kernel
+> > > crash.
+> > 
+> > Why do you want to put utterly broken code into a unit test?
 > 
-> Specify how the atomic state is maintained between userspace and
-> kernel, plus the special case for async flips.
+> Utterly broken code happens. It probably shouldn't, but here we are.
 > 
-> Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Signed-off-by: André Almeida <andrealmeid@igalia.com>
-> ---
+> Anyway, you mostly missed the consistent part.
 > 
-> This is a standalone patch from the following serie, the other patches are
-> already merged:
-> https://lore.kernel.org/lkml/20231122161941.320564-1-andrealmeid@igalia.com/
+> The current state with it is:
 > 
->  Documentation/gpu/drm-uapi.rst | 47 ++++++++++++++++++++++++++++++++++
->  1 file changed, 47 insertions(+)
+>   - planes:
+>     - drm_universal_plane_init warns if funcs->destroy NULL
+>     - drm_universal_plane_alloc errors out if funcs is NULL
+>     - drmm_universal_plane_alloc warns and errors out if funcs or funcs->destroy are NULL
 > 
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> index 370d820be248..d0693f902a5c 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -570,3 +570,50 @@ dma-buf interoperability
->  
->  Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
->  information on how dma-buf is integrated and exposed within DRM.
-> +
-> +KMS atomic state
-> +================
-> +
-> +An atomic commit can change multiple KMS properties in an atomic fashion,
-> +without ever applying intermediate or partial state changes.  Either the whole
-> +commit succeeds or fails, and it will never be applied partially. This is the
-> +fundamental improvement of the atomic API over the older non-atomic API which is
-> +referred to as the "legacy API".  Applying intermediate state could unexpectedly
-> +fail, cause visible glitches, or delay reaching the final state.
-> +
-> +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, which means the
-> +complete state change is validated but not applied.  Userspace should use this
-> +flag to validate any state change before asking to apply it. If validation fails
-> +for any reason, userspace should attempt to fall back to another, perhaps
-> +simpler, final state.  This allows userspace to probe for various configurations
-> +without causing visible glitches on screen and without the need to undo a
-> +probing change.
-> +
-> +The changes recorded in an atomic commit apply on top the current KMS state in
-> +the kernel. Hence, the complete new KMS state is the complete old KMS state with
-> +the committed property settings done on top. The kernel will try to avoid
-> +no-operation changes,
+>   - CRTC:
+>     - drm_crtc_init_with_planes warns if funcs->destroy NULL
+>     - drmm_crtc_init_with_planes warns if funcs or funcs->destroy are NULL
+>     - drmm_crtc_alloc_with_planes warns and errors out if funcs or funcs->destroy are NULL
+> 
+>   - encoder:
+>     - drm_encoder_init warns if funcs->destroy NULL
+>     - drmm_encoder_init warns and errors out if funcs or funcs->destroy are NULL
+>     - drmm_encoder_alloc warns and errors out if funcs or funcs->destroy are NULL
+> 
+>   - connectors:
+>     - drm_connector_init warns and errors out if funcs or funcs->destroy are NULL
+>     - drm_connector_init_with_ddc warns and errors out if funcs or funcs->destroy are NULL
+>     - drmm_connector_init warns and errors out if funcs or funcs->destroy are NULL
 
-Not how things work. The driver may try to avoid some really
-expensive operations, but generally it will just blindly blast
-the full state to the hardware.
+Those are perhaps fine, as things may not oops immediately if you get
+that wrong. But NULL checking things that will anyway oops immediately,
+(and there's not chance the thing will do anything useful if you prevent
+the oops with a NULL check) doesn't make any sense to me. It just makes
+you doubt the entire universe when you see code like that.
 
-IIRC this was discussed long ago when atomic was being designed
-and the general concensus was that the kernel shouldn't generally
-do this kind of stuff, and instead we just leave it to userspace
-to generate optimal commits.
+> 
+> I think that just proves that your opinion is just not as clear cut as
+> you'd like it to be, and it's far from being the policy you claim it is.
+> 
+> Plus, we're not even remotely consistent there, and we're not
+> documenting that anywhere.
+> 
+> And we have plenty of other examples of static stuff being checked
+> because it just makes sense. All variants of drm_crtc_init_with_planes
+> will for example check that the correct plane type is associated to the
+> primary and cursor planes.
+> 
+> We should fix that.
 
-> so it is safe for userspace to send redundant property
-> +settings.
-
-Safe but not optimal. Any object included in the state will cause said
-object to be part of the commit, and side effects will also need to be
-observed.
-
-So if you add an extra crtc (either directly or indirectly) it will
-have a new commit inserted into the queue and thus and any subsequent
-commit will either block or be rejected with -EBUSY. Also for directly
-added crtcs an event will be emitted once the commit is done.
-
-Any plane added will also need to observe side effects even if the FB
-doesn't change, such as invalidating any internal compressed version
-of the old FB contents, PSR/DSI command mode/etc. will need to upload
-the frame to the display, etc. I suppose we could specify that if no
-FB is specified at all then these kind of side effects could be ignored,
-but that is certainly not how things are implemented right now.
-
-So for optimal behaviour userspace should be minimizing the commits.
+Ideally the compiler should catch all of this. But given we are
+implementing this in C (and even C23 constexpr was neutered beyond
+uselessness) that's not really possible in any nice way :(
 
 -- 
 Ville Syrjälä
