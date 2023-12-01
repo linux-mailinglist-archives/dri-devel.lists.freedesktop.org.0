@@ -2,51 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4636A800AC9
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 13:22:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 615EE800AF5
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 13:34:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9D0A10E11E;
-	Fri,  1 Dec 2023 12:22:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15C6D10E7E3;
+	Fri,  1 Dec 2023 12:34:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7944710E0FC;
- Fri,  1 Dec 2023 12:21:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701433288; x=1732969288;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Db5vSAJrewyk8jBJs8Zpy/bM3+tRAVOm1tNoljdv+uA=;
- b=iSszTurUPHe8+ztHbMIdIUY3Vlj7MchWZceAkCi/kVvDORXDJycShziw
- SFnLXSImbp0Dt9qhAZxrN1rPER6fbPDECFDj8jyzVqXDdi2zSJsi94pgY
- 8DaAf3Dsje4YKGtlgmbUw+p7hzmYWDIZi3tcBdwt0/ShkYZEo8Cqs+xfb
- 7GP4mV26N60Hso9Xi7odDAszxegLZ2Vpsu/bRJbCk0hDZ6FP9cdjAR9+8
- lPubjDeHm7y7O17DJSFLMm56CjsRlvui2ouZAMduQkKUOm2Ylqg38MHwJ
- m5C8GEBrinedmbHhn8iIiMSBfNmFH8kzRt2R1NfOZUfXqLAem6jEafntT Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="15033475"
-X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; d="scan'208";a="15033475"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2023 04:21:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="835761561"
-X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; d="scan'208";a="835761561"
-Received: from istokes-mobl2.ger.corp.intel.com (HELO localhost.localdomain)
- ([10.213.227.178])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2023 04:21:18 -0800
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/i915: Use internal class when counting engine resets
-Date: Fri,  1 Dec 2023 12:21:09 +0000
-Message-Id: <20231201122109.729006-2-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231201122109.729006-1-tvrtko.ursulin@linux.intel.com>
-References: <20231201122109.729006-1-tvrtko.ursulin@linux.intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 008BB10E0FC
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 12:34:40 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 84FF91007;
+ Fri,  1 Dec 2023 04:35:26 -0800 (PST)
+Received: from [10.1.28.20] (e122027.cambridge.arm.com [10.1.28.20])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B87CF3F5A1;
+ Fri,  1 Dec 2023 04:34:37 -0800 (PST)
+Message-ID: <865217b6-f4bc-410c-ba5b-f765c03d6002@arm.com>
+Date: Fri, 1 Dec 2023 12:34:35 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/3] drm/panfrost: Ignore core_mask for poweroff and
+ disable PWRTRANS irq
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ boris.brezillon@collabora.com
+References: <20231201104027.35273-1-angelogioacchino.delregno@collabora.com>
+ <20231201104027.35273-2-angelogioacchino.delregno@collabora.com>
+Content-Language: en-GB
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20231201104027.35273-2-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,115 +45,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Alan Previn Teres Alexis <alan.previn.teres.alexis@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: tzimmermann@suse.de, linux-kernel@vger.kernel.org, mripard@kernel.org,
+ krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com, m.szyprowski@samsung.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On 01/12/2023 10:40, AngeloGioacchino Del Regno wrote:
+> Some SoCs may be equipped with a GPU containing two core groups
+> and this is exactly the case of Samsung's Exynos 5422 featuring
+> an ARM Mali-T628 MP6 GPU: the support for this GPU in Panfrost
+> is partial, as this driver currently supports using only one
+> core group and that's reflected on all parts of it, including
+> the power on (and power off, previously to this patch) function.
+> 
+> The issue with this is that even though executing the soft reset
+> operation should power off all cores unconditionally, on at least
+> one platform we're seeing a crash that seems to be happening due
+> to an interrupt firing which may be because we are calling power
+> transition only on the first core group, leaving the second one
+> unchanged, or because ISR execution was pending before entering
+> the panfrost_gpu_power_off() function and executed after powering
+> off the GPU cores, or all of the above.
+> 
+> Finally, solve this by:
+>  - Avoid to enable the power transition interrupt on reset; and
+>  - Ignoring the core_mask and ask the GPU to poweroff both core groups
+> 
+> Fixes: 22aa1a209018 ("drm/panfrost: Really power off GPU cores in panfrost_gpu_power_off()")
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Commit 503579448db9 ("drm/i915/gsc: Mark internal GSC engine with reserved uabi class")
-made the GSC0 engine not have a valid uabi class and so broke the engine
-reset counting, which in turn was made class based in cb823ed9915b ("drm/i915/gt: Use intel_gt as the primary object for handling resets").
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-Despite the title and commit text of the latter is not mentioning it (and
-has left the storage array incorrectly sized), tracking by class, despite
-it adding aliasing in hypthotetical multi-tile systems, is handy for
-virtual engines which for instance do not have a valid engine->id.
-
-Therefore we keep that but just change it to use the internal class which
-is always valid. We also add a helper to increment the count, which
-aligns with the existing getter.
-
-What was broken without this fix were out of bounds reads every time a
-reset would happen on the GSC0 engine, or during selftests when storing
-and cross-checking the counts in igt_live_test_begin and
-igt_live_test_end.
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Fixes: 503579448db9 ("drm/i915/gsc: Mark internal GSC engine with reserved uabi class")
-Reported-by: Alan Previn Teres Alexis <alan.previn.teres.alexis@intel.com>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_reset.c             |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c |  5 +++--
- drivers/gpu/drm/i915/i915_gpu_error.h             | 12 ++++++++++--
- 3 files changed, 14 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
-index d5ed904f355d..6801f8b95c53 100644
---- a/drivers/gpu/drm/i915/gt/intel_reset.c
-+++ b/drivers/gpu/drm/i915/gt/intel_reset.c
-@@ -1293,7 +1293,7 @@ int __intel_engine_reset_bh(struct intel_engine_cs *engine, const char *msg)
- 	if (msg)
- 		drm_notice(&engine->i915->drm,
- 			   "Resetting %s for %s\n", engine->name, msg);
--	atomic_inc(&engine->i915->gpu_error.reset_engine_count[engine->uabi_class]);
-+	i915_increase_reset_engine_count(&engine->i915->gpu_error, engine);
- 
- 	ret = intel_gt_reset_engine(engine);
- 	if (ret) {
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 04f8377fd7a3..58ea285c51d4 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -5003,7 +5003,8 @@ static void capture_error_state(struct intel_guc *guc,
- 			if (match) {
- 				intel_engine_set_hung_context(e, ce);
- 				engine_mask |= e->mask;
--				atomic_inc(&i915->gpu_error.reset_engine_count[e->uabi_class]);
-+				i915_increase_reset_engine_count(&i915->gpu_error,
-+								 e);
- 			}
- 		}
- 
-@@ -5015,7 +5016,7 @@ static void capture_error_state(struct intel_guc *guc,
- 	} else {
- 		intel_engine_set_hung_context(ce->engine, ce);
- 		engine_mask = ce->engine->mask;
--		atomic_inc(&i915->gpu_error.reset_engine_count[ce->engine->uabi_class]);
-+		i915_increase_reset_engine_count(&i915->gpu_error, ce->engine);
- 	}
- 
- 	with_intel_runtime_pm(&i915->runtime_pm, wakeref)
-diff --git a/drivers/gpu/drm/i915/i915_gpu_error.h b/drivers/gpu/drm/i915/i915_gpu_error.h
-index fa886620d3f8..7c255bb1c319 100644
---- a/drivers/gpu/drm/i915/i915_gpu_error.h
-+++ b/drivers/gpu/drm/i915/i915_gpu_error.h
-@@ -17,6 +17,7 @@
- #include "display/intel_display_device.h"
- #include "display/intel_display_params.h"
- #include "gt/intel_engine.h"
-+#include "gt/intel_engine_types.h"
- #include "gt/intel_gt_types.h"
- #include "gt/uc/intel_uc_fw.h"
- 
-@@ -234,7 +235,7 @@ struct i915_gpu_error {
- 	atomic_t reset_count;
- 
- 	/** Number of times an engine has been reset */
--	atomic_t reset_engine_count[I915_NUM_ENGINES];
-+	atomic_t reset_engine_count[MAX_ENGINE_CLASS];
- };
- 
- struct drm_i915_error_state_buf {
-@@ -257,7 +258,14 @@ static inline u32 i915_reset_count(struct i915_gpu_error *error)
- static inline u32 i915_reset_engine_count(struct i915_gpu_error *error,
- 					  const struct intel_engine_cs *engine)
- {
--	return atomic_read(&error->reset_engine_count[engine->uabi_class]);
-+	return atomic_read(&error->reset_engine_count[engine->class]);
-+}
-+
-+static inline void
-+i915_increase_reset_engine_count(struct i915_gpu_error *error,
-+				 const struct intel_engine_cs *engine)
-+{
-+	atomic_inc(&error->reset_engine_count[engine->class]);
- }
- 
- #define CORE_DUMP_FLAG_NONE           0x0
--- 
-2.40.1
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_gpu.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> index 09f5e1563ebd..bd41617c5e4b 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+> @@ -78,7 +78,12 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev)
+>  	}
+>  
+>  	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_MASK_ALL);
+> -	gpu_write(pfdev, GPU_INT_MASK, GPU_IRQ_MASK_ALL);
+> +
+> +	/* Only enable the interrupts we care about */
+> +	gpu_write(pfdev, GPU_INT_MASK,
+> +		  GPU_IRQ_MASK_ERROR |
+> +		  GPU_IRQ_PERFCNT_SAMPLE_COMPLETED |
+> +		  GPU_IRQ_CLEAN_CACHES_COMPLETED);
+>  
+>  	/*
+>  	 * All in-flight jobs should have released their cycle
+> @@ -425,11 +430,10 @@ void panfrost_gpu_power_on(struct panfrost_device *pfdev)
+>  
+>  void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+>  {
+> -	u64 core_mask = panfrost_get_core_mask(pfdev);
+>  	int ret;
+>  	u32 val;
+>  
+> -	gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present & core_mask);
+> +	gpu_write(pfdev, SHADER_PWROFF_LO, pfdev->features.shader_present);
+>  	ret = readl_relaxed_poll_timeout(pfdev->iomem + SHADER_PWRTRANS_LO,
+>  					 val, !val, 1, 1000);
+>  	if (ret)
+> @@ -441,7 +445,7 @@ void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+>  	if (ret)
+>  		dev_err(pfdev->dev, "tiler power transition timeout");
+>  
+> -	gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present & core_mask);
+> +	gpu_write(pfdev, L2_PWROFF_LO, pfdev->features.l2_present);
+>  	ret = readl_poll_timeout(pfdev->iomem + L2_PWRTRANS_LO,
+>  				 val, !val, 0, 1000);
+>  	if (ret)
 
