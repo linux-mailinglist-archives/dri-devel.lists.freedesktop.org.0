@@ -2,67 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AB7A801793
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Dec 2023 00:23:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71F9F801797
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Dec 2023 00:24:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 627BC10E97E;
-	Fri,  1 Dec 2023 23:23:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6028510E983;
+	Fri,  1 Dec 2023 23:24:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E277810E987
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 23:23:01 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id
- 38308e7fff4ca-2c9b9191722so36408141fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Dec 2023 15:23:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701472980; x=1702077780; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/mPB8J9KOLgFvXqw1rydMIKNrEURsJRhisRvaGx5Qvo=;
- b=ONXyDMycn5lU8wrVgcLKqp5bP44zbgejKdDCTiXgNC5yj+NyQvBfb+aqv9yqou7gGX
- gByI4NkBYR7MtAbp+smYltVn/EAM8KY4HzQdpS3YPOWiIaz5FGbhm0qwWQ78jMPoups8
- vM/vtv6E4R8+1lZYJEbiHfLEkS5BFbcYQkW7gu9jAWmJ7LPXNUagqIxNkwp3U/8hJ232
- Q5iW2gAsI3b4tFeXbDEkJMreGvC12aGPo1Mkj/pRWgXqL53gMryMm0DXwpx8MpXQQ9qO
- iBEUe3JCeQyFnfXlTH+NNJilQFxtiEjnuWJ7laWYn6/Q7F7buXsdRn3xXUD7b+xEyQ/S
- +A3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701472980; x=1702077780;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/mPB8J9KOLgFvXqw1rydMIKNrEURsJRhisRvaGx5Qvo=;
- b=ev4n5oz6PHx5n30Q2rYKiaZFdktqa1ZFBkvmw0OAe7xhQi1oaKAmGL4+8ER3aFAf2t
- aKIO/wYtoGN9YkUj3bIXFewFpjrpZr+CZVYP1J4WYfiPuYdu5H8eHm7Yb3vqiO6HkAjz
- gFdYEbXnbzIbPkG28ZQfC36mvuPVUTV7LuYH+WU1Q4PehfYBTKJQv4HrJcXV6Yc5/Zfe
- i310L7m4QYJTN2P9C1AeKMjA2IllDqBhIDZBs9oUdv2kylPDJj/2e3ZqJaNf8TX+a+ii
- 0aWd2zNFHiYYqOSu/9Fgjm8Xgq2NXDcff4vGRWEMXAzelbDC+0zLGaCdu8TlMkZw7rE3
- cWzA==
-X-Gm-Message-State: AOJu0YxRXFjBeyss16a5kf4jxflcvrETENmuaNFPYPgZRzH9l86axa2p
- w3dBHIGXz1CobFhM9YVNlsBcyBWgg/u+PQzuuKMSJMElN6M=
-X-Google-Smtp-Source: AGHT+IEwZ3nkP64SLpV3NkvgH1lRsLPyZfl7SpQBWnCAVSDtZo0FcR829DhEkezYz+K6KxEhUMKjIw==
-X-Received: by 2002:a05:6512:313c:b0:50b:c768:d347 with SMTP id
- p28-20020a056512313c00b0050bc768d347mr1292282lfd.18.1701472979687; 
- Fri, 01 Dec 2023 15:22:59 -0800 (PST)
-Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
- [2001:14ba:a0db:1f00::8a5]) by smtp.gmail.com with ESMTPSA id
- k10-20020ac24f0a000000b0050bcb5b443dsm549662lfr.171.2023.12.01.15.22.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Dec 2023 15:22:59 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: dri-devel@lists.freedesktop.org,
-	Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v9 0/3] dma-fence: Deadline awareness (uabi edition)
-Date: Sat,  2 Dec 2023 01:22:56 +0200
-Message-ID: <170147278460.2064169.18443996473333750316.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230823215458.203366-1-robdclark@gmail.com>
-References: <20230823215458.203366-1-robdclark@gmail.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD7DE10E183;
+ Fri,  1 Dec 2023 23:24:26 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3B1Lqwuk017110; Fri, 1 Dec 2023 23:24:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=4jAxuAv035GwSSUimQPGdTsIi+N98N9+OsQhIp20k60=;
+ b=Rmbs6aEvX/Ttw2tdxREJRmLNVXg6fTh/+S9mcFzEmiOgn5Szz8STBKOD9ATofuS3Lmh7
+ ik2IQP0x/ugCBSmBP42WEW1yYzAQfSFQ9HhOhzG1llj7kpl446z53xbyrrXUYYGkzaW+
+ W+FF/eRtfkez4helmEMyM200NdI3RXDpSSx8U2YKTJ73zjdb5hFBvMnM5Jobs4txx8zy
+ DAwAIcXDXPMDg6PHzkVMQeP0uaeOQ6ThrrbMOTo6gbXqW08fPvBFE84QHQBL+x6MxR7k
+ 6f/TtSRyyeuzaUZGMxXjzLjHK8LOfBkkEPnPpx4Bv9xGpW3mBw/lqL9M0qaUrQAErWyb HQ== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uqcm6a37e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Dec 2023 23:24:20 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B1NO4sq009269
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 1 Dec 2023 23:24:04 GMT
+Received: from [10.110.73.134] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 1 Dec
+ 2023 15:24:03 -0800
+Message-ID: <0bea976b-79fc-51bf-f1f7-586c46a3adcd@quicinc.com>
+Date: Fri, 1 Dec 2023 15:24:02 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 10/17] drm/msm/mdp5: use drmm-managed allocation for
+ mdp5_plane
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+References: <20230708010407.3871346-1-dmitry.baryshkov@linaro.org>
+ <20230708010407.3871346-11-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230708010407.3871346-11-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: yUogL-3Famehe5XPkUZa74lW2p5cKfMq
+X-Proofpoint-ORIG-GUID: yUogL-3Famehe5XPkUZa74lW2p5cKfMq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-01_22,2023-11-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ phishscore=0 impostorscore=0 bulkscore=0 mlxlogscore=868 clxscore=1015
+ suspectscore=0 spamscore=0 mlxscore=0 priorityscore=1501 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2312010145
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,35 +86,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-pm@vger.kernel.org,
- Gustavo Padovan <gustavo@padovan.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Xaver Hugl <xaver.hugl@gmail.com>, linux-kernel@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, freedreno@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Wed, 23 Aug 2023 14:54:53 -0700, Rob Clark wrote:
-> This is a re-post of the remaining patches from:
-> https://patchwork.freedesktop.org/series/114490/
-> 
-> Part of the hold-up of the remaining uabi patches was compositor
-> support, but now an MR for kwin exists:
-> 
->   https://invent.kde.org/plasma/kwin/-/merge_requests/4358
-> 
-> [...]
 
-Applied to drm-misc-next, thanks!
+On 7/7/2023 6:04 PM, Dmitry Baryshkov wrote:
+> Change struct mdp5_plane allocation to use drmm_plane_alloc(). This
+> removes the need to perform any actions on plane destruction.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c | 40 ++++------------------
+>   1 file changed, 6 insertions(+), 34 deletions(-)
+> 
 
-[1/3] drm/syncobj: Add deadline support for syncobj waits
-      commit: 8570c27932e132d2663e8120311891deb2a853de
-[2/3] dma-buf/sync_file: Add SET_DEADLINE ioctl
-      commit: 63ee44540205d993854f143a5ab1d7d9e63ffcf1
-[3/3] dma-buf/sw_sync: Add fence deadline support
-      commit: 70e67aaec2f4706df0006423eebca813b00f5840
-
-Best regards,
--- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
