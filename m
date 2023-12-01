@@ -2,91 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08133801273
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 19:18:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F3480127B
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 19:19:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B547D10E139;
-	Fri,  1 Dec 2023 18:18:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5097E10E91A;
+	Fri,  1 Dec 2023 18:19:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2084.outbound.protection.outlook.com [40.107.223.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E44A910E0D6;
- Fri,  1 Dec 2023 18:18:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lZjZmtl2DJqXCIHSBdqQ1WVpR6Jo++fRoaFfRdXUBiTMKi+jZl5Uu1OsK1qMg+THycPinPYGSLg/nlrSo1EraRa5rGpMmiJtpQrfXu+Tr/Yx5yOdL578SdHSDJk+VRCod7WVGaWpb9P6uNclKcoAryqsoR9QIoBPDCS6Mrs/5iWyBpPQKpGu5k0SW+WXizZ2oNrC8+xmK4N4kRVbu+M/wfxRDQ2fflEVydO36UQgV1WL8YeJUON7JxRmPl18agwbDWk3JlYZTqeWgFRD/FImi7xV28iCxZi1hTLPHk9G02ULZApH+iihAqxVXhuymDzU2ZjGoattU6VLZ1a5LdHVuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yZYWCEvs1lPyLIH0lc14fGyRIazrKDyAZn9AT4+xvdM=;
- b=Of6LgYPWaW/DUx+hWdqUmYU5xUQLfHlTMpr+B5KyHdHLaw7TayBb6eU9BgJ2lplDMr3U4NgMY0SqXEbbD7MP1Bebq8h6KXw43GbECLFCnsataqYM7GvVBjUatZVnUBeCErUUyo4YO40xwwcxWuRMV1Wr58xdSoAEku4qvQ6sX6Wu7zcvSpv+nvX0rzXKGrhVk7nthU3W69y5IoCFWISZBMDCRPLU0H7BZP4wvokJmG0H/2GCnfYHEu0L1mbkyVuSNyf2vLMXE7CQU0Gc6fvrB1NueSyZW5LKw/2CCGKH5GkfrCRIPytVZGy3do6DAWXYw/KjTThyUmnPupr7JbELRQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yZYWCEvs1lPyLIH0lc14fGyRIazrKDyAZn9AT4+xvdM=;
- b=3lhchkLyULRoGVl0k55cZM4DGCHvO5fQGfYQSGaAUG/dI72jWsaf2xQHk/4CZx/LhlKNQ/oXyK7o905Qon6SF4Vpq1mJxIyFtw9m1EfDGf9UrYgiymvnHHLRcMhBW8IOtKzn7xhKR74mjhLOd3egHzoIxKpRlP6FxiNqJVQoCyI=
-Received: from BYAPR08CA0026.namprd08.prod.outlook.com (2603:10b6:a03:100::39)
- by SN7PR12MB7884.namprd12.prod.outlook.com (2603:10b6:806:343::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.23; Fri, 1 Dec
- 2023 18:17:58 +0000
-Received: from MWH0EPF000971E8.namprd02.prod.outlook.com
- (2603:10b6:a03:100:cafe::bf) by BYAPR08CA0026.outlook.office365.com
- (2603:10b6:a03:100::39) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.27 via Frontend
- Transport; Fri, 1 Dec 2023 18:17:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- MWH0EPF000971E8.mail.protection.outlook.com (10.167.243.68) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7046.17 via Frontend Transport; Fri, 1 Dec 2023 18:17:57 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Fri, 1 Dec
- 2023 12:17:56 -0600
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-Subject: [pull] amdgpu, amdkfd, radeon drm-next-6.8
-Date: Fri, 1 Dec 2023 13:17:42 -0500
-Message-ID: <20231201181743.5313-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.42.0
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF26C10E916;
+ Fri,  1 Dec 2023 18:19:13 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3B1Bx5NC030847; Fri, 1 Dec 2023 18:19:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=mc2V1YfEh3jnPXjQqhsXUs8wKgzOL+Hei8oywWvK9Vk=;
+ b=PufYrtDvNh5mzk/EuZVAxv4FiQ1bH6tjvLErQ9546h10aV9SyqanE8Mvil44snZih59g
+ QL5jW/4JmXGmRYXx5rq/ZoxF7cqNikXomqMwoH/rW9vyIniD7z/Ez4LgHXmD0Bg5UE+X
+ BKJIA/ss+hwuyUDv9oBFp1rhDXY/0UuKNDr3VpofiOuZzzXWVev2qysASLfMEZaO4/r3
+ kUqNEDuiNogVn7jaAtbCohPdjmzwbd/hlMMwtFu5bA1TZ+3orYZHMOIDUuGjYR1CvHVC
+ Bbn9BqZUgp3curiNwpT1U6m0ClWf98k57GnF7Pc0BPoCDlWHELw77hikfhc4/bpI2bmq +g== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uprhdvdw2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Dec 2023 18:19:10 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B1IJ9gH002635
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 1 Dec 2023 18:19:09 GMT
+Received: from [10.110.73.134] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 1 Dec
+ 2023 10:19:08 -0800
+Message-ID: <b0396be7-24ab-1596-4c14-f33ce0ba1a20@quicinc.com>
+Date: Fri, 1 Dec 2023 10:19:08 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000971E8:EE_|SN7PR12MB7884:EE_
-X-MS-Office365-Filtering-Correlation-Id: e836ba3c-9c53-4fec-d223-08dbf299d8a4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4khqFeOGJlc0SpnjDclm3nQikxLvD/l6jH/B8T2r7Lu5UL0hvHaVdNj3ZB+t17H+Z+hxOH3waVxzjucfMvCyJNDp/Q2T+debdqFtoMROrP3h3GtEH/KHOHnWN29QFZ0Qb3XanFUkzK6hylAjY86y4W0mASgqoOiByyksDNKD7ywE+Pej3AaBOFZSmTJG0Me6l0kO61b5fyu9zcMEoHarFK6VvXMkacKyo18sXA8cSZZgOT9bw/VMZl+1ax0OXbskFLVBE3yd9jK3Pa0jX3CFRNDHikGPovDvgO9dyRTLc3OtXyyrFPwKulxXY3S6MINiqI+vptiWAW2CoEISsQ97Jxy0918QKgMVn/g2rpgwmeAhJH80uLeFBHz8sf0gb/8y744dPFiafJXsMVZE1BOvrvc054FNVbrzEd90MUz4/j5WbCC0thyPupwD+yyJKogBxXTzx+3+ifqmKtTWL40Tsj8ss8rLaWFM6Y4jnMemenqYKo3gI0+/uL6RE/mJ6Vk3F3HoLnBtLUju7fHgSmHYvYrjhcRhyxsop6eVCaHH/Senmjtbm8V3horrAPD9s6RloHKDNreQNj6bGPDN2aFSJG/RVOne/j/cjV1TIKt3h/SdhOk1MBKuwx5TyWjlU5VZNnvXiF3SdiwWyGadxIUE/gvIq45L0OGFvA9Z58LQyEkimwkAaiXJxw84ioQBRgZSRxhZQLssj+Gpwy1ZaDu8hTsIYla8tVvzCFNkJApNzqJ4ftGniMI/VF9UcAwXsswDuebULZ5qrx46JWIIzTMWxvGdAbXPWp/N0Owhlbya1To=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230031)(4636009)(376002)(346002)(136003)(396003)(39860400002)(230273577357003)(230922051799003)(230173577357003)(186009)(451199024)(82310400011)(64100799003)(1800799012)(46966006)(40470700004)(36840700001)(66899024)(356005)(86362001)(40460700003)(83380400001)(47076005)(26005)(2616005)(16526019)(1076003)(4326008)(70586007)(2906002)(8676002)(4001150100001)(5660300002)(110136005)(966005)(8936002)(30864003)(478600001)(316002)(36756003)(19627235002)(41300700001)(7696005)(70206006)(6666004)(82740400003)(426003)(336012)(81166007)(40480700001)(36860700001)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2023 18:17:57.9936 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e836ba3c-9c53-4fec-d223-08dbf299d8a4
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000971E8.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7884
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 06/16] drm/msm/dpu: add dpu_hw_cdm abstraction for CDM
+ block
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230830224910.8091-1-quic_abhinavk@quicinc.com>
+ <20230830224910.8091-7-quic_abhinavk@quicinc.com>
+ <CAA8EJpowk1veNE1z_gwzkF2o9whz7XjCViTaXKR36nu9Gkc+OQ@mail.gmail.com>
+ <98d13044-06d2-7752-b08c-e2c322534025@quicinc.com>
+ <CAA8EJponr1khFMivD_RuK_V6sO9+OPz+LaaBMM4yc6iBNaK62w@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJponr1khFMivD_RuK_V6sO9+OPz+LaaBMM4yc6iBNaK62w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: jS6cMFsVKD0PlEjVmTZ6P1eXYo-7i50L
+X-Proofpoint-GUID: jS6cMFsVKD0PlEjVmTZ6P1eXYo-7i50L
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-01_16,2023-11-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ phishscore=0 spamscore=0 suspectscore=0 impostorscore=0 mlxlogscore=999
+ clxscore=1015 mlxscore=0 priorityscore=1501 adultscore=0 bulkscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2312010120
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,583 +87,597 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, quic_parellan@quicinc.com, quic_jesszhan@quicinc.com,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
 
-New stuff for 6.8.
 
-The following changes since commit e8c2d3e25b844ad8f7c8b269a7cfd65285329264:
-
-  drm/amdgpu/gmc9: disable AGP aperture (2023-11-17 00:58:41 -0500)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-6.8-2023-12-01
-
-for you to fetch changes up to b719a9c15d52d4f56bdea8241a5d90fd9197ce99:
-
-  drm/amd/display: Fix NULL pointer dereference at hibernate (2023-11-30 18:26:31 -0500)
-
-----------------------------------------------------------------
-amd-drm-next-6.8-2023-12-01:
-
-amdgpu:
-- Add new 64 bit sequence number infrastructure.
-  This will ultimately be used for user queue synchronization.
-- GPUVM updates
-- Misc code cleanups
-- RAS updates
-- DCN 3.5 updates
-- Rework PCIe link speed handling
-- Document GPU reset types
-- DMUB fixes
-- eDP fixes
-- NBIO 7.9 updates
-- NBIO 7.11 updates
-- SubVP updates
-- DCN 3.1.4 fixes
-- ABM fixes
-- AGP aperture fix
-- DCN 3.1.5 fix
-- Fix some potential error path memory leaks
-- Enable PCIe PMEs
-- Add XGMI, PCIe state dumping for aqua vanjaram
-- GFX11 golden register updates
-- Misc display fixes
-
-amdkfd:
-- Migrate TLB flushing logic to amdgpu
-- Trap handler fixes
-- Fix restore workers handling on suspend and reset
-- Fix possible memory leak in pqm_uninit()
-
-radeon:
-- Fix some possible overflows in command buffer checking
-- Check for errors in ring_lock
-
-----------------------------------------------------------------
-Abhinav Singh (1):
-      drm/radeon: Fix warning using plain integer as NULL
-
-Alex Deucher (3):
-      drm/amdgpu: add pm metrics structure definition
-      drm/amdgpu: fix AGP addressing when GART is not at 0
-      drm/amdgpu: add amdgpu_reg_state.h
-
-Alex Sierra (1):
-      drm/amdgpu: Force order between a read and write to the same address
-
-Alvin Lee (5):
-      drm/amd/display: Include udelay when waiting for INBOX0 ACK
-      drm/amd/display: Use DRAM speed from validation for dummy p-state
-      drm/amd/display: Increase num voltage states to 40
-      drm/amd/display: Enable SubVP on 1080p60 displays
-      drm/amd/display: If P-State is supported try SubVP for smaller vlevel
-
-André Almeida (1):
-      drm/amd: Document device reset methods
-
-Anthony Koo (3):
-      drm/amd/display: Add new command to disable replay timing resync
-      drm/amd/display: [FW Promotion] Release 0.0.193.0
-      drm/amd/display: [FW Promotion] Release 0.0.194.0
-
-Aric Cyr (3):
-      drm/amd/display: Promote DC to 3.2.260
-      drm/amd/display: 3.2.261
-      drm/amd/display: Promote DAL to 3.2.262
-
-Arunpravin Paneer Selvam (1):
-      drm/amdgpu: Implement a new 64bit sequence memory driver
-
-Aurabindo Pillai (1):
-      drm/amd/display: Fix a debugfs null pointer error
-
-Bhuvana Chandra Pinninti (1):
-      drm/amd/display: Refactor DSC into component folder
-
-Camille Cho (1):
-      drm/amd/display: Simplify brightness initialization
-
-Candice Li (1):
-      drm/amdgpu: Update EEPROM I2C address for smu v13_0_0
-
-Daniel Miess (1):
-      drm/amd/display: Enable DCN clock gating for DCN35
-
-David Yat Sin (1):
-      drm/amdkfd: Copy HW exception data to user event
-
-Dennis Chan (2):
-      drm/amd/display: Add new Replay command and Disabled Replay Timing Resync
-      drm/amd/display: Disable Timing sync check in Full-Screen Video Case
-
-Dinghao Liu (1):
-      drm/amd/pm: fix a memleak in aldebaran_tables_init
-
-Dmytro Laktyushkin (2):
-      drm/amd/display: update dcn315 lpddr pstate latency
-      drm/amd/display: block dcn315 dynamic crb allocation when unintended
-
-Duncan Ma (1):
-      drm/amd/display: Add disable timeout option
-
-Fangzhi Zuo (1):
-      drm/amd/display: Enable DSC Flag in MST Mode Validation
-
-Felix Kuehling (3):
-      drm/amdgpu: update mappings not managed by KFD
-      drm/amdkfd: Move TLB flushing logic into amdgpu
-      drm/amdkfd: Run restore_workers on freezable WQs
-
-Gabe Teeger (1):
-      Revert "drm/amd/display: Enable CM low mem power optimization"
-
-Hamza Mahfooz (2):
-      drm/amd/display: add a debugfs interface for the DMUB trace mask
-      drm/amd/display: fix ABM disablement
-
-Hawking Zhang (2):
-      drm/amdgpu: Retire query/reset_ras_err_status from gfx_v9_4_3
-      drm/amdgpu: Do not issue gpu reset from nbio v7_9 bif interrupt
-
-Ian Chen (1):
-      drm/amd/display: add skip_implict_edp_power_control flag for dce110
-
-Ilya Bakoulin (2):
-      drm/amd/display: Fix MPCC 1DLUT programming
-      drm/amd/display: Add DSC granular throughput adjustment
-
-Jonathan Kim (1):
-      drm/amdgpu: update xgmi num links info post gc9.4.2
-
-Krunoslav Kovac (1):
-      drm/amd/display: Send PQ bit in AMD VSIF
-
-Laurent Morichetti (1):
-      drm/amdkfd: Clear the VALU exception state in the trap handler
-
-Li Ma (1):
-      drm/amdgpu: add init_registers for nbio v7.11
-
-Lijo Lazar (8):
-      drm/amd/pm: Add support to fetch pm metrics sample
-      drm/amd/pm: Add pm metrics support to SMU v13.0.6
-      drm/amd/pm: Add sysfs attribute to get pm metrics
-      drm/amdgpu: Move mca debug mode decision to ras
-      drm/amdgpu: Add reg_state sysfs attribute
-      drm/amdgpu: Read aquavanjaram PCIE register state
-      drm/amdgpu: Read aquavanjaram XGMI register state
-      drm/amdgpu: Use another offset for GC 9.4.3 remap
-
-Likun Gao (1):
-      drm/amdgpu: distinguish rlc fw for different SKU
-
-Lu Yao (1):
-      drm/amdgpu: Fix cat debugfs amdgpu_regs_didt causes kernel null pointer
-
-Ma Jun (3):
-      drm/amd/pm: Fix return value and drop redundant param
-      drm/amd/pm: Move some functions to smu_v13_0.c as generic code
-      drm/amd/pm: Make smu_v13_0_baco_set_armd3_sequence() static
-
-Mario Limonciello (4):
-      drm/amd: Use the first non-dGPU PCI device for BW limits
-      drm/amd: Exclude dGPUs in eGPU enclosures from DPM quirks
-      drm/amd: Enable PCIe PME from D3
-      drm/amd/display: Fix NULL pointer dereference at hibernate
-
-Max Tseng (2):
-      drm/amd/display: replay: generalize the send command function usage
-      drm/amd/display: replay: Augment Frameupdate Command
-
-Meenakshikumar Somasundaram (1):
-      drm/amd/display: Fix tiled display misalignment
-
-Michael Strauss (2):
-      drm/amd/display: Do not read DPREFCLK spread info from LUT on DCN35
-      drm/amd/display: Update Fixed VS/PE Retimer Sequence
-
-Mounika Adhuri (1):
-      drm/amd/display: Refactor resource into component directory
-
-Mukul Joshi (1):
-      drm/amdkfd: Use common function for IP version check
-
-Nicholas Kazlauskas (8):
-      drm/amd/display: Add z-state support policy for dcn35
-      drm/amd/display: Update DCN35 watermarks
-      drm/amd/display: Add Z8 watermarks for DML2 bbox overrides
-      drm/amd/display: Feed SR and Z8 watermarks into DML2 for DCN35
-      drm/amd/display: Remove min_dst_y_next_start check for Z8
-      drm/amd/display: Update min Z8 residency time to 2100 for DCN314
-      drm/amd/display: Update DCN35 clock table policy
-      drm/amd/display: Allow DTBCLK disable for DCN35
-
-Nikita Zhandarovich (3):
-      drm/radeon/r600_cs: Fix possible int overflows in r600_cs_check_reg()
-      drm/radeon/r100: Fix integer overflow issues in r100_cs_track_check()
-      drm/radeon: check return value of radeon_ring_lock()
-
-Parandhaman K (1):
-      drm/amd/display: Refactor OPTC into component folder
-
-Perry Yuan (1):
-      drm/amdgpu: optimize RLC powerdown notification on Vangogh
-
-Prike Liang (2):
-      drm/amdgpu: add amdgpu runpm usage trace for separate funcs
-      drm/amdgpu: correct the amdgpu runtime dereference usage count
-
-Rodrigo Siqueira (1):
-      drm/amd/display: Add missing chips for HDCP
-
-RutingZhang (1):
-      drm/amd/display: remove unnecessary braces to fix coding style
-
-Sam James (1):
-      amdgpu: Adjust kmalloc_array calls for new -Walloc-size
-
-Shiwu Zhang (1):
-      drm/amdgpu: expose the connected port num info through sysfs
-
-Srinivasan Shanmugam (3):
-      drm/amdgpu: Refactor 'amdgpu_connector_dvi_detect' in amdgpu_connectors.c
-      drm/amdgpu: Add function parameter 'xcc_mask' not described in 'amdgpu_vm_flush_compute_tlb'
-      drm/amd/display: Remove redundant DRM device struct in amdgpu_dm_, mst_types.c
-
-Sung Joon Kim (1):
-      drm/amd/display: Fix black screen on video playback with embedded panel
-
-Taimur Hassan (3):
-      drm/amd/display: Remove config update
-      drm/amd/display: Fix conversions between bytes and KB
-      drm/amd/display: Fix some HostVM parameters in DML
-
-Tim Huang (1):
-      drm/amdgpu: fix memory overflow in the IB test
-
-Wayne Lin (1):
-      drm/amd/display: adjust flow for deallocation mst payload
-
-Wenjing Liu (5):
-      drm/amd/display: Try to acquire a free OTG master not used in cur ctx first
-      drm/amd/display: Prefer currently used OTG master when acquiring free pipe
-      drm/amd/display: fix a pipe mapping error in dcn32_fpu
-      drm/amd/display: update pixel clock params after stream slice count change in context
-      drm/amd/display: always use mpc factor of 2 for stereo timings
-
-Yang Wang (3):
-      drm/amdgpu: correct mca ipid die/socket/addr decode
-      drm/amdgpu: Fix missing mca debugfs node
-      drm/amdgpu: enable mca debug mode on APU by default
-
-Yihan Zhu (1):
-      drm/amd/display: Enable CM low mem power optimization
-
-ZhenGuo Yin (2):
-      drm/amdkfd: Free gang_ctx_bo and wptr_bo in pqm_uninit
-      drm/amdgpu: Skip access gfx11 golden registers under SRIOV
-
-Zhongwei (1):
-      drm/amd/display: force toggle rate wa for first link training for a retimer
-
- Documentation/gpu/amdgpu/display/dc-debug.rst      |  41 ++
- .../gpu/amdgpu/display/trace-groups-table.csv      |  29 +
- drivers/gpu/drm/amd/amdgpu/Makefile                |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu.h                |  35 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         |  31 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h         |   5 -
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c    |   2 +-
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gc_9_4_3.c    |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v7.c  |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v8.c  |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c  |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |  96 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c     |  69 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c        |   6 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         | 118 +++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |   9 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |   4 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c          |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |   3 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c            |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |  10 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |  15 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h            |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c     |   6 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_seq64.c          | 247 ++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_seq64.h          |  49 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h          |  15 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |  45 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h             |   5 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c           |  44 ++
- drivers/gpu/drm/amd/amdgpu/aqua_vanjaram.c         | 211 +++++++
- drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |  20 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c              |   4 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |   4 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c            | 160 +----
- drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c            |  18 +-
- drivers/gpu/drm/amd/amdgpu/nbio_v7_9.c             |   5 -
- drivers/gpu/drm/amd/amdgpu/soc15.c                 |   6 +
- drivers/gpu/drm/amd/amdgpu/soc15.h                 |   4 +
- drivers/gpu/drm/amd/amdkfd/cwsr_trap_handler.h     | 664 ++++++++++-----------
- .../gpu/drm/amd/amdkfd/cwsr_trap_handler_gfx10.asm |   6 +
- drivers/gpu/drm/amd/amdkfd/kfd_events.c            |   4 +
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h              |  12 +-
- drivers/gpu/drm/amd/amdkfd/kfd_process.c           | 118 ++--
- .../gpu/drm/amd/amdkfd/kfd_process_queue_manager.c |  54 +-
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c               |   4 +-
- drivers/gpu/drm/amd/display/Makefile               |   3 +
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  34 +-
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c  | 107 +++-
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |  53 +-
- .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  49 +-
- drivers/gpu/drm/amd/display/dc/Makefile            |   5 +-
- .../amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c |   8 +-
- .../amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c   | 159 +++--
- .../drm/amd/display/dc/clk_mgr/dcn35/dcn35_smu.c   |   3 +
- drivers/gpu/drm/amd/display/dc/core/dc.c           |   4 +
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |  62 +-
- drivers/gpu/drm/amd/display/dc/dc.h                |   6 +-
- drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c       |  29 +-
- drivers/gpu/drm/amd/display/dc/dc_types.h          |  82 ++-
- drivers/gpu/drm/amd/display/dc/dce/dmub_replay.h   |   2 +
- drivers/gpu/drm/amd/display/dc/dce100/Makefile     |  46 --
- drivers/gpu/drm/amd/display/dc/dce110/Makefile     |   4 +-
- drivers/gpu/drm/amd/display/dc/dce112/Makefile     |   3 +-
- drivers/gpu/drm/amd/display/dc/dce120/Makefile     |   2 +-
- drivers/gpu/drm/amd/display/dc/dce80/Makefile      |   3 +-
- drivers/gpu/drm/amd/display/dc/dcn10/Makefile      |   4 +-
- .../display/dc/dcn10/dcn10_hw_sequencer_debug.c    |   2 +-
- drivers/gpu/drm/amd/display/dc/dcn20/Makefile      |   6 +-
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dccg.h  |   6 +-
- drivers/gpu/drm/amd/display/dc/dcn201/Makefile     |   4 +-
- drivers/gpu/drm/amd/display/dc/dcn21/Makefile      |   2 +-
- drivers/gpu/drm/amd/display/dc/dcn30/Makefile      |   2 -
- drivers/gpu/drm/amd/display/dc/dcn301/Makefile     |   5 +-
- drivers/gpu/drm/amd/display/dc/dcn302/Makefile     |   2 +-
- drivers/gpu/drm/amd/display/dc/dcn303/Makefile     |   2 +-
- drivers/gpu/drm/amd/display/dc/dcn31/Makefile      |   4 +-
- drivers/gpu/drm/amd/display/dc/dcn314/Makefile     |   4 +-
- drivers/gpu/drm/amd/display/dc/dcn315/Makefile     |  30 -
- drivers/gpu/drm/amd/display/dc/dcn316/Makefile     |  30 -
- drivers/gpu/drm/amd/display/dc/dcn32/Makefile      |   8 +-
- .../amd/display/dc/dcn32/dcn32_resource_helpers.c  |  34 +-
- drivers/gpu/drm/amd/display/dc/dcn321/Makefile     |   2 +-
- drivers/gpu/drm/amd/display/dc/dcn35/Makefile      |   6 +-
- drivers/gpu/drm/amd/display/dc/dcn35/dcn35_dccg.c  |  30 +
- drivers/gpu/drm/amd/display/dc/dcn35/dcn35_dccg.h  |   7 +-
- .../gpu/drm/amd/display/dc/dcn35/dcn35_pg_cntl.c   |  20 +-
- .../gpu/drm/amd/display/dc/dcn35/dcn35_pg_cntl.h   |   1 -
- drivers/gpu/drm/amd/display/dc/dm_helpers.h        |  12 +-
- .../gpu/drm/amd/display/dc/dml/calcs/dcn_calcs.c   |   2 +-
- drivers/gpu/drm/amd/display/dc/dml/dc_features.h   |   2 +-
- .../gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c   |  15 +-
- .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c   |  78 ++-
- .../gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c   |  84 ++-
- .../gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.h   |   2 +
- .../drm/amd/display/dc/dml2/display_mode_core.c    |  16 +-
- .../amd/display/dc/dml2/dml2_dc_resource_mgmt.c    |  26 +-
- .../amd/display/dc/dml2/dml2_translation_helper.c  |  60 +-
- drivers/gpu/drm/amd/display/dc/dml2/dml2_utils.c   |   2 +-
- drivers/gpu/drm/amd/display/dc/dml2/dml2_utils.h   |   2 +-
- drivers/gpu/drm/amd/display/dc/dml2/dml2_wrapper.h |   2 +
- drivers/gpu/drm/amd/display/dc/dsc/Makefile        |  26 +
- drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c        |  10 +-
- .../drm/amd/display/dc/{ => dsc}/dcn20/dcn20_dsc.c |   0
- .../drm/amd/display/dc/{ => dsc}/dcn20/dcn20_dsc.h |   0
- .../drm/amd/display/dc/{ => dsc}/dcn35/dcn35_dsc.c |   0
- .../drm/amd/display/dc/{ => dsc}/dcn35/dcn35_dsc.h |   0
- .../gpu/drm/amd/display/dc/{inc/hw => dsc}/dsc.h   |   0
- .../gpu/drm/amd/display/dc/hwss/dce/dce_hwseq.h    |  15 +-
- .../drm/amd/display/dc/hwss/dce110/dce110_hwseq.c  |   3 +-
- .../drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c    |   6 +-
- .../drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c    |  42 +-
- drivers/gpu/drm/amd/display/dc/inc/core_types.h    |   1 +
- drivers/gpu/drm/amd/display/dc/inc/hw/pg_cntl.h    |   2 -
- drivers/gpu/drm/amd/display/dc/inc/link.h          |   3 +
- drivers/gpu/drm/amd/display/dc/inc/resource.h      |  12 +
- .../gpu/drm/amd/display/dc/link/link_detection.c   |   2 +-
- drivers/gpu/drm/amd/display/dc/link/link_dpms.c    | 108 +---
- drivers/gpu/drm/amd/display/dc/link/link_factory.c |   1 +
- .../link_dp_training_fixed_vs_pe_retimer.c         |  16 +-
- .../dc/link/protocols/link_edp_panel_control.c     |  46 +-
- .../dc/link/protocols/link_edp_panel_control.h     |   4 +-
- drivers/gpu/drm/amd/display/dc/optc/Makefile       | 108 ++++
- .../amd/display/dc/{ => optc}/dcn10/dcn10_optc.c   |   0
- .../amd/display/dc/{ => optc}/dcn10/dcn10_optc.h   |   0
- .../amd/display/dc/{ => optc}/dcn20/dcn20_optc.c   |   0
- .../amd/display/dc/{ => optc}/dcn20/dcn20_optc.h   |   2 +-
- .../amd/display/dc/{ => optc}/dcn201/dcn201_optc.c |   0
- .../amd/display/dc/{ => optc}/dcn201/dcn201_optc.h |   0
- .../amd/display/dc/{ => optc}/dcn30/dcn30_optc.c   |   0
- .../amd/display/dc/{ => optc}/dcn30/dcn30_optc.h   |   0
- .../amd/display/dc/{ => optc}/dcn301/dcn301_optc.c |   0
- .../amd/display/dc/{ => optc}/dcn301/dcn301_optc.h |   0
- .../amd/display/dc/{ => optc}/dcn31/dcn31_optc.c   |   0
- .../amd/display/dc/{ => optc}/dcn31/dcn31_optc.h   |   0
- .../amd/display/dc/{ => optc}/dcn314/dcn314_optc.c |   0
- .../amd/display/dc/{ => optc}/dcn314/dcn314_optc.h |   0
- .../amd/display/dc/{ => optc}/dcn32/dcn32_optc.c   |   0
- .../amd/display/dc/{ => optc}/dcn32/dcn32_optc.h   |   0
- .../amd/display/dc/{ => optc}/dcn35/dcn35_optc.c   |   0
- .../amd/display/dc/{ => optc}/dcn35/dcn35_optc.h   |   0
- drivers/gpu/drm/amd/display/dc/resource/Makefile   | 199 ++++++
- .../dc/{ => resource}/dce100/dce100_resource.c     |   0
- .../dc/{ => resource}/dce100/dce100_resource.h     |   0
- .../dc/{ => resource}/dce110/dce110_resource.c     |   0
- .../dc/{ => resource}/dce110/dce110_resource.h     |   0
- .../dc/{ => resource}/dce112/dce112_resource.c     |   0
- .../dc/{ => resource}/dce112/dce112_resource.h     |   0
- .../dc/{ => resource}/dce120/dce120_resource.c     |   2 +-
- .../dc/{ => resource}/dce120/dce120_resource.h     |   0
- .../amd/display/dc/resource/dce80/CMakeLists.txt   |   4 +
- .../dc/{ => resource}/dce80/dce80_resource.c       |   0
- .../dc/{ => resource}/dce80/dce80_resource.h       |   0
- .../dc/{ => resource}/dcn10/dcn10_resource.c       |  25 +-
- .../dc/{ => resource}/dcn10/dcn10_resource.h       |   0
- .../dc/{ => resource}/dcn20/dcn20_resource.c       |  40 +-
- .../dc/{ => resource}/dcn20/dcn20_resource.h       |   1 +
- .../dc/{ => resource}/dcn201/dcn201_resource.c     |  14 +-
- .../dc/{ => resource}/dcn201/dcn201_resource.h     |   0
- .../dc/{ => resource}/dcn21/dcn21_resource.c       |   9 +-
- .../dc/{ => resource}/dcn21/dcn21_resource.h       |   0
- .../dc/{ => resource}/dcn30/dcn30_resource.c       |   2 +-
- .../dc/{ => resource}/dcn30/dcn30_resource.h       |   0
- .../dc/{ => resource}/dcn301/dcn301_resource.c     |   4 +-
- .../dc/{ => resource}/dcn301/dcn301_resource.h     |   0
- .../dc/{ => resource}/dcn302/dcn302_resource.c     |   4 +-
- .../dc/{ => resource}/dcn302/dcn302_resource.h     |   0
- .../dc/{ => resource}/dcn303/dcn303_resource.c     |   4 +-
- .../dc/{ => resource}/dcn303/dcn303_resource.h     |   0
- .../dc/{ => resource}/dcn31/dcn31_resource.c       |   2 +-
- .../dc/{ => resource}/dcn31/dcn31_resource.h       |   0
- .../dc/{ => resource}/dcn314/dcn314_resource.c     |   2 +-
- .../dc/{ => resource}/dcn314/dcn314_resource.h     |   0
- .../dc/{ => resource}/dcn315/dcn315_resource.c     |   6 +-
- .../dc/{ => resource}/dcn315/dcn315_resource.h     |   0
- .../dc/{ => resource}/dcn316/dcn316_resource.c     |   0
- .../dc/{ => resource}/dcn316/dcn316_resource.h     |   0
- .../dc/{ => resource}/dcn32/dcn32_resource.c       |   5 +-
- .../dc/{ => resource}/dcn32/dcn32_resource.h       |  10 +
- .../dc/{ => resource}/dcn321/dcn321_resource.c     |   3 +-
- .../dc/{ => resource}/dcn321/dcn321_resource.h     |   0
- .../dc/{ => resource}/dcn35/dcn35_resource.c       |  27 +-
- .../dc/{ => resource}/dcn35/dcn35_resource.h       |   1 +
- drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h    | 155 ++++-
- drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c    |   1 +
- .../gpu/drm/amd/display/include/hdcp_msg_types.h   |   5 +
- .../drm/amd/display/modules/freesync/freesync.c    |   6 +-
- drivers/gpu/drm/amd/include/amdgpu_reg_state.h     | 153 +++++
- .../amd/include/asic_reg/dcn/dcn_3_5_0_sh_mask.h   |   8 +
- .../drm/amd/include/asic_reg/gc/gc_11_0_0_offset.h |   2 +
- .../amd/include/asic_reg/nbio/nbio_7_11_0_offset.h |   2 +
- .../include/asic_reg/nbio/nbio_7_11_0_sh_mask.h    |  29 +
- drivers/gpu/drm/amd/include/kgd_pp_interface.h     |  19 +-
- drivers/gpu/drm/amd/pm/amdgpu_dpm.c                |  43 +-
- drivers/gpu/drm/amd/pm/amdgpu_pm.c                 |  40 ++
- drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h            |  14 +
- drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c   |  11 +-
- drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_baco.c |   7 +-
- drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_baco.h |   2 +-
- drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu9_baco.c |   9 +-
- drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu9_baco.h |   2 +-
- .../gpu/drm/amd/pm/powerplay/hwmgr/vega20_baco.c   |   9 +-
- .../gpu/drm/amd/pm/powerplay/hwmgr/vega20_baco.h   |   2 +-
- drivers/gpu/drm/amd/pm/powerplay/inc/hwmgr.h       |   2 +-
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |  37 +-
- drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h      |  15 +
- drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h       |   3 +-
- drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |   3 -
- drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   |   5 +-
- drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c |   5 +-
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     |  40 +-
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |  36 +-
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c   |  77 ++-
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   |  36 +-
- drivers/gpu/drm/amd/pm/swsmu/smu_internal.h        |   1 +
- drivers/gpu/drm/radeon/clearstate_evergreen.h      |   8 +-
- drivers/gpu/drm/radeon/r100.c                      |   4 +-
- drivers/gpu/drm/radeon/r600_cs.c                   |   4 +-
- drivers/gpu/drm/radeon/si.c                        |   4 +
- 222 files changed, 3434 insertions(+), 1524 deletions(-)
- create mode 100644 Documentation/gpu/amdgpu/display/trace-groups-table.csv
- create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_seq64.c
- create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_seq64.h
- delete mode 100644 drivers/gpu/drm/amd/display/dc/dce100/Makefile
- delete mode 100644 drivers/gpu/drm/amd/display/dc/dcn315/Makefile
- delete mode 100644 drivers/gpu/drm/amd/display/dc/dcn316/Makefile
- rename drivers/gpu/drm/amd/display/dc/{ => dsc}/dcn20/dcn20_dsc.c (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => dsc}/dcn20/dcn20_dsc.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => dsc}/dcn35/dcn35_dsc.c (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => dsc}/dcn35/dcn35_dsc.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{inc/hw => dsc}/dsc.h (100%)
- create mode 100644 drivers/gpu/drm/amd/display/dc/optc/Makefile
- rename drivers/gpu/drm/amd/display/dc/{ => optc}/dcn10/dcn10_optc.c (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => optc}/dcn10/dcn10_optc.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => optc}/dcn20/dcn20_optc.c (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => optc}/dcn20/dcn20_optc.h (99%)
- rename drivers/gpu/drm/amd/display/dc/{ => optc}/dcn201/dcn201_optc.c (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => optc}/dcn201/dcn201_optc.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => optc}/dcn30/dcn30_optc.c (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => optc}/dcn30/dcn30_optc.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => optc}/dcn301/dcn301_optc.c (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => optc}/dcn301/dcn301_optc.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => optc}/dcn31/dcn31_optc.c (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => optc}/dcn31/dcn31_optc.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => optc}/dcn314/dcn314_optc.c (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => optc}/dcn314/dcn314_optc.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => optc}/dcn32/dcn32_optc.c (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => optc}/dcn32/dcn32_optc.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => optc}/dcn35/dcn35_optc.c (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => optc}/dcn35/dcn35_optc.h (100%)
- create mode 100644 drivers/gpu/drm/amd/display/dc/resource/Makefile
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dce100/dce100_resource.c (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dce100/dce100_resource.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dce110/dce110_resource.c (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dce110/dce110_resource.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dce112/dce112_resource.c (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dce112/dce112_resource.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dce120/dce120_resource.c (99%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dce120/dce120_resource.h (100%)
- create mode 100644 drivers/gpu/drm/amd/display/dc/resource/dce80/CMakeLists.txt
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dce80/dce80_resource.c (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dce80/dce80_resource.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn10/dcn10_resource.c (99%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn10/dcn10_resource.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn20/dcn20_resource.c (99%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn20/dcn20_resource.h (98%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn201/dcn201_resource.c (99%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn201/dcn201_resource.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn21/dcn21_resource.c (99%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn21/dcn21_resource.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn30/dcn30_resource.c (99%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn30/dcn30_resource.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn301/dcn301_resource.c (99%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn301/dcn301_resource.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn302/dcn302_resource.c (99%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn302/dcn302_resource.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn303/dcn303_resource.c (99%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn303/dcn303_resource.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn31/dcn31_resource.c (99%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn31/dcn31_resource.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn314/dcn314_resource.c (99%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn314/dcn314_resource.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn315/dcn315_resource.c (99%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn315/dcn315_resource.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn316/dcn316_resource.c (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn316/dcn316_resource.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn32/dcn32_resource.c (99%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn32/dcn32_resource.h (99%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn321/dcn321_resource.c (99%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn321/dcn321_resource.h (100%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn35/dcn35_resource.c (98%)
- rename drivers/gpu/drm/amd/display/dc/{ => resource}/dcn35/dcn35_resource.h (99%)
- create mode 100644 drivers/gpu/drm/amd/include/amdgpu_reg_state.h
+On 11/30/2023 11:05 PM, Dmitry Baryshkov wrote:
+> On Fri, 1 Dec 2023 at 01:36, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 8/30/2023 5:00 PM, Dmitry Baryshkov wrote:
+>>> On Thu, 31 Aug 2023 at 01:50, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>>>
+>>>> CDM block comes with its own set of registers and operations
+>>>> which can be done. In-line with other hardware sub-blocks, this
+>>>> change adds the dpu_hw_cdm abstraction for the CDM block.
+>>>>
+>>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>>> ---
+>>>>    drivers/gpu/drm/msm/Makefile                |   1 +
+>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c  | 272 ++++++++++++++++++++
+>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h  | 135 ++++++++++
+>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |   1 +
+>>>>    4 files changed, 409 insertions(+)
+>>>>    create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c
+>>>>    create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+>>>> index 8d02d8c33069..2010cb1ca995 100644
+>>>> --- a/drivers/gpu/drm/msm/Makefile
+>>>> +++ b/drivers/gpu/drm/msm/Makefile
+>>>> @@ -63,6 +63,7 @@ msm-$(CONFIG_DRM_MSM_DPU) += \
+>>>>           disp/dpu1/dpu_encoder_phys_wb.o \
+>>>>           disp/dpu1/dpu_formats.o \
+>>>>           disp/dpu1/dpu_hw_catalog.o \
+>>>> +       disp/dpu1/dpu_hw_cdm.o \
+>>>>           disp/dpu1/dpu_hw_ctl.o \
+>>>>           disp/dpu1/dpu_hw_dsc.o \
+>>>>           disp/dpu1/dpu_hw_dsc_1_2.o \
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c
+>>>> new file mode 100644
+>>>> index 000000000000..a2f7ee8f54e4
+>>>> --- /dev/null
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c
+>>>> @@ -0,0 +1,272 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0-only
+>>>> +/*
+>>>> + * Copyright (c) 2023, The Linux Foundation. All rights reserved.
+>>>> + */
+>>>> +
+>>>> +#include <drm/drm_managed.h>
+>>>> +
+>>>> +#include "dpu_hw_mdss.h"
+>>>> +#include "dpu_hw_util.h"
+>>>> +#include "dpu_hw_catalog.h"
+>>>> +#include "dpu_hw_cdm.h"
+>>>> +#include "dpu_kms.h"
+>>>> +
+>>>> +#define CDM_CSC_10_OPMODE                  0x000
+>>>> +#define CDM_CSC_10_BASE                    0x004
+>>>> +
+>>>> +#define CDM_CDWN2_OP_MODE                  0x100
+>>>> +#define CDM_CDWN2_CLAMP_OUT                0x104
+>>>> +#define CDM_CDWN2_PARAMS_3D_0              0x108
+>>>> +#define CDM_CDWN2_PARAMS_3D_1              0x10C
+>>>> +#define CDM_CDWN2_COEFF_COSITE_H_0         0x110
+>>>> +#define CDM_CDWN2_COEFF_COSITE_H_1         0x114
+>>>> +#define CDM_CDWN2_COEFF_COSITE_H_2         0x118
+>>>> +#define CDM_CDWN2_COEFF_OFFSITE_H_0        0x11C
+>>>> +#define CDM_CDWN2_COEFF_OFFSITE_H_1        0x120
+>>>> +#define CDM_CDWN2_COEFF_OFFSITE_H_2        0x124
+>>>> +#define CDM_CDWN2_COEFF_COSITE_V           0x128
+>>>> +#define CDM_CDWN2_COEFF_OFFSITE_V          0x12C
+>>>> +#define CDM_CDWN2_OUT_SIZE                 0x130
+>>>> +
+>>>> +#define CDM_HDMI_PACK_OP_MODE              0x200
+>>>> +#define CDM_CSC_10_MATRIX_COEFF_0          0x004
+>>>> +
+>>>> +#define CDM_MUX                            0x224
+>>>> +
+>>>> +/**
+>>>> + * Horizontal coefficients for cosite chroma downscale
+>>>> + * s13 representation of coefficients
+>>>> + */
+>>>> +static u32 cosite_h_coeff[] = {0x00000016, 0x000001cc, 0x0100009e};
+>>>> +
+>>>> +/**
+>>>> + * Horizontal coefficients for offsite chroma downscale
+>>>> + */
+>>>> +static u32 offsite_h_coeff[] = {0x000b0005, 0x01db01eb, 0x00e40046};
+>>>> +
+>>>> +/**
+>>>> + * Vertical coefficients for cosite chroma downscale
+>>>> + */
+>>>> +static u32 cosite_v_coeff[] = {0x00080004};
+>>>> +/**
+>>>> + * Vertical coefficients for offsite chroma downscale
+>>>> + */
+>>>> +static u32 offsite_v_coeff[] = {0x00060002};
+>>>> +
+>>>> +static int dpu_hw_cdm_setup_csc_10bit(struct dpu_hw_cdm *ctx, struct dpu_csc_cfg *data)
+>>>> +{
+>>>> +       dpu_hw_csc_setup(&ctx->hw, CDM_CSC_10_MATRIX_COEFF_0, data, true);
+>>>
+>>> Where was this defined?
+>>>
+>>
+>> Its in this file itself
+>>
+>> +#define CDM_CSC_10_MATRIX_COEFF_0          0x004
+>>
+>>>> +
+>>>> +       return 0;
+>>>> +}
+>>>> +
+>>>> +static int dpu_hw_cdm_setup_cdwn(struct dpu_hw_cdm *ctx, struct dpu_hw_cdm_cfg *cfg)
+>>>> +{
+>>>> +       struct dpu_hw_blk_reg_map *c = &ctx->hw;
+>>>> +       u32 opmode = 0;
+>>>> +       u32 out_size = 0;
+>>>> +
+>>>> +       if (cfg->output_bit_depth == CDM_CDWN_OUTPUT_10BIT)
+>>>> +               opmode &= ~BIT(7);
+>>>> +       else
+>>>> +               opmode |= BIT(7);
+>>>> +
+>>>> +       /* ENABLE DWNS_H bit */
+>>>> +       opmode |= BIT(1);
+>>>> +
+>>>> +       switch (cfg->h_cdwn_type) {
+>>>> +       case CDM_CDWN_DISABLE:
+>>>> +               /* CLEAR METHOD_H field */
+>>>> +               opmode &= ~(0x18);
+>>>> +               /* CLEAR DWNS_H bit */
+>>>> +               opmode &= ~BIT(1);
+>>>> +               break;
+>>>> +       case CDM_CDWN_PIXEL_DROP:
+>>>> +               /* Clear METHOD_H field (pixel drop is 0) */
+>>>> +               opmode &= ~(0x18);
+>>>> +               break;
+>>>> +       case CDM_CDWN_AVG:
+>>>> +               /* Clear METHOD_H field (Average is 0x1) */
+>>>> +               opmode &= ~(0x18);
+>>>> +               opmode |= (0x1 << 0x3);
+>>>> +               break;
+>>>> +       case CDM_CDWN_COSITE:
+>>>> +               /* Clear METHOD_H field (Average is 0x2) */
+>>>> +               opmode &= ~(0x18);
+>>>> +               opmode |= (0x2 << 0x3);
+>>>> +               /* Co-site horizontal coefficients */
+>>>> +               DPU_REG_WRITE(c, CDM_CDWN2_COEFF_COSITE_H_0,
+>>>> +                               cosite_h_coeff[0]);
+>>>> +               DPU_REG_WRITE(c, CDM_CDWN2_COEFF_COSITE_H_1,
+>>>> +                               cosite_h_coeff[1]);
+>>>> +               DPU_REG_WRITE(c, CDM_CDWN2_COEFF_COSITE_H_2,
+>>>> +                               cosite_h_coeff[2]);
+>>>> +               break;
+>>>> +       case CDM_CDWN_OFFSITE:
+>>>> +               /* Clear METHOD_H field (Average is 0x3) */
+>>>> +               opmode &= ~(0x18);
+>>>> +               opmode |= (0x3 << 0x3);
+>>>> +
+>>>> +               /* Off-site horizontal coefficients */
+>>>> +               DPU_REG_WRITE(c, CDM_CDWN2_COEFF_OFFSITE_H_0,
+>>>> +                               offsite_h_coeff[0]);
+>>>> +               DPU_REG_WRITE(c, CDM_CDWN2_COEFF_OFFSITE_H_1,
+>>>> +                               offsite_h_coeff[1]);
+>>>> +               DPU_REG_WRITE(c, CDM_CDWN2_COEFF_OFFSITE_H_2,
+>>>> +                               offsite_h_coeff[2]);
+>>>> +               break;
+>>>> +       default:
+>>>> +               pr_err("%s invalid horz down sampling type\n", __func__);
+>>>> +               return -EINVAL;
+>>>> +       }
+>>>> +
+>>>> +       /* ENABLE DWNS_V bit */
+>>>> +       opmode |= BIT(2);
+>>>> +
+>>>> +       switch (cfg->v_cdwn_type) {
+>>>> +       case CDM_CDWN_DISABLE:
+>>>> +               /* CLEAR METHOD_V field */
+>>>> +               opmode &= ~(0x60);
+>>>
+>>> #define, GENMASK
+>>>
+>>>> +               /* CLEAR DWNS_V bit */
+>>>> +               opmode &= ~BIT(2);
+>>>> +               break;
+>>>> +       case CDM_CDWN_PIXEL_DROP:
+>>>> +               /* Clear METHOD_V field (pixel drop is 0) */
+>>>> +               opmode &= ~(0x60);
+>>>> +               break;
+>>>> +       case CDM_CDWN_AVG:
+>>>> +               /* Clear METHOD_V field (Average is 0x1) */
+>>>> +               opmode &= ~(0x60);
+>>>> +               opmode |= (0x1 << 0x5);
+>>>
+>>> #define
+>>>
+>>>> +               break;
+>>>> +       case CDM_CDWN_COSITE:
+>>>> +               /* Clear METHOD_V field (Average is 0x2) */
+>>>> +               opmode &= ~(0x60);
+>>>> +               opmode |= (0x2 << 0x5);
+>>>> +               /* Co-site vertical coefficients */
+>>>> +               DPU_REG_WRITE(c,
+>>>> +                               CDM_CDWN2_COEFF_COSITE_V,
+>>>> +                               cosite_v_coeff[0]);
+>>>
+>>> align to opening bracket
+>>>
+>>>> +               break;
+>>>> +       case CDM_CDWN_OFFSITE:
+>>>> +               /* Clear METHOD_V field (Average is 0x3) */
+>>>> +               opmode &= ~(0x60);
+>>>> +               opmode |= (0x3 << 0x5);
+>>>> +
+>>>> +               /* Off-site vertical coefficients */
+>>>> +               DPU_REG_WRITE(c,
+>>>> +                               CDM_CDWN2_COEFF_OFFSITE_V,
+>>>> +                               offsite_v_coeff[0]);
+>>>
+>>> align to opening bracket
+>>>
+>>>> +               break;
+>>>> +       default:
+>>>> +               return -EINVAL;
+>>>> +       }
+>>>> +
+>>>> +       if (cfg->v_cdwn_type || cfg->h_cdwn_type)
+>>>> +               opmode |= BIT(0); /* EN CDWN module */
+>>>
+>>> #define
+>>>
+>>
+>> Ack to all comments about GENMASK and #define
+>>
+>>>> +       else
+>>>> +               opmode &= ~BIT(0);
+>>>> +
+>>>> +       out_size = (cfg->output_width & 0xFFFF) |
+>>>> +               ((cfg->output_height & 0xFFFF) << 16);
+>>>> +       DPU_REG_WRITE(c, CDM_CDWN2_OUT_SIZE, out_size);
+>>>> +       DPU_REG_WRITE(c, CDM_CDWN2_OP_MODE, opmode);
+>>>> +       DPU_REG_WRITE(c, CDM_CDWN2_CLAMP_OUT,
+>>>> +                       ((0x3FF << 16) | 0x0));
+>>>> +
+>>>> +       return 0;
+>>>> +}
+>>>> +
+>>>> +int dpu_hw_cdm_enable(struct dpu_hw_cdm *ctx, struct dpu_hw_cdm_cfg *cdm)
+>>>> +{
+>>>> +       struct dpu_hw_blk_reg_map *c = &ctx->hw;
+>>>> +       const struct dpu_format *fmt;
+>>>> +       u32 opmode = 0;
+>>>> +       u32 csc = 0;
+>>>> +
+>>>> +       if (!ctx || !cdm)
+>>>> +               return -EINVAL;
+>>>> +
+>>>> +       fmt = cdm->output_fmt;
+>>>> +
+>>>> +       if (!DPU_FORMAT_IS_YUV(fmt))
+>>>> +               return -EINVAL;
+>>>> +
+>>>> +       if (cdm->output_type == CDM_CDWN_OUTPUT_HDMI) {
+>>>> +               if (fmt->chroma_sample != DPU_CHROMA_H1V2)
+>>>> +                       return -EINVAL; /*unsupported format */
+>>>> +               opmode = BIT(0);
+>>>> +               opmode |= (fmt->chroma_sample << 1);
+>>>> +       }
+>>>> +
+>>>> +       csc |= BIT(2);
+>>>> +       csc &= ~BIT(1);
+>>>> +       csc |= BIT(0);
+>>>
+>>> Can we get some sensible #defines for all this magic, please?
+>>>
+>>
+>> Ack, will do.
+>>
+>>>> +
+>>>> +       if (ctx && ctx->ops.bind_pingpong_blk)
+>>>> +               ctx->ops.bind_pingpong_blk(ctx, true,
+>>>> +                               cdm->pp_id);
+>>>> +
+>>>> +       DPU_REG_WRITE(c, CDM_CSC_10_OPMODE, csc);
+>>>> +       DPU_REG_WRITE(c, CDM_HDMI_PACK_OP_MODE, opmode);
+>>>> +       return 0;
+>>>> +}
+>>>> +
+>>>> +void dpu_hw_cdm_disable(struct dpu_hw_cdm *ctx)
+>>>> +{
+>>>> +       if (!ctx)
+>>>> +               return;
+>>>> +
+>>>> +       if (ctx && ctx->ops.bind_pingpong_blk)
+>>>> +               ctx->ops.bind_pingpong_blk(ctx, false, 0);
+>>>
+>>> PINGPONG_NONE.
+>>>
+>>>> +}
+>>>> +
+>>>> +static void dpu_hw_cdm_bind_pingpong_blk(struct dpu_hw_cdm *ctx, bool enable,
+>>>> +                                        const enum dpu_pingpong pp)
+>>>> +{
+>>>> +       struct dpu_hw_blk_reg_map *c;
+>>>> +       int mux_cfg = 0xF;
+>>>> +
+>>>> +       if (!ctx || (enable && (pp < PINGPONG_0 || pp >= PINGPONG_MAX)))
+>>>> +               return;
+>>>
+>>> I'd say, this is useless. We don't have such checks in other
+>>> bind_pingpong_blk() callbacks.
+>>>
+>>> Also there should be a guarding check for DPU >= 5.0 either here or at
+>>> the ops init.
+>>>
+>>
+>> Will add it at ops init
+>>
+>>>> +
+>>>> +       c = &ctx->hw;
+>>>> +
+>>>> +       if (enable)
+>>>> +               mux_cfg = (pp - PINGPONG_0) & 0x7;
+>>>> +
+>>>> +       DPU_REG_WRITE(c, CDM_MUX, mux_cfg);
+>>>> +}
+>>>> +
+>>>> +static void _setup_cdm_ops(struct dpu_hw_cdm_ops *ops, unsigned long features)
+>>>
+>>> Please inline
+>>>
+>>
+>> OK
+>>
+>>>> +{
+>>>> +       ops->setup_csc_data = dpu_hw_cdm_setup_csc_10bit;
+>>>> +       ops->setup_cdwn = dpu_hw_cdm_setup_cdwn;
+>>>> +       ops->enable = dpu_hw_cdm_enable;
+>>>> +       ops->disable = dpu_hw_cdm_disable;
+>>>> +       ops->bind_pingpong_blk = dpu_hw_cdm_bind_pingpong_blk;
+>>>
+>>> As you seem to call this function directly, we might as well drop the
+>>> callback from the ops.
+>>>
+>>
+>> There are two paths for the bind_pingpong_blk(). One is absorbed within
+>> cdm_enable and cdm_disable calls to bind and unbind the pingpong resp.
+>> And yes, for that we dont need a separate ops as its within the same file.
+>>
+>> This will handle cases where we transition from YUV to non-YUV cases and
+>> vice-versa without an encoder disable in between which I believe happens
+>> in the IGT cases.
+>>
+>> But the dpu_encoder_helper_phys_cleanup() path is only in the encoder
+>> disable() path without a non-YUV frame in the middle so lets say we were
+>> in YUV mode but then just disabled the encoder we do need the cleanup
+>> there and since thats outside of the dpu_hw_cdm, we do need this op.
+>>
+>> I agree we need to protect this with the DPU revision check.
+>>
+>>>> +}
+>>>> +
+>>>> +struct dpu_hw_cdm *dpu_hw_cdm_init(const struct dpu_cdm_cfg *cfg, void __iomem *addr)
+>>>> +{
+>>>> +       struct dpu_hw_cdm *c;
+>>>> +
+>>>> +       c = kzalloc(sizeof(*c), GFP_KERNEL);
+>>>> +       if (!c)
+>>>> +               return ERR_PTR(-ENOMEM);
+>>>> +
+>>>> +       c->hw.blk_addr = addr + cfg->base;
+>>>> +       c->hw.log_mask = DPU_DBG_MASK_CDM;
+>>>> +
+>>>> +       /* Assign ops */
+>>>> +       c->idx = cfg->id;
+>>>> +       c->caps = cfg;
+>>>> +       _setup_cdm_ops(&c->ops, c->caps->features);
+>>>> +
+>>>> +       return c;
+>>>> +}
+>>>> +
+>>>> +void dpu_hw_cdm_destroy(struct dpu_hw_cdm *cdm)
+>>>> +{
+>>>> +       kfree(cdm);
+>>>
+>>> I'd prefer not to introduce another manual kzalloc/kfree pair, see
+>>> https://patchwork.freedesktop.org/series/120366/
+>>>
+>>
+>> I recall I did not want to have a manual kzalloc/kfree pair. But the
+>> issue was I think this series was not merged that time (and is isnt
+>> merged now either)
+> 
+> No response, no reviews since 15th August. Today is the 1st of December.
+> 
+> I'm close to deciding that unreviewed series have no issues and start
+> showing them to -next after a grace period of 1 month.
+> 
+>> and this is the one which passes drm_dev to
+>> dpu_rm_init. I thought maybe it was easier for you to absorb this change
+>> into that series instead of me pulling that whole series to make this
+>> one compile as we will not be adding new HW blocks after this for the
+>> next 2 cycles. It will only be using existing ones.
+>>
+>> If its too much trouble for you, I will rebase on top of that series but
+>> I am pretty sure you will have to rebase and post that again anyway on
+>> top of the current msm-next.
+>>
+>> I am also going to do the same thing now with this series.
+>>
+
+There were 4 patches in that series which didnt get a R-b. Perhaps 
+jessica can finish the reviews which she started on that one.
+
+Leaving her a note on IRC would not have hurt like its a common practice 
+sometimes with other reviewers.
+
+Now, do you want to rebase this on msm-next and re-send so that I can 
+rebase on top of yours?
+
+>> So we can just decide that in whose rebase we will handle it.
+>>
+>>>> +}
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h
+>>>> new file mode 100644
+>>>> index 000000000000..da60893a5c02
+>>>> --- /dev/null
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h
+>>>> @@ -0,0 +1,135 @@
+>>>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>>>> +/*
+>>>> + * Copyright (c) 2023, The Linux Foundation. All rights reserved.
+>>>> + */
+>>>> +
+>>>> +#ifndef _DPU_HW_CDM_H
+>>>> +#define _DPU_HW_CDM_H
+>>>> +
+>>>> +#include "dpu_hw_mdss.h"
+>>>> +#include "dpu_hw_top.h"
+>>>> +
+>>>> +struct dpu_hw_cdm;
+>>>> +
+>>>> +struct dpu_hw_cdm_cfg {
+>>>> +       u32 output_width;
+>>>> +       u32 output_height;
+>>>> +       u32 output_bit_depth;
+>>>> +       u32 h_cdwn_type;
+>>>> +       u32 v_cdwn_type;
+>>>> +       const struct dpu_format *output_fmt;
+>>>> +       u32 output_type;
+>>>> +       int pp_id;
+>>>> +};
+>>>> +
+>>>> +enum dpu_hw_cdwn_type {
+>>>> +       CDM_CDWN_DISABLE,
+>>>> +       CDM_CDWN_PIXEL_DROP,
+>>>> +       CDM_CDWN_AVG,
+>>>> +       CDM_CDWN_COSITE,
+>>>> +       CDM_CDWN_OFFSITE,
+>>>> +};
+>>>> +
+>>>> +enum dpu_hw_cdwn_output_type {
+>>>> +       CDM_CDWN_OUTPUT_HDMI,
+>>>> +       CDM_CDWN_OUTPUT_WB,
+>>>> +};
+>>>> +
+>>>> +enum dpu_hw_cdwn_output_bit_depth {
+>>>> +       CDM_CDWN_OUTPUT_8BIT,
+>>>> +       CDM_CDWN_OUTPUT_10BIT,
+>>>> +};
+>>>> +
+>>>> +/**
+>>>> + * struct dpu_hw_cdm_ops : Interface to the chroma down Hw driver functions
+>>>> + *                         Assumption is these functions will be called after
+>>>> + *                         clocks are enabled
+>>>> + *  @setup_csc:            Programs the csc matrix
+>>>> + *  @setup_cdwn:           Sets up the chroma down sub module
+>>>> + *  @enable:               Enables the output to interface and programs the
+>>>> + *                         output packer
+>>>> + *  @disable:              Puts the cdm in bypass mode
+>>>> + *  @bind_pingpong_blk:    enable/disable the connection with pingpong which
+>>>> + *                         will feed pixels to this cdm
+>>>> + */
+>>>> +struct dpu_hw_cdm_ops {
+>>>> +       /**
+>>>> +        * Programs the CSC matrix for conversion from RGB space to YUV space,
+>>>> +        * it is optional to call this function as this matrix is automatically
+>>>> +        * set during initialization, user should call this if it wants
+>>>> +        * to program a different matrix than default matrix.
+>>>> +        * @cdm:          Pointer to the chroma down context structure
+>>>> +        * @data          Pointer to CSC configuration data
+>>>> +        * return:        0 if success; error code otherwise
+>>>> +        */
+>>>> +       int (*setup_csc_data)(struct dpu_hw_cdm *cdm, struct dpu_csc_cfg *data);
+>>>> +
+>>>> +       /**
+>>>> +        * Programs the Chroma downsample part.
+>>>> +        * @cdm         Pointer to chroma down context
+>>>> +        * @cfg         Pointer to the cdm configuration data
+>>>> +        */
+>>>> +       int (*setup_cdwn)(struct dpu_hw_cdm *cdm, struct dpu_hw_cdm_cfg *cfg);
+>>>> +
+>>>> +       /**
+>>>> +        * Enable the CDM module
+>>>> +        * @cdm         Pointer to chroma down context
+>>>> +        */
+>>>> +       int (*enable)(struct dpu_hw_cdm *cdm, struct dpu_hw_cdm_cfg *cfg);
+>>>> +
+>>>> +       /**
+>>>> +        * Disable the CDM module
+>>>> +        * @cdm         Pointer to chroma down context
+>>>> +        */
+>>>> +       void (*disable)(struct dpu_hw_cdm *cdm);
+>>>> +
+>>>> +       /**
+>>>> +        * Enable/disable the connection with pingpong
+>>>> +        * @cdm         Pointer to chroma down context
+>>>> +        * @enable      Enable/disable control
+>>>> +        * @pp          pingpong block id.
+>>>> +        */
+>>>> +       void (*bind_pingpong_blk)(struct dpu_hw_cdm *cdm, bool enable,
+>>>> +                                 const enum dpu_pingpong pp);
+>>>> +};
+>>>> +
+>>>> +/**
+>>>> + * struct dpu_hw_cdm - cdm description
+>>>> + * @base: Hardware block base structure
+>>>> + * @hw: Block hardware details
+>>>> + * @idx: CDM index
+>>>> + * @caps: Pointer to cdm_cfg
+>>>> + * @ops: handle to operations possible for this CDM
+>>>> + */
+>>>> +struct dpu_hw_cdm {
+>>>> +       struct dpu_hw_blk base;
+>>>> +       struct dpu_hw_blk_reg_map hw;
+>>>> +
+>>>> +       /* chroma down */
+>>>> +       const struct dpu_cdm_cfg *caps;
+>>>> +       enum  dpu_cdm  idx;
+>>>> +
+>>>> +       /* ops */
+>>>> +       struct dpu_hw_cdm_ops ops;
+>>>> +};
+>>>> +
+>>>> +/**
+>>>> + * dpu_hw_cdm_init - initializes the cdm hw driver object.
+>>>> + * should be called once before accessing every cdm.
+>>>> + * @cdm: CDM catalog entry for which driver object is required
+>>>> + * @addr :   mapped register io address of MDSS
+>>>> + */
+>>>> +struct dpu_hw_cdm *dpu_hw_cdm_init(const struct dpu_cdm_cfg *cdm, void __iomem *addr);
+>>>> +
+>>>> +/**
+>>>> + * dpu_hw_cdm_destroy - destroys cdm driver context
+>>>> + * @cdm:   Pointer to cdm driver context returned by dpu_hw_cdm_init
+>>>> + */
+>>>> +void dpu_hw_cdm_destroy(struct dpu_hw_cdm *cdm);
+>>>> +
+>>>> +static inline struct dpu_hw_cdm *to_dpu_hw_cdm(struct dpu_hw_blk *hw)
+>>>> +{
+>>>> +       return container_of(hw, struct dpu_hw_cdm, base);
+>>>> +}
+>>>> +
+>>>> +#endif /*_DPU_HW_CDM_H */
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+>>>> index 4d6dba18caf0..34f943102499 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+>>>> @@ -463,6 +463,7 @@ struct dpu_mdss_color {
+>>>>    #define DPU_DBG_MASK_ROT      (1 << 9)
+>>>>    #define DPU_DBG_MASK_DSPP     (1 << 10)
+>>>>    #define DPU_DBG_MASK_DSC      (1 << 11)
+>>>> +#define DPU_DBG_MASK_CDM      (1 << 12)
+>>>>
+>>>>    /**
+>>>>     * struct dpu_hw_tear_check - Struct contains parameters to configure
+>>>> --
+>>>> 2.40.1
+>>>>
+>>>
+>>>
+>>> --
+>>> With best wishes
+>>> Dmitry
+> 
+> 
+> 
