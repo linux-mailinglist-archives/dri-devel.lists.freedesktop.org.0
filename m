@@ -2,76 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3039801339
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 19:58:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7A5801348
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 20:04:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 539B810E932;
-	Fri,  1 Dec 2023 18:58:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2585610E935;
+	Fri,  1 Dec 2023 19:04:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C38E710E92A;
- Fri,  1 Dec 2023 18:58:06 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49C3A10E933;
+ Fri,  1 Dec 2023 19:04:53 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3B1ERP1f020586; Fri, 1 Dec 2023 18:57:59 GMT
+ 3B1IsLca027322; Fri, 1 Dec 2023 19:04:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=VcGcbVsiER7IXylpt+p/XM7hf0uh8sfuZGh98NivbFM=;
- b=Hry9sVZ6at5xKA0RpYdUYM4XEcfDjupxM0lWYFATtB3KVoKMHhU/NR5tqqsz5Y3u9zK9
- wEiyEHYKn1X3pjXOR2ALJO9qf+9e1WfExub8IUp0931YLjt+kSc3C/JhcitQL7kGTTy7
- eH4b5R6quB1CMk9UaUnHceqzt4RT4pGsgoSean0ZgmYtkX6ARRmVSnlSsGh7NxOCVMoy
- M8EljW52fhk02HRQ0EzuBUJj2hIk3xbk0E8tcfUrYTJOwiGMAGx1KbGJDBWsgv8vwd0x
- SWb+yPuRoPYG/nonMc1YLgnYkzOcWxmjra9abCWA2sP05pGYBgkODvmyuybtzCXgUu/l uw== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uq3r2jm1d-1
+ bh=bM4H/4tp2hA+EgJKEvze+liFVv0JX1Z4fsysScltUzo=;
+ b=nzS2dpNs2yTQJ2CjGASt9igaMWp5br+KgwI5SCMmoxuvtdZF898nL/5e8skGufmxnAIh
+ t6gfDxHkWHn2qJ72VrE5oWE4dSgBNMr8HCEpWgaMya5DHw7LWvvf04ZKXXH6AEe8WO29
+ AwJLwRQazBdzXNdAGOLz8MSNsvNlKFCzTWvRjEsYKpXP9TvDn+ZVW5GJyIce70h+LD7T
+ 3c5VknmQLjJXT0H98Vap30u+f8OAwCiv1QjMrq82KASEXixB/TjVSkBDgTXJh+Bqv0fR
+ nyA5mxP8hPZ0UldKWr8861wy1BcN38o6VrLf6A6ygCgaPEI0B2xbEja8wrR3W6GNajwP lA== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uqfbds515-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 01 Dec 2023 18:57:58 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B1IvvL7021118
+ Fri, 01 Dec 2023 19:04:34 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B1J4YjW018483
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 1 Dec 2023 18:57:57 GMT
-Received: from [10.71.109.160] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ Fri, 1 Dec 2023 19:04:34 GMT
+Received: from [10.110.73.134] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 1 Dec
- 2023 10:57:57 -0800
-Message-ID: <d93125b2-f99b-4aad-8760-533f1e8bc7d9@quicinc.com>
-Date: Fri, 1 Dec 2023 10:57:56 -0800
+ 2023 11:04:33 -0800
+Message-ID: <12490147-d9f9-2695-7a0b-04961003de38@quicinc.com>
+Date: Fri, 1 Dec 2023 11:04:32 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/13] drm/msm/dpu: use devres-managed allocation for
- MDP TOP
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 11/16] drm/msm/dpu: add an API to setup the CDM block for
+ writeback
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20230730011920.354575-1-dmitry.baryshkov@linaro.org>
- <20230730011920.354575-6-dmitry.baryshkov@linaro.org>
- <4212982a-e5fc-c7f2-1b4f-96f2e1848a74@quicinc.com>
- <CAA8EJpqENCCohr+GpiqWA_DzgKUoXRWe=+B8v51mLDFWweYp3Q@mail.gmail.com>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <CAA8EJpqENCCohr+GpiqWA_DzgKUoXRWe=+B8v51mLDFWweYp3Q@mail.gmail.com>
+References: <20230830224910.8091-1-quic_abhinavk@quicinc.com>
+ <20230830224910.8091-12-quic_abhinavk@quicinc.com>
+ <CAA8EJppBskavOzn4_vUa=kvyYi2zn2XR70Ft-6ZyuOdGYWWL2A@mail.gmail.com>
+ <3085d544-b6d9-5064-2789-2bbccf4b6818@quicinc.com>
+ <CAA8EJpoP1T3SRT+7i+P7iuKEdCW5D76sEdLpVvBzHWvrqQCe3g@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJpoP1T3SRT+7i+P7iuKEdCW5D76sEdLpVvBzHWvrqQCe3g@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: __t2sdAC4OhwkpH6c-tlzqdTw5CYBBCy
-X-Proofpoint-ORIG-GUID: __t2sdAC4OhwkpH6c-tlzqdTw5CYBBCy
+X-Proofpoint-ORIG-GUID: dHmNJXxlJEro5QaFNyaZr1P83Vatek3r
+X-Proofpoint-GUID: dHmNJXxlJEro5QaFNyaZr1P83Vatek3r
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-12-01_17,2023-11-30_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1011
- malwarescore=0 lowpriorityscore=0 suspectscore=0 adultscore=0
- mlxlogscore=877 bulkscore=0 spamscore=0 priorityscore=1501 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ malwarescore=0 mlxscore=0
+ spamscore=0 adultscore=0 impostorscore=0 phishscore=0 lowpriorityscore=0
+ clxscore=1015 suspectscore=0 bulkscore=0 priorityscore=1501
+ mlxlogscore=950 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2311060000 definitions=main-2312010123
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,155 +87,279 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, quic_parellan@quicinc.com, quic_jesszhan@quicinc.com,
  Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 8/16/2023 12:27 AM, Dmitry Baryshkov wrote:
-> Hi Jessica,
+On 11/30/2023 11:20 PM, Dmitry Baryshkov wrote:
+> On Fri, 1 Dec 2023 at 02:41, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 8/30/2023 5:11 PM, Dmitry Baryshkov wrote:
+>>> On Thu, 31 Aug 2023 at 01:50, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>>>
+>>>> Add an API dpu_encoder_helper_phys_setup_cdm() which can be used by
+>>>> the writeback encoder to setup the CDM block.
+>>>>
+>>>> Currently, this is defined and used within the writeback's physical
+>>>> encoder layer however, the function can be modified to be used to setup
+>>>> the CDM block even for non-writeback interfaces.
+>>>>
+>>>> Until those modifications are planned and made, keep it local to
+>>>> writeback.
+>>>>
+>>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>>> ---
+>>>>    .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |   3 +
+>>>>    .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   | 123 +++++++++++++++++-
+>>>>    2 files changed, 125 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>>>> index 510c1c41ddbc..93a8ae67beff 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>>>> @@ -16,6 +16,7 @@
+>>>>    #include "dpu_hw_pingpong.h"
+>>>>    #include "dpu_hw_ctl.h"
+>>>>    #include "dpu_hw_top.h"
+>>>> +#include "dpu_hw_cdm.h"
+>>>>    #include "dpu_encoder.h"
+>>>>    #include "dpu_crtc.h"
+>>>>
+>>>> @@ -209,6 +210,7 @@ static inline int dpu_encoder_phys_inc_pending(struct dpu_encoder_phys *phys)
+>>>>     * @wbirq_refcount:     Reference count of writeback interrupt
+>>>>     * @wb_done_timeout_cnt: number of wb done irq timeout errors
+>>>>     * @wb_cfg:  writeback block config to store fb related details
+>>>> + * @cdm_cfg: cdm block config needed to store writeback block's CDM configuration
+>>>>     * @wb_conn: backpointer to writeback connector
+>>>>     * @wb_job: backpointer to current writeback job
+>>>>     * @dest:   dpu buffer layout for current writeback output buffer
+>>>> @@ -218,6 +220,7 @@ struct dpu_encoder_phys_wb {
+>>>>           atomic_t wbirq_refcount;
+>>>>           int wb_done_timeout_cnt;
+>>>>           struct dpu_hw_wb_cfg wb_cfg;
+>>>> +       struct dpu_hw_cdm_cfg cdm_cfg;
+>>>>           struct drm_writeback_connector *wb_conn;
+>>>>           struct drm_writeback_job *wb_job;
+>>>>           struct dpu_hw_fmt_layout dest;
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+>>>> index 4c2736c3ee6d..11935aac9fd5 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+>>>> @@ -24,6 +24,20 @@
+>>>>    #define to_dpu_encoder_phys_wb(x) \
+>>>>           container_of(x, struct dpu_encoder_phys_wb, base)
+>>>>
+>>>> +#define TO_S15D16(_x_)((_x_) << 7)
+>>>> +
+>>>> +static struct dpu_csc_cfg dpu_encoder_phys_wb_rgb2yuv_601l = {
+>>>> +       {
+>>>> +               TO_S15D16(0x0083), TO_S15D16(0x0102), TO_S15D16(0x0032),
+>>>> +               TO_S15D16(0x1fb5), TO_S15D16(0x1f6c), TO_S15D16(0x00e1),
+>>>> +               TO_S15D16(0x00e1), TO_S15D16(0x1f45), TO_S15D16(0x1fdc)
+>>>> +       },
+>>>> +       { 0x00, 0x00, 0x00 },
+>>>> +       { 0x0040, 0x0200, 0x0200 },
+>>>> +       { 0x000, 0x3ff, 0x000, 0x3ff, 0x000, 0x3ff },
+>>>> +       { 0x040, 0x3ac, 0x040, 0x3c0, 0x040, 0x3c0 },
+>>>> +};
+>>>
+>>> Nit: we probably need to have a single place with all dpu_csc_cfg entries.
+>>>
+>>
+>> hmmm ... so we have YUV2RGB matrices for dpu plane and RGB2YUV matrices
+>> for WB and DP.
+>>
+>> We can move all this to dpu_hw_util.c but lets do that in the DP series
+>> as that completes the consumer list of these matrices.
 > 
-> On Tue, 15 Aug 2023 at 23:17, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
->>
->>
->>
->> On 7/29/2023 6:19 PM, Dmitry Baryshkov wrote:
->>> Use devm_kzalloc to create MDP TOP structure. This allows us to remove
->>> corresponding kfree and drop dpu_hw_mdp_destroy() function.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c | 17 +++++++----------
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h |  8 +++++---
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c    |  5 ++---
->>>    3 files changed, 14 insertions(+), 16 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
->>> index cff48763ce25..481b373d9ccb 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
->>> @@ -2,6 +2,8 @@
->>>    /* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
->>>     */
->>>
->>> +#include <drm/drm_managed.h>
->>
->> Hi Dmitry,
->>
->> Is it possible to put this #include in a common header? Since it seems
->> that this is a common change for a lot of patches in this series.
+> Doing it earlier is usually better. Can we please do it as a part of
+> this series?
 > 
-> I personally do not like putting unused includes into common headers.
-> Each file should contain includes that are used by the particular file
-> only. Header should include only the files required to process
-> definitions in this header.
 
-Acked. In that case, the rest of this LGTM:
+Would be strange as RGB2YUV matrix is not used by anyone other than WB 
+till DP lands.
 
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+If you are fine with that anomaly, no concerns.
 
-Thanks,
-
-Jessica Zhang
-
-> 
 >>
->> Thanks,
+>>>> +
+>>>>    /**
+>>>>     * dpu_encoder_phys_wb_is_master - report wb always as master encoder
+>>>>     * @phys_enc:  Pointer to physical encoder
+>>>> @@ -225,6 +239,112 @@ static void dpu_encoder_phys_wb_setup_ctl(struct dpu_encoder_phys *phys_enc)
+>>>>           }
+>>>>    }
+>>>>
+>>>> +/**
+>>>> + * dpu_encoder_phys_wb_setup_cdp - setup chroma down sampling block
+>>>> + * @phys_enc:Pointer to physical encoder
+>>>> + */
+>>>> +static void dpu_encoder_helper_phys_setup_cdm(struct dpu_encoder_phys *phys_enc)
+>>>> +{
+>>>> +       struct dpu_hw_cdm *hw_cdm;
+>>>> +       struct dpu_hw_cdm_cfg *cdm_cfg;
+>>>> +       struct dpu_hw_pingpong *hw_pp;
+>>>> +       struct dpu_encoder_phys_wb *wb_enc;
+>>>> +       const struct msm_format *format;
+>>>> +       const struct dpu_format *dpu_fmt;
+>>>> +       struct drm_writeback_job *wb_job;
+>>>> +       int ret;
+>>>> +
+>>>> +       if (!phys_enc)
+>>>> +               return;
+>>>> +
+>>>> +       wb_enc = to_dpu_encoder_phys_wb(phys_enc);
+>>>> +       cdm_cfg = &wb_enc->cdm_cfg;
+>>>> +       hw_pp = phys_enc->hw_pp;
+>>>> +       hw_cdm = phys_enc->hw_cdm;
+>>>> +       wb_job = wb_enc->wb_job;
+>>>> +
+>>>> +       format = msm_framebuffer_format(wb_enc->wb_job->fb);
+>>>> +       dpu_fmt = dpu_get_dpu_format_ext(format->pixel_format, wb_job->fb->modifier);
+>>>> +
+>>>> +       if (!hw_cdm)
+>>>> +               return;
+>>>> +
+>>>> +       if (!DPU_FORMAT_IS_YUV(dpu_fmt)) {
+>>>> +               DPU_DEBUG("[enc:%d] cdm_disable fmt:%x\n", DRMID(phys_enc->parent),
+>>>> +                         dpu_fmt->base.pixel_format);
+>>>> +               if (hw_cdm->ops.disable)
+>>>> +                       hw_cdm->ops.disable(hw_cdm);
+>>>> +
+>>>> +               return;
+>>>> +       }
+>>>> +
+>>>> +       memset(cdm_cfg, 0, sizeof(struct dpu_hw_cdm_cfg));
+>>>> +
+>>>> +       cdm_cfg->output_width = wb_job->fb->width;
+>>>> +       cdm_cfg->output_height = wb_job->fb->height;
+>>>> +       cdm_cfg->output_fmt = dpu_fmt;
+>>>> +       cdm_cfg->output_type = CDM_CDWN_OUTPUT_WB;
+>>>> +       cdm_cfg->output_bit_depth = DPU_FORMAT_IS_DX(dpu_fmt) ?
+>>>> +                       CDM_CDWN_OUTPUT_10BIT : CDM_CDWN_OUTPUT_8BIT;
+>>>> +
+>>>> +       /* enable 10 bit logic */
+>>>> +       switch (cdm_cfg->output_fmt->chroma_sample) {
+>>>> +       case DPU_CHROMA_RGB:
+>>>> +               cdm_cfg->h_cdwn_type = CDM_CDWN_DISABLE;
+>>>> +               cdm_cfg->v_cdwn_type = CDM_CDWN_DISABLE;
+>>>> +               break;
+>>>> +       case DPU_CHROMA_H2V1:
+>>>> +               cdm_cfg->h_cdwn_type = CDM_CDWN_COSITE;
+>>>> +               cdm_cfg->v_cdwn_type = CDM_CDWN_DISABLE;
+>>>> +               break;
+>>>> +       case DPU_CHROMA_420:
+>>>> +               cdm_cfg->h_cdwn_type = CDM_CDWN_COSITE;
+>>>> +               cdm_cfg->v_cdwn_type = CDM_CDWN_OFFSITE;
+>>>> +               break;
+>>>> +       case DPU_CHROMA_H1V2:
+>>>> +       default:
+>>>> +               DPU_ERROR("[enc:%d] unsupported chroma sampling type\n",
+>>>> +                         DRMID(phys_enc->parent));
+>>>> +               cdm_cfg->h_cdwn_type = CDM_CDWN_DISABLE;
+>>>> +               cdm_cfg->v_cdwn_type = CDM_CDWN_DISABLE;
+>>>> +               break;
+>>>> +       }
+>>>> +
+>>>> +       DPU_DEBUG("[enc:%d] cdm_enable:%d,%d,%X,%d,%d,%d,%d]\n",
+>>>> +                 DRMID(phys_enc->parent), cdm_cfg->output_width,
+>>>> +                 cdm_cfg->output_height, cdm_cfg->output_fmt->base.pixel_format,
+>>>> +                 cdm_cfg->output_type, cdm_cfg->output_bit_depth,
+>>>> +                 cdm_cfg->h_cdwn_type, cdm_cfg->v_cdwn_type);
+>>>> +
+>>>> +       if (hw_cdm && hw_cdm->ops.setup_csc_data) {
+>>>> +               ret = hw_cdm->ops.setup_csc_data(hw_cdm, &dpu_encoder_phys_wb_rgb2yuv_601l);
+>>>> +               if (ret < 0) {
+>>>> +                       DPU_ERROR("[enc:%d] failed to setup CSC; ret:%d\n",
+>>>> +                                 DRMID(phys_enc->parent), ret);
+>>>> +                       return;
+>>>> +               }
+>>>> +       }
+>>>> +
+>>>> +       if (hw_cdm && hw_cdm->ops.setup_cdwn) {
+>>>
+>>> You have checked for (!hw_cdm) several lines above. We can drop this
+>>> condition here.
+>>>
 >>
->> Jessica Zhang
+>> Ack.
 >>
->>> +
->>>    #include "dpu_hwio.h"
->>>    #include "dpu_hw_catalog.h"
->>>    #include "dpu_hw_top.h"
->>> @@ -268,16 +270,17 @@ static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
->>>                ops->intf_audio_select = dpu_hw_intf_audio_select;
->>>    }
+>>>> +               ret = hw_cdm->ops.setup_cdwn(hw_cdm, cdm_cfg);
+>>>> +               if (ret < 0) {
+>>>> +                       DPU_ERROR("[enc:%d] failed to setup CDWN; ret:%d\n",
+>>>> +                                 DRMID(phys_enc->parent), ret);
+>>>> +                       return;
+>>>> +               }
+>>>> +       }
+>>>> +
+>>>> +       if (hw_cdm && hw_pp && hw_cdm->ops.enable) {
 >>>
->>> -struct dpu_hw_mdp *dpu_hw_mdptop_init(const struct dpu_mdp_cfg *cfg,
->>> -             void __iomem *addr,
->>> -             const struct dpu_mdss_cfg *m)
->>> +struct dpu_hw_mdp *dpu_hw_mdptop_init(struct drm_device *dev,
->>> +                                   const struct dpu_mdp_cfg *cfg,
->>> +                                   void __iomem *addr,
->>> +                                   const struct dpu_mdss_cfg *m)
->>>    {
->>>        struct dpu_hw_mdp *mdp;
+>>> And what if !hw_pp ? Can it happen here? No, if I understand correctly.
 >>>
->>>        if (!addr)
->>>                return ERR_PTR(-EINVAL);
+>>
+>> I dont see any other protection for !hw_pp in this flow so would prefer
+>> to keep it.
+> 
+> But can we end up in this function if we have no hw_pp at all?
+> 
+
+Just from code flow yes,
+
+dpu_encoder_prepare_for_kickoff ---> phys->ops.prepare_for_kickoff ---> 
+this function
+
+None of them have !hw_pp.
+
+But, if hw_pp failed allocation, then atomic_check will fail so the 
+commit will not happen.
+
+I was thinking of the former, if we are fine with the latter we can drop.
+
+>>
+>>>> +               cdm_cfg->pp_id = hw_pp->idx;
+>>>> +               ret = hw_cdm->ops.enable(hw_cdm, cdm_cfg);
 >>>
->>> -     mdp = kzalloc(sizeof(*mdp), GFP_KERNEL);
->>> +     mdp = drmm_kzalloc(dev, sizeof(*mdp), GFP_KERNEL);
->>>        if (!mdp)
->>>                return ERR_PTR(-ENOMEM);
+>>> As we are calling these three ops in a row, can we merge them together
+>>> into a single callback to be called from dpu_encoder.c?
 >>>
->>> @@ -292,9 +295,3 @@ struct dpu_hw_mdp *dpu_hw_mdptop_init(const struct dpu_mdp_cfg *cfg,
+>>
+>> Good idea. I can add a csc_cfg entry to cdm_cfg and merge all three into
+>> the enable() op itself and drop the other two.
+>>
+>>>> +               if (ret < 0) {
+>>>> +                       DPU_ERROR("[enc:%d] failed to enable CDM; ret:%d\n",
+>>>> +                                 DRMID(phys_enc->parent), ret);
+>>>> +                       return;
+>>>> +               }
+>>>> +       }
+>>>> +}
+>>>> +
+>>>>    /**
+>>>>     * dpu_encoder_phys_wb_atomic_check - verify and fixup given atomic states
+>>>>     * @phys_enc:  Pointer to physical encoder
+>>>> @@ -348,8 +468,9 @@ static void dpu_encoder_phys_wb_setup(
+>>>>
+>>>>           dpu_encoder_phys_wb_setup_fb(phys_enc, fb);
+>>>>
+>>>> -       dpu_encoder_phys_wb_setup_ctl(phys_enc);
+>>>> +       dpu_encoder_helper_phys_setup_cdm(phys_enc);
+>>>>
+>>>> +       dpu_encoder_phys_wb_setup_ctl(phys_enc);
+>>>>    }
+>>>>
+>>>>    static void _dpu_encoder_phys_wb_frame_done_helper(void *arg)
+>>>> --
+>>>> 2.40.1
+>>>>
 >>>
->>>        return mdp;
->>>    }
->>> -
->>> -void dpu_hw_mdp_destroy(struct dpu_hw_mdp *mdp)
->>> -{
->>> -     kfree(mdp);
->>> -}
->>> -
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
->>> index 8b1463d2b2f0..6f3dc98087df 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
->>> @@ -145,13 +145,15 @@ struct dpu_hw_mdp {
->>>
->>>    /**
->>>     * dpu_hw_mdptop_init - initializes the top driver for the passed config
->>> + * @dev:  Corresponding device for devres management
->>>     * @cfg:  MDP TOP configuration from catalog
->>>     * @addr: Mapped register io address of MDP
->>>     * @m:    Pointer to mdss catalog data
->>>     */
->>> -struct dpu_hw_mdp *dpu_hw_mdptop_init(const struct dpu_mdp_cfg *cfg,
->>> -             void __iomem *addr,
->>> -             const struct dpu_mdss_cfg *m);
->>> +struct dpu_hw_mdp *dpu_hw_mdptop_init(struct drm_device *dev,
->>> +                                   const struct dpu_mdp_cfg *cfg,
->>> +                                   void __iomem *addr,
->>> +                                   const struct dpu_mdss_cfg *m);
->>>
->>>    void dpu_hw_mdp_destroy(struct dpu_hw_mdp *mdp);
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>> index 6e0643ea4868..d4f4cb402663 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>> @@ -820,8 +820,6 @@ static void _dpu_kms_hw_destroy(struct dpu_kms *dpu_kms)
->>>
->>>        dpu_kms->catalog = NULL;
->>>
->>> -     if (dpu_kms->hw_mdp)
->>> -             dpu_hw_mdp_destroy(dpu_kms->hw_mdp);
->>>        dpu_kms->hw_mdp = NULL;
->>>    }
->>>
->>> @@ -1091,7 +1089,8 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->>>
->>>        dpu_kms->rm_init = true;
->>>
->>> -     dpu_kms->hw_mdp = dpu_hw_mdptop_init(dpu_kms->catalog->mdp,
->>> +     dpu_kms->hw_mdp = dpu_hw_mdptop_init(dev,
->>> +                                          dpu_kms->catalog->mdp,
->>>                                             dpu_kms->mmio,
->>>                                             dpu_kms->catalog);
->>>        if (IS_ERR(dpu_kms->hw_mdp)) {
->>> --
->>> 2.39.2
 >>>
 > 
 > 
 > 
-> -- 
-> With best wishes
-> Dmitry
