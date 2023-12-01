@@ -2,58 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 992A1800414
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 07:42:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B48C80053E
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 09:15:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5071410E7EA;
-	Fri,  1 Dec 2023 06:41:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B60A210E087;
+	Fri,  1 Dec 2023 08:15:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9E5510E7EA
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 06:41:52 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id
- a640c23a62f3a-a186e5d1056so219914166b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 22:41:52 -0800 (PST)
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com
+ [IPv6:2607:f8b0:4864:20::f30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F335610E7AB
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 03:19:43 +0000 (UTC)
+Received: by mail-qv1-xf30.google.com with SMTP id
+ 6a1803df08f44-67a8a745c43so8757846d6.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Nov 2023 19:19:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701412911; x=1702017711; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=BGiULZCMsXRK1ppC1GgvB6IlEzYsQ+E/lUmA1jkmn7Q=;
- b=a0OXfUl6ggZZZxsr/BeztSEA7AkTvxd+SK+gtrE2ZLZSHWatQpeGG1KuTMJNHfr/cl
- s2+MxVOwmKdZKRRWfLyg5jCdb/Ii+/Dqx512OQS83nCNKJx+tQqcyxxSaOpLRfovfz2b
- Zj/A7rEFGBaOLCRilhhiX5I7wEALvSYtgjAcm06tEMDLudqfsgnQ0GaKs7jroafRx55D
- Qsa5VvkOkanfdtts28dt4JgiaZaZehdxONyi61xBJVWE6F+eGBJahIdrxGioRXPiQALK
- ghYWCGz/maRxzBIP9gZLmvhM37O7F/aimayl+LCu88L7MsdAp4nIs7hFAIheuN0NjFLR
- vq2Q==
+ d=gmail.com; s=20230601; t=1701400783; x=1702005583; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:reply-to
+ :content-language:subject:references:cc:to:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=w1yLxxT5KsdGuu3GRJZZLxdc6kDna2jefgX1rczCN6k=;
+ b=OAfncZx/SmYAAj+pzeXjBSePi3V0OhUVJEjvnjg26J76KBbxBIHF3MlY7MGswXj/qJ
+ XurSr6tqMnAbxDfxXJje1HjNtn/9plJH3NKmAsQbiKJG2hPaeFvonrSakDbf185x95hv
+ brK7XCBQSmUjeKObxnjngpk5K4xQH7FHAC/xkJ/MTwOstvYUF5z8HQPCtGJAdRjrj+ag
+ 4t1eEViWoFoJu7FN88rGOnXXAaRyLc4o1YqG40cxA6Z/q+FgsnmCnb42MTphdfPSVbXY
+ Unc1R0D6qWj0BaDRLpUq7iwZAF1rsVbuYEsGddwqiZ2h7Dh1oyHUGAipg0X2bMOJKWar
+ mCrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701412911; x=1702017711;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BGiULZCMsXRK1ppC1GgvB6IlEzYsQ+E/lUmA1jkmn7Q=;
- b=BUOPF2DbjeUhDGpiFnNWeIO9CgeXU+6MlgCPRZGaPwKxmabrXwqOfCphGLx5tU9lr8
- 0JpYYsltNXdCx0cQ5Zq/O+eBnbSKjE2aFnAYHKFi579yUBjKgGsthzKrUSnoKoTwMtc9
- u3MxaEVam//x1GILRcqZgvThtL+9o5pgVjkJH5Muk711W4B8nY0hTCeLpYV5BPhC98+L
- T3AJVr6vM6VM6DnjUtt99SQir/QpAcaTwgzvCX+D+5uAH1Jn1IJnFJNMOqa7prErB4nk
- tInYYxzzq1U2DDWZ+38Gs6pZ2XjRNc7K5aGynbZrt7M1B95iiLsQdn6Zu1NsWPRQFXXU
- A2ig==
-X-Gm-Message-State: AOJu0Yx0CyHDJQo4XucevJBVpnIPRnU420viFOv/YXe+qSC+vHYaiwBD
- ncE5ujGTvdYEm3yTsYTeUZkdYSjTHcXbKGy3FXU=
-X-Google-Smtp-Source: AGHT+IHu38PXHtB2ywF8EXnvktRiaqAlUdYWzYlkXFgMSOQBy7zEfYvl6xPXeGy2Jwsxobea9U+NnNpVnVBKUZb0Yu8=
-X-Received: by 2002:a17:906:dcb:b0:a18:3eb2:3502 with SMTP id
- p11-20020a1709060dcb00b00a183eb23502mr476499eji.62.1701412910865; Thu, 30 Nov
- 2023 22:41:50 -0800 (PST)
+ d=1e100.net; s=20230601; t=1701400783; x=1702005583;
+ h=content-transfer-encoding:in-reply-to:from:reply-to
+ :content-language:subject:references:cc:to:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=w1yLxxT5KsdGuu3GRJZZLxdc6kDna2jefgX1rczCN6k=;
+ b=G0E9rYGB/RfOrRfmtwuJFW0/xpV9pOwh6O+BjoGSHDLjtVvQZnqSs8ldnLYUdNAuZX
+ vjrvepiXFIvv+9GkqUCscfBIzUwGXAqsQtT7GO+GIXFOLSnLUBlolznj0k2t8UhpIHzW
+ eGrchJaDEXtmXF+sBSc2pSpvlzErEf8HXoRRd5O1JQQ7UM6/V/HhUG7tLOppK6S6GgWE
+ gBm7gxIGXcnyohVf3eo1Kkmy8H5H92zVk941SpoW6p7ndF7mEJsP8Rjh0leVR8GE6qnQ
+ Le/RxQZqne0KUOwCiGW9jnLms+5WLcRQEEg2rx2irFFJXWCWNiSPHikyh+rOLyjKkQEM
+ IU4A==
+X-Gm-Message-State: AOJu0Yw73w/aGYQcrs9vgxDZWFjNUUpPLOHE4vo8vurNRzOTCzvYofUC
+ QvohUft90ZlwlrtgTOGmhCg=
+X-Google-Smtp-Source: AGHT+IHOiqqxjUtKvmkmSLEgSgHdXq9FR9qvjq3PYWE8VyCQxJoW5+tku2zDkZ0kzRxFNhwAyV155g==
+X-Received: by 2002:a0c:ecc4:0:b0:67a:9826:8ef6 with SMTP id
+ o4-20020a0cecc4000000b0067a98268ef6mr1009241qvq.16.1701400782754; 
+ Thu, 30 Nov 2023 19:19:42 -0800 (PST)
+Received: from [192.168.50.160] (174-080-102-187.res.spectrum.com.
+ [174.80.102.187]) by smtp.gmail.com with ESMTPSA id
+ n17-20020a0cdc91000000b0067a4a0a7e6fsm1061714qvk.108.2023.11.30.19.19.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Nov 2023 19:19:42 -0800 (PST)
+Message-ID: <f8ae78a0-f329-457a-8a53-b1725f9e2e20@gmail.com>
+Date: Thu, 30 Nov 2023 21:19:40 -0600
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 1 Dec 2023 16:41:39 +1000
-Message-ID: <CAPM=9txF5xvm3uRK0jiW-Zzg+wA7q0+ee-nx2NexJC1LM_6g4Q@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.7-rc4
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+To: macroalpha82@gmail.com
+References: <20231130155624.405575-7-macroalpha82@gmail.com>
+Subject: Re: [PATCH 6/9] drm/panel: himax-hx8394: Add Support for Powkiddy X55
+ panel
+Content-Language: en-US
+From: Kendrick Curry <notime2d8@gmail.com>
+In-Reply-To: <20231130155624.405575-7-macroalpha82@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Fri, 01 Dec 2023 08:15:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,355 +78,234 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Reply-To: 20231130155624.405575-7-macroalpha82@gmail.com
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, macromorgan@hotmail.com,
+ krzysztof.kozlowski+dt@linaro.org, neil.armstrong@linaro.org, sboyd@kernel.org,
+ sam@ravnborg.org, mturquette@baylibre.com, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, mripard@kernel.org, quic_jesszhan@quicinc.com,
+ linux-clk@vger.kernel.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
-
-Weekly fixes, mostly amdgpu fixes with a scattering of nouveau, i915,
-and a couple of reverts. Hopefully it will quieten down in coming
-weeks.
-
-Regards,
-Dave.
-
-drm-fixes-2023-12-01:
-drm fixes for 6.7-rc4
-
-drm:
-- Revert unexport of prime helpers for fd/handle conversion
-
-dma_resv:
-- Do not double add fences in dma_resv_add_fence.
-
-gpuvm:
-- Fix GPUVM license identifier.
-
-i915:
-- Mark internal GSC engine with reserved uabi class
-- Take VGA converters into account in eDP probe
-- Fix intel_pre_plane_updates() call to ensure workarounds get applied
-
-panel:
-- Revert panel fixes as they require exporting device_is_dependent.
-
-nouveau:
-- fix oversized allocations in new vm path
-- fix zero-length array
-- remove a stray lock
-
-nt36523:
-- Fix error check for nt36523.
-
-amdgpu:
-- DMUB fix
-- DCN 3.5 fixes
-- XGMI fix
-- DCN 3.2 fixes
-- Vangogh suspend fix
-- NBIO 7.9 fix
-- GFX11 golden register fix
-- Backlight fix
-- NBIO 7.11 fix
-- IB test overflow fix
-- DCN 3.1.4 fixes
-- fix a runtime pm ref count
-- Retimer fix
-- ABM fix
-- DCN 3.1.5 fix
-- Fix AGP addressing
-- Fix possible memory leak in SMU error path
-- Make sure PME is enabled in D3
-- Fix possible NULL pointer dereference in debugfs
-- EEPROM fix
-- GC 9.4.3 fix
-
-amdkfd:
-- IP version check fix
-- Fix memory leak in pqm_uninit()
-The following changes since commit 2cc14f52aeb78ce3f29677c2de1f06c0e91471ab=
-:
-
-  Linux 6.7-rc3 (2023-11-26 19:59:33 -0800)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-12-01
-
-for you to fetch changes up to 908f60642441cb4f9f0e1eb576e63b0011d318b9:
-
-  Merge tag 'amd-drm-fixes-6.7-2023-11-30' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2023-12-01
-13:57:11 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.7-rc4
-
-drm:
-- Revert unexport of prime helpers for fd/handle conversion
-
-dma_resv:
-- Do not double add fences in dma_resv_add_fence.
-
-gpuvm:
-- Fix GPUVM license identifier.
-
-i915:
-- Mark internal GSC engine with reserved uabi class
-- Take VGA converters into account in eDP probe
-- Fix intel_pre_plane_updates() call to ensure workarounds get applied
-
-panel:
-- Revert panel fixes as they require exporting device_is_dependent.
-
-nouveau:
-- fix oversized allocations in new vm path
-- fix zero-length array
-- remove a stray lock
-
-nt36523:
-- Fix error check for nt36523.
-
-amdgpu:
-- DMUB fix
-- DCN 3.5 fixes
-- XGMI fix
-- DCN 3.2 fixes
-- Vangogh suspend fix
-- NBIO 7.9 fix
-- GFX11 golden register fix
-- Backlight fix
-- NBIO 7.11 fix
-- IB test overflow fix
-- DCN 3.1.4 fixes
-- fix a runtime pm ref count
-- Retimer fix
-- ABM fix
-- DCN 3.1.5 fix
-- Fix AGP addressing
-- Fix possible memory leak in SMU error path
-- Make sure PME is enabled in D3
-- Fix possible NULL pointer dereference in debugfs
-- EEPROM fix
-- GC 9.4.3 fix
-
-amdkfd:
-- IP version check fix
-- Fix memory leak in pqm_uninit()
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amdgpu: fix AGP addressing when GART is not at 0
-
-Alex Sierra (1):
-      drm/amdgpu: Force order between a read and write to the same address
-
-Alvin Lee (3):
-      drm/amd/display: Include udelay when waiting for INBOX0 ACK
-      drm/amd/display: Use DRAM speed from validation for dummy p-state
-      drm/amd/display: Increase num voltage states to 40
-
-Camille Cho (1):
-      drm/amd/display: Simplify brightness initialization
-
-Candice Li (1):
-      drm/amdgpu: Update EEPROM I2C address for smu v13_0_0
-
-Christian K=C3=B6nig (1):
-      dma-buf: fix check in dma_resv_add_fence
-
-Dan Carpenter (1):
-      nouveau/gsp/r535: remove a stray unlock in r535_gsp_rpc_send()
-
-Dave Airlie (4):
-      nouveau: find the smallest page allocation to cover a buffer alloc.
-      Merge tag 'drm-intel-fixes-2023-11-30' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'drm-misc-fixes-2023-11-29' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-      Merge tag 'amd-drm-fixes-6.7-2023-11-30' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-
-Dinghao Liu (1):
-      drm/amd/pm: fix a memleak in aldebaran_tables_init
-
-Dmytro Laktyushkin (1):
-      drm/amd/display: update dcn315 lpddr pstate latency
-
-Felix Kuehling (1):
-      Revert "drm/prime: Unexport helpers for fd/handle conversion"
-
-Gustavo A. R. Silva (1):
-      nouveau/gsp: replace zero-length array with flex-array member
-and use __counted_by
-
-Hamza Mahfooz (1):
-      drm/amd/display: fix ABM disablement
-
-Hawking Zhang (1):
-      drm/amdgpu: Do not issue gpu reset from nbio v7_9 bif interrupt
-
-Ilya Bakoulin (1):
-      drm/amd/display: Fix MPCC 1DLUT programming
-
-Jonathan Kim (1):
-      drm/amdgpu: update xgmi num links info post gc9.4.2
-
-Li Ma (1):
-      drm/amdgpu: add init_registers for nbio v7.11
-
-Lijo Lazar (1):
-      drm/amdgpu: Use another offset for GC 9.4.3 remap
-
-Linus Walleij (3):
-      Revert "drm/bridge: panel: Check device dependency before
-managing device link"
-      Revert "driver core: Export device_is_dependent() to modules"
-      Revert "drm/bridge: panel: Add a device link between drm device
-and panel device"
-
-Liu Ying (2):
-      drm/bridge: panel: Check device dependency before managing device lin=
-k
-      driver core: Export device_is_dependent() to modules
-
-Lu Yao (1):
-      drm/amdgpu: Fix cat debugfs amdgpu_regs_didt causes kernel null point=
-er
-
-Mario Limonciello (1):
-      drm/amd: Enable PCIe PME from D3
-
-Michael Strauss (1):
-      drm/amd/display: Do not read DPREFCLK spread info from LUT on DCN35
-
-Mukul Joshi (1):
-      drm/amdkfd: Use common function for IP version check
-
-Nicholas Kazlauskas (8):
-      drm/amd/display: Add z-state support policy for dcn35
-      drm/amd/display: Update DCN35 watermarks
-      drm/amd/display: Add Z8 watermarks for DML2 bbox overrides
-      drm/amd/display: Feed SR and Z8 watermarks into DML2 for DCN35
-      drm/amd/display: Remove min_dst_y_next_start check for Z8
-      drm/amd/display: Update min Z8 residency time to 2100 for DCN314
-      drm/amd/display: Update DCN35 clock table policy
-      drm/amd/display: Allow DTBCLK disable for DCN35
-
-Perry Yuan (1):
-      drm/amdgpu: optimize RLC powerdown notification on Vangogh
-
-Prike Liang (1):
-      drm/amdgpu: correct the amdgpu runtime dereference usage count
-
-Sung Joon Kim (1):
-      drm/amd/display: Fix black screen on video playback with embedded pan=
-el
-
-Taimur Hassan (3):
-      drm/amd/display: Remove config update
-      drm/amd/display: Fix conversions between bytes and KB
-      drm/amd/display: Fix some HostVM parameters in DML
-
-Thomas Hellstr=C3=B6m (1):
-      drm/gpuvm: Fix deprecated license identifier
-
-Tim Huang (1):
-      drm/amdgpu: fix memory overflow in the IB test
-
-Tvrtko Ursulin (1):
-      drm/i915/gsc: Mark internal GSC engine with reserved uabi class
-
-Ville Syrj=C3=A4l=C3=A4 (2):
-      drm/i915: Also check for VGA converter in eDP probe
-      drm/i915: Call intel_pre_plane_updates() also for pipes getting enabl=
-ed
-
-Wenjing Liu (1):
-      drm/amd/display: fix a pipe mapping error in dcn32_fpu
-
-Yang Yingliang (1):
-      drm/panel: nt36523: fix return value check in nt36523_probe()
-
-ZhenGuo Yin (1):
-      drm/amdkfd: Free gang_ctx_bo and wptr_bo in pqm_uninit
-
-Zhongwei (1):
-      drm/amd/display: force toggle rate wa for first link training
-for a retimer
-
-xiazhengqiao (1):
-      drm/panel: starry-2081101qfh032011-53g: Fine tune the panel power seq=
-uence
-
- drivers/dma-buf/dma-resv.c                         |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c        |   6 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |   4 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |   9 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |   3 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |  10 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c     |   6 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |   4 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |  10 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c              |   4 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |   4 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c            |   4 +-
- drivers/gpu/drm/amd/amdgpu/nbio_v7_11.c            |  18 +--
- drivers/gpu/drm/amd/amdgpu/nbio_v7_9.c             |   5 -
- drivers/gpu/drm/amd/amdgpu/soc15.c                 |   5 +
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h              |   2 +-
- .../gpu/drm/amd/amdkfd/kfd_process_queue_manager.c |  54 ++++---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   8 +-
- .../amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c |   8 +-
- .../amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c   | 159 ++++++++++-------=
-----
- drivers/gpu/drm/amd/display/dc/dc.h                |   2 +-
- drivers/gpu/drm/amd/display/dc/dc_types.h          |   4 -
- .../drm/amd/display/dc/dcn314/dcn314_resource.c    |   2 +-
- .../gpu/drm/amd/display/dc/dcn35/dcn35_pg_cntl.c   |  10 ++
- .../gpu/drm/amd/display/dc/dcn35/dcn35_resource.c  |   9 +-
- drivers/gpu/drm/amd/display/dc/dml/dc_features.h   |   2 +-
- .../gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c   |  15 +-
- .../gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c   |  23 +--
- .../gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.c   |  84 ++++++++++-
- .../gpu/drm/amd/display/dc/dml/dcn35/dcn35_fpu.h   |   2 +
- .../drm/amd/display/dc/dml2/display_mode_core.c    |  16 +--
- .../amd/display/dc/dml2/dml2_translation_helper.c  |  60 +++++---
- drivers/gpu/drm/amd/display/dc/dml2/dml2_wrapper.h |   2 +
- .../drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c    |   6 +-
- .../gpu/drm/amd/display/dc/link/link_detection.c   |   2 +-
- drivers/gpu/drm/amd/display/dc/link/link_dpms.c    |   3 +-
- .../link_dp_training_fixed_vs_pe_retimer.c         |   6 +-
- .../dc/link/protocols/link_edp_panel_control.c     |  16 +--
- .../dc/link/protocols/link_edp_panel_control.h     |   1 -
- drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c    |   1 +
- .../drm/amd/include/asic_reg/gc/gc_11_0_0_offset.h |   2 +
- .../amd/include/asic_reg/nbio/nbio_7_11_0_offset.h |   2 +
- .../include/asic_reg/nbio/nbio_7_11_0_sh_mask.h    |  29 ++++
- drivers/gpu/drm/amd/include/kgd_pp_interface.h     |   1 +
- drivers/gpu/drm/amd/pm/amdgpu_dpm.c                |  18 +++
- drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h            |   2 +
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |  10 ++
- drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h      |   5 +
- drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   |   5 +-
- drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c |   5 +-
- drivers/gpu/drm/amd/pm/swsmu/smu_internal.h        |   1 +
- drivers/gpu/drm/bridge/panel.c                     |  17 ---
- drivers/gpu/drm/drm_gpuvm.c                        |   2 +-
- drivers/gpu/drm/drm_prime.c                        |  33 +++--
- drivers/gpu/drm/i915/display/intel_display.c       |   3 +-
- drivers/gpu/drm/i915/display/intel_dp.c            |  28 +++-
- drivers/gpu/drm/i915/gt/intel_engine_user.c        |  39 ++---
- .../nvrm/535.113.01/nvidia/generated/g_os_nvoc.h   |   2 +-
- drivers/gpu/drm/nouveau/nouveau_bo.c               |   5 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c     |   6 +-
- drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c     |   1 +
- drivers/gpu/drm/panel/panel-novatek-nt36523.c      |   4 +-
- include/drm/drm_gpuvm.h                            |   2 +-
- include/drm/drm_prime.h                            |   7 +
- include/linux/dma-fence.h                          |  15 ++
- 67 files changed, 537 insertions(+), 302 deletions(-)
+On Thu, Nov 30, 2023 at 09:56:21AM -0600, Chris Morgan wrote:
+ > From: Chris Morgan <macromorgan@hotmail.com>
+ >
+ > Add support for the Powkiddy X55 panel as used on the Powkiddy X55
+ > handheld gaming console. This panel uses a Himax HX8394 display
+ > controller and requires a vendor provided init sequence. The display
+ > resolution is 720x1280 and is 67mm by 121mm as measured with calipers.
+ >
+ > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+ > ---
+ >  drivers/gpu/drm/panel/panel-himax-hx8394.c | 137 +++++++++++++++++++++
+ >  1 file changed, 137 insertions(+)
+ >
+ > diff --git a/drivers/gpu/drm/panel/panel-himax-hx8394.c 
+b/drivers/gpu/drm/panel/panel-himax-hx8394.c
+ > index b68ea09f4725..4807ab1c10fe 100644
+ > --- a/drivers/gpu/drm/panel/panel-himax-hx8394.c
+ > +++ b/drivers/gpu/drm/panel/panel-himax-hx8394.c
+ > @@ -38,6 +38,7 @@
+ >  #define HX8394_CMD_SETMIPI      0xba
+ >  #define HX8394_CMD_SETOTP      0xbb
+ >  #define HX8394_CMD_SETREGBANK      0xbd
+ > +#define HX8394_CMD_UNKNOWN5      0xbf
+ >  #define HX8394_CMD_UNKNOWN1      0xc0
+ >  #define HX8394_CMD_SETDGCLUT      0xc1
+ >  #define HX8394_CMD_SETID      0xc3
+ > @@ -52,6 +53,7 @@
+ >  #define HX8394_CMD_SETGIP1      0xd5
+ >  #define HX8394_CMD_SETGIP2      0xd6
+ >  #define HX8394_CMD_SETGPO      0xd6
+ > +#define HX8394_CMD_UNKNOWN4      0xd8
+ >  #define HX8394_CMD_SETSCALING      0xdd
+ >  #define HX8394_CMD_SETIDLE      0xdf
+ >  #define HX8394_CMD_SETGAMMA      0xe0
+ > @@ -203,6 +205,140 @@ static const struct hx8394_panel_desc 
+hsd060bhw4_desc = {
+ >      .init_sequence = hsd060bhw4_init_sequence,
+ >  };
+ >
+ > +static int powkiddy_x55_init_sequence(struct hx8394 *ctx)
+ > +{
+ > +    struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+ > +
+ > +    /* 5.19.8 SETEXTC: Set extension command (B9h) */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETEXTC,
+ > +                   0xff, 0x83, 0x94);
+ > +
+ > +    /* 5.19.9 SETMIPI: Set MIPI control (BAh) */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETMIPI,
+ > +                   0x63, 0x03, 0x68, 0x6b, 0xb2, 0xc0);
+ > +
+ > +    /* 5.19.2 SETPOWER: Set power (B1h) */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPOWER,
+ > +                   0x48, 0x12, 0x72, 0x09, 0x32, 0x54, 0x71, 0x71, 
+0x57, 0x47);
+ > +
+ > +    /* 5.19.3 SETDISP: Set display related register (B2h) */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETDISP,
+ > +                   0x00, 0x80, 0x64, 0x0c, 0x0d, 0x2f);
+ > +
+ > +    /* 5.19.4 SETCYC: Set display waveform cycles (B4h) */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETCYC,
+ > +                   0x73, 0x74, 0x73, 0x74, 0x73, 0x74, 0x01, 0x0c, 
+0x86, 0x75,
+ > +                   0x00, 0x3f, 0x73, 0x74, 0x73, 0x74, 0x73, 0x74, 
+0x01, 0x0c,
+ > +                   0x86);
+ > +
+ > +    /* 5.19.5 SETVCOM: Set VCOM voltage (B6h) */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETVCOM,
+ > +                   0x6e, 0x6e);
+ > +
+ > +    /* 5.19.19 SETGIP0: Set GIP Option0 (D3h) */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP0,
+ > +                   0x00, 0x00, 0x07, 0x07, 0x40, 0x07, 0x0c, 0x00, 
+0x08, 0x10,
+ > +                   0x08, 0x00, 0x08, 0x54, 0x15, 0x0a, 0x05, 0x0a, 
+0x02, 0x15,
+ > +                   0x06, 0x05, 0x06, 0x47, 0x44, 0x0a, 0x0a, 0x4b, 
+0x10, 0x07,
+ > +                   0x07, 0x0c, 0x40);
+ > +
+ > +    /* 5.19.20 Set GIP Option1 (D5h) */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP1,
+ > +                   0x1c, 0x1c, 0x1d, 0x1d, 0x00, 0x01, 0x02, 0x03, 
+0x04, 0x05,
+ > +                   0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x24, 0x25, 
+0x18, 0x18,
+ > +                   0x26, 0x27, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 
+0x18, 0x18,
+ > +                   0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 
+0x20, 0x21,
+ > +                   0x18, 0x18, 0x18, 0x18);
+ > +
+ > +    /* 5.19.21 Set GIP Option2 (D6h) */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGIP2,
+ > +                   0x1c, 0x1c, 0x1d, 0x1d, 0x07, 0x06, 0x05, 0x04, 
+0x03, 0x02,
+ > +                   0x01, 0x00, 0x0b, 0x0a, 0x09, 0x08, 0x21, 0x20, 
+0x18, 0x18,
+ > +                   0x27, 0x26, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 
+0x18, 0x18,
+ > +                   0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 
+0x25, 0x24,
+ > +                   0x18, 0x18, 0x18, 0x18);
+ > +
+ > +    /* 5.19.25 SETGAMMA: Set gamma curve related setting (E0h) */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETGAMMA,
+ > +                   0x00, 0x0a, 0x15, 0x1b, 0x1e, 0x21, 0x24, 0x22, 
+0x47, 0x56,
+ > +                   0x65, 0x66, 0x6e, 0x82, 0x88, 0x8b, 0x9a, 0x9d, 
+0x98, 0xa8,
+ > +                   0xb9, 0x5d, 0x5c, 0x61, 0x66, 0x6a, 0x6f, 0x7f, 
+0x7f, 0x00,
+ > +                   0x0a, 0x15, 0x1b, 0x1e, 0x21, 0x24, 0x22, 0x47, 
+0x56, 0x65,
+ > +                   0x65, 0x6e, 0x81, 0x87, 0x8b, 0x98, 0x9d, 0x99, 
+0xa8, 0xba,
+ > +                   0x5d, 0x5d, 0x62, 0x67, 0x6b, 0x72, 0x7f, 0x7f);
+ > +
+ > +    /* Unknown command, not listed in the HX8394-F datasheet */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN1,
+ > +                   0x1f, 0x31);
+ > +
+ > +    /* 5.19.17 SETPANEL (CCh) */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPANEL,
+ > +                   0x0b);
+ > +
+ > +    /* Unknown command, not listed in the HX8394-F datasheet */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN3,
+ > +                   0x02);
+ > +
+ > +    /* 5.19.11 Set register bank (BDh) */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
+ > +                   0x02);
+ > +
+ > +    /* Unknown command, not listed in the HX8394-F datasheet */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN4,
+ > +                   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
+0xff, 0xff,
+ > +                   0xff, 0xff);
+ > +
+ > +    /* 5.19.11 Set register bank (BDh) */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
+ > +                   0x00);
+ > +
+ > +    /* 5.19.11 Set register bank (BDh) */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
+ > +                   0x01);
+ > +
+ > +    /* 5.19.2 SETPOWER: Set power (B1h) */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETPOWER,
+ > +                   0x00);
+ > +
+ > +    /* 5.19.11 Set register bank (BDh) */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_SETREGBANK,
+ > +                   0x00);
+ > +
+ > +    /* Unknown command, not listed in the HX8394-F datasheet */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN5,
+ > +                   0x40, 0x81, 0x50, 0x00, 0x1a, 0xfc, 0x01);
+ > +
+ > +    /* Unknown command, not listed in the HX8394-F datasheet */
+ > +    mipi_dsi_dcs_write_seq(dsi, HX8394_CMD_UNKNOWN2,
+ > +                   0xed);
+ > +
+ > +    return 0;
+ > +}
+ > +
+ > +static const struct drm_display_mode powkiddy_x55_mode = {
+ > +    .hdisplay    = 720,
+ > +    .hsync_start    = 720 + 24,
+ > +    .hsync_end    = 720 + 24 + 4,
+ > +    .htotal        = 720 + 24 + 4 + 20,
+ > +    .vdisplay    = 1280,
+ > +    .vsync_start    = 1280 + 8,
+ > +    .vsync_end    = 1280 + 8 + 4,
+ > +    .vtotal        = 1280 + 8 + 4 + 8,
+ > +    .clock        = 59904,
+ > +    .flags        = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+ > +    .width_mm    = 67,
+ > +    .height_mm    = 121,
+ > +};
+ > +
+ > +static const struct hx8394_panel_desc powkiddy_x55_desc = {
+ > +    .mode = &powkiddy_x55_mode,
+ > +    .lanes = 4,
+ > +    .mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+
+ > +                     MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_NO_EOT_PACKET,
+
+
+It looks like a mode flag is set twice. The line above should be this below:
+
+                          MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET,
+
+
+ > +    .format = MIPI_DSI_FMT_RGB888,
+ > +    .init_sequence = powkiddy_x55_init_sequence,
+ > +};
+ > +
+ >  static int hx8394_enable(struct drm_panel *panel)
+ >  {
+ >      struct hx8394 *ctx = panel_to_hx8394(panel);
+ > @@ -419,6 +555,7 @@ static void hx8394_remove(struct mipi_dsi_device 
+*dsi)
+ >
+ >  static const struct of_device_id hx8394_of_match[] = {
+ >      { .compatible = "hannstar,hsd060bhw4", .data = &hsd060bhw4_desc },
+ > +    { .compatible = "powkiddy,x55-panel", .data = &powkiddy_x55_desc },
+ >      { /* sentinel */ }
+ >  };
+ >  MODULE_DEVICE_TABLE(of, hx8394_of_match);
+ > --
+ > 2.34.1
+ >
+ >
+ > _______________________________________________
+ > Linux-rockchip mailing list
+ > Linux-rockchip@lists.infradead.org
+ > http://lists.infradead.org/mailman/listinfo/linux-rockchip
