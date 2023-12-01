@@ -1,90 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10D20800792
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 10:52:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31A6780079A
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 10:56:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0F2210E830;
-	Fri,  1 Dec 2023 09:52:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 949BF10E0B5;
+	Fri,  1 Dec 2023 09:56:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52DE810E830
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 09:52:23 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi
- [91.158.149.209])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F5F8D52;
- Fri,  1 Dec 2023 10:51:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1701424305;
- bh=J4yAZVRMRNvNFIq6OJVR1XbRD8IPLkqCPRNc1euUS3o=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Gk9sySZma9Ps6BOg14ppr2LkywZhexltsAmTsL0JezqPT5T9fsZ5f7JTi1ttfWU1r
- lu8bVD+X8qot/IlRPV73ednrj4WcA/k5i2TX8fUXLbQpB8sO+egzUeFUPSNYr2BpS5
- OVSFt66Bg7P2iOMAnc0fG+2taaWiiK+88VBAUkww=
-Message-ID: <f229619d-5b1c-475f-9e7f-42190c142af6@ideasonboard.com>
-Date: Fri, 1 Dec 2023 11:52:18 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 188F110E0B5
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 09:56:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1701424568;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=AMatjIHd9Tk5Na8CUQZIbQMvS/gfCHln8w3M8+88Qnk=;
+ b=J2Et+lPtpL2sBn5140h8FwzZaS1/3V1AehNVlYI9AlaGjfQZB8pcXfEGQKIAxuOJ8W910v
+ uvttP6FSV4xhtKcwDiwVeiLlqX4J9PR3pXUcbDi1Rt47WsHQ4a8XX+ZCEraJ44CN+y+tEg
+ H0PK+HibkHYa6llnZAckomGQfpYJCGg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-257-Jdkuv8SPNaag5Gwni0UAUQ-1; Fri, 01 Dec 2023 04:56:07 -0500
+X-MC-Unique: Jdkuv8SPNaag5Gwni0UAUQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-332ee20a40fso1539351f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Dec 2023 01:56:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701424566; x=1702029366;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AMatjIHd9Tk5Na8CUQZIbQMvS/gfCHln8w3M8+88Qnk=;
+ b=T0SbwsjaYG7mEUA/zMCsvM8IqQqWX0aAijh8b+S+MqB2RO6wvA99jf9YsqfBtUv47Q
+ wVee1HBeW0HfLZ6CT5YVi4Ik3mEeCfHX22xdPnntjkYO33mT49+wA3cmv5vnZahEn9rg
+ FQMW8jT2dOZoFy7sgEhqPhmC6NxDCtmcy2PmW2Y0z/dQekTtDm+gUTWXTb3r5HCTx/dg
+ kWE6QndEvdvO8v0gvMt9ieTk5sT8+4iyRNqEiPt3xDA3rgwKXNXVxeyInOToI10Hzwtm
+ QwF3TtC3eami92IJyX0eJbrfpUONlYZI6vXgW3umOmn6mIH+LlV10JkuG0QOmkOf4I91
+ yS1A==
+X-Gm-Message-State: AOJu0YxOu0cCEDv8uwgpKgGO8fc7HXtcaawkassqywSIO6Ckq7bB9Y25
+ 0THVL5X2g7i/wG9GcCBI2kGGt8P46/NvHnuiqSXzA1ZfxX5o9b8/Q5bvqu7qzg4pKPfoAsHsngr
+ E6Y+B2StGByrwnnPUEY2BwxpuHUd/
+X-Received: by 2002:adf:e70e:0:b0:332:c094:fc58 with SMTP id
+ c14-20020adfe70e000000b00332c094fc58mr644386wrm.40.1701424566516; 
+ Fri, 01 Dec 2023 01:56:06 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGOONX2od7XFZM01C8VjH7MXuBsNPzwhtbrogLN8ZS6GbUumONwXuzXa+GOeKq9RswpItpBaQ==
+X-Received: by 2002:adf:e70e:0:b0:332:c094:fc58 with SMTP id
+ c14-20020adfe70e000000b00332c094fc58mr644378wrm.40.1701424566231; 
+ Fri, 01 Dec 2023 01:56:06 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ q13-20020adffecd000000b0033334410d01sm254018wrs.36.2023.12.01.01.56.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Dec 2023 01:56:05 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, pjones@redhat.com
+Subject: Re: [PATCH 2/4] fbdev/efifb: Use screen_info pointer from device
+In-Reply-To: <cf8d6ea2-e725-4794-a40c-206e53785a29@suse.de>
+References: <20231129155218.3475-1-tzimmermann@suse.de>
+ <20231129155218.3475-3-tzimmermann@suse.de>
+ <87v89il2vj.fsf@minerva.mail-host-address-is-not-set>
+ <cf8d6ea2-e725-4794-a40c-206e53785a29@suse.de>
+Date: Fri, 01 Dec 2023 10:56:05 +0100
+Message-ID: <87il5ixn4a.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] Add DSS support for TI AM62A7 SoC
-Content-Language: en-US
-To: Aradhya Bhatia <a-bhatia1@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <20231108171619.978438-1-a-bhatia1@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20231108171619.978438-1-a-bhatia1@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,63 +82,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/11/2023 19:16, Aradhya Bhatia wrote:
-> This patch series adds a new compatible for the Display SubSystem (DSS)
-> controller on TI's AM62A7 SoC. It further adds the required support, for
-> the same, in the tidss driver.
-> 
-> The DSS controller is similar to the recently added AM625 DSS, with the
-> key difference being the absence of VP1 output on the SoC. The VP1 in
-> AM62A7 DSS is tied off and cannot be used, unlike in AM625, where the
-> VP1 was connected to 2 OLDI TXes. The video pipeline that corresponds to
-> VP1 still exists and can be used to overlay planes on the VP2's primary
-> plane. This can be done using the overlay managers inside the SoC.
-> Moreover, DSS VP2 can output Full-HD RGB888 DPI video signals.
-> 
-> I have tested these patches on AM62A7 SK-EVM, which converts DPI signals
-> to HDMI on the platform using the Sil9022A HDMI transmitter. All the
-> patches, required to enable display on AM62A7-SK, can be found on my
-> github fork[0] in the branch "next_am62a-v3".
-> 
-> Regards
-> Aradhya
-> 
-> [0]: https://github.com/aradhya07/linux-ab/tree/next_am62a-v3
-> 
-> Change Log:
-> V2 -> V3:
->    - Add Krzysztof Kozlowski's R-b in patch 1/2.
->    - Add new DISPC_VP_TIED_OFF for tied-off video-ports in patch 2/2.
-> 
-> V1 -> V2:
->    - Correctly sort DISPC_AM62A7 macro after DISPC_AM625 in patch 2/2.
-> 
-> Previous Versions:
-> V1: https://lore.kernel.org/all/20230818131750.4779-1-a-bhatia1@ti.com/
-> V2: https://lore.kernel.org/all/20230818142124.8561-1-a-bhatia1@ti.com/
-> 
-> Aradhya Bhatia (2):
->    dt-bindings: display: ti: Add support for am62a7 dss
->    drivers/tidss: Add support for AM62A7 DSS
-> 
->   .../bindings/display/ti/ti,am65x-dss.yaml     | 14 +++++
->   drivers/gpu/drm/tidss/tidss_dispc.c           | 59 +++++++++++++++++++
->   drivers/gpu/drm/tidss/tidss_dispc.h           |  3 +
->   drivers/gpu/drm/tidss/tidss_drv.c             |  1 +
->   4 files changed, 77 insertions(+)
-> 
-> 
-> base-commit: 2220f68f4504aa1ccce0fac721ccdb301e9da32f
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Thanks, I'm applying to drm-misc.
+> Hi Javier
+>
+> Am 01.12.23 um 09:54 schrieb Javier Martinez Canillas:
+>> Thomas Zimmermann <tzimmermann@suse.de> writes:
+>> 
+>>> Use the screen_info instance from the device instead of dereferencing
+>>> the global screen_info state. Decouples the driver from per-architecture
+>>> code. Duplicated the screen_info data, so that efifb can modify it at
+>>> will.
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> ---
+>> 
+>> [...]
+>> 
+>>> +	si = dev_get_platdata(&dev->dev);
+>>> +	if (!si)
+>> 
+>> I would add a comment that this platform data is set when the device is
+>> registered by sysfb.
+>> 
+>>> +		return -ENODEV;
+>>> +	si = devm_kmemdup(&dev->dev, si, sizeof(*si), GFP_KERNEL);
+>>> +	if (!si)
+>>> +		return -ENOMEM;
+>>> +
+>> 
+>> Why a copy? In any case maybe the global screen_info should be duplicated
+>> when is set as the device platform data in sysfb_init() ?
+>
+> We get our own copy of the global screen_info as platform-device data.
 
-  Tomi
+Ah, I didn't notice that platform_device_add_data() already did a kmemdup().
+
+> Efifb modifies some of the values in our copy in efifb_setup(). If 
+> probing afterwards fails, the kernel might try a different driver, which 
+> would then operate on the values modified by efifb. Hence, there's this 
+> internal copy. The situation with vesafb is similar.
+>
+
+I see what you mean. I was thinking that the same device coulnd't be match
+to a different driver anyways but it's true that a fail to would make that
+possible.
+
+> Best regards
+> Thomas
+>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
