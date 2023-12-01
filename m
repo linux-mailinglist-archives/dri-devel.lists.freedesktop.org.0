@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 186B280150A
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 22:16:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D5E801511
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 22:18:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 648F510E146;
-	Fri,  1 Dec 2023 21:16:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDCA210E965;
+	Fri,  1 Dec 2023 21:18:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
- [IPv6:2607:f8b0:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87EB010E146
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 21:15:26 +0000 (UTC)
-Received: by mail-ot1-x32f.google.com with SMTP id
- 46e09a7af769-6d7eb7ff384so690359a34.0
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Dec 2023 13:15:26 -0800 (PST)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCF8D10E961
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 21:18:48 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id
+ 38308e7fff4ca-2c9b9191722so35255181fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Dec 2023 13:18:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701465325; x=1702070125; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=P5Nsgw7Fsbf0MtthNfgpXOXTqUhR9kk0U40KgyN6HaA=;
- b=ksgYkCztFbUketxWS+Sid7vgG7RRLZOFU4ODUWVUui4rREX3aQ6vpWOCWHjgppPdnA
- jti9p0l4Z2LRhanFfiuPWcaefRZ+g2PdLbJoS8UAWChYhvQ9vhHLW6lAsx8Y/VyX2pR5
- u+gbWYtFbdscHHTpso2vOxYOP/8FjtpWHB0sLaE6X3wrkologz5KTvHjBpjpv5W/g6rL
- wI6Gu3B3i/VNqesnHt0Ui+yH1sQOlWvk+N14JvCd2m1YVRM3xTpaehHnUQ+Fidoq2t/O
- M6uw8gaALq4B+gm58XnkIBgnIjuuXExgP9PTZZjlqrp2RJ4CgsmRZTgvuf42H0RPL5DZ
- 79uw==
+ d=linaro.org; s=google; t=1701465527; x=1702070327; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=20zjbppwrtzRWByvdBLmKkSD4EbfKKz8iGPt9sPg16s=;
+ b=diWDe6XkqY3RPhfHjA9zHfCf5Fgu3MVD7QypWBBrOZ9uzN5LYtktKqKQ3Aay4Ne1F+
+ loz0A/izhU2oAXPfXJ3zTMSvJF5aA5B/eQROL0N5c5IOolABfL7VDHMYpXE8LbnYy6nr
+ MCPmDI6uk1oF0Tme//2pGZgQHChoA3xR3uiniUcw19TgCB5+Xmjs/bfYf48YeayftsN0
+ Jdh00iEtx6/Y1U5niDSryeT65RR9m/OpCgGsMFxtX9Sp+Nto0imH1Zuo9xEBQzDnsaRg
+ PT/u5g3e62grax/HLbTuCyF6xS0tZwWDbjIXmBgqUCth8wM99cYj3cxO0iuLb8zm7YDj
+ 1PTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701465325; x=1702070125;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1701465527; x=1702070327;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=P5Nsgw7Fsbf0MtthNfgpXOXTqUhR9kk0U40KgyN6HaA=;
- b=vpeiHZVigucoE6naqZ/FmYpCsfhMWo3oUuDavOn5NnVbrP6TtUz2RNEiURJX3YkeK1
- VuXgB3Pl7ut+cwIaBkiODmVeZ1n0HD08BxHTxvcohvlapzRJ9dfiMUF+pxfPCOgNm1cW
- kp4eSn0duUP3CrcLLsQg3HmZ5XRGAJI9LR4XEqMiA5xSIvErtOeWJnP7TiJnUMeKvoFy
- 8jd+4CSB2Jvb3ThksYRmQMCpCVvToCyJgCyJU8tGHFRglIcIah1KJRq+sRYpbK9zb8GJ
- BAqxStdTti9HNgr3EXcAm7lYvKSNMjpkCPkXmQD7rvSFbT5/GPst5z32NAIQ7WmLbMw3
- j5jg==
-X-Gm-Message-State: AOJu0YybCcFb5onrKuO567pdxqXSXorQlBLLPTGHR0/CslmjGGD8CDsO
- hbplk0N3YnnpHf9/1OIwS5fgV07Cvp3aD9PmZFD8AQ==
-X-Google-Smtp-Source: AGHT+IHuwhLn+zInww9mxHxJCEBy2e8xfh60Ea2qqSiB+aC5hbbbaK5duJQYb6+BMmXOqHk8swOKkjxoJxIzjJzNXcM=
-X-Received: by 2002:a9d:674d:0:b0:6d8:1308:97fb with SMTP id
- w13-20020a9d674d000000b006d8130897fbmr155520otm.35.1701465325595; Fri, 01 Dec
- 2023 13:15:25 -0800 (PST)
-MIME-Version: 1.0
-References: <20230830224910.8091-1-quic_abhinavk@quicinc.com>
- <20230830224910.8091-12-quic_abhinavk@quicinc.com>
- <CAA8EJppBskavOzn4_vUa=kvyYi2zn2XR70Ft-6ZyuOdGYWWL2A@mail.gmail.com>
- <3085d544-b6d9-5064-2789-2bbccf4b6818@quicinc.com>
- <CAA8EJpoP1T3SRT+7i+P7iuKEdCW5D76sEdLpVvBzHWvrqQCe3g@mail.gmail.com>
- <12490147-d9f9-2695-7a0b-04961003de38@quicinc.com>
-In-Reply-To: <12490147-d9f9-2695-7a0b-04961003de38@quicinc.com>
+ bh=20zjbppwrtzRWByvdBLmKkSD4EbfKKz8iGPt9sPg16s=;
+ b=vi4XUiraSuZH+3oeROFvlyQVDRS5F42QZ6AwZjg2PvJ5Pyqwk45j7GpYjBCByTHeSu
+ s3W5u/gp7QfABVThaW3CCUoZ/rsCCb6p3QHH6nHF7Txb7nftPb7heejZpGX1rU5BZNs8
+ NeNy7e0GvYty15pav6c8w5BZ0pNhQNn23bVFiD4oQejNKN8S3qwFvgUE6nLqEGw4wflU
+ Ne6qmUqAIjaOeGZSS1E2/CqIsLcYBUukG08b4Zpkg7JVEJdevoc60lSqfVaPrE0TlA2B
+ NHUdZuHXNO+KUxDUC5Pn3Ik9PiUClooSafRbI1kxoBaQMRJ2UPKBp7iUN6GCJS/P/eqF
+ UTDg==
+X-Gm-Message-State: AOJu0Yw1mdjT+n6OgDEWaS9W7FGs/S+xp1zbZX3weYfUz+mJre0CLcV7
+ mo4mU2rqq0GK/YKcgOavhCybsw==
+X-Google-Smtp-Source: AGHT+IEcEcNgkjsjd+9AsovIHFHtqWCkCcFtHXmf+FS5o5F7e3mtMZVAaZwHAGCPafb/VTyIBKwtkA==
+X-Received: by 2002:a2e:b24d:0:b0:2c8:39fc:acf5 with SMTP id
+ n13-20020a2eb24d000000b002c839fcacf5mr1149901ljm.2.1701465526822; 
+ Fri, 01 Dec 2023 13:18:46 -0800 (PST)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ z4-20020a05651c022400b002c123b976acsm503612ljn.76.2023.12.01.13.18.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Dec 2023 13:18:46 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 1 Dec 2023 23:15:14 +0200
-Message-ID: <CAA8EJpoJERnM=URhfODO73Z816PBfF9q930yLdBJF3-jtL6jYA@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH 11/16] drm/msm/dpu: add an API to setup the
- CDM block for writeback
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH v4 00/13] drm/msm/dpu: use managed memory allocations
+Date: Sat,  2 Dec 2023 00:18:32 +0300
+Message-Id: <20231201211845.1026967-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,296 +72,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com, quic_parellan@quicinc.com,
- Marijn Suijten <marijn.suijten@somainline.org>, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 1 Dec 2023 at 21:04, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 11/30/2023 11:20 PM, Dmitry Baryshkov wrote:
-> > On Fri, 1 Dec 2023 at 02:41, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>
-> >>
-> >>
-> >> On 8/30/2023 5:11 PM, Dmitry Baryshkov wrote:
-> >>> On Thu, 31 Aug 2023 at 01:50, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>>>
-> >>>> Add an API dpu_encoder_helper_phys_setup_cdm() which can be used by
-> >>>> the writeback encoder to setup the CDM block.
-> >>>>
-> >>>> Currently, this is defined and used within the writeback's physical
-> >>>> encoder layer however, the function can be modified to be used to setup
-> >>>> the CDM block even for non-writeback interfaces.
-> >>>>
-> >>>> Until those modifications are planned and made, keep it local to
-> >>>> writeback.
-> >>>>
-> >>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> >>>> ---
-> >>>>    .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |   3 +
-> >>>>    .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   | 123 +++++++++++++++++-
-> >>>>    2 files changed, 125 insertions(+), 1 deletion(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> >>>> index 510c1c41ddbc..93a8ae67beff 100644
-> >>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> >>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> >>>> @@ -16,6 +16,7 @@
-> >>>>    #include "dpu_hw_pingpong.h"
-> >>>>    #include "dpu_hw_ctl.h"
-> >>>>    #include "dpu_hw_top.h"
-> >>>> +#include "dpu_hw_cdm.h"
-> >>>>    #include "dpu_encoder.h"
-> >>>>    #include "dpu_crtc.h"
-> >>>>
-> >>>> @@ -209,6 +210,7 @@ static inline int dpu_encoder_phys_inc_pending(struct dpu_encoder_phys *phys)
-> >>>>     * @wbirq_refcount:     Reference count of writeback interrupt
-> >>>>     * @wb_done_timeout_cnt: number of wb done irq timeout errors
-> >>>>     * @wb_cfg:  writeback block config to store fb related details
-> >>>> + * @cdm_cfg: cdm block config needed to store writeback block's CDM configuration
-> >>>>     * @wb_conn: backpointer to writeback connector
-> >>>>     * @wb_job: backpointer to current writeback job
-> >>>>     * @dest:   dpu buffer layout for current writeback output buffer
-> >>>> @@ -218,6 +220,7 @@ struct dpu_encoder_phys_wb {
-> >>>>           atomic_t wbirq_refcount;
-> >>>>           int wb_done_timeout_cnt;
-> >>>>           struct dpu_hw_wb_cfg wb_cfg;
-> >>>> +       struct dpu_hw_cdm_cfg cdm_cfg;
-> >>>>           struct drm_writeback_connector *wb_conn;
-> >>>>           struct drm_writeback_job *wb_job;
-> >>>>           struct dpu_hw_fmt_layout dest;
-> >>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> >>>> index 4c2736c3ee6d..11935aac9fd5 100644
-> >>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> >>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> >>>> @@ -24,6 +24,20 @@
-> >>>>    #define to_dpu_encoder_phys_wb(x) \
-> >>>>           container_of(x, struct dpu_encoder_phys_wb, base)
-> >>>>
-> >>>> +#define TO_S15D16(_x_)((_x_) << 7)
-> >>>> +
-> >>>> +static struct dpu_csc_cfg dpu_encoder_phys_wb_rgb2yuv_601l = {
-> >>>> +       {
-> >>>> +               TO_S15D16(0x0083), TO_S15D16(0x0102), TO_S15D16(0x0032),
-> >>>> +               TO_S15D16(0x1fb5), TO_S15D16(0x1f6c), TO_S15D16(0x00e1),
-> >>>> +               TO_S15D16(0x00e1), TO_S15D16(0x1f45), TO_S15D16(0x1fdc)
-> >>>> +       },
-> >>>> +       { 0x00, 0x00, 0x00 },
-> >>>> +       { 0x0040, 0x0200, 0x0200 },
-> >>>> +       { 0x000, 0x3ff, 0x000, 0x3ff, 0x000, 0x3ff },
-> >>>> +       { 0x040, 0x3ac, 0x040, 0x3c0, 0x040, 0x3c0 },
-> >>>> +};
-> >>>
-> >>> Nit: we probably need to have a single place with all dpu_csc_cfg entries.
-> >>>
-> >>
-> >> hmmm ... so we have YUV2RGB matrices for dpu plane and RGB2YUV matrices
-> >> for WB and DP.
-> >>
-> >> We can move all this to dpu_hw_util.c but lets do that in the DP series
-> >> as that completes the consumer list of these matrices.
-> >
-> > Doing it earlier is usually better. Can we please do it as a part of
-> > this series?
-> >
->
-> Would be strange as RGB2YUV matrix is not used by anyone other than WB
-> till DP lands.
->
-> If you are fine with that anomaly, no concerns.
+In a lots of places in DPU driver memory is allocated by using the
+kzalloc and then manually freed using kfree. However thes memory chunks
+have a well-defined life cycle. They are either a part of the driver's
+runtime and can be devm_kzalloc'ed or are exposed to userspace via the
+DRM objects and thus can be drmm_alloc'ed. Implement corresponding
+runtime resource manangement for the DPU driver.
 
-Yes. Because it keeps all instances in a single place.
+Changes since v3:
+- Rebased on top of msm-next
 
->
-> >>
-> >>>> +
-> >>>>    /**
-> >>>>     * dpu_encoder_phys_wb_is_master - report wb always as master encoder
-> >>>>     * @phys_enc:  Pointer to physical encoder
-> >>>> @@ -225,6 +239,112 @@ static void dpu_encoder_phys_wb_setup_ctl(struct dpu_encoder_phys *phys_enc)
-> >>>>           }
-> >>>>    }
-> >>>>
-> >>>> +/**
-> >>>> + * dpu_encoder_phys_wb_setup_cdp - setup chroma down sampling block
-> >>>> + * @phys_enc:Pointer to physical encoder
-> >>>> + */
-> >>>> +static void dpu_encoder_helper_phys_setup_cdm(struct dpu_encoder_phys *phys_enc)
-> >>>> +{
-> >>>> +       struct dpu_hw_cdm *hw_cdm;
-> >>>> +       struct dpu_hw_cdm_cfg *cdm_cfg;
-> >>>> +       struct dpu_hw_pingpong *hw_pp;
-> >>>> +       struct dpu_encoder_phys_wb *wb_enc;
-> >>>> +       const struct msm_format *format;
-> >>>> +       const struct dpu_format *dpu_fmt;
-> >>>> +       struct drm_writeback_job *wb_job;
-> >>>> +       int ret;
-> >>>> +
-> >>>> +       if (!phys_enc)
-> >>>> +               return;
-> >>>> +
-> >>>> +       wb_enc = to_dpu_encoder_phys_wb(phys_enc);
-> >>>> +       cdm_cfg = &wb_enc->cdm_cfg;
-> >>>> +       hw_pp = phys_enc->hw_pp;
-> >>>> +       hw_cdm = phys_enc->hw_cdm;
-> >>>> +       wb_job = wb_enc->wb_job;
-> >>>> +
-> >>>> +       format = msm_framebuffer_format(wb_enc->wb_job->fb);
-> >>>> +       dpu_fmt = dpu_get_dpu_format_ext(format->pixel_format, wb_job->fb->modifier);
-> >>>> +
-> >>>> +       if (!hw_cdm)
-> >>>> +               return;
-> >>>> +
-> >>>> +       if (!DPU_FORMAT_IS_YUV(dpu_fmt)) {
-> >>>> +               DPU_DEBUG("[enc:%d] cdm_disable fmt:%x\n", DRMID(phys_enc->parent),
-> >>>> +                         dpu_fmt->base.pixel_format);
-> >>>> +               if (hw_cdm->ops.disable)
-> >>>> +                       hw_cdm->ops.disable(hw_cdm);
-> >>>> +
-> >>>> +               return;
-> >>>> +       }
-> >>>> +
-> >>>> +       memset(cdm_cfg, 0, sizeof(struct dpu_hw_cdm_cfg));
-> >>>> +
-> >>>> +       cdm_cfg->output_width = wb_job->fb->width;
-> >>>> +       cdm_cfg->output_height = wb_job->fb->height;
-> >>>> +       cdm_cfg->output_fmt = dpu_fmt;
-> >>>> +       cdm_cfg->output_type = CDM_CDWN_OUTPUT_WB;
-> >>>> +       cdm_cfg->output_bit_depth = DPU_FORMAT_IS_DX(dpu_fmt) ?
-> >>>> +                       CDM_CDWN_OUTPUT_10BIT : CDM_CDWN_OUTPUT_8BIT;
-> >>>> +
-> >>>> +       /* enable 10 bit logic */
-> >>>> +       switch (cdm_cfg->output_fmt->chroma_sample) {
-> >>>> +       case DPU_CHROMA_RGB:
-> >>>> +               cdm_cfg->h_cdwn_type = CDM_CDWN_DISABLE;
-> >>>> +               cdm_cfg->v_cdwn_type = CDM_CDWN_DISABLE;
-> >>>> +               break;
-> >>>> +       case DPU_CHROMA_H2V1:
-> >>>> +               cdm_cfg->h_cdwn_type = CDM_CDWN_COSITE;
-> >>>> +               cdm_cfg->v_cdwn_type = CDM_CDWN_DISABLE;
-> >>>> +               break;
-> >>>> +       case DPU_CHROMA_420:
-> >>>> +               cdm_cfg->h_cdwn_type = CDM_CDWN_COSITE;
-> >>>> +               cdm_cfg->v_cdwn_type = CDM_CDWN_OFFSITE;
-> >>>> +               break;
-> >>>> +       case DPU_CHROMA_H1V2:
-> >>>> +       default:
-> >>>> +               DPU_ERROR("[enc:%d] unsupported chroma sampling type\n",
-> >>>> +                         DRMID(phys_enc->parent));
-> >>>> +               cdm_cfg->h_cdwn_type = CDM_CDWN_DISABLE;
-> >>>> +               cdm_cfg->v_cdwn_type = CDM_CDWN_DISABLE;
-> >>>> +               break;
-> >>>> +       }
-> >>>> +
-> >>>> +       DPU_DEBUG("[enc:%d] cdm_enable:%d,%d,%X,%d,%d,%d,%d]\n",
-> >>>> +                 DRMID(phys_enc->parent), cdm_cfg->output_width,
-> >>>> +                 cdm_cfg->output_height, cdm_cfg->output_fmt->base.pixel_format,
-> >>>> +                 cdm_cfg->output_type, cdm_cfg->output_bit_depth,
-> >>>> +                 cdm_cfg->h_cdwn_type, cdm_cfg->v_cdwn_type);
-> >>>> +
-> >>>> +       if (hw_cdm && hw_cdm->ops.setup_csc_data) {
-> >>>> +               ret = hw_cdm->ops.setup_csc_data(hw_cdm, &dpu_encoder_phys_wb_rgb2yuv_601l);
-> >>>> +               if (ret < 0) {
-> >>>> +                       DPU_ERROR("[enc:%d] failed to setup CSC; ret:%d\n",
-> >>>> +                                 DRMID(phys_enc->parent), ret);
-> >>>> +                       return;
-> >>>> +               }
-> >>>> +       }
-> >>>> +
-> >>>> +       if (hw_cdm && hw_cdm->ops.setup_cdwn) {
-> >>>
-> >>> You have checked for (!hw_cdm) several lines above. We can drop this
-> >>> condition here.
-> >>>
-> >>
-> >> Ack.
-> >>
-> >>>> +               ret = hw_cdm->ops.setup_cdwn(hw_cdm, cdm_cfg);
-> >>>> +               if (ret < 0) {
-> >>>> +                       DPU_ERROR("[enc:%d] failed to setup CDWN; ret:%d\n",
-> >>>> +                                 DRMID(phys_enc->parent), ret);
-> >>>> +                       return;
-> >>>> +               }
-> >>>> +       }
-> >>>> +
-> >>>> +       if (hw_cdm && hw_pp && hw_cdm->ops.enable) {
-> >>>
-> >>> And what if !hw_pp ? Can it happen here? No, if I understand correctly.
-> >>>
-> >>
-> >> I dont see any other protection for !hw_pp in this flow so would prefer
-> >> to keep it.
-> >
-> > But can we end up in this function if we have no hw_pp at all?
-> >
->
-> Just from code flow yes,
->
-> dpu_encoder_prepare_for_kickoff ---> phys->ops.prepare_for_kickoff --->
-> this function
->
-> None of them have !hw_pp.
->
-> But, if hw_pp failed allocation, then atomic_check will fail so the
-> commit will not happen.
->
-> I was thinking of the former, if we are fine with the latter we can drop.
+Changes since v2:
+- Added missing dependencies to the cover letter (Jessica)
+- Fixed commit message for patch 4 (Jessica)
 
-Yes, I'm fine with that, unless there is any special mode (like
-ppsplit, cwb, etc.) where we can end up with no PP assigned on
-purpose.
+Changes since v1:
+- Fix error handling for some of drmm_foo_alloc() functions, which
+  return error pointer in case of an error rather than typical NULL.
 
->
-> >>
-> >>>> +               cdm_cfg->pp_id = hw_pp->idx;
-> >>>> +               ret = hw_cdm->ops.enable(hw_cdm, cdm_cfg);
-> >>>
-> >>> As we are calling these three ops in a row, can we merge them together
-> >>> into a single callback to be called from dpu_encoder.c?
-> >>>
-> >>
-> >> Good idea. I can add a csc_cfg entry to cdm_cfg and merge all three into
-> >> the enable() op itself and drop the other two.
-> >>
-> >>>> +               if (ret < 0) {
-> >>>> +                       DPU_ERROR("[enc:%d] failed to enable CDM; ret:%d\n",
-> >>>> +                                 DRMID(phys_enc->parent), ret);
-> >>>> +                       return;
-> >>>> +               }
-> >>>> +       }
-> >>>> +}
-> >>>> +
-> >>>>    /**
-> >>>>     * dpu_encoder_phys_wb_atomic_check - verify and fixup given atomic states
-> >>>>     * @phys_enc:  Pointer to physical encoder
-> >>>> @@ -348,8 +468,9 @@ static void dpu_encoder_phys_wb_setup(
-> >>>>
-> >>>>           dpu_encoder_phys_wb_setup_fb(phys_enc, fb);
-> >>>>
-> >>>> -       dpu_encoder_phys_wb_setup_ctl(phys_enc);
-> >>>> +       dpu_encoder_helper_phys_setup_cdm(phys_enc);
-> >>>>
-> >>>> +       dpu_encoder_phys_wb_setup_ctl(phys_enc);
-> >>>>    }
-> >>>>
-> >>>>    static void _dpu_encoder_phys_wb_frame_done_helper(void *arg)
-> >>>> --
-> >>>> 2.40.1
-> >>>>
-> >>>
-> >>>
-> >
-> >
-> >
+Dmitry Baryshkov (13):
+  drm/msm/dpu: cleanup dpu_kms_hw_init error path
+  drm/msm/dpu: remove IS_ERR_OR_NULL for dpu_hw_intr_init() error
+    handling
+  drm/msm/dpu: use devres-managed allocation for interrupts data
+  drm/msm/dpu: use devres-managed allocation for VBIF data
+  drm/msm/dpu: use devres-managed allocation for MDP TOP
+  drm/msm/dpu: use devres-managed allocation for HW blocks
+  drm/msm/dpu: drop unused dpu_plane::lock
+  drm/msm/dpu: remove QoS teardown on plane destruction
+  drm/msm/dpu: use drmm-managed allocation for dpu_plane
+  drm/msm/dpu: use drmm-managed allocation for dpu_crtc
+  drm/msm/dpu: use drmm-managed allocation for dpu_encoder_phys
+  drm/msm/dpu: drop dpu_encoder_phys_ops::destroy
+  drm/msm/dpu: use drmm-managed allocation for dpu_encoder_virt
 
-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 25 ++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 77 ++++------------
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  | 10 +--
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 15 +---
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  | 13 +--
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   | 21 +----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    | 19 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h    | 16 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c    | 12 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h    | 10 ++-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c    |  7 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c   | 16 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h   | 12 +--
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 14 ++-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h | 11 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   | 16 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h   | 13 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c     | 14 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h     | 12 +--
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c    | 14 ++-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h    | 13 +--
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   | 15 ++--
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h   | 14 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   | 17 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   | 16 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    | 17 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h    |  8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c   | 14 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h   |  8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c     | 15 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h     | 13 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 55 ++++--------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |  1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     | 59 +++---------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        | 90 +++----------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        | 11 +--
+ 36 files changed, 226 insertions(+), 487 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.39.2
+
