@@ -2,47 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64FC480097B
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 12:14:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7CF8009D2
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Dec 2023 12:23:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3003210E0E1;
-	Fri,  1 Dec 2023 11:14:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9621410E0E5;
+	Fri,  1 Dec 2023 11:22:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 297C110E0E1
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Dec 2023 11:14:43 +0000 (UTC)
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id D3F0666073A1;
- Fri,  1 Dec 2023 11:14:40 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1701429281;
- bh=W5BFlXtoyKmd31EMjrnzRW6SOTld/TWU/7ZUZClZ9Bc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=BJGAiH2SV+gSyAGsLO9cnm18Igl4YLPWMcjXpB9ybf+wnq4kmLrSMvc5qNdmwYjQH
- 2mrLClFsjVuPd0RDk6Cz3B086IlpaQtjfrUgJ177Kjn8tVrqWLto6uRm17ktMKhYss
- DR65bzLiAbIQIJU2CDzCBiJ6nW3H61YvnnxH2tPDwC/EsOpsHw0NDviSkVsaZacerk
- u+kMtjodAMPrRV9vByFaMu9AXnwcOHbgrX5KDnOh99DJJtAUu/CojZFGq0yZWPd/PH
- NgxjQ/JXcB1vvUBOTxzIoEr9b8FhKYzzXPEPp8Y3soqLeS1QSfr3piFZgPLsZq5AOP
- CmJxjUWlpXSEg==
-Date: Fri, 1 Dec 2023 12:14:37 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v3 3/3] drm/panfrost: Synchronize and disable interrupts
- before powering off
-Message-ID: <20231201121437.7d5cdefb@collabora.com>
-In-Reply-To: <20231201104027.35273-4-angelogioacchino.delregno@collabora.com>
-References: <20231201104027.35273-1-angelogioacchino.delregno@collabora.com>
- <20231201104027.35273-4-angelogioacchino.delregno@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A283210E0EE;
+ Fri,  1 Dec 2023 11:22:50 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id
+ 2adb3069b0e04-50bc57d81f4so2891722e87.2; 
+ Fri, 01 Dec 2023 03:22:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1701429769; x=1702034569; darn=lists.freedesktop.org;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tDYTbMEHTA+PA+CkrLL7nufZCEtkNLGajLlCGSCmAZE=;
+ b=YYevimwNl4H9JeTWCujXkpPgBRPAtOI0RQOreOVhDzo+NZHms3bhdozc0K5r5IGwKa
+ V1X26zjO1H71sAMqQSH7zIfn9bph4+SgPfBEWMRErjW5b2w3L5JF4OYZVlsOtOwOduKY
+ GT/KSYz7dABqcXZbLporSW8L4uwyXUV2PQxp6mqj5wrwILgt0oE8R7nsnZbkwd1pIesb
+ 2xmu/HjuTCOSD2wnGYaVhUWjOmQNd2CPWSx8g0indlCp9wwE6uiqMhUcvB/baiaRBo5c
+ X81QxkXz69Ff862/40Y+KCpEpR4IE5ILtEKD2iqE6S9JT7P7biPfFK5AVYMhY6zKZrTr
+ Tcow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701429769; x=1702034569;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tDYTbMEHTA+PA+CkrLL7nufZCEtkNLGajLlCGSCmAZE=;
+ b=HK75Jvv0j0eFmBOxGpn40SprD2AkBn2iExRUyZa/hcUp4MfjcKtOrC0fMWdETyAagP
+ 1n8ySfKsxYsPmiX3MvCrSa1wRm+i4sRkQxIOve+3ka5X6VlC1N8ph1JP0jcUmfwhCP4S
+ 2W74X9WZ8+NjI4i8OIhjRZRufbkYxAeC2banOuN/kdTuFORNxKTIWGLcUYqxB+VT7AAD
+ Otb0F5c2k8Z1qTo+KZpMdWjWqVvHdew+uxzO/C/cMdydOHAQgrlX1ULj67KPoe8FfGFv
+ 3CQfpf1qcv4NhfB5GRuhiQPDda/VFKUYhAEF3x1g2IOMvjS+cZ0GYL2lXw/hNUwm6yU0
+ HD1Q==
+X-Gm-Message-State: AOJu0YxBWFFVlhhaJ8zhO6JHtXeN3bFayDkzz6KpKfaxOxFrFg6iPVnB
+ aMr3nv4rAu/62I3SqCAjE2XLto4V890=
+X-Google-Smtp-Source: AGHT+IF/kNTDoQQTbuA8uVZADKdRmi7YjxqAP2WFPIMlihKsslpNF/yUJ1acTPp4hs3YLYpCcnqKnw==
+X-Received: by 2002:a05:6512:488:b0:50b:d764:2916 with SMTP id
+ v8-20020a056512048800b0050bd7642916mr403101lfq.174.1701429768197; 
+ Fri, 01 Dec 2023 03:22:48 -0800 (PST)
+Received: from orome.fritz.box
+ (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ r3-20020aa7d143000000b0053de19620b9sm1523779edo.2.2023.12.01.03.22.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Dec 2023 03:22:47 -0800 (PST)
+Date: Fri, 1 Dec 2023 12:22:45 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH 08/10] iommu/tegra: Use tegra_dev_iommu_get_stream_id()
+ in the remaining places
+Message-ID: <ZWnCBTWcxqJfemvR@orome.fritz.box>
+References: <0-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
+ <8-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
+ <ZWdlcboM4Xzs38NI@orome.fritz.box>
+ <20231129192603.GA1387263@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="TpTVMO/RkXn9/fAN"
+Content-Disposition: inline
+In-Reply-To: <20231129192603.GA1387263@nvidia.com>
+User-Agent: Mutt/2.2.12 (2023-09-09)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,255 +81,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
- krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, kernel@collabora.com, m.szyprowski@samsung.com
+Cc: linux-hyperv@vger.kernel.org, Karol Herbst <kherbst@redhat.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Jerry Snitselaar <jsnitsel@redhat.com>, dri-devel@lists.freedesktop.org,
+ patches@lists.linux.dev, Laxman Dewangan <ldewangan@nvidia.com>,
+ Hanjun Guo <guohanjun@huawei.com>, linux-riscv@lists.infradead.org,
+ "K. Y. Srinivasan" <kys@microsoft.com>, Frank Rowand <frowand.list@gmail.com>,
+ Christoph Hellwig <hch@lst.de>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Wei Liu <wei.liu@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Dexuan Cui <decui@microsoft.com>, Russell King <linux@armlinux.org.uk>,
+ Jon Hunter <jonathanh@nvidia.com>, linux-acpi@vger.kernel.org,
+ iommu@lists.linux.dev, Danilo Krummrich <dakr@redhat.com>,
+ nouveau@lists.freedesktop.org, linux-snps-arc@lists.infradead.org,
+ Len Brown <lenb@kernel.org>, devicetree@vger.kernel.org,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Will Deacon <will@kernel.org>, Sven Peter <sven@svenpeter.dev>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Vineet Gupta <vgupta@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Moritz Fischer <mdf@kernel.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Robin Murphy <robin.murphy@arm.com>, Hector Martin <marcan@marcan.st>,
+ linux-mips@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, asahi@lists.linux.dev,
+ Sudeep Holla <sudeep.holla@arm.com>, dmaengine@vger.kernel.org,
+ David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri,  1 Dec 2023 11:40:27 +0100
-AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-wrote:
 
-> To make sure that we don't unintentionally perform any unclocked and/or
-> unpowered R/W operation on GPU registers, before turning off clocks and
-> regulators we must make sure that no GPU, JOB or MMU ISR execution is
-> pending: doing that required to add a mechanism to synchronize the
+--TpTVMO/RkXn9/fAN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-                      ^ requires the addition of a mechanism...
+On Wed, Nov 29, 2023 at 03:26:03PM -0400, Jason Gunthorpe wrote:
+> On Wed, Nov 29, 2023 at 05:23:13PM +0100, Thierry Reding wrote:
+> > > diff --git a/drivers/memory/tegra/tegra186.c b/drivers/memory/tegra/t=
+egra186.c
+> > > index 533f85a4b2bdb7..3e4fbe94dd666e 100644
+> > > --- a/drivers/memory/tegra/tegra186.c
+> > > +++ b/drivers/memory/tegra/tegra186.c
+> > > @@ -111,21 +111,21 @@ static void tegra186_mc_client_sid_override(str=
+uct tegra_mc *mc,
+> > >  static int tegra186_mc_probe_device(struct tegra_mc *mc, struct devi=
+ce *dev)
+> > >  {
+> > >  #if IS_ENABLED(CONFIG_IOMMU_API)
+> > > -	struct iommu_fwspec *fwspec =3D dev_iommu_fwspec_get(dev);
+> > >  	struct of_phandle_args args;
+> > >  	unsigned int i, index =3D 0;
+> > > +	u32 sid;
+> > > =20
+> > > +	WARN_ON(!tegra_dev_iommu_get_stream_id(dev, &sid));
+> >=20
+> > I know the code previously didn't check for any errors, but we may want
+> > to do so now. If tegra_dev_iommu_get_stream_id() ever fails we may end
+> > up writing some undefined value into the override register.
+>=20
+> My assumption was it never fails otherwise this probably already
+> doesn't work?
 
-> interrupts on suspend.
-> 
-> Add functions panfrost_{gpu,job,mmu}_suspend_irq() which will perform
-> interrupts masking and ISR execution synchronization, and then call
-> those in the panfrost_device_runtime_suspend() handler in the exact
-> sequence of job (may require mmu!) -> mmu -> gpu.
-> 
-> As a side note, JOB and MMU suspend_irq functions needed some special
-> treatment: as their interrupt handlers will unmask interrupts, it was
-> necessary to add a bitmap for `is_suspended` which is used to address
+I guess the point I was trying to make is that previously we would not
+have written anything to the stream ID register and so ignoring the
+error here might end up writing to a register that previously we would
+not have written to. Looking at the current code more closely I see now
+that the reason why we wouldn't have written to the register is because
+we would've crashed before.
 
-            to add an `is_suspended` bitmap which is used...
+So I think this okay.
 
-> the possible corner case of unintentional IRQ unmasking because of ISR
-> execution after a call to synchronize_irq().
+>=20
+> > I'm also unsure if WARN_ON() is appropriate here. I vaguely recall that
+> > ->probe_device() was called for all devices on the bus and not all of
+> > them may have been associated with the IOMMU. Not all of them may in
+> > fact access memory in the first place.
+>=20
+> So you are thinkin that of_parse_phandle_with_args() is a NOP
+> sometimes so it will tolerate the failure?
+>=20
+> Seems like the best thing to do is just continue to ignore it then?
 
-Also fixes the case where the interrupt handler is called when the
-device is suspended because the IRQ line is shared with another device.
-No need to update the commit message for that though.
+Yeah, exactly. It would've just skipped over everything, basically.
 
-> 
-> At resume, clear each is_suspended bit in the reset path of JOB/MMU
-> to allow unmasking the interrupts.
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> ---
->  drivers/gpu/drm/panfrost/panfrost_device.c |  3 +++
->  drivers/gpu/drm/panfrost/panfrost_device.h |  7 +++++++
->  drivers/gpu/drm/panfrost/panfrost_gpu.c    |  6 ++++++
->  drivers/gpu/drm/panfrost/panfrost_gpu.h    |  1 +
->  drivers/gpu/drm/panfrost/panfrost_job.c    | 20 +++++++++++++++++---
->  drivers/gpu/drm/panfrost/panfrost_job.h    |  1 +
->  drivers/gpu/drm/panfrost/panfrost_mmu.c    | 19 ++++++++++++++++---
->  drivers/gpu/drm/panfrost/panfrost_mmu.h    |  1 +
->  8 files changed, 52 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-> index c90ad5ee34e7..a45e4addcc19 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-> @@ -421,6 +421,9 @@ static int panfrost_device_runtime_suspend(struct device *dev)
->  		return -EBUSY;
->  
->  	panfrost_devfreq_suspend(pfdev);
-> +	panfrost_job_suspend_irq(pfdev);
-> +	panfrost_mmu_suspend_irq(pfdev);
-> +	panfrost_gpu_suspend_irq(pfdev);
->  	panfrost_gpu_power_off(pfdev);
->  
->  	return 0;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-> index 54a8aad54259..5c24f01f8904 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-> @@ -25,6 +25,12 @@ struct panfrost_perfcnt;
->  #define NUM_JOB_SLOTS 3
->  #define MAX_PM_DOMAINS 5
->  
-> +enum panfrost_drv_comp_bits {
-> +	PANFROST_COMP_BIT_MMU,
-> +	PANFROST_COMP_BIT_JOB,
+> > Perhaps I'm misremembering and the IOMMU core now takes care of only
+> > calling this when fwspec is indeed valid?
+>=20
+> Can't advise, I have no idea what tegra_mc_ops is for :)
 
-I think we need one for the GPU interrupt too, for the
-irq-line-is-shared-with-another-device thing I was mentioning.
+In a nutshell, it's a hook that allows us to configure the memory
+controller when a device is attached to the IOMMU. The memory controller
+contains a set of registers that specify which memory client uses which
+stream ID by default. For some devices this can be overridden (which is
+where tegra_dev_iommu_get_stream_id() comes into play in those drivers)
+and for other devices we can't override, which is when the memory
+controller defaults come into play.
 
-> +	PANFROST_COMP_BIT_MAX
-> +};
-> +
->  /**
->   * enum panfrost_gpu_pm - Supported kernel power management features
->   * @GPU_PM_CLK_DIS:  Allow disabling clocks during system suspend
-> @@ -109,6 +115,7 @@ struct panfrost_device {
->  
->  	struct panfrost_features features;
->  	const struct panfrost_compatible *comp;
-> +	DECLARE_BITMAP(is_suspended, PANFROST_COMP_BIT_MAX);
->  
->  	spinlock_t as_lock;
->  	unsigned long as_in_use_mask;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> index 7adc4441fa14..3a6a4fe7aca1 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> @@ -452,6 +452,12 @@ void panfrost_gpu_power_off(struct panfrost_device *pfdev)
->  		dev_err(pfdev->dev, "l2 power transition timeout");
->  }
->  
-> +void panfrost_gpu_suspend_irq(struct panfrost_device *pfdev)
-> +{
+Anyway, I took a closer look at this and ran some tests. Turns out that
+tegra186_mc_probe_device() really only gets called for devices that have
+their fwspec properly initialized anyway, so I don't think there's
+anything special we need to do here.
 
-        set_bit(PANFROST_COMP_BIT_GPU, pfdev->is_suspended);
+Strictly from a static analysis point of view I suppose we could now
+have a situation that sid is uninitialized when the call to
+tegra_dev_iommu_get_stream_id() fails and so using it in the loop is not
+correct, theoretically, but I think that's just not a case that we'll
+ever hit in practice.
 
-here, and an extra check in panfrost_gpu_irq_handler() to bail out
-before the register accesses if PANFROST_COMP_BIT_GPU is set.
+So either way is fine with me. I have a slight preference for just
+returning 0 in case tegra_dev_iommu_get_stream_id() fails, because it's
+simple to do and avoids any of these (theoretical) ambiguities. So
+whichever way you decide:
 
-> +	gpu_write(pfdev, GPU_INT_MASK, 0);
-> +	synchronize_irq(pfdev->gpu_irq);
-> +}
-> +
->  int panfrost_gpu_init(struct panfrost_device *pfdev)
->  {
->  	int err;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.h b/drivers/gpu/drm/panfrost/panfrost_gpu.h
-> index 876fdad9f721..d841b86504ea 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.h
-> @@ -15,6 +15,7 @@ u32 panfrost_gpu_get_latest_flush_id(struct panfrost_device *pfdev);
->  int panfrost_gpu_soft_reset(struct panfrost_device *pfdev);
->  void panfrost_gpu_power_on(struct panfrost_device *pfdev);
->  void panfrost_gpu_power_off(struct panfrost_device *pfdev);
-> +void panfrost_gpu_suspend_irq(struct panfrost_device *pfdev);
->  
->  void panfrost_cycle_counter_get(struct panfrost_device *pfdev);
->  void panfrost_cycle_counter_put(struct panfrost_device *pfdev);
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index f9446e197428..7600e7741211 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -405,6 +405,8 @@ void panfrost_job_enable_interrupts(struct panfrost_device *pfdev)
->  	int j;
->  	u32 irq_mask = 0;
->  
-> +	clear_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended);
-> +
->  	for (j = 0; j < NUM_JOB_SLOTS; j++) {
->  		irq_mask |= MK_JS_MASK(j);
->  	}
-> @@ -413,6 +415,14 @@ void panfrost_job_enable_interrupts(struct panfrost_device *pfdev)
->  	job_write(pfdev, JOB_INT_MASK, irq_mask);
->  }
->  
-> +void panfrost_job_suspend_irq(struct panfrost_device *pfdev)
-> +{
-> +	set_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended);
-> +
-> +	job_write(pfdev, JOB_INT_MASK, 0);
-> +	synchronize_irq(pfdev->js->irq);
-> +}
-> +
->  static void panfrost_job_handle_err(struct panfrost_device *pfdev,
->  				    struct panfrost_job *job,
->  				    unsigned int js)
-> @@ -792,9 +802,13 @@ static irqreturn_t panfrost_job_irq_handler_thread(int irq, void *data)
->  	struct panfrost_device *pfdev = data;
->  
->  	panfrost_job_handle_irqs(pfdev);
-> -	job_write(pfdev, JOB_INT_MASK,
-> -		  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
-> -		  GENMASK(NUM_JOB_SLOTS - 1, 0));
-> +
-> +	/* Enable interrupts only if we're not about to get suspended */
-> +	if (!test_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended))
-> +		job_write(pfdev, JOB_INT_MASK,
-> +			  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
-> +			  GENMASK(NUM_JOB_SLOTS - 1, 0));
-> +
+Reviewed-by: Thierry Reding <treding@nvidia.com>
 
-Missing if (test_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended)) in
-panfrost_job_irq_handler(), to make sure you don't access the registers
-if the GPU is suspended.
+--TpTVMO/RkXn9/fAN
+Content-Type: application/pgp-signature; name="signature.asc"
 
->  	return IRQ_HANDLED;
->  }
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
-> index 17ff808dba07..ec581b97852b 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
-> @@ -47,6 +47,7 @@ int panfrost_job_get_slot(struct panfrost_job *job);
->  int panfrost_job_push(struct panfrost_job *job);
->  void panfrost_job_put(struct panfrost_job *job);
->  void panfrost_job_enable_interrupts(struct panfrost_device *pfdev);
-> +void panfrost_job_suspend_irq(struct panfrost_device *pfdev);
->  int panfrost_job_is_idle(struct panfrost_device *pfdev);
->  
->  #endif
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> index ac4296c1e54b..d79d41fe22fe 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> @@ -231,6 +231,8 @@ void panfrost_mmu_reset(struct panfrost_device *pfdev)
->  {
->  	struct panfrost_mmu *mmu, *mmu_tmp;
->  
-> +	clear_bit(PANFROST_COMP_BIT_MMU, pfdev->is_suspended);
-> +
->  	spin_lock(&pfdev->as_lock);
->  
->  	pfdev->as_alloc_mask = 0;
-> @@ -744,9 +746,12 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(int irq, void *data)
->  			status = mmu_read(pfdev, MMU_INT_RAWSTAT) & ~pfdev->as_faulty_mask;
->  	}
->  
-> -	spin_lock(&pfdev->as_lock);
-> -	mmu_write(pfdev, MMU_INT_MASK, ~pfdev->as_faulty_mask);
-> -	spin_unlock(&pfdev->as_lock);
-> +	/* Enable interrupts only if we're not about to get suspended */
-> +	if (!test_bit(PANFROST_COMP_BIT_MMU, pfdev->is_suspended)) {
-> +		spin_lock(&pfdev->as_lock);
-> +		mmu_write(pfdev, MMU_INT_MASK, ~pfdev->as_faulty_mask);
-> +		spin_unlock(&pfdev->as_lock);
-> +	}
+-----BEGIN PGP SIGNATURE-----
 
-Ditto, missing if (test_bit(PANFROST_COMP_BIT_MMU, pfdev->is_suspended))
-in panfrost_job_irq_handler(), to make sure you don't access the
-registers if the GPU is suspended.
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmVpwgIACgkQ3SOs138+
+s6HXLg/9HWFRkWBCsjCmwhdNLy/49eLCajrcOU069eBFBS0YM+rhIa4d/XwXv96C
+WEC1AzUuDGAVKvfWbkjzCOtBKr+o0psunt8sHYRX+PtyekOF270j3ud+7Ny/6dQk
+Ca9GevvG0yyYfEcSiowRZXKSzrhj4OSDS83QJbmBiyw3+VyA25+zO/C+Lzib1mG9
+2Kn+od5hqOQFqylwazJAZy358DzVSmyF6iSR0kbmS5mvNrtWS/dT4Zeh2raYJgRn
+MF+f0u+1M8i7Iv65/I5sG83I086p9ictlV1qkMGHY01q7uCAo5p2EM6KlP8Qv/N1
+W+DZQpciP9+ENmkcYjEiNEnNw4efMQThCtXbB4VYxb8Jo/To8eV2/sOGUoLdhwWV
+H8tPPCBfzYtSAsSNXpYK8gWQXCfaHjuO3SFe0itosbSHYw4x+SoECXTVi8L6GBwV
+jDEYuyrcakUhR+vsxuOXlP4TzcIiNoCf1lO8LnfWVjoHcA/1dG1uA6Bup6CtNe+A
+lS3xMmMXDVdZS49hw5EvUTd7Liu+si9RzLkmv4IGWBXlL01VTFYRygKZ1lZLKgPP
+lZWUFLZPunTK7Mlew7PLW7GJg1MzsEkM3htQmVfWzPL7D95RKk3ufiOimGdzknro
+ZaxbslDQOTUAoqgnKVnmzMJbfR+HTasb+X8EuoCb4G9dHDEPq1g=
+=hKzE
+-----END PGP SIGNATURE-----
 
->  
->  	return IRQ_HANDLED;
->  };
-> @@ -777,3 +782,11 @@ void panfrost_mmu_fini(struct panfrost_device *pfdev)
->  {
->  	mmu_write(pfdev, MMU_INT_MASK, 0);
->  }
-> +
-> +void panfrost_mmu_suspend_irq(struct panfrost_device *pfdev)
-> +{
-> +	set_bit(PANFROST_COMP_BIT_MMU, pfdev->is_suspended);
-> +
-> +	mmu_write(pfdev, MMU_INT_MASK, 0);
-> +	synchronize_irq(pfdev->mmu_irq);
-> +}
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.h b/drivers/gpu/drm/panfrost/panfrost_mmu.h
-> index cc2a0d307feb..022a9a74a114 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.h
-> @@ -14,6 +14,7 @@ void panfrost_mmu_unmap(struct panfrost_gem_mapping *mapping);
->  int panfrost_mmu_init(struct panfrost_device *pfdev);
->  void panfrost_mmu_fini(struct panfrost_device *pfdev);
->  void panfrost_mmu_reset(struct panfrost_device *pfdev);
-> +void panfrost_mmu_suspend_irq(struct panfrost_device *pfdev);
->  
->  u32 panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_mmu *mmu);
->  void panfrost_mmu_as_put(struct panfrost_device *pfdev, struct panfrost_mmu *mmu);
-
+--TpTVMO/RkXn9/fAN--
