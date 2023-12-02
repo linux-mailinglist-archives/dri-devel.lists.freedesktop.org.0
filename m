@@ -1,71 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A94D5801E87
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Dec 2023 21:40:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09B4B801ED1
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Dec 2023 22:42:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFFB210E0BC;
-	Sat,  2 Dec 2023 20:40:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4153510E200;
+	Sat,  2 Dec 2023 21:42:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 463 seconds by postgrey-1.36 at gabe;
- Sat, 02 Dec 2023 20:40:19 UTC
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A09C10E0BC
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Dec 2023 20:39:55 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id F055A1FDC5;
- Sat,  2 Dec 2023 20:34:42 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B867E13A23;
- Sat,  2 Dec 2023 20:34:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
- by imap1.dmz-prg2.suse.org with ESMTPSA id M60RK+KUa2W6KQAAD6G6ig
- (envelope-from <jdelvare@suse.de>); Sat, 02 Dec 2023 20:34:42 +0000
-Date: Sat, 2 Dec 2023 21:34:41 +0100
-From: Jean Delvare <jdelvare@suse.de>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH RESEND] drm/logicvc: Drop obsolete dependency on COMPILE_TEST
-Message-ID: <20231202213441.62397e81@endymion.delvare>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.34; x86_64-suse-linux-gnu)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97FF110E0CB
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Dec 2023 21:40:19 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id
+ 2adb3069b0e04-50bc21821a1so4624862e87.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Dec 2023 13:40:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701553217; x=1702158017; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=SBC2etg0t87/NEQAbw4GxIuosiaBjUOZpDVVT0P9EvQ=;
+ b=O5Rw31ZUGuaAamnWITVDyTSbEuk9XrdciMa0Nuc8EMtFv092SdLT3b4P+KKpWF8Zvk
+ u2w3yul5IgGShkgz7A2ZCgxdbdLc7VZmFNFs9Pidfr/BjNLjcdgc30FxpQao3KpXrBuL
+ WXLWZ/5KOFGcwAQzYADgWzPl/itaKICZ6vmKIXIBhpiJV3jkDNNY9f1DL6s7Z8LshdYQ
+ 4dQ+kvkvrc6V+lanBxbCjfqXwFls3U4kJ+fQveAdwNMmomRwudF8r34suyXvzSncvrml
+ iAsPAFb/NegI+RTQJOc8c+SwNoFCMx961QmKeZFF9EVHVzwWyxNycjwL3SP6KRn5JNZ5
+ wuyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701553217; x=1702158017;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=SBC2etg0t87/NEQAbw4GxIuosiaBjUOZpDVVT0P9EvQ=;
+ b=T1aIexEO4Ogso7JWVn6wSfqMGqvOi8Wnyh3+MtimH2psVok7e5CfR5ne3DnN9Y1MBQ
+ IY0o8j8y6o6rbxHiSBFLE4tIb2jwmSucAoKAEatwAdkGfHOp/lCPXEyRhLbFIYDKMsMc
+ +9nAMXaK4ER9f5qR08vCmup8dXl8/mY36n8pvq42NN5UrVMGhFD0w/FOmihq3p9w2RwM
+ zDkHuWpB0v4mKj2/um2odtPqduSXYjA6tjZnnYZGL2EAdlzLFagXGASmeTy0IzMChodF
+ PNyLnvD9khYGC/BKcKgonlXDSfOXNjHd4Ky0+ugkzbS43BeiNzAXLABfg33BnxHw9aGN
+ 5g/g==
+X-Gm-Message-State: AOJu0YyX7VNwcPeiinVKmmBR4RDe/FeaHSHSZ4rkH8qQUQ9GG97MsDCi
+ YoD9n7Jw/qvey9YDIz/smM7NNw==
+X-Google-Smtp-Source: AGHT+IF5YX9R0gQVH2TWa8b1HlMk/s4pSRy3Qk5p94J6OHigE3id3WsnP2AAZXxSg9IBfJW/WuFa/w==
+X-Received: by 2002:a05:6512:3086:b0:50b:cb52:3c2c with SMTP id
+ z6-20020a056512308600b0050bcb523c2cmr2452649lfd.29.1701553217543; 
+ Sat, 02 Dec 2023 13:40:17 -0800 (PST)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ f24-20020ac25338000000b0050be6038170sm282996lfh.48.2023.12.02.13.40.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 02 Dec 2023 13:40:16 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH 00/12] drm/msm: fold dpu_format into mdp_formats database
+Date: Sun,  3 Dec 2023 00:40:04 +0300
+Message-Id: <20231202214016.1257621-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spamd-Bar: ++++++++++
-X-Spam-Score: 10.03
-X-Rspamd-Server: rspamd1
-Authentication-Results: smtp-out2.suse.de; dkim=none;
- spf=softfail (smtp-out2.suse.de: 2a07:de40:b281:104:10:150:64:97 is neither
- permitted nor denied by domain of jdelvare@suse.de)
- smtp.mailfrom=jdelvare@suse.de; 
- dmarc=fail reason="No valid SPF,
- No valid DKIM" header.from=suse.de (policy=none)
-X-Rspamd-Queue-Id: F055A1FDC5
-X-Spam-Flag: NO
-X-Spam-Level: **********
-X-Spamd-Result: default: False [10.03 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
- ARC_NA(0.00)[]; FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
- R_SPF_SOFTFAIL(4.60)[~all]; RCPT_COUNT_FIVE(0.00)[5];
- HAS_ORG_HEADER(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
- MX_GOOD(-0.01)[]; NEURAL_HAM_SHORT(-0.20)[-0.999];
- NEURAL_SPAM_LONG(3.50)[1.000];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- R_DKIM_NA(2.20)[]; MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
- BAYES_HAM(-0.06)[60.83%];
- DMARC_POLICY_SOFTFAIL(0.10)[suse.de : No valid SPF, No valid DKIM,none]
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,42 +72,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since commit 0166dc11be91 ("of: make CONFIG_OF user selectable"), it
-is possible to test-build any driver which depends on OF on any
-architecture by explicitly selecting OF. Therefore depending on
-COMPILE_TEST as an alternative is no longer needed.
+During the review of [1] Abhinav pointed out that mdp_rgb_formats and
+mdp_rgb_yuv_formats arrays from patch 1 are directly based on the struct
+mdp_format formats array. This was true, because MDP4 / MDP5 drivers
+used their own (small) list of supported formats. The DPU driver,
+supporting more formats, had larger database of the formats and their
+properties. While we don't have plans to expand MDP5 formats support, it
+make sense to merge these two databases into a common dataset.
 
-Signed-off-by: Jean Delvare <jdelvare@suse.de>
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
----
-Already sent on: 2022-11-21, 2023-01-27
+[1] https://patchwork.freedesktop.org/series/120377/
 
-This is one of the only 4 remaining occurrences of this deprecated
-construct.
+Dmitry Baryshkov (12):
+  drm/msm: fix BPC1 -> BPC4
+  drm/msm/disp: add mdp_fetch_mode enum
+  drm/msm/dpu: use format-related definitions from mdp_common.xml.h
+  drm/msm: add arrays listing formats supported by MDP4/MDP5 hardware
+  drm/msm/dpu: in dpu_format replace bitmap with unsigned long field
+  drm/msm/dpu: pull format flag definitions to msm_drv.h
+  drm/msm: merge dpu_format and mdp_format in struct msm_format
+  drm/msm: convert msm_format::unpack_tight to the flag
+  drm/msm: convert msm_format::unpack_align_msb to the flag
+  drm/msm: convert msm_format::alpha_enable to the flag
+  drm/msm: merge dpu format database to MDP formats
+  drm/msm: drop msm_kms_funcs::get_format() callback
 
- drivers/gpu/drm/logicvc/Kconfig |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- linux-6.6.orig/drivers/gpu/drm/logicvc/Kconfig
-+++ linux-6.6/drivers/gpu/drm/logicvc/Kconfig
-@@ -1,7 +1,7 @@
- config DRM_LOGICVC
- 	tristate "LogiCVC DRM"
- 	depends on DRM
--	depends on OF || COMPILE_TEST
-+	depends on OF
- 	select DRM_KMS_HELPER
- 	select DRM_KMS_DMA_HELPER
- 	select DRM_GEM_DMA_HELPER
-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |  22 +-
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  |   4 +-
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |   6 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   | 658 +-----------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h   |  23 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   |  16 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h   |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   | 123 +---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   |  45 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |   6 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c   |  17 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h   |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c     |  22 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h     |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |  75 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c     |   6 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c      |   1 -
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c    |  89 ++-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c     |  16 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c      |   1 -
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c    |  98 ++-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c      |   4 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.h      |   2 +-
+ drivers/gpu/drm/msm/disp/mdp_common.xml.h     |   8 +-
+ drivers/gpu/drm/msm/disp/mdp_format.c         | 611 +++++++++++++---
+ drivers/gpu/drm/msm/disp/mdp_kms.h            |  17 -
+ drivers/gpu/drm/msm/msm_drv.h                 |  64 ++
+ drivers/gpu/drm/msm/msm_fb.c                  |   2 +-
+ drivers/gpu/drm/msm/msm_kms.h                 |   4 -
+ 30 files changed, 884 insertions(+), 1065 deletions(-)
 
 -- 
-Jean Delvare
-SUSE L3 Support
+2.39.2
+
