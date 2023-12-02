@@ -1,73 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC2B6801C58
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Dec 2023 12:12:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C2E801CB7
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Dec 2023 13:52:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B78E210E02F;
-	Sat,  2 Dec 2023 11:12:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE21710E1D6;
+	Sat,  2 Dec 2023 12:52:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B19610E03D
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Dec 2023 11:12:07 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-2c9ee6fed3eso6269051fa.0
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Dec 2023 03:12:07 -0800 (PST)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E09E810E19A
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Dec 2023 12:52:00 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id
+ a640c23a62f3a-a187cd4eb91so388388466b.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Dec 2023 04:52:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701515526; x=1702120326; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Ye7uYp1nmAK2nKeV+Qnc2ULdi2skK6GG5U5rkpVgBoU=;
- b=hXM0x9WBKBwiB55kpTzV7L7r2NMP+TehkaFLLU8UOOHp52slRDvV+0zItdgS0Mbk9T
- 1QpFxG2MX+lG3xQArxj38M4RtdMXahpElE5sLiT8dnLtc7WNVXTcqvSw2FYjf8FO9qe9
- VNR/gl10mVD6MwMdlSxftCYbjfLCY9UMIEjm2JHNyZzGvE9nuuOsukqCcR2psx7DqgJi
- WRTGCkeR9YG63ix33Lsh4LeMBn3VeeZQ5Whav4SyVpAoVOXs1QICB5gZF4q5wV/d9jyj
- 6OwJZUD+u49HvRTtepFhiwPs9FOrXYYaWlnID8hBXjVJPEvyy/hdnLXAj7Q2Gv7YSLEv
- 30qA==
+ d=gmail.com; s=20230601; t=1701521519; x=1702126319; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=alZsdcAcMlLtVRnOYds6Kv0dEWGog0rlTIYGT7GnEUw=;
+ b=ZNvrmwQye6OCvVbH9P8Ek/FsNqvQ1CAOwzNGTYk3P5DZoe0gB5ej5Me0ep7rYjFY85
+ iyLBl8f9eEJZ268md1GkKPRmZvcXAOsgrfKj4JRhXGxDHZLYcUW2ENP48NITv8Fcoi1E
+ F7ZcjKU2QtZeXudXtjSG89HVpXXvH2t5fDyh0HFQRiMoARnEctSs8c2zxjWy7AxJunfB
+ iVtGdGVUS+BcuhADVyl0xzeeLp/vxOmWZZhMk4rQTKa7srfmys5Etukmm8vsq6JeXhHS
+ ldnddUnksNAnDakX+YN3O88iEZN1MFyCRyXkg3kTvcA3tVh98e3ioj9cvibUcveEfD3V
+ gQYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701515526; x=1702120326;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ye7uYp1nmAK2nKeV+Qnc2ULdi2skK6GG5U5rkpVgBoU=;
- b=Hoxhfmpdw0mUv2+cs9dgdpeNSJ/Xf8DdNpMzWA9sMyYUJnVdmRz73p4hEQjBRoDAym
- G/B6+G9iqikDVq6S/aXS2MFc16467FAILH0c8azN8622Sae/I3ghwRg6Ol7GLgLGcoM+
- xJ4FTjsY6GLaWe5AFz6eIIOauXq+qKC5HPYD4Ug+g+8lDbem2GPcxqLBVZO2rqKN3z/2
- SFSCWIRKQXTlBKyorz8rVmTVpB5rsrf1FdsD7B/LSONaeDhQKOIC9cxc3enwmI8pnSX3
- mxnoKxsCe0rRFvZSYLacXpKAMVCiCUVP7COUXACw/MgnQ++66zOBaseyUviXDqelOIic
- ugAw==
-X-Gm-Message-State: AOJu0YxUr+Xt+LBTK7SGS0roTpZ+q2qxjc76d+j3PNlB3oQEl/r+oOud
- 9mIJveu6zYiqD9GQR5CQg42uFQ==
-X-Google-Smtp-Source: AGHT+IGvGjkThsYR3UUVLQAlKIxV9cBXcsJZftyrwSYfFBkAKYldOtihnoBuJqklB3k+/mK35PAMHQ==
-X-Received: by 2002:a2e:81d1:0:b0:2c9:ed9f:9dff with SMTP id
- s17-20020a2e81d1000000b002c9ed9f9dffmr517970ljg.88.1701515525554; 
- Sat, 02 Dec 2023 03:12:05 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ d=1e100.net; s=20230601; t=1701521519; x=1702126319;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=alZsdcAcMlLtVRnOYds6Kv0dEWGog0rlTIYGT7GnEUw=;
+ b=VlOWNQIKuooabxTc0JNItPHOJDufdImttmF7KJRaerHr72RwF5p+qfaLJRE+M7ie5K
+ Zb1OYzQ1SqgaUV1rVbdHZU5at9YrVUAvVeRPS3kaO6pcbD2mBcWmtMo2p9WzckRyJAZ2
+ uelNLnRo8NcdSZYJiGErkV4WMGtwyceDiGohAlArGehR0DvnGS4QVqsGlLCCC137gTPT
+ /siBBXecs4tGrv8I6Hzd2wbdBlzKfavP8ezi52jOp9WNZtrTwlmEHFmHFoUVUBrw9Ugt
+ gfNGYK0cMC8naWq4UUz+knjPLi36yo6S8OF0TQIC0mFisCaugn4HNu3cKtoSMJPJ0HI6
+ R94w==
+X-Gm-Message-State: AOJu0YwGbizHRVz1hXpT+BsojPyol3+sgVfdM6soiyWJzI6PhG1Abusj
+ 6t/YjZUbcrk4PZVQYd71YA==
+X-Google-Smtp-Source: AGHT+IHtz8+Zp/uL1trpgUWl4gzjVY8w4Xh7BBppb7LpwHM+Q+E5jb/aRHUwTg4W9siZYL2ZFwznIQ==
+X-Received: by 2002:a17:906:51d9:b0:a1a:76cd:697c with SMTP id
+ v25-20020a17090651d900b00a1a76cd697cmr219758ejk.100.1701521519205; 
+ Sat, 02 Dec 2023 04:51:59 -0800 (PST)
+Received: from U4.lan ([2a02:810b:f40:4300:908e:b829:354b:f8ee])
  by smtp.gmail.com with ESMTPSA id
- l21-20020a2ea315000000b002c9bae02ca9sm687112lje.18.2023.12.02.03.12.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Dec 2023 03:12:05 -0800 (PST)
-Message-ID: <67c2f17d-4405-4a44-8215-202759957885@linaro.org>
-Date: Sat, 2 Dec 2023 13:12:04 +0200
+ g5-20020a170906198500b009c5c5c2c5a4sm3018161ejd.219.2023.12.02.04.51.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 02 Dec 2023 04:51:58 -0800 (PST)
+From: Alex Bee <knaerzche@gmail.com>
+To: Heiko Stuebner <heiko@sntech.de>, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH v2 0/5] Add power-controller and gpu for RK3128
+Date: Sat,  2 Dec 2023 13:51:39 +0100
+Message-ID: <20231202125144.66052-1-knaerzche@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/17] drm/msm: add arrays listing formats supported by
- MDP4/MDP5 hardware
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230708010407.3871346-1-dmitry.baryshkov@linaro.org>
- <20230708010407.3871346-2-dmitry.baryshkov@linaro.org>
- <47635658-6424-7f95-97e8-0955e262fec1@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <47635658-6424-7f95-97e8-0955e262fec1@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,135 +72,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Alex Bee <knaerzche@gmail.com>, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/12/2023 03:36, Abhinav Kumar wrote:
-> 
-> 
-> On 7/7/2023 6:03 PM, Dmitry Baryshkov wrote:
->> MDP4 and MDP5 drivers enumerate supported formats each time the plane is
->> created. As the list of supported image formats is constant, create
->> corresponding data arrays to be used by MDP4 and MDP5 drivers.
->>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   drivers/gpu/drm/msm/disp/mdp_format.c | 49 +++++++++++++++++++++++++--
->>   drivers/gpu/drm/msm/disp/mdp_kms.h    |  5 +++
->>   2 files changed, 52 insertions(+), 2 deletions(-)
->>
-> 
-> After going through the patch series, as commented in patch 17 I am 
-> totally fine with migrating to drmm-managed APIs but I dont like to 
-> maintain 3 format arrays.
-> 
-> Can we keep the existing format mechanism to avoid having two more arrays?
+The first patch in this series fixes the pm-domain driver and adds
+power-domains which are currently missing. This touches the ABI which is
+not and was never used until now. Not all of them are used yet, but when
+the power-controller is added to the DT in patch 2 the ABI should not
+be changed again.
+Patch 3-5 are adding the the gpu compatible to dt-bindings, adding the gpu
+node and the respective operating points to SoC DT and finally enabling it
+for XPI-3128 board.
 
-For DPU we have exactly the same idea: single formats data array 
-describing and per-usecase arrays, like plane RGB arrays, plane YUV+RGB 
-array, WB arrays.
+Note: DT patches are based on maintainer's repo.
 
-Anyway. formats was one of the topics where we had a lot of duplication 
-between mdp4/mdp5 and dpu anyway. I think I'm going to back up the 
-patches 1, 10, 16, 17 (plane patches depend on the format arrays), push 
-the rest of the patches to msm-next-lumag and send a series reworking 
-all the formats handling.
+Alex Bee (5):
+  pmdomain: rockchip: Add missing powerdomains for RK3128
+  ARM: dts: rockchip: Add power-controller for RK3128
+  dt-bindings: gpu: mali-utgard: Add Rockchip RK3128 compatible
+  ARM: dts: rockchip: Add GPU node for RK3128
+  ARM: dts: rockchip: Enable GPU for XPI-3128
+
+ .../bindings/gpu/arm,mali-utgard.yaml         |   1 +
+ .../arm/boot/dts/rockchip/rk3128-xpi-3128.dts |   5 +
+ arch/arm/boot/dts/rockchip/rk3128.dtsi        | 145 ++++++++++++++++++
+ drivers/pmdomain/rockchip/pm-domains.c        |  13 +-
+ include/dt-bindings/power/rk3128-power.h      |   3 +
+ 5 files changed, 162 insertions(+), 5 deletions(-)
 
 
-> 
->> diff --git a/drivers/gpu/drm/msm/disp/mdp_format.c 
->> b/drivers/gpu/drm/msm/disp/mdp_format.c
->> index 025595336f26..ba9abe8b3acc 100644
->> --- a/drivers/gpu/drm/msm/disp/mdp_format.c
->> +++ b/drivers/gpu/drm/msm/disp/mdp_format.c
->> @@ -81,8 +81,8 @@ static struct csc_cfg csc_convert[CSC_MAX] = {
->>   #define BPC0A 0
->>   /*
->> - * Note: Keep RGB formats 1st, followed by YUV formats to avoid breaking
->> - * mdp_get_rgb_formats()'s implementation.
->> + * Note: Keep mdp_rgb_formats and mdp_rgb_yuv_formats in sync when 
->> adding
->> + * entries to this array.
->>    */
->>   static const struct mdp_format formats[] = {
->>       /*  name      a  r  g  b   e0 e1 e2 e3  alpha   tight  cpp cnt 
->> ... */
->> @@ -138,6 +138,51 @@ static const struct mdp_format formats[] = {
->>               MDP_PLANE_PLANAR, CHROMA_420, true),
->>   };
->> +const uint32_t mdp_rgb_formats[] = {
->> +    DRM_FORMAT_ARGB8888,
->> +    DRM_FORMAT_ABGR8888,
->> +    DRM_FORMAT_RGBA8888,
->> +    DRM_FORMAT_BGRA8888,
->> +    DRM_FORMAT_XRGB8888,
->> +    DRM_FORMAT_XBGR8888,
->> +    DRM_FORMAT_RGBX8888,
->> +    DRM_FORMAT_BGRX8888,
->> +    DRM_FORMAT_RGB888,
->> +    DRM_FORMAT_BGR888,
->> +    DRM_FORMAT_RGB565,
->> +    DRM_FORMAT_BGR565,
->> +};
->> +
->> +size_t mdp_rgb_num_formats = ARRAY_SIZE(mdp_rgb_formats);
->> +
->> +const uint32_t mdp_rgb_yuv_formats[] = {
->> +    DRM_FORMAT_ARGB8888,
->> +    DRM_FORMAT_ABGR8888,
->> +    DRM_FORMAT_RGBA8888,
->> +    DRM_FORMAT_BGRA8888,
->> +    DRM_FORMAT_XRGB8888,
->> +    DRM_FORMAT_XBGR8888,
->> +    DRM_FORMAT_RGBX8888,
->> +    DRM_FORMAT_BGRX8888,
->> +    DRM_FORMAT_RGB888,
->> +    DRM_FORMAT_BGR888,
->> +    DRM_FORMAT_RGB565,
->> +    DRM_FORMAT_BGR565,
->> +
->> +    DRM_FORMAT_NV12,
->> +    DRM_FORMAT_NV21,
->> +    DRM_FORMAT_NV16,
->> +    DRM_FORMAT_NV61,
->> +    DRM_FORMAT_VYUY,
->> +    DRM_FORMAT_UYVY,
->> +    DRM_FORMAT_YUYV,
->> +    DRM_FORMAT_YVYU,
->> +    DRM_FORMAT_YUV420,
->> +    DRM_FORMAT_YVU420,
->> +};
->> +
->> +size_t mdp_rgb_yuv_num_formats = ARRAY_SIZE(mdp_rgb_yuv_formats);
->> +
->>   /*
->>    * Note:
->>    * @rgb_only must be set to true, when requesting
->> diff --git a/drivers/gpu/drm/msm/disp/mdp_kms.h 
->> b/drivers/gpu/drm/msm/disp/mdp_kms.h
->> index b0286d5d5130..11402a859574 100644
->> --- a/drivers/gpu/drm/msm/disp/mdp_kms.h
->> +++ b/drivers/gpu/drm/msm/disp/mdp_kms.h
->> @@ -94,6 +94,11 @@ struct mdp_format {
->>   uint32_t mdp_get_formats(uint32_t *formats, uint32_t max_formats, 
->> bool rgb_only);
->>   const struct msm_format *mdp_get_format(struct msm_kms *kms, 
->> uint32_t format, uint64_t modifier);
->> +extern const uint32_t mdp_rgb_formats[];
->> +extern size_t mdp_rgb_num_formats;
->> +extern const uint32_t mdp_rgb_yuv_formats[];
->> +extern size_t mdp_rgb_yuv_num_formats;
->> +
->>   /* MDP capabilities */
->>   #define MDP_CAP_SMP        BIT(0)    /* Shared Memory 
->> Pool                 */
->>   #define MDP_CAP_DSC        BIT(1)    /* VESA Display Stream 
->> Compression    */
-
+base-commit: fd610e604837936440ef7c64ab6998b004631647
 -- 
-With best wishes
-Dmitry
+2.43.0
 
