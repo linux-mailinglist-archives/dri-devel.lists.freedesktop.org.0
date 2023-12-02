@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DC9F801B3A
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Dec 2023 08:58:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFBA5801B3D
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Dec 2023 08:59:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6EA810E111;
-	Sat,  2 Dec 2023 07:58:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06DFC10E10D;
+	Sat,  2 Dec 2023 07:59:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E632A10E10D
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Dec 2023 07:58:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD66F10E10D
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Dec 2023 07:59:02 +0000 (UTC)
 Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
- by mail5.25mail.st (Postfix) with ESMTPSA id 31C0D60406;
- Sat,  2 Dec 2023 07:57:23 +0000 (UTC)
+ by mail5.25mail.st (Postfix) with ESMTPSA id 81C4A6049B;
+ Sat,  2 Dec 2023 07:58:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
- s=25mailst; t=1701503890;
- bh=pYZDqv60J0kWtQmrHNDGXYKDdbKD0ihTl1dkeCNc3YY=;
+ s=25mailst; t=1701503942;
+ bh=rEXaXAhXwZV+HLFAqao2ZWgjh9PzKE9IueUq6diAur0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FfrmXavKTVtsrOQZGM6nHFamXh1BERMhcSsO/Dk31xYwoubD37esSl9aizRlyp6rT
- AEbSxWZDipGJmS6OxfVuLNE9SzceegNG9p3V37z5F1IBo/PPSjwE72e+hmF6TmlfZn
- Selk/G7p0kWGUrEEZPJHtxmtw0UPYTX6tFG+S1I4J/YG/DGZAptajBbg+zLDFEwqsL
- kmwWNOTiMxgTkSfPIh9OuQiT8QnJzaJx6VDv6oINnr66yzoxXKFr1qPY4As+XHjc2e
- qGhsbLuyYwrMao4RozTQ8BnlcENMNopECg9bKAUkXvhD0BcQjCpyvOVvHC9X6SBFPS
- 9proOG5au1oxg==
+ b=ipxoBr9szrJ1580a2P3vmS0f97vS35GSvUBZHRs+JEYxbGxMbnebyOIyvr/W25FoB
+ L9vCzk0l3vEK06ZC+cHJKew8mWwYNbek5xET5+SBRzkc1ScZVa/E2eWMbZFpoPhsWT
+ 6vAKTDq4ItTCdKmrQGooQ3JUt/2aYaUoj32mztJEgOdmIzyo4NMu1GoTmHLNZv2uaj
+ Rx43+YYslSXfsjHlwgjMk0MQiTy814Vx1EJ0wkpqJoHsCzuqqDmFnhxk4/pBaEV5or
+ 0s+KF9hhhULaE0jLGwNp9KeQPuSdFCwMcMgTGZtyZ7ZdNskhedXt5f40f5MN6k4+vx
+ Frqu1DnfdeiTA==
 From: Tony Lindgren <tony@atomide.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
@@ -37,10 +37,10 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Simha BN <simhavcs@gmail.com>,
  Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v2 02/10] dt-bindings: display: bridge: tc358775: Add
- data-lanes
-Date: Sat,  2 Dec 2023 09:54:41 +0200
-Message-ID: <20231202075514.44474-3-tony@atomide.com>
+Subject: [PATCH v2 03/10] dt-bindings: display: bridge: tc358775: Add support
+ for tc358765
+Date: Sat,  2 Dec 2023 09:54:42 +0200
+Message-ID: <20231202075514.44474-4-tony@atomide.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231202075514.44474-1-tony@atomide.com>
 References: <20231202075514.44474-1-tony@atomide.com>
@@ -65,81 +65,35 @@ Cc: Carl Philipp Klemm <philipp@uvos.xyz>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The device uses a clock lane, and 1 to 4 DSI data lanes. Let's add the
-data-lanes property starting at 1 similar to what the other bridge
-bindings are doing.
-
-Let's also drop the data-lanes properties in the example for the DSI host
-controller to avoid confusion. The configuration of the DSI host depends
-on the controller used and is unrelated to the bridge binding.
+The tc358765 is similar to tc358775 except for the stdby-gpios.
 
 Signed-off-by: Tony Lindgren <tony@atomide.com>
 ---
- .../display/bridge/toshiba,tc358775.yaml      | 21 ++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+ .../bindings/display/bridge/toshiba,tc358775.yaml           | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
 --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
 +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
-@@ -46,11 +46,26 @@ properties:
+@@ -10,7 +10,7 @@ maintainers:
+   - Vinay Simha BN <simhavcs@gmail.com>
  
-     properties:
-       port@0:
--        $ref: /schemas/graph.yaml#/properties/port
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-         description: |
-           DSI Input. The remote endpoint phandle should be a
-           reference to a valid mipi_dsi_host device node.
+ description: |
+-  This binding supports DSI to LVDS bridge TC358775
++  This binding supports DSI to LVDS bridges TC358765 and TC358775
  
-+        properties:
-+          endpoint:
-+            $ref: /schemas/media/video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+            properties:
-+              data-lanes:
-+                description: array of physical DSI data lane indexes.
-+                minItems: 1
-+                items:
-+                  - const: 1
-+                  - const: 2
-+                  - const: 3
-+                  - const: 4
-+
-       port@1:
-         $ref: /schemas/graph.yaml#/properties/port
-         description: |
-@@ -105,6 +120,7 @@ examples:
-                     reg = <0>;
-                     d2l_in_test: endpoint {
-                         remote-endpoint = <&dsi0_out>;
-+                        data-lanes = <1 2 3 4>;
-                     };
-                 };
+   MIPI DSI-RX Data 4-lane, CLK 1-lane with data rates up to 800 Mbps/lane.
+   Video frame size:
+@@ -21,7 +21,9 @@ description: |
  
-@@ -129,7 +145,6 @@ examples:
-                 reg = <1>;
-                 dsi0_out: endpoint {
-                     remote-endpoint = <&d2l_in_test>;
--                    data-lanes = <0 1 2 3>;
-                 };
-              };
-          };
-@@ -164,6 +179,7 @@ examples:
-                     reg = <0>;
-                     d2l_in_dual: endpoint {
-                         remote-endpoint = <&dsi0_out_dual>;
-+                        data-lanes = <1 2 3 4>;
-                     };
-                 };
+ properties:
+   compatible:
+-    const: toshiba,tc358775
++    enum:
++      - toshiba,tc358765
++      - toshiba,tc358775
  
-@@ -195,7 +211,6 @@ examples:
-                 reg = <1>;
-                 dsi0_out_dual: endpoint {
-                     remote-endpoint = <&d2l_in_dual>;
--                    data-lanes = <0 1 2 3>;
-                 };
-              };
-          };
+   reg:
+     maxItems: 1
 -- 
 2.43.0
