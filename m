@@ -1,55 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4852801B28
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Dec 2023 08:32:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4287F801B35
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Dec 2023 08:56:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4CEF10E074;
-	Sat,  2 Dec 2023 07:31:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C47510E101;
+	Sat,  2 Dec 2023 07:56:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 91088 seconds by postgrey-1.36 at gabe;
- Sat, 02 Dec 2023 07:31:48 UTC
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79BF610E074
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Dec 2023 07:31:47 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3B16DSK5082436;
- Fri, 1 Dec 2023 00:13:28 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1701411208;
- bh=rB1XmTGzoDJq5odP3oGC6AWHoMG4DmhTDFrwngnRKbo=;
- h=Date:From:To:CC:Subject:References:In-Reply-To;
- b=xmxsdO2X8yuSU30NV85rSXkx/XiVAW+559cW8D+MqgEVi1Qz+rsgZ/te1Bp+johuz
- Ybqb1pEVFOD897GraRJycluBy8j6M0jm2VpWeBpFbeQBTmJBEL88F/6YwO7egfNTAO
- ojXMQhmSR6+LeMIrUp+QikplcI8MeYfpW9CXbi9Y=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3B16DSLh075933
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 1 Dec 2023 00:13:28 -0600
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 1
- Dec 2023 00:13:27 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 1 Dec 2023 00:13:27 -0600
-Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3B16DR0l084648;
- Fri, 1 Dec 2023 00:13:27 -0600
-Date: Fri, 1 Dec 2023 00:13:27 -0600
-From: Nishanth Menon <nm@ti.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] drm/imagination: DRM_POWERVR should depend on ARCH_K3
-Message-ID: <20231201061327.mfadiwejp5akmlal@properly>
-References: <b9360c2044a1001b9a5bcb5914611711d040d4fe.1701196029.git.geert+renesas@glider.be>
+Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38E9810E101
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Dec 2023 07:56:14 +0000 (UTC)
+Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
+ by mail5.25mail.st (Postfix) with ESMTPSA id 8C2D260406;
+ Sat,  2 Dec 2023 07:55:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
+ s=25mailst; t=1701503773;
+ bh=eeDVYKNNskoc7bZ6ea4jecMFc83wT7zP11ziZ/DpyS0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=iFjNZjo1PQuxttEnfnx5sx2rzNkzLtGjjklhtHMU/2EQ+X3EkRwvnkvcmv+M/OdMH
+ UQgndHRj3pCQ9nZW4AQqg5q5JAZ2qVW+mspl9lv0KgHtvtZ6+3IhSB0MCwdJmCnWzZ
+ WSmYBUkCn3zzn9WDzqN4yR76OEEZH7sl4MkQ6wY03Vr1Mhu+JXRkbnHUkyG7U8aNxD
+ UdeYghlevs3zcSZUo1oSpXVT+kw/lzsk3wsYxEhIk47l1+490FAEvVjGpr2DBbYjbe
+ kTRs8mmXsVvpjO5+65jkXvjFThHVfBfAxaksTNAD7DcWgrMlRKN0ZbTRMlOaWD4Lxm
+ PdWV4hP3bQdbw==
+From: Tony Lindgren <tony@atomide.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Simha BN <simhavcs@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH v2 00/10] Improvments for tc358775 with support for tc358765
+Date: Sat,  2 Dec 2023 09:54:39 +0200
+Message-ID: <20231202075514.44474-1-tony@atomide.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <b9360c2044a1001b9a5bcb5914611711d040d4fe.1701196029.git.geert+renesas@glider.be>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,49 +55,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sarah Walker <sarah.walker@imgtec.com>, Tero Kristo <kristo@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Matt Coster <matt.coster@imgtec.com>,
- Donald Robson <donald.robson@imgtec.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org,
- Vignesh Raghavendra <vigneshr@ti.com>
+Cc: Carl Philipp Klemm <philipp@uvos.xyz>, devicetree@vger.kernel.org,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Merlijn Wajer <merlijn@wizzup.org>, Sebastian Reichel <sre@kernel.org>,
+ dri-devel@lists.freedesktop.org, Pavel Machek <pavel@ucw.cz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19:29-20231128, Geert Uytterhoeven wrote:
-> The Imagination Technologies PowerVR Series 6 GPU is currently only
-> supported on Texas Instruments K3 AM62x SoCs.  Hence add a dependency on
-> ARCH_K3, to prevent asking the user about this driver when configuring a
-> kernel without Texas Instruments K3 Multicore SoC support.
-> 
-> Fixes: 4babef0708656c54 ("drm/imagination: Add skeleton PowerVR driver")
+Here's v2 of these changes merged with patches from Michael.
 
-Minor nitpick here - 12 char sha.. otherwise:
+Regards,
 
-Reviewed-by: Nishanth Menon <nm@ti.com>
+Tony
 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  drivers/gpu/drm/imagination/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/imagination/Kconfig b/drivers/gpu/drm/imagination/Kconfig
-> index 3bfa2ac212dccb73..af492dbd9afd4ed9 100644
-> --- a/drivers/gpu/drm/imagination/Kconfig
-> +++ b/drivers/gpu/drm/imagination/Kconfig
-> @@ -6,6 +6,7 @@ config DRM_POWERVR
->  	depends on ARM64
->  	depends on DRM
->  	depends on PM
-> +	depends on ARCH_K3 || COMPILE_TEST
->  	select DRM_EXEC
->  	select DRM_GEM_SHMEM_HELPER
->  	select DRM_SCHED
-> -- 
-> 2.34.1
-> 
+Changes since v1:
+
+- After a brief offline discussion with Michael, merge series with
+  Michael's patch series to make stby gpio and supplies optional as they
+  may be hardwired
+
+- Use Michael's better patch for the jeida timings change
+
+- Parse lanes on the bridge side like other bridge devices do, and if not
+  found, also parse on the DSI host side and warn
+
+Michael Walle (3):
+  dt-bindings: display: bridge: tc358775: make stby gpio and vdd
+    supplies optional
+  drm/bridge: tc358775: fix support for jeida-18 and jeida-24
+  drm/bridge: tc358775: make standby GPIO optional
+
+Tony Lindgren (7):
+  dt-bindings: display: bridge: tc358775: Add data-lanes
+  dt-bindings: display: bridge: tc358775: Add support for tc358765
+  drm/bridge: tc358775: Get bridge data lanes instead of the DSI host
+    lanes
+  drm/bridge: tc358775: Add burst and low-power modes
+  drm/bridge: tc358775: Enable pre_enable_prev_first flag
+  drm/bridge: tc358775: Add support for tc358765
+  drm/bridge: tc358775: Configure hs_rate and lp_rate
+
+ .../display/bridge/toshiba,tc358775.yaml      | 30 +++++--
+ drivers/gpu/drm/bridge/tc358775.c             | 90 +++++++++++--------
+ 2 files changed, 75 insertions(+), 45 deletions(-)
 
 -- 
-Regards,
-Nishanth Menon
-Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
+2.43.0
