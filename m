@@ -1,66 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5982F80200A
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Dec 2023 01:28:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA0C802011
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Dec 2023 01:32:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 386B210E24B;
-	Sun,  3 Dec 2023 00:28:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C15F10E250;
+	Sun,  3 Dec 2023 00:32:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BC0210E24C
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Dec 2023 00:27:49 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-50bf37fd2bbso12912e87.0
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Dec 2023 16:27:49 -0800 (PST)
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F32F10E241
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Dec 2023 00:32:06 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id
+ 2adb3069b0e04-50bf32c0140so43054e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Dec 2023 16:32:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701563267; x=1702168067; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=heUF+a7HiOKx2XIYX+afSxGWRxKmOfUpqPHFcQ7qMuk=;
- b=g9I9+WjuQc1cEE8kP2ebCaDW3FZxj1H9dqum0EMa+V662dfLg5c2bAhMn+9TTHpjNP
- LnAybpOISQHyIQB3TmZeWDCw/t5WkifEQc2fpzM491k7KokslcRly+cdMnsA4taWcfh6
- +Crw5PoAoMXoPHgjs4IimYTd6N55eMJO56kG+AAgY5W6YEELYsZvOAsKf9ASHX4l+eaS
- OowONdxb+oy1EwGgD8x/b0QWQ3PUbvfomOaQ6okQmJ0BsRBsxpn1eiq4uqzmoka21WB0
- VCo6068HDBo4cfsJxFuC0StV1ZNXKuLpwzt4Uz5w42VhmphAwz4QgG/E/YhTU7wDD6MP
- qCXQ==
+ d=linaro.org; s=google; t=1701563525; x=1702168325; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=H1sh+e6WV9mxF+sYcaPaBBaaZreS9crd7exAJRUxSZY=;
+ b=zBnjbnXkEf0oQbgWzKEge0QMb0c70t+khmuRP5rI+opA5Ht5Cb0zyoH6BZ/VSHKAF8
+ /CWTwSjKaq9FtWibW+k1FI3XidXBZ4tkIh0K4XZZpoyn46F7V/HABN8wM+wWktKa06Je
+ 6XjHe5j8BoC2bk5E2I+9c9KXP9bKRcp0AgnRnLVlPJ1/WlM7S8WYvCZfNHg3dlLLm3v7
+ lIUtkoKqehx64AtF0FFJfhN7lCqOXYvHoT8IoHtZi9PJcB2uhdAV3/yyKXb+TrRO8ne5
+ mI8E53godvwr/OTK1FrB7sIZaBH0aXb9KDUmWRupb2AxtpewZRvzr4ESGo3/FpWw1VSB
+ Hq6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701563267; x=1702168067;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=heUF+a7HiOKx2XIYX+afSxGWRxKmOfUpqPHFcQ7qMuk=;
- b=IWjkCuv3D1mp3vIye+KXcNnqbwzmNEd6INOAdLD5KmGtNgY+0HMqeNDqTDTSDrkFtz
- ns8Jw13U0z6iPoXmSuNh/ojHnal9j3PXm+LOs0hY5fiwNMeROw+Rc1R6FJpzSaYxMt7k
- AYcjfDYryLPnO3WSjjSoJDwpQLm7WztRUqt1Kzh9mMZNZC4xv8lO8cxpwjaZ/CIgcVpD
- xWeU9hYS3bzNJdCC892XJ2TA9MqsUFapl8EFd7o4KZG7nYTmwvt0GmdGHOHEQMnvPr1P
- HcYkT0vNrLE4IVY7/zx8U9w8StYrFYQ6TYzgIbk4WG4dEnymAtACxp5cGzgAFq7YWHvi
- pfjA==
-X-Gm-Message-State: AOJu0YybnQ1rmBmCYMwg+B1c6pakKgtQBrB9rxXXX3jVAsgaxxDv8O2z
- PyMe2DmON8/GufJOlw/eYBNPoA==
-X-Google-Smtp-Source: AGHT+IHi/rdRGHaEWr+BG4yKRNfKQ+Sj/CUnz2fF+hUvMf0vGSjuTU9KsGIzTFv+bZdWpU8b96CLWw==
-X-Received: by 2002:ac2:529c:0:b0:50b:d582:52f3 with SMTP id
- q28-20020ac2529c000000b0050bd58252f3mr1702952lfm.20.1701563267459; 
- Sat, 02 Dec 2023 16:27:47 -0800 (PST)
+ d=1e100.net; s=20230601; t=1701563525; x=1702168325;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=H1sh+e6WV9mxF+sYcaPaBBaaZreS9crd7exAJRUxSZY=;
+ b=GpWDx9fAf2gCmvO28W1A+PZOoDevsOD3zrm6yLtulwgg0/yRNP+QKt8UBGPR+xYhIL
+ lX1ToZNnY6vKeWdAivj0fBOrNSD23E63/GnOR+Cihk7+pZx5hNIhC3wGyBxUn7/CT2Aa
+ TzPyqWNHiXkVl0LisCrIMXV1tqNnAUGtgnvZpwH1kfM2ADorK3Oxc3xw7IZBrLUt3Pcq
+ rYWF7i6ePYIdp/Utln5MOqt79XYGb5luY5jQmAMPH+HyQ28bOclvi6rLGi3CLRZxwmGU
+ 89MWb5p+ipVudPa7OaVo/aZgERJRHjtXYM86OwEEuQADhMZ3KwTmnRmjzZcJiy+WC4tG
+ a6qQ==
+X-Gm-Message-State: AOJu0YyU0a/fS22MXnXY+pS3SQb3HmUuIH36kB8+TmQG3PicAHNHzTu5
+ R6n+JDJ0iGUZaDhuhooaIDhxhQ==
+X-Google-Smtp-Source: AGHT+IExV7d8TC5LUgJOCMr0Y0PtwxL8cWlbUdf980HQHway8QjDisIeQIpeJucyZJBGGAgpBBjIGQ==
+X-Received: by 2002:a05:6512:3e09:b0:50b:d764:64d1 with SMTP id
+ i9-20020a0565123e0900b0050bd76464d1mr2401906lfv.134.1701563524761; 
+ Sat, 02 Dec 2023 16:32:04 -0800 (PST)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- v13-20020a056512348d00b0050bca79a59bsm317231lfr.196.2023.12.02.16.27.46
+ i7-20020ac25b47000000b0050ba4a26fccsm422408lfp.117.2023.12.02.16.32.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Dec 2023 16:27:46 -0800 (PST)
+ Sat, 02 Dec 2023 16:32:04 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v2 3/3] drm/msm/dpu: enable writeback on SM8450
-Date: Sun,  3 Dec 2023 03:27:43 +0300
-Message-Id: <20231203002743.1291956-4-dmitry.baryshkov@linaro.org>
+Subject: [RFT PATCH v2 0/4] drm/msm/dpu: enable writeback on the other
+ platforms
+Date: Sun,  3 Dec 2023 03:31:59 +0300
+Message-Id: <20231203003203.1293087-1-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231203002743.1291956-1-dmitry.baryshkov@linaro.org>
-References: <20231203002743.1291956-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,56 +79,35 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable WB2 hardware block, enabling writeback support on this platform.
+I was not able to test it on my own, this is a call for testing for the
+owners of these platforms. The git version of modetest now fully
+supports writeback.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Use libdrm >= 2.4.117, run modetest -ac to determine the writeback
+connector, cat /sys/kernel/debug/dri/0/state to determine
+spare CRTC and plane, then run something like:
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-index d18145c226da..413c0b1f4ad3 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-@@ -32,6 +32,7 @@ static const struct dpu_mdp_cfg sm8450_mdp = {
- 		[DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8 },
- 		[DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2bc, .bit_off = 8 },
- 		[DPU_CLK_CTRL_DMA3] = { .reg_off = 0x2c4, .bit_off = 8 },
-+		[DPU_CLK_CTRL_WB2] = { .reg_off = 0x2bc, .bit_off = 16 },
- 		[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20 },
- 	},
- };
-@@ -316,6 +317,21 @@ static const struct dpu_dsc_cfg sm8450_dsc[] = {
- 	},
- };
- 
-+static const struct dpu_wb_cfg sm8450_wb[] = {
-+	{
-+		.name = "wb_2", .id = WB_2,
-+		.base = 0x65000, .len = 0x2c8,
-+		.features = WB_SM8250_MASK,
-+		.format_list = wb2_formats,
-+		.num_formats = ARRAY_SIZE(wb2_formats),
-+		.clk_ctrl = DPU_CLK_CTRL_WB2,
-+		.xin_id = 6,
-+		.vbif_idx = VBIF_RT,
-+		.maxlinewidth = 4096,
-+		.intr_wb_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 4),
-+	},
-+};
-+
- static const struct dpu_intf_cfg sm8450_intf[] = {
- 	{
- 		.name = "intf_0", .id = INTF_0,
-@@ -411,6 +427,8 @@ const struct dpu_mdss_cfg dpu_sm8450_cfg = {
- 	.dsc = sm8450_dsc,
- 	.merge_3d_count = ARRAY_SIZE(sm8450_merge_3d),
- 	.merge_3d = sm8450_merge_3d,
-+	.wb_count = ARRAY_SIZE(sm8450_wb),
-+	.wb = sm8450_wb,
- 	.intf_count = ARRAY_SIZE(sm8450_intf),
- 	.intf = sm8450_intf,
- 	.vbif_count = ARRAY_SIZE(sdm845_vbif),
+modetest -M msm -a -s 36@85:1024x768 -o test.d -P 79@85:1024x768
+
+where 36 is the Writeback connector id, 85 is CRTC and 79 is the plane.
+
+Then press Enter and check the test.d file for the raw image dump.
+
+Changes since v1:
+- Fixed the DPU_CLK_CTRL_WB2 definition
+
+Dmitry Baryshkov (4):
+  drm/msm/dpu: enable writeback on SM8150
+  drm/msm/dpu: enable writeback on SC8108X
+  drm/msm/dpu: enable writeback on SM6125
+  drm/msm/dpu: enable writeback on SM6350
+
+ .../drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h | 18 ++++++++++++++++++
+ .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    | 18 ++++++++++++++++++
+ .../drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h | 18 ++++++++++++++++++
+ .../drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h | 18 ++++++++++++++++++
+ 4 files changed, 72 insertions(+)
+
 -- 
 2.39.2
 
