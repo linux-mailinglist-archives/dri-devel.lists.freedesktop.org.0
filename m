@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDCA98022F8
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Dec 2023 12:28:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B9C9802302
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Dec 2023 12:30:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6272710E292;
-	Sun,  3 Dec 2023 11:28:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A725C10E294;
+	Sun,  3 Dec 2023 11:30:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
  [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E23DA10E292
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Dec 2023 11:28:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0C1710E294
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Dec 2023 11:29:58 +0000 (UTC)
 Received: by mail-lj1-x22f.google.com with SMTP id
- 38308e7fff4ca-2c9f65040beso8439131fa.2
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Dec 2023 03:28:42 -0800 (PST)
+ 38308e7fff4ca-2c9eca5bbaeso12860511fa.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Dec 2023 03:29:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701602921; x=1702207721; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701602997; x=1702207797; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=H7k/TcV4Cokn5QDPYijyDf1OwkI3RiXghan4g2PqQJc=;
- b=CDhM9+bQz75yEfT9Gl5y05AruSY2ZOI/f8yPtuy0GC/1k/6dOpLN1Z7bh1zwrOCI3p
- c4sDo5haAXWfWKJvr9L12xDW67HbRNuVVqPfTZ0qndt5Y9ilHJhiuwEraFVfbpFmtjnS
- nGjDp0TvV1JxafQUfkCLnO6wJhzI/2LLf6ccnN79WkjjN+ZYoL7tblU59bQibqeDhjBh
- omPaBnogZTYn9Wc3ojY8m7IWZF87LDKVS316TlSHw6Geplocp0W2/H2zbjc7f5k9zamc
- thqoBcwunfqc8zPAjpScVyiAUO2cfyrATssLXHuzORWJLtEG9dPLot1opw/9JVkt75nS
- gB7A==
+ bh=L0LyKzKnnjQNBqpZgr3H1rimZEhXmRz8udpJ0Q/WYuk=;
+ b=LGuOTk55+bbtTUqbmlEpRJ3WCm1KIZtw6Cpthm9wfSqwr+NoUYjY1hvOfSq+5Cv+Yy
+ LuJhS970KtuwebP6EPKrjASehlRaubKItZwHu5JlxXInQEdyAyqE4jT4h5+2/4hBJFzl
+ UK5h9vQWneJi9WVOCONXdT4KQE+dIw/zQJ7eaTT+NUp7tYxiwvekmPGyjECIC4mbAvmY
+ khbX8obQpVIOG1jp/YZIn1cFl35nmq6TQf06c35DiOSQ0iq2WuRSzJGh8UaMIm9mpZCl
+ QIlOEWStocYr6y7SevqiCQ9hqZ2S9Wn31dYXNJIDgzHCphQeH/wIBeq8i9jIS1jTdwP0
+ GnwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701602921; x=1702207721;
+ d=1e100.net; s=20230601; t=1701602997; x=1702207797;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=H7k/TcV4Cokn5QDPYijyDf1OwkI3RiXghan4g2PqQJc=;
- b=Rh2JMpmpgJ9k+Y2SKWHFWs7fDLQZr/uKiMXp5LsePmRlSSCJvdV+0E4W+9PRkUD5wp
- kkIyuiZgF/L8bkJ/9vjH3jDeZeYXXxCIMo0Dp/M1W3ho4anZnDRfStG+51fIf2VTbbVi
- YX/w+IkJs2BEoK0B9yCe5C1LBq+pcA97LjjDqWMIt2Q/CmFqIyVz88ssmJXewwsgbltQ
- myXNilSf9+JrlfuarHAMwjcuLT3IwEmKRHiuaWGCDPtWZCso+UDgSBTnRHwD9R9ktckD
- z+Vx+QpYBBjr8xx660XA6WhCZ8rzQyJEa1w9HV3TNaUpL5zVRLL0NTuKVq8ibSl78L8u
- kvUQ==
-X-Gm-Message-State: AOJu0YwFOH8dSN0ICILW/BrdqRx4BREvttbGz9AOLdr/pBZJuu39K/RA
- lxeBaT6d9+QtfxYtIRlCNJyGpg==
-X-Google-Smtp-Source: AGHT+IGqFOCoj6Ejh31/xdT35ajIygeshLhzcKMzHS5YU2NmxWqCFUAgyHrCF7ifRWiANO1HUtNWBQ==
-X-Received: by 2002:a2e:99d5:0:b0:2c9:e7ea:6d3b with SMTP id
- l21-20020a2e99d5000000b002c9e7ea6d3bmr1232579ljj.90.1701602921149; 
- Sun, 03 Dec 2023 03:28:41 -0800 (PST)
+ bh=L0LyKzKnnjQNBqpZgr3H1rimZEhXmRz8udpJ0Q/WYuk=;
+ b=RzdSNIusJhvEDmoESlQJ776zcKc+l9hRDLUH5gaXstlljJJvXM910AGtD36y1zDAvW
+ jYyvepdFOWbTvEM+rmZruvi7uLWUykDMe6mWei6Nq1mOsw3bcBjCqpZxAtG41ISQkWHV
+ BY4E7TZhXmLsg/YjEQqr6LIYNceYXvHVEnAQRk85oVM/1a8iwExeqqBxDbeMr20f31JX
+ KWyw02U4I01CrktmD3Jz3Dg+LHgWvFBsN3ABWnVt4eiftjRzi/UKUKxYrDSeEs8hQyYm
+ On4vaneEeHJUEnj2aeUHEFUa30o6HcLqhIPy3ZvUwl8ugLBEANY4hcsNOBKJUVrZMzqi
+ mjSA==
+X-Gm-Message-State: AOJu0YzlAtcWMeAMLHq/5fYB/Pja//bvc+yBNPxoyItyZ8mvxwS7X9RK
+ Cp174ULdG8FkPRV7iFVxXomGUg==
+X-Google-Smtp-Source: AGHT+IGTWhetex2umS/MYFjg06ukzdRjs5bcWAHhEyNkgUiBPD5J1u1F0p2cwaRW9I0sqe5Y/14uTQ==
+X-Received: by 2002:a2e:8483:0:b0:2c9:dae6:442a with SMTP id
+ b3-20020a2e8483000000b002c9dae6442amr715352ljh.172.1701602997158; 
+ Sun, 03 Dec 2023 03:29:57 -0800 (PST)
 Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
  (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- a39-20020a2ebea7000000b002c9f70a0419sm274718ljr.140.2023.12.03.03.28.39
+ a39-20020a2ebea7000000b002c9f70a0419sm274718ljr.140.2023.12.03.03.29.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 03 Dec 2023 03:28:40 -0800 (PST)
-Message-ID: <ed17e7d1-c99d-45d9-a9ba-743ccc07961e@linaro.org>
-Date: Sun, 3 Dec 2023 13:28:39 +0200
+ Sun, 03 Dec 2023 03:29:56 -0800 (PST)
+Message-ID: <2d5acbda-61a9-412d-bf9d-04a372c927c5@linaro.org>
+Date: Sun, 3 Dec 2023 13:29:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/7] drm/msm/gem: Remove "valid" tracking
+Subject: Re: [PATCH v2 5/7] drm/msm/gem: Cleanup submit_cleanup_bo()
 Content-Language: en-GB
 To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
 References: <20231121003935.5868-1-robdclark@gmail.com>
- <20231121003935.5868-2-robdclark@gmail.com>
+ <20231121003935.5868-6-robdclark@gmail.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20231121003935.5868-2-robdclark@gmail.com>
+In-Reply-To: <20231121003935.5868-6-robdclark@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,17 +87,71 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 21/11/2023 02:38, Rob Clark wrote:
 > From: Rob Clark <robdclark@chromium.org>
 > 
-> This was a small optimization for pre-soft-pin userspace.  But mesa
-> switched to soft-pin nearly 5yrs ago.  So lets drop the optimization
-> and simplify the code.
+> Now that it only handles unlock duty, drop the superfluous arg and
+> rename it.
 > 
 > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->   drivers/gpu/drm/msm/msm_gem.h        |  2 --
->   drivers/gpu/drm/msm/msm_gem_submit.c | 44 +++++-----------------------
->   2 files changed, 8 insertions(+), 38 deletions(-)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+> ---
+>   drivers/gpu/drm/msm/msm_gem_submit.c | 15 +++++----------
+>   1 file changed, 5 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+> index d001bf286606..603f04d851d9 100644
+> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> @@ -248,14 +248,10 @@ static int submit_lookup_cmds(struct msm_gem_submit *submit,
+>   	return ret;
+>   }
+>   
+> -/* Unwind bo state, according to cleanup_flags.  In the success case, only
+> - * the lock is dropped at the end of the submit (and active/pin ref is dropped
+> - * later when the submit is retired).
+> - */
+> -static void submit_cleanup_bo(struct msm_gem_submit *submit, int i,
+> -		unsigned cleanup_flags)
+> +static void submit_unlock_bo(struct msm_gem_submit *submit, int i)
+>   {
+>   	struct drm_gem_object *obj = submit->bos[i].obj;
+> +	unsigned cleanup_flags = BO_LOCKED;
+
+Nit: checkpatch will warn here, it should be unsigned int.
+
+>   	unsigned flags = submit->bos[i].flags & cleanup_flags;
+>   
+>   	/*
+> @@ -304,10 +300,10 @@ static int submit_lock_objects(struct msm_gem_submit *submit)
+>   	}
+>   
+>   	for (; i >= 0; i--)
+> -		submit_cleanup_bo(submit, i, BO_LOCKED);
+> +		submit_unlock_bo(submit, i);
+>   
+>   	if (slow_locked > 0)
+> -		submit_cleanup_bo(submit, slow_locked, BO_LOCKED);
+> +		submit_unlock_bo(submit, slow_locked);
+>   
+>   	if (ret == -EDEADLK) {
+>   		struct drm_gem_object *obj = submit->bos[contended].obj;
+> @@ -533,7 +529,6 @@ static int submit_reloc(struct msm_gem_submit *submit, struct drm_gem_object *ob
+>    */
+>   static void submit_cleanup(struct msm_gem_submit *submit, bool error)
+>   {
+> -	unsigned cleanup_flags = BO_LOCKED;
+>   	unsigned i;
+>   
+>   	if (error)
+> @@ -541,7 +536,7 @@ static void submit_cleanup(struct msm_gem_submit *submit, bool error)
+>   
+>   	for (i = 0; i < submit->nr_bos; i++) {
+>   		struct drm_gem_object *obj = submit->bos[i].obj;
+> -		submit_cleanup_bo(submit, i, cleanup_flags);
+> +		submit_unlock_bo(submit, i);
+>   		if (error)
+>   			drm_gem_object_put(obj);
+>   	}
 
 -- 
 With best wishes
