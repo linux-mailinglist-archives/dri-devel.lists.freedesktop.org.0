@@ -2,67 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31BC280201C
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Dec 2023 01:32:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC96802070
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Dec 2023 03:47:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9884110E252;
-	Sun,  3 Dec 2023 00:32:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D40B710E14C;
+	Sun,  3 Dec 2023 02:47:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B968C10E24F
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Dec 2023 00:32:09 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id
- 2adb3069b0e04-50bc8a9503fso4587403e87.3
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Dec 2023 16:32:09 -0800 (PST)
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45A1D10E037;
+ Sun,  3 Dec 2023 02:47:20 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id
+ 98e67ed59e1d1-285c3512f37so3326757a91.3; 
+ Sat, 02 Dec 2023 18:47:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701563528; x=1702168328; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dUi6QKN0qZ859wsIOcquZfetN1GsdPLuB9ODzPF+Xac=;
- b=Ts9tdMKGYjAQFBL4DhdTpzYPbGT+WODUFgRve36IpKHfYbQztyWjd4+34/TlNBp611
- /PtkdrLBevl1Z/994PAAAExNllXXmCkliK/qjLbEpe9TQPLjD1doDz/knoRmA8+J3TjL
- ctwlNC4yMpzjVSwrWu71MEHI+/IWNeCRIuOxEDwDAJAmRrroYDg0bNA4eJc9e5CLr46H
- g6TDnJTeZkmwjyA19c9jK+LQ+4Sod7sc0tIydc+zbsxTJzx5CfQL0iTZGDVc3YBS2/kq
- n7bV5rVjRufOCv5UvFvSIsi13RbEuRCVhucvHXy88Yqd0t2CxPLjKHxWOq8Ta88CW0pM
- Voiw==
+ d=gmail.com; s=20230601; t=1701571640; x=1702176440; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=hwi4CkSiHiuyV9keGcRs+cQrmHpIxi0CgRaI9b36kXc=;
+ b=iA7rCQnoJgGxyp+16DRpP8yg50VfNmUHEJnmzhG04dycaVGaKZU9vnqZE5KCmhA09f
+ Y/AkSeH+ad0Aa3NPKzS1DFJQUwBSB9487PtZD9DHfNfHL4Z/Ie50SDo54B4dTOlgaO+P
+ Z8B1m/3zq24DLCSJOccQjAHb4ahQ5hzDPNkO/LJIXzR/Sts6dAZ3eOJtC7U2QXBNdDdI
+ aaH9OHb/6bofPVC6p1i9VAOXhjhLHmlu5wM/jRJWp/bd6JYXYy6lCpyCOIDUgMtP2JcF
+ qhxxju7sV/4t+zLLnUaB51ymd9W4RH2EdD+g/cdnIrLKVQH0qryjcNdui5rvmz2lGWUl
+ +tNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701563528; x=1702168328;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dUi6QKN0qZ859wsIOcquZfetN1GsdPLuB9ODzPF+Xac=;
- b=FMz92OiKL31MHacxPxR4yEJrbhiSJpT9tt2S3iW48EkLsP4IVwk5RfbK93nzoE9KJ1
- 0xntEbwhOwpftZZxWiQAAMcKBu7KbBF4GieADNJ//KjmBRpZVy7ehbt5NszFQ92sohWZ
- hfMFpx+6V76Isi8Fy2NoUgSPf8hNuWYWE+hTvboXbSjn5PAXrKZkW6ftRjUwotZ4eDhq
- MfKaeSbJhAvhGcU5Z7yAg+tzJIC4vcNqYhX0UwwK5jqjsKQDZThnsNYN3NWN+Wnfj8vq
- 8v4ihXQliU2lBWykSbGkJpUpMjbd+kwLA+0trpSF+iqy+2kcTgsIE+qSRxumLFdX8vmN
- hKRQ==
-X-Gm-Message-State: AOJu0Yy4VL5i13MQ4FH/Q4ogM8i7CKaAac8nc7Qy6SN3z3Fmho5mRYA7
- znO/vw3zxIBTmuOw0zd63huxBQ==
-X-Google-Smtp-Source: AGHT+IH4cg6wWyl23jyswquCXROqmqiFTtHeAnCuqWAXJ5nyGZhx7Jin+V/SbzHLIknUTdUjGeImvA==
-X-Received: by 2002:a05:6512:3109:b0:50b:f113:2cf8 with SMTP id
- n9-20020a056512310900b0050bf1132cf8mr116309lfb.118.1701563528124; 
- Sat, 02 Dec 2023 16:32:08 -0800 (PST)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- i7-20020ac25b47000000b0050ba4a26fccsm422408lfp.117.2023.12.02.16.32.07
+ d=1e100.net; s=20230601; t=1701571640; x=1702176440;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hwi4CkSiHiuyV9keGcRs+cQrmHpIxi0CgRaI9b36kXc=;
+ b=QXsubeuJhPG2Ao0nZbLPNM4KdnOHoaCA9gc8uKpovrpIirqpokgDxXWRuGkrNbSGob
+ QcKkgCD9rA1ptjhz8VPIfDPRVJuEqm9r07qx0hyLUOKT0cHGt+pVXYiw66WHSO8pzGyP
+ BtMWOkstbYPuPwE+uumwUF/EOyV5x0Y8WMtfUJJ0i7O/iBZ3l//xQtaemTxKhPNa8Dzr
+ bkc2UWodo0mK+g+5cLdjQ5FVj0tISZ5bgrrBaD+FfnuMhUN5dj/j1kRfA8jGrFGgJHEf
+ uRZy4AUaXFosOVWcgq0Zf4oejx0g3CODkTo78s65fNE7UpYEC+bCTu0UlKYvGzDh/loZ
+ iERw==
+X-Gm-Message-State: AOJu0YwYdcWFTUAZ74nN2za6t1I+MjMefasTKRwYiPzm6bN4jocGNl9q
+ WwGez+Hv0vHfWflFRiY1ICKJ/9+zDef5xw==
+X-Google-Smtp-Source: AGHT+IGIXMzatFr8BevACKg6pkv/MY315sB+5R85kFeOtEyUxFZmmJ5AtiWsRRxreZOPKdonOMUgYw==
+X-Received: by 2002:a17:902:dacd:b0:1d0:6b95:9c0d with SMTP id
+ q13-20020a170902dacd00b001d06b959c0dmr2339798plx.65.1701571639739; 
+ Sat, 02 Dec 2023 18:47:19 -0800 (PST)
+Received: from archie.me ([103.131.18.64]) by smtp.gmail.com with ESMTPSA id
+ ip1-20020a17090b314100b00285d330ae8bsm7273256pjb.57.2023.12.02.18.47.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Dec 2023 16:32:07 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [RFT PATCH v2 4/4] drm/msm/dpu: enable writeback on SM6350
-Date: Sun,  3 Dec 2023 03:32:03 +0300
-Message-Id: <20231203003203.1293087-5-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231203003203.1293087-1-dmitry.baryshkov@linaro.org>
-References: <20231203003203.1293087-1-dmitry.baryshkov@linaro.org>
+ Sat, 02 Dec 2023 18:47:19 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+ id 64344102894F8; Sun,  3 Dec 2023 09:47:16 +0700 (WIB)
+Date: Sun, 3 Dec 2023 09:47:16 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Timur Tabi <ttabi@nvidia.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "gert.vanhaerents@hotmail.com" <gert.vanhaerents@hotmail.com>
+Subject: Re: [Nouveau] Kernel problem with multiseat on one card
+Message-ID: <ZWvsNOMjONfYGeUF@archie.me>
+References: <AM7PR10MB39235DD53D163910E88FDB938E82A@AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM>
+ <AM7PR10MB3923E07D6024434077E95EBA8E82A@AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM>
+ <ZWsuiq7zrYS-pDli@archie.me>
+ <655a02097e9b49c2da7a2be60d7c154a48a916f4.camel@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="OZ2h1VyjMrmlXfbI"
+Content-Disposition: inline
+In-Reply-To: <655a02097e9b49c2da7a2be60d7c154a48a916f4.camel@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,62 +81,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable WB2 hardware block, enabling writeback support on this platform.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+--OZ2h1VyjMrmlXfbI
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
-index 62db84bd15f2..3c179a73c030 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
-@@ -27,6 +27,7 @@ static const struct dpu_mdp_cfg sm6350_mdp = {
- 		[DPU_CLK_CTRL_DMA0] = { .reg_off = 0x2ac, .bit_off = 8 },
- 		[DPU_CLK_CTRL_DMA1] = { .reg_off = 0x2b4, .bit_off = 8 },
- 		[DPU_CLK_CTRL_DMA2] = { .reg_off = 0x2c4, .bit_off = 8 },
-+		[DPU_CLK_CTRL_WB2] = { .reg_off = 0x2bc, .bit_off = 16 },
- 		[DPU_CLK_CTRL_REG_DMA] = { .reg_off = 0x2bc, .bit_off = 20 },
- 	},
- };
-@@ -146,6 +147,21 @@ static const struct dpu_dsc_cfg sm6350_dsc[] = {
- 	},
- };
- 
-+static const struct dpu_wb_cfg sm6350_wb[] = {
-+	{
-+		.name = "wb_2", .id = WB_2,
-+		.base = 0x65000, .len = 0x2c8,
-+		.features = WB_SM8250_MASK,
-+		.format_list = wb2_formats,
-+		.num_formats = ARRAY_SIZE(wb2_formats),
-+		.clk_ctrl = DPU_CLK_CTRL_WB2,
-+		.xin_id = 6,
-+		.vbif_idx = VBIF_RT,
-+		.maxlinewidth = 1920,
-+		.intr_wb_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 4),
-+	},
-+};
-+
- static const struct dpu_intf_cfg sm6350_intf[] = {
- 	{
- 		.name = "intf_0", .id = INTF_0,
-@@ -219,6 +235,8 @@ const struct dpu_mdss_cfg dpu_sm6350_cfg = {
- 	.dsc = sm6350_dsc,
- 	.pingpong_count = ARRAY_SIZE(sm6350_pp),
- 	.pingpong = sm6350_pp,
-+	.wb_count = ARRAY_SIZE(sm6350_wb),
-+	.wb = sm6350_wb,
- 	.intf_count = ARRAY_SIZE(sm6350_intf),
- 	.intf = sm6350_intf,
- 	.vbif_count = ARRAY_SIZE(sdm845_vbif),
--- 
-2.39.2
+On Sat, Dec 02, 2023 at 03:28:25PM +0000, Timur Tabi wrote:
+> On Sat, 2023-12-02 at 20:18 +0700, Bagas Sanjaya wrote:
+> >=20
+>=20
+> > > When i install the proprietary Nvidia drivers, i have the following:
+> > >=20
+> > > [MASTER] pci:0000:08:00.0
+> > > =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0 =E2=94=82 =E2=94=9C=E2=
+=94=80/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0
+> > > =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0 =E2=94=82 =E2=94=82 [MAS=
+TER] drm:card0
+> > > =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0 =E2=94=82
+> > > =E2=94=94=E2=94=80/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/d=
+rm/renderD128
+> > > =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0 =E2=94=82=C2=A0=C2=A0 dr=
+m:renderD128
+> > >=20
+> > > =E2=94=80/sys/devices/platform/efi-framebuffer.0/graphics/fb0
+> > > =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0 =E2=94=82 graphics:fb0 "=
+EFI VGA"
+> > >=20
+> > > So no VGA, DVI or HDMI items.
+> >=20
+> > Then report to the GitHub tracker [1].
+> >=20
+> > Thanks.
+> >=20
+> > [1]: https://github.com/NVIDIA/open-gpu-kernel-modules/issues
+> >=20
+>=20
+> No, do NOT report this on the Github tracker!
+>=20
+> That github tracker is ONLY for bugs that occur with OpenRM (the "Open GPU
+> Kernel Module") but not with the the proprietary driver.  If you have a b=
+ug
+> with the the Nvidia proprietary driver, that must be reported on the Nvid=
+ia
+> forum instead:=20
+>=20
+> https://forums.developer.nvidia.com/c/gpu-graphics/linux/148
+>=20
 
+Thanks for the correct pointer!
+
+Sorry for inconvenience.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--OZ2h1VyjMrmlXfbI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZWvsLwAKCRD2uYlJVVFO
+oxtcAP4u3ez3E31bsckuQz8FiVqspKTnc2sOAd+RVV7YAVfXPgEA8h3/OoMBej3D
+APZPK5cv/DozHoLIuoOTGBY+IfCdkAc=
+=kWBj
+-----END PGP SIGNATURE-----
+
+--OZ2h1VyjMrmlXfbI--
