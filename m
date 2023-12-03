@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF0C801FD8
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Dec 2023 00:59:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B581801FE8
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Dec 2023 01:06:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B96810E1A7;
-	Sat,  2 Dec 2023 23:59:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEC4510E240;
+	Sun,  3 Dec 2023 00:06:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7866F10E0E3
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Dec 2023 23:59:50 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-50bc22c836bso4651785e87.0
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Dec 2023 15:59:50 -0800 (PST)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84F6310E0E3
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Dec 2023 00:05:35 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id
+ 2adb3069b0e04-50be9e6427dso713854e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Dec 2023 16:05:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701561588; x=1702166388; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701561934; x=1702166734; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=qOFkH9JHKvDEOwXO8Ocnw7zlrT506EsHCCBwsXp0OUA=;
- b=C/vTJ4TRzIOgE/n94GK5lDV+OBqFumP9zMsAKuCW7fPI6AS20vxeEyWA4eKT0wB508
- H9AJi+2Jzir7iUnxIOXAFOKx72aTV/lEebCFilukGaKpC4HirWTFCK0xERM6LVQDYOCY
- 7sSrpyBrWhYHsr6pDKzAO5Qm5whHoY32b+rgbRllOFyjj63/IlgFiqA0Gna3es44ZlE/
- icqyMbwW+iHMyHBA8X2vouAQVtJa4YkcE3THku3hHuYRO+v6osqnlQfgrocNkZ/YQZMw
- dL96b90xe/zAjXkj7osZaAO9CTBFUxgUypSLDnLNOiuiauCR1uZUuXYN9xqYE8IGObTH
- gSKQ==
+ bh=IG1n+K/7cjxSwfAxRHwL6Z+l9CuvM2MX4A8d88EFQkI=;
+ b=fyTe49L8g040Hjr/SeQlyegpJn+hR63jPB5OABS2Dvu93sdHfgHp8yq2vMvixiz0os
+ gDLYEFi/rMQ+oHbAQjwMe0Hu2li55dhVLufIHv6+3POV3fiBu+HKf0byrAd6X06HHxgv
+ mdVdLudIktHAeWg1vT1+QSe3vpaLSpgzmoYP639yq+vcC6K88AnrB55LkaYaIwW2gRJe
+ cQq3hq1LR4NBVT+OjPNqhfJhJXIzT8MxDFSNsligRAjJMCUDAP6A8C09heNHNJGNNRB8
+ wvaCzoqXPu6AW7nNFFHb/TZ2ZEa8njJVNbpgUNVAdpsDWqFPizcYvbI5tqjVKNHEG8nm
+ Lt6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701561588; x=1702166388;
+ d=1e100.net; s=20230601; t=1701561934; x=1702166734;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=qOFkH9JHKvDEOwXO8Ocnw7zlrT506EsHCCBwsXp0OUA=;
- b=dJdaq/a7jMOdcsLnANFtY1lBV0jpY3Sog/+WiZTrkU42B3FqjZ2ahIt/mmB1tv6Od9
- nk2pF1m5lxVinN0h8NKHbrrXs1P6NUF6fTdgYUsDOS9YC60tr3hYdN+Q9ZzNbh9Bmiv1
- 25BSWMP7fsrJpe+IubFnS8aawM/eaVh8LZpuwP30EqEeZSP8aMCao64L5Y+OZG5beZkr
- U+20Zb4vss4Yb3+PYZGkAYmYX3q8bOMtIekgmuK1Okb5qDBedfRlT/TD9TAmuSfPOmPM
- IRceILxDV5Pm/JW9xJQnlUwiXaINTF2bNSjJOAn81bsslMpuVloPrYv2GLPTyAUViek0
- WpuQ==
-X-Gm-Message-State: AOJu0YxqDKtTe7gNYU6TbYLrIw6extHiaTEYzQROpe+E8kDtCGCanvVS
- w3XVK2rynuV9MEEEUh39jdIEYg==
-X-Google-Smtp-Source: AGHT+IEeEMWVs+CZQO9ifZtjh6+pVAh4iCB3eYpmSmK31Hwe1eJd7iRyjyqS+VKEYez95taP/tgIDQ==
-X-Received: by 2002:a19:6913:0:b0:50b:c138:f42a with SMTP id
- e19-20020a196913000000b0050bc138f42amr1683725lfc.68.1701561588469; 
- Sat, 02 Dec 2023 15:59:48 -0800 (PST)
+ bh=IG1n+K/7cjxSwfAxRHwL6Z+l9CuvM2MX4A8d88EFQkI=;
+ b=AUiZwWxap1vQndS+2T8gpKSi0FnPg3cPJ+bQ/q6SdpWOKKj4+QRwR3xoY0AYBgxBUT
+ v9rpGRsrlm1/V3o1jGBN4HNBjHC0lpjvLKNmSnuDap7ZvR5IKUrSTuFFK7WxEH5hZxcb
+ CRZi0sP1fkusKa7+s98gKIamz/R+XUxBQBDIHgsGf1JGSzb16pLRq2fY+bMEdiYiOpTL
+ 2cDJpS7CWR1dTMmoFBCAuI9/KPHRFLKZ2roYmFsjSbzWYXvwNITbZnpsiXAFs2Yv+CwA
+ 7zbRIeYFqIvvhUV1OXiQlYZfUFsG4pZ21Rs4R/m6kWnx0KNdxNQtt3lNwPo5H8cGVJKs
+ 6B7w==
+X-Gm-Message-State: AOJu0Yx2+f4a94YWFbeMvVRTQ3ZNvk/ow8IupJ2GCAukFjUCaoJOuIFm
+ 9nwl33Ib5Az3dzxLqtvlmX7LgA==
+X-Google-Smtp-Source: AGHT+IG9klWiRHQW6/osKvaIZUNQJ7+MBSXyi/c7D6NFb9byWa/oTa+iWsYrM8UzLVCZVUHkHieAaQ==
+X-Received: by 2002:a05:6512:210f:b0:50b:dfdf:7b8a with SMTP id
+ q15-20020a056512210f00b0050bdfdf7b8amr988775lfr.32.1701561933773; 
+ Sat, 02 Dec 2023 16:05:33 -0800 (PST)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- i21-20020ac25235000000b0050bf0f7f095sm72339lfl.99.2023.12.02.15.59.47
+ t2-20020a19ad02000000b0050bc5edfa45sm826273lfc.85.2023.12.02.16.05.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Dec 2023 15:59:48 -0800 (PST)
+ Sat, 02 Dec 2023 16:05:33 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v3] drm/msm/dsi: Document DSC related pclk_rate and hdisplay
- calculations
-Date: Sun,  3 Dec 2023 02:59:47 +0300
-Message-Id: <20231202235947.1284568-1-dmitry.baryshkov@linaro.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH RESEND 0/5] drm/msm: cleanup private obj handling
+Date: Sun,  3 Dec 2023 03:05:27 +0300
+Message-Id: <20231203000532.1290480-1-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -73,83 +73,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provide actual documentation for the pclk and hdisplay calculations in
-the case of DSC compression being used.
+Note: I'm resending this patch series as I haven't got any feedback from
+the drm core maintainers to the first patch.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
+While debugging one of the features in DRM/MSM I noticed that MSM
+subdrivers still wrap private object access with manual modeset locking.
+Since commit b962a12050a3 ("drm/atomic: integrate modeset lock with
+private objects") this is no longer required, as the DRM framework
+handles private objects internally. Drop these custom locks, while also
+cleaning up the surrounding code.
 
-Changes since v2:
-- Followed suggestion by Abhinav and Marijn to improve documentatry
-  comments.
+Dmitry Baryshkov (5):
+  drm/atomic: add private obj state to state dump
+  drm/msm/dpu: finalise global state object
+  drm/msm/dpu: drop global_state_lock
+  drm/msm/mdp5: migrate SMP dumping to using atomic_print_state
+  drm/msm/mdp5: drop global_state_lock
 
-Changes since v1:
-- Converted dsi_adjust_pclk_for_compression() into kerneldoc (Marijn)
-- Added a pointer from dsi_timing_setup() docs to
-  dsi_adjust_pclk_for_compression() (Marijn)
-- Fixed two typo (Marijn)
+ drivers/gpu/drm/drm_atomic.c             |  9 ++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  | 14 +++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h  |  1 -
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_irq.c |  2 -
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 54 +++++-------------------
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h |  1 -
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c | 12 +-----
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.h |  4 +-
+ 8 files changed, 31 insertions(+), 66 deletions(-)
 
----
- drivers/gpu/drm/msm/dsi/dsi_host.c | 33 ++++++++++++++++++++++++++++--
- 1 file changed, 31 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index deeecdfd6c4e..d60ad796527c 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -529,6 +529,25 @@ void dsi_link_clk_disable_v2(struct msm_dsi_host *msm_host)
- 	clk_disable_unprepare(msm_host->byte_clk);
- }
- 
-+/**
-+ * dsi_adjust_pclk_for_compression() - Adjust the pclk rate for compression case
-+ * @mode: The selected mode for the DSI output
-+ * @dsc: DRM DSC configuration for this DSI output
-+ *
-+ * Adjust the pclk rate by calculating a new hdisplay proportional to
-+ * the compression ratio such that:
-+ *     new_hdisplay = old_hdisplay * compressed_bpp / uncompressed_bpp
-+ *
-+ * Porches do not need to be adjusted:
-+ * - For VIDEO mode they are not compressed by DSC and are passed as is.
-+ * - For CMD mode there are no actual porches. Instead these fields
-+ *   currently represent the overhead to the image data transfer. As such, they
-+ *   are calculated for the final mode parameters (after the compression) and
-+ *   are not to be adjusted too.
-+ *
-+ *  FIXME: Reconsider this if/when CMD mode handling is rewritten to use
-+ *  refresh rate and data overhead as a starting point of the calculations.
-+ */
- static unsigned long dsi_adjust_pclk_for_compression(const struct drm_display_mode *mode,
- 		const struct drm_dsc_config *dsc)
- {
-@@ -951,8 +970,18 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
- 		if (ret)
- 			return;
- 
--		/* Divide the display by 3 but keep back/font porch and
--		 * pulse width same
-+		/*
-+		 * DPU sends 3 bytes per pclk cycle to DSI. If widebus is
-+		 * enabled, bus width is extended to 6 bytes.
-+		 *
-+		 * Calculate the number of pclks needed to transmit one line of
-+		 * the compressed data.
-+
-+		 * The back/font porch and pulse width are kept intact. For
-+		 * VIDEO mode they represent timing parameters rather than
-+		 * actual data transfer, see the documentation for
-+		 * dsi_adjust_pclk_for_compression(). For CMD mode they are
-+		 * unused anyway.
- 		 */
- 		h_total -= hdisplay;
- 		if (wide_bus_enabled && !(msm_host->mode_flags & MIPI_DSI_MODE_VIDEO))
 -- 
 2.39.2
 
