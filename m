@@ -2,67 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE81E8022F4
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Dec 2023 12:27:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDCA98022F8
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Dec 2023 12:28:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C4C610E28F;
-	Sun,  3 Dec 2023 11:27:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6272710E292;
+	Sun,  3 Dec 2023 11:28:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E224D10E27A
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Dec 2023 11:26:47 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id
- 2adb3069b0e04-50be24167efso1569867e87.3
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Dec 2023 03:26:47 -0800 (PST)
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E23DA10E292
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Dec 2023 11:28:42 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id
+ 38308e7fff4ca-2c9f65040beso8439131fa.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Dec 2023 03:28:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701602806; x=1702207606; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9QBSxCXVzh9rXO4c/SO8NkEBuWtu15Ry8njynJOrfsY=;
- b=b6kroUukW5hVJ4+dUpnLEGZvkFZz1Lc2LJi8H9LY54iXsGlzbguSn7RBLJ9bkNs478
- jACdKIxMpNrQtc695541p9Q76a7KqfcLXbpLgWoR//dHWcUTJxJo3hoatTIoz62i0F0g
- RZHqgk8hRAusHsrQFoG9LoUWolf/Gt1GJwpAzpMifc/qSX01WgX2KkBHzfW/7yWUpLMP
- tzYjbtGzrZJYx9k5foL2MlW0St7XzAJ1g57OGrbz5OwX61JxTdoguw9dlHha10BqydJl
- nXflzB3j7uLCIllD6TYTMIDDkgCvJ2jU7/Z15G62XuXRBC5YOK/oVCK0CrNMchSfLIQX
- IU7A==
+ d=linaro.org; s=google; t=1701602921; x=1702207721; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=H7k/TcV4Cokn5QDPYijyDf1OwkI3RiXghan4g2PqQJc=;
+ b=CDhM9+bQz75yEfT9Gl5y05AruSY2ZOI/f8yPtuy0GC/1k/6dOpLN1Z7bh1zwrOCI3p
+ c4sDo5haAXWfWKJvr9L12xDW67HbRNuVVqPfTZ0qndt5Y9ilHJhiuwEraFVfbpFmtjnS
+ nGjDp0TvV1JxafQUfkCLnO6wJhzI/2LLf6ccnN79WkjjN+ZYoL7tblU59bQibqeDhjBh
+ omPaBnogZTYn9Wc3ojY8m7IWZF87LDKVS316TlSHw6Geplocp0W2/H2zbjc7f5k9zamc
+ thqoBcwunfqc8zPAjpScVyiAUO2cfyrATssLXHuzORWJLtEG9dPLot1opw/9JVkt75nS
+ gB7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701602806; x=1702207606;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9QBSxCXVzh9rXO4c/SO8NkEBuWtu15Ry8njynJOrfsY=;
- b=P7a30yAi5M/303bjtDm9LpMwXwJf68yv7Bnfp2Pg7TWjdNUbL/RxG5GfZzoiDCilph
- fkX++srboGIhfn9o3FnMTKj/JpBToE0uroWT9Oaa3v5WXTuut282olJL1yYSbpC6yo61
- DUIRLgXRAj6Y7Ifqn7WkwV38ihacLRIBVp8wzxSFviN/YxTQBYu7WhAM6b6CJaBtYWay
- CpNTEkiev/BO3CXytY9bE+hdL2adRNF6WoF1Wra2ZwSUzWb5iPuGVSpiM1UV5mQV2Ip0
- IFT95/GmaLRtioZ1JTZydM3zTh6YWKmHypJ5b7M89eGe0ctuUruPrhCP+NNAS/xZOPzW
- NlUA==
-X-Gm-Message-State: AOJu0YwYNr3kVKHZ8hw3rhJvadkcUuTz7eoqe9fWXozSjco6+ZYpzoKE
- NsRehTdDpDdTpjY/LcgLR+JlUeLtXS2dXMHJBo4=
-X-Google-Smtp-Source: AGHT+IE7GxPDS+PrjdIRKoKcXEI0G00AkJ5kcwKcMEX1WNFa5xkbSILxwpIRZxmX3UUZ53Rok4brKg==
-X-Received: by 2002:a05:6512:4019:b0:50b:debe:d35d with SMTP id
- br25-20020a056512401900b0050bdebed35dmr756886lfb.133.1701602806015; 
- Sun, 03 Dec 2023 03:26:46 -0800 (PST)
-Received: from umbar.unikie.fi ([192.130.178.91])
+ d=1e100.net; s=20230601; t=1701602921; x=1702207721;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=H7k/TcV4Cokn5QDPYijyDf1OwkI3RiXghan4g2PqQJc=;
+ b=Rh2JMpmpgJ9k+Y2SKWHFWs7fDLQZr/uKiMXp5LsePmRlSSCJvdV+0E4W+9PRkUD5wp
+ kkIyuiZgF/L8bkJ/9vjH3jDeZeYXXxCIMo0Dp/M1W3ho4anZnDRfStG+51fIf2VTbbVi
+ YX/w+IkJs2BEoK0B9yCe5C1LBq+pcA97LjjDqWMIt2Q/CmFqIyVz88ssmJXewwsgbltQ
+ myXNilSf9+JrlfuarHAMwjcuLT3IwEmKRHiuaWGCDPtWZCso+UDgSBTnRHwD9R9ktckD
+ z+Vx+QpYBBjr8xx660XA6WhCZ8rzQyJEa1w9HV3TNaUpL5zVRLL0NTuKVq8ibSl78L8u
+ kvUQ==
+X-Gm-Message-State: AOJu0YwFOH8dSN0ICILW/BrdqRx4BREvttbGz9AOLdr/pBZJuu39K/RA
+ lxeBaT6d9+QtfxYtIRlCNJyGpg==
+X-Google-Smtp-Source: AGHT+IGqFOCoj6Ejh31/xdT35ajIygeshLhzcKMzHS5YU2NmxWqCFUAgyHrCF7ifRWiANO1HUtNWBQ==
+X-Received: by 2002:a2e:99d5:0:b0:2c9:e7ea:6d3b with SMTP id
+ l21-20020a2e99d5000000b002c9e7ea6d3bmr1232579ljj.90.1701602921149; 
+ Sun, 03 Dec 2023 03:28:41 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- b9-20020ac25629000000b0050bf01760a1sm241224lff.295.2023.12.03.03.26.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Dec 2023 03:26:45 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: dri-devel@lists.freedesktop.org,
-	Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: Correct UBWC settings for sc8280xp
-Date: Sun,  3 Dec 2023 14:26:31 +0300
-Message-Id: <170160265539.1305159.17862781249540372821.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231130192119.32538-1-robdclark@gmail.com>
-References: <20231130192119.32538-1-robdclark@gmail.com>
+ a39-20020a2ebea7000000b002c9f70a0419sm274718ljr.140.2023.12.03.03.28.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 03 Dec 2023 03:28:40 -0800 (PST)
+Message-ID: <ed17e7d1-c99d-45d9-a9ba-743ccc07961e@linaro.org>
+Date: Sun, 3 Dec 2023 13:28:39 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/7] drm/msm/gem: Remove "valid" tracking
+Content-Language: en-GB
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20231121003935.5868-1-robdclark@gmail.com>
+ <20231121003935.5868-2-robdclark@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20231121003935.5868-2-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,25 +79,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
  linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Steev Klimaszewski <steev@kali.org>, Danylo Piliaiev <dpiliaiev@igalia.com>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org
+ open list <linux-kernel@vger.kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Thu, 30 Nov 2023 11:21:18 -0800, Rob Clark wrote:
-> The UBWC settings need to match between the display and GPU.  When we
-> updated the GPU settings, we forgot to make the corresponding update on
-> the display side.
+On 21/11/2023 02:38, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
+> This was a small optimization for pre-soft-pin userspace.  But mesa
+> switched to soft-pin nearly 5yrs ago.  So lets drop the optimization
+> and simplify the code.
 > 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>   drivers/gpu/drm/msm/msm_gem.h        |  2 --
+>   drivers/gpu/drm/msm/msm_gem_submit.c | 44 +++++-----------------------
+>   2 files changed, 8 insertions(+), 38 deletions(-)
 
-Applied, thanks!
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-[1/1] drm/msm/dpu: Correct UBWC settings for sc8280xp
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/0b414c731432
-
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+With best wishes
+Dmitry
+
