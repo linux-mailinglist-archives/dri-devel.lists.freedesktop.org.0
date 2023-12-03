@@ -1,77 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBCB28025BC
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Dec 2023 17:52:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AB28025CD
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Dec 2023 17:59:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7ADA10E2AE;
-	Sun,  3 Dec 2023 16:52:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEC5810E12D;
+	Sun,  3 Dec 2023 16:59:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34AEF10E2A9
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Dec 2023 16:52:27 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-40b2ddab817so38086545e9.3
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Dec 2023 08:52:27 -0800 (PST)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26E5F10E0A8
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Dec 2023 16:59:34 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id
+ a640c23a62f3a-a1b22a31649so82102766b.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Dec 2023 08:59:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701622345; x=1702227145; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701622772; x=1702227572; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=04CYILEI80Gr5R2XA7debhtuVx5bEIk2+GQQHM8/NHg=;
- b=Hy9Pip/3mytAR0YJacgtKziicbUM3YLtg1wOR2/bE9hPv3c8TeIh8AdqwwGso37FJn
- 67R5drsxw14UPPKiNbd945/GkaQaCwPY5PJ1/1BhI+8hKPxSaTKGbL2dUqpZ3ihuH98K
- niHvgKa+08Wx7uxqA5sEIn9MVjBd584LUxb9qeS0vgUe84iBXWptzXNFhn5DltyWk0j/
- C+VxEDRnYi3QO/1v9AClfgU1doy7VvfW6iWWqyE7LxLrKji0DRVrG1Jd4JdVfVz8lH7J
- cPuCmb5wy9qDvy0Zu4m3YW79KuVo3VXNLFbK/8pfXcMvzq7uXusRtH+g8l0ZHTNDWBGt
- q3tw==
+ bh=v2WrHn2KfDjsHr5vzCrOA1RMgn365KSpIf3+qI9R6P8=;
+ b=hBkW1ffhpmUXdzujWeDFHFWrX0146D0ajjqgSScBXoCYw7YFGNoscGeoTZ5WnICjiE
+ ImaMOMB5otfKKUDUbN0x42bJyGQNEDH9iolggvNT2OfqXnPXqecS2rfOvMtc8yTwmKUW
+ +2/7+vu2GFbTL52YOg5kSUiPaW5atG1IiJzwJ6sMxNXs2fotSjz7ftvcrjIsAs63Lb1e
+ zvL4n9PSrwHRIOkExIYcx7OCYYRLypYI0CWy5P0MsM6TBN9UfuQ3cYyZUVFbrF5Glv6C
+ BgXAHRKbDf/aqOzTk/dWqpiXpTVsuCSy9YOGfu6pRmRJxATLazFuoAuXeOzq45DWOgLB
+ /Bvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701622345; x=1702227145;
+ d=1e100.net; s=20230601; t=1701622772; x=1702227572;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=04CYILEI80Gr5R2XA7debhtuVx5bEIk2+GQQHM8/NHg=;
- b=HUuHRbXtyjQ15Z8fV61mGgyheFx/tztcRrittlLf3oLnJ6CRV4XlZxSxv+fPlbNEig
- mUg7wQmO7uWMHkeSsZOxoXu1SRQASjF/xV/6eegvw3RgQ+MnhTclB59wb8yKLU+IY4d/
- HQtMCzIPBA6RdiWp56we9TFy5duN1Qtz3QWyflp7O3senxaSbCLTGdxvpXgJqHV11E3v
- jG6YDoLia+Odnk3gVFy6LKWabCi1hu9hRxIIA6f47ysxGOEZg8dlzEiVw3xZplI5Q91H
- duvNcV9uLKr4zT7Wqcru9nh49k3C8ZoLvLJF+NOGgHJhxTpZEE4X2WQ9gdmTqxo+oBE5
- Aw0Q==
-X-Gm-Message-State: AOJu0Yx3+8yUk3t9FZZJ0ml7Jd2xwt+EN5EVI2dZcrU8I5oFYzV0+iwh
- azLJd9LnshVunF1SLIoHHaeFfQ==
-X-Google-Smtp-Source: AGHT+IETvz3Fasyli2iuM/LcxbI/OOJ1bLkRs3b3KKBPtIq/HP89UFxaSlu6Dpx22Oi6GVJPSzsYmw==
-X-Received: by 2002:a05:600c:224c:b0:40c:709:d924 with SMTP id
- a12-20020a05600c224c00b0040c0709d924mr1016534wmm.147.1701622345542; 
- Sun, 03 Dec 2023 08:52:25 -0800 (PST)
+ bh=v2WrHn2KfDjsHr5vzCrOA1RMgn365KSpIf3+qI9R6P8=;
+ b=bqu+lQOmgioPD3P3KNPzjQvoGROgqJSg5o/40dAqyBJVukty7LpoUCp5UwvnR6rXUX
+ YdvGKi/Z8gGXZajWzEDwcxjGJOHbVURHaBmJhZgufci8ZlazDoeli6hAMTzYkW5v5mMO
+ DZPdvg3pqHx7/fK9cD/fWhC29YJ3msK3SRyD5OVvgUy9ZzcxRE3fPtgVVGUYjKc+6DjF
+ QH91v1se+M5sEolBOpoHtp1oK6wYuUZqG7kMo/R48xjJlhIeffT+rfakoh7PWXplbRmJ
+ ITO/+6XVFu0rt4SV8A3QqH3KFT7FvdbqxZ84u41L2LRKUM6KluPzEBek+M2CuMR34gP3
+ k5zw==
+X-Gm-Message-State: AOJu0Yxp4/aTNMZMoDAZ5+1sO/YTbGTxECAtKBw0l3xmrFuDgR7lvbm7
+ NhJQvsZnPEm+0JjNdz8pMPGEfg==
+X-Google-Smtp-Source: AGHT+IHLLwYN3p9N3kVtRmoxJqtaTfVrw8igqvyw+WpQ69cEvBn1ytTqsq2yahnVVXOgV9znKq6/Ew==
+X-Received: by 2002:a17:906:2210:b0:a19:a19b:55ff with SMTP id
+ s16-20020a170906221000b00a19a19b55ffmr2773485ejs.143.1701622772547; 
+ Sun, 03 Dec 2023 08:59:32 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.109])
  by smtp.gmail.com with ESMTPSA id
- g14-20020a05600c310e00b0040b481222e3sm15979984wmo.41.2023.12.03.08.52.23
+ l18-20020a1709065a9200b009fe1d575365sm4293012ejq.55.2023.12.03.08.59.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 03 Dec 2023 08:52:25 -0800 (PST)
-Message-ID: <fbb4636a-aec2-4d9d-91c6-919ae24ddda0@linaro.org>
-Date: Sun, 3 Dec 2023 17:52:23 +0100
+ Sun, 03 Dec 2023 08:59:31 -0800 (PST)
+Message-ID: <656d74a1-9fab-4893-b974-cd55fef1c76e@linaro.org>
+Date: Sun, 3 Dec 2023 17:59:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/10] dt-bindings: display: bridge: tc358775: Add
- support for tc358765
+Subject: Re: [PATCH v3 07/10] dt-bindings: display: panel: Add Ilitek ili9805
+ panel controller
 Content-Language: en-US
-To: Tony Lindgren <tony@atomide.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Simha BN <simhavcs@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
-References: <20231202075514.44474-1-tony@atomide.com>
- <20231202075514.44474-4-tony@atomide.com>
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ linux-kernel@vger.kernel.org
+References: <20231130141705.1796672-1-dario.binacchi@amarulasolutions.com>
+ <20231130141705.1796672-8-dario.binacchi@amarulasolutions.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -117,7 +107,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231202075514.44474-4-tony@atomide.com>
+In-Reply-To: <20231130141705.1796672-8-dario.binacchi@amarulasolutions.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -132,20 +122,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Carl Philipp Klemm <philipp@uvos.xyz>, devicetree@vger.kernel.org,
- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
- Merlijn Wajer <merlijn@wizzup.org>, Sebastian Reichel <sre@kernel.org>,
- dri-devel@lists.freedesktop.org, Pavel Machek <pavel@ucw.cz>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, devicetree@vger.kernel.org,
+ Amarula patchwork <linux-amarula@amarulasolutions.com>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, michael@amarulasolutions.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/12/2023 08:54, Tony Lindgren wrote:
-> The tc358765 is similar to tc358775 except for the stdby-gpios.
+On 30/11/2023 15:16, Dario Binacchi wrote:
+> From: Michael Trimarchi <michael@amarulasolutions.com>
+> 
+> Add documentation for "ilitek,ili9805" panel.
+> 
+> Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> 
 
-In what aspect "except for the stby-gpios"? Does not have them? If so,
-disallow them for that device (:false).
-
-
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
