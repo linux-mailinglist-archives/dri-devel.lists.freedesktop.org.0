@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49ED38022CC
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Dec 2023 12:26:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24F488022E4
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Dec 2023 12:27:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8029310E278;
-	Sun,  3 Dec 2023 11:26:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70E5A10E286;
+	Sun,  3 Dec 2023 11:27:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B961B10E278
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Dec 2023 11:26:41 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id
- 2adb3069b0e04-50be10acaf9so1506547e87.1
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Dec 2023 03:26:41 -0800 (PST)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87E2310E27A
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Dec 2023 11:26:42 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id
+ 2adb3069b0e04-50bf26f8988so401248e87.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Dec 2023 03:26:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701602800; x=1702207600; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701602801; x=1702207601; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=dsGJkEMgYOnC7T1jGA9amysHXRjV1SP4w3jzP2mqKYo=;
- b=t+dcBxIHo5eHGADxlPRYIg4mig63oaxi0jYb6S6HXYHyhFsT8YZA1g7DwD7EHTYbBt
- hqV6hB7bw4GLc2FciIstsKUZmXvx47WOXTgpKIxbRwT8D/yF6tmCSxbfvCPL9lGydbVD
- MlRH5C21WEhKLjMsXblXCJCNG1ge9mdyWmAUIwMVKDKjwCgxiyViEYQrRNb4bxGRswht
- ja+puZoYkkD3aX4xBHwFxhoJRAAftL0ZwsOnhMKKrzOgE3wSdi0Y77uZSA46CI7rIkVt
- 0AroXwY1cizZ5QW84egdn2UYLDRsP5FZvJBfw9S5Y2yZkmEGoZvMXxgSA7g15ikfFUvA
- +Pfg==
+ :reply-to; bh=sbKwG3bsiy6N+N1DD1CLsj/Q/q+O1WSIDYwjhlWFEhk=;
+ b=jwgbVMZ5gaPYy1xopiwBW9jBimttqEGbmhdvqGNC/XVMh1I9fy5azI12UIi3X5izUw
+ II87jG2VHFuz3aqOSqw2vwI/vXj+kGjzxotY9FELcrMsFQ4/CBHlNjg9u+rwhoh92sXE
+ tJlwXplrvd2SvlbC5KkRy1/GKlxlUNPgA4LsG3MOXoXW2h/dKdZw/egmEWkYLS8EPrtA
+ EKC+iZIQnNEVHqr01kU3p1GKu/O+SuZMTDpDU7t0bvgSw+QW7l+FA92Eyk4+l/+LBwWB
+ pEGjCoQpdCk9JIPx1UZwwWdG7qkiga0pN+XHHIW3y3fUYJX8ISgHit9Ipznahz2ZYX9Y
+ OclA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701602800; x=1702207600;
+ d=1e100.net; s=20230601; t=1701602801; x=1702207601;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dsGJkEMgYOnC7T1jGA9amysHXRjV1SP4w3jzP2mqKYo=;
- b=BuPvPUK0jATbp3vKbiNQ65+i0h4k1EvgAHx5Rrx2WDEDAHB2p3yOptuSJf0PxYNZ/B
- 4A6NDWglTLxWpCTfQh32rVB9ueYa/99GYmjWoXOfHiQWSblc0GfnEhulYAL8a1hjKobN
- 4YwB9dfcy8ZRDnG7zXNHJ8vaY7rMDujH+tvDbdZ0UYTqDEdLrBnYAfCwrzxekGrbJ9pu
- v1id2/oMKpH2irE4o177Iqha2qv9yNk0OHjTVFT5c8R9ihLv/cW5bKvP5iM675EScM1N
- 7BSNfpQwUIPaf4nRar4+LmlPaHZF+qbUuA8Xl7ZHprQ0Fh3H1SKFH/ku/qcJ5FqG3GpF
- ijog==
-X-Gm-Message-State: AOJu0YxicDl8v18EAjEiTVJgWEdshdR9ePS3PHnKuzihgB5otTCfqa6q
- oJVEqDHU7I/hhVmoe9FMpHhahQ==
-X-Google-Smtp-Source: AGHT+IGTXjNHVOlRK83VPte/bws5CiHwW/uyqVkiKfSIsKv+KpW+bT01/1EwXLC4NivAlf5yAF6gaQ==
-X-Received: by 2002:a05:6512:2c8b:b0:4fe:2815:8ba7 with SMTP id
- dw11-20020a0565122c8b00b004fe28158ba7mr2247401lfb.25.1701602800000; 
+ bh=sbKwG3bsiy6N+N1DD1CLsj/Q/q+O1WSIDYwjhlWFEhk=;
+ b=ATwT3wfgi1tVb4D7j/SDx7urS6henAHHzYfoqIYtE4g2wrlKqI0fB3OvhAIY4ENIv8
+ cVd/bg4z/8JtmPnViOFtvfl/HPB/H0TXQlwQza76UuZZzxks9K4CeS7Q1lqOO4LutU8s
+ s7HTr9HBpb1yfLR4SxGXxM+/Vsk4pF/Hl9IivQ6lOd1+H5L3uj4kxLcdqEbP3HhENGQl
+ udK8mrabj5LhIXwJxB9n+88skb1vufBFmzEtxaSTsyeQPdAyRw9kXQnZz3dzIOUJ/UnZ
+ MEa/q+GmGDwP29j9COLeOk2qoiwyMVEKJeg37THs369gerzgKJ+TThgYOkIgv5WGp/52
+ VQ/w==
+X-Gm-Message-State: AOJu0Yw4T0lZJ1Kll8DIM7bcOqzv9b+4ugY2wsw9MeOUrJIBEiial2an
+ u79XlM2dXAKHDLGAdErb+7SNHw==
+X-Google-Smtp-Source: AGHT+IHXObFn5iWeVaQxMjM8NCWQ1Rahby/WyhApUWMTJIT7Qf7SFVR14cwLp/UcG7bQecH6ZqyZlg==
+X-Received: by 2002:a19:8c48:0:b0:50b:d764:9691 with SMTP id
+ i8-20020a198c48000000b0050bd7649691mr1631354lfj.117.1701602800856; 
  Sun, 03 Dec 2023 03:26:40 -0800 (PST)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- b9-20020ac25629000000b0050bf01760a1sm241224lff.295.2023.12.03.03.26.38
+ b9-20020ac25629000000b0050bf01760a1sm241224lff.295.2023.12.03.03.26.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Dec 2023 03:26:39 -0800 (PST)
+ Sun, 03 Dec 2023 03:26:40 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Sean Paul <sean@poorly.run>,
@@ -64,12 +64,12 @@ To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Subject: Re: [PATCH] dt-bindings: display/msm: qcom,
- sm8150-mdss: correct DSI PHY compatible
-Date: Sun,  3 Dec 2023 14:26:24 +0300
-Message-Id: <170160265545.1305159.12554929694574480322.b4-ty@linaro.org>
+ sm8250-mdss: add DisplayPort controller node
+Date: Sun,  3 Dec 2023 14:26:25 +0300
+Message-Id: <170160265545.1305159.1208126196892932328.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231111142017.51922-1-krzysztof.kozlowski@linaro.org>
-References: <20231111142017.51922-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20231107103600.27424-1-krzysztof.kozlowski@linaro.org>
+References: <20231107103600.27424-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -89,18 +89,18 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Sat, 11 Nov 2023 15:20:17 +0100, Krzysztof Kozlowski wrote:
-> Qualcomm SM8150 MDSS comes with a bit different 7nm DSI PHY with its own
-> compatible.  DTS already use it:
+On Tue, 07 Nov 2023 11:36:00 +0100, Krzysztof Kozlowski wrote:
+> Document the DisplayPort controller node in MDSS binding, already used
+> in DTS:
 > 
->   sa8155p-adp.dtb: display-subsystem@ae00000: phy@ae94400:compatible:0: 'qcom,dsi-phy-7nm' was expected
+>   sm8250-xiaomi-elish-boe.dtb: display-subsystem@ae00000: Unevaluated properties are not allowed ('displayport-controller@ae90000' was unexpected)
 > 
 > 
 
 Applied, thanks!
 
-[1/1] dt-bindings: display/msm: qcom,sm8150-mdss: correct DSI PHY compatible
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/1cd83dfe9a58
+[1/1] dt-bindings: display/msm: qcom,sm8250-mdss: add DisplayPort controller node
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/52e36770b174
 
 Best regards,
 -- 
