@@ -1,78 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A49BA8027A0
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Dec 2023 21:57:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCFD48028FF
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 00:31:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAC1810E0B9;
-	Sun,  3 Dec 2023 20:57:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8370310E048;
+	Sun,  3 Dec 2023 23:31:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB31910E0B9
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Dec 2023 20:57:25 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id D55C15C0159;
- Sun,  3 Dec 2023 15:57:22 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Sun, 03 Dec 2023 15:57:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alyssa.is; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1701637042; x=1701723442; bh=4Z
- /fGdtWxhmus/QtkDC03Lf4hSdh2IdQELBGib5hdMs=; b=oG3sgBr5MpyGM080ml
- UTQsdXBa172u+R0VY2NVw3POssRNePmxC1U69iaBfHvoRM6e7U8tOc7zY/FeRSP6
- EzI2QdWvITFKqxRpk+odWVDLFPjEfPdERh1MlSymslfK8LxWNCVHAs7EnaW7iRoj
- kSj2dCFa4AFXoDNtzS6PAiXK0VLtO923Z1IuDC1XnVLYqRZREYRN+Fa+bSMqM2GM
- R0ft/Qwc/Gfk8VkhGtsnYo2lea+KiFliotd0/Yo5ck4TP5KPLrQ6P6y+kCJwUXgn
- humqLBeaEolIXcuPIHMIIXUxOz/gosEQtUQpRC7s1xwg+/sxH3KyntYFriWUeetw
- 6sdQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1701637042; x=1701723442; bh=4Z/fGdtWxhmus
- /QtkDC03Lf4hSdh2IdQELBGib5hdMs=; b=pAfWzn3N9photzFEcv8pAoy02u/Hh
- dseORM1JlWiSaJ3uqWgEG7ywJqO37MjMR3MW+Ugn7Ajt5vLEucXQt3sS9CIrxlS0
- /F0OlDdTpz8wdP00jV9ASqQY2qKjbranhCv10sGqIMwHkCHlVWTe+bYf8yscB94z
- manNqkAgFksT121Ib21rGBR7DAFqFJ55iP7GvNDKNQk40uK76pUL/WQ+BXPrsbOt
- 7SacDv6KuxyKySiteq3eKqmymmb6j/vbYZ6/ZmN6WVNUA7W0DCJHhKA+iFYZLHCE
- 30+U/gyDPD3QrAHBW6rr4f/DCKXDxiIcn7w/VUy4Gy28UhqFs8TBsGsSg==
-X-ME-Sender: <xms:setsZYXngvOxnGcmSsSBtH9jP6qVqbCHr0pQt0s-O1SxkAyIy1es0w>
- <xme:setsZcktUFdRhW-11jZ_I68uQ6HhoixovMAQfxD_BeP0CfCkUTsnbESeePQ2_NCCK
- t2lCIb_dez3IIarcw>
-X-ME-Received: <xmr:setsZcZs8rBpdI7B_9qbfrOHJVP-QHT__f3cF---eVnsYfUJHx36kPRWuZXjvtj5ZW8orbJou-OYYn8CdhKZYExHVmPw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudejgedgudegfecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvfevufgjfhffkfggtgesghdtreertddttdenucfhrhhomheptehlhihs
- shgrucftohhsshcuoehhihesrghlhihsshgrrdhisheqnecuggftrfgrthhtvghrnheptd
- dtkedtvdeltdeufeetheffjedtjeektdegudegjedujefhveevtdekueejgeejnecuffho
- mhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
- grmhepmhgrihhlfhhrohhmpehhihesrghlhihsshgrrdhish
-X-ME-Proxy: <xmx:sutsZXWgXWTzCG5v_ufblFZBqNwH6nr7aGlDz7Bs9Himw2-OB89Hcw>
- <xmx:sutsZSk0JngmoTkc5eyc5ynCshQINh8VaH4OviFxnXaOJVCfN-Vjww>
- <xmx:sutsZcen059QSKiyXfODaNUxKYyDjF8nd5I4kTSbeTpQV8RoP5ggOg>
- <xmx:sutsZQY4vU1arnpogu2h_m15PXko1cdxqNwn-xpPl25-JzkjK_LpWA>
-Feedback-ID: i12284293:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 3 Dec 2023 15:57:21 -0500 (EST)
-Received: by mbp.qyliss.net (Postfix, from userid 1000)
- id D6DE375D9; Sun,  3 Dec 2023 21:57:19 +0100 (CET)
-From: Alyssa Ross <hi@alyssa.is>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3] drm/atomic-helpers: Invoke end_fb_access while
- owning plane state
-In-Reply-To: <20231128090158.15564-1-tzimmermann@suse.de>
-References: <20231128090158.15564-1-tzimmermann@suse.de>
-Date: Sun, 03 Dec 2023 21:57:15 +0100
-Message-ID: <87r0k3c8d0.fsf@alyssa.is>
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
+ [IPv6:2607:f8b0:4864:20::112d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A058010E048
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Dec 2023 23:31:07 +0000 (UTC)
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-5cfc3a48ab2so40487697b3.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Dec 2023 15:31:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701646266; x=1702251066; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bjM6x3dSV0dvrwOzRCtI2g0RpYq2GwEUkHIxXkr844w=;
+ b=OU3b72rmQsYNOVaFgH/NKPyTGq0Ahw6x/ZWQ7f3CwBmij8m4JIG/9ei7zO8SDVNwIR
+ PZ/txx4VwL/xDkx1C9nPtaEIvGBlNpxpzsOa302PW5pSXtaXB9ErnIin8UifSr6F9cJ6
+ iITa43CTBSk5CGHXbQCDokSO/l8zh4PqjvBOnPRzsCZnUNMaEuZF7urYu0s6RmL7OB+M
+ vhnWIFWmFeI6g2NE4aOn7i2F8iYlisYIP9yYitmM5RFWrf0awY57jKscqlme6+/MkPG1
+ i3bHuO3qOYFp6+HqdJ2vat0rPDqye2EtAqomUokYWY6kPwCPl1UeG0qe8C+mv+Aa1gTh
+ sf2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701646266; x=1702251066;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bjM6x3dSV0dvrwOzRCtI2g0RpYq2GwEUkHIxXkr844w=;
+ b=g0pa7HgmHH1u7YtS2j9OsasBQ0CrjiA0EP70TK3UhWDjZU0Rjm3fsgpvIo+b4yV8FB
+ mb9zVZkge7bVJ/ZWcDixBniYNrjm+gP+NbXuiofS/gscW6qvh2E7ZqlnGFQRFBMCihsw
+ 1vpZsP0bDVHpBebEohzDLv/7o/0gYvgrCLerNJhHatYwtAfJPWM3nxx18WELPM+q6kUz
+ g24alqji4aif9GMT+4pE6Fox60gDMpMyKiOeq4dkTUSd0ZxqswEmHR2b8Oa4eWhBUDfq
+ i2jTStWWABXcnkyEqu0fPYi2jOqsbuA7tmUtwu//vHGKpWjcXW8bjoR2N1Br6Akl54Vb
+ k5yw==
+X-Gm-Message-State: AOJu0Yz1+N7KEBb3i4awEg9LOK4I1JYcexjq/6NMBjiDcFQCKdbzFIjD
+ 4dOnDBgI0cnc0YZ0/mojIuDPBVOt0+qdcmltYBio5A==
+X-Google-Smtp-Source: AGHT+IGu+BcDB7Yh0CPH3s3pOeZxcVl46hUT25e7D/XDV/UQGx+7xyS5aO/T4wBmQQyMt2ITjQv54OMTNTwmMgq4D7g=
+X-Received: by 2002:a81:4c44:0:b0:5d7:1941:aa4 with SMTP id
+ z65-20020a814c44000000b005d719410aa4mr2245374ywa.63.1701646266695; Sun, 03
+ Dec 2023 15:31:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
+References: <20231202081157.47222-1-tony@atomide.com>
+ <20231202081157.47222-2-tony@atomide.com>
+In-Reply-To: <20231202081157.47222-2-tony@atomide.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 4 Dec 2023 01:30:53 +0200
+Message-ID: <CAA8EJppcj44+cZC+-k9qMKJicO4_pEDxYLm0JoB9cVwG8caOuQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/panel: simple: Add BOE BP082WX1-100 8.2" panel
+To: Tony Lindgren <tony@atomide.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,91 +69,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, javierm@redhat.com, mripard@kernel.org,
- stable@vger.kernel.org
+Cc: Carl Philipp Klemm <philipp@uvos.xyz>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+ Sam Ravnborg <sam@ravnborg.org>, Merlijn Wajer <merlijn@wizzup.org>,
+ Sebastian Reichel <sre@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org, Jessica Zhang <quic_jesszhan@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---=-=-=
-Content-Type: text/plain
-
-Thomas Zimmermann <tzimmermann@suse.de> writes:
-
-> Invoke drm_plane_helper_funcs.end_fb_access before
-> drm_atomic_helper_commit_hw_done(). The latter function hands over
-> ownership of the plane state to the following commit, which might
-> free it. Releasing resources in end_fb_access then operates on undefined
-> state. This bug has been observed with non-blocking commits when they
-> are being queued up quickly.
+On Sat, 2 Dec 2023 at 10:13, Tony Lindgren <tony@atomide.com> wrote:
 >
-> Here is an example stack trace from the bug report. The plane state has
-> been free'd already, so the pages for drm_gem_fb_vunmap() are gone.
+> The BOE BP082WX1-100 is a 8.2" panel similar to the 10.1" panel
+> BP101WX1-100. Both panels use the same timings.
 >
-> Unable to handle kernel paging request at virtual address 0000000100000049
-> [...]
->  drm_gem_fb_vunmap+0x18/0x74
->  drm_gem_end_shadow_fb_access+0x1c/0x2c
->  drm_atomic_helper_cleanup_planes+0x58/0xd8
->  drm_atomic_helper_commit_tail+0x90/0xa0
->  commit_tail+0x15c/0x188
->  commit_work+0x14/0x20
+> Signed-off-by: Tony Lindgren <tony@atomide.com>
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+> ---
+>  drivers/gpu/drm/panel/panel-simple.c | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
 >
-> Fix this by running end_fb_access immediately after updating all planes
-> in drm_atomic_helper_commit_planes(). The existing clean-up helper
-> drm_atomic_helper_cleanup_planes() now only handles cleanup_fb.
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel=
+/panel-simple.c
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -1336,6 +1336,23 @@ static const struct drm_display_mode boe_bp101wx1_=
+100_mode =3D {
+>         .vtotal =3D 800 + 6 + 8 + 2,
+>  };
 >
-> For aborted commits, roll back from drm_atomic_helper_prepare_planes()
-> in the new helper drm_atomic_helper_unprepare_planes(). This case is
-> different from regular cleanup, as we have to release the new state;
-> regular cleanup releases the old state. The new helper also invokes
-> cleanup_fb for all planes.
->
-> The changes mostly involve DRM's atomic helpers. Only two drivers, i915
-> and nouveau, implement their own commit function. Update them to invoke
-> drm_atomic_helper_unprepare_planes(). Drivers with custom commit_tail
-> function do not require changes.
->
-> v3:
-> 	* add drm_atomic_helper_unprepare_planes() for rolling back
-> 	* use correct state for end_fb_access
-> v2:
-> 	* fix test in drm_atomic_helper_cleanup_planes()
->
-> Reported-by: Alyssa Ross <hi@alyssa.is>
-> Closes: https://lore.kernel.org/dri-devel/87leazm0ya.fsf@alyssa.is/
-> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-> Fixes: 94d879eaf7fb ("drm/atomic-helper: Add {begin,end}_fb_access to plane helpers")
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: <stable@vger.kernel.org> # v6.2+
+> +static const struct panel_desc boe_bp082wx1_100 =3D {
+> +       .modes =3D &boe_bp101wx1_100_mode,
+> +       .num_modes =3D 1,
+> +       .bpc =3D 8,
+> +       .size =3D {
+> +               .width =3D 180,
+> +               .height =3D 114,
 
-I've been running this for days now, and haven't had a single Oops.
-Given the rate with which I encountered them before in this
-configuration, it looks very likely that the issue is resolved.
+Nit: Panelook gives following dimensions: 176.64(W)=C3=97110.4(H) mm
 
-Tested-by: Alyssa Ross <hi@alyssa.is>
+> +       },
+> +       .delay =3D {
+> +               .enable =3D 50,
+> +               .disable =3D 50,
+> +       },
+> +       .bus_format =3D MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
+> +       .bus_flags =3D DRM_BUS_FLAG_DE_HIGH,
+> +       .connector_type =3D DRM_MODE_CONNECTOR_LVDS,
+> +};
+> +
+>  static const struct panel_desc boe_bp101wx1_100 =3D {
+>         .modes =3D &boe_bp101wx1_100_mode,
+>         .num_modes =3D 1,
+> @@ -4281,6 +4298,9 @@ static const struct of_device_id platform_of_match[=
+] =3D {
+>         }, {
+>                 .compatible =3D "bananapi,s070wv20-ct16",
+>                 .data =3D &bananapi_s070wv20_ct16,
+> +       }, {
+> +               .compatible =3D "boe,bp082wx1-100",
+> +               .data =3D &boe_bp082wx1_100,
+>         }, {
+>                 .compatible =3D "boe,bp101wx1-100",
+>                 .data =3D &boe_bp101wx1_100,
+> --
+> 2.43.0
 
-And, once the wrong parameter name in the kerneldoc identified by the
-kernel test robot is resolved,
 
-Reviewed-by: Alyssa Ross <hi@alyssa.is>
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEH9wgcxqlHM/ARR3h+dvtSFmyccAFAmVs66sACgkQ+dvtSFmy
-ccBm/g/+JtddooDhlyC0BzeDXpHuQiKW9puH1MFtU/nvGRXXoxUw7t1KavA85g1x
-tEJ39rDvyptmEZzH4Y54RIlm94LtfOkhp6nWUaESMKupIRo1+REDOBKlxysE5iBA
-yKkRm2yuEOOh3zdvBvmShVEMQhzG5eb3aKkYrgvrnnAof2QSWmwdQlp4Oxu8YYUS
-UM+qW7wgTiPx1TXo1nVu1l5dk4+Y5MufGMjF1JqsUDEkklQLomc/wIxYWXQKkBrh
-j0MHOQCSZ/ZfJPf5d4UJOn42F0J/luJb48e+sieWokhPXpAxkt1oRr4JgW2Iy3BA
-cGryrTu7HXaUepJjSqTYyKyL5OLfxwhNqKSpQgJbCcRjws+olV3YK6afrj6r6olt
-AfzNwd5r+d4eorosCrRRXMRBxSbRmUDSGxHLWY8DaexrpmrOpwl3gLO+euAPQSdt
-IBGZFO4h9P66ZsuS5VYo4xIawOAc3af37Q543qFv7DJDPL2TyRkyr+p4knvWkwAv
-M54CYFaq8WSjNZ6T/1CzCHeyGxkV0gKi2FxYQp3uR+YClFsQMxn23ex97j8CIR+h
-N80UZtx1rz/RYU2mokBG5gQRMA4CaEYVCPyg243DZ4A0BUF0XPq4eHD8vaCkl/lw
-0RhpJzHveufm4W+wOq3JfNI2RU/nka8wUBqyElPJCRH8dktT8Ts=
-=jM9Y
------END PGP SIGNATURE-----
---=-=-=--
+--=20
+With best wishes
+Dmitry
