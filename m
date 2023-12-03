@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3E7880292E
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 00:48:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87521802933
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 00:48:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29F0B10E16F;
-	Sun,  3 Dec 2023 23:48:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C69210E171;
+	Sun,  3 Dec 2023 23:48:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
- [IPv6:2607:f8b0:4864:20::b34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5D7910E16F
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Dec 2023 23:48:18 +0000 (UTC)
-Received: by mail-yb1-xb34.google.com with SMTP id
- 3f1490d57ef6-db549f869a3so2250178276.1
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Dec 2023 15:48:18 -0800 (PST)
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
+ [IPv6:2607:f8b0:4864:20::1132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6A6110E172
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Dec 2023 23:48:47 +0000 (UTC)
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-5d3c7ef7b31so29480467b3.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Dec 2023 15:48:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701647298; x=1702252098; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701647327; x=1702252127; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=vWqoLalNR8SshokhkQOf7/YDcCmn4G31mg9KQGgCRpA=;
- b=Xep4xzhQtkY8GC42C3VHzZWO4R0rbqCGbnKTC57w+dX/FVRmios1VDEPH6Wv4abDLd
- URPeHZMc4lF/PqBvm9kRrbHO5g9Eu03Vmu3rOl2vh9pVzGZoMsur3VFTlzX7wh1cdZuq
- GRVXoVar1qb/agCjQKmfvqL0alRoTXl2MKg4eSO5gYDD/0X463kLyWadeXTyu7dElFYC
- XvlnK2RSXkIQNxpgiN+sb26D33D21Tx5gBjFgKOHw5jOuOv4yoreBlOIZzhLZroUepWg
- S0NWpS98wmG4qbKoqm6eVrQBB7l06MQNY3FM5t4F7A4oQWKAWTe7Ix8hOUeFck59Fxlg
- 3AdQ==
+ bh=y4mwIE64K3KnKAJR/Y6BmY3reEf+tZOwBdBsLV78yPc=;
+ b=r8667Uoyk64CnxuRyVJgdzyR+GTOZ+RNYUEMCvdHboWQFZ5tuDgE8eNf8DLY8J1qog
+ frDdHhqpQ/1DsIz4wOUFyzfl/6bUJyvXD8M6IiqtPJJHh1IO5TYJQKChWWJ7/edkDDkn
+ eu4ujDYmKSsRaJlKnIFRUORsrU+/cA9/f96J0Mtmawr83NXA82SaESkRojaLrxLfNxmu
+ i/gO8cWJC2DZT77rz79hVu7cHEQhT2w7888g5zNT1aGtNgo/YGviGVe7B/+X7LEbnMzM
+ tfn/BkPy/dCmI8EAvGRsPVaRxlurPQlVGyIUwb5ibwtszP9mznpW4kcm7pt8JNMV4sX8
+ cFqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701647298; x=1702252098;
+ d=1e100.net; s=20230601; t=1701647327; x=1702252127;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=vWqoLalNR8SshokhkQOf7/YDcCmn4G31mg9KQGgCRpA=;
- b=cDWJ5CdLn2PKKT2znm/gsgKZ49RN//fqwzvnIZmgL04PryAoHoT2vuT0ZzP8RQF5ej
- wqUDwUapdOLoNSsDvdgaeQF7ezenga9umNYkHBZPdWvN0Uw1fHJMI7mTnIsZNk0M5xCn
- YjWxo9BKI0qoZkBK5iK5p4VfAnjDHDzviiezvPEN4xk2Frkem8TbLNgLSBISNZm+rawA
- fSjIfc65dIjbwK2VJz7tlWrAYAgESc6LHXFpHMEa6949OQdlZN7CL1NsL9q0BAD2ge6t
- EpEG3A3E7A7r8f0tGcjNEOcGlNfWs8A84ZPmnmNouHSiupn1QZYggVdzzgwFx3jIWOYV
- iXvg==
-X-Gm-Message-State: AOJu0YxOS0oVReVlgWDXSaZwvQTV8KaoZUU/fx7oZP1MbOmR6GWs4f/F
- WADt5iw7RM83dbu8ylddDsGJZ/XnWasK0ObBSgGFkA==
-X-Google-Smtp-Source: AGHT+IGHplLFwjAr05PmC5DkiZjE2D9xRFircODZ6D9h2X05ViVg/npg+QkPUdC93HzupX7slUGi+rdZudZvMu7sLgY=
-X-Received: by 2002:a81:b65f:0:b0:5d3:d439:aabe with SMTP id
- h31-20020a81b65f000000b005d3d439aabemr2265318ywk.26.1701647297842; Sun, 03
- Dec 2023 15:48:17 -0800 (PST)
+ bh=y4mwIE64K3KnKAJR/Y6BmY3reEf+tZOwBdBsLV78yPc=;
+ b=S4P6pEmIMNhmfj6WD7YkzF+deSsf2XfnT4nUz1jm9R7LZHkWv0BKFnNxQJTYPH7dtE
+ H3PHo7v58EEU8DZuQbA+cvSGf9v39+SQnb6iBQjMI3HCKA5ZuyJHEMN14Fb/JYNCnt8a
+ 8kWIp6cyjzhtKYE1EnGQLASGdJj4OuPOam8w74xOEjwQC/hF5bvn1GkS3hNq3qJWljVX
+ jm0QdJXlTmJOcpjJxFKSrh/bX+z8Oh5tZN2RuOlARl6w/LlFMLZiYVetb+kj7vMQbdhM
+ V2Gl1gvjDLNqNvYIWxxgtZbsHtRFN4l2+MYQmhdh6rRb+X9TxaiinznqUfEQO2wXc5c2
+ 6Iig==
+X-Gm-Message-State: AOJu0YzV8w5g4qf2gVlcOeRMrtcDGuePiCnE6GoJ09iavAOclA1wMjdP
+ A//lYTGRhA3jigmGD9cRiY485+b6uNV8QnsB9ffwgw==
+X-Google-Smtp-Source: AGHT+IFK6o3xpi1dzKHSZrcp9Cmy08sip1nyekE99rglLIRRqt1HaCjXiP0tEEF3ts96ZNbc9twk/YxBI/NcmDT1be4=
+X-Received: by 2002:a81:e404:0:b0:5d1:430e:4b6f with SMTP id
+ r4-20020a81e404000000b005d1430e4b6fmr1764039ywl.9.1701647326829; Sun, 03 Dec
+ 2023 15:48:46 -0800 (PST)
 MIME-Version: 1.0
 References: <20231202075514.44474-1-tony@atomide.com>
- <20231202075514.44474-9-tony@atomide.com>
-In-Reply-To: <20231202075514.44474-9-tony@atomide.com>
+ <20231202075514.44474-11-tony@atomide.com>
+In-Reply-To: <20231202075514.44474-11-tony@atomide.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 4 Dec 2023 01:48:06 +0200
-Message-ID: <CAA8EJpqzz++bdJ7XHmfHWJ1RhXN=vXwwDPmt=SZAR5LxOCkjEg@mail.gmail.com>
-Subject: Re: [PATCH v2 08/10] drm/bridge: tc358775: Enable
- pre_enable_prev_first flag
+Date: Mon, 4 Dec 2023 01:48:34 +0200
+Message-ID: <CAA8EJpo6K21aDJ7Rx-4PSET5i373rU6H-7SerXPZ=_2RUS4f4A@mail.gmail.com>
+Subject: Re: [PATCH v2 10/10] drm/bridge: tc358775: Configure hs_rate and
+ lp_rate
 To: Tony Lindgren <tony@atomide.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,19 +83,19 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 2 Dec 2023 at 10:03, Tony Lindgren <tony@atomide.com> wrote:
+On Sat, 2 Dec 2023 at 10:06, Tony Lindgren <tony@atomide.com> wrote:
 >
-> Set pre_enable_prev_first to ensure the previous bridge is enabled
-> first.
+> The hs_rate and lp_rate may be used by the dsi host for timing
+> calculations. The tc358775 has a maximum bit rate of 1 Gbps/lane,
+> tc358765 has maximurate of 800 Mbps per lane.
 >
 > Signed-off-by: Tony Lindgren <tony@atomide.com>
 > ---
->  drivers/gpu/drm/bridge/tc358775.c | 1 +
->  1 file changed, 1 insertion(+)
->
+>  drivers/gpu/drm/bridge/tc358775.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
 
 -- 
 With best wishes
