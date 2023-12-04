@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E3E1803252
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 13:17:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32431803254
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 13:17:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBD9610E19D;
-	Mon,  4 Dec 2023 12:17:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F37410E1A4;
+	Mon,  4 Dec 2023 12:17:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F325310E1A4
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F228310E19D
  for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 12:17:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id C3C10CE0E00;
- Mon,  4 Dec 2023 12:17:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58228C433C7;
- Mon,  4 Dec 2023 12:17:13 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id 2D25AB80DDF;
+ Mon,  4 Dec 2023 12:17:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36780C433C8;
+ Mon,  4 Dec 2023 12:17:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701692233;
- bh=BVHisMEe0/ICZvGqzbKHHBha0j84yNL1cE4vVQoz15Y=;
+ s=k20201202; t=1701692236;
+ bh=PB5+W8JWCXdjgWgOMq0c62L51ZpD7HhrRCspxMcpfc4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=E04uDROm5J+gY56nqg39X9XJIy4DmNMmZ7b6BdOOX3kjcV4sqybRDpsSy6Nh0qa02
- n3n7zz3RilLZYyc9z1WhdayahIj2X1J5elyFyN0uGVu8q3N7WODdEmO05O7a7Kw0Z0
- 3io3YSwc0id0x9nS3yZqjsdDGXMLwbh9bGlNpTLrqnVSCvek76mlBgehqgLp7C0gi4
- tsrd++RurEg3rgfkfBkWo/TOgJpEmzSo1fuaFuwwZAgO0cGB896Skgoaqq5BMSTr1e
- cwZP3Jf5YMjVJAlTUmJyVbLetesGwUAjbgAiIXIESzJgDqcM677yjO48rvilmE5cxx
- iQL8xVnv1bswA==
+ b=pOma7LdJ+eY5ZBvfh8eIeyVcCioaMCKA1wpGUoWaOcDYuA3yfyCC1QpUNsYt0HZtb
+ 27enblO8+OG5VZH9HvWyQ1A3J6kqMm8e9zAhaJx36GNIUyWAfenIzn/AppZ+FGW6tA
+ jKv/G7VelWQhYWQJJS+Fww1Ul/es8poJ7txF8lLUCCsm84WtGy/sL4Q/1tVIAbNWfF
+ CAtvQX2PnrYUA0A9ifcEz7hx5DFWWtSH86XAZhM3h5dV8kh1qrkqCZH5lWYyJBqjd6
+ S8/TycO/vrCbgtqux8zK3QUry+644kGkx+a6BKZ7/ffV/WSB3YnzaVhx3/OrvDIquC
+ CMkB/cnYX/jAQ==
 From: Maxime Ripard <mripard@kernel.org>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH 2/5] drm/atomic: Remove inexistent reference
-Date: Mon,  4 Dec 2023 13:17:04 +0100
-Message-ID: <20231204121707.3647961-2-mripard@kernel.org>
+Subject: [PATCH 3/5] drm/atomic: Rework the object doc a bit
+Date: Mon,  4 Dec 2023 13:17:05 +0100
+Message-ID: <20231204121707.3647961-3-mripard@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231204121707.3647961-1-mripard@kernel.org>
 References: <20231204121707.3647961-1-mripard@kernel.org>
@@ -56,26 +56,69 @@ Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The num_connectors field documentation mentions a connector_states field
-that has never been part of this structure.
+The doc for the planes, crtcs, connectors and private_objs fields
+mention that they are pointers to an array of structures with
+per-$OBJECT data.
+
+While these fields are indeed pointers to an array, each item of that
+array contain a pointer to the object structure affected by the update,
+and its old and new state. There's no per-object data there.
+
+Let's rephrase those fields a bit to better match the current situation.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- include/drm/drm_atomic.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/drm/drm_atomic.h | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
 diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 2a08030fcd75..13cecdc1257d 100644
+index 13cecdc1257d..914574b58ae7 100644
 --- a/include/drm/drm_atomic.h
 +++ b/include/drm/drm_atomic.h
-@@ -413,7 +413,7 @@ struct drm_atomic_state {
- 	struct __drm_crtcs_state *crtcs;
+@@ -403,12 +403,18 @@ struct drm_atomic_state {
+ 	bool duplicated : 1;
  
  	/**
--	 * @num_connector: size of the @connectors and @connector_states arrays
-+	 * @num_connector: size of the @connectors array
+-	 * @planes: pointer to array of structures with per-plane data
++	 * @planes:
++	 *
++	 * Pointer to array of @drm_plane and @drm_plane_state part of this
++	 * update.
  	 */
+ 	struct __drm_planes_state *planes;
+ 
+ 	/**
+-	 * @crtcs: pointer to array of CRTC pointers
++	 * @crtcs:
++	 *
++	 * Pointer to array of @drm_crtc and @drm_crtc_state part of this
++	 * update.
+ 	 */
+ 	struct __drm_crtcs_state *crtcs;
+ 
+@@ -418,7 +424,10 @@ struct drm_atomic_state {
  	int num_connector;
+ 
+ 	/**
+-	 * @connectors: pointer to array of structures with per-connector data
++	 * @connectors:
++	 *
++	 * Pointer to array of @drm_connector and @drm_connector_state part of
++	 * this update.
+ 	 */
+ 	struct __drm_connnectors_state *connectors;
+ 
+@@ -428,7 +437,10 @@ struct drm_atomic_state {
+ 	int num_private_objs;
+ 
+ 	/**
+-	 * @private_objs: pointer to array of private object pointers
++	 * @private_objs:
++	 *
++	 * Pointer to array of @drm_private_obj and @drm_private_obj_state part
++	 * of this update.
+ 	 */
+ 	struct __drm_private_objs_state *private_objs;
  
 -- 
 2.43.0
