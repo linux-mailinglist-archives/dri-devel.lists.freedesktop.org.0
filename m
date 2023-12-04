@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6A3780312D
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 12:02:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3293803134
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 12:03:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9D5E10E345;
-	Mon,  4 Dec 2023 11:02:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A2D710E33B;
+	Mon,  4 Dec 2023 11:03:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48EEE10E345
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 11:02:31 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id
- a640c23a62f3a-a1b03886fd7so167991366b.2
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 03:02:31 -0800 (PST)
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACF0F10E33B
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 11:03:21 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id
+ a640c23a62f3a-a1b68ae4104so126936166b.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 03:03:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701687750; x=1702292550; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701687800; x=1702292600; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=kvCpwjImoYWLvinjMDGOnfCxgHCwEX0Wp0hmlvMkuhM=;
- b=W631g1V9tdkmtKLdSOx3tlfPtHjjg2wGa4b1vNWzpIQXfB2ji4RDJWw3YLTaJeHMe1
- X9HXK5KysdiaCo4BmwlCFVvtgXkf7qTuvo5FLmbvZggVli2/nZTRPQuVrgFrC68c6zxR
- MEyeCZm1uuDKCqSZ6n8It+Ny8rLop7kfgyqPlmGAxiciB6bVMLTg7os7Xuktq91rZCkd
- 0Gb40QGIjCY21L5LbCrm2oPNnRmIrjyeSfAa0E6yzX5vv124BMVv/tG/6AjplpUmKKpn
- TUtS0K5uSjt/TrtLBnOz2CsD96PbnePEGOcLrHXYNm5G49wOIu+61X62IJX8Xi9mzURh
- EfiA==
+ bh=/V7/qttpYUSVs/dqMEkEMSdP8vUt/vCkEeFP/v6WMb4=;
+ b=YkoxA7JJX/IoV6itbEMnkLHCFDDHjEZrsTDoJTJxGAYVm4lpVprQy5jRk92yCNM9Ld
+ +jVIR70BVfwTMaVXl6vy2KqylwNcLNSLt2L538YperKx+9S0i63PCjroqJWx62aeu5f+
+ F7iVTtfzJQ/8rxMMu1JELgqDauKbhjP1tAovS1wuCYMGEk/z4/7sL/f+Ly3JNq1gKFUs
+ SstyMSKmZVrNqggJjmNTP/qnz6EtgW85oniQnTQzO0FbNY0oUxhubG2E0rdjxZAp0iid
+ iqP7Yw1U42sXUEju+1mYv49oHPzDBnkDLg/nX2Lj4cYKaTA1bAoYaISMJohxOWnjNbfe
+ R46Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701687750; x=1702292550;
+ d=1e100.net; s=20230601; t=1701687800; x=1702292600;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kvCpwjImoYWLvinjMDGOnfCxgHCwEX0Wp0hmlvMkuhM=;
- b=wF26LXBCpepyxjJKMWsN3jAOh5uETjm16rvdbJEuZnT0c7DOg4JEqa/Dt2rNj7+WGE
- eh7IhQtPGNLA2T97aLvBPbihje/6ADYYwdJsh3ugy5Q1+fY/z1vWeI0Iyr0RWBqGcrtW
- l7iNgqaRGPuiFKgyqx9Q1SYp9cZDajYBzy3Fb2GL6lAE+JD1lMWikAurSdkvnwnEeWcV
- 1uL/NS8eBeuFX3HWXVKrHcalCjeZjTbyqyavViy56WuHXY6xmw/oxyUwKSmJOC6n46sK
- JHnweYHlLYUj0UMb7/I1Fl3Z2UBesrFV8rUQ8vtS2GNqxNFCSN8Zi6KUWKsr8lQaOHsf
- ZY3g==
-X-Gm-Message-State: AOJu0Yw6vfTQ5d1AgaQjWJ19XPQ81HEjDEghK0gbzJSn2jiTvI1sBqlQ
- 6yDWxCNpvsnHWsOrJQtCJCc9gw==
-X-Google-Smtp-Source: AGHT+IF6zDxwYWco6meugRImHyKt+d7STRTyWCwdIHOEBs1fN7k3Q2y16RNRCVa1b6oAu4PR06JgfA==
-X-Received: by 2002:a17:906:22d5:b0:9dc:2291:d384 with SMTP id
- q21-20020a17090622d500b009dc2291d384mr2839881eja.22.1701687749715; 
- Mon, 04 Dec 2023 03:02:29 -0800 (PST)
+ bh=/V7/qttpYUSVs/dqMEkEMSdP8vUt/vCkEeFP/v6WMb4=;
+ b=GRlisWk75yY3xQcM9egwsv2V7maJbkdeHAQdwqvZvB+LWYekBMMIm34yYTft5l59sh
+ C/FVQrYu1fopTZixbp8cR67AZRTe+8rSY5CveQJyevSk1xdZGXo8bepP6b4JsT9zv8eA
+ D8iqfGMdjJIwh6fVFo5gFWH75fStDRxLJRvbjU4UJH6GCHlc0OPJEUB6sI5I5arvw+Sh
+ bs4Fk7ZloRdBBiTrWWKMTdG2nxbKI8mu64sdQ4B7fDNOC3LpNXIr2cmfJnt4MVg4+OIX
+ RPtTLRnAdeO2ILC5azo7UiI4Of4L8KyHT0fcVVmve0cQqZbJeeVyFRpMmwPQN/LX9qBG
+ 3yZA==
+X-Gm-Message-State: AOJu0YzKDOGUSG7LyRRHAEevPYU++pmkSsMUd/U30p8Oe0dc1KF9hv9d
+ 8UREkAsZs+dybZZbwDO11obxcg==
+X-Google-Smtp-Source: AGHT+IG/DZ7DWecHguhxVyCpS579WAetX8TUEe0h6ckVQp4TLerxiS6L7i+ssFEjODGt+cWbzm/NCA==
+X-Received: by 2002:a17:906:7152:b0:a19:a19b:78c9 with SMTP id
+ z18-20020a170906715200b00a19a19b78c9mr3388627ejj.140.1701687800185; 
+ Mon, 04 Dec 2023 03:03:20 -0800 (PST)
 Received: from [192.168.209.83]
  (178235179097.dynamic-4-waw-k-1-3-0.vectranet.pl. [178.235.179.97])
  by smtp.gmail.com with ESMTPSA id
- sa12-20020a1709076d0c00b00a0a5a794575sm5124335ejc.216.2023.12.04.03.02.28
+ sa12-20020a1709076d0c00b00a0a5a794575sm5124335ejc.216.2023.12.04.03.03.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Dec 2023 03:02:29 -0800 (PST)
-Message-ID: <fd51b768-8c0d-4f37-887d-b9bb350ea201@linaro.org>
-Date: Mon, 4 Dec 2023 12:02:27 +0100
+ Mon, 04 Dec 2023 03:03:19 -0800 (PST)
+Message-ID: <05d9194c-beea-443a-823d-b98213c63760@linaro.org>
+Date: Mon, 4 Dec 2023 12:03:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/4] drm/msm/mdss: switch mdss to use devm_of_icc_get()
+Subject: Re: [PATCH v4 3/4] drm/msm/mdss: inline msm_mdss_icc_request_bw()
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
 References: <20231202224247.1282567-1-dmitry.baryshkov@linaro.org>
- <20231202224247.1282567-2-dmitry.baryshkov@linaro.org>
+ <20231202224247.1282567-4-dmitry.baryshkov@linaro.org>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -100,7 +100,7 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20231202224247.1282567-2-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20231202224247.1282567-4-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -122,8 +122,9 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 2.12.2023 23:42, Dmitry Baryshkov wrote:
-> Stop using hand-written reset function for ICC release, use
-> devm_of_icc_get() instead.
+> There are just two places where we set the bandwidth: in the resume and
+> in the suspend paths. Drop the wrapping function
+> msm_mdss_icc_request_bw() and call icc_set_bw() directly.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
