@@ -2,96 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0AF6802F65
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 10:56:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 512F1802FC9
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 11:12:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 598FE10E344;
-	Mon,  4 Dec 2023 09:56:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F01E310E312;
+	Mon,  4 Dec 2023 10:12:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83F9F10E0CC
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 09:55:40 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id
- ffacd0b85a97d-33349b3f99aso581071f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 01:55:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701683739; x=1702288539; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=Jxjebb37Sne+DCka+TV8LuBzeXYyvVFK5U1pDR7IXD0=;
- b=sdGR0ReGcSVeK06xWl+Z1PKabdghG1uXf6OOwPpv4h/j+y6mNP11K/9YGDHNsbu5uL
- aPXbO2Q7yKx4fSAQ1P+pR4nQV7Km3qq9BFTtMIY3Ok0kIZFvqTVdDOkPOb/dzQRQ5M3t
- QtCshak4pcV8APnLU6jP1o4ha5kgIovO2NxKo0VANTHeB17Feab7Ppq0uwQNNpwahLmy
- Ikg3qPftJkRDrjxnJYacfKH4a9MVUvCtwSgRFJoIsZLdlsGfY1VOMLszg1cxHzKUIUAZ
- f33VrvULtjdx5KtxstgTsSpMDLUuNTh5VXOa0iK8LHDBGULah/nAdQJj4dbsS/GtUe4F
- rfKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701683739; x=1702288539;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Jxjebb37Sne+DCka+TV8LuBzeXYyvVFK5U1pDR7IXD0=;
- b=f+DXnbU+C40tp5OtQBJDBbXwT/f0SWaP+4G2GZKFBvkJb3PJbzm+E69pPbQhR86vF0
- YnH027r4ql45W6E0QaqLm19RcfOWaN63Ml6mc2qZHKSrnphMLQ9H2S6htvjxES+5+W9W
- bALEyd7pobJ8Gewfv7hmcrPMYDdzuS2KOYSEtKvF6i5AZkw0GWKVQTqMZaSjAwzm8AhG
- rLvouspuxpIItV3Hl4IiMdx/40eIr6YGu7vbwkTeNp272ZkPKID7Xyq2ERP0ljZPAUCf
- kDB39kT66UujSqI3/iKDqa05bLanyXmPvwqVfb0WOhEAQAcIHJh5tBih0AFP42dH/yzq
- BcVw==
-X-Gm-Message-State: AOJu0Yy/KRZTacA4y5vYVWaNSYuU7/cI3WxbWPQn1b2nbVGsShv+TKKn
- j3Gx2rZJPSWkFwNom/BwQVa4Zg==
-X-Google-Smtp-Source: AGHT+IHOF2x2nOBvKzkL5ClpV4l+rVoeI49QmCyyViebLcCdoNL/gwOZllNFKElB4n4NjA2FqTxO9g==
-X-Received: by 2002:a5d:4291:0:b0:332:f8d2:6407 with SMTP id
- k17-20020a5d4291000000b00332f8d26407mr3737740wrq.64.1701683739255; 
- Mon, 04 Dec 2023 01:55:39 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:58:12b5:777b:9d17?
- ([2a01:e0a:982:cbb0:58:12b5:777b:9d17])
- by smtp.gmail.com with ESMTPSA id
- g3-20020a056000118300b0033340b6d3a7sm4421442wrx.76.2023.12.04.01.55.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Dec 2023 01:55:38 -0800 (PST)
-Message-ID: <bb1554d0-7a5e-4b1e-a8e7-bcfabad9b070@linaro.org>
-Date: Mon, 4 Dec 2023 10:55:37 +0100
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D53F10E312
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 10:12:13 +0000 (UTC)
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
+ 3B4815Qm008037; Mon, 4 Dec 2023 11:11:49 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding:content-type; s=selector1; bh=nQnyC3l
+ sx0aVrbg7MvvuUyjEbRMAbRgqkdEPvR+/ZvI=; b=f0QirGigY05O6nytCchuzif
+ gv9t66Hmttc9XqtGRwziHBpd9qf2yGK0Q3YzfNVCv15FSue1Sg9GNS0JhhhLucHj
+ OXugUCQfATGuDG0qj9UdpJBZ3bkMeZ/TdytGxb8eFgUl/bdSv1fOgcJiB5ldbUZq
+ V1U/VcsCX4zFucniCqgpRZKfv57IXBKb8hXctAIbW7ec1dRLm/MoFy72F7PZh/b4
+ R0i2gNERrzYu5F64IF/KRuGFRwV94RHNh1OVr8slDQ9xckwNlhSYTkZl74IVRo25
+ LWFwLBmpUd/i2NwfBnUN2BGKy2PSz/digzsRfSTYvD16b88MJ8OBlx8Vxqx7Ocw=
+ =
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3urf14vm5u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 04 Dec 2023 11:11:49 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 7FB95100089;
+ Mon,  4 Dec 2023 11:11:46 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6FFFA21ADAD;
+ Mon,  4 Dec 2023 11:11:46 +0100 (CET)
+Received: from localhost (10.252.13.105) by SHFDAG1NODE2.st.com (10.75.129.70)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 4 Dec
+ 2023 11:11:45 +0100
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Richard Cochran <richardcochran@gmail.com>
+Subject: [PATCH v2 0/4] Update STM DSI PHY driver
+Date: Mon, 4 Dec 2023 11:11:09 +0100
+Message-ID: <20231204101113.276368-1-raphael.gallais-pou@foss.st.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/bridge: tc358768: select CONFIG_VIDEOMODE_HELPERS
-To: Arnd Bergmann <arnd@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Robert Foss <rfoss@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-References: <20231204072814.968816-1-arnd@kernel.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <20231204072814.968816-1-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.252.13.105]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-04_06,2023-11-30_01,2023-05-22_02
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,42 +76,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: Arnd Bergmann <arnd@arndb.de>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/12/2023 08:27, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> A dependency on this feature was recently introduced:
-> 
-> x86_64-linux-ld: vmlinux.o: in function `tc358768_bridge_pre_enable':
-> tc358768.c:(.text+0xbe3dae): undefined reference to `drm_display_mode_to_videomode'
-> 
-> Make sure this is always enabled.
-> 
-> Fixes: e5fb21678136 ("drm/bridge: tc358768: Use struct videomode")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->   drivers/gpu/drm/bridge/Kconfig | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index ba82a1142adf..3e6a4e2044c0 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -313,6 +313,7 @@ config DRM_TOSHIBA_TC358768
->   	select REGMAP_I2C
->   	select DRM_PANEL
->   	select DRM_MIPI_DSI
-> +	select VIDEOMODE_HELPERS
->   	help
->   	  Toshiba TC358768AXBG/TC358778XBG DSI bridge chip driver.
->   
+This patch series aims to add several features of the dw-mipi-dsi phy
+driver that are missing or need to be updated.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+First patch update a PM macro.
+
+Second patch adds runtime PM functionality to the driver.
+
+Third patch adds a clock provider generated by the PHY itself.  As
+explained in the commit log of the second patch, a clock declaration is
+missing.  Since this clock is parent of 'dsi_k', it leads to an orphan
+clock.  Most importantly this patch is an anticipation for future
+versions of the DSI PHY, and its inclusion within the display subsystem
+and the DRM framework.
+
+Last patch fixes a corner effect introduced previously.  Since 'dsi' and
+'dsi_k' are gated by the same bit on the same register, both reference
+work as peripheral clock in the device-tree.
+
+---
+Changes in v2:
+	- Added patch 1/4 to use SYSTEM_SLEEP_PM_OPS instead of old macro
+	  and removed __maybe_used for accordingly
+	- Changed SET_RUNTIME_PM_OPS to RUNTIME_PM_OPS
+
+Raphael Gallais-Pou (3):
+  drm/stm: dsi: use new SYSTEM_SLEEP_PM_OPS() macro
+  drm/stm: dsi: expose DSI PHY internal clock
+  arm: dts: st: fix DSI peripheral clock on stm32mp15 boards
+
+Yannick Fertre (1):
+  drm/stm: dsi: add pm runtime ops
+
+ arch/arm/boot/dts/st/stm32mp157.dtsi          |   2 +-
+ arch/arm/boot/dts/st/stm32mp157a-dk1-scmi.dts |   2 +-
+ arch/arm/boot/dts/st/stm32mp157c-dk2-scmi.dts |   2 +-
+ arch/arm/boot/dts/st/stm32mp157c-ed1-scmi.dts |   2 +-
+ arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dts |   2 +-
+ drivers/gpu/drm/stm/dw_mipi_dsi-stm.c         | 278 +++++++++++++++---
+ 6 files changed, 242 insertions(+), 46 deletions(-)
+
+-- 
+2.25.1
+
