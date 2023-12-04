@@ -1,65 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC0AD80412D
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 22:54:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A9480413F
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 23:02:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C11D10E374;
-	Mon,  4 Dec 2023 21:54:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C5D210E420;
+	Mon,  4 Dec 2023 22:02:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA60210E417
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 21:54:14 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id
- 4fb4d7f45d1cf-548ce39b101so6238306a12.2
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 13:54:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701726853; x=1702331653; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BlZLmeqxpiGQQSs10LoTtpiBgorU3TT3VUZTA6H0DRg=;
- b=jbU/TyRaUz8JKUSOVeRhh9OVdfdefmV6A4+nzu5LMjpvk8nrFxjospLG0FIqv4sWS7
- hXzKw3UcmTiMQZo1Cq3w29rBBTWs6NmUAYR8vrfATu7+Q4zDwtCzwRRrps/QSOMBv//d
- SFha5bXIYUn7Bk8v25ZPUsUSorpUN4Kl1B0jBT1Z1+Sj0sjw4KttkJMdrHgNKVjYz0pz
- ShsP1ygesnS+kO5/ZDT9N5XNn8aK8uNWwC6I5iAQM7BvQNGGf1iphd4A4lgrlcQepi0d
- e2aDZdjIrvQywD32QQrZu4+DpHHr/fxm49P9AvDCmEig0popx3yClzaR2S/nWSOZXaPc
- mF/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701726853; x=1702331653;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BlZLmeqxpiGQQSs10LoTtpiBgorU3TT3VUZTA6H0DRg=;
- b=Z9oU7Kyd4W/wH/l7dZz2zW0OmOCvE/fMLr2H1xrF7SLFLGKJS96S570jrHrw/HTWlq
- Iai103gFopbhBAWwBuJ52724aqD7Whk1ThGq4NWMz1JbYyHQ8/N613nEaaCQ7WJwfXt4
- /CXguqQJRTq8pqaQhHzB2naU8yV0WUx28LJiUILh606VkbXWW9o9oIlk53DebE5r6Mtr
- N9LWBA6dv8gUKSMxXPfKOP2K0oQW+IywkBiS4HstPCczGD94Cakk1VM+U9bUetCreoQx
- Dje34YdNcGEew/tvFQUwTl9Ncjl9b/oGYWNu9B4hbJoYddAFEAqhxMSTZ7Z8m7nvSbiR
- WkGA==
-X-Gm-Message-State: AOJu0Yz7T3Dmb7DqMepCLPQoI+ZUaQbA5JXAOrEIz2RXbv/CYAC1d7NN
- cb+82MFfKgc1EMqVc03qtthAtJREki7WQm4UgjU=
-X-Google-Smtp-Source: AGHT+IHLb6cOm/rSV+8ZQDXUTAc7/tdhPwiDOu1giLgNpUuulAb5IUur2kx36jKOArzZ7OT3QTPrJ5xd+t3zYomTLWs=
-X-Received: by 2002:a50:ab12:0:b0:54c:ba16:f573 with SMTP id
- s18-20020a50ab12000000b0054cba16f573mr1121210edc.69.1701726852960; Mon, 04
- Dec 2023 13:54:12 -0800 (PST)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2073.outbound.protection.outlook.com [40.107.220.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7994310E420;
+ Mon,  4 Dec 2023 22:02:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QeFlNOLH2Xj9Qv5uv+13szjAfbr2hEUEwcHuBC4PPsFmSr3mIPh5qGCFA+tp1f/5km1DR2QI/gHwCg49yml5MrVu0rljefm7PRcVrWnvyG8EtFqYCUg1lyCXLI2b1BYfs57cablhVYWYLdShW8U20cbes/83vmvqCv1sBV1vuCKNfEOrSKlQ6cbO93WpeZfPEFw01zioYxsj+Auhzq3JI9HVmnLQmmDGH0ENeC/cQx75xq5KuR1rm8dItdtXFkWwZQFRn1VcdcG4qNXSD2h056O67lxJoDsxHwkzcwU4cEqvFTCiBU4XhKpFFdNOHpvmIwywDsPcYFZ6V6TTx9lrFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Sd+P41Ir9HW3wcp8ilfLwoF/5mQxjuZ61upbROgL/Kk=;
+ b=WOKLuhyac9rAtgR4mavdc/i32pkEan49d0sMS7zK6P5PMeNw9gbPx2qNK11mDWwVGB/8tOZv737873myy21nr9F62r5Me3gDAhtJTVT95UPllzg6ZcSEXH/VdoE+INf2kmtv0spbd9+E8aurmwo4frVTkIn5OEA2vAZUF6hxjaxoDiLlGOL7OKVT+TEqcDbHFUFy8qB5NArAj7qLIlb1AtQ7lLDYJXPYYcxqFAy3eETsnzskktJocoXon2A+K4JNZLd5q9/kTSWAvbdcdiVA18ToTGx8MPcSPUXHbHYo3OualrQ3yuGH8so1N+jMFijk8hwQU9bhrX9BG8CwYaTEfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Sd+P41Ir9HW3wcp8ilfLwoF/5mQxjuZ61upbROgL/Kk=;
+ b=OKJ77vYmhquN9iCOMFiqDYNrUu/kakkUVau9PpBLKRv+3C49D8QMAS+G+tCwLbRZMBzmD/5V3YIe6FyjPGh5v/UXodMaLwh7NsufLNVTPZty+XNsIm0Jx4QqUNnsd1eQIO++ulqAvpFKgbtVuBBaJWndrgnsBSP78fwP9lpRGFM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by CY8PR12MB8299.namprd12.prod.outlook.com (2603:10b6:930:6c::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.29; Mon, 4 Dec
+ 2023 22:01:57 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::7bfc:e32b:f362:60f3]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::7bfc:e32b:f362:60f3%5]) with mapi id 15.20.7046.033; Mon, 4 Dec 2023
+ 22:01:57 +0000
+Message-ID: <734e2cb2-a666-4c8b-a37a-8cf605748ae6@amd.com>
+Date: Mon, 4 Dec 2023 17:01:55 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] Revert "drm/prime: Unexport helpers for fd/handle
+ conversion"
+To: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <20231201233438.1709981-1-Felix.Kuehling@amd.com>
+ <408f223f-cb86-4ebc-b1db-26be0a964bfe@amd.com>
+ <BL1PR12MB5144740B1E94C1BD2F7B73BBF786A@BL1PR12MB5144.namprd12.prod.outlook.com>
+Content-Language: en-US
+From: Felix Kuehling <felix.kuehling@amd.com>
+In-Reply-To: <BL1PR12MB5144740B1E94C1BD2F7B73BBF786A@BL1PR12MB5144.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YQXP288CA0026.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:c00:41::27) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
 MIME-Version: 1.0
-References: <20230322224403.35742-1-robdclark@gmail.com>
- <b9fb81f1-ac9e-cf3f-5cf4-f2d972d3ed3d@amd.com>
- <CAF6AEGvMwZCLntfYeH3Vg_Z7kYynqdVrinp+pmcbREksK1WGMA@mail.gmail.com>
- <e2fa296b-9b71-a41b-d37d-33f0fac2cd4e@amd.com>
- <CAF6AEGvdVca_mnZVo9He9oKVfYp84e_kOPWaxX+K5aV4Es9kcQ@mail.gmail.com>
-In-Reply-To: <CAF6AEGvdVca_mnZVo9He9oKVfYp84e_kOPWaxX+K5aV4Es9kcQ@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 4 Dec 2023 13:54:00 -0800
-Message-ID: <CAF6AEGt2D6Ei6OkUK5osz+jWzmkX8tmB1KGi305HaNd=bnQSoA@mail.gmail.com>
-Subject: Re: [RFC] drm/scheduler: Unwrap job dependencies
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|CY8PR12MB8299:EE_
+X-MS-Office365-Filtering-Correlation-Id: d96cb71a-829c-4240-187b-08dbf514a26c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: m5JVyrcoRhL3idnRsoCnwqDdTafo1Xd1sfMVnX4S/IC9VJhmYuRqrwktsz7EWS1QdTm8x/M7sjzi59p0rnoPGeIcxMvP+PR/r3NjsWbGRWZbEfbx2XfZUthtVbMLD2hu60JNCA62qaqKb1vwDlooxgwnseEr+I9L/jDhnp3KxF94U8SRNrplssvIUg2eniRgcosflN81aufPQnEJfxoC01MGFtOaEOSKhXZ70ZBOyMuLTpDoNvE7iISMPcirPan35RFdy6Tw9B2AmEmA6u2IMh7tyoZEOjnV17bnSUuv+mKBjxz6qhmCwd8PEp498Ckhr0BhTp5bZpu4wGV0U6yEWonSB0XQgu9kMxAmjakGEz5wWCNkQgwqiEsqpifpS8aG/U6psUNF6hnyf0LJO7LXDQnwPYVDXLomZOvsXB//EUnKMM4/n/riioHGfG1ucADOZiWmmkExiKQ4aGS0eMDdg/NB8ZmJL8tFaZyE4PfIMsRMlonfXcEHqiQlKJKJ0ZOe8RC1cECqNLH8JT6U1WTZFwCm8MqiLxsr3HAdUw2DpT27jTUWog5CS9yqNMhVrKRlyCY9r3ZXom8pyQlCoXX09WaAkGOl2H83Wqv+nSxp1dUlRp8eAqc3NVySEKQzXv3oTCp4IN6PQzo/O9Tn+PaBOQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(346002)(366004)(376002)(39860400002)(136003)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(2906002)(31686004)(316002)(44832011)(478600001)(110136005)(53546011)(6512007)(66556008)(8676002)(6506007)(66946007)(41300700001)(5660300002)(966005)(4326008)(6486002)(26005)(66574015)(2616005)(83380400001)(66476007)(8936002)(54906003)(38100700002)(86362001)(31696002)(36756003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b1VhbnpGN09mbEQ0NklKN25BUlBkSytOZDJLc0tmbVFxdTYwb2kvQ2MxUVlq?=
+ =?utf-8?B?VVpsdElwc0ZwRzdEbUFub1luWUhGb3IxeE5ZcGNvK2l0c1JoeXpVOFAxRklS?=
+ =?utf-8?B?RnRac1k1TDZlWmFmYnA2Vm9mbDg0QnE4b1BSclh0RStZTkhXZmVOUFgxQ2tY?=
+ =?utf-8?B?dFpJQXBMZEJLV0ZkR3hCU2llUjkxMCt4MFFCUExPYVFDLzZ3NFJhVTRtZWJ6?=
+ =?utf-8?B?LzJISitqand3RytDZXozRDlpYkE4ZktCUjBsa3RySCtoOXNHS2ErVkVjTFZG?=
+ =?utf-8?B?bHNhUlYwSWdDOGNORlhlVTF3UXd0M2xRdXBZM0lQeSsyNVpBK0M1dDd1citl?=
+ =?utf-8?B?bE52UVIvWDZiZUNySG5FV01mbmhXMnJ0SndMaHhWR2NBcWhtRUVsQ3grd0Jx?=
+ =?utf-8?B?c3NYQ01vcHFGUy80akdTaUdjSkRXZUxSNVJRbm1lV3JxNFZpb0xOU01JaU9T?=
+ =?utf-8?B?SmJIMWFERlBBSEVmdytWUXJna1NRN0gxMktPS1d5dFpnQmRRT3ExalJJU0Z5?=
+ =?utf-8?B?K2NWZEFGak9pK1l2UkgwUVlseUJxY2p3UUVLYjg2dHVaWG1nMDI4NU16bEVn?=
+ =?utf-8?B?NGt6YjNzcllqTHRKQ296WkVNYzlMMUJtRWpiS3J4QlFvUXBKeVArc1l1U3NZ?=
+ =?utf-8?B?UXYrZURseXMxVUhheDVITUlVVENKajMzdnV4ZnFMNkh2WktqRlh1NUd0WDc1?=
+ =?utf-8?B?amo3MW5Ba0dOZW82b0Jrd3Z3c01aY1R2N2tIeG1jOFBKcXUvWXl1cWkxTUxw?=
+ =?utf-8?B?eFkvaHFiVDBNOHZtcStSbVdRcnpIMVEyUUVFSFFCTEFsTkVCRVhJV0dIYzJt?=
+ =?utf-8?B?bjhyVks1UEF4MTdpT2NybzFhc2hSWGt5bFZjUkxIMVI2UVpKYnZ6ZHlJWFox?=
+ =?utf-8?B?ZHFEaGJZL2RnZWkzZGROM2VUYnFDVVF2c01rZlNMWWtlRUYrcnNucU14YTBL?=
+ =?utf-8?B?ZWVEZlNoQkxIN2dIc281RC9NNkl6SmpNa2hSbTd5SHhub3ozYlhoN21WM1JL?=
+ =?utf-8?B?YldkNzVOMFdZWmZoM1JCN0x4ZG8wWDlseDF4QWVxbzhhZ3p2dGxYSjNOTzJw?=
+ =?utf-8?B?akVHaWwvMjlVY25jVitsdnFqekNrUko1Z0REUW8vTFN3YkVpbHY5YXRHcFZJ?=
+ =?utf-8?B?UE0vV1ZLTkdZQ2FNNnJ4Um45VDJUYmVwMFFLamUyOWtqaU00VDBLQUl2OStF?=
+ =?utf-8?B?NHh5UVpHOE9KV09QcHFLeUVTc1hUa1hoMlIxNi9hbVptaytSSDY5SFdBUFpu?=
+ =?utf-8?B?cnN0SGszdHA3L2E2SkkvaWlLQ2drY0hmSWNWdUc1WlpkOEIzUXc2TDhFS3ha?=
+ =?utf-8?B?V2FvTkFNS2FYazNMYXJGOUdxUGhIVENaa3JlT0lsRXdscmhZOEVieE10ZXJh?=
+ =?utf-8?B?V3piL1hJckN1Y2U5WGVNVThKWXUvcURpOXAvTVJEQzNCekRINTdzcDBMZ0VX?=
+ =?utf-8?B?emlybytHb2RRcUJBU2htVk9jSG1UUFNlWGtwRUV1RnlkQmNGcWRPRnZyVkds?=
+ =?utf-8?B?RUsrTU5ONUk5cTdpcUxaK1BrQU1la21NUWJUSmpmRXFHK2tBZDVnaW9DVEJr?=
+ =?utf-8?B?WURMYUZiRkdVQWk5ZnZSeXErbTMrVEZUenY2WkhXSHdyYTFCQzM1VXpyOVRz?=
+ =?utf-8?B?MU40QWdFM3FQU3IzSUhIdi93TXhud1hZQjZrc0taS3cya0FqWmpKeDJ1M05j?=
+ =?utf-8?B?Tk5rdzVLbGZQeUpkRXpMYngzUytQdkcvNjNvbnlyYUJsTCtnRkVlV0hTT1dj?=
+ =?utf-8?B?N0t0TGlLNWFLN1VxQWpWNVpqbzNFNXpBMVNpNzI5NXM2OGRITk8wdkE0NXF5?=
+ =?utf-8?B?K0taVkRySVBOdURWZHVpVnRsdzRCdXpDY29YYktDT09EbHhHNmNON253SXNx?=
+ =?utf-8?B?L2pQdzRJayt4T1VhelczOVovTUZVZ0FIRGwyZEdEM3VwRjZONW5DY0hIV1NS?=
+ =?utf-8?B?Y1dBeXhRWWJFei9DazJrdXZ5aG84elVJWjY4MHlxRmIwU3Y5dVR4OHdHQit3?=
+ =?utf-8?B?NE81RnIrSERIcTJ3c0lCYVJsQ0ZpS3h0Z1UzUldtWkVNaDh4LzdXbFpGUXpK?=
+ =?utf-8?B?SU9FQldhVUoxMjZKSzVkZ1EvdU1OWWc2bGxMa1owdHFzWmJzWElFZkpNS2JB?=
+ =?utf-8?Q?XOgFAzs6gikIAdsnQqY1ipdkp?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d96cb71a-829c-4240-187b-08dbf514a26c
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2023 22:01:57.8133 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bWyZrkYv8zkVXBtdC+U+CmFBaWItfwWDHFQ88lQ9pFt57jlmAzqyX0puJiSXDqR6In1xA5sb3NO+P6S6T86KOA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8299
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,244 +128,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Luben Tuikov <luben.tuikov@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 23, 2023 at 2:30=E2=80=AFPM Rob Clark <robdclark@gmail.com> wro=
-te:
->
-> On Thu, Mar 23, 2023 at 7:03=E2=80=AFAM Christian K=C3=B6nig
-> <christian.koenig@amd.com> wrote:
-> >
-> > Am 23.03.23 um 14:54 schrieb Rob Clark:
-> > > On Thu, Mar 23, 2023 at 12:35=E2=80=AFAM Christian K=C3=B6nig
-> > > <christian.koenig@amd.com> wrote:
-> > >> Am 22.03.23 um 23:44 schrieb Rob Clark:
-> > >>> From: Rob Clark <robdclark@chromium.org>
-> > >>>
-> > >>> Container fences have burner contexts, which makes the trick to sto=
-re at
-> > >>> most one fence per context somewhat useless if we don't unwrap arra=
-y or
-> > >>> chain fences.
-> > >> Mhm, we intentionally kept them not unwrapped since this way they on=
-ly
-> > >> occupy one fence slot.
-> > >>
-> > >> But it might be better to unwrap them if you add many of those depen=
-dencies.
-> > >>
-> > >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > >>> ---
-> > >>> tbh, I'm not sure why we weren't doing this already, unless there i=
-s
-> > >>> something I'm overlooking
-> > >>>
-> > >>>    drivers/gpu/drm/scheduler/sched_main.c | 43 +++++++++++++++++---=
-------
-> > >>>    1 file changed, 28 insertions(+), 15 deletions(-)
-> > >>>
-> > >>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/d=
-rm/scheduler/sched_main.c
-> > >>> index c2ee44d6224b..f59e5335afbb 100644
-> > >>> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > >>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > >>> @@ -41,20 +41,21 @@
-> > >>>     * 4. Entities themselves maintain a queue of jobs that will be =
-scheduled on
-> > >>>     *    the hardware.
-> > >>>     *
-> > >>>     * The jobs in a entity are always scheduled in the order that t=
-hey were pushed.
-> > >>>     */
-> > >>>
-> > >>>    #include <linux/kthread.h>
-> > >>>    #include <linux/wait.h>
-> > >>>    #include <linux/sched.h>
-> > >>>    #include <linux/completion.h>
-> > >>> +#include <linux/dma-fence-unwrap.h>
-> > >>>    #include <linux/dma-resv.h>
-> > >>>    #include <uapi/linux/sched/types.h>
-> > >>>
-> > >>>    #include <drm/drm_print.h>
-> > >>>    #include <drm/drm_gem.h>
-> > >>>    #include <drm/gpu_scheduler.h>
-> > >>>    #include <drm/spsc_queue.h>
-> > >>>
-> > >>>    #define CREATE_TRACE_POINTS
-> > >>>    #include "gpu_scheduler_trace.h"
-> > >>> @@ -665,41 +666,27 @@ void drm_sched_job_arm(struct drm_sched_job *=
-job)
-> > >>>        sched =3D entity->rq->sched;
-> > >>>
-> > >>>        job->sched =3D sched;
-> > >>>        job->s_priority =3D entity->rq - sched->sched_rq;
-> > >>>        job->id =3D atomic64_inc_return(&sched->job_id_count);
-> > >>>
-> > >>>        drm_sched_fence_init(job->s_fence, job->entity);
-> > >>>    }
-> > >>>    EXPORT_SYMBOL(drm_sched_job_arm);
-> > >>>
-> > >>> -/**
-> > >>> - * drm_sched_job_add_dependency - adds the fence as a job dependen=
-cy
-> > >>> - * @job: scheduler job to add the dependencies to
-> > >>> - * @fence: the dma_fence to add to the list of dependencies.
-> > >>> - *
-> > >>> - * Note that @fence is consumed in both the success and error case=
-s.
-> > >>> - *
-> > >>> - * Returns:
-> > >>> - * 0 on success, or an error on failing to expand the array.
-> > >>> - */
-> > >>> -int drm_sched_job_add_dependency(struct drm_sched_job *job,
-> > >>> -                              struct dma_fence *fence)
-> > >>> +static int _add_dependency(struct drm_sched_job *job, struct dma_f=
-ence *fence)
-> > >> Please keep the drm_sched_job_ prefix here even for static functions=
-.
-> > >> The symbol _add_dependency just sucks in a backtrace, especially whe=
-n
-> > >> it's tail optimized.
-> > >>
-> > >>>    {
-> > >>>        struct dma_fence *entry;
-> > >>>        unsigned long index;
-> > >>>        u32 id =3D 0;
-> > >>>        int ret;
-> > >>>
-> > >>> -     if (!fence)
-> > >>> -             return 0;
-> > >>> -
-> > >>>        /* Deduplicate if we already depend on a fence from the same=
- context.
-> > >>>         * This lets the size of the array of deps scale with the nu=
-mber of
-> > >>>         * engines involved, rather than the number of BOs.
-> > >>>         */
-> > >>>        xa_for_each(&job->dependencies, index, entry) {
-> > >>>                if (entry->context !=3D fence->context)
-> > >>>                        continue;
-> > >>>
-> > >>>                if (dma_fence_is_later(fence, entry)) {
-> > >>>                        dma_fence_put(entry);
-> > >>> @@ -709,20 +696,46 @@ int drm_sched_job_add_dependency(struct drm_s=
-ched_job *job,
-> > >>>                }
-> > >>>                return 0;
-> > >>>        }
-> > >>>
-> > >>>        ret =3D xa_alloc(&job->dependencies, &id, fence, xa_limit_32=
-b, GFP_KERNEL);
-> > >>>        if (ret !=3D 0)
-> > >>>                dma_fence_put(fence);
-> > >>>
-> > >>>        return ret;
-> > >>>    }
-> > >>> +
-> > >>> +/**
-> > >>> + * drm_sched_job_add_dependency - adds the fence as a job dependen=
-cy
-> > >>> + * @job: scheduler job to add the dependencies to
-> > >>> + * @fence: the dma_fence to add to the list of dependencies.
-> > >>> + *
-> > >>> + * Note that @fence is consumed in both the success and error case=
-s.
-> > >>> + *
-> > >>> + * Returns:
-> > >>> + * 0 on success, or an error on failing to expand the array.
-> > >>> + */
-> > >>> +int drm_sched_job_add_dependency(struct drm_sched_job *job,
-> > >>> +                              struct dma_fence *fence)
-> > >> Maybe name the new function drm_sched_job_unwrap_add_dependency or
-> > >> something like this.
-> > >>
-> > >> I need to double check, but I think for some cases we don't need or
-> > >> don't even want this in the driver.
-> > > I'd be curious to know the cases where you don't want this.. one thin=
-g
-> > > I was thinking about, what if you have a container fence with two
-> > > contained fences.  One is on the same ctx as the job, one is not but
-> > > signals sooner.  You end up artificially waiting on both, which seems
-> > > sub-optimal.
-> >
-> > Well resv objects don't contain other containers for example.
->
-> I suppose I have the explicit sync case more in mind, where the
-> dependent fence ends up being a chain or array (if userspace is
-> merging fence fd's).
->
-> > Then we also have an use case in amdgpu where fence need to be
-> > explicitly waited for even when they are from the same ctx as the job
-> > because otherwise we wouldn't see everything cache coherent.
->
-> This was the kinda weird case I wanted to make sure I wasn't breaking.
-> I remember seeing something fly by for this, but can't find it now or
-> remember what amdgpu's solution was..
->
-> > On the other hand we currently handle that amdgpu use case differently
-> > and the extra overhead of unwrapping fences even if they can't be
-> > containers is probably negligible.
-> >
-> > > Anyways, I can make this a new entrypoint which unwraps, and/or renam=
-e
-> > > the internal static function, if we think this is a good idea.
-> >
-> > If you think that's unnecessary keeping your original approach is fine
-> > with me as well.
->
-> I'm going to assume unnecessary until someone speaks up with their
-> weird specific case ;-)
 
-So, this patch turns out to blow up spectacularly with dma_fence
-refcnt underflows when I enable DRIVER_SYNCOBJ_TIMELINE .. I think,
-because it starts unwrapping fence chains, possibly in parallel with
-fence signaling on the retire path.  Is it supposed to be permissible
-to unwrap a fence chain concurrently?
-
-BR,
--R
-
-> BR,
-> -R
+On 2023-12-04 12:49, Deucher, Alexander wrote:
+> [AMD Official Use Only - General]
 >
-> > Regards,
-> > Christian.
-> >
-> > >
-> > > BR,
-> > > -R
-> > >
-> > >> Christian.
-> > >>
-> > >>> +{
-> > >>> +     struct dma_fence_unwrap iter;
-> > >>> +     struct dma_fence *f;
-> > >>> +     int ret =3D 0;
-> > >>> +
-> > >>> +     dma_fence_unwrap_for_each (f, &iter, fence) {
-> > >>> +             ret =3D _add_dependency(job, f);
-> > >>> +             if (ret)
-> > >>> +                     break;
-> > >>> +     }
-> > >>> +
-> > >>> +     return ret;
-> > >>> +}
-> > >>>    EXPORT_SYMBOL(drm_sched_job_add_dependency);
-> > >>>
-> > >>>    /**
-> > >>>     * drm_sched_job_add_resv_dependencies - add all fences from the=
- resv to the job
-> > >>>     * @job: scheduler job to add the dependencies to
-> > >>>     * @resv: the dma_resv object to get the fences from
-> > >>>     * @usage: the dma_resv_usage to use to filter the fences
-> > >>>     *
-> > >>>     * This adds all fences matching the given usage from @resv to @=
-job.
-> > >>>     * Must be called with the @resv lock held.
-> >
+>> -----Original Message-----
+>> From: Kuehling, Felix <Felix.Kuehling@amd.com>
+>> Sent: Friday, December 1, 2023 6:40 PM
+>> To: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; Deucher,
+>> Alexander <Alexander.Deucher@amd.com>
+>> Cc: Daniel Vetter <daniel@ffwll.ch>; Koenig, Christian
+>> <Christian.Koenig@amd.com>; Thomas Zimmermann
+>> <tzimmermann@suse.de>
+>> Subject: Re: [PATCH 1/6] Revert "drm/prime: Unexport helpers for fd/handle
+>> conversion"
+>>
+>> Hi Alex,
+>>
+>> I'm about to push patches 1-3 to the rebased amd-staging-drm-next. It would
+>> be good to get patch 1 into drm-fixes so that Linux 6.6 will be the only kernel
+>> without these prime helpers. That would minimize the hassle for DKMS driver
+>> installations on future distros.
+> Already done:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0514f63cfff38a0dcb7ba9c5f245827edc0c5107
+
+Thank you, all! I also saw Sasha Levin is backporting it to 6.6.
+
+Cheers,
+   Felix
+
+
+>
+> Alex
+>
+>> Thanks,
+>>     Felix
+>>
+>>
+>> On 2023-12-01 18:34, Felix Kuehling wrote:
+>>> This reverts commit 71a7974ac7019afeec105a54447ae1dc7216cbb3.
+>>>
+>>> These helper functions are needed for KFD to export and import DMABufs
+>>> the right way without duplicating the tracking of DMABufs associated
+>>> with GEM objects while ensuring that move notifier callbacks are
+>>> working as intended.
+>>>
+>>> Acked-by: Christian König <christian.koenig@amd.com>
+>>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Acked-by: Daniel Vetter <daniel@ffwll.ch>
+>>> Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+>>> ---
+>>>    drivers/gpu/drm/drm_prime.c | 33 ++++++++++++++++++---------------
+>>>    include/drm/drm_prime.h     |  7 +++++++
+>>>    2 files changed, 25 insertions(+), 15 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+>>> index 63b709a67471..834a5e28abbe 100644
+>>> --- a/drivers/gpu/drm/drm_prime.c
+>>> +++ b/drivers/gpu/drm/drm_prime.c
+>>> @@ -278,7 +278,7 @@ void drm_gem_dmabuf_release(struct dma_buf
+>> *dma_buf)
+>>>    }
+>>>    EXPORT_SYMBOL(drm_gem_dmabuf_release);
+>>>
+>>> -/*
+>>> +/**
+>>>     * drm_gem_prime_fd_to_handle - PRIME import function for GEM drivers
+>>>     * @dev: drm_device to import into
+>>>     * @file_priv: drm file-private structure @@ -292,9 +292,9 @@
+>>> EXPORT_SYMBOL(drm_gem_dmabuf_release);
+>>>     *
+>>>     * Returns 0 on success or a negative error code on failure.
+>>>     */
+>>> -static int drm_gem_prime_fd_to_handle(struct drm_device *dev,
+>>> -                                 struct drm_file *file_priv, int prime_fd,
+>>> -                                 uint32_t *handle)
+>>> +int drm_gem_prime_fd_to_handle(struct drm_device *dev,
+>>> +                          struct drm_file *file_priv, int prime_fd,
+>>> +                          uint32_t *handle)
+>>>    {
+>>>      struct dma_buf *dma_buf;
+>>>      struct drm_gem_object *obj;
+>>> @@ -360,6 +360,7 @@ static int drm_gem_prime_fd_to_handle(struct
+>> drm_device *dev,
+>>>      dma_buf_put(dma_buf);
+>>>      return ret;
+>>>    }
+>>> +EXPORT_SYMBOL(drm_gem_prime_fd_to_handle);
+>>>
+>>>    int drm_prime_fd_to_handle_ioctl(struct drm_device *dev, void *data,
+>>>                               struct drm_file *file_priv)
+>>> @@ -408,7 +409,7 @@ static struct dma_buf
+>> *export_and_register_object(struct drm_device *dev,
+>>>      return dmabuf;
+>>>    }
+>>>
+>>> -/*
+>>> +/**
+>>>     * drm_gem_prime_handle_to_fd - PRIME export function for GEM drivers
+>>>     * @dev: dev to export the buffer from
+>>>     * @file_priv: drm file-private structure @@ -421,10 +422,10 @@
+>>> static struct dma_buf *export_and_register_object(struct drm_device *dev,
+>>>     * The actual exporting from GEM object to a dma-buf is done through the
+>>>     * &drm_gem_object_funcs.export callback.
+>>>     */
+>>> -static int drm_gem_prime_handle_to_fd(struct drm_device *dev,
+>>> -                                 struct drm_file *file_priv, uint32_t handle,
+>>> -                                 uint32_t flags,
+>>> -                                 int *prime_fd)
+>>> +int drm_gem_prime_handle_to_fd(struct drm_device *dev,
+>>> +                          struct drm_file *file_priv, uint32_t handle,
+>>> +                          uint32_t flags,
+>>> +                          int *prime_fd)
+>>>    {
+>>>      struct drm_gem_object *obj;
+>>>      int ret = 0;
+>>> @@ -506,6 +507,7 @@ static int drm_gem_prime_handle_to_fd(struct
+>>> drm_device *dev,
+>>>
+>>>      return ret;
+>>>    }
+>>> +EXPORT_SYMBOL(drm_gem_prime_handle_to_fd);
+>>>
+>>>    int drm_prime_handle_to_fd_ioctl(struct drm_device *dev, void *data,
+>>>                               struct drm_file *file_priv)
+>>> @@ -864,9 +866,9 @@
+>> EXPORT_SYMBOL(drm_prime_get_contiguous_size);
+>>>     * @obj: GEM object to export
+>>>     * @flags: flags like DRM_CLOEXEC and DRM_RDWR
+>>>     *
+>>> - * This is the implementation of the &drm_gem_object_funcs.export
+>>> functions
+>>> - * for GEM drivers using the PRIME helpers. It is used as the default
+>>> for
+>>> - * drivers that do not set their own.
+>>> + * This is the implementation of the &drm_gem_object_funcs.export
+>>> + functions for GEM drivers
+>>> + * using the PRIME helpers. It is used as the default in
+>>> + * drm_gem_prime_handle_to_fd().
+>>>     */
+>>>    struct dma_buf *drm_gem_prime_export(struct drm_gem_object *obj,
+>>>                                   int flags)
+>>> @@ -962,9 +964,10 @@ EXPORT_SYMBOL(drm_gem_prime_import_dev);
+>>>     * @dev: drm_device to import into
+>>>     * @dma_buf: dma-buf object to import
+>>>     *
+>>> - * This is the implementation of the gem_prime_import functions for
+>>> GEM
+>>> - * drivers using the PRIME helpers. It is the default for drivers
+>>> that do
+>>> - * not set their own &drm_driver.gem_prime_import.
+>>> + * This is the implementation of the gem_prime_import functions for
+>>> + GEM drivers
+>>> + * using the PRIME helpers. Drivers can use this as their
+>>> + * &drm_driver.gem_prime_import implementation. It is used as the
+>>> + default
+>>> + * implementation in drm_gem_prime_fd_to_handle().
+>>>     *
+>>>     * Drivers must arrange to call drm_prime_gem_destroy() from their
+>>>     * &drm_gem_object_funcs.free hook when using this function.
+>>> diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h index
+>>> a7abf9f3e697..2a1d01e5b56b 100644
+>>> --- a/include/drm/drm_prime.h
+>>> +++ b/include/drm/drm_prime.h
+>>> @@ -60,12 +60,19 @@ enum dma_data_direction;
+>>>
+>>>    struct drm_device;
+>>>    struct drm_gem_object;
+>>> +struct drm_file;
+>>>
+>>>    /* core prime functions */
+>>>    struct dma_buf *drm_gem_dmabuf_export(struct drm_device *dev,
+>>>                                    struct dma_buf_export_info *exp_info);
+>>>    void drm_gem_dmabuf_release(struct dma_buf *dma_buf);
+>>>
+>>> +int drm_gem_prime_fd_to_handle(struct drm_device *dev,
+>>> +                          struct drm_file *file_priv, int prime_fd, uint32_t
+>>> +*handle); int drm_gem_prime_handle_to_fd(struct drm_device *dev,
+>>> +                          struct drm_file *file_priv, uint32_t handle,
+>> uint32_t flags,
+>>> +                          int *prime_fd);
+>>> +
+>>>    /* helper functions for exporting */
+>>>    int drm_gem_map_attach(struct dma_buf *dma_buf,
+>>>                     struct dma_buf_attachment *attach);
