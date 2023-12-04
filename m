@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D760803433
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 14:16:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6778280343C
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 14:16:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E252910E137;
-	Mon,  4 Dec 2023 13:15:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6831F10E260;
+	Mon,  4 Dec 2023 13:16:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BA3910E1C5
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0FE610E24E
  for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 13:15:01 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id
- 2adb3069b0e04-50be24167efso2593182e87.3
+Received: by mail-lf1-x129.google.com with SMTP id
+ 2adb3069b0e04-50bdec453c8so3069293e87.3
  for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 05:15:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701695699; x=1702300499; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701695700; x=1702300500; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aeReGTEh9WdazCjVx3s9wY0Guvu7IN3fugZ3Sd5wrus=;
- b=XV+z025oOOF5pP4AcXL043TyCTEYw4cjl5jyJj88nOyq7OrW323T+aiU5DzyhhZocv
- ucShhzlYfHfbW0CT0bzZw8vmh2ELu/8m73/t574wNJnQ6FLChIyeeoVLnOmRyf8fncC5
- DR0N+TAkvT/To7FoUGcJOgk9g/fd9OhIVt1kEl878pnOLlzU+4CZubZeb8a9ulZTwTV4
- eQ/69FvhF2QHoLW5swCkWihVSG5oDEL5e+wrHlUB8MRvzZB+kHmFPc4jbuOyKpkO0CYb
- JlUpLNdcHxiUlWu4M4wC+5S8sodfbbUBnADafyDJUjIUT1gJoBpf2fBTbV3z6LO8x1nh
- Lsqw==
+ bh=bMzxGsdhOYwtNdEG7l3DHCnll9vKNfEMYjXGBc92HI8=;
+ b=hWa8Mv/f7HVdWnqyUgNOSYojfKz1tu2UAGK38okgFCI26W8PHcgcfafKItZdpSiXv1
+ 08MS1z8LapCfvb5jicE5MXxQho5LILrRZbopfDcdR9IiS0EsRpwp1mRmHMw9WEidcGC9
+ VHMXHWoweMSYrE5k9L4WWvbHs+7YsBa+Z6R6TTyl0s8r4SL4mi8qHAZJYqU1AC5TMAqv
+ QtxW0j+RQSyLvbs3tts24Jyhf12OI4vSmV0eR/iQcu1NYCjbtq2jK0AnFtw4P2EIaOFx
+ XmNCJb4T3hK39tr0hGYjIgWgkwkySbIA0AAE8IrrxgY9ON4VGZH3crkFkP+FqsIwhMCh
+ f5/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701695699; x=1702300499;
+ d=1e100.net; s=20230601; t=1701695700; x=1702300500;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=aeReGTEh9WdazCjVx3s9wY0Guvu7IN3fugZ3Sd5wrus=;
- b=YkNjZp4cOaHHRQLjpp+74fW+nAVHH3Ayb2nWqslbDHDQcp3Kl+fIBI9o8g689Dpk+g
- OtmpNI2pPLEQt4kiweKpqKX3nlKuWddjJ9ZO5Q/3IZ+Hr1DFNXv40pPm6g15zxWTkQmi
- 2W+mgRO0PSzGxfXLRpEHN1bZoBZM8KKNRgB63A6xXdoGo3CfUwJYOj3Yk4cpMp5xxeaH
- V6v3TgAlqaQwHyC9xoFRD6UFBgsflIeGIhHKq1Z4d2Qxfpg2sT4TNythJ8q2tbkudtv7
- kWjuq1otkgsxJeBArRuOusWrqVPFXa4ftgH7S6OkE7us9+vMSbFMY9Fa2KMqy9ifJ63g
- D7gw==
-X-Gm-Message-State: AOJu0YxEz0cDOPBGUUiVBAV9uQXVVyNMe6dViOgOzaHPoqo5/mykVjHi
- QkA64DbqDEW+1mIG3ywYe4TaXg==
-X-Google-Smtp-Source: AGHT+IFJ6iOY8OeeHShhkf14uV3ednojj/zd1MnXRsPIVojuWFZfWrMoJV0tGRwuLlo3iG4L8wnh7w==
-X-Received: by 2002:ac2:521c:0:b0:50b:ef9b:bde5 with SMTP id
- a28-20020ac2521c000000b0050bef9bbde5mr482316lfl.150.1701695699509; 
- Mon, 04 Dec 2023 05:14:59 -0800 (PST)
+ bh=bMzxGsdhOYwtNdEG7l3DHCnll9vKNfEMYjXGBc92HI8=;
+ b=Xp5NLTtmxDa3xrb3GrXz063GL4S6JhLYYjvaZDBX64iS/TiubdrPTDbMGQr4E1bKkJ
+ h0D11VaI9gHa8Rhfk8oR9UpRkMlBihkU5AmjvTx6FuQ7UTmgcRbGpWakrEuW9xFTVhxT
+ ojAoiRjPQPCP47yegPi+D4U42GBuMGhwU38nPnmjFDC3zj2KMyDV/0JqOHrhCPsJZHJe
+ jj3LfsGN4QUnrbaJFomghUYZFx8zM6HF2hlRjmzoQNfYLkRjNFxfyOWg9ZfynGfX+R/j
+ OSUGEu1JkyL8Q3ymb3t6nZ9n2DJyPPF3XlYH6q8hirZqbMIXEogymMnNCOXMC7qJE85q
+ XdhA==
+X-Gm-Message-State: AOJu0YwjtB3hGCOWYsmToqI3m9P5fQl4YTk+/pmt7B2LNP0+5LCqrkvI
+ XSpJQhU4vVTDFVPl5xkWIvJ/Wg==
+X-Google-Smtp-Source: AGHT+IGDRYksrIZYOlwzn0xx8ixTEo9STmmWtMePPWUDb7lGPmASc5VjLGKKYGaFagK6R+9iyaaIuQ==
+X-Received: by 2002:ac2:4e06:0:b0:50b:e20c:e54e with SMTP id
+ e6-20020ac24e06000000b0050be20ce54emr2561562lfr.115.1701695700202; 
+ Mon, 04 Dec 2023 05:15:00 -0800 (PST)
 Received: from eriador.lan (dzdqv0yyyyyyyyyyyykxt-3.rev.dnainternet.fi.
  [2001:14ba:a0db:1f00::227]) by smtp.gmail.com with ESMTPSA id
- br25-20020a056512401900b0050bc59642casm1251924lfb.286.2023.12.04.05.14.58
+ br25-20020a056512401900b0050bc59642casm1251924lfb.286.2023.12.04.05.14.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 04 Dec 2023 05:14:59 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
@@ -57,9 +57,9 @@ To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 4/7] Revert "drm/atomic: Add pixel source to plane state dump"
-Date: Mon,  4 Dec 2023 15:13:51 +0200
-Message-ID: <20231204131455.19023-5-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 5/7] Revert "drm: Add solid fill pixel source"
+Date: Mon,  4 Dec 2023 15:13:52 +0200
+Message-ID: <20231204131455.19023-6-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231204131455.19023-1-dmitry.baryshkov@linaro.org>
 References: <20231204131455.19023-1-dmitry.baryshkov@linaro.org>
@@ -82,7 +82,7 @@ Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 8283ac7871a959848e09fc6593b8c12b8febfee6.
+This reverts commit 4b64167042927531f4cfaf035b8f88c2f7a05f06.
 
 Altough the Solid Fill planes patchset got all reviews and
 acknowledgements, it doesn't fulfill requirements for the new uABI. It
@@ -92,47 +92,64 @@ are fulfilled.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/drm_atomic.c        | 1 -
- drivers/gpu/drm/drm_blend.c         | 1 -
- drivers/gpu/drm/drm_crtc_internal.h | 1 -
- 3 files changed, 3 deletions(-)
+ drivers/gpu/drm/drm_blend.c | 10 +---------
+ include/drm/drm_plane.h     |  1 -
+ 2 files changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index 02aa7df832cc..f1a503aafe5a 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -722,7 +722,6 @@ static void drm_atomic_plane_print_state(struct drm_printer *p,
- 
- 	drm_printf(p, "plane[%u]: %s\n", plane->base.id, plane->name);
- 	drm_printf(p, "\tcrtc=%s\n", state->crtc ? state->crtc->name : "(null)");
--	drm_printf(p, "\tpixel-source=%s\n", drm_get_pixel_source_name(state->pixel_source));
- 	drm_printf(p, "\tfb=%u\n", state->fb ? state->fb->base.id : 0);
- 	if (state->fb)
- 		drm_framebuffer_print_info(p, 2, state->fb);
 diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
-index 9c1608f7c1df..37b31b7e5ce5 100644
+index 37b31b7e5ce5..665c5d9b056f 100644
 --- a/drivers/gpu/drm/drm_blend.c
 +++ b/drivers/gpu/drm/drm_blend.c
-@@ -647,7 +647,6 @@ static const struct drm_prop_enum_list drm_pixel_source_enum_list[] = {
+@@ -204,9 +204,6 @@
+  *	"FB":
+  *		Framebuffer source set by the "FB_ID" property.
+  *
+- *	"SOLID_FILL":
+- *		Solid fill color source set by the "solid_fill" property.
+- *
+  * solid_fill:
+  *	solid_fill is set up with drm_plane_create_solid_fill_property(). It
+  *	contains pixel data that drivers can use to fill a plane.
+@@ -645,7 +642,6 @@ EXPORT_SYMBOL(drm_plane_create_blend_mode_property);
+ static const struct drm_prop_enum_list drm_pixel_source_enum_list[] = {
+ 	{ DRM_PLANE_PIXEL_SOURCE_NONE, "NONE" },
  	{ DRM_PLANE_PIXEL_SOURCE_FB, "FB" },
- 	{ DRM_PLANE_PIXEL_SOURCE_SOLID_FILL, "SOLID_FILL" },
+-	{ DRM_PLANE_PIXEL_SOURCE_SOLID_FILL, "SOLID_FILL" },
  };
--DRM_ENUM_NAME_FN(drm_get_pixel_source_name, drm_pixel_source_enum_list);
  
  /**
-  * drm_plane_create_pixel_source_property - create a new pixel source property
-diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
-index 4114675c0728..a514d5207e41 100644
---- a/drivers/gpu/drm/drm_crtc_internal.h
-+++ b/drivers/gpu/drm/drm_crtc_internal.h
-@@ -269,7 +269,6 @@ int drm_plane_check_pixel_format(struct drm_plane *plane,
- 				 u32 format, u64 modifier);
- struct drm_mode_rect *
- __drm_plane_get_damage_clips(const struct drm_plane_state *state);
--const char *drm_get_pixel_source_name(int val);
+@@ -670,9 +666,6 @@ static const struct drm_prop_enum_list drm_pixel_source_enum_list[] = {
+  * "FB":
+  *	Framebuffer pixel source
+  *
+- * "SOLID_FILL":
+- * 	Solid fill color pixel source
+- *
+  * Returns:
+  * Zero on success, negative errno on failure.
+  */
+@@ -682,8 +675,7 @@ int drm_plane_create_pixel_source_property(struct drm_plane *plane,
+ 	struct drm_device *dev = plane->dev;
+ 	struct drm_property *prop;
+ 	static const unsigned int valid_source_mask = BIT(DRM_PLANE_PIXEL_SOURCE_FB) |
+-						      BIT(DRM_PLANE_PIXEL_SOURCE_NONE) |
+-						      BIT(DRM_PLANE_PIXEL_SOURCE_SOLID_FILL);
++						      BIT(DRM_PLANE_PIXEL_SOURCE_NONE);
+ 	int i;
  
- /* drm_bridge.c */
- void drm_bridge_detach(struct drm_bridge *bridge);
+ 	/* FB is supported by default */
+diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+index 4b7af4381bbe..5bac644d4cc3 100644
+--- a/include/drm/drm_plane.h
++++ b/include/drm/drm_plane.h
+@@ -43,7 +43,6 @@ enum drm_scaling_filter {
+ enum drm_plane_pixel_source {
+ 	DRM_PLANE_PIXEL_SOURCE_NONE,
+ 	DRM_PLANE_PIXEL_SOURCE_FB,
+-	DRM_PLANE_PIXEL_SOURCE_SOLID_FILL,
+ 	DRM_PLANE_PIXEL_SOURCE_MAX
+ };
+ 
 -- 
 2.42.0
 
