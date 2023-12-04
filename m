@@ -1,53 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08C3803425
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 14:15:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AEB8803430
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 14:15:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BEDB10E1C2;
-	Mon,  4 Dec 2023 13:15:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94C2810E25C;
+	Mon,  4 Dec 2023 13:15:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B09B10E1C2
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB36F10E1C2
  for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 13:14:58 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id
- 2adb3069b0e04-50bffb64178so105232e87.2
+Received: by mail-lf1-x143.google.com with SMTP id
+ 2adb3069b0e04-50be10acaf9so2382272e87.1
  for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 05:14:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701695696; x=1702300496; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=8FXfNmjk0/FPoln77FIQlKYMoeFsew2x/wYq+84u+hg=;
- b=irL6GP2su9IYR3pNRvNxUusJCEIwaLLiEIV06+7HkSbt0S8xIo4/qSFmpMI5mhXHlA
- HBTsB87zVzMjJfl87nMq5Lv2OKokOxVwBf/dqeAfA3JTl2vFzHoRa6s8/LXuOscTIX1h
- K83yr7XsGpGDi1Jc6hq74wfzj/rMq/hwRRshHfW31e/geWcHRmQhr+tpixQdgvlXRgl6
- HNevKDK6j4NwbrEdszbNNeXrH7uRGsVbheuHZBHNjDCLJAUw0o7wuvLx10b7n3J2bd2C
- d/ZYxMun/h2oXUT7peMuujnVgEQrgyjYPCQdrmCBYFSJShXOmQtp+h6OG6naEvckHDrp
- 488Q==
+ d=linaro.org; s=google; t=1701695697; x=1702300497; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UVE0MrZ/Z1PMJKWIuIoj0orbQq8vDOJ1IdPtnhEZDN8=;
+ b=E6jlpbg8stN9NC2gNBz96sRG8Q30JCF9xEs6Wz4hmeWVxHkbuG0JDeJwqHiEqNiqZ0
+ FhJvzHShXChU5N1IQmpy7hKfGojjeYNdg0nEIlVDUunWw5j10sv+F0scbDv7S37RGA7d
+ FoGEOSZcf9H5DYnRjSx7QJ3Rak6z2qrEMJg7N4PZAFzRHJDsJtQY3MBoJEW+ulHDnr7V
+ Dzj6SWXYD0sCiFMmpDUEr+urTv8Letb8CzWruuU+y35C0csmKJo9RLFRe7bHwjNwZqk9
+ 7Eap9IOeQyH6aeE90pLmy8S2XacWeftMPlN4YPk1OhDna7z14JLdWICBmI9m1+cQv1Gt
+ jIlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701695696; x=1702300496;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8FXfNmjk0/FPoln77FIQlKYMoeFsew2x/wYq+84u+hg=;
- b=deOIEMuiHtLiB2YLrlxlq4mCANaq9Y0YKtyM4dp4l/wwHuxZkvvUSzZbrN8tP2RGMI
- eT6CuTxNfW+hlhoU6RdQLZuDLVDttM21ANbc2eLLkalHSPBRnjNSx8+Wj0z8gzKHUVJB
- B68Cnsa4feYTwCdcUHkVBsigNU/0Ru5dpfO1fa2YVbNjbhH1oIoxiF7Zs3lNggZ0kZks
- QiPQCfnktN5yDrejz6WyI0MW6N3GfHyEKQpvjs4wVRI02E9WoaVaUefDHhp8dWBPtwYa
- xsomiAuu2DsqV7WJAGQy+Mz3ZORBySFDqlej5lecRI8riLUfwrLHfnX8ohOlxOfc1dMq
- G9Pg==
-X-Gm-Message-State: AOJu0Ywx0CFb27oJXIRqkHouIuexvNSnqB5F5axSkdThY5Aa3CRwU0Jo
- xZzAOzE33buvdi3kpEEP16S4DA==
-X-Google-Smtp-Source: AGHT+IGD0A8642jBm/8iajKiw6EkrNIqrKxuiUZkj2SDjATgXK7NJGhtxWQa5GEz/hYoM63L/w1G1g==
-X-Received: by 2002:ac2:5f5a:0:b0:50b:f792:3265 with SMTP id
- 26-20020ac25f5a000000b0050bf7923265mr732882lfz.123.1701695696448; 
- Mon, 04 Dec 2023 05:14:56 -0800 (PST)
+ d=1e100.net; s=20230601; t=1701695697; x=1702300497;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=UVE0MrZ/Z1PMJKWIuIoj0orbQq8vDOJ1IdPtnhEZDN8=;
+ b=gy6hE4NVZFq2eGDUL7KLMMnsiBnXO9unvxuyWcO10tXeIFMvP9p+fQLm0F+thyq10A
+ XUjKnzRzDANgUhVlueflEUB5p7muYpKb0Js6FEX1jwap92egkV+PRQ4GgCUCCJkZ8MtZ
+ 3d9poh1ZARgAuDUzMze4rFjgPYHr7oILgNFENBvPJIdu61TQxll8SueVE7C4B2HQthbe
+ UD4uZK3X8d+Ssi3qhaZ1fKswkNAdy62QmLvQHw0J5jmO0J8d42ZpZFcf9vHyLygQ+6ow
+ arogCMKbTwR3lXUz+7GB6n9NwlJhKigUC51uY9np58j7rvqwb9bdEiXbfv99jmuNaxE6
+ UiFA==
+X-Gm-Message-State: AOJu0YyuYb44FdMip8P6x7J6NnGdj3BVNImlpiI3JuN2+VUdnY31wk7q
+ iT7p0fQV6wrmKyGca1ReGVVV5g==
+X-Google-Smtp-Source: AGHT+IFbnzLL5kvbNu3hFZr38ebzR2vOt0bRGr/9qSkFhL4oCDnaglGfVyi8Lm/PwHuhvI/W9spRhQ==
+X-Received: by 2002:a05:6512:3a85:b0:50b:bf99:b656 with SMTP id
+ q5-20020a0565123a8500b0050bbf99b656mr3690541lfu.14.1701695697068; 
+ Mon, 04 Dec 2023 05:14:57 -0800 (PST)
 Received: from eriador.lan (dzdqv0yyyyyyyyyyyykxt-3.rev.dnainternet.fi.
  [2001:14ba:a0db:1f00::227]) by smtp.gmail.com with ESMTPSA id
- br25-20020a056512401900b0050bc59642casm1251924lfb.286.2023.12.04.05.14.55
+ br25-20020a056512401900b0050bc59642casm1251924lfb.286.2023.12.04.05.14.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 04 Dec 2023 05:14:56 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
@@ -56,10 +57,12 @@ To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 0/7] drm: revert solid fill support
-Date: Mon,  4 Dec 2023 15:13:47 +0200
-Message-ID: <20231204131455.19023-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 1/7] Revert "drm/atomic: Loosen FB atomic checks"
+Date: Mon,  4 Dec 2023 15:13:48 +0200
+Message-ID: <20231204131455.19023-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231204131455.19023-1-dmitry.baryshkov@linaro.org>
+References: <20231204131455.19023-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,36 +82,188 @@ Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Altough the Solid Fill planes patchset got all reviews and
-acknowledgements, it doesn't fulfill requirements for the new uABI.
-Merging it was a fault of mine.
+This reverts commit f1e75da5364e780905d9cd6043f9c74cdcf84073.
 
-It has neither corresponding open-source userspace implementation nor
-the IGT tests coverage. Revert this patchset until userspace obligations
+Altough the Solid Fill planes patchset got all reviews and
+acknowledgements, it doesn't fulfill requirements for the new uABI. It
+has neither corresponding open-source userspace implementation nor the
+IGT tests coverage. Reverting this patchset until userspace obligations
 are fulfilled.
 
-Dmitry Baryshkov (7):
-  Revert "drm/atomic: Loosen FB atomic checks"
-  Revert "drm/atomic: Move framebuffer checks to helper"
-  Revert "drm/atomic: Add solid fill data to plane state dump"
-  Revert "drm/atomic: Add pixel source to plane state dump"
-  Revert "drm: Add solid fill pixel source"
-  Revert "drm: Introduce solid fill DRM plane property"
-  Revert "drm: Introduce pixel_source DRM plane property"
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/drm_atomic.c        | 21 ++++++++--------
+ drivers/gpu/drm/drm_atomic_helper.c | 39 +++++++++++++----------------
+ include/drm/drm_atomic_helper.h     |  4 +--
+ include/drm/drm_plane.h             | 29 ---------------------
+ 4 files changed, 29 insertions(+), 64 deletions(-)
 
- drivers/gpu/drm/drm_atomic.c              | 148 +++++++++-------------
- drivers/gpu/drm/drm_atomic_helper.c       |  39 +++---
- drivers/gpu/drm/drm_atomic_state_helper.c |  10 --
- drivers/gpu/drm/drm_atomic_uapi.c         |  30 -----
- drivers/gpu/drm/drm_blend.c               | 133 -------------------
- drivers/gpu/drm/drm_crtc_internal.h       |   1 -
- drivers/gpu/drm/drm_plane.c               |  27 +---
- include/drm/drm_atomic_helper.h           |   4 +-
- include/drm/drm_blend.h                   |   3 -
- include/drm/drm_plane.h                   |  90 -------------
- include/uapi/drm/drm_mode.h               |  24 ----
- 11 files changed, 86 insertions(+), 423 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index aed0a694c74c..c6f2b86c48ae 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -674,16 +674,17 @@ static int drm_atomic_plane_check(const struct drm_plane_state *old_plane_state,
+ {
+ 	struct drm_plane *plane = new_plane_state->plane;
+ 	struct drm_crtc *crtc = new_plane_state->crtc;
++	const struct drm_framebuffer *fb = new_plane_state->fb;
+ 	int ret;
+ 
+-	/* either *both* CRTC and pixel source must be set, or neither */
+-	if (crtc && !drm_plane_has_visible_data(new_plane_state)) {
+-		drm_dbg_atomic(plane->dev, "[PLANE:%d:%s] CRTC set but no visible data\n",
++	/* either *both* CRTC and FB must be set, or neither */
++	if (crtc && !fb) {
++		drm_dbg_atomic(plane->dev, "[PLANE:%d:%s] CRTC set but no FB\n",
+ 			       plane->base.id, plane->name);
+ 		return -EINVAL;
+-	} else if (drm_plane_has_visible_data(new_plane_state) && !crtc) {
+-		drm_dbg_atomic(plane->dev, "[PLANE:%d:%s] Source %d has visible data but no CRTC\n",
+-			       plane->base.id, plane->name, new_plane_state->pixel_source);
++	} else if (fb && !crtc) {
++		drm_dbg_atomic(plane->dev, "[PLANE:%d:%s] FB set but no CRTC\n",
++			       plane->base.id, plane->name);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -714,11 +715,9 @@ static int drm_atomic_plane_check(const struct drm_plane_state *old_plane_state,
+ 	}
+ 
+ 
+-	if (new_plane_state->pixel_source == DRM_PLANE_PIXEL_SOURCE_FB && new_plane_state->fb) {
+-		ret = drm_atomic_plane_check_fb(new_plane_state);
+-		if (ret)
+-			return ret;
+-	}
++	ret = drm_atomic_plane_check_fb(new_plane_state);
++	if (ret)
++		return ret;
+ 
+ 	if (plane_switching_crtc(old_plane_state, new_plane_state)) {
+ 		drm_dbg_atomic(plane->dev,
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index dc048988e3f3..c3f677130def 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -861,6 +861,7 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
+ 					bool can_position,
+ 					bool can_update_disabled)
+ {
++	struct drm_framebuffer *fb = plane_state->fb;
+ 	struct drm_rect *src = &plane_state->src;
+ 	struct drm_rect *dst = &plane_state->dst;
+ 	unsigned int rotation = plane_state->rotation;
+@@ -872,7 +873,7 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
+ 	*src = drm_plane_state_src(plane_state);
+ 	*dst = drm_plane_state_dest(plane_state);
+ 
+-	if (!drm_plane_has_visible_data(plane_state)) {
++	if (!fb) {
+ 		plane_state->visible = false;
+ 		return 0;
+ 	}
+@@ -889,31 +890,25 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
+ 		return -EINVAL;
+ 	}
+ 
+-	/* Check that selected pixel source is valid */
+-	if (plane_state->pixel_source == DRM_PLANE_PIXEL_SOURCE_FB && plane_state->fb) {
+-		struct drm_framebuffer *fb = plane_state->fb;
+-		drm_rect_rotate(src, fb->width << 16, fb->height << 16, rotation);
++	drm_rect_rotate(src, fb->width << 16, fb->height << 16, rotation);
+ 
+-		/* Check scaling */
+-		hscale = drm_rect_calc_hscale(src, dst, min_scale, max_scale);
+-		vscale = drm_rect_calc_vscale(src, dst, min_scale, max_scale);
++	/* Check scaling */
++	hscale = drm_rect_calc_hscale(src, dst, min_scale, max_scale);
++	vscale = drm_rect_calc_vscale(src, dst, min_scale, max_scale);
++	if (hscale < 0 || vscale < 0) {
++		drm_dbg_kms(plane_state->plane->dev,
++			    "Invalid scaling of plane\n");
++		drm_rect_debug_print("src: ", &plane_state->src, true);
++		drm_rect_debug_print("dst: ", &plane_state->dst, false);
++		return -ERANGE;
++	}
+ 
+-		if (hscale < 0 || vscale < 0) {
+-			drm_dbg_kms(plane_state->plane->dev,
+-					"Invalid scaling of plane\n");
+-			drm_rect_debug_print("src: ", &plane_state->src, true);
+-			drm_rect_debug_print("dst: ", &plane_state->dst, false);
+-			return -ERANGE;
+-		}
++	if (crtc_state->enable)
++		drm_mode_get_hv_timing(&crtc_state->mode, &clip.x2, &clip.y2);
+ 
+-		if (crtc_state->enable)
+-			drm_mode_get_hv_timing(&crtc_state->mode, &clip.x2, &clip.y2);
++	plane_state->visible = drm_rect_clip_scaled(src, dst, &clip);
+ 
+-		plane_state->visible = drm_rect_clip_scaled(src, dst, &clip);
+-		drm_rect_rotate_inv(src, fb->width << 16, fb->height << 16, rotation);
+-	} else if (drm_plane_solid_fill_enabled(plane_state)) {
+-		plane_state->visible = true;
+-	}
++	drm_rect_rotate_inv(src, fb->width << 16, fb->height << 16, rotation);
+ 
+ 	if (!plane_state->visible)
+ 		/*
+diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+index 6d97f38ac1f6..536a0b0091c3 100644
+--- a/include/drm/drm_atomic_helper.h
++++ b/include/drm/drm_atomic_helper.h
+@@ -256,8 +256,8 @@ drm_atomic_plane_disabling(struct drm_plane_state *old_plane_state,
+ 	 * Anything else should be considered a bug in the atomic core, so we
+ 	 * gently warn about it.
+ 	 */
+-	WARN_ON((new_plane_state->crtc == NULL && drm_plane_has_visible_data(new_plane_state)) ||
+-		(new_plane_state->crtc != NULL && !drm_plane_has_visible_data(new_plane_state)));
++	WARN_ON((new_plane_state->crtc == NULL && new_plane_state->fb != NULL) ||
++		(new_plane_state->crtc != NULL && new_plane_state->fb == NULL));
+ 
+ 	return old_plane_state->crtc && !new_plane_state->crtc;
+ }
+diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+index 3b187f3f5466..d14e2f1db234 100644
+--- a/include/drm/drm_plane.h
++++ b/include/drm/drm_plane.h
+@@ -1016,35 +1016,6 @@ static inline struct drm_plane *drm_plane_find(struct drm_device *dev,
+ #define drm_for_each_plane(plane, dev) \
+ 	list_for_each_entry(plane, &(dev)->mode_config.plane_list, head)
+ 
+-/**
+- * drm_plane_solid_fill_enabled - Check if solid fill is enabled on plane
+- * @state: plane state
+- *
+- * Returns:
+- * Whether the plane has been assigned a solid_fill_blob
+- */
+-static inline bool drm_plane_solid_fill_enabled(struct drm_plane_state *state)
+-{
+-	if (!state)
+-		return false;
+-	return state->pixel_source == DRM_PLANE_PIXEL_SOURCE_SOLID_FILL && state->solid_fill_blob;
+-}
+-
+-static inline bool drm_plane_has_visible_data(const struct drm_plane_state *state)
+-{
+-	switch (state->pixel_source) {
+-	case DRM_PLANE_PIXEL_SOURCE_NONE:
+-		return false;
+-	case DRM_PLANE_PIXEL_SOURCE_SOLID_FILL:
+-		return state->solid_fill_blob != NULL;
+-	case DRM_PLANE_PIXEL_SOURCE_FB:
+-	default:
+-		WARN_ON(state->pixel_source != DRM_PLANE_PIXEL_SOURCE_FB);
+-	}
+-
+-	return state->fb != NULL;
+-}
+-
+ bool drm_any_plane_has_format(struct drm_device *dev,
+ 			      u32 format, u64 modifier);
+ 
 -- 
 2.42.0
 
