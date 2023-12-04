@@ -2,50 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5CE803B17
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 18:05:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8120D803B35
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 18:13:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CC0610E38F;
-	Mon,  4 Dec 2023 17:05:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73FC310E394;
+	Mon,  4 Dec 2023 17:13:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 625A810E38F
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 17:05:08 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1rACNO-0006PN-QJ; Mon, 04 Dec 2023 18:04:58 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1rACNM-00DYo1-TV; Mon, 04 Dec 2023 18:04:56 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1rACNM-00EB9g-Jz; Mon, 04 Dec 2023 18:04:56 +0100
-Date: Mon, 4 Dec 2023 18:04:56 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: sarha@kapsi.fi
-Subject: Re: [PATCH v3 16/16] drm/tilcdc: Convert to platform remove callback
- returning void
-Message-ID: <20231204170456.p4qrxg7jurun6txy@pengutronix.de>
-References: <20231102165640.3307820-18-u.kleine-koenig@pengutronix.de>
- <20231102165640.3307820-34-u.kleine-koenig@pengutronix.de>
- <788e0918-02d8-47c4-83c1-9e23d623f2b3@ideasonboard.com>
- <7829c53bd17db3a1142e9b84a900e60d2855a7fa@kapsi.fi>
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FB5B10E394;
+ Mon,  4 Dec 2023 17:13:44 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3B4H3wqx012133; Mon, 4 Dec 2023 17:13:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2023-11-20; bh=A2PqbRe2hdgG+2bzb8Ox+aMtx/2cW4uLxpdVFW4eCcM=;
+ b=R6JbpvDzaYKJVV/S5hXsde/tRW8fQu3WaVXbaWCTJRc9b3UDQ/TM+ARS6to9bbXwaSgt
+ LKWf/NzZzs5ntIkNBsJvoM8y9Y6p2uRmuc75PxsloFTdeTNR0M18QhIbf0if00OyEDfn
+ sDlvOGnHlBJ4JZ9UjQhXl7wYjmepLE8bHhOUcpO/QdOf+66XWnqj19MlqPb6UpLzuQiy
+ Hf24Q+GmYz2hpki4RKr6GZ65ur8EmjeqLKYatkLjJxUGuh9LOxAM347HoBmNyrG1aKhm
+ lkQIZjcXfDF2WWT4jHBRrHQofdUM8h0JWmDPxb8ODZz5x9uVN/cFgZE69jpfFOXuy/r5 1w== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3usju700kb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 04 Dec 2023 17:13:39 +0000
+Received: from pps.filterd
+ (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19)
+ with ESMTP id 3B4GEgf2005371; Mon, 4 Dec 2023 17:13:38 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3uqu15vrfb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 04 Dec 2023 17:13:38 +0000
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3B4HDYEs003824;
+ Mon, 4 Dec 2023 17:13:34 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com
+ [10.129.136.47])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
+ 3uqu15vr02-1; Mon, 04 Dec 2023 17:13:34 +0000
+From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH next] drm/msm/dp: add a missing unlock in dp_hpd_plug_handle()
+Date: Mon,  4 Dec 2023 09:13:14 -0800
+Message-ID: <20231204171317.192427-1-harshit.m.mogalapalli@oracle.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="vrqymo73zwrxgh62"
-Content-Disposition: inline
-In-Reply-To: <7829c53bd17db3a1142e9b84a900e60d2855a7fa@kapsi.fi>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-04_16,2023-12-04_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ suspectscore=0
+ mlxlogscore=999 adultscore=0 phishscore=0 malwarescore=0 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2312040132
+X-Proofpoint-ORIG-GUID: HbMF7UAXWfmh0B826Bgqdyl9huvMmy4E
+X-Proofpoint-GUID: HbMF7UAXWfmh0B826Bgqdyl9huvMmy4E
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,84 +87,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jyri Sarha <jyri.sarha@iki.fi>,
- kernel@pengutronix.de
+Cc: harshit.m.mogalapalli@oracle.com, kernel-janitors@vger.kernel.org,
+ error27@gmail.com, dan.carpenter@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+When pm_runtime_resume_and_get() fails, unlock before returning.
 
---vrqymo73zwrxgh62
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: 5814b8bf086a ("drm/msm/dp: incorporate pm_runtime framework into DP driver")
+Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+---
+This is based on static analysis with Smatch. Only compile tested.
+---
+ drivers/gpu/drm/msm/dp/dp_display.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-On Tue, Nov 28, 2023 at 07:54:31PM +0000, sarha@kapsi.fi wrote:
-> November 28, 2023 at 6:49 PM, "Uwe Kleine-K=F6nig" <u.kleine-koenig@pengu=
-tronix.de mailto:u.kleine-koenig@pengutronix.de?to=3D%22Uwe%20Kleine-K%C3%B=
-6nig%22%20%3Cu.kleine-koenig%40pengutronix.de%3E > wrote:
->=20
-> >=20
-> > On Fri, Nov 03, 2023 at 09:58:07AM +0200, Tomi Valkeinen wrote:
-> >=20
-> > >=20
-> > > On 02/11/2023 18:56, Uwe Kleine-K=F6nig wrote:
-> > > The .remove() callback for a platform driver returns an int which mak=
-es
-> > > many driver authors wrongly assume it's possible to do error handling=
- by
-> > > returning an error code. However the value returned is (mostly) ignor=
-ed
-> > > and this typically results in resource leaks. To improve here there i=
-s a
-> > > quest to make the remove callback return void. In the first step of t=
-his
-> > > quest all drivers are converted to .remove_new() which already returns
-> > > void.
-> > > [...]
-> > >=20
-> > > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > >=20
-> >=20
-> > This patch didn't make it into next yet. Who is responsible to pick this
-> > up?
-> >=20
->=20
-> I expected the whole series had been applied at once. But yes, I can appl=
-y this patch.
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 61b7103498a7..b57ff6c3215d 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -569,6 +569,7 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
+ 	ret = pm_runtime_resume_and_get(&pdev->dev);
+ 	if (ret) {
+ 		DRM_ERROR("failed to pm_runtime_resume\n");
++		mutex_unlock(&dp->event_mutex);
+ 		return ret;
+ 	}
+ 
+-- 
+2.39.3
 
-Thanks.
-
-Thomas wrote in
-https://lore.kernel.org/dri-devel/250b5d51-93f8-4d8c-8507-0c47adbf7237@suse=
-=2Ede:
-
-	Except for patches 8 and 16, I've pushed this patchset into drm-misc-next.
-
-=2E I understand he skipped patch 8, but for patch 16 I guess that's just
-an oversight.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---vrqymo73zwrxgh62
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVuBrcACgkQj4D7WH0S
-/k6tWAgAhyCIYrCAVcZkYptXZvLY/sTYNVJROdWmRYeTT/HZwgT/fYKii/pIektR
-kghmKz6dCCKYwFhzJpTdPturIJQwoBALrrYNcjpyfYtNDLpCbeSbbzsKau/G6G1u
-NeyVMKP64m/qQMFc1d+4hWqPh2LIfqS7TNu3A8sMzRkZH3c2jrbUy9FaBVefaFhl
-hGdypM61o92iZ2xGZh4r+FXnlhqRnMspQZmvmvQeMo9Xo9s2++JEk3NGpweb8hSA
-Xmv53NO2jMM8SuqlqIbUez9K/fygAYgt6sv3M7jM/a4bur5qDvJ7pfuLIQX9CEZ7
-4fq6sJRpQIOjAJKzMPNABddVnQWiNA==
-=HXhs
------END PGP SIGNATURE-----
-
---vrqymo73zwrxgh62--
