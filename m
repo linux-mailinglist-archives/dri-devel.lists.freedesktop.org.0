@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B6BB803B93
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 18:33:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 609F1803B9E
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 18:33:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE0E510E39E;
-	Mon,  4 Dec 2023 17:33:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9C3910E011;
+	Mon,  4 Dec 2023 17:33:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C111B10E397
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 17:33:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E394210E011
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 17:33:25 +0000 (UTC)
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id B6A33660711D;
- Mon,  4 Dec 2023 17:33:22 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id D6199660715D;
+ Mon,  4 Dec 2023 17:33:23 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1701711203;
- bh=EFYYLrZ2G2P1NmxTrSY2OP/tLcQbRktAh0FhMzS4JW8=;
+ s=mail; t=1701711204;
+ bh=mgsP3qpc6VeV/BZ/4KxLTONsFvnWQOCxPGm7qADbp58=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RcE1OtFN5iKoiKCCXDYMb8GbygEHHmXBVp1NRq7rGf9Lo13lxSSEJ64oygWX0FhUG
- 41ZXrit1rIJj7iLHu2B30vLaqH3xYPfC0r5fGi6IrG5WF2Ty9uqTxLE0IpINsF9yYF
- 6Hwr67YP0ORLphRcaabPOYnqhImVmj4PMmJ32J95gEaAQeG8HH2hGIUZp6pa81+i9S
- 8x+gGgMkdMmMb6dkpsJPhB7SdHg1srcHMVBMRebcMMQkP5Wun2yA1MbsUJSpruzk1I
- IivlX9JOSgEad22SoP7MHtM7e8rrfPPY4XYpsSC9HT+w3HFAcgPcWFSZY5eXZKBkH3
- T1yyjjsq5TSvQ==
+ b=bn91nUfFPof50XqcueLa7yMT933tHPRCsEhKHYwLd0VdMyKyuXTT8Jth0n1t7kEfo
+ Tu+cOiURCZUXPY0WKiQ7ig5xno6Iago9Zg0rkdEyKiCd7uioUVjFNkwFwC4xG2LYxL
+ w6XD5xdG/Hi4lp4V+bVtHrCPU0IAySGO+edpbDarsW/FJMfs/otD9TdyB3r1Yec9F5
+ Zql3j2T9V3TUDMWSfFiSkAYFCjowkDastBCEcgp+hu8suyv5K7bu1QVhwbJodUrqL9
+ mOsJrIsZTsctXeSUCxV5QS/Q3+yh0UoSUn5gzBpZz5IdJtgU1HYw6zmrqR9wlzfLvo
+ oVnh+sbBNSP4Q==
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 04/14] drm/panthor: Add the GPU logical block
-Date: Mon,  4 Dec 2023 18:32:57 +0100
-Message-ID: <20231204173313.2098733-5-boris.brezillon@collabora.com>
+Subject: [PATCH v3 05/14] drm/panthor: Add GEM logical block
+Date: Mon,  4 Dec 2023 18:32:58 +0100
+Message-ID: <20231204173313.2098733-6-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231204173313.2098733-1-boris.brezillon@collabora.com>
 References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
@@ -54,7 +54,6 @@ Cc: Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
  Daniel Stone <daniels@collabora.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
  Steven Price <steven.price@arm.com>,
- Alexey Sheplyakov <asheplyakov@basealt.ru>,
  Boris Brezillon <boris.brezillon@collabora.com>,
  =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
  Grant Likely <grant.likely@linaro.org>,
@@ -64,583 +63,413 @@ Cc: Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Handles everything that's not related to the FW, the MMU or the
-scheduler. This is the block dealing with the GPU property retrieval,
-the GPU block power on/off logic, and some global operations, like
-global cache flushing.
+Anything relating to GEM object management is placed here. Nothing
+particularly interesting here, given the implementation is based on
+drm_gem_shmem_object, which is doing most of the work.
 
 v3:
 - Add acks for the MIT/GPL2 relicensing
-- Use macros to extract GPU ID info
-- Make sure we reset clear pending_reqs bits when wait_event_timeout()
-  times out but the corresponding bit is cleared in GPU_INT_RAWSTAT
-  (can happen if the IRQ is masked or HW takes to long to call the IRQ
-  handler)
-- GPU_MODEL now takes separate arch and product majors to be more
-  readable.
-- Drop GPU_IRQ_MCU_STATUS_CHANGED from interrupt mask.
-- Handle GPU_IRQ_PROTM_FAULT correctly (don't output registers that are
-  not updated for protected interrupts).
-- Minor code tidy ups
+- Provide a panthor_kernel_bo abstraction for buffer objects managed by
+  the kernel (will replace panthor_fw_mem and be used everywhere we were
+  using panthor_gem_create_and_map() before)
+- Adjust things to match drm_gpuvm changes
+- Change return of panthor_gem_create_with_handle() to int
 
-Cc: Alexey Sheplyakov <asheplyakov@basealt.ru> # MIT+GPL2 relicensing
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Signed-off-by: Steven Price <steven.price@arm.com>
 Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
 Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing,Linaro
 Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 relicensing,Collabora
 ---
- drivers/gpu/drm/panthor/panthor_gpu.c | 481 ++++++++++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_gpu.h |  52 +++
- 2 files changed, 533 insertions(+)
- create mode 100644 drivers/gpu/drm/panthor/panthor_gpu.c
- create mode 100644 drivers/gpu/drm/panthor/panthor_gpu.h
+ drivers/gpu/drm/panthor/panthor_gem.c | 227 ++++++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_gem.h | 144 ++++++++++++++++
+ 2 files changed, 371 insertions(+)
+ create mode 100644 drivers/gpu/drm/panthor/panthor_gem.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_gem.h
 
-diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
 new file mode 100644
-index 000000000000..db3df550f320
+index 000000000000..4d676dd09956
 --- /dev/null
-+++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-@@ -0,0 +1,481 @@
++++ b/drivers/gpu/drm/panthor/panthor_gem.c
+@@ -0,0 +1,227 @@
 +// SPDX-License-Identifier: GPL-2.0 or MIT
-+/* Copyright 2018 Marty E. Plummer <hanetzer@startmail.com> */
-+/* Copyright 2019 Linaro, Ltd., Rob Herring <robh@kernel.org> */
-+/* Copyright 2019 Collabora ltd. */
++/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
++/* Copyright 2023 Collabora ltd. */
 +
-+#include <linux/bitfield.h>
-+#include <linux/bitmap.h>
-+#include <linux/delay.h>
++#include <linux/err.h>
++#include <linux/slab.h>
++#include <linux/dma-buf.h>
 +#include <linux/dma-mapping.h>
-+#include <linux/interrupt.h>
-+#include <linux/io.h>
-+#include <linux/iopoll.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
 +
-+#include <drm/drm_drv.h>
-+#include <drm/drm_managed.h>
++#include <drm/panthor_drm.h>
 +
 +#include "panthor_device.h"
-+#include "panthor_gpu.h"
-+#include "panthor_regs.h"
++#include "panthor_gem.h"
++#include "panthor_mmu.h"
 +
-+/**
-+ * struct panthor_gpu - GPU block management data.
-+ */
-+struct panthor_gpu {
-+	/** @irq: GPU irq. */
-+	struct panthor_irq irq;
-+
-+	/** @reqs_lock: Lock protecting access to pending_reqs. */
-+	spinlock_t reqs_lock;
-+
-+	/** @pending_reqs: Pending GPU requests. */
-+	u32 pending_reqs;
-+
-+	/** @reqs_acked: GPU request wait queue. */
-+	wait_queue_head_t reqs_acked;
-+};
-+
-+/**
-+ * struct panthor_model - GPU model description
-+ */
-+struct panthor_model {
-+	/** @name: Model name. */
-+	const char *name;
-+
-+	/** @arch_major: Major version number of architecture. */
-+	u8 arch_major;
-+
-+	/** @product_major: Major version number of product. */
-+	u8 product_major;
-+};
-+
-+/**
-+ * GPU_MODEL() - Define a GPU model. A GPU product can be uniquely identified
-+ * by a combination of the major architecture version and the major product
-+ * version.
-+ * @name: Name for the GPU model.
-+ * @_arch_major: Architecture major.
-+ * @_product_major: Product major.
-+ */
-+#define GPU_MODEL(_name, _arch_major, _product_major) \
-+{\
-+	.name = __stringify(_name),				\
-+	.arch_major = _arch_major,				\
-+	.product_major = _product_major,			\
-+}
-+
-+static const struct panthor_model gpu_models[] = {
-+	GPU_MODEL(g610, 10, 7),
-+	{},
-+};
-+
-+#define GPU_INTERRUPTS_MASK	\
-+	(GPU_IRQ_FAULT | \
-+	 GPU_IRQ_PROTM_FAULT | \
-+	 GPU_IRQ_RESET_COMPLETED | \
-+	 GPU_IRQ_CLEAN_CACHES_COMPLETED)
-+
-+static void panthor_gpu_init_info(struct panthor_device *ptdev)
++static void panthor_gem_free_object(struct drm_gem_object *obj)
 +{
-+	const struct panthor_model *model;
-+	u32 arch_major, product_major;
-+	u32 major, minor, status;
-+	unsigned int i;
++	struct panthor_gem_object *bo = to_panthor_bo(obj);
++	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
 +
-+	ptdev->gpu_info.gpu_id = gpu_read(ptdev, GPU_ID);
-+	ptdev->gpu_info.csf_id = gpu_read(ptdev, GPU_CSF_ID);
-+	ptdev->gpu_info.gpu_rev = gpu_read(ptdev, GPU_REVID);
-+	ptdev->gpu_info.l2_features = gpu_read(ptdev, GPU_L2_FEATURES);
-+	ptdev->gpu_info.tiler_features = gpu_read(ptdev, GPU_TILER_FEATURES);
-+	ptdev->gpu_info.mem_features = gpu_read(ptdev, GPU_MEM_FEATURES);
-+	ptdev->gpu_info.mmu_features = gpu_read(ptdev, GPU_MMU_FEATURES);
-+	ptdev->gpu_info.thread_features = gpu_read(ptdev, GPU_THREAD_FEATURES);
-+	ptdev->gpu_info.max_threads = gpu_read(ptdev, GPU_THREAD_MAX_THREADS);
-+	ptdev->gpu_info.thread_max_workgroup_size = gpu_read(ptdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
-+	ptdev->gpu_info.thread_max_barrier_size = gpu_read(ptdev, GPU_THREAD_MAX_BARRIER_SIZE);
-+	ptdev->gpu_info.coherency_features = gpu_read(ptdev, GPU_COHERENCY_FEATURES);
-+	for (i = 0; i < 4; i++)
-+		ptdev->gpu_info.texture_features[i] = gpu_read(ptdev, GPU_TEXTURE_FEATURES(i));
-+
-+	ptdev->gpu_info.as_present = gpu_read(ptdev, GPU_AS_PRESENT);
-+
-+	ptdev->gpu_info.shader_present = gpu_read(ptdev, GPU_SHADER_PRESENT_LO);
-+	ptdev->gpu_info.shader_present |= (u64)gpu_read(ptdev, GPU_SHADER_PRESENT_HI) << 32;
-+
-+	ptdev->gpu_info.tiler_present = gpu_read(ptdev, GPU_TILER_PRESENT_LO);
-+	ptdev->gpu_info.tiler_present |= (u64)gpu_read(ptdev, GPU_TILER_PRESENT_HI) << 32;
-+
-+	ptdev->gpu_info.l2_present = gpu_read(ptdev, GPU_L2_PRESENT_LO);
-+	ptdev->gpu_info.l2_present |= (u64)gpu_read(ptdev, GPU_L2_PRESENT_HI) << 32;
-+
-+	arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
-+	product_major = GPU_PROD_MAJOR(ptdev->gpu_info.gpu_id);
-+	major = GPU_VER_MAJOR(ptdev->gpu_info.gpu_id);
-+	minor = GPU_VER_MINOR(ptdev->gpu_info.gpu_id);
-+	status = GPU_VER_STATUS(ptdev->gpu_info.gpu_id);
-+
-+	for (model = gpu_models; model->name; model++) {
-+		if (model->arch_major == arch_major &&
-+		    model->product_major == product_major)
-+			break;
-+	}
-+
-+	drm_info(&ptdev->base,
-+		 "mali-%s id 0x%x major 0x%x minor 0x%x status 0x%x",
-+		 model->name ?: "unknown", ptdev->gpu_info.gpu_id >> 16,
-+		 major, minor, status);
-+
-+	drm_info(&ptdev->base,
-+		 "Features: L2:%#x Tiler:%#x Mem:%#x MMU:%#x AS:%#x",
-+		 ptdev->gpu_info.l2_features,
-+		 ptdev->gpu_info.tiler_features,
-+		 ptdev->gpu_info.mem_features,
-+		 ptdev->gpu_info.mmu_features,
-+		 ptdev->gpu_info.as_present);
-+
-+	drm_info(&ptdev->base,
-+		 "shader_present=0x%0llx l2_present=0x%0llx tiler_present=0x%0llx",
-+		 ptdev->gpu_info.shader_present, ptdev->gpu_info.l2_present,
-+		 ptdev->gpu_info.tiler_present);
-+}
-+
-+static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
-+{
-+	if (status & GPU_IRQ_FAULT) {
-+		u32 fault_status = gpu_read(ptdev, GPU_FAULT_STATUS);
-+		u64 address = ((u64)gpu_read(ptdev, GPU_FAULT_ADDR_HI) << 32) |
-+			      gpu_read(ptdev, GPU_FAULT_ADDR_LO);
-+
-+		drm_warn(&ptdev->base, "GPU Fault 0x%08x (%s) at 0x%016llx\n",
-+			 fault_status, panthor_exception_name(ptdev, fault_status & 0xFF),
-+			 address);
-+	}
-+	if (status & GPU_IRQ_PROTM_FAULT)
-+		drm_warn(&ptdev->base, "GPU Fault in protected mode\n");
-+
-+	spin_lock(&ptdev->gpu->reqs_lock);
-+	if (status & ptdev->gpu->pending_reqs) {
-+		ptdev->gpu->pending_reqs &= ~status;
-+		wake_up_all(&ptdev->gpu->reqs_acked);
-+	}
-+	spin_unlock(&ptdev->gpu->reqs_lock);
-+}
-+PANTHOR_IRQ_HANDLER(gpu, GPU, panthor_gpu_irq_handler);
-+
-+/**
-+ * panthor_gpu_unplug() - Called when the GPU is unplugged.
-+ * @ptdev: Device to unplug.
-+ */
-+void panthor_gpu_unplug(struct panthor_device *ptdev)
-+{
-+	unsigned long flags;
-+
-+	/* Make sure the IRQ handler is not running after that point. */
-+	panthor_gpu_irq_suspend(&ptdev->gpu->irq);
-+
-+	/* Wake-up all waiters. */
-+	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
-+	ptdev->gpu->pending_reqs = 0;
-+	wake_up_all(&ptdev->gpu->reqs_acked);
-+	spin_unlock_irqrestore(&ptdev->gpu->reqs_lock, flags);
++	drm_gem_free_mmap_offset(&bo->base.base);
++	mutex_destroy(&bo->gpuva_list_lock);
++	drm_gem_shmem_free(&bo->base);
++	drm_gem_object_put(vm_root_gem);
 +}
 +
 +/**
-+ * panthor_gpu_init() - Initialize the GPU block
-+ * @ptdev: Device.
-+ *
-+ * Return: 0 on success, a negative error code otherwise.
++ * panthor_kernel_bo_destroy() - Destroy a kernel buffer object
++ * @vm: The VM this BO was mapped to.
++ * @bo: Kernel buffer object to destroy.
 + */
-+int panthor_gpu_init(struct panthor_device *ptdev)
++void panthor_kernel_bo_destroy(struct panthor_vm *vm,
++			       struct panthor_kernel_bo *bo)
 +{
-+	struct panthor_gpu *gpu;
-+	u32 pa_bits;
-+	int ret, irq;
-+
-+	gpu = drmm_kzalloc(&ptdev->base, sizeof(*gpu), GFP_KERNEL);
-+	if (!gpu)
-+		return -ENOMEM;
-+
-+	spin_lock_init(&gpu->reqs_lock);
-+	init_waitqueue_head(&gpu->reqs_acked);
-+	ptdev->gpu = gpu;
-+	panthor_gpu_init_info(ptdev);
-+
-+	dma_set_max_seg_size(ptdev->base.dev, UINT_MAX);
-+	pa_bits = GPU_MMU_FEATURES_PA_BITS(ptdev->gpu_info.mmu_features);
-+	ret = dma_set_mask_and_coherent(ptdev->base.dev, DMA_BIT_MASK(pa_bits));
-+	if (ret)
-+		return ret;
-+
-+	irq = platform_get_irq_byname(to_platform_device(ptdev->base.dev), "gpu");
-+	if (irq <= 0)
-+		return ret;
-+
-+	ret = panthor_request_gpu_irq(ptdev, &ptdev->gpu->irq, irq, GPU_INTERRUPTS_MASK);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+/**
-+ * panthor_gpu_block_power_off() - Power-off a specific block of the GPU
-+ * @ptdev: Device.
-+ * @blk_name: Block name.
-+ * @pwroff_reg: Power-off register for this block.
-+ * @pwrtrans_reg: Power transition register for this block.
-+ * @mask: Sub-elements to power-off.
-+ * @timeout_us: Timeout in microseconds.
-+ *
-+ * Return: 0 on success, a negative error code otherwise.
-+ */
-+int panthor_gpu_block_power_off(struct panthor_device *ptdev,
-+				const char *blk_name,
-+				u32 pwroff_reg, u32 pwrtrans_reg,
-+				u64 mask, u32 timeout_us)
-+{
-+	u32 val, i;
 +	int ret;
 +
-+	for (i = 0; i < 2; i++) {
-+		u32 mask32 = mask >> (i * 32);
++	panthor_kernel_bo_vunmap(bo);
 +
-+		if (!mask32)
-+			continue;
++	if (drm_WARN_ON(bo->obj->dev,
++			to_panthor_bo(bo->obj)->exclusive_vm_root_gem != panthor_vm_root_gem(vm)))
++		goto out_free_bo;
 +
-+		ret = readl_relaxed_poll_timeout(ptdev->iomem + pwrtrans_reg + (i * 4),
-+						 val, !(mask32 & val),
-+						 100, timeout_us);
-+		if (ret) {
-+			drm_err(&ptdev->base, "timeout waiting on %s:%llx power transition",
-+				blk_name, mask);
-+			return ret;
-+		}
-+	}
++	if (!vm)
++		goto out_free_bo;
 +
-+	if (mask & GENMASK(31, 0))
-+		gpu_write(ptdev, pwroff_reg, mask);
++	ret = panthor_vm_unmap_range(vm, bo->va_node.start,
++				     panthor_kernel_bo_size(bo));
++	if (ret)
++		goto out_free_bo;
 +
-+	if (mask >> 32)
-+		gpu_write(ptdev, pwroff_reg + 4, mask >> 32);
++	panthor_vm_free_va(vm, &bo->va_node);
++	drm_gem_object_put(bo->obj);
 +
-+	for (i = 0; i < 2; i++) {
-+		u32 mask32 = mask >> (i * 32);
-+
-+		if (!mask32)
-+			continue;
-+
-+		ret = readl_relaxed_poll_timeout(ptdev->iomem + pwrtrans_reg + (i * 4),
-+						 val, !(mask & val),
-+						 100, timeout_us);
-+		if (ret) {
-+			drm_err(&ptdev->base, "timeout waiting on %s:%llx power transition",
-+				blk_name, mask);
-+			return ret;
-+		}
-+	}
-+
-+	return 0;
++out_free_bo:
++	kfree(bo);
 +}
 +
 +/**
-+ * panthor_gpu_block_power_on() - Power-on a specific block of the GPU
++ * panthor_kernel_bo_create() - Create and map a GEM object to a VM
 + * @ptdev: Device.
-+ * @blk_name: Block name.
-+ * @pwron_reg: Power-on register for this block.
-+ * @pwrtrans_reg: Power transition register for this block.
-+ * @rdy_reg: Power transition ready register.
-+ * @mask: Sub-elements to power-on.
-+ * @timeout_us: Timeout in microseconds.
++ * @vm: VM to map the GEM to. If NULL, the kernel object is not GPU mapped.
++ * @size: Size of the buffer object.
++ * @bo_flags: Combination of drm_panthor_bo_flags flags.
++ * @vm_map_flags: Combination of drm_panthor_vm_bind_op_flags (only those
++ * that are related to map operations).
++ * @gpu_va: GPU address assigned when mapping to the VM.
++ * If gpu_va == PANTHOR_VM_KERNEL_AUTO_VA, the virtual address will be
++ * automatically allocated.
 + *
-+ * Return: 0 on success, a negative error code otherwise.
++ * Return: A valid pointer in case of success, an ERR_PTR() otherwise.
 + */
-+int panthor_gpu_block_power_on(struct panthor_device *ptdev,
-+			       const char *blk_name,
-+			       u32 pwron_reg, u32 pwrtrans_reg,
-+			       u32 rdy_reg, u64 mask, u32 timeout_us)
++struct panthor_kernel_bo *
++panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
++			 size_t size, u32 bo_flags, u32 vm_map_flags,
++			 u64 gpu_va)
 +{
-+	u32 val, i;
++	struct drm_gem_shmem_object *obj;
++	struct panthor_kernel_bo *kbo;
++	struct panthor_gem_object *bo;
 +	int ret;
 +
-+	for (i = 0; i < 2; i++) {
-+		u32 mask32 = mask >> (i * 32);
++	kbo = kzalloc(sizeof(*kbo), GFP_KERNEL);
++	if (!kbo)
++		return ERR_PTR(-ENOMEM);
 +
-+		if (!mask32)
-+			continue;
-+
-+		ret = readl_relaxed_poll_timeout(ptdev->iomem + pwrtrans_reg + (i * 4),
-+						 val, !(mask32 & val),
-+						 100, timeout_us);
-+		if (ret) {
-+			drm_err(&ptdev->base, "timeout waiting on %s:%llx power transition",
-+				blk_name, mask);
-+			return ret;
-+		}
++	obj = drm_gem_shmem_create(&ptdev->base, size);
++	if (IS_ERR(obj)) {
++		ret = PTR_ERR(obj);
++		goto err_free_bo;
 +	}
 +
-+	if (mask & GENMASK(31, 0))
-+		gpu_write(ptdev, pwron_reg, mask);
++	bo = to_panthor_bo(&obj->base);
++	size = obj->base.size;
++	kbo->obj = &obj->base;
++	bo->flags = bo_flags;
 +
-+	if (mask >> 32)
-+		gpu_write(ptdev, pwron_reg + 4, mask >> 32);
++	if (!vm)
++		return 0;
 +
-+	for (i = 0; i < 2; i++) {
-+		u32 mask32 = mask >> (i * 32);
++	ret = panthor_vm_alloc_va(vm, gpu_va, size, &kbo->va_node);
++	if (ret)
++		goto err_put_obj;
 +
-+		if (!mask32)
-+			continue;
++	ret = panthor_vm_map_bo_range(vm, bo, 0, size, kbo->va_node.start, vm_map_flags);
++	if (ret)
++		goto err_free_va;
 +
-+		ret = readl_relaxed_poll_timeout(ptdev->iomem + rdy_reg + (i * 4),
-+						 val, (mask32 & val) == mask32,
-+						 100, timeout_us);
-+		if (ret) {
-+			drm_err(&ptdev->base, "timeout waiting on %s:%llx readyness",
-+				blk_name, mask);
-+			return ret;
-+		}
-+	}
++	bo->exclusive_vm_root_gem = panthor_vm_root_gem(vm);
++	drm_gem_object_get(bo->exclusive_vm_root_gem);
++	bo->base.base.resv = bo->exclusive_vm_root_gem->resv;
++	return kbo;
 +
-+	return 0;
++err_free_va:
++	panthor_vm_free_va(vm, &kbo->va_node);
++
++err_put_obj:
++	drm_gem_object_put(&obj->base);
++
++err_free_bo:
++	kfree(kbo);
++	return ERR_PTR(ret);
++}
++
++static int panthor_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
++{
++	struct panthor_gem_object *bo = to_panthor_bo(obj);
++
++	/* Don't allow mmap on objects that have the NO_MMAP flag set. */
++	if (bo->flags & DRM_PANTHOR_BO_NO_MMAP)
++		return -EINVAL;
++
++	return drm_gem_shmem_object_mmap(obj, vma);
++}
++
++static struct dma_buf *
++panthor_gem_prime_export(struct drm_gem_object *obj, int flags)
++{
++	/* We can't export GEMs that have an exclusive VM. */
++	if (to_panthor_bo(obj)->exclusive_vm_root_gem)
++		return ERR_PTR(-EINVAL);
++
++	return drm_gem_prime_export(obj, flags);
++}
++
++static const struct drm_gem_object_funcs panthor_gem_funcs = {
++	.free = panthor_gem_free_object,
++	.print_info = drm_gem_shmem_object_print_info,
++	.pin = drm_gem_shmem_object_pin,
++	.unpin = drm_gem_shmem_object_unpin,
++	.get_sg_table = drm_gem_shmem_object_get_sg_table,
++	.vmap = drm_gem_shmem_object_vmap,
++	.vunmap = drm_gem_shmem_object_vunmap,
++	.mmap = panthor_gem_mmap,
++	.export = panthor_gem_prime_export,
++	.vm_ops = &drm_gem_shmem_vm_ops,
++};
++
++/**
++ * panthor_gem_create_object - Implementation of driver->gem_create_object.
++ * @ddev: DRM device
++ * @size: Size in bytes of the memory the object will reference
++ *
++ * This lets the GEM helpers allocate object structs for us, and keep
++ * our BO stats correct.
++ */
++struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t size)
++{
++	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
++	struct panthor_gem_object *obj;
++
++	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
++	if (!obj)
++		return ERR_PTR(-ENOMEM);
++
++	obj->base.base.funcs = &panthor_gem_funcs;
++	obj->base.map_wc = !ptdev->coherent;
++	mutex_init(&obj->gpuva_list_lock);
++	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
++
++	return &obj->base.base;
 +}
 +
 +/**
-+ * panthor_gpu_l2_power_on() - Power-on the L2-cache
-+ * @ptdev: Device.
++ * panthor_gem_create_with_handle() - Create a GEM object and attach it to a handle.
++ * @file: DRM file.
++ * @ddev: DRM device.
++ * @exclusive_vm: Exclusive VM. Not NULL if the GEM object can't be shared.
++ * @size: Size of the GEM object to allocate.
++ * @flags: Combination of drm_panthor_bo_flags flags.
++ * @handle: Pointer holding the handle pointing to the new GEM object.
 + *
-+ * Return: 0 on success, a negative error code otherwise.
++ * Return: Zero on success
 + */
-+int panthor_gpu_l2_power_on(struct panthor_device *ptdev)
++int
++panthor_gem_create_with_handle(struct drm_file *file,
++			       struct drm_device *ddev,
++			       struct panthor_vm *exclusive_vm,
++			       size_t size,
++			       u32 flags, u32 *handle)
 +{
-+	if (ptdev->gpu_info.l2_present != 1) {
-+		/*
-+		 * Only support one core group now.
-+		 * ~(l2_present - 1) unsets all bits in l2_present except
-+		 * the bottom bit. (l2_present - 2) has all the bits in
-+		 * the first core group set. AND them together to generate
-+		 * a mask of cores in the first core group.
-+		 */
-+		u64 core_mask = ~(ptdev->gpu_info.l2_present - 1) &
-+				(ptdev->gpu_info.l2_present - 2);
-+		drm_info_once(&ptdev->base, "using only 1st core group (%lu cores from %lu)\n",
-+			      hweight64(core_mask),
-+			      hweight64(ptdev->gpu_info.shader_present));
++	int ret;
++	struct drm_gem_shmem_object *shmem;
++	struct panthor_gem_object *bo;
++
++	shmem = drm_gem_shmem_create(ddev, size);
++	if (IS_ERR(shmem))
++		return PTR_ERR(shmem);
++
++	bo = to_panthor_bo(&shmem->base);
++	bo->flags = flags;
++
++	if (exclusive_vm) {
++		bo->exclusive_vm_root_gem = panthor_vm_root_gem(exclusive_vm);
++		drm_gem_object_get(bo->exclusive_vm_root_gem);
++		bo->base.base.resv = bo->exclusive_vm_root_gem->resv;
 +	}
 +
-+	return panthor_gpu_power_on(ptdev, L2, 1, 20000);
-+}
-+
-+/**
-+ * panthor_gpu_flush_caches() - Flush caches
-+ * @ptdev: Device.
-+ * @l2: L2 flush type.
-+ * @lsc: LSC flush type.
-+ * @other: Other flush type.
-+ *
-+ * Return: 0 on success, a negative error code otherwise.
-+ */
-+int panthor_gpu_flush_caches(struct panthor_device *ptdev,
-+			     u32 l2, u32 lsc, u32 other)
-+{
-+	bool timedout = false;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
-+	if (!drm_WARN_ON(&ptdev->base,
-+			 ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED)) {
-+		ptdev->gpu->pending_reqs |= GPU_IRQ_CLEAN_CACHES_COMPLETED;
-+		gpu_write(ptdev, GPU_CMD, GPU_FLUSH_CACHES(l2, lsc, other));
-+	}
-+	spin_unlock_irqrestore(&ptdev->gpu->reqs_lock, flags);
-+
-+	if (!wait_event_timeout(ptdev->gpu->reqs_acked,
-+				!(ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED),
-+				msecs_to_jiffies(100))) {
-+		spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
-+		if ((ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED) != 0 &&
-+		    !(gpu_read(ptdev, GPU_INT_RAWSTAT) & GPU_IRQ_CLEAN_CACHES_COMPLETED))
-+			timedout = true;
-+		else
-+			ptdev->gpu->pending_reqs &= ~GPU_IRQ_CLEAN_CACHES_COMPLETED;
-+		spin_unlock_irqrestore(&ptdev->gpu->reqs_lock, flags);
-+	}
-+
-+	if (timedout) {
-+		drm_err(&ptdev->base, "Flush caches timeout");
-+		return -ETIMEDOUT;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * panthor_gpu_soft_reset() - Issue a soft-reset
-+ * @ptdev: Device.
-+ *
-+ * Return: 0 on success, a negative error code otherwise.
-+ */
-+int panthor_gpu_soft_reset(struct panthor_device *ptdev)
-+{
-+	bool timedout = false;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
-+	if (!drm_WARN_ON(&ptdev->base,
-+			 ptdev->gpu->pending_reqs & GPU_IRQ_RESET_COMPLETED)) {
-+		ptdev->gpu->pending_reqs |= GPU_IRQ_RESET_COMPLETED;
-+		gpu_write(ptdev, GPU_INT_CLEAR, GPU_IRQ_RESET_COMPLETED);
-+		gpu_write(ptdev, GPU_CMD, GPU_SOFT_RESET);
-+	}
-+	spin_unlock_irqrestore(&ptdev->gpu->reqs_lock, flags);
-+
-+	if (!wait_event_timeout(ptdev->gpu->reqs_acked,
-+				!(ptdev->gpu->pending_reqs & GPU_IRQ_RESET_COMPLETED),
-+				msecs_to_jiffies(100))) {
-+		spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
-+		if ((ptdev->gpu->pending_reqs & GPU_IRQ_RESET_COMPLETED) != 0 &&
-+		    !(gpu_read(ptdev, GPU_INT_RAWSTAT) & GPU_IRQ_RESET_COMPLETED))
-+			timedout = true;
-+		else
-+			ptdev->gpu->pending_reqs &= ~GPU_IRQ_RESET_COMPLETED;
-+		spin_unlock_irqrestore(&ptdev->gpu->reqs_lock, flags);
-+	}
-+
-+	if (timedout) {
-+		drm_err(&ptdev->base, "Soft reset timeout");
-+		return -ETIMEDOUT;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * panthor_gpu_suspend() - Suspend the GPU block.
-+ * @ptdev: Device.
-+ *
-+ * Suspend the GPU irq. This should be called last in the suspend procedure,
-+ * after all other blocks have been suspented.
-+ */
-+void panthor_gpu_suspend(struct panthor_device *ptdev)
-+{
 +	/*
-+	 * It may be preferable to simply power down the L2, but for now just
-+	 * soft-reset which will leave the L2 powered down.
++	 * Allocate an id of idr table where the obj is registered
++	 * and handle has the id what user can see.
 +	 */
-+	panthor_gpu_soft_reset(ptdev);
-+	panthor_gpu_irq_suspend(&ptdev->gpu->irq);
-+}
++	ret = drm_gem_handle_create(file, &shmem->base, handle);
++	/* drop reference from allocate - handle holds it now. */
++	drm_gem_object_put(&shmem->base);
 +
-+/**
-+ * panthor_gpu_resume() - Resume the GPU block.
-+ * @ptdev: Device.
-+ *
-+ * Resume the IRQ handler and power-on the L2-cache.
-+ * The FW takes care of powering the other blocks.
-+ */
-+void panthor_gpu_resume(struct panthor_device *ptdev)
-+{
-+	panthor_gpu_irq_resume(&ptdev->gpu->irq, GPU_INTERRUPTS_MASK);
-+	panthor_gpu_l2_power_on(ptdev);
++	return ret;
 +}
-diff --git a/drivers/gpu/drm/panthor/panthor_gpu.h b/drivers/gpu/drm/panthor/panthor_gpu.h
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
 new file mode 100644
-index 000000000000..bba7555dd3c6
+index 000000000000..6c8010ceb641
 --- /dev/null
-+++ b/drivers/gpu/drm/panthor/panthor_gpu.h
-@@ -0,0 +1,52 @@
++++ b/drivers/gpu/drm/panthor/panthor_gem.h
+@@ -0,0 +1,144 @@
 +/* SPDX-License-Identifier: GPL-2.0 or MIT */
-+/* Copyright 2018 Marty E. Plummer <hanetzer@startmail.com> */
-+/* Copyright 2019 Collabora ltd. */
++/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
++/* Copyright 2023 Collabora ltd. */
 +
-+#ifndef __PANTHOR_GPU_H__
-+#define __PANTHOR_GPU_H__
++#ifndef __PANTHOR_GEM_H__
++#define __PANTHOR_GEM_H__
 +
-+struct panthor_device;
++#include <drm/drm_gem_shmem_helper.h>
++#include <drm/drm_mm.h>
 +
-+int panthor_gpu_init(struct panthor_device *ptdev);
-+void panthor_gpu_unplug(struct panthor_device *ptdev);
-+void panthor_gpu_suspend(struct panthor_device *ptdev);
-+void panthor_gpu_resume(struct panthor_device *ptdev);
++#include <linux/iosys-map.h>
++#include <linux/rwsem.h>
 +
-+int panthor_gpu_block_power_on(struct panthor_device *ptdev,
-+			       const char *blk_name,
-+			       u32 pwron_reg, u32 pwrtrans_reg,
-+			       u32 rdy_reg, u64 mask, u32 timeout_us);
-+int panthor_gpu_block_power_off(struct panthor_device *ptdev,
-+				const char *blk_name,
-+				u32 pwroff_reg, u32 pwrtrans_reg,
-+				u64 mask, u32 timeout_us);
++struct panthor_vm;
 +
 +/**
-+ * panthor_gpu_power_on() - Power on the GPU block.
-+ *
-+ * Return: 0 on success, a negative error code otherwise.
++ * struct panthor_gem_object - Driver specific GEM object.
 + */
-+#define panthor_gpu_power_on(ptdev, type, mask, timeout_us) \
-+	panthor_gpu_block_power_on(ptdev, #type, \
-+				  type ## _PWRON_LO, \
-+				  type ## _PWRTRANS_LO, \
-+				  type ## _READY_LO, \
-+				  mask, timeout_us)
++struct panthor_gem_object {
++	/** @base: Inherit from drm_gem_shmem_object. */
++	struct drm_gem_shmem_object base;
++
++	/**
++	 * @exclusive_vm_root_gem: Root GEM of the exclusive VM this GEM object
++	 * is attached to.
++	 *
++	 * If @exclusive_vm_root_gem != NULL, any attempt to bind the GEM to a
++	 * different VM will fail.
++	 *
++	 * All FW memory objects have this field set to the root GEM of the MCU
++	 * VM.
++	 */
++	struct drm_gem_object *exclusive_vm_root_gem;
++
++	/**
++	 * @gpuva_list_lock: Custom GPUVA lock.
++	 *
++	 * Used to protect insertion of drm_gpuva elements to the
++	 * drm_gem_object.gpuva.list list.
++	 *
++	 * We can't use the GEM resv for that, because drm_gpuva_link() is
++	 * called in a dma-signaling path, where we're not allowed to take
++	 * resv locks.
++	 */
++	struct mutex gpuva_list_lock;
++
++	/** @flags: Combination of drm_panthor_bo_flags flags. */
++	u32 flags;
++};
 +
 +/**
-+ * panthor_gpu_power_off() - Power off the GPU block.
++ * struct panthor_kernel_bo - Kernel buffer object.
 + *
-+ * Return: 0 on success, a negative error code otherwise.
++ * These objects are only manipulated by the kernel driver and not
++ * directly exposed to the userspace. The GPU address of a kernel
++ * BO might be passed to userspace though.
 + */
-+#define panthor_gpu_power_off(ptdev, type, mask, timeout_us) \
-+	panthor_gpu_block_power_off(ptdev, #type, \
-+				   type ## _PWROFF_LO, \
-+				   type ## _PWRTRANS_LO, \
-+				   mask, timeout_us)
++struct panthor_kernel_bo {
++	/**
++	 * @obj: The GEM object backing this kernel buffer object.
++	 */
++	struct drm_gem_object *obj;
 +
-+int panthor_gpu_l2_power_on(struct panthor_device *ptdev);
-+int panthor_gpu_flush_caches(struct panthor_device *ptdev,
-+			     u32 l2, u32 lsc, u32 other);
-+int panthor_gpu_soft_reset(struct panthor_device *ptdev);
++	/**
++	 * @va_node: VA space allocated to this GEM.
++	 */
++	struct drm_mm_node va_node;
 +
-+#endif
++	/**
++	 * @kmap: Kernel CPU mapping of @gem.
++	 */
++	void *kmap;
++};
++
++static inline
++struct panthor_gem_object *to_panthor_bo(struct drm_gem_object *obj)
++{
++	return container_of(to_drm_gem_shmem_obj(obj), struct panthor_gem_object, base);
++}
++
++struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t size);
++
++struct drm_gem_object *
++panthor_gem_prime_import_sg_table(struct drm_device *ddev,
++				  struct dma_buf_attachment *attach,
++				  struct sg_table *sgt);
++
++int
++panthor_gem_create_with_handle(struct drm_file *file,
++			       struct drm_device *ddev,
++			       struct panthor_vm *exclusive_vm,
++			       size_t size,
++			       u32 flags,
++			       uint32_t *handle);
++
++static inline u64
++panthor_kernel_bo_gpuva(struct panthor_kernel_bo *bo)
++{
++	return bo->va_node.start;
++}
++
++static inline size_t
++panthor_kernel_bo_size(struct panthor_kernel_bo *bo)
++{
++	return bo->obj->size;
++}
++
++static inline int
++panthor_kernel_bo_vmap(struct panthor_kernel_bo *bo)
++{
++	struct iosys_map map;
++	int ret;
++
++	if (bo->kmap)
++		return 0;
++
++	ret = drm_gem_vmap_unlocked(bo->obj, &map);
++	if (ret)
++		return ret;
++
++	bo->kmap = map.vaddr;
++	return 0;
++}
++
++static inline void
++panthor_kernel_bo_vunmap(struct panthor_kernel_bo *bo)
++{
++	if (bo->kmap) {
++		struct iosys_map map = IOSYS_MAP_INIT_VADDR(bo->kmap);
++
++		drm_gem_vunmap_unlocked(bo->obj, &map);
++		bo->kmap = NULL;
++	}
++}
++
++struct panthor_kernel_bo *
++panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
++			 size_t size, u32 bo_flags, u32 vm_map_flags,
++			 u64 gpu_va);
++
++void panthor_kernel_bo_destroy(struct panthor_vm *vm,
++			       struct panthor_kernel_bo *bo);
++
++#endif /* __PANTHOR_GEM_H__ */
 -- 
 2.43.0
 
