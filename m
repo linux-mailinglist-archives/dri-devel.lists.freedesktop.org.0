@@ -2,107 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0B188030A4
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 11:39:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E23898030AA
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 11:40:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2332210E32B;
-	Mon,  4 Dec 2023 10:39:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 731BA10E335;
+	Mon,  4 Dec 2023 10:39:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com
- (mail-am7eur03olkn2066.outbound.protection.outlook.com [40.92.59.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDA5010E30A;
- Mon,  4 Dec 2023 10:10:47 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05olkn2098.outbound.protection.outlook.com [40.92.89.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8C7410E2E7;
+ Mon,  4 Dec 2023 10:11:37 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NowpoAlYgnkTATSrf2wfUwTFf57G1vV2PktTdE+wSG01MUzzhXALJIPHKubUsK4y+fwOGoDXkJQpO8eovujzrMtGvn/rTsvaFaEYg1GD6rMBgfi3SK2u4FysC6p5atb9fUfQw5u6DDhg/jfZrdmCx6agLVJQdnvAwXm26YjLXsccODhRDJ6ns3KDaOqO8TNcykf1ppJiw+D1Ew0r1yC7luZsdyM9HKMnx3a3p8OeLf5+43UI17d9E4bNJ7DpEYFsFSAgwRKTQgLoH6Smr6xWTxMlE+1R7BWeudjnnaWrziOKvEmn7VIpRUYtecTcVrRKs0bKZqPOQKKdn4v0jfigGQ==
+ b=f3G4JJWC/3v7frtGCbLqsbqxAWuhWiWIUJVOPHGHwXGBJgP8MLY0VFw7Ua+87aOmLWWmpwBT4vN6qrHYVa1iev7RaK08ab5aAVXUtKv9agpwDRDNYyIg1A4lwlIT5hBUh/VKb6SjO0jYNd77RyWsAJr7wBvuxgCZiqMLQwUBmmHoESw/M4/b9s2fGt9FPzG14a9aMywmJYjgs4cxAI+3MJ/04lVao/Xo5RzLVBhnMHBZ5gcB9fWmA4zCZvnsxwLqQ8mChv+QOlBGuqrvp0PKQ+2V1l3rCUloj0kZUNNMYEU7iNLG8mQrlOS9NnCXv8VcdrGYMeSbb1w/WCkTOO7bEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+CkJu6WS5a/5qmN6jvqA2dal626d/g5UUOl67NBlNh4=;
- b=fNybH6+VSOV5pL7+VP5d5yWxh4m1eUFrFmzqyAj/J3ESWxND5eQ8RHIZj4VzDotqmLiUrL31yyEOmCZX0QmqluqJRvrtc5L79/lrJO2k7EuYdZDnPFotpNR7h6dqxrS69d9r8pOsJ/zCQRxdQ++034ftnn84jFyim65wXmuv9LNwUV1/DEoWKHtCZxEgMBeDGL98I5OZVToF7DrAn4j4YjuSLOhjq7QXIH1OjfGDxOB8Bt9lO3z/nLR6IZvn41LzCV6XiFazEusZGGajWJmN+GmwdMfo+G7ZziCoYRt4Q7pMmSnXobsIWJ3zXdL4RKeFKUe2yAdBooIRmXoV9rkl2w==
+ bh=UwBYJ2m/sO1ZmJVp+1NVrRJtsaiUDH0SP1t/QDw46t0=;
+ b=GOKj6aFk6jSX9IlryQw+0tk3XC2HkNXnXfPp4uNNEpPM2ZIDwQjMQ3KBC6zPjyC+LljGtkQzH5f/qmIHSiHK0OQfZiLFF1mCe53zMkt2VLK8vi2/vGDJklGOTnGG/NwYt+9dOO53AQaowY8JNKsMGWfyDf06Lq6K0pedhVIhQZo+2QYgdhUEWwqhSlaGVYYwk5ZVOcT1Vo6B8/bdP2UQbeHrH9xy7n+sZS+BEJMNG21Z2DptZy+81pIw5ax04hdhweFIhUbI3BJ39axEiUrut6jTHBFqTR1aJrk2xfKJ8ocRMm79D911kZEB8dIBVgxHnOg5uEw7nqHJvhAX4MRZng==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+CkJu6WS5a/5qmN6jvqA2dal626d/g5UUOl67NBlNh4=;
- b=WKlph4s8ivpRwAeH7svcdjkJM5HOQ9Y9X0PjPsY2GIZeLycsBii03PvLsHt3xY+MW61gJUbBPFtNeO8zOX8E1jbSwYjyGekOpt9TLxt+FS21oGnvU07+SvaD8HwBvXVQ54GXYtiJTpuvsDNSF6izGzbbNHMS9CX2kujhbT/lweld7FV00ru3KmjjyrEvVv9SryqF3F2BsPsYcysaBee1oOXZqMaQVECB/HQiwcqvx2gUvQaxWiUYiHW+t412yvHb1/smnvAZJLP0m9HoQyNBB5jAsLPpg+0DM+JbTxa8vM9V7SCebOLjVGNZIry6bXKOf1QZl+tp1nD8ZYy0XzAZEA==
+ bh=UwBYJ2m/sO1ZmJVp+1NVrRJtsaiUDH0SP1t/QDw46t0=;
+ b=pgBD1QGsXIwaZSON6ZGajIqZp9eaPDplI5ThrGEx3G4WKD06LeJJGspOlk2sj3Jzl5p88cRF394tO3RB95SQUjEql7MFWIhSRfW6Twqs08N8m8uMw+1gitBwG/KLcTncqAmkm2GQdGtDBfQPlXUFSIjscKdnF6vLRlxeG9JFxT0/M7NsAuWVSJyXF9S70QDpiAUofV/Jq5a8NpUWIqJdOhI7ReHfVyBYc73Y1YplSJV4SfvggXO9RFc5Brsngu1djJWLbyoTq12rn+lssy9nZpsQHOrDdvL2U4N9XlzNx8H0ZtGLAa/hExqMBOW4oxFZmxFyJOQ7K/sFAmrCCUuzig==
 Received: from AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:172::24)
- by DB8PR10MB3864.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:165::14)
+ by DB3PR10MB6762.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:43b::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.33; Mon, 4 Dec
- 2023 10:10:45 +0000
+ 2023 10:11:35 +0000
 Received: from AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::1fc4:7df9:3d95:eb28]) by AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::1fc4:7df9:3d95:eb28%6]) with mapi id 15.20.7046.033; Mon, 4 Dec 2023
- 10:10:45 +0000
-Message-ID: <AM7PR10MB39234D1B9700492A3D10DB1C8E86A@AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM>
-Date: Mon, 4 Dec 2023 10:10:46 +0100
+ 10:11:35 +0000
+Message-ID: <AM7PR10MB3923C9053FCD6D6FAE3902C28E86A@AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM>
+Date: Mon, 4 Dec 2023 10:11:37 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: Kernel problem with multiseat on one card
+Subject: Re: [Nouveau] Kernel problem with multiseat on one card
 Content-Language: nl
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Nouveau <nouveau@lists.freedesktop.org>
+From: Gert Vanhaerents <gert.vanhaerents@hotmail.com>
+To: Timur Tabi <ttabi@nvidia.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "bagasdotme@gmail.com" <bagasdotme@gmail.com>
 References: <AM7PR10MB39235DD53D163910E88FDB938E82A@AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM>
  <AM7PR10MB3923E07D6024434077E95EBA8E82A@AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM>
  <ZWsuiq7zrYS-pDli@archie.me>
-From: Gert Vanhaerents <gert.vanhaerents@hotmail.com>
-In-Reply-To: <ZWsuiq7zrYS-pDli@archie.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <655a02097e9b49c2da7a2be60d7c154a48a916f4.camel@nvidia.com>
+ <AM7PR10MB39235076485E2E3905F422508E86A@AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AM7PR10MB39235076485E2E3905F422508E86A@AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM>
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TMN: [Z2TbAV7/bHaGYf/Tp7LZhTba60ILfNuM]
+X-TMN: [AdW5Ab5Y9ISiQEXEi9X8ROflogfqaNSd]
 X-ClientProxiedBy: AM0PR04CA0131.eurprd04.prod.outlook.com
  (2603:10a6:208:55::36) To AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM
  (2603:10a6:20b:172::24)
-X-Microsoft-Original-Message-ID: <fc2ec5e4-633c-4bda-a52d-a4cd8c5d09d8@hotmail.com>
+X-Microsoft-Original-Message-ID: <d8dd837f-0d40-42a8-a580-29532fb1519a@hotmail.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR10MB3923:EE_|DB8PR10MB3864:EE_
-X-MS-Office365-Filtering-Correlation-Id: 87fd4a6b-d511-4aa9-74d1-08dbf4b14765
+X-MS-TrafficTypeDiagnostic: AM7PR10MB3923:EE_|DB3PR10MB6762:EE_
+X-MS-Office365-Filtering-Correlation-Id: 782bd173-2b1b-4835-e1a6-08dbf4b1657a
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BG8nVXG1uC7aYAcXO8oAOOPRR8ZN6jCbHEr11Pa9JevrtrkCNS6FWKnou/UK8QI1n1KfO3tNxtdGWvnFBIHJaR33sp0oUcQ8DAnsQU3Nqx0mzTuym68mobR16QcyjuRpQqyhK0MFvMk2Itcxxfidiw1JQFgSz4aR5S2wPSLJWo2YfIRikOBZfZLq+W+Y9kvqUMcMaxlQXbxVxrjQV6wWQ45B6BhWXdZciWwFQHCslIHYCk7hl4WDWqWDCcexH1VMgDSSM7hHu2S5Wd66E1SX8O5z/Tku3arlx6XIFDjp4NC2o6BCaeuL77d1tDE8+Y8qwRuLvnWMI8CkSGT5WomOGYE0KqJ2nCdk13++VLjkfzI35yUNJhakT4pGzLBBYN4W0ehqowwwxVjyP+CEYm2Rh8+wzImusVirOwsxieGbb6kQ/0BcHbDNcxZIzMBMuR0wnKhY5J/Nq05ZTIeWMb9YGCgzJSeix5uzSctlMx5a8tffK+xjifLR9GxEoT7zGAqp7hzY/SIdfZSXTxHThyUox2Hmn13YIHIG1+TW9OxClayJ7kgHVMJeMGM6N8fcfH3SydcxIuMLsfxqAX2wl205G2io/iQzvRrzb1OZNe3UJ2Q=
+X-Microsoft-Antispam-Message-Info: 7Kh2G6RTZR346nWMXycvtLV4w5YChnEbsoCKRAzwQxpPYfGc/SfvIjz3mos0M7meK8XTxPVCtdTGfqV8Ovy6Y7+Ux8fHKzB96s1AXFghe+zxWLQxL2+WXptJutm/wpBJ5DwxMIAWwAJhdlIvIpQILIGVUEWHV3B6UKqCSxkmCNIUn2xNGRplJCqzzNKciyfcItl3FnNNyIUduttHrmdoA/6TG1d9vrCnwnAPVK5R+7Fyk7KqbYQ30Z/hO0HlxpmRPjtMZZjc5CU5BoukrpVUUfnkcqFW/A34NaeIQgeX4bLccYF9ZKWV2pCnInOE6Cxa6vqraERkflzihWxf9HJgAW2n9oEAVsM4leBMRyGRmZ7DcT1McEyg9ayqUFfLOlIKs0FkX6U2xR5/HGD0AKF9we1fXi3cd83vU4iYrN8Gt0gNowv2C+TZPShhEJoLE/Xo1IStLPj6Vf+xGADUnWtx7nrehx/J4zXWyN0MfboYJfJosTLc9q5+Dk9wAOS2nhLgfCAlm7GcZsnog3ti7NMKYEbVFF9Ytj5Ot9VXzA/qlnE0iujIUEaTvbzRplAwn+YPeSbSE+THI9pYNls18Ub7vcZUybkHOHReCXoS5E51Nv32I/l5vFYc7Eh+GEE3JdQr
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eHFjcEk3OHNWNDhQNkh2VmpaZEw4cDI3V1pVNDJ3aW9maWpKaTNTWllscXgv?=
- =?utf-8?B?dzlzemhNM2FHTzF5dllIOXZ4Tmp6ZlJ4djQ3L0EzdjNJL1hWNVBuazNxUHlM?=
- =?utf-8?B?U3BMUWJqZGxBK1pCSUlJcDl5RWVMb1QvVUdRSTVQQ1pjcUpqQUZrQW9WZW92?=
- =?utf-8?B?Z0xpWGJQVmwvQkIva3RjL1NoN0hnSWo4aXZPaCtQQTZiMDNFNXhmUEtRd3F2?=
- =?utf-8?B?bzRiRzFSUzNDVFN6dmhFdEtNZ1JvdzN5L2RuOGJXRGRMQlhkS21MR1pSMFBh?=
- =?utf-8?B?Tm1PRk45L3hqOGtTUjNEM0pEQ0QwYUVBLzNnVEh1dXVlWG05QTYrNVlhNFhM?=
- =?utf-8?B?ME1xYUpHR0hwL0crTHJFYm5aSGI0RzJhMmRRbjluVTREOVB1bUE1WFY1UU5C?=
- =?utf-8?B?czFKZElBM3V0R0U0dGdkK1pwOFEvOXZhNUdqU05MOUFZWUJSYzIyem0rTTdF?=
- =?utf-8?B?L0MwNEJiUWovWWo2YWRTUDBBLytNZ3B3UFNtVzBQUGEzNUZjdXE2QnVEV25n?=
- =?utf-8?B?Mlo1eU83S01mTldWa0k3YWFia0wvazNoZXU4VTJwNnJxbXVxVVZYVVdKUzdJ?=
- =?utf-8?B?cVZPS2h1SnJseTRLMDdIUTJBOVJZQWlnRzZaRXZJc3NNWEcvd3I5Q3kwMCt0?=
- =?utf-8?B?aWtybnp4ajcrUFV4QUZ4ZnJzQnJQZWpWQks1dkh6ZGtOTWt4UmIvSExOWTZ0?=
- =?utf-8?B?Y3lBdjduR01nQ3QrcHNydlhmUk1SUi80NnZHZzF0T1NBeHJXNjhXUGpQYkUy?=
- =?utf-8?B?YllmSFNCejNLYUJTL1JkNnM5WCtqclhHQzJMbjRiazVMd2xvMVl2Sm5zS2hz?=
- =?utf-8?B?UFc0MExLU2s1b0RTOWY3c09vdXNLeFlnOWtheTRxbjZjUGNaem9RMGgxWEx6?=
- =?utf-8?B?Rk1JbUdZeWVySUR2QVZqRm5JQ0JKNTRYSXIxSk5Ea0FjQk9mZStsRS9idkZX?=
- =?utf-8?B?d1RLZ3RQQmI5YW1JNjJ1M2VldjBsQzV1OUxEcXhTWjQyMlRHcTdxQm9vR1Ew?=
- =?utf-8?B?QkVwVVB1enppb1ZEK29XTEliL0FGanVUb0txODQzQkxXVkJ2dm5CTEloRmlC?=
- =?utf-8?B?NVhSYnZDdkJURzZTUE5NcG9PQjIyUzh4QjZJK05odzFCNEdpOUM3UGRJenEr?=
- =?utf-8?B?SXRWSXdoR0FqRGp2WWVXOEpTcnJvbUdOcEpTZWZzMWZtZHh5bWsrWWRuelFV?=
- =?utf-8?B?bFZacE9lWURWKzQ5Y3F5MHhwZldRbXR3WmVsc3BIV0ZYd0oyV2ZjOXlLOUxZ?=
- =?utf-8?B?cmFwcis5ZE9WRXFINW1GNG9IR0V4bXVKbk1lbWJRODB6K3lCKzN3ZU5PWGNH?=
- =?utf-8?B?SlpUdDUyZEtqOStuM24zWG50QzZGWGF3a0tTbnRBU3J5NGgvSjVDdHhlMEhJ?=
- =?utf-8?B?cnlWalNzeFlXNVZJZDZOTlAzbHd5UEtPSk1MZ21BZXBHY3E0NnlmM2xrVm95?=
- =?utf-8?B?Qm5UUmJBaXR1YjZIa0dnU0llSXdIQlZyTzk0dnltSlA5c1ZSQ3laek1rbHlr?=
- =?utf-8?B?UHNiakZGOFk3WTNjQjBCNGFRb29nMW0rZnpOVXZ2eWFTMjgwMlFkemZWU2xJ?=
- =?utf-8?B?aktCWWNlald1QmN4TkdMZUVwZy82eWplQ29ESHhpSlVKTUZKb004LzZQcjNZ?=
- =?utf-8?Q?TxG1Hq0m4hJ3CkkWlql6dQBWXov0WvAU0Xy9Q5myDkYM=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aWpxSEViM0ZzVDRVY0VBSktFZnFnMlVaUEhub1I5a24zSFZZbTY4UmlXVExK?=
+ =?utf-8?B?SW1LdWt5ZHJwZjdpeU1xN1J6ZDhTUHdCcHJqVUVrdmRUc250OUM0UHAweGJP?=
+ =?utf-8?B?Z3lwR1k5UFZUd3YvN2pNSDAxNEFBdk00eHFoN1JXYmFOSnBoTmRjRm9LUEVP?=
+ =?utf-8?B?NC9XRk1lV1E0TW1VZHpFQ0JNZVRmajFNQ0QzRnJJbmFQeG9uUjFGNmRvbTR4?=
+ =?utf-8?B?Z1pDNkxqWEFzd0hXakdEaTRZM1FqZFAzUkdqdWNXN25aZGkvYzAwTEdId1kv?=
+ =?utf-8?B?RncxcUc1VkpuQ0w4TDhPbFZVNzNzaEZpbHltd0JQdmt5Ti9Zd29TQVJZVHRn?=
+ =?utf-8?B?cHpKMGI4MjVXMzI5ZDMzRE1acXZaOERtMEE5M3UxSlg3bmNUb09EdTRJTGFh?=
+ =?utf-8?B?WFFGbjE1TUdtZEZUYzJiUDVVc1Ezbzl2dGU1REhzSlFFT05JYTAwZ3BKR25W?=
+ =?utf-8?B?b0NWMGZTdUZ6bVNOaXRyVnR0eFB0cGFoRTgvejU3NTFVc0NpZ2MrY0Yyb1Fw?=
+ =?utf-8?B?S0FsZkcvdTlvaUpIS3Nja1lEUU5RQk5WUnBvU2dWUjlxTWpySDJRVlBtZm9m?=
+ =?utf-8?B?UnZ6eVNaR3V0c3lMdTE1N09DR3dHcDhxVnNXTDNvcjFWZS8welJIMEtUYnpM?=
+ =?utf-8?B?ZUdxY3M2T1VuV1Vwc3hGYmJvWjJaK1RPa24zQmtJRVZnTm9xM1IvcmpWMmFB?=
+ =?utf-8?B?Q29UakZ0UzN3UnJRMDVJWGNrNHROeXZPdG5NajA3RUx4TlRnajFleTdZWnFz?=
+ =?utf-8?B?UFRJMnR3eUM0YWR3eFZINmJuT3c0bXczaFNYMG8raGswakwxaFlzYVhHN01l?=
+ =?utf-8?B?YlkzM2JhbFdyczc3REhiUDhINm5QRHU1aGNqcURzWHVOdjB5Y1dYRkg3TVBQ?=
+ =?utf-8?B?N2t2QTBOeVh2RktsUGNma2twbGJodUJuY1BXTzEveHBhZWlibkkrdUVCKzBL?=
+ =?utf-8?B?M3FqYnppMWc0bDJlYjB0bkR6cFdBemNpcjJUYkErVE0zMUZTd0lWWUVxSGYw?=
+ =?utf-8?B?aUpkMy9PNlUyZC9hSVZaVmFBanE5bkg0YW1WaTBCdTgvUi9mTVJwNjRIZXBs?=
+ =?utf-8?B?UWM4QVpYSHRkbWtGTm1SaGhxb3pSclE0bDkvaVdwWGc3ZmFoUGoyZTN4S1A2?=
+ =?utf-8?B?QUJ1TDdjeDNiL1dYQ2hiWTNPbm1GLytWZmd0MzEvVjNXcTNNS0ZBd1BsckF5?=
+ =?utf-8?B?emw3aUwzcmNPSHhISnBTL0RJbU10Q3NIS0VhVUVNekxsNzZVZjhhbDI4Nmhw?=
+ =?utf-8?B?a1h3ZXhzdEdKeTZrS1hFaFdzMW5ONWJNb0hLcnNIUitBWlZrSHA3ZnUrakpi?=
+ =?utf-8?B?U3NISTNHTjQ3dmZxM1NEQnRwUkdtV1ZsMzZwRFJPeTVTUGFwZWtqN09GdHFR?=
+ =?utf-8?B?bzZwZ0MvTmR2RnQvaTJvems4YjJxT01wdjJFZTF2MWZKSy9hRm01NXlhZ0tp?=
+ =?utf-8?B?NFRWLzRQdjZydFVFSE92K0hhY3JWeG4wWXpZVTdlUDFqMEllclNMYWVJamtq?=
+ =?utf-8?B?QWEveVVnZ0FPalhEY1dkM1FBc3pUZmw1VjVUbXJjcDg0dS9rSUhsTEQrTkly?=
+ =?utf-8?B?aWRvZ1NhYk84UzVuYmVvUHpaRkdWaFdSL250L0VQSmhXTFpLbHNCdW94THEz?=
+ =?utf-8?Q?j+Dise4L+bNR4ESmMLs2BQidsOiTRSiLy93sbf5OwKfo=3D?=
 X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87fd4a6b-d511-4aa9-74d1-08dbf4b14765
+X-MS-Exchange-CrossTenant-Network-Message-Id: 782bd173-2b1b-4835-e1a6-08dbf4b1657a
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2023 10:10:45.0317 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2023 10:11:35.4773 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3864
-X-Mailman-Approved-At: Mon, 04 Dec 2023 10:39:22 +0000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR10MB6762
+X-Mailman-Approved-At: Mon, 04 Dec 2023 10:39:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,88 +118,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Danilo Krummrich <dakr@redhat.com>, Karol Herbst <kherbst@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">Op 4/12/2023 om 9:51 schreef Gert
+      Vanhaerents:<br>
+    </div>
+    <blockquote type="cite" cite="mid:AM7PR10MB39235076485E2E3905F422508E86A@AM7PR10MB3923.EURPRD10.PROD.OUTLOOK.COM">
+      
+      <p><br>
+      </p>
+      <div class="moz-cite-prefix">Op 2/12/2023 om 16:28 schreef Timur
+        Tabi:<br>
+      </div>
+      <blockquote type="cite" cite="mid:655a02097e9b49c2da7a2be60d7c154a48a916f4.camel@nvidia.com">
+        <pre class="moz-quote-pre" wrap="">On Sat, 2023-12-02 at 20:18 +0700, Bagas Sanjaya wrote:
+</pre>
+        <blockquote type="cite"> </blockquote>
+        <blockquote type="cite">
+          <blockquote type="cite">
+            <pre class="moz-quote-pre" wrap="">When i install the proprietary Nvidia drivers, i have the following:
 
-Op 2/12/2023 om 14:18 schreef Bagas Sanjaya:
-> On Thu, Nov 30, 2023 at 11:48:24AM +0100, Gert Vanhaerents wrote:
->> Hi Kernel list,
->> I'm the IT person of a school, earlier we used multiseatcomputers for the
->> school, i have maded with a XGL implementation and it works fine but not so
->> fantastic. The school wants that i build new computers but the XGL project
->> is too outdated so i can't use it anymore.
->>
->> How can i make a multiseatcomputer with more then one user on one card with
->> systemd? I have asked already to the makers of systemd but they said it's a
->> kernel problem.
->>
->> With Systemd loginctl and the nouveau drivers you have this:
->>
->> ─/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0
->>            │ [MASTER] drm:card0
->>            │
->> ├─/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0/card0-DVI-D-1
->>            │ │ [MASTER] drm:card0-DVI-D-1
->>            │
->> ├─/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0/card0-HDMI-A-1
->>            │ │ [MASTER] drm:card0-HDMI-A-1
->>            │
->> └─/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0/card0-VGA-1
->>            │   [MASTER] drm:card0-VGA-1
->> ├─/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/renderD128
->>            │ drm:renderD128
->> ├─/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/graphics/fb0
->>            │ graphics:fb0 "nouveaudrmfb"
->>
->> So it will be:
->>
->> loginctl attach seat1 /sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0/card0-VGA-1
->>
->> For the seat1 (the VGA d-sub output for seat1 and the other HDMI output for
->> seat0) and of course the mouse and keyboard.
->>
->> When you do this, all the graphics outputs are on the second seat (seat1)
->> and not anymore on the first seat. So i need to move only the VGA output to
->> seat1 and not all the outputs.
-> Do you expect that GUI output is on both seats?
+[MASTER] pci:0000:08:00.0
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; │ ├─/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; │ │ [MASTER] drm:card0
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; │
+└─/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/renderD128
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; │&nbsp;&nbsp; drm:renderD128
 
-I want the result that i have one seat (seat0) on the VGA/D-sub output 
-of the graphic card
+─/sys/devices/platform/efi-framebuffer.0/graphics/fb0
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; │ graphics:fb0 &quot;EFI VGA&quot;
 
-a second seat (seat1) on the HDMI output of the graphic card
+So no VGA, DVI or HDMI items.
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">Then report to the GitHub tracker [1].
 
-and a third seat (seat2) on the DVI output of the graphic card
+Thanks.
 
-In theory it should work with the following:
-loginctl attach seat1 
-/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0/card0-HDMI-A-1
+[1]: <a class="moz-txt-link-freetext" href="https://github.com/NVIDIA/open-gpu-kernel-modules/issues" moz-do-not-send="true">https://github.com/NVIDIA/open-gpu-kernel-modules/issues</a>
 
-loginctl attach seat2 
-/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0/card0-DVI-D-1
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">No, do NOT report this on the Github tracker!
 
-But when i do this all the outputs will be used on seat2 (because they 
-do all the outputs automaticly to the latest attached seat)
+That github tracker is ONLY for bugs that occur with OpenRM (the &quot;Open GPU
+Kernel Module&quot;) but not with the the proprietary driver.  If you have a bug
+with the the Nvidia proprietary driver, that must be reported on the Nvidia
+forum instead: 
 
-
->>
->> When i install the proprietary Nvidia drivers, i have the following:
->>
->> [MASTER] pci:0000:08:00.0
->>            │ ├─/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/card0
->>            │ │ [MASTER] drm:card0
->>            │
->> └─/sys/devices/pci0000:00/0000:00:03.1/0000:08:00.0/drm/renderD128
->>            │   drm:renderD128
->>
->> ─/sys/devices/platform/efi-framebuffer.0/graphics/fb0
->>            │ graphics:fb0 "EFI VGA"
->>
->> So no VGA, DVI or HDMI items.
-> Then report to the GitHub tracker [1].
->
-> Thanks.
->
-> [1]: https://github.com/NVIDIA/open-gpu-kernel-modules/issues
->
+<a class="moz-txt-link-freetext" href="https://forums.developer.nvidia.com/c/gpu-graphics/linux/148" moz-do-not-send="true">https://forums.developer.nvidia.com/c/gpu-graphics/linux/148</a>
+</pre>
+      </blockquote>
+      <p>OK&nbsp; i will report it to nvidia. But with the nouveau drivers
+        it's also not working. Are you sure it's not a kernel problem? <br>
+      </p>
+      <p><span class="HwtZe" lang="en"><span class="jCAhz ChMk0b"><span class="ryNqvb">Because according to systemd it would be a
+              kernel problem.&nbsp; (personaly i am also thinking it's a
+              driver problem)<br>
+            </span></span></span></p>
+      <blockquote type="cite" cite="mid:655a02097e9b49c2da7a2be60d7c154a48a916f4.camel@nvidia.com"> </blockquote>
+    </blockquote>
+  </body>
+</html>
