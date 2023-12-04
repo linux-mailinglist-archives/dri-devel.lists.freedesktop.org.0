@@ -1,50 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B60C2802CC4
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 09:10:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F160B802C08
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 08:28:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5560110E2CF;
-	Mon,  4 Dec 2023 08:09:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ABCC10E165;
+	Mon,  4 Dec 2023 07:28:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 37585 seconds by postgrey-1.36 at gabe;
- Mon, 04 Dec 2023 03:43:34 UTC
-Received: from zg8tmty3ljk5ljewns4xndka.icoremail.net
- (zg8tmty3ljk5ljewns4xndka.icoremail.net [167.99.105.149])
- by gabe.freedesktop.org (Postfix) with ESMTP id DDA0C10E09A;
- Mon,  4 Dec 2023 03:43:34 +0000 (UTC)
-Received: from luzhipeng.223.5.5.5 (unknown [60.186.191.128])
- by mail-app2 (Coremail) with SMTP id by_KCgCnrtbgSm1lZ41EAA--.54620S2;
- Mon, 04 Dec 2023 11:43:29 +0800 (CST)
-From: Zhipeng Lu <alexious@zju.edu.cn>
-To: alexious@zju.edu.cn
-Subject: [PATCH] drm/radeon/trinity_dpm: fix a memleak in
- trinity_parse_power_table
-Date: Mon,  4 Dec 2023 11:43:09 +0800
-Message-Id: <20231204034309.3290173-1-alexious@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2146810E165
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 07:28:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1F97860F13;
+ Mon,  4 Dec 2023 07:28:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71705C433C8;
+ Mon,  4 Dec 2023 07:28:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1701674903;
+ bh=eJKSep2QD7gJ/0nBUBeTc1a4h97UkN6mjcyAE28MOmA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=BiBzutVln1VIvwewH6Q8mLGqsvH33r9JMIlab6krzKGBBQ4gnZ9oo05jlAzeeV6zF
+ U6/lHP2lHnrolkNWLf0U/ss+OipChnH2ptuIZL1IH56UtIs5uRlb7HI4Pbpmfx2B3U
+ bmd56H7qNkkBlArbReoJmXnkWkVAojR4i4/vPceHbxnx58/sTHgvERdVx+rM54wTsK
+ /UFPIqF8zm6ysCpXga2EGhcHZ5Tw0UAheTt+iB9AgUVRGvftgjqPVY502sKV50J6m2
+ A/4yewRX/ZbfgUGLmoEbKwF0fo3fQgKYdicgaMzrDzJJtaq+pBjo2Ys2j4FB2eece+
+ GchdxQbbrQ0IQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH] drm/bridge: tc358768: select CONFIG_VIDEOMODE_HELPERS
+Date: Mon,  4 Dec 2023 08:27:36 +0100
+Message-Id: <20231204072814.968816-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: by_KCgCnrtbgSm1lZ41EAA--.54620S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Xr43Xw47WrWUuryDWry5CFg_yoWkXrb_Ga
- y8Z3s7Wryj9Fn5u3W8AFsxWrZakF1F9r48u3WftanYqFyIvrn7u392grnxX3sxGFs3AFyD
- AF18Wr43Zrn3WjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUb2AFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr1j
- 6rxdM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
- 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
- jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
- 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8GwCF
- 04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
- 18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vI
- r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
- 1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
- x4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU-miiUUUUU=
-X-CM-SenderInfo: qrsrjiarszq6lmxovvfxof0/
-X-Mailman-Approved-At: Mon, 04 Dec 2023 08:09:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,36 +51,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The rdev->pm.dpm.ps allocated by kcalloc should be freed in every
-following error-handling path. However, in the error-handling of
-rdev->pm.power_state[i].clock_info the rdev->pm.dpm.ps is not freed,
-resulting in a memleak in this function.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Fixes: d70229f70447 ("drm/radeon/kms: add dpm support for trinity asics")
-Signed-off-by: Zhipeng Lu <alexious@zju.edu.cn>
+A dependency on this feature was recently introduced:
+
+x86_64-linux-ld: vmlinux.o: in function `tc358768_bridge_pre_enable':
+tc358768.c:(.text+0xbe3dae): undefined reference to `drm_display_mode_to_videomode'
+
+Make sure this is always enabled.
+
+Fixes: e5fb21678136 ("drm/bridge: tc358768: Use struct videomode")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/gpu/drm/radeon/trinity_dpm.c | 1 +
+ drivers/gpu/drm/bridge/Kconfig | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/radeon/trinity_dpm.c b/drivers/gpu/drm/radeon/trinity_dpm.c
-index 08ea1c864cb2..8bf56fb7b933 100644
---- a/drivers/gpu/drm/radeon/trinity_dpm.c
-+++ b/drivers/gpu/drm/radeon/trinity_dpm.c
-@@ -1727,6 +1727,7 @@ static int trinity_parse_power_table(struct radeon_device *rdev)
- 		non_clock_info = (struct _ATOM_PPLIB_NONCLOCK_INFO *)
- 			&non_clock_info_array->nonClockInfo[non_clock_array_index];
- 		if (!rdev->pm.power_state[i].clock_info)
-+			kfree(rdev->pm.dpm.ps);
- 			return -EINVAL;
- 		ps = kzalloc(sizeof(struct sumo_ps), GFP_KERNEL);
- 		if (ps == NULL) {
+diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+index ba82a1142adf..3e6a4e2044c0 100644
+--- a/drivers/gpu/drm/bridge/Kconfig
++++ b/drivers/gpu/drm/bridge/Kconfig
+@@ -313,6 +313,7 @@ config DRM_TOSHIBA_TC358768
+ 	select REGMAP_I2C
+ 	select DRM_PANEL
+ 	select DRM_MIPI_DSI
++	select VIDEOMODE_HELPERS
+ 	help
+ 	  Toshiba TC358768AXBG/TC358778XBG DSI bridge chip driver.
+ 
 -- 
-2.34.1
+2.39.2
 
