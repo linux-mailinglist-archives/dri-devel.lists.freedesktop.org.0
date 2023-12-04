@@ -2,84 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B886E803F43
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 21:26:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A411803F44
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 21:26:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B13D410E3FC;
-	Mon,  4 Dec 2023 20:26:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73D1510E375;
+	Mon,  4 Dec 2023 20:26:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3742110E1CF;
- Mon,  4 Dec 2023 20:25:28 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3B4JxZT6028697; Mon, 4 Dec 2023 20:25:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=VoyLD+BBBgnkOe7m+0wyGjQqsPNxrHuUW5al5xZbTeg=;
- b=m9woum7ukhrKgy2DlbVkq2m+pO/zRkSoTjp2rBy2klcmFL8JYacLW70LiypX0MjSaxe+
- ORDAuC/8DKWmhkalXAUKTu2SA47IkuEPd0mc2rwoUdUrVJiGJSGBUkg1oTFYtbKqPEIN
- VeCLf4ejhodQk8ZLMYW0T1ezbKVXmSCvRqt9kP5OY+dCvBXtuMeP7JGAXvzaPst1BNY4
- h19w4vMysFfhbAPHPvH2pMs7L63NGP6OgbkK1xVAYvmqozBrhYJtBI6RIcxk1ZFSix4O
- N0dENhlm2jcdlu8D5N6nMqlXYevBZWAmEIi7GJPf/nvhHL0WwrM8T9hDS29ca1QPPZEF mQ== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3usjnqgfdc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 04 Dec 2023 20:25:18 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B4KPHqF006340
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 4 Dec 2023 20:25:17 GMT
-Received: from [10.71.109.77] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 4 Dec
- 2023 12:25:17 -0800
-Message-ID: <230fd6a4-c1d6-64af-1073-2effd5d44d8c@quicinc.com>
-Date: Mon, 4 Dec 2023 12:25:16 -0800
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F64410E3E0
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 20:25:31 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id
+ 38308e7fff4ca-2c9f099cf3aso34397561fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 12:25:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1701721530; x=1702326330; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=O4zwTB/miMPtSWCRzH5LYRAkGFmdPgzBkW3R45x59/A=;
+ b=N1Iybw1qtuM6oWIO+2BZKYrWB3zAnCPzY2UZsIsZUeMFhM1Ta7oo8nexlzvQe+f0Do
+ A8b5f7Si1uD4vkFwlKNkGSKVhRxUOZS+RMTXL0iV0sefuprJV8yLHGZgQVctzmDCfmLY
+ TasLIOBXf5oSeV3Co93h12XK6b6mmdpAbTwICqUPSbK/kkxaxVLCc/R1tdEKgva82lO7
+ Ws/N46Xhka+FkW8Q4cBF89Arl/a7Zf05jHQ9JQ8Pxy1tch0XnQRigui625x4Gra9dNhD
+ TrYu3LqK25SENOSFfXyYgTpMgcuvAj3M+k4jJvC1NJ8mgKHnQk7wZ0LBGo394DsZjmab
+ pw8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701721530; x=1702326330;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=O4zwTB/miMPtSWCRzH5LYRAkGFmdPgzBkW3R45x59/A=;
+ b=hDguWGjBFNr413nyHIodzwbL+vIoVcx7QqyGbjQ1i+wOjkFzBWmTgz11t1Ii01ap8w
+ Y9vRIeliQc7ZHH3LmA7b0E0iNKuzklZS5CNCRlVXMI4WfnpDtKBChaB10nLsXnR+nSHg
+ wYNgs0G3F22OAQQwGIL5FlMQc4QJeugZuxCHwN82gUixnw3fbNmHQcMAES8oWtLR6cuF
+ iMr8ygUCNhCOdT9kdcv6/y3V23DCRERyxznbEkBfk8bd/etJ1KY/AAYWTo8tUrUQwRz4
+ elJw2qz/SdVlZ079eO6YNyA72pZqKGWNVRuvm2PlIFIsJEaKhv3/Jn5YPfgKYMdJdofL
+ Y3vA==
+X-Gm-Message-State: AOJu0Yz1d/GZbdFTOWWPGU5oWfFcorQwu6kotD6WcxbdLRyNU/qFabtc
+ M+ljJNTBiA9qcb5bwk+GVW8=
+X-Google-Smtp-Source: AGHT+IHghfI/wepGC1I4yJLErrynLmDWoNAeInmFJJD7a8PBE9bsHDIMPexR8UEVinabv/Xruuf+Ew==
+X-Received: by 2002:a05:6512:2343:b0:50b:fcd6:cb10 with SMTP id
+ p3-20020a056512234300b0050bfcd6cb10mr904083lfu.130.1701721529711; 
+ Mon, 04 Dec 2023 12:25:29 -0800 (PST)
+Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
+ by smtp.gmail.com with ESMTPSA id
+ f4-20020a056402150400b0054c9df4317dsm180568edw.7.2023.12.04.12.25.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Dec 2023 12:25:29 -0800 (PST)
+Message-ID: <bdda61be-8e02-36f5-6261-37d4b75278ba@gmail.com>
+Date: Mon, 4 Dec 2023 21:25:27 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [Freedreno] [PATCH next] drm/msm/dp: add a missing unlock in
- dp_hpd_plug_handle()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v1 3/3] ARM: dts: rockchip: rk3036-kylin: add
+ hdmi-connector node
 Content-Language: en-US
-To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>, Rob Clark
- <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- "Sean Paul" <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- "David Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Bjorn
- Andersson <quic_bjorande@quicinc.com>, Kuogee Hsieh
- <quic_khsieh@quicinc.com>, "Vinod Polimera" <quic_vpolimer@quicinc.com>,
- Stephen Boyd <swboyd@chromium.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-References: <20231204171317.192427-1-harshit.m.mogalapalli@oracle.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20231204171317.192427-1-harshit.m.mogalapalli@oracle.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: f2EGCVjZ2PkGJvnv8FbQ_bzpg_EP3lOK
-X-Proofpoint-GUID: f2EGCVjZ2PkGJvnv8FbQ_bzpg_EP3lOK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-04_18,2023-12-04_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- lowpriorityscore=0 clxscore=1011 mlxscore=0 suspectscore=0
- priorityscore=1501 spamscore=0 impostorscore=0 mlxlogscore=999
- phishscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2311060000 definitions=main-2312040159
+To: Alex Bee <knaerzche@gmail.com>, heiko@sntech.de, hjc@rock-chips.com
+References: <49c6afec-022f-02de-99a0-d409b64da198@gmail.com>
+ <f5bc182b-f9b6-26a8-8649-19ce33e3c0e1@gmail.com>
+ <447b1bde-584f-4eb4-8bfb-9abd3aa8b6fa@gmail.com>
+From: Johan Jonker <jbx6244@gmail.com>
+In-Reply-To: <447b1bde-584f-4eb4-8bfb-9abd3aa8b6fa@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,23 +79,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, error27@gmail.com,
- dan.carpenter@linaro.org
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, tzimmermann@suse.de,
+ krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
+ mripard@kernel.org, linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Alex, Heiko,
+
+On 12/4/23 20:12, Alex Bee wrote:
+> Hi Johan,
+> Am 04.12.23 um 18:40 schrieb Johan Jonker:
+>> Add hdmi-connector node to comply with the inno_hdmi binding.
+>>
+>> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+>> ---
+>>   arch/arm/boot/dts/rockchip/rk3036-kylin.dts | 17 +++++++++++++++++
+>>   1 file changed, 17 insertions(+)
+>>
+>> diff --git a/arch/arm/boot/dts/rockchip/rk3036-kylin.dts b/arch/arm/boot/dts/rockchip/rk3036-kylin.dts
+>> index 67e1e04139e7..a213333be011 100644
+>> --- a/arch/arm/boot/dts/rockchip/rk3036-kylin.dts
+>> +++ b/arch/arm/boot/dts/rockchip/rk3036-kylin.dts
+>> @@ -13,6 +13,17 @@ memory@60000000 {
+>>           reg = <0x60000000 0x20000000>;
+>>       };
+>>
+>> +    hdmi_con: hdmi-con {
+>> +        compatible = "hdmi-connector";
+>> +        type = "c";
 
 
-On 12/4/2023 9:13 AM, Harshit Mogalapalli wrote:
-> When pm_runtime_resume_and_get() fails, unlock before returning.
+> According to [0], kylin has an A-Type HDMI port - so this should be
+>  +        type = "a";
+> > [0] http://rockchip.wikidot.com/kylin
+
+Not sure from the text or do I miss something...
+
+I did look at that board picture before submitting.
+Can be wrong, but to me it looks a smaller HDMI connector.
+
+Does anyone have a Kylin picture from a different angle?
+Or reference design?
+
+Else apply and fix later? (Heiko ?)
+Let me know.
+
+Johan
+
 > 
-> Fixes: 5814b8bf086a ("drm/msm/dp: incorporate pm_runtime framework into DP driver")
-> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-> ---
-> This is based on static analysis with Smatch. Only compile tested.
-> ---
->   drivers/gpu/drm/msm/dp/dp_display.c | 1 +
->   1 file changed, 1 insertion(+)
+> Regards,
+> Alex
+>> +
+>> +        port {
+>> +            hdmi_con_in: endpoint {
+>> +                remote-endpoint = <&hdmi_out_con>;
+>> +            };
+>> +        };
+>> +    };
+>> +
+>>       leds: gpio-leds {
+>>           compatible = "gpio-leds";
+>>
+>> @@ -110,6 +121,12 @@ &hdmi {
+>>       status = "okay";
+>>   };
+>>
+>> +&hdmi_out {
+>> +    hdmi_out_con: endpoint {
+>> +        remote-endpoint = <&hdmi_con_in>;
+>> +    };
+>> +};
+>> +
+>>   &i2c1 {
+>>       clock-frequency = <400000>;
+>>
+>> -- 
+>> 2.39.2
+>>
+>>
+>> _______________________________________________
+>> Linux-rockchip mailing list
+>> Linux-rockchip@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-rockchip
 > 
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
