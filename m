@@ -1,38 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F00A803A5E
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 17:35:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 009AF803A7E
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 17:37:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDB4510E331;
-	Mon,  4 Dec 2023 16:34:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F135F10E20D;
+	Mon,  4 Dec 2023 16:37:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id CB63B10E369
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 16:34:56 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8030F152B;
- Mon,  4 Dec 2023 08:35:43 -0800 (PST)
-Received: from [10.57.74.48] (unknown [10.57.74.48])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC8CF3F6C4;
- Mon,  4 Dec 2023 08:34:53 -0800 (PST)
-Message-ID: <8f7d0a66-c491-4fa4-87fe-0fd6b72509a8@arm.com>
-Date: Mon, 4 Dec 2023 16:34:55 +0000
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B46510E20D;
+ Mon,  4 Dec 2023 16:37:27 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3B4AxtPs025451; Mon, 4 Dec 2023 16:37:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=2KYHZIM0ro/S3fcG//sjPiR3OEr9i78CAmN+1pzDrwg=;
+ b=Gd50i228LTL0h+7LUeSA5S49YOjw1IX+CdtFKtO8bKD7MnWqH5qZ+JIDTuaT8ZYwiKHV
+ u8Z2Lz+G7DhN0f31LWYEafwcjtYZUyAWF2trIoD0zYGVb0gT1tZpUH/OMemF77nw6l4U
+ rMKbJAKEoVoMqOJBkMsJDW0uNUJMV8zULBgyG6CUuzg9lL2IAnM3udk6+QrfXNmjvzOw
+ P0fTSlWOzIFGmVVuB8/s0FJNbqQ82LYMw5qr2Kfi9+2i7mp70jjqUTAKa6ejrMYtNA3T
+ IeI48l5y+HnYNE3Z/95gRJXllcE18kwmfp/3P81Frc/lawze4OL2Fpts9Kga5PbeBjG1 /Q== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3usdfwgwrd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 04 Dec 2023 16:37:21 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B4GbKLC007033
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 4 Dec 2023 16:37:20 GMT
+Received: from [10.110.101.236] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 4 Dec
+ 2023 08:37:18 -0800
+Message-ID: <1086300a-2c8e-f897-a0d7-84d36276a6b6@quicinc.com>
+Date: Mon, 4 Dec 2023 08:37:11 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] drm/panfrost: Synchronize and disable interrupts
- before powering off
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- boris.brezillon@collabora.com
-References: <20231204114215.54575-1-angelogioacchino.delregno@collabora.com>
- <20231204114215.54575-4-angelogioacchino.delregno@collabora.com>
-Content-Language: en-GB
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20231204114215.54575-4-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v1] drm/msm/dpu: improve DSC allocation
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <1701289898-12235-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAA8EJpqX0AWmLMrNo23cfsnU5q0ySDUkb1XTGwaxGt0eTPkLpg@mail.gmail.com>
+Content-Language: en-US
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAA8EJpqX0AWmLMrNo23cfsnU5q0ySDUkb1XTGwaxGt0eTPkLpg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 83FSNebuu8chhtoa8Tg-k89lBZpnnUgI
+X-Proofpoint-ORIG-GUID: 83FSNebuu8chhtoa8Tg-k89lBZpnnUgI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-04_15,2023-12-04_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ mlxlogscore=878 mlxscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0
+ priorityscore=1501 phishscore=0 spamscore=0 malwarescore=0 clxscore=1015
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2312040126
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,279 +83,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, linux-kernel@vger.kernel.org, mripard@kernel.org,
- krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
- kernel@collabora.com, m.szyprowski@samsung.com
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/12/2023 11:42, AngeloGioacchino Del Regno wrote:
-> To make sure that we don't unintentionally perform any unclocked and/or
-> unpowered R/W operation on GPU registers, before turning off clocks and
-> regulators we must make sure that no GPU, JOB or MMU ISR execution is
-> pending: doing that requires to add a mechanism to synchronize the
-> interrupts on suspend.
-> 
-> Add functions panfrost_{gpu,job,mmu}_suspend_irq() which will perform
-> interrupts masking and ISR execution synchronization, and then call
-> those in the panfrost_device_runtime_suspend() handler in the exact
-> sequence of job (may require mmu!) -> mmu -> gpu.
-> 
-> As a side note, JOB and MMU suspend_irq functions needed some special
-> treatment: as their interrupt handlers will unmask interrupts, it was
-> necessary to add an `is_suspended` bitmap which is used to address the
-> possible corner case of unintentional IRQ unmasking because of ISR
-> execution after a call to synchronize_irq().
-> 
-> At resume, clear each is_suspended bit in the reset path of JOB/MMU
-> to allow unmasking the interrupts.
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Reviewed-by: Steven Price <steven.price@arm.com>
-
-Thanks,
-
-Steve
-
-> ---
->  drivers/gpu/drm/panfrost/panfrost_device.c |  3 +++
->  drivers/gpu/drm/panfrost/panfrost_device.h |  8 +++++++
->  drivers/gpu/drm/panfrost/panfrost_gpu.c    | 18 +++++++++++++--
->  drivers/gpu/drm/panfrost/panfrost_gpu.h    |  1 +
->  drivers/gpu/drm/panfrost/panfrost_job.c    | 26 ++++++++++++++++++----
->  drivers/gpu/drm/panfrost/panfrost_job.h    |  1 +
->  drivers/gpu/drm/panfrost/panfrost_mmu.c    | 22 +++++++++++++++---
->  drivers/gpu/drm/panfrost/panfrost_mmu.h    |  1 +
->  8 files changed, 71 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-> index c90ad5ee34e7..a45e4addcc19 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-> @@ -421,6 +421,9 @@ static int panfrost_device_runtime_suspend(struct device *dev)
->  		return -EBUSY;
->  
->  	panfrost_devfreq_suspend(pfdev);
-> +	panfrost_job_suspend_irq(pfdev);
-> +	panfrost_mmu_suspend_irq(pfdev);
-> +	panfrost_gpu_suspend_irq(pfdev);
->  	panfrost_gpu_power_off(pfdev);
->  
->  	return 0;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-> index 54a8aad54259..62f7e3527385 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-> @@ -25,6 +25,13 @@ struct panfrost_perfcnt;
->  #define NUM_JOB_SLOTS 3
->  #define MAX_PM_DOMAINS 5
->  
-> +enum panfrost_drv_comp_bits {
-> +	PANFROST_COMP_BIT_GPU,
-> +	PANFROST_COMP_BIT_JOB,
-> +	PANFROST_COMP_BIT_MMU,
-> +	PANFROST_COMP_BIT_MAX
-> +};
-> +
->  /**
->   * enum panfrost_gpu_pm - Supported kernel power management features
->   * @GPU_PM_CLK_DIS:  Allow disabling clocks during system suspend
-> @@ -109,6 +116,7 @@ struct panfrost_device {
->  
->  	struct panfrost_features features;
->  	const struct panfrost_compatible *comp;
-> +	DECLARE_BITMAP(is_suspended, PANFROST_COMP_BIT_MAX);
->  
->  	spinlock_t as_lock;
->  	unsigned long as_in_use_mask;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> index 7adc4441fa14..9063ce254642 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-> @@ -22,9 +22,13 @@
->  static irqreturn_t panfrost_gpu_irq_handler(int irq, void *data)
->  {
->  	struct panfrost_device *pfdev = data;
-> -	u32 state = gpu_read(pfdev, GPU_INT_STAT);
-> -	u32 fault_status = gpu_read(pfdev, GPU_FAULT_STATUS);
-> +	u32 fault_status, state;
->  
-> +	if (test_bit(PANFROST_COMP_BIT_GPU, pfdev->is_suspended))
-> +		return IRQ_NONE;
-> +
-> +	fault_status = gpu_read(pfdev, GPU_FAULT_STATUS);
-> +	state = gpu_read(pfdev, GPU_INT_STAT);
->  	if (!state)
->  		return IRQ_NONE;
->  
-> @@ -61,6 +65,8 @@ int panfrost_gpu_soft_reset(struct panfrost_device *pfdev)
->  	gpu_write(pfdev, GPU_INT_MASK, 0);
->  	gpu_write(pfdev, GPU_INT_CLEAR, GPU_IRQ_RESET_COMPLETED);
->  
-> +	clear_bit(PANFROST_COMP_BIT_GPU, pfdev->is_suspended);
-> +
->  	gpu_write(pfdev, GPU_CMD, GPU_CMD_SOFT_RESET);
->  	ret = readl_relaxed_poll_timeout(pfdev->iomem + GPU_INT_RAWSTAT,
->  		val, val & GPU_IRQ_RESET_COMPLETED, 10, 10000);
-> @@ -452,6 +458,14 @@ void panfrost_gpu_power_off(struct panfrost_device *pfdev)
->  		dev_err(pfdev->dev, "l2 power transition timeout");
->  }
->  
-> +void panfrost_gpu_suspend_irq(struct panfrost_device *pfdev)
-> +{
-> +	set_bit(PANFROST_COMP_BIT_GPU, pfdev->is_suspended);
-> +
-> +	gpu_write(pfdev, GPU_INT_MASK, 0);
-> +	synchronize_irq(pfdev->gpu_irq);
-> +}
-> +
->  int panfrost_gpu_init(struct panfrost_device *pfdev)
->  {
->  	int err;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.h b/drivers/gpu/drm/panfrost/panfrost_gpu.h
-> index 876fdad9f721..d841b86504ea 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.h
-> @@ -15,6 +15,7 @@ u32 panfrost_gpu_get_latest_flush_id(struct panfrost_device *pfdev);
->  int panfrost_gpu_soft_reset(struct panfrost_device *pfdev);
->  void panfrost_gpu_power_on(struct panfrost_device *pfdev);
->  void panfrost_gpu_power_off(struct panfrost_device *pfdev);
-> +void panfrost_gpu_suspend_irq(struct panfrost_device *pfdev);
->  
->  void panfrost_cycle_counter_get(struct panfrost_device *pfdev);
->  void panfrost_cycle_counter_put(struct panfrost_device *pfdev);
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index f9446e197428..0c2dbf6ef2a5 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -405,6 +405,8 @@ void panfrost_job_enable_interrupts(struct panfrost_device *pfdev)
->  	int j;
->  	u32 irq_mask = 0;
->  
-> +	clear_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended);
-> +
->  	for (j = 0; j < NUM_JOB_SLOTS; j++) {
->  		irq_mask |= MK_JS_MASK(j);
->  	}
-> @@ -413,6 +415,14 @@ void panfrost_job_enable_interrupts(struct panfrost_device *pfdev)
->  	job_write(pfdev, JOB_INT_MASK, irq_mask);
->  }
->  
-> +void panfrost_job_suspend_irq(struct panfrost_device *pfdev)
-> +{
-> +	set_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended);
-> +
-> +	job_write(pfdev, JOB_INT_MASK, 0);
-> +	synchronize_irq(pfdev->js->irq);
-> +}
-> +
->  static void panfrost_job_handle_err(struct panfrost_device *pfdev,
->  				    struct panfrost_job *job,
->  				    unsigned int js)
-> @@ -792,17 +802,25 @@ static irqreturn_t panfrost_job_irq_handler_thread(int irq, void *data)
->  	struct panfrost_device *pfdev = data;
->  
->  	panfrost_job_handle_irqs(pfdev);
-> -	job_write(pfdev, JOB_INT_MASK,
-> -		  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
-> -		  GENMASK(NUM_JOB_SLOTS - 1, 0));
-> +
-> +	/* Enable interrupts only if we're not about to get suspended */
-> +	if (!test_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended))
-> +		job_write(pfdev, JOB_INT_MASK,
-> +			  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
-> +			  GENMASK(NUM_JOB_SLOTS - 1, 0));
-> +
->  	return IRQ_HANDLED;
->  }
->  
->  static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
->  {
->  	struct panfrost_device *pfdev = data;
-> -	u32 status = job_read(pfdev, JOB_INT_STAT);
-> +	u32 status;
-> +
-> +	if (test_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended))
-> +		return IRQ_NONE;
->  
-> +	status = job_read(pfdev, JOB_INT_STAT);
->  	if (!status)
->  		return IRQ_NONE;
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
-> index 17ff808dba07..ec581b97852b 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
-> @@ -47,6 +47,7 @@ int panfrost_job_get_slot(struct panfrost_job *job);
->  int panfrost_job_push(struct panfrost_job *job);
->  void panfrost_job_put(struct panfrost_job *job);
->  void panfrost_job_enable_interrupts(struct panfrost_device *pfdev);
-> +void panfrost_job_suspend_irq(struct panfrost_device *pfdev);
->  int panfrost_job_is_idle(struct panfrost_device *pfdev);
->  
->  #endif
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> index ac4296c1e54b..f38385fe76bb 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> @@ -231,6 +231,8 @@ void panfrost_mmu_reset(struct panfrost_device *pfdev)
->  {
->  	struct panfrost_mmu *mmu, *mmu_tmp;
->  
-> +	clear_bit(PANFROST_COMP_BIT_MMU, pfdev->is_suspended);
-> +
->  	spin_lock(&pfdev->as_lock);
->  
->  	pfdev->as_alloc_mask = 0;
-> @@ -670,6 +672,9 @@ static irqreturn_t panfrost_mmu_irq_handler(int irq, void *data)
->  {
->  	struct panfrost_device *pfdev = data;
->  
-> +	if (test_bit(PANFROST_COMP_BIT_MMU, pfdev->is_suspended))
-> +		return IRQ_NONE;
-> +
->  	if (!mmu_read(pfdev, MMU_INT_STAT))
->  		return IRQ_NONE;
->  
-> @@ -744,9 +749,12 @@ static irqreturn_t panfrost_mmu_irq_handler_thread(int irq, void *data)
->  			status = mmu_read(pfdev, MMU_INT_RAWSTAT) & ~pfdev->as_faulty_mask;
->  	}
->  
-> -	spin_lock(&pfdev->as_lock);
-> -	mmu_write(pfdev, MMU_INT_MASK, ~pfdev->as_faulty_mask);
-> -	spin_unlock(&pfdev->as_lock);
-> +	/* Enable interrupts only if we're not about to get suspended */
-> +	if (!test_bit(PANFROST_COMP_BIT_MMU, pfdev->is_suspended)) {
-> +		spin_lock(&pfdev->as_lock);
-> +		mmu_write(pfdev, MMU_INT_MASK, ~pfdev->as_faulty_mask);
-> +		spin_unlock(&pfdev->as_lock);
-> +	}
->  
->  	return IRQ_HANDLED;
->  };
-> @@ -777,3 +785,11 @@ void panfrost_mmu_fini(struct panfrost_device *pfdev)
->  {
->  	mmu_write(pfdev, MMU_INT_MASK, 0);
->  }
-> +
-> +void panfrost_mmu_suspend_irq(struct panfrost_device *pfdev)
-> +{
-> +	set_bit(PANFROST_COMP_BIT_MMU, pfdev->is_suspended);
-> +
-> +	mmu_write(pfdev, MMU_INT_MASK, 0);
-> +	synchronize_irq(pfdev->mmu_irq);
-> +}
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.h b/drivers/gpu/drm/panfrost/panfrost_mmu.h
-> index cc2a0d307feb..022a9a74a114 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.h
-> @@ -14,6 +14,7 @@ void panfrost_mmu_unmap(struct panfrost_gem_mapping *mapping);
->  int panfrost_mmu_init(struct panfrost_device *pfdev);
->  void panfrost_mmu_fini(struct panfrost_device *pfdev);
->  void panfrost_mmu_reset(struct panfrost_device *pfdev);
-> +void panfrost_mmu_suspend_irq(struct panfrost_device *pfdev);
->  
->  u32 panfrost_mmu_as_get(struct panfrost_device *pfdev, struct panfrost_mmu *mmu);
->  void panfrost_mmu_as_put(struct panfrost_device *pfdev, struct panfrost_mmu *mmu);
-
+On 11/29/2023 7:57 PM, Dmitry Baryshkov wrote:
+> On Wed, 29 Nov 2023 at 22:31, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>> A DCE (Display Compression Engine) contains two DSC hard slice encoders.
+>> Each DCE start with even DSC encoder index followed by an odd DSC encoder
+>> index. Each encoder can work independently. But Only two DSC encoders from
+>> same DCE can be paired to work together to support merge mode. In addition,
+>> the DSC with even index have to mapping to even pingpong index and DSC with
+>> odd index have to mapping to odd pingpong index at its data path. This patch
+>> improve DSC allocation mechanism with consideration of above factors.
+> Is this applicable to old DSC 1.1 encoders?
+yes, this algorithm should work with V1 too
+>
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 94 +++++++++++++++++++++++++++++-----
+>>   1 file changed, 82 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>> index f9215643..427d70d 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+>> @@ -466,24 +466,94 @@ static int _dpu_rm_reserve_dsc(struct dpu_rm *rm,
+>>                                 struct drm_encoder *enc,
+>>                                 const struct msm_display_topology *top)
+>>   {
+>> -       int num_dsc = top->num_dsc;
+>> -       int i;
+>> +       int num_dsc = 0;
+>> +       int i, pp_idx;
+>> +       bool pair = false;
+>> +       int dsc_idx[DSC_MAX - DSC_0];
+>> +       uint32_t pp_to_enc_id[PINGPONG_MAX - PINGPONG_0];
+>> +       int pp_max = PINGPONG_MAX - PINGPONG_0;
+>> +
+>> +       if (!top->num_dsc || !top->num_intf)
+>> +               return 0;
+>> +
+>> +       /*
+>> +        * Truth:
+>> +        * 1) every layer mixer only connects to one pingpong
+>> +        * 2) no pingpong split -- two layer mixers shared one pingpong
+>> +        * 3) each DSC engine contains two dsc encoders
+>> +        *    -- index(0,1), index (2,3),... etc
+>> +        * 4) dsc pair can only happens with same DSC engine except 4 dsc
+>> +        *    merge mode application (8k) which need two DSC engines
+>> +        * 5) odd pingpong connect to odd dsc
+>> +        * 6) even pingpong connect even dsc
+>> +        */
+>> +
+>> +       /* num_dsc should be either 1, 2 or 4 */
+>> +       if (top->num_dsc > top->num_intf)       /* merge mode */
+>> +               pair = true;
+>> +
+>> +       /* fill working copy with pingpong list */
+>> +       memcpy(pp_to_enc_id, global_state->pingpong_to_enc_id, sizeof(pp_to_enc_id));
+>> +
+>> +       for (i = 0; i < ARRAY_SIZE(rm->dsc_blks); i++) {
+> && num_dsc < top->num_dsc
+>
+>> +               if (!rm->dsc_blks[i])   /* end of dsc list */
+>> +                       break;
+> I'd say, it's `continue' instead, let's just skip the index.
+>
+>> -       /* check if DSC required are allocated or not */
+>> -       for (i = 0; i < num_dsc; i++) {
+>> -               if (!rm->dsc_blks[i]) {
+>> -                       DPU_ERROR("DSC %d does not exist\n", i);
+>> -                       return -EIO;
+>> +               if (global_state->dsc_to_enc_id[i]) {   /* used */
+>> +                       /* consective dsc index to be paired */
+>> +                       if (pair && num_dsc) {  /* already start pairing, re start */
+>> +                               num_dsc = 0;
+>> +                               /* fill working copy with pingpong list */
+>> +                               memcpy(pp_to_enc_id, global_state->pingpong_to_enc_id,
+>> +                                                               sizeof(pp_to_enc_id));
+>> +                       }
+>> +                       continue;
+>>                  }
+>>
+>> -               if (global_state->dsc_to_enc_id[i]) {
+>> -                       DPU_ERROR("DSC %d is already allocated\n", i);
+>> -                       return -EIO;
+>> +               /* odd index can not become start of pairing */
+>> +               if (pair && (i & 0x01) && !num_dsc)
+>> +                       continue;
+> After looking at all conditions, can we have two different helpers?
+> One which allocates a single DSC and another one which allocates a
+> pair. For the pair you can skip odd indices at all and just check if
+> DSC_i and DSC_i+1 are free.
+>
+>> +
+>> +               /*
+>> +                * find the pingpong index which had been reserved
+>> +                * previously at layer mixer allocation
+>> +                */
+>> +               for (pp_idx = 0; pp_idx < pp_max; pp_idx++) {
+>> +                       if (pp_to_enc_id[pp_idx] == enc->base.id)
+>> +                               break;
+>>                  }
+>> +
+>> +               /*
+>> +                * dsc even index must map to pingpong even index
+>> +                * dsc odd index must map to pingpong odd index
+>> +                */
+>> +               if ((i & 0x01) != (pp_idx & 0x01))
+>> +                       continue;
+>> +
+>> +               /*
+>> +                * delete pp_idx so that it can not be found at next search
+>> +                * in the case of pairing
+>> +                */
+>> +               pp_to_enc_id[pp_idx] = NULL;
+>> +
+>> +               dsc_idx[num_dsc++] = i;
+>> +               if (num_dsc >= top->num_dsc)
+>> +                       break;
+>>          }
+>>
+>> -       for (i = 0; i < num_dsc; i++)
+>> -               global_state->dsc_to_enc_id[i] = enc->base.id;
+>> +       if (num_dsc < top->num_dsc) {
+>> +               DPU_ERROR("DSC allocation failed num_dsc=%d required=%d\n",
+>> +                                               num_dsc, top->num_dsc );
+>> +               return -ENAVAIL;
+>> +       }
+>> +
+>> +       /* reserve dsc */
+>> +       for (i = 0; i < top->num_dsc; i++) {
+>> +               int j;
+>> +
+>> +               j = dsc_idx[i];
+>> +               global_state->dsc_to_enc_id[j] = enc->base.id;
+>> +       }
+>>
+>>          return 0;
+>>   }
+>> --
+>> 2.7.4
+>>
+>
