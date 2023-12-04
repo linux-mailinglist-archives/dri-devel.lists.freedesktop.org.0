@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69135802DBF
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 10:01:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FD4980309E
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 11:39:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FDD910E2FB;
-	Mon,  4 Dec 2023 09:01:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB71D10E30A;
+	Mon,  4 Dec 2023 10:39:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F01EA10E0AA;
- Mon,  4 Dec 2023 09:00:49 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3E73760F51;
- Mon,  4 Dec 2023 09:00:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92DF7C433C8;
- Mon,  4 Dec 2023 09:00:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701680441;
- bh=NHppATTzdQBKuC3hOQxnsiBMV4fyRqrL8p5HNiVQcps=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oWgSsA9rji0i+syjJ1FMaR5URFRP6mcka0q1wHVgE7RPFcqSxof/st2w8qfn0a6qG
- 3mvlHegu1S2+fVaP5C2pXSgYn8pLTO8AOcE3SRZmxwTX5DkRjPyhyVFINZ0SMd/V14
- xlP8VOeOQ6jlAWE+9Zx0NcTgNqTYq78Kpug5b5ko0pAZHZtH/UbP7ZaHqadee4LBIZ
- Qb+sZzzsfS8KYypN8WQMRUaKhyibq3xf+Q3gPgbn0gNjnTvpaPzDXj/8nXcENnVoPe
- /b+A72Ozx49IoCiOighJzQy3rbKlgVPzuwoCrrpGPZsqQi6jNGbH6wmV9dMMwJylMN
- rQff2873D5alw==
-Date: Mon, 4 Dec 2023 10:00:39 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: (subset) [PATCH RFC v7 00/10] Support for Solid Fill Planes
-Message-ID: <hinlseiuf2l4y2tbaoasx7slaoewnoil2fitavgarrekxhhzte@zood7lj6sbn5>
-References: <20231027-solid-fill-v7-0-780188bfa7b2@quicinc.com>
- <170155324921.2215646.4829699354481827834.b4-ty@linaro.org>
- <OiX1EToyQ0JBECS-Vs6IOw1vqLTt42PYkTlTCBhsPUi-VXC2UoLjkRfEW-OFucxsTqz93Q3IIXZZ3Lw_Lqs1dFt4YbuFSUGrKfDPnnKDCbw=@emersion.fr>
- <CAA8EJpom-guy0p_u2kLhXgLZnJaVXCXaHAUGhv2EH=xyrHtL6A@mail.gmail.com>
+X-Greylist: delayed 55793 seconds by postgrey-1.36 at gabe;
+ Mon, 04 Dec 2023 08:47:01 UTC
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net
+ [52.237.72.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4064310E17C;
+ Mon,  4 Dec 2023 08:47:00 +0000 (UTC)
+Received: from alexious$zju.edu.cn ( [124.90.105.255] ) by
+ ajax-webmail-mail-app4 (Coremail) ; Mon, 4 Dec 2023 16:46:54 +0800
+ (GMT+08:00)
+X-Originating-IP: [124.90.105.255]
+Date: Mon, 4 Dec 2023 16:46:54 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: alexious@zju.edu.cn
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: Re: Re: [PATCH] drm/radeon/dpm: fix a memleak in
+ sumo_parse_power_table
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.2-cmXT5 build
+ 20230825(e13b6a3b) Copyright (c) 2002-2023 www.mailtech.cn
+ mispb-4df6dc2c-e274-4d1c-b502-72c5c3dfa9ce-zj.edu.cn
+In-Reply-To: <b1fa2827-61fb-4594-8f80-e5083be8d5fa@amd.com>
+References: <20231203171643.3287229-1-alexious@zju.edu.cn>
+ <b1fa2827-61fb-4594-8f80-e5083be8d5fa@amd.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="d7zlmb36ttt6m7sm"
-Content-Disposition: inline
-In-Reply-To: <CAA8EJpom-guy0p_u2kLhXgLZnJaVXCXaHAUGhv2EH=xyrHtL6A@mail.gmail.com>
+Message-ID: <7a726f38.19f2f.18c340249f7.Coremail.alexious@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cS_KCgDHzTX_kW1lKXdIAA--.13484W
+X-CM-SenderInfo: qrsrjiarszq6lmxovvfxof0/1tbiAgUTAGVsUQg1KAABsY
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
+X-Mailman-Approved-At: Mon, 04 Dec 2023 10:39:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,68 +55,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Sebastian Wick <sebastian@sebastianwick.net>,
- laurent.pinchart@ideasonboard.com,
- Marijn Suijten <marijn.suijten@somainline.org>, sebastian.wick@redhat.com,
- wayland-devel@lists.freedesktop.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
- linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com, ppaalanen@gmail.com,
- Sean Paul <sean@poorly.run>, Pekka Paalanen <pekka.paalanen@collabora.com>,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- freedreno@lists.freedesktop.org
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Jerome Glisse <jglisse@redhat.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---d7zlmb36ttt6m7sm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, Dec 03, 2023 at 08:10:31PM +0200, Dmitry Baryshkov wrote:
-> On Sun, 3 Dec 2023 at 14:15, Simon Ser <contact@emersion.fr> wrote:
-> >
-> > On Saturday, December 2nd, 2023 at 22:41, Dmitry Baryshkov <dmitry.bary=
-shkov@linaro.org> wrote:
-> >
-> > > On Fri, 27 Oct 2023 15:32:50 -0700, Jessica Zhang wrote:
-> > >
-> > > > Some drivers support hardware that have optimizations for solid fill
-> > > > planes. This series aims to expose these capabilities to userspace =
-as
-> > > > some compositors have a solid fill flag (ex. SOLID_COLOR in the And=
-roid
-> > > > hardware composer HAL) that can be set by apps like the Android Gea=
-rs
-> > > > test app.
-> > > >
-> > > > In order to expose this capability to userspace, this series will:
-> > > >
-> > > > [...]
-> > >
-> > >
-> > > Applied to drm-misc-next, thanks!
-> >
-> > Where are the IGT and userspace for this uAPI addition?
->=20
-> Indeed. I checked that there are uABI acks/reviews, but I didn't check
-> these requirements. Frankly speaking, I thought that they were handled
-> already, before giving the ack. How should we proceed? Should I land a
-> revert?
-
-Yes
-
-Maxime
-
---d7zlmb36ttt6m7sm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZW2VNgAKCRDj7w1vZxhR
-xRD9AP9L9eZW/RH/TvF7TEDGDHV3nZjFxt4l2zx4F6EAb9QfXQD/SjP0MhyZzZ+W
-nqFhDLoXMhCDz5x+hbAy5SgVdjLrjwQ=
-=wTnT
------END PGP SIGNATURE-----
-
---d7zlmb36ttt6m7sm--
+PiBBbSAwMy4xMi4yMyB1bSAxODoxNiBzY2hyaWViIFpoaXBlbmcgTHU6Cj4gPiBUaGUgcmRldi0+
+cG0uZHBtLnBzIGFsbG9jYXRlZCBieSBrY2FsbG9jIHNob3VsZCBiZSBmcmVlZCBpbiBldmVyeQo+
+ID4gZm9sbG93aW5nIGVycm9yLWhhbmRsaW5nIHBhdGguIEhvd2V2ZXIsIGluIHRoZSBlcnJvci1o
+YW5kbGluZyBvZgo+ID4gcmRldi0+cG0ucG93ZXJfc3RhdGVbaV0uY2xvY2tfaW5mbyB0aGUgcmRl
+di0+cG0uZHBtLnBzIGlzIG5vdCBmcmVlZCwKPiA+IHJlc3VsdGluZyBpbiBhIG1lbWxlYWsgaW4g
+dGhpcyBmdW5jdGlvbi4KPiA+Cj4gPiBGaXhlczogODBlYTJjMTI5Yzc2ICgiZHJtL3JhZGVvbi9r
+bXM6IGFkZCBkcG0gc3VwcG9ydCBmb3Igc3VtbyBhc2ljcyAodjIpIikKPiA+IFNpZ25lZC1vZmYt
+Ynk6IFpoaXBlbmcgTHUgPGFsZXhpb3VzQHpqdS5lZHUuY24+Cj4gPiAtLS0KPiA+ICAgZHJpdmVy
+cy9ncHUvZHJtL3JhZGVvbi9zdW1vX2RwbS5jIHwgMSArCj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCAx
+IGluc2VydGlvbigrKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9u
+L3N1bW9fZHBtLmMgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3N1bW9fZHBtLmMKPiA+IGluZGV4
+IGY3NGYzODFhZjA1Zi4uYmRlNjQwMDUzNzA4IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL3JhZGVvbi9zdW1vX2RwbS5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3N1
+bW9fZHBtLmMKPiA+IEBAIC0xNDk0LDYgKzE0OTQsNyBAQCBzdGF0aWMgaW50IHN1bW9fcGFyc2Vf
+cG93ZXJfdGFibGUoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpCj4gPiAgIAkJbm9uX2Nsb2Nr
+X2luZm8gPSAoc3RydWN0IF9BVE9NX1BQTElCX05PTkNMT0NLX0lORk8gKikKPiA+ICAgCQkJJm5v
+bl9jbG9ja19pbmZvX2FycmF5LT5ub25DbG9ja0luZm9bbm9uX2Nsb2NrX2FycmF5X2luZGV4XTsK
+PiA+ICAgCQlpZiAoIXJkZXYtPnBtLnBvd2VyX3N0YXRlW2ldLmNsb2NrX2luZm8pCj4gPiArCQkJ
+a2ZyZWUocmRldi0+cG0uZHBtLnBzKTsKPiA+ICAgCQkJcmV0dXJuIC1FSU5WQUw7Cj4gCj4gVGhh
+dCBjaGFuZ2UgaXMgb2J2aW91c2x5IG5vdCBjb3JyZWN0IHNpbmNlIHlvdSBub3cgYWx3YXlzIHJl
+dHVybiAtRUlOVkFMLgo+IAo+IFlvdSBuZWVkIHRvIGF0IGxlYXN0IGFkZCB7fSBoZXJlLgo+IAoK
+SSdtIHNvcnJ5IGZvciBteSBtaXN0YWtlIGFuZCBJJ2xsIHNlbmQgYSBuZXcgcGF0Y2ggc29vbi4K
+ClJlZ2FyZHMsClpoaXBlbmcK
