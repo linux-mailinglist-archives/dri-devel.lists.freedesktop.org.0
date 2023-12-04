@@ -1,62 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ABAA80333E
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 13:43:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D58380338C
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 13:56:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3895410E02A;
-	Mon,  4 Dec 2023 12:43:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4C59892A1;
+	Mon,  4 Dec 2023 12:55:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F82E10E143
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 12:43:07 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id
- ffacd0b85a97d-3334d9b57adso406592f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 04:43:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701693786; x=1702298586; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=082RvqRTJvQ4TXijXEsnRml++3Vo7qwhcaPlOkAUAao=;
- b=gSySWPmFXHBkncmY0XJ1dRWrbtk1gWr0+aGbhNPf6euXoNU9jIniNoVs8+B4bFzL+n
- dzQJeUKwqJ2My69hUvzz9PzB0TY0PxvFyCO6LTAmUwCknH68ZrjQNXEbbGwIeltbg+Lb
- sWr0blHbm6mawMSd+p19FHajRE+ATt6WJHHM7SPJlraRJaiFhPxixaMQn85X+P9z6SJ/
- O8Ko76bCqZLeK4pfENqKnH6vyGYZJF0DDiujtAwI93f/mSg+51LS6IT1g0aAJWDC39WA
- YuEFlgnt8XUKPJOS5FFXlLmgK3xYwOn4OePYmW0ZMIbv1myFktXv/TTmG7hB0UPHYCvZ
- f+lQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701693786; x=1702298586;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=082RvqRTJvQ4TXijXEsnRml++3Vo7qwhcaPlOkAUAao=;
- b=IkWd18Dt1KDdRULOofBXGa4eAEHt9AuJDTQUg7ME4xIfWzAmEFOwypTtucM0G8YB4C
- OFKIdDY1fRDok1hgQ3mjDRFL34H/gh1f4TXT37PljYwBvj6/0kf4yhVcr3SWnYfgS4Sq
- 5V95TCxA2+ub6yhL5maGmKzv3Iz4Be0rVV6KHDOLK4XH8n+DaAP7SXlA5eoCxJMcajsw
- QxAqaElracC6A0uOkz4UkjHqpCaEOZM0bIsmfh7wNpOVGBFoPYl7QmadQPPj1L1HKBU3
- 84feyGrxLEuNBRtqdjmlMbM9DLS88KPR+4yG2xrZ1jC3jw3UoPRgvusUVtU+1j0MHipr
- FkRA==
-X-Gm-Message-State: AOJu0YyexWUhT7iU/Tto2jTHmZ3LOqwQbHlXLYud287Lw5f2X41g/Fer
- pL7iruA9RHKj5HLL0JBjUIHWqQ==
-X-Google-Smtp-Source: AGHT+IFeukzjjpwu0aLYsEt9DFTY/DazUbHwFJ1RU5k+kFGRhy5f7C5EnB8yeAdg3wsSQ7qtrXnT6Q==
-X-Received: by 2002:adf:e5cd:0:b0:333:17d2:4556 with SMTP id
- a13-20020adfe5cd000000b0033317d24556mr3336921wrn.23.1701693786073; 
- Mon, 04 Dec 2023 04:43:06 -0800 (PST)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- k5-20020a5d6285000000b003333fbb68c7sm5251470wru.112.2023.12.04.04.43.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Dec 2023 04:43:05 -0800 (PST)
-Date: Mon, 4 Dec 2023 15:43:02 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Stanley.Yang@amd.com
-Subject: [bug report] drm/amdgpu: Workaround to skip kiq ring test during ras
- gpu recovery
-Message-ID: <3f8219aa-e4af-4db4-b667-632eca40f40e@moroto.mountain>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87FC8892A1
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 12:55:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id A65EDB80E4A;
+ Mon,  4 Dec 2023 12:55:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD241C433C7;
+ Mon,  4 Dec 2023 12:55:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1701694555;
+ bh=E172xqSuTiecKXdEivVTYrMjFWt5dLDiAGow27LdD2g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IustftvYpmdSaMBywQAMFbz6l+FlSC42cBEOG+KQ0FPX4xT7N9tLlBna6+YLi7pN9
+ FyDYk2E1X8alLz5fFpWek0gddb6neJx2mzYqE98+UQev+s5GFGk5QQ/NyTYDIX0EWr
+ U+JP+Vuc5H8R/V56DD75WZQI+twLtcnrLtXk7hTKXmUo24uNOhYqtjRktw4Lh3ZqfK
+ z884fiRR+snDvBHnXHF20qAPXOpyD7b/3PBQ9fwJkcIpvb1bx1mBbZcAdVoErkihq3
+ v8oEI7GpbMctgtegAxA4ybA1bR5D5hREW7dvkmxZsGYuQgm0yhVPcgIAxXIO3gLVuR
+ jG8rjr8PCg/TA==
+Date: Mon, 4 Dec 2023 13:55:52 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH v18 04/26] drm/shmem-helper: Refactor locked/unlocked
+ functions
+Message-ID: <jvhedgegvavn5mvvx2men2rxitvnq7u3dsxwfx3wokxldmysjz@y5av3l2w4gk6>
+References: <wboljiwogeus7pwgaqzxaltt3xdavy2dzisygn6pdpoiwlnwgc@mwaiukjguzat>
+ <20231124115911.79ab24af@collabora.com>
+ <kw5bho3jx73d3glvtewmjvqt4qty4khju6dcwypuh25ya3gi4b@7slmijjqdi4p>
+ <20231128133712.53a6f6cb@collabora.com>
+ <37208c72-7908-0a78-fc89-2fa9b8d756a5@collabora.com>
+ <20231129085330.7ccb35d3@collabora.com>
+ <ioqghyaeftyo7tuyfecn252ykxwgltrkhh2pwktjejqhewntbb@bym3rsjxnxfp>
+ <20231129144609.7544e773@collabora.com>
+ <6da6mzwfzwbn5rhiebypo5e2v6rhtpn2fovwvfnoo333zjgobf@bgtuwhum3trp>
+ <20231129164705.7461a294@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="iip2djagguw3jrrj"
 Content-Disposition: inline
+In-Reply-To: <20231129164705.7461a294@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,83 +60,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: kernel@collabora.com, Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Emma Anholt <emma@anholt.net>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ Melissa Wen <mwen@igalia.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Steven Price <steven.price@arm.com>, virtualization@lists.linux-foundation.org,
+ Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Stanley.Yang,
 
-The patch b1338a8e71ac: "drm/amdgpu: Workaround to skip kiq ring test
-during ras gpu recovery" from Oct 17, 2023 (linux-next), leads to the
-following Smatch static checker warning:
+--iip2djagguw3jrrj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-	drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c:604 amdgpu_get_xgmi_hive()
-	warn: sleeping in atomic context
+On Wed, Nov 29, 2023 at 04:47:05PM +0100, Boris Brezillon wrote:
+> On Wed, 29 Nov 2023 16:15:27 +0100
+> Maxime Ripard <mripard@kernel.org> wrote:
+>=20
+> > > Now, let's assume we drop the _locked() suffix on
+> > > drm_gem_shmem_v[un]map(), but keep it on other helpers that need both
+> > > variants. This results in an inconsistent naming scheme inside the
+> > > same source file, which I find utterly confusing.
+> > >
+> > > Note that the initial reason I asked Dmitry if he could add the
+> > > _locked suffix to drm_gem_shmem_vmap() is because I started using
+> > > drm_gem_shmem_vmap() in powervr, before realizing this version wasn't
+> > > taking the lock, and I should have used drm_gem_vmap_unlocked()
+> > > instead, so this is not something I'm making up. =20
+> >=20
+> > Sorry if I gave you the impression I thought that you're making that up,
+> > I'm not.
+> >=20
+> > Thanks for the explanation btw, I think I get what you're saying now:
+> >=20
+> >  - drm_gem_shmem_vmap() is never taking the locks because the core
+> >    expects to take them before calling them.
+> >=20
+> >  - drm_gem_shmem_vunmap() is never taking the locks because the core
+> >    expects to take them before calling them.
+>=20
+> Correct.
+>=20
+> >=20
+> >  - Some other code path can still call those helpers in drivers, and the
+> >    locking isn't handled by the core anymore.
+>=20
+> They can, if they want to v[un]map a BO and they already acquired the
+> GEM resv lock. But I'm not sure anyone needs to do that yet. The main
+> reason for exposing these helpers is if one driver needs to overload the
+> default gem_shmem_funcs.
+>=20
+> >=20
+> >  - We now have _vmap/vunmap_unlocked functions to take those locks for
+> >    those code paths
+>=20
+> We don't have drm_gem_shmem_vmap/vunmap_unlocked(), we have
+> drm_gem_shmem_vmap/vunmap_locked(), which can be called directly, but
+> are mainly used to populate the drm_gem_object_funcs vtable. If drivers
+> want to v[un]map in a path where the resv lock is not held, they should
+> call drm_gem_vmap/vunmap_unlocked() (which are renamed
+> drm_gem_vmap/vunmap() in patch 1 of this series). Mind the **drm_gem_**
+> vs **drm_gem_shmem_** difference in the helper names. drm_gem_ helpers
+> are provided by drm_gem.c and call drm_gem_object_funcs callback, which
+> are supposed to be populated with drm_gem_shmem helpers.
+>=20
+> >=20
+> >  - And the variant names are now confusing, making people use the
+> >    lockless version in situations where they should have use the locked
+> >    one.
+>=20
+> That's what happened to me, at least.
+>=20
+> >=20
+> > Is that a correct summary?
+>=20
+> Almost ;-).
+>=20
+> >=20
+> > If so, then I agree that we need to change the name.
+>=20
+> Cool.
+>=20
+> >=20
+> > We discussed it some more on IRC, and we agree that the "default"
+> > function should handle the locking properly and that's what the most
+> > common case should use.
+>=20
+> Agree if by 'default' you mean the lock is always acquired by the
+> helper, not 'let's decide based on what users do most of the time with
+> this specific helper', because otherwise we'd be back to a situation
+> where the name doesn't clearly encode the function behavior.
+>=20
+> >=20
+> > So that means than drm_gem_shmem_vmap/vunmap() should take the lock
+> > itself, and drm_gem_shmem_vmap/vunmap_nolock/unlocked never does.
+>=20
+> Not sure we have a need for drm_gem_shmem_vmap/vunmap(), but if we ever
+> add such helpers, they would acquire the resv lock, indeed.
+>=20
+> Just to be clear, _nolock =3D=3D _locked in the current semantics :-).
+> _nolock means 'don't take the lock', and _locked means 'lock is already
+> held'.
+>=20
+> >=20
+> > I think I'd prefer the nolock variant over unlocked still.
+>=20
+> Okay, that means s/_locked/_nolock/ in drm_gem_shmem_helpers.{c,h}, I
+> guess.
+>=20
+> >=20
+> > And I also think we can improve the documentation and add lockdep calls
+>=20
+> Lockdep asserts are already there, I think.
+>=20
+> > to make sure that the difference between variants is clear in the doc,
+> > and if someone still get confused we can catch it.
+> >=20
+> > Does that sound like a plan?
+>=20
+> Assuming I understood it correctly, yes. Can you just confirm my
+> understanding is correct though?
 
-drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-    591 struct amdgpu_hive_info *amdgpu_get_xgmi_hive(struct amdgpu_device *adev)
-    592 {
-    593         struct amdgpu_hive_info *hive = NULL;
-    594         int ret;
-    595 
-    596         if (!adev->gmc.xgmi.hive_id)
-    597                 return NULL;
-    598 
-    599         if (adev->hive) {
-    600                 kobject_get(&adev->hive->kobj);
-    601                 return adev->hive;
-    602         }
-    603 
---> 604         mutex_lock(&xgmi_mutex);
-                ^^^^^^^^^^^^^^^^^^^^^^^
-Shhh....  The mutexes are sleeping.
+We are. Sorry for delaying this :)
 
-    605 
-    606         list_for_each_entry(hive, &xgmi_hive_list, node)  {
+Maxime
 
-The caller is amdgpu_gfx_disable_kcq():
+--iip2djagguw3jrrj
+Content-Type: application/pgp-signature; name="signature.asc"
 
-drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-   516          spin_lock(&kiq->ring_lock);
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Holding a spin lock.
+-----BEGIN PGP SIGNATURE-----
 
-   517          if (amdgpu_ring_alloc(kiq_ring, kiq->pmf->unmap_queues_size *
-   518                                          adev->gfx.num_compute_rings)) {
-   519                  spin_unlock(&kiq->ring_lock);
-   520                  return -ENOMEM;
-   521          }
-   522  
-   523          for (i = 0; i < adev->gfx.num_compute_rings; i++) {
-   524                  j = i + xcc_id * adev->gfx.num_compute_rings;
-   525                  kiq->pmf->kiq_unmap_queues(kiq_ring,
-   526                                             &adev->gfx.compute_ring[j],
-   527                                             RESET_QUEUES, 0, 0);
-   528          }
-   529  
-   530          /**
-   531           * This is workaround: only skip kiq_ring test
-   532           * during ras recovery in suspend stage for gfx9.4.3
-   533           */
-   534          hive = amdgpu_get_xgmi_hive(adev);
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
-Can't call a sleeping function when holding a spin_lock.
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZW3MWAAKCRDj7w1vZxhR
+xcDnAQDM/xef1l45sJfBEv38lDY/B8E+Cy/VtAD965YR2cJQzgD+NVB9BN2k4sks
+4vrIzaUEwbhBb2UovWAde9a/Qmn6ggo=
+=n1Mw
+-----END PGP SIGNATURE-----
 
-   535          if (hive) {
-   536                  hive_ras_recovery = atomic_read(&hive->ras_recovery);
-   537                  amdgpu_put_xgmi_hive(hive);
-   538          }
-   539  
-   540          ras = amdgpu_ras_get_context(adev);
-   541          if ((amdgpu_ip_version(adev, GC_HWIP, 0) == IP_VERSION(9, 4, 3)) &&
-   542                  ras && (atomic_read(&ras->in_recovery) || hive_ras_recovery)) {
-   543                  spin_unlock(&kiq->ring_lock);
-   544                  return 0;
-   545          }
-   546  
-   547          if (kiq_ring->sched.ready && !adev->job_hang)
-   548                  r = amdgpu_ring_test_helper(kiq_ring);
-   549          spin_unlock(&kiq->ring_lock);
-
-regards,
-dan carpenter
+--iip2djagguw3jrrj--
