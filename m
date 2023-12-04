@@ -1,45 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21468802D7A
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 09:44:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4610F802D81
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 09:46:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC01D10E09E;
-	Mon,  4 Dec 2023 08:44:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7B2F10E186;
+	Mon,  4 Dec 2023 08:46:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sin.source.kernel.org (sin.source.kernel.org
  [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E97C410E17C;
- Mon,  4 Dec 2023 08:44:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCDC610E186;
+ Mon,  4 Dec 2023 08:46:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id EEB3CCE0E56;
- Mon,  4 Dec 2023 08:44:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6551C433C7;
- Mon,  4 Dec 2023 08:44:13 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id 9BBB8CE0EA4;
+ Mon,  4 Dec 2023 08:46:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8874DC433C7;
+ Mon,  4 Dec 2023 08:46:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701679454;
- bh=xpgPzulNevCUlsiFp2dMGa9+E23juK/4xiRXU8jbrZI=;
+ s=k20201202; t=1701679599;
+ bh=wc3stVoGTKf+1Pqxh0e2gOA++Lm0xRV4P3wuu3rnVQc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gFePe9RdWDFr3EKCrhfUl0e058tQhYJziFpa8yaN3dgBfmjplJZ9qi0/Tc+rwjCLP
- rEMOyKPmOgH8KFEs2421n+fT4vOuF41M7oRIU8vr6XFrytPfdiLcZ3YKhgTePVfkvG
- m7vl5fPtC7j9bqtyHRTQjPJhegtSoLtfVpIucaZO9K6cwPvZD0VT6/b3P13SnH3pfs
- Hs6S4AHl1bumAZBkKWc4nelEpqMCgoqkdVxZGoMQBw90+d1KPfFGT1BpTzNUBwWEs2
- WgoRgUNI9F/fMMuzLJ7dzaS/PDFiPMwqCcpKxHOoRLjvpkD37lYNIoNGhB44JA1ku3
- nr8tAJJzWi+UA==
-Date: Mon, 4 Dec 2023 09:44:11 +0100
-From: mripard <mripard@kernel.org>
-To: =?utf-8?B?5L2V5pWP57qi?= <heminhong@kylinos.cn>
-Subject: Re: Friendly ping. I think this patch was =?utf-8?Q?forgotten=2E?=
- =?utf-8?B?Ly/lm57lpI06?= [PATCH] drm/qxl: remove unused declaration
-Message-ID: <kk4xtz2zxe37ner7cl5qvlk6jhciu7hgvpltf7gddphepnxqwg@noe3lrmff3ax>
-References: <1290mcwo8vf-129368jicj0@nsmail7.0.0--kylin--1>
+ b=Zj6VqLISwSnH7njlkRbdxIUNvHYoq0oX2lRzFYD0Vsx721PVTaCWIdTgP/ntuIRZO
+ c9F8NNaCdr2bAoGSKXWLDjgY1nUgiw4i1HaB/M10DGrvx/MRkwx95EHbvN8w/eO3uL
+ FZ6KN4F3CqY2J7nMyJTpNI8+Y9GcQVZmx8pK2rhf1kvGQ+j0uvcDTVyXnXTMSpKb7r
+ fsLSXsfmHilRuHfYE8XY6+rbVepC/+eN9YD14w9Y0RIrLQFxkJxAv1tlKZAOy83XMr
+ 3hFUaEQTxnPqpE/eZh5WyZ+7aJ4g5ZPO0u29gfqsg4tiC8Pov4otLhJUHor5+48Wqt
+ hyJr07M1PRqgg==
+Date: Mon, 4 Dec 2023 09:46:37 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH v5 00/32] drm/amd/display: add AMD driver-specific
+ properties for color mgmt
+Message-ID: <dwdkap7pkulicno5esdk5v5ejujv764ddlhojw76s4in4fnjlk@rjqxkqcjrowq>
+References: <20231116195812.906115-1-mwen@igalia.com>
+ <bc60a7fd-8de7-4856-b5ed-e1172b9b79f7@amd.com>
+ <CAKMK7uH1BPhEm8vM=rFfAho06T-f+osjKX4ofOkjMazrhSouKw@mail.gmail.com>
+ <96f1293f-ca82-4cdb-8838-38a31af37feb@amd.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="mrjqp5qcdvleulqp"
+ protocol="application/pgp-signature"; boundary="chjinfct7tkz3bz5"
 Content-Disposition: inline
-In-Reply-To: <1290mcwo8vf-129368jicj0@nsmail7.0.0--kylin--1>
+In-Reply-To: <96f1293f-ca82-4cdb-8838-38a31af37feb@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,30 +55,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann <tzimmermann@suse.de>,
- virtualization <virtualization@lists.linux.dev>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, kraxel <kraxel@redhat.com>,
- spice-devel <spice-devel@lists.freedesktop.org>, airlied <airlied@redhat.com>
+Cc: liviu.dudau@arm.com, dri-devel@lists.freedesktop.org,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ Shashank Sharma <Shashank.Sharma@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ Alex Hung <alex.hung@amd.com>, kernel-dev@igalia.com, sunpeng.li@amd.com,
+ Melissa Wen <mwen@igalia.com>, sungjoon.kim@amd.com,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, Xinhui.Pan@amd.com,
+ Xaver Hugl <xaver.hugl@gmail.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, tzimmermann@suse.de,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---mrjqp5qcdvleulqp
+--chjinfct7tkz3bz5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks for the reminder
+On Fri, Dec 01, 2023 at 10:20:40AM -0500, Harry Wentland wrote:
+>=20
+>=20
+> On 2023-11-30 06:34, Daniel Vetter wrote:
+> > On Tue, 28 Nov 2023 at 23:11, Harry Wentland <harry.wentland@amd.com> w=
+rote:
+> >>
+> >> On 2023-11-16 14:57, Melissa Wen wrote:
+> >>> Hello,
+> >>>
+> >>> This series extends the current KMS color management API with AMD
+> >>> driver-specific properties to enhance the color management support on
+> >>> AMD Steam Deck. The key additions to the color pipeline include:
+> >>>
+> >>
+> >> snip
+> >>
+> >>> Melissa Wen (18):
+> >>>   drm/drm_mode_object: increase max objects to accommodate new color
+> >>>     props
+> >>>   drm/drm_property: make replace_property_blob_from_id a DRM helper
+> >>>   drm/drm_plane: track color mgmt changes per plane
+> >>
+> >> If all patches are merged through amd-staging-drm-next I worry that
+> >> conflicts creep in if any code around replace_property_blob_from_id
+> >> changes in DRM.
+> >>
+> >> My plan is to merge DRM patches through drm-misc-next, as well
+> >> as include them in the amd-staging-drm-next merge. They should then
+> >> fall out at the next amd-staging-drm-next pull and (hopefully)
+> >> ensure that there is no conflict.
+> >>
+> >> If no objections I'll go ahead with that later this week.
+> >=20
+> > Double-merging tends to be the worst because git doesn't realize the
+> > commits match, which actually makes the conflicts worse when they
+> > happen (because the 3-way merge diff gets absolute confused by all the
+> > changed context and misplaces everything to the max). So please don't,
+> > _only_ every cherry-pick when a patch in -next is also needed in
+> > -fixes, and we didn't put it into the right tree. But even that is a
+> > bit tricky and should only be done by maintainers (using dim
+> > cherry-pick if it's drm-misc) because the conflicts tend to be bad and
+> > need to be sorted out with backmerges sooner than later.
+> >=20
+> > For this case merge everything through one tree with the right acks,
+> > pull to drm-next asap and then backmerge into the other tree. Here
+> > probably amdgpu-next with drm-misc maintainer acks for the 3 core
+> > patches. Or if amdgpu-next pull won't come for a while, put them into
+> > drm-misc-next and just wait a week until it's in drm-next, then
+> > forward amdgpu-next.
+> >=20
+>=20
+> Maxime, Maarten, Thomas, could I get an ACK from you for the three
+> DRM core patches and an ACK for pulling them through the AMD tree?
 
---mrjqp5qcdvleulqp
+Acked-by: Maxime Ripard <mripard@kernel.org>
+
+Maxime
+
+--chjinfct7tkz3bz5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZW2RWwAKCRDj7w1vZxhR
-xTKFAQClXxO9sDpuh6JQFW2Xg1PnWk1Pz9aynBWEXekfGLIqLgEAh0s5I+A5LU+X
-+S+NsqIYz+28V3nfD/itBaG2c2ON8ws=
-=wUoA
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZW2R7AAKCRDj7w1vZxhR
+xWp8AQCQXNW7IUqfOdqvSkgXOkYbm3wTTQ0z6fBx8+IxzfpCUAEA3kj5XexqqmOo
+FtGuGlyVt/0FusAG5fA/T9Tp+5nEXQ4=
+=E16b
 -----END PGP SIGNATURE-----
 
---mrjqp5qcdvleulqp--
+--chjinfct7tkz3bz5--
