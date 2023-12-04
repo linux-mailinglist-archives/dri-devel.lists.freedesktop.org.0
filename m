@@ -2,49 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC9D8034F5
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 14:31:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 625FF80350F
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 14:37:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEE6010E22D;
-	Mon,  4 Dec 2023 13:31:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E404A10E1C7;
+	Mon,  4 Dec 2023 13:37:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E59A810E1CA
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 13:30:52 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1rA92A-00058F-SP; Mon, 04 Dec 2023 14:30:50 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1rA925-00DWy9-50; Mon, 04 Dec 2023 14:30:45 +0100
-Received: from pza by lupine with local (Exim 4.96)
- (envelope-from <p.zabel@pengutronix.de>) id 1rA925-000Gqm-0E;
- Mon, 04 Dec 2023 14:30:45 +0100
-Message-ID: <12c6097a723b9208f6da89207867b32102237fbc.camel@pengutronix.de>
-Subject: Re: [v3 3/6] drm/vs: Register DRM device
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Keith Zhao <keith.zhao@starfivetech.com>, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-riscv@lists.infradead.org
-Date: Mon, 04 Dec 2023 14:30:44 +0100
-In-Reply-To: <20231204123315.28456-4-keith.zhao@starfivetech.com>
-References: <20231204123315.28456-1-keith.zhao@starfivetech.com>
- <20231204123315.28456-4-keith.zhao@starfivetech.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
+ [185.132.180.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6E8710E253
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 13:36:50 +0000 (UTC)
+Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
+ by mx07-00376f01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id
+ 3B49RV2D003429; Mon, 4 Dec 2023 13:36:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
+ from:to:cc:subject:date:message-id:content-transfer-encoding
+ :content-type:mime-version; s=dk201812; bh=kKIIKEvDN5siqvKD6fMSD
+ BkrdGO2pjDobwMBtaSJADc=; b=EvWKDH35VnAg3D6wJspCZQHDwzvLFnN6BZrq/
+ e4Q8OFEJKI9vEf7AuYg3g0vB+hAmkwHWzEESNYeMvPjQllHOFrouvmtZ9se4ga7d
+ C52AUgwb709iFiOud+P5ckISu3FYn+IIak7Hj7nK2JuuV1+uBt8w9DsukO5gTwwF
+ VAPv5UOONxZDPqaso3L/OHfVhr+4CLot8l7m2jCMUADyZQhzYMK9VtR/Ba6EpWjo
+ ScmLo9uMQMdJsQ9LtBMfMHrMikJ9VZXto8X1yThcwAoYM01N2sNiN5kd1/a1DUMm
+ fh6DHcNVRIPTLYims/l7yO1ds47LbLSti7C8hwRh6bIME7aOg==
+Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3uqwhw9g4h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Mon, 04 Dec 2023 13:36:37 +0000 (GMT)
+Received: from HHMAIL05.hh.imgtec.org (10.100.10.120) by
+ HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 4 Dec 2023 13:36:36 +0000
+Received: from GBR01-CWX-obe.outbound.protection.outlook.com (104.47.85.40) by
+ email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
+ (version=TLS1_2, 
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
+ Transport; Mon, 4 Dec 2023 13:36:36 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FBqLfm4jo/UCEj7RLOo6gSntc3OmOqWK7Ylo0w4rCnnPcMnZSidoCYYEahfeU9Y1uly8k+DrNzb1aw4MSwx6m+jIFh0WzIUJD3+qlj/fMSamFQbJjJMj5Z69nVp/8P8IHKZo7rZIlewnIIHC2UGyUV2rAj9LxDHVz68H/QJVuxdKwqBGtgp3rOMY/5nHoOguO2FTt996Bu2x1IkJ5DocS123F/0LXtQJ8lt7i4Dz8DmbMqGs+I8IVATDsbEvpmbTmonZ+JyMmh7KIL1ok0my7eryWTOwW6MsqClpoO4x9K1r0orxMBgWJVy0ekUwliYjvLE3xZmtuCvJL4LjoI6Rtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kKIIKEvDN5siqvKD6fMSDBkrdGO2pjDobwMBtaSJADc=;
+ b=ifxvbG98IdYraJPF6IA7jQO8fvEobnMUsWJqzbEannv6z0VQIi4qBstvnydmd3LRW3mDLR6tkFYzCAquQv8MUUtHQZElLukPcvpUVqTwEpOecuj2BIuRcE3WQa6V8PmMCLes4UgocD/c7o9Bo5hcR+l1NHHcZIlzTRhOyuOKNd9ctWNy8gDYqCKlNzIAiHmHlM9AYsggWNek6nEnua9C+AKuKGoAeTzCWuzmWXdJIQMp+Sq5C8e/G7dUmBA0Oi64o4ql5urAHpU8IEQvgFGdA7kj7WBptyw8dJhPrXtyqTB7F54x1beAgvUw3H3JviJvxPdGr4RLuMK5Rowg32Q8Xw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
+ dkim=pass header.d=imgtec.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kKIIKEvDN5siqvKD6fMSDBkrdGO2pjDobwMBtaSJADc=;
+ b=jPOvZ7jOg2kkougAqHwoGOub/oDr8E6ChlNN5WWiq576FFtDq++2FRvsIVYzgN3vLS2QJMGrspmCQIS42vhm/x0aSJOdZhj+akamVwoKC/TBjybJBQ501W1ONpXzxs0ZHFDhyrteQcDYz+0J7fIYMtLm5rJ5uz12P++RfHk2LxA=
+Received: from CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1a0::8)
+ by CWXP265MB2389.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:7e::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.33; Mon, 4 Dec
+ 2023 13:36:35 +0000
+Received: from CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::a85a:76f7:c085:2b34]) by CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::a85a:76f7:c085:2b34%3]) with mapi id 15.20.7046.033; Mon, 4 Dec 2023
+ 13:36:35 +0000
+From: Donald Robson <donald.robson@imgtec.com>
+To: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/2] drm/imagination: Removed unused functions in pvr_fw_trace
+Date: Mon,  4 Dec 2023 13:36:11 +0000
+Message-Id: <20231204133611.53913-1-donald.robson@imgtec.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0677.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:351::20) To CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:400:1a0::8)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP265MB5770:EE_|CWXP265MB2389:EE_
+X-MS-Office365-Filtering-Correlation-Id: a2a9db46-9a04-426e-e6c4-08dbf4ce08c3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YWOxc0f/18fDW4wQgnsLVyFumH30tywUIQHjJhRBDsbqoo3ir3IfQuG+TDLRQk6SSLkb3ba4W/JUuNPMoWZDeooIj48Gpzdplu3pdMKu9J4mwVSZwK0IutUkh9XSIfzynVjpmpHQ/M4NATuMkAk9oHIMUIvRdNvcqlKqBlmecM4d0GNNLXQvfT+oEOkE1RNIJCBFpsh+H5JzbvdCQj/CpmRZMo21WaKD11cybjlFgpoh0RyIV+U7GC9oXN3FrPrFIN/bOB7uQ+OcGteMFWzWcivpO6O4jnA19bB94HvnHDUyhXKBle+uyjeijeSYDcFlxQiZaxixT+V3VQXgpsg400eCqomkS6pDqcWjiYGhLQ5cqQgXjvU6tEJA58jXdDpDBhyg9/e2I7uhpRSnT09FvZZm2gX1Ohk7bMm/GLxXXvvvBYwY3H0ag7ybhR3XWtE2jxwAccVI3GrVvYRqeKaDA4nrFzTeilkbWnp/zquisR8rBKZq0slBypAd7cYgjEzAnnMgcEwOCgwybdv65bhZecI2Fml27mJ2FPlO0vpTnZ3a6tWVQIx78vHVUl4pn4so+lKfKfDM0CV63+Pq/znG9Cqjn93xUKFd7JXiDMNN/3GM7CJthkT9Z+gYYlqxKkx0CT94pMEY+DK54nHIdtKg1Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(376002)(396003)(136003)(39850400004)(366004)(230922051799003)(230273577357003)(230173577357003)(1800799012)(186009)(451199024)(64100799003)(1076003)(2616005)(8676002)(4326008)(8936002)(6512007)(6506007)(52116002)(83380400001)(26005)(6486002)(966005)(478600001)(6666004)(66476007)(66946007)(66556008)(316002)(2906002)(36756003)(38350700005)(41300700001)(38100700002)(44832011)(86362001)(5660300002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EwJsaXDw+2m6G/1vtcarul3DHqpiNGP9B4BzkBxA19xP9XjOoOc/ZpLDYvEg?=
+ =?us-ascii?Q?+NSsFMKB1TkOmlu9NKrUK2v63IUQ7AjswIlWtmSZjs8cYqIxrC3hDN08FIHU?=
+ =?us-ascii?Q?USEbZeHzrvPOooPUiyfQbU2oI8FkXtpuV+igYl4ys3Y3ibIzzBtvK1ZhwIwV?=
+ =?us-ascii?Q?QPhu6Ub44vpVu5C5hBU5VckePl6gtZdau7zeHXb5KhlxN6xO/XrtwNd2K6QA?=
+ =?us-ascii?Q?Y+HYkIprijh/hEAYPkxdV+zUbmMq3CqPBoOkSCHkXHnehs+HaElMXoczM8lu?=
+ =?us-ascii?Q?xCkaU74n5vrVh+aEDNqyv5wHljlpOrAvK8mNCl8VTf6MKbMhQgg/s3LHOQNx?=
+ =?us-ascii?Q?c/dZAC9GjbH7MEeZX/KIa5MWuQnGTqGmjQVEoq03tGf7uFvFaZlFwsV12Vpe?=
+ =?us-ascii?Q?XkLtyVFaw7Ddnv0cWwodiZgdHdv+tkz0n4gaZgK4LsZuuAa1Ut8F41j0ev7L?=
+ =?us-ascii?Q?G4di0IBG9F2onrPXEv3sp63lGgmaOJTdD7K69dGH7kgslJCu8msb4UZQ35n+?=
+ =?us-ascii?Q?1q75vA6fQ1DZ6yeUJWUaBm0AKM8DVuLCMrXzYtKwE6KTcOc0/dU8gpwP+3O0?=
+ =?us-ascii?Q?9jeOIcnxXB3iJuSJJ1RjoOST3kPJnp7kIjGSZZ9OeScNZ69A5FNOFbWbLbyd?=
+ =?us-ascii?Q?nEG9Nvpbf6UKR0UUGoJqaY1U4VlTp5B3ltRR3Ecs6vp/TuwGh8lQz9D9wNQO?=
+ =?us-ascii?Q?djXBdaLS/gSiRpXjrxAMBquP45zS/4pnsKtwBOSeUnlkWMzseJsZrPtEWJ/+?=
+ =?us-ascii?Q?pSCQfgy2GLiU6AcKz7tmeI+obDY/r7O2bK8ASXIirNleRjMVPa5WHnQowjyF?=
+ =?us-ascii?Q?RYWCH/1n4siJhhE1TWo88NT/MYtc/aXrEdHBUKuckisawl53gnUQ7mKECbhp?=
+ =?us-ascii?Q?XJJbs9LvEv6NG4Z+eoQDyyzRqMZA1+bzFdXnIS1uSPstOew06uJ6jsanPiJ2?=
+ =?us-ascii?Q?IugVq7LipZR+eoE+Jc7WVV5HdnwBlGOkXAQeKS3qV9FK+M7OnVmQny6HL5eA?=
+ =?us-ascii?Q?66BeTzpyrad6Cn9u2XhwQXP4F8197/DrURRONGTaKR5SP6XiKuFr0AIxdNbR?=
+ =?us-ascii?Q?o5/WzCzUiKXFbtLnODhWyTzh3CKo+pmh9u47fTqAwVNKqdZocqzklnB31WOz?=
+ =?us-ascii?Q?px8y/zFhc4PhtCdQ7zj2D3glPYrUoumT7eHFj4NGMSfoBILVdVHY2cceeSjS?=
+ =?us-ascii?Q?UlIDKnTPmLaUFuNrFhj7oRXtaIM5QKeANzg/eRPInYX/UQx/Sk6iEKECFkYq?=
+ =?us-ascii?Q?YSG3Qa9EyErf0ThsWJFOAse2TbkNxnbmooPgI5jUL7pODNFrkn1HHpYKxZG8?=
+ =?us-ascii?Q?hpn/nRGy5rEY6Z/k1JG1YkKkuQl4kuE7SZr77teN6TyfAQm0XYxMShKkmG3W?=
+ =?us-ascii?Q?MVJxItlHqEd6SK6mWdbUbXU3Ieh5h2VFnZkw06/yJF5sI/QdbhVs2Yjg41LO?=
+ =?us-ascii?Q?b+6cyIZiaOdHwBr+WRZfPjTAoKKxnUelu8RURM9efRHq8nhn89eKyUcOOtAf?=
+ =?us-ascii?Q?b2VBDZCzJ3PiePrihPnCSOyLRzaOJQRB8Kp/djS6CDsfTc34XS8+SGkmnQo5?=
+ =?us-ascii?Q?tFJtBF0xQUL06B27FwGt64945OVmyHOXNJpg4bz2vAm8bESrwbsAio0+vOVR?=
+ =?us-ascii?Q?xg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2a9db46-9a04-426e-e6c4-08dbf4ce08c3
+X-MS-Exchange-CrossTenant-AuthSource: CWLP265MB5770.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2023 13:36:35.1928 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LX37Ax3Me5rNCKMDSD7en9vIoMbwV21sey8Mx9OtPr5IGV63LoMntE7m3ewud1JXNZ7NcIemNetIai/kad8sKUBtPhVsU+UTOV3L5JMb8Ck=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB2389
+X-OriginatorOrg: imgtec.com
+X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
+X-Proofpoint-GUID: pP7d2Pk51SyxniYPK9gY5cA_80gGjits
+X-Proofpoint-ORIG-GUID: pP7d2Pk51SyxniYPK9gY5cA_80gGjits
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,214 +139,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: aou@eecs.berkeley.edu, suijingfeng@loongson.cn, tzimmermann@suse.de,
- paul.walmsley@sifive.com, mripard@kernel.org, xingyu.wu@starfivetech.com,
- jack.zhu@starfivetech.com, palmer@dabbelt.com,
- krzysztof.kozlowski+dt@linaro.org, william.qiu@starfivetech.com,
- shengyang.chen@starfivetech.com, changhuang.liang@starfivetech.com
+Cc: mripard@kernel.org, matt.coster@imgtec.com, donald.robson@imgtec.com,
+ tzimmermann@suse.de, kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Keith,
+Fixing the warning below due to an unused file level vtable. Removing
+only this causes additional warnings for the now unused functions, so
+I've removed those too.
 
-On Mo, 2023-12-04 at 20:33 +0800, Keith Zhao wrote:
-> Implement drm device registration interface
->=20
-> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
-> ---
-[...]
-> diff --git a/drivers/gpu/drm/verisilicon/Kconfig b/drivers/gpu/drm/verisi=
-licon/Kconfig
-> new file mode 100644
-> index 000000000000..e10fa97635aa
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/Kconfig
-> @@ -0,0 +1,13 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +config DRM_VERISILICON
-> +	tristate "DRM Support for VeriSilicon"
-> +	depends on DRM
-> +	select DRM_KMS_HELPER
-> +	select DRM_GEM_DMA_HELPER
-> +	select CMA
-> +	select DMA_CMA
-> +	help
-> +	  Choose this option if you have a VeriSilicon soc chipset.
+>> drivers/gpu/drm/imagination/pvr_fw_trace.c:205:37: warning: 'pvr_fw_trace_group_mask_fops' defined but not used [-Wunused-const-variable=]
+     205 | static const struct file_operations pvr_fw_trace_group_mask_fops = {
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This seems a bit generic. Doesn't the VeriSilicon display controller IP
-used on JH7110 have a product name?
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202311302054.MVYPxFCE-lkp@intel.com/
+Fixes: c98cc92ab6ce ("drm/imagination: Add firmware trace to debugfs")
+Signed-off-by: Donald Robson <donald.robson@imgtec.com>
+---
+ drivers/gpu/drm/imagination/pvr_fw_trace.c | 44 ----------------------
+ 1 file changed, 44 deletions(-)
 
-[...]
-> diff --git a/drivers/gpu/drm/verisilicon/vs_drv.c b/drivers/gpu/drm/veris=
-ilicon/vs_drv.c
-> new file mode 100644
-> index 000000000000..4fb1f29ef84b
-> --- /dev/null
-> +++ b/drivers/gpu/drm/verisilicon/vs_drv.c
-> @@ -0,0 +1,316 @@
-> +// SPDX-License-Identifier: GPL-2.0
-[...]
-> +static void vs_drm_device_release_clocks(void *res)
-> +{
-> +	struct vs_drm_device *priv =3D res;
-> +	unsigned int i;
-> +
-> +	reset_control_bulk_assert(priv->nrsts, priv->rst_vout);
-> +
-> +	for (i =3D 0; i < priv->clk_count; ++i) {
-> +		if (priv->clks[i]) {
-> +			clk_disable_unprepare(priv->clks[i]);
-> +			clk_put(priv->clks[i]);
-> +		}
-> +	}
+diff --git a/drivers/gpu/drm/imagination/pvr_fw_trace.c b/drivers/gpu/drm/imagination/pvr_fw_trace.c
+index 87a42fb6ace6..30f41a10a0cf 100644
+--- a/drivers/gpu/drm/imagination/pvr_fw_trace.c
++++ b/drivers/gpu/drm/imagination/pvr_fw_trace.c
+@@ -167,50 +167,6 @@ update_logtype(struct pvr_device *pvr_dev, u32 group_mask)
+ 
+ #if defined(CONFIG_DEBUG_FS)
+ 
+-static int fw_trace_group_mask_show(struct seq_file *m, void *data)
+-{
+-	struct pvr_device *pvr_dev = m->private;
+-
+-	seq_printf(m, "%08x\n", pvr_dev->fw_dev.fw_trace.group_mask);
+-
+-	return 0;
+-}
+-
+-static int fw_trace_group_mask_open(struct inode *inode, struct file *file)
+-{
+-	return single_open(file, fw_trace_group_mask_show, inode->i_private);
+-}
+-
+-static ssize_t fw_trace_group_mask_write(struct file *file, const char __user *ubuf, size_t len,
+-					 loff_t *offp)
+-{
+-	struct seq_file *m = file->private_data;
+-	struct pvr_device *pvr_dev = m->private;
+-	u32 new_group_mask;
+-	int err;
+-
+-	err = kstrtouint_from_user(ubuf, len, 0, &new_group_mask);
+-	if (err)
+-		return err;
+-
+-	err = update_logtype(pvr_dev, new_group_mask);
+-	if (err)
+-		return err;
+-
+-	pvr_dev->fw_dev.fw_trace.group_mask = new_group_mask;
+-
+-	return (ssize_t)len;
+-}
+-
+-static const struct file_operations pvr_fw_trace_group_mask_fops = {
+-	.owner = THIS_MODULE,
+-	.open = fw_trace_group_mask_open,
+-	.read = seq_read,
+-	.write = fw_trace_group_mask_write,
+-	.llseek = default_llseek,
+-	.release = single_release,
+-};
+-
+ struct pvr_fw_trace_seq_data {
+ 	/** @buffer: Pointer to copy of trace data. */
+ 	u32 *buffer;
+-- 
+2.25.1
 
-Why not use the bulk API for clk as well?
-
-[...]
-> +static int vs_drm_device_init_clocks(struct vs_drm_device *priv)
-> +{
-> +	struct drm_device *dev =3D &priv->base;
-> +	struct platform_device *pdev =3D to_platform_device(dev->dev);
-> +	struct device_node *of_node =3D pdev->dev.of_node;
-> +	struct clk *clock;
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	if (dev_get_platdata(&pdev->dev) || !of_node)
-> +		return 0;
-> +
-> +	priv->nrsts =3D ARRAY_SIZE(priv->rst_vout);
-> +	for (int i =3D 0; i < priv->nrsts; ++i)
-> +		priv->rst_vout[i].id =3D vout_resets[i];
-> +	ret =3D devm_reset_control_bulk_get_shared(dev->dev, priv->nrsts,
-> +						 priv->rst_vout);
-
-I would request resets and clocks in _probe().
-
-If component_bind_all() returns -EPROBE_DEFER because of a still
-missing DSI panel backlight or similar, this doesn't have to be done
-multiple times.
-
-> +	if (ret) {
-> +		drm_err(dev, "Failed to get reset controls\n");
-> +		return ret;
-> +	}
-> +
-> +	priv->clk_count =3D of_clk_get_parent_count(of_node);
-> +	if (!priv->clk_count)
-> +		return 0;
-> +
-> +	priv->clks =3D drmm_kzalloc(dev, priv->clk_count * sizeof(priv->clks[0]=
-),
-> +				  GFP_KERNEL);
-> +	if (!priv->clks)
-> +		return -ENOMEM;
-> +
-> +	for (i =3D 0; i < priv->clk_count; ++i) {
-> +		clock =3D of_clk_get(of_node, i);
-> +		if (IS_ERR(clock)) {
-> +			ret =3D PTR_ERR(clock);
-> +			if (ret =3D=3D -EPROBE_DEFER)
-> +				goto err;
-> +			drm_err(dev, "clock %u not found: %d\n", i, ret);
-> +			continue;
-> +		}
-> +		ret =3D clk_prepare_enable(clock);
-> +		if (ret) {
-> +			drm_err(dev, "failed to enable clock %u: %d\n",
-> +				i, ret);
-> +			clk_put(clock);
-> +			continue;
-> +		}
-> +		priv->clks[i] =3D clock;
-> +	}
-> +
-> +	ret =3D reset_control_bulk_deassert(priv->nrsts, priv->rst_vout);
-> +	if (ret)
-> +		return ret;
-
-This should goto err, otherwise clocks are left enabled.
-
-> +
-> +	return devm_add_action_or_reset(&pdev->dev,
-> +					vs_drm_device_release_clocks,
-> +					priv);
-> +
-> +err:
-> +	while (i) {
-> +		--i;
-> +		if (priv->clks[i]) {
-> +			clk_disable_unprepare(priv->clks[i]);
-> +			clk_put(priv->clks[i]);
-> +		}
-> +	}
-> +	return ret;
-> +}
-> +
-> +static int vs_drm_bind(struct device *dev)
-> +{
-> +	struct platform_device *pdev =3D to_platform_device(dev);
-> +	struct vs_drm_device *priv;
-> +	int ret;
-> +	struct drm_device *drm_dev;
-> +
-> +	/* Remove existing drivers that may own the framebuffer memory. */
-> +	ret =3D drm_aperture_remove_framebuffers(&vs_drm_driver);
-> +	if (ret)
-> +		return ret;
-> +
-> +	priv =3D devm_drm_dev_alloc(dev, &vs_drm_driver, struct vs_drm_device, =
-base);
-> +	if (IS_ERR(priv))
-> +		return PTR_ERR(priv);
-> +
-> +	priv->pitch_alignment =3D 64;
-
-Why is this a variable instead of a constant?
-
-> +	ret =3D dma_set_coherent_mask(priv->base.dev, DMA_BIT_MASK(40));
-> +	if (ret)
-> +		return ret;
-> +
-> +	drm_dev =3D &priv->base;
-> +	platform_set_drvdata(pdev, drm_dev);
-> +
-> +	ret =3D vs_drm_device_init_clocks(priv);
-> +	if (ret)
-> +		return ret;
-> +
-> +	vs_mode_config_init(drm_dev);
-> +
-> +	/* Now try and bind all our sub-components */
-> +	ret =3D component_bind_all(dev, drm_dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret =3D drm_vblank_init(drm_dev, drm_dev->mode_config.num_crtc);
-> +	if (ret)
-> +		return ret;
-
-Missing component_unbind_all(), see below.
-
-> +
-> +	drm_mode_config_reset(drm_dev);
-> +
-> +	drm_kms_helper_poll_init(drm_dev);
-> +
-> +	ret =3D drm_dev_register(drm_dev, 0);
-> +	if (ret)
-> +		return ret;
-
-Missing drm_kms_helper_poll_fini(), see below.
-
-> +
-> +	drm_fbdev_generic_setup(drm_dev, 32);
-> +
-> +	return 0;
-
-Here I'd expect an error path calling drm_kms_helper_poll_fini() and
-component_unbind_all() as appropriate.
-
-
-regards
-Philipp
