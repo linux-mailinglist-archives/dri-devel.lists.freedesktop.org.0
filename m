@@ -1,47 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948BB803268
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 13:20:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 549BE80326A
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 13:21:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8301610E1AF;
-	Mon,  4 Dec 2023 12:20:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBDE410E1AE;
+	Mon,  4 Dec 2023 12:21:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DC2510E1AE
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 12:20:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 0790EB80D9C;
- Mon,  4 Dec 2023 12:20:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C7D2C433C8;
- Mon,  4 Dec 2023 12:20:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701692403;
- bh=0qvMhFDnM/7yiCgOLoXikHI+tn389Ae71sX3tu1wBsk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rQBSuz20375Yd2A4Th4NyYhFUSw5dUpR7u3d5g2SWqweNcGTMC05TZw7w98hdkJwW
- nAgj1cY/sNIgPQEIyzzC1h13fVGHTQIMXnd5qby7ctA9JxrQYOS/wogPGrToxzPldE
- dJZvj9RTKQNMaIFSDmIBKMMNmFb7DHJp7SHbTy/eMDdabXbsUSUfgUQzT7bLMhitKt
- /K21c/RXLkMbNrC3RN+ffzSBoI9m8JdnWYmcluzEVxwskt7Woj2lqDlpvcYFe0f1nm
- W2df/dqn9acBHOMhBypdCfU4DCR9vv22WZIk5V9vRpVXey9NliU99ouT4rIDR2iW0p
- mVT31Wewa36/A==
-Date: Mon, 4 Dec 2023 13:20:00 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH] drm/doc: Define KMS atomic state set
-Message-ID: <orevvhcz7e4p7ztincqegggfstkfz5jv7w2ugqpdqadvkfwzig@oxf5k2pgdd4t>
-References: <20231130200740.53454-1-andrealmeid@igalia.com>
- <ZWn1EC04wBSN9hu2@intel.com>
- <20231201181616.4c1f0acc.pekka.paalanen@collabora.com>
- <ZWohUl3Ma6Q2fccG@intel.com>
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2159810E0D8
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 12:21:28 +0000 (UTC)
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3B4C9q80016735; Mon, 4 Dec 2023 12:21:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2023-11-20; bh=jIS5wAnVSsNNvK1fqn1ZGEXn0mdtAdWPjrHPs/QHSv0=;
+ b=ipJDJFSkkoQ8OSQPZhk5NGBF5GWZGXGxxoWTDFq3JcYkMP4DJvuuZu/eIYPnB/4q0Mrb
+ l10CkBMRPOR0Vi120mKOdhXeJmoF2YR8NUbfL1LIQD0ZZvYmp0MGmmWbdbIZZcR+gwAI
+ MjPpaT+niWJSaI2c7dmkvCF5OPyaNRvUL4kavB5aXNv4AG45M70K4ndvhTP4s019D2o8
+ hXCm/qVQx7W2gcEw1lAA3Uuvay76uqF4WaREhS7p0HazCbuUx+1zj5k/NKoDp5t51uzB
+ OB1HVK4NEblxEw6mQ4R+DarG/CuKMFyt8U7y3gVdkrI3YH6zkQC6kvO44SIbfQMdZ1SA uw== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3usec201h9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 04 Dec 2023 12:21:08 +0000
+Received: from pps.filterd
+ (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19)
+ with ESMTP id 3B4BaSvE014380; Mon, 4 Dec 2023 12:21:06 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3uqu15p761-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 04 Dec 2023 12:21:06 +0000
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3B4CL692015651;
+ Mon, 4 Dec 2023 12:21:06 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com
+ [10.129.136.47])
+ by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
+ 3uqu15p74p-1; Mon, 04 Dec 2023 12:21:06 +0000
+From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+To: Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH next] drm/v3d: Fix missing error code in v3d_submit_cpu_ioctl()
+Date: Mon,  4 Dec 2023 04:21:01 -0800
+Message-ID: <20231204122102.181298-1-harshit.m.mogalapalli@oracle.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="pz2s7ou5ixdylful"
-Content-Disposition: inline
-In-Reply-To: <ZWohUl3Ma6Q2fccG@intel.com>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-04_11,2023-11-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ malwarescore=0
+ mlxlogscore=999 mlxscore=0 suspectscore=0 adultscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2312040093
+X-Proofpoint-GUID: FqbDJb9ICTqnlVj5k1F4_ZyMkZQBve0e
+X-Proofpoint-ORIG-GUID: FqbDJb9ICTqnlVj5k1F4_ZyMkZQBve0e
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,62 +82,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
- =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>, kernel-dev@igalia.com,
- 'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- alexander.deucher@amd.com, Pekka Paalanen <pekka.paalanen@collabora.com>,
- christian.koenig@amd.com
+Cc: harshit.m.mogalapalli@oracle.com, kernel-janitors@vger.kernel.org,
+ error27@gmail.com, dan.carpenter@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Smatch warns:
+	drivers/gpu/drm/v3d/v3d_submit.c:1222 v3d_submit_cpu_ioctl()
+	warn: missing error code 'ret'
 
---pz2s7ou5ixdylful
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When there is no job type or job is submitted with wrong number of BOs
+it is an error path, ret is zero at this point which is incorrect
+return.
 
-On Fri, Dec 01, 2023 at 08:09:22PM +0200, Ville Syrj=E4l=E4 wrote:
-> > When I was working on Weston atomic KMS support many years ago, I
-> > created a framework that emitted KMS property changes only when they
-> > actually needed changing. By review feedback (*), all that machinery was
-> > dropped in a re-design, and today Weston always emits all KMS
-> > properties it knows to program for a specific CRTC update including all
-> > relevant planes and connectors.
-> >=20
-> > (*) Why do we need to repeat the same state tracking that the kernel
-> > does anyway, and also risk getting out of sync with the kernel due to
-> > bugs which then become more difficult to diagnose. I guess (assumed)
-> > kernel internals leaked to userspace. Oops.
->=20
-> The kernel does track the full state sure, but it doesn't generally
-> go out of its way to figure out what specifically changed in that state.
-> Doing so would be a lot of extra checks, and kinda less convenient to
-> do inside the driver since at that point the state is already spread=20
-> all over the various structures. And the fact that those structures
-> are a mismash of uapi and internal bits of state (and other metadata=20
-> for the single commit that really shouldn't be stored there) doesn't
-> help matters. I did propose to split the state cleanly into pure uapi
-> vs. internal stuff but that didn't gain any traction unfortunately.
+Fix this by changing it to -EINVAL.
 
-Also, that's not how drivers are modelled, so even though we could
-possibly figure out the entire state of the device, we don't have any
-code for it because no one really needs to.
+Fixes: aafc1a2bea67 ("drm/v3d: Add a CPU job submission")
+Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+---
+This is based on static analysis and only compile tested.
+---
+ drivers/gpu/drm/v3d/v3d_submit.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Maxime
+diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
+index d7a9da2484fd..fcff41dd2315 100644
+--- a/drivers/gpu/drm/v3d/v3d_submit.c
++++ b/drivers/gpu/drm/v3d/v3d_submit.c
+@@ -1219,11 +1219,13 @@ v3d_submit_cpu_ioctl(struct drm_device *dev, void *data,
+ 	/* Every CPU job must have a CPU job user extension */
+ 	if (!cpu_job->job_type) {
+ 		DRM_DEBUG("CPU job must have a CPU job user extension.\n");
++		ret = -EINVAL;
+ 		goto fail;
+ 	}
+ 
+ 	if (args->bo_handle_count != cpu_job_bo_handle_count[cpu_job->job_type]) {
+ 		DRM_DEBUG("This CPU job was not submitted with the proper number of BOs.\n");
++		ret = -EINVAL;
+ 		goto fail;
+ 	}
+ 
+-- 
+2.39.3
 
---pz2s7ou5ixdylful
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZW3D8AAKCRDj7w1vZxhR
-xfuBAP44RTvwxwTOGMBqJ8ApzDoUdsKylzTHDJ1y7Xp8o9Eb5QD+PrvitvNf4ZWM
-mUo/xz1bP19ktkumOT0biPRVFs6ZiAc=
-=CVBx
------END PGP SIGNATURE-----
-
---pz2s7ou5ixdylful--
