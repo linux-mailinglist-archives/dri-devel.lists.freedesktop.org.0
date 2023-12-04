@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA3BC803DBE
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 19:57:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A4A803DD2
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 19:58:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBF8F10E3D7;
-	Mon,  4 Dec 2023 18:57:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CFAC10E3C9;
+	Mon,  4 Dec 2023 18:57:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
- [IPv6:2607:f8b0:4864:20::c34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7F9910E3CB
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 18:57:26 +0000 (UTC)
-Received: by mail-oo1-xc34.google.com with SMTP id
- 006d021491bc7-58d18c224c7so2922105eaf.2
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 10:57:26 -0800 (PST)
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
+ [IPv6:2607:f8b0:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00F8D10E3C4
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 18:57:27 +0000 (UTC)
+Received: by mail-ot1-x335.google.com with SMTP id
+ 46e09a7af769-6d8ba6c9b4bso1218746a34.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 10:57:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701716246; x=1702321046; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1701716247; x=1702321047; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6rgTeL5s3ofedwZl2YbFthmW9shcLKv1EiL+fVf829g=;
- b=Dyx1MdjiUOyUcQFi1XkXezWT7i6cCcZ+VfsJ1lIVVzmOVh9wFSFZ0qe2ADGlsMOJWM
- GovlTAFx825PAYsBNZ/CApuQLaR00QRt7moz6GazQ3FiMaFRU9LuSWUtVu98ErPuHvhO
- 6ncCRzTMH2/8fweyLSoP23SQSgrjbmHSfjfwew/djzcZ0/ObdX5zSy9T2je5qxupc2Cc
- q/fBN7JBmTqCgk9JOHbvzdo+NlHVe9WfxXnGzWMwLxIzWQLLEVSJQUe3M7dz6r+PGTB0
- S/CVAHaw7m1p8Lfa92PQ23XlzBe3fVqRjxHrd/0ZkMXDUX5yLQbj514rLN3d3m8TZwAR
- fEAw==
+ bh=pRNLoGhO2BMO9ciLNfM1W1rhqOoDcDjvlbAJTebh+yo=;
+ b=fGvGKFwigQxDr7FsZ6dWQxZwOagbBv6eGhLwohcVXP12ghwo40vnVNUqLxnwfzv64J
+ JYyG7X+qvFhrYTut7sGgaBh1uUXSsodupjzvT5Zm5xBETgaPX6cN6Y12CWZPwaweZ35m
+ 5OCLJLpOWrPutblfV4svl/ciGDCrPGtLPg/zLjGfxhWnuOY1pQrsFJCXVgB9kYaT6WHI
+ b5mV8eQMF48si/YEzfl5oZ13jzcMWc7waEeBWFWVrPCLdh9W4KMhT9dHp0lwJo0KRnQU
+ t4L/fkx85mufsMv1USlQ4CzOBzAXmvH3YWTQGR2KJBqxQLlUAbCi6O4XgmpIYEhcfHgx
+ SnYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701716246; x=1702321046;
+ d=1e100.net; s=20230601; t=1701716247; x=1702321047;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6rgTeL5s3ofedwZl2YbFthmW9shcLKv1EiL+fVf829g=;
- b=JZhoPsCsYdZHqSkGn0YwvGBH0eIUNrz1edl2arH6Nc7V1worRqbUDoI4OG7K5ahlqJ
- 5lDSsyV9ixbXSh+0ijQ+ZJLXSjWPCHz7kumt8f1EiPgkX622FPaGD1qzuG2zLd8/j4xs
- fdG9jsM6LHzkZwKSQeup8WSCkj3cf8o0DDdvdAzmhGrdnvnS8Bbl/uzDHw5IuV3q++DI
- RBPAaxFFG9FS0EZdNksX+SRqbb4YyI5I1X+JFYZFJZbzhQ3+XqJGuOGO8SZWw5fpPfTN
- FcHPHShFZf3c5RAkxzOcEGBCz74i+/M/7U2X4qt+/KzKe0m116H6IOJkFZEMkSAS7TRV
- yw8w==
-X-Gm-Message-State: AOJu0YzDXCP9YZdRUwBBGp4U4CX8Z1Hsdj3rs8jN/UI67QCmrlSVjEcD
- KZNA5/ANuTeaHpXE6elEH/I=
-X-Google-Smtp-Source: AGHT+IHtinyT3UvNVVgfaiVR9PDPfm0VQnP/g1hm2ope27H09s6RXeCMhC4TJSpO0tvX0PHiAXIDwA==
-X-Received: by 2002:a4a:2452:0:b0:590:2df8:1bf7 with SMTP id
- v18-20020a4a2452000000b005902df81bf7mr724118oov.4.1701716245953; 
- Mon, 04 Dec 2023 10:57:25 -0800 (PST)
+ bh=pRNLoGhO2BMO9ciLNfM1W1rhqOoDcDjvlbAJTebh+yo=;
+ b=rfizmy/RPTu8rjEjFfTmnN1XGzNS72UxQq69r+Jv+OKub5nRv8lCQy69NM8e5Mdt0B
+ gNVJsKwTYv44VNEifYDHVTC5ahkq0T7Zsi7nLCWLMWOfQUQywnznIpvz7Pvrc7ZLE1Ek
+ z9isN0h1G9y8DDj3cXiWlzEPSymYlu16nkWq8g/kNvh4XDi+x8jeBYNWXPhv0x1wGHIE
+ VIyHe+MEqTcvG8psZILoQs2Zh5TPTNZxciCRzYj89xioijURdlTRldouwMGPp/ytmoN6
+ 2jgNxHT+e2UqYusGLJuBGLABwjYj/Z5p+izE+89eiOCKxOBXgu91z41Rl/qScEGT8hnM
+ +pfg==
+X-Gm-Message-State: AOJu0YwFxaQZvg9sQRbdAbVQOqgRKJ7ASNeN4Zk5hXvzyHembOpweWNP
+ i17ffoo4oeZ+uepSoXajm4g=
+X-Google-Smtp-Source: AGHT+IHcWm1h1Em1kIkk/o+9cIGFYSuJffLp9RQVhcgIZgRMRwVf1HJ4lBuXR12rytbhyYdoJFAN0w==
+X-Received: by 2002:a05:6830:1283:b0:6d8:7eb4:ca7d with SMTP id
+ z3-20020a056830128300b006d87eb4ca7dmr2963949otp.54.1701716247207; 
+ Mon, 04 Dec 2023 10:57:27 -0800 (PST)
 Received: from localhost.localdomain ([75.28.21.198])
  by smtp.gmail.com with ESMTPSA id
- y25-20020a4a2d19000000b00581fc1af0a7sm2073303ooy.28.2023.12.04.10.57.25
+ y25-20020a4a2d19000000b00581fc1af0a7sm2073303ooy.28.2023.12.04.10.57.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Dec 2023 10:57:25 -0800 (PST)
+ Mon, 04 Dec 2023 10:57:27 -0800 (PST)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-rockchip@lists.infradead.org
-Subject: [PATCH V2 01/10] drm/panel: himax-hx8394: Drop prepare/unprepare
- tracking
-Date: Mon,  4 Dec 2023 12:57:10 -0600
-Message-Id: <20231204185719.569021-2-macroalpha82@gmail.com>
+Subject: [PATCH V2 02/10] drm/panel: himax-hx8394: Drop shutdown logic
+Date: Mon,  4 Dec 2023 12:57:11 -0600
+Message-Id: <20231204185719.569021-3-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231204185719.569021-1-macroalpha82@gmail.com>
 References: <20231204185719.569021-1-macroalpha82@gmail.com>
@@ -85,65 +84,55 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Drop the panel specific prepare/unprepare logic. This is now tracked
-by the DRM stack [1].
-
-[1] commit d2aacaf07395 ("drm/panel: Check for already prepared/enabled in
-drm_panel")
+The driver shutdown is duplicate as it calls drm_unprepare and
+drm_disable which are called anyway when associated drivers are
+shutdown/removed.
 
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- drivers/gpu/drm/panel/panel-himax-hx8394.c | 11 -----------
- 1 file changed, 11 deletions(-)
+ drivers/gpu/drm/panel/panel-himax-hx8394.c | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-himax-hx8394.c b/drivers/gpu/drm/panel/panel-himax-hx8394.c
-index c73243d85de7..3823ff388b96 100644
+index 3823ff388b96..d8e590d5e1da 100644
 --- a/drivers/gpu/drm/panel/panel-himax-hx8394.c
 +++ b/drivers/gpu/drm/panel/panel-himax-hx8394.c
-@@ -68,7 +68,6 @@ struct hx8394 {
- 	struct gpio_desc *reset_gpio;
- 	struct regulator *vcc;
- 	struct regulator *iovcc;
--	bool prepared;
- 
- 	const struct hx8394_panel_desc *desc;
- };
-@@ -262,16 +261,11 @@ static int hx8394_unprepare(struct drm_panel *panel)
- {
- 	struct hx8394 *ctx = panel_to_hx8394(panel);
- 
--	if (!ctx->prepared)
--		return 0;
--
- 	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
- 
- 	regulator_disable(ctx->iovcc);
- 	regulator_disable(ctx->vcc);
- 
--	ctx->prepared = false;
--
+@@ -390,27 +390,11 @@ static int hx8394_probe(struct mipi_dsi_device *dsi)
  	return 0;
  }
  
-@@ -280,9 +274,6 @@ static int hx8394_prepare(struct drm_panel *panel)
- 	struct hx8394 *ctx = panel_to_hx8394(panel);
+-static void hx8394_shutdown(struct mipi_dsi_device *dsi)
+-{
+-	struct hx8394 *ctx = mipi_dsi_get_drvdata(dsi);
+-	int ret;
+-
+-	ret = drm_panel_disable(&ctx->panel);
+-	if (ret < 0)
+-		dev_err(&dsi->dev, "Failed to disable panel: %d\n", ret);
+-
+-	ret = drm_panel_unprepare(&ctx->panel);
+-	if (ret < 0)
+-		dev_err(&dsi->dev, "Failed to unprepare panel: %d\n", ret);
+-}
+-
+ static void hx8394_remove(struct mipi_dsi_device *dsi)
+ {
+ 	struct hx8394 *ctx = mipi_dsi_get_drvdata(dsi);
  	int ret;
  
--	if (ctx->prepared)
--		return 0;
+-	hx8394_shutdown(dsi);
 -
- 	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
- 
- 	ret = regulator_enable(ctx->vcc);
-@@ -301,8 +292,6 @@ static int hx8394_prepare(struct drm_panel *panel)
- 
- 	msleep(180);
- 
--	ctx->prepared = true;
--
- 	return 0;
- 
- disable_vcc:
+ 	ret = mipi_dsi_detach(dsi);
+ 	if (ret < 0)
+ 		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
+@@ -427,7 +411,6 @@ MODULE_DEVICE_TABLE(of, hx8394_of_match);
+ static struct mipi_dsi_driver hx8394_driver = {
+ 	.probe	= hx8394_probe,
+ 	.remove = hx8394_remove,
+-	.shutdown = hx8394_shutdown,
+ 	.driver = {
+ 		.name = DRV_NAME,
+ 		.of_match_table = hx8394_of_match,
 -- 
 2.34.1
 
