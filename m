@@ -1,122 +1,109 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAAA8802C75
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 08:53:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72541802CA0
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 09:05:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2F7010E0C0;
-	Mon,  4 Dec 2023 07:53:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 567AA10E2E0;
+	Mon,  4 Dec 2023 08:04:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E3C710E0C0
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 07:53:37 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id
- ffacd0b85a97d-33338c67d20so1618190f8f.0
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Dec 2023 23:53:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701676415; x=1702281215; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
- :from:content-language:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=DUE9cIia5RndsrVuBCAFeRy3st8DEQwSkYVMSuUSur0=;
- b=UWlM7OZFlsFddUFdpV7Z8mbngGP1kLJRrHG39NqHJIPZDAc5iekJ2OsHj59kTpRg6e
- RA/OLCCd5ICiu4x5CFxNfkdq/vjQV/3vUauRmH8xC2c0SvomklIpLVm2gAtJEyAHDDGh
- 3SJIRPIy12V2hAdROsPS5mzUWxPAxL7RsNRC/ERdXJ6eLYhsAuUTuFz35JDLnYTVuf0z
- 9C21Bjp5N+0sggVLHe2bHVPy4bQg9wWj1rNUWa4mdEpEeb8QmG9BgALHuzDaiS7KeOTv
- hNjG5IXgyOtck5xISGvcjXtMPLQkrkwgiuZOgP+77diXt0hdZhUg5bpb5eR0pVnSWBCK
- ASPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701676415; x=1702281215;
- h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
- :from:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DUE9cIia5RndsrVuBCAFeRy3st8DEQwSkYVMSuUSur0=;
- b=NZV4dL0ALxxohXmOftmyGZHN50ci2opyqB5tys89gBtIAqAVkW9MQUzwycMJdKo88H
- ++6tPsvyd0fczl7twu3+5ne+hUrWWp9CXmL9wQFY6D2kBjC7g9OGO3rmQJxKBaztWIeO
- MZs6q/IksZyVgFpAlYaTijL+aEvvHxPOQa2PzVZv94rxN/gYtyCWs0vbyxNqfwNxKkC5
- 9YKrqBoLNx9J6Be/tgR+ULV5US7QxE4f0B7P0KIYUWpJ/9ls1TuQOucqFqo25I4V9vUn
- A7sJSpd+UEIeMCcgfwu8fIIhWqwNPnL+K5oRu/zM6yIum7uYXIcNJysFwMKkkl2SGLeR
- MSww==
-X-Gm-Message-State: AOJu0YwFVAyVt73t+7oSZ8JpQcGv7cxrFk86hHWorM7OPvl/7XOdAr/u
- d78PHICIZKvvuXetIEUbOjK7nQ==
-X-Google-Smtp-Source: AGHT+IFe3sKzxeepTekqDNg5IF+EueiJ2Wb9yYNrh2Wyp9e/pQD2dR0MmBaREgcI+/CHxC9EsDpSlg==
-X-Received: by 2002:adf:a195:0:b0:332:ee1e:1993 with SMTP id
- u21-20020adfa195000000b00332ee1e1993mr3009916wru.20.1701676415546; 
- Sun, 03 Dec 2023 23:53:35 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.109])
- by smtp.gmail.com with ESMTPSA id
- f9-20020a056000036900b00332e073f12bsm11009137wrf.19.2023.12.03.23.53.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 03 Dec 2023 23:53:34 -0800 (PST)
-Message-ID: <d186b6ef-5ca1-4db4-b3a2-fc1a17a2e912@linaro.org>
-Date: Mon, 4 Dec 2023 08:53:33 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B6B410E2D4
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 08:03:20 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id CAE421FE4F;
+ Mon,  4 Dec 2023 08:03:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1701676997; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=RUuECgJkxyZWkJhHJh0g2qWzQo+zTm/8J5lSNezlHgw=;
+ b=aUjYduaLVT8H89SmW0hLKRA+kkmnLzDX/uPa5RAdL+r1DwRXm7WqX94Njfq5vJVMud4gF4
+ iygCQmU664fN/9AQYeagnTj7cIw2PllZJt7V62PwOAc1GRlaGTnq2tTBMHtA8xg86Ms5qa
+ 1/07Bd7r4PVdqK9497+ymICy/+lxklQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1701676997;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=RUuECgJkxyZWkJhHJh0g2qWzQo+zTm/8J5lSNezlHgw=;
+ b=f66A/vhocYSUyRiK1jJDtyI2DzMosApulM4osw+BcMtATI2itqNkEIcf9tXYqWW+HiQrh7
+ GgU1vTgwGK9HcKDg==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 9741F139E2;
+ Mon,  4 Dec 2023 08:03:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap2.dmz-prg2.suse.org with ESMTPSA id W6/GI8WHbWU1FwAAn2gu4w
+ (envelope-from <tzimmermann@suse.de>); Mon, 04 Dec 2023 08:03:17 +0000
+Message-ID: <8036d161-b560-44ab-b073-1c05cb7fbec5@suse.de>
+Date: Mon, 4 Dec 2023 09:03:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panfrost: Really power off GPU cores in
- panfrost_gpu_power_off()
+Subject: Re: [PATCH v3] drm/atomic-helpers: Invoke end_fb_access while owning
+ plane state
+To: Alyssa Ross <hi@alyssa.is>
+References: <20231128090158.15564-1-tzimmermann@suse.de>
+ <87r0k3c8d0.fsf@alyssa.is>
 Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
-References: <20231102141507.73481-1-angelogioacchino.delregno@collabora.com>
- <7928524a-b581-483b-b1a1-6ffd719ce650@arm.com>
- <1c9838fb-7f2d-4752-b86a-95bcf504ac2f@linaro.org>
- <6b7a4669-7aef-41a7-8201-c2cfe401bc43@collabora.com>
- <20231121175531.085809f5@collabora.com>
- <d95259b8-10cf-4ded-866c-47cbd2a44f84@linaro.org>
- <4c73f67e-174c-497e-85a5-cb053ce657cb@collabora.com>
- <39e9514b-087c-42eb-8d0e-f75dc620e954@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <39e9514b-087c-42eb-8d0e-f75dc620e954@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <87r0k3c8d0.fsf@alyssa.is>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------6XEoc1S13996EFo8pzFSFFtt"
+X-Spam-Flag: NO
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spamd-Result: default: False [-5.29 / 50.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; XM_UA_NO_VERSION(0.01)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
+ HAS_ATTACHMENT(0.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ MIME_BASE64_TEXT_BOGUS(1.00)[]; BAYES_HAM(-3.00)[100.00%];
+ RCVD_COUNT_THREE(0.00)[3];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_BASE64_TEXT(0.10)[];
+ RCPT_COUNT_SEVEN(0.00)[8];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,ffwll.ch:email,alyssa.is:email]; 
+ SIGNED_PGP(-2.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
+ FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch,redhat.com];
+ RCVD_TLS_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[]
+X-Spam-Score: -5.29
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,59 +116,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, mripard@kernel.org,
- Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, wenst@chromium.org, kernel@collabora.com,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: dri-devel@lists.freedesktop.org, javierm@redhat.com, mripard@kernel.org,
+ stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/11/2023 10:29, Krzysztof Kozlowski wrote:
-> On 22/11/2023 10:06, AngeloGioacchino Del Regno wrote:
-> 
->>>>>>    
->>>>>
->>>>> Hey Krzysztof,
->>>>>
->>>>> This is interesting. It might be about the cores that are missing from the partial
->>>>> core_mask raising interrupts, but an external abort on non-linefetch is strange to
->>>>> see here.
->>>>
->>>> I've seen such external aborts in the past, and the fault type has
->>>> often been misleading. It's unlikely to have anything to do with a
->>>
->>> Yeah, often accessing device with power or clocks gated.
->>>
->>
->> Except my commit does *not* gate SoC power, nor SoC clocks 🙂
-> 
-> It could be that something (like clocks or power supplies) was missing
-> on this board/SoC, which was not critical till your patch came.
-> 
->>
->> What the "Really power off ..." commit does is to ask the GPU to internally power
->> off the shaders, tilers and L2, that's why I say that it is strange to see that
->> kind of abort.
->>
->> The GPU_INT_CLEAR GPU_INT_STAT, GPU_FAULT_STATUS and GPU_FAULT_ADDRESS_{HI/LO}
->> registers should still be accessible even with shaders, tilers and cache OFF.
->>
->> Anyway, yes, synchronizing IRQs before calling the poweroff sequence would also
->> work, but that'd add up quite a bit of latency on the runtime_suspend() call, so
->> in this case I'd be more for avoiding to execute any register r/w in the handler
->> by either checking if the GPU is supposed to be OFF, or clearing interrupts, which
->> may not work if those are generated after the execution of the poweroff function.
->> Or we could simply disable the irq after power_off, but that'd be hacky (as well).
->>
->>
->> Let's see if asking to poweroff *everything* works:
-> 
-> Worked.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------6XEoc1S13996EFo8pzFSFFtt
+Content-Type: multipart/mixed; boundary="------------Lqdobx2e1xlW12V1QBUOguFI";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Alyssa Ross <hi@alyssa.is>
+Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, javierm@redhat.com
+Message-ID: <8036d161-b560-44ab-b073-1c05cb7fbec5@suse.de>
+Subject: Re: [PATCH v3] drm/atomic-helpers: Invoke end_fb_access while owning
+ plane state
+References: <20231128090158.15564-1-tzimmermann@suse.de>
+ <87r0k3c8d0.fsf@alyssa.is>
+In-Reply-To: <87r0k3c8d0.fsf@alyssa.is>
 
-Is anything happening with this patchset? linux-next is broken - fails
-to boot - for three weeks now on my platforms.
+--------------Lqdobx2e1xlW12V1QBUOguFI
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Best regards,
-Krzysztof
+SGkNCg0KQW0gMDMuMTIuMjMgdW0gMjE6NTcgc2NocmllYiBBbHlzc2EgUm9zczoNCj4gVGhv
+bWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyaXRlczoNCj4gDQo+PiBJ
+bnZva2UgZHJtX3BsYW5lX2hlbHBlcl9mdW5jcy5lbmRfZmJfYWNjZXNzIGJlZm9yZQ0KPj4g
+ZHJtX2F0b21pY19oZWxwZXJfY29tbWl0X2h3X2RvbmUoKS4gVGhlIGxhdHRlciBmdW5jdGlv
+biBoYW5kcyBvdmVyDQo+PiBvd25lcnNoaXAgb2YgdGhlIHBsYW5lIHN0YXRlIHRvIHRoZSBm
+b2xsb3dpbmcgY29tbWl0LCB3aGljaCBtaWdodA0KPj4gZnJlZSBpdC4gUmVsZWFzaW5nIHJl
+c291cmNlcyBpbiBlbmRfZmJfYWNjZXNzIHRoZW4gb3BlcmF0ZXMgb24gdW5kZWZpbmVkDQo+
+PiBzdGF0ZS4gVGhpcyBidWcgaGFzIGJlZW4gb2JzZXJ2ZWQgd2l0aCBub24tYmxvY2tpbmcg
+Y29tbWl0cyB3aGVuIHRoZXkNCj4+IGFyZSBiZWluZyBxdWV1ZWQgdXAgcXVpY2tseS4NCj4+
+DQo+PiBIZXJlIGlzIGFuIGV4YW1wbGUgc3RhY2sgdHJhY2UgZnJvbSB0aGUgYnVnIHJlcG9y
+dC4gVGhlIHBsYW5lIHN0YXRlIGhhcw0KPj4gYmVlbiBmcmVlJ2QgYWxyZWFkeSwgc28gdGhl
+IHBhZ2VzIGZvciBkcm1fZ2VtX2ZiX3Z1bm1hcCgpIGFyZSBnb25lLg0KPj4NCj4+IFVuYWJs
+ZSB0byBoYW5kbGUga2VybmVsIHBhZ2luZyByZXF1ZXN0IGF0IHZpcnR1YWwgYWRkcmVzcyAw
+MDAwMDAwMTAwMDAwMDQ5DQo+PiBbLi4uXQ0KPj4gICBkcm1fZ2VtX2ZiX3Z1bm1hcCsweDE4
+LzB4NzQNCj4+ICAgZHJtX2dlbV9lbmRfc2hhZG93X2ZiX2FjY2VzcysweDFjLzB4MmMNCj4+
+ICAgZHJtX2F0b21pY19oZWxwZXJfY2xlYW51cF9wbGFuZXMrMHg1OC8weGQ4DQo+PiAgIGRy
+bV9hdG9taWNfaGVscGVyX2NvbW1pdF90YWlsKzB4OTAvMHhhMA0KPj4gICBjb21taXRfdGFp
+bCsweDE1Yy8weDE4OA0KPj4gICBjb21taXRfd29yaysweDE0LzB4MjANCj4+DQo+PiBGaXgg
+dGhpcyBieSBydW5uaW5nIGVuZF9mYl9hY2Nlc3MgaW1tZWRpYXRlbHkgYWZ0ZXIgdXBkYXRp
+bmcgYWxsIHBsYW5lcw0KPj4gaW4gZHJtX2F0b21pY19oZWxwZXJfY29tbWl0X3BsYW5lcygp
+LiBUaGUgZXhpc3RpbmcgY2xlYW4tdXAgaGVscGVyDQo+PiBkcm1fYXRvbWljX2hlbHBlcl9j
+bGVhbnVwX3BsYW5lcygpIG5vdyBvbmx5IGhhbmRsZXMgY2xlYW51cF9mYi4NCj4+DQo+PiBG
+b3IgYWJvcnRlZCBjb21taXRzLCByb2xsIGJhY2sgZnJvbSBkcm1fYXRvbWljX2hlbHBlcl9w
+cmVwYXJlX3BsYW5lcygpDQo+PiBpbiB0aGUgbmV3IGhlbHBlciBkcm1fYXRvbWljX2hlbHBl
+cl91bnByZXBhcmVfcGxhbmVzKCkuIFRoaXMgY2FzZSBpcw0KPj4gZGlmZmVyZW50IGZyb20g
+cmVndWxhciBjbGVhbnVwLCBhcyB3ZSBoYXZlIHRvIHJlbGVhc2UgdGhlIG5ldyBzdGF0ZTsN
+Cj4+IHJlZ3VsYXIgY2xlYW51cCByZWxlYXNlcyB0aGUgb2xkIHN0YXRlLiBUaGUgbmV3IGhl
+bHBlciBhbHNvIGludm9rZXMNCj4+IGNsZWFudXBfZmIgZm9yIGFsbCBwbGFuZXMuDQo+Pg0K
+Pj4gVGhlIGNoYW5nZXMgbW9zdGx5IGludm9sdmUgRFJNJ3MgYXRvbWljIGhlbHBlcnMuIE9u
+bHkgdHdvIGRyaXZlcnMsIGk5MTUNCj4+IGFuZCBub3V2ZWF1LCBpbXBsZW1lbnQgdGhlaXIg
+b3duIGNvbW1pdCBmdW5jdGlvbi4gVXBkYXRlIHRoZW0gdG8gaW52b2tlDQo+PiBkcm1fYXRv
+bWljX2hlbHBlcl91bnByZXBhcmVfcGxhbmVzKCkuIERyaXZlcnMgd2l0aCBjdXN0b20gY29t
+bWl0X3RhaWwNCj4+IGZ1bmN0aW9uIGRvIG5vdCByZXF1aXJlIGNoYW5nZXMuDQo+Pg0KPj4g
+djM6DQo+PiAJKiBhZGQgZHJtX2F0b21pY19oZWxwZXJfdW5wcmVwYXJlX3BsYW5lcygpIGZv
+ciByb2xsaW5nIGJhY2sNCj4+IAkqIHVzZSBjb3JyZWN0IHN0YXRlIGZvciBlbmRfZmJfYWNj
+ZXNzDQo+PiB2MjoNCj4+IAkqIGZpeCB0ZXN0IGluIGRybV9hdG9taWNfaGVscGVyX2NsZWFu
+dXBfcGxhbmVzKCkNCj4+DQo+PiBSZXBvcnRlZC1ieTogQWx5c3NhIFJvc3MgPGhpQGFseXNz
+YS5pcz4NCj4+IENsb3NlczogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvZHJpLWRldmVsLzg3
+bGVhem0weWEuZnNmQGFseXNzYS5pcy8NCj4+IFN1Z2dlc3RlZC1ieTogRGFuaWVsIFZldHRl
+ciA8ZGFuaWVsQGZmd2xsLmNoPg0KPj4gRml4ZXM6IDk0ZDg3OWVhZjdmYiAoImRybS9hdG9t
+aWMtaGVscGVyOiBBZGQge2JlZ2luLGVuZH1fZmJfYWNjZXNzIHRvIHBsYW5lIGhlbHBlcnMi
+KQ0KPj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1
+c2UuZGU+DQo+PiBDYzogPHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmc+ICMgdjYuMisNCj4gDQo+
+IEkndmUgYmVlbiBydW5uaW5nIHRoaXMgZm9yIGRheXMgbm93LCBhbmQgaGF2ZW4ndCBoYWQg
+YSBzaW5nbGUgT29wcy4NCj4gR2l2ZW4gdGhlIHJhdGUgd2l0aCB3aGljaCBJIGVuY291bnRl
+cmVkIHRoZW0gYmVmb3JlIGluIHRoaXMNCj4gY29uZmlndXJhdGlvbiwgaXQgbG9va3MgdmVy
+eSBsaWtlbHkgdGhhdCB0aGUgaXNzdWUgaXMgcmVzb2x2ZWQuDQo+IA0KPiBUZXN0ZWQtYnk6
+IEFseXNzYSBSb3NzIDxoaUBhbHlzc2EuaXM+DQo+IA0KPiBBbmQsIG9uY2UgdGhlIHdyb25n
+IHBhcmFtZXRlciBuYW1lIGluIHRoZSBrZXJuZWxkb2MgaWRlbnRpZmllZCBieSB0aGUNCj4g
+a2VybmVsIHRlc3Qgcm9ib3QgaXMgcmVzb2x2ZWQsDQo+IA0KPiBSZXZpZXdlZC1ieTogQWx5
+c3NhIFJvc3MgPGhpQGFseXNzYS5pcz4NCg0KR3JlYXQuIEknbGwgcHJlcGFyZSBhbm90aGVy
+IHVwZGF0ZSBzbyB0aGlzIGZpeCBjYW4gbGFuZCBiZWZvcmUgdGhlIG5leHQgDQotZml4ZXMg
+UFIuIFRoYW5rcyBhIGxvdCENCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KLS0gDQpUaG9t
+YXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2Fy
+ZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51
+ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcg
+TWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
+
+--------------Lqdobx2e1xlW12V1QBUOguFI--
+
+--------------6XEoc1S13996EFo8pzFSFFtt
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVth8UFAwAAAAAACgkQlh/E3EQov+CG
+Dg//YS3NkbEHcIgoLXSJEMoA+qd/W4WzzeWSqCbQKge8v6/5Q8ViqXwjsPma1aWgXr1Bv59u9TBv
+LvBuPChY8yK51CszdOJUeBLZQEyfl8Cw1PawaUBvdeZmhw+1wKuWT7pfbi7NSxq2KLq2hxLUauEG
+M1A96NgVtQwVMgPRwR5sbPOM6mEzQwTGm6biAGKIbYBTeJAcSwTnqkvuYUABqyGGH4rybxJERfpb
+ZtiX9+XIl8XWd0L6Z4j+/58rXJ+gGdBsUHX8uGuDlu+uk4B0BOq6uxumjNqZCA5izN1JEbVG/2sV
+ue2ogE/4I2N1zpQ4vxwFNzTO9o+H3wVpvZqxya7wxdDNbjWxguuEEW1zAugUgUMFnrGAVe2Mu0+U
+h/Ws7ZOphqiPpXQIbeZVB5+rvaF/ApTMntDiwFEe6B03Z5uwWItcfouuVrUC0w7uBBfrUNmIJbLp
+8PCKJnzcNaxEVrY2b44iTwcWqQhNAdPUYZvWicox3SnT4JvecOg/tJb74tsXEotRELyZ9MHF4YBT
+azbskKFmaIY79UINwOI4o2WwpHM1QLcEz41zQVRLpNp4BSSSYnLfsP8WSuoxJ8FCJtwWctJ5M6nQ
+geOoe4wCTJilRxiuUYWDx0P3gVv+XEpI//1JEvD3LoM8/v0u2lR1N6/pNZYOKba3OCSAcJIumw8e
+NJw=
+=Bd4M
+-----END PGP SIGNATURE-----
+
+--------------6XEoc1S13996EFo8pzFSFFtt--
