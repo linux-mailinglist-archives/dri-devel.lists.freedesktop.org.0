@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 512F1802FC9
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 11:12:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC1C3802FC8
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 11:12:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F01E310E312;
-	Mon,  4 Dec 2023 10:12:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A60A710E0A1;
+	Mon,  4 Dec 2023 10:12:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
  [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D53F10E312
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0598D10E30A
  for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 10:12:13 +0000 (UTC)
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
  by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
- 3B4815Qm008037; Mon, 4 Dec 2023 11:11:49 +0100
+ 3B47qmuS011775; Mon, 4 Dec 2023 11:11:57 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding:content-type; s=selector1; bh=nQnyC3l
- sx0aVrbg7MvvuUyjEbRMAbRgqkdEPvR+/ZvI=; b=f0QirGigY05O6nytCchuzif
- gv9t66Hmttc9XqtGRwziHBpd9qf2yGK0Q3YzfNVCv15FSue1Sg9GNS0JhhhLucHj
- OXugUCQfATGuDG0qj9UdpJBZ3bkMeZ/TdytGxb8eFgUl/bdSv1fOgcJiB5ldbUZq
- V1U/VcsCX4zFucniCqgpRZKfv57IXBKb8hXctAIbW7ec1dRLm/MoFy72F7PZh/b4
- R0i2gNERrzYu5F64IF/KRuGFRwV94RHNh1OVr8slDQ9xckwNlhSYTkZl74IVRo25
- LWFwLBmpUd/i2NwfBnUN2BGKy2PSz/digzsRfSTYvD16b88MJ8OBlx8Vxqx7Ocw=
- =
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding:content-type; s=
+ selector1; bh=uxlxZGGWiCK9ukUifKVDu5ceC0YPpoymX4MhiItDcpE=; b=xf
+ yhtO6yrjNOd14b9FGi4oHKHKiQMsBanHfnxjgLsckWsELDwMCILUvv6YGstnZzXD
+ tVyMNCojHdhbiDRtZkLUKhk0t3f0VT4x+TG5BndWNpo9WGpZHi9ewUC2CPv2gkTK
+ jEaqT6SnXufoeD4bvByKr3+3QuxZDt8XwAN2QwXJGI6rK9gQ1PCbreZBshukNMB2
+ hoPzn6i9gzTMA7Kv2EloombwN+bWsSBTl4eS865G5xXeK6bdtvRoSnGqZGMvS4vi
+ cW5SvgOf2761MEQ9HdLP+xSHrwM7iWOEd1gsMEmDbWSnkLQVSjGDV/zpzc5U78o7
+ RBGALyruR+u/o2HFkbRQ==
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3urf14vm5u-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3uqtvkxv31-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 04 Dec 2023 11:11:49 +0100 (CET)
+ Mon, 04 Dec 2023 11:11:57 +0100 (CET)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 7FB95100089;
- Mon,  4 Dec 2023 11:11:46 +0100 (CET)
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 07AD6100089;
+ Mon,  4 Dec 2023 11:11:56 +0100 (CET)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6FFFA21ADAD;
- Mon,  4 Dec 2023 11:11:46 +0100 (CET)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id F0B9921ADB1;
+ Mon,  4 Dec 2023 11:11:55 +0100 (CET)
 Received: from localhost (10.252.13.105) by SHFDAG1NODE2.st.com (10.75.129.70)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 4 Dec
- 2023 11:11:45 +0100
+ 2023 11:11:53 +0100
 From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
  <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
@@ -51,10 +51,12 @@ To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Richard Cochran <richardcochran@gmail.com>
-Subject: [PATCH v2 0/4] Update STM DSI PHY driver
-Date: Mon, 4 Dec 2023 11:11:09 +0100
-Message-ID: <20231204101113.276368-1-raphael.gallais-pou@foss.st.com>
+Subject: [PATCH v2 1/4] drm/stm: dsi: use new SYSTEM_SLEEP_PM_OPS() macro
+Date: Mon, 4 Dec 2023 11:11:10 +0100
+Message-ID: <20231204101113.276368-2-raphael.gallais-pou@foss.st.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20231204101113.276368-1-raphael.gallais-pou@foss.st.com>
+References: <20231204101113.276368-1-raphael.gallais-pou@foss.st.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -82,46 +84,47 @@ Cc: devicetree@vger.kernel.org, netdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series aims to add several features of the dw-mipi-dsi phy
-driver that are missing or need to be updated.
+Use RUNTIME_PM_OPS() instead of the old SET_SYSTEM_SLEEP_PM_OPS().
+This means we don't need  __maybe_unused on the functions.
 
-First patch update a PM macro.
-
-Second patch adds runtime PM functionality to the driver.
-
-Third patch adds a clock provider generated by the PHY itself.  As
-explained in the commit log of the second patch, a clock declaration is
-missing.  Since this clock is parent of 'dsi_k', it leads to an orphan
-clock.  Most importantly this patch is an anticipation for future
-versions of the DSI PHY, and its inclusion within the display subsystem
-and the DRM framework.
-
-Last patch fixes a corner effect introduced previously.  Since 'dsi' and
-'dsi_k' are gated by the same bit on the same register, both reference
-work as peripheral clock in the device-tree.
-
+Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 ---
-Changes in v2:
-	- Added patch 1/4 to use SYSTEM_SLEEP_PM_OPS instead of old macro
-	  and removed __maybe_used for accordingly
-	- Changed SET_RUNTIME_PM_OPS to RUNTIME_PM_OPS
+ drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Raphael Gallais-Pou (3):
-  drm/stm: dsi: use new SYSTEM_SLEEP_PM_OPS() macro
-  drm/stm: dsi: expose DSI PHY internal clock
-  arm: dts: st: fix DSI peripheral clock on stm32mp15 boards
-
-Yannick Fertre (1):
-  drm/stm: dsi: add pm runtime ops
-
- arch/arm/boot/dts/st/stm32mp157.dtsi          |   2 +-
- arch/arm/boot/dts/st/stm32mp157a-dk1-scmi.dts |   2 +-
- arch/arm/boot/dts/st/stm32mp157c-dk2-scmi.dts |   2 +-
- arch/arm/boot/dts/st/stm32mp157c-ed1-scmi.dts |   2 +-
- arch/arm/boot/dts/st/stm32mp157c-ev1-scmi.dts |   2 +-
- drivers/gpu/drm/stm/dw_mipi_dsi-stm.c         | 278 +++++++++++++++---
- 6 files changed, 242 insertions(+), 46 deletions(-)
-
+diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+index d5f8c923d7bc..b1aee43d51e9 100644
+--- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
++++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+@@ -544,7 +544,7 @@ static void dw_mipi_dsi_stm_remove(struct platform_device *pdev)
+ 	regulator_disable(dsi->vdd_supply);
+ }
+ 
+-static int __maybe_unused dw_mipi_dsi_stm_suspend(struct device *dev)
++static int dw_mipi_dsi_stm_suspend(struct device *dev)
+ {
+ 	struct dw_mipi_dsi_stm *dsi = dw_mipi_dsi_stm_plat_data.priv_data;
+ 
+@@ -556,7 +556,7 @@ static int __maybe_unused dw_mipi_dsi_stm_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused dw_mipi_dsi_stm_resume(struct device *dev)
++static int dw_mipi_dsi_stm_resume(struct device *dev)
+ {
+ 	struct dw_mipi_dsi_stm *dsi = dw_mipi_dsi_stm_plat_data.priv_data;
+ 	int ret;
+@@ -580,8 +580,8 @@ static int __maybe_unused dw_mipi_dsi_stm_resume(struct device *dev)
+ }
+ 
+ static const struct dev_pm_ops dw_mipi_dsi_stm_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(dw_mipi_dsi_stm_suspend,
+-				dw_mipi_dsi_stm_resume)
++	SYSTEM_SLEEP_PM_OPS(dw_mipi_dsi_stm_suspend,
++			    dw_mipi_dsi_stm_resume)
+ };
+ 
+ static struct platform_driver dw_mipi_dsi_stm_driver = {
 -- 
 2.25.1
 
