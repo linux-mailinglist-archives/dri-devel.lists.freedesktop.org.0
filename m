@@ -2,69 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F6D803BDC
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 18:41:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C3D803BEB
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 18:45:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79E3110E219;
-	Mon,  4 Dec 2023 17:41:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE04A10E05F;
+	Mon,  4 Dec 2023 17:45:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5B5B10E219
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 17:41:01 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id
- 4fb4d7f45d1cf-54cff638658so388772a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 09:41:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701711660; x=1702316460; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=0YoXgk1fmeGz9Ml7hlpE/8h2Sivb7FXL2iIYJZqnuHo=;
- b=Xw0pu0Wucx+9tZ8CsESH/CRDUPtJ9eY93ZMEknZmn2nIRXNP5xmW6fQBTJkCbx+Gmy
- b3GOzoTggSD4z9yrHAOGvGlK6F3JWXdoQA3J4sZSLMEL+1qsZDGJHGzr3aIElljzdvdq
- /C64IOc2o5kLoIzIqzPxrI2x9jR3aMN68O8wPbdr8mT8G6Qc1FX2cIG/KpfkEKF712BO
- jd/+1WuZqHwJeXCxVeXD/tukhCsulb4nKbf3Dtf9LVyzoSm/MJJ2/MHbOwGlFhKCbc8J
- KIcs7Z3CIPdLTe/F1dbbsXstJ/GyZAWPdKXJh5ac40WhvBZ6S3TLwMwU12ZblsNEWRW4
- uEqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701711660; x=1702316460;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0YoXgk1fmeGz9Ml7hlpE/8h2Sivb7FXL2iIYJZqnuHo=;
- b=CfxwK00gLyino17HBekJRbubUSUBdNzrDR5AkPNDP8a3er+M5Fr89EBiSKXZszxBzk
- CIzWAXFQNkaTZmpaKdQSlW2189qGeyFDffa2XBRayxRXzZ25Li0HFEuqCgzGDlLqBXpv
- 5QDIHcKKJscoOHWoXNvwyuPlspm+hCdo5YZAGrd/cp7JHNIjSe++oJACBpfEDszs3Jel
- 9GZ5CEOsj4fk2/GUE5ilU5ibgxdWqFISly/3GCYYd26tLTBQ6dcIzb54cUZG9QPUEf/9
- R6iLKvkcjSqgFoju8hoSChM5LeIMuPIvMbf2yVagAA4+yBecvmSLHlx/DF/2oZCnDAWa
- 44rQ==
-X-Gm-Message-State: AOJu0Yzbd/u5BzZejrLPFfMM+7dpMeTB7R+dltesWJYA5VXUrJ+kzYW2
- i26WKjapHu4VzhkyKyf4/+k=
-X-Google-Smtp-Source: AGHT+IH5CahfTiqAKyTJCwE1ddGA7CrKLTxjhTR6LznurnRE9jPGXs+oBd55rb4exBi9MUScKfvJ5w==
-X-Received: by 2002:a17:906:6d52:b0:a19:a19b:55ce with SMTP id
- a18-20020a1709066d5200b00a19a19b55cemr3477124ejt.94.1701711659945; 
- Mon, 04 Dec 2023 09:40:59 -0800 (PST)
-Received: from [192.168.2.1] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
- by smtp.gmail.com with ESMTPSA id
- ub12-20020a170907c80c00b009d268e3b801sm4350577ejc.37.2023.12.04.09.40.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Dec 2023 09:40:59 -0800 (PST)
-Message-ID: <f5bc182b-f9b6-26a8-8649-19ce33e3c0e1@gmail.com>
-Date: Mon, 4 Dec 2023 18:40:58 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1918810E05F;
+ Mon,  4 Dec 2023 17:45:30 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3B4G0R29019293; Mon, 4 Dec 2023 17:45:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=VXEkGrebY6EpaoRxkLmNRIq8U7rbzpMW/SZKy6MWvnw=;
+ b=aEoYVP5L4QFfqM7inlb02XdDHBsP+ORGDABZDtgJZSwf5A7Cn8J+C4b/4A1NzgcAyGax
+ xe8RKr6j9FCSaVsGSM6sUB/h7Mx/OfhBGv/BGnb77OZE6IZi9uFm6buzawtQRGy38HTv
+ w5w2uGY8pmLu4Ne7iDzszyUiuk55aEXRjQhqVu+Hu9QIj9/2isDn2gKVIY1V7zerIZf3
+ UZtqnE0dijP0QFDkYpp5hRP2LhTyuggbfqSflJovy5mOa9YjwULq3ziq2DsODXkEeQgp
+ he+BPCdonISPfVhlcBGDqmK/h52D8wS/DSmbKGU60MU1444mNChBdcjpTq5vvmpGMyfZ dg== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3usdf7h3wb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 04 Dec 2023 17:45:22 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B4HjKI2004582
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 4 Dec 2023 17:45:20 GMT
+Received: from [10.110.73.134] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 4 Dec
+ 2023 09:45:20 -0800
+Message-ID: <4a2d6fb2-e3b5-dd5d-7a66-d514e091eb41@quicinc.com>
+Date: Mon, 4 Dec 2023 09:45:19 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-From: Johan Jonker <jbx6244@gmail.com>
-Subject: [PATCH v1 3/3] ARM: dts: rockchip: rk3036-kylin: add hdmi-connector
- node
-To: heiko@sntech.de, hjc@rock-chips.com
-References: <49c6afec-022f-02de-99a0-d409b64da198@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [Freedreno] [PATCH] drm: improve the documentation of connector
+ hpd ops
 Content-Language: en-US
-In-Reply-To: <49c6afec-022f-02de-99a0-d409b64da198@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>
+References: <20230920201358.27597-1-quic_abhinavk@quicinc.com>
+ <20231203142441.GA26644@pendragon.ideasonboard.com>
+ <CAA8EJpoykwsMWX+msDAB3TZaBmwE4iA4fiDiA-iOELmWd50s-w@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJpoykwsMWX+msDAB3TZaBmwE4iA4fiDiA-iOELmWd50s-w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: EkHT7SJ4frOUXAXSx2l67_zfmBQsrdaS
+X-Proofpoint-GUID: EkHT7SJ4frOUXAXSx2l67_zfmBQsrdaS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-04_17,2023-12-04_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ suspectscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
+ spamscore=0 clxscore=1011 adultscore=0 phishscore=0 malwarescore=0
+ mlxscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2312040137
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,55 +86,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, tzimmermann@suse.de,
- krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
- mripard@kernel.org, linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, andersson@kernel.org,
+ linux-kernel@vger.kernel.org, quic_parellan@quicinc.com, Maxime
+ Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ quic_jesszhan@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add hdmi-connector node to comply with the inno_hdmi binding.
 
-Signed-off-by: Johan Jonker <jbx6244@gmail.com>
----
- arch/arm/boot/dts/rockchip/rk3036-kylin.dts | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
 
-diff --git a/arch/arm/boot/dts/rockchip/rk3036-kylin.dts b/arch/arm/boot/dts/rockchip/rk3036-kylin.dts
-index 67e1e04139e7..a213333be011 100644
---- a/arch/arm/boot/dts/rockchip/rk3036-kylin.dts
-+++ b/arch/arm/boot/dts/rockchip/rk3036-kylin.dts
-@@ -13,6 +13,17 @@ memory@60000000 {
- 		reg = <0x60000000 0x20000000>;
- 	};
+On 12/3/2023 10:14 AM, Dmitry Baryshkov wrote:
+> On Sun, 3 Dec 2023 at 16:24, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+>>
+>> Hi Abhinav,
+>>
+>> Thank you for the patch (and thank to Dmitry for pinging me on IRC, this
+>> patch got burried in my inbox).
+>>
+>> On Wed, Sep 20, 2023 at 01:13:58PM -0700, Abhinav Kumar wrote:
+>>> While making the changes in [1], it was noted that the documentation
+>>> of the enable_hpd() and disable_hpd() does not make it clear that
+>>> these ops should not try to do hpd state maintenance and should only
+>>> attempt to enable/disable hpd related hardware for the connector.
+>>
+>> s/attempt to //
+> 
+> I can probably fix this while applying the patch.
+> 
 
-+	hdmi_con: hdmi-con {
-+		compatible = "hdmi-connector";
-+		type = "c";
-+
-+		port {
-+			hdmi_con_in: endpoint {
-+				remote-endpoint = <&hdmi_out_con>;
-+			};
-+		};
-+	};
-+
- 	leds: gpio-leds {
- 		compatible = "gpio-leds";
+Thank you Laurent and Dmitry.
 
-@@ -110,6 +121,12 @@ &hdmi {
- 	status = "okay";
- };
-
-+&hdmi_out {
-+	hdmi_out_con: endpoint {
-+		remote-endpoint = <&hdmi_con_in>;
-+	};
-+};
-+
- &i2c1 {
- 	clock-frequency = <400000>;
-
---
-2.39.2
-
+>>
+>>>
+>>> The state management of these calls to make sure these calls are
+>>> balanced is handled by the DRM core and we should keep it that way
+>>> to minimize the overhead in the drivers which implement these ops.
+>>>
+>>> [1]: https://patchwork.freedesktop.org/patch/558387/
+>>>
+>>
+>> You could add a
+>>
+>> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>
+>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>
+>>> ---
+>>>   include/drm/drm_modeset_helper_vtables.h | 10 ++++++++++
+>>>   1 file changed, 10 insertions(+)
+>>>
+>>> diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+>>> index e3c3ac615909..a33cf7488737 100644
+>>> --- a/include/drm/drm_modeset_helper_vtables.h
+>>> +++ b/include/drm/drm_modeset_helper_vtables.h
+>>> @@ -1154,6 +1154,11 @@ struct drm_connector_helper_funcs {
+>>>         * This operation is optional.
+>>>         *
+>>>         * This callback is used by the drm_kms_helper_poll_enable() helpers.
+>>> +      *
+>>> +      * This operation does not need to perform any hpd state tracking as
+>>> +      * the DRM core handles that maintenance and ensures the calls to enable
+>>> +      * and disable hpd are balanced.
+>>> +      *
+>>>         */
+>>>        void (*enable_hpd)(struct drm_connector *connector);
+>>>
+>>> @@ -1165,6 +1170,11 @@ struct drm_connector_helper_funcs {
+>>>         * This operation is optional.
+>>>         *
+>>>         * This callback is used by the drm_kms_helper_poll_disable() helpers.
+>>> +      *
+>>> +      * This operation does not need to perform any hpd state tracking as
+>>> +      * the DRM core handles that maintenance and ensures the calls to enable
+>>> +      * and disable hpd are balanced.
+>>> +      *
+>>>         */
+>>>        void (*disable_hpd)(struct drm_connector *connector);
+>>>   };
+>>
+>> --
+>> Regards,
+>>
+>> Laurent Pinchart
+> 
+> 
+> 
