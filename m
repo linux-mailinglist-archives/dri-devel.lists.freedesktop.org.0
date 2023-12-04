@@ -2,74 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549BE80326A
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 13:21:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB2B803280
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 13:23:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBDE410E1AE;
-	Mon,  4 Dec 2023 12:21:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CD6210E1B1;
+	Mon,  4 Dec 2023 12:23:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2159810E0D8
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 12:21:28 +0000 (UTC)
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3B4C9q80016735; Mon, 4 Dec 2023 12:21:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2023-11-20; bh=jIS5wAnVSsNNvK1fqn1ZGEXn0mdtAdWPjrHPs/QHSv0=;
- b=ipJDJFSkkoQ8OSQPZhk5NGBF5GWZGXGxxoWTDFq3JcYkMP4DJvuuZu/eIYPnB/4q0Mrb
- l10CkBMRPOR0Vi120mKOdhXeJmoF2YR8NUbfL1LIQD0ZZvYmp0MGmmWbdbIZZcR+gwAI
- MjPpaT+niWJSaI2c7dmkvCF5OPyaNRvUL4kavB5aXNv4AG45M70K4ndvhTP4s019D2o8
- hXCm/qVQx7W2gcEw1lAA3Uuvay76uqF4WaREhS7p0HazCbuUx+1zj5k/NKoDp5t51uzB
- OB1HVK4NEblxEw6mQ4R+DarG/CuKMFyt8U7y3gVdkrI3YH6zkQC6kvO44SIbfQMdZ1SA uw== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3usec201h9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 04 Dec 2023 12:21:08 +0000
-Received: from pps.filterd
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19)
- with ESMTP id 3B4BaSvE014380; Mon, 4 Dec 2023 12:21:06 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3uqu15p761-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 04 Dec 2023 12:21:06 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3B4CL692015651;
- Mon, 4 Dec 2023 12:21:06 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com
- [10.129.136.47])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 3uqu15p74p-1; Mon, 04 Dec 2023 12:21:06 +0000
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-To: Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH next] drm/v3d: Fix missing error code in v3d_submit_cpu_ioctl()
-Date: Mon,  4 Dec 2023 04:21:01 -0800
-Message-ID: <20231204122102.181298-1-harshit.m.mogalapalli@oracle.com>
-X-Mailer: git-send-email 2.42.0
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9549910E1B1
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 12:23:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701692616; x=1733228616;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=pA2hIUCEqzd+GtBE/QzkH/cr0EoxYMBcOLYSi/uD6Ws=;
+ b=FwbdZzqHsZKVpv7V8TQWd3NfdIrpxJfcEQxJtmo34Tk6fAnosNnMqOVt
+ y2XXSkJ+UUznDHERYrTLUs914EedMVVXOOxU7bDaMKjiiZqnRbdLfxXaG
+ 0vESS7AmfH55D2SEqAPyMKA+fledfdYO1GeoZziG4yD3DT3nGuB6AdoIb
+ zn/W+yFFKarH5QKRUg/q1ddHmC3dJzbg4HwXyyErR6G4WAYyf99YEJYah
+ qqEILEr5hllkamzYYEZoQeCBVbqhcoq0Qwb4nfy5nb/twv3h80PS3oYK+
+ AEsBzGO3NwlkCRvMtfKjznlgpY4GfgfgRkHY2gF4dpdrJ+Gdk7IrWC3KE w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="378757909"
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; d="scan'208";a="378757909"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2023 04:23:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="774238808"
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; d="scan'208";a="774238808"
+Received: from jlawryno.igk.intel.com ([10.91.220.59])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2023 04:23:34 -0800
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] accel/ivpu/37xx: Fix interrupt_clear_with_0 WA initialization
+Date: Mon,  4 Dec 2023 13:23:31 +0100
+Message-ID: <20231204122331.40560-1-jacek.lawrynowicz@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-04_11,2023-11-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- malwarescore=0
- mlxlogscore=999 mlxscore=0 suspectscore=0 adultscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2312040093
-X-Proofpoint-GUID: FqbDJb9ICTqnlVj5k1F4_ZyMkZQBve0e
-X-Proofpoint-ORIG-GUID: FqbDJb9ICTqnlVj5k1F4_ZyMkZQBve0e
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,47 +55,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: harshit.m.mogalapalli@oracle.com, kernel-janitors@vger.kernel.org,
- error27@gmail.com, dan.carpenter@linaro.org
+Cc: quic_jhugo@quicinc.com,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Smatch warns:
-	drivers/gpu/drm/v3d/v3d_submit.c:1222 v3d_submit_cpu_ioctl()
-	warn: missing error code 'ret'
+From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
 
-When there is no job type or job is submitted with wrong number of BOs
-it is an error path, ret is zero at this point which is incorrect
-return.
+Using PCI Device ID/Revision to initialize the interrupt_clear_with_0
+workaround is problematic - there are many pre-production
+steppings with different behavior, even with the same PCI ID/Revision
 
-Fix this by changing it to -EINVAL.
+Instead of checking for PCI Device ID/Revision, check the VPU
+buttress interrupt status register behavior - if this register
+is not zero after writing 1s it means there register is RW
+instead of RW1C and we need to enable the interrupt_clear_with_0
+workaround.
 
-Fixes: aafc1a2bea67 ("drm/v3d: Add a CPU job submission")
-Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+Fixes: 7f34e01f77f8 ("accel/ivpu: Clear specific interrupt status bits on C0")
+Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
-This is based on static analysis and only compile tested.
----
- drivers/gpu/drm/v3d/v3d_submit.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/accel/ivpu/ivpu_hw_37xx.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-index d7a9da2484fd..fcff41dd2315 100644
---- a/drivers/gpu/drm/v3d/v3d_submit.c
-+++ b/drivers/gpu/drm/v3d/v3d_submit.c
-@@ -1219,11 +1219,13 @@ v3d_submit_cpu_ioctl(struct drm_device *dev, void *data,
- 	/* Every CPU job must have a CPU job user extension */
- 	if (!cpu_job->job_type) {
- 		DRM_DEBUG("CPU job must have a CPU job user extension.\n");
-+		ret = -EINVAL;
- 		goto fail;
- 	}
+diff --git a/drivers/accel/ivpu/ivpu_hw_37xx.c b/drivers/accel/ivpu/ivpu_hw_37xx.c
+index 4ccf1994b97a..d530384f8d60 100644
+--- a/drivers/accel/ivpu/ivpu_hw_37xx.c
++++ b/drivers/accel/ivpu/ivpu_hw_37xx.c
+@@ -53,10 +53,12 @@
  
- 	if (args->bo_handle_count != cpu_job_bo_handle_count[cpu_job->job_type]) {
- 		DRM_DEBUG("This CPU job was not submitted with the proper number of BOs.\n");
-+		ret = -EINVAL;
- 		goto fail;
- 	}
+ #define ICB_0_1_IRQ_MASK ((((u64)ICB_1_IRQ_MASK) << 32) | ICB_0_IRQ_MASK)
  
+-#define BUTTRESS_IRQ_MASK ((REG_FLD(VPU_37XX_BUTTRESS_INTERRUPT_STAT, FREQ_CHANGE)) | \
+-			   (REG_FLD(VPU_37XX_BUTTRESS_INTERRUPT_STAT, ATS_ERR)) | \
++#define BUTTRESS_IRQ_MASK ((REG_FLD(VPU_37XX_BUTTRESS_INTERRUPT_STAT, ATS_ERR)) | \
+ 			   (REG_FLD(VPU_37XX_BUTTRESS_INTERRUPT_STAT, UFI_ERR)))
+ 
++#define BUTTRESS_ALL_IRQ_MASK (BUTTRESS_IRQ_MASK | \
++			       (REG_FLD(VPU_37XX_BUTTRESS_INTERRUPT_STAT, FREQ_CHANGE)))
++
+ #define BUTTRESS_IRQ_ENABLE_MASK ((u32)~BUTTRESS_IRQ_MASK)
+ #define BUTTRESS_IRQ_DISABLE_MASK ((u32)-1)
+ 
+@@ -74,8 +76,12 @@ static void ivpu_hw_wa_init(struct ivpu_device *vdev)
+ 	vdev->wa.clear_runtime_mem = false;
+ 	vdev->wa.d3hot_after_power_off = true;
+ 
+-	if (ivpu_device_id(vdev) == PCI_DEVICE_ID_MTL && ivpu_revision(vdev) < 4)
++	REGB_WR32(VPU_37XX_BUTTRESS_INTERRUPT_STAT, BUTTRESS_ALL_IRQ_MASK);
++	if (REGB_RD32(VPU_37XX_BUTTRESS_INTERRUPT_STAT) == BUTTRESS_ALL_IRQ_MASK) {
++		/* Writing 1s does not clear the interrupt status register */
+ 		vdev->wa.interrupt_clear_with_0 = true;
++		REGB_WR32(VPU_37XX_BUTTRESS_INTERRUPT_STAT, 0x0);
++	}
+ 
+ 	IVPU_PRINT_WA(punit_disabled);
+ 	IVPU_PRINT_WA(clear_runtime_mem);
 -- 
-2.39.3
+2.43.0
 
