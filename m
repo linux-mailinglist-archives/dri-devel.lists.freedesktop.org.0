@@ -1,75 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC42802EF0
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 10:42:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DCDE802EF4
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 10:42:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 765A610E231;
-	Mon,  4 Dec 2023 09:42:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B9C510E314;
+	Mon,  4 Dec 2023 09:42:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B634F10E03B
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 09:42:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1701682925;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VaGns7gznEtfoHG5/ry6CysbEWdXBIzB19dd6KHGP/0=;
- b=haiWJzfH9lYDPxiwl3WlCBLs23LPQ3wdncQ3Vqgmlr0Y/1iIwoZG7ocWU5BIrZvPUsj9yI
- vUNeTKZNWMMKATt2Sx95jAyM7HA8EMfVOFEv3GLjZCCOe+5aWc4xhHAkYsUQud7xN0vVpT
- bV0kKuKDpwbmsEyBKtp/I+q8Wiydyxw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-500-WdjRtJKqMtKiis9XZ52yRQ-1; Mon, 04 Dec 2023 04:42:03 -0500
-X-MC-Unique: WdjRtJKqMtKiis9XZ52yRQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-40b357e2a01so31319005e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 01:42:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701682922; x=1702287722;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VaGns7gznEtfoHG5/ry6CysbEWdXBIzB19dd6KHGP/0=;
- b=tvYMsanWom/BjsDi98Ppi6uYRyV5rS3dEYGAq/VopeA0bvYr36CUvWS2VdTOiiYo8D
- 0gq9tlQdLdjDPpFc6b2Xnoqy9mv6YZUt1QZpWAyuLRM7DuP2b3VVnHy8LwAcoxR+41zL
- HdgyXPUSiCAFhxwm7jRsL1xMSracyAq+nORrAcy/BvoFCeUwM68bI2ppTtRRx5Frjm9E
- V/oOrEG7ByhXveijCXUgy7Tyxs9EM86SIlzIOSCt93vxtX+/DgpW6nQnFFT24P8KiVSq
- oCRNoXvuMyHEF6su1Ry+raJcjbtWT7DPx2rRfg//3miniYt1pXLE6L89Vna2TCEE/0lf
- 6ylA==
-X-Gm-Message-State: AOJu0YxvfUrU33i6zwTyich4/c1NThdO6QDzAxyDWXMJL08iJpjVqqrU
- fsALDkdc5tqLU+jSvJWKdTaaydY6cEj37cPeMGgRhS09pCYYIVKP32SHAJjU1E24Lu+w8V5U+3x
- LFg3fIzT4xjBKmU7cK0Pmyomn4qVy
-X-Received: by 2002:a05:600c:230c:b0:40b:5e21:bde1 with SMTP id
- 12-20020a05600c230c00b0040b5e21bde1mr1992491wmo.112.1701682922722; 
- Mon, 04 Dec 2023 01:42:02 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHKbDMlcSZRmYxfwIMqNYsq1c9B1PO0Imfj1CH1zWIpq+H+b1PJuusoLSRaiunDJaNEcQNA8g==
-X-Received: by 2002:a05:600c:230c:b0:40b:5e21:bde1 with SMTP id
- 12-20020a05600c230c00b0040b5e21bde1mr1992482wmo.112.1701682922357; 
- Mon, 04 Dec 2023 01:42:02 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- p23-20020a05600c1d9700b0040b3645a7c2sm18214724wms.40.2023.12.04.01.42.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Dec 2023 01:42:02 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, daniel@ffwll.ch, airlied@gmail.com,
- suijingfeng@loongson.cn
-Subject: Re: [PATCH v2 7/8] drm/simpledrm: Do not include
- <drm/drm_plane_helper.h>
-In-Reply-To: <20231204090852.1650-8-tzimmermann@suse.de>
-References: <20231204090852.1650-1-tzimmermann@suse.de>
- <20231204090852.1650-8-tzimmermann@suse.de>
-Date: Mon, 04 Dec 2023 10:42:01 +0100
-Message-ID: <877cluxq1i.fsf@minerva.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3371F10E2E7;
+ Mon,  4 Dec 2023 09:42:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701682939; x=1733218939;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=7SK1zfK4UqJjdJhKiWkmwSqNVp1yeuolxUrDpBE6fOM=;
+ b=VGaPBMSIydllMK12ItTQP/Rpqyst3yIVKe+kHpW1WUjbkz2NAvhUfqXV
+ u3rLpiG8gQOagHy6EtUwR/H5C3YcR4dv6l6HQTLi4zl7GFFCPTDEKmhSQ
+ VGvL9eYPmQyEPshn1AWv1QAAjoyjOrte60SW6mfGoBoKGAwmjItGPNxRz
+ GjuMW9cpAC4uK0xLb8Ihh9LSqRZX4b9Kni7+stt3Omc0OE3qZa+CGHF03
+ g8PzMZlw5NJgSJ7Mf/OlaJ4xcqqwbC/W6wyl9Kc3fD/oaCxz4kG5oUFDR
+ AHKb9slnfEX4aFr7vva6dkYcYbUJYzXUZXG5I+Syk1Zq9Vy5fzAECUaeP Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="6996729"
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
+   d="scan'208";a="6996729"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2023 01:42:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="861319095"
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; d="scan'208";a="861319095"
+Received: from shahmoha-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.45.180])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2023 01:42:15 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Ville =?utf-8?B?U3lyasOk?=
+ =?utf-8?B?bMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH] drm/i915/dsi: Use devm_gpiod_get() for all GPIOs
+In-Reply-To: <20231201161130.23976-1-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231201161130.23976-1-hdegoede@redhat.com>
+Date: Mon, 04 Dec 2023 11:42:13 +0200
+Message-ID: <87zfyq2tje.fsf@intel.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,28 +62,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, laurent.pinchart@ideasonboard.com,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
-
-> Remove unnecessary include statements for <drm/drm_plane_helper.h>.
-> The file contains helpers for non-atomic code and should not be
-> required by most drivers. No functional changes.
+On Fri, 01 Dec 2023, Hans de Goede <hdegoede@redhat.com> wrote:
+> soc_gpio_set_value() already uses devm_gpiod_get(), lets be consistent
+> and use devm_gpiod_get() for all GPIOs.
 >
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> ---
+> This allows removing the intel_dsi_vbt_gpio_cleanup() function,
+> which only function was to put the GPIO-descriptors.
+>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+
+
+> ---
+> Note this applies on top of Andy's recent GPIO rework series which
+> has just landed in drm-intel-next
+> ---
+>  drivers/gpu/drm/i915/display/intel_dsi_vbt.c | 17 ++---------------
+>  drivers/gpu/drm/i915/display/intel_dsi_vbt.h |  1 -
+>  drivers/gpu/drm/i915/display/vlv_dsi.c       | 10 +---------
+>  3 files changed, 3 insertions(+), 25 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
+> index 275d0218394c..a5d7fc8418c9 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
+> @@ -922,7 +922,7 @@ void intel_dsi_vbt_gpio_init(struct intel_dsi *intel_dsi, bool panel_is_on)
+>  		gpiod_add_lookup_table(gpiod_lookup_table);
+>  
+>  	if (want_panel_gpio) {
+> -		intel_dsi->gpio_panel = gpiod_get(dev->dev, "panel", flags);
+> +		intel_dsi->gpio_panel = devm_gpiod_get(dev->dev, "panel", flags);
+>  		if (IS_ERR(intel_dsi->gpio_panel)) {
+>  			drm_err(&dev_priv->drm,
+>  				"Failed to own gpio for panel control\n");
+> @@ -932,7 +932,7 @@ void intel_dsi_vbt_gpio_init(struct intel_dsi *intel_dsi, bool panel_is_on)
+>  
+>  	if (want_backlight_gpio) {
+>  		intel_dsi->gpio_backlight =
+> -			gpiod_get(dev->dev, "backlight", flags);
+> +			devm_gpiod_get(dev->dev, "backlight", flags);
+>  		if (IS_ERR(intel_dsi->gpio_backlight)) {
+>  			drm_err(&dev_priv->drm,
+>  				"Failed to own gpio for backlight control\n");
+> @@ -943,16 +943,3 @@ void intel_dsi_vbt_gpio_init(struct intel_dsi *intel_dsi, bool panel_is_on)
+>  	if (gpiod_lookup_table)
+>  		gpiod_remove_lookup_table(gpiod_lookup_table);
+>  }
+> -
+> -void intel_dsi_vbt_gpio_cleanup(struct intel_dsi *intel_dsi)
+> -{
+> -	if (intel_dsi->gpio_panel) {
+> -		gpiod_put(intel_dsi->gpio_panel);
+> -		intel_dsi->gpio_panel = NULL;
+> -	}
+> -
+> -	if (intel_dsi->gpio_backlight) {
+> -		gpiod_put(intel_dsi->gpio_backlight);
+> -		intel_dsi->gpio_backlight = NULL;
+> -	}
+> -}
+> diff --git a/drivers/gpu/drm/i915/display/intel_dsi_vbt.h b/drivers/gpu/drm/i915/display/intel_dsi_vbt.h
+> index 468d873fab1a..3462fcc760e6 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dsi_vbt.h
+> +++ b/drivers/gpu/drm/i915/display/intel_dsi_vbt.h
+> @@ -13,7 +13,6 @@ struct intel_dsi;
+>  
+>  bool intel_dsi_vbt_init(struct intel_dsi *intel_dsi, u16 panel_id);
+>  void intel_dsi_vbt_gpio_init(struct intel_dsi *intel_dsi, bool panel_is_on);
+> -void intel_dsi_vbt_gpio_cleanup(struct intel_dsi *intel_dsi);
+>  void intel_dsi_vbt_exec_sequence(struct intel_dsi *intel_dsi,
+>  				 enum mipi_seq seq_id);
+>  void intel_dsi_log_params(struct intel_dsi *intel_dsi);
+> diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
+> index 5bda97c96810..9b33b8a74d64 100644
+> --- a/drivers/gpu/drm/i915/display/vlv_dsi.c
+> +++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
+> @@ -1532,16 +1532,8 @@ static void intel_dsi_unprepare(struct intel_encoder *encoder)
+>  	}
+>  }
+>  
+> -static void intel_dsi_encoder_destroy(struct drm_encoder *encoder)
+> -{
+> -	struct intel_dsi *intel_dsi = enc_to_intel_dsi(to_intel_encoder(encoder));
+> -
+> -	intel_dsi_vbt_gpio_cleanup(intel_dsi);
+> -	intel_encoder_destroy(encoder);
+> -}
+> -
+>  static const struct drm_encoder_funcs intel_dsi_funcs = {
+> -	.destroy = intel_dsi_encoder_destroy,
+> +	.destroy = intel_encoder_destroy,
+>  };
+>  
+>  static enum drm_mode_status vlv_dsi_mode_valid(struct drm_connector *connector,
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Jani Nikula, Intel
