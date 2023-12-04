@@ -1,62 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6AF6803D05
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 19:29:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E201803DAD
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 19:57:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 409FF10E3CE;
-	Mon,  4 Dec 2023 18:29:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16DE510E3C6;
+	Mon,  4 Dec 2023 18:56:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
- [IPv6:2001:4860:4864:20::2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5DDD10E1CC;
- Mon,  4 Dec 2023 18:29:49 +0000 (UTC)
-Received: by mail-oa1-x2f.google.com with SMTP id
- 586e51a60fabf-1f03d9ad89fso2652417fac.1; 
- Mon, 04 Dec 2023 10:29:49 -0800 (PST)
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDA6010E3C4
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 18:56:51 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id
+ a640c23a62f3a-a1b75f59a12so159800366b.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 10:56:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701714589; x=1702319389; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Q98w33mc6+s9A9wtHHFHE8JJnBQGyFexGo0rxM7RDmY=;
- b=RYfLq+Vu34ZgI5luDja/RCY8H575X5pfxdIXrhSzRwRxUjMQj35/qtPxeMiEQhgMj+
- r18UT/X8uozukowAk+7F/NE9tQnD9tY5beXDyLIm1Fg9PS8Fu23qMlyDwQZa2n++47hC
- xzhBrFqmqS+Lazkpgf0MTwA0xRgvJpeZYPx+gKDxOOUGBw66CmeBDtswc6+NUA/DE6Ug
- BKGBZOyKlFq6CXqq7VtmryzKk6oKx7hwA2R3B6uFWbldEzf8lS6AS/VasKosKgdbMKDv
- Ggg3JJlS565fb4G+6sr3efwIW3V9P5tw+1isYYp1Tl80iBdkPWAyxF23tb+HeoZnc/ik
- jjZg==
+ d=gmail.com; s=20230601; t=1701716210; x=1702321010; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Pri3ddujsFeLv389wEODEb2MJ2HdQA1JC0+3zG94NUY=;
+ b=k3Z2sNFcJBXDvWLYP3bxwOJdKFcYx5y8TB9dn9Izo5hMgR026NPSkD8UWs+46zwBeh
+ +XoFpmGalh1YiJhLNSew2vRmIEgGPn7hL9KtH/s7/7WL1358qXXfFs0Iew7sYsMs3ozG
+ 3WA5+D18GSrk6R2lYKF6ZgBQDhWbe1G1clRcTk45PMQhjXqsFErI0GmB0VoFWCuyYEk9
+ 1Oe39rn+wA5JB4BjgquYjfKc0YHJQwDF1BaqxNpJ+fFatOT01UAskF+kYIZZPENjfPXw
+ LBTgyFNHLDcH+CBAAFR0HeapKA/TbQ38ww8/HHBovl7DwCdMK2xM97wwx5rVlKZAZFQN
+ CxAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701714589; x=1702319389;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Q98w33mc6+s9A9wtHHFHE8JJnBQGyFexGo0rxM7RDmY=;
- b=Zn2fksrlG+P8aAc8yWjyIpB1U8fwHSfk8b9SJvIXFtzfDesnOiKadKhFvE3hGt13WD
- Ha1ExlEVxKE+cbZ68rpLx3tp1wvt0vQfyaEWNL/ax9FWAqbsyqVQhLPUNyGYP3tTmB9z
- yGbfxtbaCAJ+KlyyKbUK45LyWbb5ctHFC4O8ctmp9k2iI6Q/N58BwtL0wbB2NUeGt+XS
- Uzncb+fxYF1dmYSdQUKGSamYPpchDIxxICZU5XvxmKtUoNW4ooOEMRs+d6msTlzM/dmK
- TdNSI6qV6HL3OcIcn9f8XvmgVijQ0++UG8Kc+xb98fEYcziour7rutArOX55XcA6XrWw
- h2Ow==
-X-Gm-Message-State: AOJu0Yx7RdO7U4+DIuKl46U+DIlKJchlb2bI935QsKquOLs8RkxcdlNH
- MKT5YzZt+ZBRkP2R8MtHvYoHzf0gWiU/M9Z8Sdg=
-X-Google-Smtp-Source: AGHT+IFM9JkjyOPfFe5FFesofTO8QjpC1HMWpndmSWOomEp4GGuWn0kXHiMGFIhyu0BwvuDsaAwlQPYYo3e1X+VIQfI=
-X-Received: by 2002:a05:6870:7813:b0:1fa:1ca3:ced8 with SMTP id
- hb19-20020a056870781300b001fa1ca3ced8mr2735574oab.52.1701714589221; Mon, 04
- Dec 2023 10:29:49 -0800 (PST)
+ d=1e100.net; s=20230601; t=1701716210; x=1702321010;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Pri3ddujsFeLv389wEODEb2MJ2HdQA1JC0+3zG94NUY=;
+ b=trdFU9k/J2scsjFIK0mZqepXprSe3osumv5ok1zbpuWbJaG+3MWNlSpYgVpyoq3JoT
+ uDLKpHiQzsOaO1lRyeNmQOJIgaj6BdFQDGMeTadfu7jQUa+Xilu7lDStJoTlDOJNj38A
+ rxD321euwwikDRrw/QEHmmqnGfpy4G4YYJQFGlQZE6UkFXISGBfU0/d3+GeHyM3+hczR
+ 99+edJcchNC5pIjZ0b8DCThf9dH8IRQ81BV6VTRAu71gIlvK7w1UH8EKfLFsldve7lTA
+ TUUpp7le7qAYFbJx/P84W84+BJVN+Jv2TLbTaHhlrhoUHQvXszWGxuSUOglxlkhfEXMf
+ dWtQ==
+X-Gm-Message-State: AOJu0Yw2dfV+zIOTUJqZottAv0USUff06JgWIUhe6unJBNdG4iJp1FWJ
+ KoIjNF88OaKjKnQV6iphhQ==
+X-Google-Smtp-Source: AGHT+IGnP+vNUpVLS/Ix1nYmpgtRz3wo5KT/7n9jXzwcrtYk1AyMn8XyPfIEuOuPjnH3bC3jQwA37Q==
+X-Received: by 2002:a17:906:d797:b0:a19:5e12:d570 with SMTP id
+ pj23-20020a170906d79700b00a195e12d570mr1718314ejb.64.1701716210062; 
+ Mon, 04 Dec 2023 10:56:50 -0800 (PST)
+Received: from ?IPV6:2a02:810b:f40:4300:55ff:210b:5393:c9d7?
+ ([2a02:810b:f40:4300:55ff:210b:5393:c9d7])
+ by smtp.gmail.com with ESMTPSA id
+ di16-20020a170906731000b00a1b6d503e7esm1847680ejc.157.2023.12.04.10.56.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Dec 2023 10:56:49 -0800 (PST)
+Message-ID: <3f235189-da75-4e9d-ad68-8cbebca12f6d@gmail.com>
+Date: Mon, 4 Dec 2023 19:56:45 +0100
 MIME-Version: 1.0
-References: <20231204102154.3309670-1-alexious@zju.edu.cn>
-In-Reply-To: <20231204102154.3309670-1-alexious@zju.edu.cn>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 4 Dec 2023 13:29:38 -0500
-Message-ID: <CADnq5_PZ4pzhSXCQjO7bs3WPHSbkOe57GVN+wxzza5NVzMWb6Q@mail.gmail.com>
-Subject: Re: [PATCH] [v2] drm/radeon/trinity_dpm: fix a memleak in
- trinity_parse_power_table
-To: Zhipeng Lu <alexious@zju.edu.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/3] dt-bindings: drm: rockchip: convert
+ inno_hdmi-rockchip.txt to yaml
+Content-Language: en-US
+To: Johan Jonker <jbx6244@gmail.com>, heiko@sntech.de, hjc@rock-chips.com
+References: <49c6afec-022f-02de-99a0-d409b64da198@gmail.com>
+From: Alex Bee <knaerzche@gmail.com>
+In-Reply-To: <49c6afec-022f-02de-99a0-d409b64da198@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,54 +77,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, tzimmermann@suse.de,
+ krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
+ mripard@kernel.org, linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Hi Johan,
+Am 04.12.23 um 18:39 schrieb Johan Jonker:
+> Convert inno_hdmi-rockchip.txt to yaml.
+Nice - I'm having something very similar on my queue :)
+> 
+> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+> ---
+> 
+> Note for rob+dt:
+>    Used enum to "soon" be able to add "rockchip,rk3128-inno-hdmi"
+Yeah, actually I'm planning to submit it really soon (if timne allows).
+> 
+> Changed V1:
+>    Rename file to more common layout
+>    Add/fix hdmi_out port example
+> ---
+>   .../display/rockchip/inno_hdmi-rockchip.txt   |  49 ---------
+>   .../display/rockchip/rockchip,inno-hdmi.yaml  | 103 ++++++++++++++++++
+>   2 files changed, 103 insertions(+), 49 deletions(-)
+>   delete mode 100644 Documentation/devicetree/bindings/display/rockchip/inno_hdmi-rockchip.txt
+>   create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/inno_hdmi-rockchip.txt b/Documentation/devicetree/bindings/display/rockchip/inno_hdmi-rockchip.txt
+> deleted file mode 100644
+> index cec21714f0e0..000000000000
+> --- a/Documentation/devicetree/bindings/display/rockchip/inno_hdmi-rockchip.txt
+> +++ /dev/null
+> @@ -1,49 +0,0 @@
+> -Rockchip specific extensions to the Innosilicon HDMI
+> -================================
+> -
+> -Required properties:
+> -- compatible:
+> -	"rockchip,rk3036-inno-hdmi";
+> -- reg:
+> -	Physical base address and length of the controller's registers.
+> -- clocks, clock-names:
+> -	Phandle to hdmi controller clock, name should be "pclk"
+> -- interrupts:
+> -	HDMI interrupt number
+> -- ports:
+> -	Contain one port node with endpoint definitions as defined in
+> -	Documentation/devicetree/bindings/graph.txt.
+> -- pinctrl-0, pinctrl-name:
+> -	Switch the iomux of HPD/CEC pins to HDMI function.
+> -
+> -Example:
+> -hdmi: hdmi@20034000 {
+> -	compatible = "rockchip,rk3036-inno-hdmi";
+> -	reg = <0x20034000 0x4000>;
+> -	interrupts = <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>;
+> -	clocks = <&cru  PCLK_HDMI>;
+> -	clock-names = "pclk";
+> -	pinctrl-names = "default";
+> -	pinctrl-0 = <&hdmi_ctl>;
+> -
+> -	hdmi_in: port {
+> -		#address-cells = <1>;
+> -		#size-cells = <0>;
+> -		hdmi_in_lcdc: endpoint@0 {
+> -			reg = <0>;
+> -			remote-endpoint = <&lcdc_out_hdmi>;
+> -		};
+> -	};
+> -};
+> -
+> -&pinctrl {
+> -	hdmi {
+> -		hdmi_ctl: hdmi-ctl {
+> -			rockchip,pins = <1 8  RK_FUNC_1 &pcfg_pull_none>,
+> -					<1 9  RK_FUNC_1 &pcfg_pull_none>,
+> -					<1 10 RK_FUNC_1 &pcfg_pull_none>,
+> -					<1 11 RK_FUNC_1 &pcfg_pull_none>;
+> -		};
+> -	};
+> -
+> -};
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml
+> new file mode 100644
+> index 000000000000..96889c86849a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,inno-hdmi.yaml
+> @@ -0,0 +1,103 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/rockchip/rockchip,inno-hdmi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Rockchip Innosilicon HDMI controller
+> +
+> +maintainers:
+> +  - Sandy Huang <hjc@rock-chips.com>
+> +  - Heiko Stuebner <heiko@sntech.de>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - rockchip,rk3036-inno-hdmi
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+The interrupts/clock description exists already in the txt-bindings - so 
+how about:
 
-On Mon, Dec 4, 2023 at 5:39=E2=80=AFAM Zhipeng Lu <alexious@zju.edu.cn> wro=
-te:
->
-> The rdev->pm.dpm.ps allocated by kcalloc should be freed in every
-> following error-handling path. However, in the error-handling of
-> rdev->pm.power_state[i].clock_info the rdev->pm.dpm.ps is not freed,
-> resulting in a memleak in this function.
->
-> Fixes: d70229f70447 ("drm/radeon/kms: add dpm support for trinity asics")
-> Signed-off-by: Zhipeng Lu <alexious@zju.edu.cn>
-> ---
->
-> Changelog:
->
-> v2: Adding {} to correct the if statement.
-> ---
->  drivers/gpu/drm/radeon/trinity_dpm.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/radeon/trinity_dpm.c b/drivers/gpu/drm/radeo=
-n/trinity_dpm.c
-> index 08ea1c864cb2..ef1cc7bad20a 100644
-> --- a/drivers/gpu/drm/radeon/trinity_dpm.c
-> +++ b/drivers/gpu/drm/radeon/trinity_dpm.c
-> @@ -1726,8 +1726,10 @@ static int trinity_parse_power_table(struct radeon=
-_device *rdev)
->                 non_clock_array_index =3D power_state->v2.nonClockInfoInd=
-ex;
->                 non_clock_info =3D (struct _ATOM_PPLIB_NONCLOCK_INFO *)
->                         &non_clock_info_array->nonClockInfo[non_clock_arr=
-ay_index];
-> -               if (!rdev->pm.power_state[i].clock_info)
-> +               if (!rdev->pm.power_state[i].clock_info) {
-> +                       kfree(rdev->pm.dpm.ps);
->                         return -EINVAL;
-> +               }
->                 ps =3D kzalloc(sizeof(struct sumo_ps), GFP_KERNEL);
->                 if (ps =3D=3D NULL) {
->                         kfree(rdev->pm.dpm.ps);
++    items:
++      - descrition: ....
+> +
+> +  clock-names:
+> +    const: pclk
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Port node with one endpoint connected to a vop node.
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Port node with one endpoint connected to a hdmi-connector node.
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - pinctrl-0
+> +  - pinctrl-names
+> +  - ports
+> +
+> +additionalProperties: false
+Did you check that with dtbs_check? RK3036's SoC dtsi also contains a
+
+  rockchip,grf = <&grf>;
+
+and I'm not seeing this removed in this series.
+
+It would be great if that would added here to as requirement
+for RK3036 too  (and updated in the example)
+Even if it is beyond a pure txt to yaml conversion: RK3036 needs to set 
+HDMI polarities in GRF.
+
+Regards,
+Alex
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/rk3036-cru.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/pinctrl/rockchip.h>
+> +    hdmi: hdmi@20034000 {
+> +      compatible = "rockchip,rk3036-inno-hdmi";
+> +      reg = <0x20034000 0x4000>;
+> +      interrupts = <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>;
+> +      clocks = <&cru  PCLK_HDMI>;
+> +      clock-names = "pclk";
+> +      pinctrl-names = "default";
+> +      pinctrl-0 = <&hdmi_ctl>;
+> +
+> +      ports {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        hdmi_in: port@0 {
+> +          reg = <0>;
+> +          hdmi_in_vop: endpoint {
+> +            remote-endpoint = <&vop_out_hdmi>;
+> +          };
+> +        };
+> +
+> +        hdmi_out: port@1 {
+> +          reg = <1>;
+> +          hdmi_out_con: endpoint {
+> +            remote-endpoint = <&hdmi_con_in>;
+> +          };
+> +        };
+> +      };
+> +    };
+> +
+> +    pinctrl {
+> +      hdmi {
+> +        hdmi_ctl: hdmi-ctl {
+> +          rockchip,pins = <1 RK_PB0 1 &pcfg_pull_none>,
+> +                          <1 RK_PB1 1 &pcfg_pull_none>,
+> +                          <1 RK_PB2 1 &pcfg_pull_none>,
+> +                          <1 RK_PB3 1 &pcfg_pull_none>;
+> +        };
+> +      };
+> +    };
 > --
-> 2.34.1
->
+> 2.39.2
+> 
+> 
+> _______________________________________________
+> Linux-rockchip mailing list
+> Linux-rockchip@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-rockchip
+
