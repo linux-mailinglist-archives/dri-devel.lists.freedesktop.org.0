@@ -1,53 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898D7803157
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 12:14:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A051F803167
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 12:21:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44E3F10E349;
-	Mon,  4 Dec 2023 11:14:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 750CC10E350;
+	Mon,  4 Dec 2023 11:21:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B460210E348;
- Mon,  4 Dec 2023 11:14:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701688478; x=1733224478;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=oC4Fb+ly6kc/8HmjgdZ9sE3GdThxJH/O2tx5CoIldOg=;
- b=WfNmp+QDADJ8mOn+C4hWHGe/rXBvbIqzRUB+oQTyAZbKAJYF15g/om3n
- JabPwF+3BfSLvS4zXCqawbkDB/NS9FD0BKIIAwL4sRBbeyfdyEB3g3POG
- IkOhc5YBPxGIwrw/8igcDn8vW0nj07lf56ucgjAnRk72z1wK/0TxB+0vw
- N5ra+J6Fv42WoCrhqcjBjTdN2XehhVJ/mm4SrxnTJcgL5ONU0XufMBUDT
- YU0Le1d1YanlWK1WNuzRY46uucfogxXr103clDtz79z9qCREss7wLs+gm
- fpKkEhBoZTGBv6Lm4YVxFWhCF8q7u+kvRWRddtQFriFqXBW7EKMmj+Jyp A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="460211882"
-X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; d="scan'208";a="460211882"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2023 03:14:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="1102058284"
-X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; d="scan'208";a="1102058284"
-Received: from shahmoha-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.45.180])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2023 03:14:36 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Khaled Almahallawy <khaled.almahallawy@intel.com>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2] drm/display/dp: Add the remaining Square PHY
- patterns DPCD register definitions
-In-Reply-To: <20231130231510.221143-1-khaled.almahallawy@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231130231510.221143-1-khaled.almahallawy@intel.com>
-Date: Mon, 04 Dec 2023 13:14:33 +0200
-Message-ID: <87leaa2p9i.fsf@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C61410E350
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 11:20:30 +0000 (UTC)
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id D953D6602030;
+ Mon,  4 Dec 2023 11:20:27 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1701688828;
+ bh=cZeI5VKu1LE+0g50TIvM40Dlj8CQw2yZgDTALs1PHU0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=buSFgO4rAzYsi+vvoqP2Clk3yGypsraT+LVLmh2mmv5LcqDgb6ihDfku0yaCby9Q9
+ u4KCCtQqFynTk9mMnYK+dXZuInrI1VBgNNjQnQXcUDfgYw+/871X/Whbh1QMptTDml
+ n8T3PPC+WNuSiE5Tn2g+0poOhnJT7kGz+r7ERyr+B6q5AGeklD0aW408fWMxi9Wj0w
+ t5una1nqiNjsuvZtItmVOwsaxI+8O2od7Fq0cAi30yZ8byofY/kwkRSvhifQkKL9mL
+ CoWAXOXhJwJ/WVh60CJQvs1NtHTkIWGmaC3S0BcmCJI5aweoLfUzUJZju3n0mRG0d9
+ BFZN2B0hDE1Xg==
+Message-ID: <8b58d97d-7643-46bd-b702-b315addf32a1@collabora.com>
+Date: Mon, 4 Dec 2023 12:20:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/3] drm/panfrost: Synchronize and disable interrupts
+ before powering off
+Content-Language: en-US
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20231201104027.35273-1-angelogioacchino.delregno@collabora.com>
+ <20231201104027.35273-4-angelogioacchino.delregno@collabora.com>
+ <20231201121437.7d5cdefb@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20231201121437.7d5cdefb@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,50 +55,193 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Lee Shawn C <shawn.c.lee@intel.com>,
- Khaled Almahallawy <khaled.almahallawy@intel.com>
+Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
+ krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, kernel@collabora.com, m.szyprowski@samsung.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 30 Nov 2023, Khaled Almahallawy <khaled.almahallawy@intel.com> wrote:
-> DP2.1 Specs added new DPCDs definitions for square pattern configs[1]
-> These new definitions are used for UHBR Source Transmitter
-> Equalizations tests[2]. Add the 3 new values for square pattern.
->
-> v2: rebase
->
-> [1]: DP2.1 Specs - 2.12.3.6.5 Square Pattern
-> [2]: DP2.1 PHY CTS specs - 4.3 UHBR Source Transmitter Equalization
->
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Imre Deak <imre.deak@intel.com>
-> Cc: Lee Shawn C <shawn.c.lee@intel.com>
-> Signed-off-by: Khaled Almahallawy <khaled.almahallawy@intel.com>
+Il 01/12/23 12:14, Boris Brezillon ha scritto:
+> On Fri,  1 Dec 2023 11:40:27 +0100
+> AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> wrote:
+> 
+>> To make sure that we don't unintentionally perform any unclocked and/or
+>> unpowered R/W operation on GPU registers, before turning off clocks and
+>> regulators we must make sure that no GPU, JOB or MMU ISR execution is
+>> pending: doing that required to add a mechanism to synchronize the
+> 
+>                        ^ requires the addition of a mechanism...
+> 
+>> interrupts on suspend.
+>>
+>> Add functions panfrost_{gpu,job,mmu}_suspend_irq() which will perform
+>> interrupts masking and ISR execution synchronization, and then call
+>> those in the panfrost_device_runtime_suspend() handler in the exact
+>> sequence of job (may require mmu!) -> mmu -> gpu.
+>>
+>> As a side note, JOB and MMU suspend_irq functions needed some special
+>> treatment: as their interrupt handlers will unmask interrupts, it was
+>> necessary to add a bitmap for `is_suspended` which is used to address
+> 
+>              to add an `is_suspended` bitmap which is used...
+> 
+>> the possible corner case of unintentional IRQ unmasking because of ISR
+>> execution after a call to synchronize_irq().
+> 
+> Also fixes the case where the interrupt handler is called when the
+> device is suspended because the IRQ line is shared with another device.
+> No need to update the commit message for that though.
+> 
+>>
+>> At resume, clear each is_suspended bit in the reset path of JOB/MMU
+>> to allow unmasking the interrupts.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> ---
+>>   drivers/gpu/drm/panfrost/panfrost_device.c |  3 +++
+>>   drivers/gpu/drm/panfrost/panfrost_device.h |  7 +++++++
+>>   drivers/gpu/drm/panfrost/panfrost_gpu.c    |  6 ++++++
+>>   drivers/gpu/drm/panfrost/panfrost_gpu.h    |  1 +
+>>   drivers/gpu/drm/panfrost/panfrost_job.c    | 20 +++++++++++++++++---
+>>   drivers/gpu/drm/panfrost/panfrost_job.h    |  1 +
+>>   drivers/gpu/drm/panfrost/panfrost_mmu.c    | 19 ++++++++++++++++---
+>>   drivers/gpu/drm/panfrost/panfrost_mmu.h    |  1 +
+>>   8 files changed, 52 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+>> index c90ad5ee34e7..a45e4addcc19 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+>> @@ -421,6 +421,9 @@ static int panfrost_device_runtime_suspend(struct device *dev)
+>>   		return -EBUSY;
+>>   
+>>   	panfrost_devfreq_suspend(pfdev);
+>> +	panfrost_job_suspend_irq(pfdev);
+>> +	panfrost_mmu_suspend_irq(pfdev);
+>> +	panfrost_gpu_suspend_irq(pfdev);
+>>   	panfrost_gpu_power_off(pfdev);
+>>   
+>>   	return 0;
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+>> index 54a8aad54259..5c24f01f8904 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+>> @@ -25,6 +25,12 @@ struct panfrost_perfcnt;
+>>   #define NUM_JOB_SLOTS 3
+>>   #define MAX_PM_DOMAINS 5
+>>   
+>> +enum panfrost_drv_comp_bits {
+>> +	PANFROST_COMP_BIT_MMU,
+>> +	PANFROST_COMP_BIT_JOB,
+> 
+> I think we need one for the GPU interrupt too, for the
+> irq-line-is-shared-with-another-device thing I was mentioning.
+> 
 
-Thanks for the patch, pushed to drm-misc-next.
+Yes, I've also reordered the entries by name for v4.
 
-BR,
-Jani.
+>> +	PANFROST_COMP_BIT_MAX
+>> +};
+>> +
+>>   /**
+>>    * enum panfrost_gpu_pm - Supported kernel power management features
+>>    * @GPU_PM_CLK_DIS:  Allow disabling clocks during system suspend
+>> @@ -109,6 +115,7 @@ struct panfrost_device {
+>>   
+>>   	struct panfrost_features features;
+>>   	const struct panfrost_compatible *comp;
+>> +	DECLARE_BITMAP(is_suspended, PANFROST_COMP_BIT_MAX);
+>>   
+>>   	spinlock_t as_lock;
+>>   	unsigned long as_in_use_mask;
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> index 7adc4441fa14..3a6a4fe7aca1 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> @@ -452,6 +452,12 @@ void panfrost_gpu_power_off(struct panfrost_device *pfdev)
+>>   		dev_err(pfdev->dev, "l2 power transition timeout");
+>>   }
+>>   
+>> +void panfrost_gpu_suspend_irq(struct panfrost_device *pfdev)
+>> +{
+> 
+>          set_bit(PANFROST_COMP_BIT_GPU, pfdev->is_suspended);
+> 
+> here, and an extra check in panfrost_gpu_irq_handler() to bail out
+> before the register accesses if PANFROST_COMP_BIT_GPU is set.
+> 
 
+Right.
 
-> ---
->  include/drm/display/drm_dp.h | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
-> index 83d2039c018b..3731828825bd 100644
-> --- a/include/drm/display/drm_dp.h
-> +++ b/include/drm/display/drm_dp.h
-> @@ -651,6 +651,9 @@
->  # define DP_LINK_QUAL_PATTERN_PRSBS31       0x38
->  # define DP_LINK_QUAL_PATTERN_CUSTOM        0x40
->  # define DP_LINK_QUAL_PATTERN_SQUARE        0x48
-> +# define DP_LINK_QUAL_PATTERN_SQUARE_PRESHOOT_DISABLED                   0x49
-> +# define DP_LINK_QUAL_PATTERN_SQUARE_DEEMPHASIS_DISABLED                 0x4a
-> +# define DP_LINK_QUAL_PATTERN_SQUARE_PRESHOOT_DEEMPHASIS_DISABLED        0x4b
->  
->  #define DP_TRAINING_LANE0_1_SET2	    0x10f
->  #define DP_TRAINING_LANE2_3_SET2	    0x110
+>> +	gpu_write(pfdev, GPU_INT_MASK, 0);
+>> +	synchronize_irq(pfdev->gpu_irq);
+>> +}
+>> +
+>>   int panfrost_gpu_init(struct panfrost_device *pfdev)
+>>   {
+>>   	int err;
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.h b/drivers/gpu/drm/panfrost/panfrost_gpu.h
+>> index 876fdad9f721..d841b86504ea 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.h
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.h
+>> @@ -15,6 +15,7 @@ u32 panfrost_gpu_get_latest_flush_id(struct panfrost_device *pfdev);
+>>   int panfrost_gpu_soft_reset(struct panfrost_device *pfdev);
+>>   void panfrost_gpu_power_on(struct panfrost_device *pfdev);
+>>   void panfrost_gpu_power_off(struct panfrost_device *pfdev);
+>> +void panfrost_gpu_suspend_irq(struct panfrost_device *pfdev);
+>>   
+>>   void panfrost_cycle_counter_get(struct panfrost_device *pfdev);
+>>   void panfrost_cycle_counter_put(struct panfrost_device *pfdev);
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+>> index f9446e197428..7600e7741211 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+>> @@ -405,6 +405,8 @@ void panfrost_job_enable_interrupts(struct panfrost_device *pfdev)
+>>   	int j;
+>>   	u32 irq_mask = 0;
+>>   
+>> +	clear_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended);
+>> +
+>>   	for (j = 0; j < NUM_JOB_SLOTS; j++) {
+>>   		irq_mask |= MK_JS_MASK(j);
+>>   	}
+>> @@ -413,6 +415,14 @@ void panfrost_job_enable_interrupts(struct panfrost_device *pfdev)
+>>   	job_write(pfdev, JOB_INT_MASK, irq_mask);
+>>   }
+>>   
+>> +void panfrost_job_suspend_irq(struct panfrost_device *pfdev)
+>> +{
+>> +	set_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended);
+>> +
+>> +	job_write(pfdev, JOB_INT_MASK, 0);
+>> +	synchronize_irq(pfdev->js->irq);
+>> +}
+>> +
+>>   static void panfrost_job_handle_err(struct panfrost_device *pfdev,
+>>   				    struct panfrost_job *job,
+>>   				    unsigned int js)
+>> @@ -792,9 +802,13 @@ static irqreturn_t panfrost_job_irq_handler_thread(int irq, void *data)
+>>   	struct panfrost_device *pfdev = data;
+>>   
+>>   	panfrost_job_handle_irqs(pfdev);
+>> -	job_write(pfdev, JOB_INT_MASK,
+>> -		  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
+>> -		  GENMASK(NUM_JOB_SLOTS - 1, 0));
+>> +
+>> +	/* Enable interrupts only if we're not about to get suspended */
+>> +	if (!test_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended))
+>> +		job_write(pfdev, JOB_INT_MASK,
+>> +			  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
+>> +			  GENMASK(NUM_JOB_SLOTS - 1, 0));
+>> +
+> 
+> Missing if (test_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended)) in
+> panfrost_job_irq_handler(), to make sure you don't access the registers
+> if the GPU is suspended.
+> 
 
--- 
-Jani Nikula, Intel
+Ok.
+
+Cheers,
+Angelo
