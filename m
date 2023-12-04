@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D58380338C
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 13:56:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F36B8033A5
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 13:59:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4C59892A1;
-	Mon,  4 Dec 2023 12:55:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82D8910E082;
+	Mon,  4 Dec 2023 12:59:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87FC8892A1
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 12:55:57 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E00C10E082
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 12:59:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id A65EDB80E4A;
- Mon,  4 Dec 2023 12:55:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD241C433C7;
- Mon,  4 Dec 2023 12:55:54 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id DABC76101C
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 12:58:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A970C433CA
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 12:58:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701694555;
- bh=E172xqSuTiecKXdEivVTYrMjFWt5dLDiAGow27LdD2g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IustftvYpmdSaMBywQAMFbz6l+FlSC42cBEOG+KQ0FPX4xT7N9tLlBna6+YLi7pN9
- FyDYk2E1X8alLz5fFpWek0gddb6neJx2mzYqE98+UQev+s5GFGk5QQ/NyTYDIX0EWr
- U+JP+Vuc5H8R/V56DD75WZQI+twLtcnrLtXk7hTKXmUo24uNOhYqtjRktw4Lh3ZqfK
- z884fiRR+snDvBHnXHF20qAPXOpyD7b/3PBQ9fwJkcIpvb1bx1mBbZcAdVoErkihq3
- v8oEI7GpbMctgtegAxA4ybA1bR5D5hREW7dvkmxZsGYuQgm0yhVPcgIAxXIO3gLVuR
- jG8rjr8PCg/TA==
-Date: Mon, 4 Dec 2023 13:55:52 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH v18 04/26] drm/shmem-helper: Refactor locked/unlocked
- functions
-Message-ID: <jvhedgegvavn5mvvx2men2rxitvnq7u3dsxwfx3wokxldmysjz@y5av3l2w4gk6>
-References: <wboljiwogeus7pwgaqzxaltt3xdavy2dzisygn6pdpoiwlnwgc@mwaiukjguzat>
- <20231124115911.79ab24af@collabora.com>
- <kw5bho3jx73d3glvtewmjvqt4qty4khju6dcwypuh25ya3gi4b@7slmijjqdi4p>
- <20231128133712.53a6f6cb@collabora.com>
- <37208c72-7908-0a78-fc89-2fa9b8d756a5@collabora.com>
- <20231129085330.7ccb35d3@collabora.com>
- <ioqghyaeftyo7tuyfecn252ykxwgltrkhh2pwktjejqhewntbb@bym3rsjxnxfp>
- <20231129144609.7544e773@collabora.com>
- <6da6mzwfzwbn5rhiebypo5e2v6rhtpn2fovwvfnoo333zjgobf@bgtuwhum3trp>
- <20231129164705.7461a294@collabora.com>
+ s=k20201202; t=1701694739;
+ bh=7dgUCGHzMoPBZl2tDe1rIHvMaAhMu3JQbSWiCGiui6E=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=uRjmfRsC3a+igtsBpD6wf5ipmviGpCi/X/y4EC8fnnn0KDS6QiRjhTVBv+heaOafa
+ ytOJXaa0MD7qIclVnbi7svyejzbTUEB+lBpzKX/f2qgQlI1uz/ekb4od/loEVlngg+
+ +DOAjizYQPEkeUKenEv5olTi9RppfTS7ORPmUg2V8TKtCrau+bf5geO1DufNA0b5hv
+ 63UUho/A80UG5ZLHm1D3h8gMSqA3MQlZNgdVepA7Wi3S7RSKmqVM8nuBqn4yuMWDGn
+ /kAExOeNTqE0g9xrikgDRGh8GO86aAxhkXgqHYPVkN9tOyr48oAFl4zNyus3Rj+wK6
+ IX83cJGXu1Axw==
+Received: by mail-pj1-f42.google.com with SMTP id
+ 98e67ed59e1d1-2869734450dso417155a91.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 04:58:59 -0800 (PST)
+X-Gm-Message-State: AOJu0Yx2w0Jn5rTweOyLJ/Da62W83UlfNHRUF3v1PDO2RK6o3Y7ydhB3
+ 5ERvEp48AxY50yYTcxZLvMSifMvp+547b0MaTvrv9A==
+X-Google-Smtp-Source: AGHT+IGoBM1mO4+FKfPHfVAarHazScsJwRRCDteV6vPmRupL4DGsxj2JC8dqLAUQL8DV4spvS+XM9g1zJMQ7WuCYaBs=
+X-Received: by 2002:a17:90b:4f44:b0:285:9ec0:892a with SMTP id
+ pj4-20020a17090b4f4400b002859ec0892amr1119686pjb.33.1701694739111; Mon, 04
+ Dec 2023 04:58:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="iip2djagguw3jrrj"
-Content-Disposition: inline
-In-Reply-To: <20231129164705.7461a294@collabora.com>
+References: <20231115121338.22959-1-francesco@dolcini.it>
+ <20231115121338.22959-4-francesco@dolcini.it>
+In-Reply-To: <20231115121338.22959-4-francesco@dolcini.it>
+From: Robert Foss <rfoss@kernel.org>
+Date: Mon, 4 Dec 2023 13:58:46 +0100
+X-Gmail-Original-Message-ID: <CAN6tsi4HX1BtR9BG0H3N9c9j1q2iVAvHh4SM=ZLnog52ncqSqg@mail.gmail.com>
+Message-ID: <CAN6tsi4HX1BtR9BG0H3N9c9j1q2iVAvHh4SM=ZLnog52ncqSqg@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] drm/bridge: lt8912b: Add power supplies
+To: Francesco Dolcini <francesco@dolcini.it>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,144 +60,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Emma Anholt <emma@anholt.net>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
- Melissa Wen <mwen@igalia.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Steven Price <steven.price@arm.com>, virtualization@lists.linux-foundation.org,
- Qiang Yu <yuq825@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Stefan Eichenberger <stefan.eichenberger@toradex.com>,
+ Adrien Grassein <adrien.grassein@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Nov 15, 2023 at 1:14=E2=80=AFPM Francesco Dolcini <francesco@dolcin=
+i.it> wrote:
+>
+> From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+>
+> Add supplies to the driver that can be used to turn the Lontium lt8912b
+> on and off. It can have up to 7 independent supplies, we add them all
+> and enable/disable them with bulk_enable/disable.
+>
+> Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+> ---
+>  drivers/gpu/drm/bridge/lontium-lt8912b.c | 30 ++++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/b=
+ridge/lontium-lt8912b.c
+> index 097ab04234b7..273157428c82 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+> @@ -43,6 +43,8 @@ struct lt8912 {
+>
+>         struct videomode mode;
+>
+> +       struct regulator_bulk_data supplies[7];
+> +
+>         u8 data_lanes;
+>         bool is_power_on;
+>  };
+> @@ -257,6 +259,12 @@ static int lt8912_free_i2c(struct lt8912 *lt)
+>
+>  static int lt8912_hard_power_on(struct lt8912 *lt)
+>  {
+> +       int ret;
+> +
+> +       ret =3D regulator_bulk_enable(ARRAY_SIZE(lt->supplies), lt->suppl=
+ies);
+> +       if (ret)
+> +               return ret;
+> +
+>         gpiod_set_value_cansleep(lt->gp_reset, 0);
+>         msleep(20);
+>
+> @@ -267,6 +275,9 @@ static void lt8912_hard_power_off(struct lt8912 *lt)
+>  {
+>         gpiod_set_value_cansleep(lt->gp_reset, 1);
+>         msleep(20);
+> +
+> +       regulator_bulk_disable(ARRAY_SIZE(lt->supplies), lt->supplies);
+> +
+>         lt->is_power_on =3D false;
+>  }
+>
+> @@ -661,6 +672,21 @@ static int lt8912_bridge_suspend(struct device *dev)
+>
+>  static DEFINE_SIMPLE_DEV_PM_OPS(lt8912_bridge_pm_ops, lt8912_bridge_susp=
+end, lt8912_bridge_resume);
+>
+> +static int lt8912_get_regulators(struct lt8912 *lt)
+> +{
+> +       unsigned int i;
+> +       const char * const supply_names[] =3D {
+> +               "vdd", "vccmipirx", "vccsysclk", "vcclvdstx",
+> +               "vcchdmitx", "vcclvdspll", "vcchdmipll"
+> +       };
+> +
+> +       for (i =3D 0; i < ARRAY_SIZE(lt->supplies); i++)
+> +               lt->supplies[i].supply =3D supply_names[i];
+> +
+> +       return devm_regulator_bulk_get(lt->dev, ARRAY_SIZE(lt->supplies),
+> +                                      lt->supplies);
+> +}
+> +
+>  static int lt8912_parse_dt(struct lt8912 *lt)
+>  {
+>         struct gpio_desc *gp_reset;
+> @@ -712,6 +738,10 @@ static int lt8912_parse_dt(struct lt8912 *lt)
+>                 goto err_free_host_node;
+>         }
+>
+> +       ret =3D lt8912_get_regulators(lt);
+> +       if (ret)
+> +               goto err_free_host_node;
+> +
+>         of_node_put(port_node);
+>         return 0;
+>
+> --
+> 2.25.1
+>
 
---iip2djagguw3jrrj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Nov 29, 2023 at 04:47:05PM +0100, Boris Brezillon wrote:
-> On Wed, 29 Nov 2023 16:15:27 +0100
-> Maxime Ripard <mripard@kernel.org> wrote:
->=20
-> > > Now, let's assume we drop the _locked() suffix on
-> > > drm_gem_shmem_v[un]map(), but keep it on other helpers that need both
-> > > variants. This results in an inconsistent naming scheme inside the
-> > > same source file, which I find utterly confusing.
-> > >
-> > > Note that the initial reason I asked Dmitry if he could add the
-> > > _locked suffix to drm_gem_shmem_vmap() is because I started using
-> > > drm_gem_shmem_vmap() in powervr, before realizing this version wasn't
-> > > taking the lock, and I should have used drm_gem_vmap_unlocked()
-> > > instead, so this is not something I'm making up. =20
-> >=20
-> > Sorry if I gave you the impression I thought that you're making that up,
-> > I'm not.
-> >=20
-> > Thanks for the explanation btw, I think I get what you're saying now:
-> >=20
-> >  - drm_gem_shmem_vmap() is never taking the locks because the core
-> >    expects to take them before calling them.
-> >=20
-> >  - drm_gem_shmem_vunmap() is never taking the locks because the core
-> >    expects to take them before calling them.
->=20
-> Correct.
->=20
-> >=20
-> >  - Some other code path can still call those helpers in drivers, and the
-> >    locking isn't handled by the core anymore.
->=20
-> They can, if they want to v[un]map a BO and they already acquired the
-> GEM resv lock. But I'm not sure anyone needs to do that yet. The main
-> reason for exposing these helpers is if one driver needs to overload the
-> default gem_shmem_funcs.
->=20
-> >=20
-> >  - We now have _vmap/vunmap_unlocked functions to take those locks for
-> >    those code paths
->=20
-> We don't have drm_gem_shmem_vmap/vunmap_unlocked(), we have
-> drm_gem_shmem_vmap/vunmap_locked(), which can be called directly, but
-> are mainly used to populate the drm_gem_object_funcs vtable. If drivers
-> want to v[un]map in a path where the resv lock is not held, they should
-> call drm_gem_vmap/vunmap_unlocked() (which are renamed
-> drm_gem_vmap/vunmap() in patch 1 of this series). Mind the **drm_gem_**
-> vs **drm_gem_shmem_** difference in the helper names. drm_gem_ helpers
-> are provided by drm_gem.c and call drm_gem_object_funcs callback, which
-> are supposed to be populated with drm_gem_shmem helpers.
->=20
-> >=20
-> >  - And the variant names are now confusing, making people use the
-> >    lockless version in situations where they should have use the locked
-> >    one.
->=20
-> That's what happened to me, at least.
->=20
-> >=20
-> > Is that a correct summary?
->=20
-> Almost ;-).
->=20
-> >=20
-> > If so, then I agree that we need to change the name.
->=20
-> Cool.
->=20
-> >=20
-> > We discussed it some more on IRC, and we agree that the "default"
-> > function should handle the locking properly and that's what the most
-> > common case should use.
->=20
-> Agree if by 'default' you mean the lock is always acquired by the
-> helper, not 'let's decide based on what users do most of the time with
-> this specific helper', because otherwise we'd be back to a situation
-> where the name doesn't clearly encode the function behavior.
->=20
-> >=20
-> > So that means than drm_gem_shmem_vmap/vunmap() should take the lock
-> > itself, and drm_gem_shmem_vmap/vunmap_nolock/unlocked never does.
->=20
-> Not sure we have a need for drm_gem_shmem_vmap/vunmap(), but if we ever
-> add such helpers, they would acquire the resv lock, indeed.
->=20
-> Just to be clear, _nolock =3D=3D _locked in the current semantics :-).
-> _nolock means 'don't take the lock', and _locked means 'lock is already
-> held'.
->=20
-> >=20
-> > I think I'd prefer the nolock variant over unlocked still.
->=20
-> Okay, that means s/_locked/_nolock/ in drm_gem_shmem_helpers.{c,h}, I
-> guess.
->=20
-> >=20
-> > And I also think we can improve the documentation and add lockdep calls
->=20
-> Lockdep asserts are already there, I think.
->=20
-> > to make sure that the difference between variants is clear in the doc,
-> > and if someone still get confused we can catch it.
-> >=20
-> > Does that sound like a plan?
->=20
-> Assuming I understood it correctly, yes. Can you just confirm my
-> understanding is correct though?
-
-We are. Sorry for delaying this :)
-
-Maxime
-
---iip2djagguw3jrrj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZW3MWAAKCRDj7w1vZxhR
-xcDnAQDM/xef1l45sJfBEv38lDY/B8E+Cy/VtAD965YR2cJQzgD+NVB9BN2k4sks
-4vrIzaUEwbhBb2UovWAde9a/Qmn6ggo=
-=n1Mw
------END PGP SIGNATURE-----
-
---iip2djagguw3jrrj--
+Reviewed-by: Robert Foss <rfoss@kernel.org>
