@@ -1,72 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E1C802FC2
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 11:12:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E431F802FF1
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 11:16:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFA3510E2E7;
-	Mon,  4 Dec 2023 10:12:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4461910E318;
+	Mon,  4 Dec 2023 10:16:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26B5110E30A
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 10:12:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1701684722;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KcPJY3fk2Cqzhcd9iVt/Hyoas1zD8DeJDoHpF/hqkco=;
- b=QkcKVj1NsLW+KYWydqkdWRooj8yVRI3FdXshgKzXXU7aV1HXmDhJxI7dN1fY7AomsGdOaA
- bCyOduQL2COMmxI25Rsi5xhKN91WPz3A//AXpccFTLwjAgF7sos/6K8zC+dAZo/Qt0oh9v
- 6oeOmJi/Cne1ChXyv7138X1GPuJgH6w=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-601-ZCI1wlfkMtiCbn1jXcmGVw-1; Mon, 04 Dec 2023 05:12:01 -0500
-X-MC-Unique: ZCI1wlfkMtiCbn1jXcmGVw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-333503fd5bdso282300f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 02:12:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701684720; x=1702289520;
- h=mime-version:message-id:date:references:in-reply-to:subject:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KcPJY3fk2Cqzhcd9iVt/Hyoas1zD8DeJDoHpF/hqkco=;
- b=DsatFL+b79fLunz5JJmoMvu4IiQ0Aj5blBZmifOt98cNKd7rpsYg1pqNX+my3Vhac2
- SXSGL+COcSuieGrQ/wXdmkrOanUkGWO2xwfEekoSM72bO+X3KJ2l4MhNp4z24MFYPO7l
- X380p3md+UNhBnUiBrV1qFcytqwi0E+oX0sS79aJztIEceBV0Ne6fyOEmhr/RHfpDP2n
- qPHy5fMsiQ40LZsq+a1oRlIxc1XKB3txI9nuhItkEKjTWsMenv3v101AFQoDNhAhjIgG
- FbkLgdlu4FhvA8seyOiBX1dDpyLft8f+6pj5nnr+LNGQM6/4MXUNfNicB1rHlyqpf4jj
- 6ayg==
-X-Gm-Message-State: AOJu0YzmETQSo0BKmTDEZbNGVoKx3Sqxsq7SawiNuI2ecZeLg4gG0bVu
- ytHYIsRu9gs80WFoMDH5PNk+7wnHqj+MrWsNZcBnQr7WJBaSiWcjRAJtMA41B+iZsk6+lLbWubP
- Z8p4esoXhxO8knc9di85uMZBdJZV0GyDmBw0y
-X-Received: by 2002:a05:600c:4fc6:b0:40b:369b:2c53 with SMTP id
- o6-20020a05600c4fc600b0040b369b2c53mr2365236wmq.22.1701684720074; 
- Mon, 04 Dec 2023 02:12:00 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE9RK5e8sTiOKlt5ijBSpWrEVrpzDNtBEaBzoFv2sXInz/cmdroUZ9QK4cV2M8/tXiUfxKMMQ==
-X-Received: by 2002:a05:600c:4fc6:b0:40b:369b:2c53 with SMTP id
- o6-20020a05600c4fc600b0040b369b2c53mr2365231wmq.22.1701684719725; 
- Mon, 04 Dec 2023 02:11:59 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- h19-20020a05600c351300b0040b347d90d0sm17904252wmq.12.2023.12.04.02.11.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Dec 2023 02:11:59 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Eric Nelson <eric@nelint.com>, dri-devel@lists.freedesktop.org
-Subject: Re: fbcon on one of multiple displays
-In-Reply-To: <96343bd1-2c61-47da-965f-26bc385ad268@nelint.com>
-References: <96343bd1-2c61-47da-965f-26bc385ad268@nelint.com>
-Date: Mon, 04 Dec 2023 11:11:58 +0100
-Message-ID: <8734wixonl.fsf@minerva.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F4F510E12C;
+ Mon,  4 Dec 2023 10:15:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701684964; x=1733220964;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=3LL6k+xYYDgowjrfDhwIvyPlTGYLhMGk56IZFFTZXgI=;
+ b=FTSLF5EBNhzvDBClQ3u+VvnkYvoEb8UjfAJxuu2Awqf5kTqgKmsoeiYN
+ eIdxSR6fig5xwJ4jQ7c18NSWoGo5H+wrNXzC/PW8xLPiZ4OWNPpHKMIzk
+ 0uygmPlOBdU3KGzVdsKID9B5HyWbDDK94N/STbtiUNybGzqbLuYXbf8hS
+ kbQeUBdgIKDQet2+cGfmbMgHRUtCxewHoS0eh9lo+EunkoGTLUWM6+OSA
+ kVntJsNUf6h5tJQtFd0QWVKVqiHJOnguJvgoMqrWXBdyc1myTYNNjtlLX
+ Ik85kAwFfW5ruyYXPRCYEfO5iV/EW84MNm+gt2mx1YlGHmUjKaRaOX0Py w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="390871263"
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; d="scan'208";a="390871263"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2023 02:15:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="861329877"
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; d="scan'208";a="861329877"
+Received: from shahmoha-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.45.180])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2023 02:15:42 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Ankit Nautiyal
+ <ankit.k.nautiyal@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] drm/i915/display: Don't use "proxy" headers
+In-Reply-To: <20231129140129.699767-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231129140129.699767-1-andriy.shevchenko@linux.intel.com>
+Date: Mon, 04 Dec 2023 12:15:39 +0200
+Message-ID: <87r0k22rzo.fsf@intel.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,29 +61,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Eric Nelson <eric@nelint.com> writes:
-
-Hello Eric,
-
-> Hi all,
+On Wed, 29 Nov 2023, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wr=
+ote:
+> The driver uses math.h and not util_macros.h.
 >
-> Is there a way to configure a framebuffer console on a specific display 
-> on a machine with multiple displays?
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+Thanks, pushed to drm-intel-next.
+
+BR,
+Jani.
+
+> ---
+>  drivers/gpu/drm/i915/display/intel_snps_phy.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
+> diff --git a/drivers/gpu/drm/i915/display/intel_snps_phy.c b/drivers/gpu/=
+drm/i915/display/intel_snps_phy.c
+> index ce5a73a4cc89..bc61e736f9b3 100644
+> --- a/drivers/gpu/drm/i915/display/intel_snps_phy.c
+> +++ b/drivers/gpu/drm/i915/display/intel_snps_phy.c
+> @@ -3,7 +3,7 @@
+>   * Copyright =C2=A9 2019 Intel Corporation
+>   */
+>=20=20
+> -#include <linux/util_macros.h>
+> +#include <linux/math.h>
+>=20=20
+>  #include "i915_reg.h"
+>  #include "intel_ddi.h"
 
-Have you looked at https://www.kernel.org/doc/Documentation/fb/fbcon.txt ?
-
-There is a sysfb interface to bind / unbind fbdev devices to fbcon's VT
-(/sys/class/vtconsole/vtcon1/bind) and also kernel command line parameter
-to choose which fbdev driver is mapped to which VT console (fbcon=map:n).
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+--=20
+Jani Nikula, Intel
