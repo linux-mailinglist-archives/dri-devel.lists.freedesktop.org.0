@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D58780328E
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 13:26:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A647480329E
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 13:29:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C64F810E1B2;
-	Mon,  4 Dec 2023 12:26:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36E7A10E1BC;
+	Mon,  4 Dec 2023 12:29:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
- [IPv6:2607:f8b0:4864:20::b2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80F2610E1B2
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 12:26:27 +0000 (UTC)
-Received: by mail-yb1-xb2d.google.com with SMTP id
- 3f1490d57ef6-db3fa47c2f7so2718134276.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 04:26:27 -0800 (PST)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1462B10E050
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 12:29:11 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-40c0e37cfafso3760095e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 04:29:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701692786; x=1702297586; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=tFWyFPjADp1Fc6HbLi6uPiaZmfeg0/fMint0EXwMSxg=;
- b=w0/ImTECyidqeBC9pzoR02PqZP+eipTwOxTR5xgVcr02OL+HgHFiFm+apIubVyPbtA
- JcwsEP/X4oiPe4H5A9QWzHML2QYaYFI+ORcz+xpHyOVG73MZotrtT+mdVy2Dt/VMp/iQ
- XMmsr7hZUzY1JKExsNBU++NsLoaC5rbdw6WfJ904noW2OeCKT+V1FMIK2+/+4B5gM/U8
- xgN+a7yUEhXVppBtwRtk4NorB9llxc1yCCJFpyFd1CUYEWstifJkSSUS0hhcivvJKBj+
- fiZf743+O+li1C3OX7tpBql0p739UEkdYwd39kjlh1D+Wbw1AYSrRar/dNc87Y9Ep7w/
- MEkA==
+ d=linaro.org; s=google; t=1701692949; x=1702297749; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=MkkECO5iEe8wffVmp+N+jpk0G+DJrLKzEev9h10F0Rg=;
+ b=MDPFjgqe74tBpsbLkdBOFqO/DCkUCly+lajjbkgbWsUg2BMkLEF/oZlRKPK31D39f9
+ qWSSBCLYuWY/xcK6a+aqQtih2SGQAIFP9Hba09tiZHJy1hEFEPpRR7sL5HQIxDV/3R4d
+ qrpxmfKnKdmhFB+lk/h9HDXPOlNWrjiVWFF/t15McCjCD4KqEDbLfTvFI7PeMftL1N1N
+ npZO8UoiX5Cjr+OD2selDz0UBUIIjD/EA4I7sHPkABL+TleJvhBoLTIcoFolCVlcZfAF
+ jP0aGdKz2UnMUIEqDXAJoq4BNiEMjz780V0s3Ktb9PFXz2Rtmtx78cxnoP6ahjsMtOIl
+ X5Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701692786; x=1702297586;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tFWyFPjADp1Fc6HbLi6uPiaZmfeg0/fMint0EXwMSxg=;
- b=D3uggdKGOGZMzFvzoktZPEKjVFC//v4IrBMVOXYs+u+8Nkuq/F7mtaiwWZDGxsgEpH
- xVYGTRQfXa5hSVICGkY1Kl4ZCIz49sB3674FyJdDWGeCoyucf05euhzg8bVRzvJoArzV
- tvr4avtsCtw+c9cqCqDPpRbRouOWluux62z9vw9DA7Why3n4HvPFfMEfyehKXJIznI71
- VKClFCwqJCFvDtrQFDYWlDTnU8yGf6FDu4xw5df19EvLjmxma3zHBn0dlkgjnidj6O/2
- 5Hk+avebDdUepxjOriAWrHiyUXyJBmmdAU6YG9iVggPGSXZmIXLsApRXmqegHOh6SlZi
- uToA==
-X-Gm-Message-State: AOJu0YzlHFjrCOZw1OcRakdH7RHoBWEGVPg0F41k7WX+eHrk4D75nTuW
- gWwyC7E4RjtZ6au75/z1zBk0Q4uXvQFGHs08j1LQDQ==
-X-Google-Smtp-Source: AGHT+IE+L1664SYHtY+cUpFkqq4X1I85OOyU1mq606IScbstXyiJjcP/Vfcc7mySBINjIKn/y2Cz19SvoVwqk/DjCeM=
-X-Received: by 2002:a25:d85:0:b0:db5:4d4f:b3bb with SMTP id
- 127-20020a250d85000000b00db54d4fb3bbmr1816647ybn.18.1701692786300; Mon, 04
- Dec 2023 04:26:26 -0800 (PST)
+ d=1e100.net; s=20230601; t=1701692949; x=1702297749;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MkkECO5iEe8wffVmp+N+jpk0G+DJrLKzEev9h10F0Rg=;
+ b=w0/MfBsBxH5H/oiy7JUO9cHIs5oCx6kUlgYQu4qqbsOQAA8AbS9mIXu5AT3dT3kOR4
+ +YBUn2ae/iBY0iplgiqVB+pxU2HlY4MNlcaO7j4r1sEd62HnZlMxaeBNkcT1WXkDeqb0
+ JW1f04X3EKyTPsFvMqUCpZhTngEat8PfsI39XAdwmu5kiE7ASiLr1YRWMPZp5Y5BpmZF
+ 4209J0qtgzYnnUGgSWKBmW40gBsYWYp5ynEe2Voklii0xASlj5EZhNBus7hWD01BY++2
+ AXVvQUdHdJrg3/wJZfbDpsaX58FWbnmVYK78dM1T7t8Yc1hkIAMA8FR2PfiFSjt+NLiS
+ Jk7Q==
+X-Gm-Message-State: AOJu0YwjyV2/b8C9LIeZra+sOXme4iGNh1m/Koe0BBJoTZdaJQSqrPbk
+ DYTE9Kwhucw3zrADqgVgUZm6vA==
+X-Google-Smtp-Source: AGHT+IEhBK8pDeFMWjsr+8bKrzXeC11m8+GcPR+3mHNKpiYY/iuhyUeTu2UUAAGueQ/HmM7P67v+lw==
+X-Received: by 2002:a7b:c041:0:b0:40b:42d4:3319 with SMTP id
+ u1-20020a7bc041000000b0040b42d43319mr2561709wmc.0.1701692949452; 
+ Mon, 04 Dec 2023 04:29:09 -0800 (PST)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ j11-20020a05600c190b00b0040b47c69d08sm18464512wmq.18.2023.12.04.04.29.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Dec 2023 04:29:09 -0800 (PST)
+Date: Mon, 4 Dec 2023 15:29:00 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Sean Paul <seanpaul@chromium.org>
+Subject: [PATCH] drm/bridge: nxp-ptn3460: fix i2c_master_send() error checking
+Message-ID: <0cdc2dce-ca89-451a-9774-1482ab2f4762@moroto.mountain>
 MIME-Version: 1.0
-References: <20231203114333.1305826-1-dmitry.baryshkov@linaro.org>
- <2023120426-frosting-manliness-14bd@gregkh>
-In-Reply-To: <2023120426-frosting-manliness-14bd@gregkh>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 4 Dec 2023 14:26:15 +0200
-Message-ID: <CAA8EJpriJ-Y0Gb+PW7f5p4Sh_BXsDpeDckgnGZ+eKmWTQBegaA@mail.gmail.com>
-Subject: Re: [PATCH RESEND 0/6] drm: simplify support for transparent DRM
- bridges
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,35 +69,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- dri-devel@lists.freedesktop.org,
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Janne Grunau <j@jannau.net>,
- Robert Foss <rfoss@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andy Gross <agross@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Guenter Roeck <linux@roeck-us.net>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- freedreno@lists.freedesktop.org
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 4 Dec 2023 at 14:21, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Sun, Dec 03, 2023 at 02:43:27PM +0300, Dmitry Baryshkov wrote:
-> > Greg, could you please ack the last patch to be merged through the
-> > drm-misc tree? You have acked patch 3, but since that time I've added
-> > patches 4-6.
->
-> That is up to the typec maintainer to ack, not me!
+The i2c_master_send/recv() functions return negative error codes or the
+number of bytes that were able to be sent/received.  This code has
+two problems.  1)  Instead of checking if all the bytes were sent or
+received, it checks that at least one byte was sent or received.
+2) If there was a partial send/receive then we should return a negative
+error code but this code returns success.
 
-Hmm, true. I didn't notice supporter vs maintainer.
+Fixes: a9fe713d7d45 ("drm/bridge: Add PTN3460 bridge driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+This is from static analysis and code review.  It's always a concern
+when you add stricter error handling that something will break.
 
-Heikki, then we should bug you about that patch.
+ drivers/gpu/drm/bridge/nxp-ptn3460.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/gpu/drm/bridge/nxp-ptn3460.c b/drivers/gpu/drm/bridge/nxp-ptn3460.c
+index d81920227a8a..9b7eb8c669c1 100644
+--- a/drivers/gpu/drm/bridge/nxp-ptn3460.c
++++ b/drivers/gpu/drm/bridge/nxp-ptn3460.c
+@@ -56,13 +56,13 @@ static int ptn3460_read_bytes(struct ptn3460_bridge *ptn_bridge, char addr,
+ 	ret = i2c_master_send(ptn_bridge->client, &addr, 1);
+ 	if (ret <= 0) {
+ 		DRM_ERROR("Failed to send i2c command, ret=%d\n", ret);
+-		return ret;
++		return ret ?: -EIO;
+ 	}
+ 
+ 	ret = i2c_master_recv(ptn_bridge->client, buf, len);
+-	if (ret <= 0) {
++	if (ret != len) {
+ 		DRM_ERROR("Failed to recv i2c data, ret=%d\n", ret);
+-		return ret;
++		return ret < 0 ? ret : -EIO;
+ 	}
+ 
+ 	return 0;
+@@ -78,9 +78,9 @@ static int ptn3460_write_byte(struct ptn3460_bridge *ptn_bridge, char addr,
+ 	buf[1] = val;
+ 
+ 	ret = i2c_master_send(ptn_bridge->client, buf, ARRAY_SIZE(buf));
+-	if (ret <= 0) {
++	if (ret != ARRAY_SIZE(buf)) {
+ 		DRM_ERROR("Failed to send i2c command, ret=%d\n", ret);
+-		return ret;
++		return ret < 0 ? ret : -EIO;
+ 	}
+ 
+ 	return 0;
 -- 
-With best wishes
-Dmitry
+2.42.0
+
