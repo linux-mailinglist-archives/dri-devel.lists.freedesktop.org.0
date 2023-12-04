@@ -2,61 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A647480329E
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 13:29:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 187598032D2
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 13:33:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36E7A10E1BC;
-	Mon,  4 Dec 2023 12:29:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3E6010E379;
+	Mon,  4 Dec 2023 12:33:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1462B10E050
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 12:29:11 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-40c0e37cfafso3760095e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 04:29:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701692949; x=1702297749; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=MkkECO5iEe8wffVmp+N+jpk0G+DJrLKzEev9h10F0Rg=;
- b=MDPFjgqe74tBpsbLkdBOFqO/DCkUCly+lajjbkgbWsUg2BMkLEF/oZlRKPK31D39f9
- qWSSBCLYuWY/xcK6a+aqQtih2SGQAIFP9Hba09tiZHJy1hEFEPpRR7sL5HQIxDV/3R4d
- qrpxmfKnKdmhFB+lk/h9HDXPOlNWrjiVWFF/t15McCjCD4KqEDbLfTvFI7PeMftL1N1N
- npZO8UoiX5Cjr+OD2selDz0UBUIIjD/EA4I7sHPkABL+TleJvhBoLTIcoFolCVlcZfAF
- jP0aGdKz2UnMUIEqDXAJoq4BNiEMjz780V0s3Ktb9PFXz2Rtmtx78cxnoP6ahjsMtOIl
- X5Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701692949; x=1702297749;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MkkECO5iEe8wffVmp+N+jpk0G+DJrLKzEev9h10F0Rg=;
- b=w0/MfBsBxH5H/oiy7JUO9cHIs5oCx6kUlgYQu4qqbsOQAA8AbS9mIXu5AT3dT3kOR4
- +YBUn2ae/iBY0iplgiqVB+pxU2HlY4MNlcaO7j4r1sEd62HnZlMxaeBNkcT1WXkDeqb0
- JW1f04X3EKyTPsFvMqUCpZhTngEat8PfsI39XAdwmu5kiE7ASiLr1YRWMPZp5Y5BpmZF
- 4209J0qtgzYnnUGgSWKBmW40gBsYWYp5ynEe2Voklii0xASlj5EZhNBus7hWD01BY++2
- AXVvQUdHdJrg3/wJZfbDpsaX58FWbnmVYK78dM1T7t8Yc1hkIAMA8FR2PfiFSjt+NLiS
- Jk7Q==
-X-Gm-Message-State: AOJu0YwjyV2/b8C9LIeZra+sOXme4iGNh1m/Koe0BBJoTZdaJQSqrPbk
- DYTE9Kwhucw3zrADqgVgUZm6vA==
-X-Google-Smtp-Source: AGHT+IEhBK8pDeFMWjsr+8bKrzXeC11m8+GcPR+3mHNKpiYY/iuhyUeTu2UUAAGueQ/HmM7P67v+lw==
-X-Received: by 2002:a7b:c041:0:b0:40b:42d4:3319 with SMTP id
- u1-20020a7bc041000000b0040b42d43319mr2561709wmc.0.1701692949452; 
- Mon, 04 Dec 2023 04:29:09 -0800 (PST)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- j11-20020a05600c190b00b0040b47c69d08sm18464512wmq.18.2023.12.04.04.29.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Dec 2023 04:29:09 -0800 (PST)
-Date: Mon, 4 Dec 2023 15:29:00 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Sean Paul <seanpaul@chromium.org>
-Subject: [PATCH] drm/bridge: nxp-ptn3460: fix i2c_master_send() error checking
-Message-ID: <0cdc2dce-ca89-451a-9774-1482ab2f4762@moroto.mountain>
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com
+ [61.152.239.71])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4783710E1BF
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 12:33:24 +0000 (UTC)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+ (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+ (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+ by fd01.gateway.ufhost.com (Postfix) with ESMTP id 00B9481BB;
+ Mon,  4 Dec 2023 20:33:17 +0800 (CST)
+Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 4 Dec
+ 2023 20:33:17 +0800
+Received: from xiaofei.localdomain (180.164.60.184) by EXMBX061.cuchost.com
+ (172.16.6.61) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 4 Dec
+ 2023 20:33:16 +0800
+From: Keith Zhao <keith.zhao@starfivetech.com>
+To: Keith Zhao <keith.zhao@starfivetech.com>, <devicetree@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-riscv@lists.infradead.org>
+Subject: [v3 0/6] DRM driver for verisilicon
+Date: Mon, 4 Dec 2023 20:33:09 +0800
+Message-ID: <20231204123315.28456-1-keith.zhao@starfivetech.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Type: text/plain
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX061.cuchost.com
+ (172.16.6.61)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,66 +51,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: aou@eecs.berkeley.edu, suijingfeng@loongson.cn, tzimmermann@suse.de,
+ paul.walmsley@sifive.com, mripard@kernel.org, xingyu.wu@starfivetech.com,
+ jack.zhu@starfivetech.com, palmer@dabbelt.com,
+ krzysztof.kozlowski+dt@linaro.org, william.qiu@starfivetech.com,
+ shengyang.chen@starfivetech.com, changhuang.liang@starfivetech.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The i2c_master_send/recv() functions return negative error codes or the
-number of bytes that were able to be sent/received.  This code has
-two problems.  1)  Instead of checking if all the bytes were sent or
-received, it checks that at least one byte was sent or received.
-2) If there was a partial send/receive then we should return a negative
-error code but this code returns success.
+This patch is a drm driver for Starfive Soc JH7110,
+I am sending Drm driver part and HDMI driver part.
 
-Fixes: a9fe713d7d45 ("drm/bridge: Add PTN3460 bridge driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
-This is from static analysis and code review.  It's always a concern
-when you add stricter error handling that something will break.
+We used GEM framework for buffer management,
+and for buffer allocation,we use DMA APIs.
 
- drivers/gpu/drm/bridge/nxp-ptn3460.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+the Starfive HDMI servers as interface between a LCD Controller=20
+and a HDMI bus.=20
+A HDMI TX consists of one HDMI transmitter controller=20
+and one HDMI transmitter PHY.
+(Sound support is not include in this patch)
 
-diff --git a/drivers/gpu/drm/bridge/nxp-ptn3460.c b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-index d81920227a8a..9b7eb8c669c1 100644
---- a/drivers/gpu/drm/bridge/nxp-ptn3460.c
-+++ b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-@@ -56,13 +56,13 @@ static int ptn3460_read_bytes(struct ptn3460_bridge *ptn_bridge, char addr,
- 	ret = i2c_master_send(ptn_bridge->client, &addr, 1);
- 	if (ret <= 0) {
- 		DRM_ERROR("Failed to send i2c command, ret=%d\n", ret);
--		return ret;
-+		return ret ?: -EIO;
- 	}
- 
- 	ret = i2c_master_recv(ptn_bridge->client, buf, len);
--	if (ret <= 0) {
-+	if (ret != len) {
- 		DRM_ERROR("Failed to recv i2c data, ret=%d\n", ret);
--		return ret;
-+		return ret < 0 ? ret : -EIO;
- 	}
- 
- 	return 0;
-@@ -78,9 +78,9 @@ static int ptn3460_write_byte(struct ptn3460_bridge *ptn_bridge, char addr,
- 	buf[1] = val;
- 
- 	ret = i2c_master_send(ptn_bridge->client, buf, ARRAY_SIZE(buf));
--	if (ret <= 0) {
-+	if (ret != ARRAY_SIZE(buf)) {
- 		DRM_ERROR("Failed to send i2c command, ret=%d\n", ret);
--		return ret;
-+		return ret < 0 ? ret : -EIO;
- 	}
- 
- 	return 0;
--- 
-2.42.0
+This patchset should be applied on next branch.
+
+V1:
+Changes since v1:
+- Further standardize the yaml file.
+- Dts naming convention improved.
+- Fix the problem of compiling and loading ko files.
+- Use drm new api to automatically manage resources.
+- Drop vs_crtc_funcs&vs_plane_funcs, subdivide the plane's help interface=
+.
+- Reduce the modifiers unused.
+- Optimize the hdmi driver code
+
+V2:
+Changes since v2:
+- fix the error about checking the yaml file.
+- match drm driver GEM DMA API.
+- Delete the custom crtc property .
+- hdmi use drmm_ new api to automatically manage resources.
+- update the modifiers comments.
+- enabling KASAN, fix the error during removing module=20
+
+V3:
+Changes since v3:
+- Delete the custom plane property.
+- Delete the custom fourcc modifiers.
+- Adjust the calculation mode of hdmi pixclock.
+- Add match data for dc8200 driver.
+- Adjust some magic values.
+- Add a simple encoder for dsi output.
+
+Keith Zhao (6):
+  dt-bindings: display: Add yamls for JH7110 display system
+  riscv: dts: starfive: jh7110: display subsystem
+  drm/vs: Register DRM device
+  drm/vs: Add KMS crtc&plane
+  drm/vs: Add hdmi driver
+  drm/vs: simple encoder
+
+ .../starfive/starfive,display-subsystem.yaml  |  104 ++
+ .../starfive/starfive,dsi-encoder.yaml        |   92 ++
+ .../starfive/starfive,jh7110-dc8200.yaml      |  113 ++
+ .../starfive/starfive,jh7110-inno-hdmi.yaml   |   82 ++
+ .../soc/starfive/starfive,jh7110-syscon.yaml  |    1 +
+ MAINTAINERS                                   |    8 +
+ .../jh7110-starfive-visionfive-2.dtsi         |  134 ++
+ arch/riscv/boot/dts/starfive/jh7110.dtsi      |   49 +
+ drivers/gpu/drm/Kconfig                       |    2 +
+ drivers/gpu/drm/Makefile                      |    1 +
+ drivers/gpu/drm/verisilicon/Kconfig           |   21 +
+ drivers/gpu/drm/verisilicon/Makefile          |   12 +
+ drivers/gpu/drm/verisilicon/starfive_hdmi.c   |  849 ++++++++++++
+ drivers/gpu/drm/verisilicon/starfive_hdmi.h   |  304 +++++
+ drivers/gpu/drm/verisilicon/vs_crtc.c         |  208 +++
+ drivers/gpu/drm/verisilicon/vs_crtc.h         |   42 +
+ drivers/gpu/drm/verisilicon/vs_dc.c           | 1192 +++++++++++++++++
+ drivers/gpu/drm/verisilicon/vs_dc.h           |   67 +
+ drivers/gpu/drm/verisilicon/vs_dc_hw.c        | 1022 ++++++++++++++
+ drivers/gpu/drm/verisilicon/vs_dc_hw.h        |  580 ++++++++
+ drivers/gpu/drm/verisilicon/vs_drv.c          |  323 +++++
+ drivers/gpu/drm/verisilicon/vs_drv.h          |   46 +
+ drivers/gpu/drm/verisilicon/vs_modeset.c      |   39 +
+ drivers/gpu/drm/verisilicon/vs_modeset.h      |   10 +
+ drivers/gpu/drm/verisilicon/vs_plane.c        |  301 +++++
+ drivers/gpu/drm/verisilicon/vs_plane.h        |   39 +
+ drivers/gpu/drm/verisilicon/vs_simple_enc.c   |  195 +++
+ drivers/gpu/drm/verisilicon/vs_simple_enc.h   |   23 +
+ drivers/gpu/drm/verisilicon/vs_type.h         |   69 +
+ 29 files changed, 5928 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/starfive/st=
+arfive,display-subsystem.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/starfive/st=
+arfive,dsi-encoder.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/starfive/st=
+arfive,jh7110-dc8200.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/starfive/st=
+arfive,jh7110-inno-hdmi.yaml
+ create mode 100644 drivers/gpu/drm/verisilicon/Kconfig
+ create mode 100644 drivers/gpu/drm/verisilicon/Makefile
+ create mode 100644 drivers/gpu/drm/verisilicon/starfive_hdmi.c
+ create mode 100644 drivers/gpu/drm/verisilicon/starfive_hdmi.h
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.c
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.h
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.c
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.h
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_hw.c
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_hw.h
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_drv.c
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_drv.h
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_modeset.c
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_modeset.h
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.c
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.h
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_simple_enc.c
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_simple_enc.h
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_type.h
+
+--=20
+2.34.1
 
