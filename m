@@ -1,66 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A64480406F
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 21:54:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19DA8803E22
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 20:13:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B9B010E408;
-	Mon,  4 Dec 2023 20:54:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2190D10E236;
+	Mon,  4 Dec 2023 19:12:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FBA410E408
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 20:54:16 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3B4IMwk7034910;
- Mon, 4 Dec 2023 12:22:58 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1701714178;
- bh=PWj0D2WMvRJ11gnfwf0SZ44vgMNZaHz/OZM54jmoFVs=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=JBeVn6LSLGMkNjL+d/YkWu4H0o6fxo2MdR5Fms74roq7LZv8+Z2jnVYCFSJbjrLwz
- V59XS90IBgp+WehEBwrM7H8jiDTGvWpjxKoJf4rRAmU8SBURe4NRt7gXlIBTMHhfBL
- /oEAueViMAEbU6Bl8TZbxfVCw7h7jOSA6ZoVDWiU=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3B4IMw6W091872
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 4 Dec 2023 12:22:58 -0600
-Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 4
- Dec 2023 12:22:57 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 4 Dec 2023 12:22:57 -0600
-Received: from fllv0039.itg.ti.com (ileaxei01-snat.itg.ti.com [10.180.69.5])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3B4IMkxD042313;
- Mon, 4 Dec 2023 12:22:56 -0600
-From: Andrew Davis <afd@ti.com>
-To: Frank Binns <frank.binns@imgtec.com>, Donald Robson
- <donald.robson@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, "H .
- Nikolaus Schaller" <hns@goldelico.com>, Adam Ford <aford173@gmail.com>,
- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>, Tony Lindgren
- <tony@atomide.com>, Nishanth Menon <nm@ti.com>, Vignesh Raghavendra
- <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>, Paul Cercueil
- <paul@crapouillou.net>
-Subject: [PATCH RFC 10/10] MIPS: DTS: jz4780: Add device tree entry for SGX GPU
-Date: Mon, 4 Dec 2023 12:22:45 -0600
-Message-ID: <20231204182245.33683-11-afd@ti.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231204182245.33683-1-afd@ti.com>
-References: <20231204182245.33683-1-afd@ti.com>
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1ECA10E236
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 19:12:50 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-50bfa5a6cffso1466973e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 11:12:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1701717169; x=1702321969; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=9kI2ilyfkKMwxxsn/dbQDbgAgwyvM+UnMyDP+dFhIHA=;
+ b=BiEJua6NiF4BsVWo1Kmz2xhM7cx7Sl1hKwg5xmmfOO56nzcCXPBstTm0gSfMIgTs9e
+ /FpbQdyxDeDudDz7S2qQ4HKC9aFKXSUI91ByFaQBh27C5H3ywrIlAtJ8ORopSt6eiVYf
+ xIWypztpFU54z6ViJXFX32Gu9EBX1EtX1eE3fp3cbePHtAjI3c+gLwImbIpqXmeAspDe
+ XA4r6UdHR7wvuEScFwWa/GJK8kwTvbqIUGKUN/9xyIEwXVPb8UFWhNfODlXANXrqH1PY
+ dzVoFZ48vho9V4HpG1bovL0NTc0FJbH9td8N+XYEy5TW8xTzqbVfR9QUVCgYtpQ+ms+I
+ TK6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701717169; x=1702321969;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9kI2ilyfkKMwxxsn/dbQDbgAgwyvM+UnMyDP+dFhIHA=;
+ b=M7WA42gtH9L5vbj74LlsPmNmyPubACZJiywE2Dsyjb5ppdVDGimD9xp42tj3lmDObD
+ +TWhuCsk2+avUDXud2kxmqbtXtTy58Rd3k+Zjfsa6T2aI6oS3PBLHNf+0Knwmb1RS3T+
+ vo5ILQI5PGkSFuzktlP7rPtlBfM5ZEHJmhiUYCjsx6yXtOtQjyHFUVC2YHzpQlYyPqFd
+ PD2ZuvVf9MJnRBtRCCfZk1DjgLr7BBr4M7LuVdufZEhr8+u0c/qScCx2adzL5YF0Gscg
+ y0+QRLic9U1O11XwmBnswN7gsc+E0BLncF3y4Oek0eUSYt8HQxbvs3KEAMOF/wNOs4nl
+ BJgw==
+X-Gm-Message-State: AOJu0YwiIt5zROWgIYdow3pUfLDfRizC3PcwtnmkejGzgUMcqW/mIbO8
+ vfEWZIOLxigEf0daOdDXAw==
+X-Google-Smtp-Source: AGHT+IHTxsgENduBkcDZbHkgrnmLVH9Z2liamCQ1LTwaFrtxQoYZXBUeuOLJwNn2dwvUrY6hbJ0M4w==
+X-Received: by 2002:a05:6512:158f:b0:50b:f7c6:2f7a with SMTP id
+ bp15-20020a056512158f00b0050bf7c62f7amr1120720lfb.47.1701717168401; 
+ Mon, 04 Dec 2023 11:12:48 -0800 (PST)
+Received: from ?IPV6:2a02:810b:f40:4300:55ff:210b:5393:c9d7?
+ ([2a02:810b:f40:4300:55ff:210b:5393:c9d7])
+ by smtp.gmail.com with ESMTPSA id
+ n10-20020aa7c44a000000b0054cd6346685sm114391edr.35.2023.12.04.11.12.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Dec 2023 11:12:48 -0800 (PST)
+Message-ID: <447b1bde-584f-4eb4-8bfb-9abd3aa8b6fa@gmail.com>
+Date: Mon, 4 Dec 2023 20:12:47 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 3/3] ARM: dts: rockchip: rk3036-kylin: add
+ hdmi-connector node
+Content-Language: en-US
+To: Johan Jonker <jbx6244@gmail.com>, heiko@sntech.de, hjc@rock-chips.com
+References: <49c6afec-022f-02de-99a0-d409b64da198@gmail.com>
+ <f5bc182b-f9b6-26a8-8649-19ce33e3c0e1@gmail.com>
+From: Alex Bee <knaerzche@gmail.com>
+In-Reply-To: <f5bc182b-f9b6-26a8-8649-19ce33e3c0e1@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,42 +78,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- Andrew Davis <afd@ti.com>, linux-omap@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, tzimmermann@suse.de,
+ krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
+ mripard@kernel.org, linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add SGX GPU device entry to base jz4780 dtsi file.
+Hi Johan,
+Am 04.12.23 um 18:40 schrieb Johan Jonker:
+> Add hdmi-connector node to comply with the inno_hdmi binding.
+> 
+> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
+> ---
+>   arch/arm/boot/dts/rockchip/rk3036-kylin.dts | 17 +++++++++++++++++
+>   1 file changed, 17 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/rockchip/rk3036-kylin.dts b/arch/arm/boot/dts/rockchip/rk3036-kylin.dts
+> index 67e1e04139e7..a213333be011 100644
+> --- a/arch/arm/boot/dts/rockchip/rk3036-kylin.dts
+> +++ b/arch/arm/boot/dts/rockchip/rk3036-kylin.dts
+> @@ -13,6 +13,17 @@ memory@60000000 {
+>   		reg = <0x60000000 0x20000000>;
+>   	};
+> 
+> +	hdmi_con: hdmi-con {
+> +		compatible = "hdmi-connector";
+> +		type = "c";
+According to [0], kylin has an A-Type HDMI port - so this should be
+  +		type = "a";
 
-Signed-off-by: Andrew Davis <afd@ti.com>
----
- arch/mips/boot/dts/ingenic/jz4780.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+[0] http://rockchip.wikidot.com/kylin
 
-diff --git a/arch/mips/boot/dts/ingenic/jz4780.dtsi b/arch/mips/boot/dts/ingenic/jz4780.dtsi
-index 18affff85ce38..5ea6833f5e872 100644
---- a/arch/mips/boot/dts/ingenic/jz4780.dtsi
-+++ b/arch/mips/boot/dts/ingenic/jz4780.dtsi
-@@ -460,6 +460,17 @@ hdmi: hdmi@10180000 {
- 		status = "disabled";
- 	};
- 
-+	gpu: gpu@13040000 {
-+		compatible = "ingenic,jz4780-gpu", "img,powervr-sgx540";
-+		reg = <0x13040000 0x4000>;
-+
-+		clocks = <&cgu JZ4780_CLK_GPU>;
-+		clock-names = "core";
-+
-+		interrupt-parent = <&intc>;
-+		interrupts = <63>;
-+	};
-+
- 	lcdc0: lcdc0@13050000 {
- 		compatible = "ingenic,jz4780-lcd";
- 		reg = <0x13050000 0x1800>;
--- 
-2.39.2
+Regards,
+Alex
+> +
+> +		port {
+> +			hdmi_con_in: endpoint {
+> +				remote-endpoint = <&hdmi_out_con>;
+> +			};
+> +		};
+> +	};
+> +
+>   	leds: gpio-leds {
+>   		compatible = "gpio-leds";
+> 
+> @@ -110,6 +121,12 @@ &hdmi {
+>   	status = "okay";
+>   };
+> 
+> +&hdmi_out {
+> +	hdmi_out_con: endpoint {
+> +		remote-endpoint = <&hdmi_con_in>;
+> +	};
+> +};
+> +
+>   &i2c1 {
+>   	clock-frequency = <400000>;
+> 
+> --
+> 2.39.2
+> 
+> 
+> _______________________________________________
+> Linux-rockchip mailing list
+> Linux-rockchip@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-rockchip
 
