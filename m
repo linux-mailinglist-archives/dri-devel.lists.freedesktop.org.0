@@ -1,80 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8120D803B35
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 18:13:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FAE6803B91
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 18:33:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73FC310E394;
-	Mon,  4 Dec 2023 17:13:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 239B910E0D7;
+	Mon,  4 Dec 2023 17:33:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FB5B10E394;
- Mon,  4 Dec 2023 17:13:44 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3B4H3wqx012133; Mon, 4 Dec 2023 17:13:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2023-11-20; bh=A2PqbRe2hdgG+2bzb8Ox+aMtx/2cW4uLxpdVFW4eCcM=;
- b=R6JbpvDzaYKJVV/S5hXsde/tRW8fQu3WaVXbaWCTJRc9b3UDQ/TM+ARS6to9bbXwaSgt
- LKWf/NzZzs5ntIkNBsJvoM8y9Y6p2uRmuc75PxsloFTdeTNR0M18QhIbf0if00OyEDfn
- sDlvOGnHlBJ4JZ9UjQhXl7wYjmepLE8bHhOUcpO/QdOf+66XWnqj19MlqPb6UpLzuQiy
- Hf24Q+GmYz2hpki4RKr6GZ65ur8EmjeqLKYatkLjJxUGuh9LOxAM347HoBmNyrG1aKhm
- lkQIZjcXfDF2WWT4jHBRrHQofdUM8h0JWmDPxb8ODZz5x9uVN/cFgZE69jpfFOXuy/r5 1w== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3usju700kb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 04 Dec 2023 17:13:39 +0000
-Received: from pps.filterd
- (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19)
- with ESMTP id 3B4GEgf2005371; Mon, 4 Dec 2023 17:13:38 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3uqu15vrfb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 04 Dec 2023 17:13:38 +0000
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3B4HDYEs003824;
- Mon, 4 Dec 2023 17:13:34 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com
- [10.129.136.47])
- by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
- 3uqu15vr02-1; Mon, 04 Dec 2023 17:13:34 +0000
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Bjorn Andersson <quic_bjorande@quicinc.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Vinod Polimera <quic_vpolimer@quicinc.com>,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH next] drm/msm/dp: add a missing unlock in dp_hpd_plug_handle()
-Date: Mon,  4 Dec 2023 09:13:14 -0800
-Message-ID: <20231204171317.192427-1-harshit.m.mogalapalli@oracle.com>
-X-Mailer: git-send-email 2.42.0
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A41C210E011
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 17:33:20 +0000 (UTC)
+Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 57B6766022D0;
+ Mon,  4 Dec 2023 17:33:18 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1701711199;
+ bh=aJ209yCfkmpoN+NF39TsuQk1kC/ywCSR6OGyvuhTjB4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=e5Sw3f08/RxA1PYbFb8cnw2i2lfZVoVDWNsoQiAHI/cfff671kCGqhXlNLBqnxESv
+ wnbYqKvvhnBKHhyTlgC9wUD2VwBSnOOB7O1bSHiCaTdwEMNblZUpaNZv+MoeRjOKmx
+ NtQUAwxdje1iRp7KhU9bQF+G6OXWhDWjm1NX8QOGvB2P8zI7SSWUcvyRpQGCbQhkOX
+ DUOUqaVMaLCWpa0TtzY0Fiau2oEMfAyU0n54bxX/wFc0s/SuizqfyZsjBrmjXS+paK
+ 0N/TmQYPzatE4nsKP+QW5FRUI4el7UtSw6DudhJ+/ZRZSTf47LGOVvfyc43pfatsPD
+ dpdNrbOnVPkTg==
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 00/14] drm: Add a driver for CSF-based Mali GPUs
+Date: Mon,  4 Dec 2023 18:32:53 +0100
+Message-ID: <20231204173313.2098733-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-04_16,2023-12-04_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- suspectscore=0
- mlxlogscore=999 adultscore=0 phishscore=0 malwarescore=0 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2312040132
-X-Proofpoint-ORIG-GUID: HbMF7UAXWfmh0B826Bgqdyl9huvMmy4E
-X-Proofpoint-GUID: HbMF7UAXWfmh0B826Bgqdyl9huvMmy4E
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,33 +49,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: harshit.m.mogalapalli@oracle.com, kernel-janitors@vger.kernel.org,
- error27@gmail.com, dan.carpenter@linaro.org
+Cc: Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
+ Daniel Stone <daniels@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ Steven Price <steven.price@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When pm_runtime_resume_and_get() fails, unlock before returning.
+Hello,
 
-Fixes: 5814b8bf086a ("drm/msm/dp: incorporate pm_runtime framework into DP driver")
-Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
----
-This is based on static analysis with Smatch. Only compile tested.
----
- drivers/gpu/drm/msm/dp/dp_display.c | 1 +
- 1 file changed, 1 insertion(+)
+This is the 3rd version of the kernel driver for Mali CSF-based GPUs.
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 61b7103498a7..b57ff6c3215d 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -569,6 +569,7 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
- 	ret = pm_runtime_resume_and_get(&pdev->dev);
- 	if (ret) {
- 		DRM_ERROR("failed to pm_runtime_resume\n");
-+		mutex_unlock(&dp->event_mutex);
- 		return ret;
- 	}
- 
+With all the DRM dependencies being merged (drm-sched single entity and
+drm_gpuvm), I thought now was a good time to post a new version. Note
+that the iommu series we depend on [1] has been merged recently. The
+only remaining dependency that hasn't been merged yet is this rather
+trival drm_gpuvm [2] patch.
+
+As for v2, I pushed a branch based on drm-misc-next and containing
+all the dependencies that are not yet available in drm-misc-next
+here[3], and another [4] containing extra patches to have things
+working on rk3588. The CSF firmware binary can be found here[5], and
+should be placed under /lib/firmware/arm/mali/arch10.8/mali_csffw.bin.
+
+The mesa MR adding v10 support on top of panthor is available here [6].
+
+Regarding the GPL2+MIT relicensing, Liviu did an audit and found two
+more people that I didn't spot initially: Clément Péron for the devfreq
+code, and Alexey Sheplyakov for some bits in panthor_gpu.c. Both are
+Cc-ed on the relevant patches. The rest of the code is either new, or
+covered by the Linaro, Arm and Collabora acks.
+
+And here is a non-exhaustive changelog, check each commit for a detailed
+changelog.
+
+v3;
+- Quite a few changes at the MMU/sched level to make the fix some
+  race conditions and deadlocks
+- Addition of the a sync-only VM_BIND operation (to support
+  vkQueueSparseBind with zero commands).
+- Addition of a VM_GET_STATE ioctl
+- Various cosmetic changes (see the commit changelogs for more details)
+- Various fixes (see the commit changelogs for more details)
+
+v2:
+- Rename the driver (pancsf -> panthor)
+- Split the commit adding the driver to ease review
+- Use drm_sched for dependency tracking/job submission
+- Add a VM_BIND ioctl
+- Add the concept of exclusive VM for BOs that are only ever mapped to a
+  single VM
+- Document the code and uAPI
+- Add a DT binding doc
+
+Regards,
+
+Boris
+
+[1]https://lore.kernel.org/linux-arm-kernel/20231124142434.1577550-1-boris.brezillon@collabora.com/T/
+[2]https://patchwork.freedesktop.org/patch/570380/
+[3]https://gitlab.freedesktop.org/panfrost/linux/-/tree/panthor-v3
+[4]https://gitlab.freedesktop.org/panfrost/linux/-/tree/panthor-v3+rk3588
+[5]https://gitlab.com/firefly-linux/external/libmali/-/raw/firefly/firmware/g610/mali_csffw.bin
+[6]https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/26358
+
+Boris Brezillon (13):
+  drm/panthor: Add uAPI
+  drm/panthor: Add GPU register definitions
+  drm/panthor: Add the device logical block
+  drm/panthor: Add the GPU logical block
+  drm/panthor: Add GEM logical block
+  drm/panthor: Add the devfreq logical block
+  drm/panthor: Add the MMU/VM logical block
+  drm/panthor: Add the FW logical block
+  drm/panthor: Add the heap logical block
+  drm/panthor: Add the scheduler logical block
+  drm/panthor: Add the driver frontend block
+  drm/panthor: Allow driver compilation
+  drm/panthor: Add an entry to MAINTAINERS
+
+Liviu Dudau (1):
+  dt-bindings: gpu: mali-valhall-csf: Add support for Arm Mali CSF GPUs
+
+ .../bindings/gpu/arm,mali-valhall-csf.yaml    |  147 +
+ Documentation/gpu/driver-uapi.rst             |    5 +
+ MAINTAINERS                                   |   11 +
+ drivers/gpu/drm/Kconfig                       |    2 +
+ drivers/gpu/drm/Makefile                      |    1 +
+ drivers/gpu/drm/panthor/Kconfig               |   23 +
+ drivers/gpu/drm/panthor/Makefile              |   15 +
+ drivers/gpu/drm/panthor/panthor_devfreq.c     |  283 ++
+ drivers/gpu/drm/panthor/panthor_devfreq.h     |   25 +
+ drivers/gpu/drm/panthor/panthor_device.c      |  497 +++
+ drivers/gpu/drm/panthor/panthor_device.h      |  381 ++
+ drivers/gpu/drm/panthor/panthor_drv.c         | 1454 +++++++
+ drivers/gpu/drm/panthor/panthor_fw.c          | 1332 +++++++
+ drivers/gpu/drm/panthor/panthor_fw.h          |  504 +++
+ drivers/gpu/drm/panthor/panthor_gem.c         |  227 ++
+ drivers/gpu/drm/panthor/panthor_gem.h         |  144 +
+ drivers/gpu/drm/panthor/panthor_gpu.c         |  481 +++
+ drivers/gpu/drm/panthor/panthor_gpu.h         |   52 +
+ drivers/gpu/drm/panthor/panthor_heap.c        |  517 +++
+ drivers/gpu/drm/panthor/panthor_heap.h        |   36 +
+ drivers/gpu/drm/panthor/panthor_mmu.c         | 2653 +++++++++++++
+ drivers/gpu/drm/panthor/panthor_mmu.h         |  101 +
+ drivers/gpu/drm/panthor/panthor_regs.h        |  237 ++
+ drivers/gpu/drm/panthor/panthor_sched.c       | 3410 +++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_sched.h       |   48 +
+ include/uapi/drm/panthor_drm.h                |  892 +++++
+ 26 files changed, 13478 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
+ create mode 100644 drivers/gpu/drm/panthor/Kconfig
+ create mode 100644 drivers/gpu/drm/panthor/Makefile
+ create mode 100644 drivers/gpu/drm/panthor/panthor_devfreq.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_devfreq.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_device.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_device.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_drv.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_fw.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_fw.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_gem.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_gem.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_gpu.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_gpu.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_heap.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_heap.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_mmu.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_mmu.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_regs.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_sched.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_sched.h
+ create mode 100644 include/uapi/drm/panthor_drm.h
+
 -- 
-2.39.3
+2.43.0
 
