@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9ABB803BA2
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 18:33:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CD92803BA8
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 18:34:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EE1D10E399;
-	Mon,  4 Dec 2023 17:33:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B44D410E3A3;
+	Mon,  4 Dec 2023 17:34:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F04F10E39F
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 17:33:29 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DFE310E3B2
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 17:33:30 +0000 (UTC)
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 428866605835;
- Mon,  4 Dec 2023 17:33:27 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 57A0E66022D0;
+ Mon,  4 Dec 2023 17:33:28 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1701711208;
- bh=rP0EZkEzCW8p0Q/Rcsda4+tVIy83vL/qyG5LEd2QXYw=;
+ s=mail; t=1701711209;
+ bh=wFXPV/0qz1gIzyrjk7JIYTKNOxNC5dW9hGwN+GZLGPQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=O0XdZbG5SGOxcfCs83eo+XeJ0VX+QaeY4lQDj4Hv5WwJ1t9cpjC+upbHZJcw2evx4
- YN0pe4aXbctRNcXLu5ub1JQzS7fgwO/o/ZwgTXC/I7ACOHV6Kye5jXgKEfeVFm4DsE
- N8zK2QNFi4nbF93Crfcl3/iO05WJpO6QL/Gs0WwPRqKQVYdOsVg9syHlQaV/nLPXC4
- TozGPRCN15p86CzQL79v4K5W6ZMSmeC2HRF+OsivjlbWYJLXDVxTaX4C4PKsXo8w09
- WU0QlB2LFSuDkxzaBeWy32Ym7UFwwv3GjRJ+e57mtw+5zCrXJq1XJtsa9njz3roY4B
- HuzruamYPg8xA==
+ b=jjv44AmPuF6Ypt4Hx/m5j3506DQiMknoBXIaPYZZ52rq2To0pBnYKtm8mmX1IbXXM
+ EXYGjF8WF4bDYIkIUopnS8JhsBWpXKSJaUSWyALCpNGEIPLMhkfcGXzRf0Ob/rYgMi
+ 28nCjtj8K+G/PBtypbTqktHSb8PF4ZlokTTUBgE8X1ezKEfuLT/MKLT5cR0r+Z5wTh
+ cy++d54lcwZQ1bMKLLV/Wi8RX9soxd9pbSQEm3mjgfDFVTNBdGAwW8cniFqvzYCLW8
+ DNRSQa84iLEjQ3AXdh8AHYj5XCVDH8y/JqMeIcGFBM+AU2TwAUbvt+UunqF7ZnGPdR
+ Gdy894Zr8NdNQ==
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 08/14] drm/panthor: Add the FW logical block
-Date: Mon,  4 Dec 2023 18:33:01 +0100
-Message-ID: <20231204173313.2098733-9-boris.brezillon@collabora.com>
+Subject: [PATCH v3 09/14] drm/panthor: Add the heap logical block
+Date: Mon,  4 Dec 2023 18:33:02 +0100
+Message-ID: <20231204173313.2098733-10-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231204173313.2098733-1-boris.brezillon@collabora.com>
 References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,914 +63,249 @@ Cc: Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Contains everything that's FW related, that includes the code dealing
-with the microcontroller unit (MCU) that's running the FW, and anything
-related to allocating memory shared between the FW and the CPU.
+Tiler heap growing requires some kernel driver involvement: when the
+tiler runs out of heap memory, it will raise an exception which is
+either directly handled by the firmware if some free heap chunks are
+available in the heap context, or passed back to the kernel otherwise.
+The heap helpers will be used by the scheduler logic to allocate more
+heap chunks to a heap context, when such a situation happens.
 
-A few global FW events are processed in the IRQ handler, the rest is
-forwarded to the scheduler, since scheduling is the primary reason for
-the FW existence, and also the main source of FW <-> kernel
-interactions.
+Heap context creation is explicitly requested by userspace (using
+the TILER_HEAP_CREATE ioctl), and the returned context is attached to a
+queue through some command stream instruction.
+
+All the kernel does is keep the list of heap chunks allocated to a
+context, so they can be freed when TILER_HEAP_DESTROY is called, or
+extended when the FW requests a new chunk.
 
 v3:
-- Make the FW path more future-proof (Liviu)
-- Use one waitqueue for all FW events
-- Simplify propagation of FW events to the scheduler logic
-- Drop the panthor_fw_mem abstraction and use panthor_kernel_bo instead
-- Account for the panthor_vm changes
-- Replace magic number with 0x7fffffff with ~0 to better signify that
-  it's the maximum permitted value.
-- More accurate rounding when computing the firmware timeout.
-- Add a 'sub iterator' helper function. This also adds a check that a
-  firmware entry doesn't overflow the firmware image.
-- Drop __packed from FW structures, natural alignment is good enough.
-- Other minor code improvements.
+- Add a FIXME for the heap OOM deadlock
+- Use the panthor_kernel_bo abstraction for the heap context and heap
+  chunks
+- Drop the panthor_heap_gpu_ctx struct as it is opaque to the driver
+- Ensure that the heap context is aligned to the GPU cache line size
+- Minor code tidy ups
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Signed-off-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/panthor/panthor_fw.c | 1332 ++++++++++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_fw.h |  504 ++++++++++
- 2 files changed, 1836 insertions(+)
- create mode 100644 drivers/gpu/drm/panthor/panthor_fw.c
- create mode 100644 drivers/gpu/drm/panthor/panthor_fw.h
+ drivers/gpu/drm/panthor/panthor_heap.c | 517 +++++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_heap.h |  36 ++
+ 2 files changed, 553 insertions(+)
+ create mode 100644 drivers/gpu/drm/panthor/panthor_heap.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_heap.h
 
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
 new file mode 100644
-index 000000000000..85afe769f567
+index 000000000000..49b3229b2e2c
 --- /dev/null
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -0,0 +1,1332 @@
++++ b/drivers/gpu/drm/panthor/panthor_heap.c
+@@ -0,0 +1,517 @@
 +// SPDX-License-Identifier: GPL-2.0 or MIT
 +/* Copyright 2023 Collabora ltd. */
 +
-+#ifdef CONFIG_ARM_ARCH_TIMER
-+#include <asm/arch_timer.h>
-+#endif
-+
-+#include <linux/clk.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/firmware.h>
-+#include <linux/iopoll.h>
 +#include <linux/iosys-map.h>
-+#include <linux/mutex.h>
-+#include <linux/platform_device.h>
++#include <linux/rwsem.h>
 +
-+#include <drm/drm_drv.h>
-+#include <drm/drm_managed.h>
++#include <drm/panthor_drm.h>
 +
 +#include "panthor_device.h"
 +#include "panthor_gem.h"
-+#include "panthor_gpu.h"
-+#include "panthor_regs.h"
-+#include "panthor_fw.h"
++#include "panthor_heap.h"
 +#include "panthor_mmu.h"
-+#include "panthor_sched.h"
++#include "panthor_regs.h"
 +
-+#define CSF_FW_NAME "mali_csffw.bin"
-+
-+#define PING_INTERVAL_MS			12000
-+#define PROGRESS_TIMEOUT_CYCLES			(5ull * 500 * 1024 * 1024)
-+#define PROGRESS_TIMEOUT_SCALE_SHIFT		10
-+#define IDLE_HYSTERESIS_US			800
-+#define PWROFF_HYSTERESIS_US			10000
++/*
++ * The GPU heap context is an opaque structure used by the GPU to track the
++ * heap allocations. The driver should only touch it to initialize it (zero all
++ * fields). Because the CPU and GPU can both access this structure it is
++ * required to be GPU cache line aligned.
++ */
++#define HEAP_CONTEXT_SIZE	32
 +
 +/**
-+ * struct panthor_fw_binary_hdr - Firmware binary header.
++ * struct panthor_heap_chunk_header - Heap chunk header
 + */
-+struct panthor_fw_binary_hdr {
-+	/** @magic: Magic value to check binary validity. */
-+	u32 magic;
-+#define CSF_FW_BINARY_HEADER_MAGIC		0xc3f13a6e
++struct panthor_heap_chunk_header {
++	/**
++	 * @next: Next heap chunk in the list.
++	 *
++	 * This is a GPU VA.
++	 */
++	u64 next;
 +
-+	/** @minor: Minor FW version. */
-+	u8 minor;
-+
-+	/** @major: Major FW version. */
-+	u8 major;
-+#define CSF_FW_BINARY_HEADER_MAJOR_MAX		0
-+
-+	/** @padding1: MBZ. */
-+	u16 padding1;
-+
-+	/** @version_hash: FW version hash. */
-+	u32 version_hash;
-+
-+	/** @padding2: MBZ. */
-+	u32 padding2;
-+
-+	/** @size: FW binary size. */
-+	u32 size;
++	/** @unknown: MBZ. */
++	u32 unknown[14];
 +};
 +
 +/**
-+ * enum panthor_fw_binary_entry_type - Firmware binary entry type
++ * struct panthor_heap_chunk - Structure used to keep track of allocated heap chunks.
 + */
-+enum panthor_fw_binary_entry_type {
-+	/** @CSF_FW_BINARY_ENTRY_TYPE_IFACE: Host <-> FW interface. */
-+	CSF_FW_BINARY_ENTRY_TYPE_IFACE = 0,
-+
-+	/** @CSF_FW_BINARY_ENTRY_TYPE_CONFIG: FW config. */
-+	CSF_FW_BINARY_ENTRY_TYPE_CONFIG = 1,
-+
-+	/** @CSF_FW_BINARY_ENTRY_TYPE_FUTF_TEST: Unit-tests. */
-+	CSF_FW_BINARY_ENTRY_TYPE_FUTF_TEST = 2,
-+
-+	/** @CSF_FW_BINARY_ENTRY_TYPE_TRACE_BUFFER: Trace buffer interface. */
-+	CSF_FW_BINARY_ENTRY_TYPE_TRACE_BUFFER = 3,
-+
-+	/** @CSF_FW_BINARY_ENTRY_TYPE_TIMELINE_METADATA: Timeline metadata interface. */
-+	CSF_FW_BINARY_ENTRY_TYPE_TIMELINE_METADATA = 4,
-+};
-+
-+#define CSF_FW_BINARY_ENTRY_TYPE(ehdr)					((ehdr) & 0xff)
-+#define CSF_FW_BINARY_ENTRY_SIZE(ehdr)					(((ehdr) >> 8) & 0xff)
-+#define CSF_FW_BINARY_ENTRY_UPDATE					BIT(30)
-+#define CSF_FW_BINARY_ENTRY_OPTIONAL					BIT(31)
-+
-+#define CSF_FW_BINARY_IFACE_ENTRY_RD_RD					BIT(0)
-+#define CSF_FW_BINARY_IFACE_ENTRY_RD_WR					BIT(1)
-+#define CSF_FW_BINARY_IFACE_ENTRY_RD_EX					BIT(2)
-+#define CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_NONE			(0 << 3)
-+#define CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_CACHED			(1 << 3)
-+#define CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_UNCACHED_COHERENT	(2 << 3)
-+#define CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_CACHED_COHERENT		(3 << 3)
-+#define CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_MASK			GENMASK(4, 3)
-+#define CSF_FW_BINARY_IFACE_ENTRY_RD_PROT				BIT(5)
-+#define CSF_FW_BINARY_IFACE_ENTRY_RD_SHARED				BIT(30)
-+#define CSF_FW_BINARY_IFACE_ENTRY_RD_ZERO				BIT(31)
-+
-+#define CSF_FW_BINARY_IFACE_ENTRY_RD_SUPPORTED_FLAGS			\
-+	(CSF_FW_BINARY_IFACE_ENTRY_RD_RD |				\
-+	 CSF_FW_BINARY_IFACE_ENTRY_RD_WR |				\
-+	 CSF_FW_BINARY_IFACE_ENTRY_RD_EX |				\
-+	 CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_MASK |			\
-+	 CSF_FW_BINARY_IFACE_ENTRY_RD_PROT |				\
-+	 CSF_FW_BINARY_IFACE_ENTRY_RD_SHARED  |				\
-+	 CSF_FW_BINARY_IFACE_ENTRY_RD_ZERO)
-+
-+/**
-+ * struct panthor_fw_binary_section_entry_hdr - Describes a section of FW binary
-+ */
-+struct panthor_fw_binary_section_entry_hdr {
-+	/** @flags: Section flags. */
-+	u32 flags;
-+
-+	/** @va: MCU virtual range to map this binary section to. */
-+	struct {
-+		/** @start: Start address. */
-+		u32 start;
-+
-+		/** @end: End address. */
-+		u32 end;
-+	} va;
-+
-+	/** @data: Data to initialize the FW section with. */
-+	struct {
-+		/** @start: Start offset in the FW binary. */
-+		u32 start;
-+
-+		/** @end: End offset in the FW binary. */
-+		u32 end;
-+	} data;
-+};
-+
-+/**
-+ * struct panthor_fw_binary_iter - Firmware binary iterator
-+ *
-+ * Used to parse a firmware binary.
-+ */
-+struct panthor_fw_binary_iter {
-+	/** @data: FW binary data. */
-+	const void *data;
-+
-+	/** @size: FW binary size. */
-+	size_t size;
-+
-+	/** @offset: Iterator offset. */
-+	size_t offset;
-+};
-+
-+/**
-+ * struct panthor_fw_section - FW section
-+ */
-+struct panthor_fw_section {
-+	/** @node: Used to keep track of FW sections. */
++struct panthor_heap_chunk {
++	/** @node: Used to insert the heap chunk in panthor_heap::chunks. */
 +	struct list_head node;
 +
-+	/** @flags: Section flags, as encoded in the FW binary. */
-+	u32 flags;
-+
-+	/** @mem: Section memory. */
-+	struct panthor_kernel_bo *mem;
-+
-+	/**
-+	 * @name: Name of the section, as specified in the binary.
-+	 *
-+	 * Can be NULL.
-+	 */
-+	const char *name;
-+
-+	/**
-+	 * @data: Initial data copied to the FW memory.
-+	 *
-+	 * We keep data around so we can reload sections after a reset.
-+	 */
-+	struct {
-+		/** @buf: Buffed used to store init data. */
-+		const void *buf;
-+
-+		/** @size: Size of @buf in bytes. */
-+		size_t size;
-+	} data;
-+};
-+
-+#define CSF_MCU_SHARED_REGION_START		0x04000000ULL
-+#define CSF_MCU_SHARED_REGION_SIZE		0x04000000ULL
-+
-+#define MIN_CS_PER_CSG				8
-+#define MIN_CSGS				3
-+#define MAX_CSG_PRIO				0xf
-+
-+#define CSF_IFACE_VERSION(major, minor, patch)	\
-+	(((major) << 24) | ((minor) << 16) | (patch))
-+#define CSF_IFACE_VERSION_MAJOR(v)		((v) >> 24)
-+#define CSF_IFACE_VERSION_MINOR(v)		(((v) >> 16) & 0xff)
-+#define CSF_IFACE_VERSION_PATCH(v)		((v) & 0xffff)
-+
-+#define CSF_GROUP_CONTROL_OFFSET		0x1000
-+#define CSF_STREAM_CONTROL_OFFSET		0x40
-+#define CSF_UNPRESERVED_REG_COUNT		4
-+
-+/**
-+ * struct panthor_fw_iface - FW interfaces
-+ */
-+struct panthor_fw_iface {
-+	/** @global: Global interface. */
-+	struct panthor_fw_global_iface global;
-+
-+	/** @groups: Group slot interfaces. */
-+	struct panthor_fw_csg_iface groups[MAX_CSGS];
-+
-+	/** @streams: Command stream slot interfaces. */
-+	struct panthor_fw_cs_iface streams[MAX_CSGS][MAX_CS_PER_CSG];
++	/** @bo: Buffer object backing the heap chunk. */
++	struct panthor_kernel_bo *bo;
 +};
 +
 +/**
-+ * struct panthor_fw - Firmware management
++ * struct panthor_heap - Structure used to manage tiler heap contexts.
 + */
-+struct panthor_fw {
-+	/** @vm: MCU VM. */
++struct panthor_heap {
++	/** @chunks: List containing all heap chunks allocated so far. */
++	struct list_head chunks;
++
++	/** @chunk_size: Size of each chunk. */
++	u32 chunk_size;
++
++	/** @max_chunks: Maximum number of chunks. */
++	u32 max_chunks;
++
++	/**
++	 * @target_in_flight: Number of in-flight render passes after which
++	 * we'd let the FW wait for fragment job to finish instead of allocating new chunks.
++	 */
++	u32 target_in_flight;
++
++	/** @chunk_count: Number of heap chunks currently allocated. */
++	u32 chunk_count;
++};
++
++#define MAX_HEAPS_PER_POOL    128
++
++/**
++ * struct panthor_heap_pool - Pool of heap contexts
++ *
++ * The pool is attached to a panthor_file and can't be shared across processes.
++ */
++struct panthor_heap_pool {
++	/** @refcount: Reference count. */
++	struct kref refcount;
++
++	/** @ptdev: Device. */
++	struct panthor_device *ptdev;
++
++	/** @vm: VM this pool is bound to. */
 +	struct panthor_vm *vm;
 +
-+	/** @sections: List of FW sections. */
-+	struct list_head sections;
++	/** @lock: Lock protecting access to @xa. */
++	struct rw_semaphore lock;
 +
-+	/** @shared_section: The section containing the FW interfaces. */
-+	struct panthor_fw_section *shared_section;
++	/** @xa: Array storing panthor_heap objects. */
++	struct xarray xa;
 +
-+	/** @iface: FW interfaces. */
-+	struct panthor_fw_iface iface;
-+
-+	/** @watchdog: Collection of fields relating to the FW watchdog. */
-+	struct {
-+		/** @ping_work: Delayed work used to ping the FW. */
-+		struct delayed_work ping_work;
-+	} watchdog;
-+
-+	/**
-+	 * @req_waitqueue: FW request waitqueue.
-+	 *
-+	 * Everytime a request is sent to a command stream group or the global
-+	 * interface, the caller will first busy wait for the request to be
-+	 * acknowledged, and then fallback to a sleeping wait.
-+	 *
-+	 * This wait queue is here to support the sleeping wait flavor.
-+	 */
-+	wait_queue_head_t req_waitqueue;
-+
-+	/** @booted: True is the FW is booted */
-+	bool booted;
-+
-+	/**
-+	 * @fast_reset: True if the post_reset logic can proceed with a fast reset.
-+	 *
-+	 * A fast reset is just a reset where the driver doesn't reload the FW sections.
-+	 *
-+	 * Any time the firmware is properly suspended, a fast reset can take place.
-+	 * On the other hand, if the halt operation failed, the driver will reload
-+	 * all sections to make sure we start from a fresh state.
-+	 */
-+	bool fast_reset;
-+
-+	/** @irq: Job irq data. */
-+	struct panthor_irq irq;
++	/** @gpu_contexts: Buffer object containing the GPU heap contexts. */
++	struct panthor_kernel_bo *gpu_contexts;
 +};
 +
-+struct panthor_vm *panthor_fw_vm(struct panthor_device *ptdev)
++static int panthor_heap_ctx_stride(struct panthor_device *ptdev)
 +{
-+	return ptdev->fw->vm;
++	u32 l2_features = ptdev->gpu_info.l2_features;
++	u32 gpu_cache_line_size = GPU_L2_FEATURES_LINE_SIZE(l2_features);
++
++	return ALIGN(HEAP_CONTEXT_SIZE, gpu_cache_line_size);
 +}
 +
-+/**
-+ * panthor_fw_get_glb_iface() - Get the global interface
-+ * @ptdev: Device.
-+ *
-+ * Return: The global interface.
-+ */
-+struct panthor_fw_global_iface *
-+panthor_fw_get_glb_iface(struct panthor_device *ptdev)
++static int panthor_get_heap_ctx_offset(struct panthor_heap_pool *pool, int id)
 +{
-+	return &ptdev->fw->iface.global;
++	return panthor_heap_ctx_stride(pool->ptdev) * id;
 +}
 +
-+/**
-+ * panthor_fw_get_csg_iface() - Get a command stream group slot interface
-+ * @ptdev: Device.
-+ * @csg_slot: Index of the command stream group slot.
-+ *
-+ * Return: The command stream group slot interface.
-+ */
-+struct panthor_fw_csg_iface *
-+panthor_fw_get_csg_iface(struct panthor_device *ptdev, u32 csg_slot)
++static void *panthor_get_heap_ctx(struct panthor_heap_pool *pool, int id)
 +{
-+	if (drm_WARN_ON(&ptdev->base, csg_slot >= MAX_CSGS))
-+		return NULL;
-+
-+	return &ptdev->fw->iface.groups[csg_slot];
++	return pool->gpu_contexts->kmap +
++	       panthor_get_heap_ctx_offset(pool, id);
 +}
 +
-+/**
-+ * panthor_fw_get_cs_iface() - Get a command stream slot interface
-+ * @ptdev: Device.
-+ * @csg_slot: Index of the command stream group slot.
-+ * @cs_slot: Index of the command stream slot.
-+ *
-+ * Return: The command stream slot interface.
-+ */
-+struct panthor_fw_cs_iface *
-+panthor_fw_get_cs_iface(struct panthor_device *ptdev, u32 csg_slot, u32 cs_slot)
++static void panthor_free_heap_chunk(struct panthor_vm *vm,
++				    struct panthor_heap_chunk *chunk)
 +{
-+	if (drm_WARN_ON(&ptdev->base, csg_slot >= MAX_CSGS || cs_slot > MAX_CS_PER_CSG))
-+		return NULL;
-+
-+	return &ptdev->fw->iface.streams[csg_slot][cs_slot];
++	list_del(&chunk->node);
++	panthor_kernel_bo_destroy(vm, chunk->bo);
++	kfree(chunk);
 +}
 +
-+/**
-+ * panthor_fw_conv_timeout() - Convert a timeout into a cycle-count
-+ * @ptdev: Device.
-+ * @timeout_us: Timeout expressed in micro-seconds.
-+ *
-+ * The FW has two timer sources: the GPU counter or arch-timer. We need
-+ * to express timeouts in term of number of cycles and specify which
-+ * timer source should be used.
-+ *
-+ * Return: A value suitable for timeout fields in the global interface.
-+ */
-+static u32 panthor_fw_conv_timeout(struct panthor_device *ptdev, u32 timeout_us)
++static int panthor_alloc_heap_chunk(struct panthor_device *ptdev,
++				    struct panthor_vm *vm,
++				    struct panthor_heap *heap,
++				    bool initial_chunk)
 +{
-+	bool use_cycle_counter = false;
-+	u32 timer_rate = 0;
-+	u64 mod_cycles;
-+
-+#ifdef CONFIG_ARM_ARCH_TIMER
-+	timer_rate = arch_timer_get_cntfrq();
-+#endif
-+
-+	if (!timer_rate) {
-+		use_cycle_counter = true;
-+		timer_rate = clk_get_rate(ptdev->clks.core);
-+	}
-+
-+	if (drm_WARN_ON(&ptdev->base, !timer_rate)) {
-+		/* We couldn't get a valid clock rate, let's just pick the
-+		 * maximum value so the FW still handles the core
-+		 * power on/off requests.
-+		 */
-+		return GLB_TIMER_VAL(~0) |
-+		       GLB_TIMER_SOURCE_GPU_COUNTER;
-+	}
-+
-+	mod_cycles = DIV_ROUND_UP_ULL((u64)timeout_us * timer_rate,
-+				      1000000ull << 10);
-+	if (drm_WARN_ON(&ptdev->base, mod_cycles > GLB_TIMER_VAL(~0)))
-+		mod_cycles = GLB_TIMER_VAL(~0);
-+
-+	return GLB_TIMER_VAL(mod_cycles) |
-+	       (use_cycle_counter ? GLB_TIMER_SOURCE_GPU_COUNTER : 0);
-+}
-+
-+static int panthor_fw_binary_iter_read(struct panthor_device *ptdev,
-+				       struct panthor_fw_binary_iter *iter,
-+				       void *out, size_t size)
-+{
-+	size_t new_offset = iter->offset + size;
-+
-+	if (new_offset > iter->size || new_offset < iter->offset) {
-+		drm_err(&ptdev->base, "Firmware too small\n");
-+		return -EINVAL;
-+	}
-+
-+	memcpy(out, iter->data + iter->offset, size);
-+	iter->offset = new_offset;
-+	return 0;
-+}
-+
-+static int panthor_fw_binary_sub_iter_init(struct panthor_device *ptdev,
-+					   struct panthor_fw_binary_iter *iter,
-+					   struct panthor_fw_binary_iter *sub_iter,
-+					   size_t size)
-+{
-+	size_t new_offset = iter->offset + size;
-+
-+	if (new_offset > iter->size || new_offset < iter->offset) {
-+		drm_err(&ptdev->base, "Firmware entry too long\n");
-+		return -EINVAL;
-+	}
-+
-+	sub_iter->offset = 0;
-+	sub_iter->data = iter->data + iter->offset;
-+	sub_iter->size = size;
-+	iter->offset = new_offset;
-+	return 0;
-+}
-+
-+static void panthor_fw_init_section_mem(struct panthor_device *ptdev,
-+					struct panthor_fw_section *section)
-+{
-+	bool was_mapped = !!section->mem->kmap;
++	struct panthor_heap_chunk *chunk;
++	struct panthor_heap_chunk_header *hdr;
 +	int ret;
 +
-+	if (!section->data.size &&
-+	    !(section->flags & CSF_FW_BINARY_IFACE_ENTRY_RD_ZERO))
-+		return;
-+
-+	ret = panthor_kernel_bo_vmap(section->mem);
-+	if (drm_WARN_ON(&ptdev->base, ret))
-+		return;
-+
-+	memcpy(section->mem->kmap, section->data.buf, section->data.size);
-+	if (section->flags & CSF_FW_BINARY_IFACE_ENTRY_RD_ZERO) {
-+		memset(section->mem->kmap + section->data.size, 0,
-+		       panthor_kernel_bo_size(section->mem) - section->data.size);
-+	}
-+
-+	if (!was_mapped)
-+		panthor_kernel_bo_vunmap(section->mem);
-+}
-+
-+/**
-+ * panthor_fw_alloc_queue_iface_mem() - Allocate a ring-buffer interfaces.
-+ * @ptdev: Device.
-+ * @input: Pointer holding the input interface on success.
-+ * Should be ignored on failure.
-+ * @output: Pointer holding the output interface on success.
-+ * Should be ignored on failure.
-+ * @input_fw_va: Pointer holding the input interface FW VA on success.
-+ * Should be ignored on failure.
-+ * @output_fw_va: Pointer holding the output interface FW VA on success.
-+ * Should be ignored on failure.
-+ *
-+ * Allocates panthor_fw_ringbuf_{input,out}_iface interfaces. The input
-+ * interface is at offset 0, and the output interface at offset 4096.
-+ *
-+ * Return: A valid pointer in case of success, an ERR_PTR() otherwise.
-+ */
-+struct panthor_kernel_bo *
-+panthor_fw_alloc_queue_iface_mem(struct panthor_device *ptdev,
-+				 struct panthor_fw_ringbuf_input_iface **input,
-+				 const struct panthor_fw_ringbuf_output_iface **output,
-+				 u32 *input_fw_va, u32 *output_fw_va)
-+{
-+	struct panthor_kernel_bo *mem;
-+	int ret;
-+
-+	mem = panthor_kernel_bo_create(ptdev, ptdev->fw->vm, SZ_8K,
-+				       DRM_PANTHOR_BO_NO_MMAP,
-+				       DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
-+				       DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
-+				       PANTHOR_VM_KERNEL_AUTO_VA);
-+	if (IS_ERR(mem))
-+		return mem;
-+
-+	ret = panthor_kernel_bo_vmap(mem);
-+	if (ret) {
-+		panthor_kernel_bo_destroy(panthor_fw_vm(ptdev), mem);
-+		return ERR_PTR(ret);
-+	}
-+
-+	memset(mem->kmap, 0, panthor_kernel_bo_size(mem));
-+	*input = mem->kmap;
-+	*output = mem->kmap + SZ_4K;
-+	*input_fw_va = panthor_kernel_bo_gpuva(mem);
-+	*output_fw_va = *input_fw_va + SZ_4K;
-+
-+	return mem;
-+}
-+
-+/**
-+ * panthor_fw_alloc_suspend_buf_mem() - Allocate a suspend buffer for a command stream group.
-+ * @ptdev: Device.
-+ * @size: Size of the suspend buffer.
-+ *
-+ * Return: A valid pointer in case of success, an ERR_PTR() otherwise.
-+ */
-+struct panthor_kernel_bo *
-+panthor_fw_alloc_suspend_buf_mem(struct panthor_device *ptdev, size_t size)
-+{
-+	return panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev), size,
-+					DRM_PANTHOR_BO_NO_MMAP,
-+					DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
-+					PANTHOR_VM_KERNEL_AUTO_VA);
-+}
-+
-+static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
-+					 const struct firmware *fw,
-+					 struct panthor_fw_binary_iter *iter,
-+					 u32 ehdr)
-+{
-+	struct panthor_fw_binary_section_entry_hdr hdr;
-+	struct panthor_fw_section *section;
-+	u32 section_size;
-+	u32 name_len;
-+	int ret;
-+
-+	ret = panthor_fw_binary_iter_read(ptdev, iter, &hdr, sizeof(hdr));
-+	if (ret)
-+		return ret;
-+
-+	if (hdr.data.end < hdr.data.start) {
-+		drm_err(&ptdev->base, "Firmware corrupted, data.end < data.start (0x%x < 0x%x)\n",
-+			hdr.data.end, hdr.data.start);
-+		return -EINVAL;
-+	}
-+
-+	if (hdr.va.end < hdr.va.start) {
-+		drm_err(&ptdev->base, "Firmware corrupted, hdr.va.end < hdr.va.start (0x%x < 0x%x)\n",
-+			hdr.va.end, hdr.va.start);
-+		return -EINVAL;
-+	}
-+
-+	if (hdr.data.end > fw->size) {
-+		drm_err(&ptdev->base, "Firmware corrupted, file truncated? data_end=0x%x > fw size=0x%zx\n",
-+			hdr.data.end, fw->size);
-+		return -EINVAL;
-+	}
-+
-+	if ((hdr.va.start & ~PAGE_MASK) != 0 ||
-+	    (hdr.va.end & ~PAGE_MASK) != 0) {
-+		drm_err(&ptdev->base, "Firmware corrupted, virtual addresses not page aligned: 0x%x-0x%x\n",
-+			hdr.va.start, hdr.va.end);
-+		return -EINVAL;
-+	}
-+
-+	if (hdr.flags & ~CSF_FW_BINARY_IFACE_ENTRY_RD_SUPPORTED_FLAGS) {
-+		drm_err(&ptdev->base, "Firmware contains interface with unsupported flags (0x%x)\n",
-+			hdr.flags);
-+		return -EINVAL;
-+	}
-+
-+	if (hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_RD_PROT) {
-+		drm_warn(&ptdev->base,
-+			 "Firmware protected mode entry not be supported, ignoring");
-+		return 0;
-+	}
-+
-+	if (hdr.va.start == CSF_MCU_SHARED_REGION_START &&
-+	    !(hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_RD_SHARED)) {
-+		drm_err(&ptdev->base,
-+			"Interface at 0x%llx must be shared", CSF_MCU_SHARED_REGION_START);
-+		return -EINVAL;
-+	}
-+
-+	name_len = iter->size - iter->offset;
-+
-+	section = drmm_kzalloc(&ptdev->base, sizeof(*section), GFP_KERNEL);
-+	if (!section)
++	chunk = kmalloc(sizeof(*chunk), GFP_KERNEL);
++	if (!chunk)
 +		return -ENOMEM;
 +
-+	list_add_tail(&section->node, &ptdev->fw->sections);
-+	section->flags = hdr.flags;
-+	section->data.size = hdr.data.end - hdr.data.start;
-+
-+	if (section->data.size > 0) {
-+		void *data = drmm_kmalloc(&ptdev->base, section->data.size, GFP_KERNEL);
-+
-+		if (!data)
-+			return -ENOMEM;
-+
-+		memcpy(data, fw->data + hdr.data.start, section->data.size);
-+		section->data.buf = data;
++	chunk->bo = panthor_kernel_bo_create(ptdev, vm, heap->chunk_size,
++					     DRM_PANTHOR_BO_NO_MMAP,
++					     DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
++					     PANTHOR_VM_KERNEL_AUTO_VA);
++	if (IS_ERR(chunk->bo)) {
++		ret = PTR_ERR(chunk->bo);
++		goto err_free_chunk;
 +	}
 +
-+	if (name_len > 0) {
-+		char *name = drmm_kmalloc(&ptdev->base, name_len + 1, GFP_KERNEL);
++	ret = panthor_kernel_bo_vmap(chunk->bo);
++	if (ret)
++		goto err_destroy_bo;
 +
-+		if (!name)
-+			return -ENOMEM;
++	hdr = chunk->bo->kmap;
++	memset(hdr, 0, sizeof(*hdr));
 +
-+		memcpy(name, iter->data + iter->offset, name_len);
-+		name[name_len] = '\0';
-+		section->name = name;
++	if (initial_chunk && !list_empty(&heap->chunks)) {
++		struct panthor_heap_chunk *prev_chunk;
++		u64 prev_gpuva;
++
++		prev_chunk = list_first_entry(&heap->chunks,
++					      struct panthor_heap_chunk,
++					      node);
++
++		prev_gpuva = panthor_kernel_bo_gpuva(prev_chunk->bo);
++		hdr->next = (prev_gpuva & GENMASK_ULL(63, 12)) |
++			    (heap->chunk_size >> 12);
 +	}
 +
-+	section_size = hdr.va.end - hdr.va.start;
-+	if (section_size) {
-+		u32 cache_mode = hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_MASK;
-+		struct panthor_gem_object *bo;
-+		u32 vm_map_flags = 0;
-+		struct sg_table *sgt;
-+		u64 va = hdr.va.start;
++	panthor_kernel_bo_vunmap(chunk->bo);
 +
-+		if (!(hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_RD_WR))
-+			vm_map_flags |= DRM_PANTHOR_VM_BIND_OP_MAP_READONLY;
-+
-+		if (!(hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_RD_EX))
-+			vm_map_flags |= DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC;
-+
-+		/* TODO: CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_*_COHERENT are mapped to
-+		 * non-cacheable for now. We might want to introduce a new
-+		 * IOMMU_xxx flag (or abuse IOMMU_MMIO, which maps to device
-+		 * memory and is currently not used by our driver) for
-+		 * AS_MEMATTR_AARCH64_SHARED memory, so we can take benefit
-+		 * of IO-coherent systems.
-+		 */
-+		if (cache_mode != CSF_FW_BINARY_IFACE_ENTRY_RD_CACHE_MODE_CACHED)
-+			vm_map_flags |= DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED;
-+
-+		section->mem = panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev),
-+							section_size,
-+							DRM_PANTHOR_BO_NO_MMAP,
-+							vm_map_flags, va);
-+		if (IS_ERR(section->mem))
-+			return PTR_ERR(section->mem);
-+
-+		if (drm_WARN_ON(&ptdev->base, section->mem->va_node.start != hdr.va.start))
-+			return -EINVAL;
-+
-+		if (section->flags & CSF_FW_BINARY_IFACE_ENTRY_RD_SHARED) {
-+			ret = panthor_kernel_bo_vmap(section->mem);
-+			if (ret)
-+				return ret;
-+		}
-+
-+		panthor_fw_init_section_mem(ptdev, section);
-+
-+		bo = to_panthor_bo(section->mem->obj);
-+		sgt = drm_gem_shmem_get_pages_sgt(&bo->base);
-+		if (IS_ERR(sgt))
-+			return PTR_ERR(section->mem);
-+
-+		dma_sync_sgtable_for_device(ptdev->base.dev, sgt, DMA_TO_DEVICE);
-+	}
-+
-+	if (hdr.va.start == CSF_MCU_SHARED_REGION_START)
-+		ptdev->fw->shared_section = section;
++	list_add(&chunk->node, &heap->chunks);
++	heap->chunk_count++;
 +
 +	return 0;
-+}
 +
-+static void
-+panthor_reload_fw_sections(struct panthor_device *ptdev, bool full_reload)
-+{
-+	struct panthor_fw_section *section;
++err_destroy_bo:
++	panthor_kernel_bo_destroy(vm, chunk->bo);
 +
-+	list_for_each_entry(section, &ptdev->fw->sections, node) {
-+		struct sg_table *sgt;
++err_free_chunk:
++	kfree(chunk);
 +
-+		if (!full_reload && !(section->flags & CSF_FW_BINARY_IFACE_ENTRY_RD_WR))
-+			continue;
-+
-+		panthor_fw_init_section_mem(ptdev, section);
-+		sgt = drm_gem_shmem_get_pages_sgt(&to_panthor_bo(section->mem->obj)->base);
-+		if (!drm_WARN_ON(&ptdev->base, IS_ERR_OR_NULL(sgt)))
-+			dma_sync_sgtable_for_device(ptdev->base.dev, sgt, DMA_TO_DEVICE);
-+	}
-+}
-+
-+static int panthor_fw_load_entry(struct panthor_device *ptdev,
-+				 const struct firmware *fw,
-+				 struct panthor_fw_binary_iter *iter)
-+{
-+	struct panthor_fw_binary_iter eiter;
-+	u32 ehdr;
-+	int ret;
-+
-+	ret = panthor_fw_binary_iter_read(ptdev, iter, &ehdr, sizeof(ehdr));
-+	if (ret)
-+		return ret;
-+
-+	if ((iter->offset % sizeof(u32)) ||
-+	    (CSF_FW_BINARY_ENTRY_SIZE(ehdr) % sizeof(u32))) {
-+		drm_err(&ptdev->base, "Firmware entry isn't 32 bit aligned, offset=0x%x size=0x%x\n",
-+			(u32)(iter->offset - sizeof(u32)), CSF_FW_BINARY_ENTRY_SIZE(ehdr));
-+		return -EINVAL;
-+	}
-+
-+	if (panthor_fw_binary_sub_iter_init(ptdev, iter, &eiter,
-+					    CSF_FW_BINARY_ENTRY_SIZE(ehdr) - sizeof(ehdr)))
-+		return -EINVAL;
-+
-+	switch (CSF_FW_BINARY_ENTRY_TYPE(ehdr)) {
-+	case CSF_FW_BINARY_ENTRY_TYPE_IFACE:
-+		return panthor_fw_load_section_entry(ptdev, fw, &eiter, ehdr);
-+
-+	/* FIXME: handle those entry types? */
-+	case CSF_FW_BINARY_ENTRY_TYPE_CONFIG:
-+	case CSF_FW_BINARY_ENTRY_TYPE_FUTF_TEST:
-+	case CSF_FW_BINARY_ENTRY_TYPE_TRACE_BUFFER:
-+	case CSF_FW_BINARY_ENTRY_TYPE_TIMELINE_METADATA:
-+		return 0;
-+	default:
-+		break;
-+	}
-+
-+	if (ehdr & CSF_FW_BINARY_ENTRY_OPTIONAL)
-+		return 0;
-+
-+	drm_err(&ptdev->base,
-+		"Unsupported non-optional entry type %u in firmware\n",
-+		CSF_FW_BINARY_ENTRY_TYPE(ehdr));
-+	return -EINVAL;
-+}
-+
-+static int panthor_fw_load(struct panthor_device *ptdev)
-+{
-+	const struct firmware *fw = NULL;
-+	struct panthor_fw_binary_iter iter = {};
-+	struct panthor_fw_binary_hdr hdr;
-+	char fw_path[128];
-+	int ret;
-+
-+	snprintf(fw_path, sizeof(fw_path), "arm/mali/arch%d.%d/%s",
-+		 (u32)GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id),
-+		 (u32)GPU_ARCH_MINOR(ptdev->gpu_info.gpu_id),
-+		 CSF_FW_NAME);
-+
-+	ret = request_firmware(&fw, fw_path, ptdev->base.dev);
-+	if (ret) {
-+		drm_err(&ptdev->base, "Failed to load firmware image '%s'\n",
-+			CSF_FW_NAME);
-+		return ret;
-+	}
-+
-+	iter.data = fw->data;
-+	iter.size = fw->size;
-+	ret = panthor_fw_binary_iter_read(ptdev, &iter, &hdr, sizeof(hdr));
-+	if (ret)
-+		goto out;
-+
-+	if (hdr.magic != CSF_FW_BINARY_HEADER_MAGIC) {
-+		ret = -EINVAL;
-+		drm_err(&ptdev->base, "Invalid firmware magic\n");
-+		goto out;
-+	}
-+
-+	if (hdr.major != CSF_FW_BINARY_HEADER_MAJOR_MAX) {
-+		ret = -EINVAL;
-+		drm_err(&ptdev->base, "Unsupported firmware binary header version %d.%d (expected %d.x)\n",
-+			hdr.major, hdr.minor, CSF_FW_BINARY_HEADER_MAJOR_MAX);
-+		goto out;
-+	}
-+
-+	if (hdr.size > iter.size) {
-+		drm_err(&ptdev->base, "Firmware image is truncated\n");
-+		goto out;
-+	}
-+
-+	iter.size = hdr.size;
-+
-+	while (iter.offset < hdr.size) {
-+		ret = panthor_fw_load_entry(ptdev, fw, &iter);
-+		if (ret)
-+			goto out;
-+	}
-+
-+	if (!ptdev->fw->shared_section) {
-+		drm_err(&ptdev->base, "Shared interface region not found\n");
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+out:
-+	release_firmware(fw);
 +	return ret;
 +}
 +
-+/**
-+ * iface_fw_to_cpu_addr() - Turn an MCU address into a CPU address
-+ * @ptdev: Device.
-+ * @mcu_va: MCU address.
-+ *
-+ * Return: NULL if the address is not part of the shared section, non-NULL otherwise.
-+ */
-+static void *iface_fw_to_cpu_addr(struct panthor_device *ptdev, u32 mcu_va)
++static void panthor_free_heap_chunks(struct panthor_vm *vm,
++				     struct panthor_heap *heap)
 +{
-+	u64 shared_mem_start = panthor_kernel_bo_gpuva(ptdev->fw->shared_section->mem);
-+	u64 shared_mem_end = shared_mem_start +
-+			     panthor_kernel_bo_size(ptdev->fw->shared_section->mem);
-+	if (mcu_va < shared_mem_start || mcu_va >= shared_mem_end)
-+		return NULL;
++	struct panthor_heap_chunk *chunk, *tmp;
 +
-+	return ptdev->fw->shared_section->mem->kmap + (mcu_va - shared_mem_start);
++	list_for_each_entry_safe(chunk, tmp, &heap->chunks, node) {
++		panthor_free_heap_chunk(vm, chunk);
++	}
++
++	heap->chunk_count = 0;
 +}
 +
-+static int panthor_init_cs_iface(struct panthor_device *ptdev,
-+				 unsigned int csg_idx, unsigned int cs_idx)
++static int panthor_alloc_heap_chunks(struct panthor_device *ptdev,
++				     struct panthor_vm *vm,
++				     struct panthor_heap *heap,
++				     u32 chunk_count)
 +{
-+	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
-+	struct panthor_fw_csg_iface *csg_iface = panthor_fw_get_csg_iface(ptdev, csg_idx);
-+	struct panthor_fw_cs_iface *cs_iface = &ptdev->fw->iface.streams[csg_idx][cs_idx];
-+	u64 shared_section_sz = panthor_kernel_bo_size(ptdev->fw->shared_section->mem);
-+	u32 iface_offset = CSF_GROUP_CONTROL_OFFSET +
-+			   (csg_idx * glb_iface->control->group_stride) +
-+			   CSF_STREAM_CONTROL_OFFSET +
-+			   (cs_idx * csg_iface->control->stream_stride);
-+	struct panthor_fw_cs_iface *first_cs_iface =
-+		panthor_fw_get_cs_iface(ptdev, 0, 0);
++	int ret;
++	u32 i;
 +
-+	if (iface_offset + sizeof(*cs_iface) >= shared_section_sz)
-+		return -EINVAL;
-+
-+	spin_lock_init(&cs_iface->lock);
-+	cs_iface->control = ptdev->fw->shared_section->mem->kmap + iface_offset;
-+	cs_iface->input = iface_fw_to_cpu_addr(ptdev, cs_iface->control->input_va);
-+	cs_iface->output = iface_fw_to_cpu_addr(ptdev, cs_iface->control->output_va);
-+
-+	if (!cs_iface->input || !cs_iface->output) {
-+		drm_err(&ptdev->base, "Invalid stream control interface input/output VA");
-+		return -EINVAL;
-+	}
-+
-+	if (cs_iface != first_cs_iface) {
-+		if (cs_iface->control->features != first_cs_iface->control->features) {
-+			drm_err(&ptdev->base, "Expecting identical CS slots");
-+			return -EINVAL;
-+		}
-+	} else {
-+		u32 reg_count = CS_FEATURES_WORK_REGS(cs_iface->control->features);
-+
-+		ptdev->csif_info.cs_reg_count = reg_count;
-+		ptdev->csif_info.unpreserved_cs_reg_count = CSF_UNPRESERVED_REG_COUNT;
-+	}
-+
-+	return 0;
-+}
-+
-+static bool compare_csg(const struct panthor_fw_csg_control_iface *a,
-+			const struct panthor_fw_csg_control_iface *b)
-+{
-+	if (a->features != b->features)
-+		return false;
-+	if (a->suspend_size != b->suspend_size)
-+		return false;
-+	if (a->protm_suspend_size != b->protm_suspend_size)
-+		return false;
-+	if (a->stream_num != b->stream_num)
-+		return false;
-+	return true;
-+}
-+
-+static int panthor_init_csg_iface(struct panthor_device *ptdev,
-+				  unsigned int csg_idx)
-+{
-+	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
-+	struct panthor_fw_csg_iface *csg_iface = &ptdev->fw->iface.groups[csg_idx];
-+	u64 shared_section_sz = panthor_kernel_bo_size(ptdev->fw->shared_section->mem);
-+	u32 iface_offset = CSF_GROUP_CONTROL_OFFSET + (csg_idx * glb_iface->control->group_stride);
-+	unsigned int i;
-+
-+	if (iface_offset + sizeof(*csg_iface) >= shared_section_sz)
-+		return -EINVAL;
-+
-+	spin_lock_init(&csg_iface->lock);
-+	csg_iface->control = ptdev->fw->shared_section->mem->kmap + iface_offset;
-+	csg_iface->input = iface_fw_to_cpu_addr(ptdev, csg_iface->control->input_va);
-+	csg_iface->output = iface_fw_to_cpu_addr(ptdev, csg_iface->control->output_va);
-+
-+	if (csg_iface->control->stream_num < MIN_CS_PER_CSG ||
-+	    csg_iface->control->stream_num > MAX_CS_PER_CSG)
-+		return -EINVAL;
-+
-+	if (!csg_iface->input || !csg_iface->output) {
-+		drm_err(&ptdev->base, "Invalid group control interface input/output VA");
-+		return -EINVAL;
-+	}
-+
-+	if (csg_idx > 0) {
-+		struct panthor_fw_csg_iface *first_csg_iface =
-+			panthor_fw_get_csg_iface(ptdev, 0);
-+
-+		if (!compare_csg(first_csg_iface->control, csg_iface->control)) {
-+			drm_err(&ptdev->base, "Expecting identical CSG slots");
-+			return -EINVAL;
-+		}
-+	}
-+
-+	for (i = 0; i < csg_iface->control->stream_num; i++) {
-+		int ret = panthor_init_cs_iface(ptdev, csg_idx, i);
-+
++	for (i = 0; i < chunk_count; i++) {
++		ret = panthor_alloc_heap_chunk(ptdev, vm, heap, true);
 +		if (ret)
 +			return ret;
 +	}
@@ -978,969 +313,351 @@ index 000000000000..85afe769f567
 +	return 0;
 +}
 +
-+static u32 panthor_get_instr_features(struct panthor_device *ptdev)
++static int
++panthor_heap_destroy_locked(struct panthor_heap_pool *pool, u32 handle)
 +{
-+	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
++	struct panthor_heap *heap;
 +
-+	if (glb_iface->control->version < CSF_IFACE_VERSION(1, 1, 0))
-+		return 0;
-+
-+	return glb_iface->control->instr_features;
-+}
-+
-+static int panthor_fw_init_ifaces(struct panthor_device *ptdev)
-+{
-+	struct panthor_fw_global_iface *glb_iface = &ptdev->fw->iface.global;
-+	unsigned int i;
-+
-+	if (!ptdev->fw->shared_section->mem->kmap)
++	heap = xa_erase(&pool->xa, handle);
++	if (!heap)
 +		return -EINVAL;
 +
-+	spin_lock_init(&glb_iface->lock);
-+	glb_iface->control = ptdev->fw->shared_section->mem->kmap;
-+
-+	if (!glb_iface->control->version) {
-+		drm_err(&ptdev->base, "Firmware version is 0. Firmware may have failed to boot");
-+		return -EINVAL;
-+	}
-+
-+	glb_iface->input = iface_fw_to_cpu_addr(ptdev, glb_iface->control->input_va);
-+	glb_iface->output = iface_fw_to_cpu_addr(ptdev, glb_iface->control->output_va);
-+	if (!glb_iface->input || !glb_iface->output) {
-+		drm_err(&ptdev->base, "Invalid global control interface input/output VA");
-+		return -EINVAL;
-+	}
-+
-+	if (glb_iface->control->group_num > MAX_CSGS ||
-+	    glb_iface->control->group_num < MIN_CSGS) {
-+		drm_err(&ptdev->base, "Invalid number of control groups");
-+		return -EINVAL;
-+	}
-+
-+	for (i = 0; i < glb_iface->control->group_num; i++) {
-+		int ret = panthor_init_csg_iface(ptdev, i);
-+
-+		if (ret)
-+			return ret;
-+	}
-+
-+	drm_info(&ptdev->base, "CSF FW v%d.%d.%d, Features %#x Instrumentation features %#x",
-+		 CSF_IFACE_VERSION_MAJOR(glb_iface->control->version),
-+		 CSF_IFACE_VERSION_MINOR(glb_iface->control->version),
-+		 CSF_IFACE_VERSION_PATCH(glb_iface->control->version),
-+		 glb_iface->control->features,
-+		 panthor_get_instr_features(ptdev));
-+	return 0;
-+}
-+
-+static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
-+{
-+	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
-+
-+	/* Enable all cores. */
-+	glb_iface->input->core_en_mask = ptdev->gpu_info.shader_present;
-+
-+	/* Setup timers. */
-+	glb_iface->input->poweroff_timer = panthor_fw_conv_timeout(ptdev, PWROFF_HYSTERESIS_US);
-+	glb_iface->input->progress_timer = PROGRESS_TIMEOUT_CYCLES >> PROGRESS_TIMEOUT_SCALE_SHIFT;
-+	glb_iface->input->idle_timer = panthor_fw_conv_timeout(ptdev, IDLE_HYSTERESIS_US);
-+
-+	/* Enable interrupts we care about. */
-+	glb_iface->input->ack_irq_mask = GLB_CFG_ALLOC_EN |
-+					 GLB_PING |
-+					 GLB_CFG_PROGRESS_TIMER |
-+					 GLB_CFG_POWEROFF_TIMER |
-+					 GLB_IDLE_EN |
-+					 GLB_IDLE;
-+
-+	panthor_fw_update_reqs(glb_iface, req, GLB_IDLE_EN, GLB_IDLE_EN);
-+	panthor_fw_toggle_reqs(glb_iface, req, ack,
-+			       GLB_CFG_ALLOC_EN |
-+			       GLB_CFG_POWEROFF_TIMER |
-+			       GLB_CFG_PROGRESS_TIMER);
-+
-+	gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
-+
-+	/* Kick the watchdog. */
-+	mod_delayed_work(ptdev->reset.wq, &ptdev->fw->watchdog.ping_work,
-+			 msecs_to_jiffies(PING_INTERVAL_MS));
-+}
-+
-+static void panthor_job_irq_handler(struct panthor_device *ptdev, u32 status)
-+{
-+	if (!ptdev->fw->booted && (status & JOB_INT_GLOBAL_IF))
-+		ptdev->fw->booted = true;
-+
-+	wake_up_all(&ptdev->fw->req_waitqueue);
-+
-+	/* If the FW is not booted, don't process IRQs, just flag the FW as booted. */
-+	if (!ptdev->fw->booted)
-+		return;
-+
-+	panthor_sched_report_fw_events(ptdev, status);
-+}
-+PANTHOR_IRQ_HANDLER(job, JOB, panthor_job_irq_handler);
-+
-+static int panthor_fw_start(struct panthor_device *ptdev)
-+{
-+	bool timedout = false;
-+
-+	ptdev->fw->booted = false;
-+	panthor_job_irq_resume(&ptdev->fw->irq, ~0);
-+	gpu_write(ptdev, MCU_CONTROL, MCU_CONTROL_AUTO);
-+
-+	if (!wait_event_timeout(ptdev->fw->req_waitqueue,
-+				ptdev->fw->booted,
-+				msecs_to_jiffies(1000))) {
-+		if (!ptdev->fw->booted &&
-+		    !(gpu_read(ptdev, JOB_INT_STAT) & JOB_INT_GLOBAL_IF))
-+			timedout = true;
-+	}
-+
-+	if (timedout) {
-+		drm_err(&ptdev->base, "Failed to boot MCU");
-+		return -ETIMEDOUT;
-+	}
-+
-+	return 0;
-+}
-+
-+static void panthor_fw_stop(struct panthor_device *ptdev)
-+{
-+	u32 status;
-+
-+	gpu_write(ptdev, MCU_CONTROL, MCU_CONTROL_DISABLE);
-+	if (readl_poll_timeout(ptdev->iomem + MCU_STATUS, status,
-+			       status == MCU_STATUS_DISABLED, 10, 100000))
-+		drm_err(&ptdev->base, "Failed to stop MCU");
-+}
-+
-+/**
-+ * panthor_fw_pre_reset() - Call before a reset.
-+ * @ptdev: Device.
-+ * @on_hang: true if the reset was triggered on a GPU hang.
-+ *
-+ * If the reset is not triggered on a hang, we try to gracefully halt the
-+ * MCU, so we can do a fast-reset when panthor_fw_post_reset() is called.
-+ */
-+void panthor_fw_pre_reset(struct panthor_device *ptdev, bool on_hang)
-+{
-+	/* Make sure we won't be woken up by a ping. */
-+	cancel_delayed_work_sync(&ptdev->fw->watchdog.ping_work);
-+
-+	ptdev->fw->fast_reset = false;
-+
-+	if (!on_hang) {
-+		struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
-+		u32 status;
-+
-+		panthor_fw_update_reqs(glb_iface, req, GLB_HALT, GLB_HALT);
-+		gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
-+		if (!readl_poll_timeout(ptdev->iomem + MCU_STATUS, status,
-+					status == MCU_STATUS_HALT, 10, 100000) &&
-+		    glb_iface->output->halt_status == PANTHOR_FW_HALT_OK) {
-+			ptdev->fw->fast_reset = true;
-+		} else {
-+			drm_warn(&ptdev->base, "Failed to cleanly suspend MCU");
-+		}
-+
-+		/* The FW detects 0 -> 1 transitions. Make sure we reset
-+		 * the HALT bit before the FW is rebooted.
-+		 */
-+		panthor_fw_update_reqs(glb_iface, req, 0, GLB_HALT);
-+	}
-+
-+	panthor_job_irq_suspend(&ptdev->fw->irq);
-+}
-+
-+/**
-+ * panthor_fw_post_reset() - Call after a reset.
-+ * @ptdev: Device.
-+ *
-+ * Start the FW. If this is not a fast reset, all FW sections are reloaded to
-+ * make sure we can recover from a memory corruption.
-+ */
-+int panthor_fw_post_reset(struct panthor_device *ptdev)
-+{
-+	int ret;
-+
-+	/* Make the MCU VM active. */
-+	ret = panthor_vm_active(ptdev->fw->vm);
-+	if (ret)
-+		return ret;
-+
-+	/* Reload all sections, including RO ones. We're not supposed
-+	 * to end up here anyway, let's just assume the overhead of
-+	 * reloading everything is acceptable.
-+	 */
-+	if (!ptdev->fw->fast_reset)
-+		panthor_reload_fw_sections(ptdev, true);
-+
-+	ret = panthor_fw_start(ptdev);
-+	if (ret)
-+		return ret;
-+
-+	/* We must re-initialize the global interface even on fast-reset. */
-+	panthor_fw_init_global_iface(ptdev);
++	panthor_free_heap_chunks(pool->vm, heap);
++	kfree(heap);
 +	return 0;
 +}
 +
 +/**
-+ * panthor_fw_unplug() - Called when the device is unplugged.
-+ * @ptdev: Device.
-+ *
-+ * This function must make sure all pending operations are flushed before
-+ * will release device resources, thus preventing any interaction with
-+ * the HW.
-+ *
-+ * If there is still FW-related work running after this function returns,
-+ * they must use drm_dev_{enter,exit}() and skip any HW access when
-+ * drm_dev_enter() returns false.
++ * panthor_heap_destroy() - Destroy a heap context
++ * @pool: Pool this context belongs to.
++ * @handle: Handle returned by panthor_heap_create().
 + */
-+void panthor_fw_unplug(struct panthor_device *ptdev)
++int panthor_heap_destroy(struct panthor_heap_pool *pool, u32 handle)
 +{
-+	struct panthor_fw_section *section;
-+
-+	cancel_delayed_work_sync(&ptdev->fw->watchdog.ping_work);
-+
-+	/* Make sure the IRQ handler can be called after that point. */
-+	if (ptdev->fw->irq.irq)
-+		panthor_job_irq_suspend(&ptdev->fw->irq);
-+
-+	panthor_fw_stop(ptdev);
-+
-+	if (ptdev->fw->vm)
-+		panthor_vm_idle(ptdev->fw->vm);
-+
-+	list_for_each_entry(section, &ptdev->fw->sections, node)
-+		panthor_kernel_bo_destroy(panthor_fw_vm(ptdev), section->mem);
-+
-+	panthor_vm_put(ptdev->fw->vm);
-+
-+	panthor_gpu_power_off(ptdev, L2, ptdev->gpu_info.l2_present, 20000);
-+}
-+
-+/**
-+ * panthor_fw_wait_acks() - Wait for requests to be acknowledged by the FW.
-+ * @req_ptr: Pointer to the req register.
-+ * @ack_ptr: Pointer to the ack register.
-+ * @wq: Wait queue to use for the sleeping wait.
-+ * @req_mask: Mask of requests to wait for.
-+ * @acked: Pointer to field that's updated with the acked requests.
-+ * If the function returns 0, *acked == req_mask.
-+ * @timeout_ms: Timeout expressed in milliseconds.
-+ *
-+ * Return: 0 on success, -ETIMEDOUT otherwise.
-+ */
-+static int panthor_fw_wait_acks(const u32 *req_ptr, const u32 *ack_ptr,
-+				wait_queue_head_t *wq,
-+				u32 req_mask, u32 *acked,
-+				u32 timeout_ms)
-+{
-+	u32 ack, req = READ_ONCE(*req_ptr) & req_mask;
 +	int ret;
 +
-+	/* Busy wait for a few µsecs before falling back to a sleeping wait. */
-+	*acked = req_mask;
-+	ret = read_poll_timeout_atomic(READ_ONCE, ack,
-+				       (ack & req_mask) == req,
-+				       0, 10, 0,
-+				       *ack_ptr);
-+	if (!ret)
-+		return 0;
-+
-+	if (wait_event_timeout(*wq, (READ_ONCE(*ack_ptr) & req_mask) == req,
-+			       msecs_to_jiffies(timeout_ms)))
-+		return 0;
-+
-+	/* Check one last time, in case we were not woken up for some reason. */
-+	ack = READ_ONCE(*ack_ptr);
-+	if ((ack & req_mask) == req)
-+		return 0;
-+
-+	*acked = ~(req ^ ack) & req_mask;
-+	return -ETIMEDOUT;
-+}
-+
-+/**
-+ * panthor_fw_glb_wait_acks() - Wait for global requests to be acknowledged.
-+ * @ptdev: Device.
-+ * @req_mask: Mask of requests to wait for.
-+ * @acked: Pointer to field that's updated with the acked requests.
-+ * If the function returns 0, *acked == req_mask.
-+ * @timeout_ms: Timeout expressed in milliseconds.
-+ *
-+ * Return: 0 on success, -ETIMEDOUT otherwise.
-+ */
-+int panthor_fw_glb_wait_acks(struct panthor_device *ptdev,
-+			     u32 req_mask, u32 *acked,
-+			     u32 timeout_ms)
-+{
-+	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
-+
-+	/* GLB_HALT doesn't get acked through the FW interface. */
-+	if (drm_WARN_ON(&ptdev->base, req_mask & (~GLB_REQ_MASK | GLB_HALT)))
-+		return -EINVAL;
-+
-+	return panthor_fw_wait_acks(&glb_iface->input->req,
-+				    &glb_iface->output->ack,
-+				    &ptdev->fw->req_waitqueue,
-+				    req_mask, acked, timeout_ms);
-+}
-+
-+/**
-+ * panthor_fw_csg_wait_acks() - Wait for command stream group requests to be acknowledged.
-+ * @ptdev: Device.
-+ * @csg_slot: CSG slot ID.
-+ * @req_mask: Mask of requests to wait for.
-+ * @acked: Pointer to field that's updated with the acked requests.
-+ * If the function returns 0, *acked == req_mask.
-+ * @timeout_ms: Timeout expressed in milliseconds.
-+ *
-+ * Return: 0 on success, -ETIMEDOUT otherwise.
-+ */
-+int panthor_fw_csg_wait_acks(struct panthor_device *ptdev, u32 csg_slot,
-+			     u32 req_mask, u32 *acked, u32 timeout_ms)
-+{
-+	struct panthor_fw_csg_iface *csg_iface = panthor_fw_get_csg_iface(ptdev, csg_slot);
-+	int ret;
-+
-+	if (drm_WARN_ON(&ptdev->base, req_mask & ~CSG_REQ_MASK))
-+		return -EINVAL;
-+
-+	ret = panthor_fw_wait_acks(&csg_iface->input->req,
-+				   &csg_iface->output->ack,
-+				   &ptdev->fw->req_waitqueue,
-+				   req_mask, acked, timeout_ms);
-+
-+	/*
-+	 * Check that all bits in the state field were updated, is any mismatch
-+	 * then clear all bits in the state field. This allows code to do
-+	 * (acked & CSG_STATE_MASK) and get the right value.
-+	 */
-+
-+	if ((*acked & CSG_STATE_MASK) != CSG_STATE_MASK)
-+		*acked &= ~CSG_STATE_MASK;
++	down_write(&pool->lock);
++	ret = panthor_heap_destroy_locked(pool, handle);
++	up_write(&pool->lock);
 +
 +	return ret;
 +}
 +
 +/**
-+ * panthor_fw_ring_csg_doorbells() - Ring command stream group doorbells.
-+ * @ptdev: Device.
-+ * @csg_mask: Bitmask encoding the command stream group doorbells to ring.
++ * panthor_heap_create() - Create a heap context
++ * @pool: Pool to instantiate the heap context from.
++ * @initial_chunk_count: Number of chunk allocated at initialization time.
++ * Must be at least 1.
++ * @chunk_size: The size of each chunk. Must be a power of two between 256k
++ * and 2M.
++ * @max_chunks: Maximum number of chunks that can be allocated.
++ * @target_in_flight: Maximum number of in-flight render passes.
++ * @heap_ctx_gpu_va: Pointer holding the GPU address of the allocated heap
++ * context.
++ * @first_chunk_gpu_va: Pointer holding the GPU address of the first chunk
++ * assigned to the heap context.
 + *
-+ * This function is toggling bits in the doorbell_req and ringing the
-+ * global doorbell. It doesn't require a user doorbell to be attached to
-+ * the group.
++ * Return: a positive handle on success, a negative error otherwise.
 + */
-+void panthor_fw_ring_csg_doorbells(struct panthor_device *ptdev, u32 csg_mask)
++int panthor_heap_create(struct panthor_heap_pool *pool,
++			u32 initial_chunk_count,
++			u32 chunk_size,
++			u32 max_chunks,
++			u32 target_in_flight,
++			u64 *heap_ctx_gpu_va,
++			u64 *first_chunk_gpu_va)
 +{
-+	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
++	struct panthor_heap *heap;
++	struct panthor_heap_chunk *first_chunk;
++	void *gpu_ctx;
++	int ret = 0;
++	u32 id;
 +
-+	panthor_fw_toggle_reqs(glb_iface, doorbell_req, doorbell_ack, csg_mask);
-+	gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
-+}
++	if (initial_chunk_count == 0)
++		return -EINVAL;
 +
-+static void panthor_fw_ping_work(struct work_struct *work)
-+{
-+	struct panthor_fw *fw = container_of(work, struct panthor_fw, watchdog.ping_work.work);
-+	struct panthor_device *ptdev = fw->irq.ptdev;
-+	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
-+	u32 acked;
-+	int ret;
++	if (hweight32(chunk_size) != 1 ||
++	    chunk_size < SZ_256K || chunk_size > SZ_2M)
++		return -EINVAL;
 +
-+	if (panthor_device_reset_is_pending(ptdev))
-+		return;
-+
-+	panthor_fw_toggle_reqs(glb_iface, req, ack, GLB_PING);
-+	gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
-+
-+	ret = panthor_fw_glb_wait_acks(ptdev, GLB_PING, &acked, 100);
-+	if (ret) {
-+		panthor_device_schedule_reset(ptdev);
-+		drm_err(&ptdev->base, "FW ping timeout, scheduling a reset");
-+	} else {
-+		mod_delayed_work(ptdev->reset.wq, &fw->watchdog.ping_work,
-+				 msecs_to_jiffies(PING_INTERVAL_MS));
-+	}
-+}
-+
-+/**
-+ * panthor_fw_init() - Initialize FW related data.
-+ * @ptdev: Device.
-+ *
-+ * Return: 0 on success, a negative error code otherwise.
-+ */
-+int panthor_fw_init(struct panthor_device *ptdev)
-+{
-+	struct panthor_fw *fw;
-+	int ret, irq;
-+
-+	fw = drmm_kzalloc(&ptdev->base, sizeof(*fw), GFP_KERNEL);
-+	if (!fw)
++	heap = kzalloc(sizeof(*heap), GFP_KERNEL);
++	if (!heap)
 +		return -ENOMEM;
 +
-+	ptdev->fw = fw;
-+	init_waitqueue_head(&fw->req_waitqueue);
-+	INIT_LIST_HEAD(&fw->sections);
-+	INIT_DELAYED_WORK(&fw->watchdog.ping_work, panthor_fw_ping_work);
++	INIT_LIST_HEAD(&heap->chunks);
++	heap->chunk_size = chunk_size;
++	heap->max_chunks = max_chunks;
++	heap->target_in_flight = target_in_flight;
 +
-+	irq = platform_get_irq_byname(to_platform_device(ptdev->base.dev), "job");
-+	if (irq <= 0)
-+		return -ENODEV;
++	down_write(&pool->lock);
 +
-+	ret = panthor_request_job_irq(ptdev, &fw->irq, irq, 0);
++	/* The pool has been destroyed, we can't create a new heap. */
++	if (!pool->vm) {
++		ret = -EINVAL;
++		goto out_unlock;
++	}
++
++	ret = xa_alloc(&pool->xa, &id, heap, XA_LIMIT(1, MAX_HEAPS_PER_POOL), GFP_KERNEL);
 +	if (ret) {
-+		drm_err(&ptdev->base, "failed to request job irq");
-+		return ret;
++		kfree(heap);
++		goto out_unlock;
 +	}
 +
-+	ret = panthor_gpu_l2_power_on(ptdev);
-+	if (ret)
-+		return ret;
++	gpu_ctx = panthor_get_heap_ctx(pool, id);
++	memset(gpu_ctx, 0, panthor_heap_ctx_stride(pool->ptdev));
 +
-+	fw->vm = panthor_vm_create(ptdev, true,
-+				   0, SZ_4G,
-+				   CSF_MCU_SHARED_REGION_START,
-+				   CSF_MCU_SHARED_REGION_SIZE);
-+	if (IS_ERR(fw->vm)) {
-+		ret = PTR_ERR(fw->vm);
-+		fw->vm = NULL;
-+		goto err_unplug_fw;
++	ret = panthor_alloc_heap_chunks(pool->ptdev, pool->vm, heap,
++					initial_chunk_count);
++	if (ret) {
++		panthor_heap_destroy_locked(pool, id);
++		goto out_unlock;
 +	}
 +
-+	ret = panthor_fw_load(ptdev);
-+	if (ret)
-+		goto err_unplug_fw;
++	*heap_ctx_gpu_va = panthor_kernel_bo_gpuva(pool->gpu_contexts) +
++			   panthor_get_heap_ctx_offset(pool, id);
 +
-+	ret = panthor_vm_active(fw->vm);
-+	if (ret)
-+		goto err_unplug_fw;
++	first_chunk = list_first_entry(&heap->chunks,
++				       struct panthor_heap_chunk,
++				       node);
++	*first_chunk_gpu_va = panthor_kernel_bo_gpuva(first_chunk->bo);
++	ret = id;
 +
-+	ret = panthor_fw_start(ptdev);
-+	if (ret)
-+		goto err_unplug_fw;
-+
-+	ret = panthor_fw_init_ifaces(ptdev);
-+	if (ret)
-+		goto err_unplug_fw;
-+
-+	panthor_fw_init_global_iface(ptdev);
-+	return 0;
-+
-+err_unplug_fw:
-+	panthor_fw_unplug(ptdev);
++out_unlock:
++	up_write(&pool->lock);
 +	return ret;
 +}
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.h b/drivers/gpu/drm/panthor/panthor_fw.h
++
++/**
++ * panthor_heap_grow() - Make a heap context grow.
++ * @pool: The pool this heap belongs to.
++ * @heap_gpu_va: The GPU address of the heap context.
++ * @renderpasses_in_flight: Number of render passes currently in-flight.
++ * @pending_frag_count: Number of fragment jobs waiting for execution/completion.
++ * @new_chunk_gpu_va: Pointer used to return the chunk VA.
++ */
++int panthor_heap_grow(struct panthor_heap_pool *pool,
++		      u64 heap_gpu_va,
++		      u32 renderpasses_in_flight,
++		      u32 pending_frag_count,
++		      u64 *new_chunk_gpu_va)
++{
++	u64 offset = heap_gpu_va - panthor_kernel_bo_gpuva(pool->gpu_contexts);
++	u32 heap_id = (u32)offset / panthor_heap_ctx_stride(pool->ptdev);
++	struct panthor_heap_chunk *chunk;
++	struct panthor_heap *heap;
++	int ret;
++
++	if (offset > U32_MAX || heap_id >= MAX_HEAPS_PER_POOL)
++		return -EINVAL;
++
++	down_read(&pool->lock);
++	heap = xa_load(&pool->xa, heap_id);
++	if (!heap) {
++		ret = -EINVAL;
++		goto out_unlock;
++	}
++
++	/* If we reached the target in-flight render passes, or if we
++	 * reached the maximum number of chunks, let the FW figure another way to
++	 * find some memory (wait for render passes to finish, or call the exception
++	 * handler provided by the userspace driver, if any).
++	 */
++	if (renderpasses_in_flight > heap->target_in_flight ||
++	    (pending_frag_count > 0 && heap->chunk_count >= heap->max_chunks)) {
++		ret = -EBUSY;
++		goto out_unlock;
++	} else if (heap->chunk_count >= heap->max_chunks) {
++		ret = -ENOMEM;
++		goto out_unlock;
++	}
++
++	/* FIXME: panthor_alloc_heap_chunk() triggers a kernel BO creation, which
++	 * relies on blocking allocations (both for the BO itself, and backing
++	 * memory), which might cause a deadlock because we're called from a context
++	 * where we hold the panthor scheduler lock, thus preventing job cleanups
++	 * that could free up some memory. The jobs themselves will timeout, but
++	 * we'll still be blocked there. The only solution here is to implement
++	 * something similar to shmem_sg_alloc_table() in i915, so we can do
++	 * non-blocking allocations, and just kill the job when we run out-of-memory
++	 * for the tiler context.
++	 */
++	ret = panthor_alloc_heap_chunk(pool->ptdev, pool->vm, heap, false);
++	if (ret)
++		goto out_unlock;
++
++	chunk = list_first_entry(&heap->chunks,
++				 struct panthor_heap_chunk,
++				 node);
++	*new_chunk_gpu_va = (panthor_kernel_bo_gpuva(chunk->bo) & GENMASK_ULL(63, 12)) |
++			    (heap->chunk_size >> 12);
++	ret = 0;
++
++out_unlock:
++	up_read(&pool->lock);
++	return ret;
++}
++
++static void panthor_heap_pool_release(struct kref *refcount)
++{
++	struct panthor_heap_pool *pool =
++		container_of(refcount, struct panthor_heap_pool, refcount);
++
++	xa_destroy(&pool->xa);
++	kfree(pool);
++}
++
++/**
++ * panthor_heap_pool_put() - Release a heap pool reference
++ * @pool: Pool to release the reference on. Can be NULL.
++ */
++void panthor_heap_pool_put(struct panthor_heap_pool *pool)
++{
++	if (pool)
++		kref_put(&pool->refcount, panthor_heap_pool_release);
++}
++
++/**
++ * panthor_heap_pool_get() - Get a heap pool reference
++ * @pool: Pool to get the reference on. Can be NULL.
++ *
++ * Return: @pool.
++ */
++struct panthor_heap_pool *
++panthor_heap_pool_get(struct panthor_heap_pool *pool)
++{
++	if (pool)
++		kref_get(&pool->refcount);
++
++	return pool;
++}
++
++/**
++ * panthor_heap_pool_create() - Create a heap pool
++ * @ptdev: Device.
++ * @vm: The VM this heap pool will be attached to.
++ *
++ * Heap pools might contain up to 128 heap contexts, and are per-VM.
++ *
++ * Return: A valid pointer on success, a negative error code otherwise.
++ */
++struct panthor_heap_pool *
++panthor_heap_pool_create(struct panthor_device *ptdev, struct panthor_vm *vm)
++{
++	size_t bosize = ALIGN(MAX_HEAPS_PER_POOL *
++			      panthor_heap_ctx_stride(ptdev),
++			      4096);
++	struct panthor_heap_pool *pool;
++	int ret = 0;
++
++	pool = kzalloc(sizeof(*pool), GFP_KERNEL);
++	if (!pool)
++		return ERR_PTR(-ENOMEM);
++
++	/* We want a weak ref here: the heap pool belongs to the VM, so we're
++	 * sure that, as long as the heap pool exists, the VM exists too.
++	 */
++	pool->vm = vm;
++	pool->ptdev = ptdev;
++	init_rwsem(&pool->lock);
++	xa_init_flags(&pool->xa, XA_FLAGS_ALLOC1);
++	kref_init(&pool->refcount);
++
++	pool->gpu_contexts = panthor_kernel_bo_create(ptdev, vm, bosize,
++						      DRM_PANTHOR_BO_NO_MMAP,
++						      DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
++						      PANTHOR_VM_KERNEL_AUTO_VA);
++	if (IS_ERR(pool->gpu_contexts)) {
++		ret = PTR_ERR(pool->gpu_contexts);
++		goto err_destroy_pool;
++	}
++
++	ret = panthor_kernel_bo_vmap(pool->gpu_contexts);
++	if (ret)
++		goto err_destroy_pool;
++
++	return pool;
++
++err_destroy_pool:
++	panthor_heap_pool_destroy(pool);
++	return ERR_PTR(ret);
++}
++
++/**
++ * panthor_heap_pool_destroy() - Destroy a heap pool.
++ * @pool: Pool to destroy.
++ *
++ * This function destroys all heap contexts and their resources. Thus
++ * preventing any use of the heap context or the chunk attached to them
++ * after that point.
++ *
++ * If the GPU still has access to some heap contexts, a fault should be
++ * triggered, which should flag the command stream groups using these
++ * context as faulty.
++ *
++ * The heap pool object is only released when all references to this pool
++ * are released.
++ */
++void panthor_heap_pool_destroy(struct panthor_heap_pool *pool)
++{
++	struct panthor_heap *heap;
++	unsigned long i;
++
++	if (!pool)
++		return;
++
++	down_write(&pool->lock);
++	xa_for_each(&pool->xa, i, heap)
++		drm_WARN_ON(&pool->ptdev->base, panthor_heap_destroy_locked(pool, i));
++
++	if (!IS_ERR_OR_NULL(pool->gpu_contexts))
++		panthor_kernel_bo_destroy(pool->vm, pool->gpu_contexts);
++
++	/* Reflects the fact the pool has been destroyed. */
++	pool->vm = NULL;
++	up_write(&pool->lock);
++
++	panthor_heap_pool_put(pool);
++}
+diff --git a/drivers/gpu/drm/panthor/panthor_heap.h b/drivers/gpu/drm/panthor/panthor_heap.h
 new file mode 100644
-index 000000000000..1126b1ea199a
+index 000000000000..ff6ebdcd412e
 --- /dev/null
-+++ b/drivers/gpu/drm/panthor/panthor_fw.h
-@@ -0,0 +1,504 @@
++++ b/drivers/gpu/drm/panthor/panthor_heap.h
+@@ -0,0 +1,36 @@
 +/* SPDX-License-Identifier: GPL-2.0 or MIT */
 +/* Copyright 2023 Collabora ltd. */
 +
-+#ifndef __PANTHOR_MCU_H__
-+#define __PANTHOR_MCU_H__
++#ifndef __PANTHOR_HEAP_H__
++#define __PANTHOR_HEAP_H__
 +
 +#include <linux/types.h>
 +
-+#include "panthor_device.h"
++struct panthor_device;
++struct panthor_heap_pool;
++struct panthor_vm;
 +
-+struct panthor_kernel_bo;
++int panthor_heap_create(struct panthor_heap_pool *pool,
++			u32 initial_chunk_count,
++			u32 chunk_size,
++			u32 max_chunks,
++			u32 target_in_flight,
++			u64 *heap_ctx_gpu_va,
++			u64 *first_chunk_gpu_va);
++int panthor_heap_destroy(struct panthor_heap_pool *pool, u32 handle);
 +
-+#define MAX_CSGS				31
-+#define MAX_CS_PER_CSG                          32
++struct panthor_heap_pool *
++panthor_heap_pool_create(struct panthor_device *ptdev, struct panthor_vm *vm);
++void panthor_heap_pool_destroy(struct panthor_heap_pool *pool);
 +
-+struct panthor_fw_ringbuf_input_iface {
-+	u64 insert;
-+	u64 extract;
-+};
++struct panthor_heap_pool *
++panthor_heap_pool_get(struct panthor_heap_pool *pool);
++void panthor_heap_pool_put(struct panthor_heap_pool *pool);
 +
-+struct panthor_fw_ringbuf_output_iface {
-+	u64 extract;
-+	u32 active;
-+};
-+
-+struct panthor_fw_cs_control_iface {
-+#define CS_FEATURES_WORK_REGS(x)		(((x) & GENMASK(7, 0)) + 1)
-+#define CS_FEATURES_SCOREBOARDS(x)		(((x) & GENMASK(15, 8)) >> 8)
-+#define CS_FEATURES_COMPUTE			BIT(16)
-+#define CS_FEATURES_FRAGMENT			BIT(17)
-+#define CS_FEATURES_TILER			BIT(18)
-+	u32 features;
-+	u32 input_va;
-+	u32 output_va;
-+};
-+
-+struct panthor_fw_cs_input_iface {
-+#define CS_STATE_MASK				GENMASK(2, 0)
-+#define CS_STATE_STOP				0
-+#define CS_STATE_START				1
-+#define CS_EXTRACT_EVENT			BIT(4)
-+#define CS_IDLE_SYNC_WAIT			BIT(8)
-+#define CS_IDLE_PROTM_PENDING			BIT(9)
-+#define CS_IDLE_EMPTY				BIT(10)
-+#define CS_IDLE_RESOURCE_REQ			BIT(11)
-+#define CS_TILER_OOM				BIT(26)
-+#define CS_PROTM_PENDING			BIT(27)
-+#define CS_FATAL				BIT(30)
-+#define CS_FAULT				BIT(31)
-+#define CS_REQ_MASK				(CS_STATE_MASK | \
-+						 CS_EXTRACT_EVENT | \
-+						 CS_IDLE_SYNC_WAIT | \
-+						 CS_IDLE_PROTM_PENDING | \
-+						 CS_IDLE_EMPTY | \
-+						 CS_IDLE_RESOURCE_REQ)
-+#define CS_EVT_MASK				(CS_TILER_OOM | \
-+						 CS_PROTM_PENDING | \
-+						 CS_FATAL | \
-+						 CS_FAULT)
-+	u32 req;
-+
-+#define CS_CONFIG_PRIORITY(x)			((x) & GENMASK(3, 0))
-+#define CS_CONFIG_DOORBELL(x)			(((x) << 8) & GENMASK(15, 8))
-+	u32 config;
-+	u32 reserved1;
-+	u32 ack_irq_mask;
-+	u64 ringbuf_base;
-+	u32 ringbuf_size;
-+	u32 reserved2;
-+	u64 heap_start;
-+	u64 heap_end;
-+	u64 ringbuf_input;
-+	u64 ringbuf_output;
-+	u32 instr_config;
-+	u32 instrbuf_size;
-+	u64 instrbuf_base;
-+	u64 instrbuf_offset_ptr;
-+};
-+
-+struct panthor_fw_cs_output_iface {
-+	u32 ack;
-+	u32 reserved1[15];
-+	u64 status_cmd_ptr;
-+
-+#define CS_STATUS_WAIT_SB_MASK			GENMASK(15, 0)
-+#define CS_STATUS_WAIT_SB_SRC_MASK		GENMASK(19, 16)
-+#define CS_STATUS_WAIT_SB_SRC_NONE		(0 << 16)
-+#define CS_STATUS_WAIT_SB_SRC_WAIT		(8 << 16)
-+#define CS_STATUS_WAIT_SYNC_COND_LE		(0 << 24)
-+#define CS_STATUS_WAIT_SYNC_COND_GT		(1 << 24)
-+#define CS_STATUS_WAIT_SYNC_COND_MASK		GENMASK(27, 24)
-+#define CS_STATUS_WAIT_PROGRESS			BIT(28)
-+#define CS_STATUS_WAIT_PROTM			BIT(29)
-+#define CS_STATUS_WAIT_SYNC_64B			BIT(30)
-+#define CS_STATUS_WAIT_SYNC			BIT(31)
-+	u32 status_wait;
-+	u32 status_req_resource;
-+	u64 status_wait_sync_ptr;
-+	u32 status_wait_sync_value;
-+	u32 status_scoreboards;
-+
-+#define CS_STATUS_BLOCKED_REASON_UNBLOCKED	0
-+#define CS_STATUS_BLOCKED_REASON_SB_WAIT	1
-+#define CS_STATUS_BLOCKED_REASON_PROGRESS_WAIT	2
-+#define CS_STATUS_BLOCKED_REASON_SYNC_WAIT	3
-+#define CS_STATUS_BLOCKED_REASON_DEFERRED	5
-+#define CS_STATUS_BLOCKED_REASON_RES		6
-+#define CS_STATUS_BLOCKED_REASON_FLUSH		7
-+#define CS_STATUS_BLOCKED_REASON_MASK		GENMASK(3, 0)
-+	u32 status_blocked_reason;
-+	u32 status_wait_sync_value_hi;
-+	u32 reserved2[6];
-+
-+#define CS_EXCEPTION_TYPE(x)			((x) & GENMASK(7, 0))
-+#define CS_EXCEPTION_DATA(x)			(((x) >> 8) & GENMASK(23, 0))
-+	u32 fault;
-+	u32 fatal;
-+	u64 fault_info;
-+	u64 fatal_info;
-+	u32 reserved3[10];
-+	u32 heap_vt_start;
-+	u32 heap_vt_end;
-+	u32 reserved4;
-+	u32 heap_frag_end;
-+	u64 heap_address;
-+};
-+
-+struct panthor_fw_csg_control_iface {
-+	u32 features;
-+	u32 input_va;
-+	u32 output_va;
-+	u32 suspend_size;
-+	u32 protm_suspend_size;
-+	u32 stream_num;
-+	u32 stream_stride;
-+};
-+
-+struct panthor_fw_csg_input_iface {
-+#define CSG_STATE_MASK				GENMASK(2, 0)
-+#define CSG_STATE_TERMINATE			0
-+#define CSG_STATE_START				1
-+#define CSG_STATE_SUSPEND			2
-+#define CSG_STATE_RESUME			3
-+#define CSG_ENDPOINT_CONFIG			BIT(4)
-+#define CSG_STATUS_UPDATE			BIT(5)
-+#define CSG_SYNC_UPDATE				BIT(28)
-+#define CSG_IDLE				BIT(29)
-+#define CSG_DOORBELL				BIT(30)
-+#define CSG_PROGRESS_TIMER_EVENT		BIT(31)
-+#define CSG_REQ_MASK				(CSG_STATE_MASK | \
-+						 CSG_ENDPOINT_CONFIG | \
-+						 CSG_STATUS_UPDATE)
-+#define CSG_EVT_MASK				(CSG_SYNC_UPDATE | \
-+						 CSG_IDLE | \
-+						 CSG_PROGRESS_TIMER_EVENT)
-+	u32 req;
-+	u32 ack_irq_mask;
-+
-+	u32 doorbell_req;
-+	u32 cs_irq_ack;
-+	u32 reserved1[4];
-+	u64 allow_compute;
-+	u64 allow_fragment;
-+	u32 allow_other;
-+
-+#define CSG_EP_REQ_COMPUTE(x)			((x) & GENMASK(7, 0))
-+#define CSG_EP_REQ_FRAGMENT(x)			(((x) << 8) & GENMASK(15, 8))
-+#define CSG_EP_REQ_TILER(x)			(((x) << 16) & GENMASK(19, 16))
-+#define CSG_EP_REQ_EXCL_COMPUTE			BIT(20)
-+#define CSG_EP_REQ_EXCL_FRAGMENT		BIT(21)
-+#define CSG_EP_REQ_PRIORITY(x)			(((x) << 28) & GENMASK(31, 28))
-+#define CSG_EP_REQ_PRIORITY_MASK		GENMASK(31, 28)
-+	u32 endpoint_req;
-+	u32 reserved2[2];
-+	u64 suspend_buf;
-+	u64 protm_suspend_buf;
-+	u32 config;
-+	u32 iter_trace_config;
-+};
-+
-+struct panthor_fw_csg_output_iface {
-+	u32 ack;
-+	u32 reserved1;
-+	u32 doorbell_ack;
-+	u32 cs_irq_req;
-+	u32 status_endpoint_current;
-+	u32 status_endpoint_req;
-+
-+#define CSG_STATUS_STATE_IS_IDLE		BIT(0)
-+	u32 status_state;
-+	u32 resource_dep;
-+};
-+
-+struct panthor_fw_global_control_iface {
-+	u32 version;
-+	u32 features;
-+	u32 input_va;
-+	u32 output_va;
-+	u32 group_num;
-+	u32 group_stride;
-+	u32 perfcnt_size;
-+	u32 instr_features;
-+};
-+
-+struct panthor_fw_global_input_iface {
-+#define GLB_HALT				BIT(0)
-+#define GLB_CFG_PROGRESS_TIMER			BIT(1)
-+#define GLB_CFG_ALLOC_EN			BIT(2)
-+#define GLB_CFG_POWEROFF_TIMER			BIT(3)
-+#define GLB_PROTM_ENTER				BIT(4)
-+#define GLB_PERFCNT_EN				BIT(5)
-+#define GLB_PERFCNT_SAMPLER			BIT(6)
-+#define GLB_COUNTER_EN				BIT(7)
-+#define GLB_PING				BIT(8)
-+#define GLB_FWCFG_UPDATE			BIT(9)
-+#define GLB_IDLE_EN				BIT(10)
-+#define GLB_SLEEP				BIT(12)
-+#define GLB_INACTIVE_COMPUTE			BIT(20)
-+#define GLB_INACTIVE_FRAGMENT			BIT(21)
-+#define GLB_INACTIVE_TILER			BIT(22)
-+#define GLB_PROTM_EXIT				BIT(23)
-+#define GLB_PERFCNT_THRESHOLD			BIT(24)
-+#define GLB_PERFCNT_OVERFLOW			BIT(25)
-+#define GLB_IDLE				BIT(26)
-+#define GLB_DBG_CSF				BIT(30)
-+#define GLB_DBG_HOST				BIT(31)
-+#define GLB_REQ_MASK				GENMASK(10, 0)
-+#define GLB_EVT_MASK				GENMASK(26, 20)
-+	u32 req;
-+	u32 ack_irq_mask;
-+	u32 doorbell_req;
-+	u32 reserved1;
-+	u32 progress_timer;
-+
-+#define GLB_TIMER_VAL(x)			((x) & GENMASK(30, 0))
-+#define GLB_TIMER_SOURCE_GPU_COUNTER		BIT(31)
-+	u32 poweroff_timer;
-+	u64 core_en_mask;
-+	u32 reserved2;
-+	u32 perfcnt_as;
-+	u64 perfcnt_base;
-+	u32 perfcnt_extract;
-+	u32 reserved3[3];
-+	u32 perfcnt_config;
-+	u32 perfcnt_csg_select;
-+	u32 perfcnt_fw_enable;
-+	u32 perfcnt_csg_enable;
-+	u32 perfcnt_csf_enable;
-+	u32 perfcnt_shader_enable;
-+	u32 perfcnt_tiler_enable;
-+	u32 perfcnt_mmu_l2_enable;
-+	u32 reserved4[8];
-+	u32 idle_timer;
-+};
-+
-+enum panthor_fw_halt_status {
-+	PANTHOR_FW_HALT_OK = 0,
-+	PANTHOR_FW_HALT_ON_PANIC = 0x4e,
-+	PANTHOR_FW_HALT_ON_WATCHDOG_EXPIRATION = 0x4f,
-+};
-+
-+struct panthor_fw_global_output_iface {
-+	u32 ack;
-+	u32 reserved1;
-+	u32 doorbell_ack;
-+	u32 reserved2;
-+	u32 halt_status;
-+	u32 perfcnt_status;
-+	u32 perfcnt_insert;
-+};
-+
-+/**
-+ * struct panthor_fw_cs_iface - Firmware command stream slot interface
-+ */
-+struct panthor_fw_cs_iface {
-+	/**
-+	 * @lock: Lock protecting access to the panthor_fw_cs_input_iface::req
-+	 * field.
-+	 *
-+	 * Needed so we can update the req field concurrently from the interrupt
-+	 * handler and the scheduler logic.
-+	 *
-+	 * TODO: Ideally we'd want to use a cmpxchg() to update the req, but FW
-+	 * interface sections are mapped uncached/write-combined right now, and
-+	 * using cmpxchg() on such mappings leads to SError faults. Revisit when
-+	 * we have 'SHARED' GPU mappings hooked up.
-+	 */
-+	spinlock_t lock;
-+
-+	/**
-+	 * @control: Command stream slot control interface.
-+	 *
-+	 * Used to expose command stream slot properties.
-+	 *
-+	 * This interface is read-only.
-+	 */
-+	struct panthor_fw_cs_control_iface *control;
-+
-+	/**
-+	 * @input: Command stream slot input interface.
-+	 *
-+	 * Used for host updates/events.
-+	 */
-+	struct panthor_fw_cs_input_iface *input;
-+
-+	/**
-+	 * @output: Command stream slot output interface.
-+	 *
-+	 * Used for FW updates/events.
-+	 *
-+	 * This interface is read-only.
-+	 */
-+	const struct panthor_fw_cs_output_iface *output;
-+};
-+
-+/**
-+ * struct panthor_fw_csg_iface - Firmware command stream group slot interface
-+ */
-+struct panthor_fw_csg_iface {
-+	/**
-+	 * @lock: Lock protecting access to the panthor_fw_csg_input_iface::req
-+	 * field.
-+	 *
-+	 * Needed so we can update the req field concurrently from the interrupt
-+	 * handler and the scheduler logic.
-+	 *
-+	 * TODO: Ideally we'd want to use a cmpxchg() to update the req, but FW
-+	 * interface sections are mapped uncached/write-combined right now, and
-+	 * using cmpxchg() on such mappings leads to SError faults. Revisit when
-+	 * we have 'SHARED' GPU mappings hooked up.
-+	 */
-+	spinlock_t lock;
-+
-+	/**
-+	 * @control: Command stream group slot control interface.
-+	 *
-+	 * Used to expose command stream group slot properties.
-+	 *
-+	 * This interface is read-only.
-+	 */
-+	const struct panthor_fw_csg_control_iface *control;
-+
-+	/**
-+	 * @input: Command stream slot input interface.
-+	 *
-+	 * Used for host updates/events.
-+	 */
-+	struct panthor_fw_csg_input_iface *input;
-+
-+	/**
-+	 * @output: Command stream group slot output interface.
-+	 *
-+	 * Used for FW updates/events.
-+	 *
-+	 * This interface is read-only.
-+	 */
-+	const struct panthor_fw_csg_output_iface *output;
-+};
-+
-+/**
-+ * struct panthor_fw_global_iface - Firmware global interface
-+ */
-+struct panthor_fw_global_iface {
-+	/**
-+	 * @lock: Lock protecting access to the panthor_fw_global_input_iface::req
-+	 * field.
-+	 *
-+	 * Needed so we can update the req field concurrently from the interrupt
-+	 * handler and the scheduler/FW management logic.
-+	 *
-+	 * TODO: Ideally we'd want to use a cmpxchg() to update the req, but FW
-+	 * interface sections are mapped uncached/write-combined right now, and
-+	 * using cmpxchg() on such mappings leads to SError faults. Revisit when
-+	 * we have 'SHARED' GPU mappings hooked up.
-+	 */
-+	spinlock_t lock;
-+
-+	/**
-+	 * @control: Command stream group slot control interface.
-+	 *
-+	 * Used to expose global FW properties.
-+	 *
-+	 * This interface is read-only.
-+	 */
-+	const struct panthor_fw_global_control_iface *control;
-+
-+	/**
-+	 * @input: Global input interface.
-+	 *
-+	 * Used for host updates/events.
-+	 */
-+	struct panthor_fw_global_input_iface *input;
-+
-+	/**
-+	 * @output: Global output interface.
-+	 *
-+	 * Used for FW updates/events.
-+	 *
-+	 * This interface is read-only.
-+	 */
-+	const struct panthor_fw_global_output_iface *output;
-+};
-+
-+/**
-+ * panthor_fw_toggle_reqs() - Toggle acknowledge bits to send an event to the FW
-+ * @__iface: The interface to operate on.
-+ * @__in_reg: Name of the register to update in the input section of the interface.
-+ * @__out_reg: Name of the register to take as a reference in the output section of the
-+ * interface.
-+ * @__mask: Mask to apply to the update.
-+ *
-+ * The Host -> FW event/message passing was designed to be lockless, with each side of
-+ * the channel having its writeable section. Events are signaled as a difference between
-+ * the host and FW side in the req/ack registers (when a bit differs, there's an event
-+ * pending, when they are the same, nothing needs attention).
-+ *
-+ * This helper allows one to update the req register based on the current value of the
-+ * ack register managed by the FW. Toggling a specific bit will flag an event. In order
-+ * for events to be re-evaluated, the interface doorbell needs to be rung.
-+ *
-+ * Concurrent accesses to the same req register is covered.
-+ *
-+ * Anything requiring atomic updates to multiple registers requires a dedicated lock.
-+ */
-+#define panthor_fw_toggle_reqs(__iface, __in_reg, __out_reg, __mask) \
-+	do { \
-+		u32 __cur_val, __new_val, __out_val; \
-+		spin_lock(&(__iface)->lock); \
-+		__cur_val = READ_ONCE((__iface)->input->__in_reg); \
-+		__out_val = READ_ONCE((__iface)->output->__out_reg); \
-+		__new_val = ((__out_val ^ (__mask)) & (__mask)) | (__cur_val & ~(__mask)); \
-+		WRITE_ONCE((__iface)->input->__in_reg, __new_val); \
-+		spin_unlock(&(__iface)->lock); \
-+	} while (0)
-+
-+/**
-+ * panthor_fw_update_reqs() - Update bits to reflect a configuration change
-+ * @__iface: The interface to operate on.
-+ * @__in_reg: Name of the register to update in the input section of the interface.
-+ * @__val: Value to set.
-+ * @__mask: Mask to apply to the update.
-+ *
-+ * Some configuration get passed through req registers that are also used to
-+ * send events to the FW. Those req registers being updated from the interrupt
-+ * handler, they require special helpers to update the configuration part as well.
-+ *
-+ * Concurrent accesses to the same req register is covered.
-+ *
-+ * Anything requiring atomic updates to multiple registers requires a dedicated lock.
-+ */
-+#define panthor_fw_update_reqs(__iface, __in_reg, __val, __mask) \
-+	do { \
-+		u32 __cur_val, __new_val; \
-+		spin_lock(&(__iface)->lock); \
-+		__cur_val = READ_ONCE((__iface)->input->__in_reg); \
-+		__new_val = (__cur_val & ~(__mask)) | ((__val) & (__mask)); \
-+		WRITE_ONCE((__iface)->input->__in_reg, __new_val); \
-+		spin_unlock(&(__iface)->lock); \
-+	} while (0)
-+
-+struct panthor_fw_global_iface *
-+panthor_fw_get_glb_iface(struct panthor_device *ptdev);
-+
-+struct panthor_fw_csg_iface *
-+panthor_fw_get_csg_iface(struct panthor_device *ptdev, u32 csg_slot);
-+
-+struct panthor_fw_cs_iface *
-+panthor_fw_get_cs_iface(struct panthor_device *ptdev, u32 csg_slot, u32 cs_slot);
-+
-+int panthor_fw_csg_wait_acks(struct panthor_device *ptdev, u32 csg_id, u32 req_mask,
-+			     u32 *acked, u32 timeout_ms);
-+
-+int panthor_fw_glb_wait_acks(struct panthor_device *ptdev, u32 req_mask, u32 *acked,
-+			     u32 timeout_ms);
-+
-+void panthor_fw_ring_csg_doorbells(struct panthor_device *ptdev, u32 csg_slot);
-+
-+struct panthor_kernel_bo *
-+panthor_fw_alloc_queue_iface_mem(struct panthor_device *ptdev,
-+				 struct panthor_fw_ringbuf_input_iface **input,
-+				 const struct panthor_fw_ringbuf_output_iface **output,
-+				 u32 *input_fw_va, u32 *output_fw_va);
-+struct panthor_kernel_bo *
-+panthor_fw_alloc_suspend_buf_mem(struct panthor_device *ptdev, size_t size);
-+
-+struct panthor_vm *panthor_fw_vm(struct panthor_device *ptdev);
-+
-+void panthor_fw_pre_reset(struct panthor_device *ptdev, bool on_hang);
-+int panthor_fw_post_reset(struct panthor_device *ptdev);
-+
-+static inline void panthor_fw_suspend(struct panthor_device *ptdev)
-+{
-+	panthor_fw_pre_reset(ptdev, false);
-+}
-+
-+static inline int panthor_fw_resume(struct panthor_device *ptdev)
-+{
-+	return panthor_fw_post_reset(ptdev);
-+}
-+
-+int panthor_fw_init(struct panthor_device *ptdev);
-+void panthor_fw_unplug(struct panthor_device *ptdev);
++int panthor_heap_grow(struct panthor_heap_pool *pool,
++		      u64 heap_gpu_va,
++		      u32 renderpasses_in_flight,
++		      u32 pending_frag_count,
++		      u64 *new_chunk_gpu_va);
 +
 +#endif
 -- 
