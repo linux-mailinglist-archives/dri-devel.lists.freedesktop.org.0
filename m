@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EE0080304B
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 11:32:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BE84803069
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 11:36:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 814CF10E324;
-	Mon,  4 Dec 2023 10:32:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEB2F10E1AD;
+	Mon,  4 Dec 2023 10:36:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBFC910E324
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 10:32:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3003D10E1AD
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 10:36:34 +0000 (UTC)
 Received: from localhost (localhost.localdomain [127.0.0.1])
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 5D5D340E024E; 
- Mon,  4 Dec 2023 10:32:32 +0000 (UTC)
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id AB39A40E01AD; 
+ Mon,  4 Dec 2023 10:36:29 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
  by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id RRUUekAD-ipx; Mon,  4 Dec 2023 10:32:30 +0000 (UTC)
+ with ESMTP id Ha1ktEKlv6FG; Mon,  4 Dec 2023 10:36:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1701685950; bh=nWocH48nXEMQ/OP6xMY43JWJh9FkgJtDNpCaPQAMRJ8=;
+ t=1701686187; bh=mCwZaJ7dRtJDc4MiLyk7lSNLxiPR+SKMxqLPWCK5zWo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MqK9/XnG59Dx693ynS3g9Lj2a7V8bQ/B074NKGBFeNeBHJLZvLzUhPKO6qsOdVbsX
- 01Jgo11UDmS1lqE/jbWRH/syLhoaTQK9bLHes/38rqTxQLsacOXBX8y6+9JNAr9RM7
- jtTPKawONkgv8qMFjcaojLAB43OfDOwHJ5eG7Fntnif59GOE9wGZUrCHim9Xtgq1l5
- S2oYKGEAqLamuW5BAhhZgz5QLzZMeRtz56l6XBGrixmPCnrfVVSSHTMGpXzcaP4Ns0
- vDKEQhfraxMIRRfhOT9C51WcCPOSQU0kbTZ9pjSrpxseLFfGzwEGQM/8wBqYslSArl
- EDcvgmOo+u8ZRg7K+sJTGnMEFWv7SpzyLvxHldCPYyb6SzgD31JsLLDyxEFaqc2MO4
- 8IcGk+815PW2gRLWRBJbtKbd4l6AnYMkzSTrNIASKCFG+iUyaHRfediSLdthhsq4Kw
- pZ6/8gpm96FFtrYh9SjOlw8CtGzsVKd6nLqiLCLT1ehUbTc++06XWJjy5XiNXo/ZAh
- cKs89UEN0/0pNuwNdbd1BZO+WL4jKLqYhdRJ8j6BFGWjdfNKr1v02QgMfnL5KWFwi/
- MEEbfpsK5TYaGzWpx67/zBnHnWrZARgOmpliA7ch8iKRuTEGZwTkMWUonIhaWq9vae
- 5XwfJ7mNWI12voU+sV8spAgw=
+ b=T99h48BruYWkziFWjTMxh6+yOj/D/PLvAsIQocbREPZWE4Hx2hIDZgnzwBFwrks9/
+ 7Q/Q9uorRsVIlF7kRZ0iaXQiruCkuD7qUhNyu+2P3+igKQSqtgIX2kiZVePc7Ir2Dq
+ eaglLRWyx6deaL5iEMoWNx93+jMVVPqQm+JKTJ8AshWgVsmk6xeSvEYHdVqRle/xxP
+ wlWMZz755WiOACjxcKyYFCYIUPG5pfxenGwLiMoevG0r821EqyH9MBvv/8sYtYe6PQ
+ WirQexeDxx9XXJJvUDLw7EeCHjFGH23CmQk63AvV5krsQkZSYjsOvrTpC83rOccvl2
+ s5tx1GXFDPmOTevhe9tFIhzQB7Sqa0vkLiSJHk76/Nq2HGDlRL1QtH/2F5G6Rfke4q
+ BBRZ3IkdKEieqccGNeNydIqaPnVFw0aDph+pFXDogcI1lU5tswxrnrdVryRqg9fWen
+ ZKheo1BnCL2OSgKIYsUSE1qZak2hAeY9dkMb/N73MRJytAk9qodHP10hWpOIMa6pg3
+ JhWMcNDvnaL1QcWbtvfuC2wlV9T5hKLnBALmsoLOG+eBCPJB4y0GxeRugjSSeljcX4
+ jJphAcp8iPF11oG2t2uOea/bjIWXCxxRRSyOyvl3/NS8vZrcEU12ovkYS3gOpRjX1Y
+ gw7pAqx8yTmT2+YDPh8ywMQY=
 Received: from zn.tnic (pd95304da.dip0.t-ipconnect.de [217.83.4.218])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
  SHA256) (No client certificate requested)
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6E1FD40E0277;
- Mon,  4 Dec 2023 10:32:03 +0000 (UTC)
-Date: Mon, 4 Dec 2023 11:32:02 +0100
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 08F5E40E014B;
+ Mon,  4 Dec 2023 10:36:00 +0000 (UTC)
+Date: Mon, 4 Dec 2023 11:35:59 +0100
 From: Borislav Petkov <bp@alien8.de>
 To: Alexey Makhalov <amakhalov@vmware.com>
-Subject: Re: [PATCH v2 1/6] x86/vmware: Move common macros to vmware.h
-Message-ID: <20231204103202.GZZW2qovY98FCgKNax@fat_crate.local>
+Subject: Re: [PATCH v2 2/6] x86/vmware: Introduce vmware_hypercall API
+Message-ID: <20231204103559.GAZW2rj9obaooeqxWA@fat_crate.local>
 References: <20231122233058.185601-8-amakhalov@vmware.com>
  <20231201232452.220355-1-amakhalov@vmware.com>
- <20231201232452.220355-2-amakhalov@vmware.com>
+ <20231201232452.220355-3-amakhalov@vmware.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231201232452.220355-2-amakhalov@vmware.com>
+In-Reply-To: <20231201232452.220355-3-amakhalov@vmware.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,11 +74,30 @@ Cc: pv-drivers@vmware.com, dri-devel@lists.freedesktop.org, namit@vmware.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 01, 2023 at 03:24:47PM -0800, Alexey Makhalov wrote:
-> Move VMware hypercall macros to vmware.h as a preparation step
-> for the next commit. No functional changes besides exporting
+On Fri, Dec 01, 2023 at 03:24:48PM -0800, Alexey Makhalov wrote:
+> Introducing vmware_hypercall family of functions as a common
+> implementation to be used by the VMware guest code and virtual
+> device drivers in architecture independent manner.
+> 
+> By analogy with KVM hypercall API, vmware_hypercallX and
+> vmware_hypercall_hb_{out,in} set of functions was added to
+> achieve that. Architecture specific implementation should be
+> hidden inside.
 
-"next commit" in git is ambiguous. Get rid of such formulations.
+Pls read section "2) Describe your changes" in
+Documentation/process/submitting-patches.rst for more details on how to
+formulate your commit messages.
+
+Also, see section "Changelog" in Documentation/process/maintainer-tip.rst
+
+More specifically:
+
+"Describe your changes in imperative mood, e.g. "make xyzzy do frotz"
+instead of "[This patch] makes xyzzy do frotz" or "[I] changed xyzzy
+to do frotz", as if you are giving orders to the codebase to change
+its behaviour."
+
+Thx.
 
 -- 
 Regards/Gruss,
