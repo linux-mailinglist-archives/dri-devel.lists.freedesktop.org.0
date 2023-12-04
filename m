@@ -2,60 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFBEC803DB7
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 19:57:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA3BC803DBE
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 19:57:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51A9610E3CD;
-	Mon,  4 Dec 2023 18:57:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBF8F10E3D7;
+	Mon,  4 Dec 2023 18:57:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com
- [IPv6:2607:f8b0:4864:20::c2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D13F910E3C9
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 18:57:25 +0000 (UTC)
-Received: by mail-oo1-xc2f.google.com with SMTP id
- 006d021491bc7-58d54612d9cso3220559eaf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 10:57:25 -0800 (PST)
+Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
+ [IPv6:2607:f8b0:4864:20::c34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7F9910E3CB
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 18:57:26 +0000 (UTC)
+Received: by mail-oo1-xc34.google.com with SMTP id
+ 006d021491bc7-58d18c224c7so2922105eaf.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 10:57:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701716245; x=1702321045; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=m3EZHczOx7koya72sYXSi8rdiO9yIL2IVq+1IfTnxCg=;
- b=nj2/t50oxVnVaHCfZ148hLkPTUjfSKmV68yb2LIw2YFUDKyOIHzMS4shawh9G6SLzk
- OTyGYCdQoJXmOmv4dpU3lHgJRjh/eaXKgl5tJEp1mQN8W+EnXayaCyvbSCPamcWmIPVr
- K5WgEloK5yx/sCNXmCVFLFIpVY0+9geAT+8Dezn96Q978T778W44cYiB0IMAB10sBu9P
- O7zPgJz8nSXISXwS5iReleiGWvU+VKtCucO91a9BesVTYz6IdTCxowpY0DeswbzbVDVB
- MZEN6mYdDZ/QjQI4EwIvVwtkzQx0+AfmBJBcs1GV9QRJlpjsmh4ijZbBObtaFz5oTWgi
- S/Xw==
+ d=gmail.com; s=20230601; t=1701716246; x=1702321046; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6rgTeL5s3ofedwZl2YbFthmW9shcLKv1EiL+fVf829g=;
+ b=Dyx1MdjiUOyUcQFi1XkXezWT7i6cCcZ+VfsJ1lIVVzmOVh9wFSFZ0qe2ADGlsMOJWM
+ GovlTAFx825PAYsBNZ/CApuQLaR00QRt7moz6GazQ3FiMaFRU9LuSWUtVu98ErPuHvhO
+ 6ncCRzTMH2/8fweyLSoP23SQSgrjbmHSfjfwew/djzcZ0/ObdX5zSy9T2je5qxupc2Cc
+ q/fBN7JBmTqCgk9JOHbvzdo+NlHVe9WfxXnGzWMwLxIzWQLLEVSJQUe3M7dz6r+PGTB0
+ S/CVAHaw7m1p8Lfa92PQ23XlzBe3fVqRjxHrd/0ZkMXDUX5yLQbj514rLN3d3m8TZwAR
+ fEAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701716245; x=1702321045;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=m3EZHczOx7koya72sYXSi8rdiO9yIL2IVq+1IfTnxCg=;
- b=HdUmBlEGKSY9cKnX6b3buH4iU2H2JUUHylM/hiy3J8s5G0RQVi+sTaLHE6ZOE0Ndbi
- L1O2BkP8+4YbzqAVERAePKbVYB7jNNQi92Efcxfjgu6DSvyUycGDKTb/BAG+28kMqdiO
- v1z5GYUcrP4x8Iz1I1KDSAulEHDBsBHVMkp9x8r5JjSODFaA3h1dRPrMNxVg5sPpkPAV
- 6e5U7Sq+3PGJvgvWoN7WpkvyvQpu215eXNjzSOGrLuGzt2/6tgadHD7+wSfSBIEAMX4R
- Z8Lkb8cF6VkzbLP3Ge9aa//9lj+4jkcLdOuea5NwpRJxd/r0YYNYsvzx15s/IGr6RqTU
- duvA==
-X-Gm-Message-State: AOJu0YxRXzQnhqrpsNj88ZkP7y5XHDEaDy0oQ918LqtjHKoFqBNNxAbV
- mpGMUnSCm7JM4ltNME1SK6I=
-X-Google-Smtp-Source: AGHT+IGsVHwRrAfqq4xLIPsN5oERcixtArTe5wxe1Vzbkpi/n7S980Z81B1TUUr2Z5wVehMBXeBH3Q==
-X-Received: by 2002:a05:6820:2c03:b0:58e:1c47:76c7 with SMTP id
- dw3-20020a0568202c0300b0058e1c4776c7mr3120244oob.19.1701716245016; 
+ d=1e100.net; s=20230601; t=1701716246; x=1702321046;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6rgTeL5s3ofedwZl2YbFthmW9shcLKv1EiL+fVf829g=;
+ b=JZhoPsCsYdZHqSkGn0YwvGBH0eIUNrz1edl2arH6Nc7V1worRqbUDoI4OG7K5ahlqJ
+ 5lDSsyV9ixbXSh+0ijQ+ZJLXSjWPCHz7kumt8f1EiPgkX622FPaGD1qzuG2zLd8/j4xs
+ fdG9jsM6LHzkZwKSQeup8WSCkj3cf8o0DDdvdAzmhGrdnvnS8Bbl/uzDHw5IuV3q++DI
+ RBPAaxFFG9FS0EZdNksX+SRqbb4YyI5I1X+JFYZFJZbzhQ3+XqJGuOGO8SZWw5fpPfTN
+ FcHPHShFZf3c5RAkxzOcEGBCz74i+/M/7U2X4qt+/KzKe0m116H6IOJkFZEMkSAS7TRV
+ yw8w==
+X-Gm-Message-State: AOJu0YzDXCP9YZdRUwBBGp4U4CX8Z1Hsdj3rs8jN/UI67QCmrlSVjEcD
+ KZNA5/ANuTeaHpXE6elEH/I=
+X-Google-Smtp-Source: AGHT+IHtinyT3UvNVVgfaiVR9PDPfm0VQnP/g1hm2ope27H09s6RXeCMhC4TJSpO0tvX0PHiAXIDwA==
+X-Received: by 2002:a4a:2452:0:b0:590:2df8:1bf7 with SMTP id
+ v18-20020a4a2452000000b005902df81bf7mr724118oov.4.1701716245953; 
  Mon, 04 Dec 2023 10:57:25 -0800 (PST)
 Received: from localhost.localdomain ([75.28.21.198])
  by smtp.gmail.com with ESMTPSA id
- y25-20020a4a2d19000000b00581fc1af0a7sm2073303ooy.28.2023.12.04.10.57.24
+ y25-20020a4a2d19000000b00581fc1af0a7sm2073303ooy.28.2023.12.04.10.57.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Dec 2023 10:57:24 -0800 (PST)
+ Mon, 04 Dec 2023 10:57:25 -0800 (PST)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-rockchip@lists.infradead.org
-Subject: [PATCH V2 00/10] rockchip: Add Powkiddy X55
-Date: Mon,  4 Dec 2023 12:57:09 -0600
-Message-Id: <20231204185719.569021-1-macroalpha82@gmail.com>
+Subject: [PATCH V2 01/10] drm/panel: himax-hx8394: Drop prepare/unprepare
+ tracking
+Date: Mon,  4 Dec 2023 12:57:10 -0600
+Message-Id: <20231204185719.569021-2-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231204185719.569021-1-macroalpha82@gmail.com>
+References: <20231204185719.569021-1-macroalpha82@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,37 +85,65 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Add support for the Rockchip RK3566 based Powkiddy X55 handheld gaming
-console.
+Drop the panel specific prepare/unprepare logic. This is now tracked
+by the DRM stack [1].
 
-Changes since V1:
- - Corrected a bug with the DRM mode flags for the video driver.
- - Adjusted panel front and back porch and pixel clock to fix
-   issues with display that occurred after correcting DRM mode
-   flag bug.
- - Add a new clk frequency for PLL_VPLL to get panel to run at ~60hz.
+[1] commit d2aacaf07395 ("drm/panel: Check for already prepared/enabled in
+drm_panel")
 
-Chris Morgan (10):
-  drm/panel: himax-hx8394: Drop prepare/unprepare tracking
-  drm/panel: himax-hx8394: Drop shutdown logic
-  dt-bindings: display: Document Himax HX8394 panel rotation
-  drm/panel: himax-hx8394: Add Panel Rotation Support
-  dt-bindings: display: himax-hx8394: Add Powkiddy X55 panel
-  drm/panel: himax-hx8394: Add Support for Powkiddy X55 panel
-  clk: rockchip: Mark pclk_usb as critical on rk3568
-  clk: rockchip: rk3568: Add PLL rate for 126.4MHz
-  dt-bindings: arm: rockchip: Add Powkiddy X55
-  arm64: dts: rockchip: Add Powkiddy X55
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+---
+ drivers/gpu/drm/panel/panel-himax-hx8394.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
- .../devicetree/bindings/arm/rockchip.yaml     |   1 +
- .../bindings/display/panel/himax,hx8394.yaml  |   3 +
- arch/arm64/boot/dts/rockchip/Makefile         |   1 +
- .../boot/dts/rockchip/rk3566-powkiddy-x55.dts | 926 ++++++++++++++++++
- drivers/clk/rockchip/clk-rk3568.c             |   2 +
- drivers/gpu/drm/panel/panel-himax-hx8394.c    | 180 +++-
- 6 files changed, 1085 insertions(+), 28 deletions(-)
- create mode 100644 arch/arm64/boot/dts/rockchip/rk3566-powkiddy-x55.dts
-
+diff --git a/drivers/gpu/drm/panel/panel-himax-hx8394.c b/drivers/gpu/drm/panel/panel-himax-hx8394.c
+index c73243d85de7..3823ff388b96 100644
+--- a/drivers/gpu/drm/panel/panel-himax-hx8394.c
++++ b/drivers/gpu/drm/panel/panel-himax-hx8394.c
+@@ -68,7 +68,6 @@ struct hx8394 {
+ 	struct gpio_desc *reset_gpio;
+ 	struct regulator *vcc;
+ 	struct regulator *iovcc;
+-	bool prepared;
+ 
+ 	const struct hx8394_panel_desc *desc;
+ };
+@@ -262,16 +261,11 @@ static int hx8394_unprepare(struct drm_panel *panel)
+ {
+ 	struct hx8394 *ctx = panel_to_hx8394(panel);
+ 
+-	if (!ctx->prepared)
+-		return 0;
+-
+ 	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+ 
+ 	regulator_disable(ctx->iovcc);
+ 	regulator_disable(ctx->vcc);
+ 
+-	ctx->prepared = false;
+-
+ 	return 0;
+ }
+ 
+@@ -280,9 +274,6 @@ static int hx8394_prepare(struct drm_panel *panel)
+ 	struct hx8394 *ctx = panel_to_hx8394(panel);
+ 	int ret;
+ 
+-	if (ctx->prepared)
+-		return 0;
+-
+ 	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+ 
+ 	ret = regulator_enable(ctx->vcc);
+@@ -301,8 +292,6 @@ static int hx8394_prepare(struct drm_panel *panel)
+ 
+ 	msleep(180);
+ 
+-	ctx->prepared = true;
+-
+ 	return 0;
+ 
+ disable_vcc:
 -- 
 2.34.1
 
