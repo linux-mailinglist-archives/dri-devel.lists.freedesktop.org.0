@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F160B802C08
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 08:28:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CFA7802C14
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 08:32:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ABCC10E165;
-	Mon,  4 Dec 2023 07:28:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8725089AC3;
+	Mon,  4 Dec 2023 07:32:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2146810E165
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 07:28:25 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D68C10E1E9
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 07:32:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1F97860F13;
- Mon,  4 Dec 2023 07:28:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71705C433C8;
- Mon,  4 Dec 2023 07:28:20 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTP id AEF98CE0E54;
+ Mon,  4 Dec 2023 07:32:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 592E1C433C8;
+ Mon,  4 Dec 2023 07:32:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701674903;
- bh=eJKSep2QD7gJ/0nBUBeTc1a4h97UkN6mjcyAE28MOmA=;
+ s=k20201202; t=1701675158;
+ bh=9hl2sop5ZT4amnXOtIjTHzdm3Zn4QZwIyXAyL/yWEsQ=;
  h=From:To:Cc:Subject:Date:From;
- b=BiBzutVln1VIvwewH6Q8mLGqsvH33r9JMIlab6krzKGBBQ4gnZ9oo05jlAzeeV6zF
- U6/lHP2lHnrolkNWLf0U/ss+OipChnH2ptuIZL1IH56UtIs5uRlb7HI4Pbpmfx2B3U
- bmd56H7qNkkBlArbReoJmXnkWkVAojR4i4/vPceHbxnx58/sTHgvERdVx+rM54wTsK
- /UFPIqF8zm6ysCpXga2EGhcHZ5Tw0UAheTt+iB9AgUVRGvftgjqPVY502sKV50J6m2
- A/4yewRX/ZbfgUGLmoEbKwF0fo3fQgKYdicgaMzrDzJJtaq+pBjo2Ys2j4FB2eece+
- GchdxQbbrQ0IQ==
+ b=FFsiU+7oMtiyy5BCm6J9eBs/i2GCEb1D7k4bvpF/43a78mGeagTz8grpZVEQoZYz5
+ TSj9Y1fNQmGIEtXtGpa4txjCgiSgmrewKFzpLD5QMJCra+uaHUsf0Fqu3BNNqPfAM9
+ OoEust+e7v++8M2pn8lSpSCzDdnuJ4/dViJdhqhk4OI1OFdulyegEV/exAjlGkbb6v
+ e1yJqX8994rgQQqtoGA3vXp0Iv1+XGXR9+hhVbBeBNNPxUDgL1D5enYWvQcy4BNuS8
+ J4EbCxXngweR9Z+KjkksznfzjnpQ6UqfaIXwnqXF3h/u3VLPUXItqgSUxz2GXyHM3I
+ ogZzxkUL1PXHA==
 From: Arnd Bergmann <arnd@kernel.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Peter Ujfalusi <peter.ujfalusi@gmail.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH] drm/bridge: tc358768: select CONFIG_VIDEOMODE_HELPERS
-Date: Mon,  4 Dec 2023 08:27:36 +0100
-Message-Id: <20231204072814.968816-1-arnd@kernel.org>
+To: Frank Binns <frank.binns@imgtec.com>,
+ Donald Robson <donald.robson@imgtec.com>,
+ Matt Coster <matt.coster@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Sarah Walker <sarah.walker@imgtec.com>
+Subject: [PATCH] drm/imagination: move update_logtype() into ifdef section
+Date: Mon,  4 Dec 2023 08:32:10 +0100
+Message-Id: <20231204073231.1164163-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -51,41 +51,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-A dependency on this feature was recently introduced:
+This function is only used when debugfs is enabled, and otherwise
+causes a build warning:
 
-x86_64-linux-ld: vmlinux.o: in function `tc358768_bridge_pre_enable':
-tc358768.c:(.text+0xbe3dae): undefined reference to `drm_display_mode_to_videomode'
+drivers/gpu/drm/imagination/pvr_fw_trace.c:135:1: error: 'update_logtype' defined but not used [-Werror=unused-function]
 
-Make sure this is always enabled.
+Move the #ifdef check to include this function as well.
 
-Fixes: e5fb21678136 ("drm/bridge: tc358768: Use struct videomode")
+Fixes: cb56cd610866 ("drm/imagination: Add firmware trace to debugfs")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/gpu/drm/bridge/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/imagination/pvr_fw_trace.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index ba82a1142adf..3e6a4e2044c0 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -313,6 +313,7 @@ config DRM_TOSHIBA_TC358768
- 	select REGMAP_I2C
- 	select DRM_PANEL
- 	select DRM_MIPI_DSI
-+	select VIDEOMODE_HELPERS
- 	help
- 	  Toshiba TC358768AXBG/TC358778XBG DSI bridge chip driver.
+diff --git a/drivers/gpu/drm/imagination/pvr_fw_trace.c b/drivers/gpu/drm/imagination/pvr_fw_trace.c
+index 87a42fb6ace6..8261fa4f7f83 100644
+--- a/drivers/gpu/drm/imagination/pvr_fw_trace.c
++++ b/drivers/gpu/drm/imagination/pvr_fw_trace.c
+@@ -121,6 +121,8 @@ void pvr_fw_trace_fini(struct pvr_device *pvr_dev)
+ 	pvr_fw_object_unmap_and_destroy(fw_trace->tracebuf_ctrl_obj);
+ }
  
++#if defined(CONFIG_DEBUG_FS)
++
+ /**
+  * update_logtype() - Send KCCB command to trigger FW to update logtype
+  * @pvr_dev: Target PowerVR device
+@@ -165,8 +167,6 @@ update_logtype(struct pvr_device *pvr_dev, u32 group_mask)
+ 	return err;
+ }
+ 
+-#if defined(CONFIG_DEBUG_FS)
+-
+ static int fw_trace_group_mask_show(struct seq_file *m, void *data)
+ {
+ 	struct pvr_device *pvr_dev = m->private;
 -- 
 2.39.2
 
