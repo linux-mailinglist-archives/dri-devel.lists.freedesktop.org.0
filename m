@@ -1,109 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F69B8039A3
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 17:07:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 904AF8039E9
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 17:16:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EF4110E357;
-	Mon,  4 Dec 2023 16:07:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73D6310E28D;
+	Mon,  4 Dec 2023 16:16:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1B2110E3A6
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 16:05:35 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20231204160534euoutp0254fc1d3dbfdb53921aeb2f16deefcad7~drIf0STbl2126921269euoutp029
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 16:05:34 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20231204160534euoutp0254fc1d3dbfdb53921aeb2f16deefcad7~drIf0STbl2126921269euoutp029
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1701705934;
- bh=tG55V1cCaMA1MS+cN+Gb8Ou995buXT1WIvaUo468X/I=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=rXh6uDREOJulzpFtQjTpoooaquPzIv9hwtNY87mYirCKz/c41f0ZsdOOu43lWcgiw
- MyivdBnJ80CR1ZoMu4ugKjzKCdR848cqh9sMg+7yZIE05mbbmtd3Z1+xI0dIwvuL0i
- 2cRLLBItKvHbOpqoxWx8aDHDisLD/qFmmaTGcrYI=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20231204160533eucas1p133692df6d2c0096a56c5b8a1bf197e3e~drIfm-I830078200782eucas1p1e;
- Mon,  4 Dec 2023 16:05:33 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id E8.E2.09814.DC8FD656; Mon,  4
- Dec 2023 16:05:33 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20231204160533eucas1p19fe627487940bd4ef3bc99757fed9950~drIfJwDE90065600656eucas1p1T;
- Mon,  4 Dec 2023 16:05:33 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20231204160533eusmtrp27c94c7cbb779eb833f5ac4e561f50be1~drIfJE_Je2028320283eusmtrp2g;
- Mon,  4 Dec 2023 16:05:33 +0000 (GMT)
-X-AuditID: cbfec7f4-711ff70000002656-4a-656df8cd5256
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id AD.71.09274.DC8FD656; Mon,  4
- Dec 2023 16:05:33 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20231204160532eusmtip1a585ff8d8f2769c766e0f5966684319c~drIeXuM1D1334813348eusmtip1d;
- Mon,  4 Dec 2023 16:05:32 +0000 (GMT)
-Message-ID: <b3855e51-6e44-402e-9727-d67ac6ae64b5@samsung.com>
-Date: Mon, 4 Dec 2023 17:05:33 +0100
+Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
+ [IPv6:2607:f8b0:4864:20::c32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0B4A10E0F8;
+ Mon,  4 Dec 2023 16:16:01 +0000 (UTC)
+Received: by mail-oo1-xc32.google.com with SMTP id
+ 006d021491bc7-58d18c224c7so2806872eaf.2; 
+ Mon, 04 Dec 2023 08:16:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1701706561; x=1702311361; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=d3Rq26SmtNxjBHL+7sodH6Y3hH55K8uHLftxea/5aOE=;
+ b=Oq3vy+umz1q4tuwxnTX4RGTZI/5DHjdTyLLMJfAiL5LLTUxnFsQbReOc/6yU/g9I44
+ 7Ovixj/OHHiTrCnPr76VPWaIDajSxuHlJFmrwGZAjwFldAebXG2IvDCPeEr4ZB1e6ScA
+ kTaWv+8GXWVrEGCjpmYEAsIHUVBRmt2xpNl01auIER7z0lrgudd0IJP0IfmVd/nXTSKX
+ qWauYjM+qjf2j+mn7Y7KknmwRJfwaOuytQCG7IyGVnFLHNzbfZpqHJRNkO89EjbKdOtb
+ hudc47RBjhBviaMWFN3GvuiieLD8f/L86C4xtrPdTJR6HzyRzcXhCMYDDkYNlZGFQW3e
+ Zgbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701706561; x=1702311361;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=d3Rq26SmtNxjBHL+7sodH6Y3hH55K8uHLftxea/5aOE=;
+ b=WA80zXgGrAEzkkMOsa74GYT+qi8Rv4rqHMcK+vWHEvoMpRjhlb+vwgDRwiJaS7SANN
+ Yg8cPLR/fJYggYHMa6LfNp6XI9V7XFkn5rT0QHSNb0AN8o/bSVNoXkWKFeEPQaTk91Om
+ Fuu1V/DDj16C0F6i70RfsFmzEH7/iQ614GijgA4K/+5Hjda6cC3aiQ/YkFEQWUvx6BsB
+ P+k1eO3BQhkRee6i7coaWW/RkBBOqK45a4/Em9ITfWSh9IUFhjkzU1mB4cNchcx0Myhg
+ 9+X40h/bvUuhncTmDEnegv4r21fcWlvycaOSS95N2yTpaQ+DFltbdx2RpnKzjNdxL3Cp
+ nDtA==
+X-Gm-Message-State: AOJu0Yz0iKN+xAESOGT9qzcy4xC5tMjwVt5sEn3uTD05mRxuYc1DC6BS
+ sduDBP5MXaORR7v5rBsb+ctnqeLK7M7tsKYz0Rs=
+X-Google-Smtp-Source: AGHT+IHeMg3IqYv1oObxg/a3nddlTB0cG433u6nB+9rzQjWp1RCFYTc4EHF1sSTYAthQMD9Dil0L+gzurrYUA6JyMAM=
+X-Received: by 2002:a05:6870:c152:b0:1fb:75a:778d with SMTP id
+ g18-20020a056870c15200b001fb075a778dmr4120921oad.62.1701706560957; Mon, 04
+ Dec 2023 08:16:00 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] drm/panfrost: Synchronize and disable interrupts
- before powering off
-Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- boris.brezillon@collabora.com
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20231204114215.54575-4-angelogioacchino.delregno@collabora.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrCKsWRmVeSWpSXmKPExsWy7djPc7pnf+SmGvQf1bc4cX0Rk8WllRIW
- p8+cYrL4v20is8WVr+/ZLDaf62G12Pt6K7vF5V1z2CwWftzKYtHWuYzV4v+eHewWjUeASra8
- mcjqwOuxZt4aRo8dd5cweuz9toDFY+esu+wem1Z1snncubaHzWPeyUCP+93HmTw2n672+LxJ
- LoArissmJTUnsyy1SN8ugSvj5pvbbAVv+SpezVnL1MA4jaeLkZNDQsBEYvqDZSxdjFwcQgIr
- GCUOvXnCBuF8YZR49ukVE4TzmVHiwc9nrDAtP//dhkosZ5Q49/UtK4TzkVFi1plNYFW8AnYS
- /dN3soDYLAIqEov+LWKCiAtKnJz5BCwuKiAvcf/WDHYQW1ggSeLazi9gNcwC4hK3nswHs0UE
- MiUezXjJDrKAWWAak8TeQ48ZQRJsAoYSXW+72EBsTgFfibW3LrBCNMtLbH87hxmkQUJgNafE
- jiVboe52kfjwajIbhC0s8er4FnYIW0bi/875TBAN7YwSC37fh3ImMEo0PL/FCFFlLXHn3C+g
- bg6gFZoS63fpQ4QdJR6d/sYKEpYQ4JO48VYQ4gg+iUnbpjNDhHklOtqEIKrVJGYdXwe39uCF
- S8wTGJVmIYXLLCT/z0LyziyEvQsYWVYxiqeWFuempxYb5aWW6xUn5haX5qXrJefnbmIEJrzT
- /45/2cG4/NVHvUOMTByMhxglOJiVRHjn3cpOFeJNSaysSi3Kjy8qzUktPsQozcGiJM6rmiKf
- KiSQnliSmp2aWpBaBJNl4uCUamBaFlX/eG+1XYBRZ+TnV3M53AR3+HLkOcnOf3O+c528QR7D
- pltv+pMCH09Q7vFynLlncdTnTRecBXIZ1DJ/3J3xVVM3+XXy3o8Gf9wMlnLo39a76Vznt+rH
- QfU/Bg/9tweYbbtbo6O0WfnD88VbDhdYdet63LEUEvghyTc18vKh4KqrSmtdr0d/3t2dLWfw
- WrFj28Eds1i9PvKeyTiYX1p+Zp/6kY59jZEO+x8/O6hwSH3y3QOct7vf8W1PiLpzhuN0kOjh
- PNGHwTHf7ryaHeR5z7dza/SMF1YXAkSUD7Cbz6iaqRLrvMbHflaiQ5GH17RsD90T9358Dl5l
- fWrP4nuHayear1ayj1ex33HrU905JZbijERDLeai4kQAcTZ/FucDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrGIsWRmVeSWpSXmKPExsVy+t/xu7pnf+SmGhydKmRx4voiJotLKyUs
- Tp85xWTxf9tEZosrX9+zWWw+18Nqsff1VnaLy7vmsFks/LiVxaKtcxmrxf89O9gtGo8AlWx5
- M5HVgddjzbw1jB477i5h9Nj7bQGLx85Zd9k9Nq3qZPO4c20Pm8e8k4Ee97uPM3lsPl3t8XmT
- XABXlJ5NUX5pSapCRn5xia1StKGFkZ6hpYWekYmlnqGxeayVkamSvp1NSmpOZllqkb5dgl7G
- zTe32Qre8lW8mrOWqYFxGk8XIyeHhICJxM9/t5m6GLk4hASWMko8/fyMESIhI3FyWgMrhC0s
- 8edaFxtE0XtGiVXLXjCBJHgF7CT6p+9kAbFZBFQkFv1bBBUXlDg58wlYXFRAXuL+rRnsILaw
- QJLEtZ1fwGqYBcQlbj2ZD2aLCGRKvJx+jR1kAbPAFCaJRzveMkNse8wo8aqvE2wSm4ChRNdb
- kDM4OTgFfCXW3rrACjHJTKJraxcjhC0vsf3tHOYJjEKzkBwyC8nCWUhaZiFpWcDIsopRJLW0
- ODc9t9hIrzgxt7g0L10vOT93EyMwwrcd+7llB+PKVx/1DjEycTAeYpTgYFYS4Z13KztViDcl
- sbIqtSg/vqg0J7X4EKMpMDQmMkuJJucDU0xeSbyhmYGpoYmZpYGppZmxkjivZ0FHopBAemJJ
- anZqakFqEUwfEwenVAMTc4xsab/ePl95t+ocbpM9yWLzHz5m6PSbvd7q9IPWjw6z3a+W//Gf
- UNjR7+suUflic9cpNs3c+8df/jPKbXy/8V31dNdpCxep/fmrdd3koVfttFnxhQ6OciuPL9j7
- pfrYhidr9DRDlmRdXNqWIJa+KD12w6Lm958VrFubJpgbPvbnbFd9wiO6SMJhnzdjV9Uel6eX
- X7psuTTVeVXP8jkJ8+76rpmsvmJWJseim36T4mxybaVk2ZasLC//rxsuxW05YXlPd1jDfJPE
- z1UFJ6Lj2K1VRXr9Nm3Q3W9rzLJmEz/Tlp8en1KculW5F8REpoSqFvB2/PuZxS6Sev/Gf9bA
- tQzsdhOXsc15HJ/F5KLEUpyRaKjFXFScCACK1HJUeQMAAA==
-X-CMS-MailID: 20231204160533eucas1p19fe627487940bd4ef3bc99757fed9950
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20231204114229eucas1p22c7ef58046923b0de57a0cc139a94afc
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20231204114229eucas1p22c7ef58046923b0de57a0cc139a94afc
-References: <20231204114215.54575-1-angelogioacchino.delregno@collabora.com>
- <CGME20231204114229eucas1p22c7ef58046923b0de57a0cc139a94afc@eucas1p2.samsung.com>
- <20231204114215.54575-4-angelogioacchino.delregno@collabora.com>
+References: <20231204090852.1650-1-tzimmermann@suse.de>
+In-Reply-To: <20231204090852.1650-1-tzimmermann@suse.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 4 Dec 2023 11:15:49 -0500
+Message-ID: <CADnq5_PRqcugQHibGbhGb2LvnJ5uEtLFqOf=HQOf8_8zthgt2Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] drm/plane-helpers: Minor clean ups
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,54 +68,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
- krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, kernel@collabora.com
+Cc: amd-gfx@lists.freedesktop.org, suijingfeng@loongson.cn, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ mripard@kernel.org, linux-arm-kernel@lists.infradead.org,
+ laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04.12.2023 12:42, AngeloGioacchino Del Regno wrote:
-> To make sure that we don't unintentionally perform any unclocked and/or
-> unpowered R/W operation on GPU registers, before turning off clocks and
-> regulators we must make sure that no GPU, JOB or MMU ISR execution is
-> pending: doing that requires to add a mechanism to synchronize the
-> interrupts on suspend.
+On Mon, Dec 4, 2023 at 4:09=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse.=
+de> wrote:
 >
-> Add functions panfrost_{gpu,job,mmu}_suspend_irq() which will perform
-> interrupts masking and ISR execution synchronization, and then call
-> those in the panfrost_device_runtime_suspend() handler in the exact
-> sequence of job (may require mmu!) -> mmu -> gpu.
+> Move drm_plane_helper_atomic_check() into udl, which is the only
+> driver using it. Remove several unnecessary include statements for
+> <drm/drm_plane_helper.h>.
 >
-> As a side note, JOB and MMU suspend_irq functions needed some special
-> treatment: as their interrupt handlers will unmask interrupts, it was
-> necessary to add an `is_suspended` bitmap which is used to address the
-> possible corner case of unintentional IRQ unmasking because of ISR
-> execution after a call to synchronize_irq().
+> v2:
+>         * fix documentation (Sui)
 >
-> At resume, clear each is_suspended bit in the reset path of JOB/MMU
-> to allow unmasking the interrupts.
+> Thomas Zimmermann (8):
+>   drm/plane-helper: Move drm_plane_helper_atomic_check() into udl
+>   drm/amdgpu: Do not include <drm/drm_plane_helper.h>
+>   drm/loongson: Do not include <drm/drm_plane_helper.h>
+>   drm/shmobile: Do not include <drm/drm_plane_helper.h>
+>   drm/solomon: Do not include <drm/drm_plane_helper.h>
+>   drm/ofdrm: Do not include <drm/drm_plane_helper.h>
+>   drm/simpledrm: Do not include <drm/drm_plane_helper.h>
+>   drm/xlnx: Do not include <drm/drm_plane_helper.h>
+
+Series is:
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+
 >
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-
-
-> ---
->   drivers/gpu/drm/panfrost/panfrost_device.c |  3 +++
->   drivers/gpu/drm/panfrost/panfrost_device.h |  8 +++++++
->   drivers/gpu/drm/panfrost/panfrost_gpu.c    | 18 +++++++++++++--
->   drivers/gpu/drm/panfrost/panfrost_gpu.h    |  1 +
->   drivers/gpu/drm/panfrost/panfrost_job.c    | 26 ++++++++++++++++++----
->   drivers/gpu/drm/panfrost/panfrost_job.h    |  1 +
->   drivers/gpu/drm/panfrost/panfrost_mmu.c    | 22 +++++++++++++++---
->   drivers/gpu/drm/panfrost/panfrost_mmu.h    |  1 +
->   8 files changed, 71 insertions(+), 9 deletions(-)
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  1 -
+>  drivers/gpu/drm/drm_crtc_helper.c             |  7 ++--
+>  drivers/gpu/drm/drm_plane_helper.c            | 32 -------------------
+>  drivers/gpu/drm/loongson/lsdc_plane.c         |  1 -
+>  .../drm/renesas/shmobile/shmob_drm_plane.c    |  1 -
+>  drivers/gpu/drm/solomon/ssd130x.h             |  1 -
+>  drivers/gpu/drm/tiny/ofdrm.c                  |  1 -
+>  drivers/gpu/drm/tiny/simpledrm.c              |  1 -
+>  drivers/gpu/drm/udl/udl_modeset.c             | 19 +++++++++--
+>  drivers/gpu/drm/xlnx/zynqmp_kms.c             |  1 -
+>  include/drm/drm_plane_helper.h                |  2 --
+>  11 files changed, 19 insertions(+), 48 deletions(-)
 >
-> ...
-
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+> --
+> 2.43.0
+>
