@@ -2,43 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4532D803ED0
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 20:53:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B886E803F43
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 21:26:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41E5710E206;
-	Mon,  4 Dec 2023 19:53:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B13D410E3FC;
+	Mon,  4 Dec 2023 20:26:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-175.mta0.migadu.com (out-175.mta0.migadu.com
- [91.218.175.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC62510E206
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 19:53:18 +0000 (UTC)
-Message-ID: <2f6909a7-21a2-4ffc-84bf-962132a9f9b4@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1701719596;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cjZNawa6APspY+m8YqRyDwDo+eaUtEGcD6nvTKm4/ls=;
- b=A8uQsSAbuWicwoGyuZqNv7vj8OZv16Zsmz0WJC3MjEsTwkDNfW/lCrkeRn8IKTlPD3v4TB
- 4VFPdraNKFs9MIKt2CcwDqiqCHLHgHpzijZWKkmhKkxec7++WT/YylZGAheKunpjW8av7W
- MceGryhNnl6wRq67BNhZKBbUJtYr/Tg=
-Date: Tue, 5 Dec 2023 03:53:09 +0800
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3742110E1CF;
+ Mon,  4 Dec 2023 20:25:28 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3B4JxZT6028697; Mon, 4 Dec 2023 20:25:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=VoyLD+BBBgnkOe7m+0wyGjQqsPNxrHuUW5al5xZbTeg=;
+ b=m9woum7ukhrKgy2DlbVkq2m+pO/zRkSoTjp2rBy2klcmFL8JYacLW70LiypX0MjSaxe+
+ ORDAuC/8DKWmhkalXAUKTu2SA47IkuEPd0mc2rwoUdUrVJiGJSGBUkg1oTFYtbKqPEIN
+ VeCLf4ejhodQk8ZLMYW0T1ezbKVXmSCvRqt9kP5OY+dCvBXtuMeP7JGAXvzaPst1BNY4
+ h19w4vMysFfhbAPHPvH2pMs7L63NGP6OgbkK1xVAYvmqozBrhYJtBI6RIcxk1ZFSix4O
+ N0dENhlm2jcdlu8D5N6nMqlXYevBZWAmEIi7GJPf/nvhHL0WwrM8T9hDS29ca1QPPZEF mQ== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3usjnqgfdc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 04 Dec 2023 20:25:18 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B4KPHqF006340
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 4 Dec 2023 20:25:17 GMT
+Received: from [10.71.109.77] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 4 Dec
+ 2023 12:25:17 -0800
+Message-ID: <230fd6a4-c1d6-64af-1073-2effd5d44d8c@quicinc.com>
+Date: Mon, 4 Dec 2023 12:25:16 -0800
 MIME-Version: 1.0
-Subject: Re: [v2, 1/4] fbdev/efifb: Replace references to global screen_info by
- local pointer
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
- deller@gmx.de, pjones@redhat.com
-References: <20231204092812.2612-2-tzimmermann@suse.de>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [Freedreno] [PATCH next] drm/msm/dp: add a missing unlock in
+ dp_hpd_plug_handle()
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20231204092812.2612-2-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>, Rob Clark
+ <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ "Sean Paul" <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ "David Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Bjorn
+ Andersson <quic_bjorande@quicinc.com>, Kuogee Hsieh
+ <quic_khsieh@quicinc.com>, "Vinod Polimera" <quic_vpolimer@quicinc.com>,
+ Stephen Boyd <swboyd@chromium.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20231204171317.192427-1-harshit.m.mogalapalli@oracle.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20231204171317.192427-1-harshit.m.mogalapalli@oracle.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: f2EGCVjZ2PkGJvnv8FbQ_bzpg_EP3lOK
+X-Proofpoint-GUID: f2EGCVjZ2PkGJvnv8FbQ_bzpg_EP3lOK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-04_18,2023-12-04_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0
+ lowpriorityscore=0 clxscore=1011 mlxscore=0 suspectscore=0
+ priorityscore=1501 spamscore=0 impostorscore=0 mlxlogscore=999
+ phishscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2311060000 definitions=main-2312040159
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,282 +92,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org, error27@gmail.com,
+ dan.carpenter@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
 
-On 2023/12/4 17:27, Thomas Zimmermann wrote:
-> Get the global screen_info's address once and access the data via
-> this pointer. Limits the use of global state.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
-Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
-
-
-I have applied the whole series and do a simple test with efifb:
-Yeah, still works!
-
-$ dmesg | grep efifb
-
-[    0.373800] efifb: probing for efifb
-[    0.373816] efifb: framebuffer at 0xe0030000000, using 5120k, total 5120k
-[    0.373818] efifb: mode is 1280x1024x32, linelength=5120, pages=1
-[    0.373820] efifb: scrolling: redraw
-[    0.373821] efifb: Truecolor: size=8:8:8:8, shift=24:16:8:0
-
-
+On 12/4/2023 9:13 AM, Harshit Mogalapalli wrote:
+> When pm_runtime_resume_and_get() fails, unlock before returning.
+> 
+> Fixes: 5814b8bf086a ("drm/msm/dp: incorporate pm_runtime framework into DP driver")
+> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
 > ---
->   drivers/video/fbdev/efifb.c | 113 ++++++++++++++++++------------------
->   1 file changed, 58 insertions(+), 55 deletions(-)
->
-> diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-> index f9b4ddd592ce4..6cbb65bbe1110 100644
-> --- a/drivers/video/fbdev/efifb.c
-> +++ b/drivers/video/fbdev/efifb.c
-> @@ -147,10 +147,9 @@ static bool efifb_bgrt_sanity_check(struct screen_info *si, u32 bmp_width)
->   }
->   #endif
->   
-> -static void efifb_show_boot_graphics(struct fb_info *info)
-> +static void efifb_show_boot_graphics(struct fb_info *info, struct screen_info *si)
+> This is based on static analysis with Smatch. Only compile tested.
+> ---
+>   drivers/gpu/drm/msm/dp/dp_display.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
 
-I think, we probably can add a const modifier for the function
-which doesn't modify our local the screen_info instance in the future.
-
-static void efifb_show_boot_graphics(struct fb_info *info, const struct screen_info *si)
-
-Since screen_info is mostly used to provide information.
-
-
->   {
->   	u32 bmp_width, bmp_height, bmp_pitch, dst_x, y, src_y;
-> -	struct screen_info *si = &screen_info;
->   	struct bmp_file_header *file_header;
->   	struct bmp_dib_header *dib_header;
->   	void *bgrt_image = NULL;
-> @@ -282,7 +281,7 @@ static const struct fb_ops efifb_ops = {
->   	.fb_setcolreg	= efifb_setcolreg,
->   };
->   
-> -static int efifb_setup(char *options)
-> +static int efifb_setup(struct screen_info *si, char *options)
->   {
->   	char *this_opt;
->   
-> @@ -290,16 +289,16 @@ static int efifb_setup(char *options)
->   		while ((this_opt = strsep(&options, ",")) != NULL) {
->   			if (!*this_opt) continue;
->   
-> -			efifb_setup_from_dmi(&screen_info, this_opt);
-> +			efifb_setup_from_dmi(si, this_opt);
->   
->   			if (!strncmp(this_opt, "base:", 5))
-> -				screen_info.lfb_base = simple_strtoul(this_opt+5, NULL, 0);
-> +				si->lfb_base = simple_strtoul(this_opt+5, NULL, 0);
->   			else if (!strncmp(this_opt, "stride:", 7))
-> -				screen_info.lfb_linelength = simple_strtoul(this_opt+7, NULL, 0) * 4;
-> +				si->lfb_linelength = simple_strtoul(this_opt+7, NULL, 0) * 4;
->   			else if (!strncmp(this_opt, "height:", 7))
-> -				screen_info.lfb_height = simple_strtoul(this_opt+7, NULL, 0);
-> +				si->lfb_height = simple_strtoul(this_opt+7, NULL, 0);
->   			else if (!strncmp(this_opt, "width:", 6))
-> -				screen_info.lfb_width = simple_strtoul(this_opt+6, NULL, 0);
-> +				si->lfb_width = simple_strtoul(this_opt+6, NULL, 0);
->   			else if (!strcmp(this_opt, "nowc"))
->   				mem_flags &= ~EFI_MEMORY_WC;
->   			else if (!strcmp(this_opt, "nobgrt"))
-> @@ -310,15 +309,15 @@ static int efifb_setup(char *options)
->   	return 0;
->   }
->   
-> -static inline bool fb_base_is_valid(void)
-> +static inline bool fb_base_is_valid(struct screen_info *si)
->   {
-> -	if (screen_info.lfb_base)
-> +	if (si->lfb_base)
->   		return true;
->   
-> -	if (!(screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE))
-> +	if (!(si->capabilities & VIDEO_CAPABILITY_64BIT_BASE))
->   		return false;
->   
-> -	if (screen_info.ext_lfb_base)
-> +	if (si->ext_lfb_base)
->   		return true;
->   
->   	return false;
-> @@ -329,7 +328,10 @@ static ssize_t name##_show(struct device *dev,				\
->   			   struct device_attribute *attr,		\
->   			   char *buf)					\
->   {									\
-> -	return sprintf(buf, fmt "\n", (screen_info.lfb_##name));	\
-> +	struct screen_info *si = dev_get_platdata(dev);			\
-> +	if (!si)							\
-> +		return -ENODEV;						\
-> +	return sprintf(buf, fmt "\n", (si->lfb_##name));		\
->   }									\
->   static DEVICE_ATTR_RO(name)
->   
-> @@ -356,6 +358,7 @@ static u64 bar_offset;
->   
->   static int efifb_probe(struct platform_device *dev)
->   {
-> +	struct screen_info *si = &screen_info;
->   	struct fb_info *info;
->   	struct efifb_par *par;
->   	int err, orientation;
-> @@ -365,48 +368,48 @@ static int efifb_probe(struct platform_device *dev)
->   	char *option = NULL;
->   	efi_memory_desc_t md;
->   
-> -	if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI || pci_dev_disabled)
-> +	if (si->orig_video_isVGA != VIDEO_TYPE_EFI || pci_dev_disabled)
->   		return -ENODEV;
->   
->   	if (fb_get_options("efifb", &option))
->   		return -ENODEV;
-> -	efifb_setup(option);
-> +	efifb_setup(si, option);
->   
->   	/* We don't get linelength from UGA Draw Protocol, only from
->   	 * EFI Graphics Protocol.  So if it's not in DMI, and it's not
->   	 * passed in from the user, we really can't use the framebuffer.
->   	 */
-> -	if (!screen_info.lfb_linelength)
-> +	if (!si->lfb_linelength)
->   		return -ENODEV;
->   
-> -	if (!screen_info.lfb_depth)
-> -		screen_info.lfb_depth = 32;
-> -	if (!screen_info.pages)
-> -		screen_info.pages = 1;
-> -	if (!fb_base_is_valid()) {
-> +	if (!si->lfb_depth)
-> +		si->lfb_depth = 32;
-> +	if (!si->pages)
-> +		si->pages = 1;
-> +	if (!fb_base_is_valid(si)) {
->   		printk(KERN_DEBUG "efifb: invalid framebuffer address\n");
->   		return -ENODEV;
->   	}
->   	printk(KERN_INFO "efifb: probing for efifb\n");
->   
->   	/* just assume they're all unset if any are */
-> -	if (!screen_info.blue_size) {
-> -		screen_info.blue_size = 8;
-> -		screen_info.blue_pos = 0;
-> -		screen_info.green_size = 8;
-> -		screen_info.green_pos = 8;
-> -		screen_info.red_size = 8;
-> -		screen_info.red_pos = 16;
-> -		screen_info.rsvd_size = 8;
-> -		screen_info.rsvd_pos = 24;
-> +	if (!si->blue_size) {
-> +		si->blue_size = 8;
-> +		si->blue_pos = 0;
-> +		si->green_size = 8;
-> +		si->green_pos = 8;
-> +		si->red_size = 8;
-> +		si->red_pos = 16;
-> +		si->rsvd_size = 8;
-> +		si->rsvd_pos = 24;
->   	}
-
-
-Yeah, Here the efifb modified our local screen_info instance, but this is not relevant to your patch.
-
-
->   
-> -	efifb_fix.smem_start = screen_info.lfb_base;
-> +	efifb_fix.smem_start = si->lfb_base;
->   
-> -	if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE) {
-> +	if (si->capabilities & VIDEO_CAPABILITY_64BIT_BASE) {
->   		u64 ext_lfb_base;
->   
-> -		ext_lfb_base = (u64)(unsigned long)screen_info.ext_lfb_base << 32;
-> +		ext_lfb_base = (u64)(unsigned long)si->ext_lfb_base << 32;
->   		efifb_fix.smem_start |= ext_lfb_base;
->   	}
->   
-> @@ -417,10 +420,10 @@ static int efifb_probe(struct platform_device *dev)
->   		efifb_fix.smem_start = bar_resource->start + bar_offset;
->   	}
->   
-> -	efifb_defined.bits_per_pixel = screen_info.lfb_depth;
-> -	efifb_defined.xres = screen_info.lfb_width;
-> -	efifb_defined.yres = screen_info.lfb_height;
-> -	efifb_fix.line_length = screen_info.lfb_linelength;
-> +	efifb_defined.bits_per_pixel = si->lfb_depth;
-> +	efifb_defined.xres = si->lfb_width;
-> +	efifb_defined.yres = si->lfb_height;
-> +	efifb_fix.line_length = si->lfb_linelength;
->   
->   	/*   size_vmode -- that is the amount of memory needed for the
->   	 *                 used video mode, i.e. the minimum amount of
-> @@ -430,7 +433,7 @@ static int efifb_probe(struct platform_device *dev)
->   	/*   size_total -- all video memory we have. Used for
->   	 *                 entries, ressource allocation and bounds
->   	 *                 checking. */
-> -	size_total = screen_info.lfb_size;
-> +	size_total = si->lfb_size;
->   	if (size_total < size_vmode)
->   		size_total = size_vmode;
->   
-> @@ -512,7 +515,7 @@ static int efifb_probe(struct platform_device *dev)
->   	pr_info("efifb: mode is %dx%dx%d, linelength=%d, pages=%d\n",
->   	       efifb_defined.xres, efifb_defined.yres,
->   	       efifb_defined.bits_per_pixel, efifb_fix.line_length,
-> -	       screen_info.pages);
-> +	       si->pages);
->   
->   	efifb_defined.xres_virtual = efifb_defined.xres;
->   	efifb_defined.yres_virtual = efifb_fix.smem_len /
-> @@ -526,26 +529,26 @@ static int efifb_probe(struct platform_device *dev)
->   	efifb_defined.left_margin  = (efifb_defined.xres / 8) & 0xf8;
->   	efifb_defined.hsync_len    = (efifb_defined.xres / 8) & 0xf8;
->   
-> -	efifb_defined.red.offset    = screen_info.red_pos;
-> -	efifb_defined.red.length    = screen_info.red_size;
-> -	efifb_defined.green.offset  = screen_info.green_pos;
-> -	efifb_defined.green.length  = screen_info.green_size;
-> -	efifb_defined.blue.offset   = screen_info.blue_pos;
-> -	efifb_defined.blue.length   = screen_info.blue_size;
-> -	efifb_defined.transp.offset = screen_info.rsvd_pos;
-> -	efifb_defined.transp.length = screen_info.rsvd_size;
-> +	efifb_defined.red.offset    = si->red_pos;
-> +	efifb_defined.red.length    = si->red_size;
-> +	efifb_defined.green.offset  = si->green_pos;
-> +	efifb_defined.green.length  = si->green_size;
-> +	efifb_defined.blue.offset   = si->blue_pos;
-> +	efifb_defined.blue.length   = si->blue_size;
-> +	efifb_defined.transp.offset = si->rsvd_pos;
-> +	efifb_defined.transp.length = si->rsvd_size;
->   
->   	pr_info("efifb: %s: "
->   	       "size=%d:%d:%d:%d, shift=%d:%d:%d:%d\n",
->   	       "Truecolor",
-> -	       screen_info.rsvd_size,
-> -	       screen_info.red_size,
-> -	       screen_info.green_size,
-> -	       screen_info.blue_size,
-> -	       screen_info.rsvd_pos,
-> -	       screen_info.red_pos,
-> -	       screen_info.green_pos,
-> -	       screen_info.blue_pos);
-> +	       si->rsvd_size,
-> +	       si->red_size,
-> +	       si->green_size,
-> +	       si->blue_size,
-> +	       si->rsvd_pos,
-> +	       si->red_pos,
-> +	       si->green_pos,
-> +	       si->blue_pos);
->   
->   	efifb_fix.ypanstep  = 0;
->   	efifb_fix.ywrapstep = 0;
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
