@@ -2,41 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7F3B80406E
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 21:54:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E7D1803EA2
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Dec 2023 20:45:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E3B110E3A9;
-	Mon,  4 Dec 2023 20:54:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BC3110E20C;
+	Mon,  4 Dec 2023 19:45:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BFAA10E408
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 20:54:13 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3B4IMsrR034895;
- Mon, 4 Dec 2023 12:22:54 -0600
+X-Greylist: delayed 4908 seconds by postgrey-1.36 at gabe;
+ Mon, 04 Dec 2023 19:45:06 UTC
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BB0710E20C
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Dec 2023 19:45:04 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3B4IMuQL073821;
+ Mon, 4 Dec 2023 12:22:56 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1701714174;
- bh=/DHNdb2h/H27I/9d/VEE7PByu6B0S/1IcDh2mFWNTsA=;
+ s=ti-com-17Q1; t=1701714176;
+ bh=IqQKvAZuXA3yBQTpe1fHB5C8are6FN8yp0Pg90xwIuI=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=JIf6khuinRgUkcdoOlkCpzr9YBiGYcYGwWZBw3F+dSnx2cckKzm+soV6EDDAexjY5
- Hom244EXPeQd84QajIjAQQUpjoZi/rliikOspF2+DakEej8uhFX6p4JqcKFDRkduKK
- 0KS+9fsbZs3xvVvzLDcfwfUOSXuO0oZYKC5e31KI=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3B4IMsQt013588
+ b=S2AZrqTCjO0HFh+CGsgOM8FZXaXjvfD4rsArKT+zuQDsB4bpPBHwm2zk00wag1PM0
+ qDJOH+kleI7xZ3CBeyJxqHWOqzVQ2QIGGxCmUKjeXzMirNlBrWbmX2zZ7EqeYAToPi
+ by7JK5O3s/x9oqRTiZDtXKjLOgfvNpAY4QowFilY=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3B4IMuwW083433
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 4 Dec 2023 12:22:54 -0600
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ Mon, 4 Dec 2023 12:22:56 -0600
+Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 4
- Dec 2023 12:22:53 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ Dec 2023 12:22:56 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 4 Dec 2023 12:22:54 -0600
+ Frontend Transport; Mon, 4 Dec 2023 12:22:56 -0600
 Received: from fllv0039.itg.ti.com (ileaxei01-snat.itg.ti.com [10.180.69.5])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3B4IMkx9042313;
- Mon, 4 Dec 2023 12:22:53 -0600
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3B4IMkxB042313;
+ Mon, 4 Dec 2023 12:22:55 -0600
 From: Andrew Davis <afd@ti.com>
 To: Frank Binns <frank.binns@imgtec.com>, Donald Robson
  <donald.robson@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, "H .
@@ -51,9 +53,10 @@ To: Frank Binns <frank.binns@imgtec.com>, Donald Robson
  <tony@atomide.com>, Nishanth Menon <nm@ti.com>, Vignesh Raghavendra
  <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>, Paul Cercueil
  <paul@crapouillou.net>
-Subject: [PATCH RFC 06/10] ARM: dts: AM437x: Add device tree entry for SGX GPU
-Date: Mon, 4 Dec 2023 12:22:41 -0600
-Message-ID: <20231204182245.33683-7-afd@ti.com>
+Subject: [PATCH RFC 08/10] arm64: dts: ti: k3-am654-main: Add device tree
+ entry for SGX GPU
+Date: Mon, 4 Dec 2023 12:22:43 -0600
+Message-ID: <20231204182245.33683-9-afd@ti.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231204182245.33683-1-afd@ti.com>
 References: <20231204182245.33683-1-afd@ti.com>
@@ -80,30 +83,31 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add SGX GPU device entry to base AM437x dtsi file.
+Add SGX GPU device entry to base AM654 dtsi file.
 
 Signed-off-by: Andrew Davis <afd@ti.com>
 ---
- arch/arm/boot/dts/ti/omap/am4372.dtsi | 6 ++++++
- 1 file changed, 6 insertions(+)
+ arch/arm64/boot/dts/ti/k3-am65-main.dtsi | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/arch/arm/boot/dts/ti/omap/am4372.dtsi b/arch/arm/boot/dts/ti/omap/am4372.dtsi
-index 9d2c064534f7d..5fd1b380ece62 100644
---- a/arch/arm/boot/dts/ti/omap/am4372.dtsi
-+++ b/arch/arm/boot/dts/ti/omap/am4372.dtsi
-@@ -719,6 +719,12 @@ target-module@56000000 {
- 			#address-cells = <1>;
- 			#size-cells = <1>;
- 			ranges = <0 0x56000000 0x1000000>;
-+
-+			gpu@0 {
-+				compatible = "ti,omap3630-gpu", "img,powervr-sgx530";
-+				reg = <0x0 0x10000>; /* 64kB */
-+				interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>;
-+			};
+diff --git a/arch/arm64/boot/dts/ti/k3-am65-main.dtsi b/arch/arm64/boot/dts/ti/k3-am65-main.dtsi
+index 29048d6577cf6..d3431aca41026 100644
+--- a/arch/arm64/boot/dts/ti/k3-am65-main.dtsi
++++ b/arch/arm64/boot/dts/ti/k3-am65-main.dtsi
+@@ -1044,6 +1044,13 @@ dss_ports: ports {
  		};
  	};
- };
+ 
++	gpu: gpu@7000000 {
++		compatible = "ti,am6548-gpu", "img,powervr-sgx544";
++		reg = <0x0 0x7000000 0x0 0x10000>;
++		interrupts = <GIC_SPI 162 IRQ_TYPE_LEVEL_HIGH>;
++		power-domains = <&k3_pds 65 TI_SCI_PD_EXCLUSIVE>;
++	};
++
+ 	ehrpwm0: pwm@3000000 {
+ 		compatible = "ti,am654-ehrpwm", "ti,am3352-ehrpwm";
+ 		#pwm-cells = <3>;
 -- 
 2.39.2
 
