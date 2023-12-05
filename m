@@ -1,75 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B2A805943
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 16:57:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9011805901
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 16:41:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43EC310E00C;
-	Tue,  5 Dec 2023 15:57:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC5910E57F;
+	Tue,  5 Dec 2023 15:41:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F5A210E00C
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 15:57:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1701791865;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CvhR56av4gAhLVevaz2JSGCQQg2cTgXXoi36b5i8+VQ=;
- b=NjZkYsDNIa4pltbqey2DsFONQlPPYWbCnE49lcIRnBgEHYZxH8mEQwt/fi+4gRcv2LFmi/
- v8tpJun4DizXLiRIsxxkwNgu8Z/BtJPKxoj8MygptKBLzw6bdmd0/Wzf7XCBLxUyXNX37D
- RGL14SJW3Scc4bvFISssoMVs2jx9Dvo=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-628-ryM2W5PaNymHxySV4W6ppQ-1; Tue, 05 Dec 2023 10:57:24 -0500
-X-MC-Unique: ryM2W5PaNymHxySV4W6ppQ-1
-Received: by mail-vk1-f200.google.com with SMTP id
- 71dfb90a1353d-4abd0306062so2173864e0c.1
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 07:57:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701791844; x=1702396644;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 583BC10E599
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 15:41:42 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id
+ 4fb4d7f45d1cf-5482df11e73so7468927a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 07:41:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1701790901; x=1702395701; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CvhR56av4gAhLVevaz2JSGCQQg2cTgXXoi36b5i8+VQ=;
- b=aIbuZg6EP83F1NafvG1KA1mRC1pYntFViBrdq9p2OtWhBbNfeUGQt7CiIPt0C+AVwp
- hiwwrajbNWzxIJ7FRICnLK1HJ7vjI0x72+6GLcmDxxCNBCoeuPHwkAYtZj4Nbojkuima
- 10IiLDBnPRiB427teyeLDV5zwGyzuAFbTrnsl328kzvZBIskK1TVmeQdeB/SMGIMId09
- AL5CGprcrKc0OqteB30lxKgsreM8DhmkdkOFXKd1aXpWdAdiUZblI5h2c26EDzMLSzqC
- aIvnA7+d740O/sMiaAtbDQthmp42who5fte7lqRfS936Rmj7yTsorxrcygtDjgkefH0N
- ImMQ==
-X-Gm-Message-State: AOJu0YwOZAjbans2UC0OKqSzjo7JWYC1+hnzDo3gezZ274I4KDJcDT+q
- nIexOPKwim3t1hhVCbccL79Bi8OjqPfeglc3r9gn2LEW6rwYGLo67UJ4SXg1ref9O3i1EvZH2l1
- fAb+iZVPJt1UP1EW91U+wgk5kHiLX
-X-Received: by 2002:a17:902:8f8c:b0:1d0:6ffd:f1f8 with SMTP id
- z12-20020a1709028f8c00b001d06ffdf1f8mr3364663plo.78.1701790850153; 
- Tue, 05 Dec 2023 07:40:50 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IELbxy/B8D8Ivj8dQ1PJh4K071fTj0JsFrU+9jvYbDFFDHZQaJ5+JoV27NRmB6dO31mKVj6Mg==
-X-Received: by 2002:a17:902:8f8c:b0:1d0:6ffd:f1f8 with SMTP id
- z12-20020a1709028f8c00b001d06ffdf1f8mr3364647plo.78.1701790849803; 
- Tue, 05 Dec 2023 07:40:49 -0800 (PST)
-Received: from pollux ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- q5-20020a170902a3c500b001cffe1e7374sm1567672plb.214.2023.12.05.07.40.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Dec 2023 07:40:49 -0800 (PST)
-Date: Tue, 5 Dec 2023 16:40:40 +0100
-From: Danilo Krummrich <dakr@redhat.com>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH drm-misc-next v2 0/2] PowerVR VM fixes
-Message-ID: <ZW9EeFWWZ0BMWIPq@pollux>
-References: <20231129220835.297885-1-dakr@redhat.com>
- <j6w6ccewlvoosop77ug56r3sqoi4hglj3ejkyfw4dj3s3pdsw5@b473njzq5u3d>
+ bh=dAoKJ4psFcjVNbAUMsdpr7K2aFVGd9hI1XgWuDzw694=;
+ b=hZa0TM+bVNkKg+LArzCadpvbDH3AHMiIW0tKPKc3dvA+ervxT6+TjMB5wi6lh8o4xh
+ oITAXJZbm0e9pAGe8Ns3eFRIBRrMdg8IO17HorAry6iJ5MWtA347Vf1GaQiiwo7O5+ny
+ DYWuZ8o7mW1i8urynGWFQ6ABGBac3MPU55jpSt6sef/CYZ4sd8v9LqfWmpRVfYgC8L2x
+ DFAPwXzggYAYDVaeJCrp5lg61KxXOmNXcelfLQTL+JvuxP4kxpQdSQbMDRs+n5xtWnWV
+ RavLrIqc5R9nBpOmhsmwKAH+Q15RWGG2nHNSltSSKTFw5zS0lOKGQ9cs0i3T8J4uZqVM
+ x/EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701790901; x=1702395701;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dAoKJ4psFcjVNbAUMsdpr7K2aFVGd9hI1XgWuDzw694=;
+ b=m87oep2we8iNRQQuIS2vCKbafHuAbu+zQ0dAzfPH5xqPXnvKJ+6IkkQ6IICoKwEups
+ KOff47rhs3XAApzn0jjuiPezc8yz71X8WTP9UkH0swVOkmK6Pm/tI0Qhh6JlEfKC5luC
+ PlAwfHGJZxcpslBKXCLWQg8tNfeIAObCQHGlH10AOLSW0BivIApMKagUCQlIK17h6mLh
+ gRAAZCr4FaR1XmymysG/hxSvK9varLch6vFvQ6rfT1jnfE1fO2pSIjEst3M9tHwysYoD
+ d7/f7m5Xu3w1ln0HBLx/dBpHcWy0rwvYMafQyOj/xh89066ppt2JlExV8i+jDEb5Onky
+ 2ITw==
+X-Gm-Message-State: AOJu0YxvIyaWTRIcCLtkMcQH0YxSx9y1CAq4sLVS7MgnthEsUSKt1nC2
+ c19OYFd72++j2zn7cM9W0coS1xv8NtuvOIrefEE=
+X-Google-Smtp-Source: AGHT+IFvLDxUTjJzbdwumJSp5LkZc8AHSFgJ97zk7pTSy9rQCh4aUfX+yyZdXl8wOadp6BFbyKQzkAKuDXs3aKp15s8=
+X-Received: by 2002:a50:d5cd:0:b0:54c:4837:9a9e with SMTP id
+ g13-20020a50d5cd000000b0054c48379a9emr4921654edj.69.1701790900478; Tue, 05
+ Dec 2023 07:41:40 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <j6w6ccewlvoosop77ug56r3sqoi4hglj3ejkyfw4dj3s3pdsw5@b473njzq5u3d>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230322224403.35742-1-robdclark@gmail.com>
+ <b9fb81f1-ac9e-cf3f-5cf4-f2d972d3ed3d@amd.com>
+ <CAF6AEGvMwZCLntfYeH3Vg_Z7kYynqdVrinp+pmcbREksK1WGMA@mail.gmail.com>
+ <e2fa296b-9b71-a41b-d37d-33f0fac2cd4e@amd.com>
+ <CAF6AEGvdVca_mnZVo9He9oKVfYp84e_kOPWaxX+K5aV4Es9kcQ@mail.gmail.com>
+ <CAF6AEGt2D6Ei6OkUK5osz+jWzmkX8tmB1KGi305HaNd=bnQSoA@mail.gmail.com>
+ <69d66b9e-5810-4844-a53f-08b7fd8eeccf@amd.com>
+In-Reply-To: <69d66b9e-5810-4844-a53f-08b7fd8eeccf@amd.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 5 Dec 2023 07:41:28 -0800
+Message-ID: <CAF6AEGuSexYVL2RF4yVCJptfJgN9vvTgzGWn3CminbsYvctTaw@mail.gmail.com>
+Subject: Re: [RFC] drm/scheduler: Unwrap job dependencies
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,32 +74,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matt.coster@imgtec.com, sarah.walker@imgtec.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- donald.robson@imgtec.com
+Cc: Rob Clark <robdclark@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Luben Tuikov <luben.tuikov@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 05, 2023 at 04:35:00PM +0100, Maxime Ripard wrote:
-> Hi,
-> 
-> On Wed, Nov 29, 2023 at 11:07:59PM +0100, Danilo Krummrich wrote:
-> > Some major GPUVM changes landed just before v8 of the PowerVR series. Since v8
-> > went in rather quickly (review process was finished otherwise) I haven't had the
-> > chance to review the subsequent code changes.
-> > 
-> > Hence, this series with a few fixes in this context. Plus a minor GPUVM patch to
-> > make the drm_gpuvm_prepare_* helpers useful for PowerVR.
-> 
-> This doesn't apply on drm-misc-next anymore, could you rebase and
-> resend?
+On Mon, Dec 4, 2023 at 10:46=E2=80=AFPM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 04.12.23 um 22:54 schrieb Rob Clark:
+> > On Thu, Mar 23, 2023 at 2:30=E2=80=AFPM Rob Clark <robdclark@gmail.com>=
+ wrote:
+> >> [SNIP]
+> > So, this patch turns out to blow up spectacularly with dma_fence
+> > refcnt underflows when I enable DRIVER_SYNCOBJ_TIMELINE .. I think,
+> > because it starts unwrapping fence chains, possibly in parallel with
+> > fence signaling on the retire path.  Is it supposed to be permissible
+> > to unwrap a fence chain concurrently?
+>
+> The DMA-fence chain object and helper functions were designed so that
+> concurrent accesses to all elements are always possible.
+>
+> See dma_fence_chain_walk() and dma_fence_chain_get_prev() for example.
+> dma_fence_chain_walk() starts with a reference to the current fence (the
+> anchor of the walk) and tries to grab an up to date reference on the
+> previous fence in the chain. Only after that reference is successfully
+> acquired we drop the reference to the anchor where we started.
+>
+> Same for dma_fence_array_first(), dma_fence_array_next(). Here we hold a
+> reference to the array which in turn holds references to each fence
+> inside the array until it is destroyed itself.
+>
+> When this blows up we have somehow mixed up the references somewhere.
 
-I already applied the two patches to drm-misc-next.
+That's what it looked like to me, but wanted to make sure I wasn't
+overlooking something subtle.  And in this case, the fence actually
+should be the syncobj timeline point fence, not the fence chain.
+Virtgpu has essentially the same logic (there we really do want to
+unwrap fences so we can pass host fences back to host rather than
+waiting in guest), I'm not sure if it would blow up in the same way.
 
-- Danilo
+BR,
+-R
 
-> 
-> Thanks!
-> Maxime
-
-
+> Regards,
+> Christian.
+>
+> >
+> > BR,
+> > -R
