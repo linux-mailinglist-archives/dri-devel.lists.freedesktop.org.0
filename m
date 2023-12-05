@@ -1,47 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 795FD804CF2
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 09:51:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA2D804D2F
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 10:05:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFE1410E4AF;
-	Tue,  5 Dec 2023 08:51:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0213310E4BE;
+	Tue,  5 Dec 2023 09:05:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDBE410E4BB
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 08:51:11 +0000 (UTC)
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested) (Authenticated sender: pq)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 410FA6601659;
- Tue,  5 Dec 2023 08:51:10 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1701766270;
- bh=wu4yeeycz2M2O0W+tOjcoUNWYsPK6GEuZ3vwH8VUxgM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=bWMCbNe34+JuduYxXeDavvd0fBh4B4BEQMLMugAAjlBwrTMgGVkHoRmKngGoVk1Tq
- vJZZMvmA8n+yVQcjLwPqUByyW13qKKZ1QsOZqTE9sGLBR2NPudoJvqJkpD8h1ykvgL
- PiQ4fxKVpFF8/nD0Ati17iOa0V5/qyg2FMSsB4Cm/BrshP+Dw4D4S61hWWBXHZesfZ
- 4LBcsS15gQXOxM8nhPMxWNa5KN89jzkmDtKr9yW58+W57kDOCCgNaxsrXwaYECX91U
- ZSPRDNqndb0xs9CWIcNF1xpkWDGEmdYculJsBmc5a6wmTqAOMR2jnFtX9HyxZcgLKf
- C/7JBH1ACw9tw==
-Date: Tue, 5 Dec 2023 10:51:06 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH 4/5] drm/atomic: Make the drm_atomic_state documentation
- less ambiguous
-Message-ID: <20231205105106.06a34b81.pekka.paalanen@collabora.com>
-In-Reply-To: <20231204121707.3647961-4-mripard@kernel.org>
-References: <20231204121707.3647961-1-mripard@kernel.org>
- <20231204121707.3647961-4-mripard@kernel.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61CDB10E4BD;
+ Tue,  5 Dec 2023 09:05:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701767147; x=1733303147;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Bct7twb9lZj4S2IbQNME6rHyvO9QAWywg4pODCJR70k=;
+ b=VJxmTMrFVkqRwtZFdjTAy2LnDrA5Pcx+H4C6HorCnXXaDxLW5w8drzsJ
+ LdoDCzkqJ2mzVp5BOQhAAD8ZHQV2aDEBTkgOYpNqMMtY9kBgLCZGVaqnR
+ eZiYR1/xMClBmpdfwM2d4/qF7p78PvC2gOznY+NqDO1+WjSvSdQZ2ysJh
+ 4vn064nmNMAeax22n/CgVe24bitRB06kcYnm39yGGZ0Hzo0Fr3c+Kl7TQ
+ qRJiU73sbqYvn4FRflxjnhSHyt1uVurP1xa+PK8TxrmQMUaYboSf/crHK
+ dQzrPE7Kx6zMc4va2FQ8zxpYyFX5DtkvEl5qSeY/1OvTRznfFN4hp7DS5 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="708380"
+X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
+   d="scan'208";a="708380"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2023 01:05:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="774566592"
+X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; d="scan'208";a="774566592"
+Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2023 01:05:44 -0800
+From: Nirmoy Das <nirmoy.das@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2] drm/i915/gt: Convert reset prepare failure log to trace
+Date: Tue,  5 Dec 2023 09:52:48 +0100
+Message-ID: <20231205085248.2577-1-nirmoy.das@intel.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/ZuC1.BOt8b7DFRVahf+RP_6";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
+ 85579 Neubiberg, Germany,
+ Commercial Register: Amtsgericht Muenchen HRB 186928 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,107 +59,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, dri-devel@lists.freedesktop.org,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/ZuC1.BOt8b7DFRVahf+RP_6
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+gen8_engine_reset_prepare() can fail when HW fails to set
+RESET_CTL_READY_TO_RESET bit. In some cases this is not fatal
+error as driver will retry.
 
-On Mon,  4 Dec 2023 13:17:06 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
+Convert the log to a trace log for debugging without triggering
+unnecessary concerns in CI or for end-users during non-fatal scenarios.
 
-> The current documentation of drm_atomic_state says that it's the "global
-> state object". This is confusing since, while it does contain all the
-> objects affected by an update and their respective states, if an object
-> isn't affected by this update it won't be part of it.
->=20
-> Thus, it's not truly a "global state", unlike object state structures
-> that do contain the entire state of a given object.
->=20
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  include/drm/drm_atomic.h | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
->=20
-> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> index 914574b58ae7..81ad7369b90d 100644
-> --- a/include/drm/drm_atomic.h
-> +++ b/include/drm/drm_atomic.h
-> @@ -346,11 +346,19 @@ struct __drm_private_objs_state {
->  };
-> =20
->  /**
-> - * struct drm_atomic_state - the global state object for atomic updates
-> + * struct drm_atomic_state - Atomic Update structure
-> + *
-> + * This structure is the kernel counterpart of @drm_mode_atomic and cont=
-ains
-> + * all the objects affected by an atomic modeset update and their states.
+v2: Improve commit message(Tvrtko)
 
-Drop "modeset"? An update can be without a modeset.
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5591
+Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_reset.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
->   *
->   * States are added to an atomic update by calling drm_atomic_get_crtc_s=
-tate(),
->   * drm_atomic_get_plane_state(), drm_atomic_get_connector_state(), or for
->   * private state structures, drm_atomic_get_private_obj_state().
-> + *
-> + * NOTE: While this structure looks to be global and affecting the whole=
- DRM
-> + * device, it only contains the objects affected by the atomic commit.
+diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
+index d5ed904f355d..e6fbc6202c80 100644
+--- a/drivers/gpu/drm/i915/gt/intel_reset.c
++++ b/drivers/gpu/drm/i915/gt/intel_reset.c
+@@ -593,10 +593,10 @@ static int gen8_engine_reset_prepare(struct intel_engine_cs *engine)
+ 	ret = __intel_wait_for_register_fw(uncore, reg, mask, ack,
+ 					   700, 0, NULL);
+ 	if (ret)
+-		gt_err(engine->gt,
+-		       "%s reset request timed out: {request: %08x, RESET_CTL: %08x}\n",
+-		       engine->name, request,
+-		       intel_uncore_read_fw(uncore, reg));
++		GT_TRACE(engine->gt,
++			 "%s reset request timed out: {request: %08x, RESET_CTL: %08x}\n",
++			 engine->name, request,
++			 intel_uncore_read_fw(uncore, reg));
+ 
+ 	return ret;
+ }
+-- 
+2.42.0
 
-This new phrasing is much more clear to me than the old one.
-
-> + * Unaffected objects will not be part of that update, unless they have =
-been
-> + * explicitly added by either the framework or the driver.
-
-If the framework or a driver adds an object, then it's no longer
-unaffected, is it?
-
-Should there be some discussion how this struct starts with only what
-userspace mentioned, and more affected objects may be added by the
-framework or a driver? And adding more objects can surprise the
-userspace and cause even failures (e.g. random, hard-to-diagnose EBUSY
-errors from atomic commit when a driver added a CRTC that was not
-supposed to be affected)? Even unexpected failures on *future* atomic
-commits, as in the CRTC example.
-
-Was there actually a rule of when the kernel can add unmentioned
-objects, like needing ALLOW_MODESET from userspace?
-
-It's fine to leave those details for later if you want.
-
->   */
->  struct drm_atomic_state {
->  	/**
-
-
-Thanks,
-pq
-
---Sig_/ZuC1.BOt8b7DFRVahf+RP_6
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVu5HoACgkQI1/ltBGq
-qqfHug/+P+nMUwv6gGUmFJcu4DIe7N3JozcudOGhgy0hj4P61MXV9EBrIOKM/5Dw
-L4c4p6dL5ztYktfDSV5BZO7OAdVwbj9sQ8tUiWpdR36/X4Wqs6I5r0cu4xdYJVLN
-iZrBkhJxKoeaHCdyhPrA2UXJwPayhcPYyjcqap0y3H5laSkn1Kbvh+6/N8VE+JCv
-KDjzLt0ggKUwF+ghdXzCSA4yIpME7WybfdowPZ2hMAiERtSwSCkCK/PxuPnDfaKi
-ETEPk/Zw414JcTAeYwgzRTTLCdvEkGA8wWUUo5cSHbfTXhKm+IQzLgUZCh0K8chz
-mJaBQfGIi2GPvt6XWLUluaRRFGqAx6qq+UM8WNtdtVqgHh6+irslLjikxywIYTKH
-w5Z3FxqjN+lt1D1QMECwY/tp1lSVkVWS6U7kInp9Ak6ljWLtmEE/s5qXHQI00xOo
-3bbIW3iPNdJdBHT/JyyMyx7OLkqcBi6MQdvKN56t/Gy7+YLk2RZZAe/b92g5XVAt
-dRMly+D6OTZh/zl66SuMGTtYmCTdZV9aCjF+DXYtwOzSvYFSxO2jAuKT6mgSjete
-PoM+OxF6812MQKxyvy5sHetVE5UT98aFpuW7woCT83IE8x2GMHXuBIFgkAeivpng
-CmgdKJlBC+zd1TC+9thXv9UF6JeIiE28J1rYrvPOi8wOLydO1gM=
-=nKwU
------END PGP SIGNATURE-----
-
---Sig_/ZuC1.BOt8b7DFRVahf+RP_6--
