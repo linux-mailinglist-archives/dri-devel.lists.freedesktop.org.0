@@ -1,64 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F6BA805822
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 16:02:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ACF68059C5
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 17:17:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E9F210E56A;
-	Tue,  5 Dec 2023 15:02:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 710AC10E5C3;
+	Tue,  5 Dec 2023 16:16:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com
- [209.85.128.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6921010E56A
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 15:02:35 +0000 (UTC)
-Received: by mail-yw1-f177.google.com with SMTP id
- 00721157ae682-5cbcfdeaff3so67393547b3.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 07:02:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701788554; x=1702393354;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=01RE6ADoqVebgl/Ay4VLc+Nsg6c5Olp3h2V1YYqK/9g=;
- b=WDcY2H5+Qdsl/jXFeO8vojYtxQqS2dlILWxsbKWoRka6Q7OTdHgZr8hWVDfZgybTWH
- QuRcuhd9yvVSlU5czZbx5wS7bj5HjJJO7+f9FNhsoGGZ9B6Nlplrr+5iQCw45IvjTVI1
- OhSvM7fkvq1ZPdWulqi12paRbw/hLZducKhQz+km2xo6b684oUNj2WCdXWAKPrRjI5TX
- U3Rms9Xx8YJYyfCVyUdkSbaFxVkJ4xLeppKquhCwXCNqQujnCbTdqplVV0hIMx9OUszD
- HTemtH75fReS+N5/ivVBu1avRiLS7qXAK1cb358i3Gykd5/uzjx6Wb9XaGqtmEsSJ0fK
- 1EXA==
-X-Gm-Message-State: AOJu0YwCk5Nf6NW1RMTJBtJCBfCGvrtBiHsMHaM8lcGeRslgPjxvimko
- 2b7WrUOs27nzC403nwvJy/xpdewgJFnwmQ==
-X-Google-Smtp-Source: AGHT+IGJX6eMAB7jL1yVdBKMeWRE7Ew7+gC3j8nL/EG04tnZfpmBG5lzhj/HRdnDWQfjoeuop8Fp2g==
-X-Received: by 2002:a81:7841:0:b0:5d7:1940:f3e3 with SMTP id
- t62-20020a817841000000b005d71940f3e3mr4363861ywc.75.1701788554343; 
- Tue, 05 Dec 2023 07:02:34 -0800 (PST)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com.
- [209.85.219.172]) by smtp.gmail.com with ESMTPSA id
- x72-20020a81a04b000000b005a7f676f305sm3743271ywg.106.2023.12.05.07.02.31
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Dec 2023 07:02:32 -0800 (PST)
-Received: by mail-yb1-f172.google.com with SMTP id
- 3f1490d57ef6-dae7cc31151so4121910276.3
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 07:02:31 -0800 (PST)
-X-Received: by 2002:a05:690c:4443:b0:5d8:204e:acdf with SMTP id
- gq3-20020a05690c444300b005d8204eacdfmr3526411ywb.101.1701788531025; Tue, 05
- Dec 2023 07:02:11 -0800 (PST)
+Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
+ [153.127.30.23])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B79C810E4E0
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 09:55:33 +0000 (UTC)
+Received: from SIOS1075.ysato.name (ZM005235.ppp.dion.ne.jp [222.8.5.235])
+ by sakura.ysato.name (Postfix) with ESMTPSA id 9924C1C012C;
+ Tue,  5 Dec 2023 18:46:00 +0900 (JST)
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: linux-sh@vger.kernel.org
+Subject: [DO NOT MERGE v5 00/37] Device Tree support for SH7751 based board
+Date: Tue,  5 Dec 2023 18:45:19 +0900
+Message-Id: <cover.1701768028.git.ysato@users.sourceforge.jp>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <cover.1701768028.git.ysato@users.sourceforge.jp>
- <1fafcf1c70ee4e38847bac1379bcb4555a237505.1701768028.git.ysato@users.sourceforge.jp>
-In-Reply-To: <1fafcf1c70ee4e38847bac1379bcb4555a237505.1701768028.git.ysato@users.sourceforge.jp>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 5 Dec 2023 16:01:59 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWXyn5+e8CxihmtFo_6chKkpZ_QyzEzAm_As1xQoDKnpA@mail.gmail.com>
-Message-ID: <CAMuHMdWXyn5+e8CxihmtFo_6chKkpZ_QyzEzAm_As1xQoDKnpA@mail.gmail.com>
-Subject: Re: [DO NOT MERGE v5 17/37] dt-bindings: interrupt-controller:
- renesas,sh7751-intc: Add json-schema
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 05 Dec 2023 16:16:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,19 +37,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+Cc: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
  linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
  Herve Codina <herve.codina@bootlin.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- Bin Meng <bmeng@tinylab.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-pci@vger.kernel.org, Jacky Huang <ychuang3@nuvoton.com>,
- Palmer Dabbelt <palmer@rivosinc.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Guo Ren <guoren@kernel.org>, Lee Jones <lee@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Bin Meng <bmeng@tinylab.org>,
+ Michael Turquette <mturquette@baylibre.com>, linux-pci@vger.kernel.org,
+ Jacky Huang <ychuang3@nuvoton.com>, Palmer Dabbelt <palmer@rivosinc.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Guo Ren <guoren@kernel.org>,
+ Lee Jones <lee@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
  linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Jonathan Corbet <corbet@lwn.net>,
  Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
  Magnus Damm <magnus.damm@gmail.com>,
  Javier Martinez Canillas <javierm@redhat.com>,
@@ -91,60 +57,185 @@ Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
  David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
  Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
  devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
  Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
  Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
  Chris Morgan <macromorgan@hotmail.com>,
  John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
  Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
  Vlastimil Babka <vbabka@suse.cz>, Sergey Shtylyov <s.shtylyov@omp.ru>,
- linux-ide@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Baoquan He <bhe@redhat.com>, linux-ide@vger.kernel.org,
+ Stephen Boyd <sboyd@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
  linux-kernel@vger.kernel.org, Azeem Shaikh <azeemshaikh38@gmail.com>,
  linux-renesas-soc@vger.kernel.org, Tom Rix <trix@redhat.com>,
- Damien Le Moal <dlemoal@kernel.org>,
+ Damien Le Moal <dlemoal@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
  Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sato-san,
+This is an updated version of something I wrote about 7 years ago.
+Minimum support for R2D-plus and LANDISK.
+I think R2D-1 will work if you add AX88796 to dts.
+And board-specific functions and SCI's SPI functions are not supported.
 
-On Tue, Dec 5, 2023 at 10:46=E2=80=AFAM Yoshinori Sato
-<ysato@users.sourceforge.jp> wrote:
-> Renesas SH7751 INTC json-schema.
->
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+You can get it working with qemu found here.
+https://gitlab.com/yoshinori.sato/qemu/-/tree/landisk
 
-Thanks for your patch!
 
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,sh77=
-51-intc.yaml
+v5 changes.
+- pci-sh7751: revert header changes. and some fix in previuous driver.
+- sh/kernel/iomap.c: Use SH io functions.
+- sm501 and sm501fb: re-write DT support.
 
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/sh_intc.h>
+v4 changes.
+- cpg-sh7750: use clk-divider and clk-gate.
+- pci-sh7751: unified header files to old PCI driver.
+- irq-renesas-sh7751: IPR registers direct mapping.
+- irq-renesas-sh7751irl: useful register bit mapping.
+- sm501 and sm501fb: re-write dt parser.
+- j2_minus: fix build error.
+- dt-binding schema: fix some errors.
+- *.dts: cleanup.
 
-make dt_binding_check:
+v3 changes.
+- Rewrite clk drivers.
+- Added sh_tmu to OF support.
+- Cleanup PCI stuff.
+- Update sm501 and sm501fb OF support.
+- Update devicetree and documents.
 
-fatal error: dt-bindings/interrupt-controller/sh_intc.h: No such file
-or directory
+v2 changes.
+- Rebasing v6,6-rc1
+- re-write irqchip driver.
+- Add binding documents.
+- Cleanup review comment.
 
-sh7751-intc.h
+Yoshinori Sato (37):
+  sh: passing FDT address to kernel startup.
+  sh: Kconfig unified OF supported targets.
+  sh: Enable OF support for build and configuration.
+  dt-bindings: interrupt-controller: Add header for Renesas SH3/4 INTC.
+  sh: GENERIC_IRQ_CHIP support for CONFIG_OF=y
+  sh: kernel/setup Update DT support.
+  sh: Fix COMMON_CLK support in CONFIG_OF=y.
+  clocksource: sh_tmu: CLOCKSOURCE support.
+  dt-bindings: timer: renesas,tmu: add renesas,tmu-sh7750
+  sh: Common PCI Framework driver support.
+  pci: pci-sh7751: Add SH7751 PCI driver
+  dt-bindings: pci: pci-sh7751: Add SH7751 PCI
+  dt-bindings: clock: sh7750-cpg: Add renesas,sh7750-cpg header.
+  clk: Compatible with narrow registers
+  clk: renesas: Add SH7750/7751 CPG Driver
+  irqchip: Add SH7751 INTC driver
+  dt-bindings: interrupt-controller: renesas,sh7751-intc: Add
+    json-schema
+  irqchip: SH7751 IRL external encoder with enable gate.
+  dt-bindings: interrupt-controller: renesas,sh7751-irl-ext: Add
+    json-schema
+  serial: sh-sci: fix SH4 OF support.
+  dt-bindings: serial: renesas,scif: Add scif-sh7751.
+  dt-bindings: display: smi,sm501: SMI SM501 binding json-schema
+  mfd: sm501: Convert platform_data to OF property
+  dt-binding: sh: cpus: Add SH CPUs json-schema
+  dt-bindings: vendor-prefixes: Add iodata
+  dt-bindings: vendor-prefixes:  Add smi
+  dt-bindings: ata: ata-generic: Add new targets
+  dt-bindings: soc: renesas: sh: Add SH7751 based target
+  sh: SH7751R SoC Internal peripheral definition dtsi.
+  sh: add RTS7751R2D Plus DTS
+  sh: Add IO DATA LANDISK dts
+  sh: Add IO DATA USL-5P dts
+  sh: j2_mimas_v2.dts update
+  sh: Add dtbs target support.
+  sh: RTS7751R2D Plus OF defconfig
+  sh: LANDISK OF defconfig
+  sh: j2_defconfig: update
 
-Gr{oetje,eeting}s,
+ .../devicetree/bindings/ata/ata-generic.yaml  |   2 +
+ .../bindings/clock/renesas,sh7750-cpg.yaml    | 103 ++++
+ .../bindings/display/smi,sm501.yaml           | 134 +++++
+ .../renesas,sh7751-intc.yaml                  | 105 ++++
+ .../renesas,sh7751-irl-ext.yaml               |  83 +++
+ .../bindings/pci/renesas,sh7751-pci.yaml      | 128 +++++
+ .../bindings/serial/renesas,scif.yaml         |   1 +
+ .../devicetree/bindings/sh/cpus.yaml          |  73 +++
+ .../devicetree/bindings/soc/renesas/sh.yaml   |  32 ++
+ .../bindings/timer/renesas,tmu.yaml           |  11 +-
+ .../devicetree/bindings/vendor-prefixes.yaml  |   4 +
+ arch/sh/Kconfig                               |  11 +-
+ arch/sh/boards/Kconfig                        |  24 +-
+ arch/sh/boards/of-generic.c                   |  28 +-
+ arch/sh/boot/compressed/head_32.S             |   5 +-
+ arch/sh/boot/dts/Makefile                     |   5 +
+ arch/sh/boot/dts/j2_mimas_v2.dts              |   2 +-
+ arch/sh/boot/dts/landisk.dts                  |  74 +++
+ arch/sh/boot/dts/rts7751r2dplus.dts           | 157 ++++++
+ arch/sh/boot/dts/sh7751r.dtsi                 | 150 ++++++
+ arch/sh/boot/dts/usl-5p.dts                   |  84 +++
+ arch/sh/configs/j2_defconfig                  |  11 +-
+ arch/sh/configs/landisk-of_defconfig          | 111 ++++
+ arch/sh/configs/rts7751r2dplus-of_defconfig   |  93 ++++
+ arch/sh/drivers/Makefile                      |   2 +
+ arch/sh/drivers/pci/pci.c                     |   6 -
+ arch/sh/include/asm/io.h                      |   6 +
+ arch/sh/include/asm/irq.h                     |  10 +-
+ arch/sh/include/asm/pci.h                     |   4 +
+ arch/sh/kernel/cpu/Makefile                   |   6 +-
+ arch/sh/kernel/cpu/irq/imask.c                |  17 +
+ arch/sh/kernel/cpu/sh4/Makefile               |   3 +
+ arch/sh/kernel/iomap.c                        |  24 +
+ arch/sh/kernel/setup.c                        |  51 +-
+ arch/sh/kernel/time.c                         |  12 +
+ drivers/clk/clk-divider.c                     |  56 +-
+ drivers/clk/clk-gate.c                        |  56 +-
+ drivers/clk/renesas/Kconfig                   |  16 +-
+ drivers/clk/renesas/Makefile                  |   1 +
+ drivers/clk/renesas/clk-sh7750.c              | 498 ++++++++++++++++++
+ drivers/clocksource/sh_tmu.c                  | 161 ++++--
+ drivers/irqchip/Kconfig                       |  15 +
+ drivers/irqchip/Makefile                      |   3 +
+ drivers/irqchip/irq-renesas-sh7751.c          | 290 ++++++++++
+ drivers/irqchip/irq-renesas-sh7751irl.c       | 227 ++++++++
+ drivers/mfd/sm501.c                           |  99 ++++
+ drivers/pci/controller/Kconfig                |   9 +
+ drivers/pci/controller/Makefile               |   1 +
+ drivers/pci/controller/pci-sh7751.c           | 302 +++++++++++
+ drivers/pci/controller/pci-sh7751.h           |  76 +++
+ drivers/tty/serial/Kconfig                    |   2 +-
+ drivers/tty/serial/sh-sci.c                   |   6 +-
+ drivers/video/fbdev/sm501fb.c                 |  82 +++
+ include/dt-bindings/clock/sh7750-cpg.h        |  26 +
+ include/dt-bindings/display/sm501.h           |  25 +
+ .../interrupt-controller/sh7751-intc.h        |  21 +
+ include/linux/clk-provider.h                  |  22 +-
+ include/linux/sh_intc.h                       |   7 +-
+ 58 files changed, 3396 insertions(+), 177 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/clock/renesas,sh7750-cpg.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/smi,sm501.yaml
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,sh7751-intc.yaml
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,sh7751-irl-ext.yaml
+ create mode 100644 Documentation/devicetree/bindings/pci/renesas,sh7751-pci.yaml
+ create mode 100644 Documentation/devicetree/bindings/sh/cpus.yaml
+ create mode 100644 Documentation/devicetree/bindings/soc/renesas/sh.yaml
+ create mode 100644 arch/sh/boot/dts/landisk.dts
+ create mode 100644 arch/sh/boot/dts/rts7751r2dplus.dts
+ create mode 100644 arch/sh/boot/dts/sh7751r.dtsi
+ create mode 100644 arch/sh/boot/dts/usl-5p.dts
+ create mode 100644 arch/sh/configs/landisk-of_defconfig
+ create mode 100644 arch/sh/configs/rts7751r2dplus-of_defconfig
+ create mode 100644 drivers/clk/renesas/clk-sh7750.c
+ create mode 100644 drivers/irqchip/irq-renesas-sh7751.c
+ create mode 100644 drivers/irqchip/irq-renesas-sh7751irl.c
+ create mode 100644 drivers/pci/controller/pci-sh7751.c
+ create mode 100644 drivers/pci/controller/pci-sh7751.h
+ create mode 100644 include/dt-bindings/clock/sh7750-cpg.h
+ create mode 100644 include/dt-bindings/display/sm501.h
+ create mode 100644 include/dt-bindings/interrupt-controller/sh7751-intc.h
 
-                        Geert
+-- 
+2.39.2
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
