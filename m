@@ -1,52 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEA2D804D2F
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 10:05:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B641A804E62
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 10:47:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0213310E4BE;
-	Tue,  5 Dec 2023 09:05:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3ADB10E373;
+	Tue,  5 Dec 2023 09:46:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61CDB10E4BD;
- Tue,  5 Dec 2023 09:05:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701767147; x=1733303147;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Bct7twb9lZj4S2IbQNME6rHyvO9QAWywg4pODCJR70k=;
- b=VJxmTMrFVkqRwtZFdjTAy2LnDrA5Pcx+H4C6HorCnXXaDxLW5w8drzsJ
- LdoDCzkqJ2mzVp5BOQhAAD8ZHQV2aDEBTkgOYpNqMMtY9kBgLCZGVaqnR
- eZiYR1/xMClBmpdfwM2d4/qF7p78PvC2gOznY+NqDO1+WjSvSdQZ2ysJh
- 4vn064nmNMAeax22n/CgVe24bitRB06kcYnm39yGGZ0Hzo0Fr3c+Kl7TQ
- qRJiU73sbqYvn4FRflxjnhSHyt1uVurP1xa+PK8TxrmQMUaYboSf/crHK
- dQzrPE7Kx6zMc4va2FQ8zxpYyFX5DtkvEl5qSeY/1OvTRznfFN4hp7DS5 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="708380"
-X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="708380"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2023 01:05:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="774566592"
-X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; d="scan'208";a="774566592"
-Received: from nirmoyda-desk.igk.intel.com ([10.102.138.190])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2023 01:05:44 -0800
-From: Nirmoy Das <nirmoy.das@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2] drm/i915/gt: Convert reset prepare failure log to trace
-Date: Tue,  5 Dec 2023 09:52:48 +0100
-Message-ID: <20231205085248.2577-1-nirmoy.das@intel.com>
-X-Mailer: git-send-email 2.42.0
+Received: from mail.andi.de1.cc (mail.andi.de1.cc
+ [IPv6:2a02:c205:3004:2154::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40DA010E373
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 09:46:55 +0000 (UTC)
+Received: from p200301077700c3001a3da2fffebfd33a.dip0.t-ipconnect.de
+ ([2003:107:7700:c300:1a3d:a2ff:febf:d33a] helo=aktux)
+ by mail.andi.de1.cc with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <andreas@kemnade.info>)
+ id 1rARKL-0072PY-Dq; Tue, 05 Dec 2023 10:02:49 +0100
+Date: Tue, 5 Dec 2023 10:02:46 +0100
+From: Andreas Kemnade <andreas@kemnade.info>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH RFC 01/10] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
+Message-ID: <20231205100246.5db0d6a1@aktux>
+In-Reply-To: <27f2e3a3-0791-4278-adb2-55ed76820a3a@linaro.org>
+References: <20231204182245.33683-1-afd@ti.com>
+ <20231204182245.33683-2-afd@ti.com>
+ <b97f04f6-cda2-4e9b-b729-a5149e36f978@linaro.org>
+ <20231205075657.GN5169@atomide.com>
+ <df7dd7b0-f315-4033-985a-175f75568a8c@linaro.org>
+ <20231205081031.GO5169@atomide.com>
+ <efcd64f4-00d2-4671-af3a-e27764f70e8d@linaro.org>
+ <20231205083001.GP5169@atomide.com>
+ <27f2e3a3-0791-4278-adb2-55ed76820a3a@linaro.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
- 85579 Neubiberg, Germany,
- Commercial Register: Amtsgericht Muenchen HRB 186928 
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,53 +50,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, dri-devel@lists.freedesktop.org,
- Andi Shyti <andi.shyti@linux.intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, Nirmoy Das <nirmoy.das@intel.com>
+Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Tony Lindgren <tony@atomide.com>, "H . Nikolaus Schaller" <hns@goldelico.com>,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Donald Robson <donald.robson@imgtec.com>, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ =?UTF-8?B?QmVub8OudA==?= Cousson <bcousson@baylibre.com>,
+ Maxime Ripard <mripard@kernel.org>, Matt Coster <matt.coster@imgtec.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-omap@vger.kernel.org,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Tero Kristo <kristo@kernel.org>, linux-kernel@vger.kernel.org,
+ Andrew Davis <afd@ti.com>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-gen8_engine_reset_prepare() can fail when HW fails to set
-RESET_CTL_READY_TO_RESET bit. In some cases this is not fatal
-error as driver will retry.
+On Tue, 5 Dec 2023 09:45:44 +0100
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-Convert the log to a trace log for debugging without triggering
-unnecessary concerns in CI or for end-users during non-fatal scenarios.
+> > Sure the clock nodes can be there for the child IP, but they won't do
+> > anything. And still need to be managed separately by the device driver if
+> > added.  
+> 
+> So if OS does not have runtime PM, the bindings are wrong? Bindings
+> should not depend on some particular feature of some particular OS.
 
-v2: Improve commit message(Tvrtko)
+Any user of the devicetree sees that there is a parent and the parent needs
+to be enabled by some mechanism.
+E.g. I2c devices do not specify the clocks of the parent (the i2c master)
 
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5591
-Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_reset.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Maybe it is just more fine-grained on omap.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
-index d5ed904f355d..e6fbc6202c80 100644
---- a/drivers/gpu/drm/i915/gt/intel_reset.c
-+++ b/drivers/gpu/drm/i915/gt/intel_reset.c
-@@ -593,10 +593,10 @@ static int gen8_engine_reset_prepare(struct intel_engine_cs *engine)
- 	ret = __intel_wait_for_register_fw(uncore, reg, mask, ack,
- 					   700, 0, NULL);
- 	if (ret)
--		gt_err(engine->gt,
--		       "%s reset request timed out: {request: %08x, RESET_CTL: %08x}\n",
--		       engine->name, request,
--		       intel_uncore_read_fw(uncore, reg));
-+		GT_TRACE(engine->gt,
-+			 "%s reset request timed out: {request: %08x, RESET_CTL: %08x}\n",
-+			 engine->name, request,
-+			 intel_uncore_read_fw(uncore, reg));
- 
- 	return ret;
- }
--- 
-2.42.0
+look e.g. at ti/omap/omap4-l4.dtsi
+there are target-module@xxxx
+with the devices as a child and a clock in the parent.
 
+Regards,
+Andreas
