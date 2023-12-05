@@ -1,61 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 565B3805184
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 12:05:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 246CA8051CE
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 12:15:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EB1C10E4EF;
-	Tue,  5 Dec 2023 11:05:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 450E010E4F4;
+	Tue,  5 Dec 2023 11:15:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B17BA10E4EF;
- Tue,  5 Dec 2023 11:05:27 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E93B410E23C;
+ Tue,  5 Dec 2023 11:15:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701774327; x=1733310327;
+ t=1701774928; x=1733310928;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=g2IiNCZKkf0z4VEVzhLMsiNKMJiqcRWCkCgz8VEIZa8=;
- b=iSL1IiQw7yye0S1eGCYZLaRu/RmF+SnBguKHAGzDEYHdU5VK1E0+zK/A
- vkgW93fQj38fhqQGwfaFi/0GO6UxOicbZsGj2LtGMuBZ9/yzn4UYr7/oe
- Y0G4ymuDsZj9DwKHDIFWrjzdYtM0Jh0Y/rxe+mXZ12KeGyCBTJvPqxnKz
- 4Xbb9hp68SK6HaXuMUErgl2YTuLRtIIwyh3zPOdnER7Iu+PzQFyaOZOkC
- ogUCYjAvjfIKxR4+4mX017MeAnH9d333d3mQ6LTOVCpnO88yM8BWiDD4o
- 4YoNPV1CWCcnBnZ5xlvF3SSF03vcU13wuymoHZ6vfX/mGu8JxIKh53gbx Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="458199440"
-X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; d="scan'208";a="458199440"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2023 03:05:27 -0800
+ bh=NtqRqAaSN8bHzbwU6WekMXe7XL+AeersMYsyODUzhOc=;
+ b=H6pNfMzHWba/P3WE7f6CVJNcA05UhBWn+JiWHd8jGxUknNKymi+ll1/O
+ Aa2mimrVrQyy0Y926QYv226MNS0it3eiDuWimQoMRHQbHBRHBxbhmeyef
+ jxmgdrWUwxpwOgQG+vW2mgsbm9ES82yniZDbyxPsPkplWk2uxt1sR0OmE
+ /iEuVQvGDyxDpDuzJ4SIUJ/dA6kBgtFBkPKn1WE2c7lbeIUDjbYz8UizS
+ nIcgt8MrBrvpaEwaYqX6KoLS7XJ2s3T/ipoH3z+6xtlDRBWM/FTs+M4cZ
+ Cs5szoj0eMu+MZMfpjCT84F6MKGnd4kMDD5egkviggbmUYXcrwT5WJU3M g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="7223274"
+X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
+   d="scan'208";a="7223274"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2023 03:15:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="861708568"
-X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; d="scan'208";a="861708568"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="720663324"
+X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; d="scan'208";a="720663324"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
- by FMSMGA003.fm.intel.com with ESMTP; 05 Dec 2023 03:05:23 -0800
+ by orsmga003.jf.intel.com with ESMTP; 05 Dec 2023 03:15:25 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rATEs-0008pZ-3D;
- Tue, 05 Dec 2023 11:05:20 +0000
-Date: Tue, 5 Dec 2023 19:04:30 +0800
+ (envelope-from <lkp@intel.com>) id 1rATOc-0008qM-27;
+ Tue, 05 Dec 2023 11:15:22 +0000
+Date: Tue, 5 Dec 2023 19:15:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/atomic-helper: rename
- drm_atomic_helper_check_wb_encoder_state
-Message-ID: <202312051810.e0QCZPbY-lkp@intel.com>
-References: <20231205023150.1581875-2-dmitry.baryshkov@linaro.org>
+To: Felix Kuehling <Felix.Kuehling@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 5/6] drm/amdgpu: Auto-validate DMABuf imports in compute
+ VMs
+Message-ID: <202312051955.xACUCivN-lkp@intel.com>
+References: <20231201233438.1709981-5-Felix.Kuehling@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231205023150.1581875-2-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20231201233438.1709981-5-Felix.Kuehling@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,85 +62,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+Hi Felix,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.7-rc4 next-20231205]
+[auto build test ERROR on next-20231201]
+[cannot apply to drm-misc/drm-misc-next drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7-rc3 v6.7-rc2 v6.7-rc1 v6.7-rc4]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-atomic-helper-rename-drm_atomic_helper_check_wb_encoder_state/20231205-103552
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231205023150.1581875-2-dmitry.baryshkov%40linaro.org
-patch subject: [PATCH v2 1/2] drm/atomic-helper: rename drm_atomic_helper_check_wb_encoder_state
-config: i386-buildonly-randconfig-003-20231205 (https://download.01.org/0day-ci/archive/20231205/202312051810.e0QCZPbY-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051810.e0QCZPbY-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Felix-Kuehling/drm-amdkfd-Export-DMABufs-from-KFD-using-GEM-handles/20231202-073833
+base:   next-20231201
+patch link:    https://lore.kernel.org/r/20231201233438.1709981-5-Felix.Kuehling%40amd.com
+patch subject: [PATCH 5/6] drm/amdgpu: Auto-validate DMABuf imports in compute VMs
+config: powerpc-randconfig-001-20231203 (https://download.01.org/0day-ci/archive/20231205/202312051955.xACUCivN-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051955.xACUCivN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312051810.e0QCZPbY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051955.xACUCivN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/drm_atomic_helper.c:811: warning: Function parameter or member 'wb_conn' not described in 'drm_atomic_helper_check_wb_connector_state'
->> drivers/gpu/drm/drm_atomic_helper.c:811: warning: Excess function parameter 'connector' description in 'drm_atomic_helper_check_wb_connector_state'
-
-
-vim +811 drivers/gpu/drm/drm_atomic_helper.c
-
-623369e533e8a5 Daniel Vetter    2014-09-16  796  
-254fe9c106ed69 Igor Torrente    2022-09-05  797  /**
-d538670e1a27f5 Dmitry Baryshkov 2023-12-05  798   * drm_atomic_helper_check_wb_connector_state() - Check writeback connector state
-d538670e1a27f5 Dmitry Baryshkov 2023-12-05  799   * @connector: corresponding connector
-d538670e1a27f5 Dmitry Baryshkov 2023-12-05  800   * @state: the driver state object
-254fe9c106ed69 Igor Torrente    2022-09-05  801   *
-254fe9c106ed69 Igor Torrente    2022-09-05  802   * Checks if the writeback connector state is valid, and returns an error if it
-254fe9c106ed69 Igor Torrente    2022-09-05  803   * isn't.
-254fe9c106ed69 Igor Torrente    2022-09-05  804   *
-254fe9c106ed69 Igor Torrente    2022-09-05  805   * RETURNS:
-254fe9c106ed69 Igor Torrente    2022-09-05  806   * Zero for success or -errno
-254fe9c106ed69 Igor Torrente    2022-09-05  807   */
-254fe9c106ed69 Igor Torrente    2022-09-05  808  int
-d538670e1a27f5 Dmitry Baryshkov 2023-12-05  809  drm_atomic_helper_check_wb_connector_state(struct drm_writeback_connector *wb_conn,
-d538670e1a27f5 Dmitry Baryshkov 2023-12-05  810  					   struct drm_atomic_state *state)
-254fe9c106ed69 Igor Torrente    2022-09-05 @811  {
-d538670e1a27f5 Dmitry Baryshkov 2023-12-05  812  	struct drm_connector_state *conn_state =
-d538670e1a27f5 Dmitry Baryshkov 2023-12-05  813  		drm_atomic_get_new_connector_state(state, &wb_conn->base);
-254fe9c106ed69 Igor Torrente    2022-09-05  814  	struct drm_writeback_job *wb_job = conn_state->writeback_job;
-254fe9c106ed69 Igor Torrente    2022-09-05  815  	struct drm_property_blob *pixel_format_blob;
-254fe9c106ed69 Igor Torrente    2022-09-05  816  	struct drm_framebuffer *fb;
-254fe9c106ed69 Igor Torrente    2022-09-05  817  	size_t i, nformats;
-254fe9c106ed69 Igor Torrente    2022-09-05  818  	u32 *formats;
-254fe9c106ed69 Igor Torrente    2022-09-05  819  
-254fe9c106ed69 Igor Torrente    2022-09-05  820  	if (!wb_job || !wb_job->fb)
-254fe9c106ed69 Igor Torrente    2022-09-05  821  		return 0;
-254fe9c106ed69 Igor Torrente    2022-09-05  822  
-254fe9c106ed69 Igor Torrente    2022-09-05  823  	pixel_format_blob = wb_job->connector->pixel_formats_blob_ptr;
-254fe9c106ed69 Igor Torrente    2022-09-05  824  	nformats = pixel_format_blob->length / sizeof(u32);
-254fe9c106ed69 Igor Torrente    2022-09-05  825  	formats = pixel_format_blob->data;
-254fe9c106ed69 Igor Torrente    2022-09-05  826  	fb = wb_job->fb;
-254fe9c106ed69 Igor Torrente    2022-09-05  827  
-254fe9c106ed69 Igor Torrente    2022-09-05  828  	for (i = 0; i < nformats; i++)
-254fe9c106ed69 Igor Torrente    2022-09-05  829  		if (fb->format->format == formats[i])
-254fe9c106ed69 Igor Torrente    2022-09-05  830  			return 0;
-254fe9c106ed69 Igor Torrente    2022-09-05  831  
-d538670e1a27f5 Dmitry Baryshkov 2023-12-05  832  	drm_dbg_kms(wb_conn->base.dev, "Invalid pixel format %p4cc\n", &fb->format->format);
-254fe9c106ed69 Igor Torrente    2022-09-05  833  
-254fe9c106ed69 Igor Torrente    2022-09-05  834  	return -EINVAL;
-254fe9c106ed69 Igor Torrente    2022-09-05  835  }
-d538670e1a27f5 Dmitry Baryshkov 2023-12-05  836  EXPORT_SYMBOL(drm_atomic_helper_check_wb_connector_state);
-254fe9c106ed69 Igor Torrente    2022-09-05  837  
+   powerpc-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_gem.o: in function `amdgpu_gem_object_open':
+>> amdgpu_gem.c:(.text.amdgpu_gem_object_open+0x150): undefined reference to `amdgpu_amdkfd_bo_validate_and_fence'
 
 -- 
 0-DAY CI Kernel Test Service
