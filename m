@@ -2,122 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F90805944
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 16:58:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EADA805955
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 17:01:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA76810E382;
-	Tue,  5 Dec 2023 15:58:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C95DE10E0E6;
+	Tue,  5 Dec 2023 16:01:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2083.outbound.protection.outlook.com [40.107.212.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8007B10E382
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 15:58:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BRLPBcHRSX4WPhKb8j1oc5wSI/iM3NfqB94TwDYya8dEu8XcdayOlwfs9xfG6/ajlLm/Ucl207uey05aMc3gvDQ5GH6J8Z0aQf7R+iDRCvSB9JcnR/nhW7BU8z8zPCAmWh262pVzPCx2Z/UZUfsL6wqOvJvI9W1gE+m1qsWAh62O32t1iw8/Mt/SETwe1nbIU1xG/H5XMvMkX+W+hzH+B9oYVqFD3jKZQMXK8pE70qsGdxSsT+Njb3kjFbkZcnjpRFTCFROIzmq6loyo7aX1b1HVScrRbmTTVlYnKLigGnVsn9/fSUaC+M7jL+gQgACuJFx/OdXJujoYcmN4fXMItA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hMPn5mkDKxqOd2Ru5oZK41Yogi1DqLxE+vjcp1V4e4s=;
- b=XJUwp9Iit+JzIi6pw+M3tHYpxKj/KEFjCG3U05Cn6uMGpyW99C5MBfA1H4qWlUv/sVfVhEx6nVmo3/Xmp26o6EPd0wOVEyjnAWGBdmp8nEa08yrjsR2xk4LiBFjtFrnTadLQ+kEyMu9hTVIb3arrvfbOqH/shbYNhQgqDI6sJxbzqTGifmJIN+B1S7XucURnDz8rVfdQnUpdezvRI6gTyc5NxZQvT2Rt/hl0L7W195DEd6asrohjwG6dheBzpqPxX942xNafeeFkHYDy3MK/Eq+Ouou96kBGveId0AErhXM6EIwBwAWbfqs+1Ml7Ni4S0TVeS1CQWJFxekfvQMPW0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hMPn5mkDKxqOd2Ru5oZK41Yogi1DqLxE+vjcp1V4e4s=;
- b=r8/P1nP8/r29C35gU+QO5oPC8AS6y0H/JHLXEq8b8AwYNuv2SdlXUrcrYa2XvoHLotGzZelFBN2Iw5Taje8h84apiUB7HitMcVRcFxKJTRl1nsbgHPRfUy+W1zhtFiuhnaYjMO5MarLYHxKinKqdmeed10h1cDPkIZgFcWBCwAc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SA0PR12MB4526.namprd12.prod.outlook.com (2603:10b6:806:98::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34; Tue, 5 Dec
- 2023 15:58:20 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3%7]) with mapi id 15.20.7046.034; Tue, 5 Dec 2023
- 15:58:20 +0000
-Message-ID: <96665cc5-01ab-4446-af37-e0f456bfe093@amd.com>
-Date: Tue, 5 Dec 2023 16:58:15 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] drm/scheduler: Unwrap job dependencies
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>
-References: <20230322224403.35742-1-robdclark@gmail.com>
- <b9fb81f1-ac9e-cf3f-5cf4-f2d972d3ed3d@amd.com>
- <CAF6AEGvMwZCLntfYeH3Vg_Z7kYynqdVrinp+pmcbREksK1WGMA@mail.gmail.com>
- <e2fa296b-9b71-a41b-d37d-33f0fac2cd4e@amd.com>
- <CAF6AEGvdVca_mnZVo9He9oKVfYp84e_kOPWaxX+K5aV4Es9kcQ@mail.gmail.com>
- <CAF6AEGt2D6Ei6OkUK5osz+jWzmkX8tmB1KGi305HaNd=bnQSoA@mail.gmail.com>
- <69d66b9e-5810-4844-a53f-08b7fd8eeccf@amd.com>
- <CAF6AEGuSexYVL2RF4yVCJptfJgN9vvTgzGWn3CminbsYvctTaw@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAF6AEGuSexYVL2RF4yVCJptfJgN9vvTgzGWn3CminbsYvctTaw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0124.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b9::16) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E72710E0E6
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 16:01:13 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ 5b1f17b1804b1-40c09d0b045so30339875e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 08:01:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701792071; x=1702396871; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=EITfd3r5nf7P48LA181bNkau3CscdZfUTize8JbXHBE=;
+ b=nzityY0iKQDYJaHoQ1dvQzF4jXymRMb4qpHlK3GrFKOuVx954/hVd237Pfa4+vF2Rr
+ ONq4rfljUodyJzc0AQf97wl0g9tffJ/bs7UxOBUHjoBufoaa9nBF/6TphXUtuTqqeIZm
+ YnTCqCkN0ar3P5yOm9y15xA7AavW7AvaUfYRUDK9n2Qiz8TzeDdW0fy653y/MzSSMtQJ
+ 3J9+KkKTiSDVNxuZDC2PVdmYL/FMZVxBIe/84JnfrOt3oQA8Y1NiRMltNx6wBP6w2B92
+ yv92Er+P3HyaMXY1Hha50WYao0XvZZbwmbzW78NwZ7B15c9jn6VmunQSC/pPVeYWt2jo
+ 8EeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701792071; x=1702396871;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=EITfd3r5nf7P48LA181bNkau3CscdZfUTize8JbXHBE=;
+ b=b7IEkxT3fz2Df4KlqGDzxiaGEVIiB/tLgf89i+ftTXrtQtZy+uB3CcxRZkxOzWq6gC
+ S6TLz0gIquqDJajTjW5n3qUAlTzHtVssKx8NNJxTSaYXKLM3qDewUbpEWdThIlIUDCEh
+ L8GBlfsaLpGHFY9cI52u2FcUQKDV8Sdt/sMGYrjQpI9BP5H8iLUr2f0kKi722kQGaK+b
+ 86pPePy4e67+nQOYBNHHVdWvpUffnl7Hn++BG4DrTMyn2eFk0irn3TDXlaLiBvfndxOq
+ k2IXsUSaqnvP9h469RKza7Nq5XzzGztR6qeQIA6ReGXjMWgo3X+r8vVpz0joZzxnlIYj
+ xNlg==
+X-Gm-Message-State: AOJu0YxSBiE4opTGvnPTC15z4z7r38DuApZUT9L1f5ZNTj6x2bW3LZLo
+ XSSNJI5Ld3M8h/Acp35zeUUA7A==
+X-Google-Smtp-Source: AGHT+IH9gChkUItZ8Bdn3aOa1zE9knEu7O0Iec2wEcQGBv+8gvgTNBUTm7//Mist2brtq83hisd4Rw==
+X-Received: by 2002:a05:600c:cb:b0:40c:b79:1f8 with SMTP id
+ u11-20020a05600c00cb00b0040c0b7901f8mr454890wmm.229.1701792070246; 
+ Tue, 05 Dec 2023 08:01:10 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.27])
+ by smtp.gmail.com with ESMTPSA id
+ i17-20020a1709064fd100b00a1b70ff43e8sm3007438ejw.6.2023.12.05.08.01.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Dec 2023 08:01:09 -0800 (PST)
+Message-ID: <a5a7769c-4e35-4717-9cd8-33df11fc572e@linaro.org>
+Date: Tue, 5 Dec 2023 17:01:04 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SA0PR12MB4526:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0657bd26-4731-4bb4-b35d-08dbf5ab0056
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tOnHHjXhJXMA/PTQy0LVfDfVHN5l1Pp8PjpvynxIweFAyl6xIITpmHC8wh7YDpI8iyExV/eXOm7adZVx+U/pDiTidcRAXZNuxi0EcNbl84ea/LHAHXSnoLT08tg/EdGBVMFTnQYEeySOahylX1ci0AXamb0sCjnKACL5hNP/OPjur1CL2c0Y8PkErowArg6AGNLjZtEMtVyfUJ+oQ5sOUPMbVqBvn8RaypBXFuw69HpL8p4BqwWWY7mxPPgZYvYETzBrSf42x7G7Kj7iHNdo6NsLUO/JvL60tEpO9WJoe7D2g5yC7LNmgGqspBNToUT7KJ8y8o242F4dAHnbCXmK/Ds2dz9a1JjGqmRGdzKFyQ5Zmtw8sVHzqERkOnKkFRJRJzNS1C9/Ot9rf+YJR1cToteg5OGIci2Jt1oXsT3eHsMkOMd2gzkEzc8pO91+UqfuI8V4VugoeNcNF1y3jb6f0LIsn5xEuGrBnu3Vb169gtu1GgHdcp5WvB0jxrm9mBqm/FbFE8WRdHB0LB0uqr0Oj2E5hvaPyUs6fjF1FwBdrAXJilXXCW2jsajOapbEDQozib/mSIvbnD647SZdpKfRpuJnMtl0bS//YWfIeQTVEtffhZ8qiVDHHQQ8wJ000lHdWsBsYgytKs4C6hHQfQnLEA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(366004)(376002)(396003)(39860400002)(346002)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(36756003)(5660300002)(2906002)(86362001)(41300700001)(31696002)(6512007)(2616005)(53546011)(83380400001)(26005)(6506007)(478600001)(6666004)(6486002)(38100700002)(31686004)(66946007)(6916009)(316002)(66556008)(66476007)(54906003)(8676002)(8936002)(4326008)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UVhWc2dWM2FydU1UbXNJeFpYcThWcHFJWkd1TTNBSXRhV0tqTTZRRlB1c1p2?=
- =?utf-8?B?RGpJUTZFZmZHUS9JM2xaaFpIMm1FWGg1Nk1uQjdYODJNNWR4enZqd2dsS1li?=
- =?utf-8?B?UmJxWHV6T2YyZXZnWko3Z25PNzdXRUpUa2MyeTRoRUJvVGd3SjdySnUxVXZ0?=
- =?utf-8?B?aWdlQWxhci9RWng0REFuOXM0MWtlSC8wTGRTSEJGY0ZjVFV3MjZDbzcwekk2?=
- =?utf-8?B?MmNSbHFXVXZmcUd4ZGExMi9FczFPeGEwaDk2UElwOUxqRG9HYjJPVEpNVzk4?=
- =?utf-8?B?ejZMSjk1R3hzNCtSSUU2MDY1dHhlZ3hxRUpPemc0NXNDTFI5VkdJMk81b0ts?=
- =?utf-8?B?dUtBWEIxVUxSNlJnamJ0U2VwQk9YblNVdFI1U1FsSUY4MlpLUzcreVV2Wi9q?=
- =?utf-8?B?b0NZSXF0cTkzeUZwem9qQXhMKzhxTnVPNDJmVnU5TWZReVZ4ZlkwS2haY0hy?=
- =?utf-8?B?QlBHbnBNalVjeFFYYWlOUVIxNlBvSlRaTjQ5akl5Z29WYnRMY1VkNVBWcVI3?=
- =?utf-8?B?dmh5S2g0M040VWVyZVFIcXh0aUVjc1RDcXZCbzJSQ0N0RitFNm96bXlKM2dy?=
- =?utf-8?B?TXoyUG9pRjRVTjBKaUZvSGdhQ2g3ZUZiR1NNTmxoay9JMmlzbllUVHBHSkxU?=
- =?utf-8?B?Mys5N01HTzNYQnIrWXhvZDZNYitVYmJtYjE2Q01NNmxwMkNjUDVUK2VCL0ts?=
- =?utf-8?B?S3NGWmRaZGxYbU51TFZuaVFOOVcySDhLSW1McTBSemJUcjlKV29zMTNLd2g3?=
- =?utf-8?B?aUdqaDlsYU9HajREd0szOGd4Y2RjTUJVV3NBVGU5bjBueHM2ZWFUNndmVHhy?=
- =?utf-8?B?bVdZOE9ac2JkdlZuZ2doaUdSZit0Rk5tRXU2d1BOcmgrdFFMakp5THNwR1dQ?=
- =?utf-8?B?b3p2M1NwZVNaNUhHMnQwWHNmL2NMNTdGWC9KTk9Mc2p2eEdndVFlNWJrQ1lj?=
- =?utf-8?B?R1k1MXV3VTdkeDBmbks4QnBYRDBGRGhmN2lKNldOZWM3aGlWUlZaYlZVZE5P?=
- =?utf-8?B?ZUZIYUNTM25tQllLZ3R1VFJ5bllUdGQzR3JicEtTN1Y2NUhXZVFBbXpQV2ZI?=
- =?utf-8?B?ckJkcmRrYmsxTGt5dEdXeE5uN3RUSFVCQk01U2RuU2tuQmxYVGlzT2FYL25X?=
- =?utf-8?B?R2ZLL3ZmbXNwdm9WQ2xrZEZDMmRhWnJEbWNkUEZEQmc5MjAvRTlDU2RsOTFK?=
- =?utf-8?B?TFF2QjJlM3F6YTZUWWo1dlovbjhYV2lQVldTZnhKaGJvYURUdFZPWmZCMlBn?=
- =?utf-8?B?NlFaRXpXRE50RCtkNk56U0o5VGdNc0ZCS0xYT0pDczJWZWZ1MUVSdXBMa3dY?=
- =?utf-8?B?ZHd2TWkwUllhTTNjVFQ3THY1c0diYUU1SkNveUVYV0gzbFo5aUxoSnlyUzYr?=
- =?utf-8?B?U01YRkNwQXJnSXgxZzFmVDRQd0pzMm0rUFRYYnZkU3NmZW9MYkRVK3JHU2hF?=
- =?utf-8?B?cThjQy82MXZoN1ViK3J3RkdSTXJLemExcW5ZM0VGZ0p6UExnaDgwRmVvL1VZ?=
- =?utf-8?B?WWtkWldKOGgxeGtXRlNrZGkxV0ZzS1BHaUdnbnB5dnFvRnNLaG9OMmZTbVFW?=
- =?utf-8?B?RVc3ME9WaGpndTBBVTVESUd4Mi84Sy9OZksxSUhqZXNKMWpMZmcrNm5CcVJw?=
- =?utf-8?B?R0FOcUFaUzdZUzFtd29mMzVZYW1LeVVwaEV5SkJVc3lJVDRkUDVBUlhESnNE?=
- =?utf-8?B?MndxL2d5NjZRVStrdU1VR2pTbkhRTVA2UnRnRDlMWlAyNzZ1aklaVktqejFy?=
- =?utf-8?B?bWhnbzNzYVI0M3QzMDMrTjB2MkhvcmVQM3k4dWd4YWNWejVOUk04cE43MzVB?=
- =?utf-8?B?d09WekROVHNnYTlleE5RYmNGV2dDRnJXRkQxNTV2ZlVqSFh0YnZ4bjh3YWVF?=
- =?utf-8?B?eC9UYWloVWxXMC9RYllQYlhJS0RGb3ZQN1RDbVZrWTgzbFJGNWIwQW9uMkc1?=
- =?utf-8?B?cFFHNjlnVEtUZDg3MTE2ZnVZSStOWEF2N2JiOVhrSzBQSWdJWW9xUXNNa0Q3?=
- =?utf-8?B?bW1wQ0UrZkw0Y21ydGlGZ1JPZ0JXdFpwblJuendweUtkNFYyclhBbzBRZkoy?=
- =?utf-8?B?dGZ3Nll4eU4zeHBpaldvWE5vcXI0ZXVHU2R1TlpoRDIxb0kreTBheXlBWjVZ?=
- =?utf-8?Q?x/VE=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0657bd26-4731-4bb4-b35d-08dbf5ab0056
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2023 15:58:19.9235 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: woBcwZVYT97b5EHEPTefylJ2xAVOaYYYD7m6sf78w7kHMeARM792zPtWokqxfZew
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4526
+User-Agent: Mozilla Thunderbird
+Subject: Re: [DO NOT MERGE v5 04/37] dt-bindings: interrupt-controller: Add
+ header for Renesas SH3/4 INTC.
+Content-Language: en-US
+To: Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org
+References: <cover.1701768028.git.ysato@users.sourceforge.jp>
+ <7b00e02e77d8c9fec4f5ecb5176e28837c87b062.1701768028.git.ysato@users.sourceforge.jp>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <7b00e02e77d8c9fec4f5ecb5176e28837c87b062.1701768028.git.ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,60 +121,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Luben Tuikov <luben.tuikov@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ Herve Codina <herve.codina@bootlin.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Bin Meng <bmeng@tinylab.org>,
+ Michael Turquette <mturquette@baylibre.com>, linux-pci@vger.kernel.org,
+ Jacky Huang <ychuang3@nuvoton.com>, Palmer Dabbelt <palmer@rivosinc.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Guo Ren <guoren@kernel.org>,
+ Lee Jones <lee@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
+ linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
+ David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Chris Morgan <macromorgan@hotmail.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Vlastimil Babka <vbabka@suse.cz>, Sergey Shtylyov <s.shtylyov@omp.ru>,
+ linux-ide@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
+ linux-kernel@vger.kernel.org, Azeem Shaikh <azeemshaikh38@gmail.com>,
+ linux-renesas-soc@vger.kernel.org, Tom Rix <trix@redhat.com>,
+ Damien Le Moal <dlemoal@kernel.org>,
+ Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
+ Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 05.12.23 um 16:41 schrieb Rob Clark:
-> On Mon, Dec 4, 2023 at 10:46 PM Christian König
-> <christian.koenig@amd.com> wrote:
->> Am 04.12.23 um 22:54 schrieb Rob Clark:
->>> On Thu, Mar 23, 2023 at 2:30 PM Rob Clark <robdclark@gmail.com> wrote:
->>>> [SNIP]
->>> So, this patch turns out to blow up spectacularly with dma_fence
->>> refcnt underflows when I enable DRIVER_SYNCOBJ_TIMELINE .. I think,
->>> because it starts unwrapping fence chains, possibly in parallel with
->>> fence signaling on the retire path.  Is it supposed to be permissible
->>> to unwrap a fence chain concurrently?
->> The DMA-fence chain object and helper functions were designed so that
->> concurrent accesses to all elements are always possible.
->>
->> See dma_fence_chain_walk() and dma_fence_chain_get_prev() for example.
->> dma_fence_chain_walk() starts with a reference to the current fence (the
->> anchor of the walk) and tries to grab an up to date reference on the
->> previous fence in the chain. Only after that reference is successfully
->> acquired we drop the reference to the anchor where we started.
->>
->> Same for dma_fence_array_first(), dma_fence_array_next(). Here we hold a
->> reference to the array which in turn holds references to each fence
->> inside the array until it is destroyed itself.
->>
->> When this blows up we have somehow mixed up the references somewhere.
-> That's what it looked like to me, but wanted to make sure I wasn't
-> overlooking something subtle.  And in this case, the fence actually
-> should be the syncobj timeline point fence, not the fence chain.
-> Virtgpu has essentially the same logic (there we really do want to
-> unwrap fences so we can pass host fences back to host rather than
-> waiting in guest), I'm not sure if it would blow up in the same way.
+On 05/12/2023 10:45, Yoshinori Sato wrote:
+> Renesas SH7751 Interrupt controller priority register define.
+> 
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> ---
+>  .../interrupt-controller/sh7751-intc.h        | 21 +++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+>  create mode 100644 include/dt-bindings/interrupt-controller/sh7751-intc.h
 
-Well do you have a backtrace of what exactly happens?
+Still missing vendor prefix. This applies to all your bindings.
 
-Maybe we have some _put() before _get() or something like this.
+> 
+> diff --git a/include/dt-bindings/interrupt-controller/sh7751-intc.h b/include/dt-bindings/interrupt-controller/sh7751-intc.h
+> new file mode 100644
+> index 000000000000..5783ec72d70f
+> --- /dev/null
+> +++ b/include/dt-bindings/interrupt-controller/sh7751-intc.h
+> @@ -0,0 +1,21 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> + *
+> + * SH3/4 INTC EVT - IRQ conversion
+> + */
+> +
+> +#ifndef __DT_BINDINGS_RENESAS_SH7751_INTC
+> +#define __DT_BINDINGS_RENESAS_SH7751_INTC
+> +
+> +#define evt2irq(evt)		((evt) >> 5)
 
-Thanks,
-Christian.
+Still not a binding.
 
->
-> BR,
-> -R
->
->> Regards,
->> Christian.
->>
->>> BR,
->>> -R
+> +
+> +#define IPRA			0
+> +#define IPRB			4
+> +#define IPRC			8
+> +#define IPRD			12
+> +#define INTPRI00		256
+> +#define IPR_B12			12
+> +#define IPR_B8			8
+> +#define IPR_B4			4
+> +#define IPR_B0			0
+
+Neither these. Your commit msg says these are register values, so not
+bindings.
+
+
+Best regards,
+Krzysztof
 
