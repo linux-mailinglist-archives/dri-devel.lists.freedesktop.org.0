@@ -2,59 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9948C805133
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 11:54:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77159805135
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 11:54:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1745B10E4E0;
-	Tue,  5 Dec 2023 10:54:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A576110E4E2;
+	Tue,  5 Dec 2023 10:54:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76C8110E4E0
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 10:54:03 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id
- a640c23a62f3a-a196f84d217so574631566b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 02:54:03 -0800 (PST)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F136010E4E0
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 10:54:04 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id
+ a640c23a62f3a-a1975fe7befso593150766b.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 02:54:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1701773642; x=1702378442;
+ d=amarulasolutions.com; s=google; t=1701773643; x=1702378443;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=9vMrXeU9PccX6SmGwv0uL8uz2m+ssCwq/m3VB0zUtRA=;
- b=rRXWTh1MwGwzkNx9nMdSaf/0lmn4qVDc8noC23aZik+8hY7RQFqqUSRLNHfjJ4mrTP
- I8cbGhdGjcYs7pGLpjACsSdypdgYOehGjldHQwVPvv3VHPP2Oov2EoVwowprpI1M6Pmo
- +udpu8GvbKvoauQeuFvi36rh2ipZ++fFOS7L0=
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9yGi3UQjgH7vKIKdKQCwE11iHS9JPf1l9kS7cSUyqbg=;
+ b=ABX+SXSeu4lBmRLWUn7kG6zsgPQFo0I9w9ztscs7TRXfqWdo9KWbH7mpZVoF1mIL+J
+ xAqvV8gDArfuX9g2cVUUiQjU8VNf+moJCI3KOF0kyqn0VrQCxOKEGOShrs3EOq7Ap+9N
+ MUZ3a0iL6fN1r9Ugy7GldF8p9PlnI4WtC8kBk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701773642; x=1702378442;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9vMrXeU9PccX6SmGwv0uL8uz2m+ssCwq/m3VB0zUtRA=;
- b=Q0K/LKXR4LK42hAh7G7OYDDSrem9W3Xyox6j5CTA/cf+Ms4WWoff2HJ7mlu/F3AmKD
- LwBXSDNft+QEhyq75ORZeCAngiNzPbfZTr/uNWQYedeF71tz9VkxK27wabqRZEvGFr3g
- N5IXXQ0YGMNjCBlB5frm4eh1xmYay5qVM3VxCdhVsN6ey/Eb7B7htK1qrW73689rFNGA
- ZOBYOnYvUxRLQCgV9ntf+zDdetqL+oP5I48hR/jte6zR5AwkAbAPz7s4dolqDVDMZDbn
- 9+g4yDQjiPmiDoRijGQ/aiQOYukwsK4MwheehaOEoGu1/u7RZg8T1E3/+4VPkSBC+yvL
- 4QNw==
-X-Gm-Message-State: AOJu0YwULTEZCQjQ79CKif+5+S13fN/SF7LLCtgHWAm24cgbmth93YsT
- OOFJiV4waEAC6UKCrtYNnOm6Gg==
-X-Google-Smtp-Source: AGHT+IFuMd+CZo1e3WCy0qTpcsuyyZxRhrA2D9Fm6zF+vDpSe64HfbUduReMi+n70WxZd3wbPaRzFQ==
-X-Received: by 2002:a17:906:1c2:b0:a1c:795b:405a with SMTP id
- 2-20020a17090601c200b00a1c795b405amr366504ejj.109.1701773641775; 
- Tue, 05 Dec 2023 02:54:01 -0800 (PST)
+ d=1e100.net; s=20230601; t=1701773643; x=1702378443;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9yGi3UQjgH7vKIKdKQCwE11iHS9JPf1l9kS7cSUyqbg=;
+ b=VZRCpPxMniI58VGjaXX9sbsyCYoXcD6FG8y4o4uzFGIlVAxPH/aywo6wtzvEUBYVcf
+ dWzppmh8dnuBCBcLs2e7/ecWKQqZF/5O0+7oEgRxM3WFGS3XeGC5mWAyxvnEKK4YBHnw
+ jdjeEErrr3R9/UBd3fGz7ZvgUnc9011cL+bUzX0oGDaNnFiClmCufbzMCOK8oTCa0alE
+ BJ0qfzlA3gTxnJ88JxPpNjpGkTHEOu/V0YlUMk8uOu+vCnEiAl1VriX2KxgAz8+C/IlO
+ 8NotnovOG41vZp4Cy7xxGoK+V9LHMbKheSDZEn2U0CjFRqlxd/pYJoF9RDjLxkrOhYqi
+ IjqQ==
+X-Gm-Message-State: AOJu0YwtPSZKeLbklEy1AOpjI2u4peyWE2kBpXkQloyNFoQ6MxGzqhoI
+ 4jfUFzU/RlGwUIHO+TkNMRzBfA==
+X-Google-Smtp-Source: AGHT+IEhCW86sDDqX5HhYwo9leDEXnK3BBE5ui8/2dHRSqsGfYqV4vVQgDEtuqv3sS8ZVoS+1vs00Q==
+X-Received: by 2002:a17:906:2814:b0:a19:a19a:eadc with SMTP id
+ r20-20020a170906281400b00a19a19aeadcmr311534ejc.149.1701773643372; 
+ Tue, 05 Dec 2023 02:54:03 -0800 (PST)
 Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it
  (host-82-54-95-129.retail.telecomitalia.it. [82.54.95.129])
  by smtp.gmail.com with ESMTPSA id
- n23-20020a170906089700b0099297782aa9sm6413491eje.49.2023.12.05.02.53.59
+ n23-20020a170906089700b0099297782aa9sm6413491eje.49.2023.12.05.02.54.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Dec 2023 02:54:01 -0800 (PST)
+ Tue, 05 Dec 2023 02:54:03 -0800 (PST)
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v4 00/10] Add displays support for bsh-smm-s2/pro boards
-Date: Tue,  5 Dec 2023 11:52:47 +0100
-Message-ID: <20231205105341.4100896-1-dario.binacchi@amarulasolutions.com>
+Subject: [PATCH v4 01/10] drm/bridge: Fix bridge disable logic
+Date: Tue,  5 Dec 2023 11:52:48 +0100
+Message-ID: <20231205105341.4100896-2-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231205105341.4100896-1-dario.binacchi@amarulasolutions.com>
+References: <20231205105341.4100896-1-dario.binacchi@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,98 +72,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peng Fan <peng.fan@nxp.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Robert Foss <rfoss@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, michael@amarulasolutions.com,
- Jagan Teki <jagan@amarulasolutions.com>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Jonas Karlman <jonas@kwiboo.se>, Sascha Hauer <s.hauer@pengutronix.de>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org,
+Cc: Maxime Ripard <mripard@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Shawn Guo <shawnguo@kernel.org>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, michael@amarulasolutions.com,
  Amarula patchwork <linux-amarula@amarulasolutions.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The series adds drivers for the displays used by bsh-smm-s2/pro boards.
-This required applying some patches to the samsung-dsim driver and the
-drm_bridge.c module.
+As explained by the comment of the fixed code, we need to find the next
+bridge that hasn't set the "pre_enable_prev_first" flag to true. The code,
+on the contrary, was doing the opposite.
+So, the order of disabling the bridges couldn't be altered as required
+by setting the "pre_enable_prev_first" flag to true.
 
-Changes in v4:
-- Set the reset gpio to low in a single operation
-- Remove duplicated code for prepare/unprepare callbacks
-- Add 'Reviewed-by; tag of Neil Armstrong
+Fixes: 4fb912e5e190 ("drm/bridge: Introduce pre_enable_prev_first to alter bridge init order")
+Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+---
 
-Changes in v3:
-- Add 'Reviewed-by' tag of Krzysztof Kozlowski.
-- Replace "synaptics,r63353" compatible with "syna,r63353", as
-  required by vendor-prefixes.yaml.
-- Drop power-supply
-- Replace "synaptics,r63353" compatible with "syna,r63353", as
-  required by vendor-prefixes.yaml.
-- Squash patch [09/11] dt-bindings: ili9805: add compatible string for Tianma TM041XDHG01
-  into [07/11] dt-bindings: display: panel: Add Ilitek ili9805 panel controller.
+(no changes since v1)
 
-Changes in v2:
-- Add $ref to panel-common.yaml
-- Drop port, reset-gpios, and backlight
-- Set port and backlight ad required
-- Replace additionalProperties with unevaluatedProperties
-- Adjust the timings of the panel reset
-- Add $ref to panel-common.yaml
-- Drop port, reset-gpios, and backlight
-- Set port and backlight ad required
-- Replace additionalProperties with unevaluatedProperties
-- Adjust the mipi_dsi node based on the latest patches merged into
-  the mainline in the dtsi files it includes.
-- Added to the series the following patches:
-  - 0001 drm/bridge: Fix bridge disable logic
-  - 0002 drm/bridge: Fix a use case in the bridge disable logic
-  - 0003 samsung-dsim: enter display mode in the enable() callback
-  - 0004 drm: bridge: samsung-dsim: complete the CLKLANE_STOP setting
+ drivers/gpu/drm/drm_bridge.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Dario Binacchi (4):
-  drm/bridge: Fix bridge disable logic
-  drm/bridge: Fix a use case in the bridge disable logic
-  drm: bridge: samsung-dsim: enter display mode in the enable() callback
-  drm: bridge: samsung-dsim: complete the CLKLANE_STOP setting
-
-Michael Trimarchi (6):
-  dt-bindings: display: panel: Add synaptics r63353 panel controller
-  drm/panel: Add Synaptics R63353 panel driver
-  dt-bindings: display: panel: Add Ilitek ili9805 panel controller
-  drm/panel: Add Ilitek ILI9805 panel driver
-  drm/panel: ilitek-ili9805: add support for Tianma TM041XDHG01 panel
-  arm64: dts: imx8mn-bsh-smm-s2/pro: add display setup
-
- .../display/panel/ilitek,ili9805.yaml         |  62 +++
- .../display/panel/synaptics,r63353.yaml       |  61 +++
- MAINTAINERS                                   |  12 +
- .../freescale/imx8mn-bsh-smm-s2-common.dtsi   |   1 +
- .../freescale/imx8mn-bsh-smm-s2-display.dtsi  | 121 ++++++
- drivers/gpu/drm/bridge/samsung-dsim.c         |  14 +-
- drivers/gpu/drm/drm_bridge.c                  |   9 +-
- drivers/gpu/drm/panel/Kconfig                 |  18 +
- drivers/gpu/drm/panel/Makefile                |   2 +
- drivers/gpu/drm/panel/panel-ilitek-ili9805.c  | 406 ++++++++++++++++++
- .../gpu/drm/panel/panel-synaptics-r63353.c    | 363 ++++++++++++++++
- 11 files changed, 1062 insertions(+), 7 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9805.yaml
- create mode 100644 Documentation/devicetree/bindings/display/panel/synaptics,r63353.yaml
- create mode 100644 arch/arm64/boot/dts/freescale/imx8mn-bsh-smm-s2-display.dtsi
- create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9805.c
- create mode 100644 drivers/gpu/drm/panel/panel-synaptics-r63353.c
-
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 30d66bee0ec6..f66bf4925dd8 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -686,7 +686,7 @@ void drm_atomic_bridge_chain_post_disable(struct drm_bridge *bridge,
+ 				 */
+ 				list_for_each_entry_from(next, &encoder->bridge_chain,
+ 							 chain_node) {
+-					if (next->pre_enable_prev_first) {
++					if (!next->pre_enable_prev_first) {
+ 						next = list_prev_entry(next, chain_node);
+ 						limit = next;
+ 						break;
 -- 
 2.43.0
 
