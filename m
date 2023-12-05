@@ -1,26 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23CCA8059C0
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 17:17:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE41C8059D7
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 17:17:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D214710E5BF;
-	Tue,  5 Dec 2023 16:16:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B83310E5DE;
+	Tue,  5 Dec 2023 16:17:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id ADA9310E4DF
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6823010E4DA
  for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 09:55:33 +0000 (UTC)
 Received: from SIOS1075.ysato.name (ZM005235.ppp.dion.ne.jp [222.8.5.235])
- by sakura.ysato.name (Postfix) with ESMTPSA id 982C11C0642;
- Tue,  5 Dec 2023 18:46:33 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id C45C01C05EE;
+ Tue,  5 Dec 2023 18:46:35 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
-Subject: [DO NOT MERGE v5 16/37] irqchip: Add SH7751 INTC driver
-Date: Tue,  5 Dec 2023 18:45:35 +0900
-Message-Id: <bdf5a5e2fb6de07e739a390665e5109e4165dc3d.1701768028.git.ysato@users.sourceforge.jp>
+Subject: [DO NOT MERGE v5 17/37] dt-bindings: interrupt-controller: renesas,
+ sh7751-intc: Add json-schema
+Date: Tue,  5 Dec 2023 18:45:36 +0900
+Message-Id: <1fafcf1c70ee4e38847bac1379bcb4555a237505.1701768028.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1701768028.git.ysato@users.sourceforge.jp>
 References: <cover.1701768028.git.ysato@users.sourceforge.jp>
@@ -79,338 +80,125 @@ Cc: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Renesas SH7751 Internal interrupt controller driver.
+Renesas SH7751 INTC json-schema.
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- drivers/irqchip/Kconfig              |   8 +
- drivers/irqchip/Makefile             |   1 +
- drivers/irqchip/irq-renesas-sh7751.c | 290 +++++++++++++++++++++++++++
- 3 files changed, 299 insertions(+)
- create mode 100644 drivers/irqchip/irq-renesas-sh7751.c
+ .../renesas,sh7751-intc.yaml                  | 105 ++++++++++++++++++
+ 1 file changed, 105 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,sh7751-intc.yaml
 
-diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
-index f7149d0f3d45..658523f65b1d 100644
---- a/drivers/irqchip/Kconfig
-+++ b/drivers/irqchip/Kconfig
-@@ -679,4 +679,12 @@ config SUNPLUS_SP7021_INTC
- 	  chained controller, routing all interrupt source in P-Chip to
- 	  the primary controller on C-Chip.
- 
-+config RENESAS_SH7751_INTC
-+	bool "Renesas SH7751 Interrupt Controller"
-+	depends on SH_DEVICE_TREE || COMPILE_TEST
-+	select IRQ_DOMAIN_HIERARCHY
-+	help
-+	  Support for the Renesas SH7751 On-chip interrupt controller.
-+	  And external interrupt encoder for some targets.
-+
- endmenu
-diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
-index ffd945fe71aa..26c91d075e25 100644
---- a/drivers/irqchip/Makefile
-+++ b/drivers/irqchip/Makefile
-@@ -120,3 +120,4 @@ obj-$(CONFIG_IRQ_IDT3243X)		+= irq-idt3243x.o
- obj-$(CONFIG_APPLE_AIC)			+= irq-apple-aic.o
- obj-$(CONFIG_MCHP_EIC)			+= irq-mchp-eic.o
- obj-$(CONFIG_SUNPLUS_SP7021_INTC)	+= irq-sp7021-intc.o
-+obj-$(CONFIG_RENESAS_SH7751_INTC)	+= irq-renesas-sh7751.o
-diff --git a/drivers/irqchip/irq-renesas-sh7751.c b/drivers/irqchip/irq-renesas-sh7751.c
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,sh7751-intc.yaml b/Documentation/devicetree/bindings/interrupt-controller/renesas,sh7751-intc.yaml
 new file mode 100644
-index 000000000000..2a5cb2444d99
+index 000000000000..9d05c10f5c32
 --- /dev/null
-+++ b/drivers/irqchip/irq-renesas-sh7751.c
-@@ -0,0 +1,290 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Renesas SH7751 interrupt controller driver
-+ *
-+ * Copyright 2023 Yoshinori Sato <ysato@users.sourceforge.jp>
-+ */
++++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,sh7751-intc.yaml
+@@ -0,0 +1,105 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/interrupt-controller/renesas,sh7751-intc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+#include <linux/irq.h>
-+#include <linux/irqchip.h>
-+#include <linux/of_address.h>
-+#include <linux/of_irq.h>
-+#include <linux/of.h>
-+#include <linux/io.h>
-+#include <dt-bindings/interrupt-controller/sh7751-intc.h>
++title: Renesas SH7751 Interrupt Controller
 +
-+struct ipr {
-+	unsigned int off;
-+	unsigned int idx;
-+};
++maintainers:
++  - Yoshinori Sato <ysato@users.sourceforge.jp>
 +
-+struct sh7751_intc_priv {
-+	void __iomem *base;
-+	void __iomem *intpri00;
-+	struct ipr   *iprmap[2];
-+	bool	     irlm;
-+};
++properties:
++  compatible:
++    items:
++      - const: renesas,sh7751-intc
 +
-+enum {
-+	R_ICR         = 0x00,
-+	R_IPR         = 0x04,
-+	R_INTPRI00    = 0x00,
-+	R_INTREQ00    = 0x20,
-+	R_INTMSK00    = 0x40,
-+	R_INTMSKCLR00 = 0x60,
-+};
++  '#interrupt-cells':
++    const: 1
 +
-+#define ICR_IRLM BIT(7)
++  interrupt-controller: true
 +
-+/*
-+ * SH7751 IRQ mapping
-+ *  IRQ16 - 63: Group0 - IPRA to IPRD
-+ *   IRQ16 - 31: external IRL input (ICR.IRLM is 0)
-+ *  IRQ80 - 92: Group1 - INTPRI00
-+ */
-+#define IRQ_START	16
-+#define MAX_IRL		(IRQ_START + NR_IRL)
-+#define GRP0_IRQ_END	63
-+#define GRP1_IRQ_START	80
-+#define IRQ_END		92
++  reg:
++    maxItems: 2
 +
-+#define NR_IPRMAP0	(GRP0_IRQ_END - IRQ_START + 1)
-+#define NR_IPRMAP1	(IRQ_END - GRP1_IRQ_START)
-+#define IPR_PRI_MASK	0x000f
++  reg-names:
++    items:
++      - const: ICR
++      - const: INTPRI00
 +
-+/*
-+ * IPR registers have 4bit priority x 4 entry (16bits)
-+ * Interrupts can be masked by setting pri to 0.
-+ */
-+static void update_ipr(struct sh7751_intc_priv *priv, unsigned int irq, u16 pri)
-+{
-+	struct ipr *ipr = NULL;
-+	void __iomem *ipr_base;
-+	unsigned int offset;
-+	u16 mask;
++  renesas,icr-irlm:
++    type: boolean
++    description: If true ICR.IRLM=1
 +
-+	if (irq < GRP1_IRQ_START) {
-+		/* Group0 */
-+		ipr = priv->iprmap[0];
-+		ipr += irq - IRQ_START;
-+		ipr_base = priv->base + R_IPR;
-+		offset = ipr->off;
-+	} else {
-+		/* Group1 */
-+		ipr = priv->iprmap[1];
-+		ipr += irq - GRP1_IRQ_START;
-+		ipr_base = priv->intpri00;
-+		offset = ipr->off - INTPRI00;
-+	}
-+	if (ipr->off != ~0) {
-+		mask = ~(IPR_PRI_MASK << ipr->idx);
-+		pri = (pri & IPR_PRI_MASK) << ipr->idx;
-+		mask &= __raw_readw(ipr_base + offset);
-+		__raw_writew(mask | pri, ipr_base + offset);
-+	} else {
-+		pr_warn_once("%s: undefined IPR in irq %u\n", __FILE__, irq);
-+	}
-+}
++  renesas,ipr-map:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    description: |
++      IRQ to IPR mapping definition.
++      1st - INTEVT
++      2nd - Register
++      3rd - bit index
 +
-+static inline bool is_valid_irq(unsigned int irq)
-+{
-+	/* IRQ16 - 63 */
-+	if (irq >= IRQ_START && irq < IRQ_START + NR_IPRMAP0)
-+		return true;
-+	/* IRQ80 - 92 */
-+	if (irq >= GRP1_IRQ_START && irq <= IRQ_END)
-+		return true;
-+	return false;
-+}
++required:
++  - compatible
++  - '#interrupt-cells'
++  - interrupt-controller
++  - reg
++  - reg-names
++  - renesas,ipr-map
 +
-+static inline struct sh7751_intc_priv *irq_data_to_priv(struct irq_data *data)
-+{
-+	return data->domain->host_data;
-+}
++additionalProperties: false
 +
-+static void endisable_irq(struct irq_data *data, int enable)
-+{
-+	struct sh7751_intc_priv *priv;
-+	unsigned int irq;
-+
-+	priv = irq_data_to_priv(data);
-+
-+	irq = irqd_to_hwirq(data);
-+	if (!is_valid_irq(irq)) {
-+		/* IRQ out of range */
-+		pr_warn_once("%s: IRQ %u is out of range\n", __FILE__, irq);
-+		return;
-+	}
-+
-+	if (irq <= MAX_IRL && !priv->irlm)
-+		/* IRL encoded external interrupt */
-+		/* disable for SR.IMASK */
-+		update_sr_imask(irq - IRQ_START, enable);
-+	else
-+		/* Internal peripheral interrupt */
-+		/* mask for IPR priority 0 */
-+		update_ipr(priv, irq, enable);
-+}
-+
-+static void sh7751_mask_irq(struct irq_data *data)
-+{
-+	endisable_irq(data, 0);
-+}
-+
-+static void sh7751_unmask_irq(struct irq_data *data)
-+{
-+	endisable_irq(data, 1);
-+}
-+
-+static const struct irq_chip sh7751_irq_chip = {
-+	.name		= "SH7751-INTC",
-+	.irq_unmask	= sh7751_unmask_irq,
-+	.irq_mask	= sh7751_mask_irq,
-+};
-+
-+static int irq_sh7751_map(struct irq_domain *h, unsigned int virq,
-+			  irq_hw_number_t hw_irq_num)
-+{
-+	irq_set_chip_and_handler(virq, &sh7751_irq_chip, handle_level_irq);
-+	irq_get_irq_data(virq)->chip_data = h->host_data;
-+	irq_modify_status(virq, IRQ_NOREQUEST, IRQ_NOPROBE);
-+	return 0;
-+}
-+static const struct irq_domain_ops irq_ops = {
-+	.map    = irq_sh7751_map,
-+	.xlate  = irq_domain_xlate_onecell,
-+};
-+
-+static int __init load_ipr_map(struct device_node *intc,
-+			       struct sh7751_intc_priv *priv)
-+{
-+	struct property *ipr_map;
-+	unsigned int num_ipr, i;
-+	struct ipr *ipr;
-+	const __be32 *p;
-+	u32 irq;
-+
-+	ipr_map = of_find_property(intc, "renesas,ipr-map", &num_ipr);
-+	if (IS_ERR(ipr_map))
-+		return PTR_ERR(ipr_map);
-+	num_ipr /= sizeof(u32);
-+	/* 3words per entry. */
-+	if (num_ipr % 3)
-+		goto error1;
-+	num_ipr /= 3;
-+	if (num_ipr >= NR_IPRMAP0 + NR_IPRMAP1)
-+		goto error1;
-+
-+	/* Allocate map array and fill in unassigned */
-+	priv->iprmap[0] = kmalloc_array(NR_IPRMAP0, sizeof(struct ipr), GFP_KERNEL);
-+	if (priv->iprmap[0] == NULL)
-+		return -ENOMEM;
-+	memset(priv->iprmap[0], ~0, NR_IPRMAP0 * sizeof(struct ipr));
-+	priv->iprmap[1] = kmalloc_array(NR_IPRMAP1, sizeof(struct ipr), GFP_KERNEL);
-+	if (priv->iprmap[1] == NULL) {
-+		kfree(priv->iprmap[0]);
-+		return -ENOMEM;
-+	}
-+	memset(priv->iprmap[1], ~0, NR_IPRMAP1 * sizeof(struct ipr));
-+
-+	p = NULL;
-+	for (; num_ipr > 0; num_ipr--) {
-+		/* 1st word - INTEVT code */
-+		p = of_prop_next_u32(ipr_map, p, &irq);
-+		if (!p)
-+			goto error;
-+		irq = evt2irq(irq);
-+		if (!is_valid_irq(irq))
-+			goto error;
-+		if (irq < GRP1_IRQ_START) {
-+			ipr = priv->iprmap[0];
-+			irq -= IRQ_START;
-+		} else {
-+			ipr = priv->iprmap[1];
-+			irq -= GRP1_IRQ_START;
-+		}
-+		ipr += irq;
-+		/* 2nd word - IPR register offset */
-+		p = of_prop_next_u32(ipr_map, p, &ipr->off);
-+		/* 3rd word - IPR register bit indx */
-+		p = of_prop_next_u32(ipr_map, p, &ipr->idx);
-+
-+		if ((ipr->off != INTPRI00 && ipr->off > IPRD) ||
-+		    ipr->idx > IPR_B12)
-+			goto error;
-+	}
-+
-+	for (ipr = priv->iprmap[0], i = 0; i < NR_IPRMAP0; ipr++, i++) {
-+		if (ipr->off != ~0) {
-+			pr_debug("INTEVT=%04x (%u) reg=IPR%c idx=%u\n",
-+				 irq2evt(i + IRQ_START), i + IRQ_START,
-+				 'A' + ipr->off / 4, ipr->idx);
-+		}
-+	}
-+	for (ipr = priv->iprmap[1], i = 0; i < NR_IPRMAP1; ipr++, i++) {
-+		if (ipr->off != ~0) {
-+			pr_debug("INTEVT=%04x (%u) reg=INTPRI00 idx=%u\n",
-+				 irq2evt(i + GRP1_IRQ_START), i + GRP1_IRQ_START,
-+				 ipr->idx);
-+		}
-+	}
-+	return 0;
-+error:
-+	kfree(priv->iprmap[0]);
-+	kfree(priv->iprmap[1]);
-+error1:
-+	pr_err("%pOFP: Failed to load renesas,ipr-map\n", intc);
-+	return -EINVAL;
-+}
-+
-+static int __init sh7751_intc_of_init(struct device_node *intc,
-+				      struct device_node *parent)
-+{
-+	struct sh7751_intc_priv *priv;
-+	void __iomem *base, *base2;
-+	struct irq_domain *domain;
-+	u16 icr;
-+	int ret;
-+
-+	base = of_iomap(intc, 0);
-+	base2 = of_iomap(intc, 1);
-+	if (!base || !base2) {
-+		pr_err("%pOFP: Invalid register definition\n", intc);
-+		return -EINVAL;
-+	}
-+
-+	priv = kzalloc(sizeof(struct sh7751_intc_priv), GFP_KERNEL);
-+	if (priv == NULL)
-+		return -ENOMEM;
-+
-+	ret = load_ipr_map(intc, priv);
-+	if (ret < 0) {
-+		kfree(priv);
-+		return ret;
-+	}
-+
-+	priv->base = base;
-+	priv->intpri00 = base2;
-+
-+	if (of_property_read_bool(intc, "renesas,irlm")) {
-+		priv->irlm = true;
-+		icr = __raw_readw(priv->base + R_ICR);
-+		icr |= ICR_IRLM;
-+		__raw_writew(icr, priv->base + R_ICR);
-+	}
-+
-+	domain = irq_domain_add_linear(intc, NR_IRQS, &irq_ops, priv);
-+	if (domain == NULL) {
-+		pr_err("%pOFP: cannot initialize irq domain\n", intc);
-+		kfree(priv);
-+		return -ENOMEM;
-+	}
-+
-+	irq_set_default_host(domain);
-+	pr_info("%pOFP: SH7751 Interrupt controller (%s external IRQ)",
-+		intc, priv->irlm ? "4 lines" : "15 level");
-+	return 0;
-+}
-+
-+IRQCHIP_DECLARE(sh_7751_intc,
-+		"renesas,sh7751-intc", sh7751_intc_of_init);
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/sh_intc.h>
++    shintc: interrupt-controller@ffd00000 {
++            compatible = "renesas,sh7751-intc";
++            #interrupt-cells = <1>;
++            interrupt-controller;
++            reg = <0xffd00000 14>, <0xfe080000 128>;
++            reg-names = "ICR", "INTPRI00";
++            renesas,ipr-map = <0x240 IPRD IPR_B12>, /* IRL0 */
++                              <0x2a0 IPRD IPR_B8>,  /* IRL1 */
++                              <0x300 IPRD IPR_B4>,  /* IRL2 */
++                              <0x360 IPRD IPR_B0>,  /* IRL3 */
++                              <0x400 IPRA IPR_B12>, /* TMU0 */
++                              <0x420 IPRA IPR_B8>,  /* TMU1 */
++                              <0x440 IPRA IPR_B4>,  /* TMU2 TNUI */
++                              <0x460 IPRA IPR_B4>,  /* TMU2 TICPI */
++                              <0x480 IPRA IPR_B0>,  /* RTC ATI */
++                              <0x4a0 IPRA IPR_B0>,  /* RTC PRI */
++                              <0x4c0 IPRA IPR_B0>,  /* RTC CUI */
++                              <0x4e0 IPRB IPR_B4>,  /* SCI ERI */
++                              <0x500 IPRB IPR_B4>,  /* SCI RXI */
++                              <0x520 IPRB IPR_B4>,  /* SCI TXI */
++                              <0x540 IPRB IPR_B4>,  /* SCI TEI */
++                              <0x560 IPRB IPR_B12>, /* WDT */
++                              <0x580 IPRB IPR_B8>,  /* REF RCMI */
++                              <0x5a0 IPRB IPR_B4>,  /* REF ROVI */
++                              <0x600 IPRC IPR_B0>,  /* H-UDI */
++                              <0x620 IPRC IPR_B12>, /* GPIO */
++                              <0x640 IPRC IPR_B8>,  /* DMAC DMTE0 */
++                              <0x660 IPRC IPR_B8>,  /* DMAC DMTE1 */
++                              <0x680 IPRC IPR_B8>,  /* DMAC DMTE2 */
++                              <0x6a0 IPRC IPR_B8>,  /* DMAC DMTE3 */
++                              <0x6c0 IPRC IPR_B8>,  /* DMAC DMAE */
++                              <0x700 IPRC IPR_B4>,  /* SCIF ERI */
++                              <0x720 IPRC IPR_B4>,  /* SCIF RXI */
++                              <0x740 IPRC IPR_B4>,  /* SCIF BRI */
++                              <0x760 IPRC IPR_B4>,  /* SCIF TXI */
++                              <0x780 IPRC IPR_B8>,  /* DMAC DMTE4 */
++                              <0x7a0 IPRC IPR_B8>,  /* DMAC DMTE5 */
++                              <0x7c0 IPRC IPR_B8>,  /* DMAC DMTE6 */
++                              <0x7e0 IPRC IPR_B8>,  /* DMAC DMTE7 */
++                              <0xa00 INTPRI00 IPR_B0>,      /* PCIC PCISERR */
++                              <0xa20 INTPRI00 IPR_B4>,      /* PCIC PCIDMA3 */
++                              <0xa40 INTPRI00 IPR_B4>,      /* PCIC PCIDMA2 */
++                              <0xa60 INTPRI00 IPR_B4>,      /* PCIC PCIDMA1 */
++                              <0xa80 INTPRI00 IPR_B4>,      /* PCIC PCIDMA0 */
++                              <0xaa0 INTPRI00 IPR_B4>,      /* PCIC PCIPWON */
++                              <0xac0 INTPRI00 IPR_B4>,      /* PCIC PCIPWDWN */
++                              <0xae0 INTPRI00 IPR_B4>,      /* PCIC PCIERR */
++                              <0xb00 INTPRI00 IPR_B8>,      /* TMU3 */
++                              <0xb80 INTPRI00 IPR_B12>;     /* TMU4 */
++    };
++...
 -- 
 2.39.2
 
