@@ -1,66 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA87805145
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 11:54:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 565B3805184
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 12:05:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C398C10E4FA;
-	Tue,  5 Dec 2023 10:54:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EB1C10E4EF;
+	Tue,  5 Dec 2023 11:05:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B25610E4E8
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 10:54:17 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- 5b1f17b1804b1-40c09f4814eso29584945e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 02:54:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1701773655; x=1702378455;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=swvtnnp/6+tgZ9c7iFm01DUZnyrAeq5dAskQ39/G3GU=;
- b=kVt4Id2ycBA8I/m9oXbtc5TeMxBpVPV1VBq6EhiNxW6+wCZatgwC0EsUAbCyusBTjd
- 8D2FZEv3NEd/Aoumml7N47mey9KujY5921T0sD4BaqTozGJHDSafX7BdoG5/l/JL3F2Z
- 9vf+8MRvxUBlLyju4CVQUFzuUyRFOxdVeucIU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701773655; x=1702378455;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=swvtnnp/6+tgZ9c7iFm01DUZnyrAeq5dAskQ39/G3GU=;
- b=Y4lMJIqP/CQPn5JFQDMxEJxIVkLJQLFzC3dk5ydp3Bbvq/zyT+5t7pMGUhdn2Re/9h
- ul1hsxbUvBvhd4S0KXjWDL12Ae3PR6erZRQoC/nklwaHAui0wivTnkr4y8Vew+rJgDMh
- 4CVrLRILwt9BADUZMCjVbpBNhGKzAOvls2xeBe1JTqVsbpWJZ3APXtLbFV304h7yWFA2
- oGIh/j8NXi4sMSHsZF7KKh9eMtd0fmeA/dROwjlAJNsGrCKb14tOiSbGpV125cVbrEb5
- Z+/z5ehrYaab4ptsREOXvJag8LB4Ek0XDKhhjc8xZTPz4DR/ApeMzR2WebZ4GlVOHM4K
- Uc3A==
-X-Gm-Message-State: AOJu0YzRdtW3ntVH9PUnS9zZ5QOXmsM+gz+NqgLFRycSfwZpGNb0u+Fd
- 5jAzmjqcs/hy6jDkuOjkbup9PQ==
-X-Google-Smtp-Source: AGHT+IHChNDdh+cQbGBtu6Bgd07CJ2oRvZbR9ERxGu2dgQTudELRT95oH3OxPIGXQUCcMMzs9CSw5g==
-X-Received: by 2002:a05:600c:4c08:b0:402:ea96:c09a with SMTP id
- d8-20020a05600c4c0800b00402ea96c09amr397846wmp.16.1701773655652; 
- Tue, 05 Dec 2023 02:54:15 -0800 (PST)
-Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it
- (host-82-54-95-129.retail.telecomitalia.it. [82.54.95.129])
- by smtp.gmail.com with ESMTPSA id
- n23-20020a170906089700b0099297782aa9sm6413491eje.49.2023.12.05.02.54.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Dec 2023 02:54:15 -0800 (PST)
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v4 09/10] drm/panel: ilitek-ili9805: add support for Tianma
- TM041XDHG01 panel
-Date: Tue,  5 Dec 2023 11:52:56 +0100
-Message-ID: <20231205105341.4100896-10-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231205105341.4100896-1-dario.binacchi@amarulasolutions.com>
-References: <20231205105341.4100896-1-dario.binacchi@amarulasolutions.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B17BA10E4EF;
+ Tue,  5 Dec 2023 11:05:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701774327; x=1733310327;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=g2IiNCZKkf0z4VEVzhLMsiNKMJiqcRWCkCgz8VEIZa8=;
+ b=iSL1IiQw7yye0S1eGCYZLaRu/RmF+SnBguKHAGzDEYHdU5VK1E0+zK/A
+ vkgW93fQj38fhqQGwfaFi/0GO6UxOicbZsGj2LtGMuBZ9/yzn4UYr7/oe
+ Y0G4ymuDsZj9DwKHDIFWrjzdYtM0Jh0Y/rxe+mXZ12KeGyCBTJvPqxnKz
+ 4Xbb9hp68SK6HaXuMUErgl2YTuLRtIIwyh3zPOdnER7Iu+PzQFyaOZOkC
+ ogUCYjAvjfIKxR4+4mX017MeAnH9d333d3mQ6LTOVCpnO88yM8BWiDD4o
+ 4YoNPV1CWCcnBnZ5xlvF3SSF03vcU13wuymoHZ6vfX/mGu8JxIKh53gbx Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="458199440"
+X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; d="scan'208";a="458199440"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2023 03:05:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="861708568"
+X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; d="scan'208";a="861708568"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+ by FMSMGA003.fm.intel.com with ESMTP; 05 Dec 2023 03:05:23 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rATEs-0008pZ-3D;
+ Tue, 05 Dec 2023 11:05:20 +0000
+Date: Tue, 5 Dec 2023 19:04:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>
+Subject: Re: [PATCH v2 1/2] drm/atomic-helper: rename
+ drm_atomic_helper_check_wb_encoder_state
+Message-ID: <202312051810.e0QCZPbY-lkp@intel.com>
+References: <20231205023150.1581875-2-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231205023150.1581875-2-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,113 +68,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Amarula patchwork <linux-amarula@amarulasolutions.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Jessica Zhang <quic_jesszhan@quicinc.com>, michael@amarulasolutions.com
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michael Trimarchi <michael@amarulasolutions.com>
+Hi Dmitry,
 
-Tianma TM041XDHG01 utilizes the Ilitek ILI9805 controller.
+kernel test robot noticed the following build warnings:
 
-Add this panel's initialzation sequence and timing to ILI9805 driver.
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.7-rc4 next-20231205]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-atomic-helper-rename-drm_atomic_helper_check_wb_encoder_state/20231205-103552
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231205023150.1581875-2-dmitry.baryshkov%40linaro.org
+patch subject: [PATCH v2 1/2] drm/atomic-helper: rename drm_atomic_helper_check_wb_encoder_state
+config: i386-buildonly-randconfig-003-20231205 (https://download.01.org/0day-ci/archive/20231205/202312051810.e0QCZPbY-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051810.e0QCZPbY-lkp@intel.com/reproduce)
 
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
----
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051810.e0QCZPbY-lkp@intel.com/
 
-Changes in v4:
-- Add Reviewed-by tag of Neil Armstrong
+All warnings (new ones prefixed by >>):
 
- drivers/gpu/drm/panel/panel-ilitek-ili9805.c | 53 ++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+>> drivers/gpu/drm/drm_atomic_helper.c:811: warning: Function parameter or member 'wb_conn' not described in 'drm_atomic_helper_check_wb_connector_state'
+>> drivers/gpu/drm/drm_atomic_helper.c:811: warning: Excess function parameter 'connector' description in 'drm_atomic_helper_check_wb_connector_state'
 
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9805.c b/drivers/gpu/drm/panel/panel-ilitek-ili9805.c
-index e36984b46e14..5054d1a2b2f5 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9805.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9805.c
-@@ -87,6 +87,36 @@ static const struct ili9805_instr gpm1780a0_init[] = {
- 	ILI9805_INSTR(0, 0xB9, 0x02, 0x00),
- };
- 
-+static const struct ili9805_instr tm041xdhg01_init[] = {
-+	ILI9805_INSTR(100, ILI9805_EXTCMD_CMD_SET_ENABLE_REG, ILI9805_SETEXTC_PARAMETER1,
-+		      ILI9805_SETEXTC_PARAMETER2, ILI9805_SETEXTC_PARAMETER3),
-+	ILI9805_INSTR(100, 0xFD, 0x0F, 0x13, 0x44, 0x00),
-+	ILI9805_INSTR(0, 0xf8, 0x18, 0x02, 0x02, 0x18, 0x02, 0x02, 0x30, 0x01,
-+		      0x01, 0x30, 0x01, 0x01, 0x30, 0x01, 0x01),
-+	ILI9805_INSTR(0, 0xB8, 0x74),
-+	ILI9805_INSTR(0, 0xF1, 0x00),
-+	ILI9805_INSTR(0, 0xF2, 0x00, 0x58, 0x40),
-+	ILI9805_INSTR(0, 0xFC, 0x04, 0x0F, 0x01),
-+	ILI9805_INSTR(0, 0xEB, 0x08, 0x0F),
-+	ILI9805_INSTR(0, 0xe0, 0x01, 0x0d, 0x15, 0x0e, 0x0f, 0x0f, 0x0b, 0x08, 0x04,
-+		      0x07, 0x0a, 0x0d, 0x0c, 0x15, 0x0f, 0x08),
-+	ILI9805_INSTR(0, 0xe1, 0x01, 0x0d, 0x15, 0x0e, 0x0f, 0x0f, 0x0b, 0x08, 0x04,
-+		      0x07, 0x0a, 0x0d, 0x0c, 0x15, 0x0f, 0x08),
-+	ILI9805_INSTR(10, 0xc1, 0x15, 0x03, 0x03, 0x31),
-+	ILI9805_INSTR(10, 0xB1, 0x00, 0x12, 0x14),
-+	ILI9805_INSTR(10, 0xB4, 0x02),
-+	ILI9805_INSTR(0, 0xBB, 0x14, 0x55),
-+	ILI9805_INSTR(0, MIPI_DCS_SET_ADDRESS_MODE, 0x0a),
-+	ILI9805_INSTR(0, MIPI_DCS_SET_PIXEL_FORMAT, 0x77),
-+	ILI9805_INSTR(0, 0x20),
-+	ILI9805_INSTR(0, 0xB0, 0x00),
-+	ILI9805_INSTR(0, 0xB6, 0x01),
-+	ILI9805_INSTR(0, 0xc2, 0x11),
-+	ILI9805_INSTR(0, 0x51, 0xFF),
-+	ILI9805_INSTR(0, 0x53, 0x24),
-+	ILI9805_INSTR(0, 0x55, 0x00),
-+};
-+
- static inline struct ili9805 *panel_to_ili9805(struct drm_panel *panel)
- {
- 	return container_of(panel, struct ili9805, panel);
-@@ -227,6 +257,20 @@ static const struct drm_display_mode gpm1780a0_timing = {
- 	.vtotal = 480 + 2 + 4 + 10,
- };
- 
-+static const struct drm_display_mode tm041xdhg01_timing = {
-+	.clock = 26227,
-+
-+	.hdisplay = 480,
-+	.hsync_start = 480 + 10,
-+	.hsync_end = 480 + 10 + 2,
-+	.htotal = 480 + 10 + 2 + 36,
-+
-+	.vdisplay = 768,
-+	.vsync_start = 768 + 2,
-+	.vsync_end = 768 + 10 + 4,
-+	.vtotal = 768 + 2 + 4 + 10,
-+};
-+
- static int ili9805_get_modes(struct drm_panel *panel,
- 			      struct drm_connector *connector)
- {
-@@ -331,8 +375,17 @@ static const struct ili9805_desc gpm1780a0_desc = {
- 	.height_mm = 65,
- };
- 
-+static const struct ili9805_desc tm041xdhg01_desc = {
-+	.init = tm041xdhg01_init,
-+	.init_length = ARRAY_SIZE(tm041xdhg01_init),
-+	.mode = &tm041xdhg01_timing,
-+	.width_mm = 42,
-+	.height_mm = 96,
-+};
-+
- static const struct of_device_id ili9805_of_match[] = {
- 	{ .compatible = "giantplus,gpm1790a0", .data = &gpm1780a0_desc },
-+	{ .compatible = "tianma,tm041xdhg01", .data = &tm041xdhg01_desc },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, ili9805_of_match);
+
+vim +811 drivers/gpu/drm/drm_atomic_helper.c
+
+623369e533e8a5 Daniel Vetter    2014-09-16  796  
+254fe9c106ed69 Igor Torrente    2022-09-05  797  /**
+d538670e1a27f5 Dmitry Baryshkov 2023-12-05  798   * drm_atomic_helper_check_wb_connector_state() - Check writeback connector state
+d538670e1a27f5 Dmitry Baryshkov 2023-12-05  799   * @connector: corresponding connector
+d538670e1a27f5 Dmitry Baryshkov 2023-12-05  800   * @state: the driver state object
+254fe9c106ed69 Igor Torrente    2022-09-05  801   *
+254fe9c106ed69 Igor Torrente    2022-09-05  802   * Checks if the writeback connector state is valid, and returns an error if it
+254fe9c106ed69 Igor Torrente    2022-09-05  803   * isn't.
+254fe9c106ed69 Igor Torrente    2022-09-05  804   *
+254fe9c106ed69 Igor Torrente    2022-09-05  805   * RETURNS:
+254fe9c106ed69 Igor Torrente    2022-09-05  806   * Zero for success or -errno
+254fe9c106ed69 Igor Torrente    2022-09-05  807   */
+254fe9c106ed69 Igor Torrente    2022-09-05  808  int
+d538670e1a27f5 Dmitry Baryshkov 2023-12-05  809  drm_atomic_helper_check_wb_connector_state(struct drm_writeback_connector *wb_conn,
+d538670e1a27f5 Dmitry Baryshkov 2023-12-05  810  					   struct drm_atomic_state *state)
+254fe9c106ed69 Igor Torrente    2022-09-05 @811  {
+d538670e1a27f5 Dmitry Baryshkov 2023-12-05  812  	struct drm_connector_state *conn_state =
+d538670e1a27f5 Dmitry Baryshkov 2023-12-05  813  		drm_atomic_get_new_connector_state(state, &wb_conn->base);
+254fe9c106ed69 Igor Torrente    2022-09-05  814  	struct drm_writeback_job *wb_job = conn_state->writeback_job;
+254fe9c106ed69 Igor Torrente    2022-09-05  815  	struct drm_property_blob *pixel_format_blob;
+254fe9c106ed69 Igor Torrente    2022-09-05  816  	struct drm_framebuffer *fb;
+254fe9c106ed69 Igor Torrente    2022-09-05  817  	size_t i, nformats;
+254fe9c106ed69 Igor Torrente    2022-09-05  818  	u32 *formats;
+254fe9c106ed69 Igor Torrente    2022-09-05  819  
+254fe9c106ed69 Igor Torrente    2022-09-05  820  	if (!wb_job || !wb_job->fb)
+254fe9c106ed69 Igor Torrente    2022-09-05  821  		return 0;
+254fe9c106ed69 Igor Torrente    2022-09-05  822  
+254fe9c106ed69 Igor Torrente    2022-09-05  823  	pixel_format_blob = wb_job->connector->pixel_formats_blob_ptr;
+254fe9c106ed69 Igor Torrente    2022-09-05  824  	nformats = pixel_format_blob->length / sizeof(u32);
+254fe9c106ed69 Igor Torrente    2022-09-05  825  	formats = pixel_format_blob->data;
+254fe9c106ed69 Igor Torrente    2022-09-05  826  	fb = wb_job->fb;
+254fe9c106ed69 Igor Torrente    2022-09-05  827  
+254fe9c106ed69 Igor Torrente    2022-09-05  828  	for (i = 0; i < nformats; i++)
+254fe9c106ed69 Igor Torrente    2022-09-05  829  		if (fb->format->format == formats[i])
+254fe9c106ed69 Igor Torrente    2022-09-05  830  			return 0;
+254fe9c106ed69 Igor Torrente    2022-09-05  831  
+d538670e1a27f5 Dmitry Baryshkov 2023-12-05  832  	drm_dbg_kms(wb_conn->base.dev, "Invalid pixel format %p4cc\n", &fb->format->format);
+254fe9c106ed69 Igor Torrente    2022-09-05  833  
+254fe9c106ed69 Igor Torrente    2022-09-05  834  	return -EINVAL;
+254fe9c106ed69 Igor Torrente    2022-09-05  835  }
+d538670e1a27f5 Dmitry Baryshkov 2023-12-05  836  EXPORT_SYMBOL(drm_atomic_helper_check_wb_connector_state);
+254fe9c106ed69 Igor Torrente    2022-09-05  837  
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
