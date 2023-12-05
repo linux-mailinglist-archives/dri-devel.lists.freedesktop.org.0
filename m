@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12721804EBC
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 10:52:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E013804F9D
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 10:59:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4771310E4CA;
-	Tue,  5 Dec 2023 09:52:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BB3710E4B5;
+	Tue,  5 Dec 2023 09:59:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FADD10E4CA
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 09:52:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5626B10E4B5
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 09:59:35 +0000 (UTC)
 Received: from i53875b61.versanet.de ([83.135.91.97] helo=phil.lan)
  by gloria.sntech.de with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <heiko@sntech.de>)
- id 1rAS6K-0006aC-6u; Tue, 05 Dec 2023 10:52:24 +0100
+ id 1rASD8-0006dW-Kj; Tue, 05 Dec 2023 10:59:26 +0100
 From: Heiko Stuebner <heiko@sntech.de>
-To: linux-rockchip@lists.infradead.org, Chris Morgan <macroalpha82@gmail.com>
+To: Chris Morgan <macroalpha82@gmail.com>, linux-rockchip@lists.infradead.org
 Subject: Re: (subset) [PATCH V2 00/10] rockchip: Add Powkiddy X55
-Date: Tue,  5 Dec 2023 10:52:22 +0100
-Message-Id: <170176993501.528247.5450175586364126094.b4-ty@sntech.de>
+Date: Tue,  5 Dec 2023 10:59:24 +0100
+Message-Id: <170177035808.530583.4519890630832587143.b4-ty@sntech.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231204185719.569021-1-macroalpha82@gmail.com>
 References: <20231204185719.569021-1-macroalpha82@gmail.com>
@@ -40,12 +40,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, conor+dt@kernel.org,
- Chris Morgan <macromorgan@hotmail.com>, krzysztof.kozlowski+dt@linaro.org,
+Cc: conor+dt@kernel.org, Chris Morgan <macromorgan@hotmail.com>,
  devicetree@vger.kernel.org, sboyd@kernel.org, tzimmermann@suse.de,
- mturquette@baylibre.com, javierm@redhat.com, mripard@kernel.org,
- robh+dt@kernel.org, dri-devel@lists.freedesktop.org, quic_jesszhan@quicinc.com,
- sam@ravnborg.org, linux-clk@vger.kernel.org
+ mturquette@baylibre.com, neil.armstrong@linaro.org, javierm@redhat.com,
+ mripard@kernel.org, robh+dt@kernel.org, dri-devel@lists.freedesktop.org,
+ krzysztof.kozlowski+dt@linaro.org, quic_jesszhan@quicinc.com, sam@ravnborg.org,
+ linux-clk@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -66,10 +66,10 @@ On Mon, 4 Dec 2023 12:57:09 -0600, Chris Morgan wrote:
 
 Applied, thanks!
 
-[07/10] clk: rockchip: Mark pclk_usb as critical on rk3568
-        commit: 721bf080f249ab2adcc4337abe164230bfb8594f
-[08/10] clk: rockchip: rk3568: Add PLL rate for 126.4MHz
-        commit: 685da6972647b486980c0cc8fd6bb5d3863fd6b7
+[09/10] dt-bindings: arm: rockchip: Add Powkiddy X55
+        commit: b7d755653790b5f5497df8bfb146c38beeb33b74
+[10/10] arm64: dts: rockchip: Add Powkiddy X55
+        commit: 009e2d0c224913eb4f44e9c2efe7a15789fc0c18
 
 Best regards,
 -- 
