@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBFDA804997
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 06:59:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D84A0804996
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 06:59:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D56BC10E208;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45CC310E1D4;
 	Tue,  5 Dec 2023 05:58:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F24A610E110
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 05:58:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D14910E1D4
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 05:58:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1701755932; x=1733291932;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=2lJJFbXrRuB2RlRAET5QtLu2irPUsw8bf+ZLAugxfOs=;
- b=Cn3FsqTLCypB9JPOniUE6JPEb9KLhDAOkuy1fXGDY6IPnGke5c9OArHI
- 1IT8sFMyrno1sMXilFbZ+tBepzeV0PPokqibCcHz1Zv/jBUcjY/zL4HQe
- xHs0X6wnrAWr6PuehF+5xL2N3H/7tK9YGzpSkEAimzD1Ns0cqabmjlZKj
- +AoPtbZKMNoUaFd57jCC05XosO5zjO7dUEshgEWBQQ0uX3oF7MI06yXeN
- VqboPxcJQTim8B1y6H831HENU3kl0juuGriMwv0p7r5FtuvueDSz15Khs
- utYi/vk+GbUg7FW3ZBCL27H18RB+tGF9jpb5q+FO63PZSfVh/LYp5n17J Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="906316"
+ bh=r39C9fURv/tYjjTgfRvVfOiacLkGBXJF65fG2x4l+b0=;
+ b=JYGUTdtnQu9cQ0AzQwo6CzfdzuD2s0m0cX0A+H1AEkY3feSn2cgTIiyK
+ xqS5f5aqqT8IV4ryn8w46rOmdVtwnFuT+NvnBS7fUmf5ZwQrZGDkOwken
+ XRQzcJ5NDppJdJMxwCHbpOVB1LhVXGJz3QW2BugeNbjXM52rJ+2I3sBWI
+ DQNlwePZMu8udVvbDNV31lYbRDhynayKCwsKBroKsegh07y7krWZkU6vs
+ SS/j7EZzpdqkXthbdC1dsY3ehYWDMEwlr9K8K2xjY1x4J3CRKf4ebLQxs
+ 0atZs8jZiZrzEY5suDZfLRhORip8ED8pzR57FJu8L7n4VX+6httjtIh7B A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="906320"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="906316"
+   d="scan'208";a="906320"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  04 Dec 2023 21:58:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="888807735"
-X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; d="scan'208";a="888807735"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="888807737"
+X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; d="scan'208";a="888807737"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  04 Dec 2023 21:58:50 -0800
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	linux-mm@kvack.org
-Subject: [PATCH v6 4/5] udmabuf: Pin the pages using memfd_pin_user_pages()
- API (v4)
-Date: Mon,  4 Dec 2023 21:35:08 -0800
-Message-Id: <20231205053509.2342169-5-vivek.kasireddy@intel.com>
+Subject: [PATCH v6 5/5] selftests/dma-buf/udmabuf: Add tests to verify data
+ after page migration
+Date: Mon,  4 Dec 2023 21:35:09 -0800
+Message-Id: <20231205053509.2342169-6-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231205053509.2342169-1-vivek.kasireddy@intel.com>
 References: <20231205053509.2342169-1-vivek.kasireddy@intel.com>
@@ -64,33 +64,23 @@ Cc: Dongwon Kim <dongwon.kim@intel.com>, David Hildenbrand <david@redhat.com>,
  Daniel Vetter <daniel.vetter@ffwll.ch>, Hugh Dickins <hughd@google.com>,
  Vivek Kasireddy <vivek.kasireddy@intel.com>, Peter Xu <peterx@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Junxiao Chang <junxiao.chang@intel.com>,
+ Junxiao Chang <junxiao.chang@intel.com>, Shuah Khan <shuah@kernel.org>,
  Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using memfd_pin_user_pages() will ensure that the pages are pinned
-correctly using FOLL_PIN. And, this also ensures that we don't
-accidentally break features such as memory hotunplug as it would
-not allow pinning pages in the movable zone.
+Since the memfd pages associated with a udmabuf may be migrated
+as part of udmabuf create, we need to verify the data coherency
+after successful migration. The new tests added in this patch try
+to do just that using 4k sized pages and also 2 MB sized huge
+pages for the memfd.
 
-Using this new API also simplifies the code as we no longer have
-to deal with extracting individual pages from their mappings. As
-a result, we can drop some of the local variables such as page,
-hpage, mapping, etc.
+Successful completion of the tests would mean that there is no
+disconnect between the memfd pages and the ones associated with
+a udmabuf. And, these tests can also be augmented in the future
+to test newer udmabuf features (such as handling memfd hole punch).
 
-v2:
-- Adjust to the change in signature of pin_user_pages_fd() by
-  passing in file * instead of fd.
-
-v3:
-- Limit the changes in this patch only to those that are required
-  for using pin_user_pages_fd()
-- Slightly improve the commit message
-
-v4:
-- Adjust to the change in name of the API (memfd_pin_user_pages)
-
+Cc: Shuah Khan <shuah@kernel.org>
 Cc: David Hildenbrand <david@redhat.com>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: Mike Kravetz <mike.kravetz@oracle.com>
@@ -100,131 +90,204 @@ Cc: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Dongwon Kim <dongwon.kim@intel.com>
 Cc: Junxiao Chang <junxiao.chang@intel.com>
+Based-on-patch-by: Mike Kravetz <mike.kravetz@oracle.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- drivers/dma-buf/udmabuf.c | 62 +++++++++++++++------------------------
- 1 file changed, 23 insertions(+), 39 deletions(-)
+ .../selftests/drivers/dma-buf/udmabuf.c       | 151 +++++++++++++++++-
+ 1 file changed, 147 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 1d1cc5e7e613..887dc287a23c 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -156,7 +156,8 @@ static void release_udmabuf(struct dma_buf *buf)
- 		put_sg_table(dev, ubuf->sg, DMA_BIDIRECTIONAL);
+diff --git a/tools/testing/selftests/drivers/dma-buf/udmabuf.c b/tools/testing/selftests/drivers/dma-buf/udmabuf.c
+index c812080e304e..d76c813fe652 100644
+--- a/tools/testing/selftests/drivers/dma-buf/udmabuf.c
++++ b/tools/testing/selftests/drivers/dma-buf/udmabuf.c
+@@ -9,26 +9,132 @@
+ #include <errno.h>
+ #include <fcntl.h>
+ #include <malloc.h>
++#include <stdbool.h>
  
- 	for (pg = 0; pg < ubuf->pagecount; pg++)
--		put_page(ubuf->pages[pg]);
-+		unpin_user_page(ubuf->pages[pg]);
+ #include <sys/ioctl.h>
+ #include <sys/syscall.h>
++#include <sys/mman.h>
+ #include <linux/memfd.h>
+ #include <linux/udmabuf.h>
+ 
+ #define TEST_PREFIX	"drivers/dma-buf/udmabuf"
+ #define NUM_PAGES       4
++#define NUM_ENTRIES     4
++#define MEMFD_SIZE      1024 /* in pages */
+ 
+-static int memfd_create(const char *name, unsigned int flags)
++static unsigned int page_size;
 +
- 	kfree(ubuf->subpgoff);
- 	kfree(ubuf->pages);
- 	kfree(ubuf);
-@@ -217,15 +218,13 @@ static long udmabuf_create(struct miscdevice *device,
++static int create_memfd_with_seals(off64_t size, bool hpage)
++{
++	int memfd, ret;
++	unsigned int flags = MFD_ALLOW_SEALING;
++
++	if (hpage)
++		flags |= MFD_HUGETLB;
++
++	memfd = memfd_create("udmabuf-test", flags);
++	if (memfd < 0) {
++		printf("%s: [skip,no-memfd]\n", TEST_PREFIX);
++		exit(77);
++	}
++
++	ret = fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK);
++	if (ret < 0) {
++		printf("%s: [skip,fcntl-add-seals]\n", TEST_PREFIX);
++		exit(77);
++	}
++
++	ret = ftruncate(memfd, size);
++	if (ret == -1) {
++		printf("%s: [FAIL,memfd-truncate]\n", TEST_PREFIX);
++		exit(1);
++	}
++
++	return memfd;
++}
++
++static int create_udmabuf_list(int devfd, int memfd, off64_t memfd_size)
++{
++	struct udmabuf_create_list *list;
++	int ubuf_fd, i;
++
++	list = malloc(sizeof(struct udmabuf_create_list) +
++		      sizeof(struct udmabuf_create_item) * NUM_ENTRIES);
++	if (!list) {
++		printf("%s: [FAIL, udmabuf-malloc]\n", TEST_PREFIX);
++		exit(1);
++	}
++
++	for (i = 0; i < NUM_ENTRIES; i++) {
++		list->list[i].memfd  = memfd;
++		list->list[i].offset = i * (memfd_size / NUM_ENTRIES);
++		list->list[i].size   = getpagesize() * NUM_PAGES;
++	}
++
++	list->count = NUM_ENTRIES;
++	list->flags = UDMABUF_FLAGS_CLOEXEC;
++	ubuf_fd = ioctl(devfd, UDMABUF_CREATE_LIST, list);
++	free(list);
++	if (ubuf_fd < 0) {
++		printf("%s: [FAIL, udmabuf-create]\n", TEST_PREFIX);
++		exit(1);
++	}
++
++	return ubuf_fd;
++}
++
++static void write_to_memfd(void *addr, off64_t size, char chr)
++{
++	int i;
++
++	for (i = 0; i < size / page_size; i++) {
++		*((char *)addr + (i * page_size)) = chr;
++	}
++}
++
++static void *mmap_fd(int fd, off64_t size)
  {
- 	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
- 	struct file *memfd = NULL;
--	struct address_space *mapping = NULL;
- 	struct udmabuf *ubuf;
- 	struct dma_buf *buf;
--	pgoff_t pgoff, pgcnt, pgidx, pgbuf = 0, pglimit;
--	struct page *page, *hpage = NULL;
--	struct folio *folio;
-+	pgoff_t pgcnt, pgbuf = 0, pglimit, nr_pages;
- 	pgoff_t mapidx, chunkoff, maxchunks;
- 	struct hstate *hpstate;
--	int seals, ret = -EINVAL;
-+	long ret = -EINVAL;
-+	int seals;
- 	u32 i, flags;
- 
- 	ubuf = kzalloc(sizeof(*ubuf), GFP_KERNEL);
-@@ -259,8 +258,7 @@ static long udmabuf_create(struct miscdevice *device,
- 		memfd = fget(list[i].memfd);
- 		if (!memfd)
- 			goto err;
--		mapping = memfd->f_mapping;
--		if (!shmem_mapping(mapping) && !is_file_hugepages(memfd))
-+		if (!shmem_file(memfd) && !is_file_hugepages(memfd))
- 			goto err;
- 		seals = memfd_fcntl(memfd, F_GET_SEALS, 0);
- 		if (seals == -EINVAL)
-@@ -269,7 +267,7 @@ static long udmabuf_create(struct miscdevice *device,
- 		if ((seals & SEALS_WANTED) != SEALS_WANTED ||
- 		    (seals & SEALS_DENIED) != 0)
- 			goto err;
--		pgoff = list[i].offset >> PAGE_SHIFT;
-+		mapidx = list[i].offset >> PAGE_SHIFT;
- 		pgcnt = list[i].size   >> PAGE_SHIFT;
- 		if (is_file_hugepages(memfd)) {
- 			if (!ubuf->subpgoff) {
-@@ -288,42 +286,27 @@ static long udmabuf_create(struct miscdevice *device,
- 				    ~huge_page_mask(hpstate)) >> PAGE_SHIFT;
- 			maxchunks = huge_page_size(hpstate) >> PAGE_SHIFT;
- 		}
--		for (pgidx = 0; pgidx < pgcnt; pgidx++) {
+-	return syscall(__NR_memfd_create, name, flags);
++	void *addr;
 +
-+		do {
-+			nr_pages = shmem_file(memfd) ? pgcnt : 1;
-+			ret = memfd_pin_user_pages(memfd, mapidx, nr_pages,
-+						   ubuf->pages + pgbuf);
-+			if (ret < 0)
++	addr = mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
++	if (addr == MAP_FAILED) {
++		printf("%s: ubuf_fd mmap fail\n", TEST_PREFIX);
++		exit(1);
++	}
++
++	return addr;
++}
++
++static int compare_chunks(void *addr1, void *addr2, off64_t memfd_size)
++{
++	off64_t off;
++	int i = 0, j, k = 0, ret = 0;
++	char char1, char2;
++
++	while (i < NUM_ENTRIES) {
++		off = i * (memfd_size / NUM_ENTRIES);
++		for (j = 0; j < NUM_PAGES; j++, k++) {
++			char1 = *((char *)addr1 + off + (j * getpagesize()));
++			char2 = *((char *)addr2 + (k * getpagesize()));
++			if (char1 != char2) {
++				ret = -1;
 +				goto err;
-+
- 			if (is_file_hugepages(memfd)) {
--				if (!hpage) {
--					folio = __filemap_get_folio(mapping, mapidx,
--								    FGP_ACCESSED, 0);
--					hpage = IS_ERR(folio) ? NULL: &folio->page;
--					if (!hpage) {
--						ret = -EINVAL;
--						goto err;
--					}
--				}
--				get_page(hpage);
--				ubuf->pages[pgbuf] = hpage;
--				ubuf->subpgoff[pgbuf++] = chunkoff << PAGE_SHIFT;
-+				ubuf->subpgoff[pgbuf] = chunkoff << PAGE_SHIFT;
- 				if (++chunkoff == maxchunks) {
--					put_page(hpage);
--					hpage = NULL;
- 					chunkoff = 0;
- 					mapidx += pages_per_huge_page(hpstate);
- 				}
--			} else {
--				mapidx = pgoff + pgidx;
--				page = shmem_read_mapping_page(mapping, mapidx);
--				if (IS_ERR(page)) {
--					ret = PTR_ERR(page);
--					goto err;
--				}
--				ubuf->pages[pgbuf++] = page;
- 			}
--		}
-+			pgbuf += nr_pages;
-+			pgcnt -= nr_pages;
-+		} while (pgcnt > 0);
-+
- 		fput(memfd);
- 		memfd = NULL;
--		if (hpage) {
--			put_page(hpage);
--			hpage = NULL;
--		}
++			}
++		}
++		i++;
++	}
++err:
++	munmap(addr1, memfd_size);
++	munmap(addr2, NUM_ENTRIES * NUM_PAGES * getpagesize());
++	return ret;
+ }
+ 
+ int main(int argc, char *argv[])
+ {
+ 	struct udmabuf_create create;
+ 	int devfd, memfd, buf, ret;
+-	off_t size;
+-	void *mem;
++	off64_t size;
++	void *addr1, *addr2;
+ 
+ 	devfd = open("/dev/udmabuf", O_RDWR);
+ 	if (devfd < 0) {
+@@ -90,6 +196,9 @@ int main(int argc, char *argv[])
  	}
  
- 	exp_info.ops  = &udmabuf_ops;
-@@ -344,8 +327,9 @@ static long udmabuf_create(struct miscdevice *device,
- 	return dma_buf_fd(buf, flags);
+ 	/* should work */
++	page_size = getpagesize();
++	addr1 = mmap_fd(memfd, size);
++	write_to_memfd(addr1, size, 'a');
+ 	create.memfd  = memfd;
+ 	create.offset = 0;
+ 	create.size   = size;
+@@ -98,6 +207,40 @@ int main(int argc, char *argv[])
+ 		printf("%s: [FAIL,test-4]\n", TEST_PREFIX);
+ 		exit(1);
+ 	}
++	munmap(addr1, size);
++	close(buf);
++	close(memfd);
++
++	/* should work (migration of 4k size pages)*/
++	size = MEMFD_SIZE * page_size;
++	memfd = create_memfd_with_seals(size, false);
++	addr1 = mmap_fd(memfd, size);
++	write_to_memfd(addr1, size, 'a');
++	buf = create_udmabuf_list(devfd, memfd, size);
++	addr2 = mmap_fd(buf, NUM_PAGES * NUM_ENTRIES * getpagesize());
++	write_to_memfd(addr1, size, 'b');
++	ret = compare_chunks(addr1, addr2, size);
++	if (ret < 0) {
++		printf("%s: [FAIL,test-5]\n", TEST_PREFIX);
++		exit(1);
++	}
++	close(buf);
++	close(memfd);
++
++	/* should work (migration of 2MB size huge pages)*/
++	page_size = getpagesize() * 512; /* 2 MB */
++	size = MEMFD_SIZE * page_size;
++	memfd = create_memfd_with_seals(size, true);
++	addr1 = mmap_fd(memfd, size);
++	write_to_memfd(addr1, size, 'a');
++	buf = create_udmabuf_list(devfd, memfd, size);
++	addr2 = mmap_fd(buf, NUM_PAGES * NUM_ENTRIES * getpagesize());
++	write_to_memfd(addr1, size, 'b');
++	ret = compare_chunks(addr1, addr2, size);
++	if (ret < 0) {
++		printf("%s: [FAIL,test-6]\n", TEST_PREFIX);
++		exit(1);
++	}
  
- err:
--	while (pgbuf > 0)
--		put_page(ubuf->pages[--pgbuf]);
-+	while (pgbuf-- > 0)
-+		if (ubuf->pages[pgbuf])
-+			unpin_user_page(ubuf->pages[pgbuf]);
- 	if (memfd)
- 		fput(memfd);
- 	kfree(ubuf->subpgoff);
+ 	fprintf(stderr, "%s: ok\n", TEST_PREFIX);
+ 	close(buf);
 -- 
 2.39.2
 
