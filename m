@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A5BE80512F
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 11:52:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9948C805133
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 11:54:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34FF410E170;
-	Tue,  5 Dec 2023 10:52:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1745B10E4E0;
+	Tue,  5 Dec 2023 10:54:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF26710E170;
- Tue,  5 Dec 2023 10:52:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701773559; x=1733309559;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Vl6vHsI/Mxl+rIJoAMryCj5elixsRfihp50NyC9JjX8=;
- b=SFeG9aIa2DQCB0ODOpkwwWNlX2zgAjQhiP4eMrapwgu6Yp49P5QudW7K
- YbetA4KB/SeoT/F5pMFWXKz+NCNFhH1hQPTxS2bUBjozAmtfAB8fvvVH9
- 8xHoKpZXhPF0tVEN3RQUZRceMv0sD/3QDD1K6jJpGfM0CCsieNVvmkYfD
- 5be1mox8KLe/AQko+pjZRh9dxHTVvMjscgoWqlzbBD64g02qVwembpka9
- tGqp4knyJhFABZZ8M/1wK9+/4CiSYp19572kXxHCNclCw2hCojX60OPt1
- RTCQV1KGe/XqDwe4x+kR0xMtlNnkas5G2ZkEsQoyILxNlj7e7GW4TsAiX w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="378902491"
-X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; d="scan'208";a="378902491"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2023 02:52:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="944219849"
-X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; d="scan'208";a="944219849"
-Received: from ctgorman-mobl.ger.corp.intel.com (HELO [10.213.202.242])
- ([10.213.202.242])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2023 02:52:37 -0800
-Message-ID: <8f3fac46-9ce2-4ef3-bd42-5e3d447eff75@linux.intel.com>
-Date: Tue, 5 Dec 2023 10:52:35 +0000
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76C8110E4E0
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 10:54:03 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id
+ a640c23a62f3a-a196f84d217so574631566b.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 02:54:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1701773642; x=1702378442;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9vMrXeU9PccX6SmGwv0uL8uz2m+ssCwq/m3VB0zUtRA=;
+ b=rRXWTh1MwGwzkNx9nMdSaf/0lmn4qVDc8noC23aZik+8hY7RQFqqUSRLNHfjJ4mrTP
+ I8cbGhdGjcYs7pGLpjACsSdypdgYOehGjldHQwVPvv3VHPP2Oov2EoVwowprpI1M6Pmo
+ +udpu8GvbKvoauQeuFvi36rh2ipZ++fFOS7L0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701773642; x=1702378442;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9vMrXeU9PccX6SmGwv0uL8uz2m+ssCwq/m3VB0zUtRA=;
+ b=Q0K/LKXR4LK42hAh7G7OYDDSrem9W3Xyox6j5CTA/cf+Ms4WWoff2HJ7mlu/F3AmKD
+ LwBXSDNft+QEhyq75ORZeCAngiNzPbfZTr/uNWQYedeF71tz9VkxK27wabqRZEvGFr3g
+ N5IXXQ0YGMNjCBlB5frm4eh1xmYay5qVM3VxCdhVsN6ey/Eb7B7htK1qrW73689rFNGA
+ ZOBYOnYvUxRLQCgV9ntf+zDdetqL+oP5I48hR/jte6zR5AwkAbAPz7s4dolqDVDMZDbn
+ 9+g4yDQjiPmiDoRijGQ/aiQOYukwsK4MwheehaOEoGu1/u7RZg8T1E3/+4VPkSBC+yvL
+ 4QNw==
+X-Gm-Message-State: AOJu0YwULTEZCQjQ79CKif+5+S13fN/SF7LLCtgHWAm24cgbmth93YsT
+ OOFJiV4waEAC6UKCrtYNnOm6Gg==
+X-Google-Smtp-Source: AGHT+IFuMd+CZo1e3WCy0qTpcsuyyZxRhrA2D9Fm6zF+vDpSe64HfbUduReMi+n70WxZd3wbPaRzFQ==
+X-Received: by 2002:a17:906:1c2:b0:a1c:795b:405a with SMTP id
+ 2-20020a17090601c200b00a1c795b405amr366504ejj.109.1701773641775; 
+ Tue, 05 Dec 2023 02:54:01 -0800 (PST)
+Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it
+ (host-82-54-95-129.retail.telecomitalia.it. [82.54.95.129])
+ by smtp.gmail.com with ESMTPSA id
+ n23-20020a170906089700b0099297782aa9sm6413491eje.49.2023.12.05.02.53.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Dec 2023 02:54:01 -0800 (PST)
+From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v4 00/10] Add displays support for bsh-smm-s2/pro boards
+Date: Tue,  5 Dec 2023 11:52:47 +0100
+Message-ID: <20231205105341.4100896-1-dario.binacchi@amarulasolutions.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/gt: Reduce log severity on reset
- prepare.
-Content-Language: en-US
-To: Nirmoy Das <nirmoy.das@linux.intel.com>, Nirmoy Das
- <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20231201154443.16660-1-nirmoy.das@intel.com>
- <cff13a24-2f7f-4d44-8fd4-a45cbfa1c76e@linux.intel.com>
- <d50cc22d-670a-49e3-92c7-361fdac66fc6@intel.com>
- <ddde1612-bfd1-4892-b915-87034a0a7cb3@linux.intel.com>
- <00a50f66-0268-4f1d-a4d4-baf4dda2b1f6@linux.intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <00a50f66-0268-4f1d-a4d4-baf4dda2b1f6@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,111 +69,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Peng Fan <peng.fan@nxp.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Robert Foss <rfoss@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, michael@amarulasolutions.com,
+ Jagan Teki <jagan@amarulasolutions.com>, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Jonas Karlman <jonas@kwiboo.se>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Shawn Guo <shawnguo@kernel.org>,
+ Amarula patchwork <linux-amarula@amarulasolutions.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The series adds drivers for the displays used by bsh-smm-s2/pro boards.
+This required applying some patches to the samsung-dsim driver and the
+drm_bridge.c module.
 
-On 05/12/2023 10:44, Nirmoy Das wrote:
-> Hi Tvrtko,
-> 
-> On 12/5/2023 11:05 AM, Tvrtko Ursulin wrote:
->>
->> On 05/12/2023 08:50, Nirmoy Das wrote:
->>> Hi Tvrtko,
->>>
->>> On 12/5/2023 9:34 AM, Tvrtko Ursulin wrote:
->>>>
->>>> On 01/12/2023 15:44, Nirmoy Das wrote:
->>>>> gen8_engine_reset_prepare() can fail when HW fails to set
->>>>> RESET_CTL_READY_TO_RESET bit. In some cases this is not fatal
->>>>> error as driver will retry.
->>>>>
->>>>> Let the caller of gen8_engine_reset_prepare() decide if a
->>>>> failure in gen8_engine_reset_prepare is an error or not.
->>>>
->>>> No complaints per se but I don't see the caller deciding and it is 
->>>> not really reducing log level but converting to trace. So commit 
->>>> message and patch do not align for me which I think should be improved.
->>>
->>>
->>> I meant the return value is checked by the caller, 
->>> gen8_reset_engines(). I will resend with a improved commit message.
->>
->> Ah okay, maybe my bad for not figuring out that possibility. I guess 
->> it might be passable as is, but yes, clearer commit text would be better.
-> 
-> I sent a v2 already :)
-> 
-> 
->>
->> Trace is good enough - we are not usually interested in seeing those 
->> as dbg/info/notice?
-> 
-> 
-> Idea is that all the GT related events are recorded in trace and dmesg 
-> could be noisy some times.
+Changes in v4:
+- Set the reset gpio to low in a single operation
+- Remove duplicated code for prepare/unprepare callbacks
+- Add 'Reviewed-by; tag of Neil Armstrong
 
-Although trace does not help on production deployments so we need to be 
-sure the fact this timeout is hit is totally un-interesting. I see John 
-has some concerns that it may not be so. And I don't have currently a 
-view into how frequent they are (timeouts) or which platforms are affected.
+Changes in v3:
+- Add 'Reviewed-by' tag of Krzysztof Kozlowski.
+- Replace "synaptics,r63353" compatible with "syna,r63353", as
+  required by vendor-prefixes.yaml.
+- Drop power-supply
+- Replace "synaptics,r63353" compatible with "syna,r63353", as
+  required by vendor-prefixes.yaml.
+- Squash patch [09/11] dt-bindings: ili9805: add compatible string for Tianma TM041XDHG01
+  into [07/11] dt-bindings: display: panel: Add Ilitek ili9805 panel controller.
 
-Regards,
+Changes in v2:
+- Add $ref to panel-common.yaml
+- Drop port, reset-gpios, and backlight
+- Set port and backlight ad required
+- Replace additionalProperties with unevaluatedProperties
+- Adjust the timings of the panel reset
+- Add $ref to panel-common.yaml
+- Drop port, reset-gpios, and backlight
+- Set port and backlight ad required
+- Replace additionalProperties with unevaluatedProperties
+- Adjust the mipi_dsi node based on the latest patches merged into
+  the mainline in the dtsi files it includes.
+- Added to the series the following patches:
+  - 0001 drm/bridge: Fix bridge disable logic
+  - 0002 drm/bridge: Fix a use case in the bridge disable logic
+  - 0003 samsung-dsim: enter display mode in the enable() callback
+  - 0004 drm: bridge: samsung-dsim: complete the CLKLANE_STOP setting
 
-Tvrtko
+Dario Binacchi (4):
+  drm/bridge: Fix bridge disable logic
+  drm/bridge: Fix a use case in the bridge disable logic
+  drm: bridge: samsung-dsim: enter display mode in the enable() callback
+  drm: bridge: samsung-dsim: complete the CLKLANE_STOP setting
 
-> 
-> 
-> Regards,
-> 
-> Nirmoy
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
->>>
->>> Thanks,
->>>
->>> Nirmoy
->>>
->>>>
->>>> Regards,
->>>>
->>>> Tvrtko
->>>>
->>>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>> Cc: John Harrison <John.C.Harrison@Intel.com>
->>>>> Cc: Andi Shyti <andi.shyti@linux.intel.com>
->>>>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
->>>>> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5591
->>>>> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
->>>>> ---
->>>>>   drivers/gpu/drm/i915/gt/intel_reset.c | 8 ++++----
->>>>>   1 file changed, 4 insertions(+), 4 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c 
->>>>> b/drivers/gpu/drm/i915/gt/intel_reset.c
->>>>> index d5ed904f355d..e6fbc6202c80 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
->>>>> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
->>>>> @@ -593,10 +593,10 @@ static int gen8_engine_reset_prepare(struct 
->>>>> intel_engine_cs *engine)
->>>>>       ret = __intel_wait_for_register_fw(uncore, reg, mask, ack,
->>>>>                          700, 0, NULL);
->>>>>       if (ret)
->>>>> -        gt_err(engine->gt,
->>>>> -               "%s reset request timed out: {request: %08x, 
->>>>> RESET_CTL: %08x}\n",
->>>>> -               engine->name, request,
->>>>> -               intel_uncore_read_fw(uncore, reg));
->>>>> +        GT_TRACE(engine->gt,
->>>>> +             "%s reset request timed out: {request: %08x, 
->>>>> RESET_CTL: %08x}\n",
->>>>> +             engine->name, request,
->>>>> +             intel_uncore_read_fw(uncore, reg));
->>>>>         return ret;
->>>>>   }
+Michael Trimarchi (6):
+  dt-bindings: display: panel: Add synaptics r63353 panel controller
+  drm/panel: Add Synaptics R63353 panel driver
+  dt-bindings: display: panel: Add Ilitek ili9805 panel controller
+  drm/panel: Add Ilitek ILI9805 panel driver
+  drm/panel: ilitek-ili9805: add support for Tianma TM041XDHG01 panel
+  arm64: dts: imx8mn-bsh-smm-s2/pro: add display setup
+
+ .../display/panel/ilitek,ili9805.yaml         |  62 +++
+ .../display/panel/synaptics,r63353.yaml       |  61 +++
+ MAINTAINERS                                   |  12 +
+ .../freescale/imx8mn-bsh-smm-s2-common.dtsi   |   1 +
+ .../freescale/imx8mn-bsh-smm-s2-display.dtsi  | 121 ++++++
+ drivers/gpu/drm/bridge/samsung-dsim.c         |  14 +-
+ drivers/gpu/drm/drm_bridge.c                  |   9 +-
+ drivers/gpu/drm/panel/Kconfig                 |  18 +
+ drivers/gpu/drm/panel/Makefile                |   2 +
+ drivers/gpu/drm/panel/panel-ilitek-ili9805.c  | 406 ++++++++++++++++++
+ .../gpu/drm/panel/panel-synaptics-r63353.c    | 363 ++++++++++++++++
+ 11 files changed, 1062 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9805.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/panel/synaptics,r63353.yaml
+ create mode 100644 arch/arm64/boot/dts/freescale/imx8mn-bsh-smm-s2-display.dtsi
+ create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9805.c
+ create mode 100644 drivers/gpu/drm/panel/panel-synaptics-r63353.c
+
+-- 
+2.43.0
+
