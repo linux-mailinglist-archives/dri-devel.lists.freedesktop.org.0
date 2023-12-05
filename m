@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719368059BA
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 17:17:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 211D38059CE
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 17:17:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06EC510E5B8;
-	Tue,  5 Dec 2023 16:16:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBECC10E5D1;
+	Tue,  5 Dec 2023 16:17:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1781A10E4D2
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 09:55:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id C7FB410E4C6
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 09:55:32 +0000 (UTC)
 Received: from SIOS1075.ysato.name (ZM005235.ppp.dion.ne.jp [222.8.5.235])
- by sakura.ysato.name (Postfix) with ESMTPSA id B25571C0936;
- Tue,  5 Dec 2023 18:47:08 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id E790D1C0939;
+ Tue,  5 Dec 2023 18:47:10 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
-Subject: [DO NOT MERGE v5 33/37] sh: j2_mimas_v2.dts update
-Date: Tue,  5 Dec 2023 18:45:52 +0900
-Message-Id: <42f550adbba8e18b0fd5c4f62602a6eed8f0b777.1701768028.git.ysato@users.sourceforge.jp>
+Subject: [DO NOT MERGE v5 34/37] sh: Add dtbs target support.
+Date: Tue,  5 Dec 2023 18:45:53 +0900
+Message-Id: <ca13e0f5ecdecb505a09abfea5d1b42d8886b336.1701768028.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1701768028.git.ysato@users.sourceforge.jp>
 References: <cover.1701768028.git.ysato@users.sourceforge.jp>
@@ -81,22 +81,21 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- arch/sh/boot/dts/j2_mimas_v2.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/sh/boot/dts/Makefile | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/arch/sh/boot/dts/j2_mimas_v2.dts b/arch/sh/boot/dts/j2_mimas_v2.dts
-index fa9562f78d53..5dfe20866a1c 100644
---- a/arch/sh/boot/dts/j2_mimas_v2.dts
-+++ b/arch/sh/boot/dts/j2_mimas_v2.dts
-@@ -16,7 +16,7 @@ cpus {
- 
- 		cpu@0 {
- 			device_type = "cpu";
--			compatible = "jcore,j2";
-+			compatible = "jcore,j2", "renesas,sh2";
- 			reg = <0>;
- 			clock-frequency = <50000000>;
- 			d-cache-size = <8192>;
+diff --git a/arch/sh/boot/dts/Makefile b/arch/sh/boot/dts/Makefile
+index 4a6dec9714a9..e6b93360c213 100644
+--- a/arch/sh/boot/dts/Makefile
++++ b/arch/sh/boot/dts/Makefile
+@@ -1,2 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ obj-$(CONFIG_USE_BUILTIN_DTB) += $(addsuffix .dtb.o, $(CONFIG_BUILTIN_DTB_SOURCE))
++
++dtb-$(CONFIG_CPU_J2) += j2_mimas_v2.dtb
++dtb-$(CONFIG_CPU_SUBTYPE_SH7751R) += landisk.dtb
++dtb-$(CONFIG_CPU_SUBTYPE_SH7751R) += rts7751r2dplus.dtb
++dtb-$(CONFIG_CPU_SUBTYPE_SH7751R) += usl-5p.dtb
 -- 
 2.39.2
 
