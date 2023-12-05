@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C61858059C7
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 17:17:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C668059D0
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 17:17:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D426710E5C5;
-	Tue,  5 Dec 2023 16:16:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B615010E5D2;
+	Tue,  5 Dec 2023 16:17:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3413510E4DA
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 09:55:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 27E7210E4CD
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 09:55:32 +0000 (UTC)
 Received: from SIOS1075.ysato.name (ZM005235.ppp.dion.ne.jp [222.8.5.235])
- by sakura.ysato.name (Postfix) with ESMTPSA id 33C531C0509;
- Tue,  5 Dec 2023 18:46:46 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id 2DA221C066B;
+ Tue,  5 Dec 2023 18:46:48 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
-Subject: [DO NOT MERGE v5 22/37] dt-bindings: display: smi,
- sm501: SMI SM501 binding json-schema
-Date: Tue,  5 Dec 2023 18:45:41 +0900
-Message-Id: <f671beae8a8ebfd361f4c903bccce713135a169f.1701768028.git.ysato@users.sourceforge.jp>
+Subject: [DO NOT MERGE v5 23/37] mfd: sm501: Convert platform_data to OF
+ property
+Date: Tue,  5 Dec 2023 18:45:42 +0900
+Message-Id: <68532082074b0c8fe9945b481678aab77520f517.1701768028.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1701768028.git.ysato@users.sourceforge.jp>
 References: <cover.1701768028.git.ysato@users.sourceforge.jp>
@@ -80,187 +80,234 @@ Cc: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Define SM501 functions and modes.
+Various parameters of SM501 can be set using platform_data,
+so parameters cannot be passed in the DeviceTree target.
+Expands the parameters set in platform_data so that they can be
+specified using DeviceTree properties.
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- .../bindings/display/smi,sm501.yaml           | 134 ++++++++++++++++++
- include/dt-bindings/display/sm501.h           |  25 ++++
- 2 files changed, 159 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/smi,sm501.yaml
- create mode 100644 include/dt-bindings/display/sm501.h
+ drivers/mfd/sm501.c           | 99 +++++++++++++++++++++++++++++++++++
+ drivers/video/fbdev/sm501fb.c | 82 +++++++++++++++++++++++++++++
+ 2 files changed, 181 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/smi,sm501.yaml b/Documentation/devicetree/bindings/display/smi,sm501.yaml
-new file mode 100644
-index 000000000000..df46600b8d4a
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/smi,sm501.yaml
-@@ -0,0 +1,134 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/smi,sm501.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/mfd/sm501.c b/drivers/mfd/sm501.c
+index 28027982cf69..f0104fdf0f34 100644
+--- a/drivers/mfd/sm501.c
++++ b/drivers/mfd/sm501.c
+@@ -1370,6 +1370,99 @@ static int sm501_init_dev(struct sm501_devdata *sm)
+ 	return 0;
+ }
+ 
++static void sm501_of_read_reg_init(struct device_node *np,
++				   const char *propname, struct sm501_reg_init *val)
++{
++	u32 u32_val[2];
 +
-+title: Silicon Motion SM501 Mobile Multimedia Companion Chip
++	if (!of_property_read_u32_array(np, propname, u32_val, sizeof(u32_val))) {
++		val->set = u32_val[0];
++		val->mask = u32_val[1];
++	}
++}
 +
-+maintainers:
-+  - Yoshinori Sato <ysato@user.sourceforge.jp>
++/* Read GPIO I2C configuration */
++static int sm501_parse_dt_gpio_i2c(struct device *dev, struct sm501_platdata *plat,
++				   struct device_node *np)
++{
++	struct sm501_platdata_gpio_i2c *gpio_i2c_p;
++	struct property *prop;
++	u32 gpio_i2c[5];
++	const __be32 *p;
++	unsigned int i;
++	u32 i2c_nr;
 +
-+description: |
-+  These DT bindings describe the SM501.
++	prop = of_find_property(np, "smi,gpio-i2c", NULL);
++	if (!prop)
++		return 0;
 +
-+properties:
-+  compatible:
-+    const:
-+      smi,sm501
++	i2c_nr = of_property_count_u32_elems(np, "smi,gpio-i2c");
 +
-+  reg:
-+    maxItems: 2
-+    description: |
-+     First entry: System Configuration register
-+     Second entry: IO space (Display Controller register)
++	/* GPIO I2C define 5 words per channel. */
++	if (i2c_nr % 5)
++		return -EINVAL;
++	i2c_nr /= 5;
++	plat->gpio_i2c = devm_kzalloc(dev, sizeof(*plat->gpio_i2c) * i2c_nr,
++				      GFP_KERNEL);
++	if (!plat->gpio_i2c)
++		return -ENOMEM;
 +
-+  interrupts:
-+    description: SM501 interrupt to the cpu should be described here.
++	plat->gpio_i2c_nr = i2c_nr;
++	gpio_i2c_p = plat->gpio_i2c;
 +
-+  interrupt-name: true
++	for (; i2c_nr > 0; i2c_nr--) {
++		for (i = 0; i < ARRAY_SIZE(gpio_i2c); i++) {
++			p = of_prop_next_u32(prop, p, &gpio_i2c[i]);
++			if (!p)
++				return -EINVAL;
++		}
++		gpio_i2c_p->bus_num = gpio_i2c[0];
++		gpio_i2c_p->pin_sda = gpio_i2c[1];
++		gpio_i2c_p->pin_scl = gpio_i2c[2];
++		gpio_i2c_p->udelay  = gpio_i2c[3];
++		gpio_i2c_p->timeout = gpio_i2c[4];
++		gpio_i2c_p++;
++	}
++	return 0;
++}
 +
-+  mode:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description: select a video mode
++/* Build platform_data from OF property */
++static int sm501_parse_dt(struct sm501_devdata *sm, struct device_node *np)
++{
++	struct sm501_platdata *plat;
++	u32 u32_val;
++	int ret;
 +
-+  edid:
-+    description: |
-+      verbatim EDID data block describing attached display.
-+      Data from the detailed timing descriptor will be used to
-+      program the display controller.
++	plat = devm_kzalloc(sm->dev, sizeof(*plat), GFP_KERNEL);
++	if (!plat)
++		return -ENOMEM;
 +
-+  little-endian:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description: available on big endian systems, to set different foreign endian.
-+  big-endian:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description: available on little endian systems, to set different foreign endian.
++	plat->init = devm_kzalloc(sm->dev, sizeof(*plat->init), GFP_KERNEL);
++	if (!plat->init)
++		return -ENOMEM;
 +
-+  swap-fb-endian:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description: swap framebuffer byteorder.
++	if (!of_property_read_u32(np, "smi,devices", &u32_val))
++		plat->init->devices = u32_val;
++	if (!of_property_read_u32(np, "smi,mclk", &u32_val))
++		plat->init->mclk = u32_val;
++	if (!of_property_read_u32(np, "smi,m1xclk", &u32_val))
++		plat->init->m1xclk = u32_val;
 +
-+  route-crt-panel:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description: Panel output merge to CRT.
++	sm501_of_read_reg_init(np, "smi,misc-timing", &plat->init->misc_timing);
++	sm501_of_read_reg_init(np, "smi,misc-control", &plat->init->misc_control);
++	sm501_of_read_reg_init(np, "smi,gpio-low", &plat->init->gpio_low);
++	sm501_of_read_reg_init(np, "smi,gpio-high", &plat->init->gpio_high);
 +
-+  crt:
-+    description: CRT output control
++	if (IS_ENABLED(CONFIG_MFD_SM501_GPIO) &&
++	    (plat->init->devices & SM501_USE_GPIO)) {
++		ret = sm501_parse_dt_gpio_i2c(sm->dev, plat, np);
++		if (ret)
++			return ret;
++	}
++	sm->platdata = plat;
++	return 0;
++}
 +
-+  panel:
-+    description: Panel output control
+ static int sm501_plat_probe(struct platform_device *dev)
+ {
+ 	struct sm501_devdata *sm;
+@@ -1406,6 +1499,12 @@ static int sm501_plat_probe(struct platform_device *dev)
+ 		goto err_res;
+ 	}
+ 
++	if (IS_ENABLED(CONFIG_OF) && dev->dev.of_node) {
++		ret = sm501_parse_dt(sm, dev->dev.of_node);
++		if (ret)
++			goto err_res;
++	}
 +
-+  bpp:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: Color depth
+ 	platform_set_drvdata(dev, sm);
+ 
+ 	sm->regs = ioremap(sm->io_res->start, resource_size(sm->io_res));
+diff --git a/drivers/video/fbdev/sm501fb.c b/drivers/video/fbdev/sm501fb.c
+index d6fdc1737cd2..d35285819d28 100644
+--- a/drivers/video/fbdev/sm501fb.c
++++ b/drivers/video/fbdev/sm501fb.c
+@@ -1932,6 +1932,82 @@ static int sm501fb_start_one(struct sm501fb_info *info,
+ 	return 0;
+ }
+ 
++#if defined(CONFIG_OF)
++/* parse CRT / panel configuration */
++static struct sm501_platdata_fbsub *dt_fbsub(struct device *dev,
++					     struct device_node *np,
++					     const char *name)
++{
++	struct sm501_platdata_fbsub *fbsub = NULL;
++	struct fb_videomode *def_mode = NULL;
++	struct device_node *child;
++	const void *p_edid;
++	u32 flags = 0;
++	u32 bpp = 0;
++	int len;
 +
-+  smi,flags:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: Display control flags.
++	child = of_get_child_by_name(np, name);
++	if (child == NULL)
++		return NULL;
 +
-+  smi,devices:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: SM501 device function select.
++	p_edid = of_get_property(child, "edid", &len);
++	if (p_edid && len == EDID_LENGTH) {
++		struct fb_monspecs *specs;
++		u8 *edid;
 +
-+  smi,mclk:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: mclk frequency.
++		edid = kmemdup(p_edid, EDID_LENGTH, GFP_KERNEL);
++		if (edid) {
++			specs = kzalloc(sizeof(*specs), GFP_KERNEL);
++			if (specs) {
++				fb_edid_to_monspecs(edid, specs);
++				def_mode = specs->modedb;
++			}
++		}
++		kfree(edid);
++	}
 +
-+  smi,m1xclk:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: m1xclk frequency.
++	of_property_read_u32(child, "bpp", &bpp);
 +
-+  smi,misc-timing:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: Miscellaneous Timing reg value.
++	/* If flags property is obtained, fbsub is returned. */
++	if (!of_property_read_u32(child, "smi,flags", &flags)) {
++		fbsub = devm_kzalloc(dev, sizeof(*fbsub), GFP_KERNEL);
++		if (fbsub) {
++			fbsub->def_mode = def_mode;
++			fbsub->def_bpp = bpp;
++			fbsub->flags = flags;
++		}
++	}
++	return fbsub;
++}
 +
-+  smi,misc-control:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: Miscellaneous Control reg value.
++/* Build platform_data from OF property */
++static struct sm501_platdata_fb *pdata_from_dt(struct device *dev, struct device_node *np)
++{
++	enum sm501_fb_routing fb_route = SM501_FB_OWN;
++	struct sm501_platdata_fb *pdata = NULL;
++	struct sm501_platdata_fbsub *fb_crt;
++	struct sm501_platdata_fbsub *fb_pnl;
++	unsigned int flags = 0;
 +
-+  smi,gpio-low:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: GPIO0 to 31 Control reg value.
++	if (of_property_read_bool(np, "route-crt-panel"))
++		fb_route = SM501_FB_CRT_PANEL;
++	if (of_property_read_bool(np, "swap-fb-endian"))
++		flags = SM501_FBPD_SWAP_FB_ENDIAN;
++	fb_crt = dt_fbsub(dev, np, "crt");
++	fb_pnl = dt_fbsub(dev, np, "panel");
++	if (fb_crt || fb_pnl) {
++		pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
++		if (pdata) {
++			pdata->fb_route = fb_route;
++			pdata->flags = flags;
++			pdata->fb_crt = fb_crt;
++			pdata->fb_pnl = fb_pnl;
++		}
++	}
++	return pdata;
++}
++#endif
 +
-+  smi,gpio-high:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: GPIO32 to 63 Control reg value.
-+
-+  smi,gpio-i2c:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    minItems: 5
-+    description: |
-+      GPIO I2C bus number
-+      1st field - I2C bus number
-+      2nd Field - GPIO SDA
-+      3rd Field - GPIO SCL
-+      4th Field - Timeout
-+      5th Field - udelay
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+
-+examples:
-+  # MPC5200
-+  - |
-+    display@1,0 {
-+        compatible = "smi,sm501";
-+        reg = <0x00000000 0x00800000
-+               0x03e00000 0x00200000>;
-+        interrupts = <1 1 3>;
-+        mode = "640x480-32@60";
-+        edid = [00 ff ff ff ff ff ff 00 00 00 00 00 00 00 00 00
-+                00 00 01 04 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 f0 0a 80 fb 20 e0 25 10 32 60
-+                02 00 00 00 00 00 00 06 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-+                00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 bd];
-+    };
-diff --git a/include/dt-bindings/display/sm501.h b/include/dt-bindings/display/sm501.h
-new file mode 100644
-index 000000000000..1be8490d7635
---- /dev/null
-+++ b/include/dt-bindings/display/sm501.h
-@@ -0,0 +1,25 @@
-+/* SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause */
-+
-+/* Platform data definitions */
-+
-+#define SM501FB_FLAG_USE_INIT_MODE	(1<<0)
-+#define SM501FB_FLAG_DISABLE_AT_EXIT	(1<<1)
-+#define SM501FB_FLAG_USE_HWCURSOR	(1<<2)
-+#define SM501FB_FLAG_USE_HWACCEL	(1<<3)
-+#define SM501FB_FLAG_PANEL_NO_FPEN	(1<<4)
-+#define SM501FB_FLAG_PANEL_NO_VBIASEN	(1<<5)
-+#define SM501FB_FLAG_PANEL_INV_FPEN	(1<<6)
-+#define SM501FB_FLAG_PANEL_INV_VBIASEN	(1<<7)
-+
-+#define SM501_USE_USB_HOST	(1<<0)
-+#define SM501_USE_USB_SLAVE	(1<<1)
-+#define SM501_USE_SSP0		(1<<2)
-+#define SM501_USE_SSP1		(1<<3)
-+#define SM501_USE_UART0		(1<<4)
-+#define SM501_USE_UART1		(1<<5)
-+#define SM501_USE_FBACCEL	(1<<6)
-+#define SM501_USE_AC97		(1<<7)
-+#define SM501_USE_I2S		(1<<8)
-+#define SM501_USE_GPIO		(1<<9)
-+
-+#define SM501_USE_ALL		(0xffffffff)
+ static int sm501fb_probe(struct platform_device *pdev)
+ {
+ 	struct sm501fb_info *info;
+@@ -1974,6 +2050,12 @@ static int sm501fb_probe(struct platform_device *pdev)
+ 				if (info->edid_data)
+ 					found = 1;
+ 			}
++			/* Get platform data compatible configuration */
++			if (!found) {
++				info->pdata = pdata_from_dt(dev, np);
++				if (info->pdata)
++					found = 1;
++			}
+ 		}
+ #endif
+ 		if (!found) {
 -- 
 2.39.2
 
