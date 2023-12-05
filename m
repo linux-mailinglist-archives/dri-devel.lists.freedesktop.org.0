@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77159805135
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 11:54:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B333B805138
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 11:54:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A576110E4E2;
-	Tue,  5 Dec 2023 10:54:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72F0810E4E6;
+	Tue,  5 Dec 2023 10:54:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F136010E4E0
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 10:54:04 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-a1975fe7befso593150766b.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 02:54:04 -0800 (PST)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBD7B10E4E3
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 10:54:06 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id
+ 2adb3069b0e04-50be3eed85aso4292767e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 02:54:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1701773643; x=1702378443;
+ d=amarulasolutions.com; s=google; t=1701773645; x=1702378445;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9yGi3UQjgH7vKIKdKQCwE11iHS9JPf1l9kS7cSUyqbg=;
- b=ABX+SXSeu4lBmRLWUn7kG6zsgPQFo0I9w9ztscs7TRXfqWdo9KWbH7mpZVoF1mIL+J
- xAqvV8gDArfuX9g2cVUUiQjU8VNf+moJCI3KOF0kyqn0VrQCxOKEGOShrs3EOq7Ap+9N
- MUZ3a0iL6fN1r9Ugy7GldF8p9PlnI4WtC8kBk=
+ bh=fu0Px4Tbxip0tKoFWKIyTvbcuMI1IJ2fyAiFtPcJOWc=;
+ b=XFUw1wUfPWcFp2JaI2bNO5U3d4H7PaGVShe8WM4NTjz5cxM5XZTuRPvBWSQS5m7O6R
+ uPOXp+Sos5BQfYhWET872Ni2K95yHymslyu/Penz/OeLyUT58BebBvOUMoiZbrRvlfyf
+ mM/Hvv0g32/J8fyxTpiqdMRI6Benc/Xw0CRSo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701773643; x=1702378443;
+ d=1e100.net; s=20230601; t=1701773645; x=1702378445;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9yGi3UQjgH7vKIKdKQCwE11iHS9JPf1l9kS7cSUyqbg=;
- b=VZRCpPxMniI58VGjaXX9sbsyCYoXcD6FG8y4o4uzFGIlVAxPH/aywo6wtzvEUBYVcf
- dWzppmh8dnuBCBcLs2e7/ecWKQqZF/5O0+7oEgRxM3WFGS3XeGC5mWAyxvnEKK4YBHnw
- jdjeEErrr3R9/UBd3fGz7ZvgUnc9011cL+bUzX0oGDaNnFiClmCufbzMCOK8oTCa0alE
- BJ0qfzlA3gTxnJ88JxPpNjpGkTHEOu/V0YlUMk8uOu+vCnEiAl1VriX2KxgAz8+C/IlO
- 8NotnovOG41vZp4Cy7xxGoK+V9LHMbKheSDZEn2U0CjFRqlxd/pYJoF9RDjLxkrOhYqi
- IjqQ==
-X-Gm-Message-State: AOJu0YwtPSZKeLbklEy1AOpjI2u4peyWE2kBpXkQloyNFoQ6MxGzqhoI
- 4jfUFzU/RlGwUIHO+TkNMRzBfA==
-X-Google-Smtp-Source: AGHT+IEhCW86sDDqX5HhYwo9leDEXnK3BBE5ui8/2dHRSqsGfYqV4vVQgDEtuqv3sS8ZVoS+1vs00Q==
-X-Received: by 2002:a17:906:2814:b0:a19:a19a:eadc with SMTP id
- r20-20020a170906281400b00a19a19aeadcmr311534ejc.149.1701773643372; 
- Tue, 05 Dec 2023 02:54:03 -0800 (PST)
+ bh=fu0Px4Tbxip0tKoFWKIyTvbcuMI1IJ2fyAiFtPcJOWc=;
+ b=do8mfLeRVbHV8EVyvXPhLIfa67/jNqBihl6zAgmzG4OJcaazQrhen/N+3fIuYReqwm
+ 3FX1p/CkFQFuUkoOMjTUl/UFuaiJYefZUVA993Y7uRznTQ6rDjDwU4bWoXuy9RQsqYkz
+ k5y10j7rsDbv9JkR7vdMfjIInajIw7fOQV5qwxrkMx/Agluxw/KLfVMbHI5/scjH0SYs
+ j1AaI0xVU8NQVV/qXxGqiV9MZjTEL3XofwSOrvJ98IprlofYXcvNTunxhQaYgClNiNZ2
+ Zog9mSbNLcTLaFkteiOg/h0CYPhGf55SarMWPpcDgdWR7b93VfUsTPJruojnmRl/MiXL
+ c4UQ==
+X-Gm-Message-State: AOJu0YwK6ay5PcUvz3t18zRnlEHOhLpJJR6cHDalv4Nddmzgxkv9PKCB
+ NfnzoZlDD+2XIVVhsZ/yQ1gVtA==
+X-Google-Smtp-Source: AGHT+IH2ACowoJoO+30xriMCkLCXsinUnSHTDGh9ilzVZ9c8a5SVKoBwYjDDlS2Qdi+JBVbyncICpQ==
+X-Received: by 2002:ac2:4c8c:0:b0:50b:fe3f:8086 with SMTP id
+ d12-20020ac24c8c000000b0050bfe3f8086mr1104607lfl.53.1701773645010; 
+ Tue, 05 Dec 2023 02:54:05 -0800 (PST)
 Received: from dario-ThinkPad-T14s-Gen-2i.homenet.telecomitalia.it
  (host-82-54-95-129.retail.telecomitalia.it. [82.54.95.129])
  by smtp.gmail.com with ESMTPSA id
- n23-20020a170906089700b0099297782aa9sm6413491eje.49.2023.12.05.02.54.02
+ n23-20020a170906089700b0099297782aa9sm6413491eje.49.2023.12.05.02.54.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Dec 2023 02:54:03 -0800 (PST)
+ Tue, 05 Dec 2023 02:54:04 -0800 (PST)
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v4 01/10] drm/bridge: Fix bridge disable logic
-Date: Tue,  5 Dec 2023 11:52:48 +0100
-Message-ID: <20231205105341.4100896-2-dario.binacchi@amarulasolutions.com>
+Subject: [PATCH v4 02/10] drm/bridge: Fix a use case in the bridge disable
+ logic
+Date: Tue,  5 Dec 2023 11:52:49 +0100
+Message-ID: <20231205105341.4100896-3-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231205105341.4100896-1-dario.binacchi@amarulasolutions.com>
 References: <20231205105341.4100896-1-dario.binacchi@amarulasolutions.com>
@@ -86,34 +87,58 @@ Cc: Maxime Ripard <mripard@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As explained by the comment of the fixed code, we need to find the next
-bridge that hasn't set the "pre_enable_prev_first" flag to true. The code,
-on the contrary, was doing the opposite.
-So, the order of disabling the bridges couldn't be altered as required
-by setting the "pre_enable_prev_first" flag to true.
+The patch fixes the code for finding the next bridge with the
+"pre_enable_prev_first" flag set to false. In case this condition is
+not verified, i. e. there is no subsequent bridge with the flag set to
+false, the whole bridge list is traversed, invalidating the "next"
+variable.
+
+The use of a new iteration variable (i. e. "iter") ensures that the value
+of the "next" variable is not invalidated.
 
 Fixes: 4fb912e5e190 ("drm/bridge: Introduce pre_enable_prev_first to alter bridge init order")
+Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
+Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
 Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 ---
 
 (no changes since v1)
 
- drivers/gpu/drm/drm_bridge.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_bridge.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 30d66bee0ec6..f66bf4925dd8 100644
+index f66bf4925dd8..2e5781bf192e 100644
 --- a/drivers/gpu/drm/drm_bridge.c
 +++ b/drivers/gpu/drm/drm_bridge.c
-@@ -686,7 +686,7 @@ void drm_atomic_bridge_chain_post_disable(struct drm_bridge *bridge,
+@@ -662,7 +662,7 @@ void drm_atomic_bridge_chain_post_disable(struct drm_bridge *bridge,
+ 					  struct drm_atomic_state *old_state)
+ {
+ 	struct drm_encoder *encoder;
+-	struct drm_bridge *next, *limit;
++	struct drm_bridge *iter, *next, *limit;
+ 
+ 	if (!bridge)
+ 		return;
+@@ -680,14 +680,15 @@ void drm_atomic_bridge_chain_post_disable(struct drm_bridge *bridge,
+ 				 * was enabled first, so disabled last
  				 */
- 				list_for_each_entry_from(next, &encoder->bridge_chain,
+ 				limit = next;
++				iter = next;
+ 
+ 				/* Find the next bridge that has NOT requested
+ 				 * prev to be enabled first / disabled last
+ 				 */
+-				list_for_each_entry_from(next, &encoder->bridge_chain,
++				list_for_each_entry_from(iter, &encoder->bridge_chain,
  							 chain_node) {
--					if (next->pre_enable_prev_first) {
-+					if (!next->pre_enable_prev_first) {
- 						next = list_prev_entry(next, chain_node);
+-					if (!next->pre_enable_prev_first) {
+-						next = list_prev_entry(next, chain_node);
++					if (!iter->pre_enable_prev_first) {
++						next = list_prev_entry(iter, chain_node);
  						limit = next;
  						break;
+ 					}
 -- 
 2.43.0
 
