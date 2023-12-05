@@ -1,67 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 007E9804ACB
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 07:59:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F6CE804AE6
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 08:10:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3795210E402;
-	Tue,  5 Dec 2023 06:59:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 172E210E3EA;
+	Tue,  5 Dec 2023 07:10:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9B0110E402
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 06:59:11 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id
- a640c23a62f3a-a1c7b20f895so20342066b.2
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 22:59:11 -0800 (PST)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E2D910E3EA
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 07:10:14 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id
+ ffacd0b85a97d-33318b866a0so4963309f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 23:10:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701759550; x=1702364350; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701760213; x=1702365013; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=XE6y6O/Gg2XCJxJTYDCBWYVcnKRh0Dta4ePvGTjfjos=;
- b=lktum4VJ2xPim3jv0uXqo0QibBLJJj46kfMokmHeebZxKkEKEil7X4NCQeeC8ekvJa
- DJiqfdoF5rn8hqtF1icVZ5hLw5kcPnx04TI/xdkcz2aGwGqLZuJ78W2YDY7cA2N2mNKh
- cmanwLDAL7XW0CgXSmI6rIZE+raTKNakkTRFkA6wy0DQrN/W2cON5RX6cASJFQS5YpdF
- OBREY9pHfCkE3N6tA0KAb7bSkKWL3DRAuIE5g7+lP+VAfsWRx18YzPbTOGWsIJEjPODe
- E2zknCV6c34Yld3gtMM1FoMYy96D18IJYtztpcmzuqw9TSdUcKRf8MqkigguOOfYU/eB
- gH9A==
+ bh=SVAEj6IWcf3rrewE0PI9IiD451dQSPUt4SomApm71zI=;
+ b=JEQqSHFDbSBNIueI6gdgvxWYnyt/U/xhKXiCl/IehDdp0Q4fK3sHjwmZ2o4awwELP/
+ 0cctmfGStdziiXr6+vsHZ4p5s7cOYCK8/yYSX1OdsmIX152spn2bl9CfEU61de3R4o4R
+ UcXk1V6C58IKseQupz6Lkfpsa96p4U5QOM/c8Uhu9UKSJi3c2AhIfcUNpl65sK5B4xIy
+ l57JT5ICw63eW1wkBAFn8CFnYEBCqSadLj9xe4QoAOzU2V7kVqLrAuFlXGp1jHvCB8TW
+ ZjNsNExvEi1HovtRJ91dtN3qzlJ3GJ6J5E2GXecEgjeH121F3XaFz4XSbyFOaR0l0gUO
+ UIAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701759550; x=1702364350;
+ d=1e100.net; s=20230601; t=1701760213; x=1702365013;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XE6y6O/Gg2XCJxJTYDCBWYVcnKRh0Dta4ePvGTjfjos=;
- b=hM05pm12K2+AKKlyHKUCgTsojZKVvTZAYYoOn5ZFfMzRqWmz/6jUsJaRN94ukUhLCH
- WsApanRsMNPzoa6Uie+nCsAeWY6wE4POqvYzvFeo9fJGH5PMpP6TSkNje1fHqNh67d2D
- c2sdPcNpmM9oQpxNTt+xuddO9DHIRjZUB0KP8bzQn7zAv8IiV4WzviK1xTJLgkww5JY2
- X4l+GwHRv+CLJYu2iJ6MNRzw7GUXzL2fOTM0gS2UjRHoftjKNiu8Vjo2UMrDcggdhp7U
- L2tuc0HlGAcB3qRg8U7TpMkj64Q7wt9DE0EkBvbKjFWJv4cAeBmIhsH98Eenxuo9AoAq
- oSLA==
-X-Gm-Message-State: AOJu0YyuXp07lqdjAhxXSxxD2KWMUd5FeKqXhJhVMCmfYhDF1wBIPnR8
- nSUNzIFKPHX6fuGeSk4wsu/gjg==
-X-Google-Smtp-Source: AGHT+IFu17PZqO8nHtjyGiCZfhb8tozOJnm3cDoeIYUwUZBaKTHwQCRnT5k8gUwXnQGYCVqyQ69usA==
-X-Received: by 2002:a17:906:109e:b0:a1a:d0f2:64fe with SMTP id
- u30-20020a170906109e00b00a1ad0f264femr2661168eju.101.1701759550145; 
- Mon, 04 Dec 2023 22:59:10 -0800 (PST)
+ bh=SVAEj6IWcf3rrewE0PI9IiD451dQSPUt4SomApm71zI=;
+ b=D6tWGxCK3miXv/wmUxMNTBl1Sl6FUnHlT/K7xIXF+z6qQjz2F6kXfeIizCyHNzpqxZ
+ YBnmZgLA6Noq3DjWNExd+WuUKSvG1lxlh8MH3ftqdM3+WK9CwSB9nT8GII/Eo49L0HwZ
+ QxBjWp0crWr2emlDqy24Eii7N+rz5C1jc1eyfUylUOj0ygeoMw/CBS68XKuT4BsBgyUb
+ yF5/SNZcoRJTU6NRrE/e0q2NdkzKEQHf2KA2jTIRIInxR3INl467zP9jdpdaluKRLxr4
+ R1Pb5/9vZBPoGm9oT89IAnZVP34cuwP1MzP0m4XXtTQpOFoad//CZWiTtBjIDkyzZu/s
+ CG/A==
+X-Gm-Message-State: AOJu0YwVjKwtnyZXOu8xuQ5PxInwHlLGsk5xbkqvH+FP9qMwkAps4T3O
+ vIUl2xlz9i5nQJ7/B8N/P8SLfNgPI9TKG0XB85A=
+X-Google-Smtp-Source: AGHT+IEh1yyse3RrKzXfWlgA1lUMYc5fycCT+yx7MiP8AVViKu4ufDcT0uk1l1kIAiwTjMwU4PiQFw==
+X-Received: by 2002:adf:e612:0:b0:333:3a13:91dc with SMTP id
+ p18-20020adfe612000000b003333a1391dcmr2619650wrm.86.1701760212746; 
+ Mon, 04 Dec 2023 23:10:12 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.27])
  by smtp.gmail.com with ESMTPSA id
- lt12-20020a170906fa8c00b009e5e1710ae7sm6156772ejb.191.2023.12.04.22.59.08
+ q4-20020a05600000c400b003333fa3d043sm7376024wrx.12.2023.12.04.23.10.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Dec 2023 22:59:09 -0800 (PST)
-Message-ID: <3bfdb349-1298-4a59-a807-e72b52500b5b@linaro.org>
-Date: Tue, 5 Dec 2023 07:59:07 +0100
+ Mon, 04 Dec 2023 23:10:12 -0800 (PST)
+Message-ID: <b97f04f6-cda2-4e9b-b729-a5149e36f978@linaro.org>
+Date: Tue, 5 Dec 2023 08:10:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [v3 1/6] dt-bindings: display: Add yamls for JH7110 display system
+Subject: Re: [PATCH RFC 01/10] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
 Content-Language: en-US
-To: Keith Zhao <keith.zhao@starfivetech.com>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org
-References: <20231204123315.28456-1-keith.zhao@starfivetech.com>
- <20231204123315.28456-2-keith.zhao@starfivetech.com>
+To: Andrew Davis <afd@ti.com>, Frank Binns <frank.binns@imgtec.com>,
+ Donald Robson <donald.robson@imgtec.com>,
+ Matt Coster <matt.coster@imgtec.com>,
+ "H . Nikolaus Schaller" <hns@goldelico.com>, Adam Ford <aford173@gmail.com>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, =?UTF-8?Q?Beno=C3=AEt_Cousson?=
+ <bcousson@baylibre.com>, Tony Lindgren <tony@atomide.com>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Tero Kristo <kristo@kernel.org>, Paul Cercueil <paul@crapouillou.net>
+References: <20231204182245.33683-1-afd@ti.com>
+ <20231204182245.33683-2-afd@ti.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -107,7 +119,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231204123315.28456-2-keith.zhao@starfivetech.com>
+In-Reply-To: <20231204182245.33683-2-afd@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -122,134 +134,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: aou@eecs.berkeley.edu, suijingfeng@loongson.cn, tzimmermann@suse.de,
- paul.walmsley@sifive.com, mripard@kernel.org, xingyu.wu@starfivetech.com,
- jack.zhu@starfivetech.com, palmer@dabbelt.com,
- krzysztof.kozlowski+dt@linaro.org, william.qiu@starfivetech.com,
- shengyang.chen@starfivetech.com, changhuang.liang@starfivetech.com
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/12/2023 13:33, Keith Zhao wrote:
-> StarFive SoCs JH7110 display system:
-> dc controller, hdmi controller,
-> encoder, vout syscon.
-
-Nothing improved here.
-
+On 04/12/2023 19:22, Andrew Davis wrote:
+> The Imagination PowerVR Series5 "SGX" GPU is part of several SoCs from
+> multiple vendors. Describe how the SGX GPU is integrated in these SoC,
+> including register space and interrupts. Clocks, reset, and power domain
+> information is SoC specific.
 > 
-> add the path of yaml file in MAINTAINERS
-
-Neither here - still these are not proper sentences and wrapping is wrong.
-
-Please wrap commit message according to Linux coding style / submission
-process (neither too early nor over the limit):
-https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
-
-> 
-> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
+> Signed-off-by: Andrew Davis <afd@ti.com>
 > ---
->  .../starfive/starfive,display-subsystem.yaml  | 104 ++++++++++++++++
->  .../starfive/starfive,dsi-encoder.yaml        |  92 ++++++++++++++
->  .../starfive/starfive,jh7110-dc8200.yaml      | 113 ++++++++++++++++++
->  .../starfive/starfive,jh7110-inno-hdmi.yaml   |  82 +++++++++++++
->  .../soc/starfive/starfive,jh7110-syscon.yaml  |   1 +
->  MAINTAINERS                                   |   7 ++
->  6 files changed, 399 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,dsi-encoder.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml
+>  .../devicetree/bindings/gpu/img,powervr.yaml  | 69 +++++++++++++++++--
+>  1 file changed, 63 insertions(+), 6 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.yaml b/Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.yaml
-> new file mode 100644
-> index 000000000000..d5ebdba3fb36
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.yaml
-> @@ -0,0 +1,104 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/starfive/starfive,display-subsystem.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Starfive JH7110 Soc Display SubSystem
-> +
-> +maintainers:
-> +  - Keith Zhao <keith.zhao@starfivetech.com>
-> +  - ShengYang Chen <shengyang.chen@starfivetech.com>
-> +
-> +description:
-> +  This is the bindings documentation for the JH7110 Soc Display Subsystem that
+> diff --git a/Documentation/devicetree/bindings/gpu/img,powervr.yaml b/Documentation/devicetree/bindings/gpu/img,powervr.yaml
+> index a13298f1a1827..9f036891dad0b 100644
+> --- a/Documentation/devicetree/bindings/gpu/img,powervr.yaml
+> +++ b/Documentation/devicetree/bindings/gpu/img,powervr.yaml
+> @@ -11,11 +11,33 @@ maintainers:
+>    - Frank Binns <frank.binns@imgtec.com>
+>  
+>  properties:
+> +  $nodename:
+> +    pattern: '^gpu@[a-f0-9]+$'
 
-Drop "This is the bindings documentation for " because it is obvious. It
-cannot be anything else.
+Why? We do not enforce it in other bindings.
 
-> +  includes front-end video data capture, display controller and display
-> +  interface. such as HDMI and MIPI.
 > +
-> +  JH7110 display pipeline have several components as below description,
-> +  multi display controllers and corresponding physical interfaces.
-> +  For different display scenarios, pipe0 and pipe1 maybe binding to different
-> +  encoder. for example,
-> +
-> +  pipe0 binding to HDMI for primary display,
-> +  pipe1 binding to DSI for external display.
-> +
-> +          +------------------------------+
-> +          |                              |
-> +          |                              |
-> +  +----+  |   +-------------------+      |   +-------+   +------+   +------+
-> +  |    +----->+  dc controller 0  +--->----->+HDMICtl| ->+ PHY  +-->+PANEL0+
-> +  |AXI |  |   +-------------------+      |   +-------+   +------+   +------+
-> +  |    |  |                              |
-> +  |    |  |                              |
-> +  |    |  |                              |
-> +  |    |  |                              |
-> +  |APB |  |   +-------------------+         +---------+    +------+  +-------+
-> +  |    +----->+  dc controller 1  +--->---->+ dsiTx   +--->+DPHY  +->+ PANEL1+
-> +  |    |  |   +-------------------+         +---------+    +------+  +-------+
-> +  +----+  |                              |
-> +          +------------------------------+
-> +
-> +
-> +properties:
-> +  compatible:
-> +    const: starfive,display-subsystem
-> +
-> +  clocks:
-> +    items:
-> +      - description: Clock for display system noc bus.
-> +      - description: Core clock for display controller.
-> +      - description: Clock for axi bus to access ddr.
-> +      - description: Clock for ahb bus to R/W the phy regs.
-> +
-> +  clock-names:
-> +    items:
-> +      - const: noc_bus
-> +      - const: dc_core
-> +      - const: axi_core
-> +      - const: ahb
-> +
-> +  resets:
-> +    items:
-> +      - description: Reset for axi bus.
-> +      - description: Reset for ahb bus.
-> +      - description: Core reset of display controller.
-> +
-> +  reset-names:
-> +    items:
-> +      - const: axi
-> +      - const: ahb
-> +      - const: core
-> +
-> +  ports:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+>    compatible:
+> -    items:
+> -      - enum:
+> -          - ti,am62-gpu
+> -      - const: img,img-axe # IMG AXE GPU model/revision is fully discoverable
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - ti,am62-gpu
+> +          - const: img,img-axe # IMG AXE GPU model/revision is fully discoverable
+> +      - items:
+> +          - enum:
+> +              - ti,omap3430-gpu # Rev 121
+> +              - ti,omap3630-gpu # Rev 125
+> +          - const: img,powervr-sgx530
+> +      - items:
+> +          - enum:
+> +              - ingenic,jz4780-gpu # Rev 130
+> +              - ti,omap4430-gpu # Rev 120
+> +          - const: img,powervr-sgx540
+> +      - items:
+> +          - enum:
+> +              - allwinner,sun6i-a31-gpu # MP2 Rev 115
+> +              - ti,omap4470-gpu # MP1 Rev 112
+> +              - ti,omap5432-gpu # MP2 Rev 105
+> +              - ti,am5728-gpu # MP2 Rev 116
+> +              - ti,am6548-gpu # MP1 Rev 117
+> +          - const: img,powervr-sgx544
+>  
+>    reg:
+>      maxItems: 1
+> @@ -40,8 +62,6 @@ properties:
+>  required:
+>    - compatible
+>    - reg
+> -  - clocks
+> -  - clock-names
 
-NAK, you just ignored my comments. More than once in this patchset.
+I don't think so... How can you run without clocks?
 
-I stop review. You must implement entire feedback or respond to it.
-Especially when ignoring feedback results in buggy code.
+>    - interrupts
+>  
+>  additionalProperties: false
+> @@ -56,6 +76,43 @@ allOf:
+>        properties:
+>          clocks:
+>            maxItems: 1
+> +      required:
+> +        - clocks
+> +        - clock-names
+
+You need to define the clocks for your variants or disallow them. The
+original code should be fixed as well and make the clocks fixed for all
+img-axe cases.
+
+
 
 Best regards,
 Krzysztof
