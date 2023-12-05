@@ -2,48 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4C8804994
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4B2804995
 	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 06:59:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3AD210E110;
-	Tue,  5 Dec 2023 05:58:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3177710E0F2;
+	Tue,  5 Dec 2023 05:58:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB1CC10E0F2
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB73810E110
  for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 05:58:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1701755931; x=1733291931;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=8RyCyh0TzNzqu1yToc8PYYuNJHO34bkJ9Z97qx7ch0o=;
- b=Yaa2J57C0/n69kGr8VILekChB6MtrPCTAxbhiWnXFHiKJQnvLNhudkPw
- E51n3cYs4iTsQbunChc+Rb+NUajO5LvJNBaQHTD+RdH5LTp4HXlsPfWFr
- SHRqks3dOtVtEZLtl2UQIW1RqGymkNRcTfOW8DRd6GYepLBx5u5Er8pMH
- rnRVFXREpIUr5EedB7N1Z1iXhX9Bru05U08CX/XbET+l/iMpx6fZv6R24
- dxDmcclX6eKRE8aaVgH/3ftxWSmYGlROqvPgwAuheDZTq5gFjrydaujDq
- i1ms+MpcfsjOuRTOLiDgAeswyZNu57C+kkIgqUZ6blVCysltawUMBdVEW w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="906291"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=U5Op4CjhDDAHfKtiDzpe6+9a1b7R8CllBxVTE/TesJE=;
+ b=SLEwqmqeCqQagtUntB1BIgS/IRjCai98jz8HseEyVa7QSBUAQyexc/l5
+ XNACjQb5T5TZkTGQMlMYaS4o/VJfxoZsxAjf8yChuFSCH1nTSWdNuI+H0
+ H9lC3UCSk8CWZbDbGvFcar7Cfk8fNg9+mfBU0hIvdMSDGy2iWQxmrenbb
+ KzTyVEXPikd5hw5ZKtMKr6J+Byo6UKpJnlH5b8AvPElYeO8yKoQF0P5uo
+ ub56wy7PSxDGU+A3bHEreFlpf2IaxHn8F1ccOOj3XR8v1u2d9U7FfT1Z9
+ 3coGaPlXCSGWliQ87Jx554hqGGV5BZDmsMRGq/2h4ZeL1orA0Xus/GJoI Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="906298"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="906291"
+   d="scan'208";a="906298"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  04 Dec 2023 21:58:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="888807721"
-X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; d="scan'208";a="888807721"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="888807724"
+X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; d="scan'208";a="888807724"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  04 Dec 2023 21:58:50 -0800
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	linux-mm@kvack.org
-Subject: [PATCH v6 0/5] mm/gup: Introduce memfd_pin_user_pages() for pinning
- memfd pages (v6)
-Date: Mon,  4 Dec 2023 21:35:04 -0800
-Message-Id: <20231205053509.2342169-1-vivek.kasireddy@intel.com>
+Subject: [PATCH v6 1/5] udmabuf: Use vmf_insert_pfn and VM_PFNMAP for handling
+ mmap
+Date: Mon,  4 Dec 2023 21:35:05 -0800
+Message-Id: <20231205053509.2342169-2-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231205053509.2342169-1-vivek.kasireddy@intel.com>
+References: <20231205053509.2342169-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,64 +63,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Dongwon Kim <dongwon.kim@intel.com>, David Hildenbrand <david@redhat.com>,
  Daniel Vetter <daniel.vetter@ffwll.ch>, Hugh Dickins <hughd@google.com>,
  Vivek Kasireddy <vivek.kasireddy@intel.com>, Peter Xu <peterx@redhat.com>,
- Christoph Hellwig <hch@infradead.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Junxiao Chang <junxiao.chang@intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Junxiao Chang <junxiao.chang@intel.com>,
  Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The first two patches were previously reviewed but not yet merged.
-These ones need to be merged first as the fourth patch depends on
-the changes introduced in them and they also fix bugs seen in
-very specific scenarios (running Qemu with hugetlb=on, blob=true
-and rebooting guest VM).
+Add VM_PFNMAP to vm_flags in the mmap handler to ensure that
+the mappings would be managed without using struct page.
 
-The third patch introduces memfd_pin_user_pages() API and the fourth
-patch shows how the udmabuf driver can make use of it to
-longterm-pin the the pages. The last patch adds two new udmabuf
-selftests to verify data coherency after potential page migration.
-
-v2:
-- Updated the first patch to include review feedback from David and
-  Jason. The main change in this series is the allocation of page
-  in the case of hugetlbfs if it is not found in the page cache.
-
-v3:
-- Made changes to include review feedback from David to improve the
-  comments and readability of code
-- Enclosed the hugepage alloc code with #ifdef CONFIG_HUGETLB_PAGE
-
-v4:
-- Augmented the commit message of the udmabuf patch that uses
-  pin_user_pages_fd()
-- Added previously reviewed but unmerged udmabuf patches to this
-  series
-
-v5:
-- Updated the patch that adds pin_user_pages_fd() to include feedback
-  from David to handle simultaneous users trying to add a huge page
-  to the mapping
-- Replaced find_get_page_flags() with __filemap_get_folio() in the
-  second and third patches to ensure that we only obtain head pages
-  from the mapping
-
-v6: (Christoph)
-- Renamed the new API to memfd_pin_user_pages()
-- Improved the page cache lookup efficiency by using
-  filemap_get_folios_contig() which uses batches
-
-This series is tested using following methods:
-- Run the subtests added in the fifth patch
-- Run Qemu (master) with the following options and a few additional
-  patches to Spice:
-  qemu-system-x86_64 -m 4096m....
-  -device virtio-gpu-pci,max_outputs=1,blob=true,xres=1920,yres=1080
-  -spice port=3001,gl=on,disable-ticketing=on,preferred-codec=gstreamer:h264
-  -object memory-backend-memfd,hugetlb=on,id=mem1,size=4096M
-  -machine memory-backend=mem1
+And, in the vm_fault handler, use vmf_insert_pfn to share the
+page's pfn to userspace instead of directly sharing the page
+(via struct page *).
 
 Cc: David Hildenbrand <david@redhat.com>
-Cc: Christoph Hellwig <hch@infradead.org>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: Mike Kravetz <mike.kravetz@oracle.com>
 Cc: Hugh Dickins <hughd@google.com>
@@ -127,23 +85,42 @@ Cc: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Dongwon Kim <dongwon.kim@intel.com>
 Cc: Junxiao Chang <junxiao.chang@intel.com>
+Suggested-by: David Hildenbrand <david@redhat.com>
+Acked-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+---
+ drivers/dma-buf/udmabuf.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Vivek Kasireddy (5):
-  udmabuf: Use vmf_insert_pfn and VM_PFNMAP for handling mmap
-  udmabuf: Add back support for mapping hugetlb pages (v5)
-  mm/gup: Introduce memfd_pin_user_pages() for pinning memfd pages (v6)
-  udmabuf: Pin the pages using memfd_pin_user_pages() API (v4)
-  selftests/dma-buf/udmabuf: Add tests to verify data after page
-    migration
-
- drivers/dma-buf/udmabuf.c                     |  98 +++++++++---
- include/linux/memfd.h                         |   5 +
- include/linux/mm.h                            |   2 +
- mm/gup.c                                      | 102 ++++++++++++
- mm/memfd.c                                    |  34 ++++
- .../selftests/drivers/dma-buf/udmabuf.c       | 151 +++++++++++++++++-
- 6 files changed, 363 insertions(+), 29 deletions(-)
-
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index c40645999648..820c993c8659 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -35,12 +35,13 @@ static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
+ 	struct vm_area_struct *vma = vmf->vma;
+ 	struct udmabuf *ubuf = vma->vm_private_data;
+ 	pgoff_t pgoff = vmf->pgoff;
++	unsigned long pfn;
+ 
+ 	if (pgoff >= ubuf->pagecount)
+ 		return VM_FAULT_SIGBUS;
+-	vmf->page = ubuf->pages[pgoff];
+-	get_page(vmf->page);
+-	return 0;
++
++	pfn = page_to_pfn(ubuf->pages[pgoff]);
++	return vmf_insert_pfn(vma, vmf->address, pfn);
+ }
+ 
+ static const struct vm_operations_struct udmabuf_vm_ops = {
+@@ -56,6 +57,7 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
+ 
+ 	vma->vm_ops = &udmabuf_vm_ops;
+ 	vma->vm_private_data = ubuf;
++	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
+ 	return 0;
+ }
+ 
 -- 
 2.39.2
 
