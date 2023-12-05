@@ -1,63 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00DD5805C6C
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 18:50:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F031D805CA2
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 18:53:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8532210E5C7;
-	Tue,  5 Dec 2023 17:50:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AE1610E5D5;
+	Tue,  5 Dec 2023 17:53:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
- [IPv6:2607:f8b0:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71CE810E5C7
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 17:50:16 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id
- 41be03b00d2f7-58962bf3f89so571959a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 09:50:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701798616; x=1702403416; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=oaHh/9z/u07z1omVzaZJZGd/gWpYBcwFLuPZ4nY+ApE=;
- b=cOzymfa9nub6jQtO36DF7WiGqCd8MGeutD8diV38OfZiteJcGU07xXdPVBoBdz9Qcs
- JCROMBoruVclNwM8qWrykkz2fvv78vhebcuFnLX3k5xJ7iq6ku+GHEnXOZ+8kGYRMHiU
- 4Pr/2zioPB6qHT+iKbJOcUpOhvegfgkhuE1iz48bwBLCxDjm96YIjO15IY5vmxlXYEST
- m+5N1751inZesMBGvxgkvFhuNjOsgfhs7TqqtwPB08b7GE6myuhaXUbZFbi/QgS98HhZ
- crOt966TXzHtVr0TEmDIvCG1vNXgY1AJg89rTkd5QI2SkDMrcigy0yGtPBdfsliUj9c+
- MUOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701798616; x=1702403416;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=oaHh/9z/u07z1omVzaZJZGd/gWpYBcwFLuPZ4nY+ApE=;
- b=u4aDRV54YHhl6AvxjU92gjcDxGPOK37COd99fcZ/wCuHXxtJSvgCa5cxasIu3GGbmg
- 68//tEIlQi/CQN68aqfseLVGVJkwNeqTUZvaOw/iaGHGjVsBRGTLP2TNYS4tdA386Kw0
- gnRJRLY/kzNp7beXDNFd7B0Twu7JL2Jonjn0SF5fznC8W9WJp4vh4U2PjiW/2WrH5UiR
- tQ49nEWCvvsm4Hx0Wta2XhDqXTPp2XAgtcFsnV0fr7M3ZjUvTtWzENwbCEe7xiWfaTOY
- m1nLo5+C7Z7idvPzOrYNyKLbGcPSIKIs85eNKT2BGGf3vlkUvCf7qq9cAFhLw2KHZRkU
- 1Bcg==
-X-Gm-Message-State: AOJu0YykMgIGT+8nqy//TXsx11m3j1SPUOSTYt1foLWF10SerinxTz3G
- qYH78xNwGN55HYPCpgCHMAs=
-X-Google-Smtp-Source: AGHT+IGLLb8FZ18uWCHWyjAJgJBhSMOURCWI+4+kzyw7QkFOYmoH5dB8KTwBkHgkz2tYLI2S70XP2w==
-X-Received: by 2002:a17:90a:4094:b0:286:bf9e:a6 with SMTP id
- l20-20020a17090a409400b00286bf9e00a6mr5164540pjg.4.1701798615751; 
- Tue, 05 Dec 2023 09:50:15 -0800 (PST)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:52c5:3315:40:a897])
- by smtp.gmail.com with ESMTPSA id
- nu8-20020a17090b1b0800b002839d7d8bf3sm8985219pjb.55.2023.12.05.09.50.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Dec 2023 09:50:15 -0800 (PST)
-From: Fabio Estevam <festevam@gmail.com>
-To: marex@denx.de
-Subject: [PATCH] dt-bindings: lcdif: Properly describe the i.MX23 interrupts
-Date: Tue,  5 Dec 2023 14:49:49 -0300
-Message-Id: <20231205174949.2091953-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69E2010E5C9;
+ Tue,  5 Dec 2023 17:53:47 +0000 (UTC)
+Received: from [100.95.196.25] (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: koike)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id C564B660715D;
+ Tue,  5 Dec 2023 17:53:42 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1701798825;
+ bh=+zVb91c+m6mZWUppmt1UznPtzffYZ0X/qe9UpFAAl2c=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=h+anahSCRErixp18RZj78XZZkgGVstCESab6hj/QTNL25llGiPXgGS41aQ3YEpyU3
+ Q/V0e4tsDTAatpkPpdp1JNoyDNUpXOIj0D86xRwNL/DmakZzF1AwFsgLLMqvCPKZmb
+ F+bHjc9h1I83M2wrg86rYQIdmlhDTXPvyqU2cj0w2tG1fkfy+yPpbjaFgYYfskEZLC
+ mhvbqdIJvbt952TTPq3XxwqbsG9MLbAlYCwYNn9qwbo5KhK7MbX80Xu131ov1E3YXp
+ 5TnuDwtpNH+yAnl8VfmFKcx1JEsMNTQ7i5dDvdsj6erfZMKsoODrrC06HbJnhMNVH1
+ E7F0p/2k0++MA==
+Message-ID: <87815255-5a1f-4d19-b8ea-e9defac954cb@collabora.com>
+Date: Tue, 5 Dec 2023 14:53:37 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ci: remove rebase-merge directory
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20231202221353.1276288-1-dmitry.baryshkov@linaro.org>
+Content-Language: en-US
+From: Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <20231202221353.1276288-1-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,64 +55,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org,
- Fabio Estevam <festevam@denx.de>, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ David Heidelberg <david.heidelberg@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fabio Estevam <festevam@denx.de>
 
-i.MX23 has two i.MX23 interrupts instead of a single one like other
-i.MX devices.
 
-Take this into account for properly describing the i.MX23 LCDIF
-interrupts.
+On 02/12/2023 19:13, Dmitry Baryshkov wrote:
+> Gitlab runner can cache git repository, including the unfinished rebase
+> merge status. New CI job will come as a fresh checkout, however this
+> will not destroy the unfinished rebase, failing our build script.
+> Destroy the unfinished rebase state.
+> 
+> Suggested-by: David Heidelberg <david.heidelberg@collabora.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-This fixes the following dt-schema warning:
+Acked-by: Helen Koike <helen.koike@collabora.com>
 
-imx23-olinuxino.dtb: lcdif@80030000: interrupts: [[46], [45]] is too long
-	from schema $id: http://devicetree.org/schemas/display/fsl,lcdif.yaml#
+Thanks!
+Helen
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
- .../devicetree/bindings/display/fsl,lcdif.yaml   | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-index fc11ab5fc465..c4228b893766 100644
---- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-+++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-@@ -51,7 +51,10 @@ properties:
-     minItems: 1
- 
-   interrupts:
--    maxItems: 1
-+    items:
-+      - description: LCDIF DMA interrupt
-+      - description: LCDIF Error interrupt
-+    minItems: 1
- 
-   power-domains:
-     maxItems: 1
-@@ -131,6 +134,17 @@ allOf:
-     then:
-       required:
-         - power-domains
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - fsl,imx23-lcdif
-+    then:
-+      properties:
-+        interrupts:
-+          minItems: 2
-+          maxItems: 2
- 
- examples:
-   - |
--- 
-2.34.1
-
+> ---
+>   drivers/gpu/drm/ci/build.sh | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
+> index e5c5dcedd108..ca2923ed2290 100644
+> --- a/drivers/gpu/drm/ci/build.sh
+> +++ b/drivers/gpu/drm/ci/build.sh
+> @@ -58,6 +58,9 @@ git config --global user.email "fdo@example.com"
+>   git config --global user.name "freedesktop.org CI"
+>   git config --global pull.rebase true
+>   
+> +# cleanup git state on the worker
+> +rm -rf .git/rebase-merge
+> +
+>   # Try to merge fixes from target repo
+>   if [ "$(git ls-remote --exit-code --heads ${UPSTREAM_REPO} ${TARGET_BRANCH}-external-fixes)" ]; then
+>       git pull ${UPSTREAM_REPO} ${TARGET_BRANCH}-external-fixes
