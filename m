@@ -2,54 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D348E8050B3
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 11:39:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0B88050DA
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 11:42:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 569F110E4DC;
-	Tue,  5 Dec 2023 10:39:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EECB10E4E1;
+	Tue,  5 Dec 2023 10:42:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D3DF10E4DF;
- Tue,  5 Dec 2023 10:39:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701772784; x=1733308784;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=R4ahHPkP3rfNSBS6mc+iwcw+6Bw8iNvxBiWNTPXlFYE=;
- b=Zp3GpqTVyw9y4549Mzc3qzMxkzrYm9GuxrcR1s/nS8KhPwEVWYaykltt
- 3mUd4+bJy2mVL+ezeVjrqPnfKkm4gJR7TnWXxqGvPM05idZC5Wx+WqvXF
- vAHXwYeqxlEcj5hzKCDM1DeoTwBKvd6yLxz1Q/6FU6vf6SiIgbb4G3P+/
- B/hzAO7MxezjICt/dTrFFL5DuwX3uZTgtHyr5K5ZHv8u8FeIuRxDIhHfY
- m0ChW2rXI1xpqitT9q6uRJ4V6oKTBD3yYCVVNXpzLWeNvdmHlV+TY6RKW
- UejY915ujlFVWA/2u4vo1PMSR78f01qNOgJGywfdw7cmOrSiglkg80H4C Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="391037314"
-X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; d="scan'208";a="391037314"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2023 02:39:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="764283551"
-X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; d="scan'208";a="764283551"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.249.33.155])
- ([10.249.33.155])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2023 02:39:41 -0800
-Message-ID: <69036ebc-561f-4c9b-b68b-04f7e1c77e27@linux.intel.com>
-Date: Tue, 5 Dec 2023 11:39:39 +0100
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28C7210E4E1
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 10:42:43 +0000 (UTC)
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id EF07C6602F1E;
+ Tue,  5 Dec 2023 10:42:40 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1701772961;
+ bh=WXau+qpHnh6GYQPDtFMZ2/Fl7ub+SROjrL3fA0IaPnU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ZV7y5ybOsqMlA8dMZo7tC8Kf+xgBN/h06E/pG48Emw4+18mdnPoDU51zHIUOIGmic
+ 8DsBoMKwy732LhXkIZTLD+mfdLuxw+pAYLLS+xS9hN7nSPT12PYCO/gPkDB3j3iPta
+ UQow20cAs4+HP3PXCciFg0kYUg/Pp2S23Y8sXf5qcohFLhGcjXHEv9Lnn67MT2gPc2
+ 19ApZrFa1J5yJFwDWOB5RztvLMpxET1BEjzwRmJCdyPYYlOpP3LuCVeYkmKqTZaU1i
+ Ku//MCdNeTx/fpzcw2JmvortSFSlzm8kmAao4tAIjP66AncCbGl572fZPf7ulWkYeB
+ u1toXdc3eSI6g==
+Date: Tue, 5 Dec 2023 11:42:37 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v4 0/3] drm/panfrost: Fix poweroff and sync IRQs for
+ suspend
+Message-ID: <20231205114237.72c69160@collabora.com>
+In-Reply-To: <20231204114215.54575-1-angelogioacchino.delregno@collabora.com>
+References: <20231204114215.54575-1-angelogioacchino.delregno@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/i915/gt: Convert reset prepare failure log to trace
-Content-Language: en-US
-To: John Harrison <john.c.harrison@intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20231205085248.2577-1-nirmoy.das@intel.com>
- <40875e9a-3729-4153-8de2-69d0ce586442@intel.com>
-From: Nirmoy Das <nirmoy.das@linux.intel.com>
-In-Reply-To: <40875e9a-3729-4153-8de2-69d0ce586442@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,98 +54,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, steven.price@arm.com,
+ krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, kernel@collabora.com, m.szyprowski@samsung.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi John,
+On Mon,  4 Dec 2023 12:42:12 +0100
+AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+wrote:
 
-On 12/5/2023 10:10 AM, John Harrison wrote:
-> On 12/5/2023 00:52, Nirmoy Das wrote:
->> gen8_engine_reset_prepare() can fail when HW fails to set
->> RESET_CTL_READY_TO_RESET bit. In some cases this is not fatal
->> error as driver will retry.
->>
->> Convert the log to a trace log for debugging without triggering
->> unnecessary concerns in CI or for end-users during non-fatal scenarios.
-> I strongly disagree with this change. The hardware spec for the 
-> RESET_CTL and GDRST registers are that they will self clear within a 
-> matter of microseconds. If something is so badly wrong with the 
-> hardware that it can't even manage to reset
+> Changes in v4:
+>  - Added checks for is_suspended bits in hardirqs
+>  - Added GPU suspended bit (and handling of it)
+>  - Reordered panfrost_drv_comp_bits entries
+>  - Commit description fixes
+> 
+> Changes in v3:
+>  - Removed useless GPU_INT_CLEAR write in suspend path
+>  - Changed to clear suspend bits in job/mmu reset path
+> 
+> This series contains a fast fix for the basic GPU poweroff functionality
+> and goes further by implementing interrupt masking and synchronization
+> before suspend.
+> 
+> For more information, please look at the conversation at [1], which
+> explains the regression seen with the poweroff commit and the initial
+> approaches taken to solve that.
+> 
+> Cheers!
+> 
+> [1]: https://lore.kernel.org/all/20231123095320.41433-1-angelogioacchino.delregno@collabora.com/
+> 
+> AngeloGioacchino Del Regno (3):
+>   drm/panfrost: Ignore core_mask for poweroff and disable PWRTRANS irq
+>   drm/panfrost: Add gpu_irq, mmu_irq to struct panfrost_device
+>   drm/panfrost: Synchronize and disable interrupts before powering off
 
+Queued to drm-misc-next.
 
-This message is for reset readiness  poll timeout not that the reset is 
-failed which doesn't sound so serious if the subsequent attempt managed 
-reset the engine.
+Thanks,
 
-I couldn't get enough details when this can happen that HW takes very 
-long time to set the readiness bit.
+Boris
 
+> 
+>  drivers/gpu/drm/panfrost/panfrost_device.c |  3 ++
+>  drivers/gpu/drm/panfrost/panfrost_device.h | 10 ++++++
+>  drivers/gpu/drm/panfrost/panfrost_gpu.c    | 40 ++++++++++++++++------
+>  drivers/gpu/drm/panfrost/panfrost_gpu.h    |  1 +
+>  drivers/gpu/drm/panfrost/panfrost_job.c    | 26 +++++++++++---
+>  drivers/gpu/drm/panfrost/panfrost_job.h    |  1 +
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c    | 32 ++++++++++++-----
+>  drivers/gpu/drm/panfrost/panfrost_mmu.h    |  1 +
+>  8 files changed, 91 insertions(+), 23 deletions(-)
+> 
 
-> then that is something that very much warrants more than a completely 
-> silent trace event. It most certainly should be flagged as a failure 
-> in CI.
->
-> Just because the driver will retry does not mean that this is not a 
-> serious error. And if the first attempt failed, why would a subsequent 
-> attempt succeed?
-
-The patch is not ignoring the failure. If the subsequent attempt fails 
-then driver load will fail or it will be wedged if that happens after 
-driver load.
-
-
-> Escalating to FLR may have more success, but that is not something 
-> that i915 currently does.
-
-Do we still need to do FLR if a subsequent engine reset failure ?
-
-
-Regards,
-
-Nirmoy
-
->
-> John.
->
->
->>
->> v2: Improve commit message(Tvrtko)
->>
->> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> Cc: John Harrison <John.C.Harrison@Intel.com>
->> Cc: Andi Shyti <andi.shyti@linux.intel.com>
->> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
->> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5591
->> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
->> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
->> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
->> ---
->>   drivers/gpu/drm/i915/gt/intel_reset.c | 8 ++++----
->>   1 file changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c 
->> b/drivers/gpu/drm/i915/gt/intel_reset.c
->> index d5ed904f355d..e6fbc6202c80 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
->> @@ -593,10 +593,10 @@ static int gen8_engine_reset_prepare(struct 
->> intel_engine_cs *engine)
->>       ret = __intel_wait_for_register_fw(uncore, reg, mask, ack,
->>                          700, 0, NULL);
->>       if (ret)
->> -        gt_err(engine->gt,
->> -               "%s reset request timed out: {request: %08x, 
->> RESET_CTL: %08x}\n",
->> -               engine->name, request,
->> -               intel_uncore_read_fw(uncore, reg));
->> +        GT_TRACE(engine->gt,
->> +             "%s reset request timed out: {request: %08x, RESET_CTL: 
->> %08x}\n",
->> +             engine->name, request,
->> +             intel_uncore_read_fw(uncore, reg));
->>         return ret;
->>   }
->
