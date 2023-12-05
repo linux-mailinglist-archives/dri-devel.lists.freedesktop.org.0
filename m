@@ -2,63 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB7A8056F3
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 15:15:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B659B805744
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 15:25:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5661110E53E;
-	Tue,  5 Dec 2023 14:15:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 087AB10E2FF;
+	Tue,  5 Dec 2023 14:25:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF2A810E53E
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 14:15:25 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-6ce26a03d9eso1890190b3a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 06:15:25 -0800 (PST)
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
+ [IPv6:2607:f8b0:4864:20::b33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE08B10E2FF
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 14:25:15 +0000 (UTC)
+Received: by mail-yb1-xb33.google.com with SMTP id
+ 3f1490d57ef6-db538b07865so4206783276.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 06:25:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701786315; x=1702391115; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=+W9GvfVIuKUsjEASIHOqr78oXlhTeJ2aML+02C/3aT4=;
+ b=BIlkyK/RfH7jGAZfNEcVq9NuUMYJCVQKdbO+EhJoPG+9BelHVus3ucS/h9IRXVz2LE
+ smiLRfUq38SS7/HZ3Ia4maeEO+OI2ULML5oMbH0PYsOb0qXsi4XCBzP7bEpLbK4uGWBX
+ ufruQAb3t1ygadmS9hkd2Mpzg+ruzNM23wkjgLv/O24DlU0iDESMgLYSxn5d6/9X678B
+ hXjXts4jmZ5S1ko/ALrE4Cno9xq4FIQo8kPpzFfxmQ9zvpbqwi/zCpu6HpsxkWbbJXb7
+ 69/5HpJkiygGx6LAiSgHbDLIQVk2ufmmowGEK7649ml8dTVpQ9onQ0m5ojTODd8zNjXz
+ VEhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701785725; x=1702390525;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wjEDTZbGLWl0kPzOEjqjXQ57XT0xydUQvJCUY6FowqA=;
- b=ZL4jwfqJ4qn6xu1aqxxlcY40uStRDqCj6XtnFdHWe1xNogdr7iZUlSTmcU1P3RK3FA
- 6PyNGqCtjGsMCfhW8T3a5TJCeVOXrRhJvquQKYdVh5UfvaaETF7U3CoATPUXS7N0iKWo
- 1na88c+8Qzez3BoCZ6WNofZw9T+j+/4iYsLU2BiYyKNYBLlV1kwZVbnEYix/cr8W6WKR
- 1I6aFQNnyK/n5B7mmLxganfhrQXG5xFZVN+Xwx9bI1zq77McgB95SWuZokfkx8DdtNAb
- zP048mg4TuhBHx3AtqU7pm2BTbfnfPEwkUqlfRi5ewUtyogNnur9JxsCW0Ll0eNC6nW1
- pHtw==
-X-Gm-Message-State: AOJu0YzV9V5GCsiVSEvn2/xoBt9cOVokQKQeG1dg0qtlO0ZOLaDFXnAJ
- rWxJgIT9V/tgx1hWU5TqmAoOuHe6VHvLCw==
-X-Google-Smtp-Source: AGHT+IFv5UM3C3dR9fqFGnXYs1WIpGrkyh3kUN7E4Jx/hIZ4201JOh+Ii9gBvooGWxRO5NZBszsQqA==
-X-Received: by 2002:a05:6a20:f388:b0:18f:bce9:5961 with SMTP id
- qr8-20020a056a20f38800b0018fbce95961mr14438pzb.15.1701785725158; 
- Tue, 05 Dec 2023 06:15:25 -0800 (PST)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com.
- [209.85.216.52]) by smtp.gmail.com with ESMTPSA id
- u197-20020a6379ce000000b005b92d3cb4c2sm1660206pgc.58.2023.12.05.06.15.23
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Dec 2023 06:15:23 -0800 (PST)
-Received: by mail-pj1-f52.google.com with SMTP id
- 98e67ed59e1d1-2864f8131d0so3458703a91.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 06:15:23 -0800 (PST)
-X-Received: by 2002:a81:ee0b:0:b0:5d7:1941:a9a with SMTP id
- l11-20020a81ee0b000000b005d719410a9amr4666145ywm.53.1701785702584; Tue, 05
- Dec 2023 06:15:02 -0800 (PST)
+ d=1e100.net; s=20230601; t=1701786315; x=1702391115;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+W9GvfVIuKUsjEASIHOqr78oXlhTeJ2aML+02C/3aT4=;
+ b=jyJ7ZqTuQG639DOuYNiQheh8dfhVv9vVUljIMFs7v5OJ33ivol6KT7wToA6M2rtW1M
+ 3YNFTjeaMsJqVSs63pSDZXaduCyT4Eqr0jy8Q8g+NoT1lO+gadz0PHJGKLYzDjlgUBvO
+ wGPpTTEqmgabzkoLHmjErNohVOgaXVrsDlkhdDBo4TH/EAesqWaOvFhLALOY2lqJv6KE
+ edqysrTExLp/41RNX4kk8+UGVb6GOIURU2+QuNloHITT8nQFm+CKylCoIgYS3MdZpQyz
+ L7ZMmVtkIlUcrXTUKcTnLbFE7ASF4miwiGnlDYHUTbSQC7iUbZzSv3dQUNWT5FiwKlWI
+ PFsw==
+X-Gm-Message-State: AOJu0Yyk8KU8b31oh8QZ2E3g/7mnQ0MICjQZUqnalKhAmOMGHA1kPWPp
+ NRpgqlcl2fSp972htuAFUGpbm6LzcMpbAI4m57EPmQ==
+X-Google-Smtp-Source: AGHT+IF4VvVcRMjis2G1DxhlSfn/kdQgDHF7sG20cYmShITTCdVT9AyS9m/rcWd9SPQ4DLJpcU03oaFiGMVaS7VQOYs=
+X-Received: by 2002:a25:8001:0:b0:db7:dacf:ed79 with SMTP id
+ m1-20020a258001000000b00db7dacfed79mr4421218ybk.90.1701786314320; Tue, 05 Dec
+ 2023 06:25:14 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1701768028.git.ysato@users.sourceforge.jp>
- <ca3122511b201a0da0a3f930c0f894bf11954423.1701768028.git.ysato@users.sourceforge.jp>
-In-Reply-To: <ca3122511b201a0da0a3f930c0f894bf11954423.1701768028.git.ysato@users.sourceforge.jp>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 5 Dec 2023 15:14:50 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUY1aduN=6kaHFyfT=U3J3K3NPZDK2mCct8vS9XaMfaiA@mail.gmail.com>
-Message-ID: <CAMuHMdUY1aduN=6kaHFyfT=U3J3K3NPZDK2mCct8vS9XaMfaiA@mail.gmail.com>
-Subject: Re: [DO NOT MERGE v5 12/37] dt-bindings: pci: pci-sh7751: Add SH7751
- PCI
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
+References: <20231129181219.1237887-1-jani.nikula@intel.com>
+ <72248f22-6337-487a-9979-a0d79e37a9ed@amd.com> <874jh362ta.fsf@intel.com>
+ <eba23oyf4i3j6sdyqljjtgaz27brz4dxfrbtoddestjxwp5lr5@qxfj2b6szigc>
+In-Reply-To: <eba23oyf4i3j6sdyqljjtgaz27brz4dxfrbtoddestjxwp5lr5@qxfj2b6szigc>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 5 Dec 2023 16:25:03 +0200
+Message-ID: <CAA8EJppGizR7ZqY0ALtRHz0Jcm8wiFVQ0s__XENAtyGM48hunQ@mail.gmail.com>
+Subject: Re: [RFC] drm: enable W=1 warnings by default across the subsystem
+To: Maxime Ripard <mripard@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,162 +68,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Herve Codina <herve.codina@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-sh@vger.kernel.org, Bin Meng <bmeng@tinylab.org>,
- Michael Turquette <mturquette@baylibre.com>, linux-pci@vger.kernel.org,
- Jacky Huang <ychuang3@nuvoton.com>, Palmer Dabbelt <palmer@rivosinc.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Guo Ren <guoren@kernel.org>,
- Lee Jones <lee@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
- linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
- David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- dri-devel@lists.freedesktop.org, Chris Morgan <macromorgan@hotmail.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
- Vlastimil Babka <vbabka@suse.cz>, Sergey Shtylyov <s.shtylyov@omp.ru>,
- linux-ide@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- linux-kernel@vger.kernel.org, Azeem Shaikh <azeemshaikh38@gmail.com>,
- linux-renesas-soc@vger.kernel.org, Tom Rix <trix@redhat.com>,
- Damien Le Moal <dlemoal@kernel.org>,
- Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: Pan@freedesktop.org, Karol Herbst <kherbst@redhat.com>,
+ Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ Xinhui <Xinhui.Pan@amd.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
+ Danilo Krummrich <dakr@redhat.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sato-san,
-
-On Tue, Dec 5, 2023 at 10:46=E2=80=AFAM Yoshinori Sato
-<ysato@users.sourceforge.jp> wrote:
-> Renesas SH7751 PCI Controller json-schema.
+On Thu, 30 Nov 2023 at 11:18, Maxime Ripard <mripard@kernel.org> wrote:
 >
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Hi,
+>
+> On Thu, Nov 30, 2023 at 10:52:17AM +0200, Jani Nikula wrote:
+> > On Wed, 29 Nov 2023, Hamza Mahfooz <hamza.mahfooz@amd.com> wrote:
+> > > Cc: Nathan Chancellor <nathan@kernel.org>
+> > >
+> > > On 11/29/23 13:12, Jani Nikula wrote:
+> > >> At least the i915 and amd drivers enable a bunch more compiler warnings
+> > >> than the kernel defaults.
+> > >>
+> > >> Extend the W=1 warnings to the entire drm subsystem by default. Use the
+> > >> copy-pasted warnings from scripts/Makefile.extrawarn with
+> > >> s/KBUILD_CFLAGS/subdir-ccflags-y/ to make it easier to compare and keep
+> > >> up with them in the future.
+> > >>
+> > >> This is similar to the approach currently used in i915.
+> > >>
+> > >> Some of the -Wextra warnings do need to be disabled, just like in
+> > >> Makefile.extrawarn, but take care to not disable them for W=2 or W=3
+> > >> builds, depending on the warning.
+> > >
+> > > I think this should go in after drm-misc-next has a clean build (for
+> > > COMPILE_TEST builds) with this patch applied. Otherwise, it will break a
+> > > lot of build configs.
+> >
+> > Oh, I'm absolutely not suggesting this should be merged before known
+> > warnings have been addressed one way or another. Either by fixing them
+> > or by disabling said warning in driver local Makefiles, depending on the
+> > case.
+>
+> I'm all for it, but yeah, we need some easy way to opt-in/opt-out. Some
+> drivers are pretty much unmaintained now and are likely to never fix
+> those warnings.
 
-Thanks for your patch!
+Then maybe they should have the same fate as other undermaintained
+drivers: either they get fixed, or they get dropped?
 
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pci/renesas,sh7751-pci.yaml
-> @@ -0,0 +1,128 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/pci/renesas,sh7751-pci.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas SH7751 PCI Host controller
-> +
-> +maintainers:
-> +  - Yoshinori Sato <ysato@users.sourceforge.jp>
-> +
-> +allOf:
-> +  - $ref: /schemas/pci/pci-bus.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - renesas,sh7751-pci
-> +
-> +  reg:
-> +    minItems: 2
-> +    maxItems: 2
 
-Please add "reg-names", as there is more than one entry.
-If that is not sufficient to document what each entry means, please add
-"description"s, too.
-
-> +  renesas,memory:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    description: |
-> +      PCI BMDMA src/dst memory area.
-
-Isn't that the purpose of the "dma-ranges" property?
-
-> +
-> +  renesas,bcr1:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: |
-> +      SH7751 PCIC PCIBCR1 value. This value makes add the value of BSC's=
- BCR1.
-
-What does this mean?
-
-> +
-> +  renesas,mcrmask:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: |
-> +      SH7751 PCIC PCIMCR value. This value makes clear bit in the value =
-of BSC's MCR.
-
-What does this mean?
-
-> +
-> +  renesas,intm:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: |
-> +      SH7751 PCIC PCIINTM value.
-> +
-> +  renesas,aintm:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: |
-> +      SH7751 PCIC PCIIANTM value.
-> +
-> +  renesas,lsr:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: |
-> +      SH7751 PCIC PCILSR0 and PCILSR1 values.
-> +      First word is PCILSR0, Second word is PCILSR1.
-> +
-> +  renesas,lar:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: |
-> +      SH7751 PCIC PCILSA0 and PCILAR1 values.
-> +      First word is PCILAR0, Second word is PCILAR1.
-> +
-> +  renesas,dmabt:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: |
-> +      SH7751 PCIC PCIDMABT value.
-> +
-> +  renesas,pintm:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: |
-> +      SH7751 PCIC PCIPINTM value.
-> +
-> +  renesas,config:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    description: |
-> +      SH7751 PCIC PCICONFIG values array. Register Number and value pair=
- list.
-
-Several of these properties look like pure hardware programming.
-Can these values be derived from other (standard) DT properties?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+With best wishes
+Dmitry
