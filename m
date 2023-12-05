@@ -1,70 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3CB5805CDF
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 19:06:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ABEC805CEC
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 19:09:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAFA510E600;
-	Tue,  5 Dec 2023 18:06:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCD9E10E5E7;
+	Tue,  5 Dec 2023 18:09:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D22A10E5F9
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 18:06:26 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id
- 4fb4d7f45d1cf-54cfb03f1a8so1969686a12.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 10:06:26 -0800 (PST)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 519D310E5F0
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 18:09:51 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id
+ 4fb4d7f45d1cf-54c9116d05fso3994909a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 10:09:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1701799583; x=1702404383;
+ d=chromium.org; s=google; t=1701799787; x=1702404587;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=O8H1TVEfqWDVKjsBzidGMR3JoOaMrLGMGY6/yIdEsvY=;
- b=RWxLpBCXQK3ba0ywRSEb0O1CNSu+YcFONs62++2ZPRiwF0fvQ8gkpgz6AoopGKNK0U
- himW9PK10PMCYNYleU6kPFlmgQDwVZCIwA1YU1Mjzdv//5diZD8q7HA7NSEZBQurrqCU
- 1RGFv7EeI14Nx0EUI9pe+Edm/bU0CRLiwi2Ls=
+ bh=BRQn44/aTuYgsI6zHupZ2XRpsR2rUlkoEa03YW7tLjw=;
+ b=dFXKYlM4verThUSB5UPxUTo29jPYq946gt4vffNh7Nn1v6cKXfTy25R5lm5lyhhMYL
+ QJKWkfXBqcVoQDhmcjSJQvPYOxfjrrvDPALDTiuy2ZLA52lEVtqNUXcX0DTLBu+MozyL
+ j7seL+Oko9YkXnmZUF/7LiJVEYYbA0ZSqBPV8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701799583; x=1702404383;
+ d=1e100.net; s=20230601; t=1701799787; x=1702404587;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=O8H1TVEfqWDVKjsBzidGMR3JoOaMrLGMGY6/yIdEsvY=;
- b=Vt4QnYbYvu2653l0DiMp7PRz7wEnJt45RuRDYMcY/7Av9tI4oGUTRw9w7ZxUXGsZ9z
- dNQzvBVFM5nipwqjD2B4xZHJyywrxImVNjtTUH0CaQsdxSgO7EHLUZ5iN4irEprPAmvR
- id4mLrwEwg5iLe4HMWybD42bjYx+OHa80w7q8fSwkc030MCjbtIhrVw3HZ100QoGqY+O
- nDzhTvHAczJQM7rYAmjIi5ohNg2V9KOrBfxhFC3xElXpgNpXSpkUD8hzZLG9dlijAnj1
- BPVe4pioUl0BBD1u7nNb2o1EEOJNEzw6KBlK5Ae1Yh8ztJLJY8bCANXzFjYg6dn5kFCB
- faCg==
-X-Gm-Message-State: AOJu0Yy/9Iw15Tj/GyQ6NXP0SMY+u0KLGzHBFy6/owFhmG2+QKNIDDDu
- L2p2cGlHU5Zn6ArS3wYV41h9eGtGArZ6FY8VREjNZJPr
-X-Google-Smtp-Source: AGHT+IHskQxFZA+Kv5Vm8HTLgsgxhSZHoJwII25QcjSP/3CVK7gKysDppT9hLB7dmxwdP+hk2YNGfQ==
-X-Received: by 2002:a17:907:9195:b0:a19:a19a:eade with SMTP id
- bp21-20020a170907919500b00a19a19aeademr559711ejb.151.1701799583611; 
- Tue, 05 Dec 2023 10:06:23 -0800 (PST)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com.
- [209.85.128.41]) by smtp.gmail.com with ESMTPSA id
- l14-20020a170906414e00b0099c53c4407dsm7022106ejk.78.2023.12.05.10.06.22
+ bh=BRQn44/aTuYgsI6zHupZ2XRpsR2rUlkoEa03YW7tLjw=;
+ b=XVC7P6KlLAhGznWxKrShvWiQQrsGpD8U7AhUfRWwTx8+w0P1u/4liDclA5IndAzV9o
+ Gg+bUtjqfJFazLECSa7iGxxLDIjQzdOpbZyltH5xg044WI21ex3XoFN1LqQK2+aM1GuK
+ K2MACtsIQ9PJPQNkwgJjWsz/6o5AfMiNdTvCyy6s2YFyMTavp7TR7VnkgSBgSqfPOFP3
+ ZL4Telnl48rJz3PDA3ooeRYRLeO/7ygz5uB5XOcMujlNTTPhSHQwUDsFEbumSk4sBiIT
+ gG/wtOrTI3nDpu2b14pEwijRF2v6BiYwgDIP/nUW4apoNZnWjfP4BJoaTIz4mW5tcPoh
+ m/bw==
+X-Gm-Message-State: AOJu0Ywfh+B728KSc38IHb32/Fwemn5/hQNCWOSlHEi5XEuchmUdsyUU
+ qTsfWkI2fovxcDl9dubeK2pbVUC9S2VisBopTw4n426x
+X-Google-Smtp-Source: AGHT+IH/l4DA94u1gIyU5Fuop/ok3mTo0p522yztn2qAZ0g4rNE1sLrfR6PnKtVGjUwavTn+jCyI8Q==
+X-Received: by 2002:a50:a693:0:b0:54c:4fec:da with SMTP id
+ e19-20020a50a693000000b0054c4fec00damr2242776edc.105.1701799787516; 
+ Tue, 05 Dec 2023 10:09:47 -0800 (PST)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com.
+ [209.85.208.43]) by smtp.gmail.com with ESMTPSA id
+ i13-20020a056402054d00b0054c4fdb42e5sm1405185edx.74.2023.12.05.10.09.46
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Dec 2023 10:06:23 -0800 (PST)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-40b35199f94so3305e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 10:06:22 -0800 (PST)
-X-Received: by 2002:a7b:c4c6:0:b0:40b:3d89:ba70 with SMTP id
- g6-20020a7bc4c6000000b0040b3d89ba70mr550221wmk.7.1701799582662; Tue, 05 Dec
- 2023 10:06:22 -0800 (PST)
+ Tue, 05 Dec 2023 10:09:47 -0800 (PST)
+Received: by mail-ed1-f43.google.com with SMTP id
+ 4fb4d7f45d1cf-54c79cca895so528a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 10:09:46 -0800 (PST)
+X-Received: by 2002:a05:6402:22c4:b0:54c:f4fd:3427 with SMTP id
+ dm4-20020a05640222c400b0054cf4fd3427mr221749edb.7.1701799786563; Tue, 05 Dec
+ 2023 10:09:46 -0800 (PST)
 MIME-Version: 1.0
 References: <20231205123630.988663-1-treapking@chromium.org>
- <20231205203536.3.I8fc55a1de13171aa738b14a167bab8df76c2ea2a@changeid>
-In-Reply-To: <20231205203536.3.I8fc55a1de13171aa738b14a167bab8df76c2ea2a@changeid>
+ <20231205203536.4.Iaa6257fcf9e7fe3ca88c50ab6e5aa3fbf55266d0@changeid>
+In-Reply-To: <20231205203536.4.Iaa6257fcf9e7fe3ca88c50ab6e5aa3fbf55266d0@changeid>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 5 Dec 2023 10:06:04 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WcrW8pKmTq0fFK6OUoaXxUgAocO=eNd-oGxF7jtbyiGA@mail.gmail.com>
-Message-ID: <CAD=FV=WcrW8pKmTq0fFK6OUoaXxUgAocO=eNd-oGxF7jtbyiGA@mail.gmail.com>
-Subject: Re: [PATCH 3/4] drm/edp-panel: Add panels delay entries
+Date: Tue, 5 Dec 2023 10:09:34 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WNJP=aCC1hmSp8h0hgcXxzt1q-nPTPcU159i4OCQ7+_g@mail.gmail.com>
+Message-ID: <CAD=FV=WNJP=aCC1hmSp8h0hgcXxzt1q-nPTPcU159i4OCQ7+_g@mail.gmail.com>
+Subject: Re: [PATCH 4/4] drm/panel-edp: Add some panels with conservative
+ timings
 To: Pin-yen Lin <treapking@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -89,33 +90,39 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Tue, Dec 5, 2023 at 4:36=E2=80=AFAM Pin-yen Lin <treapking@chromium.org>=
+On Tue, Dec 5, 2023 at 4:37=E2=80=AFAM Pin-yen Lin <treapking@chromium.org>=
  wrote:
 >
-> @@ -1999,10 +2031,17 @@ static const struct edp_panel_entry edp_panels[] =
-=3D {
->         EDP_PANEL_ENTRY('I', 'V', 'O', 0x854b, &delay_200_500_p2e100, "R1=
-33NW4K-R0"),
->         EDP_PANEL_ENTRY('I', 'V', 'O', 0x8c4d, &delay_200_150_e200, "R140=
-NWFM R1"),
+> These panels are used by Mediatek MT8173 Chromebooks but we can't find
+> the corresponding data sheets, and these panels used to work on v4.19
+> kernel without any specified delays.
 >
-> +       EDP_PANEL_ENTRY('K', 'D', 'C', 0x044f, &delay_200_500_e50, "KD116=
-N9-30NH-F3"),
-> +       EDP_PANEL_ENTRY('K', 'D', 'C', 0x05f1, &delay_200_500_e80_d50, "K=
-D116N5-30NV-G7"),
->         EDP_PANEL_ENTRY('K', 'D', 'B', 0x0624, &kingdisplay_kd116n21_30nv=
-_a010.delay, "116N21-30NV-A010"),
->         EDP_PANEL_ENTRY('K', 'D', 'C', 0x0809, &delay_200_500_e50, "KD116=
-N2930A15"),
-> +       EDP_PANEL_ENTRY('K', 'D', 'B', 0x1118, &delay_200_500_e50, "KD116=
-N29-30NK-A005"),
->         EDP_PANEL_ENTRY('K', 'D', 'B', 0x1120, &delay_200_500_e80_d50, "1=
-16N29-30NK-C007"),
+> Therefore, instead of having them use the default conservative timings,
+> update them with less-conservative timings from other panels of the same
+> vendor. The panels should still work under those timings, and we can
+> save some delays and suppress the warnings.
+>
+> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+>
+> ---
+>
+>  drivers/gpu/drm/panel/panel-edp.c | 31 +++++++++++++++++++++++++++++++
+>  1 file changed, 31 insertions(+)
 
-Huh, I apparently missed it when reviewing an earlier patch, but the
-above table mixes 'KDB' and 'KDC'. Can you fix that and then base your
-patch atop it?
+This is OK w/ me, but it will need time on the mailing lists before
+landing in case anyone else has opinions. Specifical thoughts:
 
+* I at least feel fairly confident that this is OK since these panels
+essentially booted without _any_ delays back on the old downstream
+v4.19 kernel. Presumably the panels just had fairly robust timing
+controllers and so worked OK, but it's better to get the timing more
+correct.
 
+* This is definitely better than the very conservative timings and the
+WARN_ON splat.
+
+* I don't love the "Unknown" string, but it doesn't do anything other
+than print to dmesg anyway and at least it conveys to anyone else
+reading the table that the timings may not be quite as tight.
 
 -Doug
