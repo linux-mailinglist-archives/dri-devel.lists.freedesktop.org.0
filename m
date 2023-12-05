@@ -1,69 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5879804429
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 02:37:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 945CD80443C
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 02:46:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7023510E460;
-	Tue,  5 Dec 2023 01:37:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 724B710E0EC;
+	Tue,  5 Dec 2023 01:46:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA39610E45E
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 01:37:19 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id
- 2adb3069b0e04-50bf898c43cso1553277e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 17:37:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701740238; x=1702345038; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=WASjpjTYaDMI+M/17yk15wAWPvG4vdjSosKnmO8NGfY=;
- b=amTJ6ZWPIl4dNRkYtczx7ogjey5UZyFsCdE0htUvS236lxdyeEIB5iSF2nPHJxd70d
- ZOC3l0mhFd6Fou2bzWd2QMavKPOtBULgC2bX7hUiW1qO0TN1Ojc4Li+BC+VWyYHz8tO7
- 8Hvm87wjYbkhf6gotNH24PWtMEt3S42eXaiwMMG2VNf1jLBOnsLl1LoWWFKwA1FhPICp
- CSPx3EhwxB6GUbdgHzBE+qrfw6y+ua5yHo2hpIXmbpqsozYcPm0aO+V6O7lI+jfnI3Qc
- mJE2NZjuSqFDEHQmNQnr2Iq2aIOZ8K45CdQRsBZzMJa7oiF9BCM6B5IiFicAH+6lPQMV
- 0BYA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C96DB10E0EC
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 01:46:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1701740796;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kbno49Ozn83opUUQC9lXKEmHbpgCw1zH1ujjqmy6cLA=;
+ b=gqsbme/c6yZJBjW4CuAZvrdbFE5bAyB2y9QCTJZVN1PA+cqoL/hcO4DVjqRf4LByiKNvyI
+ j1zkzH6n1ADXk2AU2DWCd8RQnwDHyDk0g8ZGOyqViZDcT1VnA4/QCVCQy8s3ko+9AjWAnK
+ LkYcTTS/L0CKV6O/uzl1xkcGDxgY7nw=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-127-b2HMUy9bPKG_ed7WEs7Dqg-1; Mon, 04 Dec 2023 20:46:34 -0500
+X-MC-Unique: b2HMUy9bPKG_ed7WEs7Dqg-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-a1b760ce3e3so79758066b.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 17:46:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701740238; x=1702345038;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WASjpjTYaDMI+M/17yk15wAWPvG4vdjSosKnmO8NGfY=;
- b=QCWzZdXEv1fgf8skMgRxsAG1xn5ZsXAG6AxMxoQc9wfOQiLhezgQaP8yEY+Uge+0Nl
- 1ONAY0DwyL+NMndLaQf7yvmhY5kUDvsc7yO2JhjCKS81ZJKGt71J55Svflx+taLtUAbX
- ruOhW4tKepY77Wsk48/kfHiRUTK5/JTzD3+sEnwzx60VjgQra635jky+nVBumpzhOmSj
- IvW6BxGbcKdkwc41TL3XwoiT+OKojmtngxDcpDMKrao9bJPPFVSxbPAIpjGGS2LuDe7u
- b8fhkD9WFw9onCoPfIbKrfIQydd3tH8auaXOKS65EUjSCn92GXJdtfinYwyMVLTgEW1E
- Vtuw==
-X-Gm-Message-State: AOJu0Yz6S/+OdfnHJH5ze4oWShBU4hwcj0K5yWddGt+okjzgnZi2Y+nS
- ZHPZTSFc6eoS8O8he+ZplN6DuHLtPB0a3tJRDVhwo/rb
-X-Google-Smtp-Source: AGHT+IFslhiOic1qREeaSAz0mp7DKToeKSsKbXF1VH2ZlFwxZ1cI2ZJ9EDSlD4n7/CMoKxgEbVJkow==
-X-Received: by 2002:a05:6512:3b0b:b0:50b:f51a:299c with SMTP id
- f11-20020a0565123b0b00b0050bf51a299cmr1142916lfv.30.1701740237875; 
- Mon, 04 Dec 2023 17:37:17 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a0db:1f00::227?
- (dzdqv0yyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::227])
+ d=1e100.net; s=20230601; t=1701740793; x=1702345593;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kbno49Ozn83opUUQC9lXKEmHbpgCw1zH1ujjqmy6cLA=;
+ b=eky9vNZ6aUVNrO1RutesK2pkjWSrr9uBifDD/yIm51nXY9Ixg4QnzHFlRfk7Gb6vf8
+ AXhiTxor7RCWbQJU87K4kakrtwXcczwQnQcjN8dseRe8O87c6FRWp8yfbcFRKr1mRWRK
+ aUvlXb19CzKtLZDW6OyjSNiRv3dViRkYNIOzFJEblidvyymTH+62ZGYul7ZlokTBEMy/
+ qkBkaL6OWEUodal5WJHuGBasOTk1ddQzYcS015jFmhgTrySoR9d6P6JGiyUYxx7zW8yv
+ Ce2XOlrTZaSfKIy0R5qm1rgEdmVAZCPhONbDI7p7JYKHCdMVniV7VWCYk1Wk/5R2DB9r
+ EtEw==
+X-Gm-Message-State: AOJu0YyY7wlu09HIvUT7i4X0rM9dg35vm2mOwgXvgIYIh1bX8qrbXAkc
+ TYqkxLXKQ0H+w4hC4TV5/Kiq14WxGmSgYz7KhhTO50iVS957CEXcr1A0VfJ8NMZSXkWvahwhyTY
+ FmZy6OLI7xbFUDZABUVOFynEFTBvg
+X-Received: by 2002:a17:906:eb57:b0:9ff:64d2:6b28 with SMTP id
+ mc23-20020a170906eb5700b009ff64d26b28mr3981936ejb.55.1701740793838; 
+ Mon, 04 Dec 2023 17:46:33 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHNOWFT7a0PKTZARt0Ec7LZEoSAGatvl0989FyAQELEQt8AyIWihxFycGupAhqa3RABdqYrZw==
+X-Received: by 2002:a17:906:eb57:b0:9ff:64d2:6b28 with SMTP id
+ mc23-20020a170906eb5700b009ff64d26b28mr3981929ejb.55.1701740793584; 
+ Mon, 04 Dec 2023 17:46:33 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b?
+ ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
  by smtp.gmail.com with ESMTPSA id
- g13-20020a19ac0d000000b0050bfdaf01e0sm269941lfc.260.2023.12.04.17.37.15
+ hj4-20020a170906874400b009a193a5acffsm828222ejb.121.2023.12.04.17.46.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Dec 2023 17:37:16 -0800 (PST)
-Message-ID: <ff89354d-c9d1-486a-982b-0bb976f6b699@linaro.org>
-Date: Tue, 5 Dec 2023 03:37:15 +0200
+ Mon, 04 Dec 2023 17:46:33 -0800 (PST)
+Message-ID: <a5d208d1-4215-4432-ace7-e13eee0f7851@redhat.com>
+Date: Tue, 5 Dec 2023 02:46:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] drm/atomic-helper: rename
- drm_atomic_helper_check_wb_encoder_state
-Content-Language: en-GB
-To: Maxime Ripard <mripard@kernel.org>
-References: <20231201220843.2023117-1-dmitry.baryshkov@linaro.org>
- <uqrsl3gehpjybzb6cish7vpub3xznouomn4246b7j4i3qiiumv@enskrm5kpwa5>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <uqrsl3gehpjybzb6cish7vpub3xznouomn4246b7j4i3qiiumv@enskrm5kpwa5>
+Subject: Re: [PATCH] drm/gpuvm: Let drm_gpuvm_bo_put() report when the vm_bo
+ object is destroyed
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20231204151406.1977285-1-boris.brezillon@collabora.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20231204151406.1977285-1-boris.brezillon@collabora.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,80 +88,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-arm-msm@vger.kernel.org
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/12/2023 10:38, Maxime Ripard wrote:
-> On Sat, Dec 02, 2023 at 12:07:49AM +0200, Dmitry Baryshkov wrote:
->> The drm_atomic_helper_check_wb_encoder_state() function doesn't use
->> encoder for anything other than getting the drm_device instance. The
->> function's description talks about checking the writeback connector
->> state, not the encoder state. Moreover, there is no such thing as an
->> encoder state, encoders generally do not have a state on their own.
->>
->> Drop the first argument and rename the function to
->> drm_atomic_helper_check_wb_connector_state().
->>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>
->> Resending, no reaction for two months
->>
->> ---
->>   drivers/gpu/drm/drm_atomic_helper.c   | 10 ++++------
->>   drivers/gpu/drm/vkms/vkms_writeback.c |  2 +-
->>   include/drm/drm_atomic_helper.h       |  3 +--
->>   3 files changed, 6 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
->> index 2444fc33dd7c..d69591381f00 100644
->> --- a/drivers/gpu/drm/drm_atomic_helper.c
->> +++ b/drivers/gpu/drm/drm_atomic_helper.c
->> @@ -795,8 +795,7 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
->>   EXPORT_SYMBOL(drm_atomic_helper_check_modeset);
->>   
->>   /**
->> - * drm_atomic_helper_check_wb_encoder_state() - Check writeback encoder state
->> - * @encoder: encoder state to check
->> + * drm_atomic_helper_check_wb_connector_state() - Check writeback connector state
->>    * @conn_state: connector state to check
->>    *
->>    * Checks if the writeback connector state is valid, and returns an error if it
->> @@ -806,8 +805,7 @@ EXPORT_SYMBOL(drm_atomic_helper_check_modeset);
->>    * Zero for success or -errno
->>    */
->>   int
->> -drm_atomic_helper_check_wb_encoder_state(struct drm_encoder *encoder,
->> -					 struct drm_connector_state *conn_state)
->> +drm_atomic_helper_check_wb_connector_state(struct drm_connector_state *conn_state)
+On 12/4/23 16:14, Boris Brezillon wrote:
+> Some users need to release resources attached to the vm_bo object when
+> it's destroyed. In Panthor's case, we need to release the pin ref so
+> BO pages can be returned to the system when all GPU mappings are gone.
 > 
-> AFAIK, all the helpers take the object as first argument, so I'm fine
-> with the name change but it should take a drm_connector too. And ideally
-> a drm_atomic_state pointer instead of drm_connector_state too.
+> This could be done through a custom drm_gpuvm::vm_bo_free() hook, but
+> this has all sort of locking implications that would force us to expose
+> a drm_gem_shmem_unpin_locked() helper, not to mention the fact that
+> having a ::vm_bo_free() implementation without a ::vm_bo_alloc() one
+> seems odd. So let's keep things simple, and extend drm_gpuvm_bo_put()
+> to report when the object is destroyed.
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-I think we then might take even further step and pass 
-drm_writeback_connector to this function. I'll send this as a part of v2.
+Reviewed-by: Danilo Krummrich <dakr@redhat.com>
 
+> ---
+>   drivers/gpu/drm/drm_gpuvm.c | 8 ++++++--
+>   include/drm/drm_gpuvm.h     | 2 +-
+>   2 files changed, 7 insertions(+), 3 deletions(-)
 > 
->>   {
->>   	struct drm_writeback_job *wb_job = conn_state->writeback_job;
->>   	struct drm_property_blob *pixel_format_blob;
->> @@ -827,11 +825,11 @@ drm_atomic_helper_check_wb_encoder_state(struct drm_encoder *encoder,
->>   		if (fb->format->format == formats[i])
->>   			return 0;
->>   
->> -	drm_dbg_kms(encoder->dev, "Invalid pixel format %p4cc\n", &fb->format->format);
->> +	drm_dbg_kms(conn_state->connector->dev, "Invalid pixel format %p4cc\n", &fb->format->format);
-> 
-> Which would also avoid the checkpatch warning there.
-> 
-> Maxime
-
--- 
-With best wishes
-Dmitry
+> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+> index 54f5e8851de5..ae13e2d63637 100644
+> --- a/drivers/gpu/drm/drm_gpuvm.c
+> +++ b/drivers/gpu/drm/drm_gpuvm.c
+> @@ -1502,14 +1502,18 @@ drm_gpuvm_bo_destroy(struct kref *kref)
+>    * hold the dma-resv or driver specific GEM gpuva lock.
+>    *
+>    * This function may only be called from non-atomic context.
+> + *
+> + * Returns: true if vm_bo was destroyed, false otherwise.
+>    */
+> -void
+> +bool
+>   drm_gpuvm_bo_put(struct drm_gpuvm_bo *vm_bo)
+>   {
+>   	might_sleep();
+>   
+>   	if (vm_bo)
+> -		kref_put(&vm_bo->kref, drm_gpuvm_bo_destroy);
+> +		return !!kref_put(&vm_bo->kref, drm_gpuvm_bo_destroy);
+> +
+> +	return false;
+>   }
+>   EXPORT_SYMBOL_GPL(drm_gpuvm_bo_put);
+>   
+> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
+> index f94fec9a8517..7cc41a7d86d5 100644
+> --- a/include/drm/drm_gpuvm.h
+> +++ b/include/drm/drm_gpuvm.h
+> @@ -738,7 +738,7 @@ drm_gpuvm_bo_get(struct drm_gpuvm_bo *vm_bo)
+>   	return vm_bo;
+>   }
+>   
+> -void drm_gpuvm_bo_put(struct drm_gpuvm_bo *vm_bo);
+> +bool drm_gpuvm_bo_put(struct drm_gpuvm_bo *vm_bo);
+>   
+>   struct drm_gpuvm_bo *
+>   drm_gpuvm_bo_find(struct drm_gpuvm *gpuvm,
 
