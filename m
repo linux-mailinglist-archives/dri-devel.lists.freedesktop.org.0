@@ -2,117 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EECD2804CD3
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 09:45:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FB2B804CDB
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 09:46:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CEEA10E0CA;
-	Tue,  5 Dec 2023 08:45:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7890210E4A3;
+	Tue,  5 Dec 2023 08:46:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD93B10E0CA
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 08:45:48 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-40c05ce04a8so31853555e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 00:45:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701765947; x=1702370747; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=foy1E6jPkvjBjLRqorRNUVjsBOmiv4lrJD7Tk5mocv0=;
- b=U8WpA7PO3KPUOasNDWLAH2eCitLy8ypHiAW2w7LHYdNY56t85iwxXDKxIuK2ilY9kR
- QquaxQhAQ2PmJPPITM5vPUAJFPf3itr29mD+IaYnF+NdOg3eCPv95b5ZBAn8IIp7uGiY
- SWCkxF9dwCtr1p6pJm1aHSY9qUfcbMLk71bnW9dNFNgrub+egQETUsbck0mPS9BSup7c
- RlIj7yXEtjlZoTryARIQ+MqJOvCWsVQ7zW6T6yyxkiP5J8ozjq1xoiTOJoGtbg5FTxF8
- 6gp8h0eZ/P1OvqCPogpgRFj8rNSp23/BeBW6gLc7wzyQmgzGC1GRAEpZQDVUk2wQJkSZ
- 6Kaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701765947; x=1702370747;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=foy1E6jPkvjBjLRqorRNUVjsBOmiv4lrJD7Tk5mocv0=;
- b=jzc4YDWKx8cUpgnjL1F3BH0OcaLC5bJfgv2iCH9W83IrvqnVjhHdCAsFdL69zMBmXT
- ebdZ0nt9GXSMXlUCLDr5cC6TNkyicJCPmXsVEzQ262RJLFQOJ99rJiMmwjTS/8crFSul
- OowmzMpBJ8SPevxZ666aw5JhQ97rdNjlSIboi64w6iBVXGgtz7rqFNds+lMVH7syGCG7
- 35pQnTPx2KPDX8fqINoaq4l16auVzl/Kf4W0k3N/h2HlpCcgUqv5dRVflu5N3PmGBl9f
- 8gRz0GEFRUSVqA/weWqP8C+ATX2GPYqvFGn0Yv3OauhZ/IkxazX5Nyh2FzFHPxBCaG6X
- 3d8Q==
-X-Gm-Message-State: AOJu0YwI8Zc+9RtxfO+3XSWXP1zN0PtD3ILxMURH0QP2X+QWsIyP9Bng
- Q18qAMy4TX/H1Bq/aqdtQuf2iw==
-X-Google-Smtp-Source: AGHT+IFQg1DbA6yWhFZ/AhXeebw/bFd2Epl0OcuGC7gqaWr0PAe4JZIbtV9Fr4uV6uR5h1hz2QYrbA==
-X-Received: by 2002:a05:600c:5489:b0:40b:5e1c:2f9e with SMTP id
- iv9-20020a05600c548900b0040b5e1c2f9emr1525955wmb.46.1701765947129; 
- Tue, 05 Dec 2023 00:45:47 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
- by smtp.gmail.com with ESMTPSA id
- fs16-20020a05600c3f9000b0040b48690c49sm17828305wmb.6.2023.12.05.00.45.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Dec 2023 00:45:46 -0800 (PST)
-Message-ID: <27f2e3a3-0791-4278-adb2-55ed76820a3a@linaro.org>
-Date: Tue, 5 Dec 2023 09:45:44 +0100
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2ABE10E4A3
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 08:46:13 +0000 (UTC)
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id A5E506601659;
+ Tue,  5 Dec 2023 08:46:11 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1701765972;
+ bh=eZolyK2cCm1YVgDtmZlY7KvHDWlgVleol311UR5eAQc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=MdhIXaJwC33lb65UuVidZagz8dmwTojAz/v6lNjpiIsPJOBmBaPJYRkPyYUsxVttN
+ /83JAmGdhTJj1RG/NHjZMLnwFxMkIZ1ihi9UKoTDpTljecDYvPhAMGILCwiXw97QUZ
+ 91z4A38UYws2/tWrcwg+D+1nYBZADMONv0mdWgWW3Tz9Zba0GP10/pW+quRYtO5RBp
+ sTtVCvxDL01EoWmRo2nsQADzxMuWw0K5myY7zb5gPB9FqTuhYE/EsKtKA5F4kAVP9L
+ BhG9t6pjx6BsTM0GOPKkpcx/B0/y+Te1S6EO+iqOkQ2YwBqD7rpZs/NwkAKD0UcMT/
+ 3jjEAT1xiLx5Q==
+Date: Tue, 5 Dec 2023 09:46:08 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Rob Herring <robh@kernel.org>, Heiko Stuebner <heiko@sntech.de>
+Subject: Re: [PATCH v3 13/14] dt-bindings: gpu: mali-valhall-csf: Add
+ support for Arm Mali CSF GPUs
+Message-ID: <20231205094608.65cca2da@collabora.com>
+In-Reply-To: <170171811207.4196.6974304837599035136.robh@kernel.org>
+References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
+ <20231204173313.2098733-14-boris.brezillon@collabora.com>
+ <170171811207.4196.6974304837599035136.robh@kernel.org>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 01/10] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
-Content-Language: en-US
-To: Tony Lindgren <tony@atomide.com>
-References: <20231204182245.33683-1-afd@ti.com>
- <20231204182245.33683-2-afd@ti.com>
- <b97f04f6-cda2-4e9b-b729-a5149e36f978@linaro.org>
- <20231205075657.GN5169@atomide.com>
- <df7dd7b0-f315-4033-985a-175f75568a8c@linaro.org>
- <20231205081031.GO5169@atomide.com>
- <efcd64f4-00d2-4671-af3a-e27764f70e8d@linaro.org>
- <20231205083001.GP5169@atomide.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231205083001.GP5169@atomide.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -126,56 +56,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- "H . Nikolaus Schaller" <hns@goldelico.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Nicolas Boichat <drinkcat@chromium.org>,
+ kernel@collabora.com, Daniel Stone <daniels@collabora.com>,
+ devicetree@vger.kernel.org, Liviu Dudau <Liviu.Dudau@arm.com>,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ =?UTF-8?B?Q2zDqW1lbnQg?= =?UTF-8?B?UMOpcm9u?= <peron.clem@gmail.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Donald Robson <donald.robson@imgtec.com>, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
- Maxime Ripard <mripard@kernel.org>, Matt Coster <matt.coster@imgtec.com>,
- Rob Herring <robh+dt@kernel.org>, linux-omap@vger.kernel.org,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Tero Kristo <kristo@kernel.org>, linux-kernel@vger.kernel.org,
- Andrew Davis <afd@ti.com>, Thomas Zimmermann <tzimmermann@suse.de>
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/12/2023 09:30, Tony Lindgren wrote:
-> * Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> [231205 08:16]:
->> On 05/12/2023 09:10, Tony Lindgren wrote:
->>> * Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> [231205 08:03]:
->>>> What does runtime PM have to do with it? If runtime PM enables clocks,
->>>> these are real signals and not optional.
->>>
->>> Runtime PM propagates to the parent device.
->>
->> Then it is not really relevant to the hardware talk here, unless you put
->> this device clocks in parent node, but then it's just wrong hardware
->> description.
+On Mon, 04 Dec 2023 13:29:17 -0600
+Rob Herring <robh@kernel.org> wrote:
+
+> On Mon, 04 Dec 2023 18:33:06 +0100, Boris Brezillon wrote:
+> > From: Liviu Dudau <liviu.dudau@arm.com>
+> > 
+> > Arm has introduced a new v10 GPU architecture that replaces the Job Manager
+> > interface with a new Command Stream Frontend. It adds firmware driven
+> > command stream queues that can be used by kernel and user space to submit
+> > jobs to the GPU.
+> > 
+> > Add the initial schema for the device tree that is based on support for
+> > RK3588 SoC. The minimum number of clocks is one for the IP, but on Rockchip
+> > platforms they will tend to expose the semi-independent clocks for better
+> > power management.
+> > 
+> > v3:
+> > - Cleanup commit message to remove redundant text
+> > - Added opp-table property and re-ordered entries
+> > - Clarified power-domains and power-domain-names requirements for RK3588.
+> > - Cleaned up example
+> > 
+> > Note: power-domains and power-domain-names requirements for other platforms
+> > are still work in progress, hence the bindings are left incomplete here.
+> > 
+> > v2:
+> > - New commit
+> > 
+> > Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
+> > Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> > Cc: Rob Herring <robh+dt@kernel.org>
+> > Cc: Conor Dooley <conor+dt@kernel.org>
+> > Cc: devicetree@vger.kernel.org
+> > ---
+> >  .../bindings/gpu/arm,mali-valhall-csf.yaml    | 147 ++++++++++++++++++
+> >  1 file changed, 147 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
+> >   
 > 
-> No it's not. The interconnect target module may have one or more separate
+> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> 
+> yamllint warnings/errors:
+> ./Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml:108:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
+> 
+> dtschema/dtc warnings/errors:
+> make[2]: *** Deleting file 'Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.example.dts'
+> Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml:108:1: found a tab character that violates indentation
+> make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.example.dts] Error 1
+> make[2]: *** Waiting for unfinished jobs....
+> ./Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml:108:1: found a tab character that violates indentation
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml: ignoring, error parsing file
+> make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1424: dt_binding_check] Error 2
+> make: *** [Makefile:234: __sub-make] Error 2
 
-Interconnects are not parents of devices, so I still don't get why do
-you bring it here.
-
-> devices with the same shared clocks. See for example the am3 usb module that
-> has usb controllers, phys and dma at target-module@47400000 in am33xx.dtsi.
-
-There is no interconnect-cells there, so why do we talk about
-interconnect here?
+Uh, sorry. I messed up when applying Liviu's changes. Will fix that in v4.
 
 > 
-> Sure the clock nodes can be there for the child IP, but they won't do
-> anything. And still need to be managed separately by the device driver if
-> added.
-
-So if OS does not have runtime PM, the bindings are wrong? Bindings
-should not depend on some particular feature of some particular OS.
-
-Best regards,
-Krzysztof
+> doc reference errors (make refcheckdocs):
+> 
+> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231204173313.2098733-14-boris.brezillon@collabora.com
+> 
+> The base for the series is generally the latest rc1. A different dependency
+> should be noted in *this* patch.
+> 
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+> 
+> pip3 install dtschema --upgrade
+> 
+> Please check and re-submit after running the above command yourself. Note
+> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+> your schema. However, it must be unset to test all examples with your schema.
+> 
 
