@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 400578058A1
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 16:27:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 450138058BA
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 16:29:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56D4410E5A4;
-	Tue,  5 Dec 2023 15:27:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F331310E34C;
+	Tue,  5 Dec 2023 15:29:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
- [209.85.219.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F58210E04A
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 15:27:49 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id
- 3f1490d57ef6-db7d198e791so2940092276.3
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 07:27:49 -0800 (PST)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B8A310E0E6
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 15:29:52 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id
+ 98e67ed59e1d1-28670a7ba84so1786718a91.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 07:29:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701790068; x=1702394868;
+ d=1e100.net; s=20230601; t=1701790192; x=1702394992;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jmso+Pyj6M965irEbY4qayX9k2jAUb4uqdD1fkCcZ8k=;
- b=kxBDgX+xDgZ1MFrtwzKF46luXayfwUGrrRRzofbBuS+hda6vQ+W4sbA/ZHlUhfV1Bg
- beEWkO8bxqpK37M5XXIy8nSfI8ZvEgrXgiuPsdljaGAEc7yJ550pzzcscPB8trCbnvTn
- 5QhZDdf3kATYTrKZK8QJ2ViszDOwK/g9IiifeW8CcCSNBEgoDztvm2kdbX24EU6Q9Uwp
- +ZJ7i0nKFXMHXJA9xFjkYIFxM+NWMhUkJTD5YFDpqn6KA3ovjZvPMOovSN2wcgsf00Ra
- OoLG6u+bf/MSMupZigy6/FsEiQ40Ygh8JiUKRHgRARdr36rwkCbBuyW0nf8SFvgsaguj
- 3oVA==
-X-Gm-Message-State: AOJu0YzrlLBEqRNIJ8ppiIIdr+CEiMng+1i/17sZqLisZDDHT53SOl0l
- akoDS6XDLjFq9MYnLdgPF4d16tYIN12dWg==
-X-Google-Smtp-Source: AGHT+IGmn2o7fyEuyVL7AHipe1psOFAhf/eN70EhqDdz+Qqm7RC9c3dQ0oVZbEqPgXEGq3Rr1Uq29w==
-X-Received: by 2002:a25:60c4:0:b0:db5:508e:f7a8 with SMTP id
- u187-20020a2560c4000000b00db5508ef7a8mr858727ybb.2.1701790067877; 
- Tue, 05 Dec 2023 07:27:47 -0800 (PST)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com.
- [209.85.128.180]) by smtp.gmail.com with ESMTPSA id
- p127-20020a252985000000b00db3fa34142bsm3177234ybp.49.2023.12.05.07.27.47
+ bh=nKR4eGh9Q8YilRGEEfPHT07Wa+ghJ3PZE9UUZkDUQSU=;
+ b=b8+cfpG/BfWH4OL/EP4ovakdV7uPV9O6B+iFqk79kifE94NQMh1g1mu5e6eHDkKYAz
+ LcVomqLTYo5r/3sK+dTlveZ64nDwk80BvzYjRQYFRqc3YhIXuRxqv+3CiFK+YsE02wly
+ pOaAAcsvVw/6ByF4ZUL9CKZWGgOpsaL4ydjGhvBqvtOQqsWbO97+w+WJeq8Ap597cpgl
+ uHVZ/G9xsE3HJkIRb/wQcldkk7r3XCmwrygZ33lxJMgvku7SewSAMCp6MkxSo5qzEQMy
+ CgMKKuaMLJAG2meLDith3ZWrvHvL10qO8eUfGi/aAEIn89WQl/LFGuKUJSXU8ekovDL1
+ Tz1g==
+X-Gm-Message-State: AOJu0YzKOnZ9HQ+OugIAnsnNLJFKbBMOpw3Depy2RsDrW/PeWEgIyl7j
+ 2P1CQhJ3uhhX1Kr7ksHilb4kXH0HFLeurQ==
+X-Google-Smtp-Source: AGHT+IFor3wkxQHVhsuAlz4nqmZz4SAN0GRM9IL2JaWfb1o04Ga36Qna61n0oSgkNH5KdK1hxEUDhw==
+X-Received: by 2002:a17:90a:30f:b0:286:ca3e:be98 with SMTP id
+ 15-20020a17090a030f00b00286ca3ebe98mr1112808pje.52.1701790191670; 
+ Tue, 05 Dec 2023 07:29:51 -0800 (PST)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com.
+ [209.85.216.54]) by smtp.gmail.com with ESMTPSA id
+ 19-20020a17090a1a1300b002864c14063fsm9561798pjk.20.2023.12.05.07.29.51
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Dec 2023 07:27:47 -0800 (PST)
-Received: by mail-yw1-f180.google.com with SMTP id
- 00721157ae682-5d719a2004fso23752117b3.3
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 07:27:47 -0800 (PST)
-X-Received: by 2002:a0d:df11:0:b0:5d5:c6c1:3522 with SMTP id
- i17-20020a0ddf11000000b005d5c6c13522mr2801851ywe.26.1701790046878; Tue, 05
- Dec 2023 07:27:26 -0800 (PST)
+ Tue, 05 Dec 2023 07:29:51 -0800 (PST)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-286e57fde73so465110a91.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 07:29:51 -0800 (PST)
+X-Received: by 2002:a25:870f:0:b0:db7:d3e0:46d1 with SMTP id
+ a15-20020a25870f000000b00db7d3e046d1mr4072755ybl.32.1701790170465; Tue, 05
+ Dec 2023 07:29:30 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1701768028.git.ysato@users.sourceforge.jp>
- <e147fd6dd7aba44a6f408c3a42076b207be862fb.1701768028.git.ysato@users.sourceforge.jp>
-In-Reply-To: <e147fd6dd7aba44a6f408c3a42076b207be862fb.1701768028.git.ysato@users.sourceforge.jp>
+ <91a4cac133cb7244903e872b9e63fbbd57fbd68c.1701768028.git.ysato@users.sourceforge.jp>
+In-Reply-To: <91a4cac133cb7244903e872b9e63fbbd57fbd68c.1701768028.git.ysato@users.sourceforge.jp>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 5 Dec 2023 16:27:15 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWZo5EwZZmgDC-nEwwKz5oLvjpz9iY022kv5KwbV7b_gA@mail.gmail.com>
-Message-ID: <CAMuHMdWZo5EwZZmgDC-nEwwKz5oLvjpz9iY022kv5KwbV7b_gA@mail.gmail.com>
-Subject: Re: [DO NOT MERGE v5 20/37] serial: sh-sci: fix SH4 OF support.
+Date: Tue, 5 Dec 2023 16:29:19 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUNQ_u0O1ANv6zdao5SOp9H=WLuULnYuvAt2tgAfsp_GQ@mail.gmail.com>
+Message-ID: <CAMuHMdUNQ_u0O1ANv6zdao5SOp9H=WLuULnYuvAt2tgAfsp_GQ@mail.gmail.com>
+Subject: Re: [DO NOT MERGE v5 09/37] dt-bindings: timer: renesas,
+ tmu: add renesas, tmu-sh7750
 To: Yoshinori Sato <ysato@users.sourceforge.jp>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -110,30 +111,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Sato-san,
 
-Thanks for your patch!
-
 On Tue, Dec 5, 2023 at 10:46=E2=80=AFAM Yoshinori Sato
 <ysato@users.sourceforge.jp> wrote:
-> - fix earlycon name.
-> - fix earlyprintk hung (NULL pointer reference).
-
-- fix SERIAL_SH_SCI_EARLYCON enablement
-
+> Add SH7750 TMU entry.
+>
 > Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks for your patch!
 
-> --- a/drivers/tty/serial/Kconfig
-> +++ b/drivers/tty/serial/Kconfig
-> @@ -658,7 +658,7 @@ config SERIAL_SH_SCI_EARLYCON
->         depends on SERIAL_SH_SCI=3Dy
->         select SERIAL_CORE_CONSOLE
->         select SERIAL_EARLYCON
-> -       default ARCH_RENESAS
-> +       default ARCH_RENESAS || SUPERH
->
->  config SERIAL_SH_SCI_DMA
->         bool "DMA support" if EXPERT
+> --- a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
+> +++ b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
+> @@ -21,6 +21,7 @@ properties:
+>    compatible:
+>      items:
+>        - enum:
+> +          - renesas,tmu-sh7750   # SH7750
+
+Please preserve alphabetical sort order.
+
+>            - renesas,tmu-r8a7740  # R-Mobile A1
+>            - renesas,tmu-r8a774a1 # RZ/G2M
+>            - renesas,tmu-r8a774b1 # RZ/G2N
+
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
