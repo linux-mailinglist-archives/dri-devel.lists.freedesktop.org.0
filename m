@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00388806108
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 22:48:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5487806155
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 23:05:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73BF810E044;
-	Tue,  5 Dec 2023 21:48:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0685210E62D;
+	Tue,  5 Dec 2023 22:05:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com
- [IPv6:2607:f8b0:4864:20::1133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 815FC10E044
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 21:48:53 +0000 (UTC)
-Received: by mail-yw1-x1133.google.com with SMTP id
- 00721157ae682-5d33574f64eso68601607b3.3
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 13:48:53 -0800 (PST)
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
+ [IPv6:2607:f8b0:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF00410E62D;
+ Tue,  5 Dec 2023 22:05:48 +0000 (UTC)
+Received: by mail-pg1-x52a.google.com with SMTP id
+ 41be03b00d2f7-5c1a75a4b6cso2453665a12.2; 
+ Tue, 05 Dec 2023 14:05:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701812932; x=1702417732; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5eP0uI2tmZM9ZtqjfsWxJwWzFVr6JH04FbBdTmyNv/w=;
- b=SDmYQEUCl/xyLvxRGaurdyWoK+7IoAKmF4svsqwz//6LXOmCYQErpYhKp/9+0yVBqP
- pTe0wjXV+D9A29ehfUmptkKkpT4m0PbaAiv/YPn1dSJmJtuXh8Utzidh6kt8H0PnQNtN
- rN03WTp5h7Lb3bP0RkkzSeOzZvbLuFFXUP0yPNebJP8kXp2ZKcfbZpMeVB6+o7ksFsnh
- TPEPgjDvRp7sP4NFf5s0XwArzh+WSAqfqmzkROnCs+oyk6Y2CbaFaluUz2Apf5wArk47
- UzzvVXHWLFhwlfkzQlmouHbxTjM2fXvzX+qaHBtQX1LeZIxr1raOuhVw8LP0V+squrhY
- /57w==
+ d=gmail.com; s=20230601; t=1701813947; x=1702418747; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Lt1kIBCZQd3LG/iBwo/J1swllC6IeMh/7niRSSG8eSM=;
+ b=CbCuniAS8QJyIYLP0ccHrOYpXsuh6jJz2cR1rxk+gbH/mjcLCEpRRunayv7Q4AbqDu
+ sIupHdTCP6rDC+eCCj5Zbka+QNYxKLYLlY9tPns7NzLfC4WUyu8t8cOP46Sg/4XURzNh
+ Ic1G+IXS4B0Yz3L8pxPgkGZEIlGpLO0mRN8y+OOQD14IbwGKBpfpZtjcIt1LdDJMJhew
+ TnjMsLKmxWFlWbjiI8ktQT3KYsGlMBB7Gw54g8QpkOoi8VN4hmcC6NxuQg6ywYtBKnn7
+ x/gtkLCVKHOV/7h+DfVVANM6lAYkTkP7uSo7XKdFg2HUCASB0nlBdPELibiBLFya6t9n
+ N2pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701812932; x=1702417732;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5eP0uI2tmZM9ZtqjfsWxJwWzFVr6JH04FbBdTmyNv/w=;
- b=XTo0eUI8aO3oUOc7EmlmkR0HD+7ldT18w9GbzNp7USuy1uzulKvAHmlQMqvB0h04sA
- 6iuQ1W9N2uNhBdGxJw7ZU7zSNAYmZIUli8K8kWkwA+1jsoyv+kg80Xvkw7nHGTFfEU0q
- 8uUqw7yuD5Au+swKawx3Od/vYH2rqyuyB3ue17UcIPmuNWivH64kD0uNQu3Mp1N80UwE
- W6xgDjcxz+t/i6KPyGzRoSlkKyqmhKL6xi32O2/OiRqeA8+kT9//F1GT/96YRMsHZV9z
- 7p/rtpY19k98TwwcFGiZYFdz2sqDtz5g6EcoADhkKlavIuuYmnCboHeZopty8qt3dfna
- Gh+w==
-X-Gm-Message-State: AOJu0YyJl3uYVwZkRN9f4fQnQsN+V4apafCImO/H3dXZyWYRAXtb7mxe
- 6PWHmhGo83xxRav2ZtwxJ7BhXnoygdtyVAmYDn8HUQ==
-X-Google-Smtp-Source: AGHT+IEC7pNshX6Y57af6XTx4hp1z/Y9MEpMHk/hv4YF7sUJybFapw88Qbjz6GB2s4WrIdgZn+IiEoCY/A4u2lTVAiA=
-X-Received: by 2002:a25:aac2:0:b0:db7:dacf:59d1 with SMTP id
- t60-20020a25aac2000000b00db7dacf59d1mr4535677ybi.69.1701812932200; Tue, 05
- Dec 2023 13:48:52 -0800 (PST)
+ d=1e100.net; s=20230601; t=1701813947; x=1702418747;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Lt1kIBCZQd3LG/iBwo/J1swllC6IeMh/7niRSSG8eSM=;
+ b=k2VoIX/Vd5eQu5SpWfEXva6nYjj66mh81K7ZBX3ISWbFKyY57DHY/4zhwtU/HXFI03
+ ewPyua+6ufzb2KL3QvaIMlotLyDA/qSTEsCRByYogrLLw6pa1jaDJq6D3Ls8/eEGjMbV
+ iVFtyrJOynYNH+6ypFBdkUiTLZ/6ZxaiOxnzgQAkK6IamgCSjNWqpS4ecnIMVoCd4E7G
+ AByyZPtyvqdz36IW7eZA1zb7a2eUfaFXXoyswP4Ue4mrjc1m/Ut/BfeFiKyjE+XQptj+
+ J0daj8atcZM8s84xgd57XrWZeRAdghz+fYyN250jAKHrVC734IqkbSOdDnUHfLebwKsb
+ HpzQ==
+X-Gm-Message-State: AOJu0YwaSxOOIKsNrYNAoDH/P/unIOfIjWLnLDgK0JhisIvp77B4EYX5
+ +8PalxiJGUw81fib6MfRPWFH57YmQcU=
+X-Google-Smtp-Source: AGHT+IGCYdrq8ZCbOguCKZk5oP4hEivw111igFkO+eYDHvqYTmFBPkRzxrRBea62JTpfvkPxKwziLA==
+X-Received: by 2002:a17:90b:1e0b:b0:286:bd82:1435 with SMTP id
+ pg11-20020a17090b1e0b00b00286bd821435mr1671891pjb.22.1701813947284; 
+ Tue, 05 Dec 2023 14:05:47 -0800 (PST)
+Received: from localhost ([2a00:79e1:2e00:1301:e1c5:6354:b45d:8ffc])
+ by smtp.gmail.com with ESMTPSA id
+ bt10-20020a17090af00a00b00286e69c8fb1sm1498921pjb.52.2023.12.05.14.05.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Dec 2023 14:05:46 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/5] drm/msm/adreno: Introduce/rework device hw catalog
+Date: Tue,  5 Dec 2023 14:03:26 -0800
+Message-ID: <20231205220526.417719-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-References: <cover.1701768028.git.ysato@users.sourceforge.jp>
- <602e1ba4f02489fcbc47e8f9904f3c1db1c9f14a.1701768028.git.ysato@users.sourceforge.jp>
- <2ef81211-9525-4f96-a6b2-3fcfbed0c6e5@app.fastmail.com>
-In-Reply-To: <2ef81211-9525-4f96-a6b2-3fcfbed0c6e5@app.fastmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 5 Dec 2023 22:48:41 +0100
-Message-ID: <CACRpkdZUAMXJ4YM9+xW2Snzt0Dx5mxWjcwHZifsXPJH9ozL5bg@mail.gmail.com>
-Subject: Re: [DO NOT MERGE v5 11/37] pci: pci-sh7751: Add SH7751 PCI driver
-To: Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,71 +70,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Herve Codina <herve.codina@bootlin.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- Bin Meng <bmeng@tinylab.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-pci@vger.kernel.org, Jacky Huang <ychuang3@nuvoton.com>,
- Palmer Dabbelt <palmer@rivosinc.com>, Max Filippov <jcmvbkbc@gmail.com>,
- guoren <guoren@kernel.org>, Lee Jones <lee@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
- linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Jonathan Corbet <corbet@lwn.net>,
- Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
- David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Chris Morgan <macromorgan@hotmail.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
- Vlastimil Babka <vbabka@suse.cz>, Sergey Shtylyov <s.shtylyov@omp.ru>,
- Baoquan He <bhe@redhat.com>, linux-ide@vger.kernel.org,
- Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- linux-kernel@vger.kernel.org, Azeem Shaikh <azeemshaikh38@gmail.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Tom Rix <trix@redhat.com>,
- Damien Le Moal <dlemoal@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:SUSPEND TO RAM" <linux-pm@vger.kernel.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ "Joel Fernandes \(Google\)" <joel@joelfernandes.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org,
+ Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 5, 2023 at 2:26=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote:
-> On Tue, Dec 5, 2023, at 10:45, Yoshinori Sato wrote:
+From: Rob Clark <robdclark@chromium.org>
 
-> > +     if (of_property_read_u32_array(pdev->dev.of_node,
-> > +                                    "renesas,memory", memory, 2) < 0) =
-{
-> > +             /*
-> > +              * If no memory range is specified,
-> > +              *  the entire main memory will be targeted for DMA.
-> > +              */
-> > +             memory[0] =3D memory_start;
-> > +             memory[1] =3D memory_end - memory_start;
-> > +     }
->
-> There is a generic "dma-ranges" proerty for describing
-> which memory is visible by a bus.
+Split the single flat gpulist table into per-gen tables that exist in
+their own per-gen files, and start moving more info into the device
+table.  This at least gets all the big tables of register settings out
+of the heart of the a6xx_gpu code.  Probably more could be moved, to
+remove at least some of the per-gen if/else ladders, but this seemed
+like a reasonably good start.
 
-It's really a headache to use, so I put a bit of documentation here:
-https://elinux.org/Device_Tree_Usage#PCI_DMA_Address_Translation
+Rob Clark (5):
+  drm/msm/adreno: Split up giant device table
+  drm/msm/adreno: Split catalog into separate files
+  drm/msm/adreno: Move hwcg regs to a6xx hw catalog
+  drm/msm/adreno: Move hwcg table into a6xx specific info
+  drm/msm/adreno: Move CP_PROTECT settings to hw catalog
 
-Yoshinoro, you can look at these bindings and drivers that use
-dma-ranges for help:
-Documentation/devicetree/bindings/pci/intel,ixp4xx-pci.yaml
-drivers/pci/controller/pci-ixp4xx.c
-Documentation/devicetree/bindings/pci/faraday,ftpci100.yaml
-drivers/pci/controller/pci-ftpci100.c
+ drivers/gpu/drm/msm/Makefile               |    5 +
+ drivers/gpu/drm/msm/adreno/a2xx_catalog.c  |   53 +
+ drivers/gpu/drm/msm/adreno/a3xx_catalog.c  |   75 ++
+ drivers/gpu/drm/msm/adreno/a4xx_catalog.c  |   51 +
+ drivers/gpu/drm/msm/adreno/a5xx_catalog.c  |  145 +++
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c  | 1118 ++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c      |  817 +-------------
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h      |   11 +
+ drivers/gpu/drm/msm/adreno/adreno_device.c |  559 +---------
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h    |   22 +-
+ 10 files changed, 1506 insertions(+), 1350 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/adreno/a2xx_catalog.c
+ create mode 100644 drivers/gpu/drm/msm/adreno/a3xx_catalog.c
+ create mode 100644 drivers/gpu/drm/msm/adreno/a4xx_catalog.c
+ create mode 100644 drivers/gpu/drm/msm/adreno/a5xx_catalog.c
+ create mode 100644 drivers/gpu/drm/msm/adreno/a6xx_catalog.c
 
-Yours,
-Linus Walleij
+-- 
+2.42.0
+
