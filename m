@@ -1,49 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A048060A9
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 22:25:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F858060AB
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 22:25:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BB6310E61F;
-	Tue,  5 Dec 2023 21:24:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3649B10E628;
+	Tue,  5 Dec 2023 21:25:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C32A10E61F
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 21:24:57 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id E17AB8719C;
- Tue,  5 Dec 2023 22:24:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1701811495;
- bh=UDWcFcksNDSZ3bnIJtlYDj3W8lT3fK2OZ5ULG/P8BJM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=hd8V46PA+/yicfPo79+VHRyHMC+qFvQ400uSImK92b7FhoTcG0JOv/22yL1y0zgV4
- XpooMzB2XsmDKQrpHPO0d4qtUom936q60uToJ57/baGi08swVgHyp37QKeklKo3KLG
- cKLZIfhOV3LkidB9wxJtbjy8HpGMaFIDWyc33MbtJfhwFxv41H3G80Bo12fUyiGwAJ
- DsKiiPBEvbQSoEm8KrNBgl/FM60XPRP9bQ3uqHtKWQh+PHfh38O6SULXPTY4lr7lO+
- Exw0CKtPfV4DIfqDnhKVEVJ6jBF7RZpKwDtOy2xWgBCooyRI/lXAJ2Htk7XAcjTnij
- U3thh4NF8UBFw==
-Message-ID: <4a3e4dd5-f393-4668-95a3-d30a8889b419@denx.de>
-Date: Tue, 5 Dec 2023 22:24:54 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B95FA10E628;
+ Tue,  5 Dec 2023 21:25:26 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3B5K9uQY029820; Tue, 5 Dec 2023 21:25:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=rpmbVQ6G2nMcHvVGDQXnH+yhqXwn5yt86CzMe9CHXKs=;
+ b=WDTkjQC/b5Sw0FrbmnPqFY/1xv4J04FJBCwkff9r3C7Q/TJWXHd5DPBvdseK+6sFALDY
+ OVNnPkLOPwTA0CRKdp8W7wMsvVAADT9UkzlCAKLCEUIS4qW6GPG/U1A1YPF3tKXLnwMk
+ l8AejQDN1FaGBmV1dGSIezOaRpYKlLsIO1vOTuUeNI+qPpPZDIE7AucDJ5Sjc6jHpn5R
+ HoscjhwfugcKk7rpj7AAVMJzZChkKyZhl2lFXgdZ514a+x9f6T7YfVPFg7Oprc6uPr3Y
+ CSuW5Tnmq7PYEV7Y/+eAodWq6BZxtwOJMyiIWER+5RVLFeryUbfzQyjXse1OrQM2FTOt wg== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3utanm84s2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 Dec 2023 21:25:21 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B5LPLju014223
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 5 Dec 2023 21:25:21 GMT
+Received: from [10.71.111.96] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 5 Dec
+ 2023 13:25:20 -0800
+Message-ID: <fcf07bc3-9d09-939e-c66b-3ff2a5bbbb83@quicinc.com>
+Date: Tue, 5 Dec 2023 13:25:20 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] dt-bindings: lcdif: Properly describe the i.MX23
- interrupts
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2] drm/msm/dpu: correct clk bit for WB2 block
 Content-Language: en-US
-To: Fabio Estevam <festevam@gmail.com>
-References: <20231205184748.2103321-1-festevam@gmail.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20231205184748.2103321-1-festevam@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>
+References: <20231203002437.1291595-1-dmitry.baryshkov@linaro.org>
+ <684b467c-a4f2-9c8d-b81c-0a21cefdb422@quicinc.com>
+From: Paloma Arellano <quic_parellan@quicinc.com>
+In-Reply-To: <684b467c-a4f2-9c8d-b81c-0a21cefdb422@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: wsZKFap8M6fhRl6Pk6AX9C73O5hbrLWL
+X-Proofpoint-ORIG-GUID: wsZKFap8M6fhRl6Pk6AX9C73O5hbrLWL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-05_17,2023-12-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxscore=0
+ bulkscore=0 mlxlogscore=557 clxscore=1011 malwarescore=0 adultscore=0
+ impostorscore=0 lowpriorityscore=0 suspectscore=0 priorityscore=1501
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2312050166
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,28 +85,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org,
- Fabio Estevam <festevam@denx.de>, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
+Cc: linux-arm-msm@vger.kernel.org, Bjorn
+ Andersson <andersson@kernel.org>, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/5/23 19:47, Fabio Estevam wrote:
-> From: Fabio Estevam <festevam@denx.de>
-> 
-> i.MX23 has two LCDIF interrupts instead of a single one like other
-> i.MX devices.
-> 
-> Take this into account for properly describing the i.MX23 LCDIF
-> interrupts.
-> 
-> This fixes the following dt-schema warning:
-> 
-> imx23-olinuxino.dtb: lcdif@80030000: interrupts: [[46], [45]] is too long
-> 	from schema $id: http://devicetree.org/schemas/display/fsl,lcdif.yaml#
-> 
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
 
-Indeed
-
-Reviewed-by: Marek Vasut <marex@denx.de>
+On 12/5/2023 12:30 PM, Abhinav Kumar wrote:
+>
+>
+> On 12/2/2023 4:24 PM, Dmitry Baryshkov wrote:
+>> On sc7280 there are two clk bits for WB2: vbif_cli and clk_ctrl. While
+>> programming the VBIF params of WB, the driver should be toggling the
+>> former bit, while the sc7180_mdp, sc7280_mdp and sm8250_mdp structs
+>> list the latter one.
+>>
+>> Correct that to ensure proper programming sequence for WB2 on these
+>> platforms.
+>>
+>> Fixes: 255f056181ac ("drm/msm/dpu: sc7180: add missing WB2 clock 
+>> control")
+>> Fixes: 3ce166380567 ("drm/msm/dpu: add writeback support for sc7280")
+>> Fixes: 53324b99bd7b ("drm/msm/dpu: add writeback blocks to the sm8250 
+>> DPU catalog")
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>
+>> Changes since v1:
+>>   - Fixed the bits for all three platforms supporting WB (Abhinav)
+>>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h | 2 +-
+>>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h | 2 +-
+>>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h | 2 +-
+>>   3 files changed, 3 insertions(+), 3 deletions(-)
+>>
+>
+> LGTM now.
+>
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Tested-by: Paloma Arellano <quic_parellan@quicinc.com>
