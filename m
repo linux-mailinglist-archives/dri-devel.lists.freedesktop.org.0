@@ -1,62 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B368055B9
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 14:20:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 874968055DA
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 14:26:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33E6310E520;
-	Tue,  5 Dec 2023 13:20:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7404610E527;
+	Tue,  5 Dec 2023 13:26:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com
- [IPv6:2607:f8b0:4864:20::112a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C7ED10E520
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 13:20:08 +0000 (UTC)
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-5d3758fdd2eso54086867b3.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 05:20:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701782407; x=1702387207; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FisYxDa6iVbed3/U4DiESiIhhRteOZr0hHzROfMa1GQ=;
- b=FPrVXBD6pWZGYhPHRuiz10Hh2hXpxN3pFuposT3cEtxCQhNm3hMfemHJD74rne/tf+
- BSNS1WAWOFlBw0CGoYqoE5P0cWHrTWQqxRkx4EK1ch7riA0steo6v1vrVkaTSDeXxR2L
- sHfawNpvR8ji8MvxUtiACwUuwxKkogNXNzVCua+nn3nx4xDCnAQkD85P8efsC5lAYxEa
- 11YE9P/tIcliLZax8kdhDa6ZTw2cwrElvWiNo1PRJ9ffcVQWLFLSq2iegabWJGhf/XLt
- bP7lqMcrIGMM6O7jzjxrHdgX9uAuUGtR7hM5drY9pANcN21pik1uDGdLhH90pAhcHmMo
- vCiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701782407; x=1702387207;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FisYxDa6iVbed3/U4DiESiIhhRteOZr0hHzROfMa1GQ=;
- b=opvyQ16H75fn6CdqOCy2GC6606spypLAVLEceiBoudoMXuoAZjpbsGjskGSk+hTL4+
- QJDR+Sc5bXcq8Hp3DH55V2Xa3ClNgb2G0cqFHzm+N67X24Bv5uJrVtOe+rj86Sup5p/Y
- Men+L6W+H2obsRUCKkiHAboqCW9cMS7VtH4Jwe7xk6F7xlPYqPEeHFQZqxGTFPUbBH76
- geNn02ytZmjBqvtUyQRwDTWyq7yfJe/nZOLTbxbzmyp6mJF9f9LaV45TrGRIbgstGWTW
- KetWe19vqYdAPNJfKAXxqc+OVQ/iv5czjZUfWhffnid/XAYxTcR0fXjD2DGK5lKavRLq
- 3Ngw==
-X-Gm-Message-State: AOJu0YyniBFrYBL7uFhclo1ulbyeF7jLqTtnjIUdvsSwQ2k2wCAuMMwd
- 5SQPSadfeZLf2rbd10VgvmihBMlLRB80BS3p3vYrFw==
-X-Google-Smtp-Source: AGHT+IG6XUHsPD9ZiSDBI8UAZQbYN2B4l0jNcx7ezUGR9F0vkCQ5Oq/48R1cbboJIGT3keij9lruomLFQNOD1omAe7w=
-X-Received: by 2002:a81:ad0b:0:b0:5d7:1941:3556 with SMTP id
- l11-20020a81ad0b000000b005d719413556mr3794472ywh.61.1701782407651; Tue, 05
- Dec 2023 05:20:07 -0800 (PST)
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4664C10E522
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 13:26:36 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 92ADB580BBE;
+ Tue,  5 Dec 2023 08:26:35 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+ by compute5.internal (MEProxy); Tue, 05 Dec 2023 08:26:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1701782795; x=1701789995; bh=W3
+ qjdlXCrGJYdFNLku/WKxa0Yd1q1gu7loL3v5KHYRM=; b=zK/Fp8Q3S0qWDC4+U3
+ kGt9Orlb8390T8Sy5wd+3hlBiAst1xeRlVyMyoOWpO2/Q34RC6ALM0nBbMY0H/MC
+ FEtoQpTDxv2EJ+t9+cnilInQbFDDr37JteXNVSzkC2RRZha5BxX7IfYPTuXPLspP
+ IYgnEWI75Q8dphn8Csk8ftz2HOjlAxs8P3+k4jocBTLtxw4sAe0T04w8uj+Aptf9
+ pO1XoxI18qnsPS82ZJr5c5rp5rkU01GfA4p+E6aYZG0mx1YXcti/s5GkYB0Qa0gk
+ RladkT7vE641Xi0g49knromvDRkAlBgSxJzq7TxLqq3qOqheGV+mHtPcLZseq/dI
+ Bfgw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1701782795; x=1701789995; bh=W3qjdlXCrGJYd
+ FNLku/WKxa0Yd1q1gu7loL3v5KHYRM=; b=fpvUYP+wLkfgJ6TQflEw4OYF6LGe5
+ a3Feaob+JOtf3BjOTf5iamzt5cbGiVXbtWXiKG/2ZKW6mnM2ubhYH3OZv4+hQct3
+ 0FwHg1HgToCblPVSe/K/Lrm06wNjmSS3oz+Z8OBxKjTZlDWTFaTzHPuhJYG06L+X
+ VK71m4Ula7avDUgfjvEnXtOyJDhPQljO2/TXqfUyynZukPMVPqiy0D9T5ZJKNyUo
+ pqJhtJu2irMcj/Tg9+gpXOBqFixV5fA6N5sT/EU9zWNeESYhtOrUY1eRAQd+HcQa
+ 4gbGVA/EHZ5jPKyUhOSyD3FpbAT4FxyPBuiMYaID3OKt2zYjSoH2h9G/w==
+X-ME-Sender: <xms:CSVvZcJVbsbrhr9sYKVcQUAAAS1DaBjSTvnpkZgk2j6LLf3slEjtXA>
+ <xme:CSVvZcLr1DCGQRgrUVj-UyibDWjBlihjF5mIveBAeePWght-G5QzZlkjbdE-mkBW7
+ TZg6eac0e_QXsu_Ux8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudejkedghedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+ nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+ htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+ teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+ hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:CSVvZcsFsaCqlqUXDamXtGWKSxuWxDGZnZGh7uiXKsXvrH7hkLAbIg>
+ <xmx:CSVvZZZFmxyOnwLm9cYbYVRTqBzlMGMH3al9Ge29PS6sdDVySSGjww>
+ <xmx:CSVvZTYpLSW4BZilnjVOVgo2REBAlE3kPOHnsquKrdoOUGP_qC4L6A>
+ <xmx:CyVvZcjUxRtu4e4Hrx-sSqQkzLAgDMCLWFO7kek49ROwxqThQoR9iw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 7D795B6008D; Tue,  5 Dec 2023 08:26:33 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1178-geeaf0069a7-fm-20231114.001-geeaf0069
 MIME-Version: 1.0
-References: <CGME20231205130643eucas1p283a5476b78a87997fa393d00f5172418@eucas1p2.samsung.com>
- <20231205130631.3456986-1-m.szyprowski@samsung.com>
-In-Reply-To: <20231205130631.3456986-1-m.szyprowski@samsung.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 5 Dec 2023 15:19:56 +0200
-Message-ID: <CAA8EJpr3hNdB02avXrY+PQGGSjJTm4YT3Hct1OwsLuNQN_H9Xw@mail.gmail.com>
-Subject: Re: [PATCH] drm/debugfs: fix potential NULL pointer dereference
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-Id: <2ef81211-9525-4f96-a6b2-3fcfbed0c6e5@app.fastmail.com>
+In-Reply-To: <602e1ba4f02489fcbc47e8f9904f3c1db1c9f14a.1701768028.git.ysato@users.sourceforge.jp>
+References: <cover.1701768028.git.ysato@users.sourceforge.jp>
+ <602e1ba4f02489fcbc47e8f9904f3c1db1c9f14a.1701768028.git.ysato@users.sourceforge.jp>
+Date: Tue, 05 Dec 2023 14:26:13 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Yoshinori Sato" <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org
+Subject: Re: [DO NOT MERGE v5 11/37] pci: pci-sh7751: Add SH7751 PCI driver
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,82 +83,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ Herve Codina <herve.codina@bootlin.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Bin Meng <bmeng@tinylab.org>,
+ Michael Turquette <mturquette@baylibre.com>, linux-pci@vger.kernel.org,
+ Jacky Huang <ychuang3@nuvoton.com>, Palmer Dabbelt <palmer@rivosinc.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, guoren <guoren@kernel.org>,
+ Lee Jones <lee@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
+ linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
+ David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Chris Morgan <macromorgan@hotmail.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Vlastimil Babka <vbabka@suse.cz>, Sergey Shtylyov <s.shtylyov@omp.ru>,
+ linux-ide@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
+ linux-kernel@vger.kernel.org, Azeem Shaikh <azeemshaikh38@gmail.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Tom Rix <trix@redhat.com>,
+ Damien Le Moal <dlemoal@kernel.org>,
+ Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
+ Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 5 Dec 2023 at 15:06, Marek Szyprowski <m.szyprowski@samsung.com> wr=
-ote:
->
-> encoder->funcs entry might be NULL, so check it first before calling its
-> methods. This fixes NULL pointer dereference observed on Rasberry Pi
-> 3b/4b boards.
->
-> Fixes: caf525ed45b4 ("drm/encoder: register per-encoder debugfs dir")
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+On Tue, Dec 5, 2023, at 10:45, Yoshinori Sato wrote:
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> +#include <asm/addrspace.h>
+> +#include "pci-sh7751.h"
+> +
+> +#define pcic_writel(val, base, reg) __raw_writel(val, base + (reg))
+> +#define pcic_readl(base, reg) __raw_readl(base + (reg))
 
-> ---
-> This fixes the following issue observed on Raspberry Pi 4b:
->
-> vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
-> vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
-> vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops [vc4])
-> vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
-> vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_ops [vc4])
-> vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_ops [vc4])
-> vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_ops [vc4])
-> vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_ops [vc4])
-> 8<--- cut here ---
-> Unable to handle kernel NULL pointer dereference at virtual address 00000=
-010 when read
-> [00000010] *pgd=3D00000000
-> Internal error: Oops: 5 [#1] SMP ARM
-> Modules linked in: sha256_arm raspberrypi_hwmon cfg80211(+) hci_uart btbc=
-m bluetooth vc4(+) ecdh_generic ecc libaes snd_soc_hdmi_codec snd_soc_core =
-v3d drm_shmem_helper ac97_bus snd_pcm_dmaengine snd_pcm genet(+) gpu_sched =
-snd_timer snd bcm2711_thermal soundcore drm_dma_helper
-> CPU: 1 PID: 221 Comm: systemd-udevd Not tainted 6.7.0-rc4-next-20231205 #=
-14267
-> Hardware name: BCM2711
-> PC is at drm_debugfs_encoder_add+0x6c/0x98
-> LR is at 0x0
-> ...
->  drm_debugfs_encoder_add from drm_encoder_register_all+0x20/0x60
->  drm_encoder_register_all from drm_modeset_register_all+0x34/0x70
->  drm_modeset_register_all from drm_dev_register+0x24c/0x28c
->  drm_dev_register from vc4_drm_bind+0x21c/0x2d0 [vc4]
->  vc4_drm_bind [vc4] from try_to_bring_up_aggregate_device+0x160/0x1bc
->  try_to_bring_up_aggregate_device from component_master_add_with_match+0x=
-c4/0xf8
->  component_master_add_with_match from vc4_platform_drm_probe+0xa0/0xc0 [v=
-c4]
->  vc4_platform_drm_probe [vc4] from platform_probe+0x5c/0xb8
->  platform_probe from really_probe+0xc8/0x2dc
->  really_probe from __driver_probe_device+0x88/0x19c
->  __driver_probe_device from driver_probe_device+0x30/0x104
->  driver_probe_device from __driver_attach+0x90/0x174
->  __driver_attach from bus_for_each_dev+0x6c/0xb4
->  bus_for_each_dev from bus_add_driver+0xcc/0x1cc
->  bus_add_driver from driver_register+0x7c/0x118
->  driver_register from vc4_drm_register+0x44/0x1000 [vc4]
->  vc4_drm_register [vc4] from do_one_initcall+0x40/0x1e0
->  do_one_initcall from do_init_module+0x50/0x1e4
->  do_init_module from init_module_from_file+0x90/0xbc
->  init_module_from_file from sys_finit_module+0x144/0x258
->  sys_finit_module from ret_fast_syscall+0x0/0x54
-> Exception stack(0xf0cf1fa8 to 0xf0cf1ff0)
-> ...
-> ---[ end trace 0000000000000000 ]---
->
-> ---
->  drivers/gpu/drm/drm_debugfs.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+__raw_writel()/__raw_readl() has a number of problems with
+atomicity (the compiler may split or merge pointer
+dereferences), barriers and endianess. You should normally
+always use readl()/writel() instead.
 
+> +	memset(pci_config, 0, sizeof(pci_config));
+> +	if (of_property_read_u32_array(np, "renesas,config",
+> +				       pci_config, SH7751_NUM_CONFIG) == 0) {
+> +		for (i = 0; i < SH7751_NUM_CONFIG; i++) {
+> +			r = pci_config[i * 2];
+> +			/* CONFIG0 is read-only, so make it a sentinel. */
+> +			if (r == 0)
+> +				break;
+> +			pcic_writel(pci_config[i * 2 + 1], pcic, r * 4);
+> +		}
+> +	}
 
---=20
-With best wishes
-Dmitry
+the config property seems a little too specific to this
+implementation of the driver. Instead of encoding register
+values in DT, I think these should either be described
+in named properties where needed, or hardcoded in the driver
+if there is only one sensible value.
+
+> +/*
+> + * We need to avoid collisions with `mirrored' VGA ports
+> + * and other strange ISA hardware, so we always want the
+> + * addresses to be allocated in the 0x000-0x0ff region
+> + * modulo 0x400.
+> + */
+> +#define IO_REGION_BASE 0x1000
+> +resource_size_t pcibios_align_resource(void *data, const struct 
+> resource *res,
+> +				resource_size_t size, resource_size_t align)
+> +{
+
+You can't have these generic functions in a driver, as that
+prevents you from building more than one such driver.
+
+The logic you have here is neither architecture nor
+driver specific.
+
+> +static int sh7751_pci_probe(struct platform_device *pdev)
+> +{
+> +	struct resource *res, *bscres;
+> +	void __iomem *pcic;
+> +	void __iomem *bsc;
+> +	u32 memory[2];
+> +	u16 vid, did;
+> +	u32 word;
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	if (IS_ERR(res))
+> +		return PTR_ERR(res);
+> +	pcic = (void __iomem *)res->start;
+
+This cast is invalid, as res->start is a physical address
+that you would need to ioremap() to turn into an __iomem
+pointer.
+
+> +	bscres = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+> +	bsc = devm_ioremap_resource(&pdev->dev, bscres);
+> +	if (IS_ERR(bsc))
+> +		return PTR_ERR(bsc);
+> +
+> +	if (of_property_read_u32_array(pdev->dev.of_node,
+> +				       "renesas,memory", memory, 2) < 0) {
+> +		/*
+> +		 * If no memory range is specified,
+> +		 *  the entire main memory will be targeted for DMA.
+> +		 */
+> +		memory[0] = memory_start;
+> +		memory[1] = memory_end - memory_start;
+> +	}
+
+There is a generic "dma-ranges" proerty for describing
+which memory is visible by a bus.
+
+> diff --git a/drivers/pci/controller/pci-sh7751.h 
+> b/drivers/pci/controller/pci-sh7751.h
+> new file mode 100644
+> index 000000000000..540cee7095c6
+> --- /dev/null
+> +++ b/drivers/pci/controller/pci-sh7751.h
+> @@ -0,0 +1,76 @@
+
+If the header is only included from one file, just removed
+it and add the register definitions to the driver directly.
+
+     Arnd
