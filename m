@@ -1,27 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 956CC8059C6
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 17:17:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D064A8059BE
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 17:17:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 590C610E5C2;
-	Tue,  5 Dec 2023 16:16:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C681A10E5BE;
+	Tue,  5 Dec 2023 16:16:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id EBBAF10E4D3
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 09:55:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1387010E4D7
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 09:55:33 +0000 (UTC)
 Received: from SIOS1075.ysato.name (ZM005235.ppp.dion.ne.jp [222.8.5.235])
- by sakura.ysato.name (Postfix) with ESMTPSA id 8AD121C0781;
- Tue,  5 Dec 2023 18:47:00 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id 8A2C81C0868;
+ Tue,  5 Dec 2023 18:47:02 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
-Subject: [DO NOT MERGE v5 29/37] sh: SH7751R SoC Internal peripheral
- definition dtsi.
-Date: Tue,  5 Dec 2023 18:45:48 +0900
-Message-Id: <635f3b8c4a9063346bf40332c53d3e134f67fb1c.1701768028.git.ysato@users.sourceforge.jp>
+Subject: [DO NOT MERGE v5 30/37] sh: add RTS7751R2D Plus DTS
+Date: Tue,  5 Dec 2023 18:45:49 +0900
+Message-Id: <9a32654249d357d3147e824a8c56321b7a486326.1701768028.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1701768028.git.ysato@users.sourceforge.jp>
 References: <cover.1701768028.git.ysato@users.sourceforge.jp>
@@ -80,169 +79,176 @@ Cc: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SH7751R internal peripherals device tree.
+Renesas RTS7751R2D Plus devicetree.
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- arch/sh/boot/dts/sh7751r.dtsi | 150 ++++++++++++++++++++++++++++++++++
- 1 file changed, 150 insertions(+)
- create mode 100644 arch/sh/boot/dts/sh7751r.dtsi
+ arch/sh/boot/dts/rts7751r2dplus.dts | 157 ++++++++++++++++++++++++++++
+ 1 file changed, 157 insertions(+)
+ create mode 100644 arch/sh/boot/dts/rts7751r2dplus.dts
 
-diff --git a/arch/sh/boot/dts/sh7751r.dtsi b/arch/sh/boot/dts/sh7751r.dtsi
+diff --git a/arch/sh/boot/dts/rts7751r2dplus.dts b/arch/sh/boot/dts/rts7751r2dplus.dts
 new file mode 100644
-index 000000000000..0db5a7005a2d
+index 000000000000..4fb75e814615
 --- /dev/null
-+++ b/arch/sh/boot/dts/sh7751r.dtsi
-@@ -0,0 +1,150 @@
++++ b/arch/sh/boot/dts/rts7751r2dplus.dts
+@@ -0,0 +1,157 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Device Tree Source for the SH7751R SoC
++ * Device Tree Source for the Renesas RTS7751R2D Plus
 + */
 +
-+#include <dt-bindings/interrupt-controller/sh7751-intc.h>
-+#include <dt-bindings/clock/sh7750-cpg.h>
++/dts-v1/;
++
++#include "sh7751r.dtsi"
++#include <dt-bindings/display/sm501.h>
 +
 +/ {
-+	#address-cells = <1>;
-+	#size-cells = <1>;
++	model = "Renesas RTS7715R2D Plus";
++	compatible = "renesas,rts7751r2d", "renesas,sh7751r";
 +
-+	cpus {
-+		#address-cells = <1>;
++	aliases {
++		serial0 = &scif1;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	memory@c000000 {
++		device_type = "memory";
++		reg = <0x0c000000 0x4000000>;
++	};
++
++	r2dintc: interrupt_controller@a4000000 {
++		compatible = "renesas,sh7751-irl-ext";
++		reg = <0xa4000000 0x02>;
++		interrupt-controller;
++		#address-cells = <0>;
 +		#size-cells = <0>;
++		#interrupt-cells = <1>;
++		renesas,width = <16>;
++		renesas,enable-bit = <0 11>,		/* PCI INTD */
++				     <1 9>,		/* CF IDE */
++				     <2 8>,		/* CF CD */
++				     <3 12>,		/* PCI INTC */
++				     <4 10>,		/* SM501 */
++				     <5 6>,		/* KEY */
++				     <6 5>,		/* RTC ALARM */
++				     <7 4>,		/* RTC T */
++				     <8 7>,		/* SDCARD */
++				     <9 14>,		/* PCI INTA */
++				     <10 13>,		/* PCI INTB */
++				     <11 0>,		/* EXT */
++				     <12 15>;		/* TP */
++	};
 +
-+		cpu@0 {
-+			compatible = "renesas,sh4", "renesas,sh2";
-+			device_type = "cpu";
-+			reg = <0>;
-+			clocks = <&cpg SH7750_CPG_ICK>;
-+			clock-names = "ick";
-+			icache-size = <16384>;
-+			icache-line-size = <32>;
-+			dcache-size = <32768>;
-+			dcache-line-size = <32>;
++	display@0 {
++		compatible = "smi,sm501";
++		reg = <0x10000000 0x03e00000
++		       0x13e00000 0x00200000>;
++		interrupt-parent = <&r2dintc>;
++		interrupts = <4>;
++		mode = "640x480-16@60";
++		little-endian;
++		smi,devices = <(SM501_USE_USB_HOST | SM501_USE_UART0)>;
++		interrupt-name = "sm501";
++		swap-fb-endian;
++
++		crt {
++			smi,flags = <(SM501FB_FLAG_USE_INIT_MODE |
++				      SM501FB_FLAG_DISABLE_AT_EXIT |
++				      SM501FB_FLAG_USE_HWCURSOR |
++				      SM501FB_FLAG_USE_HWACCEL)>;
++		};
++
++		panel {
++			bpp = <16>;
++			edid = [00 ff ff ff ff ff ff 00 00 00 00 00 00 00 00 00
++				00 00 01 04 00 00 00 00 00 00 00 00 00 00 00 00
++				00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
++				00 00 00 00 00 00 f0 0a 80 fb 20 e0 25 10 32 60
++				02 00 00 00 00 00 00 06 00 00 00 00 00 00 00 00
++				00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
++				00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
++				00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 bd];
++			smi,flags = <(SM501FB_FLAG_USE_INIT_MODE |
++				      SM501FB_FLAG_DISABLE_AT_EXIT |
++				      SM501FB_FLAG_USE_HWCURSOR |
++				      SM501FB_FLAG_USE_HWACCEL)>;
 +		};
 +	};
 +
-+	xtal: oscillator {
-+		#clock-cells = <0>;
-+		compatible = "fixed-clock";
-+		clock-frequency = <0>;
-+		clock-output-names = "xtal";
++	compact-flash@b4001000 {
++		compatible = "renesas,rts7751r2d-ata", "ata-generic";
++		reg = <0xb4001000 0x0e>, <0xb400080c 2>;
++		reg-shift = <1>;
++		interrupt-parent = <&r2dintc>;
++		interrupts = <1>;
 +	};
 +
-+	soc {
-+		compatible = "simple-bus";
-+		interrupt-parent = <&shintc>;
++	flash@0 {
++		compatible = "cfi-flash";
++		reg = <0x00000000 0x02000000>;
++		device-width = <2>;
 +		#address-cells = <1>;
 +		#size-cells = <1>;
-+		ranges;
 +
-+		cpg: clock-controller@ffc00000 {
-+			#clock-cells = <1>;
-+			#power-domain-cells = <0>;
-+			compatible = "renesas,sh7751r-cpg";
-+			clocks = <&xtal>;
-+			clock-names = "xtal";
-+			reg = <0xffc00000 20>, <0xfe0a0000 16>;
-+			reg-names = "FRQCR", "CLKSTP00";
-+			renesas,mode = <0>;
++		partition@0 {
++			label = "U-Boot";
++			reg = <0x00000000 0x00040000>;
 +		};
 +
-+		shintc: interrupt-controller@ffd00000 {
-+			compatible = "renesas,sh7751-intc";
-+			#interrupt-cells = <1>;
-+			interrupt-controller;
-+			reg = <0xffd00000 20>, <0xfe080000 128>;
-+			reg-names = "ICR", "INTPRI00";
-+			renesas,ipr-map = <0x240 IPRD IPR_B12>,	/* IRL0 */
-+					  <0x2a0 IPRD IPR_B8>,	/* IRL1 */
-+					  <0x300 IPRD IPR_B4>,	/* IRL2 */
-+					  <0x360 IPRD IPR_B0>,	/* IRL3 */
-+					  <0x400 IPRA IPR_B12>,	/* TMU0 */
-+					  <0x420 IPRA IPR_B8>,	/* TMU1 */
-+					  <0x440 IPRA IPR_B4>,	/* TMU2 TNUI */
-+					  <0x460 IPRA IPR_B4>,	/* TMU2 TICPI */
-+					  <0x480 IPRA IPR_B0>,	/* RTC ATI */
-+					  <0x4a0 IPRA IPR_B0>,	/* RTC PRI */
-+					  <0x4c0 IPRA IPR_B0>,	/* RTC CUI */
-+					  <0x4e0 IPRB IPR_B4>,	/* SCI ERI */
-+					  <0x500 IPRB IPR_B4>,	/* SCI RXI */
-+					  <0x520 IPRB IPR_B4>,	/* SCI TXI */
-+					  <0x540 IPRB IPR_B4>,	/* SCI TEI */
-+					  <0x560 IPRB IPR_B12>,	/* WDT */
-+					  <0x580 IPRB IPR_B8>,	/* REF RCMI */
-+					  <0x5a0 IPRB IPR_B4>,	/* REF ROVI */
-+					  <0x600 IPRC IPR_B0>,	/* H-UDI */
-+					  <0x620 IPRC IPR_B12>,	/* GPIO */
-+					  <0x640 IPRC IPR_B8>,	/* DMAC DMTE0 */
-+					  <0x660 IPRC IPR_B8>,	/* DMAC DMTE1 */
-+					  <0x680 IPRC IPR_B8>,	/* DMAC DMTE2 */
-+					  <0x6a0 IPRC IPR_B8>,	/* DMAC DMTE3 */
-+					  <0x6c0 IPRC IPR_B8>,	/* DMAC DMAE */
-+					  <0x700 IPRC IPR_B4>,	/* SCIF ERI */
-+					  <0x720 IPRC IPR_B4>,	/* SCIF RXI */
-+					  <0x740 IPRC IPR_B4>,	/* SCIF BRI */
-+					  <0x760 IPRC IPR_B4>,	/* SCIF TXI */
-+					  <0x780 IPRC IPR_B8>,	/* DMAC DMTE4 */
-+					  <0x7a0 IPRC IPR_B8>,	/* DMAC DMTE5 */
-+					  <0x7c0 IPRC IPR_B8>,	/* DMAC DMTE6 */
-+					  <0x7e0 IPRC IPR_B8>,	/* DMAC DMTE7 */
-+					  <0xa00 INTPRI00 IPR_B0>,	/* PCIC PCISERR */
-+					  <0xa20 INTPRI00 IPR_B4>,	/* PCIC PCIDMA3 */
-+					  <0xa40 INTPRI00 IPR_B4>,	/* PCIC PCIDMA2 */
-+					  <0xa60 INTPRI00 IPR_B4>,	/* PCIC PCIDMA1 */
-+					  <0xa80 INTPRI00 IPR_B4>,	/* PCIC PCIDMA0 */
-+					  <0xaa0 INTPRI00 IPR_B4>,	/* PCIC PCIPWON */
-+					  <0xac0 INTPRI00 IPR_B4>,	/* PCIC PCIPWDWN */
-+					  <0xae0 INTPRI00 IPR_B4>,	/* PCIC PCIERR */
-+					  <0xb00 INTPRI00 IPR_B8>,	/* TMU3 */
-+					  <0xb80 INTPRI00 IPR_B12>;	/* TMU4 */
++		partition@1 {
++			label = "Environemt";
++			reg = <0x00040000 0x00040000>;
 +		};
 +
-+		/* sci0 is rarely used, so it is not defined here. */
-+		scif1: serial@ffe80000 {
-+			compatible = "renesas,scif-sh7751", "renesas,scif";
-+			reg = <0xffe80000 0x100>;
-+			interrupts = <evt2irq(0x700)>,
-+				     <evt2irq(0x720)>,
-+				     <evt2irq(0x760)>,
-+				     <evt2irq(0x740)>;
-+			interrupt-names = "eri", "rxi", "txi", "bri";
-+			clocks = <&cpg SH7750_MSTP_SCIF>;
-+			clock-names = "fck";
-+			power-domains = <&cpg>;
-+			status = "disabled";
++		partition@2 {
++			label = "Kernel";
++			reg = <0x00080000 0x001c0000>;
 +		};
 +
-+		/* Normally ch0 and ch1 are used, so we will define ch0 to ch2 here. */
-+		tmu0: timer@ffd80000 {
-+			compatible = "renesas,tmu-sh7750", "renesas,tmu";
-+			reg = <0xffd80000 12>;
-+			interrupts = <evt2irq(0x400)>,
-+				     <evt2irq(0x420)>,
-+				     <evt2irq(0x440)>,
-+				     <evt2irq(0x460)>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
-+			clocks = <&cpg SH7750_MSTP_TMU012>;
-+			clock-names = "fck";
-+			power-domains = <&cpg>;
-+			#renesas,channels = <3>;
-+		};
-+
-+		pcic: pci@fe200000 {
-+			compatible = "renesas,sh7751-pci";
-+			#address-cells = <3>;
-+			#size-cells = <2>;
-+			#interrupt-cells = <1>;
-+			device_type = "pci";
-+			bus-range = <0 0>;
-+			ranges = <0x02000000 0 0xfd000000 0xfd000000 0 0x01000000>,
-+				 <0x01000000 0 0x00000000 0xfe240000 0 0x00040000>;
-+			reg = <0xfe200000 0x0400>,
-+			      <0xff800000 0x0100>;
-+			status = "disabled";
++		partition@3 {
++			label = "Flash_FS";
++			reg = <0x00240000 0x00dc0000>;
 +		};
 +	};
++};
++
++&xtal {
++	clock-frequency = <22222222>;
++};
++
++&cpg {
++	renesas,mode = <5>;
++};
++
++&scif1 {
++	status = "okay";
++};
++
++&pcic {
++	renesas,bcr1 = <0x40080000>;
++	renesas,intm = <0x0000c3ff>;
++	renesas,aintm = <0x0000380f>;
++	renesas,config = <1 0xfb900047>, <4 0xab000001>;
++	renesas,mcrmask = <0x40000004>;
++
++	interrupt-map = <0x0000 0 0 1 &r2dintc 9>,
++			<0x0000 0 0 2 &r2dintc 10>,
++			<0x0000 0 0 3 &r2dintc 3>,
++			<0x0000 0 0 4 &r2dintc 0>,
++			<0x0800 0 0 1 &r2dintc 10>,
++			<0x0800 0 0 2 &r2dintc 3>,
++			<0x0800 0 0 3 &r2dintc 0>,
++			<0x0800 0 0 4 &r2dintc 9>,
++			<0x1000 0 0 1 &r2dintc 3>,
++			<0x1000 0 0 2 &r2dintc 0>,
++			<0x1000 0 0 3 &r2dintc 9>,
++			<0x1000 0 0 4 &r2dintc 10>;
++			interrupt-map-mask = <0x1800 0 0 7>;
++	status = "okay";
 +};
 -- 
 2.39.2
