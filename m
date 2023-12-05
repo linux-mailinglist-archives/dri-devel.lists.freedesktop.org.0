@@ -1,26 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24308059BF
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 17:17:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 565948059D6
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 17:17:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 615D610E5B2;
-	Tue,  5 Dec 2023 16:16:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AA1E10E59B;
+	Tue,  5 Dec 2023 16:17:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
  [153.127.30.23])
- by gabe.freedesktop.org (Postfix) with ESMTP id CD79010E4E1
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0461910E4D4
  for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 09:55:33 +0000 (UTC)
 Received: from SIOS1075.ysato.name (ZM005235.ppp.dion.ne.jp [222.8.5.235])
- by sakura.ysato.name (Postfix) with ESMTPSA id 591EB1C075D;
- Tue,  5 Dec 2023 18:46:56 +0900 (JST)
+ by sakura.ysato.name (Postfix) with ESMTPSA id 8F90A1C077B;
+ Tue,  5 Dec 2023 18:46:58 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: linux-sh@vger.kernel.org
-Subject: [DO NOT MERGE v5 27/37] dt-bindings: ata: ata-generic: Add new targets
-Date: Tue,  5 Dec 2023 18:45:46 +0900
-Message-Id: <d3453bd719eced17afe20fee5392bffcbe156cea.1701768028.git.ysato@users.sourceforge.jp>
+Subject: [DO NOT MERGE v5 28/37] dt-bindings: soc: renesas: sh: Add SH7751
+ based target
+Date: Tue,  5 Dec 2023 18:45:47 +0900
+Message-Id: <b2efb46abb08084d29598328b1e3070fb4cf3700.1701768028.git.ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1701768028.git.ysato@users.sourceforge.jp>
 References: <cover.1701768028.git.ysato@users.sourceforge.jp>
@@ -79,30 +80,50 @@ Cc: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Added new ata-generic target.
-- iodata,usl-5p-ata
-- renesas,rts7751r2d-ata
-
-Each boards have simple IDE Interface. Use ATA generic driver.
-
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- Documentation/devicetree/bindings/ata/ata-generic.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ .../devicetree/bindings/soc/renesas/sh.yaml   | 32 +++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/soc/renesas/sh.yaml
 
-diff --git a/Documentation/devicetree/bindings/ata/ata-generic.yaml b/Documentation/devicetree/bindings/ata/ata-generic.yaml
-index 0697927f3d7e..1025b3b351d0 100644
---- a/Documentation/devicetree/bindings/ata/ata-generic.yaml
-+++ b/Documentation/devicetree/bindings/ata/ata-generic.yaml
-@@ -18,6 +18,8 @@ properties:
-       - enum:
-           - arm,vexpress-cf
-           - fsl,mpc8349emitx-pata
-+          - iodata,usl-5p-ata
-+          - renesas,rts7751r2d-ata
-       - const: ata-generic
- 
-   reg:
+diff --git a/Documentation/devicetree/bindings/soc/renesas/sh.yaml b/Documentation/devicetree/bindings/soc/renesas/sh.yaml
+new file mode 100644
+index 000000000000..3fbff2532ad3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/soc/renesas/sh.yaml
+@@ -0,0 +1,32 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/soc/renesas/sh.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas SuperH Platform
++
++maintainers:
++  - Yoshinori Sato <ysato@users.sourceforge.jp>
++
++properties:
++  $nodename:
++    const: '/'
++  compatible:
++    oneOf:
++      - description: RTS7751R2D Plus
++        items:
++          - enum:
++              - renesas,rts7751r2d # Renesas SH4 2D graphics board
++          - const: renesas,sh7751r
++
++      - description: Julian board
++        items:
++          - enum:
++              - iodata,landisk  # LANDISK HDL-U
++              - iodata,usl-5p   # USL-5P
++          - const: renesas,sh7751r
++
++additionalProperties: true
++
++...
 -- 
 2.39.2
 
