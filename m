@@ -1,77 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1B5804502
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 03:34:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F9E0804520
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 03:41:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D7AC10E474;
-	Tue,  5 Dec 2023 02:34:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A96510E469;
+	Tue,  5 Dec 2023 02:41:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC88110E46C
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 02:34:11 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id
- 2adb3069b0e04-50bef9b7a67so2756959e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 18:34:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701743650; x=1702348450; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uUs2VYvk6Ti9rO4s4jPnLIpH7Phymi/5Rx2uYOP145Y=;
- b=taItFEwV6cT/rK7mCDANCwqxFkjJFWswMfh4wIOw/86dLGhKuLrEvHFvGSHCtOArmQ
- 0B0PLXX8c1POktGjBtxzL7K528CdotSQhIgSsivZi6QLd5ngXgl6dXY94rRs2ekGMZ3k
- 31bXlpaVb4tiWPrr8wPaw59Fm6DlTgbJioPvzraAS0YM6UaEfpI1nvNWW98WkJNbgluZ
- eSFvdn0lQSCnrCA7FSpuCiyZhXUeMrvmGuL6k1Iqc8ApGdEd//1qkw+atddb6aHJ9fwA
- grYgsaWDNVPhYJHEsHefMl2IzLLDFZxZQUlWaej4INOobyZs5EGMclf/9b7bK2+VFWSI
- 5jjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701743650; x=1702348450;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uUs2VYvk6Ti9rO4s4jPnLIpH7Phymi/5Rx2uYOP145Y=;
- b=XuzhfIXh1NvCmz1MLRHWTKH5A+MiP7N3XFLBph4PeLk3Y7eZSNuWfrcvLv91LgVEO7
- G8IIVN53x2hkoYPSd9KBD3XMg3s6x9hmVHia+z/C1/xpRJeHqVeXakcExJxdRfTzf9I9
- QsZ4PEZOIatJ+H04pqgducYYhHdPfocLhlVtA0qq4pRYsqE7tHUVPVm7gKfn5zg/ycwW
- Hx7OfowMC+z8t9aMSOKLJAV8qwUpeOQ2sRURc0DDWQSCQF3XWUyvq1/X0voHXPNkvhYQ
- F9PPkDTlcG9MH4btrjX7V1HewUT8l73K8pgNfix+iOLfMPOKk/lzfTelVJC6UzpMS91L
- pCKQ==
-X-Gm-Message-State: AOJu0YzDTizsYb7kWbfcFe0Uh5MCy1A7NiLfWnv3fjN+0wNGisKR+Z1K
- +/5eH/bH6xEylZT6K0DwTxgoZA==
-X-Google-Smtp-Source: AGHT+IE30tkOKHs/2LeruE1buPYxVdVFdUT9POrsHNxulaN52CoGY5B35l52Wgkk0pxu8LTzdgUPHA==
-X-Received: by 2002:a05:6512:3da1:b0:50b:ec8c:6697 with SMTP id
- k33-20020a0565123da100b0050bec8c6697mr2021251lfv.128.1701743650074; 
- Mon, 04 Dec 2023 18:34:10 -0800 (PST)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- bi3-20020a0565120e8300b0050aa6bd6d8csm1415483lfb.178.2023.12.04.18.34.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Dec 2023 18:34:09 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Marek <jonathan@marek.ca>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 0/8] drm/msm: Introduce display support for SM8650
-Date: Tue,  5 Dec 2023 05:34:06 +0300
-Message-Id: <170174354263.1582017.12643932401792527185.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231030-topic-sm8650-upstream-mdss-v2-0-43f1887c82b8@linaro.org>
-References: <20231030-topic-sm8650-upstream-mdss-v2-0-43f1887c82b8@linaro.org>
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 983D210E0EA
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 02:41:08 +0000 (UTC)
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-544-2mzi4511N1KI3JvboE3Xpg-1; Mon,
+ 04 Dec 2023 21:41:05 -0500
+X-MC-Unique: 2mzi4511N1KI3JvboE3Xpg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 517113C025C8;
+ Tue,  5 Dec 2023 02:41:05 +0000 (UTC)
+Received: from dreadlord.lan (unknown [10.64.136.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5243240C6EB9;
+ Tue,  5 Dec 2023 02:41:04 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] nouveau/gsp: drop some acpi related debug
+Date: Tue,  5 Dec 2023 12:41:02 +1000
+Message-ID: <20231205024102.788908-1-airlied@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,45 +51,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+These were leftover debug, if we need to bring them back do so
+for debugging later.
 
-On Mon, 30 Oct 2023 11:36:22 +0100, Neil Armstrong wrote:
-> The SM8650 MDSS is very close from the MDSS 9.0.0 found
-> on the SM8550 SoC, with the following difference:
-> - DSI PHY 2.8.8, no significant differences
-> - DPU 10.0.0:
->   - Enhanced max_linewidth to 8k
->   - PINGPONG_8 & PINGPONG_9
->   - MERGE_3D_4
->   - DSC_4 & DSC_5, DSC_NATIVE_42x on DSC0/1
-> 
-> [...]
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-Applied, thanks!
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c b/drivers/gpu/d=
+rm/nouveau/nvkm/subdev/gsp/r535.c
+index 6c0a8fbf0061..1dba7c49bd9a 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+@@ -1100,16 +1100,12 @@ r535_gsp_acpi_caps(acpi_handle handle, CAPS_METHOD_=
+DATA *caps)
+ =09if (!obj)
+ =09=09return;
+=20
+-=09printk(KERN_ERR "nvop: obj type %d\n", obj->type);
+-=09printk(KERN_ERR "nvop: obj len %d\n", obj->buffer.length);
+-
+ =09if (WARN_ON(obj->type !=3D ACPI_TYPE_BUFFER) ||
+ =09    WARN_ON(obj->buffer.length !=3D 4))
+ =09=09return;
+=20
+ =09caps->status =3D 0;
+ =09caps->optimusCaps =3D *(u32 *)obj->buffer.pointer;
+-=09printk(KERN_ERR "nvop: caps %08x\n", caps->optimusCaps);
+=20
+ =09ACPI_FREE(obj);
+=20
+@@ -1136,9 +1132,6 @@ r535_gsp_acpi_jt(acpi_handle handle, JT_METHOD_DATA *=
+jt)
+ =09if (!obj)
+ =09=09return;
+=20
+-=09printk(KERN_ERR "jt: obj type %d\n", obj->type);
+-=09printk(KERN_ERR "jt: obj len %d\n", obj->buffer.length);
+-
+ =09if (WARN_ON(obj->type !=3D ACPI_TYPE_BUFFER) ||
+ =09    WARN_ON(obj->buffer.length !=3D 4))
+ =09=09return;
+@@ -1147,7 +1140,6 @@ r535_gsp_acpi_jt(acpi_handle handle, JT_METHOD_DATA *=
+jt)
+ =09jt->jtCaps =3D *(u32 *)obj->buffer.pointer;
+ =09jt->jtRevId =3D (jt->jtCaps & 0xfff00000) >> 20;
+ =09jt->bSBIOSCaps =3D 0;
+-=09printk(KERN_ERR "jt: caps %08x rev:%04x\n", jt->jtCaps, jt->jtRevId);
+=20
+ =09ACPI_FREE(obj);
+=20
+@@ -1233,7 +1225,6 @@ r535_gsp_acpi_dod(acpi_handle handle, DOD_METHOD_DATA=
+ *dod)
+ =09=09dod->acpiIdListLen +=3D sizeof(dod->acpiIdList[0]);
+ =09}
+=20
+-=09printk(KERN_ERR "_DOD: ok! len:%d\n", dod->acpiIdListLen);
+ =09dod->status =3D 0;
+ }
+ #endif
+--=20
+2.43.0
 
-[1/8] dt-bindings: display: msm-dsi-phy-7nm: document the SM8650 DSI PHY
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/0014a4ad6c08
-[2/8] dt-bindings: display: msm-dsi-controller-main: document the SM8650 DSI Controller
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/8adc26fcebae
-[3/8] dt-bindings: display: msm: document the SM8650 DPU
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/3e135a7700f9
-[4/8] dt-bindings: display: msm: document the SM8650 Mobile Display Subsystem
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/cbcef056fa40
-[5/8] drm/msm/dpu: add support for SM8650 DPU
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/b94747f7d8c7
-[6/8] drm/msm: mdss: add support for SM8650
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/e6488c2a3541
-[7/8] drm/msm: dsi: add support for DSI-PHY on SM8650
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/3a73e376cff3
-[8/8] drm/msm: dsi: add support for DSI 2.8.0
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/fec254cc752d
-
-Best regards,
--- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
