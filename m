@@ -2,61 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FE078062B7
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 00:08:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA5198062C6
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 00:14:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F228C10E63A;
-	Tue,  5 Dec 2023 23:08:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E959A10E63F;
+	Tue,  5 Dec 2023 23:14:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46C9310E63A
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 23:08:04 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id D6062B81BC2
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 23:08:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3900CC433C8
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 23:08:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701817682;
- bh=4Zaex1fW44fv08ZuE1VszhaF6SXrZ3wv6T25bXrb8x8=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=fr/M1RgHFaqHigTsk4bnLSxcgz0wSxHEh1Vv7PxY+qA+gV2mHAchVyemWu2Qfh/Pf
- vutatjREpWPtaRnUXIgnEP0Y+uubWhwFMfsBy1vG1xHvVKzzH3tu31bprceDQXHloW
- d47ac0B/cAHOUJv2eeMQuqDZ0H4bpntrX0OwK5Qp9swk12oLRoPuh3Uj4FmeXPsb+o
- RYl11ChNwi2pJU1RyDYtvD2IfRpI0Ot675sWpoNUYbn41ukhHG8fW7WxhIyFOE5gdL
- 32WhcymUpAB3b3gexZocMp9Qoi/3tIE6y5fMsFIz3hMWn9fqKMa+TGM3UpTrTxFhq7
- YzeeIne3enFyA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 2237AC53BD2; Tue,  5 Dec 2023 23:08:02 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10C1910E63F
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 23:14:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=SEYrcEs9MxnuTOU1kwL+n0OPPR/LYIWzA9eTewrMYPY=; b=SObVE2TCBYHgbbmFjoJeNCGm9G
+ BZ24lj5KLBeeuSJxFwhACG1jROd/LhngIXfyubzMNcBJfsuUF4yQ3vEBQ0zQGoEa4xLtox29en7iU
+ o1Rs9vobmt7Gd2IVeRKOOa5AL5bYea8wdjCh6ZTf1IaSpKqFbU3aYLCupWG+nbQ6du08dgV9C7/kl
+ Cr5Y2JklH1RclinuMHYATN3ui8Z7kZtGKnHvrRDT4Ti7a5uztnOFWYtZRNk/NDB1NBTlzYF92NQxY
+ PAcBLiNelsT56HDYWIHuqXw/zuVtr4eeCTg0Mgn2lT3wShEceYEHpyRGu2xY4I3ZZj/mtnXmc9fc1
+ xYNYaPgw==;
+Received: from [50.53.46.231] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1rAecD-008ay2-0J; Tue, 05 Dec 2023 23:14:19 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 218221] Nouveau GSP fail on command cli:0xc1d0000
-Date: Tue, 05 Dec 2023 23:08:01 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: airlied@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-218221-2300-jmZ6XTgoGM@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-218221-2300@https.bugzilla.kernel.org/>
-References: <bug-218221-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH] fbdev: hgafb: fix kernel-doc comments
+Date: Tue,  5 Dec 2023 15:14:08 -0800
+Message-ID: <20231205231408.1234-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,234 +46,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-nvidia@lists.surfsouth.com, Helge Deller <deller@gmx.de>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-fbdev@vger.kernel.org,
+ Ferenc Bakonyi <fero@drama.obuda.kando.hu>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218221
+Fix kernel-doc warnings found when using "W=1".
 
---- Comment #5 from airlied@gmail.com ---
-Yes I'd file that against mesa, I don't think we are quite there with
-zink support yet, trying to push on it a bit.
+hgafb.c:370: warning: No description found for return value of 'hgafb_open'
+hgafb.c:384: warning: No description found for return value of 'hgafb_release'
+hgafb.c:406: warning: No description found for return value of 'hgafb_setcolreg'
+hgafb.c:425: warning: No description found for return value of 'hgafb_pan_display'
+hgafb.c:425: warning: expecting prototype for hga_pan_display(). Prototype was for hgafb_pan_display() instead
+hgafb.c:455: warning: No description found for return value of 'hgafb_blank'
 
-On Tue, 5 Dec 2023 at 21:42, <bugzilla-daemon@kernel.org> wrote:
->
-> https://bugzilla.kernel.org/show_bug.cgi?id=3D218221
->
-> --- Comment #3 from marc barbier (mmarc471@gmail.com) ---
-> (In reply to airlied from comment #2)
-> > Can't remember my bz, but all those errors are fine, I've sent patches
-> > to clean them up so we don't report them in dmesg anymore.
-> >
-> > On Tue, 5 Dec 2023 at 01:12, <bugzilla-daemon@kernel.org> wrote:
-> > >
-> > > https://bugzilla.kernel.org/show_bug.cgi?id=3D218221
-> > >
-> > >             Bug ID: 218221
-> > >            Summary: Nouveau GSP fail on command cli:0xc1d0000
-> > >            Product: Drivers
-> > >            Version: 2.5
-> > >           Hardware: All
-> > >                 OS: Linux
-> > >             Status: NEW
-> > >           Severity: normal
-> > >           Priority: P3
-> > >          Component: Video(DRI - non Intel)
-> > >           Assignee: drivers_video-dri@kernel-bugs.osdl.org
-> > >           Reporter: mmarc471@gmail.com
-> > >         Regression: No
-> > >
-> > > Running Linux 6.7.0-rc3 on Gentoo Linux
-> > >
-> > > I'm using a 3070(laptop) with the command line argument
-> > > nouveau.config=3DNvGspRm=3D1
-> > >
-> > > I have confirmed that the Gsp firmware in present in my system, and I=
-'m
-> > > running
-> > > mesa 23.3.0
-> > >
-> > > This should allow the nouveau kernel driver to call the GSP firmware =
-for
-> > > tasks
-> > > such as reclocking.
-> > >
-> > > As my system is a laptop my main GPU is an integrated radeon gpu so
-> > starting
-> > > Xorg doesn't require nouveau to work.
-> > >
-> > > Once X11 is started I can try to launch vulkan applications which cau=
-ses
-> > the
-> > > following errors to appear in the kernel log.
-> > >
-> > > > dmesg
-> > > [   17.007772] nouveau 0000:01:00.0: gsp:msg fn:4123 len:0x24/0x4 res=
-:0x0
-> > > resp:0x0
-> > > [   17.010650] nouveau 0000:01:00.0: gsp:msg fn:4108 len:0x38/0x18
-> res:0x0
-> > > resp:0x0
-> > > [   17.010945] nouveau 0000:01:00.0: gsp:msg fn:4108 len:0x40/0x20
-> res:0x0
-> > > resp:0x0
-> > > [15217.991692] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15217.992913] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15217.994155] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15217.995408] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15217.996738] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15217.997859] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15217.999154] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.000392] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.001799] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.003055] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.004271] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.005615] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.007023] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.008281] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.009543] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.010843] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.012054] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.013295] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.014570] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.015841] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.017084] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.018206] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.019532] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.020804] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.022064] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.023324] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.024644] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.025870] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.027143] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.028388] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.029801] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > > [15218.031055] nouveau 0000:01:00.0: gsp: cli:0xc1d00002 obj:0x007300=
-00
-> > ctrl
-> > > cmd:0x00731341 failed: 0x0000ffff
-> > >
-> > > Running ZINK also inform me that DRI3 is not available.
-> > >
-> > > > MESA_LOADER_DRIVER_OVERRIDE=3Dzink glxgears
-> > > WARNING: NVK is not a conformant Vulkan implementation, testing use o=
-nly.
-> > > ac_compute_device_uuid's output is based on invalid pci bus info.
-> > > DRI3 not available
-> > > failed to load driver: zink
-> > > Error: couldn't get an RGB, Double-buffered visual
-> > >
-> > > --
-> > > You may reply to this email to add a comment.
-> > >
-> > > You are receiving this mail because:
-> > > You are watching the assignee of the bug.
->
-> So i guess the second issue is purely mesa and has nothing to do with the
-> kernel ?
->
-> Thank you for taking time to respond.
->
-> --
-> You may reply to this email to add a comment.
->
-> You are receiving this mail because:
-> You are watching the assignee of the bug.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Ferenc Bakonyi <fero@drama.obuda.kando.hu>
+Cc: Helge Deller <deller@gmx.de>
+Cc: linux-nvidia@lists.surfsouth.com
+Cc: linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/video/fbdev/hgafb.c |   13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+diff -- a/drivers/video/fbdev/hgafb.c b/drivers/video/fbdev/hgafb.c
+--- a/drivers/video/fbdev/hgafb.c
++++ b/drivers/video/fbdev/hgafb.c
+@@ -364,6 +364,8 @@ error:
+  *	hgafb_open - open the framebuffer device
+  *	@info: pointer to fb_info object containing info for current hga board
+  *	@init: open by console system or userland.
++ *
++ *	Returns: %0
+  */
+ 
+ static int hgafb_open(struct fb_info *info, int init)
+@@ -378,6 +380,8 @@ static int hgafb_open(struct fb_info *in
+  *	hgafb_release - open the framebuffer device
+  *	@info: pointer to fb_info object containing info for current hga board
+  *	@init: open by console system or userland.
++ *
++ *	Returns: %0
+  */
+ 
+ static int hgafb_release(struct fb_info *info, int init)
+@@ -399,6 +403,8 @@ static int hgafb_release(struct fb_info
+  *	This callback function is used to set the color registers of a HGA
+  *	board. Since we have only two fixed colors only @regno is checked.
+  *	A zero is returned on success and 1 for failure.
++ *
++ *	Returns: %0
+  */
+ 
+ static int hgafb_setcolreg(u_int regno, u_int red, u_int green, u_int blue,
+@@ -410,14 +416,15 @@ static int hgafb_setcolreg(u_int regno,
+ }
+ 
+ /**
+- *	hga_pan_display - pan or wrap the display
++ *	hgafb_pan_display - pan or wrap the display
+  *	@var:contains new xoffset, yoffset and vmode values
+  *	@info:pointer to fb_info object containing info for current hga board
+  *
+  *	This function looks only at xoffset, yoffset and the %FB_VMODE_YWRAP
+  *	flag in @var. If input parameters are correct it calls hga_pan() to
+  *	program the hardware. @info->var is updated to the new values.
+- *	A zero is returned on success and %-EINVAL for failure.
++ *
++ *	Returns: %0 on success or %-EINVAL for failure.
+  */
+ 
+ static int hgafb_pan_display(struct fb_var_screeninfo *var,
+@@ -449,6 +456,8 @@ static int hgafb_pan_display(struct fb_v
+  *		@blank_mode == 2 means suspend vsync,
+  *		@blank_mode == 3 means suspend hsync,
+  *		@blank_mode == 4 means powerdown.
++ *
++ * Returns: %0
+  */
+ 
+ static int hgafb_blank(int blank_mode, struct fb_info *info)
