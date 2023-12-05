@@ -1,59 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF4FA80533B
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 12:43:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93409805349
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 12:46:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96F1310E222;
-	Tue,  5 Dec 2023 11:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3573B10E045;
+	Tue,  5 Dec 2023 11:46:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01C0310E222
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 11:43:23 +0000 (UTC)
-Received: from [10.3.2.161] (zone.collabora.co.uk [167.235.23.81])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 0A9226607285;
- Tue,  5 Dec 2023 11:43:20 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1701776602;
- bh=T5YH2R7k3v7oNwt6oxlEQ3qJ8fug5UIPB3Ee0qCYPyc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=C3BtgxMoFe4jZE8nI2I63xvj8t3qn7XmQ+fMUv9x6aoKQQGHY4pYwGpA2bnd+GKtF
- 7of7PgxiKl3Y3djyYR1+HPNFnL+dRNpa/Q5NJCrkGvl9SYuqLFgSk0Zwbq6ibSkISg
- I5J+MjBw5ezTGAKEypX5Gv4BxTcc8pn6pS4cLSvy1koJpVCWAdUrx7piLT0kAfLJxl
- 0xDW6BUK7y9w6MTiD7d88ATIgI+JjfzOLU/4AkF4wHGfzjK7vSW+4PE9p+bhw6u7SE
- If49Q5yOi/LminYeRZRGCARxlepcIDPUf2WSQOutSSwiWIwKvHkkmJN/vodUrFjuzp
- BYJAncjgRQEvw==
-Message-ID: <161189c2-db65-2542-5d19-77a56b56cfac@collabora.com>
-Date: Tue, 5 Dec 2023 14:43:16 +0300
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AE4810E045
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 11:46:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id C73B5CE11A1;
+ Tue,  5 Dec 2023 11:46:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B12E9C433C8;
+ Tue,  5 Dec 2023 11:46:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1701776775;
+ bh=tI99Im86WnASOz4SHjHfEoqX8c1oRdAdwAQEPlCbyWM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WOBggSjgHJ4KfWdeTTRc5eZWVFWRZlJwdADbSrFu3/PQ0lddCs4iHUyb0uE1iPaRA
+ o5yPJ8wnb3XA21G2wfJM/4HxBzfgh7/6Ju8iTwNV3RDIekOLLMjngZ2rJ970me5qFH
+ KtiyR8IZDcR7Pe7YLUYF/4BzSxO8b4Jl9dpZQgSLA4hVWq4ivpgKjmBcbsNbfTO11H
+ mgnLr4/Hy8lgSAnl0Vjw4gTOOMS+WHqAHffYlbesIwj5aj2XLo+dy5sA0HtHWDF2lR
+ SF3OCFW9s0alikkmnAC/qzMW8RNuwjDEMVn8osVh0hIDgkG7BSjD4L/OxvtwwdV/93
+ xRz7ZMLgusO5A==
+Date: Tue, 5 Dec 2023 12:46:12 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Subject: Re: Kunit drm_test_check_plane_state: EXPECTATION FAILED at
+ drivers/gpu/drm/tests/drm_plane_helper_test.c:123
+Message-ID: <fgajgc7vp626nzeeqetkfbyadh53iti3mvoq4uck3zz3ysmvno@b3f7kxnwrwsd>
+References: <20231204173536.51003-1-naresh.kamboju@linaro.org>
+ <rxv7jlfuwjib443pzdepbtgu454gdzemd3ojmmhbnhr4syneve@6me3bduyx2ee>
+ <42d85b15-9ffd-4a08-b51e-a3367e57d128@suswa.mountain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v18 04/26] drm/shmem-helper: Refactor locked/unlocked
- functions
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>
-References: <wboljiwogeus7pwgaqzxaltt3xdavy2dzisygn6pdpoiwlnwgc@mwaiukjguzat>
- <20231124115911.79ab24af@collabora.com>
- <kw5bho3jx73d3glvtewmjvqt4qty4khju6dcwypuh25ya3gi4b@7slmijjqdi4p>
- <20231128133712.53a6f6cb@collabora.com>
- <37208c72-7908-0a78-fc89-2fa9b8d756a5@collabora.com>
- <20231129085330.7ccb35d3@collabora.com>
- <ioqghyaeftyo7tuyfecn252ykxwgltrkhh2pwktjejqhewntbb@bym3rsjxnxfp>
- <20231129144609.7544e773@collabora.com>
- <6da6mzwfzwbn5rhiebypo5e2v6rhtpn2fovwvfnoo333zjgobf@bgtuwhum3trp>
- <20231129164705.7461a294@collabora.com>
- <jvhedgegvavn5mvvx2men2rxitvnq7u3dsxwfx3wokxldmysjz@y5av3l2w4gk6>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <jvhedgegvavn5mvvx2men2rxitvnq7u3dsxwfx3wokxldmysjz@y5av3l2w4gk6>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="wuxjya7du2xfv7u4"
+Content-Disposition: inline
+In-Reply-To: <42d85b15-9ffd-4a08-b51e-a3367e57d128@suswa.mountain>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,28 +53,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>, Melissa Wen <mwen@igalia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Steven Price <steven.price@arm.com>,
- virtualization@lists.linux-foundation.org, Qiang Yu <yuq825@gmail.com>
+Cc: regressions@lists.linux.dev, tzimmermann@suse.de,
+ Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, lkft-triage@lists.linaro.org,
+ davidgow@google.com, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Linux Kernel Functional Testing <lkft@linaro.org>, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/4/23 15:55, Maxime Ripard wrote:
->> Okay, that means s/_locked/_nolock/ in drm_gem_shmem_helpers.{c,h}, I
->> guess.
 
-DRM subsys and majority of kernel uses common _locked postfix. We should
-retain the old naming scheme by using _locked() in DRM. It's not
-worthwhile changing the name to a much less popular variant for a no
-good reason.
+--wuxjya7du2xfv7u4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Maxime, are you okay with keeping the _locked name?
+On Tue, Dec 05, 2023 at 12:05:02PM +0300, Dan Carpenter wrote:
+> On Tue, Dec 05, 2023 at 09:37:05AM +0100, Maxime Ripard wrote:
+> > Hi Naresh,
+> >=20
+> > Thanks for the report
+> >=20
+> > On Mon, Dec 04, 2023 at 11:05:36PM +0530, Naresh Kamboju wrote:
+> > > The Kunit drm_plane_helper failed on all devices running Linux next-2=
+0231204
+> > >=20
+> > > ## Test Regressions (compared to next-20231201)
+> > > * qemu-armv7, kunit and
+> > > * x86, kunit
+> > >   - drm_test_check_invalid_plane_state_downscaling_invalid
+> > >   - drm_test_check_invalid_plane_state_drm_plane_helper
+> > >   - drm_test_check_invalid_plane_state_drm_test_check_invalid_plane_s=
+tate
+> > >   - drm_test_check_invalid_plane_state_positioning_invalid
+> > >   - drm_test_check_invalid_plane_state_upscaling_invalid
+> > >   - drm_test_check_plane_state_clipping_rotate_reflect
+> > >   - drm_test_check_plane_state_clipping_simple
+> > >   - drm_test_check_plane_state_downscaling
+> > >   - drm_test_check_plane_state_drm_test_check_plane_state
+> > >   - drm_test_check_plane_state_positioning_simple
+> > >   - drm_test_check_plane_state_rounding1
+> > >   - drm_test_check_plane_state_rounding2
+> > >   - drm_test_check_plane_state_rounding3
+> > >   - drm_test_check_plane_state_rounding4
+> > >   - drm_test_check_plane_state_upscaling
+> >=20
+> > I found the source of failure to be f1e75da5364e ("drm/atomic: Loosen FB
+> > atomic checks").
+> >=20
+> > Fortunately for us, it's already been reverted yesterday for some
+> > unrelated reason, so it should be fixed in next-20231205 onward.
+>=20
+> Sorry, that's a bummer that these patches were reverted.  :(  The whole
+> episode was a bit unfortunate...
+>=20
+> Qualcom has been working on those patches for a year.  They must not be
+> using kunit testing as part of their QC...  It's some kind of
+> communication failure on our part.
 
--- 
-Best regards,
-Dmitry
+That's definitely a communication failure, but that's mostly on us :)
 
+The reason these patches were reverted was completely unrelated to the
+kunit failures here: it failed the basic requirement we have on
+intel-gpu-tools tests and open-source userspace examples for new uAPIs.
+
+So whether or not kunit tests would have passed, these patches were
+applied due to inattention and would have been reverted anyway
+
+Maxime
+
+--wuxjya7du2xfv7u4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZW8NhAAKCRDj7w1vZxhR
+xcWGAQDBxOux4QLD0euXH7Xp+Zu5/Zs2ypIGpLrB2r5TK3lb3gEAmdpM+yqNE4r0
+7XgB+RHu1Vq7uBRLhaz6uZ0GSdcCyAI=
+=x8h+
+-----END PGP SIGNATURE-----
+
+--wuxjya7du2xfv7u4--
