@@ -1,68 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 952E6805FE2
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 21:58:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6190805FE8
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 21:59:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0CB010E60F;
-	Tue,  5 Dec 2023 20:58:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFDBC10E614;
+	Tue,  5 Dec 2023 20:59:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80A8F10E60F
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 20:58:55 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- 46e09a7af769-6d8766f4200so2918288a34.1
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 12:58:55 -0800 (PST)
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
+ [IPv6:2607:f8b0:4864:20::c33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C55210E614
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 20:59:33 +0000 (UTC)
+Received: by mail-oo1-xc33.google.com with SMTP id
+ 006d021491bc7-58d7d58ab7fso3681459eaf.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 12:59:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701809934; x=1702414734; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1701809972; x=1702414772; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date:message-id:reply-to;
- bh=OzWOREuSwdEoFd+CU5OTzLFsGtCD7C1zfebLpmRFAb0=;
- b=lwPRVuCso2jUt//w0BvIXmK4HP7aY7kwP1qRbrGvvw4y/200l841q8HjHlGIwNd7e8
- aIdDqxaqVCNomSwtdM/8YsuA/1Z5TNUIbmk2h+nCjFDYjEclteHlPr0L/GZaHcEWz1qB
- OUzIXLjOqHNneomdiNBEqJREgPZ90blQETV8Id9OtjxImydpAkkTETX7qEIXDpM9Ro4w
- 9KikOAU3WPexDmBGPo3h3ZisQyFzb2kiPX9DeZiQ/Ov/ugwa85xzhmWocycftx1hgyPF
- Hy7qj12DFoZuDyeGyO/XEdMIVyShgzALchZQGTe/xO82mRilG+d3PS8tVgvmARgexFgb
- w13Q==
+ bh=GoTAKWoISW3fQAGzQLAL5LAT88Q1n5cNUMG6gJC0Nbw=;
+ b=CVYt1vTVz9uRLkmlm/fTQ/rf+oAs64ozpj1sh/SzJgEXBN1jXWgR1+BWdB038fn2HM
+ Y0chc7fnhxNWol/rmkCNwUHE6iWQ14QavXLe0lJM/+DUiOYy9n4BcviTDzK/KtfAomrs
+ u6g/UVVEOe1ZOWbY1ncgINwJ+c/Ck62PGKDy17FzEpLK4z0k54xJT4LxsV/b+UYK4Nnh
+ PsIbQkyhwlsoEpJpHTBlMb/cosOnM8dbdyCkcvMwPSQ7LZDNltsQ5azSFNpX7d7Boxl8
+ MVPKwQk8LUUzNCHAh7Zbn1L4k4v4tSRpNgsR+7QskxNR7XJhD/5f3x7TD+hZVoSWnFlw
+ QHbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701809934; x=1702414734;
+ d=1e100.net; s=20230601; t=1701809972; x=1702414772;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=OzWOREuSwdEoFd+CU5OTzLFsGtCD7C1zfebLpmRFAb0=;
- b=EtDJL6ZRT5r7Ohdik8xhECXb7O9M+abQW7OQKsPZuS6OJ3IUMVm3Z7PJYtGcFI2rUV
- A1EYWcZGR/qHhHXTe9hkR+h9xrXvWuNZNC3rkLjuLlAfPfHvTbNvnm05QH+Urz26jLZu
- 1vl/4cRmU5qdppgk/q8pIHBSHj1KvnLPPRl2k3lrirhCBWD/0lwvKbtUXvvrZygVECvy
- EtICkGtjBrXmDIp/kEaWCrRie2YGe7oZycEhZjGqTMjr1E63yfiJ1QFg71ggwz39LNmx
- wskpSrOg1Cjeie4iGnMMafBEFNJOeg85Rmy7xB6BsMrlwlKqZh8gqkwKyr8MdO8EKNIe
- wQBw==
-X-Gm-Message-State: AOJu0YwnpqQY4ESanIBTP2JjgG5wBccMoYymerEUsnh93czcLlHWgpu1
- hypFbLUUug+PSN3TVbJdpXE=
-X-Google-Smtp-Source: AGHT+IHXExISh6TSmnzLXi6rRF2I7lXlvjcj+JdCDpo2NyImPcOemMbY0jcJgQE/wN7VZ0Qo1xX3og==
-X-Received: by 2002:a05:6870:b05:b0:1fa:f469:8565 with SMTP id
- lh5-20020a0568700b0500b001faf4698565mr8360128oab.17.1701809934631; 
- Tue, 05 Dec 2023 12:58:54 -0800 (PST)
+ bh=GoTAKWoISW3fQAGzQLAL5LAT88Q1n5cNUMG6gJC0Nbw=;
+ b=A7Fb6jKIE8w92P+UctgquojZkm3ZyKPaYJO/AGPMDk0o3UvoNV+mjUoqEWv7Icg+p+
+ Ki+9ol+yENuc36EjaClg7e6B1x6GfQC1wwQpjQOmpWCnKftcW2CmXzRQaC4CU0scPJYP
+ QzRA+0n5gOhCz/6MoJnloWuQLUsAIxvlBbGj/axLFN1ZQGThddgPQEeNUaSN/XoCXBtp
+ DvwnZuvJaAQTtSi8u1BJDDWtIf48xWUnROq5RO7F0zaQRHjFKK2GvIt7zi+ZchpyN9lA
+ enEhNhiS9HUplf7Ux4z0xxluC5AxTLNxiy0I3y8sjx8x8ar9UkiBfGqU5E12ZsNg21+o
+ gmoQ==
+X-Gm-Message-State: AOJu0Yz6wejOTguBdVXPxFmd5OznH8yIrwF2cVohYpxW9BeekaFoXZFs
+ rhjywcooxsn5hGUfKJiAcXtJXojVo8Q=
+X-Google-Smtp-Source: AGHT+IE4b1qjVfCnofvLbEN71Hm58ovXB+Bp2nSxmcCZOaG5DfnsqRoTdVRKS5eP0qE3NHA5D+LCuA==
+X-Received: by 2002:a05:6870:41c8:b0:1fa:efdc:b497 with SMTP id
+ z8-20020a05687041c800b001faefdcb497mr7367246oac.46.1701809972352; 
+ Tue, 05 Dec 2023 12:59:32 -0800 (PST)
 Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
  ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
  by smtp.gmail.com with ESMTPSA id
- lg22-20020a0568700b9600b001fa1db68eecsm1547354oab.4.2023.12.05.12.58.53
+ lg22-20020a0568700b9600b001fa1db68eecsm1547354oab.4.2023.12.05.12.59.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Dec 2023 12:58:54 -0800 (PST)
-Message-ID: <76415c2b-4e94-410f-bece-8e12552c28d2@roeck-us.net>
-Date: Tue, 5 Dec 2023 12:58:53 -0800
+ Tue, 05 Dec 2023 12:59:32 -0800 (PST)
+Message-ID: <fea6f7af-2d88-4d39-aa47-30f2dedb1fac@roeck-us.net>
+Date: Tue, 5 Dec 2023 12:59:30 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] usb: typec: qcom-pmic-typec: Only select
- DRM_AUX_HPD_BRIDGE with OF
+Subject: Re: [PATCH 3/3] drm/bridge: Return NULL instead of plain 0 in
+ drm_dp_hpd_bridge_register() stub
 Content-Language: en-US
 To: Nathan Chancellor <nathan@kernel.org>, dmitry.baryshkov@linaro.org
 References: <20231205-drm_aux_bridge-fixes-v1-0-d242a0ae9df4@kernel.org>
- <20231205-drm_aux_bridge-fixes-v1-2-d242a0ae9df4@kernel.org>
+ <20231205-drm_aux_bridge-fixes-v1-3-d242a0ae9df4@kernel.org>
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
  xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
@@ -107,7 +107,7 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
  HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
  mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20231205-drm_aux_bridge-fixes-v1-2-d242a0ae9df4@kernel.org>
+In-Reply-To: <20231205-drm_aux_bridge-fixes-v1-3-d242a0ae9df4@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -123,25 +123,23 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: neil.armstrong@linaro.org, heikki.krogerus@linux.intel.com,
- gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, patches@lists.linux.dev,
+ kernel test robot <lkp@intel.com>, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, patches@lists.linux.dev,
  dri-devel@lists.freedesktop.org, bryan.odonoghue@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 12/5/23 12:13, Nathan Chancellor wrote:
-> CONFIG_DRM_AUX_HPD_BRIDGE depends on CONFIG_OF but that dependency is
-> not included when CONFIG_TYPEC_QCOM_PMIC selects it, resulting in a
-> Kconfig warning when CONFIG_OF is disabled:
+> sparse complains:
 > 
->    WARNING: unmet direct dependencies detected for DRM_AUX_HPD_BRIDGE
->      Depends on [n]: HAS_IOMEM [=y] && DRM_BRIDGE [=y] && OF [=n]
->      Selected by [m]:
->      - TYPEC_QCOM_PMIC [=m] && USB_SUPPORT [=y] && TYPEC [=m] && TYPEC_TCPM [=m] && (ARCH_QCOM || COMPILE_TEST [=y]) && (DRM [=m] || DRM [=m]=n) && DRM_BRIDGE [=y]
+>    drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c: note: in included file:
+>    include/drm/bridge/aux-bridge.h:29:16: sparse: sparse: Using plain integer as NULL pointer
 > 
-> Only select CONFIG_DRM_AUX_HPD_BRIDGE with both CONFIG_DRM_BRIDGE and
-> CONFIG_OF to clear up the warning.
+> Return NULL to clear up the warning.
 > 
-> Fixes: 7d9f1b72b296 ("usb: typec: qcom-pmic-typec: switch to DRM_AUX_HPD_BRIDGE")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202312060025.BdeqZrWx-lkp@intel.com/
+> Fixes: e560518a6c2e ("drm/bridge: implement generic DP HPD bridge")
 > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
 Reviewed-by: Guenter Roeck <linux@roeck-us.net>
