@@ -2,62 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 257E6804FA2
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 11:00:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D233D804FC5
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 11:05:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4275210E4D2;
-	Tue,  5 Dec 2023 10:00:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8459010E4C6;
+	Tue,  5 Dec 2023 10:05:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
- [IPv6:2607:f8b0:4864:20::112c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6ED1010E4CE
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 10:00:08 +0000 (UTC)
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-5d34f8f211fso56213047b3.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 02:00:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701770407; x=1702375207; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=i93Z/CqJ+EBecddDOnAmVzRbIcIUtO0ehOz5S54CfrQ=;
- b=pJtqHOwwGRJ3t1ZKfUZtPYNeZW1eo+XnqWSMGyCo/+0GFu//ZecrJXPWQFRRXoXUqj
- 4w1JWK/Ej5B11HZVzkLIcdhN7doP3y5AD+L56Fzh2XSMB4shhl2ASEFDohMfLJ8WdyOL
- fNsRzMH2Vuv5pRu97F5+oCMIQES2KzAsiShRVqDaZIo41Izvq1pp3LBuOjiuUEsrwoFi
- KzNSPyUJyzm967mpTUPAqRykC7N5J3TaDdRKXHxSKlZ5NKf0XUwF7+DIB3qN2UqCsGfC
- HNW3DBT2symvfGm13Kk02OLaSthLA+kqHMoJIyHd/615masMrzd21+t7Xig4oLBpCARa
- wvpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701770407; x=1702375207;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=i93Z/CqJ+EBecddDOnAmVzRbIcIUtO0ehOz5S54CfrQ=;
- b=BRJAS4g4+HEW9zE+qHe7Z/LmA6d3maoYlyv0NTaPYHeJ/ILl8kz/EHXV0kqjOfUfsZ
- 8DPbwwR8XymnczaygY0LBTG2FZk0QaxKm50x1EvGJZhHZfi/d68xpz6mgAlOJRErmun3
- zkHdanByIiArYB63yQ45QXipYy09JVu/kOhAJcYI5dotizMawCUFYZeCXUfs2SCd/bfp
- yK34agNwsCZAxxtge3ObyOmPrnp6QA2cQfH+ExN/O/0cq80FqJLNsJz+i2BIqCCJj28U
- 2tI7ZojbssbZOkh4kKmkW+3iUD5qXrgH77YI4OGAfQlbREQXa40l0hGmhUtBelXaY32p
- Wmmg==
-X-Gm-Message-State: AOJu0YyLpYUewpGZ4AlBAdgASAWLZYu6GL1KHgeUSXEBUZxQpkdTo2o3
- DnWdjiS3cws+HxwgIRadw/RV8hocIs1wEJUsOlPwzA==
-X-Google-Smtp-Source: AGHT+IH5eTb2gwdS22rkWHvbJD/nbpWagDnymfw80erU7E8T3kEYsszdXZXrJ4vDy/yEfDwBBs/YnsUIOf3GGpmbFhk=
-X-Received: by 2002:a0d:ccd6:0:b0:5d7:1940:53d6 with SMTP id
- o205-20020a0dccd6000000b005d7194053d6mr4529462ywd.78.1701770407103; Tue, 05
- Dec 2023 02:00:07 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F152710E4C6;
+ Tue,  5 Dec 2023 10:05:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701770725; x=1733306725;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=bd8s5lBFO1g3uZrQdXrfJvJyjA3WX4Gp4e1cYLPgeWM=;
+ b=BWcM3252bXlVRAtsAdPE0qJ1HSEhxiy00DcA0B5kEzJASBBGYMiHe2Ir
+ EtR9kiKU47F/PWQDHzZ95IdXPIl1wJhNSXnrzhO3+LvLcAV6G1yG26d/h
+ E3B4Sw8yiRqw5UGoozCvT2dGfJuvC2qbp4AinqYaD+JZVng6OEjMVeI+Y
+ DJkcsSTIHPB5ew7qQ7IBeHqWOovX5KSAQYT2tdsj/PrnE2RIzPRRz03pX
+ lLXi0q2mIJ0gwMrD7FuFct/Jas/oDUyKcp59IHXnpPj8xmvGW97D7h+Mu
+ J7uuUdLAuvt+GEy+1a3QVlgQ/aIVO50Xzg/yiG+IG+aYKkUpyL9Xyj9gs g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="374059110"
+X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; d="scan'208";a="374059110"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2023 02:05:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="764273562"
+X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; d="scan'208";a="764273562"
+Received: from ctgorman-mobl.ger.corp.intel.com (HELO [10.213.202.242])
+ ([10.213.202.242])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2023 02:05:22 -0800
+Message-ID: <ddde1612-bfd1-4892-b915-87034a0a7cb3@linux.intel.com>
+Date: Tue, 5 Dec 2023 10:05:20 +0000
 MIME-Version: 1.0
-References: <cover.1701768028.git.ysato@users.sourceforge.jp>
- <1fafcf1c70ee4e38847bac1379bcb4555a237505.1701768028.git.ysato@users.sourceforge.jp>
-In-Reply-To: <1fafcf1c70ee4e38847bac1379bcb4555a237505.1701768028.git.ysato@users.sourceforge.jp>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 5 Dec 2023 10:59:54 +0100
-Message-ID: <CACRpkdbFNyEn_ub3moh9f6zbBKzTBt-CPRykUfexd5fXjpKE3Q@mail.gmail.com>
-Subject: Re: [DO NOT MERGE v5 17/37] dt-bindings: interrupt-controller:
- renesas,sh7751-intc: Add json-schema
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/gt: Reduce log severity on reset
+ prepare.
+Content-Language: en-US
+To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20231201154443.16660-1-nirmoy.das@intel.com>
+ <cff13a24-2f7f-4d44-8fd4-a45cbfa1c76e@linux.intel.com>
+ <d50cc22d-670a-49e3-92c7-361fdac66fc6@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <d50cc22d-670a-49e3-92c7-361fdac66fc6@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,75 +64,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Herve Codina <herve.codina@bootlin.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- Bin Meng <bmeng@tinylab.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-pci@vger.kernel.org, Jacky Huang <ychuang3@nuvoton.com>,
- Palmer Dabbelt <palmer@rivosinc.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Guo Ren <guoren@kernel.org>, Lee Jones <lee@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
- linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
- David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Chris Morgan <macromorgan@hotmail.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
- Vlastimil Babka <vbabka@suse.cz>, Sergey Shtylyov <s.shtylyov@omp.ru>,
- linux-ide@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- linux-kernel@vger.kernel.org, Azeem Shaikh <azeemshaikh38@gmail.com>,
- linux-renesas-soc@vger.kernel.org, Tom Rix <trix@redhat.com>,
- Damien Le Moal <dlemoal@kernel.org>,
- Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yoshinori,
 
-thanks for your patch!
+On 05/12/2023 08:50, Nirmoy Das wrote:
+> Hi Tvrtko,
+> 
+> On 12/5/2023 9:34 AM, Tvrtko Ursulin wrote:
+>>
+>> On 01/12/2023 15:44, Nirmoy Das wrote:
+>>> gen8_engine_reset_prepare() can fail when HW fails to set
+>>> RESET_CTL_READY_TO_RESET bit. In some cases this is not fatal
+>>> error as driver will retry.
+>>>
+>>> Let the caller of gen8_engine_reset_prepare() decide if a
+>>> failure in gen8_engine_reset_prepare is an error or not.
+>>
+>> No complaints per se but I don't see the caller deciding and it is not 
+>> really reducing log level but converting to trace. So commit message 
+>> and patch do not align for me which I think should be improved.
+> 
+> 
+> I meant the return value is checked by the caller, gen8_reset_engines(). 
+> I will resend with a improved commit message.
 
-On Tue, Dec 5, 2023 at 10:46=E2=80=AFAM Yoshinori Sato
-<ysato@users.sourceforge.jp> wrote:
+Ah okay, maybe my bad for not figuring out that possibility. I guess it 
+might be passable as is, but yes, clearer commit text would be better.
 
-> +  renesas,icr-irlm:
-> +    type: boolean
-> +    description: If true ICR.IRLM=3D1
+Trace is good enough - we are not usually interested in seeing those as 
+dbg/info/notice?
 
-That's a bit hard to understand. I suppose it's something that need to some=
-times
-be changed for a system so would be good to document it properly.
+Regards,
 
-> +  renesas,ipr-map:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    description: |
-> +      IRQ to IPR mapping definition.
-> +      1st - INTEVT
-> +      2nd - Register
-> +      3rd - bit index
+Tvrtko
 
-Isn't this table always the same for a certain SoC, e.g. compatible
-"renesas,sh7751-intc"?
-
-Then don't keep it in the device tree, just look it up per-soc from a
-table in the driver.
-
-Other than that it looks good to me.
-
-Yours,
-Linus Walleij
+> 
+> Thanks,
+> 
+> Nirmoy
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>> Cc: John Harrison <John.C.Harrison@Intel.com>
+>>> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+>>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+>>> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5591
+>>> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/gt/intel_reset.c | 8 ++++----
+>>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c 
+>>> b/drivers/gpu/drm/i915/gt/intel_reset.c
+>>> index d5ed904f355d..e6fbc6202c80 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
+>>> @@ -593,10 +593,10 @@ static int gen8_engine_reset_prepare(struct 
+>>> intel_engine_cs *engine)
+>>>       ret = __intel_wait_for_register_fw(uncore, reg, mask, ack,
+>>>                          700, 0, NULL);
+>>>       if (ret)
+>>> -        gt_err(engine->gt,
+>>> -               "%s reset request timed out: {request: %08x, 
+>>> RESET_CTL: %08x}\n",
+>>> -               engine->name, request,
+>>> -               intel_uncore_read_fw(uncore, reg));
+>>> +        GT_TRACE(engine->gt,
+>>> +             "%s reset request timed out: {request: %08x, RESET_CTL: 
+>>> %08x}\n",
+>>> +             engine->name, request,
+>>> +             intel_uncore_read_fw(uncore, reg));
+>>>         return ret;
+>>>   }
