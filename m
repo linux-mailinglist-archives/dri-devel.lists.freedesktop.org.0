@@ -2,73 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ABEC805CEC
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 19:09:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A139A805E01
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 19:48:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCD9E10E5E7;
-	Tue,  5 Dec 2023 18:09:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D275910E529;
+	Tue,  5 Dec 2023 18:48:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 519D310E5F0
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 18:09:51 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id
- 4fb4d7f45d1cf-54c9116d05fso3994909a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 10:09:51 -0800 (PST)
+Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com
+ [IPv6:2607:f8b0:4864:20::c34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59D5E10E51C
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 18:48:03 +0000 (UTC)
+Received: by mail-oo1-xc34.google.com with SMTP id
+ 006d021491bc7-58de9deec94so470694eaf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 10:48:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1701799787; x=1702404587;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BRQn44/aTuYgsI6zHupZ2XRpsR2rUlkoEa03YW7tLjw=;
- b=dFXKYlM4verThUSB5UPxUTo29jPYq946gt4vffNh7Nn1v6cKXfTy25R5lm5lyhhMYL
- QJKWkfXBqcVoQDhmcjSJQvPYOxfjrrvDPALDTiuy2ZLA52lEVtqNUXcX0DTLBu+MozyL
- j7seL+Oko9YkXnmZUF/7LiJVEYYbA0ZSqBPV8=
+ d=gmail.com; s=20230601; t=1701802082; x=1702406882; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3yo/8ZmNje/AkOSBdLfHDekA/ocrjIlQeNPj2jTmzrw=;
+ b=JJPrn0gjcRKuw7wHl5RHUkkJhVXHZ1zdj1oJCdLauWIaCs13IsgSaGOR+gHI3/7jar
+ 5xXEjAWttxqzJqPIBXAed86JCUF2k4IJuYtz8M1UzKD7raj+tpUYW4Dn5KOMok88yjlT
+ 2yIlxocyNuTQMZNixqyJujSnFV0zWg0DmgHmPlrnLhoUGYLPRYr4PNUU3Z2QztF9NBEV
+ 686x/i6BezD7vw7IewIbKroV+fbCpatbRzp7mU5LpVPFYqjwhLRhdDqDFl7bUexsbjL4
+ baYPyYeh3MFczuxRHyXwCB4erAWHNSSSAdWYYTqysi+liOyLljpnz1Rq16xMSEeQnF+4
+ aKmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701799787; x=1702404587;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BRQn44/aTuYgsI6zHupZ2XRpsR2rUlkoEa03YW7tLjw=;
- b=XVC7P6KlLAhGznWxKrShvWiQQrsGpD8U7AhUfRWwTx8+w0P1u/4liDclA5IndAzV9o
- Gg+bUtjqfJFazLECSa7iGxxLDIjQzdOpbZyltH5xg044WI21ex3XoFN1LqQK2+aM1GuK
- K2MACtsIQ9PJPQNkwgJjWsz/6o5AfMiNdTvCyy6s2YFyMTavp7TR7VnkgSBgSqfPOFP3
- ZL4Telnl48rJz3PDA3ooeRYRLeO/7ygz5uB5XOcMujlNTTPhSHQwUDsFEbumSk4sBiIT
- gG/wtOrTI3nDpu2b14pEwijRF2v6BiYwgDIP/nUW4apoNZnWjfP4BJoaTIz4mW5tcPoh
- m/bw==
-X-Gm-Message-State: AOJu0Ywfh+B728KSc38IHb32/Fwemn5/hQNCWOSlHEi5XEuchmUdsyUU
- qTsfWkI2fovxcDl9dubeK2pbVUC9S2VisBopTw4n426x
-X-Google-Smtp-Source: AGHT+IH/l4DA94u1gIyU5Fuop/ok3mTo0p522yztn2qAZ0g4rNE1sLrfR6PnKtVGjUwavTn+jCyI8Q==
-X-Received: by 2002:a50:a693:0:b0:54c:4fec:da with SMTP id
- e19-20020a50a693000000b0054c4fec00damr2242776edc.105.1701799787516; 
- Tue, 05 Dec 2023 10:09:47 -0800 (PST)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com.
- [209.85.208.43]) by smtp.gmail.com with ESMTPSA id
- i13-20020a056402054d00b0054c4fdb42e5sm1405185edx.74.2023.12.05.10.09.46
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Dec 2023 10:09:47 -0800 (PST)
-Received: by mail-ed1-f43.google.com with SMTP id
- 4fb4d7f45d1cf-54c79cca895so528a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 10:09:46 -0800 (PST)
-X-Received: by 2002:a05:6402:22c4:b0:54c:f4fd:3427 with SMTP id
- dm4-20020a05640222c400b0054cf4fd3427mr221749edb.7.1701799786563; Tue, 05 Dec
- 2023 10:09:46 -0800 (PST)
+ d=1e100.net; s=20230601; t=1701802082; x=1702406882;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3yo/8ZmNje/AkOSBdLfHDekA/ocrjIlQeNPj2jTmzrw=;
+ b=E7uQFUXrCCksnu0XyC81CQQE7xg87bPEM2McanR7Ib6pGazkohPneTGh7vlx2ph2cs
+ KIIVZ2kbqKj4Ukbq/yI7sUxKOrZT3nDACB55g7APj1ykgxzC7Nl0dacL4rZ+ffTLYRNl
+ 6kyGk3iqEFdjjuyqv7ME3qf7We/L6Ka2NAaLm1bF5/aTR8XRjRsjeFVN4Gg4JQD5gFuG
+ U1aAI4x1ME5hC3nWvZvej7QlrlyKnDnlqWgb5ilBEDCbamJCW4+TfGXTzOLyq4ywK9O4
+ MMHaUzGTLwcMkw3ErTeAyJ1L4L3Zs/yloeWpeHiPQXlLTZGkLbAFRADtEkhiYJORAjYa
+ 05qA==
+X-Gm-Message-State: AOJu0YxWMRr8ZrzpqIQ+YQ9G9a9ltKOySrNM7BaWSyKmo6CnRsrdPRPx
+ J/Q5wGdWxGsF05OyXaWOtjk=
+X-Google-Smtp-Source: AGHT+IG7LZP+nPfWZFPMEx8CBW4KwsTUvCOwcR2ZXcbweGMxxyKNVfhFNuAah8Zuo3C3qujHiRVlyg==
+X-Received: by 2002:a05:6359:2c9a:b0:16f:fa02:fff0 with SMTP id
+ qw26-20020a0563592c9a00b0016ffa02fff0mr13075536rwb.3.1701802082520; 
+ Tue, 05 Dec 2023 10:48:02 -0800 (PST)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:52c5:3315:40:a897])
+ by smtp.gmail.com with ESMTPSA id
+ e8-20020a635008000000b0059d219cb359sm9688946pgb.9.2023.12.05.10.48.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Dec 2023 10:48:02 -0800 (PST)
+From: Fabio Estevam <festevam@gmail.com>
+To: marex@denx.de
+Subject: [PATCH v2] dt-bindings: lcdif: Properly describe the i.MX23 interrupts
+Date: Tue,  5 Dec 2023 15:47:48 -0300
+Message-Id: <20231205184748.2103321-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20231205123630.988663-1-treapking@chromium.org>
- <20231205203536.4.Iaa6257fcf9e7fe3ca88c50ab6e5aa3fbf55266d0@changeid>
-In-Reply-To: <20231205203536.4.Iaa6257fcf9e7fe3ca88c50ab6e5aa3fbf55266d0@changeid>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 5 Dec 2023 10:09:34 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WNJP=aCC1hmSp8h0hgcXxzt1q-nPTPcU159i4OCQ7+_g@mail.gmail.com>
-Message-ID: <CAD=FV=WNJP=aCC1hmSp8h0hgcXxzt1q-nPTPcU159i4OCQ7+_g@mail.gmail.com>
-Subject: Re: [PATCH 4/4] drm/panel-edp: Add some panels with conservative
- timings
-To: Pin-yen Lin <treapking@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,48 +70,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Guenter Roeck <groeck@chromium.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org,
+ Fabio Estevam <festevam@denx.de>, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Fabio Estevam <festevam@denx.de>
 
-On Tue, Dec 5, 2023 at 4:37=E2=80=AFAM Pin-yen Lin <treapking@chromium.org>=
- wrote:
->
-> These panels are used by Mediatek MT8173 Chromebooks but we can't find
-> the corresponding data sheets, and these panels used to work on v4.19
-> kernel without any specified delays.
->
-> Therefore, instead of having them use the default conservative timings,
-> update them with less-conservative timings from other panels of the same
-> vendor. The panels should still work under those timings, and we can
-> save some delays and suppress the warnings.
->
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
->
-> ---
->
->  drivers/gpu/drm/panel/panel-edp.c | 31 +++++++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
+i.MX23 has two LCDIF interrupts instead of a single one like other
+i.MX devices.
 
-This is OK w/ me, but it will need time on the mailing lists before
-landing in case anyone else has opinions. Specifical thoughts:
+Take this into account for properly describing the i.MX23 LCDIF
+interrupts.
 
-* I at least feel fairly confident that this is OK since these panels
-essentially booted without _any_ delays back on the old downstream
-v4.19 kernel. Presumably the panels just had fairly robust timing
-controllers and so worked OK, but it's better to get the timing more
-correct.
+This fixes the following dt-schema warning:
 
-* This is definitely better than the very conservative timings and the
-WARN_ON splat.
+imx23-olinuxino.dtb: lcdif@80030000: interrupts: [[46], [45]] is too long
+	from schema $id: http://devicetree.org/schemas/display/fsl,lcdif.yaml#
 
-* I don't love the "Unknown" string, but it doesn't do anything other
-than print to dmesg anyway and at least it conveys to anyone else
-reading the table that the timings may not be quite as tight.
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+Changes since v1:
+- Fix typo in commit log (i.MX23 has two LCDIF interrupts).
 
--Doug
+ .../devicetree/bindings/display/fsl,lcdif.yaml   | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+index fc11ab5fc465..c4228b893766 100644
+--- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
++++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+@@ -51,7 +51,10 @@ properties:
+     minItems: 1
+ 
+   interrupts:
+-    maxItems: 1
++    items:
++      - description: LCDIF DMA interrupt
++      - description: LCDIF Error interrupt
++    minItems: 1
+ 
+   power-domains:
+     maxItems: 1
+@@ -131,6 +134,17 @@ allOf:
+     then:
+       required:
+         - power-domains
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - fsl,imx23-lcdif
++    then:
++      properties:
++        interrupts:
++          minItems: 2
++          maxItems: 2
+ 
+ examples:
+   - |
+-- 
+2.34.1
+
