@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A71805FDC
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 21:58:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 952E6805FE2
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 21:58:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58EBF10E607;
-	Tue,  5 Dec 2023 20:58:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0CB010E60F;
+	Tue,  5 Dec 2023 20:58:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
- [IPv6:2001:4860:4864:20::29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED84410E60F
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 20:58:26 +0000 (UTC)
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-1fafbefe710so2764656fac.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 12:58:26 -0800 (PST)
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80A8F10E60F
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 20:58:55 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ 46e09a7af769-6d8766f4200so2918288a34.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 12:58:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701809906; x=1702414706; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1701809934; x=1702414734; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date:message-id:reply-to;
- bh=OTz0DGp9QCmX1RGgDpf7H0St/dxn8C8saZ8skorHRGI=;
- b=EZnXF1ZWmksePanpog+dxXVrfTOtOgCAi8hLYnZ/agXNa10gDNRFlVbnGxq2WRPHcW
- wuOj/sC5MN8blPfo8pcjT0evB8BSpXUla3Q9/nQeMNcsR80Q/e9fanVwlvR/65Cq8xEf
- puL5t344t9/N4UvnQwVTDgoEFa4J0gB/TUhiYvnPBSHjh+H1dkIxgw+1McRCJDhA06Wb
- IGlU8FPqWntUCVzjKkGvSNivRr3ml0mK1ZqYWzOAKRVaqkXhZc1+1Rhs5Ixwd4xWIH3V
- rJHCBvUj2uHNGKoXqgtVvHHtdfBdtWJo/2QJ5Ah8z9wAzXBsSN6YGX7GsUwqEEo0WfON
- nS4w==
+ bh=OzWOREuSwdEoFd+CU5OTzLFsGtCD7C1zfebLpmRFAb0=;
+ b=lwPRVuCso2jUt//w0BvIXmK4HP7aY7kwP1qRbrGvvw4y/200l841q8HjHlGIwNd7e8
+ aIdDqxaqVCNomSwtdM/8YsuA/1Z5TNUIbmk2h+nCjFDYjEclteHlPr0L/GZaHcEWz1qB
+ OUzIXLjOqHNneomdiNBEqJREgPZ90blQETV8Id9OtjxImydpAkkTETX7qEIXDpM9Ro4w
+ 9KikOAU3WPexDmBGPo3h3ZisQyFzb2kiPX9DeZiQ/Ov/ugwa85xzhmWocycftx1hgyPF
+ Hy7qj12DFoZuDyeGyO/XEdMIVyShgzALchZQGTe/xO82mRilG+d3PS8tVgvmARgexFgb
+ w13Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701809906; x=1702414706;
+ d=1e100.net; s=20230601; t=1701809934; x=1702414734;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=OTz0DGp9QCmX1RGgDpf7H0St/dxn8C8saZ8skorHRGI=;
- b=J2hqdzNTz4h4vOxtNuaxS9H9fhid2NLtVvSDOhpj2f361TP6kvPZJVPBz/qWYAi+oN
- jbdSeR89FKgtKlF1OeClNawQzhahxw7TBPc6GwQzArOXKZ9uZcPd5TDAamH0hdRtxUyj
- 2wTjnrWIYMUR7LlANN86PuPnqqpgErPBGcv1bHt7HOzTX9s3g9ug9HvZ0GGxZQUfzuGI
- d5If3Z5ix+XReieYsCBsKGTvU+wUEuHNnhdDfM0aReM1j9xIj6oftZBOITiPM2nFMmXq
- sJTVxwx+OKNxQH6Mq4dg5CX35jvPm6expvUrzQTNrOOlk+xONfUF35XJMl/TrL0TOMsT
- n0sg==
-X-Gm-Message-State: AOJu0YzVN1HrHKl3037Nsn8CPNmf+TcVAmKIORFPGmGgKHxTSGiJaUpz
- +aUT1sBekgKgedti2xO8BXswTrNr1tE=
-X-Google-Smtp-Source: AGHT+IHpPcmkw+ohOmvDAuV4ZusECHknmOP6GTm71AZAma+sjA2a+dGNYQJwDZ03OWgyU00+OipcPw==
-X-Received: by 2002:a05:6870:9710:b0:1fa:2bbf:a500 with SMTP id
- n16-20020a056870971000b001fa2bbfa500mr8709469oaq.24.1701809906093; 
- Tue, 05 Dec 2023 12:58:26 -0800 (PST)
+ bh=OzWOREuSwdEoFd+CU5OTzLFsGtCD7C1zfebLpmRFAb0=;
+ b=EtDJL6ZRT5r7Ohdik8xhECXb7O9M+abQW7OQKsPZuS6OJ3IUMVm3Z7PJYtGcFI2rUV
+ A1EYWcZGR/qHhHXTe9hkR+h9xrXvWuNZNC3rkLjuLlAfPfHvTbNvnm05QH+Urz26jLZu
+ 1vl/4cRmU5qdppgk/q8pIHBSHj1KvnLPPRl2k3lrirhCBWD/0lwvKbtUXvvrZygVECvy
+ EtICkGtjBrXmDIp/kEaWCrRie2YGe7oZycEhZjGqTMjr1E63yfiJ1QFg71ggwz39LNmx
+ wskpSrOg1Cjeie4iGnMMafBEFNJOeg85Rmy7xB6BsMrlwlKqZh8gqkwKyr8MdO8EKNIe
+ wQBw==
+X-Gm-Message-State: AOJu0YwnpqQY4ESanIBTP2JjgG5wBccMoYymerEUsnh93czcLlHWgpu1
+ hypFbLUUug+PSN3TVbJdpXE=
+X-Google-Smtp-Source: AGHT+IHXExISh6TSmnzLXi6rRF2I7lXlvjcj+JdCDpo2NyImPcOemMbY0jcJgQE/wN7VZ0Qo1xX3og==
+X-Received: by 2002:a05:6870:b05:b0:1fa:f469:8565 with SMTP id
+ lh5-20020a0568700b0500b001faf4698565mr8360128oab.17.1701809934631; 
+ Tue, 05 Dec 2023 12:58:54 -0800 (PST)
 Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
  ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
  by smtp.gmail.com with ESMTPSA id
- lg22-20020a0568700b9600b001fa1db68eecsm1547354oab.4.2023.12.05.12.58.24
+ lg22-20020a0568700b9600b001fa1db68eecsm1547354oab.4.2023.12.05.12.58.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Dec 2023 12:58:25 -0800 (PST)
-Message-ID: <777081be-2ead-4727-ad06-afb8b976e6b9@roeck-us.net>
-Date: Tue, 5 Dec 2023 12:58:23 -0800
+ Tue, 05 Dec 2023 12:58:54 -0800 (PST)
+Message-ID: <76415c2b-4e94-410f-bece-8e12552c28d2@roeck-us.net>
+Date: Tue, 5 Dec 2023 12:58:53 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] usb: typec: nb7vpq904m: Only select DRM_AUX_BRIDGE
- with OF
+Subject: Re: [PATCH 2/3] usb: typec: qcom-pmic-typec: Only select
+ DRM_AUX_HPD_BRIDGE with OF
 Content-Language: en-US
 To: Nathan Chancellor <nathan@kernel.org>, dmitry.baryshkov@linaro.org
 References: <20231205-drm_aux_bridge-fixes-v1-0-d242a0ae9df4@kernel.org>
- <20231205-drm_aux_bridge-fixes-v1-1-d242a0ae9df4@kernel.org>
+ <20231205-drm_aux_bridge-fixes-v1-2-d242a0ae9df4@kernel.org>
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
  xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
@@ -107,7 +107,7 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
  HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
  mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20231205-drm_aux_bridge-fixes-v1-1-d242a0ae9df4@kernel.org>
+In-Reply-To: <20231205-drm_aux_bridge-fixes-v1-2-d242a0ae9df4@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -129,19 +129,19 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 12/5/23 12:13, Nathan Chancellor wrote:
-> CONFIG_DRM_AUX_BRIDGE depends on CONFIG_OF but that dependency is not
-> included when CONFIG_TYPEC_MUX_NB7VPQ904M selects it, resulting in a
+> CONFIG_DRM_AUX_HPD_BRIDGE depends on CONFIG_OF but that dependency is
+> not included when CONFIG_TYPEC_QCOM_PMIC selects it, resulting in a
 > Kconfig warning when CONFIG_OF is disabled:
 > 
->    WARNING: unmet direct dependencies detected for DRM_AUX_BRIDGE
+>    WARNING: unmet direct dependencies detected for DRM_AUX_HPD_BRIDGE
 >      Depends on [n]: HAS_IOMEM [=y] && DRM_BRIDGE [=y] && OF [=n]
->      Selected by [y]:
->      - TYPEC_MUX_NB7VPQ904M [=y] && USB_SUPPORT [=y] && TYPEC [=y] && I2C [=y] && (DRM [=y] || DRM [=y]=n) && DRM_BRIDGE [=y]
+>      Selected by [m]:
+>      - TYPEC_QCOM_PMIC [=m] && USB_SUPPORT [=y] && TYPEC [=m] && TYPEC_TCPM [=m] && (ARCH_QCOM || COMPILE_TEST [=y]) && (DRM [=m] || DRM [=m]=n) && DRM_BRIDGE [=y]
 > 
-> Only select CONFIG_DRM_AUX_BRIDGE with both CONFIG_DRM_BRIDGE and
+> Only select CONFIG_DRM_AUX_HPD_BRIDGE with both CONFIG_DRM_BRIDGE and
 > CONFIG_OF to clear up the warning.
 > 
-> Fixes: c5d296bad640 ("usb: typec: nb7vpq904m: switch to DRM_AUX_BRIDGE")
+> Fixes: 7d9f1b72b296 ("usb: typec: qcom-pmic-typec: switch to DRM_AUX_HPD_BRIDGE")
 > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
 Reviewed-by: Guenter Roeck <linux@roeck-us.net>
