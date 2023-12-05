@@ -1,40 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E0678053F4
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 13:16:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B67C80544F
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 13:36:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 731D510E506;
-	Tue,  5 Dec 2023 12:16:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5D7910E50D;
+	Tue,  5 Dec 2023 12:36:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B1D310E506
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 12:16:12 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8B4CE844;
- Tue,  5 Dec 2023 13:15:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1701778530;
- bh=9+pxjTIVs1ocDWGALrnbd3Impz+cj2wtP65yWfxCLY0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rA7BH31fcloVqm/JVQnKmRx+Y2HxinUqhrCkFbbo7lNHoGtD//0JEM6DoMGuciCWu
- 13wBTskukb/Ec13bTL1quSu9HYAKP6Z36Yqea6wZTd5hl8VRnJboGf7yco4dq/gjuk
- eRhWIS5KNUWx7qQPboC5ljt8W8F78V9fWS0/aWMA=
-Date: Tue, 5 Dec 2023 14:16:17 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] drm: renesas: shmobile: Call
- drm_helper_force_disable_all() at shutdown time
-Message-ID: <20231205121617.GF17394@pendragon.ideasonboard.com>
-References: <0a13f43d1e519b88e0762cce178d7852b7dba2b1.1701775726.git.geert+renesas@glider.be>
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
+ [IPv6:2607:f8b0:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D5D610E50D
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 12:36:42 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id
+ d2e1a72fcca58-6ce33234fd7so1664961b3a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 04:36:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1701779802; x=1702384602;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=KIsb92r91QpPekGXu//XTsZOOlRQ2+GzhKmsBQNjlBs=;
+ b=PjgwrNRitm9xtyQLk24wx3VNuopcO6wVvJjVu8IYQDI6ELOAfzPv0BrI9dQDXVWPjZ
+ C6LjYf2wEX5oOWEa3fghP51f/UGGfoheuP8vXN7LMz/BdNzyRAAzEY/YlrU79XKq+BUk
+ gloraQxmpDfiDc6qzOaJZMT3F4BxQ+kC5vYl8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701779802; x=1702384602;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KIsb92r91QpPekGXu//XTsZOOlRQ2+GzhKmsBQNjlBs=;
+ b=HvkKKOn3f2DRAahqM8taABc8iCpc3wwzjWUWOR55nO0p1OIPniDk7QSR4FA9OxGpUw
+ tTsrW3zijTGRLdT7Ezr/IpJLOu48XWfecq6RLVtUa6YqxPHBZXPeeTchK9V/lwRNv7LX
+ KPtGN1rMupGIFfWMHZIFMmU6QXJMCJmSNvzVgZl6x2g7sn3KwG0gq+nsAF4VRC7ojRQ/
+ D2Ave8MZAdjKfjG0t2yVT+Y+Jy6PN1jzylF4s9Fn78T1G0AoX+7eQdGG+G+mFrWmuDZ7
+ yTvFEcoTPOTl19xtPEEjRRLOl61Qz8fB1I1D77hd/ETHpKbxhZZssXMx23w+GyI9NEqq
+ 1wAg==
+X-Gm-Message-State: AOJu0Yzug2j7EdeexWdFVhzh3eqfAPAyCHU173cpD58ELQ42fQYsGOQ4
+ iuR+bylI12zcI6A/YmCQcAxTqA==
+X-Google-Smtp-Source: AGHT+IF6AYuS2w8vqW1PS7HCIG9VdZITdv4Vw0j4ZEYFjRIjxdtKSKpGWhyEF6S9kd1UPykcAM7zJg==
+X-Received: by 2002:a05:6a20:7490:b0:18f:97c:5b82 with SMTP id
+ p16-20020a056a20749000b0018f097c5b82mr2572927pzd.80.1701779801795; 
+ Tue, 05 Dec 2023 04:36:41 -0800 (PST)
+Received: from treapking.tpe.corp.google.com
+ ([2401:fa00:1:10:433d:45a7:8d2c:be0e])
+ by smtp.gmail.com with ESMTPSA id
+ p26-20020aa7861a000000b006ce7abe91dasm285115pfn.195.2023.12.05.04.36.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Dec 2023 04:36:41 -0800 (PST)
+From: Pin-yen Lin <treapking@chromium.org>
+To: Douglas Anderson <dianders@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 0/4] Support panels used by MT8173 Chromebooks in edp-panel
+Date: Tue,  5 Dec 2023 20:35:33 +0800
+Message-ID: <20231205123630.988663-1-treapking@chromium.org>
+X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <0a13f43d1e519b88e0762cce178d7852b7dba2b1.1701775726.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,83 +75,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Douglas Anderson <dianders@chromium.org>,
- Maxime Ripard <mripard@kernel.org>, linux-renesas-soc@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Guenter Roeck <groeck@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert and Doug,
+This series contains 4 patches:
+1. Add a new panel delay to support some BOE panels
+2. Sort the panel entries as a clean up. This one does not depend on other
+   patches in this series and can be merged separately.
+3. Add panel entries used by Mediatek MT8173 Chromebooks.
+4. Add panels missing data sheets but used to work in older kernel version
+   without any specified delays.
 
-Thank you for the patch.
 
-On Tue, Dec 05, 2023 at 12:30:02PM +0100, Geert Uytterhoeven wrote:
-> From: Douglas Anderson <dianders@chromium.org>
-> 
-> Based on grepping through the source code, this driver appears to be
-> missing a call to drm_atomic_helper_shutdown() at system shutdown time.
-> This is important because drm_helper_force_disable_all() will cause
-> panels to get disabled cleanly which may be important for their power
-> sequencing.  Future changes will remove any custom powering off in
-> individual panel drivers so the DRM drivers need to start getting this
-> right.
-> 
-> The fact that we should call drm_atomic_helper_shutdown() in the case of
-> OS shutdown comes straight out of the kernel doc "driver instance
-> overview" in drm_drv.c.
-> 
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> Link: https://lore.kernel.org/r/20230901164111.RFT.15.Iaf638a1d4c8b3c307a6192efabb4cbb06b195f15@changeid
-> [geert: s/drm_helper_force_disable_all/drm_atomic_helper_shutdown/]
-> [geert: shmob_drm_remove() already calls drm_atomic_helper_shutdown]
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Pin-yen Lin (4):
+  drm/panel-edp: Add powered_on_to_enable delay
+  drm/edp-panel: Sort the panel entries
+  drm/edp-panel: Add panels delay entries
+  drm/panel-edp: Add some panels with conservative timings
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
-> Tested on Atmark Techno Armadillo-800-EVA, where the PWM instance
-> driving the backlight is now stopped on shutdown.
-> Panel-simple does print two new warnings:
-> 
->     +panel-simple panel: Skipping disable of already disabled panel
->     +panel-simple panel: Skipping unprepare of already unprepared panel
-
-Have you investigated where this comes from ?
-
->      reboot: System halted
-> ---
->  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> index bd16d4780c6436c3..a15162be26f259a4 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> @@ -171,6 +171,13 @@ static void shmob_drm_remove(struct platform_device *pdev)
->  	drm_kms_helper_poll_fini(ddev);
->  }
->  
-> +static void shmob_drm_shutdown(struct platform_device *pdev)
-> +{
-> +	struct shmob_drm_device *sdev = platform_get_drvdata(pdev);
-> +
-> +	drm_atomic_helper_shutdown(&sdev->ddev);
-> +}
-> +
->  static int shmob_drm_probe(struct platform_device *pdev)
->  {
->  	struct shmob_drm_platform_data *pdata = pdev->dev.platform_data;
-> @@ -274,6 +281,7 @@ static const struct of_device_id shmob_drm_of_table[] __maybe_unused = {
->  static struct platform_driver shmob_drm_platform_driver = {
->  	.probe		= shmob_drm_probe,
->  	.remove_new	= shmob_drm_remove,
-> +	.shutdown	= shmob_drm_shutdown,
->  	.driver		= {
->  		.name	= "shmob-drm",
->  		.of_match_table = of_match_ptr(shmob_drm_of_table),
+ drivers/gpu/drm/panel/panel-edp.c | 92 ++++++++++++++++++++++++++++++-
+ 1 file changed, 91 insertions(+), 1 deletion(-)
 
 -- 
-Regards,
+2.43.0.rc2.451.g8631bc7472-goog
 
-Laurent Pinchart
