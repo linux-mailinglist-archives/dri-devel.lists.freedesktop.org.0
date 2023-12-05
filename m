@@ -2,67 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F788056D6
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 15:09:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB7A8056F3
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 15:15:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50C6510E54C;
-	Tue,  5 Dec 2023 14:09:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5661110E53E;
+	Tue,  5 Dec 2023 14:15:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74F1C10E54C
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 14:09:43 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-40c09f4814eso32580985e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 06:09:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701785382; x=1702390182; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=OetAMAddY0Kvgc03SJD9zPupbx1ViU/NeH7cMTkTAv4=;
- b=xJZ85pi1KwS1YLb7uuV7GfsO454LR1dNP+N8em28xa+QfjBGqsrGrcqD9Javl6IolN
- jelE/EMZQIjqBe1eMt+qDZPH8wI4kcEeM3PUzL5ALXnK89OeQiQ8FSeH7xMad0ZMGQ88
- EtE0iSJLWxyMob7RCZkHkwxlkx7MnSKU8xNi3PP2EXQ3f8NzUfxZzhs7yn/Ucc4h2H31
- ZRDcJ8G9xhemHpCxKmoBlEU5P07Uhi86a0YwDsW6yQa8X0jQmiV82Wv6sIusQ/LbSWqT
- J8TrsG/lQG0l7TwpkTYM8AbEriC05RRYjKO37rCRj1aaQkMH0PHu2XA96qxhG1KEywLQ
- Injw==
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF2A810E53E
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 14:15:25 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id
+ d2e1a72fcca58-6ce26a03d9eso1890190b3a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 06:15:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701785382; x=1702390182;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OetAMAddY0Kvgc03SJD9zPupbx1ViU/NeH7cMTkTAv4=;
- b=nqCaRyXHRIInE1EFRyCoJKwRMgGUQqI1zJ2QeoTlSwKxGsprXU9JlnIrjI+hIUGqGA
- KrDm3Qi6zUQAHMb2iljms07raKs5GGP7ffeR6ZHM/xcYWujSwIde8nbN2Un1To9GbMU6
- OMYrSVws2GWhazVgj0PzVN62flByQntQSFTZAx6u3/fCQBS5/2ndBSg2E9G9iDY7vhmX
- 8VYKWLMAkv8A1bQY62CfVDySvcMdELyXOkNYPuscPnntmMkj2vGMPHKJ0J8icyKBfViW
- nMLNEi+0KRK84UsJ2K1TjILmoQJRLXBqkAC2zCc+HI7a0EDnzOBDGp7CxtI2wJL2C5UC
- 7HHQ==
-X-Gm-Message-State: AOJu0Yzc0USFniiwHTdVUIVQrojglFgh222TgO/Ff5/m9vAboFYbP7l4
- LVeT/q2gnLDrqcL3Wt+vjeQhIw==
-X-Google-Smtp-Source: AGHT+IGjE7ABuNASpckDLdyxi0klki+3P/24IvfmCPYHlYSCTyShLyBe1GZt2tZF8GFux4EJenGyWA==
-X-Received: by 2002:a05:600c:1c22:b0:40b:5e21:dd15 with SMTP id
- j34-20020a05600c1c2200b0040b5e21dd15mr569098wms.67.1701785381922; 
- Tue, 05 Dec 2023 06:09:41 -0800 (PST)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- t19-20020a05600c451300b0040a3f9862e3sm632489wmo.1.2023.12.05.06.09.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Dec 2023 06:09:41 -0800 (PST)
-Date: Tue, 5 Dec 2023 17:09:38 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Robert Foss <rfoss@kernel.org>
-Subject: Re: [PATCH] drm/bridge: nxp-ptn3460: fix i2c_master_send() error
- checking
-Message-ID: <dfb64765-4b3b-4ef6-ad98-596f0d64f0ba@suswa.mountain>
-References: <0cdc2dce-ca89-451a-9774-1482ab2f4762@moroto.mountain>
- <170178410677.683894.16036596185582079991.b4-ty@kernel.org>
- <a10a75c7-0626-454f-a3c4-d6031713f26f@suswa.mountain>
- <CAN6tsi6c7ncaiRAiAvrs_GoUMB8v9ciaMvu7s7hnPA0KN0xkWg@mail.gmail.com>
+ d=1e100.net; s=20230601; t=1701785725; x=1702390525;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wjEDTZbGLWl0kPzOEjqjXQ57XT0xydUQvJCUY6FowqA=;
+ b=ZL4jwfqJ4qn6xu1aqxxlcY40uStRDqCj6XtnFdHWe1xNogdr7iZUlSTmcU1P3RK3FA
+ 6PyNGqCtjGsMCfhW8T3a5TJCeVOXrRhJvquQKYdVh5UfvaaETF7U3CoATPUXS7N0iKWo
+ 1na88c+8Qzez3BoCZ6WNofZw9T+j+/4iYsLU2BiYyKNYBLlV1kwZVbnEYix/cr8W6WKR
+ 1I6aFQNnyK/n5B7mmLxganfhrQXG5xFZVN+Xwx9bI1zq77McgB95SWuZokfkx8DdtNAb
+ zP048mg4TuhBHx3AtqU7pm2BTbfnfPEwkUqlfRi5ewUtyogNnur9JxsCW0Ll0eNC6nW1
+ pHtw==
+X-Gm-Message-State: AOJu0YzV9V5GCsiVSEvn2/xoBt9cOVokQKQeG1dg0qtlO0ZOLaDFXnAJ
+ rWxJgIT9V/tgx1hWU5TqmAoOuHe6VHvLCw==
+X-Google-Smtp-Source: AGHT+IFv5UM3C3dR9fqFGnXYs1WIpGrkyh3kUN7E4Jx/hIZ4201JOh+Ii9gBvooGWxRO5NZBszsQqA==
+X-Received: by 2002:a05:6a20:f388:b0:18f:bce9:5961 with SMTP id
+ qr8-20020a056a20f38800b0018fbce95961mr14438pzb.15.1701785725158; 
+ Tue, 05 Dec 2023 06:15:25 -0800 (PST)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com.
+ [209.85.216.52]) by smtp.gmail.com with ESMTPSA id
+ u197-20020a6379ce000000b005b92d3cb4c2sm1660206pgc.58.2023.12.05.06.15.23
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Dec 2023 06:15:23 -0800 (PST)
+Received: by mail-pj1-f52.google.com with SMTP id
+ 98e67ed59e1d1-2864f8131d0so3458703a91.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 06:15:23 -0800 (PST)
+X-Received: by 2002:a81:ee0b:0:b0:5d7:1941:a9a with SMTP id
+ l11-20020a81ee0b000000b005d719410a9amr4666145ywm.53.1701785702584; Tue, 05
+ Dec 2023 06:15:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAN6tsi6c7ncaiRAiAvrs_GoUMB8v9ciaMvu7s7hnPA0KN0xkWg@mail.gmail.com>
+References: <cover.1701768028.git.ysato@users.sourceforge.jp>
+ <ca3122511b201a0da0a3f930c0f894bf11954423.1701768028.git.ysato@users.sourceforge.jp>
+In-Reply-To: <ca3122511b201a0da0a3f930c0f894bf11954423.1701768028.git.ysato@users.sourceforge.jp>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 5 Dec 2023 15:14:50 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUY1aduN=6kaHFyfT=U3J3K3NPZDK2mCct8vS9XaMfaiA@mail.gmail.com>
+Message-ID: <CAMuHMdUY1aduN=6kaHFyfT=U3J3K3NPZDK2mCct8vS9XaMfaiA@mail.gmail.com>
+Subject: Re: [DO NOT MERGE v5 12/37] dt-bindings: pci: pci-sh7751: Add SH7751
+ PCI
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,46 +71,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Sean Paul <seanpaul@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ Herve Codina <herve.codina@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-sh@vger.kernel.org, Bin Meng <bmeng@tinylab.org>,
+ Michael Turquette <mturquette@baylibre.com>, linux-pci@vger.kernel.org,
+ Jacky Huang <ychuang3@nuvoton.com>, Palmer Dabbelt <palmer@rivosinc.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Guo Ren <guoren@kernel.org>,
+ Lee Jones <lee@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
+ linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
+ David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org, Chris Morgan <macromorgan@hotmail.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Vlastimil Babka <vbabka@suse.cz>, Sergey Shtylyov <s.shtylyov@omp.ru>,
+ linux-ide@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
+ linux-kernel@vger.kernel.org, Azeem Shaikh <azeemshaikh38@gmail.com>,
+ linux-renesas-soc@vger.kernel.org, Tom Rix <trix@redhat.com>,
+ Damien Le Moal <dlemoal@kernel.org>,
+ Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
+ Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 05, 2023 at 03:04:49PM +0100, Robert Foss wrote:
-> On Tue, Dec 5, 2023, 15:01 Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> 
-> > On Tue, Dec 05, 2023 at 02:48:26PM +0100, Robert Foss wrote:
-> > > On Mon, 4 Dec 2023 15:29:00 +0300, Dan Carpenter wrote:
-> > > > The i2c_master_send/recv() functions return negative error codes or the
-> > > > number of bytes that were able to be sent/received.  This code has
-> > > > two problems.  1)  Instead of checking if all the bytes were sent or
-> > > > received, it checks that at least one byte was sent or received.
-> > > > 2) If there was a partial send/receive then we should return a negative
-> > > > error code but this code returns success.
-> > > >
-> > > > [...]
-> > >
-> > > Applied, thanks!
-> > >
-> > > [1/1] drm/bridge: nxp-ptn3460: fix i2c_master_send() error checking
-> > >       https://cgit.freedesktop.org/drm/drm-misc/commit/?id=914437992876
-> > >
-> >
-> > Wait.  That was unexpected.  Neil's review comments were correct.  I was
-> > planning to send a v2 patch which was just a cleanup.
-> >
-> 
-> Sorry Dan, I was too quick on the draw. Can you send a fixup and I'll apply
-> it too?
-> 
+Hi Sato-san,
 
-Sure.  I will do that.
+On Tue, Dec 5, 2023 at 10:46=E2=80=AFAM Yoshinori Sato
+<ysato@users.sourceforge.jp> wrote:
+> Renesas SH7751 PCI Controller json-schema.
+>
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 
-regards,
-dan carpenter
+Thanks for your patch!
 
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/pci/renesas,sh7751-pci.yaml
+> @@ -0,0 +1,128 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/pci/renesas,sh7751-pci.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas SH7751 PCI Host controller
+> +
+> +maintainers:
+> +  - Yoshinori Sato <ysato@users.sourceforge.jp>
+> +
+> +allOf:
+> +  - $ref: /schemas/pci/pci-bus.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - renesas,sh7751-pci
+> +
+> +  reg:
+> +    minItems: 2
+> +    maxItems: 2
+
+Please add "reg-names", as there is more than one entry.
+If that is not sufficient to document what each entry means, please add
+"description"s, too.
+
+> +  renesas,memory:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description: |
+> +      PCI BMDMA src/dst memory area.
+
+Isn't that the purpose of the "dma-ranges" property?
+
+> +
+> +  renesas,bcr1:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: |
+> +      SH7751 PCIC PCIBCR1 value. This value makes add the value of BSC's=
+ BCR1.
+
+What does this mean?
+
+> +
+> +  renesas,mcrmask:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: |
+> +      SH7751 PCIC PCIMCR value. This value makes clear bit in the value =
+of BSC's MCR.
+
+What does this mean?
+
+> +
+> +  renesas,intm:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: |
+> +      SH7751 PCIC PCIINTM value.
+> +
+> +  renesas,aintm:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: |
+> +      SH7751 PCIC PCIIANTM value.
+> +
+> +  renesas,lsr:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: |
+> +      SH7751 PCIC PCILSR0 and PCILSR1 values.
+> +      First word is PCILSR0, Second word is PCILSR1.
+> +
+> +  renesas,lar:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: |
+> +      SH7751 PCIC PCILSA0 and PCILAR1 values.
+> +      First word is PCILAR0, Second word is PCILAR1.
+> +
+> +  renesas,dmabt:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: |
+> +      SH7751 PCIC PCIDMABT value.
+> +
+> +  renesas,pintm:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: |
+> +      SH7751 PCIC PCIPINTM value.
+> +
+> +  renesas,config:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description: |
+> +      SH7751 PCIC PCICONFIG values array. Register Number and value pair=
+ list.
+
+Several of these properties look like pure hardware programming.
+Can these values be derived from other (standard) DT properties?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
