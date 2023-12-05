@@ -2,54 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA67F80534F
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 12:47:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 656F5805359
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 12:48:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5118910E07B;
-	Tue,  5 Dec 2023 11:47:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A010210E4FD;
+	Tue,  5 Dec 2023 11:48:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F1E210E07B;
- Tue,  5 Dec 2023 11:47:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701776859; x=1733312859;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=l/pPGhlGTnM9oQLy7M6WtIxrVGP6wBtkBr8qngEB5GA=;
- b=AdPGrhPRS3aGhy1NCGDPlIgslBD8UtIjmVu49iQeIpzvh8+9/E7UdWiT
- 5+45Ws6QuWCm/JOnaE6EhtNfUD46qv+TwOgKtFHGO29MZ3NSGEQ7nkFxv
- rwK5wW8I05iD0pKeU8vCNwn6Z6YMoMyMnisnT/bX9PiY3tmUSSo07kdNv
- 0X8hlPF9UUoJop9Xxax/HA2V+vY5ixl7/lH4SYIq5sKXjr6sbkO5xTFIS
- iYnYEgvi4OphPHK06OLPQ8WF5K+NWdfaalQ7JZujHgOL0hxqMLz2rUHC4
- CNjiFhT3+um1Ou4cenCNBPWfKusWkhlfJbN4gSgcWx+azp10ZqcmiVdw2 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="384279815"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; d="scan'208";a="384279815"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2023 03:47:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018198398"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; d="scan'208";a="1018198398"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
- by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:47:35 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1rATtl-0008uf-0V;
- Tue, 05 Dec 2023 11:47:33 +0000
-Date: Tue, 5 Dec 2023 19:46:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>
-Subject: Re: [RFT PATCH v2 1/4] drm/msm/dpu: enable writeback on SM8150
-Message-ID: <202312051918.XcPf4xI6-lkp@intel.com>
-References: <20231203003203.1293087-2-dmitry.baryshkov@linaro.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65B2D10E0E2;
+ Tue,  5 Dec 2023 11:48:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 94EED616F5;
+ Tue,  5 Dec 2023 11:48:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E93D1C433CC;
+ Tue,  5 Dec 2023 11:48:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1701776920;
+ bh=rBWO7TR4O7ERppWjDYZhhaetJ6jH0W7EbO9klpyzT0Y=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=i+0kkw9/ZVQ9D5AGBRVPYgUtv4X4NSVS3UZwRbqTsFf1qhnBEavbxcro3V0sD+wcZ
+ dVm31E7xUpEuk8cRxrpyA7EWYA5dBGoQoStrUy8rcEr96ydYHyS0KAZuwMKMyjnu3W
+ YM7N6EmbAGpbYPaD5Hbuh94/uo5RdTrNUMfOosMm0PWHJ69VuufG/jFFYLU0rg2meI
+ 0tqRvJe0Q9w6KcMLdCYDh3BY8FYfiqzeh3RxpYPS9ME5Tlg2JtXz4VU4MDN447nHkg
+ xAqUgxwTsyKpukWgB31AsXcpfza8+H7lXB4JxDoCk/y39WXJoZsroQao+fJK6ZLQIK
+ HeWWg5A2qqTLQ==
+Date: Tue, 5 Dec 2023 12:48:37 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH RESEND] drm/atomic-helper: rename
+ drm_atomic_helper_check_wb_encoder_state
+Message-ID: <hfvttbhsztcbagsimvhoeqadwtcrxhcs5gt7ssjipszndqzxeg@co2jxo3smli6>
+References: <20231201220843.2023117-1-dmitry.baryshkov@linaro.org>
+ <uqrsl3gehpjybzb6cish7vpub3xznouomn4246b7j4i3qiiumv@enskrm5kpwa5>
+ <ff89354d-c9d1-486a-982b-0bb976f6b699@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="43ej7zo32lbofe2g"
 Content-Disposition: inline
-In-Reply-To: <20231203003203.1293087-2-dmitry.baryshkov@linaro.org>
+In-Reply-To: <ff89354d-c9d1-486a-982b-0bb976f6b699@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,63 +54,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- oe-kbuild-all@lists.linux.dev, freedreno@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
 
-kernel test robot noticed the following build errors:
+--43ej7zo32lbofe2g
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.7-rc4 next-20231205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Tue, Dec 05, 2023 at 03:37:15AM +0200, Dmitry Baryshkov wrote:
+> On 04/12/2023 10:38, Maxime Ripard wrote:
+> > On Sat, Dec 02, 2023 at 12:07:49AM +0200, Dmitry Baryshkov wrote:
+> > > The drm_atomic_helper_check_wb_encoder_state() function doesn't use
+> > > encoder for anything other than getting the drm_device instance. The
+> > > function's description talks about checking the writeback connector
+> > > state, not the encoder state. Moreover, there is no such thing as an
+> > > encoder state, encoders generally do not have a state on their own.
+> > >=20
+> > > Drop the first argument and rename the function to
+> > > drm_atomic_helper_check_wb_connector_state().
+> > >=20
+> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > ---
+> > >=20
+> > > Resending, no reaction for two months
+> > >=20
+> > > ---
+> > >   drivers/gpu/drm/drm_atomic_helper.c   | 10 ++++------
+> > >   drivers/gpu/drm/vkms/vkms_writeback.c |  2 +-
+> > >   include/drm/drm_atomic_helper.h       |  3 +--
+> > >   3 files changed, 6 insertions(+), 9 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/dr=
+m_atomic_helper.c
+> > > index 2444fc33dd7c..d69591381f00 100644
+> > > --- a/drivers/gpu/drm/drm_atomic_helper.c
+> > > +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> > > @@ -795,8 +795,7 @@ drm_atomic_helper_check_modeset(struct drm_device=
+ *dev,
+> > >   EXPORT_SYMBOL(drm_atomic_helper_check_modeset);
+> > >   /**
+> > > - * drm_atomic_helper_check_wb_encoder_state() - Check writeback enco=
+der state
+> > > - * @encoder: encoder state to check
+> > > + * drm_atomic_helper_check_wb_connector_state() - Check writeback co=
+nnector state
+> > >    * @conn_state: connector state to check
+> > >    *
+> > >    * Checks if the writeback connector state is valid, and returns an=
+ error if it
+> > > @@ -806,8 +805,7 @@ EXPORT_SYMBOL(drm_atomic_helper_check_modeset);
+> > >    * Zero for success or -errno
+> > >    */
+> > >   int
+> > > -drm_atomic_helper_check_wb_encoder_state(struct drm_encoder *encoder,
+> > > -					 struct drm_connector_state *conn_state)
+> > > +drm_atomic_helper_check_wb_connector_state(struct drm_connector_stat=
+e *conn_state)
+> >=20
+> > AFAIK, all the helpers take the object as first argument, so I'm fine
+> > with the name change but it should take a drm_connector too. And ideally
+> > a drm_atomic_state pointer instead of drm_connector_state too.
+>=20
+> I think we then might take even further step and pass
+> drm_writeback_connector to this function. I'll send this as a part of v2.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-msm-dpu-enable-writeback-on-SM8150/20231203-083350
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231203003203.1293087-2-dmitry.baryshkov%40linaro.org
-patch subject: [RFT PATCH v2 1/4] drm/msm/dpu: enable writeback on SM8150
-config: i386-buildonly-randconfig-001-20231203 (https://download.01.org/0day-ci/archive/20231205/202312051918.XcPf4xI6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051918.XcPf4xI6-lkp@intel.com/reproduce)
+=2E.. Which is still not the usual function prototype for atomic_check
+helpers.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312051918.XcPf4xI6-lkp@intel.com/
+Maxime
 
-All errors (new ones prefixed by >>):
+--43ej7zo32lbofe2g
+Content-Type: application/pgp-signature; name="signature.asc"
 
-   In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:658:
->> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h:299:29: error: 'WB_SDM845_MASK' undeclared here (not in a function); did you mean 'WB_SM8250_MASK'?
-     299 |                 .features = WB_SDM845_MASK,
-         |                             ^~~~~~~~~~~~~~
-         |                             WB_SM8250_MASK
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZW8OFQAKCRDj7w1vZxhR
+xUmJAQCMZDPhgXcPLxiMxn3RlywPvVPndRCcvGUXtIB2RDPL4AEAlkAZxFUFcG6n
+fXkca/UsUOJv1aMOlYPyGYyi2U63cQQ=
+=mIiu
+-----END PGP SIGNATURE-----
 
-vim +299 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-
-   294	
-   295	static const struct dpu_wb_cfg sm8150_wb[] = {
-   296		{
-   297			.name = "wb_2", .id = WB_2,
-   298			.base = 0x65000, .len = 0x2c8,
- > 299			.features = WB_SDM845_MASK,
-   300			.format_list = wb2_formats,
-   301			.num_formats = ARRAY_SIZE(wb2_formats),
-   302			.clk_ctrl = DPU_CLK_CTRL_WB2,
-   303			.xin_id = 6,
-   304			.vbif_idx = VBIF_RT,
-   305			.maxlinewidth = 4096,
-   306			.intr_wb_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 4),
-   307		},
-   308	};
-   309	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--43ej7zo32lbofe2g--
