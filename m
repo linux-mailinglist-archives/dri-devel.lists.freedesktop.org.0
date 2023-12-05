@@ -2,53 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7456F804C7D
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 09:34:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8D99804C88
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 09:36:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6829A10E48E;
-	Tue,  5 Dec 2023 08:34:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CD9510E49C;
+	Tue,  5 Dec 2023 08:36:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B83A10E49C;
- Tue,  5 Dec 2023 08:34:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701765248; x=1733301248;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=O8Lmjn1nDHBYRDdJW/oj+bugCU4rCHZ/pN/rDIGET3Q=;
- b=WMPSw9xWbHT3SxkdvOvW7o9dxu+n7P7+B6JzorR71sXf1jw+kKIcZRxB
- KXT5omaEPHFs27717yMRmXKBYrPluvjjTludU0dPRKverKcRH3EpkL3k7
- k5Ca2/no7D+nXxuVq6kDx3pG8HX3pqciNiCLHod9M5vc4SyOKmV2rgQRn
- ix6Irqb07r8OzXQzpE0piWOspLqflsZu7msDfynf9v+IY0e7ovQUGn7SK
- YLWJnswNsoooeAtKWBCA5sPK3xRCbhdsxQ+EwIHCQXkp1bRJOBETzZxgG
- KYywPJEHwNHmhnknxvVQMAXthvMvg9VgGud3/zArt70IcP60IpbQFrnw5 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="393596402"
-X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; d="scan'208";a="393596402"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2023 00:34:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; d="scan'208";a="17344270"
-Received: from ctgorman-mobl.ger.corp.intel.com (HELO [10.213.202.242])
- ([10.213.202.242])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2023 00:34:06 -0800
-Message-ID: <cff13a24-2f7f-4d44-8fd4-a45cbfa1c76e@linux.intel.com>
-Date: Tue, 5 Dec 2023 08:34:04 +0000
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8923710E49C
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 08:36:02 +0000 (UTC)
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested) (Authenticated sender: pq)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 07E4A6602030;
+ Tue,  5 Dec 2023 08:35:59 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1701765361;
+ bh=8TdCP7pQFoNlcwVYdlSyrN/w2A0Op/hrTEVYOXA+Iw4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=LkSk1UGtPGjufAME3Mo5tAbgHVeBIOwBZ5PZu3G7wj7t4DZlvsTBvBIzMenraa1FC
+ 1Q8AIWZKMlhxDog7y3tv/QQylclu+6ZUb00FRevwFD5NHUWtAze/53aPhyBvfsezR0
+ SXPw5YjWlwn4nXbkDgzCMD2iAn/IT+pXs0DHqQqBAF2HMuvg0+V+kbvoeQe1IsUzO7
+ 6pOqCw3N55TaWjnmDye7n5y73tL/qdosgLJzwP7Rn2oDdNBGsLpMbZVFrhze1+cCqo
+ NR+qf7CJXaPZa73hj+mZkD0aIZdDHjeb5OA2CMMOmuogPGcTq1QEvXu+GGQON8d8HN
+ BgwotuxI2wBKw==
+Date: Tue, 5 Dec 2023 10:35:40 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH] drm/doc: Define KMS atomic state set
+Message-ID: <20231205103540.6b2583c8.pekka.paalanen@collabora.com>
+In-Reply-To: <dybgeyjqoh2rjjrvbb5nrnallx63tano2drmxgsgde6n5w6wza@23cfserg7mui>
+References: <20231130200740.53454-1-andrealmeid@igalia.com>
+ <x6cqert2tadgc46w3u2rfgcfaw6evxdeerl2mxvh2peycr4i7q@qf6oqymcti4j>
+ <20231201110616.30ad1468.pekka.paalanen@collabora.com>
+ <bry3w6w32uy2jlmbkcmbtthw6w6nwux7dwlcju5iuxac2wphku@md6njxjtsbvm>
+ <20231201120648.2ba706e1.pekka.paalanen@collabora.com>
+ <bgd5xuszaujdjg7lt24dpofvhx2v6gyxfjxnqfo7nmaecmn6om@fejhsggdlffo>
+ <20231201180348.4a42025b.pekka.paalanen@collabora.com>
+ <dybgeyjqoh2rjjrvbb5nrnallx63tano2drmxgsgde6n5w6wza@23cfserg7mui>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/gt: Reduce log severity on reset
- prepare.
-Content-Language: en-US
-To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20231201154443.16660-1-nirmoy.das@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20231201154443.16660-1-nirmoy.das@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/jC+ar+rxILck14dQcx1m77s";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,54 +59,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
+ 'Marek =?UTF-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
+ Michel =?UTF-8?B?RMOkbnplcg==?= <michel.daenzer@mailbox.org>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com, alexander.deucher@amd.com,
+ Thomas Zimmermann <tzimmermann@suse.de>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/jC+ar+rxILck14dQcx1m77s
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On 01/12/2023 15:44, Nirmoy Das wrote:
-> gen8_engine_reset_prepare() can fail when HW fails to set
-> RESET_CTL_READY_TO_RESET bit. In some cases this is not fatal
-> error as driver will retry.
-> 
-> Let the caller of gen8_engine_reset_prepare() decide if a
-> failure in gen8_engine_reset_prepare is an error or not.
+On Mon, 4 Dec 2023 10:21:03 +0100
+Maxime Ripard <mripard@kernel.org> wrote:
 
-No complaints per se but I don't see the caller deciding and it is not 
-really reducing log level but converting to trace. So commit message and 
-patch do not align for me which I think should be improved.
+> Hi
+>=20
+> On Fri, Dec 01, 2023 at 06:03:48PM +0200, Pekka Paalanen wrote:
+> > On Fri, 1 Dec 2023 14:20:55 +0100
+> > Maxime Ripard <mripard@kernel.org> wrote:
+> >  =20
+> > > On Fri, Dec 01, 2023 at 12:06:48PM +0200, Pekka Paalanen wrote: =20
 
-Regards,
+...
 
-Tvrtko
+> > Is it really "global" too? Or is it device-wide? Or is it just the bits
+> > that userspace bothered to mention in an atomic commit? =20
+>=20
+> As far as I'm concerned, global =3D=3D "device-wide", so I'm not entirely
+> sure what is the distinction you want to raise here, so I might be off.
+>=20
+> But to answer the latter part of your question, drm_atomic_state
+> contains the changes of all the objects affected by the commit userspace
+> mentioned to bother. Which is is why I found the "global" to be
+> confusing, because it's not a device-wide-global state, it's a
+> commit-global state.
 
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Cc: John Harrison <John.C.Harrison@Intel.com>
-> Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5591
-> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_reset.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
-> index d5ed904f355d..e6fbc6202c80 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
-> @@ -593,10 +593,10 @@ static int gen8_engine_reset_prepare(struct intel_engine_cs *engine)
->   	ret = __intel_wait_for_register_fw(uncore, reg, mask, ack,
->   					   700, 0, NULL);
->   	if (ret)
-> -		gt_err(engine->gt,
-> -		       "%s reset request timed out: {request: %08x, RESET_CTL: %08x}\n",
-> -		       engine->name, request,
-> -		       intel_uncore_read_fw(uncore, reg));
-> +		GT_TRACE(engine->gt,
-> +			 "%s reset request timed out: {request: %08x, RESET_CTL: %08x}\n",
-> +			 engine->name, request,
-> +			 intel_uncore_read_fw(uncore, reg));
->   
->   	return ret;
->   }
+I think the word "global" should be simply avoided. Nothing here is
+truly global (machine wide? kernel instance wide? worldwide like
+UUID?), and its meaning varies by speaker and context.
+
+
+Thanks,
+pq
+
+--Sig_/jC+ar+rxILck14dQcx1m77s
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVu4NwACgkQI1/ltBGq
+qqc3sw//bb9K65vkjrrJcpssVskZDbYksuveo42G5DC4huqcxDAyiz7rEEFWeIzv
+5hlZBDaHpODNsw4ncPtdfOp6eVF1uDC5dpAvItCDwu6OVQqOz3hRnKeYcJ5Fby8H
+erDqmAKl8lzaA4A8kcPMCFHJ2PbkJV3MuJhK9BeL3noqe1m6KzQ9tD36+/XR2kCy
+6ZxexJlEOxqxfTJY64fDS/tez4uyQ7Gy4p2QG1yCW3etSx29UCzkC6K78G1RdpRe
+RDHqefOoIBX6oo3mKWPEvnZ2olYubqocL6vdEAkcLukcsYSdLBfNl3SjxztPByNA
+K/2LekKvs4l/xKiwRQxFD6HxpN6NF8Btq1Au2bs2q3ZZ9L6Sz2vhkGJwWQAuFOML
+EQqk7WoiLz6LSGylnNF7uqxAi8rk5B0QrqSm3zleMMFOhL6emQXs4tT+86CgcMDF
+DDQ3nSZ/PiuCB0zf9SAFY+RkaUGmJoarMoQPud+by4qpXIdILtOctXH57TmJgHmQ
+LhrTD6Ox3nK0hshvqDYaJeQR973pXcEnsbqXWZipNiCp+OGcK7Bo95nhhLdPjDWE
+wFOQWQkTIJzqwoHBcKuN2TYa+65sOnGpDeTwYkUG2VTzZz1iF4XzEcRlkCpjSHCD
+kLyxM6LK5JPjbijJjXyuznLtxpbXtV5KUiYPBca7zLlEEF1jtQ0=
+=suh4
+-----END PGP SIGNATURE-----
+
+--Sig_/jC+ar+rxILck14dQcx1m77s--
