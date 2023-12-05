@@ -1,66 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C8D7806163
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 23:06:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E331806142
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 23:03:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8B2310E638;
-	Tue,  5 Dec 2023 22:06:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 995DF10E04D;
+	Tue,  5 Dec 2023 22:03:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
- [IPv6:2607:f8b0:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ADF910E638;
- Tue,  5 Dec 2023 22:06:28 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id
- d9443c01a7336-1d08a924fcfso27334275ad.2; 
- Tue, 05 Dec 2023 14:06:28 -0800 (PST)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2298A10E04D
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 22:03:34 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id
+ a640c23a62f3a-9e1021dbd28so17040866b.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 14:03:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701813986; x=1702418786; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZfGTVvgq7n98tDeI+oB8ofi/GtnZCvkbAjomQZwW1cY=;
- b=E4A6sxYo3L8yY6rybsT7p8N6gl45Rjp5dnjlcYPeDoj0EdukpBVPYHyLcSJzP39Zqi
- I2Uleyiy1Sljon9ZWR5qjBhb/tGY+/chsBX7UG3Nrm+gdEal1VdGZBxA11Z1QJK+i+HJ
- B4ryEteMItEk5om+zHnHy/fFHr+ddDVQ19L5VvP/YTUWcmLM3yb39AuFj9GkUt4rDEp0
- cmUc59hniJNDOwhuvaOvNaBRkdt99ZnoJVeOs7S4XIW29Rt+DUARNlrGwhuWBYU/P1YW
- dXlUNvEMDfk56mFFDHfYN8Xp6SsBdH0vzcE9WTHhdIj1ababbHv0ejhpoDMC7wpehWPs
- YcxA==
+ d=linaro.org; s=google; t=1701813812; x=1702418612; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=R17jjO/Vw4wRIx9Ju0HZ2kb3C5GDd4Vm8IbDi1LNWjk=;
+ b=Jqv/e5WGVNCcvohos1/HjXSjkxjpUrKL0yzfPkESV3su4dzH+gm3EETKK3PHjV1whJ
+ l0sBFruMLt3+bbY6d/1Qg2oSLn8jrpPVt0y17zNsgn01F40ZbzDuL8zoM1nGndYGSxD7
+ gEX2/yRvT4KBtB+8JEMTm/HbSMKuVgNh07Sy12KWGprxHvUiUZA6r25lTQNALNTt6dtK
+ 1An2XrhafEOlRluZ8ZNtEaN6hLBmxTMroi68a/YuoD5t7GWwpvPr674CNwZHwLF3mk0J
+ jfZx61pow6u+M/XDonfkRzdi7O4olx2PGl1Mddj5C0gGgiXVbtkmLXLce00+LKwwclsl
+ lVXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701813986; x=1702418786;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ZfGTVvgq7n98tDeI+oB8ofi/GtnZCvkbAjomQZwW1cY=;
- b=JTW2teXA2yhpiW/1HTthWM1QiIDcJDAydHE/CcBCQw94R0Ndzs3SAe6QGP6MnDY9QE
- MJyvz6bT12ANXXRnOg7Zjz9PWOZH4aCRCD4smxIVdZDvkIgusWb7oVsHip8SXUUZ+IUA
- dj1qeVMv8iX3JRhgPLS9942xC4m1JlGN5A/qLz2EibHP8W2Ml3va2megMRpIu4kZRJow
- 7O2/k3AY3Pog0c/iMjKU6V9GmcBkKM9lBFewUwUu+QBSqr/MVvu2pRaL1jl3TyZmM/5P
- 0QK1VMwqzt3JGN30VqIZzM3g1NEggiFd7M+z1V0IM6O3b9iUNbcf76O7MJV8W3ikhltO
- +PCw==
-X-Gm-Message-State: AOJu0YwOI2ox4XtG5GEOKqNGpqONuVHnGNQBiJid0Calri9+OMLRLsdi
- 6XpquCVpFlKzRrG+/I3+3JQDR+rBtME=
-X-Google-Smtp-Source: AGHT+IETLfRI/+vuaoElPPv+EjDm+Sp72Ua1AScWFXqXsgoOIGdLwWdKpoXF/M6bbHYTOeLLye0xfw==
-X-Received: by 2002:a17:902:eccd:b0:1d0:c906:f5e0 with SMTP id
- a13-20020a170902eccd00b001d0c906f5e0mr1345297plh.72.1701813986187; 
- Tue, 05 Dec 2023 14:06:26 -0800 (PST)
-Received: from localhost ([2a00:79e1:2e00:1301:e1c5:6354:b45d:8ffc])
+ d=1e100.net; s=20230601; t=1701813812; x=1702418612;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=R17jjO/Vw4wRIx9Ju0HZ2kb3C5GDd4Vm8IbDi1LNWjk=;
+ b=R1G/sBUKqXUhVyJ9AAQ7JfP2+LV4NhcJ/g3GQJnQAE2kMGZbAjZ1nSMNndGpH4Aq9a
+ yiwhp1a6vZRaQGXnQn8ly07P4DGTQj7JU1cd0tYh31dSkPH3y3/Mw5SiKPoa+LaQSQGs
+ KjjrwH6nk7fMkBoSxYmCEYtt4Dflzl4kwSNXATCxWYKK0lomWkniJCBDMjmVWhR0pBL1
+ NYPPHjXNK1e6qdRxZt77I9P5CW4KNha9FjgqMmilmiH+3BZelI2FOjcccOkUqaqJLj9d
+ ihL1gWFT0nUx1uON62HijmyOMzEAcx3U0xbsWsF4TdlDtHFgjPvZBL7wwyliXQYWE8jV
+ zjCg==
+X-Gm-Message-State: AOJu0YzD3sTD+/F4CFRk2zN3/Ks+mXEhl/aiGi8fdK85rldlJfHm4W0U
+ x9PctOPMNlANgNWSWoHhbAcQkA==
+X-Google-Smtp-Source: AGHT+IE/hqq5solRByq/6s4+0WTlT9xIiduM2nthd2KHQBztl+NRk6XM/HBt9ZMTdjcUIz5MDEwfZg==
+X-Received: by 2002:a17:906:2655:b0:a18:50ad:9ab with SMTP id
+ i21-20020a170906265500b00a1850ad09abmr5106299ejc.74.1701813812535; 
+ Tue, 05 Dec 2023 14:03:32 -0800 (PST)
+Received: from ?IPV6:2001:1c06:2302:5600:366d:ca8f:f3af:381?
+ (2001-1c06-2302-5600-366d-ca8f-f3af-0381.cable.dynamic.v6.ziggo.nl.
+ [2001:1c06:2302:5600:366d:ca8f:f3af:381])
  by smtp.gmail.com with ESMTPSA id
- mi7-20020a17090b4b4700b00286a708cd07sm4189353pjb.57.2023.12.05.14.06.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Dec 2023 14:06:25 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/5] drm/msm/adreno: Move hwcg table into a6xx specific info
-Date: Tue,  5 Dec 2023 14:03:30 -0800
-Message-ID: <20231205220526.417719-5-robdclark@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231205220526.417719-1-robdclark@gmail.com>
-References: <20231205220526.417719-1-robdclark@gmail.com>
+ hq3-20020a1709073f0300b00a1cc1be1158sm1159684ejc.165.2023.12.05.14.03.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Dec 2023 14:03:32 -0800 (PST)
+Message-ID: <94157ef7-95c9-429a-97c5-3bab2b9074ca@linaro.org>
+Date: Tue, 5 Dec 2023 23:03:31 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] usb: typec: qcom-pmic-typec: Only select
+ DRM_AUX_HPD_BRIDGE with OF
+Content-Language: en-US
+To: Nathan Chancellor <nathan@kernel.org>, dmitry.baryshkov@linaro.org
+References: <20231205-drm_aux_bridge-fixes-v1-0-d242a0ae9df4@kernel.org>
+ <20231205-drm_aux_bridge-fixes-v1-2-d242a0ae9df4@kernel.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20231205-drm_aux_bridge-fixes-v1-2-d242a0ae9df4@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,261 +79,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Douglas Anderson <dianders@chromium.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
+Cc: neil.armstrong@linaro.org, heikki.krogerus@linux.intel.com,
+ gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, patches@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux@roeck-us.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On 05/12/2023 21:13, Nathan Chancellor wrote:
+> CONFIG_DRM_AUX_HPD_BRIDGE depends on CONFIG_OF but that dependency is
+> not included when CONFIG_TYPEC_QCOM_PMIC selects it, resulting in a
+> Kconfig warning when CONFIG_OF is disabled:
+> 
+>    WARNING: unmet direct dependencies detected for DRM_AUX_HPD_BRIDGE
+>      Depends on [n]: HAS_IOMEM [=y] && DRM_BRIDGE [=y] && OF [=n]
+>      Selected by [m]:
+>      - TYPEC_QCOM_PMIC [=m] && USB_SUPPORT [=y] && TYPEC [=m] && TYPEC_TCPM [=m] && (ARCH_QCOM || COMPILE_TEST [=y]) && (DRM [=m] || DRM [=m]=n) && DRM_BRIDGE [=y]
+> 
+> Only select CONFIG_DRM_AUX_HPD_BRIDGE with both CONFIG_DRM_BRIDGE and
+> CONFIG_OF to clear up the warning.
+> 
+> Fixes: 7d9f1b72b296 ("usb: typec: qcom-pmic-typec: switch to DRM_AUX_HPD_BRIDGE")
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>   drivers/usb/typec/tcpm/Kconfig | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/Kconfig b/drivers/usb/typec/tcpm/Kconfig
+> index 64d5421c69e6..8cdd84ca5d6f 100644
+> --- a/drivers/usb/typec/tcpm/Kconfig
+> +++ b/drivers/usb/typec/tcpm/Kconfig
+> @@ -80,7 +80,7 @@ config TYPEC_QCOM_PMIC
+>   	tristate "Qualcomm PMIC USB Type-C Port Controller Manager driver"
+>   	depends on ARCH_QCOM || COMPILE_TEST
+>   	depends on DRM || DRM=n
+> -	select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE
+> +	select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
+>   	help
+>   	  A Type-C port and Power Delivery driver which aggregates two
+>   	  discrete pieces of silicon in the PM8150b PMIC block: the
+> 
 
-Introduce a6xx_info where we can stash gen specific stuff without
-polluting the toplevel adreno_info struct.
-
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 55 +++++++++++++++++------
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c     |  4 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  9 ++++
- drivers/gpu/drm/msm/adreno/adreno_gpu.h   |  6 ++-
- 4 files changed, 58 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-index a35d4c112a61..3fb9e249567a 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-@@ -7,6 +7,7 @@
-  */
- 
- #include "adreno_gpu.h"
-+#include "a6xx_gpu.h"
- #include "a6xx.xml.h"
- #include "a6xx_gmu.xml.h"
- 
-@@ -465,7 +466,9 @@ const struct adreno_info a6xx_gpus[] = {
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a610_zap.mdt",
--		.hwcg = a612_hwcg,
-+		.a6xx = &(struct a6xx_info) {
-+			.hwcg = a612_hwcg,
-+		},
- 		/*
- 		 * There are (at least) three SoCs implementing A610: SM6125
- 		 * (trinket), SM6115 (bengal) and SM6225 (khaje). Trinket does
-@@ -492,6 +495,8 @@ const struct adreno_info a6xx_gpus[] = {
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
- 		.init = a6xx_gpu_init,
-+		.a6xx = &(struct a6xx_info) {
-+		},
- 		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0,   0 },
- 			{ 169, 1 },
-@@ -510,7 +515,9 @@ const struct adreno_info a6xx_gpus[] = {
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a615_zap.mdt",
--		.hwcg = a615_hwcg,
-+		.a6xx = &(struct a6xx_info) {
-+			.hwcg = a615_hwcg,
-+		},
- 		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0,   0 },
- 			{ 138, 1 },
-@@ -529,7 +536,9 @@ const struct adreno_info a6xx_gpus[] = {
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a615_zap.mdt",
--		.hwcg = a615_hwcg,
-+		.a6xx = &(struct a6xx_info) {
-+			.hwcg = a615_hwcg,
-+		},
- 		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0,   0 },
- 			{ 190, 1 },
-@@ -548,7 +557,9 @@ const struct adreno_info a6xx_gpus[] = {
- 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a615_zap.mdt",
--		.hwcg = a615_hwcg,
-+		.a6xx = &(struct a6xx_info) {
-+			.hwcg = a615_hwcg,
-+		},
- 		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0,   0 },
- 			{ 120, 4 },
-@@ -572,7 +583,9 @@ const struct adreno_info a6xx_gpus[] = {
- 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a630_zap.mdt",
--		.hwcg = a630_hwcg,
-+		.a6xx = &(struct a6xx_info) {
-+			.hwcg = a630_hwcg,
-+		},
- 	}, {
- 		.chip_ids = ADRENO_CHIP_IDS(0x06040001),
- 		.family = ADRENO_6XX_GEN2,
-@@ -586,7 +599,9 @@ const struct adreno_info a6xx_gpus[] = {
- 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a640_zap.mdt",
--		.hwcg = a640_hwcg,
-+		.a6xx = &(struct a6xx_info) {
-+			.hwcg = a640_hwcg,
-+		},
- 		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0, 0 },
- 			{ 1, 1 },
-@@ -605,7 +620,9 @@ const struct adreno_info a6xx_gpus[] = {
- 			ADRENO_QUIRK_HAS_HW_APRIV,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a650_zap.mdt",
--		.hwcg = a650_hwcg,
-+		.a6xx = &(struct a6xx_info) {
-+			.hwcg = a650_hwcg,
-+		},
- 		.address_space_size = SZ_16G,
- 		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0, 0 },
-@@ -627,7 +644,9 @@ const struct adreno_info a6xx_gpus[] = {
- 			ADRENO_QUIRK_HAS_HW_APRIV,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a660_zap.mdt",
--		.hwcg = a660_hwcg,
-+		.a6xx = &(struct a6xx_info) {
-+			.hwcg = a660_hwcg,
-+		},
- 		.address_space_size = SZ_16G,
- 	}, {
- 		.chip_ids = ADRENO_CHIP_IDS(0x06030500),
-@@ -642,7 +661,9 @@ const struct adreno_info a6xx_gpus[] = {
- 			ADRENO_QUIRK_HAS_HW_APRIV,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a660_zap.mbn",
--		.hwcg = a660_hwcg,
-+		.a6xx = &(struct a6xx_info) {
-+			.hwcg = a660_hwcg,
-+		},
- 		.address_space_size = SZ_16G,
- 		.speedbins = ADRENO_SPEEDBINS(
- 			{ 0,   0 },
-@@ -663,7 +684,9 @@ const struct adreno_info a6xx_gpus[] = {
- 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a640_zap.mdt",
--		.hwcg = a640_hwcg,
-+		.a6xx = &(struct a6xx_info) {
-+			.hwcg = a640_hwcg,
-+		},
- 	}, {
- 		.chip_ids = ADRENO_CHIP_IDS(0x06090000),
- 		.family = ADRENO_6XX_GEN4,
-@@ -677,7 +700,9 @@ const struct adreno_info a6xx_gpus[] = {
- 			ADRENO_QUIRK_HAS_HW_APRIV,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a690_zap.mdt",
--		.hwcg = a690_hwcg,
-+		.a6xx = &(struct a6xx_info) {
-+			.hwcg = a690_hwcg,
-+		},
- 		.address_space_size = SZ_16G,
- 	}, {
- 		/* sentinal */
-@@ -822,7 +847,9 @@ const struct adreno_info a7xx_gpus[] = {
- 			  ADRENO_QUIRK_HAS_HW_APRIV,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a730_zap.mdt",
--		.hwcg = a730_hwcg,
-+		.a6xx = &(struct a6xx_info) {
-+			.hwcg = a730_hwcg,
-+		},
- 		.address_space_size = SZ_16G,
- 	}, {
- 		.chip_ids = ADRENO_CHIP_IDS(0x43050a01), /* "C510v2" */
-@@ -837,7 +864,9 @@ const struct adreno_info a7xx_gpus[] = {
- 			  ADRENO_QUIRK_HAS_HW_APRIV,
- 		.init = a6xx_gpu_init,
- 		.zapfw = "a740_zap.mdt",
--		.hwcg = a740_hwcg,
-+		.a6xx = &(struct a6xx_info) {
-+			.hwcg = a740_hwcg,
-+		},
- 		.address_space_size = SZ_16G,
- 	}, {
- 		/* sentinal */
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index e0414d0753ad..a064eb42eedd 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -403,7 +403,7 @@ static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
- 	unsigned int i;
- 	u32 val, clock_cntl_on, cgc_mode;
- 
--	if (!adreno_gpu->info->hwcg)
-+	if (!adreno_gpu->info->a6xx->hwcg)
- 		return;
- 
- 	if (adreno_is_a630(adreno_gpu))
-@@ -434,7 +434,7 @@ static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
- 	if (!adreno_is_a610(adreno_gpu) && !adreno_is_a7xx(adreno_gpu))
- 		gmu_rmw(gmu, REG_A6XX_GPU_GMU_GX_SPTPRAC_CLOCK_CONTROL, 1, 0);
- 
--	for (i = 0; (reg = &adreno_gpu->info->hwcg[i], reg->offset); i++)
-+	for (i = 0; (reg = &adreno_gpu->info->a6xx->hwcg[i], reg->offset); i++)
- 		gpu_write(gpu, reg->offset, state ? reg->value : 0);
- 
- 	/* Enable SP clock */
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-index 34822b080759..1840c1f3308e 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-@@ -12,6 +12,15 @@
- 
- extern bool hang_debug;
- 
-+/**
-+ * struct a6xx_info - a6xx specific information from device table
-+ *
-+ * @hwcg: hw clock gating register sequence
-+ */
-+struct a6xx_info {
-+	const struct adreno_reglist *hwcg;
-+};
-+
- struct a6xx_gpu {
- 	struct adreno_gpu base;
- 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index 5d094c5ec363..cba53203de98 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -81,6 +81,8 @@ struct adreno_speedbin {
- 	uint16_t speedbin;
- };
- 
-+struct a6xx_info;
-+
- struct adreno_info {
- 	const char *machine;
- 	/**
-@@ -97,7 +99,9 @@ struct adreno_info {
- 	struct msm_gpu *(*init)(struct drm_device *dev);
- 	const char *zapfw;
- 	u32 inactive_period;
--	const struct adreno_reglist *hwcg;
-+	union {
-+		const struct a6xx_info *a6xx;
-+	};
- 	u64 address_space_size;
- 	/**
- 	 * @speedbins: Optional table of fuse to speedbin mappings
--- 
-2.42.0
-
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
