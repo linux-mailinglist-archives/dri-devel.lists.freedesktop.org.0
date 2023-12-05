@@ -2,48 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23CD6804E3C
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 10:44:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A30804EB6
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 10:52:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A0CE10E242;
-	Tue,  5 Dec 2023 09:44:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09F2710E122;
+	Tue,  5 Dec 2023 09:52:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m127105.qiye.163.com (mail-m127105.qiye.163.com
- [115.236.127.105])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A256410E242
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 09:44:12 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256;
- b=dGZ4BWZty1d0oIWgBZ6X8FBIyGDPCj743XxLuAfNp+xa34p6BSXVPPWnrai2cFtu/MHaXQF1gs5x6htnfVWl192MLEzMqyi5frolErK8Uhb06vt8nQrgBdjNV6XOr4AZV9ICA09I88dZL2kgtm/Es/DqW6YWSYfL+Qc52ZB/YV8=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
- bh=Qwe7/iDLwPEEdgYbXXnkzwx2HO9asx5VCXEH67b0F/w=;
- h=date:mime-version:subject:message-id:from;
-Received: from [172.16.12.141] (unknown [58.22.7.114])
- by mail-m12779.qiye.163.com (Hmail) with ESMTPA id 59D887801C1;
- Tue,  5 Dec 2023 17:44:03 +0800 (CST)
-Message-ID: <87831dc3-2554-4b53-a9f8-6b61cf67732e@rock-chips.com>
-Date: Tue, 5 Dec 2023 17:44:03 +0800
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3368310E122
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 09:52:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1701769924;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=KUTny8n3VQGpnpVrk2zu7YWKqGESN9kc+7fgKdtNdQE=;
+ b=STCG0e5UEAg5LGjtZJ66jJ/FRr9bfM912+GmUiHJx915lhkFAmvfFRGofhYcCu9SihGlzT
+ bjIbn56n7ifyXHzsas9hKEp8BXOzT6L1OdZo9VGOL5WtCXfmNfM8le97Rz0SeLJ2Nv1IN0
+ lGsBE6CEqAwke4yPngzTTz4MNESBQNE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-317-vTmk9al2PJO6BLuCzZzk-Q-1; Tue, 05 Dec 2023 04:52:01 -0500
+X-MC-Unique: vTmk9al2PJO6BLuCzZzk-Q-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9C0628493E8;
+ Tue,  5 Dec 2023 09:52:00 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.195.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E23D3492BC6;
+ Tue,  5 Dec 2023 09:51:57 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, daniel@ffwll.ch,
+ javierm@redhat.com, bluescreen_avenger@verizon.net, noralf@tronnes.org
+Subject: [RFC][PATCH v6 0/5] drm/panic: Add a drm panic handler
+Date: Tue,  5 Dec 2023 10:48:22 +0100
+Message-ID: <20231205095051.269841-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 11/14] drm/rockchip: vop2: Add support for rk3588
-Content-Language: en-US
-To: Sascha Hauer <sha@pengutronix.de>, Andy Yan <andyshrk@163.com>
-References: <20231130122001.12474-1-andyshrk@163.com>
- <20231130122439.13374-1-andyshrk@163.com>
- <20231205092936.GW1057032@pengutronix.de>
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <20231205092936.GW1057032@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGU1DS1ZMGkpCGUoZGEgZTkxVEwETFh
- oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5JVUpLS1VKQl
- kG
-X-HM-Tid: 0a8c395cf962b24fkuuu59d887801c1
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NRQ6PQw6PDw0FgMVDBpKIykY
- GQxPCRZVSlVKTEtKTE1CT09PSUJIVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSElNTjcG
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,62 +62,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, chris.obbard@collabora.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- hjc@rock-chips.com, kever.yang@rock-chips.com,
- linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, sebastian.reichel@collabora.com
+Cc: gpiccoli@igalia.com, Jocelyn Falempe <jfalempe@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sascha:
+drm/panic: Add a drm panic handler
 
-On 12/5/23 17:29, Sascha Hauer wrote:
-> On Thu, Nov 30, 2023 at 08:24:39PM +0800, Andy Yan wrote:
->> From: Andy Yan <andy.yan@rock-chips.com>
->>
->> VOP2 on rk3588:
->>
->> Four video ports:
->> VP0 Max 4096x2160
->> VP1 Max 4096x2160
->> VP2 Max 4096x2160
->> VP3 Max 2048x1080
->>
->> 4 4K Cluster windows with AFBC/line RGB and AFBC-only YUV support
->> 4 4K Esmart windows with line RGB/YUV support
->>
->> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-> 
-> With the two nits below feel free to add my:
-> 
-> Reviewed-by: Sascha Hauer <s.hauer@pengutronix.de>
-> 
-> Thanks for working on this.
-> 
->> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
->> index 8d7ff52523fb..8b16031eda52 100644
->> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
->> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
->> @@ -13,9 +13,16 @@
->>   
->>   #define VOP_FEATURE_OUTPUT_10BIT        BIT(0)
-> 
-> You could rename this to include "VP" for Video Port so it's not so
-> easily mixed up with the defines below.
+This introduces a new drm panic handler, which displays a message when a panic occurs.
+So when fbcon is disabled, you can still see a kernel panic.
 
-Yes, I have the same idea, maybe it's better to do the rename in a separate ?
-> 
->>   
->> +#define VOP2_FEATURE_HAS_SYS_GRF	BIT(0)
->> +#define VOP2_FEATURE_HAS_VO0_GRF	BIT(1)
->> +#define VOP2_FEATURE_HAS_VO1_GRF	BIT(2)
->> +#define VOP2_FEATURE_HAS_VOP_GRF	BIT(3)
->> +#define VOP2_FEATURE_HAS_SYS_PMU	BIT(5)
-> 
-> Should be BIT(4)
+This is one of the missing feature, when disabling VT/fbcon in the kernel:
+https://www.reddit.com/r/linux/comments/10eccv9/config_vtn_in_2023/
+Fbcon can be replaced by a userspace kms console, but the panic screen must be done in the kernel.
 
-Thanks for catching this, will fix in next version.
-> 
-> Sascha
-> 
+This is a proof of concept, and works with simpledrm and mgag200, using a new get_scanout_buffer() api
+
+To test it, make sure you're using the simpledrm driver, and trigger a panic:
+echo c > /proc/sysrq-trigger
+
+v2:
+ * Use get_scanout_buffer() instead of the drm client API. (Thomas Zimmermann)
+ * Add the panic reason to the panic message (Nerdopolis)
+ * Add an exclamation mark (Nerdopolis)
+ 
+v3:
+ * Rework the drawing functions, to write the pixels line by line and
+ to use the drm conversion helper to support other formats.
+ (Thomas Zimmermann)
+ 
+v4:
+ * Fully support all simpledrm formats using drm conversion helpers
+ * Rename dpanic_* to drm_panic_*, and have more coherent function name.
+   (Thomas Zimmermann)
+ * Use drm_fb_r1_to_32bit for fonts (Thomas Zimmermann)
+ * Remove the default y to DRM_PANIC config option (Thomas Zimmermann)
+ * Add foreground/background color config option
+ * Fix the bottom lines not painted if the framebuffer height
+   is not a multiple of the font height.
+ * Automatically register the driver to drm_panic, if the function
+   get_scanout_buffer() exists. (Thomas Zimmermann)
+ * Add mgag200 support.
+ 
+v5:
+ * Change the drawing API, use drm_fb_blit_from_r1() to draw the font.
+   (Thomas Zimmermann)
+ * Also add drm_fb_fill() to fill area with background color.
+ * Add draw_pixel_xy() API for drivers that can't provide a linear buffer.
+ * Add a flush() callback for drivers that needs to synchronize the buffer.
+ * Add a void *private field, so drivers can pass private data to
+   draw_pixel_xy() and flush(). 
+ * Add ast support.
+ * Add experimental imx/ipuv3 support, to test on an ARM hw. (Maxime Ripard)
+
+v6:
+ * Fix sparse and __le32 warnings
+ * Drop the IMX/IPUV3 experiment, it was just to show that it works also on ARM devices.
+
+With mgag200 support, I was able to test that the xrgb8888 to rgb565 conversion is working.
+
+IMX/IPUV3 support is not complete, I wasn't able to have etnaviv working on my board.
+But it shows that it can still work on ARM with DMA buffer in this case.
+
+Best regards,
+
+Jocelyn Falempe (5):
+  drm/format-helper: Add drm_fb_blit_from_r1 and drm_fb_fill
+  drm/panic: Add a drm panic handler
+  drm/simpledrm: Add drm_panic support
+  drm/mgag200: Add drm_panic support
+  drm/ast: Add drm_panic support
+
+ drivers/gpu/drm/Kconfig               |  22 ++
+ drivers/gpu/drm/Makefile              |   1 +
+ drivers/gpu/drm/ast/ast_drv.c         |  29 +-
+ drivers/gpu/drm/drm_drv.c             |   8 +
+ drivers/gpu/drm/drm_format_helper.c   | 431 +++++++++++++++++++++-----
+ drivers/gpu/drm/drm_panic.c           | 368 ++++++++++++++++++++++
+ drivers/gpu/drm/mgag200/mgag200_drv.c |  25 ++
+ drivers/gpu/drm/tiny/simpledrm.c      |  15 +
+ include/drm/drm_drv.h                 |  21 ++
+ include/drm/drm_format_helper.h       |   9 +
+ include/drm/drm_panic.h               |  96 ++++++
+ 11 files changed, 942 insertions(+), 83 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_panic.c
+ create mode 100644 include/drm/drm_panic.h
+
+
+base-commit: d0b3c318e04cc6c4e2a3c30ee0f6f619aa8d0db5
+-- 
+2.42.0
+
