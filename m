@@ -2,123 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A96380431A
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 01:06:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67521804348
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 01:24:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB15710E450;
-	Tue,  5 Dec 2023 00:06:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9371610E452;
+	Tue,  5 Dec 2023 00:24:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2063.outbound.protection.outlook.com [40.107.237.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 066FA10E44B;
- Tue,  5 Dec 2023 00:06:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T96K09Uj+wQI0DNOC5Izq4nOWbouDnDj+gH0zbbfBfsOzQM+Qirgh3fOiAH8L0ea47MjspkItyF4/UFkG6mzIAlNJKPdrDNF20bYKIyMinR0laZ6oYQ/Pd8PJcq0ZHvm7xtcXDmnuzjEN6cM1zUi+C/Mm5923mIHvXG5adt2SOUsags9v27mU6CVxwA06vDLiETKrKs8jn1NpNRG8e1sDemrdnQsOH/Jy7VeRpmcF6OMxzC0yyAY6jtUQSjqF+T0Lb5J8nxpPWO4aKtWiwjb3EKay63JFa5t1Y0AqL5k3gjCxb4dN9HkVWoU/JqtmNh2bSF33ObkZQu81O7WPdKBHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T1D6JDDahy0v5fE0z5EtGkklryhpobt/BWyojZ0YY4M=;
- b=AF7G2XyEOkovgbCO8zfuz8UsmMjZd9gXb8NJrBwXVFBSdj69Xstufsyu8zKMDXTUxk/NGhUoM5Xd2g8vsKTn+itZdUItdkSC4vhSU/8oPI12pchcUYuJMFnmYlKqYn2RArAHVXiKB+zRYtZBFQtjN3xmQGlnqEHnRgBWXGMRt6C0+caNjStKXuTAVk2oMYA/v4x2yko7E1KWHp/aZO/xJRtCaPt4shCnVdRAJ4Oif8qUgpjtrE87qm275AMFqKB+i2Y9qX7DnbWup9Tm6PaHUOBAjMUrB72g/1NUoTYPX3kQc6Gx/+jCI/v5FajB1XHgr/ZM4dzcX5zlUOlwlUwslA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T1D6JDDahy0v5fE0z5EtGkklryhpobt/BWyojZ0YY4M=;
- b=cF+1eHCKlpK40ds+0nzuMDXhJ03wQaOTCKPXed8ZdGf7C/O7g4rhWsIe9KXsXCSbtYkoCwtDyOi7fcIv+jcm/oUvW2oGX3JVmwMfK3BMsJktPOS+Fi6+CzkswLHyClcinuXe+KV0Go/lK7KbbYyCJpYaVWPZBh/7jvEk6Jy/PJNXWEudRp8aLHm0JAWRRsfMV7II6NjMf/JsQVPTEjZlPVxrnqkNVLZVoipURmQHe+uFXzedp3naRad8LYoSQ/nw/DrTQi/2nJRTAsLB3MeL2CsXjlB9n+PTdGAGUCE9LauRsIgFeFlgsNVZZiqna/xJKWFaNcUiGHw6PSHzuuEITg==
-Received: from SN7PR12MB8769.namprd12.prod.outlook.com (2603:10b6:806:34b::12)
- by LV3PR12MB9213.namprd12.prod.outlook.com (2603:10b6:408:1a6::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.33; Tue, 5 Dec
- 2023 00:06:37 +0000
-Received: from SN7PR12MB8769.namprd12.prod.outlook.com
- ([fe80::6799:dc7a:e121:1af6]) by SN7PR12MB8769.namprd12.prod.outlook.com
- ([fe80::6799:dc7a:e121:1af6%7]) with mapi id 15.20.7046.033; Tue, 5 Dec 2023
- 00:06:37 +0000
-From: Timur Tabi <ttabi@nvidia.com>
-To: "airlied@gmail.com" <airlied@gmail.com>
-Subject: Re: [Nouveau] [PATCH] nouveau/gsp: add three notifier callbacks that
- we see in normal operation
-Thread-Topic: [Nouveau] [PATCH] nouveau/gsp: add three notifier callbacks that
- we see in normal operation
-Thread-Index: AQHaJwT955NYBg3wsU+Lpx9E0tOTLbCZvv+AgAAPcYCAAAFYAA==
-Date: Tue, 5 Dec 2023 00:06:36 +0000
-Message-ID: <5385d8a02123ad0fa9b15339b2ac5837d29c8f87.camel@nvidia.com>
-References: <20231204225519.358885-1-airlied@gmail.com>
- <30f51ed33c24b531649f876722a52f6628c194fb.camel@nvidia.com>
- <CAPM=9ty8dxnHR0ha5AuWND9pUez_1ROMQPs=4g7toiTn98AdEA@mail.gmail.com>
-In-Reply-To: <CAPM=9ty8dxnHR0ha5AuWND9pUez_1ROMQPs=4g7toiTn98AdEA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.44.4-0ubuntu2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN7PR12MB8769:EE_|LV3PR12MB9213:EE_
-x-ms-office365-filtering-correlation-id: a3b8b19f-5b19-47d0-6002-08dbf5260c7f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8zLxB92MgrQJDLTv8+lg0Wh52N1eOK1VQWAOQkatuiKFEeYiVIR/FZx5nF13BWg6T43wcqc8FYgargJ2oRvbLiWOP+V2K2q2Qe91il6Bzgj2Js69VJJdyPYepQkhtfFDzthMZNTe97RWG9APvYigdJi6Jtvi2k4opkV4kSIb+XBPWO+dcDsy7ge4dtPfgRxYUwCR81xR7TpQyqPGDfxwT+ZK1JqEOiqSQRIfvJab4Mpw690VBSLmeb0cTq14M5pcErdL5WOD+gMUgSkQ1LtGdUBsp0reRugHWnDPkf+0+Npi04RDRZIXl0nZbYjQAymD+XKhRpUZvcJmycAhHSfk/OiY+9DCiifXv6M2XIlaLeWukWpml8VBJdbiK3XDJ0Tjqwzs9q9QTv6S5qHiK3nbgakZUlAT8GDJcBkGPImgsiS3fJo7CevpGXJCSN9gsAkfenB733P/+GvxZ82LBrtAfJzHdMNtdiJOntosW0GY/rgIbrbzgsZGZfMra4QRb+DG/fCvMFmR1/6gipcX7YIzKzlLzIipcEeY2nupRxRQ7W2+d9G00uMSfiNC8wBdBDDPCsDlYbiypJl44xpDkjAQDsr3Wfhz8JFRuUBCAapzl2H6+RmJp3Vf6yDciFLHPJln
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB8769.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(136003)(396003)(39860400002)(346002)(376002)(366004)(230922051799003)(451199024)(64100799003)(186009)(1800799012)(5660300002)(4744005)(86362001)(4326008)(8676002)(8936002)(2906002)(38070700009)(41300700001)(6512007)(36756003)(2616005)(6506007)(83380400001)(6486002)(478600001)(26005)(71200400001)(38100700002)(122000001)(316002)(54906003)(6916009)(64756008)(66446008)(66476007)(66556008)(76116006)(66946007);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MWZ3Q2U0YlVxbi9xdzRBcSt0eUdRUktQVVBYc3h1N3dqaHZXTHdndUcwK3B5?=
- =?utf-8?B?UGtpKzlXSzRvUXhXbGVkWXh4RkMyUFF5SFdBenFXR3YzSStsVGprNG91L09G?=
- =?utf-8?B?K0ZjU2RDUkxvQWwxcGVCTUpRUjB4RXVtNktYSGZSTjdKYVpOL2hOVUZsRGlW?=
- =?utf-8?B?Q0dIM0V3b1BDTWlhazRWWjZaS3BZdWZmZEVTUUtMd2lONURXVnRseUp3LytK?=
- =?utf-8?B?VkxFMDViMzBtcW4wZ2g1VGYrVDIrYXVXb1VtNEJPOXRiYXpkWGhJN0xKTTMr?=
- =?utf-8?B?b0xnRHR6MjZMMFpRWVpuVjVYTWJJSXZVREJZR1BwdWw3Q0ovWXN3dUtxZllr?=
- =?utf-8?B?bDlVeEU0Zk5JaXlkNmVsMGpzS2NCS3duUXJOb2crZVFINmFRUEhyRDd1UHgw?=
- =?utf-8?B?QkpDYWZXNG11SUpPN0piVXRvbWNwOW9DMVNNZElVTERtOVpGL1BXejF6U1pQ?=
- =?utf-8?B?eHVYZC9URGJxVG9uTDhlc1ZDVUlXa0RSbm1TRTZISHljUnZUQnNLc29Bc3pS?=
- =?utf-8?B?b0JkdkwrbHFYTXVRSFVHSkZLamlHNDRFRzZkeUJPQU9mRDVkamxSVDlyWHRO?=
- =?utf-8?B?cjlTUTFhTjNZblZJd3hKY2RTQUtoeC94dUZycE5yR2I3UFU4bFF6NmlsZ3py?=
- =?utf-8?B?VGROemN4NEJOMEhZOUVwNlkra1ZDSzdJanJtanlOdFdaSUVtZEhkM0Q5Z01U?=
- =?utf-8?B?ME5hcDFCcG40ZzdMOWUvREd5cTE1dDVyaEFYMHBKK0l6R0haaWxMTlUyOVFE?=
- =?utf-8?B?VGhrV2lWcmRFMmlhZERvQjlYdjJwN1dmQ2tlL283eTQzb2gwL0w0WVhGNU01?=
- =?utf-8?B?cVZqM3VuZlg1eGVMMTRSYVFJY3RTcHpiaWtGTkkxK1RRVldLQXlkVDNsK2pO?=
- =?utf-8?B?TXIyTkE5cVg4NkhTaGFmVlFxS0lEU3U3Z2ZKbnZqME5VZ0h3L05NdDZmdnpo?=
- =?utf-8?B?Q05UQld1N0Q2Z1k3SXY1VWdTWk1aVDJDNTBIWEtFbzdZVXlyUDV5aEV5a0g0?=
- =?utf-8?B?SXhqU0J0Y21qRGVaUHQ0TlZ5ZHFFRVBJMVhMRldtK1JDNDd6ZjQvNlg5NHp4?=
- =?utf-8?B?UFpGVlBsb2VGZGx2S0t2amtXVDBpV211d3llajczS1UwNktNaVArQkZQb0ZZ?=
- =?utf-8?B?L1V6WFZSOG90cmRVZ1BXVS9rMTFUektKUStrYVNRN2UwMnRzdHlQVTU2a1VU?=
- =?utf-8?B?MktqcDdJVWE1ODJFUjFaVmhCZWFIMWpybTcwNE5MeFBvc1orakNLUFcrM1hW?=
- =?utf-8?B?WUIwTzFiTWtyQUw5bitGVUJHa0Mxc1FKd29XdWxIUzlFbEc5a0VpcU1QT3lP?=
- =?utf-8?B?U3ZwS0FHS01qL1RhQ1NXZWJpSUh0WXJlbUE3R2FWaHMzTGZNNU9wTy92eDUw?=
- =?utf-8?B?OFpDKzdNWjJFNTdoZ1FqRyt1azNPRlI3NUhDMHlqK0dFYnVYUTVDMkwweXJQ?=
- =?utf-8?B?dm4vdXgxeGFHSmt4SzdsbU45dmRkTDA1eEs3VjhiSmJwU3lhRGVZNGNVcElC?=
- =?utf-8?B?SzVrRVZzRnhaNE4wMWRhRHRFT1Q3Zkl3SGpiQXhUeDdmMC81TVEwMTlvZVl6?=
- =?utf-8?B?cnlwYmtldlFTUWdocENuNGxJQ3J1czNTdG9Fc0d1K3RSWDhkZjN0WkZmYWFS?=
- =?utf-8?B?enJPNWxMaE14aFFyQmpoUDJRVGxrUDlvVWM0NE5WSjJsaWVoM1dObWpmSDdx?=
- =?utf-8?B?c1VjV2JJSE45MDIySDZZRG82MGthN2ZqZWd1TDZWL2VqTEVldkxRQUdjeGp6?=
- =?utf-8?B?RGxsQ1FaU0tRWEdNVmU5RlFvZXlkMkk1MTNtRWRLRHIzYW9aKzBKdzByY2Z5?=
- =?utf-8?B?T0tncVBNbm1vT0NnM09XV1dmdnVwY0FiclJnMWtVZHMxUEtkUGwraUd2NzBx?=
- =?utf-8?B?dkVoSDlrVkg3d01DUHJBTCtDSEpBZEdjb2tvOU1rYi81TVVzeHhEZmlsa01V?=
- =?utf-8?B?ckllcC9VbHMySXBzWnRjaWtuSzE3UEZiT0M3bDFmSVhiK1JicCtuOVdSd3JP?=
- =?utf-8?B?QnBsSDlaZzgwREdiK1NRRjgwZnRiY1dMWTZ4LzQ2WG5LczVZdE9kajk4MlY5?=
- =?utf-8?B?Z2tPaVdpc1IzZ3lRZUZPRXpicXpzNlI0cTIvaitvOEdXTmlwQXhxT1k0RHJi?=
- =?utf-8?Q?BYk2JoUmdszCmVaDwSALprEaV?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <3140947519AB984E9922C3E07F37F1C5@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
+ [IPv6:2607:f8b0:4864:20::112e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62BFE10E452
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 00:24:00 +0000 (UTC)
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-5c8c26cf056so56841987b3.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Dec 2023 16:24:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701735839; x=1702340639; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=v0NP0jfMsyr98tpUvVX6lqxC4v77woduELRRX6RJhZw=;
+ b=tH1m+A+6DT1+kUDOG5mIw2PL25dC6JcW9/IyJq2nL6M7TxsQInUUrmE6snwoo5SHAZ
+ QCr/rLjdbzVUWTwvwP5+hEKEdPC0lIdq9RoNJFVNV9bTQDZOX7IOZU+Ni6iBNOd/Ty6n
+ xFfF8FCst7c5C6LvJegBu29LOIKNsKHt9Pwfe3zHCrW+uHWJh+ybUjjURw3Zt7y+8a1r
+ R+5G1TxPwLYC+KSLWfH7towM/O1WuYSyN9U8GhLPO0e4cUEMdjo3IhLCL7xavO93Qna0
+ WABCGOxnYd5mrtp0j0ZwDN0TbA3rxiJDrE2pa8EuUNJHo0KpdjGfYaqiMe/RLhQ+SBAt
+ t2bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701735839; x=1702340639;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=v0NP0jfMsyr98tpUvVX6lqxC4v77woduELRRX6RJhZw=;
+ b=OD+T6NnWyI7qL0k439mQND7Qtdp9WTKzNOPmkzH/EG1SAPJWnL4ODup9RVxzBHfqLr
+ 8zNfvevycuYZdbcKHL6N01+d81tJrIWIpNAFIm8yDorkL5ThzMFqADybMfDTCpQs2ldp
+ TM2ftGbL7nN3NFZv1kDbRWk9FZpzgtBcD87oi8LwbW2PV/YEfc86q8hzs7NpPWVSuAy2
+ McjT2X2VyDb1RkflakHg7uHgiY/4WaUby8fSC2Aaz+4P09PHErN5YQanUvq/0rjKKOCY
+ mWGjqrmkAfUnDjfYpYZhfjCX6AiUM41uhERDKXo22KZBW4m33LZQUkFSNIb3hz2OpSlv
+ QA+g==
+X-Gm-Message-State: AOJu0YzBq6pLCZ2D3qrRE2Q1ZyJo/8cu5nKyQUd1HzYGP7h9qsS5nuAU
+ xsi0aW0zA6bW1t0wHYFyEii/D12BNTuNRc08y/TaYw==
+X-Google-Smtp-Source: AGHT+IHMXI4RGZ1bAdcEfm7t00uhBMe9TrLZewoiKXhadhBndCCAjZKUf26WKJ3ffJhP/ABnN4I/z8AZJybaG46iWcI=
+X-Received: by 2002:a0d:ce01:0:b0:5cd:9f20:966c with SMTP id
+ q1-20020a0dce01000000b005cd9f20966cmr3613871ywd.45.1701735839431; Mon, 04 Dec
+ 2023 16:23:59 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8769.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3b8b19f-5b19-47d0-6002-08dbf5260c7f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Dec 2023 00:06:36.9826 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PO1VeEqfZDwkznTsQDxZ53ggNxZ6PhqRe/07NBdjgya13CvTUAdV21+pc7JeRAidsDHiJ/iglrmZHAllbzxWbQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9213
+References: <1701734134-7816-1-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1701734134-7816-1-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 5 Dec 2023 02:23:48 +0200
+Message-ID: <CAA8EJprgES1tA1E=17Bnrz8n7mX1COpkx=w-vhWge4ywZ1E0ZQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm/dpu: improve DSC allocation
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,18 +66,256 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_abhinavk@quicinc.com, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ swboyd@chromium.org, sean@poorly.run, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMDIzLTEyLTA1IGF0IDEwOjAxICsxMDAwLCBEYXZlIEFpcmxpZSB3cm90ZToNCj4g
-VGhlIGN1cnJlbnQgY29kZSBwcmludHMgYSBtZXNzYWdlIHdoZW4gd2UgZ2V0IGEgY2FsbGJhY2sg
-d2UgZG9uJ3QNCj4gaGFuZGxlLCB0aGlzIHNpbGVuY2VzIHRob3NlLCBidXQgbWF5YmUgSSBzaG91
-bGQganVzdCBzaWxlbmNlIHRoZW0uDQoNCkhvdyBhYm91dCB0aGlzOg0KDQpJbiByNTM1X2dzcF9t
-c2dfcmVjdigpOg0KDQppZiAobnRmeS0+Zm4gJiYgKG50ZnktPmZuID09IG1zZy0+ZnVuY3Rpb24p
-KSB7DQoJbnRmeS0+ZnVuYyhudGZ5LT5wcml2LCBudGZ5LT5mbiwgbXNnLT5kYXRhLCBtc2ctPmxl
-bmd0aCAtDQpzaXplb2YoKm1zZykpOw0KCWJyZWFrOw0KfQ0KDQphbmQgdGhlbiBpbiByNTM1X2dz
-cF9vbmVpbml0KCk6DQoNCnI1MzVfZ3NwX21zZ19udGZ5X2FkZChnc3AsIE5WX1ZHUFVfTVNHX0VW
-RU5UX1BFUkZfQlJJREdFTEVTU19JTkZPX1VQREFURSwNCk5VTEwsIE5VTEwpOw0KLi4uDQoNCg0K
-DQo=
+On Tue, 5 Dec 2023 at 01:55, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>
+> A DCE (Display Compression Engine) contains two DSC hard slice
+> encoders. Each DCE start with even DSC encoder index followed by
+> an odd DSC encoder index. Each encoder can work independently.
+> But Only two DSC encoders from same DCE can be paired to work
+> together to support merge mode. In addition, the DSC with even
+> index have to mapping to even pingpong index and DSC with odd
+> index have to mapping to odd pingpong index at its data path.
+> This patch improve DSC allocation mechanism with consideration
+> of above factors.
+>
+> Changes in V2:
+> -- split _dpu_rm_reserve_dsc() into _dpu_rm_reserve_dsc_single() and
+>    _dpu_rm_reserve_dsc_pair()
+
+Please don't send the new iteration of the patch if the discussion is ongoing.
+
+Quoting v1 review:
+
+Are the limitations (odd:odd, allocation in pairs, etc) applicable to
+v1.1 encoders?
+
+I assume that at least 'allocate two consecutive DSC for DSC merge' is
+not applicable, since there are no separate DCE units.
+
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 171 ++++++++++++++++++++++++++++++---
+>  1 file changed, 156 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index 17ecf23..dafe1ee 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -470,33 +470,174 @@ static int _dpu_rm_reserve_ctls(
+>         return 0;
+>  }
+>
+> -static int _dpu_rm_reserve_dsc(struct dpu_rm *rm,
+> +static int _dpu_rm_reserve_dsc_single(struct dpu_rm *rm,
+>                                struct dpu_global_state *global_state,
+> -                              struct drm_encoder *enc,
+> +                              uint32_t enc_id,
+>                                const struct msm_display_topology *top)
+>  {
+> -       int num_dsc = top->num_dsc;
+> -       int i;
+> +       int num_dsc = 0;
+> +       int i, pp_idx;
+> +       int dsc_idx[DSC_MAX - DSC_0];
+> +       uint32_t pp_to_enc_id[PINGPONG_MAX - PINGPONG_0];
+> +       int pp_max = PINGPONG_MAX - PINGPONG_0;
+> +
+> +       for (i = 0; i < DSC_MAX - DSC_0; i++)
+> +               dsc_idx[i] = 0;
+> +
+> +       /* fill working copy with pingpong list */
+> +       memcpy(pp_to_enc_id, global_state->pingpong_to_enc_id, sizeof(pp_to_enc_id));
+> +
+> +       for (i = 0; i < ARRAY_SIZE(rm->dsc_blks) && num_dsc >= top->num_dsc; i++) {
+> +               if (!rm->dsc_blks[i])
+> +                       continue;
+>
+> -       /* check if DSC required are allocated or not */
+> -       for (i = 0; i < num_dsc; i++) {
+> -               if (!rm->dsc_blks[i]) {
+> -                       DPU_ERROR("DSC %d does not exist\n", i);
+> -                       return -EIO;
+> +               if (global_state->dsc_to_enc_id[i])     /* used */
+> +                       continue;
+> +
+> +               /*
+> +                * find the pingpong index which had been reserved
+> +                * previously at layer mixer allocation
+> +                */
+> +               for (pp_idx = 0; pp_idx < pp_max; pp_idx++) {
+> +                       if (pp_to_enc_id[pp_idx] == enc_id)
+> +                               break;
+>                 }
+>
+> -               if (global_state->dsc_to_enc_id[i]) {
+> -                       DPU_ERROR("DSC %d is already allocated\n", i);
+> -                       return -EIO;
+> +               /*
+> +                * dsc even index must map to pingpong even index
+> +                * dsc odd index must map to pingpong odd index
+> +                */
+> +               if ((i & 0x01) != (pp_idx & 0x01))
+> +                       continue;
+> +
+> +               dsc_idx[num_dsc++] = i + 1;     /* found, start from 1 */
+> +       }
+> +
+> +       if (num_dsc < top->num_dsc) {
+> +               DPU_ERROR("DSC allocation failed num_dsc=%d required=%d\n",
+> +                                               num_dsc, top->num_dsc);
+> +               return -ENAVAIL;
+> +       }
+> +
+> +       /* reserve dsc */
+> +       for (i = 0; i < top->num_dsc; i++) {
+> +               int j;
+> +
+> +               j = dsc_idx[i];
+> +               if (j)
+> +                       global_state->dsc_to_enc_id[j-1] = enc_id;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int _dpu_rm_reserve_dsc_pair(struct dpu_rm *rm,
+> +                              struct dpu_global_state *global_state,
+> +                              uint32_t enc_id,
+> +                              const struct msm_display_topology *top)
+> +{
+> +       int num_dsc = 0;
+> +       int i, pp_idx;
+> +       int dsc_idx[DSC_MAX - DSC_0];
+> +       uint32_t pp_to_enc_id[PINGPONG_MAX - PINGPONG_0];
+> +       int pp_max = PINGPONG_MAX - PINGPONG_0;
+> +
+> +       for (i = 0; i < DSC_MAX - DSC_0; i++)
+> +               dsc_idx[i] = 0;
+> +
+> +       /* fill working copy with pingpong list */
+> +       memcpy(pp_to_enc_id, global_state->pingpong_to_enc_id, sizeof(pp_to_enc_id));
+> +
+> +       for (i = 0; i < ARRAY_SIZE(rm->dsc_blks) && num_dsc >= top->num_dsc; i++) {
+> +               if (!rm->dsc_blks[i])
+> +                       continue;
+> +
+> +               if (global_state->dsc_to_enc_id[i]) {   /* used */
+> +                       /* consective dsc index to be paired */
+> +                       if (num_dsc) {  /* already start pairing, re start search */
+> +                               num_dsc = 0;
+> +                               /* fill working copy with pingpong list */
+> +                               memcpy(pp_to_enc_id, global_state->pingpong_to_enc_id,
+> +                                                               sizeof(pp_to_enc_id));
+> +                       }
+> +                       continue;
+> +               }
+> +
+> +               /* odd index can not become start of pairing */
+> +               if (i & 0x01 && !num_dsc)
+> +                       continue;
+> +
+> +               /*
+> +                * find the pingpong index which had been reserved
+> +                * previously at layer mixer allocation
+> +                */
+> +               for (pp_idx = 0; pp_idx < pp_max; pp_idx++) {
+> +                       if (pp_to_enc_id[pp_idx] == enc_id)
+> +                               break;
+>                 }
+> +
+> +               /*
+> +                * dsc even index must map to pingpong even index
+> +                * dsc odd index must map to pingpong odd index
+> +                */
+> +               if ((i & 0x01) != (pp_idx & 0x01))
+> +                       continue;
+> +
+> +               /*
+> +                * delete pp_idx so that next pp_idx can be paired with
+> +                * next dsc_idx
+> +                */
+> +               pp_to_enc_id[pp_idx] = 0xffff;
+> +
+> +               dsc_idx[num_dsc++] = i + 1;     /* found, start from 1 */
+>         }
+>
+> -       for (i = 0; i < num_dsc; i++)
+> -               global_state->dsc_to_enc_id[i] = enc->base.id;
+> +       if (num_dsc < top->num_dsc) {
+> +               DPU_ERROR("DSC allocation failed num_dsc=%d required=%d\n",
+> +                                               num_dsc, top->num_dsc);
+> +               return -ENAVAIL;
+> +       }
+> +
+> +       /* reserve dsc */
+> +       for (i = 0; i < top->num_dsc; i++) {
+> +               int j;
+> +
+> +               j = dsc_idx[i];
+> +               if (j)
+> +                       global_state->dsc_to_enc_id[j-1] = enc_id;
+> +       }
+>
+>         return 0;
+>  }
+>
+> +static int _dpu_rm_reserve_dsc(struct dpu_rm *rm,
+> +                              struct dpu_global_state *global_state,
+> +                              uint32_t enc_id,
+> +                              const struct msm_display_topology *top)
+> +{
+> +       if (!top->num_dsc || !top->num_intf)
+> +               return 0;
+> +
+> +       /*
+> +        * Truth:
+> +        * 1) every layer mixer only connects to one pingpong
+> +        * 2) no pingpong split -- which is two layer mixers shared one pingpong
+> +        * 3) each DSC engine contains two dsc encoders
+> +        *    -- index(0,1), index (2,3),... etc
+
+Does this apply to v1.1 encoders?
+
+> +        * 4) dsc pair can only happens with same DSC engine
+> +        * 5) odd pingpong connect to odd dsc
+> +        * 6) even pingpong connect to even dsc
+> +        * 7) pair: encoder +--> pp_idx_0 --> dsc_idx_0
+> +                           +--> pp_idx_1 --> dsc_idx_1
+> +        */
+> +
+> +       /* num_dsc should be either 1, 2 or 4 */
+> +       if (top->num_dsc > top->num_intf)       /* merge mode */
+> +               return _dpu_rm_reserve_dsc_pair(rm, global_state, enc_id, top);
+> +       else
+> +               return _dpu_rm_reserve_dsc_single(rm, global_state, enc_id, top);
+> +}
+> +
+>  static int _dpu_rm_make_reservation(
+>                 struct dpu_rm *rm,
+>                 struct dpu_global_state *global_state,
+> @@ -518,7 +659,7 @@ static int _dpu_rm_make_reservation(
+>                 return ret;
+>         }
+>
+> -       ret  = _dpu_rm_reserve_dsc(rm, global_state, enc, &reqs->topology);
+> +       ret  = _dpu_rm_reserve_dsc(rm, global_state, enc->base.id, &reqs->topology);
+>         if (ret)
+>                 return ret;
+>
+> --
+> 2.7.4
+>
+
+
+-- 
+With best wishes
+Dmitry
