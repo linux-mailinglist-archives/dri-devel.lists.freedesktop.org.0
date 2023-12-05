@@ -2,75 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 874968055DA
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 14:26:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E69518055E7
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 14:29:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7404610E527;
-	Tue,  5 Dec 2023 13:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF8F210E528;
+	Tue,  5 Dec 2023 13:29:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4664C10E522
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 13:26:36 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 92ADB580BBE;
- Tue,  5 Dec 2023 08:26:35 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
- by compute5.internal (MEProxy); Tue, 05 Dec 2023 08:26:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1701782795; x=1701789995; bh=W3
- qjdlXCrGJYdFNLku/WKxa0Yd1q1gu7loL3v5KHYRM=; b=zK/Fp8Q3S0qWDC4+U3
- kGt9Orlb8390T8Sy5wd+3hlBiAst1xeRlVyMyoOWpO2/Q34RC6ALM0nBbMY0H/MC
- FEtoQpTDxv2EJ+t9+cnilInQbFDDr37JteXNVSzkC2RRZha5BxX7IfYPTuXPLspP
- IYgnEWI75Q8dphn8Csk8ftz2HOjlAxs8P3+k4jocBTLtxw4sAe0T04w8uj+Aptf9
- pO1XoxI18qnsPS82ZJr5c5rp5rkU01GfA4p+E6aYZG0mx1YXcti/s5GkYB0Qa0gk
- RladkT7vE641Xi0g49knromvDRkAlBgSxJzq7TxLqq3qOqheGV+mHtPcLZseq/dI
- Bfgw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1701782795; x=1701789995; bh=W3qjdlXCrGJYd
- FNLku/WKxa0Yd1q1gu7loL3v5KHYRM=; b=fpvUYP+wLkfgJ6TQflEw4OYF6LGe5
- a3Feaob+JOtf3BjOTf5iamzt5cbGiVXbtWXiKG/2ZKW6mnM2ubhYH3OZv4+hQct3
- 0FwHg1HgToCblPVSe/K/Lrm06wNjmSS3oz+Z8OBxKjTZlDWTFaTzHPuhJYG06L+X
- VK71m4Ula7avDUgfjvEnXtOyJDhPQljO2/TXqfUyynZukPMVPqiy0D9T5ZJKNyUo
- pqJhtJu2irMcj/Tg9+gpXOBqFixV5fA6N5sT/EU9zWNeESYhtOrUY1eRAQd+HcQa
- 4gbGVA/EHZ5jPKyUhOSyD3FpbAT4FxyPBuiMYaID3OKt2zYjSoH2h9G/w==
-X-ME-Sender: <xms:CSVvZcJVbsbrhr9sYKVcQUAAAS1DaBjSTvnpkZgk2j6LLf3slEjtXA>
- <xme:CSVvZcLr1DCGQRgrUVj-UyibDWjBlihjF5mIveBAeePWght-G5QzZlkjbdE-mkBW7
- TZg6eac0e_QXsu_Ux8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudejkedghedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
- nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
- htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
- teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
- hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:CSVvZcsFsaCqlqUXDamXtGWKSxuWxDGZnZGh7uiXKsXvrH7hkLAbIg>
- <xmx:CSVvZZZFmxyOnwLm9cYbYVRTqBzlMGMH3al9Ge29PS6sdDVySSGjww>
- <xmx:CSVvZTYpLSW4BZilnjVOVgo2REBAlE3kPOHnsquKrdoOUGP_qC4L6A>
- <xmx:CyVvZcjUxRtu4e4Hrx-sSqQkzLAgDMCLWFO7kek49ROwxqThQoR9iw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 7D795B6008D; Tue,  5 Dec 2023 08:26:33 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1178-geeaf0069a7-fm-20231114.001-geeaf0069
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD3D310E528
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 13:29:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 51F3761753;
+ Tue,  5 Dec 2023 13:29:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75542C433C7;
+ Tue,  5 Dec 2023 13:29:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1701782971;
+ bh=Zn4GYLZmwXmZqyevn2I97x9daNh38VTwlzu5aculNSM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WD9J9AJFAk2/0D4VYVAU+ifx6QQLbsfR/xrNu9brFiuRqBcsECW8yhOmirrZNo47f
+ 7m6ARj4MSrzFU7Gj1AlzP//n3uQrgdlEMydSex59apB9u9zWniz7tNZv8URpPrvxGi
+ ZOvRjg0fz3fJG1gxtoML0uPSx7OSd5UUhPBaWnNSFIMtEooNk7BXmBjOHRy2Oy3Iod
+ AMFofToE1m0upfK+FeWxWEkfCHcjagDADz9vyz7kecbsQmvSBp6uaWSbeEN5SQA6sa
+ OBD+VIZUqPY7DieFrZ+th6xFijAxCK6e0AxoWlAF8asfe+f5WM0XITBejsB5bKe8AK
+ rF4xwjpQ7MWaA==
+Date: Tue, 5 Dec 2023 14:29:27 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [PATCH RFC 01/10] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
+Message-ID: <vawv2mwhonuyvgmp7uox4rfgdcjwg5fa7hmbcfgl3wiase6e4p@tyavpclppfvu>
+References: <20231204182245.33683-1-afd@ti.com>
+ <20231204182245.33683-2-afd@ti.com>
+ <23livt5mcc64bb6lkeec2uxp5cyn4wfekwaj6wzrjnrkndvwgj@6tveqglqpr4v>
+ <B3A1B8A7-0363-4ECB-AFBF-576FECA569FA@goldelico.com>
 MIME-Version: 1.0
-Message-Id: <2ef81211-9525-4f96-a6b2-3fcfbed0c6e5@app.fastmail.com>
-In-Reply-To: <602e1ba4f02489fcbc47e8f9904f3c1db1c9f14a.1701768028.git.ysato@users.sourceforge.jp>
-References: <cover.1701768028.git.ysato@users.sourceforge.jp>
- <602e1ba4f02489fcbc47e8f9904f3c1db1c9f14a.1701768028.git.ysato@users.sourceforge.jp>
-Date: Tue, 05 Dec 2023 14:26:13 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Yoshinori Sato" <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org
-Subject: Re: [DO NOT MERGE v5 11/37] pci: pci-sh7751: Add SH7751 PCI driver
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="sk5rtloxlgm34n5t"
+Content-Disposition: inline
+In-Reply-To: <B3A1B8A7-0363-4ECB-AFBF-576FECA569FA@goldelico.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,139 +54,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Herve Codina <herve.codina@bootlin.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Bin Meng <bmeng@tinylab.org>,
- Michael Turquette <mturquette@baylibre.com>, linux-pci@vger.kernel.org,
- Jacky Huang <ychuang3@nuvoton.com>, Palmer Dabbelt <palmer@rivosinc.com>,
- Max Filippov <jcmvbkbc@gmail.com>, guoren <guoren@kernel.org>,
- Lee Jones <lee@kernel.org>,
+Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Tony Lindgren <tony@atomide.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
- linux-clk@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Helge Deller <deller@gmx.de>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-serial@vger.kernel.org,
- David Rientjes <rientjes@google.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Donald Robson <donald.robson@imgtec.com>, linux-sunxi@lists.linux.dev,
  devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Maxime Ripard <mripard@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Chris Morgan <macromorgan@hotmail.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
- Vlastimil Babka <vbabka@suse.cz>, Sergey Shtylyov <s.shtylyov@omp.ru>,
- linux-ide@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- linux-kernel@vger.kernel.org, Azeem Shaikh <azeemshaikh38@gmail.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Tom Rix <trix@redhat.com>,
- Damien Le Moal <dlemoal@kernel.org>,
- Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
- Andrew Morton <akpm@linux-foundation.org>
+ =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
+ Matt Coster <matt.coster@imgtec.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-omap@vger.kernel.org, Adam Ford <aford173@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Tero Kristo <kristo@kernel.org>,
+ linux-kernel@vger.kernel.org, Andrew Davis <afd@ti.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 5, 2023, at 10:45, Yoshinori Sato wrote:
 
-> +#include <asm/addrspace.h>
-> +#include "pci-sh7751.h"
-> +
-> +#define pcic_writel(val, base, reg) __raw_writel(val, base + (reg))
-> +#define pcic_readl(base, reg) __raw_readl(base + (reg))
+--sk5rtloxlgm34n5t
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-__raw_writel()/__raw_readl() has a number of problems with
-atomicity (the compiler may split or merge pointer
-dereferences), barriers and endianess. You should normally
-always use readl()/writel() instead.
+Hi,
 
-> +	memset(pci_config, 0, sizeof(pci_config));
-> +	if (of_property_read_u32_array(np, "renesas,config",
-> +				       pci_config, SH7751_NUM_CONFIG) == 0) {
-> +		for (i = 0; i < SH7751_NUM_CONFIG; i++) {
-> +			r = pci_config[i * 2];
-> +			/* CONFIG0 is read-only, so make it a sentinel. */
-> +			if (r == 0)
-> +				break;
-> +			pcic_writel(pci_config[i * 2 + 1], pcic, r * 4);
-> +		}
-> +	}
+On Tue, Dec 05, 2023 at 09:18:58AM +0100, H. Nikolaus Schaller wrote:
+> > Am 05.12.2023 um 07:57 schrieb Maxime Ripard <mripard@kernel.org>:
+> >=20
+> > On Mon, Dec 04, 2023 at 12:22:36PM -0600, Andrew Davis wrote:
+> >> The Imagination PowerVR Series5 "SGX" GPU is part of several SoCs from
+> >> multiple vendors. Describe how the SGX GPU is integrated in these SoC,
+> >> including register space and interrupts. Clocks, reset, and power doma=
+in
+> >> information is SoC specific.
+> >>=20
+> >> Signed-off-by: Andrew Davis <afd@ti.com>
+> >> ---
+> >> .../devicetree/bindings/gpu/img,powervr.yaml  | 69 +++++++++++++++++--
+> >> 1 file changed, 63 insertions(+), 6 deletions(-)
+> >=20
+> > I think it would be best to have a separate file for this, img,sgx.yaml
+> > maybe?
+>=20
+> Why?
 
-the config property seems a little too specific to this
-implementation of the driver. Instead of encoding register
-values in DT, I think these should either be described
-in named properties where needed, or hardcoded in the driver
-if there is only one sensible value.
+Because it's more convenient?
 
-> +/*
-> + * We need to avoid collisions with `mirrored' VGA ports
-> + * and other strange ISA hardware, so we always want the
-> + * addresses to be allocated in the 0x000-0x0ff region
-> + * modulo 0x400.
-> + */
-> +#define IO_REGION_BASE 0x1000
-> +resource_size_t pcibios_align_resource(void *data, const struct 
-> resource *res,
-> +				resource_size_t size, resource_size_t align)
-> +{
+> The whole family of IMG GPUs is PowerVR and SGX and Rogue are generations=
+ 5 and 6++:
+>=20
+> https://en.wikipedia.org/wiki/PowerVR
 
-You can't have these generic functions in a driver, as that
-prevents you from building more than one such driver.
+That's not really relevant as far as bindings go. We have multiple
+binding files for devices of the same generation, or single bindings
+covering multiple generations.
 
-The logic you have here is neither architecture nor
-driver specific.
+The important part is that every compatible is documented. It doesn't
+really matter how or where.
 
-> +static int sh7751_pci_probe(struct platform_device *pdev)
-> +{
-> +	struct resource *res, *bscres;
-> +	void __iomem *pcic;
-> +	void __iomem *bsc;
-> +	u32 memory[2];
-> +	u16 vid, did;
-> +	u32 word;
-> +
-> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	if (IS_ERR(res))
-> +		return PTR_ERR(res);
-> +	pcic = (void __iomem *)res->start;
+Maxime
 
-This cast is invalid, as res->start is a physical address
-that you would need to ioremap() to turn into an __iomem
-pointer.
+--sk5rtloxlgm34n5t
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +	bscres = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-> +	bsc = devm_ioremap_resource(&pdev->dev, bscres);
-> +	if (IS_ERR(bsc))
-> +		return PTR_ERR(bsc);
-> +
-> +	if (of_property_read_u32_array(pdev->dev.of_node,
-> +				       "renesas,memory", memory, 2) < 0) {
-> +		/*
-> +		 * If no memory range is specified,
-> +		 *  the entire main memory will be targeted for DMA.
-> +		 */
-> +		memory[0] = memory_start;
-> +		memory[1] = memory_end - memory_start;
-> +	}
+-----BEGIN PGP SIGNATURE-----
 
-There is a generic "dma-ranges" proerty for describing
-which memory is visible by a bus.
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZW8ltgAKCRDj7w1vZxhR
+xUSvAP9PUbf4+YT0EyccyJajSXPeDQSwn4etNEbxV50lUUuE8AD9EaQjz+C035S5
+zToIGETivgzX+fLoler4pvNrddntIg4=
+=WGdx
+-----END PGP SIGNATURE-----
 
-> diff --git a/drivers/pci/controller/pci-sh7751.h 
-> b/drivers/pci/controller/pci-sh7751.h
-> new file mode 100644
-> index 000000000000..540cee7095c6
-> --- /dev/null
-> +++ b/drivers/pci/controller/pci-sh7751.h
-> @@ -0,0 +1,76 @@
-
-If the header is only included from one file, just removed
-it and add the register definitions to the driver directly.
-
-     Arnd
+--sk5rtloxlgm34n5t--
