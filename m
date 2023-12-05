@@ -1,77 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0252805F73
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 21:30:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAFED805FAB
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Dec 2023 21:45:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C5BC10E606;
-	Tue,  5 Dec 2023 20:30:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 160B510E61B;
+	Tue,  5 Dec 2023 20:45:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B364210E604;
- Tue,  5 Dec 2023 20:30:13 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3B5KCEBT003019; Tue, 5 Dec 2023 20:30:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=1HsgzgVzv8cENBgYjON7cIK996BxV0NnGUdVp/jzGyQ=;
- b=DgEKPg6TOeyK4otHW5ZSUmyKrmBWmFOQAL9qADpHiu8wxFw60/+FULMGZDbNaCEiNbe8
- eC3yctrmdyH+DIyeLNmSoBGG4SvDswX+E3tDT7/yVCe1EymbHOb1ofv2IgiQpztsx8p+
- C4Ef4CVaqP+Gb6dkwJ8I5j968GXmh2KtkN98FUt4P/cElz0doam4QCmPsC6415o9eS5q
- /5gz0Ul6a2ByBlRj1tA9bZhVWhMgJjQF7MKaEc9N6QByX5pz7ysw17DHLTUJ5LRq9JfR
- HPLdG9juyrTefvfq6m4PS9STBSeQkQ4CuQx9dxa/IvFFNntS3YaolctxLMyL1bxUtFw/ FQ== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3utanm819e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Dec 2023 20:30:06 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B5KU6t4002430
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 5 Dec 2023 20:30:06 GMT
-Received: from [10.71.109.77] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 5 Dec
- 2023 12:30:03 -0800
-Message-ID: <684b467c-a4f2-9c8d-b81c-0a21cefdb422@quicinc.com>
-Date: Tue, 5 Dec 2023 12:30:02 -0800
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6033F10E61B
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Dec 2023 20:45:27 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id
+ 4fb4d7f45d1cf-54c77e0835bso4742577a12.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 12:45:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1701809124; x=1702413924;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0Y+jY+0Fv8pe8Zjgn3mhV8qrJZdO/zPS1zfBF2bsh/g=;
+ b=fM8lducLZMdpQmmbQVKHnqnd0KSx5R3EuWJOhS7danEXnAciB7cPMX7SuhpCJFW3H1
+ YYUpwTtsroWaTRswwlFsf/JwtVmXGEgZ83+MzYiSrthSql77gCGlLLSf8O5xJTQYyDkF
+ kjlbBeAbGr9o0kOrQiUfsLZpddres5XtWsDZo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701809124; x=1702413924;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0Y+jY+0Fv8pe8Zjgn3mhV8qrJZdO/zPS1zfBF2bsh/g=;
+ b=Edv+we4gUcoCkjLvhwpzjs9+sHtrPlxjbwn5ZhVv6KAMBtwnz+FHkPS/6n1WwcDfBz
+ K0MnYupEyMDopmKRzT1wvU9hXl4rnHCobHw5kYlWLUKR2xfg4rgZhvm/D+AHtcj4FZoG
+ SHc3RIWxpzbdQhSXnXKjxXJMbycgD9cZ/loKwCzMcxCJ0zp450h2FeD2BqLcIvMRjZyn
+ t+0iGYHPBDFB1R/I+p+HqpZGE5JzVej0juHBOIpM/MDqw28DjlsZO057yZEHMeunxlCJ
+ MxYnBsj/O/0CXA+ndIdHKbvsoNMW+AL4EQW8lIiOihE49k9gNgBA0L9TNZOgZp51SpmB
+ r3Ow==
+X-Gm-Message-State: AOJu0YzKsFKP3JkLa8qFS7pG/ThNQH8HCiyGaGRcyvxC546BtIM/cjbz
+ m85CjaJ/2SMuBnUJgD5uODbW1J5jk1PEeHbSIWZojyHZ
+X-Google-Smtp-Source: AGHT+IEXlWuLvxvxG16lB1vGhEmM0bbSb0FjJC2t8TDnuprBZk5Eov7ikthViZcJHaGxzvXCzsFk4g==
+X-Received: by 2002:a17:906:5184:b0:a19:a19b:78a8 with SMTP id
+ y4-20020a170906518400b00a19a19b78a8mr922315ejk.107.1701809124395; 
+ Tue, 05 Dec 2023 12:45:24 -0800 (PST)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com.
+ [209.85.128.43]) by smtp.gmail.com with ESMTPSA id
+ c5-20020a170906d18500b00a1859bc527fsm7374140ejz.10.2023.12.05.12.45.23
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Dec 2023 12:45:23 -0800 (PST)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-40b422a274dso16255e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 12:45:23 -0800 (PST)
+X-Received: by 2002:a05:600c:4e8d:b0:40a:483f:f828 with SMTP id
+ f13-20020a05600c4e8d00b0040a483ff828mr15612wmq.4.1701809123285; Tue, 05 Dec
+ 2023 12:45:23 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] drm/msm/dpu: correct clk bit for WB2 block
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20231203002437.1291595-1-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20231203002437.1291595-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 2eWoeBxUfE7j5cJwZj93uiiuuV50C8Z6
-X-Proofpoint-ORIG-GUID: 2eWoeBxUfE7j5cJwZj93uiiuuV50C8Z6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-05_16,2023-12-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxscore=0
- bulkscore=0 mlxlogscore=633 clxscore=1015 malwarescore=0 adultscore=0
- impostorscore=0 lowpriorityscore=0 suspectscore=0 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2312050161
+References: <20230921192749.1542462-1-dianders@chromium.org>
+ <20230921122641.RFT.v2.4.Ie7588ec6e0f93e8bc700e76b265ad1a7ad6b15ad@changeid>
+ <2f7fbd1b606b4d08b8c8c6eefff5898c8faa697c.camel@redhat.com>
+ <CAD=FV=XkeicQ3Gq4yaFtXsF7yM_7pXbpNKB56DbOwBmsEsrF_g@mail.gmail.com>
+In-Reply-To: <CAD=FV=XkeicQ3Gq4yaFtXsF7yM_7pXbpNKB56DbOwBmsEsrF_g@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 5 Dec 2023 12:45:07 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XDhkstFX3e2qPGeYGkFWefRMH24BjNgRujBX5PQyE6MA@mail.gmail.com>
+Message-ID: <CAD=FV=XDhkstFX3e2qPGeYGkFWefRMH24BjNgRujBX5PQyE6MA@mail.gmail.com>
+Subject: Re: [RFT PATCH v2 04/12] drm/nouveau: Call
+ drm_atomic_helper_shutdown() or equiv at shutdown time
+To: Lyude Paul <lyude@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,39 +83,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: kherbst@redhat.com, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org, bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+On Fri, Nov 17, 2023 at 3:00=E2=80=AFPM Doug Anderson <dianders@chromium.or=
+g> wrote:
+>
+> Hi,
+>
+> On Fri, Sep 22, 2023 at 2:06=E2=80=AFPM Lyude Paul <lyude@redhat.com> wro=
+te:
+> >
+> > actually very glad to see this because I think I've seen one bug in the=
+ wild
+> > as a result of things not getting shut down :)
+> >
+> > Reviewed-by: Lyude Paul <lyude@redhat.com>
+> > Tested-by: Lyude Paul <lyude@redhat.com>
+>
+> Any idea of where / how this patch should land. Would you expect me to
+> land it through drm-misc, or would you expect it to go through someone
+> else's tree?
 
-On 12/2/2023 4:24 PM, Dmitry Baryshkov wrote:
-> On sc7280 there are two clk bits for WB2: vbif_cli and clk_ctrl. While
-> programming the VBIF params of WB, the driver should be toggling the
-> former bit, while the sc7180_mdp, sc7280_mdp and sm8250_mdp structs
-> list the latter one.
-> 
-> Correct that to ensure proper programming sequence for WB2 on these
-> platforms.
-> 
-> Fixes: 255f056181ac ("drm/msm/dpu: sc7180: add missing WB2 clock control")
-> Fixes: 3ce166380567 ("drm/msm/dpu: add writeback support for sc7280")
-> Fixes: 53324b99bd7b ("drm/msm/dpu: add writeback blocks to the sm8250 DPU catalog")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-> 
-> Changes since v1:
->   - Fixed the bits for all three platforms supporting WB (Abhinav)
-> 
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h | 2 +-
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h | 2 +-
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h | 2 +-
->   3 files changed, 3 insertions(+), 3 deletions(-)
-> 
+Still hoping to find a way to land this patch, since it's been
+reviewed and tested. Would anyone object if I landed it via drm-misc?
 
-LGTM now.
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+-Doug
