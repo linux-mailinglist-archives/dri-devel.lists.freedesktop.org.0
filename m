@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 289CE8074B9
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 17:17:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90DE98074DE
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 17:23:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A38DD10E755;
-	Wed,  6 Dec 2023 16:17:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65DD610E75D;
+	Wed,  6 Dec 2023 16:23:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9BD9E10E755
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 16:17:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 379DB10E759
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 16:23:20 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2D995143D;
- Wed,  6 Dec 2023 08:18:36 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 90A07143D;
+ Wed,  6 Dec 2023 08:24:05 -0800 (PST)
 Received: from [10.57.74.196] (unknown [10.57.74.196])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 27FE63F762;
- Wed,  6 Dec 2023 08:17:46 -0800 (PST)
-Message-ID: <7b100d3b-3e43-4e27-97c9-0b84d27bd90e@arm.com>
-Date: Wed, 6 Dec 2023 16:17:50 +0000
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 824223F762;
+ Wed,  6 Dec 2023 08:23:16 -0800 (PST)
+Message-ID: <1afa6699-119d-46e5-b193-6d907f233ea9@arm.com>
+Date: Wed, 6 Dec 2023 16:23:19 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/14] drm/panthor: Add uAPI
+Subject: Re: [PATCH v3 02/14] drm/panthor: Add GPU register definitions
 Content-Language: en-GB
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  dri-devel@lists.freedesktop.org
 References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
- <20231204173313.2098733-2-boris.brezillon@collabora.com>
+ <20231204173313.2098733-3-boris.brezillon@collabora.com>
 From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20231204173313.2098733-2-boris.brezillon@collabora.com>
+In-Reply-To: <20231204173313.2098733-3-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,6 +48,7 @@ Cc: Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
  Daniel Stone <daniels@collabora.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
  =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ Grant Likely <grant.likely@linaro.org>,
  "Marty E . Plummer" <hanetzer@startmail.com>,
  Robin Murphy <robin.murphy@arm.com>,
  Faith Ekstrand <faith.ekstrand@collabora.com>
@@ -55,975 +56,274 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 04/12/2023 17:32, Boris Brezillon wrote:
-> Panthor follows the lead of other recently submitted drivers with
-> ioctls allowing us to support modern Vulkan features, like sparse memory
-> binding:
+> Those are the registers directly accessible through the MMIO range.
 > 
-> - Pretty standard GEM management ioctls (BO_CREATE and BO_MMAP_OFFSET),
->   with the 'exclusive-VM' bit to speed-up BO reservation on job submission
-> - VM management ioctls (VM_CREATE, VM_DESTROY and VM_BIND). The VM_BIND
->   ioctl is loosely based on the Xe model, and can handle both
->   asynchronous and synchronous requests
-> - GPU execution context creation/destruction, tiler heap context creation
->   and job submission. Those ioctls reflect how the hardware/scheduler
->   works and are thus driver specific.
-> 
-> We also have a way to expose IO regions, such that the usermode driver
-> can directly access specific/well-isolate registers, like the
-> LATEST_FLUSH register used to implement cache-flush reduction.
-> 
-> This uAPI intentionally keeps usermode queues out of the scope, which
-> explains why doorbell registers and command stream ring-buffers are not
-> directly exposed to userspace.
+> FW registers are exposed in panthor_fw.h.
 > 
 > v3:
-> - Add the concept of sync-only VM operation
-> - Fix support for 32-bit userspace
-> - Rework drm_panthor_vm_create to pass the user VA size instead of
->   the kernel VA size (suggested by Robin Murphy)
-> - Typo fixes
-> - Explicitly cast enums with top bit set to avoid compiler warnings in
->   -pedantic mode.
-> - Drop property core_group_count as it can be easily calculated by the
->   number of bits set in l2_present.
+> - Add macros to extract GPU ID info
+> - Formatting changes
+> - Remove AS_TRANSCFG_ADRMODE_LEGACY - it doesn't exist post-CSF
+> - Remove CSF_GPU_LATEST_FLUSH_ID_DEFAULT
+> - Add GPU_L2_FEATURES_LINE_SIZE for extracting the GPU cache line size
 > 
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 > Signed-off-by: Steven Price <steven.price@arm.com>
-
-NIT: I believe the signed-off lines should be like:
-
-  Co-developed-by: Steven
-  Signed-off-by: Steven
-  Signed-off-by: Boris
-
-So yours at the end not mine (because you're the one posting it) and a
-"Co-developed-by" to explain why there's a sign-off from me. I'm
-guessing this is actually my fault since I sent the branch to you with
-my changes with the sign offs like this.
-
-Otherwise everything looks good:
+> Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
+> Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing,Linaro
+> Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 relicensing,Collabora
 
 Reviewed-by: Steven Price <steven.price@arm.com>
 
 Thanks,
-
 Steve
 
 > ---
->  Documentation/gpu/driver-uapi.rst |   5 +
->  include/uapi/drm/panthor_drm.h    | 892 ++++++++++++++++++++++++++++++
->  2 files changed, 897 insertions(+)
->  create mode 100644 include/uapi/drm/panthor_drm.h
+>  drivers/gpu/drm/panthor/panthor_regs.h | 237 +++++++++++++++++++++++++
+>  1 file changed, 237 insertions(+)
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_regs.h
 > 
-> diff --git a/Documentation/gpu/driver-uapi.rst b/Documentation/gpu/driver-uapi.rst
-> index c08bcbb95fb3..7a667901830f 100644
-> --- a/Documentation/gpu/driver-uapi.rst
-> +++ b/Documentation/gpu/driver-uapi.rst
-> @@ -17,3 +17,8 @@ VM_BIND / EXEC uAPI
->      :doc: Overview
->  
->  .. kernel-doc:: include/uapi/drm/nouveau_drm.h
-> +
-> +drm/panthor uAPI
-> +================
-> +
-> +.. kernel-doc:: include/uapi/drm/panthor_drm.h
-> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
 > new file mode 100644
-> index 000000000000..6d815df5e829
+> index 000000000000..05795d4cefbe
 > --- /dev/null
-> +++ b/include/uapi/drm/panthor_drm.h
-> @@ -0,0 +1,892 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/* Copyright (C) 2023 Collabora ltd. */
-> +#ifndef _PANTHOR_DRM_H_
-> +#define _PANTHOR_DRM_H_
+> +++ b/drivers/gpu/drm/panthor/panthor_regs.h
+> @@ -0,0 +1,237 @@
+> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
+> +/* Copyright 2018 Marty E. Plummer <hanetzer@startmail.com> */
+> +/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+> +/* Copyright 2023 Collabora ltd. */
+> +/*
+> + * Register definitions based on mali_kbase_gpu_regmap.h and
+> + * mali_kbase_gpu_regmap_csf.h
+> + * (C) COPYRIGHT 2010-2022 ARM Limited. All rights reserved.
+> + */
+> +#ifndef __PANTHOR_REGS_H__
+> +#define __PANTHOR_REGS_H__
 > +
-> +#include "drm.h"
+> +#define GPU_ID						0x0
+> +#define   GPU_ARCH_MAJOR(x)				((x) >> 28)
+> +#define   GPU_ARCH_MINOR(x)				(((x) & GENMASK(27, 24)) >> 24)
+> +#define   GPU_ARCH_REV(x)				(((x) & GENMASK(23, 20)) >> 20)
+> +#define   GPU_PROD_MAJOR(x)				(((x) & GENMASK(19, 16)) >> 16)
+> +#define   GPU_VER_MAJOR(x)				(((x) & GENMASK(15, 12)) >> 12)
+> +#define   GPU_VER_MINOR(x)				(((x) & GENMASK(11, 4)) >> 4)
+> +#define   GPU_VER_STATUS(x)				((x) & GENMASK(3, 0))
 > +
-> +#if defined(__cplusplus)
-> +extern "C" {
+> +#define GPU_L2_FEATURES					0x4
+> +#define  GPU_L2_FEATURES_LINE_SIZE(x)			(1 << ((x) & GENMASK(7, 0)))
+> +
+> +#define GPU_TILER_FEATURES				0xC
+> +#define GPU_MEM_FEATURES				0x10
+> +#define   GROUPS_L2_COHERENT				BIT(0)
+> +
+> +#define GPU_MMU_FEATURES				0x14
+> +#define  GPU_MMU_FEATURES_VA_BITS(x)			((x) & GENMASK(7, 0))
+> +#define  GPU_MMU_FEATURES_PA_BITS(x)			(((x) >> 8) & GENMASK(7, 0))
+> +#define GPU_AS_PRESENT					0x18
+> +#define GPU_CSF_ID					0x1C
+> +
+> +#define GPU_INT_RAWSTAT					0x20
+> +#define GPU_INT_CLEAR					0x24
+> +#define GPU_INT_MASK					0x28
+> +#define GPU_INT_STAT					0x2c
+> +#define   GPU_IRQ_FAULT					BIT(0)
+> +#define   GPU_IRQ_PROTM_FAULT				BIT(1)
+> +#define   GPU_IRQ_RESET_COMPLETED			BIT(8)
+> +#define   GPU_IRQ_POWER_CHANGED				BIT(9)
+> +#define   GPU_IRQ_POWER_CHANGED_ALL			BIT(10)
+> +#define   GPU_IRQ_CLEAN_CACHES_COMPLETED		BIT(17)
+> +#define   GPU_IRQ_DOORBELL_MIRROR			BIT(18)
+> +#define   GPU_IRQ_MCU_STATUS_CHANGED			BIT(19)
+> +#define GPU_CMD						0x30
+> +#define   GPU_CMD_DEF(type, payload)			((type) | ((payload) << 8))
+> +#define   GPU_SOFT_RESET				GPU_CMD_DEF(1, 1)
+> +#define   GPU_HARD_RESET				GPU_CMD_DEF(1, 2)
+> +#define   CACHE_CLEAN					BIT(0)
+> +#define   CACHE_INV					BIT(1)
+> +#define   GPU_FLUSH_CACHES(l2, lsc, oth)		\
+> +	  GPU_CMD_DEF(4, ((l2) << 0) | ((lsc) << 4) | ((oth) << 8))
+> +
+> +#define GPU_STATUS					0x34
+> +#define   GPU_STATUS_ACTIVE				BIT(0)
+> +#define   GPU_STATUS_PWR_ACTIVE				BIT(1)
+> +#define   GPU_STATUS_PAGE_FAULT				BIT(4)
+> +#define   GPU_STATUS_PROTM_ACTIVE			BIT(7)
+> +#define   GPU_STATUS_DBG_ENABLED			BIT(8)
+> +
+> +#define GPU_FAULT_STATUS				0x3C
+> +#define GPU_FAULT_ADDR_LO				0x40
+> +#define GPU_FAULT_ADDR_HI				0x44
+> +
+> +#define GPU_PWR_KEY					0x50
+> +#define  GPU_PWR_KEY_UNLOCK				0x2968A819
+> +#define GPU_PWR_OVERRIDE0				0x54
+> +#define GPU_PWR_OVERRIDE1				0x58
+> +
+> +#define GPU_TIMESTAMP_OFFSET_LO				0x88
+> +#define GPU_TIMESTAMP_OFFSET_HI				0x8C
+> +#define GPU_CYCLE_COUNT_LO				0x90
+> +#define GPU_CYCLE_COUNT_HI				0x94
+> +#define GPU_TIMESTAMP_LO				0x98
+> +#define GPU_TIMESTAMP_HI				0x9C
+> +
+> +#define GPU_THREAD_MAX_THREADS				0xA0
+> +#define GPU_THREAD_MAX_WORKGROUP_SIZE			0xA4
+> +#define GPU_THREAD_MAX_BARRIER_SIZE			0xA8
+> +#define GPU_THREAD_FEATURES				0xAC
+> +
+> +#define GPU_TEXTURE_FEATURES(n)				(0xB0 + ((n) * 4))
+> +
+> +#define GPU_SHADER_PRESENT_LO				0x100
+> +#define GPU_SHADER_PRESENT_HI				0x104
+> +#define GPU_TILER_PRESENT_LO				0x110
+> +#define GPU_TILER_PRESENT_HI				0x114
+> +#define GPU_L2_PRESENT_LO				0x120
+> +#define GPU_L2_PRESENT_HI				0x124
+> +
+> +#define SHADER_READY_LO					0x140
+> +#define SHADER_READY_HI					0x144
+> +#define TILER_READY_LO					0x150
+> +#define TILER_READY_HI					0x154
+> +#define L2_READY_LO					0x160
+> +#define L2_READY_HI					0x164
+> +
+> +#define SHADER_PWRON_LO					0x180
+> +#define SHADER_PWRON_HI					0x184
+> +#define TILER_PWRON_LO					0x190
+> +#define TILER_PWRON_HI					0x194
+> +#define L2_PWRON_LO					0x1A0
+> +#define L2_PWRON_HI					0x1A4
+> +
+> +#define SHADER_PWROFF_LO				0x1C0
+> +#define SHADER_PWROFF_HI				0x1C4
+> +#define TILER_PWROFF_LO					0x1D0
+> +#define TILER_PWROFF_HI					0x1D4
+> +#define L2_PWROFF_LO					0x1E0
+> +#define L2_PWROFF_HI					0x1E4
+> +
+> +#define SHADER_PWRTRANS_LO				0x200
+> +#define SHADER_PWRTRANS_HI				0x204
+> +#define TILER_PWRTRANS_LO				0x210
+> +#define TILER_PWRTRANS_HI				0x214
+> +#define L2_PWRTRANS_LO					0x220
+> +#define L2_PWRTRANS_HI					0x224
+> +
+> +#define SHADER_PWRACTIVE_LO				0x240
+> +#define SHADER_PWRACTIVE_HI				0x244
+> +#define TILER_PWRACTIVE_LO				0x250
+> +#define TILER_PWRACTIVE_HI				0x254
+> +#define L2_PWRACTIVE_LO					0x260
+> +#define L2_PWRACTIVE_HI					0x264
+> +
+> +#define GPU_REVID					0x280
+> +
+> +#define GPU_COHERENCY_FEATURES				0x300
+> +#define GPU_COHERENCY_PROT_BIT(name)			BIT(GPU_COHERENCY_  ## name)
+> +
+> +#define GPU_COHERENCY_PROTOCOL				0x304
+> +#define   GPU_COHERENCY_ACE				0
+> +#define   GPU_COHERENCY_ACE_LITE			1
+> +#define   GPU_COHERENCY_NONE				31
+> +
+> +#define MCU_CONTROL					0x700
+> +#define MCU_CONTROL_ENABLE				1
+> +#define MCU_CONTROL_AUTO				2
+> +#define MCU_CONTROL_DISABLE				0
+> +
+> +#define MCU_STATUS					0x704
+> +#define MCU_STATUS_DISABLED				0
+> +#define MCU_STATUS_ENABLED				1
+> +#define MCU_STATUS_HALT					2
+> +#define MCU_STATUS_FATAL				3
+> +
+> +/* Job Control regs */
+> +#define JOB_INT_RAWSTAT					0x1000
+> +#define JOB_INT_CLEAR					0x1004
+> +#define JOB_INT_MASK					0x1008
+> +#define JOB_INT_STAT					0x100c
+> +#define   JOB_INT_GLOBAL_IF				BIT(31)
+> +#define   JOB_INT_CSG_IF(x)				BIT(x)
+> +
+> +/* MMU regs */
+> +#define MMU_INT_RAWSTAT					0x2000
+> +#define MMU_INT_CLEAR					0x2004
+> +#define MMU_INT_MASK					0x2008
+> +#define MMU_INT_STAT					0x200c
+> +
+> +/* AS_COMMAND register commands */
+> +
+> +#define MMU_BASE					0x2400
+> +#define MMU_AS_SHIFT					6
+> +#define MMU_AS(as)					(MMU_BASE + ((as) << MMU_AS_SHIFT))
+> +
+> +#define AS_TRANSTAB_LO(as)				(MMU_AS(as) + 0x0)
+> +#define AS_TRANSTAB_HI(as)				(MMU_AS(as) + 0x4)
+> +#define AS_MEMATTR_LO(as)				(MMU_AS(as) + 0x8)
+> +#define AS_MEMATTR_HI(as)				(MMU_AS(as) + 0xC)
+> +#define   AS_MEMATTR_AARCH64_INNER_ALLOC_IMPL		(2 << 2)
+> +#define   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(w, r)	((3 << 2) | \
+> +							 ((w) ? BIT(0) : 0) | \
+> +							 ((r) ? BIT(1) : 0))
+> +#define   AS_MEMATTR_AARCH64_SH_MIDGARD_INNER		(0 << 4)
+> +#define   AS_MEMATTR_AARCH64_SH_CPU_INNER		(1 << 4)
+> +#define   AS_MEMATTR_AARCH64_SH_CPU_INNER_SHADER_COH	(2 << 4)
+> +#define   AS_MEMATTR_AARCH64_SHARED			(0 << 6)
+> +#define   AS_MEMATTR_AARCH64_INNER_OUTER_NC		(1 << 6)
+> +#define   AS_MEMATTR_AARCH64_INNER_OUTER_WB		(2 << 6)
+> +#define   AS_MEMATTR_AARCH64_FAULT			(3 << 6)
+> +#define AS_LOCKADDR_LO(as)				(MMU_AS(as) + 0x10)
+> +#define AS_LOCKADDR_HI(as)				(MMU_AS(as) + 0x14)
+> +#define AS_COMMAND(as)					(MMU_AS(as) + 0x18)
+> +#define   AS_COMMAND_NOP				0
+> +#define   AS_COMMAND_UPDATE				1
+> +#define   AS_COMMAND_LOCK				2
+> +#define   AS_COMMAND_UNLOCK				3
+> +#define   AS_COMMAND_FLUSH_PT				4
+> +#define   AS_COMMAND_FLUSH_MEM				5
+> +#define   AS_LOCK_REGION_MIN_SIZE			(1ULL << 15)
+> +#define AS_FAULTSTATUS(as)				(MMU_AS(as) + 0x1C)
+> +#define  AS_FAULTSTATUS_ACCESS_TYPE_MASK		(0x3 << 8)
+> +#define  AS_FAULTSTATUS_ACCESS_TYPE_ATOMIC		(0x0 << 8)
+> +#define  AS_FAULTSTATUS_ACCESS_TYPE_EX			(0x1 << 8)
+> +#define  AS_FAULTSTATUS_ACCESS_TYPE_READ		(0x2 << 8)
+> +#define  AS_FAULTSTATUS_ACCESS_TYPE_WRITE		(0x3 << 8)
+> +#define AS_FAULTADDRESS_LO(as)				(MMU_AS(as) + 0x20)
+> +#define AS_FAULTADDRESS_HI(as)				(MMU_AS(as) + 0x24)
+> +#define AS_STATUS(as)					(MMU_AS(as) + 0x28)
+> +#define   AS_STATUS_AS_ACTIVE				BIT(0)
+> +#define AS_TRANSCFG_LO(as)				(MMU_AS(as) + 0x30)
+> +#define AS_TRANSCFG_HI(as)				(MMU_AS(as) + 0x34)
+> +#define   AS_TRANSCFG_ADRMODE_UNMAPPED			(1 << 0)
+> +#define   AS_TRANSCFG_ADRMODE_IDENTITY			(2 << 0)
+> +#define   AS_TRANSCFG_ADRMODE_AARCH64_4K		(6 << 0)
+> +#define   AS_TRANSCFG_ADRMODE_AARCH64_64K		(8 << 0)
+> +#define   AS_TRANSCFG_INA_BITS(x)			((x) << 6)
+> +#define   AS_TRANSCFG_OUTA_BITS(x)			((x) << 14)
+> +#define   AS_TRANSCFG_SL_CONCAT				BIT(22)
+> +#define   AS_TRANSCFG_PTW_MEMATTR_NC			(1 << 24)
+> +#define   AS_TRANSCFG_PTW_MEMATTR_WB			(2 << 24)
+> +#define   AS_TRANSCFG_PTW_SH_NS				(0 << 28)
+> +#define   AS_TRANSCFG_PTW_SH_OS				(2 << 28)
+> +#define   AS_TRANSCFG_PTW_SH_IS				(3 << 28)
+> +#define   AS_TRANSCFG_PTW_RA				BIT(30)
+> +#define   AS_TRANSCFG_DISABLE_HIER_AP			BIT(33)
+> +#define   AS_TRANSCFG_DISABLE_AF_FAULT			BIT(34)
+> +#define   AS_TRANSCFG_WXN				BIT(35)
+> +#define   AS_TRANSCFG_XREADABLE				BIT(36)
+> +#define AS_FAULTEXTRA_LO(as)				(MMU_AS(as) + 0x38)
+> +#define AS_FAULTEXTRA_HI(as)				(MMU_AS(as) + 0x3C)
+> +
+> +#define CSF_GPU_LATEST_FLUSH_ID				0x10000
+> +
+> +#define CSF_DOORBELL(i)					(0x80000 + ((i) * 0x10000))
+> +#define CSF_GLB_DOORBELL_ID				0
+> +
+> +#define gpu_write(dev, reg, data) \
+> +	writel(data, (dev)->iomem + (reg))
+> +
+> +#define gpu_read(dev, reg) \
+> +	readl((dev)->iomem + (reg))
+> +
 > +#endif
-> +
-> +/**
-> + * DOC: Introduction
-> + *
-> + * This documentation describes the Panthor IOCTLs.
-> + *
-> + * Just a few generic rules about the data passed to the Panthor IOCTLs:
-> + *
-> + * - Structures must be aligned on 64-bit/8-byte. If the object is not
-> + *   naturally aligned, a padding field must be added.
-> + * - Fields must be explicitly aligned to their natural type alignment with
-> + *   pad[0..N] fields.
-> + * - All padding fields will be checked by the driver to make sure they are
-> + *   zeroed.
-> + * - Flags can be added, but not removed/replaced.
-> + * - New fields can be added to the main structures (the structures
-> + *   directly passed to the ioctl). Those fields can be added at the end of
-> + *   the structure, or replace existing padding fields. Any new field being
-> + *   added must preserve the behavior that existed before those fields were
-> + *   added when a value of zero is passed.
-> + * - New fields can be added to indirect objects (objects pointed by the
-> + *   main structure), iff those objects are passed a size to reflect the
-> + *   size known by the userspace driver (see drm_panthor_obj_array::stride
-> + *   or drm_panthor_dev_query::size).
-> + * - If the kernel driver is too old to know some fields, those will be
-> + *   ignored if zero, and otherwise rejected (and so will be zero on output).
-> + * - If userspace is too old to know some fields, those will be zeroed
-> + *   (input) before the structure is parsed by the kernel driver.
-> + * - Each new flag/field addition must come with a driver version update so
-> + *   the userspace driver doesn't have to trial and error to know which
-> + *   flags are supported.
-> + * - Structures should not contain unions, as this would defeat the
-> + *   extensibility of such structures.
-> + * - IOCTLs can't be removed or replaced. New IOCTL IDs should be placed
-> + *   at the end of the drm_panthor_ioctl_id enum.
-> + */
-> +
-> +/**
-> + * DOC: MMIO regions exposed to userspace.
-> + *
-> + * .. c:macro:: DRM_PANTHOR_USER_MMIO_OFFSET
-> + *
-> + * File offset for all MMIO regions being exposed to userspace. Don't use
-> + * this value directly, use DRM_PANTHOR_USER_<name>_OFFSET values instead.
-> + * pgoffset passed to mmap2() is an unsigned long, which forces us to use a
-> + * different offset on 32-bit and 64-bit systems.
-> + *
-> + * .. c:macro:: DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET
-> + *
-> + * File offset for the LATEST_FLUSH_ID register. The Userspace driver controls
-> + * GPU cache flushing through CS instructions, but the flush reduction
-> + * mechanism requires a flush_id. This flush_id could be queried with an
-> + * ioctl, but Arm provides a well-isolated register page containing only this
-> + * read-only register, so let's expose this page through a static mmap offset
-> + * and allow direct mapping of this MMIO region so we can avoid the
-> + * user <-> kernel round-trip.
-> + */
-> +#define DRM_PANTHOR_USER_MMIO_OFFSET_32BIT	(1ull << 43)
-> +#define DRM_PANTHOR_USER_MMIO_OFFSET_64BIT	(1ull << 56)
-> +#define DRM_PANTHOR_USER_MMIO_OFFSET		(sizeof(unsigned long) < 8 ? \
-> +						 DRM_PANTHOR_USER_MMIO_OFFSET_32BIT : \
-> +						 DRM_PANTHOR_USER_MMIO_OFFSET_64BIT)
-> +#define DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET	(DRM_PANTHOR_USER_MMIO_OFFSET | 0)
-> +
-> +/**
-> + * DOC: IOCTL IDs
-> + *
-> + * enum drm_panthor_ioctl_id - IOCTL IDs
-> + *
-> + * Place new ioctls at the end, don't re-order, don't replace or remove entries.
-> + *
-> + * These IDs are not meant to be used directly. Use the DRM_IOCTL_PANTHOR_xxx
-> + * definitions instead.
-> + */
-> +enum drm_panthor_ioctl_id {
-> +	/** @DRM_PANTHOR_DEV_QUERY: Query device information. */
-> +	DRM_PANTHOR_DEV_QUERY = 0,
-> +
-> +	/** @DRM_PANTHOR_VM_CREATE: Create a VM. */
-> +	DRM_PANTHOR_VM_CREATE,
-> +
-> +	/** @DRM_PANTHOR_VM_DESTROY: Destroy a VM. */
-> +	DRM_PANTHOR_VM_DESTROY,
-> +
-> +	/** @DRM_PANTHOR_VM_BIND: Bind/unbind memory to a VM. */
-> +	DRM_PANTHOR_VM_BIND,
-> +
-> +	/** @DRM_PANTHOR_BO_CREATE: Create a buffer object. */
-> +	DRM_PANTHOR_BO_CREATE,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_BO_MMAP_OFFSET: Get the file offset to pass to
-> +	 * mmap to map a GEM object.
-> +	 */
-> +	DRM_PANTHOR_BO_MMAP_OFFSET,
-> +
-> +	/** @DRM_PANTHOR_GROUP_CREATE: Create a scheduling group. */
-> +	DRM_PANTHOR_GROUP_CREATE,
-> +
-> +	/** @DRM_PANTHOR_GROUP_DESTROY: Destroy a scheduling group. */
-> +	DRM_PANTHOR_GROUP_DESTROY,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_GROUP_SUBMIT: Submit jobs to queues belonging
-> +	 * to a specific scheduling group.
-> +	 */
-> +	DRM_PANTHOR_GROUP_SUBMIT,
-> +
-> +	/** @DRM_PANTHOR_GROUP_GET_STATE: Get the state of a scheduling group. */
-> +	DRM_PANTHOR_GROUP_GET_STATE,
-> +
-> +	/** @DRM_PANTHOR_TILER_HEAP_CREATE: Create a tiler heap. */
-> +	DRM_PANTHOR_TILER_HEAP_CREATE,
-> +
-> +	/** @DRM_PANTHOR_TILER_HEAP_DESTROY: Destroy a tiler heap. */
-> +	DRM_PANTHOR_TILER_HEAP_DESTROY,
-> +};
-> +
-> +/**
-> + * DRM_IOCTL_PANTHOR() - Build a Panthor IOCTL number
-> + * @__access: Access type. Must be R, W or RW.
-> + * @__id: One of the DRM_PANTHOR_xxx id.
-> + * @__type: Suffix of the type being passed to the IOCTL.
-> + *
-> + * Don't use this macro directly, use the DRM_IOCTL_PANTHOR_xxx
-> + * values instead.
-> + *
-> + * Return: An IOCTL number to be passed to ioctl() from userspace.
-> + */
-> +#define DRM_IOCTL_PANTHOR(__access, __id, __type) \
-> +	DRM_IO ## __access(DRM_COMMAND_BASE + DRM_PANTHOR_ ## __id, \
-> +			   struct drm_panthor_ ## __type)
-> +
-> +#define DRM_IOCTL_PANTHOR_DEV_QUERY \
-> +	DRM_IOCTL_PANTHOR(WR, DEV_QUERY, dev_query)
-> +#define DRM_IOCTL_PANTHOR_VM_CREATE \
-> +	DRM_IOCTL_PANTHOR(WR, VM_CREATE, vm_create)
-> +#define DRM_IOCTL_PANTHOR_VM_DESTROY \
-> +	DRM_IOCTL_PANTHOR(WR, VM_DESTROY, vm_destroy)
-> +#define DRM_IOCTL_PANTHOR_VM_BIND \
-> +	DRM_IOCTL_PANTHOR(WR, VM_BIND, vm_bind)
-> +#define DRM_IOCTL_PANTHOR_BO_CREATE \
-> +	DRM_IOCTL_PANTHOR(WR, BO_CREATE, bo_create)
-> +#define DRM_IOCTL_PANTHOR_BO_MMAP_OFFSET \
-> +	DRM_IOCTL_PANTHOR(WR, BO_MMAP_OFFSET, bo_mmap_offset)
-> +#define DRM_IOCTL_PANTHOR_GROUP_CREATE \
-> +	DRM_IOCTL_PANTHOR(WR, GROUP_CREATE, group_create)
-> +#define DRM_IOCTL_PANTHOR_GROUP_DESTROY \
-> +	DRM_IOCTL_PANTHOR(WR, GROUP_DESTROY, group_destroy)
-> +#define DRM_IOCTL_PANTHOR_GROUP_SUBMIT \
-> +	DRM_IOCTL_PANTHOR(WR, GROUP_SUBMIT, group_submit)
-> +#define DRM_IOCTL_PANTHOR_GROUP_GET_STATE \
-> +	DRM_IOCTL_PANTHOR(WR, GROUP_GET_STATE, group_get_state)
-> +#define DRM_IOCTL_PANTHOR_TILER_HEAP_CREATE \
-> +	DRM_IOCTL_PANTHOR(WR, TILER_HEAP_CREATE, tiler_heap_create)
-> +#define DRM_IOCTL_PANTHOR_TILER_HEAP_DESTROY \
-> +	DRM_IOCTL_PANTHOR(WR, TILER_HEAP_DESTROY, tiler_heap_destroy)
-> +
-> +/**
-> + * DOC: IOCTL arguments
-> + */
-> +
-> +/**
-> + * struct drm_panthor_obj_array - Object array.
-> + *
-> + * This object is used to pass an array of objects whose size is subject to changes in
-> + * future versions of the driver. In order to support this mutability, we pass a stride
-> + * describing the size of the object as known by userspace.
-> + *
-> + * You shouldn't fill drm_panthor_obj_array fields directly. You should instead use
-> + * the DRM_PANTHOR_OBJ_ARRAY() macro that takes care of initializing the stride to
-> + * the object size.
-> + */
-> +struct drm_panthor_obj_array {
-> +	/** @stride: Stride of object struct. Used for versioning. */
-> +	__u32 stride;
-> +
-> +	/** @count: Number of objects in the array. */
-> +	__u32 count;
-> +
-> +	/** @array: User pointer to an array of objects. */
-> +	__u64 array;
-> +};
-> +
-> +/**
-> + * DRM_PANTHOR_OBJ_ARRAY() - Initialize a drm_panthor_obj_array field.
-> + * @cnt: Number of elements in the array.
-> + * @ptr: Pointer to the array to pass to the kernel.
-> + *
-> + * Macro initializing a drm_panthor_obj_array based on the object size as known
-> + * by userspace.
-> + */
-> +#define DRM_PANTHOR_OBJ_ARRAY(cnt, ptr) \
-> +	{ .stride = sizeof((ptr)[0]), .count = (cnt), .array = (__u64)(uintptr_t)(ptr) }
-> +
-> +/**
-> + * enum drm_panthor_sync_op_flags - Synchronization operation flags.
-> + */
-> +enum drm_panthor_sync_op_flags {
-> +	/** @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK: Synchronization handle type mask. */
-> +	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK = 0xff,
-> +
-> +	/** @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ: Synchronization object type. */
-> +	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_SYNCOBJ = 0,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ: Timeline synchronization
-> +	 * object type.
-> +	 */
-> +	DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ = 1,
-> +
-> +	/** @DRM_PANTHOR_SYNC_OP_WAIT: Wait operation. */
-> +	DRM_PANTHOR_SYNC_OP_WAIT = 0 << 31,
-> +
-> +	/** @DRM_PANTHOR_SYNC_OP_SIGNAL: Signal operation. */
-> +	DRM_PANTHOR_SYNC_OP_SIGNAL = (int)(1u << 31),
-> +};
-> +
-> +/**
-> + * struct drm_panthor_sync_op - Synchronization operation.
-> + */
-> +struct drm_panthor_sync_op {
-> +	/** @flags: Synchronization operation flags. Combination of DRM_PANTHOR_SYNC_OP values. */
-> +	__u32 flags;
-> +
-> +	/** @handle: Sync handle. */
-> +	__u32 handle;
-> +
-> +	/**
-> +	 * @timeline_value: MBZ if
-> +	 * (flags & DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_MASK) !=
-> +	 * DRM_PANTHOR_SYNC_OP_HANDLE_TYPE_TIMELINE_SYNCOBJ.
-> +	 */
-> +	__u64 timeline_value;
-> +};
-> +
-> +/**
-> + * enum drm_panthor_dev_query_type - Query type
-> + *
-> + * Place new types at the end, don't re-order, don't remove or replace.
-> + */
-> +enum drm_panthor_dev_query_type {
-> +	/** @DRM_PANTHOR_DEV_QUERY_GPU_INFO: Query GPU information. */
-> +	DRM_PANTHOR_DEV_QUERY_GPU_INFO = 0,
-> +
-> +	/** @DRM_PANTHOR_DEV_QUERY_CSIF_INFO: Query command-stream interface information. */
-> +	DRM_PANTHOR_DEV_QUERY_CSIF_INFO,
-> +};
-> +
-> +/**
-> + * struct drm_panthor_gpu_info - GPU information
-> + *
-> + * Structure grouping all queryable information relating to the GPU.
-> + */
-> +struct drm_panthor_gpu_info {
-> +	/** @gpu_id : GPU ID. */
-> +	__u32 gpu_id;
-> +#define DRM_PANTHOR_ARCH_MAJOR(x)		((x) >> 28)
-> +#define DRM_PANTHOR_ARCH_MINOR(x)		(((x) >> 24) & 0xf)
-> +#define DRM_PANTHOR_ARCH_REV(x)			(((x) >> 20) & 0xf)
-> +#define DRM_PANTHOR_PRODUCT_MAJOR(x)		(((x) >> 16) & 0xf)
-> +#define DRM_PANTHOR_VERSION_MAJOR(x)		(((x) >> 12) & 0xf)
-> +#define DRM_PANTHOR_VERSION_MINOR(x)		(((x) >> 4) & 0xff)
-> +#define DRM_PANTHOR_VERSION_STATUS(x)		((x) & 0xf)
-> +
-> +	/** @gpu_rev: GPU revision. */
-> +	__u32 gpu_rev;
-> +
-> +	/** @csf_id: Command stream frontend ID. */
-> +	__u32 csf_id;
-> +#define DRM_PANTHOR_CSHW_MAJOR(x)		(((x) >> 26) & 0x3f)
-> +#define DRM_PANTHOR_CSHW_MINOR(x)		(((x) >> 20) & 0x3f)
-> +#define DRM_PANTHOR_CSHW_REV(x)			(((x) >> 16) & 0xf)
-> +#define DRM_PANTHOR_MCU_MAJOR(x)		(((x) >> 10) & 0x3f)
-> +#define DRM_PANTHOR_MCU_MINOR(x)		(((x) >> 4) & 0x3f)
-> +#define DRM_PANTHOR_MCU_REV(x)			((x) & 0xf)
-> +
-> +	/** @l2_features: L2-cache features. */
-> +	__u32 l2_features;
-> +
-> +	/** @tiler_features: Tiler features. */
-> +	__u32 tiler_features;
-> +
-> +	/** @mem_features: Memory features. */
-> +	__u32 mem_features;
-> +
-> +	/** @mmu_features: MMU features. */
-> +	__u32 mmu_features;
-> +#define DRM_PANTHOR_MMU_VA_BITS(x)		((x) & 0xff)
-> +
-> +	/** @thread_features: Thread features. */
-> +	__u32 thread_features;
-> +
-> +	/** @max_threads: Maximum number of threads. */
-> +	__u32 max_threads;
-> +
-> +	/** @thread_max_workgroup_size: Maximum workgroup size. */
-> +	__u32 thread_max_workgroup_size;
-> +
-> +	/**
-> +	 * @thread_max_barrier_size: Maximum number of threads that can wait
-> +	 * simultaneously on a barrier.
-> +	 */
-> +	__u32 thread_max_barrier_size;
-> +
-> +	/** @coherency_features: Coherency features. */
-> +	__u32 coherency_features;
-> +
-> +	/** @texture_features: Texture features. */
-> +	__u32 texture_features[4];
-> +
-> +	/** @as_present: Bitmask encoding the number of address-space exposed by the MMU. */
-> +	__u32 as_present;
-> +
-> +	/** @shader_present: Bitmask encoding the shader cores exposed by the GPU. */
-> +	__u64 shader_present;
-> +
-> +	/** @l2_present: Bitmask encoding the L2 caches exposed by the GPU. */
-> +	__u64 l2_present;
-> +
-> +	/** @tiler_present: Bitmask encoding the tiler units exposed by the GPU. */
-> +	__u64 tiler_present;
-> +};
-> +
-> +/**
-> + * struct drm_panthor_csif_info - Command stream interface information
-> + *
-> + * Structure grouping all queryable information relating to the command stream interface.
-> + */
-> +struct drm_panthor_csif_info {
-> +	/** @csg_slot_count: Number of command stream group slots exposed by the firmware. */
-> +	__u32 csg_slot_count;
-> +
-> +	/** @cs_slot_count: Number of command stream slots per group. */
-> +	__u32 cs_slot_count;
-> +
-> +	/** @cs_reg_count: Number of command stream registers. */
-> +	__u32 cs_reg_count;
-> +
-> +	/** @scoreboard_slot_count: Number of scoreboard slots. */
-> +	__u32 scoreboard_slot_count;
-> +
-> +	/**
-> +	 * @unpreserved_cs_reg_count: Number of command stream registers reserved by
-> +	 * the kernel driver to call a userspace command stream.
-> +	 *
-> +	 * All registers can be used by a userspace command stream, but the
-> +	 * [cs_slot_count - unpreserved_cs_reg_count .. cs_slot_count] registers are
-> +	 * used by the kernel when DRM_PANTHOR_IOCTL_GROUP_SUBMIT is called.
-> +	 */
-> +	__u32 unpreserved_cs_reg_count;
-> +
-> +	/**
-> +	 * @pad: Padding field, set to zero.
-> +	 */
-> +	__u32 pad;
-> +};
-> +
-> +/**
-> + * struct drm_panthor_dev_query - Arguments passed to DRM_PANTHOR_IOCTL_DEV_QUERY
-> + */
-> +struct drm_panthor_dev_query {
-> +	/** @type: the query type (see drm_panthor_dev_query_type). */
-> +	__u32 type;
-> +
-> +	/**
-> +	 * @size: size of the type being queried.
-> +	 *
-> +	 * If pointer is NULL, size is updated by the driver to provide the
-> +	 * output structure size. If pointer is not NULL, the driver will
-> +	 * only copy min(size, actual_structure_size) bytes to the pointer,
-> +	 * and update the size accordingly. This allows us to extend query
-> +	 * types without breaking userspace.
-> +	 */
-> +	__u32 size;
-> +
-> +	/**
-> +	 * @pointer: user pointer to a query type struct.
-> +	 *
-> +	 * Pointer can be NULL, in which case, nothing is copied, but the
-> +	 * actual structure size is returned. If not NULL, it must point to
-> +	 * a location that's large enough to hold size bytes.
-> +	 */
-> +	__u64 pointer;
-> +};
-> +
-> +/**
-> + * struct drm_panthor_vm_create - Arguments passed to DRM_PANTHOR_IOCTL_VM_CREATE
-> + */
-> +struct drm_panthor_vm_create {
-> +	/** @flags: VM flags, MBZ. */
-> +	__u32 flags;
-> +
-> +	/** @id: Returned VM ID. */
-> +	__u32 id;
-> +
-> +	/**
-> +	 * @user_va_range: Size of the VA space reserved for user objects.
-> +	 *
-> +	 * The kernel will pick the remaining space to map kernel-only objects to the
-> +	 * VM (heap chunks, heap context, ring buffers, kernel synchronization objects,
-> +	 * ...). If the space left for kernel objects is too small, kernel object
-> +	 * allocation will fail further down the road. One can use
-> +	 * drm_panthor_gpu_info::mmu_features to extract the total virtual address
-> +	 * range, and chose a user_va_range that leaves some space to the kernel.
-> +	 *
-> +	 * If user_va_range is zero, the kernel will pick a sensible value based on
-> +	 * TASK_SIZE and the virtual range supported by the GPU MMU (the kernel/user
-> +	 * split should leave enough VA space for userspace processes to support SVM,
-> +	 * while still allowing the kernel to map some amount of kernel objects in
-> +	 * the kernel VA range). The value chosen by the driver will be returned in
-> +	 * @user_va_range.
-> +	 *
-> +	 * User VA space always starts at 0x0, kernel VA space is always placed after
-> +	 * the user VA range.
-> +	 */
-> +	__u64 user_va_range;
-> +};
-> +
-> +/**
-> + * struct drm_panthor_vm_destroy - Arguments passed to DRM_PANTHOR_IOCTL_VM_DESTROY
-> + */
-> +struct drm_panthor_vm_destroy {
-> +	/** @id: ID of the VM to destroy. */
-> +	__u32 id;
-> +
-> +	/** @pad: MBZ. */
-> +	__u32 pad;
-> +};
-> +
-> +/**
-> + * enum drm_panthor_vm_bind_op_flags - VM bind operation flags
-> + */
-> +enum drm_panthor_vm_bind_op_flags {
-> +	/**
-> +	 * @DRM_PANTHOR_VM_BIND_OP_MAP_READONLY: Map the memory read-only.
-> +	 *
-> +	 * Only valid with DRM_PANTHOR_VM_BIND_OP_TYPE_MAP.
-> +	 */
-> +	DRM_PANTHOR_VM_BIND_OP_MAP_READONLY = 1 << 0,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC: Map the memory not-executable.
-> +	 *
-> +	 * Only valid with DRM_PANTHOR_VM_BIND_OP_TYPE_MAP.
-> +	 */
-> +	DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC = 1 << 1,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED: Map the memory uncached.
-> +	 *
-> +	 * Only valid with DRM_PANTHOR_VM_BIND_OP_TYPE_MAP.
-> +	 */
-> +	DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED = 1 << 2,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_VM_BIND_OP_TYPE_MASK: Mask used to determine the type of operation.
-> +	 */
-> +	DRM_PANTHOR_VM_BIND_OP_TYPE_MASK = (int)(0xfu << 28),
-> +
-> +	/** @DRM_PANTHOR_VM_BIND_OP_TYPE_MAP: Map operation. */
-> +	DRM_PANTHOR_VM_BIND_OP_TYPE_MAP = 0 << 28,
-> +
-> +	/** @DRM_PANTHOR_VM_BIND_OP_TYPE_UNMAP: Unmap operation. */
-> +	DRM_PANTHOR_VM_BIND_OP_TYPE_UNMAP = 1 << 28,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_VM_BIND_OP_TYPE_SYNC_ONLY: No VM operation.
-> +	 *
-> +	 * Just serves as a synchronization point on a VM queue.
-> +	 *
-> +	 * Only valid if %DRM_PANTHOR_VM_BIND_ASYNC is set in drm_panthor_vm_bind::flags,
-> +	 * and drm_panthor_vm_bind_op::syncs contains at least one element.
-> +	 */
-> +	DRM_PANTHOR_VM_BIND_OP_TYPE_SYNC_ONLY = 2 << 28,
-> +};
-> +
-> +/**
-> + * struct drm_panthor_vm_bind_op - VM bind operation
-> + */
-> +struct drm_panthor_vm_bind_op {
-> +	/** @flags: Combination of drm_panthor_vm_bind_op_flags flags. */
-> +	__u32 flags;
-> +
-> +	/**
-> +	 * @bo_handle: Handle of the buffer object to map.
-> +	 * MBZ for unmap or sync-only operations.
-> +	 */
-> +	__u32 bo_handle;
-> +
-> +	/**
-> +	 * @bo_offset: Buffer object offset.
-> +	 * MBZ for unmap or sync-only operations.
-> +	 */
-> +	__u64 bo_offset;
-> +
-> +	/**
-> +	 * @va: Virtual address to map/unmap.
-> +	 * MBZ for sync-only operations.
-> +	 */
-> +	__u64 va;
-> +
-> +	/**
-> +	 * @size: Size to map/unmap.
-> +	 * MBZ for sync-only operations.
-> +	 */
-> +	__u64 size;
-> +
-> +	/**
-> +	 * @syncs: Array of struct drm_panthor_sync_op synchronization
-> +	 * operations.
-> +	 *
-> +	 * This array must be empty if %DRM_PANTHOR_VM_BIND_ASYNC is not set on
-> +	 * the drm_panthor_vm_bind object containing this VM bind operation.
-> +	 *
-> +	 * This array shall not be empty for sync-only operations.
-> +	 */
-> +	struct drm_panthor_obj_array syncs;
-> +
-> +};
-> +
-> +/**
-> + * enum drm_panthor_vm_bind_flags - VM bind flags
-> + */
-> +enum drm_panthor_vm_bind_flags {
-> +	/**
-> +	 * @DRM_PANTHOR_VM_BIND_ASYNC: VM bind operations are queued to the VM
-> +	 * queue instead of being executed synchronously.
-> +	 */
-> +	DRM_PANTHOR_VM_BIND_ASYNC = 1 << 0,
-> +};
-> +
-> +/**
-> + * struct drm_panthor_vm_bind - Arguments passed to DRM_IOCTL_PANTHOR_VM_BIND
-> + */
-> +struct drm_panthor_vm_bind {
-> +	/** @vm_id: VM targeted by the bind request. */
-> +	__u32 vm_id;
-> +
-> +	/** @flags: Combination of drm_panthor_vm_bind_flags flags. */
-> +	__u32 flags;
-> +
-> +	/** @ops: Array of struct drm_panthor_vm_bind_op bind operations. */
-> +	struct drm_panthor_obj_array ops;
-> +};
-> +
-> +/**
-> + * enum drm_panthor_bo_flags - Buffer object flags, passed at creation time.
-> + */
-> +enum drm_panthor_bo_flags {
-> +	/** @DRM_PANTHOR_BO_NO_MMAP: The buffer object will never be CPU-mapped in userspace. */
-> +	DRM_PANTHOR_BO_NO_MMAP = (1 << 0),
-> +};
-> +
-> +/**
-> + * struct drm_panthor_bo_create - Arguments passed to DRM_IOCTL_PANTHOR_BO_CREATE.
-> + */
-> +struct drm_panthor_bo_create {
-> +	/**
-> +	 * @size: Requested size for the object
-> +	 *
-> +	 * The (page-aligned) allocated size for the object will be returned.
-> +	 */
-> +	__u64 size;
-> +
-> +	/**
-> +	 * @flags: Flags. Must be a combination of drm_panthor_bo_flags flags.
-> +	 */
-> +	__u32 flags;
-> +
-> +	/**
-> +	 * @exclusive_vm_id: Exclusive VM this buffer object will be mapped to.
-> +	 *
-> +	 * If not zero, the field must refer to a valid VM ID, and implies that:
-> +	 *  - the buffer object will only ever be bound to that VM
-> +	 *  - cannot be exported as a PRIME fd
-> +	 */
-> +	__u32 exclusive_vm_id;
-> +
-> +	/**
-> +	 * @handle: Returned handle for the object.
-> +	 *
-> +	 * Object handles are nonzero.
-> +	 */
-> +	__u32 handle;
-> +
-> +	/** @pad: MBZ. */
-> +	__u32 pad;
-> +};
-> +
-> +/**
-> + * struct drm_panthor_bo_mmap_offset - Arguments passed to DRM_IOCTL_PANTHOR_BO_MMAP_OFFSET.
-> + */
-> +struct drm_panthor_bo_mmap_offset {
-> +	/** @handle: Handle of the object we want an mmap offset for. */
-> +	__u32 handle;
-> +
-> +	/** @pad: MBZ. */
-> +	__u32 pad;
-> +
-> +	/** @offset: The fake offset to use for subsequent mmap calls. */
-> +	__u64 offset;
-> +};
-> +
-> +/**
-> + * struct drm_panthor_queue_create - Queue creation arguments.
-> + */
-> +struct drm_panthor_queue_create {
-> +	/**
-> +	 * @priority: Defines the priority of queues inside a group. Goes from 0 to 15,
-> +	 * 15 being the highest priority.
-> +	 */
-> +	__u8 priority;
-> +
-> +	/** @pad: Padding fields, MBZ. */
-> +	__u8 pad[3];
-> +
-> +	/** @ringbuf_size: Size of the ring buffer to allocate to this queue. */
-> +	__u32 ringbuf_size;
-> +};
-> +
-> +/**
-> + * enum drm_panthor_group_priority - Scheduling group priority
-> + */
-> +enum drm_panthor_group_priority {
-> +	/** @PANTHOR_GROUP_PRIORITY_LOW: Low priority group. */
-> +	PANTHOR_GROUP_PRIORITY_LOW = 0,
-> +
-> +	/** @PANTHOR_GROUP_PRIORITY_MEDIUM: Medium priority group. */
-> +	PANTHOR_GROUP_PRIORITY_MEDIUM,
-> +
-> +	/** @PANTHOR_GROUP_PRIORITY_HIGH: High priority group. */
-> +	PANTHOR_GROUP_PRIORITY_HIGH,
-> +};
-> +
-> +/**
-> + * struct drm_panthor_group_create - Arguments passed to DRM_IOCTL_PANTHOR_GROUP_CREATE
-> + */
-> +struct drm_panthor_group_create {
-> +	/** @queues: Array of drm_panthor_queue_create elements. */
-> +	struct drm_panthor_obj_array queues;
-> +
-> +	/**
-> +	 * @max_compute_cores: Maximum number of cores that can be used by compute
-> +	 * jobs across CS queues bound to this group.
-> +	 *
-> +	 * Must be less or equal to the number of bits set in @compute_core_mask.
-> +	 */
-> +	__u8 max_compute_cores;
-> +
-> +	/**
-> +	 * @max_fragment_cores: Maximum number of cores that can be used by fragment
-> +	 * jobs across CS queues bound to this group.
-> +	 *
-> +	 * Must be less or equal to the number of bits set in @fragment_core_mask.
-> +	 */
-> +	__u8 max_fragment_cores;
-> +
-> +	/**
-> +	 * @max_tiler_cores: Maximum number of tilers that can be used by tiler jobs
-> +	 * across CS queues bound to this group.
-> +	 *
-> +	 * Must be less or equal to the number of bits set in @tiler_core_mask.
-> +	 */
-> +	__u8 max_tiler_cores;
-> +
-> +	/** @priority: Group priority (see enum drm_panthor_group_priority). */
-> +	__u8 priority;
-> +
-> +	/** @pad: Padding field, MBZ. */
-> +	__u32 pad;
-> +
-> +	/**
-> +	 * @compute_core_mask: Mask encoding cores that can be used for compute jobs.
-> +	 *
-> +	 * This field must have at least @max_compute_cores bits set.
-> +	 *
-> +	 * The bits set here should also be set in drm_panthor_gpu_info::shader_present.
-> +	 */
-> +	__u64 compute_core_mask;
-> +
-> +	/**
-> +	 * @fragment_core_mask: Mask encoding cores that can be used for fragment jobs.
-> +	 *
-> +	 * This field must have at least @max_fragment_cores bits set.
-> +	 *
-> +	 * The bits set here should also be set in drm_panthor_gpu_info::shader_present.
-> +	 */
-> +	__u64 fragment_core_mask;
-> +
-> +	/**
-> +	 * @tiler_core_mask: Mask encoding cores that can be used for tiler jobs.
-> +	 *
-> +	 * This field must have at least @max_tiler_cores bits set.
-> +	 *
-> +	 * The bits set here should also be set in drm_panthor_gpu_info::tiler_present.
-> +	 */
-> +	__u64 tiler_core_mask;
-> +
-> +	/**
-> +	 * @vm_id: VM ID to bind this group to.
-> +	 *
-> +	 * All submission to queues bound to this group will use this VM.
-> +	 */
-> +	__u32 vm_id;
-> +
-> +	/**
-> +	 * @group_handle: Returned group handle. Passed back when submitting jobs or
-> +	 * destroying a group.
-> +	 */
-> +	__u32 group_handle;
-> +};
-> +
-> +/**
-> + * struct drm_panthor_group_destroy - Arguments passed to DRM_IOCTL_PANTHOR_GROUP_DESTROY
-> + */
-> +struct drm_panthor_group_destroy {
-> +	/** @group_handle: Group to destroy */
-> +	__u32 group_handle;
-> +
-> +	/** @pad: Padding field, MBZ. */
-> +	__u32 pad;
-> +};
-> +
-> +/**
-> + * struct drm_panthor_queue_submit - Job submission arguments.
-> + *
-> + * This is describing the userspace command stream to call from the kernel
-> + * command stream ring-buffer. Queue submission is always part of a group
-> + * submission, taking one or more jobs to submit to the underlying queues.
-> + */
-> +struct drm_panthor_queue_submit {
-> +	/** @queue_index: Index of the queue inside a group. */
-> +	__u32 queue_index;
-> +
-> +	/**
-> +	 * @stream_size: Size of the command stream to execute.
-> +	 *
-> +	 * Must be 64-bit/8-byte aligned (the size of a CS instruction)
-> +	 *
-> +	 * Can be zero if stream_addr is zero too.
-> +	 */
-> +	__u32 stream_size;
-> +
-> +	/**
-> +	 * @stream_addr: GPU address of the command stream to execute.
-> +	 *
-> +	 * Must be aligned on 64-byte.
-> +	 *
-> +	 * Can be zero is stream_size is zero too.
-> +	 */
-> +	__u64 stream_addr;
-> +
-> +	/**
-> +	 * @latest_flush: FLUSH_ID read at the time the stream was built.
-> +	 *
-> +	 * This allows cache flush elimination for the automatic
-> +	 * flush+invalidate(all) done at submission time, which is needed to
-> +	 * ensure the GPU doesn't get garbage when reading the indirect command
-> +	 * stream buffers. If you want the cache flush to happen
-> +	 * unconditionally, pass a zero here.
-> +	 */
-> +	__u32 latest_flush;
-> +
-> +	/** @pad: MBZ. */
-> +	__u32 pad;
-> +
-> +	/** @syncs: Array of struct drm_panthor_sync_op sync operations. */
-> +	struct drm_panthor_obj_array syncs;
-> +};
-> +
-> +/**
-> + * struct drm_panthor_group_submit - Arguments passed to DRM_IOCTL_PANTHOR_VM_BIND
-> + */
-> +struct drm_panthor_group_submit {
-> +	/** @group_handle: Handle of the group to queue jobs to. */
-> +	__u32 group_handle;
-> +
-> +	/** @pad: MBZ. */
-> +	__u32 pad;
-> +
-> +	/** @queue_submits: Array of drm_panthor_queue_submit objects. */
-> +	struct drm_panthor_obj_array queue_submits;
-> +};
-> +
-> +/**
-> + * enum drm_panthor_group_state_flags - Group state flags
-> + */
-> +enum drm_panthor_group_state_flags {
-> +	/**
-> +	 * @DRM_PANTHOR_GROUP_STATE_TIMEDOUT: Group had unfinished jobs.
-> +	 *
-> +	 * When a group ends up with this flag set, no jobs can be submitted to its queues.
-> +	 */
-> +	DRM_PANTHOR_GROUP_STATE_TIMEDOUT = 1 << 0,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_GROUP_STATE_FATAL_FAULT: Group had fatal faults.
-> +	 *
-> +	 * When a group ends up with this flag set, no jobs can be submitted to its queues.
-> +	 */
-> +	DRM_PANTHOR_GROUP_STATE_FATAL_FAULT = 1 << 1,
-> +};
-> +
-> +/**
-> + * struct drm_panthor_group_get_state - Arguments passed to DRM_IOCTL_PANTHOR_GROUP_GET_STATE
-> + *
-> + * Used to query the state of a group and decide whether a new group should be created to
-> + * replace it.
-> + */
-> +struct drm_panthor_group_get_state {
-> +	/** @group_handle: Handle of the group to query state on */
-> +	__u32 group_handle;
-> +
-> +	/**
-> +	 * @state: Combination of DRM_PANTHOR_GROUP_STATE_* flags encoding the
-> +	 * group state.
-> +	 */
-> +	__u32 state;
-> +
-> +	/** @fatal_queues: Bitmask of queues that faced fatal faults. */
-> +	__u32 fatal_queues;
-> +
-> +	/** @pad: MBZ */
-> +	__u32 pad;
-> +};
-> +
-> +/**
-> + * struct drm_panthor_tiler_heap_create - Arguments passed to DRM_IOCTL_PANTHOR_TILER_HEAP_CREATE
-> + */
-> +struct drm_panthor_tiler_heap_create {
-> +	/** @vm_id: VM ID the tiler heap should be mapped to */
-> +	__u32 vm_id;
-> +
-> +	/** @initial_chunk_count: Initial number of chunks to allocate. */
-> +	__u32 initial_chunk_count;
-> +
-> +	/** @chunk_size: Chunk size. Must be a power of two at least 256KB large. */
-> +	__u32 chunk_size;
-> +
-> +	/** @max_chunks: Maximum number of chunks that can be allocated. */
-> +	__u32 max_chunks;
-> +
-> +	/**
-> +	 * @target_in_flight: Maximum number of in-flight render passes.
-> +	 *
-> +	 * If the heap has more than tiler jobs in-flight, the FW will wait for render
-> +	 * passes to finish before queuing new tiler jobs.
-> +	 */
-> +	__u32 target_in_flight;
-> +
-> +	/** @handle: Returned heap handle. Passed back to DESTROY_TILER_HEAP. */
-> +	__u32 handle;
-> +
-> +	/** @tiler_heap_ctx_gpu_va: Returned heap GPU virtual address returned */
-> +	__u64 tiler_heap_ctx_gpu_va;
-> +
-> +	/**
-> +	 * @first_heap_chunk_gpu_va: First heap chunk.
-> +	 *
-> +	 * The tiler heap is formed of heap chunks forming a single-link list. This
-> +	 * is the first element in the list.
-> +	 */
-> +	__u64 first_heap_chunk_gpu_va;
-> +};
-> +
-> +/**
-> + * struct drm_panthor_tiler_heap_destroy - Arguments passed to DRM_IOCTL_PANTHOR_TILER_HEAP_DESTROY
-> + */
-> +struct drm_panthor_tiler_heap_destroy {
-> +	/** @handle: Handle of the tiler heap to destroy */
-> +	__u32 handle;
-> +
-> +	/** @pad: Padding field, MBZ. */
-> +	__u32 pad;
-> +};
-> +
-> +#if defined(__cplusplus)
-> +}
-> +#endif
-> +
-> +#endif /* _PANTHOR_DRM_H_ */
 
