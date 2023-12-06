@@ -2,107 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5112A806AF6
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 10:45:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7681F806B1C
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 10:56:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2343F10E0BB;
-	Wed,  6 Dec 2023 09:45:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 371A010E09B;
+	Wed,  6 Dec 2023 09:56:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de
- [IPv6:2a07:de40:b251:101:10:150:64:2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E62F10E0BB
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 09:45:23 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C90241FD00;
- Wed,  6 Dec 2023 09:45:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1701855920; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=KSkJt4y7p0wdaCBauVAdCMwiwJmIzo+V5BXdrVv2TXw=;
- b=RUaqvki4vbfa8oWE0DG/l5ttgcGASvQPqTmLhMP5tcIGuWMmWWF5gj8ORpG1AB4gyN1hUs
- vNYj0hXmmm8ReV9+s830uRjrPFNzucwK6EjuNrsAfF+P1GwPiwkcjhKCrxXLW9M0xiriMx
- W7tujW9OHRBFqP+FLxD81mwc7sX/pZ0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1701855920;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=KSkJt4y7p0wdaCBauVAdCMwiwJmIzo+V5BXdrVv2TXw=;
- b=G5GiEdt5xKHY9izVgsH5NvBs4yziyKzbEWXz13zhBH4n8cIjl5YMqEX+n+SILFhDdPxAMU
- //4FiFV6Qlep8sDg==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 88D1F133DD;
- Wed,  6 Dec 2023 09:45:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap2.dmz-prg2.suse.org with ESMTPSA id nCUvILBCcGUWPQAAn2gu4w
- (envelope-from <tzimmermann@suse.de>); Wed, 06 Dec 2023 09:45:20 +0000
-Message-ID: <9dcf5b34-cf0a-445f-81f0-91d3a92a907f@suse.de>
-Date: Wed, 6 Dec 2023 10:45:19 +0100
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9314710E09B
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 09:56:44 +0000 (UTC)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+ (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+ (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+ by ex01.ufhost.com (Postfix) with ESMTP id C6B9C24E2B7;
+ Wed,  6 Dec 2023 17:56:36 +0800 (CST)
+Received: from EXMBX171.cuchost.com (172.16.6.91) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 6 Dec
+ 2023 17:56:36 +0800
+Received: from [192.168.125.88] (183.27.97.199) by EXMBX171.cuchost.com
+ (172.16.6.91) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 6 Dec
+ 2023 17:56:35 +0800
+Message-ID: <0447c983-ee90-475e-9356-ad451f32da1d@starfivetech.com>
+Date: Wed, 6 Dec 2023 17:53:23 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [v2, 1/4] fbdev/efifb: Replace references to global screen_info by
- local pointer
+Subject: Re: [PATCH v1 0/2] Add waveshare 7inch touchscreen panel support
 Content-Language: en-US
-To: Sui Jingfeng <sui.jingfeng@linux.dev>, javierm@redhat.com, deller@gmx.de, 
- pjones@redhat.com
-References: <20231204092812.2612-2-tzimmermann@suse.de>
- <2f6909a7-21a2-4ffc-84bf-962132a9f9b4@linux.dev>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <2f6909a7-21a2-4ffc-84bf-962132a9f9b4@linux.dev>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------2uH50ApP1ZykL31pjf0QZZ2d"
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -5.28
-X-Spamd-Result: default: False [-5.28 / 50.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
- XM_UA_NO_VERSION(0.01)[]; TO_DN_SOME(0.00)[];
- HAS_ATTACHMENT(0.00)[]; RCPT_COUNT_FIVE(0.00)[6];
- RCVD_COUNT_THREE(0.00)[3]; NEURAL_HAM_SHORT(-0.19)[-0.944];
- MIME_BASE64_TEXT(0.10)[]; SIGNED_PGP(-2.00)[];
- FREEMAIL_TO(0.00)[linux.dev,redhat.com,gmx.de];
- FROM_EQ_ENVFROM(0.00)[]; MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
- MID_RHS_MATCH_FROM(0.00)[]; BAYES_HAM(-3.00)[100.00%];
- ARC_NA(0.00)[]; FROM_HAS_DN(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmx.de]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,loongson.cn:email];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
+To: Stefan Wahren <wahrenst@gmx.net>, <devicetree@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>
+References: <20231124104451.44271-1-shengyang.chen@starfivetech.com>
+ <dab03c60-caa9-47e3-9dac-fa499227b67b@gmx.net>
+From: Shengyang Chen <shengyang.chen@starfivetech.com>
+In-Reply-To: <dab03c60-caa9-47e3-9dac-fa499227b67b@gmx.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [183.27.97.199]
+X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX171.cuchost.com
+ (172.16.6.91)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,293 +53,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: thierry.reding@gmail.com, neil.armstrong@linaro.org, conor+dt@kernel.org,
+ keith.zhao@starfivetech.com, tzimmermann@suse.de,
+ krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
+ linux-kernel@vger.kernel.org, mripard@kernel.org, jack.zhu@starfivetech.com,
+ robh+dt@kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, florian.fainelli@broadcom.com,
+ quic_jesszhan@quicinc.com, changhuang.liang@starfivetech.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------2uH50ApP1ZykL31pjf0QZZ2d
-Content-Type: multipart/mixed; boundary="------------XQGXA7UEU19csLcvP0Zp7I3u";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>, javierm@redhat.com, deller@gmx.de,
- pjones@redhat.com
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <9dcf5b34-cf0a-445f-81f0-91d3a92a907f@suse.de>
-Subject: Re: [v2,1/4] fbdev/efifb: Replace references to global screen_info by
- local pointer
-References: <20231204092812.2612-2-tzimmermann@suse.de>
- <2f6909a7-21a2-4ffc-84bf-962132a9f9b4@linux.dev>
-In-Reply-To: <2f6909a7-21a2-4ffc-84bf-962132a9f9b4@linux.dev>
+Hi, Stefan
 
---------------XQGXA7UEU19csLcvP0Zp7I3u
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Thanks for your comment and review
 
-SGkNCg0KQW0gMDQuMTIuMjMgdW0gMjA6NTMgc2NocmllYiBTdWkgSmluZ2Zlbmc6DQo+IEhp
-LA0KPiANCj4gDQo+IE9uIDIwMjMvMTIvNCAxNzoyNywgVGhvbWFzIFppbW1lcm1hbm4gd3Jv
-dGU6DQo+PiBHZXQgdGhlIGdsb2JhbCBzY3JlZW5faW5mbydzIGFkZHJlc3Mgb25jZSBhbmQg
-YWNjZXNzIHRoZSBkYXRhIHZpYQ0KPj4gdGhpcyBwb2ludGVyLiBMaW1pdHMgdGhlIHVzZSBv
-ZiBnbG9iYWwgc3RhdGUuDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1h
-bm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+PiBSZXZpZXdlZC1ieTogSmF2aWVyIE1hcnRp
-bmV6IENhbmlsbGFzIDxqYXZpZXJtQHJlZGhhdC5jb20+DQo+IA0KPiBSZXZpZXdlZC1ieTog
-U3VpIEppbmdmZW5nIDxzdWlqaW5nZmVuZ0Bsb29uZ3Nvbi5jbj4NCj4gDQo+IA0KPiBJIGhh
-dmUgYXBwbGllZCB0aGUgd2hvbGUgc2VyaWVzIGFuZCBkbyBhIHNpbXBsZSB0ZXN0IHdpdGgg
-ZWZpZmI6DQo+IFllYWgsIHN0aWxsIHdvcmtzIQ0KDQpDYW4gSSB0YWtlIHRoaXMgYXMgVGVz
-dGVkLWJ5OiBmb3IgdGhlIGVmaWZiIHBhdGNoZXMgPw0KDQpCZXN0IHJlZ2FyZHMNClRob21h
-cw0KDQo+IA0KPiAkIGRtZXNnIHwgZ3JlcCBlZmlmYg0KPiANCj4gW8KgwqDCoCAwLjM3Mzgw
-MF0gZWZpZmI6IHByb2JpbmcgZm9yIGVmaWZiDQo+IFvCoMKgwqAgMC4zNzM4MTZdIGVmaWZi
-OiBmcmFtZWJ1ZmZlciBhdCAweGUwMDMwMDAwMDAwLCB1c2luZyA1MTIwaywgdG90YWwgDQo+
-IDUxMjBrDQo+IFvCoMKgwqAgMC4zNzM4MThdIGVmaWZiOiBtb2RlIGlzIDEyODB4MTAyNHgz
-MiwgbGluZWxlbmd0aD01MTIwLCBwYWdlcz0xDQo+IFvCoMKgwqAgMC4zNzM4MjBdIGVmaWZi
-OiBzY3JvbGxpbmc6IHJlZHJhdw0KPiBbwqDCoMKgIDAuMzczODIxXSBlZmlmYjogVHJ1ZWNv
-bG9yOiBzaXplPTg6ODo4OjgsIHNoaWZ0PTI0OjE2Ojg6MA0KPiANCj4gDQo+PiAtLS0NCj4+
-IMKgIGRyaXZlcnMvdmlkZW8vZmJkZXYvZWZpZmIuYyB8IDExMyArKysrKysrKysrKysrKysr
-KystLS0tLS0tLS0tLS0tLS0tLS0NCj4+IMKgIDEgZmlsZSBjaGFuZ2VkLCA1OCBpbnNlcnRp
-b25zKCspLCA1NSBkZWxldGlvbnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92
-aWRlby9mYmRldi9lZmlmYi5jIGIvZHJpdmVycy92aWRlby9mYmRldi9lZmlmYi5jDQo+PiBp
-bmRleCBmOWI0ZGRkNTkyY2U0Li42Y2JiNjViYmUxMTEwIDEwMDY0NA0KPj4gLS0tIGEvZHJp
-dmVycy92aWRlby9mYmRldi9lZmlmYi5jDQo+PiArKysgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2
-L2VmaWZiLmMNCj4+IEBAIC0xNDcsMTAgKzE0Nyw5IEBAIHN0YXRpYyBib29sIGVmaWZiX2Jn
-cnRfc2FuaXR5X2NoZWNrKHN0cnVjdCANCj4+IHNjcmVlbl9pbmZvICpzaSwgdTMyIGJtcF93
-aWR0aCkNCj4+IMKgIH0NCj4+IMKgICNlbmRpZg0KPj4gLXN0YXRpYyB2b2lkIGVmaWZiX3No
-b3dfYm9vdF9ncmFwaGljcyhzdHJ1Y3QgZmJfaW5mbyAqaW5mbykNCj4+ICtzdGF0aWMgdm9p
-ZCBlZmlmYl9zaG93X2Jvb3RfZ3JhcGhpY3Moc3RydWN0IGZiX2luZm8gKmluZm8sIHN0cnVj
-dCANCj4+IHNjcmVlbl9pbmZvICpzaSkNCj4gDQo+IEkgdGhpbmssIHdlIHByb2JhYmx5IGNh
-biBhZGQgYSBjb25zdCBtb2RpZmllciBmb3IgdGhlIGZ1bmN0aW9uDQo+IHdoaWNoIGRvZXNu
-J3QgbW9kaWZ5IG91ciBsb2NhbCB0aGUgc2NyZWVuX2luZm8gaW5zdGFuY2UgaW4gdGhlIGZ1
-dHVyZS4NCj4gDQo+IHN0YXRpYyB2b2lkIGVmaWZiX3Nob3dfYm9vdF9ncmFwaGljcyhzdHJ1
-Y3QgZmJfaW5mbyAqaW5mbywgY29uc3Qgc3RydWN0IA0KPiBzY3JlZW5faW5mbyAqc2kpDQo+
-IA0KPiBTaW5jZSBzY3JlZW5faW5mbyBpcyBtb3N0bHkgdXNlZCB0byBwcm92aWRlIGluZm9y
-bWF0aW9uLg0KPiANCj4gDQo+PiDCoCB7DQo+PiDCoMKgwqDCoMKgIHUzMiBibXBfd2lkdGgs
-IGJtcF9oZWlnaHQsIGJtcF9waXRjaCwgZHN0X3gsIHksIHNyY195Ow0KPj4gLcKgwqDCoCBz
-dHJ1Y3Qgc2NyZWVuX2luZm8gKnNpID0gJnNjcmVlbl9pbmZvOw0KPj4gwqDCoMKgwqDCoCBz
-dHJ1Y3QgYm1wX2ZpbGVfaGVhZGVyICpmaWxlX2hlYWRlcjsNCj4+IMKgwqDCoMKgwqAgc3Ry
-dWN0IGJtcF9kaWJfaGVhZGVyICpkaWJfaGVhZGVyOw0KPj4gwqDCoMKgwqDCoCB2b2lkICpi
-Z3J0X2ltYWdlID0gTlVMTDsNCj4+IEBAIC0yODIsNyArMjgxLDcgQEAgc3RhdGljIGNvbnN0
-IHN0cnVjdCBmYl9vcHMgZWZpZmJfb3BzID0gew0KPj4gwqDCoMKgwqDCoCAuZmJfc2V0Y29s
-cmVnwqDCoMKgID0gZWZpZmJfc2V0Y29scmVnLA0KPj4gwqAgfTsNCj4+IC1zdGF0aWMgaW50
-IGVmaWZiX3NldHVwKGNoYXIgKm9wdGlvbnMpDQo+PiArc3RhdGljIGludCBlZmlmYl9zZXR1
-cChzdHJ1Y3Qgc2NyZWVuX2luZm8gKnNpLCBjaGFyICpvcHRpb25zKQ0KPj4gwqAgew0KPj4g
-wqDCoMKgwqDCoCBjaGFyICp0aGlzX29wdDsNCj4+IEBAIC0yOTAsMTYgKzI4OSwxNiBAQCBz
-dGF0aWMgaW50IGVmaWZiX3NldHVwKGNoYXIgKm9wdGlvbnMpDQo+PiDCoMKgwqDCoMKgwqDC
-oMKgwqAgd2hpbGUgKCh0aGlzX29wdCA9IHN0cnNlcCgmb3B0aW9ucywgIiwiKSkgIT0gTlVM
-TCkgew0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKCEqdGhpc19vcHQpIGNv
-bnRpbnVlOw0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZWZpZmJfc2V0dXBfZnJvbV9k
-bWkoJnNjcmVlbl9pbmZvLCB0aGlzX29wdCk7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBlZmlmYl9zZXR1cF9mcm9tX2RtaShzaSwgdGhpc19vcHQpOw0KPj4gwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgaWYgKCFzdHJuY21wKHRoaXNfb3B0LCAiYmFzZToiLCA1KSkNCj4+
-IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc2NyZWVuX2luZm8ubGZiX2Jhc2Ug
-PSBzaW1wbGVfc3RydG91bCh0aGlzX29wdCs1LCANCj4+IE5VTEwsIDApOw0KPj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzaS0+bGZiX2Jhc2UgPSBzaW1wbGVfc3RydG91
-bCh0aGlzX29wdCs1LCBOVUxMLCAwKTsNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IGVsc2UgaWYgKCFzdHJuY21wKHRoaXNfb3B0LCAic3RyaWRlOiIsIDcpKQ0KPj4gLcKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzY3JlZW5faW5mby5sZmJfbGluZWxlbmd0aCA9
-IA0KPj4gc2ltcGxlX3N0cnRvdWwodGhpc19vcHQrNywgTlVMTCwgMCkgKiA0Ow0KPj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzaS0+bGZiX2xpbmVsZW5ndGggPSBzaW1w
-bGVfc3RydG91bCh0aGlzX29wdCs3LCBOVUxMLCANCj4+IDApICogNDsNCj4+IMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIGVsc2UgaWYgKCFzdHJuY21wKHRoaXNfb3B0LCAiaGVpZ2h0
-OiIsIDcpKQ0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzY3JlZW5faW5m
-by5sZmJfaGVpZ2h0ID0gc2ltcGxlX3N0cnRvdWwodGhpc19vcHQrNywgDQo+PiBOVUxMLCAw
-KTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc2ktPmxmYl9oZWlnaHQg
-PSBzaW1wbGVfc3RydG91bCh0aGlzX29wdCs3LCBOVUxMLCAwKTsNCj4+IMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIGVsc2UgaWYgKCFzdHJuY21wKHRoaXNfb3B0LCAid2lkdGg6Iiwg
-NikpDQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNjcmVlbl9pbmZvLmxm
-Yl93aWR0aCA9IHNpbXBsZV9zdHJ0b3VsKHRoaXNfb3B0KzYsIA0KPj4gTlVMTCwgMCk7DQo+
-PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNpLT5sZmJfd2lkdGggPSBzaW1w
-bGVfc3RydG91bCh0aGlzX29wdCs2LCBOVUxMLCAwKTsNCj4+IMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIGVsc2UgaWYgKCFzdHJjbXAodGhpc19vcHQsICJub3djIikpDQo+PiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG1lbV9mbGFncyAmPSB+RUZJX01FTU9S
-WV9XQzsNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVsc2UgaWYgKCFzdHJjbXAo
-dGhpc19vcHQsICJub2JncnQiKSkNCj4+IEBAIC0zMTAsMTUgKzMwOSwxNSBAQCBzdGF0aWMg
-aW50IGVmaWZiX3NldHVwKGNoYXIgKm9wdGlvbnMpDQo+PiDCoMKgwqDCoMKgIHJldHVybiAw
-Ow0KPj4gwqAgfQ0KPj4gLXN0YXRpYyBpbmxpbmUgYm9vbCBmYl9iYXNlX2lzX3ZhbGlkKHZv
-aWQpDQo+PiArc3RhdGljIGlubGluZSBib29sIGZiX2Jhc2VfaXNfdmFsaWQoc3RydWN0IHNj
-cmVlbl9pbmZvICpzaSkNCj4+IMKgIHsNCj4+IC3CoMKgwqAgaWYgKHNjcmVlbl9pbmZvLmxm
-Yl9iYXNlKQ0KPj4gK8KgwqDCoCBpZiAoc2ktPmxmYl9iYXNlKQ0KPj4gwqDCoMKgwqDCoMKg
-wqDCoMKgIHJldHVybiB0cnVlOw0KPj4gLcKgwqDCoCBpZiAoIShzY3JlZW5faW5mby5jYXBh
-YmlsaXRpZXMgJiBWSURFT19DQVBBQklMSVRZXzY0QklUX0JBU0UpKQ0KPj4gK8KgwqDCoCBp
-ZiAoIShzaS0+Y2FwYWJpbGl0aWVzICYgVklERU9fQ0FQQUJJTElUWV82NEJJVF9CQVNFKSkN
-Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gZmFsc2U7DQo+PiAtwqDCoMKgIGlmIChz
-Y3JlZW5faW5mby5leHRfbGZiX2Jhc2UpDQo+PiArwqDCoMKgIGlmIChzaS0+ZXh0X2xmYl9i
-YXNlKQ0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiB0cnVlOw0KPj4gwqDCoMKgwqDC
-oCByZXR1cm4gZmFsc2U7DQo+PiBAQCAtMzI5LDcgKzMyOCwxMCBAQCBzdGF0aWMgc3NpemVf
-dCBuYW1lIyNfc2hvdyhzdHJ1Y3QgZGV2aWNlIA0KPj4gKmRldizCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgXA0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-c3RydWN0IGRldmljZV9hdHRyaWJ1dGUgKmF0dHIswqDCoMKgwqDCoMKgwqAgXA0KPj4gwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY2hhciAqYnVmKcKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFwNCj4+IMKgIHvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFwN
-Cj4+IC3CoMKgwqAgcmV0dXJuIHNwcmludGYoYnVmLCBmbXQgIlxuIiwgKHNjcmVlbl9pbmZv
-LmxmYl8jI25hbWUpKTvCoMKgwqAgXA0KPj4gK8KgwqDCoCBzdHJ1Y3Qgc2NyZWVuX2luZm8g
-KnNpID0gZGV2X2dldF9wbGF0ZGF0YShkZXYpO8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXA0K
-Pj4gK8KgwqDCoCBpZiAoIXNpKcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBcDQo+PiArwqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FTk9E
-RVY7wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBcDQo+
-PiArwqDCoMKgIHJldHVybiBzcHJpbnRmKGJ1ZiwgZm10ICJcbiIsIChzaS0+bGZiXyMjbmFt
-ZSkpO8KgwqDCoMKgwqDCoMKgIFwNCj4+IMKgIH3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFwNCj4+IMKg
-IHN0YXRpYyBERVZJQ0VfQVRUUl9STyhuYW1lKQ0KPj4gQEAgLTM1Niw2ICszNTgsNyBAQCBz
-dGF0aWMgdTY0IGJhcl9vZmZzZXQ7DQo+PiDCoCBzdGF0aWMgaW50IGVmaWZiX3Byb2JlKHN0
-cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKmRldikNCj4+IMKgIHsNCj4+ICvCoMKgwqAgc3RydWN0
-IHNjcmVlbl9pbmZvICpzaSA9ICZzY3JlZW5faW5mbzsNCj4+IMKgwqDCoMKgwqAgc3RydWN0
-IGZiX2luZm8gKmluZm87DQo+PiDCoMKgwqDCoMKgIHN0cnVjdCBlZmlmYl9wYXIgKnBhcjsN
-Cj4+IMKgwqDCoMKgwqAgaW50IGVyciwgb3JpZW50YXRpb247DQo+PiBAQCAtMzY1LDQ4ICsz
-NjgsNDggQEAgc3RhdGljIGludCBlZmlmYl9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNl
-ICpkZXYpDQo+PiDCoMKgwqDCoMKgIGNoYXIgKm9wdGlvbiA9IE5VTEw7DQo+PiDCoMKgwqDC
-oMKgIGVmaV9tZW1vcnlfZGVzY190IG1kOw0KPj4gLcKgwqDCoCBpZiAoc2NyZWVuX2luZm8u
-b3JpZ192aWRlb19pc1ZHQSAhPSBWSURFT19UWVBFX0VGSSB8fCANCj4+IHBjaV9kZXZfZGlz
-YWJsZWQpDQo+PiArwqDCoMKgIGlmIChzaS0+b3JpZ192aWRlb19pc1ZHQSAhPSBWSURFT19U
-WVBFX0VGSSB8fCBwY2lfZGV2X2Rpc2FibGVkKQ0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIHJl
-dHVybiAtRU5PREVWOw0KPj4gwqDCoMKgwqDCoCBpZiAoZmJfZ2V0X29wdGlvbnMoImVmaWZi
-IiwgJm9wdGlvbikpDQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FTk9ERVY7DQo+
-PiAtwqDCoMKgIGVmaWZiX3NldHVwKG9wdGlvbik7DQo+PiArwqDCoMKgIGVmaWZiX3NldHVw
-KHNpLCBvcHRpb24pOw0KPj4gwqDCoMKgwqDCoCAvKiBXZSBkb24ndCBnZXQgbGluZWxlbmd0
-aCBmcm9tIFVHQSBEcmF3IFByb3RvY29sLCBvbmx5IGZyb20NCj4+IMKgwqDCoMKgwqDCoCAq
-IEVGSSBHcmFwaGljcyBQcm90b2NvbC7CoCBTbyBpZiBpdCdzIG5vdCBpbiBETUksIGFuZCBp
-dCdzIG5vdA0KPj4gwqDCoMKgwqDCoMKgICogcGFzc2VkIGluIGZyb20gdGhlIHVzZXIsIHdl
-IHJlYWxseSBjYW4ndCB1c2UgdGhlIGZyYW1lYnVmZmVyLg0KPj4gwqDCoMKgwqDCoMKgICov
-DQo+PiAtwqDCoMKgIGlmICghc2NyZWVuX2luZm8ubGZiX2xpbmVsZW5ndGgpDQo+PiArwqDC
-oMKgIGlmICghc2ktPmxmYl9saW5lbGVuZ3RoKQ0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIHJl
-dHVybiAtRU5PREVWOw0KPj4gLcKgwqDCoCBpZiAoIXNjcmVlbl9pbmZvLmxmYl9kZXB0aCkN
-Cj4+IC3CoMKgwqDCoMKgwqDCoCBzY3JlZW5faW5mby5sZmJfZGVwdGggPSAzMjsNCj4+IC3C
-oMKgwqAgaWYgKCFzY3JlZW5faW5mby5wYWdlcykNCj4+IC3CoMKgwqDCoMKgwqDCoCBzY3Jl
-ZW5faW5mby5wYWdlcyA9IDE7DQo+PiAtwqDCoMKgIGlmICghZmJfYmFzZV9pc192YWxpZCgp
-KSB7DQo+PiArwqDCoMKgIGlmICghc2ktPmxmYl9kZXB0aCkNCj4+ICvCoMKgwqDCoMKgwqDC
-oCBzaS0+bGZiX2RlcHRoID0gMzI7DQo+PiArwqDCoMKgIGlmICghc2ktPnBhZ2VzKQ0KPj4g
-K8KgwqDCoMKgwqDCoMKgIHNpLT5wYWdlcyA9IDE7DQo+PiArwqDCoMKgIGlmICghZmJfYmFz
-ZV9pc192YWxpZChzaSkpIHsNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBwcmludGsoS0VSTl9E
-RUJVRyAiZWZpZmI6IGludmFsaWQgZnJhbWVidWZmZXIgYWRkcmVzc1xuIik7DQo+PiDCoMKg
-wqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FTk9ERVY7DQo+PiDCoMKgwqDCoMKgIH0NCj4+IMKg
-wqDCoMKgwqAgcHJpbnRrKEtFUk5fSU5GTyAiZWZpZmI6IHByb2JpbmcgZm9yIGVmaWZiXG4i
-KTsNCj4+IMKgwqDCoMKgwqAgLyoganVzdCBhc3N1bWUgdGhleSdyZSBhbGwgdW5zZXQgaWYg
-YW55IGFyZSAqLw0KPj4gLcKgwqDCoCBpZiAoIXNjcmVlbl9pbmZvLmJsdWVfc2l6ZSkgew0K
-Pj4gLcKgwqDCoMKgwqDCoMKgIHNjcmVlbl9pbmZvLmJsdWVfc2l6ZSA9IDg7DQo+PiAtwqDC
-oMKgwqDCoMKgwqAgc2NyZWVuX2luZm8uYmx1ZV9wb3MgPSAwOw0KPj4gLcKgwqDCoMKgwqDC
-oMKgIHNjcmVlbl9pbmZvLmdyZWVuX3NpemUgPSA4Ow0KPj4gLcKgwqDCoMKgwqDCoMKgIHNj
-cmVlbl9pbmZvLmdyZWVuX3BvcyA9IDg7DQo+PiAtwqDCoMKgwqDCoMKgwqAgc2NyZWVuX2lu
-Zm8ucmVkX3NpemUgPSA4Ow0KPj4gLcKgwqDCoMKgwqDCoMKgIHNjcmVlbl9pbmZvLnJlZF9w
-b3MgPSAxNjsNCj4+IC3CoMKgwqDCoMKgwqDCoCBzY3JlZW5faW5mby5yc3ZkX3NpemUgPSA4
-Ow0KPj4gLcKgwqDCoMKgwqDCoMKgIHNjcmVlbl9pbmZvLnJzdmRfcG9zID0gMjQ7DQo+PiAr
-wqDCoMKgIGlmICghc2ktPmJsdWVfc2l6ZSkgew0KPj4gK8KgwqDCoMKgwqDCoMKgIHNpLT5i
-bHVlX3NpemUgPSA4Ow0KPj4gK8KgwqDCoMKgwqDCoMKgIHNpLT5ibHVlX3BvcyA9IDA7DQo+
-PiArwqDCoMKgwqDCoMKgwqAgc2ktPmdyZWVuX3NpemUgPSA4Ow0KPj4gK8KgwqDCoMKgwqDC
-oMKgIHNpLT5ncmVlbl9wb3MgPSA4Ow0KPj4gK8KgwqDCoMKgwqDCoMKgIHNpLT5yZWRfc2l6
-ZSA9IDg7DQo+PiArwqDCoMKgwqDCoMKgwqAgc2ktPnJlZF9wb3MgPSAxNjsNCj4+ICvCoMKg
-wqDCoMKgwqDCoCBzaS0+cnN2ZF9zaXplID0gODsNCj4+ICvCoMKgwqDCoMKgwqDCoCBzaS0+
-cnN2ZF9wb3MgPSAyNDsNCj4+IMKgwqDCoMKgwqAgfQ0KPiANCj4gDQo+IFllYWgsIEhlcmUg
-dGhlIGVmaWZiIG1vZGlmaWVkIG91ciBsb2NhbCBzY3JlZW5faW5mbyBpbnN0YW5jZSwgYnV0
-IHRoaXMgDQo+IGlzIG5vdCByZWxldmFudCB0byB5b3VyIHBhdGNoLg0KPiANCj4gDQo+PiAt
-wqDCoMKgIGVmaWZiX2ZpeC5zbWVtX3N0YXJ0ID0gc2NyZWVuX2luZm8ubGZiX2Jhc2U7DQo+
-PiArwqDCoMKgIGVmaWZiX2ZpeC5zbWVtX3N0YXJ0ID0gc2ktPmxmYl9iYXNlOw0KPj4gLcKg
-wqDCoCBpZiAoc2NyZWVuX2luZm8uY2FwYWJpbGl0aWVzICYgVklERU9fQ0FQQUJJTElUWV82
-NEJJVF9CQVNFKSB7DQo+PiArwqDCoMKgIGlmIChzaS0+Y2FwYWJpbGl0aWVzICYgVklERU9f
-Q0FQQUJJTElUWV82NEJJVF9CQVNFKSB7DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgdTY0IGV4
-dF9sZmJfYmFzZTsNCj4+IC3CoMKgwqDCoMKgwqDCoCBleHRfbGZiX2Jhc2UgPSAodTY0KSh1
-bnNpZ25lZCBsb25nKXNjcmVlbl9pbmZvLmV4dF9sZmJfYmFzZSANCj4+IDw8IDMyOw0KPj4g
-K8KgwqDCoMKgwqDCoMKgIGV4dF9sZmJfYmFzZSA9ICh1NjQpKHVuc2lnbmVkIGxvbmcpc2kt
-PmV4dF9sZmJfYmFzZSA8PCAzMjsNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBlZmlmYl9maXgu
-c21lbV9zdGFydCB8PSBleHRfbGZiX2Jhc2U7DQo+PiDCoMKgwqDCoMKgIH0NCj4+IEBAIC00
-MTcsMTAgKzQyMCwxMCBAQCBzdGF0aWMgaW50IGVmaWZiX3Byb2JlKHN0cnVjdCBwbGF0Zm9y
-bV9kZXZpY2UgKmRldikNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBlZmlmYl9maXguc21lbV9z
-dGFydCA9IGJhcl9yZXNvdXJjZS0+c3RhcnQgKyBiYXJfb2Zmc2V0Ow0KPj4gwqDCoMKgwqDC
-oCB9DQo+PiAtwqDCoMKgIGVmaWZiX2RlZmluZWQuYml0c19wZXJfcGl4ZWwgPSBzY3JlZW5f
-aW5mby5sZmJfZGVwdGg7DQo+PiAtwqDCoMKgIGVmaWZiX2RlZmluZWQueHJlcyA9IHNjcmVl
-bl9pbmZvLmxmYl93aWR0aDsNCj4+IC3CoMKgwqAgZWZpZmJfZGVmaW5lZC55cmVzID0gc2Ny
-ZWVuX2luZm8ubGZiX2hlaWdodDsNCj4+IC3CoMKgwqAgZWZpZmJfZml4LmxpbmVfbGVuZ3Ro
-ID0gc2NyZWVuX2luZm8ubGZiX2xpbmVsZW5ndGg7DQo+PiArwqDCoMKgIGVmaWZiX2RlZmlu
-ZWQuYml0c19wZXJfcGl4ZWwgPSBzaS0+bGZiX2RlcHRoOw0KPj4gK8KgwqDCoCBlZmlmYl9k
-ZWZpbmVkLnhyZXMgPSBzaS0+bGZiX3dpZHRoOw0KPj4gK8KgwqDCoCBlZmlmYl9kZWZpbmVk
-LnlyZXMgPSBzaS0+bGZiX2hlaWdodDsNCj4+ICvCoMKgwqAgZWZpZmJfZml4LmxpbmVfbGVu
-Z3RoID0gc2ktPmxmYl9saW5lbGVuZ3RoOw0KPj4gwqDCoMKgwqDCoCAvKsKgwqAgc2l6ZV92
-bW9kZSAtLSB0aGF0IGlzIHRoZSBhbW91bnQgb2YgbWVtb3J5IG5lZWRlZCBmb3IgdGhlDQo+
-PiDCoMKgwqDCoMKgwqAgKsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHVzZWQg
-dmlkZW8gbW9kZSwgaS5lLiB0aGUgbWluaW11bSBhbW91bnQgb2YNCj4+IEBAIC00MzAsNyAr
-NDMzLDcgQEAgc3RhdGljIGludCBlZmlmYl9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNl
-ICpkZXYpDQo+PiDCoMKgwqDCoMKgIC8qwqDCoCBzaXplX3RvdGFsIC0tIGFsbCB2aWRlbyBt
-ZW1vcnkgd2UgaGF2ZS4gVXNlZCBmb3INCj4+IMKgwqDCoMKgwqDCoCAqwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgZW50cmllcywgcmVzc291cmNlIGFsbG9jYXRpb24gYW5k
-IGJvdW5kcw0KPj4gwqDCoMKgwqDCoMKgICrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBjaGVja2luZy4gKi8NCj4+IC3CoMKgwqAgc2l6ZV90b3RhbCA9IHNjcmVlbl9pbmZv
-LmxmYl9zaXplOw0KPj4gK8KgwqDCoCBzaXplX3RvdGFsID0gc2ktPmxmYl9zaXplOw0KPj4g
-wqDCoMKgwqDCoCBpZiAoc2l6ZV90b3RhbCA8IHNpemVfdm1vZGUpDQo+PiDCoMKgwqDCoMKg
-wqDCoMKgwqAgc2l6ZV90b3RhbCA9IHNpemVfdm1vZGU7DQo+PiBAQCAtNTEyLDcgKzUxNSw3
-IEBAIHN0YXRpYyBpbnQgZWZpZmJfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqZGV2
-KQ0KPj4gwqDCoMKgwqDCoCBwcl9pbmZvKCJlZmlmYjogbW9kZSBpcyAlZHglZHglZCwgbGlu
-ZWxlbmd0aD0lZCwgcGFnZXM9JWRcbiIsDQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-ZWZpZmJfZGVmaW5lZC54cmVzLCBlZmlmYl9kZWZpbmVkLnlyZXMsDQo+PiDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgZWZpZmJfZGVmaW5lZC5iaXRzX3Blcl9waXhlbCwgZWZpZmJfZml4
-LmxpbmVfbGVuZ3RoLA0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgIHNjcmVlbl9pbmZvLnBh
-Z2VzKTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoCBzaS0+cGFnZXMpOw0KPj4gwqDCoMKg
-wqDCoCBlZmlmYl9kZWZpbmVkLnhyZXNfdmlydHVhbCA9IGVmaWZiX2RlZmluZWQueHJlczsN
-Cj4+IMKgwqDCoMKgwqAgZWZpZmJfZGVmaW5lZC55cmVzX3ZpcnR1YWwgPSBlZmlmYl9maXgu
-c21lbV9sZW4gLw0KPj4gQEAgLTUyNiwyNiArNTI5LDI2IEBAIHN0YXRpYyBpbnQgZWZpZmJf
-cHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqZGV2KQ0KPj4gwqDCoMKgwqDCoCBlZmlm
-Yl9kZWZpbmVkLmxlZnRfbWFyZ2luwqAgPSAoZWZpZmJfZGVmaW5lZC54cmVzIC8gOCkgJiAw
-eGY4Ow0KPj4gwqDCoMKgwqDCoCBlZmlmYl9kZWZpbmVkLmhzeW5jX2xlbsKgwqDCoCA9IChl
-ZmlmYl9kZWZpbmVkLnhyZXMgLyA4KSAmIDB4Zjg7DQo+PiAtwqDCoMKgIGVmaWZiX2RlZmlu
-ZWQucmVkLm9mZnNldMKgwqDCoCA9IHNjcmVlbl9pbmZvLnJlZF9wb3M7DQo+PiAtwqDCoMKg
-IGVmaWZiX2RlZmluZWQucmVkLmxlbmd0aMKgwqDCoCA9IHNjcmVlbl9pbmZvLnJlZF9zaXpl
-Ow0KPj4gLcKgwqDCoCBlZmlmYl9kZWZpbmVkLmdyZWVuLm9mZnNldMKgID0gc2NyZWVuX2lu
-Zm8uZ3JlZW5fcG9zOw0KPj4gLcKgwqDCoCBlZmlmYl9kZWZpbmVkLmdyZWVuLmxlbmd0aMKg
-ID0gc2NyZWVuX2luZm8uZ3JlZW5fc2l6ZTsNCj4+IC3CoMKgwqAgZWZpZmJfZGVmaW5lZC5i
-bHVlLm9mZnNldMKgwqAgPSBzY3JlZW5faW5mby5ibHVlX3BvczsNCj4+IC3CoMKgwqAgZWZp
-ZmJfZGVmaW5lZC5ibHVlLmxlbmd0aMKgwqAgPSBzY3JlZW5faW5mby5ibHVlX3NpemU7DQo+
-PiAtwqDCoMKgIGVmaWZiX2RlZmluZWQudHJhbnNwLm9mZnNldCA9IHNjcmVlbl9pbmZvLnJz
-dmRfcG9zOw0KPj4gLcKgwqDCoCBlZmlmYl9kZWZpbmVkLnRyYW5zcC5sZW5ndGggPSBzY3Jl
-ZW5faW5mby5yc3ZkX3NpemU7DQo+PiArwqDCoMKgIGVmaWZiX2RlZmluZWQucmVkLm9mZnNl
-dMKgwqDCoCA9IHNpLT5yZWRfcG9zOw0KPj4gK8KgwqDCoCBlZmlmYl9kZWZpbmVkLnJlZC5s
-ZW5ndGjCoMKgwqAgPSBzaS0+cmVkX3NpemU7DQo+PiArwqDCoMKgIGVmaWZiX2RlZmluZWQu
-Z3JlZW4ub2Zmc2V0wqAgPSBzaS0+Z3JlZW5fcG9zOw0KPj4gK8KgwqDCoCBlZmlmYl9kZWZp
-bmVkLmdyZWVuLmxlbmd0aMKgID0gc2ktPmdyZWVuX3NpemU7DQo+PiArwqDCoMKgIGVmaWZi
-X2RlZmluZWQuYmx1ZS5vZmZzZXTCoMKgID0gc2ktPmJsdWVfcG9zOw0KPj4gK8KgwqDCoCBl
-ZmlmYl9kZWZpbmVkLmJsdWUubGVuZ3RowqDCoCA9IHNpLT5ibHVlX3NpemU7DQo+PiArwqDC
-oMKgIGVmaWZiX2RlZmluZWQudHJhbnNwLm9mZnNldCA9IHNpLT5yc3ZkX3BvczsNCj4+ICvC
-oMKgwqAgZWZpZmJfZGVmaW5lZC50cmFuc3AubGVuZ3RoID0gc2ktPnJzdmRfc2l6ZTsNCj4+
-IMKgwqDCoMKgwqAgcHJfaW5mbygiZWZpZmI6ICVzOiAiDQo+PiDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgInNpemU9JWQ6JWQ6JWQ6JWQsIHNoaWZ0PSVkOiVkOiVkOiVkXG4iLA0KPj4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJUcnVlY29sb3IiLA0KPj4gLcKgwqDCoMKgwqDC
-oMKgwqDCoMKgIHNjcmVlbl9pbmZvLnJzdmRfc2l6ZSwNCj4+IC3CoMKgwqDCoMKgwqDCoMKg
-wqDCoCBzY3JlZW5faW5mby5yZWRfc2l6ZSwNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoCBz
-Y3JlZW5faW5mby5ncmVlbl9zaXplLA0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgIHNjcmVl
-bl9pbmZvLmJsdWVfc2l6ZSwNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoCBzY3JlZW5faW5m
-by5yc3ZkX3BvcywNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoCBzY3JlZW5faW5mby5yZWRf
-cG9zLA0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgIHNjcmVlbl9pbmZvLmdyZWVuX3BvcywN
-Cj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoCBzY3JlZW5faW5mby5ibHVlX3Bvcyk7DQo+PiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgc2ktPnJzdmRfc2l6ZSwNCj4+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBzaS0+cmVkX3NpemUsDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqAgc2ktPmdy
-ZWVuX3NpemUsDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqAgc2ktPmJsdWVfc2l6ZSwNCj4+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoCBzaS0+cnN2ZF9wb3MsDQo+PiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgc2ktPnJlZF9wb3MsDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqAgc2ktPmdy
-ZWVuX3BvcywNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoCBzaS0+Ymx1ZV9wb3MpOw0KPj4g
-wqDCoMKgwqDCoCBlZmlmYl9maXgueXBhbnN0ZXDCoCA9IDA7DQo+PiDCoMKgwqDCoMKgIGVm
-aWZiX2ZpeC55d3JhcHN0ZXAgPSAwOw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFw
-aGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55
-IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpH
-RjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBN
-b2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
+On 2023/11/24 22:54, Stefan Wahren wrote:
+> Hi Shengyang,
+>=20
+> [fix address of Emma]
+>=20
+> Am 24.11.23 um 11:44 schrieb Shengyang Chen:
+>> This patchset adds waveshare 7inch touchscreen panel support
+>> for the StarFive JH7110 SoC.
+>>
+>> Patch 1 add new compatible for the raspberrypi panel driver and its dt=
+-binding.
+>> Patch 2 add new display mode and new probing process for raspberrypi p=
+anel driver.
+>>
+>> Waveshare 7inch touchscreen panel is a kind of raspberrypi panel
+>> which can be drived by raspberrypi panel driver.
+>>
+>> The series has been tested on the VisionFive 2 board.
+> surprisingly i was recently working on the official Raspberry Pi
+> touchscreen and was able to get it running the new way.
+>=20
+> What do i mean with the new way. There is almost nothing special to the
+> Raspberry Pi touchscreen, so we should try to use/extend existing
+> components like:
+>=20
+> CONFIG_DRM_PANEL_SIMPLE
+> CONFIG_TOUCHSCREEN_EDT_FT5X06
+> CONFIG_DRM_TOSHIBA_TC358762
+>=20
+> The only special part is the Attiny on the connector PCB which requires=
+:
+>=20
+> CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY
+>=20
+> So the whole point is to avoid writing monolitic drivers for simple
+> panel like that.
+>=20
+> There is a WIP branch based on top of Linux 6.7-rcX, which should
+> demonstrate this approach [1]. Unfortunately it is not ready for
+> upstreaming, but it has been tested on a Raspberry Pi 3 B Plus. Maybe
+> this is helpful for your case.
+>=20
+> Actually i consider panel-raspberrypi-touchscreen.c as a dead end, whic=
+h
+> shouldn't be extended.
+>=20
+> Btw there are already DT overlays in mainline which seems to use the
+> Raspberry Pi 7inch panel (without touch function yet) [2].
+>=20
+> [1] - https://github.com/lategoodbye/rpi-zero/commits/v6.7-7inch-ts
+> [2] -
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit=
+/arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-rpidsi.dtso?h=3Dv6=
+.6.2&id=3D6b4da1354fd81adace0cda448c77d8f2a47d8474
+>=20
 
---------------XQGXA7UEU19csLcvP0Zp7I3u--
+Thank you very much for your advice. We will try this method before makin=
+g new patch.
+This method will be used if its verified in our soc.
+If there is any problem, we may continue to contact. Thanks a lot.
 
---------------2uH50ApP1ZykL31pjf0QZZ2d
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+>>
+>> Shengyang Chen (2):
+>> =C2=A0=C2=A0 dt-bindings: display: panel: raspberrypi: Add compatible =
+property for
+>> =C2=A0=C2=A0=C2=A0=C2=A0 waveshare 7inch touchscreen panel
+>> =C2=A0=C2=A0 gpu: drm: panel: raspberrypi: add new display mode and ne=
+w probing
+>> =C2=A0=C2=A0=C2=A0=C2=A0 process
+>>
+>> =C2=A0 .../panel/raspberrypi,7inch-touchscreen.yaml=C2=A0 |=C2=A0 4 +-
+>> =C2=A0 .../drm/panel/panel-raspberrypi-touchscreen.c | 99 ++++++++++++=
+++++---
+>> =C2=A0 2 files changed, 91 insertions(+), 12 deletions(-)
+>>
+>=20
 
------BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVwQq8FAwAAAAAACgkQlh/E3EQov+Co
-XA/+KYC/eEuoJOzDllix4XPxUgzt5z2qe543nUQ60ZRPstePS4NMDrz0tfTm/SfgilLuGPQXZChO
-6c84YaRtFd3MWplAgJJRya+Gw7pqC3YptsCxgs3dNKCc+J6wNSTZpKpnnTE0mSg9CCZ5HwWacovg
-TQQgA30atOAX1zeljJRxajwpFQgbIUMGhVVXcejEIGAZm8It60Ira6DC/nLtqPj2rg0Qstx6WHNu
-FpqHYJ24cRW/84aFPzuMcthXekN4HJfRilbWT24W3enLhImqKeQRBe0OQI12ecyIde3GrDBMi06M
-kWJNAvRZ+jPxQ80gW4UkqVvZZaWLUGI0oRnvJSi2cOBl88oAhCxpXwOZfqMY5TXg9CgQeFO8eSnn
-O0JsKnoE5sxtPXh/4TSGxZzwKy49WhZMfSgU3l9Pg9LaTDT9glr+3uqKNqYeOEpycfVKTQ5vlfL+
-ZzaSW8tD0kZIHH0jl9hsTv3hLjLT+RN10qB907H1HC3QWgb5Hcqq1xj7b2Uxj97+/f71CBczILrl
-NoFtfCQXE6LQay+8e5hhZPQ8rXy+hYmBzry/3F+2+vQv6zXKEeqsRJp9yjhKqQybD+5f4X4r0r/c
-qX8CRQOztWe5Nh9sElACGdbvY5+hVnQZvX2/4R4/aGeWWq4yLl4/MNRZ1WNPrHptBUq8lrvHsHh2
-uiA=
-=f/RP
------END PGP SIGNATURE-----
+thanks
 
---------------2uH50ApP1ZykL31pjf0QZZ2d--
+Best Regards,
+Shengyang
