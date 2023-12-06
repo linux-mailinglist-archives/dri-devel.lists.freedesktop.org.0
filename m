@@ -2,56 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9B6806C06
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 11:35:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA23F806C83
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 11:46:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C74210E0F6;
-	Wed,  6 Dec 2023 10:35:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05AE910E0D0;
+	Wed,  6 Dec 2023 10:46:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4798F10E0F6;
- Wed,  6 Dec 2023 10:35:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701858908; x=1733394908;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=hqWL2C0DBwbU6kMR1PyMR6dn88gGotg6rQzbZPqqFK8=;
- b=epiMZK6y6qpmNzvQmlejS9ENJ+0gfYrZRJ5jaTMFmuleghujtG/QT+Fj
- HiXhNdf1YyL2PJXaBVXDzqiXjLe9ljtQ8XatlCZPrvfN9BqfZubtdD2mr
- OlEUVrQn7ktXvJP7Y4pmrhSEi/JfPEXPMwRKDvS1fsLYk8C4p59KoKN+f
- LOLQLBohDEz2HvK8uKdQYjjhFcC18e5Ksa6yWuyZE7lJC3w740Nz2ZZxZ
- 2xOWKtCe6b0lkpXmEQwz/G5Gj2bzhHiYjkrQJwnyxQjhGwOv9woJ9u1X/
- 0qkaxKf8sLCGFKcSaaTIARXbhzeilI8mYj1HBL5mXXh7kC58OkT3/kQS9 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="458362569"
-X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; d="scan'208";a="458362569"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Dec 2023 02:35:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="721033564"
-X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; d="scan'208";a="721033564"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.94.248.101])
- ([10.94.248.101])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Dec 2023 02:35:06 -0800
-Message-ID: <8a0013bc-00e1-47c6-8dc8-bc8787f691a1@linux.intel.com>
-Date: Wed, 6 Dec 2023 11:35:04 +0100
+Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com
+ [95.215.58.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 929D910E0D0
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 10:46:23 +0000 (UTC)
+Message-ID: <62a94860-d6e1-4b21-a153-af53e58c79b2@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1701859581;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G6qfPIyC18/+7X5Qr2P3f39KRFkFwhbXQFxG9oeJaso=;
+ b=nSqf2mpIY/se96659j8699IET9kzVCBV+1qS52mSEDxGgThXMYjVJNpwVRGjmQlE6mnQCM
+ YHLOq5F0bos4xcY6Z2D+JMAiNUSbNVohhqgxn9DYHy73fHH/PMQLjK5suovaYhwvl5cuU8
+ C6lKNB5RxJB6SOUB8CClHRp0QIys5tI=
+Date: Wed, 6 Dec 2023 18:46:14 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/i915/gt: Convert reset prepare failure log to trace
+Subject: Re: [v2, 1/4] fbdev/efifb: Replace references to global screen_info by
+ local pointer
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+ deller@gmx.de, pjones@redhat.com
+References: <20231204092812.2612-2-tzimmermann@suse.de>
+ <2f6909a7-21a2-4ffc-84bf-962132a9f9b4@linux.dev>
+ <9dcf5b34-cf0a-445f-81f0-91d3a92a907f@suse.de>
 Content-Language: en-US
-To: John Harrison <john.c.harrison@intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20231205085248.2577-1-nirmoy.das@intel.com>
- <40875e9a-3729-4153-8de2-69d0ce586442@intel.com>
- <69036ebc-561f-4c9b-b68b-04f7e1c77e27@linux.intel.com>
- <4eb477b8-2756-42c3-b349-566c2d4bddfc@intel.com>
-From: Nirmoy Das <nirmoy.das@linux.intel.com>
-In-Reply-To: <4eb477b8-2756-42c3-b349-566c2d4bddfc@intel.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <9dcf5b34-cf0a-445f-81f0-91d3a92a907f@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,173 +53,290 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi John,
+Hi,
 
-On 12/5/2023 8:50 PM, John Harrison wrote:
-> On 12/5/2023 02:39, Nirmoy Das wrote:
->> Hi John,
->>
->> On 12/5/2023 10:10 AM, John Harrison wrote:
->>> On 12/5/2023 00:52, Nirmoy Das wrote:
->>>> gen8_engine_reset_prepare() can fail when HW fails to set
->>>> RESET_CTL_READY_TO_RESET bit. In some cases this is not fatal
->>>> error as driver will retry.
->>>>
->>>> Convert the log to a trace log for debugging without triggering
->>>> unnecessary concerns in CI or for end-users during non-fatal 
->>>> scenarios.
->>> I strongly disagree with this change. The hardware spec for the 
->>> RESET_CTL and GDRST registers are that they will self clear within a 
->>> matter of microseconds. If something is so badly wrong with the 
->>> hardware that it can't even manage to reset
->>
->>
->> This message is for reset readiness  poll timeout not that the reset 
->> is failed which doesn't sound so serious if the subsequent attempt 
->> managed reset the engine.
-> Not sure what the distinction is. The reset procedure is poke 
-> RESET_CTL wait for it to clear, poke GDRST and wait for it to clear. 
-> Just because step one is failing rather than step 2 does not mean that 
-> the reset as a whole has not failed.
+On 2023/12/6 17:45, Thomas Zimmermann wrote:
+> Hi
 >
-> Note that the purpose of RESET_CTL is to pause a bunch of stuff like 
-> the command streamers to prevent them from issuing new memory requests 
-> while the reset is in progress. If it fails, it likely means that a CS 
-> is refusing to stop. Most probably because it can't reach a stopping 
-> point because it is stuck waiting on a lost memory request or similar. 
-> And the point of stopping further memory requests during reset is that 
-> if the memory channel gets out of sync (because only the GT side is 
-> reset during a GT reset) then that can result in total system failure. 
-> As in potentially even the CPU can no longer get to memory if it is an 
-> integrated platform. So yes, it can be quite a serious failure indeed.
->
-
-Thanks bspec didn't explain those details. My intention was to 
-acknowledge that engine reset is a complicated process which why the 
-driver retries  and don't spook CI/user if subsequent reset works but I 
-get your objection on this.
-
->>
->> I couldn't get enough details when this can happen that HW takes very 
->> long time to set the readiness bit.
-> Is it simply 'taking a long time' or is never clearing at all? If it 
-> is just that the timeout is too short then the proper fix would be to 
-> increase the timeout. But if it is taking seconds or longer or just 
-> never succeeding at all, then something is very bad.
-
-I tried with 10x timeout without any help so I think the CS is stuck 
-though re-try works. I will try to get more details from HW team on this 
-issue.
-
->
+> Am 04.12.23 um 20:53 schrieb Sui Jingfeng:
+>> Hi,
 >>
 >>
->>> then that is something that very much warrants more than a 
->>> completely silent trace event. It most certainly should be flagged 
->>> as a failure in CI.
+>> On 2023/12/4 17:27, Thomas Zimmermann wrote:
+>>> Get the global screen_info's address once and access the data via
+>>> this pointer. Limits the use of global state.
 >>>
->>> Just because the driver will retry does not mean that this is not a 
->>> serious error. And if the first attempt failed, why would a 
->>> subsequent attempt succeed?
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 >>
->> The patch is not ignoring the failure. If the subsequent attempt 
->> fails then driver load will fail or it will be wedged if that happens 
->> after driver load.
-> One thing I really hate about our driver is the total lack of 
-> information when something goes wrong during load. The driver wedges 
-> in total silence. There are many error paths that have no reporting at 
-> all. Which means you are left with a totally useless bug report.
+>> Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>
+>>
+>> I have applied the whole series and do a simple test with efifb:
+>> Yeah, still works!
 >
+> Can I take this as Tested-by: for the efifb patches ?
 >
->>
->>
->>> Escalating to FLR may have more success, but that is not something 
->>> that i915 currently does.
->>
->> Do we still need to do FLR if a subsequent engine reset failure ?
-> Assuming that we are talking about modern(ish) platforms, an engine 
-> reset failure would be hit by GuC rather than i915, but that would be 
-> escalated to an i915 based full GT reset. Generally speaking though, 
-> if the engine reset fails the GT reset isn't going to do much better. 
-> It would fix a dead GuC problem but it can't help with memory related 
-> issues. If the full GT reset fails then we are out of escalation 
-> routes as there is no FLR path at present (I think we have that at 
-> driver unload on MTL but not for general reset?). The FLR resets a lot 
-> more than just the GT, so it does have a chance to fix some issues 
-> that a GT reset can't. After driver-level FLR, there is PCI level FLR. 
-> Not sure if that involves a full power down and restart, but if not 
-> then that would be the last escalation possible. A power cycle really 
-> should fix any issues, if it doesn't then it's time to return the 
-> system as being totally dead!
->
-> My recollection is that the vast majority of engine reset failures 
-> I've looked at have been completely catastrophic and the system only 
-> recovered after a reboot. I.e. after the card was power cycled. Such 
-> issues were generally caused by bad memory. Once the path to memory 
-> has died, there really is not much of the GPU that can do anything at 
-> all and there isn't much that can be done to recover it.
+No problem, with the warning reported by testing robot fixed, please!
+I have tested this on a non primary arch, compiled with a normal default config.
+Not noticed the line "static inline void efifb_show_boot_graphics(struct fb_info *info) {}".
 
 
-Thanks,
-
-Nirmoy
-
->
-> John.
->
+> Best regards
+> Thomas
 >
 >>
+>> $ dmesg | grep efifb
 >>
->> Regards,
+>> [    0.373800] efifb: probing for efifb
+>> [    0.373816] efifb: framebuffer at 0xe0030000000, using 5120k, 
+>> total 5120k
+>> [    0.373818] efifb: mode is 1280x1024x32, linelength=5120, pages=1
+>> [    0.373820] efifb: scrolling: redraw
+>> [    0.373821] efifb: Truecolor: size=8:8:8:8, shift=24:16:8:0
 >>
->> Nirmoy
 >>
+>>> ---
+>>>   drivers/video/fbdev/efifb.c | 113 
+>>> ++++++++++++++++++------------------
+>>>   1 file changed, 58 insertions(+), 55 deletions(-)
 >>>
->>> John.
->>>
->>>
->>>>
->>>> v2: Improve commit message(Tvrtko)
->>>>
->>>> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>> Cc: John Harrison <John.C.Harrison@Intel.com>
->>>> Cc: Andi Shyti <andi.shyti@linux.intel.com>
->>>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
->>>> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5591
->>>> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
->>>> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
->>>> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
->>>> ---
->>>>   drivers/gpu/drm/i915/gt/intel_reset.c | 8 ++++----
->>>>   1 file changed, 4 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c 
->>>> b/drivers/gpu/drm/i915/gt/intel_reset.c
->>>> index d5ed904f355d..e6fbc6202c80 100644
->>>> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
->>>> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
->>>> @@ -593,10 +593,10 @@ static int gen8_engine_reset_prepare(struct 
->>>> intel_engine_cs *engine)
->>>>       ret = __intel_wait_for_register_fw(uncore, reg, mask, ack,
->>>>                          700, 0, NULL);
->>>>       if (ret)
->>>> -        gt_err(engine->gt,
->>>> -               "%s reset request timed out: {request: %08x, 
->>>> RESET_CTL: %08x}\n",
->>>> -               engine->name, request,
->>>> -               intel_uncore_read_fw(uncore, reg));
->>>> +        GT_TRACE(engine->gt,
->>>> +             "%s reset request timed out: {request: %08x, 
->>>> RESET_CTL: %08x}\n",
->>>> +             engine->name, request,
->>>> +             intel_uncore_read_fw(uncore, reg));
->>>>         return ret;
->>>>   }
->>>
+>>> diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
+>>> index f9b4ddd592ce4..6cbb65bbe1110 100644
+>>> --- a/drivers/video/fbdev/efifb.c
+>>> +++ b/drivers/video/fbdev/efifb.c
+>>> @@ -147,10 +147,9 @@ static bool efifb_bgrt_sanity_check(struct 
+>>> screen_info *si, u32 bmp_width)
+>>>   }
+>>>   #endif
+>>> -static void efifb_show_boot_graphics(struct fb_info *info)
+>>> +static void efifb_show_boot_graphics(struct fb_info *info, struct 
+>>> screen_info *si)
+>>
+>> I think, we probably can add a const modifier for the function
+>> which doesn't modify our local the screen_info instance in the future.
+>>
+>> static void efifb_show_boot_graphics(struct fb_info *info, const 
+>> struct screen_info *si)
+>>
+>> Since screen_info is mostly used to provide information.
+>>
+>>
+>>>   {
+>>>       u32 bmp_width, bmp_height, bmp_pitch, dst_x, y, src_y;
+>>> -    struct screen_info *si = &screen_info;
+>>>       struct bmp_file_header *file_header;
+>>>       struct bmp_dib_header *dib_header;
+>>>       void *bgrt_image = NULL;
+>>> @@ -282,7 +281,7 @@ static const struct fb_ops efifb_ops = {
+>>>       .fb_setcolreg    = efifb_setcolreg,
+>>>   };
+>>> -static int efifb_setup(char *options)
+>>> +static int efifb_setup(struct screen_info *si, char *options)
+>>>   {
+>>>       char *this_opt;
+>>> @@ -290,16 +289,16 @@ static int efifb_setup(char *options)
+>>>           while ((this_opt = strsep(&options, ",")) != NULL) {
+>>>               if (!*this_opt) continue;
+>>> -            efifb_setup_from_dmi(&screen_info, this_opt);
+>>> +            efifb_setup_from_dmi(si, this_opt);
+>>>               if (!strncmp(this_opt, "base:", 5))
+>>> -                screen_info.lfb_base = simple_strtoul(this_opt+5, 
+>>> NULL, 0);
+>>> +                si->lfb_base = simple_strtoul(this_opt+5, NULL, 0);
+>>>               else if (!strncmp(this_opt, "stride:", 7))
+>>> -                screen_info.lfb_linelength = 
+>>> simple_strtoul(this_opt+7, NULL, 0) * 4;
+>>> +                si->lfb_linelength = simple_strtoul(this_opt+7, 
+>>> NULL, 0) * 4;
+>>>               else if (!strncmp(this_opt, "height:", 7))
+>>> -                screen_info.lfb_height = simple_strtoul(this_opt+7, 
+>>> NULL, 0);
+>>> +                si->lfb_height = simple_strtoul(this_opt+7, NULL, 0);
+>>>               else if (!strncmp(this_opt, "width:", 6))
+>>> -                screen_info.lfb_width = simple_strtoul(this_opt+6, 
+>>> NULL, 0);
+>>> +                si->lfb_width = simple_strtoul(this_opt+6, NULL, 0);
+>>>               else if (!strcmp(this_opt, "nowc"))
+>>>                   mem_flags &= ~EFI_MEMORY_WC;
+>>>               else if (!strcmp(this_opt, "nobgrt"))
+>>> @@ -310,15 +309,15 @@ static int efifb_setup(char *options)
+>>>       return 0;
+>>>   }
+>>> -static inline bool fb_base_is_valid(void)
+>>> +static inline bool fb_base_is_valid(struct screen_info *si)
+>>>   {
+>>> -    if (screen_info.lfb_base)
+>>> +    if (si->lfb_base)
+>>>           return true;
+>>> -    if (!(screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE))
+>>> +    if (!(si->capabilities & VIDEO_CAPABILITY_64BIT_BASE))
+>>>           return false;
+>>> -    if (screen_info.ext_lfb_base)
+>>> +    if (si->ext_lfb_base)
+>>>           return true;
+>>>       return false;
+>>> @@ -329,7 +328,10 @@ static ssize_t name##_show(struct device 
+>>> *dev,                \
+>>>                  struct device_attribute *attr,        \
+>>>                  char *buf)                    \
+>>>   {                                    \
+>>> -    return sprintf(buf, fmt "\n", (screen_info.lfb_##name));    \
+>>> +    struct screen_info *si = dev_get_platdata(dev);            \
+>>> +    if (!si)                            \
+>>> +        return -ENODEV;                        \
+>>> +    return sprintf(buf, fmt "\n", (si->lfb_##name));        \
+>>>   }                                    \
+>>>   static DEVICE_ATTR_RO(name)
+>>> @@ -356,6 +358,7 @@ static u64 bar_offset;
+>>>   static int efifb_probe(struct platform_device *dev)
+>>>   {
+>>> +    struct screen_info *si = &screen_info;
+>>>       struct fb_info *info;
+>>>       struct efifb_par *par;
+>>>       int err, orientation;
+>>> @@ -365,48 +368,48 @@ static int efifb_probe(struct platform_device 
+>>> *dev)
+>>>       char *option = NULL;
+>>>       efi_memory_desc_t md;
+>>> -    if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI || 
+>>> pci_dev_disabled)
+>>> +    if (si->orig_video_isVGA != VIDEO_TYPE_EFI || pci_dev_disabled)
+>>>           return -ENODEV;
+>>>       if (fb_get_options("efifb", &option))
+>>>           return -ENODEV;
+>>> -    efifb_setup(option);
+>>> +    efifb_setup(si, option);
+>>>       /* We don't get linelength from UGA Draw Protocol, only from
+>>>        * EFI Graphics Protocol.  So if it's not in DMI, and it's not
+>>>        * passed in from the user, we really can't use the framebuffer.
+>>>        */
+>>> -    if (!screen_info.lfb_linelength)
+>>> +    if (!si->lfb_linelength)
+>>>           return -ENODEV;
+>>> -    if (!screen_info.lfb_depth)
+>>> -        screen_info.lfb_depth = 32;
+>>> -    if (!screen_info.pages)
+>>> -        screen_info.pages = 1;
+>>> -    if (!fb_base_is_valid()) {
+>>> +    if (!si->lfb_depth)
+>>> +        si->lfb_depth = 32;
+>>> +    if (!si->pages)
+>>> +        si->pages = 1;
+>>> +    if (!fb_base_is_valid(si)) {
+>>>           printk(KERN_DEBUG "efifb: invalid framebuffer address\n");
+>>>           return -ENODEV;
+>>>       }
+>>>       printk(KERN_INFO "efifb: probing for efifb\n");
+>>>       /* just assume they're all unset if any are */
+>>> -    if (!screen_info.blue_size) {
+>>> -        screen_info.blue_size = 8;
+>>> -        screen_info.blue_pos = 0;
+>>> -        screen_info.green_size = 8;
+>>> -        screen_info.green_pos = 8;
+>>> -        screen_info.red_size = 8;
+>>> -        screen_info.red_pos = 16;
+>>> -        screen_info.rsvd_size = 8;
+>>> -        screen_info.rsvd_pos = 24;
+>>> +    if (!si->blue_size) {
+>>> +        si->blue_size = 8;
+>>> +        si->blue_pos = 0;
+>>> +        si->green_size = 8;
+>>> +        si->green_pos = 8;
+>>> +        si->red_size = 8;
+>>> +        si->red_pos = 16;
+>>> +        si->rsvd_size = 8;
+>>> +        si->rsvd_pos = 24;
+>>>       }
+>>
+>>
+>> Yeah, Here the efifb modified our local screen_info instance, but 
+>> this is not relevant to your patch.
+>>
+>>
+>>> -    efifb_fix.smem_start = screen_info.lfb_base;
+>>> +    efifb_fix.smem_start = si->lfb_base;
+>>> -    if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE) {
+>>> +    if (si->capabilities & VIDEO_CAPABILITY_64BIT_BASE) {
+>>>           u64 ext_lfb_base;
+>>> -        ext_lfb_base = (u64)(unsigned long)screen_info.ext_lfb_base 
+>>> << 32;
+>>> +        ext_lfb_base = (u64)(unsigned long)si->ext_lfb_base << 32;
+>>>           efifb_fix.smem_start |= ext_lfb_base;
+>>>       }
+>>> @@ -417,10 +420,10 @@ static int efifb_probe(struct platform_device 
+>>> *dev)
+>>>           efifb_fix.smem_start = bar_resource->start + bar_offset;
+>>>       }
+>>> -    efifb_defined.bits_per_pixel = screen_info.lfb_depth;
+>>> -    efifb_defined.xres = screen_info.lfb_width;
+>>> -    efifb_defined.yres = screen_info.lfb_height;
+>>> -    efifb_fix.line_length = screen_info.lfb_linelength;
+>>> +    efifb_defined.bits_per_pixel = si->lfb_depth;
+>>> +    efifb_defined.xres = si->lfb_width;
+>>> +    efifb_defined.yres = si->lfb_height;
+>>> +    efifb_fix.line_length = si->lfb_linelength;
+>>>       /*   size_vmode -- that is the amount of memory needed for the
+>>>        *                 used video mode, i.e. the minimum amount of
+>>> @@ -430,7 +433,7 @@ static int efifb_probe(struct platform_device *dev)
+>>>       /*   size_total -- all video memory we have. Used for
+>>>        *                 entries, ressource allocation and bounds
+>>>        *                 checking. */
+>>> -    size_total = screen_info.lfb_size;
+>>> +    size_total = si->lfb_size;
+>>>       if (size_total < size_vmode)
+>>>           size_total = size_vmode;
+>>> @@ -512,7 +515,7 @@ static int efifb_probe(struct platform_device *dev)
+>>>       pr_info("efifb: mode is %dx%dx%d, linelength=%d, pages=%d\n",
+>>>              efifb_defined.xres, efifb_defined.yres,
+>>>              efifb_defined.bits_per_pixel, efifb_fix.line_length,
+>>> -           screen_info.pages);
+>>> +           si->pages);
+>>>       efifb_defined.xres_virtual = efifb_defined.xres;
+>>>       efifb_defined.yres_virtual = efifb_fix.smem_len /
+>>> @@ -526,26 +529,26 @@ static int efifb_probe(struct platform_device 
+>>> *dev)
+>>>       efifb_defined.left_margin  = (efifb_defined.xres / 8) & 0xf8;
+>>>       efifb_defined.hsync_len    = (efifb_defined.xres / 8) & 0xf8;
+>>> -    efifb_defined.red.offset    = screen_info.red_pos;
+>>> -    efifb_defined.red.length    = screen_info.red_size;
+>>> -    efifb_defined.green.offset  = screen_info.green_pos;
+>>> -    efifb_defined.green.length  = screen_info.green_size;
+>>> -    efifb_defined.blue.offset   = screen_info.blue_pos;
+>>> -    efifb_defined.blue.length   = screen_info.blue_size;
+>>> -    efifb_defined.transp.offset = screen_info.rsvd_pos;
+>>> -    efifb_defined.transp.length = screen_info.rsvd_size;
+>>> +    efifb_defined.red.offset    = si->red_pos;
+>>> +    efifb_defined.red.length    = si->red_size;
+>>> +    efifb_defined.green.offset  = si->green_pos;
+>>> +    efifb_defined.green.length  = si->green_size;
+>>> +    efifb_defined.blue.offset   = si->blue_pos;
+>>> +    efifb_defined.blue.length   = si->blue_size;
+>>> +    efifb_defined.transp.offset = si->rsvd_pos;
+>>> +    efifb_defined.transp.length = si->rsvd_size;
+>>>       pr_info("efifb: %s: "
+>>>              "size=%d:%d:%d:%d, shift=%d:%d:%d:%d\n",
+>>>              "Truecolor",
+>>> -           screen_info.rsvd_size,
+>>> -           screen_info.red_size,
+>>> -           screen_info.green_size,
+>>> -           screen_info.blue_size,
+>>> -           screen_info.rsvd_pos,
+>>> -           screen_info.red_pos,
+>>> -           screen_info.green_pos,
+>>> -           screen_info.blue_pos);
+>>> +           si->rsvd_size,
+>>> +           si->red_size,
+>>> +           si->green_size,
+>>> +           si->blue_size,
+>>> +           si->rsvd_pos,
+>>> +           si->red_pos,
+>>> +           si->green_pos,
+>>> +           si->blue_pos);
+>>>       efifb_fix.ypanstep  = 0;
+>>>       efifb_fix.ywrapstep = 0;
 >
