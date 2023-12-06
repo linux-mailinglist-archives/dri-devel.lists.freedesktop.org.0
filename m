@@ -2,61 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D28C806FC3
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 13:31:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8EB780702D
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 13:49:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B8B710E0EE;
-	Wed,  6 Dec 2023 12:31:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5105610E6E8;
+	Wed,  6 Dec 2023 12:49:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8A4210E0EE
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 12:31:48 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-40c09d0b045so41102665e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Dec 2023 04:31:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701865907; x=1702470707; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ZxostNpnhnoikPd/ZmMniURAQ+MP+6lW4cLA1j5SE9U=;
- b=wMfmMFC9P5wqlwAEJ5i8vj+j+EZMKjldsL/YfCihZHH4mpXu0vBm1PIVLKEnTseF1p
- x6GQhKw9ht14zhCq9ITF3ZrcrOz+IakQYth9e6kgi+Z5+ppP9bbzx3TgyIQpQB3ShdDA
- MA21IVgqAq+4wgf/aYIHotTzKMgSk/Ope3kWzjAP3Rgu268895RKeLlSANvb7m1HMlYz
- eYQeUmDptUcBwzB1kSl9xov8rRejafscojNPDp8Boq1rlCXo5joT6OS/qFDWcjdeYml2
- q9PdRq/o82uS/RbABezBs0Ow93P9R3RfOp0bS3DlYzBnFfBQA+0rYhLl7ulsTU78eeLQ
- 5Vow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701865907; x=1702470707;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZxostNpnhnoikPd/ZmMniURAQ+MP+6lW4cLA1j5SE9U=;
- b=gn95lZZRQeTA5gmEOw+Bq3LVAEfvaxik08UlL++maebxXxzvN0zB3dnyWr8DBE8UkT
- TqGlnlQ0kKAdVKJbogTAMjwa9Vqlrd1iC7SdDDytkmNdD2lu6+Yls9Apuq39Ow7pHash
- xBwsVWIvT4DtqZx9eYZj/WXWVXLNWCLaAQLYEKnkWKzimV2bFKx6e1+saIf3nDLfcTm+
- qkWUdDXkzptJzLvi/fZ1GQV+vSEN81PmBBjAp+QYrP5zKhCCBSCaGBuqvavDtPIWAeMb
- +HWTz0CzWSsHbwul/92X9r8wgRZ4MKecM8b2NzfXI/QTgZjSO8Kgq8cdWAfu+BcyL/RY
- 3ZIw==
-X-Gm-Message-State: AOJu0YxbyQROuHlpGbqdt2lcYD8u3dhP4btV6C5eOJRwcqSwQllybEZx
- Pp4MffHYVwdo/YRtVbw3WaC3tA==
-X-Google-Smtp-Source: AGHT+IFpGSA211S3P2UF/unMD+Ihfl/KD4uH2IPhcpAFB+PIos+7uFviZLx8/jems9H/4757mlL48g==
-X-Received: by 2002:a05:600c:ac8:b0:40c:5cf:89e7 with SMTP id
- c8-20020a05600c0ac800b0040c05cf89e7mr407557wmr.261.1701865907052; 
- Wed, 06 Dec 2023 04:31:47 -0800 (PST)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- v9-20020a5d5909000000b003333bd63792sm11224744wrd.117.2023.12.06.04.31.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Dec 2023 04:31:46 -0800 (PST)
-Date: Wed, 6 Dec 2023 15:31:43 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: sarah.walker@imgtec.com
-Subject: [bug report] drm/imagination: Implement firmware infrastructure and
- META FW support
-Message-ID: <4e111296-112e-4b30-8dc5-3c5ddeb5ed36@moroto.mountain>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80F6E10E6E8
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 12:49:03 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi
+ [91.158.149.209])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 017FA29B;
+ Wed,  6 Dec 2023 13:48:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1701866901;
+ bh=hurEz5yHE2buEex1n4ZzEFee0FP8RPfh+K+tCD6yjvE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=fSFVZBdqI+JviLDvZH3zOzMq6rEwYaylDL/ogqXTxjKS8Pbs77u6g61MHeDtIgMgS
+ 0U2LsMrmCjYISAbTYxThCoRRDssGiqCsnEGg3rsLJVJZ6Yji+JOX7TSUM6ylnEK+8B
+ 3wMzlOZAUVJfFXbm+yPjW/p0CKt36FjlmxwJi13I=
+Message-ID: <17b43cb8-1543-48d2-830a-b9f6dd50fc15@ideasonboard.com>
+Date: Wed, 6 Dec 2023 14:48:58 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/mipi-dsi: Fix detach call without attach
+Content-Language: en-US
+To: "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Tony Lindgren <tony@atomide.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
+References: <20230921-dsi-detach-fix-v1-1-d0de2d1621d9@ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20230921-dsi-detach-fix-v1-1-d0de2d1621d9@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,63 +96,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Sarah Walker,
+Hi mipi dsi maintainers (I'm not sure who that is =),
 
-The patch cc1aeedb98ad: "drm/imagination: Implement firmware
-infrastructure and META FW support" from Nov 22, 2023 (linux-next),
-leads to the following Smatch static checker warning:
+On 21/09/2023 13:50, Tomi Valkeinen wrote:
+> It's been reported that DSI host driver's detach can be called without
+> the attach ever happening:
+> 
+> https://lore.kernel.org/all/20230412073954.20601-1-tony@atomide.com/
+> 
+> After reading the code, I think this is what happens:
+> 
+> We have a DSI host defined in the device tree and a DSI peripheral under
+> that host (i.e. an i2c device using the DSI as data bus doesn't exhibit
+> this behavior).
+> 
+> The host driver calls mipi_dsi_host_register(), which causes (via a few
+> functions) mipi_dsi_device_add() to be called for the DSI peripheral. So
+> now we have a DSI device under the host, but attach hasn't been called.
+> 
+> Normally the probing of the devices continues, and eventually the DSI
+> peripheral's driver will call mipi_dsi_attach(), attaching the
+> peripheral.
+> 
+> However, if the host driver's probe encounters an error after calling
+> mipi_dsi_host_register(), and before the peripheral has called
+> mipi_dsi_attach(), the host driver will do cleanups and return an error
+> from its probe function. The cleanups include calling
+> mipi_dsi_host_unregister().
+> 
+> mipi_dsi_host_unregister() will call two functions for all its DSI
+> peripheral devices: mipi_dsi_detach() and mipi_dsi_device_unregister().
+> The latter makes sense, as the device exists, but the former may be
+> wrong as attach has not necessarily been done.
+> 
+> To fix this, track the attached state of the peripheral, and only detach
+> from mipi_dsi_host_unregister() if the peripheral was attached.
+> 
+> Note that I have only tested this with a board with an i2c DSI
+> peripheral, not with a "pure" DSI peripheral.
+> 
+> However, slightly related, the unregister machinery still seems broken.
+> E.g. if the DSI host driver is unbound, it'll detach and unregister the
+> DSI peripherals. After that, when the DSI peripheral driver unbound
+> it'll call detach either directly or using the devm variant, leading to
+> a crash. And probably the driver will crash if it happens, for some
+> reason, to try to send a message via the DSI bus.
+> 
+> But that's another topic.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
 
-drivers/gpu/drm/imagination/pvr_fw_startstop.c:210 pvr_fw_stop() warn: odd mask '0xffff & 0xffff0000'
-drivers/gpu/drm/imagination/pvr_fw_startstop.c:213 pvr_fw_stop() warn: odd mask '0xffff & 0xffff0000'
-drivers/gpu/drm/imagination/pvr_fw_startstop.c:216 pvr_fw_stop() warn: odd mask '0xffff & 0xffff0000'
-drivers/gpu/drm/imagination/pvr_fw_startstop.c:219 pvr_fw_stop() warn: odd mask '0xffff & 0xffff0000'
+Any comments? I can push this via drm-misc, but I'd like an ack.
 
-drivers/gpu/drm/imagination/pvr_fw_startstop.c
-    187 int
-    188 pvr_fw_stop(struct pvr_device *pvr_dev)
-    189 {
-    190         const u32 sidekick_idle_mask = ROGUE_CR_SIDEKICK_IDLE_MASKFULL &
-    191                                        ~(ROGUE_CR_SIDEKICK_IDLE_GARTEN_EN |
-    192                                          ROGUE_CR_SIDEKICK_IDLE_SOCIF_EN |
-    193                                          ROGUE_CR_SIDEKICK_IDLE_HOSTIF_EN);
-    194         bool skip_garten_idle = false;
-    195         u32 reg_value;
-    196         int err;
-    197 
-    198         /*
-    199          * Wait for Sidekick/Jones to signal IDLE except for the Garten Wrapper.
-    200          * For cores with the LAYOUT_MARS feature, SIDEKICK would have been
-    201          * powered down by the FW.
-    202          */
-    203         err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_SIDEKICK_IDLE, sidekick_idle_mask,
-    204                                 sidekick_idle_mask, POLL_TIMEOUT_USEC);
-    205         if (err)
-    206                 return err;
-    207 
-    208         /* Unset MTS DM association with threads. */
-    209         pvr_cr_write32(pvr_dev, ROGUE_CR_MTS_INTCTX_THREAD0_DM_ASSOC,
---> 210                        ROGUE_CR_MTS_INTCTX_THREAD0_DM_ASSOC_MASKFULL &
-    211                        ROGUE_CR_MTS_INTCTX_THREAD0_DM_ASSOC_DM_ASSOC_CLRMSK);
+  Tomi
 
-What's the point of these masks?  They don't overlap so they just equal
-zero.
 
-    212         pvr_cr_write32(pvr_dev, ROGUE_CR_MTS_BGCTX_THREAD0_DM_ASSOC,
-    213                        ROGUE_CR_MTS_BGCTX_THREAD0_DM_ASSOC_MASKFULL &
-    214                        ROGUE_CR_MTS_BGCTX_THREAD0_DM_ASSOC_DM_ASSOC_CLRMSK);
-    215         pvr_cr_write32(pvr_dev, ROGUE_CR_MTS_INTCTX_THREAD1_DM_ASSOC,
-    216                        ROGUE_CR_MTS_INTCTX_THREAD1_DM_ASSOC_MASKFULL &
-    217                        ROGUE_CR_MTS_INTCTX_THREAD1_DM_ASSOC_DM_ASSOC_CLRMSK);
-    218         pvr_cr_write32(pvr_dev, ROGUE_CR_MTS_BGCTX_THREAD1_DM_ASSOC,
-    219                        ROGUE_CR_MTS_BGCTX_THREAD1_DM_ASSOC_MASKFULL &
-    220                        ROGUE_CR_MTS_BGCTX_THREAD1_DM_ASSOC_DM_ASSOC_CLRMSK);
-    221 
-    222         /* Extra Idle checks. */
-    223         err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_BIF_STATUS_MMU, 0,
+>   drivers/gpu/drm/drm_mipi_dsi.c | 17 +++++++++++++++--
+>   include/drm/drm_mipi_dsi.h     |  2 ++
+>   2 files changed, 17 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+> index 14201f73aab1..843a6dbda93a 100644
+> --- a/drivers/gpu/drm/drm_mipi_dsi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dsi.c
+> @@ -347,7 +347,8 @@ static int mipi_dsi_remove_device_fn(struct device *dev, void *priv)
+>   {
+>   	struct mipi_dsi_device *dsi = to_mipi_dsi_device(dev);
+>   
+> -	mipi_dsi_detach(dsi);
+> +	if (dsi->attached)
+> +		mipi_dsi_detach(dsi);
+>   	mipi_dsi_device_unregister(dsi);
+>   
+>   	return 0;
+> @@ -370,11 +371,18 @@ EXPORT_SYMBOL(mipi_dsi_host_unregister);
+>   int mipi_dsi_attach(struct mipi_dsi_device *dsi)
+>   {
+>   	const struct mipi_dsi_host_ops *ops = dsi->host->ops;
+> +	int ret;
+>   
+>   	if (!ops || !ops->attach)
+>   		return -ENOSYS;
+>   
+> -	return ops->attach(dsi->host, dsi);
+> +	ret = ops->attach(dsi->host, dsi);
+> +	if (ret)
+> +		return ret;
+> +
+> +	dsi->attached = true;
+> +
+> +	return 0;
+>   }
+>   EXPORT_SYMBOL(mipi_dsi_attach);
+>   
+> @@ -386,9 +394,14 @@ int mipi_dsi_detach(struct mipi_dsi_device *dsi)
+>   {
+>   	const struct mipi_dsi_host_ops *ops = dsi->host->ops;
+>   
+> +	if (WARN_ON(!dsi->attached))
+> +		return -EINVAL;
+> +
+>   	if (!ops || !ops->detach)
+>   		return -ENOSYS;
+>   
+> +	dsi->attached = false;
+> +
+>   	return ops->detach(dsi->host, dsi);
+>   }
+>   EXPORT_SYMBOL(mipi_dsi_detach);
+> diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+> index c9df0407980c..c0aec0d4d664 100644
+> --- a/include/drm/drm_mipi_dsi.h
+> +++ b/include/drm/drm_mipi_dsi.h
+> @@ -168,6 +168,7 @@ struct mipi_dsi_device_info {
+>    * struct mipi_dsi_device - DSI peripheral device
+>    * @host: DSI host for this peripheral
+>    * @dev: driver model device node for this peripheral
+> + * @attached: the DSI device has been successfully attached
+>    * @name: DSI peripheral chip type
+>    * @channel: virtual channel assigned to the peripheral
+>    * @format: pixel format for video mode
+> @@ -184,6 +185,7 @@ struct mipi_dsi_device_info {
+>   struct mipi_dsi_device {
+>   	struct mipi_dsi_host *host;
+>   	struct device dev;
+> +	bool attached;
+>   
+>   	char name[DSI_DEV_NAME_SIZE];
+>   	unsigned int channel;
+> 
+> ---
+> base-commit: 9fc75c40faa29df14ba16066be6bdfaea9f39ce4
+> change-id: 20230921-dsi-detach-fix-6736f7a48ba7
+> 
+> Best regards,
 
-regards,
-dan carpenter
