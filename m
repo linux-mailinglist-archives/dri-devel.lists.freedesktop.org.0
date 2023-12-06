@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD66806F69
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 13:05:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 536A2806F6F
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 13:06:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70C7F10E6F6;
-	Wed,  6 Dec 2023 12:05:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA7DD10E6FF;
+	Wed,  6 Dec 2023 12:06:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECD9E10E6F8;
- Wed,  6 Dec 2023 12:05:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=XcdB8c1GMdLnsTqmGwNSke3msn+34m8xHaTJc2Z0U6I=; b=GXegyWTSsaMoesHMXLFD+hDdqE
- VG0BJ4xBlNCiAT1i0tt7Nh74Gj25HKwwYCgUFFdR2ILnReSbFoG33APmXNFZ+InxMxXBXwpMuwKIR
- 4lEgHM7hBODfh4fKBmCFiXx/gYoeoSUk3+0vSwJVLg/+psBjQnAtuvkroQ/9YWsP36gcr6BqDpMq7
- KupMUx+kyPboaZBcSRgV8k2vHSpzrryF0itlLZ9/0uybWQnyobDvBS3UtAJc4ZbPPgVpS5IRbYDrK
- 1eLtEYgWQuhQVq+lzk49DQ+0VlJLI5FxJ5ZCgzDTFx6QN+W04DELQj/gYVJZu+aYDeEDp5We1F1Vl
- FI7bLdHg==;
-Received: from [102.213.205.115] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1rAqez-00AwEF-7n; Wed, 06 Dec 2023 13:05:49 +0100
-Date: Wed, 6 Dec 2023 11:05:43 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [RFC PATCH v3 01/23] drm: Don't treat 0 as -1 in drm_fixp2int_ceil
-Message-ID: <20231206120316.eexh77nmt5dz46ap@mail.igalia.com>
-References: <20231108163647.106853-1-harry.wentland@amd.com>
- <20231108163647.106853-2-harry.wentland@amd.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46CD910E703
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 12:06:06 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 13592E45;
+ Wed,  6 Dec 2023 13:05:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1701864324;
+ bh=DAaoGZkut7V125jbv7jlLsqrF/urm43gSPz3mOH0DQ4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QbHhi9JHEjzAN+7TsAfZDufXMbCdK7xdEpxTy1FjI2T1tYNDeijLNUu47F996GX6W
+ d9P88L6F2L6Ts3zAYha7liOEeqM6IO5GLoNpds4eFSEH/s2VD9U7LUbLXeO1D6sxBy
+ ykeYwXu+sGpzwE//5r8KSb3cZOuMSHy6yEZSwD+Q=
+Date: Wed, 6 Dec 2023 14:06:11 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v3 101/108] drm/bridge: ti-sn65dsi86: Make use of
+ devm_pwmchip_alloc() function
+Message-ID: <20231206120611.GI22607@pendragon.ideasonboard.com>
+References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
+ <20231121134901.208535-102-u.kleine-koenig@pengutronix.de>
+ <20231123094652.GH15697@pendragon.ideasonboard.com>
+ <20231123101018.u6c6nymmkam5ltir@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231108163647.106853-2-harry.wentland@amd.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231123101018.u6c6nymmkam5ltir@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,42 +51,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-pwm@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/08, Harry Wentland wrote:
-> Unit testing this in VKMS shows that passing 0 into
-> this function returns -1, which is highly counter-
-> intuitive. Fix it by checking whether the input is
-> >= 0 instead of > 0.
+On Thu, Nov 23, 2023 at 11:10:18AM +0100, Uwe Kleine-König wrote:
+> Hello Laurent,
 > 
-Nice finding. Thanks!
-
-Could you add the fixes tag? AFAIU, this one:
-
-Fixes: 64566b5e767f9 ("drm: Add drm_fixp_from_fraction and drm_fixp2int_ceil")
-Reviewed-by: Melissa Wen <mwen@igalia.com>
-
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Reviewed-by: Simon Ser <contact@emersion.fr>
-> ---
->  include/drm/drm_fixed.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On Thu, Nov 23, 2023 at 11:46:52AM +0200, Laurent Pinchart wrote:
+> > (CC'ing Bartosz)
 > 
-> diff --git a/include/drm/drm_fixed.h b/include/drm/drm_fixed.h
-> index 6ea339d5de08..0c9f917a4d4b 100644
-> --- a/include/drm/drm_fixed.h
-> +++ b/include/drm/drm_fixed.h
-> @@ -95,7 +95,7 @@ static inline int drm_fixp2int_round(s64 a)
->  
->  static inline int drm_fixp2int_ceil(s64 a)
->  {
-> -	if (a > 0)
-> +	if (a >= 0)
->  		return drm_fixp2int(a + DRM_FIXED_ALMOST_ONE);
->  	else
->  		return drm_fixp2int(a - DRM_FIXED_ALMOST_ONE);
-> -- 
-> 2.42.1
+> I'm already in discussion with Bart :-)
 > 
+> > On Tue, Nov 21, 2023 at 02:50:43PM +0100, Uwe Kleine-König wrote:
+> > > This prepares the pwm driver of the ti-sn65dsi86 to further changes of
+> > > the pwm core outlined in the commit introducing devm_pwmchip_alloc().
+> > > There is no intended semantical change and the driver should behave as
+> > > before.
+> > > 
+> > > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> > > ---
+> > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 25 ++++++++++++++++---------
+> > >  1 file changed, 16 insertions(+), 9 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > index c45c07840f64..cd40530ffd71 100644
+> > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > @@ -197,7 +197,7 @@ struct ti_sn65dsi86 {
+> > >  	DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
+> > >  #endif
+> > >  #if defined(CONFIG_PWM)
+> > > -	struct pwm_chip			pchip;
+> > > +	struct pwm_chip			*pchip;
+> > 
+> > Dynamic allocation with devm_*() isn't the right solution for lifetime
+> > issues related to cdev. See my talk at LPC 2022
+> > (https://www.youtube.com/watch?v=kW8LHWlJPTU, slides at
+> > https://lpc.events/event/16/contributions/1227/attachments/1103/2115/20220914-lpc-devm_kzalloc.pdf),
+> > and Bartosz's talk at LPC 2023
+> > (https://lpc.events/event/17/contributions/1627/attachments/1258/2725/Linux%20Plumbers%20Conference%202023.pdf).
+> 
+> Once the series is completely applied, the pwm_chip isn't allocated
+> using devm_kzalloc any more. You're only looking at an intermediate
+> state where I push the broken lifetime tracking from all drivers into a
+> single function in the core that is then fixed after all drivers are
+> converted to it.
+
+Indeed, I missed that devm_pwm_alloc() got changed later in the series
+to not call devm_kzalloc(). The naming is quite unfortunate, a
+devm_*_alloc() function really gives a strong hint that the
+corresponding cleanup at device remove time will be a free(), not a
+put() :-S That's pretty confusing for the readers.
+
+> If you find issues with the complete series applied, please tell me.
+
+One thing I still dislike is forcing drivers to dynamically allocate the
+pwm_chip series.
+
+-- 
+Regards,
+
+Laurent Pinchart
