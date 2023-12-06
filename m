@@ -2,61 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DC73806539
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 03:44:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5276F8065DF
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 04:51:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C418510E65C;
-	Wed,  6 Dec 2023 02:43:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EACBE10E07A;
+	Wed,  6 Dec 2023 03:51:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com
- [IPv6:2607:f8b0:4864:20::c36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31ABC10E65C
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 02:43:55 +0000 (UTC)
-Received: by mail-oo1-xc36.google.com with SMTP id
- 006d021491bc7-58d4968c362so4049760eaf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Dec 2023 18:43:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701830634; x=1702435434; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lNRQu6oyNFbpjA1kqXJBdLfx5S4cnvF7XoM5bFKpgiE=;
- b=d/uuQzCWqvv5RCCnBpP4qNRIiv5XsO5Vi/2vlRsPzZuYI/6FSlbNqpxjJ8kCPKE7dg
- kPtT75vT5b2MpnhYiw4odKHqNo2NR8rFoL6FQ3LnVGKOvHZQkMp7M6PWyE8VaokoOhAj
- tI0dlFenS3rpvvxBX047XZdHqkMY8p8sU1EF0SsY4vmlMEMZ3oY/OgeE8A7XOE82joFN
- zgW6yxBYwUC/bTyDUhxj1iZIM7CmkgPb+4sxezS8Y17fRu511FlJ8nOeE9wjRMN2PL/h
- KiBnn7kN+o35+8N0f3xdfwS/XStQ7GZPeIzyyBpz5iKKyBU8JSOIrg2K9OZ21IJs1BsM
- SzDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701830634; x=1702435434;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lNRQu6oyNFbpjA1kqXJBdLfx5S4cnvF7XoM5bFKpgiE=;
- b=ZM4hChCnxt+bObPCH3Sxfj1P9eJB+QteH8PMXN2EIGOjRBWeFqtF0IfomgcxWfjjep
- NYaLzTlGZpyI+yRu1j4YKCimYAY/edsw4xzHH8Ms87boY9Vu7XZPMOAye02Autml/ZUf
- cfOWAek+27FyWyO9CtjiDy/FD8uOGdY/ga5hbtnnR8DqOtpXepOw1gG1KJib1a6te7hP
- bPwTOdcHubhY2M46IWIV4aGIDgLhsZ9Y32Ivp3yVGiogmQgB/b1vRcXFlGOQLzNYL8xg
- czeV8kAbVdfM0rDSBORVK3S1XemNcHBEtcilWRlHAvD1gPhp880/lIhOSInY2jhETPha
- x6gw==
-X-Gm-Message-State: AOJu0YxmkWRYMjkqqd8dxr4G7WnD4o1TGU/dZ++d3tHniELt2AHXzjcS
- EqoBy7lxJHImooVWT5r4110nSUQ+6q+7imnV6Tg=
-X-Google-Smtp-Source: AGHT+IE/01zByJdpwb+ejZn+nZCVZSSt1bpaoOMo+UVjmmFQ7HJnu/gZHm4xhXcv1QQlqg3R+sMuh9ZUGzC3iN8jO+4=
-X-Received: by 2002:a05:6358:5921:b0:16e:5950:67c with SMTP id
- g33-20020a056358592100b0016e5950067cmr474038rwf.25.1701830633962; Tue, 05 Dec
- 2023 18:43:53 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD24610E07A;
+ Wed,  6 Dec 2023 03:51:15 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3B63kPSK016358; Wed, 6 Dec 2023 03:51:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=qcppdkim1; bh=qFuWcg1lSo4SYB/c0K5uToTZ+KryMcI7nagBT4uknTk=;
+ b=bjTuNGoV5aoEMyGV2k934pniPWHWjw3Ar5WBhUM/sHKRwUxQkEgr9QXwklDAD5V1ofgW
+ 4JK4tkP7K0pOG4CU+cAt58MlLVhw7PeSnJzWKcTQcWRgKw3wEJFNVR2Qd5DEF5mLmKdI
+ hQoy9ZjaIqa0aHXm9YOtRszYoShlD0FNLRnyTO2SAvj67RK12ibWVzEgqppyRGno6lfk
+ C46HzDajwLbjeUc9PA/YOOXL5HXOqsQZ/OWBg7E/0mj+3fJilBdHWBm/76zs5tobs7cP
+ A1rQ/q6jXrBiWjrbWMVCIphuy+DYUmoHyxYcYSEqOAVGHTkhrv2Wy+fvJSvvrm0QBljJ BA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3utd510g2w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 06 Dec 2023 03:51:09 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B63p8QW002883
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 6 Dec 2023 03:51:08 GMT
+Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Tue, 5 Dec 2023 19:51:08 -0800
+Date: Tue, 5 Dec 2023 19:51:07 -0800
+From: Bjorn Andersson <quic_bjorande@quicinc.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v3 2/2] drm/msm/dpu: Add mutex lock in control vblank irq
+Message-ID: <20231206035107.GK1766637@hu-bjorande-lv.qualcomm.com>
+References: <20231201014101.15802-1-quic_parellan@quicinc.com>
+ <20231201014101.15802-3-quic_parellan@quicinc.com>
+ <20231201034710.GB1766637@hu-bjorande-lv.qualcomm.com>
+ <CAA8EJpqFya5H+4PPZ8A3CqqqRJXsJ3KKbbcfS=C13QTr1vAtSw@mail.gmail.com>
+ <20231201162252.GG1766637@hu-bjorande-lv.qualcomm.com>
+ <a78c42d1-6ce0-2c34-5513-c04948d2ff31@quicinc.com>
+ <knm2uvjuad47famhr5uzibxxx3reknxdpb5raj3fox2vlkarvc@w6xer6jo4yok>
+ <14e6d232-8e6d-0b5f-4ec4-a23244bcd701@quicinc.com>
 MIME-Version: 1.0
-References: <20231206012831.2179356-1-festevam@gmail.com>
-In-Reply-To: <20231206012831.2179356-1-festevam@gmail.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Tue, 5 Dec 2023 20:43:42 -0600
-Message-ID: <CAHCN7xLiSpYN4BF4MGWdUypKf0YLaCsAq1RfSeo1xTOyAiyXkw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: display: adi,
- adv75xx: Document #sound-dai-cells
-To: Fabio Estevam <festevam@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <14e6d232-8e6d-0b5f-4ec4-a23244bcd701@quicinc.com>
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: Em9r5LIVTaOyBhOT2THsP4prCts6WicW
+X-Proofpoint-GUID: Em9r5LIVTaOyBhOT2THsP4prCts6WicW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-06_01,2023-12-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 suspectscore=0
+ priorityscore=1501 adultscore=0 mlxlogscore=816 spamscore=0
+ impostorscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0 bulkscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2312060031
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,55 +85,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org,
- Fabio Estevam <festevam@denx.de>, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, Laurent.pinchart@ideasonboard.com,
- krzysztof.kozlowski+dt@linaro.org
+Cc: marijn.suijten@somainline.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, Paloma Arellano <quic_parellan@quicinc.com>,
+ steev@kali.org, quic_jesszhan@quicinc.com,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, seanpaul@chromium.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 5, 2023 at 7:28=E2=80=AFPM Fabio Estevam <festevam@gmail.com> w=
-rote:
->
-> From: Fabio Estevam <festevam@denx.de>
->
-> When using audio from ADV7533 or ADV7535 and describing the audio
-> card via simple-audio-card, the '#sound-dai-cells' needs to be passed.
->
-> Document the '#sound-dai-cells' property to fix the following
-> dt-schema warning:
->
+On Mon, Dec 04, 2023 at 11:22:24AM -0800, Abhinav Kumar wrote:
+> 
+> 
+> On 12/3/2023 7:31 PM, Bjorn Andersson wrote:
+> > On Fri, Dec 01, 2023 at 11:43:36AM -0800, Abhinav Kumar wrote:
+> > > 
+> > > 
+> > > On 12/1/2023 8:22 AM, Bjorn Andersson wrote:
+> > > > On Fri, Dec 01, 2023 at 10:34:50AM +0200, Dmitry Baryshkov wrote:
+> > > > > On Fri, 1 Dec 2023 at 05:47, Bjorn Andersson <quic_bjorande@quicinc.com> wrote:
+> > > > > > On Thu, Nov 30, 2023 at 05:40:55PM -0800, Paloma Arellano wrote:
+> > > > [..]
+> > > > > > > @@ -2386,6 +2390,7 @@ struct drm_encoder *dpu_encoder_init(struct drm_device *dev,
+> > > > > > >         dpu_enc->enabled = false;
+> > > > > > >         mutex_init(&dpu_enc->enc_lock);
+> > > > > > >         mutex_init(&dpu_enc->rc_lock);
+> > > > > > > +     mutex_init(&dpu_enc->vblank_ctl_lock);
+> > > > > > 
+> > > > > > Is this somehow propagated to multiple different dpu_encoder_phys
+> > > > > > instances, or why do you need to initialize it here and pass the pointer
+> > > > > > through 2 different intermediate structures before assigning it to
+> > > > > > phys_enc->vblank_ctl_lock below?
+> > > > > 
+> > > > > Yes, there can be two phys_enc instances for a single encoder, so this
+> > > > > part is fine.
+> > > > > 
+> > > > 
+> > > > Thanks for the clarification, Dmitry. Sounds like it make sense then.
+> > > > 
+> > > > But, if I read the code correctly the two instances will have separate
+> > > > vblank_refcount copies, and the dpu_core_irq_*() interface does mutual
+> > > > exclusion within. So why do we need shared mutual exclusion between the
+> > > > two? (This is where a proper description of the problem in the commit
+> > > > message would have been very helpful)
+> > > > 
+> > > 
+> > > Are you suggesting we just have one vblank_ctl_lock per encoder and not have
+> > > one vblank_ctl_lock per phys encoder? I cannot think of a display specific
+> > > reason for that other than just the SW layout.
+> > > 
+> > > The reason its like this today is that control_vblank_irq is an encoder phys
+> > > op because it does different things based on the type of encoder.
+> > > 
+> > > Because its an encoder phys op, it has the vblank_ctl_lock at the phys
+> > > structure and not the encoder one.
+> > > 
+> > > Its just more about how the phys op is defined that each phys op operates on
+> > > its phys's structure.
+> > > 
+> > > Generally, if we have one encoder with two physical encoders we anyways bail
+> > > out early for the other encoder so this is mostly a no-op for the slave phys
+> > > encoder.
+> > > 
+> > > Please take a look at below return point.
+> > > 
+> > > 715 	/* Slave encoders don't report vblank */
+> > > 716 	if (!sde_encoder_phys_vid_is_master(phys_enc))
+> > > 717 		goto end;
+> > > 718
+> > > 
+> > > So technically its still providing protection for the same phys encoder but
+> > > the catch is this control_vblank_irq can get called from different threads
+> > > hence we need exclusion.
+> > > 
+> > 
+> > The way I understand the code is that the atomic is used to refcount
+> > when to enable/disable the interrupt, and the new lock protects this
+> > refcount during concurrent updates. I have no concerns with this part.
+> > 
+> 
+> Correct.
+> 
+> > 
+> > What I'm seeing is that the refcount it per phys_enc, and as such there
+> > would be no reason to have a common mutex to protect the two independent
+> > refcounts.
+> > 
+> > But I'm probably misunderstanding something here...
+> > 
+> 
+> There is no reason to have a common mutex to protect the two independent
+> refcounts. In fact, there is no need to even have two independent refcounts
+> because whenever we have one encoder with two physical encoders, we use only
+> the master physical encoder for vblanks like I pointed above.
+> 
+> The only reason we have it like this is because today the vblank_refcount is
+> part of phys_enc so the mutex handle is also now a part of it.
+> 
+> Do you think if we move both the mutex and the vblank_refcount to the
+> dpu_encoder from the dpu_encoder_phys and maintain the mutex at that level
+> it will be less confusing for you?
+> 
 
-Thanks for doing that.
+The two functions operate on dpu_encoder_phys objects, and as you say
+above the two instances doesn't need to be handled under shared mutual
+exclusion.
 
-> imx8mn-beacon-kit.dtb: hdmi@3d: '#sound-dai-cells' does not match any of =
-the regexes: 'pinctrl-[0-9]+'
->         from schema $id: http://devicetree.org/schemas/display/bridge/adi=
-,adv7533.yaml#
->
+Moving the serialization mechanism to dpu_encoder seems like it would
+create an entanglement, for the sake of making the lock common. If
+nothing else this would act as documentation to me that the two
+functions are intertwined somehow.
 
-Acked-by: Adam Ford <aford173@gmail.com>
+I was rather hoping that we'd move the mutex_init() to
+dpu_encoder_phys_init() and avoid passing a reference around in
+unrelated parts of the code just to set up the sharing, if that's not
+necessary.
 
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
-> ---
->  .../devicetree/bindings/display/bridge/adi,adv7533.yaml        | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/display/bridge/adi,adv7533=
-.yaml b/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
-> index 987aa83c2649..e15ae072922e 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/adi,adv7533.yaml
-> @@ -89,6 +89,9 @@ properties:
->      $ref: /schemas/types.yaml#/definitions/uint32
->      enum: [ 1, 2, 3, 4 ]
->
-> +  '#sound-dai-cells':
-> +    const: 0
-> +
->    ports:
->      description:
->        The ADV7533/35 has two video ports and one audio port.
-> --
-> 2.34.1
->
+Regards,
+Bjorn
+
+> I am fine with that.
+> 
+> > Regards,
+> > Bjorn
+> > 
