@@ -2,42 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A5E8806A09
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 09:46:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3E05806DA9
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 12:17:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F343710E087;
-	Wed,  6 Dec 2023 08:46:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4967110E6D5;
+	Wed,  6 Dec 2023 11:17:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ABD110E087
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 08:46:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8BF126177E;
- Wed,  6 Dec 2023 08:46:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F84DC433C7;
- Wed,  6 Dec 2023 08:46:36 +0000 (UTC)
-Message-ID: <574bb65f-872d-4bf4-9d3d-a330133de884@xs4all.nl>
-Date: Wed, 6 Dec 2023 09:46:35 +0100
+Received: from air.basealt.ru (air.basealt.ru [194.107.17.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 818A810E08C
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 08:49:51 +0000 (UTC)
+Received: by air.basealt.ru (Postfix, from userid 490)
+ id 2EB732F2023C; Wed,  6 Dec 2023 08:49:50 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on
+ sa.local.altlinux.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=ham autolearn_force=no version=3.4.1
+Received: from altlinux.malta.altlinux.ru (obninsk.basealt.ru [217.15.195.17])
+ by air.basealt.ru (Postfix) with ESMTPSA id 1F30F2F20241;
+ Wed,  6 Dec 2023 08:49:48 +0000 (UTC)
+From: kovalev@altlinux.org
+To: devel-kernel@lists.altlinux.org
+Subject: [PATCH 1/1] Revert "drm/edid: Fix csync detailed mode parsing"
+Date: Wed,  6 Dec 2023 11:49:46 +0300
+Message-Id: <20231206084946.111835-2-kovalev@altlinux.org>
+X-Mailer: git-send-email 2.33.8
+In-Reply-To: <20231206084946.111835-1-kovalev@altlinux.org>
+References: <20231206084946.111835-1-kovalev@altlinux.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3,16/21] media: medkatek: vcodec: support one plane
- capture buffer
-Content-Language: en-US, nl
-To: Yunfei Dong <yunfei.dong@mediatek.com>,
- Jeffrey Kardatzke <jkardatzke@google.com>,
- =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Nathan Hebert <nhebert@chromium.org>
-References: <20231206081538.17056-1-yunfei.dong@mediatek.com>
- <20231206081538.17056-17-yunfei.dong@mediatek.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20231206081538.17056-17-yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 06 Dec 2023 11:17:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,152 +46,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Steve Cho <stevecho@chromium.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Chen-Yu Tsai <wenst@chromium.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Matthias Brugger <matthias.bgg@gmail.com>, John Stultz <jstultz@google.com>,
- linux-arm-kernel@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Fritz Koenig <frkoenig@chromium.org>, linux-mediatek@lists.infradead.org,
- "T . J . Mercier" <tjmercier@google.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Yong Wu <yong.wu@mediatek.com>
+Cc: Jani Nikula <jani.nikula@intel.com>, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Vasiliy Kovalev <kovalev@altlinux.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/12/2023 09:15, Yunfei Dong wrote:
-> The capture buffer has two planes for format MM21, but user space only
-> allocate secure memory for plane[0], and the size is Y data + uv data.
-> The driver need to support one plane decoder for svp mode.
+From: Vasiliy Kovalev <kovalev@altlinux.org>
 
-For a future v4: note the typo in the Subject line: medkatek -> mediatek.
-It's present in patches 16-20.
+This reverts commit 5a46dc8e4a064769e916d87bf9bccae75afc7289.
 
-Regards,
+Commit 50b6f2c8297793f7f3315623db78dcff85158e96 upstream.
 
-	Hans
+Commit 5a46dc8e4a0647 ("drm/edid: Fix csync detailed mode parsing") fixed
+EDID detailed mode sync parsing. Unfortunately, there are quite a few
+displays out there that have bogus (zero) sync field that are broken by
+the change. Zero means analog composite sync, which is not right for
+digital displays, and the modes get rejected. Regardless, it used to
+work, and it needs to continue to work. Revert the change.
 
-> 
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
->  .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  |  7 ++++-
->  .../vcodec/decoder/mtk_vcodec_dec_stateless.c | 26 ++++++++++---------
->  .../decoder/vdec/vdec_h264_req_common.c       | 11 +++-----
->  .../mediatek/vcodec/decoder/vdec_drv_if.c     |  4 +--
->  4 files changed, 26 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-> index 604fdc8ee3ce..ab922e8d2d37 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-> @@ -653,7 +653,12 @@ static int vidioc_vdec_g_fmt(struct file *file, void *priv,
->  		 * So we just return picinfo yet, and update picinfo in
->  		 * stop_streaming hook function
->  		 */
-> -		q_data->sizeimage[0] = ctx->picinfo.fb_sz[0];
-> +
-> +		if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes == 1)
-> +			q_data->sizeimage[0] = ctx->picinfo.fb_sz[0] + ctx->picinfo.fb_sz[1];
-> +		else
-> +			q_data->sizeimage[0] = ctx->picinfo.fb_sz[0];
-> +
->  		q_data->sizeimage[1] = ctx->picinfo.fb_sz[1];
->  		q_data->bytesperline[0] = ctx->last_decoded_picinfo.buf_w;
->  		q_data->bytesperline[1] = ctx->last_decoded_picinfo.buf_w;
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-> index cc42c942eb8a..707ed57a412e 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-> @@ -285,14 +285,14 @@ static struct vdec_fb *vdec_get_cap_buffer(struct mtk_vcodec_dec_ctx *ctx)
->  	framebuf = container_of(vb2_v4l2, struct mtk_video_dec_buf, m2m_buf.vb);
->  
->  	pfb = &framebuf->frame_buffer;
-> -	pfb->base_y.va = vb2_plane_vaddr(dst_buf, 0);
-> +	if (!ctx->is_secure_playback)
-> +		pfb->base_y.va = vb2_plane_vaddr(dst_buf, 0);
->  	pfb->base_y.dma_addr = vb2_dma_contig_plane_dma_addr(dst_buf, 0);
->  	pfb->base_y.size = ctx->q_data[MTK_Q_DATA_DST].sizeimage[0];
->  
-> -	if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes == 2) {
-> +	if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes == 2 && !ctx->is_secure_playback) {
->  		pfb->base_c.va = vb2_plane_vaddr(dst_buf, 1);
-> -		pfb->base_c.dma_addr =
-> -			vb2_dma_contig_plane_dma_addr(dst_buf, 1);
-> +		pfb->base_c.dma_addr = vb2_dma_contig_plane_dma_addr(dst_buf, 1);
->  		pfb->base_c.size = ctx->q_data[MTK_Q_DATA_DST].sizeimage[1];
->  	}
->  	mtk_v4l2_vdec_dbg(1, ctx,
-> @@ -339,16 +339,18 @@ static void mtk_vdec_worker(struct work_struct *work)
->  	mtk_v4l2_vdec_dbg(3, ctx, "[%d] (%d) id=%d, vb=%p", ctx->id,
->  			  vb2_src->vb2_queue->type, vb2_src->index, vb2_src);
->  
-> -	bs_src->va = vb2_plane_vaddr(vb2_src, 0);
-> -	bs_src->dma_addr = vb2_dma_contig_plane_dma_addr(vb2_src, 0);
-> -	bs_src->size = (size_t)vb2_src->planes[0].bytesused;
-> -	if (!bs_src->va) {
-> -		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
-> -		mtk_v4l2_vdec_err(ctx, "[%d] id=%d source buffer is NULL", ctx->id,
-> -				  vb2_src->index);
-> -		return;
-> +	if (!ctx->is_secure_playback) {
-> +		bs_src->va = vb2_plane_vaddr(vb2_src, 0);
-> +		if (!bs_src->va) {
-> +			v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
-> +			mtk_v4l2_vdec_err(ctx, "[%d] id=%d source buffer is NULL", ctx->id,
-> +					  vb2_src->index);
-> +			return;
-> +		}
->  	}
->  
-> +	bs_src->dma_addr = vb2_dma_contig_plane_dma_addr(vb2_src, 0);
-> +	bs_src->size = (size_t)vb2_src->planes[0].bytesused;
->  	mtk_v4l2_vdec_dbg(3, ctx, "[%d] Bitstream VA=%p DMA=%pad Size=%zx vb=%p",
->  			  ctx->id, bs_src->va, &bs_src->dma_addr, bs_src->size, vb2_src);
->  	/* Apply request controls. */
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_common.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_common.c
-> index 5ca20d75dc8e..2a57e689ec07 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_common.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_common.c
-> @@ -79,15 +79,12 @@ void mtk_vdec_h264_fill_dpb_info(struct mtk_vcodec_dec_ctx *ctx,
->  		vb2_v4l2 = container_of(vb, struct vb2_v4l2_buffer, vb2_buf);
->  		h264_dpb_info[index].field = vb2_v4l2->field;
->  
-> -		h264_dpb_info[index].y_dma_addr =
-> -			vb2_dma_contig_plane_dma_addr(vb, 0);
-> +		h264_dpb_info[index].y_dma_addr = vb2_dma_contig_plane_dma_addr(vb, 0);
->  		if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes == 2)
-> +			h264_dpb_info[index].c_dma_addr = vb2_dma_contig_plane_dma_addr(vb, 1);
-> +		else if (!ctx->is_secure_playback)
->  			h264_dpb_info[index].c_dma_addr =
-> -				vb2_dma_contig_plane_dma_addr(vb, 1);
-> -		else
-> -			h264_dpb_info[index].c_dma_addr =
-> -				h264_dpb_info[index].y_dma_addr +
-> -				ctx->picinfo.fb_sz[0];
-> +				h264_dpb_info[index].y_dma_addr + ctx->picinfo.fb_sz[0];
->  	}
->  }
->  
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_drv_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec_drv_if.c
-> index d0b459b1603f..fb3e4f75ed93 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_drv_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_drv_if.c
-> @@ -73,14 +73,14 @@ int vdec_if_decode(struct mtk_vcodec_dec_ctx *ctx, struct mtk_vcodec_mem *bs,
->  {
->  	int ret = 0;
->  
-> -	if (bs) {
-> +	if (bs && !ctx->is_secure_playback) {
->  		if ((bs->dma_addr & 63) != 0) {
->  			mtk_v4l2_vdec_err(ctx, "bs dma_addr should 64 byte align");
->  			return -EINVAL;
->  		}
->  	}
->  
-> -	if (fb) {
-> +	if (fb && !ctx->is_secure_playback) {
->  		if (((fb->base_y.dma_addr & 511) != 0) ||
->  		    ((fb->base_c.dma_addr & 511) != 0)) {
->  			mtk_v4l2_vdec_err(ctx, "frame buffer dma_addr should 512 byte align");
+Rejecting modes with analog composite sync was the part that fixed the
+gitlab issue 8146 [1]. We'll need to get back to the drawing board with
+that.
+
+[1] https://gitlab.freedesktop.org/drm/intel/-/issues/8146
+
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8789
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8930
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/9044
+Fixes: 5a46dc8e4a0647 ("drm/edid: Fix csync detailed mode parsing")
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v6.4+
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Acked-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230815101907.2900768-1-jani.nikula@intel.com
+Signed-off-by: Vasiliy Kovalev <kovalev@altlinux.org>
+---
+ drivers/gpu/drm/drm_edid.c | 26 +++++++-------------------
+ include/drm/drm_edid.h     | 12 +++---------
+ 2 files changed, 10 insertions(+), 28 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index a26c6c57a627c0..5ed77e3361fd72 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -3307,6 +3307,9 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_device *dev,
+ 		DRM_DEBUG_KMS("stereo mode not supported\n");
+ 		return NULL;
+ 	}
++	if (!(pt->misc & DRM_EDID_PT_SEPARATE_SYNC)) {
++		DRM_DEBUG_KMS("composite sync not supported\n");
++	}
+ 
+ 	/* it is incorrect if hsync/vsync width is zero */
+ 	if (!hsync_pulse_width || !vsync_pulse_width) {
+@@ -3353,25 +3356,10 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_device *dev,
+ 	if (quirks & EDID_QUIRK_DETAILED_SYNC_PP) {
+ 		mode->flags |= DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC;
+ 	} else {
+-		switch (pt->misc & DRM_EDID_PT_SYNC_MASK) {
+-		case DRM_EDID_PT_ANALOG_CSYNC:
+-		case DRM_EDID_PT_BIPOLAR_ANALOG_CSYNC:
+-			drm_dbg_kms(dev, "Analog composite sync!\n");
+-			mode->flags |= DRM_MODE_FLAG_CSYNC | DRM_MODE_FLAG_NCSYNC;
+-			break;
+-		case DRM_EDID_PT_DIGITAL_CSYNC:
+-			drm_dbg_kms(dev, "Digital composite sync!\n");
+-			mode->flags |= DRM_MODE_FLAG_CSYNC;
+-			mode->flags |= (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
+-				DRM_MODE_FLAG_PCSYNC : DRM_MODE_FLAG_NCSYNC;
+-			break;
+-		case DRM_EDID_PT_DIGITAL_SEPARATE_SYNC:
+-			mode->flags |= (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
+-				DRM_MODE_FLAG_PHSYNC : DRM_MODE_FLAG_NHSYNC;
+-			mode->flags |= (pt->misc & DRM_EDID_PT_VSYNC_POSITIVE) ?
+-				DRM_MODE_FLAG_PVSYNC : DRM_MODE_FLAG_NVSYNC;
+-			break;
+-		}
++		mode->flags |= (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
++			DRM_MODE_FLAG_PHSYNC : DRM_MODE_FLAG_NHSYNC;
++		mode->flags |= (pt->misc & DRM_EDID_PT_VSYNC_POSITIVE) ?
++			DRM_MODE_FLAG_PVSYNC : DRM_MODE_FLAG_NVSYNC;
+ 	}
+ 
+ set_size:
+diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+index 008d2ed39822ec..1ed61e2b30a41c 100644
+--- a/include/drm/drm_edid.h
++++ b/include/drm/drm_edid.h
+@@ -61,15 +61,9 @@ struct std_timing {
+ 	u8 vfreq_aspect;
+ } __attribute__((packed));
+ 
+-#define DRM_EDID_PT_SYNC_MASK              (3 << 3)
+-# define DRM_EDID_PT_ANALOG_CSYNC          (0 << 3)
+-# define DRM_EDID_PT_BIPOLAR_ANALOG_CSYNC  (1 << 3)
+-# define DRM_EDID_PT_DIGITAL_CSYNC         (2 << 3)
+-#  define DRM_EDID_PT_CSYNC_ON_RGB         (1 << 1) /* analog csync only */
+-#  define DRM_EDID_PT_CSYNC_SERRATE        (1 << 2)
+-# define DRM_EDID_PT_DIGITAL_SEPARATE_SYNC (3 << 3)
+-#  define DRM_EDID_PT_HSYNC_POSITIVE       (1 << 1) /* also digital csync */
+-#  define DRM_EDID_PT_VSYNC_POSITIVE       (1 << 2)
++#define DRM_EDID_PT_HSYNC_POSITIVE (1 << 1)
++#define DRM_EDID_PT_VSYNC_POSITIVE (1 << 2)
++#define DRM_EDID_PT_SEPARATE_SYNC  (3 << 3)
+ #define DRM_EDID_PT_STEREO         (1 << 5)
+ #define DRM_EDID_PT_INTERLACED     (1 << 7)
+ 
+-- 
+2.33.8
 
