@@ -1,92 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE0F8807039
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 13:51:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D668980703A
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 13:51:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE85510E71D;
-	Wed,  6 Dec 2023 12:51:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DACB710E71E;
+	Wed,  6 Dec 2023 12:51:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38B4B10E71D
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 12:51:02 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi
- [91.158.149.209])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 92D0C29B;
- Wed,  6 Dec 2023 13:50:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1701867020;
- bh=BFkUeQ8TQlOHd76ivB4MITXaCGgqZa1iAHqXLikutWU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=b1zhisN+jwotx+5spYh0Rt3oDBEhtLdU84sUOpf0dK1q556S4z1o2lRWbpdpbzzI0
- IBthe43EhO5nx8AHNzsZJwlBfbixpwsZDecBUVSdx9wSc7BplMl30FGoKtpr67wLjb
- 7Ap+omfRSzidetKgl95LIRD0PzwLki8FwqnDeFmM=
-Message-ID: <0d458603-fc4a-44cc-bf90-eccee875d014@ideasonboard.com>
-Date: Wed, 6 Dec 2023 14:50:57 +0200
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CE5710E71E
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 12:51:04 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id
+ ffacd0b85a97d-33350fcb2c7so553477f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Dec 2023 04:51:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701867063; x=1702471863; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=vShWvwbKGu3wPEzH2d3YHxBc3lA47Ytd3pI/2OLguiQ=;
+ b=IgQ8CFFeK/TtTsRKZ3IBhKDB14CXcZN49OzUvIyg48/K9zjvfD9//7TIati244kqda
+ zxyeMmSGujSD6OLhhATPHq6YD9dsMfaBoJeAA8b27jK92zddsNT6cHGCDMEu2VPm0Tx4
+ MfQdD2JgqPcFl9Sfzp1WTq93aABA9WWRMPOJmjGW9VbtYa6e1eaFiJngwri3ch+0UULm
+ LQ1qVoGPPSF7OXk+17Aku0CQqpzMlTPjunF8BeM4N6e1TIluRwpnQkRO3tFds82cfgEq
+ RN/BlbOtepR52QmSIHD9KqV7mYmHcjt04YkBCJ4ZibnoXPKhUGlBxzHhUOulhGaVod+P
+ 9DlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701867063; x=1702471863;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vShWvwbKGu3wPEzH2d3YHxBc3lA47Ytd3pI/2OLguiQ=;
+ b=jOrDOkBVb4Ga6YkLId/Dxocz6genWPUlyk9oQtN6KqGHqs8jWHPRHxb9RSBPNda3q/
+ zWwvWdYaSpoz3mLGa4g8vGbhYjNboN0ylE4CzlOsxMCNEdJYFjeuNQihHpuSfFVzMoKu
+ hV66UbGXsiUGl6pZ3bHwMEzUiX6jCM0fs+Q1DR8R5bsDIUhFILfTOKy/eaeqo/aKgFnL
+ CtYeiUg+eb5XroaZeFB2eLJ5XDaSZyh+Z5VbJN9cyrMruzFjc39rdsDHiueg4nY8XLal
+ xx3ft+GWEcUKCBjehJKYJ69cVK11R9erPr4Kf5qO6/xPfhpC19tS7ZBUJRQGptyQmJcq
+ 2Dkw==
+X-Gm-Message-State: AOJu0Yz7flkEj7jsY+U9vTi44r8vcqAR5ZpajhIHP5725iYbHjuds0uw
+ w+qwLFVsSybXU9vv28bplZffLw==
+X-Google-Smtp-Source: AGHT+IE8e7Wky2a00mT8q1EeJCpCr9j/ztRZ/knsHV/BcPw/t8tPCfN6FCFtzSt/CmIwn142BAbegg==
+X-Received: by 2002:adf:ea02:0:b0:333:2fd2:8154 with SMTP id
+ q2-20020adfea02000000b003332fd28154mr470928wrm.113.1701867062722; 
+ Wed, 06 Dec 2023 04:51:02 -0800 (PST)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ x16-20020adfec10000000b003333beb564asm11255309wrn.5.2023.12.06.04.51.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Dec 2023 04:51:02 -0800 (PST)
+Date: Wed, 6 Dec 2023 15:50:58 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: sarah.walker@imgtec.com
+Subject: [bug report] drm/imagination: Implement firmware infrastructure and
+ META FW support
+Message-ID: <356d0cd0-e2d8-4a78-96ca-4d9d26031c44@moroto.mountain>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/4] drm: Fix errors about uninitialized/wrong variables
-Content-Language: en-US
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Francesco Dolcini <francesco.dolcini@toradex.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Parshuram Thombare <pthombar@cadence.com>
-References: <20231103-uninit-fixes-v2-0-c22b2444f5f5@ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20231103-uninit-fixes-v2-0-c22b2444f5f5@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,44 +69,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+Hello Sarah Walker,
 
-On 03/11/2023 15:14, Tomi Valkeinen wrote:
-> Fix cases where smatch reports a use of an uninitialized variable, and
-> one where the variable is initialized but contains wrong value.
-> 
->   Tomi
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
-> Changes in v2:
-> - Added two more fixes
-> - Link to v1: https://lore.kernel.org/r/20230804-uninit-fixes-v1-0-a60772c04db5@ideasonboard.com
-> 
-> ---
-> Tomi Valkeinen (4):
->        drm/drm_file: fix use of uninitialized variable
->        drm/framebuffer: Fix use of uninitialized variable
->        drm/bridge: cdns-mhdp8546: Fix use of uninitialized variable
->        drm/bridge: tc358767: Fix return value on error case
-> 
->   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c | 3 ++-
->   drivers/gpu/drm/bridge/tc358767.c                   | 2 +-
->   drivers/gpu/drm/drm_file.c                          | 2 +-
->   drivers/gpu/drm/drm_framebuffer.c                   | 2 +-
->   4 files changed, 5 insertions(+), 4 deletions(-)
-> ---
-> base-commit: 9d7c8c066916f231ca0ed4e4fce6c4b58ca3e451
-> change-id: 20230804-uninit-fixes-188f92d60ac3
-> 
-> Best regards,
+The patch cc1aeedb98ad: "drm/imagination: Implement firmware
+infrastructure and META FW support" from Nov 22, 2023 (linux-next),
+leads to the following Smatch static checker warning:
 
-Ping on this (or I'll forget the series...).
+	drivers/gpu/drm/imagination/pvr_vm.c:631 pvr_vm_create_context()
+	error: 'vm_ctx->mmu_ctx' dereferencing possible ERR_PTR()
 
-  Tomi
+drivers/gpu/drm/imagination/pvr_vm.c
+    597         vm_ctx = kzalloc(sizeof(*vm_ctx), GFP_KERNEL);
+    598         if (!vm_ctx)
+    599                 return ERR_PTR(-ENOMEM);
+    600 
+    601         drm_gem_private_object_init(&pvr_dev->base, &vm_ctx->dummy_gem, 0);
+    602 
+    603         vm_ctx->pvr_dev = pvr_dev;
+    604         kref_init(&vm_ctx->ref_count);
+    605         mutex_init(&vm_ctx->lock);
+    606 
+    607         drm_gpuvm_init(&vm_ctx->gpuvm_mgr,
+    608                        is_userspace_context ? "PowerVR-user-VM" : "PowerVR-FW-VM",
+    609                        0, &pvr_dev->base, &vm_ctx->dummy_gem,
+    610                        0, 1ULL << device_addr_bits, 0, 0, &pvr_vm_gpuva_ops);
+    611 
+    612         vm_ctx->mmu_ctx = pvr_mmu_context_create(pvr_dev);
+    613         err = PTR_ERR_OR_ZERO(&vm_ctx->mmu_ctx);
+                                      ^
+s/&//.
 
+The address is never an error pointer so this will always return 0.
+Fixing this will silence the static checker but there are some other
+issues as well.
+
+    614         if (err) {
+    615                 vm_ctx->mmu_ctx = NULL;
+
+Setting vm_ctx->mmu_ctx is not sufficient.
+
+    616                 goto err_put_ctx;
+    617         }
+    618 
+    619         if (is_userspace_context) {
+    620                 err = pvr_fw_object_create(pvr_dev, sizeof(struct rogue_fwif_fwmemcontext),
+    621                                            PVR_BO_FW_FLAGS_DEVICE_UNCACHED,
+    622                                            fw_mem_context_init, vm_ctx, &vm_ctx->fw_mem_ctx_obj);
+    623 
+    624                 if (err)
+    625                         goto err_page_table_destroy;
+    626         }
+    627 
+    628         return vm_ctx;
+    629 
+    630 err_page_table_destroy:
+--> 631         pvr_mmu_context_destroy(vm_ctx->mmu_ctx);
+
+This will lead to a double free.  Delete.
+
+    632 
+    633 err_put_ctx:
+    634         pvr_vm_context_put(vm_ctx);
+
+The pvr_vm_context_put() function does:
+
+	kref_put(&vm_ctx->ref_count, pvr_vm_context_release);
+
+I really think that with kref free functions the way to do it is to
+wait until the last possible momement when everything has been allocated
+before we set up the kref release code.  Here the pvr_vm_context_release()
+will call:
+
+	pvr_mmu_context_destroy(vm_ctx->mmu_ctx);
+
+We already did that on line 631 as mentioned so it's a double free.  But
+also imagine if vm_ctx->mmu_ctx is NULL, then it will lead to a NULL
+dereference.
+
+The pvr_vm_context_release() function has several WARN() functions that
+trigger if not everything is set up.  It's complicated to review.  So I
+kind of always think that people should manually kfree() things in their
+allocation functions and then do a kref_init() at the end.
+
+    635 
+    636         return ERR_PTR(err);
+    637 }
+
+regards,
+dan carpenter
