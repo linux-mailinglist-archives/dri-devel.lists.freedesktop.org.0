@@ -1,47 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23A0D8073D6
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 16:40:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 486AB8073F3
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 16:47:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6A8B10E0B0;
-	Wed,  6 Dec 2023 15:40:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82F3110E631;
+	Wed,  6 Dec 2023 15:47:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A799D10E0B0
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 15:40:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0B80861D7A;
- Wed,  6 Dec 2023 15:40:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 427C5C433C7;
- Wed,  6 Dec 2023 15:40:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701877228;
- bh=AMfzvAO5OXH7nthn1R2FWxGUEIQNak/21Kw8bnyNgfg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ifIjbAQt4c0JQ0Whbh7WRkimSenj+lzCI+0M+g4SFIXKtK/TZcn1q7/wWd8QnpEC1
- Gh7l6Z+0y+BjoWzH7rn4IBamREKsAYuMT3ZT9OzUJRYNRMQp0hEtA0oz2Gnuluefou
- NV9Y7dZgKjlMaCtqRw6tkLSoOY0hSdCDZCrzcitli1IGw4uxHSW7/TiIrPXiCxDITj
- O2fkNL6gAs0b3/5fyHFgZKPXdd9YWSHNMmNkmuII2Wy95pNamN5OvtxfdNr/ZuQekn
- zj/OsVAKYMt1ndRpMjPverChTzUGXMyikSKJBNJKFVVWlUOzjuyRmcuQKF1/J1DJ7q
- mvbq4G0nF1/HQ==
-Date: Wed, 6 Dec 2023 15:40:21 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Shengyang Chen <shengyang.chen@starfivetech.com>
-Subject: Re: [PATCH v1 1/2] dt-bindings: display: panel: raspberrypi: Add
- compatible property for waveshare 7inch touchscreen panel
-Message-ID: <20231206-isolating-smoked-b490952029d0@spud>
-References: <20231124104451.44271-1-shengyang.chen@starfivetech.com>
- <20231124104451.44271-2-shengyang.chen@starfivetech.com>
- <20231124-lesser-sinister-7f9cd7b80e35@spud>
- <2d48e460-e46e-431f-bd7b-e34ebe73a40c@starfivetech.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5C4C110E631
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 15:47:29 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8C308143D;
+ Wed,  6 Dec 2023 07:48:14 -0800 (PST)
+Received: from [10.57.74.196] (unknown [10.57.74.196])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 194573F5A1;
+ Wed,  6 Dec 2023 07:47:25 -0800 (PST)
+Message-ID: <43a75119-b15d-4570-b272-1fe702784632@arm.com>
+Date: Wed, 6 Dec 2023 15:47:29 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4u5wDHCnw45IR5T9"
-Content-Disposition: inline
-In-Reply-To: <2d48e460-e46e-431f-bd7b-e34ebe73a40c@starfivetech.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 00/14] drm: Add a driver for CSF-based Mali GPUs
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Daniel Stone <daniels@collabora.com>, kernel@collabora.com
+References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
+ <20231205094847.221ab103@collabora.com>
+Content-Language: en-GB
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20231205094847.221ab103@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,112 +44,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, eric@anholt.net, thierry.reding@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
- florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
- quic_jesszhan@quicinc.com, devicetree@vger.kernel.org, conor+dt@kernel.org,
- mripard@kernel.org, robh+dt@kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, neil.armstrong@linaro.org,
- keith.zhao@starfivetech.com, linux-kernel@vger.kernel.org,
- jack.zhu@starfivetech.com, tzimmermann@suse.de,
- changhuang.liang@starfivetech.com
+Cc: Nicolas Boichat <drinkcat@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 05/12/2023 08:48, Boris Brezillon wrote:
+> Hi Steve,
+> 
+> I forgot to mention that I intentionally dropped your R-b, because
+> there was a gazillion of changes all over the place, and I thought it
+> deserved a fresh review.
 
---4u5wDHCnw45IR5T9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+No problem, I'll re-review the patches. Thanks for getting the v3 out to
+review.
 
-On Wed, Dec 06, 2023 at 05:43:48PM +0800, Shengyang Chen wrote:
-> Hi, Conor
->=20
-> On 2023/11/24 20:31, Conor Dooley wrote:
-> > On Fri, Nov 24, 2023 at 06:44:50PM +0800, Shengyang Chen wrote:
-> >> The waveshare 7inch touchscreen panel is a kind of raspberrypi pi
-> >> panel
-> >=20
-> > Can you be more specific about what "is a kind of rpi panel" means?
-> > Are they using identical chips as controllers or something like that?
-> >=20
->=20
-> Wareshare panel has same i2c slave address and registers address with=20
-> the original raspberry pi panel. They both use Atmel firmware and they
-> got same reg id. It can be operated by using the driver of raspberry pi d=
-river
-> after some change of the code. So I suppose it may be a kind of raspberry=
- pi panel=20
-> and discribe it in this way. It's my own judgement. Sorry about that.
-> Maybe just like Dave said, It cloned the behaviour of the raspberri pi pa=
-nel.
-> I will change the discribtion in next version to not make other confused.
->=20
-> By the way, we will try Stefan's method before next version.=20
-> The method we used in this patch may be abandoned if Stefan's method is v=
-erified in our platform.
-> At that time yaml may also be changed to fit new method.
+<snip>
 
-I don't know what Stefan's approach is, but I do not think that a
-bindings patch should be dropped. The waveshare might be a clone, but it
-is a distinct device. If the same driver can control both, then the
-compatible setups that should be permitted are:
-compatible =3D "raspberrypi,7inch-touchscreen-panel";
-and
-compatible =3D "waveshare,7inch-touchscreen-panel", "raspberrypi,7inch-touc=
-hscreen-panel";
+>> [3]https://gitlab.freedesktop.org/panfrost/linux/-/tree/panthor-v3
+>> [4]https://gitlab.freedesktop.org/panfrost/linux/-/tree/panthor-v3+rk3588
 
-Cheers,
-Conor.
+AFAICT neither of these trees match (exactly) with what you've posted.
+Not a big deal - I'll review the patches on the list, but it's a little
+confusing having a 'v3' branch which doesn't match the actual v3 posted
+;) I also note you have similarly named branches in
+https://gitlab.freedesktop.org/bbrezillon/linux which are more
+up-to-date but also not 'v3'.
 
-> >> and it can be drived by panel-raspberrypi-touchscreen.c.
-> >> Add compatible property for it.
-> >>=20
-> >> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
-> >> Signed-off-by: Shengyang Chen <shengyang.chen@starfivetech.com>
-> >> ---
-> >>  .../bindings/display/panel/raspberrypi,7inch-touchscreen.yaml | 4 +++-
-> >>  1 file changed, 3 insertions(+), 1 deletion(-)
-> >>=20
-> >> diff --git a/Documentation/devicetree/bindings/display/panel/raspberry=
-pi,7inch-touchscreen.yaml b/Documentation/devicetree/bindings/display/panel=
-/raspberrypi,7inch-touchscreen.yaml
-> >> index 22a083f7bc8e..e4e6cb4d4e5b 100644
-> >> --- a/Documentation/devicetree/bindings/display/panel/raspberrypi,7inc=
-h-touchscreen.yaml
-> >> +++ b/Documentation/devicetree/bindings/display/panel/raspberrypi,7inc=
-h-touchscreen.yaml
-> >> @@ -22,7 +22,9 @@ description: |+
-> >> =20
-> >>  properties:
-> >>    compatible:
-> >> -    const: raspberrypi,7inch-touchscreen-panel
-> >> +    enum:
-> >> +      - raspberrypi,7inch-touchscreen-panel
-> >> +      - waveshare,7inch-touchscreen-panel
-> >> =20
-> >>    reg:
-> >>      const: 0x45
-> >> --=20
-> >> 2.17.1
-> >>=20
->=20
->=20
-> thanks.
->=20
-> Best Regards,
-> Shengyang
->=20
+Steve
 
---4u5wDHCnw45IR5T9
-Content-Type: application/pgp-signature; name="signature.asc"
+>> [5]https://gitlab.com/firefly-linux/external/libmali/-/raw/firefly/firmware/g610/mali_csffw.bin
+>> [6]https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/26358
+>>
+>> Boris Brezillon (13):
+>>   drm/panthor: Add uAPI
+>>   drm/panthor: Add GPU register definitions
+>>   drm/panthor: Add the device logical block
+>>   drm/panthor: Add the GPU logical block
+>>   drm/panthor: Add GEM logical block
+>>   drm/panthor: Add the devfreq logical block
+>>   drm/panthor: Add the MMU/VM logical block
+>>   drm/panthor: Add the FW logical block
+>>   drm/panthor: Add the heap logical block
+>>   drm/panthor: Add the scheduler logical block
+>>   drm/panthor: Add the driver frontend block
+>>   drm/panthor: Allow driver compilation
+>>   drm/panthor: Add an entry to MAINTAINERS
+> 
+> 
+> 
+>>
+>> Liviu Dudau (1):
+>>   dt-bindings: gpu: mali-valhall-csf: Add support for Arm Mali CSF GPUs
+>>
+>>  .../bindings/gpu/arm,mali-valhall-csf.yaml    |  147 +
+>>  Documentation/gpu/driver-uapi.rst             |    5 +
+>>  MAINTAINERS                                   |   11 +
+>>  drivers/gpu/drm/Kconfig                       |    2 +
+>>  drivers/gpu/drm/Makefile                      |    1 +
+>>  drivers/gpu/drm/panthor/Kconfig               |   23 +
+>>  drivers/gpu/drm/panthor/Makefile              |   15 +
+>>  drivers/gpu/drm/panthor/panthor_devfreq.c     |  283 ++
+>>  drivers/gpu/drm/panthor/panthor_devfreq.h     |   25 +
+>>  drivers/gpu/drm/panthor/panthor_device.c      |  497 +++
+>>  drivers/gpu/drm/panthor/panthor_device.h      |  381 ++
+>>  drivers/gpu/drm/panthor/panthor_drv.c         | 1454 +++++++
+>>  drivers/gpu/drm/panthor/panthor_fw.c          | 1332 +++++++
+>>  drivers/gpu/drm/panthor/panthor_fw.h          |  504 +++
+>>  drivers/gpu/drm/panthor/panthor_gem.c         |  227 ++
+>>  drivers/gpu/drm/panthor/panthor_gem.h         |  144 +
+>>  drivers/gpu/drm/panthor/panthor_gpu.c         |  481 +++
+>>  drivers/gpu/drm/panthor/panthor_gpu.h         |   52 +
+>>  drivers/gpu/drm/panthor/panthor_heap.c        |  517 +++
+>>  drivers/gpu/drm/panthor/panthor_heap.h        |   36 +
+>>  drivers/gpu/drm/panthor/panthor_mmu.c         | 2653 +++++++++++++
+>>  drivers/gpu/drm/panthor/panthor_mmu.h         |  101 +
+>>  drivers/gpu/drm/panthor/panthor_regs.h        |  237 ++
+>>  drivers/gpu/drm/panthor/panthor_sched.c       | 3410 +++++++++++++++++
+>>  drivers/gpu/drm/panthor/panthor_sched.h       |   48 +
+>>  include/uapi/drm/panthor_drm.h                |  892 +++++
+>>  26 files changed, 13478 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
+>>  create mode 100644 drivers/gpu/drm/panthor/Kconfig
+>>  create mode 100644 drivers/gpu/drm/panthor/Makefile
+>>  create mode 100644 drivers/gpu/drm/panthor/panthor_devfreq.c
+>>  create mode 100644 drivers/gpu/drm/panthor/panthor_devfreq.h
+>>  create mode 100644 drivers/gpu/drm/panthor/panthor_device.c
+>>  create mode 100644 drivers/gpu/drm/panthor/panthor_device.h
+>>  create mode 100644 drivers/gpu/drm/panthor/panthor_drv.c
+>>  create mode 100644 drivers/gpu/drm/panthor/panthor_fw.c
+>>  create mode 100644 drivers/gpu/drm/panthor/panthor_fw.h
+>>  create mode 100644 drivers/gpu/drm/panthor/panthor_gem.c
+>>  create mode 100644 drivers/gpu/drm/panthor/panthor_gem.h
+>>  create mode 100644 drivers/gpu/drm/panthor/panthor_gpu.c
+>>  create mode 100644 drivers/gpu/drm/panthor/panthor_gpu.h
+>>  create mode 100644 drivers/gpu/drm/panthor/panthor_heap.c
+>>  create mode 100644 drivers/gpu/drm/panthor/panthor_heap.h
+>>  create mode 100644 drivers/gpu/drm/panthor/panthor_mmu.c
+>>  create mode 100644 drivers/gpu/drm/panthor/panthor_mmu.h
+>>  create mode 100644 drivers/gpu/drm/panthor/panthor_regs.h
+>>  create mode 100644 drivers/gpu/drm/panthor/panthor_sched.c
+>>  create mode 100644 drivers/gpu/drm/panthor/panthor_sched.h
+>>  create mode 100644 include/uapi/drm/panthor_drm.h
+>>
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZXCV5QAKCRB4tDGHoIJi
-0lu+AP9S+mBLWn0c2W0GfWmBKz/Iv+21lMnJlHnXSv1Hh16NNgEA+55r2ib/hc12
-310USnVcRIuSzUWHXrASafnfq5Sd6Qc=
-=NiWe
------END PGP SIGNATURE-----
-
---4u5wDHCnw45IR5T9--
