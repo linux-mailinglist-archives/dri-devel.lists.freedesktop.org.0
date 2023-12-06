@@ -1,60 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96727806E8F
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 12:48:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B62806E45
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 12:46:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 619FF10E0E5;
-	Wed,  6 Dec 2023 11:48:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B38EA10E6F9;
+	Wed,  6 Dec 2023 11:46:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DD7E10E0E5
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 11:48:53 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1rAqOQ-0007iZ-Rt; Wed, 06 Dec 2023 12:48:42 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1rAqON-00Dwy8-LE; Wed, 06 Dec 2023 12:48:39 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1rAqON-00FR3a-Bq; Wed, 06 Dec 2023 12:48:39 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH v4 107/115] drm/bridge: ti-sn65dsi86: Make use of
- devm_pwmchip_alloc() function
-Date: Wed,  6 Dec 2023 12:45:01 +0100
-Message-ID: <3a67fffe50fe267b612d5557bb6b790ff1a792ca.1701860672.git.u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
-References: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AF7310E6EE
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 11:46:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701863184; x=1733399184;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=j9MwUnxYB3UDg1NrVyRVzWmnmG4u+XHL4GhikT/rRlY=;
+ b=cpQnQ2eDyA4Mnq8Ty7b89KJ1foR8Sbu1ii2fSGH3pkeYLN2SWNxVBByh
+ D7ZjUbTzq2kT0bORCTWwyTfqYLEYHkRV5pAYRrZ6rQvNYepOd7HJ3yn3G
+ K/Snv+LL6RqtMukgB+aqvs+IrgRTVoEBr8QSNJocAoUIQ6yxnY8hbLb4V
+ elu25e9L7xP6NGMHJrLHMpRL0g91tCvwMELE1ungb3eozVtjIbYq1m5/Z
+ Lmfwk+1QBmH+bfPUQpyccUbGox8MUPnhnlcecIN9QTYmU8ZcbUDSm6N+M
+ ltiSuCRPb5wK8GkgK8LULxcD0A8KZIhlfzjTQx6FNaUyhqODBJKixlYsN A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="886628"
+X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
+   d="scan'208";a="886628"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Dec 2023 03:46:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="764697849"
+X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; d="scan'208";a="764697849"
+Received: from karthik-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.252.46.178])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Dec 2023 03:46:21 -0800
+Date: Wed, 6 Dec 2023 12:46:18 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Karolina Stolarek <karolina.stolarek@intel.com>
+Subject: Re: [PATCH v8 0/8] Improve test coverage of TTM
+Message-ID: <ZXBfCkXepcel9vJh@ashyti-mobl2.lan>
+References: <cover.1701257386.git.karolina.stolarek@intel.com>
+ <ZW9ENFoRHlec4HNE@ashyti-mobl2.lan>
+ <817fdcb9-e4f6-4f8d-8311-27b0b5fd444e@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2487;
- i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id;
- bh=YJ90UMLmn3KAByRjXlBZxm2xr1OwBw6ZSmX2eWsE/Cc=;
- b=owGbwMvMwMXY3/A7olbonx/jabUkhtSC+MD/Rnsn9ApnnmX+FbPje2pA9pONhWwpdvNL4na36
- dY0+CZ2MhqzMDByMciKKbLYN67JtKqSi+xc++8yzCBWJpApDFycAjCRK3/Y/5mVKb70Y4owcJ07
- Q0VmacKLiX28z7uv7o1cv2OqB6v45F+fNE42O5ju52WU/C8h0pa0uveK50+tRkUeFaXAVccX7I8
- RSVsrU8Lv8sVQRngJd31EK+/EHROEKjyzTFfVrgveoWXz/sO1+3N1S20PNx6wjH1T+ST2XnVv3B
- We/es/nGtdbi/MFO738wzv5aPPE/pVLi04OOs7++cm5XfPA1UWr7kq+CzY5+gbhcN7XW6bnJ9nL
- Jkv+PVm0u7Nr++YnuL/onza/FSlg7Bd7rpn3HJ5nFkSKd6skR82Pwu326Sknav4R1PZTf4qj0Vc
- 70PV2YmW+ZzGAopfHRlLLjydwF5+6lHocX7LXPMlMcIzAA==
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <817fdcb9-e4f6-4f8d-8311-27b0b5fd444e@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,88 +61,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- kernel@pengutronix.de, Jonas Karlman <jonas@kwiboo.se>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-pwm@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ Christian =?iso-8859-15?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This prepares the pwm driver of the ti-sn65dsi86 to further changes of
-the pwm core outlined in the commit introducing devm_pwmchip_alloc().
-There is no intended semantical change and the driver should behave as
-before.
+Hi Karolina,
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 27 ++++++++++++++++++---------
- 1 file changed, 18 insertions(+), 9 deletions(-)
+On Wed, Dec 06, 2023 at 12:28:14PM +0100, Karolina Stolarek wrote:
+> On 5.12.2023 16:39, Andi Shyti wrote:
+...
+> > Hi Karolina and Christian,
+...
+> > > Karolina Stolarek (8): drm/ttm/tests: Add tests for ttm_resource and
+> > > ttm_sys_man drm/ttm/tests: Add tests for ttm_tt drm/ttm/tests:
+> > >  Add tests for ttm_bo functions drm/ttm/tests: Fix argument in
+> > > ttm_tt_kunit_init() drm/ttm/tests: Use an init function from the
+> > > helpers lib drm/ttm/tests: Test simple BO creation and validation
+> > > drm/ttm/tests: Add tests with mock resource managers drm/ttm/tests:
+> > > Add test cases dependent on fence signaling
+> > 
+> > I see that all these files (and previous patches, as well) don't have
+> > a consistent prefix system, like kunit_ttm_*. But they all start with
+> > ttm_*, thread_*, drm_*, etc, which makes it a bit difficult to follow
+> > and grep through.
+> 
+> I see what you mean. As for ttm_* part, I decided to keep it as it is
+> based on what was in DRM KUnit tests and helpers lib. Almost all
+> functions and subtests start with drm_*, and as I'm working on TTM
+> tests, ttm_* prefix seemed like a natural choice. With thread_*, I could
+> add ttm_kunit_* in front of it, but not sure what would be the benefit
+> of doing this.
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index c45c07840f64..33eb2ed0a729 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -197,7 +197,7 @@ struct ti_sn65dsi86 {
- 	DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
- #endif
- #if defined(CONFIG_PWM)
--	struct pwm_chip			pchip;
-+	struct pwm_chip			*pchip;
- 	bool				pwm_enabled;
- 	atomic_t			pwm_pin_busy;
- #endif
-@@ -1372,7 +1372,7 @@ static void ti_sn_pwm_pin_release(struct ti_sn65dsi86 *pdata)
- 
- static struct ti_sn65dsi86 *pwm_chip_to_ti_sn_bridge(struct pwm_chip *chip)
- {
--	return container_of(chip, struct ti_sn65dsi86, pchip);
-+	return pwmchip_get_drvdata(chip);
- }
- 
- static int ti_sn_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
-@@ -1585,22 +1585,31 @@ static const struct pwm_ops ti_sn_pwm_ops = {
- static int ti_sn_pwm_probe(struct auxiliary_device *adev,
- 			   const struct auxiliary_device_id *id)
- {
-+	struct pwm_chip *chip;
- 	struct ti_sn65dsi86 *pdata = dev_get_drvdata(adev->dev.parent);
- 
--	pdata->pchip.dev = pdata->dev;
--	pdata->pchip.ops = &ti_sn_pwm_ops;
--	pdata->pchip.npwm = 1;
--	pdata->pchip.of_xlate = of_pwm_single_xlate;
--	pdata->pchip.of_pwm_n_cells = 1;
-+	/*
-+	 * This should better use adev->dev instead of pdata->dev. See
-+	 * https://lore.kernel.org/dri-devel/20231127101547.734061-2-u.kleine-koenig@pengutronix.de
-+	 */
-+	pdata->pchip = chip = devm_pwmchip_alloc(pdata->dev, 1, 0);
-+	if (IS_ERR(chip))
-+		return PTR_ERR(chip);
- 
--	return pwmchip_add(&pdata->pchip);
-+	pwmchip_set_drvdata(chip, pdata);
-+
-+	chip->ops = &ti_sn_pwm_ops;
-+	chip->of_xlate = of_pwm_single_xlate;
-+	chip->of_pwm_n_cells = 1;
-+
-+	return pwmchip_add(chip);
- }
- 
- static void ti_sn_pwm_remove(struct auxiliary_device *adev)
- {
- 	struct ti_sn65dsi86 *pdata = dev_get_drvdata(adev->dev.parent);
- 
--	pwmchip_remove(&pdata->pchip);
-+	pwmchip_remove(pdata->pchip);
- 
- 	if (pdata->pwm_enabled)
- 		pm_runtime_put_sync(pdata->dev);
--- 
-2.42.0
+I do not agree here, ttm_* are related to ttm and not "testing
+ttm" and we need to be consistent.
 
+I'd be more inclined to a kunit_ttm_* or ttm_kunit_*.
+
+Anyway, let's hear also what Christian thinks.
+
+> To be honest, I haven't considered using kunit_* prefix here. In the
+> code context, it's obvious these are kunit tests, and repeating that
+> information would make already long function/struct names even longer.
+> 
+> I had a quick glance at other KUnit tests in the kernel and this seems
+> to be the case, no kunit_* prefixes are used.
+> 
+> > Can we please maintain a consistent prefix system?
+> > 
+> > I know it looks bad to come out with it after this series (and previous
+> > work too) has been out for several months already. I need to
+> > say my "mea culpa" as well as I've been in the review loop, as well.
+> 
+> After this series, I plan to send a small one to wrap up my work in this
+> field. How about adding a TODO to clean these up? I mean, that's
+> just how I see it, I'd like to hear Christian's thoughts on this.
+
+nah... a TODO note would be too much... your promise is enough
+for me.
+
+Andi
