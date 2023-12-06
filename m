@@ -2,48 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E918071DD
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 15:11:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC431807244
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 15:23:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCDDC10E733;
-	Wed,  6 Dec 2023 14:11:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61B9110E028;
+	Wed,  6 Dec 2023 14:23:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com
- [61.152.239.71])
- by gabe.freedesktop.org (Postfix) with ESMTP id 60DA610E733
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 14:11:43 +0000 (UTC)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
- (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
- (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
- by fd01.gateway.ufhost.com (Postfix) with ESMTP id 2B5FD8118;
- Wed,  6 Dec 2023 22:11:34 +0800 (CST)
-Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 6 Dec
- 2023 22:11:34 +0800
-Received: from [192.168.1.115] (180.164.60.184) by EXMBX061.cuchost.com
- (172.16.6.61) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 6 Dec
- 2023 22:11:33 +0800
-Message-ID: <40cdd3c7-174e-4611-9ea6-22cb56d1f62b@starfivetech.com>
-Date: Wed, 6 Dec 2023 22:11:33 +0800
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E76B10E028
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 14:23:29 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rAso7-00055u-4j; Wed, 06 Dec 2023 15:23:23 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rAso5-00Dyyj-9z; Wed, 06 Dec 2023 15:23:21 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rAso5-00FWd8-0W; Wed, 06 Dec 2023 15:23:21 +0100
+Date: Wed, 6 Dec 2023 15:23:02 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v3 101/108] drm/bridge: ti-sn65dsi86: Make use of
+ devm_pwmchip_alloc() function
+Message-ID: <20231206142302.veoybwpvt77rskd6@pengutronix.de>
+References: <20231121134901.208535-1-u.kleine-koenig@pengutronix.de>
+ <20231121134901.208535-102-u.kleine-koenig@pengutronix.de>
+ <20231123094652.GH15697@pendragon.ideasonboard.com>
+ <20231123101018.u6c6nymmkam5ltir@pengutronix.de>
+ <20231206120611.GI22607@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v3 5/6] drm/vs: Add hdmi driver
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>
-References: <20231204123315.28456-1-keith.zhao@starfivetech.com>
- <20231204123315.28456-6-keith.zhao@starfivetech.com>
- <esetsiqgqpk35zue4c6aq7l6zn4kezhxkqqa7ompaz2vhdy3lr@4d5awfqgs2ss>
- <94a1f9fc-82fb-4a04-a44b-f9b20c2bdfdd@starfivetech.com>
- <abdl6kmighvpwojvafq443q7grn6w3abwpvw7zwbna4jvtsvjf@fa42rv46n2wh>
-From: Keith Zhao <keith.zhao@starfivetech.com>
-In-Reply-To: <abdl6kmighvpwojvafq443q7grn6w3abwpvw7zwbna4jvtsvjf@fa42rv46n2wh>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX061.cuchost.com
- (172.16.6.61)
-X-YovoleRuleAgent: yovoleflag
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="zs6l5avnfu4nmnmv"
+Content-Disposition: inline
+In-Reply-To: <20231206120611.GI22607@pendragon.ideasonboard.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,45 +59,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
- "suijingfeng@loongson.cn" <suijingfeng@loongson.cn>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Xingyu Wu <xingyu.wu@starfivetech.com>, Jack Zhu <jack.zhu@starfivetech.com>,
- "palmer@dabbelt.com" <palmer@dabbelt.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- William Qiu <william.qiu@starfivetech.com>,
- Shengyang Chen <shengyang.chen@starfivetech.com>,
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
- Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Douglas Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-pwm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--zs6l5avnfu4nmnmv
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 2023/12/6 20:56, Maxime Ripard wrote:
-> On Wed, Dec 06, 2023 at 08:02:55PM +0800, Keith Zhao wrote:
->> >> +static const struct of_device_id starfive_hdmi_dt_ids[] = {
->> >> +	{ .compatible = "starfive,jh7110-inno-hdmi",},
->> > 
->> > So it's inno hdmi, just like Rockchip then?
->> > 
->> > This should be a common driver.
->>
->> Rockchip has a inno hdmi IP. and Starfive has a inno hdmi IP.
->> but the harewawre difference of them is big , it is not easy to use the common driver
->> maybe i need the inno hdmi version here to make a distinction
-> 
-> I just had a look at the rockchip header file: all the registers but the
-> STARFIVE_* ones are identical.
-> 
-> There's no need to have two identical drivers then, please use the
-> rockchip driver instead.
-> 
-> Maxime
+On Wed, Dec 06, 2023 at 02:06:11PM +0200, Laurent Pinchart wrote:
+> On Thu, Nov 23, 2023 at 11:10:18AM +0100, Uwe Kleine-K=F6nig wrote:
+> > Once the series is completely applied, the pwm_chip isn't allocated
+> > using devm_kzalloc any more. You're only looking at an intermediate
+> > state where I push the broken lifetime tracking from all drivers into a
+> > single function in the core that is then fixed after all drivers are
+> > converted to it.
+>=20
+> Indeed, I missed that devm_pwm_alloc() got changed later in the series
+> to not call devm_kzalloc(). The naming is quite unfortunate, a
+> devm_*_alloc() function really gives a strong hint that the
+> corresponding cleanup at device remove time will be a free(), not a
+> put() :-S That's pretty confusing for the readers.
 
-ok, have a simple test , edid can get . i will continue 
+Note there is a v4 in the meantime. My suggestion to rename
+pwmchip_alloc() to pwmchip_get_new() could address this concern. Would
+you like that? I didn't get any feedback about it when I suggested it
+somewhere in the v3 thread. (I'm not sure I like it, given that
+foo_alloc() is quite usual for other subsystems.)
 
+> > If you find issues with the complete series applied, please tell me.
+>=20
+> One thing I still dislike is forcing drivers to dynamically allocate the
+> pwm_chip series.
+
+A struct pwm_chip must be allocated dynamically as it's reference
+counted by a struct device. Given that nearly all drivers allocate their
+driver data dynamically, too, this isn't a big issue IMO.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--zs6l5avnfu4nmnmv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVwg8UACgkQj4D7WH0S
+/k6RXQf9GpPx1PyMC+wRqQElqp1h9M+WmZC5EuUi6xZIAp2iIlJGQ+uxsTsL9pg5
+zEppRD5r/7aFOeHZjMNmSkEmIIDXAwPmDrOovlJDQyoFDKdUnW9UBwkUgYucaP9v
+0tZ4QqiTXEjLEzA2Pd12xx9JPwSNDp6T69bqtpedUeqlUclzPKPs1SqKw8b8JibE
+kZBYTunkkti0pt2TZrilPMQVeZqY8O5f4senU7cY5iARzbaYzLWRxlRylSnTxE5J
+Mwm5H4TH7E17wQ9709Qd2EvxGFWR8afdMCJwILu3zDvyw5FwjbcB9JrOzjdwOhUN
+EaH2KQqLWC/eMf7jH7xJsqwj61zhpw==
+=ql0j
+-----END PGP SIGNATURE-----
+
+--zs6l5avnfu4nmnmv--
