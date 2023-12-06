@@ -2,35 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90DE98074DE
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 17:23:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 590818074E8
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 17:28:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65DD610E75D;
-	Wed,  6 Dec 2023 16:23:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53C0E10E758;
+	Wed,  6 Dec 2023 16:28:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 379DB10E759
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 16:23:20 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 90A07143D;
- Wed,  6 Dec 2023 08:24:05 -0800 (PST)
-Received: from [10.57.74.196] (unknown [10.57.74.196])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 824223F762;
- Wed,  6 Dec 2023 08:23:16 -0800 (PST)
-Message-ID: <1afa6699-119d-46e5-b193-6d907f233ea9@arm.com>
-Date: Wed, 6 Dec 2023 16:23:19 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/14] drm/panthor: Add GPU register definitions
-Content-Language: en-GB
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F58F10E758
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 16:28:35 +0000 (UTC)
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 33A036602173;
+ Wed,  6 Dec 2023 16:28:33 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1701880114;
+ bh=brmR5KTHw/GyuNuC/iQc8vsc6bHfUeG/yj+g2nj+iGg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=VmCMYYkKbEFhRCcy97CNggaDTCyT9xsGGIeKCWRzVwbDSU/AhXt3NGpJEVOO1n+4f
+ ZwAsrGsIwkn84G3i/u09ckYCIU9VKFN/J1e+rDzsLKmXJZS7wCdcBoPBp5HYuPHDza
+ aGzYL5DBf8USBhIacBRb6GCaP8WdpS+aLoqRif1WczV8ECGlQp1CL5yJn/Dfnl23Nz
+ 4Fj7t31fBH9+Ft3TcLQOC3t9KTm4vC0TJftfrLOomFbB6AMMHTS6BgDNS8Sjaq/I+I
+ 3Og4a2Ss+wEA93SmPKVgDj/K/RfNNiK6gbIwNAJGEW22B4egVYc8iqe2/GGJJliaxZ
+ gKpCw0qZUPAdw==
+Date: Wed, 6 Dec 2023 17:28:30 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v3 00/14] drm: Add a driver for CSF-based Mali GPUs
+Message-ID: <20231206172830.05a4752e@collabora.com>
+In-Reply-To: <43a75119-b15d-4570-b272-1fe702784632@arm.com>
 References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
- <20231204173313.2098733-3-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20231204173313.2098733-3-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+ <20231205094847.221ab103@collabora.com>
+ <43a75119-b15d-4570-b272-1fe702784632@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,286 +55,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
+Cc: "Marty E . Plummer" <hanetzer@startmail.com>,
  Daniel Stone <daniels@collabora.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- Grant Likely <grant.likely@linaro.org>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Robin Murphy <robin.murphy@arm.com>,
+ dri-devel@lists.freedesktop.org, Nicolas Boichat <drinkcat@chromium.org>,
+ =?UTF-8?B?Q2w=?= =?UTF-8?B?w6ltZW50IFDDqXJvbg==?= <peron.clem@gmail.com>,
+ kernel@collabora.com, Robin Murphy <robin.murphy@arm.com>,
  Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/12/2023 17:32, Boris Brezillon wrote:
-> Those are the registers directly accessible through the MMIO range.
-> 
-> FW registers are exposed in panthor_fw.h.
-> 
-> v3:
-> - Add macros to extract GPU ID info
-> - Formatting changes
-> - Remove AS_TRANSCFG_ADRMODE_LEGACY - it doesn't exist post-CSF
-> - Remove CSF_GPU_LATEST_FLUSH_ID_DEFAULT
-> - Add GPU_L2_FEATURES_LINE_SIZE for extracting the GPU cache line size
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Steven Price <steven.price@arm.com>
-> Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
-> Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing,Linaro
-> Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 relicensing,Collabora
+Hi Steve,
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+On Wed, 6 Dec 2023 15:47:29 +0000
+Steven Price <steven.price@arm.com> wrote:
 
-Thanks,
-Steve
-
-> ---
->  drivers/gpu/drm/panthor/panthor_regs.h | 237 +++++++++++++++++++++++++
->  1 file changed, 237 insertions(+)
->  create mode 100644 drivers/gpu/drm/panthor/panthor_regs.h
+> On 05/12/2023 08:48, Boris Brezillon wrote:
+> > Hi Steve,
+> > 
+> > I forgot to mention that I intentionally dropped your R-b, because
+> > there was a gazillion of changes all over the place, and I thought it
+> > deserved a fresh review.  
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
-> new file mode 100644
-> index 000000000000..05795d4cefbe
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panthor/panthor_regs.h
-> @@ -0,0 +1,237 @@
-> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
-> +/* Copyright 2018 Marty E. Plummer <hanetzer@startmail.com> */
-> +/* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-> +/* Copyright 2023 Collabora ltd. */
-> +/*
-> + * Register definitions based on mali_kbase_gpu_regmap.h and
-> + * mali_kbase_gpu_regmap_csf.h
-> + * (C) COPYRIGHT 2010-2022 ARM Limited. All rights reserved.
-> + */
-> +#ifndef __PANTHOR_REGS_H__
-> +#define __PANTHOR_REGS_H__
-> +
-> +#define GPU_ID						0x0
-> +#define   GPU_ARCH_MAJOR(x)				((x) >> 28)
-> +#define   GPU_ARCH_MINOR(x)				(((x) & GENMASK(27, 24)) >> 24)
-> +#define   GPU_ARCH_REV(x)				(((x) & GENMASK(23, 20)) >> 20)
-> +#define   GPU_PROD_MAJOR(x)				(((x) & GENMASK(19, 16)) >> 16)
-> +#define   GPU_VER_MAJOR(x)				(((x) & GENMASK(15, 12)) >> 12)
-> +#define   GPU_VER_MINOR(x)				(((x) & GENMASK(11, 4)) >> 4)
-> +#define   GPU_VER_STATUS(x)				((x) & GENMASK(3, 0))
-> +
-> +#define GPU_L2_FEATURES					0x4
-> +#define  GPU_L2_FEATURES_LINE_SIZE(x)			(1 << ((x) & GENMASK(7, 0)))
-> +
-> +#define GPU_TILER_FEATURES				0xC
-> +#define GPU_MEM_FEATURES				0x10
-> +#define   GROUPS_L2_COHERENT				BIT(0)
-> +
-> +#define GPU_MMU_FEATURES				0x14
-> +#define  GPU_MMU_FEATURES_VA_BITS(x)			((x) & GENMASK(7, 0))
-> +#define  GPU_MMU_FEATURES_PA_BITS(x)			(((x) >> 8) & GENMASK(7, 0))
-> +#define GPU_AS_PRESENT					0x18
-> +#define GPU_CSF_ID					0x1C
-> +
-> +#define GPU_INT_RAWSTAT					0x20
-> +#define GPU_INT_CLEAR					0x24
-> +#define GPU_INT_MASK					0x28
-> +#define GPU_INT_STAT					0x2c
-> +#define   GPU_IRQ_FAULT					BIT(0)
-> +#define   GPU_IRQ_PROTM_FAULT				BIT(1)
-> +#define   GPU_IRQ_RESET_COMPLETED			BIT(8)
-> +#define   GPU_IRQ_POWER_CHANGED				BIT(9)
-> +#define   GPU_IRQ_POWER_CHANGED_ALL			BIT(10)
-> +#define   GPU_IRQ_CLEAN_CACHES_COMPLETED		BIT(17)
-> +#define   GPU_IRQ_DOORBELL_MIRROR			BIT(18)
-> +#define   GPU_IRQ_MCU_STATUS_CHANGED			BIT(19)
-> +#define GPU_CMD						0x30
-> +#define   GPU_CMD_DEF(type, payload)			((type) | ((payload) << 8))
-> +#define   GPU_SOFT_RESET				GPU_CMD_DEF(1, 1)
-> +#define   GPU_HARD_RESET				GPU_CMD_DEF(1, 2)
-> +#define   CACHE_CLEAN					BIT(0)
-> +#define   CACHE_INV					BIT(1)
-> +#define   GPU_FLUSH_CACHES(l2, lsc, oth)		\
-> +	  GPU_CMD_DEF(4, ((l2) << 0) | ((lsc) << 4) | ((oth) << 8))
-> +
-> +#define GPU_STATUS					0x34
-> +#define   GPU_STATUS_ACTIVE				BIT(0)
-> +#define   GPU_STATUS_PWR_ACTIVE				BIT(1)
-> +#define   GPU_STATUS_PAGE_FAULT				BIT(4)
-> +#define   GPU_STATUS_PROTM_ACTIVE			BIT(7)
-> +#define   GPU_STATUS_DBG_ENABLED			BIT(8)
-> +
-> +#define GPU_FAULT_STATUS				0x3C
-> +#define GPU_FAULT_ADDR_LO				0x40
-> +#define GPU_FAULT_ADDR_HI				0x44
-> +
-> +#define GPU_PWR_KEY					0x50
-> +#define  GPU_PWR_KEY_UNLOCK				0x2968A819
-> +#define GPU_PWR_OVERRIDE0				0x54
-> +#define GPU_PWR_OVERRIDE1				0x58
-> +
-> +#define GPU_TIMESTAMP_OFFSET_LO				0x88
-> +#define GPU_TIMESTAMP_OFFSET_HI				0x8C
-> +#define GPU_CYCLE_COUNT_LO				0x90
-> +#define GPU_CYCLE_COUNT_HI				0x94
-> +#define GPU_TIMESTAMP_LO				0x98
-> +#define GPU_TIMESTAMP_HI				0x9C
-> +
-> +#define GPU_THREAD_MAX_THREADS				0xA0
-> +#define GPU_THREAD_MAX_WORKGROUP_SIZE			0xA4
-> +#define GPU_THREAD_MAX_BARRIER_SIZE			0xA8
-> +#define GPU_THREAD_FEATURES				0xAC
-> +
-> +#define GPU_TEXTURE_FEATURES(n)				(0xB0 + ((n) * 4))
-> +
-> +#define GPU_SHADER_PRESENT_LO				0x100
-> +#define GPU_SHADER_PRESENT_HI				0x104
-> +#define GPU_TILER_PRESENT_LO				0x110
-> +#define GPU_TILER_PRESENT_HI				0x114
-> +#define GPU_L2_PRESENT_LO				0x120
-> +#define GPU_L2_PRESENT_HI				0x124
-> +
-> +#define SHADER_READY_LO					0x140
-> +#define SHADER_READY_HI					0x144
-> +#define TILER_READY_LO					0x150
-> +#define TILER_READY_HI					0x154
-> +#define L2_READY_LO					0x160
-> +#define L2_READY_HI					0x164
-> +
-> +#define SHADER_PWRON_LO					0x180
-> +#define SHADER_PWRON_HI					0x184
-> +#define TILER_PWRON_LO					0x190
-> +#define TILER_PWRON_HI					0x194
-> +#define L2_PWRON_LO					0x1A0
-> +#define L2_PWRON_HI					0x1A4
-> +
-> +#define SHADER_PWROFF_LO				0x1C0
-> +#define SHADER_PWROFF_HI				0x1C4
-> +#define TILER_PWROFF_LO					0x1D0
-> +#define TILER_PWROFF_HI					0x1D4
-> +#define L2_PWROFF_LO					0x1E0
-> +#define L2_PWROFF_HI					0x1E4
-> +
-> +#define SHADER_PWRTRANS_LO				0x200
-> +#define SHADER_PWRTRANS_HI				0x204
-> +#define TILER_PWRTRANS_LO				0x210
-> +#define TILER_PWRTRANS_HI				0x214
-> +#define L2_PWRTRANS_LO					0x220
-> +#define L2_PWRTRANS_HI					0x224
-> +
-> +#define SHADER_PWRACTIVE_LO				0x240
-> +#define SHADER_PWRACTIVE_HI				0x244
-> +#define TILER_PWRACTIVE_LO				0x250
-> +#define TILER_PWRACTIVE_HI				0x254
-> +#define L2_PWRACTIVE_LO					0x260
-> +#define L2_PWRACTIVE_HI					0x264
-> +
-> +#define GPU_REVID					0x280
-> +
-> +#define GPU_COHERENCY_FEATURES				0x300
-> +#define GPU_COHERENCY_PROT_BIT(name)			BIT(GPU_COHERENCY_  ## name)
-> +
-> +#define GPU_COHERENCY_PROTOCOL				0x304
-> +#define   GPU_COHERENCY_ACE				0
-> +#define   GPU_COHERENCY_ACE_LITE			1
-> +#define   GPU_COHERENCY_NONE				31
-> +
-> +#define MCU_CONTROL					0x700
-> +#define MCU_CONTROL_ENABLE				1
-> +#define MCU_CONTROL_AUTO				2
-> +#define MCU_CONTROL_DISABLE				0
-> +
-> +#define MCU_STATUS					0x704
-> +#define MCU_STATUS_DISABLED				0
-> +#define MCU_STATUS_ENABLED				1
-> +#define MCU_STATUS_HALT					2
-> +#define MCU_STATUS_FATAL				3
-> +
-> +/* Job Control regs */
-> +#define JOB_INT_RAWSTAT					0x1000
-> +#define JOB_INT_CLEAR					0x1004
-> +#define JOB_INT_MASK					0x1008
-> +#define JOB_INT_STAT					0x100c
-> +#define   JOB_INT_GLOBAL_IF				BIT(31)
-> +#define   JOB_INT_CSG_IF(x)				BIT(x)
-> +
-> +/* MMU regs */
-> +#define MMU_INT_RAWSTAT					0x2000
-> +#define MMU_INT_CLEAR					0x2004
-> +#define MMU_INT_MASK					0x2008
-> +#define MMU_INT_STAT					0x200c
-> +
-> +/* AS_COMMAND register commands */
-> +
-> +#define MMU_BASE					0x2400
-> +#define MMU_AS_SHIFT					6
-> +#define MMU_AS(as)					(MMU_BASE + ((as) << MMU_AS_SHIFT))
-> +
-> +#define AS_TRANSTAB_LO(as)				(MMU_AS(as) + 0x0)
-> +#define AS_TRANSTAB_HI(as)				(MMU_AS(as) + 0x4)
-> +#define AS_MEMATTR_LO(as)				(MMU_AS(as) + 0x8)
-> +#define AS_MEMATTR_HI(as)				(MMU_AS(as) + 0xC)
-> +#define   AS_MEMATTR_AARCH64_INNER_ALLOC_IMPL		(2 << 2)
-> +#define   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(w, r)	((3 << 2) | \
-> +							 ((w) ? BIT(0) : 0) | \
-> +							 ((r) ? BIT(1) : 0))
-> +#define   AS_MEMATTR_AARCH64_SH_MIDGARD_INNER		(0 << 4)
-> +#define   AS_MEMATTR_AARCH64_SH_CPU_INNER		(1 << 4)
-> +#define   AS_MEMATTR_AARCH64_SH_CPU_INNER_SHADER_COH	(2 << 4)
-> +#define   AS_MEMATTR_AARCH64_SHARED			(0 << 6)
-> +#define   AS_MEMATTR_AARCH64_INNER_OUTER_NC		(1 << 6)
-> +#define   AS_MEMATTR_AARCH64_INNER_OUTER_WB		(2 << 6)
-> +#define   AS_MEMATTR_AARCH64_FAULT			(3 << 6)
-> +#define AS_LOCKADDR_LO(as)				(MMU_AS(as) + 0x10)
-> +#define AS_LOCKADDR_HI(as)				(MMU_AS(as) + 0x14)
-> +#define AS_COMMAND(as)					(MMU_AS(as) + 0x18)
-> +#define   AS_COMMAND_NOP				0
-> +#define   AS_COMMAND_UPDATE				1
-> +#define   AS_COMMAND_LOCK				2
-> +#define   AS_COMMAND_UNLOCK				3
-> +#define   AS_COMMAND_FLUSH_PT				4
-> +#define   AS_COMMAND_FLUSH_MEM				5
-> +#define   AS_LOCK_REGION_MIN_SIZE			(1ULL << 15)
-> +#define AS_FAULTSTATUS(as)				(MMU_AS(as) + 0x1C)
-> +#define  AS_FAULTSTATUS_ACCESS_TYPE_MASK		(0x3 << 8)
-> +#define  AS_FAULTSTATUS_ACCESS_TYPE_ATOMIC		(0x0 << 8)
-> +#define  AS_FAULTSTATUS_ACCESS_TYPE_EX			(0x1 << 8)
-> +#define  AS_FAULTSTATUS_ACCESS_TYPE_READ		(0x2 << 8)
-> +#define  AS_FAULTSTATUS_ACCESS_TYPE_WRITE		(0x3 << 8)
-> +#define AS_FAULTADDRESS_LO(as)				(MMU_AS(as) + 0x20)
-> +#define AS_FAULTADDRESS_HI(as)				(MMU_AS(as) + 0x24)
-> +#define AS_STATUS(as)					(MMU_AS(as) + 0x28)
-> +#define   AS_STATUS_AS_ACTIVE				BIT(0)
-> +#define AS_TRANSCFG_LO(as)				(MMU_AS(as) + 0x30)
-> +#define AS_TRANSCFG_HI(as)				(MMU_AS(as) + 0x34)
-> +#define   AS_TRANSCFG_ADRMODE_UNMAPPED			(1 << 0)
-> +#define   AS_TRANSCFG_ADRMODE_IDENTITY			(2 << 0)
-> +#define   AS_TRANSCFG_ADRMODE_AARCH64_4K		(6 << 0)
-> +#define   AS_TRANSCFG_ADRMODE_AARCH64_64K		(8 << 0)
-> +#define   AS_TRANSCFG_INA_BITS(x)			((x) << 6)
-> +#define   AS_TRANSCFG_OUTA_BITS(x)			((x) << 14)
-> +#define   AS_TRANSCFG_SL_CONCAT				BIT(22)
-> +#define   AS_TRANSCFG_PTW_MEMATTR_NC			(1 << 24)
-> +#define   AS_TRANSCFG_PTW_MEMATTR_WB			(2 << 24)
-> +#define   AS_TRANSCFG_PTW_SH_NS				(0 << 28)
-> +#define   AS_TRANSCFG_PTW_SH_OS				(2 << 28)
-> +#define   AS_TRANSCFG_PTW_SH_IS				(3 << 28)
-> +#define   AS_TRANSCFG_PTW_RA				BIT(30)
-> +#define   AS_TRANSCFG_DISABLE_HIER_AP			BIT(33)
-> +#define   AS_TRANSCFG_DISABLE_AF_FAULT			BIT(34)
-> +#define   AS_TRANSCFG_WXN				BIT(35)
-> +#define   AS_TRANSCFG_XREADABLE				BIT(36)
-> +#define AS_FAULTEXTRA_LO(as)				(MMU_AS(as) + 0x38)
-> +#define AS_FAULTEXTRA_HI(as)				(MMU_AS(as) + 0x3C)
-> +
-> +#define CSF_GPU_LATEST_FLUSH_ID				0x10000
-> +
-> +#define CSF_DOORBELL(i)					(0x80000 + ((i) * 0x10000))
-> +#define CSF_GLB_DOORBELL_ID				0
-> +
-> +#define gpu_write(dev, reg, data) \
-> +	writel(data, (dev)->iomem + (reg))
-> +
-> +#define gpu_read(dev, reg) \
-> +	readl((dev)->iomem + (reg))
-> +
-> +#endif
+> No problem, I'll re-review the patches. Thanks for getting the v3 out to
+> review.
+> 
+> <snip>
+> 
+> >> [3]https://gitlab.freedesktop.org/panfrost/linux/-/tree/panthor-v3
+> >> [4]https://gitlab.freedesktop.org/panfrost/linux/-/tree/panthor-v3+rk3588
+> 
+> AFAICT neither of these trees match (exactly) with what you've posted.
+> Not a big deal - I'll review the patches on the list, but it's a little
+> confusing having a 'v3' branch which doesn't match the actual v3 posted
+> ;) I also note you have similarly named branches in
+> https://gitlab.freedesktop.org/bbrezillon/linux which are more
+> up-to-date but also not 'v3'.
 
+Oops, definitely forgot to push to the panfrost tree.
+
+I also messed things up with the VM_GET_STATE ioctl addition, which I
+intended to be part of this v3, but somehow forgot to regenerate the
+patches.
+
+v3 branches should now match this series, and I also pushed preliminary
+v4 branches containing !fixup commits in case you want to have a quick
+look (nothing fundamentally different there).
+
+Regards,
+
+Boris
