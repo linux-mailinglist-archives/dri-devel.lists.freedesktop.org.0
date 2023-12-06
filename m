@@ -1,83 +1,152 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA15807AB8
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 22:44:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C95BD807AC0
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 22:47:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A757010E7AD;
-	Wed,  6 Dec 2023 21:44:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1043610E7BD;
+	Wed,  6 Dec 2023 21:47:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
- [81.169.146.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3307C10E7AD
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 21:44:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1701899020; cv=none;
- d=strato.com; s=strato-dkim-0002;
- b=mY1EpRkbVxlRgu9zZqHTd56JQXX9iAG0liqyRMYLdkaydBQIAEF+HVAjGzOHFsdIkY
- FjdLWovG0YfpdGUR9t06JYqh2t7uaJIa1aNKskN+SuLiYCfR6AU/5oxFFRxDh99RdrGf
- kw9f3dnjfOu2P8K6wOfOgM7xsIiJcEq81itq937GrKaS3sPV7Y+rTj07m90mZd6jIPnd
- Biys3oyEIl2pAJMOo7WpcwhFpA2sDd7Sy795ediSzpIQT9ogsljLqJBrwS/WJv3DRdZX
- 4+npj0RDrhbcT+VWWSGu+YOrmbQfavB8SgCKANur2A5vyqjMhseF3uSuU/KwS0lDWFz2
- ib5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1701899020;
- s=strato-dkim-0002; d=strato.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=Cg5evnYKreV1OBQkmtI5cwBccAfdbjnTgIyjumKDKfE=;
- b=AZr6aD1ByyWDi3MQrUorQAEtTS1R4s/SpWLgq4vID8Laycwuh0kfWkRDKnIWKdplnp
- sPaVlJznl0y7VUjP4yPr8bZ47RrsD2lDDrTbM4WUw+MDEXwwJIKQ7THcZPK4YWglpZCq
- GPgocmzuuMenswYwOzcoP7DHapmJX6BW79fLHjYdu9WKdDHaxT1TiZdSjEV9iADL/01u
- e/Pgc/AFXVZV/Yx2C1ZAiVhiQoAfr7q9UdWSqSGY8WqY4X3p/G5WwZBq5dS+r2NyjaU1
- fUTeSoCovFn/NkWuVvZKgHHjbUHoxfbIgsGxcJZxc1uumMi5IdVWmH4uKdzE3swVHsah
- aDaA==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1701899020;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=Cg5evnYKreV1OBQkmtI5cwBccAfdbjnTgIyjumKDKfE=;
- b=bthvfYeErmbD8OtUEa3s8nII3I7vuFW1ga5BliPGl0vZJ2taLjD5CESTt8Vzu31agl
- 3R3RBZqjPD8OprQITw0pCoBl/Gg6HX70tI2BB/w+QBGusGTdSwnc62RVnD9kSq/tLFIg
- cbnEzCUFscxF1IuXjrlsLF9OZhYIpnVezJ5hL2JXMB4KYYoCibTrjwo/PKkWSeq+Fx2y
- HQs6FN/+3yPNCfmRWOfMqVA1cqD7YWN2yQ/Gea8FU4/RiFHDXKpmaA+QNvKhNbXn4CL9
- yR5859IGQ6i0TNoL3lR/ie8OFvnvQDNOz/LkXIiawAuqD7arPW5crqXUVVVP7I5pu3rg
- iWlw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1701899020;
- s=strato-dkim-0003; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=Cg5evnYKreV1OBQkmtI5cwBccAfdbjnTgIyjumKDKfE=;
- b=YhrSAsLmlIf0+R9YsctQrUq2bg0/06nzIhHC0zOU7zJRtQmejw2pdeAUDnBnA31jck
- VGDiLbHrJifX5Sc2EkCw==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Apz9PSN6LgsXcGeqHQ="
-Received: from smtpclient.apple by smtp.strato.de (RZmta 49.10.0 DYNA|AUTH)
- with ESMTPSA id wfeb35zB6Lhc9Px
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
- with 256 ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Wed, 6 Dec 2023 22:43:38 +0100 (CET)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
-Subject: Re: [PATCH RFC 01/10] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20231206-wolverine-paprika-0674ca01e1f2@spud>
-Date: Wed, 6 Dec 2023 22:43:27 +0100
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <07CB504D-F4B7-425A-A24C-D0DC079ED48E@goldelico.com>
-References: <20231204182245.33683-1-afd@ti.com>
- <20231204182245.33683-2-afd@ti.com>
- <CFF198DA-5C42-425E-86F4-759629489ECB@goldelico.com>
- <cb590a13-e0ff-49d9-8583-be613ad50dc5@ti.com>
- <FE0DBA5E-95A5-4C27-9F69-D1D8BDF56EC3@goldelico.com>
- <20231206-wolverine-paprika-0674ca01e1f2@spud>
-To: Conor Dooley <conor@kernel.org>
-X-Mailer: Apple Mail (2.3774.200.91.1.1)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C37B10E7BB;
+ Wed,  6 Dec 2023 21:47:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701899254; x=1733435254;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=qMV65Vzx/nBrSx/xX0tCRJMN0VbH78570+UXF1p8hAw=;
+ b=ercKTyLtn7TusSlPNZlCZHKck2TGhbFk5Ho1UDbiI2ihYGkgBoKSc/21
+ ve8JpZgExl6Cz2ueG+/Rprx+X246f9FZa+4KgzEF3SeI8OeJbK2BW0BA9
+ g0ckPQF/DrkntCTLX5wrr2jgNWK+plhS/iGuOXH2MSS2YpmbI/1BeVtoF
+ ZZiKtmGXyRG61rXcpoeqOatselxiSBvksVgFjLEmwr36Zln/4Ay2xOLsV
+ cPlMY6qBNXwnDtu4j2gjWP9saLnBhV8VsDOQaMr8T57sRhFD9Us/s4HHn
+ 41Nttc7BciRU3qVcChZss4NIxxV8uvhp44wQ3zoGHOGi1uyVlA0++t7a0 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="12846494"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; d="scan'208";a="12846494"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Dec 2023 13:47:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; d="scan'208";a="12862685"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 06 Dec 2023 13:47:34 -0800
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 6 Dec 2023 13:47:33 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Wed, 6 Dec 2023 13:47:33 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 6 Dec 2023 13:47:32 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b9ydBWToYp25On5/ozsv7mgq4faeCYtcZDuuF9vt4SDoH0Nefc8+ScwZUEOz0bP7RjX+bYYgmJn6tYy2rrixlPcECSiTRRXCkFExrfyQSEq0CpNLfDHWTRCa3g4ckf9/Zn0LXvZdPcjLod4t1X8IoEtvFtdB6uLQZCyED90fPxxr1sKNM+NYhWO/ccWMCYp7xj1a1k3YE49xVafNT5csB1WLQTpZntiLS0eK8aPiGZZBsPX64jd7FY5/MplI5DpX3v5z5UBd348NbASxmI73aTRvxqatyDDaeW27BH00240mCEctQ6zuviujnNUkjJOt26D4Krrp64xarVaAd2qcNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DUS2XNun1skWP9/YnAZ+JoQ0Swkg1BzqtoDH6HsdSI8=;
+ b=BlHX5iYoKYsnAS4lXnOVeJLzOqfGeBcRLWPAHAG/T+gDzqxDvXAWwQS2HAYoS1XMVGkVd+S4Oqk9Xi5IE6LOwQZ41MgQz066al5IxRDLKFrXgBnQyfwkMIStsSec9UJamfU5Fz5ubxRnt8qnJ+Ilh4l8EygbYGpTmQZXvzaZFZ9TkBNT4LJuUBe51c2d8emJlFX734LbF/ie0v2PR4tFOkgRSKiQYiw6pTJm9MnhsI0LUUb1Jaadl+5WIklPSFTrRvi++VCW4aS7ZsylmasEv2Gdamu2ySY9e8WcZIWP0QtOSPv7udc0KlH/Tc2vblYMEwu+zQHWIZjWverUw2Qrmg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB7605.namprd11.prod.outlook.com (2603:10b6:510:277::5)
+ by PH8PR11MB6780.namprd11.prod.outlook.com (2603:10b6:510:1cb::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.25; Wed, 6 Dec
+ 2023 21:47:31 +0000
+Received: from PH7PR11MB7605.namprd11.prod.outlook.com
+ ([fe80::73d0:f907:41e4:4a34]) by PH7PR11MB7605.namprd11.prod.outlook.com
+ ([fe80::73d0:f907:41e4:4a34%4]) with mapi id 15.20.7046.034; Wed, 6 Dec 2023
+ 21:47:31 +0000
+Message-ID: <cf64cae8-eac2-4e3e-9fd1-aef79c4000f3@intel.com>
+Date: Wed, 6 Dec 2023 13:47:27 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 2/2] drm/i915/guc: Close deregister-context race
+ against CT-loss
+Content-Language: en-US
+To: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>
+References: <20231130002013.282804-1-alan.previn.teres.alexis@intel.com>
+ <20231130002013.282804-3-alan.previn.teres.alexis@intel.com>
+ <ZWj8Ig7tzXLHZbSv@intel.com>
+ <79897b361b09274efff9ee010fe9074d66f56bd8.camel@intel.com>
+ <ce76d74bdd99d328eca5689ea5815fbb3a689ee6.camel@intel.com>
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+In-Reply-To: <ce76d74bdd99d328eca5689ea5815fbb3a689ee6.camel@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR05CA0087.namprd05.prod.outlook.com
+ (2603:10b6:a03:332::32) To PH7PR11MB7605.namprd11.prod.outlook.com
+ (2603:10b6:510:277::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB7605:EE_|PH8PR11MB6780:EE_
+X-MS-Office365-Filtering-Correlation-Id: 76efc701-c7ba-4e29-68d5-08dbf6a4f2ad
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SMVJgmJ2oudx0M0D2G3w5CNWNXGjXoIk9eiHeqzjOJgceUKedSXMEDRrN24n6zGwKvtZ1OWANAPw0n+8K7p8wmbiGvB12L7bgpm5vLlg8qN/QLbWcEOZfNUk6q3PaRaB5b6zTIQKSzltOSMh4G/GGhTQMGhrIfs7KYLu4ECcD7l7nd98cSNUKVUatteqMuw7XHJXi0HTpTOR6ksIr0zNtiIOncOaL27J5v8nv64N6HNSU1Q8FfSiNgCMG1pjvMDgd4IMBIHd5xrAiK6PeCrmkyD85WH/chM+5Bv2LdtbEDy5bYM4U9F7rVmlSbB0kxzDCYftA3nf1hjL0paJPtt75TWHNiYQRcPfy+Y99rly0H4ldshA/sS6ZdRXViK61cUDAmuNh01FI0aRivYLm1m63S3vE1GjYdwKGvimKZOzNE0H5DdyWnHgnEFg3iBD9cWN8cSIFDIOe4kgecM43NKG3wfPuqvlIENDNuyeckAiBursjzq67VR/+9RcX3FeleEwK7lSuWM3FDmPXOjVexM5GU+im7GHKBtvdX7tt7K7s9DtkGwC/yBG9ACJQ25OqRvG/exaZO6FY3Nr3KEMlV36fqIDl5tvK8gJ7l3cL3wC0WofeZwOf6WeHUBW4/uj41S9nsNMIE8gJh3c0jfKvQyU0A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB7605.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(396003)(136003)(39860400002)(376002)(346002)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(450100002)(107886003)(26005)(41300700001)(8936002)(31696002)(86362001)(6486002)(82960400001)(478600001)(38100700002)(2906002)(6636002)(6666004)(66476007)(8676002)(66556008)(66946007)(4744005)(5660300002)(83380400001)(316002)(6506007)(53546011)(110136005)(54906003)(2616005)(6512007)(36756003)(31686004)(4326008)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WGV2cTJVVWd1ek5hbVl3cmFab0gxbTFXcktRWUUxRUlJb2JVeklWdlFTVDBh?=
+ =?utf-8?B?Z1lPRmJHVXRJek9oZUlvTi9laE9WT3Rvc0F5bUhKV3ozRjJ2Tm5PdG5DQXJJ?=
+ =?utf-8?B?aWVwTE1ISjdSa3ZBNDF1dnVrYnJQNkpDRmU3UXVDU04rTEJmcTRIRnphS0xu?=
+ =?utf-8?B?aTFXckdvU3pQVDJTeUFFMm93WDNjZm9Hc3dTb2ozZVNxaUZMRVdQM3JONDhk?=
+ =?utf-8?B?UjhlZXZsWjE1RHNoWCtPUEZmMjlkYVR3cStZVnZid2RGQzVCVHBZdUZpUlE5?=
+ =?utf-8?B?VDM0STBmdW41NFc5OGFaQ0Z2OFhRY0w0Q1F4UThsalJpK3A2aXdhR0pab0Ji?=
+ =?utf-8?B?eHRGQnYxK3I0MGhyTGdtemZyQ0pnRHAzNWFnR0JPckxUaG1qUXFaV3lpbW5l?=
+ =?utf-8?B?TVg2bUV4TDk3Nm5MZU9qVmNuNjZWcEtPRkg4K0Y5Z3B5b1F6UUNKcFg5Vk9p?=
+ =?utf-8?B?NUF2VWxpblM5d0VnUzlURWFPcy9uM0Q5ZHJuTU1uSzZoMm5Xd2p6bWJBS1c0?=
+ =?utf-8?B?Qnc3N0lEdSttS3hsWGhBRExMWTBjY3ppc0k4UmxYUy9rSkRzNWluNlJHSTZY?=
+ =?utf-8?B?MkFWdFo5SjhqaFZuVEZMQ1pGK09ocXg2V0ozbjUzYmNxRlVLM29Jb0UyeHlz?=
+ =?utf-8?B?T1lvTDVkeUFnanFZSFJWWnVWNHJ0SHcyUTFqNEF6RXdIVWpzWlpIRkRiWi9Y?=
+ =?utf-8?B?OTJ3NkF2dkM4RzZ6bm10d0YxUTJmYzdHYU5xZmpEaHBPRU5hM0pqbTZKelQ3?=
+ =?utf-8?B?cVh1eXgycm9adDZ1VzdIR1JZUS9EU3FTSzhLWStxMnBKS0hmRU85ZFcwZUph?=
+ =?utf-8?B?RGU1dWxYL0xZaHJhR0RRNEVKUWZDemFUZ1FuWjlFMkVOODVKTEFQVm9NeWsv?=
+ =?utf-8?B?SDVxN1JueUovand5WC92c1ZTd3pDMVZoQTlLc2JuU2pIWFhTbG9aL1Q5QUZR?=
+ =?utf-8?B?TmRmRmhPdkpaSXlSSGdkTTlyV05PbUdxaHJkUEtEMnFnL2Jkb2szTDBCZDVC?=
+ =?utf-8?B?QnZRS1NaYjM3RVBjSXo4VlRqdG9RVytPVlpiQUJ2SzRlMThXSm9CZnlZcXdt?=
+ =?utf-8?B?V0wvM3NmRzZBK0J4ejc3bktLeVA0NHVwOXo3aExMK3dOd1V4MmlOQmRhcW0y?=
+ =?utf-8?B?OVpBZ0VRM1UwekdZekJVMzA4RU84YUl5cjJrZlIxR3pxMm16Ylp3ay9GckJw?=
+ =?utf-8?B?UUhtaDdYQ2FndmtPbzUzdFhqU1J3dW93SmROMzU5RHE4TGVZc1lNRkZmNGh6?=
+ =?utf-8?B?bXBUdTRDQUtiakFFVTc1MGxobFNmWHJ0MS9FN01UYURtb3ZKZWxaSXRrUTVz?=
+ =?utf-8?B?NnU4U2k2VUMxYlRWcUZUdWo4VTZSWkUxVDdPLzZ0V014c3hkY2xBNTdqcFBN?=
+ =?utf-8?B?TUV2aFk0RFR0ajJDSXU0UVB2Njl1emdlVmo0dURGR20zVVBvYWk3aWVESlFR?=
+ =?utf-8?B?YzU4dlBDbGV5ZE1VekJIOWYzTnlRT3htNVpqY3oxVjI2QWw3R2lBd0JOOWhW?=
+ =?utf-8?B?TlFBeC91MGUvVHJJeXVFV2kvVmpwclRjL1l3a2ovUHI4NVdmdm5YZnZtZ2VI?=
+ =?utf-8?B?TTdWOXQ4dm12Z3VqZ0NqTytaYkFnL1dKdEorcVRYTXZRRk1aMVBDaU9IVis2?=
+ =?utf-8?B?bm55emFKZWRFRitoemgzOXcwT2VuelkzZUsvQS94UURGVVNrSXpVVm4vVkdj?=
+ =?utf-8?B?aHdFUThETmpaK2x2Y3BGbHVMeXBFOHdqcmlHRE95eGhZc3o3NVBrTzVZQVc0?=
+ =?utf-8?B?Z2Mwb3pIVUg5bW0wVm1uVUpGZG5DcGxoK0ZsNjdBQ0p4VGRFdzJMOWJmc2xt?=
+ =?utf-8?B?bFpYOS9GVkl4WjFwWVE5dEI0ckZOWDdHb1hYT05JSUQxSFQ2VGJQMk10eUZm?=
+ =?utf-8?B?cTRERGlQZXFScnNvMFQ3K0lzbW0ySVVwS3VrTlhPVUxWSC9GZGxGTFJjQy8r?=
+ =?utf-8?B?MGxIMTRyTFVMRXV1akpnUTlIYlVLYUFXZ1g4ekwwVUJtMW1HVlpuTDNzaHlJ?=
+ =?utf-8?B?cWVvblB1NERlSU5zc3R5cjVIODAyUEprZ2I3dENaY09rR0tWYU01eVQ3S0Ns?=
+ =?utf-8?B?WVJlbzl4WXdwemNJOFdmeHpqWk9kSE0ydTFJTzlkSWgrd2lxMm5OWFplRUJM?=
+ =?utf-8?B?RDBRaHAvNk5SS2FmMlNicmpVTXViRnNRZDdSd3MxQzNrUjY2cHJBU0NNSVZ4?=
+ =?utf-8?Q?KmoVsTyquqTxOuovaZLy3Fc=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76efc701-c7ba-4e29-68d5-08dbf6a4f2ad
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7605.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2023 21:47:31.1257 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RY6JbU+QCYVnUATXyAzUvsBr0L3C9sAZh+selcOr9ZQr79W/MUyMeAaPnkximbYW4Sk4i244UyazzrAZYYGnVC9x3LzxGG8h1lFD+54ra/E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6780
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,215 +159,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Tony Lindgren <tony@atomide.com>, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Donald Robson <donald.robson@imgtec.com>, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- =?utf-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
- Maxime Ripard <mripard@kernel.org>, Matt Coster <matt.coster@imgtec.com>,
- Rob Herring <robh+dt@kernel.org>, linux-omap@vger.kernel.org,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Tero Kristo <kristo@kernel.org>, linux-kernel@vger.kernel.org,
- Andrew Davis <afd@ti.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: "Ursulin, Tvrtko" <tvrtko.ursulin@intel.com>, "Gupta,
+ Anshuman" <anshuman.gupta@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Jana,
+ Mousumi" <mousumi.jana@intel.com>, "Harrison,
+ John C" <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-> Am 06.12.2023 um 17:02 schrieb Conor Dooley <conor@kernel.org>:
->=20
-> On Tue, Dec 05, 2023 at 07:04:05PM +0100, H. Nikolaus Schaller wrote:
->>> Am 05.12.2023 um 18:33 schrieb Andrew Davis <afd@ti.com>:
->>>=20
->>> On 12/5/23 2:17 AM, H. Nikolaus Schaller wrote:
->>>>> +          - enum:
->>>>> +              - ti,omap3430-gpu # Rev 121
->>>>> +              - ti,omap3630-gpu # Rev 125
->>>> Is the "Rev 121" and "Rev 125" a property of the SoC integration =
-(clock/reset/power
->>>> hookup etc.) or of the integrated SGX core?
->>>=20
->>> The Rev is a property of the SGX core, not the SoC integration.
->>=20
->> Then, it should belong there and not be a comment of the ti,omap*-gpu =
-record.
->> In this way it does not seem to be a proper hardware description.
->>=20
->> BTW: there are examples where the revision is part of the compatible =
-string, even
->> if the (Linux) driver makes no use of it:
->>=20
->> drivers/net/ethernet/xilinx/xilinx_emaclite.c
->=20
-> AFAICT these Xilinx devices that put the revisions in the compatible =
-are
-> a different case - they're "soft" IP intended for use in the fabric of
-> an FPGA, and assigning a device specific compatible there does not =
-make
-> sense.
->=20
-> In this case it appears that the revision is completely known once you
-> see "ti,omap3630-gpu", so encoding the extra "121" into the compatible
-> string is not required.
+On 11/30/2023 4:10 PM, Teres Alexis, Alan Previn wrote:
+>> As far as i can tell, its only if we started resetting / wedging right after this
+>> queued worker got started.
+> alan: hope Daniele can proof read my tracing and confirm if got it right.
 
-Well, I would not put my hand in the fire for this assumption.
+Yup, we don't flush the worker in reset prepare, so there is a chance 
+that it might run parallel to the reset/wedge code, which we handle by 
+checking the submission status. The list manipulation is protected by 
+spinlock so we're safe on that side. The rest of the approach also LGTM:
 
-And I am a friend of explicitly stating what is instead ot encoding =
-indirectly.
+Acked-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 
->=20
->>=20
->>> But it seems that
->>> compatible string is being used to define both (as we see being =
-debated in the other
->>> thread on this series).
->>>=20
->>>> In my understanding the Revs are different variants of the SGX core =
-(errata
->>>> fixes, instruction set, pipeline size etc.). And therefore the =
-current driver code
->>>> has to be configured by some macros to handle such cases.
->>>> So the Rev should IMHO be part of the next line:
->>>>> +          - const: img,powervr-sgx530
->>>> +          - enum:
->>>> +              - img,powervr-sgx530-121
->>>> +              - img,powervr-sgx530-125
->>>> We have a similar definition in the openpvrsgx code.
->>>> Example: compatible =3D "ti,omap3-sgx530-121", "img,sgx530-121", =
-"img,sgx530";
->>>> (I don't mind about the powervr- prefix).
->>>> This would allow a generic and universal sgx driver (loaded through =
-just matching
->>>> "img,sgx530") to handle the errata and revision specifics at =
-runtime based on the
->>>> compatible entry ("img,sgx530-121") and know about SoC integration =
-("ti,omap3-sgx530-121").
->=20
-> The "raw" sgx530 compatible does not seem helpful if the sgx530-121 or
-> sgx530-125 compatibles are also required to be present for the driver =
-to
-> actually function.
-
-Indeed. This seems to be redundant (but may need some pattern =
-processing).
-
-> The revision specific compatibles I would not object
-> to, but everything in here has different revisions anyway - does the
-> same revision actually appear in multiple devices? If it doesn't then =
-I
-> don't see any value in the suffixed compatibles either.
-
-Well, we don't know.
-
-So far only a subset of SoC with the SGX GPU core variants has been =
-considered
-(mainly because lack of user space code and device owners).
-
-Maybe someone with insider knowledge can give a hint if the SGX version =
-numbers
-were assigned uniquely for each SoC integration project.
-
->=20
->>>> And user-space can be made to load the right firmware variant based =
-on "img,sgx530-121"
->>>> I don't know if there is some register which allows to discover the =
-revision long
->>>> before the SGX subsystem is initialized and the firmware is up and =
-running.
->>>> What I know is that it is possible to read out the revision after =
-starting the firmware
->>>> but it may just echo the version number of the firmware binary =
-provided from user-space.
->>>=20
->>> We should be able to read out the revision (register =
-EUR_CR_CORE_REVISION), the problem is
->>> today the driver is built for a given revision at compile time.
->>=20
->> Yes, that is something we had planned to get rid of for a long time =
-by using different compatible
->> strings and some variant specific struct like many others drivers are =
-doing it.
->> But it was a to big task so nobody did start with it.
->>=20
->>> That is a software issue,
->>> not something that we need to encode in DT. While the core ID =
-(SGX5xx) can be also detected
->>> (EUR_CR_CORE_ID), the location of that register changes, and so it =
-does need encoded in
->>> DT compatible.
->>=20
->> Ok, I didn't know about such registers as there is not much public =
-information available.
->> Fair enough, there are some error reports about in different forums.
->>=20
->> On the other hand we then must read out this register in more or less =
-early initialization
->> stages. Even if we know this information to be static and it could be =
-as simple as a list
->> of compatible strings in the driver.
->>=20
->>> The string "ti,omap3430-gpu" tells us the revision if we cannot =
-detect it (as in the current
->>> driver), and the SoC integration is generic anyway (just a reg and =
-interrupt).
->>=20
->> It of course tells, but may need a translation table that needs to be =
-maintained in a
->> different format. Basically the same what the comments show in a =
-non-machine readable
->> format.
->>=20
->> I just wonder why the specific version can or should not become =
-simply part of the DTS
->> and needs this indirection.
->>=20
->> Basically it is a matter of openness for future (driver) development =
-and why it needs
->> careful decisions.
->>=20
->> So in other words: I would prefer to see the comments about versions =
-encoded in the device
->> tree binary to make it machine readable.
->=20
-> It's already machine readable if it is invariant on an SoC given the
-> patch had SoC-specific compatibles.
-
-But needs a translation table to get to the revision number.
-
-I have not yet brought into discussion that there are different =
-firmwares for sgx530-121,
-sgx530-125, sgx544-116 etc. And user-space code may also depend on to be =
-able to chose
-the right one if multiple firmware packages are installed. Currently =
-this is not the case
-but would be a major benfit for OS packages.
-
-To automate this we need a mechanism to scan the device tree for a =
-compatible string that
-tells which firmware variant to load.
-
-But why force this to depend on the SoC compatible if it only depends =
-indirectly?
-
-By the way, there is a tested and working driver using the scheme with =
-the sub-versions:
-
-=
-https://github.com/openpvrsgx-devgroup/linux_openpvrsgx/blob/11cc7876ba39b=
-6172d19ee0bf0a872c1d3d745e1/drivers/gpu/drm/pvrsgx/pvr-drv.c#L306
-
-On the other hand As far as I see this will can of course be adapted to =
-the newly
-proposed scheme.
-
-But it still seems a bit twisted to me. Maybe because we for example =
-define LCD panel
-compatibles not by the compatible of the device they are installed in.
-
-BR,
-Nikolaus=
+Daniele
