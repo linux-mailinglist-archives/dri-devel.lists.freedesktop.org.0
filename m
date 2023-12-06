@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83025806D99
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 12:14:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C160806D9A
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 12:14:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C9E310E6D6;
-	Wed,  6 Dec 2023 11:14:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B25610E6D9;
+	Wed,  6 Dec 2023 11:14:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 948A410E6D9
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 11:14:01 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7211A10E6D9
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 11:14:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 1511DB82013;
- Wed,  6 Dec 2023 11:14:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14937C433C9;
- Wed,  6 Dec 2023 11:13:58 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTP id CD096B82014;
+ Wed,  6 Dec 2023 11:14:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D15B1C433C8;
+ Wed,  6 Dec 2023 11:14:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701861239;
- bh=+tq8JaRTw/nWXBe9GrW47h9Yc348vGVApgCfrQ+NN98=;
+ s=k20201202; t=1701861242;
+ bh=zR/emj+oOuWHjbArF/endzskL5/KXXwA7MWUakEBzOE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FGPIj11GIjksQOC93Z+pMHLJvM2nnDLJuAQ+c+JBtwK9riNqgp7D9HupkhZfGB/DM
- CtVk12h4l+I0roMspgoHSAC3xtv5qKr8rs5UTFxbkrkfWD0XZSzU6nn8rKELcGVHjM
- peF6c9C6ww4pgFNqtAoB22ticpY6OiD1FCB1ArAi3QsBKj6bYOFmJfc8uKZj8edf6S
- DzpXEoHklYPqz7ph9yn6o4nJDVYdaLZJCKpDWvl9ulqL2Fj32oPn/bbqNM1Q+Q4h7f
- JKNanleKf6Vxl8o3u5OngyOM4jCwOOcoXVmTbkirQWq4uTmLc8OXk7aLYLUzoK3Pz0
- iTrkRRZ8DiFNg==
+ b=ias4dbNOsFxwpcg5k99uU1pnnhitq2CNJ3K4DNZZ+MkYzZshJDVRcbKYdpB5jO43d
+ JVDpgiUXvjetDsfkOdyZg1IIYmsuQIvShIDL3HUzdwF9kDXRHi5KWhHNsXimLUh7il
+ pL4hYAp2AYkFxavZB/wgKtvTSljNVjt/QfB5j1ELGGvZyu/HKvmdR26JxxodW9cbj6
+ RTgimhbdhVt3JXFlWZgPiHWaYSUcnFM7TMgEgfqemN1OHQbP1LBtdQVK74T4IHDxAu
+ LPqBtmPjbK7tEMi2V/UFaL7zLtIMK/T6kJxi3v/YO+6AtKh8wzIIpoa9LdeaiiZiOZ
+ xi8qyGvAPO78Q==
 From: Maxime Ripard <mripard@kernel.org>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH 2/4] drm/crtc: Make init functions panic consitently and
+Subject: [PATCH 3/4] drm/encoder: Make init functions panic consitently and
  explicitly
-Date: Wed,  6 Dec 2023 12:13:49 +0100
-Message-ID: <20231206111351.300225-2-mripard@kernel.org>
+Date: Wed,  6 Dec 2023 12:13:50 +0100
+Message-ID: <20231206111351.300225-3-mripard@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231206111351.300225-1-mripard@kernel.org>
 References: <20231206111351.300225-1-mripard@kernel.org>
@@ -57,29 +56,26 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All of the current CRTC init / allocation functions behave slightly
+All of the current encoder init / allocation functions behave slightly
 differently when it comes to argument sanitizing:
 
- - drm_crtc_init_with_planes() implicitly panics if the drm_device
-   pointer, the drm_crtc pointer, or the drm_crtc_funcs pointer are
-   NULL, and calls WARN_ON if there's no destroy implementation but
-   goes on with the initialization.
+ - drm_encoder_init() implicitly panics if the drm_device pointer, or
+   the drm_encoder pointer are NULL, and calls WARN_ON if there's no
+   destroy implementation but goes on with the initialization.
 
- - drmm_crtc_init_with_planes() implicitly panics if the drm_device
-   pointer, the drm_crtc pointer, or the drm_crtc_funcs pointer are
-   NULL, and calls WARN_ON if there's no destroy implementation but
-   goes on with the initialization.
+ - drmm_encoder_init() implicitly panics if the drm_device pointer is
+   NULL, and calls WARN_ON and errors out if the drm_encoder_funcs
+   pointer is NULL or if there's no destroy implementation.
 
- - drmm_crtc_alloc_with_planes() implicitly panics if the drm_device
-   pointer, or the drm_crtc pointer are NULL, and calls WARN_ON if
-   the drm_crtc_funcs pointer is NULL or there's no destroy
-   implementation but goes on with the initialization.
+ - drmm_encoder_alloct() implicitly panics if the drm_device pointer is
+   NULL, and calls WARN_ON and errors out if the drm_encoder_funcs
+   pointer is NULL or if there's no destroy implementation.
 
 The current consensus is that the drm_device pointer, the
-drm_crtc_funcs pointer, and the drm_crtc pointer if relevant, should be
-considered pre-requisite and the function should panic if we encounter
-such a situation, and that returning an error in such a situation is not
-welcome.
+drm_encoder_funcs pointer, and the drm_encoder pointer if relevant,
+should be considered pre-requisite and the function should panic if we
+encounter such a situation, and that returning an error in such a
+situation is not welcome.
 
 Let's make all functions consider those three pointers to be always set
 and explicitly panic if they aren't. And let's document that behaviour
@@ -88,81 +84,99 @@ too.
 Link: https://lore.kernel.org/dri-devel/20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org/
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/drm_crtc.c | 18 ++++++++++++++++--
- include/drm/drm_crtc.h     |  3 +++
- 2 files changed, 19 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_encoder.c | 19 +++++++++++++++++--
+ include/drm/drm_encoder.h     |  6 ++++++
+ 2 files changed, 23 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-index df9bf3c9206e..87e5877b753d 100644
---- a/drivers/gpu/drm/drm_crtc.c
-+++ b/drivers/gpu/drm/drm_crtc.c
-@@ -350,6 +350,9 @@ static int __drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *
+diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encoder.c
+index 8f2bc6a28482..bb120b0814a3 100644
+--- a/drivers/gpu/drm/drm_encoder.c
++++ b/drivers/gpu/drm/drm_encoder.c
+@@ -159,6 +159,9 @@ static int __drm_encoder_init(struct drm_device *dev,
   *
   * Returns:
   * Zero on success, error code on failure.
 + *
 + * Panics:
-+ * If @dev, @crtc, or @funcs are NULL.
++ * If @dev, @encoder, or @funcs are NULL.
   */
- int drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *crtc,
- 			      struct drm_plane *primary,
-@@ -360,6 +363,9 @@ int drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *crtc,
+ int drm_encoder_init(struct drm_device *dev,
+ 		     struct drm_encoder *encoder,
+@@ -168,6 +171,9 @@ int drm_encoder_init(struct drm_device *dev,
  	va_list ap;
  	int ret;
  
 +	BUG_ON(!dev);
-+	BUG_ON(!crtc);
++	BUG_ON(!encoder);
 +	BUG_ON(!funcs);
  	WARN_ON(!funcs->destroy);
  
  	va_start(ap, name);
-@@ -432,6 +438,9 @@ static int __drmm_crtc_init_with_planes(struct drm_device *dev,
+@@ -227,8 +233,7 @@ static int __drmm_encoder_init(struct drm_device *dev,
+ {
+ 	int ret;
+ 
+-	if (drm_WARN_ON(dev, funcs && funcs->destroy))
+-		return -EINVAL;
++	drm_WARN_ON(dev, funcs->destroy);
+ 
+ 	ret = __drm_encoder_init(dev, encoder, funcs, encoder_type, name, args);
+ 	if (ret)
+@@ -250,6 +255,9 @@ void *__drmm_encoder_alloc(struct drm_device *dev, size_t size, size_t offset,
+ 	va_list ap;
+ 	int ret;
+ 
++	BUG_ON(!dev);
++	BUG_ON(!funcs);
++
+ 	container = drmm_kzalloc(dev, size, GFP_KERNEL);
+ 	if (!container)
+ 		return ERR_PTR(-ENOMEM);
+@@ -283,6 +291,9 @@ EXPORT_SYMBOL(__drmm_encoder_alloc);
   *
   * Returns:
   * Zero on success, error code on failure.
 + *
 + * Panics:
-+ * If @dev, @crtc, or @funcs are NULL.
++ * If @dev, @encoder, or @funcs are NULL.
   */
- int drmm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *crtc,
- 			       struct drm_plane *primary,
-@@ -442,6 +451,10 @@ int drmm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *crtc,
+ int drmm_encoder_init(struct drm_device *dev, struct drm_encoder *encoder,
+ 		      const struct drm_encoder_funcs *funcs,
+@@ -291,6 +302,10 @@ int drmm_encoder_init(struct drm_device *dev, struct drm_encoder *encoder,
  	va_list ap;
  	int ret;
  
 +	BUG_ON(!dev);
-+	BUG_ON(!crtc);
++	BUG_ON(!encoder);
 +	BUG_ON(!funcs);
 +
  	va_start(ap, name);
- 	ret = __drmm_crtc_init_with_planes(dev, crtc, primary, cursor, funcs,
- 					   name, ap);
-@@ -465,8 +478,9 @@ void *__drmm_crtc_alloc_with_planes(struct drm_device *dev,
- 	va_list ap;
- 	int ret;
- 
--	if (WARN_ON(!funcs || funcs->destroy))
--		return ERR_PTR(-EINVAL);
-+	BUG_ON(!dev);
-+	BUG_ON(!funcs);
-+	WARN_ON(funcs->destroy);
- 
- 	container = drmm_kzalloc(dev, size, GFP_KERNEL);
- 	if (!container)
-diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-index 8b48a1974da3..fdcbc3ac9e08 100644
---- a/include/drm/drm_crtc.h
-+++ b/include/drm/drm_crtc.h
-@@ -1248,6 +1248,9 @@ void *__drmm_crtc_alloc_with_planes(struct drm_device *dev,
+ 	ret = __drmm_encoder_init(dev, encoder, funcs, encoder_type, name, ap);
+ 	va_end(ap);
+diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
+index 977a9381c8ba..1dbebbc36dd4 100644
+--- a/include/drm/drm_encoder.h
++++ b/include/drm/drm_encoder.h
+@@ -238,6 +238,9 @@ void *__drmm_encoder_alloc(struct drm_device *dev,
   *
   * Returns:
-  * Pointer to new crtc, or ERR_PTR on failure.
+  * Pointer to new encoder, or ERR_PTR on failure.
 + *
 + * Panics:
-+ * If @dev or @funcs are NULL.
++ * If @dev, or @funcs are NULL.
   */
- #define drmm_crtc_alloc_with_planes(dev, type, member, primary, cursor, funcs, name, ...) \
- 	((type *)__drmm_crtc_alloc_with_planes(dev, sizeof(type), \
+ #define drmm_encoder_alloc(dev, type, member, funcs, encoder_type, name, ...) \
+ 	((type *)__drmm_encoder_alloc(dev, sizeof(type), \
+@@ -256,6 +259,9 @@ void *__drmm_encoder_alloc(struct drm_device *dev,
+  *
+  * Returns:
+  * Pointer to the new drm_encoder struct, or ERR_PTR on failure.
++ *
++ * Panics:
++ * If @dev, or @funcs are NULL.
+  */
+ #define drmm_plain_encoder_alloc(dev, funcs, encoder_type, name, ...) \
+ 	((struct drm_encoder *) \
 -- 
 2.43.0
 
