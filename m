@@ -2,52 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42B36807AE7
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 23:00:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F39358076C1
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 18:39:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B6F010E7C2;
-	Wed,  6 Dec 2023 22:00:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14EF910E117;
+	Wed,  6 Dec 2023 17:39:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 323 seconds by postgrey-1.36 at gabe;
- Wed, 06 Dec 2023 17:29:11 UTC
-Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.155.67.158])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C3A510E113
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 17:29:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bbaa.fun;
- s=krwu2211; t=1701883743;
- bh=6L0aV80MpIMQg2v5Xc3R+ZHBxuMW5G2CI33EecTOYII=;
- h=Message-ID:Date:MIME-Version:From:Subject:To;
- b=mP28PRvKGwNvAJYY5rYxXAcoFA4AwMwyV2iriDMU0jLIntBFm60kqC4/jz53iTBCp
- lxceN4PYca35v0bDFfVm7aGFY2t+P+OaqlLQuxTYUX/jz4nAWo1DLrYSYfYMJvOM4r
- KMk3exHlbSU5LDUMpjeTSdO7Bua9rLD4dNyUnaHg=
-X-QQ-mid: bizesmtp77t1701883740ty5ph78u
-Received: from [172.19.0.1] ( [180.136.64.83]) by bizesmtp.qq.com (ESMTP) with 
- id ; Thu, 07 Dec 2023 01:28:59 +0800 (CST)
-X-QQ-SSF: 0100000000000020D000000A0000000
-X-QQ-FEAT: drHCGgIjzJeRUGRdfbDjWYjjJBYARogEeTBTHHGihUsYAekWhZED4JBBNP9v7
- 6FYxsRtjQahzqsOFd6dhrLkr9z5DPEGnrbYIlzksn3ZW709akCCPboOoshcCJuSCPsJCWsB
- ej1Fr2qP6eIrFYHNqN89LDmawoCxqsLaCSmjN/QH5VaPnyJRPH1PiReeEhEtFg5tcNh0hez
- x3y4zoAKCo/yMVW1dv5eO3aDTYz57/s/4fDUlnk0PeFnIBVOT3jx/K6IgGcOTRMGyu0jGYr
- 8SVG+M3H7rgABYzEofoymxWPImH+D18aLZ38z627gZ+fhrUWuYQPKo7xAvEp1d+wNb02gmH
- KxnBgQDGcfDJe7VDbHjTdOLXP1NP26LpMqs7K/c
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 12811341502959775276
-Message-ID: <930E9B4C7D91FDFF+29b34d89-8658-4910-966a-c772f320ea03@bbaa.fun>
-Date: Thu, 7 Dec 2023 01:28:59 +0800
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D04AD10E117
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 17:39:07 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rAvrJ-0001zC-1c; Wed, 06 Dec 2023 18:38:53 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rAvrH-00E0m4-Ce; Wed, 06 Dec 2023 18:38:51 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1rAvrH-00FdlK-32; Wed, 06 Dec 2023 18:38:51 +0100
+Date: Wed, 6 Dec 2023 18:38:50 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Alexandre Mergnat <amergnat@baylibre.com>
+Subject: Re: [PATCH 12/18] dt-bindings: pwm: add binding for mt8365 SoC
+Message-ID: <20231206173850.s6dndsjeeuy3sjan@pengutronix.de>
+References: <20231023-display-support-v1-0-5c860ed5c33b@baylibre.com>
+ <20231023-display-support-v1-12-5c860ed5c33b@baylibre.com>
+ <20231023214411.sbrdqgethas25rkd@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: bbaa <bbaa@bbaa.fun>
-Subject: [Bug Report] drm/edid: drm_edid_override_connector_update returns a
- incorrect value
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:bbaa.fun:qybglogicsvrgz:qybglogicsvrgz5a-0
-X-Mailman-Approved-At: Wed, 06 Dec 2023 21:59:57 +0000
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ywtlv6jlyscfsmgx"
+Content-Disposition: inline
+In-Reply-To: <20231023214411.sbrdqgethas25rkd@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,88 +56,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jitao Shi <jitao.shi@mediatek.com>, Will Deacon <will@kernel.org>,
+ devicetree@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-pwm@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello everyone,
 
-drm_edid_override_connector_update seem return a incorrect value.
+--ywtlv6jlyscfsmgx
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-drivers/gpu/drm/drm_edid.c (Linux 6.7-rc4)
-   2294	/**
-   2295	 * drm_edid_override_connector_update - add modes from override/firmware EDID
-   2296	 * @connector: connector we're probing
-   2297	 *
-   2298	 * Add modes from the override/firmware EDID, if available. Only to be used from
-   2299	 * drm_helper_probe_single_connector_modes() as a fallback for when DDC probe
-   2300	 * failed during drm_get_edid() and caused the override/firmware EDID to be
-   2301	 * skipped.
-   2302	 *
-   2303	 * Return: The number of modes added or 0 if we couldn't find any.
-   2304	 */
-   2305	int drm_edid_override_connector_update(struct drm_connector *connector)
-   2306	{
-   2307		const struct drm_edid *override;
-   2308		int num_modes = 0;
-   2309	
-   2310		override = drm_edid_override_get(connector);
-   2311		if (override) {
-   2312			num_modes = drm_edid_connector_update(connector, override);
-   2313	
-   2314			drm_edid_free(override);
-   2315	
-   2316			drm_dbg_kms(connector->dev,
-   2317				    "[CONNECTOR:%d:%s] adding %d modes via fallback override/firmware EDID\n",
-   2318				    connector->base.id, connector->name, num_modes);
-   2319		}
-   2320	
-   2321		return num_modes;
-   2322	}
-   2323	EXPORT_SYMBOL(drm_edid_override_connector_update);
+Hello,
 
-The comment describes that it will return the number of modes added
-However the function calls drm_edid_connector_update, will return 0 upon successful execution.
+On Mon, Oct 23, 2023 at 11:44:11PM +0200, Uwe Kleine-K=F6nig wrote:
+> On Mon, Oct 23, 2023 at 04:40:12PM +0200, Alexandre Mergnat wrote:
+> > Display PWM for MT8365 is compatible with MT8183. Then, add MT8365 bind=
+ing
+> > along with MT8183 SoC.
+> >=20
+> > Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+>=20
+> Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+>=20
+> What is the merge plan here? Should the whole series go in via drm?
 
-drivers/gpu/drm/drm_edid.c
-   6813	/**
-   6814	 * drm_edid_connector_update - Update connector information from EDID
-   6815	 * @connector: Connector
-   6816	 * @drm_edid: EDID
-   6817	 *
-   6818	 * Update the connector display info, ELD, HDR metadata, relevant properties,
-   6819	 * etc. from the passed in EDID.
-   6820	 *
-   6821	 * If EDID is NULL, reset the information.
-   6822	 *
-   6823	 * Must be called before calling drm_edid_connector_add_modes().
-   6824	 *
-   6825	 * Return: 0 on success, negative error on errors.
-   6826	 */
-   6827	int drm_edid_connector_update(struct drm_connector *connector,
-   6828				      const struct drm_edid *drm_edid)
-   6829	{
-   6830		update_display_info(connector, drm_edid);
-   6831	
-   6832		_drm_update_tile_info(connector, drm_edid);
-   6833	
-   6834		return _drm_edid_connector_property_update(connector, drm_edid);
-   6835	}
-   6836	EXPORT_SYMBOL(drm_edid_connector_update);
+I'll assume that Alexandre will send out a new round of this series and
+this patch isn't supposed to be applied as is to the pwm tree. So I'm
+marking this patch as "changes requested" in our patchwork.
 
-This will break the EDID override behavior on Nvidia graphics cards.
+Best regards
+Uwe
 
-NVIDIA/open-gpu-kernel-modules:
-kernel-open/nvidia-drm/nvidia-drm-connector.c:
-   103  #if defined(NV_DRM_CONNECTOR_HAS_OVERRIDE_EDID)   104      if 
-(connector->override_edid) {   105  #else   106      if 
-(drm_edid_override_connector_update(connector) > 0) {   107  #endif 
-   108          const struct drm_property_blob *edid = 
-connector->edid_blob_ptr;   109 
-drm_edid_override_connector_update(connector)  will return zero here.
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-regards,
-bbaa
+--ywtlv6jlyscfsmgx
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVwsaoACgkQj4D7WH0S
+/k4hSggAle3BHyJ1MVsRw1KxYXPxxCujjOlC/iVTOF+lNCnkFIgsBCP3LIGUb/Vw
+5cmRVOyQP9gr52PMZeQo7aa3eMxhZqixVS3FbEWppG6kPVCE2RwP6CV7SfP7N3Hp
+VjKdzXifWVgRH366u/RaWoVuLftZvofZFYMTtF24KxoH0r40anqojRtJYYLwy/np
+NDqAUYu3WNdjYKWsNa1s1PBSlasbG0B7bcAP5RfRuJXoTuTssx2XxrbjLcpu3Zhr
+jPMxcBS60BO81t/LYCTMHDz6RNHpacGnRHTeWbnUaZm1SuHpyFuRGSAfIBkAmDGX
+DXzkv8oxnnoFs+g0fj0LuxnlSkXixg==
+=95Im
+-----END PGP SIGNATURE-----
 
+--ywtlv6jlyscfsmgx--
