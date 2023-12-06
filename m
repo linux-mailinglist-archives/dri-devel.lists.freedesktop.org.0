@@ -1,48 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 590818074E8
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 17:28:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 835A280750D
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 17:33:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53C0E10E758;
-	Wed,  6 Dec 2023 16:28:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B33B10E75B;
+	Wed,  6 Dec 2023 16:33:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F58F10E758
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 16:28:35 +0000 (UTC)
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 33A036602173;
- Wed,  6 Dec 2023 16:28:33 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1701880114;
- bh=brmR5KTHw/GyuNuC/iQc8vsc6bHfUeG/yj+g2nj+iGg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=VmCMYYkKbEFhRCcy97CNggaDTCyT9xsGGIeKCWRzVwbDSU/AhXt3NGpJEVOO1n+4f
- ZwAsrGsIwkn84G3i/u09ckYCIU9VKFN/J1e+rDzsLKmXJZS7wCdcBoPBp5HYuPHDza
- aGzYL5DBf8USBhIacBRb6GCaP8WdpS+aLoqRif1WczV8ECGlQp1CL5yJn/Dfnl23Nz
- 4Fj7t31fBH9+Ft3TcLQOC3t9KTm4vC0TJftfrLOomFbB6AMMHTS6BgDNS8Sjaq/I+I
- 3Og4a2Ss+wEA93SmPKVgDj/K/RfNNiK6gbIwNAJGEW22B4egVYc8iqe2/GGJJliaxZ
- gKpCw0qZUPAdw==
-Date: Wed, 6 Dec 2023 17:28:30 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v3 00/14] drm: Add a driver for CSF-based Mali GPUs
-Message-ID: <20231206172830.05a4752e@collabora.com>
-In-Reply-To: <43a75119-b15d-4570-b272-1fe702784632@arm.com>
-References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
- <20231205094847.221ab103@collabora.com>
- <43a75119-b15d-4570-b272-1fe702784632@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAB8210E75B
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 16:33:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701880410; x=1733416410;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=htX4iDGNzlMTy6lmTdVTpUZwaIRb7KEUVU3EoBWvnLk=;
+ b=HdVo6bRmcEolbAExFIIc4O5lkT/Tx6n5w9Cm50LVaIozX2vDiU4LXylN
+ PGSxSIwvFZWnC/BkRhEqBqxuC2seMbf2bfx3FreIVvUcObzSveNK/Gt7P
+ uWk0P09q6Yr1sq0Tv3S3TTnRTof1E28WPaOJVeidhpv5KcxMmJtyB4pqS
+ g/PEVKXZdiIfvPTDlxgHMrCWFbu6b36NfIe2Hi5EJmhM9tb3Ei9bzpoxb
+ fqTAlv6qZUw3Fded5cmZHJ4mycs5iZgaciKg4k1v4OsQeDK5gd5jVm7B6
+ yj673StskDf7l23Rvgnqqdc/71uAZ/Sjml275NxW117zt/6v5PX7AdhTQ A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="957918"
+X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
+   d="scan'208";a="957918"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Dec 2023 08:33:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="889404516"
+X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; d="scan'208";a="889404516"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+ by fmsmga002.fm.intel.com with ESMTP; 06 Dec 2023 08:33:27 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1rAupw-000B8t-2n;
+ Wed, 06 Dec 2023 16:33:24 +0000
+Date: Thu, 7 Dec 2023 00:31:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maxime Ripard <mripard@kernel.org>, davidgow@google.com,
+ Rae Moar <rmoar@google.com>, Brendan Higgins <brendan.higgins@linux.dev>
+Subject: Re: [PATCH] drm/tests: Switch to kunit devices
+Message-ID: <202312070011.fDjYhKoz-lkp@intel.com>
+References: <20231205090405.153140-1-mripard@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231205090405.153140-1-mripard@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,53 +61,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Marty E . Plummer" <hanetzer@startmail.com>,
- Daniel Stone <daniels@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
- dri-devel@lists.freedesktop.org, Nicolas Boichat <drinkcat@chromium.org>,
- =?UTF-8?B?Q2w=?= =?UTF-8?B?w6ltZW50IFDDqXJvbg==?= <peron.clem@gmail.com>,
- kernel@collabora.com, Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, llvm@lists.linux.dev,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, oe-kbuild-all@lists.linux.dev,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Steve,
+Hi Maxime,
 
-On Wed, 6 Dec 2023 15:47:29 +0000
-Steven Price <steven.price@arm.com> wrote:
+kernel test robot noticed the following build errors:
 
-> On 05/12/2023 08:48, Boris Brezillon wrote:
-> > Hi Steve,
-> > 
-> > I forgot to mention that I intentionally dropped your R-b, because
-> > there was a gazillion of changes all over the place, and I thought it
-> > deserved a fresh review.  
-> 
-> No problem, I'll re-review the patches. Thanks for getting the v3 out to
-> review.
-> 
-> <snip>
-> 
-> >> [3]https://gitlab.freedesktop.org/panfrost/linux/-/tree/panthor-v3
-> >> [4]https://gitlab.freedesktop.org/panfrost/linux/-/tree/panthor-v3+rk3588
-> 
-> AFAICT neither of these trees match (exactly) with what you've posted.
-> Not a big deal - I'll review the patches on the list, but it's a little
-> confusing having a 'v3' branch which doesn't match the actual v3 posted
-> ;) I also note you have similarly named branches in
-> https://gitlab.freedesktop.org/bbrezillon/linux which are more
-> up-to-date but also not 'v3'.
+[auto build test ERROR on next-20231205]
+[cannot apply to drm-misc/drm-misc-next v6.7-rc4 v6.7-rc3 v6.7-rc2 linus/master v6.7-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Oops, definitely forgot to push to the panfrost tree.
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-tests-Switch-to-kunit-devices/20231205-170508
+base:   next-20231205
+patch link:    https://lore.kernel.org/r/20231205090405.153140-1-mripard%40kernel.org
+patch subject: [PATCH] drm/tests: Switch to kunit devices
+config: i386-buildonly-randconfig-004-20231206 (https://download.01.org/0day-ci/archive/20231207/202312070011.fDjYhKoz-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312070011.fDjYhKoz-lkp@intel.com/reproduce)
 
-I also messed things up with the VM_GET_STATE ioctl addition, which I
-intended to be part of this v3, but somehow forgot to regenerate the
-patches.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312070011.fDjYhKoz-lkp@intel.com/
 
-v3 branches should now match this series, and I also pushed preliminary
-v4 branches containing !fixup commits in case you want to have a quick
-look (nothing fundamentally different there).
+All errors (new ones prefixed by >>):
 
-Regards,
+>> drivers/gpu/drm/tests/drm_kunit_helpers.c:8:10: fatal error: 'kunit/device.h' file not found
+   #include <kunit/device.h>
+            ^~~~~~~~~~~~~~~~
+   1 error generated.
 
-Boris
+
+vim +8 drivers/gpu/drm/tests/drm_kunit_helpers.c
+
+     7	
+   > 8	#include <kunit/device.h>
+     9	#include <kunit/resource.h>
+    10	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
