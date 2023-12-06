@@ -2,45 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF0AA806F8C
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 13:19:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F8D8806FAD
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 13:29:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1019D10E70E;
-	Wed,  6 Dec 2023 12:19:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43A8F10E0F0;
+	Wed,  6 Dec 2023 12:29:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C43E210E702;
- Wed,  6 Dec 2023 12:18:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=7ne8so3m9TOwxKywon3pzKUTxG4HCNNyPRuvZVAX6/Y=; b=b43lwpfQsP+0z+cmKPdchGqEGu
- xAWKcFVSKyqd+Hi2/SX58s/aw39x/lI9/1EZJf9v5wC9kzuIvPxHNhc9ql2ZUxtJOWQrX92l9lUzW
- 3q2qhpuv8Bur2saivJI/ancI09in/yTUnOUtuC/Yz1VypFECaHAK/J9KzdkohUbkMYi/HZziqKFSO
- 5erNRDVa7B+FbntO/8K0LyV+hTQ7bAi2f2y3bvnSX6jTapwmdzGtdKI8l+TalPROIsgSUYrlElPcx
- hWsxfrP4iFiwJaWwlrEmnKpTUROxq41slJ09L3cNZc97T5jQ20a24LtJzdcvtR6haNR7gLlV01tQW
- Ucjz19FA==;
-Received: from [102.213.205.115] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1rAqrf-00AwSA-AT; Wed, 06 Dec 2023 13:18:55 +0100
-Date: Wed, 6 Dec 2023 11:18:43 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>
-Subject: Re: [RFC PATCH v3 05/23] drm/vkms: Avoid reading beyond LUT array
-Message-ID: <20231206121843.aafv2h535t37l6kz@mail.igalia.com>
-References: <20231108163647.106853-1-harry.wentland@amd.com>
- <20231108163647.106853-6-harry.wentland@amd.com>
- <51c79cb2-7e64-4336-972c-976c7da74a8b@riseup.net>
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A926710E0F0
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 12:29:03 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id
+ 2adb3069b0e04-50bef9b7a67so4828398e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Dec 2023 04:29:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701865742; x=1702470542; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=XbeCAkVoLRW1/oUOSwS276hLe38ZJEWn0mKn2xkZbLg=;
+ b=ADgRZh8rrC9nzdemi9es2EdMg7g1ILsTuQ9QnX2IhD/aHwBAtgiiXNl4rjRtdxymZ5
+ 0ww0VbglXioGsQZQ8RQtqcD96O3BIKUhnk2OEPgh0QkLiYId+fUyLCemrqIiLyy2XHmH
+ uBbbsKcCs/s6nbJ5XXX+XXPZMUx1ULqVLatRnNMB+BLpjrJe9y3YfYM1l1AG8FWPPPlI
+ AZo0O8YL/FsqnGZwRj+1s+TpGUVj1coNPeB9oFLnNzf8rT877DTc+plKkhzKz91GuOBx
+ Lb2fBVU3fmvLVMeLfcbppfVd5ubmqBJtMr2kZCDKlTdPJ579gdtVyOtefzmHTkz3saPy
+ EBkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701865742; x=1702470542;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XbeCAkVoLRW1/oUOSwS276hLe38ZJEWn0mKn2xkZbLg=;
+ b=koHgqHkp1TF92rU/IlrsB3yU2dnalYr1Y+DogCr4lx7xYiYOY+GOVPMmM+jV4BTbGT
+ 3moj2/AlsaCSRc5JLWhh2HLWvHscoZ0qfHX1di7vRslw1mubE1Bt65hdk4YMXARM9n87
+ oKk3Zcs+vfg0sw3uF8ZEbGP0k3yJphQrz59jGCrdFtD0vf9C+T8vf89b7WS5BWbO1aIp
+ EGxQQjfN96cccaCHOC8ZUBZKZSoIYqGK9iLcxsrBN/JD6KdIsH37lY9eCmmxhNzPd7Yh
+ NUW7kF1PLFCRtFkWl9KRrRJbh0pch3O7Rs+cf/Mlm3uMtpRMeIkSLU7bmvrfZgpFGNm+
+ LD6g==
+X-Gm-Message-State: AOJu0YyFkIOB0xwpP6U7MqbVA3NWcDPJutDe+S4+ULBg6E0ZMHW5BXec
+ WgSURHs7EHYw2QB53O68erOhXgRoOCBLpxVn55GtqQ==
+X-Google-Smtp-Source: AGHT+IHXO4wz3BPJVKoSrUkPWIa3dz1+hdplRoJCBOZolWa+GweffzORSxbnuIQaVl9JSecGILn6jg==
+X-Received: by 2002:a19:e001:0:b0:50b:f817:14f8 with SMTP id
+ x1-20020a19e001000000b0050bf81714f8mr452276lfg.19.1701865741726; 
+ Wed, 06 Dec 2023 04:29:01 -0800 (PST)
+Received: from [172.30.205.186] (UNUSED.212-182-62-129.lubman.net.pl.
+ [212.182.62.129]) by smtp.gmail.com with ESMTPSA id
+ o12-20020a056512050c00b0050be625999esm1317257lfb.110.2023.12.06.04.28.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Dec 2023 04:29:01 -0800 (PST)
+Message-ID: <19ca53ae-b180-4ec6-9294-dd45825af653@linaro.org>
+Date: Wed, 6 Dec 2023 13:28:58 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <51c79cb2-7e64-4336-972c-976c7da74a8b@riseup.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] drm/msm/adreno: Split up giant device table
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20231205220526.417719-1-robdclark@gmail.com>
+ <20231205220526.417719-2-robdclark@gmail.com>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20231205220526.417719-2-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,78 +76,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- dri-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
- =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
+ Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/10, Arthur Grillo wrote:
-> 
-> 
-> On 08/11/23 13:36, Harry Wentland wrote:
-> > When the floor LUT index (drm_fixp2int(lut_index) is the last
-> > index of the array the ceil LUT index will point to an entry
-> > beyond the array. Make sure we guard against it and use the
-> > value of the floor LUT index.
-> > 
-> > v3:
-> >  - Drop bits from commit description that didn't contribute
-> >    anything of value
-> > 
-> > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> > Cc: Arthur Grillo <arthurgrillo@riseup.net>
-> 
-> LGTM
-> Reviewed-by: Arthur Grillo <arthurgrillo@riseup.net>
 
-Nice catch. Thanks!
 
-I'll already apply this one to drm-misc-next too.
-
-CC'ing other VKMS maintainers/reviewers.
-
-Melissa
-
+On 12/5/23 23:03, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
-> Best Regards,
-> ~Arthur Grillo
+> Split into a separate table per generation, in preparation to move each
+> gen's device table to it's own file.
 > 
-> > ---
-> >  drivers/gpu/drm/vkms/vkms_composer.c | 14 ++++++++++----
-> >  1 file changed, 10 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> > index 6f942896036e..25b6b73bece8 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> > @@ -123,6 +123,8 @@ static u16 apply_lut_to_channel_value(const struct vkms_color_lut *lut, u16 chan
-> >  				      enum lut_channel channel)
-> >  {
-> >  	s64 lut_index = get_lut_index(lut, channel_value);
-> > +	u16 *floor_lut_value, *ceil_lut_value;
-> > +	u16 floor_channel_value, ceil_channel_value;
-> >  
-> >  	/*
-> >  	 * This checks if `struct drm_color_lut` has any gap added by the compiler
-> > @@ -130,11 +132,15 @@ static u16 apply_lut_to_channel_value(const struct vkms_color_lut *lut, u16 chan
-> >  	 */
-> >  	static_assert(sizeof(struct drm_color_lut) == sizeof(__u16) * 4);
-> >  
-> > -	u16 *floor_lut_value = (__u16 *)&lut->base[drm_fixp2int(lut_index)];
-> > -	u16 *ceil_lut_value = (__u16 *)&lut->base[drm_fixp2int_ceil(lut_index)];
-> > +	floor_lut_value = (__u16 *)&lut->base[drm_fixp2int(lut_index)];
-> > +	if (drm_fixp2int(lut_index) == (lut->lut_length - 1))
-> > +		/* We're at the end of the LUT array, use same value for ceil and floor */
-> > +		ceil_lut_value = floor_lut_value;
-> > +	else
-> > +		ceil_lut_value = (__u16 *)&lut->base[drm_fixp2int_ceil(lut_index)];
-> >  
-> > -	u16 floor_channel_value = floor_lut_value[channel];
-> > -	u16 ceil_channel_value = ceil_lut_value[channel];
-> > +	floor_channel_value = floor_lut_value[channel];
-> > +	ceil_channel_value = ceil_lut_value[channel];
-> >  
-> >  	return lerp_u16(floor_channel_value, ceil_channel_value,
-> >  			lut_index & DRM_FIXED_DECIMAL_MASK);
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>   drivers/gpu/drm/msm/adreno/adreno_device.c | 59 +++++++++++++++++++---
+>   1 file changed, 51 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> index 41b13dec9bef..36392801f929 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> @@ -20,7 +20,7 @@ bool allow_vram_carveout = false;
+>   MODULE_PARM_DESC(allow_vram_carveout, "Allow using VRAM Carveout, in place of IOMMU");
+>   module_param_named(allow_vram_carveout, allow_vram_carveout, bool, 0600);
+>   
+> -static const struct adreno_info gpulist[] = {
+> +static const struct adreno_info a2xx_gpus[] = {
+>   	{
+>   		.chip_ids = ADRENO_CHIP_IDS(0x02000000),
+>   		.family = ADRENO_2XX_GEN1,
+> @@ -55,6 +55,12 @@ static const struct adreno_info gpulist[] = {
+>   		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+>   		.init  = a2xx_gpu_init,
+>   	}, {
+> +		/* sentinal */
+sentinel?
+
+> +	}
+> +};
+> +
+> +static const struct adreno_info a3xx_gpus[] = {
+> +	{
+>   		.chip_ids = ADRENO_CHIP_IDS(
+>   			0x03000512,
+>   			0x03000520
+> @@ -110,6 +116,12 @@ static const struct adreno_info gpulist[] = {
+>   		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+>   		.init  = a3xx_gpu_init,
+>   	}, {
+> +		/* sentinal */
+> +	}
+> +};
+> +
+> +static const struct adreno_info a4xx_gpus[] = {
+> +	{
+>   		.chip_ids = ADRENO_CHIP_IDS(0x04000500),
+>   		.family = ADRENO_4XX,
+>   		.revn  = 405,
+> @@ -143,6 +155,12 @@ static const struct adreno_info gpulist[] = {
+>   		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+>   		.init  = a4xx_gpu_init,
+>   	}, {
+> +		/* sentinal */
+> +	}
+> +};
+> +
+> +static const struct adreno_info a5xx_gpus[] = {
+> +	{
+>   		.chip_ids = ADRENO_CHIP_IDS(0x05000600),
+>   		.family = ADRENO_5XX,
+>   		.revn = 506,
+> @@ -268,6 +286,12 @@ static const struct adreno_info gpulist[] = {
+>   		.init = a5xx_gpu_init,
+>   		.zapfw = "a540_zap.mdt",
+>   	}, {
+> +		/* sentinal */
+> +	}
+> +};
+> +
+> +static const struct adreno_info a6xx_gpus[] = {
+> +	{
+>   		.chip_ids = ADRENO_CHIP_IDS(0x06010000),
+>   		.family = ADRENO_6XX_GEN1,
+>   		.revn = 610,
+> @@ -493,6 +517,12 @@ static const struct adreno_info gpulist[] = {
+>   		.hwcg = a690_hwcg,
+>   		.address_space_size = SZ_16G,
+>   	}, {
+> +		/* sentinal */
+> +	}
+> +};
+> +
+> +static const struct adreno_info a7xx_gpus[] = {
+> +	{
+>   		.chip_ids = ADRENO_CHIP_IDS(0x07030001),
+>   		.family = ADRENO_7XX_GEN1,
+>   		.fw = {
+> @@ -522,7 +552,18 @@ static const struct adreno_info gpulist[] = {
+>   		.zapfw = "a740_zap.mdt",
+>   		.hwcg = a740_hwcg,
+>   		.address_space_size = SZ_16G,
+> -	},
+> +	}, {
+> +		/* sentinal */
+> +	}
+> +};
+> +
+> +static const struct adreno_info *gpulist[] = {
+> +	a2xx_gpus,
+> +	a3xx_gpus,
+> +	a4xx_gpus,
+> +	a5xx_gpus,
+> +	a6xx_gpus,
+> +	a7xx_gpus,
+>   };
+>   
+>   MODULE_FIRMWARE("qcom/a300_pm4.fw");
+> @@ -557,12 +598,14 @@ static const struct adreno_info *adreno_info(uint32_t chip_id)
+>   {
+>   	/* identify gpu: */
+>   	for (int i = 0; i < ARRAY_SIZE(gpulist); i++) {
+> -		const struct adreno_info *info = &gpulist[i];
+> -		if (info->machine && !of_machine_is_compatible(info->machine))
+> -			continue;
+> -		for (int j = 0; info->chip_ids[j]; j++)
+I'm not sure using sentinels here is a good idea, it adds a
+whole lot of stack size. Perhaps gpulist could be a struct
+of array pointers and an array of sizes?
+
+Konrad
