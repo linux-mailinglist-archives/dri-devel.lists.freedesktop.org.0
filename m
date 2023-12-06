@@ -1,44 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F032807272
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 15:31:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B069980727D
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 15:33:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEBB410E11A;
-	Wed,  6 Dec 2023 14:31:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E40C510E724;
+	Wed,  6 Dec 2023 14:33:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9E7910E11A
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 14:31:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 3EE28B81DD4;
- Wed,  6 Dec 2023 14:31:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D9BCC433C7;
- Wed,  6 Dec 2023 14:31:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701873102;
- bh=jxQtCX9Tnj5Rn5bgII5oPUR6Vl+e2nBLKxf7aaoQeMw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KzMUmksiJQNyvHH9O1O5A2uWk+4owp54WXqV28gCUOj5HpzeCiAd56Bi+vY14f1EM
- eUhWfanjkDqFYfr9AtbhtYkVN1lLeiUJMT0nUErzs0Wn5xl6OXxh/R1YFjeoJGi1k3
- Z/11WR2zHc6B9HRuYpMJ/7eH9c5ac9pSmXpI1NJ0l3Z8TDUsD75f+NXh2Kzg0kiN8V
- Z2d55NLUJvmDjhNuOU244HEqu4TPdrxDcQUlVXGkXzT0W6/iGWI5qTQQcwvQtrvby7
- 2uPwlDrElvAc1CfgBiXMUxr4yM+HdejfAsHKcv6XH2fKUqbDvl53akwJh0Jyx6YxA+
- pgxf/NKhirbUg==
-Date: Wed, 6 Dec 2023 15:31:39 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v2 0/4] drm: Fix errors about uninitialized/wrong variables
-Message-ID: <be65q5mrkoq55lnusz6xm2s6vl5h7gt3333j7lrazutrngbyom@m3atoa24sxzg>
-References: <20231103-uninit-fixes-v2-0-c22b2444f5f5@ideasonboard.com>
- <0d458603-fc4a-44cc-bf90-eccee875d014@ideasonboard.com>
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com
+ [209.85.167.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AA8210E724
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 14:33:48 +0000 (UTC)
+Received: by mail-oi1-f178.google.com with SMTP id
+ 5614622812f47-3b9b6ba42a4so457443b6e.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Dec 2023 06:33:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701873228; x=1702478028;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tDDAuWhtXVi6mwzIZ2z8R0mIJpjQ7oFVtssyW42Nqpg=;
+ b=XOuG7EvHngAe5wCHmW/Q5mek/oTTYpPyYUhFXyGUmZZpvKDMep1TnJyfT0iiYTyzBB
+ br+yVIYeJT84OqpSLUPPFIDsHfyWxmEDcT50mvEyrBGcG7hKVFohiiDIVgBeb+DaDu6J
+ no4rItsN6NSu/iW4EyaJSpnGiYeug5fS/gQ32q1p775zCaU65zUdLk7gkWsSeJD+GT+W
+ o1JP7ahNhXoKAu1WOA/dO9KCecRoDJs083iQ2fxTww9boYSs9CkNs17CPwWQPfL5tg+B
+ Lyo56cCJ3nnf/NZ1+c2fo+9ZFsrkensnwEHAjj+Ij8sTbGvZJt7QiyWCthAdMmPYl3Bd
+ zl4g==
+X-Gm-Message-State: AOJu0YxO/+mIMZljUGEYz8h9s7giZqi0mcmQQqUxkuMUQexE9THN3dnC
+ UQ7HHYOp7hLkAVVYErHT4g==
+X-Google-Smtp-Source: AGHT+IHSFVmUd8gQfUe3FDNE1USXgg+9lsK6DN+nNv+ID/1SC1HIP7fcqvVag9LfmmGU0nP5b6pCFA==
+X-Received: by 2002:a05:6808:8c1:b0:3b8:33fc:7ca9 with SMTP id
+ k1-20020a05680808c100b003b833fc7ca9mr1431384oij.18.1701873227680; 
+ Wed, 06 Dec 2023 06:33:47 -0800 (PST)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ o6-20020a4a3846000000b0059034d09dd2sm8796oof.12.2023.12.06.06.33.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Dec 2023 06:33:47 -0800 (PST)
+Received: (nullmailer pid 2107555 invoked by uid 1000);
+ Wed, 06 Dec 2023 14:33:45 -0000
+Date: Wed, 6 Dec 2023 08:33:45 -0600
+From: Rob Herring <robh@kernel.org>
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Subject: Re: [PATCH v4 07/10] dt-bindings: display: panel: Add Ilitek ili9805
+ panel controller
+Message-ID: <20231206143345.GA2093703-robh@kernel.org>
+References: <20231205105341.4100896-1-dario.binacchi@amarulasolutions.com>
+ <20231205105341.4100896-8-dario.binacchi@amarulasolutions.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="t2peozghuvu7sqte"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0d458603-fc4a-44cc-bf90-eccee875d014@ideasonboard.com>
+In-Reply-To: <20231205105341.4100896-8-dario.binacchi@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,72 +66,24 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Robert Foss <rfoss@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- Parshuram Thombare <pthombar@cadence.com>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Francesco Dolcini <francesco.dolcini@toradex.com>
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, devicetree@vger.kernel.org,
+ Amarula patchwork <linux-amarula@amarulasolutions.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, michael@amarulasolutions.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Dec 05, 2023 at 11:52:54AM +0100, Dario Binacchi wrote:
+> From: Michael Trimarchi <michael@amarulasolutions.com>
+> 
+> Add documentation for "ilitek,ili9805" panel.
+> 
+> Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 
---t2peozghuvu7sqte
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Where's Krzysztof's Reviewed-by?
 
-On Wed, Dec 06, 2023 at 02:50:57PM +0200, Tomi Valkeinen wrote:
-> Hi all,
->=20
-> On 03/11/2023 15:14, Tomi Valkeinen wrote:
-> > Fix cases where smatch reports a use of an uninitialized variable, and
-> > one where the variable is initialized but contains wrong value.
-> >=20
-> >   Tomi
-> >=20
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > ---
-> > Changes in v2:
-> > - Added two more fixes
-> > - Link to v1: https://lore.kernel.org/r/20230804-uninit-fixes-v1-0-a607=
-72c04db5@ideasonboard.com
-> >=20
-> > ---
-> > Tomi Valkeinen (4):
-> >        drm/drm_file: fix use of uninitialized variable
-> >        drm/framebuffer: Fix use of uninitialized variable
-> >        drm/bridge: cdns-mhdp8546: Fix use of uninitialized variable
-> >        drm/bridge: tc358767: Fix return value on error case
-> >=20
-> >   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c | 3 ++-
-> >   drivers/gpu/drm/bridge/tc358767.c                   | 2 +-
-> >   drivers/gpu/drm/drm_file.c                          | 2 +-
-> >   drivers/gpu/drm/drm_framebuffer.c                   | 2 +-
-> >   4 files changed, 5 insertions(+), 4 deletions(-)
-> > ---
-> > base-commit: 9d7c8c066916f231ca0ed4e4fce6c4b58ca3e451
-> > change-id: 20230804-uninit-fixes-188f92d60ac3
-> >=20
-> > Best regards,
->=20
-> Ping on this (or I'll forget the series...).
-
-Acked-by: Maxime Ripard <mripard@kernel.org>
-
-Maxime
-
---t2peozghuvu7sqte
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXCFywAKCRDj7w1vZxhR
-xWkGAP9+CxSw6oCLELzhvUt4toOjxTWe1Z4y84jRB9x56ljN4gD/X8l9hCmN36Yb
-nqU83CX7rysJsuBCQHLyz/n0gh1zEAI=
-=C+yp
------END PGP SIGNATURE-----
-
---t2peozghuvu7sqte--
+Rob
