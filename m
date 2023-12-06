@@ -1,61 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1ED2807032
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 13:49:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB208807035
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 13:50:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A28210E719;
-	Wed,  6 Dec 2023 12:49:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36CD810E71A;
+	Wed,  6 Dec 2023 12:50:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
- [IPv6:2607:f8b0:4864:20::112e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAE0710E724
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 12:49:48 +0000 (UTC)
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-5cd81e76164so75983997b3.1
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Dec 2023 04:49:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701866988; x=1702471788; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=jrpEd8RJRtQUwtVg9+y681GZcu+Yhv9ko2OvFWCbawE=;
- b=vH0KVj1WOenV+g/KPUvGNFig5Q4kdABXxkB9SVJ7LMfh4tzwMG/gUybZKnSxioFbpd
- wRqKYWapnpHDtzRW4R0C8enVYPO/rI/c82BJfbsFrOWqJ34Fcf4DU+UaGVuB81wxoWAp
- dP+JgeJLkA4PA8Yi+ljOBSC0uBwAU+KCnS0gbqIf8N8kQwWg7byfl5Mgh893eHeZNA3q
- e+y1GK2Z/1sGZoZkl64DW5SXW0T9aMde7bEGYX0j5FnbJZuyAt7M/eqRycI1ohkbDxnj
- Ds+TPLA3tG0LWcVgrDGt1DOllQYe5URc6vT3Pa51uJpp6Pau1ND5DQwWdyvgFX9UDgpy
- lhXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701866988; x=1702471788;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jrpEd8RJRtQUwtVg9+y681GZcu+Yhv9ko2OvFWCbawE=;
- b=OJI1CLTsYfPJvteX6eZleZ+2ZTCVPlt1/51GmdxyKzKoSWUFdWJ7K9AtchKbnBgU7D
- 1HVsH0BPst661rIJQitIVgzLAcmONgldDUPGlYCKIZWDXryFjMdeqY49mRsb8hTKXbyy
- 6D/5Sa0RJEXqWYoA19FfBbW3bHXEykjLyza4GfchWqCF7vybdYX1bufPPpfuQ4VZvK3s
- SEU2rnguWDmpGdIIAzrXQrH2MTfQWi8H4fB7oXzM/ogva50UCmOzMi2PFJeIUfeigUrg
- t400vH0XR5HgjStIxzpp9OWdH0OUvyxfdqO2FGMUyHkcv8v3706n73BIYW5f/Oa/po3T
- gGYA==
-X-Gm-Message-State: AOJu0Yx1x1N7Umi8ncxN6mxBZkKt9s5mvZZpmlsuDPCpXhnLUJgh8yAM
- 7YwV6F72Taj6oPS7FtedNihtoevikjuAfX8/hoQWvQ==
-X-Google-Smtp-Source: AGHT+IHeqJ1eTYAQg7X0GkSNud8ldZu9UODzg7lAQ9auwRFlAMgP9S/UuJtWfqYW2ZPM/Qhaz91I9uCvRVyAd2//C24=
-X-Received: by 2002:a25:d80a:0:b0:db5:4857:5fdf with SMTP id
- p10-20020a25d80a000000b00db548575fdfmr582661ybg.37.1701866987913; Wed, 06 Dec
- 2023 04:49:47 -0800 (PST)
+Received: from out-176.mta0.migadu.com (out-176.mta0.migadu.com
+ [91.218.175.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8D3E10E71A
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 12:50:40 +0000 (UTC)
+Message-ID: <46ad8c2b-5be2-4cfd-b771-a8d95a5b5d8f@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1701867038;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XRS4/UnuIWnZockarEAvkGkUjCCyPjOVl0T9XNNaWNc=;
+ b=u7F4JYzLxlvxxRManbPQXPqB+5u+xuX0STtkUCBUN3CuyW9lX24PhJImRS2SRd8mDiQNV6
+ S7wWqMi6CZJXGraONux1bZiDr5wd8d09tGpNkYqDOxd94faY3dXzbo6Bl+AClkcREdEt4I
+ 12B0tXZkUokVzZ8bRIX0pH81zjm5dtc=
+Date: Wed, 6 Dec 2023 20:50:29 +0800
 MIME-Version: 1.0
-References: <20231205220526.417719-1-robdclark@gmail.com>
- <20231205220526.417719-2-robdclark@gmail.com>
- <19ca53ae-b180-4ec6-9294-dd45825af653@linaro.org>
-In-Reply-To: <19ca53ae-b180-4ec6-9294-dd45825af653@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 6 Dec 2023 14:49:36 +0200
-Message-ID: <CAA8EJprhH_HgftREL4UQuKEDiNsTOUrCh74v8OLwm6bm75SqyA@mail.gmail.com>
-Subject: Re: [PATCH 1/5] drm/msm/adreno: Split up giant device table
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [v3 1/6] dt-bindings: display: Add yamls for JH7110 display system
+To: Keith Zhao <keith.zhao@starfivetech.com>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org
+References: <20231204123315.28456-1-keith.zhao@starfivetech.com>
+ <20231204123315.28456-2-keith.zhao@starfivetech.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20231204123315.28456-2-keith.zhao@starfivetech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,145 +52,484 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, Johan Hovold <johan+linaro@kernel.org>
+Cc: aou@eecs.berkeley.edu, krzysztof.kozlowski+dt@linaro.org,
+ william.qiu@starfivetech.com, mripard@kernel.org, xingyu.wu@starfivetech.com,
+ jack.zhu@starfivetech.com, palmer@dabbelt.com, tzimmermann@suse.de,
+ paul.walmsley@sifive.com, shengyang.chen@starfivetech.com,
+ changhuang.liang@starfivetech.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 6 Dec 2023 at 14:29, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->
->
->
-> On 12/5/23 23:03, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Split into a separate table per generation, in preparation to move each
-> > gen's device table to it's own file.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> >   drivers/gpu/drm/msm/adreno/adreno_device.c | 59 +++++++++++++++++++---
-> >   1 file changed, 51 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > index 41b13dec9bef..36392801f929 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > @@ -20,7 +20,7 @@ bool allow_vram_carveout = false;
-> >   MODULE_PARM_DESC(allow_vram_carveout, "Allow using VRAM Carveout, in place of IOMMU");
-> >   module_param_named(allow_vram_carveout, allow_vram_carveout, bool, 0600);
-> >
-> > -static const struct adreno_info gpulist[] = {
-> > +static const struct adreno_info a2xx_gpus[] = {
-> >       {
-> >               .chip_ids = ADRENO_CHIP_IDS(0x02000000),
-> >               .family = ADRENO_2XX_GEN1,
-> > @@ -55,6 +55,12 @@ static const struct adreno_info gpulist[] = {
-> >               .inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> >               .init  = a2xx_gpu_init,
-> >       }, {
-> > +             /* sentinal */
-> sentinel?
->
-> > +     }
-> > +};
-> > +
-> > +static const struct adreno_info a3xx_gpus[] = {
-> > +     {
-> >               .chip_ids = ADRENO_CHIP_IDS(
-> >                       0x03000512,
-> >                       0x03000520
-> > @@ -110,6 +116,12 @@ static const struct adreno_info gpulist[] = {
-> >               .inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> >               .init  = a3xx_gpu_init,
-> >       }, {
-> > +             /* sentinal */
-> > +     }
-> > +};
-> > +
-> > +static const struct adreno_info a4xx_gpus[] = {
-> > +     {
-> >               .chip_ids = ADRENO_CHIP_IDS(0x04000500),
-> >               .family = ADRENO_4XX,
-> >               .revn  = 405,
-> > @@ -143,6 +155,12 @@ static const struct adreno_info gpulist[] = {
-> >               .inactive_period = DRM_MSM_INACTIVE_PERIOD,
-> >               .init  = a4xx_gpu_init,
-> >       }, {
-> > +             /* sentinal */
-> > +     }
-> > +};
-> > +
-> > +static const struct adreno_info a5xx_gpus[] = {
-> > +     {
-> >               .chip_ids = ADRENO_CHIP_IDS(0x05000600),
-> >               .family = ADRENO_5XX,
-> >               .revn = 506,
-> > @@ -268,6 +286,12 @@ static const struct adreno_info gpulist[] = {
-> >               .init = a5xx_gpu_init,
-> >               .zapfw = "a540_zap.mdt",
-> >       }, {
-> > +             /* sentinal */
-> > +     }
-> > +};
-> > +
-> > +static const struct adreno_info a6xx_gpus[] = {
-> > +     {
-> >               .chip_ids = ADRENO_CHIP_IDS(0x06010000),
-> >               .family = ADRENO_6XX_GEN1,
-> >               .revn = 610,
-> > @@ -493,6 +517,12 @@ static const struct adreno_info gpulist[] = {
-> >               .hwcg = a690_hwcg,
-> >               .address_space_size = SZ_16G,
-> >       }, {
-> > +             /* sentinal */
-> > +     }
-> > +};
-> > +
-> > +static const struct adreno_info a7xx_gpus[] = {
-> > +     {
-> >               .chip_ids = ADRENO_CHIP_IDS(0x07030001),
-> >               .family = ADRENO_7XX_GEN1,
-> >               .fw = {
-> > @@ -522,7 +552,18 @@ static const struct adreno_info gpulist[] = {
-> >               .zapfw = "a740_zap.mdt",
-> >               .hwcg = a740_hwcg,
-> >               .address_space_size = SZ_16G,
-> > -     },
-> > +     }, {
-> > +             /* sentinal */
-> > +     }
-> > +};
-> > +
-> > +static const struct adreno_info *gpulist[] = {
-> > +     a2xx_gpus,
-> > +     a3xx_gpus,
-> > +     a4xx_gpus,
-> > +     a5xx_gpus,
-> > +     a6xx_gpus,
-> > +     a7xx_gpus,
-> >   };
-> >
-> >   MODULE_FIRMWARE("qcom/a300_pm4.fw");
-> > @@ -557,12 +598,14 @@ static const struct adreno_info *adreno_info(uint32_t chip_id)
-> >   {
-> >       /* identify gpu: */
-> >       for (int i = 0; i < ARRAY_SIZE(gpulist); i++) {
-> > -             const struct adreno_info *info = &gpulist[i];
-> > -             if (info->machine && !of_machine_is_compatible(info->machine))
-> > -                     continue;
-> > -             for (int j = 0; info->chip_ids[j]; j++)
-> I'm not sure using sentinels here is a good idea, it adds a
-> whole lot of stack size. Perhaps gpulist could be a struct
-> of array pointers and an array of sizes?
+Hi,
 
-My 2c would be to reimplement it as a of_device_id.data and thus the
-device_match_data.
 
--- 
-With best wishes
-Dmitry
+On 2023/12/4 20:33, Keith Zhao wrote:
+> StarFive SoCs JH7110 display system:
+> dc controller, hdmi controller,
+> encoder, vout syscon.
+>
+> add the path of yaml file in MAINTAINERS
+>
+> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
+> ---
+>   .../starfive/starfive,display-subsystem.yaml  | 104 ++++++++++++++++
+>   .../starfive/starfive,dsi-encoder.yaml        |  92 ++++++++++++++
+>   .../starfive/starfive,jh7110-dc8200.yaml      | 113 ++++++++++++++++++
+>   .../starfive/starfive,jh7110-inno-hdmi.yaml   |  82 +++++++++++++
+>   .../soc/starfive/starfive,jh7110-syscon.yaml  |   1 +
+>   MAINTAINERS                                   |   7 ++
+>   6 files changed, 399 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.yaml
+>   create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,dsi-encoder.yaml
+>   create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml
+>   create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.yaml b/Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.yaml
+> new file mode 100644
+> index 000000000000..d5ebdba3fb36
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.yaml
+> @@ -0,0 +1,104 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/starfive/starfive,display-subsystem.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Starfive JH7110 Soc Display SubSystem
+> +
+> +maintainers:
+> +  - Keith Zhao <keith.zhao@starfivetech.com>
+> +  - ShengYang Chen <shengyang.chen@starfivetech.com>
+> +
+> +description:
+> +  This is the bindings documentation for the JH7110 Soc Display Subsystem that
+> +  includes front-end video data capture, display controller and display
+> +  interface. such as HDMI and MIPI.
+> +
+> +  JH7110 display pipeline have several components as below description,
+> +  multi display controllers and corresponding physical interfaces.
+> +  For different display scenarios, pipe0 and pipe1 maybe binding to different
+> +  encoder. for example,
+> +
+> +  pipe0 binding to HDMI for primary display,
+> +  pipe1 binding to DSI for external display.
+> +
+> +          +------------------------------+
+> +          |                              |
+> +          |                              |
+> +  +----+  |   +-------------------+      |   +-------+   +------+   +------+
+> +  |    +----->+  dc controller 0  +--->----->+HDMICtl| ->+ PHY  +-->+PANEL0+
+> +  |AXI |  |   +-------------------+      |   +-------+   +------+   +------+
+> +  |    |  |                              |
+> +  |    |  |                              |
+> +  |    |  |                              |
+> +  |    |  |                              |
+> +  |APB |  |   +-------------------+         +---------+    +------+  +-------+
+> +  |    +----->+  dc controller 1  +--->---->+ dsiTx   +--->+DPHY  +->+ PANEL1+
+> +  |    |  |   +-------------------+         +---------+    +------+  +-------+
+> +  +----+  |                              |
+> +          +------------------------------+
+> +
+> +
+> +properties:
+> +  compatible:
+> +    const: starfive,display-subsystem
+> +
+> +  clocks:
+> +    items:
+> +      - description: Clock for display system noc bus.
+> +      - description: Core clock for display controller.
+> +      - description: Clock for axi bus to access ddr.
+> +      - description: Clock for ahb bus to R/W the phy regs.
+> +
+> +  clock-names:
+> +    items:
+> +      - const: noc_bus
+> +      - const: dc_core
+> +      - const: axi_core
+> +      - const: ahb
+> +
+> +  resets:
+> +    items:
+> +      - description: Reset for axi bus.
+> +      - description: Reset for ahb bus.
+> +      - description: Core reset of display controller.
+> +
+> +  reset-names:
+> +    items:
+> +      - const: axi
+> +      - const: ahb
+> +      - const: core
+> +
+> +  ports:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    items:
+> +      maxItems: 1
+> +    description:
+> +      Should contain a list of phandles pointing to display interface port
+> +      of dc-controller devices.
+> +
+> +required:
+> +  - compatible
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +  - reset-names
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    display-subsystem {
+> +        compatible = "starfive,display-subsystem";
+> +        ports = <&dc_out>;
+> +
+> +        clocks = <&syscrg 60>,
+> +               <&voutcrg 4>,
+> +               <&voutcrg 5>,
+> +               <&voutcrg 6>;
+> +        clock-names = "noc_bus", "dc_core", "axi_core", "ahb";
+> +        resets = <&voutcrg 0>, <&voutcrg 1>, <&voutcrg 2>;
+> +        reset-names = "axi", "ahb", "core";
+> +    };
+> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,dsi-encoder.yaml b/Documentation/devicetree/bindings/display/starfive/starfive,dsi-encoder.yaml
+> new file mode 100644
+> index 000000000000..2cc0ad8e65ba
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,dsi-encoder.yaml
+> @@ -0,0 +1,92 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/starfive/starfive,dsi-encoder.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: starfive jh7110 soc Encoder
+> +
+> +maintainers:
+> +  - Keith Zhao <keith.zhao@starfivetech.com>
+> +
+> +description:
+> +  Device-Tree bindings for simple encoder.
+> +  Simple encoder driver only has basic functionality.
+> +  the hardware of dc8200 has 2 output interface, use
+> +  syscon to select which one to be used.
+> +
+> +properties:
+> +  compatible:
+> +    const: starfive,dsi-encoder
+> +
+> +  starfive,syscon:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    items:
+> +      - items:
+> +          - description: phandle to syscon that select crtc output.
+> +          - description: Offset of crtc selection
+> +          - description: Shift of crtc selection
+> +    description:
+> +      A phandle to syscon with two arguments that configure select output.
+> +      The argument one is the offset of crtc selection, the
+> +      argument two is the shift of crtc selection.
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          The first port should be the input coming from the associated dc channel.
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          The second port should be the output coming from the associated bridge.
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +        dssctrl: dssctrl@295b0000 {
+> +            compatible = "starfive,jh7110-vout-syscon", "syscon";
+> +            reg = <0x295b0000 0x90>;
+> +        };
+> +
+> +        dsi_encoder: dsi_encoder {
+> +            compatible = "starfive,dsi-encoder";
+> +            starfive,syscon = <&dssctrl 0x8 0x12>;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +                /* input */
+> +                port@0 {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +                    reg = <0>;
+> +                    dsi_input0:endpoint@0 {
+> +                        reg = <0>;
+> +                        remote-endpoint = <&dc_out_dpi1>;
+> +                    };
+> +                };
+> +                /* output */
+> +                port@1 {
+> +                    reg = <1>;
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +                    dsi_out:endpoint {
+> +                        remote-endpoint = <&mipi_in>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml
+> new file mode 100644
+> index 000000000000..0b083effec02
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml
+> @@ -0,0 +1,113 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/starfive/starfive,jh7110-dc8200.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: StarFive display controller
+> +
+> +description:
+> +  The StarFive SoC uses the display controller based on Verisilicon IP
+> +  to transfer the image data from a video memory buffer to an external
+> +  LCD interface.
+> +
+> +maintainers:
+> +  - Keith Zhao <keith.zhao@starfivetech.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: starfive,jh7110-dc8200
+> +
+> +  reg:
+> +    minItems: 1
+> +    items:
+> +      - description:
+> +          host interface
+> +      - description:
+> +          display physical base address and length.
+> +
+> +  interrupts:
+> +    items:
+> +      - description: The interrupt will be generated when DC finish one frame
+> +
+> +  clocks:
+> +    items:
+> +      - description: Pixel clock for display channel 0.
+> +      - description: Pixel clock for display channel 1.
+> +      - description: Pixel clock from hdmi.
+> +      - description: Pixel clock for soc .
+> +  clock-names:
+> +    items:
+> +      - const: channel0
+> +      - const: channel1
+> +      - const: hdmi_tx
+> +      - const: dc_parent
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          channel 0 output
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          channel 1 output
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    dc8200: lcd-controller@29400000 {
+> +        compatible = "starfive,jh7110-dc8200";
+> +        reg = <0x29400000 0x100>, <0x29400800 0x2000>;
+> +        interrupts = <95>;
+> +        clocks = <&voutcrg 7>,
+> +               <&voutcrg 8>,
+> +               <&voutcrg 9>,
+> +               <&voutcrg 10>;
+> +        clock-names = "channel0", "channel1","hdmi_tx", "dc_parent";
+> +
+> +        crtc_out: ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            dc_out0: port@0 {
+> +                reg = <0>;
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                dc_out_dpi0: endpoint@0 {
+> +                    reg = <0>;
+> +                    remote-endpoint = <&hdmi_in_dc>;
+> +                };
+> +
+> +            };
+> +
+> +            dc_out1: port@1 {
+> +                reg = <1>;
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                dc_out_dpi1: endpoint@1 {
+> +                    reg = <1>;
+> +                    remote-endpoint = <&dsi_input0>;
+> +                };
+> +
+> +            };
+> +          };
+> +    };
+> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml
+> new file mode 100644
+> index 000000000000..3640d97ab789
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml
+> @@ -0,0 +1,82 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/starfive/starfive,jh7110-inno-hdmi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Starfive JH7110 HDMI controller
+> +
+> +description:
+> +  The StarFive JH7110 SoC uses the HDMI signal transmiter based on innosilicon IP
+
+'transmiter' -> 'transmitter'
+
+
+> +  to generate HDMI signal from its input and transmit the signal to the screen.
+> +
+> +maintainers:
+> +  - Keith Zhao <keith.zhao@starfivetech.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: "starfive,jh7110-inno-hdmi"
+> +
+> +  reg:
+> +    minItems: 1
+> +
+> +  interrupts:
+> +    items:
+> +      - description: The HDMI hot plug detection interrupt.
+> +
+> +  clocks:
+> +    items:
+> +      - description: System clock of HDMI module.
+> +      - description: Mclk clock of HDMI audio.
+> +      - description: Bclk clock of HDMI audio.
+> +
+> +  clock-names:
+> +    items:
+> +      - const: sysclk
+> +      - const: mclk
+> +      - const: bclk
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  '#sound-dai-cells':
+> +    const: 0
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
+> +    description:
+> +      Should contain a remote endpoint phandle of display controller device.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +  - '#sound-dai-cells'
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    hdmi: hdmi@29590000 {
+> +        compatible = "starfive,jh7110-inno-hdmi";
+> +        reg = <0x29590000 0x4000>;
+> +        interrupts = <99>;
+> +        clocks = <&voutcrg 17>,
+> +               <&voutcrg 15>,
+> +               <&voutcrg 16>;
+> +        clock-names = "sysclk", "mclk","bclk";
+> +        resets = <&voutcrg 9>;
+> +        #sound-dai-cells = <0>;
+> +        hdmi_in: port {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            hdmi_in_dc: endpoint@0 {
+> +                reg = <0>;
+> +                remote-endpoint = <&dc_out_hdmi>;
+> +            };
+> +        };
+> +    };
+> diff --git a/Documentation/devicetree/bindings/soc/starfive/starfive,jh7110-syscon.yaml b/Documentation/devicetree/bindings/soc/starfive/starfive,jh7110-syscon.yaml
+> index 0039319e91fe..cf9b657d0e8a 100644
+> --- a/Documentation/devicetree/bindings/soc/starfive/starfive,jh7110-syscon.yaml
+> +++ b/Documentation/devicetree/bindings/soc/starfive/starfive,jh7110-syscon.yaml
+> @@ -24,6 +24,7 @@ properties:
+>             - enum:
+>                 - starfive,jh7110-aon-syscon
+>                 - starfive,jh7110-stg-syscon
+> +              - starfive,jh7110-vout-syscon
+>             - const: syscon
+>   
+>     reg:
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7b151710e8c5..7caaadb83f3f 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6881,6 +6881,13 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+>   F:	Documentation/devicetree/bindings/display/ste,mcde.yaml
+>   F:	drivers/gpu/drm/mcde/
+>   
+> +DRM DRIVERS FOR STARFIVE
+> +M:	Keith Zhao <keith.zhao@starfivetech.com>
+> +L:	dri-devel@lists.freedesktop.org
+> +S:	Maintained
+> +T:	git git://anongit.freedesktop.org/drm/drm-misc
+> +F:	Documentation/devicetree/bindings/display/starfive/
+> +
+>   DRM DRIVER FOR TI DLPC3433 MIPI DSI TO DMD BRIDGE
+>   M:	Jagan Teki <jagan@amarulasolutions.com>
+>   S:	Maintained
