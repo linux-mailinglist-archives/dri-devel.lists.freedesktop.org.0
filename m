@@ -1,41 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA0EB806B1E
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 10:56:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC32D806BA9
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 11:15:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E96A210E0C4;
-	Wed,  6 Dec 2023 09:56:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10FBD10E682;
+	Wed,  6 Dec 2023 10:15:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF9310E09B;
- Wed,  6 Dec 2023 09:56:46 +0000 (UTC)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1rAoe1-0001Jn-NU; Wed, 06 Dec 2023 10:56:41 +0100
-Message-ID: <fb0fda6a-3750-4e1b-893f-97a3e402b9af@leemhuis.info>
-Date: Wed, 6 Dec 2023 10:56:40 +0100
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F1AC10E0B6
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 10:14:58 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id
+ 38308e7fff4ca-2ca04b1cc37so7547911fa.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Dec 2023 02:14:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701857696; x=1702462496; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=F0q7XUDhzaMOZKwK/U9NUPrOCd+WjD1tbsbFwSHG0q8=;
+ b=uSNMwVFdcStioeCr0T0OwzaKqCc37imzZClYOWofpKm1zkWUiAY0qtGv1tZn8kA69s
+ FcGKvGa/2Rhn14kmjIKzHksfQiEBitNTUlar5iO6r5u+wEgSqbhF5AiAf4XA3JTLUxkg
+ UZWatyt5uDde6pw61EY0I0x/nU3gQHDVKsRGRY9rQ6h9Tp2fN19TfjXXN/wM2DeWCt2p
+ q2xEkcP5UpvhdUqj9GZ5NFUSKm6R9vGxf6NHRpwAvOn9RgHBag4AD4/1STmxXIioDH3E
+ WpYkh4HSRjCDwb2eQ2dqK73wbwDnd5JdkoZErBTUXMKFfEsEfCIOmBEX0PwViJeQFZw+
+ 7LlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701857696; x=1702462496;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=F0q7XUDhzaMOZKwK/U9NUPrOCd+WjD1tbsbFwSHG0q8=;
+ b=h9NwVuE2uqC8GakN5dj1mIy2VFYgj97RSc2PSE9kLns0ckUnHdOo5XRDi4prkSHfrE
+ 0etHXiS2h8rnPo2KxER5+Cyx0Ng+gtlZuO3rc8KmaB4wTJ+wFZsTdMmcZq8SXD0TY1po
+ LjPKQTfvBaj7OCmv1gJ2IVSVgSHWa9c6C9/hmGK5ziDKTgKLMYKWkzRLAQSEjcVwuAkE
+ SqJ6pewFYZIdKi90RUg0wvIDv415xh7ycgsr3+YXikuYvr0TyTsb9roGNPEd9QknLbK/
+ Lg99NbBh1p3xTGQ1I1iLT6vnv+ueKRBRR6l1EIUTaQmWNnVWZTq5llnECaDLpbcAfhGu
+ zFsA==
+X-Gm-Message-State: AOJu0YxIJail0MxgYTxf6xZ83U0PCJdDDCics9TxrFFC7nxyHrY7dlDp
+ NOPzoaui2puwR86kjW/dvdNIrw==
+X-Google-Smtp-Source: AGHT+IFfEsB482WXWBkGa7lRzgwjsje7EsqALaPTbxoFRxxsL9ZnfVH2CwoU2HQS3fRCcJBk72H9ww==
+X-Received: by 2002:a05:651c:14c:b0:2c9:e81e:81ac with SMTP id
+ c12-20020a05651c014c00b002c9e81e81acmr552024ljd.11.1701857696297; 
+ Wed, 06 Dec 2023 02:14:56 -0800 (PST)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ f1-20020a05651c03c100b002c9e6cbf78esm1519012ljp.19.2023.12.06.02.14.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Dec 2023 02:14:55 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>
+Subject: [PATCH v3 0/2] drm/atomic-helper: rename
+ drm_atomic_helper_check_wb_encoder_state
+Date: Wed,  6 Dec 2023 13:14:53 +0300
+Message-Id: <20231206101455.1664463-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Bug#1054514: linux-image-6.1.0-13-amd64: Debian VM with qxl
- graphics freezes frequently
-Content-Language: en-US, de-DE
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <alpine.DEB.2.20.2310242308150.28457@mail.home>
- <ZTgydqRlK6WX_b29@eldamar.lan>
- <alpine.DEB.2.20.2310250027230.28685@mail.home>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-In-Reply-To: <alpine.DEB.2.20.2310250027230.28685@mail.home>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1701856606;
- 9c73d8ce; 
-X-HE-SMSGID: 1rAoe1-0001Jn-NU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,91 +78,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: Timo Lindfors <timo.lindfors@iki.fi>, regressions@lists.linux.dev,
- Thomas Zimmermann <tzimmermann@suse.de>, 1054514@bugs.debian.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, spice-devel@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>, Salvatore Bonaccorso <carnil@debian.org>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Thorsten here, the Linux kernel's regression tracker. Top-posting
-for once, to make this easily accessible to everyone.
+The function drm_atomic_helper_check_wb_encoder_state() doesn't use
+drm_encoder for anything sensible. Internally it checks
+drm_writeback_connector's state. Thus it makes sense to let this
+function accept drm_connector object and the drm_atomic_state
+and rename it to drm_atomic_helper_check_wb_connector_state().
 
-Gerd, it seems this regression[1] fell through the cracks. Could you
-please take a look? Or is there a good reason why this can't be
-addressed? Or was it dealt with and I just missed it?
+Changes since v2:
+- Make the function accept drm_connector instead of
+  drm_writeback_connector (Maxime)
 
-[1] apparently caused by 5a838e5d5825c8 ("drm/qxl: simplify
-qxl_fence_wait") [v5.13-rc1] from Gerd; for details see
-https://lore.kernel.org/regressions/ZTgydqRlK6WX_b29@eldamar.lan/
+Changes since v1:
+- Make the function accept drm_writeback_connector and drm_atomic_state
+  (Maxime)
+- Added a patch for VKMS to move atomic_check of WB path from encoder to
+  connector helpers.
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+Dmitry Baryshkov (2):
+  drm/atomic-helper: rename drm_atomic_helper_check_wb_encoder_state
+  drm/vkms: move wb's atomic_check from encoder to connector
 
-#regzbot poke
+ drivers/gpu/drm/drm_atomic_helper.c   | 16 +++++++++-------
+ drivers/gpu/drm/vkms/vkms_writeback.c | 25 +++++++++++++++----------
+ include/drm/drm_atomic_helper.h       |  5 ++---
+ 3 files changed, 26 insertions(+), 20 deletions(-)
 
-On 24.10.23 23:39, Timo Lindfors wrote:
-> Hi,
-> 
-> On Tue, 24 Oct 2023, Salvatore Bonaccorso wrote:
->> Thanks for the excelent constructed report! I think it's best to
->> forward this directly to upstream including the people for the
->> bisected commit to get some idea.
-> 
-> Thanks for the quick reply!
-> 
->> Can you reproduce the issue with 6.5.8-1 in unstable as well?
-> 
-> Unfortunately yes:
-> 
-> ansible@target:~$ uname -r
-> 6.5.0-3-amd64
-> ansible@target:~$ time sudo ./reproduce.bash
-> Wed 25 Oct 2023 12:27:00 AM EEST starting round 1
-> Wed 25 Oct 2023 12:27:24 AM EEST starting round 2
-> Wed 25 Oct 2023 12:27:48 AM EEST starting round 3
-> bug was reproduced after 3 tries
-> 
-> real    0m48.838s
-> user    0m1.115s
-> sys     0m45.530s
-> 
-> I also tested upstream tag v6.6-rc6:
-> 
-> ...
-> + detected_version=6.6.0-rc6
-> + '[' 6.6.0-rc6 '!=' 6.6.0-rc6 ']'
-> + exec ssh target sudo ./reproduce.bash
-> Wed 25 Oct 2023 12:37:16 AM EEST starting round 1
-> Wed 25 Oct 2023 12:37:42 AM EEST starting round 2
-> Wed 25 Oct 2023 12:38:10 AM EEST starting round 3
-> Wed 25 Oct 2023 12:38:36 AM EEST starting round 4
-> Wed 25 Oct 2023 12:39:01 AM EEST starting round 5
-> Wed 25 Oct 2023 12:39:27 AM EEST starting round 6
-> bug was reproduced after 6 tries
-> 
-> 
-> For completeness, here is also the grub_set_default_version.bash script
-> that I had to write to automate this (maybe these could be in debian
-> wiki?):
-> 
-> #!/bin/bash
-> set -x
-> 
-> version="$1"
-> 
-> idx=$(expr $(grep "menuentry " /boot/grub/grub.cfg | sed 1d |grep -n
-> "'Debian GNU/Linux, with Linux $version'"|cut -d: -f1) - 1)
-> exec sudo grub-set-default "1>$idx"
-> 
-> 
-> 
-> -Timo
-> 
-> 
-> 
+-- 
+2.39.2
+
