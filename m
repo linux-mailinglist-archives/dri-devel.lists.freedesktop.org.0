@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B558F806D33
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 12:02:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72184806D3F
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 12:03:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E26110E0C5;
-	Wed,  6 Dec 2023 11:02:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5C8410E0D1;
+	Wed,  6 Dec 2023 11:03:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34CA410E0C2
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 11:02:26 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id
- ffacd0b85a97d-3316bb1303bso479686f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Dec 2023 03:02:26 -0800 (PST)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBE8B10E0D1
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 11:03:46 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id
+ ffacd0b85a97d-33349b3f99aso597490f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Dec 2023 03:03:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701860544; x=1702465344; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701860625; x=1702465425; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=EexcMWgdiK3biCzULTz+PkOjCv/ro+p5TLQhAtIHvmc=;
- b=KtYlmQB956ztvLGOCF/dLK2jesP1Hm81wtFWKUqgFGvRjYejrFxKGpZnYQvnU7UW69
- 2f3iqEvKeAqbpasbJVTnfIlx3W2fFy1jpGaLcLiwnR3XUU3ZwNuhIcxiTLFv+1kWYT1P
- hXIOTK0pxmftkJL6lv7Zkm+of6379KF8eT3GhOf0G2a61ucNXTl+AaPCeyTJbl/gyKuA
- s6Vc4edUk3kpZoAGDJrs+E5pu6fx9kPRHhuueQ8aePdx1XlQof2Ced/vXVOz5SC9ZvO+
- 1kQDSEvwONun5quHHRrYSP68Xwwz+8HnAqYQRcfQqaluEZxnGac4bOaoheMjawzwkNXR
- sQoQ==
+ bh=Rh73ClzDM6IcbJAAhPoTAxKltMNdEdAQK5XTonECUlE=;
+ b=S5sJ9v6/SvYQtrktP9Yxn4TrseXzUFep74Ev5T+SgAixwqlyEKVQQw997UcXNXpJdp
+ Hdoz02KJzDHWsRyE9aNltQ0AZmgFi5P6ExIcIoZE71I8U5QrLpEOMWmKWE783nMA1De1
+ JWxvmM102oQRuTNzhaOavfgNqUQKOkGfvtrBU3Yf7Izfcv0megzRA7QJQOX/EbKAfcCo
+ beoTUbdghkvcsCeWBY3DcP9bdjWdVcOcv6dJocEteKYW+0on38qBT3fG49h22eIriHUC
+ Mns6HaYny5yUDpiaLRr0bbHyhNuATRNEvglyWLf5cmrx16u+736fBNrl3BHlnqKBMzeP
+ nZuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701860544; x=1702465344;
+ d=1e100.net; s=20230601; t=1701860625; x=1702465425;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EexcMWgdiK3biCzULTz+PkOjCv/ro+p5TLQhAtIHvmc=;
- b=E5sj/YLzqPvq7MUtyJ+m+I2ljUznpGYW4ybckIh8QM0j1tIL2eAfeI7hg0NajQ1FHw
- 8XO/VRTGvMXd1JII1+yUQiv0fzwXyDPOvV0IfaICvWbze5je4DNiv77YQCANrGJ9j+pX
- XW5AsOftIbQsyguoKKgcuhgjDwW7JkYxM02hbrSjPxruJ2ElZRbaBoINBaUpasH/L2d0
- cNrzeQ8J9cva8FqUYcfSk4sgKKuD6cTKTh19dyoYFzIwrfS9FqHbJnb0r4OkU/Di764Q
- jueVEbHhJli4ZF5OK/b/2pX6GXN0t/gTFG+jcOh5uDlBx0lykXYUNxpMqcv60O+bEVr9
- 7PCw==
-X-Gm-Message-State: AOJu0YyMTT9BSB6paCoExcOVOjtK2LFOWHRmY2jNVHfb1Wp4F44E8HlX
- vbhmV6jJ24qb5yknkH2PanrfcQ==
-X-Google-Smtp-Source: AGHT+IE3BQXjskTbgXE6b4Sc2a0dYbWjr4Q6R8hJ6wbxDPG96elKJBnVr9cDqROkXSs2DotTKfFu/w==
-X-Received: by 2002:adf:e545:0:b0:332:f81d:8dac with SMTP id
- z5-20020adfe545000000b00332f81d8dacmr469802wrm.67.1701860544568; 
- Wed, 06 Dec 2023 03:02:24 -0800 (PST)
+ bh=Rh73ClzDM6IcbJAAhPoTAxKltMNdEdAQK5XTonECUlE=;
+ b=vyK7rnWyfy9zzqGkCi+uR/6zJFmHPgm4HdlyR/dKwRUrZenyVsmru0yCkDLDr+anlm
+ sHWAkvEB4pmTlXDRjp73AT1rPS/PvdT+lNXJYo2A+fm0lq1dEie+8V1XKDbV+JLAmvHt
+ Lv7YbtyYqYlWatzSmhzxSVx1MnJCIQ95t+wQS2+WkVy/VDqGKtD9+rmlxfxNeNg19+xy
+ FYmpTeJaa2ADVFSth9XpPva9mfdpwpvjZbslVMQ64UOAv303gA2netMWT+5p4gUoKMAu
+ ZVRMGcrGqO6PQq2HKwBRCARLbXMwCSUS0RfHij3dcHe8kZCmKHBDjQ+YopEm9N5LHyrh
+ bNgw==
+X-Gm-Message-State: AOJu0Yzqc/DXbJivEUgfbZMmKHTxI4pRbbyEcqQk4lB+QS5cXJwZiIu1
+ jFqm20V37fuBEd++9okolV24Uw==
+X-Google-Smtp-Source: AGHT+IHiaPkQ0VeZdhZE5/bhxJGM6sVyZa5f6rtlil0mhfHaBOLrP4WyJIgzluUro+mh0/elSvb0Rg==
+X-Received: by 2002:a5d:42cb:0:b0:333:52ff:37ca with SMTP id
+ t11-20020a5d42cb000000b0033352ff37camr397636wrr.32.1701860625311; 
+ Wed, 06 Dec 2023 03:03:45 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.27])
  by smtp.gmail.com with ESMTPSA id
- ba18-20020a0560001c1200b00333479734a7sm8669148wrb.99.2023.12.06.03.02.23
+ ba18-20020a0560001c1200b00333479734a7sm8669148wrb.99.2023.12.06.03.03.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Dec 2023 03:02:24 -0800 (PST)
-Message-ID: <f1e4bd2b-b72c-43ab-91e0-facfb17b45df@linaro.org>
-Date: Wed, 6 Dec 2023 12:02:23 +0100
+ Wed, 06 Dec 2023 03:03:44 -0800 (PST)
+Message-ID: <914bd0c8-5eb1-4e0b-b408-cc8991ff6917@linaro.org>
+Date: Wed, 6 Dec 2023 12:03:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] dt-bindings: lcdif: Properly describe the i.MX23
+Subject: Re: [PATCH] dt-bindings: lcdif: Properly describe the i.MX23
  interrupts
 Content-Language: en-US
 To: Fabio Estevam <festevam@gmail.com>, marex@denx.de
-References: <20231205184748.2103321-1-festevam@gmail.com>
+References: <20231205174949.2091953-1-festevam@gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -105,7 +105,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231205184748.2103321-1-festevam@gmail.com>
+In-Reply-To: <20231205174949.2091953-1-festevam@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,10 +126,10 @@ Cc: devicetree@vger.kernel.org, conor+dt@kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/12/2023 19:47, Fabio Estevam wrote:
+On 05/12/2023 18:49, Fabio Estevam wrote:
 > From: Fabio Estevam <festevam@denx.de>
 > 
-> i.MX23 has two LCDIF interrupts instead of a single one like other
+> i.MX23 has two i.MX23 interrupts instead of a single one like other
 > i.MX devices.
 > 
 > Take this into account for properly describing the i.MX23 LCDIF
@@ -142,45 +142,10 @@ On 05/12/2023 19:47, Fabio Estevam wrote:
 > 
 > Signed-off-by: Fabio Estevam <festevam@denx.de>
 > ---
-> Changes since v1:
-> - Fix typo in commit log (i.MX23 has two LCDIF interrupts).
-> 
 >  .../devicetree/bindings/display/fsl,lcdif.yaml   | 16 +++++++++++++++-
 >  1 file changed, 15 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-> index fc11ab5fc465..c4228b893766 100644
-> --- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-> +++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-> @@ -51,7 +51,10 @@ properties:
->      minItems: 1
->  
->    interrupts:
-> -    maxItems: 1
-> +    items:
-> +      - description: LCDIF DMA interrupt
-> +      - description: LCDIF Error interrupt
-> +    minItems: 1
->  
->    power-domains:
->      maxItems: 1
-> @@ -131,6 +134,17 @@ allOf:
->      then:
->        required:
->          - power-domains
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - fsl,imx23-lcdif
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          minItems: 2
-> +          maxItems: 2
 
-Either missing else: or update of other variants to limit interrupts to 1.
+Same problems as other patches. You should narrow to 1 existing variants.
 
 Best regards,
 Krzysztof
