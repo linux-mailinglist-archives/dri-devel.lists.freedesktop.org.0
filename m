@@ -2,63 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40DF807162
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 14:57:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E918071DD
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 15:11:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38BE910E053;
-	Wed,  6 Dec 2023 13:57:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCDDC10E733;
+	Wed,  6 Dec 2023 14:11:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45E9910E053
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 13:57:19 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-a1915034144so112175866b.0
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Dec 2023 05:57:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1701871037; x=1702475837;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=i6leibc9KVGhDFO57vzUjuEC1g9Shhhw6R6lNbUnfvA=;
- b=Lctlh6ChOc4+DSXkKJrwiNtKQHgNpLJffjk2J3qD9ETrdOJskiNe4g4zVKUovul2CA
- jBfMgCMpH/+6rANjQxmY0T0td0MNdalCOqan86zJAWINPpd94RO85cOWgp7dA+D2kfs5
- zGStH9B66C8XDdn7GhmwCzEpKHrcD1dAg4Nhw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701871037; x=1702475837;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=i6leibc9KVGhDFO57vzUjuEC1g9Shhhw6R6lNbUnfvA=;
- b=ViuKs9AV708KKZ/Y6Nyxb3ZSLFgocjKOhRt9NqAEk0hu47+0LYhkcDWTxb7RvaO2jX
- NjEwi2emtRDLYjmFuPX87vfWLuCgnUK+jJ24Rm+FDSdQDKWqFCl/2nycuBWP5Hk7K0fB
- iVRGUinJyLNjW9mqMaIhx2MMaBrYpY7kST1/opqye13cRIDVgdpzjqvH0i270s+pReuj
- zaX/08h89jUvglQxkCWMkvz8UJFH6NwAIBJz1qanzEIr0Be1VqUOh3NkHkQLUUbyQaLm
- uguxKzy257zbFp2nWgBBKl3scI+H1EOsK8f2mqQd89B9Ked6BXPxzWhAwt4o5B1tvvbq
- zSMQ==
-X-Gm-Message-State: AOJu0YzZxYd/nVTmG52rCbXl0C5SlX97BZL3p4QC/1Gke+pIz4sTCaTi
- AAXPLPSgMJu7Pwf9enti0cyduH3k30BAK0vFlvjlRg==
-X-Google-Smtp-Source: AGHT+IG/PobLNSg+zy1WHv7BVtLTlt7MPeES0U4v/oNNLHDezYqyvRUZLZjOALXehIib1IwlHg77PgQRGzr0Rpof0Xk=
-X-Received: by 2002:a17:906:3f08:b0:a14:d6e2:fb1f with SMTP id
- c8-20020a1709063f0800b00a14d6e2fb1fmr615826ejj.10.1701871037673; Wed, 06 Dec
- 2023 05:57:17 -0800 (PST)
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com
+ [61.152.239.71])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 60DA610E733
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 14:11:43 +0000 (UTC)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+ (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+ (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+ by fd01.gateway.ufhost.com (Postfix) with ESMTP id 2B5FD8118;
+ Wed,  6 Dec 2023 22:11:34 +0800 (CST)
+Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 6 Dec
+ 2023 22:11:34 +0800
+Received: from [192.168.1.115] (180.164.60.184) by EXMBX061.cuchost.com
+ (172.16.6.61) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 6 Dec
+ 2023 22:11:33 +0800
+Message-ID: <40cdd3c7-174e-4611-9ea6-22cb56d1f62b@starfivetech.com>
+Date: Wed, 6 Dec 2023 22:11:33 +0800
 MIME-Version: 1.0
-References: <20231205105341.4100896-1-dario.binacchi@amarulasolutions.com>
- <20231205105341.4100896-3-dario.binacchi@amarulasolutions.com>
- <CAPY8ntAALKiTEG6qyFO=qVqSLUW9x8AMfPMc_TUwC3z8tJ7Kzw@mail.gmail.com>
- <CABGWkvq-fJTDFPB=389XbHW_SLt6BQr-BhjZqZ+01i3v8EaYwA@mail.gmail.com>
- <CAMty3ZBdCW=Rak8gMin8bt9JnFChAu6nw9n6xQyCSZw=63BukA@mail.gmail.com>
-In-Reply-To: <CAMty3ZBdCW=Rak8gMin8bt9JnFChAu6nw9n6xQyCSZw=63BukA@mail.gmail.com>
-From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Date: Wed, 6 Dec 2023 14:57:06 +0100
-Message-ID: <CAOf5uwm_YmXz0A6nuCbJh+iszwqWyQkRRKATKyWZ33YUgZmEnw@mail.gmail.com>
-Subject: Re: [PATCH v4 02/10] drm/bridge: Fix a use case in the bridge disable
- logic
-To: Jagan Teki <jagan@amarulasolutions.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v3 5/6] drm/vs: Add hdmi driver
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>
+References: <20231204123315.28456-1-keith.zhao@starfivetech.com>
+ <20231204123315.28456-6-keith.zhao@starfivetech.com>
+ <esetsiqgqpk35zue4c6aq7l6zn4kezhxkqqa7ompaz2vhdy3lr@4d5awfqgs2ss>
+ <94a1f9fc-82fb-4a04-a44b-f9b20c2bdfdd@starfivetech.com>
+ <abdl6kmighvpwojvafq443q7grn6w3abwpvw7zwbna4jvtsvjf@fa42rv46n2wh>
+From: Keith Zhao <keith.zhao@starfivetech.com>
+In-Reply-To: <abdl6kmighvpwojvafq443q7grn6w3abwpvw7zwbna4jvtsvjf@fa42rv46n2wh>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX061.cuchost.com
+ (172.16.6.61)
+X-YovoleRuleAgent: yovoleflag
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,96 +56,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, Frieder Schrempf <frieder.schrempf@kontron.de>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- Amarula patchwork <linux-amarula@amarulasolutions.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+ "suijingfeng@loongson.cn" <suijingfeng@loongson.cn>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Xingyu Wu <xingyu.wu@starfivetech.com>, Jack Zhu <jack.zhu@starfivetech.com>,
+ "palmer@dabbelt.com" <palmer@dabbelt.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ William Qiu <william.qiu@starfivetech.com>,
+ Shengyang Chen <shengyang.chen@starfivetech.com>,
+ "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+ Changhuang Liang <changhuang.liang@starfivetech.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan
 
-On Wed, Dec 6, 2023 at 2:31=E2=80=AFPM Jagan Teki <jagan@amarulasolutions.c=
-om> wrote:
->
-> Hi Dario,
->
-> On Wed, Dec 6, 2023 at 6:57=E2=80=AFPM Dario Binacchi
-> <dario.binacchi@amarulasolutions.com> wrote:
-> >
-> > Hi Dave and Jagan,
-> >
-> > On Tue, Dec 5, 2023 at 4:39=E2=80=AFPM Dave Stevenson
-> > <dave.stevenson@raspberrypi.com> wrote:
-> > >
-> > > Hi Dario
-> > >
-> > > On Tue, 5 Dec 2023 at 10:54, Dario Binacchi
-> > > <dario.binacchi@amarulasolutions.com> wrote:
-> > > >
-> > > > The patch fixes the code for finding the next bridge with the
-> > > > "pre_enable_prev_first" flag set to false. In case this condition i=
-s
-> > > > not verified, i. e. there is no subsequent bridge with the flag set=
- to
-> > > > false, the whole bridge list is traversed, invalidating the "next"
-> > > > variable.
-> > > >
-> > > > The use of a new iteration variable (i. e. "iter") ensures that the=
- value
-> > > > of the "next" variable is not invalidated.
-> > >
-> > > We already have https://patchwork.freedesktop.org/patch/529288/ that
-> > > has been reviewed (but not applied) to resolve this. What does this
-> > > version do differently and why?
-> >
-> > My patches only affect drm_atomic_bridge_chain_post_disable(), whereas
-> > Jagan's patch affects both
-> > drm_atomic_bridge_chain_post_disable() and drm_atomic_bridge_chain_pre_=
-enable().
-> > I tested Jagan's patch on my system with success and I reviewed with
-> > Michael Trimarchi the
-> > drm_atomic_bridge_chain_pre_enable() fixing and we think it's okay.
-> > We also believe that our changes to post_disable() are better, as we
-> > set the 'next' variable only when required,
-> > and the code is more optimized since the list_is_last() is not called
-> > within the loop.
-> > Would it be possible to use Jagan's patch for fixing
-> > drm_atomic_bridge_chain_pre_enable() and mine for
-> > fixing drm_atomic_bridge_chain_post_disable()?
-> >
->
-> Can you please share the post-disabled bridge chain list with the
-> below example before and after your change?
 
-We have already git commit the description in how the patch affects
-the post_disable. As Dario
-reported your patch is ok even in our use case. We don't have a real
-use case as the one you describe.
+On 2023/12/6 20:56, Maxime Ripard wrote:
+> On Wed, Dec 06, 2023 at 08:02:55PM +0800, Keith Zhao wrote:
+>> >> +static const struct of_device_id starfive_hdmi_dt_ids[] = {
+>> >> +	{ .compatible = "starfive,jh7110-inno-hdmi",},
+>> > 
+>> > So it's inno hdmi, just like Rockchip then?
+>> > 
+>> > This should be a common driver.
+>>
+>> Rockchip has a inno hdmi IP. and Starfive has a inno hdmi IP.
+>> but the harewawre difference of them is big , it is not easy to use the common driver
+>> maybe i need the inno hdmi version here to make a distinction
+> 
+> I just had a look at the rockchip header file: all the registers but the
+> STARFIVE_* ones are identical.
+> 
+> There's no need to have two identical drivers then, please use the
+> rockchip driver instead.
+> 
+> Maxime
 
-Can we know how you test it in this use case here? Can you test our
-patches of post_disable?
+ok, have a simple test , edid can get . i will continue 
 
-Thanks
-Michael
-
->
-> Example:
-> - Panel
-> - Bridge 1
-> - Bridge 2 pre_enable_prev_first
-> - Bridge 3
-> - Bridge 4 pre_enable_prev_first
-> - Bridge 5 pre_enable_prev_first
-> - Bridge 6
-> - Encoder
->
-> Thanks,
-> Jagan.
