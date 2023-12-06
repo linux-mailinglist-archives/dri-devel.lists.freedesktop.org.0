@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392CC806A5E
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 10:09:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84956806A63
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Dec 2023 10:10:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF95B10E4F7;
-	Wed,  6 Dec 2023 09:09:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3331610E6C4;
+	Wed,  6 Dec 2023 09:10:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
- [IPv6:2607:f8b0:4864:20::b36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCD8F10E4F7
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 09:09:37 +0000 (UTC)
-Received: by mail-yb1-xb36.google.com with SMTP id
- 3f1490d57ef6-db539f21712so594676276.1
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Dec 2023 01:09:37 -0800 (PST)
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
+ [IPv6:2607:f8b0:4864:20::b29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0EF010E6C4
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Dec 2023 09:10:44 +0000 (UTC)
+Received: by mail-yb1-xb29.google.com with SMTP id
+ 3f1490d57ef6-db548da6e3bso586393276.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Dec 2023 01:10:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701853777; x=1702458577; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701853843; x=1702458643; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=wP++sDZ0D6RnqxEDsIfOfMZaHshu8C2nXxTEhtKdeFg=;
- b=odkN2lXssCAIwLtCRiVctCF0DQUCbq9Yzb5bMCIRx1ZozhzDHlbN6GqophSbYZSZg3
- KriOqZGh0iou61LPL4JRrCSxmHS0cPseN5hC9HV+yuZGE1tPfbpwj676HiXSndjMMuTo
- Fa+U/BHyd3V875iiY/4QPo6+6tXb4662aN9XvOKac6V/FbUdypRBamLRNldtgI+0qYC6
- QQpsOqzVlp/JwXIAOG7NIvZLbZbyS0fKRauSroRI3P0zvS6QfGr5923xUoz91XoBHbry
- WAfRw5Er+ovbIs74UyCnjm/S0O8aYpIvJO4/6kui0+kT3mnpPmArM08MHwI1WSYm1efB
- wqyw==
+ bh=9n2kthQbWTkNG2GdCSNciiPlzGwjGTmUOsOXRq6uUuY=;
+ b=tfu8hp8ADqh64PizEnbv1u45TO8HoNjH02LaDo/4sIKstvf4/x9c/PW4fe6uN1bc+b
+ 62YEPaMD+4qby3YzacmeQ02rrWMjyLYTcu4VczSOblagc/5Vt6xyNtAwvW3FVImKG1RO
+ cu/WsjHuaVOqwAHPzZTZ+2gOY1hl8RCNuOC0j9a0r3LNclBnVWipemH0isUysds9P+0P
+ v9pPu2xbWM9t5LGfc6kjMkMGHMhXzXARsDPA0TV6+xbwMEO++4Dj9+GTh5VBVqvb9Arm
+ l7WNw1bn2G8kcT/CFNHJRaBNa3huJe0ELzKD8trTMUyQKGHkqKzKq18LHWQVVi7VsmkZ
+ OeUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701853777; x=1702458577;
+ d=1e100.net; s=20230601; t=1701853843; x=1702458643;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=wP++sDZ0D6RnqxEDsIfOfMZaHshu8C2nXxTEhtKdeFg=;
- b=wp/4+R/VDf5zbv/JB/3MmSd5BSq/XaPrMJbtX/peGdYTBIw5MjzU5SFP1QQO2t4NDj
- su+hsv8ymvur5TcnFxrAKabXo7VwUuZqwKiOOnuSZs4SSE6ZijBWbp2/xwhbBkhYEDXq
- jSM3kV3vFu3GSX94JQ/hJLvUjHEk6fmOM1yU8ZamoCjgq1BAe/kqJdbUmJhEntvDzm0e
- miPXyjZoVsko3nn1GVjdZcNsBBcGdbUtCGLBll9ZE090v8BadpZaBEOUR0QB7fuS0txx
- RRlMSwE3OJ2akPvqJ/930AMRVId7L/CMysuc+ikZ12oLPc5oCSh37gAIEIXgGcDZOzdT
- hOZA==
-X-Gm-Message-State: AOJu0YwGAnsMNaLaEm/dEJPIXBd8HENhe6I/lOJfMvf9SrmJok2DYEht
- 9XEb9NfByt2SdagZf29oiMgU1wJqKWIkJgfBxtfMHA==
-X-Google-Smtp-Source: AGHT+IHg0pHACl+xt9RzmXvwGIPui6Yb8M/F4NDq2ZCAoTAskYtXkHT/owjn5oxY8N77ibLrBkj9aG20YDg0hFxnl2M=
-X-Received: by 2002:a05:6902:4e1:b0:db9:85c7:b052 with SMTP id
- w1-20020a05690204e100b00db985c7b052mr1761994ybs.9.1701853776943; Wed, 06 Dec
- 2023 01:09:36 -0800 (PST)
+ bh=9n2kthQbWTkNG2GdCSNciiPlzGwjGTmUOsOXRq6uUuY=;
+ b=ih9Vg43mHxOzNAvlJQNMmO4kVp8et1rcs4KkoDiBb2HqbxFA+y/w5RBHpHHzh9IIgC
+ 19G/6n8IHJvWjayeYE4VVm9Ov+cB3nwbjM4uZFJC67Ho2oC5xrKEduGJKwDVGhZwnivh
+ hwT0L9NnwMxyB1YBU+LjdcCMj/N5NSwnU+mK51Km4WzqVAdVAQ27fVgswJvqmnCuWVJ+
+ SRFQhunG+lZwMm45hj6XewhZEs9MW59seBhrH3k420rEN4DHUPdl9Iq/tAk3SQbgUh2l
+ EHqeyEPqZRKMlPBpI/V0nXK/k/5n7gHbijUcTXSSl9cl/n76EIeFnsPp7Dgqw3EDv932
+ +9Ow==
+X-Gm-Message-State: AOJu0YwYGWQtJIPmhYtY85J6UmfF4m81X1HZ8+CZVjUUmrW2WXctA7jp
+ FLtkqQffTcK9vDI7o2kcKimncS5s7ucUoIKlXSq26Q==
+X-Google-Smtp-Source: AGHT+IEXzruhFFkHB0Fa+/n84Bb6lIWEsIELJtEm0FOsD8vWSyRbbfLPr/HFQvgfnZNoovdex9inHxAp8BUvFfqaPBM=
+X-Received: by 2002:a25:cf13:0:b0:db4:d68:d450 with SMTP id
+ f19-20020a25cf13000000b00db40d68d450mr2003989ybg.25.1701853843738; Wed, 06
+ Dec 2023 01:10:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20231206072701.13276-1-dinghao.liu@zju.edu.cn>
- <77925c2e-8cb2-473b-9dd0-3ce60a909066@suse.de>
-In-Reply-To: <77925c2e-8cb2-473b-9dd0-3ce60a909066@suse.de>
+References: <20231205220526.417719-1-robdclark@gmail.com>
+ <20231205220526.417719-2-robdclark@gmail.com>
+In-Reply-To: <20231205220526.417719-2-robdclark@gmail.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 6 Dec 2023 11:09:25 +0200
-Message-ID: <CAA8EJprUDgraGgiGKsh0PSVd6Zxe9L2Q+HTPrALHWFVP3hiq1Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/plane: fix error handling in
- __drm_universal_plane_init
-To: Thomas Zimmermann <tzimmermann@suse.de>
+Date: Wed, 6 Dec 2023 11:10:32 +0200
+Message-ID: <CAA8EJpoguMhnO2LbQvpbSiuq6PAxqc3cT1nLKFmrA43sP9c-3g@mail.gmail.com>
+Subject: Re: [PATCH 1/5] drm/msm/adreno: Split up giant device table
+To: Rob Clark <robdclark@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,91 +67,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Dinghao Liu <dinghao.liu@zju.edu.cn>, linux-kernel@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
+ Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 6 Dec 2023 at 10:22, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+On Wed, 6 Dec 2023 at 00:05, Rob Clark <robdclark@gmail.com> wrote:
 >
-> Hi
+> From: Rob Clark <robdclark@chromium.org>
 >
-> Am 06.12.23 um 08:27 schrieb Dinghao Liu:
-> > __drm_universal_plane_init() frees plane->format_types and
-> > plane->modifiers on failure. However, sometimes its callers
-> > will free these two pointers again, which may lead to a
-> > double-free. One possible call chain is:
-> >
-> > mdp5_plane_init
-> >    |-> drm_universal_plane_init
-> >    |     |-> __drm_universal_plane_init (first free)
-> >    |
-> >    |-> mdp5_plane_destroy
-> >          |-> drm_plane_cleanup (second free)
-> >
-> > Fix this by setting the two pointers to NULL after kfree.
-> >
-> > Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> Split into a separate table per generation, in preparation to move each
+> gen's device table to it's own file.
 >
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->
-> to get the immediate bug fixed.
->
-> However, I don't think it's the correct way of doing things in general.
-> Planes should probably not attempt to even make a copy, but use the
-> supplied pointers. Lifetime of the arrays is the same as of the plane.
-> That's for a different patch set, of course.  (I did not review the DRM
-> code whether the internal copy is required.)
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
-But there is no internal copy. The issue is in the mdp5 code calling
-drm_plane_cleanup (indirectly) even though the plane init has failed.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
->
-> For now, maybe drm_plane_cleanup() could warn if format_types equals
-> NULL. [1] It indicates that the plane has not been initialized correctly
-> and the driver's memory lifetime handling is somehow broken.
->
-> Best regards
-> Thomas
->
-> [1]
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_plane.c#L542
->
-> > ---
-> >   drivers/gpu/drm/drm_plane.c | 3 +++
-> >   1 file changed, 3 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> > index 24e7998d1731..1331b8224920 100644
-> > --- a/drivers/gpu/drm/drm_plane.c
-> > +++ b/drivers/gpu/drm/drm_plane.c
-> > @@ -304,6 +304,7 @@ static int __drm_universal_plane_init(struct drm_device *dev,
-> >       if (format_modifier_count && !plane->modifiers) {
-> >               DRM_DEBUG_KMS("out of memory when allocating plane\n");
-> >               kfree(plane->format_types);
-> > +             plane->format_types = NULL;
-> >               drm_mode_object_unregister(dev, &plane->base);
-> >               return -ENOMEM;
-> >       }
-> > @@ -317,6 +318,8 @@ static int __drm_universal_plane_init(struct drm_device *dev,
-> >       if (!plane->name) {
-> >               kfree(plane->format_types);
-> >               kfree(plane->modifiers);
-> > +             plane->format_types = NULL;
-> > +             plane->modifiers = NULL;
-> >               drm_mode_object_unregister(dev, &plane->base);
-> >               return -ENOMEM;
-> >       }
->
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
-
-
+> ---
+>  drivers/gpu/drm/msm/adreno/adreno_device.c | 59 +++++++++++++++++++---
+>  1 file changed, 51 insertions(+), 8 deletions(-)
 
 -- 
 With best wishes
