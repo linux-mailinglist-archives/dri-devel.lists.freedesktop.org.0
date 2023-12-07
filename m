@@ -1,116 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A49C8084B1
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 10:29:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59E9C8084C7
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 10:36:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C90E10E82B;
-	Thu,  7 Dec 2023 09:29:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E207F10E83B;
+	Thu,  7 Dec 2023 09:36:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0D7610E839
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 09:29:15 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id
- a640c23a62f3a-a1915034144so86877266b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 01:29:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701941354; x=1702546154; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=3vijFqjVkAFhk9GrBKlA7YdtByUCbdonnT/0xP7dRJk=;
- b=DsVl8paypJPFA6UFrZnYDXIJPiMneQIAMqf3oUuIPBdGR4KPVVxo+X7ACfihnZAbSR
- s9z0kAQQp/pqmEGb98Of1ibbWpMaNX0v70PYewYgU9pkOoo4W0Lf88y0WgZhBCExfMM6
- 52T2hSCdZ+xi9EUHhQMGxDsGyjws4dzl9QDOmAJGe5gyIbUdg8QBvKUQfH2AFewS2MVV
- RytCPiuKwSp0gweZ4H7NY6730E6uDp6ezkL7hAtsekVK33Ecg5uXdeUDyhsgFD+nH8zd
- I/wY3rZfZQ/8NCX75xpCunI9H0rxnypzeN/5QND/3nQw6UiLXHMAaZmOY1t58hDi3klK
- BpAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701941354; x=1702546154;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3vijFqjVkAFhk9GrBKlA7YdtByUCbdonnT/0xP7dRJk=;
- b=ptAmO0E7qPQiK6rnSmKI/Mc5mt8JqONty+9rXqA2qu700a7SEkQahEYkqO3Y375Vl2
- zlNlgvIWKPOn/c+zsTXCUUSUHI7fOiiZ5HTfDmJPeWnyXSI9TwurVueVeXKbezFXEh3D
- /EpF0QyMyHFfGJJVPFUqo0+fxKwJeusS6bbwy+/EV5d/iNqnvBAT8E9gx7uZRXOhcQWM
- f5dP02rYHZFmjs5oclLABgM7vxLoUp2gySqtKySg6aD41sgFAjcrFy2Rgfgf4x3kMMYn
- vetGtRiDm5E3a51x8XOoVPCMh9NRmWFqcdu6LyU2rTc3VGHS8S9NQ0nO1/Nn2gh1p0YT
- 70Hw==
-X-Gm-Message-State: AOJu0YzaYHZ2hONMEwnwlITDwzUvJIkTjfxMSO4l1UOuJfhDNkWET1WY
- qcE4XnAvp2DlAg+5acws8XgRUQ==
-X-Google-Smtp-Source: AGHT+IGraFbo1RKPfyrOa16qZGZJAMH3TrfYjWcAkWCdHShYoVspXN89T/hz3nkhA0ZqfgKgiTJMCA==
-X-Received: by 2002:a17:906:20ce:b0:a1e:437c:6a78 with SMTP id
- c14-20020a17090620ce00b00a1e437c6a78mr750661ejc.94.1701941354303; 
- Thu, 07 Dec 2023 01:29:14 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
- by smtp.gmail.com with ESMTPSA id
- s22-20020a170906bc5600b00a1dbda310f4sm565985ejv.158.2023.12.07.01.29.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Dec 2023 01:29:13 -0800 (PST)
-Message-ID: <a437b0d7-5669-45c1-b54d-ce028a57efdb@linaro.org>
-Date: Thu, 7 Dec 2023 10:29:12 +0100
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.153.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A589610E83B
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 09:35:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1701941758; x=1733477758;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=zk1dhT6C/KZSArTdzP/p5wqb9G2bfeL3f7SYtKcXyCo=;
+ b=XO5nacc41r26Idi/nmianp+cUzaFk893BFOyqYjB6mO0xE4U7H6DonqD
+ VFCPPhmpI0yX82UX0nYRn+2zQnMx0LKFJNfFR/GVEsmmnnc5V9RYZukbC
+ 6AZvb3gz+lfYKzBQ8waveLAzUs8Yom1bCreUwdQYtG6+4w0owtwK0y+Ey
+ XkH+uvNY+/F5oamSmMOcAakgQZGLMu04OFaLAFddk5eaBp+9Xg7jfWn5T
+ ATeoKUU4g7QW3cK5zhCLtnqysOPuRUVxARmuRKzN9UgiyEuQrF5ZJxLPl
+ QZQkNatDzNgJtqpuiaDZRqweZ4Wjif1KSO8BXmOui4lm9FVHYzUUBHO/L A==;
+X-CSE-ConnectionGUID: l1+X6HrHTViYXQWuY+0knA==
+X-CSE-MsgGUID: 3jqu90UXQHGGuQa2OlUe8A==
+X-ThreatScanner-Verdict: Negative
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+ d="asc'?scan'208";a="12923027"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 07 Dec 2023 02:35:57 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 7 Dec 2023 02:35:33 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex01.mchp-main.com (10.10.85.143)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
+ Transport; Thu, 7 Dec 2023 02:35:29 -0700
+Date: Thu, 7 Dec 2023 09:34:59 +0000
+From: Conor Dooley <conor.dooley@microchip.com>
+To: Shengyang Chen <shengyang.chen@starfivetech.com>
+Subject: Re: [PATCH v1 1/2] dt-bindings: display: panel: raspberrypi: Add
+ compatible property for waveshare 7inch touchscreen panel
+Message-ID: <20231207-dullness-deprive-ece2d47ff69d@wendy>
+References: <20231124104451.44271-1-shengyang.chen@starfivetech.com>
+ <20231124104451.44271-2-shengyang.chen@starfivetech.com>
+ <20231124-lesser-sinister-7f9cd7b80e35@spud>
+ <2d48e460-e46e-431f-bd7b-e34ebe73a40c@starfivetech.com>
+ <20231206-isolating-smoked-b490952029d0@spud>
+ <53b992e8-1b36-4540-a993-fde8e550faf9@starfivetech.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/10] dt-bindings: display: panel: Add Ilitek ili9805
- panel controller
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>,
- Dario Binacchi <dario.binacchi@amarulasolutions.com>
-References: <20231205105341.4100896-1-dario.binacchi@amarulasolutions.com>
- <20231205105341.4100896-8-dario.binacchi@amarulasolutions.com>
- <20231206143345.GA2093703-robh@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231206143345.GA2093703-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="LKkffefepue30ywv"
+Content-Disposition: inline
+In-Reply-To: <53b992e8-1b36-4540-a993-fde8e550faf9@starfivetech.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,33 +72,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, devicetree@vger.kernel.org,
- Amarula patchwork <linux-amarula@amarulasolutions.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, michael@amarulasolutions.com
+Cc: dri-devel@lists.freedesktop.org, eric@anholt.net, thierry.reding@gmail.com,
+ krzysztof.kozlowski+dt@linaro.org, florian.fainelli@broadcom.com,
+ sam@ravnborg.org, bcm-kernel-feedback-list@broadcom.com,
+ quic_jesszhan@quicinc.com, devicetree@vger.kernel.org, conor+dt@kernel.org,
+ mripard@kernel.org, robh+dt@kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, neil.armstrong@linaro.org,
+ keith.zhao@starfivetech.com, linux-kernel@vger.kernel.org,
+ Conor Dooley <conor@kernel.org>, jack.zhu@starfivetech.com,
+ tzimmermann@suse.de, changhuang.liang@starfivetech.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/12/2023 15:33, Rob Herring wrote:
-> On Tue, Dec 05, 2023 at 11:52:54AM +0100, Dario Binacchi wrote:
->> From: Michael Trimarchi <michael@amarulasolutions.com>
->>
->> Add documentation for "ilitek,ili9805" panel.
->>
->> Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
->> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-> 
-> Where's Krzysztof's Reviewed-by?
+--LKkffefepue30ywv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-If only there was a tool which would solve problem of collecting tags...
-Easy to use one command for applying tags from mailing list, so one's
-review will not be lost thus people will not waste effort doing review
-second time. How was it? a4? b4? c4?
+On Thu, Dec 07, 2023 at 11:48:56AM +0800, Shengyang Chen wrote:
+> Hi, Conor
+>=20
+> thanks for comment
+>=20
+> On 2023/12/6 23:40, Conor Dooley wrote:
+> > On Wed, Dec 06, 2023 at 05:43:48PM +0800, Shengyang Chen wrote:
+> >> Hi, Conor
+> >>=20
+> >> On 2023/11/24 20:31, Conor Dooley wrote:
+> >> > On Fri, Nov 24, 2023 at 06:44:50PM +0800, Shengyang Chen wrote:
+> >> >> The waveshare 7inch touchscreen panel is a kind of raspberrypi pi
+> >> >> panel
+> >> >=20
+> >> > Can you be more specific about what "is a kind of rpi panel" means?
+> >> > Are they using identical chips as controllers or something like that?
+> >> >=20
+> >>=20
+> >> Wareshare panel has same i2c slave address and registers address with=
+=20
+> >> the original raspberry pi panel. They both use Atmel firmware and they
+> >> got same reg id. It can be operated by using the driver of raspberry p=
+i driver
+> >> after some change of the code. So I suppose it may be a kind of raspbe=
+rry pi panel=20
+> >> and discribe it in this way. It's my own judgement. Sorry about that.
+> >> Maybe just like Dave said, It cloned the behaviour of the raspberri pi=
+ panel.
+> >> I will change the discribtion in next version to not make other confus=
+ed.
+> >>=20
+> >> By the way, we will try Stefan's method before next version.=20
+> >> The method we used in this patch may be abandoned if Stefan's method i=
+s verified in our platform.
+> >> At that time yaml may also be changed to fit new method.
+> >=20
+> > I don't know what Stefan's approach is, but I do not think that a
+> > bindings patch should be dropped. The waveshare might be a clone, but it
+> > is a distinct device. If the same driver can control both, then the
+> > compatible setups that should be permitted are:
+> > compatible =3D "raspberrypi,7inch-touchscreen-panel";
+> > and
+> > compatible =3D "waveshare,7inch-touchscreen-panel", "raspberrypi,7inch-=
+touchscreen-panel";
 
-Best regards,
-Krzysztof
+> If we use Stenfan's method, we can reuse the code of panel-simple.c
+> we may submit our patch to
+> /Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> /drivers/gpu/drm/panel/panel-simple.c
+> as a new panel porting. That may less confuse.
 
+As long as you provide a specific compatible, and not re-use the rpi
+one, that's fine. It just sounded like you were intending to reuse that
+here, but from this message it seems like I misunderstood.
+
+Thanks,
+Conor.
+
+--LKkffefepue30ywv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZXGRvwAKCRB4tDGHoIJi
+0uepAPsFO121yBy+oxhB7OSau+AELQyXEwausDJX8GujOigD2wD+NWi8eCcUWndt
+3hUdUUgCa3P8sLTU12m5hwaHq3cJ9Qo=
+=bdsy
+-----END PGP SIGNATURE-----
+
+--LKkffefepue30ywv--
