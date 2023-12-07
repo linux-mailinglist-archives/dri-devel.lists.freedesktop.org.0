@@ -2,124 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CE7B808DA5
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 17:40:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D921D808DAF
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 17:42:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E20C10E91B;
-	Thu,  7 Dec 2023 16:40:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 590A210E1EC;
+	Thu,  7 Dec 2023 16:42:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FE3210E921
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 16:39:56 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id
- ffacd0b85a97d-3316bb1303bso852960f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 08:39:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701967195; x=1702571995; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=k4KAl/+7wm9h9niVHQ4f7iyT7bdGzhsug6wDjxQG7OM=;
- b=ER19VQQYHYwv5AfnFL7UocOkhX/pCgrztN/FjCOlGrbvcCnHwPGwlueykHp9w5mEyI
- 0pGfg3jMNaZBFP4+PuyUyhrMYUbVPX+YQd7kpvihVoduGl0gGF+vx9o6gr03WsMAXSmJ
- 4/NSAckWtS4aWTLqWyHVTfjyYzW5wnlnqzq5Y1Y1vATvffUaR69mHxt8Q15DnQATyN8l
- xtgHg7hgZ1p8jRH41Qo31+DrS3ggwP7q3/qnJDWc6VJh8ULjaxP+oR2e2AZMoyjlAWUf
- QCHFXnORcRi3NfvS7LdbiUqTO+QAgM7qWep7xY5/XDvqbF4CHuNB9YiSljiiEiyZEUCm
- ty2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701967195; x=1702571995;
- h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
- :to:content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=k4KAl/+7wm9h9niVHQ4f7iyT7bdGzhsug6wDjxQG7OM=;
- b=p1HlBp1TY40rxTc3580CJIgI+r61yR5Dr+TmWW6+JaKugUlYkqXkD2KXmPReqty+1v
- JMACetFPq+16gVoDCM1ON+WoPu7GTW1WaAmwrA5v4qqQtnJDhQx2EwjVXYtzb2WonSYb
- WY5TCEq3h7xafSKLxivKbV1lelpRD9/bpk+joH/yg7NrF0FH8c6PvO7zEWzkC9ZTVd7q
- Wbp7K75SSmlD3UcrgOvlyWGCILlgq1EZPlzFw+uSWcIbbkJY67V6GzKyxNRYQit4Ixk0
- hScNy00uYn1VN0Pvh4P0waYkSaoxghPafTh1ISwCDEqpIhIDrWT3WAuEjeyi/tIHT+Wo
- xWyg==
-X-Gm-Message-State: AOJu0Yxq4nycunOiXl7gsCLbjEG+iYaALZdcnC+8D4XOClu5gomb1/kt
- dQ6dAYo/hl91Yjab3GxRn+IJYg==
-X-Google-Smtp-Source: AGHT+IFQAs80RlQIqqzwPT0ymjrN+THSYEJ+6swDBlzZ54zwM0Wt3dqCXC7zcaoGC7p4bZ2NdFCWFA==
-X-Received: by 2002:a5d:5257:0:b0:333:2fd2:816d with SMTP id
- k23-20020a5d5257000000b003332fd2816dmr1864228wrc.138.1701967194727; 
- Thu, 07 Dec 2023 08:39:54 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
- by smtp.gmail.com with ESMTPSA id
- o1-20020adfe801000000b003333c06fa79sm34216wrm.71.2023.12.07.08.39.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Dec 2023 08:39:53 -0800 (PST)
-Message-ID: <d22dcebc-aa36-4aba-91ec-672780367448@linaro.org>
-Date: Thu, 7 Dec 2023 17:39:50 +0100
-MIME-Version: 1.0
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur04on2109.outbound.protection.outlook.com [40.107.8.109])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AD4D10E1EC
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 16:42:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OJfe16NHYwqiJVmykGfDrNruAW5HGy0TPLr4AaNKOXA2XdJlMhqR/ENtC4qkVexSTU3PnsHSxdz5sTdrC26W3S47dQXNSPu4E/d7yE9jkHzynaxNwSWKZyCA/BlXAJWS4/tRElNWEND+mGaODcuJVRBIkUoweoSkf6W6mQlR6mXzmbcOSrZL0hNA1A/gjRi97wGSzm3HHCs3k0ZG9nDNwvi/2BS5+8VdDwES0ryOCBmvpQSWrpkAVl1E+2aXfgCuN+khtLQZ0rl7GyOeX+6tz5NiM4vhiM6Ql/INW6tpJTtscgFoYrnO3+f5ngPucLcWBIY/HL+kAuk+q063NA05Iw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ov8K7h+3jWlY2h9GGyRghqz7j3x1HPg2JfqLj3bkmDQ=;
+ b=MLQL4Yeq6stw9GzzyWLHHXvn1xw7eMoI56H7g7CPvtnq0sGNiyrw6mR0DT96dR7G/kLai+9t0OXlZxrbOmZ7+Xv7gns8R6dxXoDKY9zX66jLm0LSmvkesWh9JT7j2j/RnRapk7BVpmQUea1U0xjhU0TGQuUQnc8AaJVJ3sSFkKplaz0DRUI1gnt2j0rkuh66GQiDDbGDBhlP+F6RVp3avmjM1XRBouv6EieHTTaVToXrkCyCcUTOxbMsq1mNzETPGyHWj+L1cooOwLtAprSNlUFHdO/n4pZ1QUE5qdry02RUYsHXraaWAkSEN1ToTso7FwwV66y54JzCmo5I5uBrwA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
+ s=selector2-mysnt-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ov8K7h+3jWlY2h9GGyRghqz7j3x1HPg2JfqLj3bkmDQ=;
+ b=f5OE255YNQ9x0FbRbrE6bAcKyqQGXlYgLnFxg9JjYUXhq40jc0g0hQgdWiJs4r4+6qjwQ7XbBvGvdnEDHdE4nmAq/tVtTF6Dzi1gXpcGK8XFa+HAv9xybdCcPySjXlt6ppN3m9d0hZICGFRklhzgdx9jN3Jo2lDFbIqNmL4B1wE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=kontron.de;
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
+ by AM8PR10MB4100.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:1eb::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.25; Thu, 7 Dec
+ 2023 16:42:46 +0000
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::27ba:9922:8d12:7b3d]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::27ba:9922:8d12:7b3d%5]) with mapi id 15.20.7068.025; Thu, 7 Dec 2023
+ 16:42:46 +0000
+Message-ID: <77ee045d-e5e0-4157-ae0d-cd8320a33eb3@kontron.de>
+Date: Thu, 7 Dec 2023 17:42:43 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: display: msm: dp-controller: document
- SM8650 compatible
-Content-Language: en-US
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-References: <20231207-topic-sm8650-upstream-dp-v1-0-b762c06965bb@linaro.org>
- <20231207-topic-sm8650-upstream-dp-v1-1-b762c06965bb@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231207-topic-sm8650-upstream-dp-v1-1-b762c06965bb@linaro.org>
+Subject: Re: [PATCH] drm/bridge: samsung-dsim: check the return value only if
+ necessary
+Content-Language: en-US, de-DE
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ linux-kernel@vger.kernel.org
+References: <20231207161056.183442-1-dario.binacchi@amarulasolutions.com>
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
+In-Reply-To: <20231207161056.183442-1-dario.binacchi@amarulasolutions.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0235.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e9::6) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:263::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|AM8PR10MB4100:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1d32a8ff-a28a-4509-6b42-08dbf7438ab6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 40S+mBsmjynW5dIosW/Bj88t75rI9aMZK2y60W2kgbpYRnrBkFTftZiDR4TV0Xkis8UdlHK/LDAIZYUfLn5J1bo4o1WCT6q7q4C8lK1JRQ8edGQ2UZl0kn5Vat7XOXJJ7TsvhrPZxnRGuL49jFRJ3KPKF1YhVVSiFdXzvF0YYMunlEzTXDsKO2/DyD9F2/AiHI/ayKLSzkqpsueUchZV/bks+6pguAgI7maBCfN49ro4yiXAOSk+nuY+NgJr4IRxu9PgR9TOi6O8hiaaJBfgbS7lKirBxMXdVOJqkJgjEIUKGZd31aMYUPCdGL/GYDkUbUPeA/Q8q4DA8psbtJtOXsqaziHD68t6FZtTJT94HZZItFassnBYJL/Sfli28RhqUXRvQdWoAV1n+rIKdiMJMZcuxav0rYEXGAp66A5dHnKdcMGIhs4dMLGLK298Pt/Y4k9aDB9GPz7XRvf2OSEgX3+RRIYhRbgotTu5Ck9VQ1f9T7EQHOS+alBIS5MwKTP4Kq8qOtZ5OI7ZnTiv9JGiY0tN/2/0eN7L1Pr+QsQ7ekXN50caho2tuv03Vrtw7IHFfYG0/Q0UXOWux65H102g+hzV/xbSCBW9BJS3rTHEZymTC17zfzZmtiUA8T1+U1BT8NB97Z0ITFl7+RuBCgpphQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(376002)(39860400002)(396003)(346002)(136003)(230922051799003)(451199024)(64100799003)(186009)(1800799012)(2616005)(6512007)(83380400001)(26005)(478600001)(66556008)(66946007)(66476007)(316002)(54906003)(6486002)(6506007)(53546011)(5660300002)(6666004)(44832011)(38100700002)(7416002)(2906002)(31686004)(36756003)(41300700001)(8936002)(4326008)(8676002)(31696002)(86362001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eGNzQS9TQlZTbmZEbEh3WVM4dHJvbnZDQVkzOFZlazZmeHMyZDdib005L25h?=
+ =?utf-8?B?RmF6czVmMXpUT2FhcmdhOVhGT2hIQnBuZXh6VUpvcGR1N3F4eVFxcEI4WVN5?=
+ =?utf-8?B?Sm10UEl3cCs3NldEV2I5RTkrcEhDOFdLVHdwcnBhNlJKc0s0QiszVXFhbisv?=
+ =?utf-8?B?WlVqdXJjalJpcUpKblNYTGtRQ2dqM25neEswY1BiWXhaa3Z2N1dVMTR3T1lO?=
+ =?utf-8?B?aEQ0VE5VQ1hYUTYxeXdVenlXZVBUZ0VOV21hVTAwdldWYkYzNzJwQll2UVVs?=
+ =?utf-8?B?QnB1cjgrdEdJOGE3VE42VTFmeDhZNVkranR0UmdKNUpMWnNEN1JQU3I2T2l1?=
+ =?utf-8?B?dlVEOUlXY3d2dnFMNmx3Y0VZUVo0Z3lPUndVRlpiMVlCMDJQV1d1cVhvN1Q5?=
+ =?utf-8?B?ZUhjcU9JellNUmFWR0hGblVySWZvYmRwYVhjYTdab2JCSFc5SzJGaVJPdUdr?=
+ =?utf-8?B?UzJXZUpLc2RVM1JYdW1sOVhrN0Nta2UyN0hHMEJYV2VqQTBuRktPNDVPZFRK?=
+ =?utf-8?B?clhjR29oQjJ3QlRLOXp3TVhVMzR4RytyVG02K3paWW9CcVRqNWxUeHdJQnJ6?=
+ =?utf-8?B?ZlEwR0pZdjJxSGNLcFM3dWRGOGlDenlOVUNmelhuZG40cjhUUUk4OXZWSkV2?=
+ =?utf-8?B?aWJUZHdjSjdHeExaYWVjVTkva0lXQlUyR09xSEh0Y2ZHNHY5ZWZZVCtFTTFj?=
+ =?utf-8?B?QjFnZHFTQVdBWldGWTJlaFdPeFgySmEvR21VcUhydVZYRnlZZGpRZjdUSWdz?=
+ =?utf-8?B?Qm9PeGFIKy93WG45bzN5VzZsQ2dGRzlJTVVKcXZmSWdqVzFWNXV2NWlyZkIw?=
+ =?utf-8?B?OWNnU0tGbzlzaWp6aERydWNtOXd1Slg3aGRCUTNReHRNYnhXL0RQcm5pUm5U?=
+ =?utf-8?B?bVVBWURtaURsS3I4Yi94ZHdLUWM1QVhtdmhwZSttN3pSMDZrd1M1MVN6YlRy?=
+ =?utf-8?B?Q0EvbDR2V1d2WURxck1BM3U4N3FHWE9HbXp1WFVpOWUwdG5UWjQ0dlNmdXVt?=
+ =?utf-8?B?OC93dFdhQXVFeFp2bkphczBKTDZQUWtHSlI0SW84N1lETGNRamV3M2tUMmda?=
+ =?utf-8?B?akh3dU41Nld1RytMT3NCT3Zwd1VWK3N1YVZqUktPSTlERlZVeHB6REdxd1lT?=
+ =?utf-8?B?SE9JaE9lMjBwa3pGSWhzV3VtUUw3WCt3azRDZzVBWFowTml6a1BmdmhRNmgv?=
+ =?utf-8?B?Z0JUc2Q1SE1tcEpSY0ZaRjVaemplY3RyczRnWGFQWThBYWs1SDJFL0JxYTMy?=
+ =?utf-8?B?cnVLMmZYS0trQzY0Y2Q3bDJMNGRCVmJENnBYYXdwYmlMRWxYYzhMSCtsQWRW?=
+ =?utf-8?B?RWZYTk9FRzBPVW5WeDNIc05BSCtLOUVrc1lPUDF0T0ZQVDI1ZXNVcGlMQmg2?=
+ =?utf-8?B?UEhMTmpKREpLdGN2R3ZsLytST0JqY1F3OEVQa1ZiQnZPZE9NK08vMjVQRE9h?=
+ =?utf-8?B?UFVNYWYyV1VtQ1Nta1dqZWFBN3ZzdDBQUVd3U1M4WEozK2VQWVl5UFNXUU5P?=
+ =?utf-8?B?M2NvSUo1b3F5dVI4djdoTmR0ZEJBY1dwUUJRVkNkUkNrb2VIeCtReUQvV1RE?=
+ =?utf-8?B?L1owVnJhTERHellhMTBJdmVueUlRRk51YVdaSmhBb0tXbDZnMTI0Q2NneVcv?=
+ =?utf-8?B?TzNkdmFTSkpubGxFMUFvbmR3Z25aaW9BSjBjNEloREFrVWNGLzd1TkpHQXB4?=
+ =?utf-8?B?YlJFZi8wV3BMYWFub1ozT0pRaDlsdUJjVmZiQzluVE44SkpQSEZFVE9DUktL?=
+ =?utf-8?B?ajhCd2I4RjBWbkhPeXdlSWUzb3JDanV0d2xSMFhON3NOS3VUajNlVnp3a09T?=
+ =?utf-8?B?Tk4zaFJpK3VIak9MNnd4RHNUZzA0Mzl5d1BNRFVhc3hrTnNhWXZUOFFYY3Bn?=
+ =?utf-8?B?YThiblc1ckVKOVhGR0pqMU5rR1o0Y3pqaWlEOWFLVzZMYTU5UGZpQWQyVy9t?=
+ =?utf-8?B?TFBiREwzeC9sQmhJWlVybVo0QmdmNXdyb3JGTXFaaDEzNndyek5PY2JBVzlV?=
+ =?utf-8?B?bEFLZ3dXMStmNWh3c1JaVVl4M25hZnB2bSt3WnBzVFRiSG44bDlaTW9Jc1lF?=
+ =?utf-8?B?Q040cU82MnlXYjZ0Rk44VFVLcEZVV2h5K2VYbVJ6TEdKQ1pkT3UwczIrS2dV?=
+ =?utf-8?B?ZUV0bjd5ZlZ1bUdxZGhMOXF2VHc0bERrS3cvV1ArZVhEK1hOdmRweXlGa3hZ?=
+ =?utf-8?B?a0E9PQ==?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d32a8ff-a28a-4509-6b42-08dbf7438ab6
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2023 16:42:46.6310 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ad1cJH3Zi3AwZpdgQzva2bKRRpgnJnkMkftXd39wTmiOIoAwPvoE1XGtynGCCVoWTJy5dQ/aoUqY0ZuN/58tvIpym7gtPUJ13cWkHjshiD8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR10MB4100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,22 +127,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/12/2023 17:37, Neil Armstrong wrote:
-> Document the DisplayPort controller found in the Qualcomm SM8650 SoC,
-> the Controller base addresses and layout differ and thus cannot use
-> the SM8350 compatible as fallback.
+On 07.12.23 17:10, Dario Binacchi wrote:
+> It was useless to check again the "ret" variable if the function
+> register_host() was not called.
 > 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+
+Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+
 > ---
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+> 
+>  drivers/gpu/drm/bridge/samsung-dsim.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+> index be5914caa17d..98cd589e4427 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -2020,11 +2020,11 @@ int samsung_dsim_probe(struct platform_device *pdev)
+>  	else
+>  		dsi->bridge.timings = &samsung_dsim_bridge_timings_de_high;
+>  
+> -	if (dsi->plat_data->host_ops && dsi->plat_data->host_ops->register_host)
+> +	if (dsi->plat_data->host_ops && dsi->plat_data->host_ops->register_host) {
+>  		ret = dsi->plat_data->host_ops->register_host(dsi);
+> -
+> -	if (ret)
+> -		goto err_disable_runtime;
+> +		if (ret)
+> +			goto err_disable_runtime;
+> +	}
+>  
+>  	return 0;
+>  
