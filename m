@@ -2,65 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD2C80858F
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 11:33:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D0B4808590
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 11:33:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 417DE10E1F7;
-	Thu,  7 Dec 2023 10:33:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F124110E855;
+	Thu,  7 Dec 2023 10:33:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EA9610E1F7
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E5EA10E1F7
  for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 10:33:21 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id
- 2adb3069b0e04-50bfd3a5b54so572186e87.3
+Received: by mail-lf1-x135.google.com with SMTP id
+ 2adb3069b0e04-50bf4f97752so605409e87.1
  for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 02:33:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701945199; x=1702549999; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1701945200; x=1702550000; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0G7EQ5KcNMD+FJBWqkf4cHHplz7DlKiV0y/rovpjNYk=;
- b=m1leqtxVKj7Yv/PlOMsaDGBE9HZJPKZPkEmG6+5A2AEwR3YECF2f9GJFwTtMJcpewu
- f3n0/tot9AoK43aXIYBSUpllm+l5q7Xm7SaTzUgSjXpQQ2tF9beY897W1pp4ml2QD19g
- xVhgwOtLgpFUwdxf2fBh9wmnlyH89o/1vZocgEe4lJ7MjS6KxjoJBq6PvD/cCQa9WtSU
- QKl03V/ghogBdru53Qb9DM34rImliV2GrIEKvkaTLLUUEbZTd3o1JXxpBrAGAdSeHPxB
- bO/F5DKWavzmvxSHJw71MgXZ7fIX5AdnJDO4tLOT+TlM0QueLTm9p8i2ttRJLhXgIFiD
- wWbg==
+ bh=wtvnOGwWaVIVLZJl01FFTM/jnDNkRfH72/dI2rop8EA=;
+ b=C6KOYlIiJOTg/sEuKw0ErMLIMEEeSHY+yanQnerSoQ9Zabae0QfEBFGUjHBA/EbcO/
+ 5KJkaIzO5h5zvT2zlJUIjI3bIKrIC0WFXNziB5SPwpfmBJzCTqzNNU31cmerN9gcHVnB
+ ijKce3AuClv795Uxift7nrV6Y7QDriK+JiPqi3/llv7GGdh14fTGLEj7BCF4K8Q222Fw
+ XuEWPcZfSZtjiMiGrhCUYTd6XB3m2XWSQbP8mrMK0TPO24qeZX2RMnnv4sgeMF+c8zVx
+ 80FaAjDT3Sx2M9eEJjbUMKskKStunPRZYca265D9hi26nGFdaH+qgZZk4CrWxIQxbaXg
+ sPzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701945199; x=1702549999;
+ d=1e100.net; s=20230601; t=1701945200; x=1702550000;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0G7EQ5KcNMD+FJBWqkf4cHHplz7DlKiV0y/rovpjNYk=;
- b=PFNrLhYVedSpHWu2Bsmy1WasMTOLk+8k4f44aBQuePzXfKaPT59p2O8ouhuZ6vzCNA
- /0+Fc1bTT/cg7Ftqps2VfovaXzGo0Eag6SsvXmqUAiOfBTZX2F4EUjhJe2v1PoWYPNMS
- frjshaQS7Crz8XBYJ420RMhbrU6AyNFjC0NJ2u8+BxTcojmkyZ1ml/VJMI//6Xfyw3vy
- 9KFcmjPoFIwoK3uxzx5SsH5rdT0hL8ud1+atC8RBBT/NrPzuKbY6tvVOj8pSTX80Tt01
- NVtaOzwaUB7AXR/lBLXIK+HIsOsWRnPM0QH+eWgxvapcGVYaI+DAc79KOFwq2W1YuVEY
- ZFig==
-X-Gm-Message-State: AOJu0YyWOW15rsKWh8gDWoj9azBqqfp9/u1p+X0WiGr2kh9qsnwjNQxL
- 9bWgOpHZ23Q3WUU6ZOpd8h0MUaaaAV/hNxXMFJW3BWV2
-X-Google-Smtp-Source: AGHT+IElfQrP5//I1yr0A5j3iV0uNq6PB6PrCqFCGPat86Z8HQ+XO+jpbihW4CTlZz6+VkLy4eJv1g==
-X-Received: by 2002:a19:5f19:0:b0:50b:e5e6:aa8e with SMTP id
- t25-20020a195f19000000b0050be5e6aa8emr1318607lfb.127.1701945199127; 
+ bh=wtvnOGwWaVIVLZJl01FFTM/jnDNkRfH72/dI2rop8EA=;
+ b=OFe8SNCqgQk5YIVgHSZTbYvr4ILD8E/YKMMa4HG/tRRbNRjHiOTWpeIJrZAz32bPf4
+ PMeRv6XJJyDeqL1fRZ4GY3ojmv4o+fAAxPysV4TbUdnnIqrE0X6x739afvO08fNWB4dD
+ mBiRzzYKhu3DjkJBy1i74ECogxnfZxLDKrhSWhtQFHrXS5HEEEPdaVJfgz+ybbackzjY
+ AP0Da2YCyWFSzfLWRWEwQKtuJCqw1fG6IJW58O2H83pIONsxZ/yE6lsZfeYA08FLCsp8
+ 56GpCJ4XAeCo+KkmRCqou/pwCIVKYduz3J2vdh/v1w/zpP0Hdwm2qLVgqPPDjxmzydVp
+ DoIg==
+X-Gm-Message-State: AOJu0YzbXCSMXQD356DHi8ZHl4+PDIiUlh2+8UoFX2RyYe1d/9s4NwWo
+ upg02KUDILEkns9grm7VEzJXqg==
+X-Google-Smtp-Source: AGHT+IGSMWWakZ98zfiQ4cPt4yvm/RbUov0IOgNHxy9Y4PELxlYrrQBKHwhxpK9eEMyi4LcWGo/Fhw==
+X-Received: by 2002:ac2:495d:0:b0:50b:f4f9:75cf with SMTP id
+ o29-20020ac2495d000000b0050bf4f975cfmr1424840lfi.9.1701945199891; 
  Thu, 07 Dec 2023 02:33:19 -0800 (PST)
 Received: from eriador.lan (dzdqv0yyyyyyyyyyyykxt-3.rev.dnainternet.fi.
  [2001:14ba:a0db:1f00::227]) by smtp.gmail.com with ESMTPSA id
- o17-20020ac24bd1000000b0050c19506428sm138326lfq.170.2023.12.07.02.33.18
+ o17-20020ac24bd1000000b0050c19506428sm138326lfq.170.2023.12.07.02.33.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Dec 2023 02:33:18 -0800 (PST)
+ Thu, 07 Dec 2023 02:33:19 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [PATCH] drm/debugfs: fix potential NULL pointer dereference
-Date: Thu,  7 Dec 2023 12:33:15 +0200
-Message-ID: <170194519139.470483.9628943162805035474.b4-ty@linaro.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [PATCH 0/3] A few fixes for transparent bridge support
+Date: Thu,  7 Dec 2023 12:33:16 +0200
+Message-ID: <170194519137.470483.63867654987574718.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231205130631.3456986-1-m.szyprowski@samsung.com>
-References: <CGME20231205130643eucas1p283a5476b78a87997fa393d00f5172418@eucas1p2.samsung.com>
- <20231205130631.3456986-1-m.szyprowski@samsung.com>
+In-Reply-To: <20231205-drm_aux_bridge-fixes-v1-0-d242a0ae9df4@kernel.org>
+References: <20231205-drm_aux_bridge-fixes-v1-0-d242a0ae9df4@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -76,22 +74,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>
+Cc: neil.armstrong@linaro.org, heikki.krogerus@linux.intel.com,
+ kernel test robot <lkp@intel.com>, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, patches@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, bryan.odonoghue@linaro.org,
+ linux@roeck-us.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 05 Dec 2023 14:06:31 +0100, Marek Szyprowski wrote:
-> encoder->funcs entry might be NULL, so check it first before calling its
-> methods. This fixes NULL pointer dereference observed on Rasberry Pi
-> 3b/4b boards.
-> 
+On Tue, 05 Dec 2023 13:13:33 -0700, Nathan Chancellor wrote:
+> This series fixes two Kconfig issues that I noticed with the selection
+> of CONFIG_DRM_AUX{,_HPD}_BRIDGE along with a fix for a sparse report
+> that I noticed while seeing if these had already been resolved.
 > 
 
 Applied to drm-misc-next, thanks!
 
-[1/1] drm/debugfs: fix potential NULL pointer dereference
-      commit: 76385d493c2137460ee7735a5d3a494099c35188
+[1/3] usb: typec: nb7vpq904m: Only select DRM_AUX_BRIDGE with OF
+      commit: 5908cbe82ef77f6019349c450d7f1c8b3c29bb0e
+[2/3] usb: typec: qcom-pmic-typec: Only select DRM_AUX_HPD_BRIDGE with OF
+      commit: 03c0343bdf8d43fee6dfe92a7b66308b60e9e77c
+[3/3] drm/bridge: Return NULL instead of plain 0 in drm_dp_hpd_bridge_register() stub
+      commit: 812cc1da7ffd9e178ef66b8a22113be10fba466c
 
 Best regards,
 -- 
