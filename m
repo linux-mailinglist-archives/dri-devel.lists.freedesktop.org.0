@@ -1,57 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E65498085BC
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 11:48:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 507458084FB
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 10:54:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CD3F10E13A;
-	Thu,  7 Dec 2023 10:48:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60EB089755;
+	Thu,  7 Dec 2023 09:54:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 3300 seconds by postgrey-1.36 at gabe;
- Thu, 07 Dec 2023 10:48:07 UTC
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FB6E10E13A
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 10:48:07 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3B79qmUP044203;
- Thu, 7 Dec 2023 03:52:48 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1701942768;
- bh=ae0e76J41oEitnlkmEb6+D5ag/155GweJQanjzLB9b4=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=R/eUtt4vxja1+TbXdsDENdGgKFYRX57L5zZe+BAVhjN2rRCowzyukNNgDo6GnZkmZ
- h3sN5UkjzjSAC8rV0J+2c6RafflWXRnhNfDRLX96JBqEeiJqXAVvDZGcGaVHe6euPK
- TM9/CjrrL5TY1zmUuN0BL/ukTpY5oJQs2uRn0dIE=
-Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3B79qmIQ017222
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 7 Dec 2023 03:52:48 -0600
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 7
- Dec 2023 03:52:48 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 7 Dec 2023 03:52:48 -0600
-Received: from [172.24.227.25] (uda0496377.dhcp.ti.com [172.24.227.25])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3B79qhCR103456;
- Thu, 7 Dec 2023 03:52:44 -0600
-Message-ID: <ab12bb39-6b2e-41a7-910c-af124f06a0d6@ti.com>
-Date: Thu, 7 Dec 2023 15:22:43 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76CD089755
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 09:54:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701942882; x=1733478882;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=JVg+YFeylE5751j053diLSsB0HH6ZRmcj2hNvpngTOM=;
+ b=d8aBvxvLOAKwLjYrdsycaHl+THt71OG8WKJm38QNl2Gcw0+Oy+ILW7D8
+ o55GwID7V2/l4LIF2wIInDOy7fkgajtM4EQQOrhc8SQanVzI/XvToLpQm
+ jcxXcV1gYZXVBPVJmtvnCTeoLAp8OZ0GxwIdM21c1+amKTGkE76fKEAFD
+ xxgHfeBbW7MSrV+r7AWkTiQmmvKT0pZV09gi13YHsLuZKPu39d4/tp1Se
+ +T+lJgp8wo1Q3Re5T/zI1DhE/XSP+cAnZoAYzpyMgtO7LcK4PqqovA1MJ
+ +wPbVWyrCBCGcqw+xHo/k02DTRvMjCP7tBBJMtsxjomVk69vwvrtfUSc+ A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="12920378"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; d="scan'208";a="12920378"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Dec 2023 01:54:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="895078971"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; d="scan'208";a="895078971"
+Received: from mrehana-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.62.169])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Dec 2023 01:54:36 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: bbaa <bbaa@bbaa.fun>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
+Subject: Re: [Bug Report] drm/edid: drm_edid_override_connector_update
+ returns a incorrect value
+In-Reply-To: <930E9B4C7D91FDFF+29b34d89-8658-4910-966a-c772f320ea03@bbaa.fun>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <930E9B4C7D91FDFF+29b34d89-8658-4910-966a-c772f320ea03@bbaa.fun>
+Date: Thu, 07 Dec 2023 11:54:34 +0200
+Message-ID: <87jzpq1go5.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panel: re-alphabetize the menu list
-To: Randy Dunlap <rdunlap@infradead.org>, <linux-kernel@vger.kernel.org>
-References: <20231207062233.5318-1-rdunlap@infradead.org>
-Content-Language: en-US
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <20231207062233.5318-1-rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,174 +61,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Randy,
+On Thu, 07 Dec 2023, bbaa <bbaa@bbaa.fun> wrote:
+> Hello everyone,
+>
+> drm_edid_override_connector_update seem return a incorrect value.
+>
+> drivers/gpu/drm/drm_edid.c (Linux 6.7-rc4)
+>    2294	/**
+>    2295	 * drm_edid_override_connector_update - add modes from override/f=
+irmware EDID
+>    2296	 * @connector: connector we're probing
+>    2297	 *
+>    2298	 * Add modes from the override/firmware EDID, if available. Only =
+to be used from
+>    2299	 * drm_helper_probe_single_connector_modes() as a fallback for wh=
+en DDC probe
+>    2300	 * failed during drm_get_edid() and caused the override/firmware =
+EDID to be
+>    2301	 * skipped.
+>    2302	 *
+>    2303	 * Return: The number of modes added or 0 if we couldn't find any.
+>    2304	 */
 
-Thanks for the patch!
+Thanks for the report. I've sent a patch to hopefully fix this [1].
 
-On 07/12/23 11:52, Randy Dunlap wrote:
-> A few of the DRM_PANEL entries have become out of alphabetical order,
-> so move them around a bit to restore alpha order.
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/panel/Kconfig |   90 ++++++++++++++++----------------
->  1 file changed, 45 insertions(+), 45 deletions(-)
-> 
-> diff -- a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -95,34 +95,6 @@ config DRM_PANEL_LVDS
->  	  handling of power supplies or control signals. It implements automatic
->  	  backlight handling if the panel is attached to a backlight controller.
->  
-> -config DRM_PANEL_SIMPLE
-> -	tristate "support for simple panels (other than eDP ones)"
-> -	depends on OF
-> -	depends on BACKLIGHT_CLASS_DEVICE
-> -	depends on PM
-> -	select VIDEOMODE_HELPERS
-> -	help
-> -	  DRM panel driver for dumb non-eDP panels that need at most a regulator
-> -	  and a GPIO to be powered up. Optionally a backlight can be attached so
-> -	  that it can be automatically turned off when the panel goes into a
-> -	  low power state.
-> -
-> -config DRM_PANEL_EDP
-> -	tristate "support for simple Embedded DisplayPort panels"
-> -	depends on OF
-> -	depends on BACKLIGHT_CLASS_DEVICE
-> -	depends on PM
-> -	select VIDEOMODE_HELPERS
-> -	select DRM_DISPLAY_DP_HELPER
-> -	select DRM_DISPLAY_HELPER
-> -	select DRM_DP_AUX_BUS
-> -	select DRM_KMS_HELPER
-> -	help
-> -	  DRM panel driver for dumb eDP panels that need at most a regulator and
-> -	  a GPIO to be powered up. Optionally a backlight can be attached so
-> -	  that it can be automatically turned off when the panel goes into a
-> -	  low power state.
-> -
->  config DRM_PANEL_EBBG_FT8719
->  	tristate "EBBG FT8719 panel driver"
->  	depends on OF
-> @@ -317,12 +289,6 @@ config DRM_PANEL_LEADTEK_LTK500HD1829
->  	  24 bit RGB per pixel. It provides a MIPI DSI interface to
->  	  the host and has a built-in LED backlight.
->  
-> -config DRM_PANEL_SAMSUNG_LD9040
-> -	tristate "Samsung LD9040 RGB/SPI panel"
-> -	depends on OF && SPI
-> -	depends on BACKLIGHT_CLASS_DEVICE
-> -	select VIDEOMODE_HELPERS
-> -
->  config DRM_PANEL_LG_LB035Q02
->  	tristate "LG LB035Q024573 RGB panel"
->  	depends on GPIOLIB && OF && SPI
-> @@ -350,6 +316,17 @@ config DRM_PANEL_MAGNACHIP_D53E6EA8966
->  	  with the Magnachip D53E6EA8966 panel IC. This panel receives
->  	  video data via DSI but commands via 9-bit SPI using DBI.
->  
-> +config DRM_PANEL_MANTIX_MLAF057WE51
-> +	tristate "Mantix MLAF057WE51-X MIPI-DSI LCD panel"
-> +	depends on OF
-> +	depends on DRM_MIPI_DSI
-> +	depends on BACKLIGHT_CLASS_DEVICE
-> +	help
-> +	  Say Y here if you want to enable support for the Mantix
-> +	  MLAF057WE51-X MIPI DSI panel as e.g. used in the Librem 5. It
-> +	  has a resolution of 720x1440 pixels, a built in backlight and touch
-> +	  controller.
-> +
->  config DRM_PANEL_NEC_NL8048HL11
->  	tristate "NEC NL8048HL11 RGB panel"
->  	depends on GPIOLIB && OF && SPI
-> @@ -438,17 +415,6 @@ config DRM_PANEL_NOVATEK_NT39016
->  	  Say Y here if you want to enable support for the panels built
->  	  around the Novatek NT39016 display controller.
->  
-> -config DRM_PANEL_MANTIX_MLAF057WE51
-> -	tristate "Mantix MLAF057WE51-X MIPI-DSI LCD panel"
-> -	depends on OF
-> -	depends on DRM_MIPI_DSI
-> -	depends on BACKLIGHT_CLASS_DEVICE
-> -	help
-> -	  Say Y here if you want to enable support for the Mantix
-> -	  MLAF057WE51-X MIPI DSI panel as e.g. used in the Librem 5. It
-> -	  has a resolution of 720x1440 pixels, a built in backlight and touch
-> -	  controller.
-> -
->  config DRM_PANEL_OLIMEX_LCD_OLINUXINO
->  	tristate "Olimex LCD-OLinuXino panel"
->  	depends on OF
-> @@ -566,6 +532,12 @@ config DRM_PANEL_SAMSUNG_DB7430
->  	  DB7430 DPI display controller used in such devices as the
->  	  LMS397KF04 480x800 DPI panel.
->  
-> +config DRM_PANEL_SAMSUNG_LD9040
-> +	tristate "Samsung LD9040 RGB/SPI panel"
-> +	depends on OF && SPI
-> +	depends on BACKLIGHT_CLASS_DEVICE
-> +	select VIDEOMODE_HELPERS
-> +
->  config DRM_PANEL_SAMSUNG_S6D16D0
->  	tristate "Samsung S6D16D0 DSI video mode panel"
->  	depends on OF
-> @@ -774,6 +746,34 @@ config DRM_PANEL_STARTEK_KD070FHFID015
->  	  with a resolution of 1024 x 600 pixels. It provides a MIPI DSI interface to
->  	  the host, a built-in LED backlight and touch controller.
->  
-> +config DRM_PANEL_EDP
-> +	tristate "support for simple Embedded DisplayPort panels"
-> +	depends on OF
-> +	depends on BACKLIGHT_CLASS_DEVICE
-> +	depends on PM
-> +	select VIDEOMODE_HELPERS
-> +	select DRM_DISPLAY_DP_HELPER
-> +	select DRM_DISPLAY_HELPER
-> +	select DRM_DP_AUX_BUS
-> +	select DRM_KMS_HELPER
-> +	help
-> +	  DRM panel driver for dumb eDP panels that need at most a regulator and
-> +	  a GPIO to be powered up. Optionally a backlight can be attached so
-> +	  that it can be automatically turned off when the panel goes into a
-> +	  low power state.
-> +
+[1] https://patchwork.freedesktop.org/patch/msgid/20231207093821.2654267-1-=
+jani.nikula@intel.com
 
-I don't think you intended to put PANEL_EDP this down the file! But just
-in case if you did, why?
+However, please read the documentation comment above: "Only to be used
+from drm_helper_probe_single_connector_modes() ..."
 
-Regards
-Aradhya
+The function is a fallback for a *very* specific and rare scenario.
 
-> +config DRM_PANEL_SIMPLE
-> +	tristate "support for simple panels (other than eDP ones)"
-> +	depends on OF
-> +	depends on BACKLIGHT_CLASS_DEVICE
-> +	depends on PM
-> +	select VIDEOMODE_HELPERS
-> +	help
-> +	  DRM panel driver for dumb non-eDP panels that need at most a regulator
-> +	  and a GPIO to be powered up. Optionally a backlight can be attached so
-> +	  that it can be automatically turned off when the panel goes into a
-> +	  low power state.
-> +
->  config DRM_PANEL_TDO_TL070WSH30
->  	tristate "TDO TL070WSH30 DSI panel"
->  	depends on OF
+> This will break the EDID override behavior on Nvidia graphics cards.
+>
+> NVIDIA/open-gpu-kernel-modules:
+> kernel-open/nvidia-drm/nvidia-drm-connector.c:
+>  =C2=A0=C2=A0103 =C2=A0#if defined(NV_DRM_CONNECTOR_HAS_OVERRIDE_EDID) =
+=C2=A0=C2=A0104 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if=20
+> (connector->override_edid) { =C2=A0=C2=A0105 =C2=A0#else =C2=A0=C2=A0106 =
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if=20
+> (drm_edid_override_connector_update(connector) > 0) { =C2=A0=C2=A0107 =C2=
+=A0#endif=20
+>  =C2=A0=C2=A0108 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0co=
+nst struct drm_property_blob *edid =3D=20
+> connector->edid_blob_ptr; =C2=A0=C2=A0109=20
+> drm_edid_override_connector_update(connector)  will return zero here.
+
+That's an out-of-tree driver that doesn't follow the documentation
+above. Drivers have no business calling the function.
+
+All of the override/firmware EDID handling should be covered
+transparently via the drm_edid_read*() and drm_get_edid() functions, and
+the drivers shouldn't have to ever care about overrides, at all. Drivers
+shouldn't really use connector->edid_blob_ptr directly either.
+
+Please report and get that fixed downstream.
+
+
+BR,
+Jani.
+
+
+--=20
+Jani Nikula, Intel
