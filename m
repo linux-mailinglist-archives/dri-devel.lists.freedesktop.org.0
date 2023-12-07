@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3469808C98
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 16:51:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5684808C9A
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 16:51:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7BBC10E911;
-	Thu,  7 Dec 2023 15:51:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0116910E912;
+	Thu,  7 Dec 2023 15:51:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEFAF10E90E
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 15:51:35 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BF1A10E90F
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 15:51:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id D39BECE2078;
- Thu,  7 Dec 2023 15:51:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23894C4166B;
- Thu,  7 Dec 2023 15:51:32 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 766DA61E99;
+ Thu,  7 Dec 2023 15:51:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E59BBC433B7;
+ Thu,  7 Dec 2023 15:51:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701964293;
- bh=LVnlQNCazjkGTqLwXxcrcuFECpSDdb3l2iMVIaIxEkM=;
+ s=k20201202; t=1701964296;
+ bh=jFJZOzfWjLZ2zEQYriox+hHfpbIA1hm9BhGPRAYICP0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=PYzuZmZrQnHEvZyGXoFA8IpJAm9Cfip0jHXkFMHfNQnNZ+MGG/j1LkUlafkoxfJdb
- 8FBE2ZNsveTQc1DK2pZAZl3DEhg6L5T3Rn7WQKHReIwcec/e9LngMM6rmsAqvtA/Ik
- xjCU3xFd4tfLkquRwhftxRjcPRxH2AV9LM7JP35RC8UIjrelPc5lKe1MRw/30FhqVk
- Xhm3V9CIkB3aonQEOqPKxvQoNhvrFzUxpl9MR5s0gVnRSqRczP3jzgV5p/U5H4dLG3
- N74gs34upRQxtM+Bpg0DBhf/a2uF9ib6YUDNX9mmboy/DgiX4qgJDKwfN/LgnUnobb
- E7lC92uLHUCeA==
+ b=qJnwixC22mN0QRYeLzQTecoFl+cSMNUKGFxUfsVGWodi3RAFZ4/IGhuPpZsieVPMY
+ /cLipfBzSXTIESycxXbE3ULJigOpq1MHBskPrdqCL8okkPTG8Ekbzo5ttv+91UILxP
+ WZT7YabW4Q8tTBdh42WArwkqMK/DIHBq3JZhlwK0EaE9k3ARPJGUWXkF6WtEh4OvZG
+ fIr2bKtMtd3hVrFL6+EPz/nIq9KEM2Kg7b8k/WW8dwA8pSj2/Eq/pNbisgxf2AUiuu
+ VTHywRgIxOETmXhFqAFe2ZOZiYYEHq4NgVhoIMn6HpQboPLu1DRTzEEG5U+RWG9jxS
+ OvctKrrpTNXcw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 07 Dec 2023 16:50:06 +0100
-Subject: [PATCH v5 43/44] drm/sun4i: hdmi: Consolidate atomic_check and
- mode_valid
+Date: Thu, 07 Dec 2023 16:50:07 +0100
+Subject: [PATCH v5 44/44] drm/sun4i: hdmi: Switch to HDMI connector
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231207-kms-hdmi-connector-state-v5-43-6538e19d634d@kernel.org>
+Message-Id: <20231207-kms-hdmi-connector-state-v5-44-6538e19d634d@kernel.org>
 References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
 In-Reply-To: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -45,12 +45,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Samuel Holland <samuel@sholland.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4258; i=mripard@kernel.org;
- h=from:subject:message-id; bh=LVnlQNCazjkGTqLwXxcrcuFECpSDdb3l2iMVIaIxEkM=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmFL9sn7fxh69z5/b2C3HFlidk209Utr59RmFJRmpEqJ
- W58Siupo5SFQYyLQVZMkSVG2HxJ3KlZrzvZ+ObBzGFlAhnCwMUpABNZ6M/wm/3Py93ikS+218Uc
- 9D1tduMPn7GC/sZiO3NVljtym9822zP8082eICTEYym7a77eyefJG61WdikYKzvOZxX0X3+nwuA
- dNwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6185; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=jFJZOzfWjLZ2zEQYriox+hHfpbIA1hm9BhGPRAYICP0=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmFL9sTlu+9fK3r9Wcmec8LgdGXEhV2HmkRfWZYwn39p
+ 67lhAiHjlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEwkbSEjw/8Lr5fq3itau553
+ z4JLWh+Orlt/V0rlllfs1sk5B+fGxG5j+J+56GebVUG77GyRsqrC7ydOLK4o/VDswh869c4Baf+
+ 3rxkA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,125 +73,170 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-atomic_check and mode_valid do not check for the same things which can
-lead to surprising result if the userspace commits a mode that didn't go
-through mode_valid. Let's merge the two implementations into a function
-called by both.
+The new HDMI connector infrastructure allows to remove some boilerplate,
+especially to generate infoframes. Let's switch to it.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 74 +++++++++++++++++++++-------------
- 1 file changed, 47 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 80 ++++++++++++++++++++++------------
+ 1 file changed, 51 insertions(+), 29 deletions(-)
 
 diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index c276d984da6b..b7cf369b1906 100644
+index b7cf369b1906..8a9106a39f23 100644
 --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
 +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -62,18 +62,6 @@ static int sun4i_hdmi_setup_avi_infoframes(struct sun4i_hdmi *hdmi,
+@@ -36,30 +36,24 @@
+ #define drm_connector_to_sun4i_hdmi(c)		\
+ 	container_of_const(c, struct sun4i_hdmi, connector)
+ 
+-static int sun4i_hdmi_setup_avi_infoframes(struct sun4i_hdmi *hdmi,
+-					   struct drm_display_mode *mode)
++static int sun4i_hdmi_write_infoframe(struct drm_connector *connector,
++				      enum hdmi_infoframe_type type,
++				      const u8 *buffer, size_t len)
+ {
+-	struct hdmi_avi_infoframe frame;
+-	u8 buffer[17];
+-	int i, ret;
++	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
++	int i;
+ 
+-	ret = drm_hdmi_avi_infoframe_from_display_mode(&frame,
+-						       &hdmi->connector, mode);
+-	if (ret < 0) {
+-		DRM_ERROR("Failed to get infoframes from mode\n");
+-		return ret;
++	if (type != HDMI_INFOFRAME_TYPE_AVI) {
++		drm_err(connector->dev,
++			"Unsupported infoframe type: %u\n", type);
++		return 0;
+ 	}
+ 
+-	ret = hdmi_avi_infoframe_pack(&frame, buffer, sizeof(buffer));
+-	if (ret < 0) {
+-		DRM_ERROR("Failed to pack infoframes\n");
+-		return ret;
+-	}
+-
+-	for (i = 0; i < sizeof(buffer); i++)
++	for (i = 0; i < len; i++)
+ 		writeb(buffer[i], hdmi->base + SUN4I_HDMI_AVI_INFOFRAME_REG(i));
+ 
  	return 0;
++
  }
  
--static int sun4i_hdmi_atomic_check(struct drm_encoder *encoder,
--				   struct drm_crtc_state *crtc_state,
--				   struct drm_connector_state *conn_state)
--{
--	struct drm_display_mode *mode = &crtc_state->mode;
--
--	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
--		return -EINVAL;
--
--	return 0;
--}
--
  static void sun4i_hdmi_disable(struct drm_encoder *encoder,
- 			       struct drm_atomic_state *state)
+@@ -82,14 +76,18 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
  {
-@@ -166,31 +154,61 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 	writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
- }
- 
--static enum drm_mode_status sun4i_hdmi_mode_valid(struct drm_encoder *encoder,
--					const struct drm_display_mode *mode)
-+static const struct drm_encoder_helper_funcs sun4i_hdmi_helper_funcs = {
-+	.atomic_disable	= sun4i_hdmi_disable,
-+	.atomic_enable	= sun4i_hdmi_enable,
-+};
-+
-+static enum drm_mode_status
-+sun4i_hdmi_connector_clock_valid(const struct drm_connector *connector,
-+				 const struct drm_display_mode *mode,
-+				 unsigned long long clock)
- {
--	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
--	unsigned long rate = mode->clock * 1000;
--	unsigned long diff = rate / 200; /* +-0.5% allowed by HDMI spec */
-+	const struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-+	unsigned long diff = clock / 200; /* +-0.5% allowed by HDMI spec */
- 	long rounded_rate;
- 
-+	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
-+		return MODE_BAD;
-+
- 	/* 165 MHz is the typical max pixelclock frequency for HDMI <= 1.2 */
--	if (rate > 165000000)
-+	if (clock > 165000000)
- 		return MODE_CLOCK_HIGH;
--	rounded_rate = clk_round_rate(hdmi->tmds_clk, rate);
-+
-+	rounded_rate = clk_round_rate(hdmi->tmds_clk, clock);
- 	if (rounded_rate > 0 &&
--	    max_t(unsigned long, rounded_rate, rate) -
--	    min_t(unsigned long, rounded_rate, rate) < diff)
-+	    max_t(unsigned long, rounded_rate, clock) -
-+	    min_t(unsigned long, rounded_rate, clock) < diff)
- 		return MODE_OK;
-+
- 	return MODE_NOCLOCK;
- }
- 
--static const struct drm_encoder_helper_funcs sun4i_hdmi_helper_funcs = {
--	.atomic_check	= sun4i_hdmi_atomic_check,
--	.atomic_disable	= sun4i_hdmi_disable,
--	.atomic_enable	= sun4i_hdmi_enable,
--	.mode_valid	= sun4i_hdmi_mode_valid,
--};
-+static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
-+					     struct drm_atomic_state *state)
-+{
+ 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
+ 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
+-	struct drm_display_info *display = &hdmi->connector.display_info;
++	struct drm_connector *connector = &hdmi->connector;
++	struct drm_display_info *display = &connector->display_info;
 +	struct drm_connector_state *conn_state =
 +		drm_atomic_get_new_connector_state(state, connector);
-+	struct drm_crtc *crtc = conn_state->crtc;
-+	struct drm_crtc_state *crtc_state = crtc->state;
-+	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
-+	enum drm_mode_status status;
-+
-+	status = sun4i_hdmi_connector_clock_valid(connector, mode,
-+						  mode->clock * 1000);
-+	if (status != MODE_OK)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static enum drm_mode_status
-+sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
-+				struct drm_display_mode *mode)
-+{
-+	return sun4i_hdmi_connector_clock_valid(connector, mode,
-+						mode->clock * 1000);
-+}
++	unsigned long long tmds_rate = conn_state->hdmi.tmds_char_rate;
+ 	unsigned int x, y;
+ 	u32 val = 0;
  
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
+ 	DRM_DEBUG_DRIVER("Enabling the HDMI Output\n");
+ 
+-	clk_set_rate(hdmi->mod_clk, mode->crtc_clock * 1000);
+-	clk_set_rate(hdmi->tmds_clk, mode->crtc_clock * 1000);
++	clk_set_rate(hdmi->mod_clk, tmds_rate);
++	clk_set_rate(hdmi->tmds_clk, tmds_rate);
+ 
+ 	/* Set input sync enable */
+ 	writel(SUN4I_HDMI_UNKNOWN_INPUT_SYNC,
+@@ -142,7 +140,8 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
+ 
+ 	clk_prepare_enable(hdmi->tmds_clk);
+ 
+-	sun4i_hdmi_setup_avi_infoframes(hdmi, mode);
++	drm_atomic_helper_connector_hdmi_update_infoframes(connector, state);
++
+ 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
+ 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(1, SUN4I_HDMI_PKT_END);
+ 	writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
+@@ -195,7 +194,7 @@ static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
+ 	enum drm_mode_status status;
+ 
+ 	status = sun4i_hdmi_connector_clock_valid(connector, mode,
+-						  mode->clock * 1000);
++						  conn_state->hdmi.tmds_char_rate);
+ 	if (status != MODE_OK)
+ 		return -EINVAL;
+ 
+@@ -206,8 +205,11 @@ static enum drm_mode_status
+ sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
+ 				struct drm_display_mode *mode)
  {
-@@ -236,6 +254,8 @@ static struct i2c_adapter *sun4i_hdmi_get_ddc(struct device *dev)
+-	return sun4i_hdmi_connector_clock_valid(connector, mode,
+-						mode->clock * 1000);
++	unsigned long long rate =
++		drm_connector_hdmi_compute_mode_clock(mode, 8,
++						      HDMI_COLORSPACE_RGB);
++
++	return sun4i_hdmi_connector_clock_valid(connector, mode, rate);
  }
  
- static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
-+	.atomic_check	= sun4i_hdmi_connector_atomic_check,
-+	.mode_valid	= sun4i_hdmi_connector_mode_valid,
- 	.get_modes	= sun4i_hdmi_get_modes,
- };
+ static int sun4i_hdmi_get_modes(struct drm_connector *connector)
+@@ -253,6 +255,11 @@ static struct i2c_adapter *sun4i_hdmi_get_ddc(struct device *dev)
+ 	return ddc;
+ }
  
++static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
++	.tmds_char_rate_valid	= sun4i_hdmi_connector_clock_valid,
++	.write_infoframe	= sun4i_hdmi_write_infoframe,
++};
++
+ static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
+ 	.atomic_check	= sun4i_hdmi_connector_atomic_check,
+ 	.mode_valid	= sun4i_hdmi_connector_mode_valid,
+@@ -274,11 +281,17 @@ sun4i_hdmi_connector_detect(struct drm_connector *connector, bool force)
+ 	return connector_status_connected;
+ }
+ 
++static void sun4i_hdmi_connector_reset(struct drm_connector *connector)
++{
++	drm_atomic_helper_connector_reset(connector);
++	__drm_atomic_helper_connector_hdmi_reset(connector, connector->state);
++}
++
+ static const struct drm_connector_funcs sun4i_hdmi_connector_funcs = {
+ 	.detect			= sun4i_hdmi_connector_detect,
+ 	.fill_modes		= drm_helper_probe_single_connector_modes,
+ 	.destroy		= drm_connector_cleanup,
+-	.reset			= drm_atomic_helper_connector_reset,
++	.reset			= sun4i_hdmi_connector_reset,
+ 	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
+ 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
+ };
+@@ -637,10 +650,19 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
+ 
+ 	drm_connector_helper_add(&hdmi->connector,
+ 				 &sun4i_hdmi_connector_helper_funcs);
+-	ret = drm_connector_init_with_ddc(drm, &hdmi->connector,
+-					  &sun4i_hdmi_connector_funcs,
+-					  DRM_MODE_CONNECTOR_HDMIA,
+-					  hdmi->ddc_i2c);
++	ret = drmm_connector_hdmi_init(drm, &hdmi->connector,
++				       /*
++					* NOTE: Those are likely to be
++					* wrong, but I couldn't find the
++					* actual ones in the BSP.
++					*/
++				       "AW", "HDMI",
++				       &sun4i_hdmi_connector_funcs,
++				       &sun4i_hdmi_hdmi_connector_funcs,
++				       DRM_MODE_CONNECTOR_HDMIA,
++				       hdmi->ddc_i2c,
++				       BIT(HDMI_COLORSPACE_RGB),
++				       8);
+ 	if (ret) {
+ 		dev_err(dev,
+ 			"Couldn't initialise the HDMI connector\n");
 
 -- 
 2.43.0
