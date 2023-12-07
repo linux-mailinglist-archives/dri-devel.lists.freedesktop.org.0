@@ -1,65 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E9C8084C7
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 10:36:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F9C8084D0
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 10:38:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E207F10E83B;
-	Thu,  7 Dec 2023 09:36:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1122310E839;
+	Thu,  7 Dec 2023 09:38:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A589610E83B
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 09:35:59 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5862F10E839;
+ Thu,  7 Dec 2023 09:38:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1701941758; x=1733477758;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=zk1dhT6C/KZSArTdzP/p5wqb9G2bfeL3f7SYtKcXyCo=;
- b=XO5nacc41r26Idi/nmianp+cUzaFk893BFOyqYjB6mO0xE4U7H6DonqD
- VFCPPhmpI0yX82UX0nYRn+2zQnMx0LKFJNfFR/GVEsmmnnc5V9RYZukbC
- 6AZvb3gz+lfYKzBQ8waveLAzUs8Yom1bCreUwdQYtG6+4w0owtwK0y+Ey
- XkH+uvNY+/F5oamSmMOcAakgQZGLMu04OFaLAFddk5eaBp+9Xg7jfWn5T
- ATeoKUU4g7QW3cK5zhCLtnqysOPuRUVxARmuRKzN9UgiyEuQrF5ZJxLPl
- QZQkNatDzNgJtqpuiaDZRqweZ4Wjif1KSO8BXmOui4lm9FVHYzUUBHO/L A==;
-X-CSE-ConnectionGUID: l1+X6HrHTViYXQWuY+0knA==
-X-CSE-MsgGUID: 3jqu90UXQHGGuQa2OlUe8A==
-X-ThreatScanner-Verdict: Negative
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
- d="asc'?scan'208";a="12923027"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 07 Dec 2023 02:35:57 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 7 Dec 2023 02:35:33 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex01.mchp-main.com (10.10.85.143)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
- Transport; Thu, 7 Dec 2023 02:35:29 -0700
-Date: Thu, 7 Dec 2023 09:34:59 +0000
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Shengyang Chen <shengyang.chen@starfivetech.com>
-Subject: Re: [PATCH v1 1/2] dt-bindings: display: panel: raspberrypi: Add
- compatible property for waveshare 7inch touchscreen panel
-Message-ID: <20231207-dullness-deprive-ece2d47ff69d@wendy>
-References: <20231124104451.44271-1-shengyang.chen@starfivetech.com>
- <20231124104451.44271-2-shengyang.chen@starfivetech.com>
- <20231124-lesser-sinister-7f9cd7b80e35@spud>
- <2d48e460-e46e-431f-bd7b-e34ebe73a40c@starfivetech.com>
- <20231206-isolating-smoked-b490952029d0@spud>
- <53b992e8-1b36-4540-a993-fde8e550faf9@starfivetech.com>
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701941909; x=1733477909;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=NRCb2skgWUY6/0k+GgOYc1syRPquz6NY6LhlUq60Bi8=;
+ b=eXpu9NzauIaYy4ZUCJiZ9MrIyUkmtqpVi7lLyfInU4MJugW0AZPIs+H5
+ E87HgJEQoLoHlDyDl4L+LRpvHJEF3I3UHEU5DEGPx50FDFgcxP+Kd6L5X
+ UCC3ZI6DCR5DQM0SXM6tEHHbR1QlwkTwFFxKrrKfIGdidVEoo6VUpAs5U
+ 8ZaRGqwIUIMhn/0UvENrGiiPaS3ss1GJbA12u0ax0iIDbgv+Oyp1rvipG
+ 69wY+26XcPIzj9uteW3Lne9U1zdcMBp+dp+/PH+ecSwkK5kiNyvmPMmT4
+ jKrsvWY/kZS9YMzZUCQBU0zrnFwmBKKaDRGSQehKP2cxNNzg19gqZBnt+ w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="391378212"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; d="scan'208";a="391378212"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Dec 2023 01:38:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="771668691"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; d="scan'208";a="771668691"
+Received: from mrehana-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.62.169])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Dec 2023 01:38:25 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/edid: also call add modes in EDID connector update
+ fallback
+Date: Thu,  7 Dec 2023 11:38:21 +0200
+Message-Id: <20231207093821.2654267-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="LKkffefepue30ywv"
-Content-Disposition: inline
-In-Reply-To: <53b992e8-1b36-4540-a993-fde8e550faf9@starfivetech.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,90 +58,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, eric@anholt.net, thierry.reding@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, florian.fainelli@broadcom.com,
- sam@ravnborg.org, bcm-kernel-feedback-list@broadcom.com,
- quic_jesszhan@quicinc.com, devicetree@vger.kernel.org, conor+dt@kernel.org,
- mripard@kernel.org, robh+dt@kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, neil.armstrong@linaro.org,
- keith.zhao@starfivetech.com, linux-kernel@vger.kernel.org,
- Conor Dooley <conor@kernel.org>, jack.zhu@starfivetech.com,
- tzimmermann@suse.de, changhuang.liang@starfivetech.com
+Cc: jani.nikula@intel.com, bbaa <bbaa@bbaa.fun>,
+ intel-gfx@lists.freedesktop.org, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---LKkffefepue30ywv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When the separate add modes call was added back in commit c533b5167c7e
+("drm/edid: add separate drm_edid_connector_add_modes()"), it failed to
+address drm_edid_override_connector_update(). Also call add modes there.
 
-On Thu, Dec 07, 2023 at 11:48:56AM +0800, Shengyang Chen wrote:
-> Hi, Conor
->=20
-> thanks for comment
->=20
-> On 2023/12/6 23:40, Conor Dooley wrote:
-> > On Wed, Dec 06, 2023 at 05:43:48PM +0800, Shengyang Chen wrote:
-> >> Hi, Conor
-> >>=20
-> >> On 2023/11/24 20:31, Conor Dooley wrote:
-> >> > On Fri, Nov 24, 2023 at 06:44:50PM +0800, Shengyang Chen wrote:
-> >> >> The waveshare 7inch touchscreen panel is a kind of raspberrypi pi
-> >> >> panel
-> >> >=20
-> >> > Can you be more specific about what "is a kind of rpi panel" means?
-> >> > Are they using identical chips as controllers or something like that?
-> >> >=20
-> >>=20
-> >> Wareshare panel has same i2c slave address and registers address with=
-=20
-> >> the original raspberry pi panel. They both use Atmel firmware and they
-> >> got same reg id. It can be operated by using the driver of raspberry p=
-i driver
-> >> after some change of the code. So I suppose it may be a kind of raspbe=
-rry pi panel=20
-> >> and discribe it in this way. It's my own judgement. Sorry about that.
-> >> Maybe just like Dave said, It cloned the behaviour of the raspberri pi=
- panel.
-> >> I will change the discribtion in next version to not make other confus=
-ed.
-> >>=20
-> >> By the way, we will try Stefan's method before next version.=20
-> >> The method we used in this patch may be abandoned if Stefan's method i=
-s verified in our platform.
-> >> At that time yaml may also be changed to fit new method.
-> >=20
-> > I don't know what Stefan's approach is, but I do not think that a
-> > bindings patch should be dropped. The waveshare might be a clone, but it
-> > is a distinct device. If the same driver can control both, then the
-> > compatible setups that should be permitted are:
-> > compatible =3D "raspberrypi,7inch-touchscreen-panel";
-> > and
-> > compatible =3D "waveshare,7inch-touchscreen-panel", "raspberrypi,7inch-=
-touchscreen-panel";
+Reported-by: bbaa <bbaa@bbaa.fun>
+Closes: https://lore.kernel.org/r/930E9B4C7D91FDFF+29b34d89-8658-4910-966a-c772f320ea03@bbaa.fun
+Fixes: c533b5167c7e ("drm/edid: add separate drm_edid_connector_add_modes()")
+Cc: <stable@vger.kernel.org> # v6.3+
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/drm_edid.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> If we use Stenfan's method, we can reuse the code of panel-simple.c
-> we may submit our patch to
-> /Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> /drivers/gpu/drm/panel/panel-simple.c
-> as a new panel porting. That may less confuse.
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index cb4031d5dcbb..69c68804023f 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -2311,7 +2311,8 @@ int drm_edid_override_connector_update(struct drm_connector *connector)
+ 
+ 	override = drm_edid_override_get(connector);
+ 	if (override) {
+-		num_modes = drm_edid_connector_update(connector, override);
++		if (drm_edid_connector_update(connector, override) == 0)
++			num_modes = drm_edid_connector_add_modes(connector);
+ 
+ 		drm_edid_free(override);
+ 
+-- 
+2.39.2
 
-As long as you provide a specific compatible, and not re-use the rpi
-one, that's fine. It just sounded like you were intending to reuse that
-here, but from this message it seems like I misunderstood.
-
-Thanks,
-Conor.
-
---LKkffefepue30ywv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZXGRvwAKCRB4tDGHoIJi
-0uepAPsFO121yBy+oxhB7OSau+AELQyXEwausDJX8GujOigD2wD+NWi8eCcUWndt
-3hUdUUgCa3P8sLTU12m5hwaHq3cJ9Qo=
-=bdsy
------END PGP SIGNATURE-----
-
---LKkffefepue30ywv--
