@@ -1,55 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC368808CDB
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 17:04:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A101808CDD
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 17:05:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F5DB10E8DD;
-	Thu,  7 Dec 2023 16:04:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8723710E917;
+	Thu,  7 Dec 2023 16:05:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E459E10E8DD
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 16:04:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 662A161EA1
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 16:04:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1611AC433CC
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 16:04:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701965045;
- bh=2FpbQI5Mt0gSqQq/XXJLLf+1SovVdA+maQYMnRTJ0m4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=K1poRaLOvXp7vPNZy1zTsvpIEeSRBjZnrNr1knbGToNVPOkTEZeVMv3dLcA9/wUAt
- f/GaW2gY4cuyGpYx/hvja35r+6rddX/MDh2l8j5PS8IiniikINpA6Uw4qcpFwC0NO+
- Qd+MguwDTW8PLznyqXlZKjUO3wTXFaZjWXqHThLNOC+1h2kg7KyKA76KWfgHpa1vZa
- AAHyWxy1mLsVob6lMPjInBaIarOditi64w63T0yENhrTRmxjW0qZgvj/YHcGBexZ0n
- IabUplIYdGOZPkUY7RM0j4klzy91ov/RSobm2wRqcvq5cDqzfETvf+XlknuhT60rp6
- I74mVI0oK+IWw==
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-2c9efa1ab7fso11763311fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 08:04:04 -0800 (PST)
-X-Gm-Message-State: AOJu0YxX16TuxyifXxOka5I2PdEx6LGZl1QYjxZwXHWiTbZbuvqFTfxw
- 6Eokj2LVbQ4eDBtxkHhroc2YQFGyhIiO0aP3fg==
-X-Google-Smtp-Source: AGHT+IF1cG0pFemXauUHVxHSNj9qWubes+vp4DakrHk/R1risj9jDhlo+9GulMhEdM2kdfcyW16MHWWxKi/zTK9166I=
-X-Received: by 2002:a05:651c:1030:b0:2ca:bcb:e798 with SMTP id
- w16-20020a05651c103000b002ca0bcbe798mr849220ljm.157.1701965043173; Thu, 07
- Dec 2023 08:04:03 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 67E6E10E919
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 16:05:39 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C54F612FC;
+ Thu,  7 Dec 2023 08:06:24 -0800 (PST)
+Received: from [10.1.30.42] (e122027.cambridge.arm.com [10.1.30.42])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B26793F762;
+ Thu,  7 Dec 2023 08:05:36 -0800 (PST)
+Message-ID: <757c0579-f89f-4550-af16-31fb2de5d67c@arm.com>
+Date: Thu, 7 Dec 2023 16:05:35 +0000
 MIME-Version: 1.0
-References: <20230412064635.41315-1-yang.lee@linux.alibaba.com>
- <20230412064635.41315-3-yang.lee@linux.alibaba.com>
- <de13cb5f-abf2-86b3-d2e0-2b1131cd8dfa@baylibre.com>
-In-Reply-To: <de13cb5f-abf2-86b3-d2e0-2b1131cd8dfa@baylibre.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Fri, 8 Dec 2023 00:03:51 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-cO3P2GnMPK68GSRJKe8jguCK-cWENiu-3mXaRaHwmMA@mail.gmail.com>
-Message-ID: <CAAOTY_-cO3P2GnMPK68GSRJKe8jguCK-cWENiu-3mXaRaHwmMA@mail.gmail.com>
-Subject: Re: [PATCH -next 3/3] drm/mediatek: Use
- devm_platform_ioremap_resource()
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 04/14] drm/panthor: Add the GPU logical block
+Content-Language: en-GB
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org
+References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
+ <20231204173313.2098733-5-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20231204173313.2098733-5-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,39 +44,599 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yang Li <yang.lee@linux.alibaba.com>,
- matthias.bgg@gmail.com, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
+ Daniel Stone <daniels@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ Alexey Sheplyakov <asheplyakov@basealt.ru>,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ Grant Likely <grant.likely@linaro.org>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Yang:
+On 04/12/2023 17:32, Boris Brezillon wrote:
+> Handles everything that's not related to the FW, the MMU or the
+> scheduler. This is the block dealing with the GPU property retrieval,
+> the GPU block power on/off logic, and some global operations, like
+> global cache flushing.
+> 
+> v3:
+> - Add acks for the MIT/GPL2 relicensing
+> - Use macros to extract GPU ID info
+> - Make sure we reset clear pending_reqs bits when wait_event_timeout()
+>   times out but the corresponding bit is cleared in GPU_INT_RAWSTAT
+>   (can happen if the IRQ is masked or HW takes to long to call the IRQ
+>   handler)
+> - GPU_MODEL now takes separate arch and product majors to be more
+>   readable.
+> - Drop GPU_IRQ_MCU_STATUS_CHANGED from interrupt mask.
+> - Handle GPU_IRQ_PROTM_FAULT correctly (don't output registers that are
+>   not updated for protected interrupts).
+> - Minor code tidy ups
+> 
+> Cc: Alexey Sheplyakov <asheplyakov@basealt.ru> # MIT+GPL2 relicensing
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
+> Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing,Linaro
+> Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 relicensing,Collabora
 
-Alexandre Mergnat <amergnat@baylibre.com> =E6=96=BC 2023=E5=B9=B44=E6=9C=88=
-12=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=889:49=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> On 12/04/2023 08:46, Yang Li wrote:
-> > Remove variable 'res' and convert platform_get_resource(),
-> > devm_ioremap_resource() to a single call to
-> > devm_platform_ioremap_resource(), as this is exactly what this function
-> > does.
-> >
-> > Signed-off-by: Yang Li<yang.lee@linux.alibaba.com>
->
-> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
->
+LGTM!
 
-Applied to mediatek-drm-next [1], thanks.
+Reviewed: Steven Price <steven.price@arm.com>
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-next
+> ---
+>  drivers/gpu/drm/panthor/panthor_gpu.c | 481 ++++++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_gpu.h |  52 +++
+>  2 files changed, 533 insertions(+)
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_gpu.c
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_gpu.h
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> new file mode 100644
+> index 000000000000..db3df550f320
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -0,0 +1,481 @@
+> +// SPDX-License-Identifier: GPL-2.0 or MIT
+> +/* Copyright 2018 Marty E. Plummer <hanetzer@startmail.com> */
+> +/* Copyright 2019 Linaro, Ltd., Rob Herring <robh@kernel.org> */
+> +/* Copyright 2019 Collabora ltd. */
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/bitmap.h>
+> +#include <linux/delay.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_managed.h>
+> +
+> +#include "panthor_device.h"
+> +#include "panthor_gpu.h"
+> +#include "panthor_regs.h"
+> +
+> +/**
+> + * struct panthor_gpu - GPU block management data.
+> + */
+> +struct panthor_gpu {
+> +	/** @irq: GPU irq. */
+> +	struct panthor_irq irq;
+> +
+> +	/** @reqs_lock: Lock protecting access to pending_reqs. */
+> +	spinlock_t reqs_lock;
+> +
+> +	/** @pending_reqs: Pending GPU requests. */
+> +	u32 pending_reqs;
+> +
+> +	/** @reqs_acked: GPU request wait queue. */
+> +	wait_queue_head_t reqs_acked;
+> +};
+> +
+> +/**
+> + * struct panthor_model - GPU model description
+> + */
+> +struct panthor_model {
+> +	/** @name: Model name. */
+> +	const char *name;
+> +
+> +	/** @arch_major: Major version number of architecture. */
+> +	u8 arch_major;
+> +
+> +	/** @product_major: Major version number of product. */
+> +	u8 product_major;
+> +};
+> +
+> +/**
+> + * GPU_MODEL() - Define a GPU model. A GPU product can be uniquely identified
+> + * by a combination of the major architecture version and the major product
+> + * version.
+> + * @name: Name for the GPU model.
+> + * @_arch_major: Architecture major.
+> + * @_product_major: Product major.
+> + */
+> +#define GPU_MODEL(_name, _arch_major, _product_major) \
+> +{\
+> +	.name = __stringify(_name),				\
+> +	.arch_major = _arch_major,				\
+> +	.product_major = _product_major,			\
+> +}
+> +
+> +static const struct panthor_model gpu_models[] = {
+> +	GPU_MODEL(g610, 10, 7),
+> +	{},
+> +};
+> +
+> +#define GPU_INTERRUPTS_MASK	\
+> +	(GPU_IRQ_FAULT | \
+> +	 GPU_IRQ_PROTM_FAULT | \
+> +	 GPU_IRQ_RESET_COMPLETED | \
+> +	 GPU_IRQ_CLEAN_CACHES_COMPLETED)
+> +
+> +static void panthor_gpu_init_info(struct panthor_device *ptdev)
+> +{
+> +	const struct panthor_model *model;
+> +	u32 arch_major, product_major;
+> +	u32 major, minor, status;
+> +	unsigned int i;
+> +
+> +	ptdev->gpu_info.gpu_id = gpu_read(ptdev, GPU_ID);
+> +	ptdev->gpu_info.csf_id = gpu_read(ptdev, GPU_CSF_ID);
+> +	ptdev->gpu_info.gpu_rev = gpu_read(ptdev, GPU_REVID);
+> +	ptdev->gpu_info.l2_features = gpu_read(ptdev, GPU_L2_FEATURES);
+> +	ptdev->gpu_info.tiler_features = gpu_read(ptdev, GPU_TILER_FEATURES);
+> +	ptdev->gpu_info.mem_features = gpu_read(ptdev, GPU_MEM_FEATURES);
+> +	ptdev->gpu_info.mmu_features = gpu_read(ptdev, GPU_MMU_FEATURES);
+> +	ptdev->gpu_info.thread_features = gpu_read(ptdev, GPU_THREAD_FEATURES);
+> +	ptdev->gpu_info.max_threads = gpu_read(ptdev, GPU_THREAD_MAX_THREADS);
+> +	ptdev->gpu_info.thread_max_workgroup_size = gpu_read(ptdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
+> +	ptdev->gpu_info.thread_max_barrier_size = gpu_read(ptdev, GPU_THREAD_MAX_BARRIER_SIZE);
+> +	ptdev->gpu_info.coherency_features = gpu_read(ptdev, GPU_COHERENCY_FEATURES);
+> +	for (i = 0; i < 4; i++)
+> +		ptdev->gpu_info.texture_features[i] = gpu_read(ptdev, GPU_TEXTURE_FEATURES(i));
+> +
+> +	ptdev->gpu_info.as_present = gpu_read(ptdev, GPU_AS_PRESENT);
+> +
+> +	ptdev->gpu_info.shader_present = gpu_read(ptdev, GPU_SHADER_PRESENT_LO);
+> +	ptdev->gpu_info.shader_present |= (u64)gpu_read(ptdev, GPU_SHADER_PRESENT_HI) << 32;
+> +
+> +	ptdev->gpu_info.tiler_present = gpu_read(ptdev, GPU_TILER_PRESENT_LO);
+> +	ptdev->gpu_info.tiler_present |= (u64)gpu_read(ptdev, GPU_TILER_PRESENT_HI) << 32;
+> +
+> +	ptdev->gpu_info.l2_present = gpu_read(ptdev, GPU_L2_PRESENT_LO);
+> +	ptdev->gpu_info.l2_present |= (u64)gpu_read(ptdev, GPU_L2_PRESENT_HI) << 32;
+> +
+> +	arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
+> +	product_major = GPU_PROD_MAJOR(ptdev->gpu_info.gpu_id);
+> +	major = GPU_VER_MAJOR(ptdev->gpu_info.gpu_id);
+> +	minor = GPU_VER_MINOR(ptdev->gpu_info.gpu_id);
+> +	status = GPU_VER_STATUS(ptdev->gpu_info.gpu_id);
+> +
+> +	for (model = gpu_models; model->name; model++) {
+> +		if (model->arch_major == arch_major &&
+> +		    model->product_major == product_major)
+> +			break;
+> +	}
+> +
+> +	drm_info(&ptdev->base,
+> +		 "mali-%s id 0x%x major 0x%x minor 0x%x status 0x%x",
+> +		 model->name ?: "unknown", ptdev->gpu_info.gpu_id >> 16,
+> +		 major, minor, status);
+> +
+> +	drm_info(&ptdev->base,
+> +		 "Features: L2:%#x Tiler:%#x Mem:%#x MMU:%#x AS:%#x",
+> +		 ptdev->gpu_info.l2_features,
+> +		 ptdev->gpu_info.tiler_features,
+> +		 ptdev->gpu_info.mem_features,
+> +		 ptdev->gpu_info.mmu_features,
+> +		 ptdev->gpu_info.as_present);
+> +
+> +	drm_info(&ptdev->base,
+> +		 "shader_present=0x%0llx l2_present=0x%0llx tiler_present=0x%0llx",
+> +		 ptdev->gpu_info.shader_present, ptdev->gpu_info.l2_present,
+> +		 ptdev->gpu_info.tiler_present);
+> +}
+> +
+> +static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
+> +{
+> +	if (status & GPU_IRQ_FAULT) {
+> +		u32 fault_status = gpu_read(ptdev, GPU_FAULT_STATUS);
+> +		u64 address = ((u64)gpu_read(ptdev, GPU_FAULT_ADDR_HI) << 32) |
+> +			      gpu_read(ptdev, GPU_FAULT_ADDR_LO);
+> +
+> +		drm_warn(&ptdev->base, "GPU Fault 0x%08x (%s) at 0x%016llx\n",
+> +			 fault_status, panthor_exception_name(ptdev, fault_status & 0xFF),
+> +			 address);
+> +	}
+> +	if (status & GPU_IRQ_PROTM_FAULT)
+> +		drm_warn(&ptdev->base, "GPU Fault in protected mode\n");
+> +
+> +	spin_lock(&ptdev->gpu->reqs_lock);
+> +	if (status & ptdev->gpu->pending_reqs) {
+> +		ptdev->gpu->pending_reqs &= ~status;
+> +		wake_up_all(&ptdev->gpu->reqs_acked);
+> +	}
+> +	spin_unlock(&ptdev->gpu->reqs_lock);
+> +}
+> +PANTHOR_IRQ_HANDLER(gpu, GPU, panthor_gpu_irq_handler);
+> +
+> +/**
+> + * panthor_gpu_unplug() - Called when the GPU is unplugged.
+> + * @ptdev: Device to unplug.
+> + */
+> +void panthor_gpu_unplug(struct panthor_device *ptdev)
+> +{
+> +	unsigned long flags;
+> +
+> +	/* Make sure the IRQ handler is not running after that point. */
+> +	panthor_gpu_irq_suspend(&ptdev->gpu->irq);
+> +
+> +	/* Wake-up all waiters. */
+> +	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
+> +	ptdev->gpu->pending_reqs = 0;
+> +	wake_up_all(&ptdev->gpu->reqs_acked);
+> +	spin_unlock_irqrestore(&ptdev->gpu->reqs_lock, flags);
+> +}
+> +
+> +/**
+> + * panthor_gpu_init() - Initialize the GPU block
+> + * @ptdev: Device.
+> + *
+> + * Return: 0 on success, a negative error code otherwise.
+> + */
+> +int panthor_gpu_init(struct panthor_device *ptdev)
+> +{
+> +	struct panthor_gpu *gpu;
+> +	u32 pa_bits;
+> +	int ret, irq;
+> +
+> +	gpu = drmm_kzalloc(&ptdev->base, sizeof(*gpu), GFP_KERNEL);
+> +	if (!gpu)
+> +		return -ENOMEM;
+> +
+> +	spin_lock_init(&gpu->reqs_lock);
+> +	init_waitqueue_head(&gpu->reqs_acked);
+> +	ptdev->gpu = gpu;
+> +	panthor_gpu_init_info(ptdev);
+> +
+> +	dma_set_max_seg_size(ptdev->base.dev, UINT_MAX);
+> +	pa_bits = GPU_MMU_FEATURES_PA_BITS(ptdev->gpu_info.mmu_features);
+> +	ret = dma_set_mask_and_coherent(ptdev->base.dev, DMA_BIT_MASK(pa_bits));
+> +	if (ret)
+> +		return ret;
+> +
+> +	irq = platform_get_irq_byname(to_platform_device(ptdev->base.dev), "gpu");
+> +	if (irq <= 0)
+> +		return ret;
+> +
+> +	ret = panthor_request_gpu_irq(ptdev, &ptdev->gpu->irq, irq, GPU_INTERRUPTS_MASK);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * panthor_gpu_block_power_off() - Power-off a specific block of the GPU
+> + * @ptdev: Device.
+> + * @blk_name: Block name.
+> + * @pwroff_reg: Power-off register for this block.
+> + * @pwrtrans_reg: Power transition register for this block.
+> + * @mask: Sub-elements to power-off.
+> + * @timeout_us: Timeout in microseconds.
+> + *
+> + * Return: 0 on success, a negative error code otherwise.
+> + */
+> +int panthor_gpu_block_power_off(struct panthor_device *ptdev,
+> +				const char *blk_name,
+> +				u32 pwroff_reg, u32 pwrtrans_reg,
+> +				u64 mask, u32 timeout_us)
+> +{
+> +	u32 val, i;
+> +	int ret;
+> +
+> +	for (i = 0; i < 2; i++) {
+> +		u32 mask32 = mask >> (i * 32);
+> +
+> +		if (!mask32)
+> +			continue;
+> +
+> +		ret = readl_relaxed_poll_timeout(ptdev->iomem + pwrtrans_reg + (i * 4),
+> +						 val, !(mask32 & val),
+> +						 100, timeout_us);
+> +		if (ret) {
+> +			drm_err(&ptdev->base, "timeout waiting on %s:%llx power transition",
+> +				blk_name, mask);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	if (mask & GENMASK(31, 0))
+> +		gpu_write(ptdev, pwroff_reg, mask);
+> +
+> +	if (mask >> 32)
+> +		gpu_write(ptdev, pwroff_reg + 4, mask >> 32);
+> +
+> +	for (i = 0; i < 2; i++) {
+> +		u32 mask32 = mask >> (i * 32);
+> +
+> +		if (!mask32)
+> +			continue;
+> +
+> +		ret = readl_relaxed_poll_timeout(ptdev->iomem + pwrtrans_reg + (i * 4),
+> +						 val, !(mask & val),
+> +						 100, timeout_us);
+> +		if (ret) {
+> +			drm_err(&ptdev->base, "timeout waiting on %s:%llx power transition",
+> +				blk_name, mask);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * panthor_gpu_block_power_on() - Power-on a specific block of the GPU
+> + * @ptdev: Device.
+> + * @blk_name: Block name.
+> + * @pwron_reg: Power-on register for this block.
+> + * @pwrtrans_reg: Power transition register for this block.
+> + * @rdy_reg: Power transition ready register.
+> + * @mask: Sub-elements to power-on.
+> + * @timeout_us: Timeout in microseconds.
+> + *
+> + * Return: 0 on success, a negative error code otherwise.
+> + */
+> +int panthor_gpu_block_power_on(struct panthor_device *ptdev,
+> +			       const char *blk_name,
+> +			       u32 pwron_reg, u32 pwrtrans_reg,
+> +			       u32 rdy_reg, u64 mask, u32 timeout_us)
+> +{
+> +	u32 val, i;
+> +	int ret;
+> +
+> +	for (i = 0; i < 2; i++) {
+> +		u32 mask32 = mask >> (i * 32);
+> +
+> +		if (!mask32)
+> +			continue;
+> +
+> +		ret = readl_relaxed_poll_timeout(ptdev->iomem + pwrtrans_reg + (i * 4),
+> +						 val, !(mask32 & val),
+> +						 100, timeout_us);
+> +		if (ret) {
+> +			drm_err(&ptdev->base, "timeout waiting on %s:%llx power transition",
+> +				blk_name, mask);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	if (mask & GENMASK(31, 0))
+> +		gpu_write(ptdev, pwron_reg, mask);
+> +
+> +	if (mask >> 32)
+> +		gpu_write(ptdev, pwron_reg + 4, mask >> 32);
+> +
+> +	for (i = 0; i < 2; i++) {
+> +		u32 mask32 = mask >> (i * 32);
+> +
+> +		if (!mask32)
+> +			continue;
+> +
+> +		ret = readl_relaxed_poll_timeout(ptdev->iomem + rdy_reg + (i * 4),
+> +						 val, (mask32 & val) == mask32,
+> +						 100, timeout_us);
+> +		if (ret) {
+> +			drm_err(&ptdev->base, "timeout waiting on %s:%llx readyness",
+> +				blk_name, mask);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * panthor_gpu_l2_power_on() - Power-on the L2-cache
+> + * @ptdev: Device.
+> + *
+> + * Return: 0 on success, a negative error code otherwise.
+> + */
+> +int panthor_gpu_l2_power_on(struct panthor_device *ptdev)
+> +{
+> +	if (ptdev->gpu_info.l2_present != 1) {
+> +		/*
+> +		 * Only support one core group now.
+> +		 * ~(l2_present - 1) unsets all bits in l2_present except
+> +		 * the bottom bit. (l2_present - 2) has all the bits in
+> +		 * the first core group set. AND them together to generate
+> +		 * a mask of cores in the first core group.
+> +		 */
+> +		u64 core_mask = ~(ptdev->gpu_info.l2_present - 1) &
+> +				(ptdev->gpu_info.l2_present - 2);
+> +		drm_info_once(&ptdev->base, "using only 1st core group (%lu cores from %lu)\n",
+> +			      hweight64(core_mask),
+> +			      hweight64(ptdev->gpu_info.shader_present));
+> +	}
+> +
+> +	return panthor_gpu_power_on(ptdev, L2, 1, 20000);
+> +}
+> +
+> +/**
+> + * panthor_gpu_flush_caches() - Flush caches
+> + * @ptdev: Device.
+> + * @l2: L2 flush type.
+> + * @lsc: LSC flush type.
+> + * @other: Other flush type.
+> + *
+> + * Return: 0 on success, a negative error code otherwise.
+> + */
+> +int panthor_gpu_flush_caches(struct panthor_device *ptdev,
+> +			     u32 l2, u32 lsc, u32 other)
+> +{
+> +	bool timedout = false;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
+> +	if (!drm_WARN_ON(&ptdev->base,
+> +			 ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED)) {
+> +		ptdev->gpu->pending_reqs |= GPU_IRQ_CLEAN_CACHES_COMPLETED;
+> +		gpu_write(ptdev, GPU_CMD, GPU_FLUSH_CACHES(l2, lsc, other));
+> +	}
+> +	spin_unlock_irqrestore(&ptdev->gpu->reqs_lock, flags);
+> +
+> +	if (!wait_event_timeout(ptdev->gpu->reqs_acked,
+> +				!(ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED),
+> +				msecs_to_jiffies(100))) {
+> +		spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
+> +		if ((ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED) != 0 &&
+> +		    !(gpu_read(ptdev, GPU_INT_RAWSTAT) & GPU_IRQ_CLEAN_CACHES_COMPLETED))
+> +			timedout = true;
+> +		else
+> +			ptdev->gpu->pending_reqs &= ~GPU_IRQ_CLEAN_CACHES_COMPLETED;
+> +		spin_unlock_irqrestore(&ptdev->gpu->reqs_lock, flags);
+> +	}
+> +
+> +	if (timedout) {
+> +		drm_err(&ptdev->base, "Flush caches timeout");
+> +		return -ETIMEDOUT;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * panthor_gpu_soft_reset() - Issue a soft-reset
+> + * @ptdev: Device.
+> + *
+> + * Return: 0 on success, a negative error code otherwise.
+> + */
+> +int panthor_gpu_soft_reset(struct panthor_device *ptdev)
+> +{
+> +	bool timedout = false;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
+> +	if (!drm_WARN_ON(&ptdev->base,
+> +			 ptdev->gpu->pending_reqs & GPU_IRQ_RESET_COMPLETED)) {
+> +		ptdev->gpu->pending_reqs |= GPU_IRQ_RESET_COMPLETED;
+> +		gpu_write(ptdev, GPU_INT_CLEAR, GPU_IRQ_RESET_COMPLETED);
+> +		gpu_write(ptdev, GPU_CMD, GPU_SOFT_RESET);
+> +	}
+> +	spin_unlock_irqrestore(&ptdev->gpu->reqs_lock, flags);
+> +
+> +	if (!wait_event_timeout(ptdev->gpu->reqs_acked,
+> +				!(ptdev->gpu->pending_reqs & GPU_IRQ_RESET_COMPLETED),
+> +				msecs_to_jiffies(100))) {
+> +		spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
+> +		if ((ptdev->gpu->pending_reqs & GPU_IRQ_RESET_COMPLETED) != 0 &&
+> +		    !(gpu_read(ptdev, GPU_INT_RAWSTAT) & GPU_IRQ_RESET_COMPLETED))
+> +			timedout = true;
+> +		else
+> +			ptdev->gpu->pending_reqs &= ~GPU_IRQ_RESET_COMPLETED;
+> +		spin_unlock_irqrestore(&ptdev->gpu->reqs_lock, flags);
+> +	}
+> +
+> +	if (timedout) {
+> +		drm_err(&ptdev->base, "Soft reset timeout");
+> +		return -ETIMEDOUT;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * panthor_gpu_suspend() - Suspend the GPU block.
+> + * @ptdev: Device.
+> + *
+> + * Suspend the GPU irq. This should be called last in the suspend procedure,
+> + * after all other blocks have been suspented.
+> + */
+> +void panthor_gpu_suspend(struct panthor_device *ptdev)
+> +{
+> +	/*
+> +	 * It may be preferable to simply power down the L2, but for now just
+> +	 * soft-reset which will leave the L2 powered down.
+> +	 */
+> +	panthor_gpu_soft_reset(ptdev);
+> +	panthor_gpu_irq_suspend(&ptdev->gpu->irq);
+> +}
+> +
+> +/**
+> + * panthor_gpu_resume() - Resume the GPU block.
+> + * @ptdev: Device.
+> + *
+> + * Resume the IRQ handler and power-on the L2-cache.
+> + * The FW takes care of powering the other blocks.
+> + */
+> +void panthor_gpu_resume(struct panthor_device *ptdev)
+> +{
+> +	panthor_gpu_irq_resume(&ptdev->gpu->irq, GPU_INTERRUPTS_MASK);
+> +	panthor_gpu_l2_power_on(ptdev);
+> +}
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.h b/drivers/gpu/drm/panthor/panthor_gpu.h
+> new file mode 100644
+> index 000000000000..bba7555dd3c6
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.h
+> @@ -0,0 +1,52 @@
+> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
+> +/* Copyright 2018 Marty E. Plummer <hanetzer@startmail.com> */
+> +/* Copyright 2019 Collabora ltd. */
+> +
+> +#ifndef __PANTHOR_GPU_H__
+> +#define __PANTHOR_GPU_H__
+> +
+> +struct panthor_device;
+> +
+> +int panthor_gpu_init(struct panthor_device *ptdev);
+> +void panthor_gpu_unplug(struct panthor_device *ptdev);
+> +void panthor_gpu_suspend(struct panthor_device *ptdev);
+> +void panthor_gpu_resume(struct panthor_device *ptdev);
+> +
+> +int panthor_gpu_block_power_on(struct panthor_device *ptdev,
+> +			       const char *blk_name,
+> +			       u32 pwron_reg, u32 pwrtrans_reg,
+> +			       u32 rdy_reg, u64 mask, u32 timeout_us);
+> +int panthor_gpu_block_power_off(struct panthor_device *ptdev,
+> +				const char *blk_name,
+> +				u32 pwroff_reg, u32 pwrtrans_reg,
+> +				u64 mask, u32 timeout_us);
+> +
+> +/**
+> + * panthor_gpu_power_on() - Power on the GPU block.
+> + *
+> + * Return: 0 on success, a negative error code otherwise.
+> + */
+> +#define panthor_gpu_power_on(ptdev, type, mask, timeout_us) \
+> +	panthor_gpu_block_power_on(ptdev, #type, \
+> +				  type ## _PWRON_LO, \
+> +				  type ## _PWRTRANS_LO, \
+> +				  type ## _READY_LO, \
+> +				  mask, timeout_us)
+> +
+> +/**
+> + * panthor_gpu_power_off() - Power off the GPU block.
+> + *
+> + * Return: 0 on success, a negative error code otherwise.
+> + */
+> +#define panthor_gpu_power_off(ptdev, type, mask, timeout_us) \
+> +	panthor_gpu_block_power_off(ptdev, #type, \
+> +				   type ## _PWROFF_LO, \
+> +				   type ## _PWRTRANS_LO, \
+> +				   mask, timeout_us)
+> +
+> +int panthor_gpu_l2_power_on(struct panthor_device *ptdev);
+> +int panthor_gpu_flush_caches(struct panthor_device *ptdev,
+> +			     u32 l2, u32 lsc, u32 other);
+> +int panthor_gpu_soft_reset(struct panthor_device *ptdev);
+> +
+> +#endif
 
-Regards,
-Chun-Kuang.
-
-> --
-> Regards,
-> Alexandre
->
