@@ -1,50 +1,104 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB8F807F55
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 04:52:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0722E807F87
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 05:22:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5875D10E58E;
-	Thu,  7 Dec 2023 03:52:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E01110E16D;
+	Thu,  7 Dec 2023 04:22:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com
- [61.152.239.71])
- by gabe.freedesktop.org (Postfix) with ESMTP id D3E1710E58E
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 03:52:17 +0000 (UTC)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
- (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
- (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
- by fd01.gateway.ufhost.com (Postfix) with ESMTP id 2DB5481EA;
- Thu,  7 Dec 2023 11:52:10 +0800 (CST)
-Received: from EXMBX171.cuchost.com (172.16.6.91) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 7 Dec
- 2023 11:52:09 +0800
-Received: from [192.168.125.88] (183.27.97.199) by EXMBX171.cuchost.com
- (172.16.6.91) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 7 Dec
- 2023 11:52:08 +0800
-Message-ID: <53b992e8-1b36-4540-a993-fde8e550faf9@starfivetech.com>
-Date: Thu, 7 Dec 2023 11:48:56 +0800
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D618A10E16D
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 04:22:29 +0000 (UTC)
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+ by mailout2.samsung.com (KnoxPortal) with ESMTP id
+ 20231207042227epoutp024d0095dadcd762d1ea97b71e88d6ccdb~ecedebMOK0137801378epoutp02g
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 04:22:27 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
+ 20231207042227epoutp024d0095dadcd762d1ea97b71e88d6ccdb~ecedebMOK0137801378epoutp02g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1701922947;
+ bh=byDtsG8PKYdfs3puCh5RQJLatncS4hWBREGe2pDiuqM=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=s8hMNCbpg0msgHn0Z2ArjppgnG94lQWAWD6gjoJLBpWROmKXojUwLSa56g0Obfuo+
+ 3SJ2MAt/aenbAVSQn/esuZBOoS655NVoMLIV3X+fVXdoJNBbZQLThKP1ptxeDB6eu/
+ QyPR6YOAm/7wWIkaBILgGDow9stLVl1OePFbPPo8=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+ epcas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20231207042227epcas1p2669e392346d693a4e811dbbd9488dda0~ecedNY2Wx1375713757epcas1p2A;
+ Thu,  7 Dec 2023 04:22:27 +0000 (GMT)
+Received: from epsmgec1p1-new.samsung.com (unknown [182.195.36.135]) by
+ epsnrtp2.localdomain (Postfix) with ESMTP id 4Sm1MQ3v6wz4x9Q1; Thu,  7 Dec
+ 2023 04:22:26 +0000 (GMT)
+Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
+ epsmgec1p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 99.BB.19104.F7841756; Thu,  7 Dec 2023 13:22:23 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20231207042223epcas1p1e413980d991fdc9d9b413a34ab71894d~eceZaeDR01740817408epcas1p1X;
+ Thu,  7 Dec 2023 04:22:23 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20231207042223epsmtrp21f5f1f415d6b52499162caa67973eace~eceZZ2DVo0939409394epsmtrp25;
+ Thu,  7 Dec 2023 04:22:23 +0000 (GMT)
+X-AuditID: b6c32a4c-80dff70000004aa0-d9-6571487faae4
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ EA.D4.08817.F7841756; Thu,  7 Dec 2023 13:22:23 +0900 (KST)
+Received: from localhost.localdomain (unknown [10.113.221.211]) by
+ epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20231207042223epsmtip1d4f9ddbddf6d395051b485fdce2d9d63~eceZQMtBy2871628716epsmtip1W;
+ Thu,  7 Dec 2023 04:22:23 +0000 (GMT)
+From: Inki Dae <inki.dae@samsung.com>
+To: airlied@linux.ie, daniel@ffwll.ch
+Subject: [GIT PULL RESEND] exynos-drm-fixes
+Date: Thu,  7 Dec 2023 13:22:23 +0900
+Message-Id: <20231207042223.2473706-1-inki.dae@samsung.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/2] dt-bindings: display: panel: raspberrypi: Add
- compatible property for waveshare 7inch touchscreen panel
-Content-Language: en-US
-To: Conor Dooley <conor@kernel.org>
-References: <20231124104451.44271-1-shengyang.chen@starfivetech.com>
- <20231124104451.44271-2-shengyang.chen@starfivetech.com>
- <20231124-lesser-sinister-7f9cd7b80e35@spud>
- <2d48e460-e46e-431f-bd7b-e34ebe73a40c@starfivetech.com>
- <20231206-isolating-smoked-b490952029d0@spud>
-From: Shengyang Chen <shengyang.chen@starfivetech.com>
-In-Reply-To: <20231206-isolating-smoked-b490952029d0@spud>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [183.27.97.199]
-X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX171.cuchost.com
- (172.16.6.91)
-X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrAKsWRmVeSWpSXmKPExsWy7bCmgW69R2GqwYQGNYvecyeZLP5vm8hs
+ ceXrezaLGef3MTmweOz9toDFY/u3B6we97uPM3l83iQXwBKVbZORmpiSWqSQmpecn5KZl26r
+ 5B0c7xxvamZgqGtoaWGupJCXmJtqq+TiE6DrlpkDtFJJoSwxpxQoFJBYXKykb2dTlF9akqqQ
+ kV9cYquUWpCSU2BaoFecmFtcmpeul5daYmVoYGBkClSYkJ3xe2Mze8FKnorNJ38wNzCu5+pi
+ 5OCQEDCR6P4j0cXIxSEksIdRouvYPRYI5xOjRNuVJijnG6NE55VprF2MnGAdJ+6cY4ZI7GWU
+ 2DCvnxHC+cIocWvKNWaQKjYBVYmJK+6zgdgiQPbbSY/B4swCbhJ/lp5lAbGFBbQldj9+DxZn
+ Aao5vesp2AZeAWuJ6fdPM0Nsk5eYeek7O0RcUOLkzCcsEHPkJZq3zga7QkJgG7vE9fX72SAa
+ XCRWP1nPBGELS7w6voUdwpaS+PxuLxtEw2RGiTvXV7BAODMYJQ7/vM4IUWUssX/pZCZQ0DAL
+ aEqs36UPEVaU2Pl7LiPEZj6Jd197WCGhxyvR0SYEUaIkceziDagpEhIXlkxkgyjxkDg+XRck
+ LCQQK3Hh/WPWCYzys5C8MwvJO7MQ9i5gZF7FKJVaUJybnppsWGCom5daDo/Z5PzcTYzgpKfl
+ s4Px+/q/eocYmTgYDzFKcDArifDmnM9PFeJNSaysSi3Kjy8qzUktPsRoCgzkicxSosn5wLSb
+ VxJvaGJpYGJmZGxiYWhmqCTOG/OpPUVIID2xJDU7NbUgtQimj4mDU6qBSfnOyU+Z26b9PH7S
+ 2Ck/MnvBkvcTauVbT+uol+w+XPv8mrTRk5ddDb2fhI4+Pzjn3/JH9q5++TYicjVy7jmH3zFf
+ ccz2nPV0QvWG/DkPW/8UFArPXXf21l7NtfWyCg9LkjzzN8ctnTrjlb3Utlc9zw++n7Tt19N7
+ yz+1JU1QV9B6zLC4IVv94Zbmte6PQjYkvZNnbdu06bfy4i3n5bS45upc5ZUvXc7MKaLInGNT
+ +FrwidDuo5/8cmrm5C0TORaUHZvt+W4Og7/RuhLvL41bD6mt7F+5fu+lnQzvy9LeSz392vZd
+ L+uH92cpf/nczHnnkxe0m/XKHrH88W6H3PN7l+YfPhb5VvSL+97tFz1XWt5VYinOSDTUYi4q
+ TgQAQPpLTwMEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJLMWRmVeSWpSXmKPExsWy7bCSnG69R2GqwbcLQha9504yWfzfNpHZ
+ 4srX92wWM87vY3Jg8dj7bQGLx/ZvD1g97ncfZ/L4vEkugCWKyyYlNSezLLVI3y6BK+P3xmb2
+ gpU8FZtP/mBuYFzP1cXIySEhYCJx4s455i5GLg4hgd2MElcab7N3MXIAJSQktmzlgDCFJQ4f
+ LoYo+cQo8f7rYWaQXjYBVYmJK+6zgdgiAuoSDy4vZASxmQU8JN7vWc0OYgsLaEvsfvwerJ4F
+ qP70rqesIDavgLXE9PunmSFukJeYeek7O0RcUOLkzCcsEHPkJZq3zmaewMg3C0lqFpLUAkam
+ VYySqQXFuem5xYYFRnmp5XrFibnFpXnpesn5uZsYwaGnpbWDcc+qD3qHGJk4GA8xSnAwK4nw
+ 5pzPTxXiTUmsrEotyo8vKs1JLT7EKM3BoiTO++11b4qQQHpiSWp2ampBahFMlomDU6qBaXtG
+ 0N+gA4XW55gb1rzQTdt9/oLGJZOSgqZ/b1+nWzXtOFFybnmhs+n2nH/Tkv0b83Implz6L/54
+ 3cbN4vt96/+uUF/sWNrz/fzL9G8n3n9mWfz6756KrwvzGmbsNwtxf97uF+gfN1HQL/2C2DWz
+ ieeX5bxa8eNXfkP/Kv4rH/9P9rzw7sXsOds903xyVqnp3b+QWXahS2mRqqrbnKD7Qa8j+w8l
+ eIiufvyj1Zzbb8VXy88HuMNjL+nOi+7cOo9X+urRmYt00z7O2qi+pPOuVdj9G9N1Di3ltMia
+ dWJZY6exm/nFf8I1t3ZOLvr3LiH8WZOgY/Eexc/T9zE9OPbpwtFfbRUZ51+c2VTo5LVXjPmV
+ EktxRqKhFnNRcSIA2q5CDKwCAAA=
+X-CMS-MailID: 20231207042223epcas1p1e413980d991fdc9d9b413a34ab71894d
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231207042223epcas1p1e413980d991fdc9d9b413a34ab71894d
+References: <CGME20231207042223epcas1p1e413980d991fdc9d9b413a34ab71894d@epcas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,185 +111,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, eric@anholt.net, thierry.reding@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
- florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
- quic_jesszhan@quicinc.com, devicetree@vger.kernel.org, conor+dt@kernel.org,
- mripard@kernel.org, robh+dt@kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, neil.armstrong@linaro.org,
- keith.zhao@starfivetech.com, linux-kernel@vger.kernel.org,
- jack.zhu@starfivetech.com, tzimmermann@suse.de,
- changhuang.liang@starfivetech.com
+Cc: linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Conor
+Hi Dave and Daniel,
 
-thanks for comment
+   Just resending you the previous pull request[1] after resolving the build
+   warning.
 
-On 2023/12/6 23:40, Conor Dooley wrote:
-> On Wed, Dec 06, 2023 at 05:43:48PM +0800, Shengyang Chen wrote:
->> Hi, Conor
->> 
->> On 2023/11/24 20:31, Conor Dooley wrote:
->> > On Fri, Nov 24, 2023 at 06:44:50PM +0800, Shengyang Chen wrote:
->> >> The waveshare 7inch touchscreen panel is a kind of raspberrypi pi
->> >> panel
->> > 
->> > Can you be more specific about what "is a kind of rpi panel" means?
->> > Are they using identical chips as controllers or something like that?
->> > 
->> 
->> Wareshare panel has same i2c slave address and registers address with 
->> the original raspberry pi panel. They both use Atmel firmware and they
->> got same reg id. It can be operated by using the driver of raspberry pi driver
->> after some change of the code. So I suppose it may be a kind of raspberry pi panel 
->> and discribe it in this way. It's my own judgement. Sorry about that.
->> Maybe just like Dave said, It cloned the behaviour of the raspberri pi panel.
->> I will change the discribtion in next version to not make other confused.
->> 
->> By the way, we will try Stefan's method before next version. 
->> The method we used in this patch may be abandoned if Stefan's method is verified in our platform.
->> At that time yaml may also be changed to fit new method.
-> 
-> I don't know what Stefan's approach is, but I do not think that a
-> bindings patch should be dropped. The waveshare might be a clone, but it
-> is a distinct device. If the same driver can control both, then the
-> compatible setups that should be permitted are:
-> compatible = "raspberrypi,7inch-touchscreen-panel";
-> and
-> compatible = "waveshare,7inch-touchscreen-panel", "raspberrypi,7inch-touchscreen-panel";
-> 
-> Cheers,
-> Conor.
-> 
+   [1] https://lore.kernel.org/dri-devel/20231120225537.1270358-1-inki.dae@samsung.com/
 
-Here is our consideration of this submit:
+   Please kindly let me know if there is any problem.
 
-Although Waveshare panel reuse the driver of raspberry pi panel, they are different in probing process
-and panel parameters.
-we try to use compatible and data to distinguish these two panel
-
-Here are the reference
-driver part:
-https://elixir.bootlin.com/linux/v6.7-rc3/source/drivers/gpu/drm/panel/panel-simple.c
-dt-binding part:
-https://elixir.bootlin.com/linux/v6.7-rc3/source/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+Thanks,
+Inki Dae
 
 
-For example:
+The following changes since commit 33924328498e903bea74727353e5012d29653aff:
 
-in driver part:
+  Merge tag 'drm-intel-fixes-2023-12-01-1' of git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2023-12-05 12:19:22 +1000)
 
-in drivers/gpu/drm/panel/panel-simple.c:#in line 4189
-----------------------------------------------------------------------------------
-we can got different compatible with its own data.
-================================================
-static const struct of_device_id platform_of_match[] = {			//the of_match array list
-	{
-		.compatible = "ampire,am-1280800n3tzqw-t00h",
-		.data = &ampire_am_1280800n3tzqw_t00h,		//we define our panel parameter or special panel function, which can distinguish different panels
-	}, {
-		.compatible = "ampire,am-480272h3tmqw-t01h",
-		.data = &ampire_am_480272h3tmqw_t01h,
-	}, 
-...
-...
-}
-===============================================
+are available in the Git repository at:
 
-in drivers/gpu/drm/panel/panel-simple.c:#in line 4611
-----------------------------------------------------------------------------------
-we can use the generic probing process to probe our driver
-after getting its own data.
-================================================
-static int panel_simple_platform_probe(struct platform_device *pdev)
-{
-	const struct panel_desc *desc;
+  git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-next-for-v6.7-rc5
 
-	desc = of_device_get_match_data(&pdev->dev);			//we get our panel parameter
-	if (!desc)
-		return -ENODEV;
+for you to fetch changes up to 8d1b7809684c688005706125b804e1f9792d2b1b:
 
-	return panel_simple_probe(&pdev->dev, desc);			//probe with returned data
-}
+  drm/exynos: fix a wrong error checking (2023-12-07 11:51:43 +0900)
 
+----------------------------------------------------------------
+Two fixups
+- Fix a potential error pointer dereference by checking the return value
+  of exynos_drm_crtc_get_by_type() function before accessing to crtc
+  object.
+- Fix a wrong error checking in exynos_drm_dma.c modules, which was reported
+  by Dan[1]
 
+[1] https://lore.kernel.org/all/33e52277-1349-472b-a55b-ab5c3462bfcf@moroto.mountain/
 
-================================================
+----------------------------------------------------------------
+Inki Dae (1):
+      drm/exynos: fix a wrong error checking
 
-in yamel part:
+Xiang Yang (1):
+      drm/exynos: fix a potential error pointer dereference
 
-in /Documentation/devicetree/bindings/display/panel/panel-simple.yaml#in line 33
-----------------------------------------------------------------------------------
-We refer to this approach, adding our compatible to the yaml of raspberry pi panel
-================================================
-
-properties:
-  compatible:
-    enum:
-    # compatible must be listed in alphabetical order, ordered by compatible.
-    # The description in the comment is mandatory for each compatible.
-
-        # Ampire AM-1280800N3TZQW-T00H 10.1" WQVGA TFT LCD panel
-      - ampire,am-1280800n3tzqw-t00h
-        # Ampire AM-480272H3TMQW-T01H 4.3" WQVGA TFT LCD panel
-      - ampire,am-480272h3tmqw-t01h
-================================================
-
-
-
-If we use Stenfan's method, we can reuse the code of panel-simple.c
-we may submit our patch to
-/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-/drivers/gpu/drm/panel/panel-simple.c
-as a new panel porting. That may less confuse.
-
-
-here is Stenfan's method:
-[1] - https://github.com/lategoodbye/rpi-zero/commits/v6.7-7inch-ts
-[2] -
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-rpidsi.dtso?h=v6.6.2&id=6b4da1354fd81adace0cda448c77d8f2a47d8474
-
-
-Thanks
-
-Best Regards,
-Shengyang
-
-
->> >> and it can be drived by panel-raspberrypi-touchscreen.c.
->> >> Add compatible property for it.
->> >> 
->> >> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
->> >> Signed-off-by: Shengyang Chen <shengyang.chen@starfivetech.com>
->> >> ---
->> >>  .../bindings/display/panel/raspberrypi,7inch-touchscreen.yaml | 4 +++-
->> >>  1 file changed, 3 insertions(+), 1 deletion(-)
->> >> 
->> >> diff --git a/Documentation/devicetree/bindings/display/panel/raspberrypi,7inch-touchscreen.yaml b/Documentation/devicetree/bindings/display/panel/raspberrypi,7inch-touchscreen.yaml
->> >> index 22a083f7bc8e..e4e6cb4d4e5b 100644
->> >> --- a/Documentation/devicetree/bindings/display/panel/raspberrypi,7inch-touchscreen.yaml
->> >> +++ b/Documentation/devicetree/bindings/display/panel/raspberrypi,7inch-touchscreen.yaml
->> >> @@ -22,7 +22,9 @@ description: |+
->> >>  
->> >>  properties:
->> >>    compatible:
->> >> -    const: raspberrypi,7inch-touchscreen-panel
->> >> +    enum:
->> >> +      - raspberrypi,7inch-touchscreen-panel
->> >> +      - waveshare,7inch-touchscreen-panel
->> >>  
->> >>    reg:
->> >>      const: 0x45
->> >> -- 
->> >> 2.17.1
->> >> 
->> 
->> 
->> thanks.
->> 
->> Best Regards,
->> Shengyang
->> 
-
+ drivers/gpu/drm/exynos/exynos_drm_dma.c | 8 +++-----
+ drivers/gpu/drm/exynos/exynos_hdmi.c    | 2 ++
+ 2 files changed, 5 insertions(+), 5 deletions(-)
