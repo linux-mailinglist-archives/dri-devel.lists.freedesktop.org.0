@@ -2,73 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC03808FCB
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 19:24:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C2C1809E36
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 09:35:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66E9D10E94C;
-	Thu,  7 Dec 2023 18:24:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11A7410EA0A;
+	Fri,  8 Dec 2023 08:35:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D8DE10E94A
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 18:24:13 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-a1ef2f5ed01so112857366b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 10:24:13 -0800 (PST)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF96210E94F;
+ Thu,  7 Dec 2023 18:25:50 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id
+ ffacd0b85a97d-33339d843b9so1315468f8f.0; 
+ Thu, 07 Dec 2023 10:25:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1701973449; x=1702578249;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hRjWkx56RHR1r5cAwUPqSGXDNsuGHCsvk8l76pBIe10=;
- b=OzFMxnVb+bILSv4xFHhTTmCKQt4T2/7nt9SU9ocMdhTtlHJn9dTh5Ft1RaV7EG5/LP
- wFsUX8bjhTvAaycu2AwjHZqy72sPS95EuYhRMBZkFJGp2Y2HOExSWBsLBW8YiDbPT54t
- ubmh4oioTkKWpTBPGdhCj4Kj7LsXGKIDy6uo4=
+ d=gmail.com; s=20230601; t=1701973549; x=1702578349; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=QFhF+WHm92cVBxSbo98wCO9PJ9Iq9HjlgAyvaR9w2ck=;
+ b=cm0i74IsjJnPvYxrt7+Gx4zWOuPO13u5h0t/YsBqRAGpQAClpu/XB6qUf0c/6egVN5
+ z3iuhx+NeAlHn8lpIvfcfWtG++JZzjLOxszNyrUhXNYt+NO0a+APmPTcDbr6JSIJPliS
+ hpWIhnkjady957MtgYqXmtvtXf/c871fXrtKnI2HchgudB6mJ5uGiE7eAhSbIA8VJs0r
+ Ik3jEhyIBihXRBlCKWYrW4Lilr+POnL7D4VzI5oILOhoCz068iYrOKuGX/kfSzfTmPRU
+ BymxaPe2UwpTBR/894fImC7aDRQkZ+nKsa+sU8bZYgIW4A/+x8wasVDVNtBJThrl+52H
+ jbEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701973449; x=1702578249;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hRjWkx56RHR1r5cAwUPqSGXDNsuGHCsvk8l76pBIe10=;
- b=JZSqCFwPXR8YcpH6LOr7/cYe8BA+mg4j7F9A92TYcLOPGeR1jC0Trsv6BE1+q7cMkY
- AerWycKvW/kcGw5CxfKFCTd3o/vmYx5CJA6mWy5GGbWT07Sg+6IDdY3tnAlNIivjSxCt
- DZG9ZsI7nyGbuK6/psrs9dBvCIGXXALcxSm+ayo0mEZ/oaBOzK3eFGyFpZ2d/XTvsjA8
- iZNXB8HFizkjg+XmIZT7+X2kfc/MMuK5lzE8hiQWOkPZu0c7KdfTknZtVSMaaw5U7T8W
- ZOeHFiJClyTU7sArN1VC4VhvFo2Ml1Ak25Jhv1N8j5KJ721RGUFBBMx0MXrQcf3y8PAD
- yiEw==
-X-Gm-Message-State: AOJu0YzIOIzYiLUTMKKiGzz57pfXw6Un0YoubdoAE/nTkGKOQ79Qr60L
- a0Vi9Nqn4oIPMtxOuG+R38rhckM5YbuYE58tBW7SQKK+
-X-Google-Smtp-Source: AGHT+IGA+UatioingpEl0qGlklG4IGtCkSqvdaB+MW2f8/SA8RJbmzLaVQoX6jGJpCxbgjkaChS8qA==
-X-Received: by 2002:a17:906:2210:b0:a1e:86a3:8f4 with SMTP id
- s16-20020a170906221000b00a1e86a308f4mr499614ejs.94.1701973449275; 
- Thu, 07 Dec 2023 10:24:09 -0800 (PST)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com.
- [209.85.128.43]) by smtp.gmail.com with ESMTPSA id
- th8-20020a1709078e0800b00a1df93ed441sm51358ejc.135.2023.12.07.10.24.06
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Dec 2023 10:24:09 -0800 (PST)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-40b367a0a12so3795e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 10:24:06 -0800 (PST)
-X-Received: by 2002:a05:600c:54cf:b0:40c:2399:d861 with SMTP id
- iw15-20020a05600c54cf00b0040c2399d861mr175294wmb.6.1701973446020; Thu, 07 Dec
- 2023 10:24:06 -0800 (PST)
+ d=1e100.net; s=20230601; t=1701973549; x=1702578349;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QFhF+WHm92cVBxSbo98wCO9PJ9Iq9HjlgAyvaR9w2ck=;
+ b=rMQ8xvUc0AsnIwTv7qx3RNPIZfbHiLwr5YoOYwKiyesHUq2pEAtoNAeYjBn3nPhHB9
+ 2QQnlkIM9jYdtGlTH0pzZij0n2yfoDRT4gZHy7EbBwMiL+SwNtDmXqgYsAU/4oQixp0d
+ HvVAFeBuZZwUtuKbPHvNNGwikhZvo2/8Kcw8WUN5P+4FgUDwzqIYpBlYbkFVVU3bRVpy
+ meO9/dizkPk1cWgqPkzByfSigUWQA1hfyfac4gzT0dKUSj5YGzxY0S37j3QBErPLDqr8
+ xxwG4uEiwECWmbe7xYhHD8t8ucrvcW5cTSjOAjNeYDIaLnOAvSvmLjeQpOQhNepaF9W7
+ 8t/g==
+X-Gm-Message-State: AOJu0YynDPiRJ4Go3MSSOM5Ov2XD5MIRyy+yOF7FrfCNHdm0EAXabRib
+ SqheJklTkXrvFfHvVSe6//95EOKkED4Y9g==
+X-Google-Smtp-Source: AGHT+IGGXN4Wz5RSI2d7rXy0IjXkVfWyTq3KUtJRpnUAU8d6KvlTeEvxhdof7kcCZc1McgCdfOl2Sg==
+X-Received: by 2002:adf:f303:0:b0:333:135f:a7f4 with SMTP id
+ i3-20020adff303000000b00333135fa7f4mr1902241wro.56.1701973548815; 
+ Thu, 07 Dec 2023 10:25:48 -0800 (PST)
+Received: from xavers-framework.fritz.box ([89.38.117.155])
+ by smtp.gmail.com with ESMTPSA id
+ j16-20020a5d5650000000b0033344e2522dsm257302wrw.37.2023.12.07.10.25.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Dec 2023 10:25:48 -0800 (PST)
+From: Xaver Hugl <xaver.hugl@gmail.com>
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/amd/display: fix cursor-plane-only atomic commits not
+ triggering pageflips
+Date: Thu,  7 Dec 2023 19:25:32 +0100
+Message-ID: <20231207182532.19416-1-xaver.hugl@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20231207081801.4049075-1-treapking@chromium.org>
- <20231207081801.4049075-5-treapking@chromium.org>
-In-Reply-To: <20231207081801.4049075-5-treapking@chromium.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 7 Dec 2023 10:23:53 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=U6M5rpQXmjC+iGf0BGtiyjRAAcMfo4Fr3pDyYVp3m4aQ@mail.gmail.com>
-Message-ID: <CAD=FV=U6M5rpQXmjC+iGf0BGtiyjRAAcMfo4Fr3pDyYVp3m4aQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] drm/panel-edp: Add some panels with conservative
- timings
-To: Pin-yen Lin <treapking@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Fri, 08 Dec 2023 08:35:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,54 +73,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Guenter Roeck <groeck@chromium.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Xaver Hugl <xaver.hugl@gmail.com>, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+With VRR, every atomic commit affecting a given display must trigger
+a new scanout cycle, so that userspace is able to control the refresh
+rate of the display. Before this commit, this was not the case for
+atomic commits that only contain cursor plane properties.
 
-On Thu, Dec 7, 2023 at 12:18=E2=80=AFAM Pin-yen Lin <treapking@chromium.org=
-> wrote:
->
-> These panels are used by Mediatek MT8173 Chromebooks but we can't find
-> the corresponding data sheets, and these panels used to work on v4.19
-> kernel without any specified delays.
->
-> Therefore, instead of having them use the default conservative timings,
-> update them with less-conservative timings from other panels of the same
-> vendor. The panels should still work under those timings, and we can
-> save some delays and suppress the warnings.
->
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
->
-> ---
->
-> (no changes since v1)
->
->  drivers/gpu/drm/panel/panel-edp.c | 31 +++++++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
+Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3034
+Cc: stable@vger.kernel.org
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Signed-off-by: Xaver Hugl <xaver.hugl@gmail.com>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-Repeating my comments from v1 here too, since I expect this patch to
-sit on the lists for a little while:
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index b452796fc6d3..b379c859fbef 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -8149,9 +8149,15 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 		/* Cursor plane is handled after stream updates */
+ 		if (plane->type == DRM_PLANE_TYPE_CURSOR) {
+ 			if ((fb && crtc == pcrtc) ||
+-			    (old_plane_state->fb && old_plane_state->crtc == pcrtc))
++			    (old_plane_state->fb && old_plane_state->crtc == pcrtc)) {
+ 				cursor_update = true;
+-
++				/*
++				 * With atomic modesetting, cursor changes must
++				 * also trigger a new refresh period with vrr
++				 */
++				if (!state->legacy_cursor_update)
++					pflip_present = true;
++			}
+ 			continue;
+ 		}
+ 
+-- 
+2.43.0
 
-
-This is OK w/ me, but it will need time on the mailing lists before
-landing in case anyone else has opinions. Specifical thoughts:
-
-* I at least feel fairly confident that this is OK since these panels
-essentially booted without _any_ delays back on the old downstream
-v4.19 kernel. Presumably the panels just had fairly robust timing
-controllers and so worked OK, but it's better to get the timing more
-correct.
-
-* This is definitely better than the very conservative timings and the
-WARN_ON splat.
-
-* I don't love the "Unknown" string, but it doesn't do anything other
-than print to dmesg anyway and at least it conveys to anyone else
-reading the table that the timings may not be quite as tight.
