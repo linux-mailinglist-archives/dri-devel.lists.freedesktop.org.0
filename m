@@ -1,41 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2AB808418
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 10:18:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 197AB808419
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 10:18:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17F8310E1B6;
-	Thu,  7 Dec 2023 09:18:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5373910E827;
+	Thu,  7 Dec 2023 09:18:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DE2510E1B6
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 09:18:45 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DC1310E827
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 09:18:49 +0000 (UTC)
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: vignesh)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 39B07660738E;
- Thu,  7 Dec 2023 09:18:41 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id AF9336607390;
+ Thu,  7 Dec 2023 09:18:44 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1701940724;
- bh=FCRCNovtJ9PtQwtKLRu/evUUkfAvUVXGZUmkbsxA9Cg=;
- h=From:To:Cc:Subject:Date:From;
- b=NAdK9PrteQ631PcNJB48XuZXbHRETXzxv1TmcD/HUvePpB9GjvOuwtbwZ5EHFw3QV
- GD2L6X5Z+vUx/7jXjlib5a3066CcUYUZBGW4xzSWtx+/1r7cPuiqMC4e4vjPpPdISj
- njh/krIKbgqLpIFUIIQK5ZXZwfv7e4yFZKTHVJHx8nAN6LjfkPXTbw93ce8hANr3EB
- d8axi5ubMVeWKmTTssMVPbNsT8qQatOlBRVa4S3oqfCfbO2E2yHTw8mPYm0LQ6L5pM
- aa3SdK3e4dtq4nBIplVe/GtwCG2a47uLq3Hguc4bvpDBWcS036VtHKzLJHOnfiRpH7
- bH4GpvZozQ8yQ==
+ s=mail; t=1701940728;
+ bh=dQ0I3KVxJFnBzrqq6GuCqoIBfvIJZXEwFZhY/AqFdis=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=ReWjOiZo9rxuv/mfLQexz/CZDhQnyU2IUB2pl3m01Gxopu3JDxYb0fbVcBtNkasqv
+ GJVP3rK/ROcmbjFowKQEvaEnxUz/fq1/fn88/C4qvMwtday/5qgNlaJkKpsn6YMh9U
+ 8Aw6vImsjYoLkhwpv7xb3uQOBQ+l2+Jr5U/cSx5Lu/qjqLcNuGSFi1zM+92WvQG0eM
+ OinQGbzbHkyBVaaNRJ7ULbQX1mxDwUb+e/nRKofQHbg0FO/aWVykPJYldH9wFeYNbY
+ aPqtEPpXXcIsdWdD7c6c2ludMrKNJ05ZXrix1QAe76TXkSUeCob/kw94v7EMemew0j
+ XzHFGABMBb4/A==
 From: Vignesh Raman <vignesh.raman@collabora.com>
 To: helen.koike@collabora.com,
 	airlied@gmail.com,
 	daniel@ffwll.ch
-Subject: [PATCH v7 00/10] drm: ci: fixes
-Date: Thu,  7 Dec 2023 14:48:21 +0530
-Message-Id: <20231207091831.660054-1-vignesh.raman@collabora.com>
+Subject: [PATCH v7 01/10] drm: ci: igt_runner: Remove todo
+Date: Thu,  7 Dec 2023 14:48:22 +0530
+Message-Id: <20231207091831.660054-2-vignesh.raman@collabora.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20231207091831.660054-1-vignesh.raman@collabora.com>
+References: <20231207091831.660054-1-vignesh.raman@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,67 +61,47 @@ Cc: daniels@collabora.com, emma@anholt.net, gustavo.padovan@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The patch series contains improvements, enabling new ci jobs which
-enables testing for Mediatek MT8173, Qualcomm APQ 8016 and VirtIO GPU,
-fixing issues with the ci jobs and updating the expectation files.
+/sys/kernel/debug/dri/*/state exist for every atomic KMS driver.
+We do not test non-atomic drivers, so remove the todo.
+
+Acked-by: Helen Koike <helen.koike@collabora.com>
+Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+---
 
 v2:
-  - Use fdtoverlay command to merge overlay dtbo with the base dtb instead of modifying the kernel sources
-  - Reworded the commit message for enabling jobs
-  - Added a new patch in the series to use scripts/config to enable/disable configs
+  - No changes
 
 v3:
-  - New patch in the series to add device tree overlay in arch/arm64/boot/dts/qcom
-  - drm-ci scripts to use device tree overlay from arch/arm64/boot/dts/qcom and compile base device tree with overlay support
-  - New patch in the series to enable CONFIG_REGULATOR_DA9211 in defconfig
-  - Remove CONFIG_RTC_DRV_MT6397=y as it is already enabled in defconfig
+  - No changes
 
 v4:
-  - Drop 'enable CONFIG_REGULATOR_DA9211 in defconfig' patch as it is sent upstream as a seperate patch
-  - Use apq8016-sbc-usb-host.dtb which allows the USB controllers to work in host mode.
-    This patch depends on https://lore.kernel.org/lkml/20230911161518.650726-1-vignesh.raman@collabora.com/
+  - No changes
 
 v5:
-  - Added a new patch in the series to set IGT_FORCE_DRIVER to 'mediatek' for mt8173
-  - Added a new patch in the series to make artifacts available for virtio jobs
-  - Added a new patch in the series to add pipeline url to fails and flakes files
-  - Generate fails and flakes file with the updated xfails script - https://www.spinics.net/lists/kernel/msg4959630.html
-  - Drop 'virtio: Update ci variables' patch as the tests which causes the malloc issue are skipped
+  - No changes
 
 v6:
-  - Updated commit message for enable DA9211 regulator fix 
-  - Use GPU_VERSION instead of CI_JOB_NAME to check if it is mt8173 while setting IGT_FORCE_DRIVER
-  - Added a new patch in the series to uprev IGT to fix memory corruption
-  - Added a new patch in the series to update drm ci documentation
-  - Generate fails file with drm-misc-next
+  - No changes
 
 v7:
-  - Fix checkpatch style problems in commit message
-  - Rework mt8173 IGT_FORCE_DRIVER fix and reword the commit message
+  - No changes
 
-Vignesh Raman (10):
-  drm: ci: igt_runner: Remove todo
-  drm: ci: Force db410c to host mode
-  drm: ci: arm64.config: Enable DA9211 regulator
-  drm: ci: Enable new jobs
-  drm: ci: Use scripts/config to enable/disable configs
-  drm: ci: mt8173: Do not set IGT_FORCE_DRIVER to panfrost
-  drm: ci: virtio: Make artifacts available
-  drm: ci: uprev IGT
-  drm/doc: ci: Add IGT version details for flaky tests
-  drm: ci: Update xfails
+---
+ drivers/gpu/drm/ci/igt_runner.sh | 1 -
+ 1 file changed, 1 deletion(-)
 
- Documentation/gpu/automated_testing.rst       |  7 +--
- drivers/gpu/drm/ci/arm64.config               |  1 +
- drivers/gpu/drm/ci/build.sh                   | 16 +++----
- drivers/gpu/drm/ci/gitlab-ci.yml              |  2 +-
- drivers/gpu/drm/ci/igt_runner.sh              | 10 +++-
- drivers/gpu/drm/ci/test.yml                   | 13 ++----
- .../drm/ci/xfails/mediatek-mt8173-fails.txt   | 13 ++++--
- .../gpu/drm/ci/xfails/msm-apq8016-fails.txt   |  5 ++
- .../drm/ci/xfails/virtio_gpu-none-fails.txt   | 46 +++++++++++++++++++
- 9 files changed, 86 insertions(+), 27 deletions(-)
-
+diff --git a/drivers/gpu/drm/ci/igt_runner.sh b/drivers/gpu/drm/ci/igt_runner.sh
+index 2f815ee3a8a3..c6cf963592c5 100755
+--- a/drivers/gpu/drm/ci/igt_runner.sh
++++ b/drivers/gpu/drm/ci/igt_runner.sh
+@@ -15,7 +15,6 @@ cat /sys/kernel/debug/device_component/*
+ '
+ 
+ # Dump drm state to confirm that kernel was able to find a connected display:
+-# TODO this path might not exist for all drivers.. maybe run modetest instead?
+ set +e
+ cat /sys/kernel/debug/dri/*/state
+ set -e
 -- 
 2.40.1
 
