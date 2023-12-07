@@ -1,66 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C2C1809E36
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 09:35:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A77F48090E3
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 19:58:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11A7410EA0A;
-	Fri,  8 Dec 2023 08:35:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 098B910E0C1;
+	Thu,  7 Dec 2023 18:58:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF96210E94F;
- Thu,  7 Dec 2023 18:25:50 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id
- ffacd0b85a97d-33339d843b9so1315468f8f.0; 
- Thu, 07 Dec 2023 10:25:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1701973549; x=1702578349; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=QFhF+WHm92cVBxSbo98wCO9PJ9Iq9HjlgAyvaR9w2ck=;
- b=cm0i74IsjJnPvYxrt7+Gx4zWOuPO13u5h0t/YsBqRAGpQAClpu/XB6qUf0c/6egVN5
- z3iuhx+NeAlHn8lpIvfcfWtG++JZzjLOxszNyrUhXNYt+NO0a+APmPTcDbr6JSIJPliS
- hpWIhnkjady957MtgYqXmtvtXf/c871fXrtKnI2HchgudB6mJ5uGiE7eAhSbIA8VJs0r
- Ik3jEhyIBihXRBlCKWYrW4Lilr+POnL7D4VzI5oILOhoCz068iYrOKuGX/kfSzfTmPRU
- BymxaPe2UwpTBR/894fImC7aDRQkZ+nKsa+sU8bZYgIW4A/+x8wasVDVNtBJThrl+52H
- jbEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701973549; x=1702578349;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QFhF+WHm92cVBxSbo98wCO9PJ9Iq9HjlgAyvaR9w2ck=;
- b=rMQ8xvUc0AsnIwTv7qx3RNPIZfbHiLwr5YoOYwKiyesHUq2pEAtoNAeYjBn3nPhHB9
- 2QQnlkIM9jYdtGlTH0pzZij0n2yfoDRT4gZHy7EbBwMiL+SwNtDmXqgYsAU/4oQixp0d
- HvVAFeBuZZwUtuKbPHvNNGwikhZvo2/8Kcw8WUN5P+4FgUDwzqIYpBlYbkFVVU3bRVpy
- meO9/dizkPk1cWgqPkzByfSigUWQA1hfyfac4gzT0dKUSj5YGzxY0S37j3QBErPLDqr8
- xxwG4uEiwECWmbe7xYhHD8t8ucrvcW5cTSjOAjNeYDIaLnOAvSvmLjeQpOQhNepaF9W7
- 8t/g==
-X-Gm-Message-State: AOJu0YynDPiRJ4Go3MSSOM5Ov2XD5MIRyy+yOF7FrfCNHdm0EAXabRib
- SqheJklTkXrvFfHvVSe6//95EOKkED4Y9g==
-X-Google-Smtp-Source: AGHT+IGGXN4Wz5RSI2d7rXy0IjXkVfWyTq3KUtJRpnUAU8d6KvlTeEvxhdof7kcCZc1McgCdfOl2Sg==
-X-Received: by 2002:adf:f303:0:b0:333:135f:a7f4 with SMTP id
- i3-20020adff303000000b00333135fa7f4mr1902241wro.56.1701973548815; 
- Thu, 07 Dec 2023 10:25:48 -0800 (PST)
-Received: from xavers-framework.fritz.box ([89.38.117.155])
- by smtp.gmail.com with ESMTPSA id
- j16-20020a5d5650000000b0033344e2522dsm257302wrw.37.2023.12.07.10.25.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Dec 2023 10:25:48 -0800 (PST)
-From: Xaver Hugl <xaver.hugl@gmail.com>
-To: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/amd/display: fix cursor-plane-only atomic commits not
- triggering pageflips
-Date: Thu,  7 Dec 2023 19:25:32 +0100
-Message-ID: <20231207182532.19416-1-xaver.hugl@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F302A10E0C1
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 18:58:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id DD41D621C6;
+ Thu,  7 Dec 2023 18:58:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3627AC433CA;
+ Thu,  7 Dec 2023 18:58:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1701975506;
+ bh=xt1Y/+kttVY9PNDwkDjXmwsJOVheyqKF1T6pNH3dGtg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jz5XnCaYN+luVaE47xCUh01SlCqazNvM+pIr7TfJlWPFfVP8k6bMbv/qFl+c2k0DG
+ xNfUzAJ/xalYGkPYbJCqRlxLovMBAcbI7mIBlB7FS6qyaT+nrDpgT7YRPjG5NDIRRC
+ hCfchARFo1GBtuR00ObXnV4sxGLvTJUci3ANbun4jHM6xtkaJsc7eShJSuq4lVT5aj
+ lCOP3diS2aVG5+I7PX9m4QBHcpVxlHO6IHXCPUxAsRmBlrXgUilZX6CFfB7xuRQwBn
+ Sr+ZUbL+U3qcea6n0XhvTtMuG4XSxssBn/yRt21FF76GYyKIPasMEu+ejizA49yfof
+ 8HiP01ypjSOgA==
+Date: Thu, 7 Dec 2023 19:58:24 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v2 4/4] drm/panel-edp: Add some panels with conservative
+ timings
+Message-ID: <fctpvshu5ychxketsf35jfg2qzi6i3nfup5hy7r7hzmmbpd2j4@xmsik3cycjlj>
+References: <20231207081801.4049075-1-treapking@chromium.org>
+ <20231207081801.4049075-5-treapking@chromium.org>
+ <CAD=FV=U6M5rpQXmjC+iGf0BGtiyjRAAcMfo4Fr3pDyYVp3m4aQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 08 Dec 2023 08:35:21 +0000
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="kpzcmzjycd4hvubw"
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=U6M5rpQXmjC+iGf0BGtiyjRAAcMfo4Fr3pDyYVp3m4aQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,45 +54,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xaver Hugl <xaver.hugl@gmail.com>, stable@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Pin-yen Lin <treapking@chromium.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Guenter Roeck <groeck@chromium.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With VRR, every atomic commit affecting a given display must trigger
-a new scanout cycle, so that userspace is able to control the refresh
-rate of the display. Before this commit, this was not the case for
-atomic commits that only contain cursor plane properties.
 
-Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3034
-Cc: stable@vger.kernel.org
+--kpzcmzjycd4hvubw
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Xaver Hugl <xaver.hugl@gmail.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+On Thu, Dec 07, 2023 at 10:23:53AM -0800, Doug Anderson wrote:
+> Hi,
+>=20
+> On Thu, Dec 7, 2023 at 12:18=E2=80=AFAM Pin-yen Lin <treapking@chromium.o=
+rg> wrote:
+> >
+> > These panels are used by Mediatek MT8173 Chromebooks but we can't find
+> > the corresponding data sheets, and these panels used to work on v4.19
+> > kernel without any specified delays.
+> >
+> > Therefore, instead of having them use the default conservative timings,
+> > update them with less-conservative timings from other panels of the same
+> > vendor. The panels should still work under those timings, and we can
+> > save some delays and suppress the warnings.
+> >
+> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> >
+> > ---
+> >
+> > (no changes since v1)
+> >
+> >  drivers/gpu/drm/panel/panel-edp.c | 31 +++++++++++++++++++++++++++++++
+> >  1 file changed, 31 insertions(+)
+>=20
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>=20
+> Repeating my comments from v1 here too, since I expect this patch to
+> sit on the lists for a little while:
+>=20
+>=20
+> This is OK w/ me, but it will need time on the mailing lists before
+> landing in case anyone else has opinions.
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index b452796fc6d3..b379c859fbef 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -8149,9 +8149,15 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
- 		/* Cursor plane is handled after stream updates */
- 		if (plane->type == DRM_PLANE_TYPE_CURSOR) {
- 			if ((fb && crtc == pcrtc) ||
--			    (old_plane_state->fb && old_plane_state->crtc == pcrtc))
-+			    (old_plane_state->fb && old_plane_state->crtc == pcrtc)) {
- 				cursor_update = true;
--
-+				/*
-+				 * With atomic modesetting, cursor changes must
-+				 * also trigger a new refresh period with vrr
-+				 */
-+				if (!state->legacy_cursor_update)
-+					pflip_present = true;
-+			}
- 			continue;
- 		}
- 
--- 
-2.43.0
+Generally speaking, I'm not really a fan of big patches that dump
+whatever ChromeOS is doing ...
 
+> Specifical thoughts:
+>=20
+> * I at least feel fairly confident that this is OK since these panels
+> essentially booted without _any_ delays back on the old downstream
+> v4.19 kernel. Presumably the panels just had fairly robust timing
+> controllers and so worked OK, but it's better to get the timing more
+> correct.
+
+=2E.. especially since you have to rely on the recollection of engineers
+involved at the time and you have no real way to test and make things
+clearer anymore, and we have to take patches in that are handwavy "trust
+us, it's doing the right thing".
+
+I'd really prefer to have these patches sent as they are found out.
+
+Also, the fact that the 4.19 kernel mentionned in the commit log is
+actually a downstream tree needs to be made much clearer.
+
+Maxime
+
+--kpzcmzjycd4hvubw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXIV0AAKCRDj7w1vZxhR
+xeYzAQC5Kfn8dNrwLwALt+hK6tSD4201IsoTzahQwfQbf9GB3gD9HiIAYt8FNGuE
+6Kmrydj+s2FsQuULmnFdbvdumWwYcwQ=
+=sewR
+-----END PGP SIGNATURE-----
+
+--kpzcmzjycd4hvubw--
