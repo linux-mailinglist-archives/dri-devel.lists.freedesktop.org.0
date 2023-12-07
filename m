@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5081808A25
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 15:17:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BDC7808A26
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 15:17:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1708B10E8CA;
-	Thu,  7 Dec 2023 14:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C862F10E8CD;
+	Thu,  7 Dec 2023 14:17:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04F0110E8CA
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 14:17:32 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id
- a640c23a62f3a-a1f33c13ff2so44089066b.3
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 06:17:31 -0800 (PST)
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ABCF10E8CA
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 14:17:33 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id
+ 38308e7fff4ca-2c9ea37ac87so10888231fa.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 06:17:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1701958650; x=1702563450;
+ d=amarulasolutions.com; s=google; t=1701958652; x=1702563452;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fu0Px4Tbxip0tKoFWKIyTvbcuMI1IJ2fyAiFtPcJOWc=;
- b=FdBgdTmcpJ3Plr4AoaQ3/4gVQa7Nd9P8WcdC56pmqyu/fhC6+eD7SeP1EiblmWD6+d
- kZAzStayvG+8FiVL0Yxj/xJQH6iwO5nfzt5tRTAAkiS7Lm+2zAqqQK2KUD30+CUkCW9x
- loGmg9hRmRR2Ow4q4OvGzcl0f253Iu8Zis3eQ=
+ bh=3CX2gA6r/dtvGkH0YEYWwI6mzbAd5lMyIJziHnyg55Q=;
+ b=EmYpr7UmWl1QiO19r2QWZduGFwnK5nKY9w1Lgs+ohlSPIOiqKAJFQFfyk0cle2bFFs
+ HVrRbnleIWQOfQ3JrRvrca0Q/UjIiphjCwKv063r1+ZHP9IV6L76G5nYGP+cJIIAz/+Y
+ YoXFHn9A4DU6oyTFDiSfPXwwSLE3Q8gMUBM8I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701958650; x=1702563450;
+ d=1e100.net; s=20230601; t=1701958652; x=1702563452;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fu0Px4Tbxip0tKoFWKIyTvbcuMI1IJ2fyAiFtPcJOWc=;
- b=Uy4kzxKO4CEBtDc9YM85C4Q0/upHxcdm68XnUYKq9NPowBAMLbiG28F0HPM2IZvo7X
- v/t4MIlJn4kBcWm6giB7UJ/l8sqgmBO5B9CRYlWYdTjxpsWT0Dj1USXzytlXgO3v4DNM
- XPmYlvKe3qi6qtbpvdYD/xnrvp0AwDadfDOdDIBYSlFUWFgVddi2YJu3VKTXAhPb+GTz
- DpjevXn/JvpBGFuHIH5n2pksbzONUvgIl4UVO/pgR53QnWhhoo2OuEluVWJ8oOeZXRCt
- KwqqUusHjhiZ+l5/oBFUNzJB4BcUHUYnvlRI6vsYOZ4qKQrZRHm+R9qPrSwJlx2sGbit
- SbLg==
-X-Gm-Message-State: AOJu0YwAl2D3D0UTuP+KUcUg4TFKaIGZ+XDqaj4G499DmF6H2i9chWmu
- EbYp14YZ4uNKgJzCW5DKwbP/7Q==
-X-Google-Smtp-Source: AGHT+IEKt+m4WcAwGyRNiq3p7RkcN2HRJDZ2ARN/vQ7Yh6kI3tPnmINApVHMQ1D31CBUjdDTe5zvAQ==
-X-Received: by 2002:a17:906:ce32:b0:a1c:8b15:fc01 with SMTP id
- sd18-20020a170906ce3200b00a1c8b15fc01mr1663788ejb.33.1701958650470; 
- Thu, 07 Dec 2023 06:17:30 -0800 (PST)
+ bh=3CX2gA6r/dtvGkH0YEYWwI6mzbAd5lMyIJziHnyg55Q=;
+ b=UI2hfiNUR3ve1FXDmwStegBtD5ugzEW797Bv+RlED9PpDN4NMPW5taRlrZGPKWNWpB
+ T7AJw1MEP93CDlOzT29lBqA6PZmCpbHIinx1lAiWW8qI0P4hnx3ZdFhroLpdX42nv7gh
+ Y0gf5nuNKPqCANYm1YYwlS+yYSZk5BtBwvtEqQkledicfONbmYVUVRII/3BDGp+/VAju
+ w2+VGDQ4gEeFpVKjx3w5NgBqLnJw5GTdD5gUGug1nEWESraFAh6RxvU2dg3PFcrh8zaE
+ B0vQDO4qKOD27wv15EQPdPJ8FXXid4HEEs5SXuqnE92uP/u8fa3XuRpCEXOiMMfKpcR7
+ TYTA==
+X-Gm-Message-State: AOJu0Yy30t0qUk15gIqGOtJnu9Tnx5wY3mWwmLAgFHWQ6HjzxvogTytd
+ PvJwG9+y84FJi1fLKST9m+9s4g==
+X-Google-Smtp-Source: AGHT+IFJvB8cKYZ3VxVSrUHzta/NPT1ZfRlo15fZc1l37AxNkD46kaBE9H1jN1RtXiBRgG2tXBj9Eg==
+X-Received: by 2002:a2e:9250:0:b0:2ca:1030:f695 with SMTP id
+ v16-20020a2e9250000000b002ca1030f695mr1517835ljg.78.1701958651744; 
+ Thu, 07 Dec 2023 06:17:31 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6474:ebbf:9bf:959c:3c66:46c2])
  by smtp.gmail.com with ESMTPSA id
- f24-20020a170906c09800b00a1e814b7155sm885421ejz.62.2023.12.07.06.17.29
+ f24-20020a170906c09800b00a1e814b7155sm885421ejz.62.2023.12.07.06.17.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Dec 2023 06:17:30 -0800 (PST)
+ Thu, 07 Dec 2023 06:17:31 -0800 (PST)
 From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v5 02/10] drm/bridge: Fix a use case in the bridge disable
- logic
-Date: Thu,  7 Dec 2023 15:16:31 +0100
-Message-ID: <20231207141723.108004-3-dario.binacchi@amarulasolutions.com>
+Subject: [PATCH v5 03/10] drm: bridge: samsung-dsim: enter display mode in the
+ enable() callback
+Date: Thu,  7 Dec 2023 15:16:32 +0100
+Message-ID: <20231207141723.108004-4-dario.binacchi@amarulasolutions.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231207141723.108004-1-dario.binacchi@amarulasolutions.com>
 References: <20231207141723.108004-1-dario.binacchi@amarulasolutions.com>
@@ -76,26 +76,34 @@ Cc: Maxime Ripard <mripard@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Dario Binacchi <dario.binacchi@amarulasolutions.com>,
  Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, michael@amarulasolutions.com,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
  Amarula patchwork <linux-amarula@amarulasolutions.com>,
+ dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, michael@amarulasolutions.com,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The patch fixes the code for finding the next bridge with the
-"pre_enable_prev_first" flag set to false. In case this condition is
-not verified, i. e. there is no subsequent bridge with the flag set to
-false, the whole bridge list is traversed, invalidating the "next"
-variable.
+The synaptics-r63353 (panel-bridge) can only be configured in command mode.
+So, samsung-dsim (bridge) must not be in display mode during the
+prepare()/unprepare() of the panel-bridge. Setting the
+"pre_enable_prev_first" flag to true allows the prepare() of the
+panel-bridge to be called between the pre_enabled() and enabled() of the
+bridge. So, the bridge can enter display mode only in the enabled().
+The unprepare() of the panel-bridge is instead called between the disable()
+and post_disable() of the bridge. So, the disable() must exit the display
+mode (i .e. enter command mode) to allow the panel-bridge to receive DSI
+commands.
 
-The use of a new iteration variable (i. e. "iter") ensures that the value
-of the "next" variable is not invalidated.
+samsung_dsim_atomic_pre_enable   -> command mode
+r63353_panel_prepare             -> send DSI commands
+samsung_dsim_atomic_enable       -> enter display mode
 
-Fixes: 4fb912e5e190 ("drm/bridge: Introduce pre_enable_prev_first to alter bridge init order")
+samsung_dsim_atomic_disable      -> exit display mode (command mode)
+r63353_panel_unprepare           -> send DSI commands
+samsung_dsim_atomic_post_disable
+
 Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
 Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
 Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
@@ -103,41 +111,48 @@ Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
 
 (no changes since v1)
 
- drivers/gpu/drm/drm_bridge.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index f66bf4925dd8..2e5781bf192e 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -662,7 +662,7 @@ void drm_atomic_bridge_chain_post_disable(struct drm_bridge *bridge,
- 					  struct drm_atomic_state *old_state)
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+index be5914caa17d..15bf05b2bbe4 100644
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -1494,7 +1494,6 @@ static void samsung_dsim_atomic_pre_enable(struct drm_bridge *bridge,
+ 			return;
+ 
+ 		samsung_dsim_set_display_mode(dsi);
+-		samsung_dsim_set_display_enable(dsi, true);
+ 	}
+ }
+ 
+@@ -1507,6 +1506,7 @@ static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
+ 		samsung_dsim_set_display_mode(dsi);
+ 		samsung_dsim_set_display_enable(dsi, true);
+ 	} else {
++		samsung_dsim_set_display_enable(dsi, true);
+ 		samsung_dsim_set_stop_state(dsi, false);
+ 	}
+ 
+@@ -1524,6 +1524,8 @@ static void samsung_dsim_atomic_disable(struct drm_bridge *bridge,
+ 	if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
+ 		samsung_dsim_set_stop_state(dsi, true);
+ 
++	samsung_dsim_set_display_enable(dsi, false);
++
+ 	dsi->state &= ~DSIM_STATE_VIDOUT_AVAILABLE;
+ }
+ 
+@@ -1532,7 +1534,8 @@ static void samsung_dsim_atomic_post_disable(struct drm_bridge *bridge,
  {
- 	struct drm_encoder *encoder;
--	struct drm_bridge *next, *limit;
-+	struct drm_bridge *iter, *next, *limit;
+ 	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
  
- 	if (!bridge)
- 		return;
-@@ -680,14 +680,15 @@ void drm_atomic_bridge_chain_post_disable(struct drm_bridge *bridge,
- 				 * was enabled first, so disabled last
- 				 */
- 				limit = next;
-+				iter = next;
+-	samsung_dsim_set_display_enable(dsi, false);
++	if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
++		samsung_dsim_set_stop_state(dsi, true);
  
- 				/* Find the next bridge that has NOT requested
- 				 * prev to be enabled first / disabled last
- 				 */
--				list_for_each_entry_from(next, &encoder->bridge_chain,
-+				list_for_each_entry_from(iter, &encoder->bridge_chain,
- 							 chain_node) {
--					if (!next->pre_enable_prev_first) {
--						next = list_prev_entry(next, chain_node);
-+					if (!iter->pre_enable_prev_first) {
-+						next = list_prev_entry(iter, chain_node);
- 						limit = next;
- 						break;
- 					}
+ 	dsi->state &= ~DSIM_STATE_ENABLED;
+ 	pm_runtime_put_sync(dsi->dev);
 -- 
 2.43.0
 
