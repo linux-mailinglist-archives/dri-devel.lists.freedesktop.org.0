@@ -1,55 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18EAF80827A
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 09:03:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58478808294
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 09:12:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 588D910E81F;
-	Thu,  7 Dec 2023 08:03:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 109A310E101;
+	Thu,  7 Dec 2023 08:12:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3464A10E81D
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 08:03:45 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1rB9MF-0000KF-1w; Thu, 07 Dec 2023 09:03:43 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1rB9MB-00E8hJ-Ag; Thu, 07 Dec 2023 09:03:39 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1rB9MB-00Fouy-0g; Thu, 07 Dec 2023 09:03:39 +0100
-Date: Thu, 7 Dec 2023 09:03:38 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: =?utf-8?B?64yA7J246riwL1RpemVuIFBsYXRmb3JtIExhYihTUikv7IK87ISx7KCE7J6Q?=
- <inki.dae@samsung.com>
-Subject: Re: [PATCH v3 08/16] drm/exynos: Convert to platform remove callback
- returning void
-Message-ID: <20231207080338.kcjx7uixxjw2axtc@pengutronix.de>
-References: <20231102165640.3307820-18-u.kleine-koenig@pengutronix.de>
- <20231102165640.3307820-26-u.kleine-koenig@pengutronix.de>
- <CAAQKjZOnVSaO6QHpSo_i=WgTaawTq0UFtzwTw8kQ5iHN4qiAtQ@mail.gmail.com>
- <20231108075454.3aivzrbvtr4en22e@pengutronix.de>
- <CGME20231128165521epcas1p4993f7d2fab0723130a4612d810d254f8@epcas1p4.samsung.com>
- <20231128165505.wm4xs4ktycswthkt@pengutronix.de>
- <048901da28b6$5be8e700$13bab500$@samsung.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F34210E101
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 08:12:49 +0000 (UTC)
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id EF5DA660734D;
+ Thu,  7 Dec 2023 08:12:46 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1701936767;
+ bh=HucJgk0T0ZeQ5MNVZkX5Fp7UzyjttFYgepmdTGOCfGY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ByTnWUVxBPlhOKrgUdVnvJUmVkf1hHMCzUtYGGq/EfH3xMlpRiYGwtFm2QcLBmr50
+ dmphW9VSxXLa0wb3Gn4WlPkXTxcTQDnWgbg+t14cOA4gemiK5dJBq0/WMbCj3WCLpd
+ UKH2E6S4F29MAuwNFXqf6WUksjKOrcPRuH/X4XlPL5bc7ICWafoeYzTFi8BEZmgyg0
+ s2lbRaoaLBzWQfHeRrD5+LNhNygNwEE4Ak7caRA5SYEPZ1SuuFg2L3GXopM76N3zfZ
+ MdOI2mRwZz/IVJnMOTvGNz2rgZWn+6OornOjM7PfOU2OmaLMPW9WxpbelUozEh7Zhp
+ 2Ep+IkkQE/Yiw==
+Date: Thu, 7 Dec 2023 09:12:43 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v3 03/14] drm/panthor: Add the device logical block
+Message-ID: <20231207091243.7ce56a6e@collabora.com>
+In-Reply-To: <4d813208-39fe-4387-8415-4b0c17df42a4@arm.com>
+References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
+ <20231204173313.2098733-4-boris.brezillon@collabora.com>
+ <4d813208-39fe-4387-8415-4b0c17df42a4@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="yutmrk2hnouit6fr"
-Content-Disposition: inline
-In-Reply-To: <048901da28b6$5be8e700$13bab500$@samsung.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,104 +54,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, 'Jingoo Han' <jingoohan1@gmail.com>,
- 'Seung-Woo Kim' <sw0312.kim@samsung.com>,
- 'Kyungmin Park' <kyungmin.park@samsung.com>,
- 'DRI mailing list' <dri-devel@lists.freedesktop.org>,
- 'Krzysztof Kozlowski' <krzysztof.kozlowski@linaro.org>, kernel@pengutronix.de,
- 'Alim Akhtar' <alim.akhtar@samsung.com>, linux-arm-kernel@lists.infradead.org
+Cc: Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
+ Daniel Stone <daniels@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?B?Q2w=?= =?UTF-8?B?w6ltZW50IFDDqXJvbg==?= <peron.clem@gmail.com>,
+ Grant Likely <grant.likely@linaro.org>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 6 Dec 2023 16:55:42 +0000
+Steven Price <steven.price@arm.com> wrote:
 
---yutmrk2hnouit6fr
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On 04/12/2023 17:32, Boris Brezillon wrote:
+> > The panthor driver is designed in a modular way, where each logical
+> > block is dealing with a specific HW-block or software feature. In order
+> > for those blocks to communicate with each other, we need a central
+> > panthor_device collecting all the blocks, and exposing some common
+> > features, like interrupt handling, power management, reset, ...
+> > 
+> > This what this panthor_device logical block is about.
+> > 
+> > v3:
+> > - Add acks for the MIT+GPL2 relicensing
+> > - Fix 32-bit support
+> > - Shorten the sections protected by panthor_device::pm::mmio_lock to fix
+> >   lock ordering issues.
+> > - Rename panthor_device::pm::lock into panthor_device::pm::mmio_lock to
+> >   better reflect what this lock is protecting
+> > - Use dev_err_probe()
+> > - Make sure we call drm_dev_exit() when something fails half-way in
+> >   panthor_device_reset_work()
+> > - Replace CSF_GPU_LATEST_FLUSH_ID_DEFAULT with a constant '1' and a
+> >   comment to explain. Also remove setting the dummy flush ID on suspend.
+> > - Remove drm_WARN_ON() in panthor_exception_name()
+> > - Check pirq->suspended in panthor_xxx_irq_raw_handler()
+> > 
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > Signed-off-by: Steven Price <steven.price@arm.com>
+> > Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
+> > Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing,Linaro
+> > Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 relicensing,Collabora  
+> 
+> We still have the "FIXME: this is racy"
 
-Hello Inki,
+Yeah, I still didn't find a proper solution for that.
 
-On Thu, Dec 07, 2023 at 11:37:44AM +0900, =EB=8C=80=EC=9D=B8=EA=B8=B0/Tizen=
- Platform Lab(SR)/=EC=82=BC=EC=84=B1=EC=A0=84=EC=9E=90 wrote:
-> Hello Uwe Kleine-K=C3=B6nig,
->=20
-> > -----Original Message-----
-> > From: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> > Sent: Wednesday, November 29, 2023 1:55 AM
-> > To: Inki Dae <daeinki@gmail.com>
-> > Cc: linux-samsung-soc@vger.kernel.org; Daniel Vetter <daniel@ffwll.ch>;
-> > Jingoo Han <jingoohan1@gmail.com>; Seung-Woo Kim <sw0312.kim@samsung.co=
-m>;
-> > Kyungmin Park <kyungmin.park@samsung.com>; DRI mailing list <dri-
-> > devel@lists.freedesktop.org>; Krzysztof Kozlowski
-> > <krzysztof.kozlowski@linaro.org>; kernel@pengutronix.de; Alim Akhtar
-> > <alim.akhtar@samsung.com>; David Airlie <airlied@gmail.com>; linux-arm-
-> > kernel@lists.infradead.org
-> > Subject: Re: [PATCH v3 08/16] drm/exynos: Convert to platform remove
-> > callback returning void
-> >=20
-> > Hello Inki,
-> >=20
-> > On Wed, Nov 08, 2023 at 08:54:54AM +0100, Uwe Kleine-K=C3=B6nig wrote:
-> > > Hello Inki,
-> > >
-> > > On Wed, Nov 08, 2023 at 01:16:18PM +0900, Inki Dae wrote:
-> > > > Sorry for late. There was a merge conflict so I fixed it manually a=
-nd
-> > > > merged. And seems your patch description is duplicated so dropped
-> > > > duplicated one.
-> > >
-> > > Ah. I have a template that generates one patch per driver. I guess th=
-is
-> > > is the result of using squash instead of fixup while putting all exyn=
-os
-> > > changes into a single patch.
-> >=20
-> > This patch didn't make it into next yet even though it's included in
-> > your exynos-drm-next branch at
-> > https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git.
-> >=20
-> > Is this on purpose?
->=20
-> drm-exynos tree is not included in the next tree. It was previously
-> included, but it has been removed. drm-exynos tree is merged into the
-> mainline through the drm-next tree, but when the drm-next is
-> synchronized to the next tree, a conflict occurred between the
-> exynos-drm tree and the drm-next tree. Therefore, I had requested that
-> drm-exynos tree be removed from the next. Perhaps I was inexperienced
-> in managing the git tree at that time. :)
+> and there's something wrong in
+> panthor_device_reset_work() (see below). But otherwise looks good.
+> 
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_device.c | 497 +++++++++++++++++++++++
+> >  drivers/gpu/drm/panthor/panthor_device.h | 381 +++++++++++++++++
+> >  2 files changed, 878 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/panthor/panthor_device.c
+> >  create mode 100644 drivers/gpu/drm/panthor/panthor_device.h
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> > new file mode 100644
+> > index 000000000000..40038bac147a
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/panthor/panthor_device.c  
+> 
+> <snip>
+> 
+> > +
+> > +static void panthor_device_reset_work(struct work_struct *work)
+> > +{
+> > +	struct panthor_device *ptdev = container_of(work, struct panthor_device, reset.work);
+> > +	int ret = 0, cookie;
+> > +
+> > +	if (atomic_read(&ptdev->pm.state) != PANTHOR_DEVICE_PM_STATE_ACTIVE) {
+> > +		/*
+> > +		 * No need for a reset as the device has been (or will be)
+> > +		 * powered down
+> > +		 */
+> > +		atomic_set(&ptdev->reset.pending, 0);
+> > +		return;
+> > +	}
+> > +
+> > +	if (!drm_dev_enter(&ptdev->base, &cookie))
+> > +		return;
+> > +
+> > +	panthor_sched_pre_reset(ptdev);
+> > +	panthor_fw_pre_reset(ptdev, true);
+> > +	panthor_mmu_pre_reset(ptdev);
+> > +	panthor_gpu_soft_reset(ptdev);
+> > +	panthor_gpu_l2_power_on(ptdev);
+> > +	panthor_mmu_post_reset(ptdev);
+> > +	ret = panthor_fw_post_reset(ptdev);
+> > +	if (ret)  
+> 
+> If ret is true then we branch, so...
+> 
+> > +		goto out_dev_exit;
+> > +
+> > +	atomic_set(&ptdev->reset.pending, 0);
 
-That sounds more like a reason to have your tree in next. One of the
-core motivations of next is to find inter-tree conflicts early. If such
-a conflict occurs and you only notice it when it's time to send your PR
-to drm-next (or even later) the pressure to fix the problem is higher.
+I think we want to clear the reset pending bit even if the post reset
+failed.
 
-Also for patch contributors it's nice to have a "complete" next, their
-tests are more expressive then.
+> > +	panthor_sched_post_reset(ptdev);
+> > +
+> > +	if (ret) {  
+> 
+> ...this cannot ever be reached. I think the out_dev_exit label should be
+> earlier (and renamed?)
 
-So I want to encourage you to readd your tree to next.
+Uh, actually we can't call panthor_device_unplug() when we're in the
+drm_dev_enter/exit() section, this would cause a deadlock. This should
+be moved at the end of the function, but I can't remember if I had
+another good reason to move it here...
 
-Best regards
-Uwe
+> 
+> > +		panthor_device_unplug(ptdev);
+> > +		drm_err(&ptdev->base, "Failed to boot MCU after reset, making device unusable.");
+> > +	}
+> > +
+> > +out_dev_exit:
+> > +	drm_dev_exit(cookie);
+> > +}
+> 
+> Thanks,
+> Steve
+> 
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---yutmrk2hnouit6fr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVxfFoACgkQj4D7WH0S
-/k4ZPgf+I3pZTphATBXSUpHIry75pCQtOdLqDhFJBFNsZNkkejAEHnvPvII2IlOh
-TH0oGcBe/zqv5u8A+N6qkQeHORERWzfDg5FqNaygNz62zsPXP1i2RC25yGoWq2XK
-7G60CenU/bebpHjTzoGU5XwkWa0RvS6l64g4NFtks+IZe2Nct29UMS38F/Vuk9UW
-jB7bWf9uzG+IyhunlAWapnm9xKCL6dgrrRPTUSAfilFGV3DgNOmDH20rw79pqUsK
-QfGK/Vf68jBngma57A9Pt3I/1XsC48zV0iWKGbQVH3lyjQbekmbwWqUT996p6N2P
-jk0Pfpq8+1cyA+2Ca50k89nAXQiuRg==
-=SkA1
------END PGP SIGNATURE-----
-
---yutmrk2hnouit6fr--
