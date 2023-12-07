@@ -1,67 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D0B4808590
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 11:33:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 996AC80859B
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 11:34:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F124110E855;
-	Thu,  7 Dec 2023 10:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFA0D10E859;
+	Thu,  7 Dec 2023 10:34:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E5EA10E1F7
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 10:33:21 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-50bf4f97752so605409e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 02:33:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701945200; x=1702550000; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wtvnOGwWaVIVLZJl01FFTM/jnDNkRfH72/dI2rop8EA=;
- b=C6KOYlIiJOTg/sEuKw0ErMLIMEEeSHY+yanQnerSoQ9Zabae0QfEBFGUjHBA/EbcO/
- 5KJkaIzO5h5zvT2zlJUIjI3bIKrIC0WFXNziB5SPwpfmBJzCTqzNNU31cmerN9gcHVnB
- ijKce3AuClv795Uxift7nrV6Y7QDriK+JiPqi3/llv7GGdh14fTGLEj7BCF4K8Q222Fw
- XuEWPcZfSZtjiMiGrhCUYTd6XB3m2XWSQbP8mrMK0TPO24qeZX2RMnnv4sgeMF+c8zVx
- 80FaAjDT3Sx2M9eEJjbUMKskKStunPRZYca265D9hi26nGFdaH+qgZZk4CrWxIQxbaXg
- sPzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701945200; x=1702550000;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wtvnOGwWaVIVLZJl01FFTM/jnDNkRfH72/dI2rop8EA=;
- b=OFe8SNCqgQk5YIVgHSZTbYvr4ILD8E/YKMMa4HG/tRRbNRjHiOTWpeIJrZAz32bPf4
- PMeRv6XJJyDeqL1fRZ4GY3ojmv4o+fAAxPysV4TbUdnnIqrE0X6x739afvO08fNWB4dD
- mBiRzzYKhu3DjkJBy1i74ECogxnfZxLDKrhSWhtQFHrXS5HEEEPdaVJfgz+ybbackzjY
- AP0Da2YCyWFSzfLWRWEwQKtuJCqw1fG6IJW58O2H83pIONsxZ/yE6lsZfeYA08FLCsp8
- 56GpCJ4XAeCo+KkmRCqou/pwCIVKYduz3J2vdh/v1w/zpP0Hdwm2qLVgqPPDjxmzydVp
- DoIg==
-X-Gm-Message-State: AOJu0YzbXCSMXQD356DHi8ZHl4+PDIiUlh2+8UoFX2RyYe1d/9s4NwWo
- upg02KUDILEkns9grm7VEzJXqg==
-X-Google-Smtp-Source: AGHT+IGSMWWakZ98zfiQ4cPt4yvm/RbUov0IOgNHxy9Y4PELxlYrrQBKHwhxpK9eEMyi4LcWGo/Fhw==
-X-Received: by 2002:ac2:495d:0:b0:50b:f4f9:75cf with SMTP id
- o29-20020ac2495d000000b0050bf4f975cfmr1424840lfi.9.1701945199891; 
- Thu, 07 Dec 2023 02:33:19 -0800 (PST)
-Received: from eriador.lan (dzdqv0yyyyyyyyyyyykxt-3.rev.dnainternet.fi.
- [2001:14ba:a0db:1f00::227]) by smtp.gmail.com with ESMTPSA id
- o17-20020ac24bd1000000b0050c19506428sm138326lfq.170.2023.12.07.02.33.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Dec 2023 02:33:19 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH 0/3] A few fixes for transparent bridge support
-Date: Thu,  7 Dec 2023 12:33:16 +0200
-Message-ID: <170194519137.470483.63867654987574718.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231205-drm_aux_bridge-fixes-v1-0-d242a0ae9df4@kernel.org>
-References: <20231205-drm_aux_bridge-fixes-v1-0-d242a0ae9df4@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
+ [81.169.146.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4238510E856
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 10:34:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1701945246; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=mOL/PMP+NeJ2E1KYllEYqgE2h5AcWTErDO3aQ08TaQ8JZjehdXmAwJalEHuCVXkpyB
+ pkBUHZul7XE/T7ykcWminQrQMWVEZUZHPZcUE0NoZgveVR6WHAD0hQxa3N+ufw5g6Nen
+ 8zWXy6kbmx9Y+i+btlZCxbrwtR51GfUwT0hwoxXAl5dhTjkv1RQO67o+36PuXvY1516R
+ NyHYwUZ++0RlL3EdJ/q6lOF5yPl7x5laUqpRt67G3WEY4hzvjiLDhPUv+Mx5heZbFUgv
+ jroJy31PqkkbQQUc6SchYn7ZNQVqfTuRdiaU7q+Cw4Yj5WHu5jLr2uB6QKcjV7VlIpZT
+ Kc5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1701945246;
+ s=strato-dkim-0002; d=strato.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=+Kqy8hxh9JRvG98xCRnk451nXywJ+xmBnT99GgubYp4=;
+ b=lVCuFhGEYJikPgPrANervfmrscNeYed2KGhx53qraGreguxpFqO+LyIpVUwVPl49GO
+ XFS1PjWme3pFwiqbNwUaeiqtXXNPcyk07lrvSCqf+0xH559yWb8/spVjF+xj8a8Tgu3/
+ A8y+8tPLXcQ8UIUPUSmHnYcXHDwGa7kDtFZqx53R/y8SZjPhAMhYM/nwwrg6SiRv/lqq
+ /QNV/2+2xo2zbiJ9U7M1qgE9RwPq36j0NsQVe6ILNBOBUWq9mTy4hrYMxZr2MyTpS4xN
+ FZ9AGUD80zYo7zO4V7xi0g9io3YM0hnP92nX9UokIdESV4FGkKiP2Yg8EiWCl43J/ckq
+ 2G4w==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1701945246;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=+Kqy8hxh9JRvG98xCRnk451nXywJ+xmBnT99GgubYp4=;
+ b=P4KnjRZcvO2pNha1Mo6dGvsIsh/cZ1u/T9KBCygDl5AA3NaBfrEerVEWz68GM31lHT
+ 908aifCihZsHCnnn+a54wi9EF0B/m5MRdQQbLc3p80IIoSwUSSgODdBOKYf+Zr3Yahhl
+ w8ODwA/4kqQjOwHlX+UXjkw0lWt0xBvhUzfx2BAGnT0YPn90E3QvpvS9NQ3cssDMv927
+ CAVAE2YmJ2ghP5LPbzYARBhTHk3tym/kQkxc1nF9zUcGS8zmEO3G0FBikU/vOsRiRAhp
+ mBbEQWcporaSThp5QnXdx86L0RHk8K9Gi8iVxEXW/m+GvESmMk5RLZ1TAmncO4WsqEwP
+ TZng==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1701945246;
+ s=strato-dkim-0003; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=+Kqy8hxh9JRvG98xCRnk451nXywJ+xmBnT99GgubYp4=;
+ b=8d0eEMoeXltuoLS8rflw6BVU1WX0h+Aj9r6oZwRPtbRNw2Opa5kgGDVbEfK1NGPSoQ
+ xgx53NjHA6DPVO1RgSCA==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Apz9PSN6LgsXcGerXQ="
+Received: from smtpclient.apple by smtp.strato.de (RZmta 49.10.0 DYNA|AUTH)
+ with ESMTPSA id wfeb35zB7AY4C2K
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Thu, 7 Dec 2023 11:34:04 +0100 (CET)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
+Subject: Re: [PATCH RFC 01/10] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <6gpehpoz54f5lxhmvirqbfwmq7dpgiroy27cljpvu66wtn7aqy@lgrh7wysyxnp>
+Date: Thu, 7 Dec 2023 11:33:53 +0100
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <D8AB6CC4-DCA5-40DD-A311-94A16FF59254@goldelico.com>
+References: <20231204182245.33683-1-afd@ti.com>
+ <20231204182245.33683-2-afd@ti.com>
+ <23livt5mcc64bb6lkeec2uxp5cyn4wfekwaj6wzrjnrkndvwgj@6tveqglqpr4v>
+ <B3A1B8A7-0363-4ECB-AFBF-576FECA569FA@goldelico.com>
+ <vawv2mwhonuyvgmp7uox4rfgdcjwg5fa7hmbcfgl3wiase6e4p@tyavpclppfvu>
+ <6BC60156-89E2-4734-BD00-B49A9A6C1D7A@goldelico.com>
+ <6gpehpoz54f5lxhmvirqbfwmq7dpgiroy27cljpvu66wtn7aqy@lgrh7wysyxnp>
+To: Maxime Ripard <mripard@kernel.org>
+X-Mailer: Apple Mail (2.3774.200.91.1.1)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,29 +91,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, heikki.krogerus@linux.intel.com,
- kernel test robot <lkp@intel.com>, gregkh@linuxfoundation.org,
- linux-usb@vger.kernel.org, patches@lists.linux.dev,
- dri-devel@lists.freedesktop.org, bryan.odonoghue@linaro.org,
- linux@roeck-us.net
+Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Tony Lindgren <tony@atomide.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Donald Robson <donald.robson@imgtec.com>, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ =?utf-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
+ Matt Coster <matt.coster@imgtec.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-omap@vger.kernel.org, Adam Ford <aford173@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Tero Kristo <kristo@kernel.org>,
+ linux-kernel@vger.kernel.org, Andrew Davis <afd@ti.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 05 Dec 2023 13:13:33 -0700, Nathan Chancellor wrote:
-> This series fixes two Kconfig issues that I noticed with the selection
-> of CONFIG_DRM_AUX{,_HPD}_BRIDGE along with a fix for a sparse report
-> that I noticed while seeing if these had already been resolved.
-> 
+Hi Maxime,
 
-Applied to drm-misc-next, thanks!
+> Am 07.12.2023 um 10:20 schrieb Maxime Ripard <mripard@kernel.org>:
+>=20
+> On Tue, Dec 05, 2023 at 02:50:08PM +0100, H. Nikolaus Schaller wrote:
+>> Hi,
+>>=20
+>>> Am 05.12.2023 um 14:29 schrieb Maxime Ripard <mripard@kernel.org>:
+>>>=20
+>>> Hi,
+>>>=20
+>>> On Tue, Dec 05, 2023 at 09:18:58AM +0100, H. Nikolaus Schaller =
+wrote:
+>>>>> Am 05.12.2023 um 07:57 schrieb Maxime Ripard <mripard@kernel.org>:
+>>>>>=20
+>>>>> On Mon, Dec 04, 2023 at 12:22:36PM -0600, Andrew Davis wrote:
+>>>>>> The Imagination PowerVR Series5 "SGX" GPU is part of several SoCs =
+from
+>>>>>> multiple vendors. Describe how the SGX GPU is integrated in these =
+SoC,
+>>>>>> including register space and interrupts. Clocks, reset, and power =
+domain
+>>>>>> information is SoC specific.
+>>>>>>=20
+>>>>>> Signed-off-by: Andrew Davis <afd@ti.com>
+>>>>>> ---
+>>>>>> .../devicetree/bindings/gpu/img,powervr.yaml  | 69 =
++++++++++++++++++--
+>>>>>> 1 file changed, 63 insertions(+), 6 deletions(-)
+>>>>>=20
+>>>>> I think it would be best to have a separate file for this, =
+img,sgx.yaml
+>>>>> maybe?
+>>>>=20
+>>>> Why?
+>>>=20
+>>> Because it's more convenient?
+>>=20
+>> Is it?
+>=20
+> It's for a separate architecture, with a separate driver, maintained =
+out
+> of tree by a separate community, with a separate set of requirements =
+as
+> evidenced by the other thread. And that's all fine in itself, but
+> there's very little reason to put these two bindings in the same file.
+>=20
+> We could also turn this around, why is it important that it's in the
+> same file?
 
-[1/3] usb: typec: nb7vpq904m: Only select DRM_AUX_BRIDGE with OF
-      commit: 5908cbe82ef77f6019349c450d7f1c8b3c29bb0e
-[2/3] usb: typec: qcom-pmic-typec: Only select DRM_AUX_HPD_BRIDGE with OF
-      commit: 03c0343bdf8d43fee6dfe92a7b66308b60e9e77c
-[3/3] drm/bridge: Return NULL instead of plain 0 in drm_dp_hpd_bridge_register() stub
-      commit: 812cc1da7ffd9e178ef66b8a22113be10fba466c
+Same vendor. And enough similarity in architectures, even a logical =
+sequence
+of development of versions (SGX =3D Version 5, Rogue =3D Version 6+) =
+behind.
+(SGX and Rogue seem to be just trade names for their architecture =
+development).
 
-Best regards,
--- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+AFAIK bindings should describe hardware and not communities or drivers
+or who is currently maintaining it. The latter can change, the first =
+not.
+
+>=20
+>>>> The whole family of IMG GPUs is PowerVR and SGX and Rogue are =
+generations 5 and 6++:
+>>>>=20
+>>>> https://en.wikipedia.org/wiki/PowerVR
+>>>=20
+>>> That's not really relevant as far as bindings go.
+>>=20
+>> But maybe for choosing binding file names. Well they are machine =
+readable
+>> but sometimes humans work with them.
+>=20
+> Heh. It's something that can also be easily grepped,
+
+Yes, arbitrarily introduced confusion can always be resolved by search =
+engines
+and makes them necessary and more and more advanced :)
+
+> and the name is
+> never going to reflect all the compatibles in a binding so it's what
+> you'll end up doing anyway. But feel free to suggest another name to
+> avoid the confusion.
+
+Well,
+
+1. rename img,powervr.yaml =3D> img,powervr-rogue.yaml
+2. new file img,powervr-sgx.yaml
+
+to have at least a systematic approach here.
+
+>>> We have multiple
+>>> binding files for devices of the same generation, or single bindings
+>>> covering multiple generations.
+>>>=20
+>>> The important part is that every compatible is documented. It =
+doesn't
+>>> really matter how or where.
+>>=20
+>> Yes, and that is why I would find it more convenient to have a single
+>> "img,powervr.yaml" for all variations unless it becomes filled with
+>> unrelated stuff (which isn't as far as I see).
+>=20
+> Again, hard disagree there.
+
+I am fine with that. I just advocate to follow the KISS principle.
+
+Same vendor, similar purpose, similar architecture =3D> single bindings =
+file
+as Andrew proposed.
+
+BR,
+Nikolaus=
