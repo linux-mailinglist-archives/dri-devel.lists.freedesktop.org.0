@@ -1,67 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C41E808EAA
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 18:30:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF5F4808EFB
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 18:46:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56B8610E1A2;
-	Thu,  7 Dec 2023 17:30:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4185010E202;
+	Thu,  7 Dec 2023 17:46:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com
- [209.85.161.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BB4A10E1A2
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 17:30:40 +0000 (UTC)
-Received: by mail-oo1-f52.google.com with SMTP id
- 006d021491bc7-58e28e0461bso511621eaf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 09:30:40 -0800 (PST)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1045E10E202
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 17:46:33 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-50c04ebe1bbso1010568e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 09:46:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701971191; x=1702575991; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nGUmHRmln8DP4EE62sw2lHmfeRIdxm/F82mL/B18p/E=;
+ b=eXVHwbVoad1j24sIcKBF4FntijUQNxhZTEuC/cME8lf2uczGWt4i4STJ84bHcY5yoZ
+ 9V5CWQKV3K/cE+tXsxKzvte52YGtuF2b67AD754QtkVJ114ziVgoeENlwB1LrP/uCL06
+ i5YGneIYay8DL4bQJm9OZCX/ByMgmy/jYI7mj278Fm7WJo3AzAY1jJ4l1xhkntoGD6O9
+ 561jGxV6hBvsWUu7K/EJKwqDOfeUoReGYke6plj9DIXUOqLT3MksdbNzxzm/GEE8NiTA
+ asnhZsh82d4wvTHFM0gnD/5vOSflH96r0NY7rb39dU/jSyMM4skNlGnDtz6Zj8GkNg2e
+ 8PMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701970239; x=1702575039;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20230601; t=1701971191; x=1702575991;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aqj0z6kEygULbYJbl9fDvMATmV0n6DPZZ0Ol7473clQ=;
- b=CtnwFTqJZk1jwv9/50HcIivWYYhu/n1MQYzMToEWP4oEgv9hx42XBpZy/FXSuCW3px
- WC5O4rOnh7Xna3xcwUxbOL+vW93OsDtuGvrykIKWZLPVnluCliPDGd/2I/iQg6nqW+j7
- cIUMccvawPDfzzWLun4Ei2p1x9N9Iw1iSAAbnsHTtPgL7rPAGip9exN8PuQ8/Z+5w9ri
- 4Cbekq+hUIMPAG7m2N38W8qVF6KC9JCKN8jcr/JCNOCNZXiylknOOPpVVmQ30EajwF1+
- M9yXcyfBxob9wvgrtQvM42Cg0sK+MaLCAbA33MFMnLc62NplefuJbtQIZWlWKqvbUglq
- pwew==
-X-Gm-Message-State: AOJu0YytwKCPlPXT7ldyFyzkR90TJgm/184nNwAFv/UjqOIO4AdPsdCX
- NApArY645eZoqkUmhV5OVvlrAZhSbw==
-X-Google-Smtp-Source: AGHT+IF3F8YBAWZBvd1RIa5py5Lvvl2NkA72wnpM8EkmUcXD/AJYQyxVqC4by4fUaPk/uragnrGJtQ==
-X-Received: by 2002:a05:6820:1c90:b0:58d:9ff4:7646 with SMTP id
- ct16-20020a0568201c9000b0058d9ff47646mr3042277oob.4.1701970239382; 
- Thu, 07 Dec 2023 09:30:39 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- w21-20020a4a3555000000b00587947707aasm10168oog.4.2023.12.07.09.30.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Dec 2023 09:30:38 -0800 (PST)
-Received: (nullmailer pid 2946014 invoked by uid 1000);
- Thu, 07 Dec 2023 17:30:37 -0000
-Date: Thu, 7 Dec 2023 11:30:37 -0600
-From: Rob Herring <robh@kernel.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [RFC PATCH] of/platform: Disable sysfb if a simple-framebuffer
- node is found
-Message-ID: <20231207173037.GA2944721-robh@kernel.org>
-References: <87jzqi59bt.fsf@minerva.mail-host-address-is-not-set>
- <CAL_JsqJM9+cbNviwuKGB5+3YbyAP3UH+TxCxsU5nUtX-iRGP2w@mail.gmail.com>
- <CAMj1kXG7Xyk0ys9j-XRo7Rr8gYz1qJE8fFSixBOwVbm-pjeX+A@mail.gmail.com>
- <874jhj1fm3.fsf@minerva.mail-host-address-is-not-set>
- <58672ab8-99bf-4a2a-af79-031d1e8fcba0@suse.de>
- <87fs0mxlyp.fsf@minerva.mail-host-address-is-not-set>
- <CAL_JsqJbZ736iV+bRbSNNaimkbJLpB9MbeKLSct16Yi67ttFcw@mail.gmail.com>
- <87a5qqxq56.fsf@minerva.mail-host-address-is-not-set>
- <CAL_Jsq+7AwuLt9pfX0zr8g=65zSVLUFzFds82ENaspEFQNK=gg@mail.gmail.com>
- <87zfyqvtpx.fsf@minerva.mail-host-address-is-not-set>
+ bh=nGUmHRmln8DP4EE62sw2lHmfeRIdxm/F82mL/B18p/E=;
+ b=T+UQ5VQYiPjoFo+9eJI8rZFDbV80IHU/osnxiNKa7/+C2c0HlwWN1TjyQeTy2PYweT
+ hnyTxgFQNEpEdd5hUhU0aAqiRrXn1RcpW/acEdWLpxGIp15FmNewohz0s1xqmxUlWuup
+ 5TQtur4x/NDm+7KFsT5v4f5zx04ZKG0RZRlYGKHwzb1tHCFeHGGgIjyCq8QqQw3aqX3S
+ ssTyy8GjhJ2erPRO41MXtbU3dMWKFNTHCkzw8Mlhhje30LSABTOOsNrgituImIecat6T
+ EzhoQGnY14H3e39LwtNCoIqYqix/KEkPyxcxWPmwlpCI/U6O4488vHpJ43FHnA7arvTw
+ 4+BQ==
+X-Gm-Message-State: AOJu0Yx9wBQUFgl1rEbeqUHzNhKA/ymNqd1sr6eox11XRfxSyfTkui0y
+ 0kWQf97V+TKALrogIY+18pFFYA==
+X-Google-Smtp-Source: AGHT+IGId3IiWKAJbXeNT1pFpXcM//meJSbjrhj6lRBl8HMJKQpzFOSvyCV90rS4L6aJzvAqrhw9pQ==
+X-Received: by 2002:a05:6512:1089:b0:50b:e52a:3099 with SMTP id
+ j9-20020a056512108900b0050be52a3099mr2028897lfg.32.1701971191012; 
+ Thu, 07 Dec 2023 09:46:31 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a0db:1f00::227?
+ (dzdqv0yyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::227])
+ by smtp.gmail.com with ESMTPSA id
+ y17-20020ac24e71000000b0050bf4b084c0sm6275lfs.164.2023.12.07.09.46.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Dec 2023 09:46:30 -0800 (PST)
+Message-ID: <ce2a739b-dfff-4913-a76e-bc99a22f7d7f@linaro.org>
+Date: Thu, 7 Dec 2023 19:46:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87zfyqvtpx.fsf@minerva.mail-host-address-is-not-set>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/bridge: aux-hpd: Replace of_device.h with explicit
+ include
+Content-Language: en-GB
+To: Rob Herring <robh@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20231207162501.2629952-1-robh@kernel.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20231207162501.2629952-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,49 +83,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sergio Lopez <slp@redhat.com>,
- Sima Vetter <daniel.vetter@ffwll.ch>, Hector Martin <marcan@marcan.st>,
- Andrew Worsley <amworsley@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Frank Rowand <frowand.list@gmail.com>, Ard Biesheuvel <ardb@kernel.org>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 04, 2023 at 05:05:30PM +0100, Javier Martinez Canillas wrote:
-> Rob Herring <robh@kernel.org> writes:
+On 07/12/2023 18:25, Rob Herring wrote:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it was merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. Soon the implicit includes are going to be removed.
 > 
-> > On Mon, Dec 4, 2023 at 3:39 AM Javier Martinez Canillas
-> > <javierm@redhat.com> wrote:
-> >> Rob Herring <robh@kernel.org> writes:
-> >> > On Fri, Dec 1, 2023 at 4:21 AM Javier Martinez Canillas
+> of_device.h isn't needed, but of.h is for of_node_put().
 > 
-> [...]
-> 
-> >>
-> >> > However, there might be one other issue with that and this fix. The DT
-> >> > simplefb can have resources such as clocks and regulators. With
-> >> > fw_devlink, the driver won't probe until those dependencies are met.
-> >> > So if you want the framebuffer console up early, then you may want to
-> >> > register the EFI framebuffer first and then handoff to the DT simplefb
-> >> > when it probes (rather than registering the device).
-> >> >
-> >> > But I agree, probably better to take this patch now and have those
-> >> > quirks instead of flat out not working.
-> >> >
-> >>
-> >> If we do that what's the plan? Are you thinking about merging this patch
-> >> through your OF tree or do you want to go through drm-misc with your ack?
-> >
-> > I can take it. Do we need this in 6.7 and stable?
-> >
-> 
-> IMO this can wait for v6.8 since is not a fix for a change introduced in
-> the v6.7 merge window and something that only happens on a very specific
-> setup (DT systems booting with u-boot EFI and providing an EFI-GOP table).
-> 
-> Also the -rc cycle is already in -rc5, so it seems risky to push a change
-> at this point. And distros can pick the patch if want to have it earlier.
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Okay, I've applied it for 6.8.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Rob
+> ---
+>   drivers/gpu/drm/bridge/aux-hpd-bridge.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+With best wishes
+Dmitry
+
