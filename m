@@ -1,39 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE9C0808098
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 07:22:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86B4A8080E3
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 07:39:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4E4D10E699;
-	Thu,  7 Dec 2023 06:22:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B25A10E7AE;
+	Thu,  7 Dec 2023 06:39:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13EC710E699
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 06:22:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=R8Tz0ZbEyy0DXpBkW+ZOOwAaU3VEmU//8yJBfcZnfeY=; b=Z0x538Ac0beUwpb7agdXsSGE9H
- mQHIG+4sbqDr2UFVsfrZzrYnLtY2NuizN23dxyOIB7tIaEayNDJFbR3xlTLSFJsR2pJHPsyLSir8B
- uQSeordsmskXYviR+hJWOqOMDnvsLTeZViTF/QWGdv/rIba205v15aylS2+yO2eI8rrRHMS4JDw+Q
- zBvDIcCMc0rvrhcxFGlcvYu2SAw8S1F8HyBreq8DGEAg5qsg1+66+zTm/Zph+wy6fBG0CT8xpuCfD
- W++dNyCUk6E5GWW91tKbGzOQRaYcDaH3DZGjXhbSTh2olTLItazGA2ByAebPrf7hsfa5z7h78hvwx
- 0vq47uIw==;
-Received: from [50.53.46.231] (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1rB7mM-00ByRT-28; Thu, 07 Dec 2023 06:22:34 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panel: re-alphabetize the menu list
-Date: Wed,  6 Dec 2023 22:22:33 -0800
-Message-ID: <20231207062233.5318-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.43.0
+Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA50810E7AE
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 06:39:07 +0000 (UTC)
+Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
+ by mail5.25mail.st (Postfix) with ESMTPSA id 25AE36045F;
+ Thu,  7 Dec 2023 06:38:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
+ s=25mailst; t=1701931146;
+ bh=WJ0wR74d+mkwm+IUhYNno9dDAtwE/eqL/spvRAJBdfs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NB5K6bbGCpg41F4Y2JGI/TNwe3RGFW3Rb4TSnkoscLAJWyiJiI9oXkVCYi5gJHMUE
+ rec/JKiVE0yT1vYJQYhdXWSOpHIN54QGzL6WqfqoxkLv91onW6Dz79NJ6Vdb3udRhT
+ g4HB3bZFTntDqubO+X3JvKDCdaKA0DekPQ4uWpzaKpeKqvgHMCIg8HwkhVRqCravtn
+ YeFizvmnz0qBvGZ2CbSPVnG4I+Gr9T0sxFMTO9tFLKvsPkuLc89p9Vr2tw7BtmLd1j
+ PUVaUSKJDGuguxsfKpyxZIFKGKz5PBUnOl4Ij7KZmXv3Ryh00sxy2R/JOPY1RyCIZ1
+ XKfEq9e8Lqa+Q==
+Date: Thu, 7 Dec 2023 08:38:02 +0200
+From: Tony Lindgren <tony@atomide.com>
+To: Andreas Kemnade <andreas@kemnade.info>
+Subject: Re: [PATCH RFC 01/10] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
+Message-ID: <20231207063802.GR5169@atomide.com>
+References: <b97f04f6-cda2-4e9b-b729-a5149e36f978@linaro.org>
+ <20231205075657.GN5169@atomide.com>
+ <df7dd7b0-f315-4033-985a-175f75568a8c@linaro.org>
+ <20231205081031.GO5169@atomide.com>
+ <efcd64f4-00d2-4671-af3a-e27764f70e8d@linaro.org>
+ <20231205083001.GP5169@atomide.com>
+ <27f2e3a3-0791-4278-adb2-55ed76820a3a@linaro.org>
+ <20231205100246.5db0d6a1@aktux>
+ <78a81d54-f12c-401e-9a26-5125eb0b1c65@linaro.org>
+ <20231205104343.2e3c4105@aktux>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231205104343.2e3c4105@aktux>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,162 +56,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Randy Dunlap <rdunlap@infradead.org>, Maxime Ripard <mripard@kernel.org>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ "H . Nikolaus Schaller" <hns@goldelico.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Donald Robson <donald.robson@imgtec.com>, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
+ Maxime Ripard <mripard@kernel.org>, Matt Coster <matt.coster@imgtec.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-omap@vger.kernel.org,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Tero Kristo <kristo@kernel.org>, linux-kernel@vger.kernel.org,
+ Andrew Davis <afd@ti.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A few of the DRM_PANEL entries have become out of alphabetical order,
-so move them around a bit to restore alpha order.
+* Andreas Kemnade <andreas@kemnade.info> [231205 09:43]:
+> On Tue, 5 Dec 2023 10:27:56 +0100
+> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+> 
+> > On 05/12/2023 10:02, Andreas Kemnade wrote:
+> > > On Tue, 5 Dec 2023 09:45:44 +0100
+> > > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+> > >   
+> > >>> Sure the clock nodes can be there for the child IP, but they won't do
+> > >>> anything. And still need to be managed separately by the device driver if
+> > >>> added.    
+> > >>
+> > >> So if OS does not have runtime PM, the bindings are wrong? Bindings
+> > >> should not depend on some particular feature of some particular OS.  
+> > > 
+> > > Any user of the devicetree sees that there is a parent and the parent needs
+> > > to be enabled by some mechanism.
+> > > E.g. I2c devices do not specify the clocks of the parent (the i2c master)  
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/panel/Kconfig |   90 ++++++++++++++++----------------
- 1 file changed, 45 insertions(+), 45 deletions(-)
+Yeah the interconnect target module needs to be enabled before the child
+IP can be probed for any OS. That is unless the target module is left on
+from the bootloader.
 
-diff -- a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -95,34 +95,6 @@ config DRM_PANEL_LVDS
- 	  handling of power supplies or control signals. It implements automatic
- 	  backlight handling if the panel is attached to a backlight controller.
- 
--config DRM_PANEL_SIMPLE
--	tristate "support for simple panels (other than eDP ones)"
--	depends on OF
--	depends on BACKLIGHT_CLASS_DEVICE
--	depends on PM
--	select VIDEOMODE_HELPERS
--	help
--	  DRM panel driver for dumb non-eDP panels that need at most a regulator
--	  and a GPIO to be powered up. Optionally a backlight can be attached so
--	  that it can be automatically turned off when the panel goes into a
--	  low power state.
--
--config DRM_PANEL_EDP
--	tristate "support for simple Embedded DisplayPort panels"
--	depends on OF
--	depends on BACKLIGHT_CLASS_DEVICE
--	depends on PM
--	select VIDEOMODE_HELPERS
--	select DRM_DISPLAY_DP_HELPER
--	select DRM_DISPLAY_HELPER
--	select DRM_DP_AUX_BUS
--	select DRM_KMS_HELPER
--	help
--	  DRM panel driver for dumb eDP panels that need at most a regulator and
--	  a GPIO to be powered up. Optionally a backlight can be attached so
--	  that it can be automatically turned off when the panel goes into a
--	  low power state.
--
- config DRM_PANEL_EBBG_FT8719
- 	tristate "EBBG FT8719 panel driver"
- 	depends on OF
-@@ -317,12 +289,6 @@ config DRM_PANEL_LEADTEK_LTK500HD1829
- 	  24 bit RGB per pixel. It provides a MIPI DSI interface to
- 	  the host and has a built-in LED backlight.
- 
--config DRM_PANEL_SAMSUNG_LD9040
--	tristate "Samsung LD9040 RGB/SPI panel"
--	depends on OF && SPI
--	depends on BACKLIGHT_CLASS_DEVICE
--	select VIDEOMODE_HELPERS
--
- config DRM_PANEL_LG_LB035Q02
- 	tristate "LG LB035Q024573 RGB panel"
- 	depends on GPIOLIB && OF && SPI
-@@ -350,6 +316,17 @@ config DRM_PANEL_MAGNACHIP_D53E6EA8966
- 	  with the Magnachip D53E6EA8966 panel IC. This panel receives
- 	  video data via DSI but commands via 9-bit SPI using DBI.
- 
-+config DRM_PANEL_MANTIX_MLAF057WE51
-+	tristate "Mantix MLAF057WE51-X MIPI-DSI LCD panel"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  Say Y here if you want to enable support for the Mantix
-+	  MLAF057WE51-X MIPI DSI panel as e.g. used in the Librem 5. It
-+	  has a resolution of 720x1440 pixels, a built in backlight and touch
-+	  controller.
-+
- config DRM_PANEL_NEC_NL8048HL11
- 	tristate "NEC NL8048HL11 RGB panel"
- 	depends on GPIOLIB && OF && SPI
-@@ -438,17 +415,6 @@ config DRM_PANEL_NOVATEK_NT39016
- 	  Say Y here if you want to enable support for the panels built
- 	  around the Novatek NT39016 display controller.
- 
--config DRM_PANEL_MANTIX_MLAF057WE51
--	tristate "Mantix MLAF057WE51-X MIPI-DSI LCD panel"
--	depends on OF
--	depends on DRM_MIPI_DSI
--	depends on BACKLIGHT_CLASS_DEVICE
--	help
--	  Say Y here if you want to enable support for the Mantix
--	  MLAF057WE51-X MIPI DSI panel as e.g. used in the Librem 5. It
--	  has a resolution of 720x1440 pixels, a built in backlight and touch
--	  controller.
--
- config DRM_PANEL_OLIMEX_LCD_OLINUXINO
- 	tristate "Olimex LCD-OLinuXino panel"
- 	depends on OF
-@@ -566,6 +532,12 @@ config DRM_PANEL_SAMSUNG_DB7430
- 	  DB7430 DPI display controller used in such devices as the
- 	  LMS397KF04 480x800 DPI panel.
- 
-+config DRM_PANEL_SAMSUNG_LD9040
-+	tristate "Samsung LD9040 RGB/SPI panel"
-+	depends on OF && SPI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	select VIDEOMODE_HELPERS
-+
- config DRM_PANEL_SAMSUNG_S6D16D0
- 	tristate "Samsung S6D16D0 DSI video mode panel"
- 	depends on OF
-@@ -774,6 +746,34 @@ config DRM_PANEL_STARTEK_KD070FHFID015
- 	  with a resolution of 1024 x 600 pixels. It provides a MIPI DSI interface to
- 	  the host, a built-in LED backlight and touch controller.
- 
-+config DRM_PANEL_EDP
-+	tristate "support for simple Embedded DisplayPort panels"
-+	depends on OF
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	depends on PM
-+	select VIDEOMODE_HELPERS
-+	select DRM_DISPLAY_DP_HELPER
-+	select DRM_DISPLAY_HELPER
-+	select DRM_DP_AUX_BUS
-+	select DRM_KMS_HELPER
-+	help
-+	  DRM panel driver for dumb eDP panels that need at most a regulator and
-+	  a GPIO to be powered up. Optionally a backlight can be attached so
-+	  that it can be automatically turned off when the panel goes into a
-+	  low power state.
-+
-+config DRM_PANEL_SIMPLE
-+	tristate "support for simple panels (other than eDP ones)"
-+	depends on OF
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	depends on PM
-+	select VIDEOMODE_HELPERS
-+	help
-+	  DRM panel driver for dumb non-eDP panels that need at most a regulator
-+	  and a GPIO to be powered up. Optionally a backlight can be attached so
-+	  that it can be automatically turned off when the panel goes into a
-+	  low power state.
-+
- config DRM_PANEL_TDO_TL070WSH30
- 	tristate "TDO TL070WSH30 DSI panel"
- 	depends on OF
+But like I said, I have no objection to also having the clocks for the
+child SGX device here. I think two out of the tree SGX clocks are merged,
+so one of the three clocks would repeat twice in the binding.
+
+We do provide some of the clock aliases, like fck and ick, for the child
+ip automatically by the ti-sysc interconnect target module. But likely we
+don't want to clock name specific handling in the driver so best to
+standardize on SGX specific clock names. That is if the clock properties
+are not set optional.
+
+> > If you use this analogy, then compare it with an I2C device which has
+> > these clock inputs. Such device must have clocks in the bindings.
+> > 
+> I would see target-module = i2c master.
+> 
+> Well, if there is a variant of the i2c device which does not require
+> external clocks and a variant which requires it, then clock can be
+> optional.
+
+Yes that sounds about right for an analogy :)
+
+Regards,
+
+Tony
