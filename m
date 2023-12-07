@@ -2,45 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF017808437
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 10:19:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A126808441
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 10:20:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 870FB10E835;
-	Thu,  7 Dec 2023 09:19:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 658B110E840;
+	Thu,  7 Dec 2023 09:20:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F4B610E836
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 09:19:21 +0000 (UTC)
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 9BEA36607390;
- Thu,  7 Dec 2023 09:19:16 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1701940759;
- bh=INyCn6Vuwem17/GlgP/15kN4dX/+WaIIZzg0L0SOwa0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ApftZSL9Rl03obAwPHD9W4/AXYzvvnsArh0MEm2euHAN3MQ6WlCC+rzGtN7JQRx3r
- t4q69ZLLJrfEUIZnRGd5zYT1GGC2jl1TH068kVChPA6WLzTzcBm8QQ8SWqPMx0YzSc
- /iN81gnh5dLf/RPcCySP+vuMaAmoAZFNnRGIv38w9TkpWcs+Ge2LMyFdCjjMfHezXq
- SsciHLC1uvMlJPtq+GRpqAjBs84CsCUJJZ1nLLSXID/xqK584QLZ3KLvZ01OGlnN4/
- h9HZEDCOEtGtVU6Ndg5lEUUe88aAeQgc0Zo/h+N1iHPfJKleu+FR+wmanzHkRq4fPo
- JBgxP9H0SPSyA==
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: helen.koike@collabora.com,
-	airlied@gmail.com,
-	daniel@ffwll.ch
-Subject: [PATCH v7 10/10] drm: ci: Update xfails
-Date: Thu,  7 Dec 2023 14:48:31 +0530
-Message-Id: <20231207091831.660054-11-vignesh.raman@collabora.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231207091831.660054-1-vignesh.raman@collabora.com>
-References: <20231207091831.660054-1-vignesh.raman@collabora.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5462410E836
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 09:20:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4CF3A62041;
+ Thu,  7 Dec 2023 09:20:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 799F6C433C7;
+ Thu,  7 Dec 2023 09:20:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1701940804;
+ bh=nl+7zRM+RUou0hee7Fw3E82iCj4CZDlgNOvJ1QEoImg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=sv2QlZb+Ob2LJQaMP7IvnHXktcQOXq3LyiBJd+WHY3aNDCVRrPmmsXjbd4sThhsWO
+ Mv2qjo9pUGyudeNAvyNSFUmY/lYDmpqW13Hc43AahvCQiQdTaCP07u/aS4zapvGQux
+ +zY5i/GLh0RNXMRL5KTtWzsaxu+TjnNwM1gErk4xdSbeqvzlbBhz2X0QnyhbqHD94N
+ vj+hHSQ9gpLcZegPXaMgbUywNkAgWTTYCvKRbuK4BkzOpUjke1o5/ZZh9WeiDXVMig
+ E0hqdib+4jKIQ4V4GOaa5Zi52YOvhzBGyzVEULYeGXsPYGfPhJSDJcJjSMyVGXb1f0
+ Zww7wMw+b4LsQ==
+Date: Thu, 7 Dec 2023 10:20:01 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [PATCH RFC 01/10] dt-bindings: gpu: Add PowerVR Series5 SGX GPUs
+Message-ID: <6gpehpoz54f5lxhmvirqbfwmq7dpgiroy27cljpvu66wtn7aqy@lgrh7wysyxnp>
+References: <20231204182245.33683-1-afd@ti.com>
+ <20231204182245.33683-2-afd@ti.com>
+ <23livt5mcc64bb6lkeec2uxp5cyn4wfekwaj6wzrjnrkndvwgj@6tveqglqpr4v>
+ <B3A1B8A7-0363-4ECB-AFBF-576FECA569FA@goldelico.com>
+ <vawv2mwhonuyvgmp7uox4rfgdcjwg5fa7hmbcfgl3wiase6e4p@tyavpclppfvu>
+ <6BC60156-89E2-4734-BD00-B49A9A6C1D7A@goldelico.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="at7ezwmqtv5cf653"
+Content-Disposition: inline
+In-Reply-To: <6BC60156-89E2-4734-BD00-B49A9A6C1D7A@goldelico.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,166 +56,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniels@collabora.com, emma@anholt.net, gustavo.padovan@collabora.com,
- linux-arm-msm@vger.kernel.org, guilherme.gallo@collabora.com,
- sergi.blanch.torne@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- david.heidelberg@collabora.com, linux-mediatek@lists.infradead.org
+Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Tony Lindgren <tony@atomide.com>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Donald Robson <donald.robson@imgtec.com>, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
+ Matt Coster <matt.coster@imgtec.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-omap@vger.kernel.org, Adam Ford <aford173@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Tero Kristo <kristo@kernel.org>,
+ linux-kernel@vger.kernel.org, Andrew Davis <afd@ti.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update msm-apq8016-fails, mediatek-mt8173-fails and
-virtio_gpu-none-fails to include the tests which fail.
 
-Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
----
+--at7ezwmqtv5cf653
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-v2:
-  - No changes
+On Tue, Dec 05, 2023 at 02:50:08PM +0100, H. Nikolaus Schaller wrote:
+> Hi,
+>=20
+> > Am 05.12.2023 um 14:29 schrieb Maxime Ripard <mripard@kernel.org>:
+> >=20
+> > Hi,
+> >=20
+> > On Tue, Dec 05, 2023 at 09:18:58AM +0100, H. Nikolaus Schaller wrote:
+> >>> Am 05.12.2023 um 07:57 schrieb Maxime Ripard <mripard@kernel.org>:
+> >>>=20
+> >>> On Mon, Dec 04, 2023 at 12:22:36PM -0600, Andrew Davis wrote:
+> >>>> The Imagination PowerVR Series5 "SGX" GPU is part of several SoCs fr=
+om
+> >>>> multiple vendors. Describe how the SGX GPU is integrated in these So=
+C,
+> >>>> including register space and interrupts. Clocks, reset, and power do=
+main
+> >>>> information is SoC specific.
+> >>>>=20
+> >>>> Signed-off-by: Andrew Davis <afd@ti.com>
+> >>>> ---
+> >>>> .../devicetree/bindings/gpu/img,powervr.yaml  | 69 +++++++++++++++++=
+--
+> >>>> 1 file changed, 63 insertions(+), 6 deletions(-)
+> >>>=20
+> >>> I think it would be best to have a separate file for this, img,sgx.ya=
+ml
+> >>> maybe?
+> >>=20
+> >> Why?
+> >=20
+> > Because it's more convenient?
+>=20
+> Is it?
 
-v3:
-  - No changes
+It's for a separate architecture, with a separate driver, maintained out
+of tree by a separate community, with a separate set of requirements as
+evidenced by the other thread. And that's all fine in itself, but
+there's very little reason to put these two bindings in the same file.
 
-v4:
-  - No changes
+We could also turn this around, why is it important that it's in the
+same file?
 
-v5:
-  - Generate fails and flakes file with the updated xfails script - https://www.spinics.net/lists/kernel/msg4959630.html
+> >> The whole family of IMG GPUs is PowerVR and SGX and Rogue are generati=
+ons 5 and 6++:
+> >>=20
+> >> https://en.wikipedia.org/wiki/PowerVR
+> >=20
+> > That's not really relevant as far as bindings go.
+>=20
+> But maybe for choosing binding file names. Well they are machine readable
+> but sometimes humans work with them.
 
-v6:
-  - Generate fails file with drm-misc-next
+Heh. It's something that can also be easily grepped, and the name is
+never going to reflect all the compatibles in a binding so it's what
+you'll end up doing anyway. But feel free to suggest another name to
+avoid the confusion.
 
-v7:
-  - No changes
+> > We have multiple
+> > binding files for devices of the same generation, or single bindings
+> > covering multiple generations.
+> >=20
+> > The important part is that every compatible is documented. It doesn't
+> > really matter how or where.
+>=20
+> Yes, and that is why I would find it more convenient to have a single
+> "img,powervr.yaml" for all variations unless it becomes filled with
+> unrelated stuff (which isn't as far as I see).
 
----
- .../drm/ci/xfails/mediatek-mt8173-fails.txt   | 13 ++++--
- .../gpu/drm/ci/xfails/msm-apq8016-fails.txt   |  5 ++
- .../drm/ci/xfails/virtio_gpu-none-fails.txt   | 46 +++++++++++++++++++
- 3 files changed, 61 insertions(+), 3 deletions(-)
+Again, hard disagree there.
 
-diff --git a/drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt b/drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt
-index 671916067dba..ef0cb7c3698c 100644
---- a/drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt
-+++ b/drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt
-@@ -1,5 +1,4 @@
- kms_3d,Fail
--kms_addfb_basic@addfb25-bad-modifier,Fail
- kms_bw@linear-tiling-1-displays-1920x1080p,Fail
- kms_bw@linear-tiling-1-displays-2560x1440p,Fail
- kms_bw@linear-tiling-1-displays-3840x2160p,Fail
-@@ -9,13 +8,19 @@ kms_bw@linear-tiling-2-displays-3840x2160p,Fail
- kms_bw@linear-tiling-3-displays-1920x1080p,Fail
- kms_bw@linear-tiling-3-displays-2560x1440p,Fail
- kms_bw@linear-tiling-3-displays-3840x2160p,Fail
-+kms_color@invalid-gamma-lut-sizes,Fail
- kms_color@pipe-A-invalid-gamma-lut-sizes,Fail
- kms_color@pipe-B-invalid-gamma-lut-sizes,Fail
--kms_force_connector_basic@force-connector-state,Fail
-+kms_cursor_legacy@cursor-vs-flip-atomic,Fail
-+kms_cursor_legacy@cursor-vs-flip-legacy,Fail
-+kms_flip@flip-vs-modeset-vs-hang,Fail
-+kms_flip@flip-vs-panning-vs-hang,Fail
-+kms_flip@flip-vs-suspend,Fail
-+kms_flip@flip-vs-suspend-interruptible,Fail
- kms_force_connector_basic@force-edid,Fail
- kms_force_connector_basic@force-load-detect,Fail
- kms_force_connector_basic@prune-stale-modes,Fail
--kms_invalid_mode@int-max-clock,Fail
-+kms_hdmi_inject@inject-4k,Fail
- kms_plane_scaling@planes-upscale-20x20,Fail
- kms_plane_scaling@planes-upscale-20x20-downscale-factor-0-25,Fail
- kms_plane_scaling@planes-upscale-20x20-downscale-factor-0-5,Fail
-@@ -27,3 +32,5 @@ kms_properties@get_properties-sanity-atomic,Fail
- kms_properties@plane-properties-atomic,Fail
- kms_properties@plane-properties-legacy,Fail
- kms_rmfb@close-fd,Fail
-+kms_selftest@drm_format,Timeout
-+kms_selftest@drm_format_helper,Timeout
-diff --git a/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt b/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
-index 9981682feab2..d39d254c935e 100644
---- a/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
-+++ b/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
-@@ -6,10 +6,15 @@ kms_cursor_legacy@all-pipes-single-bo,Fail
- kms_cursor_legacy@all-pipes-single-move,Fail
- kms_cursor_legacy@all-pipes-torture-bo,Fail
- kms_cursor_legacy@all-pipes-torture-move,Fail
-+kms_cursor_legacy@forked-bo,Fail
-+kms_cursor_legacy@forked-move,Fail
- kms_cursor_legacy@pipe-A-forked-bo,Fail
- kms_cursor_legacy@pipe-A-forked-move,Fail
- kms_cursor_legacy@pipe-A-single-bo,Fail
- kms_cursor_legacy@pipe-A-single-move,Fail
- kms_cursor_legacy@pipe-A-torture-bo,Fail
- kms_cursor_legacy@pipe-A-torture-move,Fail
-+kms_force_connector_basic@force-edid,Fail
- kms_hdmi_inject@inject-4k,Fail
-+kms_selftest@drm_format,Timeout
-+kms_selftest@drm_format_helper,Timeout
-diff --git a/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt b/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
-index 9586b2339f6f..007f21e56d89 100644
---- a/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
-+++ b/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
-@@ -10,6 +10,49 @@ kms_bw@linear-tiling-1-displays-3840x2160p,Fail
- kms_bw@linear-tiling-2-displays-1920x1080p,Fail
- kms_bw@linear-tiling-2-displays-2560x1440p,Fail
- kms_bw@linear-tiling-2-displays-3840x2160p,Fail
-+kms_bw@linear-tiling-3-displays-1920x1080p,Fail
-+kms_bw@linear-tiling-3-displays-2560x1440p,Fail
-+kms_bw@linear-tiling-3-displays-3840x2160p,Fail
-+kms_bw@linear-tiling-4-displays-1920x1080p,Fail
-+kms_bw@linear-tiling-4-displays-2560x1440p,Fail
-+kms_bw@linear-tiling-4-displays-3840x2160p,Fail
-+kms_bw@linear-tiling-5-displays-1920x1080p,Fail
-+kms_bw@linear-tiling-5-displays-2560x1440p,Fail
-+kms_bw@linear-tiling-5-displays-3840x2160p,Fail
-+kms_bw@linear-tiling-6-displays-1920x1080p,Fail
-+kms_bw@linear-tiling-6-displays-2560x1440p,Fail
-+kms_bw@linear-tiling-6-displays-3840x2160p,Fail
-+kms_bw@linear-tiling-7-displays-1920x1080p,Fail
-+kms_bw@linear-tiling-7-displays-2560x1440p,Fail
-+kms_bw@linear-tiling-7-displays-3840x2160p,Fail
-+kms_bw@linear-tiling-8-displays-1920x1080p,Fail
-+kms_bw@linear-tiling-8-displays-2560x1440p,Fail
-+kms_bw@linear-tiling-8-displays-3840x2160p,Fail
-+kms_flip@absolute-wf_vblank,Fail
-+kms_flip@absolute-wf_vblank-interruptible,Fail
-+kms_flip@basic-flip-vs-wf_vblank,Fail
-+kms_flip@blocking-absolute-wf_vblank,Fail
-+kms_flip@blocking-absolute-wf_vblank-interruptible,Fail
-+kms_flip@blocking-wf_vblank,Fail
-+kms_flip@busy-flip,Fail
-+kms_flip@dpms-vs-vblank-race,Fail
-+kms_flip@dpms-vs-vblank-race-interruptible,Fail
-+kms_flip@flip-vs-absolute-wf_vblank,Fail
-+kms_flip@flip-vs-absolute-wf_vblank-interruptible,Fail
-+kms_flip@flip-vs-blocking-wf-vblank,Fail
-+kms_flip@flip-vs-expired-vblank,Fail
-+kms_flip@flip-vs-expired-vblank-interruptible,Fail
-+kms_flip@flip-vs-modeset-vs-hang,Fail
-+kms_flip@flip-vs-panning-vs-hang,Fail
-+kms_flip@flip-vs-wf_vblank-interruptible,Fail
-+kms_flip@modeset-vs-vblank-race,Fail
-+kms_flip@modeset-vs-vblank-race-interruptible,Fail
-+kms_flip@plain-flip-fb-recreate,Fail
-+kms_flip@plain-flip-fb-recreate-interruptible,Fail
-+kms_flip@plain-flip-ts-check,Fail
-+kms_flip@plain-flip-ts-check-interruptible,Fail
-+kms_flip@wf_vblank-ts-check,Fail
-+kms_flip@wf_vblank-ts-check-interruptible,Fail
- kms_invalid_mode@int-max-clock,Fail
- kms_plane_scaling@downscale-with-modifier-factor-0-25,Fail
- kms_plane_scaling@downscale-with-rotation-factor-0-25,Fail
-@@ -22,6 +65,9 @@ kms_plane_scaling@upscale-with-modifier-factor-0-25,Fail
- kms_plane_scaling@upscale-with-pixel-format-20x20,Fail
- kms_plane_scaling@upscale-with-pixel-format-factor-0-25,Fail
- kms_plane_scaling@upscale-with-rotation-20x20,Fail
-+kms_selftest@drm_format,Timeout
-+kms_selftest@drm_format_helper,Timeout
-+kms_setmode@basic,Fail
- kms_vblank@crtc-id,Fail
- kms_vblank@invalid,Fail
- kms_vblank@pipe-A-accuracy-idle,Fail
--- 
-2.40.1
+Maxime
 
+--at7ezwmqtv5cf653
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXGOQQAKCRDj7w1vZxhR
+xbE8AQCZfNo9oCxq0vvLhGlgv/lmiS2j6lzTN0TCD3qEYXuWvgEA8HDEG22nAn5t
+tKqxvYUa7HNULBEgPKYPdGXjaC67bgw=
+=r0f1
+-----END PGP SIGNATURE-----
+
+--at7ezwmqtv5cf653--
