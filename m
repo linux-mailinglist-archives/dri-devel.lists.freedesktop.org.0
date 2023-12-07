@@ -1,39 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E84AA80855A
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 11:24:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A87780855C
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 11:24:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5662D10E197;
-	Thu,  7 Dec 2023 10:24:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A71CB10E1E4;
+	Thu,  7 Dec 2023 10:24:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1513C10E197
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 10:24:01 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A486B12FC;
- Thu,  7 Dec 2023 02:24:46 -0800 (PST)
-Received: from [10.1.30.42] (e122027.cambridge.arm.com [10.1.30.42])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 54D863F762;
- Thu,  7 Dec 2023 02:23:57 -0800 (PST)
-Message-ID: <1b957ca4-71cf-42fd-ac81-1920592b952d@arm.com>
-Date: Thu, 7 Dec 2023 10:23:55 +0000
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
+ [IPv6:2607:f8b0:4864:20::1130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0296310E1E4
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 10:24:49 +0000 (UTC)
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-5d3644ca426so5309717b3.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 02:24:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701944689; x=1702549489; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ygq/2rNLz0TM+BQA4kbzAPsTIz5KP177CFmxxC3sVe8=;
+ b=i9fOM8dXAyXzgRm4iHfBOLDoX/OuErLWt98LcVNcfbJGKKZ56Qmxci83PMicM4eBTK
+ yoCSzrr/lmcEAF4F3FTLV74FzLpXgbo0faY9uJSVoOcAAIsFy3pe/1ncaMo/QJV1Wfns
+ 1WSpMvOCKSLPLWV/B+ptI2CUqrdm4PjiLs1vO7x8zzu4qtgF+pmihbh4YtHZJaRrgL6g
+ h68hrZqcRINYP5PufCWeRfLUH+q9kWSvDgG59syrpD/W6keC4o0g/VXqMp/ZpyYJyHKA
+ Sx11tsBMyDuqfswnVRKcUjdq3EmJdky79O7Y4n5UNY16rLrTLyVp4WaDyeRjZY9Or7Oz
+ NVtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701944689; x=1702549489;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ygq/2rNLz0TM+BQA4kbzAPsTIz5KP177CFmxxC3sVe8=;
+ b=aYgaJf1FEYbxavsZTDphA0KkOEgk8BkbRMviS6sUqD66O/5dsZpOOB1C4Y0C4/f4wo
+ W3f03YhouNTqmP2tstEgOS/JcQtAKwLOtJTs9GNnBDv7gK8ie0dPBRs/OjZb50wa3ykx
+ 0Tri02U9EB6Es63fmOFUvI1LQwViaL6MR/su1TjYpMsII6NBrz6TAvnx1I2r3orP7oFn
+ RIFFOrp6MtBZhBHVK8Vc0Wor9U4qj5FmmEsHOfMW+FilcgafTSQ/6pQDT6fbIHNUf4Ao
+ 5ywE9BJ7cel+oxxL6Cn94xKKxhHs1ZKbSjnCzK0L9nwaoBZ/AcgII66ll2xyyMGlcHNf
+ 2IrA==
+X-Gm-Message-State: AOJu0Ywkms1c5nCvRsFHtV/Y54GZ6gmLSRZTYLZNyVDs5tK6ecskMev4
+ yNudaqleyCUEUVDec5RQGDFSFx+qlLCWoSuY2zoGg/DsN0tFp+7q
+X-Google-Smtp-Source: AGHT+IHoXDIwfdIo/NuhZl2SbeQcPQ0Ho9lEpXP93jrkQ8rALHlB5ofczxEUkbiGGDXh70KUWAjwC1/4Aner6m+8LA4=
+X-Received: by 2002:a0d:ca82:0:b0:5d8:96c:68e7 with SMTP id
+ m124-20020a0dca82000000b005d8096c68e7mr2459420ywd.45.1701944689132; Thu, 07
+ Dec 2023 02:24:49 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 03/14] drm/panthor: Add the device logical block
-To: Boris Brezillon <boris.brezillon@collabora.com>
-References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
- <20231204173313.2098733-4-boris.brezillon@collabora.com>
- <4d813208-39fe-4387-8415-4b0c17df42a4@arm.com>
- <20231207091243.7ce56a6e@collabora.com>
- <20231207095635.435d3e77@collabora.com>
-Content-Language: en-GB
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20231207095635.435d3e77@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <PA6PR08MB107665920BE9A96658CDA04CE8884A@PA6PR08MB10766.eurprd08.prod.outlook.com>
+In-Reply-To: <PA6PR08MB107665920BE9A96658CDA04CE8884A@PA6PR08MB10766.eurprd08.prod.outlook.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 7 Dec 2023 11:24:59 +0100
+Message-ID: <CACRpkdY2ZRQqvxfmVVg_MJeZvs=gOyRun6z=kfumJRCUsDv8vw@mail.gmail.com>
+Subject: Re: [PATCH] drm: Fix FD ownership check in drm_master_check_perm()
+To: Lingkai Dong <Lingkai.Dong@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,77 +68,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
- Daniel Stone <daniels@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
- dri-devel@lists.freedesktop.org, Matt Coster <matt.coster@imgtec.com>,
- =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
- Donald Robson <donald.robson@imgtec.com>,
- Grant Likely <grant.likely@linaro.org>,
- "Marty E . Plummer" <hanetzer@startmail.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: nd <nd@arm.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/12/2023 08:56, Boris Brezillon wrote:
-> On Thu, 7 Dec 2023 09:12:43 +0100
-> Boris Brezillon <boris.brezillon@collabora.com> wrote:
-> 
->> On Wed, 6 Dec 2023 16:55:42 +0000
->> Steven Price <steven.price@arm.com> wrote:
->>
->>> On 04/12/2023 17:32, Boris Brezillon wrote:  
->>>> The panthor driver is designed in a modular way, where each logical
->>>> block is dealing with a specific HW-block or software feature. In order
->>>> for those blocks to communicate with each other, we need a central
->>>> panthor_device collecting all the blocks, and exposing some common
->>>> features, like interrupt handling, power management, reset, ...
->>>>
->>>> This what this panthor_device logical block is about.
->>>>
->>>> v3:
->>>> - Add acks for the MIT+GPL2 relicensing
->>>> - Fix 32-bit support
->>>> - Shorten the sections protected by panthor_device::pm::mmio_lock to fix
->>>>   lock ordering issues.
->>>> - Rename panthor_device::pm::lock into panthor_device::pm::mmio_lock to
->>>>   better reflect what this lock is protecting
->>>> - Use dev_err_probe()
->>>> - Make sure we call drm_dev_exit() when something fails half-way in
->>>>   panthor_device_reset_work()
->>>> - Replace CSF_GPU_LATEST_FLUSH_ID_DEFAULT with a constant '1' and a
->>>>   comment to explain. Also remove setting the dummy flush ID on suspend.
->>>> - Remove drm_WARN_ON() in panthor_exception_name()
->>>> - Check pirq->suspended in panthor_xxx_irq_raw_handler()
->>>>
->>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
->>>> Signed-off-by: Steven Price <steven.price@arm.com>
->>>> Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
->>>> Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing,Linaro
->>>> Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 relicensing,Collabora    
->>>
->>> We still have the "FIXME: this is racy"  
->>
->> Yeah, I still didn't find a proper solution for that.
-> 
-> This [1] should fix the race condition in the unplug path.
-> 
-> [1]https://gitlab.freedesktop.org/panfrost/linux/-/commit/b79b28069e524ae7fea22a9a158b870eab2d5f9a
+On Wed, Dec 6, 2023 at 2:52=E2=80=AFPM Lingkai Dong <Lingkai.Dong@arm.com> =
+wrote:
 
-Looks like it should do the job. I'm surprised that we're the only ones
-to face this though.
+> The DRM subsystem keeps a record of the owner of a DRM device file
+> descriptor using thread group ID (TGID) instead of process ID (PID), to
+> ensures all threads within the same userspace process are considered the
+> owner. However, the DRM master ownership check compares the current
+> thread's PID against the record, so the thread is incorrectly considered =
+to
+> be not the FD owner if the PID is not equal to the TGID. This causes DRM
+> ioctls to be denied master privileges, even if the same thread that opene=
+d
+> the FD performs an ioctl. Fix this by checking TGID.
+>
+> Fixes: 4230cea89cafb ("drm: Track clients by tgid and not tid")
+> Signed-off-by: Lingkai Dong <lingkai.dong@arm.com>
 
-Looking at the new imagination driver it appears there's a similar problem:
+Tested-by: Linus Walleij <linus.walleij@linaro.org>
 
-pvr_device_lost() uses a boolean 'lost' to track multiple calls but that
-boolean isn't protected by any specific lock (AFAICT). Indeed
-pvr_device_lost() calls drm_dev_unplug() while in a drm_dev_enter()
-critical section (see pvr_mmu_flush_exec()). If I'm not mistaken that's
-the same problem we discussed and isn't allowed? drm_dev_unplug() will
-synchronise on the SRCU that drm_dev_enter() is holding.
-
-+CC: Frank, Donald, Matt from Imagination.
-
-Steve
-
+Yours,
+Linus Walleij
