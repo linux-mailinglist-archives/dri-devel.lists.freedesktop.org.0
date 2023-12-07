@@ -1,54 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC1458086F9
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 12:46:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13FCB80879F
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 13:25:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24DF510E886;
-	Thu,  7 Dec 2023 11:46:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BF8110E1BB;
+	Thu,  7 Dec 2023 12:24:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77ED110E886;
- Thu,  7 Dec 2023 11:46:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701949588; x=1733485588;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ibTDdrni4yWhfLkLOyB9bzRYt0BcCqerkJOS4heUlZw=;
- b=Qds3Y8eghmWIQwLBOliRi1nP5yAAoBmnGA3NspKEpALWHBXPJN5k2Glp
- PcT3ROKX6nuOdFFP+LAxgI69vcChPNW64+I0JTzgda8d7o47q08YxPMd4
- ZWlLcBAjnKEK6KLSObSS4CergYZq6EySjstFMww1v65qy6jyj8G0FpIPA
- hJrdtooK7gYiSBYEdHo83Syncy7BROuqIsns2neirrxbRUhXmnUIh4+fu
- e0NIv/3gVprVl7t2onKau8nNQ+aIQO5R0wt3kNtXXU3m+nCbQrEnjmHwH
- iKkzhgWZzQ6uSzZRH513nOzp6lZZBMqRL8LPNL/ZepEnWe+kO7U6vB7sc Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="12931323"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; d="scan'208";a="12931323"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2023 03:46:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="1103173733"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; d="scan'208";a="1103173733"
-Received: from wokeeffe-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.252.46.171])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2023 03:46:24 -0800
-Date: Thu, 7 Dec 2023 12:46:21 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH 1/2] drm/i915/selftests: Fix engine reset count storage
- for multi-tile
-Message-ID: <ZXGwjTj3vsI6NAcI@ashyti-mobl2.lan>
-References: <20231201122109.729006-1-tvrtko.ursulin@linux.intel.com>
- <ZXGr7s7wkYZexDuc@ashyti-mobl2.lan>
- <3b38e862-7a45-48b9-9310-b751d797a9ef@linux.intel.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37D2310E1BB
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 12:24:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 45FDACE234C;
+ Thu,  7 Dec 2023 12:24:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E23DC433C8;
+ Thu,  7 Dec 2023 12:24:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1701951889;
+ bh=b3k0yhQCgpeSi1OnQRtgWWkuB5o+fZqueJOQrN6jfe8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=mhrl3Zmr2Ew3ZZuhVVg12Z+dT/1mE7EANZGjTFyJh+xPhnzBEjegNLcld66ck5exh
+ 043MkAUSqVwETMpAq+Bw+6eHaFjfrcrLY0dlX002ETNxTMLMtTlNTSACVI/LRxtMM/
+ Vn7QERquBX0p++zvfvpkmO7UQSYOGHij0ysPDLm1eQAYtmRf7ppnNODwXeUwch7ORN
+ zH+bET+s9i8xX4bvZ2FGUgH2zxptfW02Lwar8e3xIg4jnLJmh29XE45GKNap/0vZEl
+ XDtSc0UT/zzlxXahfNbSowiD3yz+edhtNjRILGWSl3U2K0apk6vuPnSiyzfO+Id3wA
+ 20iYAf0MkpCgw==
+From: Oded Gabbay <ogabbay@kernel.org>
+To: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/5] accel/habanalabs: report 3 instances of Infineon second
+ stage
+Date: Thu,  7 Dec 2023 14:24:40 +0200
+Message-Id: <20231207122444.50512-1-ogabbay@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3b38e862-7a45-48b9-9310-b751d797a9ef@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,45 +49,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alan Previn Teres Alexis <alan.previn.teres.alexis@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Intel-gfx@lists.freedesktop.org,
- Tejas Upadhyay <tejas.upadhyay@intel.com>, dri-devel@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Ariel Suller <asuller@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 07, 2023 at 11:43:28AM +0000, Tvrtko Ursulin wrote:
-> 
-> On 07/12/2023 11:26, Andi Shyti wrote:
-> > Hi Tvrtko,
-> > 
-> > > Engine->id namespace is per-tile so struct igt_live_test->reset_engine[]
-> > > needs to be two-dimensional so engine reset counts from all tiles can be
-> > > stored with no aliasing. With aliasing, if we had a real multi-tile
-> > > platform, the reset counts would be incorrect for same engine instance on
-> > > different tiles.
-> > > 
-> > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> > > Fixes: 0c29efa23f5c ("drm/i915/selftests: Consider multi-gt instead of to_gt()")
-> > > Reported-by: Alan Previn Teres Alexis <alan.previn.teres.alexis@intel.com>
-> > > Cc: Tejas Upadhyay <tejas.upadhyay@intel.com>
-> > > Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> > > Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> > 
-> > sorry for being late here... the patch makes sense to me and the
-> > CI failures don't look related.
-> > 
-> > Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-> 
-> Thanks pushed!
-> 
-> There is more work to be done with the fact i915_reset_engine_count has it's
-> own aliasing when used like this, but I opted to leave that for some other
-> time.
+From: Ariel Suller <asuller@habana.ai>
 
-feel free to share if you have some preparatory work done already
-and I can try to help out. Otherwise I can take a look at it, as
-well.
+Infineon controller second stage has 3 instances that their version
+need to be reported by driver.
 
-Andi
+Signed-off-by: Ariel Suller <asuller@habana.ai>
+Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
+Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+---
+ drivers/accel/habanalabs/common/sysfs.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/accel/habanalabs/common/sysfs.c b/drivers/accel/habanalabs/common/sysfs.c
+index 8d2164691d81..c940c5f1d109 100644
+--- a/drivers/accel/habanalabs/common/sysfs.c
++++ b/drivers/accel/habanalabs/common/sysfs.c
+@@ -8,6 +8,7 @@
+ #include "habanalabs.h"
+ 
+ #include <linux/pci.h>
++#include <linux/types.h>
+ 
+ static ssize_t clk_max_freq_mhz_show(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+@@ -80,12 +81,27 @@ static ssize_t vrm_ver_show(struct device *dev, struct device_attribute *attr, c
+ {
+ 	struct hl_device *hdev = dev_get_drvdata(dev);
+ 	struct cpucp_info *cpucp_info;
++	u32 infineon_second_stage_version;
++	u32 infineon_second_stage_first_instance;
++	u32 infineon_second_stage_second_instance;
++	u32 infineon_second_stage_third_instance;
++	u32 mask = 0xff;
+ 
+ 	cpucp_info = &hdev->asic_prop.cpucp_info;
+ 
++	infineon_second_stage_version = le32_to_cpu(cpucp_info->infineon_second_stage_version);
++	infineon_second_stage_first_instance = infineon_second_stage_version & mask;
++	infineon_second_stage_second_instance =
++					(infineon_second_stage_version >> 8) & mask;
++	infineon_second_stage_third_instance =
++					(infineon_second_stage_version >> 16) & mask;
++
+ 	if (cpucp_info->infineon_second_stage_version)
+-		return sprintf(buf, "%#04x %#04x\n", le32_to_cpu(cpucp_info->infineon_version),
+-				le32_to_cpu(cpucp_info->infineon_second_stage_version));
++		return sprintf(buf, "%#04x %#04x:%#04x:%#04x\n",
++				le32_to_cpu(cpucp_info->infineon_version),
++				infineon_second_stage_first_instance,
++				infineon_second_stage_second_instance,
++				infineon_second_stage_third_instance);
+ 	else
+ 		return sprintf(buf, "%#04x\n", le32_to_cpu(cpucp_info->infineon_version));
+ }
+-- 
+2.34.1
+
