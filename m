@@ -1,58 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724D7808558
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 11:22:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E84AA80855A
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 11:24:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDAEB10E85D;
-	Thu,  7 Dec 2023 10:22:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5662D10E197;
+	Thu,  7 Dec 2023 10:24:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1499610E85D
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 10:22:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1701944525; x=1733480525;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=yFK199f4z/5k6fY98pVHkv/iBzD0ZAv+LXPo1oUp+Jg=;
- b=d2GGAUebZny5Qgs7bvqGZzZlK+7OjlA6Y8fqj7SO6h8Wiv5C1zq+iqXD
- wGNTcIhLLfoqEm6W2sHa0VIOFOeoNPq7HKm7V7ItE4+xkBHtxFnJJa/FK
- XGxCv2SaR+FNYLxmG+6ISBtUbt3JGWP/ECC1FwoWYkBeG+NCm+TIkxHWs
- kkVYYsgR64vP1bwidGAOvPhZsxOlWjoxNi0aQxpuQAKdMYuJJnLK6MO7s
- 06PFc+88NnXoO4Uhb3BjHw8cB+vJquXiPBoqlDpk4gLfSyKLAdGp7XZNh
- BhPs0t8/Y9Y9hB34oVpACHEqTCtWAbTGm8n6JT0d2Curj466QnQ3TZmrW w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="373697300"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; d="scan'208";a="373697300"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2023 02:22:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="842163180"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; d="scan'208";a="842163180"
-Received: from jbuller-mobl.ger.corp.intel.com (HELO [10.213.214.207])
- ([10.213.214.207])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2023 02:22:02 -0800
-Message-ID: <c3eba2be-2498-4271-b1e5-305432600bc4@linux.intel.com>
-Date: Thu, 7 Dec 2023 10:22:00 +0000
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1513C10E197
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 10:24:01 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A486B12FC;
+ Thu,  7 Dec 2023 02:24:46 -0800 (PST)
+Received: from [10.1.30.42] (e122027.cambridge.arm.com [10.1.30.42])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 54D863F762;
+ Thu,  7 Dec 2023 02:23:57 -0800 (PST)
+Message-ID: <1b957ca4-71cf-42fd-ac81-1920592b952d@arm.com>
+Date: Thu, 7 Dec 2023 10:23:55 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: Fix FD ownership check in drm_master_check_perm()
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Linus Walleij <linus.walleij@linaro.org>, Lingkai Dong
- <Lingkai.Dong@arm.com>, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-References: <PA6PR08MB107665920BE9A96658CDA04CE8884A@PA6PR08MB10766.eurprd08.prod.outlook.com>
- <CACRpkdbPoDGrxCsuwmz-ep7V38Gi5P74jkfMBX+XJMPXFb=SJg@mail.gmail.com>
- <bed6544c-9434-42df-ba4c-a32022823b24@amd.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <bed6544c-9434-42df-ba4c-a32022823b24@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v3 03/14] drm/panthor: Add the device logical block
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20231204173313.2098733-1-boris.brezillon@collabora.com>
+ <20231204173313.2098733-4-boris.brezillon@collabora.com>
+ <4d813208-39fe-4387-8415-4b0c17df42a4@arm.com>
+ <20231207091243.7ce56a6e@collabora.com>
+ <20231207095635.435d3e77@collabora.com>
+Content-Language: en-GB
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20231207095635.435d3e77@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,55 +46,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nd <nd@arm.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Nicolas Boichat <drinkcat@chromium.org>, kernel@collabora.com,
+ Daniel Stone <daniels@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Liviu Dudau <Liviu.Dudau@arm.com>,
+ dri-devel@lists.freedesktop.org, Matt Coster <matt.coster@imgtec.com>,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ Donald Robson <donald.robson@imgtec.com>,
+ Grant Likely <grant.likely@linaro.org>,
+ "Marty E . Plummer" <hanetzer@startmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 07/12/2023 10:18, Christian König wrote:
-> Am 07.12.23 um 11:12 schrieb Linus Walleij:
->> On Wed, Dec 6, 2023 at 2:52 PM Lingkai Dong <Lingkai.Dong@arm.com> wrote:
+On 07/12/2023 08:56, Boris Brezillon wrote:
+> On Thu, 7 Dec 2023 09:12:43 +0100
+> Boris Brezillon <boris.brezillon@collabora.com> wrote:
+> 
+>> On Wed, 6 Dec 2023 16:55:42 +0000
+>> Steven Price <steven.price@arm.com> wrote:
 >>
->>> The DRM subsystem keeps a record of the owner of a DRM device file
->>> descriptor using thread group ID (TGID) instead of process ID (PID), to
->>> ensures all threads within the same userspace process are considered the
->>> owner. However, the DRM master ownership check compares the current
->>> thread's PID against the record, so the thread is incorrectly 
->>> considered to
->>> be not the FD owner if the PID is not equal to the TGID. This causes DRM
->>> ioctls to be denied master privileges, even if the same thread that 
->>> opened
->>> the FD performs an ioctl. Fix this by checking TGID.
+>>> On 04/12/2023 17:32, Boris Brezillon wrote:  
+>>>> The panthor driver is designed in a modular way, where each logical
+>>>> block is dealing with a specific HW-block or software feature. In order
+>>>> for those blocks to communicate with each other, we need a central
+>>>> panthor_device collecting all the blocks, and exposing some common
+>>>> features, like interrupt handling, power management, reset, ...
+>>>>
+>>>> This what this panthor_device logical block is about.
+>>>>
+>>>> v3:
+>>>> - Add acks for the MIT+GPL2 relicensing
+>>>> - Fix 32-bit support
+>>>> - Shorten the sections protected by panthor_device::pm::mmio_lock to fix
+>>>>   lock ordering issues.
+>>>> - Rename panthor_device::pm::lock into panthor_device::pm::mmio_lock to
+>>>>   better reflect what this lock is protecting
+>>>> - Use dev_err_probe()
+>>>> - Make sure we call drm_dev_exit() when something fails half-way in
+>>>>   panthor_device_reset_work()
+>>>> - Replace CSF_GPU_LATEST_FLUSH_ID_DEFAULT with a constant '1' and a
+>>>>   comment to explain. Also remove setting the dummy flush ID on suspend.
+>>>> - Remove drm_WARN_ON() in panthor_exception_name()
+>>>> - Check pirq->suspended in panthor_xxx_irq_raw_handler()
+>>>>
+>>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+>>>> Signed-off-by: Steven Price <steven.price@arm.com>
+>>>> Acked-by: Steven Price <steven.price@arm.com> # MIT+GPL2 relicensing,Arm
+>>>> Acked-by: Grant Likely <grant.likely@linaro.org> # MIT+GPL2 relicensing,Linaro
+>>>> Acked-by: Boris Brezillon <boris.brezillon@collabora.com> # MIT+GPL2 relicensing,Collabora    
 >>>
->>> Fixes: 4230cea89cafb ("drm: Track clients by tgid and not tid")
->>> Signed-off-by: Lingkai Dong <lingkai.dong@arm.com>
->> Paging the patch author (Tvrko) and committer (Christian).
->> Here is the patch if you don't have it in your mailbox:
->> https://lore.kernel.org/dri-devel/PA6PR08MB107665920BE9A96658CDA04CE8884A@PA6PR08MB10766.eurprd08.prod.outlook.com/
+>>> We still have the "FIXME: this is racy"  
 >>
->> I'm seeing this as well (on Android).
->>
->> Tvrko, Christian: can you look at this?
+>> Yeah, I still didn't find a proper solution for that.
 > 
-> Good catch, looks like we missed this occasion while switching from PID 
-> to TGID.
-
-Oops, yes..
-
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-
->> Will you apply it to the AMD tree for fixes if it looks OK
->> or does it go elsewhere?
+> This [1] should fix the race condition in the unplug path.
 > 
-> I can push this to drm-misc-fixes as long as nobody objects in the next 
-> hour or so.
-> 
-> CC: stable? If yes which versions?
+> [1]https://gitlab.freedesktop.org/panfrost/linux/-/commit/b79b28069e524ae7fea22a9a158b870eab2d5f9a
 
-Cc: <stable@vger.kernel.org> # v6.4+
+Looks like it should do the job. I'm surprised that we're the only ones
+to face this though.
 
-Regards,
+Looking at the new imagination driver it appears there's a similar problem:
 
-Tvrtko
+pvr_device_lost() uses a boolean 'lost' to track multiple calls but that
+boolean isn't protected by any specific lock (AFAICT). Indeed
+pvr_device_lost() calls drm_dev_unplug() while in a drm_dev_enter()
+critical section (see pvr_mmu_flush_exec()). If I'm not mistaken that's
+the same problem we discussed and isn't allowed? drm_dev_unplug() will
+synchronise on the SRCU that drm_dev_enter() is holding.
+
++CC: Frank, Donald, Matt from Imagination.
+
+Steve
+
