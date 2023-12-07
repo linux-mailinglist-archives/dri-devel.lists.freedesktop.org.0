@@ -1,43 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA508083E8
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 10:11:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB39F8083F7
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 10:11:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74DD210E1A8;
-	Thu,  7 Dec 2023 09:11:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABF4B10E818;
+	Thu,  7 Dec 2023 09:11:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8878110E1A8;
- Thu,  7 Dec 2023 09:11:02 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 17030CE229C;
- Thu,  7 Dec 2023 09:10:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 066AEC433C7;
- Thu,  7 Dec 2023 09:10:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701940258;
- bh=EgeUZq4iO8Na/z8VnPkbWDLidJ7ltPyaH49ufhjKlTk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DzBfzyIe30MkeWypS5oF45eBw95xHry3bXw8H/y0jjZ8eF/qzxyOw+nT7i5Wx5W4E
- KAK1viitfMafsjX5/2LN7cajMPORgr/Y1ZNz49HRTI0WUOMlf7XfNq6DJuv1m6llG7
- brjKVS5IJO8CzvocHt1KNI7TXwaULmgS3XYmsq3DBUTK5ocrwrjWpIEJ+JyOdtzU7l
- wEfAYbTn4OjlgrGVjaGl+sK3EoTNL5vkviMZNpCRhbJh2U8UlNItSEI3gHB6oAIbhK
- QpJKVZAVNPTqlnz7qrvpotHyvaZ/aYO3vnYmmocTVlSyL9lgw2jdUGD7r5GBZGcK7G
- wetJXmFqW9SNw==
-Date: Thu, 7 Dec 2023 10:10:55 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Subject: Re: [PATCH RESEND AGAIN v2 0/2] Add drm_dbg_ratelimited()
-Message-ID: <yudbwuyc2pbuj744yd53q3kgygeqiaz6fhd7cgkzyjzj6ounkk@q5q6n4zpdh52>
-References: <20231206210948.106238-1-andi.shyti@linux.intel.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CC3310E1B5
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 09:11:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701940313; x=1733476313;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ZcE5r+onmRZXLVOd8w757XhOgdVfZWpGAi/Ixy4pJPk=;
+ b=F/FJ0T/LvTyIDKdsGAEz5W7k/zqOj/3piuNJ0lYQLHihIvfCsMsPVL4v
+ ORMXuUu0xBmE3yR3ktVhW2hodV9VP7iBm3Z787zE/iO9Fn7PnQLmQnmMG
+ TzS5WO+ZvmcG/mNVrJRfD3OSeuAzqROMCevdf3hYVGR24lVRv8HLyk33T
+ 2S7mReTKeSOo8Ao4JP9kh54o80J9uz1Yl4er3COScDIToKlgtXuSNfejG
+ YvrYsI6U0lAnw+dHT+52M42aBtLSDbQAayeKX84Y6IFgQ9u7+qt18DXiD
+ JBIPGdz/0vtaopi0ZrL/N+l2KgFM4c2O2BqynVTdNi2RN65mfBzzAq1s1 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="391374004"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; d="scan'208";a="391374004"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Dec 2023 01:11:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="771658852"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; d="scan'208";a="771658852"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+ by orsmga002.jf.intel.com with SMTP; 07 Dec 2023 01:11:45 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Thu, 07 Dec 2023 11:11:44 +0200
+Date: Thu, 7 Dec 2023 11:11:44 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [PATCH 2/3] usb: typec: qcom-pmic-typec: Only select
+ DRM_AUX_HPD_BRIDGE with OF
+Message-ID: <ZXGMUA7b4m4cIrv5@kuha.fi.intel.com>
+References: <20231205-drm_aux_bridge-fixes-v1-0-d242a0ae9df4@kernel.org>
+ <20231205-drm_aux_bridge-fixes-v1-2-d242a0ae9df4@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="m7dckljywf7ur46r"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231206210948.106238-1-andi.shyti@linux.intel.com>
+In-Reply-To: <20231205-drm_aux_bridge-fixes-v1-2-d242a0ae9df4@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,54 +60,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Matthew Auld <matthew.auld@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Sam Ravnborg <sam@ravnborg.org>, John Harrison <John.C.Harrison@intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: neil.armstrong@linaro.org, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, patches@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, dmitry.baryshkov@linaro.org,
+ bryan.odonoghue@linaro.org, linux@roeck-us.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Dec 05, 2023 at 01:13:35PM -0700, Nathan Chancellor wrote:
+> CONFIG_DRM_AUX_HPD_BRIDGE depends on CONFIG_OF but that dependency is
+> not included when CONFIG_TYPEC_QCOM_PMIC selects it, resulting in a
+> Kconfig warning when CONFIG_OF is disabled:
+> 
+>   WARNING: unmet direct dependencies detected for DRM_AUX_HPD_BRIDGE
+>     Depends on [n]: HAS_IOMEM [=y] && DRM_BRIDGE [=y] && OF [=n]
+>     Selected by [m]:
+>     - TYPEC_QCOM_PMIC [=m] && USB_SUPPORT [=y] && TYPEC [=m] && TYPEC_TCPM [=m] && (ARCH_QCOM || COMPILE_TEST [=y]) && (DRM [=m] || DRM [=m]=n) && DRM_BRIDGE [=y]
+> 
+> Only select CONFIG_DRM_AUX_HPD_BRIDGE with both CONFIG_DRM_BRIDGE and
+> CONFIG_OF to clear up the warning.
+> 
+> Fixes: 7d9f1b72b296 ("usb: typec: qcom-pmic-typec: switch to DRM_AUX_HPD_BRIDGE")
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
---m7dckljywf7ur46r
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Shouldn't DRM_BRIDGE depend on/select OF instead?
 
-On Wed, Dec 06, 2023 at 10:09:46PM +0100, Andi Shyti wrote:
-> This is the second time I am resending this series in its v2. It
-> has been reviewd, acked, blessed, discussed, rectified, assessed,
-> authorized, validated, glorified, praised, demanded, approved,
-> and yet, I don't understand why no one is merging it.
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-$ ./scripts/get_maintainer.pl -f drivers/gpu/drm/i915/
-Jani Nikula <jani.nikula@linux.intel.com> (supporter:INTEL DRM DRIVERS (excluding Poulsbo, Moorestow...)
-Joonas Lahtinen <joonas.lahtinen@linux.intel.com> (supporter:INTEL DRM DRIVERS (excluding Poulsbo, Moorestow...)
-Rodrigo Vivi <rodrigo.vivi@intel.com> (supporter:INTEL DRM DRIVERS (excluding Poulsbo, Moorestow...)
-Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> (supporter:INTEL DRM DRIVERS (excluding Poulsbo, Moorestow...)
-David Airlie <airlied@gmail.com> (maintainer:DRM DRIVERS)
-Daniel Vetter <daniel@ffwll.ch> (maintainer:DRM DRIVERS)
-intel-gfx@lists.freedesktop.org (open list:INTEL DRM DRIVERS (excluding Poulsbo, Moorestow...)
-dri-devel@lists.freedesktop.org (open list:DRM DRIVERS)
-linux-kernel@vger.kernel.org (open list)
+> ---
+>  drivers/usb/typec/tcpm/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/Kconfig b/drivers/usb/typec/tcpm/Kconfig
+> index 64d5421c69e6..8cdd84ca5d6f 100644
+> --- a/drivers/usb/typec/tcpm/Kconfig
+> +++ b/drivers/usb/typec/tcpm/Kconfig
+> @@ -80,7 +80,7 @@ config TYPEC_QCOM_PMIC
+>  	tristate "Qualcomm PMIC USB Type-C Port Controller Manager driver"
+>  	depends on ARCH_QCOM || COMPILE_TEST
+>  	depends on DRM || DRM=n
+> -	select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE
+> +	select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
+>  	help
+>  	  A Type-C port and Power Delivery driver which aggregates two
+>  	  discrete pieces of silicon in the PM8150b PMIC block: the
+> 
+> -- 
+> 2.43.0
 
-You've Cc'd none of the i915 maintainers, that's why it's been stuck.
-
-Jani, Joonas, Rodrigo, Tvrtko, could you have a look at this?
-
-Maxime
-
---m7dckljywf7ur46r
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXGMHwAKCRDj7w1vZxhR
-xQtuAQDuepn7wF243N3TIEgyM/totBS9z4oulEvdatsX6QhfyQD/SA823dJ8OyR+
-p3yfG79AEEpKivlEMTGe3HxAyo/T1Qo=
-=iSrm
------END PGP SIGNATURE-----
-
---m7dckljywf7ur46r--
+-- 
+heikki
