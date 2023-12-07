@@ -1,44 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB4A48087A0
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 13:25:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ABA0808826
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 13:44:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 806A310E880;
-	Thu,  7 Dec 2023 12:24:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CCDB10E894;
+	Thu,  7 Dec 2023 12:44:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F7D610E880
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 12:24:57 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 732E4620AF;
- Thu,  7 Dec 2023 12:24:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13806C433C8;
- Thu,  7 Dec 2023 12:24:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701951896;
- bh=2NZQ3Opr9G9uYMBH2XjlJi9TKT75+nOKGrZdYjCEuHk=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lZgTZ7LNFnUUUY22MagHqb9EIIiiYB07XAmTpnR2kqd3KN8hIenCt4ahXD4aPgGp6
- VhZN6ojBc7ojSHUYb10dzdDJDZD8HQCYJZJJdjw4Zgv6H4SrQa+Nea6XkCLh048oxQ
- ZskVlKa++vXIqO++krh989hXWaVJ5PYo/1Q3DoocKbO4Jk/adzvNeHvjGv27ffGuII
- fCiqKp08c1Aa1znarA/dn1ngUtFYoucIC3GLXGMsVre3Wo9ZCxdrX17YAiy1aEaFsv
- U0LmojeW38QHmt8M7+CFQpLfr14lUNU86SaOZ/sB7wkHvr8VWSATNSNlmI8djqjKe9
- SYlc8Oa3Pq7EA==
-From: Oded Gabbay <ogabbay@kernel.org>
-To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] accel/habanalabs/gaudi2: avoid overriding existing
- undefined opcode data
-Date: Thu,  7 Dec 2023 14:24:44 +0200
-Message-Id: <20231207122444.50512-5-ogabbay@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231207122444.50512-1-ogabbay@kernel.org>
-References: <20231207122444.50512-1-ogabbay@kernel.org>
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4C4810E894
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 12:44:29 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4SmDVL0kpKz4xGR;
+ Thu,  7 Dec 2023 23:44:10 +1100 (AEDT)
+From: Michael Ellerman <patch-notifications@ellerman.id.au>
+To: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org,
+ Arnd Bergmann <arnd@kernel.org>
+In-Reply-To: <20231108125843.3806765-1-arnd@kernel.org>
+References: <20231108125843.3806765-1-arnd@kernel.org>
+Subject: Re: (subset) [PATCH 00/22] -Wmissing-prototype warning fixes
+Message-Id: <170195271155.2310221.7822619081586355844.b4-ty@ellerman.id.au>
+Date: Thu, 07 Dec 2023 23:38:31 +1100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,114 +42,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomer Tayar <ttayar@habana.ai>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+	Juri Lelli <juri.lelli@redhat.com>, linux-fbdev@vger.kernel.org,
+	x86@kernel.org, loongarch@lists.linux.dev, linux-sh@vger.kernel.org,
+	Peter Zijlstra <peterz@infradead.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
+	Guo Ren <guoren@kernel.org>,
+	Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+	sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Will Deacon <will@kernel.org>, Greg Ungerer <gerg@linux-m68k.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-s390@vger.kernel.org,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Ard Biesheuvel <ardb@kernel.org>, linux-bcachefs@vger.kernel.org,
+	Ingo Molna r <mingo@redhat.com>, Vineet Gupta <vgupta@kernel.org>,
+	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+	Matt Turner <mattst88@gmail.com>, linux-snps-arc@lists.infradead.org,
+	linux-trace-kernel@vger.kernel.org,
+	Kees Cook <keescook@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Uwe Kleine-König <u.kleine-koenig@pengutronix.de>,
+	linuxppc-dev@lists.ozlabs.org, Nicholas Piggin <npiggin@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	linux-m68k@lists.linux-m68k.org, linux-csky@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	linux-arm-kernel@lists.infradead.org, l.org@freedesktop.org,
+	Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-mips@vger.kerne, linux-parisc@vger.kernel.org,
+	Timur Tabi <timur@kernel.org>, Geoff Levand <geoff@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Dinh Nguyen <dinguyen@kernel.org>, linux-usb@vger.kernel.org,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>, linux-alpha@vger.kernel.org,
+	linux-mtd@lists.infradead.org, David Woodhouse <dwmw2@infradead.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Al Viro <viro@zeniv.linux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomer Tayar <ttayar@habana.ai>
+On Wed, 08 Nov 2023 13:58:21 +0100, Arnd Bergmann wrote:
+> I slightly dropped the ball on this since last sending the series in
+> August, but a number of warning fixes have made it into the kernel in
+> the meantime, both from my earlier submission and from architecture
+> maintainers.
+> 
+> I have none patches that remain from the previous submission, with
+> two of them reworked according to comments. The additional patches
+> are from more testing across architectures and configurations that
+> I had previously missed.
+> 
+> [...]
 
-Part of the undefined opcode data is updated in
-gaudi2_handle_qman_err_generic() and some in
-handle_lower_qman_data_on_err().
-However, the 'write_enable' flag is checked only in
-gaudi2_handle_qman_err_generic(), and information of more than a single
-error can be mixed there.
+Applied to powerpc/next.
 
-Moreover, handle_lower_qman_data_on_err() is called only for the lower
-QMAN, so for an error in the upper QMAN there is only a partial info.
+[17/22] powerpc: ps3: move udbg_shutdown_ps3gelic prototype
+        https://git.kernel.org/powerpc/c/04c40eed3f7ac48ddaf20104489510e743a53c47
+[18/22] powerpc: pasemi: mark pas_shutdown() static
+        https://git.kernel.org/powerpc/c/0c9a768de64d24e38e27652b8c273725ccc31916
+[19/22] powerpc: powermac: mark smp_psurge_{give,take}_timebase static
+        https://git.kernel.org/powerpc/c/afb36ac386783d2ef2ed839293c03fd06f470be0
 
-Move all the data update to be done in a single place, protected by the
-'write_enable' flag.
-As mainly the lower QMAN's info is interesting, avoid saving the partial
-info for the upper QMAN.
-
-Signed-off-by: Tomer Tayar <ttayar@habana.ai>
-Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
-Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
----
- drivers/accel/habanalabs/gaudi2/gaudi2.c | 40 +++++++++++-------------
- 1 file changed, 19 insertions(+), 21 deletions(-)
-
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-index f81b57649b00..e0e5615ef9b0 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-@@ -7858,10 +7858,11 @@ static bool gaudi2_handle_ecc_event(struct hl_device *hdev, u16 event_type,
- 	return !!ecc_data->is_critical;
- }
- 
--static void handle_lower_qman_data_on_err(struct hl_device *hdev, u64 qman_base, u64 event_mask)
-+static void handle_lower_qman_data_on_err(struct hl_device *hdev, u64 qman_base, u32 engine_id)
- {
--	u32 lo, hi, cq_ptr_size, cp_sts;
-+	struct undefined_opcode_info *undef_opcode = &hdev->captured_err_info.undef_opcode;
- 	u64 cq_ptr, cp_current_inst;
-+	u32 lo, hi, cq_size, cp_sts;
- 	bool is_arc_cq;
- 
- 	cp_sts = RREG32(qman_base + QM_CP_STS_4_OFFSET);
-@@ -7871,12 +7872,12 @@ static void handle_lower_qman_data_on_err(struct hl_device *hdev, u64 qman_base,
- 		lo = RREG32(qman_base + QM_ARC_CQ_PTR_LO_STS_OFFSET);
- 		hi = RREG32(qman_base + QM_ARC_CQ_PTR_HI_STS_OFFSET);
- 		cq_ptr = ((u64) hi) << 32 | lo;
--		cq_ptr_size = RREG32(qman_base + QM_ARC_CQ_TSIZE_STS_OFFSET);
-+		cq_size = RREG32(qman_base + QM_ARC_CQ_TSIZE_STS_OFFSET);
- 	} else {
- 		lo = RREG32(qman_base + QM_CQ_PTR_LO_STS_4_OFFSET);
- 		hi = RREG32(qman_base + QM_CQ_PTR_HI_STS_4_OFFSET);
- 		cq_ptr = ((u64) hi) << 32 | lo;
--		cq_ptr_size = RREG32(qman_base + QM_CQ_TSIZE_STS_4_OFFSET);
-+		cq_size = RREG32(qman_base + QM_CQ_TSIZE_STS_4_OFFSET);
- 	}
- 
- 	lo = RREG32(qman_base + QM_CP_CURRENT_INST_LO_4_OFFSET);
-@@ -7885,12 +7886,16 @@ static void handle_lower_qman_data_on_err(struct hl_device *hdev, u64 qman_base,
- 
- 	dev_info(hdev->dev,
- 		"LowerQM. %sCQ: {ptr %#llx, size %u}, CP: {instruction %#018llx}\n",
--		is_arc_cq ? "ARC_" : "", cq_ptr, cq_ptr_size, cp_current_inst);
-+		is_arc_cq ? "ARC_" : "", cq_ptr, cq_size, cp_current_inst);
- 
--	if (event_mask & HL_NOTIFIER_EVENT_UNDEFINED_OPCODE) {
--		hdev->captured_err_info.undef_opcode.cq_addr = cq_ptr;
--		hdev->captured_err_info.undef_opcode.cq_size = cq_ptr_size;
--		hdev->captured_err_info.undef_opcode.stream_id = QMAN_STREAMS;
-+	if (undef_opcode->write_enable) {
-+		memset(undef_opcode, 0, sizeof(*undef_opcode));
-+		undef_opcode->timestamp = ktime_get();
-+		undef_opcode->cq_addr = cq_ptr;
-+		undef_opcode->cq_size = cq_size;
-+		undef_opcode->engine_id = engine_id;
-+		undef_opcode->stream_id = QMAN_STREAMS;
-+		undef_opcode->write_enable = 0;
- 	}
- }
- 
-@@ -7929,19 +7934,12 @@ static int gaudi2_handle_qman_err_generic(struct hl_device *hdev, u16 event_type
- 				error_count++;
- 			}
- 
--		/* check for undefined opcode */
--		if (glbl_sts_val & PDMA0_QM_GLBL_ERR_STS_CP_UNDEF_CMD_ERR_MASK) {
-+		/* Check for undefined opcode error in lower QM */
-+		if ((i == QMAN_STREAMS) &&
-+				(glbl_sts_val & PDMA0_QM_GLBL_ERR_STS_CP_UNDEF_CMD_ERR_MASK)) {
-+			handle_lower_qman_data_on_err(hdev, qman_base,
-+							gaudi2_queue_id_to_engine_id[qid_base]);
- 			*event_mask |= HL_NOTIFIER_EVENT_UNDEFINED_OPCODE;
--			if (hdev->captured_err_info.undef_opcode.write_enable) {
--				memset(&hdev->captured_err_info.undef_opcode, 0,
--						sizeof(hdev->captured_err_info.undef_opcode));
--				hdev->captured_err_info.undef_opcode.timestamp = ktime_get();
--				hdev->captured_err_info.undef_opcode.engine_id =
--							gaudi2_queue_id_to_engine_id[qid_base];
--			}
--
--			if (i == QMAN_STREAMS)
--				handle_lower_qman_data_on_err(hdev, qman_base, *event_mask);
- 		}
- 	}
- 
--- 
-2.34.1
-
+cheers
