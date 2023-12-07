@@ -1,42 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B4E2808521
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 11:05:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1E46808524
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 11:07:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 416CF10E854;
-	Thu,  7 Dec 2023 10:05:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A212610E7ED;
+	Thu,  7 Dec 2023 10:07:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D4C410E854
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 10:05:36 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1rBBG7-00013L-IN; Thu, 07 Dec 2023 11:05:31 +0100
-Message-ID: <092107b1490b4c1b4ba5f2b60993e452c932f4a3.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: add sensitive state for
- PE_RT_ADDR_4_PIPE(3, 0|1) address
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Christian Gmeiner <christian.gmeiner@gmail.com>, Russell King
- <linux+etnaviv@armlinux.org.uk>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>
-Date: Thu, 07 Dec 2023 11:05:30 +0100
-In-Reply-To: <20231207074308.393008-1-christian.gmeiner@gmail.com>
-References: <20231207074308.393008-1-christian.gmeiner@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F54210E852
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 10:07:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1701943667; x=1733479667;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=uk15A8QKQ8ycJNU0cX26IuAICSD58obvOMcwCOOR8g0=;
+ b=mWpaxI+1JPS2z42eWE0ZuLRawt2Jc6849LMjCMmF42YUMHU1ERa6b0bG
+ qYkSpxszLsbzfvReCZp+j85Lu/i6FVmWUmwnZhnqBzALiD0FEG3tr9hqO
+ ANlobPzDhXZu1g/3RJZ1wY5jOAvhn06OrHdFL2vAjG/RvPOnASNdb2ajN
+ fJsqrUT8DmxZslme+0ULrbS+fyO0GDIAzNChgt/XkId/eA5FuKVZdzHoG
+ 1ZZdDeddoU0nRu7Um8mk+ZVw6TPh4/XsMDrx0U39TjwF0y6SbITbxhnQ+
+ jlVvp1u5D2W3pSnGwZErX4QCiLx058q9PgbM9HGaWqkRsbPeDA1GqX5// w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="12922232"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; d="scan'208";a="12922232"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Dec 2023 02:07:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="862430968"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; d="scan'208";a="862430968"
+Received: from mrehana-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.62.169])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Dec 2023 02:07:43 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: bbaa <bbaa@bbaa.fun>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch
+Subject: Re: [Bug Report] drm/edid: drm_edid_override_connector_update
+ returns a incorrect value
+In-Reply-To: <57BBFAAD83255278+587e2f64-3507-4af9-bca4-43194400c68c@bbaa.fun>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <57BBFAAD83255278+587e2f64-3507-4af9-bca4-43194400c68c@bbaa.fun>
+Date: Thu, 07 Dec 2023 12:07:40 +0200
+Message-ID: <87fs0e1g2b.fsf@intel.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,38 +60,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Gmeiner <cgmeiner@igalia.com>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Donnerstag, dem 07.12.2023 um 08:43 +0100 schrieb Christian Gmeiner:
-> From: Christian Gmeiner <cgmeiner@igalia.com>
->=20
-> 0x1540 is the address of 4th render target address pair (two pixel pipes)=
-.
->=20
-Are there any corresponding TS states for this region?
+On Thu, 07 Dec 2023, bbaa <bbaa@bbaa.fun> wrote:
+> Hello everyone,
+>
+> drm_edid_override_connector_update seem return a incorrect value.
 
-Regards,
-Lucas
+You seem to have posted this twice; already replied at
+https://lore.kernel.org/r/87jzpq1go5.fsf@intel.com
 
-> Signed-off-by: Christian Gmeiner <cgmeiner@igalia.com>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_cmd_parser.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_cmd_parser.c b/drivers/gpu/d=
-rm/etnaviv/etnaviv_cmd_parser.c
-> index b106e8b288ad..9bf47327f436 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_cmd_parser.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_cmd_parser.c
-> @@ -54,6 +54,7 @@ static const struct {
->  	ST(0x1480, 8),
->  	ST(0x1500, 8),
->  	ST(0x1520, 8),
-> +	ST(0x1540, 8),
->  	ST(0x1608, 1),
->  	ST(0x1610, 1),
->  	ST(0x1658, 1),
-
+-- 
+Jani Nikula, Intel
