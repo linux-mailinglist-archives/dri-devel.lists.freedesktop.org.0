@@ -2,65 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D311C8083DD
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 10:10:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA508083E8
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 10:11:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A12C10E105;
-	Thu,  7 Dec 2023 09:10:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74DD210E1A8;
+	Thu,  7 Dec 2023 09:11:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCEF210E105
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 09:10:34 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id
- ffacd0b85a97d-33340c50af9so689035f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 01:10:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701940233; x=1702545033; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=kVL972CQGLcSJW3AciqVNZzuMMM19Q2E2yNZVzQKrFU=;
- b=K3Y1WCYbWkL+UlTVUJDlFNfrSppsWzAzoeArNxcPUqL0Mrv11/KwGwcz6J6F0ZY5hL
- +5WaEhtdrmYd+BKbsFnMbk821b533gYWkgCyVcmhYbQEO8PEVgt7f44iND5gtKSQ4OgF
- d0KElIAbNb1PAiPrVYw2SVlrkAVeZvB7pSkCnEpU/o6Xtf8LwmsIxkGAhbIW3NRhigBD
- lUw7XaLGH8uK43x/wXHvi856N3gx5KUfwXybPYwJIlkBYd5SjeFtLLf7jSioo6MTnZmQ
- rKhaww9/B0W6jHABpOf1B+fwq4dgenMVTs9Mk5OcWDLNklStJuXwK/RkKFRbM/A8AGJY
- lrrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701940233; x=1702545033;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kVL972CQGLcSJW3AciqVNZzuMMM19Q2E2yNZVzQKrFU=;
- b=SosrWDN3WCD2QXbYk0wQuOLCfrnawIoNq2snjaen0QsYyHaaEcAFtsu0t2nQJqcVaR
- VTr7BUCrHP72nko5Rp+LWW0WHxjedDrY+IIzU0HNcJTamB3SwgcFL/mpQ93DaEpG6rk4
- MIOByk+ljdqwbFVJvKVJonc4n3R0E2a1kdEQ4dmS4A+aorWG9+jYMI151pzc8UjIlcXd
- 2exFWthLLuPF5usdqNs6vpcqF0ogoFkQW/BsNN17JMERvTiG86AJTDPbMPfeNd6cnG1p
- rW1twaRz0MH8gGwEsRftBUuRLFph8ADv5dLnhhGPEvcNG63z3+h8B/8gWJ6x6eIrdpOk
- vuMg==
-X-Gm-Message-State: AOJu0Yy9j+k0zvM1vpdFZv8H/+NXzxX/x2AW0VFFxrxd1ejwTD679ruz
- E20zsvwdBt4vJFANVEpTTAWvBQ==
-X-Google-Smtp-Source: AGHT+IH+IApGH4/piJWGesyPfGeXa/LPQoTSHnDHwNL1K1eexST0rVyhW3P9trJFOjmQKc/vrkG3AA==
-X-Received: by 2002:adf:fe8e:0:b0:333:41e2:6221 with SMTP id
- l14-20020adffe8e000000b0033341e26221mr911521wrr.102.1701940233141; 
- Thu, 07 Dec 2023 01:10:33 -0800 (PST)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- k18-20020a5d5252000000b0033330846e76sm887112wrc.86.2023.12.07.01.10.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Dec 2023 01:10:32 -0800 (PST)
-Date: Thu, 7 Dec 2023 09:10:34 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v2] backlight: ili922x: drop kernel-doc for local macros
-Message-ID: <20231207091034.GA135517@aspen.lan>
-References: <20231206174525.14960-1-rdunlap@infradead.org>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8878110E1A8;
+ Thu,  7 Dec 2023 09:11:02 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 17030CE229C;
+ Thu,  7 Dec 2023 09:10:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 066AEC433C7;
+ Thu,  7 Dec 2023 09:10:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1701940258;
+ bh=EgeUZq4iO8Na/z8VnPkbWDLidJ7ltPyaH49ufhjKlTk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DzBfzyIe30MkeWypS5oF45eBw95xHry3bXw8H/y0jjZ8eF/qzxyOw+nT7i5Wx5W4E
+ KAK1viitfMafsjX5/2LN7cajMPORgr/Y1ZNz49HRTI0WUOMlf7XfNq6DJuv1m6llG7
+ brjKVS5IJO8CzvocHt1KNI7TXwaULmgS3XYmsq3DBUTK5ocrwrjWpIEJ+JyOdtzU7l
+ wEfAYbTn4OjlgrGVjaGl+sK3EoTNL5vkviMZNpCRhbJh2U8UlNItSEI3gHB6oAIbhK
+ QpJKVZAVNPTqlnz7qrvpotHyvaZ/aYO3vnYmmocTVlSyL9lgw2jdUGD7r5GBZGcK7G
+ wetJXmFqW9SNw==
+Date: Thu, 7 Dec 2023 10:10:55 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [PATCH RESEND AGAIN v2 0/2] Add drm_dbg_ratelimited()
+Message-ID: <yudbwuyc2pbuj744yd53q3kgygeqiaz6fhd7cgkzyjzj6ounkk@q5q6n4zpdh52>
+References: <20231206210948.106238-1-andi.shyti@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="m7dckljywf7ur46r"
 Content-Disposition: inline
-In-Reply-To: <20231206174525.14960-1-rdunlap@infradead.org>
+In-Reply-To: <20231206210948.106238-1-andi.shyti@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,30 +50,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>, John Harrison <John.C.Harrison@intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 06, 2023 at 09:45:25AM -0800, Randy Dunlap wrote:
-> Don't use kernel-doc notation for the local macros START_BYTE() and
-> CHECK_FREQ_REG(). This prevents these kernel-doc warnings:
->
-> ili922x.c:85: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
->  * START_BYTE(id, rs, rw)
-> ili922x.c:85: warning: missing initial short description on line:
->  * START_BYTE(id, rs, rw)
-> ili922x.c:118: warning: expecting prototype for CHECK_FREQ_REG(spi_device s, spi_transfer x)(). Prototype was for CHECK_FREQ_REG() instead
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Lee Jones <lee@kernel.org>
-> Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> Cc: Jingoo Han <jingoohan1@gmail.com>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: linux-fbdev@vger.kernel.org
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+--m7dckljywf7ur46r
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Wed, Dec 06, 2023 at 10:09:46PM +0100, Andi Shyti wrote:
+> This is the second time I am resending this series in its v2. It
+> has been reviewd, acked, blessed, discussed, rectified, assessed,
+> authorized, validated, glorified, praised, demanded, approved,
+> and yet, I don't understand why no one is merging it.
 
-Daniel.
+$ ./scripts/get_maintainer.pl -f drivers/gpu/drm/i915/
+Jani Nikula <jani.nikula@linux.intel.com> (supporter:INTEL DRM DRIVERS (excluding Poulsbo, Moorestow...)
+Joonas Lahtinen <joonas.lahtinen@linux.intel.com> (supporter:INTEL DRM DRIVERS (excluding Poulsbo, Moorestow...)
+Rodrigo Vivi <rodrigo.vivi@intel.com> (supporter:INTEL DRM DRIVERS (excluding Poulsbo, Moorestow...)
+Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> (supporter:INTEL DRM DRIVERS (excluding Poulsbo, Moorestow...)
+David Airlie <airlied@gmail.com> (maintainer:DRM DRIVERS)
+Daniel Vetter <daniel@ffwll.ch> (maintainer:DRM DRIVERS)
+intel-gfx@lists.freedesktop.org (open list:INTEL DRM DRIVERS (excluding Poulsbo, Moorestow...)
+dri-devel@lists.freedesktop.org (open list:DRM DRIVERS)
+linux-kernel@vger.kernel.org (open list)
+
+You've Cc'd none of the i915 maintainers, that's why it's been stuck.
+
+Jani, Joonas, Rodrigo, Tvrtko, could you have a look at this?
+
+Maxime
+
+--m7dckljywf7ur46r
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXGMHwAKCRDj7w1vZxhR
+xQtuAQDuepn7wF243N3TIEgyM/totBS9z4oulEvdatsX6QhfyQD/SA823dJ8OyR+
+p3yfG79AEEpKivlEMTGe3HxAyo/T1Qo=
+=iSrm
+-----END PGP SIGNATURE-----
+
+--m7dckljywf7ur46r--
