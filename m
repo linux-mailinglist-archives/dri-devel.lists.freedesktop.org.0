@@ -2,46 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78E72808A7F
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 15:27:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF8D808A8A
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 15:28:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AB6E10E8B4;
-	Thu,  7 Dec 2023 14:27:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9301D10E19A;
+	Thu,  7 Dec 2023 14:28:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1D5D10E8C1
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 14:27:36 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 23D3962118;
- Thu,  7 Dec 2023 14:27:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94971C433C8;
- Thu,  7 Dec 2023 14:27:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701959255;
- bh=+8dIwM5OE8Cl9sfdIrhi1KoVYzadFQnB3l0XlBddOk8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gr0R3x7kUF6mCNSf37LqgZ3F56bsmNIXV65UZ4qI6GeEk9UZGFi7GbbKfq3tAe++h
- KKUtTaO/r9uUuMn3EbI5pfPJ616OxlZ9+UOzyJIDaa2XbD2jiOdz7bHoqfD/eflCEn
- AyH1tDG9EGOlF9rvkJ3Qk4qZ7JgqGotvvlWmDE6UtNReOBDvK57uknrk8mMHcM5sDr
- cX9i3XifxWIM5XJw2zp2/14u30GEmZ7m9NWBt4VvlJF27fvfPDdVGFGw7u8RIqnQNx
- lzdbHm9hv7vkYxWXtPuOPS9ka/Df+Yx7iVb5foRlPl1Yrczx38+rfBu42BDG1RXWy8
- 0wJQUdvsbitmg==
-Date: Thu, 7 Dec 2023 15:27:33 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH 4/5] drm/atomic: Make the drm_atomic_state documentation
- less ambiguous
-Message-ID: <ifwxqdd5rwn33kkxzhwfwbvrsvh53h3cc3un26r5eoluho6e7t@bje7nzxfqvzo>
-References: <20231204121707.3647961-1-mripard@kernel.org>
- <20231204121707.3647961-4-mripard@kernel.org>
- <20231205105106.06a34b81.pekka.paalanen@collabora.com>
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5B5210E19A
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 14:28:48 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ 5b1f17b1804b1-40c0fc1cf3dso10606745e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 06:28:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1701959327; x=1702564127; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=siQf2yGcuKbINax/017dn/aIzi9vyOaDmow1c81WvIo=;
+ b=mGmxV53JHNK7u1u+1RVND5RLyS000aMOIH4K14ae8A3EAqkvc27L4DyvsOAF8dD6zy
+ VZQ/960LXKjZhmNGxTKPYiJXg2L7SUVEAduWClB4U+rFXwnjkQrsVQcOPG/a97Pt4HDQ
+ wtnI2PX/TzJa2sNSXryWesjEe/xl8069sUnRNxw4Ss6mzttEqNZyz18CDjZyQHKO0iSC
+ fi3gv5cElyTdRG0UqFoBQbMzt2GiZxHRmU0hSRqDW/XpTGDuLPyCXDy/kECSbeQ71CSj
+ mF83VleHXg8GNt4q5K2Zfh2dLLC8rhdbLCKYBW17xNNN5iu0VMrNfYTcDLXHyRkzlRYC
+ 52og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1701959327; x=1702564127;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=siQf2yGcuKbINax/017dn/aIzi9vyOaDmow1c81WvIo=;
+ b=G/8BhQOYlXqi/orBKzMNvRlQBSMkT64qkgbmKt/cww4FdN+xrJu8XdkQ2nllQCzDKV
+ z4RWSwhyD3jDhvx59Td5YEVfybPmQKU9UeFu+qViLGq72iG6EvSe5tDYUPBr0gXeArMS
+ tt8mTkkCqxqX5iMgljZ/+Bvrojm6vcSNUmwcz5tTGD6rLmSASEDdDo/UsHz4SIMVYJBA
+ dOnmV7Au6zN1xBoD3/3lzQ/Zr9/HZRDcvnNHo12yZt6/ixCzLVTu6CFP5lvat8ZuIPU0
+ wNR1H/ddqt1+rjMx239arhwBhP7FIVeTccheDg3PrzW28KtOK7dTGk9dGDRjGPCkzbcc
+ sKrA==
+X-Gm-Message-State: AOJu0YxIlHzRujW5r8bKoZZCoF0mJloN7avGbHmnwTBXb41gQV34jK3W
+ EmpLrnWN/zOho1asMnKNT8HaRQ==
+X-Google-Smtp-Source: AGHT+IG3fjLcVnbgN/JM62HKhQ/CpsfIghOkkqs4Bf6SrVZBPi1Z/DUH73yzVRZSk42YeYyrPH8xFg==
+X-Received: by 2002:a05:600c:a43:b0:40b:5e59:c58c with SMTP id
+ c3-20020a05600c0a4300b0040b5e59c58cmr1686676wmq.182.1701959327359; 
+ Thu, 07 Dec 2023 06:28:47 -0800 (PST)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ b16-20020a05600c4e1000b0040c310abc4bsm216659wmq.43.2023.12.07.06.28.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Dec 2023 06:28:46 -0800 (PST)
+Date: Thu, 7 Dec 2023 14:28:44 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Su Hui <suhui@nfschina.com>
+Subject: Re: [PATCH] backlight: ili922x: add an error code check in
+ ili922x_write
+Message-ID: <20231207142844.GA151182@aspen.lan>
+References: <20231130051155.1235972-1-suhui@nfschina.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ukmxrxzgqo3bdcpo"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231205105106.06a34b81.pekka.paalanen@collabora.com>
+In-Reply-To: <20231130051155.1235972-1-suhui@nfschina.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,126 +74,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-fbdev@vger.kernel.org, llvm@lists.linux.dev,
+ kernel-janitors@vger.kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+ lee@kernel.org, ndesaulniers@google.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nathan@kernel.org, trix@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Nov 30, 2023 at 01:11:56PM +0800, Su Hui wrote:
+> Clang static analyzer complains that value stored to 'ret' is never read.
+> Return the error code when spi_sync() failed.
+>
+> Signed-off-by: Su Hui <suhui@nfschina.com>
 
---ukmxrxzgqo3bdcpo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-On Tue, Dec 05, 2023 at 10:51:06AM +0200, Pekka Paalanen wrote:
-> On Mon,  4 Dec 2023 13:17:06 +0100
-> Maxime Ripard <mripard@kernel.org> wrote:
->=20
-> > The current documentation of drm_atomic_state says that it's the "global
-> > state object". This is confusing since, while it does contain all the
-> > objects affected by an update and their respective states, if an object
-> > isn't affected by this update it won't be part of it.
-> >=20
-> > Thus, it's not truly a "global state", unlike object state structures
-> > that do contain the entire state of a given object.
-> >=20
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >  include/drm/drm_atomic.h | 10 +++++++++-
-> >  1 file changed, 9 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> > index 914574b58ae7..81ad7369b90d 100644
-> > --- a/include/drm/drm_atomic.h
-> > +++ b/include/drm/drm_atomic.h
-> > @@ -346,11 +346,19 @@ struct __drm_private_objs_state {
-> >  };
-> > =20
-> >  /**
-> > - * struct drm_atomic_state - the global state object for atomic updates
-> > + * struct drm_atomic_state - Atomic Update structure
-> > + *
-> > + * This structure is the kernel counterpart of @drm_mode_atomic and co=
-ntains
-> > + * all the objects affected by an atomic modeset update and their stat=
-es.
->=20
-> Drop "modeset"? An update can be without a modeset.
 
-Yeah, good point
-
-> >   *
-> >   * States are added to an atomic update by calling drm_atomic_get_crtc=
-_state(),
-> >   * drm_atomic_get_plane_state(), drm_atomic_get_connector_state(), or =
-for
-> >   * private state structures, drm_atomic_get_private_obj_state().
-> > + *
-> > + * NOTE: While this structure looks to be global and affecting the who=
-le DRM
-> > + * device, it only contains the objects affected by the atomic commit.
->=20
-> This new phrasing is much more clear to me than the old one.
-
-Great
-
-> > + * Unaffected objects will not be part of that update, unless they hav=
-e been
-> > + * explicitly added by either the framework or the driver.
->=20
-> If the framework or a driver adds an object, then it's no longer
-> unaffected, is it?
-
-I guess what I meant to say is that it's affected as a side effect that
-the userspace cannot anticipate.
-
-The typical example being that changing a property on a connector would
-need to pull the CRTC into the update to disable / enable the CRTC,
-encoder and connector.
-
-As far as userspace is concerned, only the connector will be affected,
-and only the connector will initially be part of the drm_atomic_state.
-
-But then some part of the atomic_check logic will pull the CRTC into the
-update.
-
-It's still invisible to userspace, so I guess
-"unaffected-but-turns-out-to-be-affected" would be the right term :)
-
-Would something like:
-
-Unaffected objects will not be part of the initial update, but might be
-added explicitly by either the framework or the driver during
-atomic_check.
-
-be better?
-
-> Should there be some discussion how this struct starts with only what
-> userspace mentioned, and more affected objects may be added by the
-> framework or a driver? And adding more objects can surprise the
-> userspace and cause even failures (e.g. random, hard-to-diagnose EBUSY
-> errors from atomic commit when a driver added a CRTC that was not
-> supposed to be affected)? Even unexpected failures on *future* atomic
-> commits, as in the CRTC example.
->=20
-> Was there actually a rule of when the kernel can add unmentioned
-> objects, like needing ALLOW_MODESET from userspace?
-
-Sima (iirc?) recently made that explicit, yeah, but there's plenty of
-commits that need at the very least the encoder and connector to be
-disabled and enabled again to handle them.
-
-Maxime
-
---ukmxrxzgqo3bdcpo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXHWVAAKCRDj7w1vZxhR
-xapsAP4r4bVp9pjUG3TADpd2ArfIpQAYu4vbYvDd53Sw+gIELAEAyUcu4r7/37Qb
-eNNJGoZYkk2Y7yijRxNfPmCkhg2+bQc=
-=TmdG
------END PGP SIGNATURE-----
-
---ukmxrxzgqo3bdcpo--
+Daniel.
