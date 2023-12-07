@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55E5B809466
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 22:34:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4CF88094CD
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 22:40:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BB1310E0C9;
-	Thu,  7 Dec 2023 21:34:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DABD10E9A7;
+	Thu,  7 Dec 2023 21:40:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
  [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5978A10E0C9
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 21:34:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2EB510E995
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 21:40:08 +0000 (UTC)
 Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-54c68c8009eso385719a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 13:34:10 -0800 (PST)
+ 4fb4d7f45d1cf-54ce02c1ba2so390569a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 13:40:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1701984849; x=1702589649; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1701985207; x=1702590007; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=rDltz1HHy6UCuuTYykcaDJWWWZVlgjuJuZQK5Q/dZ40=;
- b=JzxiwJv92ldnJDsEsyl2q0IlevuvCReMB3AoE7H+pyZjHoYNrh0h4mF414/swTGZ3a
- iRjkS5lS3OJqlmcdU45X7SlU09rxMoQzN+rjZ7UCmVZHkmXIhtS+iqtQgMRZNn/JfDfj
- Z5ILnTLEKjXb5jtyGr3O/Ob07MMX6iTK60Xks=
+ bh=9fUJrtt8hiC5dDJ9xGUum8RIXakW414MAvm9NwuGgAg=;
+ b=VCpxXW4lPsubVDwJJhuF//GMZs7D8BSNvNkw3OA2d0pV3gGTEHi+orj3EsokzhriqO
+ VKCCFxDX6X6FTBbJiOIZEGJpJXxuG0AFaGWj99GUyHpXPlpbJSOb5YUm10ClT3cgiOUu
+ HmypK2TTeRxJY/FG6UYIe0aBlUHWww8SMBmkQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701984849; x=1702589649;
+ d=1e100.net; s=20230601; t=1701985207; x=1702590007;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rDltz1HHy6UCuuTYykcaDJWWWZVlgjuJuZQK5Q/dZ40=;
- b=hzk0aFHAzNHcXKr5rcqXX9UK8ILzXj7GOM+Jgi0O2dIVdqXUz+Omi9vigHt6nqE0G7
- ZISf6uiD0RJZnHUXLVX1oA7MIoxror+Sc3/nnPdMySIs/vavIDfBQOlZ/US8TVp+lM+h
- BbiPcNmP604XP9y9s6wid+Y8nD59pleIiEP3Xa8C8Ew99Qg3SCchuxp34sFy2RIOgKf2
- 7Yf0afi7soRJ9yvhYYRB/+blbK0HUcbkllw7QPePYGVCy4hr2ZP6Ofvw5M9uFadtuKor
- OS/80uiw4tqkVrSSLF5e4ULU7iD5Q45ad0nvVlicDK/KWIdF5EKYnLgCM4Dr7PcVZ5vb
- ebRA==
-X-Gm-Message-State: AOJu0Yx7gwy4i/HlxnJK+ou9A4E5hvwZpME1Xs7oeceZTmwGXs6em5LU
- 1gSwBHX8bhUtHKDk8jwuau6nZw==
-X-Google-Smtp-Source: AGHT+IFyNN4bCITyJmU1Awh2JkXha+HuLvP+3lKrUA5MxTzSerlFhMJxzrNxY/2+R7CfVlFrAfyEjw==
-X-Received: by 2002:a05:6402:51cc:b0:54c:672c:c361 with SMTP id
- r12-20020a05640251cc00b0054c672cc361mr4332804edd.4.1701984848651; 
- Thu, 07 Dec 2023 13:34:08 -0800 (PST)
+ bh=9fUJrtt8hiC5dDJ9xGUum8RIXakW414MAvm9NwuGgAg=;
+ b=v9catr6eCwkgoZSZM2jNrruJViXfF/OirxzvwgutLVCVzT0BUe5ZizWdiTHnlpMPNG
+ 2qvfwucioc5eNQRKWK2ZI1sxL8Bsyg7zBBVEdKe8NvP6fJaDLwtuXqCAoA7Sl3arN+sb
+ FZojlrmfOyaF/UO/D5Qcbrd6LJW0cjhZfBElVlk9GCt+Gzb+U71U03nYJXgMg1Puoaqe
+ AkaMjP10pKxin9NldpaV+CGa6V3GRXLeKkwSOwUBhm1FtmX8oaqabnNRZMy4BHaeIPZ2
+ LwaZveMFfiL6sD2kiDZw2QldKB6ng5/ZaoKXkIFPt8eTTYFlZCDz+49IKiKHx++CVnbc
+ ttWw==
+X-Gm-Message-State: AOJu0YxBILNW7CfuGOIDlh7fmH0h7lIzEDeZtmxdfJ7D+8FjV3XfQhgB
+ OSHuudQVb/GnY/11vOoQ4rmg3g==
+X-Google-Smtp-Source: AGHT+IEEv0NEhT6UWPtxcsbvr/fcNyH9Pa74WiFw4BFfRVUhbXsrrpfIh1q7qtXO/9i31ZadN4by9Q==
+X-Received: by 2002:a17:906:7f92:b0:a1d:5c34:2ce7 with SMTP id
+ f18-20020a1709067f9200b00a1d5c342ce7mr2881523ejr.6.1701985207181; 
+ Thu, 07 Dec 2023 13:40:07 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- dg12-20020a0564021d0c00b0054c9635b24esm232851edb.21.2023.12.07.13.34.07
+ vx12-20020a170907a78c00b00a1ddb5a2f7esm223027ejc.60.2023.12.07.13.40.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Dec 2023 13:34:07 -0800 (PST)
-Date: Thu, 7 Dec 2023 22:34:06 +0100
+ Thu, 07 Dec 2023 13:40:06 -0800 (PST)
+Date: Thu, 7 Dec 2023 22:40:04 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH 1/5] drm/atomic: Move the drm_atomic_state field doc inline
-Message-ID: <ZXI6TojujZ4CJsMR@phenom.ffwll.local>
+Subject: Re: [PATCH 2/5] drm/atomic: Remove inexistent reference
+Message-ID: <ZXI7tPmDWAlNT8Kw@phenom.ffwll.local>
 References: <20231204121707.3647961-1-mripard@kernel.org>
+ <20231204121707.3647961-2-mripard@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231204121707.3647961-1-mripard@kernel.org>
+In-Reply-To: <20231204121707.3647961-2-mripard@kernel.org>
 X-Operating-System: Linux phenom 6.5.0-4-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,112 +77,35 @@ Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 04, 2023 at 01:17:03PM +0100, Maxime Ripard wrote:
-> Some fields of drm_atomic_state have been documented in-line, but some
-> were documented in the main kerneldoc block before the structure.
-> 
-> Since the former is the preferred option in DRM, let's move all the
-> fields to an inline documentation.
+On Mon, Dec 04, 2023 at 01:17:04PM +0100, Maxime Ripard wrote:
+> The num_connectors field documentation mentions a connector_states field
+> that has never been part of this structure.
+
+Not entirely correct, this is an oversight from 63e83c1dba54 ("drm:
+Consolidate connector arrays in drm_atomic_state"). With the commit
+message suitably updated.
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
 > 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
 > ---
->  include/drm/drm_atomic.h | 50 ++++++++++++++++++++++++++++++++--------
->  1 file changed, 40 insertions(+), 10 deletions(-)
+>  include/drm/drm_atomic.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> index cf8e1220a4ac..2a08030fcd75 100644
+> index 2a08030fcd75..13cecdc1257d 100644
 > --- a/include/drm/drm_atomic.h
 > +++ b/include/drm/drm_atomic.h
-> @@ -347,24 +347,22 @@ struct __drm_private_objs_state {
->  
->  /**
->   * struct drm_atomic_state - the global state object for atomic updates
-> - * @ref: count of all references to this state (will not be freed until zero)
-> - * @dev: parent DRM device
-> - * @async_update: hint for asynchronous plane update
-> - * @planes: pointer to array of structures with per-plane data
-> - * @crtcs: pointer to array of CRTC pointers
-> - * @num_connector: size of the @connectors and @connector_states arrays
-> - * @connectors: pointer to array of structures with per-connector data
-> - * @num_private_objs: size of the @private_objs array
-> - * @private_objs: pointer to array of private object pointers
-> - * @acquire_ctx: acquire context for this atomic modeset state update
->   *
->   * States are added to an atomic update by calling drm_atomic_get_crtc_state(),
->   * drm_atomic_get_plane_state(), drm_atomic_get_connector_state(), or for
->   * private state structures, drm_atomic_get_private_obj_state().
->   */
->  struct drm_atomic_state {
-> +	/**
-> +	 * @ref:
-> +	 *
-> +	 * Count of all references to this update (will not be freed until zero).
-> +	 */
->  	struct kref ref;
->  
-> +	/**
-> +	 * @dev: Parent DRM Device.
-> +	 */
->  	struct drm_device *dev;
->  
->  	/**
-> @@ -388,7 +386,12 @@ struct drm_atomic_state {
->  	 * flag are not allowed.
->  	 */
->  	bool legacy_cursor_update : 1;
-> +
-> +	/**
-> +	 * @async_update: hint for asynchronous plane update
-> +	 */
->  	bool async_update : 1;
-> +
->  	/**
->  	 * @duplicated:
->  	 *
-> @@ -398,13 +401,40 @@ struct drm_atomic_state {
->  	 * states.
->  	 */
->  	bool duplicated : 1;
-> +
-> +	/**
-> +	 * @planes: pointer to array of structures with per-plane data
-> +	 */
->  	struct __drm_planes_state *planes;
-> +
-> +	/**
-> +	 * @crtcs: pointer to array of CRTC pointers
-> +	 */
+> @@ -413,7 +413,7 @@ struct drm_atomic_state {
 >  	struct __drm_crtcs_state *crtcs;
-> +
-> +	/**
-> +	 * @num_connector: size of the @connectors and @connector_states arrays
-> +	 */
->  	int num_connector;
-> +
-> +	/**
-> +	 * @connectors: pointer to array of structures with per-connector data
-> +	 */
->  	struct __drm_connnectors_state *connectors;
-> +
-> +	/**
-> +	 * @num_private_objs: size of the @private_objs array
-> +	 */
->  	int num_private_objs;
-> +
-> +	/**
-> +	 * @private_objs: pointer to array of private object pointers
-> +	 */
->  	struct __drm_private_objs_state *private_objs;
->  
-> +	/**
-> +	 * @acquire_ctx: acquire context for this atomic modeset state update
-> +	 */
->  	struct drm_modeset_acquire_ctx *acquire_ctx;
 >  
 >  	/**
+> -	 * @num_connector: size of the @connectors and @connector_states arrays
+> +	 * @num_connector: size of the @connectors array
+>  	 */
+>  	int num_connector;
+>  
 > -- 
 > 2.43.0
 > 
