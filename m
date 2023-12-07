@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F87B808C8D
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 16:51:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F19A0808C87
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 16:51:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0C5A10E909;
-	Thu,  7 Dec 2023 15:51:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 131A210E910;
+	Thu,  7 Dec 2023 15:51:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89CF410E909
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 15:51:17 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7034110E909
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 15:51:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0519D6217C;
- Thu,  7 Dec 2023 15:51:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74F27C43391;
- Thu,  7 Dec 2023 15:51:16 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id DA7C961E99;
+ Thu,  7 Dec 2023 15:51:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EF4FC433BD;
+ Thu,  7 Dec 2023 15:51:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1701964276;
- bh=8QhaK94cu6NS8qoDm6VYUiajOTkUlwPERKnlLKf8BBg=;
+ s=k20201202; t=1701964279;
+ bh=1We2UZx5ZDbQPKfDfMqOP+mc5xLMdSsl/KcWM2D6+wE=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=FISsZouABBLFe/tUDWbm0ZxVn9dffh5HX04ImgM90vN6ltfjHfsaWW8RKJkH74LCi
- XxBv1mFWSEcFqBPQdjXX+eZe7KJz04EEQ1uSaewk03VhFdoZsa/MHSY/mBUzLpacGY
- wpF6y9yotjj+YQ7duJf41i8D+AVrlxIkDUMgNnbNc3sxqjyCGsS9BAs7VeM6fnnKDd
- iva7KRZydMpSbqSL/ZTcgZPDBzBiTP4xDTjV1sPh9XoC1HgolQKEJde8nVQSZ6lfMh
- JmuQHCMYahzG81G7w5FD/jbH1LUNg1aDGCZKiuR4DFjgV9O2c7DlFB0kNLLJHkVzbz
- UBwflsFgfb8Rg==
+ b=SHyNH22fXWqD6K2WzHGm1reK1De82pQc69qwhJMSx7w4vrWXRCxnZ//ya/DmJPGAU
+ PcuGwVUYVOVt7VEDmNQDQipQKdSJP684ypbtURJqCDkUMx/TVp8fav4YrPR/aYeKUo
+ VlIqK9qnKKHXRkHFLxZy6vJEuFXpS5vIm3jqjMHAuyvp0up6n2Siqu9upgOo+N0fN0
+ Fwqyuv/ZQC/bMHEZl6f0A404XA/5MennZHMYJR2IlytxuvOW1M5gUkntVT2YOpiYbj
+ 4ffjBsfZ/Mwz4+HUxmuqKhGbYV13Y4Dj5k1ZlW39eeaNAngloVZ0f9PApkRzOOVje/
+ 0UCnH4oyIotPA==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 07 Dec 2023 16:50:00 +0100
-Subject: [PATCH v5 37/44] drm/rockchip: inno_hdmi: Switch to infoframe type
+Date: Thu, 07 Dec 2023 16:50:01 +0100
+Subject: [PATCH v5 38/44] drm/rockchip: inno_hdmi: Remove unused drm device
+ pointer
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231207-kms-hdmi-connector-state-v5-37-6538e19d634d@kernel.org>
+Message-Id: <20231207-kms-hdmi-connector-state-v5-38-6538e19d634d@kernel.org>
 References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
 In-Reply-To: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -45,12 +45,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Samuel Holland <samuel@sholland.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2619; i=mripard@kernel.org;
- h=from:subject:message-id; bh=8QhaK94cu6NS8qoDm6VYUiajOTkUlwPERKnlLKf8BBg=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmFL9sef/1mOEFU9sQ3i68RnxyzhKd4z3imuvamr/G/u
- wE/nGXzO0pZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjAR01sM/4vZz25iff6maMFS
- J5OD0/JCTLinnBcwKdFZb8Ky4WLS9HCG/zFdKipc7yczH7yztnT3r7A4kVUcYRtbPt9Onnbv+5y
- tgowA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=911; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=1We2UZx5ZDbQPKfDfMqOP+mc5xLMdSsl/KcWM2D6+wE=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmFL9s8+Dfstffv7H7r3v14If+W1xOkXxy6K77CsefG/
+ kkF2x6e7yhlYRDjYpAVU2SJETZfEndq1utONr55MHNYmUCGMHBxCsBEGOIZGVby29hO4uf+e8NG
+ Q+LRtfWN+31drrV7nZsl+iL8t4SnmjHD/5j+5qM57WtWC2rf4daOUtnK+e2c5J/rGszCn5Z8W+i
+ 7jBsA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,80 +73,34 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The inno_hdmi driver relies on its own internal infoframe type matching
-the hardware.
-
-This works fine, but in order to make further reworks easier, let's
-switch to the HDMI spec definition of those types.
+The drm_dev field in the inno_hdmi struct stores a pointer to the DRM
+device but is never used anywhere in the driver. Let's remove it.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/rockchip/inno_hdmi.c | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/rockchip/inno_hdmi.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index b68cd3a6a0d1..77b530f377c0 100644
+index 77b530f377c0..0f3ec6eaf270 100644
 --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
 +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -156,33 +156,34 @@ static void inno_hdmi_reset(struct inno_hdmi *hdmi)
- 	inno_hdmi_set_pwr_mode(hdmi, NORMAL);
- }
+@@ -39,7 +39,6 @@ struct inno_hdmi_i2c {
  
--static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi, u32 frame_index)
-+static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi,
-+				    enum hdmi_infoframe_type type)
- {
- 	struct drm_connector *connector = &hdmi->connector;
+ struct inno_hdmi {
+ 	struct device *dev;
+-	struct drm_device *drm_dev;
  
--	if (frame_index != INFOFRAME_AVI) {
-+	if (type != HDMI_INFOFRAME_TYPE_AVI) {
- 		drm_err(connector->dev,
--			"Unsupported infoframe type: %u\n", frame_index);
-+			"Unsupported infoframe type: %u\n", type);
- 		return;
- 	}
+ 	int irq;
+ 	struct clk *pclk;
+@@ -648,7 +647,6 @@ static int inno_hdmi_bind(struct device *dev, struct device *master,
+ 		return -ENOMEM;
  
--	hdmi_writeb(hdmi, HDMI_CONTROL_PACKET_BUF_INDEX, frame_index);
-+	hdmi_writeb(hdmi, HDMI_CONTROL_PACKET_BUF_INDEX, INFOFRAME_AVI);
- }
+ 	hdmi->dev = dev;
+-	hdmi->drm_dev = drm;
  
- static int inno_hdmi_upload_frame(struct inno_hdmi *hdmi,
--				  union hdmi_infoframe *frame, u32 frame_index)
-+				  union hdmi_infoframe *frame, enum hdmi_infoframe_type type)
- {
- 	struct drm_connector *connector = &hdmi->connector;
- 	u8 packed_frame[HDMI_MAXIMUM_INFO_FRAME_SIZE];
- 	ssize_t rc, i;
- 
--	if (frame_index != INFOFRAME_AVI) {
-+	if (type != HDMI_INFOFRAME_TYPE_AVI) {
- 		drm_err(connector->dev,
--			"Unsupported infoframe type: %u\n", frame_index);
-+			"Unsupported infoframe type: %u\n", type);
- 		return 0;
- 	}
- 
--	inno_hdmi_disable_frame(hdmi, frame_index);
-+	inno_hdmi_disable_frame(hdmi, type);
- 
- 	rc = hdmi_infoframe_pack(frame, packed_frame,
- 				 sizeof(packed_frame));
-@@ -206,13 +207,13 @@ static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
- 						      &hdmi->connector,
- 						      mode);
- 	if (rc) {
--		inno_hdmi_disable_frame(hdmi, INFOFRAME_AVI);
-+		inno_hdmi_disable_frame(hdmi, HDMI_INFOFRAME_TYPE_AVI);
- 		return rc;
- 	}
- 
- 	frame.avi.colorspace = HDMI_COLORSPACE_RGB;
- 
--	return inno_hdmi_upload_frame(hdmi, &frame, INFOFRAME_AVI);
-+	return inno_hdmi_upload_frame(hdmi, &frame, HDMI_INFOFRAME_TYPE_AVI);
- }
- 
- static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
+ 	hdmi->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(hdmi->regs))
 
 -- 
 2.43.0
