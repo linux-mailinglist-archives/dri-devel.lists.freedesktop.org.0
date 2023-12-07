@@ -2,48 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34E0C807E45
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 03:17:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5DFF807E9E
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 03:37:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A03610E002;
-	Thu,  7 Dec 2023 02:17:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E543210E17E;
+	Thu,  7 Dec 2023 02:37:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com
- [61.152.239.71])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2332D10E002
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 02:17:02 +0000 (UTC)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
- (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
- (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
- by fd01.gateway.ufhost.com (Postfix) with ESMTP id C721D8043;
- Thu,  7 Dec 2023 10:16:58 +0800 (CST)
-Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 7 Dec
- 2023 10:16:58 +0800
-Received: from [192.168.1.115] (180.164.60.184) by EXMBX061.cuchost.com
- (172.16.6.61) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 7 Dec
- 2023 10:16:58 +0800
-Message-ID: <a6468707-583f-4ce9-837d-16bb9079a0f6@starfivetech.com>
-Date: Thu, 7 Dec 2023 10:16:57 +0800
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C56F10E17E
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 02:37:50 +0000 (UTC)
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+ by mailout2.samsung.com (KnoxPortal) with ESMTP id
+ 20231207023748epoutp023b882249cc7151eaa6e1cd5260bf2302~ebDFJgspm0523605236epoutp02j
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 02:37:48 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
+ 20231207023748epoutp023b882249cc7151eaa6e1cd5260bf2302~ebDFJgspm0523605236epoutp02j
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1701916668;
+ bh=f7sCj3XqY11lkuEgwwgaZHokuEpzZ+mJuFoqP0hN7Og=;
+ h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+ b=JQwQYsJl5w3WTukO4gzv3BKC5iPziYbN/eJ4FK19kz0DPaTN5wJr4m7uCIpiE40iV
+ JdKfAnUmi/T9WYW9rWGFIzPnLRiaDeuUA4UPo5FAP/nCZF83O+gHmBm2tKHhStQguP
+ 6CENZo/JMjuLDK8/1P6kX2XCheDAFFn9IC0mUqtw=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+ epcas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20231207023747epcas1p28eac7a3b6daeb9361d8f326b1ab7a4b8~ebDEmDXIn0621106211epcas1p2X;
+ Thu,  7 Dec 2023 02:37:47 +0000 (GMT)
+Received: from epsmges1p4.samsung.com (unknown [182.195.38.234]) by
+ epsnrtp2.localdomain (Postfix) with ESMTP id 4Slz2f4Bdwz4x9QB; Thu,  7 Dec
+ 2023 02:37:46 +0000 (GMT)
+Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
+ epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+ B0.21.10211.AFF21756; Thu,  7 Dec 2023 11:37:46 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20231207023745epcas1p1801b9977ace0050def0369e817c50a67~ebDCw_GkP0362503625epcas1p1K;
+ Thu,  7 Dec 2023 02:37:45 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20231207023745epsmtrp1af02390c5c87e2ae9efb360797b53c36~ebDCwPr3g1621716217epsmtrp1b;
+ Thu,  7 Dec 2023 02:37:45 +0000 (GMT)
+X-AuditID: b6c32a38-463ff700000027e3-26-65712ffa05a9
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ F6.68.08755.9FF21756; Thu,  7 Dec 2023 11:37:45 +0900 (KST)
+Received: from inkidae001 (unknown [10.113.221.213]) by epsmtip1.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20231207023745epsmtip1ff9e3832d63cedbba717215195ff6de4~ebDCZtNBk3206032060epsmtip1r;
+ Thu,  7 Dec 2023 02:37:45 +0000 (GMT)
+From: =?UTF-8?B?64yA7J246riwL1RpemVuIFBsYXRmb3JtIExhYihTUikv7IK87ISx7KCE7J6Q?=
+ <inki.dae@samsung.com>
+To: =?UTF-8?Q?'Uwe_Kleine-K=C3=B6nig'?= <u.kleine-koenig@pengutronix.de>,
+ "'Inki Dae'" <daeinki@gmail.com>
+In-Reply-To: <20231128165505.wm4xs4ktycswthkt@pengutronix.de>
+Subject: RE: [PATCH v3 08/16] drm/exynos: Convert to platform remove
+ callback returning void
+Date: Thu, 7 Dec 2023 11:37:44 +0900
+Message-ID: <048901da28b6$5be8e700$13bab500$@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 0/2] Add waveshare 7inch touchscreen panel support
-Content-Language: en-US
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20231124104451.44271-1-shengyang.chen@starfivetech.com>
- <dab03c60-caa9-47e3-9dac-fa499227b67b@gmx.net>
- <CAPY8ntAXYVTTfXL5HX-14t-VDe63eFgRBNKA0aG3RamKepxwDQ@mail.gmail.com>
- <5b837622-3ac9-47d5-aaf1-6b1ef5144c1c@starfivetech.com>
- <CAPY8ntCw_-QG_v-KGipshq09sZ1fD3yascrHcLz3TYREmnk0sA@mail.gmail.com>
-From: Keith Zhao <keith.zhao@starfivetech.com>
-In-Reply-To: <CAPY8ntCw_-QG_v-KGipshq09sZ1fD3yascrHcLz3TYREmnk0sA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX061.cuchost.com
- (172.16.6.61)
-X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: ko
+Thread-Index: AQJLv750adbxiFum9lJy8ksO1H5K3QKZ/J94ArytniAB/cGOFwI3DJClAQidVSevZUm78A==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKJsWRmVeSWpSXmKPExsWy7bCmnu4v/cJUg3XTFC1OXF/EZPFg3jY2
+ i6ddF5kt/m+byGxx5et7NosVX2ayW6yaupPFYu/rrewWZ5vesFtsenyN1WLG+X1MFjMmv2Sz
+ uD1xMqMDr8febwtYPHbOusvucefaHjaP+93HmTw2L6n36P9r4NG3ZRWjx+dNcgEcUdk2GamJ
+ KalFCql5yfkpmXnptkrewfHO8aZmBoa6hpYW5koKeYm5qbZKLj4Bum6ZOUAXKymUJeaUAoUC
+ EouLlfTtbIryS0tSFTLyi0tslVILUnIKTAv0ihNzi0vz0vXyUkusDA0MjEyBChOyM/ouTWIq
+ OCZV8W3lZJYGxjeSXYycHBICJhLPf99i7WLk4hAS2MEocfXFcSjnE6PE/gkzmCCcb4wStx+f
+ ZYFp2XVgKhtEYi+jxN2eyVDOS0aJGQfusIJUsQmkS9ztbmACsUUEciR6Tz9kASliFrjHLPH3
+ 92+wIk4BW4nbG2cyg9jCAnESNz//AFvBIqAicaFpF1gzr4ClxN/py1ggbEGJkzOfgNnMAtoS
+ yxa+ZoY4SUHi59NlrBBxEYnZnW3MEIvDJHY3L4CqucEhMeNDHoTtIrFh0z1WCFtY4tXxLewQ
+ tpTEy/42dpBDJQQmM0rcub6CBcKZwShx+Od1RogqY4n9SycDXccBtE1TYv0ufYiwosTO33MZ
+ IY7gk3j3tYcVpERCgFeio00IokRJ4tjFG1BTJCQuLJnINoFRaRaS12YheW0WkndmISxbwMiy
+ ilEstaA4Nz212LDABB7fyfm5mxjB6VnLYgfj3Lcf9A4xMnEwHmKU4GBWEuHNOZ+fKsSbklhZ
+ lVqUH19UmpNafIjRFBjYE5mlRJPzgRkiryTe0MTSwMTMyNjEwtDMUEmc99ir3hQhgfTEktTs
+ 1NSC1CKYPiYOTqkGJpFdOptuJ0uuOHhTRdPv2skX+/7KrRCQzUtm8A/9lcm74eyar9nmGz64
+ ZyunHvtc8pp7TmXF0mMPcxxdL1odv10Z9bVcZ0N9+rpqxpXTmj52Cm/Z/PpFVqOuTT/r+WOf
+ 2k0WcTDZeygmn7rHMr1fTHZZsIoXx4Hds18xa+wP7533nms9S+X0v8VmAcWeWTVFLJ3l2icO
+ hm62q7XwWJgbfC5IdvUZhqecV4QkPZznqc1l8wkLSHrFJpC1ya+1Zd2lpN2eNxttjwoUxvzd
+ WLD7bI/knrk9JqcUuNJ6vwdPf/B3Zahzub3aIsbVTrPaW+4wMWTPKMt+FKY2yb2h3yvJ9qsA
+ Y+mhU3nPGtpY1CqUWIozEg21mIuKEwEjgMZoWAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLIsWRmVeSWpSXmKPExsWy7bCSnO5P/cJUg+lrJCxOXF/EZPFg3jY2
+ i6ddF5kt/m+byGxx5et7NosVX2ayW6yaupPFYu/rrewWZ5vesFtsenyN1WLG+X1MFjMmv2Sz
+ uD1xMqMDr8febwtYPHbOusvucefaHjaP+93HmTw2L6n36P9r4NG3ZRWjx+dNcgEcUVw2Kak5
+ mWWpRfp2CVwZNxtnsxS8FqrYOK+dtYFxPn8XIyeHhICJxK4DU9m6GLk4hAR2M0o8WPcIyOEA
+ SkhIbNnKAWEKSxw+XAxR8pxR4umPbkaQXjaBVIkbnz6yg9giAjkSvacfsoAUMQs8Y5Z4vvo8
+ E0hCSOAXk8SxHTkgNqeArcTtjTOZQWxhgRiJoysOg9ksAioSF5p2gdXzClhK/J2+jAXCFpQ4
+ OfMJmM0soC3R+7CVEcZetvA1M8QDChI/ny5jhYiLSMzubGOGOChMYnfzAuYJjMKzkIyahWTU
+ LCSjZiFpX8DIsopRMrWgODc9t9iwwDAvtVyvODG3uDQvXS85P3cTIzhGtTR3MG5f9UHvECMT
+ B+MhRgkOZiUR3pzz+alCvCmJlVWpRfnxRaU5qcWHGKU5WJTEecVf9KYICaQnlqRmp6YWpBbB
+ ZJk4OKUamEw1Z6W82D4p3Vuz843M2dAIzm3KEScqbNz+qu9PEnLNUvgReO7ilDMrN8nkMC70
+ Z/I7uGvVxolFS5huPu5v3SnGH+leYPh5/fbVu6okF5lE3jkopyQdx3r/8NKV64+vafyUVCgx
+ WV10UapMxT+tzVcSLs8rk5dZzjKvXeDV70/2a83/8c7bJpFuVLNZoPK85s1sDmcLw/QH6mel
+ TF9cmH28Vl794vL6vYxbDAzb217OFI7j6lurqn+r4rRsb4vZsbMtv9+2Hn1+97mnldO2E6bF
+ hz7U73jv/+hKe9aNs5/O+dVP0/l4uTeB9cLHsKk2X+7PmeZpqfXR9d9bxbO6zFJqlh1zZ3x7
+ U/kkX++WbLMSS3FGoqEWc1FxIgBQfoz+QAMAAA==
+X-CMS-MailID: 20231207023745epcas1p1801b9977ace0050def0369e817c50a67
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231128165521epcas1p4993f7d2fab0723130a4612d810d254f8
+References: <20231102165640.3307820-18-u.kleine-koenig@pengutronix.de>
+ <20231102165640.3307820-26-u.kleine-koenig@pengutronix.de>
+ <CAAQKjZOnVSaO6QHpSo_i=WgTaawTq0UFtzwTw8kQ5iHN4qiAtQ@mail.gmail.com>
+ <20231108075454.3aivzrbvtr4en22e@pengutronix.de>
+ <CGME20231128165521epcas1p4993f7d2fab0723130a4612d810d254f8@epcas1p4.samsung.com>
+ <20231128165505.wm4xs4ktycswthkt@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,204 +125,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "mripard@kernel.org" <mripard@kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "florian.fainelli@broadcom.com" <florian.fainelli@broadcom.com>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Jack Zhu <jack.zhu@starfivetech.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "bcm-kernel-feedback-list@broadcom.com"
- <bcm-kernel-feedback-list@broadcom.com>, Stefan Wahren <wahrenst@gmx.net>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- Shengyang Chen <shengyang.chen@starfivetech.com>,
- "quic_jesszhan@quicinc.com" <quic_jesszhan@quicinc.com>,
- "sam@ravnborg.org" <sam@ravnborg.org>,
- Changhuang Liang <changhuang.liang@starfivetech.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-rpi-kernel@lists.infradead.org" <linux-rpi-kernel@lists.infradead.org>
+Cc: linux-samsung-soc@vger.kernel.org, kernel@pengutronix.de,
+ 'Jingoo Han' <jingoohan1@gmail.com>, 'Seung-Woo Kim' <sw0312.kim@samsung.com>,
+ 'Krzysztof Kozlowski' <krzysztof.kozlowski@linaro.org>,
+ 'DRI mailing list' <dri-devel@lists.freedesktop.org>,
+ 'Kyungmin Park' <kyungmin.park@samsung.com>,
+ 'Alim Akhtar' <alim.akhtar@samsung.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2023/12/6 22:56, Dave Stevenson wrote:
-> Hi Keith
-> 
-> On Wed, 6 Dec 2023 at 08:55, Keith Zhao <keith.zhao@starfivetech.com> wrote:
->>
->>
->>
->> On 2023/11/25 0:04, Dave Stevenson wrote:
->> > On Fri, 24 Nov 2023 at 15:00, Stefan Wahren <wahrenst@gmx.net> wrote:
->> >>
->> >> Hi Shengyang,
->> >>
->> >> [fix address of Emma]
->> >
->> > Not merged to master yet, but Emma has stepped back from maintenance.
->> > https://lists.freedesktop.org/archives/dri-devel/2023-October/428829.html
->> > Dropped from the cc.
->> >
->> >> Am 24.11.23 um 11:44 schrieb Shengyang Chen:
->> >> > This patchset adds waveshare 7inch touchscreen panel support
->> >> > for the StarFive JH7110 SoC.
->> >> >
->> >> > Patch 1 add new compatible for the raspberrypi panel driver and its dt-binding.
->> >> > Patch 2 add new display mode and new probing process for raspberrypi panel driver.
->> >> >
->> >> > Waveshare 7inch touchscreen panel is a kind of raspberrypi panel
->> >> > which can be drived by raspberrypi panel driver.
->> >> >
->> >> > The series has been tested on the VisionFive 2 board.
->> >> surprisingly i was recently working on the official Raspberry Pi
->> >> touchscreen and was able to get it running the new way.
->> >>
->> >> What do i mean with the new way. There is almost nothing special to the
->> >> Raspberry Pi touchscreen, so we should try to use/extend existing
->> >> components like:
->> >>
->> >> CONFIG_DRM_PANEL_SIMPLE
->> >> CONFIG_TOUCHSCREEN_EDT_FT5X06
->> >> CONFIG_DRM_TOSHIBA_TC358762
->> >>
->> >> The only special part is the Attiny on the connector PCB which requires:
->> >>
->> >> CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY
->> >>
->> >> So the whole point is to avoid writing monolitic drivers for simple
->> >> panel like that.
->> >>
->> >> There is a WIP branch based on top of Linux 6.7-rcX, which should
->> >> demonstrate this approach [1]. Unfortunately it is not ready for
->> >> upstreaming, but it has been tested on a Raspberry Pi 3 B Plus. Maybe
->> >> this is helpful for your case.
->> >>
->> >> Actually i consider panel-raspberrypi-touchscreen.c as a dead end, which
->> >> shouldn't be extended.
->> >
->> > Agreed.
->> >
->> > The panel control being bound in with the Atmel control has no hook
->> > for the EDT5x06 touch driver to hook in and keep the power to the
->> > touch controller active. When the panel disable gets called, bye bye
->> > touch overlay :-(
->> >
->> > And I'm reading the driver change as more of a hack to get it to work
->> > on your platform, not as adding support for the Waveshare panel
->> > variant.
->> > Waveshare deliberately cloned the behaviour of the Pi 7" panel in
->> > order to make it work with the old Pi firmware drivers, so it
->> > shouldn't need any significant changes. Where did the new timings come
->> > from?
->> >
->> >   Dave
->> hi Dave :
->> that's means the panel driver split into 3 sub-modules:
->> panel + panel_bridge + regulator.
-> 
-> Correct.
-> 
-> You'll have a fourth device in edt_ft5x06 for the touch overlay too,
-> which will link to the regulator driver for power control.
-> 
->> I have a question: in the
->> static int rpi_touchscreen_probe(struct i2c_client *i2c)
->> {
->>         ......
->>
->>         ver = rpi_touchscreen_i2c_read(ts, REG_ID);
->>         if (ver < 0) {
->>                 dev_err(dev, "Atmel I2C read failed: %d\n", ver);
->>                 return -ENODEV;
->>         }
->>
->>         switch (ver) {
->>         case 0xde: /* ver 1 */
->>         case 0xc3: /* ver 2 */
->>                 break;
->>         default:
->>                 dev_err(dev, "Unknown Atmel firmware revision: 0x%02x\n", ver);
->>                 return -ENODEV;
->>         }
->>
->>         ......
->> }
->> i think this "I2C read" can use to detect whether the panel is connected to dsi controller.
->>
->> and when split the panel driver into 3 sub-modules, it seems the default way is connected.
->> if I drop the panel , run modetest to check the connector status , result connected.
->> Is there any way to detect the connection in this case?
->> Thanks
-> 
-> I am not aware of any DSI drivers that support hotplugging, therefore
-> the connector state will always be connected if the device probes.
-> 
-> On vc4 the relevant DSI host controller has to have been enabled in
-> device tree and will be a required component for binding. The DSI host
-> controller will be waiting on the DSI peripheral driver to call
-> mipi_dsi_attach, which then calls component_add. If the panel or panel
-> regulator isn't present, then that never happens if the panel isn't
-> present, so vc4 won't bind.
-> It is a little ugly in that you lose the whole DRM card, but that is
-> how I understand DRM is generally set up to work for DSI or similar
-> display interfaces.
-> 
->> -------------------------------------
->>
->> Where did the new timings come from?
->>
->> -------------------------------------
->> My platform dphy tx hardware has certain limitations.
->> Only supports integer multiples of 10M bitrate:
->> such as 160M ,170M, 180M,190M,...1G(max)
->>
->> as common dphy bitrate = pixclock*bpp/lanes.
->> This value cannot match successfully in most cases.
->>
->> so in order to match bitrate , I choose a bitrate value around pixclock*bpp/lanes,
->> Prevent overflow and underflow by fine-tuning the timing parameters:-(
->> that will make the new timming value.
-> 
-> That isn't really a function of the panel then.
-> 
-> All DRM bridges have the option to define a mode_fixup in
-> drm_bridge_funcs, and that gives you the option to adjust the timings
-> as required.
-> 
-> vc4 has a similar constraint in that the PHY only has an integer
-> divider from a 2 or 3GHz PLL. It implements mode_fixup to compute the
-> next highest pixel clock, and then adjusts the horizontal front porch
-> to keep the same line timing. See
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/vc4/vc4_dsi.c#L825
-> I see 
-I never thought that mode fixup is used to do this.
-This would be a correct way to modify its timming parameters
-
-thanks you Dave
->   Dave
-> 
->> >
->> >> Btw there are already DT overlays in mainline which seems to use the
->> >> Raspberry Pi 7inch panel (without touch function yet) [2].
->> >>
->> >> [1] - https://github.com/lategoodbye/rpi-zero/commits/v6.7-7inch-ts
->> >> [2] -
->> >> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-rpidsi.dtso?h=v6.6.2&id=6b4da1354fd81adace0cda448c77d8f2a47d8474
->> >>
->> >> >
->> >> > Shengyang Chen (2):
->> >> >    dt-bindings: display: panel: raspberrypi: Add compatible property for
->> >> >      waveshare 7inch touchscreen panel
->> >> >    gpu: drm: panel: raspberrypi: add new display mode and new probing
->> >> >      process
->> >> >
->> >> >   .../panel/raspberrypi,7inch-touchscreen.yaml  |  4 +-
->> >> >   .../drm/panel/panel-raspberrypi-touchscreen.c | 99 ++++++++++++++++---
->> >> >   2 files changed, 91 insertions(+), 12 deletions(-)
->> >> >
->> >>
+Hello Uwe Kleine-K=C3=B6nig,=0D=0A=0D=0A>=20-----Original=20Message-----=0D=
+=0A>=20From:=20Uwe=20Kleine-K=C3=B6nig=20<u.kleine-koenig=40pengutronix.de>=
+=0D=0A>=20Sent:=20Wednesday,=20November=2029,=202023=201:55=20AM=0D=0A>=20T=
+o:=20Inki=20Dae=20<daeinki=40gmail.com>=0D=0A>=20Cc:=20linux-samsung-soc=40=
+vger.kernel.org;=20Daniel=20Vetter=20<daniel=40ffwll.ch>;=0D=0A>=20Jingoo=
+=20Han=20<jingoohan1=40gmail.com>;=20Seung-Woo=20Kim=20<sw0312.kim=40samsun=
+g.com>;=0D=0A>=20Kyungmin=20Park=20<kyungmin.park=40samsung.com>;=20DRI=20m=
+ailing=20list=20<dri-=0D=0A>=20devel=40lists.freedesktop.org>;=20Krzysztof=
+=20Kozlowski=0D=0A>=20<krzysztof.kozlowski=40linaro.org>;=20kernel=40pengut=
+ronix.de;=20Alim=20Akhtar=0D=0A>=20<alim.akhtar=40samsung.com>;=20David=20A=
+irlie=20<airlied=40gmail.com>;=20linux-arm-=0D=0A>=20kernel=40lists.infrade=
+ad.org=0D=0A>=20Subject:=20Re:=20=5BPATCH=20v3=2008/16=5D=20drm/exynos:=20C=
+onvert=20to=20platform=20remove=0D=0A>=20callback=20returning=20void=0D=0A>=
+=20=0D=0A>=20Hello=20Inki,=0D=0A>=20=0D=0A>=20On=20Wed,=20Nov=2008,=202023=
+=20at=2008:54:54AM=20+0100,=20Uwe=20Kleine-K=C3=B6nig=20wrote:=0D=0A>=20>=
+=20Hello=20Inki,=0D=0A>=20>=0D=0A>=20>=20On=20Wed,=20Nov=2008,=202023=20at=
+=2001:16:18PM=20+0900,=20Inki=20Dae=20wrote:=0D=0A>=20>=20>=20Sorry=20for=
+=20late.=20There=20was=20a=20merge=20conflict=20so=20I=20fixed=20it=20manua=
+lly=20and=0D=0A>=20>=20>=20merged.=20And=20seems=20your=20patch=20descripti=
+on=20is=20duplicated=20so=20dropped=0D=0A>=20>=20>=20duplicated=20one.=0D=
+=0A>=20>=0D=0A>=20>=20Ah.=20I=20have=20a=20template=20that=20generates=20on=
+e=20patch=20per=20driver.=20I=20guess=20this=0D=0A>=20>=20is=20the=20result=
+=20of=20using=20squash=20instead=20of=20fixup=20while=20putting=20all=20exy=
+nos=0D=0A>=20>=20changes=20into=20a=20single=20patch.=0D=0A>=20=0D=0A>=20Th=
+is=20patch=20didn't=20make=20it=20into=20next=20yet=20even=20though=20it's=
+=20included=20in=0D=0A>=20your=20exynos-drm-next=20branch=20at=0D=0A>=20htt=
+ps://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git.=0D=0A>=
+=20=0D=0A>=20Is=20this=20on=20purpose?=0D=0A=0D=0Adrm-exynos=20tree=20is=20=
+not=20included=20in=20the=20next=20tree.=20It=20was=20previously=20included=
+,=20but=20it=20has=20been=20removed.=20drm-exynos=20tree=20is=20merged=20in=
+to=20the=20mainline=20through=20the=20drm-next=20tree,=20but=20when=20the=
+=20drm-next=20is=20synchronized=20to=20the=20next=20tree,=20a=20conflict=20=
+occurred=20between=20the=20exynos-drm=20tree=20and=20the=20drm-next=20tree.=
+=20Therefore,=20I=20had=20requested=20that=20drm-exynos=20tree=20be=20remov=
+ed=20from=20the=20next.=20Perhaps=20I=20was=20inexperienced=20in=20managing=
+=20the=20git=20tree=20at=20that=20time.=20:)=0D=0A=0D=0AThanks,=0D=0AInki=
+=20Dae=0D=0A=0D=0A>=20=0D=0A>=20Best=20regards=0D=0A>=20Uwe=0D=0A>=20=0D=0A=
+>=20--=0D=0A>=20Pengutronix=20e.K.=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=7C=20Uwe=20Kleine-K=C3=B6nig=20=
+=20=20=20=20=20=20=20=20=20=20=20=7C=0D=0A>=20Industrial=20Linux=20Solution=
+s=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=7C=0D=0A>=20https://pr=
+otect2.fireeye.com/v1/url?k=3D421afdc5-23671746-421b768a-=0D=0A>=2074fe4860=
+0158-d04d6f7cf9d099c0&q=3D1&e=3D0938fb20-be8e-4a27-af6c-=0D=0A>=209e745ec73=
+8c6&u=3Dhttps%3A%2F%2Fwww.pengutronix.de%2F=20=7C=0D=0A=0D=0A
