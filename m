@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDF8C80841E
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 10:19:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B91B808427
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 10:19:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9348C10E82A;
-	Thu,  7 Dec 2023 09:18:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4626A10E82C;
+	Thu,  7 Dec 2023 09:19:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45D8C10E82A
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 09:18:56 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEA5D10E82C
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 09:18:59 +0000 (UTC)
 Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: vignesh)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 164CF660738E;
- Thu,  7 Dec 2023 09:18:51 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 923BB6607390;
+ Thu,  7 Dec 2023 09:18:55 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1701940735;
- bh=+xSYPhN1BGDcENTTPFKpFCHhHqjjtI0n3VynHDjR278=;
+ s=mail; t=1701940738;
+ bh=ZBoHoYMq5tj8/E//F1IEVjOTUa6tqdPIN71pGD/UNCE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ffq4awDW0UzI25jKYArGiPiU2YBsfyjd8oM8rzG6mhrxkEbH3LZdUN3VwB7U/bjVF
- wQp9Cz8EffogNEkxW0zJCwYDGzCTgal4IM2qIRHH4fAijK7094/teNfc/8UPlbiRCs
- M9TqkZROFtiPh/GwR5uRKO/OKn3LtjVdGX9JTzdBWLkPcOqMVAyUeR/aLmecWoyacq
- CnD7RZs6fMja8QVPaxC7fXnTbfmHgTgAZ7yZ1WOC3joJnG5zI6oO0bWbovNieSBfQJ
- oykp/pjC6oEYhkSlkCMZo+xhDTtjpvgedOvtfR2sD23nVhyfSUmkwC+Vz2kfs6aOUl
- EEHZzQTpuVJgw==
+ b=W3KW/mVYdzo3RXmjZaJdEWG5tGBIgdYndNkmLqRLriikHmnCHJ4YX4zaYi+Q9THLh
+ vJZPNChgEGemXE2Z5lE8wSvcWWruxIHLeR46CmXxQONlphVgjwrjwwe4nGsrAgCinq
+ uBnVcr9rK64YIElf/dfzuF3b6JuWY7j3ScqHMtdqmGUSmqYsM89x0HvcuULZfMmzhR
+ hqVke6MRSj98p7yOFKhjYrXKI8xjHe80uS+LkYzgi3EjGvwAzq0vO5oz1tBkG3Ssi3
+ A4bBaJwCoCjfMlsLNCj/u/Yvfv6EnXTLg+08itjjPpAAD4fRTSWSBIkIS6Do/vwUD5
+ kKPMPqRoXw9XQ==
 From: Vignesh Raman <vignesh.raman@collabora.com>
 To: helen.koike@collabora.com,
 	airlied@gmail.com,
 	daniel@ffwll.ch
-Subject: [PATCH v7 03/10] drm: ci: arm64.config: Enable DA9211 regulator
-Date: Thu,  7 Dec 2023 14:48:24 +0530
-Message-Id: <20231207091831.660054-4-vignesh.raman@collabora.com>
+Subject: [PATCH v7 04/10] drm: ci: Enable new jobs
+Date: Thu,  7 Dec 2023 14:48:25 +0530
+Message-Id: <20231207091831.660054-5-vignesh.raman@collabora.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231207091831.660054-1-vignesh.raman@collabora.com>
 References: <20231207091831.660054-1-vignesh.raman@collabora.com>
@@ -61,19 +60,28 @@ Cc: daniels@collabora.com, emma@anholt.net, gustavo.padovan@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mediatek mt8173 board fails to boot with DA9211 regulator disabled.
-Enable CONFIG_REGULATOR_DA9211=y in arm64.config to fix mt8173 boot
-issue.
+Enable the following jobs, as the issues noted in the
+TODO comments have been resolved. This will ensure that these jobs
+are now included and executed as part of the CI/CD pipeline.
+
+msm:apq8016:
+TODO: current issue: it is not fiding the NFS root.
+
+mediatek:mt8173:
+TODO: current issue: device is hanging.
+
+virtio_gpu:none:
+TODO: current issue: malloc(): corrupted top size.
 
 Acked-by: Helen Koike <helen.koike@collabora.com>
 Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
 ---
 
 v2:
-  - No changes
+  - Reworded the commit message
 
 v3:
-  - Remove CONFIG_RTC_DRV_MT6397=y as it is already enabled in defconfig
+  - No changes
 
 v4:
   - No changes
@@ -82,27 +90,47 @@ v5:
   - No changes
 
 v6:
-  - Updated commit message
-
-v7:
   - No changes
 
----
- drivers/gpu/drm/ci/arm64.config | 1 +
- 1 file changed, 1 insertion(+)
+v7:
+  - Fix checkpatch style problems in commit message
 
-diff --git a/drivers/gpu/drm/ci/arm64.config b/drivers/gpu/drm/ci/arm64.config
-index b4f653417883..8dbce9919a57 100644
---- a/drivers/gpu/drm/ci/arm64.config
-+++ b/drivers/gpu/drm/ci/arm64.config
-@@ -186,6 +186,7 @@ CONFIG_HW_RANDOM_MTK=y
- CONFIG_MTK_DEVAPC=y
- CONFIG_PWM_MTK_DISP=y
- CONFIG_MTK_CMDQ=y
-+CONFIG_REGULATOR_DA9211=y
+---
+ drivers/gpu/drm/ci/test.yml | 9 ---------
+ 1 file changed, 9 deletions(-)
+
+diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
+index 4af10f0ff82d..e0fdc55c9b69 100644
+--- a/drivers/gpu/drm/ci/test.yml
++++ b/drivers/gpu/drm/ci/test.yml
+@@ -108,9 +108,6 @@ msm:apq8016:
+     RUNNER_TAG: google-freedreno-db410c
+   script:
+     - ./install/bare-metal/fastboot.sh
+-  rules:
+-    # TODO: current issue: it is not fiding the NFS root. Fix and remove this rule.
+-    - when: never
  
- # For nouveau.  Note that DRM must be a module so that it's loaded after NFS is up to provide the firmware.
- CONFIG_ARCH_TEGRA=y
+ msm:apq8096:
+   extends:
+@@ -280,9 +277,6 @@ mediatek:mt8173:
+     DEVICE_TYPE: mt8173-elm-hana
+     GPU_VERSION: mt8173
+     RUNNER_TAG: mesa-ci-x86-64-lava-mt8173-elm-hana
+-  rules:
+-    # TODO: current issue: device is hanging. Fix and remove this rule.
+-    - when: never
+ 
+ mediatek:mt8183:
+   extends:
+@@ -340,6 +334,3 @@ virtio_gpu:none:
+     - debian/x86_64_test-gl
+     - testing:x86_64
+     - igt:x86_64
+-  rules:
+-    # TODO: current issue: malloc(): corrupted top size. Fix and remove this rule.
+-    - when: never
+\ No newline at end of file
 -- 
 2.40.1
 
