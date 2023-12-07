@@ -2,45 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0201C808410
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 10:16:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF2AB808418
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Dec 2023 10:18:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DA5210E825;
-	Thu,  7 Dec 2023 09:16:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17F8310E1B6;
+	Thu,  7 Dec 2023 09:18:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC33510E825
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 09:16:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1701940600;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=A6B6SQdEGihvdACw2JOjX599xCdZMbfkt+OCZNCmzZo=;
- b=kv1CVK1BaxewKQIljM85WnQLkFx4xQ60+Y66II8iBPwAzvx++TIayGYDf+o1dDvQR/d/OL
- zTDQDF5pi9lk9jsQgwu6EmqDfDXEzKSEFRsTJsY/Cr9zPWXwHx+JPF+BP92rLgshT5lPmY
- bq9oZl1CcFo+nEuDNw6fjQ7x8ZPSvgw=
-Message-ID: <61393c2e941515612f7c4a7d66cd19f00e88ea9d.camel@crapouillou.net>
-Subject: Re: [PATCH RESEND] drm/exynos: dpi: Change connector type to DPI
-From: Paul Cercueil <paul@crapouillou.net>
-To: =?UTF-8?Q?=EB=8C=80=EC=9D=B8=EA=B8=B0/Tizen?= Platform
- =?UTF-8?Q?Lab=28SR=29/=EC=82=BC=EC=84=B1=EC=A0=84=EC=9E=90?=
- <inki.dae@samsung.com>, 'Seung-Woo Kim' <sw0312.kim@samsung.com>, 'Kyungmin
- Park' <kyungmin.park@samsung.com>, 'Krzysztof Kozlowski'
- <krzysztof.kozlowski@linaro.org>,  'Alim Akhtar' <alim.akhtar@samsung.com>
-Date: Thu, 07 Dec 2023 10:16:38 +0100
-In-Reply-To: <048a01da28b6$f84c2670$e8e47350$@samsung.com>
-References: <CGME20231206221903epcas1p2e9d90110b0f2901e3e7db86f748026f1@epcas1p2.samsung.com>
- <20231206221841.15685-1-paul@crapouillou.net>
- <048a01da28b6$f84c2670$e8e47350$@samsung.com>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
- YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DE2510E1B6
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Dec 2023 09:18:45 +0000 (UTC)
+Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 39B07660738E;
+ Thu,  7 Dec 2023 09:18:41 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1701940724;
+ bh=FCRCNovtJ9PtQwtKLRu/evUUkfAvUVXGZUmkbsxA9Cg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=NAdK9PrteQ631PcNJB48XuZXbHRETXzxv1TmcD/HUvePpB9GjvOuwtbwZ5EHFw3QV
+ GD2L6X5Z+vUx/7jXjlib5a3066CcUYUZBGW4xzSWtx+/1r7cPuiqMC4e4vjPpPdISj
+ njh/krIKbgqLpIFUIIQK5ZXZwfv7e4yFZKTHVJHx8nAN6LjfkPXTbw93ce8hANr3EB
+ d8axi5ubMVeWKmTTssMVPbNsT8qQatOlBRVa4S3oqfCfbO2E2yHTw8mPYm0LQ6L5pM
+ aa3SdK3e4dtq4nBIplVe/GtwCG2a47uLq3Hguc4bvpDBWcS036VtHKzLJHOnfiRpH7
+ bH4GpvZozQ8yQ==
+From: Vignesh Raman <vignesh.raman@collabora.com>
+To: helen.koike@collabora.com,
+	airlied@gmail.com,
+	daniel@ffwll.ch
+Subject: [PATCH v7 00/10] drm: ci: fixes
+Date: Thu,  7 Dec 2023 14:48:21 +0530
+Message-Id: <20231207091831.660054-1-vignesh.raman@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,81 +50,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: daniels@collabora.com, emma@anholt.net, gustavo.padovan@collabora.com,
+ linux-arm-msm@vger.kernel.org, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ david.heidelberg@collabora.com, linux-mediatek@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le jeudi 07 d=C3=A9cembre 2023 =C3=A0 11:42 +0900, =EB=8C=80=EC=9D=B8=EA=B8=
-=B0/Tizen Platform
-Lab(SR)/=EC=82=BC=EC=84=B1=EC=A0=84=EC=9E=90 a =C3=A9crit=C2=A0:
-> Hi Paul,
->=20
-> > -----Original Message-----
-> > From: Paul Cercueil <paul@crapouillou.net>
-> > Sent: Thursday, December 7, 2023 7:19 AM
-> > To: Inki Dae <inki.dae@samsung.com>; Seung-Woo Kim
-> > <sw0312.kim@samsung.com>; Kyungmin Park
-> > <kyungmin.park@samsung.com>;
-> > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>; Alim Akhtar
-> > <alim.akhtar@samsung.com>
-> > Cc: David Airlie <airlied@gmail.com>; Daniel Vetter
-> > <daniel@ffwll.ch>;
-> > dri-devel@lists.freedesktop.org;
-> > linux-arm-kernel@lists.infradead.org;
-> > linux-samsung-soc@vger.kernel.org; linux-kernel@vger.kernel.org;
-> > Paul
-> > Cercueil <paul@crapouillou.net>
-> > Subject: [PATCH RESEND] drm/exynos: dpi: Change connector type to
-> > DPI
-> >=20
-> > When exynos_drm_dpi.c was written, DRM_MODE_CONNECTOR_DPI did not
-> > exist
-> > yet and I guess that's the reason why DRM_MODE_CONNECTOR_VGA was
-> > used as
-> > the connector type.
-> >=20
-> > However, now it makes more sense to use DRM_MODE_CONNECTOR_DPI as
-> > the
-> > connector type.
->=20
-> Sorry for late. Merged.
+The patch series contains improvements, enabling new ci jobs which
+enables testing for Mediatek MT8173, Qualcomm APQ 8016 and VirtIO GPU,
+fixing issues with the ci jobs and updating the expectation files.
 
-No problem. Thank you!
+v2:
+  - Use fdtoverlay command to merge overlay dtbo with the base dtb instead of modifying the kernel sources
+  - Reworded the commit message for enabling jobs
+  - Added a new patch in the series to use scripts/config to enable/disable configs
 
-Cheers,
--Paul
+v3:
+  - New patch in the series to add device tree overlay in arch/arm64/boot/dts/qcom
+  - drm-ci scripts to use device tree overlay from arch/arm64/boot/dts/qcom and compile base device tree with overlay support
+  - New patch in the series to enable CONFIG_REGULATOR_DA9211 in defconfig
+  - Remove CONFIG_RTC_DRV_MT6397=y as it is already enabled in defconfig
 
->=20
-> Thanks,
-> Inki Dae
->=20
-> >=20
-> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > ---
-> > =C2=A0drivers/gpu/drm/exynos/exynos_drm_dpi.c | 2 +-
-> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-> > b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-> > index 378e5381978f..0dc36df6ada3 100644
-> > --- a/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-> > +++ b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-> > @@ -101,7 +101,7 @@ static int exynos_dpi_create_connector(struct
-> > drm_encoder *encoder)
-> >=20
-> > =C2=A0	ret =3D drm_connector_init(encoder->dev, connector,
-> > =C2=A0				 &exynos_dpi_connector_funcs,
-> > -				 DRM_MODE_CONNECTOR_VGA);
-> > +				 DRM_MODE_CONNECTOR_DPI);
-> > =C2=A0	if (ret) {
-> > =C2=A0		DRM_DEV_ERROR(ctx->dev,
-> > =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "failed to initialize connector=
- with
-> > drm\n");
-> > --
-> > 2.42.0
-> >=20
->=20
->=20
+v4:
+  - Drop 'enable CONFIG_REGULATOR_DA9211 in defconfig' patch as it is sent upstream as a seperate patch
+  - Use apq8016-sbc-usb-host.dtb which allows the USB controllers to work in host mode.
+    This patch depends on https://lore.kernel.org/lkml/20230911161518.650726-1-vignesh.raman@collabora.com/
+
+v5:
+  - Added a new patch in the series to set IGT_FORCE_DRIVER to 'mediatek' for mt8173
+  - Added a new patch in the series to make artifacts available for virtio jobs
+  - Added a new patch in the series to add pipeline url to fails and flakes files
+  - Generate fails and flakes file with the updated xfails script - https://www.spinics.net/lists/kernel/msg4959630.html
+  - Drop 'virtio: Update ci variables' patch as the tests which causes the malloc issue are skipped
+
+v6:
+  - Updated commit message for enable DA9211 regulator fix 
+  - Use GPU_VERSION instead of CI_JOB_NAME to check if it is mt8173 while setting IGT_FORCE_DRIVER
+  - Added a new patch in the series to uprev IGT to fix memory corruption
+  - Added a new patch in the series to update drm ci documentation
+  - Generate fails file with drm-misc-next
+
+v7:
+  - Fix checkpatch style problems in commit message
+  - Rework mt8173 IGT_FORCE_DRIVER fix and reword the commit message
+
+Vignesh Raman (10):
+  drm: ci: igt_runner: Remove todo
+  drm: ci: Force db410c to host mode
+  drm: ci: arm64.config: Enable DA9211 regulator
+  drm: ci: Enable new jobs
+  drm: ci: Use scripts/config to enable/disable configs
+  drm: ci: mt8173: Do not set IGT_FORCE_DRIVER to panfrost
+  drm: ci: virtio: Make artifacts available
+  drm: ci: uprev IGT
+  drm/doc: ci: Add IGT version details for flaky tests
+  drm: ci: Update xfails
+
+ Documentation/gpu/automated_testing.rst       |  7 +--
+ drivers/gpu/drm/ci/arm64.config               |  1 +
+ drivers/gpu/drm/ci/build.sh                   | 16 +++----
+ drivers/gpu/drm/ci/gitlab-ci.yml              |  2 +-
+ drivers/gpu/drm/ci/igt_runner.sh              | 10 +++-
+ drivers/gpu/drm/ci/test.yml                   | 13 ++----
+ .../drm/ci/xfails/mediatek-mt8173-fails.txt   | 13 ++++--
+ .../gpu/drm/ci/xfails/msm-apq8016-fails.txt   |  5 ++
+ .../drm/ci/xfails/virtio_gpu-none-fails.txt   | 46 +++++++++++++++++++
+ 9 files changed, 86 insertions(+), 27 deletions(-)
+
+-- 
+2.40.1
 
