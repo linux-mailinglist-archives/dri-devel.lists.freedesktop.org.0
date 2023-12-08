@@ -2,62 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876CE80AD09
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 20:31:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 753CA80AD1F
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 20:33:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F53E10EB02;
-	Fri,  8 Dec 2023 19:31:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 033E710EAFC;
+	Fri,  8 Dec 2023 19:33:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa36.google.com (mail-vk1-xa36.google.com
- [IPv6:2607:f8b0:4864:20::a36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A280910EB02
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 19:31:16 +0000 (UTC)
-Received: by mail-vk1-xa36.google.com with SMTP id
- 71dfb90a1353d-4b3288df490so337277e0c.3
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Dec 2023 11:31:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1702063875; x=1702668675;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kWu+J+wzMOcih150vf6YNmhjcZNaZMBMCrHoJTVq0Uw=;
- b=oQ7srfTes6YkWWkmhTdqsrJTUpCcNscid/z8NAjfd/yWJ6XBWcyr2I8dQRVPt5hL4d
- IkfSGr5tXu7czCweWY2ORrXBx3aL7TQ7P7hafwJnnE4Kwc/T5cURS34ybLqZTtJnqO1T
- 6bMoBn/YUdQbNxBGmxnUUeUphBXi6y72U0KFvzvSe0TL+xILRjlZBB2NumJcgBVzuB4L
- n95AQymBTSQubJyWxsM8kK/696zN1ML0jGRs9xzefH79g8tqa/qTmOEgirBVKqKkSTwF
- PhLoVwf+7pFKkU4tWh3BKS//xTLt9FiaoqJFSMFuIv6ejym8v6bENf+UJGXAdyWymXoi
- t/ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702063875; x=1702668675;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kWu+J+wzMOcih150vf6YNmhjcZNaZMBMCrHoJTVq0Uw=;
- b=bUADsSGAoHcdpBT+MwlQUQ1nK6Q/esGs9TF/KcbDWTENHaaKazD09OOHQPy5nM4cZK
- HZx11PR9YHPW5nEhue3S8UmclaBskesp4zWfEsFWTg3P1/DQWrl+jGKjEyM0v7Sg3yJq
- XCKro99YvH4fLetqrbs0SpiDDxecwSu0C0a1VxN3GTXrCw5Fsm7WG2lgAVGmdUR36p7T
- ZGTZEyq1MhYsbgjcMg5tngXsB7vK9FAM/Vi7m0g3CH8pWrf6PaY+CiLV8F5otOmJLtDA
- WYzAUoimgjMRngFdwsaF1jfHFTI7NNlVHzCibhtWwpP/hIVXpEd/QpG+BFKIIkqW7d4A
- rb3g==
-X-Gm-Message-State: AOJu0YxJqVDYLypbGjJQnX20nTaKZx80Q+qCreEZrttISEQcwkO+y+/Y
- ycTkuPgPhJ/hVnWIABpO3atqqgpGM+MQSaQlZGvFXA==
-X-Google-Smtp-Source: AGHT+IEWy2ZoASGB97Xf4UzepNASdfhsiRufEtATUoKuaLdGqOq89E4y/cKAIuTMSGCSkffzh0Lc4oz7kiKBOoq4yro=
-X-Received: by 2002:a05:6102:3ec4:b0:464:40b2:e59f with SMTP id
- n4-20020a0561023ec400b0046440b2e59fmr628329vsv.32.1702063875124; Fri, 08 Dec
- 2023 11:31:15 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 828FA10EB01;
+ Fri,  8 Dec 2023 19:33:09 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3B8IvWb3024510; Fri, 8 Dec 2023 19:33:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=miEIq5ZqeBU5Tqx85ooTI1M41n+qpP+AUvoY/bdq3Us=;
+ b=f7txoxn9sgb7se1MuvISSksIQXoyYz7a5lldznUAOOx1WmRvp49oUVYPlgP4XEN6s5In
+ 7v1sQDL5c9MbSIL6uGuLOEdUzIoBx6IrSb0AfnaALOCjpK/iLISzDrgf3GinP8lE7X43
+ oofz4ayHjSdBaeLQW0X2e7AkuGZct2aQ+uNNDjddi0P77jzlk+CyhyqBwShjVYT1DGCK
+ zLcS3KDhswL9GzUcnNEQy4zmbPsSIEOoyZB/3IBGutLKfB7bqmWX/wCX6ssdcYgMoL5q
+ eHTl/2yId6JVwmw5N51aiJk65U1F01dl650WOHipcVMQnDmMTp50xte3PUhYdl8sPckh Eg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uubd848x5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 Dec 2023 19:33:02 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B8JX1B4024200
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 8 Dec 2023 19:33:01 GMT
+Received: from [10.110.30.94] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 8 Dec
+ 2023 11:32:58 -0800
+Message-ID: <43efa4e4-7693-be84-5480-7fb73df981a7@quicinc.com>
+Date: Fri, 8 Dec 2023 11:32:56 -0800
 MIME-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <3fea9ae9-e9e6-4ba5-812b-2775a6ed9e6a@kernel.org>
-In-Reply-To: <3fea9ae9-e9e6-4ba5-812b-2775a6ed9e6a@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Fri, 8 Dec 2023 11:31:01 -0800
-Message-ID: <CAHS8izOc05jQEhU+s6FZtBN4fynUwVPrKsXBtjYo-X8fHQXOjg@mail.gmail.com>
-Subject: Re: [net-next v1 00/16] Device Memory TCP
-To: David Ahern <dsahern@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 1/3] drm/msm/dpu: enable writeback on SDM845
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+References: <20231203002743.1291956-1-dmitry.baryshkov@linaro.org>
+ <20231203002743.1291956-2-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20231203002743.1291956-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: vG4N7erRMrkhcXiI-lvcWq9GkZjrdwcM
+X-Proofpoint-ORIG-GUID: vG4N7erRMrkhcXiI-lvcWq9GkZjrdwcM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-08_14,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015
+ suspectscore=0 mlxlogscore=759 impostorscore=0 phishscore=0
+ lowpriorityscore=0 adultscore=0 malwarescore=0 mlxscore=0 spamscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2312080160
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,67 +85,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, linux-kselftest@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arch@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- linux-media@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Shailend Chand <shailend@google.com>,
- Shakeel Butt <shakeelb@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>, netdev@vger.kernel.org,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Yunsheng Lin <linyunsheng@huawei.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>, bpf@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 8, 2023 at 9:57=E2=80=AFAM David Ahern <dsahern@kernel.org> wro=
-te:
->
-> On 12/7/23 5:52 PM, Mina Almasry wrote:
-> > Major changes in v1:
-> > --------------
-> >
-> > 1. Implemented MVP queue API ndos to remove the userspace-visible
-> >    driver reset.
-> >
-> > 2. Fixed issues in the napi_pp_put_page() devmem frag unref path.
-> >
-> > 3. Removed RFC tag.
-> >
-> > Many smaller addressed comments across all the patches (patches have
-> > individual change log).
-> >
-> > Full tree including the rest of the GVE driver changes:
-> > https://github.com/mina/linux/commits/tcpdevmem-v1
-> >
->
-> Still a lot of DEVMEM references (e.g., socket API). Any reason not to
-> move those to DMABUF?
->
-
-In my mind the naming (maybe too silly/complicated, feel free to correct) i=
-s:
-
-The feature is devmem TCP because we really care about TCPing into
-device memory. So the uapi/feature name retains devmem.
-
-dmabuf is the abstraction for devmem that we use. In theory someone
-can come up with a driver that doesn't like dmabuf and uses something
-else instead, and the devmem TCP support can be extended to support
-that something else. Functions that handle specifically dmabuf and are
-not generic to support general devmem are named accordingly
-(netdev_alloc_dmabuf/netdev_free_dmabuf)
-
-page_pool_iov is a generic type to support generic non-paged memory,
-functions that are supposed to handle any generic non-paged memory and
-named accordingly (page_pool_iov_get_many).
 
 
---=20
-Thanks,
-Mina
+On 12/2/2023 4:27 PM, Dmitry Baryshkov wrote:
+> Enable WB2 hardware block, enabling writeback support on this platform.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   .../drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h | 18 ++++++++++++++++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  6 ++++--
+>   2 files changed, 22 insertions(+), 2 deletions(-)
+> 
+
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
