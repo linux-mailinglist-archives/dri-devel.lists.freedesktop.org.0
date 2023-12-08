@@ -2,58 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD0380A2DB
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 13:14:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB5AE80A2E7
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 13:15:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 790FB10E2A0;
-	Fri,  8 Dec 2023 12:14:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E206F10E29F;
+	Fri,  8 Dec 2023 12:15:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
- [IPv6:2607:f8b0:4864:20::1131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABF6510E2A0
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 12:14:29 +0000 (UTC)
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-5d3d5b10197so17415287b3.2
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Dec 2023 04:14:29 -0800 (PST)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0779110E29D;
+ Fri,  8 Dec 2023 12:15:29 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-50c222a022dso1663675e87.1; 
+ Fri, 08 Dec 2023 04:15:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1702037669; x=1702642469; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=7gGNt+s/Wcljh/u9YK4wU+D+G5ntA1fSQzHeZZarWtM=;
- b=x56ajwtcQpcajO1RE+hGbbwBo2laUwHgV+oPYUFTxIU/zIA/dVyHLOP4ezN+ejhIfR
- cI/+B1+S7jwqlUDU4khACejAP7e5smt0vynjUbtkCgn8JCNHcQ+WEEWfpGKZkmjrk5dQ
- WIWzybW5rvdy5Z1IK7Kc4GeLZD3FMWzeVdpp3z79nFuJ7/PwvQE2tzqtljzZMHCNZQ2O
- gvKqFLjD+taNjId1PjBjUaucbU1fSeuZaji5z30R3Qyt4t3dKWwnAiPS8GyRv+BWCTS8
- DSgganDkLxWwt0c85Q7QVedd+acaoIXUB+hyTRgToPyRi/Ib7/4LHl6XcpPHTVgtsj8a
- DBwQ==
+ d=gmail.com; s=20230601; t=1702037728; x=1702642528; darn=lists.freedesktop.org;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=XgLb+UN/qO9m7WUqJSdsqIW+RpQ5k7tBSN5DF8qu4A0=;
+ b=RBhwwEv0a59MZsOWqgBjhr38XKLpEWPlpbTVfeR7DnMAnX2+bT9SrADLcX+NTCL9dS
+ DclV1pb5I/ZZ77D4rq6rh4sJH7E4Ha1aWNhWv9E6Tg0GiFzYDNN9dkQJ8VAkpuRDX4sV
+ flCjgkr8N7IDle7iMI5GH0fGJMQMQw9Uo2BDm4vrxIssnaliwPymS9sQWbCU+Z6PQm63
+ 3WcY9Atl7KAP3uhjDfmafehqFMIOBd8bn7tnI4CMP/51g9ehlK4Ce+FQY4/AFP/tOFOC
+ jvIudnMggCDLsYzAKv2pzTU+EuX1r99V3EoeAYdinyWGcoV5gXeCS80zuz5fDjMH2Sg+
+ 8uHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702037669; x=1702642469;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7gGNt+s/Wcljh/u9YK4wU+D+G5ntA1fSQzHeZZarWtM=;
- b=d5kfDj1C33OO/A9+GnPcRtzLTC4l9PYiNxJIf2jLJJ6OkbS1GWuzy6RDgj2UhPq1Qu
- sfLKmyKlZ3U5/UsXUoGnA5BowaocCd3JTIgArkBR1rtgCcroRijVCAudFbZTV7Yv4Z4E
- OYqITTZYs9MsO6Y7j0chx9o0KS8c/QwACb+GbAukvuLOC3btTMMxLc8PmCc5Qco44slT
- 7zNkjR6hS62M2uMLdbZ+llr86hRCDEBTt4r+/mEj6iEH9JtjJiVaoDLpKGLHdL7GV6Ys
- AzKOLTVNGXL8L9TMyWVFauQywfCBaFGVXe77UF48PSQX4ARcl9ys0UOL5J7nfw151h2T
- cDcg==
-X-Gm-Message-State: AOJu0Ywk/emgbJvgKCgPB3VkMQ2ZpFiIM803H8s+FfnUAEo6U7mwaP/J
- PS+syxkbuH5a9uuk6nQfbVAaaiYFfMiKmKyjMidTBA==
-X-Google-Smtp-Source: AGHT+IEabkkPGJEeEiYZBOP/cyp3L12B1zqkHMRxDFfTXE847OQg2naABRb1+MKRzipLZfaVIUcyktqNiQ6ZXWamUpQ=
-X-Received: by 2002:a81:7e51:0:b0:5cc:e5a5:d951 with SMTP id
- p17-20020a817e51000000b005cce5a5d951mr3670535ywn.45.1702037668797; Fri, 08
- Dec 2023 04:14:28 -0800 (PST)
+ d=1e100.net; s=20230601; t=1702037728; x=1702642528;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XgLb+UN/qO9m7WUqJSdsqIW+RpQ5k7tBSN5DF8qu4A0=;
+ b=TfcamzqlumCP3uVnqHhawRXCDtil5HR0fDZKTlQVMcGA4SanpxsBi90eZ4t4JxHuuD
+ 1yxxQkh0ZVz49AYgoCsXECSRjchwh9maSYYPitKELfW5LE/GR48vt/wqNOnIKhHBpBO7
+ 8mFgJyfA6ASw6xA3rcOhus1EZIqbiSXOGQCdirilHmW/MincJJsQW0il9F74hrrf0kVk
+ F+6x7ixHZv/ObSBc5OT48ucIC3HvjKI+Abx3isS9xpGoEskpRBpSO1/mMUDfeXxbJvhQ
+ 6Gbv0xmRwiQGDPjVJnK6BXYjPWlsIiOrh1PVAoW13IxOGGBYwL6Yn6zpU1WKRgRdDMg0
+ 88jQ==
+X-Gm-Message-State: AOJu0YzxkFs5Y12APLUuc3YLkQbFFS9n26z67mt2Q2yNr+WAJ9oARclT
+ fIqYAczbnqZWt+2wyKM3mwM=
+X-Google-Smtp-Source: AGHT+IFnFo1wyGOwRVS4e7EkWQX2VSj87TyuwvPcHoPI4ARbWINGgMasWK5TINdR+mbsEUd885Cg6w==
+X-Received: by 2002:ac2:4a82:0:b0:50b:e3ee:5433 with SMTP id
+ l2-20020ac24a82000000b0050be3ee5433mr2072388lfp.24.1702037727718; 
+ Fri, 08 Dec 2023 04:15:27 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ u4-20020a05651206c400b005009c4ba3f0sm199027lff.72.2023.12.08.04.15.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Dec 2023 04:15:27 -0800 (PST)
+Date: Fri, 8 Dec 2023 14:15:23 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [RFC PATCH v3 15/23] drm/vkms: Add enumerated 1D curve colorop
+Message-ID: <20231208141523.58746f60@eldfell>
+In-Reply-To: <20231108163647.106853-16-harry.wentland@amd.com>
+References: <20231108163647.106853-1-harry.wentland@amd.com>
+ <20231108163647.106853-16-harry.wentland@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20231208050641.32582-1-quic_abhinavk@quicinc.com>
-In-Reply-To: <20231208050641.32582-1-quic_abhinavk@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 8 Dec 2023 14:14:17 +0200
-Message-ID: <CAA8EJpp_ck5HuXYNAY2xdag2D-XODdOhZjA7XQA8PZs7qds_UQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/16] Add CDM support for MSM writeback
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/rc.S7FQd3ktxhqoBqW79Mzk";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,119 +72,320 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_jesszhan@quicinc.com, freedreno@lists.freedesktop.org,
- quic_parellan@quicinc.com, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, wayland-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 8 Dec 2023 at 07:06, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
-> Chroma Down Sampling (CDM) block is a hardware block in the DPU pipeline
-> which among other things has a CSC block that can convert RGB input
-> from the DPU to YUV data.
+--Sig_/rc.S7FQd3ktxhqoBqW79Mzk
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-This block is more or less standard between all hw versions. I do not
-expect any faults and/or issues with any of the platforms.
-From what I can see, from the platforms that we do not support, it is
-not available only on sm6115/qcs4290, qcm2290 and sm6375. Can we
-please enable it for all the other platforms?
+On Wed, 8 Nov 2023 11:36:34 -0500
+Harry Wentland <harry.wentland@amd.com> wrote:
 
->
-> This block can be used with either HDMI, DP or writeback interface.
->
-> In this series, lets first add the support for CDM block to be used
-> with writeback and then follow-up with support for other interfaces such
-> as DP.
->
-> This was validated by adding support to pass custom output format to the
-> IGT's kms_writeback test-case, specifically only for the output dump
-> test-case [1].
->
-> The usage for this is:
->
-> ./kms_writeback -d -f <name of the DRM YUV fmt from igt_fb>
->
-> So for NV12, this can be verified with the below command:
->
-> ./kms_writeback -d -f NV12
->
-> [1] : https://patchwork.freedesktop.org/series/122125/
->
-> changes in v2:
->         - rebased on top of current msm-next-lumag
->         - fix commit text of some of the patches
->         - move csc matrices to dpu_hw_util as they span across DPU
->         - move cdm blk define to dpu_hw_catalog as its common across chipsets
->         - remove bit magic in dpu_hw_cdm with relevant defines
->         - use drmm_kzalloc instead of kzalloc/free
->         - protect bind_pingpong_blk with core_rev check
->         - drop setup_csc_data() and setup_cdwn() ops as they
->           are merged into enable()
->         - protect bind_pingpong_blk with core_rev check
->         - drop setup_csc_data() and setup_cdwn() ops as they
->           are merged into enable()
->         - move needs_cdm to topology struct
->         - call update_pending_flush_cdm even when bind_pingpong_blk
->           is not present
->         - drop usage of setup_csc_data() and setup_cdwn() cdm ops
->           as they both have been merged into enable()
->         - drop reduntant hw_cdm and hw_pp checks
->         - drop fb related checks from dpu_encoder::atomic_mode_set()
->         - introduce separate wb2_format arrays for rgb and yuv
->
-> Abhinav Kumar (16):
->   drm/msm/dpu: add formats check for writeback encoder
->   drm/msm/dpu: rename dpu_encoder_phys_wb_setup_cdp to match its
->     functionality
->   drm/msm/dpu: fix writeback programming for YUV cases
->   drm/msm/dpu: move csc matrices to dpu_hw_util
->   drm/msm/dpu: add cdm blocks to sc7280 dpu_hw_catalog
->   drm/msm/dpu: add cdm blocks to sm8250 dpu_hw_catalog
->   drm/msm/dpu: add dpu_hw_cdm abstraction for CDM block
->   drm/msm/dpu: add cdm blocks to RM
->   drm/msm/dpu: add support to allocate CDM from RM
->   drm/msm/dpu: add CDM related logic to dpu_hw_ctl layer
->   drm/msm/dpu: add support to disable CDM block during encoder cleanup
->   drm/msm/dpu: add an API to setup the CDM block for writeback
->   drm/msm/dpu: plug-in the cdm related bits to writeback setup
->   drm/msm/dpu: reserve cdm blocks for writeback in case of YUV output
->   drm/msm/dpu: introduce separate wb2_format arrays for rgb and yuv
->   drm/msm/dpu: add cdm blocks to dpu snapshot
->
->  drivers/gpu/drm/msm/Makefile                  |   1 +
->  .../msm/disp/dpu1/catalog/dpu_10_0_sm8650.h   |   4 +-
->  .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |   5 +-
->  .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |   4 +-
->  .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |   5 +-
->  .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |   4 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |  37 +++
->  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |   5 +
->  .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   | 117 +++++++-
->  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  47 ++-
->  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  13 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c    | 276 ++++++++++++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h    | 114 ++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    |  35 +++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h    |  12 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |   7 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c   |  71 +++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h   |   8 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c     |   3 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   4 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |   1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |  39 +--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |  51 +++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        |   2 +
->  drivers/gpu/drm/msm/msm_drv.h                 |   2 +
->  25 files changed, 815 insertions(+), 52 deletions(-)
->  create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c
->  create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h
->
-> --
-> 2.40.1
->
+> This patch introduces a VKMS color pipeline that includes two
+> drm_colorops for named transfer functions. For now the only ones
+> supported are sRGB EOTF, sRGB Inverse EOTF, and a Linear TF.
+> We will expand this in the future but I don't want to do so
+> without accompanying IGT tests.
+>=20
+> We introduce a new vkms_luts.c file that hard-codes sRGB EOTF,
+> sRGB Inverse EOTF, and a linear EOTF LUT. These have been
+> generated with 256 entries each as IGT is currently testing
+> only 8 bpc surfaces. We will likely need higher precision
+> but I'm reluctant to make that change without clear indication
+> that we need it. We'll revisit and, if necessary, regenerate
+> the LUTs when we have IGT tests for higher precision buffers.
+
+VKMS could just implement the sRGB TF formula rather than an opaque
+array of numbers that supposedly computes the same'ish.
+
+Why is even the identity curve (which you call linear) encoded as a LUT?
+
+> v2:
+>  - Add commit description
+>  - Fix sRGB EOTF LUT definition
+>  - Add linear and sRGB inverse EOTF LUTs
+>=20
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> ---
+>  drivers/gpu/drm/vkms/Makefile        |   4 +-
+>  drivers/gpu/drm/vkms/vkms_colorop.c  |  85 +++
+>  drivers/gpu/drm/vkms/vkms_composer.c |  45 ++
+>  drivers/gpu/drm/vkms/vkms_drv.h      |   4 +
+>  drivers/gpu/drm/vkms/vkms_luts.c     | 802 +++++++++++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_luts.h     |  12 +
+>  drivers/gpu/drm/vkms/vkms_plane.c    |   2 +
+>  7 files changed, 953 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/vkms/vkms_colorop.c
+>  create mode 100644 drivers/gpu/drm/vkms/vkms_luts.c
+>  create mode 100644 drivers/gpu/drm/vkms/vkms_luts.h
+>=20
+> diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
+> index 1b28a6a32948..c38455c46be4 100644
+> --- a/drivers/gpu/drm/vkms/Makefile
+> +++ b/drivers/gpu/drm/vkms/Makefile
+> @@ -6,6 +6,8 @@ vkms-y :=3D \
+>  	vkms_formats.o \
+>  	vkms_crtc.o \
+>  	vkms_composer.o \
+> -	vkms_writeback.o
+> +	vkms_writeback.o \
+> +	vkms_colorop.o \
+> +	vkms_luts.o
+> =20
+>  obj-$(CONFIG_DRM_VKMS) +=3D vkms.o
+> diff --git a/drivers/gpu/drm/vkms/vkms_colorop.c b/drivers/gpu/drm/vkms/v=
+kms_colorop.c
+> new file mode 100644
+> index 000000000000..9a26b9fdc4a2
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/vkms_colorop.c
+> @@ -0,0 +1,85 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +
+> +#include <linux/slab.h>
+> +#include <drm/drm_colorop.h>
+> +#include <drm/drm_print.h>
+> +#include <drm/drm_property.h>
+> +#include <drm/drm_plane.h>
+> +
+> +#define MAX_COLOR_PIPELINES 5
+> +
+> +const int vkms_initialize_tf_pipeline(struct drm_plane *plane, struct dr=
+m_prop_enum_list *list)
+> +{
+> +
+> +	struct drm_colorop *op, *prev_op;
+> +	struct drm_device *dev =3D plane->dev;
+> +	int ret;
+> +
+> +	/* 1st op: 1d curve */
+> +	op =3D kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
+> +	if (!op) {
+> +		DRM_ERROR("KMS: Failed to allocate colorop\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	ret =3D drm_colorop_init(dev, op, plane, DRM_COLOROP_1D_CURVE);
+> +	if (ret)
+> +		return ret;
+> +
+> +	list->type =3D op->base.id;
+> +	list->name =3D kasprintf(GFP_KERNEL, "Color Pipeline %d", op->base.id);
+
+This is the string name for the pipeline (enum value).
+
+I don't think including the ID in the name is good, because the ID
+might be different on every load of the driver. IIRC you said userspace
+is ok to hardcode the pipeline name and look for it, instead of doing
+the discovery.
+
+> +
+> +	prev_op =3D op;
+> +
+> +	/* 2nd op: 1d curve */
+> +	op =3D kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
+> +	if (!op) {
+> +		DRM_ERROR("KMS: Failed to allocate colorop\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	ret =3D drm_colorop_init(dev, op, plane, DRM_COLOROP_1D_CURVE);
+> +	if (ret)
+> +		return ret;
+> +
+> +	drm_colorop_set_next_property(prev_op, op);
+> +
+> +	return 0;
+> +}
+> +
+> +int vkms_initialize_colorops(struct drm_plane *plane)
+> +{
+> +	struct drm_device *dev =3D plane->dev;
+> +	struct drm_property *prop;
+> +	struct drm_prop_enum_list pipelines[MAX_COLOR_PIPELINES];
+> +	int len =3D 0;
+> +	int ret;
+> +
+> +	/* Add "Bypass" (i.e. NULL) pipeline */
+> +	pipelines[len].type =3D 0;
+> +	pipelines[len].name =3D "Bypass";
+> +	len++;
+
+Should there be a helper to replace the drm_property_create_enum() call
+below that would always add "Bypass"?
+
+Maybe that would push driver authors towards always supporting bypass
+if at all possible.
+
+It could also be called "Identity" pipeline, or is that too strict? I
+wonder what happens with an YUV FB.
+
+> +
+> +	/* Add pipeline consisting of transfer functions */
+> +	ret =3D vkms_initialize_tf_pipeline(plane, &(pipelines[len]));
+> +	if (ret)
+> +		return ret;
+> +	len++;
+> +
+> +	/* Create COLOR_PIPELINE property and attach */
+> +	prop =3D drm_property_create_enum(dev, DRM_MODE_PROP_ATOMIC,
+> +					"COLOR_PIPELINE",
+> +					pipelines, len);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +
+> +	plane->color_pipeline_property =3D prop;
+> +
+> +	drm_object_attach_property(&plane->base, prop, 0);
+> +
+> +	/* TODO do we even need this? */
+> +	if (plane->state)
+> +		plane->state->color_pipeline =3D NULL;
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
+vkms_composer.c
+> index 25b6b73bece8..be42756e300a 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/minmax.h>
+> =20
+>  #include "vkms_drv.h"
+> +#include "vkms_luts.h"
+> =20
+>  static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
+>  {
+> @@ -163,6 +164,47 @@ static void apply_lut(const struct vkms_crtc_state *=
+crtc_state, struct line_buff
+>  	}
+>  }
+> =20
+> +static void pre_blend_color_transform(const struct vkms_plane_state *pla=
+ne_state, struct line_buffer *output_buffer)
+> +{
+> +	struct drm_colorop *colorop =3D plane_state->base.base.color_pipeline;
+> +
+> +	while (colorop) {
+> +		struct drm_colorop_state *colorop_state;
+> +
+> +		if (!colorop)
+> +			return;
+> +
+> +		/* TODO this is probably wrong */
+> +		colorop_state =3D colorop->state;
+> +
+> +		if (!colorop_state)
+> +			return;
+> +
+> +		for (size_t x =3D 0; x < output_buffer->n_pixels; x++) {
+> +			struct pixel_argb_u16 *pixel =3D &output_buffer->pixels[x];
+> +
+> +			if (colorop->type =3D=3D DRM_COLOROP_1D_CURVE &&
+> +				colorop_state->bypass =3D=3D false) {
+> +				switch (colorop_state->curve_1d_type) {
+
+FWIW, for performance reasons, it would probably be better to move all
+conditionals outside of the innermost loop.
+
+> +					case DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF:
+> +						pixel->r =3D apply_lut_to_channel_value(&srgb_inv_eotf, pixel->r, =
+LUT_RED);
+> +						pixel->g =3D apply_lut_to_channel_value(&srgb_inv_eotf, pixel->g, =
+LUT_GREEN);
+> +						pixel->b =3D apply_lut_to_channel_value(&srgb_inv_eotf, pixel->b, =
+LUT_BLUE);
+> +						break;
+> +					case DRM_COLOROP_1D_CURVE_SRGB_EOTF:
+> +					default:
+> +						pixel->r =3D apply_lut_to_channel_value(&srgb_eotf, pixel->r, LUT_=
+RED);
+> +						pixel->g =3D apply_lut_to_channel_value(&srgb_eotf, pixel->g, LUT_=
+GREEN);
+> +						pixel->b =3D apply_lut_to_channel_value(&srgb_eotf, pixel->b, LUT_=
+BLUE);
+> +						break;
+> +				}
+> +			}
+> +		}
+> +
+> +		colorop =3D colorop->next;
+> +	}
+> +}
+> +
+>  /**
+>   * blend - blend the pixels from all planes and compute crc
+>   * @wb: The writeback frame buffer metadata
+> @@ -200,6 +242,9 @@ static void blend(struct vkms_writeback_job *wb,
+>  				continue;
+> =20
+>  			vkms_compose_row(stage_buffer, plane[i], y_pos);
+> +
+> +			pre_blend_color_transform(plane[i], stage_buffer);
+> +
+>  			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
+>  					    output_buffer);
+>  		}
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
+drv.h
+> index 8f5710debb1e..2bcc24c196a2 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -170,4 +170,8 @@ void vkms_writeback_row(struct vkms_writeback_job *wb=
+, const struct line_buffer
+>  /* Writeback */
+>  int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
+> =20
+> +/* Colorops */
+> +int vkms_initialize_colorops(struct drm_plane *plane);
+> +
+> +
+>  #endif /* _VKMS_DRV_H_ */
+> diff --git a/drivers/gpu/drm/vkms/vkms_luts.c b/drivers/gpu/drm/vkms/vkms=
+_luts.c
+> new file mode 100644
+> index 000000000000..6553d6d442b4
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/vkms_luts.c
+> @@ -0,0 +1,802 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +
+> +#include <drm/drm_mode.h>
+> +
+> +#include "vkms_drv.h"
+> +#include "vkms_luts.h"
+> +
+> +static struct drm_color_lut linear_array[LUT_SIZE] =3D {
+
+If I was a maintainer, I would be interested in having it documented how
+these tables were generated, if not even generate them at build time.
 
 
--- 
-With best wishes
-Dmitry
+Thanks,
+pq
+
+--Sig_/rc.S7FQd3ktxhqoBqW79Mzk
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVzCNsACgkQI1/ltBGq
+qqc6cw/+M1pE6JymtAqZbJfcPccBLWOr0HnPdBUWbFCwPsWTurmEh5eT4IEBTxn6
+cUhStrlC1bOe8qHfup9OgKwDjBVmBEf/dGIPmorWQ0FULvq/AemUHZSq5jujKq5d
+E5gq8IGM0ui23C6HVYOnepOlly6yCpoKNSvyeYt4srqwWUjH0BC35QOnu2Sh1VFk
+vQEMYXuVn4sWwC0CC+x/mJLbh/uownsaWz8KjZeTtMWRqqsBplQrXjV61olMMkdb
+3fU80eDRfCp8p+c7PDHcNWz7eClc3V8C6xU3S+QN9SVxDBheS9/Gbr+oTQPDlbpp
+tyDhgG6jicGrwy2zoGiqtgau8IS3r5kQf/YCaTTlqrAEAl0Q6omYaT7DnjsP3EHC
+BjdVNI7n0eDC3oqRtRFnI2lw9jiqdOerUObcozSMDIrX4bPL7CHkDRGf48gQXQnZ
+GVtHXklrW5gXz9QcZQNM5iFwxhcUG/WbHnn7JKvJUU4awTL27enzdVnF+rpXCyII
+8hN8K1dtu4ZUqARQ/2prc2/HwrP528JlvrbGhOoNlwlyNFlqlma2LpWcZBuJRCuq
+mDKGwKf+QAkEIDfy0LDVKSu/Dvc7F8hVvPB5c0baeEXa3lS+QqvYphTf9Nh/vu9I
+K0PZH3DnM3W5mkjUO5GQWzBY6gr2K5L0YiNe8c/415z3rqDUPt4=
+=g9Uf
+-----END PGP SIGNATURE-----
+
+--Sig_/rc.S7FQd3ktxhqoBqW79Mzk--
