@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72DCF8097C6
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 01:53:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4B7D8097C9
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 01:53:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41C4E10E9B9;
-	Fri,  8 Dec 2023 00:53:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A56AF10E9B4;
+	Fri,  8 Dec 2023 00:53:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com
  [IPv6:2607:f8b0:4864:20::1149])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9965F10E247
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 00:53:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B1C910E9B6
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 00:53:18 +0000 (UTC)
 Received: by mail-yw1-x1149.google.com with SMTP id
- 00721157ae682-5d33b70fce8so17788837b3.0
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 16:53:16 -0800 (PST)
+ 00721157ae682-5d3a1e5f8d6so18285357b3.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 16:53:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1701996795; x=1702601595;
+ d=google.com; s=20230601; t=1701996797; x=1702601597;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=lPnDX1rYMAtCe+hQ8qdPonfWEnFnkE5EPZQcdSbkY2c=;
- b=mJdZQZ1sMuPggtdABjG98dgbaUUUMt21cokmg7RuyVG+g7y0dd2G0U52mEZG77q/Hp
- ceyB5AqukuBbuKOoZLAfzKmLVbFrdM4t8KsHsgyZHjmaQwakwwfY31LmAqab+vpHGfLE
- GZbXobIJ3ToNR1gYkuAJcLzrI4fOy/HI0+wvvZ4AnppiR2nTdkaJI4QzInjxaYxdFWBB
- IhLjYLMZD1O9vD21RDmeMpH3NA6Tiz5WeYzY4kXFIM1cbfMs2tC7CpHAUBRvdQUKDc0T
- HjrFGqzZPZGjFds9gq8dQWovmcLsFSfr7cKOLblRiNmEZf6PV3484ev972l57JgZXfYt
- +Jog==
+ bh=ffR5lRGBwRWz92voabMKfnUxOBX9ei9jc/R/TuPbdfY=;
+ b=U9WIvkCyre7Z/FNUDCLez48QG/S5UaQUJvlrt4EDw5nR06eedytnLkKEco/JA1KowC
+ bl5bbWg6m3lGWaidhxaudSSdVHSdZOyv5KFJRCrjU3VGY9FyiyGfan0GJYlKi5/tOBjI
+ sbJWZNwanN0f8tqsv07BjHao9a2Cjd0NLOxTB5wA2Gu5yweBaahfEf47A/AOsFrP5iSf
+ 844UYJqtNADF/meS9msVrOx6UrFHWi+echc0EYaB2hu2HY6UFi1EauS3nfco3E4zO9bJ
+ HlPS9o1Ai9v9Wx90ahDEwG31gCPfhj+FVuUMPkI9ByMBIbAFphDs/ha8/7tMJ/HyYDsR
+ Kfvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701996795; x=1702601595;
+ d=1e100.net; s=20230601; t=1701996797; x=1702601597;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lPnDX1rYMAtCe+hQ8qdPonfWEnFnkE5EPZQcdSbkY2c=;
- b=w32Gbr9H7D8n1d/O11KsDzcEzOp9OlPetNESJBQ6eEZwzt3e76GgCU6e1U1BSYGkwd
- skcIUwWxh8ufjZLDen2ZhercUncJNGJa7F5NdWDtgfuyzAziDBldFAeTjpk+yw2TDTzZ
- U1OLE/5+5mNt6zwL40ALu71aLVjtFqFxvKaJO4BdJWLrvzZcSMUwDUewl7brpFw7wPfC
- Cgw6JHVcRFL5ozhJs/0mesFshX/8f4jX5zVJcPjvAQBDJm4GKFR7RF1vXnMZYw8zO8oj
- lx2pyO/vKt7rWouk6lKMYid/uuyV9ELIC1jp/Ak2Nkz44MhYCkydrC3IuOGi9e+Ce4Tw
- a8EA==
-X-Gm-Message-State: AOJu0YzuH9KiyyLPpWtwhqQyq2Rs0u/diQZpvJlKrS46cMOPodjePIS+
- nmYqwA7BvKz6QAPDUCPounozz5WwCS2eIclpHA==
-X-Google-Smtp-Source: AGHT+IEKP0wg/owThAA3/mC6Vxrn1R6Pw24Bozp4eJkoXp2s6/m2Qgw2X1bYwO4di4FgizGGC3rWfu0KjgUDlNjaXA==
+ bh=ffR5lRGBwRWz92voabMKfnUxOBX9ei9jc/R/TuPbdfY=;
+ b=anCses00+rnlLKJBY0UzYPCAhHgz3NjuyIqaJl/MvZnPOdnPehUkJX4QfmC8pWhwZm
+ rvjhMM8iWyZsRhsrFakgcBihRNb+oVwSaqAx/LL9PLv+PRCJyUh76FanvoorNHm+L324
+ 0B1ZYfRunEhh9JfTNTeTcXk/+bInnpOVmLtYq2N2GPStlWnr+3dTMyyy9uncae4wyeuY
+ qeelFV/tZ86XpPQSMieh2peBV+cRb0w31S6yTQicbW///N/50qHL3SPhsVgtDcWmgi86
+ LvgKESb5AGt066Ao/DONdj1rPAbiYPTBujEBnU8lKNTgCrSDHm5EcPXiDeZ/at3JUT9Y
+ ocrw==
+X-Gm-Message-State: AOJu0YzRDTA7+SGp94TtQbjXUTBgKx/fh8ts5BbWOxP6FkthNpfpOZMl
+ fFF29l2rTNXgGQI9s9ol0dSuKkkWWvYCweZvEA==
+X-Google-Smtp-Source: AGHT+IH8QZVgyP79RbEsqH0j0RL1Mpin9iL/UFr2+o7Otvdv7pJ6u3sBW0Y9+P6SJHsoq2x+yqVIWLpUXWuYkWSTkw==
 X-Received: from almasrymina.svl.corp.google.com
  ([2620:15c:2c4:200:f1cf:c733:235b:9fff])
- (user=almasrymina job=sendgmr) by 2002:a05:690c:4707:b0:5d4:ce2:e908 with
- SMTP id gz7-20020a05690c470700b005d40ce2e908mr53364ywb.3.1701996795620; Thu,
- 07 Dec 2023 16:53:15 -0800 (PST)
-Date: Thu,  7 Dec 2023 16:52:41 -0800
+ (user=almasrymina job=sendgmr) by 2002:a25:ccd5:0:b0:daf:6333:17c3 with SMTP
+ id l204-20020a25ccd5000000b00daf633317c3mr42079ybf.1.1701996797568; Thu, 07
+ Dec 2023 16:53:17 -0800 (PST)
+Date: Thu,  7 Dec 2023 16:52:42 -0800
 In-Reply-To: <20231208005250.2910004-1-almasrymina@google.com>
 Mime-Version: 1.0
 References: <20231208005250.2910004-1-almasrymina@google.com>
 X-Mailer: git-send-email 2.43.0.472.g3155946c3a-goog
-Message-ID: <20231208005250.2910004-11-almasrymina@google.com>
-Subject: [net-next v1 10/16] page_pool: don't release iov on elevanted refcount
+Message-ID: <20231208005250.2910004-12-almasrymina@google.com>
+Subject: [net-next v1 11/16] net: support non paged skb frags
 From: Mina Almasry <almasrymina@google.com>
 To: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
@@ -90,65 +90,175 @@ Cc: Mina Almasry <almasrymina@google.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently the page_pool behavior is that a page is considered for
-recycling only once, the first time __page_pool_put_page() is called on
-it.
+Make skb_frag_page() fail in the case where the frag is not backed
+by a page, and fix its relevant callers to handle this case.
 
-This works because in practice the net stack only holds 1 reference to
-the skb frags. In that case, the page_pool recycling works as expected,
-as the skb frags will have 1 reference on the pages from the net stack
-when __page_pool_put_page() is called (if the driver is not holding
-extra references for recycling), and so the page will be recycled.
-
-However, this is not compatible with devmem TCP. For devmem TCP, the net
-stack holds 2 references for each frag, 1 reference is part of the SKB,
-and the second reference is for the user holding the frag until they
-call SO_DEVMEM_DONTNEED. This causes a bug in the page_pool recycling
-where, when the skb is freed, the reference count goes from 2->1, the
-page_pool sees a pending reference, releases the page, and so no devmem
-iovs get recycled.
-
-To fix this, don't release iovs on elevated refcount.
+Correctly handle skb_frag refcounting in the page_pool_iovs case.
 
 Signed-off-by: Mina Almasry <almasrymina@google.com>
----
- net/core/page_pool.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
 
-diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-index f0148d66371b..dc2a148f5b06 100644
---- a/net/core/page_pool.c
-+++ b/net/core/page_pool.c
-@@ -731,6 +731,29 @@ __page_pool_put_page(struct page_pool *pool, struct page *page,
- 		/* Page found as candidate for recycling */
- 		return page;
- 	}
+
+---
+
+Changes in v1:
+- Fix illegal_highdma() (Yunsheng).
+- Rework napi_pp_put_page() slightly to reduce code churn (Willem).
+
+---
+ include/linux/skbuff.h | 42 +++++++++++++++++++++++++++++++++++-------
+ net/core/dev.c         |  3 ++-
+ net/core/gro.c         |  2 +-
+ net/core/skbuff.c      |  3 +++
+ net/ipv4/tcp.c         |  3 +++
+ 5 files changed, 44 insertions(+), 9 deletions(-)
+
+diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+index b370eb8d70f7..851f448d2181 100644
+--- a/include/linux/skbuff.h
++++ b/include/linux/skbuff.h
+@@ -37,6 +37,8 @@
+ #endif
+ #include <net/net_debug.h>
+ #include <net/dropreason-core.h>
++#include <net/page_pool/types.h>
++#include <net/page_pool/helpers.h>
+ 
+ /**
+  * DOC: skb checksums
+@@ -3414,15 +3416,38 @@ static inline void skb_frag_off_copy(skb_frag_t *fragto,
+ 	fragto->bv_offset = fragfrom->bv_offset;
+ }
+ 
++/* Returns true if the skb_frag contains a page_pool_iov. */
++static inline bool skb_frag_is_page_pool_iov(const skb_frag_t *frag)
++{
++	return page_is_page_pool_iov(frag->bv_page);
++}
 +
-+	if (page_is_page_pool_iov(page)) {
-+		/* With devmem TCP and ppiovs, we can't release pages if the
-+		 * refcount is > 1. This is because the net stack holds
-+		 * 2 references:
-+		 *	- 1 for the skb, and
-+		 *	- 1 for the user until they call SO_DEVMEM_DONTNEED.
-+		 * Releasing pages for elevated refcounts completely disables
-+		 * page_pool recycling. Instead, simply don't release pages and
-+		 * the next call to napi_pp_put_page() via SO_DEVMEM_DONTNEED
-+		 * will consider the page again for recycling. As a result,
-+		 * devmem TCP incompatible with drivers doing refcnt based
-+		 * recycling unless those drivers:
-+		 *
-+		 * - don't mark skb_mark_for_recycle()
-+		 * - are sure to release the last reference with
-+		 *   page_pool_put_full_page() to consider the page for
-+		 *   page_pool recycling.
-+		 */
-+		page_pool_page_put_many(page, 1);
+ /**
+  * skb_frag_page - retrieve the page referred to by a paged fragment
+  * @frag: the paged fragment
+  *
+- * Returns the &struct page associated with @frag.
++ * Returns the &struct page associated with @frag. Returns NULL if this frag
++ * has no associated page.
+  */
+ static inline struct page *skb_frag_page(const skb_frag_t *frag)
+ {
+-	return frag->bv_page;
++	if (!page_is_page_pool_iov(frag->bv_page))
++		return frag->bv_page;
++
++	return NULL;
++}
++
++/**
++ * skb_frag_page_pool_iov - retrieve the page_pool_iov referred to by fragment
++ * @frag: the fragment
++ *
++ * Returns the &struct page_pool_iov associated with @frag. Returns NULL if this
++ * frag has no associated page_pool_iov.
++ */
++static inline struct page_pool_iov *
++skb_frag_page_pool_iov(const skb_frag_t *frag)
++{
++	return page_to_page_pool_iov(frag->bv_page);
+ }
+ 
+ /**
+@@ -3433,7 +3458,7 @@ static inline struct page *skb_frag_page(const skb_frag_t *frag)
+  */
+ static inline void __skb_frag_ref(skb_frag_t *frag)
+ {
+-	get_page(skb_frag_page(frag));
++	page_pool_page_get_many(frag->bv_page, 1);
+ }
+ 
+ /**
+@@ -3453,13 +3478,13 @@ bool napi_pp_put_page(struct page *page, bool napi_safe);
+ static inline void
+ napi_frag_unref(skb_frag_t *frag, bool recycle, bool napi_safe)
+ {
+-	struct page *page = skb_frag_page(frag);
+-
+ #ifdef CONFIG_PAGE_POOL
+-	if (recycle && napi_pp_put_page(page, napi_safe))
++	if (recycle && napi_pp_put_page(frag->bv_page, napi_safe))
+ 		return;
++	page_pool_page_put_many(frag->bv_page, 1);
++#else
++	put_page(skb_frag_page(frag));
+ #endif
+-	put_page(page);
+ }
+ 
+ /**
+@@ -3499,6 +3524,9 @@ static inline void skb_frag_unref(struct sk_buff *skb, int f)
+  */
+ static inline void *skb_frag_address(const skb_frag_t *frag)
+ {
++	if (!skb_frag_page(frag))
 +		return NULL;
-+	}
 +
- 	/* Fallback/non-XDP mode: API user have elevated refcnt.
- 	 *
- 	 * Many drivers split up the page into fragments, and some
+ 	return page_address(skb_frag_page(frag)) + skb_frag_off(frag);
+ }
+ 
+diff --git a/net/core/dev.c b/net/core/dev.c
+index 30667e4c3b95..1ae9257df441 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -3709,8 +3709,9 @@ static int illegal_highdma(struct net_device *dev, struct sk_buff *skb)
+ 	if (!(dev->features & NETIF_F_HIGHDMA)) {
+ 		for (i = 0; i < skb_shinfo(skb)->nr_frags; i++) {
+ 			skb_frag_t *frag = &skb_shinfo(skb)->frags[i];
++			struct page *page = skb_frag_page(frag);
+ 
+-			if (PageHighMem(skb_frag_page(frag)))
++			if (page && PageHighMem(page))
+ 				return 1;
+ 		}
+ 	}
+diff --git a/net/core/gro.c b/net/core/gro.c
+index 0759277dc14e..42d7f6755f32 100644
+--- a/net/core/gro.c
++++ b/net/core/gro.c
+@@ -376,7 +376,7 @@ static inline void skb_gro_reset_offset(struct sk_buff *skb, u32 nhoff)
+ 	NAPI_GRO_CB(skb)->frag0 = NULL;
+ 	NAPI_GRO_CB(skb)->frag0_len = 0;
+ 
+-	if (!skb_headlen(skb) && pinfo->nr_frags &&
++	if (!skb_headlen(skb) && pinfo->nr_frags && skb_frag_page(frag0) &&
+ 	    !PageHighMem(skb_frag_page(frag0)) &&
+ 	    (!NET_IP_ALIGN || !((skb_frag_off(frag0) + nhoff) & 3))) {
+ 		NAPI_GRO_CB(skb)->frag0 = skb_frag_address(frag0);
+diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+index 07f802f1adf1..2ce64f57a0f6 100644
+--- a/net/core/skbuff.c
++++ b/net/core/skbuff.c
+@@ -2999,6 +2999,9 @@ static bool __skb_splice_bits(struct sk_buff *skb, struct pipe_inode_info *pipe,
+ 	for (seg = 0; seg < skb_shinfo(skb)->nr_frags; seg++) {
+ 		const skb_frag_t *f = &skb_shinfo(skb)->frags[seg];
+ 
++		if (WARN_ON_ONCE(!skb_frag_page(f)))
++			return false;
++
+ 		if (__splice_segment(skb_frag_page(f),
+ 				     skb_frag_off(f), skb_frag_size(f),
+ 				     offset, len, spd, false, sk, pipe))
+diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
+index 70a1bafbefba..e22681c4bfac 100644
+--- a/net/ipv4/tcp.c
++++ b/net/ipv4/tcp.c
+@@ -2157,6 +2157,9 @@ static int tcp_zerocopy_receive(struct sock *sk,
+ 			break;
+ 		}
+ 		page = skb_frag_page(frags);
++		if (WARN_ON_ONCE(!page))
++			break;
++
+ 		prefetchw(page);
+ 		pages[pages_to_map++] = page;
+ 		length += PAGE_SIZE;
 -- 
 2.43.0.472.g3155946c3a-goog
 
