@@ -2,81 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3150080ADAD
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 21:20:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 878D580AE23
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 21:43:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2057D10EB12;
-	Fri,  8 Dec 2023 20:20:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D5F410EB27;
+	Fri,  8 Dec 2023 20:43:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C04410EB12
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 20:20:08 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-40c2308faedso25840075e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Dec 2023 12:20:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1702066806; x=1702671606; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=uOW35AO1MljF8VXrGiU+7YQ0Sxg9Sin/49gICtGehP4=;
- b=lpdxsFwK8mvMremEOo5AWxsIpA1TEzpbD3S+cp4IUgZRqucDq15bcfuRk0GslJCRpr
- Lhjkz5dc0ZVAEZ3FlNRL30G43IPkV+d7ZZwgt+81NkYLMHNXNJqAwFodMcHQ80kYNRd2
- i6cskcSuBVYDX+RPAR5GzXW5rVIVpY+KVglPnbQRyuK9sMiadJYDQ65RLJFpAqiuAusF
- xEHmQ35uMh9dClNLOz5chBHoQc0caPi53mz8HUHQ0Jea7wPN6OToY4qBLpzqFBCd18n5
- r5NrAkExP6bnSfTIIvSAsFq0Tj/XkcRLE3vfUoLRgT4Zr8pHFEdOiraGs+p5vxWWmYSY
- g4aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702066806; x=1702671606;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uOW35AO1MljF8VXrGiU+7YQ0Sxg9Sin/49gICtGehP4=;
- b=sh4outxh53X8M6RUqPFwGVHiPoy6PQi1pYTDLCmekKip7vgVRtNwqujrJM7Y+EysTN
- 8MGr45dQY39NoIlt9oiBJkrjFze6s5aQup9nUmXoCEEFTt8xSmb6tLOl9Scl2RzTsn1/
- MovoI4PvY0UmetvXiB2gXcszhOCHGXgmDy0QJskfDeUCvLpwt4oVMkt82yCB6RmxUBqR
- uxzaLPAdNn3S86M5Wk9gtKbalrsYLFGxHNqhsyjxK2imGSAHPNhRxQyrg5nG70NfZhSA
- 5KAnaLymQ89Qit9ry2CHs3/QyK5JxXwmTZPq9fZWPcPNcfYtEe73pTQom4KvG05fJSk+
- zX8w==
-X-Gm-Message-State: AOJu0Yw0TB5MVACIjTWmhfO6cE/Mi4zlO410F0OL+0WHuqUGJBhfGg/+
- PCRDWUb1FdqG0zEaSgt6vo4=
-X-Google-Smtp-Source: AGHT+IHPBOEeXi/rqbz7qszufoY2A9OT7UPzmbehyZD259vtVrFzNVCxBNaFELhPk/sbfSi3pdVMng==
-X-Received: by 2002:a05:600c:3411:b0:40b:37ec:41b3 with SMTP id
- y17-20020a05600c341100b0040b37ec41b3mr298018wmp.31.1702066806283; 
- Fri, 08 Dec 2023 12:20:06 -0800 (PST)
-Received: from [192.168.8.100] ([85.255.232.89])
- by smtp.gmail.com with ESMTPSA id
- bh15-20020a05600c3d0f00b0040b4ccdcffbsm3947710wmb.2.2023.12.08.12.20.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Dec 2023 12:20:06 -0800 (PST)
-Message-ID: <fbdba904-e24c-43e8-9278-cde7fbe74053@gmail.com>
-Date: Fri, 8 Dec 2023 20:12:57 +0000
+X-Greylist: delayed 1509 seconds by postgrey-1.36 at gabe;
+ Fri, 08 Dec 2023 20:43:41 UTC
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3006::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9133810EB27
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 20:43:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202212;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Tt/vgZair8oQaWQQmIRBw9lUyYFxaqNxtAp9NQOC8Uw=; b=RhdDRBxHC5EwMPr+QFRf6I1v/e
+ PJIb4hQmsHpp11qPBM7zdAX/K34jOi12z+EhekGMi0fo7gqeYFT5yiPPGYli7RgcxAYpeqnnSolU5
+ C1co4Cnm3Z0A6zhiItYFUehSsV1KtmFEqVIEERhmjUqyGGylh29O/P5BPu1IyGIq5BtrNcXg8Iyt8
+ NfFPJPIx3/dTzk8IdnWTbyRX2YGeCcnurvz+bvPxMPhr230QIejxwVMdL4ysKqczujO2TRQx/u9V1
+ 3WcMdkvugJ2FplXjVFPEu9+lazb+szo6KP0uxran8VuKkzbS337npmtZnwAAvLnQufL/3zn+sU5uP
+ w28ryrvg==;
+Received: from [2a01:799:950:4300:268a:bbd3:738c:c4c6] (port=42932)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <noralf@tronnes.org>) id 1rBhIn-002A7D-7v;
+ Fri, 08 Dec 2023 21:18:25 +0100
+Message-ID: <7c848801-cf7f-4293-8a29-084dd20efb8e@tronnes.org>
+Date: Fri, 8 Dec 2023 21:18:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 10/12] tcp: RX path for devmem TCP
+Subject: Re: State of affairs with Ilitek 9341 support
 Content-Language: en-US
-To: Edward Cree <ecree.xilinx@gmail.com>,
- Mina Almasry <almasrymina@google.com>, David Ahern <dsahern@kernel.org>
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-11-almasrymina@google.com>
- <ZUk0FGuJ28s1d9OX@google.com>
- <CAHS8izNFv7r6vqYR_TYqcCuDO61F+nnNMhsSu=DrYWSr3sVgrA@mail.gmail.com>
- <CAF=yD-+MFpO5Hdqn+Q9X54SBpgcBeJvKTRD53X2oM4s8uVqnAQ@mail.gmail.com>
- <ZUlp8XutSAScKs_0@google.com>
- <CAF=yD-JZ88j+44MYgX-=oYJngz4Z0zw6Y0V3nHXisZJtNu7q6A@mail.gmail.com>
- <CAKH8qBueYgpxQTvTwngOs6RNjy9yvLF92s1p5nFrobw_UprNMQ@mail.gmail.com>
- <93eb6a2b-a991-40ca-8f26-f520c986729a@kernel.org>
- <CAF=yD-Ln4v8orUne8E7D2_eHu39PWPCrMR3Qtuh312pCu=erng@mail.gmail.com>
- <CAHS8izOU06ceKyc5oVZhdCKJqmeRdcRyJBFpjGe=u2yh=V52dQ@mail.gmail.com>
- <7ce2d027-1e02-4a63-afb7-7304fbfbdf90@kernel.org>
- <CAHS8izM_qrEs37F=kPzT_kmqCBV_wSiTf72PtHfJYxks9R9--Q@mail.gmail.com>
- <6f853286-e463-b684-cc1e-405119528697@gmail.com>
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <6f853286-e463-b684-cc1e-405119528697@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Andy Shevchenko <andriy.shevchenko@intel.com>,
+ Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+References: <ZXM9pG-53V4S8E2H@smile.fi.intel.com>
+From: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
+In-Reply-To: <ZXM9pG-53V4S8E2H@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,63 +59,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kaiyuan Zhang <kaiyuanz@google.com>, dri-devel@lists.freedesktop.org,
- Eric Dumazet <edumazet@google.com>, Stanislav Fomichev <sdf@google.com>,
- linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-arch@vger.kernel.org,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jeroen de Borst <jeroendb@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
- Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Priit Laes <plaes@plaes.org>, Maxime Ripard <mripard@kernel.org>,
+ noralf@tronnes.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ David Lechner <dlechner@baylibre.com>, Dillon Min <dillon.minfei@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/9/23 16:07, Edward Cree wrote:
-> On 09/11/2023 02:39, Mina Almasry wrote:
->> On Wed, Nov 8, 2023 at 7:36 AM Edward Cree <ecree.xilinx@gmail.com> wrote:
->>>   If not then surely the way to return a memory area
->>>   in an io_uring idiom is just to post a new read sqe ('RX descriptor')
->>>   pointing into it, rather than explicitly returning it with setsockopt.
->>
->> We're interested in using this with regular TCP sockets, not
->> necessarily io_uring.
-> Fair.  I just wanted to push against the suggestion upthread that "oh,
->   since io_uring supports setsockopt() we can just ignore it and it'll
->   all magically work later" (paraphrased).
-
-IMHO, that'd be horrible, but that why there are io_uring zc rx
-patches, and we'll be sending an update soon
-
-https://lore.kernel.org/all/20231107214045.2172393-1-dw@davidwei.uk/
 
 
-> If you can keep the "allocate buffers out of a devmem region" and "post
->   RX descriptors built on those buffers" APIs separate (inside the
->   kernel; obviously both triggered by a single call to the setsockopt()
->   uAPI) that'll likely make things simpler for the io_uring interface I
->   describe, which will only want the latter.
-> PS: Here's a crazy idea that I haven't thought through at all: what if
->   you allow device memory to be mmap()ed into process address space
->   (obviously with none of r/w/x because it's unreachable), so that your
->   various uAPIs can just operate on pointers (e.g. the setsockopt
->   becomes the madvise it's named after; recvmsg just uses or populates
->   the iovec rather than needing a cmsg).  Then if future devices have
->   their memory CXL accessible that can potentially be enabled with no
->   change to the uAPI (userland just starts being able to access the
->   region without faulting).
-> And you can maybe add a semantic flag to recvmsg saying "if you don't
->   use all the buffers in my iovec, keep hold of the rest of them for
->   future incoming traffic, and if I post new buffers with my next
->   recvmsg, add those to the tail of the RXQ rather than replacing the
->   ones you've got".  That way you can still have the "userland
->   directly fills the RX ring" behaviour even with TCP sockets.
+On 12/8/23 17:00, Andy Shevchenko wrote:
+> Included authors and latest (non-white-space) contributors to the drivers
+> in question along with relevant mailing list and respective (active in the
+> area) maintainers.
+> 
+> I already had risen the question in times when 4th (sic!) driver for the same
+> hardware was about to be pulled into upstream that we have to somehow reduce
+> the code base and unify device properties.
+> 
+> So, the main question here "What is the plan and where are we now?"
+> 
+> I admit that fbtft case is special as it supports, in particular, platform
+> device (parallel interface) and also well established in the embedded world.
+> What about the rest?
+> 
+> N.B. Besides the fact that panel drivers are too OF-centric, which is bad
+> practice for the new kernel code in general and has to be stopped. I.o.w.
+> seeing of_property_*() or alike in the driver after ca. 2020 should be
+> immediate NAK unless it's very well justified why it may not be used on
+> non-OF systems.
 > 
 
--- 
-Pavel Begunkov
+Last year drivers/gpu/drm/tiny/panel-mipi-dbi.c was added to support all
+MIPI DBI compatible (ili9341) SPI displays.
+It loads the initialisation commands from a firmware file. For more info
+see https://github.com/notro/panel-mipi-dbi/wiki.
+
+When I started on fbtft in 2013 I didn't know about MIPI DBI so I made
+some common bus access functions and one driver per controller and that
+driver had an initialisation sequence to match the panel I had. Then I
+discovered that displays using the same controller could have different
+init sequences so I added a Device Tree <init> property that could
+override the driver init.
+
+In 2015 fbtft was added to drivers/staging, but later that year fbdev
+was closed for new drivers so it was a dead end.
+
+I started to work on porting fbtft to DRM and almost 2 years later
+support for the MI0283QT panel (ILI9341) was added.
+I had now learned about MIPI DBI so a library to handle that was added.
+I had asked on the Device Tree ML about the <init> property and I was
+told that I couldn't have that which meant that I couldn't get away with
+having just one driver for the MIPI DBI compatible display panels as I
+was first hoping for.
+
+I was aware that there was a challenge going from fbtft to DRM because
+in fbtft there is support for all panel setups using the <init>
+property, but in DRM every panel needed support in a driver. So I
+started to look at adding Device Tree properties to describe the setup
+for one controller. This would make it easy to describe a new panel in
+Device Tree for a supported controller. Maxime Ripard came up with the
+idea to have the controller initialisation commands in a firmware file
+which meant that we could get away with having just one driver for all
+MIPI DBI SPI panels (which is the vast majority of these SPI pixel
+upload panels).
+
+This meant that SPI support could be removed from all the MIPI DBI
+compatible controllers in fbtft since there's now a solution for them in
+DRM. The drivers themselves must stay since they also have parallel bus
+support which is lacking in DRM. My plan was to wait for panel-mipi-dbi
+to hit an LTS and then either prepare patches to remove MIPI DBI SPI
+support from fbtft or at least send an email to staging about the new
+driver. Unfortunately my health problems got worse and many plans went
+out the window.
+
+
+ILI9341 DRM drivers
+
+- drivers/gpu/drm/tiny/mi0283qt.c
+  This was the first driver added for the MI0283QT panel series
+
+- drivers/gpu/drm/tiny/ili9341.c
+  Later ili9341 based panels was decided to be added to a controller
+  specific driver.
+
+- drivers/gpu/drm/tiny/panel-mipi-dbi.c
+  Generic MIPI DBI SPI driver that loads init commands from a firmware
+  file. It uses of_property_read_string_index() and
+  of_get_drm_panel_display_mode(). I don't know if it's possible to make
+  device_property_*() versions of those.
+
+- drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+  This driver supports the MIPI DPI (RGB) interface on the controller.
+  Controller init is done over MIPI DBI SPI. The driver does also for
+  some reason support the same panel as the ili9341.c driver does.
+  So 2 drivers for the same panel...
+  Sidenote: It is possible to make a generic panel-mipi-dpi.c driver for
+  panels that use DPI for pixels and DBI for init loaded from a firmware
+  file.
+
+
+Noralf.
