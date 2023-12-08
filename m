@@ -1,70 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2CEA809869
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 02:11:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD307809895
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 02:25:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CA5910E9C8;
-	Fri,  8 Dec 2023 01:11:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DDBC10E249;
+	Fri,  8 Dec 2023 01:25:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4467B10E249
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 01:11:06 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-2c9c18e7990so20681471fa.2
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 17:11:06 -0800 (PST)
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2AA610E248
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 01:25:21 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id
+ 38308e7fff4ca-2c9eca5bbaeso18667551fa.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 17:25:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1701997864; x=1702602664; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cPIpR2OhS8FsOJYuELc4EcfXoYVEFO3KDU00U/AniAY=;
- b=Gf7X5e74P8tlns0Kv9eLwuR2MrXW2BhP1zh++SaAKOSf37PB2Rjn+9ILohQW9OfT2+
- O47LBRADOesRsmPJicArS9K1N6nH48Bb55b/YviUXGJdKOGvlbo/eItBsZWMOx9i7eRR
- Tbdbbv7ijJZr4Zkv6ac4/BZCAPIaRq41cGxfx5hTCc0RD3GFzGBl6L65TpvchCkMyBdl
- s5Y9KTs3k6d8XYSJOWxvO99rNl4Gw4hWVTCMUIEqcGDIyME1RQ/Qu3vSkHWGcb9sXFHp
- ij0M/kwMu/dfiYhYjy/7CSV3ZMDgLIaXjdg/ZkXhNOrj7X9ClHco3YbjIqWPFQrRezNn
- TlKA==
+ d=linaro.org; s=google; t=1701998720; x=1702603520; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CUBLaybwTm71uGPidtWtYcj7suB58tDThikG9Ry5Y4U=;
+ b=m+0x9NTLvdz4cWvRxM8sOXOcehCyi8RnWqiRXljIV1yxD8Ee9PPkSVTu1zBaf7uFVX
+ sNGvfuAuKwypI98D5fEEElhParr3Q8yc8kT9tL2JuXTo5y6oilN+uHN/wHvsT0O4rxVi
+ OVUD+MFxhqGIpgqwhjPX+vlO6uEC8fe8mgC117PomzFMjDotR8zsGptlOkD8sFilZYDL
+ nhK2+oIJxwVXxQ1d3qBkUO/7RlbBLfFJkneDSTOvywDhOe9DZKcQfgvt8bvJ5u7nfDL8
+ kjcYf1PloZ35A6xyZqqAqXiPwfngunD4vZpWBVD4ZiPHZMGSuY51oXahQwsMfm167r/6
+ uQQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1701997864; x=1702602664;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cPIpR2OhS8FsOJYuELc4EcfXoYVEFO3KDU00U/AniAY=;
- b=VfoiiGrOl+CrqQq/K2FWpAOCyjtpWcBuJs9WH6CgnnE3OVV4lrag2Pin30+6HUghOl
- krVoCnU1i0Cf+IPH8NXN6umf1U0+MgXjK7Etbw9pnfcWIC8TdJOdcUk3VrGQRe1fEvna
- zBbFOJn0xjoE3GLp2CDpCpuEc58LrDb0NQlyrWOgdkOZUkxO7ydy8oZn9Sq6dO92cmBu
- R4yT9kAfYCVib8BJoFdMEtwDXjCzh349EhF4B9wCA0v66IOPF7Z9xXIPmdCaGDllV1+/
- kLXdB3kjh0/9jZsTaVA30WZa9NWPk033s0LJhU0HrJ1iGqPm6w5KkRNICRevCxoUGqpZ
- GbEA==
-X-Gm-Message-State: AOJu0Yxqe/HMaJwfDP0Wt98Qz0tWEApAF6V1XNbnNLCoNhJDLy69YhUM
- 6So0c4elQpv28cs54oP7sAnagQ==
-X-Google-Smtp-Source: AGHT+IEWZjda2fsJ0zD6R8OaPvGCIhuiY+08NdpNxfUAkKx96xvmVTnzBUfNL5Fr1v/oeWTLLPMssw==
-X-Received: by 2002:a05:651c:117:b0:2c9:fa20:89e1 with SMTP id
- a23-20020a05651c011700b002c9fa2089e1mr2063453ljb.9.1701997864531; 
- Thu, 07 Dec 2023 17:11:04 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a0db:1f00::227?
- (dzdqv0yyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::227])
+ d=1e100.net; s=20230601; t=1701998720; x=1702603520;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=CUBLaybwTm71uGPidtWtYcj7suB58tDThikG9Ry5Y4U=;
+ b=tGaksrUOPcfvuiozN5MaO9mlT9PrGE6t8tzcCCp76Z1JzM95MaX/5GdfdatVmZdMNq
+ mvP0jbmRkwmLCS2pYix8jekM3B80LG+WCF+KRuSNfxXq9dTFvngTMBxNu4uMyjzJWJO7
+ bGI+9u+O6e7eiKsZVyWVb1oWT1JDGMIg1MN9HaGHobu4kwZL3HftzZBqt8TSYr8rxOKR
+ H2Cx75pWG1OITdJNOMb8FLvLi/0hFPEb9Uu/6obc5puQriv+5EBB5H77NSpOqV2XG81N
+ ZfrtNUutLCQwDPU9AzG/5e10v5d/e5ZfTGhGam1dsYr04gEs6157bSNjs+KvBpPWepN2
+ yZvA==
+X-Gm-Message-State: AOJu0Yz3eqbGydGvjUUWxzPzaAatOyosHI5dRSsJ8IK+L5WpQ5nmyOGW
+ uqMrh8fbEJhMtZnYJMm1NEFjoQ==
+X-Google-Smtp-Source: AGHT+IF9bDKrRKCba9gxrOM/tv9o1YC1+NYXv7vs1r/qhP8tdOvA0jMXldtsflhEAx2LflOS1OjuMA==
+X-Received: by 2002:a05:651c:111:b0:2c9:f427:9e52 with SMTP id
+ a17-20020a05651c011100b002c9f4279e52mr1019018ljb.134.1701998720030; 
+ Thu, 07 Dec 2023 17:25:20 -0800 (PST)
+Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- r1-20020a2e94c1000000b002c9e6cbf78esm86616ljh.19.2023.12.07.17.11.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Dec 2023 17:11:03 -0800 (PST)
-Message-ID: <22f39a38-6293-424e-898e-77edc071ef75@linaro.org>
-Date: Fri, 8 Dec 2023 03:11:03 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/dp: Fix platform_get_irq() check
-Content-Language: en-GB
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>
-References: <c12bb69b-d676-4345-9712-48aab48f2b48@moroto.mountain>
+ g26-20020a2ea4ba000000b002c9f58169a8sm88639ljm.120.2023.12.07.17.25.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Dec 2023 17:25:19 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+Subject: Re: [PATCH] drm/msm/dp: Fix platform_get_irq() check
+Date: Fri,  8 Dec 2023 04:25:17 +0300
+Message-Id: <170199868355.3399536.717291970669174612.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.39.2
 In-Reply-To: <c12bb69b-d676-4345-9712-48aab48f2b48@moroto.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <c12bb69b-d676-4345-9712-48aab48f2b48@moroto.mountain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,19 +85,18 @@ Cc: freedreno@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/12/2023 14:02, Dan Carpenter wrote:
+
+On Wed, 06 Dec 2023 15:02:05 +0300, Dan Carpenter wrote:
 > The platform_get_irq() function returns negative error codes.  It never
 > returns zero.  Fix the check accordingly.
 > 
-> Fixes: 82c2a5751227 ("drm/msm/dp: tie dp_display_irq_handler() with dp driver")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
->   drivers/gpu/drm/msm/dp/dp_display.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Applied, thanks!
 
+[1/1] drm/msm/dp: Fix platform_get_irq() check
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/c4ac0c6c96f0
+
+Best regards,
 -- 
-With best wishes
-Dmitry
-
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
