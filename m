@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7E280AB10
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 18:46:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E608A80AB15
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 18:47:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE1AB10E295;
-	Fri,  8 Dec 2023 17:46:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C427410E2DE;
+	Fri,  8 Dec 2023 17:47:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93B0D10E295
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 17:46:46 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id
- ffacd0b85a97d-332c0c32d19so2788355f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Dec 2023 09:46:46 -0800 (PST)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 627D710E2C9
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 17:47:29 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-40c25973988so25003535e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Dec 2023 09:47:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1702057605; x=1702662405; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1702057648; x=1702662448; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=VgDXHztfCADJUTAKOHChM4jQL8m2eqXnxgRSAcP58OY=;
- b=Mqa4sE3I7PkrwbA32BLKiZhFHNwxZD79grFd4Q6WeKbsgQH+dtAR6DBR/ObxzjdwDL
- KBKvmL4fjYE/ai3fQ6gTE04ntzqVq/gWAUdgBpR7ycEVLcjbbXKU7gCJ8BPMWO7BaQ0D
- T7hJ1wSz/8sIuZjYHfGAdhHzogp+9/BrAc2mL3gNikz4+L+DoAytmF8VDBjXlE8wNApg
- WtYzuLkFl75QD+3JU1liwtRZko6wYEcUmfS0cADYv6vV8uJxB7sviHzfIxulIPSb5TXY
- eKhQhiiYu/FKulBOXg3Hn0BeTZ4DdM8zSt84uIW6e740FwD3TI6/crzWggdBzRe4+Azo
- IMSA==
+ bh=Np+SOTHaDnv55YYl4Vjzn4Jagf19/EDzybWzd9aCpYs=;
+ b=qG9NMY8AuiDyyzt4RgM6tYlJjF1KvCsBMLf+4PmRj+WrpcwWlVVShDhjyBNlWtwO67
+ M9H8QF8xP7kiVo9sZXQ19niU/fU8y0BnXLIA6vsKHDOriHS6i9V0ZcEdNyKxd7jsojPH
+ GFVE8G5oMuDbYz/IuCLmpGderd0Ogvp4JfBH231XYZuZz0EvmfLA5YYATzBwFViZdkcN
+ c64r9SgNnlzUNC5ObpYqt0Zwh20NRpHoHe7GsyVX4rCsIcPMSn+1bi+fbNTB6fCl4eTS
+ 7xf99f2o9UCPCn2FMIgGJMk8rymFk5/d9AUPJCkZn/MqGTg7o4b71BfB0arpOI95j6Xk
+ Pm3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702057605; x=1702662405;
+ d=1e100.net; s=20230601; t=1702057648; x=1702662448;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VgDXHztfCADJUTAKOHChM4jQL8m2eqXnxgRSAcP58OY=;
- b=O1gZEQWn03uwQXFWpUJaHK4NlKBOWRo6H0PQH78tYaCS4XZK1oeggfAxOkHCu0zqsX
- cATJ61j22SafunlMheTDSVaUk+7hCrV0I8oRJe1194/4sQE8Dndq3Xqo9fwzPPRyCVz2
- WyHrCJb8aeTUSaHYLBHLsjqHcYNKtCYBRFQc8rvqD6K5BEaj7SJ0cAM43VAECF1CRgCS
- rQIq4lDr6wxOhwlhEMfWkvCvcTkK0roq5iJIxYVTXTxniQURvkHR1lo5CFgQ6SSJcaSM
- 2Z5EXvy+d8x4kMWu4TVV04N3tuFHcdmBQpnQqidAspa4O8NUfSn23Khk3yOwIuxWPCX2
- wbHw==
-X-Gm-Message-State: AOJu0Yx95w2SYu51EAZOm1JIdhujMKJBCnLjpkvXrpAa2Fv/gktxP6PK
- gSs+nHuSrb/y02HCVdaCmscf9A==
-X-Google-Smtp-Source: AGHT+IHCX3EqeyPCxrLkG8tXfgVl859gJUVA7CySALWyVqO2ObV4GGDMHy5kCGeUlhcPfiXkmijd2A==
-X-Received: by 2002:a05:600c:228a:b0:40c:2205:e600 with SMTP id
- 10-20020a05600c228a00b0040c2205e600mr163393wmf.215.1702057604926; 
- Fri, 08 Dec 2023 09:46:44 -0800 (PST)
+ bh=Np+SOTHaDnv55YYl4Vjzn4Jagf19/EDzybWzd9aCpYs=;
+ b=mAVUdUuf09QfdRZ+b8cr0qrNdLYH9hPsu703ORqI31WQbpVgqsdcGepd6gDtbmL3xS
+ LDT7ujlEhghiWn2pdVOKftUvBSKFG/CufAoi5oNdkLgVvBZpeJ21+oFp5AUgPRO78HM9
+ IGWLI45QBrRj0l+r2JK8bQitnDKDlWbmwhWxljJBjAI9UNF3JSdpr0CbTBKpk+h73yoS
+ ekx0KImHDMUljU4si+cq+ZM8X1MeCaTb4txc1aCbQPhNOy4bisB5gvZOUMo8Cw9UnOpi
+ inAhQ20Ye0+loQSuklSH0E+kO6vd4bsCEhag3G5hloa3u6ZrZX/X5VDx98CqZVLNH3o9
+ WorA==
+X-Gm-Message-State: AOJu0YzNbf61/WlWGgcP7L7fgYWlDBjv1pP8jpJw0rmXAgJkkVM8hXAt
+ B39G5OdHlZdtyaXoLkpyUgYfMw==
+X-Google-Smtp-Source: AGHT+IGPxX5jLLegwmxilDCRJVLSc/ndQSfBPMsEWBNU3dLz2qDLXleqmKpEJuMpBlR//Du2gVzyFg==
+X-Received: by 2002:a05:600c:2247:b0:40c:19ab:99b1 with SMTP id
+ a7-20020a05600c224700b0040c19ab99b1mr178925wmm.137.1702057647884; 
+ Fri, 08 Dec 2023 09:47:27 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.27])
  by smtp.gmail.com with ESMTPSA id
- m11-20020a05600c4f4b00b0040b561924bbsm5829165wmq.21.2023.12.08.09.46.43
+ m11-20020a05600c4f4b00b0040b561924bbsm5829165wmq.21.2023.12.08.09.47.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Dec 2023 09:46:44 -0800 (PST)
-Message-ID: <0915b94c-596e-4a19-925c-1a5b1d0a3531@linaro.org>
-Date: Fri, 8 Dec 2023 18:46:42 +0100
+ Fri, 08 Dec 2023 09:47:27 -0800 (PST)
+Message-ID: <9a6666c1-9049-4a30-8aac-73512eeefc2a@linaro.org>
+Date: Fri, 8 Dec 2023 18:47:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 10/17] dt-bindings: display: vop2: Add rk3588 support
+Subject: Re: [PATCH v4 15/17] dt-bindings: iommu: rockchip: Add Rockchip RK3588
 Content-Language: en-US
 To: Andy Yan <andyshrk@163.com>, heiko@sntech.de
 References: <20231207075906.651771-1-andyshrk@163.com>
- <20231207080133.652417-1-andyshrk@163.com>
+ <20231207080235.652719-1-andyshrk@163.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -105,7 +105,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231207080133.652417-1-andyshrk@163.com>
+In-Reply-To: <20231207080235.652719-1-andyshrk@163.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -128,48 +128,14 @@ Cc: devicetree@vger.kernel.org, chris.obbard@collabora.com, hjc@rock-chips.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/12/2023 09:01, Andy Yan wrote:
+On 07/12/2023 09:02, Andy Yan wrote:
 > From: Andy Yan <andy.yan@rock-chips.com>
 > 
-> The vop2 on rk3588 is similar to which on rk356x
-> but with 4 video ports and need to reference
-> more grf modules.
+> Add a Rockchip RK3588 compatible
 > 
 > Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-> 
-> ---
-> 
-> Changes in v4:
-> - drop redundant description.
-> - use full stop at all the description's end.
-> - address Krzysztof's review in v3
 
-What changed? Please list specific changes, not just generic "address
-review".
-
-> 
-> Changes in v3:
-> - constrain properties in allOf:if:then
-> - some description updates
-> 
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
----
-
-This is an automated instruction, just in case, because many review tags
-are being ignored. If you know the process, you can skip it (please do
-not feel offended by me posting it here - no bad intentions intended).
-If you do not know the process, here is a short explanation:
-
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-versions, under or above your Signed-off-by tag. Tag is "received", when
-provided in a message replied to you on the mailing list. Tools like b4
-can help here. However, there's no need to repost patches *only* to add
-the tags. The upstream maintainer will do that for tags received on the
-version they apply.
-
-https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
