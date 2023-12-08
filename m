@@ -2,73 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A040809E3A
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 09:35:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CC92809B46
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 06:07:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2965D10EA13;
-	Fri,  8 Dec 2023 08:35:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10B1610E9D5;
+	Fri,  8 Dec 2023 05:07:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x931.google.com (mail-ua1-x931.google.com
- [IPv6:2607:f8b0:4864:20::931])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C65510E9D0
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 05:04:45 +0000 (UTC)
-Received: by mail-ua1-x931.google.com with SMTP id
- a1e0cc1a2514c-7bb3e55c120so409982241.0
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 21:04:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sifive.com; s=google; t=1702011884; x=1702616684; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=YCezDiITLYZlXZkoiENFPkRYgXSgvqAlJqwCHapkHlo=;
- b=cdYAnVD14BYHYe/SVCeTv+SjPXnX7YnIlbygAABMK7jfdvsovBAOR7EhmzWk1yV5S1
- JE+70m4g7rzU+0699JX4m6WHu/yLSN48Ztzk+G0JX9kcCn4YNAUWiSMkFytWdyllOZo+
- +WWxWyDUXhtUfle9pA48o8t24OYKrJPFNXmbUsWiu8QUjNbNeEHAK0veTR+QQmKmvw61
- X6mNpzOg9+dWsmMz6vFlTP0kYtHKrukkR3lBk3UQhMfOGP3uUaTsSyQquksFrS0mc9AC
- JtqyXLwbrSbRm3V/i+bjnshtF+kzFRkIS3pspoaDs6Cxfyg9QdW+TCz3MPXSXlDzPfLQ
- DrhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702011884; x=1702616684;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YCezDiITLYZlXZkoiENFPkRYgXSgvqAlJqwCHapkHlo=;
- b=SYRFTin0lKlKpJmunmcqThw7XbAOlVWMc3aJ7TJc1I9AWzkpjPiKEiaQ+AytDf7UKk
- /LnHu/Fsbv4D+ZSQmw4/Va50Na2GuKkQAC1UBtZCgEmMd9Olw+vwkSx/gLbBeL5MnbIa
- gL+HRvFF12+1SWJAj5JBcPtF+ZJVu5s3wpJPJSREmj73IoI1irLHGi+cX8SNyZQ+dQyi
- 27ErHtuV682oEmlicv3N94stBFCay5AhOe1q2K2lPvVhIm1/aaWauYURCdg5IjqBrSez
- I5/iryCic7W+8TIVieUyUWggsgi31RbQ5zWEEk+XapojkeWTiXVgL3F6TSBa4lD/i6E7
- y9XQ==
-X-Gm-Message-State: AOJu0Yy8AqGVJYlmS8/Dl1jiHFG0MaRqOX24QrnAcoaAf4MH/PU063uE
- GyI0TUxM0u82jcNgSNe/suXxgg==
-X-Google-Smtp-Source: AGHT+IHd3xhGQZwcUIcLtaS/NPIhQH51OI4srkcBz6UdtbLizYUKJjw8nicEQTdHb0F/v/M3ROTE/Q==
-X-Received: by 2002:a1f:c843:0:b0:4b2:c555:389 with SMTP id
- y64-20020a1fc843000000b004b2c5550389mr2948641vkf.31.1702011884531; 
- Thu, 07 Dec 2023 21:04:44 -0800 (PST)
-Received: from ?IPV6:2600:1700:2000:b002:41c5:bf1:860b:1e95?
- ([2600:1700:2000:b002:41c5:bf1:860b:1e95])
- by smtp.gmail.com with ESMTPSA id
- i14-20020a0cf38e000000b0067a33133420sm494592qvk.110.2023.12.07.21.04.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Dec 2023 21:04:44 -0800 (PST)
-Message-ID: <4f277982-fffb-4fe1-bc02-007633400f31@sifive.com>
-Date: Thu, 7 Dec 2023 23:04:43 -0600
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3A2510E9D5;
+ Fri,  8 Dec 2023 05:06:59 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3B84hBbC011864; Fri, 8 Dec 2023 05:06:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=crkqiVW0IKIM8kh8akgeBflTIrqECd4QIAVifC6DFQU=;
+ b=Tl2SRT+zV1+stVyyazaTQSpetMTCmsMzaK/kRtmFmqpYm2I/Tp5KOzY2NycUAD0JOgFc
+ 5kyI0GC4thjL9hUWqm4O032aOXC62I8mvQ0CvsOTeKqx6ilbwhYcy5Hh/Zo5vSLzeDdy
+ aLn9N56gr5DKP9OnPrP+UHVE5kgsX11A+lIrJz5Do/wseWB+M5RNq1rxE3/txXjqovvR
+ 7VfmDx+5EwLV0rYecXv7yATPdd2Q1bhjREYN1L1e64rQ32XXjto135UDbpv+PNhZic2s
+ 13iqvpC34ZKARgEPApGIeM/iahxaAo0YgK/Y2K5fw72wmPLnSjl0t+ZrcOmzFG31B+Al mQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uu8p0b0ak-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 Dec 2023 05:06:57 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B856uqI006498
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 8 Dec 2023 05:06:56 GMT
+Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Thu, 7 Dec 2023 21:06:56 -0800
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+Subject: [PATCH v2 00/16] Add CDM support for MSM writeback
+Date: Thu, 7 Dec 2023 21:06:25 -0800
+Message-ID: <20231208050641.32582-1-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] drm/amd/display: Support DRM_AMD_DC_FP on RISC-V
-Content-Language: en-US
-To: Nathan Chancellor <nathan@kernel.org>,
- Conor Dooley <conor.dooley@microchip.com>
-References: <20231122030621.3759313-1-samuel.holland@sifive.com>
- <20231122030621.3759313-4-samuel.holland@sifive.com>
- <20231123-headdress-mold-0dd7a74477f7@wendy>
- <20231130004224.GE2513828@dev-arch.thelio-3990X>
-From: Samuel Holland <samuel.holland@sifive.com>
-In-Reply-To: <20231130004224.GE2513828@dev-arch.thelio-3990X>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Fri, 08 Dec 2023 08:35:22 +0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: umzs4pbI0Gm1fi3iHTNDKeBA9CuUmKr5
+X-Proofpoint-ORIG-GUID: umzs4pbI0Gm1fi3iHTNDKeBA9CuUmKr5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-08_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 mlxscore=0 suspectscore=0 adultscore=0 bulkscore=0
+ mlxlogscore=579 impostorscore=0 spamscore=0 lowpriorityscore=0
+ clxscore=1015 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2312080038
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,54 +78,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, arnd@arndb.de, Leo Li <sunpeng.li@amd.com>,
- Pan Xinhui <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Palmer Dabbelt <palmer@dabbelt.com>, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, linux-riscv@lists.infradead.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ quic_parellan@quicinc.com, dmitry.baryshkov@linaro.org,
+ quic_jesszhan@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nathan,
+Chroma Down Sampling (CDM) block is a hardware block in the DPU pipeline
+which among other things has a CSC block that can convert RGB input
+from the DPU to YUV data.
 
-On 2023-11-29 6:42 PM, Nathan Chancellor wrote:
-> On Thu, Nov 23, 2023 at 02:23:01PM +0000, Conor Dooley wrote:
->> On Tue, Nov 21, 2023 at 07:05:15PM -0800, Samuel Holland wrote:
->>> RISC-V uses kernel_fpu_begin()/kernel_fpu_end() like several other
->>> architectures. Enabling hardware FP requires overriding the ISA string
->>> for the relevant compilation units.
->>
->> Ah yes, bringing the joy of frame-larger-than warnings to RISC-V:
->> ../drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c:58:13: warning: stack frame size (2416) exceeds limit (2048) in 'DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation' [-Wframe-larger-than]
-> 
-> :(
-> 
->> Nathan, have you given up on these being sorted out?
-> 
-> Does your configuration have KASAN (I don't think RISC-V supports
-> KCSAN)? It is possible that dml/dcn32 needs something similar to commit
-> 6740ec97bcdb ("drm/amd/display: Increase frame warning limit with KASAN
-> or KCSAN in dml2")?
-> 
-> I am not really interested in playing whack-a-mole with these warnings
-> like I have done in the past for the reasons I outlined here:
-> 
-> https://lore.kernel.org/20231019205117.GA839902@dev-arch.thelio-3990X/
+This block can be used with either HDMI, DP or writeback interface.
 
-I also see one of these with clang 17 even with KASAN disabled:
+In this series, lets first add the support for CDM block to be used
+with writeback and then follow-up with support for other interfaces such
+as DP.
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c:37:6:
-warning: stack frame size (2208) exceeds limit (2048) in 'dml32_recalculate'
-[-Wframe-larger-than]
-void dml32_recalculate(struct display_mode_lib *mode_lib)
+This was validated by adding support to pass custom output format to the
+IGT's kms_writeback test-case, specifically only for the output dump
+test-case [1].
 
-     ^
-1532/2208 (69.38%) spills, 676/2208 (30.62%) variables
+The usage for this is:
 
-So I'm in favor of just raising the limit for these files for clang, like you
-suggested in the linked thread.
+./kms_writeback -d -f <name of the DRM YUV fmt from igt_fb>
 
-Regards,
-Samuel
+So for NV12, this can be verified with the below command:
+
+./kms_writeback -d -f NV12
+
+[1] : https://patchwork.freedesktop.org/series/122125/
+
+changes in v2:
+	- rebased on top of current msm-next-lumag
+	- fix commit text of some of the patches
+	- move csc matrices to dpu_hw_util as they span across DPU
+	- move cdm blk define to dpu_hw_catalog as its common across chipsets
+	- remove bit magic in dpu_hw_cdm with relevant defines
+	- use drmm_kzalloc instead of kzalloc/free
+	- protect bind_pingpong_blk with core_rev check
+	- drop setup_csc_data() and setup_cdwn() ops as they
+	  are merged into enable()
+	- protect bind_pingpong_blk with core_rev check
+	- drop setup_csc_data() and setup_cdwn() ops as they
+	  are merged into enable()
+	- move needs_cdm to topology struct
+	- call update_pending_flush_cdm even when bind_pingpong_blk
+	  is not present
+	- drop usage of setup_csc_data() and setup_cdwn() cdm ops
+	  as they both have been merged into enable()
+	- drop reduntant hw_cdm and hw_pp checks
+	- drop fb related checks from dpu_encoder::atomic_mode_set()
+	- introduce separate wb2_format arrays for rgb and yuv
+
+Abhinav Kumar (16):
+  drm/msm/dpu: add formats check for writeback encoder
+  drm/msm/dpu: rename dpu_encoder_phys_wb_setup_cdp to match its
+    functionality
+  drm/msm/dpu: fix writeback programming for YUV cases
+  drm/msm/dpu: move csc matrices to dpu_hw_util
+  drm/msm/dpu: add cdm blocks to sc7280 dpu_hw_catalog
+  drm/msm/dpu: add cdm blocks to sm8250 dpu_hw_catalog
+  drm/msm/dpu: add dpu_hw_cdm abstraction for CDM block
+  drm/msm/dpu: add cdm blocks to RM
+  drm/msm/dpu: add support to allocate CDM from RM
+  drm/msm/dpu: add CDM related logic to dpu_hw_ctl layer
+  drm/msm/dpu: add support to disable CDM block during encoder cleanup
+  drm/msm/dpu: add an API to setup the CDM block for writeback
+  drm/msm/dpu: plug-in the cdm related bits to writeback setup
+  drm/msm/dpu: reserve cdm blocks for writeback in case of YUV output
+  drm/msm/dpu: introduce separate wb2_format arrays for rgb and yuv
+  drm/msm/dpu: add cdm blocks to dpu snapshot
+
+ drivers/gpu/drm/msm/Makefile                  |   1 +
+ .../msm/disp/dpu1/catalog/dpu_10_0_sm8650.h   |   4 +-
+ .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |   5 +-
+ .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |   4 +-
+ .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |   5 +-
+ .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |  37 +++
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |   5 +
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   | 117 +++++++-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  47 ++-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  13 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c    | 276 ++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h    | 114 ++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    |  35 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h    |  12 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |   7 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c   |  71 +++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h   |   8 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c     |   3 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   4 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |  39 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |  51 +++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        |   2 +
+ drivers/gpu/drm/msm/msm_drv.h                 |   2 +
+ 25 files changed, 815 insertions(+), 52 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.c
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cdm.h
+
+-- 
+2.40.1
 
