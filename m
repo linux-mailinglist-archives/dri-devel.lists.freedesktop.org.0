@@ -1,97 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EFE7809E18
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 09:28:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6401B809E34
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 09:34:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C87F10EA1A;
-	Fri,  8 Dec 2023 08:28:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7A4010EA16;
+	Fri,  8 Dec 2023 08:34:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2662110EA16
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 08:28:38 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id
- ffacd0b85a97d-333630e9e43so1826589f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Dec 2023 00:28:38 -0800 (PST)
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E209010EA16
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 08:34:53 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id
+ 38308e7fff4ca-2c9efa1ab7fso21998571fa.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Dec 2023 00:34:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1702024116; x=1702628916; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=tvDaevsK7/OdtIN4ZZ92+SBkN0d/AhKeYYJWkWcCFcM=;
- b=op0njKD6b0+ydcD9pHpx6jw9xrWKs1p+N5lKEG7+c32NvskKycMJbOpL1IoIPoKIfq
- v4OyYxH/dxudzR2pNtGYGCuZ2t1D05AuY1PRetq/DE1O/j49IEpqk6zZwAdaU9+/fcFo
- YoZ/CNfruc/0PHYe6RsA3BDoRHq3w9GyA1ATfYzOhBWGUbpQHI+kBCgQPJYFiVtihyCg
- /LJgfOh2gcii/OQmyI41yPt0UorP/DAbwh2I5WEuSzt3EK8Aya3gOhRxFRpSGFljbbjr
- xh47zLjDrRmr9qDKtbbVXvXPGKY53TcQxMBuvV27jPZiMTVS9LvJZxVIlWsp+IidWtqQ
- pdLA==
+ d=amarulasolutions.com; s=google; t=1702024492; x=1702629292;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tlzW/rf2HelGsf6Q2WVJDDVEnvIjksUp/xAKKkchs/Y=;
+ b=WcIGvIeKab5FTGSEJagmgkxFMRRO+YukN2LBZWw6MtSfrabhL7BONqNOryeKRMyW59
+ 2Me/hzO1aBh1uBwoMewW7RQ/kTh2/GsrMDsnVOY81U/Se8xkw/G2GOBgTBM3+HhQG3/v
+ gGSkyaVOWpzz3v/698g+jrNnMNrS90DgbXp3c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1702024116; x=1702628916;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :references:cc:to:content-language:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=tvDaevsK7/OdtIN4ZZ92+SBkN0d/AhKeYYJWkWcCFcM=;
- b=K2R6MpYVFpoB8+2hciDFCSTR+CJCx0+a0+rSTVXgDHxJ9AvPEP9EB0TClgF9p2BwM1
- 4hQCyTkPyihO060AHxRRKZIL+040dEBzeZo7cp5zlTIvZDqzPMQgRli5B54B+QVUQs4v
- dRrwbqZrS3Lm5DDmEG3UnbIeWaLbO4g1TYRZ/2AoTBi5kldetGDRL5/HwyAd6AxH+w5c
- gkdv9ODcN1KbOfztFQNGl0IBF6ex8CT5INbItlE7U0L7Ax27fwbqgVRQmOfZ7zNezkCy
- cLLBmCPIT14Vi7UfaC76TreZ6V7bJjMogsBvJZt2BtgHjQJFi5selLdRyEy0RthpLcJ1
- aktw==
-X-Gm-Message-State: AOJu0Yy3KfNH6WdxpY4FKFNDCW+fDvAifMwAEGrEV11pXvKl8pzz2MP6
- 3NJx45VMJWdvVWMtHHepodJbkw==
-X-Google-Smtp-Source: AGHT+IEBO5Hb/8bJQCK/Qq3DsVqqs4n08jSKkaq3CCjQjLLptybMAMNqJbrR+mF21o23C48+AF1EzQ==
-X-Received: by 2002:adf:f752:0:b0:333:2fd2:3be2 with SMTP id
- z18-20020adff752000000b003332fd23be2mr1651859wrp.155.1702024116507; 
- Fri, 08 Dec 2023 00:28:36 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:8ada:86ec:5358:ef2a?
- ([2a01:e0a:982:cbb0:8ada:86ec:5358:ef2a])
- by smtp.gmail.com with ESMTPSA id
- o10-20020a5d58ca000000b0033338c3ba42sm1483097wrf.111.2023.12.08.00.28.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Dec 2023 00:28:36 -0800 (PST)
-Message-ID: <a0e0e803-47a6-4b66-bc14-7a9f7db696fd@linaro.org>
-Date: Fri, 8 Dec 2023 09:28:34 +0100
+ d=1e100.net; s=20230601; t=1702024492; x=1702629292;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tlzW/rf2HelGsf6Q2WVJDDVEnvIjksUp/xAKKkchs/Y=;
+ b=LeaJbLhima4gG8k1FW6qzQTOvNhLaxPLgCxfkBknGwK67qnVkctfAsFYjsYaxjUDiV
+ fF/0x9MrLI/ni+oV0To6mssZbFw0enFeGw5MKlDHDRYp/9dnmFRRuua7ZavAlmRARI6N
+ qWKWxqFwcMeFeamzBz/f0uWotzvITwMrc3CJbDWhmzRrjeZYhIi9JLk0oYnkdfzyta3D
+ resGWT97KPxwqMh1Lmm1bpil+Y0YU6qjDGma15M2Jxo1uNDs1wS83GciFoWjuzEQSvEj
+ qDCDB8x+9qbOPB2PqJqkuWg5mNIweu++HSK00VFIYy3QiGpBhnBLZw0QVMdXcFSvfuQE
+ zYWg==
+X-Gm-Message-State: AOJu0YyP/h3f2xvnYG8GkXtRoG9MRktBZvZUcC5+MREAOszX7rzu40nj
+ Qha4LGVfMQeQKtX5WcLz3QBsYlexgTefJPxhH2//Jg==
+X-Google-Smtp-Source: AGHT+IHYQcXvlIHXkV8cyjUJ8LSw43LcQtotQfIhLDNGWBEFVxXJ+v1X/BS2BxUNwhyW1CzLftaqo0T1DNz3Z4mDFeo=
+X-Received: by 2002:a2e:98d4:0:b0:2ca:14ef:3845 with SMTP id
+ s20-20020a2e98d4000000b002ca14ef3845mr1210470ljj.160.1702024491938; Fri, 08
+ Dec 2023 00:34:51 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 3/3] arm64: dts: qcom: sm8650: Add DisplayPort device nodes
-Content-Language: en-US, fr
-To: Bjorn Andersson <andersson@kernel.org>
-References: <20231207-topic-sm8650-upstream-dp-v1-0-b762c06965bb@linaro.org>
- <20231207-topic-sm8650-upstream-dp-v1-3-b762c06965bb@linaro.org>
- <bcecxzpogq6pndwmhgrl52ia3orni2q5brg6mpc6fkn5widigb@v6dy4minwajx>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <bcecxzpogq6pndwmhgrl52ia3orni2q5brg6mpc6fkn5widigb@v6dy4minwajx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20231207141723.108004-1-dario.binacchi@amarulasolutions.com>
+ <20231207141723.108004-5-dario.binacchi@amarulasolutions.com>
+ <21e1b508-328a-4ec0-9f1f-75773f2686c3@kontron.de>
+In-Reply-To: <21e1b508-328a-4ec0-9f1f-75773f2686c3@kontron.de>
+From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
+Date: Fri, 8 Dec 2023 09:34:41 +0100
+Message-ID: <CAOf5uwmcCA8hxeDv4dDPe1PRag2Gj_myHrGhuF7c2=-e=NPcfQ@mail.gmail.com>
+Subject: Re: [PATCH v5 04/10] drm: bridge: samsung-dsim: complete the
+ CLKLANE_STOP setting
+To: Frieder Schrempf <frieder.schrempf@kontron.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,100 +69,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: freedreno@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Maxime Ripard <mripard@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ Amarula patchwork <linux-amarula@amarulasolutions.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/12/2023 04:38, Bjorn Andersson wrote:
-> On Thu, Dec 07, 2023 at 05:37:19PM +0100, Neil Armstrong wrote:
->> diff --git a/arch/arm64/boot/dts/qcom/sm8650.dtsi b/arch/arm64/boot/dts/qcom/sm8650.dtsi
-> [..]
->> +
->> +			mdss_dp0: displayport-controller@af54000 {
->> +				compatible = "qcom,sm8650-dp";
->> +				reg = <0 0xaf54000 0 0x200>,
->> +				      <0 0xaf54200 0 0x200>,
->> +				      <0 0xaf55000 0 0xc00>,
->> +				      <0 0xaf56000 0 0x400>,
->> +				      <0 0xaf57000 0 0x400>;
->> +
->> +				interrupts-extended = <&mdss 12>;
->> +
->> +				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
->> +					 <&dispcc DISP_CC_MDSS_DPTX0_AUX_CLK>,
->> +					 <&dispcc DISP_CC_MDSS_DPTX0_LINK_CLK>,
->> +					 <&dispcc DISP_CC_MDSS_DPTX0_LINK_INTF_CLK>,
->> +					 <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK>;
->> +				clock-names = "core_iface",
->> +					      "core_aux",
->> +					      "ctrl_link",
->> +					      "ctrl_link_iface",
->> +					      "stream_pixel";
->> +
->> +				assigned-clocks = <&dispcc DISP_CC_MDSS_DPTX0_LINK_CLK_SRC>,
->> +						  <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>;
->> +				assigned-clock-parents = <&usb_dp_qmpphy QMP_USB43DP_DP_LINK_CLK>,
->> +							 <&usb_dp_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
->> +
->> +				operating-points-v2 = <&dp_opp_table>;
->> +
->> +				power-domains = <&rpmhpd RPMHPD_MX>;
-> 
-> Are you sure the DP TX block sits in MX? I'd expect this to be
-> RPMHPD_MMCX, and then the PHY partially in MX...
+Hi Frieder
 
-Hmm, yeah probably, will switch to MMCX
+On Thu, Dec 7, 2023 at 5:58=E2=80=AFPM Frieder Schrempf
+<frieder.schrempf@kontron.de> wrote:
+>
+> On 07.12.23 15:16, Dario Binacchi wrote:
+> > The patch completes the setting of CLKLANE_STOP for the imx8mn and imx8=
+mp
+> > platforms (i. e. not exynos).
+>
+> This also affects i.MX8MM, so better just mention i.MX in general in the
+> commit message.
+>
+> >
+> > Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
+> > Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+> > Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> > ---
+> >
+> > (no changes since v1)
+> >
+> >  drivers/gpu/drm/bridge/samsung-dsim.c | 7 ++++++-
+> >  1 file changed, 6 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/br=
+idge/samsung-dsim.c
+> > index 15bf05b2bbe4..13f181c99d7e 100644
+> > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> > @@ -96,6 +96,7 @@
+> >  #define DSIM_MFLUSH_VS                       BIT(29)
+> >  /* This flag is valid only for exynos3250/3472/5260/5430 */
+> >  #define DSIM_CLKLANE_STOP            BIT(30)
+> > +#define DSIM_NON_CONTINUOUS_CLKLANE  BIT(31)
+> >
+> >  /* DSIM_ESCMODE */
+> >  #define DSIM_TX_TRIGGER_RST          BIT(4)
+> > @@ -945,8 +946,12 @@ static int samsung_dsim_init_link(struct samsung_d=
+sim *dsi)
+> >        * power consumption.
+> >        */
+> >       if (driver_data->has_clklane_stop &&
+> > -         dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)
+> > +         dsi->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS) {
+> > +             if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
+> > +                     reg |=3D DSIM_NON_CONTINUOUS_CLKLANE;
+> > +
+> >               reg |=3D DSIM_CLKLANE_STOP;
+> > +     }
+>
+> I really wonder what the difference between DSIM_NON_CONTINUOUS_CLKLANE
+> and DSIM_CLKLANE_STOP is.
+>
+> If Exynos only has the latter, it's pretty clear what to use. But as
+> i.MX has both of these bits, should both be set? Or is setting
+> DSIM_NON_CONTINUOUS_CLKLANE enough and we should leave DSIM_CLKLANE_STOP
+> alone?
+>
 
-> 
->> +
->> +				phys = <&usb_dp_qmpphy QMP_USB43DP_DP_PHY>;
->> +				phy-names = "dp";
->> +
->> +				#sound-dai-cells = <0>;
->> +
->> +				status = "disabled";
->> +
->> +				ports {
->> +					#address-cells = <1>;
->> +					#size-cells = <0>;
->> +
->> +					port@0 {
->> +						reg = <0>;
->> +
->> +						mdss_dp0_in: endpoint {
->> +							remote-endpoint = <&dpu_intf0_out>;
->> +						};
->> +					};
->> +
->> +					port@1 {
->> +						reg = <1>;
->> +
->> +						mdss_dp0_out: endpoint {
->> +						};
->> +					};
->> +				};
->> +
->> +				dp_opp_table: opp-table {
-> 
-> Is there any reason why we keep sorting 'o' after 'p' in these nodes?
+We add the DSIM_NON_CONTINUOUS_CLKLANE because there was a similar
+commit in NXP bsp.
+Now according to the datasheet the DSIM_NON_CONTINUOUS_CLKLANE should
+be the right bit.
 
-No, seems it's a copy-paste issue, will fix
+NXP guys should clarify then a bit
 
-Thanks,
-Neil
+Michael
 
-> 
-> Regards,
-> Bjorn
-
+> Maybe someone has a clue here. The description of the bits in the RM is:
+>
+> DSIM_NON_CONTINUOUS_CLKLANE - Non-continuous clock mode
+> DSIM_CLKLANE_STOP -  PHY clock lane On/Off for ESD
+>
+> >       samsung_dsim_write(dsi, DSIM_CONFIG_REG, reg);
+> >
+> >       lanes_mask =3D BIT(dsi->lanes) - 1;
