@@ -1,43 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A70D809A76
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 04:34:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8B9809E40
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Dec 2023 09:35:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7436310E013;
-	Fri,  8 Dec 2023 03:34:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E9C510EA20;
+	Fri,  8 Dec 2023 08:35:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A86A10E013;
- Fri,  8 Dec 2023 03:34:03 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id C2F02CE25D8;
- Fri,  8 Dec 2023 03:33:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76AF4C433C7;
- Fri,  8 Dec 2023 03:33:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1702006439;
- bh=gvbTjN36aMg/8pd0wDaFdxIHv1L9nizj9pVmZyQNfvU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XT/f7OFCQw+yUyR8eYvAXk3PZ0ZScodSRv43KEThVVXSFdT5lRTRXm6vr8zT5m1og
- P+W4Drkj4mrQiNkL4zSo6u24njZNzCpBzxEStx2lKX7Bn2elODmrJRjdjK0MRG4j2L
- osOT9U3Q1XSJseKVhrQW6Qz1PI+THOt65SN6d7jzHeRydw918SG1k2sX+H3IcEIi+v
- nAYqXYWjK1AF09RPymVhJ6ZgiS72sRLnnRfucYOY6yZ61/pXK8ASkWT5QCqhs8S0al
- PVsoIOxs3t1WTniTWQ+HIrYHRaIlwqrfnDC5EirMXD4KrpMfkHKkyMk3dw6MbvEA/Z
- TaMmtJO8IjRRg==
-Date: Thu, 7 Dec 2023 19:38:33 -0800
-From: Bjorn Andersson <andersson@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 3/3] arm64: dts: qcom: sm8650: Add DisplayPort device nodes
-Message-ID: <bcecxzpogq6pndwmhgrl52ia3orni2q5brg6mpc6fkn5widigb@v6dy4minwajx>
-References: <20231207-topic-sm8650-upstream-dp-v1-0-b762c06965bb@linaro.org>
- <20231207-topic-sm8650-upstream-dp-v1-3-b762c06965bb@linaro.org>
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com
+ [IPv6:2607:f8b0:4864:20::112a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36AF310E9BB
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Dec 2023 04:17:04 +0000 (UTC)
+Received: by mail-yw1-x112a.google.com with SMTP id
+ 00721157ae682-5d747dbf81eso14518537b3.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Dec 2023 20:17:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sifive.com; s=google; t=1702009023; x=1702613823; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=f7vp8x0oDP3EbH3U6bJ7KDFrE+BpYL9j1ysozmjTXzU=;
+ b=Wv3cuwhM+D3K7idFle1sQiM/tS8GC7eKR8eBYMFXpcCBBBnDR3OD7KRGncrRrhImhv
+ PZd+cb8ECuPMetTJZezws6aSOwOp4JCa20QsiV2Ue3/GAEliT/nudsWpimJqgpJtgibf
+ e/+UEbHHwikVM3O4ufZuZbnabc3RojG1OTerQPG2/LFZjA+eCMBB0HXV8rT5/8ICmAgR
+ +f+03JTb8ruyM2wsLEkOiteUUb6Q0l1ra8QEMJO71MHWpCWNPVGUGJW+zHYnLy063PDD
+ YQc5GjkTxiV0WRYOoF22z7X6EV+zlY1zss/UvMUT3ZYAYf7rxr6Fkb5apwnCDkrZXanf
+ 0RKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1702009023; x=1702613823;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=f7vp8x0oDP3EbH3U6bJ7KDFrE+BpYL9j1ysozmjTXzU=;
+ b=VD+q29TQUZLaSzJ7iEsxlbpYUDVPyErnNnSCDanpf1zxSfDX2JBB2opwX8KliaKjti
+ 0MGlVOoecstXNoUszho7MqKtPJ4qoqjEye+Jh7jChfA/ozh5wzYHL/IesrY8tqVacj5d
+ PrXL4AKqkSv3lp4GUU6ZWXo33dSs+tfehJJ2RuLyHpEN643IOCTsyzn+/SAkLxbjb8DL
+ ZU0SFI1ARkq8CTR1VN5VPmi8FKInfAPK1OLMdZKTEsJs996SC0vhfkGctFRRPPCoEiVG
+ XmLzzJkKUH0Bl/vsw7BZ+azW9tHEqoiMdaVxmGVDeBEXU8R7VVwl5Mg4Gq7NxjpSWeit
+ hddQ==
+X-Gm-Message-State: AOJu0YyoV3Z0bpz6PZK2yFm4Mu03I/j6s6nrFeWgBNGDkaJwHl01Aitp
+ CBwP3l6m8O0ojk6wqqz7Fa7L8Q==
+X-Google-Smtp-Source: AGHT+IFJ7rl316vQtE3r+S2OEJohJzfcnMzp0IFjlp1x5P7qNhZsNS2qZXmMmO5ixQp4wMXH8QWNgg==
+X-Received: by 2002:a0d:e690:0:b0:5d7:1941:abb with SMTP id
+ p138-20020a0de690000000b005d719410abbmr3581208ywe.86.1702009023272; 
+ Thu, 07 Dec 2023 20:17:03 -0800 (PST)
+Received: from ?IPV6:2600:1700:2000:b002:41c5:bf1:860b:1e95?
+ ([2600:1700:2000:b002:41c5:bf1:860b:1e95])
+ by smtp.gmail.com with ESMTPSA id
+ q5-20020a0ce9c5000000b0067ac1c30e80sm468893qvo.120.2023.12.07.20.17.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Dec 2023 20:17:02 -0800 (PST)
+Message-ID: <86d857bf-a833-4529-aba9-391c49a3550b@sifive.com>
+Date: Thu, 7 Dec 2023 22:17:01 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231207-topic-sm8650-upstream-dp-v1-3-b762c06965bb@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] riscv: Add support for kernel-mode FPU
+Content-Language: en-US
+To: Christoph Hellwig <hch@infradead.org>
+References: <20231122030621.3759313-1-samuel.holland@sifive.com>
+ <20231122030621.3759313-2-samuel.holland@sifive.com>
+ <ZV283NfE/K5zLXDD@infradead.org>
+From: Samuel Holland <samuel.holland@sifive.com>
+In-Reply-To: <ZV283NfE/K5zLXDD@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Fri, 08 Dec 2023 08:35:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,88 +79,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Maxime Ripard <mripard@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org
+Cc: Leo Li <sunpeng.li@amd.com>, Pan Xinhui <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Palmer Dabbelt <palmer@dabbelt.com>,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ linux-riscv@lists.infradead.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 07, 2023 at 05:37:19PM +0100, Neil Armstrong wrote:
-> diff --git a/arch/arm64/boot/dts/qcom/sm8650.dtsi b/arch/arm64/boot/dts/qcom/sm8650.dtsi
-[..]
-> +
-> +			mdss_dp0: displayport-controller@af54000 {
-> +				compatible = "qcom,sm8650-dp";
-> +				reg = <0 0xaf54000 0 0x200>,
-> +				      <0 0xaf54200 0 0x200>,
-> +				      <0 0xaf55000 0 0xc00>,
-> +				      <0 0xaf56000 0 0x400>,
-> +				      <0 0xaf57000 0 0x400>;
-> +
-> +				interrupts-extended = <&mdss 12>;
-> +
-> +				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-> +					 <&dispcc DISP_CC_MDSS_DPTX0_AUX_CLK>,
-> +					 <&dispcc DISP_CC_MDSS_DPTX0_LINK_CLK>,
-> +					 <&dispcc DISP_CC_MDSS_DPTX0_LINK_INTF_CLK>,
-> +					 <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK>;
-> +				clock-names = "core_iface",
-> +					      "core_aux",
-> +					      "ctrl_link",
-> +					      "ctrl_link_iface",
-> +					      "stream_pixel";
-> +
-> +				assigned-clocks = <&dispcc DISP_CC_MDSS_DPTX0_LINK_CLK_SRC>,
-> +						  <&dispcc DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>;
-> +				assigned-clock-parents = <&usb_dp_qmpphy QMP_USB43DP_DP_LINK_CLK>,
-> +							 <&usb_dp_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
-> +
-> +				operating-points-v2 = <&dp_opp_table>;
-> +
-> +				power-domains = <&rpmhpd RPMHPD_MX>;
+Hi Christoph,
 
-Are you sure the DP TX block sits in MX? I'd expect this to be
-RPMHPD_MMCX, and then the PHY partially in MX...
+On 2023-11-22 2:33 AM, Christoph Hellwig wrote:
+> On Tue, Nov 21, 2023 at 07:05:13PM -0800, Samuel Holland wrote:
+>> +static inline void kernel_fpu_begin(void)
+>> +{
+>> +	preempt_disable();
+>> +	fstate_save(current, task_pt_regs(current));
+>> +	csr_set(CSR_SSTATUS, SR_FS);
+>> +}
+>> +
+>> +static inline void kernel_fpu_end(void)
+>> +{
+>> +	csr_clear(CSR_SSTATUS, SR_FS);
+>> +	fstate_restore(current, task_pt_regs(current));
+>> +	preempt_enable();
+>> +}
+> 
+> Is there any critical reason to inline these two?  I'd much rather see
+> them out of line and exported instead of the low-level helpers.
 
-> +
-> +				phys = <&usb_dp_qmpphy QMP_USB43DP_DP_PHY>;
-> +				phy-names = "dp";
-> +
-> +				#sound-dai-cells = <0>;
-> +
-> +				status = "disabled";
-> +
-> +				ports {
-> +					#address-cells = <1>;
-> +					#size-cells = <0>;
-> +
-> +					port@0 {
-> +						reg = <0>;
-> +
-> +						mdss_dp0_in: endpoint {
-> +							remote-endpoint = <&dpu_intf0_out>;
-> +						};
-> +					};
-> +
-> +					port@1 {
-> +						reg = <1>;
-> +
-> +						mdss_dp0_out: endpoint {
-> +						};
-> +					};
-> +				};
-> +
-> +				dp_opp_table: opp-table {
-
-Is there any reason why we keep sorting 'o' after 'p' in these nodes?
+No, I will define them out of line in v2.
 
 Regards,
-Bjorn
+Samuel
+
